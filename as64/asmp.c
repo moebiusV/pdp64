@@ -190,7 +190,7 @@ int asm_parse(const char *src, struct stmt **out, int *n, char *err, size_t errs
 			for (struct line_1_s *lb = ln->line_1.head; lb; lb = lb->_link) {
 				NEWSTMT();
 				st->kind = S_LABEL;
-				st->name = sl(line, lb->label.label_1._pos, lb->label.label_1._end);
+				st->name = sl(line, lb->label.symbol._pos, lb->label.symbol._end);
 				while (st->name.n > 0 && st->name.p[st->name.n - 1] == ':') st->name.n--;
 			}
 			for (struct line_2_s *s2 = ln->line_2.head; s2; s2 = s2->_link) {

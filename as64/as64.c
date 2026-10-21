@@ -53,6 +53,14 @@ static void err(int line, const char *fmt, ...)
 	errors++;
 }
 
+/* a numeric local label is a name of digits only */
+static int all_digits(const char *p, int n)
+{
+	if (n <= 0) return 0;
+	for (int i = 0; i < n; i++) if (p[i] < '0' || p[i] > '9') return 0;
+	return 1;
+}
+
 static int symfind(const char *p, int n)
 {
 	for (int i = 0; i < nsyms; i++)
@@ -192,40 +200,39 @@ static struct val eval_primary(struct ex *x)
 		return vconst(v);
 	}
 	if (isdigit((unsigned char)c)) {
-		const char *s = x->p;
-		const char *q = s;
-		while (q < x->e && isalnum((unsigned char)*q)) q++;
-		if (q > s + 1 && (q[-1] == 'f' || q[-1] == 'b') && q - s <= 4 && !(s[0] == '0' && s + 1 < q && (s[1] == 'x' || s[1] == 'X' || s[1] == 'b' || s[1] == 'B' || s[1] == 'o'))) {
-			/* a local label reference: 1f, 1b */
+		const char *s = x->p, *q = s;
+		while (q < x->e && (isalnum((unsigned char)*q) || *q == '_' || *q == '.' || *q == '$' || (unsigned char)*q >= 0x80)) q++;
+		int n = (int)(q - s);
+		int base = 10, first = 0, ok = 1;
+		if (n > 2 && s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) { base = 16; first = 2; }
+		else if (n > 2 && s[0] == '0' && (s[1] == 'b' || s[1] == 'B')) { base = 2; first = 2; }
+		else if (n > 2 && s[0] == '0' && (s[1] == 'o' || s[1] == 'O')) { base = 8; first = 2; }
+		uint64_t num = 0;
+		for (int i = first; i < n && ok; i++) {
+			int dv = isdigit((unsigned char)s[i]) ? s[i] - '0' : isalpha((unsigned char)s[i]) ? tolower((unsigned char)s[i]) - 'a' + 10 : 99;
+			if (dv >= base) ok = 0; else num = num * base + dv;
+		}
+		if (ok) {					/* a whole bareword that is a number */
+			x->p = q;
+			return vconst((int64_t)num);
+		}
+		if (n >= 2 && (q[-1] == 'f' || q[-1] == 'b') && all_digits(s, n - 1)) {		/* 1f, 1b: a local label */
 			int num = 0;
 			for (const char *d = s; d < q - 1; d++) num = num * 10 + (*d - '0');
 			int fwd = q[-1] == 'f', best = -1;
 			for (int i = 0; i < nlloc; i++) {
 				if (lloc[i].num != num) continue;
-				if (fwd ? lloc[i].stmt > cur_stmt : lloc[i].stmt <= cur_stmt) {
+				if (fwd ? lloc[i].stmt > cur_stmt : lloc[i].stmt <= cur_stmt)
 					if (best < 0 || (fwd ? lloc[i].stmt < lloc[best].stmt : lloc[i].stmt > lloc[best].stmt)) best = i;
-				}
 			}
 			x->p = q;
-			if (best < 0) { err(x->line, "undefined local label %.*s", (int)(q - s), s); x->bad = 1; return vconst(0); }
+			if (best < 0) { err(x->line, "undefined local label %.*s", n, s); x->bad = 1; return vconst(0); }
 			struct val v = { 0, lloc[best].sym, -1 };
 			return v;
 		}
-		char buf[80]; int n = (int)(q - s);
-		if (n >= (int)sizeof buf) n = sizeof buf - 1;
-		memcpy(buf, s, n); buf[n] = 0;
-		x->p = q;
-		uint64_t v = 0;
-		int base = 10; const char *d = buf;
-		if (n > 2 && buf[0] == '0' && (buf[1] == 'x' || buf[1] == 'X')) { base = 16; d += 2; }
-		else if (n > 2 && buf[0] == '0' && (buf[1] == 'b' || buf[1] == 'B')) { base = 2; d += 2; }
-		else if (n > 2 && buf[0] == '0' && (buf[1] == 'o' || buf[1] == 'O')) { base = 8; d += 2; }
-		for (; *d; d++) {
-			int dv = isdigit((unsigned char)*d) ? *d - '0' : tolower((unsigned char)*d) - 'a' + 10;
-			if (dv < 0 || dv >= base) { err(x->line, "bad number %s", buf); x->bad = 1; break; }
-			v = v * base + dv;
-		}
-		return vconst((int64_t)v);
+		x->p = q;					/* neither: a name that starts with a digit */
+		struct val v = { 0, symget(s, n), -1 };
+		return v;
 	}
 	if (isalpha((unsigned char)c) || c == '_' || c == '.' || (unsigned char)c >= 0x80 || c == '"') {
 		const char *s = x->p;
@@ -896,7 +903,7 @@ static int run_pass(int final)
 		switch (st->kind) {
 		case S_LABEL: {
 			int k = -1;
-			if (isdigit((unsigned char)st->name.p[0])) {
+			if (all_digits(st->name.p, st->name.n)) {
 				for (int j = 0; j < nlloc; j++) if (lloc[j].stmt == i) k = lloc[j].sym;
 			} else k = symget(st->name.p, st->name.n);
 			if (k >= 0) { syms[k].sect = cur_sec; syms[k].val = pos; }
@@ -1114,7 +1121,7 @@ int main(int argc, char **argv)
 	for (int i = 0; i < nprog; i++) {
 		struct stmt *st = &prog[i];
 		if (st->kind != S_LABEL) continue;
-		if (isdigit((unsigned char)st->name.p[0])) {
+		if (all_digits(st->name.p, st->name.n)) {
 			if (nlloc == caplloc) { caplloc = caplloc ? caplloc * 2 : 64; lloc = realloc(lloc, caplloc * sizeof *lloc); }
 			int s = symadd(st->name.p, st->name.n);
 			syms[s].islocal = 1; syms[s].sect = SC_PENDING;

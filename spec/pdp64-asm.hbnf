@@ -15,7 +15,7 @@ ws = SP | HTAB | comment
 comment = ";" *( %x01-09 | %x0B-D7FF | %xE000-10FFFF )
 line = *label [ stmt ]
 
-label = ( symbol | localnum ) ":"
+label = symbol ":"
 stmt = assign | directive | instruction
 
 assign = symbol "=" expr
@@ -56,7 +56,8 @@ addop   = "+" | "-" | "|" | "^"
 term    = unary *( mulop unary )
 mulop   = "*" | "/" | "%" | "&" | "<<" | ">>"
 unary   = *( "-" | "~" | "!" ) primary
-primary = prefixnum | localref | decnum | charlit | symbol | "." | "(" expr ")"
+; a number is a whole bareword: 3dfx is a name, 3 and 0x3d and 1f are not
+primary = prefixnum !idchar | localref !idchar | decnum !idchar | charlit | symbol | "." | "(" expr ")"
 
 prefixnum = hexnum | binnum | octnum
 hexnum   = "0" ( "x" | "X" ) 1*HEXDIG
@@ -65,8 +66,7 @@ octnum   = "0" ( "o" | "O" ) 1*( "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" )
 decnum   = 1*DIGIT
 charlit  = "'" ( %x20-26 | %x28-5B | %x5D-7E | uni | escape ) "'"
 localref = 1*DIGIT ( "f" | "b" )
-localnum = 1*DIGIT
-symbol   = idstart *idchar | qname
+symbol   = ( idstart | DIGIT ) *idchar | qname
 idstart  = ALPHA | "_" | "." | uni
 idchar   = idstart | DIGIT | "$"
 uni      = %x80-D7FF | %xE000-10FFFF

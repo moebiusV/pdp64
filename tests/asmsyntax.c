@@ -34,6 +34,9 @@ int main(void){
   bad+=try("overlong utf8",    ".ascii \"\xc0\x80\"\n", 0);
   bad+=try("surrogate",        ".ascii \"\xed\xa0\x80\"\n", 0);
   bad+=try("bad utf8 comment", "ret ; \xff\n", 0);
+  bad+=try("digit-led label",  "3dfx: ret\nbne 3dfx\n", 1);
+  bad+=try("numbers stay numbers","1: sob r2, 1b\nmovq #0x3d, r1\nmovq #0b101, r2\nmovq #10, r3\nbr 2f\n2: ret\n", 1);
+  bad+=try("0x alone is a name","0x: ret\n", 1);
   bad+=try("escapes",          "besc_bad r1\n", 0);
   bad+=try("unknown mnemonic", "frobnicate r1, r2\n", 0);
   bad+=try("bad register",     "add r16, r2\n", 0);

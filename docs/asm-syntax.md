@@ -7,8 +7,8 @@ The layout of a source file is the V7 assembler's, `as`; the lexical rules are C
 
 - **Lines.** One statement to a line. `;` starts a comment that runs to the end of the line.
 - **Labels.** `name:` defines a label; `1:` defines a numeric label, referenced as `1b` (the nearest one before) or `1f` (the nearest after).
-  `sym = expr` assigns. `.` is the location counter. Names are letters, digits, `_`, `.` and `$`, not starting with a digit, and any non-ASCII code point (`café`, `ループ`); they are case-sensitive
-  and never truncated. ELF symbol names are any bytes, so a name with other characters is written in double quotes (`"odd name!"`). A mnemonic or register name cannot be a label.
+  `sym = expr` assigns. `.` is the location counter. Names are letters, digits, `_`, `.` and `$` and any non-ASCII code point (`café`, `ループ`); a name may start with a digit as long as the whole bareword is not a number (`3dfx:` is a label; `3`, `0x3d`, `0b101`, `0o17` are numbers; `1f` and `1b` are local
+  references), and a bareword of digits only is a numeric local label. Names are case-sensitive and never truncated. ELF symbol names are any bytes, so a name with other characters is written in double quotes (`"odd name!"`). A mnemonic or register name cannot be a label.
 - **UTF-8.** A source file is UTF-8, and the parser refuses anything that is not (a stray byte, an overlong form, a surrogate, a truncated sequence),
   in names, strings, characters and comments alike; a NUL byte is refused too. In a string, UTF-8 text is copied as bytes and `\u00e9`, `\U0001F600` are written as UTF-8;
   `'é'` is the code point 0xE9, as is `'\u00e9'`.
