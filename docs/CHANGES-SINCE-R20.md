@@ -267,7 +267,7 @@ make numbers, characters and strings C's.* The decisions, in the order the user 
 * **Directives:** `.text .data .bss .globl .comm .byte .word .long .quad .ascii .even .align .space .lpad` (`.word` is 16 bits, `.long` 32, `.quad` 64:
   the ISA's PDP-11 terminology). `.align n` aligns to n bytes (a power of two). Text padding is a one-parcel `nop`.
 * **Mnemonics are lowercase.** (An `hbnf` limitation: numbered enum values are refused under case-insensitive matching.)
-* **Registers** are `r0`-`r15`; `sp` = `r14`, `fp` = `r13`; `pc` and `dp` appear only as a base register.
+* **Registers** are `r0`-`r15`; `sp` = `r14`, `fp` = `r13`; `pc` and `dp` appear only as a base register. `r` followed only by digits is reserved: `r16` is an error, not a name.
 * **Operand modes** (ISA §5): `rN`; `#expr`; `@expr`; `expr(rN)`, `(rN)`; `expr(rN)(rX*s)`; `expr(pc)`; `expr(dp)`; `(rN)+`, `(rN)+d`; `-(rN)`, `(rN)-d`;
   a bare expression is a PC-relative reference.
 * **Pre-decrement is `-(rN)` / `(rN)-d` (errata 15).** The ISA's `-d(Rn)` is also a negative base displacement; here `-d(rN)` is *always* base+displacement.
@@ -340,8 +340,9 @@ Recorded because the point of the exercise was to find where designs and tools d
   mnemonic can be followed by an operand that starts with letters). `rori` was read as `ror` + junk, `r10` as `r1` + `0`, `bitrev` as `bit` + `rev`. We first
   worked around it by generating a longest-first copy and a safe group order. **That workaround is gone.** The grammar now names a `word` token, which makes every
   literal of two or more letters a *whole-word* keyword in any order; the one-letter alternatives that remain in number prefixes (`x`/`X` in `0x`, `f`/`b` in
-  `1f`, the escape letters) are written as small character-class rules (`xch = %x78 | %x58`), which keyword mode leaves at character level. A side effect, which is
-  right: `r16` is now an ordinary name, since only the words the grammar lists are reserved.
+  `1f`, the escape letters) are written as small character-class rules (`xch = %x78 | %x58`), which keyword mode leaves at character level. The registers are not
+  open-ended, though: **`r16` is an assembler error** (user: "only r0 .. r15 are defined, plus aliases"). A name cannot be `r` followed only by digits, so `r16`
+  is neither a register nor a name, whereas `r2d2` is an ordinary name.
 * **The alias group made a cycle** (`bhis`/`bhi`, `blo`/`blos` precede each other), so no group order existed. Fixed by making aliases words of their target
   groups, numbered above the encodings.
 * **`(r1)` was parsed as a parenthesised expression**, because the optional displacement `[expr]` swallowed `(r1)` and could not back out. Found only when the

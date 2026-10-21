@@ -74,7 +74,12 @@ decnum   = 1*DIGIT
 charlit  = "'" ( %x20-26 | %x28-5B | %x5D-7E | uni | escape ) "'"
 localref = 1*DIGIT fbch
 fbch     = %x66 | %x62
-symbol   = ( idstart | DIGIT ) *idchar | qname
+; a name cannot be `r` followed only by digits: r0..r15 are registers (pdp64-mnemonics.hbnf) and anything else of that shape (r16, r99) is an error,
+; not a name.  So a name either starts with something other than `r`, or is `r` followed by digits and then something that is not a digit.
+symbol   = ( oidstart | DIGIT ) *idchar | rname | qname
+oidstart = %x41-5A | %x61-71 | %x73-7A | %x5F | %x2E | uni
+rname    = %x72 *DIGIT nodig *idchar | %x72
+nodig    = ALPHA | %x5F | %x2E | %x24 | uni
 idstart  = ALPHA | "_" | "." | uni
 idchar   = idstart | DIGIT | "$"
 uni      = %x80-D7FF | %xE000-10FFFF

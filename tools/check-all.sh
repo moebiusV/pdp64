@@ -7,3 +7,4 @@ tools/check-asmsyntax.sh | grep -c '^ok' | sed 's/$/ syntax tests ok/'
 tools/check-as64.sh
 python3 tools/check-drift.py
 tools/export-pcc-headers.sh --check
+tools/check-ld64.sh
