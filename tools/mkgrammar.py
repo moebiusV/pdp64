@@ -101,6 +101,9 @@ def main():
             if rule.startswith('mn-'):
                 for lit, v in items:
                     f.write('#define M_%s_%-12s "%s"\n' % (re.sub(r'\W', '_', rule[3:]).upper(), re.sub(r'\W', '_', lit).upper(), lit))
+        for rule in ('rnum', 'ralias', 'basespec'):
+            for lit, v in en[rule]:
+                f.write('#define R_%s_%-12s "%s"\n' % (rule.upper(), re.sub(r'\W', '_', lit).upper(), lit))
         f.write('#endif\n')
     # the header
     b = os.path.join(ROOT, os.environ.get('BUILD', 'build'))

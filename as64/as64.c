@@ -527,7 +527,7 @@ static int build_rm(const struct stmt *st, const struct oper *o, int dstride, in
 			f->rm = o->reg;
 			break;
 		}
-		if (o->kind == OK_BASED && o->special == 2) {			/* d(DP) */
+		if (o->kind == OK_BASED && o->special == BASESPEC_DP) {			/* d(DP) */
 			mode = AMODE_DP;
 			if (!CONST(v)) { err(st->line, "a displacement from DP must be a constant"); return -1; }
 			d = v.c;

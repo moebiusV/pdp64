@@ -258,3 +258,10 @@ amode = "base"@0b0000
 
 ; The store forms of the moves: the same mnemonics, the opcode after the load's (ISA section 4.1).
 movstore = "movq"@0b000001 | "movl"@0b000011 | "movw"@0b000101 | "movb"@0b000111
+
+; The registers (ISA section 2.1): R0-R15; SP is R14 and FP is R13 (the stack and frame pointers are ordinary registers named by convention);
+; PC and DP appear only as the base of an operand (modes `pcrel` and `dp`).
+rnum = "r0"@0 | "r1"@1 | "r2"@2 | "r3"@3 | "r4"@4 | "r5"@5 | "r6"@6 | "r7"@7
+     | "r8"@8 | "r9"@9 | "r10"@10 | "r11"@11 | "r12"@12 | "r13"@13 | "r14"@14 | "r15"@15
+ralias = "sp"@14 | "fp"@13
+basespec = "pc"@1 | "dp"@2

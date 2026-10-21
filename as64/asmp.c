@@ -24,28 +24,15 @@ static struct slice sl(const char *text, size_t a, size_t b)
 	return s;
 }
 
-static int regnum(const char *p, int n, int *special)
-{
-	*special = 0;
-	if (n == 2 && p[0] == 's' && p[1] == 'p') return 14;
-	if (n == 2 && p[0] == 'f' && p[1] == 'p') return 13;
-	if (n == 2 && p[0] == 'p' && p[1] == 'c') { *special = 1; return 0; }
-	if (n == 2 && p[0] == 'd' && p[1] == 'p') { *special = 2; return 0; }
-	if (n >= 2 && n <= 3 && p[0] == 'r') {
-		int v = 0;
-		for (int i = 1; i < n; i++)
-			v = v * 10 + (p[i] - '0');
-		return v;
-	}
-	return 0;
-}
+/* a register is its enumerator in the tree: the numbers (r10 is 10, sp is 14) are the grammar's */
+static int reg_of(const reg_t *r) { return r->_alt == 1 ? (int)r->rnum : (int)r->ralias; }
 
 /* The expression text of an operand, and its registers, from the text the grammar matched as that operand. */
 static void operand(const char *text, const operand_t *o, struct oper *r)
 {
 	struct slice t = sl(text, o->_pos, o->_end);
 	const char *p = t.p;
-	int n = t.n, sp;
+	int n = t.n;
 	memset(r, 0, sizeof *r);
 	r->kind = o->_alt;
 	switch (o->_alt) {
@@ -53,20 +40,21 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 		r->e.p = p + 1; r->e.n = n - 1;
 		break;
 	case OK_REG:
-		r->reg = regnum(p, n, &sp);
+		r->reg = reg_of(&o->regop);
 		break;
 	case OK_BARE:
 		r->e = t;
 		break;
 	case OK_POSTINC: case OK_PREDEC: case OK_PREDEC2: {		/* (r)+[expr]   -(r)   (r)-expr */
-		const char *a = memchr(p, '(', n), *b = memchr(p, ')', n);
-		r->reg = regnum(a + 1, (int)(b - a - 1), &sp);
+		const char *b = memchr(p, ')', n);
+		r->reg = reg_of(o->_alt == OK_POSTINC ? &o->postinc.reg : o->_alt == OK_PREDEC ? &o->predec.reg : &o->predec2.reg);
 		if (o->_alt != OK_PREDEC && (b + 1) < p + n) { r->e.p = b + 2; r->e.n = (int)(p + n - b - 2); }
 		break;
 	}
 	case OK_BASED: {						/* [expr](base) */
-		const char *a = memchr(p, '(', n), *b = memchr(p, ')', n);
-		r->reg = regnum(a + 1, (int)(b - a - 1), &r->special);
+		const char *a = memchr(p, '(', n);
+		const basereg_t *br = &o->based.basereg;
+		if (br->_alt == 1) r->reg = reg_of(&br->reg); else r->special = (int)br->basespec;
 		r->e.p = p; r->e.n = (int)(a - p);
 		break;
 	}
@@ -74,9 +62,9 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 		const char *a = memchr(p, '(', n), *b = memchr(a, ')', p + n - a);
 		const char *c = memchr(b, '(', p + n - b), *d = memchr(c, ')', p + n - c);
 		const char *star = memchr(c, '*', d - c);
-		r->reg = regnum(a + 1, (int)(b - a - 1), &sp);
+		r->reg = reg_of(&o->indexed.reg);
 		r->e.p = p; r->e.n = (int)(a - p);
-		r->reg2 = regnum(c + 1, (int)((star ? star : d) - c - 1), &sp);
+		r->reg2 = reg_of(&o->indexed.reg_2);
 		r->scale = star ? atoi(star + 1) : 1;
 		break;
 	}

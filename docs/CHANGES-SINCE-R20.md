@@ -306,7 +306,7 @@ the grammar and nothing drifts downstream.* The design that follows:
 
 | Fact | Written in exactly one place | Consumed by |
 |---|---|---|
-| every opcode, sub-opcode, group opcode, addressing-mode number, store opcode, alias | enum rules of `spec/pdp64-mnemonics.hbnf` | the assembly parser (as enums), the bit-format grammar (via `mkgrammar.py`), a generated C header of named constants, the drift test |
+| every opcode, sub-opcode, group opcode, addressing-mode number, store opcode, alias, **register number** (`r0`..`r15`, `sp`=14, `fp`=13, `pc`, `dp`) | enum rules of `spec/pdp64-mnemonics.hbnf` | the assembly parser (as enums), the bit-format grammar (via `mkgrammar.py`), a generated C header of named constants, the drift test |
 | instruction bit layout (`len opc reg low` plus extension fields by class) | `spec/pdp64.hbnf.in` (a template: numbers come in by name) | the generated decoder and encoder (hbnf `parse_bytes` / `emit_bytes`) |
 | assembly syntax | `spec/pdp64-asm.hbnf` | the generated text parser |
 | ELF record layouts | `spec/elf.hbnf` | the generated record writer (and, later, `ld64`'s reader) |
@@ -336,10 +336,12 @@ Recorded because the point of the exercise was to find where designs and tools d
   computing the signed value and minimum length first and masking in a `finalize()` step.
 * **Duplicated size counting** in the layout pass for data directives, and **error messages printed once per pass**: fixed (sizes counted in one place; errors only in the final pass).
 * **Off-by-one in the width calibration** (the loop already stopped at the true width; a later `++` doubled it) and a fixed 8-bit branch range: fixed by measuring `reg`/`low` widths too.
-* **`hbnf` matches enum words in the order written, as plain prefixes.** `rori` was read as `ror` + junk, `r10` as `r1` + `0`, `bitrev` as `bit` + `rev`. Our
-  sources are written in natural numeric order; the generator emits the longest-first order and a group order in which no mnemonic group precedes another that
-  holds a longer word it begins. The user's remark was that having to write the long word first is wrong. The right cure is a word-boundary rule in the compiler
-  (§10); the generator is the workaround.
+* **`hbnf` matches enum words in the order written, as plain prefixes** (a union of plain words is sorted for you, but `|` is ordered choice and a
+  mnemonic can be followed by an operand that starts with letters). `rori` was read as `ror` + junk, `r10` as `r1` + `0`, `bitrev` as `bit` + `rev`. We first
+  worked around it by generating a longest-first copy and a safe group order. **That workaround is gone.** The grammar now names a `word` token, which makes every
+  literal of two or more letters a *whole-word* keyword in any order; the one-letter alternatives that remain in number prefixes (`x`/`X` in `0x`, `f`/`b` in
+  `1f`, the escape letters) are written as small character-class rules (`xch = %x78 | %x58`), which keyword mode leaves at character level. A side effect, which is
+  right: `r16` is now an ordinary name, since only the words the grammar lists are reserved.
 * **The alias group made a cycle** (`bhis`/`bhi`, `blo`/`blos` precede each other), so no group order existed. Fixed by making aliases words of their target
   groups, numbered above the encodings.
 * **`(r1)` was parsed as a parenthesised expression**, because the optional displacement `[expr]` swallowed `(r1)` and could not back out. Found only when the
@@ -366,7 +368,7 @@ Recorded because the point of the exercise was to find where designs and tools d
 | `libhbnf.gpr` lists too few sources (`hbnf_lookahead`, `hbnf_tree_sitter`, `hbnf_wire-ada_lang`, `hbnf_wire-zig` are missing), so a plain `gprbuild` of the repository fails to link. | **Not fixed upstream.** `tools/build-hbnf.sh` lists every source. |
 | Numbered enum values are refused under case-insensitive matching ("an alternative is not a plain literal"). | **Open.** Mnemonics are lowercase. |
 | Enum words are matched in written order as plain prefixes; a word-boundary check after a keyword cannot work because whitespace is skipped before the lookahead is evaluated. | Documented; worked around in the generator. |
-| In keyword mode (a `word` token in the grammar), **a single-character literal inside a character-built rule was treated as a whole word**, so `hexnum = "0" ( "x" | "X" ) 1*HEXDIG` could not match `0x41`. | **Fixed** in the user's tree (single-character literals are characters, never keywords; three places in `hbnf_grammar.adb` / `hbnf_c.adb`); reproduced and verified on a minimal grammar; suite comparison run. **Push status: see §12.** |
+| In keyword mode, `hexnum = "0" ( "x" | "X" ) 1*HEXDIG` could not match `0x41`. | **Not an hbnf bug; no change made.** `hbnf`'s own `schema.sh` states the intended rule (with a `word` token, `"a"` is a keyword and `aa` must be rejected), and a patch that made single letters characters broke that test, so it was discarded. The fix is on our side: a group of letter alternatives makes the rule a phrase, but the same letters as a rule of their own (`xch = %x78 | %x58`) stay character-level. |
 | The alternation `|` is ordered choice, `/` is the union that finds an order; for plain words `/` sorts longest first and keeps numbers in written order, but for a word followed by something that can begin with letters (an operand) there is genuine ambiguity and `/` is refused. | Behaviour as designed; explains why the generator exists. |
 
 ---
@@ -394,9 +396,6 @@ shifts of symbolic values.
 Open design items (ISA §12 plus ours): FP compare vs the signed branches for unordered operands (§2.3); atomics against Q64 (`DATIP`/`DATO` lock vs AXI exclusive
 monitor); mandatory landing pads; worst-case instruction latency of `MBLK`; measured length distribution (the 4-byte case); a possible `d6(SP)` form; the red
 zone; `long double`; whether the operand-role table should move into the mnemonic file (recommended).
-
-**hbnf fix awaiting push:** the single-character-literal change in §10 was built and tested on a minimal grammar and is being run against the `hbnf` suite
-(patched vs unpatched). It is committed nowhere upstream yet.
 
 ---
 
