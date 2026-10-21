@@ -24,6 +24,16 @@ int main(void){
   bad+=try("old strings gone", ".byte <hello>\n", 0);
   bad+=try("two per line gone","clr r1; inc r1 \n", 1);
   bad+=try("assignment",       "N = 4*8+1\n", 1);
+  bad+=try("utf8 label",       "caf\xc3\xa9: ret\n", 1);
+  bad+=try("cjk label and use","\xe3\x83\xab\xe3\x83\xbc\xe3\x83\x97: bne \xe3\x83\xab\xe3\x83\xbc\xe3\x83\x97\n", 1);
+  bad+=try("quoted name",      "\"odd name!\": ret\n", 1);
+  bad+=try("utf8 string/char", ".ascii \"h\xc3\xa9llo\"\nmovq #'\xc3\xa9', r1 ; \xe2\x9c\x93\n", 1);
+  bad+=try("\\u escapes",      ".ascii \"\\u00e9\\U0001F600\"\n", 1);
+  bad+=try("invalid byte",     "caf\xff: ret\n", 0);
+  bad+=try("truncated utf8",   ".ascii \"\xc3\"\n", 0);
+  bad+=try("overlong utf8",    ".ascii \"\xc0\x80\"\n", 0);
+  bad+=try("surrogate",        ".ascii \"\xed\xa0\x80\"\n", 0);
+  bad+=try("bad utf8 comment", "ret ; \xff\n", 0);
   bad+=try("escapes",          "besc_bad r1\n", 0);
   bad+=try("unknown mnemonic", "frobnicate r1, r2\n", 0);
   bad+=try("bad register",     "add r16, r2\n", 0);

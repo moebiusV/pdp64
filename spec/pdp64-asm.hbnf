@@ -12,7 +12,7 @@ include "pdp64-mnemonics.hbnf"
 asm = | asm line
 
 ws = SP | HTAB | comment
-comment = ";" *( %x01-09 | %x0B-10FFFF )
+comment = ";" *( %x01-09 | %x0B-D7FF | %xE000-10FFFF )
 line = *label [ stmt ]
 
 label = ( symbol | localnum ) ":"
@@ -63,9 +63,13 @@ hexnum   = "0" ( "x" | "X" ) 1*HEXDIG
 binnum   = "0" ( "b" | "B" ) 1*( "0" | "1" )
 octnum   = "0" ( "o" | "O" ) 1*( "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" )
 decnum   = 1*DIGIT
-charlit  = "'" ( %x20-26 | %x28-5B | %x5D-7E | escape ) "'"
+charlit  = "'" ( %x20-26 | %x28-5B | %x5D-7E | uni | escape ) "'"
 localref = 1*DIGIT ( "f" | "b" )
 localnum = 1*DIGIT
-symbol   = ( ALPHA | "_" | "." ) *( ALPHA | DIGIT | "_" | "." | "$" )
-string   = %x22 *( %x20-21 | %x23-5B | %x5D-7E | escape ) %x22
-escape   = %x5C ( "n" | "t" | "r" | "a" | "b" | "f" | "v" | "0" | %x5C | "'" | %x22 | "x" 1*2HEXDIG | %x30-37 *2( %x30-37 ) )
+symbol   = idstart *idchar | qname
+idstart  = ALPHA | "_" | "." | uni
+idchar   = idstart | DIGIT | "$"
+uni      = %x80-D7FF | %xE000-10FFFF
+qname    = %x22 1*( %x20-21 | %x23-D7FF | %xE000-10FFFF ) %x22
+string   = %x22 *( %x20-21 | %x23-5B | %x5D-7E | uni | escape ) %x22
+escape   = %x5C ( "n" | "t" | "r" | "a" | "b" | "f" | "v" | "0" | %x5C | "'" | %x22 | "x" 1*2HEXDIG | "u" 4HEXDIG | "U" 8HEXDIG | %x30-37 *2( %x30-37 ) )

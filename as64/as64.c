@@ -76,6 +76,7 @@ static int symadd(const char *p, int n)
 }
 static int symget(const char *p, int n)
 {
+	if (n >= 2 && p[0] == '"') { p++; n -= 2; }			/* a quoted name: ELF takes any bytes */
 	int i = symfind(p, n);
 	return i >= 0 ? i : symadd(p, n);
 }
@@ -99,11 +100,34 @@ static int64_t offs[NSEC];
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* expressions                                                                                                         */
 
-/* one character of a C string or character literal at *pp, with its escape if it has one */
-static int c_char(const char **pp, const char *e)
+/* UTF-8: the grammar has already refused anything invalid, so these only translate */
+static int utf8_decode(const char **pp, const char *e)
+{
+	const unsigned char *p = (const unsigned char *)*pp;
+	int cp, n;
+	if (p[0] < 0x80) { *pp += 1; return p[0]; }
+	n = p[0] >= 0xF0 ? 3 : p[0] >= 0xE0 ? 2 : 1;
+	cp = p[0] & (0x3F >> n);
+	for (int i = 1; i <= n && *pp + i < e + 1; i++) cp = (cp << 6) | (p[i] & 0x3F);
+	*pp += n + 1;
+	return cp;
+}
+static int utf8_put(int cp, uint8_t *o)
+{
+	if (cp < 0x80) { o[0] = cp; return 1; }
+	if (cp < 0x800) { o[0] = 0xC0 | (cp >> 6); o[1] = 0x80 | (cp & 63); return 2; }
+	if (cp < 0x10000) { o[0] = 0xE0 | (cp >> 12); o[1] = 0x80 | ((cp >> 6) & 63); o[2] = 0x80 | (cp & 63); return 3; }
+	o[0] = 0xF0 | (cp >> 18); o[1] = 0x80 | ((cp >> 12) & 63); o[2] = 0x80 | ((cp >> 6) & 63); o[3] = 0x80 | (cp & 63);
+	return 4;
+}
+
+/* one character of a C string or character literal at *pp, with its escape if it has one.  *iscp is set when the value is
+   a code point to be written as UTF-8 (\u, \U), and clear when it is a byte (\x, octal, and every plain character). */
+static int c_char(const char **pp, const char *e, int *iscp)
 {
 	const char *p = *pp;
 	int v;
+	*iscp = 0;
 	if (*p != '\\' || p + 1 >= e) { *pp = p + 1; return (unsigned char)*p; }
 	p++;
 	switch (*p) {
@@ -120,14 +144,23 @@ static int c_char(const char **pp, const char *e)
 			v = v * 16 + (isdigit((unsigned char)*p) ? *p - '0' : tolower((unsigned char)*p) - 'a' + 10);
 		break;
 	}
+	case 'u': case 'U': {
+		int digits = *p == 'u' ? 4 : 8;
+		v = 0; p++;
+		for (int k = 0; k < digits && p < e && isxdigit((unsigned char)*p); k++, p++)
+			v = v * 16 + (isdigit((unsigned char)*p) ? *p - '0' : tolower((unsigned char)*p) - 'a' + 10);
+		*iscp = 1;
+		break;
+	}
 	default:
 		if (*p >= '0' && *p <= '7') {
 			v = 0;
 			for (int k = 0; k < 3 && p < e && *p >= '0' && *p <= '7'; k++, p++) v = v * 8 + (*p - '0');
+			v &= 255;
 		} else { v = (unsigned char)*p; p++; }
 	}
 	*pp = p;
-	return v & 255;
+	return v;
 }
 
 struct ex { const char *p, *e; int line, bad; };
@@ -153,7 +186,8 @@ static struct val eval_primary(struct ex *x)
 	}
 	if (c == '\'') {					/* 'c' */
 		x->p++;
-		int64_t v = x->p < x->e ? c_char(&x->p, x->e) : 0;
+		int64_t v = 0; int iscp;
+		if (x->p < x->e) v = (unsigned char)*x->p >= 0x80 ? utf8_decode(&x->p, x->e) : c_char(&x->p, x->e, &iscp);
 		if (x->p < x->e && *x->p == '\'') x->p++;
 		return vconst(v);
 	}
@@ -193,9 +227,10 @@ static struct val eval_primary(struct ex *x)
 		}
 		return vconst((int64_t)v);
 	}
-	if (isalpha((unsigned char)c) || c == '_' || c == '.') {
+	if (isalpha((unsigned char)c) || c == '_' || c == '.' || (unsigned char)c >= 0x80 || c == '"') {
 		const char *s = x->p;
-		while (x->p < x->e && (isalnum((unsigned char)*x->p) || *x->p == '_' || *x->p == '.' || *x->p == '$')) x->p++;
+		if (c == '"') { x->p++; while (x->p < x->e && *x->p != '"') x->p++; if (x->p < x->e) x->p++; }
+		else while (x->p < x->e && (isalnum((unsigned char)*x->p) || *x->p == '_' || *x->p == '.' || *x->p == '$' || (unsigned char)*x->p >= 0x80)) x->p++;
 		int n = (int)(x->p - s);
 		if (n == 1 && s[0] == '.') {
 			struct val v = { 0, dot_sym, -1 };
@@ -736,8 +771,11 @@ static int unescape(struct slice s, uint8_t *out)
 {
 	int n = 0;
 	const char *p = s.p + 1, *e = s.p + s.n - 1;
-	while (p < e)
-		out[n++] = (uint8_t)c_char(&p, e);
+	while (p < e) {
+		int iscp, v = c_char(&p, e, &iscp);
+		if (iscp) n += utf8_put(v, out + n);
+		else out[n++] = (uint8_t)v;
+	}
 	return n;
 }
 
@@ -1034,7 +1072,7 @@ static int write_object(const char *path)
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
-static char *slurp(const char *path)
+static char *slurp(const char *path, size_t *len)
 {
 	FILE *f = strcmp(path, "-") ? fopen(path, "rb") : stdin;
 	size_t n = 0, cap = 1 << 16;
@@ -1047,6 +1085,7 @@ static char *slurp(const char *path)
 		if (n + 1 >= cap) { cap *= 2; b = realloc(b, cap); }
 	}
 	b[n] = 0;
+	*len = n;
 	if (f != stdin) fclose(f);
 	return b;
 }
@@ -1061,7 +1100,9 @@ int main(int argc, char **argv)
 	}
 	if (!in) { fprintf(stderr, "usage: %s [-o object] file.s\n", progname); return 2; }
 	srcname = in;
-	char *text = slurp(in);
+	size_t flen;
+	char *text = slurp(in, &flen);
+	if (strlen(text) != flen) { fprintf(stderr, "%s: %s: contains a NUL byte\n", progname, in); return 1; }
 	char em[300]; int el;
 	if (asm_parse(text, &prog, &nprog, em, sizeof em, &el)) {
 		fprintf(stderr, "%s:%d: %s\n", in, el, em);
