@@ -31,9 +31,9 @@ Contents
 | | |
 |---|---|
 | Opcode map | 64 top-level slots: **55 assigned**, the spare ALU slot `0x23`, **8 reserved** `0x28`-`0x2F`. (ISA §4.16 says 56 assigned; see §2.) |
-| Mnemonic words | **200**, of which 5 are assembler aliases (`bhis`, `blo`, `mulu`, `wait`, `rol`): 195 instructions. |
-| Operations, folded | **92** (91 plus the flags operation `FSFLAGS`; the unsigned conversions and `FRINTDA` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
-| Assembled today | 164 words (the whole integer core, bit/divide/block escapes, `FESC`, SYS). Not yet: `ATOM` (22), `MESC` (8), `TRAPL` (1). `tools/check-drift.py` lists them by name. |
+| Mnemonic words | **230**, of which 34 are aliases (the five of ISA 4.15 and the 29 old floating-point spellings): 196 instructions. |
+| Operations, folded | **93** (91, plus `FSFLAGS`, plus `SET`; the unsigned conversions and `FRINTDA` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
+| Assembled today | 196 words (the whole integer core, bit/divide/block escapes, `FESC`, SYS). Not yet: `ATOM` (22), `MESC` (8), `TRAPL` (1). `tools/check-drift.py` lists them by name. |
 | Written | the grammars, the generator, `as64` (assembler), tests, this documentation. |
 | Not written | `sim64` (emulator), `ld64` (linker), the pcc back end, QEMU. |
 | Checks | `tools/check-all.sh`: 11 instruction-format vectors, 34 syntax cases, 6 assembled programs compared word for word with hand-worked expectations, and a drift test over every mnemonic plus the opcode-map checks. All pass. |
@@ -141,12 +141,13 @@ Writing the encoding down as something a machine could check turned up the follo
 | `RORI` (BESC `0x11`) | see above |
 | `FSFLAGS` (FESC `0x40`) | **floating-point exception flags**, the one thing missing for IEEE 754 conformance (errata 17); a sticky FPSR written and read by one swap operation |
 | `FCVTDQU`, `FCVTQUD` (FESC `0x3E`, `0x3F`) | unsigned 64-bit to and from double (errata 18) |
+| `SET cc, rd` (AESC `0x20`) | set register to 1 or 0 from a condition (errata 25): the first instruction written with a condition word, `set eq, r1`; one sub-opcode with the condition in a field |
 | `ABS`, `MIN`, `MINU`, `MAX`, `MAXU` (AESC `0x08`, `0x10`-`0x13`) | integer absolute value and minimum/maximum, signed and unsigned (errata 23); add no operation (the float forms exist) |
 | `FRINTDA` (FESC `0x34`) | round half away from zero, for `round()` (errata 19) |
 
 ### 3.5 Aliases
 
-The five aliases (`bhis`, `blo`, `mulu`, `wait`, `rol`) are implemented, as **words of the group they stand for, numbered above the group's own
+**Now one rule (errata 24):** a word numbered 0x100 above another word of its group is an alias of it. The 29 old floating-point spellings use it. The original five aliases (`bhis`, `blo`, `mulu`, `wait`, `rol`) are implemented, as **words of the group they stand for, numbered above the group's own
 encodings** (branch group `bhis`=64, `blo`=65; ALU `mulu`=64; no-operand SYS `wait`=16; BESC `rol`=256). A number above the encoding range cannot be
 confused with an opcode, and the grammar stays one source. **Not implemented:** `BIC #imm, rm` → `AND #~imm, rm` (listed in ISA §4.15).
 

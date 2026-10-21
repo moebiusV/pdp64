@@ -30,6 +30,7 @@ struct stmt {
 	struct slice name;			/* S_LABEL, S_ASSIGN: the symbol (a local label is digits); S_DIR: the directive */
 	struct slice expr;			/* S_ASSIGN */
 	int mg, mnum;				/* S_INSN: mnemonic group and the number inside it (its encoding) */
+	int cc;					/* MG_COND: the condition word */
 	int nops;
 	struct oper ops[MAXOPS];
 	int nargs;				/* S_DIR */

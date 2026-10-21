@@ -31,11 +31,15 @@ mn-alu = "add"@0b010110
        | "shl"@0b100000
        | "shr"@0b100001
        | "sar"@0b100010
-       | "faddd"@0b100100
-       | "fsubd"@0b100101
-       | "fmuld"@0b100110
-       | "fcmpd"@0b100111
-       | "mulu"@64
+       | "fadd"@0b100100
+       | "fsub"@0b100101
+       | "fmul"@0b100110
+       | "fcmp"@0b100111
+       | "mulu"@0x11E
+        | "faddd"@0x124
+        | "fsubd"@0x125
+        | "fmuld"@0x126
+        | "fcmpd"@0x127
 
 ; conditional branches (ISA 4.4); BHIS and BLO are aliases below
 mn-branch = "br"@0b110000
@@ -53,8 +57,8 @@ mn-branch = "br"@0b110000
           | "ble"@0b111100
           | "bhi"@0b111101
           | "blos"@0b111110
-          | "bhis"@64
-          | "blo"@65
+          | "bhis"@0x137
+          | "blo"@0x138
 
 ; subtract one and branch
 mn-sob = "sob"@0b111111
@@ -108,7 +112,7 @@ mn-besc = "clz"@0b00000000
         | "utf8len"@0b01000000
         | "utf8dec"@0b01000001
         | "utf8enc"@0b01000010
-        | "rol"@256
+        | "rol"@0x111
 
 ; MBLK: sub-opcode in parcel 1
 mn-mblk = "mcpy"@0b00000000
@@ -132,34 +136,34 @@ mn-aesc = "div"@0b00000000
         | "maxu"@0b00010011
 
 ; FESC: sub-opcode in parcel 1
-mn-fesc = "fdivd"@0b00000000
-        | "fsqrtd"@0b00000001
-        | "fadds"@0b00001000
-        | "fsubs"@0b00001001
-        | "fmuls"@0b00001010
-        | "fdivs"@0b00001011
-        | "fsqrts"@0b00001100
-        | "fcmps"@0b00001101
-        | "fmaddd"@0b00010000
-        | "fmsubd"@0b00010001
-        | "fnmaddd"@0b00010010
-        | "fnmsubd"@0b00010011
-        | "fmadds"@0b00011000
-        | "fmsubs"@0b00011001
-        | "fnmadds"@0b00011010
-        | "fnmsubs"@0b00011011
+mn-fesc = "fdiv"@0b00000000
+        | "fsqrt"@0b00000001
+        | "fadd32"@0b00001000
+        | "fsub32"@0b00001001
+        | "fmul32"@0b00001010
+        | "fdiv32"@0b00001011
+        | "fsqrt32"@0b00001100
+        | "fcmp32"@0b00001101
+        | "fmadd"@0b00010000
+        | "fmsub"@0b00010001
+        | "fnmadd"@0b00010010
+        | "fnmsub"@0b00010011
+        | "fmadd32"@0b00011000
+        | "fmsub32"@0b00011001
+        | "fnmadd32"@0b00011010
+        | "fnmsub32"@0b00011011
         | "fneg"@0b00100000
         | "fabs"@0b00100001
         | "fcopysign"@0b00100010
-        | "fmind"@0b00100011
-        | "fmaxd"@0b00100100
-        | "fclassd"@0b00101000
-        | "fclasss"@0b00101001
-        | "frintd"@0b00110000
-        | "frintdz"@0b00110001
-        | "frintdm"@0b00110010
-        | "frintdp"@0b00110011
-        | "frintda"@0b00110100
+        | "fmin"@0b00100011
+        | "fmax"@0b00100100
+        | "fclass"@0b00101000
+        | "fclass32"@0b00101001
+        | "frint"@0b00110000
+        | "frintz"@0b00110001
+        | "frintm"@0b00110010
+        | "frintp"@0b00110011
+        | "frinta"@0b00110100
         | "fcvtdq"@0b00111000
         | "fcvtqd"@0b00111001
         | "fcvtds"@0b00111010
@@ -169,6 +173,31 @@ mn-fesc = "fdivd"@0b00000000
         | "fcvtdqu"@0b00111110
         | "fcvtqud"@0b00111111
         | "fsflags"@0b01000000
+        | "fdivd"@0x100
+        | "fsqrtd"@0x101
+        | "fadds"@0x108
+        | "fsubs"@0x109
+        | "fmuls"@0x10A
+        | "fdivs"@0x10B
+        | "fsqrts"@0x10C
+        | "fcmps"@0x10D
+        | "fmaddd"@0x110
+        | "fmsubd"@0x111
+        | "fnmaddd"@0x112
+        | "fnmsubd"@0x113
+        | "fmadds"@0x118
+        | "fmsubs"@0x119
+        | "fnmadds"@0x11A
+        | "fnmsubs"@0x11B
+        | "fmind"@0x123
+        | "fmaxd"@0x124
+        | "fclassd"@0x128
+        | "fclasss"@0x129
+        | "frintd"@0x130
+        | "frintdz"@0x131
+        | "frintdm"@0x132
+        | "frintdp"@0x133
+        | "frintda"@0x134
 
 ; ATOM: sub-opcode in parcel 1
 mn-atom = "cas"@0b00000000
@@ -219,7 +248,7 @@ mn-sys-none = "nop"@0b0000
             | "tlbia"@0b1010
             | "tlbsync"@0b1011
             | "icinva"@0b1100
-            | "wait"@16
+            | "wait"@0x107
 
 ; SYS classes with an operand: the number is the class in the reg field
 mn-sys = "mtps"@0b0001
@@ -274,3 +303,16 @@ rnum = "r0"@0 | "r1"@1 | "r2"@2 | "r3"@3 | "r4"@4 | "r5"@5 | "r6"@6 | "r7"@7
      | "r8"@8 | "r9"@9 | "r10"@10 | "r11"@11 | "r12"@12 | "r13"@13 | "r14"@14 | "r15"@15
 ralias = "sp"@14 | "fp"@13
 basespec = "pc"@1 | "dp"@2
+
+; The conditions (ISA 4.4), for the instructions that take one: the number is the low nibble of the corresponding branch opcode (`bne` is 0x31, so ne is 1),
+; checked by tools/check-drift.py.  `al` is "always" (`br`).  hs and lo are the usual other names of cc and cs.
+cc = "al"@0 | "ne"@1 | "eq"@2 | "pl"@3 | "mi"@4 | "vc"@5 | "vs"@6 | "cc"@7 | "cs"@8 | "ge"@9 | "lt"@10 | "gt"@11 | "le"@12 | "hi"@13 | "los"@14
+ccalias = "hs"@7 | "lo"@8
+
+; Instructions that take a condition as a word of their own (`set eq, r1`): the condition goes in the x field of parcel 1, the number below is the sub-opcode in AESC.
+subop = "set"@0b00100000
+mn-cond = "set"
+
+; A word whose number is the alias offset plus another word's number stands for that word: one mnemonic, one instruction (ISA 4.15).  The old
+; spellings of the floating-point words (faddd, fadds...) are aliases of the new ones (fadd, fadd32...).  The assembler subtracts the offset.
+offset = "alias"@0x100 | "none"@0

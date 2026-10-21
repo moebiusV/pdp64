@@ -75,3 +75,14 @@ Items marked **DECISION** are choices the document left open; change them in the
     unsigned are qualifiers) they add no operation. Flags: `abs` sets N and Z from the result and V when the operand is the most negative number (whose absolute value is
     itself, the result wrapping), C unchanged; `min` and `max` set N and Z from the result, clear V, leave C. Hardware: reuse the negate path and the compare of
     `SUB`/`CMP` with a 64-bit select (est. 150-250 LUTs). Teaching the compiler the idioms (`x<0?-x:x`, `a<b?a:b`) is a shared front-end change that helps every target.
+24. **DECISION: floating-point spelling and the alias rule (the user's).** Floating-point operations are the integer operation with an `f` in front (`fadd`, `fsub`,
+    `fmul`, `fdiv`, `fsqrt`, `fmadd`, `fabs`, `fmin`, `fmax`, `fcmp`, `fclass`, `frint`...), and a width other than the default is a **decimal suffix in bits**:
+    `fadd` is binary64 (the machine's native float), `fadd32` binary32, `fadd16` binary16 when half-precision arrives. The rounding variants are one letter:
+    `frint` (nearest even), `frintz`, `frintm`, `frintp`, `frinta`. The old spellings (`faddd`, `fadds`, `fmind`, `frintdz`...) stay as aliases. **Aliases are now
+    one rule**: a word numbered 0x100 above another word of its group stands for that word (one mnemonic, one instruction, ISA 4.15); `rol` also complements its
+    count. The same pass moved `bhis`, `blo`, `mulu` and `wait` to the rule. Conversions (`fcvtdq`...) and the integer widths (`movq`, `movl`, `movw`, `movb`) keep
+    their spellings until the user chooses how to write a width on an integer operation.
+25. **`SET cc, rd` (added; the first instruction written with a condition word).** `set eq, r1` writes 1 to `r1` if the condition holds and 0 if not. One `AESC`
+    sub-opcode (`0x20`); the condition is the `x` field of parcel 1, numbered like the low nibble of the branch opcodes (`al` 0, `ne` 1, `eq` 2, `pl` 3, `mi` 4,
+    `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14; the drift test checks that numbering against the branches). Flags
+    are not changed. The condition words are reserved only in that position: a label may still be called `eq` or `lt`.

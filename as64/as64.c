@@ -620,16 +620,13 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 	memset(in, 0, sizeof *in);
 	in->relsym = -1;
 
-	/* the aliases of ISA 4.15 are words of their group, numbered above its encodings: they become the instruction they stand for */
-	if ((mg == MG_BRANCH && (mn == MN_BRANCH_BHIS || mn == MN_BRANCH_BLO)) || (mg == MG_ALU && mn == MN_ALU_MULU) ||
-	    (mg == MG_SYS_NONE && mn == MN_SYS_NONE_WAIT) || (mg == MG_BESC && mn == MN_BESC_ROL)) {
+	/* the aliases of ISA 4.15 are words of their group numbered ALIAS_OFFSET above the word they stand for: they become that instruction.
+	   `rol` is the one that also changes an operand. */
+	if (mn >= OFFSET_ALIAS) {
 		struct stmt a = *st;
-		if (mg == MG_BRANCH) a.mnum = mn == MN_BRANCH_BHIS ? MN_BRANCH_BCC : MN_BRANCH_BCS;
-		else if (mg == MG_ALU) a.mnum = MN_ALU_MUL;
-		else if (mg == MG_SYS_NONE) a.mnum = MN_SYS_NONE_WFE;
-		else {								/* rol rs, #n, rd -> rori rs, #(64-n), rd */
+		a.mnum = mn - OFFSET_ALIAS;
+		if (mg == MG_BESC && mn == MN_BESC_ROL) {				/* rol rs, #n, rd -> rori rs, #(64-n), rd */
 			int64_t n;
-			a.mnum = MN_BESC_RORI;
 			if (a.nops != 3 || imm_const(&a, 1, &n)) { err(st->line, "rol takes a register, a constant count and a register (ISA 4.15)"); return -1; }
 			char *buf = malloc(24);
 			snprintf(buf, 24, "%lld", (long long)((64 - n) & 63));
@@ -664,7 +661,7 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 	case MG_ALU:
 		if (st->nops != 2) { err(st->line, "two operands"); return -1; }
 		f->opc = mn;
-		if (mn == MN_ALU_CMP || mn == MN_ALU_FCMPD) {				/* cmp rd, rm (errata 13); fcmpd the same (errata 21) */
+		if (mn == MN_ALU_CMP || mn == MN_ALU_FCMP) {				/* cmp rd, rm (errata 13); fcmpd the same (errata 21) */
 			if (o[0].kind != OK_REG) { err(st->line, "cmp: the first operand must be a register"); return -1; }
 			f->reg = o[0].reg;
 			rc = build_rm(st, &o[1], 8, MS_ANY, in, addr);
@@ -736,21 +733,27 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 		}
 		break;
 	}
+	case MG_COND:
+		/* set cc, rd: rd <- 1 if the condition holds, else 0.  The condition is the x field of parcel 1 (the same numbering as the branches). */
+		if (st->nops != 1 || o[0].kind != OK_REG) { err(st->line, "set cc, register"); return -1; }
+		f->opc = OPGROUP_AESC; f->sub = SUBOP_SET; f->shape = FS_REGESC; in->minlen = 1;
+		f->reg = o[0].reg; f->low = 0; f->t = 0; f->x = st->cc;
+		break;
 	case MG_FESC: {
 		/* floating point beyond the four top-level operations.  reg = rd, low = rs, t = rt, x = ru; the destination is written last. */
 		int n = st->nops, k, isreg = 1;
-		int unary = (mn == MN_FESC_FSQRTD || mn == MN_FESC_FSQRTS || mn == MN_FESC_FNEG || mn == MN_FESC_FABS || mn == MN_FESC_FCLASSD ||
-		    mn == MN_FESC_FCLASSS || mn == MN_FESC_FRINTD || mn == MN_FESC_FRINTDZ || mn == MN_FESC_FRINTDM || mn == MN_FESC_FRINTDP ||
-		    mn == MN_FESC_FRINTDA || mn == MN_FESC_FCVTDQ || mn == MN_FESC_FCVTQD || mn == MN_FESC_FCVTDS || mn == MN_FESC_FCVTSD ||
+		int unary = (mn == MN_FESC_FSQRT || mn == MN_FESC_FSQRT32 || mn == MN_FESC_FNEG || mn == MN_FESC_FABS || mn == MN_FESC_FCLASS ||
+		    mn == MN_FESC_FCLASS32 || mn == MN_FESC_FRINT || mn == MN_FESC_FRINTZ || mn == MN_FESC_FRINTM || mn == MN_FESC_FRINTP ||
+		    mn == MN_FESC_FRINTA || mn == MN_FESC_FCVTDQ || mn == MN_FESC_FCVTQD || mn == MN_FESC_FCVTDS || mn == MN_FESC_FCVTSD ||
 		    mn == MN_FESC_FCVTSL || mn == MN_FESC_FCVTLS || mn == MN_FESC_FCVTDQU || mn == MN_FESC_FCVTQUD || mn == MN_FESC_FSFLAGS);
-		int binary = (mn == MN_FESC_FDIVD || mn == MN_FESC_FADDS || mn == MN_FESC_FSUBS || mn == MN_FESC_FMULS || mn == MN_FESC_FDIVS ||
-		    mn == MN_FESC_FCMPS);
-		int three = (mn == MN_FESC_FCOPYSIGN || mn == MN_FESC_FMIND || mn == MN_FESC_FMAXD);
+		int binary = (mn == MN_FESC_FDIV || mn == MN_FESC_FADD32 || mn == MN_FESC_FSUB32 || mn == MN_FESC_FMUL32 || mn == MN_FESC_FDIV32 ||
+		    mn == MN_FESC_FCMP32);
+		int three = (mn == MN_FESC_FCOPYSIGN || mn == MN_FESC_FMIN || mn == MN_FESC_FMAX);
 		int want = unary || binary ? 2 : three ? 3 : 4;		/* the rest is the fused multiply-add family */
 		for (k = 0; k < n; k++) if (o[k].kind != OK_REG) isreg = 0;
 		if (n != want || !isreg) { err(st->line, "this instruction takes %d registers", want); return -1; }
 		f->opc = OPGROUP_FESC; f->sub = mn; f->shape = FS_REGESC; in->minlen = 1;
-		if (mn == MN_FESC_FCMPS) { f->reg = o[0].reg; f->low = o[1].reg; break; }		/* register first, as cmp */
+		if (mn == MN_FESC_FCMP32) { f->reg = o[0].reg; f->low = o[1].reg; break; }		/* register first, as cmp */
 		f->reg = o[n - 1].reg; f->low = o[0].reg;
 		if (want >= 3) f->t = o[1].reg;
 		if (want == 4) f->x = o[2].reg;

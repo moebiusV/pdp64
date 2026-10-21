@@ -41,7 +41,7 @@ def enums(path):
 
 def group_order(en):
     """The mn- groups, in the order they are written.  With whole-word keywords (see pdp64-asm.hbnf) the order does not matter."""
-    return [g for g in en if g.startswith('mn-')]
+    return [g for g in en if g.startswith('mn-') and g != 'mn-cond']
 
 
 def main():
@@ -83,7 +83,7 @@ def main():
         f.write('enum mn_group {\n')
         for k, n in enumerate(names):
             f.write('\tMG_%s = %d,\n' % (n, k + 1))
-        f.write('};\n/* the number of the mnemonic that the parser matched, from the member of that group (single-word groups have no member: their number is the opcode) */\n')
+        f.write('};\n#define MG_COND 99\t/* instructions that take a condition word (`set eq, r1`): not in `mnemonic` */\n/* the number of the mnemonic that the parser matched, from the member of that group (single-word groups have no member: their number is the opcode) */\n')
         f.write('#define MNEMONIC_NUMBER(m, out) do { switch ((m)->_alt) { \\\n')
         for k, g in enumerate(order):
             if len(en[g]) == 1:

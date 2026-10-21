@@ -117,6 +117,16 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
+	case 4: {							/* an instruction that takes a condition: `set eq, r1` */
+		condinsn_t *ci = &s->condinsn;
+		st->kind = S_INSN;
+		st->mg = MG_COND;
+		st->cc = ci->ccw._alt == 1 ? (int)ci->ccw.cc : (int)ci->ccw.ccalias;
+		operand(text, &ci->operand, &st->ops[st->nops++]);
+		for (struct condinsn_1_s *j = ci->condinsn_1.head; j && st->nops < MAXOPS; j = j->_link)
+			operand(text, &j->operand, &st->ops[st->nops++]);
+		break;
+	}
 	default: {
 		st->kind = S_INSN;
 		mnemonic_t *m = &s->instruction.mnemonic;

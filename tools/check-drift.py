@@ -15,6 +15,7 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 AS = os.path.join(ROOT, os.environ.get('BUILD', 'build'), 'as64')
 en = mkgrammar.enums(os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf'))
 OPG = dict(en['opgroup'])
+OPG_BR = 0x30
 
 R2 = {'abs', 'clz', 'ctz', 'clo', 'cto', 'popcnt', 'bswap', 'bswapw', 'bswapl', 'bitrev', 'utf8len', 'utf8dec', 'utf8enc'}
 def source(group, word):
@@ -37,7 +38,7 @@ def source(group, word):
         return '%s r1, r2, r3' % word
     if g == 'fesc':
         four = word.startswith(('fmadd', 'fmsub', 'fnmadd', 'fnmsub'))
-        three = word in ('fcopysign', 'fmind', 'fmaxd')
+        three = word in ('fcopysign', 'fmin', 'fmax')
         two = not four and not three
         return '%s %s' % (word, ', '.join(['r1', 'r2', 'r3', 'r4'][:4 if four else 3 if three else 2]))
     if g == 'sys-none': return word
@@ -54,7 +55,7 @@ def words(path):
     off, size = struct.unpack_from('<QQ', d, shoff + 64 + 24)
     return [struct.unpack_from('<H', d, off + 2 * i)[0] for i in range(size // 2)]
 
-ALIAS_FLOOR = {'branch': 64, 'alu': 64, 'sys-none': 16, 'besc': 256}      # numbers from here up are aliases (checked by tests/asm)
+ALIAS = dict(en['offset'])['alias']      # a word numbered this far above another is an alias of it
 bad = skipped = checked = 0
 todo = []
 for group, items in en.items():
@@ -62,7 +63,24 @@ for group, items in en.items():
         continue
     g = group[3:]
     for word, num in items:
-        if num >= ALIAS_FLOOR.get(g, 1 << 30):
+        if num >= ALIAS:
+            target = [w for w, n in items if n == num - ALIAS]
+            if not target or g == 'besc' and word == 'rol':
+                continue
+            src0 = source(group, target[0])
+            if src0 is None:
+                continue
+            outs = []
+            for wd in (target[0], word):
+                with tempfile.TemporaryDirectory() as t:
+                    f = os.path.join(t, 'a.s'); o = os.path.join(t, 'a.o')
+                    open(f, 'w').write('\t.text\n\t' + src0.replace(target[0], wd, 1).replace('\n', '\n\t') + '\n')
+                    r = subprocess.run([AS, '-o', o, f], capture_output=True, text=True)
+                    outs.append(words(o) if r.returncode == 0 else None)
+            checked += 1
+            if outs[0] is None or outs[0] != outs[1]:
+                bad += 1
+                print('DRIFT alias %s of %s: %s vs %s' % (word, target[0], outs[1], outs[0]))
             continue
         src = source(group, word)
         if src is None:
@@ -102,5 +120,21 @@ if [OPG[k] for k in ('xfer', 'sop', 'sys')] != [0x12, 0x13, 0x14]: bad_map.appen
 if sorted(numbers('mn-branch', 64) | {OPG['sob']}) != list(range(0x30, 0x40)): bad_map.append('the sixteen branch slots are not 0x30-0x3F')
 for m in bad_map: print('MAP ' + m)
 bad += len(bad_map)
+# --- the condition words: encoded in the x field, numbered like the low nibble of the branch opcodes ---
+BR = dict(en['mn-branch'])
+for rule in ('cc', 'ccalias'):
+    for word, num in en[rule]:
+        with tempfile.TemporaryDirectory() as t_:
+            f = os.path.join(t_, 'a.s'); o = os.path.join(t_, 'a.o')
+            open(f, 'w').write('\t.text\n\tset %s, r1\n' % word)
+            r = subprocess.run([AS, '-o', o, f], capture_output=True, text=True)
+            w = words(o) if r.returncode == 0 else []
+        got = (w[1] & 15) if len(w) > 1 else None
+        branch = {'al': 'br', 'los': 'blos'}.get(word, 'b' + word)
+        want_branch = BR.get(branch)
+        if got != num or (rule == 'cc' and (want_branch is None or want_branch - OPG_BR != num)):
+            bad += 1
+            print('DRIFT cc %s: encoded %s, number %d, branch %s = %s' % (word, got, num, branch, want_branch))
+        checked += 1
 print('drift: %d mnemonics checked, %d differ, %d not assembled yet%s' % (checked, bad, skipped, (': ' + ' '.join(todo)) if todo else ''))
 sys.exit(1 if bad else 0)
