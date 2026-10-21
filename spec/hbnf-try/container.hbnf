@@ -1,8 +1,0 @@
-prefix none
-; pdp64 instruction formats, parcel 0: len:2 opc:6 reg:4 rm:4, extension parcels by length.
-; The input is the instruction with parcel 0 first, each parcel big-endian.
-insn = len:2 opc:6 reg:4 low:4 ext:( ?(len == 0) none:ext0 | ?(len == 1) one:ext1 | ?(len == 2) two:ext2 | ?(len == 3) three:ext3 )
-ext0 = 0b0
-ext1 = a:16
-ext2 = a:16 b:16
-ext3 = a:16 b:16 c:16

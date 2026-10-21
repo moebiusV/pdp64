@@ -1,0 +1,43 @@
+; pdp64 instruction formats (ISA r20, docs/errata.md for the decisions), as hbnf bit rules.
+;
+; The input is one instruction, parcel 0 first, each parcel big-endian (the decoder byte-swaps the parcels it
+; fetches: they are little-endian in memory).  hbnf numbers bits from the most significant bit, which is the
+; order of the diagrams in the ISA document: bit 15 of parcel 0 is the first bit of the record.
+;
+;   parcel 0:   len:2 opc:6 reg:4 low:4
+;   len         the number of extension parcels, 0..3; the instruction is len+1 parcels
+;   opc         the opcode, 0x00..0x3F (the map is in docs/11-64W/11-64W-isa-r20.md section 4.16)
+;   reg, low    their meaning depends on the opcode class below; `low` is the mode at len >= 1 for the
+;               memory classes and a second register at len == 0
+;
+; The extension parcels are `body`.  Displacement and immediate fields are unsigned here; the consumer sign-extends
+; from the width (`d` is 12+16*(len-1) bits in the base-register modes, and so on, ISA section 3.3).
+prefix none
+;
+; This file is a template: tools/mkgrammar.sh expands @MEM@ (the opcodes with a memory operand) and @REGESC@ (the
+; register-nibble escapes), which hbnf expressions have no way to name, into spec/pdp64.hbnf.
+
+insn = len:2 opc:6 reg:4 low:4 body:(
+
+    ; --- memory operand classes: moves, LEA, the ALU, SOP, XFER, the FP ALU group.  len = 0: low is a register.
+      ?(len == 0 && @MEM@)
+    | ?(len >= 1 && @MEM@ && (low == 0 || low == 6 || low == 7))   rm:4 d:bits(12 + 16 * (len - 1))
+    | ?(len >= 1 && @MEM@ && low == 1)                             rm:4 rx:4 s:2 d:bits(6 + 16 * (len - 1))
+    | ?(len >= 1 && @MEM@ && low == 3)                             pad:4 d:bits(12 + 16 * (len - 1))
+    | ?(len >= 1 && @MEM@ && (low == 2 || low == 4 || low == 5))   d:bits(16 * len)
+
+    ; --- BESC, MBLK, AESC, FESC, ATOM: low is a register; parcel 1 is sub:8 t:4 x:4, further parcels follow
+    | ?(len >= 1 && @REGESC@)                                      sub:8 t:4 x:4 more:bits(16 * (len - 1))
+
+    ; --- MESC: low is a mode, parcel 1 is sub:4 rm:4 and 8 bits of displacement, 16 more per further parcel
+    | ?(len >= 1 && opc == 0x0F)                                   sub:4 rm:4 d:bits(8 + 16 * (len - 1))
+
+    ; --- branches 0x30..0x3E: len = 0: reg:low is the 8-bit displacement (in parcels); len >= 1: 16, 32, 48 bits.
+    ;     SOB (0x3F) and TAGOP (0x15) exist from len = 1: reg is the register, low the sense and tag or unused.
+    | ?(len == 0 && opc >= 0x30 && opc <= 0x3E)
+    | ?(len >= 1 && ((opc >= 0x30 && opc <= 0x3F) || opc == 0x15)) d:bits(16 * len)
+
+    ; --- SYS: reg is the class, low the register or minor; some classes carry a parcel 1 payload
+    | ?(len == 0 && opc == 0x14)
+    | ?(len >= 1 && opc == 0x14)                                   p:bits(16 * len)
+  )
