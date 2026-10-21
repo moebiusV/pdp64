@@ -235,3 +235,30 @@ mn-alias = "bhis"
          
          
 
+
+; Opcodes of the groups whose own mnemonics name sub-operations (SOP, SYS, BESC...), and of LEA and SOB, which have a single mnemonic.
+opgroup = "lea"@0b001011
+        | "besc"@0b001100
+        | "mblk"@0b001101
+        | "aesc"@0b001110
+        | "mesc"@0b001111
+        | "fesc"@0b010000
+        | "atom"@0b010001
+        | "xfer"@0b010010
+        | "sop"@0b010011
+        | "sys"@0b010100
+        | "tag"@0b010101
+        | "sob"@0b111111
+
+; The addressing modes, the `low` nibble of an instruction with a memory operand (ISA section 5).
+amode = "base"@0b0000
+      | "index"@0b0001
+      | "pcrel"@0b0010
+      | "dp"@0b0011
+      | "imm"@0b0100
+      | "abs"@0b0101
+      | "postinc"@0b0110
+      | "predec"@0b0111
+
+; The store forms of the moves: the same mnemonics, the opcode after the load's (ISA section 4.1).
+mn-mov-store = "movq"@0b000001 | "movl"@0b000011 | "movw"@0b000101 | "movb"@0b000111

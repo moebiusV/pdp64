@@ -21,6 +21,7 @@
 #include "fmt.h"
 #include "elf-parser.c"
 #include "relocs.h"
+#include "pdp64-consts.h"
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* symbols and values                                                                                                  */
@@ -386,6 +387,64 @@ static void addreloc(int sect, int64_t off, int type, int sym, int64_t addend)
 static int fits(int64_t v, int bits) { return bits >= 64 || (v >= -((int64_t)1 << (bits - 1)) && v < ((int64_t)1 << (bits - 1))); }
 static uint64_t mask(int bits) { return bits >= 64 ? ~(uint64_t)0 : (((uint64_t)1 << bits) - 1); }
 
+/* ---- what the grammar says about the formats, learned by asking its generated writer ------------------------------------
+ * The widths of the displacement fields, which addressing mode uses which shape, and the size of the reg and low nibbles are
+ * written once, in spec/pdp64.hbnf.in.  Nothing here repeats them: the writer refuses a value that does not fit, so the
+ * widths are found by encoding all-ones values until it refuses, once at startup. */
+static int fieldbits[16][4];		/* [shape][len]: bits of the displacement field, 0 if the shape does not exist at that len */
+static int mode_shape[16];		/* addressing mode -> shape, 0 if no shape takes it */
+static int maxlen = 3;
+static int regbits, lowbits;
+
+static int try_enc(const struct fmt *f) { uint8_t b[8]; size_t n; return fmt_encode(f, b, &n) == 0; }
+
+static void calibrate(void)
+{
+	static const int shapes[] = { FS_BASE, FS_INDEX, FS_DP, FS_WIDE, FS_D };
+	struct fmt f;
+
+	for (maxlen = 0; maxlen < 8; maxlen++) {
+		memset(&f, 0, sizeof f); f.shape = FS_D; f.opc = MN_BRANCH_BR; f.len = maxlen + 1;
+		if (!try_enc(&f)) break;
+	}
+	for (regbits = 0; regbits < 16; regbits++) {
+		memset(&f, 0, sizeof f); f.shape = FS_MEM0; f.opc = MN_MOV_MOVQ; f.reg = (int)mask(regbits + 1);
+		if (!try_enc(&f)) break;
+	}
+	for (lowbits = 0; lowbits < 16; lowbits++) {
+		memset(&f, 0, sizeof f); f.shape = FS_MEM0; f.opc = MN_MOV_MOVQ; f.low = (int)mask(lowbits + 1);
+		if (!try_enc(&f)) break;
+	}
+	for (int m = 0; m < (1 << lowbits); m++)
+		for (unsigned k = 0; k < sizeof shapes / sizeof *shapes; k++) {
+			memset(&f, 0, sizeof f); f.len = 1; f.opc = MN_MOV_MOVQ; f.low = m; f.shape = shapes[k];
+			if (shapes[k] == FS_D) continue;
+			if (try_enc(&f)) { mode_shape[m] = shapes[k]; break; }
+		}
+	for (unsigned k = 0; k < sizeof shapes / sizeof *shapes; k++)
+		for (int len = 1; len <= maxlen; len++) {
+			int mode = -1;
+			memset(&f, 0, sizeof f); f.len = len; f.shape = shapes[k];
+			if (shapes[k] == FS_D) f.opc = MN_BRANCH_BR;
+			else {
+				f.opc = MN_MOV_MOVQ;
+				for (int m = 0; m < (1 << lowbits); m++) if (mode_shape[m] == shapes[k]) { mode = m; break; }
+				if (mode < 0) continue;
+				f.low = mode;
+			}
+			int w = 0;
+			while (w < 64) {
+				f.d = mask(w + 1);
+				if (!try_enc(&f)) break;
+				w++;
+			}
+			fieldbits[shapes[k]][len] = w;
+		}
+}
+
+static int dispbits(int mode, int len) { return fieldbits[mode_shape[mode]][len]; }
+static int branchbits(int len) { return fieldbits[FS_D][len]; }
+
 /* the symbol whose offset is in this section and known: same-section target */
 static int samesec(int s) { return s >= 0 && syms[s].sect == cur_sec; }
 static int pending(int s) { return s >= 0 && syms[s].sect == SC_PENDING; }
@@ -403,24 +462,15 @@ struct ins {
 /* the memory-side operand (the `rm` specifier) into f for a given len.  Returns the length it needs, or -1 (error). */
 enum { MS_ANY, MS_NOREG, MS_NOIMM };	/* what the operand may be */
 
-static int dispbits(int mode, int len)
-{
-	switch (mode) {
-	case 0: case 3: case 6: case 7: return 12 + 16 * (len - 1);
-	case 1: return 6 + 16 * (len - 1);
-	default: return 16 * len;
-	}
-}
-
 static int need_len(int mode, int64_t v)
 {
-	for (int len = 1; len <= 3; len++)
+	for (int len = 1; len <= maxlen; len++)
 		if (fits(v, dispbits(mode, len)))
 			return len;
 	return -1;
 }
 
-static int build_rm(const struct stmt *st, const struct oper *o, int len, int dstride, int restrict_, struct ins *in, int64_t addr)
+static int build_rm(const struct stmt *st, const struct oper *o, int dstride, int restrict_, struct ins *in, int64_t addr)
 {
 	struct fmt *f = &in->f;
 	int mode = -1, need = 1;
@@ -437,40 +487,37 @@ static int build_rm(const struct stmt *st, const struct oper *o, int len, int ds
 	if (o->e.n) v = eval(o->e, st->line);
 	switch (o->kind) {
 	case OK_IMM: case OK_ABS:
-		mode = o->kind == OK_IMM ? 4 : 5;
-		if (mode == 4 && restrict_ == MS_NOIMM) { err(st->line, "this operand cannot be immediate"); return -1; }
+		mode = o->kind == OK_IMM ? AMODE_IMM : AMODE_ABS;
+		if (mode == AMODE_IMM && restrict_ == MS_NOIMM) { err(st->line, "this operand cannot be immediate"); return -1; }
 		if (CONST(v)) {
 			d = v.c;
 			need = need_len(mode, d);
-			if (need < 0) { err(st->line, "constant %lld does not fit a 48-bit field", (long long)d); return -1; }
+			if (need < 0) { err(st->line, "constant %lld does not fit the widest field", (long long)d); return -1; }
 		} else {
-			need = 3;
+			need = maxlen;
 			in->relsym = v.p; in->reladd = v.c; in->reltype = R_PDP64_INSN_ABS;
 			if (v.m >= 0) { err(st->line, "cannot subtract a symbol here"); return -1; }
 		}
-		f->shape = FS_WIDE;
 		break;
 	case OK_BARE: case OK_BASED:
 		if (o->kind == OK_BASED && o->special == 0) {			/* d(Rn) */
-			mode = 0;
+			mode = AMODE_BASE;
 			if (!CONST(v)) { err(st->line, "a displacement from a register must be a constant"); return -1; }
 			d = v.c;
 			need = need_len(mode, d);
 			if (need < 0) { err(st->line, "displacement %lld too large", (long long)d); return -1; }
-			f->shape = FS_BASE; f->rm = o->reg;
+			f->rm = o->reg;
 			break;
 		}
 		if (o->kind == OK_BASED && o->special == 2) {			/* d(DP) */
-			mode = 3;
+			mode = AMODE_DP;
 			if (!CONST(v)) { err(st->line, "a displacement from DP must be a constant"); return -1; }
 			d = v.c;
 			need = need_len(mode, d);
 			if (need < 0) { err(st->line, "displacement %lld too large", (long long)d); return -1; }
-			f->shape = FS_DP;
 			break;
 		}
-		mode = 2;							/* a symbol, or d(PC): pc-relative */
-		f->shape = FS_WIDE;
+		mode = AMODE_PCREL;						/* a symbol, or d(PC): pc-relative */
 		if (o->kind == OK_BASED && o->e.n == 0) v = vconst(0);
 		if (o->kind == OK_BARE || !CONST(v)) {
 			if (CONST(v)) { err(st->line, "a bare number is not an address; write @n or #n"); return -1; }
@@ -480,7 +527,7 @@ static int build_rm(const struct stmt *st, const struct oper *o, int len, int ds
 				need = need_len(mode, d);
 				if (need < 0) { err(st->line, "target out of reach"); return -1; }
 			} else {
-				need = 2;
+				need = maxlen - 1;				/* 32 bits: a symbol of another section or an external one */
 				in->relsym = v.p; in->reladd = v.c; in->reltype = R_PDP64_INSN_PC;
 			}
 		} else {
@@ -490,16 +537,16 @@ static int build_rm(const struct stmt *st, const struct oper *o, int len, int ds
 		}
 		break;
 	case OK_INDEXED:
-		mode = 1;
+		mode = AMODE_INDEX;
 		if (!CONST(v)) { err(st->line, "a displacement from a register must be a constant"); return -1; }
 		d = v.c;
 		need = need_len(mode, d);
 		if (need < 0) { err(st->line, "displacement %lld too large", (long long)d); return -1; }
-		f->shape = FS_INDEX; f->rm = o->reg; f->rx = o->reg2;
+		f->rm = o->reg; f->rx = o->reg2;
 		f->s = o->scale == 1 ? 0 : o->scale == 2 ? 1 : o->scale == 4 ? 2 : 3;
 		break;
 	case OK_POSTINC: case OK_PREDEC: case OK_PREDEC2:
-		mode = o->kind == OK_POSTINC ? 6 : 7;
+		mode = o->kind == OK_POSTINC ? AMODE_POSTINC : AMODE_PREDEC;
 		d = dstride;
 		if (o->e.n) {
 			if (!CONST(v)) { err(st->line, "a stride must be a constant"); return -1; }
@@ -507,13 +554,13 @@ static int build_rm(const struct stmt *st, const struct oper *o, int len, int ds
 		}
 		need = need_len(mode, d);
 		if (need < 0) { err(st->line, "stride too large"); return -1; }
-		f->shape = FS_BASE; f->rm = o->reg;
+		f->rm = o->reg;
 		break;
 	default:
 		err(st->line, "bad operand");
 		return -1;
 	}
-	(void)len;
+	f->shape = mode_shape[mode];
 	f->low = mode;
 	in->mode = mode;
 	in->minlen = need;
@@ -521,7 +568,7 @@ static int build_rm(const struct stmt *st, const struct oper *o, int len, int ds
 	return need;
 }
 
-/* a branch target into f for a given len; returns the len needed or -1 */
+/* a branch target into f; returns the len needed or -1.  Displacements count in parcels from the first parcel. */
 static int build_branch(const struct stmt *st, const struct oper *o, int minlen, struct ins *in, int64_t addr)
 {
 	struct fmt *f = &in->f;
@@ -533,12 +580,13 @@ static int build_branch(const struct stmt *st, const struct oper *o, int minlen,
 	v = eval(o->e, st->line);
 	if (CONST(v) || v.m >= 0) { err(st->line, "a branch target is a label"); return -1; }
 	if (samesec(v.p) || pending(v.p)) {
-		int64_t t = pending(v.p) ? addr : syms[v.p].val + v.c - addr;
+		int64_t t = pending(v.p) ? 0 : syms[v.p].val + v.c - addr;
 		if (t & 1) { err(st->line, "branch to an odd address"); return -1; }
 		d = t / 2;
-		need = fits(d, 8) ? 0 : fits(d, 16) ? 1 : fits(d, 32) ? 2 : 3;
+		if (fits(d, regbits + lowbits)) need = 0;
+		else for (need = 1; need < maxlen && !fits(d, branchbits(need)); need++) ;
 	} else {
-		need = 2;
+		need = maxlen - 1;
 		in->relsym = v.p; in->reladd = v.c; in->reltype = R_PDP64_INSN_BR;
 	}
 	if (need < minlen) need = minlen;
@@ -548,8 +596,7 @@ static int build_branch(const struct stmt *st, const struct oper *o, int minlen,
 	return need;
 }
 
-/* register-escape groups: operands are registers and immediates, rd last */
-static int regv(const struct stmt *st, int k, int need, struct ins *in) { (void)in; (void)need; return st->ops[k].kind == OK_REG ? st->ops[k].reg : -1; }
+static int regv(const struct stmt *st, int k) { return k < st->nops && st->ops[k].kind == OK_REG ? st->ops[k].reg : -1; }
 
 static int imm_const(const struct stmt *st, int k, int64_t *out)
 {
@@ -560,7 +607,24 @@ static int imm_const(const struct stmt *st, int k, int64_t *out)
 	return 0;
 }
 
-static const int ST_STRIDE[8] = { 8, 4, 2, 1, 8, 8, 8, 8 };
+/* the size in bytes a move of this mnemonic transfers: the default stride of (Rn)+ and -(Rn) */
+static int mov_size(int mg, int mn)
+{
+	if (mg == MG_MOV)
+		switch (mn) { case MN_MOV_MOVQ: return 8; case MN_MOV_MOVL: return 4; case MN_MOV_MOVW: return 2; default: return 1; }
+	switch (mn) { case MN_MOVZ_MOVZL: return 4; case MN_MOVZ_MOVZW: return 2; default: return 1; }
+}
+
+/* the store opcode of a move mnemonic, from the table of stores in the grammar */
+static int store_opc(int mn)
+{
+	switch (mn) {
+	case MN_MOV_MOVQ: return MN_MOV_STORE_MOVQ;
+	case MN_MOV_MOVL: return MN_MOV_STORE_MOVL;
+	case MN_MOV_MOVW: return MN_MOV_STORE_MOVW;
+	default: return MN_MOV_STORE_MOVB;
+	}
+}
 
 /* Cut the displacement to the length chosen, and give the fields their final shape. */
 static void finalize(struct ins *in, int len)
@@ -571,26 +635,24 @@ static void finalize(struct ins *in, int len)
 	switch (f->shape) {
 	case FS_BR0:
 		if (len == 0) {
-			f->reg = (int)((in->dval >> 4) & 15); f->low = (int)(in->dval & 15);
+			f->reg = (int)(((uint64_t)in->dval >> lowbits) & mask(regbits)); f->low = (int)((uint64_t)in->dval & mask(lowbits));
 		} else {
 			f->shape = FS_D;
 			f->low = 0;
-			f->d = in->reltype ? 0 : ((uint64_t)in->dval & mask(16 * len));
+			f->d = in->reltype ? 0 : ((uint64_t)in->dval & mask(branchbits(len)));
 		}
 		break;
 	case FS_D:
-		f->d = in->reltype ? 0 : ((uint64_t)in->dval & mask(16 * len));
+		f->d = in->reltype ? 0 : ((uint64_t)in->dval & mask(branchbits(len)));
 		break;
-	case FS_BASE: case FS_DP: f->d = (uint64_t)in->dval & mask(dispbits(0, len)); break;
-	case FS_INDEX: f->d = (uint64_t)in->dval & mask(dispbits(1, len)); break;
-	case FS_WIDE:
-		f->d = in->reltype ? 0 : ((uint64_t)in->dval & mask(16 * len));
+	case FS_BASE: case FS_DP: case FS_INDEX: case FS_WIDE:
+		f->d = in->reltype ? 0 : ((uint64_t)in->dval & mask(dispbits(in->mode, len)));
 		break;
 	}
 }
 
-/* Build the instruction (len chosen by the caller as at least the returned minimum).  Returns 0, -1 on error. */
-static int build(const struct stmt *st, int len, int64_t addr, struct ins *in)
+/* Build the instruction.  Returns 0, -1 on error; the length it needs is in->minlen. */
+static int build(const struct stmt *st, int64_t addr, struct ins *in)
 {
 	struct fmt *f = &in->f;
 	const struct oper *o = st->ops;
@@ -603,13 +665,13 @@ static int build(const struct stmt *st, int len, int64_t addr, struct ins *in)
 	if (mg == MG_ALIAS) {
 		struct stmt a = *st;
 		switch (mn) {
-		case 0: a.mg = MG_BRANCH; a.mnum = 0x37; break;			/* bhis */
-		case 1: a.mg = MG_BRANCH; a.mnum = 0x38; break;			/* blo */
-		case 2: a.mg = MG_ALU; a.mnum = 0x1E; break;			/* mulu */
-		case 3: a.mg = MG_SYSNONE; a.mnum = 7; break;			/* wait */
-		case 4: {							/* rol rs, #n, rd -> rori rs, #(64-n), rd */
+		case MN_ALIAS_BHIS: a.mg = MG_BRANCH; a.mnum = MN_BRANCH_BCC; break;
+		case MN_ALIAS_BLO: a.mg = MG_BRANCH; a.mnum = MN_BRANCH_BCS; break;
+		case MN_ALIAS_MULU: a.mg = MG_ALU; a.mnum = MN_ALU_MUL; break;
+		case MN_ALIAS_WAIT: a.mg = MG_SYSNONE; a.mnum = MN_SYS_NONE_WFE; break;
+		case MN_ALIAS_ROL: {						/* rol rs, #n, rd -> rori rs, #(64-n), rd */
 			int64_t n;
-			a.mg = MG_BESC; a.mnum = 0x11;
+			a.mg = MG_BESC; a.mnum = MN_BESC_RORI;
 			if (a.nops != 3 || imm_const(&a, 1, &n)) { err(st->line, "rol takes a register, a constant count and a register (ISA 4.15)"); return -1; }
 			char *buf = malloc(24);
 			snprintf(buf, 24, "%lld", (long long)((64 - n) & 63));
@@ -618,7 +680,7 @@ static int build(const struct stmt *st, int len, int64_t addr, struct ins *in)
 		}
 		default: err(st->line, "this alias is not implemented"); return -1;
 		}
-		return build(&a, len, addr, in);
+		return build(&a, addr, in);
 	}
 
 	switch (mg) {
@@ -627,54 +689,54 @@ static int build(const struct stmt *st, int len, int64_t addr, struct ins *in)
 		if (st->nops != 2) { err(st->line, "two operands"); return -1; }
 		if (mg == MG_MOV && o[1].kind != OK_REG && o[0].kind == OK_REG) isst = 1;
 		if (isst) {
-			f->opc = mn + 1; f->reg = o[0].reg;
-			rc = build_rm(st, &o[1], len, ST_STRIDE[mn / 2], MS_NOIMM, in, addr);
+			f->opc = store_opc(mn); f->reg = o[0].reg;
+			rc = build_rm(st, &o[1], mov_size(mg, mn), MS_NOIMM, in, addr);
 		} else {
 			if (o[1].kind != OK_REG) { err(st->line, "the destination must be a register or the source a register"); return -1; }
 			f->opc = mn; f->reg = o[1].reg;
-			rc = build_rm(st, &o[0], len, mg == MG_MOV ? ST_STRIDE[mn / 2] : (mn == 8 ? 4 : mn == 9 ? 2 : 1), MS_ANY, in, addr);
+			rc = build_rm(st, &o[0], mov_size(mg, mn), MS_ANY, in, addr);
 		}
 		if (rc < 0) return -1;
 		break;
 	}
 	case MG_LEA:
 		if (st->nops != 2 || o[1].kind != OK_REG) { err(st->line, "lea address, register"); return -1; }
-		f->opc = 0x0B; f->reg = o[1].reg;
-		if (build_rm(st, &o[0], len, 8, MS_NOREG, in, addr) < 0) return -1;
+		f->opc = OPGROUP_LEA; f->reg = o[1].reg;
+		if (build_rm(st, &o[0], 8, MS_NOREG, in, addr) < 0) return -1;
 		if (in->minlen < 1) in->minlen = 1;
 		if (o[0].kind == OK_IMM) { err(st->line, "lea of an immediate"); return -1; }
 		break;
 	case MG_ALU:
 		if (st->nops != 2) { err(st->line, "two operands"); return -1; }
 		f->opc = mn;
-		if (mn == 0x1A) {							/* cmp rd, rm (errata 13) */
+		if (mn == MN_ALU_CMP) {							/* cmp rd, rm (errata 13) */
 			if (o[0].kind != OK_REG) { err(st->line, "cmp: the first operand must be a register"); return -1; }
 			f->reg = o[0].reg;
-			rc = build_rm(st, &o[1], len, 8, MS_ANY, in, addr);
+			rc = build_rm(st, &o[1], 8, MS_ANY, in, addr);
 		} else {
 			if (o[1].kind != OK_REG) { err(st->line, "the destination must be a register"); return -1; }
 			f->reg = o[1].reg;
-			rc = build_rm(st, &o[0], len, 8, MS_ANY, in, addr);
+			rc = build_rm(st, &o[0], 8, MS_ANY, in, addr);
 		}
 		if (rc < 0) return -1;
 		break;
 	case MG_SOP:
-		f->opc = 0x13; f->reg = mn;
-		if (mn == 10 || mn == 11) {						/* pushm #mask, popm #mask */
+		f->opc = OPGROUP_SOP; f->reg = mn;
+		if (mn == MN_SOP_PUSHM || mn == MN_SOP_POPM) {				/* pushm #mask, popm #mask */
 			int64_t m;
 			if (st->nops != 1 || imm_const(st, 0, &m)) { err(st->line, "pushm/popm take #mask"); return -1; }
 			if (m < 0 || m > 0xFFFF) { err(st->line, "register mask out of range"); return -1; }
-			f->low = 4; f->shape = FS_WIDE; in->dval = m; in->mode = 4; in->minlen = 1;
+			f->low = AMODE_IMM; f->shape = mode_shape[AMODE_IMM]; in->dval = m; in->mode = AMODE_IMM; in->minlen = 1;
 			break;
 		}
 		if (st->nops != 1) { err(st->line, "one operand"); return -1; }
-		if (build_rm(st, &o[0], len, 8, MS_ANY, in, addr) < 0) return -1;
+		if (build_rm(st, &o[0], 8, MS_ANY, in, addr) < 0) return -1;
 		break;
 	case MG_XFER:
-		f->opc = 0x12; f->reg = mn;
+		f->opc = OPGROUP_XFER; f->reg = mn;
 		if (st->nops != 1) { err(st->line, "one operand"); return -1; }
-		if (mn == 2 && o[0].kind != OK_INDEXED) { err(st->line, "jtag needs d(Rbase)(Rtagged)"); return -1; }
-		if (build_rm(st, &o[0], len, 8, MS_NOREG, in, addr) < 0) return -1;
+		if (mn == MN_XFER_JTAG && o[0].kind != OK_INDEXED) { err(st->line, "jtag needs d(Rbase)(Rtagged)"); return -1; }
+		if (build_rm(st, &o[0], 8, MS_NOREG, in, addr) < 0) return -1;
 		if (in->minlen < 1) in->minlen = 1;
 		break;
 	case MG_BRANCH:
@@ -683,15 +745,14 @@ static int build(const struct stmt *st, int len, int64_t addr, struct ins *in)
 		if (build_branch(st, &o[0], 0, in, addr) < 0) return -1;
 		break;
 	case MG_SOB:
-		f->opc = 0x3F;
+		f->opc = OPGROUP_SOB;
 		if (st->nops != 2 || o[0].kind != OK_REG) { err(st->line, "sob register, label"); return -1; }
-		f->reg = o[0].reg;
 		if (build_branch(st, &o[1], 1, in, addr) < 0) return -1;
 		f->reg = o[0].reg; f->low = 0;
 		break;
 	case MG_TAG: {
 		int64_t tag;
-		f->opc = 0x15;
+		f->opc = OPGROUP_TAG;
 		if (st->nops != 3 || o[0].kind != OK_REG || imm_const(st, 1, &tag) || tag < 0 || tag > 7) {
 			err(st->line, "btag register, #tag, label"); return -1;
 		}
@@ -700,18 +761,18 @@ static int build(const struct stmt *st, int len, int64_t addr, struct ins *in)
 		break;
 	}
 	case MG_SYSNONE:
-		f->opc = 0x14; f->reg = 0; f->low = mn; f->shape = FS_SYS0;
+		f->opc = OPGROUP_SYS; f->reg = 0; f->low = mn; f->shape = FS_SYS0;
 		if (st->nops) { err(st->line, "no operands"); return -1; }
 		break;
 	case MG_SYS: {
-		f->opc = 0x14; f->reg = mn; f->shape = FS_SYS0;
-		if (mn == 3 || mn == 4) {						/* spl #n, trap #n */
+		f->opc = OPGROUP_SYS; f->reg = mn; f->shape = FS_SYS0;
+		if (mn == MN_SYS_SPL || mn == MN_SYS_TRAP) {				/* spl #n, trap #n */
 			int64_t n;
-			if (st->nops != 1 || imm_const(st, 0, &n) || n < 0) { err(st->line, "%s #n", mn == 3 ? "spl" : "trap"); return -1; }
-			if (n < 16) f->low = (int)n;
-			else if (mn == 4 && n < 256) { f->reg = 15; f->low = 0; f->shape = FS_SYSP; f->d = (uint64_t)n << 8; in->minlen = 1; }
+			if (st->nops != 1 || imm_const(st, 0, &n) || n < 0) { err(st->line, "%s #n", mn == MN_SYS_SPL ? "spl" : "trap"); return -1; }
+			if (n < (1 << lowbits)) f->low = (int)n;
+			else if (mn == MN_SYS_TRAP && n < 256) { f->reg = MN_SYS_TRAPL; f->low = 0; f->shape = FS_SYSP; f->d = (uint64_t)n << 8; in->minlen = 1; }
 			else { err(st->line, "operand out of range"); return -1; }
-		} else if (mn == 13 || mn == 14) {					/* prober rd, rs */
+		} else if (mn == MN_SYS_PROBER || mn == MN_SYS_PROBEW) {		/* prober rd, rs */
 			if (st->nops != 2 || o[0].kind != OK_REG || o[1].kind != OK_REG) { err(st->line, "prober/probew rd, rs"); return -1; }
 			f->low = o[1].reg; f->shape = FS_SYSP; f->d = (uint64_t)o[0].reg << 12; in->minlen = 1;
 		} else {
@@ -723,31 +784,33 @@ static int build(const struct stmt *st, int len, int64_t addr, struct ins *in)
 	case MG_BESC: case MG_AESC: case MG_MBLK: {
 		int64_t a, b;
 		int n = st->nops;
-		f->opc = mg == MG_BESC ? 0x0C : mg == MG_AESC ? 0x0E : 0x0D;
+		f->opc = mg == MG_BESC ? OPGROUP_BESC : mg == MG_AESC ? OPGROUP_AESC : OPGROUP_MBLK;
 		f->sub = mn; f->shape = FS_REGESC; in->minlen = 1;
 		if (mg == MG_MBLK) {							/* mcpy rd, rs, rn  mval rd, rn */
-			if (mn == 6) { if (n != 2 || regv(st, 0, 0, in) < 0 || regv(st, 1, 0, in) < 0) goto bad; f->reg = o[0].reg; f->low = 0; f->t = o[1].reg; break; }
-			if (n != 3 || regv(st, 0, 0, in) < 0 || regv(st, 1, 0, in) < 0 || regv(st, 2, 0, in) < 0) goto bad;
+			if (mn == MN_MBLK_MVAL) { if (n != 2 || regv(st, 0) < 0 || regv(st, 1) < 0) goto bad; f->reg = o[0].reg; f->low = 0; f->t = o[1].reg; break; }
+			if (n != 3 || regv(st, 0) < 0 || regv(st, 1) < 0 || regv(st, 2) < 0) goto bad;
 			f->reg = o[0].reg; f->low = o[1].reg; f->t = o[2].reg;
 			break;
 		}
-		if (mg == MG_BESC && mn == 0x11) {					/* rori rs, #n, rd */
+		if (mg == MG_BESC && mn == MN_BESC_RORI) {				/* rori rs, #n, rd */
 			if (n != 3 || o[0].kind != OK_REG || imm_const(st, 1, &a) || o[2].kind != OK_REG || a < 0 || a > 63) goto bad;
 			f->reg = o[2].reg; f->low = o[0].reg; f->t = (a >> 4) & 3; f->x = a & 15;
 			break;
 		}
-		if (mg == MG_BESC && mn == 0x20) {					/* dshr ra, rb, #n, rd */
+		if (mg == MG_BESC && mn == MN_BESC_DSHR) {				/* dshr ra, rb, #n, rd */
 			if (n != 4 || o[0].kind != OK_REG || o[1].kind != OK_REG || imm_const(st, 2, &a) || o[3].kind != OK_REG || a < 0 || a > 63) goto bad;
 			f->reg = o[3].reg; f->low = o[0].reg; f->t = o[1].reg; f->d = (uint64_t)a << 8; in->minlen = 2;
 			break;
 		}
-		if (mg == MG_BESC && mn >= 0x21 && mn <= 0x23) {			/* extb rs, #pos, #width, rd */
+		if (mg == MG_BESC && (mn == MN_BESC_EXTB || mn == MN_BESC_EXTZB || mn == MN_BESC_INSB)) {	/* extb rs, #pos, #width, rd */
 			if (n != 4 || o[0].kind != OK_REG || imm_const(st, 1, &a) || imm_const(st, 2, &b) || o[3].kind != OK_REG) goto bad;
 			if (a < 0 || a > 63 || b < 1 || b > 64) goto bad;
 			f->reg = o[3].reg; f->low = o[0].reg; f->d = ((uint64_t)a << 8) | (uint64_t)(b & 255); in->minlen = 2;
 			break;
 		}
-		if ((mg == MG_BESC && (mn <= 0x08 || (mn >= 0x40 && mn <= 0x42))) ) {	/* rs, rd */
+		if (mg == MG_BESC && (mn == MN_BESC_CLZ || mn == MN_BESC_CTZ || mn == MN_BESC_CLO || mn == MN_BESC_CTO || mn == MN_BESC_POPCNT ||
+		    mn == MN_BESC_BSWAP || mn == MN_BESC_BSWAPW || mn == MN_BESC_BSWAPL || mn == MN_BESC_BITREV ||
+		    mn == MN_BESC_UTF8LEN || mn == MN_BESC_UTF8DEC || mn == MN_BESC_UTF8ENC)) {		/* rs, rd */
 			if (n != 2 || o[0].kind != OK_REG || o[1].kind != OK_REG) goto bad;
 			f->reg = o[1].reg; f->low = o[0].reg;
 			break;
@@ -763,8 +826,6 @@ static int build(const struct stmt *st, int len, int64_t addr, struct ins *in)
 		err(st->line, "this instruction group is not implemented yet");
 		return -1;
 	}
-
-	(void)len;
 	return 0;
 }
 
@@ -797,6 +858,18 @@ static void put_le(int64_t v, int size)
    instruction lives between passes. */
 static uint8_t *grow;
 
+/* a one-parcel SYS instruction with no operand, written by the generated encoder */
+static void emit_sys0(int minor)
+{
+	struct fmt f;
+	uint8_t b[8]; size_t n;
+	memset(&f, 0, sizeof f);
+	f.opc = OPGROUP_SYS; f.low = minor; f.shape = FS_SYS0;
+	if (fmt_encode(&f, b, &n) < 0) { fprintf(stderr, "%s: internal error: cannot encode a SYS instruction\n", progname); exit(2); }
+	uint8_t t = b[0]; b[0] = b[1]; b[1] = t;
+	emit_bytes_n(b, 2);
+}
+
 static void pad_to(int64_t align)
 {
 	int64_t pos = cur_sec == SEC_BSS ? offs[cur_sec] : (int64_t)sec[cur_sec].n;
@@ -804,7 +877,7 @@ static void pad_to(int64_t align)
 	if (cur_sec == SEC_BSS) { offs[cur_sec] += padn; return; }
 	if (final_pass) {
 		for (int64_t i = 0; i < padn; i++) {
-			if (cur_sec == SEC_TEXT && padn - i >= 2 && (pos + i) % 2 == 0) { uint8_t nop[2] = { 0x14, 0x00 }; emit_bytes_n(nop, 2); i++; }
+			if (cur_sec == SEC_TEXT && padn - i >= 2 && (pos + i) % 2 == 0) { emit_sys0(MN_SYS_NONE_NOP); i++; }
 			else { uint8_t z = 0; emit_bytes_n(&z, 1); }
 		}
 	} else offs[cur_sec] += padn;
@@ -876,7 +949,7 @@ static void directive(const struct stmt *st)
 		return;
 	}
 	if (dir_is(st, "lpad")) {
-		if (final_pass) { uint8_t b[2] = { 0x14, 0x09 }; emit_bytes_n(b, 2); } else offs[cur_sec] += 2;
+		if (final_pass) emit_sys0(MN_SYS_NONE_LPAD); else offs[cur_sec] += 2;
 		return;
 	}
 	if (final_pass) err(st->line, ".%.*s is not implemented", st->name.n, st->name.p);
@@ -923,7 +996,7 @@ static int run_pass(int final)
 		case S_INSN: {
 			struct ins in;
 			int len = grow[i];
-			if (build(st, len, pos, &in) < 0) { in.minlen = 0; in.f.shape = FS_SYS0; len = 0; if (!final) { offs[cur_sec] += 2; break; } }
+			if (build(st, pos, &in) < 0) { in.minlen = 0; in.f.shape = FS_SYS0; len = 0; if (!final) { offs[cur_sec] += 2; break; } }
 			if (in.minlen > len) { len = in.minlen; if (len != grow[i]) { grow[i] = len; changed = 1; } }
 			if (!final) { offs[cur_sec] += 2 * (len + 1); break; }
 			finalize(&in, len);
@@ -1114,6 +1187,12 @@ int main(int argc, char **argv)
 	if (asm_parse(text, &prog, &nprog, em, sizeof em, &el)) {
 		fprintf(stderr, "%s:%d: %s\n", in, el, em);
 		return 1;
+	}
+	calibrate();
+	if (getenv("AS64_FORMATS")) {		/* what the grammar says, as measured */
+		printf("maxlen %d regbits %d lowbits %d\n", maxlen, regbits, lowbits);
+		for (int m = 0; m < (1 << lowbits); m++) printf("mode %d shape %d\n", m, mode_shape[m]);
+		for (int k = 1; k < 16; k++) for (int l = 1; l <= maxlen; l++) if (fieldbits[k][l]) printf("shape %d len %d bits %d\n", k, l, fieldbits[k][l]);
 	}
 	dot_sym = symadd(".", 1);
 	syms[dot_sym].islocal = 1;

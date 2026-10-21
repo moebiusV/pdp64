@@ -5,9 +5,9 @@ cd "$(dirname "$0")/.."
 HBNF=${HBNF:-/tmp/claude-1000/alpine/hbnf}
 TPL=${HBNF_TEMPLATES:-/tmp/claude-1000/alpine/hbnf-templates}
 B=${BUILD:-build}; mkdir -p "$B"
-tools/mkgrammar.sh
+python3 tools/mkgrammar.py
 (cd spec && "$HBNF" pdp64-asm.hbnf --backend=c --templates="$TPL" --ast --spans) > "$B/pdp64-asm-parser.c"
-(cd spec && "$HBNF" pdp64.hbnf     --backend=c --templates="$TPL") > "$B/pdp64-parser.c"
+("$HBNF" "$B/pdp64.hbnf" --backend=c --templates="$TPL") > "$B/pdp64-parser.c"
 (cd spec && "$HBNF" elf.hbnf       --backend=c --templates="$TPL") > "$B/elf-parser.c"
 CFLAGS=${CFLAGS:--g -w}
 # each generated parser exports parse_bytes, emit_bytes and friends: rename them in the format parser's object

@@ -6,8 +6,8 @@ cd "$(dirname "$0")/.."
 HBNF=${HBNF:-/tmp/claude-1000/alpine/hbnf}
 TPL=${HBNF_TEMPLATES:-/tmp/claude-1000/alpine/hbnf-templates}
 [ -x "$HBNF" ] || { HBNF=/tmp/claude-1000/hbnf-bin; TPL=/tmp/claude-1000/hbnf/templates; }
-tools/mkgrammar.sh
+python3 tools/mkgrammar.py
 B=${BUILD:-build}; mkdir -p "$B"
-"$HBNF" spec/pdp64.hbnf --backend=c --templates="$TPL" > "$B/pdp64-parser.c"
+"$HBNF" build/pdp64.hbnf --backend=c --templates="$TPL" > "$B/pdp64-parser.c"
 gcc -w -I"$B" -o "$B/formats" tests/formats.c
 "$B/formats"
