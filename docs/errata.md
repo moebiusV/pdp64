@@ -34,3 +34,10 @@ Items marked **DECISION** are choices the document left open; change them in the
 11. **DECISION: `MESC` parcel 1.** `sub4 rm4 disp8` at `len=01` (§4.13); displacement widens 8 / 24 / 40. Only modes whose payload fits that
     way are legal (`base`, `dp`, `postinc`, `predec`, `pcrel`, `abs`); the scaled-index mode is not available in `MESC`.
 12. **The machine's name** is pdp64. The documents say 11/64W; they are kept unmodified under `docs/`.
+13. **DECISION: `CMP` operand order.** PDP-11 `CMP a,b` computes `a-b`; here the destination must be a register, so a literal `src,dst` meaning
+    would force every compare of a register against an immediate or a memory operand to reverse its branch condition. Spec: the encoding computes
+    **`reg - rm`**, and the assembler writes it `CMP Rd, rm` (register first). `CMP a,b` followed by `BLT` still reads "branch if a < b", as on the
+    PDP-11; only which side must be a register differs. `BIT` is symmetric.
+14. **DECISION: flags.** Subtraction and `CMP` set `C` on a borrow (PDP-11 sense, so `BHIS`/`BCC` mean "no borrow", unsigned `>=`). `ADD` sets `C` on a
+    carry out. `V` is signed overflow. `FCMPD` sets `N` if a<b, `Z` if a==b, `V` if unordered, `C` cleared (open item 7 in the ISA: the branch
+    conditions do not yet separate "unordered" cleanly).
