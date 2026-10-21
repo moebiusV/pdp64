@@ -1,6 +1,8 @@
---- /tmp/claude-1000/hbnf_grammar.adb.orig	2026-10-21 12:36:00.823050794 -0700
-+++ hbnf_grammar.adb	2026-10-21 12:36:15.743050839 -0700
-@@ -702,6 +702,33 @@
+diff --git a/hbnf_grammar.adb b/hbnf_grammar.adb
+index e47d790..20863b3 100644
+--- a/hbnf_grammar.adb
++++ b/hbnf_grammar.adb
+@@ -702,6 +702,33 @@ package body HBNF_Grammar is
        end if;
     end Hex_Digit;
  
@@ -34,10 +36,11 @@
     --  The rule a `<...>` names: its words joined with `-`, so `<table
     --  reference>` is `table-reference` and `<pchar>` is `pchar`.  Text that is
     --  not a name (`<host, see [URI], Section 3.2.2>`) keeps its characters as
-@@ -1906,6 +1933,15 @@
+@@ -1905,6 +1932,15 @@ package body HBNF_Grammar is
+                      loop
                          I := I + 1;
                       end loop;
-                   elsif Text (I) = '0' and then I + 2 <= Text'Last
++                  elsif Text (I) = '0' and then I + 2 <= Text'Last
 +                    and then Text (I + 1) in 'o' | 'O'
 +                    and then Text (I + 2) in '0' .. '7'
 +                  then
@@ -46,11 +49,10 @@
 +                     while I <= Text'Last and then Text (I) in '0' .. '7' loop
 +                        I := I + 1;
 +                     end loop;
-+                  elsif Text (I) = '0' and then I + 2 <= Text'Last
+                   elsif Text (I) = '0' and then I + 2 <= Text'Last
                      and then Text (I + 1) in 'b' | 'B'
                      and then Text (I + 2) in '0' | '1'
-                   then
-@@ -2114,10 +2150,9 @@
+@@ -2114,10 +2150,9 @@ package body HBNF_Grammar is
             Integer'Image (T.Line) & ":" & Integer'Image (T.Col) & ": " & Msg;
        end Bad;
  
@@ -63,7 +65,7 @@
     begin
        if Cur (P).Kind = T_At then
           Next (P);
-@@ -2125,7 +2160,7 @@
+@@ -2125,7 +2160,7 @@ package body HBNF_Grammar is
              Bad (Cur (P), "expected the bit the field starts at after `@` "
                   & "(`" & To_String (Name_Tok.Text) & "@0:4`)");
           end if;
@@ -72,7 +74,7 @@
           Next (P);
           if Cur (P).Kind /= T_Colon then
              Bad (Cur (P), "`" & To_String (Name_Tok.Text) & "@"
-@@ -2148,10 +2183,10 @@
+@@ -2148,10 +2183,10 @@ package body HBNF_Grammar is
                 if Cur (P).Kind = T_Star then
                    --  `n*rule`, `n*m rule`
                    Next (P);
@@ -85,7 +87,7 @@
                       Next (P);
                    end if;
                    if Cur (P).Kind /= T_Name then
-@@ -2167,7 +2202,7 @@
+@@ -2167,7 +2202,7 @@ package body HBNF_Grammar is
                 else
                    declare
                       W : constant Long_Long_Integer :=
@@ -94,7 +96,7 @@
                    begin
                       if W = 0 or else W > 64 then
                          Bad (T, "a field of" & Long_Long_Integer'Image (W)
-@@ -2589,14 +2624,15 @@
+@@ -2589,14 +2624,15 @@ package body HBNF_Grammar is
        --  A constant of the bit layer, as wide as its digits: 0x0800, 0b101.
        if Cur (P).Kind = T_Number and then Length (Cur (P).Text) > 2
          and then Ada.Strings.Unbounded.Element (Cur (P).Text, 1) = '0'
@@ -112,7 +114,7 @@
           begin
              Next (P);
              if Bits > 64 then
-@@ -2609,7 +2645,7 @@
+@@ -2609,7 +2645,7 @@ package body HBNF_Grammar is
                (Kind => Bit_Field, Min => 1, Max => 1,
                 F_Kind => HBNF_Wire.S_Const, F_Bits => Bits,
                 F_Value => Interfaces.Unsigned_64'Value
@@ -121,7 +123,7 @@
                 F_Line => T.Line, F_Col => T.Col, others => <>);
           end;
        end if;
-@@ -2629,7 +2665,7 @@
+@@ -2629,7 +2665,7 @@ package body HBNF_Grammar is
              Outer : Element_Access;
           begin
              if Cur (P).Kind = T_Number then
@@ -130,7 +132,7 @@
                 Next (P);
              end if;
              Next (P);                                   --  the #
-@@ -2638,7 +2674,7 @@
+@@ -2638,7 +2674,7 @@ package body HBNF_Grammar is
                           T_Name | T_String | T_LParen | T_LBrack | T_Pct
                           | T_Char | T_Prose | T_Tilde
              then
@@ -139,7 +141,7 @@
                 Next (P);
              end if;
              if M >= 0 and then M < N then
-@@ -2673,10 +2709,10 @@
+@@ -2673,10 +2709,10 @@ package body HBNF_Grammar is
           Min := 0;  Max := -1;  Has_Prefix := True;  Next (P);
           --  `*m`: at most m (`*2DIGIT`).
           if Cur (P).Kind = T_Number then
@@ -152,7 +154,7 @@
           --  A number with nothing to repeat is a bare terminal, as Backus-Naur
           --  form writes `0`; hbnf writes it in quotes.
           if P.Toks (P.Pos + 1).Kind in T_Bar | T_Slash | T_Newline | T_EOF
-@@ -2695,7 +2731,7 @@
+@@ -2695,7 +2731,7 @@ package body HBNF_Grammar is
           if Cur (P).Kind = T_Star then
              Next (P);
              if Cur (P).Kind = T_Number then
@@ -161,16 +163,13 @@
              else
                 Max := -1;
              end if;
-@@ -2737,13 +2773,7 @@
+@@ -2737,10 +2773,7 @@ package body HBNF_Grammar is
                 T : constant String := To_String (P.Toks (P.Pos + 1).Text);
                 V : Long_Long_Integer;
              begin
 -               V := (if T'Length > 2 and then T (T'First + 1) in 'x' | 'X'
 -                     then Long_Long_Integer'Value
 -                            ("16#" & T (T'First + 2 .. T'Last) & "#")
--                     elsif T'Length > 2 and then T (T'First + 1) in 'b' | 'B'
--                     then Long_Long_Integer'Value
--                            ("2#" & T (T'First + 2 .. T'Last) & "#")
 -                     else Long_Long_Integer'Value (T));
 +               V := Number_Value (T);
                 if V > 2_147_483_647 then
