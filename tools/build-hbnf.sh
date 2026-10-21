@@ -1,5 +1,5 @@
 #!/bin/sh
-# Build a static hbnf from github.com/moebiusV/hbnf (origin/main) without root and without a docker daemon:
+# Build a static hbnf from github.com/moebiusV/hbnf (origin/main) plus tools/hbnf-numbers.patch (any number form everywhere) without root and without a docker daemon:
 # an Alpine edge rootfs run under bwrap (user namespaces), GNAT 15 from Alpine, gprbuild and mustache-ada from
 # the ada-on-alpine overlay's .apk files.  Result: $OUT/hbnf (static, runs on the host), and the templates dir.
 #
@@ -28,6 +28,7 @@ s = open(d + 'libhbnf.gpr').read()
 s = re.sub(r'for Source_Files use\s*\(.*?\);', 'for Source_Files use\n     (' + ', '.join('"%s"' % f for f in fs) + ');', s, flags=re.S)
 open(d + 'libhbnf.gpr', 'w').write(s)
 PY
+( cd root/work/hbnf && patch -p0 -s hbnf_grammar.adb < "$OLDPWD/../claude/pdp64/tools/hbnf-numbers.patch" ) 2>/dev/null || ( cd root/work/hbnf && patch -s hbnf_grammar.adb < "$HOME/claude/pdp64/tools/hbnf-numbers.patch" )
 $BW sh -c 'ADALIB=$(gcc -print-file-name=adalib); mkdir -p /work/linklibs
 ln -sf $ADALIB/libgnat.a /work/linklibs/libgnat-15.a; ln -sf $ADALIB/libgnarl.a /work/linklibs/libgnarl-15.a
 cd /work/hbnf && LIBRARY_PATH=/work/linklibs gprbuild -P hbnf.gpr -p -XLIBRARY_TYPE=static -q 2>&1 | grep -i "error\|failed" || true'

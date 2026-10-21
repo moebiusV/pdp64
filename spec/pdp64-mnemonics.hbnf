@@ -1,229 +1,230 @@
 ; pdp64 mnemonics.  Each rule is an enum: the literal's number IS its encoding (opcode, or sub-opcode within the group).
-; Mnemonics are lowercase, as in V7 as (hbnf does not take numbered enum values under a case-insensitive rule: to report upstream).  `docs/errata.md` says where the ISA left a number open.
+; Mnemonics are lowercase, as in V7 as (hbnf does not take numbered enum values under a case-insensitive rule: to report upstream).
+; Numbers are binary, the width of the field they are encoded in (needs the hbnf patch in tools/hbnf-numbers.patch until upstream has it).  `docs/errata.md` says where the ISA left a number open.
 ; Groups that share a mnemonic between load and store directions (MOVQ...) are numbered by the load opcode; the store is +1.
 
 ; moves between a register and an operand: load = n, store = n+1 (ISA 4.1)
-mn-mov = "movq"@0x00        ; 000000
-       | "movl"@0x02        ; 000010
-       | "movw"@0x04        ; 000100
-       | "movb"@0x06        ; 000110
+mn-mov = "movq"@0b000000
+       | "movl"@0b000010
+       | "movw"@0b000100
+       | "movb"@0b000110
 
 ; zero-extending loads
-mn-movz = "movzl"@0x08       ; 001000
-        | "movzw"@0x09       ; 001001
-        | "movzb"@0x0A       ; 001010
+mn-movz = "movzl"@0b001000
+        | "movzw"@0b001001
+        | "movzb"@0b001010
 
 ; effective address
-mn-lea = "lea"@0x0B         ; 001011
+mn-lea = "lea"@0b001011
 
 ; ALU and FP ALU: register destination (ISA 4.2, 4.10); CMP computes reg - rm, errata 13
-mn-alu = "add"@0x16         ; 010110
-       | "sub"@0x17         ; 010111
-       | "bic"@0x18         ; 011000
-       | "bis"@0x19         ; 011001
-       | "cmp"@0x1A         ; 011010
-       | "bit"@0x1B         ; 011011
-       | "xor"@0x1C         ; 011100
-       | "and"@0x1D         ; 011101
-       | "mul"@0x1E         ; 011110
-       | "mulh"@0x1F        ; 011111
-       | "shl"@0x20         ; 100000
-       | "shr"@0x21         ; 100001
-       | "sar"@0x22         ; 100010
-       | "faddd"@0x24       ; 100100
-       | "fsubd"@0x25       ; 100101
-       | "fmuld"@0x26       ; 100110
-       | "fcmpd"@0x27       ; 100111
+mn-alu = "add"@0b010110
+       | "sub"@0b010111
+       | "bic"@0b011000
+       | "bis"@0b011001
+       | "cmp"@0b011010
+       | "bit"@0b011011
+       | "xor"@0b011100
+       | "and"@0b011101
+       | "mul"@0b011110
+       | "mulh"@0b011111
+       | "shl"@0b100000
+       | "shr"@0b100001
+       | "sar"@0b100010
+       | "faddd"@0b100100
+       | "fsubd"@0b100101
+       | "fmuld"@0b100110
+       | "fcmpd"@0b100111
 
 ; conditional branches (ISA 4.4); BHIS and BLO are aliases below
-mn-branch = "br"@0x30          ; 110000
-          | "bne"@0x31         ; 110001
-          | "beq"@0x32         ; 110010
-          | "bpl"@0x33         ; 110011
-          | "bmi"@0x34         ; 110100
-          | "bvc"@0x35         ; 110101
-          | "bvs"@0x36         ; 110110
-          | "bcc"@0x37         ; 110111
-          | "bcs"@0x38         ; 111000
-          | "bge"@0x39         ; 111001
-          | "blt"@0x3A         ; 111010
-          | "bgt"@0x3B         ; 111011
-          | "ble"@0x3C         ; 111100
-          | "bhi"@0x3D         ; 111101
-          | "blos"@0x3E        ; 111110
+mn-branch = "br"@0b110000
+          | "bne"@0b110001
+          | "beq"@0b110010
+          | "bpl"@0b110011
+          | "bmi"@0b110100
+          | "bvc"@0b110101
+          | "bvs"@0b110110
+          | "bcc"@0b110111
+          | "bcs"@0b111000
+          | "bge"@0b111001
+          | "blt"@0b111010
+          | "bgt"@0b111011
+          | "ble"@0b111100
+          | "bhi"@0b111101
+          | "blos"@0b111110
 
 ; subtract one and branch
-mn-sob = "sob"@0x3F         ; 111111
+mn-sob = "sob"@0b111111
 
 ; tag branches (ISA 4.8): the sense bit
-mn-tag = "btag"@0x0         ; 0
-       | "bntag"@0x1        ; 1
+mn-tag = "btag"@0b0
+       | "bntag"@0b1
 
 ; SOP: the reg field is the sub-opcode
-mn-sop = "clr"@0x0          ; 0000
-       | "com"@0x1          ; 0001
-       | "inc"@0x2          ; 0010
-       | "dec"@0x3          ; 0011
-       | "neg"@0x4          ; 0100
-       | "tst"@0x5          ; 0101
-       | "adc"@0x6          ; 0110
-       | "sbc"@0x7          ; 0111
-       | "asl"@0x8          ; 1000
-       | "asr"@0x9          ; 1001
-       | "pushm"@0xA        ; 1010
-       | "popm"@0xB         ; 1011
-       | "jmp"@0xC          ; 1100
-       | "call"@0xD         ; 1101
-       | "push"@0xE         ; 1110
-       | "pop"@0xF          ; 1111
+mn-sop = "clr"@0b0000
+       | "com"@0b0001
+       | "inc"@0b0010
+       | "dec"@0b0011
+       | "neg"@0b0100
+       | "tst"@0b0101
+       | "adc"@0b0110
+       | "sbc"@0b0111
+       | "asl"@0b1000
+       | "asr"@0b1001
+       | "pushm"@0b1010
+       | "popm"@0b1011
+       | "jmp"@0b1100
+       | "call"@0b1101
+       | "push"@0b1110
+       | "pop"@0b1111
 
 ; XFER: the reg field is the sub-opcode
-mn-xfer = "jmpi"@0x0         ; 0000
-        | "calli"@0x1        ; 0001
-        | "jtag"@0x2         ; 0010
+mn-xfer = "jmpi"@0b0000
+        | "calli"@0b0001
+        | "jtag"@0b0010
 
 ; BESC: sub-opcode in parcel 1
-mn-besc = "clz"@0x00         ; 00000000
-        | "ctz"@0x01         ; 00000001
-        | "clo"@0x02         ; 00000010
-        | "cto"@0x03         ; 00000011
-        | "popcnt"@0x04      ; 00000100
-        | "bswap"@0x05       ; 00000101
-        | "bswapw"@0x06      ; 00000110
-        | "bswapl"@0x07      ; 00000111
-        | "bitrev"@0x08      ; 00001000
-        | "ror"@0x10         ; 00010000
-        | "rori"@0x11        ; 00010001
-        | "dshr"@0x20        ; 00100000
-        | "extb"@0x21        ; 00100001
-        | "extzb"@0x22       ; 00100010
-        | "insb"@0x23        ; 00100011
-        | "xnorpop"@0x30     ; 00110000
-        | "clmull"@0x31      ; 00110001
-        | "clmulh"@0x32      ; 00110010
-        | "utf8len"@0x40     ; 01000000
-        | "utf8dec"@0x41     ; 01000001
-        | "utf8enc"@0x42     ; 01000010
+mn-besc = "clz"@0b00000000
+        | "ctz"@0b00000001
+        | "clo"@0b00000010
+        | "cto"@0b00000011
+        | "popcnt"@0b00000100
+        | "bswap"@0b00000101
+        | "bswapw"@0b00000110
+        | "bswapl"@0b00000111
+        | "bitrev"@0b00001000
+        | "ror"@0b00010000
+        | "rori"@0b00010001
+        | "dshr"@0b00100000
+        | "extb"@0b00100001
+        | "extzb"@0b00100010
+        | "insb"@0b00100011
+        | "xnorpop"@0b00110000
+        | "clmull"@0b00110001
+        | "clmulh"@0b00110010
+        | "utf8len"@0b01000000
+        | "utf8dec"@0b01000001
+        | "utf8enc"@0b01000010
 
 ; MBLK: sub-opcode in parcel 1
-mn-mblk = "mcpy"@0x00        ; 00000000
-        | "mmov"@0x01        ; 00000001
-        | "mset"@0x02        ; 00000010
-        | "mcmp"@0x03        ; 00000011
-        | "mscn"@0x04        ; 00000100
-        | "mscnn"@0x05       ; 00000101
-        | "mval"@0x06        ; 00000110
+mn-mblk = "mcpy"@0b00000000
+        | "mmov"@0b00000001
+        | "mset"@0b00000010
+        | "mcmp"@0b00000011
+        | "mscn"@0b00000100
+        | "mscnn"@0b00000101
+        | "mval"@0b00000110
 
 ; AESC: sub-opcode in parcel 1
-mn-aesc = "div"@0x00         ; 00000000
-        | "divu"@0x01        ; 00000001
-        | "mod"@0x02         ; 00000010
-        | "modu"@0x03        ; 00000011
-        | "mulhu"@0x04       ; 00000100
+mn-aesc = "div"@0b00000000
+        | "divu"@0b00000001
+        | "mod"@0b00000010
+        | "modu"@0b00000011
+        | "mulhu"@0b00000100
 
 ; FESC: sub-opcode in parcel 1
-mn-fesc = "fdivd"@0x00       ; 00000000
-        | "fsqrtd"@0x01      ; 00000001
-        | "fadds"@0x08       ; 00001000
-        | "fsubs"@0x09       ; 00001001
-        | "fmuls"@0x0A       ; 00001010
-        | "fdivs"@0x0B       ; 00001011
-        | "fsqrts"@0x0C      ; 00001100
-        | "fcmps"@0x0D       ; 00001101
-        | "fmaddd"@0x10      ; 00010000
-        | "fmsubd"@0x11      ; 00010001
-        | "fnmaddd"@0x12     ; 00010010
-        | "fnmsubd"@0x13     ; 00010011
-        | "fmadds"@0x18      ; 00011000
-        | "fmsubs"@0x19      ; 00011001
-        | "fnmadds"@0x1A     ; 00011010
-        | "fnmsubs"@0x1B     ; 00011011
-        | "fneg"@0x20        ; 00100000
-        | "fabs"@0x21        ; 00100001
-        | "fcopysign"@0x22   ; 00100010
-        | "fmind"@0x23       ; 00100011
-        | "fmaxd"@0x24       ; 00100100
-        | "fclassd"@0x28     ; 00101000
-        | "fclasss"@0x29     ; 00101001
-        | "frintd"@0x30      ; 00110000
-        | "frintdz"@0x31     ; 00110001
-        | "frintdm"@0x32     ; 00110010
-        | "frintdp"@0x33     ; 00110011
-        | "fcvtdq"@0x38      ; 00111000
-        | "fcvtqd"@0x39      ; 00111001
-        | "fcvtds"@0x3A      ; 00111010
-        | "fcvtsd"@0x3B      ; 00111011
-        | "fcvtsl"@0x3C      ; 00111100
-        | "fcvtls"@0x3D      ; 00111101
-        | "frecped"@0x40     ; 01000000
-        | "frsqrted"@0x41    ; 01000001
+mn-fesc = "fdivd"@0b00000000
+        | "fsqrtd"@0b00000001
+        | "fadds"@0b00001000
+        | "fsubs"@0b00001001
+        | "fmuls"@0b00001010
+        | "fdivs"@0b00001011
+        | "fsqrts"@0b00001100
+        | "fcmps"@0b00001101
+        | "fmaddd"@0b00010000
+        | "fmsubd"@0b00010001
+        | "fnmaddd"@0b00010010
+        | "fnmsubd"@0b00010011
+        | "fmadds"@0b00011000
+        | "fmsubs"@0b00011001
+        | "fnmadds"@0b00011010
+        | "fnmsubs"@0b00011011
+        | "fneg"@0b00100000
+        | "fabs"@0b00100001
+        | "fcopysign"@0b00100010
+        | "fmind"@0b00100011
+        | "fmaxd"@0b00100100
+        | "fclassd"@0b00101000
+        | "fclasss"@0b00101001
+        | "frintd"@0b00110000
+        | "frintdz"@0b00110001
+        | "frintdm"@0b00110010
+        | "frintdp"@0b00110011
+        | "fcvtdq"@0b00111000
+        | "fcvtqd"@0b00111001
+        | "fcvtds"@0b00111010
+        | "fcvtsd"@0b00111011
+        | "fcvtsl"@0b00111100
+        | "fcvtls"@0b00111101
+        | "frecped"@0b01000000
+        | "frsqrted"@0b01000001
 
 ; ATOM: sub-opcode in parcel 1
-mn-atom = "cas"@0x00         ; 00000000
-        | "casdb"@0x01       ; 00000001
-        | "swap"@0x02        ; 00000010
-        | "swapdb"@0x03      ; 00000011
-        | "xadd"@0x04        ; 00000100
-        | "xadddb"@0x05      ; 00000101
-        | "xand"@0x06        ; 00000110
-        | "xanddb"@0x07      ; 00000111
-        | "xor_"@0x08        ; 00001000
-        | "xor_db"@0x09      ; 00001001
-        | "xxor"@0x0A        ; 00001010
-        | "xxordb"@0x0B      ; 00001011
-        | "xmax"@0x0C        ; 00001100
-        | "xmaxdb"@0x0D      ; 00001101
-        | "xmin"@0x0E        ; 00001110
-        | "xmindb"@0x0F      ; 00001111
-        | "xmaxu"@0x10       ; 00010000
-        | "xmaxudb"@0x11     ; 00010001
-        | "xminu"@0x12       ; 00010010
-        | "xminudb"@0x13     ; 00010011
-        | "ll"@0x20          ; 00100000
-        | "sc"@0x21          ; 00100001
+mn-atom = "cas"@0b00000000
+        | "casdb"@0b00000001
+        | "swap"@0b00000010
+        | "swapdb"@0b00000011
+        | "xadd"@0b00000100
+        | "xadddb"@0b00000101
+        | "xand"@0b00000110
+        | "xanddb"@0b00000111
+        | "xor_"@0b00001000
+        | "xor_db"@0b00001001
+        | "xxor"@0b00001010
+        | "xxordb"@0b00001011
+        | "xmax"@0b00001100
+        | "xmaxdb"@0b00001101
+        | "xmin"@0b00001110
+        | "xmindb"@0b00001111
+        | "xmaxu"@0b00010000
+        | "xmaxudb"@0b00010001
+        | "xminu"@0b00010010
+        | "xminudb"@0b00010011
+        | "ll"@0b00100000
+        | "sc"@0b00100001
 
 ; MESC: sub-opcode in parcel 1 (4 bits); the MOVU* names appear twice in the table, ld = n and st = n+1: numbered by the load
 ; MESC
-mn-mesc = "movub"@0x0        ; 0000
-        | "movuw"@0x2        ; 0010
-        | "movul"@0x4        ; 0100
-        | "movuq"@0x6        ; 0110
-        | "addm"@0x8         ; 1000
-        | "subm"@0x9         ; 1001
-        | "bicm"@0xA         ; 1010
-        | "bism"@0xB         ; 1011
+mn-mesc = "movub"@0b0000
+        | "movuw"@0b0010
+        | "movul"@0b0100
+        | "movuq"@0b0110
+        | "addm"@0b1000
+        | "subm"@0b1001
+        | "bicm"@0b1010
+        | "bism"@0b1011
 
 ; SYS class 0: no operand, the number is the minor opcode in the rm field
-mn-sys-none = "nop"@0x0          ; 0000
-            | "rti"@0x1          ; 0001
-            | "rtt"@0x2          ; 0010
-            | "ret"@0x3          ; 0011
-            | "halt"@0x4         ; 0100
-            | "bpt"@0x5          ; 0101
-            | "fence"@0x6        ; 0110
-            | "wfe"@0x7          ; 0111
-            | "sev"@0x8          ; 1000
-            | "lpad"@0x9         ; 1001
-            | "tlbia"@0xA        ; 1010
-            | "tlbsync"@0xB      ; 1011
-            | "icinva"@0xC       ; 1100
+mn-sys-none = "nop"@0b0000
+            | "rti"@0b0001
+            | "rtt"@0b0010
+            | "ret"@0b0011
+            | "halt"@0b0100
+            | "bpt"@0b0101
+            | "fence"@0b0110
+            | "wfe"@0b0111
+            | "sev"@0b1000
+            | "lpad"@0b1001
+            | "tlbia"@0b1010
+            | "tlbsync"@0b1011
+            | "icinva"@0b1100
 
 ; SYS classes with an operand: the number is the class in the reg field
-mn-sys = "mtps"@0x1         ; 0001
-       | "mfps"@0x2         ; 0010
-       | "spl"@0x3          ; 0011
-       | "trap"@0x4         ; 0100
-       | "tlbi"@0x5         ; 0101
-       | "mtasid"@0x6       ; 0110
-       | "mfasid"@0x7       ; 0111
-       | "mtdp"@0x8         ; 1000
-       | "mfdp"@0x9         ; 1001
-       | "mtdmw"@0xA        ; 1010
-       | "mfcpuid"@0xB      ; 1011
-       | "icinv"@0xC        ; 1100
-       | "prober"@0xD       ; 1101
-       | "probew"@0xE       ; 1110
-       | "trapl"@0xF        ; 1111
+mn-sys = "mtps"@0b0001
+       | "mfps"@0b0010
+       | "spl"@0b0011
+       | "trap"@0b0100
+       | "tlbi"@0b0101
+       | "mtasid"@0b0110
+       | "mfasid"@0b0111
+       | "mtdp"@0b1000
+       | "mfdp"@0b1001
+       | "mtdmw"@0b1010
+       | "mfcpuid"@0b1011
+       | "icinv"@0b1100
+       | "prober"@0b1101
+       | "probew"@0b1110
+       | "trapl"@0b1111
 
 ; assembler aliases (ISA 4.15): the numbers are only ordinals, the assembler maps each to its target
 mn-alias = "bhis"
