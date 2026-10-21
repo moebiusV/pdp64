@@ -31,9 +31,9 @@ Contents
 | | |
 |---|---|
 | Opcode map | 64 top-level slots: **55 assigned**, the spare ALU slot `0x23`, **8 reserved** `0x28`-`0x2F`. (ISA §4.16 says 56 assigned; see §2.) |
-| Mnemonic words | **203**, of which 5 are assembler aliases (`bhis`, `blo`, `mulu`, `wait`, `rol`): 198 instructions. |
-| Operations, folded | **93** (91 before the flags operation and the CRC pair were added; the unsigned conversions and `FRINTDA` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
-| Assembled today | 167 words (the whole integer core, bit/divide/block escapes, `FESC`, SYS). Not yet: `ATOM` (22), `MESC` (8), `TRAPL` (1). `tools/check-drift.py` lists them by name. |
+| Mnemonic words | **195**, of which 5 are assembler aliases (`bhis`, `blo`, `mulu`, `wait`, `rol`): 190 instructions. |
+| Operations, folded | **92** (91 plus the flags operation `FSFLAGS`; the unsigned conversions and `FRINTDA` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
+| Assembled today | 159 words (the whole integer core, bit/divide/block escapes, `FESC`, SYS). Not yet: `ATOM` (22), `MESC` (8), `TRAPL` (1). `tools/check-drift.py` lists them by name. |
 | Written | the grammars, the generator, `as64` (assembler), tests, this documentation. |
 | Not written | `sim64` (emulator), `ld64` (linker), the pcc back end, QEMU. |
 | Checks | `tools/check-all.sh`: 11 instruction-format vectors, 34 syntax cases, 6 assembled programs compared word for word with hand-worked expectations, and a drift test over every mnemonic plus the opcode-map checks. All pass. |
@@ -98,6 +98,7 @@ Writing the encoding down as something a machine could check turned up the follo
 | What | Where it was | Why |
 |---|---|---|
 | **`FRECPED`, `FRSQRTED`** (reciprocal and reciprocal-square-root *estimates*) | `FESC`, ISA §4.10 | The machine has `FDIVD`, `FSQRTD` and the fused multiply-add family, so a software Newton loop buys speed only if the hardware divide is slow, which this design does not chase. Each estimate needs a lookup table in hardware **and** an exact specification (ARM and RISC-V fix the algorithm and table; the ISA says only "not correctly rounded", so two implementations would return different bits for the same program). No document names a user, and §1.2 rule 3 says not to multiply entities without benefit. Sub-opcodes `0x40`, `0x41` of `FESC` are free again. (errata 16) |
+| **`CRC32`/`CRC32C`** (added for a short while, eight words) | `BESC` `0x34`-`0x3B` | The user withdrew them: carry-less multiply already covers every polynomial (errata 20). |
 | **`.org`, `.section` directives** | assembler | Never implemented; dropped at the user's direction ("drop those unimplemented things"). |
 | **`IOT`, `EMT` aliases** | ISA §4.15 | The instructions were already gone in r17 (they are `TRAP #n`); only the assembler aliases remained, and they were unimplemented. Dropped at the user's direction. |
 | V7 `as` warts: octal-by-default numbers, `<string>`, `'\e`, `\/ \< \>` and `[ ]` in expressions, `.if`, `.stabs`, 8-character symbols | assembler | "We don't need to copy asv7 warts or anachronisms." (§6) |
@@ -141,7 +142,6 @@ Writing the encoding down as something a machine could check turned up the follo
 | `FSFLAGS` (FESC `0x40`) | **floating-point exception flags**, the one thing missing for IEEE 754 conformance (errata 17); a sticky FPSR written and read by one swap operation |
 | `FCVTDQU`, `FCVTQUD` (FESC `0x3E`, `0x3F`) | unsigned 64-bit to and from double (errata 18) |
 | `FRINTDA` (FESC `0x34`) | round half away from zero, for `round()` (errata 19) |
-| `CRC32{B,W,L,Q}`, `CRC32C{B,W,L,Q}` (BESC `0x34`-`0x3B`) | the user asked for them; reverses ISA 4.6.3 (errata 20) |
 
 ### 3.5 Aliases
 

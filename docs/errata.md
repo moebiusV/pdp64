@@ -61,12 +61,10 @@ Items marked **DECISION** are choices the document left open; change them in the
     (unsigned quad to double, rounding to nearest even). C needs both; without them each is a compare, a branch and several instructions.
 19. **Round half away from zero (added).** `FRINTDA` joins `FRINTD` (nearest even), `FRINTDZ`, `FRINTDM`, `FRINTDP`, for C's `round()`. A qualifier of the round
     operation, so no new operation.
-20. **CRC instructions (added at the user's request; reverses ISA 4.6.3's choice).** The ISA declined a `CRC` instruction because a fixed polynomial helps only
-    programs that use it, preferring carry-less multiply. Both are kept, because the two polynomials in the field cover almost every user: CRC-32
-    (Ethernet, zlib, gzip, PNG, ZIP) and CRC-32C (iSCSI, ext4, btrfs, SCTP); `CLMULL`/`CLMULH` remain for any other polynomial and for GF(2^k).
-    `CRC32{B,W,L,Q} ra, rb, rd` and `CRC32C{B,W,L,Q} ra, rb, rd` (`BESC` sub-opcodes `0x34`-`0x37` and `0x38`-`0x3B`): `rd <- update(ra[31:0], data = rb, n bytes)`,
-    n = 1, 2, 4, 8 (byte, word, long, quad in the ISA's terminology), the data bytes taken low byte first, the reflected polynomials `0xEDB88320` and
-    `0x82F63B78`, **no inversion of the accumulator before or after** (software does it, as on ARM), the result zero-extended from 32 bits.
+20. **CRC instructions: considered, added, then withdrawn (the user's decision).** The user first asked for `CRC32` and `CRC32C` instructions (four widths each) in
+    addition to carry-less multiply, then withdrew them: "we have carryless mul, no need for either crc". The ISA's own choice in 4.6.3 therefore stands:
+    `CLMULL`/`CLMULH` are the primitive beneath every CRC polynomial (a CRC is a carry-less multiply plus a Barrett reduction), GF(2^k) erasure codes and
+    GCM, with no polynomial committed to the architecture. `BESC` sub-opcodes `0x34`-`0x3B` are free.
 21. **`FCMPD`/`FCMPS` are register-first like `CMP`.** The ISA does not say which operand is the register for the floating-point compares. They follow errata 13:
     `FCMPD rd, rm` computes `rd - rm`. (The assembler had treated `FCMPD` like the other ALU operations until now.)
 22. **`FESC` operand roles.** `reg` = destination, `low` = first source, `t` = second source, `x` = third source (the fused multiply-add family has four registers;
