@@ -1,0 +1,36 @@
+# Errata and decisions against ISA r20
+
+The ISA document (`docs/11-64W/11-64W-isa-r20.md`, written under the working name 11/64W; the machine is **pdp64**) is a paper design.
+Writing it down as `spec/pdp64.json` found the following. Each item says what the document says, what the spec does, and why.
+Items marked **DECISION** are choices the document left open; change them in the spec and everything downstream regenerates.
+
+1. **Opcode bits in three diagrams are stale.** §4.6, §4.7 and §4.8 draw parcel 0 with opcode `000011` (BESC, MBLK) and `001110` (TAGOP).
+   The §4.16 map says `0x0C`, `0x0D`, `0x15` (`001100`, `001101`, `010101`). The spec follows §4.16, which every other section agrees with.
+2. **Opcode count.** §4.16 says "fifty-six of sixty-four assigned, eight reserved". The map it prints has 12 + 6 + 4 + 13 + 4 + 16 = **55**
+   assigned, the spare ALU slot `0x23`, and eight reserved at `0x28`-`0x2F` (55 + 1 + 8 = 64). `specgen.py check` asserts the real numbers.
+3. **DECISION: PC-relative base.** The document says displacements are "relative to a stated point" and never states it. Spec: **the address of the
+   first parcel of the instruction**, for `d(PC)` operands, `LEA`, and branches. Branch displacements count 2-byte parcels (the §4.4 reach table needs
+   that). Reason: the displacement then does not depend on the length chosen for the instruction itself, so branch relaxation is monotone and
+   needs no feedback loop. `LEA 0(PC),Rn` yields the address of the `LEA`.
+4. **DECISION: `PUSHM`/`POPM`.** §4.7 puts them in `MBLK` with "parcel 1 is a 16-bit mask", but an `MBLK` parcel 1 carries an 8-bit sub-opcode, so the
+   mask has no room at `len=01` (and §4.14 forbids deciding the parcel-0 interpretation per sub-opcode). Spec: they take the two free `SOP` slots,
+   `PUSHM #mask` (slot `A`) and `POPM #mask` (slot `B`), with the mask as a 16-bit immediate (mode `0100`): four bytes, using only mechanisms that exist.
+   Cost: `SOP` has no free slots left. Mask bit *n* is `Rn`; `PUSHM` stores the lowest register at the highest address.
+5. **DECISION: `SYS` sub-opcode.** §4.11 says `reg` and `rm` combine into eight bits of sub-opcode, §4.3.1 says `SYS` takes its sub-opcode from the
+   `reg` field, and `TRAP #n` is to be two bytes with 256 vectors, which all three cannot be. Spec: `reg` is a 4-bit **class**; `rm` is a register
+   operand, a 4-bit immediate (`SPL`, `TRAP` 0-15) or, in class 0, the minor opcode of the no-operand instructions. `TRAPL #n` (class 15, `len>=1`,
+   n in parcel 1) reaches vectors 0-255. `PROBER`/`PROBEW Rd,Rs` use parcel 1 for the second register.
+6. **DECISION: `JTAG`.** `JTAG Rn, table` has no field for `Rn` (`reg` is the sub-opcode, `rm`/mode give the table). Spec: `JTAG` is legal only
+   with mode `0001`: `JTAG d(Rb)(Rx*s)` with the scale ignored, `PC <- [Rb + d + 8*(Rx & 7)]`. `Rx` is the tagged register.
+7. **DECISION: mode `0001` (scaled index) at `len>=2`.** The document gives only `len=01` (`rm4 Rx4 s2 d6`, §12 item 1 calls the 6-bit
+   displacement thin). Spec: each extra parcel adds 16 displacement bits: 6 / 22 / 38. Mode `0011` (`d(DP)`) keeps the 4 bits of parcel 1 as
+   padding at `len=01` (12-bit displacement as stated) and uses the same widths as base mode.
+8. **DECISION: `SOB`.** `Rn` takes the `reg` field, which is the displacement byte at `len=00`, so `SOB` exists from `len=01` (consistent with
+   §3.1.1, which lists it with the two-parcel forms). Displacement 16/32/48 bits, in parcels.
+9. **DECISION: sub-opcode numbers.** The document names sub-opcodes and never numbers them. The numbers in the spec group related operations
+   (`BESC`: counts 0x00-0x08, rotate 0x10, field 0x20, polynomial 0x30, UTF-8 0x40; `FESC` by width and kind; `ATOM` plain/`_DB` pairs).
+10. **DECISION: `BESC` rotate by immediate.** `RORI Rd,Rs,#n` is a four-byte form with the count in the low six bits of parcel 1; `ROL Rd,Rs,#n`
+    assembles to `RORI` with `64-n` (§4.15). `DSHR`, `EXTB`, `EXTZB`, `INSB` need the third parcel (position, width) and exist at `len>=2` only.
+11. **DECISION: `MESC` parcel 1.** `sub4 rm4 disp8` at `len=01` (§4.13); displacement widens 8 / 24 / 40. Only modes whose payload fits that
+    way are legal (`base`, `dp`, `postinc`, `predec`, `pcrel`, `abs`); the scaled-index mode is not available in `MESC`.
+12. **The machine's name** is pdp64. The documents say 11/64W; they are kept unmodified under `docs/`.

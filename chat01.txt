@@ -1,0 +1,76 @@
+why is SP in the reg file but not PC?
+what is the problem with letting programmers read and modify PC directly?
+How is PC different from FP?
+why R14 for FP?
+wasn't R7 the PC on PDP-11?
+what do you mean reaching PC through mode 0010
+what if R7 was a read-only view of the PC?
+how does loongarch64 handle the PC? same as aarch64?
+what is a 39 bit canonical va
+maybe memory to memory mov is useful and should be allowed, especially with a loop
+principles exceptions are allowed where there is a clear benefit
+looking at loongarch64, they are pragmatic; what can we learn from them and adopt
+
+and what is the clear benefit of not allowing 5 parcel instructions? do we have
+enough bits to do that?
+
+what other nice pdp11/vax idioms have we lost?
+
+do we have any special instructions for utf8?
+
+if we have a c64 style blit terminal in the address space, how will gpu work?
+we can put standard gpu on the bus too?
+
+how much do we differ from the original pdp11 and vax instuction sets? be nice
+to have a side by side table, not only opcodes, but also bitwise encoding
+differences.
+
+is there any indirect addressing, so you could load a r1 and r2 with addresses
+then "rep movsb r1,r2,10;" to mov 10 bytes. and maybe an instruction to zero
+out a range of memory.  is the cbnz idiom better?
+how about mmov mcpy mset ? like ibm system z?
+
+how is our call/ret different from pdp11 jsr/rts?
+
+does our alu support the standard trig operations that libm exposes?
+
+those new llm that are doing single bit encodings, are there instruction
+sequences that would benefit from coalescing?
+
+what instructions are there that make using the lowtag stuff easy for lisp type
+things?
+
+
+update the docs accordingly.
+
+----
+
+do any cpu arches have accurate transcendental functions?  which ones?  why
+not?
+
+what are these "string" functions we are omitting?  doesn't mcmp/mmov count?
+utf8enc utf8dec etc?  Or were they opcodes that operated on C style 0
+terminated strings?  now wouldn't that be neat to have the utf8 and c string
+encoder/decoder in a separate helper chip, probably along with the gpu/llm
+helper. what does q64 stand for?
+
+since multiple gpu are sharing the bus, what would be needed in the instruction
+set and design to allow smp, symmetric mutiprocessing? what can be learned from
+all the modern multi-core cpus in this regard, what is really needed, what
+things are problematic and can be avoided, etc.
+
+what is this thing about bit width being immediate instead of as hidden state
+loaded into a register, and how that is different from all modern cpu
+architectures?  why do they do it that way, and why wouldn't we do that?
+
+if inference and attention don't need special ops, what about llm training
+itself, backprop etc.  what special instruction sequences or design choices
+could speed up training the most?
+
+what is mblk? what is a swar? validating an entire utf8 string sounds nice...
+do we do it often enough to justify the opcode? if utf8 is already 3 or 4
+parcels, it's ok.
+
+make sp r14 and fp r13 to  match the vax
+
+why virtal addresses 39 bits not 40?
