@@ -31,9 +31,9 @@ Contents
 | | |
 |---|---|
 | Opcode map | 64 top-level slots: **55 assigned**, the spare ALU slot `0x23`, **8 reserved** `0x28`-`0x2F`. (ISA §4.16 says 56 assigned; see §2.) |
-| Mnemonic words | **191**, of which 5 are assembler aliases (`bhis`, `blo`, `mulu`, `wait`, `rol`): 186 instructions. |
-| Operations, folded | **91**. "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
-| Assembled today | 122 words (the whole integer core, bit/divide/block escapes, SYS). Not yet: `FESC` (33), `ATOM` (22), `MESC` (8), `TRAPL` (1). `tools/check-drift.py` lists them by name. |
+| Mnemonic words | **203**, of which 5 are assembler aliases (`bhis`, `blo`, `mulu`, `wait`, `rol`): 198 instructions. |
+| Operations, folded | **93** (91 before the flags operation and the CRC pair were added; the unsigned conversions and `FRINTDA` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
+| Assembled today | 167 words (the whole integer core, bit/divide/block escapes, `FESC`, SYS). Not yet: `ATOM` (22), `MESC` (8), `TRAPL` (1). `tools/check-drift.py` lists them by name. |
 | Written | the grammars, the generator, `as64` (assembler), tests, this documentation. |
 | Not written | `sim64` (emulator), `ld64` (linker), the pcc back end, QEMU. |
 | Checks | `tools/check-all.sh`: 11 instruction-format vectors, 34 syntax cases, 6 assembled programs compared word for word with hand-worked expectations, and a drift test over every mnemonic plus the opcode-map checks. All pass. |
@@ -138,7 +138,10 @@ Writing the encoding down as something a machine could check turned up the follo
 |---|---|
 | `TRAPL` (SYS class 15) | see above |
 | `RORI` (BESC `0x11`) | see above |
-| (no other instruction was added) | |
+| `FSFLAGS` (FESC `0x40`) | **floating-point exception flags**, the one thing missing for IEEE 754 conformance (errata 17); a sticky FPSR written and read by one swap operation |
+| `FCVTDQU`, `FCVTQUD` (FESC `0x3E`, `0x3F`) | unsigned 64-bit to and from double (errata 18) |
+| `FRINTDA` (FESC `0x34`) | round half away from zero, for `round()` (errata 19) |
+| `CRC32{B,W,L,Q}`, `CRC32C{B,W,L,Q}` (BESC `0x34`-`0x3B`) | the user asked for them; reverses ISA 4.6.3 (errata 20) |
 
 ### 3.5 Aliases
 
@@ -391,10 +394,10 @@ Recorded because the point of the exercise was to find where designs and tools d
 Not built: `sim64`, `ld64`, the pcc back end (`arch/pdp64`, to be copied from `arch/amd64`), a QEMU target (`target/pdp64`, a `pdp64-virt` machine, `qemu-pdp64`).
 The plan is in `~/.claude-opusplan/plans/pdp64-toolchain.md`.
 
-Assembler gaps: `FESC` (33 words), `ATOM` (22), `MESC` (8), `TRAPL`; the `BIC #imm` alias; PIC relocations (GOT, PLT, TLS types are not defined yet); division and
+Assembler gaps: `ATOM` (22), `MESC` (8), `TRAPL`; the `BIC #imm` alias; PIC relocations (GOT, PLT, TLS types are not defined yet); division and
 shifts of symbolic values.
 
-Open design items (ISA §12 plus ours): FP compare vs the signed branches for unordered operands (§2.3); atomics against Q64 (`DATIP`/`DATO` lock vs AXI exclusive
+Open design items (ISA §12 plus ours): **IEEE 754 directed rounding for arithmetic**: the standard requires round toward +infinity, -infinity and zero as well as to-nearest for add, subtract, multiply, divide, square root, fused multiply-add and the conversions; the ISA §9.8 says the mode lives in the opcode but gives no such opcodes for arithmetic, only for `FRINT*`. Options: (a) a 2-bit static rounding field in the instruction (the `FESC` two-register forms have a free nibble; the four top-level operations have none), (b) a rounding-mode register, which §1.1 forbids and §12 item 10 already worries about for `fesetround`, (c) three more opcodes per operation. Needs a decision; FP compare vs the signed branches for unordered operands (§2.3); atomics against Q64 (`DATIP`/`DATO` lock vs AXI exclusive
 monitor); mandatory landing pads; worst-case instruction latency of `MBLK`; measured length distribution (the 4-byte case); a possible `d6(SP)` form; the red
 zone; `long double`; whether the operand-role table should move into the mnemonic file (recommended).
 

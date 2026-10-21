@@ -22,6 +22,7 @@
 #include "elf-parser.c"
 #include "relocs.h"
 #include "pdp64-consts.h"
+#include "calib.h"
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* symbols and values                                                                                                  */
@@ -387,66 +388,6 @@ static void addreloc(int sect, int64_t off, int type, int sym, int64_t addend)
 static int fits(int64_t v, int bits) { return bits >= 64 || (v >= -((int64_t)1 << (bits - 1)) && v < ((int64_t)1 << (bits - 1))); }
 static uint64_t mask(int bits) { return bits >= 64 ? ~(uint64_t)0 : (((uint64_t)1 << bits) - 1); }
 
-/* ---- what the grammar says about the formats, learned by asking its generated writer ------------------------------------
- * The widths of the displacement fields, which addressing mode uses which shape, and the size of the reg and low nibbles are
- * written once, in spec/pdp64.hbnf.in.  Nothing here repeats them: the writer refuses a value that does not fit, so the
- * widths are found by encoding all-ones values until it refuses, once at startup. */
-static int fieldbits[16][4];		/* [shape][len]: bits of the displacement field, 0 if the shape does not exist at that len */
-static int mode_shape[16];		/* addressing mode -> shape, 0 if no shape takes it */
-static int maxlen = 3;
-static int regbits, lowbits;
-
-static int try_enc(const struct fmt *f) { uint8_t b[8]; size_t n; return fmt_encode(f, b, &n) == 0; }
-
-static void calibrate(void)
-{
-	static const int shapes[] = { FS_BASE, FS_INDEX, FS_DP, FS_WIDE, FS_D };
-	struct fmt f;
-
-	for (maxlen = 0; maxlen < 8; maxlen++) {
-		memset(&f, 0, sizeof f); f.shape = FS_D; f.opc = MN_BRANCH_BR; f.len = maxlen + 1;
-		if (!try_enc(&f)) break;
-	}
-	for (regbits = 0; regbits < 16; regbits++) {
-		memset(&f, 0, sizeof f); f.shape = FS_MEM0; f.opc = MN_MOV_MOVQ; f.reg = (int)mask(regbits + 1);
-		if (!try_enc(&f)) break;
-	}
-	for (lowbits = 0; lowbits < 16; lowbits++) {
-		memset(&f, 0, sizeof f); f.shape = FS_MEM0; f.opc = MN_MOV_MOVQ; f.low = (int)mask(lowbits + 1);
-		if (!try_enc(&f)) break;
-	}
-	for (int m = 0; m < (1 << lowbits); m++)
-		for (unsigned k = 0; k < sizeof shapes / sizeof *shapes; k++) {
-			memset(&f, 0, sizeof f); f.len = 1; f.opc = MN_MOV_MOVQ; f.low = m; f.shape = shapes[k];
-			if (shapes[k] == FS_D) continue;
-			if (try_enc(&f)) { mode_shape[m] = shapes[k]; break; }
-		}
-	for (unsigned k = 0; k < sizeof shapes / sizeof *shapes; k++)
-		for (int len = 1; len <= maxlen; len++) {
-			int mode = -1;
-			memset(&f, 0, sizeof f); f.len = len; f.shape = shapes[k];
-			if (shapes[k] == FS_D) f.opc = MN_BRANCH_BR;
-			else {
-				f.opc = MN_MOV_MOVQ;
-				for (int m = 0; m < (1 << lowbits); m++) if (mode_shape[m] == shapes[k]) { mode = m; break; }
-				if (mode < 0) continue;
-				f.low = mode;
-			}
-			int w = 0;
-			while (w < 64) {
-				f.d = mask(w + 1);
-				if (!try_enc(&f)) break;
-				w++;
-			}
-			fieldbits[shapes[k]][len] = w;
-		}
-}
-
-/* the limits a compiler needs, as a header, measured from the generated encoder (as64 --limits) */
-static void print_limits(void);
-
-static int dispbits(int mode, int len) { return fieldbits[mode_shape[mode]][len]; }
-static int branchbits(int len) { return fieldbits[FS_D][len]; }
 
 static void print_limits(void)
 {
@@ -723,7 +664,7 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 	case MG_ALU:
 		if (st->nops != 2) { err(st->line, "two operands"); return -1; }
 		f->opc = mn;
-		if (mn == MN_ALU_CMP) {							/* cmp rd, rm (errata 13) */
+		if (mn == MN_ALU_CMP || mn == MN_ALU_FCMPD) {				/* cmp rd, rm (errata 13); fcmpd the same (errata 21) */
 			if (o[0].kind != OK_REG) { err(st->line, "cmp: the first operand must be a register"); return -1; }
 			f->reg = o[0].reg;
 			rc = build_rm(st, &o[1], 8, MS_ANY, in, addr);
@@ -793,6 +734,26 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 			if (st->nops != 1 || o[0].kind != OK_REG) { err(st->line, "one register operand"); return -1; }
 			f->low = o[0].reg;
 		}
+		break;
+	}
+	case MG_FESC: {
+		/* floating point beyond the four top-level operations.  reg = rd, low = rs, t = rt, x = ru; the destination is written last. */
+		int n = st->nops, k, isreg = 1;
+		int unary = (mn == MN_FESC_FSQRTD || mn == MN_FESC_FSQRTS || mn == MN_FESC_FNEG || mn == MN_FESC_FABS || mn == MN_FESC_FCLASSD ||
+		    mn == MN_FESC_FCLASSS || mn == MN_FESC_FRINTD || mn == MN_FESC_FRINTDZ || mn == MN_FESC_FRINTDM || mn == MN_FESC_FRINTDP ||
+		    mn == MN_FESC_FRINTDA || mn == MN_FESC_FCVTDQ || mn == MN_FESC_FCVTQD || mn == MN_FESC_FCVTDS || mn == MN_FESC_FCVTSD ||
+		    mn == MN_FESC_FCVTSL || mn == MN_FESC_FCVTLS || mn == MN_FESC_FCVTDQU || mn == MN_FESC_FCVTQUD || mn == MN_FESC_FSFLAGS);
+		int binary = (mn == MN_FESC_FDIVD || mn == MN_FESC_FADDS || mn == MN_FESC_FSUBS || mn == MN_FESC_FMULS || mn == MN_FESC_FDIVS ||
+		    mn == MN_FESC_FCMPS);
+		int three = (mn == MN_FESC_FCOPYSIGN || mn == MN_FESC_FMIND || mn == MN_FESC_FMAXD);
+		int want = unary || binary ? 2 : three ? 3 : 4;		/* the rest is the fused multiply-add family */
+		for (k = 0; k < n; k++) if (o[k].kind != OK_REG) isreg = 0;
+		if (n != want || !isreg) { err(st->line, "this instruction takes %d registers", want); return -1; }
+		f->opc = OPGROUP_FESC; f->sub = mn; f->shape = FS_REGESC; in->minlen = 1;
+		if (mn == MN_FESC_FCMPS) { f->reg = o[0].reg; f->low = o[1].reg; break; }		/* register first, as cmp */
+		f->reg = o[n - 1].reg; f->low = o[0].reg;
+		if (want >= 3) f->t = o[1].reg;
+		if (want == 4) f->x = o[2].reg;
 		break;
 	}
 	case MG_BESC: case MG_AESC: case MG_MBLK: {

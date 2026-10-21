@@ -48,3 +48,27 @@ Items marked **DECISION** are choices the document left open; change them in the
     design does not chase; each estimate needs a table in hardware and an exact specification (ARM and RISC-V pin down the algorithm and table, the ISA
     says only "not correctly rounded", so two implementations would return different bits); and no document names a user (ISA 1.2 rule 3). Sub-opcodes
     `0x40` and `0x41` of `FESC` are free again. The ISA text in `docs/11-64W/` is left as written.
+17. **DECISION (added at the user's request): floating-point exception flags.** The ISA never mentions them (a search for flags, `fenv`, "inexact", "sticky" finds
+    nothing), and IEEE 754 requires five status flags (invalid operation, division by zero, overflow, underflow, inexact) and C99 `<fenv.h>` needs software
+    access to them. Added: a sticky **FPSR**, five bits laid out as RISC-V's `fflags` (bit 0 NX inexact, 1 UF underflow, 2 OF overflow, 3 DZ divide by zero,
+    4 NV invalid). Every floating-point operation that can raise one ORs it into FPSR and **never traps**. One operation reads and writes it,
+    `FSFLAGS rs, rd` (`FESC` sub-opcode `0x40`): `rd <- FPSR; FPSR <- rs & 31`, so clear is a swap with zero, test-and-clear a swap with zero, set a swap
+    with the bits. FPSR is part of the thread context (saved with the PSW). It is not a mode: it never changes what an instruction does, only records
+    what it did (ISA 1.1 "no mode bits" is untouched). Quiet-NaN comparisons raise NV only for signaling NaNs (`FCMP*`, `FMIND`, `FMAXD`). Tininess is detected after
+    rounding. **Still open, found while doing this: IEEE 754 also requires directed rounding (toward +inf, -inf, zero) for the arithmetic operations, and §9.8 puts
+    the mode "in the opcode wherever it is not round-to-nearest-even" but the opcode list has no such variants except `FRINT*`. See CHANGES-SINCE-R20.md section 12.**
+18. **Unsigned 64-bit conversions (added).** `FCVTDQU` (double to unsigned quad, truncating; out of range or NaN raises NV and saturates to 0 or 2^64-1) and `FCVTQUD`
+    (unsigned quad to double, rounding to nearest even). C needs both; without them each is a compare, a branch and several instructions.
+19. **Round half away from zero (added).** `FRINTDA` joins `FRINTD` (nearest even), `FRINTDZ`, `FRINTDM`, `FRINTDP`, for C's `round()`. A qualifier of the round
+    operation, so no new operation.
+20. **CRC instructions (added at the user's request; reverses ISA 4.6.3's choice).** The ISA declined a `CRC` instruction because a fixed polynomial helps only
+    programs that use it, preferring carry-less multiply. Both are kept, because the two polynomials in the field cover almost every user: CRC-32
+    (Ethernet, zlib, gzip, PNG, ZIP) and CRC-32C (iSCSI, ext4, btrfs, SCTP); `CLMULL`/`CLMULH` remain for any other polynomial and for GF(2^k).
+    `CRC32{B,W,L,Q} ra, rb, rd` and `CRC32C{B,W,L,Q} ra, rb, rd` (`BESC` sub-opcodes `0x34`-`0x37` and `0x38`-`0x3B`): `rd <- update(ra[31:0], data = rb, n bytes)`,
+    n = 1, 2, 4, 8 (byte, word, long, quad in the ISA's terminology), the data bytes taken low byte first, the reflected polynomials `0xEDB88320` and
+    `0x82F63B78`, **no inversion of the accumulator before or after** (software does it, as on ARM), the result zero-extended from 32 bits.
+21. **`FCMPD`/`FCMPS` are register-first like `CMP`.** The ISA does not say which operand is the register for the floating-point compares. They follow errata 13:
+    `FCMPD rd, rm` computes `rd - rm`. (The assembler had treated `FCMPD` like the other ALU operations until now.)
+22. **`FESC` operand roles.** `reg` = destination, `low` = first source, `t` = second source, `x` = third source (the fused multiply-add family has four registers;
+    ISA 4.10). `fmadd rs, rt, ru, rd` = `rs*rt + ru`; `fmsub` = `rs*rt - ru`; `fnmadd` = `-(rs*rt) - ru`; `fnmsub` = `-(rs*rt) + ru`, each rounded once.
+    `fdivd rs, rd` is `rd <- rd / rs` and the `s` forms likewise; `fcopysign rs, rt, rd` takes the magnitude of `rs` and the sign of `rt`.

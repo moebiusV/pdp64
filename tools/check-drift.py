@@ -35,6 +35,11 @@ def source(group, word):
         if word == 'mval': return 'mval r1, r2'
         if word in R2: return '%s r1, r2' % word
         return '%s r1, r2, r3' % word
+    if g == 'fesc':
+        four = word.startswith(('fmadd', 'fmsub', 'fnmadd', 'fnmsub'))
+        three = word in ('fcopysign', 'fmind', 'fmaxd')
+        two = not four and not three
+        return '%s %s' % (word, ', '.join(['r1', 'r2', 'r3', 'r4'][:4 if four else 3 if three else 2]))
     if g == 'sys-none': return word
     if g == 'sys':
         if word in ('spl', 'trap'): return '%s #3' % word
@@ -77,7 +82,7 @@ for group, items in en.items():
         elif g == 'tag': got, want = (opc, (low >> 3)), (OPG['tag'], num)
         elif g == 'sop': got, want = (opc, reg), (OPG['sop'], num)
         elif g == 'xfer': got, want = (opc, reg), (OPG['xfer'], num)
-        elif g in ('besc', 'aesc', 'mblk'): got, want = (opc, sub), (OPG[g], num)
+        elif g in ('besc', 'aesc', 'mblk', 'fesc'): got, want = (opc, sub), (OPG[g], num)
         elif g == 'sys-none': got, want = (opc, reg, low), (OPG['sys'], 0, num)
         elif g == 'sys': got, want = (opc, reg), (OPG['sys'], num)
         checked += 1

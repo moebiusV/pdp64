@@ -105,6 +105,14 @@ mn-besc = "clz"@0b00000000
         | "xnorpop"@0b00110000
         | "clmull"@0b00110001
         | "clmulh"@0b00110010
+        | "crc32b"@0b00110100
+        | "crc32w"@0b00110101
+        | "crc32l"@0b00110110
+        | "crc32q"@0b00110111
+        | "crc32cb"@0b00111000
+        | "crc32cw"@0b00111001
+        | "crc32cl"@0b00111010
+        | "crc32cq"@0b00111011
         | "utf8len"@0b01000000
         | "utf8dec"@0b01000001
         | "utf8enc"@0b01000010
@@ -154,12 +162,16 @@ mn-fesc = "fdivd"@0b00000000
         | "frintdz"@0b00110001
         | "frintdm"@0b00110010
         | "frintdp"@0b00110011
+        | "frintda"@0b00110100
         | "fcvtdq"@0b00111000
         | "fcvtqd"@0b00111001
         | "fcvtds"@0b00111010
         | "fcvtsd"@0b00111011
         | "fcvtsl"@0b00111100
         | "fcvtls"@0b00111101
+        | "fcvtdqu"@0b00111110
+        | "fcvtqud"@0b00111111
+        | "fsflags"@0b01000000
 
 ; ATOM: sub-opcode in parcel 1
 mn-atom = "cas"@0b00000000
