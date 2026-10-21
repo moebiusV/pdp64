@@ -783,7 +783,7 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 			f->reg = o[3].reg; f->low = o[0].reg; f->shape = FS_FIELD; f->pos = (unsigned)a; f->width = (unsigned)(b & 255); in->minlen = 2;
 			break;
 		}
-		if (mg == MG_BESC && (mn == MN_BESC_CLZ || mn == MN_BESC_CTZ || mn == MN_BESC_CLO || mn == MN_BESC_CTO || mn == MN_BESC_POPCNT ||
+		if ((mg == MG_AESC && mn == MN_AESC_ABS) || mg == MG_BESC && (mn == MN_BESC_CLZ || mn == MN_BESC_CTZ || mn == MN_BESC_CLO || mn == MN_BESC_CTO || mn == MN_BESC_POPCNT ||
 		    mn == MN_BESC_BSWAP || mn == MN_BESC_BSWAPW || mn == MN_BESC_BSWAPL || mn == MN_BESC_BITREV ||
 		    mn == MN_BESC_UTF8LEN || mn == MN_BESC_UTF8DEC || mn == MN_BESC_UTF8ENC)) {		/* rs, rd */
 			if (n != 2 || o[0].kind != OK_REG || o[1].kind != OK_REG) goto bad;

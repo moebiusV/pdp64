@@ -16,7 +16,7 @@ AS = os.path.join(ROOT, os.environ.get('BUILD', 'build'), 'as64')
 en = mkgrammar.enums(os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf'))
 OPG = dict(en['opgroup'])
 
-R2 = {'clz', 'ctz', 'clo', 'cto', 'popcnt', 'bswap', 'bswapw', 'bswapl', 'bitrev', 'utf8len', 'utf8dec', 'utf8enc'}
+R2 = {'abs', 'clz', 'ctz', 'clo', 'cto', 'popcnt', 'bswap', 'bswapw', 'bswapl', 'bitrev', 'utf8len', 'utf8dec', 'utf8enc'}
 def source(group, word):
     g = group[3:]
     if g in ('mov', 'movz', 'alu'):

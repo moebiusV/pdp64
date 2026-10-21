@@ -125,6 +125,11 @@ mn-aesc = "div"@0b00000000
         | "mod"@0b00000010
         | "modu"@0b00000011
         | "mulhu"@0b00000100
+        | "abs"@0b00001000
+        | "min"@0b00010000
+        | "minu"@0b00010001
+        | "max"@0b00010010
+        | "maxu"@0b00010011
 
 ; FESC: sub-opcode in parcel 1
 mn-fesc = "fdivd"@0b00000000

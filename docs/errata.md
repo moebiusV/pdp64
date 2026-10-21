@@ -70,3 +70,8 @@ Items marked **DECISION** are choices the document left open; change them in the
 22. **`FESC` operand roles.** `reg` = destination, `low` = first source, `t` = second source, `x` = third source (the fused multiply-add family has four registers;
     ISA 4.10). `fmadd rs, rt, ru, rd` = `rs*rt + ru`; `fmsub` = `rs*rt - ru`; `fnmadd` = `-(rs*rt) - ru`; `fnmsub` = `-(rs*rt) + ru`, each rounded once.
     `fdivd rs, rd` is `rd <- rd / rs` and the `s` forms likewise; `fcopysign rs, rt, rd` takes the magnitude of `rs` and the sign of `rt`.
+23. **Integer `ABS`, `MIN`, `MAX`, `MINU`, `MAXU` (added at the user's request).** `AESC` sub-opcodes `0x08` (`abs rs, rd`) and `0x10`-`0x13` (`min`, `minu`, `max`, `maxu`
+    `ra, rb, rd`; the `u` forms compare unsigned). They are the integer counterparts of `FABS`, `FMIND` and `FMAXD`, so by the folding rule (integer vs float and signed vs
+    unsigned are qualifiers) they add no operation. Flags: `abs` sets N and Z from the result and V when the operand is the most negative number (whose absolute value is
+    itself, the result wrapping), C unchanged; `min` and `max` set N and Z from the result, clear V, leave C. Hardware: reuse the negate path and the compare of
+    `SUB`/`CMP` with a 64-bit select (est. 150-250 LUTs). Teaching the compiler the idioms (`x<0?-x:x`, `a<b?a:b`) is a shared front-end change that helps every target.
