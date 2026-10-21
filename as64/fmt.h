@@ -7,22 +7,26 @@
 
 enum fmt_shape {
 	FS_MEM0 = 1,	/* len 0, memory class: low is a register */
-	FS_BASE,	/* rm d: base register modes (0, 6, 7) */
+	FS_BASE,	/* rm d: base register modes */
 	FS_INDEX,	/* rm rx s d */
 	FS_DP,		/* d (pad is zero) */
 	FS_WIDE,	/* d: pc-relative, immediate, absolute */
+	FS_COUNT,	/* BESC rori: sub count */
+	FS_FIELD,	/* BESC dshr, extb...: sub t x pos width */
 	FS_REGESC,	/* sub t x more */
 	FS_MEMESC,	/* sub rm d */
 	FS_BR0,		/* len 0 branch: reg:low is the displacement */
 	FS_D,		/* d: branch, SOB, TAGOP */
 	FS_SYS0,	/* len 0 SYS */
+	FS_SYSRD,	/* SYS prober, probew: rd */
+	FS_SYSN,	/* SYS trapl: n */
 	FS_SYSP		/* p: SYS payload */
 };
 
 struct fmt {
 	int len, opc, reg, low;
 	int shape;
-	unsigned rm, rx, s, sub, t, x;
+	unsigned rm, rx, s, sub, t, x, count, pos, width, rd, n;
 	uint64_t d;	/* displacement, immediate, address; `more` of FS_REGESC; `p` of FS_SYSP */
 };
 

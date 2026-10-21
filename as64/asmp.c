@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "pdp64-asm-parser.c"
+#include "pdp64-consts.h"
 #include "asmir.h"
 
 static int line_of(const char *text, size_t pos)
@@ -132,26 +133,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		st->kind = S_INSN;
 		mnemonic_t *m = &s->instruction.mnemonic;
 		st->mg = m->_alt;
-		switch (m->_alt) {
-		case MG_MOV: st->mnum = m->mn_mov; break;
-		case MG_MOVZ: st->mnum = m->mn_movz; break;
-		case MG_LEA: st->mnum = 0x0B; break;		/* a single-literal rule is a string, not an enum */
-		case MG_ALU: st->mnum = m->mn_alu; break;
-		case MG_BRANCH: st->mnum = m->mn_branch; break;
-		case MG_SOB: st->mnum = 0x3F; break;
-		case MG_TAG: st->mnum = m->mn_tag; break;
-		case MG_SOP: st->mnum = m->mn_sop; break;
-		case MG_XFER: st->mnum = m->mn_xfer; break;
-		case MG_BESC: st->mnum = m->mn_besc; break;
-		case MG_MBLK: st->mnum = m->mn_mblk; break;
-		case MG_AESC: st->mnum = m->mn_aesc; break;
-		case MG_MESC: st->mnum = m->mn_mesc; break;
-		case MG_FESC: st->mnum = m->mn_fesc; break;
-		case MG_ATOM: st->mnum = m->mn_atom; break;
-		case MG_SYSNONE: st->mnum = m->mn_sys_none; break;
-		case MG_SYS: st->mnum = m->mn_sys; break;
-		case MG_ALIAS: st->mnum = m->mn_alias; break;
-		}
+		MNEMONIC_NUMBER(m, st->mnum);
 		for (struct instruction_1_s *i = s->instruction.instruction_1.head; i; i = i->_link) {
 			operand(text, &i->operand, &st->ops[st->nops++]);
 			for (struct instruction_1_1_s *j = i->instruction_1_1.head; j && st->nops < MAXOPS; j = j->_link)

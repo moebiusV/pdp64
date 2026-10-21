@@ -9,11 +9,7 @@ enum stmt_kind { S_LABEL = 1, S_ASSIGN, S_DIR, S_INSN };
 /* operand classes, in the order of the alternatives of `operand` in spec/pdp64-asm.hbnf */
 enum oper_kind { OK_IMM = 1, OK_ABS, OK_POSTINC, OK_PREDEC, OK_PREDEC2, OK_INDEXED, OK_BASED, OK_REG, OK_BARE };
 
-/* mnemonic groups, in the order of the alternatives of `mnemonic` */
-enum mn_group {
-	MG_MOV = 1, MG_MOVZ, MG_LEA, MG_ALU, MG_BRANCH, MG_SOB, MG_TAG, MG_SOP, MG_XFER, MG_BESC, MG_MBLK, MG_AESC,
-	MG_MESC, MG_FESC, MG_ATOM, MG_SYSNONE, MG_SYS, MG_ALIAS
-};
+#include "pdp64-groups.h"	/* enum mn_group: the mnemonic groups, in the order the generator puts them in `mnemonic` */
 
 struct slice { const char *p; int n; };
 

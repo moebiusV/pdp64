@@ -35,6 +35,7 @@ mn-alu = "add"@0b010110
        | "fsubd"@0b100101
        | "fmuld"@0b100110
        | "fcmpd"@0b100111
+       | "mulu"@64
 
 ; conditional branches (ISA 4.4); BHIS and BLO are aliases below
 mn-branch = "br"@0b110000
@@ -52,6 +53,8 @@ mn-branch = "br"@0b110000
           | "ble"@0b111100
           | "bhi"@0b111101
           | "blos"@0b111110
+          | "bhis"@64
+          | "blo"@65
 
 ; subtract one and branch
 mn-sob = "sob"@0b111111
@@ -105,6 +108,7 @@ mn-besc = "clz"@0b00000000
         | "utf8len"@0b01000000
         | "utf8dec"@0b01000001
         | "utf8enc"@0b01000010
+        | "rol"@256
 
 ; MBLK: sub-opcode in parcel 1
 mn-mblk = "mcpy"@0b00000000
@@ -208,6 +212,7 @@ mn-sys-none = "nop"@0b0000
             | "tlbia"@0b1010
             | "tlbsync"@0b1011
             | "icinva"@0b1100
+            | "wait"@16
 
 ; SYS classes with an operand: the number is the class in the reg field
 mn-sys = "mtps"@0b0001
@@ -226,14 +231,7 @@ mn-sys = "mtps"@0b0001
        | "probew"@0b1110
        | "trapl"@0b1111
 
-; assembler aliases (ISA 4.15): the numbers are only ordinals, the assembler maps each to its target
-mn-alias = "bhis"
-         | "blo"
-         | "mulu"
-         | "wait"
-         | "rol"
-         
-         
+; (the assembler aliases of ISA 4.15 are in the groups they stand for, numbered above the encodings of the group: bhis, blo, mulu, wait, rol)
 
 
 ; Opcodes of the groups whose own mnemonics name sub-operations (SOP, SYS, BESC...), and of LEA and SOB, which have a single mnemonic.
@@ -261,4 +259,4 @@ amode = "base"@0b0000
       | "predec"@0b0111
 
 ; The store forms of the moves: the same mnemonics, the opcode after the load's (ISA section 4.1).
-mn-mov-store = "movq"@0b000001 | "movl"@0b000011 | "movw"@0b000101 | "movb"@0b000111
+movstore = "movq"@0b000001 | "movl"@0b000011 | "movw"@0b000101 | "movb"@0b000111

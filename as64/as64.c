@@ -619,10 +619,10 @@ static int mov_size(int mg, int mn)
 static int store_opc(int mn)
 {
 	switch (mn) {
-	case MN_MOV_MOVQ: return MN_MOV_STORE_MOVQ;
-	case MN_MOV_MOVL: return MN_MOV_STORE_MOVL;
-	case MN_MOV_MOVW: return MN_MOV_STORE_MOVW;
-	default: return MN_MOV_STORE_MOVB;
+	case MN_MOV_MOVQ: return MOVSTORE_MOVQ;
+	case MN_MOV_MOVL: return MOVSTORE_MOVL;
+	case MN_MOV_MOVW: return MOVSTORE_MOVW;
+	default: return MOVSTORE_MOVB;
 	}
 }
 
@@ -661,24 +661,20 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 	memset(in, 0, sizeof *in);
 	in->relsym = -1;
 
-	/* aliases first: they become another instruction */
-	if (mg == MG_ALIAS) {
+	/* the aliases of ISA 4.15 are words of their group, numbered above its encodings: they become the instruction they stand for */
+	if ((mg == MG_BRANCH && (mn == MN_BRANCH_BHIS || mn == MN_BRANCH_BLO)) || (mg == MG_ALU && mn == MN_ALU_MULU) ||
+	    (mg == MG_SYS_NONE && mn == MN_SYS_NONE_WAIT) || (mg == MG_BESC && mn == MN_BESC_ROL)) {
 		struct stmt a = *st;
-		switch (mn) {
-		case MN_ALIAS_BHIS: a.mg = MG_BRANCH; a.mnum = MN_BRANCH_BCC; break;
-		case MN_ALIAS_BLO: a.mg = MG_BRANCH; a.mnum = MN_BRANCH_BCS; break;
-		case MN_ALIAS_MULU: a.mg = MG_ALU; a.mnum = MN_ALU_MUL; break;
-		case MN_ALIAS_WAIT: a.mg = MG_SYSNONE; a.mnum = MN_SYS_NONE_WFE; break;
-		case MN_ALIAS_ROL: {						/* rol rs, #n, rd -> rori rs, #(64-n), rd */
+		if (mg == MG_BRANCH) a.mnum = mn == MN_BRANCH_BHIS ? MN_BRANCH_BCC : MN_BRANCH_BCS;
+		else if (mg == MG_ALU) a.mnum = MN_ALU_MUL;
+		else if (mg == MG_SYS_NONE) a.mnum = MN_SYS_NONE_WFE;
+		else {								/* rol rs, #n, rd -> rori rs, #(64-n), rd */
 			int64_t n;
-			a.mg = MG_BESC; a.mnum = MN_BESC_RORI;
+			a.mnum = MN_BESC_RORI;
 			if (a.nops != 3 || imm_const(&a, 1, &n)) { err(st->line, "rol takes a register, a constant count and a register (ISA 4.15)"); return -1; }
 			char *buf = malloc(24);
 			snprintf(buf, 24, "%lld", (long long)((64 - n) & 63));
 			a.ops[1].e.p = buf; a.ops[1].e.n = (int)strlen(buf);
-			break;
-		}
-		default: err(st->line, "this alias is not implemented"); return -1;
 		}
 		return build(&a, addr, in);
 	}
@@ -760,7 +756,7 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 		f->reg = o[0].reg; f->low = (mn << 3) | (int)tag;
 		break;
 	}
-	case MG_SYSNONE:
+	case MG_SYS_NONE:
 		f->opc = OPGROUP_SYS; f->reg = 0; f->low = mn; f->shape = FS_SYS0;
 		if (st->nops) { err(st->line, "no operands"); return -1; }
 		break;
@@ -770,11 +766,11 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 			int64_t n;
 			if (st->nops != 1 || imm_const(st, 0, &n) || n < 0) { err(st->line, "%s #n", mn == MN_SYS_SPL ? "spl" : "trap"); return -1; }
 			if (n < (1 << lowbits)) f->low = (int)n;
-			else if (mn == MN_SYS_TRAP && n < 256) { f->reg = MN_SYS_TRAPL; f->low = 0; f->shape = FS_SYSP; f->d = (uint64_t)n << 8; in->minlen = 1; }
+			else if (mn == MN_SYS_TRAP && n < 256) { f->reg = MN_SYS_TRAPL; f->low = 0; f->shape = FS_SYSN; f->n = (unsigned)n; in->minlen = 1; }
 			else { err(st->line, "operand out of range"); return -1; }
 		} else if (mn == MN_SYS_PROBER || mn == MN_SYS_PROBEW) {		/* prober rd, rs */
 			if (st->nops != 2 || o[0].kind != OK_REG || o[1].kind != OK_REG) { err(st->line, "prober/probew rd, rs"); return -1; }
-			f->low = o[1].reg; f->shape = FS_SYSP; f->d = (uint64_t)o[0].reg << 12; in->minlen = 1;
+			f->low = o[1].reg; f->shape = FS_SYSRD; f->rd = o[0].reg; in->minlen = 1;
 		} else {
 			if (st->nops != 1 || o[0].kind != OK_REG) { err(st->line, "one register operand"); return -1; }
 			f->low = o[0].reg;
@@ -794,18 +790,18 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 		}
 		if (mg == MG_BESC && mn == MN_BESC_RORI) {				/* rori rs, #n, rd */
 			if (n != 3 || o[0].kind != OK_REG || imm_const(st, 1, &a) || o[2].kind != OK_REG || a < 0 || a > 63) goto bad;
-			f->reg = o[2].reg; f->low = o[0].reg; f->t = (a >> 4) & 3; f->x = a & 15;
+			f->reg = o[2].reg; f->low = o[0].reg; f->shape = FS_COUNT; f->count = (unsigned)a;
 			break;
 		}
 		if (mg == MG_BESC && mn == MN_BESC_DSHR) {				/* dshr ra, rb, #n, rd */
 			if (n != 4 || o[0].kind != OK_REG || o[1].kind != OK_REG || imm_const(st, 2, &a) || o[3].kind != OK_REG || a < 0 || a > 63) goto bad;
-			f->reg = o[3].reg; f->low = o[0].reg; f->t = o[1].reg; f->d = (uint64_t)a << 8; in->minlen = 2;
+			f->reg = o[3].reg; f->low = o[0].reg; f->t = o[1].reg; f->shape = FS_FIELD; f->pos = (unsigned)a; f->width = 0; in->minlen = 2;
 			break;
 		}
 		if (mg == MG_BESC && (mn == MN_BESC_EXTB || mn == MN_BESC_EXTZB || mn == MN_BESC_INSB)) {	/* extb rs, #pos, #width, rd */
 			if (n != 4 || o[0].kind != OK_REG || imm_const(st, 1, &a) || imm_const(st, 2, &b) || o[3].kind != OK_REG) goto bad;
 			if (a < 0 || a > 63 || b < 1 || b > 64) goto bad;
-			f->reg = o[3].reg; f->low = o[0].reg; f->d = ((uint64_t)a << 8) | (uint64_t)(b & 255); in->minlen = 2;
+			f->reg = o[3].reg; f->low = o[0].reg; f->shape = FS_FIELD; f->pos = (unsigned)a; f->width = (unsigned)(b & 255); in->minlen = 2;
 			break;
 		}
 		if (mg == MG_BESC && (mn == MN_BESC_CLZ || mn == MN_BESC_CTZ || mn == MN_BESC_CLO || mn == MN_BESC_CTO || mn == MN_BESC_POPCNT ||
