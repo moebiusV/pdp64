@@ -99,6 +99,37 @@ static int64_t offs[NSEC];
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* expressions                                                                                                         */
 
+/* one character of a C string or character literal at *pp, with its escape if it has one */
+static int c_char(const char **pp, const char *e)
+{
+	const char *p = *pp;
+	int v;
+	if (*p != '\\' || p + 1 >= e) { *pp = p + 1; return (unsigned char)*p; }
+	p++;
+	switch (*p) {
+	case 'n': v = 10; p++; break;
+	case 't': v = 9; p++; break;
+	case 'r': v = 13; p++; break;
+	case 'a': v = 7; p++; break;
+	case 'b': v = 8; p++; break;
+	case 'f': v = 12; p++; break;
+	case 'v': v = 11; p++; break;
+	case 'x': {
+		v = 0; p++;
+		for (int k = 0; k < 2 && p < e && isxdigit((unsigned char)*p); k++, p++)
+			v = v * 16 + (isdigit((unsigned char)*p) ? *p - '0' : tolower((unsigned char)*p) - 'a' + 10);
+		break;
+	}
+	default:
+		if (*p >= '0' && *p <= '7') {
+			v = 0;
+			for (int k = 0; k < 3 && p < e && *p >= '0' && *p <= '7'; k++, p++) v = v * 8 + (*p - '0');
+		} else { v = (unsigned char)*p; p++; }
+	}
+	*pp = p;
+	return v & 255;
+}
+
 struct ex { const char *p, *e; int line, bad; };
 
 static void skipws(struct ex *x) { while (x->p < x->e && (*x->p == ' ' || *x->p == '\t')) x->p++; }
@@ -121,13 +152,8 @@ static struct val eval_primary(struct ex *x)
 		return v;
 	}
 	if (c == '\'') {					/* 'c' */
-		int64_t v;
 		x->p++;
-		if (x->p < x->e && *x->p == '\\' && x->p + 1 < x->e) {
-			x->p++;
-			switch (*x->p) { case 'n': v = 10; break; case 't': v = 9; break; case 'r': v = 13; break; case '0': v = 0; break; default: v = *x->p; }
-		} else v = x->p < x->e ? (unsigned char)*x->p : 0;
-		x->p++;
+		int64_t v = x->p < x->e ? c_char(&x->p, x->e) : 0;
 		if (x->p < x->e && *x->p == '\'') x->p++;
 		return vconst(v);
 	}
@@ -705,18 +731,13 @@ static int build(const struct stmt *st, int len, int64_t addr, struct ins *in)
 
 static int dir_is(const struct stmt *st, const char *n) { return st->name.n == (int)strlen(n) && memcmp(st->name.p, n, st->name.n) == 0; }
 
-/* the bytes of a <string> argument; V7's escapes */
+/* the bytes of a "string" argument, C's escapes */
 static int unescape(struct slice s, uint8_t *out)
 {
 	int n = 0;
-	for (int i = 1; i < s.n - 1; i++) {
-		uint8_t c = s.p[i];
-		if (c == '\\' && i + 1 < s.n - 1) {
-			c = s.p[++i];
-			switch (c) { case 'n': c = '\n'; break; case 't': c = '\t'; break; case 'r': c = '\r'; break; case '0': c = 0; break; case 'e': c = 4; break; }
-		}
-		out[n++] = c;
-	}
+	const char *p = s.p + 1, *e = s.p + s.n - 1;
+	while (p < e)
+		out[n++] = (uint8_t)c_char(&p, e);
 	return n;
 }
 

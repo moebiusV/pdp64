@@ -12,7 +12,7 @@ loop:	bne	loop
 	clr	r7
 	ret
 	.data
-msg:	.byte	<hi>, 0
+msg:	.byte	"hi", 0
 	.even
 tab:	.quad	start, 1, 2
 	.long	3

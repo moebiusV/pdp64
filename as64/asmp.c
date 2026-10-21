@@ -196,11 +196,6 @@ int asm_parse(const char *src, struct stmt **out, int *n, char *err, size_t errs
 			for (struct line_2_s *s2 = ln->line_2.head; s2; s2 = s2->_link) {
 				NEWSTMT();
 				fill_stmt(line, &s2->stmt, st);
-				for (struct line_2_1_s *r = s2->line_2_1.head; r; r = r->_link)
-					for (struct line_2_1_1_s *q = r->line_2_1_1.head; q; q = q->_link) {
-						NEWSTMT();
-						fill_stmt(line, &q->stmt, st);
-					}
 			}
 		}
 		for (int i = first; i < cnt; i++)

@@ -1,15 +1,25 @@
 # pdp64 assembly syntax
 
-The grammar is `spec/pdp64-asm.hbnf` (hbnf text rules; `tools/check-asmsyntax.sh` generates the parser and runs `tests/asmsyntax.c`).
-It is the syntax of the V7 assembler, `as`, with the pdp64 operand modes:
+The grammar is `spec/pdp64-asm.hbnf` (hbnf text rules); `tools/check-asmsyntax.sh` generates the parser and runs `tests/asmsyntax.c` over it,
+and `tools/check-as64.sh` assembles `tests/asm/*.s` and compares the bytes with hand-worked expectations.
 
-- statements end at a newline or `;`; `/` starts a comment; `name:` defines a label; `1:` a local label, referenced `1b` (back) and `1f` (forward);
-  `name = expr` assigns; strings are `<...>`; `.text .data .bss .globl .comm .byte .word .long .quad .even .align .space .ascii .lpad .org .section`
-  (`.word` is 16 bits, `.long` 32, `.quad` 64, as in the ISA's PDP-11 terminology).
-- operand modes (ISA section 5): `rN`, `sp` (R14), `fp` (R13); `#expr`; `@expr`; `expr(rN)` and `(rN)`; `expr(rN)(rX*s)` with `s` 1, 2, 4, 8;
-  `expr(pc)`; `expr(dp)`; `(rN)+` and `(rN)+d`; `-(rN)` and `(rN)-d` (errata 15); a bare expression is a PC-relative reference, as in V7.
-- mnemonics are lowercase (`movq`, `add`, `bne`, `besc` groups by their own names, ISA section 4); hbnf does not yet allow numbered enum values under
-  case-insensitive matching.
+The layout of a source file is the V7 assembler's, `as`; the lexical rules are C's.
 
-Differences from V7 `as`: numbers are C-style (decimal, `0x` hex, `0b` binary), not octal-by-default with a trailing dot for decimal;
-the character `'x` is written `'x'`... (see the grammar); registers are `r0`..`r15`, not `r0`..`r7`.
+- **Lines.** One statement to a line. `;` starts a comment that runs to the end of the line.
+- **Labels.** `name:` defines a label; `1:` defines a numeric label, referenced as `1b` (the nearest one before) or `1f` (the nearest after).
+  `sym = expr` assigns. `.` is the location counter. Names are letters, digits, `_`, `.` and `$`, not starting with a digit; they are case-sensitive
+  and not truncated. A mnemonic or register name cannot be a label.
+- **Numbers and characters** are C's: decimal by default (`010` is ten), `0x`, `0b` or `0o` when asked for; `'a'`, `'\n'`, `'\x41'`, `'\101'`.
+- **Strings** are `"text\n"` with C's escapes (`\n \t \r \a \b \f \v \0 \\ \' \" \xHH \ooo`), in `.byte` and `.ascii`.
+- **Operators** are C's: `* / % & << >>` and `+ - | ^`, unary `- ~ !`, and parentheses. `/` is division. `*`, `/`, `%`, `&` and the shifts need
+  constants; `+` and `-` accept one relocatable symbol, and the difference of two symbols of one section is a constant.
+- **Directives.** `.text .data .bss .globl .comm .byte .word .long .quad .ascii .even .align .space .lpad`. `.word` is 16 bits, `.long` 32, `.quad` 64
+  (the ISA's PDP-11 terminology). `.align n` aligns to n bytes (a power of two).
+- **Registers.** `r0`..`r15`; `sp` is `r14`, `fp` is `r13`. `pc` and `dp` appear only as a base: `d(pc)`, `d(dp)`.
+- **Operand modes** (ISA section 5): `rN`; `#expr`; `@expr`; `expr(rN)` and `(rN)`; `expr(rN)(rX*s)` with `s` 1, 2, 4 or 8; `expr(pc)`; `expr(dp)`;
+  `(rN)+` and `(rN)+d`; `-(rN)` and `(rN)-d` (errata 15); a bare expression is a PC-relative reference.
+- **Mnemonics** are lowercase (`movq`, `add`, `bne`). A multi-register instruction writes its destination last: `add src, rd`, `xnorpop ra, rb, rd`.
+  `cmp` is the exception, `cmp rd, src`, because the encoding computes `rd - src` (errata 13).
+
+What it leaves out of V7 `as`: octal numbers by default, `<string>` and the `'\e` escape, `\/ \< \>` and `[ ]` in expressions, `.if`, `.stabs`,
+symbols cut to eight characters.

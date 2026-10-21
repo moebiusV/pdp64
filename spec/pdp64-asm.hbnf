@@ -1,6 +1,7 @@
-; pdp64 assembly language: the syntax of V7 as (statements end at a newline or `;`, `/` starts a comment, `name:` is a
-; label, numeric labels `1:` are referenced as `1b` and `1f`, strings are `<...>`, `sym = expr` assigns) with the pdp64
-; operand modes of ISA section 5 and C-style numbers.  Differences from V7 are listed in docs/asm-syntax.md.
+; pdp64 assembly language.  One statement to a line; `;` starts a comment; `name:` defines a label, and the numeric labels
+; `1:` are referenced as `1b` (back) and `1f` (forward); `sym = expr` assigns.  Numbers, characters and strings are C's:
+; decimal by default, `0x`, `0b` and `0o` when asked for; `'a'`; `"text\n"`.  Operators are C's (`/` is division).  The
+; operand modes are those of ISA section 5.  See docs/asm-syntax.md.
 language C
 prefix none
 statements
@@ -11,8 +12,8 @@ include "pdp64-mnemonics.hbnf"
 asm = | asm line
 
 ws = SP | HTAB | comment
-comment = "/" *( %x01-09 | %x0B-10FFFF )
-line = *label [ stmt *( ";" [ stmt ] ) ]
+comment = ";" *( %x01-09 | %x0B-10FFFF )
+line = *label [ stmt ]
 
 label = ( symbol | localnum ) ":"
 stmt = assign | directive | instruction
@@ -20,7 +21,7 @@ stmt = assign | directive | instruction
 assign = symbol "=" expr
 directive = "." dname [ dargs ]
 dname = "text" | "data" | "bss" | "globl" | "comm" | "byte" | "word" | "long" | "quad"
-      | "even" | "align" | "space" | "ascii" | "lpad" | "org" | "section"
+      | "even" | "align" | "space" | "ascii" | "lpad"
 dargs = darg *( "," darg )
 darg = string | expr
 
@@ -55,15 +56,16 @@ addop   = "+" | "-" | "|" | "^"
 term    = unary *( mulop unary )
 mulop   = "*" | "/" | "%" | "&" | "<<" | ">>"
 unary   = *( "-" | "~" | "!" ) primary
-primary = localref | number | charlit | symbol | "." | "(" expr ")"
+primary = prefixnum | localref | decnum | charlit | symbol | "." | "(" expr ")"
 
-number   = hexnum | binnum | octnum | decnum
+prefixnum = hexnum | binnum | octnum
 hexnum   = "0" ( "x" | "X" ) 1*HEXDIG
 binnum   = "0" ( "b" | "B" ) 1*( "0" | "1" )
 octnum   = "0" ( "o" | "O" ) 1*( "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" )
 decnum   = 1*DIGIT
-charlit  = "'" ( %x20-26 | %x28-5B | %x5D-7E | %x5C ( "n" | "t" | "r" | "0" | %x5C | "'" ) )
+charlit  = "'" ( %x20-26 | %x28-5B | %x5D-7E | escape ) "'"
 localref = 1*DIGIT ( "f" | "b" )
 localnum = 1*DIGIT
 symbol   = ( ALPHA | "_" | "." ) *( ALPHA | DIGIT | "_" | "." | "$" )
-string   = "<" *( %x20-3D | %x3F-7E ) ">"
+string   = %x22 *( %x20-21 | %x23-5B | %x5D-7E | escape ) %x22
+escape   = %x5C ( "n" | "t" | "r" | "a" | "b" | "f" | "v" | "0" | %x5C | "'" | %x22 | "x" 1*2HEXDIG | %x30-37 *2( %x30-37 ) )
