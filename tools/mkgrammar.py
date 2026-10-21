@@ -39,52 +39,9 @@ def enums(path):
     return {k: v for k, v in out.items() if v}
 
 
-def longest_first(text):
-    """hbnf matches the words of an enum in the order written, so a word that begins another must come after it.  The sources are written
-    in numeric order for people; the copy hbnf reads has every enum rule of numbered words sorted longest first, each with its number
-    written out (the numbers are the encodings and do not change)."""
-    lines = text.split('\n')
-    out, i = [], 0
-    while i < len(lines):
-        m = re.match(r'^([A-Za-z][\w-]*)\s*=(?![=/])\s*(.*)$', re.sub(r';.*$', '', lines[i]))
-        if not m:
-            out.append(lines[i]); i += 1; continue
-        j = i + 1
-        body = [m.group(2)]
-        while j < len(lines) and re.match(r'^\s+\|', lines[j]):
-            body.append(re.sub(r';.*$', '', lines[j])); j += 1
-        joined = ' '.join(body)
-        items = re.findall(r'"([^"]+)"(?:@(0[xbo][0-9A-Fa-f]+|\d+))?', joined)
-        residue = re.sub(r'"[^"]+"(?:@(?:0[xbo][0-9A-Fa-f]+|\d+))?', '', joined).replace('|', '').strip()
-        if len(items) > 1 and not residue and all(re.match(r'^[A-Za-z_]', it[0]) for it in items):
-            nxt, numbered = 0, []
-            for lit, num in items:
-                if num:
-                    nxt = int(num, 0)
-                numbered.append((lit, nxt)); nxt += 1
-            numbered.sort(key=lambda t: (-len(t[0]), t[1]))
-            out.append('%s = ' % m.group(1) + ' | '.join('"%s"@%d' % t for t in numbered))
-        else:
-            out.extend(lines[i:j])
-        i = j
-    return '\n'.join(out)
-
-
 def group_order(en):
-    """The mn- groups in an order where no group comes before another that holds a longer word it begins."""
-    groups = [g for g in en if g.startswith('mn-')]
-    after = {g: set() for g in groups}          # after[a] = groups that must come before a
-    for a in groups:
-        for b in groups:
-            if a != b and any(y.startswith(x) and y != x for x, _ in en[a] for y, _ in en[b]):
-                after[a].add(b)
-    order, left = [], list(groups)
-    while left:
-        ready = [g for g in left if not (after[g] & set(left))]
-        if not ready:
-            sys.exit('mkgrammar: mnemonic groups begin each other\'s words in a cycle: %s' % left)
-        order.append(ready[0]); left.remove(ready[0])
-    return order
+    """The mn- groups, in the order they are written.  With whole-word keywords (see pdp64-asm.hbnf) the order does not matter."""
+    return [g for g in en if g.startswith('mn-')]
 
 
 def main():
@@ -113,10 +70,10 @@ def main():
     open(os.path.join(bd, 'pdp64.hbnf'), 'w').write(g)
     # the grammars hbnf reads: enums longest-first, and the mnemonic rule in a safe order
     bd = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
-    mn = longest_first(open(os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf')).read())
-    mn += '\n; written by tools/mkgrammar.py: the groups, those whose words begin another group\'s words last\nmnemonic = ' + '\n         | '.join(group_order(en)) + '\n'
+    mn = open(os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf')).read()
+    mn += '\n; written by tools/mkgrammar.py: the groups of mnemonics\nmnemonic = ' + '\n         | '.join(group_order(en)) + '\n'
     open(os.path.join(bd, 'pdp64-mnemonics.hbnf'), 'w').write(mn)
-    open(os.path.join(bd, 'pdp64-asm.hbnf'), 'w').write(longest_first(open(os.path.join(ROOT, 'spec', 'pdp64-asm.hbnf')).read()))
+    open(os.path.join(bd, 'pdp64-asm.hbnf'), 'w').write(open(os.path.join(ROOT, 'spec', 'pdp64-asm.hbnf')).read())
     for name in ('common.hbnf', 'ascii.hbnf', 'elf.hbnf'):
         open(os.path.join(bd, name), 'w').write(open(os.path.join(ROOT, 'spec', name)).read())
     order = group_order(en)

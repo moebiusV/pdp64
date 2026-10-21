@@ -41,5 +41,5 @@ int main(void){
   bad+=try("expr in parens",   "movq #(1+2)*3, r2\n", 1);
   bad+=try("escapes",          "besc_bad r1\n", 0);
   bad+=try("unknown mnemonic", "frobnicate r1, r2\n", 0);
-  bad+=try("bad register",     "add r16, r2\n", 0);
+  bad+=try("r16 is a name",    "add r16, r2\n", 1);   /* there is no r16: it is an ordinary symbol, as any other bareword */
   return bad!=0;}
