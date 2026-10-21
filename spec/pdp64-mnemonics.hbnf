@@ -160,8 +160,6 @@ mn-fesc = "fdivd"@0b00000000
         | "fcvtsd"@0b00111011
         | "fcvtsl"@0b00111100
         | "fcvtls"@0b00111101
-        | "frecped"@0b01000000
-        | "frsqrted"@0b01000001
 
 ; ATOM: sub-opcode in parcel 1
 mn-atom = "cas"@0b00000000

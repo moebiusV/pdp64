@@ -144,8 +144,7 @@
       "0x28": {"name": "FCLASSD"}, "0x29": {"name": "FCLASSS"},
       "0x30": {"name": "FRINTD"}, "0x31": {"name": "FRINTDZ"}, "0x32": {"name": "FRINTDM"}, "0x33": {"name": "FRINTDP"},
       "0x38": {"name": "FCVTDQ"}, "0x39": {"name": "FCVTQD"}, "0x3A": {"name": "FCVTDS"}, "0x3B": {"name": "FCVTSD"},
-      "0x3C": {"name": "FCVTSL"}, "0x3D": {"name": "FCVTLS"},
-      "0x40": {"name": "FRECPED"}, "0x41": {"name": "FRSQRTED"}
+      "0x3C": {"name": "FCVTSL"}, "0x3D": {"name": "FCVTLS"}
     }},
     "ATOM": {"p1": "op8 ra4 pad4", "ops": {
       "0x00": {"name": "CAS"},   "0x01": {"name": "CASDB"},

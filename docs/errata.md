@@ -43,3 +43,8 @@ Items marked **DECISION** are choices the document left open; change them in the
     conditions do not yet separate "unordered" cleanly).
 15. **DECISION: pre-decrement syntax.** §5 writes mode `0111` as `-d(Rn)`, which is also how a negative base displacement is written. Spec:
     `-(Rn)` pre-decrements by the operand size, `(Rn)-d` by an explicit stride (the mirror of `(Rn)+d`); `-d(Rn)` is always base+displacement.
+16. **DECISION: `FRECPED` and `FRSQRTED` dropped.** ISA 4.10 lists reciprocal and reciprocal-square-root estimates "for Newton-Raphson". The machine has
+    `FDIVD`, `FSQRTD` and the fused multiply-add family, so a software Newton loop buys speed only if the hardware divide is slow, which this
+    design does not chase; each estimate needs a table in hardware and an exact specification (ARM and RISC-V pin down the algorithm and table, the ISA
+    says only "not correctly rounded", so two implementations would return different bits); and no document names a user (ISA 1.2 rule 3). Sub-opcodes
+    `0x40` and `0x41` of `FESC` are free again. The ISA text in `docs/11-64W/` is left as written.
