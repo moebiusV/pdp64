@@ -84,5 +84,18 @@ for group, items in en.items():
         if got != want:
             bad += 1
             print('DRIFT %s %s: encoded %s, the grammar says %s' % (group, word, got, want))
+# --- the opcode map, from the same numbers (these were the checks of the retired JSON spec) ---
+def numbers(rule, below=None):
+    return {n for w, n in en[rule] if below is None or n < below}
+assigned = (numbers('mn-mov') | numbers('movstore') | numbers('mn-movz') | numbers('mn-alu', 64) | numbers('mn-branch', 64) | set(OPG.values()))
+bad_map = []
+if len(assigned) != 55: bad_map.append('%d top-level opcodes assigned, ISA 4.16 as corrected says 55' % len(assigned))
+free = set(range(64)) - assigned
+if free != {0x23} | set(range(0x28, 0x30)): bad_map.append('unassigned opcodes are %s, expected 0x23 and 0x28-0x2F' % sorted(hex(x) for x in free))
+if [OPG[k] for k in ('besc', 'mblk', 'aesc', 'mesc', 'fesc', 'atom')] != list(range(0x0C, 0x12)): bad_map.append('the parcel-1 escapes are not contiguous at 0x0C-0x11 (ISA 4.3.1)')
+if [OPG[k] for k in ('xfer', 'sop', 'sys')] != [0x12, 0x13, 0x14]: bad_map.append('XFER, SOP and SYS are not adjacent at 0x12-0x14 (ISA 4.3.1)')
+if sorted(numbers('mn-branch', 64) | {OPG['sob']}) != list(range(0x30, 0x40)): bad_map.append('the sixteen branch slots are not 0x30-0x3F')
+for m in bad_map: print('MAP ' + m)
+bad += len(bad_map)
 print('drift: %d mnemonics checked, %d differ, %d not assembled yet%s' % (checked, bad, skipped, (': ' + ' '.join(todo)) if todo else ''))
 sys.exit(1 if bad else 0)

@@ -1,11 +1,15 @@
 # pdp64
 
-A 64-bit PDP-11. Architecture documents in `docs/11-64W/` (ISA revision 20). This repository holds the machine-readable specification and,
-as they are written, the tools built from it:
+A 64-bit PDP-11. The architecture documents are in `docs/11-64W/` (ISA revision 20, written under the working name 11/64W), kept as they arrived.
+`docs/CHANGES-SINCE-R20.md` records everything decided or changed since: read that first.
 
-    spec/pdp64.json     the encoding, the single source of truth
-    tools/specgen.py    checks the spec and generates C tables (`specgen.py check | c | map`)
-    docs/errata.md      what writing the spec found wrong or open in the ISA document, and what the spec decided
+The numbers of the architecture are written once, in the enum rules of `spec/pdp64-mnemonics.hbnf`; the bit formats and the assembly syntax are
+hbnf grammars (`spec/pdp64.hbnf.in`, `spec/pdp64-asm.hbnf`); everything else is generated from or measured against them.
 
-Planned (see the plan in the toolchain notes): `sim64` reference simulator, `as64` assembler and `ld64` linker (forks of the C ports of the V7 `as`
-and `ld`), the pcc back end (`~/claude/pcc/arch/pdp64`), and a QEMU target.
+    spec/       the grammars (formats, syntax, mnemonics, ELF records)
+    tools/      mkgrammar.py (the generator), build-hbnf.sh, build-as64.sh, and the checks (check-all.sh runs every one)
+    as64/       the assembler: glue between the generated parsers and the object file
+    tests/      format vectors, syntax cases, and assembly programs with hand-worked expected words
+    docs/       errata.md (decisions against the ISA), abi.md, asm-syntax.md, CHANGES-SINCE-R20.md
+
+Planned, not written: `sim64` (reference emulator), `ld64` (linker), the pcc back end (`~/claude/pcc/arch/pdp64`), a QEMU target.
