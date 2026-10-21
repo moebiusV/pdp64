@@ -1,0 +1,19 @@
+; ELF64 (little-endian) records, as hbnf bit rules.  The file layout, the offsets, is the business of the tool that
+; reads or writes a file; each record is parsed or written on its own (hbnf --root=RULE --prefix=RULE_), so the three
+; tools that touch object files, as64, ld64 and sim64, share these definitions and nothing else about the format.
+;
+; pdp64 is not an ELF machine anyone assigned: e_machine below is a private-use number (EM_PDP64) and the relocation
+; types are the ones in docs/elf-pdp64.md.
+prefix none
+
+; the record to read or write, chosen by a leading byte the caller supplies (1 ehdr, 2 shdr, 3 sym, 4 rela, 5 phdr), which
+; keeps the five parsers in one generated file; the caller drops the byte from what it writes.
+elfrec = kind:8 body:( ?(kind == 1) e:ehdr | ?(kind == 2) s:shdr | ?(kind == 3) y:sym | ?(kind == 4) r:rela | ?(kind == 5) p:phdr )
+
+ehdr  = ident:[16] type:u16le machine:u16le version:u32le entry:u64le phoff:u64le shoff:u64le flags:u32le
+        ehsize:u16le phentsize:u16le phnum:u16le shentsize:u16le shnum:u16le shstrndx:u16le
+phdr  = type:u32le flags:u32le offset:u64le vaddr:u64le paddr:u64le filesz:u64le memsz:u64le align:u64le
+shdr  = name:u32le type:u32le flags:u64le addr:u64le offset:u64le size:u64le link:u32le info:u32le
+        addralign:u64le entsize:u64le
+sym   = name:u32le info:8 other:8 shndx:u16le value:u64le size:u64le
+rela  = offset:u64le type:u32le symidx:u32le addend:i64le

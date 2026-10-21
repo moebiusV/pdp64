@@ -57,9 +57,10 @@ mulop   = "*" | "/" | "%" | "&" | "<<" | ">>"
 unary   = *( "-" | "~" | "!" ) primary
 primary = localref | number | charlit | symbol | "." | "(" expr ")"
 
-number   = hexnum | binnum | decnum
+number   = hexnum | binnum | octnum | decnum
 hexnum   = "0" ( "x" | "X" ) 1*HEXDIG
 binnum   = "0" ( "b" | "B" ) 1*( "0" | "1" )
+octnum   = "0" ( "o" | "O" ) 1*( "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" )
 decnum   = 1*DIGIT
 charlit  = "'" ( %x20-26 | %x28-5B | %x5D-7E | %x5C ( "n" | "t" | "r" | "0" | %x5C | "'" ) )
 localref = 1*DIGIT ( "f" | "b" )
