@@ -1,0 +1,68 @@
+; pdp64 assembly language: the syntax of V7 as (statements end at a newline or `;`, `/` starts a comment, `name:` is a
+; label, numeric labels `1:` are referenced as `1b` and `1f`, strings are `<...>`, `sym = expr` assigns) with the pdp64
+; operand modes of ISA section 5 and C-style numbers.  Differences from V7 are listed in docs/asm-syntax.md.
+language C
+prefix none
+statements
+whitespace ws
+include "common.hbnf"
+include "pdp64-mnemonics.hbnf"
+
+asm = | asm line
+
+ws = SP | HTAB | comment
+comment = "/" *( %x01-09 | %x0B-10FFFF )
+line = *label [ stmt *( ";" [ stmt ] ) ]
+
+label = ( symbol | localnum ) ":"
+stmt = assign | directive | instruction
+
+assign = symbol "=" expr
+directive = "." dname [ dargs ]
+dname = "text" | "data" | "bss" | "globl" | "comm" | "byte" | "word" | "long" | "quad"
+      | "even" | "align" | "space" | "ascii" | "lpad" | "org" | "section"
+dargs = darg *( "," darg )
+darg = string | expr
+
+instruction = mnemonic [ operand *( "," operand ) ]
+mnemonic = mn-mov | mn-movz | mn-lea | mn-alu | mn-branch | mn-sob | mn-tag | mn-sop | mn-xfer
+         | mn-besc | mn-mblk | mn-aesc | mn-mesc | mn-fesc | mn-atom | mn-sys-none | mn-sys | mn-alias
+
+; --- operands (ISA section 5) -----------------------------------------------------------------------------------
+operand = immop | absop | postinc | predec | predec2 | indexed | based | regop | bare
+immop   = "#" expr
+absop   = "@" expr
+regop   = reg
+postinc = "(" reg ")" "+" [ expr ]
+predec  = "-" "(" reg ")"
+predec2 = "(" reg ")" "-" expr
+indexed = [ expr ] "(" reg ")" "(" reg [ "*" scale ] ")"
+based   = [ expr ] "(" basereg ")"
+bare    = expr
+
+; R0..R15; SP is R14 and FP is R13 (ISA 2.1); PC and DP only as a base register
+reg      = rnum | ralias
+rnum     = "r0"@0 | "r1"@1 | "r2"@2 | "r3"@3 | "r4"@4 | "r5"@5 | "r6"@6 | "r7"@7
+         | "r8"@8 | "r9"@9 | "r10"@10 | "r11"@11 | "r12"@12 | "r13"@13 | "r14"@14 | "r15"@15
+ralias   = "sp" | "fp"
+basereg  = reg | basespec
+basespec = "pc" | "dp"
+scale    = "1" | "2" | "4" | "8"
+
+; --- expressions ----------------------------------------------------------------------------------------------------
+expr    = term *( addop term )
+addop   = "+" | "-" | "|" | "^"
+term    = unary *( mulop unary )
+mulop   = "*" | "/" | "%" | "&" | "<<" | ">>"
+unary   = *( "-" | "~" | "!" ) primary
+primary = localref | number | charlit | symbol | "." | "(" expr ")"
+
+number   = hexnum | binnum | decnum
+hexnum   = "0" ( "x" | "X" ) 1*HEXDIG
+binnum   = "0" ( "b" | "B" ) 1*( "0" | "1" )
+decnum   = 1*DIGIT
+charlit  = "'" ( %x20-26 | %x28-5B | %x5D-7E | %x5C ( "n" | "t" | "r" | "0" | %x5C | "'" ) )
+localref = 1*DIGIT ( "f" | "b" )
+localnum = 1*DIGIT
+symbol   = ( ALPHA | "_" | "." ) *( ALPHA | DIGIT | "_" | "." | "$" )
+string   = "<" *( %x20-3D | %x3F-7E ) ">"

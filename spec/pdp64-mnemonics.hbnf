@@ -1,0 +1,77 @@
+; pdp64 mnemonics.  Each rule is an enum: the literal's number IS its encoding (opcode, or sub-opcode within the group).
+; Mnemonics are lowercase, as in V7 as (hbnf does not take numbered enum values under a case-insensitive rule: asked upstream).  `docs/errata.md` says where the ISA left a number open.
+; Groups that share a mnemonic between load and store directions (MOVQ...) are numbered by the load opcode; the store is +1.
+
+; moves between a register and an operand: load = n, store = n+1 (ISA 4.1)
+mn-mov = "movq"@0 | "movl"@2 | "movw"@4 | "movb"@6
+
+; zero-extending loads
+mn-movz = "movzl"@8 | "movzw"@9 | "movzb"@10
+
+; effective address
+mn-lea = "lea"@11
+
+; ALU and FP ALU: register destination (ISA 4.2, 4.10); CMP computes reg - rm, errata 13
+mn-alu = "add"@22 | "sub"@23 | "bic"@24 | "bis"@25 | "cmp"@26 | "bit"@27 | "xor"@28 | "and"@29
+    | "mul"@30 | "mulh"@31 | "shl"@32 | "shr"@33 | "sar"@34 | "faddd"@36 | "fsubd"@37
+    | "fmuld"@38 | "fcmpd"@39
+
+; conditional branches (ISA 4.4); BHIS and BLO are aliases below
+mn-branch = "br"@48 | "bne"@49 | "beq"@50 | "bpl"@51 | "bmi"@52 | "bvc"@53 | "bvs"@54
+    | "bcc"@55 | "bcs"@56 | "bge"@57 | "blt"@58 | "bgt"@59 | "ble"@60 | "bhi"@61 | "blos"@62
+
+; subtract one and branch
+mn-sob = "sob"@63
+
+; tag branches (ISA 4.8): the sense bit
+mn-tag = "btag"@0 | "bntag"@1
+
+; SOP: the reg field is the sub-opcode
+mn-sop = "clr"@0 | "com"@1 | "inc"@2 | "dec"@3 | "neg"@4 | "tst"@5 | "adc"@6 | "sbc"@7
+    | "asl"@8 | "asr"@9 | "pushm"@10 | "popm"@11 | "jmp"@12 | "call"@13 | "push"@14 | "pop"@15
+
+; XFER: the reg field is the sub-opcode
+mn-xfer = "jmpi"@0 | "calli"@1 | "jtag"@2
+
+; BESC: sub-opcode in parcel 1
+mn-besc = "clz"@0 | "ctz"@1 | "clo"@2 | "cto"@3 | "popcnt"@4 | "bswap"@5 | "bswapw"@6
+    | "bswapl"@7 | "bitrev"@8 | "ror"@16 | "rori"@17 | "dshr"@32 | "extb"@33 | "extzb"@34
+    | "insb"@35 | "xnorpop"@48 | "clmull"@49 | "clmulh"@50 | "utf8len"@64 | "utf8dec"@65
+    | "utf8enc"@66
+
+; MBLK: sub-opcode in parcel 1
+mn-mblk = "mcpy"@0 | "mmov"@1 | "mset"@2 | "mcmp"@3 | "mscn"@4 | "mscnn"@5 | "mval"@6
+
+; AESC: sub-opcode in parcel 1
+mn-aesc = "div"@0 | "divu"@1 | "mod"@2 | "modu"@3 | "mulhu"@4
+
+; FESC: sub-opcode in parcel 1
+mn-fesc = "fdivd"@0 | "fsqrtd"@1 | "fadds"@8 | "fsubs"@9 | "fmuls"@10 | "fdivs"@11 | "fsqrts"@12
+    | "fcmps"@13 | "fmaddd"@16 | "fmsubd"@17 | "fnmaddd"@18 | "fnmsubd"@19 | "fmadds"@24
+    | "fmsubs"@25 | "fnmadds"@26 | "fnmsubs"@27 | "fneg"@32 | "fabs"@33 | "fcopysign"@34
+    | "fmind"@35 | "fmaxd"@36 | "fclassd"@40 | "fclasss"@41 | "frintd"@48 | "frintdz"@49
+    | "frintdm"@50 | "frintdp"@51 | "fcvtdq"@56 | "fcvtqd"@57 | "fcvtds"@58 | "fcvtsd"@59
+    | "fcvtsl"@60 | "fcvtls"@61 | "frecped"@64 | "frsqrted"@65
+
+; ATOM: sub-opcode in parcel 1
+mn-atom = "cas"@0 | "casdb"@1 | "swap"@2 | "swapdb"@3 | "xadd"@4 | "xadddb"@5 | "xand"@6
+    | "xanddb"@7 | "xor_"@8 | "xor_db"@9 | "xxor"@10 | "xxordb"@11 | "xmax"@12 | "xmaxdb"@13
+    | "xmin"@14 | "xmindb"@15 | "xmaxu"@16 | "xmaxudb"@17 | "xminu"@18 | "xminudb"@19 | "ll"@32
+    | "sc"@33
+
+; MESC: sub-opcode in parcel 1 (4 bits); the MOVU* names appear twice in the table, ld = n and st = n+1: numbered by the load
+; MESC
+mn-mesc = "movub"@0 | "movuw"@2 | "movul"@4 | "movuq"@6 | "addm"@8 | "subm"@9 | "bicm"@10
+    | "bism"@11
+
+; SYS class 0: no operand, the number is the minor opcode in the rm field
+mn-sys-none = "nop"@0 | "rti"@1 | "rtt"@2 | "ret"@3 | "halt"@4 | "bpt"@5 | "fence"@6 | "wfe"@7
+    | "sev"@8 | "lpad"@9 | "tlbia"@10 | "tlbsync"@11 | "icinva"@12
+
+; SYS classes with an operand: the number is the class in the reg field
+mn-sys = "mtps"@1 | "mfps"@2 | "spl"@3 | "trap"@4 | "tlbi"@5 | "mtasid"@6 | "mfasid"@7
+    | "mtdp"@8 | "mfdp"@9 | "mtdmw"@10 | "mfcpuid"@11 | "icinv"@12 | "prober"@13 | "probew"@14
+    | "trapl"@15
+
+; assembler aliases (ISA 4.15): the numbers are only ordinals, the assembler maps each to its target
+mn-alias = "bhis" | "blo" | "mulu" | "wait" | "rol" | "iot" | "emt"

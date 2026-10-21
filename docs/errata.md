@@ -41,3 +41,5 @@ Items marked **DECISION** are choices the document left open; change them in the
 14. **DECISION: flags.** Subtraction and `CMP` set `C` on a borrow (PDP-11 sense, so `BHIS`/`BCC` mean "no borrow", unsigned `>=`). `ADD` sets `C` on a
     carry out. `V` is signed overflow. `FCMPD` sets `N` if a<b, `Z` if a==b, `V` if unordered, `C` cleared (open item 7 in the ISA: the branch
     conditions do not yet separate "unordered" cleanly).
+15. **DECISION: pre-decrement syntax.** §5 writes mode `0111` as `-d(Rn)`, which is also how a negative base displacement is written. Spec:
+    `-(Rn)` pre-decrements by the operand size, `(Rn)-d` by an explicit stride (the mirror of `(Rn)+d`); `-d(Rn)` is always base+displacement.
