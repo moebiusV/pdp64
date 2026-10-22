@@ -3,6 +3,13 @@
 **Digital Equity Collective's Pragmatic Digital Processor, 64 bit.**
 *An update and refresh of the PDP-11 instruction set and architecture for the modern world.*
 
+The PDP-11 and the VAX-11 were famous for being pleasant, even fun, to program in assembly language. Afterward computer design went in many directions, and
+that fun was largely lost. This project brings them forward with the lessons of the last fifty years: which instructions are needed to get things done and which
+are not, what a CPU is actually used for, and which instructions it needs the most. Some of the answers were surprising. The bit patterns are chosen to make
+code smaller and the silicon easier to wire, and the design is also chosen to leave less room for error: fewer footguns, fewer surprises. At every step it
+reduces code size at a different semantic level, and the last level is the careful choice of the instructions that give the most for the least, so that you can
+program what you mean to program without long sequences of boilerplate.
+
 A 64-bit, little-endian, LP64 successor to the PDP-11: sixteen general registers, variable-length instructions of 2, 4, 6 or 8 bytes in 16-bit parcels, the
 PDP-11's orthogonal addressing modes, and a modern base (bit counts, 64-bit divide, IEEE 754 binary64, binary32 and binary16 with exception flags, block operations,
 atomics, UTF-8 instructions). The toolchain here is written from one source of truth, a set of [hbnf](https://github.com/moebiusV/hbnf) grammars, so that the assembler, linker, emulator, compiler
