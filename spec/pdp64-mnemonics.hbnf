@@ -292,8 +292,9 @@ mn-sys-none = "nop"@0b0000
 mn-sysreg = "mfsr"@0b1101
           | "mtsr"@0b1110
 
-; The system registers, by name, as the number in the `sr` field of parcel 1 of mfsr and mtsr (ISA 4.11, errata 32).  `eva` and `ecause` are read only: a write
-; is an illegal instruction (pdp64exec.c; tests/sim/sysreg-write-eva.s).  A number that is not listed is unassigned and also illegal.
+; The system registers, by name, as the number in the `sr` field of parcel 1 of mfsr and mtsr (ISA 4.11, errata 32, System v1: docs/pdp64-system-architecture.md
+; section 15).  The registers listed in `sysreg-ro` are read only: a write is an illegal instruction (pdp64exec.c; tests/sim/sysreg-write-eva.s), and the
+; assembler refuses it.  A number that is not listed is unassigned and also illegal.
 sysreg = "ptbr"@0
        | "epc"@1
        | "eva"@2
@@ -302,6 +303,16 @@ sysreg = "ptbr"@0
        | "dmw1"@5
        | "usp"@6
        | "ssp"@7
+       | "epsw"@8
+       | "vbr"@9
+       | "mmuctl"@10
+       | "asid"@11
+       | "cpuid"@12
+
+; The read-only system registers (the numbers of `sysreg`)
+sysreg-ro = "eva"@2
+          | "ecause"@3
+          | "cpuid"@12
 
 ; SYS classes with an operand: the number is the class in the reg field
 mn-sys = "mtps"@0b0001

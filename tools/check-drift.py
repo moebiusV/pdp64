@@ -181,14 +181,14 @@ def asm_words(src, *flags):
         return words(o) if r.returncode == 0 else None
 def expand(word):
     return subprocess.run([AS, '--p2-expand', '%04x' % word], capture_output=True, text=True).stdout.split()
-# --- the system registers: the number in the sr byte of parcel 1, the general register in the next nibble, the pad zero; eva and ecause read only ---
+# --- the system registers: the number in the sr byte of parcel 1, the general register in the next nibble, the pad zero; the registers of `sysreg-ro` read only ---
 for name, num in en['sysreg']:
     checked += 1
     w = asm_words('mfsr r2, ' + name)
     if w is None or len(w) != 2 or w[1] != num << 8 | 2 << 4:
         bad += 1; print('DRIFT sysreg %s: `mfsr r2, %s` assembles to %s, the number is %d' % (name, name, w, num))
     wr = asm_words('mtsr %s, r2' % name)
-    ro = name in ('eva', 'ecause')
+    ro = name in dict(en['sysreg-ro'])
     if (wr is None) != ro or (wr is not None and wr != [w[0] + 1, w[1]]):
         bad += 1; print('DRIFT sysreg %s: mtsr is %s (read only: %s)' % (name, wr, ro))
 # --- the wide cbCC: the same condition numbers, opcode 0x29, six bytes: imm16 in parcel 1, disp16 in parcel 2 ---

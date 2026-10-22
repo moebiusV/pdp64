@@ -15,3 +15,12 @@
 	mtsr	usp, r5
 	mtsr	ssp, sp
 	mfsr	fp, ssp
+	mfsr	r1, epsw
+	mfsr	r2, vbr
+	mfsr	r3, mmuctl
+	mfsr	r4, asid
+	mfsr	r5, cpuid
+	mtsr	epsw, r6
+	mtsr	vbr, r7
+	mtsr	mmuctl, r8
+	mtsr	asid, r9

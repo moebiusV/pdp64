@@ -1,0 +1,115 @@
+; pdp64 System v1 (docs/pdp64-system-architecture.md section 15): the numbers of privileged mode, exceptions, interrupts, the memory-management unit and
+; the devices of the virt machine.  Written once, here, as enum rules; tools/mkgrammar.py generates a #define for each in build/pdp64-consts.h (the
+; enumerator "pri" of the rule psw is PSW_PRI), and the assembler, the shared core (common/pdp64exec.c), sim64, the QEMU target and the tests use them
+; from there.  (The system-register numbers are in pdp64-mnemonics.hbnf, because the assembler's grammar names them.)
+; Rules of this file are not part of the instruction grammar; they follow the layout of pdp64-mnemonics.hbnf so that one reader serves both.
+
+; The processor status word, 16 bits: the value is the position of the field's lowest bit.  C V Z N are the PDP-11 order.
+psw = "c"@0
+    | "v"@1
+    | "z"@2
+    | "n"@3
+    | "t"@4
+    | "pri"@5
+    | "mode"@8
+    | "prev"@10
+
+; The widths of the multi-bit fields (the others are one bit); bits 12 to 15 are reserved and read as zero.
+psw-width = "pri"@3
+          | "mode"@2
+          | "prev"@2
+
+; The modes, as on the PDP-11: kernel 0, supervisor 1, user 3 (2 is reserved: an illegal instruction when it is loaded into the PSW).
+mode = "kernel"@0
+     | "supervisor"@1
+     | "user"@3
+
+; The vector numbers; ECAUSE equals the vector number.  The table has `count` entries of eight bytes at the physical address VBR + 8 * vector.
+vector = "reset"@0
+       | "machine-check"@1
+       | "illegal"@2
+       | "privileged"@3
+       | "misaligned"@4
+       | "noncanonical"@5
+       | "ifault"@6
+       | "lfault"@7
+       | "sfault"@8
+       | "iprot"@9
+       | "lprot"@10
+       | "sprot"@11
+       | "divzero"@12
+       | "busfault"@13
+       | "lpad"@14
+       | "bpt"@15
+       | "irq-base"@32
+       | "timer"@32
+       | "console-in"@33
+       | "console-out"@34
+       | "trap-base"@256
+       | "count"@512
+
+; The page-table entry, 64 bits: the position of the field's lowest bit.  A non-leaf entry has V = 1 and R = W = X = 0.  The physical page number is
+; physical address bits 12 to 39, in place; every bit not named here must be zero.
+pte = "v"@0
+    | "r"@1
+    | "w"@2
+    | "x"@3
+    | "u"@4
+    | "g"@5
+    | "a"@6
+    | "d"@7
+    | "mt"@8
+    | "ppn"@12
+
+pte-width = "mt"@2
+          | "ppn"@28
+
+; The memory type MT of a page: cached, uncached, device strongly ordered, device weakly ordered.
+mt = "cached"@0
+   | "uncached"@1
+   | "device"@2
+   | "device-weak"@3
+
+; The geometry: 4 KB pages, three levels of 512 entries, a 39-bit virtual address (bits 63 to 39 must equal bit 38), a 40-bit physical address.
+mmu = "page-bits"@12
+    | "level-bits"@9
+    | "levels"@3
+    | "va-bits"@39
+    | "pa-bits"@40
+
+; MMUCTL bits (the system register mmuctl).
+mmuctl = "enable"@0
+
+; The interrupt priority levels of the devices.
+irq-level = "timer"@6
+          | "console"@4
+
+; The physical memory map of the pdp64-virt machine.  RAM starts at 0 (at most `ram-max` bytes); each device has a 4 KB page.
+map = "ram"@0
+    | "ram-max"@0x10000000
+    | "dev"@0x10000000
+    | "timer"@0x10000000
+    | "console"@0x10001000
+    | "dev-end"@0x20000000
+
+; The timer: a 64-bit free-running counter that counts at `hz` ticks a second of QEMU's virtual clock, a 64-bit compare, and a control/status register.
+; The interrupt (level irq-level timer, vector vector timer) is asserted while counter >= compare and CTL enable is 1.  PENDING reads counter >= compare.
+timer-reg = "counter"@0
+          | "compare"@8
+          | "control"@16
+
+timer-ctl = "enable"@0
+          | "pending"@1
+
+timer-clock = "hz"@10000000
+
+; The console, in the spirit of the KL11: four 64-bit registers.  RXDB reads the received byte (and clears RXCS READY), TXDB takes the byte to send (and clears
+; TXCS READY until it has gone).  READY is bit 7 and IE (interrupt enable) bit 6 of both status registers, as in the KL11.  Input interrupts with vector
+; vector console-in while RXCS READY and IE; output with vector console-out while TXCS READY and IE; both at level irq-level console.
+console-reg = "rxcs"@0
+            | "rxdb"@8
+            | "txcs"@16
+            | "txdb"@24
+
+console-csr = "ie"@6
+            | "ready"@7
