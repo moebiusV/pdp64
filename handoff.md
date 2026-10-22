@@ -2,7 +2,7 @@
 
 [← pdp64 index](README.md)
 
-Written 2026-10-22. It says what exists, where it lives, what is not in git, how to rebuild everything and in what order, what is half-done, and what is
+Written 2026-10-22, brought up to date after errata 40 and the push of that day. It says what exists, where it lives, what is not in git, how to rebuild everything and in what order, what is half-done, and what is
 waiting on a decision. The small machine this was built on has 3.9 GB of RAM and 2 cores; that was the main limit, and the build commands below give the
 larger-machine settings.
 
@@ -17,7 +17,7 @@ larger-machine settings.
 Push rules the author set: `pdp64` goes to `origin main`, `pcc` to `mine master`; never rewrite pushed history; one commit per feature; commit as
 `git -c user.name="David Walther" -c user.email=tederific@gmail.com`; message ends with `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`.
 
-**Before leaving the old machine:** run `git status` and `git log --oneline origin/main..HEAD` in `pdp64`, and `git log --oneline mine/master..HEAD` in `pcc`; push what
+**State when this was last updated:** everything verified was pushed (`pdp64` `origin/main`, `pcc` `mine/master`), checked by a clean-clone `tools/check-all.sh` of the committed HEAD; the head commits are listed in section 9. **Before leaving the old machine:** run `git status` and `git log --oneline origin/main..HEAD` in `pdp64`, and `git log --oneline mine/master..HEAD` in `pcc`; push what
 is committed and verified (the rule is a clean-clone `tools/check-all.sh` of the committed HEAD first). Uncommitted files at the time of writing: see section 6.
 
 ## 2. What is NOT in git (copy it, or rebuild it)
@@ -54,10 +54,11 @@ is committed and verified (the rule is a clean-clone `tools/check-all.sh` of the
 |---|---|
 | ISA, grammars, `as64`, `ld64`, `sim64` | working; the numbers (opcodes, fields, page-2 table) come from `spec/*.hbnf`; semantics once in `common/pdp64exec.c` |
 | pcc back end | working; 510 C tests pass under `sim64` and QEMU; sizes in section 5 |
-| QEMU user-mode machine | working; kernel-mode machine (System v1: exceptions, interrupts, MMU walker) committed in steps 1 to 4; timer and console in progress (see section 6) |
-| LLVM back end | milestone 1 (assembler, disassembler, ELF object writer, checked against `as64`) done and verified; it needs a re-check against the ISA changes of errata 39 (section 14.8 of the system architecture document is the place to record it); no code generator yet |
+| QEMU machines | working: the user-mode machine and the kernel-mode machine of System v1 (exceptions, interrupts with priority 7 on entry, MMU walker, timer, console); 43 sim64 programs and 52 QEMU tests pass; the mini-kernel test and the dynamic `pushx`/`popx` measurement exist or are queued (section 6) |
+| LLVM back end | milestone 1 (assembler, disassembler, ELF object writer, checked against `as64`) done and verified against the ISA of the morning of 2026-10-22; `isync`/`hint` are in the generator and the generated files (committed, fresh) but **`llvm-mc` has not been rebuilt and `llvm/check.sh` not rerun since errata 39**: that re-check is the next job and goes into section 14.8 of the system architecture document; no code generator yet |
 | System v1 specification | accepted (`pdp64-system-architecture.md` section 15) |
-| Errata 39 (flag cleanup, `ISYNC`, `HINT`) | compiler side done and verified; core side (`common/pdp64exec.c`, grammar, `p2.c`, tests) being done by the last running agent |
+| Errata 39 (flag cleanup, `ISYNC`, `HINT`) | done, verified and pushed (compiler, core, grammar, tests, invariant checker `tools/check-flaginv.sh`) |
+| Errata 40 (priority 7 on every exception and interrupt entry) | decided; documentation committed; core, QEMU and tests committed (`06e4a05`); see section 9 for whether it is pushed |
 | operating system | planned: first a 3BSD port (the licence of the 3BSD sources is **unestablished**), OpenBSD later if the LLVM back end proves easy; nothing written |
 
 ## 5. Numbers (827 fair-corpus files, bytes = text + rodata + data)
@@ -71,21 +72,20 @@ Measured by `tools/pdp64size.sh`; references in `docs/codegen-data/`. The flag-r
 
 ## 6. What is half-done
 
-* **Uncommitted changes** in `~/claude/pdp64` when this was written (24 files): `common/pdp64exec.c` (the core agent's errata 39 work), and several `docs/codegen-data/kernelasm/*.csv`
-  and `tools/archcmp.py` (partial output of the survey and comparison agents, which were stopped). In `~/claude/pcc`: `arch/pdp64/pdp64-names.h` (a regenerated header export). Check each with `git diff` before committing or discarding.
-* **Stopped agents** (their committed work is in git, their notes are only in the session transcript): System v1/QEMU (was renaming a function that clashed with QEMU's `timer_expired`
-  in `qemu/hw-pdp64/timer.c`), the cross-architecture comparison (`docs/arch-comparison.md` is not written; `tools/archcmp.py` exists; the totals file from a 13-file trial must not be quoted),
-  the kernel-assembly survey (`docs/kernel-asm-survey.md` and `tools/kernelasm.py` partly written), the kernel pain-points research (`docs/kernel-pain-points.md` not written; Phase 1 had only started
-  cloning). Restart each with a fresh agent and the brief in the session transcript; one at a time on a small machine.
+* **Uncommitted changes** in `~/claude/pdp64` (partial output of the two stopped survey and comparison agents, deliberately not committed): `tools/archcmp.py`, `tools/kernelasm.py`, `tools/kernelpain.py`, and CSVs under `docs/codegen-data/archcmp/` and `docs/codegen-data/kernelasm/`. They are
+  work in progress: finish or discard them; do not commit them unchecked. In `~/claude/pcc`: only an untracked `pdp64-docs-2026-10-21.tar`.
+* **Stopped agents** (their committed work is in git; their briefs are only in the session transcript): the cross-architecture comparison (`docs/arch-comparison.md` is not written; `tools/archcmp.py` exists; the totals file from a 13-file trial must not be quoted), the kernel-assembly survey (`docs/kernel-asm-survey.md` and `tools/kernelasm.py`
+  partly written), the kernel pain-points research (`docs/kernel-pain-points.md` not written; Phase 1 had only begun cloning, and its clone directory `~/claude/kernel-history` is incomplete). Restart each with a fresh agent, one at a time on a small machine. **The LLVM re-check** (section 4) is queued first.
+* **Known open spec items:** the `DMW` format and `MMUCTL`; bus atomics; `pushm`/`popm`/`pushx`/`popx` aborts can leave earlier stores; block copy more than one byte per step against the sequential-consistency promise; the architecture-text items of the readiness review still to be written into the ISA.
 * **Web research** (the kernel mailing lists, the 3BSD sources and licence, the handbooks listed in `docs/fact-check-2026-10-22.md` section 12) uses the browser skill, not `WebFetch`. The author wants to be told
   before `browse.py` is started because it opens a visible window; never `kill` it, use `./browsectl quit`. Chrome was found left running after a quit, which needs a WSL shutdown to clear.
 
 ## 7. Decisions taken, and decisions open
 
-Decided (all in `docs/errata.md`, items 1 to 39): the ISA (three parcels, page 2, `cbCC` forms, `rori32`, `=K` literal pool, `pushx`/`popx`, FP16), the ABI (`docs/abi.md`), System v1 (register-based exception entry,
+Decided (all in `docs/errata.md`, items 1 to 40): the ISA (three parcels, page 2, `cbCC` forms, `rori32`, `=K` literal pool, `pushx`/`popx`, FP16), the ABI (`docs/abi.md`), System v1 (register-based exception entry,
 vector table at `VBR + 8*vector`, software accessed/dirty bits, three-level page tables, MMUCTL, eight priority levels), devices as eight memory-mapped registers plus DMA, the first OS being a 3BSD port, and the
 flag cleanup of errata 39: flags are two groups (`C` and `{N,Z,V}`), `cbCC` and moves, loads and stores write no flags, shifts write the same flags for every count, `mscn` writes all four, rotates and `dshr`
-write no flags, `asl` keeps `V = N xor C`; new `ISYNC` and `HINT`.
+write no flags, `asl` keeps `V = N xor C`; new `ISYNC` and `HINT`; and errata 40: every exception and interrupt enters at priority 7 (a PDP-11 throwback, unverified against the handbook).
 
 Open: the `DMW` register format and whether `MMUCTL` should exist at all (system design document); the Q64 bus transactions and the atomics question (`pdp64-q64-bus.md`); the 3BSD licence; the LLVM milestones
 (selection, calling convention, tied operands, clang); the architecture-text items of the readiness review (`pdp64-ooo-readiness.md` section 2) still to be written into the ISA; out-of-order readiness is a design
@@ -97,3 +97,7 @@ aim while the FPGA and ASIC stay in order.
 * The README is the only index of documents; originals in `docs/orig/` are never edited; never edit another agent's files without telling it.
 * Do not `kill` `browse.py`; do not unset `VAX780`; do not delete the author's files without asking; `tools/check-all.sh` stays green.
 * On a small machine: one heavy job at a time, `nice -n 10`, `ninja -j1`; an exit 137 is the system killing a process, not a test failure.
+
+## 9. Commits at the time of writing
+
+On 2026-10-22, after a clean-clone `tools/check-all.sh` of the committed HEAD (exit 0; sim64 43 of 43, QEMU 52 run, 0 failed, 3 skipped; C suite 516 of 516 under sim64 and QEMU): `pdp64` `main` = `06e4a05` plus the commit that adds this line (see `git log -1`), `pcc` `master` = `d44d98a4`. Both pushed.
