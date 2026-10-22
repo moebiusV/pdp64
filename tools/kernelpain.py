@@ -1,44 +1,43 @@
 #!/usr/bin/env python3
-"""kernelpain.py: mine kernel commit histories for the vocabulary of pain.
+"""kernelpain.py: how much of the CURRENT kernels is vocabulary of pain.
 
 Reproducible companion of docs/kernel-pain-points.md (Appendix B).
 
+Scope change (2026-10-22, the author): the first version of this tool mined the
+full git history of Linux and the BSDs (git log over commit messages). That was
+dropped: the author wants the current kernels. History-shaped questions (when
+did a pain start, how did it change) are left to the web research of Phase 2.
+Nothing in this file reads git history.
+
 Sub-commands
-  clones   print (or with --run, execute) the blobless clone commands
-  mine R   walk the whole history of repository R once, classify each
-           non-merge commit by regular expression over subject+body, and
-           write CSVs under docs/codegen-data/kernelpain/
-  report   print summary tables (markdown) from the CSVs
+  trees        print the commit hash and date of each tree used
+  grep         run every category over every tree, write the CSVs under
+               docs/codegen-data/kernelpain/ (counts.csv, totals.csv)
+  structural   run the named structural measurements (structural.csv)
+  report       print markdown tables from the CSVs
 
-Repositories (directories under ~/claude/kernel-history/):
-  linux   torvalds/linux (2005 onward)
-  linuxold  kernel.org history/history.git (1991 to 2005)
-  freebsd, netbsd, openbsd
+Trees (sparse checkouts under ~/claude/kernel-src; shallow, blobless):
+  linux, freebsd, netbsd, openbsd. Which directories are present is recorded
+  in trees.csv by `trees`. Sparse additions used for this study, one at a time:
+    linux:   git sparse-checkout add Documentation mm kernel include/linux
+             include/asm-generic block net/core drivers/irqchip drivers/iommu
+             virt lib
+    BSDs:    git sparse-checkout add sys/kern sys/vm|sys/uvm share/man/man9 sys/sys
 
-Method: one `git log --no-merges --name-only` pass per repository; a commit
-is counted once per category it matches, and once per area (top-level
-directory or architecture directory) it touches. A commit that touches two
-architectures is counted in both. Nothing here reads file contents, so the
-blobless clones suffice. The categories are keyword regexes: they measure
-vocabulary, not truth (see the document's 'what this does not show').
+Method: GNU grep -P (-r -I -i -c) per category per tree; a count is lines
+that match (not occurrences), per file, then summed per area (an architecture
+directory, or a subsystem directory) and per file kind (code, doc, kconfig).
+A category's regex measures vocabulary, not truth.
 """
-import csv, os, re, subprocess, sys, collections, heapq
+import csv, os, re, subprocess, sys, collections
 
 HOME = os.path.expanduser("~")
-HIST = os.path.join(HOME, "claude", "kernel-history")
+SRC = os.path.join(HOME, "claude", "kernel-src")
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "docs", "codegen-data", "kernelpain")
+TREES = ["linux", "freebsd", "netbsd", "openbsd"]
 
-CLONES = {
-    "linux": "https://github.com/torvalds/linux",
-    "linuxold": "https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git",
-    "freebsd": "https://github.com/freebsd/freebsd-src",
-    "netbsd": "https://github.com/NetBSD/src",
-    "openbsd": "https://github.com/openbsd/src",
-}
-
-# (name, regex). Case-insensitive, applied to subject + body.
-W = r"\b"
+# (name, pcre, case_sensitive)
 CATS = [
     # the hardware-defect vocabulary
     ("errata", r"\berrat(?:um|a)\b"),
@@ -95,7 +94,11 @@ CATS = [
     # fast paths
     ("net-storage-fastpath", r"\b(?:napi|xdp|zero-copy|zerocopy|busy[- ]poll\w*|io_uring|af_xdp|gro|tso|batching|lockless|lock-free)\b"),
 ]
-CATRE = [(n, re.compile(r, re.I)) for n, r in CATS]
+CATS += [
+    ("marker-xxx-fixme-hack", r"\b(?:XXX|FIXME|HACK|KLUDGE)\b"),
+    ("hardware-is-broken", r"\b(?:(?:hardware|cpu|chip|silicon|firmware|bios|hw) (?:bug|bugs|quirk|erratum|errata|brokenness)|broken (?:hardware|hw|firmware|bios|cpus?)|buggy (?:hardware|hw|cpus?|firmware|bios|devices?))\b"),
+]
+CASE_SENSITIVE = {"marker-xxx-fixme-hack"}
 
 # area normalisation -------------------------------------------------------
 ARCH_FAMILY = {
@@ -124,11 +127,11 @@ DROPPED = {"Documentation"}  # kept as its own area
 
 def areas_for(repo, path):
     p = path.split("/")
-    if repo in ("linux", "linuxold"):
+    if repo == "linux":
         if p[0] == "arch" and len(p) > 2:
             return "arch/" + ARCH_FAMILY.get(p[1], p[1])
         if p[0] in ("mm", "kernel", "fs", "net", "drivers", "Documentation", "include",
-                    "lib", "security", "block", "ipc", "init", "crypto", "sound", "tools"):
+                    "lib", "security", "block", "ipc", "init", "crypto", "sound", "tools", "virt"):
             return p[0]
         return "other"
     if repo == "freebsd":
@@ -144,157 +147,235 @@ def areas_for(repo, path):
     return "other"
 
 
-def mine(repo):
-    d = os.path.join(HIST, repo)
-    if not os.path.isdir(d):
-        sys.exit("no clone at " + d)
-    head = subprocess.check_output(["git", "-C", d, "rev-parse", "HEAD"], text=True).strip()
-    hdate = subprocess.check_output(["git", "-C", d, "log", "-1", "--format=%cI", "HEAD"], text=True).strip()
-    cmd = ["nice", "-n", "10", "git", "-C", d, "-c", "core.quotepath=off", "log", "--no-merges",
-           "--no-renames", "--name-only", "--date=format:%Y-%m-%d",
-           "--format=%x01%H%x1f%ad%x1f%s%x1f%b%x02"]
-    print("running:", " ".join(cmd), file=sys.stderr)
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, text=True, errors="replace", bufsize=1 << 20)
-    cat_area_year = collections.Counter()   # (cat, area, year, kind) -> n ; kind any|subj
-    tot_area_year = collections.Counter()   # (area, year) -> n
-    cat_year = collections.Counter()        # (cat, year, kind) -> n, once per commit
-    tot_year = collections.Counter()
-    first = collections.defaultdict(list)   # cat -> [(date, hash, subj)] earliest 3
-    longest = collections.defaultdict(list) # cat -> heap [(bodylen, hash, date, subj, areas)]
-    buf = ""
-    ncommits = 0
 
-    def handle(rec):
-        nonlocal ncommits
-        if "\x02" not in rec:
-            return
-        head_, names = rec.split("\x02", 1)
-        parts = head_.split("\x1f", 3)
-        if len(parts) < 4:
-            return
-        h, date, subj, body = parts
-        year = date[:4]
-        if not year.isdigit() or not (1970 <= int(year) <= 2027):
-            return
-        ncommits += 1
-        areas = set()
-        for ln in names.split("\n"):
-            ln = ln.strip()
-            if ln:
-                areas.add(areas_for(repo, ln))
-        if not areas:
-            areas = {"none"}
-        tot_year[year] += 1
-        for a in areas:
-            tot_area_year[(a, year)] += 1
-        text = subj + "\n" + body
-        for name, rx in CATRE:
-            if rx.search(text):
-                insubj = bool(rx.search(subj))
-                cat_year[(name, year, "any")] += 1
-                if insubj:
-                    cat_year[(name, year, "subj")] += 1
-                for a in areas:
-                    cat_area_year[(name, a, year, "any")] += 1
-                    if insubj:
-                        cat_area_year[(name, a, year, "subj")] += 1
-                if insubj:
-                    f = first[name]
-                    f.append((date, h, subj, ",".join(sorted(areas))))
-                    f.sort()
-                    del f[3:]
-                    lg = longest[name]
-                    item = (len(body), h, date, subj, ",".join(sorted(areas)))
-                    if len(lg) < 6:
-                        heapq.heappush(lg, item)
-                    else:
-                        heapq.heappushpop(lg, item)
 
-    while True:
-        chunk = p.stdout.read(1 << 22)
-        if not chunk:
-            break
-        buf += chunk
-        recs = buf.split("\x01")
-        buf = recs.pop()
-        for r in recs:
-            if r:
-                handle(r)
-    if buf:
-        handle(buf)
-    p.wait()
+
+
+def kind_of(repo, path):
+    b = os.path.basename(path)
+    if path.startswith("Documentation/") or "/man/" in path or b.endswith((".rst", ".txt", ".md", ".9")):
+        return "doc"
+    if b.startswith("Kconfig") or b.endswith(".in") and "Kconfig" in b:
+        return "kconfig"
+    if b.endswith((".c", ".h", ".S", ".s", ".rs", ".asm", ".inc")):
+        return "code"
+    return "other"
+
+
+def git_head(t):
+    d = os.path.join(SRC, t)
+    h = subprocess.check_output(["git", "-C", d, "rev-parse", "HEAD"], text=True).strip()
+    dt = subprocess.check_output(["git", "-C", d, "log", "-1", "--format=%cs"], text=True).strip()
+    return h, dt
+
+
+def trees():
     os.makedirs(OUT, exist_ok=True)
-    with open(os.path.join(OUT, f"{repo}-cat-area-year.csv"), "w", newline="") as f:
+    with open(os.path.join(OUT, "trees.csv"), "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["category", "area", "year", "kind", "commits"])
-        for k in sorted(cat_area_year):
-            w.writerow(list(k) + [cat_area_year[k]])
-    with open(os.path.join(OUT, f"{repo}-cat-year.csv"), "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["category", "year", "kind", "commits"])
-        for k in sorted(cat_year):
-            w.writerow(list(k) + [cat_year[k]])
-    with open(os.path.join(OUT, f"{repo}-totals.csv"), "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["area", "year", "commits"])
-        for k in sorted(tot_area_year):
-            w.writerow(list(k) + [tot_area_year[k]])
-    with open(os.path.join(OUT, f"{repo}-year-totals.csv"), "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["year", "commits"])
-        for k in sorted(tot_year):
-            w.writerow([k, tot_year[k]])
-    with open(os.path.join(OUT, f"{repo}-telling.csv"), "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["category", "why", "hash", "date", "subject", "areas", "bodylen"])
-        for c in first:
-            for (date, h, s, a) in first[c]:
-                w.writerow([c, "earliest", h, date, s, a, ""])
-            for (bl, h, date, s, a) in sorted(longest[c], reverse=True):
-                w.writerow([c, "longest-body", h, date, s, a, bl])
-    with open(os.path.join(OUT, f"{repo}-meta.csv"), "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["repo", "url", "head", "head_date", "non_merge_commits"])
-        w.writerow([repo, CLONES[repo], head, hdate, ncommits])
-    print(f"{repo}: {ncommits} non-merge commits, head {head}", file=sys.stderr)
+        w.writerow(["tree", "head", "date", "sparse_dirs"])
+        for t in TREES:
+            h, dt = git_head(t)
+            sp = subprocess.check_output(["git", "-C", os.path.join(SRC, t), "sparse-checkout", "list"], text=True).split()
+            w.writerow([t, h, dt, " ".join(sp)])
+            print(t, h, dt, len(sp), "sparse dirs")
 
 
-def clones(run):
-    os.makedirs(HIST, exist_ok=True)
-    for name, url in CLONES.items():
-        c = ["nice", "-n", "10", "git", "clone", "--filter=blob:none", "--no-checkout", url,
-             os.path.join(HIST, name)]
-        print(" ".join(c))
-        if run and not os.path.isdir(os.path.join(HIST, name)):
-            subprocess.call(c)
+def tree_files(t):
+    """All regular files of the working tree (sparse), relative paths."""
+    root = os.path.join(SRC, t)
+    out = []
+    for dp, dn, fn in os.walk(root):
+        if ".git" in dn:
+            dn.remove(".git")
+        for x in fn:
+            out.append(os.path.relpath(os.path.join(dp, x), root))
+    return out
 
 
-def load(repo):
-    rows = []
-    fn = os.path.join(OUT, f"{repo}-cat-area-year.csv")
+def count_lines_of(root, rel):
+    try:
+        with open(os.path.join(root, rel), "rb") as f:
+            return f.read().count(b"\n")
+    except OSError:
+        return 0
+
+
+def totals():
+    rows = collections.Counter()
+    for t in TREES:
+        root = os.path.join(SRC, t)
+        for rel in tree_files(t):
+            k = kind_of(t, rel)
+            if k == "other":
+                continue
+            a = areas_for(t, rel)
+            rows[(t, a, k, "files")] += 1
+            rows[(t, a, k, "lines")] += count_lines_of(root, rel)
+    with open(os.path.join(OUT, "totals.csv"), "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["tree", "area", "kind", "files", "lines"])
+        keys = sorted({(t, a, k) for (t, a, k, _) in rows})
+        for t, a, k in keys:
+            w.writerow([t, a, k, rows[(t, a, k, "files")], rows[(t, a, k, "lines")]])
+
+
+def grep_all():
+    os.makedirs(OUT, exist_ok=True)
+    totals()
+    res = collections.Counter()
+    for t in TREES:
+        root = os.path.join(SRC, t)
+        for name, rx in CATS:
+            cmd = ["nice", "-n", "10", "grep", "-rPIc", "--exclude-dir=.git"]
+            if name not in CASE_SENSITIVE:
+                cmd.append("-i")
+            cmd += ["-e", rx, "."]
+            p = subprocess.run(cmd, cwd=root, capture_output=True, text=True, errors="replace")
+            for ln in p.stdout.splitlines():
+                path, _, n = ln.rpartition(":")
+                if not n.isdigit() or n == "0":
+                    continue
+                path = path[2:] if path.startswith("./") else path
+                k = kind_of(t, path)
+                if k == "other":
+                    continue
+                a = areas_for(t, path)
+                res[(t, name, a, k, "files")] += 1
+                res[(t, name, a, k, "lines")] += int(n)
+            print(t, name, file=sys.stderr)
+    with open(os.path.join(OUT, "counts.csv"), "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["tree", "category", "area", "kind", "files", "lines"])
+        keys = sorted({k[:4] for k in res})
+        for k in keys:
+            w.writerow(list(k) + [res[k + ("files",)], res[k + ("lines",)]])
+
+
+# Named structural measurements: (id, tree, description, shell command run in the tree root,
+# unit). The command prints a single integer.
+STRUCT = [
+    ("kconfig-erratum-arm64", "linux", "Kconfig options named *ERRATUM/ERRATA in arch/arm64/Kconfig", "grep -c '^config .*ERRATUM\\|^config .*ERRATA' arch/arm64/Kconfig", "options"),
+    ("kconfig-erratum-arm", "linux", "Kconfig options named *ERRATUM/ERRATA in arch/arm (Kconfig and mm/Kconfig)", "grep -c '^config .*ERRATUM\\|^config .*ERRATA' arch/arm/Kconfig arch/arm/mm/Kconfig | awk -F: '{s+=$NF} END{print s}'", "options"),
+    ("kconfig-erratum-riscv", "linux", "Kconfig options named *ERRATUM/ERRATA in arch/riscv/Kconfig.errata", "grep -c '^config .*ERRATUM\\|^config .*ERRATA' arch/riscv/Kconfig.errata", "options"),
+    ("kconfig-erratum-all-arch", "linux", "Kconfig options named *ERRATUM/ERRATA anywhere under arch", "grep -rh '^config .*ERRATUM\\|^config .*ERRATA' arch --include='Kconfig*' | wc -l", "options"),
+    ("x86-bug-flags", "linux", "X86_BUG_* bug flags defined", "grep -c 'define X86_BUG_' arch/x86/include/asm/cpufeatures.h", "flags"),
+    ("x86-vuln-blacklist", "linux", "CPU model rows in the vulnerability blacklist (VULNBL_*)", "grep -cE '^\\s*VULNBL_' arch/x86/kernel/cpu/common.c", "rows"),
+    ("x86-bugs-c-lines", "linux", "lines of arch/x86/kernel/cpu/bugs.c (mitigation selection)", "wc -l < arch/x86/kernel/cpu/bugs.c", "lines"),
+    ("x86-mitigation-kconfig", "linux", "MITIGATION_* Kconfig options in arch/x86/Kconfig", "grep -c 'config MITIGATION_' arch/x86/Kconfig", "options"),
+    ("hw-vuln-docs", "linux", "files in Documentation/admin-guide/hw-vuln", "ls Documentation/admin-guide/hw-vuln | wc -l", "files"),
+    ("hw-vuln-doc-lines", "linux", "lines in Documentation/admin-guide/hw-vuln", "cat Documentation/admin-guide/hw-vuln/*.rst | wc -l", "lines"),
+    ("arm64-errata-kconfig", "linux", "ARM64_ERRATUM_* Kconfig options", "grep -c 'config ARM64_ERRATUM_' arch/arm64/Kconfig", "options"),
+    ("arm64-workaround-caps", "linux", "ARM64_WORKAROUND_* capabilities in the capability table", "grep -cE '^WORKAROUND_' arch/arm64/tools/cpucaps", "capabilities"),
+    ("arm64-silicon-errata-rows", "linux", "rows of Documentation/arch/arm64/silicon-errata.rst naming an erratum", "grep -cE '^\\| [A-Za-z].*(#|ID|errata|Erratum|[0-9]{5,})' Documentation/arch/arm64/silicon-errata.rst", "rows"),
+    ("memory-barriers-lines", "linux", "lines of Documentation/memory-barriers.txt", "wc -l < Documentation/memory-barriers.txt", "lines"),
+    ("rcu-doc-lines", "linux", "lines under Documentation/RCU", "find Documentation/RCU -type f | xargs cat | wc -l", "lines"),
+    ("locking-doc-lines", "linux", "lines under Documentation/locking", "find Documentation/locking -type f | xargs cat | wc -l", "lines"),
+    ("kernel-parameters-mitigation-lines", "linux", "lines of kernel-parameters.txt mentioning mitigat/spectre/retbleed/l1tf/mds", "grep -ciE 'mitigat|spectre|retbleed|l1tf|mds|srbds|ssb' Documentation/admin-guide/kernel-parameters.txt", "lines"),
+    ("extable-uses-x86", "linux", "exception-table annotations in arch/x86 (_ASM_EXTABLE*, EX_TYPE_*)", "grep -rhE '_ASM_EXTABLE|EX_TYPE_' arch/x86 | wc -l", "lines"),
+    ("arch-flush-tlb-defs", "linux", "files under arch/*/include and arch/*/mm mentioning flush_tlb_", "grep -rlE 'flush_tlb_' arch | wc -l", "files"),
+    ("arch-cache-flush-defs", "linux", "files under arch mentioning flush_dcache_page, flush_cache_, flush_icache_", "grep -rlE 'flush_dcache_page|flush_cache_(mm|range|page)|flush_icache_' arch | wc -l", "files"),
+    ("arm-lines-vivt-alias", "linux", "lines in arch/arm mentioning aliasing/VIVT/VIPT", "grep -rciE 'aliasing|vivt|vipt' arch/arm | awk -F: '{s+=$NF} END{print s}'", "lines"),
+    ("this-cpu-uses", "linux", "this_cpu_/__this_cpu_/per_cpu( uses in kernel, mm, arch", "grep -rhE 'this_cpu_|per_cpu\\(|raw_cpu_' kernel mm arch | wc -l", "lines"),
+    ("rcu-api-uses", "linux", "rcu_read_lock/rcu_dereference/call_rcu uses in kernel and mm", "grep -rhE 'rcu_read_lock|rcu_dereference|call_rcu|synchronize_rcu' kernel mm | wc -l", "lines"),
+    ("readonce-uses", "linux", "READ_ONCE/WRITE_ONCE uses in kernel and mm", "grep -rhE 'READ_ONCE|WRITE_ONCE' kernel mm | wc -l", "lines"),
+    ("smp-barrier-uses", "linux", "smp_mb/rmb/wmb/load_acquire/store_release uses in kernel, mm and arch", "grep -rhE 'smp_(mb|rmb|wmb|load_acquire|store_release)' kernel mm arch | wc -l", "lines"),
+    ("spinlock-uses", "linux", "spin_lock* calls in kernel and mm", "grep -rhE 'spin_lock' kernel mm | wc -l", "lines"),
+    ("alt-instr-x86", "linux", "ALTERNATIVE/alternative_ uses in arch/x86 (boot-time patching)", "grep -rhE 'ALTERNATIVE|alternative_' arch/x86 | wc -l", "lines"),
+    ("static-key-uses", "linux", "static_branch_/DEFINE_STATIC_KEY uses in kernel, mm, arch", "grep -rhE 'static_branch_|DEFINE_STATIC_KEY' kernel mm arch | wc -l", "lines"),
+    ("compat-lines", "linux", "lines mentioning compat_ in kernel and mm", "grep -rhE 'compat_|COMPAT' kernel mm | wc -l", "lines"),
+    ("lines-kernel-rcu", "linux", "lines of C in kernel/rcu", "cat kernel/rcu/*.c kernel/rcu/*.h | wc -l", "lines"),
+    ("lines-kernel-locking", "linux", "lines of C in kernel/locking", "cat kernel/locking/*.c kernel/locking/*.h | wc -l", "lines"),
+    ("lines-kernel-sched", "linux", "lines of C in kernel/sched", "cat kernel/sched/*.c kernel/sched/*.h | wc -l", "lines"),
+    ("lines-x86-fpu", "linux", "lines of C in arch/x86/kernel/fpu", "cat arch/x86/kernel/fpu/*.c | wc -l", "lines"),
+    ("lines-x86-entry", "linux", "lines in arch/x86/entry (assembly and C)", "cat arch/x86/entry/*.S arch/x86/entry/*.c | wc -l", "lines"),
+    ("lines-x86-microcode", "linux", "lines of C in arch/x86/kernel/cpu/microcode", "cat arch/x86/kernel/cpu/microcode/*.c | wc -l", "lines"),
+    ("lines-x86-mce", "linux", "lines of C in arch/x86/kernel/cpu/mce (machine checks)", "cat arch/x86/kernel/cpu/mce/*.c | wc -l", "lines"),
+    ("lines-x86-retpoline", "linux", "lines of arch/x86/lib/retpoline.S", "wc -l < arch/x86/lib/retpoline.S", "lines"),
+    ("lines-mm-total", "linux", "lines of C in mm", "cat mm/*.c | wc -l", "lines"),
+    ("lines-mm-huge-memory", "linux", "lines of mm/huge_memory.c (transparent huge pages)", "wc -l < mm/huge_memory.c", "lines"),
+    ("lines-mm-tlb-ops", "linux", "lines of mm/mmu_gather.c and mm/mmu_notifier.c", "cat mm/mmu_gather.c mm/mmu_notifier.c | wc -l", "lines"),
+    ("files-arch-cache-tlb", "linux", "files named *cache* or *tlb* under arch/*/mm and arch/*/kernel", "find arch -path '*/mm/*' -o -path '*/kernel/*' | grep -iE '(cache|tlb)[^/]*\\.(c|S)$' | wc -l", "files"),
+    ("lines-arch-cache-tlb", "linux", "lines in those files", "find arch -path '*/mm/*' -o -path '*/kernel/*' | grep -iE '(cache|tlb)[^/]*\\.(c|S)$' | xargs cat | wc -l", "lines"),
+    ("lines-arm64-cpu-errata", "linux", "lines of arch/arm64/kernel/cpu_errata.c", "wc -l < arch/arm64/kernel/cpu_errata.c", "lines"),
+    ("lines-arm64-proton-spectre", "linux", "lines of arch/arm64/kernel/proton-pack.c (Spectre/BHB mitigations)", "wc -l < arch/arm64/kernel/proton-pack.c", "lines"),
+    ("lines-bsd-openbsd-pmap-amd64", "openbsd", "lines of sys/arch/amd64/amd64/pmap.c", "wc -l < sys/arch/amd64/amd64/pmap.c", "lines"),
+    ("lines-freebsd-pmap-amd64", "freebsd", "lines of sys/amd64/amd64/pmap.c", "wc -l < sys/amd64/amd64/pmap.c", "lines"),
+    ("lines-netbsd-pmap-x86", "netbsd", "lines of sys/arch/x86/x86/pmap.c", "wc -l < sys/arch/x86/x86/pmap.c", "lines"),
+    ("fb-cpu-features-bugs", "freebsd", "lines in x86 cpu setup mentioning errata/workaround", "grep -rhiE 'errat|workaround' sys/x86 sys/amd64 | wc -l", "lines"),
+    ("fb-arm64-errata", "freebsd", "lines in sys/arm64 mentioning errat/workaround", "grep -rhiE 'errat|workaround' sys/arm64 | wc -l", "lines"),
+    ("nb-errata", "netbsd", "lines under sys/arch mentioning errat/workaround", "grep -rhiE 'errat|workaround' sys/arch | wc -l", "lines"),
+    ("ob-errata", "openbsd", "lines under sys/arch mentioning errat/workaround", "grep -rhiE 'errat|workaround' sys/arch | wc -l", "lines"),
+    ("ob-mitigation", "openbsd", "lines under sys/arch mentioning mitigat/spectre/meltdown/retpoline/mds/l1tf", "grep -rhiE 'mitigat|spectre|meltdown|retpoline|\\bmds\\b|l1tf|retbleed' sys/arch | wc -l", "lines"),
+    ("fb-mitigation", "freebsd", "lines in sys/x86 sys/amd64 sys/arm64 mentioning mitigat/spectre/meltdown/retpoline/mds/l1tf", "grep -rhiE 'mitigat|spectre|meltdown|retpoline|\\bmds\\b|l1tf|retbleed' sys/x86 sys/amd64 sys/arm64 | wc -l", "lines"),
+    ("nb-mitigation", "netbsd", "lines under sys/arch mentioning mitigat/spectre/meltdown/retpoline/mds/l1tf", "grep -rhiE 'mitigat|spectre|meltdown|retpoline|\\bmds\\b|l1tf|retbleed' sys/arch | wc -l", "lines"),
+]
+
+
+def structural():
+    with open(os.path.join(OUT, "structural.csv"), "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["id", "tree", "description", "unit", "value", "command"])
+        for i, t, d, cmd, u in STRUCT:
+            p = subprocess.run(["bash", "-c", "nice -n 10 " + cmd if False else cmd], cwd=os.path.join(SRC, t),
+                               capture_output=True, text=True)
+            v = p.stdout.strip().split("\n")[-1].strip() if p.stdout.strip() else "n/a"
+            w.writerow([i, t, d, u, v, cmd])
+            print(i, v)
+
+
+def _rd(name):
+    fn = os.path.join(OUT, name)
+    if not os.path.exists(fn):
+        return []
     with open(fn) as f:
-        for r in csv.DictReader(f):
-            rows.append((r["category"], r["area"], int(r["year"]), r["kind"], int(r["commits"])))
-    return rows
+        return list(csv.DictReader(f))
 
 
-def report(repo, kind="any"):
-    rows = load(repo)
-    cats = [c for c, _ in CATS]
-    by_year = collections.defaultdict(collections.Counter)
-    for c, a, y, k, n in rows:
-        if k == kind:
-            by_year[c][y] += n  # counted once per area: approximate; see tot_year below
-    print(repo, kind)
+def report():
+    tot = collections.defaultdict(lambda: [0, 0])
+    for r in _rd("totals.csv"):
+        if r["kind"] == "code":
+            x = tot[(r["tree"], r["area"])]
+            x[0] += int(r["files"]); x[1] += int(r["lines"])
+    cnt = collections.defaultdict(int)
+    for r in _rd("counts.csv"):
+        cnt[(r["tree"], r["category"], r["area"], r["kind"], "lines")] += int(r["lines"])
+        cnt[(r["tree"], r["category"], r["area"], r["kind"], "files")] += int(r["files"])
+    for t in TREES:
+        cats = [c for c, _ in CATS]
+        print(f"\n### {t}: matching lines per category, by kind (all areas)\n")
+        print("| category | code lines | code files | doc lines | kconfig lines |")
+        print("|---|---:|---:|---:|---:|")
+        for c in cats:
+            cl = sum(v for k, v in cnt.items() if k[:2] == (t, c) and k[3] == "code" and k[4] == "lines")
+            cf = sum(v for k, v in cnt.items() if k[:2] == (t, c) and k[3] == "code" and k[4] == "files")
+            dl = sum(v for k, v in cnt.items() if k[:2] == (t, c) and k[3] == "doc" and k[4] == "lines")
+            kl = sum(v for k, v in cnt.items() if k[:2] == (t, c) and k[3] == "kconfig" and k[4] == "lines")
+            if cl + dl + kl:
+                print(f"| {c} | {cl} | {cf} | {dl} | {kl} |")
+        areas = sorted({a for (tt, a) in tot if tt == t and a.startswith("arch/")}, key=lambda a: -tot[(t, a)][1])
+        print(f"\n### {t}: errata+workaround+quirk+hardware-is-broken code lines per architecture\n")
+        print("| area | code lines | errata | workaround | quirk | hw-broken | per 1000 code lines |")
+        print("|---|---:|---:|---:|---:|---:|---:|")
+        for a in areas:
+            n = tot[(t, a)][1]
+            if n < 5000:
+                continue
+            g = lambda c: cnt[(t, c, a, "code", "lines")]
+            s = g("errata") + g("workaround") + g("quirk") + g("hardware-is-broken")
+            print(f"| {a} | {n} | {g('errata')} | {g('workaround')} | {g('quirk')} | {g('hardware-is-broken')} | {1000.0*s/n:.1f} |")
 
 
 if __name__ == "__main__":
     ap = sys.argv[1:]
     if not ap:
         print(__doc__)
-    elif ap[0] == "clones":
-        clones("--run" in ap)
-    elif ap[0] == "mine":
-        mine(ap[1])
+    elif ap[0] == "trees":
+        trees()
+    elif ap[0] == "grep":
+        grep_all()
+    elif ap[0] == "structural":
+        structural()
     elif ap[0] == "report":
-        report(ap[1])
+        report()

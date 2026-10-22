@@ -1,0 +1,55 @@
+id,tree,description,unit,value,command
+kconfig-erratum-arm64,linux,Kconfig options named *ERRATUM/ERRATA in arch/arm64/Kconfig,options,64,grep -c '^config .*ERRATUM\|^config .*ERRATA' arch/arm64/Kconfig
+kconfig-erratum-arm,linux,Kconfig options named *ERRATUM/ERRATA in arch/arm (Kconfig and mm/Kconfig),options,32,grep -c '^config .*ERRATUM\|^config .*ERRATA' arch/arm/Kconfig arch/arm/mm/Kconfig | awk -F: '{s+=$NF} END{print s}'
+kconfig-erratum-riscv,linux,Kconfig options named *ERRATUM/ERRATA in arch/riscv/Kconfig.errata,options,14,grep -c '^config .*ERRATUM\|^config .*ERRATA' arch/riscv/Kconfig.errata
+kconfig-erratum-all-arch,linux,Kconfig options named *ERRATUM/ERRATA anywhere under arch,options,110,grep -rh '^config .*ERRATUM\|^config .*ERRATA' arch --include='Kconfig*' | wc -l
+x86-bug-flags,linux,X86_BUG_* bug flags defined,flags,45,grep -c 'define X86_BUG_' arch/x86/include/asm/cpufeatures.h
+x86-vuln-blacklist,linux,CPU model rows in the vulnerability blacklist (VULNBL_*),rows,58,grep -cE '^\s*VULNBL_' arch/x86/kernel/cpu/common.c
+x86-bugs-c-lines,linux,lines of arch/x86/kernel/cpu/bugs.c (mitigation selection),lines,3830,wc -l < arch/x86/kernel/cpu/bugs.c
+x86-mitigation-kconfig,linux,MITIGATION_* Kconfig options in arch/x86/Kconfig,options,24,grep -c 'config MITIGATION_' arch/x86/Kconfig
+hw-vuln-docs,linux,files in Documentation/admin-guide/hw-vuln,files,19,ls Documentation/admin-guide/hw-vuln | wc -l
+hw-vuln-doc-lines,linux,lines in Documentation/admin-guide/hw-vuln,lines,4164,cat Documentation/admin-guide/hw-vuln/*.rst | wc -l
+arm64-errata-kconfig,linux,ARM64_ERRATUM_* Kconfig options,options,41,grep -c 'config ARM64_ERRATUM_' arch/arm64/Kconfig
+arm64-workaround-caps,linux,ARM64_WORKAROUND_* capabilities in the capability table,capabilities,41,grep -cE '^WORKAROUND_' arch/arm64/tools/cpucaps
+arm64-silicon-errata-rows,linux,rows of Documentation/arch/arm64/silicon-errata.rst naming an erratum,rows,145,"grep -cE '^\| [A-Za-z].*(#|ID|errata|Erratum|[0-9]{5,})' Documentation/arch/arm64/silicon-errata.rst"
+memory-barriers-lines,linux,lines of Documentation/memory-barriers.txt,lines,3016,wc -l < Documentation/memory-barriers.txt
+rcu-doc-lines,linux,lines under Documentation/RCU,lines,36824,find Documentation/RCU -type f | xargs cat | wc -l
+locking-doc-lines,linux,lines under Documentation/locking,lines,4554,find Documentation/locking -type f | xargs cat | wc -l
+kernel-parameters-mitigation-lines,linux,lines of kernel-parameters.txt mentioning mitigat/spectre/retbleed/l1tf/mds,lines,177,grep -ciE 'mitigat|spectre|retbleed|l1tf|mds|srbds|ssb' Documentation/admin-guide/kernel-parameters.txt
+extable-uses-x86,linux,"exception-table annotations in arch/x86 (_ASM_EXTABLE*, EX_TYPE_*)",lines,260,grep -rhE '_ASM_EXTABLE|EX_TYPE_' arch/x86 | wc -l
+arch-flush-tlb-defs,linux,files under arch/*/include and arch/*/mm mentioning flush_tlb_,files,189,grep -rlE 'flush_tlb_' arch | wc -l
+arch-cache-flush-defs,linux,"files under arch mentioning flush_dcache_page, flush_cache_, flush_icache_",files,131,grep -rlE 'flush_dcache_page|flush_cache_(mm|range|page)|flush_icache_' arch | wc -l
+arm-lines-vivt-alias,linux,lines in arch/arm mentioning aliasing/VIVT/VIPT,lines,179,grep -rciE 'aliasing|vivt|vipt' arch/arm | awk -F: '{s+=$NF} END{print s}'
+this-cpu-uses,linux,"this_cpu_/__this_cpu_/per_cpu( uses in kernel, mm, arch",lines,3225,grep -rhE 'this_cpu_|per_cpu\(|raw_cpu_' kernel mm arch | wc -l
+rcu-api-uses,linux,rcu_read_lock/rcu_dereference/call_rcu uses in kernel and mm,lines,2113,grep -rhE 'rcu_read_lock|rcu_dereference|call_rcu|synchronize_rcu' kernel mm | wc -l
+readonce-uses,linux,READ_ONCE/WRITE_ONCE uses in kernel and mm,lines,2128,grep -rhE 'READ_ONCE|WRITE_ONCE' kernel mm | wc -l
+smp-barrier-uses,linux,"smp_mb/rmb/wmb/load_acquire/store_release uses in kernel, mm and arch",lines,1146,grep -rhE 'smp_(mb|rmb|wmb|load_acquire|store_release)' kernel mm arch | wc -l
+spinlock-uses,linux,spin_lock* calls in kernel and mm,lines,1965,grep -rhE 'spin_lock' kernel mm | wc -l
+alt-instr-x86,linux,ALTERNATIVE/alternative_ uses in arch/x86 (boot-time patching),lines,177,grep -rhE 'ALTERNATIVE|alternative_' arch/x86 | wc -l
+static-key-uses,linux,"static_branch_/DEFINE_STATIC_KEY uses in kernel, mm, arch",lines,725,grep -rhE 'static_branch_|DEFINE_STATIC_KEY' kernel mm arch | wc -l
+compat-lines,linux,lines mentioning compat_ in kernel and mm,lines,539,grep -rhE 'compat_|COMPAT' kernel mm | wc -l
+lines-kernel-rcu,linux,lines of C in kernel/rcu,lines,26786,cat kernel/rcu/*.c kernel/rcu/*.h | wc -l
+lines-kernel-locking,linux,lines of C in kernel/locking,lines,21181,cat kernel/locking/*.c kernel/locking/*.h | wc -l
+lines-kernel-sched,linux,lines of C in kernel/sched,lines,56661,cat kernel/sched/*.c kernel/sched/*.h | wc -l
+lines-x86-fpu,linux,lines of C in arch/x86/kernel/fpu,lines,4364,cat arch/x86/kernel/fpu/*.c | wc -l
+lines-x86-entry,linux,lines in arch/x86/entry (assembly and C),lines,4239,cat arch/x86/entry/*.S arch/x86/entry/*.c | wc -l
+lines-x86-microcode,linux,lines of C in arch/x86/kernel/cpu/microcode,lines,3839,cat arch/x86/kernel/cpu/microcode/*.c | wc -l
+lines-x86-mce,linux,lines of C in arch/x86/kernel/cpu/mce (machine checks),lines,7111,cat arch/x86/kernel/cpu/mce/*.c | wc -l
+lines-x86-retpoline,linux,lines of arch/x86/lib/retpoline.S,lines,474,wc -l < arch/x86/lib/retpoline.S
+lines-mm-total,linux,lines of C in mm,lines,193507,cat mm/*.c | wc -l
+lines-mm-huge-memory,linux,lines of mm/huge_memory.c (transparent huge pages),lines,5202,wc -l < mm/huge_memory.c
+lines-mm-tlb-ops,linux,lines of mm/mmu_gather.c and mm/mmu_notifier.c,lines,1701,cat mm/mmu_gather.c mm/mmu_notifier.c | wc -l
+files-arch-cache-tlb,linux,files named *cache* or *tlb* under arch/*/mm and arch/*/kernel,files,80,find arch -path '*/mm/*' -o -path '*/kernel/*' | grep -iE '(cache|tlb)[^/]*\.(c|S)$' | wc -l
+lines-arch-cache-tlb,linux,lines in those files,lines,26826,find arch -path '*/mm/*' -o -path '*/kernel/*' | grep -iE '(cache|tlb)[^/]*\.(c|S)$' | xargs cat | wc -l
+lines-arm64-cpu-errata,linux,lines of arch/arm64/kernel/cpu_errata.c,lines,1088,wc -l < arch/arm64/kernel/cpu_errata.c
+lines-arm64-proton-spectre,linux,lines of arch/arm64/kernel/proton-pack.c (Spectre/BHB mitigations),lines,1213,wc -l < arch/arm64/kernel/proton-pack.c
+lines-bsd-openbsd-pmap-amd64,openbsd,lines of sys/arch/amd64/amd64/pmap.c,lines,3482,wc -l < sys/arch/amd64/amd64/pmap.c
+lines-freebsd-pmap-amd64,freebsd,lines of sys/amd64/amd64/pmap.c,lines,12372,wc -l < sys/amd64/amd64/pmap.c
+lines-netbsd-pmap-x86,netbsd,lines of sys/arch/x86/x86/pmap.c,lines,6924,wc -l < sys/arch/x86/x86/pmap.c
+fb-cpu-features-bugs,freebsd,lines in x86 cpu setup mentioning errata/workaround,lines,103,grep -rhiE 'errat|workaround' sys/x86 sys/amd64 | wc -l
+fb-arm64-errata,freebsd,lines in sys/arm64 mentioning errat/workaround,lines,199,grep -rhiE 'errat|workaround' sys/arm64 | wc -l
+nb-errata,netbsd,lines under sys/arch mentioning errat/workaround,lines,330,grep -rhiE 'errat|workaround' sys/arch | wc -l
+ob-errata,openbsd,lines under sys/arch mentioning errat/workaround,lines,261,grep -rhiE 'errat|workaround' sys/arch | wc -l
+ob-mitigation,openbsd,lines under sys/arch mentioning mitigat/spectre/meltdown/retpoline/mds/l1tf,lines,232,grep -rhiE 'mitigat|spectre|meltdown|retpoline|\bmds\b|l1tf|retbleed' sys/arch | wc -l
+fb-mitigation,freebsd,lines in sys/x86 sys/amd64 sys/arm64 mentioning mitigat/spectre/meltdown/retpoline/mds/l1tf,lines,68,grep -rhiE 'mitigat|spectre|meltdown|retpoline|\bmds\b|l1tf|retbleed' sys/x86 sys/amd64 sys/arm64 | wc -l
+nb-mitigation,netbsd,lines under sys/arch mentioning mitigat/spectre/meltdown/retpoline/mds/l1tf,lines,293,grep -rhiE 'mitigat|spectre|meltdown|retpoline|\bmds\b|l1tf|retbleed' sys/arch | wc -l
