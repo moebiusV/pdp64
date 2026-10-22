@@ -46,7 +46,7 @@ back end and QEMU target cannot drift apart.
 | NaN results are the canonical quiet NaN | errata 26 |
 | ABI v1: LP64, signed `char`, `long double` = double, arguments in `r0`-`r5` (floats too), 8-byte stack alignment, no red zone, no leading underscore; variadic calls put every argument in slots | CHANGES §5; abi.md |
 | Assembly syntax: C-style numbers, characters and strings; `;` comments; names follow ELF (UTF-8, quoted names, digit-led names); lowercase mnemonics; nothing copied from V7 `as` for its own sake | CHANGES §6; asm-syntax.md |
-| An instruction at an odd address is an assembler error (the compiler writes `.even`) | CHANGES §7, §9 |
+| An instruction at an odd address is an assembler error (the compiler writes `.even`) | CHANGES, "Toolchain status" |
 | The grammar is the single source of truth: numbers live once, in enum rules; the generator writes the rest | CHANGES §8 |
 | Open: directed rounding for IEEE arithmetic, half precision, a conditional select, the integer width spelling (`movq` against `mov:l`), linker relaxation, a short `d(sp)` form | CHANGES §12, §14 |
 
