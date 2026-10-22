@@ -57,7 +57,7 @@ pr0:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F9	; check 9
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F10	; check 10
 	movq	ksp_saved, r1
 	cmp	r13, r1
@@ -92,7 +92,7 @@ pr1:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F18	; check 18
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F19	; check 19
 	movq	#0, r4
 	movq	#0, r10
@@ -120,7 +120,7 @@ pr2:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F24	; check 24
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F25	; check 25
 	movq	#0, r4
 	movq	#0, r10
@@ -148,7 +148,7 @@ pr3:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F30	; check 30
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F31	; check 31
 	movq	#0, r4
 	movq	#0, r10
@@ -176,7 +176,7 @@ pr4:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F36	; check 36
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F37	; check 37
 	movq	#0, r4
 	movq	#0, r10
@@ -204,7 +204,7 @@ pr5:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F42	; check 42
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F43	; check 43
 	movq	#0, r4
 	movq	#0, r10
@@ -232,7 +232,7 @@ pr6:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F48	; check 48
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F49	; check 49
 	movq	#0, r4
 	movq	#0, r10
@@ -260,7 +260,7 @@ pr7:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F54	; check 54
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F55	; check 55
 	movq	#0, r4
 	movq	#0, r10
@@ -288,7 +288,7 @@ pr8:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F60	; check 60
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F61	; check 61
 	movq	#0, r4
 	movq	#0, r10
@@ -316,7 +316,7 @@ pr9:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F66	; check 66
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F67	; check 67
 	movq	#0, r4
 	movq	#0, r10
@@ -344,7 +344,7 @@ pr10:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F72	; check 72
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F73	; check 73
 	movq	#0, r4
 	movq	#0, r10
@@ -372,7 +372,7 @@ pr11:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F78	; check 78
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F79	; check 79
 	movq	#0, r4
 	movq	#0, r10
@@ -400,7 +400,7 @@ pr12:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F84	; check 84
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F85	; check 85
 	movq	#0, r4
 	movq	#0, r10
@@ -428,7 +428,7 @@ pr13:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F90	; check 90
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F91	; check 91
 	movq	#0, r4
 	movq	#0, r10
@@ -456,7 +456,7 @@ pr14:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F96	; check 96
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F97	; check 97
 	movq	#0, r4
 	movq	#0, r10
@@ -484,7 +484,7 @@ pr15:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F102	; check 102
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F103	; check 103
 	movq	#0, r4
 	movq	#0, r10
@@ -512,7 +512,7 @@ pr16:
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
 	bne	F108	; check 108
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F109	; check 109
 	mfdp	r5
 	cmp	r5, #(8738)

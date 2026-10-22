@@ -57,7 +57,7 @@ after5:
 	movq	#6, r0	; check 5
 	halt
 1:
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|6<<PSW_PRI))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
 	beq	1f
 	movq	#7, r0	; check 6
 	halt

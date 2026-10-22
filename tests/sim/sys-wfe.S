@@ -17,7 +17,7 @@ afterw:
 	bne	F2	; check 2
 	cmp	r8, #(44)
 	bne	F3	; check 3
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|3<<PSW_PRI))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
 	bne	F4	; check 4
 	bic	#15, r7
 	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI))

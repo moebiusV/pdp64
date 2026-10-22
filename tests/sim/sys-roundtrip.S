@@ -333,7 +333,6 @@ h_fail:	halt
 ; V1: without pushx and popx.  The user's registers are live at entry: free r1, save EPC and EPSW through it, reload r1.
 	.globl	h_v1_null
 h_v1_null:
-	spl	#7
 	push	r1
 	mfsr	r1, epc
 	push	r1
@@ -353,7 +352,6 @@ h_v1_null_end:
 	rti
 	.globl	h_v1_copyin
 h_v1_copyin:
-	spl	#7
 	push	r1
 	mfsr	r1, epc
 	push	r1
@@ -372,7 +370,6 @@ h_v1_copyin:
 ; V2: with pushx and popx: no scratch register is needed.
 	.globl	h_v2_null
 h_v2_null:
-	spl	#7
 	pushx
 	spl	#0
 	movq	#7, r0
@@ -381,7 +378,6 @@ h_v2_null:
 	rti
 	.globl	h_v2_copyin
 h_v2_copyin:
-	spl	#7
 	pushx
 	spl	#0
 	movq	(r1), r0

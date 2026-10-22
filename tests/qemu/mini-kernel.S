@@ -4,7 +4,7 @@
 ;   a store to a page that is not mapped: the page fault handler maps a fresh page (demand paging), tlbi, and the retry succeeds.
 ;   it waits until the timer has ticked three times (the kernel's tick count is in a word the user can read).
 ; The system call and fault handlers save the exception state with pushx and restore it with popx, raise and lower the priority around it, and are
-; therefore interruptible by the timer.  The kernel shuts the machine down with halt (status r0).  Expected output is in mini-kernel.out.
+; therefore interruptible by the timer once they lower the priority (the entry sets it to 7).  The kernel shuts the machine down with halt (status r0).  Expected output is in mini-kernel.out.
 #include "pdp64-consts.h"
 USER_PAGES = 16				; the user's demand-paged region: 16 pages at 0x40000000
 PERIOD = 200000				; timer ticks between interrupts (20 ms)
@@ -53,9 +53,8 @@ _start:
 
 ; ---- the handlers ----
 h_exit:	halt					; exit(r0)
-h_write:					; write(r1 = buffer, r2 = length)
-	spl	#7
-	pushx					; EPSW and EPC on the kernel stack: from here the handler may be interrupted
+h_write:					; write(r1 = buffer, r2 = length); the entry has set the priority to 7
+	pushx					; EPSW and EPC on the kernel stack: after the spl #0 below the handler may be interrupted
 	pushm	#0x3E				; r1..r5
 	spl	#0
 	movq	r2, r0
@@ -74,7 +73,6 @@ h_write:					; write(r1 = buffer, r2 = length)
 	popx
 	rti
 h_pf:						; a page fault: the user's region maps a fresh page; anything else ends the machine
-	spl	#7
 	pushx
 	pushm	#0x0E				; r1..r3
 	spl	#0

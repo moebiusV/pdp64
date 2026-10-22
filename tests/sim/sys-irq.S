@@ -32,7 +32,7 @@ after5:
 	bic	#15, r7
 	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI))
 	bne	F6	; check 6
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|6<<PSW_PRI))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
 	bne	F7	; check 7
 	cmp	r8, #(VECTOR_TIMER+9)
 	bne	F8	; check 8
@@ -53,7 +53,7 @@ after4:
 	bic	#15, r7
 	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|4<<PSW_PRI))
 	bne	F13	; check 13
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
 	bne	F14	; check 14
 	spl	#0
 	nop
@@ -63,7 +63,7 @@ after4:
 	bne	F15	; check 15
 	cmp	r15, #(41404243)
 	bne	F16	; check 16
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|3<<PSW_PRI))
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
 	bne	F17	; check 17
 	movq	#0, r0
 	halt

@@ -358,15 +358,15 @@ static void priv(void)
 }
 
 /* Exception entry (docs/pdp64-system-architecture.md section 15): registers only, then the new PC from the table at the physical address vbr + 8 * vector.
-   newpri < 0: the priority stays (an exception); otherwise it becomes the level of the interrupt. */
-static void enter(int vector, uint64_t epc, uint64_t eva, int newpri)
+   The new priority is the highest (7) for every exception and interrupt (errata 40), so nothing nests until the handler lowers it; the old one is in EPSW. */
+static void enter(int vector, uint64_t epc, uint64_t eva)
 {
 	uint64_t target, at = C->vbr + 8 * (uint64_t)vector;
 	unsigned old;
 	if (E->vecread(E->u, at, &target)) E->fault(E->u, "machine check: the vector fetch failed", at);
 	old = pdp64_psw(C);
 	C->epc = epc; C->epsw = old; C->eva = eva; C->ecause = (uint64_t)vector;
-	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | (unsigned)(newpri < 0 ? (old >> PSW_PRI & 7) : newpri) << PSW_PRI);
+	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));
 	pc = target;
 	C->entered = 1;
 }
@@ -528,7 +528,7 @@ static void step(void)
 			case MN_SYS_NONE_RET: pc = pop(); return;
 			case MN_SYS_NONE_HALT: if (!C->standin) priv(); E->halt(E->u); return;
 			case MN_SYS_NONE_BPT:
-				if (C->deliver && !C->standin) { enter(VECTOR_BPT, pc, 0, -1); return; }
+				if (C->deliver && !C->standin) { enter(VECTOR_BPT, pc, 0); return; }
 				die("breakpoint", 0);
 			case MN_SYS_NONE_RTI: case MN_SYS_NONE_RTT:					/* PC from EPC, PSW from EPSW (rtt: and T set after the return) */
 				priv();
@@ -601,7 +601,7 @@ static void step(void)
 		case MN_SYS_SPL: priv(); if (f.low > 7) die("spl: the priority is 0 to 7", 0); C->psw = (C->psw & ~PSW_FIELD(PRI, ~0u)) | PSW_FIELD(PRI, f.low); return;
 		case MN_SYS_TRAP: case MN_SYS_TRAPL: {
 			int n = cls == MN_SYS_TRAP ? f.low : (int)f.n;			/* trapl: the vector number is in parcel 1 */
-			if (C->deliver && !C->standin) enter(VECTOR_TRAP_BASE + n, pc, 0, -1);
+			if (C->deliver && !C->standin) enter(VECTOR_TRAP_BASE + n, pc, 0);
 			else E->trap(E->u, n);
 			return;
 		}
@@ -813,13 +813,13 @@ void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector,
 		epc = c->cur_pc;
 		c->snap_valid = 0;
 	}
-	enter(vector, epc, eva, -1);
+	enter(vector, epc, eva);
 }
 int pdp64_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e, int level, int vector)
 {
 	if (level <= (int)pdp64_priority(c)) return 0;
 	C = c; E = e;
-	enter(vector, c->pc, 0, level);
+	enter(vector, c->pc, 0);
 	c->wait = 0;
 	return 1;
 }
@@ -835,5 +835,5 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 	}
 	step();
 	c->snap_valid = 0;
-	if (traced && c->deliver && !c->entered) enter(VECTOR_BPT, c->pc, 0, -1);		/* T was set when the instruction began: the trace trap (vector 15, as bpt) */
+	if (traced && c->deliver && !c->entered) enter(VECTOR_BPT, c->pc, 0);		/* T was set when the instruction began: the trace trap (vector 15, as bpt) */
 }
