@@ -32,7 +32,7 @@ Contents
 
 | | |
 |---|---|
-| Opcode map | 64 top-level slots: **57 assigned** (`0x28` `cbCC`, `0x29` its wide form), the spare ALU slot `0x23`, **6 reserved** `0x2A`-`0x2F`. (It was 55 assigned and 8 reserved at revision 20; ISA §4.16 said 56 assigned; see §2.) |
+| Opcode map | 64 top-level slots: **58 assigned** (`0x28` `cbCC`, `0x29` its wide form, `0x2A` its register form), the spare ALU slot `0x23`, **5 reserved** `0x2B`-`0x2F`. (It was 55 assigned and 8 reserved at revision 20; ISA §4.16 said 56 assigned; see §2.) |
 | Mnemonic words | **266**, of which 36 are aliases (the five of ISA 4.15, the 29 old floating-point spellings, and `cbhis`, `cblo`): 230 instructions (247 and 213 after binary16, errata 27, and 230 and 196 before it; the second page added 16 `cb` words and `rori32`, errata 31; `mfsr` and `mtsr` added 2, errata 32). |
 | Operations, folded | **95** (91, plus `FSFLAGS`, plus `SET`, plus the fused compare-and-branch `cbCC`, plus the system-register move `mfsr`/`mtsr`; the unsigned conversions, `FRINTDA` and `rori32` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
 | Assembled today | everything except `ATOM`, `MESC` and `TRAPL`; `tools/check-drift.py` lists the rest by name. |
