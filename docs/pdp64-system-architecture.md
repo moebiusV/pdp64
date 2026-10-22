@@ -148,6 +148,8 @@ point lives in the general registers (ISA §2.3). The address space is selected 
 
 **A review of how the main systems boot, whether UEFI is worth having, and a proposal (block 0 loaded by the controller's ROM, a register write to start each other core, a boot-information block, a reset bit plus an optional firmware window for each device) is in [`boot.md`](boot.md); the items below stay open until its decisions B1 to B5 are made.**
 
+**The BIOS, and what takes its place.** A BIOS is firmware doing four jobs: hardware bring-up and self-test, the first code (a boot sector), a runtime library of device services called by software interrupt, and configuration. UEFI replaces the second and third with a loader file and a set of boot and runtime services; other architectures have the same roles under other names (Open Firmware, U-Boot with trusted firmware, OpenSBI, the Alpha SRM console, the VAX console processor, the PDP-11 boot ROMs and `ODT`). The pdp64 needs only the first, second and fourth, in a minimal form: **its "BIOS" is the controller chip's boot ROM and monitor, with no resident services and nothing called after boot**; the third job disappears because the devices have one uniform register layout that the loader and the kernel share (decisions R5, B1 and P7). The reasoning, and the comparison with UEFI, is in [`boot.md`](boot.md).
+
 *Established* (ISA §8.3): the machine comes up with `DMW0` covering physical memory, so there is no chicken-and-egg problem in setting up the first page tables. Resetting the bus is a bus-controller
 register write, not an instruction (§4.11.1).
 

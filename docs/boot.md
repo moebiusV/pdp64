@@ -13,6 +13,7 @@
 * [How the main systems do it](#how-the-main-systems-do-it)
 * [How the PDP-11 and the VAX did it](#how-the-pdp-11-and-the-vax-did-it)
 * [Is UEFI worth it?](#is-uefi-worth-it)
+* [What a BIOS is for, and whether the pdp64 needs one](#what-a-bios-is-for-and-whether-the-pdp64-needs-one)
 * [Decisions B1 to B5](#decisions-b1-to-b5)
 * [A concrete proposal: the pdp64 boot sequence](#a-concrete-proposal-the-pdp64-boot-sequence)
 * [Recovery: when boot fails](#recovery-when-boot-fails)
@@ -82,6 +83,30 @@ Seven jobs, in order. Different systems put them in different places, and that i
 * **It is the heavyweight answer to a problem the pdp64 does not have:** a world of many incompatible machines and many installers. The pdp64 is one architecture with one platform description and one first operating system.
 
 **Verdict, by the principles.** Not worth it as the machine's own boot mechanism. It fails principle 1 (size), principle 2 (more failure modes) and principle 3 (more gates and flash) outright, and what it offers (generic loaders) is not wanted when the first operating system is one the author controls. The cheap way to keep the door open is to keep the hand-off block (B3) simple and to make the second-stage loader replaceable, so a UEFI shim could be added later by someone who wants it. OpenBSD itself still ships a BIOS-style loader beside the UEFI one on amd64 (`biosboot` and `boot` above), which shows that the block-0 route remains normal practice for a system this small. **The author's instinct is right**: load a small first block, jump to it, and let the heavy work be ordinary programs compiled with the project's own compiler.
+
+## What a BIOS is for, and whether the pdp64 needs one
+
+**The name and the history.** BIOS means Basic Input/Output System. On the original IBM PC (1981) the BIOS was the ROM firmware, and it did four separate jobs that are worth pulling apart, because the name has stuck to all four *(this section is from general knowledge and not confirmed in the sources read; the specifications were not opened)*:
+
+1. **Hardware bring-up and self-test** (the power-on self-test, POST): initialise the chipset, size the memory, check the basics.
+2. **The first code:** find a boot device, read its first sector (the 512-byte boot sector) into memory at a fixed address and jump to it.
+3. **A runtime library of services**, called by software interrupt from real mode: video (`INT 10h`), disk (`INT 13h`), keyboard (`INT 16h`), the memory map (`INT 15h`) and others. This is the "I/O" in the name. MS-DOS and every boot loader used these calls as their drivers, which is why a 512-byte boot sector could read the rest of the disk without containing a disk driver.
+4. **Configuration:** a setup screen and a small battery-backed memory (CMOS) for the clock and the settings.
+
+**What the role is in a UEFI system.** UEFI is the later firmware standard and it replaces jobs 2 and 3: instead of reading a boot sector it runs a loader program from a file on a FAT partition, and instead of software interrupts it offers **boot services and protocols** (block I/O, simple text, a graphics output protocol, file access) that a loader calls, plus a few **runtime services** (clock, reset, variables) that remain usable by the operating system after boot. Job 1 (bring-up) and job 4 (setup) stay, and many people still say "the BIOS" for the setup screen. Machines may carry a **compatibility support module** that emulates the old BIOS services for operating systems that still expect them, which is being phased out *(not confirmed in the sources read)*. UEFI systems on x86 also keep a firmware that stays resident after boot, **system management mode** code, which the operating system cannot see and which has been a source of security problems *(not confirmed in the sources read)*.
+
+**Apart from the x86 lineage, the same roles exist under other names.** Every architecture has some platform firmware, and it has the same jobs: bring up clocks, memory (including the memory-training code, which is the largest part on real silicon) and the buses; provide the first code; give the loader a way to read a boot device; describe the machine to the kernel; and sometimes offer a few runtime calls. Open Firmware on SPARC and PowerPC, U-Boot and the trusted-firmware stages on ARM, OpenSBI on RISC-V, the SRM console on Alpha, the console processor on the VAX, the boot ROMs and `ODT` monitor on the PDP-11 all fill the role *(not confirmed in the sources read)*. What differs is how much of job 3 they provide. A BIOS or UEFI firmware provides device drivers to the loader through its services; the PDP-11 boot ROMs carried a small driver per device; Open Firmware provides device access through its client interface. A loader on a machine with **no** firmware services has to carry its own drivers, which is why OpenBSD's `libsa` (the loader's support library: file systems and device access) is 6,319 lines on amd64 (measured).
+
+**Does the pdp64 need one?** It needs jobs 1, 2 and 4 in a minimal form, and it can do without job 3 entirely:
+
+| Job | The pdp64 answer |
+|---|---|
+| 1. Bring-up and self-test | the controller chip's sequencer and, on the FPGA, the vendor's memory-controller block; a short memory check in the ROM monitor |
+| 2. The first code | the controller's boot ROM reads block 0 (decision B1) |
+| 3. A runtime library of services | **none.** The device registers are already uniform (decision R5): the second-stage loader and the kernel talk to the same registers, so the loader needs no firmware to read a disk, and the loader's driver code is the same code the kernel's drivers are built from. This also matches decision P7 (no firmware calls). The only thing the kernel asks of the firmware afterwards is a reset, and that is a controller register |
+| 4. Configuration | a few settings in the controller's non-volatile memory (boot order, serial speed), changed from the ROM monitor |
+
+So **the pdp64's "BIOS" is the controller's boot ROM and its monitor, a few hundred bytes to a few kilobytes, with no resident services and nothing to call after boot.** That is the PDP-11 and VAX arrangement (ROM bootstrap plus console), not the PC's. The cost is that the second-stage loader must carry the drivers for its boot devices; the benefit is that there is no firmware API to specify, no compatibility layer, no system management code, and no failure modes beyond "the first block did not load". Under the principles that is the smaller (1), simpler (2), cheaper (3) choice.
 
 ## Decisions B1 to B5
 
