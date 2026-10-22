@@ -386,6 +386,7 @@ def one(job, nowrap, keep):
             modelen = collections.Counter()
             longs = collections.Counter()
             cats = collections.Counter()
+            formlen = collections.Counter()
             bigram = collections.Counter()
             trigram = collections.Counter()
             prev = []
@@ -404,6 +405,7 @@ def one(job, nowrap, keep):
                 hist[ln] += 1
                 mn[m] += 1
                 pair['%s %s' % (m, ','.join(sh))] += 1
+                formlen['%d %s %s' % (ln, m, ','.join(sh))] += 1
                 for x in sh:
                     modes[x] += 1
                     modelen['%s/%d' % (x, ln)] += 1
@@ -416,6 +418,7 @@ def one(job, nowrap, keep):
             res['modelen'] = modelen
             res['longs'] = longs
             res['cats'] = cats
+            res['formlen'] = formlen
             res['bigram'] = dict(bigram.most_common(800))
             res['trigram'] = dict(trigram.most_common(500))
             if keep:
