@@ -26,6 +26,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [P13. `long double`](#p13-long-double)
 * [P14. Confirm: priority 7 on interrupt entry as well as exception entry](#p14-confirm-priority-7-on-interrupt-entry-as-well-as-exception-entry)
 * [Part B. Previous decisions, written up so they can be changed](#part-b-previous-decisions-written-up-so-they-can-be-changed)
+* [Part C. The gaps: several cores, DMA devices and virtualization](#part-c-the-gaps-several-cores-dma-devices-and-virtualization)
 * [What I need from you](#what-i-need-from-you)
 
 ## How to read this
@@ -853,6 +854,233 @@ These were decided earlier (the errata cited). They are set out in the same form
 
 ---
 
+## Part C. The gaps: several cores, DMA devices and virtualization
+
+Nothing in the documents decides these yet. The system architecture and the bus document list them as open items ("not yet defined"); Parts A and B above cover the pieces that already exist (P6, P11, Q4, Q5, Q10). They are written in the same form so you can choose. The facts about other systems and about the PDP-11 and VAX are from my memory and are **unchecked** unless the text says they come from the kernel survey; the survey itself is about assembly instructions, not about these subsystems, so it says little here.
+
+| # | Decision | My recommendation | Needed for |
+|---|---|---|---|
+| R1 | The interrupt controller and routing interrupts to cores | a small controller with a per-core threshold and message-signalled interrupts | the second core; any device that is not core 0's |
+| R2 | Inter-processor interrupts and starting the other cores | per-core doorbell registers; cores held in reset and released with an entry address | the second core |
+| R3 | How coherence scales beyond two to four cores | keep snooping for now, record the limit | more than four cores |
+| R4 | The bus protocol itself (Q64) | AXI as the transport, Q64 as a mapping on top | DMA devices; the FPGA |
+| R5 | The device register layout and DMA descriptors | uniform layout with an ID register and a descriptor ring | every DMA device |
+| R6 | DMA addressing and protection (an I/O translation unit) | none for now; devices address all of physical memory | untrusted devices; virtualization |
+| R7 | Errors raised by devices and the bus | bus-controller error registers and the machine-check path already in the ISA | DMA devices |
+| R8 | Virtualization | out of scope for System v1; fix five constraints now | running one system inside another |
+
+---
+
+## R1. The interrupt controller and routing interrupts to cores
+
+**The need.** With one core, the processor's priority level (Q4) is the whole story: a device asserts a level, the core takes it or not. With several cores, someone must decide *which core* takes each interrupt, and a device must be able to interrupt a core that is not core 0. A device shared by two cores (an Ethernet controller with several queues) wants its interrupts spread. That is the job of an **interrupt controller**: a piece of hardware between the devices and the cores.
+
+**The explanation.** Two styles. In a **wired** style each device has a line; the controller ranks the lines and delivers the chosen one to a core. In a **message-signalled** style (MSI) the device does an ordinary memory write to a special address and the write *is* the interrupt, so no wires are needed and each queue can have its own target.
+
+**Current state.** Not defined. The bus document says only that an inter-processor interrupt path "a memory-mapped per-core register is sufficient and needs no APIC-like complexity", and lists "the interrupt controller, the vectors, the per-core registers" as open. In System v1 the timer (level 6, vector 32) and console (level 4) interrupt the single core directly.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **A small controller: wired lines with a priority, a per-core enable and threshold register, plus message-signalled interrupts as a write to a per-core address** | enough for several cores and many devices; keeps the 8-level priority; modern devices can use messages | a design to write; a register block to specify and drive |
+| 2 | **Wired lines only, all delivered to core 0 unless a per-line target register says otherwise** | the simplest routing | no per-queue interrupts for fast devices; wires scale badly |
+| 3 | **Message-signalled interrupts only** (no wires) | simplest scalable model; fits the memory-mapped device idea | every device must be able to issue a write; legacy wired devices need an adapter |
+| 4 | **A full distributor and per-core interface in the style of ARM's GIC** | the most complete, with virtualization support | a large block; a lot of driver code |
+| 5 | **No controller: devices interrupt core 0, which forwards to others by inter-processor interrupt** | nothing to design | core 0 is a bottleneck; every interrupt on another core costs two |
+
+**What current systems do.** x86 moved from the 8259 pair to the APIC: one local APIC per core plus I/O APICs, and MSI/MSI-X for most modern devices; ARM uses the GIC (a distributor, a redistributor or CPU interface per core, and an ITS for messages); RISC-V uses the PLIC (wired, a priority threshold per core) with the newer APLIC and IMSIC for messages; PowerPC uses OpenPIC, XICS and XIVE. Linux has an interrupt-controller framework; FreeBSD, NetBSD and OpenBSD each have one, and OpenBSD drives the APIC on amd64 and the GIC on arm64 **(all from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: no controller; a device raises one of four bus-request lines (BR4 to BR7) and supplies its own vector; the processor arbitrates by priority. VAX: 32 priority levels, interrupts through the System Control Block (a table of vectors), and on a multiprocessor an interrupt went to one chosen processor; VMS supported multiprocessing, while Berkeley Unix on a VAX multiprocessor was rare **(from memory, unchecked)**. *Trade-off:* the PDP-11 scheme needs no controller and cannot route to several processors. *Comparison:* option 1 keeps the PDP-11 priority model and adds the routing it lacked.
+
+**Recommendation.** Option 1, with the message-signalled path first. It keeps `SPL` working and the BSD locking model intact (Q4), and it avoids a wire per device. Cost to build: a register block in the virt machine, a QEMU model, a kernel driver. **If nothing is done:** option 5 by default, which is fine for two cores and poor beyond.
+
+---
+
+## R2. Inter-processor interrupts and starting the other cores
+
+**The need.** Cores must signal each other (to flush a TLB the hardware does not broadcast, to run a function on another core, to reschedule) and the machine must be able to start the cores that are not core 0 after reset.
+
+**The explanation.** The **boot protocol** answers: at reset, which core runs, what do the others do, and how are they released? An **inter-processor interrupt** (IPI) is an interrupt one core raises for another.
+
+**Current state.** The bus document names a memory-mapped per-core register as sufficient and a "boot protocol for releasing secondary cores from reset" as open. `SEV` and `WFE` (event signalling) exist in the ISA; `TLBI` broadcasts.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Per-core doorbell registers in the interrupt controller; secondary cores held in reset and released by writing an entry address** | simple, explicit; matches the bus document | a register block; the entry-address convention to write |
+| 2 | **The IPI is a message-signalled interrupt to the target core's address** (x86 APIC style) | no extra mechanism if R1 chose messages | one more use of R1; the boot start still needs a rule |
+| 3 | **A software-interrupt bit per core in a system register** (RISC-V's machine software interrupt) | an instruction (`mtsr`) raises it | a new system register and a routing rule |
+| 4 | **Cores start parked in `WFE` waiting on a mailbox in memory** (the ARM "spin table" style); `SEV` wakes them | no hardware release logic | busy memory polling at boot; trust in the mailbox |
+| 5 | **Start cores by a firmware call** (needs P7, option 2) | one interface | needs firmware, which P7 recommends against |
+
+**What current systems do.** x86 starts application processors with the INIT and startup IPIs through the APIC; ARM uses PSCI (a firmware call) or a spin table; RISC-V uses the SBI hart-state calls; Linux and the BSDs have an application-processor startup path and per-architecture IPI code **(all from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: multiprocessor models (such as the 11/74) were exceptional, and Unix on them was a research port. VAX: the 11/782 attached processor and later multiprocessors (8300, 8800) started secondary processors from the console and signalled with software interrupts at a priority level; VMS used them, 4BSD barely **(from memory, unchecked)**. *Trade-off:* those designs relied on the console processor and an elaborate firmware. *Comparison:* option 1 has no firmware and no console processor, at the price of a documented register convention.
+
+**Recommendation.** Option 1, with `SEV`/`WFE` used for waiting (so P1, the `WFE` rule, matters here). Cost to build: a doorbell register block, a reset-release register, QEMU support for a second core, tests. **If nothing is done:** a single core only.
+
+---
+
+## R3. How coherence scales beyond two to four cores
+
+**The need.** Each core has a cache; when one writes, the others' copies must not go stale. The ISA already chose snooping for two to four cores. The question is what happens at eight or sixty-four.
+
+**The explanation.** In **snooping** every cache watches a shared bus, simple but limited by the bus. In a **directory** scheme a table records who holds each line, so messages go only where needed; it scales but is complex. The decision interacts with sequential consistency (Q5) and atomics (P11).
+
+**Current state.** Snooping MSI, two to four cores (ISA section 17.3); nothing beyond.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Snooping MSI, two to four cores; say plainly that more needs a new protocol (current)** | simple; fits the FPGA | a ceiling |
+| 2 | **Snooping MESI or MOESI** (an exclusive or owned state) | fewer bus transactions | more states to verify |
+| 3 | **Directory-based coherence** | scales to many cores | a directory and a protocol; a large design |
+| 4 | **No hardware coherence between clusters; explicit cache operations** | cheap to scale | software burden (P6); against the model of Q5 |
+| 5 | **One shared cache and no private caches** | trivially coherent | slow; defeats the purpose |
+
+**What current systems do.** x86 uses MESIF or MOESI snooping within a die and directories or snoop filters across sockets; ARM's coherent interconnects (ACE, CHI) are directory or snoop-filter based; RISC-V cores use TileLink or CHI **(all from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Both predated multi-level coherent caches for most models; VAX multiprocessors shared memory over the SBI, with cache coherence in the memory system and interlocked instructions for locks. *Comparison:* the pdp64's plan is the small-snooping case; it says nothing wrong about larger systems because it makes no claim.
+
+**Recommendation.** Option 1, and record the ceiling so nobody assumes more. Cost to build: a paragraph. **If nothing is done:** same.
+
+---
+
+## R4. The bus protocol itself (Q64)
+
+**The need.** The bus connects cores, memory and devices. `Q64` is the name given in the ISA, "defined in 11/64 revision 5", but that revision is not among the documents, so its transactions (widths, bursts, arbitration, timing) are not written anywhere. Something has to be the real protocol.
+
+**The explanation.** An FPGA implementation talks AXI, the standard on-chip bus of Xilinx and other tools; a bridge from Q64 to AXI is estimated at 600 lookup tables (an estimate, not measured). Rather than keep two protocols, one could make AXI the architecture's transport and treat Q64 as the name of the programming model on top of it.
+
+**Current state.** Q64 is named, its lineage is the Unibus and Q-bus (including the locked read-modify-write pair `DATIP`/`DATO`), but undefined; P11 asks about the atomics.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Write Q64 from the lineage as a real protocol and bridge to AXI** | heritage; full control | a new protocol to specify, verify and keep in step with AXI |
+| 2 | **AXI (with AXI-Lite for registers) as the transport; Q64 names the model on top (ordering, memory types, hand-off)** | the FPGA tools work directly; exclusive access gives the monitor of P11 | the lock model of the Unibus is not native |
+| 3 | **TileLink** (RISC-V ecosystem) | clean coherence support | a smaller tool ecosystem |
+| 4 | **Wishbone** (open hardware cores) | simple, many open cores | no coherence; limited bursts |
+| 5 | **A packet fabric in the style of PCI Express for all peripherals** | scalable, discoverable | heavy for small devices |
+
+**What current systems do.** ARM systems use AMBA (AXI, ACE, CHI); x86 uses internal fabrics plus PCI Express for peripherals; RISC-V uses TileLink or AXI; FPGA SoCs use AXI throughout **(all from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: the Unibus, an asynchronous master-slave bus with transactions `DATI`, `DATO`, `DATIP` (read, pause for a write), `DATOB` (byte); the Q-bus multiplexed addresses and data. VAX: the SBI (synchronous), then the BI and XMI. *Trade-off:* each machine generation introduced a bus; software hid them behind drivers. *Comparison:* option 2 follows what the whole industry did, taking an external standard, and the drivers see the model, not the bus.
+
+**Recommendation.** Option 2, because the FPGA plan is already on AXI and it makes P11's monitor the natural choice. This changes the stated heritage a little (Q64 becomes a mapping, not a bus). Cost to build: the bus document rewritten around the mapping. **If nothing is done:** Q64 stays undefined and the bridge is designed ad hoc.
+
+---
+
+## R5. The device register layout and DMA descriptors
+
+**The need.** Q10 chose eight registers plus DMA but never wrote the layout. Without it no driver can be written, and the QEMU devices (timer and console aside) have nothing to follow.
+
+**The explanation.** A **descriptor** is a small record in memory telling a device where a buffer is and how big it is; a **chain** or **ring** of them lets a device run several transfers on its own. A **doorbell** is a register write that tells the device new descriptors are ready. The layout fixes what each of the eight registers means, the descriptor's fields, and how a device reports completion.
+
+**Current state.** Open: the order of the eight registers, whether Ethernet, USB and disk share one layout, the descriptor format (the accelerator's `lb_desc` chain is the only example), the doorbell and interrupt convention (bus document section 9).
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **One uniform layout: an ID/version register, control, status, descriptor-ring base, size, head, tail and doorbell; devices differ in the descriptor payload** | one driver skeleton for all; self-identifying | the shared shape must fit USB, Ethernet and disk |
+| 2 | **Virtio-mmio compatibility** | existing drivers; standard for virtual machines | more registers than eight; its queue format to implement |
+| 3 | **Bespoke per device** (the Unibus way) | each device is exactly right | no shared driver code |
+| 4 | **PCI-style enumeration with configuration space** | discoverable; the industry standard | heavy for a small design |
+| 5 | **A device tree or table from the boot loader describes each device** | flexible | the layout of the registers is still needed |
+
+**What current systems do.** PC systems enumerate PCI Express devices through configuration space and base-address registers; embedded ARM and RISC-V use a device tree for addresses and interrupts; virtual machines use virtio (mmio or PCI); Linux and the BSDs access registers through a bus-space abstraction **(all from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Unibus devices sat at fixed addresses with a control and status register and a few data registers (a disk controller about eight); the vector was set by switches; Unix's `config` and the kernel's `probe` routines found devices by touching their addresses. The VAX Unibus adapter added map registers for DMA. *Trade-off:* simple but each device bespoke. *Comparison:* option 1 is the PDP-11 shape made uniform; option 2 trades the shape for existing driver code.
+
+**Recommendation.** Option 1 with an ID/version register first (so a driver and the QEMU model can check what they found) and a boot-loader table for addresses. Consider option 2 for the virt machine only, as a way to reuse existing drivers during the OpenBSD bring-up. Cost to build: a grammar for the layout (the bus document already says it should be generated), headers, QEMU models. **If nothing is done:** each device invents its own.
+
+---
+
+## R6. DMA addressing and protection (an I/O translation unit)
+
+**The need.** A device that does DMA reads and writes physical memory on its own. Two problems follow: a device that cannot address all of memory (an older device with 32 address bits on a machine with 40-bit physical addresses), and a faulty or malicious device that overwrites anything.
+
+**The explanation.** An **I/O memory-management unit** (IOMMU) translates and checks a device's addresses the way the processor's MMU does for programs. Without one, the kernel must copy through low memory for limited devices (a **bounce buffer**) and must trust every device.
+
+**Current state.** Not discussed in the documents. DMA buffers are mapped uncached (P6, bus section 6); devices use physical addresses.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **No IOMMU; the rule that every device can address all 40 bits of physical memory** | nothing to build; simple | no protection from bad devices; no help for a restricted device |
+| 2 | **A base-and-limit window register per device** | cheap protection and relocation | coarse; one region per device |
+| 3 | **A full IOMMU with its own page tables** (x86 VT-d, ARM SMMU, RISC-V IOMMU) | real protection; virtualization of devices | a large block; driver and kernel work |
+| 4 | **Devices share the processor's page tables** (shared virtual memory) | zero-copy with user buffers | page-fault handling for devices; complex |
+| 5 | **Bounce buffers in a reserved low region, kernel copies** | no hardware | copy cost; only for limited devices |
+
+**What current systems do.** x86 servers have VT-d, ARM systems an SMMU, RISC-V an IOMMU specification; Linux has the swiotlb bounce-buffer layer for devices with limited addressing, and the BSDs have `bus_dma` with bounce support **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** The Unibus carries only 18 address bits, so on machines with more memory the Unibus map translated device addresses to memory (the Unibus map on the larger PDP-11s, and the VAX Unibus adapter's map registers with `uballoc` in 4BSD). *Trade-off:* a translation unit served both limited addressing and relocation. *Comparison:* the older machines had a simple IOMMU out of necessity; option 1 ignores the need because the devices are defined to address everything.
+
+**Recommendation.** Option 1 now, with the rule written down; revisit with option 3 when virtualization (R8) or untrusted devices matter. Cost to build: a sentence in the bus document. **If nothing is done:** option 1 by default, unwritten.
+
+---
+
+## R7. Errors raised by devices and the bus
+
+**The need.** A device can fail mid-transfer, an access to nothing can time out, memory can have an uncorrectable error. The kernel needs to learn of it and to know whether it can continue.
+
+**The explanation.** The ISA already says a read that times out is a precise fault, a posted write that times out or an uncorrectable error is an imprecise **machine check**. What is missing is how a device or the bus controller *tells* the processor, and what registers record the cause.
+
+**Current state.** Bus document section 7: the error-reporting registers of the bus controller, and what a device may raise itself, are open.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **A bus-controller error register block (cause, address) plus a machine-check interrupt** | one place to look; fits the ISA | a register block to define |
+| 2 | **Bus error responses only (the AXI error code) becoming the precise bus fault for reads and a machine check for posted writes** | no new registers | no cause detail beyond the response |
+| 3 | **Each device reports through its own status register only** | local, simple | nothing reports bus-level faults |
+| 4 | **A PCI Express style advanced error reporting structure** | rich, standard | heavy |
+| 5 | **Treat every error as fatal** | nothing to build | no recovery |
+
+**What current systems do.** x86 has the machine-check architecture (banks of error registers) and PCI Express error reporting; ARM has the RAS extension and the SError interrupt; Linux has EDAC and machine-check handling **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: a bus timeout traps to vector 4 and a parity error to another vector, usually ending in a panic in Unix. VAX: a machine-check exception through the System Control Block with a machine-check frame of processor state, plus memory-error interrupts and fault registers on the bus; 4BSD logged and mostly panicked. *Comparison:* the pdp64's precise read fault is better than the PDP-11's unrestartable bus error; options 1 and 2 together give the VAX's frame without the VAX's size.
+
+**Recommendation.** Options 2 and 1 together: the precise and imprecise paths the ISA already defines, plus a small register block for the cause. Cost to build: the register block and tests. **If nothing is done:** option 2 alone.
+
+---
+
+## R8. Virtualization
+
+**The need.** Virtualization runs one operating system (a **guest**) inside another system (the **host** or **hypervisor**) as if it had a machine of its own. It matters for cloud use, for testing kernels and for isolation. If the architecture ignores it now, later additions can force changes to instructions the guest already depends on.
+
+**The explanation.** The classic method is **trap and emulate**: the guest runs in user mode, and every privileged instruction traps into the hypervisor, which emulates it. It works only if every instruction that reveals or changes the machine's state is privileged (a machine failing that test is not cleanly virtualizable). Modern processors add a **hypervisor mode** and **nested translation** (the guest's page tables are themselves translated by the host's) so the guest can run in kernel mode at full speed.
+
+**Current state.** Not addressed. System v1 has two modes (supervisor mode is defined in the `PSW` and banked registers but unused).
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Out of scope for System v1; fix five constraints now** (see below) so it can be added later | no work now; nothing painted into a corner | the work still comes later |
+| 2 | **Classic trap and emulate, as the first form** (guest in user mode, all privileged instructions trap) | no new hardware; the privileged/unprivileged split exists | slow for page-table and interrupt traffic; the guest kernel's own user mode needs a second level |
+| 3 | **A hypervisor mode plus nested translation** (x86 VT-x with EPT, ARM EL2 with stage-2, RISC-V H extension) | near-native speed | a large addition: a mode, a second walker, virtual interrupts |
+| 4 | **Paravirtualization**: a guest modified to call the host (hypercalls) instead of using privileged instructions (Xen PV) | no hardware, good speed | the guest must be ported; the hypercall interface must be defined |
+| 5 | **Software emulation only** (the pdp64 as a guest in QEMU on other hosts, as today) | already works | no pdp64 hosts; no isolation on the pdp64 |
+
+**The five constraints** for option 1, so a later hypervisor needs no change to the guest-visible architecture: (a) every instruction that reveals or changes machine state stays privileged or is controllable (the time counter of P3 and the identification registers of P4 get an enable bit or trap, not an unconditional user read); (b) the page-table walker is specified so that a second level could wrap it; (c) interrupts are injectable (a pending virtual interrupt can be presented as a real one); (d) the system-register model (Q12) allows a trap on access; (e) the `MMUCTL` mode bit (P10) and the software accessed and dirty bits (Q2) are reviewed for what a hypervisor would need.
+
+**What current systems do.** x86 has VMX and SVM with nested paging (EPT, NPT); ARM has exception level 2 and stage-2 translation; RISC-V has the H extension; PowerPC has hypervisor mode and logical partitions; IBM mainframes have had virtual machines since VM/370, by trap and emulate. Linux has KVM, FreeBSD bhyve, NetBSD NVMM, OpenBSD `vmm` (as I recall, x86 only), Windows Hyper-V; Xen offers paravirtualization **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** The PDP-11 was not designed for virtualization and, as I recall, has sensitive instructions that do not trap in user mode. The VAX was not cleanly virtualizable either; DEC's research on a VAX security kernel led to a published paper on "virtualizing the VAX architecture" that added a virtual-machine bit and changed some instructions (Hall and Robinson, 1991, title and authors from memory, unchecked). *Trade-off:* adding virtualization late cost the VAX instruction changes. *Comparison:* option 1 is the lesson of the VAX: settle the constraints early even if the feature comes late.
+
+**Recommendation.** Option 1: say it is out of scope for System v1 and record the five constraints. Cost to build: a short section. **If nothing is done:** the constraints are broken by accident, one at a time, as P3 and P4 are decided.
+
+---
+
 ## What I need from you
 
-Please mark each of P1 to P14 (and any of Q1 to Q15 you want to reopen) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
+Please mark each of P1 to P14 (and any of Q1 to Q15 you want to reopen, and R1 to R8) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
