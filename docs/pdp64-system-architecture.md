@@ -9,7 +9,7 @@
 * **Open**: not yet decided or not yet written. The list of all open items is in section 13.
 
 The companion for the bus and the devices is [`pdp64-q64-bus.md`](pdp64-q64-bus.md). The question this document answers is: what does a kernel need from the
-processor, and which of it exists? The first kernel is Unix/32V (section 12).
+processor, and which of it exists? The first kernel is a port of 3BSD (section 12).
 
 ## 1. Privilege modes
 
@@ -168,18 +168,18 @@ descendants of the PDP-11's bus error and are not restartable (§7.1); the old `
 
 *Open*: hardware breakpoints and watchpoints; how a machine check is reported and logged; a performance counter.
 
-## 12. The first operating system: a port of Unix/32V
+## 12. The first operating system: a port of 3BSD (from Unix/32V)
 
-*Decided by the author* (errata 30): the first operating system is **a port of Unix/32V**, the original port of V7 Unix to the VAX-11/780. It is a better starting point than V7 itself
-because it is already a V7 for a 32-bit paged machine: it was built with the portable C compiler (the family of compiler the pdp64 uses), and it uses page tables, where V7 used the PDP-11's
-segmentation registers. This section is an assessment of the port against the sections above; the statements about what 32V needs are the assessment's, not facts established elsewhere.
+*Decided by the author* (errata 30, revised 2026-10-22): the first operating system is **a port of 3BSD**, the first Berkeley release with demand-paged virtual memory, which is Unix/32V (the original port of V7 Unix to the VAX-11/780) with Berkeley's virtual-memory system added. The
+first version of this plan named Unix/32V itself; the author's observation, after the 32V headers showed that it only swaps whole processes (below), was that 3BSD already pages, so the port starts there. Unix/32V remains the base: 3BSD is built from it, so everything said here about 32V holds for 3BSD too, and the
+32V sources are the fallback if the 3BSD sources cannot be used. **From general knowledge, not verified against the sources (to be checked when the sources are fetched):** 3BSD (1979) was built with the portable C compiler, the compiler family the pdp64 uses, as was 32V; the VAX has a hardware modify bit
+but no reference bit, and 3BSD emulated reference bits in software, which is the arrangement System v1 chose on purpose (software-managed accessed and dirty bits, section 15); availability and licence of the 3BSD sources are unchecked.
 
 **A note on paging, from the 32V headers in the toolchain repository's corpus.** The 32V kernel as released **swaps whole processes** and uses the VAX page tables for relocation and protection:
 `proc.h` has `p_size` ("size of swappable image"), `p_swaddr` and `p_swsize` and the states `SLOAD`, `SSWAP` and `SSPART` ("partially swapped out"); its page-table entries are those of the u-area
-(`p_addr[UPAGES]`); and the headers contain no paging structures (no page-fault bookkeeping, resident-set sizes or page-out thresholds). Demand paging came with Berkeley's 3BSD, which added virtual
-memory to 32V. The pdp64's memory-management unit supports demand paging (section 7), so it can be added to the port, as 3BSD did, once the base system runs. The first port does not need it.
+(`p_addr[UPAGES]`); and the headers contain no paging structures. 3BSD added the paging to it. The pdp64's memory-management unit supports demand paging (section 7); with 3BSD as the starting point the port needs the paging support from the first day: page-fault handling, the `A` and `D` bits in software, and a page daemon.
 
-| What 32V needs | What the pdp64 has | State |
+| What the port needs (32V, and so 3BSD) | What the pdp64 has | State |
 |---|---|---|
 | A way into the kernel for a system call, with the call number and arguments in registers or on the stack | `TRAP #n`, `TRAPL #n`, a banked kernel stack (sections 1, 5) | the entry sequence and the call convention are open (sections 4, 5) |
 | Separate address spaces, swapped as whole images, with per-process page tables | a three-level page table, `ASID`, broadcast `TLBI` (section 7) | `PTBR` is written by `mtsr` (section 3); the entry layout is open (section 7) |

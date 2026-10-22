@@ -35,7 +35,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
    [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md) the implementation plan,
    [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md) the sub-1-bit inference accelerator. Each ends with its list of changes since r20.
    The documents **as they arrived**, under the working name 11/64W, are kept unedited in [`docs/orig/`](docs/orig/) as the baseline.
-2. **The system: [`docs/pdp64-system-architecture.md`](docs/pdp64-system-architecture.md)** (privilege, exceptions, interrupts, memory management, boot, and the Unix/32V port plan) **and the bus: [`docs/pdp64-q64-bus.md`](docs/pdp64-q64-bus.md)** (Q64 and the devices). Both say what is established, decided and open.
+2. **The system: [`docs/pdp64-system-architecture.md`](docs/pdp64-system-architecture.md)** (privilege, exceptions, interrupts, memory management, boot, and the 3BSD port plan) **and the bus: [`docs/pdp64-q64-bus.md`](docs/pdp64-q64-bus.md)** (Q64 and the devices). Both say what is established, decided and open.
 3. **What compiled C says about the ISA: [`docs/codegen-analysis.md`](docs/codegen-analysis.md).** Code size against `gcc -Os` and `clang -Os`, instruction lengths, which instructions are used, cost centres and what each candidate change could save.
 4. **Everything decided or changed since, with the reasons: [`docs/CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md).** It is the reasoned history of the updates above and the
    record against the baseline; where it disagrees with the original r20 documents, it wins. It holds, in order: where things stand (§1); the design errors found in the ISA (§2); instructions dropped, moved, added or
@@ -70,7 +70,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
 | The fourth parcel is removed; `len = 11` is a second page of 41 one-parcel instructions (the assembler picks them); fused compare-and-branch `cbCC` and `rori32` added: -7.4% code | errata 31; [CHANGES §12](docs/CHANGES-SINCE-R20.md) |
 | Wide constants: `movq =K, rd` loads from a literal pool, written with an explicit `=`; nothing is pooled silently | errata 33; [asm syntax](docs/asm-syntax.md) |
 | Privileged `mfsr`/`mtsr` reach `ptbr`, `epc`, `eva`, `ecause`, `dmw0`, `dmw1`, `usp`, `ssp` (what a paging OS needs) | errata 32 |
-| The first operating system is a port of Unix/32V; OpenBSD follows if an LLVM back end is easy enough; the system architecture document lists what that needs and what is undefined | errata 30; [system architecture](docs/pdp64-system-architecture.md) |
+| The first operating system is a port of 3BSD (Unix/32V plus demand paging); OpenBSD follows if an LLVM back end is easy enough; the system architecture document lists what that needs and what is undefined | errata 30; [system architecture](docs/pdp64-system-architecture.md) |
 | Devices (Ethernet, USB, disk) are eight memory-mapped registers plus DMA: trivial drivers, no multitasking burden on the CPU; no ISA change, layouts to be written | errata 29; ISA §16 |
 | Half precision (binary16) added: 17 `FESC` words, arithmetic and conversions, correctly rounded, with flags | errata 27; CHANGES §14 |
 | ABI v1: LP64, signed `char`, `long double` = double, arguments in `r0`-`r5` (floats too), 8-byte stack alignment, no red zone, no leading underscore; variadic calls put every argument in slots | CHANGES §5; abi.md |
