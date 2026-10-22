@@ -13,5 +13,5 @@ CFLAGS=${CFLAGS:--g -w}
 # each generated parser exports parse_bytes, emit_bytes and friends: rename them in the format parser's object
 RENAME="-Demit_bits=fmt_emit_bits -Demit_bytes=fmt_emit_bytes -Dparse_bits=fmt_parse_bits -Dparse_bytes=fmt_parse_bytes -Dfree_arena=fmt_free_arena"
 gcc $CFLAGS $RENAME -Ias64 -I"$B" -c as64/fmtp.c -o "$B/fmtp.o"
-gcc $CFLAGS -Ias64 -Icommon -I"$B" -o "$B/as64" as64/as64.c as64/asmp.c common/calib.c "$B/fmtp.o"
+gcc $CFLAGS -Ias64 -Icommon -I"$B" -o "$B/as64" as64/as64.c as64/asmp.c common/calib.c common/p2.c "$B/fmtp.o"
 echo "built $B/as64"
