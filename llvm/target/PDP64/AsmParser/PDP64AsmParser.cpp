@@ -382,8 +382,13 @@ bool PDP64AsmParser::parseOperand(OperandVector &Operands, StringRef Mnemonic, u
         MCRegister Reg;
         if (parseBaseRegister(Reg, IsPC, IsDP))
           return Error(getLoc(), "expected a register");
-        if (IsPC || IsDP)
-          return Error(S, "pc and dp are written d(pc) and d(dp)");
+        if (IsPC || IsDP) { // (pc), (dp): displacement 0
+          P.Lex(); // )
+          auto Op = PDP64Operand::create(IsPC ? PDP64Operand::Bare : PDP64Operand::DP, S, getLoc());
+          Op->ExplicitPC = IsPC;
+          Operands.push_back(std::move(Op));
+          return false;
+        }
         P.Lex(); // )
         if (P.getTok().is(AsmToken::Plus)) { // (rn)+ [expr]
           P.Lex();

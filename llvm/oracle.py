@@ -172,7 +172,7 @@ def translate(text):
         code = strip_comment(line)
         if any(ord(ch) > 127 for ch in code):
             raise Skip('non-ASCII names (LLVM identifiers are ASCII)')
-        if re.search(r'(^|[\s,(])=[^=]', code) and not re.match(r'^\s*[\w.$]+\s*=', code):
+        if re.search(r'(^|[\s,(])=[^=\s]', code):
             raise Skip('literal pool (=K)')
         if re.match(r'^\s*(\w+:\s*)*\.pool\b', code):
             raise Skip('.pool')
