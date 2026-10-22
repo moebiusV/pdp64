@@ -1,0 +1,96 @@
+"# pdp64 only, 827 fair-corpus files, after errata 35 (register-register cbCC); references are the fixed per-file gcc -Os and clang -Os numbers; bytes = text + rodata + data"
+corpus,files,pdp64_ins,pdp64_bytes,gcc-Os_ins,gcc-Os_bytes,clang-Os_ins,clang-Os_bytes,ins/gcc,bytes/gcc,ins/clang,bytes/clang
+bearssl,294,53535,183199,44536,202004,50161,218622,1.202,0.907,1.067,0.838
+c-testsuite,213,4663,18738,3339,15148,3922,18220,1.397,1.237,1.189,1.028
+chibicc,8,14216,61390,14833,75019,16615,82351,0.958,0.818,0.856,0.745
+cjson,2,4511,13448,4490,14703,5173,17745,1.005,0.915,0.872,0.758
+gcc-torture,158,80635,504161,55872,412008,59192,450373,1.443,1.224,1.362,1.119
+lua,34,38341,131984,38540,157421,40713,164118,0.995,0.838,0.942,0.804
+lz4,5,10456,31954,8291,32733,11579,45380,1.261,0.976,0.903,0.704
+mbedtls,101,116817,500458,103566,542316,108757,557531,1.128,0.923,1.074,0.898
+zlib,12,10882,54198,8862,51187,10016,56515,1.228,1.059,1.086,0.959
+ALL,827,334056,1499530,282329,1502539,306128,1610855,1.183,0.998,1.091,0.931
+
+step,instructions,bytes,ins/gcc-Os,bytes/gcc-Os,ins/clang-Os,bytes/clang-Os
+before: after the wide cbCC,338687,1499672,1.200,0.998,1.106,0.931
+"cmp ra,rb ; bCC becomes cbCC ra,rb,L",334056,1499530,1.183,0.998,1.091,0.931
+
+instruction length (bytes),instructions,share
+2,185603,55.6%
+4,95784,28.7%
+6,52669,15.8%
+average bytes per instruction,3.204
+
+count (static),value
+"cbCC reg,reg, 4 bytes",4674
+"cbCC reg,reg, 6 bytes",11
+"cbCC reg,imm, 4 bytes",14619
+"cbCC reg,imm, 6 bytes",11841
+"cmp reg,mem ; bCC left",611
+"cmp reg,#imm beyond 16 bits ; bCC left",641
+"cmp reg,=K ; bCC left",30
+"condition materialized as 0/1 (set cc,rd)",460
+conditional move (select),138
+abs-like (neg under a branch),7
+
+form (length mnemonic operand forms),count
+"2 movq reg,reg",46096
+6 call pcrel,22167
+"2 movq base,reg",14395
+2 br pcrel,14157
+"6 lea pcrel,reg",12817
+"4 movq imm,reg",9904
+2 clr reg,9568
+4 call pcrel,9421
+"2 movl base,reg",8957
+2 inc reg,8806
+"4 lea base,reg",8737
+"4 movzb index,reg",8712
+2 ret ,7983
+"2 movq imm,reg",7726
+"4 lea pcrel,reg",7172
+"2 add reg,reg",6399
+"6 cbeq reg,imm,pcrel",6358
+"4 cbeq reg,imm,pcrel",5790
+"2 movq reg,base",5558
+"4 cbne reg,imm,pcrel",5355
+"4 movq base,reg",5174
+"4 movl base,reg",4538
+"6 cblt reg,imm,pcrel",4188
+"2 movl reg,base",4178
+"2 lea base,reg",3674
+"2 movzl reg,reg",3580
+"2 movl reg,reg",3399
+"2 add imm,reg",3270
+2 push reg,2894
+"2 xor reg,reg",2812
+2 pop reg,2744
+"4 cblt reg,imm,pcrel",2733
+"2 shl imm,reg",2495
+"4 cbeq reg,reg,pcrel",2463
+2 pushm imm,2393
+2 popm imm,2393
+2 beq pcrel,2314
+"4 movzb base,reg",2176
+4 br pcrel,1932
+"2 bis reg,reg",1867
+"4 movq reg,base",1839
+"2 sub imm,reg",1778
+"2 mul reg,reg",1765
+"2 sub reg,reg",1741
+"4 movl reg,base",1661
+2 bne pcrel,1609
+"4 movb reg,base",1377
+"2 movzb reg,reg",1310
+"2 shr imm,reg",1299
+"4 and imm,reg",1241
+"6 and imm,reg",1091
+"4 shr imm,reg",1033
+"2 and reg,reg",992
+"4 rori32 reg,imm,reg",970
+4 clr base,939
+2 dec reg,881
+"4 movl index,reg",871
+"2 movzb base,reg",772
+"4 movzl base,reg",713
+"6 cbne reg,imm,pcrel",677
