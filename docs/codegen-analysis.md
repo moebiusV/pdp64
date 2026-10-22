@@ -23,7 +23,7 @@ The machine-readable data behind the tables is in [`codegen-data/`](codegen-data
 | Lengths | pdp64: the `len` bits (15..14) of each instruction's first parcel, walking `.text`; x86: `objdump -d`, bytes between instruction starts (alignment no-ops that gcc and clang insert are included and some assembler lines are not instructions, so the totals differ from the line counts by under 3%). |
 | Caveats | The corpus is not representative everywhere. `memcpy-a2.c` alone is 96% of the pdp64 image of gcc-torture (503 KB, against gcc's 390 KB for the file); the c-testsuite and gcc-torture files are small test programs that gcc folds to almost nothing; a few sources repeat the same compare-and-abort test thousands of times, which inflates the call and compare counts. Section 2 therefore also gives the totals without `memcpy-a2.c` and for the seven libraries alone. |
 
-Tools: `tools/pdp64size.sh` (the measurement; the analysis scripts that make the tables below are in `tools/` too), run with `tools/pdp64size.sh --set fair --arch pdp64,amd64,gcc-Os,clang-Os --keep DIR`.
+Tools: `tools/pdp64size.sh` is the measurement (`tools/pdp64size.sh --set fair --arch pdp64,amd64,gcc-Os,clang-Os --out DIR --keep DIR/s`); the scripts in `tools/codegen/` turn its `results.json` and the kept `.s` files into the tables below (`analyze.py`, `candidates.py`, `never.py`, `mdtables.py`, `fill.py` with `doc_template.md`; they read and write under `/tmp/p64opt`).
 
 ## 2. Code size against gcc and clang
 
@@ -514,7 +514,8 @@ What the data supports:
 ```
 tools/build-pcc.sh                      # build/pcc/ccom from ~/claude/pcc
 tools/pdp64size.sh --set fair --arch pdp64,amd64,gcc-Os,clang-Os --out DIR --keep DIR/s
-# tables: DIR/results.json holds every figure above per file; docs/codegen-data/ holds the aggregated CSV files
+# tables: DIR/results.json holds every figure above per file; docs/codegen-data/ holds the aggregated CSV files;
+# tools/codegen/*.py rebuild them (see the list in section 1)
 ```
 
 The static counts of the candidate sequences (section 9) come from regular-expression scans of the kept `.s` files, so a site is counted only if the instructions are literally adjacent in the output.
