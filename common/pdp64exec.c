@@ -27,7 +27,15 @@ static const struct pdp64_env *E;
 #define cur_pc (C->cur_pc)
 #define ld(a, n) E->ld(E->u, (a), (n))
 #define st(a, n, v) E->st(E->u, (a), (n), (v))
-#define die(what, addr) E->fault(E->u, (what), (addr))
+/* a fault of the instruction itself.  With exceptions delivered it is an abort with this vector; otherwise it ends the program. */
+static void fault_v(int vector, const char *what, uint64_t addr) __attribute__((noreturn));
+static void fault_v(int vector, const char *what, uint64_t addr)
+{
+	if (C->deliver) E->raise(E->u, vector, addr);
+	E->fault(E->u, what, addr);
+}
+#define die(what, addr) fault_v(VECTOR_ILLEGAL, (what), (addr))
+#define MODE ((int)pdp64_mode(C))
 
 static int64_t sext(uint64_t v, int bits) { return bits >= 64 ? (int64_t)v : (int64_t)(v << (64 - bits)) >> (64 - bits); }
 static uint64_t zext(uint64_t v, int bits) { return bits >= 64 ? v : v & (((uint64_t)1 << bits) - 1); }
@@ -327,6 +335,33 @@ static int half_op(int sub, const struct fmt *f, uint64_t *rd)
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
+/* the processor status word, the banked registers, exception entry                                                    */
+
+static int bank(int mode) { return mode == MODE_USER ? 2 : mode; }
+unsigned pdp64_psw(const struct pdp64_cpu *c);
+static int psw_bad(uint64_t v)								/* a PSW with the reserved mode 2 in either mode field */
+{
+	return (v >> PSW_MODE & 3) == 2 || (v >> PSW_PREV & 3) == 2;
+}
+static void priv(void)
+{
+	if (MODE != MODE_KERNEL) fault_v(VECTOR_PRIVILEGED, "privileged instruction in user mode", 0);
+}
+
+/* Exception entry (docs/pdp64-system-architecture.md section 15): registers only, then the new PC from the table at the physical address vbr + 8 * vector.
+   newpri < 0: the priority stays (an exception); otherwise it becomes the level of the interrupt. */
+static void enter(int vector, uint64_t epc, uint64_t eva, int newpri)
+{
+	uint64_t target, at = C->vbr + 8 * (uint64_t)vector;
+	unsigned old;
+	if (E->vecread(E->u, at, &target)) E->fault(E->u, "machine check: the vector fetch failed", at);
+	old = pdp64_psw(C);
+	C->epc = epc; C->epsw = old; C->eva = eva; C->ecause = (uint64_t)vector;
+	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | (unsigned)(newpri < 0 ? (old >> PSW_PRI & 7) : newpri) << PSW_PRI);
+	pc = target;
+	C->entered = 1;
+}
+/* ------------------------------------------------------------------------------------------------------------------ */
 /* one instruction                                                                                                     */
 
 static int moves_size(int opc)
@@ -341,9 +376,9 @@ static void step(void)
 	struct fmt f;
 	uint64_t start = pc;
 	cur_pc = pc;
-	uint16_t p0 = (uint16_t)ld(pc, 2);
+	uint16_t p0 = (uint16_t)E->fetch(E->u, pc);
 	int len = p0 >> 14, n = pdp64_insn_parcels(p0);
-	for (int i = 0; i < n; i++) { uint16_t p = (uint16_t)ld(pc + 2 * i, 2); buf[2 * i] = p >> 8; buf[2 * i + 1] = p & 255; }
+	for (int i = 0; i < n; i++) { uint16_t p = (uint16_t)E->fetch(E->u, pc + 2 * i); buf[2 * i] = p >> 8; buf[2 * i + 1] = p & 255; }
 	if (fmt_decode(buf, 2 * n, &f)) die("illegal instruction", 0);
 	pc += 2 * n;
 	if (f.shape == FS_P2) {								/* page 2 is the page-1 instruction it abbreviates, and runs as that */
@@ -484,12 +519,22 @@ static void step(void)
 		if (cls == 0) {
 			switch (f.low) {
 			case MN_SYS_NONE_RET: pc = pop(); return;
-			case MN_SYS_NONE_HALT: E->halt(E->u); return;
-			case MN_SYS_NONE_BPT: die("breakpoint", 0);
-			case MN_SYS_NONE_RTI: case MN_SYS_NONE_RTT: die("privileged instruction", f.low);
+			case MN_SYS_NONE_HALT: if (!C->standin) priv(); E->halt(E->u); return;
+			case MN_SYS_NONE_BPT:
+				if (C->deliver && !C->standin) { enter(VECTOR_BPT, pc, 0, -1); return; }
+				die("breakpoint", 0);
+			case MN_SYS_NONE_RTI: case MN_SYS_NONE_RTT:					/* PC from EPC, PSW from EPSW (rtt: and T set after the return) */
+				priv();
+				if (psw_bad(C->epsw)) die("rti: reserved mode in epsw", 0);
+				pc = C->epc; pdp64_set_psw(C, (unsigned)C->epsw);
+				if (f.low == MN_SYS_NONE_RTT) C->psw |= 1u << PSW_T;
+				return;
+			case MN_SYS_NONE_WFE: priv(); C->wait = 1; return;
+			case MN_SYS_NONE_TLBIA: priv(); E->tlb(E->u, PDP64_TLB_ALL, 0); return;
+			case MN_SYS_NONE_TLBSYNC: priv(); return;				/* one core: nothing to wait for */
 			case MN_SYSREG_MFSR: case MN_SYSREG_MTSR: {					/* mfsr rd,name / mtsr name,rs: privileged */
-				uint64_t *sr;
-				if (!C->kernel) die("privileged instruction in user mode", 0);
+				uint64_t *sr, mask = ~(uint64_t)0, tmp;
+				priv();
 				switch (f.sub) {
 				case SYSREG_PTBR: sr = &C->ptbr; break;
 				case SYSREG_EPC: sr = &C->epc; break;
@@ -497,28 +542,55 @@ static void step(void)
 				case SYSREG_ECAUSE: sr = &C->ecause; break;
 				case SYSREG_DMW0: sr = &C->dmw[0]; break;
 				case SYSREG_DMW1: sr = &C->dmw[1]; break;
-				case SYSREG_USP: sr = &C->usp; break;
-				case SYSREG_SSP: sr = &C->ssp; break;
+				case SYSREG_USP: sr = &C->spbank[bank(MODE_USER)]; break;
+				case SYSREG_SSP: sr = &C->spbank[bank(MODE_SUPERVISOR)]; break;
+				case SYSREG_EPSW: sr = &C->epsw; mask = PSW_VALID; break;
+				case SYSREG_VBR: sr = &C->vbr; break;
+				case SYSREG_MMUCTL: sr = &C->mmuctl; mask = 1u << MMUCTL_ENABLE; break;
+				case SYSREG_ASID: sr = &C->asid; mask = 0xffff; break;
+				case SYSREG_CPUID: sr = &C->cpuid; break;
 				default: die("illegal instruction", 0);					/* an unassigned system register */
 				}
 				if (f.low == MN_SYSREG_MFSR) r[f.rd] = *sr;
-				else if (f.sub == SYSREG_EVA || f.sub == SYSREG_ECAUSE) die("illegal instruction", 0);	/* read only */
-				else *sr = r[f.rd];
+				else if (SYSREG_READONLY(f.sub)) die("illegal instruction", 0);	/* read only */
+				else {
+					tmp = r[f.rd] & mask;
+					if (f.sub == SYSREG_ASID || f.sub == SYSREG_MMUCTL || f.sub == SYSREG_PTBR) { *sr = tmp; E->tlb(E->u, PDP64_TLB_ALL, 0); }
+					else *sr = tmp;
+				}
 				return;
 			}
-			default: return;							/* nop, fence, wfe, sev, lpad, tlb and cache operations */
+			default: return;							/* nop, fence, sev, lpad, icinva */
 			}
 		}
 		switch (cls) {
-		case MN_SYS_MTPS: { uint64_t v = r[f.low]; fC = v & 1; fV = v >> 1 & 1; fZ = v >> 2 & 1; fN = v >> 3 & 1; return; }
-		case MN_SYS_MFPS: r[f.low] = (uint64_t)(fC | fV << 1 | fZ << 2 | fN << 3); return;
-		case MN_SYS_TRAP: E->trap(E->u, f.low); return;
-		case MN_SYS_TRAPL: E->trap(E->u, (int)(f.d >> 8)); return;
+		case MN_SYS_MTPS: {
+			unsigned v = (unsigned)r[f.low];
+			if (MODE != MODE_KERNEL) { v = (v & PSW_FLAGS) | (pdp64_psw(C) & ~PSW_FLAGS); }	/* user mode writes only the flags */
+			else if (psw_bad(v)) die("mtps: reserved mode", 0);
+			pdp64_set_psw(C, v);
+			return;
+		}
+		case MN_SYS_MFPS: r[f.low] = pdp64_psw(C); return;
+		case MN_SYS_SPL: priv(); if (f.low > 7) die("spl: the priority is 0 to 7", 0); C->psw = (C->psw & ~PSW_FIELD(PRI, ~0u)) | PSW_FIELD(PRI, f.low); return;
+		case MN_SYS_TRAP: case MN_SYS_TRAPL: {
+			int n = cls == MN_SYS_TRAP ? f.low : (int)f.n;			/* trapl: the vector number is in parcel 1 */
+			if (C->deliver && !C->standin) enter(VECTOR_TRAP_BASE + n, pc, 0, -1);
+			else E->trap(E->u, n);
+			return;
+		}
 		case MN_SYS_MTDP: dp = r[f.low]; return;
 		case MN_SYS_MFDP: r[f.low] = dp; return;
-		case MN_SYS_MFCPUID: r[f.low] = 0; return;
-		case MN_SYS_PROBER: case MN_SYS_PROBEW: r[(f.d >> 12) & 15] = E->mapped(E->u, r[f.low]); return;
-		case MN_SYS_SPL: case MN_SYS_TLBI: case MN_SYS_MTASID: case MN_SYS_MFASID: case MN_SYS_MTDMW: case MN_SYS_ICINV: return;
+		case MN_SYS_MFCPUID: r[f.low] = C->cpuid; return;
+		case MN_SYS_PROBER: case MN_SYS_PROBEW:
+			priv();
+			r[f.rd] = E->probe(E->u, r[f.low], cls == MN_SYS_PROBEW, (int)(C->psw >> PSW_PREV & 3));
+			return;
+		case MN_SYS_TLBI: priv(); E->tlb(E->u, PDP64_TLB_PAGE, r[f.low]); return;
+		case MN_SYS_MTASID: priv(); C->asid = r[f.low] & 0xffff; E->tlb(E->u, PDP64_TLB_ALL, 0); return;
+		case MN_SYS_MFASID: priv(); r[f.low] = C->asid; return;
+		case MN_SYS_MTDMW: priv(); C->dmw[0] = r[f.low]; return;			/* v1: storage only; the operand names no window, so it is DMW0 */
+		case MN_SYS_ICINV: return;
 		}
 		die("unimplemented system instruction", cls);
 	}
@@ -528,7 +600,7 @@ static void step(void)
 		if (opc == OPGROUP_AESC) {
 			switch (sub) {
 			case MN_AESC_DIV: case MN_AESC_DIVU: case MN_AESC_MOD: case MN_AESC_MODU:
-				if (b == 0) die("division by zero", 0);
+				if (b == 0) fault_v(VECTOR_DIVZERO, "division by zero", 0);
 				if (sub == MN_AESC_DIV) res = (int64_t)a == INT64_MIN && (int64_t)b == -1 ? a : (uint64_t)((int64_t)a / (int64_t)b);
 				else if (sub == MN_AESC_DIVU) res = a / b;
 				else if (sub == MN_AESC_MOD) res = (int64_t)b == -1 ? 0 : (uint64_t)((int64_t)a % (int64_t)b);
@@ -579,6 +651,7 @@ static void step(void)
 		die("unimplemented bit instruction", sub);
 	}
 	if (opc == OPGROUP_MBLK) {
+		C->progress = 1;
 		int sub = f.sub, rd = f.reg, rs = f.low, rn = f.t;
 		switch (sub) {
 		case MN_MBLK_MCPY: while (r[rn]) { st(r[rd], 1, ld(r[rs], 1)); r[rd]++; r[rs]++; r[rn]--; } return;
@@ -673,8 +746,62 @@ int pdp64_insn_parcels(uint16_t parcel0)
 	return len == LENCODE_PAGE2 ? 1 : len + 1;
 }
 
-void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* the interface to the hosts (the short names above are macros on C, so they are undone here)                         */
+#undef r
+#undef pc
+#undef dp
+#undef fpsr
+#undef fN
+#undef fZ
+#undef fV
+#undef fC
+#undef cur_pc
+
+unsigned pdp64_psw(const struct pdp64_cpu *c)
+{
+	return (c->psw & ~PSW_FLAGS) | (unsigned)c->fC << PSW_C | (unsigned)c->fV << PSW_V | (unsigned)c->fZ << PSW_Z | (unsigned)c->fN << PSW_N;
+}
+void pdp64_set_psw(struct pdp64_cpu *c, unsigned v)
+{
+	int old = pdp64_mode(c), nw;
+	v &= PSW_VALID;
+	nw = v >> PSW_MODE & ((1u << PSW_WIDTH_MODE) - 1);
+	c->fC = v >> PSW_C & 1; c->fV = v >> PSW_V & 1; c->fZ = v >> PSW_Z & 1; c->fN = v >> PSW_N & 1;
+	if (nw != old) {								/* r14 and DP name the new mode's copies */
+		c->spbank[bank(old)] = c->r[14]; c->dpbank[bank(old)] = c->dp;
+		c->r[14] = c->spbank[bank(nw)]; c->dp = c->dpbank[bank(nw)];
+	}
+	c->psw = v & ~PSW_FLAGS;
+}
+
+void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector, uint64_t eva)
 {
 	C = c; E = e;
+	if (!c->progress) {								/* an abort leaves no trace: the registers (the (rN)+ and -(rN) updates among them) are as before */
+		memcpy(c->r, c->snap.r, sizeof c->r); c->dp = c->snap.dp; c->fpsr = c->snap.fpsr;
+		c->fN = c->snap.fN; c->fZ = c->snap.fZ; c->fV = c->snap.fV; c->fC = c->snap.fC;
+	}
+	enter(vector, c->cur_pc, eva, -1);
+}
+int pdp64_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e, int level, int vector)
+{
+	if (level <= (int)pdp64_priority(c)) return 0;
+	C = c; E = e;
+	enter(vector, c->pc, 0, level);
+	c->wait = 0;
+	return 1;
+}
+
+void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
+{
+	int traced = c->psw >> PSW_T & 1;
+	C = c; E = e;
+	c->entered = 0; c->progress = 0; c->wait = 0;
+	if (c->deliver) {									/* keep what an abort has to undo */
+		memcpy(c->snap.r, c->r, sizeof c->r); c->snap.pc = c->pc; c->snap.dp = c->dp; c->snap.fpsr = c->fpsr;
+		c->snap.fN = c->fN; c->snap.fZ = c->fZ; c->snap.fV = c->fV; c->snap.fC = c->fC;
+	}
 	step();
+	if (traced && c->deliver && !c->entered) enter(VECTOR_BPT, c->pc, 0, -1);		/* T was set when the instruction began: the trace trap (vector 15, as bpt) */
 }

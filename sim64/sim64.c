@@ -4,16 +4,22 @@
  * executes it.  The widths of the displacement fields come from the same calibration as the assembler's (common/calib.c); the numbers of
  * the instructions are the names of pdp64-consts.h.  What each instruction does is written here.
  *
- *   sim64 [-t] [-r] [-n steps] program
+ *   sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] program
  *
  *   -t  trace: one line per instruction, to standard error     -r  print the registers and flags when the program stops
  *   -n  stop after that many instructions (default 200 million)
+ *   -k  start in kernel mode (privileged instructions allowed); the system-call stand-in stays
+ *   -K  System v1 kernel mode: start in kernel mode at priority 7, flat physical memory, no MMU; faults, traps and interrupts are exceptions
+ *       delivered through the vector table at the physical address in VBR (the stand-in is off: trap #n is vector 256 + n, halt exits with r0)
+ *   -i N:LEVEL:VECTOR  (with -K, repeatable) an interrupt request of that level and vector, raised once N instructions have been started; it stays pending
+ *       until it is taken.  wfe jumps to the next pending request (and stops with status 125 if none can be taken).
  *
  * The system call interface is a stand-in until there is an operating system (docs/sim64.md): `trap #n` with n = 0 exit(r0), 1 write(r0
  * fd, r1 buffer, r2 length) returning the count in r0, 2 read(...).  `halt` stops with the status in r0.  The program's exit status is the
  * emulator's.  A fault (misaligned data, an unmapped address, an unimplemented instruction, a divide by zero) prints a message and exits 139.
  */
 #include <errno.h>
+#include <setjmp.h>
 #include <fenv.h>
 #include <math.h>
 #include <stdint.h>
@@ -33,17 +39,30 @@
 
 static struct pdp64_cpu cpu;
 static int trace, maxsteps = 200000000;
+static jmp_buf jb;				/* -K: an abort unwinds to the main loop */
+static int jvec;
+static uint64_t jeva;
+struct irq { long count; int level, vector, done; } irqs[64];
+static int nirqs;
+static long steps;
 
 static void regdump(FILE *o)
 {
 	for (int i = 0; i < 16; i++) fprintf(o, "r%-2d %016llx%s", i, (unsigned long long)cpu.r[i], i % 4 == 3 ? "\n" : "  ");
-	fprintf(o, "pc  %016llx  N%d Z%d V%d C%d  fpsr %02llx\n", (unsigned long long)cpu.pc, cpu.fN, cpu.fZ, cpu.fV, cpu.fC, (unsigned long long)cpu.fpsr);
+	fprintf(o, "pc  %016llx  N%d Z%d V%d C%d  fpsr %02llx  psw %04x\n", (unsigned long long)cpu.pc, cpu.fN, cpu.fZ, cpu.fV, cpu.fC, (unsigned long long)cpu.fpsr, pdp64_psw(&cpu));
 }
 static void die(const char *what, uint64_t addr)
 {
 	fprintf(stderr, "sim64: %s at pc=%#llx addr=%#llx\n", what, (unsigned long long)cpu.cur_pc, (unsigned long long)addr);
 	regdump(stderr);
 	exit(139);
+}
+
+/* a fault of the access: an abort with this vector when exceptions are delivered, otherwise the end of the program */
+static void memfault(int vector, const char *what, uint64_t addr)
+{
+	if (cpu.deliver) { jvec = vector; jeva = addr; longjmp(jb, 1); }
+	die(what, addr);
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -81,19 +100,19 @@ static uint8_t *bp(uint64_t a, int write)
 {
 	uint8_t *p = pgget(a);
 	(void)write;
-	if (!p) die("access to unmapped memory", a);
+	if (!p) memfault(VECTOR_BUSFAULT, "access to unmapped memory", a);
 	return p + (a & (PG - 1));
 }
 static uint64_t ld(uint64_t a, int size)
 {
 	uint64_t v = 0;
-	if (size > 1 && (a & (size - 1))) die("misaligned data access", a);
+	if (size > 1 && (a & (size - 1))) memfault(VECTOR_MISALIGNED, "misaligned data access", a);
 	for (int i = 0; i < size; i++) v |= (uint64_t)*bp(a + i, 0) << (8 * i);
 	return v;
 }
 static void st(uint64_t a, int size, uint64_t v)
 {
-	if (size > 1 && (a & (size - 1))) die("misaligned data access", a);
+	if (size > 1 && (a & (size - 1))) memfault(VECTOR_MISALIGNED, "misaligned data access", a);
 	for (int i = 0; i < size; i++) *bp(a + i, 1) = v >> (8 * i);
 }
 
@@ -156,8 +175,29 @@ static void h_st(void *u, uint64_t a, int size, uint64_t v) { (void)u; st(a, siz
 static void h_fault(void *u, const char *what, uint64_t addr) { (void)u; die(what, addr); }
 static void h_trap(void *u, int n) { (void)u; syscall_n(n); }
 static void h_halt(void *u) { (void)u; if (trace) regdump(stderr); fflush(stdout); exit((int)(cpu.r[0] & 255)); }
-static int h_mapped(void *u, uint64_t a) { (void)u; return mapped(a); }
-static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_mapped, NULL };
+static int h_probe(void *u, uint64_t a, int write, int mode) { (void)u; (void)write; (void)mode; return mapped(a); }
+static uint64_t h_fetch(void *u, uint64_t a) { (void)u; return ld(a, 2); }
+static int h_vecread(void *u, uint64_t pa, uint64_t *v)
+{
+	(void)u;
+	if (!mapped(pa) || !mapped(pa + 7)) return 1;
+	*v = 0;
+	for (int i = 0; i < 8; i++) *v |= (uint64_t)*bp(pa + i, 0) << (8 * i);
+	return 0;
+}
+static void h_tlb(void *u, int op, uint64_t a) { (void)u; (void)op; (void)a; }
+static void h_raise(void *u, int vector, uint64_t eva) { (void)u; jvec = vector; jeva = eva; longjmp(jb, 1); }
+static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_tlb, h_raise, NULL };
+
+/* -K: the pending interrupt requests; the highest level above the priority is taken */
+static int take_interrupt(void)
+{
+	int best = -1;
+	for (int i = 0; i < nirqs; i++)
+		if (!irqs[i].done && irqs[i].count <= steps && (best < 0 || irqs[i].level > irqs[best].level)) best = i;
+	if (best >= 0 && pdp64_interrupt(&cpu, &env, irqs[best].level, irqs[best].vector)) { irqs[best].done = 1; return 1; }
+	return 0;
+}
 
 static void step(void)
 {
@@ -170,24 +210,46 @@ static void step(void)
 	pdp64_step(&cpu, &env);
 }
 
+static void step_k(void)
+{
+	if (setjmp(jb)) { pdp64_exception(&cpu, &env, jvec, jeva); return; }
+	take_interrupt();
+	while (cpu.wait) {								/* wfe: nothing runs until a request arrives */
+		long next = -1;
+		for (int i = 0; i < nirqs; i++) if (!irqs[i].done && (next < 0 || irqs[i].count < next)) next = irqs[i].count;
+		if (next < 0 || (steps < next && (steps = next, 0)) || !take_interrupt()) {
+			fprintf(stderr, "sim64: wfe at pc=%#llx with no interrupt that can be taken\n", (unsigned long long)cpu.pc);
+			exit(125);
+		}
+	}
+	step();
+}
+
 int main(int argc, char **argv)
 {
-	int regs = 0;
+	int regs = 0, mode = MODE_USER, sys = 0;
 	const char *prog = NULL;
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "-t")) trace = 1;
 		else if (!strcmp(argv[i], "-r")) regs = 1;
-		else if (!strcmp(argv[i], "-k")) cpu.kernel = 1;
+		else if (!strcmp(argv[i], "-k")) mode = MODE_KERNEL;
+		else if (!strcmp(argv[i], "-K")) mode = MODE_KERNEL, sys = 1;
+		else if (!strcmp(argv[i], "-i") && i + 1 < argc && nirqs < 64) {
+			struct irq *q = &irqs[nirqs++];
+			if (sscanf(argv[++i], "%ld:%d:%d", &q->count, &q->level, &q->vector) != 3 || q->level < 1 || q->level > 7 || q->vector < 0 || q->vector >= VECTOR_COUNT) { fprintf(stderr, "sim64: -i N:LEVEL:VECTOR\n"); return 2; }
+		}
 		else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxsteps = atoi(argv[++i]);
-		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k] [-n steps] program\n"); return 2; }
+		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] program\n"); return 2; }
 		else prog = argv[i];
 	}
-	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k] [-n steps] program\n"); return 2; }
+	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] program\n"); return 2; }
 	pdp64_init();
+	pdp64_set_psw(&cpu, mode << PSW_MODE | mode << PSW_PREV | (sys ? 7 << PSW_PRI : 0));
+	cpu.deliver = sys; cpu.standin = !sys;
 	cpu.pc = load_elf(prog);
 	addregion(0x7fff000000ULL, 0x7fffffffffULL & ~(uint64_t)(PG - 1));
 	cpu.r[14] = 0x7ffffff000ULL;
-	for (long n = 0; n < maxsteps; n++) step();
+	for (steps = 0; steps < maxsteps; steps++) { if (sys) step_k(); else step(); }
 	if (regs) regdump(stderr);
 	fprintf(stderr, "sim64: step limit reached\n");
 	return 124;

@@ -62,30 +62,30 @@ _start:
 	cmp	r4, #0
 	bne	f13
 	movq	#0, r0
-	trap	#0
+	halt
 f1:	movq	#1, r0
-	trap	#0
+	halt
 f2:	movq	#2, r0
-	trap	#0
+	halt
 f3:	movq	#3, r0
-	trap	#0
+	halt
 f4:	movq	#4, r0
-	trap	#0
+	halt
 f5:	movq	#5, r0
-	trap	#0
+	halt
 f6:	movq	#6, r0
-	trap	#0
+	halt
 f7:	movq	#7, r0
-	trap	#0
+	halt
 f8:	movq	#8, r0
-	trap	#0
+	halt
 f9:	movq	#9, r0
-	trap	#0
+	halt
 f10:	movq	#10, r0
-	trap	#0
+	halt
 f11:	movq	#11, r0
-	trap	#0
+	halt
 f12:	movq	#12, r0
-	trap	#0
+	halt
 f13:	movq	#13, r0
-	trap	#0
+	halt

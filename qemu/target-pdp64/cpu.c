@@ -69,6 +69,8 @@ static void pdp64_cpu_reset_hold(Object *obj, ResetType type)
         pcc->parent_phases.hold(obj, type);
     }
     memset(env, 0, offsetof(CPUPDP64State, end_reset_fields));
+    pdp64_set_psw(&env->c, MODE_USER << PSW_MODE | MODE_USER << PSW_PREV);
+    env->c.standin = 1;
     env->c.pc = env->entry;
     env->c.r[14] = env->initial_sp;
 }

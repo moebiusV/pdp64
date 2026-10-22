@@ -107,18 +107,38 @@ static void h_halt(void *u)
     pdp64_stop(h->env, h->env->c.r[0] & 255);
 }
 
-static int h_mapped(void *u, uint64_t a)
+static int h_probe(void *u, uint64_t a, int write, int mode)
 {
     struct hostctx *h = u;
 
     return pdp64_mapped(h->env, a, 1);
 }
 
+static uint64_t h_fetch(void *u, uint64_t a)
+{
+    return h_ld(u, a, 2);
+}
+
+static int h_vecread(void *u, uint64_t pa, uint64_t *v)
+{
+    return 1;                   /* no vector table without kernel mode */
+}
+
+static void h_tlb(void *u, int op, uint64_t a)
+{
+}
+
+static G_NORETURN void h_raise(void *u, int vector, uint64_t eva)
+{
+    do_fault(u, "exception", eva);
+}
+
 void helper_exec(CPUPDP64State *env)
 {
     static bool inited;
     struct hostctx h = { env, GETPC() };
-    struct pdp64_env e = { h_ld, h_st, h_fault, h_trap, h_halt, h_mapped, &h };
+    struct pdp64_env e = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch,
+                           h_vecread, h_tlb, h_raise, &h };
 
     if (!inited) {
         pdp64_init();

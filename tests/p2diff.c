@@ -44,8 +44,12 @@ static void h_st(void *u, uint64_t a, int n, uint64_t v)
 static void h_fault(void *u, const char *what, uint64_t a) { flt(what); __builtin_unreachable(); }
 static void h_trap(void *u, int n) { flt("trap"); }
 static void h_halt(void *u) { flt("halt"); }
-static int h_mapped(void *u, uint64_t a) { return at(a, 1) != NULL; }
-static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_mapped, NULL };
+static int h_probe(void *u, uint64_t a, int w, int m) { return at(a, 1) != NULL; }
+static uint64_t h_fetch(void *u, uint64_t a) { return h_ld(u, a, 2); }
+static int h_vecread(void *u, uint64_t a, uint64_t *v) { return 1; }
+static void h_tlb(void *u, int op, uint64_t a) { }
+static void h_raise(void *u, int vector, uint64_t eva) { flt("exception"); __builtin_unreachable(); }
+static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_tlb, h_raise, NULL };
 
 static uint64_t seed = 12345;
 static uint64_t rnd(void) { seed = seed * 6364136223846793005ULL + 1442695040888963407ULL; return seed >> 11 ^ seed << 20; }
@@ -53,6 +57,8 @@ static uint64_t rnd(void) { seed = seed * 6364136223846793005ULL + 1442695040888
 static void initial(struct machine *m, int variant)
 {
 	memset(m, 0, sizeof *m);
+	pdp64_set_psw(&m->c, MODE_USER << PSW_MODE | MODE_USER << PSW_PREV);	/* user mode and the stand-in, as sim64 without options */
+	m->c.standin = 1;
 	for (int i = 0; i < DSIZE; i++) m->mem[i] = (uint8_t)rnd();
 	for (int i = 0; i < 16; i++) {
 		uint64_t k = rnd();
