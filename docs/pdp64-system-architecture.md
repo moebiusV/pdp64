@@ -254,7 +254,7 @@ loader. OpenBSD insists on properties this architecture has or can have: write-x
 
 ## 15. System v1: a complete design for the first implementation (proposed 2026-10-22)
 
-**Status: proposed, for the QEMU target and the first kernel; nothing here is final until the author has accepted it** (errata 36). Sections 1 to 14 say what is established and what is open; this section closes every open item that the QEMU
+**Status: accepted by the author on 2026-10-22 as the design to implement in the QEMU target and to write the first kernel against; the author may still change any part of it after seeing it work** (errata 36; the author's choices were register-based exception entry, software-managed accessed and dirty bits, and the whole of this section in the first cut). Sections 1 to 14 say what is established and what is open; this section closes every open item that the QEMU
 memory-management unit and privileged mode, and a Unix/32V port, need, with the defaults most in the spirit of the PDP-11 and of the rest of this ISA, so that it can be implemented and then judged.
 
 **PSW (16 bits).** Bit 0 `C`, bit 1 `V`, bit 2 `Z`, bit 3 `N` (the PDP-11 order), bit 4 `T` (trace), bits 5 to 7 the **interrupt priority** (0 to 7), bits 8 and 9 the **current mode**, bits 10 and 11 the **previous mode**, bits 12 to 15 reserved, zero.
@@ -290,6 +290,8 @@ transmit status, transmit data). `WFE` (kernel) sleeps until an interrupt is tak
 
 **Reset and the QEMU machine.** The machine starts in kernel mode, priority 7, `MMUCTL` 0, at the entry point of the ELF given with `-kernel`; the stack pointer of the kernel bank is the top of RAM. (The architectural reset vector, vector 0, is not modelled by the virt machine.)
 The system-call stand-in (`trap #0` to `#2`) of `sim64` and of the current QEMU target remains for user programs run without a kernel (`-M pdp64-virt`, the default); a new machine option `kernel=on` turns it off, so that `TRAP` enters the kernel through vector 256 + n.
+
+**Not in v1:** `DMW0` and `DMW1` have no defined register format yet, so they are stored by `mfsr`/`mtsr` and have no translation effect (kernels use ordinary page tables, for instance 1 GB leaf pages); the supervisor mode exists in the `PSW` and the banked registers and nothing uses it.
 
 **What this leaves open** (unchanged from section 13): hardware breakpoints and watchpoints, performance counters, machine-check reporting beyond halt, the supervisor mode's use, the DMA device layouts, SMP.
 
