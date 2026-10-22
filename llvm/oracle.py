@@ -262,6 +262,11 @@ def disassemble_roundtrip(mc, text_bytes, tmp):
         return 'reassembly failed: %s\n%s' % (r2.stderr.strip().split('\n')[0], listing[:400])
     again = Elf(obj).bytes('.text')
     if again != text_bytes:
+        # a long form that has a one-parcel abbreviation (written with .word in a test of page 2) is reassembled shorter: it is the
+        # same instruction if the listing of the new bytes is the same
+        r3 = run([mc, '-disassemble', '-triple=' + TRIPLE], input=' '.join('0x%02x' % b for b in again))
+        if r3.returncode == 0 and r3.stdout == r.stdout:
+            return None
         return 'round trip differs\n   original %s\n   again    %s\n%s' % (text_bytes.hex(' ', 2), again.hex(' ', 2), listing[:800])
     return None
 

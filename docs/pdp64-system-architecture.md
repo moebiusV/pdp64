@@ -255,8 +255,8 @@ its five relocation types, the experimental-target list), `llvm/build.sh` builds
 - `oracle.py`: 52 of 56 programs of tests/asm and tests/sim identical to as64 (bytes, relocations, symbols, disassembly round trip); 4 skipped
   (the literal pool in tests/asm/pool.s and tests/sim/pool.s; `digitnames.s` names that start with a digit; `utf8.s` non-ASCII names).
 - `forms.py`: 6297 instructions/programs compared, 6297 agree (463 are refused by both: out-of-range fields).
-- `negative.py`: 26 of 27 programs that as64 refuses are refused; 6 pool programs skipped; `odd.s` (an instruction at an odd address) is
-  accepted by llvm-mc: MC has no hook that sees the final offset of an instruction in a data fragment (open).
+- `negative.py`: 26 of 27 programs that as64 refuses are refused; 6 pool programs skipped; `odd.s` (an instruction at an odd address) was
+  accepted by llvm-mc (fixed in the re-check, section 14.8).
 - `runsim.py`: 32 of 33 tests/sim programs assembled by llvm-mc, linked by ld64 and run under sim64 give the expected status/output (pool.s skipped).
 
 **Cost on this machine** (3 GB, 2 cores, `ninja -j1`, `nice`, assertions on): `llvm-tblgen` 5.5 minutes and 383 MB; the MC libraries, the PDP64 target and `llvm-mc` 7 minutes and 437 MB; never out of memory. `llvm-objdump` and `llvm-readobj` need 389 more compile steps and were not built (the patch for them is in place and untested). The
@@ -320,7 +320,7 @@ the oracle; the second would be better as an annotation in the mnemonic grammar 
 5. **ATOM and MESC** are in the ISA but not in as64 (no encoder, no oracle), so they are not in the LLVM target either.
 6. **`.comm`** has no alignment operand in as64 (8 is implied); LLVM wants one.
 7. `EM_PDP64 = 0xF064` is a private-use number.
-8. **An instruction at an odd address** is an error in as64; llvm-mc accepts it (no MC hook sees the final offset).
+8. **An instruction at an odd address** is an error in as64. Fixed in the re-check (14.8): every instruction gets a fragment of its own (`allowEnhancedRelaxation`) and `finishLayout` refuses an odd offset.
 9. Names: LLVM's lexer has no non-ASCII identifiers and no names that start with a digit; quoted names are not tested.
 
 ### 14.7 What the next milestones need decided
@@ -331,7 +331,18 @@ the oracle; the second would be better as an annotation in the mnemonic grammar 
 
 ### 14.8 The re-check against the current ISA
 
-(To be filled in when the ISA changes of errata 39 have landed: the oracle, the forms test and the `sim64` run, with the date and the commit.)
+**2026-10-22, after errata 39 and 40** (ISA commits up to `06e4a05`; the LLVM generator change for `isync`/`hint` is `52ef51f`). Regenerated with `tools/gen-llvm-td.py`, `llvm-mc` rebuilt (about 15 seconds: only the PDP64 libraries changed), `llvm/check.sh` run in full:
+
+- `oracle.py`: 62 of 68 programs identical to as64 (was 52 of 56; the new tests `hint`, `isync`, `flagfree`, `shiftflags`, the `sys-*` ones and others), 0 failed, 6 skipped (the literal pool in four sources, `digitnames.s`, `utf8.s`).
+- `forms.py`: 6304 compared, 6304 agree (465 refused by both) (was 6297 of 6297).
+- `negative.py`: 30 of 30 refused, 6 pool programs skipped (was 26 of 27).
+- `runsim.py`: 40 ok, 0 failed, 3 skipped (the pool programs) (was 32 of 33).
+
+What changed and what broke:
+- `isync` (SYSX sub 2) and `hint #n` (SYSX sub 3, `n` in the pad byte): new records, two page-2 rows (0x2C, 0x2D). `hint` is the first SYSX word with an operand and its page-2 word carries `n` in `reg:low`, so the generator reads `XN(...)` rows of `p2.c` and `PDP64P2.cpp` keys the SYSX words by the pad byte. The flag cleanup of errata 39 and the entry priority of errata 40 do not touch the machine-code layer, as expected.
+- The disassembly round trip of `tests/sim/hint.s` and `isync.s` failed at first: those tests write the four-byte form of `hint #n` with `.word` on purpose, and the reassembly (correctly) chooses the page-2 word. The oracle now accepts a round trip whose reassembled bytes disassemble to the same listing.
+- The odd-address limit is gone: `allowEnhancedRelaxation()` makes every instruction a fragment of its own, and `PDP64AsmBackend::finishLayout` refuses a fragment at an odd offset ("an instruction at an odd address: put .even before it"), as as64 does.
+- Nothing else needed a change; the FP16 rows and the register-form `cbCC` were already covered by the generator and by `forms.py`.
 
 ### 14.9 Building it on a bigger machine
 

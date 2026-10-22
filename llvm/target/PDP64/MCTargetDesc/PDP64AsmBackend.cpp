@@ -21,6 +21,7 @@
 #include "llvm/MC/MCSection.h"
 #include "llvm/MC/MCSymbol.h"
 #include "llvm/MC/MCValue.h"
+#include "llvm/Support/Casting.h"
 #include "llvm/Support/EndianStream.h"
 
 using namespace llvm;
@@ -46,6 +47,10 @@ public:
                                     bool Resolved) const override;
   void relaxInstruction(MCInst &Inst, const MCSubtargetInfo &STI) const override;
   bool writeNopData(raw_ostream &OS, uint64_t Count, const MCSubtargetInfo *STI) const override;
+  // every instruction gets a fragment of its own, so that finishLayout can see where it ended up: an instruction at an odd address
+  // is an error (as64: "put .even before it")
+  bool allowEnhancedRelaxation() const override { return true; }
+  bool finishLayout(const MCAssembler &Asm) const override;
   std::unique_ptr<MCObjectTargetWriter> createObjectTargetWriter() const override {
     return createPDP64ELFObjectWriter(0);
   }
@@ -203,6 +208,15 @@ bool PDP64AsmBackend::writeNopData(raw_ostream &OS, uint64_t Count, const MCSubt
     OS.write('\x14');
   }
   return true;
+}
+
+bool PDP64AsmBackend::finishLayout(const MCAssembler &A) const {
+  for (const MCSection &Sec : A)
+    for (const MCFragment &F : Sec)
+      if (F.getKind() == MCFragment::FT_Relaxable && (A.getFragmentOffset(F) & 1))
+        A.getContext().reportError(cast<MCRelaxableFragment>(F).getInst().getLoc(),
+                                   "an instruction at an odd address: put .even before it");
+  return false;
 }
 
 MCAsmBackend *llvm::createPDP64AsmBackend(const Target &T, const MCSubtargetInfo &STI, const MCRegisterInfo &MRI,
