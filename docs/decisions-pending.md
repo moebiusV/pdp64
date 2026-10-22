@@ -10,7 +10,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 
 ## Contents
 
-* [Part 0. Your priorities, the rule change, and how the options are judged](#part-0-your-priorities-the-rule-change-and-how-the-options-are-judged)
+* [Part 0. Your principles, the rule change, and how the options are judged](#part-0-your-principles-the-rule-change-and-how-the-options-are-judged)
 * [How to read this](#how-to-read-this)
 * [Summary table](#summary-table)
 * [Already decided, listed so they are not asked twice](#already-decided-listed-so-they-are-not-asked-twice)
@@ -36,20 +36,21 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [Appendix: errata 42 to 46 in full](#appendix-errata-42-to-46-in-full)
 * [What I need from you](#what-i-need-from-you)
 
-## Part 0. Your priorities, the rule change, and how the options are judged
+## Part 0. Your principles, the rule change, and how the options are judged
 
 **The rule change (errata 42).** All the design rules are soft. Several arguments earlier in this document leaned on "the ISA has a rule against that"; under errata 42 they count as costs and benefits like any others. P10 was the clearest case (decided: `MMUCTL` stays). Q9 option 4 is revised below.
 
-**Your priorities (2026-10-22), and the test I now apply to every option:**
+**Your principles (2026-10-22), in order, and the test I apply to every option:**
 
 1. **Code size.** Bytes of kernel and user code, including hot-path length and the code spent on error handling. An instruction that makes common sequences shorter wins.
 2. **Easy recoverability, meaning less recovery code.** Fewer possible errors means less code to handle them, and an easier recovery path means less code to write it. So an option scores well when it adds **fewer distinct failure outcomes**, makes a fault **restartable without special cases** (precise exceptions, no hidden state, a restart that repeats safely), and avoids partial results the handler would have to undo. A feature that adds a new fault, a new error return or a new "half done" state costs recovery code in every kernel that uses it.
-3. **Fewer gates.** Simpler hardware: fewer states, fewer special paths, less logic on an FPGA.
-4. **Speed through fewer gates and tighter hot loops.** Faster by *careful instruction choice*: the shortest instruction sequences for the operations that run constantly (system-call entry and exit, context switch, copy to and from user memory, atomics, string and block loops, interrupt entry), not by adding hardware.
+3. **Speed and efficiency through fewer gates and tighter hot loops.** Simpler hardware (fewer states, fewer special paths, less logic on an FPGA), and faster by *careful instruction choice*: the shortest sequences for the operations that run constantly (system-call entry and exit, context switch, copy to and from user memory, atomics, string and block loops, interrupt entry), not by adding hardware.
+
+All the rules are soft (errata 42). The README states these principles in its design paragraph and gives the examples in "How the principles show up".
 
 **What changed because of this.** The table lists every decision with the priority it mostly serves, my pick under the new test, and whether the pick moved.
 
-| # | Mostly serves | Pick now | Changed? |
+| # | Mostly serves (principle) | Pick now | Changed? |
 |---|---|---|---|
 | P1 `WFE` wake rule | recovery (no lost wake-up to detect and repair), gates | wake on pending | no |
 | P2 user guard (decided) | recovery (a bad kernel pointer becomes a clean fault, not corruption) | `UA` + `stua`/`clua`; later maybe 2-byte page-2 forms | decided; small addition noted |
@@ -76,7 +77,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 | S1 to S6 vectors | gates, code size | coprocessor; measure before packed lanes | strengthened |
 | all other Q and R items | as before | as before | no |
 
-The sections below keep their original text and recommendations; where a pick moved, a **Revised for your priorities** paragraph is added at the end of that section.
+The sections below keep their original text and recommendations; where a pick moved, a **Revised for your principles** paragraph is added at the end of that section.
 
 ---
 
@@ -178,7 +179,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 **How the recommendation compares.** Option 1 copies the x86, AArch64 and RISC-V design, which is what the kernel code OpenBSD already has expects. **It is not safer than the special-forms style** (option 2), where nothing can be left open; it is cheaper to build, leaves the compiler untouched, and can be made safer than x86 by having exception entry set the guard so a handler cannot forget it.
 
 
-**Revised for your priorities.** One small addition for code size: every user copy routine opens and closes the window, so `stua` and `clua` are on the hot path of every system call that moves data. Two-byte page-2 forms (two of the 19 reserved slots) would save four bytes per copy routine and two bytes of fetch per copy. Not worth the slots until the kernel exists; noted so the slots are not spent elsewhere first.
+**Revised for your principles.** One small addition for code size: every user copy routine opens and closes the window, so `stua` and `clua` are on the hot path of every system call that moves data. Two-byte page-2 forms (two of the 19 reserved slots) would save four bytes per copy routine and two bytes of fetch per copy. Not worth the slots until the kernel exists; noted so the slots are not spent elsewhere first.
 ---
 
 ## P3. An unprivileged time counter
@@ -260,7 +261,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 **How the recommendation compares.** The pdp64 already broadcasts `TLBI`, so it avoids the shootdown cost that x86 pays; option 1 closes the one remaining gap. It is **the same as AArch64 and RISC-V and not better**, and the broadcast bus transaction itself has not been designed (see P11), so the advantage over x86 is on paper.
 
 
-**Revised for your priorities.** This now ranks above "medium": invalidating one address space exactly makes process exit and ASID reuse cheap (a tighter hot path at every context switch) and needs one `SYSX` word and a small broadcast rule. Fewer flushes also means fewer lost translations to refill, which is time, not recovery code. Recommended: add.
+**Revised for your principles.** This now ranks above "medium": invalidating one address space exactly makes process exit and ASID reuse cheap (a tighter hot path at every context switch) and needs one `SYSX` word and a small broadcast rule. Fewer flushes also means fewer lost translations to refill, which is time, not recovery code. Recommended: add.
 ---
 
 ## P6. Data-cache maintenance by address
@@ -316,7 +317,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 **How the recommendation compares.** Option 1 is the opposite of what these do. Its advantage is **no firmware to trust, port or bug-fix and no extra privilege level**; its cost is that every platform must say where its console and reset registers are, which the others get from the firmware. For a first system with few platforms the trade is in its favour, and it is **worse** once there are many.
 
 
-**Revised for your priorities.** Under the recovery priority, a way to *reset the machine* is what matters most, because it is the simplest recovery path of all and needs the least code: add a requirement that the bus controller has a reset register and a watchdog (a timer that resets the machine if not kicked). That gives recovery from a hung kernel with no firmware, no new instruction, and about ten lines of kernel code. Option 1 stays, with this requirement added.
+**Revised for your principles.** Under the recovery priority, a way to *reset the machine* is what matters most, because it is the simplest recovery path of all and needs the least code: add a requirement that the bus controller has a reset register and a watchdog (a timer that resets the machine if not kicked). That gives recovery from a hung kernel with no firmware, no new instruction, and about ten lines of kernel code. Option 1 stays, with this requirement added.
 ---
 
 ## P8. Double-width compare-and-swap
@@ -454,7 +455,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 **How the recommendation compares.** Option 1 is closest to the ARM approach (restart, no hidden resume state) and **simpler than the VAX or m68k**, which save the instruction's progress. It is not better than resumable designs where the same work would otherwise repeat, but the pdp64's stack area below the stack pointer is dead, so the repeated stores are free.
 
 
-**Revised for your priorities.** This is the decision that most directly serves your recoverability priority, so it is strengthened. The kernel's page-fault and restart path should have *no instruction-specific cases*: every multi-access instruction (`pushm`, `popm`, `pushx`, `popx`, `mcpy`, `mmov`, `mset`, `mscn`) must be either all-or-nothing or safe to repeat from the start, and the fault handler restarts it blindly. `pushx`/`popx` already check both words before accessing either (ISA 4.11). The recommendation is option 1 with the dead-area rule *plus* a test in the emulators that interrupts each such instruction at every possible access and checks that a restart gives the same final state, for registers and memory. The PDP-11 needed `SR1` and a kernel routine that decoded instructions to undo them, and the VAX a resume bit; passing this test is what "no recovery code" means.
+**Revised for your principles.** This is the decision that most directly serves your recoverability priority, so it is strengthened. The kernel's page-fault and restart path should have *no instruction-specific cases*: every multi-access instruction (`pushm`, `popm`, `pushx`, `popx`, `mcpy`, `mmov`, `mset`, `mscn`) must be either all-or-nothing or safe to repeat from the start, and the fault handler restarts it blindly. `pushx`/`popx` already check both words before accessing either (ISA 4.11). The recommendation is option 1 with the dead-area rule *plus* a test in the emulators that interrupts each such instruction at every possible access and checks that a restart gives the same final state, for registers and memory. The PDP-11 needed `SR1` and a kernel routine that decoded instructions to undo them, and the VAX a resume bit; passing this test is what "no recovery code" means.
 ---
 
 ## P13. `long double`
@@ -640,7 +641,7 @@ These were decided earlier (the errata cited). They are set out in the same form
 **View.** Keep for System v1, then move to option 3 once there is a feature register to advertise it. Software-only is acceptable for a first system, but the extra faults will show up in any measurement of a real workload.
 
 
-**Revised for your priorities.** Your recovery priority argues against software-managed bits: each extra fault type (first touch, first write) is another case in the kernel's fault handler and a path that can go wrong, while hardware-managed bits remove those cases. Your gates priority argues for software, because the hardware version needs an atomic read-modify-write in the table walker. The two priorities pull in opposite directions here. My pick: keep software for System v1 and make option 3 (optional hardware management, advertised in the feature registers of P4) the planned next step, so the kernel can drop the fault paths on hardware that has it.
+**Revised for your principles.** Your recovery priority argues against software-managed bits: each extra fault type (first touch, first write) is another case in the kernel's fault handler and a path that can go wrong, while hardware-managed bits remove those cases. Your gates priority argues for software, because the hardware version needs an atomic read-modify-write in the table walker. The two priorities pull in opposite directions here. My pick: keep software for System v1 and make option 3 (optional hardware management, advertised in the feature registers of P4) the planned next step, so the kernel can drop the fault paths on hardware that has it.
 ---
 
 ## Q3. Three-level page tables, 39-bit virtual, 40-bit physical, 4 KB pages
@@ -824,7 +825,7 @@ These were decided earlier (the errata cited). They are set out in the same form
 **View.** Keep, but measure the extension overhead on the corpus; if it is more than a few percent of instructions, option 2 is the usual fix and fits the second page.
 
 
-**Revised for your priorities.** Under your code-size and hot-loop priorities this moves from "keep" to "**measure now**". The compiler spends an extension instruction (`movl`, `movzb` and the like) after narrow arithmetic; the flag work counted about a thousand `movl`-type sites among sites that mattered for flags, but the total extension overhead on the corpus was never measured. Count it: if extensions are more than a few percent of instructions or bytes, add 32-bit forms of add, subtract, shift and multiply on page 2 (two bytes each), as AArch64 and RISC-V do. If it is under about one percent, keep as is. The measurement is one script over the compiled corpus (`tools/pdp64size.py` already classifies mnemonics).
+**Revised for your principles.** Under your code-size and hot-loop priorities this moves from "keep" to "**measure now**". The compiler spends an extension instruction (`movl`, `movzb` and the like) after narrow arithmetic; the flag work counted about a thousand `movl`-type sites among sites that mattered for flags, but the total extension overhead on the corpus was never measured. Count it: if extensions are more than a few percent of instructions or bytes, add 32-bit forms of add, subtract, shift and multiply on page 2 (two bytes each), as AArch64 and RISC-V do. If it is under about one percent, keep as is. The measurement is one script over the compiled corpus (`tools/pdp64size.py` already classifies mnemonics).
 ---
 
 ## Q10. Devices are eight memory-mapped registers plus DMA
@@ -852,7 +853,7 @@ These were decided earlier (the errata cited). They are set out in the same form
 **View.** Keep, and consider making the virt machine's devices virtio-compatible because an OpenBSD port could reuse its virtio drivers (OpenBSD virtio drivers: not found in the sparse tree, which has `sys/arch` only; not confirmed).
 
 
-**Revised for your priorities.** Under code size and gates the plain eight-register layout is the strongest choice (small drivers, simple devices). The suggestion to consider virtio compatibility is softened: take it only if reusing OpenBSD's existing virtio drivers saves more driver code than virtio's extra registers and queue formats cost.
+**Revised for your principles.** Under code size and gates the plain eight-register layout is the strongest choice (small drivers, simple devices). The suggestion to consider virtio compatibility is softened: take it only if reusing OpenBSD's existing virtio drivers saves more driver code than virtio's extra registers and queue formats cost.
 ---
 
 ## Q11. Wide constants come from an explicit literal pool
@@ -1027,7 +1028,7 @@ Nothing in the documents decides these yet. The system architecture and the bus 
 **Recommendation.** Option 1, with the message-signalled path first. It keeps `SPL` working and the BSD locking model intact (Q4), and it avoids a wire per device. Cost to build: a register block in the virt machine, a QEMU model, a kernel driver. **If nothing is done:** option 5 by default, which is fine for two cores and poor beyond.
 
 
-**Revised for your priorities.** Under your gates priority I now prefer the smaller design: wired interrupt lines delivered to core 0, with a per-line target register that can send a line to another core (option 2), and message-signalled interrupts added later if a fast multi-queue device needs them. It keeps the 8-level priority, needs the least logic, and adds no new failure cases. My earlier pick (option 1) is a superset and can follow.
+**Revised for your principles.** Under your gates priority I now prefer the smaller design: wired interrupt lines delivered to core 0, with a per-line target register that can send a line to another core (option 2), and message-signalled interrupts added later if a fast multi-queue device needs them. It keeps the 8-level priority, needs the least logic, and adds no new failure cases. My earlier pick (option 1) is a superset and can follow.
 ---
 
 ## R2. Inter-processor interrupts and starting the other cores

@@ -11,22 +11,45 @@ instruction as the first, while the high half of the product, which bignums need
 rotates by constants; a divide is rare, because compilers turn division by a constant into a multiply; dedicated absolute-value, minimum and maximum instructions are
 worth under a tenth of a percent of code; and CRC instructions are unnecessary once carry-less multiply exists.
 
-The design was optimized in layers. The first layer is gate count. Fewer instructions mean fewer gates, and the instructions are grouped by common theme so that
-one circuit serves a whole family of them. Their layout puts the common instructions in the short encodings and the rare ones in the long: the opcode map is sorted by
-frequency, and the low bits of an opcode are wired straight to the function it selects. The second layer is code count: the instructions are chosen so that the
-common jobs take the fewest instructions, and the architecture is set up so that surprises and failure modes happen less often, and when one does happen the code
-that recovers is shorter and simpler. That is why there are no mode bits, at most one memory operand per instruction, a register is always written in full, quad
-accesses are naturally aligned, every instruction can be restarted after a fault, and an instruction does what its name says and nothing else. The third layer is the
-system around the processor. Each device (Ethernet, USB, disk) is presented as eight memory-mapped registers, eight addresses in the ordinary address space, and moves
-its data by DMA. That makes a driver trivial to write and keeps the multitasking burden off the CPU, which only sets up a transfer, so that more of it is left for you
-and for the important things you are running. The architecture is the processor, the bus and the devices together; the instruction set is its stable core, and the bus ([Q64](docs/pdp64-q64-bus.md)) is specified as carefully as the instructions. The choices were checked against compiled C, not
-guessed: on 841 real source files (bearssl, mbedtls, lua, zlib and others; 827 that every compiler accepts) the first compiler's output, in code and data, is the same size as `gcc -Os` and 7% smaller than `clang -Os` on amd64, with 1.18 and 1.09 times as many (shorter) instructions.
+The design follows these principles, in order of priority:
+
+1. **Code size.**
+2. **Easy recoverability:** fewer possible errors and an easier recovery path, so less recovery code.
+3. **Speed and efficiency through fewer gates and tighter hot loops,** by careful choice of instructions.
+
+All the rules are soft rules: a rule gives way when breaking it is worth more than it costs. [How the principles show up](#how-the-principles-show-up) gives the examples.
 
 A 64-bit, little-endian, LP64 successor to the PDP-11: sixteen general registers, variable-length instructions of 2, 4 or 6 bytes in 16-bit parcels (plus a second page of one-parcel abbreviations of the common cases), the
 PDP-11's orthogonal addressing modes, and a modern base (bit counts, 64-bit divide, IEEE 754 binary64, binary32 and binary16 with exception flags, block operations,
 atomics, UTF-8 instructions). The toolchain here is written from one source of truth, a set of [hbnf](https://github.com/moebiusV/hbnf) grammars, so that the assembler, linker, emulator, compiler
 back end and [QEMU](https://www.qemu.org/) target cannot drift apart. It also has optimizations for crypto (bit rotation and reversal, byte swap, carry-less multiply, bit counts, wide multiply) and for AI (the
 population-count and XNOR instructions that binary and sub-1-bit inference needs, and the LB64 accelerator companion document).
+
+## How the principles show up
+
+**Code size.** The opcode map is sorted by frequency: the common instructions get the short encodings and the rare ones the long, and a second page of one-parcel
+abbreviations covers the commonest forms in two bytes. The instructions are chosen so that the common jobs take the fewest instructions. The choices were checked against
+compiled C, not guessed: on 841 real source files (bearssl, mbedtls, lua, zlib and others; 827 that every compiler accepts) the first compiler's output, in code and data,
+is the same size as `gcc -Os` and 7% smaller than `clang -Os` on amd64, with 1.18 and 1.09 times as many (shorter) instructions.
+
+**Easy recoverability.** Fewer possible errors means less recovery code, and an easier recovery path means less recovery code. So the architecture is set up so that
+surprises and failure modes happen less often, and when one does happen the code that recovers is shorter and simpler: at most one memory operand per instruction, a register
+is always written in full, quad accesses are naturally aligned, every instruction can be restarted after a fault (exceptions are precise and side effects are deferred, so
+a fault handler restarts blindly with no instruction-specific cases), an instruction does what its name says and nothing else, exception entry is made in registers and
+cannot itself fault, and a user-memory guard turns a stray kernel pointer into a clean fault. Several of these began as absolute rules (no mode bits, aligned quads); under the
+soft-rules principle they are defaults judged by what they cost and what they save, and a mode bit is accepted where it keeps the benefits (`MMUCTL`, `UA`; errata 42 to 44).
+
+**Speed and efficiency.** Fewer instructions mean fewer gates, and the instructions are grouped by common theme so that one circuit serves a whole family of them; the low
+bits of an opcode are wired straight to the function it selects. Speed comes from careful instruction choice in the hot loops, not from adding hardware: system-call entry
+and exit (exception state in registers, `pushx` and `popx`, banked stack pointers), the context switch, copying to and from user memory, atomics, string and block loops
+(`mcpy`, `mscn`) and interrupt entry. The [kernel assembly survey](docs/kernel-asm-survey.md) counts what four kernels hand-write in assembly; its path-length figures (system-call entry in 4 to 5 instructions) are paper estimates, not measurements.
+
+**The system around the processor.** Each device (Ethernet, USB, disk) is presented as eight memory-mapped registers, eight addresses in the ordinary address space, and
+moves its data by DMA. That makes a driver trivial to write and keeps the multitasking burden off the CPU, which only sets up a transfer, so that more of it is left for you and
+for the important things you are running. The architecture is the processor, the bus and the devices together; the instruction set is its stable core, and the bus
+([Q64](docs/pdp64-q64-bus.md)) is specified as carefully as the instructions.
+
+**The decisions still open, with the options weighed against these principles:** [`docs/decisions-pending.md`](docs/decisions-pending.md).
 
 ## What to read, in order
 

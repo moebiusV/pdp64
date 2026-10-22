@@ -94,6 +94,8 @@ aim while the FPGA and ASIC stay in order.
 
 ## 8. Rules of the house
 
+* **The author's principles, in order:** (1) code size; (2) easy recoverability, meaning fewer possible errors and an easier recovery path, so less recovery code; (3) speed and efficiency through fewer gates and tighter hot loops, by careful instruction choice. All rules are soft (errata 42). The README states them and gives the examples. Judge every option against them.
+
 * The grammars are the single source of truth; every number is stated once in an enum rule and generated downstream; semantics once in `common/pdp64exec.c`.
 * The README is the only index of documents; originals in `docs/orig/` are never edited; never edit another agent's files without telling it.
 * Do not `kill` `browse.py`; do not unset `VAX780`; do not delete the author's files without asking; `tools/check-all.sh` stays green.
