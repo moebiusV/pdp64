@@ -407,6 +407,57 @@ zone; `long double`; whether the operand-role table should move into the mnemoni
 
 ---
 
+### Open design item: the fourth parcel and the length code `11` (raised 2026-10-22, not decided)
+
+**The question.** The `len` field of parcel 0 has two bits, so an instruction is 1, 2, 3 or 4 parcels (2 to 8 bytes). ISA §9.6 gives the reason there are four lengths as "`len` is two bits, and two bits
+encode exactly four lengths". Do we need the fourth, and if not, what should the code `11` mean?
+
+**What the fourth parcel buys.** It is used by the forms that carry a 44-bit base-register displacement or a 48-bit immediate, absolute address or PC-relative displacement (ISA §3.3), and by 48-bit branch
+displacements and a few others. Hand-written code can use them; the compiler almost never does.
+
+**What it costs the compiler, measured.** On the 841-file fair corpus with the optimizing flags (the pcc back end, 373,635 instructions after the first round of optimization): **49 instructions are eight bytes (0.013%)**
+(the earlier compile of the same corpus, 405,744 instructions, had 49 as well; with the pcctests included there were 255). In the earlier compile they were mostly `cmp reg,#imm` with a constant wider than 32 bits. The compiler
+uses 32-bit PC-relative addresses with a relocation, not 48-bit absolute ones. Replacing each by a PC-relative constant-pool load adds about four bytes: about 200 bytes of 1.25 MB, **0.016%**.
+
+**What dropping it would change.** Immediate, absolute and PC-relative fields shrink from 48 to 32 bits (PC-relative reach stays about ±2 GB in bytes; an absolute address is a 32-bit sign-extended one, so kernel code in
+the high address window would use PC-relative addressing); the base-register displacement shrinks from 44 to 28 bits (±128 MB); a 64-bit constant comes from a pool, as the ISA already says for `binary64`
+literals. No instruction form of the escape groups needs the fourth parcel. "No instruction exceeds one `uint64_t`" (ISA §1) holds trivially, and the fault matrix (ISA §7.3) is unchanged, since six bytes at
+two-byte alignment can still span two pages.
+
+**The options for the length code `11`**, once the fourth parcel is gone:
+
+| Option | What `11` means | Notes |
+|---|---|---|
+| A. Keep four parcels | four parcels | the status quo; no change |
+| B. Three parcels, `11` reserved | reserved | simplest; wastes a quarter of the length space, but keeps it free for later |
+| C. Three parcels, `11` is a second page of one-parcel instructions | one parcel, opcode from a second map of 64 | the length rule stays a function of `len` alone; adds 64 opcodes of two bytes, with the format `opc:6 reg:4 low:4`, so `low` can be a four-bit immediate or a second register; no memory operand, since there is no extension parcel |
+| D. Three parcels, `11` is a page of some other fixed length | e.g. two parcels | more opcodes, none of them short; less attractive |
+
+**What option C could buy, measured on the first compile** (405,744 instructions; method: the register-and-immediate instructions of the assembly output, counted with their immediates):
+
+| Instruction | Register-immediate sites | Immediate fits in 4 signed bits (-8 to 7) | Fits 8 bits |
+|---|---|---|---|
+| `movq #imm,reg` | 18,373 | 42.7% | 26.2% |
+| `cmp reg,#imm` | 18,982 | 16.0% | 34.1% |
+| `shl #n,reg` | 4,378 | 49.2% | 29.1% |
+| `shr #n,reg` | 3,537 | 23.7% | 54.7% |
+| `and`, `sub`, `add`, `sar`, `mul`, `bis`, `xor` | 6,830 together | 0 to 63%, by instruction | |
+
+If the small-immediate forms of these were two bytes, about **14,500 sites would shrink by two bytes: roughly 29 KB of a 1.33 MB image, about 2%** of code. This is an estimate, not a design: no
+form has been specified, a four-bit immediate must be chosen against alternatives (an unsigned or biased range, or a power-of-two scale for shifts), and the other uses of 64 new one-parcel opcodes (`cmp` of a register with a small immediate, `lea` of a small stack
+offset, a compare-and-branch) have not been measured against it. It is more than a hundred times the saving of the fourth parcel's form, which is why the length code is worth more than the parcel.
+
+**Costs and risks of changing it.**
+* The encoding changes: the grammar (`spec/pdp64.hbnf.in`), the opcode map and its counts, the assembler, linker, `sim64` and the shared core, the QEMU target's length decode, the pcc back end's tables, the documents. The
+  grammar being the single source makes this mechanical, and `tools/check-all.sh` would catch drift; it is still a large change.
+* Option C adds a second opcode page to the decoder, which the ISA's own test (§1.2, rule 3, Occam) must justify against the gate count: the first-stage decode is a function of `len`, then a page select.
+* ISA §1.2 rule 2 (do not displace a common instruction into a longer encoding) is satisfied: nothing common gets longer; the fourth parcel's users are rare.
+* The text that says "any address is an eight-byte instruction" (ISA §3.3) and §9.6 would change.
+
+**How to decide.** (1) Wait for the back-end agent's analysis of the compiled code (bigram and trigram counts, cost centres): it shows which four-byte patterns would benefit more than the immediates above. (2) Specify the candidate
+one-parcel forms and re-measure the saving from the real immediate ranges, on the final corpus, against `gcc -Os` and `clang -Os`. (3) Decide A, B or C by the ISA's order of tests (§1.2): no strange side effects, no displacement into a
+longer encoding, then Occam. Until then the ISA keeps four parcels.
+
 ## 13. Appendix
 
 ### 13.1 The 91 operations, folded

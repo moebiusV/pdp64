@@ -1649,6 +1649,8 @@ Items added since revision 20:
 
 17. **Compiler-side wishes** recorded by the first back end: a short `d(sp)` form, and linker relaxation of the 35,000 six-byte cross-section `call`/`lea` (§14.4). Sized integer arithmetic was considered and **decided against** (CHANGES §14, errata 28): integer arithmetic stays 64-bit; narrow values are extended by the sized moves. Also open: whether an operand-role table should move into the mnemonic grammar, and a way of writing a width on an integer operation.
 
+18. **The fourth parcel, and what to do with the length code `11`.** Only 49 of 373,635 compiled instructions (0.013%) need the eight-byte form, which exists only because the two-bit `len` field has four values (§9.6). Dropping to three parcels costs about 0.016% in code size and frees `len = 11`. One use, a second page of 64 one-parcel (two-byte) opcodes, would make about 14,500 compiled register-and-immediate instructions two bytes shorter, about 2% of code (estimates, from the first corpus compile). Not decided. The write-up, options and the way to decide are in [`CHANGES-SINCE-R20.md`](CHANGES-SINCE-R20.md) §12.
+
 ---
 
 ## 13. Side by side: PDP-11, VAX, pdp64

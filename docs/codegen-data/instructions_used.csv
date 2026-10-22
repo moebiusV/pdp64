@@ -1,0 +1,214 @@
+mnemonic,group,static count,if never emitted: why
+movq,mov,93024,
+lea,lea,42258,
+call,sop,31620,
+movl,mov,25970,
+cmp,alu,24100,
+br,branch,17333,
+beq,branch,17076,
+movzb,movz,13098,
+clr,sop,10558,
+add,alu,9593,
+tst,sop,8327,
+bne,branch,8206,
+blt,branch,7148,
+ret,sys-none,6739,
+movzl,movz,5530,
+shl,alu,4503,
+sub,alu,4123,
+and,alu,4046,
+shr,alu,3462,
+bis,alu,3171,
+xor,alu,3151,
+movb,mov,3055,
+push,sop,2894,
+pop,sop,2744,
+popm,sop,2393,
+pushm,sop,2393,
+mul,alu,2204,
+movzw,movz,1552,
+inc,sop,941,
+movw,mov,886,
+bcs,branch,855,
+bcc,branch,738,
+jmp,sop,646,
+asl,sop,640,shifts by one are used: asl and asr appear
+blos,branch,521,
+bge,branch,502,
+dec,sop,482,
+sar,alu,462,
+calli,xfer,451,
+neg,sop,440,
+ble,branch,407,
+com,sop,383,
+bhi,branch,343,
+rori,besc,235,
+bgt,branch,222,
+mcpy,mblk,154,
+div,aesc,110,
+fcmp,alu,99,
+fcvtqd,fesc,52,
+mod,aesc,44,
+modu,aesc,42,
+divu,aesc,39,
+fcvtsd,fesc,21,
+fcvtdq,fesc,18,
+bpl,branch,16,used only after floating-point compares
+fmul,alu,14,
+asr,sop,13,shifts by one are used: asl and asr appear
+fadd,alu,11,
+fadd32,fesc,11,
+fcvtls,fesc,11,
+fdiv,fesc,10,
+fcvtds,fesc,7,
+fsub,alu,7,
+fmul32,fesc,4,
+fneg,fesc,3,fabs: libm builtin (fabs); fneg is used
+fcmp32,fesc,2,
+fcvtqud,fesc,1,
+fcvtsl,fesc,1,
+abs,aesc,0,idiom: x<0?-x:x and a<b?a:b; a shared pass-1 or middle-end change (not done)
+adc,sop,0,multi-word arithmetic: needs a long-long or bignum lowering; the machine has 64-bit registers so C code does not need it
+addm,mesc,0,"MESC (not assembled): x op= y on a 64-bit object in memory; pcc has the path (FINDMOPS), the table does not use it yet"
+bic,alu,0,idiom: x & ~y and a mask test; the compiler uses and with the complemented constant and and+tst
+bicm,mesc,0,"MESC (not assembled): x op= y on a 64-bit object in memory; pcc has the path (FINDMOPS), the table does not use it yet"
+bism,mesc,0,"MESC (not assembled): x op= y on a 64-bit object in memory; pcc has the path (FINDMOPS), the table does not use it yet"
+bit,alu,0,idiom: x & ~y and a mask test; the compiler uses and with the complemented constant and and+tst
+bitrev,besc,0,"intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)"
+bmi,branch,0,used only after floating-point compares
+bntag,tag,0,"language: tagged pointers (a dynamic-language runtime, not C)"
+bpt,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+bswap,besc,0,"intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)"
+bswapl,besc,0,"intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)"
+bswapw,besc,0,"intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)"
+btag,tag,0,"language: tagged pointers (a dynamic-language runtime, not C)"
+bvc,branch,0,overflow tests: __builtin_*_overflow (not implemented)
+bvs,branch,0,overflow tests: __builtin_*_overflow (not implemented)
+cas,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+casdb,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+clmulh,besc,0,"intrinsic only (population-count dot products, carry-less multiply, UTF-8)"
+clmull,besc,0,"intrinsic only (population-count dot products, carry-less multiply, UTF-8)"
+clo,besc,0,"intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)"
+clz,besc,0,"intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)"
+cto,besc,0,"intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)"
+ctz,besc,0,"intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)"
+dshr,besc,0,"intrinsic or idiom: funnel shift (128-bit shifts, bignum)"
+extb,besc,0,idiom: bit-field extract and insert; pcc reads fields with shifts (the FIELDOPS path is not used)
+extzb,besc,0,idiom: bit-field extract and insert; pcc reads fields with shifts (the FIELDOPS path is not used)
+fabs,fesc,0,fabs: libm builtin (fabs); fneg is used
+fadd16,fesc,0,binary16: no C type for it (_Float16 is not accepted by this pcc)
+fclass,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fclass16,fesc,0,binary16: no C type for it here
+fclass32,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fcmp16,fesc,0,binary16: no C type for it (_Float16 is not accepted by this pcc)
+fcopysign,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fcvtdh,fesc,0,binary16: no C type for it here
+fcvtdqu,fesc,0,"double to unsigned 64-bit: the corpus converts to unsigned long once, through fcvtqud/fcvtdq; rare in C that is not numeric"
+fcvthd,fesc,0,binary16: no C type for it here
+fcvthl,fesc,0,binary16: no C type for it here
+fcvths,fesc,0,binary16: no C type for it (_Float16 is not accepted by this pcc)
+fcvtlh,fesc,0,binary16: no C type for it here
+fcvtsh,fesc,0,binary16: no C type for it (_Float16 is not accepted by this pcc)
+fdiv16,fesc,0,binary16: no C type for it (_Float16 is not accepted by this pcc)
+fdiv32,fesc,0,"float arithmetic is rare in the corpus (no instance of float division or subtraction); the instructions are used (fadd32, fmul32) where float code occurs"
+fence,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+fmadd,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fmadd16,fesc,0,binary16: no C type for it (_Float16 is not accepted by this pcc)
+fmadd32,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fmax,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fmin,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fmsub,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fmsub16,fesc,0,binary16: no C type for it here
+fmsub32,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fmul16,fesc,0,binary16: no C type for it (_Float16 is not accepted by this pcc)
+fnmadd,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fnmadd16,fesc,0,binary16: no C type for it here
+fnmadd32,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fnmsub,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fnmsub16,fesc,0,binary16: no C type for it here
+fnmsub32,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+frint,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+frinta,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+frintm,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+frintp,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+frintz,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fsflags,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fsqrt,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fsqrt16,fesc,0,binary16: no C type for it (_Float16 is not accepted by this pcc)
+fsqrt32,fesc,0,"libm builtins and fenv: sqrt, fma, rint, copysign, fmin/fmax and the exception flags are library calls or intrinsics; contraction a*b+c to fma is not done"
+fsub16,fesc,0,binary16: no C type for it (_Float16 is not accepted by this pcc)
+fsub32,fesc,0,"float arithmetic is rare in the corpus (no instance of float division or subtraction); the instructions are used (fadd32, fmul32) where float code occurs"
+halt,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+icinv,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+icinva,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+insb,besc,0,idiom: bit-field extract and insert; pcc reads fields with shifts (the FIELDOPS path is not used)
+jmpi,xfer,0,idiom: a switch as a jump table (JMPI table(pc)(r*8)); equal in bytes to a compare chain below ~8 cases because the table entries are 8 bytes
+jtag,xfer,0,"language: tagged pointers (a dynamic-language runtime, not C)"
+ll,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+lpad,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+max,aesc,0,idiom: x<0?-x:x and a<b?a:b; a shared pass-1 or middle-end change (not done)
+maxu,aesc,0,idiom: x<0?-x:x and a<b?a:b; a shared pass-1 or middle-end change (not done)
+mcmp,mblk,0,"library: memmove, memset, memcmp, memchr, strchr live in libc; the compiler emits mcpy for small struct copies only"
+mfasid,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+mfcpuid,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+mfdp,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+mfps,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+min,aesc,0,idiom: x<0?-x:x and a<b?a:b; a shared pass-1 or middle-end change (not done)
+minu,aesc,0,idiom: x<0?-x:x and a<b?a:b; a shared pass-1 or middle-end change (not done)
+mmov,mblk,0,"library: memmove, memset, memcmp, memchr, strchr live in libc; the compiler emits mcpy for small struct copies only"
+movub,mesc,0,intrinsic: explicit unaligned accesses; the compiler uses byte copies for packed structs
+movul,mesc,0,intrinsic: explicit unaligned accesses; the compiler uses byte copies for packed structs
+movuq,mesc,0,intrinsic: explicit unaligned accesses; the compiler uses byte copies for packed structs
+movuw,mesc,0,intrinsic: explicit unaligned accesses; the compiler uses byte copies for packed structs
+mscn,mblk,0,"library: memmove, memset, memcmp, memchr, strchr live in libc; the compiler emits mcpy for small struct copies only"
+mscnn,mblk,0,"library: memmove, memset, memcmp, memchr, strchr live in libc; the compiler emits mcpy for small struct copies only"
+mset,mblk,0,"library: memmove, memset, memcmp, memchr, strchr live in libc; the compiler emits mcpy for small struct copies only"
+mtasid,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+mtdmw,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+mtdp,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+mtps,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+mulh,alu,0,idiom: divide by a constant (multiply by a reciprocal) and 128-bit arithmetic; pcc does not do the division strength reduction
+mulhu,aesc,0,idiom: divide by a constant (multiply by a reciprocal) and 128-bit arithmetic; pcc does not do the division strength reduction
+mval,mblk,0,"library: memmove, memset, memcmp, memchr, strchr live in libc; the compiler emits mcpy for small struct copies only"
+nop,sys-none,0,padding only: the assembler inserts it for .even; the compiler never asks
+popcnt,besc,0,"intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)"
+prober,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+probew,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+ror,besc,0,"idiom or intrinsic: rotate by a register count; rotates by a constant are emitted (as rol, which assembles to rori) for 64-bit values only: a 32-bit rotate has no instruction and is shl/shr/bis"
+rti,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+rtt,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+sbc,sop,0,multi-word arithmetic: needs a long-long or bignum lowering; the machine has 64-bit registers so C code does not need it
+sc,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+set,cond,0,idiom: a comparison used as a value; pass 1 turns it into branches before pass 2 sees it (a shared change)
+sev,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+sob,sob,0,"idiom: a counted loop (dec; bne); pcc does not choose it (same size, one instruction fewer)"
+spl,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+subm,mesc,0,"MESC (not assembled): x op= y on a 64-bit object in memory; pcc has the path (FINDMOPS), the table does not use it yet"
+swap,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+swapdb,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+tlbi,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+tlbia,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+tlbsync,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+trap,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+trapl,sys,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+utf8dec,besc,0,"intrinsic only (population-count dot products, carry-less multiply, UTF-8)"
+utf8enc,besc,0,"intrinsic only (population-count dot products, carry-less multiply, UTF-8)"
+utf8len,besc,0,"intrinsic only (population-count dot products, carry-less multiply, UTF-8)"
+wfe,sys-none,0,"system code: privileged or system-level, from assembly or inline asm in an operating system, not from C"
+xadd,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xadddb,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xand,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xanddb,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xmax,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xmaxdb,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xmaxu,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xmaxudb,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xmin,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xmindb,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xminu,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xminudb,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xnorpop,besc,0,"intrinsic only (population-count dot products, carry-less multiply, UTF-8)"
+xor_,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xor_db,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xxor,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"
+xxordb,atom,0,"intrinsic: __sync_* and __atomic_* builtins, not implemented in the back end; ATOM is not assembled yet"

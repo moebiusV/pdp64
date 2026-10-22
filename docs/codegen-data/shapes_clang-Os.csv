@@ -1,0 +1,7 @@
+operand shape,count,share of operands %
+reg,309628,61.5
+mem-base,59618,11.8
+target,59577,11.8
+imm,56242,11.2
+rip,13376,2.7
+mem-index,4888,1.0

@@ -1,0 +1,16 @@
+pattern (static count over the common files),sites,estimated bytes saved
+"narrow load; cmp reg,#imm (a sized compare with memory)",4997,
+"movl mem,r; op: a 32-bit load fused into the operation",4690,
+immediate beyond 16 bits (a 6- or 8-byte instruction),3094,6286
+"movzl r,r; shr #n,r (extzb)",2112,
+"rotate left by a constant: shl, shr, bis (32/64-bit)",898,
+"set cc,rd (a comparison as a value)",561,4488
+inc/dec on a quad in memory,468,2808
+read-modify-write of a 32-bit int in memory (needs sized operands),434,2604
+"addm/subm/bism/bicm (MESC read-modify-write, quad)",265,1590
+"divide or remainder by a constant (mulh, shifts)",137,
+"min/max/minu/maxu ra,rb,rd",82,328
+and/xor on a quad in memory (no memory-destination form),55,
+functions with a frame pointer (non-leaf under -xdmr: none),38,
+"abs rs,rd",6,24
+shl #a; shr/sar #b (a bit-field extract: extb/extzb),4,
