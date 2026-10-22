@@ -2,7 +2,7 @@
 
 [← pdp64 index](../README.md)
 
-**Status: written 2026-10-22 for the author's review.** Nothing in this document is decided unless it says so. For each open decision there is: the **need** (why the question exists at all), a plain **explanation**, the **current state** in the documents, **five options** with what each gains and costs, my **recommendation**, and what happens if nothing is decided. Where a fact comes from another document it is cited; where it comes from my general knowledge and has not been checked, it says **(from memory, unchecked)**. Numbers from the kernel survey are static counts of instructions written in the sources, not measurements of how often they run.
+**Status: written 2026-10-22 for the author's review.** Nothing in this document is decided unless it says so. For each open decision there is: the **need** (why the question exists at all), a plain **explanation**, the **current state** in the documents, **five options** with what each gains and costs, my **recommendation**, and what happens if nothing is decided. Each decision also says **what current systems do** and **how the recommendation compares**: counts of instructions come from the kernel survey (static counts in the sources), and the rest is my general knowledge, marked **(from memory, unchecked)**, so treat the comparisons as leads to verify, not as settled facts. Where a fact comes from another document it is cited; where it comes from my general knowledge and has not been checked, it says **(from memory, unchecked)**. Numbers from the kernel survey are static counts of instructions written in the sources, not measurements of how often they run.
 
 Context for all of them: the operating system order is now OpenBSD first through the LLVM back end, Unix/32V as the fallback (errata 41). The FPGA and ASIC implementations are small in-order cores, and the architecture is to be kept ready for a large out-of-order design (errata 38). The machine is one core today; SMP, DMA devices and virtualization are not yet defined.
 
@@ -82,7 +82,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | An x86-style "interrupt shadow" after `SPL` (the next instruction cannot be interrupted) | the lower-then-sleep pair becomes safe | hidden state; rejected for the same reasons as for exception entry (errata 40) |
 | 5 | No `WFE` in the idle loop; poll with `HINT` pause | nothing to specify | burns power; defeats the purpose of the instruction |
 
+**What current systems do.** Survey counts of the wait instructions in the kernel sources: x86 `hlt` 57 and `mwait` 9, AArch64 `wfi` 15 and `wfe` 20, ARM 32-bit `wfi` 9, RISC-V `wfi` 14. The wake rule: AArch64 and RISC-V `wfi` end the sleep when an interrupt is *pending*, whether or not the mask lets it be taken **(from memory, unchecked)**; x86 closes the same gap with the "interrupt shadow" of `sti`, which delays interrupts by one instruction so that `sti; hlt` is safe **(from memory, unchecked)**.
+
 **Recommendation and status.** Option 1, and you have said yes. Cost to build: small; the QEMU agent can do it in one pass with a test of the idiom. **If nothing is done:** the text stays wrong.
+
+**How the recommendation compares.** Option 1 gives the same result as AArch64 and RISC-V and is **not better than them**; it is better than the x86 way in that it needs no hidden one-instruction state, which an out-of-order design must track. It costs one rule in the core and no opcode.
 
 ---
 
@@ -104,7 +108,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | Only **explicit copy instructions** (PDP-11 style `MFPI`/`MTPI` as `copyin`/`copyout`, block-oriented) | smallest attack surface; one instruction does the whole copy with checks | less flexible (strings, partial copies, user-memory atomics); kernels expect to use ordinary code on user pointers |
 | 5 | **Nothing for now**: keep `PROBE` and discipline plus no-execute | no work | the weak point stays; the OpenBSD port would run without a guard it may expect (whether OpenBSD requires it was not checked) |
 
+**What current systems do.** Survey: x86 `stac`/`clac` appear 88 times (FreeBSD 50, Linux 32) in the sources, and OpenBSD enables `SMAP` **(from memory, unchecked, as the design document says)**; AArch64 has `PAN` and the unprivileged `ldtr`/`sttr`; RISC-V has `SUM`; ARM 32-bit `ldrt`/`strt`; m68k `moves`; s390 `mvcos`; MIPS has EVA loads and stores; the PDP-11 had `MFPI`/`MTPI`. So both styles exist, six architectures chose the special-forms style, three chose the bit.
+
 **Recommendation.** Option 1: smallest change that closes the gap, and it matches what the three modern architectures I named do, so the kernel code that an OpenBSD port starts from already has the open/close pattern. Cost to build: a `PSW` bit, two `SYSX` sub-opcodes (sub 4 and 5 are free), a fault when kernel mode touches a user page with the bit set, tests. **If nothing is done:** option 5 by default.
+
+**How the recommendation compares.** Option 1 copies the x86, AArch64 and RISC-V design, which is what the kernel code OpenBSD already has expects. **It is not safer than the special-forms style** (option 2), where nothing can be left open; it is cheaper to build, leaves the compiler untouched, and can be made safer than x86 by having exception entry set the guard so a handler cannot forget it.
 
 ---
 
@@ -124,7 +132,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **A kernel-updated shared page** (seconds and ticks in memory, updated on every timer tick; a sequence-lock) | no hardware counter needed; needs no instruction | time resolution is the tick; every process pays for the memory page; not a high-resolution clock |
 | 5 | **A system call for time** (no user-mode read) | nothing to specify | the cost of a trap on every clock read, which is very frequent in some programs |
 
+**What current systems do.** Survey: unprivileged counters on x86 (`rdtsc` 19 uses, `rdtscp` 10), RISC-V (`rdtime`), PowerPC (`mftb`), s390 (`stckf`), MIPS (`rdhwr`), LoongArch (`rdtime.d`) and Alpha. Linux builds its fast clock read (the vDSO) on them **(from memory, unchecked)**. x86's `rdtsc` has a history of counters that differed between cores or changed rate with power state, which the kernels work around **(from memory, unchecked)**.
+
 **Recommendation.** Option 1 with the enable bit of option 2 held back until someone needs it: one instruction, and the survey found it on 7 of the 14 families. Cost to build: one `SYSX` sub-opcode (free ones remain) and a core change that reads the counter. **If nothing is done:** option 5.
+
+**How the recommendation compares.** Option 1 is what RISC-V, MIPS and LoongArch do. Its advantage over x86 is to fix **at the start** that the counter is monotonic and runs at a constant rate on every core, which spares the kernel the workarounds. It is not better in features: it offers no cycle counter and no per-core performance counters, which the pdp64 does not have yet.
 
 ---
 
@@ -144,7 +156,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **One `misa`-like bitmap register** plus a configuration string in memory (RISC-V style **(from memory, unchecked)**) | one register to read; a string for the rest | a bitmap fills up; the string needs a parser |
 | 5 | **Probe by trying**: execute the instruction and catch the illegal-instruction exception | no registers | slow, fragile, and impossible for non-instruction facts (cache size) |
 
+**What current systems do.** Survey: x86 `cpuid` 73 uses; AArch64, ARM and RISC-V read identification registers (`mrs`, `mrc`, `csrr`); s390 `stidp`/`stfle`/`stsi`; Alpha `amask`/`implver`; PowerPC `mfpvr`. x86's `cpuid` has grown hundreds of leaves, differs by vendor and traps in virtual machines **(from memory, unchecked)**.
+
 **Recommendation.** Option 1, defined once in a grammar: no opcode cost and it fits `mfsr`. Cost to build: a table in the grammar, generated constants, a read-only check, a test. **If nothing is done:** option 5.
+
+**How the recommendation compares.** Option 1 is the AArch64 and RISC-V approach, **not an improvement over them**. Against x86 it avoids a second namespace (leaf numbers) and an opcode, and because the bit layouts are written once in a grammar and generated, kernels and the LLVM back end cannot drift from the hardware description.
 
 ---
 
@@ -166,7 +182,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **No new instruction: rollover flushes all with `TLBIA`** (software generation count) | nothing to build | after every rollover all processes lose their entries; fine on a small ASID space only if rollovers are rare |
 | 5 | **Drop ASIDs: flush on every context switch** | simplest hardware | the slowest switches; wasteful on any machine with a real MMU |
 
+**What current systems do.** Survey: x86 `invlpg` 16 uses and `invpcid` 14; AArch64 `tlbi` (by all, address, ASID, with or without broadcast); RISC-V `sfence.vma` with an optional ASID; LoongArch `invtlb`. x86 had no broadcast and used inter-processor interrupts to make other cores flush (a **shootdown**), which is slow; AMD added `invlpgb` late, which the survey saw once **(shootdown history from memory, unchecked)**.
+
 **Recommendation.** Option 1, but it is medium priority: option 4 works until the first rollover, and a small machine with few processes rolls over rarely. Cost to build: small. **If nothing is done:** option 4.
+
+**How the recommendation compares.** The pdp64 already broadcasts `TLBI`, so it avoids the shootdown cost that x86 pays; option 1 closes the one remaining gap. It is **the same as AArch64 and RISC-V and not better**, and the broadcast bus transaction itself has not been designed (see P11), so the advantage over x86 is on paper.
 
 ---
 
@@ -186,7 +206,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **Require every DMA device to be coherent** (a snoop path on the bus) | software never sees caches at all | hardware cost on every device; the bus document rejects it as expensive for large, infrequent transfers |
 | 5 | **One "cache operation" instruction with an operation field** (clean, invalidate, flush, and more) | one opcode covers all, room for future operations | a field to define; the hardest to verify; more than is needed today |
 
+**What current systems do.** Survey: 12 of the 14 families have cache-maintenance instructions in their kernels (x86 `wbinvd` 17, `clflush` 9, `clwb` 1; ARM and AArch64 clean and invalidate by address). x86 DMA is coherent, so its kernels seldom need them for devices; ARM, MIPS and embedded PowerPC with non-coherent DMA do, and Linux wraps this in a DMA API that has to be called at the right moments **(from memory, unchecked)**.
+
 **Recommendation.** Option 2 for now: the current design needs none of it, and nothing in the OpenBSD plan requires it as long as devices follow the uncached hand-off. Revisit the day a device is not coherent. Cost to build: none. **If nothing is done:** option 3 stays.
+
+**How the recommendation compares.** Uncached DMA buffers (the present design) remove the whole class of mistakes where a driver forgets a clean or an invalidate. **That is a correctness gain, not a speed gain**: ARM and MIPS systems with cache maintenance move data faster. Option 2 keeps the gain and defers the cost.
 
 ---
 
@@ -206,7 +230,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **A separate highest privilege level ("machine mode")** | strong separation of firmware from the kernel | a new mode; against the simplicity of two modes; far more work |
 | 5 | **Let the boot loader define it per platform** | no architecture work | different on every platform; the OS port carries the differences |
 
+**What current systems do.** Survey: class 13 (hypervisor, secure and firmware calls) appears in 6 families. RISC-V kernels call firmware with `ecall` through the SBI interface; ARM uses `hvc`/`smc` for power control **(from memory, unchecked)**; Alpha had PALcode; SPARC had Open Firmware; x86 reaches firmware through BIOS or UEFI services and ACPI.
+
 **Recommendation.** Option 1 for the first system: it fits "devices are eight registers", needs no firmware, and OpenBSD ports get a console and reset from devices. Revisit with option 2 when there is a second platform. Cost to build: none now. **If nothing is done:** option 1.
+
+**How the recommendation compares.** Option 1 is the opposite of what these do. Its advantage is **no firmware to trust, port or bug-fix and no extra privilege level**; its cost is that every platform must say where its console and reset registers are, which the others get from the firmware. For a first system with few platforms the trade is in its favour, and it is **worse** once there are many.
 
 ---
 
@@ -226,7 +254,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **Use the spare pointer bits as a counter** (a 39-bit virtual address leaves 25 bits of a 64-bit pointer unused, per the ISA; software tags the pointer) | no instruction; ABA protection by a version number in the pointer | pointers must be masked before use; a counter of 25 bits can wrap; not for all designs |
 | 5 | **Defer until there is SMP and a user** | no work now; no wrong guess | the question comes back |
 
+**What current systems do.** Survey: x86 `cmpxchg16b` 4 uses (and `cmpxchg8b` 13), AArch64 `casp` 2, RISC-V `amocas.q` 1, s390 `cdsg`; one Linux use, a lock-free free list with a tag. The ABA problem is otherwise handled by RCU, hazard pointers, tagged pointers or locks **(from memory, unchecked)**. AArch64 can ignore the top byte of an address for tagging.
+
 **Recommendation.** Option 5 now, with option 4 as the recommended software pattern. The only evidence is Linux-only; nothing in the BSD sources asked for it. Cost to build: none. **If nothing is done:** same as option 5.
+
+**How the recommendation compares.** Option 5 plus the tagged-pointer pattern is what systems without a double-width instruction already do; it is **not better** than having the instruction. The evidence of need is one Linux use, so building it now would be speculative.
 
 ---
 
@@ -244,7 +276,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **Software only**: collect jitter from the timer and interrupts | nothing in hardware | slow to fill; weak early in boot, which is the worst time to need it |
 | 5 | **A seed passed in by the boot loader** (stored from the previous boot) | no hardware; fast at start | needs persistent storage; weak on first boot |
 
+**What current systems do.** Survey: x86 `rdrand` 12 and `rdseed` 9 uses, PowerPC `darn`, s390 `prno`, AArch64 `rndr`; no other family has one. Virtual machines supply a random-number device (virtio-rng) **(from memory, unchecked)**, and kernels mix several sources and a stored seed file **(from memory, unchecked)**.
+
 **Recommendation.** Option 1 (an entropy device): it matches how every other peripheral is defined and keeps the ISA free of a quality promise. Use option 5 as the supplement. Cost to build: a device definition in the bus document and a QEMU model. **If nothing is done:** option 4.
+
+**How the recommendation compares.** Option 1 is how virtual machines already do it. It is better than an instruction in that **no opaque instruction becomes the only trusted source** and the ISA makes no quality promise; it is worse in being unavailable until the platform has the device, and slower per read.
 
 ---
 
@@ -266,7 +302,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **A single fixed identity window in hardware, not programmable**, plus page tables for everything else | simplest; no `DMW` registers at all | the kernel cannot move or resize it; platform-specific physical layouts get harder |
 | 5 | **Defer: leave both** until the kernel work shows what it needs | no work now | the open item stays and more code depends on `MMUCTL` meanwhile |
 
+**What current systems do.** x86 turns paging on with `CR0.PG` and long mode requires it, so boot code runs with an identity mapping while switching on; AArch64 has `SCTLR.M`; RISC-V `satp` has a Bare mode; MIPS has no off state and fixed unmapped windows (`kseg0`/`kseg1`); LoongArch has programmable direct-mapped windows **(all from memory, unchecked)**. The pdp64's own ISA rule (no mode bits) matches the MIPS and LoongArch kind.
+
 **Recommendation.** Option 1: it is the fix the design document already called consistent, and it is cheaper to do before an OpenBSD port starts depending on `MMUCTL`. Cost to build: moderate (grammar, core, QEMU, tests, the boot description). **If nothing is done:** option 5.
+
+**How the recommendation compares.** Option 1 is the MIPS and LoongArch design. It is **better than the x86 and RISC-V way** in that there is no switch-on moment and no identity-map trampoline in the boot code; it is **worse** in needing a window format to be specified and verified before the first kernel runs.
 
 ---
 
@@ -288,7 +328,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **Atomics performed at the memory (far atomics, AXI5-style)** | a device and a core use the same operation; no reservation | newer bus features; the FPGA memory system may not provide them; the operation set is fixed by the memory side |
 | 5 | **Defer: single initiator for now**, but write the constraints | no work today | the question blocks SMP and the first shared-queue device; changing later may break software |
 
+**What current systems do.** Survey: pdp64 has more atomic operations than any surveyed architecture (`CAS`, `SWAP`, `XADD`, and the logical and min/max forms, plus `LL`/`SC`). MIPS, PowerPC, Alpha, ARM and RISC-V use load-linked/store-conditional; AArch64 adds far atomics (the LSE extension); x86 uses the `lock` prefix, which locks a cache line rather than the whole bus on modern parts; the VAX had interlocked queue instructions that locked the bus **(all from memory, unchecked)**. Linux moved its spinlocks from test-and-set to ticket to queued locks as core counts rose **(from memory, unchecked)**.
+
 **Recommendation.** Option 1 now, written as a specification (no hardware yet): it is the only one that maps cleanly onto the FPGA's memory system. Cost to build: the ISA and bus text, `LL`/`SC` rules, tests for the reservation in the emulators. **If nothing is done:** option 5, and SMP stays blocked.
+
+**How the recommendation compares.** Option 1 is what most RISC architectures and the AXI bus the FPGA uses already do, so it maps cleanly. It is **better than the PDP-11 bus lock** for scaling and **not better than far atomics** (option 4), which avoid the retry cost of a monitor under contention. The cost of a monitor, livelock under contention, is real and known.
 
 ---
 
@@ -308,7 +352,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **Forbid page crossing**: the instruction faults if the area spans two pages, and software splits | each part is all-or-nothing | software complexity; a long list may not fit one page |
 | 5 | **Replace by a sequence of single stores** (drop the instruction) | no partial-effect question | gives up the 11-instruction saving the survey measured for entry and exit |
 
+**What current systems do.** ARM `ldm`/`stm` restart after an abort with the base register restored **(from memory, unchecked)**; the VAX marks an interrupted instruction with a "first part done" bit and resumes; x86 `rep` instructions resume from the register state; m68k saves internal state in an exception frame. Survey: the multi-register save/restore instructions are `pushr`/`popr` on the VAX and `movem` on m68k, and the survey's path-length table puts those machines in the 6 to 11 instruction range for syscall entry.
+
 **Recommendation.** Option 1, with the dead-area rule written next to each instruction: nothing in the system reads below the stack pointer, so a partial push is invisible. Cost to build: text only, plus a test that proves a restart gives the same final memory. **If nothing is done:** the guarantee stays unwritten.
+
+**How the recommendation compares.** Option 1 is closest to the ARM approach (restart, no hidden resume state) and **simpler than the VAX or m68k**, which save the instruction's progress. It is not better than resumable designs where the same work would otherwise repeat, but the pdp64's stack area below the stack pointer is dead, so the repeated stores are free.
 
 ---
 
@@ -330,7 +378,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **double-double** (PowerPC style **(from memory, unchecked)**) | fast on hardware with fused multiply-add; wide range | not IEEE; surprising edge cases; special library behaviour |
 | 5 | **Start with option 1 and reserve the right to change at a defined ABI revision** | the first system moves; the door stays open | a later change breaks binaries unless the ABI is versioned from the start |
 
+**What current systems do.** `long double` is 80-bit extended on x86, 128-bit binary128 on AArch64 Linux and RISC-V, double-double on PowerPC Linux, and the same as `double` on Apple's and Microsoft's ARM64 ABIs and with MSVC **(all from memory, unchecked)**. What OpenBSD's ports use was not checked.
+
 **Recommendation.** Option 5: ship `long double = double` first and put an ABI version number into the object format now, so a later change to binary128 is a version bump not a surprise. Cost to build: none for the type; a small version field in the ABI/ELF flags. **If nothing is done:** option 1 with no door.
+
+**How the recommendation compares.** Option 5 starts where the Apple and Windows ARM64 ABIs sit: **no library work and no quality risk**. It is **worse** in precision than the Linux choices. Versioning the ABI from the start is better than the others, which each had to live with their first choice.
 
 ---
 
@@ -350,7 +402,11 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | 4 | **Hardware pushes `EPC` and `EPSW` on entry** (nested interrupts are then safe at any level) | no window at all; no `spl` needed | memory writes at entry, against the register-based design; entry can fault; more hardware |
 | 5 | **Interrupt shadow** (nothing can interrupt for one instruction after entry) | no change to the priority | hidden state; relies on the handler's first instruction; rejected earlier |
 
+**What current systems do.** The survey found that x86, AArch64, RISC-V, PowerPC, MIPS and SPARC all mask interrupts on entry, and that the VAX and m68k raise the priority. Most of those have one mask bit (x86 `IF`, AArch64 `DAIF`, RISC-V `SIE`), so a handler that wants nesting re-enables it by hand; the PDP-11 loaded the priority from each vector **(from memory, unchecked)**.
+
 **Recommendation.** Option 1 (what is built): the hole is real for interrupts and the cost is one instruction per handler. Option 3 is the only one that keeps the PDP-11's flexibility and I would take it if you want nested-interrupt latency tuned per device. Cost to build option 1: already done. **If nothing is done:** option 1 stays.
+
+**How the recommendation compares.** Option 1 matches the modern practice of masking on entry, and it **keeps the multi-level priority** that the one-bit architectures lack, so the handler can lower to the level it wants instead of switching all interrupts back on. It is **less flexible** than per-vector priority (option 3), which the PDP-11 had.
 
 ---
 
