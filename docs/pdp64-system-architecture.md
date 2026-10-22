@@ -231,7 +231,7 @@ shape LLVM already supports for RISC-V. The register file is small and regular, 
 benchmark corpus of 841 files with gcc and clang `-Os` figures, an emulator and a QEMU target to run the output. The nearest in-tree LLVM back ends are small ones (MSP430, M68k, AVR).
 
 **What makes it harder than a RISC-V-style back end.** The condition flags `N Z V C` set by ordinary instructions (LLVM models flags, as for x86 and ARM, but it is more work than a flag-free machine); the memory
-operand on most instructions and the addressing modes (richer selection patterns); variable-length instructions, 2 to 8 bytes, whose branch and call forms must be relaxed to the shortest that reaches; and the
+operand on most instructions and the addressing modes (richer selection patterns); variable-length instructions, 2 to 6 bytes (with a one-parcel second page, ISA §4.18), whose branch and call forms must be relaxed to the shortest that reaches; and the
 instructions with no counterpart in LLVM's generic operations (block copy, bit-field, UTF-8), which would be left to intrinsics at first.
 
 **An estimate of the size.** A first back end that compiles C correctly, with the machine-code layer, is months of focused work, not weeks: I would put it at roughly three to six months for one engineer who has

@@ -4,7 +4,7 @@
 
 **Digital Equity Collective's Pragmatic Digital Processor, 64 bit** — an update and refresh of the PDP-11 instruction set and architecture for the modern world.
 
-**Revision 20, updated 2026-10-21 with the changes in CHANGES-SINCE-R20.md.** Supersedes revision 19.
+**Revision 20, updated 2026-10-21 with the changes in CHANGES-SINCE-R20.md, and on 2026-10-22 with the second page.** Supersedes revision 19. The change of 2026-10-22 (errata 31) removes the fourth parcel, makes `len = 11` a second page of one-parcel instructions (§3.1.2, §4.18) and adds `CBCC` and `RORI32`; the text below describes the machine after it, and where an older figure survives it is marked as history.
 
 The machine is **pdp64**. This document was written under the working name 11/64W; that name appears nowhere else in it except in the appendix. The text below is revision 20 with every change and decision made since applied in place, so a reader does not need a separate errata list to learn what the machine does; Appendix A lists each change in one line with its source. The original revision 20, unmodified and still under its working name, is in `docs/orig/` (`orig/11-64W-isa-r20.md`). Where a number in prose disagrees with the grammars `spec/pdp64-mnemonics.hbnf` and `spec/pdp64.hbnf.in`, the grammar is right.
 
@@ -30,7 +30,7 @@ The machine is **pdp64**. This document was written under the working name 11/64
 
 **Open item 2 is resolved and replaced by a rule:** a top-level opcode is for an operation whose common case is register-to-register; everything else goes to an escape group.
 
-**Carried from revisions 18 and 19:** §1.2's decision order; `XFER` holding `JMPI`, `CALLI` and `JTAG`; §19, the position-independent-code audit — PIE is cheap here, PIE data access is *shorter* than absolute, and veneers never exist; plus `DP` documented as the user-mode thread pointer (§2.2, §19.3).
+**Carried from revisions 18 and 19:** §1.2's decision order; `XFER` holding `JMPI`, `CALLI` and `JTAG`; §19, the position-independent-code audit — PIE is cheap here, PIE data access is *shorter* than absolute, and veneers never exist (restated for the 32-bit forms in §19.2 and §19.4 after the change of 2026-10-22); plus `DP` documented as the user-mode thread pointer (§2.2, §19.3).
 
 Nothing else changed from revision 18, whose changelog follows.
 
@@ -243,7 +243,7 @@ The calling convention follows from this and is in `docs/abi.md`: floating-point
 
 ### 3.1 Length first
 
-Instructions are 1 to 4 **16-bit parcels**, parcel-aligned. An instruction is therefore 2, 4, 6 or 8 bytes.
+Instructions are 1 to 3 **16-bit parcels**, parcel-aligned. An instruction is therefore 2, 4 or 6 bytes. (Earlier revisions had a fourth parcel; it was removed on 2026-10-22 (errata 31) and the length code that named it now selects a second page of one-parcel instructions, §3.1.2 and §4.18. §9.6 gives the history.)
 
 UTF-8's contribution is not that the leading unit gives the length — revision 8 had that, and the PDP-11 had it in 1970. It is that **length is the primary partition**, so payload is budgeted by what each form actually needs, rather than by carving fixed fields out of a fixed width and living with the remainder.
 
@@ -256,16 +256,16 @@ Every instruction, at every length:
 +-----+-----------------+-----------+-----------+
 ```
 
-**`len` is bits 15..14 of parcel 0.** It holds 0, 1, 2 or 3, and the instruction occupies that many parcels beyond parcel 0 — so 1, 2, 3 or 4 parcels in total, which is 2, 4, 6 or 8 bytes.
+**`len` is bits 15..14 of parcel 0.** `len = 00`, `01` and `10` are **page 1**: the instruction occupies 0, 1 or 2 parcels beyond parcel 0 — so 1, 2 or 3 parcels in total, which is 2, 4 or 6 bytes. **`len = 11` is page 2**: always exactly one parcel, with its own opcode map and a different layout (§3.1.2, §4.18).
 
-Read it as **the number of extension parcels**, not as the total minus one. That is what the field literally is, and it is what the hardware uses: fetch parcel 0, load `len` into a down-counter, fetch that many more. No adder, no increment, no decode. The `+ 1` is an artifact of counting from parcel 0 rather than after it.
+For page 1, read `len` as **the number of extension parcels**, not as the total minus one. That is what the field literally is, and it is what the hardware uses: fetch parcel 0, load `len` into a down-counter, fetch that many more. No adder, no increment, no decode. The `+ 1` is an artifact of counting from parcel 0 rather than after it. For `len = 11` the count of extension parcels is zero: the fetch unit treats `11` like `00`, a one-parcel instruction, and only the decoder tells them apart.
 
 The claim with actual content is not that the count is in the field — that is true by construction — but that **length is a function of `len` alone**:
 
 | Architecture | Length is a function of |
 |---|---|
 | **pdp64** | `len`, two bits of parcel 0 |
-| pdp64 rev. 9 | `len` and, at `len = 11`, the opcode |
+| pdp64 rev. 9 | `len` and, at `len = 11`, the opcode (a rule this revision never breaks: the length of `len = 11` is always one parcel) |
 | PDP-11 | both 6-bit mode/register specifiers of word 0 |
 | x86 | prefixes, opcode, ModR/M and SIB, in sequence |
 | VAX | every operand specifier, parsed in order, some requiring a memory reference first |
@@ -276,20 +276,32 @@ The rule has a corollary that escape opcodes must respect; see §4.14.
 
 ### 3.1.1 What lands at each length
 
-The density argument depends on this distribution, so it is stated rather than implied. **Most instructions are not eight bytes.**
+The density argument depends on this distribution, so it is stated rather than implied. **Most instructions are not six bytes.**
 
 | Parcels | Bytes | Contents |
 |---|---|---|
-| 1 | 2 | all register–register ALU and moves; the entire conversion set; `PUSH`, `POP`; single-operand ops on a register; branches within ±256 bytes; most of `SYS` |
-| 2 | 4 | any memory operand within ±2 KB — which is every frame local and every `DP` global; 12- and 16-bit immediates; branches within ±64 KB; `SOB`; `BTAG`; `PUSHM`, `POPM`; `BESC`, `MBLK`, `FESC`, `ATOM` |
-| 3 | 6 | displacements to ±128 MB; 28- and 32-bit immediates; branches within ±4 GB; bitfield ops needing position and width |
-| 4 | 8 | 44-bit displacements; 48-bit immediates and absolutes; branches anywhere |
+| 1 | 2 | all register–register ALU and moves; the entire conversion set; `PUSH`, `POP`; single-operand ops on a register; branches within ±256 bytes; most of `SYS`; every page-2 form (§4.18): register-deferred loads and stores, `sp`-relative loads and stores, `LEA` from `SP`, `PUSHM8`/`POPM8`, frame adjustment, four-bit immediates |
+| 2 | 4 | any memory operand within ±2 KB — which is every frame local and every `DP` global; 12- and 16-bit immediates; branches within ±64 KB; `SOB`; `BTAG`; `PUSHM`, `POPM`; `CBCC` (compare with a 5-bit immediate and branch within ±1024 parcels); `BESC`, `MBLK`, `FESC`, `ATOM` |
+| 3 | 6 | displacements to ±128 MB; 32-bit immediates, absolutes and PC-relative offsets; branches within ±4 GB; `CBCC` with a 27-bit displacement; bitfield ops needing position and width |
 
 Compiled code sits overwhelmingly in the first two rows. Once operands are in registers the work is one parcel apiece, and reaching a frame local or a `DP` global is two. Expected average is near three bytes per instruction — Thumb-2 territory, and better than a fixed 32-bit RISC encoding.
 
-The `uint64_t` bound is a claim about **carriers, not about the instruction stream**. The decode register holds any instruction in one word plus a two-bit valid-parcel count, and so do the assembler, the disassembler, the simulator and the compiler backend. It says nothing about what a sequence of instructions occupies in memory, and the fetch discussion in §3.2 is about the worst case rather than the common one.
+The `uint64_t` bound is a claim about **carriers, not about the instruction stream**. The longest instruction is now six bytes, so a 64-bit word holds any instruction with sixteen bits to spare (the rule held at eight bytes with none). The decode register holds any instruction in one word plus a two-bit valid-parcel count, and so do the assembler, the disassembler, the simulator and the compiler backend. It says nothing about what a sequence of instructions occupies in memory, and the fetch discussion in §3.2 is about the worst case rather than the common one.
 
 Byte-granular encoding — x86's and the 6502's — remains rejected. Both were 8-bit-bus machines where a byte was the natural fetch unit. On a 64-bit datapath it buys roughly a tenth of the code size and costs a full alignment rotator plus cross-line splice logic in the front end.
+
+### 3.1.2 Page 2: `len = 11`
+
+`len = 11` is not a fourth length. It is a **second page of one-parcel instructions**, with the layout
+
+```
+ 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
++-----+-----------------+-----------+-----------+
+| 11  |      opc (6)    |    reg    |    low    |
++-----+-----------------+-----------+-----------+
+```
+
+and its own 64-entry opcode map (41 defined), given in §4.18. Every page-2 form is *exactly* an abbreviation of an existing page-1 instruction: the same result, the same flags, the same faults. The assembler chooses it when the operands fit, as it chooses any other length, and a page-2 form has no mnemonic of its own (§4.14, §4.15). Length is still a function of `len` alone: page 2 is always one parcel. What is new is one extra decision in the decoder, after the length is known, and that decision is the page select on `len = 11`.
 
 ### 3.2 Alignment and fetch
 
@@ -297,7 +309,7 @@ Byte-granular encoding — x86's and the 6502's — remains rejected. Both were 
 
 **Byte order is little-endian**, for data and for instructions: a parcel is a 16-bit little-endian unit in memory. The diagrams in this document draw each parcel with bit 15 first (§4.17).
 
-A worst-case instruction — eight bytes at offset 6 — spans two aligned quads, so the fetch path needs a two-deep parcel buffer. It needed one at five parcels too; the four-parcel cap does not simplify fetch. Forcing instructions inside an 8-byte window would buy that simplification, and it would cost 5–10% of code size in padding plus an alignment obligation propagated through the assembler, the linker and every hand-written stub. Not worth it. The fetch path is already among the cheapest blocks in the machine.
+A worst-case instruction — six bytes at offset 6 — spans two aligned quads, so the fetch path needs a two-deep parcel buffer. It needed one at four parcels and at five; the three-parcel cap does not simplify fetch. Forcing instructions inside an 8-byte window would buy that simplification, and it would cost 5–10% of code size in padding plus an alignment obligation propagated through the assembler, the linker and every hand-written stub. Not worth it. The fetch path is already among the cheapest blocks in the machine.
 
 ### 3.3 Extension parcels
 
@@ -318,35 +330,27 @@ parcel 2:  dddddddddddddddd         displacement 15..0
 
 28-bit signed displacement, ±128 MB.
 
-**`len = 11`** — four parcels:
-
-```
-parcel 1:  rrrr dddddddddddd        rm(4), displacement 43..32
-parcel 2:  dddddddddddddddd         displacement 31..16
-parcel 3:  dddddddddddddddd         displacement 15..0
-```
-
-44-bit signed displacement, ±8 TB.
+**`len = 11`** is not an extension length: it is the one-parcel second page (§3.1.2, §4.18). Through the revision before 2026-10-22 it was a four-parcel form with a 44-bit displacement and 48-bit immediates and absolutes; those forms are gone (§9.6).
 
 **The `rm` nibble is reclaimed where it is idle.** Modes `0100` (immediate), `0101` (absolute) and `0010` (PC-relative) name no base register, so parcel 1 carries payload in all sixteen bits:
 
-| Mode class | `len=01` | `len=10` | `len=11` |
-|---|---|---|---|
-| base-register modes | 12 bits | 28 bits | 44 bits |
-| immediate / absolute / PC-relative | 16 bits | 32 bits | **48 bits** |
+| Mode class | `len=01` | `len=10` |
+|---|---|---|
+| base-register modes | 12 bits | 28 bits |
+| immediate / absolute / PC-relative | 16 bits | 32 bits |
 
-Forty-eight bits covers the entire 39-bit canonical VA with nine to spare, so any address is an eight-byte instruction — the longest form the ISA has, and still within a `uint64_t`.
+At `len=10` the immediate, absolute and PC-relative payload is therefore a sign-extended 32-bit value; a symbol immediate or absolute address in a relocation is 32 bits, sign-extended. An absolute address no longer reaches the whole 39-bit canonical space in one instruction (the 48-bit form is gone); an address or a 64-bit constant outside the 32-bit range is formed PC-relatively or loaded from a constant pool (§4.1).
 
 **The payload of every mode at every length** (the `rm` nibble is reclaimed in the modes marked):
 
-| Mode | `len=01` | `len=10` | `len=11` |
-|---|---|---|---|
-| `0000` base `d(Rn)`; `0110` post-increment; `0111` pre-decrement | `rm4 d12` | d28 | d44 |
-| `0001` scaled index | `rm4 Rx4 s2 d6` | d22 | d38 |
-| `0010` PC-relative, `0100` immediate, `0101` absolute | d16 (`rm` reclaimed) | d32 | d48 |
-| `0011` direct page `d(DP)` | `pad4 d12` | d28 | d44 |
+| Mode | `len=01` | `len=10` |
+|---|---|---|
+| `0000` base `d(Rn)`; `0110` post-increment; `0111` pre-decrement | `rm4 d12` | d28 |
+| `0001` scaled index | `rm4 Rx4 s2 d6` | d22 |
+| `0010` PC-relative, `0100` immediate, `0101` absolute | d16 (`rm` reclaimed) | d32 |
+| `0011` direct page `d(DP)` | `pad4 d12` | d28 |
 
-In the scaled-index mode each extra parcel adds sixteen displacement bits to the six of `len=01`. In the direct-page mode the four bits of parcel 1 that name no register are padding, zero, so the 12-bit displacement at `len=01` is as stated and the longer widths are those of the base mode. Immediates are sign-extended; displacement fields are two's complement, truncated to the width of the field. The assembler picks the smallest `len` for which every field fits.
+In the scaled-index mode the extra parcel adds sixteen displacement bits to the six of `len=01`. In the direct-page mode the four bits of parcel 1 that name no register are padding, zero, so the 12-bit displacement at `len=01` is as stated and the longer width is that of the base mode. Immediates are sign-extended; displacement fields are two's complement, truncated to the width of the field. The assembler picks the smallest `len` for which every field fits, and then the page-2 form if one applies (§4.18).
 
 **Escape opcodes (§4.6–§4.13) define their own parcel-1 layout, subject to §4.14.**
 
@@ -394,9 +398,11 @@ Sub-quad sizes are retained deliberately. C `int` is 32 bits in every ABI worth 
 
 **The base of every PC-relative displacement is the address of the first parcel of the instruction itself** — for `d(PC)` operands (mode `0010`), for `LEA d(PC), Rn`, for `CALL d(PC)` and for all branches. A PC-relative *operand* displacement counts bytes; a *branch* displacement counts 2-byte parcels (the reach table in §4.4 needs that). The reason for the start rather than the end of the instruction is that the displacement then does not depend on the length chosen for the instruction itself: an assembler that picks `len` from the displacement would otherwise have the displacement depend on `len` and iterate, while with this rule every instruction only ever grows, so branch relaxation is monotone and terminates (§9.9).
 
-**`LEA` is also how the `PC` is read.** `LEA 0(PC), Rn` puts the address of the `LEA` itself in a register in one instruction, four bytes, with no ambiguity about which `PC` is meant (§9.3). At `len = 11` the same instruction forms any address in the canonical space PC-relatively — one instruction where LoongArch needs a pair (§15).
+**`LEA` is also how the `PC` is read.** `LEA 0(PC), Rn` puts the address of the `LEA` itself in a register in one instruction, four bytes, with no ambiguity about which `PC` is meant (§9.3). At `len = 10` the same instruction forms any address within ±2 GB of itself PC-relatively — six bytes, one instruction where LoongArch needs a pair (§15).
 
-**64-bit literals** come from a PC-relative constant pool: `MOVQ d(PC), Rn`, two parcels, ±2 KB reach. This is what compilers already do for `binary64` literals, which was the case that actually wanted 64 immediate bits. Constants under 48 bits — all addresses and nearly all integers — are a single four-parcel instruction.
+**64-bit literals** come from a PC-relative constant pool: `MOVQ d(PC), Rn`, two parcels, ±2 KB reach. This is what compilers already do for `binary64` literals, which was the case that actually wanted 64 immediate bits. Constants that fit 32 bits sign-extended are a single immediate instruction of at most three parcels; larger ones come from the pool.
+
+**Page 2 abbreviates the common cases of this group** to one parcel: loads and stores through `(rn)`, loads and stores at small offsets from `SP` and from a register, `LEA 8*d(SP), rd`, and `MOVQ #imm, rd` with a four-bit immediate (§4.18). They are chosen by the assembler and are the same operations.
 
 ### 4.2 ALU, register destination — `0x16`–`0x23`
 
@@ -489,7 +495,7 @@ That turns the allocation into a sort:
 
 **One group was added**, `AESC` at `0x0E`, and it is net negative in opcodes: it takes one slot and lets `MOD`, `MODU` and `MULHU` leave `BESC`, where arithmetic never belonged thematically.
 
-**Nothing was promoted and nothing grew.** The nine freed slots stay reserved rather than being filled, which is §1.2 rule 3: the regroup exists to match the space to frequency, not to use it up. Reserved space went from one scattered slot to **eight contiguous** (`0x28`–`0x2F`).
+**Nothing was promoted and nothing grew.** The nine freed slots stay reserved rather than being filled, which is §1.2 rule 3: the regroup exists to match the space to frequency, not to use it up. Reserved space went from one scattered slot to **eight contiguous** (`0x28`–`0x2F`); on 2026-10-22 `0x28` was assigned to `CBCC` (§4.4.1), leaving seven (`0x29`–`0x2F`).
 
 #### 4.3.1 Why the layout is ordered the way it is
 
@@ -512,7 +518,8 @@ The displacement is signed and **counts 2-byte parcels from the first parcel of 
 | `00` | 8, in bits 7..0 | ±256 bytes |
 | `01` | 16 | ±64 KB |
 | `10` | 32 | ±4 GB |
-| `11` | 48 | whole address space |
+
+(`len = 11` is page 2 and has no branches; the 48-bit form is gone, §9.6.)
 
 | Op | | Op | |
 |---|---|---|---|
@@ -525,17 +532,32 @@ The displacement is signed and **counts 2-byte parcels from the first parcel of 
 | `0x36` | `BVS` | `0x3E` | `BLOS` |
 | `0x37` | `BCC` / `BHIS` | `0x3F` | **`SOB`** |
 
-The complete PDP-11 branch set, unchanged, reaching anywhere in the address space with no long-branch opcode and no trampolines. Branch relaxation in the assembler reduces to choosing a length.
+The complete PDP-11 branch set, unchanged, reaching ±4 GB with no long-branch opcode and no trampolines. Branch relaxation in the assembler reduces to choosing a length.
 
 **Condition numbers.** The condition of a branch is the low nibble of its opcode: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. The instruction that takes a condition as a word of its own, `SET` (§4.12), numbers them the same way.
 
-**`SOB Rn, dst`** — subtract one from `Rn`, branch if the result is nonzero. Restored from the PDP-11, where it was `077RNN` and could only branch *backward*, its 6-bit displacement being unsigned and subtracted from the PC. Here the displacement is signed and counts parcels, so it branches either way, and `Rn` is one of sixteen rather than one of eight. `Rn` takes the `reg` field, which at `len=00` is the top of the 8-bit branch displacement, so **`SOB` exists only from `len=01`**: it is a four-byte instruction with a displacement of 16, 32 or 48 bits, consistent with §3.1.1, which lists it among the two-parcel forms.
+**`SOB Rn, dst`** — subtract one from `Rn`, branch if the result is nonzero. Restored from the PDP-11, where it was `077RNN` and could only branch *backward*, its 6-bit displacement being unsigned and subtracted from the PC. Here the displacement is signed and counts parcels, so it branches either way, and `Rn` is one of sixteen rather than one of eight. `Rn` takes the `reg` field, which at `len=00` is the top of the 8-bit branch displacement, so **`SOB` exists only from `len=01`**: it is a four-byte instruction with a displacement of 16 or 32 bits, consistent with §3.1.1, which lists it among the two-parcel forms.
 
-`SOB` does not save bytes — `DEC Rn` plus `BNE` is also four — but it saves an instruction issue, which on a non-pipelined machine is a cycle per loop iteration. It also answers the compare-and-branch question directly: a fused `CBNZ` cannot fit in one parcel here (a 4-bit register plus a useful displacement plus six bits of opcode exceeds sixteen bits), so at `len=01` it would be the same four bytes as `DEC`+`BNE` and would duplicate `SOB`. `SOB` is the version that earns its slot, because it folds the decrement in. See §14.1.
+`SOB` does not save bytes — `DEC Rn` plus `BNE` is also four — but it saves an instruction issue, which on a non-pipelined machine is a cycle per loop iteration. It also answers the compare-and-branch question directly: a fused `CBNZ` cannot fit in one parcel here (a 4-bit register plus a useful displacement plus six bits of opcode exceeds sixteen bits), so at `len=01` it would be the same four bytes as `DEC`+`BNE` and would duplicate `SOB`. `SOB` is the version that earns its slot, because it folds the decrement in. See §14.1. (The fused compare-immediate-and-branch of §4.4.1, added on 2026-10-22, is a different case: it takes an immediate and a displacement in parcel 1 and sets the flags as `CMP` does.)
 
 **Condition codes are retained, and every ALU operation writes all four uniformly.** x86's arrangement, where `INC` and `DEC` write some flags and not others, exists to make one obsolete instruction a byte shorter and has complicated every implementation since. `MOV` and loads write N and Z, clear V, and leave C, as on the PDP-11.
 
 Flags are the cheap choice here. Fused compare-and-branch needs a comparator in the branch unit and a third register read port; flags need a four-bit latch. They become expensive only under register renaming, which is not this design point. LoongArch and RISC-V both chose the other way; §15 says why that does not move us.
+
+#### 4.4.1 `CBCC` — compare immediate and branch, `0x28`
+
+`CBCC Rd, #imm, target` computes `Rd − imm` exactly as `CMP Rd, #imm` does (the same flags are written) and then branches if the condition holds. It takes the previously reserved top-level opcode `0x28`.
+
+```
+len = 01 (4 bytes):
+parcel 0:  01 101000 rd cond         cond = the branch condition number (below), in the low nibble as for SET
+parcel 1:  iiiii dddddddddddd        imm(5) signed, -16 to 15;  disp(11) signed, in parcels
+len = 10 (6 bytes):
+parcel 1:  iiiii dddddddddddd        imm(5), disp 26..16
+parcel 2:  dddddddddddddddd          disp 15..0       a 27-bit displacement
+```
+
+As for every branch the displacement counts 2-byte parcels from the first parcel of the instruction itself (§4.1): ±1024 parcels at `len = 01`. There is no `len = 00` form. The assembler picks the length as it does for `BCC`; **the immediate must fit five bits**, and the compiler emits `CBCC` only then. The mnemonics are `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group; the condition names and numbers are those of `BCC` and `SET` (above). The opcode `0x28` does not obey the "low nibble of the opcode is the condition" rule of the branch group; `CBCC` has one opcode and takes its condition from parcel 0's low nibble.
 
 ### 4.5 Single-operand escape — `SOP`, `0x13`
 
@@ -597,6 +619,7 @@ Parcel 0's low nibble is `ssss`, a **register**, not a mode — `BESC` is regist
 | `DSHR` | double-width funnel shift — see §4.6.4 |
 | `ROR` | rotate right by a register count — moved here in r20 (§4.3) |
 | `RORI` | rotate right by an immediate count: a four-byte form with the count in the low byte of parcel 1 (six bits used). `ROL Rd, Rs, #n` assembles to `RORI` with `64 − n` (§4.15) |
+| `RORI32` | rotate right by an immediate count, 32 bits: the format of `RORI` (`sub:8 count:8` in parcel 1) and a four-byte instruction. `rd ← zero-extend(ror32(rs[31:0], n mod 32))`. The result is zero-extended because unsigned 32-bit values are kept zero-extended by the compiler and the rotates of hash and crypto code are unsigned; a signed rotate is `RORI32` followed by `MOVL rd, rd`. `ROL` has no 32-bit form. Added 2026-10-22 (errata 31) |
 | `EXTB`, `EXTZB` | bitfield extract at position/width, sign- or zero-extended; position and width are in parcel 2, so these exist at `len ≥ 10` only |
 | `INSB` | bitfield insert at position/width; `len ≥ 10` only |
 | `XNORPOP` | `popcount(¬(Ra ⊕ Rb))` — see §4.6.2 |
@@ -947,6 +970,8 @@ A second rule, from the same hazard: **whether parcel 0's low nibble is a mode o
 
 Both are small, combinational, and provable; see the implementation plan.
 
+A third rule, from the second page (§4.18): **page 2 has no extension parcels, so nothing in it can break the length rule.** A page-2 instruction is exactly one parcel whatever its opcode; its fields are in parcel 0 and the opcode of §4.18 is independent of the opcode of page 1.
+
 ### 4.15 Assembler aliases
 
 Some mnemonics assemble to another instruction rather than to one of their own. These are an assembler table, generated from the same machine-readable specification as the encoder (see the implementation plan), not architecture — but they are part of what "mnemonic compatibility" means in §1, so they belong in the spec.
@@ -958,6 +983,7 @@ Some mnemonics assemble to another instruction rather than to one of their own. 
 | `MULU` | `MUL` | sign-agnostic low half (§4.2.2); the old mnemonic is accepted |
 | `WAIT` | `WFE` | §4.11.1 |
 | `BHIS` / `BCC`, `BLO` / `BCS` | one condition each | already in §4.4 |
+| `CBNE` … `CBLOS` and the aliases of the branch group | `CBCC` with the condition of the same name | §4.4.1; a mnemonic, not an alias, in the sense of the next paragraph: one line, one instruction |
 | `FADDD`, `FSUBD`, `FMULD`, `FCMPD`, `FDIVD`, `FSQRTD` | `FADD`, `FSUB`, `FMUL`, `FCMP`, `FDIV`, `FSQRT` | the old `binary64` spellings (§4.10) |
 | `FADDS`, `FSUBS`, `FMULS`, `FDIVS`, `FSQRTS`, `FCMPS` | `FADD32` … `FCMP32` | the old `binary32` spellings |
 | `FMADDD` `FMSUBD` `FNMADDD` `FNMSUBD`; `FMADDS` … `FNMSUBS` | `FMADD` `FMSUB` `FNMADD` `FNMSUB`; `FMADD32` … `FNMSUB32` | |
@@ -971,6 +997,8 @@ Some mnemonics assemble to another instruction rather than to one of their own. 
 **Two rules keep aliases from becoming a second, undocumented architecture.**
 
 *One mnemonic assembles to one instruction.* `ROL rs, #n, rd` works because the complement is computed at assembly time and the result is a single `RORI`. `ROL` with a register count is **rejected**, with an error naming the two-instruction sequence (`NEG Rk` then `ROR`), rather than quietly emitting two instructions. Anyone counting cycles or sizing a branch displacement must be able to trust that one line of assembly is one instruction, and an assembler that silently expands macros under ordinary mnemonics destroys that.
+
+*The page-2 forms are not mnemonics.* `MOVQ (R3), R1` assembles to the one-parcel page-2 load when the operands fit (§4.18) and to the long form when they do not; there is no `MOVQ2` and no way to ask for either. A mnemonic still assembles to exactly one instruction, and the assembler chooses its length, as it does for branches. The disassembler prints the long-form mnemonic for a page-2 instruction, so reassembling the text reproduces the same one-parcel encoding.
 
 *The disassembler never prints an alias.* `RORI rs, #57, rd` disassembles as `RORI rs, #57, rd`, not as `ROL rs, #7, rd`, so assembling and disassembling round-trips to the same encoding. A disassembler that guesses which spelling the author used is a disassembler whose output cannot be reassembled reliably.
 
@@ -994,14 +1022,15 @@ Reallocated in revision 20, sorted by tier (§4.3) and grouped by theme.
 0x16-0x22   ALU     register destination (13)            2    §4.2
 0x23        ────    spare ALU slot (decodes, traps)      ─    §4.2
 0x24-0x27   FP      FADD FSUB FMUL FCMP                  2    §4.10
-0x28-0x2F   ────    reserved (8)                         ─
+0x28        CBCC    compare immediate and branch         4    §4.4.1
+0x29-0x2F   ────    reserved (7)                         ─
 0x30-0x3E   Bcc     conditional branches (15)            2    §4.4
 0x3F        SOB     subtract one and branch              4    §4.4
 ```
 
-(The `min` column is the shortest form of the group's common case; `SOB`, and `PUSHM`/`POPM` in `SOP`, exist only from `len=01`.)
+(The `min` column is the shortest form of the group's common case; `SOB`, `CBCC`, and `PUSHM`/`POPM` in `SOP`, exist only from `len=01`.) This is **page 1**, the map of `len = 00`, `01` and `10`. `len = 11` selects page 2, a separate 64-entry map in §4.18.
 
-**Fifty-five of sixty-four assigned (12 moves and `LEA`, 6 escapes, 4 of `XFER`/`SOP`/`SYS`/`TAGOP`, 13 ALU, 4 FP, 16 branch), one spare ALU slot (`0x23`), and eight reserved (`0x28`–`0x2F`)** — 55 + 1 + 8 = 64. Reserved went from one scattered slot at revision 19 to eight contiguous. (The first text of this map said "fifty-six assigned", which the map it printed does not add up to.) Besides the reserved slots there are no spare `SOP` slots, four spare `MESC` sub-opcodes, thirteen spare `XFER` sub-opcodes, and roughly 240 in each parcel-1 escape group.
+**Fifty-six of sixty-four assigned (12 moves and `LEA`, 6 escapes, 4 of `XFER`/`SOP`/`SYS`/`TAGOP`, 13 ALU, 4 FP, `CBCC`, 16 branch), one spare ALU slot (`0x23`), and seven reserved (`0x29`–`0x2F`)** — 56 + 1 + 7 = 64. Reserved went from one scattered slot at revision 19 to eight contiguous at revision 20, and to seven when `CBCC` took `0x28` on 2026-10-22. (Before that change the count was fifty-five assigned and eight reserved; a text of revision 20 once said "fifty-six assigned" before `CBCC` existed, which the map it printed did not add up to.) Besides the reserved slots there are no spare `SOP` slots, four spare `MESC` sub-opcodes, thirteen spare `XFER` sub-opcodes, and roughly 240 in each parcel-1 escape group.
 
 Three properties of the layout, all from §4.3.1:
 
@@ -1009,7 +1038,7 @@ Three properties of the layout, all from §4.3.1:
 - **`0x12`–`0x14` take their sub-opcode from the `reg` field**, which is already wired to the register file address inputs, so one range compare enables that mux.
 - **Every other run's low bits are the operation select**, wired straight to the relevant function mux — twelve moves, fourteen ALU slots, four FP, sixteen branch.
 
-The reserved block stays reserved. §12.2's discipline applies to it: a top-level slot is for an operation whose common case is register-to-register, and everything else goes to an escape group.
+The reserved block stays reserved, except for the one slot `CBCC` took. §12.2's discipline applies to it: a top-level slot is for an operation whose common case is register-to-register, and everything else goes to an escape group.
 
 ### 4.17 Encoding conventions: numbers, operand roles, byte order
 
@@ -1019,7 +1048,7 @@ Revision 20 named the sub-operations of every escape group and numbered none of 
 
 | Group | Numbering |
 |---|---|
-| `BESC` | counts `0x00`–`0x08` (`CLZ`, `CTZ`, `CLO`, `CTO`, `POPCNT`, `BSWAP`, `BSWAPW`, `BSWAPL`, `BITREV`); rotate `0x10` (`ROR`), `0x11` (`RORI`); field and funnel `0x20` (`DSHR`), `0x21`–`0x23` (`EXTB`, `EXTZB`, `INSB`); polynomial and popcount `0x30`–`0x32` (`XNORPOP`, `CLMULL`, `CLMULH`); UTF-8 `0x40`–`0x42` (`UTF8LEN`, `UTF8DEC`, `UTF8ENC`) |
+| `BESC` | counts `0x00`–`0x08` (`CLZ`, `CTZ`, `CLO`, `CTO`, `POPCNT`, `BSWAP`, `BSWAPW`, `BSWAPL`, `BITREV`); rotate `0x10` (`ROR`), `0x11` (`RORI`), `0x12` (`RORI32`); field and funnel `0x20` (`DSHR`), `0x21`–`0x23` (`EXTB`, `EXTZB`, `INSB`); polynomial and popcount `0x30`–`0x32` (`XNORPOP`, `CLMULL`, `CLMULH`); UTF-8 `0x40`–`0x42` (`UTF8LEN`, `UTF8DEC`, `UTF8ENC`) |
 | `MBLK` | `MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN`, `MVAL` = `0`–`6` |
 | `AESC` | `DIV` 0, `DIVU` 1, `MOD` 2, `MODU` 3, `MULHU` 4, `ABS` `0x08`, `MIN` `0x10`, `MINU` `0x11`, `MAX` `0x12`, `MAXU` `0x13`, `SET` `0x20` |
 | `MESC` | the loads `MOVUB`, `MOVUW`, `MOVUL`, `MOVUQ` are 0, 2, 4, 6 and the store form is the load number + 1, as for the moves; `ADDM`, `SUBM`, `BICM`, `BISM` = 8–11 |
@@ -1028,13 +1057,60 @@ Revision 20 named the sub-operations of every escape group and numbered none of 
 | `SOP` | `reg` = 0–15 as in §4.5 |
 | `SYS` | class and minor numbers as in §4.11 |
 
-At the top level the moves are `0x00`–`0x0B` with the store form always the load opcode + 1; the ALU is `0x16`–`0x22` and the FP four `0x24`–`0x27`; the branches are `0x30`–`0x3E` with `SOB` `0x3F`. The six parcel-1 escapes are contiguous at `0x0C`–`0x11`, `XFER`, `SOP` and `SYS` adjacent at `0x12`–`0x14` (§4.3.1), and the sixteen branch slots are `0x30`–`0x3F`.
+At the top level the moves are `0x00`–`0x0B` with the store form always the load opcode + 1; the ALU is `0x16`–`0x22` and the FP four `0x24`–`0x27`; `CBCC` is `0x28` and the branches are `0x30`–`0x3E` with `SOB` `0x3F`. The six parcel-1 escapes are contiguous at `0x0C`–`0x11`, `XFER`, `SOP` and `SYS` adjacent at `0x12`–`0x14` (§4.3.1), and the sixteen branch slots are `0x30`–`0x3F`.
 
 **Which field is which.** For `BESC`, `AESC` and `MBLK` the assembler writes the destination **last**: `op rs, rd`, `op ra, rb, rd`. In the encoding, parcel 0's `reg` is `rd`, `low` is the first source and parcel 1's `t` is the second source. `MBLK` is the exception: `MCPY rd, rs, rn` is *destination pointer, source pointer, count*, with `reg` = destination pointer, `low` = source pointer and `t` = count. `FESC` has a third source in `x` (§4.10). `DSHR ra, rb, #n, rd` takes `low` = `ra`, `t` = `rb` and the count in `pos` of parcel 2; `EXTB`/`EXTZB`/`INSB rs, #pos, #width, rd` take `pos` and `width` from parcel 2. The one assembler exception to destination-last is `CMP`, register first (§4.2).
 
-**Minimum lengths.** `LEA` and `XFER` (`JMPI`, `CALLI`, `JTAG`) are four bytes (they need a memory operand); `SOB`, `BTAG` and `BNTAG` four bytes; `PUSHM` and `POPM` four bytes; every `BESC`, `AESC` and `MBLK` form four bytes; `DSHR`, `EXTB`, `EXTZB` and `INSB` six bytes (§4.14).
+**Minimum lengths.** `LEA` and `XFER` (`JMPI`, `CALLI`, `JTAG`) are four bytes (they need a memory operand); `SOB`, `BTAG` and `BNTAG` four bytes; `PUSHM` and `POPM` four bytes; `CBCC` four bytes (six for the long displacement); every `BESC` (including `RORI32`), `AESC` and `MBLK` form four bytes; every page-2 form two bytes (§4.18); `DSHR`, `EXTB`, `EXTZB` and `INSB` six bytes (§4.14).
 
 **Byte and bit order.** Data is **little-endian**, which revision 20 never stated. Instruction parcels are 16-bit little-endian units in memory. The diagrams in this document, and the grammar that is the machine-readable form of them, number bits most significant first: a parcel's bit 15 is the first bit of its record.
+
+### 4.18 Page 2: the one-parcel abbreviations — `len = 11`
+
+Added 2026-10-22 (errata 31). Where the fourth parcel used to be, `len = 11` now selects a second page of **one-parcel** instructions, in the layout of §3.1.2:
+
+```
+ 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
++-----+-----------------+-----------+-----------+
+| 11  |      opc (6)    |    reg    |    low    |
++-----+-----------------+-----------+-----------+
+```
+
+`opc` is a 64-entry opcode map of its own; **41 entries are defined**. `reg` is the register named first in the table, `low` the field named second. The opcode numbers of page 2 are independent of those of page 1: `0x28` of page 2 is `XOR #imm, rd`, while `0x28` of page 1 is `CBCC` (§4.4.1).
+
+**The rule for every page-2 form: it is *exactly* the operation of the page-1 instruction it abbreviates** — the same result, the same flags, the same faults. An assembler that picks the shortest encoding therefore can never change what a program does. A mnemonic still assembles to exactly one instruction (§4.15): the assembler chooses the length, as it does for branches, and the page-2 forms have no mnemonics of their own. Implementations may decode a page-2 form to the long form it abbreviates and execute it with the same logic, so that the semantics are written once.
+
+| Opcode | Instruction | `reg` | `low` | Long form it abbreviates |
+|---|---|---|---|---|
+| `0x00` `0x02` `0x04` `0x06` | `MOVQ`, `MOVL`, `MOVW`, `MOVB` load: `rd ← M[(rn)]`, sign-extended | `rd` | `rn` | `MOV (rn), rd` (base mode, displacement 0) |
+| `0x01` `0x03` `0x05` `0x07` | `MOVQ`, `MOVL`, `MOVW`, `MOVB` store: `M[(rn)] ← rs` | `rs` | `rn` | the same, store |
+| `0x08` `0x09` `0x0A` | `MOVZL`, `MOVZW`, `MOVZB` load from `(rn)` | `rd` | `rn` | `MOVZ (rn), rd` |
+| `0x0B` | `LEA 8*d(SP), rd` | `rd` | `d` (0 to 15) | `LEA 8*d(SP), rd` |
+| `0x0C` `0x0D` | `MOVQ` load from `SP`: offset `8 * ((opc & 1) * 16 + low)`, 0 to 248 | `rd` | offset, low 4 bits | `MOVQ d(SP), rd` |
+| `0x0E` | `MOVQ` store to `SP`: offset `8 * low`, 0 to 120 | `rs` | offset | `MOVQ rs, d(SP)` |
+| `0x10` `0x11` | `MOVL` load from `SP`: offset `4 * ((opc & 1) * 16 + low)`, 0 to 124 | `rd` | offset, low 4 bits | `MOVL d(SP), rd` |
+| `0x12` `0x13` | `MOVL` store to `SP`: offset `4 * ((opc & 1) * 16 + low)`, 0 to 124 | `rs` | offset, low 4 bits | `MOVL rs, d(SP)` |
+| `0x14` to `0x17` | `MOVQ` load from `rn` at offset `8 * (1 + (opc & 3))`, i.e. 8, 16, 24, 32 | `rd` | `rn` | `MOVQ d(rn), rd` |
+| `0x18` `0x19` | `MOVQ` store to `rn` at offset `8 * (1 + (opc & 1))`, i.e. 8, 16 | `rs` | `rn` | `MOVQ rs, d(rn)` |
+| `0x1A` to `0x1D` | `MOVL` load from `rn` at offset `4 * (1 + (opc & 3))`, i.e. 4, 8, 12, 16 | `rd` | `rn` | `MOVL d(rn), rd` |
+| `0x1E` | push registers `R8` to `R15` named by the 8-bit mask `reg:low` (bit *i* is `R(8+i)`) | mask high | mask low | `PUSHM #(mask << 8)` |
+| `0x1F` | pop registers, the mask as for `0x1E` | mask high | mask low | `POPM #(mask << 8)` |
+| `0x20` | `SUB #(8*n), SP`, `n = reg:low` (0 to 255) | n high | n low | `SUB #(8*n), SP` |
+| `0x21` | `ADD #(8*n), SP` | n high | n low | `ADD #(8*n), SP` |
+| `0x22` | `MOVQ #imm, rd`, `imm` sign-extended 4 bits (-8 to 7) | `rd` | imm | `MOVQ #imm, rd` |
+| `0x23` `0x24` `0x25` | `SHL`, `SHR`, `SAR` by `low` (0 to 15) | `rd` | count | `SHL #n, rd` etc. |
+| `0x26` `0x27` `0x28` | `AND`, `BIS`, `XOR` with `imm` sign-extended 4 bits | `rd` | imm | `AND #imm, rd` etc. |
+| `0x29` | `ADD #imm, rd`, `imm` sign-extended 4 bits | `rd` | imm | `ADD #imm, rd` |
+
+Notes on the table.
+
+- `0x0C` gives offsets 0 to 120 and `0x0D` offsets 128 to 248 in steps of 8, the low four bits of the offset being `low`. In the same way `0x10`/`0x11` and `0x12`/`0x13` use the opcode's low bit as bit 4 of the offset field.
+- The mask of `0x1E` and `0x1F` covers `R8` to `R15` only: all 2,392 push and 2,392 pop sites in the measured corpus used a mask within `R8` to `R15`. The long forms take a 16-bit mask (§4.5) and are unchanged.
+- `MOVQ` stores to `SP` have the single opcode `0x0E` (offsets 0 to 120), and `0x0F` is reserved; `MOVL` stores to `SP` have two, `0x12` and `0x13`. Of the stores at `d(rn)` only `MOVQ` has a page-2 form (`0x18`, `0x19`).
+
+**Reserved in page 2:** every opcode not listed — `0x0F` and `0x2A` to `0x3F`, 23 of the 64. **A reserved page-2 opcode is an illegal-instruction abort** (§7.3), as a reserved page-1 opcode is. The reserved entries are for later abbreviations under the same rule; §1.2 rule 3 applies to them as it does to the reserved block of §4.16.
+
+**What the page is worth.** The decision and its reasons are in §9.9 and the history in §9.6. The estimated saving, static counts on the 827-file fair corpus compiled with the optimizing flags (a measurement of the final output of 2026-10-22, 1,672,166 bytes of image): 59,354 sites and 118.6 KB, 7.1% of the image, at two bytes per site. `CBCC` adds 6,390 sites (12.8 KB, 0.8%) and `RORI32` 896 sites (9.0 KB, 0.5%): all together 66,640 sites, 140.4 KB, 8.4%. The estimates are static, the families do not overlap but the interaction of one saving with another was not checked, and the offset and immediate ranges were chosen from the histograms of the same corpus, so the figure is optimistic for other programs.
 
 ## 5. Addressing modes
 
@@ -1052,7 +1128,7 @@ Four bits, in parcel 0 bits 3..0, present only at `len ≥ 01` and only for opco
 | `0111` | `-(Rn)` or `(Rn)-d` | `rm(4) d(12)` | pre-decrement by the operand size (`-(Rn)`) or by `d` (`(Rn)-d`) |
 | `1000`–`1111` | | | reserved |
 
-At `len = 10` and `len = 11` the payload widens per §3.3; the mode meanings are unchanged. Modes `0010`, `0100` and `0101` reclaim the `rm` nibble and reach 48 bits at `len = 11`. The scaled-index mode gains sixteen displacement bits per extra parcel (6 / 22 / 38).
+At `len = 10` the payload widens per §3.3; the mode meanings are unchanged. Modes `0010`, `0100` and `0101` reclaim the `rm` nibble and reach 32 bits at `len = 10` (they reached 48 at a `len = 11` that no longer exists). The scaled-index mode gains sixteen displacement bits in the extra parcel (6 / 22).
 
 **Pre-decrement syntax.** Revision 20 wrote mode `0111` as `-d(Rn)`, which is also exactly how a negative base displacement is written. Here `-(Rn)` pre-decrements by the operand size and `(Rn)-d` by an explicit stride, the mirror of `(Rn)+d`; **`-d(Rn)` is always base + displacement**, never a pre-decrement.
 
@@ -1210,7 +1286,7 @@ Every faulting reference an ordinary instruction can make, exhaustively:
 
 | # | Reference | Max faults | Notes |
 |---|---|---|---|
-| 1 | instruction fetch | 2 | at most 4 parcels = 8 bytes at 2-byte alignment, spanning at most 2 pages |
+| 1 | instruction fetch | 2 | at most 3 parcels = 6 bytes at 2-byte alignment, spanning at most 2 pages (unchanged by the removal of the fourth parcel; a page-2 instruction is one parcel) |
 | 2 | operand read | 2 | at most 8 bytes; 2 pages only via the explicit unaligned forms |
 | 3 | operand write | 0 | by construction |
 | 4 | branch target load | 2 | the `XFER` group only (§4.9.1); no register is written before it, so a fault here is a clean abort |
@@ -1346,13 +1422,13 @@ And the capability is already present without the commitment:
         LEA     0(PC), R0       ; one instruction, four bytes
 ```
 
-Mode `0010`'s displacement is defined relative to a stated point — the address of the first parcel of the instruction (§4.1) — so `LEA 0(PC), R0` has one meaning (the address of the `LEA` itself) and the architecture never has to say what "reading R7" would produce. At `len = 11` the same instruction forms any address in the canonical space PC-relatively, which is a strictly larger capability than a readable PC register offers.
+Mode `0010`'s displacement is defined relative to a stated point — the address of the first parcel of the instruction (§4.1) — so `LEA 0(PC), R0` has one meaning (the address of the `LEA` itself) and the architecture never has to say what "reading R7" would produce. At `len = 10` the same instruction forms any address within ±2 GB of itself PC-relatively, which is a strictly larger capability than a readable PC register offers.
 
 So: `R7` is a general register, the PC is reached through mode `0010` and `LEA`, and the **syntax** is preserved — `MOV #5, R0`, `MOV foo(PC), R0` and `MOV @#addr, R0` all assemble. What is lost is encoding elegance; what is gained is a clean register file, a clean hazard story, one more general register, and no number specified in perpetuity. The requirement was mnemonic compatibility, not binary compatibility, and this is where that distinction earns its keep.
 
 **Everyone modern agrees.** AArch64: `PC` is not a GPR, read via `ADR`/`ADRP`. LoongArch64: `PC` is not a GPR, read via `PCADDI`, `PCADDU12I`, `PCADDU18I` and `PCALAU12I`. RISC-V: not a GPR, read via `AUIPC`. The convergence is not fashion; it is four independent teams finding the same hazard.
 
-LoongArch needs *four* such instructions because its fixed 32-bit encoding carries only twenty bits of immediate, so a full address takes a pair. Our variable-length encoding does it in one instruction at `len = 11`. That is the clearest single case where variable-length beats fixed-width, and it is worth noting that the property came free from the §3.1 length rule rather than being designed for.
+LoongArch needs *four* such instructions because its fixed 32-bit encoding carries only twenty bits of immediate, so a full address takes a pair. Our variable-length encoding does it in one instruction at `len = 10` for any address within ±2 GB (before 2026-10-22, at `len = 11`, for the whole canonical space). That is the clearest single case where variable-length beats fixed-width, and it is worth noting that the property came free from the §3.1 length rule rather than being designed for.
 
 ### 9.4 Length as the primary field
 
@@ -1361,7 +1437,7 @@ Four consequences, all cheap:
 - The opcode sits at a fixed position in every form, so the function mux is wired rather than decoded.
 - **Length is a function of `len` alone** — two bits straight into the fetch down-counter, with no case analysis anywhere in hardware or in tooling (§3.1).
 - Displacement scales with length automatically, giving branches four reaches from fifteen opcodes with no long-branch instruction and no trampolines.
-- Any instruction fits one `uint64_t`, in the decode register and in every tool that has to carry one. Instructions in memory remain 2, 4, 6 or 8 bytes (§3.1.1).
+- Any instruction fits one `uint64_t`, in the decode register and in every tool that has to carry one. Instructions in memory are 2, 4 or 6 bytes (§3.1.1; 2, 4, 6 or 8 before 2026-10-22).
 
 ### 9.5 Decode as wires, not ROM
 
@@ -1369,7 +1445,7 @@ The 6502's real lesson is not the small register file. It is that decode is a PL
 
 The corresponding discipline: **lay out the map so the bits are the control signals.**
 
-- Bits 15..14 are the fetch extension-parcel count. No decode.
+- Bits 15..14 are the fetch extension-parcel count. No decode. (The value 11 counts as zero extension parcels and selects page 2 in the decoder, §3.1.2.)
 - Bits 13..8 drive the function mux directly, at the same position in every form.
 - Bits 7..4 and 3..0 go straight to the register file address inputs.
 - Bits 3..0 at `len ≥ 01` drive the address-generation sequencer directly.
@@ -1378,20 +1454,20 @@ Every bit wired instead of decoded is microcode that never gets built. Together 
 
 The escape groups are the place this discipline is weakest: `BESC`, `MBLK`, `FESC`, `ATOM` and `SYS` all require a second decode stage on parcel 1. That is acceptable precisely because none of them is on the critical path — the common instructions are all in the directly-decoded space — but §4.14 exists to keep the weakness contained.
 
-### 9.6 Why the parcel limit is four
+### 9.6 Why the parcel limit is three, and what `len = 11` is
 
-Revisions 10 through 12 gave the reason as "an instruction must fit a `uint64_t`," which is a true and useful property but is not why four is the number. The honest answer is simpler:
+**History (revisions 10 to 20).** Revisions 10 through 12 gave the reason for a limit of four parcels as "an instruction must fit a `uint64_t`," which is a true and useful property but is not why four was the number. The honest answer was simpler: **`len` is two bits, and two bits encode exactly four lengths.**
 
-**`len` is two bits, and two bits encode exactly four lengths.**
+Going to five would have cost one of:
 
-Going to five would cost one of:
-
-- **A third `len` bit**, taking the opcode field from six bits to five. Thirty-two top-level opcodes instead of sixty-four, when §4.16 has already assigned fifty-five and reserved nine more. Not available.
+- **A third `len` bit**, taking the opcode field from six bits to five. Thirty-two top-level opcodes instead of sixty-four, when §4.16 had already assigned fifty-five and reserved nine more. Not available.
 - **An opcode-dependent case at `len = 11`**, which is exactly what revision 9 had and revision 10 removed. That gives back the length rule of §3.1 — the single cheapest thing in the front end.
 
-And the only customer for a fifth parcel is a full 64-bit immediate, which is already served two ways: 48 bits in one instruction at `len = 11` (covering every address in the canonical space and nearly every integer constant), and a PC-relative constant pool at two parcels for the rest, which is what compilers emit for `binary64` literals anyway.
+And the only customer for a fifth parcel was a full 64-bit immediate, which was already served two ways: 48 bits in one instruction at `len = 11` (covering every address in the canonical space and nearly every integer constant), and a PC-relative constant pool at two parcels for the rest, which is what compilers emit for `binary64` literals anyway. So the limit was where the length field put it, the fifth parcel's only use was covered, and the `uint64_t` property was a pleasant consequence rather than the reason.
 
-So the parcel limit is where the length field puts it, the fifth parcel's only use is already covered, and the `uint64_t` property is a pleasant consequence rather than the reason. Revisions 10–12 had the argument backwards.
+**What changed (2026-10-22, errata 31).** The measurement of the compiled code showed that the fourth parcel, the one the argument above defended, was almost never used: **only 49 of 373,635 compiled instructions (0.013%) needed the eight-byte form.** The length code `11` was therefore the most valuable unused encoding in the machine. The limit is now **three parcels** (six bytes), and `len = 11` is a **second page of one-parcel instructions** (§3.1.2, §4.18).
+
+This does not break the rule that length is a function of `len` alone — the point of the paragraph above about revision 9. Page 2 is always exactly one parcel; what depends on the value `11` is the *opcode map*, not the length. The fetch unit loads the down-counter with zero for `11` as for `00`, and the decoder reads the six opcode bits against page 1 or page 2 according to `len`. The cost is one level of decode after the length is known, which the ISA's own test (§1.2, rule 3, Occam) has to justify against its gate count; the case for it is in §9.9. The `uint64_t` property is unchanged in kind and stronger in degree: any instruction is now six bytes.
 
 ### 9.7 No transcendentals, and the FMA gap
 
@@ -1513,6 +1589,8 @@ Writing the encoding down as something a machine could check, and then building 
 
 **CRC instructions were considered and rejected** (§4.6.3, §11): carry-less multiply already covers every polynomial.
 
+**The fourth parcel is removed and `len = 11` becomes a second page of one-parcel instructions; `CBCC` and `RORI32` are added** (§3.1.2, §4.4.1, §4.6, §4.18; errata 31, the author's decision, 2026-10-22). *Why:* only 49 of 373,635 compiled instructions (0.013%) needed the fourth parcel, while the one-parcel abbreviations are estimated to save about 118 KB (7%) of a 1.67 MB image and the two new instructions 22 KB (1.3%) (static counts on the 827-file corpus, §4.18). The options considered were to keep four parcels, to reserve `len = 11`, and to use it for a second page; the second page was chosen with an explicit map (and further candidates were searched for before it was fixed). The register-deferred form of *every* memory-operand opcode was considered as the content of the page and rejected in favour of the explicit map (§11). *The rule that keeps it safe:* every page-2 form is exactly the operation of its long form, with the same flags, result and faults, so an assembler that chooses the shortest encoding never changes what a program does. *Costs:* the immediate, absolute, PC-relative and branch fields shrink from 48 to 32 bits, the base-register displacement from 44 to 28 bits (the scaled-index displacement from 38 to 22 bits), so an address outside the 32-bit range is formed PC-relatively or from a constant pool; and the decoder gains a page select after `len`. The fused compare-and-branch is `CBCC` in the formerly reserved `0x28`; `RORI32` is a `BESC` sub-opcode with `RORI`'s format. The measurements that did not become instructions: `LEA 1(Rx), Rx` occurs 7,852 times (and `LEA -1(Rx), Rx` 395) where the two-byte `INC` and `DEC` exist, and 36,555 six-byte external `CALL` and `LEA sym` forms need linker relaxation, not an encoding.
+
 ---
 
 ## 10. Historical comparison
@@ -1594,7 +1672,9 @@ Still a 64-bit machine with floating point and memory management below the 78032
 | accumulator-centric register set | 6502 | 1975 economics |
 | separate FP register file | most | largest single block saved on a small implementation |
 | 32-bit profile | — | one architecture; `MOVL` retains 32-bit data, which is what was actually needed |
-| five-parcel instructions | — | `len` is two bits and two bits hold four lengths; the fifth parcel's only customer is already served (§9.6) |
+| five-parcel instructions | — | `len` is two bits and two bits hold four lengths; the fifth parcel's only customer is already served (§9.6). Since 2026-10-22 the limit is three parcels and the value `11` is a second page (§9.6) |
+| a register-deferred form of every memory-operand opcode, as the content of page 2 | considered with errata 31 | the page would repeat the whole memory-operand class for one addressing mode; the explicit map of §4.18 holds the abbreviations that the measured code uses, with room for more (§9.9) |
+| a fourth parcel or a 48-bit immediate/absolute form | revisions 9–20 | 49 of 373,635 compiled instructions (0.013%) used it (§9.6, §9.9) |
 | 8-byte instruction alignment | — | 5–10% padding plus an alignment obligation through assembler, linker and every hand-written stub, for a fetch path that is already cheap |
 | `MOVT` / `MOVK` top-half insert | AArch64 | the constant pool covers 64-bit literals without a partial-write instruction to reconcile against §4.1 |
 | hardware tag checking on dereference | Lisp machines | a comparator, tag bits in the datapath and a trap path, to buy what §6.2 and §7.4 already give approximately free |
@@ -1613,17 +1693,17 @@ Still a 64-bit machine with floating point and memory management below the 78032
 
 ## 12. Open items
 
-1. **Scaled index displacement — partly resolved (§3.3, §9.9).** At `len ≥ 10` the displacement now widens to 22 and 38 bits, so indexed access with a real displacement costs three parcels, the first of the two options below. The 6-bit displacement at `len=01` remains thin. Original text: Mode `0001` spends six bits of parcel 1 on `Rx` and scale, leaving a 6-bit displacement — ±32 bytes, thin for the array-of-structs case it exists to serve. Either accept that indexed access with a real displacement costs three parcels, or drop scale to a single bit (×1 / ×8) and reclaim one.
+1. **Scaled index displacement — partly resolved (§3.3, §9.9).** At `len = 10` the displacement now widens to 22 bits (it was 22 and 38 before the fourth parcel was removed, §9.9), so indexed access with a real displacement costs three parcels, the first of the two options below. The 6-bit displacement at `len=01` remains thin. Original text: Mode `0001` spends six bits of parcel 1 on `Rx` and scale, leaving a 6-bit displacement — ±32 bytes, thin for the array-of-structs case it exists to serve. Either accept that indexed access with a real displacement costs three parcels, or drop scale to a single bit (×1 / ×8) and reclaim one.
 
-2. **Reserved opcode discipline — eased by revision 20, and now written down.** The regroup (§4.3) freed eight contiguous top-level slots by demoting five groups that could never have used a two-byte form anyway, so the space went from one scattered reserve to eight. The rule that replaces this item: **a top-level opcode is for an operation whose common case is register-to-register**, because that is the only thing a top-level slot buys over an escape sub-opcode (§4.3). Everything else goes to an escape group, which has ~240 free sub-opcodes each. Revisions 15 through 19 each spent zero or one top-level slot under informal versions of this rule; it is now explicit.
+2. **Reserved opcode discipline — eased by revision 20, and now written down.** The regroup (§4.3) freed eight contiguous top-level slots by demoting five groups that could never have used a two-byte form anyway, so the space went from one scattered reserve to eight (seven since `CBCC` took `0x28`, §4.4.1). The rule that replaces this item: **a top-level opcode is for an operation whose common case is register-to-register**, because that is the only thing a top-level slot buys over an escape sub-opcode (§4.3). Everything else goes to an escape group, which has ~240 free sub-opcodes each. Revisions 15 through 19 each spent zero or one top-level slot under informal versions of this rule; it is now explicit.
 
 3. **Landing pads — still open; ABI version 1 has them off** (`abi.md`; the assembler provides `.lpad`). `LPAD` is allocated in `SYS`. Requiring indirect branches and returns to land on one — the `ENDBR64` / ARM `BTI` / RISC-V `LPAD` approach — costs one opcode and one comparison in the branch unit and removes the return-oriented gadget class. Mandatory now, or optional-then-mandatory, is the decision, and it gets more expensive the longer it waits. Two interactions: a tagged function pointer reached by `JMP -k(Rn)` must still land on an `LPAD`, so the tag bias and the landing-pad check are independent and both apply; and `JTAG` (§4.9) is an indirect branch through a table, so every entry in a `JTAG` table must be a landing pad.
 
 4. **Atomics against Q64.** The Unibus-derived `DATIP`/`DATO` locked read-modify-write is a *lock*; AXI exclusive access is a *monitor*. They are not the same primitive and the mapping is not clean. Settle in the [bus document](pdp64-q64-bus.md) before the memory system is built, not during it. The `_DB` barrier variants added in §4.11 make this more pressing, since they assert an ordering guarantee that has to mean something on the actual interconnect.
 
-5. **Worst-case instruction latency.** Ordinary instructions are bounded: at most 8 bytes of fetch across two pages, one memory operand across two pages, nothing unbounded. `MBLK` is explicitly not bounded by the instruction (§7.5), so an implementation claiming an interrupt-latency figure must state its block granularity. Until both numbers exist, the realtime claims from earlier revisions rest on an argument rather than a bound.
+5. **Worst-case instruction latency.** Ordinary instructions are bounded: at most 6 bytes of fetch across two pages, one memory operand across two pages, nothing unbounded. `MBLK` is explicitly not bounded by the instruction (§7.5), so an implementation claiming an interrupt-latency figure must state its block granularity. Until both numbers exist, the realtime claims from earlier revisions rest on an argument rather than a bound.
 
-6. **Measured length distribution — measured once, see §14.4.** The first compiler's output on the fair corpus has instruction lengths of 2 / 4 / 6 / 8 bytes = 46.5 / 42.8 / 10.6 / 0.1 %, 3.30 bytes on average. A short `d(sp)` form was not measured and stays open. Original text: §3.1.1 asserts that compiled code sits mostly at one and two parcels, averaging near three bytes. That is an argument, not a measurement, and it should be checked against real object code as soon as an assembler exists. If two-parcel forms dominate more heavily than expected, the case for spending a reserved slot on a single-parcel `d6(SP)` or `d6(DP)` form gets much stronger. VAX's short-literal modes are the comparison to beat: `MOVL #5, R0` is three bytes on a VAX and four here, because VAX packs a 6-bit literal into the specifier byte itself.
+6. **Measured length distribution — measured once, see §14.4.** The first compiler's output on the fair corpus has instruction lengths of 2 / 4 / 6 / 8 bytes = 46.5 / 42.8 / 10.6 / 0.1 %, 3.30 bytes on average (measured before the second page, which removes the eight-byte form and gives the short `d(sp)` forms of §4.18). A short `d(sp)` form was not measured at the time. Original text: §3.1.1 asserts that compiled code sits mostly at one and two parcels, averaging near three bytes. That is an argument, not a measurement, and it should be checked against real object code as soon as an assembler exists. If two-parcel forms dominate more heavily than expected, the case for spending a reserved slot on a single-parcel `d6(SP)` or `d6(DP)` form gets much stronger. VAX's short-literal modes are the comparison to beat: `MOVL #5, R0` is three bytes on a VAX and four here, because VAX packs a 6-bit literal into the specifier byte itself.
 
 7. **Floating-point condition flags — behaviour fixed, problem open.** `FCMP` sets `N` if a<b, `Z` if a==b, `V` if unordered and clears `C` (§4.10), but the signed branches do not yet treat unordered cleanly (`BLT` after an unordered compare takes `N xor V` = 1). Original text: `FCMPD` writes the integer `PSW` flags, which serializes FP compares against integer work and makes two independent FP comparisons dependent on one resource. LoongArch provides eight separate one-bit `FCC` registers for exactly this reason. Adding even two FP condition bits to `PSW` would help, at the cost of two more bits to save and restore. Not yet decided.
 
@@ -1649,7 +1729,7 @@ Items added since revision 20:
 
 17. **Compiler-side wishes** recorded by the first back end: a short `d(sp)` form, and linker relaxation of the 35,000 six-byte cross-section `call`/`lea` (§14.4). Sized integer arithmetic was considered and **decided against** (CHANGES §14, errata 28): integer arithmetic stays 64-bit; narrow values are extended by the sized moves. Also open: whether an operand-role table should move into the mnemonic grammar, and a way of writing a width on an integer operation.
 
-18. **The fourth parcel, and what to do with the length code `11`.** Only 49 of 373,635 compiled instructions (0.013%) need the eight-byte form, which exists only because the two-bit `len` field has four values (§9.6). Dropping to three parcels costs about 0.016% in code size and frees `len = 11`. One use, a second page of 64 one-parcel (two-byte) opcodes, could take small-immediate forms, a register-deferred load and store `(rN)` and a small-offset quad load and store from `sp`: about 36,500 compiled sites, 73 KB, 4.4% of the image, in about 27 of the 64 opcodes. With a fused compare-and-branch in the reserved opcodes the estimate is 5.1%. These are static estimates, nothing is specified, and the groups may overlap. Not decided. The write-up, the options and the way to decide are in [`CHANGES-SINCE-R20.md`](CHANGES-SINCE-R20.md) §12.
+18. **The fourth parcel, and what to do with the length code `11` — RESOLVED (decided 2026-10-22, errata 31).** Only 49 of 373,635 compiled instructions (0.013%) needed the eight-byte form, which existed only because the two-bit `len` field has four values (§9.6). The fourth parcel is removed and `len = 11` is a second page of 64 one-parcel opcodes, 41 of them defined, each an exact abbreviation of an existing instruction (§4.18); `CBCC` (§4.4.1) and `RORI32` (§4.6) were added with it. The full map and the rule that keeps it safe are in §4.18; the reasons are in §9.9; the specification and the estimates are in [`CHANGES-SINCE-R20.md`](CHANGES-SINCE-R20.md) §12. Still open from the same measurement: peephole use of `INC`/`DEC` for `LEA ±1(Rx), Rx` and linker relaxation of the external `CALL` and `LEA sym` (item 17).
 
 ---
 
@@ -1666,8 +1746,8 @@ Items added since revision 20:
 | FP | software convention | `R13`, used by `CALLS`/`CALLG` | **`R13`**, software convention |
 | AP | — | `R12`, for `CALLS`/`CALLG` | none — `R12` is general |
 | Virtual address | 16 bits (18/22 physical) | 32 bits | 39 bits (40 physical) |
-| Instruction count | ~70 base, plus EIS/FIS/FP11/CIS options | 304 | 55 assigned top-level opcodes; 213 instructions in 247 mnemonic words (the rest are aliases); 93 operations once width, precision and similar qualifiers are folded |
-| Instruction length | 1–3 words (2–6 bytes) | 1 to over 50 bytes | 1–4 parcels (2–8 bytes) |
+| Instruction count | ~70 base, plus EIS/FIS/FP11/CIS options | 304 | 56 assigned top-level opcodes in page 1 and 41 defined opcodes in page 2; TODO-COUNT instructions in TODO-COUNT mnemonic words (the rest are aliases); TODO-COUNT operations once width, precision and similar qualifiers are folded |
+| Instruction length | 1–3 words (2–6 bytes) | 1 to over 50 bytes | 1–3 parcels (2–6 bytes), plus a one-parcel second page |
 | Operands per instruction | 1 or 2 | 0 to 6 | 1 or 2, plus 3 for `MBLK` |
 | Memory operands per instruction | up to 2 | up to 6 | **1** |
 | Addressing modes | 8 | 16 | 8 defined, 8 reserved |
@@ -1701,7 +1781,7 @@ byte n:    mmmm rrrr               specifier 2
 
 Modes `0`–`3` pack a 6-bit literal into the specifier byte itself, so `MOVL #5, R0` is three bytes. Mode `4` is *index*, a prefix that wraps the following specifier. Modes `9`, `B`, `D`, `F` are deferred — a memory read during operand evaluation. Length is not a function of any fixed field.
 
-**pdp64** — one parcel, plus 0–3 extension parcels:
+**pdp64** — one parcel, plus 0–2 extension parcels (or, at `len = 11`, a one-parcel instruction of the second page, §4.18):
 
 ```
  15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
@@ -1734,7 +1814,7 @@ The PDP-11's indirect bit is the detail worth dwelling on. Making the low bit of
 | Memory refs during operand eval | up to 4 | unbounded | **1** |
 | Restart mechanism | `MMR0`/`MMR1`/`MMR2`, software undo | `PSL<FPD>` + per-instruction microstate | hardware buffer, committed at retire |
 | Restart state size | 2 journal entries + PC | implementation-defined, large | 1 buffered register write |
-| Worst-case instruction | `MOV @X(R1), @Y(R2)` — 6 bytes, 4 memory refs | `MOVC5` — unbounded refs, resumable microstate | 8 bytes, 1 operand ref; `MBLK` with register progress |
+| Worst-case instruction | `MOV @X(R1), @Y(R2)` — 6 bytes, 4 memory refs | `MOVC5` — unbounded refs, resumable microstate | 6 bytes, 1 operand ref; `MBLK` with register progress |
 
 ### 13.5 Instruction-level correspondence
 
@@ -1855,7 +1935,8 @@ The figures behind the post-revision-20 decisions. Method: the "fair corpus" is 
 - **Integer `ABS`, `MIN`, `MAX`.** `ABS` at 18 sites and `ABSU` at 5, `MIN` at 171 and `MAX` at 52, across 95 files. The measured gain is under 0.1% of code; the case is clarity and the idiom, not size.
 - **Bit-fields (`EXTB`, `EXTZB`, `INSB`).** The shift-pair extraction pattern occurs 151 times in 26 files, about 600 bytes at best (0.03%); the compiler does not use the instructions.
 - **Auto-increment.** Of 10,547 `lea n(rX),rX` only 437 have a dereference through the same register next to them (about 0.1%); the compiler does not emit the modes. They remain for hand-written code and the string and block idioms.
-- **Code generated by the first compiler** (fair corpus, optimized flags): 405,744 instructions and 1,762,610 bytes, 1.03 times amd64 and 1.04 times aarch64 in instructions, 0.97 and 0.89 times in bytes; instruction lengths 2 / 4 / 6 / 8 bytes = 46.5 / 42.8 / 10.6 / 0.1 %, 3.30 bytes on average. Costs the ISA could remove: about 35,000 six-byte cross-section `call` and `lea`; memory operands that are quad only, so `movl` is 10% of all instructions; no 32-bit arithmetic, so a wrap-correct `int` costs 4.1% of instructions and 1.9% of bytes; a short `d(sp)` form (not measured).
+- **Code generated by the first compiler**, before the second page of §4.18 (fair corpus, optimized flags): 405,744 instructions and 1,762,610 bytes, 1.03 times amd64 and 1.04 times aarch64 in instructions, 0.97 and 0.89 times in bytes; instruction lengths 2 / 4 / 6 / 8 bytes = 46.5 / 42.8 / 10.6 / 0.1 %, 3.30 bytes on average. Costs the ISA could remove: about 35,000 six-byte cross-section `call` and `lea`; memory operands that are quad only, so `movl` is 10% of all instructions; no 32-bit arithmetic, so a wrap-correct `int` costs 4.1% of instructions and 1.9% of bytes; a short `d(sp)` form (not measured).
+- **The second page, `CBCC` and `RORI32`** (errata 31, decided 2026-10-22). Static counts on the 827-file fair corpus compiled with the optimizing flags (370,115 instructions, 1,672,166 bytes of image at the time), two bytes saved per site: page 2 59,354 sites, 118.6 KB (7.1%); `CBCC` with an immediate in -16 to 15 6,390 sites, 12.8 KB (0.8%); `RORI32` 896 sites, 9.0 KB (0.5%); all together 66,640 sites, 140.4 KB (8.4%). The per-family counts are in the specification, CHANGES-SINCE-R20.md §12. The compiler also emits `LEA 1(Rx), Rx` 7,852 times and `LEA -1(Rx), Rx` 395 times where `INC` and `DEC` exist (about 16 KB, 1.0%), and the 36,555 six-byte external `CALL` and `LEA sym` forms (4.4%) need linker relaxation, not an encoding. These are estimates from the assembly output, not measurements of the new encoding.
 
 ---
 
@@ -1880,7 +1961,7 @@ LoongArch64 is worth studying here because it is the most recent clean-room ISA 
 | **`R0` hardwired to zero** | At 32 registers, losing one to get `MOVQ R0, Rd` as clear and `SUB R0, Rn` as negate is a good trade. At 16 it is a sixteenth of the file, and `CLR` and `NEG` are already one parcel each. The trade reverses with register count |
 | **No condition codes; compare-and-branch instead** | A comparator in the branch unit plus a third register read port, versus a four-bit latch (§4.4). LoongArch can afford it because its fixed 32-bit encoding has room for two register fields and a displacement in one instruction; ours would need two parcels, which is the same size as `CMP`+`B`. `SOB` covers the loop case that motivates the idiom |
 | **`FCSR` with a rounding-mode field** | LoongArch kept the mode bits, as did RISC-V, ARM and x86. We are the outlier and remain so: the founding rule (§1.1) forbids invisible state that changes what other instructions mean, and rounding mode is the textbook case. The cost is more opcodes in `FESC`, which is the cheapest thing we have |
-| **Four PC-relative address-formation instructions** | `PCADDI`, `PCADDU12I`, `PCADDU18I` and `PCALAU12I` exist because a fixed 32-bit encoding carries twenty bits of immediate, so building a full address takes a pair. `LEA d(PC), Rn` at `len = 11` carries 48 bits in one instruction (§4.1). This is the clearest case where variable-length beats fixed-width, and the property came free from §3.1 |
+| **Four PC-relative address-formation instructions** | `PCADDI`, `PCADDU12I`, `PCADDU18I` and `PCALAU12I` exist because a fixed 32-bit encoding carries twenty bits of immediate, so building a full address takes a pair. `LEA d(PC), Rn` at `len = 10` carries 32 bits in one instruction (§4.1). This is the clearest case where variable-length beats fixed-width, and the property came free from §3.1 |
 | **32 general registers** | Doubles the register file and costs a bit in every register field — which this encoding does not have to spend. Sixteen is where the one-memory-operand rule (§3.4) left room |
 | **Separate vector register files (LSX, LASX)** | A second wide register file is the thing §2.3 specifically avoided, and it would bring wide load/store paths entangled with §7.4's alignment rules plus a large opcode demand on a map already at 55 of 64. Wide data-parallel work goes in a Q64 coprocessor with its own memory, which needs **no opcodes at all** — revision 5's model, and the LB64 document is the worked case |
 
@@ -1999,8 +2080,11 @@ Terms this document uses without defining them, collected because several were i
 
 | Term | Meaning |
 |---|---|
-| **parcel** | a 16-bit unit of instruction encoding. Instructions are 1–4 parcels (§3.1) |
-| **`len`** | bits 15..14 of parcel 0: the number of *extension* parcels (§3.1) |
+| **parcel** | a 16-bit unit of instruction encoding. Instructions are 1–3 parcels (§3.1) |
+| **`len`** | bits 15..14 of parcel 0: the number of *extension* parcels for `00`, `01` and `10`; the value `11` selects page 2 (§3.1) |
+| **page 2** | the second opcode map, selected by `len = 11`: 64 entries of one-parcel instructions, 41 defined, each an exact abbreviation of a page-1 instruction (§3.1.2, §4.18). Page 1 is the map of `len = 00`, `01` and `10` (§4.16) |
+| **`CBCC`** | **c**ompare-immediate-and-**b**ranch on **c**ondition — opcode `0x28`, the fused compare and branch (§4.4.1) |
+| **`RORI32`** | rotate right by an immediate, 32-bit, zero-extended result — a `BESC` sub-opcode (§4.6) |
 | **`BESC`** | **b**it **esc**ape — opcode `0x0C`, bit, field and rotate manipulation (§4.6) |
 | **`MBLK`** | **m**emory **bl**oc**k** — opcode `0x0D`, the block memory operations (§4.7) |
 | **`MESC`** | **m**emory **esc**ape — opcode `0x0F`, unaligned access and ALU-to-memory (§4.13) |
@@ -2034,10 +2118,10 @@ Short answer: **yes, and cheaply — the architecture is in the x86-64 and AArch
 
 | Requirement | Mechanism | Cost |
 |---|---|---|
-| intra-module branches | PC-relative by construction (§4.4) | native, 2–8 bytes |
+| intra-module branches | PC-relative by construction (§4.4) | native, 2–6 bytes |
 | intra-module calls | `CALL d(PC)` | one instruction |
 | module-local data | mode `0010`, `d(PC)` | one instruction |
-| address formation | `LEA d(PC), Rn`, 48-bit at `len=11` | one instruction |
+| address formation | `LEA d(PC), Rn`, 32-bit at `len=10` | one instruction |
 | **GOT access** | `MOVQ got_slot(PC), Rd` | **one instruction, no GOT register** |
 | **PLT stub** | `JMPI got_slot(PC)` | **one instruction, no scratch register** (§4.9.1) |
 | TLS, local-exec | `MOVQ d(DP), Rd` (§19.3) | one instruction |
@@ -2049,15 +2133,17 @@ Short answer: **yes, and cheaply — the architecture is in the x86-64 and AArch
 
 ### 19.2 PIE code can be *smaller* than non-PIE here
 
-This inverts the usual expectation and follows from §3.3's displacement scaling.
+This inverts the usual expectation for small displacements and follows from §3.3's displacement scaling.
 
 | Access to a global | Encoding | Bytes |
 |---|---|---|
-| non-PIE, absolute | mode `0101`, 48-bit absolute at `len=11` | **8** |
-| PIE, PC-relative, within ±2 KB | mode `0010` at `len=01` | **4** |
-| PIE, PC-relative, within ±128 MB | mode `0010` at `len=10` | **6** |
+| non-PIE, absolute | mode `0101`, 32-bit absolute at `len=10` | **6** |
+| PIE, PC-relative, within ±32 KB | mode `0010` at `len=01` (16-bit byte displacement) | **4** |
+| PIE, PC-relative, within ±2 GB | mode `0010` at `len=10` (32-bit byte displacement) | **6** |
 
-An absolute address in a 39-bit space needs most of a 48-bit field, so it costs the longest instruction form. A displacement to data in the same module needs far fewer bits. **Position-independent data access is two to four bytes shorter than absolute**, per access, which is the opposite of the i386 experience and a consequence of having chosen a variable-length encoding.
+(Before 2026-10-22 the absolute form was the 48-bit `len=11` form, eight bytes, and PIE access was two to four bytes shorter than absolute. With the fourth parcel gone the absolute form is a sign-extended 32-bit address, six bytes, or four bytes if the address fits 16 bits sign-extended. The comparison with `len=01` is now the one that matters: **PC-relative access within ±32 KB is four bytes, and no longer than absolute at any distance.**)
+
+An absolute address reaches only what a sign-extended 32-bit (or 16-bit) value can hold; PC-relative access within ±2 GB needs no more bytes than that. **Position-independent data access is never longer than absolute**, per access, and is two bytes shorter within ±32 KB: still the opposite of the i386 experience, and still a consequence of having chosen a variable-length encoding.
 
 ### 19.3 Thread-local storage
 
@@ -2071,9 +2157,9 @@ That is as good as AArch64's `TPIDR_EL0` form and better than x86-64's, which ne
 
 The pleasing part is that `DP` was not designed for this. It entered at revision 1 as the 6502 zero page's descendant, kept for code density, and its mode-switched copies turn out to be what a threaded runtime wants in user mode and what an SMP kernel wants in kernel mode.
 
-### 19.4 No veneers, ever
+### 19.4 No veneers below 4 GB
 
-A conditional or unconditional branch at `len=11` reaches anywhere in the canonical address space (§4.4). AArch64's `BL` spans ±128 MB and large binaries therefore need linker-inserted veneers; ARM32's ±32 MB made them routine. **pdp64 needs none at any binary size**, so branch-range veneer insertion — a persistent source of linker complexity and of surprising code growth — simply does not exist as a problem.
+A conditional or unconditional branch at `len=10` reaches ±4 GB (§4.4); before 2026-10-22 `len=11` reached the whole canonical address space. AArch64's `BL` spans ±128 MB and large binaries therefore need linker-inserted veneers; ARM32's ±32 MB made them routine. **pdp64 needs none below a binary of 4 GB**, so branch-range veneer insertion — a persistent source of linker complexity and of surprising code growth — simply does not exist as a problem.
 
 The assembler's branch relaxation reduces to choosing a length, and the linker's to the same.
 
@@ -2081,7 +2167,7 @@ The assembler's branch relaxation reduces to choosing a length, and the linker's
 
 The ISA is sufficient; three ABI questions were left open here and belong in the ABI document, `abi.md` (version 1), whose answers are noted below.
 
-1. **A designated linker-scratch register — decided: `R12` (ABI version 1, `abi.md`).** ARM32 reserves `R12`/`IP` and AArch64 `X16`/`X17` for veneers and PLT sequences. Pressure here is much lower — §19.4 removes veneers entirely and §4.9.1's `JMPI` removes the PLT's need for one — but linkers want a scratch register for lazy-binding resolver sequences and for `-fno-plt` call sites. `R12` is the natural choice, both because it is the highest register with no other role and because the number happens to match ARM32's convention.
+1. **A designated linker-scratch register — decided: `R12` (ABI version 1, `abi.md`).** ARM32 reserves `R12`/`IP` and AArch64 `X16`/`X17` for veneers and PLT sequences. Pressure here is much lower — §19.4 removes veneers for any binary below 4 GB and §4.9.1's `JMPI` removes the PLT's need for one — but linkers want a scratch register for lazy-binding resolver sequences and for `-fno-plt` call sites. `R12` is the natural choice, both because it is the highest register with no other role and because the number happens to match ARM32's convention.
 2. **Lazy versus eager binding** (still open; `abi.md` is silent). `JMPI got(PC)` makes a PLT stub one instruction, so the argument for lazy binding — avoiding resolver work for uncalled functions — is weaker than usual, while full RELRO with eager binding gets a security benefit. Worth measuring startup cost before choosing.
 3. **Whether `-fno-plt` should be the default** (ABI version 1 calls imports through `CALLI got(PC)`, i.e. without a PLT stub). Calling through `CALLI got(PC)` at the call site skips the PLT stub's extra transfer entirely, at the cost of a GOT load per call site rather than per function. One instruction either way, so this is a cache-behaviour question, not an instruction-count one.
 
@@ -2105,14 +2191,14 @@ Revision 20 as received was written under the working name 11/64W; the original 
 |---|---|---|
 | The machine is named pdp64 (working name 11/64W) | whole document | E12, C intro |
 | Opcode bits of the BESC, MBLK, TAGOP diagrams corrected to `001100`, `001101`, `010101` | §4.6, §4.7, §4.8 | E1, C2.1 |
-| Opcode count corrected: 55 assigned, spare ALU slot `0x23`, 8 reserved `0x28`–`0x2F` (not 56) | §4.16, §4.2, §9.6 | E2, C2.1 |
+| Opcode count corrected: 55 assigned, spare ALU slot `0x23`, 8 reserved `0x28`–`0x2F` (not 56). Superseded on 2026-10-22: `0x28` is `CBCC`, so 56 assigned and 7 reserved `0x29`–`0x2F` (next lines) | §4.16, §4.2, §9.6 | E2, C2.1 |
 | PC-relative base is the first parcel of the instruction; operand displacement in bytes, branch displacement in parcels | §4.1, §4.4, §5, §9.3 | E3, C4.1 |
 | `PUSHM`/`POPM` moved from `MBLK` to `SOP` slots `A`/`B`, mask a 16-bit immediate | §4.5, §4.7 | E4, C3.2 |
 | `SYS` split into a 4-bit class and a minor; `TRAPL #n` added (class 15) for vectors 0–255 | §4.11 | E5, C4.4 |
 | `PROBER`/`PROBEW` take the second register in parcel 1 | §4.11 | E5, C3.3 |
 | `JTAG` legal only in scaled-index mode, `Rx` tagged, scale ignored | §4.9, §6.3 | E6 |
-| Scaled-index mode widens to 6 / 22 / 38 bits; direct-page padding at `len=01` | §3.3, §5 | E7, C4.2 |
-| `SOB` exists from `len=01` with 16/32/48-bit displacement in parcels | §4.4 | E8 |
+| Scaled-index mode widens to 6 / 22 / 38 bits (6 / 22 after E31); direct-page padding at `len=01` | §3.3, §5 | E7, C4.2 |
+| `SOB` exists from `len=01` with 16/32/48-bit displacement in parcels (16/32 after E31) | §4.4 | E8 |
 | Sub-opcode numbers assigned and operand roles fixed | §4.17 | E9, C4.3, C4.5 |
 | `RORI` added; `ROL #n` assembles to `RORI` with `64 − n`; `DSHR`, `EXTB`, `EXTZB`, `INSB` need parcel 2 | §4.6, §4.15 | E10 |
 | `MESC` parcel 1 is `sub4 rm4 disp8`, widening 8/24/40; no scaled-index mode | §4.13 | E11 |
@@ -2135,5 +2221,11 @@ Revision 20 as received was written under the working name 11/64W; the original 
 | Little-endian data and parcels stated | §3.2, §4.17 | C2.2, C4.6 |
 | Minimum instruction lengths stated | §4.17 | C4.7 |
 | ABI roles of the registers and the data model (LP64, stack alignment 8) | §2.1, §2.3, §19.5 | C5, `abi.md` |
-| Counts: 247 mnemonic words, 213 instructions, 93 operations | §13.1 | C1, E27 |
+| Counts: 247 mnemonic words, 213 instructions, 93 operations (before the second page; the counts after it are TODO-COUNT mnemonic words, TODO-COUNT instructions, TODO-COUNT operations) | §13.1 | C1, E27 |
+| Fourth parcel removed: instructions are 1, 2 or 3 parcels (2, 4 or 6 bytes); immediate, absolute, PC-relative and branch payloads 16 or 32 bits, base and direct-page displacement 12 or 28, scaled-index 6 or 22 | §3.1, §3.3, §4.4, §5, §7.3, §9.6, §19 | E31, C12 |
+| `len = 11` is page 2: 64-entry map of one-parcel exact abbreviations, 41 defined, 23 reserved (illegal-instruction abort) | §3.1.2, §4.18 | E31, C12 |
+| `CBCC` (compare immediate and branch) takes top-level opcode `0x28`: 56 assigned, 7 reserved `0x29`–`0x2F` | §4.4.1, §4.16 | E31, C12 |
+| `RORI32` added as a `BESC` sub-opcode | §4.6 | E31, C12 |
+| Page-2 forms are not mnemonics; `CBCC` mnemonics `CBNE` … `CBLOS` | §4.15 | E31, C12 |
+| Open item 18 resolved; §9.6 rewritten, decision recorded in §9.9; rejected alternatives in §11 | §9.6, §9.9, §11, §12 | E31, C12 |
 | Open items resolved or added (directed rounding, select, bfloat16 …) | §12 | C12, C14 |

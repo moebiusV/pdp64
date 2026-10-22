@@ -2,6 +2,8 @@
 
 [← pdp64 index](../README.md)
 
+**Note (2026-10-22):** the instruction-length statistics here (and the 2/4/6/8-byte distribution) predate the second page and the removal of the fourth parcel (ISA §4.18, errata 31); this document records the compiler's output before that change.
+
 **Status: draft, 2026-10-22.** This document reports what the pcc back end for pdp64 produces on real C, how that compares with gcc and clang on amd64,
 and what the instruction mix says about the instruction set. Every number says how it was measured. The measurements are *static* (they count instructions in
 the compiler's output, not instructions executed), so they say how much code a program takes and which instructions the compiler chooses, not how fast it runs.

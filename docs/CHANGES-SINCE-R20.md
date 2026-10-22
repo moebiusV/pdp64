@@ -469,13 +469,15 @@ An earlier version of this section estimated "about 2%" from the first compile o
   grammar being the single source makes this mechanical, and `tools/check-all.sh` would catch drift; it is still a large change.
 * Option C adds a second opcode page to the decoder, which the ISA's own test (§1.2, rule 3, Occam) must justify against the gate count: the first-stage decode is a function of `len`, then a page select.
 * ISA §1.2 rule 2 (do not displace a common instruction into a longer encoding) is satisfied: nothing common gets longer; the fourth parcel's users are rare.
-* The text that says "any address is an eight-byte instruction" (ISA §3.3) and §9.6 would change.
+* The text that says "any address is an eight-byte instruction" (ISA §3.3) and §9.6 would change. (Done: see the status below.)
 
 **How to decide.** (1) The analysis of the compiled code is done ([`codegen-analysis.md`](codegen-analysis.md)); the candidates above come from it. (2) Specify the candidate
 one-parcel forms, choose the immediate ranges per instruction and re-measure the saving, on the final corpus, against `gcc -Os` and `clang -Os`; check that the 27 or so opcodes fit with room to spare and that the groups do not overlap. (3) Decide A, B or C by the ISA's order of tests (§1.2): no strange side effects, no displacement into a
-longer encoding, then Occam. Until then the ISA keeps four parcels.
+longer encoding, then Occam. (This was the plan when the item was raised. It was decided the same day; the ISA no longer has four parcels.)
 
 ### Decided design: the second page (2026-10-22, errata 31)
+
+**Status.** Decided 2026-10-22 (errata 31, the author's decision). The ISA document is updated: §3.1, §3.1.1, §3.1.2 (new), §3.3, §4.4, §4.4.1 (new, `cbCC`), §4.6 (`rori32`), §4.14, §4.15, §4.16, §4.17, §4.18 (new, the page-2 map), §5, §7.3, §9.5, §9.6 (rewritten, with the old argument kept as history), §9.9 (the decision and its reasons), §11, §12 item 18 (resolved), §13, §14.4, §18, §19.2 and §19.4, Appendix A. The grammar, assembler, linker, emulator, QEMU target and tests are changed by the implementation of this item; the counts of mnemonic words, instructions and operations after the change are to be filled in the ISA (marked `TODO-COUNT` there) when the implementation reports them. [`asm-syntax.md`](asm-syntax.md) gives the new syntax.
 
 The author chose option C with the explicit map (C1), asked for further candidates to be searched for, and asked for the fused compare-and-branch and the 32-bit rotate to be added. This is the specification.
 

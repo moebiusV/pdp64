@@ -356,7 +356,7 @@ Resource estimates in §2 are **unchanged and were not recomputed**; they are re
 - **`PUSHM`/`POPM` moved to `SOP`; `TRAP`/`TRAPL` split; `SYS` classes; `RORI`** (errata 4, 5, 10): decode changes in the `SOP`, `SYS` and `BESC` groups. The decoder structure of §2 ("mostly wires") is the thing to re-check; no figure.
 - **Half precision (`binary16`)**: proposed, not decided. CHANGES §14 gives estimates, not measurements: conversion only about 500-1,000 LUTs, full arithmetic about 2,000-3,500 LUTs. Neither is in the §2 table.
 - **Directed rounding for FP arithmetic**: undecided (CHANGES §12). Depending on the option chosen (a static rounding field, a mode register, or more opcodes) the FPU decode or the opcode map changes. No figure.
-- **Opcode map counts**: 55 assigned opcodes, the spare ALU slot `0x23` and eight reserved (`0x28`-`0x2F`), not the 56 + 8 of ISA r20 §4.16 (errata 2). This changes no LUT figure; it matters for the spare-slot arithmetic.
+- **Opcode map counts**: 55 assigned opcodes, the spare ALU slot `0x23` and eight reserved (`0x28`-`0x2F`), not the 56 + 8 of ISA r20 §4.16 (errata 2). Since 2026-10-22 (errata 31) `0x28` is `CBCC`: 56 assigned and seven reserved (`0x29`-`0x2F`) in page 1, plus the second page of ISA §4.18 (41 of 64 defined); this too changes no LUT figure, but the decoder gains a page select after `len`. This changes no LUT figure; it matters for the spare-slot arithmetic.
 - **Measured instruction lengths** (CHANGES §14): the compiler-side findings feed the fetch-buffer and cache assumptions of §3 and §8, but the sources give no hardware figure.
 
 ---
