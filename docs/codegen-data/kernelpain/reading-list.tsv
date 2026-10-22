@@ -90,3 +90,7 @@ https://www.openbsd.org/papers/bsdtw.pdf	Theo de Raadt, Mitigations and other re
 https://www.openbsd.org/papers/eurobsdcon2023-bluhm-mitigations.pdf	Alexander Bluhm, OpenBSD Attack Mitigations (slides)		fetched, no text extractable (PDF or image slides)	retry by another route
 https://www.openbsd.org/papers/ru13-deraadt	Theo de Raadt, Security Mitigation Techniques: An update after 10 years (image slides)		fetched, no text extractable (PDF or image slides)	retry by another route
 https://www.google.com/search?q=OpenBSD+disable+SMT+hyperthreading	Google search (result was an AI summary; used only to find the primary post)		fetched, weak secondary	not cited as evidence
+https://lore.kernel.org/all/1348256595-29119-9-git-send-email-hpa@linux.intel.com/	x86, smap: Add STAC and CLAC instructions (H. Peter Anvin)	2012-09-21	fetched 2026-10-22	[D] read in full
+https://lore.kernel.org/all/20071101140146.GA26879@wotan.suse.de/	[patch 0/4] ticket spinlocks for x86 (Nick Piggin)	2007-11-01	fetched 2026-10-22	[D] read in full
+https://lore.kernel.org/all/alpine.LFD.0.999.0711020950250.3342@woody.linux-foundation.org/	Re: x86: FIFO ticket spinlocks (Linus Torvalds)	2007-11-02	fetched 2026-10-22	[D] read in full
+https://lore.kernel.org/all/485CCFB9.9050208@cn.fujitsu.com/	[RFC PATCH] rcu,alpha: avoid smp_read_barrier_depends in rcu_dereference when pointer==NULL	2008-06-21	not fetched (URL from a search listing)	to read: McKenney's answer
