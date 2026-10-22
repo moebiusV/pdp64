@@ -430,22 +430,39 @@ two-byte alignment can still span two pages.
 |---|---|---|
 | A. Keep four parcels | four parcels | the status quo; no change |
 | B. Three parcels, `11` reserved | reserved | simplest; wastes a quarter of the length space, but keeps it free for later |
-| C. Three parcels, `11` is a second page of one-parcel instructions | one parcel, opcode from a second map of 64 | the length rule stays a function of `len` alone; adds 64 opcodes of two bytes, with the format `opc:6 reg:4 low:4`, so `low` can be a four-bit immediate or a second register; no memory operand, since there is no extension parcel |
+| C. Three parcels, `11` is a second page of one-parcel instructions | one parcel, opcode from a second map of 64 | the length rule stays a function of `len` alone; adds 64 opcodes of two bytes, with the format `opc:6 reg:4 low:4`, so `low` can be a four-bit immediate, a second register, or the register of a register-deferred memory operand `(rN)`; a memory operand with a displacement needs the displacement inside the two bytes (a small offset from `sp`, with part of the offset carried in the opcode bits), otherwise it needs an extension parcel |
 | D. Three parcels, `11` is a page of some other fixed length | e.g. two parcels | more opcodes, none of them short; less attractive |
 
-**What option C could buy, measured on the first compile** (405,744 instructions; method: the register-and-immediate instructions of the assembly output, counted with their immediates):
+**What option C could buy.** Two sets of measurements, both static counts on the 827-file fair corpus compiled by the pcc back end with the optimizing flags (the final output of 2026-10-22: 370,115
+instructions, 1,672,166 bytes of image). The savings are in the image, two bytes per site. The first set is mine (register-and-immediate instructions whose immediate fits 4 signed bits, -8 to 7, counted from
+the assembly output); the second is from [`codegen-analysis.md`](codegen-analysis.md) §9.
 
-| Instruction | Register-immediate sites | Immediate fits in 4 signed bits (-8 to 7) | Fits 8 bits |
+| Candidate one-parcel form | Sites | Saving | Share of image | One-parcel opcodes it takes |
+|---|---|---|---|---|
+| small immediates: `movq #imm4,rd` (7,838 sites), `shl` (2,146), `shr` (833), `and` (498), `sar` (97), `xor` (92), `bis` (84), `mul` (43), `add` (34) | 11,665 | 23,330 bytes | 1.4% | about 8 |
+| register-deferred load or store `(rN)`, all widths | 12,941 | 25,882 bytes | 1.5% | about 11 (7 loads: `movq movl movw movb movzl movzw movzb`; 4 stores) |
+| quad load or store at `d(sp)`, `d` a multiple of 8 below 512 | 11,928 | 23,856 bytes | 1.4% | about 8 (a 6-bit offset is 4 bits of `low` and 2 bits of the opcode, so each of load and store takes four opcodes) |
+| **Together** | **36,534** | **73,068 bytes** | **4.4%** | **about 27 of 64** |
+
+The immediate ranges are examples: a shift count wants 0 to 15 and not -8 to 7, and each instruction has its own best 4-bit range, so the 11,665 is a floor for some rows and a rough figure for others. The
+`add` and `sub` rows are small because compilers add larger constants; the `sub` row is zero because `sub` sites are mostly frame adjustments.
+
+Two more candidates are not one-parcel forms and do not compete for those 64 opcodes. They would use the eight reserved top-level opcodes (`0x28` to `0x2F`) or sub-opcodes of an escape group:
+
+| Candidate | Sites | Saving | Share of image |
 |---|---|---|---|
-| `movq #imm,reg` | 18,373 | 42.7% | 26.2% |
-| `cmp reg,#imm` | 18,982 | 16.0% | 34.1% |
-| `shl #n,reg` | 4,378 | 49.2% | 29.1% |
-| `shr #n,reg` | 3,537 | 23.7% | 54.7% |
-| `and`, `sub`, `add`, `sar`, `mul`, `bis`, `xor` | 6,830 together | 0 to 63%, by instruction | |
+| a fused compare-with-5-bit-immediate-and-branch in 4 bytes (`cmp r,#imm ; bCC` is 6 bytes now) | 6,390 of 18,787 pairs (immediate in -16..15) | 12,780 bytes | 0.8% |
+| `rol32 rs,#n,rd`, a 32-bit rotate by a constant (now about 14 bytes and 5 instructions) | 896 | about 8,960 bytes | 0.5%, a third of the code of the hash files (sha1, md5, sha256, ripemd160), the worst in the corpus |
 
-If the small-immediate forms of these were two bytes, about **14,500 sites would shrink by two bytes: roughly 29 KB of a 1.33 MB image, about 2%** of code. This is an estimate, not a design: no
-form has been specified, a four-bit immediate must be chosen against alternatives (an unsigned or biased range, or a power-of-two scale for shifts), and the other uses of 64 new one-parcel opcodes (`cmp` of a register with a small immediate, `lea` of a small stack
-offset, a compare-and-branch) have not been measured against it. It is more than a hundred times the saving of the fourth parcel's form, which is why the length code is worth more than the parcel.
+**Not to be added:** a 2-byte `cmp #imm4,rd` (3,030 sites) saves the same two bytes at the same sites as the fused compare-and-branch, so only one of them is counted. With the fused form and the three one-parcel
+rows the total is **about 86 KB, 5.1% of the image** (73,068 + 12,780 bytes). Two caveats: the groups were counted separately and could overlap in places I have not checked, and none of the forms has been specified.
+It is also an estimate of bytes only: the number of instructions executed does not change for the one-parcel forms, and the fused compare-and-branch removes one.
+
+**The linker is a separate and larger item.** 36,555 six-byte pc-relative `call` and `lea sym` forms, 4.4% of the image, would be four bytes if a linker relaxed references to symbols in range, or if there were a
+short section-relative relocation. That needs no encoding change at all, only the linker and the assembler's relocation, and is the largest single item in the compiled-code analysis. It does not depend on this
+decision.
+
+An earlier version of this section estimated "about 2%" from the first compile of the corpus and the immediates alone, measured against the instruction bytes (2.2%); against the image, with the final output, the immediates are 1.4%.
 
 **Costs and risks of changing it.**
 * The encoding changes: the grammar (`spec/pdp64.hbnf.in`), the opcode map and its counts, the assembler, linker, `sim64` and the shared core, the QEMU target's length decode, the pcc back end's tables, the documents. The
@@ -454,8 +471,8 @@ offset, a compare-and-branch) have not been measured against it. It is more than
 * ISA §1.2 rule 2 (do not displace a common instruction into a longer encoding) is satisfied: nothing common gets longer; the fourth parcel's users are rare.
 * The text that says "any address is an eight-byte instruction" (ISA §3.3) and §9.6 would change.
 
-**How to decide.** (1) Wait for the back-end agent's analysis of the compiled code (bigram and trigram counts, cost centres): it shows which four-byte patterns would benefit more than the immediates above. (2) Specify the candidate
-one-parcel forms and re-measure the saving from the real immediate ranges, on the final corpus, against `gcc -Os` and `clang -Os`. (3) Decide A, B or C by the ISA's order of tests (§1.2): no strange side effects, no displacement into a
+**How to decide.** (1) The analysis of the compiled code is done ([`codegen-analysis.md`](codegen-analysis.md)); the candidates above come from it. (2) Specify the candidate
+one-parcel forms, choose the immediate ranges per instruction and re-measure the saving, on the final corpus, against `gcc -Os` and `clang -Os`; check that the 27 or so opcodes fit with room to spare and that the groups do not overlap. (3) Decide A, B or C by the ISA's order of tests (§1.2): no strange side effects, no displacement into a
 longer encoding, then Occam. Until then the ISA keeps four parcels.
 
 ## 13. Appendix
