@@ -92,3 +92,15 @@ Items marked **DECISION** are choices the document left open; change them in the
     result that is a NaN is the canonical quiet NaN (`0x7FF8000000000000`, binary32 `0x7FC00000`), whatever the operands carried: no payload propagation
     (the RISC-V rule). `FNEG`, `FABS` and `FCOPYSIGN` work on the bits and do not canonicalize. Without the rule the result would depend on the host that ran
     the emulator (x86 makes a negative NaN for 0/0). Hardware must do the same for results to match `sim64`.
+28. **DECISION (the user's): integer arithmetic stays 64-bit; there are no sized ALU operations.** The question was whether a descendant of the PDP-11 should
+    have native 16-bit (and 32-bit, 8-bit) integer arithmetic. The answer is no: registers are always written in full (ISA 4.2: narrow loads sign- or zero-extend),
+    `movb movw movl` sign-extend and `movzb movzw movzl` zero-extend, from a register, memory or an immediate, and every arithmetic and compare instruction works on
+    all 64 bits. A narrow value is held extended, and the compiler extends again where a result can leave the range (a C `int` is kept sign-extended).
+    *Measured cost of this choice* (pdp64 pcc, 841-file fair corpus, 405,744 instructions): a re-extension `movl r,r` after an operation that can leave the range,
+    17,580 (4.3% of instructions; 49% follow `lea` used as an add, 16% `add`, 14% `shl`, 8% `mul`); a narrow load immediately consumed by an ALU or compare
+    instruction, 8,451 pairs (2.1%), of which only 146 have a register as the other operand and a dead loaded value, that is, would fuse into a sized memory
+    operand (the large group, 4,356 `movzb`+`cmp reg,#imm`, cannot fuse under the one-memory-operand rule either). *Why not:* a width needs bits the encoding does not
+    have (the opcode space has 8 reserved slots and every ALU slot but one is assigned; the mode and register fields are full); a prefix costs two bytes per use and
+    makes decode restartable in two parts; and the gain is bounded by the numbers above. Signed `int` overflow is undefined in C, so the re-extensions after signed
+    operations are the compiler's conservative default and can be dropped (`-mnowrap`: 388,919 instructions, 0.99 times amd64); unsigned 32-bit wrap needs the
+    extension. Tests: `tests/sim/extend.s` (every width, source and boundary, partial stores, flags) and `tests/c/extend.c` (the same in C; it returns 1 under host gcc too).

@@ -10,7 +10,7 @@ TOOLCHAIN=${TOOLCHAIN:-$HOME/claude/facetlang/pdp11/v7unix-toolchain}
 dir=${PDP64TESTS:-$TOOLCHAIN/tools/a64tests}
 pass=0; fail=0
 for flags in "$@"; do
-	for t in "$dir"/*.c; do
+	for t in "$dir"/*.c "$here"/../tests/c/*.c; do
 		want=$(sed -n '1s/.*expect: \(-\{0,1\}[0-9]*\).*/\1/p' "$t")
 		got=$("$here/pdp64test.sh" $flags "$t" 2>&1 | tail -1)
 		if [ "$got" = "$want" ]; then pass=$((pass+1))

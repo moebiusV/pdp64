@@ -33,9 +33,9 @@ Contents
 | | |
 |---|---|
 | Opcode map | 64 top-level slots: **55 assigned**, the spare ALU slot `0x23`, **8 reserved** `0x28`-`0x2F`. (ISA §4.16 says 56 assigned; see §2.) |
-| Mnemonic words | **230**, of which 34 are aliases (the five of ISA 4.15 and the 29 old floating-point spellings): 196 instructions. |
+| Mnemonic words | **247**, of which 34 are aliases (the five of ISA 4.15 and the 29 old floating-point spellings): 213 instructions (230 and 196 before binary16, errata 27). |
 | Operations, folded | **93** (91, plus `FSFLAGS`, plus `SET`; the unsigned conversions and `FRINTDA` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
-| Assembled today | 196 words (the whole integer core, bit/divide/block escapes, `FESC`, SYS). Not yet: `ATOM` (22), `MESC` (8), `TRAPL` (1). `tools/check-drift.py` lists them by name. |
+| Assembled today | everything except `ATOM`, `MESC` and `TRAPL`; `tools/check-drift.py` lists the rest by name. |
 | Written | the grammars, the generator, `as64` (assembler), tests, this documentation. |
 | Not written | `sim64` (emulator), `ld64` (linker), the pcc back end, QEMU. |
 | Checks | `tools/check-all.sh`: 11 instruction-format vectors, 34 syntax cases, 6 assembled programs compared word for word with hand-worked expectations, and a drift test over every mnemonic plus the opcode-map checks. All pass. |
@@ -500,3 +500,7 @@ static two-bit field in the instruction, a mode register, or more opcodes. The c
 average. Costs the ISA could remove: about 35,000 six-byte cross-section `call` and `lea` (linker relaxation or a short relocation); memory operands that are
 quad only, so `movl` is 10% of all instructions; no 32-bit arithmetic, so a wrap-correct `int` costs 4.1% of instructions and 1.9% of bytes (`-mnowrap`, which
 assumes no signed overflow, gives 0.99 and 0.96 times amd64); a short `d(sp)` form (not measured).
+
+**Sized integer arithmetic.** Considered and decided against (errata 28, the user's decision): arithmetic stays 64-bit, narrow values are extended by `movb movw movl`
+(sign) and `movzb movzw movzl` (zero), and the compiler re-extends where needed. Cost measured on the fair corpus: 4.3% of instructions are re-extensions, 2.1% are
+narrow loads consumed by the next instruction, and only 146 of those would fuse into a sized memory operand.
