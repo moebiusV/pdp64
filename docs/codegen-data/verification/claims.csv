@@ -1,70 +1,105 @@
-id,section,claim,where_in_doc,status,source,note
-C001,P1,"V7 idle() lowers priority to 0, executes wait, restores PS",P1 PDP-11,verified,V7 usr/sys/conf/mch.s (tuhs.org) _idle,spl 0; wait; restore PS
-C002,P1,V7 swtch calls idle() in a loop and a lost wake-up is bounded by the clock,P1 PDP-11,verified,V7 usr/sys/sys/slp.c comment,comment says the race exists and idle() returns in at most 1 HZ time
-C003,P1,4BSD VAX idle loop spins at priority 0 testing the run-queue summary,P1 VAX,verified,4.3BSD vax/locore.s Idle: (tuhs.org),"Idle: tstl _whichqs; brb idle, at IPL 0"
-C004,P1,x86 sti delays interrupts by one instruction so sti;hlt is safe,P1 x86,verified,felixcloutier.com/x86/sti (SDM text),interrupts inhibited on the instruction boundary following STI
-C005,P1,PDP-11 WAIT instruction exists,P1 PDP-11,verified,"PDP-11 04-55 Processor Handbook 1976, WAIT",processor stops fetching and waits for interrupt
-C006,P1,AArch64 and RISC-V wfi end sleep on a pending masked interrupt,P1 current systems,not_found,,Arm ARM and RISC-V privileged spec not yet read; source not read in this pass
-C007,P1,survey counts hlt 57 mwait 9 wfi 15 wfe 20 ARM wfi 9 RISC-V wfi 14,P1,verified,docs/kernel-asm-survey.md lines 571-574,matches
-C008,P2,"x86 stac/clac 88 uses (FreeBSD 50, Linux 32)",P2,verified,docs/codegen-data/kernelasm/kernel_mnemonics.csv,"stac 35 + clac 53 = 88; FreeBSD 50, Linux 32 (plus NetBSD 4, OpenBSD 2)"
-C009,P2,OpenBSD enables SMAP,P2,verified,kernel-src/openbsd sys/arch/amd64/amd64/cpu.c:804,cr4 |= CR4_SMAP when the CPU has it
-C010,P2,STAC/CLAC are the SMAP instructions,P2,verified,felixcloutier.com/x86/stac,CPUID feature flag SMAP
-C011,P2,sub 4 and 5 of SYSX are free,P2,verified,pdp64-isa.md 4.11,only sub 0 PUSHX and sub 1 POPX defined
-C012,P2,PDP-11 MFPI/MTPI move to/from previous space; V7 fuword/copyin use them,P2 PDP-11,verified,"V7 mch.s _fuword, _copyin","mfpi (r1) in fuword, mfpi (r0)+ in copyin"
-C013,P2,VAX reads user addresses directly after PROBER/PROBEW,P2 VAX,verified,VAX-11 Architecture Reference Manual Rev 6.1 (archive.org); 4.3BSD,PROBER exists; user space in P0/P1 same address space
-C014,P2,"AArch64 PAN, ldtr/sttr; RISC-V SUM; ARM ldrt; m68k moves; s390 mvcos; MIPS EVA",P2,not_found,,vendor manuals not read; source not read in this pass
-C015,P3,rdtsc user-readable unless CR4.TSD,P3,verified,felixcloutier.com/x86/rdtsc,TSD=0 or CPL=0
-C016,P3,survey: rdtsc 19 rdtscp 10 mftb stckf rdhwr rdtime.d,P3,verified,kernel-asm-survey.md 658-662,
-C017,P3,RISC-V Linux reads time via csr rdtime,P3,verified,kernel-src/linux arch/riscv/include/asm/timex.h:53,csr_read(CSR_TIME)
-C018,P4,survey: cpuid 73 uses,P4,verified,kernel-asm-survey.md 798,
-C019,P4,VAX system identification register read with MFPR,P4,verified,"VAX-11 Architecture Reference Manual Rev 6.1, 9.5.1 SID",SID is an internal processor register
-C020,P5,survey: invlpg 16 invpcid 14; invlpgb 1,P5,verified,kernel-asm-survey.md 480,
-C021,P5,invpcid invalidates by process-context identifier,P5,verified,felixcloutier.com/x86/invpcid,
-C022,P5,VAX has TBIA and TBIS written by MTPR,P5,verified,"VAX-11 Architecture Reference Manual Rev 6.1; 4.3BSD locore.s mtpr $0,$TBIA",
-C023,P5,VAX translation buffer has no address-space tags; process half flushed on switch,P5,not_found,,not read; source not read in this pass
-C024,P6,survey: 12 of 14 families have cache maintenance; wbinvd 17 clflush 9 clwb 1,P6,verified,"kernel-asm-survey.md 376,418",
-C025,P6,PDP-11 larger-model cache kept consistent with Unibus DMA by hardware,P6 PDP-11,verified,"PDP-11/70 Handbook 1977-78, cache section",on a write hit from the I/O bus the cache block valid bit is cleared
-C026,P6,VAX drivers purge Unibus adapter buffered data paths,P6 VAX,not_found,,4.3BSD uba.c not read; source not read in this pass
-C027,P8,"survey: cmpxchg16b 4 (lock-prefixed count), cmpxchg8b 13, casp 2, amocas.q 1",P8,verified,kernel_mnemonics.csv; kernel-asm-survey.md 168,plain cmpxchg16b 2 in the csv; 4 counts lock cmpxchg16b too
-C028,P8,"VAX has BBSSI, BBCCI, ADAWI, INSQHI, REMQHI interlocked",P8 VAX,verified,VAX-11 Architecture Reference Manual Rev 6.1,"all four present; the 1977 Architecture Handbook has only INSQUE/REMQUE, INSQHI came later"
-C029,P9,survey: rdrand 12 rdseed 9,P9,verified,kernel-asm-survey.md 819,
-C030,P10,PDP-11 MMU is switched on by SR0 bit 0,P10,verified,PDP-11 04-55 Handbook 8.6.1,SR0 bit 0 = memory management enabled
-C031,P10,VAX MAPEN turns on mapping,P10,verified,VAX-11 Architecture Reference Manual Rev 6.1,MAPEN internal processor register
-C032,P10,DMW/MMUCTL facts,P10,verified,pdp64-system-architecture.md 417,dmw0/dmw1 storage only
-C033,P12,11/40 class has no SR1 (only SR0 and SR2); larger models have SR1/MMR1,P12 PDP-11,verified,PDP-11 04-55 Handbook ch.8 vs ch.10; 11/70 Handbook MMR1,KT11-D chapter lists SR0 and SR2 only
-C034,P12,V7 uses SR1 to back up and grow the stack; trap.c notes backup/l40.s for the 11/40,P12 PDP-11,verified,"V7 mch.s _backup (reads ssr), sys/trap.c:274",
-C035,P12,VAX first-part-done bit in PSL,P12 VAX,verified,VAX Architecture Handbook 1977; Reference Manual 6.1,FPD bit 27
-C036,P13,long double: RISC-V binary128; AArch64 binary128 default; Apple and Windows ARM64 = double,P13,verified,"llvm-project clang/lib/Basic/Targets/RISCV.h:42, AArch64.cpp:160,1678,1788",
-C037,P13,PowerPC Linux double-double,P13,corrected,"clang Targets/PPC.h:83,421-422","FreeBSD, OpenBSD and musl PowerPC use 64-bit long double, AIX too: so OpenBSD powerpc64 long double = double"
-C038,P14,"V7 vector table: traps at br7 = 340, devices brN",P14,verified,V7 usr/sys/conf/mkconf.c: br7 = 340,"klin br4, kwlp br6, rkio br5"
-C039,Q-isa,page 2 has 45 one-parcel abbreviations,Q8,corrected,pdp64-isa.md 4.18 line 1105,"43 defined, 21 reserved"
-C040,S1,19 slots reserved on page 2,S1 option 2,corrected,pdp64-isa.md 4.18,21 of 64 reserved
-C041,S1,"VAX vector: 16 vector registers, 64 elements, VLR, mask",S1 VAX,verified,VAX 6000 Series Vector Processor Programmers Guide (archive.org),
-C042,S1,AP-120B attached to PDP-11,S1,verified,FPS 7244 AP-120B Brochure 1976 (archive.org),PDP-11 listed as host; VAX not seen in this brochure
-C043,R8,"Hall and Robinson, Virtualizing the VAX architecture, ISCA 1991",R8,verified,Crossref,"ISCA '91, Judith S. Hall and Paul T. Robinson"
-C044,R8,OpenBSD vmm x86 only,R8,partly,kernel-src/openbsd,amd64 vmm_machdep.c working; arm64 has a stub vmmvar.h only; FreeBSD bhyve has arm64 and riscv trees
-C045,Q-IPL,VAX 32 IPL levels,Q4,corrected,VAX-11 Arch Ref Manual 6.1.1,"31 levels (1-15 software, 16-31 hardware) plus level 0 = 32 values"
-C046,Q2,PDR A bit = accessed,Q2,corrected,PDP-11 04-55 Handbook 10.x,A bit records accesses that met the trap condition; W bit = written; both cleared on PAR/PDR write
-C047,Q-fix,"OpenBSD interrupt controllers: APIC amd64, GIC arm64",R1,verified,kernel-src/openbsd sys/arch/*/dev,"agintc.c, apic.c; riscv64 plic.c aplic.c imsic.c; powerpc64 xics.c xive.c"
-C048,Q-cost,0.39% size cost of flag change,Q7,not_found,docs/*.md,errata 39 says at most about 0.77%; no 0.39% found
-C049,Q-cost,"code within 0.2% of gcc -Os, 7% below clang",Q8,verified,"CHANGES-SINCE-R20.md 504,605","bytes ratio 0.998 vs gcc, 7% smaller than clang"
-C050,Q-cost,68.2% instructions write a flag,Q6,verified,pdp64-ooo-readiness.md 17,
-C051,Q-cost,5.5 Mb BRAM; 600 LUT bridge,S,verified,pdp64-fpga-plan.md 281; pdp64-q64-bus.md 121,
-C052,misc,"243 sysreg numbers free, 13 defined",Q12,verified,pdp64-isa.md 911; survey 370,
-C053,P1,"RISC-V wfi resumes when an enabled interrupt becomes pending, unaffected by global MIE/SIE; NOP is legal",P1,partly,"RISC-V ISA manual snapshot (2026-10-22 fetch), WFI section",wake needs the individual enable bit; global bit ignored
-C054,P2,RISC-V SUM exists in sstatus,P2,verified,RISC-V ISA manual snapshot,SUM mentioned (HS-level SUM bit)
-C055,P2,"AArch64 PAN, ldtr/sttr, ARM ldrt, m68k moves, s390 mvcos, MIPS EVA",P2,not_found,,Arm ARM and others not read (browser could not deliver)
-C056,P9,V7 rand() seeded from the time,P9,corrected,V7 usr/src/libc/gen/rand.c (unixtree),fixed default seed 1; LCG 1103515245
-C057,P9,4BSD added random(),P9,verified,unixtree 4.3BSD usr/src/lib/libc/gen/random.c.gz,
-C058,Q2,"3BSD emulated reference bits; VAX has hardware modify bit, no reference bit",Q2,verified,unixtree 3BSD usr/doc/vmunix/design.t.gz:161; usr/src/sys/sys/vmpage.c.gz:270,VAX-11/780 has no reference bit
-C059,P4,VAX Unibus map: uballoc with map registers and BDPs,R6,verified,unixtree 4.3BSD usr/src/sys/vaxuba/uba.c.gz:102-125,uballoc sets up map registers and BDPs
-C060,P12,"VAX 4BSD locore uses prober/probew, mtpr TBIS, svpctx",P2,verified,"unixtree 4.3BSD usr/src/sys/vax/locore.s.gz:827,1008,1418",
-C061,R1,RISC-V PLIC/APLIC/IMSIC; OpenBSD riscv64 drivers,R1,verified,kernel-src/openbsd sys/arch/riscv64/dev,plic.c aplic.c imsic.c
-C062,Q2,Svade/Svadu: hardware A/D updating optional on RISC-V,Q2,verified,"RISC-V ISA manual snapshot, Svade/Svadu",Svade requires faults; Svadu adds hardware update
-C063,P8,RISC-V Zacas amocas exists,P8,verified,RISC-V ISA manual snapshot,54 mentions
-C064,P13,"OpenBSD ports' long double: powerpc64 = double (clang PPC.h:421), arm64/riscv64 binary128 by default",P13,corrected,llvm-project clang/lib/Basic/Targets/PPC.h,FreeBSD/OpenBSD/musl PowerPC use 64-bit
-C065,S1,VMS lazy vector context switching with a consumer flag,S4,not_found,VAX 6000 Vector Programmer's Guide,no 'consumer' wording found
-C066,S4,x86 lazy FPU a security hole; Linux went eager,S4,partly,kernel-src/linux arch/x86/kernel/fpu/core.c,Linux code is eager with TIF_NEED_FPU_LOAD; LazyFP page not delivered
-C067,P-OS,"Linux swiotlb, kernel_fpu_begin, EDAC, qspinlock history",various,partly,kernel-src/linux,"kernel_fpu_begin in arch/x86/include/asm/fpu/api.h; qspinlock.h in x86, powerpc, sparc, loongarch; swiotlb/EDAC docs and spinlock history not read"
-C068,R8,NVMM x86 only; bhyve,R8,partly,"FreeBSD tree sys/arm64/vmm, sys/riscv/vmm exist",NetBSD nvmm(4) page not delivered
-C069,rest,"remaining statements about Arm, Power, SPARC, s390, Alpha, MIPS, LoongArch behaviour, GIC/APIC history, PSCI/SBI, IOMMUs, virtualization extensions, long double on MSVC, Linux/BSD DMA APIs, x86 history",various,not_found,,browser stalled/crashed; manuals not read; left marked 'not confirmed in the sources read'
+id,section,claim,where_in_doc,status,source,note,evidence
+C001,P1,"V7 idle() lowers priority to 0, executes wait, restores PS",P1 PDP-11,verified,V7 usr/sys/conf/mch.s (tuhs.org) _idle,spl 0; wait; restore PS,practice
+C002,P1,V7 swtch calls idle() in a loop and a lost wake-up is bounded by the clock,P1 PDP-11,verified,V7 usr/sys/sys/slp.c comment,comment says the race exists and idle() returns in at most 1 HZ time,practice
+C003,P1,4BSD VAX idle loop spins at priority 0 testing the run-queue summary,P1 VAX,verified,4.3BSD vax/locore.s Idle: (tuhs.org),"Idle: tstl _whichqs; brb idle, at IPL 0",practice
+C004,P1,x86 sti delays interrupts by one instruction so sti;hlt is safe,P1 x86,verified,felixcloutier.com/x86/sti (SDM text),interrupts inhibited on the instruction boundary following STI,guarantee
+C005,P1,PDP-11 WAIT instruction exists,P1 PDP-11,verified,"PDP-11 04-55 Processor Handbook 1976, WAIT",processor stops fetching and waits for interrupt,guarantee
+C006,P1,AArch64 and RISC-V wfi end sleep on a pending masked interrupt,P1 current systems,not_found,,Arm ARM and RISC-V privileged spec not yet read; source not read in this pass,practice
+C007,P1,survey counts hlt 57 mwait 9 wfi 15 wfe 20 ARM wfi 9 RISC-V wfi 14,P1,verified,docs/kernel-asm-survey.md lines 571-574,matches,internal
+C008,P2,"x86 stac/clac 88 uses (FreeBSD 50, Linux 32)",P2,verified,docs/codegen-data/kernelasm/kernel_mnemonics.csv,"stac 35 + clac 53 = 88; FreeBSD 50, Linux 32 (plus NetBSD 4, OpenBSD 2)",internal
+C009,P2,OpenBSD enables SMAP,P2,verified,kernel-src/openbsd sys/arch/amd64/amd64/cpu.c:804,cr4 |= CR4_SMAP when the CPU has it,practice
+C010,P2,STAC/CLAC are the SMAP instructions,P2,verified,felixcloutier.com/x86/stac,CPUID feature flag SMAP,guarantee
+C011,P2,sub 4 and 5 of SYSX are free,P2,verified,pdp64-isa.md 4.11,only sub 0 PUSHX and sub 1 POPX defined,internal
+C012,P2,PDP-11 MFPI/MTPI move to/from previous space; V7 fuword/copyin use them,P2 PDP-11,verified,"V7 mch.s _fuword, _copyin","mfpi (r1) in fuword, mfpi (r0)+ in copyin",practice
+C013,P2,VAX reads user addresses directly after PROBER/PROBEW,P2 VAX,verified,VAX-11 Architecture Reference Manual Rev 6.1 (archive.org); 4.3BSD,PROBER exists; user space in P0/P1 same address space,guarantee
+C014,P2,"AArch64 PAN, ldtr/sttr; RISC-V SUM; ARM ldrt; m68k moves; s390 mvcos; MIPS EVA",P2,not_found,,vendor manuals not read; source not read in this pass,practice
+C015,P3,rdtsc user-readable unless CR4.TSD,P3,verified,felixcloutier.com/x86/rdtsc,TSD=0 or CPL=0,guarantee
+C016,P3,survey: rdtsc 19 rdtscp 10 mftb stckf rdhwr rdtime.d,P3,verified,kernel-asm-survey.md 658-662,,internal
+C017,P3,RISC-V Linux reads time via csr rdtime,P3,verified,kernel-src/linux arch/riscv/include/asm/timex.h:53,csr_read(CSR_TIME),practice
+C018,P4,survey: cpuid 73 uses,P4,verified,kernel-asm-survey.md 798,,internal
+C019,P4,VAX system identification register read with MFPR,P4,verified,"VAX-11 Architecture Reference Manual Rev 6.1, 9.5.1 SID",SID is an internal processor register,guarantee
+C020,P5,survey: invlpg 16 invpcid 14; invlpgb 1,P5,verified,kernel-asm-survey.md 480,,internal
+C021,P5,invpcid invalidates by process-context identifier,P5,verified,felixcloutier.com/x86/invpcid,,guarantee
+C022,P5,VAX has TBIA and TBIS written by MTPR,P5,verified,"VAX-11 Architecture Reference Manual Rev 6.1; 4.3BSD locore.s mtpr $0,$TBIA",,guarantee
+C023,P5,VAX translation buffer has no address-space tags; process half flushed on switch,P5,not_found,,not read; source not read in this pass,practice
+C024,P6,survey: 12 of 14 families have cache maintenance; wbinvd 17 clflush 9 clwb 1,P6,verified,"kernel-asm-survey.md 376,418",,internal
+C025,P6,PDP-11 larger-model cache kept consistent with Unibus DMA by hardware,P6 PDP-11,verified,"PDP-11/70 Handbook 1977-78, cache section",on a write hit from the I/O bus the cache block valid bit is cleared,guarantee
+C026,P6,VAX drivers purge Unibus adapter buffered data paths,P6 VAX,not_found,,4.3BSD uba.c not read; source not read in this pass,practice
+C027,P8,"survey: cmpxchg16b 4 (lock-prefixed count), cmpxchg8b 13, casp 2, amocas.q 1",P8,verified,kernel_mnemonics.csv; kernel-asm-survey.md 168,plain cmpxchg16b 2 in the csv; 4 counts lock cmpxchg16b too,internal
+C028,P8,"VAX has BBSSI, BBCCI, ADAWI, INSQHI, REMQHI interlocked",P8 VAX,verified,VAX-11 Architecture Reference Manual Rev 6.1,"all four present; the 1977 Architecture Handbook has only INSQUE/REMQUE, INSQHI came later",guarantee
+C029,P9,survey: rdrand 12 rdseed 9,P9,verified,kernel-asm-survey.md 819,,internal
+C030,P10,PDP-11 MMU is switched on by SR0 bit 0,P10,verified,PDP-11 04-55 Handbook 8.6.1,SR0 bit 0 = memory management enabled,guarantee
+C031,P10,VAX MAPEN turns on mapping,P10,verified,VAX-11 Architecture Reference Manual Rev 6.1,MAPEN internal processor register,guarantee
+C032,P10,DMW/MMUCTL facts,P10,verified,pdp64-system-architecture.md 417,dmw0/dmw1 storage only,internal
+C033,P12,11/40 class has no SR1 (only SR0 and SR2); larger models have SR1/MMR1,P12 PDP-11,verified,PDP-11 04-55 Handbook ch.8 vs ch.10; 11/70 Handbook MMR1,KT11-D chapter lists SR0 and SR2 only,guarantee
+C034,P12,V7 uses SR1 to back up and grow the stack; trap.c notes backup/l40.s for the 11/40,P12 PDP-11,verified,"V7 mch.s _backup (reads ssr), sys/trap.c:274",,practice
+C035,P12,VAX first-part-done bit in PSL,P12 VAX,verified,VAX Architecture Handbook 1977; Reference Manual 6.1,FPD bit 27,guarantee
+C036,P13,long double: RISC-V binary128; AArch64 binary128 default; Apple and Windows ARM64 = double,P13,verified,"llvm-project clang/lib/Basic/Targets/RISCV.h:42, AArch64.cpp:160,1678,1788",,practice
+C037,P13,PowerPC Linux double-double,P13,corrected,"clang Targets/PPC.h:83,421-422","FreeBSD, OpenBSD and musl PowerPC use 64-bit long double, AIX too: so OpenBSD powerpc64 long double = double",practice
+C038,P14,"V7 vector table: traps at br7 = 340, devices brN",P14,verified,V7 usr/sys/conf/mkconf.c: br7 = 340,"klin br4, kwlp br6, rkio br5",practice
+C039,Q-isa,page 2 has 45 one-parcel abbreviations,Q8,verified,"spec/pdp64-mnemonics.hbnf p2op block, common/p2.c (authoritative); ISA 4.18 prose was stale","grammar defines 45 (includes isync 0x2C, hint 0x2D), 19 reserved; the first pass wrongly followed the stale prose",internal
+C040,S1,19 slots reserved on page 2,S1 option 2,verified,"spec/pdp64-mnemonics.hbnf p2op block, common/p2.c (authoritative); ISA 4.18 prose was stale","grammar defines 45 (includes isync 0x2C, hint 0x2D), 19 reserved; the first pass wrongly followed the stale prose",internal
+C041,S1,"VAX vector: 16 vector registers, 64 elements, VLR, mask",S1 VAX,verified,VAX 6000 Series Vector Processor Programmers Guide (archive.org),,practice
+C042,S1,AP-120B attached to PDP-11,S1,verified,FPS 7244 AP-120B Brochure 1976 (archive.org),PDP-11 listed as host; VAX not seen in this brochure,practice
+C043,R8,"Hall and Robinson, Virtualizing the VAX architecture, ISCA 1991",R8,verified,Crossref,"ISCA '91, Judith S. Hall and Paul T. Robinson",guarantee
+C044,R8,OpenBSD vmm x86 only,R8,partly,kernel-src/openbsd,amd64 vmm_machdep.c working; arm64 has a stub vmmvar.h only; FreeBSD bhyve has arm64 and riscv trees,practice
+C045,Q-IPL,VAX 32 IPL levels,Q4,corrected,VAX-11 Arch Ref Manual 6.1.1,"31 levels (1-15 software, 16-31 hardware) plus level 0 = 32 values",guarantee
+C046,Q2,PDR A bit = accessed,Q2,corrected,PDP-11 04-55 Handbook 10.x,A bit records accesses that met the trap condition; W bit = written; both cleared on PAR/PDR write,guarantee
+C047,Q-fix,"OpenBSD interrupt controllers: APIC amd64, GIC arm64",R1,verified,kernel-src/openbsd sys/arch/*/dev,"agintc.c, apic.c; riscv64 plic.c aplic.c imsic.c; powerpc64 xics.c xive.c",practice
+C048,Q-cost,0.39% size cost of flag change,Q7,verified,docs/codegen-data/pdp64-after-errata39.csv,"1,499,530 to 1,505,382 bytes = 0.39%; first pass wrongly reported not found",internal
+C049,Q-cost,"code within 0.2% of gcc -Os, 7% below clang",Q8,verified,"CHANGES-SINCE-R20.md 504,605","bytes ratio 0.998 vs gcc, 7% smaller than clang",internal
+C050,Q-cost,68.2% instructions write a flag,Q6,verified,pdp64-ooo-readiness.md 17,,internal
+C051,Q-cost,5.5 Mb BRAM; 600 LUT bridge,S,verified,pdp64-fpga-plan.md 281; pdp64-q64-bus.md 121,,internal
+C052,misc,"243 sysreg numbers free, 13 defined",Q12,verified,pdp64-isa.md 911; survey 370,,internal
+C053,P1,"RISC-V wfi resumes when an enabled interrupt becomes pending, unaffected by global MIE/SIE; NOP is legal",P1,partly,"RISC-V ISA manual snapshot (2026-10-22 fetch), WFI section",wake needs the individual enable bit; global bit ignored,guarantee
+C054,P2,RISC-V SUM exists in sstatus,P2,verified,RISC-V ISA manual snapshot,SUM mentioned (HS-level SUM bit),guarantee
+C055,P2,"AArch64 PAN, ldtr/sttr, ARM ldrt, m68k moves, s390 mvcos, MIPS EVA",P2,not_found,,Arm ARM and others not read (browser could not deliver),practice
+C056,P9,V7 rand() seeded from the time,P9,corrected,V7 usr/src/libc/gen/rand.c (unixtree),fixed default seed 1; LCG 1103515245,practice
+C057,P9,4BSD added random(),P9,verified,unixtree 4.3BSD usr/src/lib/libc/gen/random.c.gz,,practice
+C058,Q2,"3BSD emulated reference bits; VAX has hardware modify bit, no reference bit",Q2,verified,unixtree 3BSD usr/doc/vmunix/design.t.gz:161; usr/src/sys/sys/vmpage.c.gz:270,VAX-11/780 has no reference bit,practice
+C059,P4,VAX Unibus map: uballoc with map registers and BDPs,R6,verified,unixtree 4.3BSD usr/src/sys/vaxuba/uba.c.gz:102-125,uballoc sets up map registers and BDPs,practice
+C060,P12,"VAX 4BSD locore uses prober/probew, mtpr TBIS, svpctx",P2,verified,"unixtree 4.3BSD usr/src/sys/vax/locore.s.gz:827,1008,1418",,practice
+C061,R1,RISC-V PLIC/APLIC/IMSIC; OpenBSD riscv64 drivers,R1,verified,kernel-src/openbsd sys/arch/riscv64/dev,plic.c aplic.c imsic.c,practice
+C062,Q2,Svade/Svadu: hardware A/D updating optional on RISC-V,Q2,verified,"RISC-V ISA manual snapshot, Svade/Svadu",Svade requires faults; Svadu adds hardware update,guarantee
+C063,P8,RISC-V Zacas amocas exists,P8,verified,RISC-V ISA manual snapshot,54 mentions,guarantee
+C064,P13,"OpenBSD ports' long double: powerpc64 = double (clang PPC.h:421), arm64/riscv64 binary128 by default",P13,corrected,llvm-project clang/lib/Basic/Targets/PPC.h,FreeBSD/OpenBSD/musl PowerPC use 64-bit,practice
+C065,S1,VMS lazy vector context switching with a consumer flag,S4,not_found,VAX 6000 Vector Programmer's Guide,no 'consumer' wording found,practice
+C066,S4,x86 lazy FPU a security hole; Linux went eager,S4,partly,kernel-src/linux arch/x86/kernel/fpu/core.c,Linux code is eager with TIF_NEED_FPU_LOAD; LazyFP page not delivered,practice
+C067,P-OS,"Linux swiotlb, kernel_fpu_begin, EDAC, qspinlock history",various,partly,kernel-src/linux,"kernel_fpu_begin in arch/x86/include/asm/fpu/api.h; qspinlock.h in x86, powerpc, sparc, loongarch; swiotlb/EDAC docs and spinlock history not read",practice
+C068,R8,NVMM x86 only; bhyve,R8,partly,"FreeBSD tree sys/arm64/vmm, sys/riscv/vmm exist",NetBSD nvmm(4) page not delivered,practice
+C069,P1,AArch64 wfi wakes with interrupt masked by PSTATE.I; kernels rely on it,P1,partly,Linux arm64/kernel/idle.c:36-60; arm64 ARM ARM not read,comment: PMR-masked interrupts do not wake the core; guarantee text not read,practice
+C070,P2,AArch64 PAN set by Linux; LDTR/STTR used in uaccess; LLVM has pan,P2,verified,"Linux arm64/include/asm/sysreg.h:106, asm-uaccess.h:74; llvm AArch64Features.td:116",,practice
+C071,P2,"ARM ldrt, m68k moves, s390 mvcos, MIPS EVA used for user access",P2,verified,"Linux arm/lib/getuser.S:97, m68k/include/asm/uaccess.h:26, s390/include/asm/uaccess.h:45; llvm Mips.td:168 FeatureEVA",,practice
+C072,P3,"vDSO clock reads use cntvct, rdhwr, rdtime, mftb, stckf",P3,verified,"Linux arm64/include/asm/vdso/gettimeofday.h:85, mips/include/asm/vdso/gettimeofday.h:159, riscv timex.h:53, powerpc vdso/timebase.h:16, s390 timex.h:176",,practice
+C073,P3,TSC history: unsynchronized across cores; constant-rate/invariant TSC,P3,verified,Wikipedia Time Stamp Counter,,secondary
+C074,P4,"AArch64 ID_* registers read by Linux; s390 stfle, Alpha amask, PowerPC PVR",P4,verified,"Linux arm64/kernel/cpufeature.c:228, s390/include/asm/facility.h:22, alpha/include/asm/elf.h:128, powerpc reg.h:744",,practice
+C075,P5,Arm TLBI by ASID inner-shareable; x86 invlpgb used by Linux; OpenBSD IPI shootdown,P5,verified,"Linux arm64/include/asm/tlbflush.h:385, x86/mm/tlb.c:303; OpenBSD amd64/pmap.c:362",,practice
+C076,P7,"Linux uses PSCI and SMCCC, SBI ecall",P7,verified,"Linux arm64/kernel/psci.c, smccc-call.S; riscv/include/asm/sbi.h",,practice
+C077,P11,RISC-V LR/SC eventual success rule for constrained loops,P11,verified,RISC-V ISA manual snapshot 5.2.1,,guarantee
+C078,P11,Arm LSE ldadd/casp used by Linux,P11,verified,"Linux arm64/include/asm/atomic_lse.h:62,297",,practice
+C079,P11,"Linux spinlocks: ticket then queued (qspinlock, MCS), 3.15 timeframe",P11,verified,LWN 590243,"qspinlock.h in x86, powerpc, sparc, loongarch trees",secondary
+C080,P11,x86 lock prefix scope (cache line vs bus); VAX bus-lock wording,P11,not_found,,Intel SDM and VAX text not read in this pass,-
+C081,P13,long double 64 bits on Windows and Apple AArch64; binary128 elsewhere; PowerPC FreeBSD/OpenBSD/musl/AIX 64,P13,verified,"llvm-project clang Targets AArch64.cpp:160,1678,1788; PPC.h:411-473",,practice
+C082,P13,MSVC long double = double,P13,partly,"clang Windows target (LLP64, long double 8) ; Microsoft ARM64 ABI page has no explicit sentence",,practice
+C083,R1,OpenBSD/FreeBSD/NetBSD interrupt controller drivers per platform,R1,verified,"kernel-src openbsd amd64/apic.c, arm64/dev/agintc.c, riscv64/dev/{plic,aplic,imsic}.c, powerpc64/dev/{xics,xive}.c; freebsd gic_v3.c plic.c; netbsd cortex/gicv3.c",,practice
+C084,R2,"AP startup: x86 INIT+STARTUP IPI, arm64 spin-table and PSCI, RISC-V SBI HSM",R2,verified,"Linux x86/kernel/smpboot.c:858-912, arm64/kernel/smp_spin_table.c, psci.c, riscv sbi.h:31,80",,practice
+C085,R6,swiotlb for devices with limited DMA addressing; BSD bounce in bus_dma,R6,verified,kernel.org swiotlb doc; freebsd x86/x86/busdma_bounce.c; openbsd amd64/bus_dma.c; netbsd x86/bus_dma.c,,guarantee
+C086,R7,Linux EDAC; x86 MCE code,R7,verified,kernel.org EDAC doc; Linux arch/x86/kernel/cpu/mce,,guarantee
+C087,R8,KVM per architecture; bhyve archs; NVMM x86 only,R8,verified,"Linux arch/*/kvm; freebsd sys/{amd64,arm64,riscv}/vmm; NetBSD nvmm(4) man page",NetBSD nvmm lists amd64 and x86 only,practice
+C088,R8,Hyper-V and Xen paravirtualization,R8,not_found,,not read,-
+C089,S1,AVX-512 removed from some client parts; AVX10 announced 2023,S1,verified,Wikipedia AVX-512,,secondary
+C090,S1,AMX introduced with Sapphire Rapids,S1,verified,Wikipedia Advanced Matrix Extensions,,secondary
+C091,S1,SVE width 128 to 2048 bits; SME exists,S1,verified,Wikipedia AArch64,,secondary
+C092,S1,RISC-V P is a proposal; LLVM has experimental P feature,S1,verified,RISC-V ISA manual snapshot (packed-SIMD proposal); llvm RISCVFeatures.td:1071,,guarantee
+C093,S1,"Alpha MVI and PA-RISC MAX on integer registers, SPARC VIS on FP registers, MDMX exists",S1,verified,"Wikipedia pages DEC Alpha, MAX, VIS, MDMX",,secondary
+C094,S1,"MIPS MSA, s390 vector, SPARC VIS, LoongArch LSX, PowerPC AltiVec in Linux",S1,verified,"Linux arch/mips/include/asm/msa.h, s390/kernel/fpu.c, sparc visasm.h, loongarch hwcap.h",,practice
+C095,S3,Linux RISC-V vector support and arm64 SVE vector-length handling,S3,verified,kernel.org riscv vector doc; Linux arm64/kernel/fpsimd.c,,practice
+C096,S4,LazyFP CVE-2018-3665; eager restore mitigation; Linux eager,S4,verified,Wikipedia Lazy FP state restore; Linux x86/kernel/fpu/core.c,,secondary
+C097,S4,kernel_fpu_begin; FreeBSD fpu_kern_enter; OpenBSD fpu_kernel_enter,S4,verified,Linux x86/kernel/fpu/core.c:495; freebsd amd64/amd64/fpu.c:1143; openbsd amd64/amd64/fpu.c:145,,practice
+C098,S5,"bf16, SDOT, I8MM, VNNI hwcaps in Linux",S5,verified,"Linux arm64/include/uapi/asm/hwcap.h:46,87,91,92; x86 cpufeatures.h:325,413",,practice
+C099,P15,"prefetch(): Linux helpers; survey counts (pld 85, prefetch 48, prfm 22, dcbt 23)",P15,verified,"Linux x86 processor.h:642,654; kernel_mnemonics.csv",,practice
+C100,P16,"V7 profil(2), 4.2BSD gprof; survey rdpmc 6 on x86",P16,verified,"unixtree V7/usr/man/man2/profil.2.gz, 4.2BSD/usr/src/ucb/gprof; kernel_mnemonics.csv",,practice
+C101,Q2,4BSD reference-bit emulation (3BSD source),Q2,verified,unixtree 3BSD vmpage.c.gz:270,,practice
+C102,Q3,RISC-V Sv39/Sv48/Sv57,Q3,verified,RISC-V ISA manual snapshot,,guarantee
+C103,Q5,RVWMO and Ztso,Q5,verified,RISC-V ISA manual snapshot,,guarantee
+C104,rest,"unread: Arm ARM wfi/ldtr/TLBI semantics, ARM ldm restart, PowerPC CR fields, x86 15-byte limit, virtio-rng, TileLink/CHI, Cray/STAR-100, Rocket/BOOM, VAX multiprocessors and 11/782, 4BSD barely used MP, VMS vector lazy switching, Hyper-V/Xen, Apple matrix coprocessor, OpenBSD virtio drivers, OpenBSD early-boot entropy",various,not_found,,manuals not reachable in the time; left marked,-
