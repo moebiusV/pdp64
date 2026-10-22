@@ -72,9 +72,16 @@ the oracle; the second would be better as an annotation in the mnemonic grammar 
   that straddle each length); both refusing is agreement.
 - `negative.py`: `tests/asm-err/*.s` must be refused by llvm-mc as well.
 
-## Open problems and awkward spots (design feedback)
+## Results (M1)
 
-See the end of the milestone report; the list is kept here as the work goes on.
+- `oracle.py`: 52 of 56 programs of tests/asm and tests/sim identical to as64 (bytes, relocations, symbols, disassembly round trip); 4 skipped
+  (the literal pool in tests/asm/pool.s and tests/sim/pool.s; `digitnames.s` names that start with a digit; `utf8.s` non-ASCII names).
+- `forms.py`: 6297 instructions/programs compared, 6297 agree (463 are refused by both: out-of-range fields).
+- `negative.py`: 26 of 27 programs that as64 refuses are refused; 6 pool programs skipped; `odd.s` (an instruction at an odd address) is
+  accepted by llvm-mc: MC has no hook that sees the final offset of an instruction in a data fragment (open).
+- `runsim.py`: 32 of 33 tests/sim programs assembled by llvm-mc, linked by ld64 and run under sim64 give the expected status/output (pool.s skipped).
+
+## Open problems and awkward spots (design feedback)
 
 1. **The destination register is also a source** (`add src, rd`): in LLVM that is a tied operand.  The M1 records have no outputs; the
    selection milestone will have to redo the register operands (outs and ins, `$rd = $rd_in`).
@@ -88,3 +95,5 @@ See the end of the milestone report; the list is kept here as the work goes on.
 5. **ATOM and MESC** are in the ISA but not in as64 (no encoder, no oracle), so they are not in the LLVM target either.
 6. **`.comm`** has no alignment operand in as64 (8 is implied); LLVM wants one.
 7. `EM_PDP64 = 0xF064` is a private-use number.
+8. **An instruction at an odd address** is an error in as64; llvm-mc accepts it (no MC hook sees the final offset).
+9. Names: LLVM's lexer has no non-ASCII identifiers and no names that start with a digit; quoted names are not tested.
