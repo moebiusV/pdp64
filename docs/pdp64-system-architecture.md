@@ -252,7 +252,9 @@ loader. OpenBSD insists on properties this architecture has or can have: write-x
 
 **The order this suggests:** the system architecture of sections 3 to 6, the QEMU target extended to match, a Unix/32V port with the existing compiler, then the LLVM back end, then OpenBSD.
 
-## 15. System v1: a complete design for the first implementation (proposed 2026-10-22)
+## 15. System v1: a complete design for the first implementation (accepted 2026-10-22)
+
+The options, how other architectures and operating systems do each of these, and how each choice measures against the goals (and where it falls short) are in [`pdp64-system-design.md`](pdp64-system-design.md).
 
 **Status: accepted by the author on 2026-10-22 as the design to implement in the QEMU target and to write the first kernel against; the author may still change any part of it after seeing it work** (errata 36; the author's choices were register-based exception entry, software-managed accessed and dirty bits, and the whole of this section in the first cut). Sections 1 to 14 say what is established and what is open; this section closes every open item that the QEMU
 memory-management unit and privileged mode, and a Unix/32V port, need, with the defaults most in the spirit of the PDP-11 and of the rest of this ISA, so that it can be implemented and then judged.
