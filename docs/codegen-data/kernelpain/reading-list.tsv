@@ -65,3 +65,28 @@ https://marc.info/?l=openbsd-tech&m=151743333628424&w=2	Re: amd64: much earlier 
 https://marc.info/?l=openbsd-tech&r=1&w=2&b=201801	openbsd-tech January 2018 listing (page 1)	2018-01	fetched 2026-10-22	[D] developer statement or index page, read in full
 https://lists.freebsd.org/archives/freebsd-arch/index.html	freebsd-arch archive index	2026-10	fetched 2026-10-22	[D] developer statement or index page, read in full
 https://lists.freebsd.org/archives/freebsd-arch/2018-January/subject.html	freebsd-arch January 2018	2018-01	attempt failed: 503 Backend fetch failed (one try); old-style URL gave 404	retry later
+https://marc.info/?l=openbsd-tech&m=153504937925732&w=2	Disable SMT/Hyperthreading in all Intel BIOSes (Theo de Raadt)	2018-08-23	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://marc.info/?l=openbsd-tech&m=176175324400465&w=2	Re: System calls cookie, a security mitigation idea (Theo de Raadt)	2025-10-29	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://marc.info/?l=openbsd-tech&m=167511454301227&w=2	Re: Does openssl know about ROP? (Theo de Raadt)	2023-01-30	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://marc.info/?l=openbsd-tech&m=175289708829074&w=2	Re: Incorrect Meltdown/Spectre mitigation exceptions for AMD64 (Philip Guenther)	2025-07-19	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://marc.info/?l=openbsd-tech&m=172099472920406&w=2	proposed www pages with advice on cpu extensions	2024-07-14	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://lore.kernel.org/all/1436189996-7220-3-git-send-email-mgorman@suse.de/	mm: Send one IPI per CPU to TLB flush all entries after unmapping pages (Mel Gorman)	2015-07-06	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://lore.kernel.org/all/1477675636-3957-1-git-send-email-catalin.marinas@arm.com/	arm64: Privileged Access Never using TTBR0_EL1 switching v4 (Catalin Marinas)	2016-10-28	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://lore.kernel.org/all/20220706231536.2041855-4-heiko@sntech.de/	riscv: Add support for non-coherent devices using zicbom (Heiko Stuebner)	2022-07-06	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://lore.kernel.org/all/20190628093131.199499-1-glider@google.com/	add init_on_alloc/init_on_free boot options v10 (Alexander Potapenko)	2019-06-28	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://lore.kernel.org/all/877dc7tj30.ffs@tglx/	Re: [patch 0/6] x86/fpu: Preparatory changes for guest AMX support (Thomas Gleixner)	2021-12-14	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://lore.kernel.org/all/20181125185005.866780996@linutronix.de/	x86/speculation: Add prctl() control for indirect branch speculation (Gleixner)	2018-11-25	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://lore.kernel.org/all/5A93E52002000078001AB99C@prv-mh.provo.novell.com/	(partial) Spectre v2 mitigation without IBRS on Skylake (Jan Beulich)	2018-02-26	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://en.wikipedia.org/wiki/Transient_execution_CPU_vulnerability	Transient execution CPU vulnerability (Wikipedia, pointer)	2026-10	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://en.wikipedia.org/wiki/Row_hammer	Row hammer (Wikipedia, pointer)	2026-10	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://meltdownattack.com/	Meltdown and Spectre (authors' site)	2018	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://www.openbsd.org/innovations.html	OpenBSD innovations	2026-10	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://man.openbsd.org/mimmutable.2	mimmutable(2)	7.3	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://man.openbsd.org/pinsyscalls.2	pinsyscalls(2)	7.5	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://man.openbsd.org/pledge.2	pledge(2) (fetched, not yet quoted)		fetched 2026-10-22	[D]/[G]/[S] read in full
+https://man.openbsd.org/unveil.2	unveil(2) (fetched, not yet quoted)		fetched 2026-10-22	[D]/[G]/[S] read in full
+https://www.openbsd.org/papers/	OpenBSD papers index	2026-10	fetched 2026-10-22	[D]/[G]/[S] read in full
+https://www.openbsd.org/papers/bsdtw.pdf	Theo de Raadt, Mitigations and other real Security Features (slides)		fetched, no text extractable (PDF or image slides)	retry by another route
+https://www.openbsd.org/papers/eurobsdcon2023-bluhm-mitigations.pdf	Alexander Bluhm, OpenBSD Attack Mitigations (slides)		fetched, no text extractable (PDF or image slides)	retry by another route
+https://www.openbsd.org/papers/ru13-deraadt	Theo de Raadt, Security Mitigation Techniques: An update after 10 years (image slides)		fetched, no text extractable (PDF or image slides)	retry by another route
+https://www.google.com/search?q=OpenBSD+disable+SMT+hyperthreading	Google search (result was an AI summary; used only to find the primary post)		fetched, weak secondary	not cited as evidence
