@@ -1,0 +1,97 @@
+diff --git a/hw/Kconfig b/hw/Kconfig
+index c92ca2b..685e793 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -61,6 +61,7 @@ source m68k/Kconfig
+ source microblaze/Kconfig
+ source mips/Kconfig
+ source or1k/Kconfig
++source pdp64/Kconfig
+ source ppc/Kconfig
+ source riscv/Kconfig
+ source rx/Kconfig
+diff --git a/hw/meson.build b/hw/meson.build
+index 7fa81db..dd06d0b 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -11,6 +11,7 @@ subdir('m68k')
+ subdir('microblaze')
+ subdir('mips')
+ subdir('or1k')
++subdir('pdp64')
+ subdir('ppc')
+ subdir('remote')
+ subdir('riscv')
+diff --git a/include/elf.h b/include/elf.h
+index bbfac05..3bebde6 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -185,6 +185,7 @@ typedef struct mips_elf_abiflags_v0 {
+ #define EM_HEXAGON          164 /* Qualcomm Hexagon */
+ 
+ #define EM_RX               173 /* Renesas RX family */
++#define EM_PDP64            0xF064 /* pdp64 (private use, see github.com/moebiusV/pdp64) */
+ 
+ #define EM_RISCV            243 /* RISC-V */
+ 
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index 21eed4c..1009cfa 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -22,6 +22,7 @@
+ #pragma GCC poison TARGET_MIPS64
+ #pragma GCC poison TARGET_ABI_MIPSN64
+ #pragma GCC poison TARGET_OR1K
++#pragma GCC poison TARGET_PDP64
+ #pragma GCC poison TARGET_PPC
+ #pragma GCC poison TARGET_PPC64
+ #pragma GCC poison TARGET_ABI32
+diff --git a/include/qemu/base-arch-defs.h b/include/qemu/base-arch-defs.h
+index f334657..ce3de90 100644
+--- a/include/qemu/base-arch-defs.h
++++ b/include/qemu/base-arch-defs.h
+@@ -32,6 +32,7 @@ enum {
+                             (1UL << SYS_EMU_TARGET_XTENSAEB),
+     QEMU_ARCH_OR1K =        (1UL << SYS_EMU_TARGET_OR1K),
+     QEMU_ARCH_TRICORE =     (1UL << SYS_EMU_TARGET_TRICORE),
++    QEMU_ARCH_PDP64 =       (1UL << SYS_EMU_TARGET_PDP64),
+     QEMU_ARCH_HPPA =        (1UL << SYS_EMU_TARGET_HPPA),
+     QEMU_ARCH_RISCV =       (1UL << SYS_EMU_TARGET_RISCV32) |
+                             (1UL << SYS_EMU_TARGET_RISCV64),
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 9b22480..1f97fba 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -39,7 +39,7 @@
+ { 'enum' : 'SysEmuTarget',
+   'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'hexagon', 'hppa', 'i386',
+              'loongarch64', 'm68k', 'microblaze', 'mips', 'mips64',
+-             'mips64el', 'mipsel', 'or1k', 'ppc',
++             'mips64el', 'mipsel', 'or1k', 'pdp64', 'ppc',
+              'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+              'sh4eb', 'sparc', 'sparc64', 'tricore',
+              'x86_64', 'xtensa', 'xtensaeb' ] }
+diff --git a/target/Kconfig b/target/Kconfig
+index 0288a3f..546f958 100644
+--- a/target/Kconfig
++++ b/target/Kconfig
+@@ -8,6 +8,7 @@ source m68k/Kconfig
+ source microblaze/Kconfig
+ source mips/Kconfig
+ source or1k/Kconfig
++source pdp64/Kconfig
+ source ppc/Kconfig
+ source riscv/Kconfig
+ source rx/Kconfig
+diff --git a/target/meson.build b/target/meson.build
+index d891ef9..004b29a 100644
+--- a/target/meson.build
++++ b/target/meson.build
+@@ -9,6 +9,7 @@ subdir('m68k')
+ subdir('microblaze')
+ subdir('mips')
+ subdir('or1k')
++subdir('pdp64')
+ subdir('ppc')
+ subdir('riscv')
+ subdir('rx')

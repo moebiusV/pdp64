@@ -1,0 +1,4 @@
+config PDP64_VIRT
+    bool
+    default y
+    depends on PDP64
