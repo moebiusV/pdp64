@@ -1,0 +1,2 @@
+repo,url,head,head_date,non_merge_commits,git_log_command
+freebsd,https://github.com/freebsd/freebsd-src,775e421dc38f18fa6b7fdc7b214a013cca44b58b,2026-10-22T11:40:50-05:00,309283,git -C /home/david/claude/kernel-msgs/freebsd.git log --no-merges --date=format:%Y-%m-%d --format=%x01%H%x1f%ad%x1f%s%x1f%b%x02

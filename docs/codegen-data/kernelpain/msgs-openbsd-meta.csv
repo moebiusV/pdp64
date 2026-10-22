@@ -1,0 +1,2 @@
+repo,url,head,head_date,non_merge_commits,git_log_command
+openbsd,https://github.com/openbsd/src,d962f40cd0b4b974405c3cac59ec7417040c0533,2026-10-22T15:01:10Z,248109,git -C /home/david/claude/kernel-msgs/openbsd.git log --no-merges --date=format:%Y-%m-%d --format=%x01%H%x1f%ad%x1f%s%x1f%b%x02

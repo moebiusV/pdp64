@@ -1,0 +1,758 @@
+category,prefix,kind,commits
+accessed-dirty,(none),any,31
+accessed-dirty,(none),subj,20
+alignment,(none),any,288
+alignment,(none),subj,191
+alignment,arm64,any,3
+alignment,bhyve,any,6
+alignment,bhyve,subj,3
+alignment,linuxkpi,any,6
+alignment,linuxkpi,subj,4
+alignment,riscv,any,3
+alignment,vdev_disk,any,3
+asid-pcid,(none),any,41
+asid-pcid,(none),subj,33
+asid-pcid,amd64,any,3
+asid-pcid,amd64 pmap,any,6
+asid-pcid,amd64 pmap,subj,3
+atomics-llsc,(none),any,32
+atomics-llsc,(none),subj,14
+barrier-ordering,(none),any,134
+barrier-ordering,(none),subj,105
+barrier-ordering,linuxkpi,any,5
+cache-coherence,(none),any,202
+cache-coherence,(none),subj,130
+cache-coherence,arm64,any,7
+cache-coherence,arm64,subj,4
+cache-coherence,fusefs,any,8
+cache-coherence,fusefs,subj,4
+cache-coherence,riscv,any,5
+cache-coherence,riscv,subj,3
+cache-coherence,virtio_net,any,4
+compat-32bit,(none),any,975
+compat-32bit,(none),subj,724
+compat-32bit,arm,any,4
+compat-32bit,arm,subj,3
+compat-32bit,arm64,any,3
+compat-32bit,bsd.compat.mk,any,8
+compat-32bit,bsd.compat.mk,subj,8
+compat-32bit,compat,any,15
+compat-32bit,compat,subj,15
+compat-32bit,freebsd,any,6
+compat-32bit,freebsd32,any,6
+compat-32bit,iwlwifi,any,4
+compat-32bit,kern,any,7
+compat-32bit,libc,any,14
+compat-32bit,libc,subj,8
+compat-32bit,libcompat,any,3
+compat-32bit,libcxx-compat,any,22
+compat-32bit,libcxx-compat,subj,22
+compat-32bit,libnetbsd,any,6
+compat-32bit,libnetbsd,subj,6
+compat-32bit,linux,any,10
+compat-32bit,linux,subj,5
+compat-32bit,linux 3.10 compat,any,4
+compat-32bit,linux 3.10 compat,subj,4
+compat-32bit,linux 3.11 compat,any,3
+compat-32bit,linux 3.11 compat,subj,3
+compat-32bit,linux 3.12 compat,any,4
+compat-32bit,linux 3.12 compat,subj,4
+compat-32bit,linux 3.13 compat,any,3
+compat-32bit,linux 3.13 compat,subj,3
+compat-32bit,linux 3.14 compat,any,5
+compat-32bit,linux 3.14 compat,subj,5
+compat-32bit,linux 3.9 compat,any,6
+compat-32bit,linux 3.9 compat,subj,6
+compat-32bit,linux 4.1 compat,any,3
+compat-32bit,linux 4.1 compat,subj,3
+compat-32bit,linux 4.11 compat,any,8
+compat-32bit,linux 4.11 compat,subj,8
+compat-32bit,linux 4.12 compat,any,5
+compat-32bit,linux 4.12 compat,subj,5
+compat-32bit,linux 4.14 compat,any,3
+compat-32bit,linux 4.14 compat,subj,3
+compat-32bit,linux 4.16 compat,any,3
+compat-32bit,linux 4.16 compat,subj,3
+compat-32bit,linux 4.2 compat,any,7
+compat-32bit,linux 4.2 compat,subj,7
+compat-32bit,linux 4.20 compat,any,3
+compat-32bit,linux 4.20 compat,subj,3
+compat-32bit,linux 4.5 compat,any,5
+compat-32bit,linux 4.5 compat,subj,5
+compat-32bit,linux 4.7 compat,any,7
+compat-32bit,linux 4.7 compat,subj,7
+compat-32bit,linux 4.8 compat,any,8
+compat-32bit,linux 4.8 compat,subj,8
+compat-32bit,linux 4.9 compat,any,5
+compat-32bit,linux 4.9 compat,subj,5
+compat-32bit,linux 5.0 compat,any,10
+compat-32bit,linux 5.0 compat,subj,10
+compat-32bit,linux 5.10 compat,any,8
+compat-32bit,linux 5.10 compat,subj,8
+compat-32bit,linux 5.11 compat,any,8
+compat-32bit,linux 5.11 compat,subj,8
+compat-32bit,linux 5.12 compat,any,4
+compat-32bit,linux 5.12 compat,subj,4
+compat-32bit,linux 5.13 compat,any,3
+compat-32bit,linux 5.13 compat,subj,3
+compat-32bit,linux 5.14 compat,any,3
+compat-32bit,linux 5.14 compat,subj,3
+compat-32bit,linux 5.15 compat,any,4
+compat-32bit,linux 5.15 compat,subj,4
+compat-32bit,linux 5.16 compat,any,9
+compat-32bit,linux 5.16 compat,subj,9
+compat-32bit,linux 5.17 compat,any,5
+compat-32bit,linux 5.17 compat,subj,5
+compat-32bit,linux 5.18 compat,any,8
+compat-32bit,linux 5.18 compat,subj,8
+compat-32bit,linux 5.19 compat,any,8
+compat-32bit,linux 5.19 compat,subj,8
+compat-32bit,linux 5.2 compat,any,4
+compat-32bit,linux 5.2 compat,subj,4
+compat-32bit,linux 5.3 compat,any,3
+compat-32bit,linux 5.3 compat,subj,3
+compat-32bit,linux 5.6 compat,any,5
+compat-32bit,linux 5.6 compat,subj,5
+compat-32bit,linux 5.9 compat,any,4
+compat-32bit,linux 5.9 compat,subj,4
+compat-32bit,linux 6.0 compat,any,3
+compat-32bit,linux 6.0 compat,subj,3
+compat-32bit,linux 6.10 compat,any,4
+compat-32bit,linux 6.10 compat,subj,4
+compat-32bit,linux 6.2 compat,any,5
+compat-32bit,linux 6.2 compat,subj,5
+compat-32bit,linux 6.3 compat,any,6
+compat-32bit,linux 6.3 compat,subj,6
+compat-32bit,linux 6.4 compat,any,3
+compat-32bit,linux 6.4 compat,subj,3
+compat-32bit,linux 6.5 compat,any,12
+compat-32bit,linux 6.5 compat,subj,12
+compat-32bit,linux 6.6 compat,any,6
+compat-32bit,linux 6.6 compat,subj,6
+compat-32bit,linux 6.7 compat,any,7
+compat-32bit,linux 6.7 compat,subj,7
+compat-32bit,linux 6.8 compat,any,8
+compat-32bit,linux 6.8 compat,subj,8
+compat-32bit,linux 6.9 compat,any,3
+compat-32bit,linux 6.9 compat,subj,3
+compat-32bit,linux compat,any,8
+compat-32bit,linux compat,subj,8
+compat-32bit,linux compat 4.16,any,3
+compat-32bit,linux compat 4.16,subj,3
+compat-32bit,linuxkpi,any,34
+compat-32bit,linuxkpi,subj,9
+compat-32bit,loader,any,6
+compat-32bit,makesyscalls,any,3
+compat-32bit,mfp4,any,4
+compat-32bit,net80211,any,4
+compat-32bit,netlink,any,4
+compat-32bit,netlink,subj,3
+compat-32bit,nvme,any,3
+compat-32bit,opensolaris compat,any,6
+compat-32bit,opensolaris compat,subj,6
+compat-32bit,openssh,any,4
+compat-32bit,rtld-elf,any,3
+compat-32bit,sdhci_fsl_fdt,any,3
+compat-32bit,stand,any,4
+compat-32bit,sys,any,14
+compat-32bit,sys,subj,11
+compat-32bit,usb,any,3
+compat-32bit,video,any,3
+compat-32bit,vmm,any,4
+cow-fork-mmaplock,(none),any,45
+cow-fork-mmaplock,(none),subj,27
+deadlock,(none),any,790
+deadlock,(none),subj,465
+deadlock,fusefs,any,4
+deadlock,linux,any,4
+deadlock,linuxkpi,any,4
+deadlock,ntb,any,3
+deadlock,pf,any,4
+deadlock,pf,subj,3
+deadlock,ufs,any,3
+deadlock,unionfs,any,3
+deadlock,vfs,any,3
+deadlock,zfs,any,9
+dma,(none),any,1248
+dma,(none),subj,927
+dma,ahc_eisa.c,any,3
+dma,ahc_pci.c,any,3
+dma,aic79xx.c,any,4
+dma,amd-vi,any,5
+dma,arm,any,3
+dma,arm64,any,8
+dma,arm64,subj,5
+dma,bcm2835_sdhci,any,12
+dma,bcm2835_sdhci,subj,9
+dma,bhyve,any,3
+dma,busdma,any,3
+dma,dma,any,14
+dma,dma,subj,14
+dma,dmar,any,6
+dma,dwc,any,13
+dma,dwc,subj,7
+dma,dwmmc,any,3
+dma,e1000,any,16
+dma,e1000,subj,4
+dma,gve,any,3
+dma,ice,any,5
+dma,if_awg,any,4
+dma,if_bnxt,any,9
+dma,if_bnxt,subj,3
+dma,iflib,any,10
+dma,igc,any,5
+dma,iommu,any,12
+dma,iommu,subj,12
+dma,iommu_gas,any,4
+dma,ixgbe,any,8
+dma,linuxkpi,any,22
+dma,linuxkpi,subj,8
+dma,mfc,any,6
+dma,mfp4,any,5
+dma,mfp4,subj,3
+dma,mgb,any,3
+dma,mpi3mr,any,3
+dma,nvme,any,7
+dma,nvme,subj,3
+dma,pkgbase,any,3
+dma,powerpc,any,6
+dma,riscv,any,3
+dma,riscv,subj,3
+dma,sfxge,any,5
+dma,sfxge,subj,4
+dma,snd_hda,any,3
+dma,ufshci,any,3
+dma,vmm,any,7
+dma,vmm,subj,3
+dma,x86,any,17
+dma,x86,subj,10
+dma,x86 iommu,any,4
+dma,x86 iommu,subj,4
+endian,(none),any,680
+endian,(none),subj,478
+endian,bsd.endian.mk,any,6
+endian,bsd.endian.mk,subj,6
+endian,endian.h,any,5
+endian,endian.h,subj,5
+endian,ldconfig,any,5
+endian,ldconfig,subj,3
+endian,libelf,any,3
+endian,libpfctl,any,4
+endian,linux,any,3
+endian,loader,any,5
+endian,loader,subj,3
+endian,mpr,any,3
+endian,nvme,any,3
+endian,nvmecontrol,any,10
+endian,nvmecontrol,subj,8
+endian,powerpc,any,3
+endian,powerpc64le,any,3
+endian,pwd_mkdb,any,3
+endian,stand,any,3
+errata,(none),any,205
+errata,(none),subj,126
+errata,arm64,any,20
+errata,arm64,subj,9
+errata,e1000,any,12
+errata,igb,any,4
+errata,ixgbe,any,3
+errata,mfbed,any,4
+errata,new errata,any,17
+errata,new errata,subj,17
+errata,new errata item,any,3
+errata,new errata item,subj,3
+errata,new release,any,3
+errata,new release,subj,3
+errata,new release notes,any,3
+errata,ntb,any,9
+errata,ntb,subj,4
+errata,riscv,any,6
+errata,sdhci_fsl_fdt,any,7
+errata,sdhci_fsl_fdt,subj,3
+errata,x86,any,4
+fpu-vector-state,(none),any,470
+fpu-vector-state,(none),subj,330
+fpu-vector-state,amd64,any,15
+fpu-vector-state,amd64,subj,10
+fpu-vector-state,arm,any,8
+fpu-vector-state,arm,subj,6
+fpu-vector-state,arm64,any,19
+fpu-vector-state,arm64,subj,11
+fpu-vector-state,config,any,4
+fpu-vector-state,config,subj,4
+fpu-vector-state,fpu,any,3
+fpu-vector-state,fpu,subj,3
+fpu-vector-state,freebsd,any,4
+fpu-vector-state,freebsd,subj,4
+fpu-vector-state,icp,any,6
+fpu-vector-state,lib,any,26
+fpu-vector-state,lib,subj,15
+fpu-vector-state,libc,any,5
+fpu-vector-state,linux 5.16 compat,any,3
+fpu-vector-state,linuxkpi,any,8
+fpu-vector-state,linuxkpi,subj,6
+fpu-vector-state,module,any,4
+fpu-vector-state,ossl,any,6
+fpu-vector-state,powerpc,any,14
+fpu-vector-state,powerpc,subj,5
+fpu-vector-state,share,any,24
+fpu-vector-state,share,subj,23
+fpu-vector-state,simd,any,4
+fpu-vector-state,simd,subj,4
+fpu-vector-state,simd.7,any,9
+fpu-vector-state,simd.7,subj,9
+fpu-vector-state,vmm,any,3
+fpu-vector-state,vmm,subj,3
+fpu-vector-state,x86,any,12
+fpu-vector-state,x86,subj,9
+fpu-vector-state,zfs,any,6
+fpu-vector-state,zfs,subj,3
+hardware-is-broken,(none),any,152
+hardware-is-broken,(none),subj,99
+hardware-is-broken,ntb,any,3
+huge-pages,(none),any,6
+huge-pages,(none),subj,3
+huge-pages,powerpc,any,3
+idle-power,(none),any,161
+idle-power,(none),subj,127
+idle-power,arm64,any,4
+idle-power,bhyve,any,3
+idle-power,cpufreq,any,10
+idle-power,cpufreq,subj,10
+idle-power,ufshci,any,3
+idle-power,ufshci,subj,3
+interrupts,(none),any,1089
+interrupts,(none),subj,818
+interrupts,amd64,any,11
+interrupts,amd64,subj,5
+interrupts,amd64 pmap,any,3
+interrupts,apic,any,3
+interrupts,apic,subj,3
+interrupts,arm,any,10
+interrupts,arm,subj,8
+interrupts,arm64,any,22
+interrupts,arm64,subj,7
+interrupts,bhyve,any,17
+interrupts,bhyve,subj,6
+interrupts,e1000,any,7
+interrupts,i386,any,3
+interrupts,iflib,any,3
+interrupts,igb,any,3
+interrupts,intrng,any,6
+interrupts,intrng,subj,4
+interrupts,iwm,any,3
+interrupts,ixv,any,4
+interrupts,linuxkpi,any,5
+interrupts,linuxkpi,subj,4
+interrupts,mfc,any,6
+interrupts,mfi386,any,13
+interrupts,mfi386,subj,10
+interrupts,msi,any,5
+interrupts,msi,subj,5
+interrupts,new release notes,any,4
+interrupts,new release notes,subj,3
+interrupts,ntb,any,3
+interrupts,nvme,any,10
+interrupts,nvme,subj,4
+interrupts,pci,any,8
+interrupts,pci,subj,5
+interrupts,plic,any,8
+interrupts,plic,subj,8
+interrupts,powerpc,any,9
+interrupts,powerpc,subj,7
+interrupts,riscv,any,5
+interrupts,uart,any,6
+interrupts,uart,subj,4
+interrupts,vmm,any,17
+interrupts,vmm,subj,4
+interrupts,x86,any,34
+interrupts,x86,subj,13
+interrupts,xen,any,20
+interrupts,xen,subj,10
+kpti-entry,(none),any,88
+kpti-entry,(none),subj,59
+kpti-entry,amd64,any,14
+kpti-entry,amd64,subj,6
+lockdep,(none),any,18
+lockdep,(none),subj,13
+lockdep,linux,any,4
+lockdep,linuxkpi,any,7
+lockdep,linuxkpi,subj,5
+machine-check-poison,(none),any,141
+machine-check-poison,(none),subj,104
+machine-check-poison,amd64,any,4
+machine-check-poison,e1000,any,11
+machine-check-poison,e1000,subj,7
+machine-check-poison,mca,any,3
+machine-check-poison,powerpc,any,6
+machine-check-poison,powerpc,subj,4
+marker-xxx-fixme-hack,(none),any,399
+marker-xxx-fixme-hack,(none),subj,237
+marker-xxx-fixme-hack,pf,any,3
+mds-l1tf-taa,(none),any,18
+mds-l1tf-taa,(none),subj,12
+mitigation,(none),any,139
+mitigation,(none),subj,59
+mitigation,arm64,any,3
+mitigation,mitigations.7,any,10
+mitigation,mitigations.7,subj,10
+mitigation,syslogd,any,3
+mitigation,tcp,any,4
+mmio-ordering,(none),any,91
+mmio-ordering,(none),subj,54
+mmio-ordering,bhyve,any,3
+mmio-ordering,cxgbe,any,3
+mmio-ordering,if_bnxt,any,8
+mmio-ordering,iflib,any,5
+mmio-ordering,mana,any,3
+mmio-ordering,mlx5en,any,3
+mmio-ordering,mlx5en,subj,3
+mmio-ordering,ntb,any,10
+mmio-ordering,ntb,subj,6
+mmio-ordering,nvme,any,3
+mmio-ordering,nvme,subj,3
+mmio-ordering,ufshci,any,3
+net-storage-fastpath,(none),any,374
+net-storage-fastpath,(none),subj,245
+net-storage-fastpath,cache,any,19
+net-storage-fastpath,cache,subj,16
+net-storage-fastpath,cxgbe,any,3
+net-storage-fastpath,cxgbei,any,4
+net-storage-fastpath,e1000,any,13
+net-storage-fastpath,e1000,subj,12
+net-storage-fastpath,hyperv,any,11
+net-storage-fastpath,hyperv,subj,3
+net-storage-fastpath,if_vtnet,any,3
+net-storage-fastpath,iflib,any,5
+net-storage-fastpath,mana,any,4
+net-storage-fastpath,netmap,any,3
+net-storage-fastpath,new release notes,any,3
+net-storage-fastpath,new release notes,subj,3
+net-storage-fastpath,sfxge,any,15
+net-storage-fastpath,sfxge,subj,10
+net-storage-fastpath,tcp,any,8
+net-storage-fastpath,tcp,subj,5
+net-storage-fastpath,tmpfs,any,3
+net-storage-fastpath,tmpfs,subj,3
+net-storage-fastpath,vfs,any,20
+net-storage-fastpath,vfs,subj,12
+net-storage-fastpath,vtnet,any,4
+net-storage-fastpath,vtnet,subj,3
+net-storage-fastpath,zfs,any,4
+net-storage-fastpath,zfs,subj,3
+net-storage-fastpath,zts,any,5
+net-storage-fastpath,zts,subj,5
+numa,(none),any,112
+numa,(none),subj,71
+numa,amd64,any,4
+numa,arm64,any,4
+numa,arm64,subj,4
+numa,ena,any,3
+numa,linuxkpi,any,6
+numa,powerpc,any,5
+numa,powerpc,subj,3
+numa,uma,any,4
+numa,vm,any,3
+numa,vm_pageout,any,3
+pagetable,(none),any,401
+pagetable,(none),subj,268
+pagetable,amd64,any,13
+pagetable,amd64,subj,5
+pagetable,amd64 pmap,any,12
+pagetable,amd64 pmap,subj,7
+pagetable,arm,any,4
+pagetable,arm,subj,3
+pagetable,arm64,any,23
+pagetable,arm64,subj,3
+pagetable,arm64 pmap,any,5
+pagetable,ib,any,10
+pagetable,libmlx5,any,6
+pagetable,pmap,any,3
+pagetable,powerpc,any,13
+pagetable,powerpc,subj,3
+pagetable,riscv,any,13
+pagetable,riscv,subj,6
+pagetable,verbs,any,5
+pagetable,xen,any,3
+percpu,(none),any,342
+percpu,(none),subj,224
+percpu,amd64,any,5
+percpu,arm64,any,5
+percpu,callout,any,3
+percpu,dpaa,any,4
+percpu,dtrace,any,4
+percpu,hwpmc,any,4
+percpu,hyperv,any,5
+percpu,nvme,any,3
+percpu,pf,any,7
+percpu,uma,any,10
+percpu,vfs,any,10
+percpu,vfs,subj,5
+percpu,x86,any,4
+percpu,xen,any,4
+quirk,(none),any,658
+quirk,(none),subj,515
+quirk,acpi,any,5
+quirk,acpi,subj,3
+quirk,arm64,any,3
+quirk,arm64,subj,3
+quirk,bhyve,any,3
+quirk,cam,any,4
+quirk,cam,subj,4
+quirk,dwc3,any,4
+quirk,hid,any,5
+quirk,mfp4,any,3
+quirk,nvme,any,4
+quirk,nvme,subj,4
+quirk,pci,any,4
+quirk,pci_host_generic,any,3
+quirk,sdhci,any,3
+quirk,ufshci,any,5
+quirk,umass,any,9
+quirk,umass,subj,4
+quirk,usb,any,20
+quirk,usb,subj,17
+race,(none),any,1891
+race,(none),subj,1248
+race,aic79xx.c,any,3
+race,arm64,any,4
+race,bhyve,any,8
+race,bpf,any,5
+race,cxgbe,any,6
+race,cxgbei,any,3
+race,e1000,any,3
+race,ena,any,7
+race,freebsd,any,4
+race,fts,any,3
+race,fusefs,any,12
+race,hwpmc,any,4
+race,hwpmc,subj,4
+race,hyperv,any,5
+race,if_bnxt,any,3
+race,iflib,any,6
+race,ifnet,any,5
+race,inpcb,any,6
+race,ipfw,any,3
+race,jail,any,4
+race,jail,subj,3
+race,kern,any,3
+race,kqueue,any,4
+race,ktls,any,5
+race,ktrace,any,4
+race,lagg,any,6
+race,libc,any,4
+race,linuxkpi,any,9
+race,mfp4,any,6
+race,mfp4,subj,4
+race,mlx5en,any,4
+race,mlx5en,subj,3
+race,net,any,4
+race,net80211,any,4
+race,netmap,any,4
+race,netmap,subj,3
+race,nfscl,any,3
+race,nullfs,any,3
+race,nvme,any,11
+race,nvme,subj,4
+race,pf,any,4
+race,pf,subj,3
+race,powerpc,any,4
+race,proc,any,3
+race,riscv,any,3
+race,rtld,any,3
+race,sctp,any,6
+race,sh,any,4
+race,sh,subj,3
+race,socket,any,7
+race,sound,any,4
+race,swap_pager,any,3
+race,tcp,any,7
+race,tests,any,16
+race,tests,subj,9
+race,unix,any,3
+race,vfs,any,11
+race,vfs,subj,6
+race,vm_fault,any,3
+race,vmm,any,3
+race,zed,any,3
+race,zil,any,4
+race,zts,any,16
+race,zts,subj,5
+rcu,(none),any,24
+rcu,(none),subj,19
+rcu,linuxkpi,any,16
+rcu,linuxkpi,subj,5
+shootdown,(none),any,70
+shootdown,(none),subj,45
+shootdown,amd64,any,6
+shootdown,amd64,subj,5
+shootdown,amd64 pmap,any,3
+spectre-family,(none),any,30
+spectre-family,(none),subj,20
+spectre-family,x86,any,3
+spectre-family,x86,subj,3
+speculation-any,(none),any,76
+speculation-any,(none),subj,35
+speculation-any,amd64,any,3
+spinlock-family,(none),any,508
+spinlock-family,(none),subj,331
+spinlock-family,arm64,any,3
+spinlock-family,hyperv,any,4
+spinlock-family,libspl,any,3
+spinlock-family,libspl,subj,3
+spinlock-family,linuxkpi,any,19
+spinlock-family,linuxkpi,subj,11
+spinlock-family,locks,any,4
+spinlock-family,mtx,any,3
+spinlock-family,nfscl,any,6
+spinlock-family,rwlock,any,24
+spinlock-family,rwlock,subj,24
+spinlock-family,sx,any,4
+spinlock-family,sx,subj,3
+spinlock-family,x86,any,3
+timekeeping,(none),any,373
+timekeeping,(none),subj,258
+timekeeping,amd64,any,7
+timekeeping,amd64,subj,4
+timekeeping,bhyve,any,3
+timekeeping,clock_gettime,any,5
+timekeeping,clock_gettime,subj,5
+timekeeping,clock_gettime.2,any,5
+timekeeping,clock_gettime.2,subj,5
+timekeeping,hpet,any,4
+timekeeping,hpet,subj,4
+timekeeping,hwpmc,any,5
+timekeeping,hyperv,any,4
+timekeeping,hyperv,subj,3
+timekeeping,libc,any,3
+timekeeping,libpmc,any,4
+timekeeping,linux,any,3
+timekeeping,linux,subj,3
+timekeeping,linux64,any,3
+timekeeping,pvclock,any,3
+timekeeping,tsc,any,5
+timekeeping,tsc,subj,5
+timekeeping,x86,any,13
+timekeeping,x86,subj,11
+timekeeping,x86 vdso gettc,any,3
+timekeeping,x86 vdso gettc,subj,3
+timers-tick,(none),any,49
+timers-tick,(none),subj,25
+timers-tick,linuxkpi,any,5
+timers-tick,linuxkpi,subj,4
+tlb,(none),any,369
+tlb,(none),subj,273
+tlb,amd64,any,10
+tlb,amd64,subj,7
+tlb,amd64 pmap,any,6
+tlb,amd64 pmap,subj,4
+tlb,arm,any,4
+tlb,arm,subj,4
+tlb,arm64,any,7
+tlb,arm64 pmap,any,3
+tlb,mfc,any,5
+tlb,mfp4,any,4
+tlb,powerpc,any,20
+tlb,powerpc,subj,6
+tlb,powerpc64,any,3
+tlb,riscv,any,9
+tlb-refill,(none),any,11
+tlb-refill,(none),subj,5
+tlb-refill,powerpc,any,7
+tracing-patching,(none),any,148
+tracing-patching,(none),subj,96
+tracing-patching,arm64,any,7
+tracing-patching,arm64,subj,4
+tracing-patching,bhyve,any,3
+tracing-patching,kgdb,any,4
+tracing-patching,kgdb,subj,4
+tracing-patching,vmm,any,3
+uaccess,(none),any,54
+uaccess,(none),subj,36
+uaccess,amd64,any,4
+uaccess,linux,any,3
+virtualization,(none),any,614
+virtualization,(none),subj,456
+virtualization,amd64,any,6
+virtualization,arm64,any,4
+virtualization,bhyve,any,70
+virtualization,bhyve,subj,44
+virtualization,bhyve virtio-scsi,any,3
+virtualization,bhyve virtio-scsi,subj,3
+virtualization,hyperv,any,17
+virtualization,hyperv,subj,15
+virtualization,kvm,any,3
+virtualization,kvm,subj,3
+virtualization,linuxkpi,any,8
+virtualization,loader,any,3
+virtualization,minimal,any,3
+virtualization,powerpc,any,3
+virtualization,readelf,any,3
+virtualization,readelf,subj,3
+virtualization,stand,any,6
+virtualization,sys,any,11
+virtualization,sys,subj,9
+virtualization,virtio,any,37
+virtualization,virtio,subj,37
+virtualization,virtio.4,any,3
+virtualization,virtio.4,subj,3
+virtualization,virtio_net,any,4
+virtualization,virtio_p9fs,any,4
+virtualization,vmm,any,4
+virtualization,vtblk,any,3
+virtualization,vtnet,any,6
+virtualization,x86,any,36
+virtualization,x86,subj,27
+virtualization,xen,any,250
+virtualization,xen,subj,250
+virtualization,xen-blkback,any,4
+virtualization,xen-blkback,subj,4
+virtualization,xen-blkfront,any,3
+virtualization,xen-blkfront,subj,3
+virtualization,xen-netfront,any,25
+virtualization,xen-netfront,subj,25
+workaround,(none),any,1240
+workaround,(none),subj,818
+workaround,acpi,any,6
+workaround,acpi,subj,4
+workaround,amd64,any,4
+workaround,arm64,any,12
+workaround,arm64,subj,7
+workaround,contrib,any,3
+workaround,e1000,any,10
+workaround,fusefs,any,5
+workaround,gcc,any,3
+workaround,igc,any,3
+workaround,ixgbe,any,3
+workaround,linux,any,5
+workaround,linuxkpi,any,7
+workaround,loader,any,4
+workaround,mfc,any,4
+workaround,mfp4,any,6
+workaround,mfp4,subj,6
+workaround,nanobsd,any,3
+workaround,net80211,any,3
+workaround,new release notes,any,3
+workaround,new release notes,subj,3
+workaround,ntb,any,7
+workaround,ntb,subj,5
+workaround,pf,any,4
+workaround,powerpc,any,4
+workaround,rc,any,3
+workaround,rtld,any,3
+workaround,sh,any,4
+workaround,stand,any,4
+workaround,sys,any,5
+workaround,sys,subj,3
+workaround,tests,any,3
+workaround,updating,any,3
+workaround,zfs,any,4
+workaround,zts,any,7
+write-buffer-delay-slot,(none),any,28
+write-buffer-delay-slot,(none),subj,21
+y2038-time,(none),any,196
+y2038-time,(none),subj,147
+y2038-time,dhclient,any,4
+y2038-time,pf,any,3
+y2038-time,sctp,any,3
+y2038-time,sctp,subj,3

@@ -369,23 +369,37 @@ These are first-hand, from `~/claude/facetlang/unixtree`, and show that several 
 
 ## 14A. What the developers say: list posts and articles read so far
 
-**Phase 2 is only started.** Evidence below is **[S] secondary** (LWN articles, read from saved copies before lwn.net blocked further requests) or a **listing** (lore.kernel.org search result pages: subjects, authors and dates, without the message bodies). The message bodies behind the listed threads are the primary evidence and are queued in Appendix C. Counts and costs are the developers' or the articles', not mine.
+**Phase 2 is under way, not finished.** Evidence labels: **[D] developer statement** (a post on a mailing list, a cover letter or a commit message, read in full from the archive page; this is primary evidence of pain), **[S] secondary** (an LWN article, read from a saved copy before lwn.net blocked further requests), **listing** (a lore.kernel.org search-result page: subjects, authors and dates without bodies). Quoted phrases are short; the costs are the developers', not mine. Each row's URL is in Appendix C.
 
-| Pain | What was said | Who, when | Source | Label | pdp64 |
+| Pain | What was said | Who, when | Source | Label | Chapter and pdp64 |
 |---|---|---|---|---|---|
-| Cost of separating kernel and user page tables | The kernel is kept mapped in every process because unmapping it "would make the system run considerably slower" (no TLB flush at each crossing); a similar 4G/4G scheme of 2003 was shipped by some distributors and was dropped for its cost; the new patches "add a few hundred cycles to a syscall or interrupt", "single-digit regressions", "5% is a good round number" | the KAISER authors' patch description as quoted by LWN, 15 Nov 2017 | LWN 738975 | [S] | the exposure of chapter 4 |
-| The cost estimate when merged | "a measurable run-time cost, estimated at about 5%"; a flag to turn the mechanism off on unaffected CPUs | LWN, 20 Dec 2017 | LWN 741878 | [S] | chapter 4 |
-| The cost in the worst case | page-table isolation "overheads of 30% or more reported for some specific workloads"; a per-process switch was under discussion; retpolines merged in the 4.15 release candidates, with an open question about the return-stack buffer on Skylake | LWN, 15 Jan 2018 | LWN 744287 | [S] | chapter 4 |
-| Spectre variant 1 cannot be found by looking | Torvalds on the `nospec` macros: he asked for "a sane way to determine when they should be needed"; speculation can run for "180 or so simple instructions" so the check and the use may be far apart | Linus Torvalds and others as quoted by LWN, 5 Jan 2018 | LWN 743265 | [S] | chapter 4: a non-speculating core has no such code to find |
-| Reaction to the hardware vendor | Torvalds asked that mitigations be written with "not all CPU's are crap" in mind, i.e. that they switch off on unaffected processors | LWN, 9 Jan 2018 | LWN 743363 | [S] | feature registers (P4) are what let software do that |
-| Spinlock cache-line bouncing | The simple lock makes every waiter hit one word; an MCS lock moves each waiter to its own per-CPU structure; the queued lock adds a "pending" bit for the two-waiter case; its author's benchmarks "regressed a little" on some workloads and gained 1 to 2% on others | Tim Chen, Waiman Long, Peter Zijlstra, as reported by LWN, 11 Mar 2014 | LWN 590243 | [S] | chapter 6, row 25 |
-| Barrier clean-up in the tree | Will Deacon's series (June to July 2020) removes `smp_read_barrier_depends()` from the whole tree and replaces its Alpha uses with `smp_[r]mb()`; later the documentation of the remaining behaviour was still being written (2023) | listing only | lore.kernel.org search `smp_read_barrier_depends` | listing | chapter 6: the Alpha story is still alive in the archives 25 years later |
-| Weak-ordering documentation burden | in 2022 to 2023 other projects (QEMU, perfbook, virtio tools) were still writing patches "explain effect of smp_read_barrier_depends() on modern architectures" | listing only | same search | listing | chapter 6 |
-| TLB tags | Andy Lutomirski's `x86/mm: PCID and INVPCID` series: RFC of 13 patches on 8 Jan 2016 (with replies from Linus Torvalds the same day), a version 5 on 25 Jul 2017 | listing only | lore.kernel.org search `x86/mm: PCID` | listing | chapter 5 |
-| Kernel user-access guard code is still tuned | `x86/smap` helper rewrites by Josh Poimboeuf (14 Mar 2025, with comments from Andrew Cooper and Uros Bizjak) and a "Fix the smap_save() asm" thread (15 to 17 Sep 2020, Borislav Petkov, Peter Zijlstra, Andy Lutomirski) | listing only | lore search `x86, smap` | listing | chapter 9: the guard has a code-generation cost of its own |
-| Eager FPU switching | The Xen hypervisor project is moving to "always use eager-fpu" (Ross Lagerwall, Mar 2026, with Andrew Cooper), after an earlier series (Mar 2024); not Linux | listing only | lore search `eager FPU` | listing | chapter 8: the lazy approach has been abandoned even by the last holdouts |
+| Cost of separating kernel and user page tables | KAISER "makes syscalls and interrupts slower"; the CR3 writes alone "add a few hundred cycles to a syscall or interrupt"; "5% is a good round number for what is typical"; worst case "roughly 30%" on a loopback networking test; PCIDs make syscalls "roughly 2x faster than without it"; the author disputes the paper's "0.28%" overhead figure | Dave Hansen (Intel), KAISER cover letter v1, 31 Oct 2017 | lore `20171031223146.6B47C861@viggo.jf.intel.com` | [D] | ch. 4: pdp64's single base would owe this tax on a speculating core |
+| The same, as the article saw it | the kernel stays mapped to avoid TLB flushes at each crossing; the 2003 "4G/4G" scheme cost too much; estimates "about 5%" (Dec 2017), "30% or more" for some workloads (Jan 2018) | LWN, 15 Nov 2017, 20 Dec 2017, 15 Jan 2018 | LWN 738975, 741878, 744287 | [S] | ch. 4 |
+| TLB tags: what they buy | PCID "saves around 100ns on cross-process context switches", "a little over a 10% speedup" because "we suck at context switches in general"; "most of the time is spent in the scheduler, not in arch code"; INVPCID "seems slower than just manipulating CR3 carefully" | Andy Lutomirski, RFC cover letter, 8 Jan 2016 | lore `cover.1452294700.git.luto@kernel.org` | [D] | ch. 5: ASIDs help, but the switch is dominated by software |
+| PCID hardware is not what it looks like | the hardware PCID is hashed: "doesn't actually have as many bits in the pcid as there are in cr3" | Linus Torvalds, same thread, 8 Jan 2016 | lore `CA+55aFxmc83...` | [D] | ch. 5: pdp64's 16-bit ASID must be real or documented as hashed |
+| Speculation across privilege domains | "A *competent* CPU engineer would fix this by making sure speculation doesn't happen across protection domains"; mitigations must be switchable for CPUs that do not need them | Linus Torvalds, 3 Jan 2018 | lore `CA+55aFzCocoK...` (thread "Avoid speculative indirect calls in kernel") | [D] | ch. 4: pdp64 does not speculate; if a core ever does, this is the requirement |
+| NetBSD's answer | "Separate Virtual Space": unmaps most of the kernel in user mode; a boot option, a plan to enable it only on Intel, a run-time sysctl to turn it off; the author could not confirm the mitigation because two Meltdown proofs of concept did not run on his CPU | Maxime Villard, tech-kern, 21 Jan 2018 | mail-index.netbsd.org `tech-kern/2018/01/21/msg023000.html` | [D] | ch. 4 |
+| Speculation is worse where protection is weak | "the spectre variant 2 situation is a lot worse for: speculative CPU, weak memory protection"; no NX bit on default i386 NetBSD and MIPS's unmapped kernel segment are named; Loongson's kernel entry runs a short chain of calls to clear the branch-target buffer | maya, tech-kern, 19 Jan 2018 | `tech-kern/2018/01/19/msg022992.html`, `msg022993.html` | [D] | ch. 4: pdp64 has execute permission and the kernel may not execute user pages |
+| Microcode changes the instruction set under the kernel | microcode "can remove and add instructions and other features", so it must be loaded before the CPUs are identified | Patrick Wildt, openbsd-tech, 31 Jan 2018 | marc.info `m=151743333628424` | [D] | ch. 13: feature registers (P4) must be read after any update |
+| Lazy FPU state | "The result is rather messy": two code paths, only one tested often; setting the task-switched bit is "far slower" than saving and restoring the full state, because stores to `CR0.TS` serialize | Andy Lutomirski, commit 58122bf1d856 (seen in the 4.4 backport of 14 Jun 2018, original 2016) | lore `20180614132724.737334115@linuxfoundation.org` | [D] | ch. 8: no FPU state in pdp64 (S4 would reopen it) |
+| The Alpha ordering story | after the barrier had been folded into `READ_ONCE()`, `smp_read_barrier_depends()` still "limps on" with "the sinister hope of attracting innocent new users"; the 2019 series removes it from documentation, comments and the memory model, and the 2020 series (v3, 19 patches, "Allow architectures to override __READ_ONCE()") makes Alpha's `READ_ONCE()` carry the barrier | Will Deacon, 8 Nov 2019 and 10 Jul 2020 | lore `20191108170120.22331-1-will@kernel.org`, `20200710165203.31284-1-will@kernel.org` | [D] | ch. 6: 25 years after the DEC meeting, one architecture's weakness still costs patches |
+| Ticket locks do not scale | OpenBSD's big kernel lock is a ticket lock, which "don't scale as there is a centralized place getting constantly read", plus false sharing of the per-CPU state (8 CPUs per cache line); an Anderson-style lock gave +155% (2.3 to 5.9 million operations per second) on an `fstat` loop | Mateusz Guzik, openbsd-tech, 21 Dec 2025 | marc.info `m=176631121132731` | [D] | ch. 6: pdp64's lock choice is open (R3); the cost is real even on a small count of cores |
+| Spinlock design in the Linux case | MCS locks move waiters to private cache lines; `qspinlock` adds a pending bit; benchmark results "regressed a little" on some loads, gained 1 to 2% on others | Tim Chen, Waiman Long, Peter Zijlstra via LWN, 11 Mar 2014 | LWN 590243 (the Mar 2014 patch threads are listed, not read) | [S] | ch. 6 |
+| Hardware accessed/dirty updating arrived with trouble | on an early platform "the only way to get a usable userspace is disabling CONFIG_ARM64_HW_AFDBM" | Julien Grall (report), Will Deacon (reply), 10 Sep 2015 | lore `20150910153812.GG22439@arm.com` | [D] | ch. 5: supports Q2 on recoverability: software management cannot be broken by the chip |
+| The same ambiguity on RISC-V | when neither `Svade` nor `Svadu` is advertised, assuming Svade "is harmless on real Svadu hardware, while assuming Svadu on real Svade hardware risks an unhandled page fault"; both present: Svade wins | Xen/RISC-V review, 23 Sep 2026 | lore `1425dafc-9737-4776-aa65-5b0e5635e9f5@gmail.com` | [D] | ch. 5: software A/D is the safe default; a hardware option needs a feature register (P4) |
+| LL/SC livelock was a real erratum | the ARC kernel panics at boot on an SMP configuration with atomics but without the "llock/scond livelock workaround" for a named silicon erratum (STAR 9000923308) | Vineet Gupta, commit 4d0cb15fccd1 (4.4 backport, 25 Jul 2016) | lore `20160725203523.360826166@linuxfoundation.org` | [D] | ch. 6: E45's forward-progress rule must be backed by the monitor design |
+| 2038 is a long clean-up | 23 patches "cleanups for the y2038 work": the old `time_t`, `timeval`, `timespec` types "often lead to y2038-unsafe code" even after conversion | Arnd Bergmann, 8 Nov 2019 | lore `20191108210236.1296047-1-arnd@arndb.de` | [D] | ch. 10: 64-bit time from the start |
+| Page-table isolation, as committed | FreeBSD "PTI for amd64" (first version, a "workaround" for Meltdown), 17 Jan 2018; NetBSD "unmap the kernel from userland in SVS", 21 Jan 2018; OpenBSD "Meltdown: implement user/kernel page table separation", 21 Feb 2018: three kernels, one month apart, the same mechanism | commits `bd50262f705c` (FreeBSD), `03db57fb7f3c` (NetBSD), `b767b017801a` (OpenBSD) | commit message | [D] | ch. 4: found by `git log`, Appendix B.7 |
+| Remote TLB flushes keep needing rework | arm64 batched and deferred shootdown (2023): "On x86, batched and deferred tlb shootdown has lead to 90% performance increase"; NetBSD "Fix an IPI deadlock scenario that resulted in a TLB shootdown timeout" (2021); OpenBSD "rework how tlb shootdown information is sent between cpus", avoiding a mutex (Dec 2025) | commits `43b3dfdd0455` (Linux, 17 Jul 2023), `11f804663155` (NetBSD, 3 Apr 2021), `3ee248caefed` (OpenBSD, 4 Dec 2025) | commit message | [D] | ch. 5: broadcast `TLBI` removes this class; the 90% figure is the developers' |
+| A missing barrier is found years later | KVM on PowerPC needed `smp_mb()` around a host IPI flag, found on a 2-socket Power9 with 128 hardware threads | commit `3a83f677a6ee`, 11 Sep 2019 | commit message | [D] | ch. 6: an SC machine cannot have this bug |
+| Address-space tags and nested paging | a KVM fix: Windows guests saw memory corruption (and blue screens) until a flush by guest virtual address became a full ASID flush when nested paging is on (Red Hat reports) | commit `26505e1b5b54`, 23 Jul 2026 | commit message | [D] | ch. 5, 13: TLB invalidation semantics are still producing bugs in 2026 |
+| System-call return can fault in the kernel | "SYSRET to a noncanonical address will blow up on Intel CPUs"; Linux "needs to prevent this" (selftest, Dec 2016) | commit `660602140103`, 26 Dec 2016 | commit message | [D] | ch. 3: in pdp64 `RTI` loads `EPC` and the non-canonical check is an ordinary abort, but where that abort is taken and on which stack is not stated (UNKNOWN) |
+| A vendor chicken bit | FreeBSD "AMD Zen2: Zenbleed chicken bit mitigation", applied only to bare-metal Zen2 | commit `ebaea1bcd2eb`, 11 Sep 2023 | commit message | [D] | ch. 4, 13: mitigations that turn off a hardware feature through an undocumented bit |
+| Barrier documentation lingers | QEMU, perfbook, virtio tools patches in 2022 to 2023 still handling `smp_read_barrier_depends()` | listing only | lore search | listing | ch. 6 |
+| The user-access guard is still being tuned | `x86/smap` helper rewrites (Poimboeuf, 14 Mar 2025, with Andrew Cooper) and a "Fix the smap_save() asm" thread (Sep 2020) | listing only | lore search `x86, smap` | listing | ch. 9 |
+| Eager FPU in Xen | "x86: Always use eager-fpu" (Mar 2026) | listing only | lore search | listing | ch. 8 |
 
-**Not reached** (Appendix C): the message bodies; the BSD archives (lists.freebsd.org, mail-index.netbsd.org, marc.info); LWN beyond the six pages above (blocked); the papers.
+**Not reached** (Appendix C): the BSD archives beyond the three NetBSD, OpenBSD and failed FreeBSD pages above (lists.freebsd.org answered 404 for an old-style URL and 503 once; marc.info's body search returned only month listings); LWN beyond the pages above (blocked); the papers; the lists before 2001 (none of the archives visited go back that far for these topics).
 
 ## 15. What this means for pdp64
 
@@ -407,7 +421,7 @@ Ranked by the author's three principles. "Shows up as" says where the item appea
 
 | Rank | Exposure | Principle hurt | Shows up as | Pointer |
 |---|---|---|---|---|
-| 1 | **The single page-table base and kernel mapped in every address space, if the core ever speculates** (E38 keeps that door open) | (b), (c) | a PTI-style switch on every entry and exit: Linux measures it as a `cr3` write of "on the order of a hundred cycles" at each; the design cost is a second base register now, versus a mitigation later | chapter 4; D6 |
+| 1 | **The single page-table base and kernel mapped in every address space, if the core ever speculates** (E38 keeps that door open) | (b), (c) | a PTI-style switch on every entry and exit: Linux's own documentation puts a `cr3` write at "on the order of a hundred cycles" at each entry and exit, and the engineer who wrote the patches reported "a few hundred cycles" per syscall or interrupt, about 5% typical and about 30% worst case (Hansen, 31 Oct 2017, section 14A, [D]); the design cost is a second base register now, versus a mitigation later | chapter 4; D6 |
 | 2 | **Software accessed and dirty bits** | (c) | an extra fault per first touch and per first write of each page; Linux's arm64 default is hardware management to avoid it. Offsetting benefit: less recovery code, no walker writes | chapter 5; Q2 |
 | 3 | **Uncached DMA buffers** | (c) | CPU reads of received data go to the bus; needs P6 the day a non-coherent bus master exists | chapter 7; P6, R5, R6 |
 | 4 | **Machine check halts** | (b) in the broad sense | one uncorrectable memory error stops the system; Linux spends 7,111 lines on x86 alone to avoid that | chapter 13 |
@@ -421,6 +435,9 @@ Ranked by the author's three principles. "Shows up as" says where the item appea
 
 ## 16. What this does not show
 
+* **What we did to lwn.net.** The browser queue database records 68 completed lwn.net directives between 13:02 and 14:20 on 2026-10-22; 4 of them (13:02 to 13:03) belong to an earlier verification run and **64 are mine, from 14:07:07 to 14:20:40, 49 of them after the author's 14:10 pause** (they had been queued as one batch before the pause reached me, which was the wrong way to queue). Only 6 articles and the Kernel index returned real pages; the others returned the site's \"Blocked due to excessive requests\" page or failed after the browser window was closed. After the block, no request went to lwn.net; the LWN citations in this document are from those seven pages.
+* **Message counts have false positives, and here is the biggest one found.** A first run of the commit-message mining matched `spectre` in laptop speaker-quirk commits (HP Spectre) and `mds` in PowerPC MDS evaluation-board commits; the expressions were tightened and the mining re-run (Appendix B.4, B.7). Other categories keep known noise (`mitigation` includes thermal mitigation, `poison` includes slab poisoning, `dma` includes graphics buffers). Treat counts as where words concentrate.
+* **The history is partly missing.** The kernel.org `history.git` URL (meant for 1991 to 2005) holds the same 2005 to 2010 commits as the main repository and only 31 earlier ones, so Linux before 2005 has no commit-message data; the BSDs begin in 1993 to 1995. The mailing-list reading is a sample of about twenty primary pages, chosen by me, not a survey of thirty years of lists.
 * **Counts are vocabulary, not pain.** A word that appears often in current code or commit messages shows where developers talk about a thing, not how much it costs. "Race" and "deadlock" appear where fixes happened and where comments warn. The BSD kernels use different names for the same things (`membar_*`, `atomic_*`, `pmap_*`, `smr`), so cross-kernel comparisons of the barrier and RCU rows are not like-for-like.
 * **The sample is partial.** The Linux sample has 91 directories: all `arch/` for eleven architectures, but `drivers` only for `irqchip` and `iommu`, and no `fs`. Categories dominated by drivers (DMA, interrupts, virtualization, MMIO) are undercounts. The BSD trees contain `sys/kern`, `sys/vm` or `uvm`, `sys/sys` and the listed architecture directories. Line counts use regular expressions over text, with no parsing; comments and code are not separated.
 * **Current sources hide the past.** A workaround for hardware nobody sells any more has usually been deleted; the current tree shows pains still alive, not the ones that shaped design. The history is Phase 2 (commit messages, lists, articles).
@@ -881,15 +898,273 @@ Counts are matching lines (not occurrences). "code lines" and "code files" are i
 
 `tools/kernelpain-msgs.sh` clones one repository at a time with `git clone --bare --filter=tree:0 --single-branch <url>` (commits only: no trees, no blobs, no checkout), runs `git log --no-merges --date=format:%Y-%m-%d --format=<hash, date, subject, body>` with no path arguments, classifies each message with the B.4 expressions, writes CSV files `docs/codegen-data/kernelpain/msgs-<repo>-*.csv`, and deletes the clone. Per-subsystem and per-architecture counts come from the subject prefix (the text before the first colon, for example `x86/mm`, `arm64`, `mm`), per-year counts from the commit date. The results are summarised in B.7 when they exist.
 
-*Not yet available (clones in progress).*
+Four repositories were mined on 2026-10-22 with `tools/kernelpain-msgs.sh linux freebsd netbsd openbsd` (treeless bare clones, deleted afterwards): Linux (torvalds/linux, 1,377,457 non-merge commits from 2005, head `a1c2b1da93f5`), FreeBSD (309,283 from 1993, head `775e421dc38f`), NetBSD (317,170 from 1993, head `5b0e0d599751`) and OpenBSD (248,109 from 1995, head `d962f40cd0b4`). The exact `git log` command and head hash of each is in `docs/codegen-data/kernelpain/msgs-<repo>-meta.csv`. The counts say how often a pain word appears in a commit's subject or message; they do not say how much pain there was (section 16). Known noise: before 2018 nothing in `spectre-family` should match (the laptop-speaker commits were removed by the second run); `mds-l1tf-taa` still matches Ceph's "mds" (metadata server) and Staging drivers, so its counts are inflated and only its trend is usable.
+
+**What the shape shows** (per 1000 non-merge commits of the period, from the tables below. Linux's `-1999` and `2000-04` columns hold 2 and 32 commits and are meaningless; the first usable Linux period is 2005-09. The BSDs begin in 1993 to 1995):
+
+* **Hardware-defect words are flat; mitigation and hardening words grew.** In Linux `errata` stays at 1.4 to 1.8, `workaround` at 5.7 to 6.2 and `quirk` at 5.5 to 8.2 across 2005 to 2026, while `mitigation` rises from 0.4 to 2.3 and `hardening` from 0.9-1.5 to 10.9. FreeBSD shows the same: `mitigation` 0.1 to 1.7, `hardening` 0.2 to 4.9. The cost of hardware imperfection did not fall; the new cost is defence.
+* **Concurrency words grew most.** `rcu` 4.6 to 9.9, `atomics-llsc` 1.4 to 5.6, `barrier-ordering` 1.4 to 3.7, `percpu` 4.1 to 5.2 in Linux; `spinlock-family` fell from 9.8 to 5.9 (the move from locks to lock-free and RCU); OpenBSD's `spinlock-family` rose from 0.5 to 3.1 and its `interrupts` from 0.1 to 3.4 in the same years as its multiprocessor work.
+* **Speculation is a 2018 event.** `spectre-family` is zero until 2015-19 and 1.2 to 1.3 per thousand after; its first Linux match is a retpoline commit of 11 Jan 2018 (`2641f08bb7fc`). `kpti-entry` goes 1.3 to 4.0. The BSDs show the same jump in the same period (2015-19: FreeBSD 0.6, NetBSD 0.8, OpenBSD 1.0, Linux 1.3), then a fall in 2020-26 to 0.1 to 0.6 against Linux's 1.2.
+* **Things that faded:** `tlb-refill` (software-refilled TLBs) 0.4 to 0.1, `endian` 7.0 to 3.0 in Linux, `write-buffer-delay-slot` flat at 0.3, `compat-32bit` 3.9 to 2.5, and `y2038-time` peaks in 2015-19 (1.8) after the conversion started.
+* **A BSD-specific growth:** FreeBSD's `compat-32bit` rose from 2.0 to 10.9 per thousand (32-bit and Linux emulation layers), NetBSD's from 3.4 to 7.7, OpenBSD's stayed 1 to 3: a compatibility layer is a cost that keeps growing where it exists.
+* **Things that grew with scale:** `huge-pages` 1.9 to 5.0, `net-storage-fastpath` 4.4 to 16.5, `virtualization` 19 to 33, `fpu-vector-state` 1.8 to 3.3-3.9.
+* **Where the quirk and workaround words concentrate by subject prefix** (second table of each repository): device subsystems, not CPU architectures. In Linux the highest rates are `alsa` 71, `hid` 58, `acpi` 32, `pci` 32 and `mmc` 26 per 1000 commits, against `x86` 11, `arm64` 8 and `arm` 6. The pain of "the hardware does not follow its specification" is mostly in the long tail of peripherals.
+
+
+#### linux: 1377457 non-merge commits, head `a1c2b1da93f5f612aa7a33190c4900c98e51f6da` (2026-10-22), https://github.com/torvalds/linux
+
+Commits whose subject or message matches the category, per 1000 non-merge commits of the period (message mining, any match).
+
+| category | -1999 | 2000-04 | 2005-09 | 2010-14 | 2015-19 | 2020-26 | total |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| (all commits) | 2 | 32 | 170081 | 294493 | 366720 | 546124 | 1377457 |
+| errata | 0.0 | 0.0 | 1.4 | 1.5 | 1.8 | 1.5 | 2131 |
+| workaround | 0.0 | 0.0 | 6.0 | 5.7 | 6.0 | 6.2 | 8307 |
+| quirk | 0.0 | 0.0 | 6.4 | 5.5 | 5.9 | 8.2 | 9335 |
+| mitigation | 0.0 | 0.0 | 0.4 | 0.4 | 1.3 | 2.3 | 1895 |
+| spectre-family | 0.0 | 0.0 | 0.0 | 0.0 | 1.3 | 1.2 | 1107 |
+| mds-l1tf-taa | 0.0 | 0.0 | 0.0 | 0.1 | 0.3 | 0.2 | 239 |
+| speculation-any | 0.0 | 0.0 | 0.3 | 0.3 | 1.4 | 1.0 | 1185 |
+| kpti-entry | 0.0 | 0.0 | 1.3 | 1.0 | 2.8 | 4.0 | 3733 |
+| barrier-ordering | 0.0 | 0.0 | 1.4 | 1.4 | 2.8 | 3.7 | 3646 |
+| race | 0.0 | 0.0 | 13.3 | 12.9 | 12.6 | 14.9 | 18804 |
+| deadlock | 0.0 | 0.0 | 6.7 | 6.6 | 6.3 | 6.7 | 9041 |
+| lockdep | 0.0 | 0.0 | 4.9 | 3.3 | 3.7 | 4.4 | 5587 |
+| spinlock-family | 0.0 | 0.0 | 9.8 | 7.5 | 6.0 | 5.9 | 9301 |
+| rcu | 0.0 | 0.0 | 4.6 | 8.6 | 8.6 | 9.9 | 11875 |
+| atomics-llsc | 0.0 | 0.0 | 1.4 | 4.5 | 4.4 | 5.6 | 6241 |
+| percpu | 0.0 | 0.0 | 4.1 | 3.8 | 3.6 | 5.2 | 5947 |
+| tlb | 0.0 | 0.0 | 3.5 | 2.6 | 2.9 | 3.1 | 4132 |
+| shootdown | 0.0 | 0.0 | 0.2 | 0.1 | 0.1 | 0.1 | 140 |
+| asid-pcid | 0.0 | 0.0 | 0.2 | 0.4 | 0.8 | 0.9 | 943 |
+| pagetable | 0.0 | 31.2 | 4.5 | 5.1 | 8.3 | 8.3 | 9872 |
+| accessed-dirty | 0.0 | 0.0 | 0.4 | 0.3 | 0.3 | 0.5 | 533 |
+| huge-pages | 0.0 | 0.0 | 1.9 | 2.8 | 3.4 | 5.0 | 5154 |
+| numa | 0.0 | 0.0 | 3.7 | 3.1 | 2.3 | 2.7 | 3851 |
+| cow-fork-mmaplock | 0.0 | 0.0 | 1.0 | 0.8 | 0.9 | 1.1 | 1306 |
+| cache-coherence | 0.0 | 0.0 | 3.1 | 2.4 | 2.2 | 2.2 | 3263 |
+| dma | 0.0 | 31.2 | 22.1 | 23.4 | 26.0 | 24.8 | 33779 |
+| mmio-ordering | 0.0 | 0.0 | 0.8 | 1.1 | 1.9 | 1.8 | 2139 |
+| write-buffer-delay-slot | 0.0 | 0.0 | 0.3 | 0.3 | 0.3 | 0.3 | 422 |
+| tlb-refill | 0.0 | 0.0 | 0.4 | 0.3 | 0.2 | 0.1 | 286 |
+| fpu-vector-state | 0.0 | 0.0 | 1.8 | 1.8 | 3.9 | 3.3 | 4071 |
+| alignment | 0.0 | 0.0 | 2.0 | 1.8 | 1.9 | 2.3 | 2846 |
+| endian | 0.0 | 0.0 | 7.0 | 5.1 | 5.2 | 3.0 | 6266 |
+| compat-32bit | 0.0 | 0.0 | 3.9 | 2.8 | 3.3 | 2.5 | 4075 |
+| y2038-time | 0.0 | 0.0 | 0.1 | 0.2 | 1.8 | 0.3 | 905 |
+| timekeeping | 0.0 | 0.0 | 5.2 | 4.7 | 5.5 | 4.5 | 6715 |
+| interrupts | 0.0 | 31.2 | 10.7 | 8.2 | 9.1 | 8.4 | 12151 |
+| timers-tick | 0.0 | 0.0 | 4.7 | 3.1 | 3.2 | 3.6 | 4870 |
+| idle-power | 0.0 | 0.0 | 6.8 | 11.5 | 11.0 | 11.0 | 14632 |
+| virtualization | 0.0 | 0.0 | 19.3 | 25.6 | 25.3 | 33.1 | 38185 |
+| uaccess | 0.0 | 0.0 | 2.8 | 2.3 | 2.6 | 2.8 | 3608 |
+| tracing-patching | 0.0 | 0.0 | 8.6 | 6.4 | 6.1 | 6.7 | 9237 |
+| machine-check-poison | 0.0 | 0.0 | 4.6 | 3.0 | 4.0 | 3.7 | 5167 |
+| net-storage-fastpath | 0.0 | 0.0 | 4.4 | 3.9 | 7.6 | 16.5 | 13691 |
+| marker-xxx-fixme-hack | 0.0 | 0.0 | 1.2 | 0.7 | 0.8 | 0.8 | 1130 |
+| hardware-is-broken | 0.0 | 31.2 | 1.4 | 1.2 | 0.9 | 0.8 | 1344 |
+
+##### linux: subject prefixes with the most commits whose SUBJECT matches errata, workaround or quirk
+
+| prefix | subject matches | all commits with this prefix | per 1000 |
+|---|---:|---:|---:|
+| drm | 1126 | 119855 | 9.4 |
+| alsa | 1119 | 15747 | 71.1 |
+| usb | 395 | 22179 | 17.8 |
+| asoc | 370 | 33286 | 11.1 |
+| hid | 311 | 5395 | 57.6 |
+| arm | 303 | 49324 | 6.1 |
+| pci | 285 | 9061 | 31.5 |
+| x86 | 268 | 23424 | 11.4 |
+| arm64 | 247 | 31882 | 7.7 |
+| acpi | 197 | 6244 | 31.6 |
+| mmc | 193 | 7341 | 26.3 |
+| net | 159 | 48850 | 3.3 |
+| input | 99 | 7372 | 13.4 |
+
+#### freebsd: 309283 non-merge commits, head `775e421dc38f18fa6b7fdc7b214a013cca44b58b` (2026-10-22), https://github.com/freebsd/freebsd-src
+
+Commits whose subject or message matches the category, per 1000 non-merge commits of the period (message mining, any match).
+
+| category | -1999 | 2000-04 | 2005-09 | 2010-14 | 2015-19 | 2020-26 | total |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| (all commits) | 43867 | 65814 | 42607 | 44147 | 52235 | 60613 | 309283 |
+| errata | 0.1 | 1.5 | 0.8 | 1.3 | 1.3 | 1.3 | 343 |
+| workaround | 3.0 | 4.0 | 5.7 | 6.9 | 6.5 | 5.7 | 1622 |
+| quirk | 1.6 | 2.1 | 4.1 | 3.1 | 2.6 | 2.7 | 819 |
+| mitigation | 0.1 | 0.2 | 0.4 | 0.6 | 1.2 | 1.7 | 229 |
+| spectre-family | 0.0 | 0.0 | 0.0 | 0.0 | 0.6 | 0.1 | 39 |
+| mds-l1tf-taa | 0.0 | 0.0 | 0.0 | 0.0 | 0.3 | 0.0 | 20 |
+| speculation-any | 0.1 | 0.2 | 0.4 | 0.1 | 0.7 | 0.6 | 103 |
+| kpti-entry | 0.1 | 0.2 | 0.3 | 0.4 | 0.9 | 0.4 | 118 |
+| barrier-ordering | 0.0 | 0.5 | 0.8 | 0.9 | 0.7 | 0.5 | 172 |
+| race | 3.4 | 5.9 | 10.9 | 9.3 | 9.5 | 9.8 | 2499 |
+| deadlock | 2.0 | 2.2 | 3.8 | 5.0 | 3.6 | 2.6 | 957 |
+| lockdep | 0.0 | 0.0 | 0.0 | 0.0 | 0.3 | 0.3 | 35 |
+| spinlock-family | 0.3 | 1.2 | 4.4 | 2.6 | 2.7 | 2.2 | 665 |
+| rcu | 0.0 | 0.0 | 0.0 | 0.0 | 0.4 | 0.5 | 48 |
+| atomics-llsc | 0.0 | 0.1 | 0.0 | 0.2 | 0.2 | 0.1 | 40 |
+| percpu | 0.4 | 1.1 | 2.1 | 1.9 | 1.8 | 1.8 | 465 |
+| tlb | 0.5 | 1.5 | 1.2 | 2.7 | 2.0 | 1.2 | 462 |
+| shootdown | 0.1 | 0.4 | 0.2 | 0.3 | 0.4 | 0.2 | 82 |
+| asid-pcid | 0.0 | 0.0 | 0.0 | 0.2 | 0.6 | 0.2 | 56 |
+| pagetable | 1.3 | 0.8 | 1.3 | 2.3 | 2.5 | 2.7 | 564 |
+| accessed-dirty | 0.0 | 0.0 | 0.1 | 0.3 | 0.2 | 0.2 | 40 |
+| numa | 0.0 | 0.0 | 0.1 | 0.3 | 1.8 | 1.4 | 193 |
+| cow-fork-mmaplock | 0.0 | 0.2 | 0.1 | 0.2 | 0.2 | 0.2 | 55 |
+| cache-coherence | 0.1 | 0.4 | 0.8 | 1.4 | 1.6 | 1.0 | 267 |
+| dma | 3.6 | 3.2 | 6.8 | 7.6 | 5.7 | 6.5 | 1695 |
+| mmio-ordering | 0.1 | 0.2 | 0.3 | 0.6 | 1.0 | 1.0 | 165 |
+| write-buffer-delay-slot | 0.0 | 0.0 | 0.2 | 0.2 | 0.2 | 0.1 | 34 |
+| fpu-vector-state | 0.8 | 1.1 | 1.0 | 2.7 | 3.1 | 4.9 | 727 |
+| alignment | 0.6 | 1.1 | 1.4 | 1.1 | 1.4 | 1.7 | 384 |
+| endian | 0.6 | 2.2 | 3.9 | 3.9 | 2.8 | 3.7 | 880 |
+| compat-32bit | 2.0 | 2.7 | 4.4 | 6.2 | 6.5 | 10.9 | 1723 |
+| y2038-time | 1.0 | 0.9 | 0.7 | 0.8 | 0.7 | 0.9 | 257 |
+| timekeeping | 0.9 | 0.5 | 1.4 | 2.6 | 1.9 | 2.7 | 510 |
+| interrupts | 1.3 | 3.1 | 6.3 | 6.9 | 6.2 | 5.2 | 1469 |
+| timers-tick | 0.0 | 0.1 | 0.2 | 0.5 | 0.3 | 0.4 | 73 |
+| idle-power | 0.1 | 0.2 | 1.4 | 1.1 | 0.9 | 0.7 | 213 |
+| virtualization | 0.8 | 0.8 | 2.8 | 7.9 | 5.5 | 6.8 | 1253 |
+| uaccess | 0.0 | 0.1 | 0.3 | 0.5 | 0.4 | 0.2 | 73 |
+| tracing-patching | 0.3 | 0.3 | 0.8 | 0.7 | 0.9 | 0.8 | 200 |
+| machine-check-poison | 0.2 | 0.6 | 0.5 | 1.0 | 0.7 | 0.9 | 202 |
+| net-storage-fastpath | 0.0 | 0.4 | 2.3 | 3.1 | 2.6 | 3.4 | 609 |
+| marker-xxx-fixme-hack | 1.6 | 2.6 | 2.1 | 1.1 | 0.6 | 0.8 | 462 |
+| hardware-is-broken | 0.3 | 0.3 | 1.2 | 1.0 | 0.7 | 0.4 | 186 |
+
+##### freebsd: subject prefixes with the most commits whose SUBJECT matches errata, workaround or quirk
+
+| prefix | subject matches | all commits with this prefix | per 1000 |
+|---|---:|---:|---:|
+| arm64 | 19 | 966 | 19.7 |
+| new errata | 17 | n/a | n/a |
+| usb | 17 | 87 | 195.4 |
+| ntb | 9 | 83 | 108.4 |
+| acpi | 7 | 121 | 57.9 |
+| mfp4 | 6 | 443 | 13.5 |
+| cam | 4 | 187 | 21.4 |
+| nvme | 4 | 247 | 16.2 |
+| umass | 4 | n/a | n/a |
+| new errata item | 3 | n/a | n/a |
+| new release | 3 | n/a | n/a |
+| sdhci_fsl_fdt | 3 | n/a | n/a |
+| new release notes | 3 | 381 | 7.9 |
+
+#### netbsd: 317170 non-merge commits, head `5b0e0d5997518246c017c6577adcb59be12d0a79` (2026-10-22), https://github.com/NetBSD/src
+
+Commits whose subject or message matches the category, per 1000 non-merge commits of the period (message mining, any match).
+
+| category | -1999 | 2000-04 | 2005-09 | 2010-14 | 2015-19 | 2020-26 | total |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| (all commits) | 58778 | 73915 | 54078 | 45729 | 40193 | 44477 | 317170 |
+| errata | 0.0 | 0.3 | 0.3 | 0.3 | 0.9 | 0.7 | 111 |
+| workaround | 1.7 | 2.3 | 3.7 | 3.2 | 4.3 | 4.2 | 982 |
+| quirk | 1.2 | 2.3 | 1.4 | 1.1 | 0.9 | 1.5 | 479 |
+| mitigation | 0.0 | 0.1 | 0.1 | 0.2 | 1.4 | 0.9 | 123 |
+| spectre-family | 0.0 | 0.0 | 0.0 | 0.0 | 0.8 | 0.2 | 41 |
+| speculation-any | 0.0 | 0.0 | 0.0 | 0.1 | 0.3 | 0.1 | 23 |
+| kpti-entry | 0.1 | 0.2 | 0.2 | 0.3 | 0.4 | 0.2 | 68 |
+| barrier-ordering | 0.1 | 0.1 | 0.6 | 0.1 | 0.4 | 1.7 | 141 |
+| race | 1.4 | 1.5 | 2.8 | 3.1 | 4.3 | 5.7 | 915 |
+| deadlock | 0.6 | 0.8 | 2.0 | 1.1 | 1.8 | 2.5 | 432 |
+| spinlock-family | 0.1 | 0.4 | 1.6 | 0.5 | 0.7 | 1.0 | 221 |
+| rcu | 0.0 | 0.0 | 0.0 | 0.0 | 0.2 | 0.5 | 29 |
+| atomics-llsc | 0.1 | 0.1 | 0.2 | 0.3 | 0.1 | 0.2 | 44 |
+| percpu | 0.4 | 0.3 | 1.3 | 1.0 | 1.3 | 1.5 | 280 |
+| tlb | 1.1 | 1.5 | 1.2 | 1.7 | 1.1 | 1.5 | 433 |
+| shootdown | 0.1 | 0.1 | 0.2 | 0.2 | 0.1 | 0.3 | 46 |
+| asid-pcid | 0.2 | 0.2 | 0.0 | 0.3 | 0.4 | 0.4 | 72 |
+| pagetable | 1.4 | 0.7 | 0.3 | 0.6 | 0.6 | 0.6 | 228 |
+| cow-fork-mmaplock | 0.0 | 0.0 | 0.2 | 0.0 | 0.0 | 0.0 | 20 |
+| cache-coherence | 0.9 | 1.3 | 0.8 | 1.0 | 1.3 | 0.9 | 330 |
+| dma | 7.7 | 5.0 | 3.3 | 3.5 | 3.3 | 4.6 | 1502 |
+| mmio-ordering | 0.0 | 0.0 | 0.0 | 0.1 | 0.2 | 0.3 | 32 |
+| write-buffer-delay-slot | 0.4 | 0.4 | 0.4 | 0.1 | 0.1 | 0.4 | 100 |
+| tlb-refill | 0.1 | 0.2 | 0.1 | 0.2 | 0.1 | 0.1 | 41 |
+| fpu-vector-state | 1.5 | 1.9 | 0.9 | 3.9 | 2.7 | 3.4 | 717 |
+| alignment | 0.6 | 0.9 | 1.1 | 1.0 | 0.9 | 2.2 | 338 |
+| endian | 3.0 | 4.3 | 2.8 | 2.8 | 2.7 | 5.6 | 1130 |
+| compat-32bit | 3.4 | 3.3 | 6.7 | 5.7 | 7.5 | 7.7 | 1708 |
+| y2038-time | 0.6 | 0.3 | 1.8 | 1.4 | 0.6 | 0.9 | 290 |
+| timekeeping | 0.1 | 0.1 | 0.9 | 0.9 | 0.4 | 1.0 | 167 |
+| interrupts | 0.4 | 1.0 | 1.3 | 1.7 | 5.2 | 3.2 | 598 |
+| timers-tick | 0.1 | 0.1 | 0.1 | 0.2 | 0.1 | 0.2 | 33 |
+| idle-power | 0.0 | 0.0 | 0.2 | 0.5 | 0.6 | 0.4 | 75 |
+| virtualization | 0.7 | 0.6 | 5.4 | 6.3 | 7.3 | 6.5 | 1252 |
+| uaccess | 0.1 | 0.0 | 0.0 | 0.1 | 0.5 | 0.3 | 41 |
+| tracing-patching | 1.9 | 1.0 | 0.5 | 0.2 | 0.7 | 0.7 | 283 |
+| machine-check-poison | 0.5 | 0.5 | 0.2 | 0.3 | 0.2 | 0.2 | 114 |
+| net-storage-fastpath | 0.0 | 0.1 | 0.4 | 0.3 | 0.5 | 0.7 | 91 |
+| marker-xxx-fixme-hack | 8.3 | 13.8 | 14.1 | 15.4 | 20.7 | 20.1 | 4695 |
+| hardware-is-broken | 0.3 | 0.2 | 0.2 | 0.2 | 0.1 | 0.3 | 73 |
+
+##### netbsd: subject prefixes with the most commits whose SUBJECT matches errata, workaround or quirk
+
+| prefix | subject matches | all commits with this prefix | per 1000 |
+|---|---:|---:|---:|
+| x86 | 6 | 131 | 45.8 |
+| pr | 5 | 2402 | 2.1 |
+| bind | 3 | 16 | 187.5 |
+
+#### openbsd: 248109 non-merge commits, head `d962f40cd0b4b974405c3cac59ec7417040c0533` (2026-10-22), https://github.com/openbsd/src
+
+Commits whose subject or message matches the category, per 1000 non-merge commits of the period (message mining, any match).
+
+| category | -1999 | 2000-04 | 2005-09 | 2010-14 | 2015-19 | 2020-26 | total |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| (all commits) | 24652 | 48083 | 48293 | 36230 | 44992 | 45859 | 248109 |
+| errata | 0.1 | 0.2 | 0.6 | 0.8 | 0.5 | 0.9 | 132 |
+| workaround | 2.0 | 2.5 | 3.4 | 3.6 | 2.6 | 4.3 | 782 |
+| quirk | 1.3 | 0.8 | 1.6 | 1.5 | 1.9 | 2.8 | 416 |
+| mitigation | 0.0 | 0.0 | 0.5 | 0.6 | 1.1 | 1.4 | 159 |
+| spectre-family | 0.0 | 0.0 | 0.0 | 0.0 | 1.0 | 0.6 | 75 |
+| speculation-any | 0.0 | 0.0 | 0.0 | 0.1 | 0.4 | 0.6 | 51 |
+| barrier-ordering | 0.0 | 0.0 | 0.0 | 0.1 | 0.6 | 0.7 | 68 |
+| race | 2.9 | 2.8 | 2.6 | 3.5 | 3.5 | 4.8 | 839 |
+| deadlock | 0.3 | 0.4 | 0.9 | 1.0 | 1.3 | 1.2 | 222 |
+| spinlock-family | 0.5 | 0.1 | 1.2 | 1.0 | 1.5 | 3.1 | 324 |
+| percpu | 0.0 | 0.0 | 0.2 | 0.5 | 0.9 | 1.4 | 133 |
+| tlb | 0.2 | 0.7 | 1.0 | 1.0 | 0.8 | 1.2 | 220 |
+| shootdown | 0.0 | 0.1 | 0.2 | 0.2 | 0.1 | 0.2 | 33 |
+| asid-pcid | 0.0 | 0.0 | 0.0 | 0.2 | 0.5 | 0.9 | 69 |
+| pagetable | 0.2 | 0.4 | 0.3 | 0.6 | 0.7 | 0.9 | 130 |
+| cache-coherence | 0.4 | 0.6 | 0.7 | 0.7 | 0.5 | 0.7 | 145 |
+| dma | 2.4 | 2.7 | 4.9 | 3.6 | 3.2 | 5.0 | 928 |
+| mmio-ordering | 0.0 | 0.0 | 0.0 | 0.2 | 0.4 | 0.6 | 54 |
+| write-buffer-delay-slot | 0.0 | 0.1 | 0.2 | 0.3 | 0.1 | 0.2 | 41 |
+| fpu-vector-state | 0.3 | 1.2 | 1.2 | 1.6 | 1.5 | 1.8 | 330 |
+| alignment | 0.5 | 0.8 | 0.9 | 0.8 | 0.6 | 1.0 | 197 |
+| endian | 2.3 | 2.5 | 2.8 | 2.3 | 1.3 | 1.4 | 514 |
+| compat-32bit | 2.0 | 1.1 | 1.3 | 2.7 | 2.2 | 1.4 | 422 |
+| y2038-time | 0.7 | 0.4 | 0.2 | 4.2 | 0.9 | 1.0 | 283 |
+| timekeeping | 0.4 | 0.2 | 0.4 | 0.6 | 1.4 | 1.4 | 186 |
+| interrupts | 0.1 | 0.4 | 1.8 | 2.9 | 2.7 | 3.4 | 494 |
+| idle-power | 0.0 | 0.0 | 0.1 | 4.0 | 1.3 | 2.8 | 339 |
+| virtualization | 0.5 | 0.8 | 0.6 | 1.0 | 3.4 | 2.9 | 402 |
+| uaccess | 0.1 | 0.0 | 0.0 | 0.2 | 0.2 | 0.1 | 22 |
+| tracing-patching | 0.2 | 0.4 | 0.2 | 0.2 | 0.4 | 0.1 | 63 |
+| machine-check-poison | 0.0 | 0.1 | 0.3 | 0.4 | 0.3 | 0.1 | 52 |
+| net-storage-fastpath | 0.0 | 0.0 | 0.1 | 0.2 | 0.2 | 2.2 | 125 |
+| marker-xxx-fixme-hack | 2.9 | 2.0 | 1.3 | 1.7 | 1.1 | 1.2 | 397 |
+| hardware-is-broken | 0.2 | 0.1 | 0.5 | 0.3 | 0.2 | 0.5 | 70 |
+
+##### openbsd: subject prefixes with the most commits whose SUBJECT matches errata, workaround or quirk
+
+| prefix | subject matches | all commits with this prefix | per 1000 |
+|---|---:|---:|---:|
+| drm | 99 | 3098 | 32.0 |
+| sys | 7 | 191 | 36.6 |
+| workaround | 3 | 3 | 1000.0 |
+
 
 ## Appendix C: Phase 2, the reading list and the plan
 
 ### C.1 Status
 
-Fetched: the local documents listed in B.1 and the old Unix sources of chapter 14 (read in place). **Not yet fetched** (everything below): the mailing-list archives, LWN articles, talks and papers. Items from memory are titles and authors only and are **unverified** until fetched.
+Fetched: the local documents listed in B.1, the old Unix sources of chapter 14 (read in place), 7 LWN pages (before the block), 11 lore.kernel.org search-result pages, 14 list messages in full and 2 archive indexes (below). **Not yet fetched**: the rest of the mailing-list archives, the other LWN articles (blocked), the papers and talks. Items from memory are titles and authors only and are **unverified** until fetched.
 
-Reading list with status (also `docs/codegen-data/kernelpain/reading-list.tsv`).
+Reading list with status (also `docs/codegen-data/kernelpain/reading-list.tsv`). Fetched pages are saved in `~/claude/browse-output` (outside the repository).
 
 | Source | Date | Status | Note |
 |---|---|---|---|
@@ -937,10 +1212,28 @@ Reading list with status (also `docs/codegen-data/kernelpain/reading-list.tsv`).
 | [s:"x86/mm: PCID" - search results](https://lore.kernel.org/all/?q=s%3A%22x86%2Fmm%3A+PCID%22) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
 | [s:"qspinlock" s:"PATCH v" - search results](https://lore.kernel.org/all/?q=s%3A%22qspinlock%22+s%3A%22PATCH+v%22) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
 | [s:"mm: per-VMA" - search results](https://lore.kernel.org/all/?q=s%3A%22mm%3A+per-VMA%22) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
-| [[RFC 00/13] x86/mm: PCID and INVPCID (Andy Lutomirski)](https://lore.kernel.org/all/cover.1452294700.git.luto@kernel.org/) | 2016-01-08 | not fetched (URL captured from a search result) | to read: cost arguments for PCID and the TLB flush design |
-| [Re: [RFC 00/13] x86/mm: PCID and INVPCID (Linus Torvalds)](https://lore.kernel.org/all/CA+55aFxmc83LRHRSAsnydpqy4Y-K2V9RvRCU+dhV-kWzu2Gvpg@mail.gmail.com/) | 2016-01-08 | not fetched (URL captured from a search result) | to read: cost arguments for PCID and the TLB flush design |
 | [Re: [RFC 00/13] x86/mm: PCID and INVPCID (Linus Torvalds)](https://lore.kernel.org/all/CA+55aFxpGj2koqmcFF9JWzBeheF9473Ka516shwbuhfjVpgxrg@mail.gmail.com/) | 2016-01-08 | not fetched (URL captured from a search result) | to read: cost arguments for PCID and the TLB flush design |
 | [[PATCH v5 0/2] x86/mm: PCID](https://lore.kernel.org/all/cover.1500957502.git.luto@kernel.org/) | 2017-07-25 | not fetched (URL captured from a search result) | to read: cost arguments for PCID and the TLB flush design |
+| [[PATCH 00/23] KAISER: unmap most of the kernel from userspace page tables (Dave Hansen)](https://lore.kernel.org/all/20171031223146.6B47C861@viggo.jf.intel.com/) | 2017-10-31 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [[RFC 00/13] x86/mm: PCID and INVPCID (Andy Lutomirski)](https://lore.kernel.org/all/cover.1452294700.git.luto@kernel.org/) | 2016-01-08 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [Re: [RFC 00/13] x86/mm: PCID and INVPCID (Linus Torvalds)](https://lore.kernel.org/all/CA+55aFxmc83LRHRSAsnydpqy4Y-K2V9RvRCU+dhV-kWzu2Gvpg@mail.gmail.com/) | 2016-01-08 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [Re: Avoid speculative indirect calls in kernel (Linus Torvalds)](https://lore.kernel.org/all/CA+55aFzCocoK+4kxAUEhaxxba4RTv3ewBmhiZ8Osc9iDkBtCEQ@mail.gmail.com/) | 2018-01-03 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [Remove smp_read_barrier_depends (Will Deacon, v1 cover)](https://lore.kernel.org/lkml/20191108170120.22331-1-will@kernel.org/) | 2019-11-08 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [[PATCH 00/18] Allow architectures to override __READ_ONCE() (v3 cover)](https://lore.kernel.org/all/20200710165203.31284-1-will@kernel.org/) | 2020-07-10 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [x86/fpu: Default eagerfpu=on on all CPUs (commit 58122bf1d856, 4.4 backport)](https://lore.kernel.org/all/20180614132724.737334115@linuxfoundation.org/) | 2018-06-14 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [arm64: hardware updates of access and dirty pte bits (thread)](https://lore.kernel.org/all/20150910153812.GG22439@arm.com/) | 2015-09-10 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [ARCv2: Check for LL-SC livelock only if LLSC is enabled (4.4 backport)](https://lore.kernel.org/all/20160725203523.360826166@linuxfoundation.org/) | 2016-07-25 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [Re: [PATCH v2 1/6] xen/riscv: fix Svade/Svadu A/D bit handling](https://lore.kernel.org/all/1425dafc-9737-4776-aa65-5b0e5635e9f5@gmail.com/) | 2026-09-23 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [[PATCH 00/23] y2038 cleanups (Arnd Bergmann)](https://lore.kernel.org/all/20191108210236.1296047-1-arnd@arndb.de/) | 2019-11-08 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [Current state of SVS and Meltdown (Maxime Villard)](https://mail-index.netbsd.org/tech-kern/2018/01/21/msg023000.html) | 2018-01-21 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [Spectre on non-amd64 (maya)](https://mail-index.netbsd.org/tech-kern/2018/01/19/msg022992.html) | 2018-01-19 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [Re: Spectre on non-amd64 (maya)](https://mail-index.netbsd.org/tech-kern/2018/01/19/msg022993.html) | 2018-01-19 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [tech-kern thread index, January 2018](https://mail-index.netbsd.org/tech-kern/2018/01/thread1.html) | 2018-01 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [[POC] performance loss due to inefficiency of kernel lock implementation (Mateusz Guzik)](https://marc.info/?l=openbsd-tech&m=176631121132731&w=2) | 2025-12-21 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [Re: amd64: much earlier Intel microcode loading (Patrick Wildt)](https://marc.info/?l=openbsd-tech&m=151743333628424&w=2) | 2018-01-31 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [openbsd-tech January 2018 listing (page 1)](https://marc.info/?l=openbsd-tech&r=1&w=2&b=201801) | 2018-01 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [freebsd-arch archive index](https://lists.freebsd.org/archives/freebsd-arch/index.html) | 2026-10 | fetched 2026-10-22 | [D] developer statement or index page, read in full |
+| [freebsd-arch January 2018](https://lists.freebsd.org/archives/freebsd-arch/2018-January/subject.html) | 2018-01 | attempt failed: 503 Backend fetch failed (one try); old-style URL gave 404 | retry later |
 
 
 ### C.2 The plan, in priority order
@@ -949,7 +1242,7 @@ The mailing lists are the main source (the author's wording: all kernel and oper
 
 | Priority | Source and query | Expected to teach | Status |
 |---|---|---|---|
-| 1 | lore.kernel.org search: `PTI`, `KAISER`, `retpoline`, `Meltdown`, `swapgs`, 2017 and 2018 (LKML, x86) | the cost developers measured for entry and exit mitigations, who objected | not yet |
+| 1 | lore.kernel.org search: `PTI`, `KAISER`, `retpoline`, `Meltdown`, `swapgs`, 2017 and 2018 (LKML, x86) | the cost developers measured for entry and exit mitigations, who objected | partly done: Hansen's KAISER cover letter, Torvalds on speculation, Lutomirski on PCID read; the 2017-18 patch threads on `swapgs`/entry, `IBRS` costs and the per-process switch not yet | 
 | 2 | lore.kernel.org: Paul McKenney and Will Deacon on `memory-barriers`, `Alpha`, `READ_ONCE`, `dependency ordering`, `smp_read_barrier_depends` removal (linux-arch, LKML) | the ordering pain in the architects' words | not yet |
 | 3 | lore.kernel.org: Linus Torvalds on `ticket spinlock`, `qspinlock`, `cmpxchg`, `LL/SC`, `unaligned`, `lazy FPU`, `LazyFP`, `SMAP` | design-level objections and costs | not yet |
 | 4 | LWN.net kernel index and articles: KPTI, TLB flushing, per-VMA locks, THP, NUMA balancing, qspinlock, `NO_HZ`, y2038, CFI, shadow stacks | dated secondary accounts with measurements | not yet |

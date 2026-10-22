@@ -1,0 +1,2 @@
+repo,url,head,head_date,non_merge_commits,git_log_command
+linux,https://github.com/torvalds/linux,a1c2b1da93f5f612aa7a33190c4900c98e51f6da,2026-10-22T10:41:18-10:00,1377457,git -C /home/david/claude/kernel-msgs/linux.git log --no-merges --date=format:%Y-%m-%d --format=%x01%H%x1f%ad%x1f%s%x1f%b%x02

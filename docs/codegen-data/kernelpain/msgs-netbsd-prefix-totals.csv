@@ -1,0 +1,401 @@
+prefix,commits
+(none),291978
+pr,2402
+lint,1929
+tests,1471
+make,957
+indent,678
+regen,292
+drm,256
+doc,218
+i915,183
+sys,179
+sun4v,165
+cosmetic,137
+linux,135
+x86,131
+fix typo,122
+gomoku,106
+xxx,102
+arm,97
+pr kern,89
+kern,87
+libc,78
+amdgpu,71
+evbarm,69
+risc-v,63
+libm,62
+dm,62
+mips,60
+gdb,60
+gcc,58
+ld.elf_so,58
+aarch64,57
+tools,56
+ksh,56
+dtrace,54
+distrib,53
+external,50
+i386,50
+usbnet,50
+yamt-splraiseipl,47
+wii,46
+lib,44
+fix,44
+binutils,42
+bug fix,42
+no functional change,41
+knf,40
+acpi,40
+add,40
+powerpc,38
+efiboot,38
+wg,38
+openssl,37
+bsd.own.mk,36
+npf,36
+make.1,35
+typo,35
+riscv,33
+libpthread,33
+vax,32
+from,32
+pr bin,31
+specfs,31
+amd64,30
+fix previous,30
+gcc.old,29
+postinstall,28
+ixgbe,28
+rump,27
+usr.bin,27
+curses,27
+build.sh,26
+zfs,26
+snprintb,26
+bugfix,26
+buildfix,26
+fix pr,26
+t_signal_and_sp,25
+openssh,25
+cgram,25
+cosmetics,25
+description,25
+updating,24
+cleanup,24
+build fix,23
+usb,23
+zoneinfo,23
+changes,22
+ftp,22
+sysinst,22
+nfc,22
+xen,22
+opencrypto,22
+nouveau,22
+lua,22
+refactor,22
+from openbsd,22
+mozilla-certdata,21
+arp,21
+sparc64,21
+npfctl,21
+pr install,21
+from anon ymous,21
+m68k,20
+3rdparty,20
+ddb,20
+delint,20
+autofs,19
+syslogd,19
+mk,19
+fstyp,19
+pr misc,19
+compat,18
+sparc,18
+bsd.lib.mk,18
+npftest,18
+inet6,18
+cid,18
+lagg,17
+usbnet drivers,17
+oops,17
+from arnaud ebalard,17
+libfetch,16
+bind,16
+sppp,16
+revert previous,16
+usr.sbin,16
+altq,16
+fix a typo,16
+genfs_getpages,16
+uvm,15
+pcidevs,15
+nvmm,15
+elftoolchain,15
+ifconfig,15
+usbdevs,15
+synaptics,15
+alpha,14
+fix comment,14
+bridge,14
+lint1,14
+c99,14
+summary,14
+ssdfb,14
+from freebsd,14
+repeat after me,14
+gcc4 fix,14
+hppa,13
+lists,13
+eqos,13
+building,13
+ia64,13
+dhcpcd,13
+bin,13
+readme.gcc12,13
+style,13
+terminfo,13
+rename,13
+make this compile again,13
+fix pasto,13
+merge from vmlocking,13
+various,13
+sdmmc,12
+inet,12
+libbsdmalloc,12
+sets,12
+radeon,12
+audio,12
+aiomixer,12
+execve_runproc,12
+misc cleanup,12
+bluetooth fixes by iain hibbert,12
+macppc,11
+nd6,11
+libcurses,11
+wiiu,11
+tmux,11
+pr lib,11
+ossaudio,11
+afterboot.8,11
+uvm_fault,11
+nfs_lookup,11
+yamt-idlelwp,11
+heimdal,10
+t_fdrestart,10
+fdt,10
+arm64,10
+gicv3,10
+nfs,10
+mi pmap,10
+x68k,10
+share,10
+evbppc,10
+ufs,10
+games,10
+expr,10
+pr 58960,10
+libcrypt,10
+libcrypto,10
+net,10
+port-arm,10
+inpcb,10
+vlan,10
+fix spelling,10
+update,10
+readme.gcc14,9
+t_poll,9
+makefs,9
+ipsec,9
+libedit,9
+atf,9
+sdhc,9
+if,9
+sunxi,9
+jemalloc,9
+t_fpclassify,9
+sh3,9
+all,9
+route,9
+typo fix,9
+some cleanup,9
+shmif,9
+error,9
+rumpkern,9
+netbsd,9
+fix typo in comment,9
+rtadvd,9
+tcp_input,9
+dedup,9
+sync with reality,9
+from bug hunting,9
+sync with generic,9
+stack police,9
+bump version,9
+several things,9
+from matthias drochner,9
+audio.4,8
+sh,8
+luna68k,8
+binutils.old,8
+in6,8
+librumpuser,8
+netinet,8
+libnv,8
+man,8
+compat_netbsd32,8
+rkdrm,8
+ctwmrc,8
+virtio,8
+inetd,8
+paranoia,8
+wpa,8
+pr port-arm,8
+more cleanup,8
+optimize,8
+cosmetic changes,8
+regenerate,8
+tcp_output,8
+nit,8
+a few things,8
+imakeicide-ii,8
+bump minor,8
+merge from gnu,8
+from toru nishimura,8
+sysctl.7,7
+libarchive,7
+xhci,7
+pr toolchain,7
+dev,7
+bsd-family-tree,7
+in,7
+pax,7
+pr port-sparc,7
+t_ctype,7
+virtio_pci.c,7
+snprintb.3,7
+t_fenv,7
+makefile,7
+redo previous,7
+simplify,7
+hack,7
+entropy,7
+mount_9p,7
+generic,7
+nvmm-x86,7
+various fixes,7
+fix kern,7
+uebayasi-xip,7
+tyop,7
+usage,7
+various cleanup,7
+pulldown from marc-pcmcia branch,7
+etc,6
+t_sigio,6
+tmpfs,6
+npf.conf.5,6
+makedev,6
+netstat,6
+libgmp,6
+bsd.prog.mk,6
+cosmetic change,6
+osnet,6
+libsa,6
+gallium,6
+t_execregs,6
+t_rtld_r_debug,6
+usb.4,6
+bpf,6
+ttm,6
+acronyms.comp,6
+flashctl,6
+wsemul_vt100_subr,6
+ffs,6
+netpgp,6
+pic,6
+tprof,6
+carp,6
+fix the build,6
+fix info leak,6
+minor cleanup,6
+backout previous,6
+vn_lock,6
+nfssvc_nfsd,6
+sun4,6
+procfs_readdir,6
+several changes,6
+fix some types,6
+amiga,5
+bsd.kmodule.mk,5
+atari,5
+lfs,5
+netinet6,5
+meta_oodate,5
+mkimage,5
+tcp,5
+arm32,5
+drm2,5
+awk.1,5
+bootimage,5
+kern_descrip.c,5
+resolvconf,5
+bwi,5
+posix_openpt.3,5
+pr port-amd64,5
+vio9p,5
+umcpmioctl,5
+compiler_rt,5
+t_cut.sh,5
+crypto,5
+gdb.old,5
+miidevs,5
+base,5
+ramdisk-zfsroot,5
+ctfmerge,5
+netwinder,5
+main,5
+next68k,5
+bsd.dep.mk,5
+dts,5
+splx,5
+gnu-efi,5
+pmap_page_remove,5
+stdio.h,5
+mkdep,5
+xen3_dom0,5
+sync with freebsd,5
+aes neon,5
+nvmm-x86-svm,5
+reported-by,5
+pr port-i386,5
+mi_switch,5
+kernel heap hardening,5
+m25p,5
+make this work,5
+port-i386,5
+gmake,5
+correct typo,5
+update todo,5
+fixed typo,5
+copyinargs,5
+contribution from petri laakso,5
+various improvements,5
+appease gcc -fno-common,5
+straggler from last,5
+npf checkpoint,5
+do_posix_fadvise,5
+ubc_fault,5
+from tomas mraz,5
+namespace sanity,5
+document,5
+yamt-lazymbuf,5
+constify,5
+from christos,5
+tcp_sack_option,5
+new features,5
+features,5
+remove,5
+fix the see also section,5
+decstation mips3 support,5
+device rename,5

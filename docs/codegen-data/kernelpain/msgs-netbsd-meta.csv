@@ -1,0 +1,2 @@
+repo,url,head,head_date,non_merge_commits,git_log_command
+netbsd,https://github.com/NetBSD/src,5b0e0d5997518246c017c6577adcb59be12d0a79,2026-10-22T10:47:30Z,317170,git -C /home/david/claude/kernel-msgs/netbsd.git log --no-merges --date=format:%Y-%m-%d --format=%x01%H%x1f%ad%x1f%s%x1f%b%x02

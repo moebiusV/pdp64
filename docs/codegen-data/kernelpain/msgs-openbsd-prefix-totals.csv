@@ -1,0 +1,401 @@
+prefix,commits
+(none),238069
+drm,3098
+from netbsd,386
+rpki-client,242
+sys,191
+typo,93
+sndiod,84
+relayd,53
+vmd,45
+wycheproof,42
+clockintr,39
+tweak previous,37
+.,37
+vmm,36
+fix typo,34
+cleanup,34
+regress,33
+from freebsd,33
+fix previous,29
+acme-client,28
+httpd,27
+bugfix,27
+virtio,26
+libtls,25
+isakmpd,24
+iked,24
+amd64,24
+vio,24
+libcrypto,22
+ec_asn1_test,22
+sync with freebsd,20
+simplify,19
+updates from master repo,19
+pull from master repo,19
+rpki-client regress,18
+zlib,17
+bn_test,17
+revert previous,17
+svm,17
+spelling,16
+sync to 1.8.0,16
+sync to 1.7.16,16
+knf,15
+sync to 1.8.1,15
+timecounting,14
+uaudio,13
+libsndio,13
+ectest,13
+bio chain test,13
+oops,13
+fix,13
+from zhuk,13
+sync to 1.7.20,13
+sync to 1.7.19,13
+libssl,12
+ssh,12
+usr.sbin,12
+openssl speed,12
+aucat,12
+kqueue,12
+sync to 1.8.4,12
+openssl,11
+from tamas tevesz,11
+merge with freebsd,11
+ocspcheck,10
+tlsfuzzer,10
+typos,10
+fix comment,10
+i386,10
+minor cleanup,10
+sync to bsd.lv,10
+from master repo,10
+amdgpu,9
+virtio_pci,9
+pledge,9
+nc,9
+sync with netbsd,9
+some cleanup,9
+distrib,9
+em,9
+sync w,9
+loongson,9
+palm,9
+sync to 1.7.23,9
+mlkem,8
+x509_v3.c,8
+kernel,8
+refactor,8
+style,8
+sync,8
+utf-8 support,8
+regress pledge,8
+assume posix,8
+add,8
+format string fix,8
+cosmetic,8
+bug-fix,8
+sync to 1.9.6,8
+sync to 1.8.3,8
+sync to 1.7.21,8
+update from master repo,8
+tmux,7
+llvm,7
+asn1_multi,7
+obj_create,7
+libz,7
+dma-buf,7
+sparc64,7
+mips64,7
+powerpc64,7
+i915,7
+eck_prn,7
+mg,7
+minor tweaks,7
+sync to 1.9.7,7
+samples,7
+pkgconf,6
+sndioctl,6
+ksh,6
+pkcs7,6
+smtpd,6
+revert,6
+vmctl,6
+radeon,6
+clockintr_cpu_init,6
+sshd,6
+new,6
+prepare for merge,6
+standards,6
+sync to 1.8.5,6
+sync to 1.7.24,6
+fixes,6
+from scottr,6
+from leo,6
+from ragge,6
+x509_verify,5
+sftp,5
+ssh-agent,5
+pax,5
+libc,5
+gpu,5
+c2sp,5
+bio_dump,5
+dhcpleased,5
+vi,5
+ml-kem,5
+asn1t.h,5
+backout,5
+check_complete,5
+ftp,5
+sev-es,5
+amd,5
+vioscsi,5
+riscv64,5
+tcpdump,5
+ec_asn1,5
+d2i_ecprivatekey,5
+ec_point_conversion,5
+vfs,5
+revert commitid,5
+fix typo in comment,5
+macppc,5
+ddb,5
+vnode,5
+typos in comments,5
+add support for,5
+paranoia,5
+consistency,5
+security fix,5
+format string fixes,5
+sync with reality,5
+sync to 1.9.5,5
+makefile,5
+netbsd,5
+ipsec.c,5
+sync. w,5
+qwx,4
+sk-usbhid,4
+pkcs7test,4
+find,4
+ld.so,4
+ccr,4
+x509_vfy,4
+conf_api,4
+date,4
+dhcpd,4
+ssl_kex,4
+rfc3779,4
+sbin,4
+newsyslog,4
+bgpd,4
+asr regress,4
+openssl x509,4
+rpki-client.8,4
+x509_utl.c,4
+mlkem_tests,4
+hidmt,4
+pfctl,4
+tlsexttest,4
+alpha,4
+witness,4
+conf.h,4
+ec_mult,4
+ecdh_cms_encrypt,4
+whois,4
+x509_trust,4
+bsd.port.mk.5,4
+kevent,4
+ecdhtest,4
+msdosfs,4
+unbreak tree,4
+tc_setclock,4
+typo in comment,4
+man pages,4
+sshsig,4
+warning,4
+updatehostkeys,4
+unbreak debug build,4
+fix previous commit,4
+clarify,4
+acpi,4
+fix a typo,4
+pms,4
+vioblk,4
+from brad,4
+various cleanup,4
+remove dead code,4
+prepare merge,4
+from pjanzen,4
+sync to 1.9.1,4
+sync to 1.9.0,4
+sync to 1.8.2,4
+from pae work,4
+bug fix,4
+correct comment,4
+update from netbsd,4
+change,4
+last minute cleaning,4
+ramdisk,4
+apps,4
+conf.c,4
+changes from netbsd,4
+ike_phase_1.c,4
+pkgconf regress,3
+test,3
+pf,3
+relayctl,3
+tlsext,3
+uvm,3
+octeon,3
+cal,3
+openssl-ruby-tests,3
+rfc3779 regress,3
+openssl asn1pars,3
+asn1basic,3
+x509.h,3
+openssl cms,3
+openssl pkcs12,3
+openssl ca,3
+etc,3
+cms,3
+mlkem_unittest,3
+pvclock,3
+parser,3
+err.c,3
+test.c,3
+powerpc,3
+ssl_local.h,3
+sh,3
+obj_dat,3
+arm64,3
+unwind,3
+bn_convert,3
+ec_asn1_group2parameters,3
+d2i_ecparameters,3
+rsync,3
+cron,3
+asn1time,3
+x509_conf,3
+dig,3
+symbols test,3
+nfs,3
+fix pasto,3
+ssltest,3
+timeout,3
+libkeynote,3
+p12_npas.c,3
+s_client,3
+relay_read_http,3
+x509_algor,3
+clockintr_advance,3
+user,3
+bn_mod_exp,3
+cms_io,3
+update comment,3
+scp,3
+hppa,3
+tsc,3
+ssh-keygen,3
+grep,3
+hint,3
+iwm,3
+grammar fix,3
+minor polishing,3
+fix a comment,3
+fix history,3
+trivial cleanup,3
+lint is dead,3
+update,3
+from natano,3
+from,3
+more,3
+sync to traceroute,3
+from portable,3
+octrng,3
+more cleanup,3
+futex,3
+cosmetic changes,3
+workaround,3
+tweak,3
+openssl 1.0.0f,3
+bugs,3
+pxa2x0_mmc.c,3
+sanity check,3
+optimization,3
+from ospfd,3
+here too,3
+delint,3
+remove,3
+new command,3
+king bula sez,3
+clean up,3
+merge with netbsd,3
+sysdep,3
+cert.c,3
+features,3
+to-do,3
+npppd,2
+rdate,2
+zlib regress,2
+output-rtrx,2
+dm,2
+x509,2
+relayd-regress,2
+rsa_pmeth,2
+rfc 3779,2
+tls_verify,2
+libfido2,2
+arm64 hibernate,2
+pkcs7_stream,2
+s2i_asn1_integer.3,2
+fq_codel,2
+devel,2
+gnu,2
+sev-snp,2
+ospf6d,2
+sysv,2
+snmpd,2
+create_priority_list,2
+mount,2
+pkg_add,2
+port-modules,2
+clock_gettime.2,2
+bin,2
+fmt_scaled,2
+ecdh,2
+ec_convert,2
+net80211,2
+rfc3779 test,2
+man,2
+x509_prn,2
+check_sym,2
+wycheproof.go,2
+bgpctl,2
+tsleep.9,2
+x509v3.h,2
+dt,2
+openssl.1,2
+xargs,2
+a_bitstr.c,2
+netstat,2
+bn_ffdh,2
+policy test,2
+mlkem_internal.h,2
+asn.1 templates,2
+x509_name_entry_set_data,2
+stack,2
+netinet,2
+dc,2
+speed,2
+openssl ts,2
+finger,2
+take 2,2
+x509_cpols,2
+ec_curve,2
+unbound,2
+cms_recipientinfo_pwri_crypt,2
+fix warning,2
+libexpat,2
+bridge,2
