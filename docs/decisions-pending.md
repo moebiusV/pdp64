@@ -1020,6 +1020,8 @@ These were decided earlier (the errata cited). They are set out in the same form
 
 Nothing in the documents decides these yet. The system architecture and the bus document list them as open items ("not yet defined"); Parts A and B above cover the pieces that already exist (P6, P11, Q4, Q5, Q10). They are written in the same form so you can choose. The facts about other systems and about the PDP-11 and VAX are from my memory and are **not confirmed in the sources read** unless the text says they come from the kernel survey; the survey itself is about assembly instructions, not about these subsystems, so it says little here.
 
+The boot decisions (the first code, starting the other cores, the hand-off, device initialisation, UEFI) are in [`boot.md`](boot.md) as B1 to B5; B2 covers the secondary-core start that R2 also touches.
+
 | # | Decision | My recommendation | Needed for |
 |---|---|---|---|
 | R1 | The interrupt controller and routing interrupts to cores | a small controller with a per-core threshold and message-signalled interrupts | the second core; any device that is not core 0's |

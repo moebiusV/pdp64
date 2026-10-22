@@ -146,6 +146,8 @@ point lives in the general registers (ISA §2.3). The address space is selected 
 
 ## 9. Reset and boot
 
+**A review of how the main systems boot, whether UEFI is worth having, and a proposal (block 0 loaded by the controller's ROM, a register write to start each other core, a boot-information block, a reset bit plus an optional firmware window for each device) is in [`boot.md`](boot.md); the items below stay open until its decisions B1 to B5 are made.**
+
 *Established* (ISA §8.3): the machine comes up with `DMW0` covering physical memory, so there is no chicken-and-egg problem in setting up the first page tables. Resetting the bus is a bus-controller
 register write, not an instruction (§4.11.1).
 
