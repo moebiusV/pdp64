@@ -26,7 +26,7 @@ The layout of a source file is the V7 assembler's, `as`; the lexical rules are C
 - **Mnemonics** are lowercase (`movq`, `add`, `bne`). A multi-register instruction writes its destination last: `add src, rd`, `xnorpop ra, rb, rd`.
   `cmp` is the exception, `cmp rd, src`, because the encoding computes `rd - src` (errata 13).
 - **Compare and branch.** `cbCC rd, #imm, label` compares `rd` with a 5-bit signed immediate (-16 to 15) and branches on the condition: `cbeq r3, #5, label`. The mnemonics are `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group (ISA §4.4.1).
-  `rori32 rs, #n, rd` rotates the low 32 bits right and zero-extends the result (ISA §4.6).
+  `rori32 rs, #n, rd` rotates the low 32 bits right and sign-extends the result (ISA §4.6). The immediate of `cbCC` may be up to 16 bits (`cbeq r3, #255, label`); the assembler chooses the four-byte, the wide or the long encoding, and refuses a wide immediate whose target is more than 64 KB away (ISA §4.4.1).
 - **Literal pool: `=expr`.** An operand written with a leading `=` is **syntactic sugar for a pooled constant, and nothing else**: `movq =0x123456789ABC, r1` puts the 64-bit value in the literal pool and loads it with
   one PC-relative `movq`. It is accepted where a quad memory source is (`movq`, `push`, the ALU group with the register first for `cmp`: `cmp rd, =K`, and the floating-point ALU ops), and refused for sized moves, shifts, stores,
   `lea` and a relocatable symbol. `=` always pools, even a small value; use `#imm` for a constant that fits the signed 32-bit field. A bare `#K` that does not fit that field is an **error** ("use =K to load it from the literal pool"):

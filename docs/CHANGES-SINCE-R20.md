@@ -32,7 +32,7 @@ Contents
 
 | | |
 |---|---|
-| Opcode map | 64 top-level slots: **55 assigned**, the spare ALU slot `0x23`, **8 reserved** `0x28`-`0x2F`. (ISA §4.16 says 56 assigned; see §2.) |
+| Opcode map | 64 top-level slots: **57 assigned** (`0x28` `cbCC`, `0x29` its wide form), the spare ALU slot `0x23`, **6 reserved** `0x2A`-`0x2F`. (It was 55 assigned and 8 reserved at revision 20; ISA §4.16 said 56 assigned; see §2.) |
 | Mnemonic words | **266**, of which 36 are aliases (the five of ISA 4.15, the 29 old floating-point spellings, and `cbhis`, `cblo`): 230 instructions (247 and 213 after binary16, errata 27, and 230 and 196 before it; the second page added 16 `cb` words and `rori32`, errata 31; `mfsr` and `mtsr` added 2, errata 32). |
 | Operations, folded | **95** (91, plus `FSFLAGS`, plus `SET`, plus the fused compare-and-branch `cbCC`, plus the system-register move `mfsr`/`mtsr`; the unsigned conversions, `FRINTDA` and `rori32` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
 | Assembled today | everything except `ATOM`, `MESC` and `TRAPL`; `tools/check-drift.py` lists the rest by name. |
@@ -555,7 +555,7 @@ The opcode numbers of page 2 are independent of those of page 1: for example `0x
   `len = 01` (4 bytes): parcel 0 `01 0x28 rd cond` (`low` is the branch condition number, as for `set`); parcel 1 `imm:5 disp:11`, `imm` signed (-16 to 15) and `disp` signed, in parcels from the first parcel of
   the instruction, ±1024 parcels. `len = 10` (6 bytes): parcel 1 `imm:5 disp-high:11`, parcel 2 `disp-low:16`, a 27-bit displacement. The assembler picks the length (as for `bCC`); the immediate must fit 5 bits,
   and the compiler emits `cbCC` only then. Mnemonics: `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group. Condition names and numbers are those of `bCC` and `set`.
-* **`rori32 rs,#n,rd`**: a `BESC` sub-opcode with the format of `rori` (`sub:8 count:8` in parcel 1): `rd <- zero-extend( ror32( rs[31:0], n mod 32 ) )`. The result is zero-extended because unsigned 32-bit values
+* **`rori32 rs,#n,rd`**: a `BESC` sub-opcode with the format of `rori` (`sub:8 count:8` in parcel 1): `rd <- zero-extend( ror32( rs[31:0], n mod 32 ) )` (**superseded by errata 34: sign-extended**). The result was zero-extended because unsigned 32-bit values
   are kept zero-extended by the compiler and rotates of hash and crypto code are unsigned; a signed rotate is `rori32` followed by `movl rd,rd`.
 
 **Estimated saving**, static counts on the 827-file fair corpus compiled with the optimizing flags (the final output of 2026-10-22, 370,115 instructions, 1,672,166 bytes of image), two bytes per site, from

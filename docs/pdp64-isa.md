@@ -557,7 +557,17 @@ parcel 1:  iiiii dddddddddddd        imm(5), disp 26..16
 parcel 2:  dddddddddddddddd          disp 15..0       a 27-bit displacement
 ```
 
-As for every branch the displacement counts 2-byte parcels from the first parcel of the instruction itself (§4.1): ±1024 parcels at `len = 01`. There is no `len = 00` form. The assembler picks the length as it does for `BCC`; **the immediate must fit five bits**, and the compiler emits `CBCC` only then. The mnemonics are `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group; the condition names and numbers are those of `BCC` and `SET` (above). The opcode `0x28` does not obey the "low nibble of the opcode is the condition" rule of the branch group; `CBCC` has one opcode and takes its condition from parcel 0's low nibble.
+As for every branch the displacement counts 2-byte parcels from the first parcel of the instruction itself (§4.1): ±1024 parcels at `len = 01`. There is no `len = 00` form. The assembler picks the length as it does for `BCC`; **the immediate must fit five bits for the four-byte and long forms** (sixteen for the wide form below), and the compiler emits `CBCC` only then. The mnemonics are `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group; the condition names and numbers are those of `BCC` and `SET` (above). The opcode `0x28` does not obey the "low nibble of the opcode is the condition" rule of the branch group; `CBCC` has one opcode and takes its condition from parcel 0's low nibble.
+
+**The wide form, `CBW` (`0x29`, 2026-10-22, errata 34).** The same mnemonics accept an immediate in -32768 to 32767. Six bytes only:
+
+```
+parcel 0:  10 101001 rd cond         len = 10, opcode 0x29, the same condition numbers
+parcel 1:  iiiiiiiiiiiiiiii          imm(16) signed
+parcel 2:  dddddddddddddddd          disp(16) signed, in parcels from the first parcel: +-32,768 parcels, +-64 KB
+```
+
+For one `cbCC rd,#imm,target` the assembler chooses the shortest of three encodings: the four-byte form (`0x28`, `len = 01`: imm5, disp11); the six-byte wide form (`0x29`: imm16, disp16), which it takes whenever the immediate and the displacement fit it and the four-byte form does not; and the six-byte long form (`0x28`, `len = 10`: imm5, disp27), which is used only for a five-bit immediate whose target is beyond 64 KB. An immediate outside 16 bits, or a wide immediate (outside -16 to 15) whose target is beyond 64 KB, is an error ("use `cmp` and `bCC`"). A `cmp rd,#imm16` is four bytes and its branch two, so the wide form is six bytes either way: it saves an **instruction**, not bytes, except where the branch was four bytes. The compiler therefore uses it only for functions it can bound below 64 KB.
 
 ### 4.5 Single-operand escape — `SOP`, `0x13`
 
@@ -619,7 +629,7 @@ Parcel 0's low nibble is `ssss`, a **register**, not a mode — `BESC` is regist
 | `DSHR` | double-width funnel shift — see §4.6.4 |
 | `ROR` | rotate right by a register count — moved here in r20 (§4.3) |
 | `RORI` | rotate right by an immediate count: a four-byte form with the count in the low byte of parcel 1 (six bits used). `ROL Rd, Rs, #n` assembles to `RORI` with `64 − n` (§4.15) |
-| `RORI32` | rotate right by an immediate count, 32 bits: the format of `RORI` (`sub:8 count:8` in parcel 1) and a four-byte instruction. `rd ← zero-extend(ror32(rs[31:0], n mod 32))`. The result is zero-extended because unsigned 32-bit values are kept zero-extended by the compiler and the rotates of hash and crypto code are unsigned; a signed rotate is `RORI32` followed by `MOVL rd, rd`. `ROL` has no 32-bit form. Added 2026-10-22 (errata 31) |
+| `RORI32` | rotate right by an immediate count, 32 bits: the format of `RORI` (`sub:8 count:8` in parcel 1) and a four-byte instruction. `rd ← sign-extend(ror32(rs[31:0], n mod 32))`: the result is sign-extended like every other 32-bit result (`MOVL`), so the compiler's convention for 32-bit values needs no fix-up after it; the first version zero-extended (errata 31) and was changed on 2026-10-22 (errata 34). `ROL` has no 32-bit form. Added 2026-10-22 (errata 31) |
 | `EXTB`, `EXTZB` | bitfield extract at position/width, sign- or zero-extended; position and width are in parcel 2, so these exist at `len ≥ 10` only |
 | `INSB` | bitfield insert at position/width; `len ≥ 10` only |
 | `XNORPOP` | `popcount(¬(Ra ⊕ Rb))` — see §4.6.2 |
@@ -1025,14 +1035,15 @@ Reallocated in revision 20, sorted by tier (§4.3) and grouped by theme.
 0x23        ────    spare ALU slot (decodes, traps)      ─    §4.2
 0x24-0x27   FP      FADD FSUB FMUL FCMP                  2    §4.10
 0x28        CBCC    compare immediate and branch         4    §4.4.1
-0x29-0x2F   ────    reserved (7)                         ─
+0x29        CBW     compare wide immediate and branch   6    §4.4.1
+0x2A-0x2F   ────    reserved (6)                         ─
 0x30-0x3E   Bcc     conditional branches (15)            2    §4.4
 0x3F        SOB     subtract one and branch              4    §4.4
 ```
 
 (The `min` column is the shortest form of the group's common case; `SOB`, `CBCC`, and `PUSHM`/`POPM` in `SOP`, exist only from `len=01`.) This is **page 1**, the map of `len = 00`, `01` and `10`. `len = 11` selects page 2, a separate 64-entry map in §4.18.
 
-**Fifty-six of sixty-four assigned (12 moves and `LEA`, 6 escapes, 4 of `XFER`/`SOP`/`SYS`/`TAGOP`, 13 ALU, 4 FP, `CBCC`, 16 branch), one spare ALU slot (`0x23`), and seven reserved (`0x29`–`0x2F`)** — 56 + 1 + 7 = 64. Reserved went from one scattered slot at revision 19 to eight contiguous at revision 20, and to seven when `CBCC` took `0x28` on 2026-10-22. (Before that change the count was fifty-five assigned and eight reserved; a text of revision 20 once said "fifty-six assigned" before `CBCC` existed, which the map it printed did not add up to.) Besides the reserved slots there are no spare `SOP` slots, four spare `MESC` sub-opcodes, thirteen spare `XFER` sub-opcodes, and roughly 240 in each parcel-1 escape group.
+**Fifty-seven of sixty-four assigned (12 moves and `LEA`, 6 escapes, 4 of `XFER`/`SOP`/`SYS`/`TAGOP`, 13 ALU, 4 FP, `CBCC` and its wide form `CBW`, 16 branch), one spare ALU slot (`0x23`), and six reserved (`0x2A`–`0x2F`)** — 57 + 1 + 6 = 64. Reserved went from one scattered slot at revision 19 to eight contiguous at revision 20, to seven when `CBCC` took `0x28` on 2026-10-22, and to six when its wide form took `0x29` (errata 34). (Before that change the count was fifty-five assigned and eight reserved; a text of revision 20 once said "fifty-six assigned" before `CBCC` existed, which the map it printed did not add up to.) Besides the reserved slots there are no spare `SOP` slots, four spare `MESC` sub-opcodes, thirteen spare `XFER` sub-opcodes, and roughly 240 in each parcel-1 escape group.
 
 Three properties of the layout, all from §4.3.1:
 
@@ -1748,7 +1759,7 @@ Items added since revision 20:
 | FP | software convention | `R13`, used by `CALLS`/`CALLG` | **`R13`**, software convention |
 | AP | — | `R12`, for `CALLS`/`CALLG` | none — `R12` is general |
 | Virtual address | 16 bits (18/22 physical) | 32 bits | 39 bits (40 physical) |
-| Instruction count | ~70 base, plus EIS/FIS/FP11/CIS options | 304 | 56 assigned top-level opcodes in page 1 and 41 defined opcodes in page 2; 230 instructions in 266 mnemonic words (the rest are aliases); 95 operations once width, precision and similar qualifiers are folded |
+| Instruction count | ~70 base, plus EIS/FIS/FP11/CIS options | 304 | 57 assigned top-level opcodes in page 1 and 41 defined opcodes in page 2; 230 instructions in 266 mnemonic words (the rest are aliases); 95 operations once width, precision and similar qualifiers are folded |
 | Instruction length | 1–3 words (2–6 bytes) | 1 to over 50 bytes | 1–3 parcels (2–6 bytes), plus a one-parcel second page |
 | Operands per instruction | 1 or 2 | 0 to 6 | 1 or 2, plus 3 for `MBLK` |
 | Memory operands per instruction | up to 2 | up to 6 | **1** |
@@ -2086,7 +2097,7 @@ Terms this document uses without defining them, collected because several were i
 | **`len`** | bits 15..14 of parcel 0: the number of *extension* parcels for `00`, `01` and `10`; the value `11` selects page 2 (§3.1) |
 | **page 2** | the second opcode map, selected by `len = 11`: 64 entries of one-parcel instructions, 41 defined, each an exact abbreviation of a page-1 instruction (§3.1.2, §4.18). Page 1 is the map of `len = 00`, `01` and `10` (§4.16) |
 | **`CBCC`** | **c**ompare-immediate-and-**b**ranch on **c**ondition — opcode `0x28`, the fused compare and branch (§4.4.1) |
-| **`RORI32`** | rotate right by an immediate, 32-bit, zero-extended result — a `BESC` sub-opcode (§4.6) |
+| **`RORI32`** | rotate right by an immediate, 32-bit, sign-extended result — a `BESC` sub-opcode (§4.6) |
 | **`BESC`** | **b**it **esc**ape — opcode `0x0C`, bit, field and rotate manipulation (§4.6) |
 | **`MBLK`** | **m**emory **bl**oc**k** — opcode `0x0D`, the block memory operations (§4.7) |
 | **`MESC`** | **m**emory **esc**ape — opcode `0x0F`, unaligned access and ALU-to-memory (§4.13) |
@@ -2193,7 +2204,7 @@ Revision 20 as received was written under the working name 11/64W; the original 
 |---|---|---|
 | The machine is named pdp64 (working name 11/64W) | whole document | E12, C intro |
 | Opcode bits of the BESC, MBLK, TAGOP diagrams corrected to `001100`, `001101`, `010101` | §4.6, §4.7, §4.8 | E1, C2.1 |
-| Opcode count corrected: 55 assigned, spare ALU slot `0x23`, 8 reserved `0x28`–`0x2F` (not 56). Superseded on 2026-10-22: `0x28` is `CBCC`, so 56 assigned and 7 reserved `0x29`–`0x2F` (next lines) | §4.16, §4.2, §9.6 | E2, C2.1 |
+| Opcode count corrected: 55 assigned, spare ALU slot `0x23`, 8 reserved `0x28`–`0x2F` (not 56). Superseded on 2026-10-22: `0x28` is `CBCC`, so 56 assigned and 7 reserved `0x29`–`0x2F`; then 57 assigned and 6 reserved `0x2A`–`0x2F` when `CBW` took `0x29`, errata 34 (next lines) | §4.16, §4.2, §9.6 | E2, C2.1 |
 | PC-relative base is the first parcel of the instruction; operand displacement in bytes, branch displacement in parcels | §4.1, §4.4, §5, §9.3 | E3, C4.1 |
 | `PUSHM`/`POPM` moved from `MBLK` to `SOP` slots `A`/`B`, mask a 16-bit immediate | §4.5, §4.7 | E4, C3.2 |
 | `SYS` split into a 4-bit class and a minor; `TRAPL #n` added (class 15) for vectors 0–255 | §4.11 | E5, C4.4 |
@@ -2227,6 +2238,7 @@ Revision 20 as received was written under the working name 11/64W; the original 
 | Fourth parcel removed: instructions are 1, 2 or 3 parcels (2, 4 or 6 bytes); immediate, absolute, PC-relative and branch payloads 16 or 32 bits, base and direct-page displacement 12 or 28, scaled-index 6 or 22 | §3.1, §3.3, §4.4, §5, §7.3, §9.6, §19 | E31, C12 |
 | `len = 11` is page 2: 64-entry map of one-parcel exact abbreviations, 41 defined, 23 reserved (illegal-instruction abort) | §3.1.2, §4.18 | E31, C12 |
 | `CBCC` (compare immediate and branch) takes top-level opcode `0x28`: 56 assigned, 7 reserved `0x29`–`0x2F` | §4.4.1, §4.16 | E31, C12 |
+| `CBW`, the wide-immediate `CBCC` (opcode `0x29`, imm16 and disp16, six bytes): 57 assigned, 6 reserved `0x2A`–`0x2F`; `RORI32` now sign-extends | §4.4.1, §4.6, §4.16 | E34, C12 |
 | `RORI32` added as a `BESC` sub-opcode | §4.6 | E31, C12 |
 | Page-2 forms are not mnemonics; `CBCC` mnemonics `CBNE` … `CBLOS` | §4.15 | E31, C12 |
 | Open item 18 resolved; §9.6 rewritten, decision recorded in §9.9; rejected alternatives in §11 | §9.6, §9.9, §11, §12 | E31, C12 |
