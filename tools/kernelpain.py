@@ -3,17 +3,22 @@
 
 Reproducible companion of docs/kernel-pain-points.md (Appendix B).
 
-Scope change (2026-10-22, the author): the first version of this tool mined the
-full git history of Linux and the BSDs (git log over commit messages). That was
-dropped: the author wants the current kernels. History-shaped questions (when
-did a pain start, how did it change) are left to the web research of Phase 2.
-Nothing in this file reads git history.
+History of scope (2026-10-22): the first version mined blobless full-history
+clones with path limits; that was dropped (slow, large) and the clones were
+deleted. Two measurements remain: (1) `grep`/`structural` over the CURRENT
+source trees, and (2) `msgs`: commit-message mining on TREELESS BARE clones,
+which fetch commits only (no trees, no blobs), read with `git log --format`
+and no path arguments, so nothing but messages and metadata is touched.
 
 Sub-commands
   trees        print the commit hash and date of each tree used
   grep         run every category over every tree, write the CSVs under
                docs/codegen-data/kernelpain/ (counts.csv, totals.csv)
   structural   run the named structural measurements (structural.csv)
+  clonemsgs R  clone repo R treeless and bare into ~/claude/kernel-msgs/R.git
+  msgs R       mine the commit messages of that clone (counts per year, per
+               subject prefix, telling commits); the clone is deleted by the
+               caller afterwards (tools/kernelpain-msgs.sh)
   report       print markdown tables from the CSVs
 
 Trees (sparse checkouts under ~/claude/kernel-src; shallow, blobless):
@@ -367,6 +372,112 @@ def report():
             print(f"| {a} | {n} | {g('errata')} | {g('workaround')} | {g('quirk')} | {g('hardware-is-broken')} | {1000.0*s/n:.1f} |")
 
 
+MSGDIR = os.path.join(HOME, "claude", "kernel-msgs")
+MSG_URLS = {
+    "linux": "https://github.com/torvalds/linux",
+    "linuxold": "https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git",
+    "freebsd": "https://github.com/freebsd/freebsd-src",
+    "netbsd": "https://github.com/NetBSD/src",
+    "openbsd": "https://github.com/openbsd/src",
+}
+PREFIX_RE = re.compile(r"^([A-Za-z0-9_./+\- ,]{1,32}):\s")
+
+
+def clonemsgs(repo):
+    os.makedirs(MSGDIR, exist_ok=True)
+    dst = os.path.join(MSGDIR, repo + ".git")
+    cmd = ["nice", "-n", "10", "git", "clone", "--bare", "--filter=tree:0", "--single-branch",
+           MSG_URLS[repo], dst]
+    print(" ".join(cmd))
+    subprocess.check_call(cmd)
+
+
+def prefix_of(subj):
+    m = PREFIX_RE.match(subj)
+    if not m:
+        return "(none)"
+    return m.group(1).strip().lower().split("/")[0].split(",")[0].strip() or "(none)"
+
+
+def msgs(repo):
+    import heapq
+    d = os.path.join(MSGDIR, repo + ".git")
+    head = subprocess.check_output(["git", "-C", d, "rev-parse", "HEAD"], text=True).strip()
+    hdate = subprocess.check_output(["git", "-C", d, "log", "-1", "--format=%cI"], text=True).strip()
+    cmd = ["nice", "-n", "10", "git", "-C", d, "log", "--no-merges", "--date=format:%Y-%m-%d",
+           "--format=%x01%H%x1f%ad%x1f%s%x1f%b%x02"]
+    print("running:", " ".join(cmd), file=sys.stderr)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, text=True, errors="replace", bufsize=1 << 20)
+    rx = [(n, re.compile(r, 0 if n in CASE_SENSITIVE else re.I)) for n, r in CATS]
+    cy = collections.Counter(); cp = collections.Counter(); ty = collections.Counter(); tp = collections.Counter()
+    first = collections.defaultdict(list); longest = collections.defaultdict(list)
+    n = 0
+
+    def handle(rec):
+        nonlocal n
+        if "\x02" not in rec:
+            return
+        h = rec.split("\x02", 1)[0].split("\x1f", 3)
+        if len(h) < 4:
+            return
+        hh, date, subj, body = h
+        y = date[:4]
+        if not y.isdigit():
+            return
+        n += 1
+        pre = prefix_of(subj)
+        ty[y] += 1; tp[pre] += 1
+        text = subj + "\n" + body
+        for name, r in rx:
+            if r.search(text):
+                ins = bool(r.search(subj))
+                cy[(name, y, "any")] += 1
+                cp[(name, pre, "any")] += 1
+                if ins:
+                    cy[(name, y, "subj")] += 1
+                    cp[(name, pre, "subj")] += 1
+                    f = first[name]; f.append((date, hh, subj)); f.sort(); del f[3:]
+                    lg = longest[name]
+                    item = (len(body), hh, date, subj, " ".join(body.split())[:160])
+                    if len(lg) < 5:
+                        heapq.heappush(lg, item)
+                    else:
+                        heapq.heappushpop(lg, item)
+
+    buf = ""
+    while True:
+        chunk = p.stdout.read(1 << 22)
+        if not chunk:
+            break
+        buf += chunk
+        recs = buf.split("\x01")
+        buf = recs.pop()
+        for r in recs:
+            if r:
+                handle(r)
+    if buf:
+        handle(buf)
+    p.wait()
+    os.makedirs(OUT, exist_ok=True)
+    def w(name, header, rows):
+        with open(os.path.join(OUT, f"msgs-{repo}-{name}.csv"), "w", newline="") as f:
+            cw = csv.writer(f); cw.writerow(header); cw.writerows(rows)
+    w("cat-year", ["category", "year", "kind", "commits"], [list(k) + [v] for k, v in sorted(cy.items())])
+    w("cat-prefix", ["category", "prefix", "kind", "commits"], [list(k) + [v] for k, v in sorted(cp.items()) if v >= 3])
+    w("year-totals", ["year", "commits"], sorted(ty.items()))
+    w("prefix-totals", ["prefix", "commits"], [(k, v) for k, v in tp.most_common(400)])
+    tell = []
+    for c in first:
+        for (date, hh, s) in first[c]:
+            tell.append([c, "earliest", hh, date, s, ""])
+        for (bl, hh, date, s, ex) in sorted(longest[c], reverse=True):
+            tell.append([c, "longest-body", hh, date, s, ex])
+    w("telling", ["category", "why", "hash", "date", "subject", "excerpt"], tell)
+    w("meta", ["repo", "url", "head", "head_date", "non_merge_commits", "git_log_command"],
+      [[repo, MSG_URLS[repo], head, hdate, n, " ".join(cmd[3:])]])
+    print(repo, n, head, file=sys.stderr)
+
+
 if __name__ == "__main__":
     ap = sys.argv[1:]
     if not ap:
@@ -375,6 +486,10 @@ if __name__ == "__main__":
         trees()
     elif ap[0] == "grep":
         grep_all()
+    elif ap[0] == "clonemsgs":
+        clonemsgs(ap[1])
+    elif ap[0] == "msgs":
+        msgs(ap[1])
     elif ap[0] == "structural":
         structural()
     elif ap[0] == "report":
