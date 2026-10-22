@@ -449,3 +449,17 @@ mnemonic numbers in hex then binary and the hbnf numbers change (`90ab54c`, `d23
 `as64` walker and core (`44dc7f1`, `0eea194`); C numbers/strings/comments and the dropped features (`ab671a3`); UTF-8 and ELF names (`d8a044c`); bareword-colon labels (`269e445`);
 single source of numbers (`b04cb3b`); named layouts, generated enum/group order, register-indirect fix, drift test (`c1bfc6e`); bytecode untracked (`4b0ceb5`);
 `FRECPED`/`FRSQRTED` dropped (`38852f4`); JSON spec retired.
+
+## Toolchain status (2026-10-21, end of day)
+
+* **ld64**, **sim64** (docs/sim64.md) and the pcc back end (`~/claude/pcc/arch/pdp64`) exist. `tools/check-all.sh` runs the format vectors, the
+  syntax cases (42), the assembler programs, the link test, the drift test (214 checked, 0 differ), the header freshness check and the emulator
+  programs (7). Compiled C runs under `sim64` through `tools/pdp64test.sh` in the toolchain repo (79 of 81 default-flag tests at this writing).
+* Found by running code: the format template named an alias (`fcmpd`) so every opcode above the ALU decoded as a memory instruction (the generator now
+  refuses alias numbers and the vectors assert the decoded shape); `(sp)` without a displacement was read as a parenthesized symbol; `.even` mis-counted
+  during layout; sections lost their alignment; NaN results are now canonical (errata 26).
+* Assembler rules made explicit: an instruction at an odd address is an error; `r<digits>`, `sp`, `fp` cannot be unquoted symbol names.
+* Fair-corpus measurement (841 files): 1.05x the instructions of amd64 and aarch64, 0.98x / 0.89x their bytes; instruction lengths 2/4/6/8 bytes =
+  46.5 / 42.8 / 10.6 / 0.1 %; 35,000 six-byte cross-section `call`/`lea`. Compiler-side wishes recorded by the back-end work: sized (32/16/8-bit) ALU
+  memory operands or `addw`-style 32-bit arithmetic (`movl` is 10% of instructions, wrap-correct `int` costs 4%), a short `d(sp)` form (not
+  measured), linker relaxation of cross-section references.
