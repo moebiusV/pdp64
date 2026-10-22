@@ -25,6 +25,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [P12. What a multi-register instruction leaves behind when it faults](#p12-what-a-multi-register-instruction-leaves-behind-when-it-faults)
 * [P13. `long double`](#p13-long-double)
 * [P14. Confirm: priority 7 on interrupt entry as well as exception entry](#p14-confirm-priority-7-on-interrupt-entry-as-well-as-exception-entry)
+* [Part B. Previous decisions, written up so they can be changed](#part-b-previous-decisions-written-up-so-they-can-be-changed)
 * [What I need from you](#what-i-need-from-you)
 
 ## How to read this
@@ -37,7 +38,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 | # | Decision | My recommendation | Blocks or helps |
 |---|---|---|---|
-| P1 | `WFE` wakes on a pending interrupt even if masked | **Decided: yes** (your answer); errata 42 to write | idle loop of any kernel |
+| P1 | `WFE` wakes on a pending interrupt even if masked | wake on pending (**open**: an earlier answer was recorded by mistake and is withdrawn) | idle loop of any kernel |
 | P2 | Guard against the kernel touching user memory by mistake | PSW bit plus two `SYSX` instructions | hardening; OpenBSD (from memory, unchecked) |
 | P3 | Unprivileged time counter | `rdtime rd` instruction | fast clock reads from user code |
 | P4 | Feature and identification registers | read-only `mfsr` numbers 13 and up | portable kernels and libraries |
@@ -57,7 +58,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | What | Where decided |
 |---|---|
 | Flags are two groups, `C` and `{N, Z, V}`; `cbCC`, moves, loads and stores write no flags; shifts write the same flags for any count; `mscn` writes all four; rotates and `dshr` write no flags; `ASL` keeps `V = N xor C` | errata 39 and the author's ruling |
-| `ISYNC` and `HINT` exist | errata 39 |
+| `ISYNC` and `HINT` exist (Q15 reopens the idea behind `ISYNC` for review) | errata 39 |
 | The multi-access block instructions' internal accesses are unordered with respect to each other; `pushm` with `r14` in the list is reserved; page-table entry changes need `TLBI`; no speculative loads from device pages | errata 39 item 7 (the text is still to be written into the ISA) |
 | Exception entry sets priority 7 (P14 asks you to confirm the part about interrupts) | errata 40 |
 | Operating system order: OpenBSD first, Unix/32V fallback, 3BSD dropped | errata 41 |
@@ -86,7 +87,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 **What Unix on the PDP-11 and the VAX-11 did.** **PDP-11:** a `WAIT` instruction exists, and as I recall V7's idle routine lowered the priority and executed `wait` inside the scheduler's loop, which rechecks the run queue after every interrupt, so a wake-up lost in the gap costs at most one clock tick (60 per second). **VAX:** no wait instruction; as I recall 4BSD's idle loop spun at priority 0 testing the run-queue summary. *Trade-off:* both avoid the problem by bounding it (a tick) or by polling (burning power). *Comparison:* the recommendation removes the bound without polling; the PDP-11 way is acceptable only with a regular clock tick, which a tickless modern kernel does not have.
 
-**Recommendation and status.** Option 1, and you have said yes. Cost to build: small; the QEMU agent can do it in one pass with a test of the idiom. **If nothing is done:** the text stays wrong.
+**Recommendation.** Option 1. **This decision is open:** an answer to it was recorded by mistake (it was given inside a question that was rejected) and has been withdrawn. Cost to build: small; one pass with a test of the idiom. **If nothing is done:** the text stays wrong.
 
 **How the recommendation compares.** Option 1 gives the same result as AArch64 and RISC-V and is **not better than them**; it is better than the x86 way in that it needs no hidden one-instruction state, which an out-of-order design must track. It costs one rule in the core and no opcode.
 
@@ -438,6 +439,420 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 ---
 
+## Part B. Previous decisions, written up so they can be changed
+
+These were decided earlier (the errata cited). They are set out in the same form as P1 to P14 so that any of them can be reopened: if you want to change one, mark it, and it becomes a new erratum. "Keep" below is my view of whether to keep it, not a decision. Unchecked facts from my memory are marked **(from memory, unchecked)**.
+
+| # | Decision | Decided in | My view |
+|---|---|---|---|
+| Q1 | Exception entry saves state in registers (`EPC`, `EPSW`), with `pushx`/`popx` | errata 36, 37 | keep |
+| Q2 | Accessed and dirty bits are managed by software | errata 36 | keep for v1, make hardware management optional later |
+| Q3 | Three-level page tables, 39-bit virtual, 40-bit physical, 4 KB pages | errata 36 | keep |
+| Q4 | Eight interrupt priority levels in the `PSW`, no interrupt controller | errata 36 | keep |
+| Q5 | Sequential consistency as the memory model | ISA section 17 | keep for now, revisit when an out-of-order core is real |
+| Q6 | In-order FPGA and ASIC, architecture kept ready for out-of-order | errata 38 | keep |
+| Q7 | Condition codes kept (two flag groups; `cbCC`, moves, loads and stores write none) | errata 14, 39 | keep, consider opt-in flag writing |
+| Q8 | Instruction length 2, 4 or 6 bytes plus a one-parcel second page | errata 31 | keep |
+| Q9 | Integer arithmetic only 64-bit, no sized ALU operations | errata 28 | keep, measure the cost of the extensions |
+| Q10 | Devices are eight memory-mapped registers plus DMA | errata 29 | keep, consider compatibility with virtio |
+| Q11 | Wide constants come from an explicit literal pool (`=K`) | errata 33 | keep |
+| Q12 | System registers are reached by `MFSR`/`MTSR` with an 8-bit number | errata 32 | keep |
+| Q13 | Carry on subtract means borrow (the PDP-11 sense) | errata 14 | keep |
+| Q14 | Operating system order: OpenBSD first, Unix/32V fallback | errata 41 | keep, weigh NetBSD |
+| Q15 | `ISYNC`: system-register writes take effect only after an explicit instruction | errata 39 | keep |
+
+---
+
+## Q1. Exception entry saves state in registers
+
+**The need.** When an exception or interrupt arrives, the processor must remember where it was (the program counter and the status word) so the handler can return. Where that memory lives decides the cost of every system call and interrupt, and whether entry can itself fault.
+
+**The explanation.** Two broad designs. The processor can **push** the old program counter and status onto a stack in memory (the PDP-11, the VAX, x86). Or it can **latch them in registers** (`EPC`, `EPSW`) and let the handler save them if it needs to (AArch64, RISC-V, MIPS, PowerPC). Registers make entry cheap and unable to fault; the price is that a second exception before the handler has saved them overwrites them (which is why errata 40 raises the priority to 7 on entry), and the handler must save them itself. `pushx`/`popx` (errata 37) are one instruction each for saving and restoring both.
+
+**Current state.** Registers plus `pushx`/`popx`; the kernel survey puts the system-call entry at 4 to 5 instructions on paper (not measured).
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Registers + `pushx`/`popx` (current)** | no memory write at entry; entry cannot fault; short path | handler discipline; needs priority 7 on entry; nested exceptions need the explicit save |
+| 2 | **Hardware pushes `PC` and `PSW` on the kernel stack** (PDP-11, VAX, x86) | nesting is automatic and safe | a memory write at entry that can fault; a stack must always be valid |
+| 3 | **Swap status words in fixed memory** (s390 style) | simple hardware | slow; not re-entrant without extra work |
+| 4 | **A shadow register bank** that is switched in on entry (ARM fast-interrupt style) | no save at all for one level | only one level deep; more registers to build |
+| 5 | **Registers, but the hardware also stacks them once a nesting flag says so** | automatic nesting | a mode and state; against the simple design |
+
+**What current systems do.** The kernel survey found that AArch64, RISC-V, MIPS, LoongArch and PowerPC save the return address and status in registers; x86 pushes five words; s390 swaps whole status words in low memory. NetBSD and OpenBSD on x86 therefore carry code to cope with the pushed frame **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Both pushed the old `PC` and `PS`/`PSL` on the kernel stack, in hardware; the PDP-11 loaded the new `PC` and `PS` from the vector. *Trade-off:* the stack made nesting free and made entry a memory operation; Unix's trap code relied on the pushed frame being there. *Comparison:* the pdp64 trades that safety for a short, fault-free entry, and pays with the priority-7 rule and one explicit save.
+
+**View.** Keep. It is the modern RISC arrangement, and option 2 would put a memory write on every system call.
+
+---
+
+## Q2. Accessed and dirty bits are managed by software
+
+**The need.** A page-replacement policy has to know which pages were used (**accessed**) and which were written (**dirty**, so they must be written back before reuse). The page-table entry holds a bit for each. The question is who sets them.
+
+**The explanation.** If the **hardware** sets them, the memory-management unit must do an atomic read-modify-write of the entry on a first touch, which complicates the walker and, with several cores, needs care. If **software** manages them, the first touch of each page and the first write to it cause a fault and the kernel sets the bit; this is simple hardware but costs a fault per page per event. System v1 chose software, partly on the grounds that a hardware modify bit with software-emulated reference bits is how 3BSD paged on the VAX (unverified; see the fact-check).
+
+**Current state.** Software-managed accessed and dirty bits; one extra fault on first touch of each page and one more on first write (system design, D8).
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Software-managed (current)** | simplest walker; no atomic update in hardware | two extra faults per page; slower for a big working set |
+| 2 | **Hardware sets both, atomically** (x86) | no faults; fastest | the walker writes memory; atomicity with other cores and DMA; harder out-of-order |
+| 3 | **Optional hardware management with a software fallback** (AArch64 and RISC-V have it as an option) | cheap cores stay simple; fast cores skip the faults | two modes to specify; a feature bit (see P4) |
+| 4 | **Hardware dirty, software accessed** (the VAX had a hardware modify bit and no reference bit) | the dirty write-back case is cheap | half the benefit; still emulation for reference |
+| 5 | **No accessed bit; approximate usage another way** (periodic protection tricks) | simplest page table | worse replacement decisions |
+
+**What current systems do.** x86 sets both in hardware; AArch64 and RISC-V make hardware management optional and fall back to a fault **(from memory, unchecked)**; MIPS uses software refill and software bits. Linux on RISC-V runs the software scheme when the hardware lacks the option **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** The PDP-11's page descriptor registers have an accessed-style and a written bit that the hardware sets (on the larger models; from memory), which Unix used for swapping. The VAX hardware set a modify bit and had no reference bit, so 4BSD emulated reference bits in software by invalidating pages and noting the resulting faults **(from memory, unchecked)**. *Trade-off:* the emulation cost faults for a policy the hardware could not give. *Comparison:* the pdp64's scheme is the VAX scheme plus emulated modify bits; it is worse than the VAX for dirty tracking and no worse for reference.
+
+**View.** Keep for System v1, then move to option 3 once there is a feature register to advertise it. Software-only is acceptable for a first system, but the extra faults will show up in any measurement of a real workload.
+
+---
+
+## Q3. Three-level page tables, 39-bit virtual, 40-bit physical, 4 KB pages
+
+**The need.** The page-table shape fixes how much memory a process can address, how many memory reads a translation costs, and how large a table is.
+
+**The explanation.** Each level multiplies reach by 512. Three levels of 9 bits over a 12-bit page offset give 39 bits, 512 GB. The ISA calls this "one bit of headroom" over the physical window and lets the direct-mapping windows reach physical memory with no translation. More levels mean a larger address space and a longer walk on a TLB miss.
+
+**Current state.** 3 levels, 9 + 9 + 9 + 12, entry with the physical page number in place, a flag field in the low bits; large leaf pages (1 GB) usable by the kernel.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **3 levels, 39-bit (current)** | short walk; small tables; the RISC-V Sv39 shape **(from memory, unchecked)** | 512 GB limit per address space; a database or a memory-mapped large file can run out |
+| 2 | **4 levels, 48-bit** (x86-64, AArch64) | huge address space | a longer walk; more table memory |
+| 3 | **Larger base page (16 or 64 KB)** | fewer levels and fewer TLB misses | internal fragmentation; software that assumes 4 KB |
+| 4 | **A linear table** (VAX) or a **hashed table** (PowerPC) | simple hardware or fast lookup | large contiguous allocations; hash collisions |
+| 5 | **Software TLB refill, no hardware walker** (MIPS) | any table format the kernel likes | a software refill handler runs on every TLB miss, which is slow |
+
+**What current systems do.** x86-64 uses four levels (and five on newer parts), AArch64 up to four with 4 KB pages, RISC-V Sv39 / Sv48 / Sv57 **(from memory, unchecked)**; the survey notes the hardware walker avoids the software refill instructions of MIPS, embedded PowerPC, PA-RISC and LoongArch.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: eight segments per mode with base and length, no page tables as such. VAX: a linear page table per region (P0, P1, system) with base and length registers, 512-byte pages; the user page tables were themselves in virtual system space. *Trade-off:* the VAX scheme made big sparse address spaces cost a lot of page-table memory. *Comparison:* a multi-level tree wastes less on sparse spaces than the VAX's linear tables.
+
+**View.** Keep. A fourth level can be added later behind a feature bit if 512 GB becomes the limit.
+
+---
+
+## Q4. Eight interrupt priority levels in the `PSW`, no interrupt controller
+
+**The need.** Interrupts must be ordered so that urgent devices can interrupt slower handlers, and the kernel must be able to block them to protect its data.
+
+**The explanation.** The PDP-11 solved both with a priority in the status word: a device asserts a level; the processor takes it if the level is above its own. Unix built its locking on this (the `spl` calls: raise the priority to keep a handler out, then lower it). Modern systems use an **interrupt controller** that ranks many sources and a single mask bit in the processor.
+
+**Current state.** Eight levels (0 to 7) in the `PSW`; `SPL #n` sets it; timer at 6, console at 4; no controller code needed.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **8 levels in the `PSW` (current)** | the V7/3BSD model; no controller code; trivial `spl` | only 8 classes; devices at the same level can't be ordered by the processor |
+| 2 | **32 levels** (VAX `IPL`) | finer classes | more bits in the `PSW`; more levels to assign |
+| 3 | **One mask bit + an external controller with priorities** (x86 APIC, RISC-V PLIC) | scales to many sources and cores | a controller to design, drive and virtualize |
+| 4 | **Per-source programmable priority in a controller** (AArch64 GIC) | most flexible | the biggest hardware and driver burden |
+| 5 | **No priorities: one mask, threaded handlers** (interrupts only wake threads) | simplest hardware | latency and priority inversion are the kernel's problem |
+
+**What current systems do.** The survey found the VAX and m68k raise the processor priority; x86, AArch64, RISC-V, PowerPC, MIPS and SPARC mask on entry. NetBSD and OpenBSD keep the `spl` interface and emulate it in software on most machines, because the hardware has no priority levels (survey); with option 1 the emulation disappears.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: the `PS` priority and device lines BR4 to BR7; Unix wrote `spl4()`, `spl5()`, `spl6()` and `spl7()` around critical code. VAX: 32 interrupt priority levels and the same `spl` family (`splbio`, `splnet`, `spltty`, `splclock`). *Trade-off:* a priority scheme is cheap and gives priority inversion only through bad assignment. *Comparison:* it is exactly the model that BSD kernels are written for, so an OpenBSD port gets its locking model with no emulation layer.
+
+**View.** Keep. It is a real strength for the OpenBSD plan.
+
+---
+
+## Q5. Sequential consistency as the memory model
+
+**The need.** With several processors and caches, the architecture must say in what order one processor's memory writes can be seen by the others. The stronger the promise, the simpler the software and the harder the fast hardware.
+
+**The explanation.** **Sequential consistency** means the result is as if all processors' accesses happened in some single order that respects each program's own order: the easiest to reason about. Weaker models (x86's **total store order**, ARM's and RISC-V's weak models) let hardware reorder and require **fences** where software needs order. Large out-of-order cores pay for sequential consistency by speculating on loads and replaying when another core intervenes.
+
+**Current state.** Sequential consistency (ISA section 17); `FENCE` exists for device ordering; weakly ordered device pages exist by memory type. The readiness review rates it "awkward but defined" for out-of-order.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Sequential consistency (current)** | simplest software; no fences in normal code | speculation and replay in a large core; limits some optimizations |
+| 2 | **Total store order** (x86) | nearly as easy; stores buffered | a store buffer rule to specify; the one reordering software must know |
+| 3 | **Weak ordering with fences** (ARM, RISC-V RVWMO, POWER) | fastest hardware | fences and subtle bugs in software; harder to verify |
+| 4 | **Sequential by default, weak by page type or mode** | strong where needed, fast where chosen | a second model to specify and test; mixes are hard |
+| 5 | **Total store order now, tighten to sequential on request** | an easy step toward both | two meanings of the same program |
+
+**What current systems do.** x86 total store order; AArch64, ARM and POWER weakly ordered; RISC-V offers a weak model with optional total store order; Alpha was the weakest, even reordering dependent loads **(all from memory, unchecked)**. Linux and the BSDs carry barrier macros for each.
+
+**What Unix on the PDP-11 and the VAX-11 did.** On one processor the question didn't arise; the Unibus and VAX interlocks gave the ordering that devices needed; multiprocessor VAX systems used interlocked instructions to synchronize. *Comparison:* sequential consistency is the single-processor illusion extended to several, which is why the heritage fits it.
+
+**View.** Keep while the cores are small and in order. Revisit when an out-of-order core is really planned: total store order (option 2) would be the least painful retreat.
+
+---
+
+## Q6. In-order FPGA and ASIC, architecture kept ready for out-of-order
+
+**The need.** A small in-order core is cheap to build and verify, which fits an FPGA. But an instruction set can be designed so a later, much faster core is impossible or ugly. The decision was to build small and keep the door open.
+
+**The explanation.** The cost of "ready" is visible: the readiness review found that condition codes are the structural obstacle (68.2% of compiled instructions wrote a flag), and errata 39 removed most of that. The remaining text items (reservation rules, side-effect rules) are still to be written.
+
+**Current state.** In-order implementations; out-of-order readiness a design aim (errata 38, 39).
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **In-order now, out-of-order-ready (current)** | small cores soon; a path to speed | design discipline; some choices made for a core that may never exist |
+| 2 | **Design for out-of-order only** | the best large core | a harder first implementation; the FPGA suffers |
+| 3 | **In-order forever** | simplest ISA and verification | a performance ceiling |
+| 4 | **Exposed pipeline / very long instruction word** | simple hardware, compiler schedules | a different ISA; compilers and software are harder |
+| 5 | **Microcoded small core** (the 1970s way) | tiny area | slow; wrong for the target |
+
+**What current systems do.** The same instruction set often spans in-order and out-of-order cores: ARM's small in-order cores beside its out-of-order ones, RISC-V's Rocket (in order) and BOOM (out of order), x86 from the in-order Pentium to the out-of-order P6, Alpha from the 21064 to the 21264 **(all from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Both lines ran many implementations, from microcoded to pipelined, under one instruction set; the VAX's complexity (long, orthogonal instructions with many side effects) is generally blamed for making its later fast implementations hard **(from memory, unchecked)**. *Comparison:* this decision is exactly the lesson of the VAX: keep the instruction set implementable fast, and ready from the start.
+
+**View.** Keep.
+
+---
+
+## Q7. Condition codes kept, with two flag groups
+
+**The need.** After arithmetic and comparisons, a branch needs to know the outcome. The two designs are a **flag register** written by instructions (PDP-11, VAX, x86, ARM) or **no flags**, where a compare-and-branch tests registers directly (MIPS, RISC-V).
+
+**The explanation.** Flags are compact and make multiword arithmetic and tests cheap, but every flag-writing instruction creates a dependency that an out-of-order core must track. Errata 39 keeps the flags but makes them far cheaper to track: two groups (`C` and `{N, Z, V}`), `cbCC` and moves, loads and stores write none, shifts write the same flags for any count.
+
+**Current state.** Flags kept as described; a measured cost of 0.39% in code size from the compiler change.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Flags with the two-group rule (current)** | compact code; PDP-11 heritage; cheap compares | flag writers remain in many instructions (68.2% of compiled instructions wrote a flag before errata 39; the share afterwards was not measured); a rename path for the flags in a large core |
+| 2 | **Opt-in flag writing: only instructions marked "set flags" write them** (AArch64 `adds`) | flag dependencies only where wanted | an extra bit or forms in the encoding; larger code |
+| 3 | **No flags; compare-and-branch and set-on-compare only** (RISC-V, MIPS) | simplest for out-of-order | multiword add/subtract needs explicit carry code; the corpus shows many `cmp`+branch pairs that need to be re-expressed |
+| 4 | **Several condition fields** (PowerPC `CR0` to `CR7`) | independent flag sets | a register file to rename; more encoding |
+| 5 | **PDP-11 exact: every instruction writes flags** | the classic | the structural problem the review found |
+
+**What current systems do.** x86 and ARM32 write flags on most arithmetic; AArch64 writes them only on the "s" forms; RISC-V and MIPS have none; PowerPC has eight fields **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Both wrote condition codes on nearly every instruction, including moves, and Unix's compiled code relied on that (a `tst` after a move was often omitted). *Trade-off:* compact code and cheap tests, with a hidden dependency in nearly every instruction. *Comparison:* the pdp64 keeps the programming model and drops the dependencies that cost most; its compiler had relied on the old behaviour and the change cost 0.39% in size.
+
+**View.** Keep. Option 2 is worth a look if a large core is built, but it would reopen the encoding.
+
+---
+
+## Q8. Instruction length: 2, 4 or 6 bytes plus a one-parcel second page
+
+**The need.** The length of instructions decides code size, fetch bandwidth and how hard decoding is.
+
+**The explanation.** Fixed-length instructions decode trivially but waste space; variable-length ones are denser but make wide decoding harder. The pdp64 uses 16-bit **parcels**: an instruction is one, two or three of them, and the first parcel says which. A second page of one-parcel abbreviations (`len = 11`) covers the commonest forms in two bytes.
+
+**Current state.** 2, 4 or 6 bytes; 45 one-parcel abbreviations; measured code size within 0.2% of `gcc -Os` and 7% below `clang -Os`.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **2/4/6 bytes + second page (current)** | dense; length found from the first parcel; PDP-11 lineage | variable length; branches and calls need relaxation |
+| 2 | **Fixed 32 bits** (AArch64, MIPS) | trivial decode | about a third larger code; 32-bit constants need sequences |
+| 3 | **16/32-bit mix** (RISC-V C, Thumb-2) | dense and mostly regular | the compressed forms limit register choice |
+| 4 | **Byte-granular** (x86, VAX) | densest | the hardest to decode wide; length from the whole prefix |
+| 5 | **Fixed 64-bit / bundled** (VLIW) | simple fetch | large code; a different machine |
+
+**What current systems do.** AArch64 fixed 32; RISC-V 16/32 mixed; x86 byte-granular up to 15 bytes **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: 1 to 3 sixteen-bit words, the length read from the opcode and addressing modes; VAX: 1 to 57 bytes with an operand specifier per operand. *Trade-off:* the VAX's byte-level generality made long, slow decoders; the PDP-11 shape is the kind that stays reasonably easy. *Comparison:* the pdp64 literally keeps the PDP-11 parcel scheme with the length in the first parcel, which is the easy end of variable length.
+
+**View.** Keep.
+
+---
+
+## Q9. Integer arithmetic only 64-bit, no sized ALU operations
+
+**The need.** C's `int` is 32 bits and `char` and `short` are narrower. The question is whether the machine has native narrow arithmetic.
+
+**The explanation.** The PDP-11 had 16-bit and byte operations; the VAX had byte, word, long and quad operations. A 64-bit machine can do all arithmetic in 64 bits and extend results when narrower values are stored or loaded, keeping the instruction set small. The price is that 32-bit wraparound semantics need an extension instruction after an add that might overflow, and signed 32-bit arithmetic needs a sign extension.
+
+**Current state.** All arithmetic is 64-bit; narrow loads sign- or zero-extend; the compiler emits `movl`/`movzb`-style extensions where C's rules require them (about a thousand sites were counted in the flag work; the corpus-wide extension cost was not separately measured).
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **64-bit only (current)** | small ISA; simple core | extension instructions after narrow arithmetic |
+| 2 | **Add 32-bit forms of add, subtract, shift** (AArch64 `w`, RISC-V `addw`) | no extension after 32-bit arithmetic | a second set of opcodes; page-2 space |
+| 3 | **Fully sized operations** (VAX, x86) | exact C semantics | a huge instruction set |
+| 4 | **Sign-extension as a side effect of every narrow operation by a mode** | none needed | a mode bit, against the ISA's rule |
+| 5 | **A single `sext`/`zext` that fuses with the previous operation in hardware** | no encoding change | fusion hardware that small cores avoid |
+
+**What current systems do.** RISC-V RV64 and AArch64 both have 32-bit forms of the common operations; MIPS64 has separate 32-bit and 64-bit adds; x86-64 has sized operations **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: word and byte forms (`MOVB`, `CMPB`, `INCB`) with the byte sign-extending into registers on load; VAX: sized operations for every data type. *Trade-off:* sized operations made programs compact and the instruction set large. *Comparison:* the pdp64 deliberately gives up the PDP-11's sized operations, and the compiler pays with extension instructions that the other two 64-bit RISCs avoid with their 32-bit forms.
+
+**View.** Keep, but measure the extension overhead on the corpus; if it is more than a few percent of instructions, option 2 is the usual fix and fits the second page.
+
+---
+
+## Q10. Devices are eight memory-mapped registers plus DMA
+
+**The need.** How a driver talks to a device decides how much code every device costs and how fast it can go.
+
+**The explanation.** Devices appear as a few addresses; the processor sets a transfer up by writing them, and the device moves the data itself by **DMA** (direct memory access) and interrupts when done. Fewer registers means less driver code; the author's goal was a driver that is trivial to write and a processor that is left free.
+
+**Current state.** Ethernet, USB and disk each eight registers plus DMA (errata 29); layout, descriptor format and doorbell convention not yet written.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Eight registers + a descriptor chain (current)** | tiny drivers; PDP-11 spirit | USB and Ethernet at speed want queues of many descriptors; one layout may not fit all three |
+| 2 | **Virtio-style: a small register set plus shared-memory queues** | existing drivers in OpenBSD and others **(from memory, unchecked)**; standard for virtual machines | the queue formats to implement in hardware |
+| 3 | **NVMe or xHCI style: many registers, doorbells and rings** | the fastest, matches real hardware | large and complex drivers |
+| 4 | **Programmed I/O only (no DMA)** | trivial devices | the processor moves every byte |
+| 5 | **Channel I/O** (IBM mainframe style) | the processor offloads completely | a second processor per channel |
+
+**What current systems do.** Virtual machines use virtio; real storage and network devices use NVMe, xHCI and vendor ring designs; embedded systems use memory-mapped register blocks with DMA descriptors.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Unibus devices had a handful of registers (a disk controller about eight; a serial line four), some with DMA (disks) and some with programmed I/O (terminals); the VAX added the Unibus adapter with map registers for DMA. *Trade-off:* simple drivers, little parallelism. *Comparison:* this is the PDP-11 device model; its weakness is throughput at gigabit rates, where ring-based designs win.
+
+**View.** Keep, and consider making the virt machine's devices virtio-compatible because an OpenBSD port could reuse its virtio drivers **(from memory, unchecked)**.
+
+---
+
+## Q11. Wide constants come from an explicit literal pool
+
+**The need.** A 64-bit machine with short instructions must still load constants that do not fit in an instruction.
+
+**The explanation.** The assembler can place the constant in a table near the code and load it by a PC-relative instruction. The question was whether the assembler does that silently when a constant is too wide, or only when asked. The decision: only when asked, with `=K`; a too-wide bare immediate is an error.
+
+**Current state.** `movq =K, rd` plus `.pool`; the compiler uses it.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Explicit `=K` pool (current)** | nothing hidden; the programmer sees the load | an extra memory read and a pool placement concern |
+| 2 | **A 64-bit immediate instruction form** (x86 `movabs`) | no memory read | an instruction up to 10 bytes; does not fit the parcel scheme |
+| 3 | **Built from pieces** (AArch64 `movz`/`movk`, RISC-V `lui`/`addi`) | no data access | three or four instructions per constant |
+| 4 | **Constants in a global table** (a GOT-like) | position independence | an extra indirection |
+| 5 | **Silent pooling** by the assembler | convenient | surprises; the rejected option |
+
+**What current systems do.** ARM32 and some AArch64 code use literal pools; RISC-V uses `lui`/`addi` and a pool for 64-bit constants; x86 has `movabs` **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: an immediate is a word that follows the instruction (autoincrement on the PC); VAX: an immediate operand could be as wide as 8 bytes inline. *Trade-off:* inline immediates make instructions long. *Comparison:* the PDP-11 style does not extend to 64 bits within 6-byte instructions, hence the pool.
+
+**View.** Keep.
+
+---
+
+## Q12. System registers through `MFSR`/`MTSR` with an 8-bit number
+
+**The need.** The kernel must read and write processor control state (page-table base, vector base, exception state).
+
+**The explanation.** Either each register has its own instructions, or one pair of instructions takes a register number. The survey found most architectures use the second. The pdp64 has 243 numbers free.
+
+**Current state.** `MFSR`/`MTSR`, privileged, 13 registers defined.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **`MFSR`/`MTSR` + number (current)** | few opcodes; room to grow | an indirect register file |
+| 2 | **Memory-mapped control registers** (the PDP-11 way) | no instructions | a load or store that must not be cached or reordered |
+| 3 | **A dedicated instruction per register** (x86 `mov cr`) | explicit | opcode space grows with every register |
+| 4 | **Atomic read-modify-write forms** (RISC-V `csrrs`, `csrrc`) | set or clear bits in one step | more instruction forms |
+| 5 | **Registers behind a bus device** | no instructions | slow; not for exception state |
+
+**What current systems do.** AArch64 `mrs`/`msr`, RISC-V `csrr`/`csrw`, MIPS `mfc0`/`mtc0`, PowerPC `mfspr`/`mtspr` **(from memory, unchecked)**; the survey counted privileged-register access as 48% of all compiler-invisible occurrences.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: control registers at fixed high addresses (the MMU registers, the `PS`), accessed with ordinary moves; VAX: `MTPR`/`MFPR` with an internal-register number, exactly option 1. *Comparison:* the pdp64 takes the VAX route.
+
+**View.** Keep; add the set/clear forms (option 4) only if profiling shows read-modify-write on control registers in a hot path.
+
+---
+
+## Q13. Carry on subtract means borrow
+
+**The need.** After a subtract or compare, what the carry flag means decides how the unsigned comparisons are written.
+
+**The explanation.** On the PDP-11, VAX, x86 and m68k, subtraction sets `C` when it borrows, so "no borrow" means unsigned greater-or-equal. ARM and AArch64 do the opposite: `C` is "not borrow". Both work; mixing conventions breaks code written for the other.
+
+**Current state.** Borrow sense (PDP-11), so `BHIS`/`BCC` mean "no borrow", unsigned greater-or-equal (errata 14).
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Borrow (current)** | PDP-11 code and habit carry over | different from ARM |
+| 2 | **Not-borrow** (ARM, AArch64) | multiword subtract uses the same carry as add | different from the heritage |
+| 3 | **Select by instruction** | both available | confusion; extra forms |
+| 4 | **No carry from subtract** | simplest | multiword subtract needs a set-on-less |
+| 5 | **Two flags** | explicit | state |
+
+**What current systems do.** x86 and m68k borrow; ARM family not-borrow; RISC-V has no flags **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Both used the borrow sense, and Unix's assembly and compilers assume it.
+
+**View.** Keep; this is a heritage choice with no performance weight.
+
+---
+
+## Q14. Operating system order: OpenBSD first, Unix/32V fallback
+
+**The need.** The first operating system fixes what the architecture, the compiler and the toolchain must provide.
+
+**The explanation.** OpenBSD needs the LLVM back end, which is the long pole; Unix/32V needs only the existing compiler but is old and swaps whole processes. 3BSD was dropped.
+
+**Current state.** Errata 41.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **OpenBSD first, 32V fallback (current)** | a modern, secure system; one back end serves clang | depends on the LLVM work; effort estimate unproved |
+| 2 | **32V first** | needs only the existing compiler | old; no paging; a dead end |
+| 3 | **NetBSD first** | the most portable BSD kernel; it has a VAX tree and the survey found OpenBSD has none | needs the same compiler work; a different security stance |
+| 4 | **Linux** | the biggest ecosystem | the largest port; needs a GNU or LLVM toolchain; the kernel assumes much of its architectures |
+| 5 | **A new small kernel** | complete control | no ecosystem |
+
+**What current systems do.** OpenBSD supports a long list of architectures with a single source tree; NetBSD is known for the widest portability; Linux has the most ports **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** The line ran Research Unix and BSD. *Comparison:* NetBSD's VAX heritage means its machine-dependent layer is the closest living relative of the pdp64's design; that is the one reason to look at option 3 before starting.
+
+**View.** Keep, but have a look at NetBSD's VAX code during the OpenBSD bring-up; it is the closest model for the machine-dependent parts.
+
+---
+
+## Q15. `ISYNC`: system-register writes take effect only after an explicit instruction
+
+**The need.** After the kernel changes the page-table base, the vector base or the translation control, the processor may have fetched or translated using the old values. An out-of-order or deeply pipelined core needs to be told when to drain.
+
+**The explanation.** Either every write takes effect at once (simple, but it forces a pipeline flush on each write), or the architecture says the effect is guaranteed only after an explicit synchronizing instruction. Errata 39 chose the latter: the small in-order cores may apply writes immediately; software must still execute `ISYNC`.
+
+**Current state.** `ISYNC` exists; the emulators apply writes at once and flush the translation state at `ISYNC`.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Explicit `ISYNC` (current)** | out-of-order friendly; cheap on in-order | software must remember it; a forgotten one works on small cores and fails on a big one |
+| 2 | **Immediate effect** | simple software | a flush on every write; hard on a big core |
+| 3 | **Writes to certain registers are automatically serializing** (x86 for control registers) | nothing to remember | hidden stalls |
+| 4 | **Per-register rules** | exact | more to specify and to get wrong |
+| 5 | **Hardware tracks the dependency** | none | the most complex hardware |
+
+**What current systems do.** AArch64 `isb`, RISC-V `fence.i` / `sfence.vma`, x86 serializing instructions and control-register writes **(from memory, unchecked)**; the survey found the context-synchronizing barrier is the most used barrier on most architectures (`isb` 187, `isync` 662, SPARC `membar` 533 occurrences).
+
+**What Unix on the PDP-11 and the VAX-11 did.** Both applied changes at once (a write to the MMU registers or to `MAPEN` or the translation-buffer registers took effect immediately); the VAX required a short discipline around `MAPEN`. *Comparison:* the pdp64 follows modern practice at the cost of one instruction in rare kernel paths.
+
+**View.** Keep.
+
+---
+
 ## What I need from you
 
-Please mark each of P2 to P14 with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
+Please mark each of P1 to P14 (and any of Q1 to Q15 you want to reopen) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
