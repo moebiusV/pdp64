@@ -47,9 +47,10 @@ static void h_halt(void *u) { flt("halt"); }
 static int h_probe(void *u, uint64_t a, int w, int m) { return at(a, 1) != NULL; }
 static uint64_t h_fetch(void *u, uint64_t a) { return h_ld(u, a, 2); }
 static int h_vecread(void *u, uint64_t a, uint64_t *v) { return 1; }
+static void h_check(void *u, uint64_t a, int n, int w) { if (n > 1 && (a & (n - 1))) flt("misaligned"); if (!at(a, n)) flt("unmapped"); }
 static void h_tlb(void *u, int op, uint64_t a) { }
 static void h_raise(void *u, int vector, uint64_t eva) { flt("exception"); __builtin_unreachable(); }
-static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_tlb, h_raise, NULL };
+static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL };
 
 static uint64_t seed = 12345;
 static uint64_t rnd(void) { seed = seed * 6364136223846793005ULL + 1442695040888963407ULL; return seed >> 11 ^ seed << 20; }

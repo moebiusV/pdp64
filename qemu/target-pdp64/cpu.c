@@ -193,7 +193,8 @@ static bool pdp64_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
             }
             pdp64_raise(env, vector, addr, "page fault", retaddr);
         }
-        page &= ~(tsize - 1);
+        /* the entry is for the 4 KB page; tsize only tells QEMU how much a flush must cover */
+        pa += page & (tsize - 1);
     } else if (access_type == MMU_INST_FETCH && !pdp64_mapped(env, page, 1)) {
         /* code is only fetched from RAM */
         if (probe) {
@@ -201,7 +202,7 @@ static bool pdp64_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
         }
         pdp64_raise(env, VECTOR_BUSFAULT, addr, "instruction fetch", retaddr);
     }
-    tlb_set_page(cs, page, pa & ~(tsize - 1), prot, mmu_idx, tsize);
+    tlb_set_page(cs, page, pa, prot, mmu_idx, tsize);
     return true;
 }
 

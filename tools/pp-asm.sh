@@ -4,4 +4,4 @@
 set -e
 cd "$(dirname "$0")/.."
 B=${BUILD:-build}
-gcc -E -P -x assembler-with-cpp -I"$B" "$1" -o "$2"
+gcc -E -P -x assembler-with-cpp -I"$B" -Itests/qemu "$1" -o "$2"

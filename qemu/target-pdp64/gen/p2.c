@@ -16,12 +16,14 @@ enum { D_ZERO, D_LOW, D_LOWHI, D_SLOW, D_STEP, D_BYTE };
 
 struct p2def {
 	int valid, opc, reg, mode, rm, dsrc, scale, idx;
+	int sysx;			/* 1 + the SYSX sub-opcode: the entry abbreviates pushx or popx; reg and low must be zero */
 	/* opc: the page-1 opcode.  reg: the reg field of that instruction, or FIELD.  mode: AMODE_BASE or AMODE_IMM.  rm: base register or FIELD or NONE.
 	   The displacement or immediate is, by dsrc:  D_ZERO 0;  D_LOW scale*low;  D_LOWHI scale*(16*idx + low);  D_SLOW low as 4-bit signed;
 	   D_STEP scale*(1+idx);  D_BYTE scale*(reg:low as an 8-bit number). */
 };
 
 #define E(op, ...) [P2OP_##op] = { 1, __VA_ARGS__ }
+#define X(op, sub) [P2OP_##op] = { 1, OPGROUP_SYS, 0, 0, 0, D_ZERO, 0, 0, 1 + (sub) }
 static const struct p2def T[64] = {
 	E(LD_Q,  MN_MOV_MOVQ,      FIELD, AMODE_BASE, FIELD, D_ZERO, 0, 0),
 	E(ST_Q,  MOVSTORE_MOVQ,    FIELD, AMODE_BASE, FIELD, D_ZERO, 0, 0),
@@ -64,6 +66,8 @@ static const struct p2def T[64] = {
 	E(BIS_I,   MN_ALU_BIS,     FIELD, AMODE_IMM, NONE, D_SLOW, 0, 0),
 	E(XOR_I,   MN_ALU_XOR,     FIELD, AMODE_IMM, NONE, D_SLOW, 0, 0),
 	E(ADD_I,   MN_ALU_ADD,     FIELD, AMODE_IMM, NONE, D_SLOW, 0, 0),
+	X(PUSHX,   MN_SYSX_PUSHX),
+	X(POPX,    MN_SYSX_POPX),
 };
 
 /* the opcode of a page-2 instruction is the index in T; the displacement it carries */
@@ -85,6 +89,12 @@ int p2_expand(const struct fmt *p, struct fmt *lf)
 	const struct p2def *e = &T[p->opc];
 	int64_t d = disp_of(e, p->reg, p->low);
 	memset(lf, 0, sizeof *lf);
+	if (e->sysx) {									/* pushx, popx: the SYSX of the long form */
+		if (p->reg || p->low) return -1;
+		lf->len = 1; lf->opc = OPGROUP_SYS; lf->reg = 0; lf->low = SYS_MINOR_SYSX;
+		lf->shape = FS_SYSX; lf->sub = e->sysx - 1; lf->n = 0;
+		return 0;
+	}
 	lf->len = 1;
 	lf->opc = e->opc;
 	lf->reg = e->reg == FIELD ? p->reg : e->reg;
@@ -122,8 +132,9 @@ static void build_table(void)
 			for (int low = 0; low < 16; low++) {
 				struct fmt p = { 0 }, lf;
 				p.len = LENCODE_PAGE2; p.opc = opc; p.reg = reg; p.low = low;
-				p2_expand(&p, &lf);
+				if (p2_expand(&p, &lf)) continue;
 				int64_t d = disp_of(e, reg, low);
+				if (e->sysx) { lf.rm = lf.sub; d = 0; }		/* the sub-opcode is the key's rm */
 				struct slot *s = probe(key_of(lf.opc, lf.reg, lf.low, lf.rm, d));
 				if (s->used) continue;			/* the lowest page-2 opcode wins */
 				s->used = 1; s->key = key_of(lf.opc, lf.reg, lf.low, lf.rm, d);
@@ -136,7 +147,7 @@ int p2_find(int opc, int reg, int mode, int rm, int64_t d, struct fmt *p)
 {
 	if (d < INT32_MIN || d > INT32_MAX) return 0;
 	if (!slots) build_table();
-	struct slot *s = probe(key_of(opc, reg, mode, mode == AMODE_BASE ? rm : 0, d));
+	struct slot *s = probe(key_of(opc, reg, mode, (mode == AMODE_BASE || opc == OPGROUP_SYS) ? rm : 0, d));
 	if (!s->used) return 0;
 	memset(p, 0, sizeof *p);
 	p->len = LENCODE_PAGE2; p->shape = FS_P2; p->opc = s->opc; p->reg = s->reg; p->low = s->low;

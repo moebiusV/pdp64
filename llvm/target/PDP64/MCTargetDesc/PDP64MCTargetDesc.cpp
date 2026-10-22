@@ -31,11 +31,13 @@ using namespace llvm;
 
 // ---- tables from gen/PDP64Tables.inc ----------------------------------------------------------------------------------------
 
-unsigned PDP64::getWiderOpcode(unsigned Opcode) {
+unsigned PDP64::getWiderOpcode(unsigned Opcode, bool &NeedsImm5) {
+  NeedsImm5 = false;
   switch (Opcode) {
 #define PDP64_WIDEN_TABLE
-#define PDP64_WIDEN(narrow, wide)                                                                                      \
+#define PDP64_WIDEN(narrow, wide, imm5)                                                                                \
   case PDP64::narrow:                                                                                                  \
+    NeedsImm5 = imm5;                                                                                                  \
     return PDP64::wide;
 #include "gen/PDP64Tables.inc"
 #undef PDP64_WIDEN
@@ -103,6 +105,22 @@ const char *PDP64::getSysRegName(unsigned N) {
     if ((unsigned)E.Num == N)
       return E.Name;
   return nullptr;
+}
+bool PDP64::isSysRegReadOnly(unsigned N) {
+  for (const NameNum &E : SysRegs)
+    if ((unsigned)E.Num == N)
+      return E.RO;
+  return false;
+}
+unsigned PDP64::gprByNumber(unsigned N) {
+  static const unsigned GPRs[] = {
+#define PDP64_GPR_TABLE
+#define PDP64_GPR(r) PDP64::r,
+#include "gen/PDP64Tables.inc"
+#undef PDP64_GPR
+#undef PDP64_GPR_TABLE
+  };
+  return N < 16 ? GPRs[N] : 0;
 }
 int PDP64::lookupSysReg(const char *Name, size_t Len, bool &RO) {
   RO = false;

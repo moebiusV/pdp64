@@ -1,0 +1,632 @@
+{
+ "2op unary after copy: com": {
+  "bytes_saved": 0,
+  "instructions_saved": 32,
+  "sites": 32
+ },
+ "2op unary after copy: dec": {
+  "bytes_saved": 0,
+  "instructions_saved": 1,
+  "sites": 1
+ },
+ "2op unary after copy: inc": {
+  "bytes_saved": 0,
+  "instructions_saved": 2,
+  "sites": 2
+ },
+ "2op unary after copy: neg": {
+  "bytes_saved": 0,
+  "instructions_saved": 91,
+  "sites": 91
+ },
+ "3op: add coverable by lea (needs flags dead)": {
+  "bytes_saved": 0,
+  "instructions_saved": 468,
+  "sites": 468
+ },
+ "3op: add imm": {
+  "bytes_saved": 0,
+  "instructions_saved": 115,
+  "sites": 115
+ },
+ "3op: add mem": {
+  "bytes_saved": 16,
+  "instructions_saved": 40,
+  "sites": 40
+ },
+ "3op: add reg": {
+  "bytes_saved": 0,
+  "instructions_saved": 361,
+  "sites": 361
+ },
+ "3op: all": {
+  "bytes_saved": 276,
+  "instructions_saved": 3535,
+  "sites": 3535
+ },
+ "3op: and imm": {
+  "bytes_saved": 32,
+  "instructions_saved": 780,
+  "sites": 780
+ },
+ "3op: and mem": {
+  "bytes_saved": 116,
+  "instructions_saved": 66,
+  "sites": 66
+ },
+ "3op: and reg": {
+  "bytes_saved": 0,
+  "instructions_saved": 93,
+  "sites": 93
+ },
+ "3op: bis imm": {
+  "bytes_saved": 0,
+  "instructions_saved": 15,
+  "sites": 15
+ },
+ "3op: bis mem": {
+  "bytes_saved": 0,
+  "instructions_saved": 2,
+  "sites": 2
+ },
+ "3op: bis reg": {
+  "bytes_saved": 0,
+  "instructions_saved": 29,
+  "sites": 29
+ },
+ "3op: mul imm": {
+  "bytes_saved": 86,
+  "instructions_saved": 144,
+  "sites": 144
+ },
+ "3op: mul mem": {
+  "bytes_saved": 4,
+  "instructions_saved": 3,
+  "sites": 3
+ },
+ "3op: mul reg": {
+  "bytes_saved": 0,
+  "instructions_saved": 70,
+  "sites": 70
+ },
+ "3op: sar imm": {
+  "bytes_saved": 0,
+  "instructions_saved": 16,
+  "sites": 16
+ },
+ "3op: shl imm": {
+  "bytes_saved": 0,
+  "instructions_saved": 893,
+  "sites": 893
+ },
+ "3op: shl reg": {
+  "bytes_saved": 0,
+  "instructions_saved": 44,
+  "sites": 44
+ },
+ "3op: shr imm": {
+  "bytes_saved": 0,
+  "instructions_saved": 143,
+  "sites": 143
+ },
+ "3op: shr reg": {
+  "bytes_saved": 0,
+  "instructions_saved": 2,
+  "sites": 2
+ },
+ "3op: source dead": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 27
+ },
+ "3op: source read": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 2127
+ },
+ "3op: source unknown": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 1381
+ },
+ "3op: sub #imm coverable by lea": {
+  "bytes_saved": 0,
+  "instructions_saved": 87,
+  "sites": 87
+ },
+ "3op: sub imm": {
+  "bytes_saved": 0,
+  "instructions_saved": 92,
+  "sites": 92
+ },
+ "3op: sub mem": {
+  "bytes_saved": 8,
+  "instructions_saved": 85,
+  "sites": 85
+ },
+ "3op: sub reg": {
+  "bytes_saved": 0,
+  "instructions_saved": 296,
+  "sites": 296
+ },
+ "3op: xor mem": {
+  "bytes_saved": 14,
+  "instructions_saved": 10,
+  "sites": 10
+ },
+ "3op: xor reg": {
+  "bytes_saved": 0,
+  "instructions_saved": 236,
+  "sites": 236
+ },
+ "all": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 336408
+ },
+ "autoinc: post-increment (access, then base += size), adjacent": {
+  "bytes_saved": 0,
+  "instructions_saved": 102,
+  "sites": 102
+ },
+ "autoinc: post-increment (access, then base += size), within 5": {
+  "bytes_saved": 0,
+  "instructions_saved": 10,
+  "sites": 10
+ },
+ "autoinc: pre-decrement (base +-= size, then access)": {
+  "bytes_saved": 0,
+  "instructions_saved": 407,
+  "sites": 407
+ },
+ "autoinc: pre-increment (base +-= size, then access)": {
+  "bytes_saved": 0,
+  "instructions_saved": 38,
+  "sites": 38
+ },
+ "bit test: and #2^k,rX ; cbeq/cbne rX,#0 (single bit, rX dead afterwards)": {
+  "bytes_saved": 0,
+  "instructions_saved": 6,
+  "sites": 6
+ },
+ "bit test: and #2^k,rX ; cbeq/cbne rX,#0 (single bit, rX maybe live afterwards)": {
+  "bytes_saved": 0,
+  "instructions_saved": 4,
+  "sites": 4
+ },
+ "bit test: shr #k ; and #1 ; branch": {
+  "bytes_saved": 0,
+  "instructions_saved": 32,
+  "sites": 16
+ },
+ "calls: call": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 31877
+ },
+ "calls: calli": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 451
+ },
+ "carry: add a,b ; cbCS/cbLOS b,a (carry tested by comparing the sum)": {
+  "bytes_saved": 30,
+  "instructions_saved": 15,
+  "sites": 15
+ },
+ "const: clr reg": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 9705
+ },
+ "const: movq #imm, 16-bit": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 9941
+ },
+ "const: movq #imm, 32-bit": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 297
+ },
+ "const: movq #imm, 4-bit": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 7838
+ },
+ "const: movq =K (pool)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 59
+ },
+ "ext: after a call (result)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 444
+ },
+ "ext: after a load (fusible into the load)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 584
+ },
+ "ext: after a narrower load": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 183
+ },
+ "ext: after an ALU result (a 32-bit ALU form would absorb it)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 4099
+ },
+ "ext: after another move/extension": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 809
+ },
+ "ext: after div": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 27
+ },
+ "ext: after divu": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 6
+ },
+ "ext: after mod": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 5
+ },
+ "ext: after modu": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 16
+ },
+ "ext: after rori32": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 9
+ },
+ "ext: total (movb r,r)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 29
+ },
+ "ext: total (movl r,r)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 3428
+ },
+ "ext: total (movw r,r)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 11
+ },
+ "ext: total (movzb r,r)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 1311
+ },
+ "ext: total (movzl r,r)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 3614
+ },
+ "ext: total (movzw r,r)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 450
+ },
+ "ext: value from before the block/argument": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 2661
+ },
+ "field: ... preceded by a copy (3 instructions to 1)": {
+  "bytes_saved": 0,
+  "instructions_saved": 2,
+  "sites": 1
+ },
+ "field: shr #n ; movzb/movzw/movzl (byte or word of a value)": {
+  "bytes_saved": -368,
+  "instructions_saved": 321,
+  "sites": 321
+ },
+ "field: unsigned extract, shl ; shr": {
+  "bytes_saved": 4,
+  "instructions_saved": 4,
+  "sites": 4
+ },
+ "field: unsigned extract, shr #n ; and #2^w-1": {
+  "bytes_saved": 18,
+  "instructions_saved": 164,
+  "sites": 164
+ },
+ "frame: epilogue instructions (without ret)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 6654
+ },
+ "frame: functions": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 8650
+ },
+ "frame: functions with no call (leaf)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 2941
+ },
+ "frame: prologue instructions": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 6898
+ },
+ "frame: ret": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 8071
+ },
+ "frame: tail jmp": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 658
+ },
+ "loop: backward conditional branches": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 11059
+ },
+ "loop: count down by dec/sub, other test (cbCC rX,#k or rY)": {
+  "bytes_saved": 0,
+  "instructions_saved": 53,
+  "sites": 53
+ },
+ "loop: count up, inc/add then cbCC rX,{rY|#k} (aoblss/acbl)": {
+  "bytes_saved": 0,
+  "instructions_saved": 4785,
+  "sites": 4785
+ },
+ "loop: dec rX ; cbne rX,#0 -> sob": {
+  "bytes_saved": 0,
+  "instructions_saved": 72,
+  "sites": 72
+ },
+ "mask test: ... preceded by a copy (movq a,b ; and #m,b ; cbCC b,#0)": {
+  "bytes_saved": 0,
+  "instructions_saved": 15,
+  "sites": 15
+ },
+ "mask test: and #mask,rX ; cbeq/cbne rX,#0 (several bits)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 27
+ },
+ "mem operand: movq mem,rT ; add rT,rD (temp liveness unknown (block ends))": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 1
+ },
+ "mem operand: movq mem,rT ; and rT,rD (temp dead afterwards)": {
+  "bytes_saved": 0,
+  "instructions_saved": 1,
+  "sites": 1
+ },
+ "mem operand: movq mem,rT ; and rT,rD (temp liveness unknown (block ends))": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 4
+ },
+ "mem operand: movq mem,rT ; cmp rT,rD (temp liveness unknown (block ends))": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 13
+ },
+ "mem operand: movq mem,rT ; sub rT,rD (temp liveness unknown (block ends))": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 1
+ },
+ "mov: argument for a call": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 17945
+ },
+ "mov: call result kept": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 3518
+ },
+ "mov: frame": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 1563
+ },
+ "mov: other": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 12709
+ },
+ "mov: parameter kept in a saved register": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 6077
+ },
+ "mov: return value": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 510
+ },
+ "mov: two-address copy, source dead after": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 23
+ },
+ "mov: two-address copy, source liveness unknown (block ends)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 1415
+ },
+ "mov: two-address copy, source read later": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 2060
+ },
+ "mov: value kept in a saved register": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 492
+ },
+ "movrr": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 46312
+ },
+ "multiply-add: mul ; add": {
+  "bytes_saved": 0,
+  "instructions_saved": 1402,
+  "sites": 1402
+ },
+ "pair: load movl": {
+  "bytes_saved": 770,
+  "instructions_saved": 550,
+  "sites": 550
+ },
+ "pair: load movq": {
+  "bytes_saved": 620,
+  "instructions_saved": 859,
+  "sites": 859
+ },
+ "pair: store movl": {
+  "bytes_saved": 138,
+  "instructions_saved": 51,
+  "sites": 51
+ },
+ "pair: store movq": {
+  "bytes_saved": 478,
+  "instructions_saved": 662,
+  "sites": 662
+ },
+ "read-modify-write: movq M,rT ; op ,rT ; movq rT,M (rT dead)": {
+  "bytes_saved": 0,
+  "instructions_saved": 1898,
+  "sites": 949
+ },
+ "read-modify-write: movq M,rT ; op ,rT ; movq rT,M (rT read later)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 44
+ },
+ "scaled lea emitted": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 2
+ },
+ "scaled-index memory operand emitted": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 1455
+ },
+ "select: bCC over 1 simple instruction (alu)": {
+  "bytes_saved": 0,
+  "instructions_saved": 79,
+  "sites": 79
+ },
+ "select: bCC over 1 simple instruction (clr)": {
+  "bytes_saved": 0,
+  "instructions_saved": 49,
+  "sites": 49
+ },
+ "select: bCC over 1 simple instruction (mov)": {
+  "bytes_saved": 0,
+  "instructions_saved": 311,
+  "sites": 311
+ },
+ "select: bCC over 2 simple instructions (alu)": {
+  "bytes_saved": 0,
+  "instructions_saved": 16,
+  "sites": 8
+ },
+ "select: bCC over 2 simple instructions (alu,clr)": {
+  "bytes_saved": 0,
+  "instructions_saved": 4,
+  "sites": 2
+ },
+ "select: bCC over 2 simple instructions (alu,mov)": {
+  "bytes_saved": 0,
+  "instructions_saved": 66,
+  "sites": 33
+ },
+ "select: bCC over 2 simple instructions (clr,mov)": {
+  "bytes_saved": 0,
+  "instructions_saved": 2,
+  "sites": 1
+ },
+ "select: bCC over 2 simple instructions (mov)": {
+  "bytes_saved": 0,
+  "instructions_saved": 22,
+  "sites": 11
+ },
+ "select: bCC over 3 simple instructions (alu)": {
+  "bytes_saved": 0,
+  "instructions_saved": 21,
+  "sites": 7
+ },
+ "select: bCC over 3 simple instructions (alu,clr,mov)": {
+  "bytes_saved": 0,
+  "instructions_saved": 6,
+  "sites": 2
+ },
+ "select: bCC over 3 simple instructions (alu,mov)": {
+  "bytes_saved": 0,
+  "instructions_saved": 51,
+  "sites": 17
+ },
+ "select: bCC over 3 simple instructions (mov)": {
+  "bytes_saved": 0,
+  "instructions_saved": 6,
+  "sites": 2
+ },
+ "select: diamond, two one-instruction arms writing the same register": {
+  "bytes_saved": 0,
+  "instructions_saved": 2445,
+  "sites": 815
+ },
+ "shift-add: shl #2,rT ; add rT,rY (rT dead)": {
+  "bytes_saved": 0,
+  "instructions_saved": 136,
+  "sites": 136
+ },
+ "shift-add: shl #2,rT ; add rT,rY (rT read later)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 14
+ },
+ "shift-add: shl #3,rT ; add rT,rY (rT dead)": {
+  "bytes_saved": 0,
+  "instructions_saved": 40,
+  "sites": 40
+ },
+ "shift-add: shl #3,rT ; add rT,rY (rT read later)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 3
+ },
+ "shift-add: shl #n>3,rT ; add rT,rY (rT dead)": {
+  "bytes_saved": 0,
+  "instructions_saved": 367,
+  "sites": 367
+ },
+ "shift-add: shl #n>3,rT ; add rT,rY (rT read later)": {
+  "bytes_saved": 0,
+  "instructions_saved": 0,
+  "sites": 7
+ },
+ "tail call missed: call f ; epilogue ; ret": {
+  "bytes_saved": 430,
+  "instructions_saved": 215,
+  "sites": 215
+ }
+}

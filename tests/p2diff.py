@@ -26,8 +26,9 @@ def text(opc, reg, low):
     if opc == 0x22: return 'movq #%d, %s' % (sext4(low), r)
     if opc in (0x23, 0x24, 0x25): return '%s #%d, %s' % (('shl', 'shr', 'sar')[opc - 0x23], low, r)
     if 0x26 <= opc <= 0x29: return '%s #%d, %s' % (('and', 'bis', 'xor', 'add')[opc - 0x26], sext4(low), r)
+    if opc in (0x2A, 0x2B) and n == 0: return ('pushx', 'popx')[opc - 0x2A]
     return None
-cases = [(o, r, l) for o in range(0x2A) for r in range(16) for l in range(16) if text(o, r, l)]
+cases = [(o, r, l) for o in range(0x2C) for r in range(16) for l in range(16) if text(o, r, l)]
 with tempfile.TemporaryDirectory() as t:
     s = os.path.join(t, 'a.s'); ob = os.path.join(t, 'a.o')
     open(s, 'w').write('\t.text\n' + ''.join('\t%s\n' % text(*c) for c in cases))

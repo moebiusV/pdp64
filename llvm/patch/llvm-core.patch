@@ -1,0 +1,233 @@
+diff --git a/llvm/CMakeLists.txt b/llvm/CMakeLists.txt
+index cb945b578..912e407cb 100644
+--- a/llvm/CMakeLists.txt
++++ b/llvm/CMakeLists.txt
+@@ -548,6 +548,7 @@ set(LLVM_ALL_EXPERIMENTAL_TARGETS
+   CSKY
+   DirectX
+   M68k
++  PDP64
+   Xtensa
+ )
+ 
+diff --git a/llvm/include/llvm/BinaryFormat/ELF.h b/llvm/include/llvm/BinaryFormat/ELF.h
+index cfae75d09..58575e49b 100644
+--- a/llvm/include/llvm/BinaryFormat/ELF.h
++++ b/llvm/include/llvm/BinaryFormat/ELF.h
+@@ -140,6 +140,7 @@ enum {
+   EM_SPARC = 2,          // SPARC
+   EM_386 = 3,            // Intel 386
+   EM_68K = 4,            // Motorola 68000
++  EM_PDP64 = 0xF064,     // pdp64: a private-use number, no machine number has been assigned
+   EM_88K = 5,            // Motorola 88000
+   EM_IAMCU = 6,          // Intel MCU
+   EM_860 = 7,            // Intel 80860
+@@ -989,6 +990,11 @@ enum {
+ #include "ELFRelocs/BPF.def"
+ };
+ 
++// ELF Relocation types for pdp64
++enum {
++#include "ELFRelocs/PDP64.def"
++};
++
+ // ELF Relocation types for M68k
+ enum {
+ #include "ELFRelocs/M68k.def"
+diff --git a/llvm/include/llvm/BinaryFormat/ELFRelocs/PDP64.def b/llvm/include/llvm/BinaryFormat/ELFRelocs/PDP64.def
+new file mode 100644
+index 000000000..0ffb3846d
+--- /dev/null
++++ b/llvm/include/llvm/BinaryFormat/ELFRelocs/PDP64.def
+@@ -0,0 +1,12 @@
++#ifndef ELF_RELOC
++#error "ELF_RELOC must be defined"
++#endif
++
++// pdp64 relocations (as64/relocs.h in github.com/moebiusV/pdp64).  "INSN" ones patch the last 16*len bits of an
++// instruction whose first parcel is at r_offset.
++ELF_RELOC(R_PDP64_NONE,     0)
++ELF_RELOC(R_PDP64_D64,      1) // 64-bit data: S + A
++ELF_RELOC(R_PDP64_D32,      2) // 32-bit data: S + A
++ELF_RELOC(R_PDP64_INSN_ABS, 3) // immediate or absolute operand: S + A, signed
++ELF_RELOC(R_PDP64_INSN_PC,  4) // d(PC) operand: S + A - P, in bytes
++ELF_RELOC(R_PDP64_INSN_BR,  5) // branch: (S + A - P) / 2, in parcels
+diff --git a/llvm/include/llvm/Object/ELFObjectFile.h b/llvm/include/llvm/Object/ELFObjectFile.h
+index 30a9dd35f..d25ab0838 100644
+--- a/llvm/include/llvm/Object/ELFObjectFile.h
++++ b/llvm/include/llvm/Object/ELFObjectFile.h
+@@ -1353,6 +1353,8 @@ StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
+       return "elf64-ve";
+     case ELF::EM_LOONGARCH:
+       return "elf64-loongarch";
++    case ELF::EM_PDP64:
++      return "elf64-pdp64";
+     default:
+       return "elf64-unknown";
+     }
+@@ -1365,6 +1367,8 @@ StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
+ template <class ELFT> Triple::ArchType ELFObjectFile<ELFT>::getArch() const {
+   bool IsLittleEndian = ELFT::Endianness == llvm::endianness::little;
+   switch (EF.getHeader().e_machine) {
++  case ELF::EM_PDP64:
++    return Triple::pdp64;
+   case ELF::EM_68K:
+     return Triple::m68k;
+   case ELF::EM_386:
+diff --git a/llvm/include/llvm/TargetParser/Triple.h b/llvm/include/llvm/TargetParser/Triple.h
+index 657f42303..202d9ae24 100644
+--- a/llvm/include/llvm/TargetParser/Triple.h
++++ b/llvm/include/llvm/TargetParser/Triple.h
+@@ -69,6 +69,7 @@ public:
+     mips64,         // MIPS64: mips64, mips64r6, mipsn32, mipsn32r6
+     mips64el,       // MIPS64EL: mips64el, mips64r6el, mipsn32el, mipsn32r6el
+     msp430,         // MSP430: msp430
++    pdp64,          // PDP64: the 64-bit PDP-11 (github.com/moebiusV/pdp64)
+     ppc,            // PPC: powerpc
+     ppcle,          // PPCLE: powerpc (little endian)
+     ppc64,          // PPC64: powerpc64, ppu
+diff --git a/llvm/lib/BinaryFormat/ELF.cpp b/llvm/lib/BinaryFormat/ELF.cpp
+index 0ad1a0942..36086b902 100644
+--- a/llvm/lib/BinaryFormat/ELF.cpp
++++ b/llvm/lib/BinaryFormat/ELF.cpp
+@@ -197,6 +197,7 @@ uint16_t ELF::convertArchNameToEMachine(StringRef Arch) {
+       .Case("ve", EM_VE)
+       .Case("csky", EM_CSKY)
+       .Case("loongarch", EM_LOONGARCH)
++      .Case("pdp64", EM_PDP64)
+       .Default(EM_NONE);
+ }
+ 
+@@ -231,6 +232,8 @@ uint16_t ELF::convertTripleArchTypeToEMachine(Triple::ArchType ArchType) {
+     return EM_LOONGARCH;
+   case Triple::m68k:
+     return EM_68K;
++  case Triple::pdp64:
++    return EM_PDP64;
+   case Triple::mips:
+   case Triple::mipsel:
+   case Triple::mips64:
+@@ -628,6 +631,8 @@ StringRef ELF::convertEMachineToArchName(uint16_t EMachine) {
+     return "csky";
+   case EM_LOONGARCH:
+     return "loongarch";
++  case EM_PDP64:
++    return "pdp64";
+   default:
+     return "None";
+   }
+diff --git a/llvm/lib/Object/ELF.cpp b/llvm/lib/Object/ELF.cpp
+index ff99dc25a..200c778d9 100644
+--- a/llvm/lib/Object/ELF.cpp
++++ b/llvm/lib/Object/ELF.cpp
+@@ -25,6 +25,13 @@ using namespace object;
+ StringRef llvm::object::getELFRelocationTypeName(uint32_t Machine,
+                                                  uint32_t Type) {
+   switch (Machine) {
++  case ELF::EM_PDP64:
++    switch (Type) {
++#include "llvm/BinaryFormat/ELFRelocs/PDP64.def"
++    default:
++      break;
++    }
++    break;
+   case ELF::EM_68K:
+     switch (Type) {
+ #include "llvm/BinaryFormat/ELFRelocs/M68k.def"
+diff --git a/llvm/lib/TargetParser/Triple.cpp b/llvm/lib/TargetParser/Triple.cpp
+index 0584c941d..f07be4d0e 100644
+--- a/llvm/lib/TargetParser/Triple.cpp
++++ b/llvm/lib/TargetParser/Triple.cpp
+@@ -47,6 +47,7 @@ StringRef Triple::getArchTypeName(ArchType Kind) {
+   case lanai:          return "lanai";
+   case loongarch32:    return "loongarch32";
+   case loongarch64:    return "loongarch64";
++  case pdp64:          return "pdp64";
+   case m68k:           return "m68k";
+   case mips64:         return "mips64";
+   case mips64el:       return "mips64el";
+@@ -246,6 +247,8 @@ StringRef Triple::getArchTypePrefix(ArchType Kind) {
+   case loongarch32:
+   case loongarch64: return "loongarch";
+ 
++  case pdp64:       return "pdp64";
++
+   case dxil:        return "dx";
+ 
+   case xtensa:      return "xtensa";
+@@ -489,6 +492,7 @@ Triple::ArchType Triple::getArchTypeForLLVMName(StringRef Name) {
+     .Case("csky", csky)
+     .Case("loongarch32", loongarch32)
+     .Case("loongarch64", loongarch64)
++    .Case("pdp64", pdp64)
+     .Case("dxil", dxil)
+     .Case("xtensa", xtensa)
+     .Default(UnknownArch);
+@@ -633,6 +637,7 @@ static Triple::ArchType parseArch(StringRef ArchName) {
+           .Case("csky", Triple::csky)
+           .Case("loongarch32", Triple::loongarch32)
+           .Case("loongarch64", Triple::loongarch64)
++          .Case("pdp64", Triple::pdp64)
+           .Cases("dxil", "dxilv1.0", "dxilv1.1", "dxilv1.2", "dxilv1.3",
+                  "dxilv1.4", "dxilv1.5", "dxilv1.6", "dxilv1.7", "dxilv1.8",
+                  Triple::dxil)
+@@ -954,6 +959,7 @@ static Triple::ObjectFormatType getDefaultFormat(const Triple &T) {
+   case Triple::lanai:
+   case Triple::loongarch32:
+   case Triple::loongarch64:
++  case Triple::pdp64:
+   case Triple::m68k:
+   case Triple::mips64:
+   case Triple::mips64el:
+@@ -1713,6 +1719,7 @@ unsigned Triple::getArchPointerBitWidth(llvm::Triple::ArchType Arch) {
+   case llvm::Triple::bpfel:
+   case llvm::Triple::hsail64:
+   case llvm::Triple::loongarch64:
++  case llvm::Triple::pdp64:
+   case llvm::Triple::mips64:
+   case llvm::Triple::mips64el:
+   case llvm::Triple::nvptx64:
+@@ -1771,6 +1778,7 @@ Triple Triple::get32BitArchVariant() const {
+   case Triple::avr:
+   case Triple::bpfeb:
+   case Triple::bpfel:
++  case Triple::pdp64:
+   case Triple::msp430:
+   case Triple::systemz:
+   case Triple::ve:
+@@ -1873,6 +1881,7 @@ Triple Triple::get64BitArchVariant() const {
+   case Triple::bpfel:
+   case Triple::hsail64:
+   case Triple::loongarch64:
++  case Triple::pdp64:
+   case Triple::mips64:
+   case Triple::mips64el:
+   case Triple::nvptx64:
+@@ -1939,6 +1948,7 @@ Triple Triple::getBigEndianArchVariant() const {
+   case Triple::kalimba:
+   case Triple::loongarch32:
+   case Triple::loongarch64:
++  case Triple::pdp64:
+   case Triple::msp430:
+   case Triple::nvptx64:
+   case Triple::nvptx:
+@@ -2042,6 +2052,7 @@ bool Triple::isLittleEndian() const {
+   case Triple::kalimba:
+   case Triple::loongarch32:
+   case Triple::loongarch64:
++  case Triple::pdp64:
+   case Triple::mips64el:
+   case Triple::mipsel:
+   case Triple::msp430:
+diff --git a/llvm/tools/llvm-readobj/ELFDumper.cpp b/llvm/tools/llvm-readobj/ELFDumper.cpp
+index 3fd167df1..cb3c93124 100644
+--- a/llvm/tools/llvm-readobj/ELFDumper.cpp
++++ b/llvm/tools/llvm-readobj/ELFDumper.cpp
+@@ -1126,6 +1126,7 @@ const EnumEntry<unsigned> ElfMachineType[] = {
+   ENUM_ENT(EM_SPARC,         "Sparc"),
+   ENUM_ENT(EM_386,           "Intel 80386"),
+   ENUM_ENT(EM_68K,           "MC68000"),
++  ENUM_ENT(EM_PDP64,         "pdp64"),
+   ENUM_ENT(EM_88K,           "MC88000"),
+   ENUM_ENT(EM_IAMCU,         "EM_IAMCU"),
+   ENUM_ENT(EM_860,           "Intel 80860"),

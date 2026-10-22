@@ -178,6 +178,15 @@ static int h_vecread(void *u, uint64_t pa, uint64_t *v)
     return res != MEMTX_OK;
 }
 
+static void h_check(void *u, uint64_t a, int size, int write)
+{
+    struct hostctx *h = u;
+
+    check(h, a, size);
+    probe_access(h->env, a, size, write ? MMU_DATA_STORE : MMU_DATA_LOAD,
+                 pdp64_mmu_idx_mode(h->env, pdp64_mode(&h->env->c)), h->ra);
+}
+
 static void h_tlb(void *u, int op, uint64_t a)
 {
     struct hostctx *h = u;
@@ -199,7 +208,7 @@ static G_NORETURN void h_raise(void *u, int vector, uint64_t eva)
 static void make_env(struct pdp64_env *e, struct hostctx *h)
 {
     *e = (struct pdp64_env){ h_ld, h_st, h_fault, h_trap, h_halt, h_probe,
-                             h_fetch, h_vecread, h_tlb, h_raise, h };
+                             h_fetch, h_vecread, h_check, h_tlb, h_raise, h };
 }
 
 static void init_core(void)

@@ -25,7 +25,8 @@ enum fmt_shape {
 	FS_SYSREG,	/* MFSR, MTSR: sr (system register number) r (general register) pad (zero) */
 	FS_P2,		/* page 2 (len = 3): one parcel, nothing follows; opc is a page-2 opcode */
 	FS_CBW,		/* cbCC wide: imm (16 bits) d (16 bits, parcels), len = 2 */
-	FS_CBR		/* cbCC ra,rb: cond (4 bits) d (12 or 28 bits, parcels); reg is ra, low is rb */
+	FS_CBR,		/* cbCC ra,rb: cond (4 bits) d (12 or 28 bits, parcels); reg is ra, low is rb */
+	FS_SYSX		/* SYSX (SYS class 0 minor 15): sub (pushx 0, popx 1) pad (zero) */
 };
 
 struct fmt {

@@ -27,6 +27,7 @@ int fmt_encode(const struct fmt *f, uint8_t *out, size_t *n)
 	case FS_CB:     i.body.u.a16.imm = f->imm; i.body.u.a16.d = f->d; break;
 	case FS_CBW:    i.body.u.a19.imm = f->imm; i.body.u.a19.d = f->d; break;
 	case FS_CBR:    i.body.u.a20.cond = f->x; i.body.u.a20.d = f->d; break;
+	case FS_SYSX:   i.body.u.a21.sub = f->sub; i.body.u.a21.pad = f->n; break;
 	case FS_SYSREG: i.body.u.a17.sr = f->sub; i.body.u.a17.r = f->rd; i.body.u.a17.pad = f->n; break;
 	}
 	return emit_bytes(&i, out, 8, n, err, sizeof err) ? 0 : -1;
@@ -59,6 +60,7 @@ int fmt_decode(const uint8_t *buf, size_t n, struct fmt *f)
 	case FS_CB:     f->imm = i.body.u.a16.imm; f->d = i.body.u.a16.d; break;
 	case FS_CBW:    f->imm = i.body.u.a19.imm; f->d = i.body.u.a19.d; break;
 	case FS_CBR:    f->x = i.body.u.a20.cond; f->d = i.body.u.a20.d; break;
+	case FS_SYSX:   f->sub = i.body.u.a21.sub; f->n = i.body.u.a21.pad; break;
 	case FS_SYSREG: f->sub = i.body.u.a17.sr; f->rd = i.body.u.a17.r; f->n = i.body.u.a17.pad; break;
 	}
 	return 0;

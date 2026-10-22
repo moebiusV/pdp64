@@ -414,7 +414,7 @@ pr12:
 	movq	#0, r13
 	lea	pr13, r4
 pi13:
-	prober	r2, r1
+	pushx
 pr13:
 	cmp	r10, #(1)
 	bne	F86	; check 86
@@ -442,7 +442,7 @@ pr13:
 	movq	#0, r13
 	lea	pr14, r4
 pi14:
-	probew	r2, r1
+	popx
 pr14:
 	cmp	r10, #(1)
 	bne	F92	; check 92
@@ -458,19 +458,75 @@ pr14:
 	bne	F96	; check 96
 	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
 	bne	F97	; check 97
+	movq	#0, r4
+	movq	#0, r10
+	movq	#0, r6
+	movq	#0, r7
+	movq	#0, r8
+	movq	#0, r9
+	movq	#0, r12
+	movq	#0, r2
+	movq	#0, r3
+	movq	#0, r13
+	lea	pr15, r4
+pi15:
+	prober	r2, r1
+pr15:
+	cmp	r10, #(1)
+	bne	F98	; check 98
+	lea	pi15, r11
+	cmp	r6, r11
+	bne	F99	; check 99
+	cmp	r8, #(VECTOR_PRIVILEGED)
+	bne	F100	; check 100
+	cmp	r9, #(0)
+	bne	F101	; check 101
+	bic	#15, r7
+	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
+	bne	F102	; check 102
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	bne	F103	; check 103
+	movq	#0, r4
+	movq	#0, r10
+	movq	#0, r6
+	movq	#0, r7
+	movq	#0, r8
+	movq	#0, r9
+	movq	#0, r12
+	movq	#0, r2
+	movq	#0, r3
+	movq	#0, r13
+	lea	pr16, r4
+pi16:
+	probew	r2, r1
+pr16:
+	cmp	r10, #(1)
+	bne	F104	; check 104
+	lea	pi16, r11
+	cmp	r6, r11
+	bne	F105	; check 105
+	cmp	r8, #(VECTOR_PRIVILEGED)
+	bne	F106	; check 106
+	cmp	r9, #(0)
+	bne	F107	; check 107
+	bic	#15, r7
+	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
+	bne	F108	; check 108
+	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV))
+	bne	F109	; check 109
 	mfdp	r5
 	cmp	r5, #(8738)
-	bne	F98	; check 98
+	bne	F110	; check 110
 	movq	#0xFFF, r1
 	mtps	r1
 	mfps	r5
 	cmp	r5, #((MODE_USER<<PSW_MODE)|15)
-	bne	F99	; check 99
+	bne	F111	; check 111
 	movq	#0, r1
 	mtps	r1
 	mfps	r5
 	cmp	r5, #(MODE_USER<<PSW_MODE)
-	bne	F100	; check 100
+	bne	F112	; check 112
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -490,9 +546,9 @@ pr14:
 	push	r1
 	pop	r5
 	cmp	r10, #(0)
-	bne	F101	; check 101
+	bne	F113	; check 113
 	cmp	r5, #(7)
-	bne	F102	; check 102
+	bne	F114	; check 114
 	movq	#0x2222, r1
 	mtdp	r1
 	movq	#0, r4
@@ -505,17 +561,17 @@ pr14:
 	trap	#5
 aft1:
 	cmp	r10, #(1)
-	bne	F103	; check 103
+	bne	F115	; check 115
 	lea	aft1, r11
 	cmp	r6, r11
-	bne	F104	; check 104
+	bne	F116	; check 116
 	cmp	r8, #(VECTOR_TRAP_BASE+5)
-	bne	F105	; check 105
+	bne	F117	; check 117
 	bic	#15, r7
 	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F106	; check 106
+	bne	F118	; check 118
 	cmp	r9, #(0)
-	bne	F107	; check 107
+	bne	F119	; check 119
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -526,12 +582,12 @@ aft1:
 	trap	#200
 aft2:
 	cmp	r10, #(1)
-	bne	F108	; check 108
+	bne	F120	; check 120
 	lea	aft2, r11
 	cmp	r6, r11
-	bne	F109	; check 109
+	bne	F121	; check 121
 	cmp	r8, #(VECTOR_TRAP_BASE+200)
-	bne	F110	; check 110
+	bne	F122	; check 122
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -542,19 +598,19 @@ aft2:
 	bpt
 aft3:
 	cmp	r10, #(1)
-	bne	F111	; check 111
+	bne	F123	; check 123
 	lea	aft3, r11
 	cmp	r6, r11
-	bne	F112	; check 112
+	bne	F124	; check 124
 	cmp	r8, #(VECTOR_BPT)
-	bne	F113	; check 113
+	bne	F125	; check 125
 	mfdp	r5
 	cmp	r5, #(8738)
-	bne	F114	; check 114
+	bne	F126	; check 126
 	trap	#7
 	lea	ustack_alt, r11
 	cmp	sp, r11
-	bne	F115	; check 115
+	bne	F127	; check 127
 	trap	#8
 	movq	#99, r0
 	trap	#1
@@ -787,6 +843,30 @@ F113:	movq	#113, r0
 F114:	movq	#114, r0
 	trap	#1
 F115:	movq	#115, r0
+	trap	#1
+F116:	movq	#116, r0
+	trap	#1
+F117:	movq	#117, r0
+	trap	#1
+F118:	movq	#118, r0
+	trap	#1
+F119:	movq	#119, r0
+	trap	#1
+F120:	movq	#120, r0
+	trap	#1
+F121:	movq	#121, r0
+	trap	#1
+F122:	movq	#122, r0
+	trap	#1
+F123:	movq	#123, r0
+	trap	#1
+F124:	movq	#124, r0
+	trap	#1
+F125:	movq	#125, r0
+	trap	#1
+F126:	movq	#126, r0
+	trap	#1
+F127:	movq	#127, r0
 	trap	#1
 sup:
 	mfps	r1

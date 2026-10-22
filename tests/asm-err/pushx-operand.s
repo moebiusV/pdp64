@@ -1,0 +1,2 @@
+	.text
+	pushx r1

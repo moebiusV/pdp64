@@ -39,6 +39,7 @@ struct pdp64_env {
 	int (*probe)(void *u, uint64_t addr, int write, int mode);	/* prober, probew: may the code running in this mode (a MODE_ number) read (write) this address? 1 or 0, no fault */
 	uint64_t (*fetch)(void *u, uint64_t addr);	/* one two-byte parcel of an instruction (an instruction fetch is not a data load for the page faults) */
 	int (*vecread)(void *u, uint64_t paddr, uint64_t *value);	/* the 64-bit word at a physical address, for the vector table; nonzero if the bus refuses (a machine check) */
+	void (*check)(void *u, uint64_t addr, int size, int write);	/* the checks of an access (alignment, mapping, permission) without the transfer: the same abort, or nothing; pushx and popx use it so that an abort has no effect */
 	void (*tlb)(void *u, int op, uint64_t addr);	/* PDP64_TLB_*: tlbi (one page), tlbia, or a write to ptbr / asid / mmuctl */
 	void (*raise)(void *u, int vector, uint64_t eva) __attribute__((noreturn));	/* deliver mode: the core has an abort; unwind to the main loop, which calls pdp64_exception(vector, eva) */
 	void *u;

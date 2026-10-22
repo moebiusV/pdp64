@@ -17,7 +17,7 @@ struct insn_s {
     uint8_t reg;
     uint8_t low;
     struct {
-        int kind;   /* 1..20: the alternative that matched */
+        int kind;   /* 1..21: the alternative that matched */
         union {
             struct {
                 char unused_;
@@ -103,6 +103,10 @@ struct insn_s {
                 uint8_t cond;
                 uint64_t d;
             } a20;
+            struct {
+                uint8_t sub;
+                uint8_t pad;
+            } a21;
         } u;
     } body;
     /* what the read has to say, besides failing: `warn (...)`. */
@@ -513,7 +517,7 @@ static bool parse_rule_insn (bnf_p *p, insn_t *out) {
         }
         alt7_14: WSET(p, c7_);
         {
-            if (!(((((((int64_t)out->len) >= ((int64_t) 1LL)) && (((int64_t)out->len) < ((int64_t) 3LL))) && (((int64_t)out->opc) == ((int64_t) 20LL))) && (!((((int64_t)out->reg) == ((int64_t) 0LL)) && ((((int64_t)out->low) == ((int64_t) 13LL)) || (((int64_t)out->low) == ((int64_t) 14LL)))))))) goto alt7_15;
+            if (!((((((((int64_t)out->len) >= ((int64_t) 1LL)) && (((int64_t)out->len) < ((int64_t) 3LL))) && (((int64_t)out->opc) == ((int64_t) 20LL))) && (!((((int64_t)out->reg) == ((int64_t) 0LL)) && ((((int64_t)out->low) == ((int64_t) 13LL)) || (((int64_t)out->low) == ((int64_t) 14LL)))))) && (!((((int64_t)out->reg) == ((int64_t) 0LL)) && (((int64_t)out->low) == ((int64_t) 15LL))))))) goto alt7_15;
             size_t st54_ = WB(p); (void)st54_;
             { int64_t n_ = (((int64_t) 16LL) * ((int64_t)out->len)); uint64_t v_;
                 if (n_ < 0 || n_ > 64) { bnf_fail (p, WB(p), "insn.body.p", "has a width outside 0..64 bits"); goto alt7_15; }
@@ -600,13 +604,28 @@ static bool parse_rule_insn (bnf_p *p, insn_t *out) {
             goto done7_;
         }
         alt7_20: WSET(p, c7_);
+        {
+            if (!((((((int64_t)out->len) == ((int64_t) 1LL)) && (((int64_t)out->opc) == ((int64_t) 20LL))) && ((((int64_t)out->reg) == ((int64_t) 0LL)) && (((int64_t)out->low) == ((int64_t) 15LL)))))) goto alt7_21;
+            size_t st71_ = WB(p); (void)st71_;
+            { uint64_t v_; size_t s_ = WB(p); (void)s_;
+                if (!bnf_rd (p, 8, &v_, "insn.body.sub")) { goto alt7_21; }
+                out->body.u.a21.sub = (uint8_t)v_;
+            }
+            { uint64_t v_; size_t s_ = WB(p); (void)s_;
+                if (!bnf_rd (p, 8, &v_, "insn.body.pad")) { goto alt7_21; }
+                out->body.u.a21.pad = (uint8_t)v_;
+            }
+            out->body.kind = 21;
+            goto done7_;
+        }
+        alt7_21: WSET(p, c7_);
         bnf_fail (p, WB(p), "insn.body", "none of the alternatives matches here"); return false;
     }
     done7_: ;
     return true;
 }
 static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
-    size_t st71_ = w->bit; (void)st71_;
+    size_t st74_ = w->bit; (void)st74_;
     { uint64_t v_;
         v_ = (uint64_t)in->len;
         if (v_ >> 2) {
@@ -640,13 +659,13 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!(((((int64_t)in->len) == ((int64_t) 0LL)) && ((((((int64_t)in->opc) <= ((int64_t) 11LL)) || (((int64_t)in->opc) == ((int64_t) 18LL))) || (((int64_t)in->opc) == ((int64_t) 19LL))) || ((((int64_t)in->opc) >= ((int64_t) 22LL)) && (((int64_t)in->opc) <= ((int64_t) 39LL))))))) {
                 bnf_wfail (w, "insn.body", "alternative 1 is chosen, but its guard does not hold"); return false;
             }
-            size_t st72_ = w->bit; (void)st72_;
+            size_t st75_ = w->bit; (void)st75_;
         }
         else if (in->body.kind == 2) {
             if (!(((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && ((((((int64_t)in->opc) <= ((int64_t) 11LL)) || (((int64_t)in->opc) == ((int64_t) 18LL))) || (((int64_t)in->opc) == ((int64_t) 19LL))) || ((((int64_t)in->opc) >= ((int64_t) 22LL)) && (((int64_t)in->opc) <= ((int64_t) 39LL))))) && (((((int64_t)in->low) == ((int64_t) 0LL)) || (((int64_t)in->low) == ((int64_t) 6LL))) || (((int64_t)in->low) == ((int64_t) 7LL)))))) {
                 bnf_wfail (w, "insn.body", "alternative 2 is chosen, but its guard does not hold"); return false;
             }
-            size_t st73_ = w->bit; (void)st73_;
+            size_t st76_ = w->bit; (void)st76_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a2.rm;
                 if (v_ >> 4) {
@@ -665,7 +684,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!(((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && ((((((int64_t)in->opc) <= ((int64_t) 11LL)) || (((int64_t)in->opc) == ((int64_t) 18LL))) || (((int64_t)in->opc) == ((int64_t) 19LL))) || ((((int64_t)in->opc) >= ((int64_t) 22LL)) && (((int64_t)in->opc) <= ((int64_t) 39LL))))) && (((int64_t)in->low) == ((int64_t) 1LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 3 is chosen, but its guard does not hold"); return false;
             }
-            size_t st74_ = w->bit; (void)st74_;
+            size_t st77_ = w->bit; (void)st77_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a3.rm;
                 if (v_ >> 4) {
@@ -698,7 +717,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!(((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && ((((((int64_t)in->opc) <= ((int64_t) 11LL)) || (((int64_t)in->opc) == ((int64_t) 18LL))) || (((int64_t)in->opc) == ((int64_t) 19LL))) || ((((int64_t)in->opc) >= ((int64_t) 22LL)) && (((int64_t)in->opc) <= ((int64_t) 39LL))))) && (((int64_t)in->low) == ((int64_t) 3LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 4 is chosen, but its guard does not hold"); return false;
             }
-            size_t st75_ = w->bit; (void)st75_;
+            size_t st78_ = w->bit; (void)st78_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a4.pad;
                 if (v_ >> 4) {
@@ -717,7 +736,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!(((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && ((((((int64_t)in->opc) <= ((int64_t) 11LL)) || (((int64_t)in->opc) == ((int64_t) 18LL))) || (((int64_t)in->opc) == ((int64_t) 19LL))) || ((((int64_t)in->opc) >= ((int64_t) 22LL)) && (((int64_t)in->opc) <= ((int64_t) 39LL))))) && (((((int64_t)in->low) == ((int64_t) 2LL)) || (((int64_t)in->low) == ((int64_t) 4LL))) || (((int64_t)in->low) == ((int64_t) 5LL)))))) {
                 bnf_wfail (w, "insn.body", "alternative 5 is chosen, but its guard does not hold"); return false;
             }
-            size_t st76_ = w->bit; (void)st76_;
+            size_t st79_ = w->bit; (void)st79_;
             { int64_t n_ = (((int64_t) 16LL) * ((int64_t)in->len));
                 if (n_ < 0 || n_ > 64 || (n_ < 64 && ((uint64_t)in->body.u.a5.d >> n_))) {
                     bnf_wfail (w, "insn.body.d", "does not fit in the number of bits its width field says"); return false;
@@ -729,7 +748,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && (((int64_t)in->opc) == ((int64_t) 12LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 6 is chosen, but its guard does not hold"); return false;
             }
-            size_t st77_ = w->bit; (void)st77_;
+            size_t st80_ = w->bit; (void)st80_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a6.sub;
                 if (v_ >> 8) {
@@ -758,7 +777,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!((((((int64_t)in->len) >= ((int64_t) 2LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && (((int64_t)in->opc) == ((int64_t) 12LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 7 is chosen, but its guard does not hold"); return false;
             }
-            size_t st78_ = w->bit; (void)st78_;
+            size_t st81_ = w->bit; (void)st81_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a7.sub;
                 if (v_ >> 8) {
@@ -808,7 +827,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && (((((((int64_t)in->opc) == ((int64_t) 12LL)) || (((int64_t)in->opc) == ((int64_t) 13LL))) || (((int64_t)in->opc) == ((int64_t) 14LL))) || (((int64_t)in->opc) == ((int64_t) 16LL))) || (((int64_t)in->opc) == ((int64_t) 17LL)))))) {
                 bnf_wfail (w, "insn.body", "alternative 8 is chosen, but its guard does not hold"); return false;
             }
-            size_t st79_ = w->bit; (void)st79_;
+            size_t st82_ = w->bit; (void)st82_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a8.sub;
                 if (v_ >> 8) {
@@ -841,7 +860,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && (((int64_t)in->opc) == ((int64_t) 15LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 9 is chosen, but its guard does not hold"); return false;
             }
-            size_t st80_ = w->bit; (void)st80_;
+            size_t st83_ = w->bit; (void)st83_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a9.sub;
                 if (v_ >> 4) {
@@ -867,13 +886,13 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!(((((int64_t)in->len) == ((int64_t) 0LL)) && ((((int64_t)in->opc) >= ((int64_t) 48LL)) && (((int64_t)in->opc) <= ((int64_t) 62LL)))))) {
                 bnf_wfail (w, "insn.body", "alternative 10 is chosen, but its guard does not hold"); return false;
             }
-            size_t st81_ = w->bit; (void)st81_;
+            size_t st84_ = w->bit; (void)st84_;
         }
         else if (in->body.kind == 11) {
             if (!((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && ((((((int64_t)in->opc) >= ((int64_t) 48LL)) && (((int64_t)in->opc) <= ((int64_t) 62LL))) || (((int64_t)in->opc) == ((int64_t) 63LL))) || (((int64_t)in->opc) == ((int64_t) 21LL)))))) {
                 bnf_wfail (w, "insn.body", "alternative 11 is chosen, but its guard does not hold"); return false;
             }
-            size_t st82_ = w->bit; (void)st82_;
+            size_t st85_ = w->bit; (void)st85_;
             { int64_t n_ = (((int64_t) 16LL) * ((int64_t)in->len));
                 if (n_ < 0 || n_ > 64 || (n_ < 64 && ((uint64_t)in->body.u.a11.d >> n_))) {
                     bnf_wfail (w, "insn.body.d", "does not fit in the number of bits its width field says"); return false;
@@ -885,13 +904,13 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!(((((int64_t)in->len) == ((int64_t) 0LL)) && (((int64_t)in->opc) == ((int64_t) 20LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 12 is chosen, but its guard does not hold"); return false;
             }
-            size_t st83_ = w->bit; (void)st83_;
+            size_t st86_ = w->bit; (void)st86_;
         }
         else if (in->body.kind == 13) {
             if (!((((((int64_t)in->len) == ((int64_t) 1LL)) && (((int64_t)in->opc) == ((int64_t) 20LL))) && ((((int64_t)in->reg) == ((int64_t) 13LL)) || (((int64_t)in->reg) == ((int64_t) 14LL)))))) {
                 bnf_wfail (w, "insn.body", "alternative 13 is chosen, but its guard does not hold"); return false;
             }
-            size_t st84_ = w->bit; (void)st84_;
+            size_t st87_ = w->bit; (void)st87_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a13.rd;
                 if (v_ >> 4) {
@@ -911,7 +930,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!((((((int64_t)in->len) == ((int64_t) 1LL)) && (((int64_t)in->opc) == ((int64_t) 20LL))) && (((int64_t)in->reg) == ((int64_t) 15LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 14 is chosen, but its guard does not hold"); return false;
             }
-            size_t st85_ = w->bit; (void)st85_;
+            size_t st88_ = w->bit; (void)st88_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a14.n;
                 if (v_ >> 8) {
@@ -928,10 +947,10 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             }
         }
         else if (in->body.kind == 15) {
-            if (!(((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && (((int64_t)in->opc) == ((int64_t) 20LL))) && (!((((int64_t)in->reg) == ((int64_t) 0LL)) && ((((int64_t)in->low) == ((int64_t) 13LL)) || (((int64_t)in->low) == ((int64_t) 14LL)))))))) {
+            if (!((((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && (((int64_t)in->opc) == ((int64_t) 20LL))) && (!((((int64_t)in->reg) == ((int64_t) 0LL)) && ((((int64_t)in->low) == ((int64_t) 13LL)) || (((int64_t)in->low) == ((int64_t) 14LL)))))) && (!((((int64_t)in->reg) == ((int64_t) 0LL)) && (((int64_t)in->low) == ((int64_t) 15LL))))))) {
                 bnf_wfail (w, "insn.body", "alternative 15 is chosen, but its guard does not hold"); return false;
             }
-            size_t st86_ = w->bit; (void)st86_;
+            size_t st89_ = w->bit; (void)st89_;
             { int64_t n_ = (((int64_t) 16LL) * ((int64_t)in->len));
                 if (n_ < 0 || n_ > 64 || (n_ < 64 && ((uint64_t)in->body.u.a15.p >> n_))) {
                     bnf_wfail (w, "insn.body.p", "does not fit in the number of bits its width field says"); return false;
@@ -943,7 +962,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && (((int64_t)in->opc) == ((int64_t) 40LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 16 is chosen, but its guard does not hold"); return false;
             }
-            size_t st87_ = w->bit; (void)st87_;
+            size_t st90_ = w->bit; (void)st90_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a16.imm;
                 if (v_ >> 5) {
@@ -962,7 +981,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!((((((int64_t)in->len) == ((int64_t) 1LL)) && (((int64_t)in->opc) == ((int64_t) 20LL))) && ((((int64_t)in->reg) == ((int64_t) 0LL)) && ((((int64_t)in->low) == ((int64_t) 13LL)) || (((int64_t)in->low) == ((int64_t) 14LL))))))) {
                 bnf_wfail (w, "insn.body", "alternative 17 is chosen, but its guard does not hold"); return false;
             }
-            size_t st88_ = w->bit; (void)st88_;
+            size_t st91_ = w->bit; (void)st91_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a17.sr;
                 if (v_ >> 8) {
@@ -992,13 +1011,13 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!((((int64_t)in->len) == ((int64_t) 3LL)))) {
                 bnf_wfail (w, "insn.body", "alternative 18 is chosen, but its guard does not hold"); return false;
             }
-            size_t st89_ = w->bit; (void)st89_;
+            size_t st92_ = w->bit; (void)st92_;
         }
         else if (in->body.kind == 19) {
             if (!(((((int64_t)in->len) == ((int64_t) 2LL)) && (((int64_t)in->opc) == ((int64_t) 41LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 19 is chosen, but its guard does not hold"); return false;
             }
-            size_t st90_ = w->bit; (void)st90_;
+            size_t st93_ = w->bit; (void)st93_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a19.imm;
                 if (v_ >> 16) {
@@ -1018,7 +1037,7 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
             if (!((((((int64_t)in->len) >= ((int64_t) 1LL)) && (((int64_t)in->len) < ((int64_t) 3LL))) && (((int64_t)in->opc) == ((int64_t) 42LL))))) {
                 bnf_wfail (w, "insn.body", "alternative 20 is chosen, but its guard does not hold"); return false;
             }
-            size_t st91_ = w->bit; (void)st91_;
+            size_t st94_ = w->bit; (void)st94_;
             { uint64_t v_;
                 v_ = (uint64_t)in->body.u.a20.cond;
                 if (v_ >> 4) {
@@ -1033,8 +1052,28 @@ static bool emit_rule_insn (bnf_w *w, const insn_t *in) {
                 bnf_wr (w, (unsigned)n_, in->body.u.a20.d);
             }
         }
+        else if (in->body.kind == 21) {
+            if (!((((((int64_t)in->len) == ((int64_t) 1LL)) && (((int64_t)in->opc) == ((int64_t) 20LL))) && ((((int64_t)in->reg) == ((int64_t) 0LL)) && (((int64_t)in->low) == ((int64_t) 15LL)))))) {
+                bnf_wfail (w, "insn.body", "alternative 21 is chosen, but its guard does not hold"); return false;
+            }
+            size_t st95_ = w->bit; (void)st95_;
+            { uint64_t v_;
+                v_ = (uint64_t)in->body.u.a21.sub;
+                if (v_ >> 8) {
+                    bnf_wfail (w, "insn.body.sub", "does not fit in 8 bits"); return false;
+                }
+                bnf_wr (w, 8, v_);
+            }
+            { uint64_t v_;
+                v_ = (uint64_t)in->body.u.a21.pad;
+                if (v_ >> 8) {
+                    bnf_wfail (w, "insn.body.pad", "does not fit in 8 bits"); return false;
+                }
+                bnf_wr (w, 8, v_);
+            }
+        }
         else {
-            bnf_wfail (w, "insn.body", "kind is not the number of an alternative (1..20)"); return false;
+            bnf_wfail (w, "insn.body", "kind is not the number of an alternative (1..21)"); return false;
         }
     }
     return true;

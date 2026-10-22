@@ -28,6 +28,7 @@ prefix none
 %define LEN1 (len >= 1 && len < @LENCODE_PAGE2@)
 %define LEN2 (len >= 2 && len < @LENCODE_PAGE2@)
 %define BESCCOUNT (sub == @MN_BESC_RORI@ || sub == @MN_BESC_RORI32@)
+%define SYSX (reg == 0 && low == @SYS_MINOR_SYSX@)
 %define SYSREGMOV (reg == 0 && (low == @MN_SYSREG_MFSR@ || low == @MN_SYSREG_MTSR@))
 %define COND (opc >= @MN_BRANCH_BR@ && opc <= @MN_BRANCH_BLOS@)
 
@@ -58,7 +59,7 @@ insn = len:2 opc:6 reg:4 low:4 body:(
     | ?(len == 0 && opc == @OPGROUP_SYS@)
     | ?(len == 1 && opc == @OPGROUP_SYS@ && (reg == @MN_SYS_PROBER@ || reg == @MN_SYS_PROBEW@))   rd:4 pad:12
     | ?(len == 1 && opc == @OPGROUP_SYS@ && reg == @MN_SYS_TRAPL@) n:8 pad:8
-    | ?(@LEN1@ && opc == @OPGROUP_SYS@ && !@SYSREGMOV@)          p:bits(16 * len)
+    | ?(@LEN1@ && opc == @OPGROUP_SYS@ && !@SYSREGMOV@ && !@SYSX@)          p:bits(16 * len)
 
     ; --- the compare-immediate-and-branch cbCC: low is the condition (as for `set`); parcel 1 is imm:5 and the first 11 bits of the displacement (parcels)
     | ?(@LEN1@ && opc == @OPGROUP_CBR@)                             imm:5 d:bits(11 + 16 * (len - 1))
@@ -74,4 +75,7 @@ insn = len:2 opc:6 reg:4 low:4 body:(
 
     ; --- the register-register cbCC: reg is ra, low is rb; parcel 1 starts with the condition (as for `set`), then the displacement in parcels (12 bits, or 28 at len 2)
     | ?(@LEN1@ && opc == @OPGROUP_CBRR@)                            cond:4 d:bits(12 + 16 * (len - 1))
+
+    ; --- SYSX (SYS, class 0, minor 15), four bytes: the sub-opcode (mn-sysx) and a byte that must be zero (the executor refuses a non-zero one)
+    | ?(len == 1 && opc == @OPGROUP_SYS@ && @SYSX@)               sub:8 pad:8
   )

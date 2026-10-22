@@ -1,0 +1,127 @@
+idiom,sites,instructions_saved,bytes_saved
+2op unary after copy: com,32,32,0
+2op unary after copy: dec,1,1,0
+2op unary after copy: inc,2,2,0
+2op unary after copy: neg,91,91,0
+3op: add coverable by lea (needs flags dead),468,468,0
+3op: add imm,115,115,0
+3op: add mem,40,40,16
+3op: add reg,361,361,0
+3op: all,3535,3535,276
+3op: and imm,780,780,32
+3op: and mem,66,66,116
+3op: and reg,93,93,0
+3op: bis imm,15,15,0
+3op: bis mem,2,2,0
+3op: bis reg,29,29,0
+3op: mul imm,144,144,86
+3op: mul mem,3,3,4
+3op: mul reg,70,70,0
+3op: sar imm,16,16,0
+3op: shl imm,893,893,0
+3op: shl reg,44,44,0
+3op: shr imm,143,143,0
+3op: shr reg,2,2,0
+3op: source dead,27,0,0
+3op: source read,2127,0,0
+3op: source unknown,1381,0,0
+3op: sub #imm coverable by lea,87,87,0
+3op: sub imm,92,92,0
+3op: sub mem,85,85,8
+3op: sub reg,296,296,0
+3op: xor mem,10,10,14
+3op: xor reg,236,236,0
+all,336408,0,0
+"autoinc: post-increment (access, then base += size), adjacent",102,102,0
+"autoinc: post-increment (access, then base += size), within 5",10,10,0
+"autoinc: pre-decrement (base +-= size, then access)",407,407,0
+"autoinc: pre-increment (base +-= size, then access)",38,38,0
+"bit test: and #2^k,rX ; cbeq/cbne rX,#0 (single bit, rX dead afterwards)",6,6,0
+"bit test: and #2^k,rX ; cbeq/cbne rX,#0 (single bit, rX maybe live afterwards)",4,4,0
+bit test: shr #k ; and #1 ; branch,16,32,0
+calls: call,31877,0,0
+calls: calli,451,0,0
+"carry: add a,b ; cbCS/cbLOS b,a (carry tested by comparing the sum)",15,15,30
+const: clr reg,9705,0,0
+"const: movq #imm, 16-bit",9941,0,0
+"const: movq #imm, 32-bit",297,0,0
+"const: movq #imm, 4-bit",7838,0,0
+const: movq =K (pool),59,0,0
+ext: after a call (result),444,0,0
+ext: after a load (fusible into the load),584,0,0
+ext: after a narrower load,183,0,0
+ext: after an ALU result (a 32-bit ALU form would absorb it),4099,0,0
+ext: after another move/extension,809,0,0
+ext: after div,27,0,0
+ext: after divu,6,0,0
+ext: after mod,5,0,0
+ext: after modu,16,0,0
+ext: after rori32,9,0,0
+"ext: total (movb r,r)",29,0,0
+"ext: total (movl r,r)",3428,0,0
+"ext: total (movw r,r)",11,0,0
+"ext: total (movzb r,r)",1311,0,0
+"ext: total (movzl r,r)",3614,0,0
+"ext: total (movzw r,r)",450,0,0
+ext: value from before the block/argument,2661,0,0
+field: ... preceded by a copy (3 instructions to 1),1,2,0
+field: shr #n ; movzb/movzw/movzl (byte or word of a value),321,321,-368
+"field: unsigned extract, shl ; shr",4,4,4
+"field: unsigned extract, shr #n ; and #2^w-1",164,164,18
+frame: epilogue instructions (without ret),6654,0,0
+frame: functions,8650,0,0
+frame: functions with no call (leaf),2941,0,0
+frame: prologue instructions,6898,0,0
+frame: ret,8071,0,0
+frame: tail jmp,658,0,0
+loop: backward conditional branches,11059,0,0
+"loop: count down by dec/sub, other test (cbCC rX,#k or rY)",53,53,0
+"loop: count up, inc/add then cbCC rX,{rY|#k} (aoblss/acbl)",4785,4785,0
+"loop: dec rX ; cbne rX,#0 -> sob",72,72,0
+"mask test: ... preceded by a copy (movq a,b ; and #m,b ; cbCC b,#0)",15,15,0
+"mask test: and #mask,rX ; cbeq/cbne rX,#0 (several bits)",27,0,0
+"mem operand: movq mem,rT ; add rT,rD (temp liveness unknown (block ends))",1,0,0
+"mem operand: movq mem,rT ; and rT,rD (temp dead afterwards)",1,1,0
+"mem operand: movq mem,rT ; and rT,rD (temp liveness unknown (block ends))",4,0,0
+"mem operand: movq mem,rT ; cmp rT,rD (temp liveness unknown (block ends))",13,0,0
+"mem operand: movq mem,rT ; sub rT,rD (temp liveness unknown (block ends))",1,0,0
+mov: argument for a call,17945,0,0
+mov: call result kept,3518,0,0
+mov: frame,1563,0,0
+mov: other,12709,0,0
+mov: parameter kept in a saved register,6077,0,0
+mov: return value,510,0,0
+"mov: two-address copy, source dead after",23,0,0
+"mov: two-address copy, source liveness unknown (block ends)",1415,0,0
+"mov: two-address copy, source read later",2060,0,0
+mov: value kept in a saved register,492,0,0
+movrr,46312,0,0
+multiply-add: mul ; add,1402,1402,0
+pair: load movl,550,550,770
+pair: load movq,859,859,620
+pair: store movl,51,51,138
+pair: store movq,662,662,478
+"read-modify-write: movq M,rT ; op ,rT ; movq rT,M (rT dead)",949,1898,0
+"read-modify-write: movq M,rT ; op ,rT ; movq rT,M (rT read later)",44,0,0
+scaled lea emitted,2,0,0
+scaled-index memory operand emitted,1455,0,0
+select: bCC over 1 simple instruction (alu),79,79,0
+select: bCC over 1 simple instruction (clr),49,49,0
+select: bCC over 1 simple instruction (mov),311,311,0
+select: bCC over 2 simple instructions (alu),8,16,0
+"select: bCC over 2 simple instructions (alu,clr)",2,4,0
+"select: bCC over 2 simple instructions (alu,mov)",33,66,0
+"select: bCC over 2 simple instructions (clr,mov)",1,2,0
+select: bCC over 2 simple instructions (mov),11,22,0
+select: bCC over 3 simple instructions (alu),7,21,0
+"select: bCC over 3 simple instructions (alu,clr,mov)",2,6,0
+"select: bCC over 3 simple instructions (alu,mov)",17,51,0
+select: bCC over 3 simple instructions (mov),2,6,0
+"select: diamond, two one-instruction arms writing the same register",815,2445,0
+"shift-add: shl #2,rT ; add rT,rY (rT dead)",136,136,0
+"shift-add: shl #2,rT ; add rT,rY (rT read later)",14,0,0
+"shift-add: shl #3,rT ; add rT,rY (rT dead)",40,40,0
+"shift-add: shl #3,rT ; add rT,rY (rT read later)",3,0,0
+"shift-add: shl #n>3,rT ; add rT,rY (rT dead)",367,367,0
+"shift-add: shl #n>3,rT ; add rT,rY (rT read later)",7,0,0
+tail call missed: call f ; epilogue ; ret,215,215,430

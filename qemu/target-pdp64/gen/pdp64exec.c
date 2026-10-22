@@ -529,6 +529,17 @@ static void step(void)
 				pc = C->epc; pdp64_set_psw(C, (unsigned)C->epsw);
 				if (f.low == MN_SYS_NONE_RTT) C->psw |= 1u << PSW_T;
 				return;
+			case SYS_MINOR_SYSX: {								/* pushx, popx: EPSW and EPC on the stack of the current mode */
+				uint64_t a;
+				priv();
+				if (f.shape != FS_SYSX || f.n != 0 || (f.sub != MN_SYSX_PUSHX && f.sub != MN_SYSX_POPX)) die("illegal instruction", 0);
+				a = f.sub == MN_SYSX_PUSHX ? r[14] - 16 : r[14];
+				if (a & 7) fault_v(VECTOR_MISALIGNED, "misaligned data access", a);
+				E->check(E->u, a, 8, f.sub == MN_SYSX_PUSHX); E->check(E->u, a + 8, 8, f.sub == MN_SYSX_PUSHX);	/* both words, before either is touched */
+				if (f.sub == MN_SYSX_PUSHX) { st(a, 8, C->epsw); st(a + 8, 8, C->epc); r[14] = a; }
+				else { uint64_t w0 = ld(a, 8), w1 = ld(a + 8, 8); C->epsw = w0 & PSW_VALID; C->epc = w1; r[14] = a + 16; }
+				return;
+			}
 			case MN_SYS_NONE_WFE: priv(); C->wait = 1; return;
 			case MN_SYS_NONE_TLBIA: priv(); E->tlb(E->u, PDP64_TLB_ALL, 0); return;
 			case MN_SYS_NONE_TLBSYNC: priv(); return;				/* one core: nothing to wait for */

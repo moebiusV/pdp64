@@ -185,9 +185,10 @@ static int h_vecread(void *u, uint64_t pa, uint64_t *v)
 	for (int i = 0; i < 8; i++) *v |= (uint64_t)*bp(pa + i, 0) << (8 * i);
 	return 0;
 }
+static void h_check(void *u, uint64_t a, int size, int write) { (void)u; (void)write; if (a & (size - 1)) memfault(VECTOR_MISALIGNED, "misaligned data access", a); bp(a, 0); bp(a + size - 1, 0); }
 static void h_tlb(void *u, int op, uint64_t a) { (void)u; (void)op; (void)a; }
 static void h_raise(void *u, int vector, uint64_t eva) { (void)u; jvec = vector; jeva = eva; longjmp(jb, 1); }
-static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_tlb, h_raise, NULL };
+static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL };
 
 /* -K: the pending interrupt requests; the highest level above the priority is taken */
 static int take_interrupt(void)

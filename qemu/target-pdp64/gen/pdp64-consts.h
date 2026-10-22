@@ -61,6 +61,7 @@
 #define MN_MESC_MOVUB                0
 #define MN_MOV_MOVQ                  0
 #define MN_SOP_CLR                   0
+#define MN_SYSX_PUSHX                0
 #define MN_SYS_NONE_NOP              0
 #define MN_TAG_BTAG                  0
 #define MN_XFER_JMPI                 0
@@ -71,6 +72,7 @@
 #define MN_FESC_FSQRT                1
 #define MN_MBLK_MMOV                 1
 #define MN_SOP_COM                   1
+#define MN_SYSX_POPX                 1
 #define MN_SYS_MTPS                  1
 #define MN_SYS_NONE_RTI              1
 #define MN_TAG_BNTAG                 1
@@ -387,6 +389,8 @@
 #define P2OP_BIS_I                   39
 #define P2OP_XOR_I                   40
 #define P2OP_ADD_I                   41
+#define P2OP_PUSHX                   42
+#define P2OP_POPX                    43
 #define PSW_C                        0
 #define PSW_V                        1
 #define PSW_WIDTH_MODE               2
@@ -429,6 +433,7 @@
 #define RNUM_R14                     14
 #define RNUM_R15                     15
 #define SUBOP_SET                    32
+#define SYS_MINOR_SYSX               15
 #define SYSREG_PTBR                  0
 #define SYSREG_EPC                   1
 #define SYSREG_EVA                   2

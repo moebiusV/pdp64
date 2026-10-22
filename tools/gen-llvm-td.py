@@ -334,6 +334,9 @@ def tables_inc():
     t += '#endif\n\n// register aliases: name, register number\n#ifdef PDP64_REGALIAS_TABLE\n'
     for l, v in items('ralias'):
         t += 'PDP64_REGALIAS("%s", %d)\n' % (l, v)
+    t += '#endif\n\n// the general registers in order of their numbers\n#ifdef PDP64_GPR_TABLE\n'
+    for l, v in sorted(items('rnum'), key=lambda x: x[1]):
+        t += 'PDP64_GPR(%s)\n' % l.upper()
     t += '#endif\n\n// base specifiers other than a register: name, number\n#ifdef PDP64_BASESPEC_TABLE\n'
     for l, v in items('basespec'):
         t += 'PDP64_BASESPEC("%s", %d)\n' % (l, v)
@@ -347,11 +350,11 @@ def tables_inc():
         t += 'PDP64_P2ROW(%d, %d, %d, %d, %d, %d, %d, %d)\n' % (const('P2OP_' + name), num(opc), num(reg), num(mode), num(rm), dsrc[ds], int(scale), int(idx))
     t += '#endif\n\n'
     # the widening chain: every record that has a longer form of the same instruction.  The names follow the multiclasses of PDP64InstrInfo.td.
-    t += '// relaxation: PDP64_WIDEN(narrower, wider)\n#ifdef PDP64_WIDEN_TABLE\n'
+    t += '// relaxation: PDP64_WIDEN(narrower, wider, the step is allowed only for a 5-bit immediate)\n#ifdef PDP64_WIDEN_TABLE\n'
     names = []
     mem = [(l, True) for l, v in real('mn-alu')]
     for n, w in widen_pairs():
-        t += 'PDP64_WIDEN(%s, %s)\n' % (n, w)
+        t += 'PDP64_WIDEN(%s, %s, %d)\n' % (n, w, 1 if w.endswith('_L') else 0)
     t += '#endif\n'
     return t
 

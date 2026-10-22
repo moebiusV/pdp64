@@ -7,7 +7,7 @@ tools/build-as64.sh > /dev/null
 B=${BUILD:-build}; fail=0
 for s in tests/asm/*.s; do
 	n=$(basename "$s" .s)
-	"$B/as64" -o "$B/$n.o" "$s"
+	"$B/as64" $(cat tests/asm/$n.flags 2>/dev/null) -o "$B/$n.o" "$s"
 	python3 - "$B/$n.o" "tests/asm/$n" <<'PY' || fail=1
 import struct, sys
 d = open(sys.argv[1], 'rb').read()

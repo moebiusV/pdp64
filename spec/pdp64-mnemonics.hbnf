@@ -287,6 +287,13 @@ mn-sys-none = "nop"@0b0000
             | "icinva"@0b1100
             | "wait"@0x107
 
+; SYS class 0 minor 15, SYSX: an escape to a parcel-1 sub-opcode (four bytes: `sub:8 pad:8`).  The minor has no word of its own; the two instructions are the words of mn-sysx,
+; numbered by their sub-opcode.  pushx: SP <- SP - 16; M[SP] <- EPSW; M[SP + 8] <- EPC.  popx: the reverse (errata 37).  Page 2 abbreviates both (p2op below).
+sys-minor = "sysx"@0b1111
+
+mn-sysx = "pushx"@0
+        | "popx"@1
+
 ; SYS class 0, the system-register moves (four bytes: the register in parcel 1): the number is the minor opcode in the low field.  Not in `mnemonic`: they
 ; take the register's name as a word of its own, in the operand position that is the system register (`mfsr r1, ptbr`, `mtsr ptbr, r1`)
 mn-sysreg = "mfsr"@0b1101
@@ -401,6 +408,8 @@ p2op = "ld.q"@0x00       ; movq (rn),rd
      | "bis.i"@0x27
      | "xor.i"@0x28
      | "add.i"@0x29
+     | "pushx"@0x2A      ; pushx (SYSX sub 0), reg and low zero
+     | "popx"@0x2B       ; popx (SYSX sub 1)
 
 ; The addressing modes, the `low` nibble of an instruction with a memory operand (ISA section 5).
 amode = "base"@0b0000
