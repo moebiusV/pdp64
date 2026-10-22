@@ -202,6 +202,47 @@ def walk_pdp64(obj, ins):
     return out, (pos == len(text))
 
 
+PROLOGUE = {'push fp', 'movq sp,fp', 'pop fp', 'movq fp,sp'}
+
+
+def category(mn, ops, sh, ln):
+    """the cost centre an instruction belongs to (for the analysis): one name"""
+    o = ','.join(ops)
+    if mn in ('pushm', 'popm') or (mn, o) in (('push', 'fp'), ('pop', 'fp'), ('movq', 'sp,fp'), ('movq', 'fp,sp')):
+        return 'frame'
+    if mn in ('sub', 'add') and o.endswith(',sp') or mn == 'lea' and o.endswith(',sp'):
+        return 'frame'
+    if mn == 'ret':
+        return 'ret'
+    if mn in ('push', 'pop'):
+        return 'frame'
+    if mn in ('call', 'calli'):
+        return 'call-external' if ln == 6 else 'call-near'
+    if mn == 'br' or (mn.startswith('b') and len(mn) <= 4 and mn not in ('bis', 'bic', 'bit')):
+        return 'branch'
+    if mn == 'lea' and sh[0] == 'pcrel':
+        return 'address-of-symbol-%d' % ln
+    if len(ops) == 2 and ops[0] == ops[1] and mn in ('movl', 'movw', 'movb', 'movzl', 'movzw', 'movzb'):
+        return 're-extension'
+    if mn in ('movzl', 'movzw', 'movzb', 'movl', 'movw', 'movb') and len(ops) == 2 and sh == ('reg', 'reg'):
+        return 'extension-other'
+    if mn in ('cmp', 'tst', 'bit', 'fcmp', 'fcmp32'):
+        return 'compare'
+    if mn == 'clr' or (mn == 'movq' and sh[:1] == ('imm',)):
+        return 'constant'
+    if mn == 'mcpy':
+        return 'block-move'
+    if mn.startswith('mov') and 'pcrel' in sh:
+        return 'global-access-%d' % ln
+    if mn == 'movq' and sh == ('reg', 'reg'):
+        return 'register-move'
+    if mn.startswith('mov') and ('base' in sh or 'index' in sh):
+        return 'load-store'
+    if mn in ('shl', 'shr', 'sar', 'asl', 'asr'):
+        return 'shift'
+    return 'alu-other'
+
+
 def text_bytes(obj):
     d, secs = sections(obj)
     return secs.get('.text', (0, 0))[1]
@@ -301,6 +342,8 @@ def one(job, nowrap, keep):
         fl = ccomflags(arch, True).split()
         if arch == 'pdp64' and nowrap:
             fl.append('-mnowrap')
+        if arch == 'pdp64':
+            fl += os.environ.get('PDP64_FLAGS', '').split()      # extra ccom flags, for experiments
         try:
             p = run([ccom] + fl + [i, s], timeout=corpus.CCOM_TIMEOUT)
         except subprocess.TimeoutExpired:
@@ -338,8 +381,22 @@ def one(job, nowrap, keep):
             modes = collections.Counter()
             modelen = collections.Counter()
             longs = collections.Counter()
+            cats = collections.Counter()
+            bigram = collections.Counter()
+            trigram = collections.Counter()
+            prev = []
             for m, ops, ln in walked:
                 sh = tuple(shape(x) for x in ops)
+                cats['%s' % category(m, ops, sh, ln)] += 1
+                cats['bytes:%s' % category(m, ops, sh, ln)] += ln
+                key = '%s %s' % (m, ','.join(sh))
+                prev.append(key)
+                if len(prev) >= 2:
+                    bigram[prev[-2] + ' ; ' + prev[-1]] += 1
+                if len(prev) >= 3:
+                    trigram[prev[-3] + ' ; ' + prev[-2] + ' ; ' + prev[-1]] += 1
+                if m == 'ret':
+                    prev = []
                 hist[ln] += 1
                 mn[m] += 1
                 pair['%s %s' % (m, ','.join(sh))] += 1
@@ -354,6 +411,9 @@ def one(job, nowrap, keep):
             res['modes'] = modes
             res['modelen'] = modelen
             res['longs'] = longs
+            res['cats'] = cats
+            res['bigram'] = dict(bigram.most_common(800))
+            res['trigram'] = dict(trigram.most_common(500))
             if keep:
                 os.makedirs(keep, exist_ok=True)
                 os.replace(s, os.path.join(keep, res['src'].replace('/', '_') + '.s'))
