@@ -635,6 +635,10 @@ value (compare, branch, `movq #1`, `br`, `clr`): 460 sites, the `set cc,rd` cand
 
 Save and restore `EPC` and `EPSW` on the stack in one instruction each (long form `SYSX`, four bytes; page-2 abbreviations, two bytes). Specification: errata 37.
 
+### Decided: flag cleanup, `ISYNC` and `HINT` (2026-10-22, errata 39)
+
+The flags become two groups (`C` and `{N, Z, V}`) that are never written partially or conditionally; `cbCC` and moves, loads and stores write no flags; shifts write the same flags for any count; `mscn` writes all four; new instructions `ISYNC` and `HINT`. Specification: errata 39. Effects to be measured and recorded here when it is done.
+
 ## 13. Appendix
 
 ### 13.1 The 91 operations, folded
