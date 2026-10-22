@@ -27,6 +27,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [P14. Confirm: priority 7 on interrupt entry as well as exception entry](#p14-confirm-priority-7-on-interrupt-entry-as-well-as-exception-entry)
 * [Part B. Previous decisions, written up so they can be changed](#part-b-previous-decisions-written-up-so-they-can-be-changed)
 * [Part C. The gaps: several cores, DMA devices and virtualization](#part-c-the-gaps-several-cores-dma-devices-and-virtualization)
+* [Part D. Vector and SIMD math](#part-d-vector-and-simd-math)
 * [What I need from you](#what-i-need-from-you)
 
 ## How to read this
@@ -1081,6 +1082,192 @@ Nothing in the documents decides these yet. The system architecture and the bus 
 
 ---
 
+## Part D. Vector and SIMD math
+
+(I read "avax" as AVX. If you meant something else, tell me.) **SIMD** means single instruction, multiple data: one instruction operating on several values packed side by side. This is a real gap: the ISA has considered and rejected separate vector register files (ISA section 15.2, "Separate vector register files (LSX, LASX)"), and put wide data-parallel work in a bus-attached coprocessor instead (the LB64 accelerator is the worked case), but no decision record exists and nothing weighs the alternatives. Facts about other systems are from my memory and **unchecked**; the kernel survey says only that avoiding floating-point state avoids about 180 x86 instructions that save it. The compiler corpus was built at `-Os`, where gcc and clang vectorize little, so **there is no measurement of how much vector code a pdp64 would run**; the first thing to do before choosing is collect that evidence (list at the end of this part).
+
+| # | Decision | My recommendation | Depends on |
+|---|---|---|---|
+| S1 | Where data-parallel work lives | keep the coprocessor model; measure first; reserve a small packed-lane set in the integer registers | the evidence below |
+| S2 | If vectors are in the ISA: which registers | none yet; if built, a separate file | S1 |
+| S3 | Vector length: fixed width or scalable | if built, scalable | S1, S2 |
+| S4 | Machine state: context switch and kernel use | decide before any vector state exists | S2, P4, Q1 |
+| S5 | Number formats and matrix operations | scalar half precision stays; extend only through the coprocessor | S1, the LB64 workload |
+| S6 | ABI, compiler and library support | write the rule now: no vectors in the ABI until S1 changes | S1 |
+
+**Already in the ISA and related to this part:**
+
+| What | Where | Note |
+|---|---|---|
+| Floating point in the general registers (no separate FP register file) | ISA section 2.3 | the reason a separate vector file was rejected |
+| Half precision (`binary16`): 17 scalar words | errata 27, ISA section 9 | scalar only |
+| `XNORPOP` (popcount of the XNOR) | ISA section 4.6.2 | for the binary-weight workload |
+| `UTF8ENC`/`UTF8DEC` and the string and block instructions (`mscn`, `mcpy`, `mmov`, `mset`) | ISA sections 4.6 and 11 | the string work that SIMD does on other machines |
+| `abs`, `min`, `max` and `set cc` | errata 23, 25 | scalar |
+| CRC instructions | errata 20 | considered, added, withdrawn |
+| The LB64 accelerator and the `BLT64` blitter | LB64 document, FPGA plan section 12 | the coprocessor model in practice |
+| SWAR (using a wide scalar register as several lanes) | ISA glossary | how packed work is done today |
+
+---
+
+## S1. Where data-parallel work lives
+
+**The need.** Image and signal processing, graphics, compression, cryptography, neural-network inference and scientific loops all do the same operation on arrays. Doing it one element at a time costs several times what dedicated hardware costs. Every modern processor has an answer. The pdp64's answer is, so far, "not in the processor", and that was a choice made once and never put to the author as a decision with alternatives.
+
+**The explanation.** There are four places such work can go: **nowhere** (scalar code, perhaps unrolled); **inside the integer registers** (several small values packed into one 64-bit register, with instructions that add or compare each lane separately, called **packed SIMD in general registers**; with plain integer instructions and masks it is called **SWAR**); a **separate vector register file** with its own instructions; or **outside the processor**, in a device on the bus that the processor sets up and that does the loop on its own (the ISA's current choice). Each costs differently: in opcodes, in state the kernel must save, in area on an FPGA (whose block RAM is limited; the FPGA plan warns of exhaustion), and in how much software must change to use it.
+
+**Current state.** Separate vector register files rejected (ISA section 15.2) because "a second wide register file is the thing section 2.3 specifically avoided", it entangles wide loads with the alignment rules, and the opcode map is nearly full. Wide work goes to a coprocessor on the Q64 bus, which "needs no opcodes at all". The LB64 document specifies one such device for one workload (LittleBit inference).
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Coprocessor only (current)** | no opcodes, no new processor state, no kernel save; scales with the device; matches the DMA hand-off model | every use needs a device and a driver; small jobs pay the setup cost; compilers cannot vectorize into it; nothing for the many loops too small to offload |
+| 2 | **Packed lanes in the integer registers** (a handful of instructions on 8, 16 and 32-bit lanes: add, subtract, saturating add, compare, min, max, average, sum of absolute differences, shuffle) | no new state; works with today's registers and calling convention; small hardware cost; helps string, image and codec inner loops | 64-bit width only, so a modest gain per instruction; uses opcode space on page 2 (19 slots reserved); compiler support is poor for it |
+| 3 | **A separate fixed-width vector register file** (128, 256 or 512 bits, as SSE, AVX or NEON) | what compilers vectorize for best; large gains on regular loops | a second register file and its state; wide loads and alignment rules; opcode demand; new widths later force new instructions (the x86 history); FPGA block RAM cost |
+| 4 | **A scalable vector extension** (the register width is implementation-defined and software asks for it; ARM SVE, RISC-V V) | one program runs on a small and a large implementation; no new instructions per width | the most complex to specify and to implement; the compiler and the ABI need the model; vector-length-dependent state |
+| 5 | **A matrix or tile unit** (x86 AMX, ARM SME) | the largest gain for neural-network and linear-algebra work | big state; narrow use; usually layered on one of 3 or 4 |
+
+**What current systems do.** x86: MMX, SSE, AVX, AVX2, AVX-512, and AMX, a sequence of fixed widths, each needing new instructions and new state; Intel removed AVX-512 from some client chips and proposed AVX10 to unify them. ARM: NEON (128-bit fixed) and SVE/SVE2 (scalable, 128 to 2048 bits), with SME for matrices. RISC-V: the V extension (scalable) and a packed-SIMD extension "P" for general registers still in development. PowerPC: AltiVec/VMX, VSX and the MMA matrix instructions. MIPS: MDMX and MSA. Alpha: MVI (packed operations on the integer registers). SPARC: VIS (packed operations on the FP registers). PA-RISC: MAX (packed operations on the integer registers). s390: a 128-bit vector facility. LoongArch: LSX and LASX (128 and 256 bits). Linux, FreeBSD, NetBSD and OpenBSD ship hand-tuned vector routines for the C library and cryptography, chosen at run time (the survey counted `ifunc`/alternatives uses), and Apple reaches its matrix coprocessor only through a library **(all from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: none; the floating-point unit was scalar; heavy numerical work used an **attached array processor** (for example the Floating Point Systems AP-120B, as I recall, which also attached to the VAX), driven by library calls. VAX: a **vector extension** on the 6000 series (16 vector registers of 64 elements, as I recall) supported by VMS with context switching of vector state; Unix support was limited **(from memory, unchecked)**. *Trade-off:* the attached processor needed no change to the architecture and no kernel support but had a high setup cost; the VAX vector unit gave compiler-visible speed and cost state, opcode space and a vector-aware scheduler. *Comparison:* the pdp64's current choice is the PDP-11's, which is also the choice that kept the instruction set unchanged for decades.
+
+**Recommendation.** Keep option 1 for the large jobs and add a measured version of option 2: collect the evidence first (list below), and if string, codec and image loops dominate, add a small packed-lane set on page 2. Do **not** add a fixed-width vector file (option 3) in this round: it is the choice with the longest tail of regret, and if vectors come, they should come as option 4. Cost to build now: the measurement, then perhaps ten page-2 instructions. **If nothing is done:** option 1 by default.
+
+---
+
+## S2. If vectors are in the ISA: which registers
+
+**The need.** If S1 chooses option 3, 4 or 5, the vector data lives somewhere, and where decides the instruction encoding, the calling convention and the cost of a context switch.
+
+**The explanation.** The pdp64 keeps floating point in the same 16 registers as integers, which keeps the register file and the state small (ISA section 2.3). A vector extension can extend that (use several adjacent registers as one wide value), add a **separate file**, or work **memory to memory** with no vector registers at all.
+
+**Current state.** No vector registers; sixteen 64-bit general registers carry integers and floating point.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **No vector registers (current)** | the register file stays small and uniform | no vector instructions in the ISA |
+| 2 | **Vectors in groups of general registers** (pairs or quads as 128 or 256 bits) | no new state; the ABI and kernel are unchanged | only 16 registers, so a few live vectors starve the scalar code; spills |
+| 3 | **A separate vector file** (16 or 32 registers) | independent of scalar pressure; the standard shape | the largest state; a second ABI class; FPGA block RAM; opcodes |
+| 4 | **A separate file that overlaps floating point** (x86 XMM over the x87-then-SSE history) | one file for scalar floating point and vector | couples two things that scale differently |
+| 5 | **Memory-to-memory vector instructions** (no vector registers; the vector lives in memory) | no new register state | memory traffic; the design of the 1970s supercomputers; poor fit for caches |
+
+**What current systems do.** x86 has 16 or 32 vector registers of 128 to 512 bits (and mask registers in AVX-512); ARM has 32 vector registers aliasing the floating-point file; RISC-V V has 32 vector registers plus configuration registers; PowerPC VSX shares 64 registers between floating point and vectors; the older Cray machines had vector registers, and the CDC STAR-100 and TI ASC operated memory to memory **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: no vector registers. VAX: a separate vector register file with a vector control and mask register. *Comparison:* option 2 is the only choice that adds no state for the kernel.
+
+**Recommendation.** Option 1 now (no registers). If S1 ever changes, take option 3 unless the register-pressure measurement favours option 2. Cost to build: none now. **If nothing is done:** option 1.
+
+---
+
+## S3. Vector length: fixed width or scalable
+
+**The need.** If there is a vector unit, how wide it is decides what happens across implementations over decades. The pdp64 plans a small in-order FPGA core and a possible large out-of-order core.
+
+**The explanation.** A **fixed-width** design (128-bit NEON, 256-bit AVX) bakes the width into every instruction; a wider future implementation needs new instructions and old binaries cannot use the extra width. A **scalable** design lets software say "process as many elements as the hardware handles this step" so the same binary runs on a narrow and a wide implementation.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **None (current)** | nothing to specify | no vectors |
+| 2 | **Fixed 128 bits** (NEON, SSE) | simplest; fits a small FPGA | a future wider unit needs a new extension |
+| 3 | **Fixed 256 or 512 bits** (AVX, AVX-512) | more per instruction | area; power; the x86 lesson that widths multiply the instruction set |
+| 4 | **Scalable, set by the implementation** (SVE, RISC-V V) | one binary across implementations; the long-lived choice | the most complex architecture; compilers and software must be written for it |
+| 5 | **Scalable but with a minimum width and a software-chosen length register** (RVV 1.0 shape) | simpler than full SVE | still a new programming model |
+
+**What current systems do.** Fixed widths dominate x86 and older ARM; scalable ones (SVE, RISC-V V) are the recent designs; Linux, FreeBSD and other kernels carry per-width code paths for x86 and are adding vector-length handling for ARM and RISC-V **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** The VAX vector architecture had a fixed vector length of 64 elements, with a vector-length register for partial vectors, as I recall. *Comparison:* the pdp64's span, from a small FPGA to a possible large core, is the case scalable designs exist for.
+
+**Recommendation.** If vectors are built, option 4 or 5, never a fixed width, because the project already plans two very different implementations. Cost to build: a large specification, only if S1 asks for it. **If nothing is done:** option 1.
+
+---
+
+## S4. Machine state: context switch and use in the kernel
+
+**The need.** Every register the processor adds must be saved when one program is switched for another, and restored. Large vector state makes every switch cost thousands of bytes and makes system calls and interrupts expensive if they use it. The decision should be made before any vector state exists, because a decision made after software depends on the state is much harder.
+
+**The explanation.** There are three tactics: **eager save** (always save and restore), **lazy save** (leave the previous program's vector state in place and trap on first use by the next program, then switch), and **dirty tracking** (a flag the hardware sets when the state was touched, so unused state is not saved). The kernel itself usually refuses to use vector registers, because doing so would force a save at every entry.
+
+**Current state.** No vector state. The survey notes that having no floating-point and vector state to save avoids about 180 occurrences of x86 state-saving instructions in the kernels; the pdp64's floating point is in the general registers, so the existing save covers it.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **No vector state (current)** | the switch cost does not grow | no vectors |
+| 2 | **Eager save and restore** | simple and predictable | costs every switch even for programs that never use vectors |
+| 3 | **Lazy save with a trap on first use** | cheap for programs that never use vectors | a trap on first use; **x86's lazy floating-point switching was a security hole, and Linux went back to eager** (as I recall, unchecked) |
+| 4 | **Dirty-state bits in the status word** (RISC-V's `FS`/`VS`, ARM SVE state) | saves only what was used; no trap | a field in the `PSW`; the OS must read it on every switch |
+| 5 | **Vector state lives in the coprocessor and is never saved by the kernel** (the LB64 model) | no processor state at all | the device is owned by one process at a time, or has its own contexts |
+
+**What current systems do.** Linux saves with an extended save area (`xsave`) and tracks which parts are in use, and the kernel avoids vector registers except in marked regions (`kernel_fpu_begin`); FreeBSD and NetBSD have similar kernel-FPU APIs; Windows saves the extended state; ARM Linux handles SVE with a per-thread vector-length setting **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** PDP-11: the floating-point registers were saved per process, and Unix saved them only for processes that used floating point (a flag set on first use); the kernel did not use floating point. VAX: VMS saved vector state lazily with a "vector consumer" flag set on first use **(from memory, unchecked)**. *Comparison:* both older machines used a first-use flag; the lesson from x86 is that lazy trapping on the privileged side leaks, so a dirty bit (option 4) is the modern form.
+
+**Recommendation.** Decide now that any future vector state is covered by option 4 plus the rule that the kernel does not use it outside marked regions; that costs nothing today. Cost to build: a paragraph. **If nothing is done:** option 1.
+
+---
+
+## S5. Number formats and matrix operations
+
+**The need.** Neural-network inference and training use formats and operations that scalar double precision does not serve well: half precision, bfloat16 (a 16-bit format with the range of single precision), 8-bit floating point, 8-bit integers with 32-bit accumulation, and matrix multiply-accumulate. The LB64 accelerator exists for one such workload.
+
+**The explanation.** The ISA already has scalar `binary16` (17 words) and the `XNORPOP` instruction. The question is whether anything else belongs in the processor or all of it belongs in the coprocessor (S1, option 1).
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **Scalar half precision only, everything else in the coprocessor (current)** | no new formats in the core | each new format means a new device or a firmware update to it |
+| 2 | **Add scalar bfloat16** (conversions and multiply-accumulate) | the format used by most training | about 6 words on the floating-point page; little use without vectors |
+| 3 | **Add integer dot-product instructions** (8-bit values multiplied and summed into 32 bits: x86 VNNI, ARM `SDOT`) | big gain for quantized inference | works best with vectors; as scalar on a 64-bit register it handles eight values |
+| 4 | **Add 8-bit floating point (FP8) conversions** | the newest inference formats | formats are still changing |
+| 5 | **A matrix tile unit** | the largest gain | big state; effectively S1 option 5 |
+
+**What current systems do.** x86 has half precision, bfloat16 (on newer parts), VNNI and AMX; ARM has bfloat16, `SDOT`, `I8MM` and SME; RISC-V has vector extensions with these types; GPUs and tensor accelerators handle the rest **(from memory, unchecked)**. Operating systems expose none of it directly; it is in libraries.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Nothing comparable existed; array processors handled such work. *Comparison:* the pdp64's coprocessor model is the same one used then.
+
+**Recommendation.** Option 1; revisit option 2 and option 3 only if a measured workload runs on the core. Cost to build: none. **If nothing is done:** option 1.
+
+---
+
+## S6. ABI, compiler and library support
+
+**The need.** If vectors ever exist, the calling convention must say how vector values are passed and which registers a callee must preserve, and the compiler needs to know what it may vectorize. If they do not, the ABI should say so, so that nobody guesses.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **State in the ABI that there are no vector types and no vector registers (current in practice, unwritten)** | clear; nothing to maintain | will need a revision if S1 changes |
+| 2 | **Reserve the ABI space now (a vector-register class marked "not used")** | a smoother later addition | a rule with no user |
+| 3 | **Define the full vector ABI with the extension** | complete | only when the extension is specified |
+| 4 | **Library-level vectorization only (hand-tuned routines selected at run time by the feature registers of P4)** | works without ABI change | the libc and crypto routines are written by hand |
+| 5 | **Let the compiler auto-vectorize into packed lanes in the integer registers (S1 option 2)** | no ABI change | compilers rarely do this well |
+
+**What current systems do.** Every ABI for a machine with vectors defines vector argument passing and which vector registers are saved by the callee; the C libraries of Linux and the BSDs select hand-tuned vector routines at run time **(from memory, unchecked)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Neither had a vector calling convention; the VAX vector unit was reached through compiler-generated sequences in VMS languages **(from memory, unchecked)**.
+
+**Recommendation.** Option 1 now, written into the ABI document as one sentence: no vector types, no vector registers; the string and block instructions are the substitute for the C library's memory and string routines. Cost to build: one sentence. **If nothing is done:** it stays unwritten.
+
+---
+
+### Evidence to gather before choosing S1
+
+None of these was measured. Each is a small job:
+
+1. Compile the corpus at `-O2` and `-O3` with gcc and clang for x86-64 and AArch64, and count how many functions and loops are vectorized and which instruction classes they use (the `-Os` corpus hides this).
+2. Count the share of run time in memory and string routines (`memcpy`, `memset`, `strlen`, `memcmp`) in a typical program; the pdp64 already has `mcpy`, `mmov`, `mset`, `mscn` for these.
+3. List the codec, hash and cryptography routines in the corpus (the corpus has bearssl, cjson and others) and which of them use lane operations, byte shuffles or carry-less multiplication.
+4. Estimate the FPGA cost: block RAM for 16 vector registers of 128 bits against the 5.5 Mb budget in the FPGA plan.
+5. Decide the target workloads: LittleBit inference (LB64), graphics (`BLT64` and VIC-64X), signal processing, scientific loops. A workload list decides S1 better than any survey.
+
 ## What I need from you
 
-Please mark each of P1 to P14 (and any of Q1 to Q15 you want to reopen, and R1 to R8) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
+Please mark each of P1 to P14 (and any of Q1 to Q15 you want to reopen, R1 to R8, and S1 to S6) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
