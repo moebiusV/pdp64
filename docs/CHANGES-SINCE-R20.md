@@ -591,6 +591,11 @@ the QEMU target (a length of 1 parcel for `len = 11`); the documents (ISA §3, �
 The system architecture document ([`pdp64-system-architecture.md`](pdp64-system-architecture.md) §3) listed registers a kernel needs and no instruction to reach them. `mfsr rd,name` and `mtsr name,rs` (class-0 minors 13 and 14 of
 `SYS`, four bytes, system-register number in parcel 1) reach `ptbr`, `epc`, `eva`, `ecause`, `dmw0`, `dmw1`, `usp` and `ssp`; both are privileged. Details and reasons are in errata 32.
 
+### Decided: a wide-immediate `cbCC` and a sign-extending `rori32` (2026-10-22, errata 34)
+
+Specification: errata 34. In short: `rori32` result is sign-extended (ISA §4.6 and the earlier text of errata 31 say zero-extended: superseded); `cbCC` gains the encoding `10 0x29 rd cond | imm:16 | disp:16` (six bytes,
+reach +-64 KB) and the assembler picks the shortest of the three `cbCC` encodings. The expected effect is about 11,800 fewer instructions and about no change in bytes; the measured effect is recorded here when the work is done.
+
 ## 13. Appendix
 
 ### 13.1 The 91 operations, folded
