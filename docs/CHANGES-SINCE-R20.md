@@ -613,6 +613,10 @@ instructions with the label inside it (so that every label is within the 64 KB r
 bytes, some bytes (between none and about 9 KB, probably a few KB; the length split is not measured). A further 5,356 `cmp reg,mem ; bCC` pairs cannot be fused, since the memory operand has no room. (2) The assembler **refuses**
 a wide `cbCC` whose target is beyond 64 KB, where it could fall back; a fallback would make the compiler's 9,000-instruction rule unnecessary, at the price of the assembler emitting two instructions for one mnemonic (against ISA §4.14).
 
+### Decided: a register-register compare-and-branch (2026-10-22, errata 35)
+
+Specification: errata 35. `cbCC ra,rb,label` in the new top-level opcode `0x2A`, four bytes (12-bit displacement) or six (28-bit). Expected: about 4,714 fewer instructions and a few KB fewer bytes at most; the measured effect is recorded here when it is done.
+
 ## 13. Appendix
 
 ### 13.1 The 91 operations, folded

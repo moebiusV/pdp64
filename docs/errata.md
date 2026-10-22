@@ -149,3 +149,10 @@ Items marked **DECISION** are choices the document left open; change them in the
     wide form only for functions whose size is bounded below 64 KB. *Why:* 11,821 `cmp reg,imm` (immediates such as 255 and 47) were left unfused after the first `cbCC` (CHANGES §12). *What it will and will not do, stated before
     building:* a `cmp reg,imm16` (4 bytes) and its branch (2 bytes) are 6 bytes, as is the wide `cbCC`, so **it saves an instruction, not bytes** (about 11,800 instructions, 3.4%), except where the branch was four bytes. *Cost:* one of the seven
     reserved top-level opcodes (six remain: `0x2A` to `0x2F`).
+35. **DECISION (the author's): a register-register compare-and-branch.** `cbCC ra,rb,label` (the same mnemonics as the immediate forms; the operand kind chooses the encoding, as for `add rs,rd` and `add #imm,rd`) compares
+    `ra - rb` exactly as `cmp ra,rb` does (the same flags are written) and branches if the condition holds. New top-level opcode **`0x2A`** (five reserved remain: `0x2B` to `0x2F`). Format: parcel 0 `len 0x2A ra rb` (`reg` = `ra`, `low` = `rb`);
+    at `len = 01` (4 bytes) parcel 1 is `cond:4 disp:12` (signed, in parcels from the first parcel of the instruction: +-2,048 parcels, +-4 KB); at `len = 10` (6 bytes) parcel 1 is `cond:4 disp-high:12` and parcel 2 `disp-low:16`, a 28-bit
+    displacement (+-128 M parcels), so a compiler needs no function-size limit. The condition numbers are those of `bCC`, `set` and the other `cbCC` forms. The assembler chooses the shorter length that reaches; a target in another section is refused, as
+    for the immediate forms. *Why:* the compiled corpus has 4,714 `cmp reg,reg ; bCC` pairs (1.4% of instructions) left after the immediate forms (CHANGES section 12). *What it will do, stated before building:* the pair is `cmp` (2 bytes) plus `bCC`
+    (2 bytes, or 4 when far), the fused form is 4 bytes (6 when the target is farther than 4 KB), so it saves **one instruction per pair, and bytes only where the branch was four bytes** (at most about 9 KB, probably a few KB). The 5,356
+    `cmp reg,mem ; bCC` pairs cannot use it (the memory operand has no room).
