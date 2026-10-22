@@ -4,7 +4,7 @@
 
 **Part II of the kernel assembly survey ([`kernel-asm-survey.md`](kernel-asm-survey.md)).** Part I counts the instructions a kernel hand-writes; this part asks why: which paths run so often that cycles and bytes matter, which hardware behaviours cost kernel developers the most effort, what they do about them, and how the pdp64 system design stands against each.
 
-**Status: Phase 1 of two.** Phase 1 reads only local sources: the current Linux, FreeBSD, NetBSD and OpenBSD source trees (shallow, sparse checkouts under `~/claude/kernel-src`, the commits named in Appendix B), the Linux `Documentation/` tree, the BSD section 9 manual pages, the old Unix sources in `~/claude/facetlang/unixtree`, and the pdp64 documents. Everything that needs history (when a pain started, how it changed over thirty years, what the mailing lists argued about) or the web (papers, articles, mailing-list archives) is **not done**: it is Phase 2, listed in Appendix C with the status "not yet". Statements from memory are labelled *unverified* and are not used as evidence.
+**Status: Phase 1 complete; Phase 2 (the lists) started.** Phase 1 reads only local sources: the current Linux, FreeBSD, NetBSD and OpenBSD source trees (shallow, sparse checkouts under `~/claude/kernel-src`, the commits named in Appendix B), the Linux `Documentation/` tree, the BSD section 9 manual pages, the old Unix sources in `~/claude/facetlang/unixtree`, and the pdp64 documents. Everything that needs history (when a pain started, how it changed over thirty years, what the mailing lists argued about) or the web (papers, articles, mailing-list archives) is **not done**: it is Phase 2, listed in Appendix C with the status "not yet". Statements from memory are labelled *unverified* and are not used as evidence.
 
 **Evidence labels used throughout.** **[G] guarantee**: a manual, standard or the developers' own documentation states it. **[P] practice**: the current kernel code, a Kconfig help text or a count over the code shows it. **[S] secondary**: an article or wiki (none yet; Phase 2). **[U] unverified**: from memory, to be fetched. Every number says how it was measured, in the text or in Appendix B.
 
@@ -26,6 +26,7 @@
 * [12. Patching running code, tracing and hardening](#12-patching-running-code-tracing-and-hardening)
 * [13. Machine checks, errata as a phenomenon, virtualization, fast paths](#13-machine-checks-errata-as-a-phenomenon-virtualization-fast-paths)
 * [14. The PDP-11 and VAX era, from the old sources](#14-the-pdp-11-and-vax-era-from-the-old-sources)
+* [14A. What the developers say: list posts and articles read so far](#14a-what-the-developers-say-list-posts-and-articles-read-so-far)
 * [15. What this means for pdp64](#15-what-this-means-for-pdp64)
 * [16. What this does not show](#16-what-this-does-not-show)
 * [Appendix A: the pain-point catalogue](#appendix-a-the-pain-point-catalogue)
@@ -366,6 +367,26 @@ These are first-hand, from `~/claude/facetlang/unixtree`, and show that several 
 | `3BSD/usr/src/sys/sys/uba.c` | allocating "contiguous UBA mapping registers", buffered data path flag | DMA through a mapping unit with purge rules | R6 |
 | `3BSD/usr/src/sys/h/pte.h` | the page-table entry carries a hardware modify bit, a software "swap modified" bit and fill-on-demand state | Where software state hides in the entry | pdp64's entry has no software bits (all other bits must be zero, or a page fault); the kernel keeps its own state elsewhere |
 
+## 14A. What the developers say: list posts and articles read so far
+
+**Phase 2 is only started.** Evidence below is **[S] secondary** (LWN articles, read from saved copies before lwn.net blocked further requests) or a **listing** (lore.kernel.org search result pages: subjects, authors and dates, without the message bodies). The message bodies behind the listed threads are the primary evidence and are queued in Appendix C. Counts and costs are the developers' or the articles', not mine.
+
+| Pain | What was said | Who, when | Source | Label | pdp64 |
+|---|---|---|---|---|---|
+| Cost of separating kernel and user page tables | The kernel is kept mapped in every process because unmapping it "would make the system run considerably slower" (no TLB flush at each crossing); a similar 4G/4G scheme of 2003 was shipped by some distributors and was dropped for its cost; the new patches "add a few hundred cycles to a syscall or interrupt", "single-digit regressions", "5% is a good round number" | the KAISER authors' patch description as quoted by LWN, 15 Nov 2017 | LWN 738975 | [S] | the exposure of chapter 4 |
+| The cost estimate when merged | "a measurable run-time cost, estimated at about 5%"; a flag to turn the mechanism off on unaffected CPUs | LWN, 20 Dec 2017 | LWN 741878 | [S] | chapter 4 |
+| The cost in the worst case | page-table isolation "overheads of 30% or more reported for some specific workloads"; a per-process switch was under discussion; retpolines merged in the 4.15 release candidates, with an open question about the return-stack buffer on Skylake | LWN, 15 Jan 2018 | LWN 744287 | [S] | chapter 4 |
+| Spectre variant 1 cannot be found by looking | Torvalds on the `nospec` macros: he asked for "a sane way to determine when they should be needed"; speculation can run for "180 or so simple instructions" so the check and the use may be far apart | Linus Torvalds and others as quoted by LWN, 5 Jan 2018 | LWN 743265 | [S] | chapter 4: a non-speculating core has no such code to find |
+| Reaction to the hardware vendor | Torvalds asked that mitigations be written with "not all CPU's are crap" in mind, i.e. that they switch off on unaffected processors | LWN, 9 Jan 2018 | LWN 743363 | [S] | feature registers (P4) are what let software do that |
+| Spinlock cache-line bouncing | The simple lock makes every waiter hit one word; an MCS lock moves each waiter to its own per-CPU structure; the queued lock adds a "pending" bit for the two-waiter case; its author's benchmarks "regressed a little" on some workloads and gained 1 to 2% on others | Tim Chen, Waiman Long, Peter Zijlstra, as reported by LWN, 11 Mar 2014 | LWN 590243 | [S] | chapter 6, row 25 |
+| Barrier clean-up in the tree | Will Deacon's series (June to July 2020) removes `smp_read_barrier_depends()` from the whole tree and replaces its Alpha uses with `smp_[r]mb()`; later the documentation of the remaining behaviour was still being written (2023) | listing only | lore.kernel.org search `smp_read_barrier_depends` | listing | chapter 6: the Alpha story is still alive in the archives 25 years later |
+| Weak-ordering documentation burden | in 2022 to 2023 other projects (QEMU, perfbook, virtio tools) were still writing patches "explain effect of smp_read_barrier_depends() on modern architectures" | listing only | same search | listing | chapter 6 |
+| TLB tags | Andy Lutomirski's `x86/mm: PCID and INVPCID` series: RFC of 13 patches on 8 Jan 2016 (with replies from Linus Torvalds the same day), a version 5 on 25 Jul 2017 | listing only | lore.kernel.org search `x86/mm: PCID` | listing | chapter 5 |
+| Kernel user-access guard code is still tuned | `x86/smap` helper rewrites by Josh Poimboeuf (14 Mar 2025, with comments from Andrew Cooper and Uros Bizjak) and a "Fix the smap_save() asm" thread (15 to 17 Sep 2020, Borislav Petkov, Peter Zijlstra, Andy Lutomirski) | listing only | lore search `x86, smap` | listing | chapter 9: the guard has a code-generation cost of its own |
+| Eager FPU switching | The Xen hypervisor project is moving to "always use eager-fpu" (Ross Lagerwall, Mar 2026, with Andrew Cooper), after an earlier series (Mar 2024); not Linux | listing only | lore search `eager FPU` | listing | chapter 8: the lazy approach has been abandoned even by the last holdouts |
+
+**Not reached** (Appendix C): the message bodies; the BSD archives (lists.freebsd.org, mail-index.netbsd.org, marc.info); LWN beyond the six pages above (blocked); the papers.
+
 ## 15. What this means for pdp64
 
 Ranked by the author's three principles. "Shows up as" says where the item appears in a kernel: recovery code (error paths and fix-ups), hot-path length (instructions on a path that runs constantly), or code size.
@@ -557,11 +578,11 @@ All measured on the trees of B.1; the value is what the command printed on 2026-
 | workaround | `\bwork-?arounds?\b` |
 | quirk | `\bquirks?\b` |
 | mitigation | `\bmitigat(?:e\|es\|ed\|ion\|ions\|ing)\b` |
-| spectre-family | `\b(?:spectre\|meltdown\|retpolines?\|ibrs\|ibpb\|stibp\|ssbd\|retbleed\|zenbleed\|srso\|spec_ctrl\|speculative store bypass\|branch history injection\|gather data sampling\|rfds\|inception)\b` |
-| mds-l1tf-taa | `\b(?:mds\|microarchitectural data sampling\|l1tf\|l1 terminal fault\|foreshadow\|zombieload\|taa\|tsx async abort\|srbds\|mmio stale data)\b` |
+| spectre-family | `\b(?:spectre(?!\s+(?:x360\|x2\|xt\|13\|15\|envy\|laptop\|speaker))\|meltdown\|retpolines?\|ibrs\|ibpb\|stibp\|ssbd\|retbleed\|zenbleed\|srso\|spec_ctrl\|speculative store bypass\|branch history injection\|gather data sampling\|rfds)\b` |
+| mds-l1tf-taa | `(?:microarchitectural data sampling\|\bmds_[a-z_]+\|\bmds (?:mitigation\|vulnerab\w*\|clear\w*\|buffer\w*)\|\bl1tf\b\|l1 terminal fault\|foreshadow\|zombieload\|\btaa\b\|tsx async abort\|\bsrbds\b\|mmio stale data)` |
 | speculation-any | `\bspeculat(?:ion\|ive\|ively\|e)\b` |
 | kpti-entry | `\b(?:kpti\|pti\|page[- ]table isolation\|kaiser\|syscall entry\|sysenter\|sysret\|swapgs\|vsyscall\|entry trampoline\|entry code\|int 0x80\|ia32 syscall)\b` |
-| hardening | `\b(?:kaslr\|aslr\|cfi\|bti\|cet\|shadow stack\|stack protector\|stackprotector\|stack canary\|pointer authentication\|stack clash\|vmap stack\|init_on_alloc\|usercopy\|kasan\|kfence\|memory tagging\|rodata\|w\^x\|set_memory_ro\|fortify_source)\b` |
+| hardening | `(?:kaslr\|aslr\|clang cfi\|kcfi\|fineibt\|control.flow integrity\|bti\|cet\|shadow stack\|stack protector\|stackprotector\|stack canary\|pointer authentication\|stack clash\|vmap stack\|init_on_alloc\|usercopy\|kasan\|kfence\|memory tagging\|rodata\|w\^x\|set_memory_ro\|fortify_source)\b` |
 | barrier-ordering | `\b(?:memory barriers?\|smp_mb\|smp_rmb\|smp_wmb\|smp_read_barrier_depends\|read_barrier_depends\|dma_wmb\|dma_rmb\|memory ordering\|memory-ordering\|acquire/release\|load-acquire\|store-release\|READ_ONCE\|WRITE_ONCE\|mmiowb)\b` |
 | race | `\bra(?:ce\|ces\|cy)\b(?! condition in the tracing)` |
 | deadlock | `\b(?:deadlocks?\|livelocks?\|lockup\|lock-up\|hung task)\b` |
@@ -572,7 +593,7 @@ All measured on the trees of B.1; the value is what the command printed on 2026-
 | percpu | `\b(?:per-cpu\|percpu\|this_cpu\|cpu-local)\b` |
 | tlb | `\b(?:tlbs?\|translation lookaside\|invlpg\|tlb flush)\b` |
 | shootdown | `\b(?:shootdowns?\|shoot-downs?\|flush_tlb_others\|tlb flush ipi)\b` |
-| asid-pcid | `\b(?:asids?\|pcids?\|invpcid\|vmids?)\b` |
+| asid-pcid | `\b(?:asids?\|invpcid\|vmids?)\b\|\bpcid\b(?!\s*header)` |
 | pagetable | `\b(?:page tables?\|pgd\|pmd\|pud\|p4d\|five-level\|5-level paging\|4-level paging\|page walk\|page-walk\|pgtable)\b` |
 | accessed-dirty | `\b(?:accessed bit\|dirty bit\|young bit\|referenced bit\|pte_young\|pte_dirty\|pte_mkyoung\|access flag\|soft-dirty\|software dirty\|dirty bit management\|hardware dirty\|hw dirty\|reference bit)\b` |
 | huge-pages | `\b(?:transparent huge\|thp\|hugepages?\|huge pages?\|hugetlb)\b` |
@@ -613,11 +634,10 @@ Counts are matching lines (not occurrences). "code lines" and "code files" are i
 | workaround | 270 | 174 | 186 | 155 |
 | quirk | 400 | 127 | 270 | 13 |
 | mitigation | 380 | 94 | 770 | 60 |
-| spectre-family | 496 | 77 | 349 | 38 |
-| mds-l1tf-taa | 153 | 22 | 226 | 17 |
+| spectre-family | 496 | 77 | 345 | 38 |
+| mds-l1tf-taa | 157 | 18 | 168 | 14 |
 | speculation-any | 345 | 137 | 209 | 48 |
 | kpti-entry | 455 | 164 | 124 | 27 |
-| hardening | 1709 | 566 | 569 | 208 |
 | barrier-ordering | 5596 | 855 | 743 | 9 |
 | race | 1108 | 443 | 304 | 47 |
 | deadlock | 591 | 237 | 325 | 53 |
@@ -628,7 +648,7 @@ Counts are matching lines (not occurrences). "code lines" and "code files" are i
 | percpu | 1953 | 651 | 416 | 29 |
 | tlb | 3133 | 604 | 276 | 67 |
 | shootdown | 28 | 18 | 3 | 1 |
-| asid-pcid | 1272 | 154 | 61 | 14 |
+| asid-pcid | 1262 | 154 | 59 | 14 |
 | pagetable | 11543 | 849 | 780 | 85 |
 | accessed-dirty | 447 | 116 | 54 | 15 |
 | huge-pages | 1276 | 246 | 842 | 34 |
@@ -680,11 +700,10 @@ Counts are matching lines (not occurrences). "code lines" and "code files" are i
 | workaround | 75 | 53 | 1 | 0 |
 | quirk | 62 | 21 | 22 | 0 |
 | mitigation | 47 | 13 | 0 | 0 |
-| spectre-family | 35 | 14 | 0 | 0 |
-| mds-l1tf-taa | 22 | 7 | 0 | 0 |
+| spectre-family | 33 | 12 | 0 | 0 |
+| mds-l1tf-taa | 129 | 9 | 0 | 0 |
 | speculation-any | 54 | 31 | 1 | 0 |
 | kpti-entry | 157 | 29 | 0 | 0 |
-| hardening | 274 | 57 | 15 | 0 |
 | barrier-ordering | 21 | 16 | 8 | 0 |
 | race | 220 | 98 | 20 | 0 |
 | deadlock | 107 | 57 | 17 | 0 |
@@ -694,7 +713,7 @@ Counts are matching lines (not occurrences). "code lines" and "code files" are i
 | percpu | 198 | 91 | 39 | 0 |
 | tlb | 533 | 87 | 3 | 0 |
 | shootdown | 41 | 17 | 1 | 0 |
-| asid-pcid | 301 | 36 | 0 | 0 |
+| asid-pcid | 297 | 36 | 0 | 0 |
 | pagetable | 913 | 119 | 7 | 0 |
 | accessed-dirty | 92 | 23 | 2 | 0 |
 | huge-pages | 6 | 2 | 0 | 0 |
@@ -741,10 +760,9 @@ Counts are matching lines (not occurrences). "code lines" and "code files" are i
 | quirk | 16 | 16 | 5 | 0 |
 | mitigation | 36 | 5 | 0 | 0 |
 | spectre-family | 52 | 10 | 0 | 0 |
-| mds-l1tf-taa | 20 | 3 | 0 | 0 |
+| mds-l1tf-taa | 83 | 4 | 0 | 0 |
 | speculation-any | 40 | 19 | 6 | 0 |
 | kpti-entry | 187 | 36 | 1 | 0 |
-| hardening | 173 | 82 | 0 | 0 |
 | barrier-ordering | 159 | 55 | 26 | 0 |
 | race | 70 | 51 | 3 | 0 |
 | deadlock | 67 | 42 | 10 | 0 |
@@ -805,10 +823,9 @@ Counts are matching lines (not occurrences). "code lines" and "code files" are i
 | quirk | 10 | 7 | 0 | 0 |
 | mitigation | 26 | 9 | 1 | 0 |
 | spectre-family | 119 | 20 | 0 | 0 |
-| mds-l1tf-taa | 10 | 6 | 0 | 0 |
+| mds-l1tf-taa | 68 | 5 | 0 | 0 |
 | speculation-any | 44 | 21 | 0 | 0 |
 | kpti-entry | 149 | 18 | 1 | 0 |
-| hardening | 92 | 43 | 0 | 0 |
 | barrier-ordering | 56 | 21 | 8 | 0 |
 | race | 37 | 32 | 1 | 0 |
 | deadlock | 40 | 20 | 5 | 0 |
@@ -817,7 +834,7 @@ Counts are matching lines (not occurrences). "code lines" and "code files" are i
 | percpu | 60 | 47 | 4 | 0 |
 | tlb | 402 | 102 | 0 | 0 |
 | shootdown | 29 | 13 | 0 | 0 |
-| asid-pcid | 146 | 25 | 0 | 0 |
+| asid-pcid | 138 | 25 | 0 | 0 |
 | pagetable | 353 | 90 | 2 | 0 |
 | accessed-dirty | 21 | 11 | 0 | 0 |
 | numa | 1 | 1 | 0 | 0 |
@@ -872,7 +889,59 @@ Counts are matching lines (not occurrences). "code lines" and "code files" are i
 
 Fetched: the local documents listed in B.1 and the old Unix sources of chapter 14 (read in place). **Not yet fetched** (everything below): the mailing-list archives, LWN articles, talks and papers. Items from memory are titles and authors only and are **unverified** until fetched.
 
-(none yet)
+Reading list with status (also `docs/codegen-data/kernelpain/reading-list.tsv`).
+
+| Source | Date | Status | Note |
+|---|---|---|---|
+| [KAISER: hiding the kernel from user space](https://lwn.net/Articles/738975/) | 2017-11-15 | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
+| [The current state of kernel page-table isolation](https://lwn.net/Articles/741878/) | 2017-12-20 | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
+| [Addressing Meltdown and Spectre in the kernel](https://lwn.net/Articles/743265/) | 2018-01-05 | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
+| [A look at the handling of Meltdown and Spectre](https://lwn.net/Articles/743363/) | 2018-01-09 | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
+| [Meltdown/Spectre mitigation for 4.15 and beyond](https://lwn.net/Articles/744287/) | 2018-01-15 | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
+| [MCS locks and qspinlocks](https://lwn.net/Articles/590243/) | 2014-03-11 | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
+| [LWN Kernel index (titles only; used to choose articles)](https://lwn.net/Kernel/Index/) |  | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
+| [What is RCU, Fundamentally?](https://lwn.net/Articles/262464/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Validating Memory Barriers and Atomic Instructions](https://lwn.net/Articles/470681/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Memory barriers for TSO architectures](https://lwn.net/Articles/576486/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Lockless patterns: full memory barriers](https://lwn.net/Articles/847481/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Lockless patterns: relaxed access and partial memory barriers](https://lwn.net/Articles/846700/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Safer speculation-free user-space access](https://lwn.net/Articles/1042711/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [The strange story of the ARM Meltdown-fix backport](https://lwn.net/Articles/749217/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [The impact of page-table isolation on I/O performance](https://lwn.net/Articles/752587/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Meltdown strikes back: the L1 terminal fault vulnerability](https://lwn.net/Articles/762570/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Fighting Spectre with cache flushes](https://lwn.net/Articles/768418/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Relief for retpoline pain](https://lwn.net/Articles/774743/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Grand Schemozzle: Spectre continues to haunt](https://lwn.net/Articles/795637/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Ticket spinlocks](https://lwn.net/Articles/267968/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Improving ticket spinlocks](https://lwn.net/Articles/531254/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [NUMA-aware qspinlocks](https://lwn.net/Articles/852138/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Huge pages part 5: A deeper look at TLBs and costs](https://lwn.net/Articles/379748/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [TLB flush optimization](https://lwn.net/Articles/684934/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [How to get rid of mmap_sem](https://lwn.net/Articles/787629/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Concurrent page-fault handling with per-VMA locks](https://lwn.net/Articles/906852/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [The trouble with the TSC](https://lwn.net/Articles/388188/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Reinventing the timer wheel](https://lwn.net/Articles/646950/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [2038 is closer than it seems](https://lwn.net/Articles/599580/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Reworking the DMA mapping code (especially on ARM)](https://lwn.net/Articles/467509/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [On the alignment of IP packets](https://lwn.net/Articles/89597/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Detecting and handling split locks](https://lwn.net/Articles/790464/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [A nasty FPU bug](https://lwn.net/Articles/89586/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [HWPOISON](https://lwn.net/Articles/348886/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Shadow stacks for user space](https://lwn.net/Articles/885220/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Kernel support for control-flow enforcement](https://lwn.net/Articles/758245/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [KAISER cr3 overhead - search results](https://lore.kernel.org/all/?q=KAISER+cr3+overhead) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
+| [s:KAISER unmap most of the kernel from userspace - search results](https://lore.kernel.org/all/?q=s%3AKAISER+unmap+most+of+the+kernel+from+userspace) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
+| [s:"smp_read_barrier_depends" - search results](https://lore.kernel.org/all/?q=s%3A%22smp_read_barrier_depends%22) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
+| [s:"eager FPU" - search results](https://lore.kernel.org/all/?q=s%3A%22eager+FPU%22) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
+| [s:"x86, smap" - search results](https://lore.kernel.org/all/?q=s%3A%22x86%2C+smap%22) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
+| [s:"x86/mm: PCID" - search results](https://lore.kernel.org/all/?q=s%3A%22x86%2Fmm%3A+PCID%22) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
+| [s:"qspinlock" s:"PATCH v" - search results](https://lore.kernel.org/all/?q=s%3A%22qspinlock%22+s%3A%22PATCH+v%22) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
+| [s:"mm: per-VMA" - search results](https://lore.kernel.org/all/?q=s%3A%22mm%3A+per-VMA%22) |  | fetched 2026-10-22 | lore search results page (subjects, authors, dates only) |
+| [[RFC 00/13] x86/mm: PCID and INVPCID (Andy Lutomirski)](https://lore.kernel.org/all/cover.1452294700.git.luto@kernel.org/) | 2016-01-08 | not fetched (URL captured from a search result) | to read: cost arguments for PCID and the TLB flush design |
+| [Re: [RFC 00/13] x86/mm: PCID and INVPCID (Linus Torvalds)](https://lore.kernel.org/all/CA+55aFxmc83LRHRSAsnydpqy4Y-K2V9RvRCU+dhV-kWzu2Gvpg@mail.gmail.com/) | 2016-01-08 | not fetched (URL captured from a search result) | to read: cost arguments for PCID and the TLB flush design |
+| [Re: [RFC 00/13] x86/mm: PCID and INVPCID (Linus Torvalds)](https://lore.kernel.org/all/CA+55aFxpGj2koqmcFF9JWzBeheF9473Ka516shwbuhfjVpgxrg@mail.gmail.com/) | 2016-01-08 | not fetched (URL captured from a search result) | to read: cost arguments for PCID and the TLB flush design |
+| [[PATCH v5 0/2] x86/mm: PCID](https://lore.kernel.org/all/cover.1500957502.git.luto@kernel.org/) | 2017-07-25 | not fetched (URL captured from a search result) | to read: cost arguments for PCID and the TLB flush design |
+
 
 ### C.2 The plan, in priority order
 

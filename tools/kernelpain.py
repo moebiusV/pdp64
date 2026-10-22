@@ -6,7 +6,9 @@ Reproducible companion of docs/kernel-pain-points.md (Appendix B).
 History of scope (2026-10-22): the first version mined blobless full-history
 clones with path limits; that was dropped (slow, large) and the clones were
 deleted. Two measurements remain: (1) `grep`/`structural` over the CURRENT
-source trees, and (2) `msgs`: commit-message mining on TREELESS BARE clones,
+source trees, and (2) `msgs` (Linux from 2005, FreeBSD from 1993, NetBSD from 1993, OpenBSD from 1995; the
+kernel.org history.git URL turned out to hold the same 2005-2010 commits as
+torvalds/linux and only 31 earlier ones, so it was dropped): commit-message mining on TREELESS BARE clones,
 which fetch commits only (no trees, no blobs), read with `git log --format`
 and no path arguments, so nothing but messages and metadata is touched.
 
@@ -50,11 +52,11 @@ CATS = [
     ("quirk", r"\bquirks?\b"),
     ("mitigation", r"\bmitigat(?:e|es|ed|ion|ions|ing)\b"),
     # speculation security
-    ("spectre-family", r"\b(?:spectre|meltdown|retpolines?|ibrs|ibpb|stibp|ssbd|retbleed|zenbleed|srso|spec_ctrl|speculative store bypass|branch history injection|gather data sampling|rfds|inception)\b"),
-    ("mds-l1tf-taa", r"\b(?:mds|microarchitectural data sampling|l1tf|l1 terminal fault|foreshadow|zombieload|taa|tsx async abort|srbds|mmio stale data)\b"),
+    ("spectre-family", r"\b(?:spectre(?!\s+(?:x360|x2|xt|13|15|envy|laptop|speaker))|meltdown|retpolines?|ibrs|ibpb|stibp|ssbd|retbleed|zenbleed|srso|spec_ctrl|speculative store bypass|branch history injection|gather data sampling|rfds)\b"),
+    ("mds-l1tf-taa", r"(?:microarchitectural data sampling|\bmds_[a-z_]+|\bmds (?:mitigation|vulnerab\w*|clear\w*|buffer\w*)|\bl1tf\b|l1 terminal fault|foreshadow|zombieload|\btaa\b|tsx async abort|\bsrbds\b|mmio stale data)"),
     ("speculation-any", r"\bspeculat(?:ion|ive|ively|e)\b"),
     ("kpti-entry", r"\b(?:kpti|pti|page[- ]table isolation|kaiser|syscall entry|sysenter|sysret|swapgs|vsyscall|entry trampoline|entry code|int 0x80|ia32 syscall)\b"),
-    ("hardening", r"\b(?:kaslr|aslr|cfi|bti|cet|shadow stack|stack protector|stackprotector|stack canary|pointer authentication|stack clash|vmap stack|init_on_alloc|usercopy|kasan|kfence|memory tagging|rodata|w\^x|set_memory_ro|fortify_source)\b"),
+    ("hardening", r"(?:kaslr|aslr|clang cfi|kcfi|fineibt|control.flow integrity|bti|cet|shadow stack|stack protector|stackprotector|stack canary|pointer authentication|stack clash|vmap stack|init_on_alloc|usercopy|kasan|kfence|memory tagging|rodata|w\^x|set_memory_ro|fortify_source)\b"),
     # memory ordering / locking
     ("barrier-ordering", r"\b(?:memory barriers?|smp_mb|smp_rmb|smp_wmb|smp_read_barrier_depends|read_barrier_depends|dma_wmb|dma_rmb|memory ordering|memory-ordering|acquire/release|load-acquire|store-release|READ_ONCE|WRITE_ONCE|mmiowb)\b"),
     ("race", r"\bra(?:ce|ces|cy)\b(?! condition in the tracing)"),
@@ -67,7 +69,7 @@ CATS = [
     # memory management
     ("tlb", r"\b(?:tlbs?|translation lookaside|invlpg|tlb flush)\b"),
     ("shootdown", r"\b(?:shootdowns?|shoot-downs?|flush_tlb_others|tlb flush ipi)\b"),
-    ("asid-pcid", r"\b(?:asids?|pcids?|invpcid|vmids?)\b"),
+    ("asid-pcid", r"\b(?:asids?|invpcid|vmids?)\b|\bpcid\b(?!\s*header)"),
     ("pagetable", r"\b(?:page tables?|pgd|pmd|pud|p4d|five-level|5-level paging|4-level paging|page walk|page-walk|pgtable)\b"),
     ("accessed-dirty", r"\b(?:accessed bit|dirty bit|young bit|referenced bit|pte_young|pte_dirty|pte_mkyoung|access flag|soft-dirty|software dirty|dirty bit management|hardware dirty|hw dirty|reference bit)\b"),
     ("huge-pages", r"\b(?:transparent huge|thp|hugepages?|huge pages?|hugetlb)\b"),
@@ -375,7 +377,6 @@ def report():
 MSGDIR = os.path.join(HOME, "claude", "kernel-msgs")
 MSG_URLS = {
     "linux": "https://github.com/torvalds/linux",
-    "linuxold": "https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git",
     "freebsd": "https://github.com/freebsd/freebsd-src",
     "netbsd": "https://github.com/NetBSD/src",
     "openbsd": "https://github.com/openbsd/src",
@@ -478,6 +479,62 @@ def msgs(repo):
     print(repo, n, head, file=sys.stderr)
 
 
+
+def msgreport(repos):
+    """Markdown for Appendix B.7 from the msgs-* CSVs."""
+    PER = [("-1999", 0, 1999), ("2000-04", 2000, 2004), ("2005-09", 2005, 2009), ("2010-14", 2010, 2014),
+           ("2015-19", 2015, 2019), ("2020-26", 2020, 2026)]
+    def per(y):
+        for n, a, b in PER:
+            if a <= y <= b:
+                return n
+    def rd(repo, name):
+        fn = os.path.join(OUT, f"msgs-{repo}-{name}.csv")
+        if not os.path.exists(fn):
+            return []
+        with open(fn) as f:
+            return list(csv.DictReader(f))
+    for repo in repos:
+        meta = rd(repo, "meta")
+        if not meta:
+            continue
+        m = meta[0]
+        tot = collections.Counter()
+        for r in rd(repo, "year-totals"):
+            tot[per(int(r["year"]))] += int(r["commits"])
+        names = [n for n, _, _ in PER if tot[n]]
+        cy = collections.defaultdict(collections.Counter)
+        for r in rd(repo, "cat-year"):
+            if r["kind"] == "any":
+                cy[r["category"]][per(int(r["year"]))] += int(r["commits"])
+        print(f"\n#### {repo}: {m['non_merge_commits']} non-merge commits, head `{m['head']}` ({m['head_date'][:10]}), {m['url']}\n")
+        print("Commits whose subject or message matches the category, per 1000 non-merge commits of the period (message mining, any match).\n")
+        print("| category | " + " | ".join(names) + " | total |")
+        print("|---|" + "---:|" * (len(names) + 1))
+        print("| (all commits) | " + " | ".join(str(tot[n]) for n in names) + f" | {sum(tot.values())} |")
+        for c, _ in CATS:
+            row = cy[c]
+            if sum(row.values()) < 20:
+                continue
+            print(f"| {c} | " + " | ".join(f"{1000.0*row[n]/tot[n]:.1f}" for n in names) + f" | {sum(row.values())} |")
+        # prefixes
+        pt = {r["prefix"]: int(r["commits"]) for r in rd(repo, "prefix-totals")}
+        cp = collections.defaultdict(collections.Counter)
+        for r in rd(repo, "cat-prefix"):
+            if r["kind"] == "subj":
+                cp[r["category"]][r["prefix"]] += int(r["commits"])
+        print(f"\n##### {repo}: subject prefixes with the most commits whose SUBJECT matches errata, workaround or quirk\n")
+        agg = collections.Counter()
+        for c in ("errata", "workaround", "quirk"):
+            agg.update(cp[c])
+        print("| prefix | subject matches | all commits with this prefix | per 1000 |")
+        print("|---|---:|---:|---:|")
+        for pre, n in agg.most_common(14):
+            if pre == "(none)":
+                continue
+            print(f"| {pre} | {n} | {pt.get(pre, 0)} | {1000.0*n/pt[pre]:.1f} |" if pt.get(pre) else f"| {pre} | {n} | n/a | n/a |")
+
+
 if __name__ == "__main__":
     ap = sys.argv[1:]
     if not ap:
@@ -490,6 +547,8 @@ if __name__ == "__main__":
         clonemsgs(ap[1])
     elif ap[0] == "msgs":
         msgs(ap[1])
+    elif ap[0] == "msgreport":
+        msgreport(ap[1:])
     elif ap[0] == "structural":
         structural()
     elif ap[0] == "report":
