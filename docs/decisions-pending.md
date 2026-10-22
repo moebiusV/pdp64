@@ -31,6 +31,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [P15. Prefetch](#p15-prefetch)
 * [P16. Performance counters](#p16-performance-counters)
 * [P17. Constant-time execution](#p17-constant-time-execution-a-timing-channel-defence)
+* [P18. The literal pool and execute-only code](#p18-the-literal-pool-and-execute-only-code)
 * [Part B. Previous decisions, written up so they can be changed](#part-b-previous-decisions-written-up-so-they-can-be-changed)
 * [Part C. The gaps: several cores, DMA devices and virtualization](#part-c-the-gaps-several-cores-dma-devices-and-virtualization)
 * [Part D. Vector and SIMD math](#part-d-vector-and-simd-math)
@@ -108,6 +109,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | P14 | Priority 7 also on interrupt entry | confirm | exception entry |
 | P15 | Prefetch instruction | none for now; reserve the shape | list and copy loops (from the kernel survey) |
 | P16 | Performance counters | cycle and instruction counters after the clock (P3) | profiling |
+| P18 | Literal pool out of `.text` so code can be execute-only | proposed: option 1, an ABI rule (a read-only pool section next to the text) | OpenBSD's execute-only mitigation |
 | P17 | Constant-time execution (timing-channel defence) | proposed: option 4 for the integer unit, or option 3 with a `DIT` bit if fast divides matter | cryptography; the hardware-vulnerability rules |
 
 ## Already decided, listed so they are not asked twice
@@ -593,6 +595,34 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 **What Unix on the PDP-11 and the VAX-11 did.** Nothing: the machines predate the concern, and the PDP-11's multiply and divide were microcoded with operand-dependent times **(not confirmed in the sources read)**. There was no cache timing to leak on most models. *Comparison:* the question is new, and the PDP-11 and VAX have no precedent; the 30 years since are the evidence.
 
 **Recommendation.** Option 3 if the divide matters to you, option 4 if it does not. On a small in-order core the safest and cheapest choice is **option 4 for the integer unit** (no early-out hardware at all, which removes gates, and nothing for software to opt into), plus a one-line rule that floating point and the data-dependent `mscn` are excluded and documented. If you want fast divides for normal code, option 3 keeps them and puts the cost in one `PSW` bit. Under your principles: fewer gates and less recovery code (nothing new to handle) favour option 4; hot-loop speed of divides favours option 3 (but the ISA's own data say divides are rare). Whichever is chosen, say in the ABI and the crypto notes that **constant-time instructions do not make code constant-time**: secret-dependent branches and table indexes still leak through the predictor and the cache. Cost to build: a few lines of specification and a test that measures the latency of each listed instruction over operand patterns (all zeros, all ones, random, small and large); for option 1 or 3, the `PSW` bit and the fast-path disable. **If nothing is decided:** option 5.
+
+---
+
+## P18. The literal pool and execute-only code
+
+> **PROPOSED, not decided.** Found by the OpenBSD-mitigations review (`docs/openbsd-mitigations.md`, ranked first of its improvement ideas). It is cheap: an ABI rule, no hardware.
+
+**The need.** OpenBSD makes code **execute-only** where the hardware allows it (xonly: the code can be run but not read as data), so an attacker who finds a memory-disclosure bug cannot read the program's code to find gadgets or addresses. That needs code pages that hold *only* instructions. Errata 33 put the **literal pool** (the 8-byte constants loaded by `movq =K, rd`) **in `.text`**, flushed at the end of the section or at `.pool`, so every code page can contain data that the program reads. A page the program reads cannot be execute-only.
+
+**The explanation.** The pool sits in `.text` because the load is PC-relative and the displacement of the compiler's pool load has limited reach; the nearest place is the code. If the pool lived in a read-only data section instead, the code would stay pure instructions and could be mapped execute-only, while the constants stay in ordinary read-only memory. The cost is reach: a PC-relative load can only reach so far, so a very large function's pool must still be within range of its loads.
+
+**Current state.** The pool is emitted in `.text` (errata 33). The ABI (`abi.md`) says nothing about execute-only code. The page-table entry has `R`, `W`, `X` permission bits (System v1), so execute-only (`X` without `R`) can already be expressed *(to be confirmed against the section 15 PTE definition)*.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **An ABI rule: the compiler and assembler place each literal pool in a read-only data section adjacent to its code section (`.rodata.pool`), reached by the same PC-relative load; the linker keeps the two sections within reach of each other** | code pages are pure instructions, so they can be execute-only; no hardware change; constants stay read-only | the PC-relative reach limits how far the pool may be; the linker must place the pool section near its text (an ordering rule); a few code-size bytes if a long form is needed for distant pools |
+| 2 | **Keep the pool in `.text` (as errata 33 says today)** | nothing to do | no execute-only code on pdp64; the mitigation OpenBSD relies on elsewhere is unavailable |
+| 3 | **Per-function pool islands, placed between functions, in a page marked readable-and-executable** | pools stay close to their loads | execute-only is lost for those pages; the idea defeats its own purpose |
+| 4 | **Move the constants into the global data and load them with an absolute or GOT-style address** | no reach limit | an extra indirection per constant; relocations; more code; against principle 1 |
+| 5 | **Build wide constants from pieces (shift and or) so there is no pool** | no data in code at all | several instructions per constant; against principles 1 and 3 |
+
+**What current systems do.** OpenBSD uses execute-only code on amd64 (where the hardware supports it through protection keys) and on arm64 *(per the OpenBSD review, `docs/openbsd-mitigations.md`; not confirmed against the source)*. ARM compilers historically put literal pools in the text section next to the code, and the modern way to get execute-only code is to move them out (a flag exists for this in the compilers) *(not confirmed in the sources read)*. RISC-V builds constants from instruction pairs or loads from a pool placed in data *(not confirmed)*.
+
+**What Unix on the PDP-11 and the VAX-11 did.** The PDP-11 put immediate operands in the instruction stream, and with separate instruction and data spaces (the larger models) the program could not read its own instructions as data except through the move-from-instruction-space instructions *(not confirmed in the sources read)*: the nearest ancestor of execute-only code. The VAX had no such separation.
+
+**Recommendation.** Option 1. It costs no gates and no opcodes (principles 3), adds one placement rule for the assembler and linker, and keeps the code pure so that the hardware can give it the strongest page permission (the recovery-code argument of principle 2 is that a memory-disclosure bug then reveals no code). Cost to build: `as64` places the pool in a `.rodata.pool` section next to its text section, `ld64` orders the two sections together and checks the PC-relative reach, and the pcc back end is unchanged (it already emits `=K`); a test checks that a built program's text segment contains no data reads. **If nothing is decided:** option 2, and no execute-only code.
 
 ---
 
@@ -1447,7 +1477,7 @@ These are the decisions of 2026-10-22, copied from `errata.md` so they can be re
 
 ## What I need from you
 
-Please mark each of P1 to P17 (and any of Q1 to Q15 you want to reopen, R1 to R8, and S1 to S6) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
+Please mark each of P1 to P18 (and any of Q1 to Q15 you want to reopen, R1 to R8, and S1 to S6) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
 
 ## Appendix: verification of the comparisons
 
