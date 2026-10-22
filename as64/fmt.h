@@ -23,7 +23,8 @@ enum fmt_shape {
 	FS_SYSP,	/* p: SYS payload */
 	FS_CB,		/* cbCC: imm (5 bits) d (11 or 27 bits, parcels) */
 	FS_SYSREG,	/* MFSR, MTSR: sr (system register number) r (general register) pad (zero) */
-	FS_P2		/* page 2 (len = 3): one parcel, nothing follows; opc is a page-2 opcode */
+	FS_P2,		/* page 2 (len = 3): one parcel, nothing follows; opc is a page-2 opcode */
+	FS_CBW		/* cbCC wide: imm (16 bits) d (16 bits, parcels), len = 2 */
 };
 
 struct fmt {

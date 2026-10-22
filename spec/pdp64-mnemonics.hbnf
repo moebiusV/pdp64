@@ -336,6 +336,7 @@ opgroup = "lea"@0b001011
         | "sys"@0b010100
         | "tag"@0b010101
         | "cbr"@0b101000
+        | "cbw"@0b101001      ; cbCC with a 16-bit immediate and a 16-bit displacement (six bytes only)
         | "sob"@0b111111
 
 ; The length code of parcel 0 (`len`): 0, 1 and 2 are page-1 instructions of 1, 2 and 3 parcels; 3 is a one-parcel instruction of page 2.

@@ -415,8 +415,9 @@ static void step(void)
 		if (cond(opc - MN_BRANCH_BR)) pc = start + 2 * d;
 		return;
 	}
-	if (opc == OPGROUP_CBR) {							/* cbCC rd,#imm,target: cmp rd,#imm, then the branch */
-		int64_t d = sext(f.d, cbbits(len)), imm = sext(f.imm, cbimmbits);
+	if (opc == OPGROUP_CBR || opc == OPGROUP_CBW) {					/* cbCC rd,#imm,target: cmp rd,#imm, then the branch (two encodings) */
+		int wide = opc == OPGROUP_CBW;
+		int64_t d = sext(f.d, wide ? cbwbits(len) : cbbits(len)), imm = sext(f.imm, wide ? cbwimmbits : cbimmbits);
 		sub_f(r[f.reg], (uint64_t)imm, 0);
 		if (cond(f.low)) pc = start + 2 * d;
 		return;
@@ -549,7 +550,7 @@ static void step(void)
 		case MN_BESC_BITREV: r[rd] = bitrev64(a); return;
 		case MN_BESC_ROR: r[rd] = ror64(a, (unsigned)b); return;
 		case MN_BESC_RORI: r[rd] = ror64(a, f.count); return;
-		case MN_BESC_RORI32: { uint32_t w = (uint32_t)a; unsigned n = f.count & 31; r[rd] = n ? (uint32_t)((w >> n) | (w << (32 - n))) : w; return; }
+		case MN_BESC_RORI32: { uint32_t w = (uint32_t)a; unsigned n = f.count & 31; r[rd] = (uint64_t)(int64_t)(int32_t)(n ? (w >> n) | (w << (32 - n)) : w); return; }
 		case MN_BESC_DSHR: { unsigned n = (f.d >> 8) & 63; r[rd] = n ? (b >> n) | (a << (64 - n)) : b; return; }
 		case MN_BESC_EXTB: case MN_BESC_EXTZB: {
 			unsigned pos = (f.d >> 8) & 63, w = f.d & 255;

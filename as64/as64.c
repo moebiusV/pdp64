@@ -399,6 +399,8 @@ static void print_limits(void)
 	printf("#ifndef PDP64_LIMITS_H\n#define PDP64_LIMITS_H\n");
 	printf("#define PDP64_MAXLEN %d\t/* extension parcels: a page-1 instruction is up to %d parcels; page 2 (len 3) is one parcel */\n", maxlen, maxlen + 1);
 	printf("#define PDP64_CB_IMM_BITS %d\t/* cbCC: the signed immediate */\n", cbimmbits);
+	printf("#define PDP64_CBW_IMM_BITS %d\t/* cbCC wide form (six bytes): the signed immediate */\n", cbwimmbits);
+	printf("#define PDP64_CBW_BITS %d\t/* parcels, the wide cbCC displacement (reach 2^%d parcels either way) */\n", cbwbits(2), cbwbits(2) - 1);
 	for (int len = 1; len <= maxlen; len++) {
 		printf("#define PDP64_BASE_DISP_BITS_LEN%d %d\t/* d(Rn), (Rn)+d, -d(Rn), d(DP) */\n", len, dispbits(AMODE_BASE, len));
 		printf("#define PDP64_INDEX_DISP_BITS_LEN%d %d\t/* d(Rn)(Rx*s) */\n", len, dispbits(AMODE_INDEX, len));
@@ -439,6 +441,7 @@ struct ins {
 	int mode;
 	int relsym, reltype;	/* a relocation on the instruction, if reltype */
 	int poolable;		/* a constant that does not fit the immediate field may go to the literal pool (instructions that read 8 bytes) */
+	int64_t cbimm;		/* cbCC: the immediate, signed */
 	int has_p2;		/* there is a one-parcel form of this instruction ... */
 	struct fmt p2;		/* ... and this is it */
 	int64_t reladd;
@@ -642,7 +645,10 @@ static void finalize(struct ins *in, int len)
 		f->d = in->reltype ? 0 : ((uint64_t)in->dval & mask(branchbits(len)));
 		break;
 	case FS_CB:
-		f->d = (uint64_t)in->dval & mask(cbbits(len));
+		if (len == 1) { f->imm = (unsigned)((uint64_t)in->cbimm & mask(cbimmbits)); f->d = (uint64_t)in->dval & mask(cbbits(1)); }
+		else if (fits(in->cbimm, cbwimmbits) && fits(in->dval, cbwbits(2))) {		/* six bytes: the wide form if both fields fit it, else the long one */
+			f->shape = FS_CBW; f->opc = OPGROUP_CBW; f->imm = (unsigned)((uint64_t)in->cbimm & mask(cbwimmbits)); f->d = (uint64_t)in->dval & mask(cbwbits(2));
+		} else { f->imm = (unsigned)((uint64_t)in->cbimm & mask(cbimmbits)); f->d = (uint64_t)in->dval & mask(cbbits(len)); }
 		break;
 	case FS_BASE: case FS_DP: case FS_INDEX: case FS_WIDE:
 		f->d = in->reltype ? 0 : ((uint64_t)in->dval & mask(dispbits(in->mode, len)));
@@ -740,23 +746,29 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 		if (build_branch(st, &o[0], 0, in, addr) < 0) return -1;
 		break;
 	case MG_CBRANCH: {
-		/* cbCC rd, #imm, label: cmp rd, #imm and branch if CC; the immediate is a few bits, the target a label of this section */
-		int64_t imm, lim = (int64_t)1 << (cbimmbits - 1);
+		/* cbCC rd, #imm, label: cmp rd, #imm and branch if CC.  One mnemonic, the shortest of three encodings: four bytes (opcode 0x28: imm5, disp11),
+		   six bytes wide (opcode 0x29: imm16, disp16), six bytes long (opcode 0x28 at len 2: imm5, disp27).  When both six-byte forms fit, the wide one. */
+		int64_t imm, t, need;
 		struct val v;
 		f->opc = OPGROUP_CBR;
 		if (st->nops != 3 || o[0].kind != OK_REG || o[2].kind != OK_BARE) { err(st->line, "cbCC register, #imm, label"); return -1; }
 		if (imm_const(st, 1, &imm)) return -1;
-		if (imm < -lim || imm >= lim) { err(st->line, "cbCC: immediate %lld out of range (%lld to %lld; use cmp and the branch)", (long long)imm, (long long)-lim, (long long)lim - 1); return -1; }
+		if (!fits(imm, cbwimmbits)) { err(st->line, "cbCC: immediate %lld does not fit %d bits; use cmp and bCC", (long long)imm, cbwimmbits); return -1; }
 		v = eval(o[2].e, st->line);
 		if (CONST(v) || v.m >= 0) { err(st->line, "a branch target is a label"); return -1; }
 		if (!(samesec(v.p) || pending(v.p))) { err(st->line, "cbCC: the target must be a label of this section (use cmp and the branch)"); return -1; }
-		int64_t t = pending(v.p) ? 0 : syms[v.p].val + v.c - addr, need;
+		t = pending(v.p) ? 0 : syms[v.p].val + v.c - addr;
 		if (t & 1) { err(st->line, "branch to an odd address"); return -1; }
 		in->dval = t / 2;
-		if (fits(in->dval, cbbits(1))) need = 1;
-		else if (maxlen >= 2 && fits(in->dval, cbbits(2))) need = 2;
-		else { if (!pending(v.p)) err(st->line, "cbCC: target out of reach"); return -1; }
-		f->reg = o[0].reg; f->low = mn; f->imm = (unsigned)((uint64_t)imm & mask(cbimmbits)); f->shape = FS_CB;
+		in->cbimm = imm;
+		int i5 = fits(imm, cbimmbits);
+		if (i5 && fits(in->dval, cbbits(1))) need = 1;
+		else if (maxlen >= 2 && (fits(in->dval, cbwbits(2)) || (i5 && fits(in->dval, cbbits(2))))) need = 2;
+		else {
+			if (!pending(v.p)) err(st->line, i5 ? "cbCC: target out of reach; use cmp and bCC" : "target out of reach (64 KB) for a compare-and-branch with a wide immediate; use cmp and bCC");
+			return -1;
+		}
+		f->reg = o[0].reg; f->low = mn; f->shape = FS_CB;
 		in->minlen = (int)need;
 		break;
 	}
@@ -1081,7 +1093,7 @@ static int run_pass(int final)
 		case S_INSN: {
 			struct ins in;
 			int len = grow[i];
-			if (build(st, pos, &in) < 0) { in.minlen = 0; in.f.shape = FS_SYS0; len = 0; if (!final) { offs[cur_sec] += 2; break; } }
+			if (build(st, pos, &in) < 0) { in.minlen = 0; in.f.shape = FS_SYS0; len = 0; if (!final) { offs[cur_sec] += 2 * (len + grow[i] + 1); break; } }	/* an instruction in error keeps the size it had, so that the others do not move */
 			int one = in.has_p2 && grow[i] == 0;		/* a one-parcel form, unless an earlier pass found that the instruction had to be longer */
 			if (!one && in.minlen > len) { len = in.minlen; if (len != grow[i]) { grow[i] = len; changed = 1; } }
 			if (!final) { offs[cur_sec] += one ? 2 : 2 * (len + 1); break; }

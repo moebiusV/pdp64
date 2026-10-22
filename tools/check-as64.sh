@@ -15,6 +15,13 @@ shoff = struct.unpack_from('<Q', d, 0x28)[0]
 off, size = struct.unpack_from('<QQ', d, shoff + 64 * 1 + 24)
 got = ' '.join('%04x' % struct.unpack_from('<H', d, off + 2 * i)[0] for i in range(size // 2))
 want = ' '.join(open(sys.argv[2] + '.words').read().split())
+if '...' in want:
+    # a long run of zero parcels is written `...`; NAME.total is the number of parcels (tests with a 64 KB gap)
+    total = int(open(sys.argv[2] + '.total').read())
+    h, tl = (x.split() for x in want.split('...'))
+    g = got.split()
+    mid = g[len(h):len(g) - len(tl)]
+    want = got if (len(g) == total and g[:len(h)] == h and (g[len(g) - len(tl):] if tl else []) == tl and all(x == '0000' for x in mid)) else want
 bad = got != want
 if bad: print('  .text got ', got); print('  .text want', want)
 import os

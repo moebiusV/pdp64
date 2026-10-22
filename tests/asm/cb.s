@@ -1,4 +1,3 @@
-; cbCC (page 1, opcode 0x28) in its 4-byte and 6-byte forms with the boundaries of the immediate and of the displacement, and rori32 (a BESC word with the format of rori).  Hand-worked from CHANGES section 12.
 	.text
 ; every condition, forward to the next instruction (disp 2 parcels), then the aliases
 	cbne	r0, #-5, 1f

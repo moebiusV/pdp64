@@ -1,1 +1,1 @@
-cbCC: immediate 16 out of range
+immediate 32768 does not fit 16 bits; use cmp and bCC
