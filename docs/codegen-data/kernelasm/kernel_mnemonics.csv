@@ -9,17 +9,24 @@ alpha,linux,asm,or,132,arch/alpha/boot/head.S arch/alpha/kernel/entry.S arch/alp
 alpha,linux,asm,beq,123,arch/alpha/boot/compressed/head.S arch/alpha/boot/compressed/trampoline.S arch/alpha/kernel/entry.S
 alpha,linux,asm,lda,115,arch/alpha/boot/compressed/head.S arch/alpha/boot/head.S arch/alpha/kernel/entry.S
 alpha,linux,asm,bne,111,arch/alpha/boot/head.S arch/alpha/kernel/entry.S arch/alpha/lib/clear_page.S
+alpha,linux,asm,ldq_u,95,arch/alpha/lib/csum_ipv6_magic.S arch/alpha/lib/ev6-csum_ipv6_magic.S arch/alpha/lib/ev6-memchr.S
 alpha,linux,asm,bis,82,arch/alpha/boot/head.S arch/alpha/kernel/head.S arch/alpha/lib/copy_user.S
 alpha,linux,asm,ret,82,arch/alpha/boot/head.S arch/alpha/kernel/entry.S arch/alpha/kernel/head.S
 alpha,linux,asm,cmpbge,80,arch/alpha/lib/ev6-memchr.S arch/alpha/lib/ev6-stxcpy.S arch/alpha/lib/ev6-stxncpy.S
 alpha,linux,asm,mov,71,arch/alpha/boot/head.S arch/alpha/kernel/entry.S arch/alpha/kernel/head.S
 alpha,linux,asm,unop,49,arch/alpha/kernel/entry.S arch/alpha/lib/clear_page.S arch/alpha/lib/clear_user.S
+alpha,linux,asm,stq_u,43,arch/alpha/lib/ev6-memset.S arch/alpha/lib/ev6-stxcpy.S arch/alpha/lib/ev6-stxncpy.S
 alpha,linux,inline,beq,41,arch/alpha/include/asm/atomic.h arch/alpha/include/asm/bitops.h arch/alpha/include/asm/cmpxchg.h
 alpha,linux,asm,br,35,arch/alpha/boot/compressed/head.S arch/alpha/boot/compressed/trampoline.S arch/alpha/boot/head.S
 alpha,linux,inline,br,35,arch/alpha/include/asm/atomic.h arch/alpha/include/asm/bitops.h arch/alpha/include/asm/cmpxchg.h
+alpha,linux,asm,extql,35,arch/alpha/lib/copy_user.S arch/alpha/lib/csum_ipv6_magic.S arch/alpha/lib/ev6-copy_user.S
 alpha,linux,asm,cmovne,34,arch/alpha/lib/divide.S arch/alpha/lib/ev6-divide.S arch/alpha/lib/ev67-strrchr.S
+alpha,linux,asm,mskql,32,arch/alpha/lib/clear_user.S arch/alpha/lib/copy_user.S arch/alpha/lib/ev6-clear_user.S
+alpha,linux,inline,ldq_u,31,arch/alpha/kernel/traps.c arch/alpha/lib/csum_partial_copy.c arch/alpha/lib/memcpy.c
+alpha,linux,asm,mskqh,31,arch/alpha/lib/clear_user.S arch/alpha/lib/copy_user.S arch/alpha/lib/ev6-memset.S
 alpha,linux,asm,cmpult,29,arch/alpha/boot/compressed/head.S arch/alpha/lib/csum_ipv6_magic.S arch/alpha/lib/dbg_current.S
 alpha,linux,asm,andnot,28,arch/alpha/lib/ev6-memchr.S arch/alpha/lib/ev6-stxcpy.S arch/alpha/lib/ev6-stxncpy.S
+alpha,linux,asm,extqh,28,arch/alpha/lib/copy_user.S arch/alpha/lib/csum_ipv6_magic.S arch/alpha/lib/ev6-copy_user.S
 alpha,linux,asm,zapnot,28,arch/alpha/lib/csum_ipv6_magic.S arch/alpha/lib/ev6-csum_ipv6_magic.S arch/alpha/lib/ev6-stxcpy.S
 alpha,linux,asm,sll,26,arch/alpha/lib/csum_ipv6_magic.S arch/alpha/lib/dbg_stackkill.S arch/alpha/lib/ev6-csum_ipv6_magic.S
 alpha,linux,asm,xor,26,arch/alpha/lib/ev6-memchr.S arch/alpha/lib/ev6-memcpy.S arch/alpha/lib/ev6-memset.S
@@ -43,8 +50,10 @@ alpha,linux,asm,cmpule,14,arch/alpha/lib/dbg_current.S arch/alpha/lib/divide.S a
 alpha,linux,asm,inswl,13,arch/alpha/lib/ev6-csum_ipv6_magic.S arch/alpha/lib/ev6-memset.S arch/alpha/lib/ev67-strchr.S
 alpha,linux,inline,ldq_l,13,arch/alpha/include/asm/atomic.h arch/alpha/include/asm/cmpxchg.h arch/alpha/include/asm/local.h
 alpha,linux,inline,stq_c,13,arch/alpha/include/asm/atomic.h arch/alpha/include/asm/cmpxchg.h arch/alpha/include/asm/local.h
+alpha,linux,inline,stq_u,13,arch/alpha/kernel/traps.c arch/alpha/lib/csum_partial_copy.c
 alpha,linux,asm,bgt,12,arch/alpha/lib/ev6-clear_user.S arch/alpha/lib/ev6-copy_user.S arch/alpha/lib/ev6-memcpy.S
 alpha,linux,asm,ble,12,arch/alpha/lib/ev6-copy_user.S arch/alpha/lib/ev6-memcpy.S arch/alpha/lib/ev6-memset.S
+alpha,linux,asm,insqh,12,arch/alpha/lib/ev6-memchr.S arch/alpha/lib/ev6-memset.S arch/alpha/lib/ev67-strcat.S
 alpha,linux,asm,ldgp,12,arch/alpha/boot/compressed/head.S arch/alpha/boot/head.S arch/alpha/kernel/entry.S
 alpha,linux,asm,cmovlt,11,arch/alpha/lib/divide.S arch/alpha/lib/ev6-clear_user.S arch/alpha/lib/ev6-divide.S
 alpha,linux,asm,bge,10,arch/alpha/lib/divide.S arch/alpha/lib/ev6-clear_user.S arch/alpha/lib/ev6-divide.S
@@ -52,6 +61,8 @@ alpha,linux,inline,bne,10,arch/alpha/include/asm/atomic.h arch/alpha/include/asm
 alpha,linux,asm,extbl,10,arch/alpha/lib/copy_user.S arch/alpha/lib/csum_ipv6_magic.S arch/alpha/lib/memmove.S
 alpha,linux,asm,extwl,10,arch/alpha/lib/callback_srm.S arch/alpha/lib/csum_ipv6_magic.S arch/alpha/lib/ev6-csum_ipv6_magic.S
 alpha,linux,asm,bsr,9,arch/alpha/kernel/entry.S arch/alpha/lib/divide.S arch/alpha/lib/ev6-divide.S
+alpha,linux,asm,insql,8,arch/alpha/lib/ev6-memset.S arch/alpha/lib/memset.S
+alpha,linux,inline,mb,8,arch/alpha/include/asm/barrier.h arch/alpha/include/asm/spinlock.h
 alpha,linux,inline,xor,8,arch/alpha/include/asm/bitops.h arch/alpha/kernel/setup.c
 alpha,linux,inline,bis,7,arch/alpha/boot/bootp.c arch/alpha/boot/bootpz.c arch/alpha/boot/main.c
 alpha,linux,inline,cmpeq,7,arch/alpha/include/asm/atomic.h arch/alpha/include/asm/cmpxchg.h arch/alpha/include/asm/futex.h
@@ -63,6 +74,8 @@ alpha,linux,asm,cttz,6,arch/alpha/lib/ev6-memchr.S arch/alpha/lib/ev67-strcat.S 
 alpha,linux,asm,mskbl,6,arch/alpha/lib/copy_user.S arch/alpha/lib/memmove.S
 alpha,linux,asm,ornot,6,arch/alpha/lib/ev6-stxcpy.S arch/alpha/lib/ev6-stxncpy.S arch/alpha/lib/stxcpy.S
 alpha,linux,asm,sra,6,arch/alpha/lib/csum_ipv6_magic.S arch/alpha/lib/ev6-memset.S arch/alpha/lib/memset.S
+alpha,linux,inline,extqh,5,arch/alpha/kernel/traps.c arch/alpha/lib/csum_partial_copy.c arch/alpha/lib/memcpy.c
+alpha,linux,inline,extql,5,arch/alpha/kernel/traps.c arch/alpha/lib/csum_partial_copy.c arch/alpha/lib/memcpy.c
 alpha,linux,inline,extwl,5,arch/alpha/include/asm/cmpxchg.h arch/alpha/include/uapi/asm/compiler.h arch/alpha/kernel/traps.c
 alpha,linux,inline,inswl,5,arch/alpha/include/asm/cmpxchg.h arch/alpha/include/uapi/asm/compiler.h arch/alpha/kernel/traps.c
 alpha,linux,inline,ldl,5,arch/alpha/include/asm/spinlock.h arch/alpha/include/asm/uaccess.h arch/alpha/kernel/setup.c
@@ -72,6 +85,7 @@ alpha,linux,inline,and,4,arch/alpha/include/asm/bitops.h
 alpha,linux,inline,andnot,4,arch/alpha/include/asm/cmpxchg.h
 alpha,linux,inline-macro,asm,4,arch/alpha/include/asm/atomic.h
 alpha,linux,inline,ftoit,4,arch/alpha/include/asm/fpu.h arch/alpha/lib/fpreg.c
+alpha,linux,inline,insql,4,arch/alpha/include/uapi/asm/compiler.h arch/alpha/kernel/traps.c arch/alpha/lib/csum_partial_copy.c
 alpha,linux,inline,itoft,4,arch/alpha/include/asm/fpu.h arch/alpha/lib/fpreg.c
 alpha,linux,asm,jmp,4,arch/alpha/boot/compressed/trampoline.S arch/alpha/kernel/entry.S arch/alpha/lib/callback_srm.S
 alpha,linux,asm,ldbu,4,arch/alpha/lib/ev6-memcpy.S
@@ -90,7 +104,10 @@ alpha,linux,inline,extlh,3,arch/alpha/kernel/traps.c
 alpha,linux,inline,extll,3,arch/alpha/kernel/traps.c
 alpha,linux,inline,insbl,3,arch/alpha/include/asm/cmpxchg.h arch/alpha/include/uapi/asm/compiler.h
 alpha,linux,inline,inslh,3,arch/alpha/include/uapi/asm/compiler.h arch/alpha/kernel/traps.c
+alpha,linux,inline,insqh,3,arch/alpha/kernel/traps.c arch/alpha/lib/csum_partial_copy.c
 alpha,linux,inline,ldq,3,arch/alpha/include/asm/uaccess.h arch/alpha/lib/memcpy.c
+alpha,linux,inline,mskqh,3,arch/alpha/kernel/traps.c arch/alpha/lib/csum_partial_copy.c
+alpha,linux,inline,mskql,3,arch/alpha/kernel/traps.c arch/alpha/lib/csum_partial_copy.c
 alpha,linux,asm,stl,3,arch/alpha/kernel/entry.S
 alpha,linux,asm,clr,2,arch/alpha/lib/clear_user.S
 alpha,linux,inline,ctlz,2,arch/alpha/include/uapi/asm/compiler.h
@@ -102,6 +119,7 @@ alpha,linux,inline,insll,2,arch/alpha/kernel/traps.c
 alpha,linux,inline,inswh,2,arch/alpha/kernel/traps.c
 alpha,linux,inline,jmp,2,arch/alpha/boot/bootp.c arch/alpha/boot/bootpz.c
 alpha,linux,asm,ldt,2,arch/alpha/kernel/entry.S
+alpha,linux,asm,memset,2,arch/alpha/lib/ev6-memset.S arch/alpha/lib/memset.S
 alpha,linux,inline,mf_fpcr,2,arch/alpha/include/asm/fpu.h
 alpha,linux,inline,mskbl,2,arch/alpha/include/asm/cmpxchg.h
 alpha,linux,inline,msklh,2,arch/alpha/kernel/traps.c
@@ -113,6 +131,8 @@ alpha,linux,asm,addl,1,arch/alpha/lib/ev6-csum_ipv6_magic.S
 alpha,linux,inline-macro,alcor,1,arch/alpha/kernel/sys_alcor.c
 alpha,linux,inline-macro,alcor_mv,1,arch/alpha/kernel/setup.c
 alpha,linux,inline,alpha_mv,1,arch/alpha/kernel/machvec_impl.h
+alpha,linux,asm,alpha_using_srm,1,arch/alpha/lib/callback_srm.S
+alpha,linux,inline,amask,1,arch/alpha/include/asm/special_insns.h
 alpha,linux,inline,bgt,1,arch/alpha/lib/udelay.c
 alpha,linux,inline,bic,1,arch/alpha/include/asm/bitops.h
 alpha,linux,asm,blbs,1,arch/alpha/lib/strlen.S
@@ -130,6 +150,8 @@ alpha,linux,inline-macro,eiger,1,arch/alpha/kernel/sys_eiger.c
 alpha,linux,inline-macro,eiger_mv,1,arch/alpha/kernel/setup.c
 alpha,linux,asm,extwh,1,arch/alpha/lib/csum_ipv6_magic.S
 alpha,linux,inline,ftois,1,arch/alpha/lib/fpreg.c
+alpha,linux,asm,imb,1,arch/alpha/boot/compressed/trampoline.S
+alpha,linux,inline,implver,1,arch/alpha/include/asm/special_insns.h
 alpha,linux,asm,inslh,1,arch/alpha/lib/ev6-csum_ipv6_magic.S
 alpha,linux,inline,itofs,1,arch/alpha/lib/fpreg.c
 alpha,linux,inline,ldah,1,arch/alpha/kernel/sys_sx164.c
@@ -186,6 +208,7 @@ alpha,linux,inline-macro,webbrick_mv,1,arch/alpha/kernel/setup.c
 alpha,linux,inline-macro,whami,1,arch/alpha/include/asm/pal.h
 alpha,linux,inline-macro,wildfire,1,arch/alpha/kernel/sys_wildfire.c
 alpha,linux,inline-macro,wildfire_mv,1,arch/alpha/kernel/setup.c
+alpha,linux,inline,wmb,1,arch/alpha/include/asm/barrier.h
 alpha,linux,inline-macro,wrent,1,arch/alpha/include/asm/pal.h
 alpha,linux,inline-macro,wripir,1,arch/alpha/include/asm/pal.h
 alpha,linux,inline-macro,wrkgp,1,arch/alpha/include/asm/pal.h
@@ -430,9 +453,11 @@ arm,freebsd,inline,orr,7,sys/arm/arm/stdatomic.c sys/arm/include/atomic.h
 arm,freebsd,asm,ldrex,6,sys/arm/arm/fusu.S sys/arm/arm/swtch-v6.S
 arm,freebsd,asm,strex,6,sys/arm/arm/fusu.S sys/arm/arm/swtch-v6.S
 arm,freebsd,inline,bic,5,sys/arm/include/atomic.h sys/arm/include/cpufunc.h
+arm,freebsd,asm,dsb,5,sys/arm/arm/cpu_asm-v6.S sys/arm/arm/cpufunc_asm_armv7.S sys/arm/ti/ti_smc.S
 arm,freebsd,inline,eor,5,sys/arm/include/atomic.h sys/arm/include/cpufunc.h
 arm,freebsd,inline,adc,4,sys/arm/include/atomic.h sys/arm/include/in_cksum.h
 arm,freebsd,asm,bx,4,sys/arm/arm/cpu_asm-v6.S sys/arm/arm/exception.S
+arm,freebsd,asm,isb,4,sys/arm/arm/cpu_asm-v6.S
 arm,freebsd,asm,lsr,4,sys/arm/arm/locore.S sys/arm/arm/swtch-v6.S
 arm,freebsd,asm,clrex,3,sys/arm/arm/exception.S sys/arm/arm/swtch-v6.S
 arm,freebsd,asm,clz,3,sys/arm/arm/cpu_asm-v6.S
@@ -447,8 +472,12 @@ arm,freebsd,inline,lsl,2,sys/arm/include/atomic.h
 arm,freebsd,inline,sub,2,sys/arm/include/atomic.h
 arm,freebsd,asm,swi,2,sys/arm/arm/locore.S
 arm,freebsd,inline,udf,2,sys/arm/include/cpufunc.h
+arm,freebsd,inline,wfe,2,sys/arm/arm/mp_machdep.c sys/arm/include/cpu.h
 arm,freebsd,inline,bl,1,sys/arm/include/profile.h
 arm,freebsd,inline,clrex,1,sys/arm/include/atomic.h
+arm,freebsd,inline,dmb,1,sys/arm/include/atomic.h
+arm,freebsd,inline,dsb,1,sys/arm/include/atomic.h
+arm,freebsd,inline,isb,1,sys/arm/include/atomic.h
 arm,freebsd,inline,ldr,1,sys/arm/include/atomic.h
 arm,freebsd,inline,ldrd,1,sys/arm/include/atomic.h
 arm,freebsd,inline,mcrr,1,sys/arm/include/cpu.h
@@ -458,6 +487,7 @@ arm,freebsd,inline,msr,1,sys/arm/include/cpufunc.h
 arm,freebsd,asm,pop,1,sys/arm/arm/locore.S
 arm,freebsd,asm,push,1,sys/arm/arm/locore.S
 arm,freebsd,inline,sbc,1,sys/arm/include/atomic.h
+arm,freebsd,inline,sev,1,sys/arm/include/cpu.h
 arm,freebsd,asm,smc,1,sys/arm/ti/ti_smc.S
 arm,freebsd,inline,stmdb,1,sys/arm/include/profile.h
 arm,freebsd,inline,str,1,sys/arm/include/atomic.h
@@ -504,6 +534,7 @@ arm,linux,inline,add,33,arch/arm/include/asm/atomic.h arch/arm/include/asm/check
 arm,linux,asm,ldrh,33,arch/arm/boot/compressed/head-sharpsl.S arch/arm/include/debug/renesas-scif.S arch/arm/kernel/phys2virt.S
 arm,linux,asm,mrs,26,arch/arm/boot/compressed/head.S arch/arm/kernel/entry-armv.S arch/arm/kernel/entry-common.S
 arm,linux,asm,reteq,23,arch/arm/kernel/debug.S arch/arm/kernel/entry-armv.S arch/arm/kernel/head.S
+arm,linux,asm,nop,20,arch/arm/kernel/entry-armv.S arch/arm/lib/copy_template.S arch/arm/lib/memmove.S
 arm,linux,asm,movw,19,arch/arm/boot/compressed/head.S arch/arm/include/debug/vexpress.S arch/arm/mm/cache-v7.S
 arm,linux,inline,msr,19,arch/arm/include/asm/irqflags.h arch/arm/kernel/setup.c arch/arm/probes/kprobes/actions-arm.c
 arm,linux,inline,ldr,18,arch/arm/include/asm/current.h arch/arm/include/asm/io.h arch/arm/include/asm/percpu.h
@@ -524,6 +555,7 @@ arm,linux,inline,blx,11,arch/arm/probes/kprobes/actions-thumb.c
 arm,linux,inline,adc,10,arch/arm/include/asm/atomic.h arch/arm/include/asm/checksum.h arch/arm/include/asm/div64.h
 arm,linux,inline,ldrexd,10,arch/arm/include/asm/atomic.h arch/arm/include/asm/cmpxchg.h
 arm,linux,asm,movt,10,arch/arm/boot/compressed/head.S arch/arm/include/debug/vexpress.S arch/arm/mm/cache-v7.S
+arm,linux,inline,nop,10,arch/arm/include/asm/mtd-xip.h arch/arm/probes/kprobes/opt-arm.c arch/arm/probes/kprobes/test-core.c
 arm,linux,inline,stmdb,10,arch/arm/probes/kprobes/actions-common.c arch/arm/probes/kprobes/core.c arch/arm/probes/kprobes/test-core.c
 arm,linux,asm,ldmdb,9,arch/arm/boot/compressed/head.S arch/arm/kernel/entry-header.S arch/arm/lib/call_with_stack.S
 arm,linux,asm,push,9,arch/arm/kernel/entry-armv.S arch/arm/kernel/entry-ftrace.S arch/arm/kernel/entry-v7m.S
@@ -553,16 +585,20 @@ arm,linux,asm,ubfx,4,arch/arm/kernel/hyp-stub.S arch/arm/kernel/phys2virt.S arch
 arm,linux,inline,and,3,arch/arm/include/asm/word-at-a-time.h arch/arm/mm/context.c arch/arm/probes/kprobes/opt-arm.c
 arm,linux,inline,cpsie,3,arch/arm/include/asm/irqflags.h
 arm,linux,asm,cpsie,3,arch/arm/kernel/entry-header.S arch/arm/kernel/entry-v7m.S arch/arm/mm/proc-v7m.S
+arm,linux,asm,dmb,3,arch/arm/mm/cache-v7.S arch/arm/mm/cache-v7m.S
+arm,linux,inline,isb,3,arch/arm/include/asm/barrier.h arch/arm/include/asm/cacheflush.h
 arm,linux,inline,lsl,3,arch/arm/include/asm/memory.h arch/arm/include/asm/word-at-a-time.h
 arm,linux,inline,movw,3,arch/arm/include/asm/memory.h
 arm,linux,asm,mrrc,3,arch/arm/mm/proc-v7.S arch/arm/mm/pv-fixup-asm.S
 arm,linux,asm,mvn,3,arch/arm/kernel/phys2virt.S arch/arm/lib/findbit.S
 arm,linux,asm,rev,3,arch/arm/lib/bswapsdi2.S
 arm,linux,inline,sbc,3,arch/arm/include/asm/atomic.h arch/arm/include/asm/barrier.h arch/arm/vfp/vfp.h
+arm,linux,asm,wfi,3,arch/arm/mm/proc-v7.S arch/arm/mm/proc-v7m.S
 arm,linux,inline,adr,2,arch/arm/include/asm/kexec.h arch/arm/probes/kprobes/actions-common.c
 arm,linux,asm,bfi,2,arch/arm/kernel/phys2virt.S arch/arm/mm/proc-v7-2level.S
 arm,linux,asm,cmn,2,arch/arm/kernel/phys2virt.S arch/arm/lib/lib1funcs.S
 arm,linux,asm,dccimvacne,2,arch/arm/mm/cache-v7m.S
+arm,linux,inline,dsb,2,arch/arm/include/asm/barrier.h arch/arm/include/asm/cacheflush.h
 arm,linux,inline,ldrexb,2,arch/arm/include/asm/cmpxchg.h
 arm,linux,inline,ldrexh,2,arch/arm/include/asm/cmpxchg.h
 arm,linux,asm,ldrt,2,arch/arm/lib/getuser.S arch/arm/nwfpe/entry.S
@@ -579,6 +615,7 @@ arm,linux,asm,be,1,arch/arm/lib/findbit.S
 arm,linux,asm,bfc,1,arch/arm/kernel/phys2virt.S
 arm,linux,inline,cmn,1,arch/arm/include/asm/div64.h
 arm,linux,asm,dcimvaclo,1,arch/arm/mm/cache-v7m.S
+arm,linux,inline,dmb,1,arch/arm/include/asm/barrier.h
 arm,linux,inline,eor,1,arch/arm/include/uapi/asm/swab.h
 arm,linux,asm,hvc,1,arch/arm/mm/proc-v7.S
 arm,linux,inline,it,1,arch/arm/include/asm/futex.h
@@ -595,7 +632,6 @@ arm,linux,asm,le,1,arch/arm/lib/findbit.S
 arm,linux,inline,mi,1,arch/arm/include/asm/spinlock.h
 arm,linux,inline,mvn,1,arch/arm/include/asm/memory.h
 arm,linux,inline,ne,1,arch/arm/include/asm/spinlock.h
-arm,linux,inline,nop,1,arch/arm/probes/kprobes/test-core.c
 arm,linux,inline,pld,1,arch/arm/include/asm/processor.h
 arm,linux,inline,pldw,1,arch/arm/include/asm/processor.h
 arm,linux,inline,pop,1,arch/arm/probes/kprobes/test-core.c
@@ -606,6 +642,7 @@ arm,linux,asm,reths,1,arch/arm/kernel/head.S
 arm,linux,asm,retlo,1,arch/arm/lib/div64.S
 arm,linux,inline,rev,1,arch/arm/include/asm/swab.h
 arm,linux,inline,rev16,1,arch/arm/include/asm/swab.h
+arm,linux,inline,sev,1,arch/arm/include/asm/barrier.h
 arm,linux,asm,smc,1,arch/arm/mm/proc-v7.S
 arm,linux,asm,stm,1,arch/arm/kernel/smccc-call.S
 arm,linux,inline,strb,1,arch/arm/include/asm/io.h
@@ -619,6 +656,8 @@ arm,linux,inline,swpb,1,arch/arm/include/asm/cmpxchg.h
 arm,linux,asm,umull,1,arch/arm/lib/delay-loop.S
 arm,linux,inline,vmrs,1,arch/arm/vfp/vfpinstr.h
 arm,linux,inline,vmsr,1,arch/arm/vfp/vfpinstr.h
+arm,linux,inline,wfe,1,arch/arm/include/asm/barrier.h
+arm,linux,inline,wfi,1,arch/arm/include/asm/barrier.h
 arm,linux,asm,why,1,arch/arm/kernel/entry-header.S
 arm,netbsd,asm,mov,557,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/bcopyinout_xscale.S
 arm,netbsd,asm,mcr,472,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/bus_space_asm_generic.S sys/arch/arm/arm/cpufunc_asm.S
@@ -649,10 +688,12 @@ arm,netbsd,asm,push,47,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/bcopyinou
 arm,netbsd,asm,eor,45,sys/arch/arm/arm/blockio.S sys/arch/arm/arm/cpu_in_cksum.S sys/arch/arm/arm/cpu_in_cksum_fold.S
 arm,netbsd,asm,stmia,45,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/blockio.S
 arm,netbsd,asm,tst,42,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/bcopyinout_xscale.S sys/arch/arm/arm/blockio.S
+arm,netbsd,asm,dsb,40,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/bus_space_asm_generic.S sys/arch/arm/arm/cpufunc_asm_armv7.S
 arm,netbsd,asm,mrs,36,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/cpufunc_asm_arm11x6.S sys/arch/arm/arm/cpufunc_asm_arm8.S
 arm,netbsd,asm,adr,34,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/bcopyinout_xscale.S
 arm,netbsd,asm,rsb,30,sys/arch/arm/arm/bcopyinout_xscale.S sys/arch/arm/arm/blockio.S sys/arch/arm/arm/cpu_in_cksum.S
 arm,netbsd,asm,bx,27,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/cpufunc_asm_armv7.S
+arm,netbsd,asm,isb,25,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/cpufunc_asm_armv7.S
 arm,netbsd,asm,teq,24,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/copystr.S
 arm,netbsd,asm,vadd.u32,22,sys/arch/arm/cortex/cpu_in_cksum_asm_neon.S
 arm,netbsd,asm,strbt,21,sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/bcopyinout_xscale.S sys/arch/arm/arm/copystr.S
@@ -669,6 +710,7 @@ arm,netbsd,asm,movt,13,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/cpufunc_a
 arm,netbsd,asm,vld1.64,13,sys/arch/arm/cortex/cpu_in_cksum_asm_neon.S
 arm,netbsd,asm,mcrr,12,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/cpufunc_asm_arm11x6.S sys/arch/arm/arm/cpufunc_asm_armv6.S
 arm,netbsd,asm,stmdb,10,sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/cpufunc_asm_arm8.S sys/arch/arm/arm/cpufunc_asm_arm9.S
+arm,netbsd,asm,dmb,9,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/cpufunc_asm_armv7.S sys/arch/arm/arm32/cpuswitch.S
 arm,netbsd,asm,veor,7,sys/arch/arm/cortex/cpu_in_cksum_asm_neon.S sys/arch/arm/vfp/pmap_vfp.S
 arm,netbsd,asm,vmov.f64,7,sys/arch/arm/vfp/pmap_vfp.S
 arm,netbsd,asm,clrex,6,sys/arch/arm/arm32/cpuswitch.S sys/arch/arm/arm32/exception.S sys/arch/arm/arm32/irq_dispatch.S
@@ -685,6 +727,7 @@ arm,netbsd,asm,ldmdb,4,sys/arch/arm/arm/blockio.S
 arm,netbsd,inline,mrc,4,sys/arch/arm/arm32/arm11_pmc.c sys/arch/arm/include/armreg.h sys/arch/arm/include/lwp_private.h
 arm,netbsd,asm,swi,4,sys/arch/arm/arm/linux_sigcode.S sys/arch/arm/arm/sigcode.S
 arm,netbsd,inline,cpsid,3,sys/arch/arm/include/cpufunc.h
+arm,netbsd,inline,dmb,3,sys/arch/arm/include/cpufunc.h sys/arch/arm/include/lock.h
 arm,netbsd,inline,msr,3,sys/arch/arm/include/cpufunc.h
 arm,netbsd,asm,wfi,3,sys/arch/arm/arm/armv6_start.S sys/arch/arm/arm/cpufunc_asm_armv7.S sys/arch/arm/arm/cpufunc_asm_pj4b.S
 arm,netbsd,inline,b,2,sys/arch/arm/include/lock.h
@@ -711,10 +754,12 @@ arm,netbsd,asm,blx,1,sys/arch/arm/arm32/cpuswitch.S
 arm,netbsd,asm,cbz,1,sys/arch/arm/arm/bus_space_asm_generic.S
 arm,netbsd,asm,cmn,1,sys/arch/arm/arm32/cpuswitch.S
 arm,netbsd,inline,cmp,1,sys/arch/arm/include/lock.h
+arm,netbsd,inline,dsb,1,sys/arch/arm/include/cpufunc.h
 arm,netbsd,inline,eor,1,sys/arch/arm/include/cpufunc.h
 arm,netbsd,asm,eret,1,sys/arch/arm/arm/armv6_start.S
 arm,netbsd,asm,hvc,1,sys/arch/arm/arm/psci_arm.S
 arm,netbsd,inline,hvc,1,sys/arch/arm/arm/smccc.c
+arm,netbsd,inline,isb,1,sys/arch/arm/include/cpufunc.h
 arm,netbsd,inline,ldr,1,sys/arch/arm/include/profile.h
 arm,netbsd,asm,ldreqd,1,sys/arch/arm/arm/cpu_in_cksum_v4hdr.S
 arm,netbsd,asm,ldrex,1,sys/arch/arm/arm/lock_cas.S
@@ -729,6 +774,7 @@ arm,netbsd,inline,pop,1,sys/arch/arm/include/profile.h
 arm,netbsd,inline,push,1,sys/arch/arm/include/profile.h
 arm,netbsd,inline,rev,1,sys/arch/arm/include/byte_swap.h
 arm,netbsd,inline,rev16,1,sys/arch/arm/include/byte_swap.h
+arm,netbsd,inline,sev,1,sys/arch/arm/include/cpufunc.h
 arm,netbsd,asm,smc,1,sys/arch/arm/arm/psci_arm.S
 arm,netbsd,inline,smc,1,sys/arch/arm/arm/smccc.c
 arm,netbsd,inline,stlr,1,sys/arch/arm/include/lock.h
@@ -751,6 +797,7 @@ arm,openbsd,asm,sub,200,sys/arch/arm/arm/bcopy_page.S sys/arch/arm/arm/bcopyinou
 arm,openbsd,asm,ldr,167,sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/bus_space_asm_generic.S sys/arch/arm/arm/copystr.S
 arm,openbsd,asm,add,138,sys/arch/arm/arm/bus_space_asm_generic.S sys/arch/arm/arm/copystr.S sys/arch/arm/arm/cpufunc_asm_armv7.S
 arm,openbsd,asm,cmp,130,sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/bus_space_asm_generic.S sys/arch/arm/arm/exception.S
+arm,openbsd,asm,str,76,sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/bus_space_asm_generic.S sys/arch/arm/arm/copystr.S
 arm,openbsd,asm,orr,63,sys/arch/arm/arm/cpufunc_asm_armv7.S sys/arch/arm/arm/in_cksum_arm.S sys/arch/arm/arm/locore.S
 arm,openbsd,asm,ldmia,60,sys/arch/arm/arm/bcopy_page.S sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/copystr.S
 arm,openbsd,asm,teq,53,sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/bus_space_asm_generic.S sys/arch/arm/arm/copystr.S
@@ -789,7 +836,6 @@ arm,openbsd,asm,ldrbt,8,sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/copystr.S
 arm,openbsd,asm,strbt,8,sys/arch/arm/arm/bcopyinout.S sys/arch/arm/arm/copystr.S
 arm,openbsd,asm,pop,7,sys/arch/armv7/stand/efiboot/start.S sys/lib/libkern/arch/arm/__aeabi_ldivmod.S sys/lib/libkern/arch/arm/__aeabi_uldivmod.S
 arm,openbsd,inline,isb,6,sys/arch/arm/arm/vfp.c sys/arch/armv7/stand/efiboot/exec.c
-arm,openbsd,asm,str,4,sys/arch/arm/arm/copystr.S sys/lib/libkern/arch/arm/memcpy.S
 arm,openbsd,asm,cpsid,3,sys/arch/arm/arm/cpuswitch7.S
 arm,openbsd,inline,mrs,3,sys/arch/arm/include/cpu.h sys/arch/arm/include/cpufunc.h
 arm,openbsd,inline,msr,3,sys/arch/arm/include/cpu.h sys/arch/arm/include/cpufunc.h
@@ -824,6 +870,7 @@ arm,openbsd,inline,mrrc,1,sys/arch/arm/cortex/agtimer.c
 arm,openbsd,asm,mvn,1,sys/lib/libkern/arch/arm/divsi3.S
 arm,openbsd,inline,orr,1,sys/arch/arm/include/atomic.h
 arm,openbsd,inline,stmdb,1,sys/arch/arm/include/profile.h
+arm,openbsd,inline,str,1,sys/arch/arm/arm/vfp.c
 arm,openbsd,asm,swi,1,sys/arch/arm/arm/sigcode.S
 arm,openbsd,asm,udf,1,sys/arch/arm/arm/sigcode.S
 arm,openbsd,asm,wfi,1,sys/arch/arm/arm/cpufunc_asm_armv7.S
@@ -848,7 +895,9 @@ arm64,freebsd,asm,adrp,35,sys/arm64/arm64/cpufunc_asm.S sys/arm64/arm64/locore.S
 arm64,freebsd,asm,mrs,33,sys/arm64/arm64/exception.S sys/arm64/arm64/locore.S sys/arm64/arm64/swtch.S
 arm64,freebsd,asm,and,29,sys/arm64/arm64/copyinout.S sys/arm64/arm64/cpufunc_asm.S sys/arm64/arm64/locore.S
 arm64,freebsd,asm,b,27,sys/arm64/arm64/copyinout.S sys/arm64/arm64/efirt_support.S sys/arm64/arm64/exception.S
+arm64,freebsd,asm,dsb,26,sys/arm64/arm64/bus_space_asm.S sys/arm64/arm64/cpufunc_asm.S sys/arm64/arm64/exception.S
 arm64,freebsd,asm,lsr,26,sys/arm64/arm64/copyinout.S sys/arm64/arm64/locore.S sys/arm64/arm64/memcpy.S
+arm64,freebsd,asm,isb,25,sys/arm64/arm64/cpufunc_asm.S sys/arm64/arm64/exception.S sys/arm64/arm64/locore.S
 arm64,freebsd,inline,tlbi,24,sys/arm64/arm64/exec_machdep.c sys/arm64/arm64/pmap.c sys/arm64/vmm/vmm_hyp.c
 arm64,freebsd,asm,ldrb,22,sys/arm64/arm64/bus_space_asm.S sys/arm64/arm64/copyinout.S sys/arm64/arm64/memcmp.S
 arm64,freebsd,inline,msr,22,sys/arm64/arm64/debug_monitor.c sys/arm64/arm64/machdep.c sys/arm64/arm64/ptrauth.c
@@ -869,6 +918,8 @@ arm64,freebsd,inline-macro,a,10,sys/arm64/include/atomic.h
 arm64,freebsd,asm,eor,9,sys/arm64/arm64/strcmp.S sys/arm64/arm64/strncmp.S sys/arm64/linux/linux_support.S
 arm64,freebsd,asm,neg,9,sys/arm64/arm64/memset.S sys/arm64/arm64/strcmp.S sys/arm64/arm64/strncmp.S
 arm64,freebsd,asm,strh,9,sys/arm64/arm64/bus_space_asm.S sys/arm64/arm64/copyinout.S sys/arm64/arm64/memset.S
+arm64,freebsd,inline,dsb,8,sys/arm64/arm64/exec_machdep.c sys/arm64/arm64/gic_v3.c sys/arm64/arm64/machdep.c
+arm64,freebsd,inline,isb,8,sys/arm64/arm64/exec_machdep.c sys/arm64/include/_armreg.h sys/arm64/include/atomic.h
 arm64,freebsd,inline-macro,l,8,sys/arm64/include/atomic.h
 arm64,freebsd,asm,ldxr,8,sys/arm64/arm64/support.S sys/arm64/linux/linux_support.S
 arm64,freebsd,inline-macro,llsc_asm_op,8,sys/arm64/include/atomic.h
@@ -881,6 +932,7 @@ arm64,freebsd,asm,cset,6,sys/arm64/arm64/locore.S sys/arm64/arm64/memcmp.S sys/a
 arm64,freebsd,asm,bne,5,sys/arm64/arm64/memcmp.S sys/arm64/vmm/vmm_hyp_exception.S
 arm64,freebsd,asm,br,5,sys/arm64/arm64/locore.S
 arm64,freebsd,asm,csinv,5,sys/arm64/arm64/strncmp.S
+arm64,freebsd,asm,dmb,5,sys/arm64/linux/linux_support.S
 arm64,freebsd,inline,mov,5,sys/arm64/arm64/machdep.c sys/arm64/include/atomic.h sys/arm64/include/pcpu.h
 arm64,freebsd,asm,prfm,5,sys/arm64/linux/linux_support.S
 arm64,freebsd,asm,stlxr,5,sys/arm64/linux/linux_support.S
@@ -924,6 +976,7 @@ arm64,freebsd,asm,bfc,1,sys/arm64/arm64/locore.S
 arm64,freebsd,inline,brk,1,sys/arm64/include/cpufunc.h
 arm64,freebsd,inline,clrex,1,sys/arm64/include/cpufunc.h
 arm64,freebsd,inline,dc,1,sys/arm64/vmm/vmm_nvhe.c
+arm64,freebsd,inline,dmb,1,sys/arm64/include/atomic.h
 arm64,freebsd,asm,hvc,1,sys/arm64/vmm/vmm_call.S
 arm64,freebsd,inline,ldadd,1,sys/arm64/include/atomic.h
 arm64,freebsd,asm,ldar,1,sys/arm64/arm64/swtch.S
@@ -967,9 +1020,10 @@ arm64,linux,asm,sub,87,arch/arm64/kernel/entry-ftrace.S arch/arm64/kernel/entry.
 arm64,linux,asm,cmp,76,arch/arm64/kernel/efi-rt-wrapper.S arch/arm64/kernel/entry.S arch/arm64/kernel/head.S
 arm64,linux,asm,mrs,75,arch/arm64/kernel/entry.S arch/arm64/kernel/head.S arch/arm64/kernel/hyp-stub.S
 arm64,linux,asm,orr,65,arch/arm64/kernel/entry.S arch/arm64/kernel/head.S arch/arm64/kernel/hyp-stub.S
-arm64,linux,inline-macro,w,54,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/percpu.h
+arm64,linux,inline-macro,w,54,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/cmpxchg.h arch/arm64/include/asm/percpu.h
 arm64,linux,asm,bl,47,arch/arm64/kernel/entry-ftrace.S arch/arm64/kernel/entry.S arch/arm64/kernel/head.S
 arm64,linux,asm,str,41,arch/arm64/kernel/efi-rt-wrapper.S arch/arm64/kernel/entry-ftrace.S arch/arm64/kernel/entry.S
+arm64,linux,asm,isb,40,arch/arm64/kernel/cpu-reset.S arch/arm64/kernel/entry.S arch/arm64/kernel/head.S
 arm64,linux,asm,cbz,39,arch/arm64/kernel/cpu-reset.S arch/arm64/kernel/entry.S arch/arm64/kernel/head.S
 arm64,linux,asm,and,36,arch/arm64/kernel/entry.S arch/arm64/kernel/head.S arch/arm64/kernel/hyp-stub.S
 arm64,linux,inline-macro,l,35,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/cmpxchg.h
@@ -981,6 +1035,7 @@ arm64,linux,asm,tbz,29,arch/arm64/kernel/entry.S arch/arm64/kernel/relocate_kern
 arm64,linux,inline-macro,a,28,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/cmpxchg.h
 arm64,linux,inline,cbnz,27,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/cmpxchg.h
 arm64,linux,asm,cbnz,24,arch/arm64/kernel/entry-ftrace.S arch/arm64/kernel/entry.S arch/arm64/kernel/head.S
+arm64,linux,asm,dsb,24,arch/arm64/kernel/entry.S arch/arm64/kernel/hibernate-asm.S arch/arm64/kernel/hyp-stub.S
 arm64,linux,asm,lsr,24,arch/arm64/kernel/sleep.S arch/arm64/lib/memchr.S arch/arm64/lib/memcpy.S
 arm64,linux,asm,tst,24,arch/arm64/kernel/entry.S arch/arm64/kernel/head.S arch/arm64/lib/copy_page.S
 arm64,linux,asm,subs,23,arch/arm64/lib/clear_user.S arch/arm64/lib/copy_template.S arch/arm64/lib/memcmp.S
@@ -989,8 +1044,8 @@ arm64,linux,asm,adrp,19,arch/arm64/kernel/head.S arch/arm64/kernel/reloc_test_sy
 arm64,linux,asm,ccmp,19,arch/arm64/kernel/efi-header.S arch/arm64/kvm/hyp/hyp-entry.S arch/arm64/lib/memcmp.S
 arm64,linux,asm,eret,19,arch/arm64/kernel/entry.S arch/arm64/kernel/head.S arch/arm64/kernel/hyp-stub.S
 arm64,linux,inline-macro,nsh,19,arch/arm64/include/asm/mte.h arch/arm64/include/asm/tlbflush.h arch/arm64/kernel/mte.c
-arm64,linux,inline-macro,b,18,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/percpu.h
-arm64,linux,inline-macro,h,18,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/percpu.h
+arm64,linux,inline-macro,b,18,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/cmpxchg.h arch/arm64/include/asm/percpu.h
+arm64,linux,inline-macro,h,18,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/cmpxchg.h arch/arm64/include/asm/percpu.h
 arm64,linux,asm,ldrb,18,arch/arm64/kernel/entry.S arch/arm64/lib/copy_to_user.S arch/arm64/lib/memchr.S
 arm64,linux,inline,mov,17,arch/arm64/include/asm/futex.h arch/arm64/include/asm/kexec.h arch/arm64/include/asm/kvm_asm.h
 arm64,linux,inline,msr,17,arch/arm64/include/asm/arch_gicv3.h arch/arm64/include/asm/barrier.h arch/arm64/include/asm/daifflags.h
@@ -1007,6 +1062,7 @@ arm64,linux,asm,br,12,arch/arm64/kernel/cpu-reset.S arch/arm64/kernel/entry-ftra
 arm64,linux,asm,movk,12,arch/arm64/kernel/entry.S arch/arm64/kernel/reloc_test_syms.S
 arm64,linux,asm,rev,12,arch/arm64/lib/memchr.S arch/arm64/lib/memcmp.S arch/arm64/lib/strcmp.S
 arm64,linux,asm,tbnz,12,arch/arm64/kernel/entry.S arch/arm64/kernel/head.S arch/arm64/kernel/hyp-stub.S
+arm64,linux,inline,isb,11,arch/arm64/include/asm/arch_timer.h arch/arm64/include/asm/barrier.h arch/arm64/include/asm/kvm_asm.h
 arm64,linux,inline,mrs,11,arch/arm64/include/asm/arch_timer.h arch/arm64/include/asm/current.h arch/arm64/include/asm/kexec.h
 arm64,linux,asm,nop,11,arch/arm64/kernel/efi-header.S arch/arm64/kernel/entry-ftrace.S arch/arm64/kernel/entry.S
 arm64,linux,inline,ldxr,10,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/cmpxchg.h arch/arm64/include/asm/futex.h
@@ -1028,12 +1084,14 @@ arm64,linux,asm,hvc,7,arch/arm64/kernel/cpu-reset.S arch/arm64/kernel/entry.S ar
 arm64,linux,inline,movk,7,arch/arm64/include/asm/kvm_mmu.h arch/arm64/include/asm/runtime-const.h arch/arm64/kvm/vgic/vgic.h
 arm64,linux,inline,nop,7,arch/arm64/include/asm/barrier.h arch/arm64/include/asm/mte-kasan.h arch/arm64/include/asm/uaccess.h
 arm64,linux,inline,nopdmb,7,arch/arm64/include/asm/io.h arch/arm64/include/asm/sysreg.h arch/arm64/kvm/hyp/include/hyp/switch.h
+arm64,linux,asm,wfe,7,arch/arm64/kernel/head.S arch/arm64/kvm/hyp/nvhe/hyp-init.S arch/arm64/mm/proc.S
 arm64,linux,asm,adr,6,arch/arm64/kernel/entry.S arch/arm64/kernel/reloc_test_syms.S
 arm64,linux,asm,beq,6,arch/arm64/kernel/hyp-stub.S arch/arm64/lib/memcmp.S arch/arm64/lib/strlen.S
 arm64,linux,asm,bne,6,arch/arm64/lib/memcmp.S arch/arm64/lib/strlen.S
 arm64,linux,asm,clz,6,arch/arm64/lib/memchr.S arch/arm64/lib/strcmp.S arch/arm64/lib/strlen.S
 arm64,linux,asm,csinv,6,arch/arm64/lib/strncmp.S arch/arm64/lib/strnlen.S
 arm64,linux,asm,dc,6,arch/arm64/kernel/head.S arch/arm64/lib/memset.S arch/arm64/lib/mte.S
+arm64,linux,inline,dsb,6,arch/arm64/include/asm/barrier.h arch/arm64/include/asm/sysreg.h arch/arm64/kernel/pi/map_kernel.c
 arm64,linux,inline,hint,6,arch/arm64/include/asm/barrier.h arch/arm64/include/asm/compiler.h arch/arm64/include/asm/static_call.h
 arm64,linux,asm,strb,6,arch/arm64/lib/copy_from_user.S arch/arm64/lib/memcpy.S arch/arm64/lib/memset.S
 arm64,linux,inline,sub,6,arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/futex.h arch/arm64/kernel/armv8_deprecated.c
@@ -1045,6 +1103,7 @@ arm64,linux,inline-macro,acq_,4,arch/arm64/include/asm/cmpxchg.h
 arm64,linux,inline-macro,add,4,arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/futex.h
 arm64,linux,inline,b.cond,4,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/percpu.h
 arm64,linux,inline,cbz,4,arch/arm64/include/asm/futex.h arch/arm64/kernel/armv8_deprecated.c arch/arm64/kvm/hyp/include/nvhe/spinlock.h
+arm64,linux,inline,dmb,4,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/barrier.h arch/arm64/include/asm/futex.h
 arm64,linux,asm,ldrh,4,arch/arm64/kernel/entry.S arch/arm64/kernel/reloc_test_syms.S arch/arm64/lib/copy_to_user.S
 arm64,linux,inline-macro,mb_,4,arch/arm64/include/asm/cmpxchg.h
 arm64,linux,inline,movz,4,arch/arm64/include/asm/kvm_mmu.h arch/arm64/include/asm/runtime-const.h arch/arm64/kvm/vgic/vgic.h
@@ -1053,12 +1112,15 @@ arm64,linux,inline-macro,nop,4,arch/arm64/include/asm/cmpxchg.h
 arm64,linux,inline-macro,or,4,arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/futex.h
 arm64,linux,inline-macro,rel_,4,arch/arm64/include/asm/cmpxchg.h
 arm64,linux,inline,stlxr,4,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/futex.h arch/arm64/kvm/at.c
+arm64,linux,inline,wfe,4,arch/arm64/include/asm/barrier.h arch/arm64/include/asm/cmpxchg.h arch/arm64/kvm/hyp/include/nvhe/spinlock.h
+arm64,linux,asm,wfi,4,arch/arm64/kernel/head.S arch/arm64/kvm/hyp/nvhe/hyp-init.S
 arm64,linux,asm,adds,3,arch/arm64/lib/memcmp.S arch/arm64/lib/strncmp.S
 arm64,linux,inline-macro,andnot,3,arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/futex.h
 arm64,linux,asm,asr,3,arch/arm64/lib/tishift.S
 arm64,linux,inline,b,3,arch/arm64/include/asm/jump_label.h arch/arm64/include/asm/kvm_asm.h arch/arm64/kernel/armv8_deprecated.c
 arm64,linux,inline,cas,3,arch/arm64/include/asm/atomic_lse.h arch/arm64/include/asm/percpu.h arch/arm64/kvm/at.c
 arm64,linux,inline,cmp,3,arch/arm64/include/asm/atomic_ll_sc.h arch/arm64/include/asm/barrier.h arch/arm64/include/asm/percpu.h
+arm64,linux,asm,dmb,3,arch/arm64/kernel/head.S
 arm64,linux,inline,nopisb,3,arch/arm64/include/asm/kvm_mmu.h arch/arm64/kvm/at.c arch/arm64/kvm/hyp/vhe/switch.c
 arm64,linux,inline-macro,nshst,3,arch/arm64/include/asm/tlbflush.h arch/arm64/kvm/hyp/vhe/tlb.c
 arm64,linux,inline,orr,3,arch/arm64/include/asm/kexec.h
@@ -1174,6 +1236,7 @@ arm64,linux,asm,sbfx,1,arch/arm64/kernel/head.S
 arm64,linux,asm,sete,1,arch/arm64/lib/memset.S
 arm64,linux,asm,setm,1,arch/arm64/lib/memset.S
 arm64,linux,asm,setp,1,arch/arm64/lib/memset.S
+arm64,linux,inline,sev,1,arch/arm64/include/asm/barrier.h
 arm64,linux,inline-macro,st,1,arch/arm64/include/asm/barrier.h
 arm64,linux,inline,staddlh,1,arch/arm64/kvm/hyp/include/nvhe/spinlock.h
 arm64,linux,inline,stg,1,arch/arm64/include/asm/mte-kasan.h
@@ -1196,6 +1259,7 @@ arm64,linux,inline,ubfx,1,arch/arm64/include/asm/runtime-const.h
 arm64,linux,asm,val,1,arch/arm64/lib/memset.S
 arm64,linux,inline-macro,val,1,arch/arm64/kernel/reloc_test_core.c
 arm64,linux,asm,valid,1,arch/arm64/mm/proc.S
+arm64,linux,inline,wfi,1,arch/arm64/include/asm/barrier.h
 arm64,linux,inline,wrffr,1,arch/arm64/include/asm/fpsimd.h
 arm64,linux,inline,yield,1,arch/arm64/kernel/idle.c
 arm64,netbsd,asm,mov,180,sys/arch/aarch64/aarch64/bus_space_asm_generic.S sys/arch/aarch64/aarch64/bus_space_notimpl.S sys/arch/aarch64/aarch64/copyinout.S
@@ -1420,12 +1484,16 @@ hppa,netbsd,asm,addc,166,sys/arch/hppa/spmath/divu.S sys/arch/hppa/spmath/impyu.
 hppa,netbsd,asm,ldo,123,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/lock_stubs.S
 hppa,netbsd,asm,sh3add,121,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/fpemu.S sys/lib/libkern/arch/hppa/milli.S
 hppa,netbsd,asm,bv,112,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/lock_stubs.S
+hppa,netbsd,asm,mtctl,110,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/lock_stubs.S sys/arch/hppa/hppa/locore.S
 hppa,netbsd,asm,copy,109,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/lock_stubs.S
 hppa,netbsd,asm,ldil,80,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/lock_stubs.S
+hppa,netbsd,asm,mfctl,79,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/lock_stubs.S sys/arch/hppa/hppa/locore.S
 hppa,netbsd,asm,shd,78,sys/arch/hppa/hppa/trap.S sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S
+hppa,netbsd,asm,mtsp,71,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/support.S
 hppa,netbsd,asm,sh2add,68,sys/arch/hppa/hppa/fpemu.S sys/lib/libkern/arch/hppa/milli.S
 hppa,netbsd,asm,ldi,61,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/lock_stubs.S
 hppa,netbsd,asm,zdep,50,sys/arch/hppa/hppa/lock_stubs.S sys/arch/hppa/hppa/support.S sys/arch/hppa/hppa/trap.S
+hppa,netbsd,asm,extru,44,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/lock_stubs.S
 hppa,netbsd,asm,sh1add,44,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S sys/arch/hppa/stand/common/milli_tiny.S
 hppa,netbsd,asm,addb,40,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S
 hppa,netbsd,asm,add,38,sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/support.S sys/arch/hppa/spmath/divu.S
@@ -1442,15 +1510,19 @@ hppa,netbsd,asm,addi,25,sys/arch/hppa/hppa/support.S sys/arch/hppa/hppa/trap.S s
 hppa,netbsd,asm,ldwm,22,sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/support.S sys/arch/hppa/stand/common/milli_tiny.S
 hppa,netbsd,asm,addib,21,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S sys/arch/hppa/stand/xxboot/start.S
 hppa,netbsd,asm,fic,21,sys/arch/hppa/hppa/support.S sys/arch/hppa/stand/xxboot/start.S
+hppa,netbsd,asm,mfsp,21,sys/arch/hppa/hppa/trap.S sys/lib/libkern/arch/hppa/bcopy.S
 hppa,netbsd,inline,nop,21,sys/arch/hppa/hppa/db_memrw.c sys/arch/hppa/hppa/mainbus.c sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,asm,sync,21,sys/arch/hppa/hppa/lock_stubs.S sys/arch/hppa/hppa/support.S sys/arch/hppa/hppa/trap.S
 hppa,netbsd,asm,blr,19,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/locore.S
 hppa,netbsd,asm,pdc,19,sys/arch/hppa/hppa/support.S
 hppa,netbsd,asm,rfir,17,sys/arch/hppa/hppa/trap.S
 hppa,netbsd,asm,dep,11,sys/arch/hppa/hppa/copy.S sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/trap.S
+hppa,netbsd,inline,extru,11,sys/arch/hppa/gsc/if_ie_gsc.c sys/arch/hppa/hppa/fpu.c sys/arch/hppa/include/byte_swap.h
 hppa,netbsd,asm,bl,10,sys/arch/hppa/hppa/copy.S sys/arch/hppa/stand/common/milli_tiny.S sys/arch/hppa/stand/xxboot/start.S
 hppa,netbsd,asm,extrs,9,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S
+hppa,netbsd,inline,mtctl,9,sys/arch/hppa/include/cpufunc.h sys/arch/hppa/include/profile.h sys/arch/hppa/stand/boot/boot.c
 hppa,netbsd,asm,diag,8,sys/arch/hppa/hppa/locore.S
+hppa,netbsd,asm,rsm,8,sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/trap.S
 hppa,netbsd,asm,rfi,7,sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/trap.S
 hppa,netbsd,asm,ldbs,6,sys/arch/hppa/hppa/copy.S sys/arch/hppa/stand/xxboot/start.S
 hppa,netbsd,inline,ldw,6,sys/arch/hppa/hppa/in_cksum.c
@@ -1459,6 +1531,7 @@ hppa,netbsd,asm,addil,5,sys/arch/hppa/stand/xxboot/start.S
 hppa,netbsd,asm,idtlba,5,sys/arch/hppa/hppa/trap.S
 hppa,netbsd,asm,idtlbp,5,sys/arch/hppa/hppa/trap.S
 hppa,netbsd,inline,ldo,5,sys/arch/hppa/hppa/fpu.c sys/arch/hppa/hppa/in_cksum.c
+hppa,netbsd,inline,mfctl,5,sys/arch/hppa/include/cpu.h sys/arch/hppa/include/cpufunc.h sys/arch/hppa/include/lwp_private.h
 hppa,netbsd,asm,or,5,sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/support.S sys/arch/hppa/hppa/trap.S
 hppa,netbsd,inline,stwas,5,sys/arch/hppa/dev/mem.c sys/arch/hppa/hppa/machdep.c
 hppa,netbsd,inline,addc,4,sys/arch/hppa/hppa/in_cksum.c
@@ -1466,12 +1539,14 @@ hppa,netbsd,asm,andcm,4,sys/arch/hppa/hppa/support.S sys/arch/hppa/stand/xxboot/
 hppa,netbsd,inline,fdc,4,sys/arch/hppa/gsc/if_ie_gsc.c
 hppa,netbsd,asm,idtlbt,4,sys/arch/hppa/hppa/trap.S
 hppa,netbsd,asm,movib,4,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S
+hppa,netbsd,asm,ssm,4,sys/arch/hppa/hppa/trap.S sys/arch/hppa/stand/xxboot/start.S
 hppa,netbsd,asm,stbs,4,sys/arch/hppa/hppa/copy.S sys/arch/hppa/stand/xxboot/start.S
 hppa,netbsd,inline,sync,4,sys/arch/hppa/hppa/mainbus.c sys/arch/hppa/include/cpufunc.h sys/arch/hppa/include/lock.h
 hppa,netbsd,inline,dep,3,sys/arch/hppa/include/byte_swap.h
 hppa,netbsd,inline,fstds,3,sys/arch/hppa/hppa/fpu.c
 hppa,netbsd,asm,ldb,3,sys/arch/hppa/hppa/lock_stubs.S sys/arch/hppa/stand/xxboot/start.S
 hppa,netbsd,asm,ldcw,3,sys/arch/hppa/hppa/lock_stubs.S
+hppa,netbsd,inline,ssm,3,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,inline,sth,3,sys/arch/hppa/gsc/if_ie_gsc.c
 hppa,netbsd,asm,syncdma,3,sys/arch/hppa/hppa/support.S
 hppa,netbsd,inline,add,2,sys/arch/hppa/hppa/in_cksum.c
@@ -1481,6 +1556,7 @@ hppa,netbsd,asm,ble,2,sys/arch/hppa/hppa/sigcode.S
 hppa,netbsd,asm,movb,2,sys/arch/hppa/spmath/impys.S sys/lib/libkern/arch/hppa/milli.S
 hppa,netbsd,asm,mtsm,2,sys/arch/hppa/hppa/trap.S
 hppa,netbsd,inline,or,2,sys/arch/hppa/hppa/idle_machdep.c sys/arch/hppa/hppa/machdep.c
+hppa,netbsd,inline,rsm,2,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,asm,sh2addl,2,sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/trap.S
 hppa,netbsd,inline,shd,2,sys/arch/hppa/hppa/in_cksum.c sys/arch/hppa/include/byte_swap.h
 hppa,netbsd,asm,stwas,2,sys/arch/hppa/hppa/copy.S sys/arch/hppa/stand/xxboot/start.S
@@ -1491,6 +1567,8 @@ hppa,netbsd,inline,copy,1,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,asm,depdi,1,sys/arch/hppa/hppa/trap.S
 hppa,netbsd,inline,diag,1,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,asm,extrw,1,sys/arch/hppa/hppa/trap.S
+hppa,netbsd,inline,fdce,1,sys/arch/hppa/include/cpufunc.h
+hppa,netbsd,inline,fice,1,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,asm,gate,1,sys/arch/hppa/hppa/trap.S
 hppa,netbsd,inline,idtlba,1,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,inline,idtlbp,1,sys/arch/hppa/include/cpufunc.h
@@ -1510,8 +1588,10 @@ hppa,netbsd,asm,ldwas,1,sys/arch/hppa/hppa/copy.S
 hppa,netbsd,inline,ldwm,1,sys/arch/hppa/hppa/in_cksum.c
 hppa,netbsd,asm,ldwx,1,sys/arch/hppa/hppa/trap.S
 hppa,netbsd,inline,lpa,1,sys/arch/hppa/include/cpu.h
+hppa,netbsd,inline,mfsp,1,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,asm,mtsar,1,sys/arch/hppa/hppa/copy.S
 hppa,netbsd,inline,mtsm,1,sys/arch/hppa/include/cpufunc.h
+hppa,netbsd,inline,mtsp,1,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,inline,pdtlb,1,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,inline,pdtlbe,1,sys/arch/hppa/include/cpufunc.h
 hppa,netbsd,inline,pitlb,1,sys/arch/hppa/include/cpufunc.h
@@ -1528,10 +1608,13 @@ hppa,openbsd,asm,ldw,245,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/locore.S 
 hppa,openbsd,asm,addc,162,sys/arch/hppa/spmath/divu.S sys/arch/hppa/spmath/impyu.S sys/lib/libkern/arch/hppa/milli.S
 hppa,openbsd,asm,nop,144,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S
 hppa,openbsd,asm,sh3add,127,sys/arch/hppa/hppa/fpemu.S sys/lib/libkern/arch/hppa/milli.S
+hppa,openbsd,asm,mfctl,104,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S
+hppa,openbsd,asm,mtctl,103,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S
 hppa,openbsd,asm,ldo,98,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S
 hppa,openbsd,asm,bv,87,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S
 hppa,openbsd,asm,ldil,83,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S
 hppa,openbsd,asm,copy,74,sys/arch/hppa/hppa/fpemu.S sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S
+hppa,openbsd,asm,mtsp,73,sys/arch/hppa/hppa/locore.S sys/arch/hppa/stand/boot/srt0.S sys/lib/libkern/arch/hppa/milli.S
 hppa,openbsd,asm,sh2add,67,sys/lib/libkern/arch/hppa/milli.S
 hppa,openbsd,asm,shd,66,sys/arch/hppa/hppa/locore.S sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S
 hppa,openbsd,asm,zdep,53,sys/arch/hppa/hppa/locore.S sys/lib/libkern/arch/hppa/bcopy.S sys/lib/libkern/arch/hppa/milli.S
@@ -1552,6 +1635,7 @@ hppa,openbsd,asm,fdc,23,sys/arch/hppa/hppa/locore.S sys/arch/hppa/stand/boot/srt
 hppa,openbsd,asm,ldwm,23,sys/arch/hppa/hppa/locore.S sys/arch/hppa/stand/boot/srt0.S sys/lib/libkern/arch/hppa/bcopy.S
 hppa,openbsd,asm,stwm,22,sys/arch/hppa/hppa/locore.S sys/arch/hppa/stand/boot/srt0.S
 hppa,openbsd,asm,rfir,21,sys/arch/hppa/hppa/locore.S
+hppa,openbsd,asm,mfsp,20,sys/arch/hppa/hppa/locore.S
 hppa,openbsd,asm,fic,19,sys/arch/hppa/hppa/locore.S
 hppa,openbsd,asm,pdc,19,sys/arch/hppa/hppa/locore.S
 hppa,openbsd,asm,sync,19,sys/arch/hppa/hppa/locore.S sys/arch/hppa/stand/boot/srt0.S
@@ -1561,12 +1645,15 @@ hppa,openbsd,asm,addib,14,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impy
 hppa,openbsd,inline,nop,14,sys/arch/hppa/hppa/mainbus.c sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,asm,vshd,14,sys/lib/libkern/arch/hppa/bcopy.S sys/lib/libkern/arch/hppa/spcopy.S
 hppa,openbsd,asm,dep,10,sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S sys/lib/libkern/arch/hppa/bcopy.S
+hppa,openbsd,inline,mtctl,9,sys/arch/hppa/include/atomic.h sys/arch/hppa/include/cpufunc.h sys/arch/hppa/include/intr.h
 hppa,openbsd,asm,stbys,8,sys/lib/libkern/arch/hppa/bcopy.S sys/lib/libkern/arch/hppa/spcopy.S
 hppa,openbsd,inline,ldw,6,sys/arch/hppa/hppa/in_cksum.c
+hppa,openbsd,inline,mfctl,6,sys/arch/hppa/include/atomic.h sys/arch/hppa/include/cpu.h sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,asm,xor,6,sys/arch/hppa/spmath/impys.S sys/lib/libkern/arch/hppa/milli.S
 hppa,openbsd,inline,fdc,5,sys/arch/hppa/dev/astro.c sys/arch/hppa/gsc/if_ie_gsc.c
 hppa,openbsd,asm,or,5,sys/arch/hppa/hppa/locore.S sys/lib/libkern/arch/hppa/milli.S
 hppa,openbsd,asm,rfi,5,sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S
+hppa,openbsd,asm,rsm,5,sys/arch/hppa/hppa/locore.S sys/arch/hppa/hppa/locore0.S
 hppa,openbsd,inline,addc,4,sys/arch/hppa/hppa/in_cksum.c
 hppa,openbsd,asm,idtlba,4,sys/arch/hppa/hppa/locore.S
 hppa,openbsd,asm,idtlbp,4,sys/arch/hppa/hppa/locore.S
@@ -1618,6 +1705,7 @@ hppa,openbsd,asm,sh3us,2,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu
 hppa,openbsd,asm,sh4c,2,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S
 hppa,openbsd,asm,sh4n,2,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S
 hppa,openbsd,asm,sh4s,2,sys/arch/hppa/spmath/impys.S sys/arch/hppa/spmath/impyu.S
+hppa,openbsd,inline,ssm,2,sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,asm,subi,2,sys/arch/hppa/hppa/fpemu.S
 hppa,openbsd,asm,addo,1,sys/lib/libkern/arch/hppa/milli.S
 hppa,openbsd,asm,boff,1,sys/arch/hppa/stand/boot/srt0.S
@@ -1627,6 +1715,8 @@ hppa,openbsd,asm,copyloop,1,sys/arch/hppa/stand/boot/srt0.S
 hppa,openbsd,asm,depdi,1,sys/arch/hppa/hppa/locore.S
 hppa,openbsd,asm,dvr,1,sys/arch/hppa/spmath/divu.S
 hppa,openbsd,asm,extrw,1,sys/arch/hppa/hppa/locore.S
+hppa,openbsd,inline,fdce,1,sys/arch/hppa/include/cpufunc.h
+hppa,openbsd,inline,fice,1,sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,asm,finish,1,sys/arch/hppa/spmath/divu.S
 hppa,openbsd,asm,forever,1,sys/arch/hppa/stand/boot/srt0.S
 hppa,openbsd,asm,gate,1,sys/arch/hppa/hppa/locore.S
@@ -1645,12 +1735,14 @@ hppa,openbsd,inline,ldsid,1,sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,asm,ldsid,1,sys/lib/libkern/arch/hppa/milli.S
 hppa,openbsd,inline,ldwas,1,sys/arch/hppa/dev/power.c
 hppa,openbsd,inline,ldwm,1,sys/arch/hppa/hppa/in_cksum.c
+hppa,openbsd,inline,mfsp,1,sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,asm,mmax,1,sys/arch/hppa/spmath/impys.S
 hppa,openbsd,asm,mpy2,1,sys/arch/hppa/spmath/impys.S
 hppa,openbsd,asm,mpya,1,sys/arch/hppa/spmath/impys.S
 hppa,openbsd,asm,mpyb,1,sys/arch/hppa/spmath/impys.S
 hppa,openbsd,asm,mtsm,1,sys/arch/hppa/hppa/locore.S
 hppa,openbsd,inline,mtsm,1,sys/arch/hppa/include/cpufunc.h
+hppa,openbsd,inline,mtsp,1,sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,asm,nosub,1,sys/arch/hppa/spmath/divu.S
 hppa,openbsd,inline,pdtlb,1,sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,inline,pdtlbe,1,sys/arch/hppa/include/cpufunc.h
@@ -1659,11 +1751,13 @@ hppa,openbsd,inline,pitlbe,1,sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,asm,probew,1,sys/lib/libkern/arch/hppa/milli.S
 hppa,openbsd,asm,quo,1,sys/arch/hppa/spmath/divu.S
 hppa,openbsd,asm,rem,1,sys/arch/hppa/spmath/divu.S
+hppa,openbsd,inline,rsm,1,sys/arch/hppa/include/cpufunc.h
 hppa,openbsd,asm,saveop2,1,sys/arch/hppa/spmath/impyu.S
 hppa,openbsd,asm,sh2addl,1,sys/arch/hppa/hppa/locore.S
 hppa,openbsd,inline,shd,1,sys/arch/hppa/hppa/in_cksum.c
 hppa,openbsd,asm,sign,1,sys/arch/hppa/spmath/impys.S
 hppa,openbsd,asm,signs,1,sys/arch/hppa/spmath/impys.S
+hppa,openbsd,asm,ssm,1,sys/arch/hppa/hppa/locore.S
 hppa,openbsd,asm,start,1,sys/arch/hppa/stand/boot/srt0.S
 hppa,openbsd,asm,stb,1,sys/arch/hppa/hppa/locore.S
 hppa,openbsd,asm,subb,1,sys/arch/hppa/spmath/impys.S
@@ -2245,6 +2339,7 @@ mips,linux,asm,srl,15,arch/mips/kernel/bmips_5xxx_init.S arch/mips/kernel/bmips_
 mips,linux,inline,dext,14,arch/mips/kernel/mips-r2-to-r6-emul.c
 mips,linux,inline,dextu,14,arch/mips/kernel/mips-r2-to-r6-emul.c
 mips,linux,asm,la,14,arch/mips/kernel/bmips_5xxx_init.S arch/mips/kernel/bmips_vec.S arch/mips/kernel/scall32-o32.S
+mips,linux,asm,mttc0,14,arch/mips/kernel/cps-vec.S
 mips,linux,asm,bltz,13,arch/mips/kernel/bmips_vec.S arch/mips/kernel/genex.S arch/mips/kernel/octeon_switch.S
 mips,linux,inline,dmtc2,13,arch/mips/include/asm/octeon/crypto.h
 mips,linux,asm,xori,13,arch/mips/kernel/bmips_vec.S arch/mips/kernel/cps-vec.S arch/mips/kernel/genex.S
@@ -2317,6 +2412,7 @@ mips,linux,asm,dnegu,3,arch/mips/kernel/scall64-n32.S arch/mips/kernel/scall64-n
 mips,linux,inline,ins,3,arch/mips/include/asm/irqflags.h arch/mips/include/asm/octeon/cvmx-spinlock.h
 mips,linux,asm,lb,3,arch/mips/kernel/cps-vec-ns16550.S arch/mips/lib/memcpy.S
 mips,linux,asm,lhu,3,arch/mips/kernel/genex.S arch/mips/lib/csum_partial.S
+mips,linux,asm,mftc0,3,arch/mips/kernel/cps-vec.S
 mips,linux,asm,nor,3,arch/mips/kernel/octeon_switch.S arch/mips/kernel/r2300_switch.S arch/mips/kernel/r4k_switch.S
 mips,linux,asm,pref,3,arch/mips/kernel/octeon_switch.S
 mips,linux,inline-macro,sel,3,arch/mips/include/asm/mipsregs.h
@@ -2339,6 +2435,7 @@ mips,linux,inline,ldr,2,arch/mips/include/asm/unaligned-emul.h
 mips,linux,inline,lld,2,arch/mips/include/asm/cmpxchg.h arch/mips/kernel/mips-r2-to-r6-emul.c
 mips,linux,asm,mflo,2,arch/mips/kernel/bmips_5xxx_init.S
 mips,linux,asm,movn,2,arch/mips/lib/csum_partial.S
+mips,linux,asm,mttgpr,2,arch/mips/kernel/cps-vec.S
 mips,linux,asm,multu,2,arch/mips/kernel/bmips_5xxx_init.S
 mips,linux,inline,pref,2,arch/mips/include/asm/octeon/cvmx-asm.h
 mips,linux,asm,rfe,2,arch/mips/kernel/genex.S
@@ -2399,6 +2496,9 @@ mips,linux,inline,mfgc0,1,arch/mips/include/asm/mipsregs.h
 mips,linux,inline,mfhc0,1,arch/mips/include/asm/mipsregs.h
 mips,linux,inline,mfpc,1,arch/mips/include/asm/mipsregs.h
 mips,linux,inline,mfps,1,arch/mips/include/asm/mipsregs.h
+mips,linux,inline,mftc0,1,arch/mips/include/asm/mipsmtregs.h
+mips,linux,inline,mftgpr,1,arch/mips/include/asm/mipsmtregs.h
+mips,linux,inline,mftr,1,arch/mips/include/asm/mipsmtregs.h
 mips,linux,inline,mtgc0,1,arch/mips/include/asm/mipsregs.h
 mips,linux,inline,mthc0,1,arch/mips/include/asm/mipsregs.h
 mips,linux,asm,mtm0,1,arch/mips/kernel/octeon_switch.S
@@ -2409,10 +2509,14 @@ mips,linux,asm,mtp1,1,arch/mips/kernel/octeon_switch.S
 mips,linux,asm,mtp2,1,arch/mips/kernel/octeon_switch.S
 mips,linux,inline,mtpc,1,arch/mips/include/asm/mipsregs.h
 mips,linux,inline,mtps,1,arch/mips/include/asm/mipsregs.h
+mips,linux,inline,mttc0,1,arch/mips/include/asm/mipsmtregs.h
+mips,linux,inline,mttgpr,1,arch/mips/include/asm/mipsmtregs.h
+mips,linux,inline,mttr,1,arch/mips/include/asm/mipsmtregs.h
 mips,linux,inline,mult,1,arch/mips/kernel/r4k-bugs64.c
 mips,linux,asm,negu,1,arch/mips/kernel/scall32-o32.S
 mips,linux,asm,not,1,arch/mips/kernel/cps-vec.S
 mips,linux,inline,pop,1,arch/mips/include/asm/octeon/cvmx-asm.h
+mips,linux,inline,rddsp,1,arch/mips/include/asm/mipsregs.h
 mips,linux,asm,rdhwr,1,arch/mips/mm/cex-oct.S
 mips,linux,inline-macro,register,1,arch/mips/include/asm/mipsregs.h
 mips,linux,inline,rotr,1,arch/mips/include/uapi/asm/swab.h
@@ -2436,6 +2540,7 @@ mips,linux,inline,tlbwr,1,arch/mips/include/asm/mipsregs.h
 mips,linux,inline,tne,1,arch/mips/include/asm/bug.h
 mips,linux,asm,ulhu,1,arch/mips/lib/csum_partial.S
 mips,linux,asm,ulw,1,arch/mips/lib/csum_partial.S
+mips,linux,inline,wrdsp,1,arch/mips/include/asm/mipsregs.h
 mips,netbsd,asm,nop,500,sys/arch/mips/mips/bds_emul.S sys/arch/mips/mips/cache_r3k_subr.S sys/arch/mips/mips/cache_r4k_subr.S
 mips,netbsd,asm,b,360,sys/arch/mips/mips/bds_emul.S sys/arch/mips/mips/cache_r4k_subr.S sys/arch/mips/mips/copy.S
 mips,netbsd,asm,bne,299,sys/arch/mips/mips/cache_r3k_subr.S sys/arch/mips/mips/cache_r5k_subr.S sys/arch/mips/mips/copy.S
@@ -2664,6 +2769,7 @@ mips,openbsd,asm,lb,3,sys/arch/mips64/mips64/lcore_ddb.S sys/lib/libkern/arch/mi
 mips,openbsd,asm,tlbr,3,sys/arch/mips64/mips64/tlbhandler.S
 mips,openbsd,asm,addu,2,sys/arch/mips64/mips64/tlbhandler.S sys/lib/libkern/arch/mips64/ffs.S
 mips,openbsd,inline,and,2,sys/arch/mips64/include/atomic.h
+mips,openbsd,inline,cache,2,sys/arch/mips64/mips64/cache_octeon.c
 mips,openbsd,inline,cfc1,2,sys/arch/mips64/mips64/fp_emulate.c
 mips,openbsd,asm,ctc1,2,sys/arch/mips64/mips64/lcore_float.S
 mips,openbsd,inline,daddu,2,sys/arch/mips64/include/atomic.h sys/arch/mips64/include/profile.h
@@ -2705,8 +2811,10 @@ ppc,freebsd,asm,lwz,98,sys/powerpc/aim/locore32.S sys/powerpc/aim/locore64.S sys
 ppc,freebsd,asm,stdu,95,sys/powerpc/ofw/ofwcall64.S sys/powerpc/powerpc/swtch64.S sys/powerpc/ps3/ps3-hvcall.S
 ppc,freebsd,asm,extsw,92,sys/powerpc/ofw/ofwcall64.S sys/powerpc/ps3/ps3-hvcall.S
 ppc,freebsd,asm,isync,87,sys/powerpc/aim/locore64.S sys/powerpc/aim/trap_subr32.S sys/powerpc/aim/trap_subr64.S
+ppc,freebsd,asm,mtspr,71,sys/powerpc/aim/trap_subr32.S sys/powerpc/booke/locore.S sys/powerpc/booke/trap_subr.S
 ppc,freebsd,asm,stw,70,sys/powerpc/aim/locore32.S sys/powerpc/aim/trap_subr32.S sys/powerpc/booke/locore.S
 ppc,freebsd,asm,b,64,sys/powerpc/aim/locore32.S sys/powerpc/aim/locore64.S sys/powerpc/aim/trap_subr32.S
+ppc,freebsd,asm,mfspr,60,sys/powerpc/aim/locore.S sys/powerpc/aim/trap_subr32.S sys/powerpc/aim/trap_subr64.S
 ppc,freebsd,asm,mr,59,sys/powerpc/aim/locore32.S sys/powerpc/aim/locore64.S sys/powerpc/aim/trap_subr32.S
 ppc,freebsd,asm,beq,51,sys/powerpc/aim/trap_subr32.S sys/powerpc/aim/trap_subr64.S sys/powerpc/booke/locore.S
 ppc,freebsd,inline,bne,51,sys/powerpc/aim/moea64_native.c sys/powerpc/include/atomic.h sys/powerpc/include/counter.h
@@ -2754,6 +2862,7 @@ ppc,freebsd,inline,lwz,11,sys/powerpc/include/profile.h
 ppc,freebsd,asm,or,11,sys/powerpc/aim/locore64.S sys/powerpc/aim/trap_subr32.S sys/powerpc/aim/trap_subr64.S
 ppc,freebsd,inline,cmplw,10,sys/powerpc/include/atomic.h sys/powerpc/powerpc/copyinout.c
 ppc,freebsd,asm,mtmsrd,10,sys/powerpc/aim/locore64.S sys/powerpc/aim/trap_subr32.S sys/powerpc/aim/trap_subr64.S
+ppc,freebsd,inline,mfspr,9,sys/powerpc/aim/mp_cpudep.c sys/powerpc/cpufreq/pcr.c sys/powerpc/include/cpufunc.h
 ppc,freebsd,asm,mfsprg2,9,sys/powerpc/aim/trap_subr32.S sys/powerpc/aim/trap_subr64.S
 ppc,freebsd,inline,std,9,sys/powerpc/include/profile.h
 ppc,freebsd,inline,stw,9,sys/powerpc/include/profile.h
@@ -2821,6 +2930,7 @@ ppc,freebsd,inline,lfd,3,sys/powerpc/include/cpufunc.h sys/powerpc/powerpc/fpu.c
 ppc,freebsd,inline,lhbrx,3,sys/powerpc/include/pio.h sys/powerpc/powerpc/bus_machdep.c
 ppc,freebsd,inline,lwbrx,3,sys/powerpc/include/pio.h sys/powerpc/powerpc/bus_machdep.c
 ppc,freebsd,asm,lwzu,3,sys/powerpc/aim/trap_subr32.S
+ppc,freebsd,inline,mtspr,3,sys/powerpc/aim/mp_cpudep.c sys/powerpc/include/spr.h
 ppc,freebsd,asm,mtxer,3,sys/powerpc/aim/trap_subr32.S sys/powerpc/aim/trap_subr64.S sys/powerpc/powerpc/setjmp.S
 ppc,freebsd,asm,neg,3,sys/powerpc/aim/trap_subr32.S sys/powerpc/aim/trap_subr64.S sys/powerpc/powerpc/support.S
 ppc,freebsd,asm,rfci,3,sys/powerpc/booke/trap_subr.S
@@ -2900,6 +3010,7 @@ ppc,freebsd,asm,lwzx,1,sys/powerpc/booke/trap_subr.S
 ppc,freebsd,inline,lxvd2x,1,sys/powerpc/powerpc/fpu.c
 ppc,freebsd,inline,lxvw4x,1,sys/powerpc/powerpc/fpu.c
 ppc,freebsd,inline,mfmsr,1,sys/powerpc/include/cpufunc.h
+ppc,freebsd,inline,mfpmr,1,sys/powerpc/include/pmc_mdep.h
 ppc,freebsd,inline,mfpvr,1,sys/powerpc/include/cpufunc.h
 ppc,freebsd,inline,mfsprg1,1,sys/powerpc/ofw/ofw_machdep.c
 ppc,freebsd,inline,mfsprg2,1,sys/powerpc/ofw/ofw_machdep.c
@@ -2913,6 +3024,7 @@ ppc,freebsd,inline,mtctr,1,sys/powerpc/include/profile.h
 ppc,freebsd,inline,mtdec,1,sys/powerpc/include/cpufunc.h
 ppc,freebsd,inline,mtmsr,1,sys/powerpc/include/cpufunc.h
 ppc,freebsd,inline,mtmsrd,1,sys/powerpc/include/cpufunc.h
+ppc,freebsd,inline,mtpmr,1,sys/powerpc/include/pmc_mdep.h
 ppc,freebsd,asm,mtsprg0,1,sys/powerpc/booke/locore.S
 ppc,freebsd,asm,mtsr,1,sys/powerpc/aim/trap_subr32.S
 ppc,freebsd,inline,mtsrin,1,sys/powerpc/include/cpufunc.h
@@ -2944,9 +3056,11 @@ ppc,freebsd,asm,tlbsync,1,sys/powerpc/booke/locore.S
 ppc,freebsd,inline,vxor,1,sys/powerpc/powerpc/altivec.c
 ppc,freebsd,asm,xor,1,sys/powerpc/aim/trap_subr32.S
 ppc,freebsd,asm,xori,1,sys/powerpc/powernv/opalcall.S
+ppc,linux,asm,mtspr,883,arch/powerpc/boot/gamecube-head.S arch/powerpc/boot/opal-calls.S arch/powerpc/boot/wii-head.S
 ppc,linux,asm,std,874,arch/powerpc/boot/crt0.S arch/powerpc/boot/opal-calls.S arch/powerpc/boot/ps3-hvcall.S
 ppc,linux,asm,li,821,arch/powerpc/boot/crt0.S arch/powerpc/boot/div64.S arch/powerpc/boot/gamecube-head.S
 ppc,linux,asm,addi,784,arch/powerpc/boot/crt0.S arch/powerpc/boot/div64.S arch/powerpc/boot/gamecube-head.S
+ppc,linux,asm,mfspr,642,arch/powerpc/boot/gamecube-head.S arch/powerpc/boot/ps3-head.S arch/powerpc/boot/wii-head.S
 ppc,linux,asm,lwz,619,arch/powerpc/boot/crt0.S arch/powerpc/boot/crtsavres.S arch/powerpc/boot/div64.S
 ppc,linux,asm,b,470,arch/powerpc/boot/crt0.S arch/powerpc/boot/fixed-head.S arch/powerpc/boot/gamecube-head.S
 ppc,linux,asm,stw,452,arch/powerpc/boot/crt0.S arch/powerpc/boot/crtsavres.S arch/powerpc/boot/div64.S
@@ -2972,6 +3086,7 @@ ppc,linux,asm,bdnz,134,arch/powerpc/boot/crt0.S arch/powerpc/boot/string.S arch/
 ppc,linux,asm,stb,131,arch/powerpc/boot/string.S arch/powerpc/kernel/exceptions-64e.S arch/powerpc/kernel/exceptions-64s.S
 ppc,linux,asm,bf,130,arch/powerpc/lib/copy_mc_64.S arch/powerpc/lib/copyuser_64.S arch/powerpc/lib/copyuser_power7.S
 ppc,linux,asm,stvx,124,arch/powerpc/kernel/tm.S arch/powerpc/kernel/vector.S arch/powerpc/lib/copypage_power7.S
+ppc,linux,asm,mfmsr,121,arch/powerpc/boot/crt0.S arch/powerpc/boot/gamecube-head.S arch/powerpc/boot/motload-head.S
 ppc,linux,asm,rlwimi,119,arch/powerpc/boot/string.S arch/powerpc/kernel/85xx_entry_mapping.S arch/powerpc/kernel/cpu_setup_e500.S
 ppc,linux,asm,cmpdi,115,arch/powerpc/boot/crt0.S arch/powerpc/kernel/exceptions-64e.S arch/powerpc/kernel/exceptions-64s.S
 ppc,linux,asm,lbz,114,arch/powerpc/boot/crt0.S arch/powerpc/boot/string.S arch/powerpc/kernel/exceptions-64e.S
@@ -2992,6 +3107,7 @@ ppc,linux,asm,clrldi,58,arch/powerpc/boot/ps3-head.S arch/powerpc/kernel/cpu_set
 ppc,linux,asm,subi,54,arch/powerpc/boot/string.S arch/powerpc/kernel/exceptions-64e.S arch/powerpc/kernel/exceptions-64s.S
 ppc,linux,asm,mfcr,51,arch/powerpc/boot/crt0.S arch/powerpc/boot/opal-calls.S arch/powerpc/kernel/cpu_setup_6xx.S
 ppc,linux,inline,sync,51,arch/powerpc/boot/io.h arch/powerpc/include/asm/barrier.h arch/powerpc/include/asm/book3s/32/tlbflush.h
+ppc,linux,asm,mtmsr,50,arch/powerpc/boot/crt0.S arch/powerpc/boot/motload-head.S arch/powerpc/kernel/cpu_setup_6xx.S
 ppc,linux,asm,cmpld,49,arch/powerpc/boot/crt0.S arch/powerpc/kernel/exceptions-64e.S arch/powerpc/kernel/exceptions-64s.S
 ppc,linux,asm,beqlr,46,arch/powerpc/boot/string.S arch/powerpc/kernel/cpu_setup_6xx.S arch/powerpc/kernel/cpu_setup_pa6t.S
 ppc,linux,asm,rldicl,45,arch/powerpc/boot/crt0.S arch/powerpc/kernel/cpu_setup_pa6t.S arch/powerpc/kernel/cpu_setup_ppc970.S
@@ -3071,6 +3187,8 @@ ppc,linux,asm,mfxer,11,arch/powerpc/kernel/exceptions-64e.S arch/powerpc/kernel/
 ppc,linux,inline,tlbwe,11,arch/powerpc/kvm/e500.c arch/powerpc/kvm/e500_mmu_host.c arch/powerpc/kvm/e500mc.c
 ppc,linux,inline,twi,11,arch/powerpc/boot/io.h arch/powerpc/include/asm/barrier.h arch/powerpc/include/asm/io.h
 ppc,linux,inline-macro,asm_op,10,arch/powerpc/include/asm/atomic.h
+ppc,linux,inline,mfspr,10,arch/powerpc/boot/4xx.c arch/powerpc/boot/reg.h arch/powerpc/include/asm/reg.h
+ppc,linux,inline,mtspr,10,arch/powerpc/boot/4xx.c arch/powerpc/boot/reg.h arch/powerpc/include/asm/nohash/32/kup-8xx.h
 ppc,linux,inline-macro,op,10,arch/powerpc/include/asm/atomic.h
 ppc,linux,inline,or,10,arch/powerpc/include/asm/book3s/64/radix.h arch/powerpc/include/asm/cmpxchg.h arch/powerpc/include/asm/kvm_book3s_64.h
 ppc,linux,asm,rotldi,10,arch/powerpc/kvm/book3s_hv_rmhandlers.S arch/powerpc/kvm/book3s_segment.S arch/powerpc/lib/checksum_64.S
@@ -3078,6 +3196,7 @@ ppc,linux,inline,stdcx,10,arch/powerpc/include/asm/atomic.h arch/powerpc/include
 ppc,linux,asm,trap,10,arch/powerpc/kernel/entry_32.S arch/powerpc/kernel/exceptions-64s.S arch/powerpc/kernel/head_64.S
 ppc,linux,asm,addze,9,arch/powerpc/boot/div64.S arch/powerpc/boot/util.S arch/powerpc/lib/checksum_32.S
 ppc,linux,asm,bdz,9,arch/powerpc/boot/string.S arch/powerpc/lib/checksum_32.S arch/powerpc/lib/copy_32.S
+ppc,linux,inline,mulhwu,9,arch/powerpc/include/asm/sfp-machine.h arch/powerpc/include/asm/time.h arch/powerpc/kernel/vecemu.c
 ppc,linux,asm,mulli,9,arch/powerpc/boot/util.S arch/powerpc/kernel/cpu_setup_e500.S arch/powerpc/kernel/reloc_64.S
 ppc,linux,asm,slbia,9,arch/powerpc/kernel/head_64.S arch/powerpc/kernel/misc_64.S arch/powerpc/kvm/book3s_64_slb.S
 ppc,linux,asm,slbmte,9,arch/powerpc/kernel/switch.S arch/powerpc/kvm/book3s_64_slb.S arch/powerpc/kvm/book3s_hv_rmhandlers.S
@@ -3100,12 +3219,14 @@ ppc,linux,asm,extrwi,6,arch/powerpc/kernel/reloc_32.S
 ppc,linux,asm,icbi,6,arch/powerpc/boot/crt0.S arch/powerpc/boot/string.S arch/powerpc/kernel/head_64.S
 ppc,linux,inline,lharx,6,arch/powerpc/include/asm/cmpxchg.h
 ppc,linux,inline,lwz,6,arch/powerpc/include/asm/atomic.h arch/powerpc/include/asm/book3s/32/pgtable.h arch/powerpc/include/asm/static_call.h
+ppc,linux,inline,mfmsr,6,arch/powerpc/include/asm/ftrace.h arch/powerpc/include/asm/perf_event.h arch/powerpc/include/asm/reg.h
 ppc,linux,inline,mr,6,arch/powerpc/include/asm/kvm_book3s_64.h arch/powerpc/include/asm/sections.h arch/powerpc/kernel/irq.c
 ppc,linux,asm,mtsprg,6,arch/powerpc/kernel/exceptions-64s.S arch/powerpc/kernel/swsusp_32.S arch/powerpc/kernel/swsusp_asm64.S
 ppc,linux,asm,mullw,6,arch/powerpc/boot/div64.S arch/powerpc/lib/div64.S
 ppc,linux,asm,rldicr,6,arch/powerpc/boot/crt0.S arch/powerpc/kernel/exceptions-64e.S arch/powerpc/kernel/head_64.S
 ppc,linux,asm,stfsx,6,arch/powerpc/kernel/vector.S
 ppc,linux,inline,sthcx,6,arch/powerpc/include/asm/cmpxchg.h
+ppc,linux,asm,tlbia,6,arch/powerpc/kernel/head_8xx.S arch/powerpc/kernel/head_book3s_32.S arch/powerpc/kernel/swsusp_asm64.S
 ppc,linux,asm,addc,5,arch/powerpc/boot/div64.S arch/powerpc/boot/util.S arch/powerpc/lib/checksum_32.S
 ppc,linux,asm,bnl,5,arch/powerpc/lib/memcmp_64.S
 ppc,linux,inline,cmpwi,5,arch/powerpc/include/asm/qspinlock.h arch/powerpc/kernel/irq_64.c arch/powerpc/mm/book3s64/hash_pgtable.c
@@ -3154,6 +3275,7 @@ ppc,linux,asm,stdx,4,arch/powerpc/boot/crt0.S arch/powerpc/kernel/head_64.S arch
 ppc,linux,asm,stmw,4,arch/powerpc/kernel/misc.S arch/powerpc/kernel/ppc_save_regs.S arch/powerpc/kernel/swsusp_32.S
 ppc,linux,asm,subfe,4,arch/powerpc/boot/div64.S arch/powerpc/kernel/head_44x.S arch/powerpc/lib/div64.S
 ppc,linux,asm,tdnei,4,arch/powerpc/kernel/exceptions-64s.S arch/powerpc/kernel/head_64.S arch/powerpc/kernel/interrupt_64.S
+ppc,linux,inline,tlbia,4,arch/powerpc/include/asm/nohash/tlbflush.h arch/powerpc/mm/mmu_decl.h
 ppc,linux,asm,tlbivax,4,arch/powerpc/kernel/85xx_entry_mapping.S
 ppc,linux,asm,tlbld,4,arch/powerpc/kernel/head_book3s_32.S
 ppc,linux,asm,vor,4,arch/powerpc/lib/copyuser_power7.S arch/powerpc/lib/memcmp_64.S arch/powerpc/lib/memcpy_power7.S
@@ -3168,12 +3290,15 @@ ppc,linux,inline,lbz,3,arch/powerpc/include/asm/hw_irq.h arch/powerpc/kernel/irq
 ppc,linux,asm,lbzx,3,arch/powerpc/lib/copyuser_64.S arch/powerpc/lib/memcmp_32.S
 ppc,linux,asm,lmw,3,arch/powerpc/kernel/misc.S arch/powerpc/kernel/swsusp_32.S arch/powerpc/kernel/swsusp_85xx.S
 ppc,linux,inline,mfcr,3,arch/powerpc/include/asm/icswx.h arch/powerpc/lib/sstep.c arch/powerpc/lib/test_emulate_step.c
+ppc,linux,asm,mfdcr,3,arch/powerpc/kernel/cpu_setup_44x.S arch/powerpc/sysdev/dcr-low.S
 ppc,linux,inline,mfsrin,3,arch/powerpc/include/asm/book3s/32/kup.h arch/powerpc/include/asm/reg.h
 ppc,linux,asm,mfsrr0,3,arch/powerpc/kernel/head_book3s_32.S arch/powerpc/kvm/book3s_rmhandlers.S arch/powerpc/kvm/book3s_segment.S
 ppc,linux,asm,mfvscr,3,arch/powerpc/kernel/tm.S arch/powerpc/kernel/vector.S
 ppc,linux,inline,miso,3,arch/powerpc/include/asm/qspinlock.h arch/powerpc/lib/qspinlock.c
 ppc,linux,asm,mtdar,3,arch/powerpc/kernel/head_8xx.S arch/powerpc/kernel/rtas_entry.S
+ppc,linux,asm,mtdcr,3,arch/powerpc/kernel/cpu_setup_44x.S arch/powerpc/sysdev/dcr-low.S
 ppc,linux,asm,mtdec,3,arch/powerpc/kernel/swsusp_32.S arch/powerpc/kernel/swsusp_85xx.S arch/powerpc/kernel/swsusp_asm64.S
+ppc,linux,inline,mtmsr,3,arch/powerpc/include/asm/reg.h arch/powerpc/mm/cacheflush.c
 ppc,linux,inline,mtsrin,3,arch/powerpc/include/asm/book3s/32/kup.h arch/powerpc/include/asm/reg.h
 ppc,linux,asm,mtsrin,3,arch/powerpc/kernel/head_book3s_32.S arch/powerpc/kvm/book3s_32_sr.S
 ppc,linux,asm,mtvscr,3,arch/powerpc/kernel/tm.S arch/powerpc/kernel/vector.S
@@ -3212,6 +3337,7 @@ ppc,linux,inline-macro,lwbrx,2,arch/powerpc/include/asm/io.h
 ppc,linux,inline,lwsync,2,arch/powerpc/include/asm/dbell.h arch/powerpc/lib/sstep.c
 ppc,linux,inline-macro,lwz,2,arch/powerpc/include/asm/io.h
 ppc,linux,asm,mbar,2,arch/powerpc/mm/nohash/tlb_low.S
+ppc,linux,inline,mfdcr,2,arch/powerpc/boot/dcr.h arch/powerpc/include/asm/dcr-native.h
 ppc,linux,asm,mfocrf,2,arch/powerpc/kernel/exceptions-64s.S arch/powerpc/lib/memcmp_64.S
 ppc,linux,inline,mfpvr,2,arch/powerpc/boot/reg.h arch/powerpc/kvm/book3s_pr.c
 ppc,linux,asm,mfpvr,2,arch/powerpc/kernel/cpu_setup_6xx.S
@@ -3219,7 +3345,10 @@ ppc,linux,asm,mfsrin,2,arch/powerpc/mm/book3s32/hash_low.S
 ppc,linux,asm,mfsrr1,2,arch/powerpc/kernel/head_book3s_32.S arch/powerpc/kvm/book3s_segment.S
 ppc,linux,asm,mftbl,2,arch/powerpc/kernel/cpu_setup_6xx.S
 ppc,linux,asm,mftbu,2,arch/powerpc/kernel/swsusp_32.S
+ppc,linux,inline,mtdcr,2,arch/powerpc/boot/dcr.h arch/powerpc/include/asm/dcr-native.h
 ppc,linux,asm,mttbu,2,arch/powerpc/kernel/swsusp_32.S arch/powerpc/kernel/swsusp_asm64.S
+ppc,linux,inline,mulhdu,2,arch/powerpc/include/asm/time.h arch/powerpc/lib/sstep.c
+ppc,linux,asm,mulhwu,2,arch/powerpc/boot/div64.S arch/powerpc/lib/div64.S
 ppc,linux,asm,not,2,arch/powerpc/lib/checksum_32.S arch/powerpc/lib/checksum_64.S
 ppc,linux,inline,oris,2,arch/powerpc/boot/4xx.c arch/powerpc/include/asm/book3s/32/kup.h
 ppc,linux,inline,sc,2,arch/powerpc/kernel/prom_init.c
@@ -3287,11 +3416,13 @@ ppc,linux,asm,lwax,1,arch/powerpc/kvm/book3s_hv_rmhandlers.S
 ppc,linux,inline,lwbrx,1,arch/powerpc/boot/io.h
 ppc,linux,inline,lwzu,1,arch/powerpc/include/asm/checksum.h
 ppc,linux,inline,mbar,1,arch/powerpc/include/asm/synch.h
+ppc,linux,inline,mfdcrx,1,arch/powerpc/boot/dcr.h
 ppc,linux,inline,mflr,1,arch/powerpc/kvm/booke.c
 ppc,linux,inline,mfpmr,1,arch/powerpc/include/asm/reg_fsl_emb.h
 ppc,linux,asm,mfsdr1,1,arch/powerpc/kernel/swsusp_32.S
 ppc,linux,inline,mfsdr1,1,arch/powerpc/kvm/book3s_32_mmu_host.c
 ppc,linux,inline,mfsr,1,arch/powerpc/include/asm/reg.h
+ppc,linux,inline,mtdcrx,1,arch/powerpc/boot/dcr.h
 ppc,linux,asm,mtdsisr,1,arch/powerpc/kernel/rtas_entry.S
 ppc,linux,inline,mtpmr,1,arch/powerpc/include/asm/reg_fsl_emb.h
 ppc,linux,asm,mtsdr1,1,arch/powerpc/kernel/swsusp_32.S
@@ -3321,6 +3452,7 @@ ppc,linux,inline,subfze,1,arch/powerpc/include/asm/sfp-machine.h
 ppc,linux,asm,tdgei,1,arch/powerpc/kernel/exceptions-64s.S
 ppc,linux,asm,tdi,1,arch/powerpc/kernel/exceptions-64s.S
 ppc,linux,asm,tlbli,1,arch/powerpc/kernel/head_book3s_32.S
+ppc,linux,asm,tophys,1,arch/powerpc/mm/book3s32/hash_low.S
 ppc,linux,inline,trap,1,arch/powerpc/kernel/prom_init.c
 ppc,linux,asm,twlgti,1,arch/powerpc/kernel/cpu_setup_e500.S
 ppc,linux,asm,wait,1,arch/powerpc/kernel/idle_85xx.S
@@ -3332,16 +3464,19 @@ ppc,netbsd,inline,isync,174,sys/arch/powerpc/booke/booke_machdep.c sys/arch/powe
 ppc,netbsd,asm,addi,147,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,asm,lwz,136,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_trap_subr.S
 ppc,netbsd,inline,sync,134,sys/arch/powerpc/booke/copyin.c sys/arch/powerpc/booke/copyout.c sys/arch/powerpc/booke/e500_tlb.c
+ppc,netbsd,asm,streg,128,sys/arch/powerpc/powerpc/locore_subr.S sys/arch/powerpc/powerpc/setfault.S sys/arch/powerpc/powerpc/setjmp.S
 ppc,netbsd,asm,mr,101,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,asm,blr,90,sys/arch/powerpc/booke/spe_subr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,asm,stw,89,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_trap_subr.S
 ppc,netbsd,inline,mtmsr,86,sys/arch/powerpc/booke/copyin.c sys/arch/powerpc/booke/copyout.c sys/arch/powerpc/booke/e500_tlb.c
 ppc,netbsd,asm,b,79,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_trap_subr.S
 ppc,netbsd,asm,add,75,sys/arch/powerpc/ibm4xx/4xx_locore.S sys/arch/powerpc/powerpc/ofwreal.S sys/arch/powerpc/powerpc/pio_subr.S
+ppc,netbsd,asm,ldreg,74,sys/arch/powerpc/powerpc/locore_subr.S sys/arch/powerpc/powerpc/setjmp.S sys/arch/powerpc/powerpc/trap_subr.S
 ppc,netbsd,asm,lis,71,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_trap_subr.S
 ppc,netbsd,asm,rotlw,70,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,asm,bne,63,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/openbios/locore.S sys/arch/powerpc/oea/ofw_subr.S
 ppc,netbsd,inline,lwz,63,sys/arch/powerpc/booke/copyin.c sys/arch/powerpc/booke/pci/pq3pci.c sys/arch/powerpc/ibm4xx/dev/ecc_plb.c
+ppc,netbsd,asm,mtspr,63,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,inline,mfmsr,53,sys/arch/powerpc/booke/copyin.c sys/arch/powerpc/booke/copyout.c sys/arch/powerpc/ibm4xx/clock.c
 ppc,netbsd,asm,bl,48,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_trap_subr.S
 ppc,netbsd,inline,stw,45,sys/arch/powerpc/booke/copyout.c sys/arch/powerpc/booke/pci/pq3pci.c sys/arch/powerpc/ibm4xx/dev/ecc_plb.c
@@ -3356,6 +3491,7 @@ ppc,netbsd,asm,stfd,33,sys/arch/powerpc/powerpc/fpu_subr.S
 ppc,netbsd,asm,stvx,32,sys/arch/powerpc/oea/altivec_subr.S
 ppc,netbsd,asm,mtlr,31,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/trap_subr.S sys/arch/powerpc/oea/ofw_subr.S
 ppc,netbsd,asm,sync,31,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/ibm4xx/4xx_trap_subr.S sys/arch/powerpc/ibm4xx/openbios/locore.S
+ppc,netbsd,asm,mfspr,30,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,asm,mtmsr,28,sys/arch/powerpc/ibm4xx/openbios/locore.S sys/arch/powerpc/ibm4xx/trap_subr.S sys/arch/powerpc/oea/ofw_subr.S
 ppc,netbsd,asm,beq,27,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_trap_subr.S
 ppc,netbsd,asm,mflr,26,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/trap_subr.S
@@ -3363,11 +3499,13 @@ ppc,netbsd,asm,mfmsr,25,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/bo
 ppc,netbsd,asm,cmplw,24,sys/arch/powerpc/powerpc/pio_subr.S sys/arch/powerpc/powerpc/trap_subr.S
 ppc,netbsd,asm,mtcr,23,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/trap_subr.S sys/arch/powerpc/powerpc/locore_subr.S
 ppc,netbsd,asm,mtctr,22,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/openbios/locore.S sys/arch/powerpc/ibm4xx/trap_subr.S
+ppc,netbsd,inline,mfspr,21,sys/arch/powerpc/booke/e500_timer.c sys/arch/powerpc/booke/e500_tlb.c sys/arch/powerpc/booke/trap.c
 ppc,netbsd,asm,ba,20,sys/arch/powerpc/ibm4xx/4xx_locore.S sys/arch/powerpc/ibm4xx/4xx_trap_subr.S sys/arch/powerpc/ibm4xx/trap_subr.S
 ppc,netbsd,inline,tlbwe,20,sys/arch/powerpc/booke/e500_tlb.c sys/arch/powerpc/ibm4xx/pmap.c
 ppc,netbsd,inline,li,19,sys/arch/powerpc/ibm4xx/copyinstr.c sys/arch/powerpc/ibm4xx/copyoutstr.c sys/arch/powerpc/ibm4xx/dev/ecc_plb.c
 ppc,netbsd,inline,stb,19,sys/arch/powerpc/booke/copyout.c sys/arch/powerpc/ibm4xx/copyinstr.c sys/arch/powerpc/ibm4xx/copyoutstr.c
 ppc,netbsd,inline,adde,18,sys/arch/powerpc/powerpc/in_cksum.c
+ppc,netbsd,asm,ldptr,18,sys/arch/powerpc/powerpc/lock_stubs.S sys/arch/powerpc/powerpc/locore_subr.S sys/arch/powerpc/powerpc/setfault.S
 ppc,netbsd,asm,mfsrr1,18,sys/arch/powerpc/powerpc/trap_subr.S
 ppc,netbsd,asm,evmergehi,17,sys/arch/powerpc/booke/spe_subr.S
 ppc,netbsd,asm,evmergelo,17,sys/arch/powerpc/booke/spe_subr.S
@@ -3400,7 +3538,9 @@ ppc,netbsd,inline,blt,11,sys/arch/powerpc/booke/e500_timer.c sys/arch/powerpc/ib
 ppc,netbsd,inline,dcbf,11,sys/arch/powerpc/booke/booke_cache.c sys/arch/powerpc/ibm4xx/cpu.c sys/arch/powerpc/ibm4xx/dev/ecc_plb.c
 ppc,netbsd,inline,dcbst,11,sys/arch/powerpc/booke/booke_cache.c sys/arch/powerpc/ibm4xx/pmap.c sys/arch/powerpc/oea/cpu_subr.c
 ppc,netbsd,asm,evmergehilo,11,sys/arch/powerpc/booke/spe_subr.S
+ppc,netbsd,asm,stptr,11,sys/arch/powerpc/powerpc/locore_subr.S sys/arch/powerpc/powerpc/setfault.S
 ppc,netbsd,asm,bf,10,sys/arch/powerpc/ibm4xx/trap_subr.S sys/arch/powerpc/powerpc/trap_subr.S
+ppc,netbsd,asm,lmw,10,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,inline,mtibatu,10,sys/arch/powerpc/oea/cpu_subr.c sys/arch/powerpc/oea/oea_machdep.c
 ppc,netbsd,asm,mtsprg2,10,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/ibm4xx/trap_subr.S sys/arch/powerpc/powerpc/locore_subr.S
 ppc,netbsd,asm,nop,10,sys/arch/powerpc/ibm4xx/openbios/locore.S
@@ -3420,11 +3560,13 @@ ppc,netbsd,asm,mfsprg2,7,sys/arch/powerpc/ibm4xx/trap_subr.S sys/arch/powerpc/po
 ppc,netbsd,inline,mftb,7,sys/arch/powerpc/ibm4xx/dev/ecc_plb.c sys/arch/powerpc/include/cpu.h sys/arch/powerpc/powerpc/clock.c
 ppc,netbsd,inline,msync,7,sys/arch/powerpc/booke/booke_machdep.c sys/arch/powerpc/booke/pci/pq3pci.c sys/arch/powerpc/ibm4xx/ibm4xx_460ex_l2.c
 ppc,netbsd,asm,mtxer,7,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_locore.S sys/arch/powerpc/powerpc/setjmp.S
+ppc,netbsd,asm,stmw,7,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_locore.S sys/arch/powerpc/ibm4xx/trap_subr.S
 ppc,netbsd,asm,wrtee,7,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/trap_subr.S sys/arch/powerpc/powerpc/locore_subr.S
 ppc,netbsd,asm,addis,6,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/oea/ofw_subr.S sys/arch/powerpc/powerpc/ofwreal.S
 ppc,netbsd,inline,andi,6,sys/arch/powerpc/ibm4xx/trap.c sys/arch/powerpc/oea/oea_machdep.c sys/arch/powerpc/oea/ofwoea_machdep.c
 ppc,netbsd,inline,beq,6,sys/arch/powerpc/ibm4xx/pmap.c sys/arch/powerpc/ibm4xx/trap.c
 ppc,netbsd,asm,blt,6,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/ibm4xx/4xx_locore.S sys/arch/powerpc/powerpc/pio_subr.S
+ppc,netbsd,asm,lptrarx,6,sys/arch/powerpc/powerpc/lock_stubs.S
 ppc,netbsd,asm,lwzx,6,sys/arch/powerpc/booke/trap_subr.S sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,asm,mtcrf,6,sys/arch/powerpc/powerpc/trap_subr.S
 ppc,netbsd,inline,mtdbatl,6,sys/arch/powerpc/oea/cpu_subr.c sys/arch/powerpc/oea/oea_machdep.c
@@ -3441,9 +3583,11 @@ ppc,netbsd,asm,andc,5,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/book
 ppc,netbsd,asm,bctrl,5,sys/arch/powerpc/ibm4xx/openbios/locore.S sys/arch/powerpc/ibm4xx/trap_subr.S sys/arch/powerpc/oea/ofw_subr.S
 ppc,netbsd,inline,bdnz,5,sys/arch/powerpc/ibm4xx/trap.c sys/arch/powerpc/powerpc/in_cksum.c
 ppc,netbsd,asm,bt,5,sys/arch/powerpc/powerpc/trap_subr.S
+ppc,netbsd,asm,cmpptr,5,sys/arch/powerpc/powerpc/lock_stubs.S
 ppc,netbsd,inline,dcba,5,sys/arch/powerpc/booke/booke_cache.c sys/arch/powerpc/booke/booke_pmap.c sys/arch/powerpc/booke/copyout.c
 ppc,netbsd,inline,dcbi,5,sys/arch/powerpc/booke/booke_cache.c sys/arch/powerpc/oea/cpu_subr.c sys/arch/powerpc/powerpc/bus_dma.c
 ppc,netbsd,inline,dssall,5,sys/arch/powerpc/oea/altivec.c sys/arch/powerpc/oea/cpu_subr.c
+ppc,netbsd,inline,eieio,5,sys/arch/powerpc/include/pio.h sys/arch/powerpc/oea/pmap.c sys/arch/powerpc/powerpc/bus_dma.c
 ppc,netbsd,inline,icbi,5,sys/arch/powerpc/booke/booke_cache.c sys/arch/powerpc/ibm4xx/pmap.c sys/arch/powerpc/powerpc/fixup.c
 ppc,netbsd,inline,lwbrx,5,sys/arch/powerpc/booke/copyin.c sys/arch/powerpc/booke/copyout.c sys/arch/powerpc/booke/pci/pq3pci.c
 ppc,netbsd,inline,mbar,5,sys/arch/powerpc/booke/pci/pq3pci.c sys/arch/powerpc/powerpc/bus_dma.c
@@ -3454,6 +3598,7 @@ ppc,netbsd,asm,mtsprg3,5,sys/arch/powerpc/booke/e500_mpsubr.S sys/arch/powerpc/b
 ppc,netbsd,asm,stbx,5,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,asm,sthbrx,5,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,asm,sthu,5,sys/arch/powerpc/powerpc/pio_subr.S
+ppc,netbsd,asm,stptru,5,sys/arch/powerpc/powerpc/locore_subr.S
 ppc,netbsd,inline,stwbrx,5,sys/arch/powerpc/booke/copyout.c sys/arch/powerpc/booke/pci/pq3pci.c sys/arch/powerpc/include/pio.h
 ppc,netbsd,asm,stwbrx,5,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,inline,addic,4,sys/arch/powerpc/ibm4xx/dev/ecc_plb.c sys/arch/powerpc/powerpc/in_cksum.c
@@ -3476,6 +3621,7 @@ ppc,netbsd,inline,srwi,4,sys/arch/powerpc/ibm4xx/trap.c sys/arch/powerpc/include
 ppc,netbsd,asm,stb,4,sys/arch/powerpc/powerpc/pio_subr.S sys/arch/powerpc/powerpc/trap_subr.S sys/lib/libkern/arch/powerpc/memset.S
 ppc,netbsd,asm,sth,4,sys/arch/powerpc/powerpc/pio_subr.S sys/arch/powerpc/powerpc/trap_subr.S sys/lib/libkern/arch/powerpc/memset.S
 ppc,netbsd,asm,sthx,4,sys/arch/powerpc/powerpc/pio_subr.S
+ppc,netbsd,asm,stint,4,sys/arch/powerpc/powerpc/locore_subr.S sys/arch/powerpc/powerpc/trap_subr.S
 ppc,netbsd,asm,stwcx,4,sys/arch/powerpc/powerpc/locore_subr.S
 ppc,netbsd,asm,stwx,4,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,asm,subi,4,sys/lib/libkern/arch/powerpc/memset.S
@@ -3484,10 +3630,13 @@ ppc,netbsd,inline,addze,3,sys/arch/powerpc/powerpc/in_cksum.c
 ppc,netbsd,asm,bdneq,3,sys/arch/powerpc/powerpc/trap_subr.S
 ppc,netbsd,inline,bge,3,sys/arch/powerpc/ibm4xx/dev/ecc_plb.c sys/arch/powerpc/ibm4xx/pmap.c
 ppc,netbsd,asm,bgt,3,sys/arch/powerpc/ibm4xx/4xx_locore.S sys/arch/powerpc/powerpc/ofwreal.S sys/lib/libkern/arch/powerpc/memset.S
+ppc,netbsd,asm,clrrptri,3,sys/arch/powerpc/powerpc/lock_stubs.S
 ppc,netbsd,asm,dcbt,3,sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,inline,lbz,3,sys/arch/powerpc/booke/copyin.c sys/arch/powerpc/ibm4xx/copyinstr.c sys/arch/powerpc/ibm4xx/copyoutstr.c
 ppc,netbsd,asm,lbz,3,sys/arch/powerpc/powerpc/locore_subr.S sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,asm,lbzx,3,sys/arch/powerpc/powerpc/pio_subr.S
+ppc,netbsd,asm,ldint,3,sys/arch/powerpc/powerpc/locore_subr.S sys/arch/powerpc/powerpc/trap_subr.S
+ppc,netbsd,asm,ldregu,3,sys/arch/powerpc/powerpc/trap_subr.S
 ppc,netbsd,asm,lhzu,3,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,asm,lhzx,3,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,inline,mffs,3,sys/arch/powerpc/include/fenv.h sys/arch/powerpc/powerpc/fpu.c
@@ -3496,6 +3645,7 @@ ppc,netbsd,asm,mfsrin,3,sys/arch/powerpc/oea/ofw_subr.S sys/arch/powerpc/powerpc
 ppc,netbsd,inline,mr,3,sys/arch/powerpc/booke/booke_pmap.c sys/arch/powerpc/include/lwp_private.h
 ppc,netbsd,inline,mtdec,3,sys/arch/powerpc/oea/cpu_subr.c sys/arch/powerpc/powerpc/clock.c
 ppc,netbsd,inline,mtsdr1,3,sys/arch/powerpc/oea/cpu_subr.c sys/arch/powerpc/oea/pmap.c
+ppc,netbsd,inline,mtspr,3,sys/arch/powerpc/ibm4xx/pmap.c sys/arch/powerpc/include/spr.h
 ppc,netbsd,inline,mtsr,3,sys/arch/powerpc/oea/kgdb_glue.c sys/arch/powerpc/powerpc/trap.c
 ppc,netbsd,inline,mtsrin,3,sys/arch/powerpc/oea/cpu_subr.c sys/arch/powerpc/oea/oea_machdep.c sys/arch/powerpc/oea/pmap.c
 ppc,netbsd,asm,mtsrin,3,sys/arch/powerpc/oea/ofw_subr.S sys/arch/powerpc/powerpc/ofwreal.S
@@ -3566,10 +3716,10 @@ ppc,netbsd,asm,and,1,sys/arch/powerpc/ibm4xx/4xx_trap_subr.S
 ppc,netbsd,inline,b,1,sys/arch/powerpc/include/cpu_counter.h
 ppc,netbsd,asm,ble,1,sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,asm,bnelr,1,sys/arch/powerpc/booke/trap_subr.S
-ppc,netbsd,asm,clrrptri,1,sys/arch/powerpc/powerpc/lock_stubs.S
 ppc,netbsd,asm,cmpdi,1,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,inline,cmpld,1,sys/arch/powerpc/powerpc/clock.c
 ppc,netbsd,inline,cmplwi,1,sys/arch/powerpc/booke/copyout.c
+ppc,netbsd,asm,cmpptri,1,sys/arch/powerpc/powerpc/lock_stubs.S
 ppc,netbsd,inline,cmpw,1,sys/arch/powerpc/ibm4xx/dev/ecc_plb.c
 ppc,netbsd,inline,cmpwi,1,sys/arch/powerpc/include/cpu_counter.h
 ppc,netbsd,asm,evaddumiaaw,1,sys/arch/powerpc/booke/spe_subr.S
@@ -3583,6 +3733,7 @@ ppc,netbsd,asm,ldu,1,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,inline,lfd,1,sys/arch/powerpc/powerpc/fpu.c
 ppc,netbsd,asm,lhzux,1,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,inline,lis,1,sys/arch/powerpc/include/cpu_counter.h
+ppc,netbsd,inline,lmw,1,sys/arch/powerpc/booke/booke_pmap.c
 ppc,netbsd,asm,lswi,1,sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,asm,lvewx,1,sys/arch/powerpc/oea/altivec_subr.S
 ppc,netbsd,inline,lvxl,1,sys/arch/powerpc/oea/altivec.c
@@ -3633,6 +3784,7 @@ ppc,netbsd,inline,stdu,1,sys/arch/powerpc/include/profile.h
 ppc,netbsd,asm,stdx,1,sys/arch/powerpc/powerpc/pio_subr.S
 ppc,netbsd,inline,sth,1,sys/arch/powerpc/booke/copyout.c
 ppc,netbsd,asm,sthux,1,sys/arch/powerpc/powerpc/pio_subr.S
+ppc,netbsd,inline,stmw,1,sys/arch/powerpc/booke/booke_pmap.c
 ppc,netbsd,asm,stswi,1,sys/arch/powerpc/ibm4xx/4xx_locore.S
 ppc,netbsd,asm,stvewx,1,sys/arch/powerpc/oea/altivec_subr.S
 ppc,netbsd,inline,stwcx,1,sys/arch/powerpc/powerpc/trap.c
@@ -3913,6 +4065,7 @@ riscv,freebsd,inline,bnez,2,sys/riscv/include/atomic.h
 riscv,freebsd,inline,csrs,2,sys/riscv/include/cpufunc.h sys/riscv/include/riscvreg.h
 riscv,freebsd,inline,csrsi,2,sys/riscv/include/cpufunc.h sys/riscv/include/riscvreg.h
 riscv,freebsd,asm,ecall,2,sys/riscv/riscv/sigtramp.S
+riscv,freebsd,inline,fence,2,sys/riscv/include/atomic.h sys/riscv/riscv/machdep.c
 riscv,freebsd,asm,fscsr,2,sys/riscv/riscv/swtch.S
 riscv,freebsd,inline,hlvx.hu,2,sys/riscv/vmm/vmm_riscv.c
 riscv,freebsd,inline-macro,hstatus,2,sys/riscv/vmm/vmm_riscv.c
@@ -4067,6 +4220,7 @@ riscv,linux,asm,minu,3,arch/riscv/lib/strnlen.S
 riscv,linux,inline,mv,3,arch/riscv/include/asm/errata_list.h arch/riscv/include/asm/vector.h
 riscv,linux,asm,neg,3,arch/riscv/lib/memset.S arch/riscv/lib/strcmp.S arch/riscv/lib/strncmp.S
 riscv,linux,asm,negw,3,arch/riscv/lib/tishift.S
+riscv,linux,asm,nop,3,arch/riscv/kernel/kexec_relocate.S arch/riscv/lib/uaccess.S
 riscv,linux,inline,or,3,arch/riscv/include/asm/cmpxchg.h arch/riscv/include/asm/errata_list.h
 riscv,linux,inline,sc.w,3,arch/riscv/include/asm/cmpxchg.h arch/riscv/include/asm/futex.h
 riscv,linux,asm,sra,3,arch/riscv/lib/ashrdi3.S arch/riscv/lib/tishift.S
@@ -4119,6 +4273,7 @@ riscv,linux,asm,lla,1,arch/riscv/purgatory/entry.S
 riscv,linux,inline,lr.d,1,arch/riscv/include/asm/cmpxchg.h
 riscv,linux,inline,lui,1,arch/riscv/include/asm/runtime-const.h
 riscv,linux,asm,mret,1,arch/riscv/kernel/entry.S
+riscv,linux,inline,nop,1,arch/riscv/include/asm/insn-def.h
 riscv,linux,inline,nopcsrw,1,arch/riscv/include/asm/switch_to.h
 riscv,linux,inline,nopj,1,arch/riscv/include/asm/cpufeature-macros.h
 riscv,linux,inline,nopli,1,arch/riscv/include/asm/errata_list.h
@@ -4505,6 +4660,7 @@ s390,linux,asm,og,1,arch/s390/kernel/text_amode31.S
 s390,linux,asm,ogr,1,arch/s390/purgatory/head.S
 s390,linux,asm,oill,1,arch/s390/kernel/entry.S
 s390,linux,inline,plo,1,arch/s390/kvm/s390/s390.c
+s390,linux,inline,ptff,1,arch/s390/include/asm/timex.h
 s390,linux,inline,ptlb,1,arch/s390/include/asm/tlbflush.h
 s390,linux,asm,ptlb,1,arch/s390/kernel/entry.S
 s390,linux,inline,qctri,1,arch/s390/include/asm/cpu_mf.h
@@ -4730,6 +4886,7 @@ sparc,linux,inline,ldda,1,arch/sparc/include/asm/viking.h
 sparc,linux,asm,ldsw,1,arch/sparc/kernel/rtrap_64.S
 sparc,linux,asm,lduha,1,arch/sparc/kernel/entry.S
 sparc,linux,asm,lduwa,1,arch/sparc/kernel/fpu_traps.S
+sparc,linux,asm,memcpy,1,arch/sparc/lib/U1memcpy.S
 sparc,linux,asm,movcc,1,arch/sparc/lib/multi3.S
 sparc,linux,asm,move,1,arch/sparc/kernel/tsb.S
 sparc,linux,asm,movle,1,arch/sparc/lib/memscan_64.S
@@ -4775,6 +4932,7 @@ sparc,netbsd,asm,srlx,76,sys/arch/sparc/stand/ofwboot/srt0.s sys/arch/sparc64/sp
 sparc,netbsd,asm,sllx,73,sys/arch/sparc/stand/ofwboot/srt0.s sys/arch/sparc64/sparc64/cpu_in_cksum.S sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,brz,65,sys/arch/sparc64/sparc64/copy.S sys/arch/sparc64/sparc64/cpu_in_cksum.S sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,ldub,60,sys/arch/sparc/sparc/bsd_fdintr.s sys/arch/sparc/sparc/lock_stubs.s sys/arch/sparc/sparc/locore.s
+sparc,netbsd,asm,lda,58,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/copy.S sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,srl,52,sys/arch/sparc/sparc/lock_stubs.s sys/arch/sparc/sparc/locore.s sys/arch/sparc/stand/common/srt0.S
 sparc,netbsd,asm,bge,44,sys/arch/sparc/sparc/bsd_fdintr.s sys/arch/sparc/sparc/lock_stubs.s sys/arch/sparc/sparc/locore.s
 sparc,netbsd,asm,orcc,44,sys/arch/sparc/sparc/bsd_fdintr.s sys/arch/sparc/sparc/lock_stubs.s sys/arch/sparc/sparc/locore.s
@@ -4788,6 +4946,7 @@ sparc,netbsd,asm,sth,31,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/c
 sparc,netbsd,asm,bl,30,sys/arch/sparc/sparc/locore.s sys/arch/sparc/stand/common/srt0.S sys/arch/sparc64/sparc64/copy.S
 sparc,netbsd,asm,retry,30,sys/arch/sparc64/sparc64/locore.s sys/arch/sparc64/sparc64/mp_subr.S
 sparc,netbsd,inline,flush,27,sys/arch/sparc/include/elf_support.h sys/arch/sparc64/include/elf_support.h
+sparc,netbsd,asm,sta,27,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/copy.S
 sparc,netbsd,asm,srax,24,sys/arch/sparc64/sparc64/db_tlb_access.S sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,ldsb,23,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/bsd_fdintr.s sys/arch/sparc64/sparc64/copy.S
 sparc,netbsd,inline,wrpr,22,sys/arch/sparc64/include/ctlreg.h sys/arch/sparc64/include/psl.h
@@ -4799,8 +4958,10 @@ sparc,netbsd,asm,blu,17,sys/arch/sparc/sparc/locore.s sys/arch/sparc/stand/ofwbo
 sparc,netbsd,inline,or,17,sys/arch/sparc/include/lwp_private.h sys/arch/sparc/include/profile.h sys/arch/sparc/sparc/cpu.c
 sparc,netbsd,asm,stwa,17,sys/arch/sparc64/sparc64/copy.S sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,inline,wr,17,sys/arch/sparc/include/psl.h sys/arch/sparc/sparc/asm.h sys/arch/sparc/sparc/pmap.c
+sparc,netbsd,asm,ldda,14,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,inline,membar,14,sys/arch/sparc64/include/bus_funcs.h sys/arch/sparc64/include/ctlreg.h sys/arch/sparc64/sparc64/pmap.c
 sparc,netbsd,inline,rdpr,14,sys/arch/sparc64/include/ctlreg.h sys/arch/sparc64/include/psl.h
+sparc,netbsd,asm,stba,14,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/copy.S sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,xor,14,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/copy.S sys/arch/sparc64/sparc64/cpu_in_cksum.S
 sparc,netbsd,asm,addcc,13,sys/arch/sparc/sparc/bsd_fdintr.s sys/arch/sparc/sparc/lock_stubs.s sys/arch/sparc/sparc/locore.s
 sparc,netbsd,asm,bgu,13,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/locore.s
@@ -4808,8 +4969,10 @@ sparc,netbsd,inline,sllx,13,sys/arch/sparc64/include/ctlreg.h sys/arch/sparc64/i
 sparc,netbsd,asm,bg,12,sys/arch/sparc/sparc/locore.s sys/arch/sparc/stand/common/srt0.S sys/arch/sparc64/sparc64/copy.S
 sparc,netbsd,asm,casxa,12,sys/arch/sparc64/sparc64/copy.S sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,ldsh,12,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/copy.S
+sparc,netbsd,asm,stda,12,sys/arch/sparc64/sparc64/locore.s sys/arch/sparc64/sparc64/mp_subr.S
 sparc,netbsd,inline-macro,ld,11,sys/arch/sparc64/include/ctlreg.h
 sparc,netbsd,inline-macro,st,11,sys/arch/sparc64/include/ctlreg.h
+sparc,netbsd,asm,lduba,10,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/copy.S sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,brgz,9,sys/arch/sparc/stand/ofwboot/srt0.s sys/arch/sparc64/sparc64/copy.S sys/arch/sparc64/sparc64/cpu_in_cksum.S
 sparc,netbsd,inline-macro,reg,9,sys/arch/sparc64/include/psl.h
 sparc,netbsd,asm,sra,9,sys/arch/sparc/sparc/lock_stubs.s sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/locore.s
@@ -4817,7 +4980,9 @@ sparc,netbsd,inline,add,8,sys/arch/sparc/include/profile.h
 sparc,netbsd,inline,rd,8,sys/arch/sparc/include/profile.h sys/arch/sparc/include/psl.h sys/arch/sparc/sparc/asm.h
 sparc,netbsd,asm,saved,8,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,beq,7,sys/arch/sparc/sparc/locore.s sys/arch/sparc/stand/common/srt0.S sys/arch/sparc64/sparc64/locore.s
+sparc,netbsd,asm,ldstub,7,sys/arch/sparc/sparc/lock_stubs.s sys/arch/sparc/sparc/locore.s
 sparc,netbsd,asm,movrz,7,sys/arch/sparc64/sparc64/locore.s
+sparc,netbsd,asm,stha,7,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/copy.S
 sparc,netbsd,asm,tnz,7,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,addx,6,sys/arch/sparc/sparc/bsd_fdintr.s sys/arch/sparc/sparc/locore.s
 sparc,netbsd,asm,ldsba,6,sys/arch/sparc64/sparc64/copy.S
@@ -4830,6 +4995,7 @@ sparc,netbsd,asm,bgeu,4,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/l
 sparc,netbsd,asm,bgt,4,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,done,4,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,lduh,4,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/cpu_in_cksum.S
+sparc,netbsd,asm,lduha,4,sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/copy.S
 sparc,netbsd,asm,lduwa,4,sys/arch/sparc64/sparc64/copy.S
 sparc,netbsd,asm,movnz,4,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,rett,4,sys/arch/sparc/sparc/bsd_fdintr.s sys/arch/sparc/sparc/locore.s sys/arch/sparc64/sparc64/bsd_fdintr.s
@@ -4850,11 +5016,14 @@ sparc,netbsd,inline-macro,asr,2,sys/arch/sparc/sparc/asm.h
 sparc,netbsd,asm,ble,2,sys/arch/sparc64/sparc64/cpu_in_cksum.S sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,brlez,2,sys/arch/sparc64/sparc64/cpu_in_cksum.S
 sparc,netbsd,asm,clrb,2,sys/arch/sparc/sparc/lock_stubs.s
+sparc,netbsd,asm,curlwp,2,sys/arch/sparc/sparc/lock_stubs.s sys/arch/sparc/sparc/locore.s
 sparc,netbsd,inline,flushw,2,sys/arch/sparc64/include/cpu.h
+sparc,netbsd,inline,ldstub,2,sys/arch/sparc/include/lock.h sys/arch/sparc/sparc/asm.h
 sparc,netbsd,inline,mov,2,sys/arch/sparc/sparc/openfirm.c
 sparc,netbsd,asm,movle,2,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,movrnz,2,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,sdiv,2,sys/arch/sparc/sparc/locore.s
+sparc,netbsd,inline,sta,2,sys/arch/sparc/sparc/asm.h sys/arch/sparc/sparc/pmap.c
 sparc,netbsd,inline,stxa,2,sys/arch/sparc64/sparc64/pmap.c
 sparc,netbsd,asm,udiv,2,sys/arch/sparc/sparc/locore.s
 sparc,netbsd,asm,udivx,2,sys/arch/sparc64/sparc64/locore.s
@@ -4872,9 +5041,13 @@ sparc,netbsd,inline,clrx,1,sys/arch/sparc64/sparc64/pmap.c
 sparc,netbsd,asm,cpcb,1,sys/arch/sparc/sparc/locore.s
 sparc,netbsd,asm,esigcode,1,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,help,1,sys/arch/sparc/sparc/locore.s
+sparc,netbsd,inline,lda,1,sys/arch/sparc/sparc/asm.h
 sparc,netbsd,inline-macro,lda,1,sys/arch/sparc64/include/ctlreg.h
+sparc,netbsd,inline,ldda,1,sys/arch/sparc/sparc/asm.h
 sparc,netbsd,inline-macro,ldswa,1,sys/arch/sparc64/include/ctlreg.h
+sparc,netbsd,inline,lduba,1,sys/arch/sparc/sparc/asm.h
 sparc,netbsd,inline-macro,lduba,1,sys/arch/sparc64/include/ctlreg.h
+sparc,netbsd,inline,lduha,1,sys/arch/sparc/sparc/asm.h
 sparc,netbsd,inline-macro,lduha,1,sys/arch/sparc64/include/ctlreg.h
 sparc,netbsd,inline-macro,lduwa,1,sys/arch/sparc64/include/ctlreg.h
 sparc,netbsd,inline-macro,ldxa,1,sys/arch/sparc64/include/ctlreg.h
@@ -4885,13 +5058,17 @@ sparc,netbsd,asm,movrgz,1,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,sigcode,1,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,inline,sir,1,sys/arch/sparc64/sparc64/db_interface.c
 sparc,netbsd,inline-macro,sta,1,sys/arch/sparc64/include/ctlreg.h
+sparc,netbsd,inline,stba,1,sys/arch/sparc/sparc/asm.h
 sparc,netbsd,inline-macro,stba,1,sys/arch/sparc64/include/ctlreg.h
+sparc,netbsd,inline,stda,1,sys/arch/sparc/sparc/asm.h
+sparc,netbsd,inline,stha,1,sys/arch/sparc/sparc/asm.h
 sparc,netbsd,inline-macro,stha,1,sys/arch/sparc64/include/ctlreg.h
 sparc,netbsd,inline-macro,stxa,1,sys/arch/sparc64/include/ctlreg.h
 sparc,netbsd,inline,subcc,1,sys/arch/sparc/fpu/fpu_arith.h
 sparc,netbsd,inline,subx,1,sys/arch/sparc/fpu/fpu_arith.h
 sparc,netbsd,inline,subxcc,1,sys/arch/sparc/fpu/fpu_arith.h
 sparc,netbsd,asm,subxcc,1,sys/arch/sparc/sparc/locore.s
+sparc,netbsd,inline,swap,1,sys/arch/sparc/sparc/asm.h
 sparc,netbsd,asm,tne,1,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,tz,1,sys/arch/sparc64/sparc64/locore.s
 sparc,netbsd,asm,umul,1,sys/arch/sparc/sparc/locore.s
@@ -4907,8 +5084,10 @@ sparc,openbsd,asm,andcc,133,sys/arch/sparc64/sparc64/in_cksum.S sys/arch/sparc64
 sparc,openbsd,asm,rdpr,124,sys/arch/sparc64/sparc64/locore.s sys/arch/sparc64/stand/ofwboot/srt0.s
 sparc,openbsd,asm,membar,113,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,asm,subcc,109,sys/arch/sparc64/sparc64/in_cksum.S sys/arch/sparc64/sparc64/locore.s sys/lib/libkern/arch/sparc64/_setjmp.S
+sparc,openbsd,asm,ldxa,107,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,asm,be,101,sys/arch/sparc64/sparc64/in_cksum.S sys/arch/sparc64/sparc64/locore.s sys/arch/sparc64/stand/ofwboot/srt0.s
 sparc,openbsd,asm,ta,91,sys/arch/sparc64/sparc64/hvcall.S sys/arch/sparc64/sparc64/locore.s
+sparc,openbsd,asm,stxa,84,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,asm,sub,83,sys/arch/sparc64/sparc64/in_cksum.S sys/arch/sparc64/sparc64/locore.s sys/arch/sparc64/stand/ofwboot/srt0.s
 sparc,openbsd,asm,ba,67,sys/arch/sparc64/sparc64/in_cksum.S sys/arch/sparc64/sparc64/locore.s sys/lib/libkern/arch/sparc64/_setjmp.S
 sparc,openbsd,asm,bne,60,sys/arch/sparc64/sparc64/locore.s sys/arch/sparc64/stand/ofwboot/srt0.s sys/lib/libkern/arch/sparc64/_setjmp.S
@@ -4947,6 +5126,7 @@ sparc,openbsd,asm,ldsh,9,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,inline,add,8,sys/arch/sparc64/include/profile.h sys/arch/sparc64/sparc64/in4_cksum.c
 sparc,openbsd,inline,rd,8,sys/arch/sparc64/include/cpu.h sys/arch/sparc64/include/ctlreg.h sys/arch/sparc64/include/profile.h
 sparc,openbsd,asm,saved,8,sys/arch/sparc64/sparc64/locore.s
+sparc,openbsd,asm,stba,8,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,asm,brgz,7,sys/arch/sparc64/sparc64/in_cksum.S sys/arch/sparc64/sparc64/locore.s sys/arch/sparc64/stand/ofwboot/srt0.s
 sparc,openbsd,asm,ldsba,6,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,asm,lduh,6,sys/arch/sparc64/sparc64/in_cksum.S sys/arch/sparc64/sparc64/locore.s
@@ -4954,6 +5134,7 @@ sparc,openbsd,asm,movrz,6,sys/arch/sparc64/sparc64/locore.s sys/lib/libkern/arch
 sparc,openbsd,asm,sir,6,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,inline-macro,asi,5,sys/arch/sparc64/include/ctlreg.h
 sparc,openbsd,asm,ble,5,sys/arch/sparc64/sparc64/in_cksum.S sys/arch/sparc64/sparc64/locore.s
+sparc,openbsd,inline,ldxa,5,sys/arch/sparc64/include/endian.h sys/arch/sparc64/sparc64/db_interface.c
 sparc,openbsd,inline-macro,pil,5,sys/arch/sparc64/include/ctlreg.h sys/arch/sparc64/include/psl.h sys/arch/sparc64/sparc64/intr.c
 sparc,openbsd,asm,restored,5,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,asm,stw,5,sys/arch/sparc64/sparc64/locore.s
@@ -4961,15 +5142,18 @@ sparc,openbsd,inline,ta,5,sys/arch/sparc64/sparc64/db_interface.c sys/arch/sparc
 sparc,openbsd,asm,bg,4,sys/arch/sparc64/sparc64/in_cksum.S sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,asm,bgeu,4,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,asm,blu,4,sys/arch/sparc64/sparc64/locore.s
+sparc,openbsd,asm,lduwa,4,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,inline,membar,4,sys/arch/sparc64/dev/creator.c sys/arch/sparc64/include/atomic.h sys/arch/sparc64/include/psl.h
 sparc,openbsd,asm,srax,4,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,inline,wrpr,4,sys/arch/sparc64/include/ctlreg.h sys/arch/sparc64/include/psl.h sys/arch/sparc64/sparc64/autoconf.c
 sparc,openbsd,asm,done,3,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,inline-macro,fprs,3,sys/arch/sparc64/dev/creator.c sys/arch/sparc64/include/ctlreg.h
 sparc,openbsd,asm,ldsha,3,sys/arch/sparc64/sparc64/locore.s
+sparc,openbsd,asm,lduba,3,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,asm,movrlz,3,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,inline,rdpr,3,sys/arch/sparc64/include/ctlreg.h sys/arch/sparc64/include/psl.h sys/arch/sparc64/sparc64/intr.c
 sparc,openbsd,asm,sta,3,sys/arch/sparc64/sparc64/locore.s
+sparc,openbsd,asm,stha,3,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,inline,addcc,2,sys/arch/sparc64/fpu/fpu_arith.h
 sparc,openbsd,inline,addx,2,sys/arch/sparc64/fpu/fpu_arith.h
 sparc,openbsd,asm,andncc,2,sys/arch/sparc64/sparc64/locore.s
@@ -5001,7 +5185,10 @@ sparc,openbsd,asm,lda,1,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,inline-macro,lda,1,sys/arch/sparc64/include/ctlreg.h
 sparc,openbsd,asm,ldd,1,sys/lib/libkern/arch/sparc64/_setjmp.S
 sparc,openbsd,inline-macro,lduba,1,sys/arch/sparc64/include/ctlreg.h
+sparc,openbsd,inline,lduha,1,sys/arch/sparc64/include/endian.h
+sparc,openbsd,asm,lduha,1,sys/arch/sparc64/sparc64/locore.s
 sparc,openbsd,inline-macro,lduha,1,sys/arch/sparc64/include/ctlreg.h
+sparc,openbsd,inline,lduwa,1,sys/arch/sparc64/include/endian.h
 sparc,openbsd,inline-macro,lduwa,1,sys/arch/sparc64/include/ctlreg.h
 sparc,openbsd,inline-macro,ldxa,1,sys/arch/sparc64/include/ctlreg.h
 sparc,openbsd,asm,movg,1,sys/arch/sparc64/sparc64/in_cksum.S
@@ -5016,8 +5203,11 @@ sparc,openbsd,inline-macro,sta,1,sys/arch/sparc64/include/ctlreg.h
 sparc,openbsd,inline-macro,stba,1,sys/arch/sparc64/include/ctlreg.h
 sparc,openbsd,asm,std,1,sys/lib/libkern/arch/sparc64/_setjmp.S
 sparc,openbsd,inline,stda,1,sys/arch/sparc64/dev/creator.c
+sparc,openbsd,inline,stha,1,sys/arch/sparc64/include/endian.h
 sparc,openbsd,inline-macro,stha,1,sys/arch/sparc64/include/ctlreg.h
+sparc,openbsd,inline,stwa,1,sys/arch/sparc64/include/endian.h
 sparc,openbsd,inline-macro,stwa,1,sys/arch/sparc64/include/ctlreg.h
+sparc,openbsd,inline,stxa,1,sys/arch/sparc64/include/endian.h
 sparc,openbsd,inline-macro,stxa,1,sys/arch/sparc64/include/ctlreg.h
 sparc,openbsd,inline,subcc,1,sys/arch/sparc64/fpu/fpu_arith.h
 sparc,openbsd,inline,subx,1,sys/arch/sparc64/fpu/fpu_arith.h
@@ -5038,6 +5228,7 @@ vax,netbsd,asm,beql,77,sys/arch/vax/boot/boot/consio2.S sys/arch/vax/boot/common
 vax,netbsd,asm,cmpl,74,sys/arch/vax/boot/common/srt0.S sys/arch/vax/boot/common/str.S sys/arch/vax/boot/xxboot/start.S
 vax,netbsd,asm,bneq,66,sys/arch/vax/boot/common/str.S sys/arch/vax/vax/cpu_in_cksum.S sys/arch/vax/vax/emulate.S
 vax,netbsd,asm,subl,65,sys/arch/vax/boot/common/srt0.S sys/arch/vax/boot/common/str.S sys/arch/vax/boot/xxboot/start.S
+vax,netbsd,asm,extzv,64,sys/arch/vax/vax/emulate.S sys/arch/vax/vax/lock_stubs.S sys/arch/vax/vax/unimpl_emul.S
 vax,netbsd,asm,ret,61,sys/arch/vax/boot/boot/consio2.S sys/arch/vax/boot/common/romread.S sys/arch/vax/boot/common/str.S
 vax,netbsd,asm,pushl,55,sys/arch/vax/boot/common/romread.S sys/arch/vax/boot/common/srt0.S sys/arch/vax/boot/common/str.S
 vax,netbsd,asm,incl,53,sys/arch/vax/boot/xxboot/start.S sys/arch/vax/vax/emulate.S sys/arch/vax/vax/intvec.S
@@ -5090,6 +5281,7 @@ vax,netbsd,asm,movc3,7,sys/arch/vax/vax/subr.S sys/lib/libkern/arch/vax/blkcpy.S
 vax,netbsd,asm,movc5,7,sys/arch/vax/boot/common/srt0.S sys/arch/vax/boot/xxboot/start.S sys/arch/vax/vax/unimpl_emul.S
 vax,netbsd,asm,movd,7,sys/arch/vax/vax/unimpl_emul.S
 vax,netbsd,asm,movzwl,7,sys/arch/vax/vax/cpu_in_cksum.S sys/arch/vax/vax/unimpl_emul.S sys/lib/libkern/arch/vax/blkcpy.S
+vax,netbsd,inline,extzv,6,sys/arch/vax/boot/boot/boot.c sys/arch/vax/include/pte.h sys/arch/vax/vsa/maskbits.h
 vax,netbsd,inline,incl,6,sys/arch/vax/include/lock.h sys/arch/vax/include/macros.h
 vax,netbsd,asm,movpsl,6,sys/arch/vax/boot/common/srt0.S sys/arch/vax/boot/xxboot/start.S sys/arch/vax/vax/subr.S
 vax,netbsd,inline,subl,6,sys/arch/vax/include/macros.h
@@ -5156,6 +5348,8 @@ vax,netbsd,asm,clrd,1,sys/arch/vax/vax/unimpl_emul.S
 vax,netbsd,inline,cmpb,1,sys/arch/vax/include/macros.h
 vax,netbsd,asm,cvtdl,1,sys/arch/vax/vax/unimpl_emul.S
 vax,netbsd,asm,cvtwl,1,sys/arch/vax/vax/unimpl_emul.S
+vax,netbsd,inline,ffs,1,sys/arch/vax/include/macros.h
+vax,netbsd,asm,ffs,1,sys/arch/vax/vax/unimpl_emul.S
 vax,netbsd,inline,insqti,1,sys/arch/vax/include/macros.h
 vax,netbsd,inline,insque,1,sys/arch/vax/include/macros.h
 vax,netbsd,inline,popr,1,sys/arch/vax/boot/boot/autoconf.c
@@ -5163,6 +5357,8 @@ vax,netbsd,inline,pushr,1,sys/arch/vax/boot/boot/autoconf.c
 vax,netbsd,inline,remqhi,1,sys/arch/vax/include/macros.h
 vax,netbsd,inline,remque,1,sys/arch/vax/include/macros.h
 vax,netbsd,inline,rsb,1,sys/arch/vax/include/profile.h
+vax,netbsd,inline,scanc,1,sys/arch/vax/include/macros.h
+vax,netbsd,inline,skpc,1,sys/arch/vax/include/macros.h
 vax,netbsd,inline,sobgtr,1,sys/arch/vax/vax/clock.c
 vax,netbsd,asm,subd,1,sys/arch/vax/vax/unimpl_emul.S
 vax,netbsd,asm,tstd,1,sys/arch/vax/vax/unimpl_emul.S
@@ -5215,12 +5411,15 @@ x86,freebsd,inline,rdtscp,9,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc
 x86,freebsd,asm,iret,8,sys/amd64/amd64/exception.S sys/amd64/amd64/support.S sys/i386/i386/apic_vector.S
 x86,freebsd,asm,lret,8,sys/amd64/amd64/locore.S sys/amd64/amd64/support.S sys/i386/i386/bioscall.S
 x86,freebsd,asm,orpd,8,sys/amd64/amd64/support.S sys/i386/i386/support.S
+x86,freebsd,asm,out,8,sys/amd64/acpica/acpi_wakecode.S sys/i386/acpica/acpi_wakecode.S
+x86,freebsd,inline,out,8,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h sys/x86/cpufreq/smist.c
 x86,freebsd,asm,pause,8,sys/amd64/amd64/cpu_switch.S sys/amd64/amd64/support.S sys/amd64/vmm/amd/svm_support.S
 x86,freebsd,inline,pop,8,sys/amd64/include/cpufunc.h sys/amd64/include/pmc_mdep.h sys/amd64/vmm/vmm_instruction_emul.c
 x86,freebsd,asm,pxor,8,sys/amd64/amd64/support.S sys/i386/i386/support.S
 x86,freebsd,asm,vorpd,8,sys/amd64/amd64/support.S sys/i386/i386/support.S
 x86,freebsd,inline,xor,8,sys/amd64/amd64/pmap.c sys/i386/include/atomic.h sys/i386/include/counter.h
 x86,freebsd,inline,cli,7,sys/amd64/include/cpufunc.h sys/i386/include/atomic.h sys/i386/include/cpufunc.h
+x86,freebsd,inline,in,7,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h sys/x86/include/vmware.h
 x86,freebsd,inline,popf,7,sys/amd64/include/cpufunc.h sys/i386/include/atomic.h sys/i386/include/cpufunc.h
 x86,freebsd,inline,rdmsr,7,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h sys/x86/x86/tsc.c
 x86,freebsd,inline,set.cc,7,sys/i386/include/atomic.h
@@ -5259,7 +5458,12 @@ x86,freebsd,inline,sti,4,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h 
 x86,freebsd,asm,vmovdqa,4,sys/amd64/amd64/support.S sys/i386/i386/support.S
 x86,freebsd,asm,vmovdqa64,4,sys/amd64/amd64/support.S sys/i386/i386/support.S
 x86,freebsd,inline,cmpxchg8b,3,sys/i386/include/counter.h
+x86,freebsd,inline,fldcw,3,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c sys/x86/include/x86_ieeefp.h
+x86,freebsd,inline,fnclex,3,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c sys/x86/include/x86_ieeefp.h
+x86,freebsd,inline,fnstcw,3,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c sys/x86/include/x86_ieeefp.h
+x86,freebsd,inline,fnstsw,3,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c sys/x86/include/x86_ieeefp.h
 x86,freebsd,inline,hlt,3,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h sys/x86/x86/cpu_machdep.c
+x86,freebsd,inline,ldmxcsr,3,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c sys/x86/include/x86_ieeefp.h
 x86,freebsd,inline,lfence,3,sys/amd64/include/atomic.h sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
 x86,freebsd,inline,lock btr,3,sys/amd64/include/atomic.h sys/i386/include/atomic.h
 x86,freebsd,inline,lock bts,3,sys/amd64/include/atomic.h sys/i386/include/atomic.h
@@ -5274,6 +5478,7 @@ x86,freebsd,inline,sfence,3,sys/amd64/include/atomic.h sys/amd64/include/cpufunc
 x86,freebsd,inline,sgdt,3,sys/amd64/amd64/machdep.c sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
 x86,freebsd,inline,sidt,3,sys/amd64/amd64/machdep.c sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
 x86,freebsd,inline,sldt,3,sys/amd64/amd64/machdep.c sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
+x86,freebsd,inline,stmxcsr,3,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c sys/x86/include/x86_ieeefp.h
 x86,freebsd,inline,str,3,sys/amd64/amd64/machdep.c sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
 x86,freebsd,inline,sub,3,sys/amd64/include/pcpu.h sys/amd64/vmm/vmm_instruction_emul.c
 x86,freebsd,asm,ud2,3,sys/amd64/ia32/ia32_sigtramp.S
@@ -5292,6 +5497,10 @@ x86,freebsd,asm,cmov.cc,2,sys/amd64/amd64/cpu_switch.S
 x86,freebsd,asm,div,2,sys/i386/i386/locore.S
 x86,freebsd,inline,ffree,2,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c
 x86,freebsd,inline,flds,2,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c
+x86,freebsd,inline,fninit,2,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c
+x86,freebsd,inline,fxrstor,2,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c
+x86,freebsd,inline,fxsave,2,sys/amd64/amd64/fpu.c sys/i386/i386/npx.c
+x86,freebsd,asm,in,2,sys/amd64/acpica/acpi_wakecode.S sys/i386/acpica/acpi_wakecode.S
 x86,freebsd,inline-macro,int,2,sys/amd64/include/atomic.h sys/i386/include/atomic.h
 x86,freebsd,inline,invd,2,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
 x86,freebsd,asm,invlpg,2,sys/amd64/amd64/support.S
@@ -5307,7 +5516,6 @@ x86,freebsd,inline,ltr,2,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
 x86,freebsd,inline,monitor,2,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
 x86,freebsd,asm,movnti,2,sys/i386/i386/support.S
 x86,freebsd,asm,neg,2,sys/amd64/amd64/support.S
-x86,freebsd,inline,out,2,sys/x86/cpufreq/smist.c
 x86,freebsd,inline,pause,2,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
 x86,freebsd,asm,rdgsbase,2,sys/amd64/amd64/exception.S
 x86,freebsd,inline,rdpkru,2,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
@@ -5330,6 +5538,8 @@ x86,freebsd,inline,wrpkru,2,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc
 x86,freebsd,inline,xgetbv,2,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
 x86,freebsd,asm,xsave,2,sys/amd64/amd64/cpu_switch.S
 x86,freebsd,inline,xsetbv,2,sys/amd64/include/cpufunc.h sys/i386/include/cpufunc.h
+x86,freebsd,asm,bsf,1,sys/amd64/amd64/support.S
+x86,freebsd,inline,bsf,1,sys/i386/include/cpufunc.h
 x86,freebsd,inline,clac,1,sys/amd64/include/cpufunc.h
 x86,freebsd,inline,clgi,1,sys/amd64/vmm/amd/svm.c
 x86,freebsd,inline,clwb,1,sys/amd64/include/cpufunc.h
@@ -5341,7 +5551,10 @@ x86,freebsd,inline,fld1,1,sys/i386/i386/npx.c
 x86,freebsd,inline,fldenv,1,sys/x86/include/x86_ieeefp.h
 x86,freebsd,inline,fldz,1,sys/i386/i386/npx.c
 x86,freebsd,inline,fnop,1,sys/i386/i386/npx.c
+x86,freebsd,inline,fnsave,1,sys/i386/i386/npx.c
 x86,freebsd,inline,fnstenv,1,sys/x86/include/x86_ieeefp.h
+x86,freebsd,inline,frstor,1,sys/i386/i386/npx.c
+x86,freebsd,asm,fxsave,1,sys/amd64/amd64/cpu_switch.S
 x86,freebsd,asm,imul,1,sys/amd64/amd64/support.S
 x86,freebsd,inline,invept,1,sys/amd64/vmm/intel/vmx_cpufunc.h
 x86,freebsd,inline,invlpgb,1,sys/amd64/include/cpufunc.h
@@ -5379,14 +5592,14 @@ x86,freebsd,inline,wrgsbase,1,sys/amd64/include/cpufunc.h
 x86,freebsd,inline,xrstors,1,sys/amd64/include/cpufunc.h
 x86,freebsd,inline,xsaves,1,sys/amd64/include/cpufunc.h
 x86,linux,asm,mov,1545,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S
+x86,linux,asm,push,434,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S
 x86,linux,asm,j.cc,346,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S
+x86,linux,asm,pop,273,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S
 x86,linux,inline,mov,265,arch/x86/boot/boot.h arch/x86/boot/compressed/ident_map_64.c arch/x86/boot/compressed/string.c
-x86,linux,asm,push,226,arch/x86/boot/compressed/head_64.S arch/x86/boot/compressed/idt_handlers_64.S arch/x86/boot/compressed/mem_encrypt.S
 x86,linux,asm,add,181,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S
 x86,linux,asm,jmp,177,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S
 x86,linux,asm,ret,160,arch/x86/boot/bioscall.S arch/x86/boot/compressed/mem_encrypt.S arch/x86/boot/copy.S
 x86,linux,asm,lea,155,arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S arch/x86/boot/compressed/mem_encrypt.S
-x86,linux,asm,pop,142,arch/x86/boot/compressed/idt_handlers_64.S arch/x86/boot/compressed/mem_encrypt.S arch/x86/boot/startup/efi-mixed.S
 x86,linux,asm,cmp,129,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S
 x86,linux,asm,call,125,arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S arch/x86/boot/compressed/idt_handlers_64.S
 x86,linux,asm,xor,116,arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S arch/x86/boot/compressed/mem_encrypt.S
@@ -5400,6 +5613,7 @@ x86,linux,inline,j.cc,47,arch/x86/boot/video.c arch/x86/include/asm/bitops.h arc
 x86,linux,asm,int3,43,arch/x86/entry/entry_64.S arch/x86/entry/entry_64_compat.S arch/x86/entry/vsyscall/vsyscall_emu_64.S
 x86,linux,inline,add,42,arch/x86/include/asm/checksum_32.h arch/x86/include/asm/checksum_64.h arch/x86/include/asm/div64.h
 x86,linux,asm,popf,36,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S
+x86,linux,inline,push,33,arch/x86/boot/cpuflags.c arch/x86/boot/video.c arch/x86/include/asm/apm.h
 x86,linux,inline,movdqa,32,arch/x86/kvm/fpu.h
 x86,linux,inline,vmovdqa,32,arch/x86/kvm/fpu.h
 x86,linux,asm,cld,31,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S
@@ -5409,19 +5623,20 @@ x86,linux,asm,rep movs,31,arch/x86/boot/bioscall.S arch/x86/boot/compressed/head
 x86,linux,asm,cmov.cc,29,arch/x86/lib/bhi.S arch/x86/lib/getuser.S
 x86,linux,asm,or,28,arch/x86/boot/compressed/head_64.S arch/x86/boot/compressed/mem_encrypt.S arch/x86/boot/pmjump.S
 x86,linux,asm,pushf,27,arch/x86/boot/bioscall.S arch/x86/entry/entry.S arch/x86/entry/entry_32.S
+x86,linux,inline,pop,24,arch/x86/boot/cpuflags.c arch/x86/boot/video.c arch/x86/include/asm/apm.h
 x86,linux,inline,movnti,22,arch/x86/lib/usercopy_32.c arch/x86/lib/usercopy_64.c
 x86,linux,asm,wrmsr,22,arch/x86/boot/compressed/head_64.S arch/x86/boot/compressed/mem_encrypt.S arch/x86/boot/startup/efi-mixed.S
 x86,linux,inline,call,21,arch/x86/include/asm/alternative.h arch/x86/include/asm/arch_hweight.h arch/x86/include/asm/atomic64_32.h
 x86,linux,asm,lgdt,21,arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S arch/x86/boot/startup/efi-mixed.S
-x86,linux,inline,push,21,arch/x86/boot/cpuflags.c arch/x86/include/asm/smap.h arch/x86/include/asm/sync_core.h
 x86,linux,asm,clac,19,arch/x86/entry/entry_32.S arch/x86/entry/entry_64.S arch/x86/lib/getuser.S
 x86,linux,asm,swapgs,18,arch/x86/entry/entry_64.S arch/x86/entry/entry_64_compat.S
 x86,linux,inline,xor,18,arch/x86/boot/cpuflags.c arch/x86/include/asm/msr.h arch/x86/include/asm/pvclock.h
 x86,linux,inline,dec,17,arch/x86/include/asm/checksum_32.h arch/x86/include/asm/checksum_64.h arch/x86/include/asm/local.h
+x86,linux,asm,rdmsr,17,arch/x86/boot/compressed/head_64.S arch/x86/boot/compressed/mem_encrypt.S arch/x86/boot/startup/efi-mixed.S
 x86,linux,inline,rep movs,17,arch/x86/boot/compressed/string.c arch/x86/include/asm/io.h arch/x86/include/asm/shared/string.h
 x86,linux,asm,ud2,17,arch/x86/entry/entry_32.S arch/x86/entry/entry_64.S arch/x86/kernel/head_64.S
+x86,linux,asm,cpuid,16,arch/x86/boot/compressed/mem_encrypt.S arch/x86/boot/startup/efi-mixed.S arch/x86/kernel/head_32.S
 x86,linux,asm,inc,16,arch/x86/boot/startup/efi-mixed.S arch/x86/kernel/head_32.S arch/x86/kernel/head_64.S
-x86,linux,inline,pop,16,arch/x86/boot/cpuflags.c arch/x86/include/asm/irq_stack.h arch/x86/include/asm/irqflags.h
 x86,linux,inline,pushf,16,arch/x86/boot/cpuflags.c arch/x86/include/asm/irqflags.h arch/x86/include/asm/kexec.h
 x86,linux,asm,ljmp,15,arch/x86/boot/startup/efi-mixed.S arch/x86/boot/startup/la57toggle.S arch/x86/kernel/acpi/wakeup_32.S
 x86,linux,asm,bts,14,arch/x86/boot/compressed/head_64.S arch/x86/boot/startup/efi-mixed.S arch/x86/boot/startup/la57toggle.S
@@ -5434,9 +5649,9 @@ x86,linux,asm,movnti,12,arch/x86/lib/copy_user_uncached_64.S
 x86,linux,asm,shl,12,arch/x86/boot/compressed/mem_encrypt.S arch/x86/boot/pmjump.S arch/x86/boot/startup/la57toggle.S
 x86,linux,asm,hlt,11,arch/x86/boot/compressed/head_64.S arch/x86/boot/compressed/mem_encrypt.S arch/x86/boot/header.S
 x86,linux,inline,lea,11,arch/x86/include/asm/asm.h arch/x86/include/asm/bug.h arch/x86/include/asm/checksum_32.h
+x86,linux,inline,movs,11,arch/x86/include/asm/string_32.h arch/x86/lib/iomem.c
 x86,linux,asm,movzx,11,arch/x86/boot/bioscall.S arch/x86/boot/copy.S arch/x86/boot/header.S
 x86,linux,asm,bt,10,arch/x86/boot/compressed/mem_encrypt.S arch/x86/boot/startup/efi-mixed.S arch/x86/kernel/head_32.S
-x86,linux,inline,movs,10,arch/x86/include/asm/string_32.h arch/x86/lib/iomem.c
 x86,linux,inline,popf,10,arch/x86/boot/cpuflags.c arch/x86/include/asm/smap.h arch/x86/kernel/cpu/common.c
 x86,linux,inline,rep stos,10,arch/x86/boot/video.c arch/x86/include/asm/shared/string.h arch/x86/include/asm/string_32.h
 x86,linux,inline,and,9,arch/x86/include/asm/runtime-const.h arch/x86/include/asm/string_32.h arch/x86/include/asm/uaccess_64.h
@@ -5454,6 +5669,7 @@ x86,linux,inline,int3,7,arch/x86/kernel/alternative.c arch/x86/kernel/reboot.c a
 x86,linux,inline,lock add,7,arch/x86/include/asm/atomic.h arch/x86/include/asm/atomic64_64.h arch/x86/include/asm/barrier.h
 x86,linux,asm,lock cmpxchg8b,7,arch/x86/lib/atomic64_cx8_32.S
 x86,linux,inline,mul,7,arch/x86/include/asm/div64.h arch/x86/include/asm/pvclock.h arch/x86/lib/delay.c
+x86,linux,asm,nop,7,arch/x86/entry/entry_64.S arch/x86/entry/entry_64_fred.S arch/x86/kernel/relocate_kernel_64.S
 x86,linux,inline,not,7,arch/x86/include/asm/checksum_32.h arch/x86/include/asm/checksum_64.h arch/x86/include/asm/ibt.h
 x86,linux,asm,sbb,7,arch/x86/lib/atomic64_386_32.S arch/x86/lib/atomic64_cx8_32.S arch/x86/lib/getuser.S
 x86,linux,inline,bswap,6,arch/x86/include/uapi/asm/swab.h arch/x86/kvm/emulate.c
@@ -5462,10 +5678,13 @@ x86,linux,inline,lods,6,arch/x86/lib/string_32.c
 x86,linux,asm,rol,6,arch/x86/kernel/relocate_kernel_64.S arch/x86/lib/checksum_32.S arch/x86/lib/csum-copy_64.S
 x86,linux,asm,wbinvd,6,arch/x86/kernel/acpi/wakeup_32.S arch/x86/kernel/relocate_kernel_64.S arch/x86/mm/mem_encrypt_boot.S
 x86,linux,inline,bsr,5,arch/x86/include/asm/bitops.h
+x86,linux,inline,cpuid,5,arch/x86/boot/cpucheck.c arch/x86/boot/cpuflags.c arch/x86/include/asm/cpuid/api.h
 x86,linux,inline,lock and,5,arch/x86/include/asm/atomic.h arch/x86/include/asm/atomic64_64.h arch/x86/include/asm/bitops.h
 x86,linux,inline,lock or,5,arch/x86/include/asm/atomic.h arch/x86/include/asm/atomic64_64.h arch/x86/include/asm/bitops.h
 x86,linux,asm,movabs,5,arch/x86/lib/hweight.S arch/x86/lib/memset_64.S
 x86,linux,asm,neg,5,arch/x86/lib/atomic64_386_32.S arch/x86/lib/checksum_32.S arch/x86/lib/copy_mc_64.S
+x86,linux,inline,nop,5,arch/x86/include/asm/special_insns.h arch/x86/kernel/alternative.c
+x86,linux,inline,rdmsr,5,arch/x86/boot/startup/sev-shared.c arch/x86/include/asm/msr.h arch/x86/include/asm/shared/msr.h
 x86,linux,inline,repne scas,5,arch/x86/lib/string_32.c arch/x86/lib/strstr_32.c
 x86,linux,asm,std,5,arch/x86/boot/compressed/head_32.S arch/x86/boot/compressed/head_64.S arch/x86/entry/entry_64.S
 x86,linux,inline,stos,5,arch/x86/boot/video.c arch/x86/lib/string_32.c
@@ -5500,6 +5719,7 @@ x86,linux,inline,lock cmpxchg,3,arch/x86/include/asm/futex.h arch/x86/include/as
 x86,linux,asm,lss,3,arch/x86/entry/entry_32.S
 x86,linux,inline,ltr,3,arch/x86/include/asm/desc.h
 x86,linux,inline,movntiq,3,arch/x86/include/asm/string_64.h
+x86,linux,inline,out,3,arch/x86/include/asm/shared/io.h arch/x86/kernel/io_delay.c
 x86,linux,asm,pause,3,arch/x86/kernel/relocate_kernel_64.S arch/x86/realmode/rm/trampoline_64.S
 x86,linux,asm,rdrand,3,arch/x86/boot/compressed/mem_encrypt.S arch/x86/kernel/sev_verify_cbit.S
 x86,linux,inline,sbb,3,arch/x86/include/asm/barrier.h arch/x86/lib/string_32.c
@@ -5521,6 +5741,7 @@ x86,linux,inline-macro,es,2,arch/x86/include/asm/segment.h
 x86,linux,inline,fld,2,arch/x86/kernel/fpu/bugs.c
 x86,linux,inline-macro,fs,2,arch/x86/include/asm/segment.h
 x86,linux,inline-macro,gs,2,arch/x86/include/asm/segment.h
+x86,linux,inline,in,2,arch/x86/include/asm/shared/io.h arch/x86/kernel/cpu/vmware.c
 x86,linux,inline,iret,2,arch/x86/include/asm/sync_core.h
 x86,linux,inline-macro,l,2,arch/x86/include/asm/io.h arch/x86/include/asm/shared/io.h
 x86,linux,inline,lgdt,2,arch/x86/boot/pm.c arch/x86/include/asm/desc.h
@@ -5574,7 +5795,7 @@ x86,linux,inline,fnsave,1,arch/x86/kernel/fpu/core.c
 x86,linux,inline,fsubp,1,arch/x86/kernel/fpu/bugs.c
 x86,linux,inline-macro,func,1,arch/x86/include/asm/paravirt_types.h
 x86,linux,inline-macro,get_user,1,arch/x86/include/asm/uaccess.h
-x86,linux,inline,in,1,arch/x86/include/asm/shared/io.h
+x86,linux,asm,in,1,arch/x86/kernel/relocate_kernel_64.S
 x86,linux,inline,invlpg,1,arch/x86/include/asm/tlb.h
 x86,linux,inline,invpcid,1,arch/x86/include/asm/invpcid.h
 x86,linux,inline,lahf,1,arch/x86/kernel/cpu/cyrix.c
@@ -5592,7 +5813,7 @@ x86,linux,asm,movsx,1,arch/x86/entry/entry_64.S
 x86,linux,inline,mwaitx,1,arch/x86/include/asm/mwait.h
 x86,linux,inline,neg,1,arch/x86/lib/usercopy_32.c
 x86,linux,inline-macro,nop_func,1,arch/x86/kernel/alternative.c
-x86,linux,inline,out,1,arch/x86/include/asm/shared/io.h
+x86,linux,asm,out,1,arch/x86/kernel/relocate_kernel_64.S
 x86,linux,inline-macro,paravirt_ret0,1,arch/x86/kernel/paravirt.c
 x86,linux,inline-macro,put_user,1,arch/x86/include/asm/uaccess.h
 x86,linux,inline-macro,pv_native_irq_disable,1,arch/x86/kernel/paravirt.c
@@ -5646,6 +5867,7 @@ x86,linux,inline,wrfsbase,1,arch/x86/include/asm/fsgsbase.h
 x86,linux,inline,wrgsbase,1,arch/x86/include/asm/fsgsbase.h
 x86,linux,inline,wrpkru,1,arch/x86/include/asm/special_insns.h
 x86,linux,inline,wruss,1,arch/x86/include/asm/special_insns.h
+x86,linux,inline,xadd,1,arch/x86/include/asm/local.h
 x86,linux,inline-macro,xadd,1,arch/x86/include/asm/cmpxchg.h
 x86,linux,inline-macro,xchg,1,arch/x86/include/asm/cmpxchg.h
 x86,linux,inline,xgetbv,1,arch/x86/include/asm/fpu/xcr.h
@@ -5692,9 +5914,11 @@ x86,netbsd,asm,adc,16,sys/arch/amd64/amd64/cpu_in_cksum.S sys/arch/amd64/amd64/l
 x86,netbsd,asm,cpuid,15,sys/arch/amd64/amd64/locore.S sys/arch/amd64/stand/prekern/locore.S sys/arch/i386/i386/locore.S
 x86,netbsd,asm,cmpxchg,14,sys/arch/amd64/amd64/lock_stubs.S sys/arch/amd64/amd64/spl.S sys/arch/i386/i386/lock_stubs.S
 x86,netbsd,asm,rep stos,14,sys/arch/amd64/amd64/locore.S sys/arch/amd64/stand/prekern/locore.S sys/arch/i386/i386/locore.S
+x86,netbsd,asm,swapgs,14,sys/arch/amd64/amd64/amd64_trap.S sys/arch/amd64/amd64/cpufunc.S sys/arch/amd64/amd64/locore.S
 x86,netbsd,asm,hlt,13,sys/arch/amd64/amd64/cpufunc.S sys/arch/i386/i386/cpufunc.S sys/arch/i386/stand/boot/biosboot.S
 x86,netbsd,asm,leave,13,sys/arch/amd64/amd64/copy.S sys/arch/amd64/amd64/cpufunc.S sys/arch/i386/bioscall/biostramp.S
 x86,netbsd,asm,lods,13,sys/arch/amd64/amd64/copy.S sys/arch/i386/i386/copy.S sys/arch/i386/stand/dosboot/start_dos.S
+x86,netbsd,asm,iret,12,sys/arch/amd64/amd64/amd64_trap.S sys/arch/amd64/amd64/locore.S sys/arch/i386/i386/i386_trap.S
 x86,netbsd,asm,lock cmpxchg,12,sys/arch/amd64/amd64/copy.S sys/arch/amd64/amd64/lock_stubs.S sys/arch/i386/i386/copy.S
 x86,netbsd,asm,lret,12,sys/arch/amd64/amd64/cpufunc.S sys/arch/i386/i386/cpufunc.S sys/arch/i386/i386/locore.S
 x86,netbsd,asm,mul,12,sys/arch/amd64/amd64/locore.S sys/arch/i386/i386/locore.S sys/arch/i386/stand/bootxx/pbr.S
@@ -5706,7 +5930,6 @@ x86,netbsd,asm,std,9,sys/arch/amd64/amd64/copy.S sys/arch/amd64/amd64/locore.S s
 x86,netbsd,asm,bsr,8,sys/arch/amd64/amd64/spl.S sys/arch/i386/i386/i386_trap.S sys/arch/i386/i386/locore.S
 x86,netbsd,asm,btr,8,sys/arch/amd64/amd64/spl.S sys/arch/i386/i386/i386_trap.S sys/arch/i386/i386/locore.S
 x86,netbsd,asm,div,7,sys/arch/i386/i386/locore.S sys/arch/i386/stand/fatboot/fatboot.S sys/arch/i386/stand/mbr/gptmbr.S
-x86,netbsd,asm,iret,7,sys/arch/i386/i386/i386_trap.S sys/arch/i386/i386/locore.S sys/arch/i386/i386/vector.S
 x86,netbsd,asm,lcall,7,sys/arch/amd64/acpi/acpi_wakecode.S sys/arch/i386/acpi/acpi_wakecode.S sys/arch/i386/pnpbios/pnpbioscall.S
 x86,netbsd,asm,lidt,7,sys/arch/amd64/acpi/acpi_wakeup_low.S sys/arch/amd64/amd64/cpufunc.S sys/arch/amd64/stand/prekern/locore.S
 x86,netbsd,asm,loop,7,sys/arch/i386/stand/dosboot/start_dos.S sys/arch/i386/stand/lib/dump_eax.S sys/arch/i386/stand/lib/message32.S
@@ -5752,6 +5975,7 @@ x86,netbsd,asm,flatcodeseg,2,sys/arch/i386/stand/dosboot/start_dos.S sys/arch/i3
 x86,netbsd,asm,flatdataseg,2,sys/arch/i386/stand/dosboot/start_dos.S sys/arch/i386/stand/lib/realprot.S
 x86,netbsd,asm,fldz,2,sys/arch/amd64/amd64/cpufunc.S sys/arch/i386/i386/cpufunc.S
 x86,netbsd,inline,fxrstor,2,sys/arch/x86/include/cpufunc.h
+x86,netbsd,inline,fxsave,2,sys/arch/x86/include/cpufunc.h
 x86,netbsd,asm,gdtlen,2,sys/arch/i386/stand/dosboot/start_dos.S sys/arch/i386/stand/lib/realprot.S
 x86,netbsd,asm,imul,2,sys/lib/libkern/arch/i386/random.S sys/lib/libkern/arch/x86_64/random.S
 x86,netbsd,inline,int3,2,sys/arch/amd64/include/ptrace.h sys/arch/i386/include/ptrace.h
@@ -5776,6 +6000,7 @@ x86,netbsd,asm,aam,1,sys/arch/i386/stand/bootxx/bootxx.S
 x86,netbsd,asm,cbw,1,sys/arch/i386/stand/lib/biosmemx.S
 x86,netbsd,asm,clc,1,sys/arch/i386/i386/locore.S
 x86,netbsd,asm,cltd,1,sys/arch/i386/stand/mbr/gptmbr.S
+x86,netbsd,inline,clts,1,sys/arch/x86/include/cpufunc.h
 x86,netbsd,asm,cmov.cc,1,sys/arch/amd64/amd64/cpu_in_cksum.S
 x86,netbsd,asm,cmoval,1,sys/arch/amd64/amd64/spl.S
 x86,netbsd,asm,cmovgl,1,sys/arch/amd64/amd64/lock_stubs.S
@@ -5792,7 +6017,6 @@ x86,netbsd,inline,fnstcw,1,sys/arch/x86/include/cpufunc.h
 x86,netbsd,inline,fnstsw,1,sys/arch/x86/include/cpufunc.h
 x86,netbsd,inline,frstor,1,sys/arch/x86/include/cpufunc.h
 x86,netbsd,asm,fsubrp,1,sys/arch/i386/i386/locore.S
-x86,netbsd,inline,fxsave,1,sys/arch/x86/include/cpufunc.h
 x86,netbsd,inline,in,1,sys/arch/i386/stand/efiboot/eficpufunc.c
 x86,netbsd,inline,invlpg,1,sys/arch/amd64/stand/prekern/mm.c
 x86,netbsd,inline,invpcid,1,sys/arch/x86/include/cpufunc.h
@@ -5856,15 +6080,19 @@ x86,openbsd,asm,cli,51,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd64
 x86,openbsd,asm,cld,46,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd64/copy.S sys/arch/amd64/amd64/kexec_subr.S
 x86,openbsd,asm,ljmp,45,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd64/kexec_subr.S sys/arch/amd64/amd64/locore0.S
 x86,openbsd,asm,dec,44,sys/arch/amd64/amd64/copy.S sys/arch/amd64/amd64/locore0.S sys/arch/amd64/amd64/mds.S
+x86,openbsd,asm,wrmsr,42,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd64/kexec_subr.S sys/arch/amd64/amd64/locore.S
 x86,openbsd,asm,rep movs,40,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd64/copy.S sys/arch/amd64/amd64/kexec_subr.S
 x86,openbsd,inline,loop,39,sys/arch/amd64/amd64/bus_space.c sys/arch/amd64/include/cpufunc.h sys/arch/i386/i386/bus_space.c
 x86,openbsd,inline,set.cc,37,sys/arch/amd64/amd64/cpu.c sys/arch/amd64/stand/libsa/bioscons.c sys/arch/amd64/stand/libsa/biosdev.c
+x86,openbsd,asm,rdmsr,35,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd64/kexec_subr.S sys/arch/amd64/amd64/locore.S
 x86,openbsd,asm,aeskeygenassist,31,sys/arch/amd64/amd64/aes_intel.S
+x86,openbsd,inline,out,30,sys/arch/amd64/amd64/bus_space.c sys/arch/amd64/include/pio.h sys/arch/i386/i386/bus_space.c
 x86,openbsd,asm,iret,26,sys/arch/amd64/amd64/locore.S sys/arch/amd64/amd64/locore0.S sys/arch/amd64/amd64/vector.S
 x86,openbsd,asm,movdqa,26,sys/arch/amd64/amd64/aes_intel.S sys/arch/amd64/amd64/mds.S
 x86,openbsd,asm,rep stos,26,sys/arch/amd64/amd64/locore0.S sys/arch/amd64/amd64/mds.S sys/arch/amd64/stand/boot/srt0.S
 x86,openbsd,asm,lods,22,sys/arch/amd64/amd64/copy.S sys/arch/amd64/stand/biosboot/biosboot.S sys/arch/amd64/stand/cdboot/srt0.S
 x86,openbsd,asm,movzx,22,sys/arch/amd64/stand/cdboot/srt0.S sys/arch/amd64/stand/cdbr/cdbr.S sys/arch/i386/i386/apmcall.S
+x86,openbsd,inline,in,21,sys/arch/amd64/amd64/bus_space.c sys/arch/amd64/include/pio.h sys/arch/i386/i386/bus_space.c
 x86,openbsd,asm,stos,20,sys/arch/amd64/amd64/copy.S sys/arch/i386/i386/locore.s sys/arch/i386/stand/libsa/debug_i386.S
 x86,openbsd,inline,add,19,sys/arch/amd64/amd64/bus_space.c sys/arch/amd64/include/atomic.h sys/arch/amd64/include/cpufunc.h
 x86,openbsd,asm,cpuid,19,sys/arch/amd64/amd64/locore0.S sys/arch/amd64/amd64/mptramp.S sys/arch/amd64/amd64/vmm_support.S
@@ -5889,6 +6117,7 @@ x86,openbsd,asm,movdqu,11,sys/arch/amd64/amd64/aes_intel.S
 x86,openbsd,asm,swapgs,11,sys/arch/amd64/amd64/locore.S sys/arch/amd64/amd64/vector.S
 x86,openbsd,asm,xchg,11,sys/arch/amd64/amd64/copy.S sys/arch/amd64/amd64/locore.S sys/arch/amd64/amd64/spl.S
 x86,openbsd,inline,pushf,10,sys/arch/amd64/amd64/via.c sys/arch/amd64/include/cpufunc.h sys/arch/i386/i386/via.c
+x86,openbsd,inline,rdtsc,10,sys/arch/amd64/include/cpu.h sys/arch/amd64/include/cpufunc.h sys/arch/amd64/stand/libsa/mdrandom.c
 x86,openbsd,asm,shufps,10,sys/arch/amd64/amd64/aes_intel.S
 x86,openbsd,asm,lidt,9,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd64/locore0.S sys/arch/amd64/stand/libsa/gidt.S
 x86,openbsd,asm,movabs,9,sys/arch/amd64/amd64/locore0.S sys/arch/amd64/amd64/mptramp.S sys/lib/libkern/arch/amd64/strchr.S
@@ -5918,9 +6147,11 @@ x86,openbsd,asm,invlpg,6,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd
 x86,openbsd,inline,pause,6,sys/arch/amd64/amd64/lapic.c sys/arch/amd64/include/cpu.h sys/arch/amd64/include/cpufunc.h
 x86,openbsd,asm,pshufb,6,sys/arch/amd64/amd64/aes_intel.S
 x86,openbsd,asm,pshufd,6,sys/arch/amd64/amd64/aes_intel.S
+x86,openbsd,inline,rdmsr,6,sys/arch/amd64/include/cpufunc.h sys/arch/amd64/stand/efiboot/exec_i386.c sys/arch/i386/include/cpufunc.h
 x86,openbsd,inline,repne ins,6,sys/arch/amd64/include/pio.h sys/arch/i386/include/pio.h
 x86,openbsd,inline,repne outs,6,sys/arch/amd64/include/pio.h sys/arch/i386/include/pio.h
 x86,openbsd,asm,sal,6,sys/arch/amd64/amd64/locore.S sys/lib/libkern/arch/amd64/memset.S sys/lib/libkern/arch/amd64/strrchr.S
+x86,openbsd,inline,wrmsr,6,sys/arch/amd64/amd64/lapic.c sys/arch/amd64/include/cpufunc.h sys/arch/i386/include/cpufunc.h
 x86,openbsd,asm,aesdeclast,5,sys/arch/amd64/amd64/aes_intel.S
 x86,openbsd,asm,aesenclast,5,sys/arch/amd64/amd64/aes_intel.S
 x86,openbsd,asm,btr,5,sys/arch/amd64/amd64/locore.S sys/arch/amd64/amd64/spl.S sys/arch/i386/isa/icu.s
@@ -5941,6 +6172,7 @@ x86,openbsd,asm,int3,4,sys/arch/amd64/amd64/locore.S sys/arch/i386/i386/locore.s
 x86,openbsd,asm,lldt,4,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd64/vmm_support.S sys/arch/i386/i386/acpi_wakecode.S
 x86,openbsd,inline,mfence,4,sys/arch/amd64/amd64/lapic.c sys/arch/amd64/include/bus.h sys/arch/amd64/include/cpufunc.h
 x86,openbsd,asm,orpd,4,sys/arch/amd64/amd64/mds.S
+x86,openbsd,asm,out,4,sys/arch/amd64/stand/libsa/gidt.S sys/arch/i386/stand/libsa/gidt.S
 x86,openbsd,asm,pause,4,sys/arch/amd64/amd64/locore.S sys/arch/amd64/amd64/vector.S
 x86,openbsd,asm,pclmulqdq,4,sys/arch/amd64/amd64/aes_intel.S
 x86,openbsd,asm,por,4,sys/arch/amd64/amd64/aes_intel.S
@@ -5953,6 +6185,7 @@ x86,openbsd,asm,str,4,sys/arch/amd64/amd64/acpi_wakecode.S sys/arch/amd64/amd64/
 x86,openbsd,asm,vorpd,4,sys/arch/amd64/amd64/mds.S
 x86,openbsd,asm,clflushopt,3,sys/arch/amd64/amd64/mds.S
 x86,openbsd,inline,div,3,sys/arch/amd64/amd64/machdep.c sys/arch/i386/i386/machdep.c sys/arch/i386/isa/clock.c
+x86,openbsd,inline,fwait,3,sys/arch/amd64/include/fpu.h sys/arch/i386/isa/npx.c
 x86,openbsd,asm,fxsave,3,sys/arch/amd64/amd64/locore.S
 x86,openbsd,inline,j.cc,3,sys/arch/i386/include/atomic.h sys/arch/i386/pci/pcibios.c
 x86,openbsd,inline,lcall,3,sys/arch/i386/i386/bios.c sys/arch/i386/pci/pcibios.c
@@ -5960,6 +6193,7 @@ x86,openbsd,asm,lret,3,sys/arch/amd64/amd64/locore.S sys/arch/i386/i386/locore.s
 x86,openbsd,asm,movd,3,sys/arch/amd64/amd64/aes_intel.S
 x86,openbsd,asm,movntdq,3,sys/arch/amd64/amd64/mds.S
 x86,openbsd,asm,pextrw,3,sys/arch/amd64/amd64/aes_intel.S
+x86,openbsd,inline,rdpmc,3,sys/arch/amd64/include/cpufunc.h sys/arch/amd64/include/pctr.h sys/arch/i386/include/pctr.h
 x86,openbsd,asm,repe scas,3,sys/arch/i386/i386/locore.s sys/lib/libkern/arch/amd64/skpc.S sys/lib/libkern/arch/i386/skpc.S
 x86,openbsd,inline,repne stos,3,sys/arch/i386/i386/bus_space.c
 x86,openbsd,inline,sgdt,3,sys/arch/amd64/amd64/db_interface.c sys/arch/amd64/include/cpufunc.h sys/arch/i386/i386/db_interface.c
@@ -5975,8 +6209,13 @@ x86,openbsd,asm,clgi,2,sys/arch/amd64/amd64/vmm_support.S
 x86,openbsd,inline,fdiv,2,sys/arch/i386/isa/npx.c
 x86,openbsd,inline,fild,2,sys/arch/i386/isa/npx.c
 x86,openbsd,inline,fld,2,sys/arch/i386/isa/npx.c
+x86,openbsd,inline,fldcw,2,sys/arch/amd64/include/fpu.h sys/arch/i386/isa/npx.c
+x86,openbsd,inline,fnclex,2,sys/arch/i386/isa/npx.c
+x86,openbsd,inline,fninit,2,sys/arch/amd64/include/fpu.h sys/arch/i386/isa/npx.c
 x86,openbsd,asm,fsbtodb,2,sys/arch/amd64/stand/biosboot/biosboot.S sys/arch/i386/stand/biosboot/biosboot.S
+x86,openbsd,inline,fxsave,2,sys/arch/amd64/include/fpu.h sys/arch/i386/isa/npx.c
 x86,openbsd,asm,imul,2,sys/lib/libkern/arch/amd64/strchr.S
+x86,openbsd,asm,in,2,sys/arch/amd64/stand/libsa/gidt.S sys/arch/i386/stand/libsa/gidt.S
 x86,openbsd,asm,indirect,2,sys/arch/amd64/stand/biosboot/biosboot.S sys/arch/i386/stand/biosboot/biosboot.S
 x86,openbsd,asm,inodeblk,2,sys/arch/amd64/stand/biosboot/biosboot.S sys/arch/i386/stand/biosboot/biosboot.S
 x86,openbsd,asm,inodedbl,2,sys/arch/amd64/stand/biosboot/biosboot.S sys/arch/i386/stand/biosboot/biosboot.S
@@ -5985,6 +6224,7 @@ x86,openbsd,asm,invept,2,sys/arch/amd64/amd64/vector.S sys/arch/amd64/amd64/vmm_
 x86,openbsd,inline,invlpg,2,sys/arch/amd64/include/cpufunc.h sys/arch/i386/include/cpufunc.h
 x86,openbsd,inline,iret,2,sys/arch/i386/isa/npx.c
 x86,openbsd,asm,lahf,2,sys/arch/amd64/stand/libsa/gidt.S sys/arch/i386/stand/libsa/gidt.S
+x86,openbsd,inline,ldmxcsr,2,sys/arch/amd64/include/fpu.h sys/arch/i386/isa/npx.c
 x86,openbsd,inline,lidt,2,sys/arch/amd64/include/cpufunc.h sys/arch/i386/include/cpufunc.h
 x86,openbsd,inline,lldt,2,sys/arch/amd64/include/cpufunc.h sys/arch/i386/include/cpufunc.h
 x86,openbsd,inline,ltr,2,sys/arch/amd64/include/cpufunc.h sys/arch/i386/include/cpufunc.h
@@ -6021,6 +6261,7 @@ x86,openbsd,asm,aesimc,1,sys/arch/amd64/amd64/aes_intel.S
 x86,openbsd,asm,clac,1,sys/arch/i386/i386/locore.s
 x86,openbsd,inline,cld,1,sys/arch/i386/include/bus.h
 x86,openbsd,inline,clgi,1,sys/arch/amd64/include/cpufunc.h
+x86,openbsd,inline,clts,1,sys/arch/i386/isa/npx.c
 x86,openbsd,asm,cmoveq,1,sys/lib/libkern/arch/amd64/strrchr.S
 x86,openbsd,inline,cmpxchg8b,1,sys/arch/i386/include/atomic.h
 x86,openbsd,inline,ffree,1,sys/arch/i386/isa/npx.c
@@ -6028,7 +6269,12 @@ x86,openbsd,inline,fistp,1,sys/arch/i386/isa/npx.c
 x86,openbsd,inline,fld1,1,sys/arch/i386/isa/npx.c
 x86,openbsd,inline,fldz,1,sys/arch/i386/isa/npx.c
 x86,openbsd,inline,fmulp,1,sys/arch/i386/isa/npx.c
+x86,openbsd,inline,fnsave,1,sys/arch/i386/isa/npx.c
+x86,openbsd,inline,fnstcw,1,sys/arch/i386/isa/npx.c
+x86,openbsd,inline,fnstsw,1,sys/arch/i386/isa/npx.c
+x86,openbsd,inline,frstor,1,sys/arch/i386/isa/npx.c
 x86,openbsd,inline,fsubrp,1,sys/arch/i386/isa/npx.c
+x86,openbsd,inline,fxrstor,1,sys/arch/i386/isa/npx.c
 x86,openbsd,inline,invpcid,1,sys/arch/amd64/include/cpufunc.h
 x86,openbsd,asm,invvpid,1,sys/arch/amd64/amd64/vmm_support.S
 x86,openbsd,inline,leave,1,sys/arch/amd64/include/profile.h

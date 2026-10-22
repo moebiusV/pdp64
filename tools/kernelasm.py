@@ -17,7 +17,9 @@ HOW TO REPRODUCE (the revisions used for docs/kernel-asm-survey.md are in that d
      alpha,hppa,m88k} and sys/lib/libkern/arch).
   2. The compiled-code side is the assembly of the fair corpus, /tmp/p64opt/archcmp/<arch>/*.s (the comparison agent's output).
   3. python3 tools/kernelasm.py all --src ~/claude/kernel-src --corpus /tmp/p64opt/archcmp --out docs/codegen-data/kernelasm
-     (sub-commands: extract, corpus, join, sample FAMILY KERNEL N, all).
+     (sub-commands: extract, corpus, join, classify, sample FAMILY KERNEL N, all; the output CSVs are listed in docs/kernel-asm-survey.md).
+  Revisions used (shallow clones, 2026-10-22): linux 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614, freebsd 3200a274272d28cf6d2385a8ea46959f313866de,
+  netbsd cdcd52a8183344cabc6a4296b4bbe7e7c5fd3cdc, openbsd 2114d7b7c8fbfd8d285dd7b5b5eb44e1f6b70f55 (also in docs/codegen-data/kernelasm/sources.txt).
   Date of the first run: 2026-10-22.
 
 METHOD
@@ -349,7 +351,7 @@ def handle_statement(st, fam, kernel, kind, f, tally, macro_names, pending):
     if '_' in wl and fam not in ('loongarch', 'alpha'):
         tally.macros[(fam, kernel, w)] += 1
         return
-    if wl in macro_names.get((fam, kernel), ()):
+    if kind == 'asm' and wl in macro_names.get((fam, kernel), ()):
         tally.macros[(fam, kernel, w)] += 1
         return
     if not WORD_RE.match(wl):
@@ -577,6 +579,8 @@ def do_extract(src, out):
             cache[(kernel, rel)] = (fam, ext, text)
             for m in MACRO_DEF_RE.finditer(text):
                 nm = m.group(1) or m.group(2)
+                if m.group(2) and ext not in ASM_EXT:
+                    continue          # a C function-like macro (mfspr(), wrmsr()) may share its name with a real mnemonic
                 if nm and nm == nm.lower():
                     macro_names[(fam, kernel)].add(nm)
     for (kernel, rel), (fam, ext, text) in sorted(cache.items()):
@@ -725,7 +729,7 @@ CLASS_ORDER = ['exception entry/return and system call', 'privileged register ac
 CLASS_TABLE = {
  'x86': {
   'exception entry/return and system call': 'iret sysret sysexit sysenter syscall int into lret ljmp lcall uiret eretu erets senduipi rsm ud1',
-  'privileged register access': 'rdmsr wrmsr lgdt lidt lldt ltr sgdt sidt sldt str lmsw smsw clts xsetbv xgetbv rdpkru wrpkru verr verw lar lsl rdmsrlist wrmsrlist wrmsrns in out ins outs',
+  'privileged register access': 'rdmsr wrmsr lgdt lidt lldt ltr sgdt sidt sldt str lmsw smsw clts xsetbv xgetbv rdpkru wrpkru verr verw lar lsl rdmsrlist wrmsrlist wrmsrns',
   'interrupt masking': 'cli sti clui stui testui pushf popf',
   'I/O and device access': 'in out ins outs',
   'TLB and MMU maintenance': 'invlpg invpcid invept invvpid invlpgb tlbsync',
@@ -940,7 +944,7 @@ def class_of(fam, m):
     if fam == 'x86' and m.startswith('lock '):
         return 'atomics and exclusive access'
     if fam == 'x86' and m.split(' ')[0] in ('rep', 'repz', 'repnz', 'repe', 'repne') and len(m.split(' ')) > 1:
-        return 'privileged register access' if m.split(' ')[1] in ('ins', 'outs') else 'string and memory block'
+        return 'I/O and device access' if m.split(' ')[1] in ('ins', 'outs') else 'string and memory block'
     for cls, names in tbl.items():
         if m in names.split():
             return cls
