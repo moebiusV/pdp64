@@ -239,6 +239,17 @@ So **the pdp64's "BIOS" is the controller's boot ROM and its monitor, a few hund
 
 **Recommendation (superseded by the author's choice of option 2, errata 50).** **Option 1**, with option 2 as an optional wrapper to be added only if someone wants the disk to be recognised by other systems. Under the principles: it reuses code OpenBSD already has (1: less new code), the kernel and the tools already handle it, so there is no new partition-table code to get wrong (2: less recovery code), and the ROM and block 0 need no parser (3: fewer gates). It also keeps block 0 entirely ours, which option 2 would not (the protective MBR). Cost to build: `sys/arch/pdp64/include/disklabel.h` (about a dozen lines), an `installboot` that writes block 0 and the block list, and the second stage reading the label.
 
+**Offsets inside the partition: follow the majority (errata 51).** The author's rule is to do what most systems do. In OpenBSD's tree, of the nine architecture headers, **seven put the label at sector 1 with offset 0**; Alpha (sector 0, offset 64) and SPARC64 (sector 0, offset 128) are the minority (measured: `LABELSECTOR` and `LABELOFFSET` in `sys/arch/*/include/disklabel.h`). The boot area is the BSD tradition of **8192 bytes (`BBSIZE`) at the start of the partition**, with the file system's superblock after it at offset 8192 (`SBOFF` = `BBOFF` + `BBSIZE`), and the label header says the boot area holds "primary (block 0) and secondary (block 1-15) bootstraps" (read in source: `ufs/ffs/fs.h` and `sys/disklabel.h` of OpenBSD 4.6; `d_bbsize` in the label records the boot-area size). So, **inside the pdp64's BSD partition:**
+
+| Sector (512 bytes) | Contents |
+|---|---|
+| 0 | the partition's own boot block (the primary bootstrap of the BSD convention) |
+| 1 | the disk label, at offset 0 |
+| 2 to 15 | the rest of the 8 KB boot area (room for a secondary bootstrap, 7 KB) |
+| 16 on | the file system, starting with its superblock at offset 8192 |
+
+The disk-level boot block is separate: with the GPT (errata 50) the first stage is in the protective MBR's 446 bytes at disk LBA 0, and the BSD partition's own boot block is the BSD tradition's second place a bootstrap can sit. Decision B8 chooses how the first stage finds the second stage; note that OpenBSD's own `installboot` writes the position of the second-stage *file* into the first stage's block list *(not confirmed in the sources read)*, so a **dedicated boot partition is optional**: the block list in the protective MBR can point straight at the blocks of the second-stage file in the root file system, or at the partition's 8 KB boot area.
+
 **Decision B7: the boot software is open source (the author's requirement).** The author has said that the bootstrap, loader and the "BIOS" are open source and part of the specification: the boot ROM and its monitor, the first-block program, the second-stage loader and any boot tools (installer, `installboot`) are published with the project and are reviewed and changed like the rest. This is recorded as errata 47. The licence is the BSD licence (errata 48, "bsd license for everything"). The consequence for the design is good: no closed firmware blob sits at the bottom of the trust chain, and every stage can be rebuilt from source by the project's own compiler.
 
 **Decision B8: how the first stage finds the second stage on a GPT disk**
