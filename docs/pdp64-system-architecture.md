@@ -252,6 +252,47 @@ loader. OpenBSD insists on properties this architecture has or can have: write-x
 
 **The order this suggests:** the system architecture of sections 3 to 6, the QEMU target extended to match, a Unix/32V port with the existing compiler, then the LLVM back end, then OpenBSD.
 
+## 15. System v1: a complete design for the first implementation (proposed 2026-10-22)
+
+**Status: proposed, for the QEMU target and the first kernel; nothing here is final until the author has accepted it** (errata 36). Sections 1 to 14 say what is established and what is open; this section closes every open item that the QEMU
+memory-management unit and privileged mode, and a Unix/32V port, need, with the defaults most in the spirit of the PDP-11 and of the rest of this ISA, so that it can be implemented and then judged.
+
+**PSW (16 bits).** Bit 0 `C`, bit 1 `V`, bit 2 `Z`, bit 3 `N` (the PDP-11 order), bit 4 `T` (trace), bits 5 to 7 the **interrupt priority** (0 to 7), bits 8 and 9 the **current mode**, bits 10 and 11 the **previous mode**, bits 12 to 15 reserved, zero.
+Mode encoding as on the PDP-11: kernel 0, supervisor 1, user 3. `MTPS` in user mode writes only the flags (bits 0 to 3); in kernel mode all writable bits. `SPL #n` is kernel only.
+
+**Exception entry (every exception and every interrupt).** Entry writes no memory except the fetch of the vector, and writes registers only: `EPC` is the address of the faulting instruction for an abort or progress exception and of the next instruction for a trap or
+interrupt; **`EPSW`** (new system register) receives the old PSW; `EVA` the faulting address (aborts; zero otherwise); `ECAUSE` the vector number. The new PSW is: current mode kernel, previous mode the old current mode, priority the old priority for an
+exception and the interrupt's level for an interrupt, `T` and the flags cleared. The new PC is the 64-bit word at the **physical** address `VBR + 8 * vector` (**`VBR`**, a new system register). A bus error on that fetch is a machine check that halts. Nothing is pushed: the handler saves
+`EPC` and `EPSW` itself if it can be interrupted. A second exception while the handler is saving them overwrites them, so a handler runs at priority 7 until the save is done (the same discipline as a PDP-11 handler between entry and `SPL`).
+**`RTI`** (kernel mode only) loads `PC` from `EPC` and `PSW` from `EPSW`; **`RTT`** does the same and sets `T` after the return. The kernel stack pointer of the new mode is selected by the mode change: `R14` names the bank of the current mode.
+
+**Vector numbers** (the table has 512 entries; `ECAUSE` equals the vector number): 0 reset (unused by the QEMU machine), 1 machine check, 2 illegal instruction, 3 privileged instruction, 4 misaligned access, 5 non-canonical address, 6 instruction page fault,
+7 load page fault, 8 store page fault, 9 protection (instruction), 10 protection (load), 11 protection (store), 12 divide by zero, 13 bus fault, 14 landing-pad violation, 15 breakpoint (`BPT`), 16 to 31 reserved, 32 to 63 interrupts (the virt machine: 32 timer, 33 console input, 34 console output),
+64 to 255 reserved; **`TRAP #n` and `TRAPL #n` use vector 256 + n** (0 to 255). An instruction page fault has `EPC` = the faulting fetch address and `EVA` the same.
+
+**Page-table entry (64 bits).** Bit 0 `V` valid, 1 `R`, 2 `W`, 3 `X`, 4 `U`, 5 `G`, 6 `A`, 7 `D`, bits 8 and 9 the memory type `MT`, bits 12 to 39 the physical page number (physical address bits 12 to 39, in place), all other bits zero (a set reserved bit is a page fault).
+A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next table; a leaf at level 2 maps 1 GB, at level 1 maps 2 MB, at level 0 maps 4 KB. Virtual address bits 38 to 30 index level 2, 29 to 21 level 1, 20 to 12 level 0. `PTBR` holds the physical address of the level-2 table.
+**Permissions:** a user-mode access needs `U` = 1; kernel mode may read and write `U` pages but may not execute them; `W` needs `R`... (`W` without `R` is reserved). **`A` and `D` are managed by software**: an access to a page with `A` = 0, or a write to a page with `D` = 0, raises the page fault of its kind and the kernel sets the bit
+(the hardware walker never writes a page table).
+
+**Memory-management control.** A new system register **`MMUCTL`**: bit 0 enables translation. At reset it is 0 and every address is physical (as the ISA promises: the machine comes up with the physical memory reachable). With translation enabled, an address in a direct mapping window
+(`DMW0`, `DMW1`, kernel mode only, section 7) is translated by the window and any other address by the page tables, with the `ASID` selecting non-global entries. A write to `PTBR`, `ASID` or `MMUCTL` takes effect for the next instruction.
+**`TLBI rN`** invalidates the translation of the page that contains the virtual address in `rN` (for the current `ASID` and the global entries); **`TLBIA`** invalidates all; **`TLBSYNC`** is a no-op on one core.
+
+**System registers added to `mfsr`/`mtsr`** (errata 32 gave 0 to 7): **`epsw` 8**, **`vbr` 9**, **`mmuctl` 10**, **`asid` 11** (so the `ASID` has the general access as well; `MTASID` and `MFASID` stay), **`cpuid` 12** (read only; the core number, as `MFCPUID`). Numbers above 12 are reserved.
+
+**Privileged instructions** (outside kernel mode they abort with vector 3): `RTI`, `RTT`, `HALT`, `SPL`, `MTASID`, `MFASID`, `TLBI`, `TLBIA`, `TLBSYNC`, `MTDMW`, `MFSR`, `MTSR`, `PROBER`, `PROBEW`, `WFE`. Not privileged: `MTDP`/`MFDP` (they name the current mode's `DP`; in user mode that
+is the thread pointer), `ICINV`/`ICINVA` (a JIT needs them), `FENCE`, `SEV`, `TRAP`, `BPT`, `NOP`, and `MTPS`/`MFPS` with the restriction above.
+
+**Interrupts.** Eight priority levels as on the PDP-11. A device asserts a level and a vector; the processor takes the interrupt between instructions when the level is greater than the PSW priority. The virt machine has: a **timer** (level 6, vector 32; registers: a 64-bit free-running
+counter, a 64-bit compare, and a control/status register with an enable and a pending bit; the interrupt is level while counter >= compare and enabled), and a **console** (level 4; vector 33 for input, 34 for output; a four-register serial device in the spirit of the PDP-11 `KL11`: receive status, receive data,
+transmit status, transmit data). `WFE` (kernel) sleeps until an interrupt is taken.
+
+**Reset and the QEMU machine.** The machine starts in kernel mode, priority 7, `MMUCTL` 0, at the entry point of the ELF given with `-kernel`; the stack pointer of the kernel bank is the top of RAM. (The architectural reset vector, vector 0, is not modelled by the virt machine.)
+The system-call stand-in (`trap #0` to `#2`) of `sim64` and of the current QEMU target remains for user programs run without a kernel (`-M pdp64-virt`, the default); a new machine option `kernel=on` turns it off, so that `TRAP` enters the kernel through vector 256 + n.
+
+**What this leaves open** (unchanged from section 13): hardware breakpoints and watchpoints, performance counters, machine-check reporting beyond halt, the supervisor mode's use, the DMA device layouts, SMP.
+
 ## Sources
 
 The ISA ([`pdp64-isa.md`](pdp64-isa.md)): §2.1, §2.2, §2.3, §4.11, §4.11.1, §6.1.1, §7.1 to §7.5, §8.1 to §8.3, §17, §19. Decisions: [`errata.md`](errata.md).
