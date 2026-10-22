@@ -14,7 +14,7 @@
 6. [Linux against the BSDs](#6-linux-against-the-bsds)
 7. [What pdp64 should take](#7-what-pdp64-should-take)
 8. [Entry, exit and context-switch path lengths](#8-entry-exit-and-context-switch-path-lengths)
-9. [Part II (not yet written)](#9-part-ii-not-yet-written)
+9. [Part II: the pain points (written, unfinished)](#9-part-ii-the-pain-points-written-unfinished)
 10. [What this survey does not show](#10-what-this-survey-does-not-show)
 - [Appendix A: the compiler-invisible inventory, per architecture](#appendix-a-the-compiler-invisible-inventory-per-architecture)
 - [Appendix B: class by architecture by kernel](#appendix-b-class-by-architecture-by-kernel)
@@ -1009,9 +1009,9 @@ The three paths a kernel runs most often are the system call, the generic except
 
 What the table shows. (1) **Two clusters.** The machines that save registers one at a time (x86-64, AArch64, RISC-V, MIPS, PowerPC, LoongArch) spend 40 to 70 instructions on entry and 30 to 55 on exit; the machines with a multiple-register save (m68k `moveml`, VAX `pushr`, s390 `stmg`) spend 6 to 12. (2) **x86 pays twice**: its entry is long because the hardware pushes a frame *and* the software then saves 15 registers *and* clears them, and because of the page-table switch of the Meltdown mitigation (3 instructions each way here); the AArch64 entry has 15 `stp` plus about 30 instructions of bookkeeping (task pointer, debug state, pointer-authentication and tag-check state). (3) **The thread switch is short everywhere** (9 to 40 instructions) except where state is large. (4) **pdp64's path is short by construction:** the hardware vectors through the table with `EPC`/`EPSW` in registers, priority already 7 (errata 40), and the stack and per-CPU pointer already banked. A system-call entry is `PUSHX`, `PUSHM`, then `SPL #0` (the handler is ready to be interrupted) and the call: **about 4 to 5 instructions**; exit is `SPL #7`, `POPM`, `POPX`, `RTI`: **4 instructions**; a generic exception entry that must also read the cause adds one `MFSR`. A thread switch (`PUSHM` of the callee-saved set, store `SP`, load `SP`, `POPM`, `MTASID`, `MTSR ptbr`, `ISYNC`, return) is **about 9 to 10**. Compare 45/30 (Linux x86-64), 60/45 (Linux AArch64), 10/9 (NetBSD VAX), 6/8 (NetBSD m68k): pdp64 is in the VAX and m68k cluster, which is what the register-based entry with `pushx` and `pushm` was designed to achieve.
 
-## 9. Part II (not yet written)
+## 9. Part II: the pain points (written, unfinished)
 
-A second document is planned: `kernel-pain-points`, thirty years of kernel and operating-system mailing-list discussion of tight loops, critical paths and their workarounds, compared with pdp64. It needs web research and has not been started. This survey is its data foundation: the instruction classes of section 4 are the list of places where those discussions happen.
+The second document is [`kernel-pain-points.md`](kernel-pain-points.md): what kernel and operating-system developers say about tight loops, critical paths and their workarounds, measured in the current Linux and BSD sources and in thirty years of commit messages, with the developers' own statements from the mailing lists read so far, compared with pdp64 and judged against the author's principles. It is in a reviewable state but unfinished: most of the list history has not been read (its Appendix C lists what remains). This survey is its data foundation: the instruction classes of section 4 are the list of places where those discussions happen.
 
 ## 10. What this survey does not show
 
