@@ -639,6 +639,10 @@ Save and restore `EPC` and `EPSW` on the stack in one instruction each (long for
 
 The flags become two groups (`C` and `{N, Z, V}`) that are never written partially or conditionally; `cbCC` and moves, loads and stores write no flags; shifts write the same flags for any count; `mscn` writes all four; new instructions `ISYNC` and `HINT`. Specification: errata 39. Effects to be measured and recorded here when it is done.
 
+### Decided: priority 7 on every exception and interrupt entry (2026-10-22, errata 40)
+
+Closes the one-instruction window in which an interrupt could overwrite `EPC` and `EPSW`; a throwback to the PDP-11's trap vectors. Specification: errata 40 and system architecture section 15.
+
 ## 13. Appendix
 
 ### 13.1 The 91 operations, folded

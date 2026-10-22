@@ -42,7 +42,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
    changed (§3); what the ISA left unspecified and is now specified (§4); the ABI (§5); the assembly language (§6); the object format (§7); why a grammar is the
    source (§8); errors in our own work, found and fixed (§9); changes to hbnf (§10); the environment (§11); what is still open (§12); an appendix with the
    opcode map (§13); the measurements behind the proposals (§14).
-5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-39, each with the problem, the choice and the reason.
+5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-40, each with the problem, the choice and the reason.
 6. [`docs/abi.md`](docs/abi.md): the calling convention (registers, stack, structures, variadic calls). [`docs/asm-syntax.md`](docs/asm-syntax.md): the assembly
    language. [`docs/sim64.md`](docs/sim64.md): the emulator and its system-call stand-in.
 
@@ -70,6 +70,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
 | The fourth parcel is removed; `len = 11` is a second page of 41 one-parcel instructions (the assembler picks them); fused compare-and-branch `cbCC` and `rori32` added: -7.4% code | errata 31; [CHANGES §12](docs/CHANGES-SINCE-R20.md) |
 | Wide constants: `movq =K, rd` loads from a literal pool, written with an explicit `=`; nothing is pooled silently | errata 33; [asm syntax](docs/asm-syntax.md) |
 | Privileged `mfsr`/`mtsr` reach `ptbr`, `epc`, `eva`, `ecause`, `dmw0`, `dmw1`, `usp`, `ssp` (what a paging OS needs) | errata 32 |
+| Priority 7 on every exception and interrupt entry (closes the `EPC`/`EPSW` overwrite window; a PDP-11 throwback) | errata 40; system architecture section 15 |
 | Flag cleanup for out-of-order readiness: two flag groups, `cbCC` and moves/loads/stores write no flags, shifts write the same flags for any count; `ISYNC` and `HINT` added | errata 39; [readiness review](docs/pdp64-ooo-readiness.md) |
 | `pushx` and `popx` save and restore the exception state in one instruction each (SYS class 0 minor 15, two-byte page-2 forms) | errata 37 |
 | The design point is a small in-order, non-speculative machine; the architecture does not forbid out-of-order; costs, gains and what it would need are written down | [in-order and out-of-order](docs/pdp64-in-order-and-out-of-order.md) |
@@ -126,7 +127,7 @@ instructions and 0.97 times its bytes; 486 of 486 C test runs pass. See CHANGES 
 **Documents** (in `docs/`)
 : Updated architecture: [`pdp64-isa.md`](docs/pdp64-isa.md) (the ISA), [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md),
   [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md), [`pdp64-q64-bus.md`](docs/pdp64-q64-bus.md) (the bus and devices), [`pdp64-system-architecture.md`](docs/pdp64-system-architecture.md) (privilege, exceptions, memory management, boot), [`pdp64-system-design.md`](docs/pdp64-system-design.md) (the options and the comparison with other architectures), [`pdp64-in-order-and-out-of-order.md`](docs/pdp64-in-order-and-out-of-order.md) (the design point and what out-of-order would need), [`pdp64-ooo-readiness.md`](docs/pdp64-ooo-readiness.md) (the review of the ISA for out-of-order), [`codegen-analysis.md`](docs/codegen-analysis.md) (measurements of compiled code); [`handoff.md`](handoff.md) (moving the work to another machine: what is not in git, the rebuild order, the state).
-  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-39);
+  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-40);
   conventions: [`abi.md`](docs/abi.md) (calling convention), [`asm-syntax.md`](docs/asm-syntax.md) (assembly language), [`sim64.md`](docs/sim64.md) (emulator);
   baseline as received (working name 11/64W): [`orig/`](docs/orig/); index: [`README.md`](README.md).
 
