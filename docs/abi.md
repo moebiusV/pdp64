@@ -16,3 +16,10 @@ Accepted choices (the ISA, §19.5, leaves the ABI open).
 | Symbols | no leading underscore. |
 | Landing pads | off in version 1; the assembler provides `.lpad`. |
 | PIC | globals through `d(PC)`; imported symbols through `MOVQ got(PC),Rd`; calls to imports through `CALLI got(PC)`; TLS local-exec `MOVQ off(DP),Rd`. |
+
+## Variadic calls (added with the first back end)
+
+In a call to a function declared with `...`, every argument goes in an 8-byte slot, in order: slots 0-5 are `r0`-`r5`, later slots are on the stack. A
+structure of any size is passed by value in consecutive slots and may split between `r5` and the stack. A variadic callee leaves its named parameters in
+their slots (`fp+16+8k`) and `va_start` is the address after the last named slot; `va_list` is a `char *` and `va_copy` is assignment. The prologue pops the
+return address, pushes `r5`..`r0` and pushes the return address again, so the register save area is contiguous with the stack arguments.
