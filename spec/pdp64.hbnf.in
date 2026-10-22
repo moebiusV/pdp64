@@ -18,7 +18,7 @@ prefix none
 ; spec/pdp64-mnemonics.hbnf (MN_ALU_ADD, AMODE_IMM, OPGROUP_SOP...) or the text of a %define below, because hbnf expressions have no
 ; names and no functions.  The numbers of the architecture are written once, in that file.
 
-%define MEM (opc <= @OPGROUP_LEA@ || opc == @OPGROUP_XFER@ || opc == @OPGROUP_SOP@ || (opc >= @MN_ALU_ADD@ && opc <= @MN_ALU_FCMPD@))
+%define MEM (opc <= @OPGROUP_LEA@ || opc == @OPGROUP_XFER@ || opc == @OPGROUP_SOP@ || (opc >= @MN_ALU_ADD@ && opc <= @MN_ALU_FCMP@))
 %define REGESC (opc == @OPGROUP_BESC@ || opc == @OPGROUP_MBLK@ || opc == @OPGROUP_AESC@ || opc == @OPGROUP_FESC@ || opc == @OPGROUP_ATOM@)
 %define BASEMODE (low == @AMODE_BASE@ || low == @AMODE_POSTINC@ || low == @AMODE_PREDEC@)
 %define WIDEMODE (low == @AMODE_PCREL@ || low == @AMODE_IMM@ || low == @AMODE_ABS@)

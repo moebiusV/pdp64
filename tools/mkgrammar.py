@@ -59,9 +59,12 @@ def main():
     t = re.sub(r'^%define (\w+) (.*)\n', take, t, flags=re.M)
     for _ in range(4):                                      # macros may use macros
         t = re.sub(r'@(\w+)@', lambda m: macros.get(m.group(1), m.group(0)), t)
+    alias_offset = dict(en['offset'])['alias']
     def sub(m):
         if m.group(1) not in const:
             sys.exit('mkgrammar: no enumerator %s' % m.group(1))
+        if const[m.group(1)] >= alias_offset:
+            sys.exit('mkgrammar: %s is an alias (number %#x): a template must name the word it stands for' % (m.group(1), const[m.group(1)]))
         return '0x%X' % const[m.group(1)]
     g = re.sub(r'@([A-Z0-9_]+)@', sub, t)
     g = g.replace('\n; This file is a template: ', '\n; GENERATED from pdp64.hbnf.in by tools/mkgrammar.py; this file was a template: ', 1) if False else g
