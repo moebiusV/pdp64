@@ -21,3 +21,13 @@ print(('DIFF ' if bad else 'ok   ') + 'link (words and map)')
 if got != want: print('  got ', ' '.join(got)); print('  want', ' '.join(want))
 sys.exit(1 if bad else 0)
 PY
+# the 32-bit field of a symbol's immediate or absolute address is range checked: the last data address below 2 GB links, one at 2 GB is refused
+# with the symbol named, and the top 2 GB of the address space (a sign-extended 32-bit value) links
+"$B/as64" -o "$B/ldhigh.o" tests/ld/high.s
+fail=0
+"$B/ld64" -Ttext 0x7fffe000 -o "$B/ldhigh.out" "$B/ldhigh.o" 2> "$B/ldhigh.err" || { echo "DIFF link below 2 GB: refused"; fail=1; }
+if "$B/ld64" -Ttext 0x7ffff000 -o "$B/ldhigh.out" "$B/ldhigh.o" 2> "$B/ldhigh.err"; then echo "DIFF link at 2 GB: accepted"; fail=1
+elif grep -q "relocation to target out of range (value 2147483648" "$B/ldhigh.err"; then echo "ok   link at 2 GB (refused, symbol named)"
+else echo "DIFF link at 2 GB: wrong message: $(head -1 $B/ldhigh.err)"; fail=1; fi
+"$B/ld64" -Ttext 0xffffffff7ffff000 -o "$B/ldhigh.out" "$B/ldhigh.o" 2> "$B/ldhigh.err" && echo "ok   link in the top 2 GB (sign-extended)" || { echo "DIFF link in the top 2 GB: $(head -1 $B/ldhigh.err)"; fail=1; }
+exit $fail

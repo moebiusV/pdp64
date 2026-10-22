@@ -264,6 +264,24 @@ static int sym_addr(struct obj *o, int k, uint64_t *out, const char *what)
 	return -1;
 }
 
+/* The name to report for a relocation's symbol.  The assembler refers to a local symbol through its section's symbol, with the offset as the
+   addend: then name the nearest named symbol at or below that offset in the section ("target", or "target+0x8"), as the programmer wrote it. */
+static const char *relname(struct obj *o, int k, int64_t addend, char *buf, size_t n)
+{
+	sym_t *y = &o->syms[k];
+	if ((y->info & 15) != 3) return o->symname[k];
+	int best = -1;
+	for (int j = 1; j < o->nsyms; j++) {
+		sym_t *z = &o->syms[j];
+		if ((z->info & 15) == 3 || z->shndx != y->shndx || !o->symname[j][0] || (int64_t)z->value > addend) continue;
+		if (best < 0 || z->value > o->syms[best].value) best = j;
+	}
+	if (best < 0) snprintf(buf, n, "section %u+%#llx", (unsigned)y->shndx, (unsigned long long)addend);
+	else if ((int64_t)o->syms[best].value == addend) snprintf(buf, n, "%s", o->symname[best]);
+	else snprintf(buf, n, "%s+%#llx", o->symname[best], (unsigned long long)(addend - (int64_t)o->syms[best].value));
+	return buf;
+}
+
 static void relocate(uint8_t *image[NCLASS])
 {
 	for (int oi = 0; oi < nobjs; oi++) {
@@ -285,26 +303,30 @@ static void relocate(uint8_t *image[NCLASS])
 				uint64_t P = secaddr + rl.offset;
 				uint8_t *where = image[c] + o->is[target].outoff + rl.offset;
 				int64_t V = (int64_t)S + rl.addend;
+				char nb[300];
+				const char *sname = relname(o, rl.symidx, rl.addend, nb, sizeof nb);
 				switch (rl.type) {
 				case R_PDP64_D64:
 					for (int b = 0; b < 8; b++) where[b] = (uint64_t)V >> (8 * b);
 					break;
 				case R_PDP64_D32:
-					if (!fits_signed(V, 32) && (uint64_t)V > 0xFFFFFFFFu) { fail("%s: %s: value %#llx does not fit 32 bits", o->name, o->symname[rl.symidx], (unsigned long long)V); break; }
+					if (!fits_signed(V, 32) && (uint64_t)V > 0xFFFFFFFFu) { fail("%s: %s: value %#llx does not fit 32 bits", o->name, sname, (unsigned long long)V); break; }
 					for (int b = 0; b < 4; b++) where[b] = (uint64_t)V >> (8 * b);
 					break;
 				case R_PDP64_INSN_ABS: case R_PDP64_INSN_PC: case R_PDP64_INSN_BR: {
-					int len = get16(where) >> 14;
+					int len = get16(where) >> 14;			/* 1 or 2: a page-2 instruction (len 3) has no field to patch */
 					int bits = 16 * len;
+					if (len == 3) { fail("%s: relocation to %s on a one-parcel (page 2) instruction", o->name, sname); break; }
 					int64_t val = V;
 					if (rl.type == R_PDP64_INSN_PC) val = V - (int64_t)P;
 					if (rl.type == R_PDP64_INSN_BR) {
 						val = V - (int64_t)P;
-						if (val & 1) { fail("%s: branch to %s is to an odd address", o->name, o->symname[rl.symidx]); break; }
+						if (val & 1) { fail("%s: branch to %s is to an odd address", o->name, sname); break; }
 						val /= 2;
 					}
 					if (len == 0 || !fits_signed(val, bits)) {
-						fail("%s: relocation to %s out of range (%lld does not fit %d bits)", o->name, o->symname[rl.symidx], (long long)val, bits);
+						fail("%s: relocation to %s out of range (%s %lld does not fit the %d-bit field of the instruction; an immediate or absolute address is a sign-extended 32-bit value)", o->name, sname,
+						    rl.type == R_PDP64_INSN_ABS ? "value" : "displacement", (long long)val, bits);
 						break;
 					}
 					for (int pc = 1; pc <= len; pc++) {			/* parcel 1 is the most significant */
