@@ -848,8 +848,11 @@ static void emit_sys0(int minor)
 	emit_bytes_n(b, 2);
 }
 
+static int64_t secalign[3];		/* the largest .align seen in each section; the linker places the section's contribution on it */
+
 static void pad_to(int64_t align)
 {
+	if (align > secalign[cur_sec]) secalign[cur_sec] = align;
 	int64_t pos = (cur_sec == SEC_BSS || !final_pass) ? offs[cur_sec] : (int64_t)sec[cur_sec].n;
 	int64_t padn = (align - pos % align) % align;
 	if (cur_sec == SEC_BSS) { offs[cur_sec] += padn; return; }
@@ -1097,8 +1100,8 @@ static int write_object(const char *path)
 
 	struct { uint32_t name, type; uint64_t flags, addr, off, size; uint32_t link, info; uint64_t align, entsize; } sh[9] = {
 		{ 0 },
-		{ (uint32_t)nm_text, 1, 6, 0, off_text, sec[SEC_TEXT].n, 0, 0, 2, 0 },
-		{ (uint32_t)nm_data, 1, 3, 0, off_data, sec[SEC_DATA].n, 0, 0, 8, 0 },
+		{ (uint32_t)nm_text, 1, 6, 0, off_text, sec[SEC_TEXT].n, 0, 0, secalign[SEC_TEXT] > 2 ? (uint64_t)secalign[SEC_TEXT] : 2, 0 },
+		{ (uint32_t)nm_data, 1, 3, 0, off_data, sec[SEC_DATA].n, 0, 0, secalign[SEC_DATA] > 8 ? (uint64_t)secalign[SEC_DATA] : 8, 0 },
 		{ (uint32_t)nm_bss, 8, 3, 0, off_data, (uint64_t)offs[SEC_BSS], 0, 0, 8, 0 },
 		{ (uint32_t)nm_sym, 2, 0, 0, off_sym, symtab.n, 5, (uint32_t)firstglobal, 8, 24 },
 		{ (uint32_t)nm_str, 3, 0, 0, off_str, strtab.n, 0, 0, 1, 0 },
