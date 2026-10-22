@@ -74,7 +74,7 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 		const char *star = memchr(c, '*', d - c);
 		r->reg = reg_of(&o->indexed.reg);
 		r->e.p = p; r->e.n = (int)(a - p);
-		r->reg2 = reg_of(&o->indexed.reg_2);
+		r->reg2 = o->indexed._alt == 1 ? reg_of(&o->indexed.reg_2) : reg_of(&o->indexed.reg_3);	/* the two alternatives name their second register differently */
 		r->scale = star ? atoi(star + 1) : 1;
 		break;
 	}

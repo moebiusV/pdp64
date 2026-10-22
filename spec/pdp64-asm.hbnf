@@ -47,8 +47,9 @@ postinc = "(" reg ")" "+" [ expr ]
 predec  = "-" "(" reg ")"
 predec2 = "(" reg ")" "-" expr
 ; with a displacement, or without: `(r1)` would otherwise be taken for the parenthesized expression r1
-indexed = [ expr ] "(" reg ")" "(" reg [ "*" scale ] ")"
-based   = [ expr ] "(" basereg ")"
+; the form without a displacement is tried first: an optional expr would take "(sp)" as a parenthesized symbol
+indexed = "(" reg ")" "(" reg [ "*" scale ] ")" | expr "(" reg ")" "(" reg [ "*" scale ] ")"
+based   = "(" basereg ")" | expr "(" basereg ")"
 bare    = expr
 
 ; R0..R15; SP is R14 and FP is R13 (ISA 2.1); PC and DP only as a base register
