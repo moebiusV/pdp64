@@ -87,3 +87,29 @@ instructions and 0.97 times its bytes; 486 of 486 C test runs pass. See CHANGES 
 | [moebiusV/pcc](https://github.com/moebiusV/pcc) | the Portable C Compiler with the `pdp64` back end (`arch/pdp64`); upstream is [PortableCC/pcc](https://github.com/PortableCC/pcc) |
 | [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) | the PDP-11 and V7 Unix toolchain; its benchmark corpus tooling and C test programs (`a64tests`) are borrowed by `tools/pdp64size.sh` and `tools/pdp64test-all.sh` |
 | [QEMU](https://gitlab.com/qemu-project/qemu) | the emulator the target is written for (release 11.1.2); its source tree is kept outside this repository |
+
+## SEE ALSO
+
+**Documents** (in `docs/`)
+: [`11-64W/11-64W-isa-r20.md`](docs/11-64W/11-64W-isa-r20.md) (the ISA, revision 20),
+  [`11-64W-fpga-plan.md`](docs/11-64W/11-64W-fpga-plan.md),
+  [`11-64W-lb64-accelerator.md`](docs/11-64W/11-64W-lb64-accelerator.md),
+  [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change and decision since, with reasons),
+  [`errata.md`](docs/errata.md) (decisions 1-26), [`abi.md`](docs/abi.md) (calling convention),
+  [`asm-syntax.md`](docs/asm-syntax.md) (assembly language), [`sim64.md`](docs/sim64.md) (emulator),
+  [`README.md`](README.md) (index).
+
+**Grammars, the single source of truth** (in `spec/`)
+: [`pdp64-mnemonics.hbnf`](spec/pdp64-mnemonics.hbnf) (every number), [`pdp64.hbnf.in`](spec/pdp64.hbnf.in) (bit formats),
+  [`pdp64-asm.hbnf`](spec/pdp64-asm.hbnf) (assembly syntax), [`elf.hbnf`](spec/elf.hbnf) (object records).
+
+**Programs**
+: [`as64/`](as64/) assembler, [`ld64/`](ld64/) linker, [`sim64/`](sim64/) emulator,
+  [`tools/`](tools/) generator, builds and checks (`check-all.sh`), [`tests/`](tests/).
+
+**Repositories**
+: [moebiusV/pdp64](https://github.com/moebiusV/pdp64) (this repository),
+  [moebiusV/hbnf](https://github.com/moebiusV/hbnf) (grammar compiler),
+  [moebiusV/pcc](https://github.com/moebiusV/pcc) (C compiler with the `pdp64` back end; upstream [PortableCC/pcc](https://github.com/PortableCC/pcc)),
+  [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) (corpus tooling, C tests),
+  [QEMU](https://gitlab.com/qemu-project/qemu) ([qemu.org](https://www.qemu.org/)).

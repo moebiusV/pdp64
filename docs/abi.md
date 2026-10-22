@@ -23,3 +23,29 @@ In a call to a function declared with `...`, every argument goes in an 8-byte sl
 structure of any size is passed by value in consecutive slots and may split between `r5` and the stack. A variadic callee leaves its named parameters in
 their slots (`fp+16+8k`) and `va_start` is the address after the last named slot; `va_list` is a `char *` and `va_copy` is assignment. The prologue pops the
 return address, pushes `r5`..`r0` and pushes the return address again, so the register save area is contiguous with the stack arguments.
+
+## SEE ALSO
+
+**Documents** (in `docs/`)
+: [`11-64W/11-64W-isa-r20.md`](11-64W/11-64W-isa-r20.md) (the ISA, revision 20),
+  [`11-64W-fpga-plan.md`](11-64W/11-64W-fpga-plan.md),
+  [`11-64W-lb64-accelerator.md`](11-64W/11-64W-lb64-accelerator.md),
+  [`CHANGES-SINCE-R20.md`](CHANGES-SINCE-R20.md) (every change and decision since, with reasons),
+  [`errata.md`](errata.md) (decisions 1-26), [`abi.md`](abi.md) (calling convention),
+  [`asm-syntax.md`](asm-syntax.md) (assembly language), [`sim64.md`](sim64.md) (emulator),
+  [`README.md`](../README.md) (index).
+
+**Grammars, the single source of truth** (in `spec/`)
+: [`pdp64-mnemonics.hbnf`](../spec/pdp64-mnemonics.hbnf) (every number), [`pdp64.hbnf.in`](../spec/pdp64.hbnf.in) (bit formats),
+  [`pdp64-asm.hbnf`](../spec/pdp64-asm.hbnf) (assembly syntax), [`elf.hbnf`](../spec/elf.hbnf) (object records).
+
+**Programs**
+: [`as64/`](../as64/) assembler, [`ld64/`](../ld64/) linker, [`sim64/`](../sim64/) emulator,
+  [`tools/`](../tools/) generator, builds and checks (`check-all.sh`), [`tests/`](../tests/).
+
+**Repositories**
+: [moebiusV/pdp64](https://github.com/moebiusV/pdp64) (this repository),
+  [moebiusV/hbnf](https://github.com/moebiusV/hbnf) (grammar compiler),
+  [moebiusV/pcc](https://github.com/moebiusV/pcc) (C compiler with the `pdp64` back end; upstream [PortableCC/pcc](https://github.com/PortableCC/pcc)),
+  [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) (corpus tooling, C tests),
+  [QEMU](https://gitlab.com/qemu-project/qemu) ([qemu.org](https://www.qemu.org/)).

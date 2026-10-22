@@ -6,7 +6,7 @@
 
 On 2026-10-21 a tar, `pdp64-docs-2026-10-21.tar`, appeared in `~/claude/pcc`: three documents about a 64-bit PDP-11 (`11-64W-isa-r20.md`, the
 FPGA plan, the LB64 accelerator note) and a README. Revision 20 of the ISA was a paper design, "nothing here has been synthesized, measured or taped
-out". We were asked for a pcc back end, an assembler (in the spirit of V7 `as`), a linker if needed, and a plan for a QEMU target. This file records
+out". We were asked for a [pcc](https://github.com/moebiusV/pcc) back end, an assembler (in the spirit of V7 `as`), a linker if needed, and a plan for a [QEMU](https://www.qemu.org/) target. This file records
 **every decision, correction, clarification and dropped or changed instruction made since**, and why. Nothing in `docs/11-64W/` was edited; where
 this file and those documents disagree, this file is the later word.
 
@@ -213,7 +213,7 @@ Assigned so related operations share a range; the table is `spec/pdp64-mnemonics
 ### 4.6 Byte and bit order
 
 * **Little-endian** data (the ISA never said). Instruction **parcels are 16-bit little-endian units in memory**.
-* The grammars read bits **most significant first** (hbnf's convention, the order of the packet diagrams in the ISA), so the decoder works on parcels that
+* The grammars read bits **most significant first** ([hbnf](https://github.com/moebiusV/hbnf)'s convention, the order of the packet diagrams in the ISA), so the decoder works on parcels that
   have been byte-swapped into big-endian order, and the assembler swaps them back when it writes. A parcel's bit 15 is the first bit of its record.
 
 ### 4.7 Instruction lengths
@@ -501,3 +501,29 @@ static two-bit field in the instruction, a mode register, or more opcodes. The c
 average. Costs the ISA could remove: about 35,000 six-byte cross-section `call` and `lea` (linker relaxation or a short relocation); memory operands that are
 quad only, so `movl` is 10% of all instructions; no 32-bit arithmetic, so a wrap-correct `int` costs 4.1% of instructions and 1.9% of bytes (`-mnowrap`, which
 assumes no signed overflow, gives 0.99 and 0.96 times amd64); a short `d(sp)` form (not measured).
+
+## SEE ALSO
+
+**Documents** (in `docs/`)
+: [`11-64W/11-64W-isa-r20.md`](11-64W/11-64W-isa-r20.md) (the ISA, revision 20),
+  [`11-64W-fpga-plan.md`](11-64W/11-64W-fpga-plan.md),
+  [`11-64W-lb64-accelerator.md`](11-64W/11-64W-lb64-accelerator.md),
+  [`CHANGES-SINCE-R20.md`](CHANGES-SINCE-R20.md) (every change and decision since, with reasons),
+  [`errata.md`](errata.md) (decisions 1-26), [`abi.md`](abi.md) (calling convention),
+  [`asm-syntax.md`](asm-syntax.md) (assembly language), [`sim64.md`](sim64.md) (emulator),
+  [`README.md`](../README.md) (index).
+
+**Grammars, the single source of truth** (in `spec/`)
+: [`pdp64-mnemonics.hbnf`](../spec/pdp64-mnemonics.hbnf) (every number), [`pdp64.hbnf.in`](../spec/pdp64.hbnf.in) (bit formats),
+  [`pdp64-asm.hbnf`](../spec/pdp64-asm.hbnf) (assembly syntax), [`elf.hbnf`](../spec/elf.hbnf) (object records).
+
+**Programs**
+: [`as64/`](../as64/) assembler, [`ld64/`](../ld64/) linker, [`sim64/`](../sim64/) emulator,
+  [`tools/`](../tools/) generator, builds and checks (`check-all.sh`), [`tests/`](../tests/).
+
+**Repositories**
+: [moebiusV/pdp64](https://github.com/moebiusV/pdp64) (this repository),
+  [moebiusV/hbnf](https://github.com/moebiusV/hbnf) (grammar compiler),
+  [moebiusV/pcc](https://github.com/moebiusV/pcc) (C compiler with the `pdp64` back end; upstream [PortableCC/pcc](https://github.com/PortableCC/pcc)),
+  [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) (corpus tooling, C tests),
+  [QEMU](https://gitlab.com/qemu-project/qemu) ([qemu.org](https://www.qemu.org/)).
