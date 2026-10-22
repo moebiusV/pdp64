@@ -123,6 +123,8 @@ def PROBEW : SysProbe<"probew", 14>;
 // SYS class 0 minor 15: SYSX, the sub-opcode in parcel 1
 def PUSHX : SysX<"pushx", 0>;
 def POPX : SysX<"popx", 1>;
+def ISYNC : SysX<"isync", 2>;
+def HINT : SysXHint<"hint", 3>;
 def MFSR : SysRegMove<"mfsr", MN_SYSREG_MFSR, 1>;
 def MTSR : SysRegMove<"mtsr", MN_SYSREG_MTSR, 0>;
 def SET : SetCond<"set">;

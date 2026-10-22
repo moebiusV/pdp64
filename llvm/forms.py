@@ -224,7 +224,10 @@ def run_regs(ctx, only):
     for l, v in g.real('mn-sys-none') + g.real('mn-sysx'):
         if only and l not in only:
             continue
-        ctx.test([l], label=l)
+        if l == 'hint':
+            ctx.test(['hint\t#%d' % n for n in (0, 1, 2, 255, 256, -1)], label=l)
+        else:
+            ctx.test([l], label=l)
     for l, v in g.real('mn-sys'):
         if only and l not in only:
             continue

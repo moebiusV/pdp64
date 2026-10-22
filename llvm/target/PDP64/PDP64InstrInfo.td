@@ -49,6 +49,7 @@ def UImm3Op  : UImmOp<3>;
 def UImm4Op  : UImmOp<4>;
 def UImm5Op  : UImmOp<5>;
 def UImm6Op  : UImmOp<6>;
+def UImm8Op  : UImmOp<8>;                                                    // hint
 def UImm16Op : UImmOp<16>;                                                   // pushm, popm
 def SImm5Op  : SImmOp<5>;
 def SImm5OpW : NeverOf<SImm5Op>;
@@ -72,6 +73,7 @@ def uimm4 : PDP64Imm<UImm4Op, "decodeUImm<4>">;
 def uimm5 : PDP64Imm<UImm5Op, "decodeUImm<5>">;
 def uimm6 : PDP64Imm<UImm6Op, "decodeUImm<6>">;
 def uimm8trap : PDP64Imm<TrapLOp, "decodeUImm<8>">;
+def uimm8 : PDP64Imm<UImm8Op, "decodeUImm<8>">;
 def maskop : PDP64Imm<UImm16Op, "decodeUImm<16>">;
 def simm5  : PDP64Imm<SImm5Op, "decodeSImm<5>">;
 def simm5w : PDP64Imm<SImm5OpW, "decodeSImm<5>">;
@@ -411,6 +413,17 @@ class SysX<string mn, bits<8> sub> : Inst32<(outs), (ins), mn> {
   let Inst{3-0} = SYS_MINOR_SYSX;
   let Inst{31-24} = sub;
   let Inst{23-16} = 0;
+  let Form = FORM_SYS;
+}
+// hint #n: the code in the pad byte
+class SysXHint<string mn, bits<8> sub> : Inst32<(outs), (ins uimm8:$n), mn # "\t$n"> {
+  bits<8> n;
+  let Inst{15-14} = LENCODE_PARCELS2;
+  let Inst{13-8} = OPGROUP_SYS;
+  let Inst{7-4} = 0;
+  let Inst{3-0} = SYS_MINOR_SYSX;
+  let Inst{31-24} = sub;
+  let Inst{23-16} = n;
   let Form = FORM_SYS;
 }
 // mfsr rd, name / mtsr name, rs: SYS class 0, minors 13 and 14, the system register in parcel 1

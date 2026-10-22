@@ -25,13 +25,14 @@ struct Row {
   int Opc, Reg, Mode, Rm;
   int DSrc;
   int Scale, Idx;
-  int Sysx; // -1, or the SYSX sub-opcode that this word abbreviates (pushx, popx): reg and low must be zero
+  int Sysx; // -1, or the SYSX sub-opcode that this word abbreviates: reg and low must be zero, or (SysxN) are the pad byte n
+  int SysxN;
 };
 
 const Row Rows[] = {
 #define PDP64_P2_TABLE
-#define PDP64_P2ROW(p2, opc, reg, mode, rm, dsrc, scale, idx) {p2, opc, reg, mode, rm, dsrc, scale, idx, -1},
-#define PDP64_P2SYSX(p2, sub) {p2, OPGROUP_SYS, 0, 0, 0, D_ZERO, 0, 0, sub},
+#define PDP64_P2ROW(p2, opc, reg, mode, rm, dsrc, scale, idx) {p2, opc, reg, mode, rm, dsrc, scale, idx, -1, 0},
+#define PDP64_P2SYSX(p2, sub, n) {p2, OPGROUP_SYS, 0, 0, 0, D_ZERO, 0, 0, sub, n},
 #include "gen/PDP64Tables.inc"
 #undef PDP64_P2ROW
 #undef PDP64_P2SYSX
@@ -73,7 +74,7 @@ Expanded expand(const Row &E, unsigned Reg, unsigned Low) {
     X.Reg = 0;
     X.Mode = SYS_MINOR_SYSX;
     X.Rm = E.Sysx;
-    X.D = 0;
+    X.D = E.SysxN ? Reg * 16 + Low : 0;
     return X;
   }
   X.Opc = E.Opc;
@@ -87,7 +88,7 @@ Expanded expand(const Row &E, unsigned Reg, unsigned Low) {
 uint32_t pack(const Expanded &X) {
   uint32_t V;
   if (X.Opc == OPGROUP_SYS)
-    V = X.Rm << 8; // SYSX: sub:8 pad:8 in parcel 1
+    V = (X.Rm << 8) | (uint32_t)(X.D & 0xFF); // SYSX: sub:8 pad:8 in parcel 1
   else if (X.Mode == AMODE_BASE)
     V = (X.Rm << BASE_DISP_BITS_LEN1) | (uint32_t)((uint64_t)X.D & maskBits(BASE_DISP_BITS_LEN1));
   else
@@ -109,8 +110,8 @@ DenseMap<uint64_t, Slot> &table() {
     for (const Row &E : Rows)
       for (unsigned Reg = 0; Reg < 16; ++Reg)
         for (unsigned Low = 0; Low < 16; ++Low) {
-          if (E.Sysx >= 0 && (Reg || Low))
-            continue; // pushx and popx have reg and low zero; anything else is reserved
+          if (E.Sysx >= 0 && !E.SysxN && (Reg || Low))
+            continue; // these have reg and low zero; anything else is reserved
           Expanded X = expand(E, Reg, Low);
           uint64_t K = key(X.Opc, X.Reg, X.Mode, X.Rm, X.D);
           // rows are in the order of the table, which is by page-2 opcode: the first to claim a key keeps it
@@ -127,7 +128,7 @@ bool PDP64::p2Expand(uint16_t W, uint32_t &Out) {
   const Row *E = findRow((W >> 8) & 63);
   if (!E)
     return false;
-  if (E->Sysx >= 0 && (W & 0xFF))
+  if (E->Sysx >= 0 && !E->SysxN && (W & 0xFF))
     return false;
   Out = pack(expand(*E, (W >> 4) & 15, W & 15));
   return true;
@@ -141,10 +142,8 @@ bool PDP64::p2Compress(uint32_t W, bool UnsignedImm, uint16_t &Out) {
   unsigned Rm = 0;
   int64_t D;
   if (Opc == OPGROUP_SYS && Mode == SYS_MINOR_SYSX) {
-    if (P1 & 0xFF)
-      return false; // the pad byte
     Rm = P1 >> 8;
-    D = 0;
+    D = P1 & 0xFF; // the pad byte: zero, or the code of a hint
   } else if (Mode == AMODE_BASE) {
     Rm = P1 >> BASE_DISP_BITS_LEN1;
     D = signExtend(P1 & maskBits(BASE_DISP_BITS_LEN1), BASE_DISP_BITS_LEN1);
