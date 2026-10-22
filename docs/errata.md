@@ -111,3 +111,7 @@ Items marked **DECISION** are choices the document left open; change them in the
     *Where it sits:* ISA section 16 already makes every device a bus device that does not touch the ISA, and already owes devices what DMA needs from the processor
     side (a memory type per page, `FENCE` before a doorbell write, atomics for shared queues); this adds a convention for the device side and changes no instruction.
     *Open:* the register layouts, the DMA descriptor format, the interrupt and doorbell conventions, and whether other devices follow the same shape; none are written yet.
+30. **DECISION (the author's plan): the first operating system is a port of V7 Unix.** Initially V7 Unix is ported to the pdp64. *Why this matters for the design:* V7 is small and uses
+    the processor plainly (two privilege levels, a clock, a console, a disk, system calls by trap, whole-process swapping), so it sets a short list of what the system architecture must define
+    first: the exception entry sequence, a way to write `PTBR`, the interrupt priorities, a clock, a console and a disk device ([`pdp64-system-architecture.md`](pdp64-system-architecture.md) section 12). The precedent is Unix/32V,
+    V7 on the VAX. *Open:* the kernel sources are not in the repositories; the LP64 and a.out-versus-ELF decisions; everything in the system architecture document's open list.

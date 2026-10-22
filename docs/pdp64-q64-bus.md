@@ -9,6 +9,8 @@ decides nothing new except where it says *decided by the author*. Each statement
 * **Decided**: a decision of the project's author, recorded in [`errata.md`](errata.md).
 * **Open**: not yet decided or not yet written.
 
+The processor side (privilege, exceptions, interrupts, memory management, boot) is in [`pdp64-system-architecture.md`](pdp64-system-architecture.md).
+
 The ISA documents have long said "settle it in the bus document". This is that document, begun.
 
 ## 1. Why the bus is part of the architecture
