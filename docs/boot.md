@@ -127,6 +127,8 @@ So **the pdp64's "BIOS" is the controller's boot ROM and its monitor, a few hund
 
 **What other systems do and what the PDP-11 and VAX did** are in the sections above: option 1 is theirs, option 2 is the x86 and ARM way, option 4 is the emulator way.
 
+**Settled by the author (errata 49):** drivers are trivially small, because devices are eight memory-mapped registers, so the cost of option 1 (the second stage carries its own drivers) is small and accepted.
+
 **Recommendation.** Option 1 as the normal path, with option 5 as the fallback built into the same ROM (the monitor of the Recovery section). Under the principles: option 1 is the smallest first stage (1), has one failure case (2) and the ROM is a few hundred bytes of fixed code per boot device (3). Cost to build: the first-block format, a small ROM program, and for the FPGA a boot loader in block RAM that runs before anything else.
 
 ### B2. Starting the other cores
@@ -162,6 +164,8 @@ So **the pdp64's "BIOS" is the controller's boot ROM and its monitor, a few hund
 | 5 | **Probe by touching addresses and catching the bus error** (V7's approach) | nothing to build | unreliable for anything but presence; slow |
 
 **What other systems do:** x86 uses ACPI, arm64 and riscv64 a device tree, PowerPC and SPARC an Open Firmware tree, VAX the RPB, Alpha the HWRPB (table above). **What the PDP-11 and VAX did:** the PDP-11 configured the kernel at build time for the machine and probed device addresses; the VAX passed the RPB.
+
+**Updated after errata 49 (the bus is a device that enumerates what is on it):** option 4 now becomes the natural base: the hand-off need only name memory ranges, the core count, the address of the bus controller and the slots of the boot device and console, and the kernel enumerates the devices (`pdp64-q64-bus.md` section 13). The recommendation below stands for the part of the hand-off that remains.
 
 **Recommendation.** Option 1 or option 2, and I would pick **option 2 for the first system and keep the door open for option 1**. Option 2 is the smallest to read and costs the least recovery code (a struct with a checksum has two failure cases, bad checksum and unknown version); principle 1 and 2 favour it. Option 1 has one strong argument: OpenBSD's arm64 and riscv64 ports already have the code to read a device tree and to attach drivers from it, so a device tree could save kernel code when the port reuses their drivers (not confirmed in the sources read: the drivers directory is not in the sparse tree). If the port ends up reusing many of OpenBSD's existing drivers, switch to option 1; if the devices are the pdp64's own eight-register devices (decision R5), option 2 is simpler. Cost to build: the layout in a grammar (the bus document already says layouts should be generated), a generated header, one reader in the loader and the kernel.
 
