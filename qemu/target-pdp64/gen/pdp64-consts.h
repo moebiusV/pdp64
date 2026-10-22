@@ -150,10 +150,12 @@
 #define MN_CBRANCH_CBHI              13
 #define MN_FESC_FCMP32               13
 #define MN_SOP_CALL                  13
+#define MN_SYSREG_MFSR               13
 #define MN_SYS_PROBER                13
 #define MN_ATOM_XMIN                 14
 #define MN_CBRANCH_CBLOS             14
 #define MN_SOP_PUSH                  14
+#define MN_SYSREG_MTSR               14
 #define MN_SYS_PROBEW                14
 #define MN_ATOM_XMINDB               15
 #define MN_SOP_POP                   15
@@ -375,4 +377,12 @@
 #define RNUM_R14                     14
 #define RNUM_R15                     15
 #define SUBOP_SET                    32
+#define SYSREG_PTBR                  0
+#define SYSREG_EPC                   1
+#define SYSREG_EVA                   2
+#define SYSREG_ECAUSE                3
+#define SYSREG_DMW0                  4
+#define SYSREG_DMW1                  5
+#define SYSREG_USP                   6
+#define SYSREG_SSP                   7
 #endif

@@ -480,6 +480,25 @@ static void step(void)
 			case MN_SYS_NONE_HALT: E->halt(E->u); return;
 			case MN_SYS_NONE_BPT: die("breakpoint", 0);
 			case MN_SYS_NONE_RTI: case MN_SYS_NONE_RTT: die("privileged instruction", f.low);
+			case MN_SYSREG_MFSR: case MN_SYSREG_MTSR: {					/* mfsr rd,name / mtsr name,rs: privileged */
+				uint64_t *sr;
+				if (!C->kernel) die("privileged instruction in user mode", 0);
+				switch (f.sub) {
+				case SYSREG_PTBR: sr = &C->ptbr; break;
+				case SYSREG_EPC: sr = &C->epc; break;
+				case SYSREG_EVA: sr = &C->eva; break;
+				case SYSREG_ECAUSE: sr = &C->ecause; break;
+				case SYSREG_DMW0: sr = &C->dmw[0]; break;
+				case SYSREG_DMW1: sr = &C->dmw[1]; break;
+				case SYSREG_USP: sr = &C->usp; break;
+				case SYSREG_SSP: sr = &C->ssp; break;
+				default: die("illegal instruction", 0);					/* an unassigned system register */
+				}
+				if (f.low == MN_SYSREG_MFSR) r[f.rd] = *sr;
+				else if (f.sub == SYSREG_EVA || f.sub == SYSREG_ECAUSE) die("illegal instruction", 0);	/* read only */
+				else *sr = r[f.rd];
+				return;
+			}
 			default: return;							/* nop, fence, wfe, sev, lpad, tlb and cache operations */
 			}
 		}
