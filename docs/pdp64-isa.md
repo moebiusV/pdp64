@@ -1112,7 +1112,7 @@ Notes on the table.
 
 **Reserved in page 2:** every opcode not listed — `0x0F` and `0x2A` to `0x3F`, 23 of the 64. **A reserved page-2 opcode is an illegal-instruction abort** (§7.3), as a reserved page-1 opcode is. The reserved entries are for later abbreviations under the same rule; §1.2 rule 3 applies to them as it does to the reserved block of §4.16.
 
-**What the page is worth.** The decision and its reasons are in §9.9 and the history in §9.6. The estimated saving, static counts on the 827-file fair corpus compiled with the optimizing flags (a measurement of the final output of 2026-10-22, 1,672,166 bytes of image): 59,354 sites and 118.6 KB, 7.1% of the image, at two bytes per site. `CBCC` adds 6,390 sites (12.8 KB, 0.8%) and `RORI32` 896 sites (9.0 KB, 0.5%): all together 66,640 sites, 140.4 KB, 8.4%. The estimates are static, the families do not overlap but the interaction of one saving with another was not checked, and the offset and immediate ranges were chosen from the histograms of the same corpus, so the figure is optimistic for other programs.
+**What the page is worth.** The decision and its reasons are in §9.9 and the history in §9.6. The estimated saving, static counts on the 827-file fair corpus compiled with the optimizing flags (a measurement of the final output of 2026-10-22, 1,672,166 bytes of image): 59,354 sites and 118.6 KB, 7.1% of the image, at two bytes per site. `CBCC` adds 6,390 sites (12.8 KB, 0.8%) and `RORI32` 896 sites (9.0 KB, 0.5%): all together 66,640 sites, 140.4 KB, 8.4%. The estimates are static, the families do not overlap but the interaction of one saving with another was not checked, and the offset and immediate ranges were chosen from the histograms of the same corpus, so the figure is optimistic for other programs. **Measured after the implementation** (the assembler chooses the forms; the compiler is unchanged): 1,548,484 bytes of image against 1,672,166, a saving of 123,682 bytes (7.4%), with 61,463 page-2 words; 1.031 times `gcc -Os` and 0.961 times `clang -Os` (CHANGES-SINCE-R20.md §12).
 
 ## 5. Addressing modes
 
@@ -1748,7 +1748,7 @@ Items added since revision 20:
 | FP | software convention | `R13`, used by `CALLS`/`CALLG` | **`R13`**, software convention |
 | AP | — | `R12`, for `CALLS`/`CALLG` | none — `R12` is general |
 | Virtual address | 16 bits (18/22 physical) | 32 bits | 39 bits (40 physical) |
-| Instruction count | ~70 base, plus EIS/FIS/FP11/CIS options | 304 | 56 assigned top-level opcodes in page 1 and 41 defined opcodes in page 2; TODO-COUNT instructions in TODO-COUNT mnemonic words (the rest are aliases); TODO-COUNT operations once width, precision and similar qualifiers are folded |
+| Instruction count | ~70 base, plus EIS/FIS/FP11/CIS options | 304 | 56 assigned top-level opcodes in page 1 and 41 defined opcodes in page 2; 230 instructions in 266 mnemonic words (the rest are aliases); 95 operations once width, precision and similar qualifiers are folded |
 | Instruction length | 1–3 words (2–6 bytes) | 1 to over 50 bytes | 1–3 parcels (2–6 bytes), plus a one-parcel second page |
 | Operands per instruction | 1 or 2 | 0 to 6 | 1 or 2, plus 3 for `MBLK` |
 | Memory operands per instruction | up to 2 | up to 6 | **1** |
@@ -2223,7 +2223,7 @@ Revision 20 as received was written under the working name 11/64W; the original 
 | Little-endian data and parcels stated | §3.2, §4.17 | C2.2, C4.6 |
 | Minimum instruction lengths stated | §4.17 | C4.7 |
 | ABI roles of the registers and the data model (LP64, stack alignment 8) | §2.1, §2.3, §19.5 | C5, `abi.md` |
-| Counts: 247 mnemonic words, 213 instructions, 93 operations (before the second page; the counts after it are TODO-COUNT mnemonic words, TODO-COUNT instructions, TODO-COUNT operations) | §13.1 | C1, E27 |
+| Counts: 247 mnemonic words, 213 instructions, 93 operations (before the second page; after the second page, `cbCC`, `rori32`, `mfsr` and `mtsr`: 266 mnemonic words, 230 instructions, 95 operations) | §13.1 | C1, E27 |
 | Fourth parcel removed: instructions are 1, 2 or 3 parcels (2, 4 or 6 bytes); immediate, absolute, PC-relative and branch payloads 16 or 32 bits, base and direct-page displacement 12 or 28, scaled-index 6 or 22 | §3.1, §3.3, §4.4, §5, §7.3, §9.6, §19 | E31, C12 |
 | `len = 11` is page 2: 64-entry map of one-parcel exact abbreviations, 41 defined, 23 reserved (illegal-instruction abort) | §3.1.2, §4.18 | E31, C12 |
 | `CBCC` (compare immediate and branch) takes top-level opcode `0x28`: 56 assigned, 7 reserved `0x29`–`0x2F` | §4.4.1, §4.16 | E31, C12 |

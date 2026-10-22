@@ -20,8 +20,7 @@ accesses are naturally aligned, every instruction can be restarted after a fault
 system around the processor. Each device (Ethernet, USB, disk) is presented as eight memory-mapped registers, eight addresses in the ordinary address space, and moves
 its data by DMA. That makes a driver trivial to write and keeps the multitasking burden off the CPU, which only sets up a transfer, so that more of it is left for you
 and for the important things you are running. The architecture is the processor, the bus and the devices together; the instruction set is its stable core, and the bus ([Q64](docs/pdp64-q64-bus.md)) is specified as carefully as the instructions. The choices were checked against compiled C, not
-guessed: on 841 real source files (bearssl, mbedtls, lua, zlib and others) the first compiler's output is about 3% smaller than amd64's and 11% smaller than aarch64's
-in code and data, with about the same number of instructions.
+guessed: on 841 real source files (bearssl, mbedtls, lua, zlib and others; 827 that every compiler accepts) the first compiler's output, in code and data, is 3% larger than `gcc -Os` and 4% smaller than `clang -Os` on amd64, with about 1.3 times as many (shorter) instructions.
 
 A 64-bit, little-endian, LP64 successor to the PDP-11: sixteen general registers, variable-length instructions of 2, 4 or 6 bytes in 16-bit parcels (plus a second page of one-parcel abbreviations of the common cases), the
 PDP-11's orthogonal addressing modes, and a modern base (bit counts, 64-bit divide, IEEE 754 binary64, binary32 and binary16 with exception flags, block operations,
@@ -43,7 +42,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
    changed (§3); what the ISA left unspecified and is now specified (§4); the ABI (§5); the assembly language (§6); the object format (§7); why a grammar is the
    source (§8); errors in our own work, found and fixed (§9); changes to hbnf (§10); the environment (§11); what is still open (§12); an appendix with the
    opcode map (§13); the measurements behind the proposals (§14).
-5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-30, each with the problem, the choice and the reason.
+5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-32, each with the problem, the choice and the reason.
 6. [`docs/abi.md`](docs/abi.md): the calling convention (registers, stack, structures, variadic calls). [`docs/asm-syntax.md`](docs/asm-syntax.md): the assembly
    language. [`docs/sim64.md`](docs/sim64.md): the emulator and its system-call stand-in.
 
@@ -68,6 +67,8 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
 | Floating-point spelling: `fadd` is binary64, `fadd32` binary32, `fadd16` reserved; old spellings stay as aliases | errata 24 |
 | `set cc, rd` added; a conditional select is on hold pending evidence | errata 25; CHANGES §14 |
 | NaN results are the canonical quiet NaN | errata 26 |
+| The fourth parcel is removed; `len = 11` is a second page of 41 one-parcel instructions (the assembler picks them); fused compare-and-branch `cbCC` and `rori32` added: -7.4% code | errata 31; [CHANGES §12](docs/CHANGES-SINCE-R20.md) |
+| Privileged `mfsr`/`mtsr` reach `ptbr`, `epc`, `eva`, `ecause`, `dmw0`, `dmw1`, `usp`, `ssp` (what a paging OS needs) | errata 32 |
 | The first operating system is a port of Unix/32V; OpenBSD follows if an LLVM back end is easy enough; the system architecture document lists what that needs and what is undefined | errata 30; [system architecture](docs/pdp64-system-architecture.md) |
 | Devices (Ethernet, USB, disk) are eight memory-mapped registers plus DMA: trivial drivers, no multitasking burden on the CPU; no ISA change, layouts to be written | errata 29; ISA §16 |
 | Half precision (binary16) added: 17 `FESC` words, arithmetic and conversions, correctly rounded, with flags | errata 27; CHANGES §14 |
@@ -120,7 +121,7 @@ instructions and 0.97 times its bytes; 486 of 486 C test runs pass. See CHANGES 
 **Documents** (in `docs/`)
 : Updated architecture: [`pdp64-isa.md`](docs/pdp64-isa.md) (the ISA), [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md),
   [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md), [`pdp64-q64-bus.md`](docs/pdp64-q64-bus.md) (the bus and devices), [`pdp64-system-architecture.md`](docs/pdp64-system-architecture.md) (privilege, exceptions, memory management, boot), [`codegen-analysis.md`](docs/codegen-analysis.md) (measurements of compiled code);
-  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-30);
+  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-32);
   conventions: [`abi.md`](docs/abi.md) (calling convention), [`asm-syntax.md`](docs/asm-syntax.md) (assembly language), [`sim64.md`](docs/sim64.md) (emulator);
   baseline as received (working name 11/64W): [`orig/`](docs/orig/); index: [`README.md`](README.md).
 

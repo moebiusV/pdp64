@@ -2,7 +2,7 @@
 
 [← pdp64 index](../README.md)
 
-`sim64 [-t] [-r] [-n steps] program` loads an ELF executable written by `ld64`, decodes each instruction with the decoder generated from
+`sim64 [-t] [-r] [-k] [-n steps] program` loads an ELF executable written by `ld64`, decodes each instruction with the decoder generated from
 `spec/pdp64.hbnf` and runs it in user mode. It is the executable statement of what each instruction does; the field widths come from the same
 calibration as the assembler (`common/calib.c`), and the instruction numbers are the names in `build/pdp64-consts.h`, so nothing is typed twice.
 
@@ -10,6 +10,7 @@ calibration as the assembler (`common/calib.c`), and the instruction numbers are
 |---|---|
 | `-t` | one line per instruction on standard error: address and the parcels |
 | `-r` | print the registers and flags when the program stops |
+| `-k` | run in kernel mode: the privileged `mfsr` and `mtsr` are allowed (default: user mode, where they fault as "privileged instruction in user mode") |
 | `-n N` | stop after N instructions (default 200 million) |
 
 ## System interface (a stand-in until there is an operating system)
@@ -28,6 +29,8 @@ Values are bits in the general registers. Flags accumulate in the sticky `fpsr` 
 Any NaN result is the canonical quiet NaN (errata 26).
 
 ## Tests
+
+A test may have an optional `tests/sim/NAME.flags` file with extra `sim64` arguments (for example `-k`). `tools/check-qemu.sh` skips such tests, because the QEMU machine has no kernel mode yet.
 
 `tools/check-sim64.sh` assembles, links and runs every `tests/sim/NAME.s`. Each program checks its own results against values worked out by hand
 from the ISA and exits with the number of the first check that failed (0 = all passed); `NAME.exit` and `NAME.out` give an expected status or output

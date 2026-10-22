@@ -33,8 +33,8 @@ Contents
 | | |
 |---|---|
 | Opcode map | 64 top-level slots: **55 assigned**, the spare ALU slot `0x23`, **8 reserved** `0x28`-`0x2F`. (ISA §4.16 says 56 assigned; see §2.) |
-| Mnemonic words | **247**, of which 34 are aliases (the five of ISA 4.15 and the 29 old floating-point spellings): 213 instructions (230 and 196 before binary16, errata 27). |
-| Operations, folded | **93** (91, plus `FSFLAGS`, plus `SET`; the unsigned conversions and `FRINTDA` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
+| Mnemonic words | **266**, of which 36 are aliases (the five of ISA 4.15, the 29 old floating-point spellings, and `cbhis`, `cblo`): 230 instructions (247 and 213 after binary16, errata 27, and 230 and 196 before it; the second page added 16 `cb` words and `rori32`, errata 31; `mfsr` and `mtsr` added 2, errata 32). |
+| Operations, folded | **95** (91, plus `FSFLAGS`, plus `SET`, plus the fused compare-and-branch `cbCC`, plus the system-register move `mfsr`/`mtsr`; the unsigned conversions, `FRINTDA` and `rori32` are qualifiers and add none). "add" is one operation whether it adds integers or floats, in memory or in a register; width, precision, barrier, direction, extension, immediate form, indirect form, signedness, high/low half and branch condition are qualifiers (§13.1). |
 | Assembled today | everything except `ATOM`, `MESC` and `TRAPL`; `tools/check-drift.py` lists the rest by name. |
 | Written | the grammars, the generator, `as64` (assembler), tests, this documentation. |
 | Not written | `sim64` (emulator), `ld64` (linker), the pcc back end, QEMU. |
@@ -477,7 +477,20 @@ longer encoding, then Occam. (This was the plan when the item was raised. It was
 
 ### Decided design: the second page (2026-10-22, errata 31)
 
-**Status.** Decided 2026-10-22 (errata 31, the author's decision). The ISA document is updated: §3.1, §3.1.1, §3.1.2 (new), §3.3, §4.4, §4.4.1 (new, `cbCC`), §4.6 (`rori32`), §4.14, §4.15, §4.16, §4.17, §4.18 (new, the page-2 map), §5, §7.3, §9.5, §9.6 (rewritten, with the old argument kept as history), §9.9 (the decision and its reasons), §11, §12 item 18 (resolved), §13, §14.4, §18, §19.2 and §19.4, Appendix A. The grammar, assembler, linker, emulator, QEMU target and tests are changed by the implementation of this item; the counts of mnemonic words, instructions and operations after the change are to be filled in the ISA (marked `TODO-COUNT` there) when the implementation reports them. [`asm-syntax.md`](asm-syntax.md) gives the new syntax.
+**Status.** Decided 2026-10-22 (errata 31, the author's decision). The ISA document is updated: §3.1, §3.1.1, §3.1.2 (new), §3.3, §4.4, §4.4.1 (new, `cbCC`), §4.6 (`rori32`), §4.14, §4.15, §4.16, §4.17, §4.18 (new, the page-2 map), §5, §7.3, §9.5, §9.6 (rewritten, with the old argument kept as history), §9.9 (the decision and its reasons), §11, §12 item 18 (resolved), §13, §14.4, §18, §19.2 and §19.4, Appendix A. The grammar, assembler, linker, emulator, QEMU target and tests are changed by the implementation of this item; the counts after the change are in the table of §1. [`asm-syntax.md`](asm-syntax.md) gives the new syntax.
+
+**Implemented and measured (2026-10-22).** The grammar, assembler, linker, shared core, `sim64` and QEMU target implement the second page, `cbCC` and `rori32`; `tools/check-all.sh` passes, including a
+differential test that runs every page-2 word and the long form it abbreviates on the same random states (10,496 instructions, 8 states each, 83,968 runs, no mismatch, and it fails when one case is corrupted).
+The compiler is unchanged (the assembler chooses the forms). On the 827-file fair corpus, same byte metric as before (text, read-only data and data): **1,548,484 bytes, down from 1,672,166 (-123,682 bytes, -7.4%)**,
+against the estimate of 118.6 KB (7.1%); the instruction count is unchanged at 370,115. Against the references, bytes: **1.031 times `gcc -Os`** (was 1.113) and **0.961 times `clang -Os`** (was 1.038), and 0.860 times our amd64 pcc.
+Page-2 words in the output: 61,463 (122,926 bytes); instruction lengths 2 / 4 / 6 bytes = 59.9 / 29.0 / 11.1 %, none of 8. Three files grew by 4 to 8 bytes (the literal pool, below). Sites per family, measured against
+the estimate: `(rn)` loads and stores 12,941 (9,089), `lea` from `sp` 3,674 (3,614), `movq` at `d(sp)` 8,514 (11,419), `movl` at `d(sp)` 8,643 (9,416), `d(rn)` 5,891 (5,849), `pushm8`/`popm8` 4,786 (4,784),
+`sub`/`add` on `sp` 3,567 (3,561), four-bit immediates 13,447 (11,622). `cbCC` and `rori32` contribute nothing yet: the compiler does not emit them. Corrections found by the tests: the offsets of opcodes `0x1A`
+to `0x1D` are 4, 8, 12, 16 (the formula of the specification was wrong). Per-file numbers are in `docs/codegen-data/`.
+
+**A deviation, temporary.** To keep the C tests passing without a compiler change, the assembler pools a constant wider than 32 bits (for `movq`, the ALU instructions and `push`) as a PC-relative literal at the end of
+`.text`. That contradicts the rule that one mnemonic assembles to one instruction (ISA §4.14). **Decided by the author: the compiler pools such constants itself and the assembler refuses them.** The assembler's pool
+stays until the compiler change is made and is then removed.
 
 The author chose option C with the explicit map (C1), asked for further candidates to be searched for, and asked for the fused compare-and-branch and the 32-bit rotate to be added. This is the specification.
 
