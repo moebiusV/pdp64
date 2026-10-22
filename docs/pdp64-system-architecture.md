@@ -158,6 +158,9 @@ it hands to the kernel (a device description? the memory size?), and the **boot 
 transparent (snooping MSI for two to four cores), and between a CPU and a DMA device it is explicit (uncached mapping plus `FENCE`). The atomics are `CAS`, `SWAP`, the fetch-and-operate family and
 `LL`/`SC`, each with a barrier-fused `_DB` form (§4.11).
 
+**An important caveat.** A simple memory model does not make an atomic implementation simple by itself. Cache coherence, exclusive ownership, invalidation, ordering, and interaction with interrupts still have to be designed and tested.
+Declaring the model sequentially consistent (ISA §17.1) tells software what it may rely on; it does not build the machinery that makes `CAS`, `LL`/`SC`, the `_DB` forms and `FENCE` mean that on real hardware, and it is the machinery, not the declaration, that is hard to get right.
+
 *Open*: the lock-against-monitor question for the atomics on the bus (**blocking** for any second core; [`pdp64-q64-bus.md`](pdp64-q64-bus.md) §8), the inter-processor interrupt, the secondary-core boot
 protocol (section 9), and the shared cache or coherent interconnect, which the ISA calls device-side and still to be built.
 
@@ -264,8 +267,8 @@ Mode encoding as on the PDP-11: kernel 0, supervisor 1, user 3. `MTPS` in user m
 
 **Exception entry (every exception and every interrupt).** Entry writes no memory except the fetch of the vector, and writes registers only: `EPC` is the address of the faulting instruction for an abort or progress exception and of the next instruction for a trap or
 interrupt; **`EPSW`** (new system register) receives the old PSW; `EVA` the faulting address (aborts; zero otherwise); `ECAUSE` the vector number. The new PSW is: current mode kernel, previous mode the old current mode, priority the old priority for an
-exception and the interrupt's level for an interrupt, `T` and the flags cleared. The new PC is the 64-bit word at the **physical** address `VBR + 8 * vector` (**`VBR`**, a new system register). A bus error on that fetch is a machine check that halts. Nothing is pushed: the handler saves
-`EPC` and `EPSW` itself if it can be interrupted. A second exception while the handler is saving them overwrites them, so a handler runs at priority 7 until the save is done (the same discipline as a PDP-11 handler between entry and `SPL`).
+exception and the interrupt's level for an interrupt, `T` and the flags cleared. The new PC is the 64-bit word at the **physical** address `VBR + 8 * vector` (**`VBR`**, a new system register). A bus error on that fetch is a machine check that halts. Nothing is pushed by the hardware: a handler that can be interrupted saves
+`EPC` and `EPSW` itself with **`pushx`** (and restores them with **`popx`** before `RTI`; errata 37), one instruction each. A second exception while the handler is saving them overwrites them, so a handler runs at priority 7 until the save is done (the same discipline as a PDP-11 handler between entry and `SPL`).
 **`RTI`** (kernel mode only) loads `PC` from `EPC` and `PSW` from `EPSW`; **`RTT`** does the same and sets `T` after the return. The kernel stack pointer of the new mode is selected by the mode change: `R14` names the bank of the current mode.
 
 **Vector numbers** (the table has 512 entries; `ECAUSE` equals the vector number): 0 reset (unused by the QEMU machine), 1 machine check, 2 illegal instruction, 3 privileged instruction, 4 misaligned access, 5 non-canonical address, 6 instruction page fault,

@@ -545,7 +545,7 @@ never change what a program does. A mnemonic still assembles to exactly one inst
 | `0x26` `0x27` `0x28` | `and`, `bis`, `xor` with `imm` sign-extended 4 bits | `rd` | imm | `and #imm,rd` etc. |
 | `0x29` | `add #imm,rd`, `imm` sign-extended 4 bits | `rd` | imm | `add #imm,rd` |
 
-Reserved in page 2: every opcode not listed (`0x0F`, `0x2A` to `0x3F`, 23 of the 64). A reserved opcode is an illegal-instruction abort.
+Reserved in page 2: every opcode not listed (`0x0F`, `0x2C` to `0x3F`, 21 of the 64; `0x2A` and `0x2B` were added for `pushx` and `popx`, errata 37). A reserved opcode is an illegal-instruction abort.
 
 (`0x0C` gives offsets 0 to 120 and `0x0D` offsets 128 to 248 in steps of 8, the low four bits of the offset being `low`. In the same way `0x10`/`0x11` and `0x12`/`0x13` use the opcode's low bit as bit 4 of the offset field.
 The opcode numbers of page 2 are independent of those of page 1: for example `0x28` of page 2 is `xor #imm,rd`, while `0x28` of page 1 is the new `cbCC`.)
@@ -630,6 +630,10 @@ four bytes). Twelve of the 827 files grew by 2 to 8 bytes. Instruction lengths 2
 **Correction.** The figure of 5,356 `cmp reg,mem ; bCC` pairs, given in the previous paragraph and in errata 35, was wrong: the script's pattern also matched register-register compares. The real counts of compare-and-branch pairs that remain
 (1,282 `cmp` in all): `cmp reg,mem ; bCC` **611** (cannot be fused: the memory operand has no room); `cmp reg,#imm ; bCC` with an immediate beyond 16 bits **641**; `cmp reg,=K ; bCC` 30; `tst ; bCC` none. Compares that feed a materialized 0/1
 value (compare, branch, `movq #1`, `br`, `clr`): 460 sites, the `set cc,rd` candidates that need the shared pass-1 hook; compares that feed a select: 138. There is no further worthwhile compare-and-branch fusion.
+
+### Added: `pushx` and `popx` (2026-10-22, errata 37)
+
+Save and restore `EPC` and `EPSW` on the stack in one instruction each (long form `SYSX`, four bytes; page-2 abbreviations, two bytes). Specification: errata 37.
 
 ## 13. Appendix
 

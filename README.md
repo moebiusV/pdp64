@@ -35,14 +35,14 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
    [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md) the implementation plan,
    [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md) the sub-1-bit inference accelerator. Each ends with its list of changes since r20.
    The documents **as they arrived**, under the working name 11/64W, are kept unedited in [`docs/orig/`](docs/orig/) as the baseline.
-2. **The system: [`docs/pdp64-system-architecture.md`](docs/pdp64-system-architecture.md)** (privilege, exceptions, interrupts, memory management, boot, the accepted "System v1" design and the 3BSD port plan), **why it is the way it is: [`docs/pdp64-system-design.md`](docs/pdp64-system-design.md)** (the options compared with the PDP-11, VAX, x86-64, AArch64, RISC-V and MIPS, how each choice measures against the goals of consistency, easy restarts and fewer instructions and fetches, and where it does not) **and the bus: [`docs/pdp64-q64-bus.md`](docs/pdp64-q64-bus.md)** (Q64 and the devices). Each says what is established, decided and open.
+2. **The system: [`docs/pdp64-system-architecture.md`](docs/pdp64-system-architecture.md)** (privilege, exceptions, interrupts, memory management, boot, the accepted "System v1" design and the 3BSD port plan), **why it is the way it is: [`docs/pdp64-system-design.md`](docs/pdp64-system-design.md)** (the options compared with the PDP-11, VAX, x86-64, AArch64, RISC-V and MIPS, how each choice measures against the goals of consistency, easy restarts and fewer instructions and fetches, and where it does not) **what the in-order design point costs and buys, and what out-of-order would need: [`docs/pdp64-in-order-and-out-of-order.md`](docs/pdp64-in-order-and-out-of-order.md)** **and the bus: [`docs/pdp64-q64-bus.md`](docs/pdp64-q64-bus.md)** (Q64 and the devices). Each says what is established, decided and open.
 3. **What compiled C says about the ISA: [`docs/codegen-analysis.md`](docs/codegen-analysis.md).** Code size against `gcc -Os` and `clang -Os`, instruction lengths, which instructions are used, cost centres and what each candidate change could save.
 4. **Everything decided or changed since, with the reasons: [`docs/CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md).** It is the reasoned history of the updates above and the
    record against the baseline; where it disagrees with the original r20 documents, it wins. It holds, in order: where things stand (§1); the design errors found in the ISA (§2); instructions dropped, moved, added or
    changed (§3); what the ISA left unspecified and is now specified (§4); the ABI (§5); the assembly language (§6); the object format (§7); why a grammar is the
    source (§8); errors in our own work, found and fixed (§9); changes to hbnf (§10); the environment (§11); what is still open (§12); an appendix with the
    opcode map (§13); the measurements behind the proposals (§14).
-5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-36, each with the problem, the choice and the reason.
+5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-37, each with the problem, the choice and the reason.
 6. [`docs/abi.md`](docs/abi.md): the calling convention (registers, stack, structures, variadic calls). [`docs/asm-syntax.md`](docs/asm-syntax.md): the assembly
    language. [`docs/sim64.md`](docs/sim64.md): the emulator and its system-call stand-in.
 
@@ -70,6 +70,8 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
 | The fourth parcel is removed; `len = 11` is a second page of 41 one-parcel instructions (the assembler picks them); fused compare-and-branch `cbCC` and `rori32` added: -7.4% code | errata 31; [CHANGES §12](docs/CHANGES-SINCE-R20.md) |
 | Wide constants: `movq =K, rd` loads from a literal pool, written with an explicit `=`; nothing is pooled silently | errata 33; [asm syntax](docs/asm-syntax.md) |
 | Privileged `mfsr`/`mtsr` reach `ptbr`, `epc`, `eva`, `ecause`, `dmw0`, `dmw1`, `usp`, `ssp` (what a paging OS needs) | errata 32 |
+| `pushx` and `popx` save and restore the exception state in one instruction each (SYS class 0 minor 15, two-byte page-2 forms) | errata 37 |
+| The design point is a small in-order, non-speculative machine; the architecture does not forbid out-of-order; costs, gains and what it would need are written down | [in-order and out-of-order](docs/pdp64-in-order-and-out-of-order.md) |
 | System v1: register-based exception entry, a vector table by cause, software-managed accessed and dirty bits, a three-level Sv39-like page table, eight priority levels (with the options compared and the weak points listed) | errata 36; [system design](docs/pdp64-system-design.md) |
 | The first operating system is a port of 3BSD (Unix/32V plus demand paging); OpenBSD follows if an LLVM back end is easy enough; the system architecture document lists what that needs and what is undefined | errata 30; [system architecture](docs/pdp64-system-architecture.md) |
 | Devices (Ethernet, USB, disk) are eight memory-mapped registers plus DMA: trivial drivers, no multitasking burden on the CPU; no ISA change, layouts to be written | errata 29; ISA §16 |
@@ -122,8 +124,8 @@ instructions and 0.97 times its bytes; 486 of 486 C test runs pass. See CHANGES 
 
 **Documents** (in `docs/`)
 : Updated architecture: [`pdp64-isa.md`](docs/pdp64-isa.md) (the ISA), [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md),
-  [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md), [`pdp64-q64-bus.md`](docs/pdp64-q64-bus.md) (the bus and devices), [`pdp64-system-architecture.md`](docs/pdp64-system-architecture.md) (privilege, exceptions, memory management, boot), [`pdp64-system-design.md`](docs/pdp64-system-design.md) (the options and the comparison with other architectures), [`codegen-analysis.md`](docs/codegen-analysis.md) (measurements of compiled code);
-  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-36);
+  [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md), [`pdp64-q64-bus.md`](docs/pdp64-q64-bus.md) (the bus and devices), [`pdp64-system-architecture.md`](docs/pdp64-system-architecture.md) (privilege, exceptions, memory management, boot), [`pdp64-system-design.md`](docs/pdp64-system-design.md) (the options and the comparison with other architectures), [`pdp64-in-order-and-out-of-order.md`](docs/pdp64-in-order-and-out-of-order.md) (the design point and what out-of-order would need), [`codegen-analysis.md`](docs/codegen-analysis.md) (measurements of compiled code);
+  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-37);
   conventions: [`abi.md`](docs/abi.md) (calling convention), [`asm-syntax.md`](docs/asm-syntax.md) (assembly language), [`sim64.md`](docs/sim64.md) (emulator);
   baseline as received (working name 11/64W): [`orig/`](docs/orig/); index: [`README.md`](README.md).
 
