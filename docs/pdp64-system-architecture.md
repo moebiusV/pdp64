@@ -224,10 +224,12 @@ A Linux or modern BSD port (OpenBSD is the author's next candidate) is a differe
 When these are decided they should be written once, as the instruction numbers are, in a grammar from which the register definitions, the cause codes, the vector numbers and the emulator's models
 are generated.
 
-## 14. A later step: an LLVM back end, and OpenBSD
+## 14. The LLVM back end, and OpenBSD
 
-*Decided by the author, conditionally* (errata 30): if an LLVM back end proves easy enough, the next operating system is an OpenBSD port. This section is the assessment of that condition. The figures are
-my estimates, not measurements, and they are the least certain statements in this document.
+*Decided by the author, conditionally* (errata 30): if an LLVM back end proves easy enough, the next operating system is an OpenBSD port. This section is the assessment of that condition. The estimates below are
+the least certain statements in this document; milestone 1 (section 14.2) has turned part of the picture into measurements.
+
+### 14.1 What an LLVM back end is, and what makes it easy or hard
 
 **What an LLVM back end is.** A target description in LLVM's TableGen language (registers, instruction encodings and assembly syntax), the code that turns LLVM's intermediate form into those instructions (calling
 convention, instruction selection, frame layout, branches and compares), the machine-code layer (assembler, object writer, relocations, instruction-size relaxation) and, for a self-hosted system, support in
@@ -242,16 +244,120 @@ benchmark corpus of 841 files with gcc and clang `-Os` figures, an emulator and 
 operand on most instructions and the addressing modes (richer selection patterns); variable-length instructions, 2 to 6 bytes (with a one-parcel second page, ISA §4.18), whose branch and call forms must be relaxed to the shortest that reaches; and the
 instructions with no counterpart in LLVM's generic operations (block copy, bit-field, UTF-8), which would be left to intrinsics at first.
 
+### 14.2 Status: milestone M1, the machine-code layer (2026-10-22)
+
+The first milestone is done: an assembler, a disassembler and an ELF object writer for the pdp64 in LLVM 21.1.8, checked byte for byte against our own assembler `as64`. There is no code generator yet (`llc`, `clang` and `lld` are later milestones). Everything we wrote lives in the pdp64
+repository under `llvm/`, in the arrangement of `qemu/`: `llvm/target/PDP64/` becomes `llvm/lib/Target/PDP64/` in a checkout of LLVM that is kept outside the repository (`~/claude/llvm-project`), `llvm/install.sh` copies it in and applies the small `llvm/patch/llvm-core.patch` (the `pdp64` triple, `EM_PDP64 = 0xF064` and
+its five relocation types, the experimental-target list), `llvm/build.sh` builds, `llvm/check.sh` runs the oracle. The register and instruction definitions are **generated** from the grammar by `tools/gen-llvm-td.py` (about 1,700 records), so the target cannot drift from the assembler.
+
+**Results, against the ISA as of the morning of 2026-10-22** (before the flag cleanup, `ISYNC` and `HINT` of errata 39):
+
+- `oracle.py`: 52 of 56 programs of tests/asm and tests/sim identical to as64 (bytes, relocations, symbols, disassembly round trip); 4 skipped
+  (the literal pool in tests/asm/pool.s and tests/sim/pool.s; `digitnames.s` names that start with a digit; `utf8.s` non-ASCII names).
+- `forms.py`: 6297 instructions/programs compared, 6297 agree (463 are refused by both: out-of-range fields).
+- `negative.py`: 26 of 27 programs that as64 refuses are refused; 6 pool programs skipped; `odd.s` (an instruction at an odd address) is
+  accepted by llvm-mc: MC has no hook that sees the final offset of an instruction in a data fragment (open).
+- `runsim.py`: 32 of 33 tests/sim programs assembled by llvm-mc, linked by ld64 and run under sim64 give the expected status/output (pool.s skipped).
+
+**Cost on this machine** (3 GB, 2 cores, `ninja -j1`, `nice`, assertions on): `llvm-tblgen` 5.5 minutes and 383 MB; the MC libraries, the PDP64 target and `llvm-mc` 7 minutes and 437 MB; never out of memory. `llvm-objdump` and `llvm-readobj` need 389 more compile steps and were not built (the patch for them is in place and untested). The
+milestone took about 75 minutes of agent time.
+
+**It must be re-checked whenever the ISA changes.** The ISA changed while the milestone was being built (`pushx`/`popx`, `SYSX`, new page-2 rows, the register-register `cbCC`), and the generator absorbed each change with a small edit; that is the point of generating the target. The results above predate errata 39 and the later changes; the re-check against the current ISA is
+recorded in section 14.8.
+
+### 14.3 How each feature of the machine maps to LLVM
+
+| pdp64 | LLVM mechanism | note |
+|---|---|---|
+| 1, 2 or 3 parcels; parcel 0 = `len:2 opc:6 reg:4 low:4` | three `Inst16/32/48` base classes (`field bits<N> Inst`), parcel 0 in bits 15-0, parcel 1 in 31-16, parcel 2 in 47-32; the disassembler has three decoder tables | like RISC-V's 16/32/48; the bits inside a parcel keep the grammar's numbering (the grammar reads MSB first) |
+| each mnemonic x form x length | one record each: `ADD_R`, `ADD_B1`, `ADD_B2`, `ADD_X1` ... (`R` register, `B` base, `X` index, `D` dp, `PC`, `I` immediate, `A` absolute, `PI` post-increment, `PD` pre-decrement; `1`/`2` the extension parcels) | about 1700 records; the multiclasses in `PDP64InstrInfo.td`, the list from `spec/pdp64-mnemonics.hbnf` |
+| the eight addressing modes | one composite `Operand` per mode and length (`MIOperandInfo`), packed by `getMemOpValue<Form,Len>` / unpacked by `decodeMemOp<Form,Len>`; the parser builds one `PDP64Operand` per mode, the matcher tests its kind | the displacement is split high part first (`rm:4 d:12`, then 16 more bits): the field is `V = rm<<D | d`, `Inst{31-16} = V{31-16}`, `Inst{47-32} = V{15-0}` |
+| the shortest encoding | the parser starts from the narrowest record whose operand class matches (the longer records have an operand class that never matches); a constant that does not fit moves to the next record (`PDP64AsmParser::fixupWidth`); a symbol is relaxed (`PDP64AsmBackend::relaxInstruction`, grow-only like as64) | the chain is `PDP64_WIDEN` in `gen/PDP64Tables.inc` |
+| page 2 (`len = 11`): the one-parcel abbreviations of ISA §4.18 | not records.  The code emitter offers every four-byte instruction without a fixup to `PDP64::p2Compress`; the disassembler expands a page-2 word to its page-1 word first (`p2Expand`) and decodes that | the table is `common/p2.c`'s, parsed by the generator, so the three of them cannot differ.  RISC-V's `CompressPat` was not used: the abbreviations are a table of 41 rows over arbitrary field positions (a displacement `8*(16+low)`, a constant register `sp`), which `CompressInstEmitter` cannot say, and a table is already the single source |
+| three branch forms | `Bcc_0`, `Bcc_1`, `Bcc_2` (8, 16, 32-bit displacement in parcels); relaxation 0 -> 1 -> 2 | an unresolved target (another section, undefined) is relaxed straight to 32 bits, as as64 does |
+| `cbCC` in three flavours (0x28, 0x29, 0x2A) | `CBxx` (imm5, d11), `CBxx_W` (imm16, d16), `CBxx_L` (imm5, d27), `CBxx_RR1/2` (two registers) | the chain `CB -> CB_W -> CB_L` reproduces "when both six-byte forms fit, the wide one"; the step `W -> L` is allowed only for an immediate that fits 5 bits (`PDP64_WIDEN`'s third field) |
+| `d(pc)` operands and branch displacements measured from the first parcel | every fixup is at offset 0 of the instruction, so `r_offset` is the address of the first parcel and LLVM's `S + A - P` is the pdp64's | the fixup kinds (one per field and length) are in `gen/PDP64Fixups.def`; `applyFixup` writes the high part into parcel 1 and the rest into the following parcels |
+| relocation types `D64 D32 INSN_ABS INSN_PC INSN_BR` | `PDP64ELFObjectWriter::getRelocType` (RELA, ELF64, little endian, `e_machine 0xF064`) | |
+| a pc-relative reference to a symbol of the same section is resolved by the assembler, even a global one | `PDP64AsmBackend::evaluateFixup` (LLVM would otherwise keep a relocation for a global symbol: it may be preempted) | static link only |
+| the `set cc, rd` and `cbCC` conditions, `mfsr`/`mtsr` system register names | the parser reads them as words in that operand position (not as symbols); the names are `gen/PDP64Tables.inc` | |
+| `sp = r14`, `fp = r13`, `pc` and `dp` only as a base | `RegisterInfo` has `R0`..`R15`; `sp`/`fp` are aliases in the parser and in `printReg`; `pc` and `dp` select the mode | |
+| `.word` (16 bits), `.even`, `.lpad` | `parseDirective` (LLVM's generic assembler has no `.word`/`.even`); `.align n` is in bytes (`AlignmentIsInBytes`) | |
+| padding in `.text` | `writeNopData`: the `nop` parcel `0x1400` (an odd byte first) | |
+| literal pool `=K`, `.pool` | **not supported** | LLVM's MC has no literal pool.  The code generator will use the constant pool of the AsmPrinter and emit `movq` with an explicit pc-relative operand; the assembler sugar stays as64's |
+
+### 14.4 Where the numbers come from, and what is still typed twice
+
+`tools/gen-llvm-td.py` reads `spec/pdp64-mnemonics.hbnf` (through `tools/mkgrammar.py`'s `enums()`), the field widths from
+`as64 --limits` (measured from the grammar's own encoder), and the rows of `common/p2.c`.  `--check` fails if the generated files
+differ (`install.sh` and `check.sh` run it).  What is *not* generated, and is typed twice: the **position** of the fields inside a
+parcel (`PDP64InstrFormats.td`, `PDP64InstrInfo.td`: where `reg`, `low`, `sub`, `t`, `x` sit), the operand-count classification of the
+escape groups (which BESC/FESC words take two, three or four registers: `gen-llvm-td.py` and `as64.c` both have the lists), and
+the TSFlags layout (`PDP64InstrFormats.td` and `PDP64BaseInfo.h`).  The first is guarded by `static_assert`s on the widths and by
+the oracle; the second would be better as an annotation in the mnemonic grammar (open).
+
+### 14.5 How it is tested
+
+- `oracle.py`: every `tests/asm/*.s` and `tests/sim/*.s` with both assemblers; the bytes of `.text` and `.data`, `.bss`, the
+  relocations (section, offset, type, symbol, addend) and the symbols must be equal; then the disassembly of `.text` must reassemble to
+  the same bytes.  The only translation of the source is lexical (`translate()`): a string in `.byte` becomes `.ascii`, a decimal with a
+  leading zero loses its zeros, `0o17` becomes `017`.  Skipped, with the reason: the literal pool and names that start with a digit.
+- `forms.py`: every mnemonic in every form at the edges of every field (largest and smallest displacement of each length, an
+  immediate that just fits and one that does not, symbols before, after, in another section and undefined, branches over distances
+  that straddle each length); both refusing is agreement.
+- `negative.py`: `tests/asm-err/*.s` must be refused by llvm-mc as well.
+
+### 14.6 Awkward spots, as design feedback for the ISA
+
+1. **The destination register is also a source** (`add src, rd`): in LLVM that is a tied operand.  The M1 records have no outputs; the
+   selection milestone will have to redo the register operands (outs and ins, `$rd = $rd_in`).
+2. **No linker relaxation.**  The assembler picks every length, and a symbol in another section or undefined always gets the widest
+   field (32 bits).  That costs two bytes per external call and every global access, and LLVM's own mechanism for it (RISC-V style
+   `R_RISCV_RELAX` plus a linker that shrinks) is not available until ld64 relaxes (CHANGES section 12: open).
+3. **Constants wider than the immediate field** need `movq =K`, which MC cannot say.  The compiler must lower them to a constant
+   pool entry and a pc-relative `movq`; there is no `movabs`.
+4. **The operand `rd` of `cmp` is first** (`cmp rd, src` computes `rd - src`): a plain exception in the operand order; harmless
+   in TableGen, easy to get wrong in a pattern.
+5. **ATOM and MESC** are in the ISA but not in as64 (no encoder, no oracle), so they are not in the LLVM target either.
+6. **`.comm`** has no alignment operand in as64 (8 is implied); LLVM wants one.
+7. `EM_PDP64 = 0xF064` is a private-use number.
+8. **An instruction at an odd address** is an error in as64; llvm-mc accepts it (no MC hook sees the final offset).
+9. Names: LLVM's lexer has no non-ASCII identifiers and no names that start with a digit; quoted names are not tested.
+
+### 14.7 What the next milestones need decided
+
+* Tied operands for the two-address forms (item 1 above). * A condition-code model: `cmp` and the arithmetic instructions set `N Z V C`, `set cc` reads them, and after errata 39 `cbCC` and moves, loads and stores write none (the flag-group invariant helps: two groups, `C` and `{N, Z, V}`).
+* The lowering of 64-bit constants and of the addresses of globals: a constant-pool entry plus a PC-relative `movq`, and which of `lea sym(pc)` and `movq #sym` is the canonical address load (both exist). * A frame description: a call pushes the return address and there is no link register, so the DWARF return-address column and the call-frame rules are undecided
+(a placeholder register is used now). * A selection policy for the compare-and-branch forms and their range limits. * Whether `long double` is binary128 before clang (the ABI says `long double` is `double`). * A `TargetMachine`, the calling convention (from `abi.md`), and the clang triple and data-layout string. * The encodings of the atomics in `as64`.
+
+### 14.8 The re-check against the current ISA
+
+(To be filled in when the ISA changes of errata 39 have landed: the oracle, the forms test and the `sim64` run, with the date and the commit.)
+
+### 14.9 Building it on a bigger machine
+
+    git clone --depth 1 --branch llvmorg-21.1.8 https://github.com/llvm/llvm-project.git ~/claude/llvm-project
+    LLVM_USE_LINKER=lld TARGETS="llvm-tblgen llvm-mc llvm-objdump llvm-readobj llvm-objcopy" llvm/build.sh -j 16
+    llvm/check.sh
+
+(`build.sh` runs `install.sh`, which applies the patch and copies the target, then `cmake` and `ninja`; set `LLVM_MC` and `LLVM_BUILD` if the tree is elsewhere.)
+
+### 14.10 The size of the whole job
+
 **An estimate of the size.** A first back end that compiles C correctly, with the machine-code layer, is months of focused work, not weeks: I would put it at roughly three to six months for one engineer who has
 written an LLVM back end before, less if the generated parts are in place first, and longer to reach the density of the pcc back end. Linker support in `lld` (relocations, and position-independent code if wanted) and
 the compiler-runtime built-ins are further weeks. I have not built one for this machine and would not call this easy; whether it is "easy enough" is the author's judgement against this estimate.
 
-**What OpenBSD adds beyond the compiler.** OpenBSD's base system is built with clang on some architectures and with an in-tree GCC on others (the OpenBSD 6.4 release page lists "LLVM/Clang 6.0.0 (+ patches)" and "GCC 4.2.1 (+ patches) and 3.3.6 (+ patches)"; which architectures use which was not established, and the current split may differ), so on an architecture that uses clang the back end must be good enough to build a whole operating system, not only test programs. OpenBSD's RETGUARD return-address protection is implemented per architecture in its LLVM (amd64 and arm64 in 6.4, mips64 in 6.7, powerpc and powerpc64 in 6.9; openbsd.org/innovations.html), so a new architecture would also need it or go without. The officially supported platform list (openbsd.org/plat.html) includes arm64 and riscv64. Then the port itself: the
+*After milestone 1:* the machine-code layer, the part that generation from the grammar was expected to make fast, was written and verified in about 75 minutes of agent time on a small machine, which supports that expectation for the MC layer only. It says nothing yet about the hard parts (instruction selection for a
+two-address machine with memory operands and condition codes, the calling convention and frames, clang, the runtime library), which are most of the work; the estimate above stands for them.
+
+### 14.11 What OpenBSD adds beyond the compiler
+
+OpenBSD's base system is built with clang on some architectures and with an in-tree GCC on others (the OpenBSD 6.4 release page lists "LLVM/Clang 6.0.0 (+ patches)" and "GCC 4.2.1 (+ patches) and 3.3.6 (+ patches)"; which architectures use which was not established, and the current split may differ), so on an architecture that uses clang the back end must be good enough to build a whole operating system, not only test programs. OpenBSD's RETGUARD return-address protection is implemented per architecture in its LLVM (amd64 and arm64 in 6.4, mips64 in 6.7, powerpc and powerpc64 in 6.9; openbsd.org/innovations.html), so a new architecture would also need it or go without. The officially supported platform list (openbsd.org/plat.html) includes arm64 and riscv64. Then the port itself: the
 machine-dependent kernel (memory management code for the page tables, exception and interrupt entry, locore, the device drivers and autoconfiguration), the machine-dependent C library and dynamic linker, and a boot
 loader. OpenBSD insists on properties this architecture has or can have (W^X is enforced by default since 6.0 and PIE is the default, per openbsd.org/innovations.html; that it requires SMP or enables SMAP was not checked): write-xor-execute (the `R`, `W`, `X` bits), position-independent executables (cheap here, ISA §19), and landing pads on indirect branches
 (`LPAD`, still open, ABI version 1 has them off). It would depend on every item of this document's open list being closed, and on more: SMP, the lock and monitor question, a full device set.
 
-**The order this suggests:** the system architecture of sections 3 to 6, the QEMU target extended to match, a Unix/32V port with the existing compiler, then the LLVM back end, then OpenBSD.
+**The order this suggests:** the system architecture of sections 3 to 6, the QEMU target extended to match, a 3BSD port with the existing compiler (section 12), then the LLVM back end, then OpenBSD.
 
 ## 15. System v1: a complete design for the first implementation (accepted 2026-10-22)
 
