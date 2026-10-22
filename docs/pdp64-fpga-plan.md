@@ -113,7 +113,7 @@ Do not chase frequency in phase 1. A correct 40 MHz machine is worth more than a
 
 ## 4. The grammar is the source of truth
 
-**This is the highest-leverage decision in the project and it must be made before any RTL exists.** (The first version of this plan proposed an S-expression, then a JSON, machine-readable spec. A JSON spec was built and then retired; the source of truth is now a set of hbnf grammars. See below.)
+**This is the highest-leverage decision in the project and it must be made before any RTL exists.** (The first version of this plan proposed an S-expression, then a JSON, machine-readable spec. A JSON spec was built and then retired; the source of truth is now a set of [hbnf](https://github.com/moebiusV/hbnf) grammars. See below.)
 
 Write the encoding as a machine-readable specification and generate everything downstream from it. The consumers this plan wants are:
 
@@ -269,7 +269,7 @@ For one experienced engineer working seriously part-time. Wide error bars, and p
 
 Revision 13 added roughly a month and a half. Most of it is phase 2, and most of *that* is the `MBLK` verification suite in §7 rather than the hardware, which is three counters. That ratio is the right one and is what §1.1(b) of the ISA means by a bounded, written-down cost.
 
-Phase 6 is the widest because it is not really a hardware phase. It is a compiler backend, a libc, and a port — and the compiler backend is the item most likely to be underestimated, since Facet and the existing V7 translation work will both want to target this and neither currently has a code generator for it. *(Update: a pcc back end now exists, `arch/pdp64` in moebiusV/pcc, and compiled C runs under `sim64`; see risk 1.)*
+Phase 6 is the widest because it is not really a hardware phase. It is a compiler backend, a libc, and a port — and the compiler backend is the item most likely to be underestimated, since Facet and the existing V7 translation work will both want to target this and neither currently has a code generator for it. *(Update: a [pcc](https://github.com/moebiusV/pcc) back end now exists, `arch/pdp64` in moebiusV/pcc, and compiled C runs under `sim64`; see risk 1.)*
 
 ---
 

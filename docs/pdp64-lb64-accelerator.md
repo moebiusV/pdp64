@@ -737,4 +737,4 @@ This document was copied from [`orig/11-64W-lb64-accelerator.md`](orig/11-64W-lb
 - §3.1 (FP16 scale vectors): half precision (`binary16`) is proposed, not decided; conversion only is estimated at about six words and 500-1,000 LUTs, full arithmetic 2,000-3,500 LUTs (CHANGES §14, estimates, unmeasured). The spelling `fadd16` is reserved.
 - §7 (Q64 lock versus AXI monitor, ISA open item 4): still open (CHANGES §12, "atomics against Q64"). Coherence, `MT = 01` and `FENCE` are not mentioned in CHANGES.
 - Opcode map: 55 assigned opcodes (not 56), 93 operations folded, 230 mnemonic words and 196 instructions (CHANGES §1, errata 2). The ISA r20 section numbers cited here are unchanged.
-- Toolchain: `as64`, `ld64`, `sim64` and a pcc back end exist (CHANGES §1, §12, §14); no LB64-specific tooling exists or is mentioned in the sources.
+- Toolchain: `as64`, `ld64`, `sim64` and a [pcc](https://github.com/moebiusV/pcc) back end exist (CHANGES §1, §12, §14); no LB64-specific tooling exists or is mentioned in the sources.

@@ -1,5 +1,7 @@
 # DEC PDP-64
 
+[← pdp64 index](../README.md)
+
 **Digital Equity Collective's Pragmatic Digital Processor, 64 bit** — an update and refresh of the PDP-11 instruction set and architecture for the modern world.
 
 **Revision 20, updated 2026-10-21 with the changes in CHANGES-SINCE-R20.md.** Supersedes revision 19.
