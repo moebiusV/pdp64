@@ -9,7 +9,7 @@
 * **Open**: not yet decided or not yet written. The list of all open items is in section 13.
 
 The companion for the bus and the devices is [`pdp64-q64-bus.md`](pdp64-q64-bus.md). The question this document answers is: what does a kernel need from the
-processor, and which of it exists? The first kernel is V7 Unix (section 12).
+processor, and which of it exists? The first kernel is Unix/32V (section 12).
 
 ## 1. Privilege modes
 
@@ -161,37 +161,41 @@ descendants of the PDP-11's bus error and are not restartable (§7.1); the old `
 
 *Open*: hardware breakpoints and watchpoints; how a machine check is reported and logged; a performance counter.
 
-## 12. The first operating system: a port of V7 Unix
+## 12. The first operating system: a port of Unix/32V
 
-*Decided by the author* (errata 30): the plan is that the first operating system is **a port of V7 Unix to the pdp64**. That fixes what the system architecture must provide first, and it is a
-modest list, because V7 is small and uses the processor in a plain way. The precedent is Unix/32V, the original port of V7 to the VAX, which widened a 16-bit-`int` kernel to a 32-bit machine and
-was built with the portable C compiler, the same compiler family as the pdp64's. This section is an assessment of the V7 port against the sections above; the statements about what V7 needs are
-the assessment's, not facts established elsewhere.
+*Decided by the author* (errata 30): the first operating system is **a port of Unix/32V**, the original port of V7 Unix to the VAX-11/780. It is a better starting point than V7 itself
+because it is already a V7 for a 32-bit paged machine: it was built with the portable C compiler (the family of compiler the pdp64 uses), and it uses page tables, where V7 used the PDP-11's
+segmentation registers. This section is an assessment of the port against the sections above; the statements about what 32V needs are the assessment's, not facts established elsewhere.
 
-| What V7 needs | What the pdp64 has | State |
+**A note on paging, from the 32V headers in the toolchain repository's corpus.** The 32V kernel as released **swaps whole processes** and uses the VAX page tables for relocation and protection:
+`proc.h` has `p_size` ("size of swappable image"), `p_swaddr` and `p_swsize` and the states `SLOAD`, `SSWAP` and `SSPART` ("partially swapped out"); its page-table entries are those of the u-area
+(`p_addr[UPAGES]`); and the headers contain no paging structures (no page-fault bookkeeping, resident-set sizes or page-out thresholds). Demand paging came with Berkeley's 3BSD, which added virtual
+memory to 32V. The pdp64's memory-management unit supports demand paging (section 7), so it can be added to the port, as 3BSD did, once the base system runs. The first port does not need it.
+
+| What 32V needs | What the pdp64 has | State |
 |---|---|---|
 | A way into the kernel for a system call, with the call number and arguments in registers or on the stack | `TRAP #n`, `TRAPL #n`, a banked kernel stack (sections 1, 5) | the entry sequence and the call convention are open (sections 4, 5) |
-| Separate address spaces; V7 swaps whole processes, so a simple per-process mapping is enough at first | a three-level page table, `ASID`, broadcast `TLBI` (section 7) | `PTBR` cannot yet be written; the entry layout is open (sections 3, 7) |
-| Mode, priority levels `spl0` to `spl7` | the `PSW` priority field and `SPL` (section 6) | the number of levels, and the `PSW` layout, are open (sections 2, 6) |
-| A periodic clock interrupt (V7 uses a 50 or 60 Hz line clock) | nothing | open (section 6) |
+| Separate address spaces, swapped as whole images, with per-process page tables | a three-level page table, `ASID`, broadcast `TLBI` (section 7) | `PTBR` cannot yet be written; the entry layout is open (sections 3, 7) |
+| Mode, interrupt priority levels | the `PSW` priority field and `SPL` (section 6) | the number of levels, and the `PSW` layout, are open (sections 2, 6) |
+| A periodic clock interrupt | nothing | open (section 6) |
 | A console | nothing | a serial device is needed and is not one of the three devices of errata 29 (Ethernet, USB, disk); open |
 | A disk with a driver | an eight-register DMA disk is the plan (errata 29) | the layout is open ([bus document](pdp64-q64-bus.md) §9) |
-| Two privilege levels | kernel and user (section 1) | V7 never used the PDP-11's supervisor mode, which suggests that the open question about supervisor mode (section 1) can wait |
+| Two privilege levels, kernel and user | kernel and user (section 1) | 32V, like V7, does not use a third mode, which suggests that the open question about supervisor mode (section 1) can wait |
 | Saved floating-point state | none beyond `FPSR`, since floating point lives in the general registers (section 8) | nothing to do |
 | Signals and `fork`/`exec` | `fork` needs an address-space copy, `exec` a loader, signals a return path from the handler | kernel work; follows from sections 4 and 5 |
 
 What is not in the architecture's documents at all:
 
-* **The V7 kernel sources.** The toolchain repository ([v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain)) has V7's libraries, commands and headers (`orig/usr/src/cmd`, `libc`) and
-  the C-ported commands of `modern/`, but not `/usr/sys`, the kernel. The V7 kernel sources are freely redistributable (they were released under a BSD-style licence in 2002) and are in the
-  Unix Heritage Society's archive; fetching them is a step to be done with the project's browser tooling.
-* **The word-size work.** The V7 kernel assumes a 16-bit `int`, 32-bit `long`s and 16-bit physical addresses counted in 64-byte clicks. The pdp64 is LP64 (`int` is 32 bits, `long` and pointers 64), so the port is
-  the 32V kind of work: types, address arithmetic, and the memory-management files rewritten. The commands in `modern/` show the userland half of this already done for the toolchain's compiler.
-* **The binary format.** V7 expects `a.out`; the pdp64 toolchain writes ELF (`ld64`, e_machine `0xF064`). The kernel's `exec` has to read ELF, or the linker has to write an `a.out`; not decided.
+* **The 32V kernel sources.** The toolchain repository ([v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain)) has V7's libraries and commands (`orig/usr/src/cmd`, `libc`), the C-ported commands of `modern/`
+  and the 32V headers (in the corpus directory), but not the kernel. The sources of the early Unix systems were released under a BSD-style licence in 2002 and are in the Unix Heritage Society's archive; I have not
+  checked that 32V is among them, and fetching them is a step to be done with the project's browser tooling.
+* **The word-size work.** 32V already has 32-bit `int`s, `long`s and pointers, so it avoids the 16-bit assumptions of V7. The pdp64 is LP64 (`long` and pointers are 64 bits), so the port still has the work of widening
+  `long` and pointer arithmetic, and the VAX-specific memory-management and trap code has to be rewritten for the pdp64's tables and entry sequence. The commands in `modern/` show the userland half of this already done for the toolchain's compiler.
+* **The binary format.** 32V expects `a.out`; the pdp64 toolchain writes ELF (`ld64`, e_machine `0xF064`). The kernel's `exec` has to read ELF, or the linker has to write an `a.out`; not decided.
 * **Everything the QEMU target lacks.** It runs user programs only; to boot a kernel it needs the memory-management unit, the privileged state, the interrupts, the timer and a serial device, which are the open
   items above made concrete. That is the practical order of work: define section 4 and section 6, then implement them in the QEMU target, then write the kernel against it.
 
-A Linux or modern BSD port is a different question, since they need a GCC or LLVM back end; the plan does not depend on it.
+A Linux or modern BSD port (OpenBSD is the author's next candidate) is a different question, since they need a GCC or LLVM back end; the plan does not depend on it. See the answer on LLVM in section 14.
 
 ## 13. The list of open items
 
@@ -206,9 +210,40 @@ A Linux or modern BSD port is a different question, since they need a GCC or LLV
 9. Atomics against the bus (section 10; bus document §8).
 10. Hardware breakpoints, machine-check reporting, performance counters (section 11).
 11. The device register layouts, the DMA descriptor format and the interrupt convention ([bus document](pdp64-q64-bus.md) §9).
+12. The 32V kernel sources; the a.out-versus-ELF decision; the LP64 widening (section 12).
+13. An LLVM back end and its generated machine-code layer; then an OpenBSD port, conditional on the back end (section 14).
 
 When these are decided they should be written once, as the instruction numbers are, in a grammar from which the register definitions, the cause codes, the vector numbers and the emulator's models
 are generated.
+
+## 14. A later step: an LLVM back end, and OpenBSD
+
+*Decided by the author, conditionally* (errata 30): if an LLVM back end proves easy enough, the next operating system is an OpenBSD port. This section is the assessment of that condition. The figures are
+my estimates, not measurements, and they are the least certain statements in this document.
+
+**What an LLVM back end is.** A target description in LLVM's TableGen language (registers, instruction encodings and assembly syntax), the code that turns LLVM's intermediate form into those instructions (calling
+convention, instruction selection, frame layout, branches and compares), the machine-code layer (assembler, object writer, relocations, instruction-size relaxation) and, for a self-hosted system, support in
+the LLVM linker, `lld`, and the compiler runtime library.
+
+**What helps.** The instruction encodings, assembly syntax and register names already exist as grammars and are the single source of truth, so the register and instruction definitions of the machine-code layer
+(the largest mechanical part of a back end) can be generated from them, which keeps the compiler from drifting from the assembler as the rest of the toolchain cannot. Floating point in the general registers is a
+shape LLVM already supports for RISC-V. The register file is small and regular, the ABI is accepted (`abi.md`), and there is a compiler to compare against: the existing pcc back end, a C test suite of 82 programs, a
+benchmark corpus of 841 files with gcc and clang `-Os` figures, an emulator and a QEMU target to run the output. The nearest in-tree LLVM back ends are small ones (MSP430, M68k, AVR).
+
+**What makes it harder than a RISC-V-style back end.** The condition flags `N Z V C` set by ordinary instructions (LLVM models flags, as for x86 and ARM, but it is more work than a flag-free machine); the memory
+operand on most instructions and the addressing modes (richer selection patterns); variable-length instructions, 2 to 8 bytes, whose branch and call forms must be relaxed to the shortest that reaches; and the
+instructions with no counterpart in LLVM's generic operations (block copy, bit-field, UTF-8), which would be left to intrinsics at first.
+
+**An estimate of the size.** A first back end that compiles C correctly, with the machine-code layer, is months of focused work, not weeks: I would put it at roughly three to six months for one engineer who has
+written an LLVM back end before, less if the generated parts are in place first, and longer to reach the density of the pcc back end. Linker support in `lld` (relocations, and position-independent code if wanted) and
+the compiler-runtime built-ins are further weeks. I have not built one for this machine and would not call this easy; whether it is "easy enough" is the author's judgement against this estimate.
+
+**What OpenBSD adds beyond the compiler.** OpenBSD's base system is built with clang, so the back end must be good enough to build a whole operating system, not only test programs. Then the port itself: the
+machine-dependent kernel (memory management code for the page tables, exception and interrupt entry, locore, the device drivers and autoconfiguration), the machine-dependent C library and dynamic linker, and a boot
+loader. OpenBSD insists on properties this architecture has or can have: write-xor-execute (the `R`, `W`, `X` bits), position-independent executables (cheap here, ISA §19), and landing pads on indirect branches
+(`LPAD`, still open, ABI version 1 has them off). It would depend on every item of this document's open list being closed, and on more: SMP, the lock and monitor question, a full device set.
+
+**The order this suggests:** the system architecture of sections 3 to 6, the QEMU target extended to match, a Unix/32V port with the existing compiler, then the LLVM back end, then OpenBSD.
 
 ## Sources
 

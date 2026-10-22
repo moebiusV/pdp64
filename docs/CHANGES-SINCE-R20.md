@@ -510,5 +510,5 @@ narrow loads consumed by the next instruction, and only 146 of those would fuse 
 **Devices.** Ethernet, USB and disk devices are each eight memory-mapped registers plus DMA (errata 29, the author's decision): trivial drivers and no multitasking burden
 on the processor. No ISA change; the layouts and the DMA descriptor format are not yet written (ISA section 16).
 
-**Operating system plan.** The first operating system is a port of V7 Unix (errata 30). The system architecture document ([`pdp64-system-architecture.md`](pdp64-system-architecture.md)) lists what that needs and
+**Operating system plan.** The first operating system is a port of Unix/32V; OpenBSD follows if an LLVM back end proves easy enough (errata 30). The system architecture document ([`pdp64-system-architecture.md`](pdp64-system-architecture.md)) lists what that needs and
 what is still undefined.

@@ -36,7 +36,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
    [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md) the implementation plan,
    [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md) the sub-1-bit inference accelerator. Each ends with its list of changes since r20.
    The documents **as they arrived**, under the working name 11/64W, are kept unedited in [`docs/orig/`](docs/orig/) as the baseline.
-2. **The system: [`docs/pdp64-system-architecture.md`](docs/pdp64-system-architecture.md)** (privilege, exceptions, interrupts, memory management, boot, and the V7 port plan) **and the bus: [`docs/pdp64-q64-bus.md`](docs/pdp64-q64-bus.md)** (Q64 and the devices). Both say what is established, decided and open.
+2. **The system: [`docs/pdp64-system-architecture.md`](docs/pdp64-system-architecture.md)** (privilege, exceptions, interrupts, memory management, boot, and the Unix/32V port plan) **and the bus: [`docs/pdp64-q64-bus.md`](docs/pdp64-q64-bus.md)** (Q64 and the devices). Both say what is established, decided and open.
 3. **Everything decided or changed since, with the reasons: [`docs/CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md).** It is the reasoned history of the updates above and the
    record against the baseline; where it disagrees with the original r20 documents, it wins. It holds, in order: where things stand (§1); the design errors found in the ISA (§2); instructions dropped, moved, added or
    changed (§3); what the ISA left unspecified and is now specified (§4); the ABI (§5); the assembly language (§6); the object format (§7); why a grammar is the
@@ -67,7 +67,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
 | Floating-point spelling: `fadd` is binary64, `fadd32` binary32, `fadd16` reserved; old spellings stay as aliases | errata 24 |
 | `set cc, rd` added; a conditional select is on hold pending evidence | errata 25; CHANGES §14 |
 | NaN results are the canonical quiet NaN | errata 26 |
-| The first operating system is a port of V7 Unix; the system architecture document lists what that needs and what is undefined | errata 30; [system architecture](docs/pdp64-system-architecture.md) |
+| The first operating system is a port of Unix/32V; OpenBSD follows if an LLVM back end is easy enough; the system architecture document lists what that needs and what is undefined | errata 30; [system architecture](docs/pdp64-system-architecture.md) |
 | Devices (Ethernet, USB, disk) are eight memory-mapped registers plus DMA: trivial drivers, no multitasking burden on the CPU; no ISA change, layouts to be written | errata 29; ISA §16 |
 | Half precision (binary16) added: 17 `FESC` words, arithmetic and conversions, correctly rounded, with flags | errata 27; CHANGES §14 |
 | ABI v1: LP64, signed `char`, `long double` = double, arguments in `r0`-`r5` (floats too), 8-byte stack alignment, no red zone, no leading underscore; variadic calls put every argument in slots | CHANGES §5; abi.md |

@@ -111,7 +111,9 @@ Items marked **DECISION** are choices the document left open; change them in the
     *Where it sits:* ISA section 16 already makes every device a bus device that does not touch the ISA, and already owes devices what DMA needs from the processor
     side (a memory type per page, `FENCE` before a doorbell write, atomics for shared queues); this adds a convention for the device side and changes no instruction.
     *Open:* the register layouts, the DMA descriptor format, the interrupt and doorbell conventions, and whether other devices follow the same shape; none are written yet.
-30. **DECISION (the author's plan): the first operating system is a port of V7 Unix.** Initially V7 Unix is ported to the pdp64. *Why this matters for the design:* V7 is small and uses
-    the processor plainly (two privilege levels, a clock, a console, a disk, system calls by trap, whole-process swapping), so it sets a short list of what the system architecture must define
-    first: the exception entry sequence, a way to write `PTBR`, the interrupt priorities, a clock, a console and a disk device ([`pdp64-system-architecture.md`](pdp64-system-architecture.md) section 12). The precedent is Unix/32V,
-    V7 on the VAX. *Open:* the kernel sources are not in the repositories; the LP64 and a.out-versus-ELF decisions; everything in the system architecture document's open list.
+30. **DECISION (the author's plan): the first operating system is a port of Unix/32V; an OpenBSD port follows if an LLVM back end is easy enough.** *Why 32V:* it is V7 already
+    ported to a 32-bit paged machine (the VAX-11/780) with the portable C compiler, so it is closer to the pdp64 than V7 on the PDP-11. (The author's belief was that 32V already demand-pages; the headers show
+    that it swaps whole processes and uses the VAX page tables for relocation, and that demand paging came with 3BSD. The pdp64's MMU supports demand paging, so it can be added afterwards.) *Why it matters
+    for the design:* the first system sets a short list of what the system architecture must define first: the exception entry sequence, a way to write `PTBR`, interrupt priorities, a clock, a console and a disk
+    ([`pdp64-system-architecture.md`](pdp64-system-architecture.md) sections 12 to 14). *Open:* the kernel sources are not in the repositories; the LP64 and a.out-versus-ELF decisions; the LLVM estimate; everything
+    in the system architecture document's open list.
