@@ -407,7 +407,7 @@ zone; `long double`; whether the operand-role table should move into the mnemoni
 
 ---
 
-### Open design item: the fourth parcel and the length code `11` (raised 2026-10-22, not decided)
+### Design item: the fourth parcel and the length code `11` (raised 2026-10-22, **decided the same day**: see the decided design below)
 
 **The question.** The `len` field of parcel 0 has two bits, so an instruction is 1, 2, 3 or 4 parcels (2 to 8 bytes). ISA §9.6 gives the reason there are four lengths as "`len` is two bits, and two bits
 encode exactly four lengths". Do we need the fourth, and if not, what should the code `11` mean?
@@ -474,6 +474,82 @@ An earlier version of this section estimated "about 2%" from the first compile o
 **How to decide.** (1) The analysis of the compiled code is done ([`codegen-analysis.md`](codegen-analysis.md)); the candidates above come from it. (2) Specify the candidate
 one-parcel forms, choose the immediate ranges per instruction and re-measure the saving, on the final corpus, against `gcc -Os` and `clang -Os`; check that the 27 or so opcodes fit with room to spare and that the groups do not overlap. (3) Decide A, B or C by the ISA's order of tests (§1.2): no strange side effects, no displacement into a
 longer encoding, then Occam. Until then the ISA keeps four parcels.
+
+### Decided design: the second page (2026-10-22, errata 31)
+
+The author chose option C with the explicit map (C1), asked for further candidates to be searched for, and asked for the fused compare-and-branch and the 32-bit rotate to be added. This is the specification.
+
+**Lengths.** `len` = 00, 01, 10 give 1, 2, 3 parcels (page 1, as before, without the 4-parcel form); **`len` = 11 is one parcel of page 2**, in the layout `11 opc:6 reg:4 low:4`, with the opcode map below.
+Page 1 loses its 48-bit forms: the immediate, absolute and PC-relative payload is 16 or 32 bits, the base-register displacement 12 or 28, the scaled-index displacement 6 or 22, the direct-page displacement 12 or 28, a
+branch displacement 16 or 32 bits.
+
+**The rule for every page-2 form:** it is *exactly* the operation of the page-1 instruction it abbreviates: the same result, the same flags, the same faults. An assembler that picks the shortest encoding can therefore
+never change what a program does. A mnemonic still assembles to exactly one instruction (§4.14): the assembler chooses the length, as it does for branches.
+
+**The map** (opcode numbers are those of page 2; `reg` is the register named first, `low` the field named second):
+
+| Opcode | Instruction | `reg` | `low` | Long form it abbreviates |
+|---|---|---|---|---|
+| `0x00` `0x02` `0x04` `0x06` | `movq`, `movl`, `movw`, `movb` load: `rd <- M[(rn)]`, sign-extended | `rd` | `rn` | `mov (rn),rd` (base mode, displacement 0) |
+| `0x01` `0x03` `0x05` `0x07` | `movq`, `movl`, `movw`, `movb` store: `M[(rn)] <- rs` | `rs` | `rn` | the same, store |
+| `0x08` `0x09` `0x0A` | `movzl`, `movzw`, `movzb` load from `(rn)` | `rd` | `rn` | `movz (rn),rd` |
+| `0x0B` | `lea 8*d(sp),rd` | `rd` | `d` (0 to 15) | `lea 8*d(sp),rd` |
+| `0x0C` `0x0D` | `movq` load from `sp`: offset `8 * ((opc & 1) * 16 + low)`, 0 to 248 | `rd` | offset, low 4 bits | `movq d(sp),rd` |
+| `0x0E` | `movq` store to `sp`: offset `8 * low`, 0 to 120 | `rs` | offset | `movq rs,d(sp)` |
+| `0x10` `0x11` | `movl` load from `sp`: offset `4 * ((opc & 1) * 16 + low)`, 0 to 124 | `rd` | offset low 4 bits | `movl d(sp),rd` |
+| `0x12` `0x13` | `movl` store to `sp`: offset `4 * ((opc & 1) * 16 + low)`, 0 to 124 | `rs` | offset low 4 bits | `movl rs,d(sp)` |
+| `0x14` to `0x17` | `movq` load from `rn` at offset `8 * (1 + (opc & 3))`, i.e. 8, 16, 24, 32 | `rd` | `rn` | `movq d(rn),rd` |
+| `0x18` `0x19` | `movq` store to `rn` at offset `8 * (1 + (opc & 1))`, i.e. 8, 16 | `rs` | `rn` | `movq rs,d(rn)` |
+| `0x1A` to `0x1D` | `movl` load from `rn` at offset `4 * (1 + (opc & 3))`, i.e. 4, 8, 12, 16 | `rd` | `rn` | `movl d(rn),rd` |
+| `0x1E` | `pushm8`: push registers `r8` to `r15` named by the 8-bit mask `reg:low` (bit `i` is `r(8+i)`) | mask high | mask low | `pushm #(mask << 8)` |
+| `0x1F` | `popm8`, the mask as for `pushm8` | mask high | mask low | `popm #(mask << 8)` |
+| `0x20` | `sub #(8*n),sp`, `n = reg:low` (0 to 255) | n high | n low | `sub #(8*n),sp` |
+| `0x21` | `add #(8*n),sp` | n high | n low | `add #(8*n),sp` |
+| `0x22` | `movq #imm,rd`, `imm` sign-extended 4 bits (-8 to 7) | `rd` | imm | `movq #imm,rd` |
+| `0x23` `0x24` `0x25` | `shl`, `shr`, `sar` by `low` (0 to 15) | `rd` | count | `shl #n,rd` etc. |
+| `0x26` `0x27` `0x28` | `and`, `bis`, `xor` with `imm` sign-extended 4 bits | `rd` | imm | `and #imm,rd` etc. |
+| `0x29` | `add #imm,rd`, `imm` sign-extended 4 bits | `rd` | imm | `add #imm,rd` |
+
+Reserved in page 2: every opcode not listed (`0x0F`, `0x2A` to `0x3F`, 23 of the 64). A reserved opcode is an illegal-instruction abort.
+
+(`0x0C` gives offsets 0 to 120 and `0x0D` offsets 128 to 248 in steps of 8, the low four bits of the offset being `low`. In the same way `0x10`/`0x11` and `0x12`/`0x13` use the opcode's low bit as bit 4 of the offset field.
+The opcode numbers of page 2 are independent of those of page 1: for example `0x28` of page 2 is `xor #imm,rd`, while `0x28` of page 1 is the new `cbCC`.)
+
+**Two further instructions in page 1:**
+* **`cbCC rd,#imm,target`**: compare-immediate-and-branch, in the reserved top-level opcode **`0x28`**. Meaning: compute `rd - imm` as `cmp rd,#imm` does (same flags), then branch if the condition `CC` holds.
+  `len = 01` (4 bytes): parcel 0 `01 0x28 rd cond` (`low` is the branch condition number, as for `set`); parcel 1 `imm:5 disp:11`, `imm` signed (-16 to 15) and `disp` signed, in parcels from the first parcel of
+  the instruction, ±1024 parcels. `len = 10` (6 bytes): parcel 1 `imm:5 disp-high:11`, parcel 2 `disp-low:16`, a 27-bit displacement. The assembler picks the length (as for `bCC`); the immediate must fit 5 bits,
+  and the compiler emits `cbCC` only then. Mnemonics: `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group. Condition names and numbers are those of `bCC` and `set`.
+* **`rori32 rs,#n,rd`**: a `BESC` sub-opcode with the format of `rori` (`sub:8 count:8` in parcel 1): `rd <- zero-extend( ror32( rs[31:0], n mod 32 ) )`. The result is zero-extended because unsigned 32-bit values
+  are kept zero-extended by the compiler and rotates of hash and crypto code are unsigned; a signed rotate is `rori32` followed by `movl rd,rd`.
+
+**Estimated saving**, static counts on the 827-file fair corpus compiled with the optimizing flags (the final output of 2026-10-22, 370,115 instructions, 1,672,166 bytes of image), two bytes per site, from
+a script over the assembly output (`/tmp/p64opt/cand.py`, results in this section):
+
+| Family | Sites | Saving | Share of image |
+|---|---|---|---|
+| `(rn)` loads and stores, all widths (`0x00` to `0x0A`) | 9,089 | 18.2 KB | 1.1% |
+| `lea 8*d(sp),rd` (`0x0B`) | 3,614 | 7.2 KB | 0.4% |
+| `movq` at `d(sp)`: load 7,698, store 3,721 | 11,419 | 22.8 KB | 1.4% |
+| `movl` at `d(sp)`: load 6,170, store 3,246 | 9,416 | 18.8 KB | 1.1% |
+| `movq`/`movl` at `d(rn)` with the small offsets above | 5,849 | 11.7 KB | 0.7% |
+| `pushm8`, `popm8` (all 2,392 + 2,392 sites use a mask of `r8` to `r15`) | 4,784 | 9.6 KB | 0.6% |
+| `sub`/`add #(8*n),sp` | 3,561 | 7.1 KB | 0.4% |
+| four-bit immediates (`movq` 7,838, `shl` 2,146, `shr` 833, `and` 498, `sar` 97, `xor` 92, `bis` 84, `add` 34) | 11,622 | 23.2 KB | 1.4% |
+| **Page 2 together** | **59,354** | **118.6 KB** | **7.1%** |
+| `cbCC` (immediate in -16 to 15) | 6,390 | 12.8 KB | 0.8% |
+| `rori32` | 896 | 9.0 KB | 0.5% |
+| **All** | **66,640** | **140.4 KB** | **8.4%** |
+
+Caveats: the counts are static; the families are distinct instruction shapes and do not overlap, but I have not checked the interaction of one saving with another (a shorter instruction can bring a jump
+within a shorter encoding); the offset and immediate ranges were chosen from the histograms of the same corpus, so the estimate is optimistic for other programs; the page uses 41 of its 64 opcodes. The two pieces of
+evidence that are not about the encoding: the compiler emits `lea 1(rX),rX` 7,852 times and `lea -1(rX),rX` 395 times where the two-byte `inc` and `dec` exist (about 16 KB, 1.0%), and the 36,555 six-byte external
+`call` and `lea sym` forms (4.4%) need linker relaxation, not an encoding.
+
+**What changes.** The grammar (`spec/pdp64.hbnf.in`, `spec/pdp64-mnemonics.hbnf`); the assembler (it chooses the shortest form for each of the above, and relocations lose the 48-bit forms: a symbol immediate
+or absolute address is 32 bits, sign-extended); the linker; the shared execution core (page-2 forms are decoded to the long form they abbreviate and executed by the same code, so the semantics are written once); `sim64`;
+the QEMU target (a length of 1 parcel for `len = 11`); the documents (ISA §3, §4, §9.6, §12, §13, §14, glossary). The compiler needs no change for the page-2 forms (the assembler selects them); it needs the peephole rules for
+`cbCC`, `rori32` and `inc`/`dec`, which are measured separately.
 
 ## 13. Appendix
 

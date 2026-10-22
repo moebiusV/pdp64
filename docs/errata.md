@@ -117,3 +117,11 @@ Items marked **DECISION** are choices the document left open; change them in the
     for the design:* the first system sets a short list of what the system architecture must define first: the exception entry sequence, a way to write `PTBR`, interrupt priorities, a clock, a console and a disk
     ([`pdp64-system-architecture.md`](pdp64-system-architecture.md) sections 12 to 14). *Open:* the kernel sources are not in the repositories; the LP64 and a.out-versus-ELF decisions; the LLVM estimate; everything
     in the system architecture document's open list.
+31. **DECISION (the author's): the fourth parcel is removed, and `len = 11` becomes a second page of one-parcel instructions; two further instructions are added.** The full map is in
+    [`CHANGES-SINCE-R20.md`](CHANGES-SINCE-R20.md) section 12 ("Decided design: the second page"). In short: instructions are 1, 2 or 3 parcels (2, 4 or 6 bytes); `len = 11` is one parcel in the layout
+    `11 opc:6 reg:4 low:4` with its own 64-entry opcode map, holding register-deferred loads and stores, `lea` and quad/long loads and stores at small offsets from `sp`, quad and long loads and stores at small
+    offsets from a register, frame adjustment and register-save instructions, and four-bit-immediate forms of the common operations. A fused compare-and-branch (`cbCC`, in the reserved top-level
+    opcode `0x28`) and a 32-bit rotate by a constant (`rori32`, a `BESC` sub-opcode) are added. *Why:* only 49 of 373,635 compiled instructions (0.013%) needed the fourth parcel; the one-parcel
+    forms are estimated at about 118 KB (7%) and the two instructions at 22 KB (1.3%) of a 1.67 MB image (static counts on the 827-file corpus; section 12). *Rule kept:* every page-2 form is exactly the operation of
+    its long form (the same flags, the same result), so an assembler that chooses the shortest encoding never changes what a program does. *Costs:* the immediate, absolute, PC-relative and branch fields shrink from 48
+    to 32 bits and the base-register displacement from 44 to 28 bits. *Alternatives considered:* keep four parcels; reserve `len = 11`; the register-deferred form of every memory-operand opcode (rejected in favour of the explicit map).
