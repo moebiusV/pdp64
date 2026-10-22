@@ -46,7 +46,7 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 	memset(r, 0, sizeof *r);
 	r->kind = o->_alt;
 	switch (o->_alt) {
-	case OK_IMM: case OK_ABS:
+	case OK_IMM: case OK_ABS: case OK_POOL:
 		r->e.p = p + 1; r->e.n = n - 1;
 		break;
 	case OK_REG:
@@ -97,7 +97,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 {
 	st->line = line_of(text, s->_pos);
 	switch (s->_alt) {
-	case 1:
+	case 5:
 		st->kind = S_ASSIGN;
 		{
 			struct slice a = sl(text, s->assign._pos, s->assign._end);	/* name = expression */
@@ -109,7 +109,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		st->expr = sl(text, s->assign.expr->_pos, s->assign.expr->_end);
 		break;
-	case 2: {
+	case 1: {
 		st->kind = S_DIR;
 		{
 			struct slice d = sl(text, s->directive._pos, s->directive._end);	/* ".name args" */
@@ -134,7 +134,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
-	case 4: {							/* an instruction that takes a condition: `set eq, r1` */
+	case 3: {							/* an instruction that takes a condition: `set eq, r1` */
 		condinsn_t *ci = &s->condinsn;
 		st->kind = S_INSN;
 		st->mg = MG_COND;
@@ -144,7 +144,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			operand(text, &j->operand, &st->ops[st->nops++]);
 		break;
 	}
-	case 5: {							/* mfsr rd, name; mtsr name, rs */
+	case 4: {							/* mfsr rd, name; mtsr name, rs */
 		srinsn_t *si = &s->srinsn;
 		st->kind = S_INSN;
 		st->mg = MG_SYSREG;

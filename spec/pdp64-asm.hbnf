@@ -23,11 +23,12 @@ comment = ";" *( %x01-09 | %x0B-D7FF | %xE000-10FFFF )
 line = *label [ stmt ]
 
 label = symbol ":"
-stmt = assign | directive | instruction | condinsn | srinsn
+; (the instruction before the assignment: `movq =5, r1` starts like the assignment `movq = 5`, and a mnemonic is never a symbol to assign)
+stmt = directive | instruction | condinsn | srinsn | assign
 
 assign = symbol "=" expr
 directive = "." dname [ dargs ]
-dname = "text" | "data" | "bss" | "globl" | "comm" | "byte" | "word" | "long" | "quad"
+dname = "pool" | "text" | "data" | "bss" | "globl" | "comm" | "byte" | "word" | "long" | "quad"
       | "even" | "align" | "space" | "ascii" | "lpad"
 dargs = darg *( "," darg )
 darg = string | expr
@@ -42,7 +43,7 @@ sysregw = sysreg
 ; `mnemonic` (the groups of pdp64-mnemonics.hbnf, in an order that keeps a word from being taken for the front of a longer one) is written by tools/mkgrammar.py
 
 ; --- operands (ISA section 5) -----------------------------------------------------------------------------------
-operand = immop | absop | postinc | predec | predec2 | indexed | based | regop | bare
+operand = immop | absop | postinc | predec | predec2 | indexed | based | regop | bare | poolop
 immop   = "#" expr
 absop   = "@" expr
 regop   = reg
@@ -54,6 +55,8 @@ predec2 = "(" reg ")" "-" expr
 indexed = "(" reg ")" "(" reg [ "*" scale ] ")" | expr "(" reg ")" "(" reg [ "*" scale ] ")"
 based   = "(" basereg ")" | expr "(" basereg ")"
 bare    = expr
+; a literal-pool load (`movq =0x123456789ABC, r1`): the constant goes to the literal pool, the operand is the pool entry, a pc-relative memory operand.  Written last: nothing else starts with "="
+poolop  = "=" expr
 
 ; R0..R15; SP is R14 and FP is R13 (ISA 2.1); PC and DP only as a base register
 reg      = rnum | ralias
