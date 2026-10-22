@@ -6,6 +6,12 @@ int less(unsigned x, unsigned y) { unsigned r = (x << 11) | (x >> 21); return r 
 long wide(unsigned x) { return (long)((x << 1) | (x >> 31)); }
 unsigned st[2];
 void store(unsigned x) { st[0] = (x << 16) | (x >> 16); st[1] = (x >> 8) | (x << 24); }
+/* a rotate whose result has bit 31 set: compared, widened, returned, shifted right, divided */
+unsigned top(unsigned x) { return (x << 4) | (x >> 28); }
+int topcmp(unsigned x) { return top(x) > 0x7fffffffu; }
+long topwide(unsigned x) { return (long)top(x); }
+unsigned topshr(unsigned x) { return top(x) >> 1; }
+unsigned topdiv(unsigned x) { return top(x) / 3u; }
 int test(void)
 {
 	unsigned v = 0x80000001u;
@@ -19,5 +25,11 @@ int test(void)
 	store(0x12345678u);
 	if (st[0] != 0x56781234u || st[1] != 0x78123456u) return 9;
 	if (rl7(0u) != 0u || rr3(0xffffffffu) != 0xffffffffu) return 10;
+	if (top(0x08000000u) != 0x80000000u) return 11;
+	if (!topcmp(0x08000000u)) return 12;
+	if (topcmp(0x00000001u)) return 13;
+	if (topwide(0x08000000u) != 0x80000000L) return 14;
+	if (topshr(0x08000000u) != 0x40000000u) return 15;
+	if (topdiv(0x0FFFFFFFu) != 0xFFFFFFF0u / 3u) return 16;
 	return 1;
 }
