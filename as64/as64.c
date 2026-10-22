@@ -414,6 +414,21 @@ static void print_limits(void)
 static int samesec(int s) { return s >= 0 && syms[s].sect == cur_sec; }
 static int pending(int s) { return s >= 0 && syms[s].sect == SC_PENDING; }
 
+/* The literal pool.  An immediate is a 32-bit sign-extended field; an instruction that reads a whole 64-bit operand (movq, the ALU, push) and is given
+   a constant that does not fit gets the constant as a pc-relative memory operand instead: the same instruction, one 8-byte literal at the end of
+   .text (aligned to 8, one copy of each value).  Nothing else changes: the flags and the result are those of the immediate. */
+static int64_t *poolv; static int *pools, npool, cappool;
+static int pool_get(int64_t v)
+{
+	for (int i = 0; i < npool; i++) if (poolv[i] == v) return pools[i];
+	if (npool == cappool) { cappool = cappool ? cappool * 2 : 16; poolv = realloc(poolv, cappool * sizeof *poolv); pools = realloc(pools, cappool * sizeof *pools); }
+	char nm[32]; snprintf(nm, sizeof nm, ".LC%d", npool);
+	int s = symadd(nm, (int)strlen(nm));
+	syms[s].islocal = 1; syms[s].sect = SC_PENDING;
+	poolv[npool] = v; pools[npool++] = s;
+	return s;
+}
+
 /* one instruction in the making */
 struct ins {
 	struct fmt f;
@@ -421,6 +436,7 @@ struct ins {
 	int64_t dval;		/* the displacement or immediate, signed, before it is cut to the final length */
 	int mode;
 	int relsym, reltype;	/* a relocation on the instruction, if reltype */
+	int poolable;		/* a constant that does not fit the immediate field may go to the literal pool (instructions that read 8 bytes) */
 	int has_p2;		/* there is a one-parcel form of this instruction ... */
 	struct fmt p2;		/* ... and this is it */
 	int64_t reladd;
@@ -459,7 +475,13 @@ static int build_rm(const struct stmt *st, const struct oper *o, int dstride, in
 		if (CONST(v)) {
 			d = v.c;
 			need = need_len(mode, d);
-			if (need < 0) { err(st->line, "constant %lld does not fit the %d-bit field of an immediate or absolute operand", (long long)d, dispbits(mode, maxlen)); return -1; }
+			if (need < 0 && in->poolable && mode == AMODE_IMM) {		/* the literal pool: movq K,rd as a load from the pool, and so on */
+				int ps = pool_get(d);
+				mode = AMODE_PCREL;
+				d = pending(ps) ? 0 : syms[ps].val - addr;
+				need = need_len(mode, d);
+				if (need < 0) { err(st->line, "literal pool out of reach"); return -1; }
+			} else if (need < 0) { err(st->line, "constant %lld does not fit the %d-bit field of an immediate or absolute operand", (long long)d, dispbits(mode, maxlen)); return -1; }
 		} else {
 			need = maxlen;				/* a symbol: the widest field, 32 bits, checked by the linker */
 			in->relsym = v.p; in->reladd = v.c; in->reltype = R_PDP64_INSN_ABS;
@@ -651,6 +673,7 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 		int isst = 0;
 		if (st->nops != 2) { err(st->line, "two operands"); return -1; }
 		if (mg == MG_MOV && o[1].kind != OK_REG && o[0].kind == OK_REG) isst = 1;
+		in->poolable = mg == MG_MOV && mn == MN_MOV_MOVQ;
 		if (isst) {
 			f->opc = store_opc(mn); f->reg = o[0].reg;
 			rc = build_rm(st, &o[1], mov_size(mg, mn), MS_NOIMM, in, addr);
@@ -672,6 +695,7 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 	case MG_ALU:
 		if (st->nops != 2) { err(st->line, "two operands"); return -1; }
 		f->opc = mn;
+		in->poolable = mn != MN_ALU_SHL && mn != MN_ALU_SHR && mn != MN_ALU_SAR;
 		if (mn == MN_ALU_CMP || mn == MN_ALU_FCMP) {				/* cmp rd, rm (errata 13); fcmpd the same (errata 21) */
 			if (o[0].kind != OK_REG) { err(st->line, "cmp: the first operand must be a register"); return -1; }
 			f->reg = o[0].reg;
@@ -693,6 +717,7 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 			break;
 		}
 		if (st->nops != 1) { err(st->line, "one operand"); return -1; }
+		in->poolable = mn == MN_SOP_PUSH;
 		if (build_rm(st, &o[0], 8, MS_ANY, in, addr) < 0) return -1;
 		break;
 	case MG_XFER:
@@ -1030,6 +1055,16 @@ static int run_pass(int final)
 			emit_bytes_n(b, n);
 			break;
 		}
+		}
+	}
+	/* the literal pool, at the end of .text */
+	if (npool) {
+		cur_sec = SEC_TEXT;
+		pad_to(8);
+		for (int i = 0; i < npool; i++) {
+			int64_t pos = final ? (int64_t)sec[SEC_TEXT].n : offs[SEC_TEXT];
+			syms[pools[i]].sect = SEC_TEXT; syms[pools[i]].val = pos;
+			if (final) put_le(poolv[i], 8); else offs[SEC_TEXT] += 8;
 		}
 	}
 	return changed;

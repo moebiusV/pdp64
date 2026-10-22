@@ -170,7 +170,7 @@ def count_ins(path, arch):
     return sum(1 for s, m, o in parse_s(path, arch) if s == 'text' and not m.startswith('.'))
 
 
-def walk_pdp64(obj, ins):
+def walk_pdp64(obj, ins, p2count=None):
     """pair every instruction line of .text with its encoded length"""
     d, secs = sections(obj)
     off, size = secs['.text']
@@ -196,7 +196,9 @@ def walk_pdp64(obj, ins):
         if pos + 2 > len(text):
             break
         p, = struct.unpack_from('<H', text, pos)
-        ln = (p >> 14) + 1
+        ln = 1 if p >> 14 == 3 else (p >> 14) + 1			# len = 11 is a one-parcel instruction of page 2
+        if p >> 14 == 3 and p2count is not None:
+            p2count[(p >> 8) & 63] += 1
         out.append((mn, ops, ln * 2))
         pos += 2 * ln
     return out, (pos == len(text))
@@ -373,7 +375,9 @@ def one(job, nowrap, keep):
         res['image'] = image_bytes(o)
         if arch == 'pdp64':
             ins = parse_s(s, arch)
-            walked, ok = walk_pdp64(o, ins)
+            p2c = collections.Counter()
+            walked, ok = walk_pdp64(o, ins, p2c)
+            res['p2'] = dict(p2c)
             res['walk_ok'] = ok
             hist = collections.Counter()
             mn = collections.Counter()
