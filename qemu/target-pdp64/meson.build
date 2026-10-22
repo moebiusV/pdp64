@@ -18,6 +18,7 @@ pdp64_ss = ss.source_set()
 pdp64_ss.add(files(
   'cpu.c',
   'helper.c',
+  'mmu.c',
   'op_helper.c',
   'translate.c'))
 pdp64_ss.add(pdp64_core_dep)

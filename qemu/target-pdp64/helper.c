@@ -1,6 +1,5 @@
 /*
- * pdp64 exceptions and state dump.  The only exception there is: a fault,
- * which ends the machine (exit status 139) as it does in sim64.
+ * pdp64 exceptions, interrupt lines and state dump.
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 #include "qemu/osdep.h"
@@ -18,9 +17,10 @@ void pdp64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
         qemu_fprintf(f, "r%-2d %016" PRIx64 "%s", i, env->c.r[i],
                      i % 4 == 3 ? "\n" : "  ");
     }
-    qemu_fprintf(f, "pc  %016" PRIx64 "  N%d Z%d V%d C%d  fpsr %02" PRIx64 "\n",
+    qemu_fprintf(f, "pc  %016" PRIx64 "  N%d Z%d V%d C%d  fpsr %02" PRIx64
+                 "  psw %04x\n",
                  env->c.pc, env->c.fN, env->c.fZ, env->c.fV, env->c.fC,
-                 env->c.fpsr);
+                 env->c.fpsr, pdp64_psw(&env->c));
 }
 
 /* Stop the machine; the qemu process exits with status code. */
@@ -55,6 +55,42 @@ void pdp64_cpu_do_interrupt(CPUState *cs)
     if (cs->exception_index == EXCP_PDP64_FAULT) {
         env->c.cur_pc = env->c.pc;
         pdp64_report_fault(env, env->fault_what, env->fault_addr);
+    } else if (cs->exception_index == EXCP_PDP64_ABORT) {
+        cs->exception_index = -1;
+        pdp64_enter_abort(env);
     }
     cs->exception_index = -1;
+}
+
+/* The priority level of the device line of a vector. */
+int pdp64_irq_level(int vector)
+{
+    switch (vector) {
+    case VECTOR_TIMER:
+        return IRQ_LEVEL_TIMER;
+    case VECTOR_CONSOLE_IN:
+    case VECTOR_CONSOLE_OUT:
+        return IRQ_LEVEL_CONSOLE;
+    default:
+        return 1;
+    }
+}
+
+/* The asserted line with the highest level; at equal levels the lowest vector. */
+bool pdp64_irq_best(const CPUPDP64State *env, int *level, int *vector)
+{
+    bool found = false;
+    int n;
+
+    for (n = 0; n < 32; n++) {
+        if (env->irq_lines >> n & 1) {
+            int l = pdp64_irq_level(VECTOR_IRQ_BASE + n);
+            if (!found || l > *level) {
+                *level = l;
+                *vector = VECTOR_IRQ_BASE + n;
+                found = true;
+            }
+        }
+    }
+    return found;
 }

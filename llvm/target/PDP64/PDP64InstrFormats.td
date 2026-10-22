@@ -15,14 +15,14 @@ class PDP64Inst<int sz, dag outs, dag ins, string asm> : Instruction {
   let AsmString = asm;
 
   // TSFlags: what the C++ needs to know about a record (the numbers are those of PDP64Layout.h)
-  bits<4> Form = FORM_NONE;      // the form of the operand that may have to grow: a register, an addressing mode, a branch ...
+  bits<5> Form = FORM_NONE;      // the form of the operand that may have to grow: a register, an addressing mode, a branch ...
   bits<2> Stride = 3;            // log2 of the default stride of (rN)+ and -(rN)
   bit MemFirst = 0;              // the memory operand is operand 1 (a register operand comes first)
   bit UImm = 0;                  // the immediate is unsigned (pushm, popm masks)
-  let TSFlags{3-0} = Form;
-  let TSFlags{5-4} = Stride;
-  let TSFlags{6} = MemFirst;
-  let TSFlags{7} = UImm;
+  let TSFlags{4-0} = Form;
+  let TSFlags{6-5} = Stride;
+  let TSFlags{7} = MemFirst;
+  let TSFlags{8} = UImm;
 }
 
 class Inst16<dag outs, dag ins, string asm> : PDP64Inst<2, outs, ins, asm> {

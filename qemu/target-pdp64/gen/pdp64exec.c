@@ -777,12 +777,17 @@ void pdp64_set_psw(struct pdp64_cpu *c, unsigned v)
 
 void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector, uint64_t eva)
 {
+	uint64_t epc = c->pc;
 	C = c; E = e;
-	if (!c->progress) {								/* an abort leaves no trace: the registers (the (rN)+ and -(rN) updates among them) are as before */
-		memcpy(c->r, c->snap.r, sizeof c->r); c->dp = c->snap.dp; c->fpsr = c->snap.fpsr;
-		c->fN = c->snap.fN; c->fZ = c->snap.fZ; c->fV = c->snap.fV; c->fC = c->snap.fC;
+	if (c->snap_valid) {
+		if (!c->progress) {							/* an abort leaves no trace: the registers (the (rN)+ and -(rN) updates among them) are as before */
+			memcpy(c->r, c->snap.r, sizeof c->r); c->dp = c->snap.dp; c->fpsr = c->snap.fpsr;
+			c->fN = c->snap.fN; c->fZ = c->snap.fZ; c->fV = c->snap.fV; c->fC = c->snap.fC;
+		}
+		epc = c->cur_pc;
+		c->snap_valid = 0;
 	}
-	enter(vector, c->cur_pc, eva, -1);
+	enter(vector, epc, eva, -1);
 }
 int pdp64_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e, int level, int vector)
 {
@@ -797,11 +802,12 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 {
 	int traced = c->psw >> PSW_T & 1;
 	C = c; E = e;
-	c->entered = 0; c->progress = 0; c->wait = 0;
+	c->entered = 0; c->progress = 0; c->wait = 0; c->snap_valid = c->deliver;
 	if (c->deliver) {									/* keep what an abort has to undo */
 		memcpy(c->snap.r, c->r, sizeof c->r); c->snap.pc = c->pc; c->snap.dp = c->dp; c->snap.fpsr = c->fpsr;
 		c->snap.fN = c->fN; c->snap.fZ = c->fZ; c->snap.fV = c->fV; c->snap.fC = c->fC;
 	}
 	step();
+	c->snap_valid = 0;
 	if (traced && c->deliver && !c->entered) enter(VECTOR_BPT, c->pc, 0, -1);		/* T was set when the instruction began: the trace trap (vector 15, as bpt) */
 }

@@ -1,15 +1,22 @@
 /*
  * pdp64: the one helper.  Every instruction is executed by pdp64_step() of
  * the shared core (gen/pdp64exec.c); this file is the host's side of it:
- * memory through QEMU's access functions, faults, and the system call
- * stand-in (trap #n, halt) of sim64.
+ * memory through QEMU's access functions, faults, the system call stand-in
+ * (trap #n, halt) of sim64 for the legacy machine, and for the kernel-mode
+ * machine the exception and interrupt entry points.
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 #include "qemu/osdep.h"
 #include "cpu.h"
 #include "exec/helper-proto.h"
+#include "exec/cputlb.h"
 #include "accel/tcg/cpu-ldst.h"
 #include "accel/tcg/cpu-loop.h"
+#include "accel/tcg/probe.h"
+#include "system/address-spaces.h"
+#include "exec/memop.h"
+#include "exec/tlb-flags.h"
+#include "system/memory.h"
 
 struct hostctx {
     CPUPDP64State *env;
@@ -23,13 +30,34 @@ static G_NORETURN void do_fault(struct hostctx *h, const char *what,
     cpu_loop_exit_restore(env_cpu(h->env), h->ra);
 }
 
+G_NORETURN void pdp64_raise(CPUPDP64State *env, int vector, uint64_t eva,
+                            const char *what, uintptr_t ra)
+{
+    CPUState *cs = env_cpu(env);
+
+    if (env->c.deliver) {
+        env->ex_vector = vector;
+        env->ex_eva = eva;
+        cs->exception_index = EXCP_PDP64_ABORT;
+    } else {
+        env->fault_what = what;
+        env->fault_addr = eva;
+        cs->exception_index = EXCP_PDP64_FAULT;
+    }
+    cpu_loop_exit_restore(cs, ra);
+}
+
 static void check(struct hostctx *h, uint64_t a, int size)
 {
     if (size > 1 && (a & (size - 1))) {
-        do_fault(h, "misaligned data access", a);
+        pdp64_raise(h->env, VECTOR_MISALIGNED, a, "misaligned data access",
+                    h->ra);
     }
-    if (!pdp64_mapped(h->env, a, size)) {
-        do_fault(h, "access to unmapped memory", a);
+    /* the legacy machine has RAM and nothing else; the kernel-mode machine
+       has a bus (an unassigned address is a bus fault: tlb_fill, do_transaction_failed) */
+    if (!h->env->c.deliver && !pdp64_mapped(h->env, a, size)) {
+        pdp64_raise(h->env, VECTOR_BUSFAULT, a, "access to unmapped memory",
+                    h->ra);
     }
 }
 
@@ -107,42 +135,116 @@ static void h_halt(void *u)
     pdp64_stop(h->env, h->env->c.r[0] & 255);
 }
 
+/* prober / probew: may the code in this mode read (write) the address? */
 static int h_probe(void *u, uint64_t a, int write, int mode)
 {
     struct hostctx *h = u;
+    void *host;
+    int idx;
 
-    return pdp64_mapped(h->env, a, 1);
+    if (!h->env->c.deliver) {
+        return pdp64_mapped(h->env, a, 1);
+    }
+    idx = pdp64_mmu_idx_mode(h->env, mode);
+    return !(probe_access_flags(h->env, a, 1,
+                                write ? MMU_DATA_STORE : MMU_DATA_LOAD, idx,
+                                true, &host, 0) & TLB_INVALID_MASK);
 }
 
+/* one parcel of an instruction: through the instruction-fetch path of the MMU */
 static uint64_t h_fetch(void *u, uint64_t a)
 {
-    return h_ld(u, a, 2);
+    struct hostctx *h = u;
+
+    if (!h->env->c.deliver) {
+        return h_ld(u, a, 2);
+    }
+    if (a & 1) {
+        pdp64_raise(h->env, VECTOR_MISALIGNED, a, "misaligned fetch", h->ra);
+    }
+    return cpu_ldw_code_mmu(h->env, a,
+        make_memop_idx(MO_LEUW,
+                       pdp64_mmu_idx_mode(h->env, pdp64_mode(&h->env->c))),
+        h->ra);
 }
 
+/* the vector table is read at a physical address */
 static int h_vecread(void *u, uint64_t pa, uint64_t *v)
 {
-    return 1;                   /* no vector table without kernel mode */
+    MemTxResult res;
+
+    *v = address_space_ldq_le(&address_space_memory, pa,
+                              MEMTXATTRS_UNSPECIFIED, &res);
+    return res != MEMTX_OK;
 }
 
 static void h_tlb(void *u, int op, uint64_t a)
 {
+    struct hostctx *h = u;
+
+    if (op == PDP64_TLB_PAGE) {
+        tlb_flush_page(env_cpu(h->env), a);
+    } else {
+        tlb_flush(env_cpu(h->env));
+    }
 }
 
 static G_NORETURN void h_raise(void *u, int vector, uint64_t eva)
 {
-    do_fault(u, "exception", eva);
+    struct hostctx *h = u;
+
+    pdp64_raise(h->env, vector, eva, "exception", h->ra);
 }
 
-void helper_exec(CPUPDP64State *env)
+static void make_env(struct pdp64_env *e, struct hostctx *h)
+{
+    *e = (struct pdp64_env){ h_ld, h_st, h_fault, h_trap, h_halt, h_probe,
+                             h_fetch, h_vecread, h_tlb, h_raise, h };
+}
+
+static void init_core(void)
 {
     static bool inited;
-    struct hostctx h = { env, GETPC() };
-    struct pdp64_env e = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch,
-                           h_vecread, h_tlb, h_raise, &h };
 
     if (!inited) {
         pdp64_init();
         inited = true;
     }
+}
+
+void helper_exec(CPUPDP64State *env)
+{
+    struct hostctx h = { env, GETPC() };
+    struct pdp64_env e;
+    CPUState *cs = env_cpu(env);
+
+    init_core();
+    make_env(&e, &h);
     pdp64_step(&env->c, &e);
+    if (env->c.wait) {          /* wfe: sleep until an interrupt is taken */
+        cs->halted = 1;
+        cs->exception_index = EXCP_HLT;
+        cpu_loop_exit(cs);
+    }
+}
+
+/* the host unwound with an abort: the core undoes the instruction and enters */
+void pdp64_enter_abort(CPUPDP64State *env)
+{
+    struct hostctx h = { env, 0 };
+    struct pdp64_env e;
+
+    init_core();
+    make_env(&e, &h);
+    pdp64_exception(&env->c, &e, env->ex_vector, env->ex_eva);
+}
+
+bool pdp64_take_interrupt(CPUPDP64State *env, int level, int vector)
+{
+    struct hostctx h = { env, 0 };
+    struct pdp64_env e;
+
+    init_core();
+    make_env(&e, &h);
+    return pdp64_interrupt(&env->c, &e, level, vector);
 }

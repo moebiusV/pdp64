@@ -25,6 +25,7 @@ struct pdp64_cpu {
 	int wait;				/* wfe executed: the host stops running instructions until an interrupt is taken */
 	int entered;				/* an exception was entered by this instruction */
 	int progress;				/* the instruction in progress is a block operation: an abort keeps its register progress */
+	int snap_valid;				/* an instruction is in progress (snap is its starting state); 0 for a fault before any instruction ran, e.g. in the translation of the fetch: EPC is then pc */
 	struct { uint64_t r[16], pc, dp, fpsr; int fN, fZ, fV, fC; } snap;	/* the state at the start of the instruction, for precise aborts (kept only when deliver is on) */
 };
 
@@ -54,7 +55,7 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e);
 
 unsigned pdp64_psw(const struct pdp64_cpu *c);	/* the whole PSW: flags and the rest */
 void pdp64_set_psw(struct pdp64_cpu *c, unsigned psw);	/* load a PSW (valid bits only), switching the r14 and DP banks if the mode changes; the mode must not be the reserved 2 */
-/* an abort (the host unwound with raise, or a fault in a hook): undo the partial effects of the instruction and enter the exception.  eva: the faulting address */
+/* an abort (the host unwound with raise, or a fault in a hook): undo the partial effects of the instruction in progress (if any) and enter the exception.  eva: the faulting address */
 void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector, uint64_t eva);
 /* an interrupt request of this level and vector, between two instructions: taken (1) if the level is above the priority, else not (0) */
 int pdp64_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e, int level, int vector);

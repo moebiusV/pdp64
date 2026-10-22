@@ -27,8 +27,6 @@ def PDP64InstPrinter : AsmWriter {
 }
 
 def PDP64AsmParser : AsmParser {
-  // the parser reads the operands itself (their syntax is not token-shaped), the matcher only sees their classes
-  bit ShouldEmitMatchRegisterName = 0;
   bit HasMnemonicFirst = 1;
 }
 

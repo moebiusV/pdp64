@@ -20,12 +20,24 @@
 #include "elf.h"
 #include "target/pdp64/cpu.h"
 
-#define PDP64_DEV_BASE 0x10000000ULL
+#define TYPE_PDP64_VIRT_MACHINE MACHINE_TYPE_NAME("pdp64-virt")
+
+typedef struct PDP64VirtState {
+    MachineState parent;
+
+    bool kernel_mode;
+} PDP64VirtState;
+
+DECLARE_INSTANCE_CHECKER(PDP64VirtState, PDP64_VIRT_MACHINE,
+                         TYPE_PDP64_VIRT_MACHINE)
+
+#define PDP64_DEV_BASE MAP_DEV
 
 static void pdp64_virt_init(MachineState *machine)
 {
     MemoryRegion *sysmem = get_system_memory();
     PDP64CPU *cpu;
+    PDP64VirtState *vs = PDP64_VIRT_MACHINE(machine);
     uint64_t entry = 0;
 
     if (machine->ram_size > PDP64_DEV_BASE) {
@@ -36,6 +48,7 @@ static void pdp64_virt_init(MachineState *machine)
 
     cpu = PDP64_CPU(cpu_create(machine->cpu_type));
     cpu->env.ram_size = machine->ram_size;
+    cpu->env.kernel_mode = vs->kernel_mode;
 
     if (machine->kernel_filename) {
         uint64_t low, high;
@@ -50,13 +63,32 @@ static void pdp64_virt_init(MachineState *machine)
         }
     }
     cpu->env.entry = entry;
-    cpu->env.initial_sp = machine->ram_size - 4096;
+    /* kernel-mode: the kernel bank's stack pointer is the top of RAM; otherwise a user program's, a page below */
+    cpu->env.initial_sp = vs->kernel_mode ? machine->ram_size : machine->ram_size - 4096;
     cpu_reset(CPU(cpu));
+}
+
+static bool pdp64_virt_get_kernel_mode(Object *obj, Error **errp)
+{
+    return PDP64_VIRT_MACHINE(obj)->kernel_mode;
+}
+
+static void pdp64_virt_set_kernel_mode(Object *obj, bool value, Error **errp)
+{
+    PDP64_VIRT_MACHINE(obj)->kernel_mode = value;
 }
 
 static void pdp64_virt_class_init(ObjectClass *oc, const void *data)
 {
     MachineClass *mc = MACHINE_CLASS(oc);
+
+    /* (the property "kernel" is the machine's -kernel file name) */
+    object_class_property_add_bool(oc, "kernel-mode",
+                                   pdp64_virt_get_kernel_mode,
+                                   pdp64_virt_set_kernel_mode);
+    object_class_property_set_description(oc, "kernel-mode",
+        "System v1: start in kernel mode at priority 7 with exceptions "
+        "delivered through the vector table and no system-call stand-in");
 
     mc->desc = "pdp64 virtual machine (RAM at 0, no MMU)";
     mc->init = pdp64_virt_init;
@@ -68,8 +100,9 @@ static void pdp64_virt_class_init(ObjectClass *oc, const void *data)
 }
 
 static const TypeInfo pdp64_virt_type = {
-    .name = MACHINE_TYPE_NAME("pdp64-virt"),
+    .name = TYPE_PDP64_VIRT_MACHINE,
     .parent = TYPE_MACHINE,
+    .instance_size = sizeof(PDP64VirtState),
     .class_init = pdp64_virt_class_init,
 };
 

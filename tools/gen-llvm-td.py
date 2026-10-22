@@ -102,7 +102,7 @@ def up(s):
 
 
 # --------------------------------------------------------------------------------------------------------------------
-# the vocabulary of forms (TSFlags{3-0}); the .td classes and the C++ share these numbers
+# the vocabulary of forms (TSFlags{4-0}); the .td classes and the C++ share these numbers
 
 # mode letters of the memory-operand forms, in the order of the amode rule
 AMODES = {l: v for l, v in items('amode')}
@@ -128,7 +128,7 @@ def hdr(comment):
 
 def consts_td():
     t = hdr('//')
-    t += '// The opcodes of the top-level groups, the addressing modes, the length codes and the forms (TSFlags{3-0}).\n'
+    t += '// The opcodes of the top-level groups, the addressing modes, the length codes and the forms (TSFlags{4-0}).\n'
     for rule in ('opgroup', 'amode', 'lencode', 'movstore'):
         for l, v in items(rule):
             t += 'defvar %s_%s = %d;\n' % (up(rule), up(l), v)
@@ -341,7 +341,7 @@ def tables_inc():
     # page 2: the rows of common/p2.c with their numbers
     t += '// page 2 (common/p2.c): P2ROW(opcode, page-1 opcode, reg field or FIELD, mode, rm or FIELD/NONE, dsrc, scale, idx)\n#ifdef PDP64_P2_TABLE\n'
     dsrc = {'D_ZERO': 0, 'D_LOW': 1, 'D_LOWHI': 2, 'D_SLOW': 3, 'D_STEP': 4, 'D_BYTE': 5}
-    for name, opc, reg, mode, rm, ds, scale, idx in P2:
+    for name, opc, reg, mode, rm, ds, scale, idx in sorted(P2, key=lambda r: const('P2OP_' + r[0])):
         def num(x):
             return {'FIELD': -1, 'NONE': -2}[x] if x in ('FIELD', 'NONE') else const(x)
         t += 'PDP64_P2ROW(%d, %d, %d, %d, %d, %d, %d, %d)\n' % (const('P2OP_' + name), num(opc), num(reg), num(mode), num(rm), dsrc[ds], int(scale), int(idx))
