@@ -1,0 +1,95 @@
+"# pdp64 only, 827 fair-corpus files, after errata 34 (rori32 sign-extends; wide-immediate cbCC); references are the fixed per-file gcc -Os and clang -Os numbers; bytes = text + rodata + data"
+corpus,files,pdp64_ins,pdp64_bytes,gcc-Os_ins,gcc-Os_bytes,clang-Os_ins,clang-Os_bytes,ins/gcc,bytes/gcc,ins/clang,bytes/clang
+bearssl,294,53825,183211,44536,202004,50161,218622,1.209,0.907,1.073,0.838
+c-testsuite,213,4690,18738,3339,15148,3922,18220,1.405,1.237,1.196,1.028
+chibicc,8,14341,61382,14833,75019,16615,82351,0.967,0.818,0.863,0.745
+cjson,2,4543,13440,4490,14703,5173,17745,1.012,0.914,0.878,0.757
+gcc-torture,158,82835,504161,55872,412008,59192,450373,1.483,1.224,1.399,1.119
+lua,34,38748,131984,38540,157421,40713,164118,1.005,0.838,0.952,0.804
+lz4,5,10677,31986,8291,32733,11579,45380,1.288,0.977,0.922,0.705
+mbedtls,101,117904,500548,103566,542316,108757,557531,1.138,0.923,1.084,0.898
+zlib,12,11124,54222,8862,51187,10016,56515,1.255,1.059,1.111,0.959
+ALL,827,338687,1499672,282329,1502539,306128,1610855,1.200,0.998,1.106,0.931
+
+step,instructions,bytes,ins/gcc-Os,bytes/gcc-Os,ins/clang-Os,bytes/clang-Os
+"before: after the first cbCC, rori32, =K (previous round)",350466,1501592,1.241,0.999,1.145,0.932
+rori32 sign-extends: no movl after it,350422,1501500,1.241,0.999,1.145,0.932
+"wide cbCC for cmp rX,#imm16 ; bCC",338687,1499672,1.200,0.998,1.106,0.931
+
+instruction length (bytes),instructions,share
+2,194783,57.5%
+4,91246,26.9%
+6,52658,15.5%
+average bytes per instruction,3.161
+
+count (static),value
+"cbCC, all",26460
+cbCC with an immediate outside -16..15 (the wide form),11821
+"cmp rX,#imm ; bCC pairs left (immediate beyond 16 bits)",644
+"cmp reg,reg ; bCC pairs (no fused form exists)",4714
+"cmp reg,mem ; bCC pairs",5356
+tst ; bCC pairs left,0
+rori32,970
+"functions over 9,000 instructions (no wide cbCC)",0
+
+form (length mnemonic operand forms),count
+"2 movq reg,reg",46042
+6 call pcrel,22167
+"2 movq base,reg",14395
+2 br pcrel,14156
+"6 lea pcrel,reg",12817
+"4 movq imm,reg",9904
+2 clr reg,9568
+4 call pcrel,9421
+"2 movl base,reg",8957
+2 inc reg,8806
+"4 lea base,reg",8737
+"4 movzb index,reg",8712
+2 ret ,7983
+"2 movq imm,reg",7726
+"4 lea pcrel,reg",7172
+"2 add reg,reg",6399
+"6 cbeq reg,imm,pcrel",6358
+"4 cbeq reg,imm,pcrel",5790
+"2 movq reg,base",5558
+"4 cbne reg,imm,pcrel",5355
+"4 movq base,reg",5174
+2 beq pcrel,4764
+"2 cmp reg,reg",4685
+"4 movl base,reg",4538
+"6 cblt reg,imm,pcrel",4188
+"2 movl reg,base",4178
+"2 lea base,reg",3674
+"2 movzl reg,reg",3580
+"2 movl reg,reg",3399
+"2 add imm,reg",3270
+2 push reg,2894
+"2 xor reg,reg",2812
+2 pop reg,2744
+"4 cblt reg,imm,pcrel",2733
+"2 shl imm,reg",2495
+2 pushm imm,2393
+2 popm imm,2393
+"4 movzb base,reg",2176
+2 bne pcrel,2054
+4 br pcrel,1933
+"2 bis reg,reg",1867
+"4 movq reg,base",1839
+"2 sub imm,reg",1778
+"2 mul reg,reg",1765
+"2 sub reg,reg",1741
+"4 movl reg,base",1661
+"4 movb reg,base",1377
+"2 movzb reg,reg",1310
+"2 shr imm,reg",1299
+"4 and imm,reg",1241
+"6 and imm,reg",1091
+"4 shr imm,reg",1033
+"2 and reg,reg",992
+"4 rori32 reg,imm,reg",970
+4 clr base,939
+2 dec reg,881
+"4 movl index,reg",871
+"2 movzb base,reg",772
+"4 movzl base,reg",713
+"6 cbne reg,imm,pcrel",677
