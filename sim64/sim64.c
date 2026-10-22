@@ -162,7 +162,7 @@ static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_map
 static void step(void)
 {
 	if (trace) {
-		int len = (int)(ld(cpu.pc, 2) >> 14);
+		int len = pdp64_insn_parcels((uint16_t)ld(cpu.pc, 2)) - 1;
 		fprintf(stderr, "%08llx:", (unsigned long long)cpu.pc);
 		for (int i = 0; i <= len; i++) fprintf(stderr, " %04x", (unsigned)ld(cpu.pc + 2 * i, 2));
 		fprintf(stderr, "\n");

@@ -25,7 +25,10 @@ _start:
 	cmp	r2, #-1698898192		; register source: movl low long 0x9ABCDEF0
 	bne	f5
 	movzl	r1, r2
-	cmp	r2, #2596069104		; register source: movzl 
+	movq	#39612, r12
+	shl	#16, r12
+	bis	#57072, r12
+	cmp	r2, r12		; register source: movzl 
 	bne	f6
 	movq	r1, r2
 	cmp	r2, r1		; movq copies all 64 bits
@@ -100,11 +103,17 @@ _start:
 	cmp	r2, #-2147483648		; boundary 0x80000000 movl
 	bne	f18
 	movzl	r3, r2
-	cmp	r2, #2147483648		; boundary 0x80000000 movzl
+	movq	#32768, r12
+	shl	#16, r12
+	bis	#0, r12
+	cmp	r2, r12		; boundary 0x80000000 movzl
 	bne	f19
 	movq	r1, r2
 	movzl	r2, r2
-	cmp	r2, #2596069104		; movzl r,r clears the upper half
+	movq	#39612, r12
+	shl	#16, r12
+	bis	#57072, r12
+	cmp	r2, r12		; movzl r,r clears the upper half
 	bne	f20
 	movq	r1, r2
 	movl	r2, r2
@@ -148,7 +157,10 @@ _start:
 	bne	f30
 	lea	pat, r5
 	movzl	0(r5), r2
-	cmp	r2, #2596069104		; memory source: movzl at +0
+	movq	#39612, r12
+	shl	#16, r12
+	bis	#57072, r12
+	cmp	r2, r12		; memory source: movzl at +0
 	bne	f31
 	lea	pat, r5
 	movzl	4(r5), r2
@@ -173,10 +185,16 @@ _start:
 	cmp	r2, #-3		; immediate source: movl #-3
 	bne	f38
 	movzl	#-3, r2
-	cmp	r2, #4294967293		; immediate source: movzl #-3
+	movq	#65535, r12
+	shl	#16, r12
+	bis	#65533, r12
+	cmp	r2, r12		; immediate source: movzl #-3
 	bne	f39
 	movzl	#-1, r2
-	cmp	r2, #4294967295		; immediate source: movzl #-1
+	movq	#65535, r12
+	shl	#16, r12
+	bis	#65535, r12
+	cmp	r2, r12		; immediate source: movzl #-1
 	bne	f40
 	lea	out, r5
 	movq	#-1, r6

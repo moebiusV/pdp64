@@ -82,9 +82,11 @@ _start:
 	shl	#0, r1
 	cmp	r1, #12345
 	bne	f21
-	movq	#0x123456789ABC, r1
+	movq	#0x1234, r1
+	shl	#32, r1
+	bis	#0x56789ABC, r1
 	shr	#32, r1
-	cmp	r1, #4660		; a 48-bit immediate
+	cmp	r1, #4660		; the high half of a value made of a 16-bit and a 32-bit immediate
 	bne	f22
 	movq	#0, r0
 	trap	#0

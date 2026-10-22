@@ -20,6 +20,7 @@ struct pdp64_env {
 	void *u;
 };
 
+int pdp64_insn_parcels(uint16_t parcel0);	/* the length in parcels of the instruction whose first parcel this is (a page-2 instruction is one) */
 void pdp64_init(void);				/* once, before the first step */
 void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e);
 #endif

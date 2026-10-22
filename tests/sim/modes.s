@@ -59,7 +59,10 @@ _start:
 	cmp	r1, #-1
 	bne	f17
 	movzl	44(r2), r1
-	cmp	r1, #4294967295
+	movq	#65535, r12
+	shl	#16, r12
+	bis	#65535, r12
+	cmp	r1, r12
 	bne	f18
 	movq	#77, r1
 	movq	r1, 8(r2)
@@ -76,7 +79,9 @@ _start:
 	movl	#0, r1
 	movl	r1, 48(r2)
 	movq	48(r2), r3
-	cmp	r3, #-4294967296		; a long store leaves the other half
+	movq	#-1, r12
+	shl	#32, r12
+	cmp	r3, r12		; a long store leaves the other half (-4294967296)
 	bne	f21
 	mtdp	r2
 	movq	8(dp), r3
@@ -85,8 +90,14 @@ _start:
 	movq	#-5, r1
 	cmp	r1, #-5		; immediate sign-extended
 	bne	f23
-	movq	#0x123456789ABC, r1
-	cmp	r1, #20015998343868
+	movq	#0x1234, r1		; a 48-bit value built from pieces: an immediate is 32 bits
+	shl	#32, r1
+	bis	#0x56789ABC, r1
+	movq	#0x1234, r12
+	shl	#32, r12
+	movq	#0x56789ABC, r11
+	bis	r11, r12
+	cmp	r1, r12
 	bne	f24
 	movq	#0, r0
 	trap	#0

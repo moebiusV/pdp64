@@ -9,6 +9,8 @@ python3 tools/check-drift.py
 tools/export-pcc-headers.sh --check
 tools/check-ld64.sh
 tools/check-sim64.sh
+tools/check-p2.sh
+tools/check-p2.sh --mutate
 if [ -x "${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64}" ]; then
 	tools/check-qemu.sh
 else
