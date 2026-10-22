@@ -4,7 +4,8 @@
 # and run it under sim64: prints what `int test()` returns.
 #
 # usage: [PDP64CCOM=/path/to/ccom] pdp64test.sh [ccom flags] x.c     (default ccom: build/pcc/ccom, made by tools/build-pcc.sh)
-# uses this tree's build/as64, ld64 and sim64.
+# uses this tree's build/as64, ld64 and sim64; with PDP64RUN=qemu it runs the program under qemu-system-pdp64 -M pdp64-virt
+# instead (PDP64_QEMU overrides the binary, default ~/claude/qemu-build/qemu-system-pdp64).
 #
 set -eu
 ccom=${PDP64CCOM:-}
@@ -65,4 +66,7 @@ $ccom "$tmp/main.c" "$tmp/main.s" 2>/dev/null || { $cpp "$tmp/main.c" > "$tmp/ma
 if [ $nomemcpy = 1 ]; then awk '/^\t.globl\tmemcpy/{skip=6} skip>0{skip--; next} {print}' "$tmp/crt.s" > "$tmp/crt2.s" && mv "$tmp/crt2.s" "$tmp/crt.s"; fi
 for f in t main crt; do "$P/as64" -o "$tmp/$f.o" "$tmp/$f.s"; done
 "$P/ld64" -o "$tmp/t.x" "$tmp/crt.o" "$tmp/main.o" "$tmp/t.o"
+if [ "${PDP64RUN:-sim64}" = qemu ]; then
+	exec ${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64} -M pdp64-virt -display none -monitor none -serial none -nodefaults -kernel "$tmp/t.x"
+fi
 "$P/sim64" "$tmp/t.x"

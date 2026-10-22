@@ -9,3 +9,8 @@ python3 tools/check-drift.py
 tools/export-pcc-headers.sh --check
 tools/check-ld64.sh
 tools/check-sim64.sh
+if [ -x "${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64}" ]; then
+	tools/check-qemu.sh
+else
+	echo "check-qemu: skipped (no qemu-system-pdp64; see qemu/README.md)"
+fi
