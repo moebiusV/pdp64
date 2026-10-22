@@ -2,6 +2,8 @@
 
 [← pdp64 index](../README.md)
 
+> Update 2026-10-22: the figures below are from before the second page and the compiler work that followed. After them the compiler is level with `gcc -Os` in bytes (0.999) and 7% smaller than `clang -Os`; see `CHANGES-SINCE-R20.md` §12 and `codegen-data/pdp64-after-compiler.csv`.
+
 **Note (2026-10-22):** the instruction-length statistics here (and the 2/4/6/8-byte distribution) predate the second page and the removal of the fourth parcel (ISA §4.18, errata 31); this document records the compiler's output before that change.
 
 **Status: draft, 2026-10-22.** This document reports what the pcc back end for pdp64 produces on real C, how that compares with gcc and clang on amd64,

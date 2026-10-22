@@ -488,6 +488,28 @@ the estimate: `(rn)` loads and stores 12,941 (9,089), `lea` from `sp` 3,674 (3,6
 `sub`/`add` on `sp` 3,567 (3,561), four-bit immediates 13,447 (11,622). `cbCC` and `rori32` contribute nothing yet: the compiler does not emit them. Corrections found by the tests: the offsets of opcodes `0x1A`
 to `0x1D` are 4, 8, 12, 16 (the formula of the specification was wrong). Per-file numbers are in `docs/codegen-data/`.
 
+**Compiler work on the second page (2026-10-22), measured.** Same 827 files, same byte metric, references fixed (`gcc -Os` 282,329 instructions and 1,502,539 bytes; `clang -Os` 306,128 and 1,610,855);
+all 504 C tests pass under `sim64` and under QEMU:
+
+| Step | Instructions | Bytes | Bytes / `gcc -Os` | Bytes / `clang -Os` |
+|---|---|---|---|---|
+| before the second page (compiler of the first round) | 370,115 | 1,672,166 | 1.113 | 1.038 |
+| second-page assembler, compiler unchanged | 370,115 | 1,548,484 | 1.031 | 0.961 |
+| `lea d(rX),rX` becomes `inc`, `dec` or `add #d` when the flags are dead | 370,115 | 1,528,818 | 1.017 | 0.949 |
+| wide constants as the explicit `=K` | 369,376 | 1,526,252 | 1.016 | 0.947 |
+| `cmp rX,#imm ; bCC` and `tst rX ; bCC` become `cbCC` | 354,670 | 1,511,120 | 1.006 | 0.938 |
+| `rori32` for unsigned 32-bit rotates by constants | 350,459 | 1,502,024 | 1.000 | 0.932 |
+| `br L` to a bare `ret` becomes `ret` | **350,466** | **1,501,592** | **0.999** | **0.932** |
+
+The compiler is now **level with `gcc -Os` in bytes (0.999) and 7% smaller than `clang -Os`**, with 1.24 times the instructions of `gcc -Os` and 1.14 times those of `clang -Os`. Emitted in the output (static counts): `cbCC` 14,717;
+`rori32` 970; `inc` 8,806; `dec` 881; `=K` 335. Instruction lengths 2 / 4 / 6 bytes = 58.7 / 29.7 / 11.7 %, no 8-byte instructions, **3.06 bytes per instruction** (3.36 before the second page). Data: `docs/codegen-data/pdp64-after-compiler.csv`.
+What did not pay: a `.pool` after each function (372 bytes worse than one pool at the end of `.text`, because literals stop being shared); getting the frame into the short `sp` forms (about 4,400 accesses are still long, up to 8.8 KB, but it needs
+object boundaries in the frame that pass 1 does not give the back end).
+
+**New open items from the compiler work.** (1) A wider-immediate `cbCC` (a 6-byte form with a 16-bit immediate): 11,821 `cmp reg,imm` remain unfused, mostly with immediates outside -16..15 (`#255`, `#47`).
+(2) `rori32` zero-extends while the compiler keeps unsigned 32-bit values sign-extended, so each rotate costs a `movl` unless later code looks only at the low 32 bits (it does in hash code); whether `rori32` should sign-extend is
+a convention question. (3) Aligning address-taken locals to 8 bytes would make 1,247 `lea` of locals short: needs a hook in pass 1.
+
 **A deviation, resolved.** To keep the C tests passing without a compiler change, the first implementation pooled a constant wider than 32 bits silently, which contradicted the rule that one mnemonic assembles to one instruction (ISA §4.14). **Decided by the author (errata 33): the pooling is explicit sugar, `movq =K, rd`; a bare too-wide `#K` is an error.** The assembler has the `=` form and the `.pool` directive; the compiler emits `=K` for such constants.
 
 The author chose option C with the explicit map (C1), asked for further candidates to be searched for, and asked for the fused compare-and-branch and the 32-bit rotate to be added. This is the specification.
