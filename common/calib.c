@@ -30,7 +30,7 @@ static int try_rt(const struct fmt *f)
 
 void calibrate(void)
 {
-	static const int shapes[] = { FS_BASE, FS_INDEX, FS_DP, FS_WIDE, FS_D, FS_CB, FS_CBW };
+	static const int shapes[] = { FS_BASE, FS_INDEX, FS_DP, FS_WIDE, FS_D, FS_CB, FS_CBW, FS_CBR };
 	struct fmt f;
 
 	for (maxlen = 0; maxlen < 8; maxlen++) {
@@ -56,7 +56,7 @@ void calibrate(void)
 	for (int m = 0; m < (1 << lowbits); m++)
 		for (unsigned k = 0; k < sizeof shapes / sizeof *shapes; k++) {
 			memset(&f, 0, sizeof f); f.len = 1; f.opc = MN_MOV_MOVQ; f.low = m; f.shape = shapes[k];
-			if (shapes[k] == FS_D || shapes[k] == FS_CB || shapes[k] == FS_CBW) continue;
+			if (shapes[k] == FS_D || shapes[k] == FS_CB || shapes[k] == FS_CBW || shapes[k] == FS_CBR) continue;
 			if (try_enc(&f)) { mode_shape[m] = shapes[k]; break; }
 		}
 	for (unsigned k = 0; k < sizeof shapes / sizeof *shapes; k++)
@@ -66,6 +66,7 @@ void calibrate(void)
 			if (shapes[k] == FS_D) f.opc = MN_BRANCH_BR;
 			else if (shapes[k] == FS_CB) f.opc = OPGROUP_CBR;
 			else if (shapes[k] == FS_CBW) f.opc = OPGROUP_CBW;
+			else if (shapes[k] == FS_CBR) f.opc = OPGROUP_CBRR;
 			else {
 				f.opc = MN_MOV_MOVQ;
 				for (int m = 0; m < (1 << lowbits); m++) if (mode_shape[m] == shapes[k]) { mode = m; break; }
@@ -89,4 +90,5 @@ int dispbits(int mode, int len) { return fieldbits[mode_shape[mode]][len]; }
 int branchbits(int len) { return fieldbits[FS_D][len]; }
 int cbbits(int len) { return fieldbits[FS_CB][len]; }
 int cbwbits(int len) { return fieldbits[FS_CBW][len]; }
+int cbrbits(int len) { return fieldbits[FS_CBR][len]; }
 

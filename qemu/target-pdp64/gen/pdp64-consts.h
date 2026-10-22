@@ -317,6 +317,7 @@
 #define OPGROUP_TAG                  21
 #define OPGROUP_CBR                  40
 #define OPGROUP_CBW                  41
+#define OPGROUP_CBRR                 42
 #define OPGROUP_SOB                  63
 #define P2OP_LD_Q                    0
 #define P2OP_ST_Q                    1

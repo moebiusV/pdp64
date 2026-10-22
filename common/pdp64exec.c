@@ -422,6 +422,12 @@ static void step(void)
 		if (cond(f.low)) pc = start + 2 * d;
 		return;
 	}
+	if (opc == OPGROUP_CBRR) {							/* cbCC ra,rb,target: cmp ra,rb, then the branch */
+		int64_t d = sext(f.d, cbrbits(len));
+		sub_f(r[f.reg], r[f.low], 0);
+		if (cond(f.x)) pc = start + 2 * d;
+		return;
+	}
 	if (opc == OPGROUP_SOB) {
 		int64_t d = sext(f.d, branchbits(len));
 		if (--r[f.reg] != 0) pc = start + 2 * d;

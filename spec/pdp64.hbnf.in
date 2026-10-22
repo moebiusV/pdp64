@@ -71,4 +71,7 @@ insn = len:2 opc:6 reg:4 low:4 body:(
 
     ; --- the wide-immediate cbCC (six bytes): low is the condition; parcel 1 is the signed 16-bit immediate, parcel 2 the signed 16-bit displacement in parcels
     | ?(len == 2 && opc == @OPGROUP_CBW@)                           imm:16 d:16
+
+    ; --- the register-register cbCC: reg is ra, low is rb; parcel 1 starts with the condition (as for `set`), then the displacement in parcels (12 bits, or 28 at len 2)
+    | ?(@LEN1@ && opc == @OPGROUP_CBRR@)                            cond:4 d:bits(12 + 16 * (len - 1))
   )

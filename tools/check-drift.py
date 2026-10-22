@@ -116,10 +116,11 @@ def numbers(rule, below=None):
     return {n for w, n in en[rule] if below is None or n < below}
 assigned = (numbers('mn-mov') | numbers('movstore') | numbers('mn-movz') | numbers('mn-alu', 64) | numbers('mn-branch', 64) | set(OPG.values()))
 bad_map = []
-if len(assigned) != 57: bad_map.append('%d top-level opcodes assigned, ISA 4.16 as corrected says 55, errata 31 adds cbCC (0x28) and errata 34 the wide cbCC (0x29)' % len(assigned))
+if len(assigned) != 58: bad_map.append('%d top-level opcodes assigned, ISA 4.16 as corrected says 55, errata 31 adds cbCC (0x28), errata 34 the wide cbCC (0x29), errata 35 the register-register cbCC (0x2A)' % len(assigned))
 free = set(range(64)) - assigned
-if free != {0x23} | set(range(0x2A, 0x30)): bad_map.append('unassigned opcodes are %s, expected 0x23 and 0x2A-0x2F' % sorted(hex(x) for x in free))
+if free != {0x23} | set(range(0x2B, 0x30)): bad_map.append('unassigned opcodes are %s, expected 0x23 and 0x2B-0x2F' % sorted(hex(x) for x in free))
 if OPG['cbr'] != 0x28: bad_map.append('cbCC is not top-level opcode 0x28')
+if OPG['cbrr'] != 0x2A: bad_map.append('the register-register cbCC is not top-level opcode 0x2A')
 if OPG['cbw'] != 0x29: bad_map.append('the wide cbCC is not top-level opcode 0x29')
 if [OPG[k] for k in ('besc', 'mblk', 'aesc', 'mesc', 'fesc', 'atom')] != list(range(0x0C, 0x12)): bad_map.append('the parcel-1 escapes are not contiguous at 0x0C-0x11 (ISA 4.3.1)')
 if [OPG[k] for k in ('xfer', 'sop', 'sys')] != [0x12, 0x13, 0x14]: bad_map.append('XFER, SOP and SYS are not adjacent at 0x12-0x14 (ISA 4.3.1)')
@@ -197,6 +198,13 @@ for word, num in en['mn-cbranch']:
     w = asm_words('%s r3, #1000, l\nl:' % word)
     want = [0x8000 | OPG['cbw'] << 8 | 3 << 4 | num, 1000, 3]
     if w != want: bad += 1; print('DRIFT cbw %s: assembles to %s, expected %s' % (word, w, ['%04x' % x for x in want]))
+# --- the register-register cbCC: opcode 0x2A, ra in reg, rb in low, the condition in the top nibble of parcel 1 ---
+for word, num in en['mn-cbranch']:
+    if num >= ALIAS: continue
+    checked += 1
+    w = asm_words('%s r3, r4, l\nl:' % word)
+    want = [0x4000 | OPG['cbrr'] << 8 | 3 << 4 | 4, num << 12 | 2]
+    if w != want: bad += 1; print('DRIFT cbr %s: assembles to %s, expected %s' % (word, w, ['%04x' % x for x in want]))
 LENCODE = dict(en['lencode'])
 for name, num in P2:
     checked += 1

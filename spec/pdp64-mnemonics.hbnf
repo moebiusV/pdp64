@@ -336,6 +336,7 @@ opgroup = "lea"@0b001011
         | "sys"@0b010100
         | "tag"@0b010101
         | "cbr"@0b101000
+        | "cbrr"@0b101010     ; cbCC ra,rb,label: compare two registers and branch (4 or 6 bytes)
         | "cbw"@0b101001      ; cbCC with a 16-bit immediate and a 16-bit displacement (six bytes only)
         | "sob"@0b111111
 

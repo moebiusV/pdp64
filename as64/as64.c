@@ -407,6 +407,7 @@ static void print_limits(void)
 		printf("#define PDP64_WIDE_BITS_LEN%d %d\t/* #imm, @abs, d(PC) */\n", len, dispbits(AMODE_IMM, len));
 		printf("#define PDP64_BRANCH_BITS_LEN%d %d\t/* parcels */\n", len, branchbits(len));
 		printf("#define PDP64_CB_BITS_LEN%d %d\t/* parcels, cbCC */\n", len, cbbits(len));
+		printf("#define PDP64_CBR_BITS_LEN%d %d\t/* parcels, cbCC ra,rb */\n", len, cbrbits(len));
 	}
 	printf("#define PDP64_BRANCH_BITS_LEN0 %d\t/* parcels, the two-byte branch */\n", regbits + lowbits);
 	printf("#endif\n");
@@ -644,6 +645,9 @@ static void finalize(struct ins *in, int len)
 	case FS_D:
 		f->d = in->reltype ? 0 : ((uint64_t)in->dval & mask(branchbits(len)));
 		break;
+	case FS_CBR:
+		f->d = (uint64_t)in->dval & mask(cbrbits(len));
+		break;
 	case FS_CB:
 		if (len == 1) { f->imm = (unsigned)((uint64_t)in->cbimm & mask(cbimmbits)); f->d = (uint64_t)in->dval & mask(cbbits(1)); }
 		else if (fits(in->cbimm, cbwimmbits) && fits(in->dval, cbwbits(2))) {		/* six bytes: the wide form if both fields fit it, else the long one */
@@ -751,7 +755,22 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 		int64_t imm, t, need;
 		struct val v;
 		f->opc = OPGROUP_CBR;
-		if (st->nops != 3 || o[0].kind != OK_REG || o[2].kind != OK_BARE) { err(st->line, "cbCC register, #imm, label"); return -1; }
+		if (st->nops != 3 || o[0].kind != OK_REG || o[2].kind != OK_BARE) { err(st->line, "cbCC register, #imm, label or cbCC register, register, label"); return -1; }
+		if (o[1].kind == OK_REG) {				/* cbCC ra, rb, label: opcode 0x2A, four or six bytes; the displacement has 12 or 28 bits */
+			v = eval(o[2].e, st->line);
+			if (CONST(v) || v.m >= 0) { err(st->line, "a branch target is a label"); return -1; }
+			if (!(samesec(v.p) || pending(v.p))) { err(st->line, "cbCC: the target must be a label of this section (use cmp and the branch)"); return -1; }
+			t = pending(v.p) ? 0 : syms[v.p].val + v.c - addr;
+			if (t & 1) { err(st->line, "branch to an odd address"); return -1; }
+			in->dval = t / 2;
+			if (fits(in->dval, cbrbits(1))) need = 1;
+			else if (maxlen >= 2 && fits(in->dval, cbrbits(2))) need = 2;
+			else { if (!pending(v.p)) err(st->line, "cbCC: target out of reach; use cmp and bCC"); return -1; }
+			f->opc = OPGROUP_CBRR; f->reg = o[0].reg; f->low = o[1].reg; f->x = mn; f->shape = FS_CBR;
+			in->minlen = (int)need;
+			break;
+		}
+		if (o[1].kind != OK_IMM) { err(st->line, "cbCC takes a register or an immediate as its second operand"); return -1; }
 		if (imm_const(st, 1, &imm)) return -1;
 		if (!fits(imm, cbwimmbits)) { err(st->line, "cbCC: immediate %lld does not fit %d bits; use cmp and bCC", (long long)imm, cbwimmbits); return -1; }
 		v = eval(o[2].e, st->line);
