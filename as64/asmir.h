@@ -31,6 +31,7 @@ struct stmt {
 	struct slice expr;			/* S_ASSIGN */
 	int mg, mnum;				/* S_INSN: mnemonic group and the number inside it (its encoding) */
 	int cc;					/* MG_COND: the condition word */
+	int srnum, srpos;			/* MG_SYSREG: the system register's number, and which operand it was (0 or 1; -1: no register name was written) */
 	int nops;
 	struct oper ops[MAXOPS];
 	int nargs;				/* S_DIR */

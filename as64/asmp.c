@@ -144,6 +144,27 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			operand(text, &j->operand, &st->ops[st->nops++]);
 		break;
 	}
+	case 5: {							/* mfsr rd, name; mtsr name, rs */
+		srinsn_t *si = &s->srinsn;
+		st->kind = S_INSN;
+		st->mg = MG_SYSREG;
+		st->mnum = (int)si->mn_sysreg;
+		st->srpos = -1;
+		if (si->srinsn_1._alt == 1) {
+			st->srnum = (int)si->srinsn_1.sysregw; st->srpos = 0;
+			st->nops = 1;					/* ops[0] is the name's place and stays empty */
+			operand(text, &si->srinsn_1.operand, &st->ops[st->nops++]);
+		} else if (si->srinsn_1._alt == 2) {
+			st->srnum = (int)si->srinsn_1.sysregw; st->srpos = 1;
+			operand(text, &si->srinsn_1.operand, &st->ops[st->nops++]);
+			st->nops = 2;
+		} else {
+			operand(text, &si->srinsn_1.operand, &st->ops[st->nops++]);
+			for (struct srinsn_1_1_s *j = si->srinsn_1.srinsn_1_1.head; j && st->nops < MAXOPS; j = j->_link)
+				operand(text, &j->operand, &st->ops[st->nops++]);
+		}
+		break;
+	}
 	default: {
 		st->kind = S_INSN;
 		mnemonic_t *m = &s->instruction.mnemonic;

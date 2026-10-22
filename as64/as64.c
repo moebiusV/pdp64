@@ -790,6 +790,17 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 		}
 		break;
 	}
+	case MG_SYSREG: {
+		/* mfsr rd, name / mtsr name, rs: privileged system-register moves, four bytes; the name is a word of the grammar (spec/pdp64-asm.hbnf) */
+		int ismf = mn == MN_SYSREG_MFSR, k = ismf ? 0 : 1;			/* the general register is the first operand of mfsr, the second of mtsr */
+		const char *form = ismf ? "mfsr register, name" : "mtsr name, register";
+		if (st->srpos < 0 || st->nops != 2) { err(st->line, "%s: expected a system register name (ptbr epc eva ecause dmw0 dmw1 usp ssp) and a register", form); return -1; }
+		if (st->srpos != (ismf ? 1 : 0)) { err(st->line, "%s: the system register is the %s operand", form, ismf ? "second" : "first"); return -1; }
+		if (o[k].kind != OK_REG) { err(st->line, "%s: the %s operand must be a general register", form, ismf ? "first" : "second"); return -1; }
+		if (!ismf && (st->srnum == SYSREG_EVA || st->srnum == SYSREG_ECAUSE)) { err(st->line, "mtsr: eva and ecause are read only"); return -1; }
+		f->opc = OPGROUP_SYS; f->reg = 0; f->low = mn; f->shape = FS_SYSREG; f->sub = st->srnum; f->rd = o[k].reg; f->n = 0; in->minlen = 1;
+		break;
+	}
 	case MG_COND:
 		/* set cc, rd: rd <- 1 if the condition holds, else 0.  The condition is the x field of parcel 1 (the same numbering as the branches). */
 		if (st->nops != 1 || o[0].kind != OK_REG) { err(st->line, "set cc, register"); return -1; }
