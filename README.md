@@ -20,7 +20,7 @@ accesses are naturally aligned, every instruction can be restarted after a fault
 system around the processor. Each device (Ethernet, USB, disk) is presented as eight memory-mapped registers, eight addresses in the ordinary address space, and moves
 its data by DMA. That makes a driver trivial to write and keeps the multitasking burden off the CPU, which only sets up a transfer, so that more of it is left for you
 and for the important things you are running. The architecture is the processor, the bus and the devices together; the instruction set is its stable core, and the bus ([Q64](docs/pdp64-q64-bus.md)) is specified as carefully as the instructions. The choices were checked against compiled C, not
-guessed: on 841 real source files (bearssl, mbedtls, lua, zlib and others; 827 that every compiler accepts) the first compiler's output, in code and data, is the same size as `gcc -Os` and 7% smaller than `clang -Os` on amd64, with 1.24 and 1.14 times as many (shorter) instructions.
+guessed: on 841 real source files (bearssl, mbedtls, lua, zlib and others; 827 that every compiler accepts) the first compiler's output, in code and data, is the same size as `gcc -Os` and 7% smaller than `clang -Os` on amd64, with 1.20 and 1.11 times as many (shorter) instructions.
 
 A 64-bit, little-endian, LP64 successor to the PDP-11: sixteen general registers, variable-length instructions of 2, 4 or 6 bytes in 16-bit parcels (plus a second page of one-parcel abbreviations of the common cases), the
 PDP-11's orthogonal addressing modes, and a modern base (bit counts, 64-bit divide, IEEE 754 binary64, binary32 and binary16 with exception flags, block operations,

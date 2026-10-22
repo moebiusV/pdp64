@@ -596,6 +596,23 @@ The system architecture document ([`pdp64-system-architecture.md`](pdp64-system-
 Specification: errata 34. In short: `rori32` result is sign-extended (ISA §4.6 and the earlier text of errata 31 say zero-extended: superseded); `cbCC` gains the encoding `10 0x29 rd cond | imm:16 | disp:16` (six bytes,
 reach +-64 KB) and the assembler picks the shortest of the three `cbCC` encodings. The expected effect is about 11,800 fewer instructions and about no change in bytes; the measured effect is recorded here when the work is done.
 
+**Implemented and measured (2026-10-22).** Same 827 files and byte metric; all 504 C tests pass under `sim64` and under QEMU.
+
+| Step | Instructions | Bytes | Bytes / `gcc -Os` | Bytes / `clang -Os` | Instr. / `gcc -Os` | Instr. / `clang -Os` |
+|---|---|---|---|---|---|---|
+| before (end of the previous round) | 350,466 | 1,501,592 | 0.999 | 0.932 | 1.241 | 1.145 |
+| `rori32` sign-extends: no `movl` after it | 350,422 | 1,501,500 | 0.999 | 0.932 | 1.241 | 1.145 |
+| wide-immediate `cbCC` | **338,687** | **1,499,672** | **0.998** | **0.931** | **1.200** | **1.106** |
+
+As predicted in errata 34: **the wide `cbCC` removed 11,735 instructions (3.4%) and only 1,828 bytes (0.12%)**, which fall where the branch was four bytes; sign-extending `rori32` saved 44 instructions (the demand analysis had already removed
+nearly every `movl` after a rotate). 11,821 wide `cbCC` were emitted (26,460 `cbCC` in all); 644 `cmp reg,#imm ; bCC` remain, all with an immediate beyond 16 bits. The compiler emits the wide form only in a function of at most 9,000
+instructions with the label inside it (so that every label is within the 64 KB reach); no function in the corpus was skipped (the largest has fewer than 6,000). Instruction lengths 2 / 4 / 6 bytes = 57.5 / 26.9 / 15.5 %, average
+3.16 bytes (it was 3.06: a six-byte `cbCC` replaces a four-byte and a two-byte instruction). Three files of 827 grew by 2 to 4 bytes (a tie where alignment of nearby code differs). Data: `docs/codegen-data/pdp64-after-cbw.csv`.
+
+**New open items.** (1) A **register-register compare-and-branch**: 4,714 `cmp reg,reg ; bCC` pairs remain (1.4% of instructions); a one-parcel-plus-displacement form would save those instructions and, only where the branch was four
+bytes, some bytes (between none and about 9 KB, probably a few KB; the length split is not measured). A further 5,356 `cmp reg,mem ; bCC` pairs cannot be fused, since the memory operand has no room. (2) The assembler **refuses**
+a wide `cbCC` whose target is beyond 64 KB, where it could fall back; a fallback would make the compiler's 9,000-instruction rule unnecessary, at the price of the assembler emitting two instructions for one mnemonic (against ISA §4.14).
+
 ## 13. Appendix
 
 ### 13.1 The 91 operations, folded
