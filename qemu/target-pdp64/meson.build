@@ -3,7 +3,7 @@
 # decoder generated from spec/pdp64.hbnf.  They are built as a separate
 # library, with the flags the pdp64 tools use, not QEMU's.
 pdp64_core = static_library('pdp64core',
-  files('gen/pdp64exec.c', 'gen/calib.c', 'gen/fmtp.c'),
+  files('gen/pdp64exec.c', 'gen/calib.c', 'gen/p2.c', 'gen/fmtp.c'),
   c_args: ['-w', '-std=gnu11', '-fPIC',
            '-Demit_bits=fmt_emit_bits', '-Demit_bytes=fmt_emit_bytes',
            '-Dparse_bits=fmt_parse_bits', '-Dparse_bytes=fmt_parse_bytes',

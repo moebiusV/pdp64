@@ -10,6 +10,7 @@
 #include <string.h>
 #include "fmt.h"
 #include "calib.h"
+#include "p2.h"
 #include "pdp64-consts.h"
 #include "pdp64exec.h"
 
@@ -341,10 +342,15 @@ static void step(void)
 	uint64_t start = pc;
 	cur_pc = pc;
 	uint16_t p0 = (uint16_t)ld(pc, 2);
-	int len = p0 >> 14;
-	for (int i = 0; i <= len; i++) { uint16_t p = (uint16_t)ld(pc + 2 * i, 2); buf[2 * i] = p >> 8; buf[2 * i + 1] = p & 255; }
-	if (fmt_decode(buf, 2 * (len + 1), &f)) die("illegal instruction", 0);
-	pc += 2 * (len + 1);
+	int len = p0 >> 14, n = pdp64_insn_parcels(p0);
+	for (int i = 0; i < n; i++) { uint16_t p = (uint16_t)ld(pc + 2 * i, 2); buf[2 * i] = p >> 8; buf[2 * i + 1] = p & 255; }
+	if (fmt_decode(buf, 2 * n, &f)) die("illegal instruction", 0);
+	pc += 2 * n;
+	if (f.shape == FS_P2) {								/* page 2 is the page-1 instruction it abbreviates, and runs as that */
+		struct fmt lf;
+		if (p2_expand(&f, &lf)) die("illegal instruction", 0);
+		f = lf; len = f.len;
+	}
 
 	int opc = f.opc;
 	struct opnd o;
@@ -407,6 +413,12 @@ static void step(void)
 	if (opc >= MN_BRANCH_BR && opc <= MN_BRANCH_BLOS) {				/* conditional branches */
 		int64_t d = f.shape == FS_BR0 ? (int8_t)((f.reg << lowbits) | f.low) : sext(f.d, branchbits(len));
 		if (cond(opc - MN_BRANCH_BR)) pc = start + 2 * d;
+		return;
+	}
+	if (opc == OPGROUP_CBR) {							/* cbCC rd,#imm,target: cmp rd,#imm, then the branch */
+		int64_t d = sext(f.d, cbbits(len)), imm = sext(f.imm, cbimmbits);
+		sub_f(r[f.reg], (uint64_t)imm, 0);
+		if (cond(f.low)) pc = start + 2 * d;
 		return;
 	}
 	if (opc == OPGROUP_SOB) {
@@ -518,6 +530,7 @@ static void step(void)
 		case MN_BESC_BITREV: r[rd] = bitrev64(a); return;
 		case MN_BESC_ROR: r[rd] = ror64(a, (unsigned)b); return;
 		case MN_BESC_RORI: r[rd] = ror64(a, f.count); return;
+		case MN_BESC_RORI32: { uint32_t w = (uint32_t)a; unsigned n = f.count & 31; r[rd] = n ? (uint32_t)((w >> n) | (w << (32 - n))) : w; return; }
 		case MN_BESC_DSHR: { unsigned n = (f.d >> 8) & 63; r[rd] = n ? (b >> n) | (a << (64 - n)) : b; return; }
 		case MN_BESC_EXTB: case MN_BESC_EXTZB: {
 			unsigned pos = (f.d >> 8) & 63, w = f.d & 255;
@@ -627,6 +640,12 @@ static void step(void)
 	die("unimplemented instruction", opc);
 }
 void pdp64_init(void) { calibrate(); }
+
+int pdp64_insn_parcels(uint16_t parcel0)
+{
+	int len = parcel0 >> 14;
+	return len == LENCODE_PAGE2 ? 1 : len + 1;
+}
 
 void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 {

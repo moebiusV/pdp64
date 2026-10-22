@@ -39,10 +39,10 @@ static void pdp64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
     CPUPDP64State *env = cpu_env(cs);
     vaddr pc = dcbase->pc_next;
     uint16_t parcel0 = translator_lduw_end(env, dcbase, pc, MO_LE);
-    int len = parcel0 >> 14;                /* the instruction has len+1 parcels */
+    int parcels = pdp64_insn_parcels(parcel0);   /* 1 to 3; a page-2 instruction is one */
     TCGv_i64 tpc = tcg_constant_i64(pc);
 
-    dcbase->pc_next = pc + 2 * (len + 1);
+    dcbase->pc_next = pc + 2 * parcels;
     tcg_gen_st_i64(tpc, tcg_env, offsetof(CPUPDP64State, c.pc));
     gen_helper_exec(tcg_env);
     /* the helper has set pc */

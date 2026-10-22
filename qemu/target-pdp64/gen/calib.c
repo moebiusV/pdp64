@@ -12,16 +12,17 @@ static uint64_t mask(int bits) { return bits >= 64 ? ~(uint64_t)0 : (((uint64_t)
  * The widths of the displacement fields, which addressing mode uses which shape, and the size of the reg and low nibbles are
  * written once, in spec/pdp64.hbnf.in.  Nothing here repeats them: the writer refuses a value that does not fit, so the
  * widths are found by encoding all-ones values until it refuses, once at startup. */
-int fieldbits[16][4];		/* [shape][len]: bits of the displacement field, 0 if the shape does not exist at that len */
+int fieldbits[32][4];		/* [shape][len]: bits of the displacement field, 0 if the shape does not exist at that len */
 int mode_shape[16];		/* addressing mode -> shape, 0 if no shape takes it */
 int maxlen = 3;
 int regbits, lowbits;
+int cbimmbits;		/* bits of the immediate of cbCC */
 
 static int try_enc(const struct fmt *f) { uint8_t b[8]; size_t n; return fmt_encode(f, b, &n) == 0; }
 
 void calibrate(void)
 {
-	static const int shapes[] = { FS_BASE, FS_INDEX, FS_DP, FS_WIDE, FS_D };
+	static const int shapes[] = { FS_BASE, FS_INDEX, FS_DP, FS_WIDE, FS_D, FS_CB };
 	struct fmt f;
 
 	for (maxlen = 0; maxlen < 8; maxlen++) {
@@ -36,10 +37,14 @@ void calibrate(void)
 		memset(&f, 0, sizeof f); f.shape = FS_MEM0; f.opc = MN_MOV_MOVQ; f.low = (int)mask(lowbits + 1);
 		if (!try_enc(&f)) break;
 	}
+	for (cbimmbits = 0; cbimmbits < 32; cbimmbits++) {
+		memset(&f, 0, sizeof f); f.shape = FS_CB; f.opc = OPGROUP_CBR; f.len = 1; f.imm = (unsigned)mask(cbimmbits + 1);
+		if (!try_enc(&f)) break;
+	}
 	for (int m = 0; m < (1 << lowbits); m++)
 		for (unsigned k = 0; k < sizeof shapes / sizeof *shapes; k++) {
 			memset(&f, 0, sizeof f); f.len = 1; f.opc = MN_MOV_MOVQ; f.low = m; f.shape = shapes[k];
-			if (shapes[k] == FS_D) continue;
+			if (shapes[k] == FS_D || shapes[k] == FS_CB) continue;
 			if (try_enc(&f)) { mode_shape[m] = shapes[k]; break; }
 		}
 	for (unsigned k = 0; k < sizeof shapes / sizeof *shapes; k++)
@@ -47,6 +52,7 @@ void calibrate(void)
 			int mode = -1;
 			memset(&f, 0, sizeof f); f.len = len; f.shape = shapes[k];
 			if (shapes[k] == FS_D) f.opc = MN_BRANCH_BR;
+			else if (shapes[k] == FS_CB) f.opc = OPGROUP_CBR;
 			else {
 				f.opc = MN_MOV_MOVQ;
 				for (int m = 0; m < (1 << lowbits); m++) if (mode_shape[m] == shapes[k]) { mode = m; break; }
@@ -68,4 +74,5 @@ static void print_limits(void);
 
 int dispbits(int mode, int len) { return fieldbits[mode_shape[mode]][len]; }
 int branchbits(int len) { return fieldbits[FS_D][len]; }
+int cbbits(int len) { return fieldbits[FS_CB][len]; }
 
