@@ -7,6 +7,10 @@ struct pdp64_cpu {
 	uint64_t r[16], pc, dp, fpsr;
 	int fN, fZ, fV, fC;
 	uint64_t cur_pc;			/* the instruction being executed (set by pdp64_step) */
+	/* the system registers that mfsr and mtsr reach, and the mode they are privileged to: kernel = 0 is user mode (the default).  eva and ecause are
+	   written by the exception entry, which an executor that models it does; the user-mode emulators only read them back. */
+	uint64_t ptbr, epc, eva, ecause, dmw[2], usp, ssp;
+	int kernel;
 };
 
 /* The host's side.  ld and st move 1, 2, 4 or 8 bytes, little-endian, and check alignment and mapping themselves; fault never returns. */

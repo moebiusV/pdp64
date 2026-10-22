@@ -177,11 +177,12 @@ int main(int argc, char **argv)
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "-t")) trace = 1;
 		else if (!strcmp(argv[i], "-r")) regs = 1;
+		else if (!strcmp(argv[i], "-k")) cpu.kernel = 1;
 		else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxsteps = atoi(argv[++i]);
-		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-n steps] program\n"); return 2; }
+		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k] [-n steps] program\n"); return 2; }
 		else prog = argv[i];
 	}
-	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-n steps] program\n"); return 2; }
+	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k] [-n steps] program\n"); return 2; }
 	pdp64_init();
 	cpu.pc = load_elf(prog);
 	addregion(0x7fff000000ULL, 0x7fffffffffULL & ~(uint64_t)(PG - 1));
