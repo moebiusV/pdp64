@@ -8,3 +8,4 @@ tools/check-as64.sh
 python3 tools/check-drift.py
 tools/export-pcc-headers.sh --check
 tools/check-ld64.sh
+tools/check-sim64.sh

@@ -4,12 +4,11 @@
 ; operand modes are those of ISA section 5.  See docs/asm-syntax.md.
 language C
 prefix none
-statements
 whitespace ws
 include "common.hbnf"
 include "pdp64-mnemonics.hbnf"
 
-asm = | asm line
+asm = line
 
 ; a name is a word token; with one in the grammar every literal that begins with two letters or more is a whole word (`bit` is not the front of
 ; `bitrev`, `ror` not the front of `rori`), in any order, and a name cannot be one of those words.  The one-letter choices below are character
@@ -48,8 +47,8 @@ postinc = "(" reg ")" "+" [ expr ]
 predec  = "-" "(" reg ")"
 predec2 = "(" reg ")" "-" expr
 ; with a displacement, or without: `(r1)` would otherwise be taken for the parenthesized expression r1
-indexed = expr "(" reg ")" "(" reg [ "*" scale ] ")" | "(" reg ")" "(" reg [ "*" scale ] ")"
-based   = expr "(" basereg ")" | "(" basereg ")"
+indexed = [ expr ] "(" reg ")" "(" reg [ "*" scale ] ")"
+based   = [ expr ] "(" basereg ")"
 bare    = expr
 
 ; R0..R15; SP is R14 and FP is R13 (ISA 2.1); PC and DP only as a base register
@@ -74,7 +73,8 @@ bch      = %x62 | %x42
 octnum   = "0" och 1*( "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" )
 och      = %x6F | %x4F
 decnum   = 1*DIGIT
-charlit  = "'" ( %x20-26 | %x28-5B | %x5D-7E | uni | escape ) "'"
+charlit  = %x27 chch %x27
+chch     = %x20-26 | %x28-5B | %x5D-7E | uni | escape
 localref = 1*DIGIT fbch
 fbch     = %x66 | %x62
 ; a name cannot be `r` followed only by digits: r0..r15 are registers (pdp64-mnemonics.hbnf) and anything else of that shape (r16, r99) is an error,
@@ -86,12 +86,15 @@ nodig    = ALPHA | %x5F | %x2E | %x24 | uni
 idstart  = ALPHA | "_" | "." | uni
 idchar   = idstart | DIGIT | "$"
 uni      = %x80-D7FF | %xE000-10FFFF
-qname    = %x22 1*( %x20-21 | %x23-D7FF | %xE000-10FFFF ) %x22
-string   = %x22 *( %x20-21 | %x23-5B | %x5D-7E | uni | escape ) %x22
+qname    = %x22 1*qnch %x22
+qnch     = %x20-21 | %x23-D7FF | %xE000-10FFFF
+string   = %x22 *strch %x22
+strch    = %x20-21 | %x23-5B | %x5D-7E | uni | escape
 escape   = esc1 | esc-hex | esc-u4 | esc-u8 | esc-oct
-esc1     = %x5C ( escch )
+esc1     = %x5C escch
 escch    = %x6E | %x74 | %x72 | %x61 | %x62 | %x66 | %x76 | %x30 | %x5C | %x27 | %x22
 esc-hex  = %x5C %x78 1*2HEXDIG
 esc-u4   = %x5C %x75 4HEXDIG
 esc-u8   = %x5C %x55 8HEXDIG
-esc-oct  = %x5C %x30-37 *2( %x30-37 )
+esc-oct  = %x5C OCT *2OCT
+OCT      = %x30-37

@@ -19,6 +19,16 @@ static int line_of(const char *text, size_t pos)
 static struct slice sl(const char *text, size_t a, size_t b)
 {
 	struct slice s = { text + a, (int)(b - a) };
+	/* the span of a node also covers what the parser skipped after it, a comment among it: cut at the first ; outside quotes */
+	{
+		int q = 0;
+		for (int i = 0; i < s.n; i++) {
+			char c = s.p[i];
+			if (q) { if (c == '\\') i++; else if (c == q) q = 0; }
+			else if (c == '"' || c == '\'') q = c;
+			else if (c == ';') { s.n = i; break; }
+		}
+	}
 	while (s.n > 0 && (s.p[0] == ' ' || s.p[0] == '\t')) { s.p++; s.n--; }
 	while (s.n > 0 && (s.p[s.n - 1] == ' ' || s.p[s.n - 1] == '\t')) s.n--;
 	return s;
@@ -89,7 +99,14 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 	switch (s->_alt) {
 	case 1:
 		st->kind = S_ASSIGN;
-		st->name = sl(text, s->assign.symbol._pos, s->assign.symbol._end);
+		{
+			struct slice a = sl(text, s->assign._pos, s->assign._end);	/* name = expression */
+			const char *eq;
+			if (a.p[0] == '"') { eq = memchr(a.p + 1, '"', a.n - 1); eq = eq ? memchr(eq, '=', a.n - (eq - a.p)) : NULL; }
+			else eq = memchr(a.p, '=', a.n);
+			st->name.p = a.p; st->name.n = eq ? (int)(eq - a.p) : a.n;
+			while (st->name.n > 0 && (st->name.p[st->name.n - 1] == ' ' || st->name.p[st->name.n - 1] == '\t')) st->name.n--;
+		}
 		st->expr = sl(text, s->assign.expr->_pos, s->assign.expr->_end);
 		break;
 	case 2: {
@@ -106,8 +123,8 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			struct dargs_1_s *m = d->dargs.dargs_1.head;
 			for (;;) {
 				if (st->nargs < MAXARGS) {
-					st->args[st->nargs].isstr = a->_alt == 1;
 					st->args[st->nargs].s = sl(text, a->_pos, a->_end);
+					st->args[st->nargs].isstr = st->args[st->nargs].s.n > 0 && st->args[st->nargs].s.p[0] == '"';
 					st->nargs++;
 				}
 				if (!m) break;
@@ -154,23 +171,23 @@ int asm_parse(const char *src, struct stmt **out, int *n, char *err, size_t errs
 	memcpy(text, src, len + 1);
 	for (char *ls = text; ls <= text + len; ) {
 		char *le = memchr(ls, '\n', text + len - ls + 1);
-		struct asm_list l;
+		asm_t a;				/* the root is one line: asm_t is line_t */
 		size_t el = 0, ec = 0;
 		char *line = ls, *nl;
 		int first = cnt;
 
 		if (le) { *le = '\0'; nl = le + 1; } else nl = text + len + 1;
 		lineno++;
-		if (!parse_text(line, &l, err, errsz, &el, &ec)) {
+		if (!parse_text(line, &a, err, errsz, &el, &ec)) {
 			*errline = lineno;
 			return -1;
 		}
-		for (struct asm_s *a = l.head; a; a = a->_link) {
-			line_t *ln = &a->line;
+		{
+			line_t *ln = &a;
 			for (struct line_1_s *lb = ln->line_1.head; lb; lb = lb->_link) {
 				NEWSTMT();
 				st->kind = S_LABEL;
-				st->name = sl(line, lb->label.symbol._pos, lb->label.symbol._end);
+				st->name = sl(line, lb->_pos, lb->_end);
 				while (st->name.n > 0 && st->name.p[st->name.n - 1] == ':') st->name.n--;
 			}
 			for (struct line_2_s *s2 = ln->line_2.head; s2; s2 = s2->_link) {

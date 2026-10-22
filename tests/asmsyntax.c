@@ -1,8 +1,11 @@
+#include <string.h>
 #include "pdp64-asm-parser.c"
 static int try(const char *what, const char *text, int want){
-  struct asm_list l; char err[300]; size_t ln=0, col=0;
-  bool ok = parse_text(text, &l, err, sizeof err, &ln, &col);
-  int n=0; for(struct asm_s *p=l.head;p;p=p->_link) n++;
+  asm_t l; char err[300]; size_t ln=0, col=0;
+  /* the parser reads one line: a multi-line source is fed line by line, as as64 does */
+  bool ok = 1; int n=0; char *buf=strdup(text), *q=buf;
+  while (ok && *q) { char *e=strchr(q,'\n'); if(e)*e=0; ok = parse_text(q,&l,err,sizeof err,&ln,&col); n++; if(!e)break; q=e+1; }
+  if(!ok) n--;
   printf("%s %-28s %s (%d lines)%s%s\n", ok==want?"ok  ":"BAD ", what, ok?"parsed":"rejected", n, ok?"":" : ", ok?"":err);
   return ok!=want;
 }
@@ -39,6 +42,11 @@ int main(void){
   bad+=try("0x alone is a name","0x: ret\n", 1);
   bad+=try("no displacement",  "movq (r1), r2\nmovq (r1)(r2*4), r3\njmpi (sp)\n", 1);
   bad+=try("expr in parens",   "movq #(1+2)*3, r2\n", 1);
+  bad+=try("; in a string",   ".byte \"a;b c\", ';', 0 ; comment\n", 1);
+  bad+=try("space in a string", ".ascii \"hello world\"\n", 1);
+  bad+=try("space splits a name", "bne foo bar\n", 0);
+  bad+=try("space in a label", "a b: ret\n", 0);
+  bad+=try("space in a number", "movq #1 2, r1\n", 0);
   bad+=try("escapes",          "besc_bad r1\n", 0);
   bad+=try("unknown mnemonic", "frobnicate r1, r2\n", 0);
   bad+=try("r16 is no register","add r16, r2\n", 0);

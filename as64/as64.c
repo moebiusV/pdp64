@@ -880,10 +880,9 @@ static void directive(const struct stmt *st)
 	int64_t unit = dir_is(st, "byte") ? 1 : dir_is(st, "word") ? 2 : dir_is(st, "long") ? 4 : dir_is(st, "quad") ? 8 : 0;
 	if (unit) {
 		for (int i = 0; i < st->nargs; i++) {
-			if (st->args[i].isstr) {
+			if (st->args[i].isstr && unit == 1) {			/* a "string" in .byte; elsewhere a quoted name is a symbol */
 				uint8_t buf[512];
 				int n = unescape(st->args[i].s, buf);
-				if (unit != 1) { if (final_pass) err(st->line, "a string only in .byte"); continue; }
 				if (cur_sec == SEC_BSS) offs[cur_sec] += n;
 				else if (final_pass) emit_bytes_n(buf, n); else offs[cur_sec] += n;
 				continue;
