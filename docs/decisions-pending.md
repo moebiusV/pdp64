@@ -10,6 +10,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 
 ## Contents
 
+* [Part 0. Your priorities, the rule change, and how the options are judged](#part-0-your-priorities-the-rule-change-and-how-the-options-are-judged)
 * [How to read this](#how-to-read-this)
 * [Summary table](#summary-table)
 * [Already decided, listed so they are not asked twice](#already-decided-listed-so-they-are-not-asked-twice)
@@ -32,11 +33,56 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [Part B. Previous decisions, written up so they can be changed](#part-b-previous-decisions-written-up-so-they-can-be-changed)
 * [Part C. The gaps: several cores, DMA devices and virtualization](#part-c-the-gaps-several-cores-dma-devices-and-virtualization)
 * [Part D. Vector and SIMD math](#part-d-vector-and-simd-math)
+* [Appendix: errata 42 to 46 in full](#appendix-errata-42-to-46-in-full)
 * [What I need from you](#what-i-need-from-you)
+
+## Part 0. Your priorities, the rule change, and how the options are judged
+
+**The rule change (errata 42).** All the design rules are soft. Several arguments earlier in this document leaned on "the ISA has a rule against that"; under errata 42 they count as costs and benefits like any others. P10 was the clearest case (decided: `MMUCTL` stays). Q9 option 4 is revised below.
+
+**Your priorities (2026-10-22), and the test I now apply to every option:**
+
+1. **Code size.** Bytes of kernel and user code, including hot-path length and the code spent on error handling. An instruction that makes common sequences shorter wins.
+2. **Easy recoverability, meaning less recovery code.** Fewer possible errors means less code to handle them, and an easier recovery path means less code to write it. So an option scores well when it adds **fewer distinct failure outcomes**, makes a fault **restartable without special cases** (precise exceptions, no hidden state, a restart that repeats safely), and avoids partial results the handler would have to undo. A feature that adds a new fault, a new error return or a new "half done" state costs recovery code in every kernel that uses it.
+3. **Fewer gates.** Simpler hardware: fewer states, fewer special paths, less logic on an FPGA.
+4. **Speed through fewer gates and tighter hot loops.** Faster by *careful instruction choice*: the shortest instruction sequences for the operations that run constantly (system-call entry and exit, context switch, copy to and from user memory, atomics, string and block loops, interrupt entry), not by adding hardware.
+
+**What changed because of this.** The table lists every decision with the priority it mostly serves, my pick under the new test, and whether the pick moved.
+
+| # | Mostly serves | Pick now | Changed? |
+|---|---|---|---|
+| P1 `WFE` wake rule | recovery (no lost wake-up to detect and repair), gates | wake on pending | no |
+| P2 user guard (decided) | recovery (a bad kernel pointer becomes a clean fault, not corruption) | `UA` + `stua`/`clua`; later maybe 2-byte page-2 forms | decided; small addition noted |
+| P3 `rdtime` | hot loop (clock read without a trap) | add | no |
+| P4 feature registers | code size (one binary adapts) | `mfsr` registers | no |
+| P5 TLB invalidate by ASID | hot loop, gates | add; priority raised from medium | **raised** |
+| P6 cache maintenance | gates | reserve nothing | no |
+| P7 firmware calls | recovery, gates | devices only, **plus a required reset/watchdog register** | **addition** |
+| P8 double-width CAS | gates | defer | no |
+| P9 random numbers | gates | entropy device | no |
+| P10 `MMUCTL` (decided) | gates, recovery | stays | decided |
+| P11 atomics (decided) | gates | monitor | decided |
+| P12 partial effects of multi-register instructions | **recovery** | every multi-access instruction all-or-nothing or safely repeatable, **with a test** | **strengthened** |
+| P13 `long double` (decided) | code size, gates | `double` | decided |
+| P14 priority 7 on all entries | recovery (removes a window that needs repair code) | confirm | no |
+| P15 prefetch | hot loop, gates | none, reserve the shape | no |
+| P16 performance counters | gates | two counters after P3, or defer | no |
+| Q2 software accessed/dirty bits | gates against recovery code | keep for v1; **under your recovery priority option 3 (optional hardware) gains** | **flagged** |
+| Q9 64-bit-only ALU | code size, hot loops | **measure now; add 32-bit forms if the extension overhead is a few percent** | **moved** |
+| Q10 devices | code size, gates | eight registers; **virtio only if reusing OpenBSD's drivers saves more than it costs** | **softened** |
+| R1 interrupt controller | gates | **wired lines to core 0 plus a per-line target register; messages later** | **moved** |
+| R4 bus protocol | gates | AXI as the transport | strengthened |
+| R8 virtualization | gates | out of scope, five constraints | no |
+| S1 to S6 vectors | gates, code size | coprocessor; measure before packed lanes | strengthened |
+| all other Q and R items | as before | as before | no |
+
+The sections below keep their original text and recommendations; where a pick moved, a **Revised for your priorities** paragraph is added at the end of that section.
+
+---
 
 ## How to read this
 
-Two terms recur. A **mode bit** (ISA section 1.1) is a bit whose value changes the meaning of unrelated instructions; the ISA has a rule against adding them, because a mode bit has to be saved and restored when one program is switched for another. **Precise** exceptions mean that when an instruction faults, every earlier instruction has completed and no later one has had any effect, so the faulting instruction can simply be run again.
+Two terms recur. A **mode bit** (ISA section 1.1) is a bit whose value changes the meaning of unrelated instructions; the ISA used to have a rule against adding them, because a mode bit has to be saved and restored when one program is switched for another; since errata 42 that is a cost to weigh, not a ban. **Precise** exceptions mean that when an instruction faults, every earlier instruction has completed and no later one has had any effect, so the faulting instruction can simply be run again.
 
 The options are listed best-first by my judgement, not by cost. "Cost to build" always means the work in the assembler grammar, `as64`, `sim64`, QEMU, the LLVM generator and the tests, which is mostly mechanical because the grammars generate the numbers.
 
@@ -131,6 +177,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 **How the recommendation compares.** Option 1 copies the x86, AArch64 and RISC-V design, which is what the kernel code OpenBSD already has expects. **It is not safer than the special-forms style** (option 2), where nothing can be left open; it is cheaper to build, leaves the compiler untouched, and can be made safer than x86 by having exception entry set the guard so a handler cannot forget it.
 
+
+**Revised for your priorities.** One small addition for code size: every user copy routine opens and closes the window, so `stua` and `clua` are on the hot path of every system call that moves data. Two-byte page-2 forms (two of the 19 reserved slots) would save four bytes per copy routine and two bytes of fetch per copy. Not worth the slots until the kernel exists; noted so the slots are not spent elsewhere first.
 ---
 
 ## P3. An unprivileged time counter
@@ -211,6 +259,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 **How the recommendation compares.** The pdp64 already broadcasts `TLBI`, so it avoids the shootdown cost that x86 pays; option 1 closes the one remaining gap. It is **the same as AArch64 and RISC-V and not better**, and the broadcast bus transaction itself has not been designed (see P11), so the advantage over x86 is on paper.
 
+
+**Revised for your priorities.** This now ranks above "medium": invalidating one address space exactly makes process exit and ASID reuse cheap (a tighter hot path at every context switch) and needs one `SYSX` word and a small broadcast rule. Fewer flushes also means fewer lost translations to refill, which is time, not recovery code. Recommended: add.
 ---
 
 ## P6. Data-cache maintenance by address
@@ -265,6 +315,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 **How the recommendation compares.** Option 1 is the opposite of what these do. Its advantage is **no firmware to trust, port or bug-fix and no extra privilege level**; its cost is that every platform must say where its console and reset registers are, which the others get from the firmware. For a first system with few platforms the trade is in its favour, and it is **worse** once there are many.
 
+
+**Revised for your priorities.** Under the recovery priority, a way to *reset the machine* is what matters most, because it is the simplest recovery path of all and needs the least code: add a requirement that the bus controller has a reset register and a watchdog (a timer that resets the machine if not kicked). That gives recovery from a hung kernel with no firmware, no new instruction, and about ten lines of kernel code. Option 1 stays, with this requirement added.
 ---
 
 ## P8. Double-width compare-and-swap
@@ -401,6 +453,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 **How the recommendation compares.** Option 1 is closest to the ARM approach (restart, no hidden resume state) and **simpler than the VAX or m68k**, which save the instruction's progress. It is not better than resumable designs where the same work would otherwise repeat, but the pdp64's stack area below the stack pointer is dead, so the repeated stores are free.
 
+
+**Revised for your priorities.** This is the decision that most directly serves your recoverability priority, so it is strengthened. The kernel's page-fault and restart path should have *no instruction-specific cases*: every multi-access instruction (`pushm`, `popm`, `pushx`, `popx`, `mcpy`, `mmov`, `mset`, `mscn`) must be either all-or-nothing or safe to repeat from the start, and the fault handler restarts it blindly. `pushx`/`popx` already check both words before accessing either (ISA 4.11). The recommendation is option 1 with the dead-area rule *plus* a test in the emulators that interrupts each such instruction at every possible access and checks that a restart gives the same final state, for registers and memory. The PDP-11 needed `SR1` and a kernel routine that decoded instructions to undo them, and the VAX a resume bit; passing this test is what "no recovery code" means.
 ---
 
 ## P13. `long double`
@@ -585,6 +639,8 @@ These were decided earlier (the errata cited). They are set out in the same form
 
 **View.** Keep for System v1, then move to option 3 once there is a feature register to advertise it. Software-only is acceptable for a first system, but the extra faults will show up in any measurement of a real workload.
 
+
+**Revised for your priorities.** Your recovery priority argues against software-managed bits: each extra fault type (first touch, first write) is another case in the kernel's fault handler and a path that can go wrong, while hardware-managed bits remove those cases. Your gates priority argues for software, because the hardware version needs an atomic read-modify-write in the table walker. The two priorities pull in opposite directions here. My pick: keep software for System v1 and make option 3 (optional hardware management, advertised in the feature registers of P4) the planned next step, so the kernel can drop the fault paths on hardware that has it.
 ---
 
 ## Q3. Three-level page tables, 39-bit virtual, 40-bit physical, 4 KB pages
@@ -758,7 +814,7 @@ These were decided earlier (the errata cited). They are set out in the same form
 | 1 | **64-bit only (current)** | small ISA; simple core | extension instructions after narrow arithmetic |
 | 2 | **Add 32-bit forms of add, subtract, shift** (AArch64 `w`, RISC-V `addw`) | no extension after 32-bit arithmetic | a second set of opcodes; page-2 space |
 | 3 | **Fully sized operations** (VAX, x86) | exact C semantics | a huge instruction set |
-| 4 | **Sign-extension as a side effect of every narrow operation by a mode** | none needed | a mode bit, against the ISA's rule |
+| 4 | **Sign-extension as a side effect of every narrow operation by a mode** | none needed | a mode bit that changes what arithmetic means: it must be saved at every context switch and every reader of the code must know the mode (the cost the old rule protected against); acceptable only if the saving in instructions is large |
 | 5 | **A single `sext`/`zext` that fuses with the previous operation in hardware** | no encoding change | fusion hardware that small cores avoid |
 
 **What current systems do.** RISC-V RV64 and AArch64 both have 32-bit forms of the common operations; MIPS64 has separate 32-bit and 64-bit adds; x86-64 has sized operations (from memory, not confirmed in the sources read).
@@ -767,6 +823,8 @@ These were decided earlier (the errata cited). They are set out in the same form
 
 **View.** Keep, but measure the extension overhead on the corpus; if it is more than a few percent of instructions, option 2 is the usual fix and fits the second page.
 
+
+**Revised for your priorities.** Under your code-size and hot-loop priorities this moves from "keep" to "**measure now**". The compiler spends an extension instruction (`movl`, `movzb` and the like) after narrow arithmetic; the flag work counted about a thousand `movl`-type sites among sites that mattered for flags, but the total extension overhead on the corpus was never measured. Count it: if extensions are more than a few percent of instructions or bytes, add 32-bit forms of add, subtract, shift and multiply on page 2 (two bytes each), as AArch64 and RISC-V do. If it is under about one percent, keep as is. The measurement is one script over the compiled corpus (`tools/pdp64size.py` already classifies mnemonics).
 ---
 
 ## Q10. Devices are eight memory-mapped registers plus DMA
@@ -793,6 +851,8 @@ These were decided earlier (the errata cited). They are set out in the same form
 
 **View.** Keep, and consider making the virt machine's devices virtio-compatible because an OpenBSD port could reuse its virtio drivers (OpenBSD virtio drivers: not found in the sparse tree, which has `sys/arch` only; not confirmed).
 
+
+**Revised for your priorities.** Under code size and gates the plain eight-register layout is the strongest choice (small drivers, simple devices). The suggestion to consider virtio compatibility is softened: take it only if reusing OpenBSD's existing virtio drivers saves more driver code than virtio's extra registers and queue formats cost.
 ---
 
 ## Q11. Wide constants come from an explicit literal pool
@@ -966,6 +1026,8 @@ Nothing in the documents decides these yet. The system architecture and the bus 
 
 **Recommendation.** Option 1, with the message-signalled path first. It keeps `SPL` working and the BSD locking model intact (Q4), and it avoids a wire per device. Cost to build: a register block in the virt machine, a QEMU model, a kernel driver. **If nothing is done:** option 5 by default, which is fine for two cores and poor beyond.
 
+
+**Revised for your priorities.** Under your gates priority I now prefer the smaller design: wired interrupt lines delivered to core 0, with a per-line target register that can send a line to another core (option 2), and message-signalled interrupts added later if a fast multi-queue device needs them. It keeps the 8-level priority, needs the least logic, and adds no new failure cases. My earlier pick (option 1) is a superset and can follow.
 ---
 
 ## R2. Inter-processor interrupts and starting the other cores
@@ -1337,6 +1399,18 @@ None of these was measured. Each is a small job:
 3. List the codec, hash and cryptography routines in the corpus (the corpus has bearssl, cjson and others) and which of them use lane operations, byte shuffles or carry-less multiplication.
 4. Estimate the FPGA cost: block RAM for 16 vector registers of 128 bits against the 5.5 Mb budget in the FPGA plan.
 5. Decide the target workloads: LittleBit inference (LB64), graphics (`BLT64` and VIC-64X), signal processing, scientific loops. A workload list decides S1 better than any survey.
+
+## Appendix: errata 42 to 46 in full
+
+These are the decisions of 2026-10-22, copied from `errata.md` so they can be read here. The sections of P2, P10, P11 and P13 above are the record of the options.
+
+42. **DECISION (the author's): every design rule is a soft rule; none is absolute.** The author's words: "the no mode bits rule is a very soft rule; there were benefits to it, as long as we keep those benefits, a mode bit is fine, and where mode bits outweigh the costs, we take them," and then "all the rules are soft rules." A rule is a default that records a benefit worth protecting and the failure it prevents; it yields when the benefit of breaking it outweighs the cost, with the cost written down (the test of ISA 1.1: the benefit is named and concrete, the cost is bounded and written down, and the author judges the balance). *Consequences:* (1) ISA 1.1 no longer lists any rule as having no exceptions: the two it listed, **no mode bits** (what it protected: state saved and restored at every context switch, and a bit that changes the meaning of unrelated instructions) and **natural alignment of quad accesses** (what it protected: a trapped bug instead of silent corruption in tagged runtimes), are now the strongest defaults, and each is reopened by its cost-benefit and not by its status. (2) A mode bit that keeps the protected benefits (a machine-wide bit set once at boot, a bit in the `PSW` that is saved anyway) is accepted without further argument, and one whose benefit outweighs its cost is accepted with the cost written down. (3) Earlier choices made by a rule ("conversion instructions, never mode bits", no rounding-mode or precision bits in floating point, the one-memory-operand rule) stand but may be reopened one at a time, and a decision document should weigh them as costs and benefits, not cite the rule as a reason.
+43. **DECISION (the author's picks, 2026-10-22; decisions-pending P2): a user-memory guard, `UA`, with two instructions.** Closes the weak point D11 of the system design document. *Spec:* `PSW` bit 12 is **`UA`** ("user access allowed"). With `UA` = 0 a kernel-mode data access (load, store, atomic, block-instruction operand) to a page whose `U` bit is set raises the page permission abort, reported as such in `ECAUSE`; with `UA` = 1 it behaves as today. Instruction fetch from user pages by the kernel stays forbidden (the existing rule). `PROBER` and `PROBEW` are not affected by `UA`. User-mode code is not affected (the bit is ignored outside kernel mode). Two `SYSX` words (class 0 minor 15), four bytes, privileged, no flags, `pad` = 0 else illegal instruction: **`stua`** (sub-opcode 4) sets `UA`, **`clua`** (sub-opcode 5) clears it. Exception and interrupt entry **clear `UA`** in the new `PSW`; `EPSW` keeps the old value and `RTI` restores it; `MTPS` writes it like the other `PSW` bits. Reset value 0 (guard on).
+  *Why a mode bit is acceptable here (errata 42):* the bit is in the `PSW`, which is saved and restored anyway, so there is no new state to switch, and its only effect is to turn a class of kernel bugs into faults. *Cost:* a copy routine must open and close the window, and every error path out of it must close it (entry clearing it bounds the damage). *Consequences to implement:* the core, grammar (`SYSX` subs 4 and 5, `PSW` bit), QEMU, the simulator, the LLVM generator and tests; the existing test `sys-pushx` uses `SYSX` sub 4 as its "reserved word" and must move to a different reserved sub-opcode (6 or higher). Page-2 forms are not allocated.
+44. **DECISION (the author's, from the principle of errata 42; decisions-pending P10): `MMUCTL` stays; the `DMW` format is deferred.** `MMUCTL` bit 0 (translation enable, reset 0) is accepted as a deliberate mode bit: it is machine-wide, set once at boot, not part of any thread's state and not saved at a context switch, and it changes the meaning of no instruction a program executes (it only decides whether addresses are translated), so the benefits the rule protected are kept. It follows the PDP-11's `SR0` enable bit and the VAX's `MAPEN`. The weak point D9 of the system design document is closed as accepted. `DMW0`/`DMW1` stay stored-only registers (System v1, errata 36); their format is defined when a kernel needs a window, not before. ISA 8.3's sentence that the machine comes up with `DMW0` covering physical memory is superseded for System v1 by "`MMUCTL` = 0: every address is physical". *My earlier recommendation to remove `MMUCTL` rested on the absolute reading of the rule and is withdrawn.*
+45. **DECISION (the author's picks, 2026-10-22; decisions-pending P11): atomics are defined on a monitor (reservation), not a bus lock.** *Spec:* `LL` establishes a reservation on a naturally aligned granule of the implementation's choice (not smaller than 8 bytes); a write to the granule by **any initiator** (another core, a device, an atomic) clears it; `SC` succeeds exactly when the reservation is intact and otherwise writes nothing. The read-modify-write atomics (`CAS`, `SWAP`, `XADD` and the others) are single-copy atomic with respect to every initiator; the implementation may build them from an exclusive access with hardware retry. A constrained `LL`/`SC` sequence (short, no intervening memory access or exception) must eventually succeed when no other initiator keeps writing the granule (the guarantee RISC-V gives, per the verified RISC-V manual). `DATIP`/`DATO` are no longer an architectural primitive; a bus may still implement the atomics with them or with AXI exclusive access, which is decided separately (decisions-pending R4). The `_DB` variants keep their meaning (the atomic plus a barrier) and, under sequential consistency, are a convenience. *Still to write:* the ISA text (open item 4, 17.6), granule discovery in the feature registers (decisions-pending P4), the reservation tests in the emulators. *Cost:* a reservation rule for every initiator, and forward-progress rules; a device that writes shared words takes part by clearing reservations.
+46. **DECISION (the author's pick, 2026-10-22; decisions-pending P13): `long double` stays the same as `double`; the ABI version is the door.** ABI version 1 (`abi.md`) keeps `long double` = `double`. A change to a 128-bit `long double` (binary128, in software) is an incompatible ABI change and so ABI **version 2**; the library, compiler and runtime support for it come with that version, not before. The ABI version is to be carried in the object format (ELF `e_flags`, low byte, value 1 for all objects built now): `as64` writes it, `ld64` refuses to link objects of different versions; the fields are defined when this is implemented. Matches the Apple and Windows ARM64 position and costs nothing now; the per-port variation of OpenBSD (powerpc64 64-bit, arm64 and riscv64 binary128, per the verification pass) is noted for the port.
+
 
 ## What I need from you
 
