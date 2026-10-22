@@ -25,6 +25,8 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [P12. What a multi-register instruction leaves behind when it faults](#p12-what-a-multi-register-instruction-leaves-behind-when-it-faults)
 * [P13. `long double`](#p13-long-double)
 * [P14. Confirm: priority 7 on interrupt entry as well as exception entry](#p14-confirm-priority-7-on-interrupt-entry-as-well-as-exception-entry)
+* [P15. Prefetch](#p15-prefetch)
+* [P16. Performance counters](#p16-performance-counters)
 * [Part B. Previous decisions, written up so they can be changed](#part-b-previous-decisions-written-up-so-they-can-be-changed)
 * [Part C. The gaps: several cores, DMA devices and virtualization](#part-c-the-gaps-several-cores-dma-devices-and-virtualization)
 * [Part D. Vector and SIMD math](#part-d-vector-and-simd-math)
@@ -54,6 +56,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | P12 | Partial effects of `pushm`, `popm`, `pushx`, `popx` on a fault | accept and document, with one rule | restart correctness |
 | P13 | `long double` | keep as `double` for the first system | libc, clang, the ABI |
 | P14 | Priority 7 also on interrupt entry | confirm | exception entry |
+| P15 | Prefetch instruction | none for now; reserve the shape | list and copy loops (from the kernel survey) |
+| P16 | Performance counters | cycle and instruction counters after the clock (P3) | profiling |
 
 ## Already decided, listed so they are not asked twice
 
@@ -88,6 +92,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 **What current systems do.** Survey counts of the wait instructions in the kernel sources: x86 `hlt` 57 and `mwait` 9, AArch64 `wfi` 15 and `wfe` 20, ARM 32-bit `wfi` 9, RISC-V `wfi` 14. The wake rule: RISC-V `wfi` ends the sleep when an interrupt enabled in its own register is pending, even with the global enable bit clear (checked: RISC-V ISA manual snapshot; an implementation may also wake for any reason, so a NOP is legal; AArch64 not confirmed in the sources read); x86 closes the same gap with the "interrupt shadow" of `sti`, which delays interrupts by one instruction so that `sti; hlt` is safe (checked: Intel SDM text for STI).
 
 **What Unix on the PDP-11 and the VAX-11 did.** **PDP-11:** a `WAIT` instruction exists, and V7's `idle()` lowers the priority and executes `wait`, called from the scheduler's `swtch()`, and a comment in `slp.c` says the race exists and `idle()` returns in at most one clock interval (checked: V7 `mch.s`, `slp.c`). **VAX:** no wait instruction; 4.3BSD's idle loop spins at priority 0 testing the run-queue summary `_whichqs` (checked: 4.3BSD `vax/locore.s`, `Idle`). *Trade-off:* both avoid the problem by bounding it (a tick) or by polling (burning power). *Comparison:* the recommendation removes the bound without polling; the PDP-11 way is acceptable only with a regular clock tick, which a tickless modern kernel does not have.
+
+**Survey detail.** The kernel survey (its section 7, proposal 1) adds one more point: `SEV` should be *sticky for one wait*, so that an event signalled just before the sleep is not lost. Both points are one rule in the core and need no opcode. **Verification note:** RISC-V `wfi` wakes only for an interrupt enabled in its own enable register (the global enable bit is ignored) and a no-op implementation is legal, so "the same as RISC-V" holds only if the pdp64's priority mask is treated like that global bit; AArch64 `wfi` was not confirmed.
 
 **Recommendation.** Option 1. **This decision is open:** an answer to it was recorded by mistake (it was given inside a question that was rejected) and has been withdrawn. Cost to build: small; one pass with a test of the idiom. **If nothing is done:** the text stays wrong.
 
@@ -248,6 +254,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 **What current systems do.** Survey: class 13 (hypervisor, secure and firmware calls) appears in 6 families. RISC-V kernels call firmware with `ecall` through the SBI interface; ARM uses `hvc`/`smc` for power control (from memory, not confirmed in the sources read); Alpha had PALcode; SPARC had Open Firmware; x86 reaches firmware through BIOS or UEFI services and ACPI.
 
 **What Unix on the PDP-11 and the VAX-11 did.** **PDP-11:** boot ROMs and a console debugger (`ODT`) in firmware; Unix never called firmware, and it halted to the console. **VAX:** a console processor (on the VAX-11/780 a small separate computer) with console commands, a halt instruction that returns to it, and console terminal registers the kernel could read and write (`MTPR`/`MFPR`); reboot was a halt and a boot command. *Trade-off:* a separate console machine gave remote operation and a recovery path at the price of a second computer. *Comparison:* option 1 (devices only) is nearer the PDP-11; the VAX console processor is the origin of the firmware-call idea but was not a call interface.
+
+**The survey disagrees.** The kernel survey (its section 7, proposal 7) recommends *specifying* a firmware-call convention on a reserved range of `TRAPL` vectors, with a register convention, because `RESET` was dropped and so there is currently no way for the kernel to ask for power-off, a secondary-core start or a reset; it costs text only. My recommendation below is the opposite (devices only), so the choice is real: the survey's reasoning is that an interface costs nothing to reserve and is hard to add after software exists.
 
 **Recommendation.** Option 1 for the first system: it fits "devices are eight registers", needs no firmware, and OpenBSD ports get a console and reset from devices. Revisit with option 2 when there is a second platform. Cost to build: none now. **If nothing is done:** option 1.
 
@@ -441,6 +449,58 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 ---
 
+## P15. Prefetch
+
+**The need.** A processor spends much of its time waiting for memory. A **prefetch** instruction tells the memory system to start fetching a cache line that the program will soon use, without waiting and without changing any register, so the data is there when the real load arrives. Kernels use it in list and queue walks and in copy loops. The kernel survey counted more than 100 prefetch instructions in the four kernels' sources (AArch64 `prfm`, ARM `pld`, PowerPC `dcbt`, SPARC `prefetch`, x86 `prefetcht0`; its sections 4.4, 4.8 and 4.18). `HINT` has reserved codes that execute as no-ops, but no prefetch is defined, and no decision asks whether one should be.
+
+**The explanation.** A prefetch must carry an address, and `HINT #n` has only a number (the `pad` byte), so a prefetch cannot simply be a hint code: it needs an operand form, like a load that discards its result. It must never fault (a prefetch of a bad address is ignored) and has no architectural effect, only a performance effect.
+
+**Current state.** None. The core and QEMU have no caches to speed up, so a prefetch would be a no-op there; the FPGA implementation would have a data cache, but its prefetch policy is unspecified.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **No prefetch instruction; rely on hardware prefetchers** (hardware that detects streams and fetches ahead) | nothing to specify | irregular patterns (pointer chasing) get no help; small in-order cores seldom have good prefetchers |
+| 2 | **A `PREFETCH d(rn)` instruction** (a memory-operand form, non-faulting, no register written) | direct software control; the standard solution | one new opcode or `SYSX` sub-opcode with a memory operand (a larger encoding than `HINT`); compilers must be taught when to use it |
+| 3 | **Prefetch with intent and locality fields** (read or write, cache level, streaming: AArch64 `prfm`) | the most expressive; lets a core avoid cache pollution | a field to define and implement; most hardware ignores the extra bits |
+| 4 | **Define the hint codes `hint #16` to `#31` as "prefetch the line addressed by `r0`, `r1`, ..."** | reuses the existing `HINT` space; no new opcode | an odd encoding; a fixed register choice; cannot take an offset |
+| 5 | **A non-faulting load into a scratch register as the prefetch** (use `movq (rn), rd`, ignore the result) | no new instruction | it occupies a register, can fault, and on an in-order core it stalls on use rather than prefetching |
+
+**What current systems do.** The kernel survey counts prefetch instructions in all four kernels (x86 `prefetcht0` 2 uses in the sampled counts, SPARC `prefetch` 48, and more than 100 across `prfm`/`pld`/`dcbt`). Linux wraps them in `prefetch()` and `prefetchw()` helpers used in list traversal; FreeBSD and the other BSDs have a small number **(Linux helper names not confirmed in the sources read)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Neither had a prefetch instruction; the PDP-11/70 cache and the VAX caches were transparent, and the VAX instruction buffer fetched ahead in hardware **(not confirmed in the sources read)**. *Comparison:* the question did not arise on machines whose memory was close to the processor's speed.
+
+**Recommendation.** Option 1 for the in-order implementations, and reserve the shape of option 2 (a non-faulting `PREFETCH` with a memory operand on a free `SYSX` sub-opcode) in the text so it can be added without moving anything. The survey found it used, but mostly in tuned list and copy code; the `mcpy` family and the compiler corpus do not need it. Cost to build now: none. **If nothing is done:** option 1.
+
+---
+
+## P16. Performance counters
+
+**The need.** Counting cycles, instructions, cache misses and branch mispredictions is how kernels and programs find out why they are slow, and how operating systems profile themselves. Without hardware counters, profiling falls back on sampling the program counter at clock ticks, which is coarse. The readiness review and the survey both list an unprivileged `rdcycle`/`rdinstret` under "do later". The survey notes that the *timekeeping* use (a fast clock read, P3) is a separate and earlier need from the *performance* use (counters).
+
+**The explanation.** A **performance monitoring unit** (PMU) is a set of counters that each count a selected event, with a way to read them, to start and stop them, and to raise an interrupt when one overflows (for sampling). The simplest useful version is two free-running counters, cycles and instructions retired, readable from user mode. Anything larger needs event selection, overflow interrupts and virtualization rules.
+
+**Current state.** None; the timer device's counter is a clock, not a cycle counter.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **None (current)** | nothing to build | no hardware profiling; kernels and tools sample at clock ticks only |
+| 2 | **Two free-running counters, cycle and instruction count, readable in user mode** (RISC-V `rdcycle`, `rdinstret`) | cheap; enough for benchmarks and a basic profile | the width and clock must be defined; a user-readable cycle counter is a timing side channel, so the kernel needs an enable bit |
+| 3 | **A privileged counter block with event selection and overflow interrupts** (x86 `rdpmc`, AArch64 PMU, RISC-V `hpm` counters) | real profiling (sampling by event) | a large block: event list per implementation, interrupts, context-switch state |
+| 4 | **Counters in a bus device, not in the processor** | no ISA change; implementations vary freely | every access is a device read; cannot count per-process without kernel help |
+| 5 | **A trace interface** (an on-chip trace port, a debug tool) | complete visibility on an FPGA | hardware only; no software use in production |
+
+**What current systems do.** The kernel survey found `rdpmc` in the x86 kernels (6 uses) and AArch64, ARM, PowerPC, MIPS and RISC-V kernels read PMU registers; Linux exposes them through its `perf` subsystem **(the perf subsystem is not confirmed in the sources read)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Neither had a hardware counter that Unix used; profiling used a clock-driven sampling call (the `profil` system call and later `gprof`) **(not confirmed in the sources read)**.
+
+**Recommendation.** Option 2, but only after P3: define the clock first (a constant-rate monotonic counter), then add `rdcycle` and `rdinstret` with the same enable-bit mechanism if profiling needs them. Option 3 should wait for a measured need. Cost to build option 2: two `SYSX` sub-opcodes, a counter definition. **If nothing is done:** option 1.
+
+---
+
 ## Part B. Previous decisions, written up so they can be changed
 
 These were decided earlier (the errata cited). They are set out in the same form as P1 to P14 so that any of them can be reopened: if you want to change one, mark it, and it becomes a new erratum. "Keep" below is my view of whether to keep it, not a decision. Unchecked facts from my memory are marked (from memory, not confirmed in the sources read).
@@ -627,7 +687,7 @@ These were decided earlier (the errata cited). They are set out in the same form
 
 **The explanation.** Flags are compact and make multiword arithmetic and tests cheap, but every flag-writing instruction creates a dependency that an out-of-order core must track. Errata 39 keeps the flags but makes them far cheaper to track: two groups (`C` and `{N, Z, V}`), `cbCC` and moves, loads and stores write none, shifts write the same flags for any count.
 
-**Current state.** Flags kept as described; a cost in code size from the compiler change (the earlier figure 0.39% was not found in any other document; errata 39 estimated at most about 0.77%).
+**Current state.** Flags kept as described; a measured cost in code size from the compiler change of +0.39% (1,499,530 to 1,505,382 bytes on the 827-file corpus; `docs/codegen-data/pdp64-after-errata39.csv`), against an estimate of at most about 0.77% in errata 39.
 
 **Options.**
 
@@ -653,7 +713,7 @@ These were decided earlier (the errata cited). They are set out in the same form
 
 **The explanation.** Fixed-length instructions decode trivially but waste space; variable-length ones are denser but make wide decoding harder. The pdp64 uses 16-bit **parcels**: an instruction is one, two or three of them, and the first parcel says which. A second page of one-parcel abbreviations (`len = 11`) covers the commonest forms in two bytes.
 
-**Current state.** 2, 4 or 6 bytes; 43 one-parcel abbreviations (corrected after checking: ISA 4.18 says 43 defined, 21 reserved; this text said 45); measured code size within 0.2% of `gcc -Os` and 7% below `clang -Os`.
+**Current state.** 2, 4 or 6 bytes; 45 one-parcel abbreviations (checked against the grammar, `spec/pdp64-mnemonics.hbnf`, which defines 45 page-2 opcodes including `0x2C` and `0x2D`; ISA 4.18 said 43 only because it predated errata 39 and has been brought up to date); measured code size within 0.2% of `gcc -Os` and 7% below `clang -Os`.
 
 **Options.**
 
@@ -1084,7 +1144,7 @@ Nothing in the documents decides these yet. The system architecture and the bus 
 
 ## Part D. Vector and SIMD math
 
-(I read "avax" as AVX. If you meant something else, tell me.) **SIMD** means single instruction, multiple data: one instruction operating on several values packed side by side. This is a real gap: the ISA has considered and rejected separate vector register files (ISA section 15.2, "Separate vector register files (LSX, LASX)"), and put wide data-parallel work in a bus-attached coprocessor instead (the LB64 accelerator is the worked case), but no decision record exists and nothing weighs the alternatives. Facts about other systems are from my memory and **not confirmed in the sources read**; the kernel survey says only that avoiding floating-point state avoids about 180 x86 instructions that save it. The compiler corpus was built at `-Os`, where gcc and clang vectorize little, so **there is no measurement of how much vector code a pdp64 would run**; the first thing to do before choosing is collect that evidence (list at the end of this part).
+(I read "avax" as AVX. If you meant something else, tell me.) **SIMD** means single instruction, multiple data: one instruction operating on several values packed side by side. This is a real gap: the ISA has considered and rejected separate vector register files (ISA section 15.2, "Separate vector register files (LSX, LASX)"), and put wide data-parallel work in a bus-attached coprocessor instead (the LB64 accelerator is the worked case), but no decision record exists and nothing weighs the alternatives. Facts about other systems are from my memory and **not confirmed in the sources read**; the [kernel survey](kernel-asm-survey.md) says only that avoiding floating-point state avoids about 180 x86 instructions that save it. The compiler corpus was built at `-Os`, where gcc and clang vectorize little, so **there is no measurement of how much vector code a pdp64 would run**; the first thing to do before choosing is collect that evidence (list at the end of this part).
 
 | # | Decision | My recommendation | Depends on |
 |---|---|---|---|
@@ -1270,7 +1330,7 @@ None of these was measured. Each is a small job:
 
 ## What I need from you
 
-Please mark each of P1 to P14 (and any of Q1 to Q15 you want to reopen, R1 to R8, and S1 to S6) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
+Please mark each of P1 to P16 (and any of Q1 to Q15 you want to reopen, R1 to R8, and S1 to S6) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
 
 ## Appendix: verification of the comparisons
 
@@ -1282,13 +1342,12 @@ Checked on 2026-10-22; details per claim in `docs/codegen-data/verification/clai
 
 | Old claim | New fact | Source |
 |---|---|---|
-| 45 one-parcel abbreviations | 43 defined, 21 reserved | ISA 4.18 |
-| page 2 has 19 slots reserved | 21 reserved | ISA 4.18 |
+| (verification pass, withdrawn) 45 one-parcel abbreviations / 19 reserved | the verification pass read 43 / 21 in ISA 4.18, which predated errata 39; the grammar defines 45 and the claim was right; the ISA text was the stale part and is now corrected | `spec/pdp64-mnemonics.hbnf`, ISA 4.18 |
 | rand() seeded from the time | fixed default seed 1, programs seed it | V7 rand.c |
 | VAX has 32 priority levels | levels 1-31 plus level 0 | VAX-11 Arch. Ref. Manual 6.1.1 |
 | PDP-11 page registers have an accessed bit | A bit means an access met the trap condition; W bit means written | PDP-11 04-55 handbook |
 | PowerPC long double is double-double | only on Linux; FreeBSD, OpenBSD, musl, AIX use 64 bits | clang PPC.h |
-| code-size cost of the flag change 0.39% | figure not found; errata 39 estimated at most 0.77% | docs |
+| (verification pass, withdrawn) code-size cost of the flag change 0.39% | the figure is measured: +0.39% bytes, 1,499,530 to 1,505,382 | `docs/codegen-data/pdp64-after-errata39.csv` |
 | OpenBSD vmm and bhyve x86 only | OpenBSD arm64 has a stub only; FreeBSD bhyve has arm64 and riscv trees | source trees |
 | `wfi` of AArch64 and RISC-V wakes on any pending interrupt | RISC-V: needs the interrupt enabled individually, global bit ignored; AArch64 unread | RISC-V manual |
 | VAX interlocked queue instructions INSQHI in the early VAX | not in the 1977 handbook; present in the 1982 manual | VAX handbooks |
@@ -1298,4 +1357,4 @@ Checked on 2026-10-22; details per claim in `docs/codegen-data/verification/clai
 * **P13 (`long double`):** OpenBSD's own ports are not uniform: powerpc64 uses a 64-bit `long double`, arm64 and riscv64 binary128 (clang defaults). This supports option 1 or 5 for a port that wants to match the powerpc64 port, and removes the statement that OpenBSD's choice is unknown; it does not by itself change the recommendation.
 * **P1:** the RISC-V `wfi` wake rule is weaker than the text said (an enable bit of the individual interrupt is needed, and an implementation may wake for any reason), so "same result as RISC-V" holds only if the pdp64 treats the priority mask like the global enable bit.
 * **P9:** the "rand() seeded from the time" remark was wrong; no effect on the recommendation.
-* **Q7:** the 0.39% figure cannot be sourced.
+* **Q7:** the 0.39% figure is measured and sourced (`docs/codegen-data/pdp64-after-errata39.csv`); the verification pass wrongly said it could not be found.

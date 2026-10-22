@@ -301,7 +301,7 @@ Byte-granular encoding — x86's and the 6502's — remains rejected. Both were 
 +-----+-----------------+-----------+-----------+
 ```
 
-and its own 64-entry opcode map (43 defined), given in §4.18. Every page-2 form is *exactly* an abbreviation of an existing page-1 instruction: the same result, the same flags, the same faults. The assembler chooses it when the operands fit, as it chooses any other length, and a page-2 form has no mnemonic of its own (§4.14, §4.15). Length is still a function of `len` alone: page 2 is always one parcel. What is new is one extra decision in the decoder, after the length is known, and that decision is the page select on `len = 11`.
+and its own 64-entry opcode map (45 defined), given in §4.18. Every page-2 form is *exactly* an abbreviation of an existing page-1 instruction: the same result, the same flags, the same faults. The assembler chooses it when the operands fit, as it chooses any other length, and a page-2 form has no mnemonic of its own (§4.14, §4.15). Length is still a function of `len` alone: page 2 is always one parcel. What is new is one extra decision in the decoder, after the length is known, and that decision is the page select on `len = 11`.
 
 ### 3.2 Alignment and fetch
 
@@ -912,6 +912,8 @@ Class 0 minors: `0` `NOP`, `1` `RTI`, `2` `RTT`, `3` `RET`, `4` `HALT`, `5` `BPT
 
 **`PUSHX` and `POPX`** (2026-10-22, errata 37) save and restore the exception state with one instruction each. `PUSHX`: `SP ← SP − 16; M[SP] ← EPSW; M[SP + 8] ← EPC`; `POPX`: `EPSW ← M[SP]; EPC ← M[SP + 8]; SP ← SP + 16`, on the stack of the current mode. Privileged, no flags written. Both words are checked before either is accessed, so an abort leaves nothing changed even when the sixteen bytes straddle a page. The long form is `SYSX` (class 0, minor 15; parcel 1 `sub:8 pad:8`, `sub` 0 or 1) in four bytes; the two-byte forms are page-2 opcodes `0x2A` and `0x2B` (§4.18), which the assembler uses. A handler that may be interrupted begins with `PUSHX` and ends with `POPX; RTI`.
 
+**`ISYNC` and `HINT #n`** (2026-10-22, errata 39) are the other two `SYSX` words (class 0 minor 15, sub-opcodes 2 and 3; four bytes, with the page-2 abbreviations `0x2C` and `0x2D`, §4.18). `ISYNC` (privileged, no flags, `pad` must be 0, else illegal instruction) makes earlier writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` and earlier `ICINV`/`ICINVA` take effect for the instructions that follow it: the architecture promises the effect only after the next `ISYNC` (a small in-order implementation may apply it at once, and software must not rely on that). `HINT #n` (not privileged, no flags, `n` from 0 to 255 in the `pad` byte) has no architectural effect for any `n`: `0` is a plain no-op hint, `1` a pause for spin-wait loops, `2` a speculation barrier, and every other value is a reserved hint that also executes as a no-op, so software may not use it yet and later revisions may give it a meaning.
+
 #### 4.11.1 Four PDP-11 instructions dropped in revision 17
 
 `IOT`, `EMT`, `WAIT` and `RESET` are gone. All four were carried forward out of sentiment rather than need.
@@ -1105,7 +1107,7 @@ Added 2026-10-22 (errata 31). Where the fourth parcel used to be, `len = 11` now
 +-----+-----------------+-----------+-----------+
 ```
 
-`opc` is a 64-entry opcode map of its own; **43 entries are defined**. `reg` is the register named first in the table, `low` the field named second. The opcode numbers of page 2 are independent of those of page 1: `0x28` of page 2 is `XOR #imm, rd`, while `0x28` of page 1 is `CBCC` (§4.4.1).
+`opc` is a 64-entry opcode map of its own; **45 entries are defined**. `reg` is the register named first in the table, `low` the field named second. The opcode numbers of page 2 are independent of those of page 1: `0x28` of page 2 is `XOR #imm, rd`, while `0x28` of page 1 is `CBCC` (§4.4.1).
 
 **The rule for every page-2 form: it is *exactly* the operation of the page-1 instruction it abbreviates** — the same result, the same flags, the same faults. An assembler that picks the shortest encoding therefore can never change what a program does. A mnemonic still assembles to exactly one instruction (§4.15): the assembler chooses the length, as it does for branches, and the page-2 forms have no mnemonics of their own. Implementations may decode a page-2 form to the long form it abbreviates and execute it with the same logic, so that the semantics are written once.
 
@@ -1132,6 +1134,8 @@ Added 2026-10-22 (errata 31). Where the fourth parcel used to be, `len = 11` now
 | `0x29` | `ADD #imm, rd`, `imm` sign-extended 4 bits | `rd` | imm | `ADD #imm, rd` |
 | `0x2A` | `PUSHX` (`reg` and `low` zero) | 0 | 0 | `SYSX` sub 0 (§4.11) |
 | `0x2B` | `POPX` (`reg` and `low` zero) | 0 | 0 | `SYSX` sub 1 (§4.11) |
+| `0x2C` | `ISYNC` (`reg` and `low` zero) | 0 | 0 | `SYSX` sub 2 (§4.11) |
+| `0x2D` | `HINT #n`, `n` = `reg:low` (0 to 255) | n high | n low | `SYSX` sub 3 (§4.11) |
 
 Notes on the table.
 
@@ -1139,7 +1143,7 @@ Notes on the table.
 - The mask of `0x1E` and `0x1F` covers `R8` to `R15` only: all 2,392 push and 2,392 pop sites in the measured corpus used a mask within `R8` to `R15`. The long forms take a 16-bit mask (§4.5) and are unchanged.
 - `MOVQ` stores to `SP` have the single opcode `0x0E` (offsets 0 to 120), and `0x0F` is reserved; `MOVL` stores to `SP` have two, `0x12` and `0x13`. Of the stores at `d(rn)` only `MOVQ` has a page-2 form (`0x18`, `0x19`).
 
-**Reserved in page 2:** every opcode not listed — `0x0F` and `0x2C` to `0x3F`, 21 of the 64. **A reserved page-2 opcode is an illegal-instruction abort** (§7.3), as a reserved page-1 opcode is. The reserved entries are for later abbreviations under the same rule; §1.2 rule 3 applies to them as it does to the reserved block of §4.16.
+**Reserved in page 2:** every opcode not listed — `0x0F` and `0x2E` to `0x3F`, 19 of the 64. **A reserved page-2 opcode is an illegal-instruction abort** (§7.3), as a reserved page-1 opcode is. The reserved entries are for later abbreviations under the same rule; §1.2 rule 3 applies to them as it does to the reserved block of §4.16.
 
 **What the page is worth.** The decision and its reasons are in §9.9 and the history in §9.6. The estimated saving, static counts on the 827-file fair corpus compiled with the optimizing flags (a measurement of the final output of 2026-10-22, 1,672,166 bytes of image): 59,354 sites and 118.6 KB, 7.1% of the image, at two bytes per site. `CBCC` adds 6,390 sites (12.8 KB, 0.8%) and `RORI32` 896 sites (9.0 KB, 0.5%): all together 66,640 sites, 140.4 KB, 8.4%. The estimates are static, the families do not overlap but the interaction of one saving with another was not checked, and the offset and immediate ranges were chosen from the histograms of the same corpus, so the figure is optimistic for other programs. **Measured after the implementation** (the assembler chooses the forms; the compiler is unchanged): 1,548,484 bytes of image against 1,672,166, a saving of 123,682 bytes (7.4%), with 61,463 page-2 words; 1.031 times `gcc -Os` and 0.961 times `clang -Os` (CHANGES-SINCE-R20.md §12).
 
@@ -1777,7 +1781,7 @@ Items added since revision 20:
 | FP | software convention | `R13`, used by `CALLS`/`CALLG` | **`R13`**, software convention |
 | AP | — | `R12`, for `CALLS`/`CALLG` | none — `R12` is general |
 | Virtual address | 16 bits (18/22 physical) | 32 bits | 39 bits (40 physical) |
-| Instruction count | ~70 base, plus EIS/FIS/FP11/CIS options | 304 | 58 assigned top-level opcodes in page 1 and 43 defined opcodes in page 2; 230 instructions in 266 mnemonic words (the rest are aliases); 95 operations once width, precision and similar qualifiers are folded |
+| Instruction count | ~70 base, plus EIS/FIS/FP11/CIS options | 304 | 58 assigned top-level opcodes in page 1 and 45 defined opcodes in page 2; 234 instructions in 266 mnemonic words (the rest are aliases); 95 operations once width, precision and similar qualifiers are folded |
 | Instruction length | 1–3 words (2–6 bytes) | 1 to over 50 bytes | 1–3 parcels (2–6 bytes), plus a one-parcel second page |
 | Operands per instruction | 1 or 2 | 0 to 6 | 1 or 2, plus 3 for `MBLK` |
 | Memory operands per instruction | up to 2 | up to 6 | **1** |
@@ -2113,7 +2117,7 @@ Terms this document uses without defining them, collected because several were i
 |---|---|
 | **parcel** | a 16-bit unit of instruction encoding. Instructions are 1–3 parcels (§3.1) |
 | **`len`** | bits 15..14 of parcel 0: the number of *extension* parcels for `00`, `01` and `10`; the value `11` selects page 2 (§3.1) |
-| **page 2** | the second opcode map, selected by `len = 11`: 64 entries of one-parcel instructions, 43 defined, each an exact abbreviation of a page-1 instruction (§3.1.2, §4.18). Page 1 is the map of `len = 00`, `01` and `10` (§4.16) |
+| **page 2** | the second opcode map, selected by `len = 11`: 64 entries of one-parcel instructions, 45 defined, each an exact abbreviation of a page-1 instruction (§3.1.2, §4.18). Page 1 is the map of `len = 00`, `01` and `10` (§4.16) |
 | **`CBCC`** | **c**ompare-immediate-and-**b**ranch on **c**ondition — opcode `0x28`, the fused compare and branch (§4.4.1) |
 | **`RORI32`** | rotate right by an immediate, 32-bit, sign-extended result — a `BESC` sub-opcode (§4.6) |
 | **`BESC`** | **b**it **esc**ape — opcode `0x0C`, bit, field and rotate manipulation (§4.6) |
@@ -2254,11 +2258,11 @@ Revision 20 as received was written under the working name 11/64W; the original 
 | ABI roles of the registers and the data model (LP64, stack alignment 8) | §2.1, §2.3, §19.5 | C5, `abi.md` |
 | Counts: 247 mnemonic words, 213 instructions, 93 operations (before the second page; after the second page, `cbCC`, `rori32`, `mfsr` and `mtsr`: 266 mnemonic words, 230 instructions, 95 operations) | §13.1 | C1, E27 |
 | Fourth parcel removed: instructions are 1, 2 or 3 parcels (2, 4 or 6 bytes); immediate, absolute, PC-relative and branch payloads 16 or 32 bits, base and direct-page displacement 12 or 28, scaled-index 6 or 22 | §3.1, §3.3, §4.4, §5, §7.3, §9.6, §19 | E31, C12 |
-| `len = 11` is page 2: 64-entry map of one-parcel exact abbreviations, 43 defined, 21 reserved (illegal-instruction abort) | §3.1.2, §4.18 | E31, C12 |
+| `len = 11` is page 2: 64-entry map of one-parcel exact abbreviations, 45 defined, 19 reserved (illegal-instruction abort) | §3.1.2, §4.18 | E31, C12 |
 | `CBCC` (compare immediate and branch) takes top-level opcode `0x28`: 56 assigned, 7 reserved `0x29`–`0x2F` | §4.4.1, §4.16 | E31, C12 |
 | `CBW`, the wide-immediate `CBCC` (opcode `0x29`, imm16 and disp16, six bytes): 57 assigned, 6 reserved `0x2A`–`0x2F`; `RORI32` now sign-extends | §4.4.1, §4.6, §4.16 | E34, C12 |
 | `CBRR`, the register form of `CBCC` (opcode `0x2A`, `ra`, `rb`, 12-bit or 28-bit displacement): 58 assigned, 5 reserved `0x2B`–`0x2F` | §4.4.1, §4.16 | E35, C12 |
-| `PUSHX`, `POPX`: save and restore `EPC` and `EPSW` on the stack; `SYSX` (class 0 minor 15) with page-2 abbreviations `0x2A`, `0x2B`; page 2 has 43 defined and 21 reserved | §4.11, §4.18 | E37, C12 |
+| `PUSHX`, `POPX`: save and restore `EPC` and `EPSW` on the stack; `SYSX` (class 0 minor 15) with page-2 abbreviations `0x2A`, `0x2B`; page 2 has 45 defined and 19 reserved | §4.11, §4.18 | E37, C12 |
 | `RORI32` added as a `BESC` sub-opcode | §4.6 | E31, C12 |
 | Page-2 forms are not mnemonics; `CBCC` mnemonics `CBNE` … `CBLOS` | §4.15 | E31, C12 |
 | Open item 18 resolved; §9.6 rewritten, decision recorded in §9.9; rejected alternatives in §11 | §9.6, §9.9, §11, §12 | E31, C12 |

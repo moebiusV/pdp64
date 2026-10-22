@@ -32,6 +32,7 @@ is committed and verified (the rule is a clean-clone `tools/check-all.sh` of the
 | size reference numbers (gcc and clang `-Os`, our amd64 pcc) | `/tmp/p64opt/refs-gcc-clang-amd64.json` and `docs/codegen-data/refs-gcc-clang-amd64.csv` | small | the CSV is in git; the JSON is a scratch file that `tools/pdp64size.py` can regenerate with `TOOLCHAIN=` set |
 | scratch results of the compiler runs | `/tmp/p64opt/*` | | disposable; lost on reboot; every number in the documents says how it was measured |
 | kernel sources for the survey | `~/claude/kernel-src` (sparse, 328 MB), `~/claude/kernel-history` (2.9 GB, partial blobless clones, **incomplete: the clones were killed**) | | re-clone with `tools/kernelasm.py` and `tools/kernelpain.py` (they print the clone commands); never committed |
+| the full TUHS Unix source archive (V7, 32V, 3BSD, 4.xBSD, 2.11BSD, Ultrix, old NetBSD/OpenBSD/FreeBSD, Linux 0.96 and 2.6.33) | `~/claude/facetlang/unixtree` | 2.2 GB | rsync it, or fetch from tuhs.org; used as the source for claims about the PDP-11 and VAX Unix kernels |
 | browser data | `~/claude/browse-output` (28 GB: scraped data and `facebook.db`, the browse queue) | 28 GB | **the author's own data, not part of this project**; only the browser skill is needed on the new machine (`~/.claude/skills/browser.md`, `~/claude/browse-output/browsectl`) |
 
 ## 3. Rebuilding, in order
@@ -78,7 +79,7 @@ Measured by `tools/pdp64size.sh`; references in `docs/codegen-data/`. The flag-r
   partly written), the kernel pain-points research (`docs/kernel-pain-points.md` not written; Phase 1 had only begun cloning, and its clone directory `~/claude/kernel-history` is incomplete). Restart each with a fresh agent, one at a time on a small machine. **The LLVM re-check** (section 4) is queued first.
 * **Known open spec items:** the `DMW` format and `MMUCTL`; bus atomics; `pushm`/`popm`/`pushx`/`popx` aborts can leave earlier stores; block copy more than one byte per step against the sequential-consistency promise; the architecture-text items of the readiness review still to be written into the ISA.
 * **Web research** (the kernel mailing lists, the handbooks listed in `docs/fact-check-2026-10-22.md` section 12) uses the browser skill, not `WebFetch`. The author wants to be told
-  before `browse.py` is started because it opens a visible window; never `kill` it, use `./browsectl quit`. Chrome was found left running after a quit, which needs a WSL shutdown to clear.
+  before `browse.py` is started because it opens a visible window; never `kill` it, use `./browsectl quit`. Chrome was found left running after a quit, which needs a WSL shutdown to clear (seen again after the verification run of 2026-10-22: ten chrome processes outlived `browsectl quit`, and `browse.py` keeps a defunct chrome child from its start).
 
 ## 7. Decisions taken, and decisions open
 
