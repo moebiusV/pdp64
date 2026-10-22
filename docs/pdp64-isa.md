@@ -1094,7 +1094,7 @@ Added 2026-10-22 (errata 31). Where the fourth parcel used to be, `len = 11` now
 | `0x12` `0x13` | `MOVL` store to `SP`: offset `4 * ((opc & 1) * 16 + low)`, 0 to 124 | `rs` | offset, low 4 bits | `MOVL rs, d(SP)` |
 | `0x14` to `0x17` | `MOVQ` load from `rn` at offset `8 * (1 + (opc & 3))`, i.e. 8, 16, 24, 32 | `rd` | `rn` | `MOVQ d(rn), rd` |
 | `0x18` `0x19` | `MOVQ` store to `rn` at offset `8 * (1 + (opc & 1))`, i.e. 8, 16 | `rs` | `rn` | `MOVQ rs, d(rn)` |
-| `0x1A` to `0x1D` | `MOVL` load from `rn` at offset `4 * (1 + (opc & 3))`, i.e. 4, 8, 12, 16 | `rd` | `rn` | `MOVL d(rn), rd` |
+| `0x1A` to `0x1D` | `MOVL` load from `rn` at offset `4 * (1 + (opc - 0x1A))`, i.e. 4, 8, 12, 16 for `0x1A`, `0x1B`, `0x1C`, `0x1D` | `rd` | `rn` | `MOVL d(rn), rd` |
 | `0x1E` | push registers `R8` to `R15` named by the 8-bit mask `reg:low` (bit *i* is `R(8+i)`) | mask high | mask low | `PUSHM #(mask << 8)` |
 | `0x1F` | pop registers, the mask as for `0x1E` | mask high | mask low | `POPM #(mask << 8)` |
 | `0x20` | `SUB #(8*n), SP`, `n = reg:low` (0 to 255) | n high | n low | `SUB #(8*n), SP` |

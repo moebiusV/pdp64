@@ -502,7 +502,7 @@ never change what a program does. A mnemonic still assembles to exactly one inst
 | `0x12` `0x13` | `movl` store to `sp`: offset `4 * ((opc & 1) * 16 + low)`, 0 to 124 | `rs` | offset low 4 bits | `movl rs,d(sp)` |
 | `0x14` to `0x17` | `movq` load from `rn` at offset `8 * (1 + (opc & 3))`, i.e. 8, 16, 24, 32 | `rd` | `rn` | `movq d(rn),rd` |
 | `0x18` `0x19` | `movq` store to `rn` at offset `8 * (1 + (opc & 1))`, i.e. 8, 16 | `rs` | `rn` | `movq rs,d(rn)` |
-| `0x1A` to `0x1D` | `movl` load from `rn` at offset `4 * (1 + (opc & 3))`, i.e. 4, 8, 12, 16 | `rd` | `rn` | `movl d(rn),rd` |
+| `0x1A` to `0x1D` | `movl` load from `rn` at offset `4 * (1 + (opc - 0x1A))`, i.e. 4, 8, 12, 16 for `0x1A`, `0x1B`, `0x1C`, `0x1D` | `rd` | `rn` | `movl d(rn),rd` |
 | `0x1E` | `pushm8`: push registers `r8` to `r15` named by the 8-bit mask `reg:low` (bit `i` is `r(8+i)`) | mask high | mask low | `pushm #(mask << 8)` |
 | `0x1F` | `popm8`, the mask as for `pushm8` | mask high | mask low | `popm #(mask << 8)` |
 | `0x20` | `sub #(8*n),sp`, `n = reg:low` (0 to 255) | n high | n low | `sub #(8*n),sp` |
