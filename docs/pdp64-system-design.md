@@ -4,7 +4,7 @@
 
 **Status: written 2026-10-22, after the fact.** The choices of System v1 ([`pdp64-system-architecture.md`](pdp64-system-architecture.md) §15, errata 36) were proposed by Claude and accepted by the author with
 little discussion. This document is the discussion that was missing: what the main options were, what the major architectures and operating systems do, how each choice measures against the author's stated goals, and where it does not.
-**Statements about other architectures and operating systems are from general knowledge, not checked against their manuals in this session; they are marked "(to verify)" where the detail matters.** The choices are the author's to change.
+**Statements about other architectures and operating systems were written from general knowledge; a fact-check on 2026-10-22 ([`fact-check-2026-10-22.md`](fact-check-2026-10-22.md)) compared those that could be compared with the QEMU source (RISC-V, x86, ARM, MIPS and SPARC definitions), the 32V headers, Wikipedia and OpenBSD pages. What was not checked is marked "(not checked)".** The choices are the author's to change.
 
 ## 1. The goals the design is judged by
 
@@ -99,7 +99,7 @@ memory type is two bits in the entry, as RISC-V's Svpbmt does, not an indirectio
 
 ### D8. Accessed and dirty bits
 
-x86-64: the hardware sets both, atomically. AArch64: optional hardware management (otherwise a fault, the access flag managed by software). RISC-V: either a fault (Svade) or hardware (Svadu). MIPS: the dirty bit is a TLB write-permission bit set by software. **VAX: a hardware modify bit and no reference bit at all; 3BSD emulated reference bits in software** (to verify).
+x86-64: the hardware sets both, atomically. AArch64: optional hardware management (otherwise a fault, the access flag managed by software). RISC-V: either a fault (Svade) or hardware (Svadu). MIPS: the dirty bit is a TLB write-permission bit set by software. **VAX: a hardware modify bit and no reference bit at all; 3BSD emulated reference bits in software** (not checked: no source for this was read; see the fact-check).
 **Chosen:** software. An access to a page with `A` = 0, or a write to one with `D` = 0, faults and the kernel sets the bit. Why: **the walker never writes memory**, which is G2 (a walk cannot fault on a write, cannot need an atomic read-modify-write of a page table, and the open lock-versus-monitor question stays away from it) and G4 (no read-modify-write path in the walker), and it is how
 3BSD's paging worked on the VAX. *Cost:* one extra fault the first time each page is touched, and one more on its first write; Linux on RISC-V machines without hardware management pays this too.
 
@@ -118,7 +118,7 @@ the ASID and no flush (the PDP-11 map sets' constant-time switch, kept), and bro
 ### D11. The kernel's access to user memory
 
 PDP-11: explicit instructions, `MFPI` and `MTPI`, move to and from the previous mode's space. VAX: `PROBER`/`PROBEW` then ordinary access. x86: `SMAP` blocks it unless `STAC` is executed. AArch64: `PAN` blocks it unless cleared. RISC-V: `SUM` in `sstatus`, off by default.
-**Chosen:** kernel mode may read and write pages marked user, but may not execute them (the equivalent of `SMEP`); `PROBER`/`PROBEW` are available. *Cost:* **there is no `SMAP`/`PAN`/`SUM` guard**: a kernel bug that dereferences a user pointer by mistake succeeds. Modern kernels value that guard (OpenBSD turns `SMAP` on). It would be one more bit in the PSW; it is an open item, not
+**Chosen:** kernel mode may read and write pages marked user, but may not execute them (the equivalent of `SMEP`); `PROBER`/`PROBEW` are available. *Cost:* **there is no `SMAP`/`PAN`/`SUM` guard**: a kernel bug that dereferences a user pointer by mistake succeeds. Modern kernels value that guard (that OpenBSD turns `SMAP` on is from memory and not checked). It would be one more bit in the PSW; it is an open item, not
 needed for 3BSD.
 
 ### D12. Restart
@@ -173,5 +173,5 @@ declined to write page tables (D8). It is **weakest on G1 in two places, D9 and 
 
 ## 6. Sources and caveats
 
-This document is Claude's, written for the author to criticise. The comparison tables are from memory of the manuals (the PDP-11/70 processor handbook, the VAX architecture handbook, the Intel and Arm architecture manuals, the RISC-V privileged specification) and of how
-Linux, BSD and others use them; none was re-read for this document. The pdp64 statements are from [`pdp64-system-architecture.md`](pdp64-system-architecture.md) §15, [`errata.md`](errata.md) 32 and 36 and the ISA.
+This document is Claude's, written for the author to criticise. The comparison tables were written from memory of the manuals (the PDP-11/70 processor handbook, the VAX architecture handbook, the Intel and Arm architecture manuals, the RISC-V privileged specification) and of how
+Linux, BSD and others use them; none was re-read for this document. Afterwards (2026-10-22, [`fact-check-2026-10-22.md`](fact-check-2026-10-22.md)) the RISC-V, x86, ARM, MIPS and SPARC entries were compared with the QEMU source (PTE bits, exception vector offsets, NaN and flag layouts) and found correct where they could be compared; the PDP-11, VAX, POWER and Linux/OpenBSD entries were not checked against a manual. The pdp64 statements are from [`pdp64-system-architecture.md`](pdp64-system-architecture.md) §15, [`errata.md`](errata.md) 32 and 36 and the ISA.

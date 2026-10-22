@@ -48,7 +48,7 @@ Items marked **DECISION** are choices the document left open; change them in the
 16. **DECISION: `FRECPED` and `FRSQRTED` dropped.** ISA 4.10 lists reciprocal and reciprocal-square-root estimates "for Newton-Raphson". The machine has
     `FDIVD`, `FSQRTD` and the fused multiply-add family, so a software Newton loop buys speed only if the hardware divide is slow, which this
     design does not chase; each estimate needs a table in hardware and an exact specification (ARM and RISC-V pin down the algorithm and table, the ISA
-    says only "not correctly rounded", so two implementations would return different bits); and no document names a user (ISA 1.2 rule 3). Sub-opcodes
+    says only "not correctly rounded", so two implementations would return different bits; *fact-check 2026-10-22: in RISC-V the pinned-down estimate exists only in the vector extension, `vfrec7`/`vfrsqrt7`, see `target/riscv/tcg/vector_helper.c` in QEMU, not in the scalar F/D extensions*); and no document names a user (ISA 1.2 rule 3). Sub-opcodes
     `0x40` and `0x41` of `FESC` are free again. The ISA text in `docs/11-64W/` is left as written.
 17. **DECISION (added at the user's request): floating-point exception flags.** The ISA never mentions them (a search for flags, `fenv`, "inexact", "sticky" finds
     nothing), and IEEE 754 requires five status flags (invalid operation, division by zero, overflow, underflow, inexact) and C99 `<fenv.h>` needs software
@@ -117,6 +117,7 @@ Items marked **DECISION** are choices the document left open; change them in the
     for the design:* the first system sets a short list of what the system architecture must define first: the exception entry sequence, a way to write `PTBR`, interrupt priorities, a clock, a console and a disk
     ([`pdp64-system-architecture.md`](pdp64-system-architecture.md) sections 12 to 14). *Open:* the kernel sources are not in the repositories; the LP64 and a.out-versus-ELF decisions; the LLVM estimate; everything
     in the system architecture document's open list.
+    *Fact-check 2026-10-22:* the 32V claim is confirmed by Wikipedia (*UNIX/32V*: "released without virtual memory paging, retaining only the swapping architecture of Seventh Edition"; paging added at Berkeley by Bill Joy and Ozalp Babaoglu, released as 3BSD in 1979). The 2002 Caldera licence covers early Unix up to and including 32V (Wikipedia, *Ancient UNIX*); it is not shown to cover 3BSD. See `fact-check-2026-10-22.md`.
 31. **DECISION (the author's): the fourth parcel is removed, and `len = 11` becomes a second page of one-parcel instructions; two further instructions are added.** The full map is in
     [`CHANGES-SINCE-R20.md`](CHANGES-SINCE-R20.md) section 12 ("Decided design: the second page"). In short: instructions are 1, 2 or 3 parcels (2, 4 or 6 bytes); `len = 11` is one parcel in the layout
     `11 opc:6 reg:4 low:4` with its own 64-entry opcode map, holding register-deferred loads and stores, `lea` and quad/long loads and stores at small offsets from `sp`, quad and long loads and stores at small

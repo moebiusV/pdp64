@@ -658,7 +658,7 @@ different value of one of these is not a different operation.
   access, direct-map-window write, address probe
 * Return (1)
 
-(SMP total 17; system 12.) By comparison, from memory and unverified: the original PDP-11 is roughly 60 operations folded this way; VAX roughly 300 words,
+(SMP total 17; system 12.) By comparison, from memory and still unverified (not found in a source during the 2026-10-22 fact-check): the original PDP-11 is roughly 60 operations folded this way; VAX roughly 300 words,
 perhaps 120 operations.
 
 ### 13.2 Files
