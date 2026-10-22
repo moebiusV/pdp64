@@ -32,7 +32,7 @@ RESULTS = os.environ.get('RESULTS', '/tmp/co-final/results.jsonl')
 MNEM = os.path.expanduser('~/claude/pdp64/spec/pdp64-mnemonics.hbnf')
 
 CCOMFLAGS_NOSSA = '-xdmr -xtemps -xdeljumps -xinline -xdce'
-COMMENT = {'pdp64': ';', 'amd64': '#', 'i386': '#', 'aarch64': '//'}
+COMMENT = {'pdp64': ';', 'amd64': '#', 'i386': '#', 'aarch64': '//', 'gcc-Os': '#', 'clang-Os': '#'}
 
 
 def fair_files():
@@ -213,8 +213,78 @@ def image_bytes(obj):
     return sum(v[1] for k, v in secs.items() if k in ('.text', '.data', '.rodata') or k.startswith(('.text.', '.rodata.', '.data.')))
 
 
+# The comparators: gcc -Os and clang -Os for amd64 on the file our amd64 pcc gets (the x86_64 musl headers and defines of corpus.py's amd64 entry).
+# Flags as corpus.py builds them: gcc -m64 -fno-pie -fcf-protection=none, clang --target=x86_64-linux-gnu -fno-pic -fcf-protection=none, both
+# -std=gnu99 -w -fno-asynchronous-unwind-tables -fno-unwind-tables -Os.  Instructions are counted in the -S output (non-directive, non-label
+# lines, '#' comments removed); bytes are what `size` prints as text + data of the -c object (text includes .rodata; no bss).
+REFCC = {
+    'gcc-Os': ['gcc', '-m64', '-fno-pie', '-fcf-protection=none'],
+    'clang-Os': ['clang', '--target=x86_64-linux-gnu', '-fno-pic', '-fcf-protection=none'],
+}
+REFCOMMON = ['-std=gnu99', '-w', '-fno-asynchronous-unwind-tables', '-fno-unwind-tables', '-Os']
+
+
+def size_td(obj):
+    r = run(['size', obj])
+    a = r.stdout.strip().split('\n')[1].split()
+    return int(a[0]) + int(a[1])
+
+
+def one_ref(job, keep):
+    corp, src, name = job
+    res = dict(corp=corp, src=src.replace(ROOT + '/', ''), arch=name)
+    r = preprocess(corp, src, 'amd64', [])
+    if r.returncode:
+        res['fail'] = ('cpp', r.stderr.strip().split('\n')[0][:160])
+        return res
+    with tempfile.TemporaryDirectory() as w:
+        i = os.path.join(w, 'i.c')
+        open(i, 'w').write(r.stdout)
+        s, o = os.path.join(w, 'x.s'), os.path.join(w, 'x.o')
+        cmd = REFCC[name] + REFCOMMON
+        for flag, out in (('-S', s), ('-c', o)):
+            q = run(cmd + [flag, '-x', 'c', '-o', out, i])
+            if q.returncode:
+                m = [x for x in (q.stderr or q.stdout).strip().split('\n') if 'error' in x]
+                res['fail'] = ('cc', (m[0] if m else 'exit %d' % q.returncode)[:200])
+                return res
+        res['ins'] = count_ins(s, 'amd64')
+        res['image'] = size_td(o)
+        res['text'] = text_bytes(o)
+        if keep:
+            os.makedirs(keep, exist_ok=True)
+            os.replace(s, os.path.join(keep, name + '_' + res['src'].replace('/', '_') + '.s'))
+            # the machine code of the x86 object, instruction by instruction, for the length statistics
+        res['xlen'] = x86_lengths(o)
+    return res
+
+
+def x86_lengths(obj):
+    """histogram of x86 instruction lengths in .text of an object, from objdump -d"""
+    r = run(['objdump', '-d', '-w', '--no-show-raw-insn', '-j', '.text', obj])
+    r2 = run(['objdump', '-d', '-w', '-j', '.text', obj])
+    h = collections.Counter()
+    cur = None
+    for l in r2.stdout.split('\n'):
+        m = re.match(r'^\s*[0-9a-f]+:\t((?:[0-9a-f]{2} )+)\s*(?:\t(.*))?$', l)
+        if not m:
+            continue
+        nb = len(m.group(1).split())
+        if m.group(2):
+            if cur is not None:
+                h[cur] += 1
+            cur = nb
+        elif cur is not None:
+            cur += nb          # a continuation line of a long instruction
+    if cur is not None:
+        h[cur] += 1
+    return dict(h)
+
+
 def one(job, nowrap, keep):
     corp, src, arch = job
+    if arch in REFCC:
+        return one_ref(job, keep)
     a = ARCH[arch]
     res = dict(corp=corp, src=src.replace(ROOT + '/', ''), arch=arch)
     ccom = os.path.join(BUILDS, 'ours', arch, 'ccom') if arch != 'pdp64' else os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'build', 'pcc', 'ccom')
@@ -330,7 +400,7 @@ INTRINSIC = {
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--set', default='fair', help='fair, pcctests, all (both)')
-    ap.add_argument('--arch', default='pdp64,amd64,aarch64,i386')
+    ap.add_argument('--arch', default='pdp64,amd64,gcc-Os,clang-Os')
     ap.add_argument('-j', type=int, default=os.cpu_count() or 2)
     ap.add_argument('--out', default='/tmp/pdp64size-out')
     ap.add_argument('--limit', type=int, default=0)
@@ -375,8 +445,10 @@ def report(results, archs, out):
     L.append('')
     L.append('"text" is text+read-only data+data (what `size` counts as text+data, no bss), so that pdp64, which keeps its constants in .text, is compared fairly.')
     L.append('')
-    L.append('| corpus | files | ' + ' | '.join('%s ins | %s bytes' % (x, x) for x in archs) + ' | pdp64/amd64 ins | pdp64/amd64 bytes | pdp64/aarch64 ins | pdp64/aarch64 bytes |')
-    L.append('|---|---|' + '---|' * (2 * len(archs) + 4))
+    RATIO = [x for x in ('gcc-Os', 'clang-Os', 'amd64', 'aarch64') if x in archs]
+    L.append('| corpus | files | ' + ' | '.join('%s ins | %s bytes' % (x, x) for x in archs) + ' | ' +
+             ' | '.join('pdp64/%s ins | pdp64/%s bytes' % (x, x) for x in RATIO) + ' |')
+    L.append('|---|---|' + '---|' * (2 * len(archs) + 2 * len(RATIO)))
     corps = sorted(set(k[0] for k in ok))
 
     def tot(keys, ar, f):
@@ -387,7 +459,7 @@ def report(results, archs, out):
         for ar in archs:
             cells += [str(tot(keys, ar, 'ins')), str(tot(keys, ar, 'image'))]
         rat = []
-        for o in ('amd64', 'aarch64'):
+        for o in RATIO:
             if 'pdp64' in archs and o in archs:
                 rat += ['%.2f' % (tot(keys, 'pdp64', 'ins') / tot(keys, o, 'ins')), '%.2f' % (tot(keys, 'pdp64', 'image') / tot(keys, o, 'image'))]
             else:
