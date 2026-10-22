@@ -610,12 +610,26 @@ instructions with the label inside it (so that every label is within the 64 KB r
 3.16 bytes (it was 3.06: a six-byte `cbCC` replaces a four-byte and a two-byte instruction). Three files of 827 grew by 2 to 4 bytes (a tie where alignment of nearby code differs). Data: `docs/codegen-data/pdp64-after-cbw.csv`.
 
 **New open items.** (1) A **register-register compare-and-branch**: 4,714 `cmp reg,reg ; bCC` pairs remain (1.4% of instructions); a one-parcel-plus-displacement form would save those instructions and, only where the branch was four
-bytes, some bytes (between none and about 9 KB, probably a few KB; the length split is not measured). A further 5,356 `cmp reg,mem ; bCC` pairs cannot be fused, since the memory operand has no room. (2) The assembler **refuses**
+bytes, some bytes (between none and about 9 KB, probably a few KB; the length split is not measured). A further `cmp reg,mem ; bCC` pairs (the count first given here, 5,356, was wrong: it was found to include register-register compares; the real figure is 611) cannot be fused, since the memory operand has no room. (2) The assembler **refuses**
 a wide `cbCC` whose target is beyond 64 KB, where it could fall back; a fallback would make the compiler's 9,000-instruction rule unnecessary, at the price of the assembler emitting two instructions for one mnemonic (against ISA §4.14).
 
 ### Decided: a register-register compare-and-branch (2026-10-22, errata 35)
 
 Specification: errata 35. `cbCC ra,rb,label` in the new top-level opcode `0x2A`, four bytes (12-bit displacement) or six (28-bit). Expected: about 4,714 fewer instructions and a few KB fewer bytes at most; the measured effect is recorded here when it is done.
+
+**Implemented and measured (2026-10-22).** Same 827 files and byte metric; 510 C tests pass under `sim64` and under QEMU (the new `tests/c/cbr.c` covers signed and unsigned comparisons in both register orders and the 64-bit extremes).
+
+| Step | Instructions | Bytes | Bytes / `gcc -Os` | Bytes / `clang -Os` | Instr. / `gcc -Os` | Instr. / `clang -Os` |
+|---|---|---|---|---|---|---|
+| before (after the wide `cbCC`) | 338,687 | 1,499,672 | 0.998 | 0.931 | 1.200 | 1.106 |
+| register-register `cbCC` | **334,056** | **1,499,530** | **0.998** | **0.931** | **1.183** | **1.091** |
+
+As predicted in errata 35: **4,631 fewer instructions (1.4%) and only 142 bytes**: 4,685 register-register `cbCC` were emitted, 4,674 of them four bytes, because most of the replaced branches were already the two-byte form (`cmp` two plus short `bCC` two is
+four bytes). Twelve of the 827 files grew by 2 to 8 bytes. Instruction lengths 2 / 4 / 6 bytes = 185,603 / 95,784 / 52,669, average 3.20 bytes. Data: `docs/codegen-data/pdp64-after-cbr.csv`.
+
+**Correction.** The figure of 5,356 `cmp reg,mem ; bCC` pairs, given in the previous paragraph and in errata 35, was wrong: the script's pattern also matched register-register compares. The real counts of compare-and-branch pairs that remain
+(1,282 `cmp` in all): `cmp reg,mem ; bCC` **611** (cannot be fused: the memory operand has no room); `cmp reg,#imm ; bCC` with an immediate beyond 16 bits **641**; `cmp reg,=K ; bCC` 30; `tst ; bCC` none. Compares that feed a materialized 0/1
+value (compare, branch, `movq #1`, `br`, `clr`): 460 sites, the `set cc,rd` candidates that need the shared pass-1 hook; compares that feed a select: 138. There is no further worthwhile compare-and-branch fusion.
 
 ## 13. Appendix
 
