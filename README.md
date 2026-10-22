@@ -11,19 +11,22 @@ instruction as the first, while the high half of the product, which bignums need
 rotates by constants; a divide is rare, because compilers turn division by a constant into a multiply; dedicated absolute-value, minimum and maximum instructions are
 worth under a tenth of a percent of code; and CRC instructions are unnecessary once carry-less multiply exists.
 
-The design is ranked, because its goals conflict: first a small gate count (a small ASIC or an FPGA soft core, not a superscalar), then every instruction restartable
-after a fault, then pleasant assembly, then a good compiler target, then code density. The bit patterns are chosen to make code smaller and the silicon easier to
-wire: the opcode map is sorted by frequency, and the low bits of an opcode are wired straight to the function it selects. The design is also chosen to leave less room
-for error, with fewer footguns and fewer surprises: no mode bits, at most one memory operand per instruction, a register is always written in full, quad accesses
-are naturally aligned, and an instruction does what its name says and nothing else. At every step it reduces code size at a different semantic level (the encoding,
-the instruction set, the compiler), and the last level is the careful choice of the instructions that give the most for the least, so that you can program what you
-mean to program without long sequences of boilerplate. The choices were checked against compiled C, not guessed: on 841 real source files (bearssl, mbedtls, lua, zlib
-and others) the first compiler's output is about 3% smaller than amd64's and 11% smaller than aarch64's in code and data, with about the same number of instructions.
+The design was optimized in layers. The first layer is gate count. Fewer instructions mean fewer gates, and the instructions are grouped by common theme so that
+one circuit serves a whole family of them. Their layout puts the common instructions in the short encodings and the rare ones in the long: the opcode map is sorted by
+frequency, and the low bits of an opcode are wired straight to the function it selects. The second layer is code count: the instructions are chosen so that the
+common jobs take the fewest instructions, and the architecture is set up so that surprises and failure modes happen less often, and when one does happen the code
+that recovers is shorter and simpler. That is why there are no mode bits, at most one memory operand per instruction, a register is always written in full, quad
+accesses are naturally aligned, every instruction can be restarted after a fault, and an instruction does what its name says and nothing else. The third layer is the
+system around the processor. Each device (Ethernet, USB, disk) is presented as a small set of eight registers, which makes a driver trivial to write and keeps the
+multitasking burden off the CPU, so that more of it is left for you and for the important things you are running. The choices were checked against compiled C, not
+guessed: on 841 real source files (bearssl, mbedtls, lua, zlib and others) the first compiler's output is about 3% smaller than amd64's and 11% smaller than aarch64's
+in code and data, with about the same number of instructions.
 
 A 64-bit, little-endian, LP64 successor to the PDP-11: sixteen general registers, variable-length instructions of 2, 4, 6 or 8 bytes in 16-bit parcels, the
 PDP-11's orthogonal addressing modes, and a modern base (bit counts, 64-bit divide, IEEE 754 binary64, binary32 and binary16 with exception flags, block operations,
 atomics, UTF-8 instructions). The toolchain here is written from one source of truth, a set of [hbnf](https://github.com/moebiusV/hbnf) grammars, so that the assembler, linker, emulator, compiler
-back end and [QEMU](https://www.qemu.org/) target cannot drift apart.
+back end and [QEMU](https://www.qemu.org/) target cannot drift apart. It also has optimizations for crypto (bit rotation and reversal, byte swap, carry-less multiply, bit counts, wide multiply) and for AI (the
+population-count and XNOR instructions that binary and sub-1-bit inference needs, and the LB64 accelerator companion document).
 
 ## What to read, in order
 
