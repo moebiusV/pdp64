@@ -9,7 +9,7 @@
  * rights the PTE gives in the mode of the access, and a write to a clean
  * page misses again in the TLB and walks again.  All the numbers are the
  * generated constants of pdp64-consts.h (spec/pdp64-system.hbnf).
- * SPDX-License-Identifier: GPL-2.0-or-later
+ * SPDX-License-Identifier: BSD-2-Clause
  */
 #include "qemu/osdep.h"
 #include "cpu.h"

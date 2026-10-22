@@ -9,7 +9,7 @@
  * Without kernel-mode there is no MMU: addresses are physical.  -kernel loads an ELF executable (as made
  * by ld64) and starts at its entry point; r14 (sp) is the top of RAM minus
  * a page.
- * SPDX-License-Identifier: GPL-2.0-or-later
+ * SPDX-License-Identifier: BSD-2-Clause
  */
 #include "qemu/osdep.h"
 #include "qemu/units.h"

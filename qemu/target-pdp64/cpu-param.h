@@ -1,6 +1,6 @@
 /*
  * pdp64 cpu parameters for qemu.
- * SPDX-License-Identifier: GPL-2.0-or-later
+ * SPDX-License-Identifier: BSD-2-Clause
  */
 #ifndef PDP64_CPU_PARAM_H
 #define PDP64_CPU_PARAM_H

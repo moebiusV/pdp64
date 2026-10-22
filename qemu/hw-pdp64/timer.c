@@ -5,7 +5,7 @@
  * IRQ_LEVEL_TIMER, vector VECTOR_TIMER) is asserted while counter >= compare
  * and the enable bit is set.  The register offsets and bits are the
  * generated constants of pdp64-consts.h.
- * SPDX-License-Identifier: GPL-2.0-or-later
+ * SPDX-License-Identifier: BSD-2-Clause
  */
 #include "qemu/osdep.h"
 #include "qemu/timer.h"

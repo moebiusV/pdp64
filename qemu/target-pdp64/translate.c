@@ -3,7 +3,7 @@
  * calls helper_exec, which decodes and executes the instruction in memory
  * with the shared core; the translator reads the first parcel to know how
  * long the instruction is, so that the block covers the right bytes.
- * SPDX-License-Identifier: GPL-2.0-or-later
+ * SPDX-License-Identifier: BSD-2-Clause
  */
 #include "qemu/osdep.h"
 #include "cpu.h"

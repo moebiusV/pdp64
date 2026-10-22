@@ -4,7 +4,7 @@
  * memory through QEMU's access functions, faults, the system call stand-in
  * (trap #n, halt) of sim64 for the legacy machine, and for the kernel-mode
  * machine the exception and interrupt entry points.
- * SPDX-License-Identifier: GPL-2.0-or-later
+ * SPDX-License-Identifier: BSD-2-Clause
  */
 #include "qemu/osdep.h"
 #include "cpu.h"
