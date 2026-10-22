@@ -994,7 +994,7 @@ Some mnemonics assemble to another instruction rather than to one of their own. 
 
 `IOT` and `EMT` were once listed here as aliases of `TRAP #n` at their historical vectors. The instructions were gone in revision 17 and the aliases, which were never implemented, are dropped (§4.11.1).
 
-**Aliases follow one rule:** a word numbered `0x100` above another word of its group stands for that word — one mnemonic, one instruction. The 29 old floating-point spellings and `BHIS`, `BLO`, `MULU` and `WAIT` all use it, and `ROL` uses it with the count complemented. Conversions (`FCVTDQ` …) and the integer widths (`MOVQ`, `MOVL`, `MOVW`, `MOVB`) keep their spellings until a way of writing a width on an integer operation is chosen.
+**Aliases follow one rule:** a word numbered `0x100` above another word of its group stands for that word — one mnemonic, one instruction. The 29 old floating-point spellings and `BHIS`, `BLO`, `MULU` and `WAIT` all use it, and `ROL` uses it with the count complemented. Conversions (`FCVTDQ` …) and the integer widths (`MOVQ`, `MOVL`, `MOVW`, `MOVB`) keep their spellings until a way of writing a width on an integer operation is chosen. **There is one explicit exception to "one mnemonic, one instruction" in the operand, not the mnemonic: the literal-pool load `=K`** (2026-10-22, errata 33). `movq =0x123456789ABC, r1` is still one instruction, a PC-relative `MOVQ` from a pooled 8-byte literal; what is added is the pool entry, and the `=` marks it plainly as assembler sugar, as in ARM's `ldr r0, =value`. A bare immediate too wide for the field is an error, never silently pooled (asm-syntax.md).
 
 **Two rules keep aliases from becoming a second, undocumented architecture.**
 

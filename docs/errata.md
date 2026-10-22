@@ -135,3 +135,8 @@ Items marked **DECISION** are choices the document left open; change them in the
     for future registers (a vector base, a timer compare, an interrupt mask) without touching the `SYS` layout again. *Open, unchanged:* what `epc`, `eva` and `ecause` contain (the exception entry sequence is not yet designed; the system
     architecture document §4), the semantics of `ptbr` beyond "the base of the current page table", and which of `MTDMW`'s two windows an operand selects (`dmw0` and `dmw1` through `mtsr` are the unambiguous way; `MTDMW` is kept).
     The emulator models only a kernel/user flag for these instructions (`sim64 -k` runs in kernel mode), not the full privileged state.
+33. **DECISION (the author's): wide constants are loaded from a literal pool, written with an explicit `=`; nothing is pooled silently.** An immediate wider than the signed 32-bit field (the fourth parcel is gone, errata 31)
+    cannot be an operand. Two ways to supply it were considered: the compiler builds its own pool, or the assembler offers sugar. The author chose sugar, **provided it is obviously sugar**: `movq =K, rd` (ARM's `ldr =value`)
+    assembles to one PC-relative load of a pooled 8-byte literal, in `.text`, flushed at the end of the section or at `.pool`; a bare too-wide `#K` is an error that points to `=K`. The first implementation of errata 31 pooled
+    silently, which contradicted "one mnemonic assembles to one instruction" (ISA §4.14); the explicit `=` keeps the instruction single and the sugar visible. Allowed on the quad memory-source forms (`movq`, `push`, the ALU group,
+    the floating-point ALU ops); refused for sized moves, shifts, stores, `lea` and relocatable symbols. The compiler emits `=K` for constants that do not fit.

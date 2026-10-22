@@ -42,7 +42,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
    changed (§3); what the ISA left unspecified and is now specified (§4); the ABI (§5); the assembly language (§6); the object format (§7); why a grammar is the
    source (§8); errors in our own work, found and fixed (§9); changes to hbnf (§10); the environment (§11); what is still open (§12); an appendix with the
    opcode map (§13); the measurements behind the proposals (§14).
-5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-32, each with the problem, the choice and the reason.
+5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-33, each with the problem, the choice and the reason.
 6. [`docs/abi.md`](docs/abi.md): the calling convention (registers, stack, structures, variadic calls). [`docs/asm-syntax.md`](docs/asm-syntax.md): the assembly
    language. [`docs/sim64.md`](docs/sim64.md): the emulator and its system-call stand-in.
 
@@ -68,6 +68,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
 | `set cc, rd` added; a conditional select is on hold pending evidence | errata 25; CHANGES §14 |
 | NaN results are the canonical quiet NaN | errata 26 |
 | The fourth parcel is removed; `len = 11` is a second page of 41 one-parcel instructions (the assembler picks them); fused compare-and-branch `cbCC` and `rori32` added: -7.4% code | errata 31; [CHANGES §12](docs/CHANGES-SINCE-R20.md) |
+| Wide constants: `movq =K, rd` loads from a literal pool, written with an explicit `=`; nothing is pooled silently | errata 33; [asm syntax](docs/asm-syntax.md) |
 | Privileged `mfsr`/`mtsr` reach `ptbr`, `epc`, `eva`, `ecause`, `dmw0`, `dmw1`, `usp`, `ssp` (what a paging OS needs) | errata 32 |
 | The first operating system is a port of Unix/32V; OpenBSD follows if an LLVM back end is easy enough; the system architecture document lists what that needs and what is undefined | errata 30; [system architecture](docs/pdp64-system-architecture.md) |
 | Devices (Ethernet, USB, disk) are eight memory-mapped registers plus DMA: trivial drivers, no multitasking burden on the CPU; no ISA change, layouts to be written | errata 29; ISA §16 |
@@ -121,7 +122,7 @@ instructions and 0.97 times its bytes; 486 of 486 C test runs pass. See CHANGES 
 **Documents** (in `docs/`)
 : Updated architecture: [`pdp64-isa.md`](docs/pdp64-isa.md) (the ISA), [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md),
   [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md), [`pdp64-q64-bus.md`](docs/pdp64-q64-bus.md) (the bus and devices), [`pdp64-system-architecture.md`](docs/pdp64-system-architecture.md) (privilege, exceptions, memory management, boot), [`codegen-analysis.md`](docs/codegen-analysis.md) (measurements of compiled code);
-  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-32);
+  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-33);
   conventions: [`abi.md`](docs/abi.md) (calling convention), [`asm-syntax.md`](docs/asm-syntax.md) (assembly language), [`sim64.md`](docs/sim64.md) (emulator);
   baseline as received (working name 11/64W): [`orig/`](docs/orig/); index: [`README.md`](README.md).
 

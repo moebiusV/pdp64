@@ -488,9 +488,7 @@ the estimate: `(rn)` loads and stores 12,941 (9,089), `lea` from `sp` 3,674 (3,6
 `sub`/`add` on `sp` 3,567 (3,561), four-bit immediates 13,447 (11,622). `cbCC` and `rori32` contribute nothing yet: the compiler does not emit them. Corrections found by the tests: the offsets of opcodes `0x1A`
 to `0x1D` are 4, 8, 12, 16 (the formula of the specification was wrong). Per-file numbers are in `docs/codegen-data/`.
 
-**A deviation, temporary.** To keep the C tests passing without a compiler change, the assembler pools a constant wider than 32 bits (for `movq`, the ALU instructions and `push`) as a PC-relative literal at the end of
-`.text`. That contradicts the rule that one mnemonic assembles to one instruction (ISA §4.14). **Decided by the author: the compiler pools such constants itself and the assembler refuses them.** The assembler's pool
-stays until the compiler change is made and is then removed.
+**A deviation, resolved.** To keep the C tests passing without a compiler change, the first implementation pooled a constant wider than 32 bits silently, which contradicted the rule that one mnemonic assembles to one instruction (ISA §4.14). **Decided by the author (errata 33): the pooling is explicit sugar, `movq =K, rd`; a bare too-wide `#K` is an error.** The assembler has the `=` form and the `.pool` directive; the compiler emits `=K` for such constants.
 
 The author chose option C with the explicit map (C1), asked for further candidates to be searched for, and asked for the fused compare-and-branch and the 32-bit rotate to be added. This is the specification.
 

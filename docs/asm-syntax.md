@@ -18,7 +18,7 @@ The layout of a source file is the V7 assembler's, `as`; the lexical rules are C
 - **Strings** are `"text\n"` with C's escapes (`\n \t \r \a \b \f \v \0 \\ \' \" \xHH \ooo`), in `.byte` and `.ascii`.
 - **Operators** are C's: `* / % & << >>` and `+ - | ^`, unary `- ~ !`, and parentheses. `/` is division. `*`, `/`, `%`, `&` and the shifts need
   constants; `+` and `-` accept one relocatable symbol, and the difference of two symbols of one section is a constant.
-- **Directives.** `.text .data .bss .globl .comm .byte .word .long .quad .ascii .even .align .space .lpad`. `.word` is 16 bits, `.long` 32, `.quad` 64
+- **Directives.** `.text .data .bss .globl .comm .byte .word .long .quad .ascii .even .align .space .lpad .pool`. `.word` is 16 bits, `.long` 32, `.quad` 64
   (the ISA's PDP-11 terminology). `.align n` aligns to n bytes (a power of two).
 - **Registers.** `r0`..`r15`; `sp` is `r14`, `fp` is `r13`. `pc` and `dp` appear only as a base: `d(pc)`, `d(dp)`.
 - **Operand modes** (ISA section 5): `rN`; `#expr`; `@expr`; `expr(rN)` and `(rN)`; `expr(rN)(rX*s)` with `s` 1, 2, 4 or 8; `expr(pc)`; `expr(dp)`;
@@ -27,6 +27,11 @@ The layout of a source file is the V7 assembler's, `as`; the lexical rules are C
   `cmp` is the exception, `cmp rd, src`, because the encoding computes `rd - src` (errata 13).
 - **Compare and branch.** `cbCC rd, #imm, label` compares `rd` with a 5-bit signed immediate (-16 to 15) and branches on the condition: `cbeq r3, #5, label`. The mnemonics are `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group (ISA §4.4.1).
   `rori32 rs, #n, rd` rotates the low 32 bits right and zero-extends the result (ISA §4.6).
+- **Literal pool: `=expr`.** An operand written with a leading `=` is **syntactic sugar for a pooled constant, and nothing else**: `movq =0x123456789ABC, r1` puts the 64-bit value in the literal pool and loads it with
+  one PC-relative `movq`. It is accepted where a quad memory source is (`movq`, `push`, the ALU group with the register first for `cmp`: `cmp rd, =K`, and the floating-point ALU ops), and refused for sized moves, shifts, stores,
+  `lea` and a relocatable symbol. `=` always pools, even a small value; use `#imm` for a constant that fits the signed 32-bit field. A bare `#K` that does not fit that field is an **error** ("use =K to load it from the literal pool"):
+  the assembler never pools silently. Entries are 8 bytes, 8-byte aligned, one per distinct value per pool, in order of first use, emitted into `.text` at the end of the section or at the directive **`.pool`** (flush now; code must
+  jump over a mid-section pool). The `=` marks the sugar on the page, which is why it is allowed (errata 33).
 - **Length.** The assembler chooses the shortest encoding, including the one-parcel forms of page 2 (ISA §4.18); those forms have no mnemonics of their own, so `movq (r3), r1` assembles to the one-parcel form when it fits and to the long form when it does not.
 
 What it leaves out of V7 `as`: octal numbers by default, `<string>` and the `'\e` escape, `\/ \< \>` and `[ ]` in expressions, `.if`, `.stabs`,
