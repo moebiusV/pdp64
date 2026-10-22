@@ -647,6 +647,10 @@ Closes the one-instruction window in which an interrupt could overwrite `EPC` an
 
 OpenBSD first, through the LLVM back end; Unix/32V with pcc as the fallback; 3BSD dropped (supersedes errata 30 and 30a, and removes the 3BSD licence question).
 
+### Decided: the mode-bit rule is soft; `UA` guard; `MMUCTL` stays; atomics are a monitor; `long double` stays `double` (2026-10-22, errata 42 to 46)
+
+Specification: errata 42 (the rule), 43 (`UA`, `stua`, `clua`), 44 (`MMUCTL`), 45 (monitor atomics), 46 (`long double`, ABI version). Implementation of 43 and 46 is queued; 45 is specification text first.
+
 ## 13. Appendix
 
 ### 13.1 The 91 operations, folded

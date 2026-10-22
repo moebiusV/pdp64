@@ -42,7 +42,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
    changed (§3); what the ISA left unspecified and is now specified (§4); the ABI (§5); the assembly language (§6); the object format (§7); why a grammar is the
    source (§8); errors in our own work, found and fixed (§9); changes to hbnf (§10); the environment (§11); what is still open (§12); an appendix with the
    opcode map (§13); the measurements behind the proposals (§14).
-5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-41, each with the problem, the choice and the reason.
+5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-46, each with the problem, the choice and the reason.
 6. [`docs/abi.md`](docs/abi.md): the calling convention (registers, stack, structures, variadic calls). [`docs/asm-syntax.md`](docs/asm-syntax.md): the assembly
    language. [`docs/sim64.md`](docs/sim64.md): the emulator and its system-call stand-in.
 
@@ -75,6 +75,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
 | `pushx` and `popx` save and restore the exception state in one instruction each (SYS class 0 minor 15, two-byte page-2 forms) | errata 37 |
 | The design point is a small in-order, non-speculative machine; the architecture does not forbid out-of-order; costs, gains and what it would need are written down | [in-order and out-of-order](docs/pdp64-in-order-and-out-of-order.md) |
 | System v1: register-based exception entry, a vector table by cause, software-managed accessed and dirty bits, a three-level Sv39-like page table, eight priority levels (with the options compared and the weak points listed) | errata 36; [system design](docs/pdp64-system-design.md) |
+| All rules are soft (mode bits included); user-memory guard `UA`; `MMUCTL` stays; atomics on a monitor; `long double` stays `double` with ABI versioning | errata 42 to 46; [decisions pending](docs/decisions-pending.md) |
 | The operating system order: OpenBSD first through the LLVM back end, Unix/32V with pcc as the fallback, 3BSD dropped; the system architecture document lists what that needs and what is undefined | errata 41 (supersedes 30, 30a); [system architecture](docs/pdp64-system-architecture.md) |
 | Devices (Ethernet, USB, disk) are eight memory-mapped registers plus DMA: trivial drivers, no multitasking burden on the CPU; no ISA change, layouts to be written | errata 29; ISA §16 |
 | Half precision (binary16) added: 17 `FESC` words, arithmetic and conversions, correctly rounded, with flags | errata 27; CHANGES §14 |
@@ -127,7 +128,7 @@ instructions and 0.97 times its bytes; 486 of 486 C test runs pass. See CHANGES 
 **Documents** (in `docs/`)
 : Updated architecture: [`pdp64-isa.md`](docs/pdp64-isa.md) (the ISA), [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md),
   [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md), [`pdp64-q64-bus.md`](docs/pdp64-q64-bus.md) (the bus and devices), [`pdp64-system-architecture.md`](docs/pdp64-system-architecture.md) (privilege, exceptions, memory management, boot), [`pdp64-system-design.md`](docs/pdp64-system-design.md) (the options and the comparison with other architectures), [`pdp64-in-order-and-out-of-order.md`](docs/pdp64-in-order-and-out-of-order.md) (the design point and what out-of-order would need), [`pdp64-ooo-readiness.md`](docs/pdp64-ooo-readiness.md) (the review of the ISA for out-of-order), [`codegen-analysis.md`](docs/codegen-analysis.md) (measurements of compiled code); [`handoff.md`](handoff.md) (moving the work to another machine: what is not in git, the rebuild order, the state). [`kernel-asm-survey.md`](docs/kernel-asm-survey.md) (what the Linux, FreeBSD, NetBSD and OpenBSD kernels hand-write in assembly that compilers never emit, and what pdp64 has or lacks).
-  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-41);
+  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-46);
   conventions: [`abi.md`](docs/abi.md) (calling convention), [`asm-syntax.md`](docs/asm-syntax.md) (assembly language), [`sim64.md`](docs/sim64.md) (emulator);
   baseline as received (working name 11/64W): [`orig/`](docs/orig/); index: [`README.md`](README.md).
 

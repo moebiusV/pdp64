@@ -151,10 +151,10 @@ Clause (c) does the work. It is not enough that an exception be useful; the spec
 
 The worked example is §4.7. VAX's `MOVC5` is the canonical argument for the one-memory-operand rule: it issues an unbounded number of memory references and needs hidden intermediate state plus `PSL<FPD>` to resume. The pdp64 block operations do the same job and are *not* that, because their operands come from registers and are consumed as progress. There is no hidden state to save, because the state is the registers, and they are already architectural. The mechanism is absent, so the exception is admissible. §7.5 writes down the cost.
 
-Two rules have no exceptions, and the reason in both cases is that an exception would be invisible:
+**No rule is absolute** (errata 42, 2026-10-22; earlier revisions listed two rules as having no exceptions). Every rule here is a default that records a benefit worth protecting and the failure it prevents, and it yields when breaking it is worth more than it costs, with the cost written down. The two that used to be listed are the strongest defaults, and each says what a break would cost:
 
-- **No mode bits.** Any exception reintroduces state that must be saved and restored across a context switch, and whose value changes the meaning of unrelated instructions. There is no bounded version of that. (The sticky floating-point status register `FPSR`, §4.10, is not an exception to this: it never changes what an instruction does, it only records what an instruction did.)
-- **Natural alignment for quad accesses** (§7.4). Since §6.2 this is load-bearing for every tagged runtime, and relaxing it converts a trapped bug into silent corruption.
+- **Mode bits.** The rule protects state that would have to be saved and restored across a context switch, and a bit whose value changes the meaning of unrelated instructions. A mode bit is accepted when it keeps those benefits (a machine-wide bit set once at boot, a bit in the `PSW` that is saved anyway) or when its benefit outweighs its written-down cost. (The sticky floating-point status register `FPSR`, §4.10, was never an exception: it never changes what an instruction does, it only records what an instruction did.) Accepted now: `MMUCTL` (errata 44) and `UA` (errata 43).
+- **Natural alignment for quad accesses** (§7.4). Since §6.2 this is load-bearing for every tagged runtime, and relaxing it converts a trapped bug into silent corruption. That is the cost of breaking it, and it is large; it is a cost to weigh, not a prohibition.
 
 ### 1.2 The decision order
 

@@ -4,6 +4,8 @@
 
 **Status: written 2026-10-22 for the author's review; facts about other systems were checked on 2026-10-22 as far as sources could be read (appendix at the end; data in `docs/codegen-data/verification/claims.csv`).** Nothing in this document is decided unless it says so. For each open decision there is: the **need**, a plain **explanation**, the **current state** in the documents, **five options**, my **recommendation**, and what happens if nothing is decided. Each decision also says **what current systems do** and **how the recommendation compares**. Instruction counts come from the kernel survey (static counts in the sources). Claims about the PDP-11 and VAX were checked against the V7 and 3BSD/4.3BSD sources in the local Unix tree and the DEC handbooks on archive.org (PDP-11/70 1977-78, PDP-11 04-55 1976, VAX Architecture Handbook 1977, VAX-11 Architecture Reference Manual Rev 6.1 1982, VAX 6000 Vector Programmer's Guide); other claims against the RISC-V ISA manual snapshot, the Intel SDM text (felixcloutier mirror), the clang, Linux and OpenBSD sources and OpenBSD's vmm(4) page. **A marker reading "(from memory, not confirmed in the sources read)" means no source for that statement was read in this pass (mostly the Arm, Power ISA, SPARC, s390, Alpha and MIPS manuals; kernel and compiler source was used where it settles a claim and is labelled as practice, see the appendix); treat those as leads.**  Numbers from the kernel survey are static counts of instructions written in the sources, not measurements of how often they run.
 
+**Decided 2026-10-22 (errata 42 to 46):** the no-mode-bits rule is a soft rule, and P2, P10, P11 and P13. Their sections are kept as the record.
+
 Context for all of them: the operating system order is now OpenBSD first through the LLVM back end, Unix/32V as the fallback (errata 41). The FPGA and ASIC implementations are small in-order cores, and the architecture is to be kept ready for a large out-of-order design (errata 38). The machine is one core today; SMP, DMA devices and virtualization are not yet defined.
 
 ## Contents
@@ -43,7 +45,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | # | Decision | My recommendation | Blocks or helps |
 |---|---|---|---|
 | P1 | `WFE` wakes on a pending interrupt even if masked | wake on pending (**open**: an earlier answer was recorded by mistake and is withdrawn) | idle loop of any kernel |
-| P2 | Guard against the kernel touching user memory by mistake | PSW bit plus two `SYSX` instructions | hardening; OpenBSD (checked: it enables SMAP) |
+| P2 | Guard against the kernel touching user memory by mistake | **decided, errata 43**: PSW bit `UA` plus `stua`/`clua` | hardening; OpenBSD (checked: it enables SMAP) |
 | P3 | Unprivileged time counter | `rdtime rd` instruction | fast clock reads from user code |
 | P4 | Feature and identification registers | read-only `mfsr` numbers 13 and up | portable kernels and libraries |
 | P5 | TLB invalidate by address-space tag | one new `TLBIASID` | context-switch cost, SMP |
@@ -51,10 +53,10 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | P7 | Firmware-call convention | none; devices only | boot, reboot, power-off |
 | P8 | Double-width compare-and-swap | no | lock-free structures (rarely) |
 | P9 | Random numbers | an entropy device on the bus, no instruction | OpenBSD's early boot (from memory, not confirmed in the sources read) |
-| P10 | `DMW` format and `MMUCTL` | define `DMW`, drop `MMUCTL` | boot, ISA consistency |
-| P11 | Bus atomics: lock or monitor | monitor (reservation) | the second core and any shared-queue device |
+| P10 | `DMW` format and `MMUCTL` | **decided, errata 44**: `MMUCTL` stays, `DMW` deferred | boot, ISA consistency |
+| P11 | Bus atomics: lock or monitor | **decided, errata 45**: monitor | the second core and any shared-queue device |
 | P12 | Partial effects of `pushm`, `popm`, `pushx`, `popx` on a fault | accept and document, with one rule | restart correctness |
-| P13 | `long double` | keep as `double` for the first system | libc, clang, the ABI |
+| P13 | `long double` | **decided, errata 46**: `double`, ABI version 2 for binary128 | libc, clang, the ABI |
 | P14 | Priority 7 also on interrupt entry | confirm | exception entry |
 | P15 | Prefetch instruction | none for now; reserve the shape | list and copy loops (from the kernel survey) |
 | P16 | Performance counters | cycle and instruction counters after the clock (P3) | profiling |
@@ -102,6 +104,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 ---
 
 ## P2. The kernel's access to user memory (a guard)
+
+> **DECIDED (errata 43): option 1**, a `PSW` bit `UA` with `stua` and `clua`, following the author's picks of 2026-10-22. The rest of this section is kept as the record of the options.
 
 **The need.** The kernel must read and write user memory to implement system calls (it copies arguments in and results out). It runs with the *right* to touch user pages. A kernel bug, or an attacker, can make it touch a user page it did not mean to: a corrupted pointer that now points into user memory, or code the attacker placed in user memory. A **guard** makes any kernel access to user pages fault unless the kernel has deliberately opened it. Modern kernels value that: x86 calls it `SMAP`, AArch64 `PAN`, RISC-V `SUM` (x86 `SMAP`/`stac`/`clac`: checked in the Intel SDM text; RISC-V `SUM`: present in the RISC-V manual snapshot; AArch64 `PAN`: Linux `arm64/include/asm/sysreg.h` and `cpufeature.c` set it, and LLVM has the `pan` feature (practice); the kernel survey counted `stac`/`clac` uses in the BSD and Linux sources, 88 in total, its section 7).
 
@@ -315,6 +319,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 ## P10. The direct-mapping windows and `MMUCTL`
 
+> **DECIDED (errata 44, with errata 42): `MMUCTL` stays** (option 2) and the `DMW` format is deferred (option 5 for the format). The author's clarification that the no-mode-bits rule is soft withdrew my recommendation to remove it: `MMUCTL` is machine-wide and set once at boot, so the benefits the rule protected are kept. The rest of this section is kept as the record of the options.
+
 **The need.** The design document (D9) flags a contradiction: the ISA says there are **no mode bits** (section 1.1) and that the machine comes up with the direct-mapping window `DMW0` covering physical memory, so translation is always on and nothing needs switching. System v1 nevertheless added a `MMUCTL` register whose bit 0 turns translation on, "because the format of the direct mapping windows is not defined yet". That is a mode bit: it is not saved on a context switch, which is exactly the cost the rule exists to avoid.
 
 **The explanation.** A **direct-mapping window** (`DMW`) maps a range of virtual addresses onto a range of physical addresses without a page-table lookup, so the kernel and the boot code can reach physical memory (and device registers) before any page tables exist. If the window format were defined, the machine could boot with a window mapping low memory, and there would be no off state to design.
@@ -342,6 +348,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 ---
 
 ## P11. Atomics on the bus: a lock or a monitor
+
+> **DECIDED (errata 45): option 1**, a monitor (reservation); `DATIP`/`DATO` are no longer architectural. The rest of this section is kept as the record of the options.
 
 **The need.** Two things at once want to update the same word in memory: a second processor core, and a DMA device such as the `LB64` accelerator writing a descriptor's status word. An atomic read-modify-write must be indivisible against both. There are two ways to build that, and the ISA has been carrying both ideas without choosing (open item 4, bus document section 8).
 
@@ -396,6 +404,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 ---
 
 ## P13. `long double`
+
+> **DECIDED (errata 46): option 5**, `long double` stays `double` and the ABI version is the door (version 2 for binary128). The rest of this section is kept as the record of the options.
 
 **The need.** C's `long double` type has no single standard width. The ABI today says `long double` is the same as `double` (64 bits). That is the cheapest choice and is what some platforms do (checked: clang makes it 64 bits on Windows and Apple AArch64, and on FreeBSD, OpenBSD, musl and AIX PowerPC). Other platforms make it 128 bits, and a few use the 80-bit x87 extended format. The choice goes into the ABI, the C library, the compiler and every program that uses the type, and it cannot be changed later without breaking binaries.
 
