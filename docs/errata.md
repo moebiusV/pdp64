@@ -104,3 +104,9 @@ Items marked **DECISION** are choices the document left open; change them in the
     makes decode restartable in two parts; and the gain is bounded by the numbers above. Signed `int` overflow is undefined in C, so the re-extensions after signed
     operations are the compiler's conservative default and can be dropped (`-mnowrap`: 388,919 instructions, 0.99 times amd64); unsigned 32-bit wrap needs the
     extension. Tests: `tests/sim/extend.s` (every width, source and boundary, partial stores, flags) and `tests/c/extend.c` (the same in C; it returns 1 under host gcc too).
+29. **DECISION (the author's): devices present eight registers.** Ethernet, USB and disk devices are each a set of eight registers. *Why:* a driver for so small and
+    regular an interface is trivial to write, which removes driver code, and the device carries its own work so the processor has no multitasking burden from it:
+    more of the processor is left for the user and the programs that matter (the third layer of the optimization described in the README: gate count, code count,
+    the system around the processor). *Where it sits:* ISA section 16 already makes every device a bus device that does not touch the ISA; this adds a convention for
+    the device side and changes no instruction. *Open:* the register layouts, the interrupt and doorbell conventions, and whether other devices follow the same
+    shape; none are written yet.

@@ -1900,6 +1900,8 @@ What the ISA owes them is exactly three things:
 2. **An ordering instruction** (`FENCE`, §4.11) with a defined meaning against Q64, so a driver can be sure a descriptor is visible before a doorbell write is.
 3. **Atomics that reach device memory** (§4.11), for queues shared between the processor and a device.
 
+**Device interface convention (a design decision of the project's author; layouts not yet specified).** Network (Ethernet), USB and disk devices are each presented to the processor as a set of **eight registers**. The reason is the amount of code: with so small and regular an interface a driver is trivial to write, and the device does its own work instead of imposing a multitasking burden on the processor, so that more of the processor is left for the user and for the programs that matter. This costs the ISA nothing: it is bus and device design, and it uses only the three things above (the memory type of the register page, `FENCE` before a doorbell write, atomics for shared queues). The register layouts themselves are still to be written; when they are, they belong in a companion document and, like the instruction numbers, should be written once and generated.
+
 Everything else — blitters, raster engines, command FIFOs, whether there is a GPU at all — is bus and device design, and belongs in the companion documents rather than here:
 
 - **the implementation plan**, §12, for the display path: `BLT64`, the Blit model, framebuffer budgets, and why an off-the-shelf GPU is not reachable;
