@@ -28,6 +28,7 @@ prefix none
 %define LEN1 (len >= 1 && len < @LENCODE_PAGE2@)
 %define LEN2 (len >= 2 && len < @LENCODE_PAGE2@)
 %define BESCCOUNT (sub == @MN_BESC_RORI@ || sub == @MN_BESC_RORI32@)
+%define SYSREGMOV (reg == 0 && (low == @MN_SYSREG_MFSR@ || low == @MN_SYSREG_MTSR@))
 %define COND (opc >= @MN_BRANCH_BR@ && opc <= @MN_BRANCH_BLOS@)
 
 insn = len:2 opc:6 reg:4 low:4 body:(
@@ -57,10 +58,13 @@ insn = len:2 opc:6 reg:4 low:4 body:(
     | ?(len == 0 && opc == @OPGROUP_SYS@)
     | ?(len == 1 && opc == @OPGROUP_SYS@ && (reg == @MN_SYS_PROBER@ || reg == @MN_SYS_PROBEW@))   rd:4 pad:12
     | ?(len == 1 && opc == @OPGROUP_SYS@ && reg == @MN_SYS_TRAPL@) n:8 pad:8
-    | ?(@LEN1@ && opc == @OPGROUP_SYS@)                          p:bits(16 * len)
+    | ?(@LEN1@ && opc == @OPGROUP_SYS@ && !@SYSREGMOV@)          p:bits(16 * len)
 
     ; --- the compare-immediate-and-branch cbCC: low is the condition (as for `set`); parcel 1 is imm:5 and the first 11 bits of the displacement (parcels)
     | ?(@LEN1@ && opc == @OPGROUP_CBR@)                             imm:5 d:bits(11 + 16 * (len - 1))
+
+    ; --- MFSR and MTSR (SYS, class 0, minors 13 and 14): the system register in parcel 1, the general register, and a nibble that must be zero
+    | ?(len == 1 && opc == @OPGROUP_SYS@ && @SYSREGMOV@)          sr:8 r:4 pad:4 ?(pad == 0)
 
     ; --- page 2: one parcel, nothing follows
     | ?(len == @LENCODE_PAGE2@)

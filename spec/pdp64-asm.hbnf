@@ -23,7 +23,7 @@ comment = ";" *( %x01-09 | %x0B-D7FF | %xE000-10FFFF )
 line = *label [ stmt ]
 
 label = symbol ":"
-stmt = assign | directive | instruction | condinsn
+stmt = assign | directive | instruction | condinsn | srinsn
 
 assign = symbol "=" expr
 directive = "." dname [ dargs ]
@@ -36,6 +36,9 @@ instruction = mnemonic [ operand *( "," operand ) ]
 ; an instruction that takes a condition: the condition is a word of its own, then the operands (`set eq, r1`)
 condinsn = mn-cond ccw "," operand *( "," operand )
 ccw = cc | ccalias
+; the system-register moves: the register is a word of its own, as the condition of `set` is, and only in that operand position (`mfsr r1, ptbr`, `mtsr ptbr, r1`)
+srinsn = mn-sysreg ( sysregw "," operand | operand "," sysregw | operand *( "," operand ) )
+sysregw = sysreg
 ; `mnemonic` (the groups of pdp64-mnemonics.hbnf, in an order that keeps a word from being taken for the front of a longer one) is written by tools/mkgrammar.py
 
 ; --- operands (ISA section 5) -----------------------------------------------------------------------------------

@@ -287,6 +287,22 @@ mn-sys-none = "nop"@0b0000
             | "icinva"@0b1100
             | "wait"@0x107
 
+; SYS class 0, the system-register moves (four bytes: the register in parcel 1): the number is the minor opcode in the low field.  Not in `mnemonic`: they
+; take the register's name as a word of its own, in the operand position that is the system register (`mfsr r1, ptbr`, `mtsr ptbr, r1`)
+mn-sysreg = "mfsr"@0b1101
+          | "mtsr"@0b1110
+
+; The system registers, by name, as the number in the `sr` field of parcel 1 of mfsr and mtsr (ISA 4.11, errata 32).  `eva` and `ecause` are read only: a write
+; is an illegal instruction (pdp64exec.c; tests/sim/sysreg-write-eva.s).  A number that is not listed is unassigned and also illegal.
+sysreg = "ptbr"@0
+       | "epc"@1
+       | "eva"@2
+       | "ecause"@3
+       | "dmw0"@4
+       | "dmw1"@5
+       | "usp"@6
+       | "ssp"@7
+
 ; SYS classes with an operand: the number is the class in the reg field
 mn-sys = "mtps"@0b0001
        | "mfps"@0b0010

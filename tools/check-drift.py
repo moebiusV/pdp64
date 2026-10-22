@@ -43,6 +43,7 @@ def source(group, word):
         two = not four and not three
         return '%s %s' % (word, ', '.join(['r1', 'r2', 'r3', 'r4'][:4 if four else 3 if three else 2]))
     if g == 'sys-none': return word
+    if g == 'sysreg': return 'mfsr r1, ptbr' if word == 'mfsr' else 'mtsr ptbr, r1'
     if g == 'sys':
         if word in ('spl', 'trap'): return '%s #3' % word
         if word in ('prober', 'probew'): return '%s r1, r2' % word
@@ -103,6 +104,7 @@ for group, items in en.items():
         elif g == 'sop': got, want = (opc, reg), (OPG['sop'], num)
         elif g == 'xfer': got, want = (opc, reg), (OPG['xfer'], num)
         elif g in ('besc', 'aesc', 'mblk', 'fesc'): got, want = (opc, sub), (OPG[g], num)
+        elif g == 'sysreg': got, want = (opc, reg, low, w[1] & 15, len(w)), (OPG['sys'], 0, num, 0, 2)
         elif g == 'sys-none': got, want = (opc, reg, low), (OPG['sys'], 0, num)
         elif g == 'sys': got, want = (opc, reg), (OPG['sys'], num)
         checked += 1
@@ -177,6 +179,16 @@ def asm_words(src, *flags):
         return words(o) if r.returncode == 0 else None
 def expand(word):
     return subprocess.run([AS, '--p2-expand', '%04x' % word], capture_output=True, text=True).stdout.split()
+# --- the system registers: the number in the sr byte of parcel 1, the general register in the next nibble, the pad zero; eva and ecause read only ---
+for name, num in en['sysreg']:
+    checked += 1
+    w = asm_words('mfsr r2, ' + name)
+    if w is None or len(w) != 2 or w[1] != num << 8 | 2 << 4:
+        bad += 1; print('DRIFT sysreg %s: `mfsr r2, %s` assembles to %s, the number is %d' % (name, name, w, num))
+    wr = asm_words('mtsr %s, r2' % name)
+    ro = name in ('eva', 'ecause')
+    if (wr is None) != ro or (wr is not None and wr != [w[0] + 1, w[1]]):
+        bad += 1; print('DRIFT sysreg %s: mtsr is %s (read only: %s)' % (name, wr, ro))
 LENCODE = dict(en['lencode'])
 for name, num in P2:
     checked += 1
