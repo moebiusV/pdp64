@@ -27,4 +27,11 @@ print(('DIFF ' if bad else 'ok   ') + sys.argv[1])
 if bad: sys.exit(1)
 PY
 done
+# programs that must be refused: tests/asm-err/NAME.s with the expected text of the message in NAME.err
+for s in tests/asm-err/*.s; do
+	n=$(basename "$s" .s)
+	if "$B/as64" -o "$B/err_$n.o" "$s" 2> "$B/err_$n.msg"; then echo "FAIL $n: accepted"; fail=1
+	elif grep -q "$(cat tests/asm-err/$n.err)" "$B/err_$n.msg"; then echo "ok   $n (refused)"
+	else echo "FAIL $n: wrong message: $(head -1 $B/err_$n.msg)"; fail=1; fi
+done
 exit $fail

@@ -976,6 +976,7 @@ static int run_pass(int final)
 			if (build(st, pos, &in) < 0) { in.minlen = 0; in.f.shape = FS_SYS0; len = 0; if (!final) { offs[cur_sec] += 2; break; } }
 			if (in.minlen > len) { len = in.minlen; if (len != grow[i]) { grow[i] = len; changed = 1; } }
 			if (!final) { offs[cur_sec] += 2 * (len + 1); break; }
+			if (pos & 1) { err(st->line, "an instruction at an odd address (%lld): put .even before it", (long long)pos); break; }
 			finalize(&in, len);
 			if (errors) break;
 			if (cur_sec == SEC_BSS) { err(st->line, "an instruction in .bss"); break; }
