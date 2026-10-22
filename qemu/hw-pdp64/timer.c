@@ -65,6 +65,8 @@ static uint64_t timer_read(void *opaque, hwaddr addr, unsigned size)
     case TIMER_REG_COMPARE:
         return s->compare;
     case TIMER_REG_CONTROL:
+        /* the interrupt line is raised by the timer callback, later than the clock passes compare: bring it up to date before the guest can see PENDING, so a guest that has seen PENDING never has an interrupt that the processor has not been told about */
+        pdp64_timer_update(s);
         return (s->control & (1u << TIMER_CTL_ENABLE))
                | ((pdp64_timer_counter() >= s->compare) << TIMER_CTL_PENDING);
     default:
