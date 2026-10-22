@@ -1619,7 +1619,7 @@ Still a 64-bit machine with floating point and memory management below the 78032
 
 3. **Landing pads — still open; ABI version 1 has them off** (`abi.md`; the assembler provides `.lpad`). `LPAD` is allocated in `SYS`. Requiring indirect branches and returns to land on one — the `ENDBR64` / ARM `BTI` / RISC-V `LPAD` approach — costs one opcode and one comparison in the branch unit and removes the return-oriented gadget class. Mandatory now, or optional-then-mandatory, is the decision, and it gets more expensive the longer it waits. Two interactions: a tagged function pointer reached by `JMP -k(Rn)` must still land on an `LPAD`, so the tag bias and the landing-pad check are independent and both apply; and `JTAG` (§4.9) is an indirect branch through a table, so every entry in a `JTAG` table must be a landing pad.
 
-4. **Atomics against Q64.** The Unibus-derived `DATIP`/`DATO` locked read-modify-write is a *lock*; AXI exclusive access is a *monitor*. They are not the same primitive and the mapping is not clean. Settle in the bus document before the memory system is built, not during it. The `_DB` barrier variants added in §4.11 make this more pressing, since they assert an ordering guarantee that has to mean something on the actual interconnect.
+4. **Atomics against Q64.** The Unibus-derived `DATIP`/`DATO` locked read-modify-write is a *lock*; AXI exclusive access is a *monitor*. They are not the same primitive and the mapping is not clean. Settle in the [bus document](pdp64-q64-bus.md) before the memory system is built, not during it. The `_DB` barrier variants added in §4.11 make this more pressing, since they assert an ordering guarantee that has to mean something on the actual interconnect.
 
 5. **Worst-case instruction latency.** Ordinary instructions are bounded: at most 8 bytes of fetch across two pages, one memory operand across two pages, nothing unbounded. `MBLK` is explicitly not bounded by the instruction (§7.5), so an implementation claiming an interrupt-latency figure must state its block granularity. Until both numbers exist, the realtime claims from earlier revisions rest on an argument rather than a bound.
 
@@ -1905,6 +1905,7 @@ What the ISA owes them is exactly three things:
 Everything else — blitters, raster engines, command FIFOs, whether there is a GPU at all — is bus and device design, and belongs in the companion documents rather than here:
 
 - **the implementation plan**, §12, for the display path: `BLT64`, the Blit model, framebuffer budgets, and why an off-the-shelf GPU is not reachable;
+- **the bus document** ([`pdp64-q64-bus.md`](pdp64-q64-bus.md)), for Q64 itself, the device convention and the open items about the bus, including open item 4;
 - **the LB64 document**, for the sub-1-bit inference accelerator — which is the worked proof of this section, being a substantial bus-mastering device that needed **no ISA change at all**, and whose §14 works out what happens if the compute moves into the memory.
 
 ---
