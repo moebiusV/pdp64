@@ -643,6 +643,10 @@ The flags become two groups (`C` and `{N, Z, V}`) that are never written partial
 
 Closes the one-instruction window in which an interrupt could overwrite `EPC` and `EPSW`; a throwback to the PDP-11's trap vectors. Specification: errata 40 and system architecture section 15.
 
+### Decided: the operating system order (2026-10-22, errata 41)
+
+OpenBSD first, through the LLVM back end; Unix/32V with pcc as the fallback; 3BSD dropped (supersedes errata 30 and 30a, and removes the 3BSD licence question).
+
 ## 13. Appendix
 
 ### 13.1 The 91 operations, folded

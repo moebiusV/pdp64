@@ -59,7 +59,7 @@ is committed and verified (the rule is a clean-clone `tools/check-all.sh` of the
 | System v1 specification | accepted (`pdp64-system-architecture.md` section 15) |
 | Errata 39 (flag cleanup, `ISYNC`, `HINT`) | done, verified and pushed (compiler, core, grammar, tests, invariant checker `tools/check-flaginv.sh`) |
 | Errata 40 (priority 7 on every exception and interrupt entry) | decided; documentation committed; core, QEMU and tests committed (`06e4a05`); see section 9 for whether it is pushed |
-| operating system | planned: first a 3BSD port (the licence of the 3BSD sources is **unestablished**), OpenBSD later if the LLVM back end proves easy; nothing written |
+| operating system | decided (errata 41): OpenBSD first, through the LLVM back end (the critical path: selection, calling convention, clang; needs the bigger machine); Unix/32V with pcc is the fallback if OpenBSD proves too hard; 3BSD dropped; nothing written |
 
 ## 5. Numbers (827 fair-corpus files, bytes = text + rodata + data)
 
@@ -77,17 +77,17 @@ Measured by `tools/pdp64size.sh`; references in `docs/codegen-data/`. The flag-r
 * **Stopped agents** (their committed work is in git; their briefs are only in the session transcript): the cross-architecture comparison (`docs/arch-comparison.md` is not written; `tools/archcmp.py` exists; the totals file from a 13-file trial must not be quoted), the kernel-assembly survey (`docs/kernel-asm-survey.md` and `tools/kernelasm.py`
   partly written), the kernel pain-points research (`docs/kernel-pain-points.md` not written; Phase 1 had only begun cloning, and its clone directory `~/claude/kernel-history` is incomplete). Restart each with a fresh agent, one at a time on a small machine. **The LLVM re-check** (section 4) is queued first.
 * **Known open spec items:** the `DMW` format and `MMUCTL`; bus atomics; `pushm`/`popm`/`pushx`/`popx` aborts can leave earlier stores; block copy more than one byte per step against the sequential-consistency promise; the architecture-text items of the readiness review still to be written into the ISA.
-* **Web research** (the kernel mailing lists, the 3BSD sources and licence, the handbooks listed in `docs/fact-check-2026-10-22.md` section 12) uses the browser skill, not `WebFetch`. The author wants to be told
+* **Web research** (the kernel mailing lists, the handbooks listed in `docs/fact-check-2026-10-22.md` section 12) uses the browser skill, not `WebFetch`. The author wants to be told
   before `browse.py` is started because it opens a visible window; never `kill` it, use `./browsectl quit`. Chrome was found left running after a quit, which needs a WSL shutdown to clear.
 
 ## 7. Decisions taken, and decisions open
 
 Decided (all in `docs/errata.md`, items 1 to 40): the ISA (three parcels, page 2, `cbCC` forms, `rori32`, `=K` literal pool, `pushx`/`popx`, FP16), the ABI (`docs/abi.md`), System v1 (register-based exception entry,
-vector table at `VBR + 8*vector`, software accessed/dirty bits, three-level page tables, MMUCTL, eight priority levels), devices as eight memory-mapped registers plus DMA, the first OS being a 3BSD port, and the
+vector table at `VBR + 8*vector`, software accessed/dirty bits, three-level page tables, MMUCTL, eight priority levels), devices as eight memory-mapped registers plus DMA, the OS order (errata 41), and the
 flag cleanup of errata 39: flags are two groups (`C` and `{N,Z,V}`), `cbCC` and moves, loads and stores write no flags, shifts write the same flags for every count, `mscn` writes all four, rotates and `dshr`
-write no flags, `asl` keeps `V = N xor C`; new `ISYNC` and `HINT`; and errata 40: every exception and interrupt enters at priority 7 (a PDP-11 throwback, unverified against the handbook).
+write no flags, `asl` keeps `V = N xor C`; new `ISYNC` and `HINT`; errata 41: the OS order is OpenBSD first, 32V fallback, 3BSD dropped; and errata 40: every exception and interrupt enters at priority 7 (a PDP-11 throwback, unverified against the handbook).
 
-Open: the `DMW` register format and whether `MMUCTL` should exist at all (system design document); the Q64 bus transactions and the atomics question (`pdp64-q64-bus.md`); the 3BSD licence; the LLVM milestones
+Open: the `DMW` register format and whether `MMUCTL` should exist at all (system design document); the Q64 bus transactions and the atomics question (`pdp64-q64-bus.md`); the LLVM milestones
 (selection, calling convention, tied operands, clang); the architecture-text items of the readiness review (`pdp64-ooo-readiness.md` section 2) still to be written into the ISA; out-of-order readiness is a design
 aim while the FPGA and ASIC stay in order.
 

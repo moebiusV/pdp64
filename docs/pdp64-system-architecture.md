@@ -9,7 +9,7 @@
 * **Open**: not yet decided or not yet written. The list of all open items is in section 13.
 
 The companion for the bus and the devices is [`pdp64-q64-bus.md`](pdp64-q64-bus.md). The question this document answers is: what does a kernel need from the
-processor, and which of it exists? The first kernel is a port of 3BSD (section 12).
+processor, and which of it exists? The first kernel is a port of OpenBSD, with Unix/32V as the fallback (section 12).
 
 ## 1. Privilege modes
 
@@ -171,11 +171,14 @@ descendants of the PDP-11's bus error and are not restartable (§7.1); the old `
 
 *Open*: hardware breakpoints and watchpoints; how a machine check is reported and logged; a performance counter.
 
-## 12. The first operating system: a port of 3BSD (from Unix/32V)
+## 12. The operating system plan: OpenBSD first, Unix/32V as the fallback
 
-*Decided by the author* (errata 30, revised 2026-10-22): the first operating system is **a port of 3BSD**, the first Berkeley release with demand-paged virtual memory, which is Unix/32V (the original port of V7 Unix to the VAX-11/780) with Berkeley's virtual-memory system added. The
-first version of this plan named Unix/32V itself; the author's observation, after the 32V headers showed that it only swaps whole processes (below), was that 3BSD already pages, so the port starts there. Unix/32V remains the base: 3BSD is built from it, so everything said here about 32V holds for 3BSD too, and the
-32V sources are the fallback if the 3BSD sources cannot be used. **Checked** ([fact-check](fact-check-2026-10-22.md)): 3BSD was released at the end of 1979 for the VAX, built from UNIX/32V with Ozalp Babaoglu's virtual-memory implementation (Bill Joy also worked on it); 32V "did not take advantage of the VAX's virtual memory capabilities" (Wikipedia, *Berkeley Software Distribution* and *UNIX/32V*; the second says the virtual memory was added "by Bill Joy and Ozalp Babaoglu in order to support Franz Lisp"). **Not checked, from general knowledge:** that 3BSD was built with the portable C compiler (V7 shipped `pcc`, per Wikipedia *Ancient UNIX*, and GCC did not exist before its first release on 22 March 1987, per Wikipedia *GNU Compiler Collection*, so Johnson's compiler is the only candidate, but no source seen says which compiler built 3BSD); that the VAX has a hardware modify bit but no reference bit, and that 3BSD emulated reference bits in software (the Babaoglu and Joy paper is, from memory, "Converting a swap-based system to do paging in an architecture lacking page-referenced bits", SOSP 1981, not looked up), which is the arrangement System v1 chose on purpose (software-managed accessed and dirty bits, section 15); the licence of the 3BSD sources.
+*Decided by the author* (errata 41, 2026-10-22; it supersedes errata 30 and 30a): the first operating system is **OpenBSD**, ported through the LLVM back end (section 14); if OpenBSD proves too hard, the fallback is a port of **Unix/32V** (the original port of V7 Unix to the VAX-11/780) built with the existing pcc compiler. The author
+expects OpenBSD to be doable. **3BSD is dropped**: it was the plan of errata 30a, chosen because 32V only swaps whole processes and 3BSD added demand paging, and it is no longer needed as a stepping stone, which also removes the unresolved question of the licence of the 3BSD sources. The rest of this section is
+what a 32V port needs, which stays true for the fallback, and the history of the earlier plan is kept in errata 30 and 30a.
+
+**What the earlier plan said about 3BSD, kept for the record** (**Checked**, [fact-check](fact-check-2026-10-22.md)): 3BSD was released at the end of 1979 for the VAX, built from UNIX/32V with Ozalp Babaoglu's virtual-memory implementation (Bill Joy also worked on it); 32V "did not take advantage of the VAX's virtual memory capabilities" (Wikipedia, *Berkeley Software Distribution* and *UNIX/32V*). **Not checked, from general knowledge:** the compiler that built 3BSD, the VAX having a hardware modify bit but no reference bit with 3BSD emulating
+reference bits in software (the Babaoglu and Joy paper is, from memory, "Converting a swap-based system to do paging in an architecture lacking page-referenced bits", SOSP 1981, not looked up), which is the arrangement System v1 chose on purpose (software-managed accessed and dirty bits, section 15).
 
 **A note on paging, from the 32V headers in the toolchain repository's corpus.** The 32V kernel as released **swaps whole processes** and uses the VAX page tables for relocation and protection:
 `proc.h` has `p_size` ("size of swappable image"), `p_swaddr` and `p_swsize` and the states `SLOAD`, `SSWAP` and `SSPART` ("partially swapped out"); its page-table entries are those of the u-area
@@ -368,7 +371,7 @@ machine-dependent kernel (memory management code for the page tables, exception 
 loader. OpenBSD insists on properties this architecture has or can have (W^X is enforced by default since 6.0 and PIE is the default, per openbsd.org/innovations.html; that it requires SMP or enables SMAP was not checked): write-xor-execute (the `R`, `W`, `X` bits), position-independent executables (cheap here, ISA §19), and landing pads on indirect branches
 (`LPAD`, still open, ABI version 1 has them off). It would depend on every item of this document's open list being closed, and on more: SMP, the lock and monitor question, a full device set.
 
-**The order this suggests:** the system architecture of sections 3 to 6, the QEMU target extended to match, a 3BSD port with the existing compiler (section 12), then the LLVM back end, then OpenBSD.
+**The order this suggests:** the system architecture of sections 3 to 6, the QEMU target extended to match, the LLVM back end (the critical path: selection, calling convention, then clang, section 14.7), then OpenBSD; if that proves too hard, a Unix/32V port with the existing pcc compiler (section 12).
 
 ## 15. System v1: a complete design for the first implementation (accepted 2026-10-22)
 

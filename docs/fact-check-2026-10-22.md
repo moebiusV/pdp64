@@ -113,7 +113,7 @@ All of the following are from memory of the PDP-11/70 and VAX handbooks and **co
 ## 11. What the facts call into question
 
 * Nothing found contradicts a design decision. The PTE layout, the vector table geometry and the fflags layout agree with what the documents say other machines do.
-* The OS plan rests on 3BSD sources whose licence is **not established** by anything read; only the 32V fallback is covered by the 2002 licence. The licence and the availability of the 3BSD sources are the one item of the plan that should be settled before the plan depends on it.
+* (**No longer needed:** errata 41 dropped 3BSD in favour of OpenBSD first and Unix/32V as the fallback.) The earlier OS plan rested on 3BSD sources whose licence is **not established** by anything read; only the 32V fallback is covered by the 2002 licence. The licence and the availability of the 3BSD sources are the one item of the plan that should be settled before the plan depends on it.
 * The out-of-order document's quantitative arguments (2 to 4 times speed, up to ten times area) have no cited basis; the qualitative arguments (precise exceptions, flag merging, SC cost) do not depend on them.
 * The software accessed and dirty bit choice is justified partly by "how 3BSD paged on the VAX"; that rests on the unverified reference-bit claim. The design merits (a walker that never writes) stand without it.
 
