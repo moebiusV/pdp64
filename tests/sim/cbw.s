@@ -71,19 +71,19 @@ _start:
 1:
 	cbvs	r3, #-1000, f28
 	cbgt	r3, #-1000, f29
-	movq	#255, r1
-	cbne	r1, #255, f30
+	movq	#255, r1		; cbCC writes no flag (errata 39): the flags after it are those the last cmp left
+	cmp	r1, #255		; Z set, C clear
+	cbgt	r1, #300, f30		; not taken
 	beq	1f
 	br	f30
-1:
-	cbeq	r1, #300, f31
-	bne	1f
+1:	cmp	r1, #300		; Z clear, C set (255 - 300 borrows)
+	cbeq	r1, #255, 1f		; taken: 255 - 255 would set Z and clear C
 	br	f31
-1:
-	cbgt	r1, #300, f32
-	bcs	1f
+1:	bcs	1f
 	br	f32
-1:			; 255 - 300 borrows: C set
+1:	bne	1f
+	br	f32
+1:
 	movq	#300, r4
 	movq	#0, r5
 2:	add	#1, r5

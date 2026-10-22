@@ -121,7 +121,7 @@ r3x:
 	movq	#0, r12
 	lea	bad0x, r4
 bad0:
-	.word	0x540f, 0x0200
+	.word	0x540f, 0x0400
 bad0x:
 	cmp	r10, #(1)
 	bne	F20	; check 20

@@ -813,7 +813,12 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 		break;
 	case MG_SYSX:									/* pushx, popx: SYS class 0 minor 15, the sub-opcode in parcel 1 */
 		f->opc = OPGROUP_SYS; f->reg = 0; f->low = SYS_MINOR_SYSX; f->shape = FS_SYSX; f->sub = mn; f->n = 0; in->minlen = 1;
-		if (st->nops) { err(st->line, "no operands"); return -1; }
+		if (mn == MN_SYSX_HINT) {							/* hint #n: n, 0 to 255, in the pad byte */
+			int64_t n;
+			if (st->nops != 1 || imm_const(st, 0, &n)) { err(st->line, "hint #n"); return -1; }
+			if (n < 0 || n > 255) { err(st->line, "hint: the code is 0 to 255"); return -1; }
+			f->n = (unsigned)n;
+		} else if (st->nops) { err(st->line, "no operands"); return -1; }
 		break;
 	case MG_SYS: {
 		f->opc = OPGROUP_SYS; f->reg = mn; f->shape = FS_SYS0;
@@ -920,7 +925,7 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 	/* a one-parcel form of the same instruction, if there is one: only for constants (no relocation) and the modes the table has */
 	if (!no_p2 && !in->reltype && ((f->shape == FS_BASE && in->mode == AMODE_BASE) || (f->shape == FS_WIDE && in->mode == AMODE_IMM)))
 		in->has_p2 = p2_find(f->opc, f->reg, in->mode, f->rm, in->dval, &in->p2);
-	if (!no_p2 && f->shape == FS_SYSX) in->has_p2 = p2_find(OPGROUP_SYS, 0, SYS_MINOR_SYSX, f->sub, 0, &in->p2);
+	if (!no_p2 && f->shape == FS_SYSX) in->has_p2 = p2_find(OPGROUP_SYS, 0, SYS_MINOR_SYSX, f->sub, f->n, &in->p2);
 	return 0;
 }
 

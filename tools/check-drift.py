@@ -43,7 +43,7 @@ def source(group, word):
         two = not four and not three
         return '%s %s' % (word, ', '.join(['r1', 'r2', 'r3', 'r4'][:4 if four else 3 if three else 2]))
     if g == 'sys-none': return word
-    if g == 'sysx': return word
+    if g == 'sysx': return 'hint #3' if word == 'hint' else word
     if g == 'sysreg': return 'mfsr r1, ptbr' if word == 'mfsr' else 'mtsr ptbr, r1'
     if g == 'sys':
         if word in ('spl', 'trap'): return '%s #3' % word
@@ -106,7 +106,7 @@ for group, items in en.items():
         elif g == 'xfer': got, want = (opc, reg), (OPG['xfer'], num)
         elif g in ('besc', 'aesc', 'mblk', 'fesc'): got, want = (opc, sub), (OPG[g], num)
         elif g == 'sysreg': got, want = (opc, reg, low, w[1] & 15, len(w)), (OPG['sys'], 0, num, 0, 2)
-        elif g == 'sysx': got, want = (opc, reg, low, w[1] >> 8, w[1] & 255, len(w)), (OPG['sys'], 0, dict(en['sys-minor'])['sysx'], num, 0, 2)
+        elif g == 'sysx': got, want = (opc, reg, low, w[1] >> 8, w[1] & 255, len(w)), (OPG['sys'], 0, dict(en['sys-minor'])['sysx'], num, 3 if word == 'hint' else 0, 2)
         elif g == 'sys-none': got, want = (opc, reg, low), (OPG['sys'], 0, num)
         elif g == 'sys': got, want = (opc, reg), (OPG['sys'], num)
         checked += 1
@@ -173,7 +173,7 @@ CASE = {
  'pushm8': ('pushm #0x8F00', 8, 15), 'popm8': ('popm #0x0100', 0, 1),
  'sub.sp': ('sub #64, sp', 0, 8), 'add.sp': ('add #2040, sp', 15, 15),
  'movq.i': ('movq #-5, r3', 3, 11), 'shl.i': ('shl #9, r3', 3, 9), 'shr.i': ('shr #15, r3', 3, 15), 'sar.i': ('sar #1, r3', 3, 1),
- 'pushx': ('pushx', 0, 0), 'popx': ('popx', 0, 0),
+ 'pushx': ('pushx', 0, 0), 'popx': ('popx', 0, 0), 'isync': ('isync', 0, 0), 'hint': ('hint #0xA5', 10, 5),
  'and.i': ('and #-1, r3', 3, 15), 'bis.i': ('bis #7, r3', 3, 7), 'xor.i': ('xor #-8, r3', 3, 8), 'add.i': ('add #3, r3', 3, 3),
 }
 def asm_words(src, *flags):

@@ -1,5 +1,5 @@
-; the register-register cbCC (opcode 0x2A): signed and unsigned conditions with equal, less and greater values, the most negative number, and the
-; flags afterwards equal to cmp's (read with `set`).  A failed check n exits with n.
+; the register-register cbCC (opcode 0x2A): signed and unsigned conditions with equal, less and greater values and the most negative number;
+; and it writes NO flag (errata 39), taken or not: the flags after it are those before it (read with `set`).  A failed check n exits with n.
 	.text
 	.globl	_start
 _start:
@@ -293,12 +293,14 @@ _start:
 	br	f139
 1:
 	cblos	r5, r6, f140
-	cbne	r1, r2, f141		; not taken: the flags are those of cmp r1, r2
-	set	ne, r10
-	set	cs, r11
-	set	vs, r12
-	set	mi, r13
 	cmp	r1, r2
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r5, r1, 1f
+	br	f141
+1:
 	set	ne, r7
 	set	cs, r8
 	set	vs, r9
@@ -311,168 +313,1126 @@ _start:
 	bne	f141
 	cmp	r13, r15
 	bne	f141
-	cbeq	r1, r3, f142		; not taken: the flags are those of cmp r1, r3
+	cmp	r1, r2
 	set	ne, r10
 	set	cs, r11
 	set	vs, r12
 	set	mi, r13
+	cbeq	r5, r1, f142
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f142
+	cmp	r11, r8
+	bne	f142
+	cmp	r12, r9
+	bne	f142
+	cmp	r13, r15
+	bne	f142
+	cmp	r1, r2
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f143
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f143
+	cmp	r11, r8
+	bne	f143
+	cmp	r12, r9
+	bne	f143
+	cmp	r13, r15
+	bne	f143
+	cmp	r1, r2
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f144
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f144
+	cmp	r11, r8
+	bne	f144
+	cmp	r12, r9
+	bne	f144
+	cmp	r13, r15
+	bne	f144
+	cmp	r1, r2
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f145
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f145
+	cmp	r11, r8
+	bne	f145
+	cmp	r12, r9
+	bne	f145
+	cmp	r13, r15
+	bne	f145
+	cmp	r1, r2
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f146
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f146
+	cmp	r11, r8
+	bne	f146
+	cmp	r12, r9
+	bne	f146
+	cmp	r13, r15
+	bne	f146
 	cmp	r1, r3
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r5, r1, 1f
+	br	f147
+1:
 	set	ne, r7
 	set	cs, r8
 	set	vs, r9
 	set	mi, r15
 	cmp	r10, r7
-	bne	f142
+	bne	f147
 	cmp	r11, r8
-	bne	f142
+	bne	f147
 	cmp	r12, r9
-	bne	f142
+	bne	f147
 	cmp	r13, r15
-	bne	f142
-	cbeq	r3, r1, f143		; not taken: the flags are those of cmp r3, r1
+	bne	f147
+	cmp	r1, r3
 	set	ne, r10
 	set	cs, r11
 	set	vs, r12
 	set	mi, r13
+	cbeq	r5, r1, f148
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f148
+	cmp	r11, r8
+	bne	f148
+	cmp	r12, r9
+	bne	f148
+	cmp	r13, r15
+	bne	f148
+	cmp	r1, r3
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f149
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f149
+	cmp	r11, r8
+	bne	f149
+	cmp	r12, r9
+	bne	f149
+	cmp	r13, r15
+	bne	f149
+	cmp	r1, r3
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f150
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f150
+	cmp	r11, r8
+	bne	f150
+	cmp	r12, r9
+	bne	f150
+	cmp	r13, r15
+	bne	f150
+	cmp	r1, r3
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f151
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f151
+	cmp	r11, r8
+	bne	f151
+	cmp	r12, r9
+	bne	f151
+	cmp	r13, r15
+	bne	f151
+	cmp	r1, r3
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f152
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f152
+	cmp	r11, r8
+	bne	f152
+	cmp	r12, r9
+	bne	f152
+	cmp	r13, r15
+	bne	f152
 	cmp	r3, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r5, r1, 1f
+	br	f153
+1:
 	set	ne, r7
 	set	cs, r8
 	set	vs, r9
 	set	mi, r15
 	cmp	r10, r7
-	bne	f143
+	bne	f153
 	cmp	r11, r8
-	bne	f143
+	bne	f153
 	cmp	r12, r9
-	bne	f143
+	bne	f153
 	cmp	r13, r15
-	bne	f143
-	cbeq	r4, r1, f144		; not taken: the flags are those of cmp r4, r1
+	bne	f153
+	cmp	r3, r1
 	set	ne, r10
 	set	cs, r11
 	set	vs, r12
 	set	mi, r13
+	cbeq	r5, r1, f154
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f154
+	cmp	r11, r8
+	bne	f154
+	cmp	r12, r9
+	bne	f154
+	cmp	r13, r15
+	bne	f154
+	cmp	r3, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f155
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f155
+	cmp	r11, r8
+	bne	f155
+	cmp	r12, r9
+	bne	f155
+	cmp	r13, r15
+	bne	f155
+	cmp	r3, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f156
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f156
+	cmp	r11, r8
+	bne	f156
+	cmp	r12, r9
+	bne	f156
+	cmp	r13, r15
+	bne	f156
+	cmp	r3, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f157
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f157
+	cmp	r11, r8
+	bne	f157
+	cmp	r12, r9
+	bne	f157
+	cmp	r13, r15
+	bne	f157
+	cmp	r3, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f158
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f158
+	cmp	r11, r8
+	bne	f158
+	cmp	r12, r9
+	bne	f158
+	cmp	r13, r15
+	bne	f158
 	cmp	r4, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r5, r1, 1f
+	br	f159
+1:
 	set	ne, r7
 	set	cs, r8
 	set	vs, r9
 	set	mi, r15
 	cmp	r10, r7
-	bne	f144
+	bne	f159
 	cmp	r11, r8
-	bne	f144
+	bne	f159
 	cmp	r12, r9
-	bne	f144
+	bne	f159
 	cmp	r13, r15
-	bne	f144
-	cbeq	r1, r4, f145		; not taken: the flags are those of cmp r1, r4
+	bne	f159
+	cmp	r4, r1
 	set	ne, r10
 	set	cs, r11
 	set	vs, r12
 	set	mi, r13
+	cbeq	r5, r1, f160
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f160
+	cmp	r11, r8
+	bne	f160
+	cmp	r12, r9
+	bne	f160
+	cmp	r13, r15
+	bne	f160
+	cmp	r4, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f161
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f161
+	cmp	r11, r8
+	bne	f161
+	cmp	r12, r9
+	bne	f161
+	cmp	r13, r15
+	bne	f161
+	cmp	r4, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f162
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f162
+	cmp	r11, r8
+	bne	f162
+	cmp	r12, r9
+	bne	f162
+	cmp	r13, r15
+	bne	f162
+	cmp	r4, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f163
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f163
+	cmp	r11, r8
+	bne	f163
+	cmp	r12, r9
+	bne	f163
+	cmp	r13, r15
+	bne	f163
+	cmp	r4, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f164
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f164
+	cmp	r11, r8
+	bne	f164
+	cmp	r12, r9
+	bne	f164
+	cmp	r13, r15
+	bne	f164
 	cmp	r1, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r5, r1, 1f
+	br	f165
+1:
 	set	ne, r7
 	set	cs, r8
 	set	vs, r9
 	set	mi, r15
 	cmp	r10, r7
-	bne	f145
+	bne	f165
 	cmp	r11, r8
-	bne	f145
+	bne	f165
 	cmp	r12, r9
-	bne	f145
+	bne	f165
 	cmp	r13, r15
-	bne	f145
-	cbeq	r5, r1, f146		; not taken: the flags are those of cmp r5, r1
+	bne	f165
+	cmp	r1, r4
 	set	ne, r10
 	set	cs, r11
 	set	vs, r12
 	set	mi, r13
+	cbeq	r5, r1, f166
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f166
+	cmp	r11, r8
+	bne	f166
+	cmp	r12, r9
+	bne	f166
+	cmp	r13, r15
+	bne	f166
+	cmp	r1, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f167
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f167
+	cmp	r11, r8
+	bne	f167
+	cmp	r12, r9
+	bne	f167
+	cmp	r13, r15
+	bne	f167
+	cmp	r1, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f168
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f168
+	cmp	r11, r8
+	bne	f168
+	cmp	r12, r9
+	bne	f168
+	cmp	r13, r15
+	bne	f168
+	cmp	r1, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f169
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f169
+	cmp	r11, r8
+	bne	f169
+	cmp	r12, r9
+	bne	f169
+	cmp	r13, r15
+	bne	f169
+	cmp	r1, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f170
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f170
+	cmp	r11, r8
+	bne	f170
+	cmp	r12, r9
+	bne	f170
+	cmp	r13, r15
+	bne	f170
 	cmp	r5, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r5, r1, 1f
+	br	f171
+1:
 	set	ne, r7
 	set	cs, r8
 	set	vs, r9
 	set	mi, r15
 	cmp	r10, r7
-	bne	f146
+	bne	f171
 	cmp	r11, r8
-	bne	f146
+	bne	f171
 	cmp	r12, r9
-	bne	f146
+	bne	f171
 	cmp	r13, r15
-	bne	f146
-	cbeq	r1, r5, f147		; not taken: the flags are those of cmp r1, r5
+	bne	f171
+	cmp	r5, r1
 	set	ne, r10
 	set	cs, r11
 	set	vs, r12
 	set	mi, r13
+	cbeq	r5, r1, f172
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f172
+	cmp	r11, r8
+	bne	f172
+	cmp	r12, r9
+	bne	f172
+	cmp	r13, r15
+	bne	f172
+	cmp	r5, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f173
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f173
+	cmp	r11, r8
+	bne	f173
+	cmp	r12, r9
+	bne	f173
+	cmp	r13, r15
+	bne	f173
+	cmp	r5, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f174
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f174
+	cmp	r11, r8
+	bne	f174
+	cmp	r12, r9
+	bne	f174
+	cmp	r13, r15
+	bne	f174
+	cmp	r5, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f175
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f175
+	cmp	r11, r8
+	bne	f175
+	cmp	r12, r9
+	bne	f175
+	cmp	r13, r15
+	bne	f175
+	cmp	r5, r1
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f176
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f176
+	cmp	r11, r8
+	bne	f176
+	cmp	r12, r9
+	bne	f176
+	cmp	r13, r15
+	bne	f176
 	cmp	r1, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r5, r1, 1f
+	br	f177
+1:
 	set	ne, r7
 	set	cs, r8
 	set	vs, r9
 	set	mi, r15
 	cmp	r10, r7
-	bne	f147
+	bne	f177
 	cmp	r11, r8
-	bne	f147
+	bne	f177
 	cmp	r12, r9
-	bne	f147
+	bne	f177
 	cmp	r13, r15
-	bne	f147
-	cbeq	r5, r4, f148		; not taken: the flags are those of cmp r5, r4
+	bne	f177
+	cmp	r1, r5
 	set	ne, r10
 	set	cs, r11
 	set	vs, r12
 	set	mi, r13
+	cbeq	r5, r1, f178
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f178
+	cmp	r11, r8
+	bne	f178
+	cmp	r12, r9
+	bne	f178
+	cmp	r13, r15
+	bne	f178
+	cmp	r1, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f179
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f179
+	cmp	r11, r8
+	bne	f179
+	cmp	r12, r9
+	bne	f179
+	cmp	r13, r15
+	bne	f179
+	cmp	r1, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f180
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f180
+	cmp	r11, r8
+	bne	f180
+	cmp	r12, r9
+	bne	f180
+	cmp	r13, r15
+	bne	f180
+	cmp	r1, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f181
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f181
+	cmp	r11, r8
+	bne	f181
+	cmp	r12, r9
+	bne	f181
+	cmp	r13, r15
+	bne	f181
+	cmp	r1, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f182
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f182
+	cmp	r11, r8
+	bne	f182
+	cmp	r12, r9
+	bne	f182
+	cmp	r13, r15
+	bne	f182
 	cmp	r5, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r5, r1, 1f
+	br	f183
+1:
 	set	ne, r7
 	set	cs, r8
 	set	vs, r9
 	set	mi, r15
 	cmp	r10, r7
-	bne	f148
+	bne	f183
 	cmp	r11, r8
-	bne	f148
+	bne	f183
 	cmp	r12, r9
-	bne	f148
+	bne	f183
 	cmp	r13, r15
-	bne	f148
-	cbeq	r6, r5, f149		; not taken: the flags are those of cmp r6, r5
+	bne	f183
+	cmp	r5, r4
 	set	ne, r10
 	set	cs, r11
 	set	vs, r12
 	set	mi, r13
+	cbeq	r5, r1, f184
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f184
+	cmp	r11, r8
+	bne	f184
+	cmp	r12, r9
+	bne	f184
+	cmp	r13, r15
+	bne	f184
+	cmp	r5, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f185
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f185
+	cmp	r11, r8
+	bne	f185
+	cmp	r12, r9
+	bne	f185
+	cmp	r13, r15
+	bne	f185
+	cmp	r5, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f186
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f186
+	cmp	r11, r8
+	bne	f186
+	cmp	r12, r9
+	bne	f186
+	cmp	r13, r15
+	bne	f186
+	cmp	r5, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f187
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f187
+	cmp	r11, r8
+	bne	f187
+	cmp	r12, r9
+	bne	f187
+	cmp	r13, r15
+	bne	f187
+	cmp	r5, r4
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f188
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f188
+	cmp	r11, r8
+	bne	f188
+	cmp	r12, r9
+	bne	f188
+	cmp	r13, r15
+	bne	f188
 	cmp	r6, r5
-	set	ne, r7
-	set	cs, r8
-	set	vs, r9
-	set	mi, r15
-	cmp	r10, r7
-	bne	f149
-	cmp	r11, r8
-	bne	f149
-	cmp	r12, r9
-	bne	f149
-	cmp	r13, r15
-	bne	f149
-	cbeq	r5, r6, f150		; not taken: the flags are those of cmp r5, r6
 	set	ne, r10
 	set	cs, r11
 	set	vs, r12
 	set	mi, r13
-	cmp	r5, r6
+	cbne	r5, r1, 1f
+	br	f189
+1:
 	set	ne, r7
 	set	cs, r8
 	set	vs, r9
 	set	mi, r15
 	cmp	r10, r7
-	bne	f150
+	bne	f189
 	cmp	r11, r8
-	bne	f150
+	bne	f189
 	cmp	r12, r9
-	bne	f150
+	bne	f189
 	cmp	r13, r15
-	bne	f150
+	bne	f189
+	cmp	r6, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r5, r1, f190
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f190
+	cmp	r11, r8
+	bne	f190
+	cmp	r12, r9
+	bne	f190
+	cmp	r13, r15
+	bne	f190
+	cmp	r6, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f191
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f191
+	cmp	r11, r8
+	bne	f191
+	cmp	r12, r9
+	bne	f191
+	cmp	r13, r15
+	bne	f191
+	cmp	r6, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f192
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f192
+	cmp	r11, r8
+	bne	f192
+	cmp	r12, r9
+	bne	f192
+	cmp	r13, r15
+	bne	f192
+	cmp	r6, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f193
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f193
+	cmp	r11, r8
+	bne	f193
+	cmp	r12, r9
+	bne	f193
+	cmp	r13, r15
+	bne	f193
+	cmp	r6, r5
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f194
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f194
+	cmp	r11, r8
+	bne	f194
+	cmp	r12, r9
+	bne	f194
+	cmp	r13, r15
+	bne	f194
+	cmp	r5, r6
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r5, r1, 1f
+	br	f195
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f195
+	cmp	r11, r8
+	bne	f195
+	cmp	r12, r9
+	bne	f195
+	cmp	r13, r15
+	bne	f195
+	cmp	r5, r6
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r5, r1, f196
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f196
+	cmp	r11, r8
+	bne	f196
+	cmp	r12, r9
+	bne	f196
+	cmp	r13, r15
+	bne	f196
+	cmp	r5, r6
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r1, r2, 1f
+	br	f197
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f197
+	cmp	r11, r8
+	bne	f197
+	cmp	r12, r9
+	bne	f197
+	cmp	r13, r15
+	bne	f197
+	cmp	r5, r6
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r1, r2, f198
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f198
+	cmp	r11, r8
+	bne	f198
+	cmp	r12, r9
+	bne	f198
+	cmp	r13, r15
+	bne	f198
+	cmp	r5, r6
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbne	r3, r1, 1f
+	br	f199
+1:
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f199
+	cmp	r11, r8
+	bne	f199
+	cmp	r12, r9
+	bne	f199
+	cmp	r13, r15
+	bne	f199
+	cmp	r5, r6
+	set	ne, r10
+	set	cs, r11
+	set	vs, r12
+	set	mi, r13
+	cbeq	r3, r1, f200
+	set	ne, r7
+	set	cs, r8
+	set	vs, r9
+	set	mi, r15
+	cmp	r10, r7
+	bne	f200
+	cmp	r11, r8
+	bne	f200
+	cmp	r12, r9
+	bne	f200
+	cmp	r13, r15
+	bne	f200
 	movq	#0, r0
 	trap	#0
 f1:	movq	#1, r0
@@ -776,4 +1736,102 @@ f149:	movq	#149, r0
 f150:	movq	#150, r0
 	trap	#0
 f151:	movq	#151, r0
+	trap	#0
+f152:	movq	#152, r0
+	trap	#0
+f153:	movq	#153, r0
+	trap	#0
+f154:	movq	#154, r0
+	trap	#0
+f155:	movq	#155, r0
+	trap	#0
+f156:	movq	#156, r0
+	trap	#0
+f157:	movq	#157, r0
+	trap	#0
+f158:	movq	#158, r0
+	trap	#0
+f159:	movq	#159, r0
+	trap	#0
+f160:	movq	#160, r0
+	trap	#0
+f161:	movq	#161, r0
+	trap	#0
+f162:	movq	#162, r0
+	trap	#0
+f163:	movq	#163, r0
+	trap	#0
+f164:	movq	#164, r0
+	trap	#0
+f165:	movq	#165, r0
+	trap	#0
+f166:	movq	#166, r0
+	trap	#0
+f167:	movq	#167, r0
+	trap	#0
+f168:	movq	#168, r0
+	trap	#0
+f169:	movq	#169, r0
+	trap	#0
+f170:	movq	#170, r0
+	trap	#0
+f171:	movq	#171, r0
+	trap	#0
+f172:	movq	#172, r0
+	trap	#0
+f173:	movq	#173, r0
+	trap	#0
+f174:	movq	#174, r0
+	trap	#0
+f175:	movq	#175, r0
+	trap	#0
+f176:	movq	#176, r0
+	trap	#0
+f177:	movq	#177, r0
+	trap	#0
+f178:	movq	#178, r0
+	trap	#0
+f179:	movq	#179, r0
+	trap	#0
+f180:	movq	#180, r0
+	trap	#0
+f181:	movq	#181, r0
+	trap	#0
+f182:	movq	#182, r0
+	trap	#0
+f183:	movq	#183, r0
+	trap	#0
+f184:	movq	#184, r0
+	trap	#0
+f185:	movq	#185, r0
+	trap	#0
+f186:	movq	#186, r0
+	trap	#0
+f187:	movq	#187, r0
+	trap	#0
+f188:	movq	#188, r0
+	trap	#0
+f189:	movq	#189, r0
+	trap	#0
+f190:	movq	#190, r0
+	trap	#0
+f191:	movq	#191, r0
+	trap	#0
+f192:	movq	#192, r0
+	trap	#0
+f193:	movq	#193, r0
+	trap	#0
+f194:	movq	#194, r0
+	trap	#0
+f195:	movq	#195, r0
+	trap	#0
+f196:	movq	#196, r0
+	trap	#0
+f197:	movq	#197, r0
+	trap	#0
+f198:	movq	#198, r0
+	trap	#0
+f199:	movq	#199, r0
+	trap	#0
+f200:	movq	#200, r0
 	trap	#0

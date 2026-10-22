@@ -29,12 +29,14 @@ _start:
 	cblo	r1, #-16, 1f		; taken
 	br	f16
 1:
-; the flags are those of cmp r1, #imm: after cbne (not taken) Z is set; after cbeq (not taken) it is clear
-	cbne	r1, #5, f17
+; cbCC writes no flag (errata 39): the flags after it, taken or not, are those the last cmp left
+	cmp	r1, #5			; Z set
+	cbeq	r1, #4, f17		; not taken (5 - 4 would clear Z)
 	beq	1f
 	br	f18
-1:	cbeq	r1, #4, f19
-	bne	1f
+1:	cbne	r1, #4, 1f		; taken (5 - 4 would clear Z as well)
+	br	f19
+1:	beq	1f
 	br	f20
 1:
 ; the extreme immediates: -16 and 15

@@ -58,7 +58,8 @@ static uint64_t rnd(void) { seed = seed * 6364136223846793005ULL + 1442695040888
 static void initial(struct machine *m, int variant)
 {
 	memset(m, 0, sizeof *m);
-	pdp64_set_psw(&m->c, MODE_USER << PSW_MODE | MODE_USER << PSW_PREV);	/* user mode and the stand-in, as sim64 without options */
+	if (variant & 4) pdp64_set_psw(&m->c, MODE_KERNEL << PSW_MODE | MODE_KERNEL << PSW_PREV);	/* half of the states in kernel mode (isync, pushx, popx run), half in user mode */
+	else pdp64_set_psw(&m->c, MODE_USER << PSW_MODE | MODE_USER << PSW_PREV);	/* user mode and the stand-in, as sim64 without options */
 	m->c.standin = 1;
 	for (int i = 0; i < DSIZE; i++) m->mem[i] = (uint8_t)rnd();
 	for (int i = 0; i < 16; i++) {

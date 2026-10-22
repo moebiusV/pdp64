@@ -213,37 +213,55 @@ _start:
 	movq	8(r5), r2
 	cmp	r2, exp3		; movl stores four bytes
 	bne	f43
+; moves write no flags (errata 39): the sign and zero extension show in the register, and N and Z stay as the cmp before the move left them
 	movq	#128, r3
+	cmp	r3, #1			; N clear, Z clear
 	movb	r3, r2
-	set	mi, r4
-	cmp	r4, #1		; N/Z after movb of 0x80: 0x80 as a signed byte is negative
+	cmp	r2, #-128		; the byte 0x80 sign-extended (this cmp sets the flags again, so read them first)
 	bne	f44
 	movq	#128, r3
+	cmp	r3, #1
+	movb	r3, r2
+	set	mi, r4
+	cmp	r4, #0			; movb of a negative byte left N clear
+	bne	f44
+	movq	#128, r3
+	cmp	r3, #200		; 128 - 200 is negative: N set
 	movzb	r3, r2
-	set	pl, r4
-	cmp	r4, #1		; N/Z after movzb of 0x80: 0x80 zero-extended is positive
+	set	mi, r4
+	cmp	r4, #1			; movzb of 0x80 (a positive value) left N set
+	bne	f45
+	cmp	r2, #128		; and the value is zero-extended
 	bne	f45
 	movq	#0, r3
+	cmp	r3, #1			; 0 - 1: N set, Z clear
 	movb	r3, r2
 	set	eq, r4
-	cmp	r4, #1		; N/Z after movb of 0x0: zero
+	cmp	r4, #0			; movb of 0 left Z clear
 	bne	f46
 	movq	#0, r3
+	cmp	r3, #1
 	movzw	r3, r2
 	set	eq, r4
-	cmp	r4, #1		; N/Z after movzw of 0x0: zero
+	cmp	r4, #0			; movzw of 0 left Z clear
 	bne	f47
 	movq	#32768, r3
 	shl	#16, r3
+	cmp	r3, #1			; positive: N clear
 	movl	r3, r2
 	set	mi, r4
-	cmp	r4, #1		; N/Z after movl of 0x80000000: sign-extended long
+	cmp	r4, #0			; movl of 0x80000000 (negative as a long) left N clear
+	bne	f48
+	cmp	r2, #-2147483648	; and it is sign-extended
 	bne	f48
 	movq	#32768, r3
 	shl	#16, r3
+	cmp	r3, r3			; Z set
 	movzl	r3, r2
-	set	pl, r4
-	cmp	r4, #1		; N/Z after movzl of 0x80000000: zero-extended long
+	set	eq, r4
+	cmp	r4, #1			; movzl left Z set
+	bne	f49
+	cmp	r2, r3			; and the value is zero-extended, 0x80000000
 	bne	f49
 	movq	#0, r0
 	trap	#0

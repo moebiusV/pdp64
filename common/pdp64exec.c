@@ -124,6 +124,15 @@ static int cond(int c)
 	}
 	return 0;
 }
+/* the condition c of the comparison a - b, for a decision, with no flag written: cbCC leaves N Z V C as they were (errata 39) */
+static int cmp_taken(uint64_t a, uint64_t b, int c)
+{
+	int n = fN, z = fZ, v = fV, cy = fC, t;
+	sub_f(a, b, 0);
+	t = cond(c);
+	fN = n; fZ = z; fV = v; fC = cy;
+	return t;
+}
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* floating point: values are bits in general registers; the flags are recorded in fpsr and never trap                */
@@ -403,11 +412,10 @@ static void step(void)
 		operand(&f, start, &o);
 		if (store) {
 			uint64_t v = r[f.reg];
-			opset(&o, size, v);
-			nz((uint64_t)sext(v, size * 8)); fV = 0;
+			opset(&o, size, v);							/* moves, loads and stores write no flags (errata 39) */
 		} else {
 			uint64_t v = opval(&o, size, !zero);
-			r[f.reg] = v; nz(v); fV = 0;
+			r[f.reg] = v;
 		}
 		return;
 	}
@@ -430,8 +438,9 @@ static void step(void)
 		}
 		case MN_ALU_MULH: { __int128 w = (__int128)(int64_t)a * (int64_t)b; res = (uint64_t)(w >> 64); nz(res); fV = 0; r[f.reg] = res; break; }
 		case MN_ALU_SHL: case MN_ALU_SHR: case MN_ALU_SAR: {
-			if (b == 0) break;							/* a zero count changes nothing, not even C */
-			if (opc == MN_ALU_SHL) { res = b >= 64 ? 0 : a << b; fC = b <= 64 ? (int)((a >> (64 - b)) & 1) : 0; if (b == 64) fC = a & 1; }
+			/* the same flags for every count (errata 39): N and Z from the result (a count of 0 leaves the operand), V = 0, C = the last bit shifted out, 0 for a count of 0 */
+			if (b == 0) { res = a; fC = 0; }
+			else if (opc == MN_ALU_SHL) { res = b >= 64 ? 0 : a << b; fC = b <= 64 ? (int)((a >> (64 - b)) & 1) : 0; }
 			else if (opc == MN_ALU_SHR) { res = b >= 64 ? 0 : a >> b; fC = b <= 64 ? (int)((a >> (b - 1)) & 1) : 0; }
 			else { res = b >= 64 ? ((int64_t)a < 0 ? ~(uint64_t)0 : 0) : (uint64_t)((int64_t)a >> b); fC = b <= 64 ? (int)((a >> (b - 1)) & 1) : (int)(a >> 63); }
 			nz(res); fV = 0; r[f.reg] = res;
@@ -453,14 +462,12 @@ static void step(void)
 	if (opc == OPGROUP_CBR || opc == OPGROUP_CBW) {					/* cbCC rd,#imm,target: cmp rd,#imm, then the branch (two encodings) */
 		int wide = opc == OPGROUP_CBW;
 		int64_t d = sext(f.d, wide ? cbwbits(len) : cbbits(len)), imm = sext(f.imm, wide ? cbwimmbits : cbimmbits);
-		sub_f(r[f.reg], (uint64_t)imm, 0);
-		if (cond(f.low)) pc = start + 2 * d;
+		if (cmp_taken(r[f.reg], (uint64_t)imm, f.low)) pc = start + 2 * d;
 		return;
 	}
 	if (opc == OPGROUP_CBRR) {							/* cbCC ra,rb,target: cmp ra,rb, then the branch */
 		int64_t d = sext(f.d, cbrbits(len));
-		sub_f(r[f.reg], r[f.low], 0);
-		if (cond(f.x)) pc = start + 2 * d;
+		if (cmp_taken(r[f.reg], r[f.low], f.x)) pc = start + 2 * d;
 		return;
 	}
 	if (opc == OPGROUP_SOB) {
@@ -529,10 +536,18 @@ static void step(void)
 				pc = C->epc; pdp64_set_psw(C, (unsigned)C->epsw);
 				if (f.low == MN_SYS_NONE_RTT) C->psw |= 1u << PSW_T;
 				return;
-			case SYS_MINOR_SYSX: {								/* pushx, popx: EPSW and EPC on the stack of the current mode */
+			case SYS_MINOR_SYSX: {								/* the SYSX escape: pushx, popx, isync, hint */
 				uint64_t a;
+				if (f.shape != FS_SYSX) die("illegal instruction", 0);
+				if (f.sub == MN_SYSX_HINT) return;						/* hint #n: not privileged, no flags, no effect, whatever n is (0 nop, 1 pause, 2 speculation barrier, the rest reserved) */
 				priv();
-				if (f.shape != FS_SYSX || f.n != 0 || (f.sub != MN_SYSX_PUSHX && f.sub != MN_SYSX_POPX)) die("illegal instruction", 0);
+				if (f.sub == MN_SYSX_ISYNC) {							/* isync: earlier writes to PTBR, ASID, MMUCTL, VBR and earlier ICINVs take effect for what follows.  The architecture
+											   promises that only after the next ISYNC; this emulator applies them at once and keeps the translation state coherent here */
+					if (f.n != 0) die("illegal instruction", 0);
+					E->tlb(E->u, PDP64_TLB_ALL, 0);
+					return;
+				}
+				if (f.n != 0 || (f.sub != MN_SYSX_PUSHX && f.sub != MN_SYSX_POPX)) die("illegal instruction", 0);
 				a = f.sub == MN_SYSX_PUSHX ? r[14] - 16 : r[14];
 				if (a & 7) fault_v(VECTOR_MISALIGNED, "misaligned data access", a);
 				E->check(E->u, a, 8, f.sub == MN_SYSX_PUSHX); E->check(E->u, a + 8, 8, f.sub == MN_SYSX_PUSHX);	/* both words, before either is touched */
@@ -683,10 +698,10 @@ static void step(void)
 			while (r[rn]) {
 				int hit = (uint8_t)ld(r[rd], 1) == (uint8_t)r[rs];
 				if (sub == MN_MBLK_MSCNN) hit = !hit;
-				if (hit) { fZ = 1; return; }
+				if (hit) { fN = fV = fC = 0; fZ = 1; return; }		/* mscn writes all four flags (errata 39) */
 				r[rd]++; r[rn]--;
 			}
-			fZ = 0;
+			fN = fV = fC = 0; fZ = 0;
 			return;
 		}
 		die("unimplemented block instruction", sub);

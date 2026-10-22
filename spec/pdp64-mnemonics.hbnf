@@ -293,6 +293,8 @@ sys-minor = "sysx"@0b1111
 
 mn-sysx = "pushx"@0
         | "popx"@1
+        | "isync"@2     ; privileged: earlier writes to PTBR, ASID, MMUCTL, VBR and earlier ICINVs take effect for what follows (errata 39); pad zero
+        | "hint"@3      ; hint #n: n (0 to 255) in the pad byte; no architectural effect; 0 nop, 1 pause, 2 speculation barrier, the rest reserved and no-ops
 
 ; SYS class 0, the system-register moves (four bytes: the register in parcel 1): the number is the minor opcode in the low field.  Not in `mnemonic`: they
 ; take the register's name as a word of its own, in the operand position that is the system register (`mfsr r1, ptbr`, `mtsr ptbr, r1`)
@@ -410,6 +412,8 @@ p2op = "ld.q"@0x00       ; movq (rn),rd
      | "add.i"@0x29
      | "pushx"@0x2A      ; pushx (SYSX sub 0), reg and low zero
      | "popx"@0x2B       ; popx (SYSX sub 1)
+     | "isync"@0x2C      ; isync (SYSX sub 2), reg and low zero
+     | "hint"@0x2D       ; hint #n (SYSX sub 3), n = reg:low
 
 ; The addressing modes, the `low` nibble of an instruction with a memory operand (ISA section 5).
 amode = "base"@0b0000

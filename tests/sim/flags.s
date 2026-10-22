@@ -130,7 +130,7 @@ _start:
 	cmp	r1, r2
 	shl	#0, r3
 	set	cs, r3
-	cmp	r3, #1		; cs: a zero shift count changes no flag, not even C
+	cmp	r3, #0		; cs: a zero shift count gives C = 0 (errata 39: the same flags for every count)
 	bne	f35
 	movq	#5, r1
 	movq	#7, r2
