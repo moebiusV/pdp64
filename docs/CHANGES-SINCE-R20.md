@@ -553,6 +553,11 @@ or absolute address is 32 bits, sign-extended); the linker; the shared execution
 the QEMU target (a length of 1 parcel for `len = 11`); the documents (ISA §3, §4, §9.6, §12, §13, §14, glossary). The compiler needs no change for the page-2 forms (the assembler selects them); it needs the peephole rules for
 `cbCC`, `rori32` and `inc`/`dec`, which are measured separately.
 
+### Added: system-register moves for a paging operating system (2026-10-22, errata 32)
+
+The system architecture document ([`pdp64-system-architecture.md`](pdp64-system-architecture.md) §3) listed registers a kernel needs and no instruction to reach them. `mfsr rd,name` and `mtsr name,rs` (class-0 minors 13 and 14 of
+`SYS`, four bytes, system-register number in parcel 1) reach `ptbr`, `epc`, `eva`, `ecause`, `dmw0`, `dmw1`, `usp` and `ssp`; both are privileged. Details and reasons are in errata 32.
+
 ## 13. Appendix
 
 ### 13.1 The 91 operations, folded

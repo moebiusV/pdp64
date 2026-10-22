@@ -866,7 +866,7 @@ Every arithmetic or conversion result that is a NaN is the **canonical quiet NaN
 
 ### 4.11 System and atomic escapes — `SYS` at `0x14`, `ATOM` at `0x11`
 
-`SYS` at `0x14`: `RTI`, `RTT`, `RET`, `HALT`, `MTPS`, `MFPS`, `SPL`, `TRAP #n`, `TRAPL #n`, `BPT`, `TLBI`, `TLBIA`, `TLBSYNC`, `MTASID`, `MFASID`, `MTDP`, `MFDP`, `MTDMW`, `MFCPUID`, `ICINV`, `ICINVA`, `FENCE`, `WFE`, `SEV`, `LPAD`, `PROBER`, `PROBEW`, `NOP`.
+`SYS` at `0x14`: `RTI`, `RTT`, `RET`, `HALT`, `MTPS`, `MFPS`, `SPL`, `TRAP #n`, `TRAPL #n`, `BPT`, `TLBI`, `TLBIA`, `TLBSYNC`, `MTASID`, `MFASID`, `MTDP`, `MFDP`, `MTDMW`, `MFSR`, `MTSR`, `MFCPUID`, `ICINV`, `ICINVA`, `FENCE`, `WFE`, `SEV`, `LPAD`, `PROBER`, `PROBEW`, `NOP`.
 
 **Its layout.** The `reg` field is a 4-bit **class**. The `rm` field (`low`) is a register operand, a 4-bit immediate (`SPL`, `TRAP` 0–15) or, in class 0, the minor opcode of the instructions that take no operand. (Earlier text said `reg` and `rm` combined into eight bits of sub-opcode, §4.3.1 that `SYS` takes its sub-opcode from `reg` alone, and §4.11.1 that `TRAP #n` is two bytes with 256 vectors; the three cannot all hold, §9.9.)
 
@@ -881,9 +881,11 @@ Every arithmetic or conversion result that is a NaN is the **canonical quiet NaN
 | `6` | `MTASID` | `14` | `PROBEW` |
 | `7` | `MFASID` | `15` | `TRAPL #n` |
 
-Class 0 minors: `0` `NOP`, `1` `RTI`, `2` `RTT`, `3` `RET`, `4` `HALT`, `5` `BPT`, `6` `FENCE`, `7` `WFE`, `8` `SEV`, `9` `LPAD`, `10` `TLBIA`, `11` `TLBSYNC`, `12` `ICINVA`. Where the operand is a register or a 4-bit number the instruction is two bytes. The classes that need a second operand are four bytes: `PROBER` and `PROBEW` carry the second register in parcel 1, and `TRAPL` carries its vector number in parcel 1.
+Class 0 minors: `0` `NOP`, `1` `RTI`, `2` `RTT`, `3` `RET`, `4` `HALT`, `5` `BPT`, `6` `FENCE`, `7` `WFE`, `8` `SEV`, `9` `LPAD`, `10` `TLBIA`, `11` `TLBSYNC`, `12` `ICINVA`, `13` `MFSR`, `14` `MTSR`; `15` is free. Where the operand is a register or a 4-bit number the instruction is two bytes. The classes that need a second operand are four bytes: `PROBER` and `PROBEW` carry the second register in parcel 1, and `TRAPL` carries its vector number in parcel 1.
 
 **`TRAP #n` is split.** `TRAP #n` for `n < 16` is two bytes (class 4, `n` in the `rm` nibble). `TRAPL #n` (class 15, `len ≥ 01`, `n` in the high byte of parcel 1) reaches vectors 0–255 in four bytes. The assembler picks. This keeps both aims — 256 vectors, and the common case in two bytes — at the cost of a second mnemonic.
+
+**`MFSR rd, name` and `MTSR name, rs`** (2026-10-22, errata 32) read and write a **system register** chosen by name. Both are privileged (an abort outside kernel mode, §7.1) and four bytes: parcel 0 `01 SYS 0 minor`, parcel 1 `sr:8 r:4 pad:4`. The registers: `ptbr` 0 (page-table base), `epc` 1 (exception program counter), `eva` 2 (faulting address, read only), `ecause` 3 (cause, read only), `dmw0` 4 and `dmw1` 5 (the direct mapping windows, §8.3), `usp` 6 and `ssp` 7 (the user and supervisor stack pointers, whose copies `R14` does not name outside their mode). A write to a read-only register, or a number that is not assigned, is an illegal-instruction abort. The reason there is one general pair: all sixteen classes were taken, and eight bits of register number leave room for the registers still to come (a vector base, a timer compare, an interrupt mask). What `epc`, `eva` and `ecause` contain is defined with the exception entry sequence, which is not yet written ([`pdp64-system-architecture.md`](pdp64-system-architecture.md) §4).
 
 #### 4.11.1 Four PDP-11 instructions dropped in revision 17
 

@@ -47,13 +47,20 @@ sticky floating-point flag word, is saved with the `PSW` as part of the thread c
 | `FPSR` | 5 | `FSFLAGS` (swap) |
 | `DP` (three copies) | 64 | `MFDP` / `MTDP` |
 | `ASID` | 16 | `MFASID` / `MTASID` |
-| `DMW0`, `DMW1` | 64 | `MTDMW` (read: `MFDMW` is not in the list) |
-| `PTBR` | 64 | **no instruction is listed** |
-| `EPC`, `EVA`, `ECAUSE` | 64 / 64 / 16 | **no instruction is listed** |
+| `DMW0`, `DMW1` | 64 | `MTDMW`; `MFSR` / `MTSR` `dmw0`, `dmw1` |
+| `PTBR` | 64 | `MFSR` / `MTSR` `ptbr` |
+| `EPC` | 64 | `MFSR` / `MTSR` `epc` |
+| `EVA`, `ECAUSE` | 64 / 16 | `MFSR` `eva`, `ecause` (read only) |
+| user and supervisor `SP` | 64 | `MFSR` / `MTSR` `usp`, `ssp` |
 
-*Open*: the four gaps above. A kernel cannot install a page table or read why it was entered without them. They may be system-register moves in the style of the
-existing `MTxx`/`MFxx` words, or one general move with a register number; that is a design decision. Also open: where `MFCPUID`-style identification (core number,
-features, ISA version) is reported beyond the core number.
+*Decided* (errata 32, added 2026-10-22): the instructions **`mfsr rd,name`** and **`mtsr name,rs`**, privileged, four bytes, in the `SYS` group. They close the gap that a kernel could not install a page table
+(`ptbr`) or read why it was entered (`epc`, `eva`, `ecause`), and give access to the stack pointers of the other modes (`usp`, `ssp`), which a kernel needs for signal frames, `fork` and the context switch.
+A system-register number has eight bits, so further registers (a vector base, a timer compare, an interrupt mask) can be added without changing the instruction.
+
+*Open*:
+* what `epc`, `eva` and `ecause` contain and when they are set (the entry sequence of section 4);
+* whether the numbered registers `dp` (kernel) and the others should also be reachable by name through `mfsr`/`mtsr` (today `MFDP`/`MTDP` do it), and which `DMW` an operand of `MTDMW` selects;
+* where identification beyond the core number (features, ISA version) is reported, as `MFCPUID` reports only the core number.
 
 ## 4. Exceptions
 
@@ -121,7 +128,7 @@ This is enough for demand paging, copy-on-write, `fork`, `mmap` and `mprotect`, 
 
 *Open*:
 * **the page table entry bit layout**: the fields are listed, their positions in the 64-bit entry are not;
-* how `PTBR` is written (section 3), and whether there is one table base for both halves of the address space or one for user and one for kernel;
+* whether there is one table base for both halves of the address space or one for user and one for kernel;
 * the hardware walker's behaviour: whether it sets `A` and `D` itself (and what a failure to do so atomically means) or faults to software;
 * the `TLBI` operand forms (by address, by ASID, both) and what `TLBIA` covers;
 * **ASID allocation and rollover**: 16 bits are plentiful, but the policy when they run out (a global flush, a generation count) is the kernel's and needs the instruction
@@ -175,7 +182,7 @@ memory to 32V. The pdp64's memory-management unit supports demand paging (sectio
 | What 32V needs | What the pdp64 has | State |
 |---|---|---|
 | A way into the kernel for a system call, with the call number and arguments in registers or on the stack | `TRAP #n`, `TRAPL #n`, a banked kernel stack (sections 1, 5) | the entry sequence and the call convention are open (sections 4, 5) |
-| Separate address spaces, swapped as whole images, with per-process page tables | a three-level page table, `ASID`, broadcast `TLBI` (section 7) | `PTBR` cannot yet be written; the entry layout is open (sections 3, 7) |
+| Separate address spaces, swapped as whole images, with per-process page tables | a three-level page table, `ASID`, broadcast `TLBI` (section 7) | `PTBR` is written by `mtsr` (section 3); the entry layout is open (section 7) |
 | Mode, interrupt priority levels | the `PSW` priority field and `SPL` (section 6) | the number of levels, and the `PSW` layout, are open (sections 2, 6) |
 | A periodic clock interrupt | nothing | open (section 6) |
 | A console | nothing | a serial device is needed and is not one of the three devices of errata 29 (Ethernet, USB, disk); open |
@@ -201,7 +208,7 @@ A Linux or modern BSD port (OpenBSD is the author's next candidate) is a differe
 
 1. The supervisor mode: its use, or its removal (section 1).
 2. The `PSW` bit layout; `MTPS` in user mode (section 2).
-3. Instructions or a general move for `PTBR`, `EPC`, `EVA`, `ECAUSE` (section 3).
+3. ~~Instructions or a general move for `PTBR`, `EPC`, `EVA`, `ECAUSE`~~ closed by `mfsr`/`mtsr` (errata 32); what the registers contain is open (section 4). Remaining: further registers (vector base, timer compare, interrupt mask).
 4. The exception entry sequence, the vector table and vector numbering, the numeric `ECAUSE` codes, nested exceptions, `RTI`/`RTT` semantics (section 4).
 5. The system-call convention (section 5).
 6. The interrupt controller, priority levels, the timer, the inter-processor interrupt (section 6).
