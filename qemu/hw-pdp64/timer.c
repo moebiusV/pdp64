@@ -34,7 +34,8 @@ static uint64_t pdp64_timer_counter(void)
                     NANOSECONDS_PER_SECOND);
 }
 
-static void pdp64_timer_update(PDP64TimerState *s)
+/* bring the interrupt line and the timer callback up to date; returns whether counter >= compare, as judged by the one clock reading used for the line */
+static bool pdp64_timer_update(PDP64TimerState *s)
 {
     uint64_t now = pdp64_timer_counter();
     bool pending = now >= s->compare;
@@ -48,6 +49,7 @@ static void pdp64_timer_update(PDP64TimerState *s)
                                TIMER_CLOCK_HZ) + 1;
         timer_mod(s->timer, ns);
     }
+    return pending;
 }
 
 static void pdp64_timer_fired(void *opaque)
@@ -66,9 +68,9 @@ static uint64_t timer_read(void *opaque, hwaddr addr, unsigned size)
         return s->compare;
     case TIMER_REG_CONTROL:
         /* the interrupt line is raised by the timer callback, later than the clock passes compare: bring it up to date before the guest can see PENDING, so a guest that has seen PENDING never has an interrupt that the processor has not been told about */
-        pdp64_timer_update(s);
+        /* PENDING is the decision that raised (or did not raise) the line, not a second clock reading: a second reading could pass compare in between, and the guest would see PENDING with the processor not yet told */
         return (s->control & (1u << TIMER_CTL_ENABLE))
-               | ((pdp64_timer_counter() >= s->compare) << TIMER_CTL_PENDING);
+               | ((uint64_t)pdp64_timer_update(s) << TIMER_CTL_PENDING);
     default:
         return 0;
     }
