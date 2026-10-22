@@ -1,0 +1,5 @@
+step,instructions,bytes,vs_gcc_Os_bytes,vs_clang_Os_bytes,reliance_sites
+before (errata 35),334056,1499530,0.998,0.931,2908
+a: tst after a move kept,334056,1504878,1.002,0.934,3
+b: liveness model and FORCC on extended types,333984,1504758,1.001,0.934,0
+c: cbCC only where the codes are dead,335877,1505382,1.002,0.935,0
