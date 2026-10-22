@@ -55,10 +55,10 @@ loongarch,linux,asm,files,21
 loongarch,linux,asm,lines,3503
 loongarch,linux,inline,asmblocks,131
 loongarch,linux,inline,files,166
-m68k,linux,asm,files,67
-m68k,linux,asm,lines,76571
-m68k,linux,inline,asmblocks,339
-m68k,linux,inline,files,158
+m68k,linux,asm,files,10
+m68k,linux,asm,lines,4475
+m68k,linux,inline,asmblocks,302
+m68k,linux,inline,files,156
 m68k,netbsd,asm,files,44
 m68k,netbsd,asm,lines,14076
 m68k,netbsd,inline,asmblocks,205

@@ -226,10 +226,15 @@ void helper_exec(CPUPDP64State *env)
     struct hostctx h = { env, GETPC() };
     struct pdp64_env e;
     CPUState *cs = env_cpu(env);
+    unsigned pri = pdp64_priority(&env->c);
 
     init_core();
     make_env(&e, &h);
     pdp64_step(&env->c, &e);
+    if (pdp64_priority(&env->c) < pri && env->irq_lines) {
+        /* the priority fell (spl, mtps, rti, popx...) with a request asserted: leave the chain of translation blocks so that cpu_exec_interrupt looks at it */
+        cpu_exit(cs);
+    }
     if (env->c.wait) {          /* wfe: sleep until an interrupt is taken */
         cs->halted = 1;
         cs->exception_index = EXCP_HLT;

@@ -1,0 +1,13 @@
+family,corpus_dirs,instructions
+x86,amd64-clang amd64-gcc i386-clang i386-gcc,1280687
+arm64,aarch64 aarch64-gcc,616592
+arm,arm arm-v7 arm-gcc,930218
+riscv,riscv64 riscv64gc riscv64gc-gcc riscv64zb,1454720
+mips,mips64,421494
+ppc,ppc32 ppc32-gcc ppc64 ppc64-gcc,1496109
+loongarch,loongarch64 loongarch64-gcc,654278
+m68k,m68k m68k-gcc,752780
+sparc,sparcv9 sparc64-gcc,711518
+s390,systemz systemz-gcc,554773
+vax,vax-gcc,253923
+pdp64,pdp64,336408

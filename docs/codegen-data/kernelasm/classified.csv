@@ -1,0 +1,2916 @@
+family,mnemonic,class,kernel_total,linux,freebsd,netbsd,openbsd,compiler_count,compiler_total,compiler_fraction,invisible
+alpha,stq,other,710,211,0,204,295,0,0,,
+alpha,ldq,other,535,191,0,150,194,0,0,,
+alpha,addq,other,334,277,0,17,40,0,0,,
+alpha,nop,other,311,303,0,8,0,0,0,,
+alpha,lda,other,276,122,0,72,82,0,0,,
+alpha,mov,other,261,78,0,106,77,0,0,,
+alpha,beq,other,260,164,0,35,61,0,0,,
+alpha,bne,other,227,121,0,25,81,0,0,,
+alpha,subq,other,213,165,0,4,44,0,0,,
+alpha,or,other,199,149,0,14,36,0,0,,
+alpha,and,other,196,148,0,7,41,0,0,,
+alpha,call_pal,exception entry/return and system call,180,40,0,66,74,0,0,,
+alpha,br,other,139,70,0,30,39,0,0,,
+alpha,ldiq,other,103,1,0,35,67,0,0,,
+alpha,bis,other,94,89,0,4,1,0,0,,
+alpha,ret,other,91,83,0,0,8,0,0,,
+alpha,cmpbge,other,81,81,0,0,0,0,0,,
+alpha,ldt,other,76,6,0,35,35,0,0,,
+alpha,stt,other,75,5,0,35,35,0,0,,
+alpha,srl,other,68,18,0,2,48,0,0,,
+alpha,sll,other,63,26,0,5,32,0,0,,
+alpha,cmpult,other,57,29,0,5,23,0,0,,
+alpha,cmovne,other,52,34,0,0,18,0,0,,
+alpha,unop,other,52,49,0,3,0,0,0,,
+alpha,cmoveq,other,42,19,0,1,22,0,0,,
+alpha,ldq_u,other,42,7,0,9,26,0,0,,
+alpha,xor,other,38,34,0,1,3,0,0,,
+alpha,andnot,other,32,32,0,0,0,0,0,,
+alpha,bic,other,32,24,0,0,8,0,0,,
+alpha,ldl,other,32,22,0,8,2,0,0,,
+alpha,jmp,other,29,6,0,15,8,0,0,,
+alpha,jsr,other,29,21,0,5,3,0,0,,
+alpha,stl_c,atomics and exclusive access,29,22,0,4,3,0,0,,
+alpha,zap,other,29,15,0,2,12,0,0,,
+alpha,zapnot,other,29,28,0,0,1,0,0,,
+alpha,ldq_l,atomics and exclusive access,27,13,0,9,5,0,0,,
+alpha,stq_c,atomics and exclusive access,27,13,0,9,5,0,0,,
+alpha,ldl_l,atomics and exclusive access,26,19,0,4,3,0,0,,
+alpha,insbl,other,25,20,0,3,2,0,0,,
+alpha,cmplt,other,24,14,0,2,8,0,0,,
+alpha,negq,other,23,23,0,0,0,0,0,,
+alpha,cmpeq,other,22,7,0,5,10,0,0,,
+alpha,cmpule,other,20,14,0,2,4,0,0,,
+alpha,inswl,other,20,18,0,2,0,0,0,,
+alpha,stl,other,20,4,0,12,4,0,0,,
+alpha,wh64,other,20,20,0,0,0,0,0,,
+alpha,extbl,other,17,13,0,3,1,0,0,,
+alpha,blt,other,16,16,0,0,0,0,0,,
+alpha,extwl,other,16,15,0,1,0,0,0,,
+alpha,ldgp,other,16,12,0,3,1,0,0,,
+alpha,stq_u,other,16,0,0,5,11,0,0,,
+alpha,mb,memory barrier and ordering,15,0,0,5,10,0,0,,
+alpha,ble,other,14,13,0,0,1,0,0,,
+alpha,addl,other,13,4,0,2,7,0,0,,
+alpha,bgt,other,13,13,0,0,0,0,0,,
+alpha,bsr,other,13,9,0,2,2,0,0,,
+alpha,mskbl,other,13,8,0,3,2,0,0,,
+alpha,blbc,other,12,0,0,0,12,0,0,,
+alpha,rpcc,timers and counters,12,7,0,2,3,0,0,,
+alpha,subl,other,12,4,0,5,3,0,0,,
+alpha,cmovlt,other,11,11,0,0,0,0,0,,
+alpha,bge,other,10,10,0,0,0,0,0,,
+alpha,stb,other,10,6,0,2,2,0,0,,
+alpha,ldah,other,9,1,0,4,4,0,0,,
+alpha,ldbu,other,9,5,0,3,1,0,0,,
+alpha,cttz,bit manipulation,8,8,0,0,0,0,0,,
+alpha,extqh,other,8,0,0,0,8,0,0,,
+alpha,extql,other,8,0,0,0,8,0,0,,
+alpha,mf_fpcr,other,8,3,0,3,2,0,0,,
+alpha,mskql,other,8,0,0,0,8,0,0,,
+alpha,mt_fpcr,other,8,3,0,3,2,0,0,,
+alpha,sra,other,8,6,0,0,2,0,0,,
+alpha,mskwl,other,6,4,0,2,0,0,0,,
+alpha,ornot,other,6,6,0,0,0,0,0,,
+alpha,s8addq,other,6,4,0,1,1,0,0,,
+alpha,blbs,other,5,4,0,1,0,0,0,,
+alpha,cmovlbs,other,5,0,0,1,4,0,0,,
+alpha,insql,other,5,0,0,0,5,0,0,,
+alpha,asm,other,4,4,0,0,0,0,0,,
+alpha,f30save,other,4,0,0,2,2,0,0,,
+alpha,framesz,other,4,0,0,2,2,0,0,,
+alpha,ftoit,other,4,4,0,0,0,0,0,,
+alpha,inslh,other,4,4,0,0,0,0,0,,
+alpha,itoft,other,4,4,0,0,0,0,0,,
+alpha,mskqh,other,4,0,0,0,4,0,0,,
+alpha,rn,other,4,0,0,2,2,0,0,,
+alpha,subqv,other,4,0,0,0,4,0,0,,
+alpha,cmple,other,3,3,0,0,0,0,0,,
+alpha,ctlz,bit manipulation,3,3,0,0,0,0,0,,
+alpha,extlh,other,3,3,0,0,0,0,0,,
+alpha,extll,other,3,3,0,0,0,0,0,,
+alpha,extwh,other,3,3,0,0,0,0,0,,
+alpha,ldwu,other,3,1,0,1,1,0,0,,
+alpha,mulq,other,3,0,0,1,2,0,0,,
+alpha,stw,other,3,1,0,1,1,0,0,,
+alpha,amask,CPU identification and feature,2,0,0,1,1,0,0,,
+alpha,clr,other,2,2,0,0,0,0,0,,
+alpha,ctpop,bit manipulation,2,2,0,0,0,0,0,,
+alpha,fnop,other,2,2,0,0,0,0,0,,
+alpha,fpcrtmp,other,2,0,0,1,1,0,0,,
+alpha,implver,CPU identification and feature,2,0,0,1,1,0,0,,
+alpha,insll,other,2,2,0,0,0,0,0,,
+alpha,insqh,other,2,0,0,0,2,0,0,,
+alpha,inswh,other,2,2,0,0,0,0,0,,
+alpha,msklh,other,2,2,0,0,0,0,0,,
+alpha,mskll,other,2,2,0,0,0,0,0,,
+alpha,mskwh,other,2,2,0,0,0,0,0,,
+alpha,not,other,2,2,0,0,0,0,0,,
+alpha,rettmp,other,2,0,0,1,1,0,0,,
+alpha,sextb,other,2,0,0,1,1,0,0,,
+alpha,sextw,other,2,0,0,1,1,0,0,,
+alpha,alcor,other,1,1,0,0,0,0,0,,
+alpha,alcor_mv,other,1,1,0,0,0,0,0,,
+alpha,alpha_mv,other,1,1,0,0,0,0,0,,
+alpha,bpt,other,1,0,0,1,0,0,0,,
+alpha,callback_init_done,other,1,1,0,0,0,0,0,,
+alpha,cflush,other,1,1,0,0,0,0,0,,
+alpha,clipper_mv,other,1,1,0,0,0,0,0,,
+alpha,cmovgt,other,1,1,0,0,0,0,0,,
+alpha,dp264,other,1,1,0,0,0,0,0,,
+alpha,dp264_mv,other,1,1,0,0,0,0,0,,
+alpha,eb164_mv,other,1,1,0,0,0,0,0,,
+alpha,eiger,other,1,1,0,0,0,0,0,,
+alpha,eiger_mv,other,1,1,0,0,0,0,0,,
+alpha,excb,memory barrier and ordering,1,0,0,1,0,0,0,,
+alpha,ftois,other,1,1,0,0,0,0,0,,
+alpha,halt,"spin-wait, idle and hints",1,0,0,0,1,0,0,,
+alpha,itofs,other,1,1,0,0,0,0,0,,
+alpha,ldi,other,1,1,0,0,0,0,0,,
+alpha,ldil,other,1,0,0,0,1,0,0,,
+alpha,lds,other,1,1,0,0,0,0,0,,
+alpha,lx164,other,1,1,0,0,0,0,0,,
+alpha,lx164_mv,other,1,1,0,0,0,0,0,,
+alpha,marvel_ev7,other,1,1,0,0,0,0,0,,
+alpha,marvel_ev7_mv,other,1,1,0,0,0,0,0,,
+alpha,miata,other,1,1,0,0,0,0,0,,
+alpha,miata_mv,other,1,1,0,0,0,0,0,,
+alpha,mikasa_primo,other,1,1,0,0,0,0,0,,
+alpha,mikasa_primo_mv,other,1,1,0,0,0,0,0,,
+alpha,monet_mv,other,1,1,0,0,0,0,0,,
+alpha,nautilus,other,1,1,0,0,0,0,0,,
+alpha,nautilus_mv,other,1,1,0,0,0,0,0,,
+alpha,noritake_primo,other,1,1,0,0,0,0,0,,
+alpha,noritake_primo_mv,other,1,1,0,0,0,0,0,,
+alpha,pc164,other,1,1,0,0,0,0,0,,
+alpha,pc164_mv,other,1,1,0,0,0,0,0,,
+alpha,privateer_mv,other,1,1,0,0,0,0,0,,
+alpha,rawhide,other,1,1,0,0,0,0,0,,
+alpha,rawhide_mv,other,1,1,0,0,0,0,0,,
+alpha,rdmces,other,1,1,0,0,0,0,0,,
+alpha,rdps,other,1,1,0,0,0,0,0,,
+alpha,rdusp,other,1,1,0,0,0,0,0,,
+alpha,ruffian,other,1,1,0,0,0,0,0,,
+alpha,ruffian_mv,other,1,1,0,0,0,0,0,,
+alpha,rx164,other,1,1,0,0,0,0,0,,
+alpha,rx164_mv,other,1,1,0,0,0,0,0,,
+alpha,sable_gamma,other,1,1,0,0,0,0,0,,
+alpha,sable_gamma_mv,other,1,1,0,0,0,0,0,,
+alpha,shark_mv,other,1,1,0,0,0,0,0,,
+alpha,sts,other,1,1,0,0,0,0,0,,
+alpha,swpipl,other,1,1,0,0,0,0,0,,
+alpha,sx164,other,1,1,0,0,0,0,0,,
+alpha,sx164_mv,other,1,1,0,0,0,0,0,,
+alpha,takara,other,1,1,0,0,0,0,0,,
+alpha,takara_mv,other,1,1,0,0,0,0,0,,
+alpha,titan,other,1,1,0,0,0,0,0,,
+alpha,titan_mv,other,1,1,0,0,0,0,0,,
+alpha,webbrick_mv,other,1,1,0,0,0,0,0,,
+alpha,whami,other,1,1,0,0,0,0,0,,
+alpha,wildfire,other,1,1,0,0,0,0,0,,
+alpha,wildfire_mv,other,1,1,0,0,0,0,0,,
+alpha,wmb,memory barrier and ordering,1,0,0,1,0,0,0,,
+alpha,wrent,other,1,1,0,0,0,0,0,,
+alpha,wripir,other,1,1,0,0,0,0,0,,
+alpha,wrkgp,other,1,1,0,0,0,0,0,,
+alpha,wrmces,other,1,1,0,0,0,0,0,,
+alpha,wrperfmon,other,1,1,0,0,0,0,0,,
+alpha,wrusp,other,1,1,0,0,0,0,0,,
+alpha,wrvptptr,other,1,1,0,0,0,0,0,,
+alpha,wtint,other,1,1,0,0,0,0,0,,
+alpha,xlt_mv,other,1,1,0,0,0,0,0,,
+arm,mov,other,2575,1247,414,559,355,168151,930218,1.808e-01,no
+arm,b,other,2008,999,311,421,277,108269,930218,1.164e-01,no
+arm,mcr,privileged register access,1830,1210,64,492,64,0,930218,0.000e+00,yes
+arm,ldr,other,1527,514,378,467,168,109845,930218,1.181e-01,no
+arm,sub,other,1107,338,227,340,202,40127,930218,4.314e-02,no
+arm,add,other,1071,498,144,289,140,78889,930218,8.481e-02,no
+arm,orr,other,833,368,225,176,64,13058,930218,1.404e-02,no
+arm,cmp,other,791,356,116,177,142,78278,930218,8.415e-02,no
+arm,str,other,609,235,207,163,4,51683,930218,5.556e-02,no
+arm,bic,other,514,331,53,111,19,2024,930218,2.176e-03,no
+arm,mrc,privileged register access,481,308,44,73,56,0,930218,0.000e+00,yes
+arm,tst,other,427,330,19,42,36,2253,930218,2.422e-03,no
+arm,and,other,352,165,55,96,36,10209,930218,1.097e-02,no
+arm,strb,other,340,96,132,65,47,10329,930218,1.110e-02,no
+arm,ldrb,other,320,87,124,63,46,39116,930218,4.205e-02,no
+arm,teq,other,307,170,60,24,53,9,930218,9.675e-06,yes
+arm,adc,other,267,89,40,102,36,1652,930218,1.776e-03,no
+arm,bl,other,264,137,35,64,28,68814,930218,7.398e-02,no
+arm,ldmia,other,233,112,33,42,46,580,930218,6.235e-04,no
+arm,strd,other,195,6,101,88,0,1108,930218,1.191e-03,no
+arm,stmia,other,185,78,21,45,41,109,930218,1.172e-04,no
+arm,ldrt,user-memory access,184,2,65,92,25,0,930218,0.000e+00,yes
+arm,strt,user-memory access,178,0,64,89,25,0,930218,0.000e+00,yes
+arm,nop,other,168,1,41,99,27,135,930218,1.451e-04,no
+arm,adr,other,152,57,33,34,28,317,930218,3.408e-04,no
+arm,eor,other,147,38,47,46,16,11482,930218,1.234e-02,no
+arm,msr,privileged register access,147,64,15,56,12,0,930218,0.000e+00,yes
+arm,strh,other,125,17,75,16,17,2402,930218,2.582e-03,no
+arm,ldrh,other,123,34,56,17,16,3369,930218,3.622e-03,no
+arm,ldmfd,other,113,66,24,9,14,0,930218,0.000e+00,yes
+arm,mrs,privileged register access,106,38,15,41,12,0,930218,0.000e+00,yes
+arm,stmfd,other,106,57,22,9,18,0,930218,0.000e+00,yes
+arm,lsl,other,98,16,20,62,0,4986,930218,5.360e-03,no
+arm,rsb,other,90,36,15,30,9,1790,930218,1.924e-03,no
+arm,pld,cache maintenance,85,1,36,48,0,0,930218,0.000e+00,yes
+arm,pop,other,85,8,1,69,7,17226,930218,1.852e-02,no
+arm,ldrd,other,64,9,37,18,0,1322,930218,1.421e-03,no
+arm,push,other,62,10,1,48,3,14810,930218,1.592e-02,no
+arm,stmdb,other,61,25,18,1,17,21,930218,2.258e-05,no
+arm,strex,atomics and exclusive access,59,22,24,3,10,0,930218,0.000e+00,yes
+arm,ldrex,atomics and exclusive access,55,19,24,2,10,0,930218,0.000e+00,yes
+arm,bx,other,54,21,4,27,2,5082,930218,5.463e-03,no
+arm,dsb,memory barrier and ordering,52,0,0,0,52,0,930218,0.000e+00,yes
+arm,ldrbt,user-memory access,45,4,13,20,8,0,930218,0.000e+00,yes
+arm,strbt,user-memory access,41,0,12,21,8,0,930218,0.000e+00,yes
+arm,movw,other,36,22,0,14,0,17070,930218,1.835e-02,no
+arm,ldmdb,other,34,9,13,4,8,149,930218,1.602e-04,no
+arm,r0,other,34,31,0,1,2,0,930218,0.000e+00,yes
+arm,r1,other,30,27,0,1,2,0,930218,0.000e+00,yes
+arm,ubfx,other,30,4,9,17,0,300,930218,3.225e-04,no
+arm,isb,memory barrier and ordering,29,0,0,0,29,0,930218,0.000e+00,yes
+arm,lsr,other,29,12,4,13,0,7025,930218,7.552e-03,no
+arm,mcrr,privileged register access,28,14,1,13,0,0,930218,0.000e+00,yes
+arm,it,other,27,2,21,4,0,0,930218,0.000e+00,yes
+arm,r2,other,27,24,0,1,2,0,930218,0.000e+00,yes
+arm,ldmfdeq,other,25,8,16,0,1,0,930218,0.000e+00,yes
+arm,clz,bit manipulation,24,17,3,4,0,584,930218,6.278e-04,no
+arm,cpsid,interrupt masking,24,8,3,9,4,0,930218,0.000e+00,yes
+arm,movt,other,23,10,0,13,0,13951,930218,1.500e-02,no
+arm,reteq,other,23,23,0,0,0,0,930218,0.000e+00,yes
+arm,ldrexd,atomics and exclusive access,22,11,11,0,0,0,930218,0.000e+00,yes
+arm,r3,other,22,19,0,1,2,0,930218,0.000e+00,yes
+arm,vadd.u32,other,22,0,0,22,0,0,930218,0.000e+00,yes
+arm,vmovl.u16,other,21,0,0,21,0,0,930218,0.000e+00,yes
+arm,mvn,other,20,4,10,5,1,9243,930218,9.936e-03,no
+arm,strexd,atomics and exclusive access,20,10,10,0,0,0,930218,0.000e+00,yes
+arm,mul,other,16,13,3,0,0,1404,930218,1.509e-03,no
+arm,cpsie,interrupt masking,14,6,0,6,2,0,930218,0.000e+00,yes
+arm,vmov,other,14,8,0,6,0,0,930218,0.000e+00,yes
+arm,vld1.64,other,13,0,0,13,0,0,930218,0.000e+00,yes
+arm,blx,other,12,11,0,1,0,1435,930218,1.543e-03,no
+arm,clrex,atomics and exclusive access,12,0,4,6,2,0,930218,0.000e+00,yes
+arm,retne,other,12,12,0,0,0,0,930218,0.000e+00,yes
+arm,mrrc,privileged register access,11,8,1,1,1,0,930218,0.000e+00,yes
+arm,vstmia,other,11,0,1,8,2,0,930218,0.000e+00,yes
+arm,swi,exception entry/return and system call,9,2,2,4,1,0,930218,0.000e+00,yes
+arm,cmn,other,8,3,2,1,2,12686,930218,1.364e-02,no
+arm,retls,other,8,8,0,0,0,0,930218,0.000e+00,yes
+arm,umlal,other,7,7,0,0,0,634,930218,6.816e-04,no
+arm,veor,other,7,0,0,7,0,0,930218,0.000e+00,yes
+arm,vldmia,other,7,0,1,4,2,0,930218,0.000e+00,yes
+arm,vmov.f64,other,7,0,0,7,0,0,930218,0.000e+00,yes
+arm,bfc,other,6,1,0,5,0,152,930218,1.634e-04,no
+arm,r4,other,6,3,0,3,0,0,930218,0.000e+00,yes
+arm,smc,"hypervisor, secure and firmware calls",6,1,1,2,2,0,930218,0.000e+00,yes
+arm,wfe,"spin-wait, idle and hints",6,0,0,3,3,0,930218,0.000e+00,yes
+arm,r5,other,5,2,0,2,1,0,930218,0.000e+00,yes
+arm,rev,bit manipulation,5,4,0,1,0,389,930218,4.182e-04,no
+arm,vmsr,context and FPU/vector state,5,1,1,1,2,0,930218,0.000e+00,yes
+arm,wfi,"spin-wait, idle and hints",5,0,1,3,1,0,930218,0.000e+00,yes
+arm,code,other,4,4,0,0,0,0,930218,0.000e+00,yes
+arm,hvc,"hypervisor, secure and firmware calls",4,1,0,2,1,0,930218,0.000e+00,yes
+arm,mla,other,4,4,0,0,0,4821,930218,5.183e-03,no
+arm,r8,other,4,3,0,1,0,0,930218,0.000e+00,yes
+arm,rb,other,4,4,0,0,0,0,930218,0.000e+00,yes
+arm,rev16,bit manipulation,4,1,0,3,0,141,930218,1.516e-04,no
+arm,sbc,other,4,3,1,0,0,263,930218,2.827e-04,no
+arm,udf,exception entry/return and system call,4,0,2,1,1,0,930218,0.000e+00,yes
+arm,vmrs,context and FPU/vector state,4,1,1,0,2,0,930218,0.000e+00,yes
+arm,cps,interrupt masking,3,0,0,2,1,0,930218,0.000e+00,yes
+arm,ldrexb,atomics and exclusive access,3,2,0,1,0,0,930218,0.000e+00,yes
+arm,ldrht,user-memory access,3,0,0,3,0,0,930218,0.000e+00,yes
+arm,negs,other,3,0,0,1,2,0,930218,0.000e+00,yes
+arm,r9,other,3,2,0,1,0,0,930218,0.000e+00,yes
+arm,sev,"spin-wait, idle and hints",3,0,0,0,3,0,930218,0.000e+00,yes
+arm,strexb,atomics and exclusive access,3,2,0,1,0,0,930218,0.000e+00,yes
+arm,umull,other,3,3,0,0,0,1392,930218,1.496e-03,no
+arm,x,other,3,2,0,0,1,0,930218,0.000e+00,yes
+arm,bfi,other,2,2,0,0,0,37,930218,3.978e-05,no
+arm,cbnz,other,2,0,0,2,0,0,930218,0.000e+00,yes
+arm,dccimvacne,other,2,2,0,0,0,0,930218,0.000e+00,yes
+arm,eret,exception entry/return and system call,2,0,0,1,1,0,930218,0.000e+00,yes
+arm,itee,other,2,0,2,0,0,0,930218,0.000e+00,yes
+arm,ittee,other,2,0,2,0,0,0,930218,0.000e+00,yes
+arm,ldmfdgt,other,2,0,2,0,0,0,930218,0.000e+00,yes
+arm,ldmfdlt,other,2,0,2,0,0,0,930218,0.000e+00,yes
+arm,ldrexh,atomics and exclusive access,2,2,0,0,0,0,930218,0.000e+00,yes
+arm,len,other,2,2,0,0,0,0,930218,0.000e+00,yes
+arm,r6,other,2,2,0,0,0,0,930218,0.000e+00,yes
+arm,r7,other,2,2,0,0,0,0,930218,0.000e+00,yes
+arm,rbit,bit manipulation,2,2,0,0,0,35,930218,3.763e-05,no
+arm,ret,other,2,0,0,2,0,0,930218,0.000e+00,yes
+arm,rfeia,exception entry/return and system call,2,2,0,0,0,0,930218,0.000e+00,yes
+arm,rsc,other,2,0,0,0,2,117,930218,1.258e-04,no
+arm,sb,speculation control,2,2,0,0,0,375,930218,4.031e-04,no
+arm,setend,other,2,0,0,2,0,0,930218,0.000e+00,yes
+arm,strexh,atomics and exclusive access,2,2,0,0,0,0,930218,0.000e+00,yes
+arm,strht,user-memory access,2,0,1,1,0,0,930218,0.000e+00,yes
+arm,sum,other,2,2,0,0,0,0,930218,0.000e+00,yes
+arm,svc,exception entry/return and system call,2,2,0,0,0,0,930218,0.000e+00,yes
+arm,swpb,atomics and exclusive access,2,1,0,1,0,0,930218,0.000e+00,yes
+arm,asr,other,1,1,0,0,0,681,930218,7.321e-04,no
+arm,b.hi,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,b.hs,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,b.le,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,badrne,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,be,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,buf,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,cbz,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,dcimvaclo,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,dst,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,ip,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,ite,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,ldm,other,1,1,0,0,0,2927,930218,3.147e-03,no
+arm,ldmib,other,1,1,0,0,0,202,930218,2.172e-04,no
+arm,ldreqd,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,ldrned,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,le,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,lr,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,mi,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,ne,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,pldw,cache maintenance,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,reths,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,retlo,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,scno,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,sp,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,src,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,stlr,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,stlrb,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,stm,other,1,1,0,0,0,3752,930218,4.033e-03,no
+arm,swp,atomics and exclusive access,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,tbl,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,td0,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,td1,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,td2,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,td3,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,tsk,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm,vand,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,vand.u32,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,vldmiane,other,1,0,1,0,0,0,930218,0.000e+00,yes
+arm,vmovl.u32,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,vmvn.u64,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,vshl.u64,other,1,0,0,1,0,0,930218,0.000e+00,yes
+arm,vstmiane,other,1,0,1,0,0,0,930218,0.000e+00,yes
+arm,why,other,1,1,0,0,0,0,930218,0.000e+00,yes
+arm64,mov,other,759,247,192,182,138,115663,616592,1.876e-01,no
+arm64,stp,other,573,232,162,95,84,24466,616592,3.968e-02,no
+arm64,ldr,other,558,119,195,151,93,43311,616592,7.024e-02,no
+arm64,ldp,other,533,215,156,91,71,23120,616592,3.750e-02,no
+arm64,ret,other,439,128,122,124,65,12303,616592,1.995e-02,no
+arm64,msr,privileged register access,401,116,100,92,93,0,616592,0.000e+00,yes
+arm64,add,other,395,107,101,107,80,87874,616592,1.425e-01,no
+arm64,b.cond,other,359,126,97,63,73,21952,616592,3.560e-02,no
+arm64,str,other,305,74,112,78,41,23724,616592,3.848e-02,no
+arm64,mrs,privileged register access,262,86,48,61,67,0,616592,0.000e+00,yes
+arm64,b,other,251,113,32,66,40,17419,616592,2.825e-02,no
+arm64,cmp,other,243,79,65,61,38,43531,616592,7.060e-02,no
+arm64,sub,other,223,93,52,31,47,10603,616592,1.720e-02,no
+arm64,orr,other,202,68,53,22,59,2991,616592,4.851e-03,no
+arm64,bl,other,200,48,50,67,35,40857,616592,6.626e-02,no
+arm64,cbz,other,181,43,46,69,23,9438,616592,1.531e-02,no
+arm64,subs,other,133,25,36,47,25,997,616592,1.617e-03,no
+arm64,lsl,other,125,21,16,85,3,2069,616592,3.356e-03,no
+arm64,eor,other,119,23,9,0,87,6178,616592,1.002e-02,no
+arm64,aese,other,116,0,0,0,116,0,616592,0.000e+00,yes
+arm64,cbnz,other,116,51,25,18,22,6486,616592,1.052e-02,no
+arm64,dsb,memory barrier and ordering,112,0,0,39,73,0,616592,0.000e+00,yes
+arm64,isb,memory barrier and ordering,103,0,0,39,64,0,616592,0.000e+00,yes
+arm64,adr,other,102,8,21,51,22,111,616592,1.800e-04,no
+arm64,aesmc,other,97,0,0,0,97,0,616592,0.000e+00,yes
+arm64,aesd,other,94,0,0,0,94,0,616592,0.000e+00,yes
+arm64,and,other,94,38,29,13,14,5825,616592,9.447e-03,no
+arm64,aesimc,other,86,0,0,0,86,0,616592,0.000e+00,yes
+arm64,ld1,other,85,0,0,0,85,7,616592,1.135e-05,no
+arm64,adrp,other,76,20,35,0,21,25573,616592,4.147e-02,no
+arm64,tlbi,TLB and MMU maintenance,76,13,27,19,17,0,616592,0.000e+00,yes
+arm64,lsr,other,74,25,26,13,10,3154,616592,5.115e-03,no
+arm64,bic,other,70,32,18,12,8,723,616592,1.173e-03,no
+arm64,tbz,other,70,29,16,22,3,1385,616592,2.246e-03,no
+arm64,w,other,70,54,16,0,0,0,616592,0.000e+00,yes
+arm64,rev,other,62,12,19,18,13,571,616592,9.261e-04,no
+arm64,ldrb,other,59,18,23,15,3,22925,616592,3.718e-02,no
+arm64,st1,other,47,0,0,0,47,3,616592,4.865e-06,yes
+arm64,l,other,43,35,8,0,0,0,616592,0.000e+00,yes
+arm64,strb,other,43,7,17,15,4,4511,616592,7.316e-03,no
+arm64,nop,other,39,22,12,3,2,0,616592,0.000e+00,yes
+arm64,a,other,38,28,10,0,0,0,616592,0.000e+00,yes
+arm64,tst,other,37,24,5,1,7,1001,616592,1.623e-03,no
+arm64,strh,other,35,6,10,19,0,1731,616592,2.807e-03,no
+arm64,ishst,other,33,33,0,0,0,0,616592,0.000e+00,yes
+arm64,ccmp,other,32,21,11,0,0,539,616592,8.742e-04,no
+arm64,x0,other,29,14,15,0,0,0,616592,0.000e+00,yes
+arm64,ldrh,other,28,5,8,15,0,2400,616592,3.892e-03,no
+arm64,ldxr,atomics and exclusive access,28,12,11,3,2,0,616592,0.000e+00,yes
+arm64,eret,exception entry/return and system call,27,19,2,1,5,0,616592,0.000e+00,yes
+arm64,movk,other,27,19,3,3,2,2439,616592,3.956e-03,no
+arm64,csel,other,25,14,3,0,8,2297,616592,3.725e-03,no
+arm64,stnp,other,24,16,0,8,0,0,616592,0.000e+00,yes
+arm64,br,other,23,13,5,4,1,229,616592,3.714e-04,no
+arm64,dc,cache maintenance,23,11,3,5,4,0,616592,0.000e+00,yes
+arm64,neg,other,23,13,9,0,1,582,616592,9.439e-04,no
+arm64,bne,other,22,6,5,11,0,13494,616592,2.188e-02,no
+arm64,h,other,22,18,4,0,0,0,616592,0.000e+00,yes
+arm64,prfm,other,22,17,5,0,0,0,616592,0.000e+00,yes
+arm64,stxr,atomics and exclusive access,21,9,7,3,2,0,616592,0.000e+00,yes
+arm64,bcs,other,19,0,0,19,0,312,616592,5.060e-04,no
+arm64,blr,other,19,8,6,0,5,927,616592,1.503e-03,no
+arm64,ext,other,19,0,0,0,19,277,616592,4.492e-04,no
+arm64,ic,cache maintenance,19,7,5,4,3,0,616592,0.000e+00,yes
+arm64,nsh,other,19,19,0,0,0,0,616592,0.000e+00,yes
+arm64,ubfx,other,19,14,0,4,1,825,616592,1.338e-03,no
+arm64,ands,other,18,9,7,2,0,130,616592,2.108e-04,no
+arm64,stlxr,atomics and exclusive access,18,4,5,1,8,0,616592,0.000e+00,yes
+arm64,ldtr,user-memory access,17,0,0,14,3,0,616592,0.000e+00,yes
+arm64,x1,other,17,9,8,0,0,0,616592,0.000e+00,yes
+arm64,beq,other,16,6,3,6,1,4240,616592,6.877e-03,no
+arm64,ish,other,16,16,0,0,0,0,616592,0.000e+00,yes
+arm64,op,other,16,16,0,0,0,0,616592,0.000e+00,yes
+arm64,sttr,user-memory access,16,0,0,14,2,0,616592,0.000e+00,yes
+arm64,tbnz,other,16,12,1,3,0,1701,616592,2.759e-03,no
+arm64,x8,other,15,6,9,0,0,0,616592,0.000e+00,yes
+arm64,x2,other,14,8,6,0,0,0,616592,0.000e+00,yes
+arm64,x5,other,14,8,6,0,0,0,616592,0.000e+00,yes
+arm64,bics,other,13,9,4,0,0,26,616592,4.217e-05,no
+arm64,brk,debug and breakpoints,13,2,3,2,6,11,616592,1.784e-05,no
+arm64,ld,other,13,7,6,0,0,0,616592,0.000e+00,yes
+arm64,x3,other,13,8,5,0,0,0,616592,0.000e+00,yes
+arm64,x6,other,13,7,6,0,0,0,616592,0.000e+00,yes
+arm64,clz,other,12,6,4,0,2,16,616592,2.595e-05,no
+arm64,cset,other,12,3,8,1,0,1173,616592,1.902e-03,no
+arm64,sev,"spin-wait, idle and hints",12,0,4,0,8,0,616592,0.000e+00,yes
+arm64,x4,other,12,7,5,0,0,0,616592,0.000e+00,yes
+arm64,csinv,other,11,6,5,0,0,34,616592,5.514e-05,no
+arm64,ldaxr,atomics and exclusive access,11,2,0,1,8,0,616592,0.000e+00,yes
+arm64,st,other,11,8,3,0,0,0,616592,0.000e+00,yes
+arm64,x7,other,11,6,5,0,0,0,616592,0.000e+00,yes
+arm64,adds,other,10,3,4,0,3,389,616592,6.309e-04,no
+arm64,hvc,"hypervisor, secure and firmware calls",10,7,1,0,2,0,616592,0.000e+00,yes
+arm64,sy,other,10,10,0,0,0,0,616592,0.000e+00,yes
+arm64,wfi,"spin-wait, idle and hints",10,0,3,5,2,0,616592,0.000e+00,yes
+arm64,x,other,10,10,0,0,0,0,616592,0.000e+00,yes
+arm64,hint,"spin-wait, idle and hints",9,6,2,1,0,0,616592,0.000e+00,yes
+arm64,movz,other,9,8,1,0,0,0,616592,0.000e+00,yes
+arm64,rev16,other,9,0,0,9,0,248,616592,4.022e-04,no
+arm64,wfe,"spin-wait, idle and hints",9,0,2,3,4,0,616592,0.000e+00,yes
+arm64,asm_op,other,8,8,0,0,0,0,616592,0.000e+00,yes
+arm64,llsc_asm_op,other,8,0,8,0,0,0,616592,0.000e+00,yes
+arm64,lse_asm_op,other,8,0,8,0,0,0,616592,0.000e+00,yes
+arm64,op_llsc,other,8,8,0,0,0,0,616592,0.000e+00,yes
+arm64,op_lse,other,8,8,0,0,0,0,616592,0.000e+00,yes
+arm64,type,other,8,8,0,0,0,0,616592,0.000e+00,yes
+arm64,al,other,7,7,0,0,0,0,616592,0.000e+00,yes
+arm64,cas,atomics and exclusive access,7,3,4,0,0,0,616592,0.000e+00,yes
+arm64,dmb,memory barrier and ordering,7,0,0,7,0,0,616592,0.000e+00,yes
+arm64,ldtrb,user-memory access,7,0,1,4,2,0,616592,0.000e+00,yes
+arm64,nopdmb,other,7,7,0,0,0,0,616592,0.000e+00,yes
+arm64,svc,exception entry/return and system call,7,0,6,0,1,0,616592,0.000e+00,yes
+arm64,w3,other,7,3,4,0,0,0,616592,0.000e+00,yes
+arm64,bfi,other,6,1,2,1,2,145,616592,2.352e-04,no
+arm64,bti,speculation control,6,0,0,0,6,0,616592,0.000e+00,yes
+arm64,mul,other,6,1,0,5,0,1221,616592,1.980e-03,no
+arm64,sttrb,user-memory access,6,0,0,4,2,0,616592,0.000e+00,yes
+arm64,x10,other,6,3,3,0,0,0,616592,0.000e+00,yes
+arm64,x14,other,6,3,3,0,0,0,616592,0.000e+00,yes
+arm64,x9,other,6,3,3,0,0,0,616592,0.000e+00,yes
+arm64,bcc,other,5,0,0,5,0,393,616592,6.374e-04,no
+arm64,ldar,atomics and exclusive access,5,2,2,1,0,0,616592,0.000e+00,yes
+arm64,smc,"hypervisor, secure and firmware calls",5,3,0,0,2,0,616592,0.000e+00,yes
+arm64,stgm,other,5,3,2,0,0,0,616592,0.000e+00,yes
+arm64,tbl,other,5,0,0,0,5,0,616592,0.000e+00,yes
+arm64,xzr,other,5,4,1,0,0,0,616592,0.000e+00,yes
+arm64,acq_,other,4,4,0,0,0,0,616592,0.000e+00,yes
+arm64,ldnp,other,4,0,0,4,0,0,616592,0.000e+00,yes
+arm64,mb_,other,4,4,0,0,0,0,616592,0.000e+00,yes
+arm64,or,other,4,4,0,0,0,18,616592,2.919e-05,no
+arm64,rel_,other,4,4,0,0,0,0,616592,0.000e+00,yes
+arm64,sevl,"spin-wait, idle and hints",4,4,0,0,0,0,616592,0.000e+00,yes
+arm64,shl,other,4,0,0,0,4,57,616592,9.244e-05,no
+arm64,stlr,atomics and exclusive access,4,2,2,0,0,0,616592,0.000e+00,yes
+arm64,stset,atomics and exclusive access,4,3,1,0,0,0,616592,0.000e+00,yes
+arm64,x11,other,4,2,2,0,0,0,616592,0.000e+00,yes
+arm64,x12,other,4,2,2,0,0,0,616592,0.000e+00,yes
+arm64,x13,other,4,2,2,0,0,0,616592,0.000e+00,yes
+arm64,x15,other,4,2,2,0,0,0,616592,0.000e+00,yes
+arm64,yield,"spin-wait, idle and hints",4,1,1,1,1,0,616592,0.000e+00,yes
+arm64,andnot,other,3,3,0,0,0,0,616592,0.000e+00,yes
+arm64,asr,other,3,3,0,0,0,286,616592,4.638e-04,no
+arm64,at,other,3,1,1,1,0,0,616592,0.000e+00,yes
+arm64,bge,other,3,0,0,3,0,116,616592,1.881e-04,no
+arm64,casal,atomics and exclusive access,3,1,0,0,2,0,616592,0.000e+00,yes
+arm64,cneg,other,3,1,2,0,0,22,616592,3.568e-05,no
+arm64,ldgm,other,3,2,1,0,0,0,616592,0.000e+00,yes
+arm64,ldtrh,user-memory access,3,0,0,3,0,0,616592,0.000e+00,yes
+arm64,nopisb,other,3,3,0,0,0,0,616592,0.000e+00,yes
+arm64,nshst,other,3,3,0,0,0,0,616592,0.000e+00,yes
+arm64,rbit,bit manipulation,3,1,0,0,2,30,616592,4.865e-05,no
+arm64,rdffr,other,3,1,1,0,1,0,616592,0.000e+00,yes
+arm64,ror,other,3,2,0,1,0,1990,616592,3.227e-03,no
+arm64,sttrh,user-memory access,3,0,0,3,0,0,616592,0.000e+00,yes
+arm64,swp,atomics and exclusive access,3,1,2,0,0,0,616592,0.000e+00,yes
+arm64,sys,privileged register access,3,1,2,0,0,0,616592,0.000e+00,yes
+arm64,w4,other,3,1,2,0,0,0,616592,0.000e+00,yes
+arm64,w5,other,3,1,2,0,0,0,616592,0.000e+00,yes
+arm64,w6,other,3,2,1,0,0,0,616592,0.000e+00,yes
+arm64,wrffr,other,3,1,1,0,1,0,616592,0.000e+00,yes
+arm64,apdakeyhi_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,apdakeylo_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,apdbkeyhi_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,apdbkeylo_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,apgakeyhi_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,apgakeylo_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,apiakeyhi_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,apiakeylo_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,apibkeyhi_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,apibkeylo_el1,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,bfxil,other,2,0,0,2,0,33,616592,5.352e-05,no
+arm64,casp,atomics and exclusive access,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,clrex,atomics and exclusive access,2,0,1,1,0,0,616592,0.000e+00,yes
+arm64,cmn,other,2,0,0,0,2,726,616592,1.177e-03,no
+arm64,dup,other,2,0,0,0,2,130,616592,2.108e-04,no
+arm64,end,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,isbnop,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,ldaddal,atomics and exclusive access,2,0,0,0,2,0,616592,0.000e+00,yes
+arm64,ldg,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,ldrsh,other,2,1,0,1,0,92,616592,1.492e-04,no
+arm64,ldxp,atomics and exclusive access,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,mvn,other,2,0,0,2,0,448,616592,7.266e-04,no
+arm64,nldr,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,nstr,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,num,other,2,0,2,0,0,0,616592,0.000e+00,yes
+arm64,orn,other,2,2,0,0,0,179,616592,2.903e-04,no
+arm64,osh,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,p4d,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,pan,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,pmd,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,pud,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,rdvl,other,2,1,1,0,0,0,616592,0.000e+00,yes
+arm64,regdesc,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,regname,other,2,0,0,2,0,0,616592,0.000e+00,yes
+arm64,set,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,stadd,atomics and exclusive access,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,stclr,atomics and exclusive access,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,steor,atomics and exclusive access,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,stg,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,stlrh,atomics and exclusive access,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,swpal,atomics and exclusive access,2,0,0,0,2,0,616592,0.000e+00,yes
+arm64,tmp1w,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,tmp2w,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,udf,debug and breakpoints,2,0,0,1,1,0,616592,0.000e+00,yes
+arm64,val,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,w0,other,2,1,1,0,0,0,616592,0.000e+00,yes
+arm64,w1,other,2,1,1,0,0,0,616592,0.000e+00,yes
+arm64,w10,other,2,1,1,0,0,0,616592,0.000e+00,yes
+arm64,w12,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,w2,other,2,1,1,0,0,0,616592,0.000e+00,yes
+arm64,w8,other,2,1,1,0,0,0,616592,0.000e+00,yes
+arm64,x16,other,2,1,1,0,0,0,616592,0.000e+00,yes
+arm64,x17,other,2,1,1,0,0,0,616592,0.000e+00,yes
+arm64,xor,other,2,2,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic64_add,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic64_and,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic64_andnot,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic64_or,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic64_sub,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic64_xor,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic_add,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic_and,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic_andnot,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic_or,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic_sub,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,atomic_xor,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,bfc,other,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,bls,other,1,0,0,1,0,693,616592,1.124e-03,no
+arm64,blt,other,1,0,0,1,0,87,616592,1.411e-04,no
+arm64,casalt,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,cast,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,clrbhb,other,1,0,0,0,1,0,616592,0.000e+00,yes
+arm64,cpu,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,cpye,string and memory block,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,cpyewn,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,cpym,string and memory block,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,cpymwn,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,cpyp,string and memory block,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,cpypwn,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,csinc,other,1,0,0,0,1,109,616592,1.768e-04,no
+arm64,data2a,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,dynamic,other,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,hlt,debug and breakpoints,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,id_aa64mmfr2_el1,other,1,0,0,1,0,0,616592,0.000e+00,yes
+arm64,irg,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,ishld,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,ldadd,atomics and exclusive access,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,ldadda,atomics and exclusive access,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,ldarb,atomics and exclusive access,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,ldarh,atomics and exclusive access,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,ldaxrh,atomics and exclusive access,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,ldclral,atomics and exclusive access,1,0,0,0,1,0,616592,0.000e+00,yes
+arm64,ldsetal,atomics and exclusive access,1,0,0,0,1,0,616592,0.000e+00,yes
+arm64,ldtadd,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,ldtclr,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,ldtset,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,ldxrb,atomics and exclusive access,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,mair,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,movi,other,1,0,0,0,1,515,616592,8.352e-04,no
+arm64,msub,other,1,0,0,1,0,152,616592,2.465e-04,no
+arm64,name,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,nmov,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,nopb,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,nopic,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,note,other,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,npfalse,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,oshld,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,oshst,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,pfalse,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,pgd,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,pte,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,rdsvl,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,sbc,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,sbfx,other,1,1,0,0,0,36,616592,5.839e-05,no
+arm64,sete,string and memory block,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,setm,string and memory block,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,setp,string and memory block,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,sp,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,staddlh,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,stlrb,atomics and exclusive access,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,stxp,atomics and exclusive access,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,stxrb,atomics and exclusive access,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,stz2g,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,stzg,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,swpb,atomics and exclusive access,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,swpt,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,sysl,privileged register access,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,tcr,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,tcr2,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,text,other,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,tmp3w,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,tsk,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,udiv,other,1,0,0,1,0,114,616592,1.849e-04,no
+arm64,valid,other,1,1,0,0,0,0,616592,0.000e+00,yes
+arm64,w7,other,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,w9,other,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,wzr,other,1,0,1,0,0,0,616592,0.000e+00,yes
+arm64,x30,other,1,1,0,0,0,0,616592,0.000e+00,yes
+hppa,stw,other,500,0,0,247,253,0,0,,
+hppa,ldw,other,467,0,0,216,251,0,0,,
+hppa,nop,other,346,0,0,188,158,0,0,,
+hppa,ds,other,337,0,0,170,167,0,0,,
+hppa,addc,other,336,0,0,170,166,0,0,,
+hppa,sh3add,other,248,0,0,121,127,0,0,,
+hppa,ldo,other,229,0,0,128,101,0,0,,
+hppa,bv,other,199,0,0,112,87,0,0,,
+hppa,copy,other,185,0,0,110,75,0,0,,
+hppa,b,other,167,0,0,76,91,0,0,,
+hppa,ldil,other,163,0,0,80,83,0,0,,
+hppa,shd,other,147,0,0,80,67,0,0,,
+hppa,sh2add,other,135,0,0,68,67,0,0,,
+hppa,zdep,other,103,0,0,50,53,0,0,,
+hppa,ldi,other,99,0,0,62,37,0,0,,
+hppa,sh1add,other,86,0,0,44,42,0,0,,
+hppa,add,other,83,0,0,40,43,0,0,,
+hppa,stws,other,81,0,0,35,46,0,0,,
+hppa,addb,other,80,0,0,40,40,0,0,,
+hppa,ldws,other,79,0,0,28,51,0,0,,
+hppa,fstds,other,70,0,0,35,35,0,0,,
+hppa,sub,other,70,0,0,36,34,0,0,,
+hppa,depi,other,68,0,0,37,31,0,0,,
+hppa,fldds,other,64,0,0,32,32,0,0,,
+hppa,sync,memory barrier and ordering,60,0,0,25,35,0,0,,
+hppa,fdc,cache maintenance,58,0,0,30,28,0,0,,
+hppa,addi,other,52,0,0,25,27,0,0,,
+hppa,stwm,other,49,0,0,27,22,0,0,,
+hppa,ldwm,other,47,0,0,23,24,0,0,,
+hppa,extru,other,46,0,0,0,46,0,0,,
+hppa,fic,cache maintenance,40,0,0,21,19,0,0,,
+hppa,pdc,other,38,0,0,19,19,0,0,,
+hppa,rfir,exception entry/return and system call,38,0,0,17,21,0,0,,
+hppa,addib,other,35,0,0,21,14,0,0,,
+hppa,blr,other,35,0,0,19,16,0,0,,
+hppa,dep,other,24,0,0,14,10,0,0,,
+hppa,vshd,other,14,0,0,0,14,0,0,,
+hppa,bl,other,13,0,0,10,3,0,0,,
+hppa,or,other,12,0,0,7,5,0,0,,
+hppa,rfi,exception entry/return and system call,12,0,0,7,5,0,0,,
+hppa,xor,other,12,0,0,6,6,0,0,,
+hppa,idtlba,TLB and MMU maintenance,11,0,0,6,5,0,0,,
+hppa,idtlbp,TLB and MMU maintenance,11,0,0,6,5,0,0,,
+hppa,stwas,other,11,0,0,7,4,0,0,,
+hppa,ldbs,other,10,0,0,6,4,0,0,,
+hppa,diag,other,9,0,0,9,0,0,0,,
+hppa,extrs,other,9,0,0,9,0,0,0,,
+hppa,idtlbt,other,8,0,0,4,4,0,0,,
+hppa,stbs,other,8,0,0,4,4,0,0,,
+hppa,stbys,other,8,0,0,0,8,0,0,,
+hppa,syncdma,memory barrier and ordering,8,0,0,4,4,0,0,,
+hppa,andcm,other,7,0,0,4,3,0,0,,
+hppa,movib,other,6,0,0,4,2,0,0,,
+hppa,addil,other,5,0,0,5,0,0,0,,
+hppa,mtsm,privileged register access,5,0,0,3,2,0,0,,
+hppa,be,exception entry/return and system call,4,0,0,2,2,0,0,,
+hppa,ble,exception entry/return and system call,4,0,0,2,2,0,0,,
+hppa,iitlba,TLB and MMU maintenance,4,0,0,2,2,0,0,,
+hppa,iitlbp,TLB and MMU maintenance,4,0,0,2,2,0,0,,
+hppa,ldb,other,4,0,0,3,1,0,0,,
+hppa,ldcw,atomics and exclusive access,4,0,0,4,0,0,0,,
+hppa,ldsid,other,4,0,0,2,2,0,0,,
+hppa,ldwx,other,4,0,0,1,3,0,0,,
+hppa,movb,other,4,0,0,2,2,0,0,,
+hppa,mtsar,other,4,0,0,1,3,0,0,,
+hppa,subi,other,4,0,0,2,2,0,0,,
+hppa,gr0,other,3,0,0,0,3,0,0,,
+hppa,ldcws,other,3,0,0,0,3,0,0,,
+hppa,sh2addl,other,3,0,0,2,1,0,0,,
+hppa,sth,other,3,0,0,3,0,0,0,,
+hppa,addl,other,2,0,0,2,0,0,0,,
+hppa,addo,other,2,0,0,1,1,0,0,,
+hppa,brindex,other,2,0,0,0,2,0,0,,
+hppa,cnt,other,2,0,0,0,2,0,0,,
+hppa,copr,other,2,0,0,1,1,0,0,,
+hppa,depdi,other,2,0,0,1,1,0,0,,
+hppa,extrw,other,2,0,0,1,1,0,0,,
+hppa,fini,other,2,0,0,0,2,0,0,,
+hppa,fini0,other,2,0,0,0,2,0,0,,
+hppa,gate,other,2,0,0,1,1,0,0,,
+hppa,iitlbt,other,2,0,0,1,1,0,0,,
+hppa,lci,other,2,0,0,1,1,0,0,,
+hppa,ldwas,other,2,0,0,1,1,0,0,,
+hppa,loop,other,2,0,0,0,2,0,0,,
+hppa,mloop,other,2,0,0,0,2,0,0,,
+hppa,mpy1,other,2,0,0,0,2,0,0,,
+hppa,mtable,other,2,0,0,0,2,0,0,,
+hppa,mulend,other,2,0,0,0,2,0,0,,
+hppa,op1,other,2,0,0,0,2,0,0,,
+hppa,op2,other,2,0,0,0,2,0,0,,
+hppa,pc,other,2,0,0,0,2,0,0,,
+hppa,pdtlb,TLB and MMU maintenance,2,0,0,1,1,0,0,,
+hppa,pdtlbe,TLB and MMU maintenance,2,0,0,1,1,0,0,,
+hppa,pitlb,TLB and MMU maintenance,2,0,0,1,1,0,0,,
+hppa,pitlbe,TLB and MMU maintenance,2,0,0,1,1,0,0,,
+hppa,pl,other,2,0,0,0,2,0,0,,
+hppa,pm,other,2,0,0,0,2,0,0,,
+hppa,probew,other,2,0,0,1,1,0,0,,
+hppa,pu,other,2,0,0,0,2,0,0,,
+hppa,sh1,other,2,0,0,0,2,0,0,,
+hppa,sh1sa,other,2,0,0,0,2,0,0,,
+hppa,sh2a,other,2,0,0,0,2,0,0,,
+hppa,sh2c,other,2,0,0,0,2,0,0,,
+hppa,sh2ns,other,2,0,0,0,2,0,0,,
+hppa,sh2s,other,2,0,0,0,2,0,0,,
+hppa,sh2sa,other,2,0,0,0,2,0,0,,
+hppa,sh2sb,other,2,0,0,0,2,0,0,,
+hppa,sh2us,other,2,0,0,0,2,0,0,,
+hppa,sh3c,other,2,0,0,0,2,0,0,,
+hppa,sh3s,other,2,0,0,0,2,0,0,,
+hppa,sh3sa,other,2,0,0,0,2,0,0,,
+hppa,sh3us,other,2,0,0,0,2,0,0,,
+hppa,sh4c,other,2,0,0,0,2,0,0,,
+hppa,sh4n,other,2,0,0,0,2,0,0,,
+hppa,sh4s,other,2,0,0,0,2,0,0,,
+hppa,stb,other,2,0,0,1,1,0,0,,
+hppa,subb,other,2,0,0,1,1,0,0,,
+hppa,boff,other,1,0,0,0,1,0,0,,
+hppa,copyloop,other,1,0,0,0,1,0,0,,
+hppa,dvr,other,1,0,0,0,1,0,0,,
+hppa,finish,other,1,0,0,0,1,0,0,,
+hppa,forever,other,1,0,0,0,1,0,0,,
+hppa,hibit,other,1,0,0,0,1,0,0,,
+hppa,lastadd,other,1,0,0,0,1,0,0,,
+hppa,ldd,other,1,0,0,1,0,0,0,,
+hppa,ldh,other,1,0,0,1,0,0,0,,
+hppa,lpa,other,1,0,0,1,0,0,0,,
+hppa,mmax,other,1,0,0,0,1,0,0,,
+hppa,mpy2,other,1,0,0,0,1,0,0,,
+hppa,mpya,other,1,0,0,0,1,0,0,,
+hppa,mpyb,other,1,0,0,0,1,0,0,,
+hppa,nosub,other,1,0,0,0,1,0,0,,
+hppa,quo,other,1,0,0,0,1,0,0,,
+hppa,r26,other,1,0,0,0,1,0,0,,
+hppa,r28,other,1,0,0,0,1,0,0,,
+hppa,rem,other,1,0,0,0,1,0,0,,
+hppa,saveop2,other,1,0,0,0,1,0,0,,
+hppa,sign,other,1,0,0,0,1,0,0,,
+hppa,signs,other,1,0,0,0,1,0,0,,
+hppa,start,other,1,0,0,0,1,0,0,,
+hppa,std,other,1,0,0,1,0,0,0,,
+hppa,temp,other,1,0,0,0,1,0,0,,
+hppa,tp,other,1,0,0,0,1,0,0,,
+hppa,vdep,other,1,0,0,1,0,0,0,,
+hppa,zdepi,other,1,0,0,1,0,0,0,,
+hppa,zeroloop,other,1,0,0,0,1,0,0,,
+loongarch,jr,other,119,119,0,0,0,7853,654278,1.200e-02,no
+loongarch,st.d,other,101,101,0,0,0,45612,654278,6.971e-02,no
+loongarch,move,other,85,85,0,0,0,41223,654278,6.301e-02,no
+loongarch,ld.d,other,72,72,0,0,0,61411,654278,9.386e-02,no
+loongarch,addi.d,other,71,71,0,0,0,70070,654278,1.071e-01,no
+loongarch,csrrd,privileged register access,66,66,0,0,0,0,654278,0.000e+00,yes
+loongarch,csrwr,privileged register access,50,50,0,0,0,0,654278,0.000e+00,yes
+loongarch,beqz,other,39,39,0,0,0,11463,654278,1.752e-02,no
+loongarch,movgr2fr.d,other,33,33,0,0,0,132,654278,2.017e-04,no
+loongarch,movgr2fr.w,other,33,33,0,0,0,14,654278,2.140e-05,no
+loongarch,movgr2frh.w,other,33,33,0,0,0,0,654278,0.000e+00,yes
+loongarch,li.w,other,28,28,0,0,0,0,654278,0.000e+00,yes
+loongarch,b,other,25,25,0,0,0,14346,654278,2.193e-02,no
+loongarch,st.w,other,24,24,0,0,0,6719,654278,1.027e-02,no
+loongarch,or,other,23,23,0,0,0,37993,654278,5.807e-02,no
+loongarch,andi,other,22,22,0,0,0,3276,654278,5.007e-03,no
+loongarch,asm_op,other,21,21,0,0,0,0,654278,0.000e+00,yes
+loongarch,bgeu,other,20,20,0,0,0,1418,654278,2.167e-03,no
+loongarch,st.b,other,20,20,0,0,0,3949,654278,6.036e-03,no
+loongarch,add.d,other,19,19,0,0,0,14070,654278,2.150e-02,no
+loongarch,csrxchg,privileged register access,18,18,0,0,0,0,654278,0.000e+00,yes
+loongarch,la.pcrel,other,17,17,0,0,0,0,654278,0.000e+00,yes
+loongarch,ori,other,17,17,0,0,0,34611,654278,5.290e-02,no
+loongarch,bl,other,16,16,0,0,0,22557,654278,3.448e-02,no
+loongarch,ld.w,other,16,16,0,0,0,5351,654278,8.178e-03,no
+loongarch,movcf2gr,other,16,16,0,0,0,55,654278,8.406e-05,no
+loongarch,movgr2cf,other,16,16,0,0,0,4,654278,6.114e-06,yes
+loongarch,and,other,14,14,0,0,0,2870,654278,4.387e-03,no
+loongarch,ld.b,other,13,13,0,0,0,958,654278,1.464e-03,no
+loongarch,op,other,13,13,0,0,0,0,654278,0.000e+00,yes
+loongarch,bstrins.d,other,12,12,0,0,0,913,654278,1.395e-03,no
+loongarch,movgr2scr,other,12,12,0,0,0,0,654278,0.000e+00,yes
+loongarch,st.h,other,12,12,0,0,0,1661,654278,2.539e-03,no
+loongarch,bne,other,11,11,0,0,0,28248,654278,4.317e-02,no
+loongarch,ll.w,atomics and exclusive access,11,11,0,0,0,0,654278,0.000e+00,yes
+loongarch,sc.w,atomics and exclusive access,11,11,0,0,0,0,654278,0.000e+00,yes
+loongarch,bltz,other,10,10,0,0,0,418,654278,6.389e-04,no
+loongarch,bnez,other,9,9,0,0,0,8604,654278,1.315e-02,no
+loongarch,bstrins.w,other,9,9,0,0,0,40,654278,6.114e-05,no
+loongarch,bstrpick.w,other,9,9,0,0,0,499,654278,7.627e-04,no
+loongarch,ertn,exception entry/return and system call,9,9,0,0,0,0,654278,0.000e+00,yes
+loongarch,am,other,8,8,0,0,0,0,654278,0.000e+00,yes
+loongarch,beq,other,8,8,0,0,0,5465,654278,8.353e-03,no
+loongarch,bstrpick.d,other,8,8,0,0,0,4080,654278,6.236e-03,no
+loongarch,movscr2gr,other,8,8,0,0,0,0,654278,0.000e+00,yes
+loongarch,x86mttop,other,8,8,0,0,0,0,654278,0.000e+00,yes
+loongarch,invtlb,TLB and MMU maintenance,7,7,0,0,0,0,654278,0.000e+00,yes
+loongarch,sub.d,other,7,7,0,0,0,3574,654278,5.463e-03,no
+loongarch,dbar,memory barrier and ordering,6,6,0,0,0,0,654278,0.000e+00,yes
+loongarch,hvcl,"hypervisor, secure and firmware calls",6,6,0,0,0,0,654278,0.000e+00,yes
+loongarch,jirl,other,6,6,0,0,0,22190,654278,3.392e-02,no
+loongarch,ld.h,other,6,6,0,0,0,473,654278,7.229e-04,no
+loongarch,masknez,other,6,6,0,0,0,1500,654278,2.293e-03,no
+loongarch,pcaddi,other,6,6,0,0,0,0,654278,0.000e+00,yes
+loongarch,slli.d,other,6,6,0,0,0,2982,654278,4.558e-03,no
+loongarch,tlbfill,TLB and MMU maintenance,6,6,0,0,0,0,654278,0.000e+00,yes
+loongarch,bgt,other,5,5,0,0,0,429,654278,6.557e-04,no
+loongarch,bltu,other,5,5,0,0,0,2258,654278,3.451e-03,no
+loongarch,ibar,memory barrier and ordering,5,5,0,0,0,0,654278,0.000e+00,yes
+loongarch,idle,"spin-wait, idle and hints",5,5,0,0,0,0,654278,0.000e+00,yes
+loongarch,ldptr.d,other,5,5,0,0,0,3927,654278,6.002e-03,no
+loongarch,lu12i.w,other,5,5,0,0,0,6916,654278,1.057e-02,no
+loongarch,nor,other,5,5,0,0,0,274,654278,4.188e-04,no
+loongarch,sltui,other,5,5,0,0,0,1394,654278,2.131e-03,no
+loongarch,stptr.d,other,5,5,0,0,0,2319,654278,3.544e-03,no
+loongarch,xori,other,5,5,0,0,0,347,654278,5.304e-04,no
+loongarch,add.w,other,4,4,0,0,0,4188,654278,6.401e-03,no
+loongarch,bgtz,other,4,4,0,0,0,27,654278,4.127e-05,no
+loongarch,ll.d,atomics and exclusive access,4,4,0,0,0,0,654278,0.000e+00,yes
+loongarch,maskeqz,other,4,4,0,0,0,1412,654278,2.158e-03,no
+loongarch,sll.d,other,4,4,0,0,0,219,654278,3.347e-04,no
+loongarch,srl.d,other,4,4,0,0,0,172,654278,2.629e-04,no
+loongarch,tlbsrch,TLB and MMU maintenance,4,4,0,0,0,0,654278,0.000e+00,yes
+loongarch,tlbwr,TLB and MMU maintenance,4,4,0,0,0,0,654278,0.000e+00,yes
+loongarch,lddir,other,3,3,0,0,0,0,654278,0.000e+00,yes
+loongarch,movfcsr2gr,other,3,3,0,0,0,0,654278,0.000e+00,yes
+loongarch,movgr2fcsr,other,3,3,0,0,0,0,654278,0.000e+00,yes
+loongarch,sc.d,atomics and exclusive access,3,3,0,0,0,0,654278,0.000e+00,yes
+loongarch,slli.w,other,3,3,0,0,0,1510,654278,2.308e-03,no
+loongarch,x86mtflag,other,3,3,0,0,0,0,654278,0.000e+00,yes
+loongarch,addi.w,other,2,2,0,0,0,32036,654278,4.896e-02,no
+loongarch,andn,other,2,2,0,0,0,487,654278,7.443e-04,no
+loongarch,bitrev.4b,bit manipulation,2,2,0,0,0,0,654278,0.000e+00,yes
+loongarch,blt,other,2,2,0,0,0,1212,654278,1.852e-03,no
+loongarch,ldpte,other,2,2,0,0,0,0,654278,0.000e+00,yes
+loongarch,nop,other,2,2,0,0,0,0,654278,0.000e+00,yes
+loongarch,srli.w,other,2,2,0,0,0,719,654278,1.099e-03,no
+loongarch,x86mfflag,other,2,2,0,0,0,0,654278,0.000e+00,yes
+loongarch,add,other,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,alsl.d,other,1,1,0,0,0,1904,654278,2.910e-03,no
+loongarch,amswap_db.d,atomics and exclusive access,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,amswap_db.w,atomics and exclusive access,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,bitrev.w,bit manipulation,1,1,0,0,0,3,654278,4.585e-06,yes
+loongarch,blez,other,1,1,0,0,0,23,654278,3.515e-05,no
+loongarch,cacop,cache maintenance,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,gcsrrd,"hypervisor, secure and firmware calls",1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,gcsrwr,"hypervisor, secure and firmware calls",1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,gcsrxchg,"hypervisor, secure and firmware calls",1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,iocsrrd.d,privileged register access,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,iocsrrd.w,privileged register access,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,la,other,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,ld.bu,other,1,1,0,0,0,9584,654278,1.465e-02,no
+loongarch,li.d,other,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,movfr2gr.d,other,1,1,0,0,0,65,654278,9.935e-05,no
+loongarch,movfr2gr.s,other,1,1,0,0,0,7,654278,1.070e-05,no
+loongarch,movfrh2gr.s,other,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,rdtime.d,timers and counters,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,rdtimeh.w,timers and counters,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,rdtimel.w,timers and counters,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,sc.q,atomics and exclusive access,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,sltu,other,1,1,0,0,0,1282,654278,1.959e-03,no
+loongarch,sra.d,other,1,1,0,0,0,3,654278,4.585e-06,yes
+loongarch,srai.d,other,1,1,0,0,0,294,654278,4.494e-04,no
+loongarch,srli.d,other,1,1,0,0,0,2198,654278,3.359e-03,no
+loongarch,sub.w,other,1,1,0,0,0,1340,654278,2.048e-03,no
+loongarch,tlbclr,TLB and MMU maintenance,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,tlbflush,TLB and MMU maintenance,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,tlbrd,TLB and MMU maintenance,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,x86clrtm,other,1,1,0,0,0,0,654278,0.000e+00,yes
+loongarch,x86mftop,other,1,1,0,0,0,0,654278,0.000e+00,yes
+m68k,movl,other,870,5,0,865,0,0,752780,0.000e+00,yes
+m68k,movel,other,600,513,0,87,0,0,752780,0.000e+00,yes
+m68k,jeq,other,206,72,0,134,0,8962,752780,1.191e-02,no
+m68k,jra,other,205,73,0,132,0,9460,752780,1.257e-02,no
+m68k,lea,other,192,100,0,92,0,29509,752780,3.920e-02,no
+m68k,jbsr,other,177,41,0,136,0,0,752780,0.000e+00,yes
+m68k,movew,other,146,110,0,36,0,0,752780,0.000e+00,yes
+m68k,jne,other,136,54,0,82,0,17735,752780,2.356e-02,no
+m68k,rts,other,127,20,0,107,0,12305,752780,1.635e-02,no
+m68k,moveb,other,123,89,0,34,0,0,752780,0.000e+00,yes
+m68k,btst,bit manipulation,118,59,0,59,0,469,752780,6.230e-04,no
+m68k,addql,other,116,35,0,81,0,0,752780,0.000e+00,yes
+m68k,clrl,other,116,32,0,84,0,0,752780,0.000e+00,yes
+m68k,moveq,other,115,44,0,71,0,29233,752780,3.883e-02,no
+m68k,movw,other,107,0,0,107,0,0,752780,0.000e+00,yes
+m68k,movc,other,103,2,0,101,0,0,752780,0.000e+00,yes
+m68k,movec,privileged register access,98,93,0,5,0,0,752780,0.000e+00,yes
+m68k,subql,other,98,28,0,70,0,0,752780,0.000e+00,yes
+m68k,cmpl,other,91,35,0,56,0,0,752780,0.000e+00,yes
+m68k,addl,other,84,30,0,54,0,0,752780,0.000e+00,yes
+m68k,moveml,other,82,16,0,66,0,0,752780,0.000e+00,yes
+m68k,addxl,other,74,53,0,21,0,0,752780,0.000e+00,yes
+m68k,jbra,other,58,58,0,0,0,0,752780,0.000e+00,yes
+m68k,nop,other,58,48,0,10,0,0,752780,0.000e+00,yes
+m68k,tstl,other,56,22,0,34,0,0,752780,0.000e+00,yes
+m68k,jmp,other,52,11,0,41,0,289,752780,3.839e-04,no
+m68k,andl,other,51,22,0,29,0,0,752780,0.000e+00,yes
+m68k,swap,other,50,13,0,37,0,463,752780,6.151e-04,no
+m68k,dbra,other,49,41,0,8,0,16,752780,2.125e-05,no
+m68k,movb,other,48,0,0,48,0,0,752780,0.000e+00,yes
+m68k,lsrl,other,46,28,0,18,0,0,752780,0.000e+00,yes
+m68k,movml,other,40,0,0,40,0,0,752780,0.000e+00,yes
+m68k,pmove,privileged register access,40,14,0,26,0,0,752780,0.000e+00,yes
+m68k,rolw,other,38,20,0,18,0,0,752780,0.000e+00,yes
+m68k,andw,other,37,22,0,15,0,0,752780,0.000e+00,yes
+m68k,subl,other,37,23,0,14,0,0,752780,0.000e+00,yes
+m68k,pea,other,35,13,0,22,0,22323,752780,2.965e-02,no
+m68k,fmovem,context and FPU/vector state,32,1,0,31,0,38,752780,5.048e-05,no
+m68k,addq,other,31,29,0,2,0,14348,752780,1.906e-02,no
+m68k,bset,bit manipulation,27,13,0,14,0,40,752780,5.314e-05,no
+m68k,dbf,other,27,1,0,26,0,0,752780,0.000e+00,yes
+m68k,jbne,other,27,27,0,0,0,0,752780,0.000e+00,yes
+m68k,move,other,25,22,0,3,0,265770,752780,3.531e-01,no
+m68k,movsb,other,25,6,0,19,0,0,752780,0.000e+00,yes
+m68k,movql,other,24,0,0,24,0,0,752780,0.000e+00,yes
+m68k,tstb,other,24,8,0,16,0,0,752780,0.000e+00,yes
+m68k,addw,other,23,15,0,8,0,0,752780,0.000e+00,yes
+m68k,clrw,other,23,11,0,12,0,0,752780,0.000e+00,yes
+m68k,cmpb,other,22,6,0,16,0,0,752780,0.000e+00,yes
+m68k,bral,other,21,0,0,21,0,0,752780,0.000e+00,yes
+m68k,beq,other,20,5,0,15,0,8647,752780,1.149e-02,no
+m68k,cpushl,cache maintenance,20,20,0,0,0,0,752780,0.000e+00,yes
+m68k,fmovel,other,20,18,0,2,0,0,752780,0.000e+00,yes
+m68k,frestore,context and FPU/vector state,20,8,0,12,0,0,752780,0.000e+00,yes
+m68k,fsave,context and FPU/vector state,20,7,0,13,0,0,752780,0.000e+00,yes
+m68k,jcc,other,20,10,0,10,0,615,752780,8.170e-04,no
+m68k,orl,other,20,6,0,14,0,0,752780,0.000e+00,yes
+m68k,trap,exception entry/return and system call,20,11,0,9,0,13,752780,1.727e-05,no
+m68k,andb,other,19,14,0,5,0,0,752780,0.000e+00,yes
+m68k,movsl,other,19,2,0,17,0,0,752780,0.000e+00,yes
+m68k,orw,other,18,16,0,2,0,0,752780,0.000e+00,yes
+m68k,ptestr,TLB and MMU maintenance,18,9,0,9,0,0,752780,0.000e+00,yes
+m68k,bclr,bit manipulation,17,11,0,6,0,39,752780,5.181e-05,no
+m68k,rte,exception entry/return and system call,17,1,0,16,0,0,752780,0.000e+00,yes
+m68k,subqw,other,17,9,0,8,0,0,752780,0.000e+00,yes
+m68k,bra,other,16,1,0,15,0,8267,752780,1.098e-02,no
+m68k,l,other,16,16,0,0,0,0,752780,0.000e+00,yes
+m68k,subq,other,16,16,0,0,0,1839,752780,2.443e-03,no
+m68k,unlk,other,16,2,0,14,0,551,752780,7.320e-04,no
+m68k,andil,other,15,12,0,3,0,0,752780,0.000e+00,yes
+m68k,jsr,other,14,7,0,7,0,50750,752780,6.742e-02,no
+m68k,link,other,14,1,0,13,0,508,752780,6.748e-04,no
+m68k,pflusha,TLB and MMU maintenance,14,6,0,8,0,0,752780,0.000e+00,yes
+m68k,bne,other,13,4,0,9,0,19573,752780,2.600e-02,no
+m68k,bnes,other,13,3,0,10,0,0,752780,0.000e+00,yes
+m68k,bsr,other,13,0,0,13,0,0,752780,0.000e+00,yes
+m68k,jbeq,other,13,13,0,0,0,0,752780,0.000e+00,yes
+m68k,negl,other,13,5,0,8,0,0,752780,0.000e+00,yes
+m68k,putn,other,13,13,0,0,0,0,752780,0.000e+00,yes
+m68k,addal,other,12,12,0,0,0,0,752780,0.000e+00,yes
+m68k,jcs,other,12,8,0,4,0,782,752780,1.039e-03,no
+m68k,divul,other,11,9,0,2,0,19,752780,2.524e-05,no
+m68k,movpw,other,11,0,0,11,0,0,752780,0.000e+00,yes
+m68k,mulul,other,11,9,0,2,0,0,752780,0.000e+00,yes
+m68k,oriw,other,11,6,0,5,0,0,752780,0.000e+00,yes
+m68k,cmpib,other,10,10,0,0,0,0,752780,0.000e+00,yes
+m68k,cpusha,cache maintenance,10,10,0,0,0,0,752780,0.000e+00,yes
+m68k,cpushp,cache maintenance,10,10,0,0,0,0,752780,0.000e+00,yes
+m68k,subil,other,10,2,0,8,0,0,752780,0.000e+00,yes
+m68k,bfffo,bit manipulation,9,8,0,1,0,4,752780,5.314e-06,yes
+m68k,cmpw,other,9,2,0,7,0,0,752780,0.000e+00,yes
+m68k,fnop,other,9,0,0,9,0,0,752780,0.000e+00,yes
+m68k,movesl,other,9,9,0,0,0,0,752780,0.000e+00,yes
+m68k,pflush,TLB and MMU maintenance,9,6,0,3,0,0,752780,0.000e+00,yes
+m68k,roxlb,other,9,0,0,9,0,0,752780,0.000e+00,yes
+m68k,sne,other,9,9,0,0,0,373,752780,4.955e-04,no
+m68k,b,other,8,8,0,0,0,0,752780,0.000e+00,yes
+m68k,bcs,other,8,0,0,8,0,1223,752780,1.625e-03,no
+m68k,fmovemx,other,8,8,0,0,0,0,752780,0.000e+00,yes
+m68k,lslw,other,8,5,0,3,0,0,752780,0.000e+00,yes
+m68k,w,other,8,8,0,0,0,0,752780,0.000e+00,yes
+m68k,bclrb,other,7,7,0,0,0,0,752780,0.000e+00,yes
+m68k,bsetb,other,7,7,0,0,0,0,752780,0.000e+00,yes
+m68k,fmoveml,other,7,7,0,0,0,0,752780,0.000e+00,yes
+m68k,jgt,other,7,4,0,3,0,269,752780,3.573e-04,no
+m68k,jmi,other,7,6,0,1,0,120,752780,1.594e-04,no
+m68k,lsll,other,7,3,0,4,0,0,752780,0.000e+00,yes
+m68k,moveal,other,7,0,0,7,0,0,752780,0.000e+00,yes
+m68k,tstw,other,7,5,0,2,0,0,752780,0.000e+00,yes
+m68k,add,other,6,6,0,0,0,37083,752780,4.926e-02,no
+m68k,addil,other,6,6,0,0,0,0,752780,0.000e+00,yes
+m68k,btstl,other,6,6,0,0,0,0,752780,0.000e+00,yes
+m68k,casl,other,6,4,0,2,0,0,752780,0.000e+00,yes
+m68k,clrb,other,6,3,0,3,0,0,752780,0.000e+00,yes
+m68k,fmovemd,other,6,6,0,0,0,0,752780,0.000e+00,yes
+m68k,jpl,other,6,6,0,0,0,80,752780,1.063e-04,no
+m68k,lsl,other,6,6,0,0,0,8710,752780,1.157e-02,no
+m68k,move.,other,6,6,0,0,0,0,752780,0.000e+00,yes
+m68k,muluw,other,6,3,0,3,0,0,752780,0.000e+00,yes
+m68k,rorl,other,6,0,0,6,0,0,752780,0.000e+00,yes
+m68k,rorw,other,6,0,0,6,0,0,752780,0.000e+00,yes
+m68k,a,other,5,5,0,0,0,0,752780,0.000e+00,yes
+m68k,asm_op,other,5,5,0,0,0,0,752780,0.000e+00,yes
+m68k,bcc,other,5,0,0,5,0,575,752780,7.638e-04,no
+m68k,bpl,other,5,0,0,5,0,140,752780,1.860e-04,no
+m68k,jbmi,other,5,5,0,0,0,0,752780,0.000e+00,yes
+m68k,jls,other,5,4,0,1,0,534,752780,7.094e-04,no
+m68k,lslb,other,5,2,0,3,0,0,752780,0.000e+00,yes
+m68k,lsrw,other,5,3,0,2,0,0,752780,0.000e+00,yes
+m68k,movq,other,5,0,0,5,0,0,752780,0.000e+00,yes
+m68k,movsw,other,5,0,0,5,0,0,752780,0.000e+00,yes
+m68k,mvzw,other,5,0,0,5,0,0,752780,0.000e+00,yes
+m68k,tst,other,5,5,0,0,0,7484,752780,9.942e-03,no
+m68k,addqw,other,4,0,0,4,0,0,752780,0.000e+00,yes
+m68k,addxw,other,4,3,0,1,0,0,752780,0.000e+00,yes
+m68k,andib,other,4,0,0,4,0,0,752780,0.000e+00,yes
+m68k,andiw,other,4,3,0,1,0,0,752780,0.000e+00,yes
+m68k,bchg,bit manipulation,4,4,0,0,0,2,752780,2.657e-06,yes
+m68k,beqs,other,4,2,0,2,0,0,752780,0.000e+00,yes
+m68k,cmp,other,4,4,0,0,0,20809,752780,2.764e-02,no
+m68k,dbeq,other,4,0,0,4,0,0,752780,0.000e+00,yes
+m68k,divu,other,4,4,0,0,0,7,752780,9.299e-06,yes
+m68k,eorb,other,4,3,0,1,0,0,752780,0.000e+00,yes
+m68k,lsrb,other,4,1,0,3,0,0,752780,0.000e+00,yes
+m68k,orb,other,4,2,0,2,0,0,752780,0.000e+00,yes
+m68k,sub,other,4,4,0,0,0,26773,752780,3.557e-02,no
+m68k,subw,other,4,2,0,2,0,0,752780,0.000e+00,yes
+m68k,addqb,other,3,0,0,3,0,0,752780,0.000e+00,yes
+m68k,bfclr,bit manipulation,3,3,0,0,0,2,752780,2.657e-06,yes
+m68k,bfextu,bit manipulation,3,3,0,0,0,478,752780,6.350e-04,no
+m68k,bfset,bit manipulation,3,3,0,0,0,0,752780,0.000e+00,yes
+m68k,bgt,other,3,0,0,3,0,321,752780,4.264e-04,no
+m68k,bsrl,other,3,1,0,2,0,0,752780,0.000e+00,yes
+m68k,byterev,other,3,1,0,2,0,0,752780,0.000e+00,yes
+m68k,cinva,cache maintenance,3,3,0,0,0,0,752780,0.000e+00,yes
+m68k,cmpi,other,3,3,0,0,0,11233,752780,1.492e-02,no
+m68k,cmpil,other,3,0,0,3,0,0,752780,0.000e+00,yes
+m68k,jge,other,3,0,0,3,0,440,752780,5.845e-04,no
+m68k,jle,other,3,0,0,3,0,254,752780,3.374e-04,no
+m68k,jlt,other,3,3,0,0,0,519,752780,6.894e-04,no
+m68k,move16,other,3,3,0,0,0,0,752780,0.000e+00,yes
+m68k,mulsl,other,3,2,0,1,0,0,752780,0.000e+00,yes
+m68k,pflushs,TLB and MMU maintenance,3,0,0,3,0,0,752780,0.000e+00,yes
+m68k,plpar,other,3,3,0,0,0,0,752780,0.000e+00,yes
+m68k,seq,other,3,3,0,0,0,533,752780,7.080e-04,no
+m68k,stop,privileged register access,3,2,0,1,0,0,752780,0.000e+00,yes
+m68k,tas,atomics and exclusive access,3,1,0,2,0,0,752780,0.000e+00,yes
+m68k,addb,other,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,andi,other,2,1,0,1,0,0,752780,0.000e+00,yes
+m68k,bfchg,bit manipulation,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,bpls,other,2,0,0,2,0,0,752780,0.000e+00,yes
+m68k,casb,other,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,casw,other,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,cinvp,cache maintenance,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,dbne,other,2,0,0,2,0,1,752780,1.328e-06,yes
+m68k,divsl,other,2,0,0,2,0,10,752780,1.328e-05,no
+m68k,divuw,other,2,0,0,2,0,0,752780,0.000e+00,yes
+m68k,eorl,other,2,1,0,1,0,0,752780,0.000e+00,yes
+m68k,jhi,other,2,2,0,0,0,742,752780,9.857e-04,no
+m68k,linkw,other,2,1,0,1,0,0,752780,0.000e+00,yes
+m68k,moveql,other,2,1,0,1,0,0,752780,0.000e+00,yes
+m68k,movesw,other,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,mulu,other,2,2,0,0,0,594,752780,7.891e-04,no
+m68k,negb,other,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,negw,other,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,ori,other,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,orib,other,2,0,0,2,0,0,752780,0.000e+00,yes
+m68k,pflushan,TLB and MMU maintenance,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,ploadr,TLB and MMU maintenance,2,2,0,0,0,0,752780,0.000e+00,yes
+m68k,reset,privileged register access,2,0,0,2,0,0,752780,0.000e+00,yes
+m68k,roll,other,2,1,0,1,0,0,752780,0.000e+00,yes
+m68k,roxlw,other,2,0,0,2,0,0,752780,0.000e+00,yes
+m68k,smi,other,2,2,0,0,0,82,752780,1.089e-04,no
+m68k,and,other,1,1,0,0,0,14690,752780,1.951e-02,no
+m68k,bitrev,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,bls,other,1,0,0,1,0,494,752780,6.562e-04,no
+m68k,bras,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,bsun,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,cmpal,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,divsll,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,divull,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,dz,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,eieio,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,eor,other,1,1,0,0,0,7892,752780,1.048e-02,no
+m68k,eorw,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,exg,other,1,0,0,1,0,4,752780,5.314e-06,yes
+m68k,fdiv,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,fetox,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,ff1,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,fline,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,fmove.d,other,1,0,0,1,0,207,752780,2.750e-04,no
+m68k,fmul,other,1,0,0,1,0,1,752780,1.328e-06,yes
+m68k,inex,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,jbgt,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,jble,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,leal,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,mcount,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,movesb,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,mvzb,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,n1,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,n2,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,n3,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,notl,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,notw,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,operr,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,or,other,1,1,0,0,0,6673,752780,8.864e-03,no
+m68k,ovfl,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,ploadw,TLB and MMU maintenance,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,ptestw,TLB and MMU maintenance,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,remsl,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,remul,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,rolb,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,roxll,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,roxrw,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,s1,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,s2,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,s3,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,scsb,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,slt,other,1,1,0,0,0,101,752780,1.342e-04,no
+m68k,snan,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,subal,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,subqb,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,subxl,other,1,0,0,1,0,0,752780,0.000e+00,yes
+m68k,unfl,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,unsupp,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m68k,wdebug,other,1,1,0,0,0,0,752780,0.000e+00,yes
+m88k,st,other,276,0,0,0,276,0,0,,
+m88k,or,other,186,0,0,0,186,0,0,,
+m88k,ld,other,165,0,0,0,165,0,0,,
+m88k,ldcr,privileged register access,119,0,0,0,119,0,0,,
+m88k,subu,other,72,0,0,0,72,0,0,,
+m88k,bb1,other,63,0,0,0,63,0,0,,
+m88k,addu,other,62,0,0,0,62,0,0,,
+m88k,stcr,privileged register access,58,0,0,0,58,0,0,,
+m88k,st.d,other,56,0,0,0,56,0,0,,
+m88k,bcnd,other,45,0,0,0,45,0,0,,
+m88k,br.n,other,45,0,0,0,45,0,0,,
+m88k,br,other,42,0,0,0,42,0,0,,
+m88k,jmp.n,other,37,0,0,0,37,0,0,,
+m88k,cmp,other,29,0,0,0,29,0,0,,
+m88k,jmp,other,27,0,0,0,27,0,0,,
+m88k,clr,other,24,0,0,0,24,0,0,,
+m88k,or.u,other,23,0,0,0,23,0,0,,
+m88k,st.b,other,21,0,0,0,21,0,0,,
+m88k,st.h,other,21,0,0,0,21,0,0,,
+m88k,fldcr,privileged register access,19,0,0,0,19,0,0,,
+m88k,ld.d,other,19,0,0,0,19,0,0,,
+m88k,ld.hu,other,18,0,0,0,18,0,0,,
+m88k,xcr,privileged register access,17,0,0,0,17,0,0,,
+m88k,bsr,other,16,0,0,0,16,0,0,,
+m88k,ld.bu,other,13,0,0,0,13,0,0,,
+m88k,bcnd.n,other,12,0,0,0,12,0,0,,
+m88k,extu,other,12,0,0,0,12,0,0,,
+m88k,ld.usr,other,12,0,0,0,12,0,0,,
+m88k,bb1.n,other,11,0,0,0,11,0,0,,
+m88k,fstcr,privileged register access,11,0,0,0,11,0,0,,
+m88k,mask,other,11,0,0,0,11,0,0,,
+m88k,divu,other,10,0,0,0,10,0,0,,
+m88k,st.b.usr,other,10,0,0,0,10,0,0,,
+m88k,bsr.n,other,8,0,0,0,8,0,0,,
+m88k,ld.b.usr,other,8,0,0,0,8,0,0,,
+m88k,st.usr,other,8,0,0,0,8,0,0,,
+m88k,xmem,atomics and exclusive access,8,0,0,0,8,0,0,,
+m88k,bb0,other,6,0,0,0,6,0,0,,
+m88k,ld.h,other,6,0,0,0,6,0,0,,
+m88k,ld.h.usr,other,6,0,0,0,6,0,0,,
+m88k,st.h.usr,other,6,0,0,0,6,0,0,,
+m88k,tb0,exception entry/return and system call,6,0,0,0,6,0,0,,
+m88k,ld.b,other,5,0,0,0,5,0,0,,
+m88k,mak,other,4,0,0,0,4,0,0,,
+m88k,tb1,exception entry/return and system call,3,0,0,0,3,0,0,,
+m88k,xor,other,3,0,0,0,3,0,0,,
+m88k,bb0.n,other,2,0,0,0,2,0,0,,
+m88k,ff1,other,2,0,0,0,2,0,0,,
+m88k,ld.bu.usr,other,2,0,0,0,2,0,0,,
+m88k,ext,other,1,0,0,0,1,0,0,,
+m88k,jsr,other,1,0,0,0,1,0,0,,
+m88k,jsr.n,other,1,0,0,0,1,0,0,,
+m88k,lda,other,1,0,0,0,1,0,0,,
+m88k,mul,other,1,0,0,0,1,0,0,,
+m88k,mulu,other,1,0,0,0,1,0,0,,
+m88k,xmem.bu,other,1,0,0,0,1,0,0,,
+m88k,xmem.bu.usr,other,1,0,0,0,1,0,0,,
+m88k,xmem.usr,other,1,0,0,0,1,0,0,,
+mips,nop,other,839,254,0,521,64,29579,421494,7.018e-02,no
+mips,move,other,512,165,0,302,45,28867,421494,6.849e-02,no
+mips,li,other,479,240,0,199,40,0,421494,0.000e+00,yes
+mips,b,other,412,43,0,360,9,0,421494,0.000e+00,yes
+mips,and,other,378,72,0,252,54,1847,421494,4.382e-03,no
+mips,bne,other,372,34,0,299,39,9065,421494,2.151e-02,no
+mips,j,other,348,109,0,180,59,6705,421494,1.591e-02,no
+mips,mtc0,privileged register access,312,70,0,221,21,0,421494,0.000e+00,yes
+mips,mfc0,privileged register access,310,97,0,188,25,0,421494,0.000e+00,yes
+mips,jr,other,295,105,0,168,22,5844,421494,1.386e-02,no
+mips,cache,cache maintenance,274,34,0,240,0,0,421494,0.000e+00,yes
+mips,or,other,258,86,0,160,12,1421,421494,3.371e-03,no
+mips,beq,other,250,99,0,120,31,1357,421494,3.220e-03,no
+mips,srl,other,232,25,0,206,1,1449,421494,3.438e-03,no
+mips,sll,other,211,60,0,151,0,5197,421494,1.233e-02,no
+mips,andi,other,210,137,0,69,4,2187,421494,5.189e-03,no
+mips,mfc1,other,208,0,0,208,0,6,421494,1.424e-05,no
+mips,beqz,other,204,97,0,90,17,7400,421494,1.756e-02,no
+mips,jal,other,181,44,0,119,18,23798,421494,5.646e-02,no
+mips,addu,other,166,28,0,135,3,4139,421494,9.820e-03,no
+mips,sd,other,158,114,0,29,15,22070,421494,5.236e-02,no
+mips,ld,other,146,119,0,18,9,27798,421494,6.595e-02,no
+mips,sb,other,142,117,0,19,6,3048,421494,7.231e-03,no
+mips,sdc1,other,128,32,0,32,64,89,421494,2.112e-04,no
+mips,subu,other,118,14,0,104,0,754,421494,1.789e-03,no
+mips,ldc1,other,96,32,0,32,32,355,421494,8.422e-04,no
+mips,lw,other,96,55,0,20,21,6605,421494,1.567e-02,no
+mips,swc1,other,96,0,0,32,64,17,421494,4.033e-05,no
+mips,sw,other,94,34,0,17,43,4605,421494,1.093e-02,no
+mips,bnez,other,87,48,0,38,1,10058,421494,2.386e-02,no
+mips,sltu,other,81,26,0,49,6,1859,421494,4.411e-03,no
+mips,dmtc2,other,73,73,0,0,0,0,421494,0.000e+00,yes
+mips,dmtc0,privileged register access,68,7,0,5,56,0,421494,0.000e+00,yes
+mips,xor,other,66,9,0,51,6,3707,421494,8.795e-03,no
+mips,daddiu,other,64,64,0,0,0,101503,421494,2.408e-01,no
+mips,lwc1,other,64,0,0,32,32,44,421494,1.044e-04,no
+mips,dmfc2,other,63,63,0,0,0,0,421494,0.000e+00,yes
+mips,dsll,other,60,37,0,22,1,30438,421494,7.221e-02,no
+mips,ori,other,50,30,0,8,12,1552,421494,3.682e-03,no
+mips,mtc1,other,48,0,0,48,0,16,421494,3.796e-05,no
+mips,dmfc0,privileged register access,47,10,0,18,19,0,421494,0.000e+00,yes
+mips,blt,other,44,1,0,35,8,0,421494,0.000e+00,yes
+mips,bltz,other,44,14,0,21,9,443,421494,1.051e-03,no
+mips,lui,other,41,15,0,26,0,15444,421494,3.664e-02,no
+mips,addiu,other,40,28,0,12,0,15543,421494,3.688e-02,no
+mips,dsrl,other,40,25,0,15,0,840,421494,1.993e-03,no
+mips,sync,memory barrier and ordering,40,17,0,22,1,0,421494,0.000e+00,yes
+mips,lb,other,36,33,0,0,3,154,421494,3.654e-04,no
+mips,lbu,other,35,18,0,7,10,11706,421494,2.777e-02,no
+mips,tlbwi,TLB and MMU maintenance,31,1,0,20,10,0,421494,0.000e+00,yes
+mips,mflo,other,28,7,0,21,0,743,421494,1.763e-03,no
+mips,ctc1,context and FPU/vector state,25,4,0,18,3,0,421494,0.000e+00,yes
+mips,ll,atomics and exclusive access,25,17,0,2,6,0,421494,0.000e+00,yes
+mips,mfhi,other,25,4,0,21,0,157,421494,3.725e-04,no
+mips,sc,atomics and exclusive access,25,17,0,2,6,0,421494,0.000e+00,yes
+mips,xori,other,24,17,0,2,5,276,421494,6.548e-04,no
+mips,add,other,23,0,0,23,0,0,421494,0.000e+00,yes
+mips,bal,other,22,9,0,13,0,0,421494,0.000e+00,yes
+mips,bgez,other,22,12,0,9,1,70,421494,1.661e-04,no
+mips,cfc1,context and FPU/vector state,22,4,0,7,11,0,421494,0.000e+00,yes
+mips,sltiu,other,22,13,0,7,2,1536,421494,3.644e-03,no
+mips,dins,bit manipulation,21,18,0,3,0,1,421494,2.373e-06,yes
+mips,ehb,memory barrier and ordering,21,15,0,6,0,0,421494,0.000e+00,yes
+mips,slt,other,19,1,0,16,2,384,421494,9.110e-04,no
+mips,v3mulu,other,18,18,0,0,0,0,421494,0.000e+00,yes
+mips,clz,bit manipulation,17,4,0,13,0,10,421494,2.373e-05,no
+mips,dinsu,other,17,16,0,1,0,13,421494,3.084e-05,no
+mips,eret,exception entry/return and system call,17,7,0,10,0,0,421494,0.000e+00,yes
+mips,jalr,other,17,12,0,5,0,569,421494,1.350e-03,no
+mips,tlbp,TLB and MMU maintenance,17,2,0,10,5,0,421494,0.000e+00,yes
+mips,la,other,16,14,0,2,0,0,421494,0.000e+00,yes
+mips,sync.l,other,16,0,0,16,0,0,421494,0.000e+00,yes
+mips,sync.p,other,16,0,0,16,0,0,421494,0.000e+00,yes
+mips,daddu,other,14,7,0,4,3,5224,421494,1.239e-02,no
+mips,dext,bit manipulation,14,14,0,0,0,1095,421494,2.598e-03,no
+mips,dextu,other,14,14,0,0,0,0,421494,0.000e+00,yes
+mips,jr.hb,other,14,7,0,6,1,0,421494,0.000e+00,yes
+mips,tlbr,TLB and MMU maintenance,14,2,0,9,3,0,421494,0.000e+00,yes
+mips,negu,other,13,1,0,12,0,156,421494,3.701e-04,no
+mips,mthi,other,12,4,0,8,0,28,421494,6.643e-05,no
+mips,mtlo,other,12,4,0,8,0,28,421494,6.643e-05,no
+mips,wait,"spin-wait, idle and hints",12,7,0,4,1,0,421494,0.000e+00,yes
+mips,not,other,11,1,0,9,1,231,421494,5.481e-04,no
+mips,sllv,other,11,6,0,5,0,233,421494,5.528e-04,no
+mips,dsll32,other,10,8,0,2,0,0,421494,0.000e+00,yes
+mips,teqi,other,10,0,0,10,0,0,421494,0.000e+00,yes
+mips,tlbwr,TLB and MMU maintenance,10,1,0,5,4,0,421494,0.000e+00,yes
+mips,di,interrupt masking,9,3,0,6,0,0,421494,0.000e+00,yes
+mips,dsra,other,9,1,0,8,0,97,421494,2.301e-04,no
+mips,lld,atomics and exclusive access,9,3,0,1,5,0,421494,0.000e+00,yes
+mips,scd,atomics and exclusive access,9,3,0,1,5,0,421494,0.000e+00,yes
+mips,bge,other,8,0,0,8,0,0,421494,0.000e+00,yes
+mips,bgt,other,8,0,0,8,0,0,421494,0.000e+00,yes
+mips,bltu,other,8,0,0,8,0,0,421494,0.000e+00,yes
+mips,dclz,bit manipulation,8,2,0,6,0,0,421494,0.000e+00,yes
+mips,mul,other,8,8,0,0,0,1435,421494,3.405e-03,no
+mips,multu,other,8,2,0,6,0,25,421494,5.931e-05,no
+mips,rdhwr,timers and counters,8,5,0,2,1,0,421494,0.000e+00,yes
+mips,ssnop,memory barrier and ordering,8,0,0,8,0,0,421494,0.000e+00,yes
+mips,bbit1,other,7,6,0,1,0,0,421494,0.000e+00,yes
+mips,dsrl32,other,7,7,0,0,0,0,421494,0.000e+00,yes
+mips,dsubu,other,7,6,0,1,0,1176,421494,2.790e-03,no
+mips,lhu,other,7,3,0,4,0,902,421494,2.140e-03,no
+mips,nor,other,7,3,0,4,0,14,421494,3.322e-05,no
+mips,rfe,other,7,2,0,5,0,0,421494,0.000e+00,yes
+mips,sub,other,7,0,0,7,0,0,421494,0.000e+00,yes
+mips,ble,other,6,0,0,2,4,0,421494,0.000e+00,yes
+mips,ins,bit manipulation,6,4,0,2,0,82,421494,1.945e-04,no
+mips,reg,other,6,6,0,0,0,0,421494,0.000e+00,yes
+mips,syncw,other,6,5,0,1,0,0,421494,0.000e+00,yes
+mips,asm_op,other,5,5,0,0,0,0,421494,0.000e+00,yes
+mips,bgtz,other,5,2,0,3,0,24,421494,5.694e-05,no
+mips,op,other,5,5,0,0,0,0,421494,0.000e+00,yes
+mips,pfx,other,5,5,0,0,0,0,421494,0.000e+00,yes
+mips,pref,cache maintenance,5,5,0,0,0,0,421494,0.000e+00,yes
+mips,sh,other,5,1,0,3,1,570,421494,1.352e-03,no
+mips,sra,other,5,0,0,5,0,139,421494,3.298e-04,no
+mips,synci,cache maintenance,5,4,0,1,0,0,421494,0.000e+00,yes
+mips,syscall,exception entry/return and system call,5,0,0,4,1,0,421494,0.000e+00,yes
+mips,addi,other,4,4,0,0,0,0,421494,0.000e+00,yes
+mips,dla,other,4,3,0,0,1,0,421494,0.000e+00,yes
+mips,movn,other,4,2,0,2,0,629,421494,1.492e-03,no
+mips,movz,other,4,0,0,4,0,557,421494,1.321e-03,no
+mips,wsbh,bit manipulation,4,4,0,0,0,388,421494,9.205e-04,no
+mips,beqzl,other,3,3,0,0,0,0,421494,0.000e+00,yes
+mips,bitswap,other,3,3,0,0,0,0,421494,0.000e+00,yes
+mips,dli,other,3,0,0,0,3,0,421494,0.000e+00,yes
+mips,dnegu,other,3,3,0,0,0,185,421494,4.389e-04,no
+mips,dsllv,other,3,0,0,3,0,88,421494,2.088e-04,no
+mips,dsra32,other,3,3,0,0,0,0,421494,0.000e+00,yes
+mips,dsrav,other,3,0,0,3,0,2,421494,4.745e-06,yes
+mips,dsrlv,other,3,0,0,3,0,56,421494,1.329e-04,no
+mips,dvpe,other,3,3,0,0,0,0,421494,0.000e+00,yes
+mips,mfcr,other,3,0,0,3,0,0,421494,0.000e+00,yes
+mips,sel,other,3,3,0,0,0,0,421494,0.000e+00,yes
+mips,bbit0,other,2,1,0,0,1,0,421494,0.000e+00,yes
+mips,dadd,other,2,0,0,2,0,0,421494,0.000e+00,yes
+mips,dmt,other,2,2,0,0,0,0,421494,0.000e+00,yes
+mips,dmuhu,other,2,2,0,0,0,0,421494,0.000e+00,yes
+mips,ei,interrupt masking,2,1,0,1,0,0,421494,0.000e+00,yes
+mips,evpe,other,2,2,0,0,0,0,421494,0.000e+00,yes
+mips,ldl,other,2,2,0,0,0,2310,421494,5.481e-03,no
+mips,ldr,other,2,2,0,0,0,2310,421494,5.481e-03,no
+mips,lwu,other,2,0,0,1,1,319,421494,7.568e-04,no
+mips,mult,other,2,1,0,1,0,2,421494,4.745e-06,yes
+mips,sdl,other,2,2,0,0,0,2305,421494,5.469e-03,no
+mips,sdr,other,2,2,0,0,0,2305,421494,5.469e-03,no
+mips,seq,other,2,0,0,2,0,0,421494,0.000e+00,yes
+mips,srav,other,2,0,0,2,0,7,421494,1.661e-05,no
+mips,srlv,other,2,0,0,2,0,180,421494,4.271e-04,no
+mips,synciobdma,other,2,2,0,0,0,0,421494,0.000e+00,yes
+mips,teq,debug and breakpoints,2,0,0,1,1,61,421494,1.447e-04,no
+mips,tne,debug and breakpoints,2,1,0,1,0,0,421494,0.000e+00,yes
+mips,addl,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,baddu,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,bc0f,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,bgeu,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,bgtu,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,blez,other,1,0,0,1,0,235,421494,5.575e-04,no
+mips,bnezl,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,cachee,cache maintenance,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,cfc0,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,cfcmsa,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,cins,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,clo,bit manipulation,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,ctc0,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,ctcmsa,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,daddi,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,dclo,bit manipulation,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,ddiv,other,1,0,0,1,0,5,421494,1.186e-05,no
+mips,ddivu,other,1,0,0,1,0,25,421494,5.931e-05,no
+mips,deret,exception entry/return and system call,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,div,other,1,0,0,1,0,17,421494,4.033e-05,no
+mips,divu,other,1,0,0,1,0,14,421494,3.322e-05,no
+mips,dmfgc0,privileged register access,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,dmtgc0,privileged register access,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,dmuh,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,dmult,other,1,0,0,1,0,690,421494,1.637e-03,no
+mips,dmultu,other,1,0,0,1,0,64,421494,1.518e-04,no
+mips,dmulu,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,dpop,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,dsbh,bit manipulation,1,1,0,0,0,82,421494,1.945e-04,no
+mips,dshd,bit manipulation,1,1,0,0,0,82,421494,1.945e-04,no
+mips,dsub,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,emt,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,ext,bit manipulation,1,1,0,0,0,400,421494,9.490e-04,no
+mips,ginvt,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,insn,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,lh,other,1,0,0,0,1,35,421494,8.304e-05,no
+mips,lock,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mfgc0,privileged register access,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mfhc0,privileged register access,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mfpc,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mfps,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mtcr,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,mtgc0,privileged register access,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mthc0,privileged register access,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mtm0,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mtm1,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mtm2,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mtp0,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mtp1,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mtp2,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mtpc,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,mtps,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,pop,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,rddsp,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,register,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,rotr,other,1,1,0,0,0,1444,421494,3.426e-03,no
+mips,sigrie,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,sys_clone,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,sys_clone3,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,sys_fork,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,sys_sysmips,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,tge,debug and breakpoints,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,tgeiu,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,tgeu,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,tlt,debug and breakpoints,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,tltu,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,tnei,other,1,0,0,1,0,0,421494,0.000e+00,yes
+mips,ulhu,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,ulw,other,1,1,0,0,0,0,421494,0.000e+00,yes
+mips,wrdsp,other,1,0,0,1,0,0,421494,0.000e+00,yes
+ppc,ld,other,1762,1118,500,13,131,61824,1496109,4.132e-02,no
+ppc,std,other,1455,877,449,11,118,50708,1496109,3.389e-02,no
+ppc,li,other,1274,838,184,229,23,108114,1496109,7.226e-02,no
+ppc,addi,other,1100,787,104,161,48,164648,1496109,1.101e-01,no
+ppc,lwz,other,977,627,109,199,42,86413,1496109,5.776e-02,no
+ppc,stw,other,695,455,79,134,27,69110,1496109,4.619e-02,no
+ppc,b,other,662,483,77,80,22,34598,1496109,2.313e-02,no
+ppc,isync,memory barrier and ordering,662,280,136,217,29,0,1496109,0.000e+00,yes
+ppc,bl,other,622,439,111,50,22,90028,1496109,6.017e-02,no
+ppc,blr,other,608,371,129,90,18,19685,1496109,1.316e-02,no
+ppc,bne,other,543,359,78,70,36,46755,1496109,3.125e-02,no
+ppc,beq,other,499,402,51,33,13,33323,1496109,2.227e-02,no
+ppc,sync,memory barrier and ordering,483,260,38,165,20,0,1496109,0.000e+00,yes
+ppc,mr,other,424,222,74,104,24,134109,1496109,8.964e-02,no
+ppc,mflr,other,397,178,173,28,18,20223,1496109,1.352e-02,no
+ppc,ori,other,381,276,45,53,7,5349,1496109,3.575e-03,no
+ppc,lis,other,350,254,21,72,3,26926,1496109,1.800e-02,no
+ppc,mtctr,other,315,233,19,31,32,29271,1496109,1.956e-02,no
+ppc,mtlr,other,310,137,127,33,13,11996,1496109,8.018e-03,no
+ppc,cmpwi,other,293,242,7,43,1,31237,1496109,2.088e-02,no
+ppc,rlwinm,other,293,255,17,10,11,8108,1496109,5.419e-03,no
+ppc,add,other,273,163,27,77,6,30523,1496109,2.040e-02,no
+ppc,andi,other,272,176,45,46,5,4078,1496109,2.726e-03,no
+ppc,or,other,241,194,26,14,7,4864,1496109,3.251e-03,no
+ppc,lvx,other,186,138,1,37,10,1073,1496109,7.172e-04,no
+ppc,bdnz,other,175,137,2,14,22,26700,1496109,1.785e-02,no
+ppc,stvx,other,174,125,1,38,10,625,1496109,4.178e-04,no
+ppc,stb,other,165,136,5,23,1,9159,1496109,6.122e-03,no
+ppc,bf,other,161,130,18,10,3,0,1496109,0.000e+00,yes
+ppc,nop,other,150,104,34,10,2,28767,1496109,1.923e-02,no
+ppc,stdu,other,144,43,96,1,4,10178,1496109,6.803e-03,no
+ppc,mtmsr,privileged register access,142,0,17,114,11,0,1496109,0.000e+00,yes
+ppc,mtcr,privileged register access,137,70,33,23,11,0,1496109,0.000e+00,yes
+ppc,cmpdi,other,134,115,12,1,6,4083,1496109,2.729e-03,no
+ppc,rlwimi,other,134,119,13,2,0,5291,1496109,3.537e-03,no
+ppc,lbz,other,127,118,3,6,0,16077,1496109,1.075e-02,no
+ppc,adde,other,112,74,2,18,18,1087,1496109,7.266e-04,no
+ppc,mfmsr,privileged register access,110,0,23,78,9,0,1496109,0.000e+00,yes
+ppc,oris,other,110,86,16,6,2,506,1496109,3.382e-04,no
+ppc,tlbwe,TLB and MMU maintenance,109,73,10,26,0,0,1496109,0.000e+00,yes
+ppc,ptesync,TLB and MMU maintenance,105,84,19,1,1,0,1496109,0.000e+00,yes
+ppc,andc,other,102,73,8,18,3,1026,1496109,6.858e-04,no
+ppc,lfd,other,101,21,3,34,43,967,1496109,6.463e-04,no
+ppc,extsw,other,100,8,92,0,0,3311,1496109,2.213e-03,no
+ppc,mfcr,privileged register access,100,54,23,16,7,733,1496109,4.899e-04,no
+ppc,stfd,other,100,19,3,36,42,816,1496109,5.454e-04,no
+ppc,blt,other,98,72,6,17,3,5206,1496109,3.480e-03,no
+ppc,subf,other,94,79,7,3,5,3939,1496109,2.633e-03,no
+ppc,addis,other,93,43,24,6,20,30374,1496109,2.030e-02,no
+ppc,srdi,other,92,77,8,1,6,775,1496109,5.180e-04,no
+ppc,rfi,exception entry/return and system call,89,61,14,14,0,0,1496109,0.000e+00,yes
+ppc,stwcx,atomics and exclusive access,88,36,26,5,21,0,1496109,0.000e+00,yes
+ppc,beqlr,other,86,46,4,34,2,902,1496109,6.029e-04,no
+ppc,mtmsrd,privileged register access,80,66,11,2,1,0,1496109,0.000e+00,yes
+ppc,cmplw,other,78,34,11,33,0,9691,1496109,6.477e-03,no
+ppc,lwarx,atomics and exclusive access,77,37,18,1,21,0,1496109,0.000e+00,yes
+ppc,rotlw,other,74,4,0,70,0,12,1496109,8.021e-06,yes
+ppc,cmpw,other,67,49,4,8,6,6999,1496109,4.678e-03,no
+ppc,clrldi,other,64,58,4,2,0,1647,1496109,1.101e-03,no
+ppc,cmplwi,other,63,43,2,17,1,33733,1496109,2.255e-02,no
+ppc,subi,other,58,54,0,4,0,0,1496109,0.000e+00,yes
+ppc,stwu,other,57,36,1,13,7,10518,1496109,7.030e-03,no
+ppc,cmpld,other,53,49,3,1,0,3563,1496109,2.382e-03,no
+ppc,rldicl,other,51,45,5,0,1,3635,1496109,2.430e-03,no
+ppc,mfctr,other,50,34,7,7,2,4,1496109,2.674e-06,yes
+ppc,msync,memory barrier and ordering,50,13,30,7,0,0,1496109,0.000e+00,yes
+ppc,tlbsync,TLB and MMU maintenance,49,30,9,8,2,0,1496109,0.000e+00,yes
+ppc,wrteei,interrupt masking,48,18,6,24,0,0,1496109,0.000e+00,yes
+ppc,and,other,47,25,15,3,4,5120,1496109,3.422e-03,no
+ppc,eieio,memory barrier and ordering,47,24,7,0,16,0,1496109,0.000e+00,yes
+ppc,bge,other,46,35,6,5,0,2895,1496109,1.935e-03,no
+ppc,clrrdi,other,46,37,7,0,2,0,1496109,0.000e+00,yes
+ppc,lhz,other,46,39,2,4,1,4990,1496109,3.335e-03,no
+ppc,srwi,other,45,31,5,7,2,6000,1496109,4.010e-03,no
+ppc,slwi,other,44,22,6,16,0,5030,1496109,3.362e-03,no
+ppc,bcl,other,43,43,0,0,0,2,1496109,1.337e-06,yes
+ppc,bctr,other,43,35,1,2,5,283,1496109,1.892e-04,no
+ppc,sth,other,43,35,3,5,0,4218,1496109,2.819e-03,no
+ppc,dcbf,cache maintenance,42,19,8,13,2,0,1496109,0.000e+00,yes
+ppc,lwzu,other,42,22,3,9,8,1551,1496109,1.037e-03,no
+ppc,mfsrr1,privileged register access,41,2,18,18,3,0,1496109,0.000e+00,yes
+ppc,andis,other,40,34,3,2,1,203,1496109,1.357e-04,no
+ppc,mtsprg1,other,40,0,20,16,4,0,1496109,0.000e+00,yes
+ppc,stdcx,atomics and exclusive access,39,15,16,0,8,0,1496109,0.000e+00,yes
+ppc,sub,other,39,19,4,16,0,4117,1496109,2.752e-03,no
+ppc,mtsrr1,privileged register access,37,17,13,6,1,0,1496109,0.000e+00,yes
+ppc,la,other,36,4,0,0,32,21167,1496109,1.415e-02,no
+ppc,tlbre,TLB and MMU maintenance,36,16,7,13,0,0,1496109,0.000e+00,yes
+ppc,mtibatu,other,35,4,5,26,0,0,1496109,0.000e+00,yes
+ppc,mtsrr0,privileged register access,35,17,13,3,2,0,1496109,0.000e+00,yes
+ppc,blrl,other,34,0,16,13,5,0,1496109,0.000e+00,yes
+ppc,mfsprg1,other,34,0,17,14,3,0,1496109,0.000e+00,yes
+ppc,mtdbatu,other,34,4,10,20,0,0,1496109,0.000e+00,yes
+ppc,lbzu,other,33,25,1,2,5,17248,1496109,1.153e-02,no
+ppc,mtsprg2,other,33,0,16,10,7,0,1496109,0.000e+00,yes
+ppc,sldi,other,33,22,3,2,6,1931,1496109,1.291e-03,no
+ppc,mftb,timers and counters,32,13,6,8,5,0,1496109,0.000e+00,yes
+ppc,slbmte,TLB and MMU maintenance,32,18,11,0,3,0,1496109,0.000e+00,yes
+ppc,ldarx,atomics and exclusive access,31,13,11,0,7,0,1496109,0.000e+00,yes
+ppc,xori,other,30,29,1,0,0,1463,1496109,9.779e-04,no
+ppc,mtocrf,other,29,29,0,0,0,327,1496109,2.186e-04,no
+ppc,bgt,other,28,21,0,7,0,5347,1496109,3.574e-03,no
+ppc,ble,other,28,27,0,1,0,3760,1496109,2.513e-03,no
+ppc,dcbst,cache maintenance,28,10,3,13,2,0,1496109,0.000e+00,yes
+ppc,mfdbatu,other,28,4,0,24,0,0,1496109,0.000e+00,yes
+ppc,mtcrf,privileged register access,28,15,7,6,0,756,1496109,5.053e-04,no
+ppc,tlbie,TLB and MMU maintenance,28,17,5,4,2,0,1496109,0.000e+00,yes
+ppc,cmpldi,other,27,23,3,0,1,5034,1496109,3.365e-03,no
+ppc,lfs,other,26,2,0,0,24,676,1496109,4.518e-04,no
+ppc,mtibatl,other,26,4,2,20,0,0,1496109,0.000e+00,yes
+ppc,mtxer,other,26,12,3,9,2,0,1496109,0.000e+00,yes
+ppc,neg,other,26,20,3,1,2,1284,1496109,8.582e-04,no
+ppc,reg,other,26,26,0,0,0,0,1496109,0.000e+00,yes
+ppc,stbu,other,26,17,1,3,5,200,1496109,1.337e-04,no
+ppc,trap,debug and breakpoints,26,11,0,14,1,26,1496109,1.738e-05,no
+ppc,wrtee,interrupt masking,26,13,5,8,0,0,1496109,0.000e+00,yes
+ppc,addic,other,25,11,1,7,6,570,1496109,3.810e-04,no
+ppc,ba,other,25,1,4,20,0,0,1496109,0.000e+00,yes
+ppc,mfibatu,other,25,4,0,21,0,0,1496109,0.000e+00,yes
+ppc,bctrl,other,24,11,5,5,3,1970,1496109,1.317e-03,no
+ppc,lwzx,other,24,17,1,6,0,1760,1496109,1.176e-03,no
+ppc,mfibatl,other,24,4,0,20,0,0,1496109,0.000e+00,yes
+ppc,mtsprg3,other,24,0,16,5,3,0,1496109,0.000e+00,yes
+ppc,tlbsx,TLB and MMU maintenance,24,18,1,5,0,0,1496109,0.000e+00,yes
+ppc,dcbt,cache maintenance,23,15,1,7,0,0,1496109,0.000e+00,yes
+ppc,icbi,cache maintenance,23,11,2,7,3,0,1496109,0.000e+00,yes
+ppc,rldimi,other,22,22,0,0,0,523,1496109,3.496e-04,no
+ppc,slbia,TLB and MMU maintenance,22,12,5,2,3,0,1496109,0.000e+00,yes
+ppc,cmpd,other,21,15,3,0,3,475,1496109,3.175e-04,no
+ppc,mfdar,other,21,5,8,4,4,0,1496109,0.000e+00,yes
+ppc,mfxer,other,21,11,4,4,2,0,1496109,0.000e+00,yes
+ppc,mtspr,privileged register access,21,0,0,0,21,0,1496109,0.000e+00,yes
+ppc,slw,other,21,21,0,0,0,1199,1496109,8.014e-04,no
+ppc,addze,other,20,13,0,4,3,558,1496109,3.730e-04,no
+ppc,mfdbatl,other,20,4,0,16,0,0,1496109,0.000e+00,yes
+ppc,mfspr,privileged register access,20,0,0,0,20,0,1496109,0.000e+00,yes
+ppc,mfsprg2,other,20,0,10,7,3,0,1496109,0.000e+00,yes
+ppc,mtdbatl,other,20,4,6,10,0,0,1496109,0.000e+00,yes
+ppc,rfid,exception entry/return and system call,20,5,12,0,3,0,1496109,0.000e+00,yes
+ppc,sld,other,20,20,0,0,0,183,1496109,1.223e-04,no
+ppc,stfs,other,18,2,0,0,16,52,1496109,3.476e-05,no
+ppc,subfic,other,18,16,0,0,2,9135,1496109,6.106e-03,no
+ppc,cror,other,17,17,0,0,0,244,1496109,1.631e-04,no
+ppc,dcbz,cache maintenance,17,9,2,4,2,0,1496109,0.000e+00,yes
+ppc,evmergehi,other,17,0,0,17,0,0,1496109,0.000e+00,yes
+ppc,evmergelo,other,17,0,0,17,0,0,1496109,0.000e+00,yes
+ppc,ldu,other,17,15,0,1,1,251,1496109,1.678e-04,no
+ppc,ldx,other,17,14,3,0,0,1940,1496109,1.297e-03,no
+ppc,stwbrx,other,17,3,3,10,1,422,1496109,2.821e-04,no
+ppc,xor,other,17,15,1,1,0,13108,1496109,8.761e-03,no
+ppc,evstdw,other,16,0,0,16,0,0,1496109,0.000e+00,yes
+ppc,lwbrx,other,16,3,3,9,1,551,1496109,3.683e-04,no
+ppc,evldw,other,15,0,0,15,0,0,1496109,0.000e+00,yes
+ppc,slbie,TLB and MMU maintenance,15,4,8,0,3,0,1496109,0.000e+00,yes
+ppc,srw,other,15,15,0,0,0,752,1496109,5.026e-04,no
+ppc,bt,other,14,4,5,5,0,0,1496109,0.000e+00,yes
+ppc,lwsync,memory barrier and ordering,14,10,4,0,0,0,1496109,0.000e+00,yes
+ppc,mffs,context and FPU/vector state,14,5,2,4,3,0,1496109,0.000e+00,yes
+ppc,mfsrin,privileged register access,14,5,1,8,0,0,1496109,0.000e+00,yes
+ppc,mtsrin,privileged register access,14,6,1,6,1,0,1496109,0.000e+00,yes
+ppc,srd,other,14,14,0,0,0,119,1496109,7.954e-05,no
+ppc,stbcx,atomics and exclusive access,14,8,6,0,0,0,1496109,0.000e+00,yes
+ppc,sthbrx,other,14,3,3,7,1,88,1496109,5.882e-05,no
+ppc,xoris,other,14,9,2,3,0,1251,1496109,8.362e-04,no
+ppc,bdz,other,13,9,1,0,3,290,1496109,1.938e-04,no
+ppc,clrlwi,other,13,11,0,0,2,2013,1496109,1.345e-03,no
+ppc,clrrwi,other,13,4,2,7,0,0,1496109,0.000e+00,yes
+ppc,lfsu,other,13,0,0,0,13,4,1496109,2.674e-06,yes
+ppc,lhbrx,other,13,3,3,6,1,40,1496109,2.674e-05,no
+ppc,mfdsisr,other,13,4,5,2,2,0,1496109,0.000e+00,yes
+ppc,mfsprg,privileged register access,13,8,4,0,1,0,1496109,0.000e+00,yes
+ppc,mfsprg0,other,13,0,4,2,7,0,1496109,0.000e+00,yes
+ppc,twi,debug and breakpoints,13,13,0,0,0,0,1496109,0.000e+00,yes
+ppc,bdnzf,other,12,7,3,2,0,0,1496109,0.000e+00,yes
+ppc,bla,other,12,0,0,12,0,0,1496109,0.000e+00,yes
+ppc,bnelr,other,12,11,0,1,0,386,1496109,2.580e-04,no
+ppc,lbarx,atomics and exclusive access,12,8,4,0,0,0,1496109,0.000e+00,yes
+ppc,lfsx,other,12,12,0,0,0,24,1496109,1.604e-05,no
+ppc,slbmfee,TLB and MMU maintenance,12,3,6,0,3,0,1496109,0.000e+00,yes
+ppc,sthcx,atomics and exclusive access,12,6,6,0,0,0,1496109,0.000e+00,yes
+ppc,evmergehilo,other,11,0,0,11,0,0,1496109,0.000e+00,yes
+ppc,mfsprg3,other,11,0,5,4,2,0,1496109,0.000e+00,yes
+ppc,mftbu,timers and counters,11,2,1,5,3,0,1496109,0.000e+00,yes
+ppc,mtsr,privileged register access,11,1,3,5,2,0,1496109,0.000e+00,yes
+ppc,sc,exception entry/return and system call,11,4,4,2,1,0,1496109,0.000e+00,yes
+ppc,stwx,other,11,5,2,4,0,625,1496109,4.178e-04,no
+ppc,addc,other,10,7,1,1,1,1278,1496109,8.542e-04,no
+ppc,asm_op,other,10,10,0,0,0,0,1496109,0.000e+00,yes
+ppc,cntlzw,bit manipulation,10,8,0,0,2,804,1496109,5.374e-04,no
+ppc,fmuls,other,10,4,0,0,6,0,1496109,0.000e+00,yes
+ppc,lharx,atomics and exclusive access,10,6,4,0,0,0,1496109,0.000e+00,yes
+ppc,mbar,memory barrier and ordering,10,3,2,5,0,0,1496109,0.000e+00,yes
+ppc,mfpvr,privileged register access,10,4,3,3,0,0,1496109,0.000e+00,yes
+ppc,mtsdr1,privileged register access,10,1,2,5,2,0,1496109,0.000e+00,yes
+ppc,op,other,10,10,0,0,0,0,1496109,0.000e+00,yes
+ppc,rotldi,other,10,10,0,0,0,813,1496109,5.434e-04,no
+ppc,fsel,other,9,0,0,0,9,0,1496109,0.000e+00,yes
+ppc,mttbl,other,9,4,0,3,2,0,1496109,0.000e+00,yes
+ppc,mulli,other,9,9,0,0,0,1069,1496109,7.145e-04,no
+ppc,tlbivax,TLB and MMU maintenance,9,4,3,2,0,0,1496109,0.000e+00,yes
+ppc,cmpli,other,8,1,7,0,0,0,1496109,0.000e+00,yes
+ppc,mfsdr1,privileged register access,8,2,0,6,0,0,1496109,0.000e+00,yes
+ppc,mfsrr0,privileged register access,8,3,5,0,0,0,1496109,0.000e+00,yes
+ppc,mtdec,privileged register access,8,3,1,3,1,0,1496109,0.000e+00,yes
+ppc,mtfsf,context and FPU/vector state,8,0,2,2,4,0,1496109,0.000e+00,yes
+ppc,mtsprg,privileged register access,8,6,2,0,0,0,1496109,0.000e+00,yes
+ppc,mtsprg0,other,8,0,3,3,2,0,1496109,0.000e+00,yes
+ppc,rldicr,other,8,6,2,0,0,112,1496109,7.486e-05,no
+ppc,stbx,other,8,2,1,5,0,1141,1496109,7.626e-04,no
+ppc,sthx,other,8,3,1,4,0,326,1496109,2.179e-04,no
+ppc,subfe,other,8,5,2,1,0,629,1496109,4.204e-04,no
+ppc,tlbld,other,8,4,2,2,0,0,1496109,0.000e+00,yes
+ppc,bdnzt,other,7,7,0,0,0,0,1496109,0.000e+00,yes
+ppc,dcba,other,7,0,0,7,0,0,1496109,0.000e+00,yes
+ppc,dcbi,cache maintenance,7,1,0,5,1,0,1496109,0.000e+00,yes
+ppc,divwu,other,7,7,0,0,0,138,1496109,9.224e-05,no
+ppc,extrwi,other,7,6,0,1,0,0,1496109,0.000e+00,yes
+ppc,fsubs,other,7,1,0,0,6,0,1496109,0.000e+00,yes
+ppc,lbzx,other,7,4,0,3,0,17472,1496109,1.168e-02,no
+ppc,lhzx,other,7,4,0,3,0,363,1496109,2.426e-04,no
+ppc,mfvscr,context and FPU/vector state,7,3,1,1,2,0,1496109,0.000e+00,yes
+ppc,mtvscr,context and FPU/vector state,7,3,1,1,2,0,1496109,0.000e+00,yes
+ppc,mullw,other,7,6,0,1,0,8013,1496109,5.356e-03,no
+ppc,rfci,exception entry/return and system call,7,3,3,1,0,0,1496109,0.000e+00,yes
+ppc,hwsync,memory barrier and ordering,6,6,0,0,0,0,1496109,0.000e+00,yes
+ppc,mfsr,privileged register access,6,1,0,3,2,0,1496109,0.000e+00,yes
+ppc,mtfsb0,context and FPU/vector state,6,0,0,6,0,0,1496109,0.000e+00,yes
+ppc,rotlwi,other,6,5,0,1,0,5047,1496109,3.373e-03,no
+ppc,stdx,other,6,4,1,1,0,1630,1496109,1.089e-03,no
+ppc,stfsx,other,6,6,0,0,0,12,1496109,8.021e-06,yes
+ppc,stmw,other,6,4,2,0,0,2811,1496109,1.879e-03,no
+ppc,stptrcx,other,6,0,0,6,0,0,1496109,0.000e+00,yes
+ppc,bnl,other,5,5,0,0,0,12,1496109,8.021e-06,yes
+ppc,dssall,other,5,0,0,5,0,0,1496109,0.000e+00,yes
+ppc,mtdar,other,5,3,0,2,0,0,1496109,0.000e+00,yes
+ppc,mttbu,other,5,2,0,2,1,0,1496109,0.000e+00,yes
+ppc,srawi,other,5,5,0,0,0,912,1496109,6.096e-04,no
+ppc,sthu,other,5,0,0,5,0,54,1496109,3.609e-05,no
+ppc,subfc,other,5,3,1,1,0,370,1496109,2.473e-04,no
+ppc,tdne,other,5,5,0,0,0,0,1496109,0.000e+00,yes
+ppc,tlbiel,TLB and MMU maintenance,5,3,1,0,1,0,1496109,0.000e+00,yes
+ppc,beqa,other,4,4,0,0,0,0,1496109,0.000e+00,yes
+ppc,beql,other,4,4,0,0,0,0,1496109,0.000e+00,yes
+ppc,bltlr,other,4,4,0,0,0,62,1496109,4.144e-05,no
+ppc,fadds,other,4,1,0,0,3,48,1496109,3.208e-05,no
+ppc,fmadds,other,4,3,0,0,1,16,1496109,1.069e-05,no
+ppc,fnmsubs,other,4,3,0,0,1,0,1496109,0.000e+00,yes
+ppc,insrdi,other,4,1,3,0,0,0,1496109,0.000e+00,yes
+ppc,lmw,other,4,3,1,0,0,59,1496109,3.944e-05,no
+ppc,lswx,string and memory block,4,0,0,4,0,0,1496109,0.000e+00,yes
+ppc,not,other,4,2,2,0,0,552,1496109,3.690e-04,no
+ppc,slbmfev,TLB and MMU maintenance,4,3,1,0,0,0,1496109,0.000e+00,yes
+ppc,sraw,other,4,4,0,0,0,138,1496109,9.224e-05,no
+ppc,stswx,string and memory block,4,0,0,4,0,0,1496109,0.000e+00,yes
+ppc,stvxl,other,4,0,0,3,1,0,1496109,0.000e+00,yes
+ppc,tdnei,other,4,4,0,0,0,0,1496109,0.000e+00,yes
+ppc,twnei,other,4,2,0,2,0,0,1496109,0.000e+00,yes
+ppc,vor,other,4,4,0,0,0,87,1496109,5.815e-05,no
+ppc,vxor,other,4,0,1,2,1,281,1496109,1.878e-04,no
+ppc,bdneq,other,3,0,0,3,0,0,1496109,0.000e+00,yes
+ppc,cmp,other,3,0,3,0,0,0,1496109,0.000e+00,yes
+ppc,cmpi,other,3,3,0,0,0,0,1496109,0.000e+00,yes
+ppc,evmra,other,3,2,0,1,0,0,1496109,0.000e+00,yes
+ppc,evxor,other,3,2,0,1,0,0,1496109,0.000e+00,yes
+ppc,ldbrx,other,3,2,0,1,0,5,1496109,3.342e-06,yes
+ppc,lhzu,other,3,0,0,3,0,283,1496109,1.892e-04,no
+ppc,lvewx,other,3,0,1,1,1,0,1496109,0.000e+00,yes
+ppc,mfdec,privileged register access,3,0,2,1,0,0,1496109,0.000e+00,yes
+ppc,mftbl,timers and counters,3,2,0,1,0,0,1496109,0.000e+00,yes
+ppc,miso,other,3,3,0,0,0,0,1496109,0.000e+00,yes
+ppc,mtdcr,privileged register access,3,0,0,3,0,0,1496109,0.000e+00,yes
+ppc,mtdsisr,other,3,1,0,2,0,0,1496109,0.000e+00,yes
+ppc,orc,other,3,3,0,0,0,401,1496109,2.680e-04,no
+ppc,rfmci,exception entry/return and system call,3,1,1,1,0,0,1496109,0.000e+00,yes
+ppc,rotrdi,other,3,3,0,0,0,0,1496109,0.000e+00,yes
+ppc,stvewx,other,3,0,1,1,1,0,1496109,0.000e+00,yes
+ppc,tlbli,other,3,1,1,1,0,0,1496109,0.000e+00,yes
+ppc,tweqi,other,3,0,0,3,0,0,1496109,0.000e+00,yes
+ppc,addme,other,2,2,0,0,0,63,1496109,4.211e-05,no
+ppc,bgtlr,other,2,2,0,0,0,89,1496109,5.949e-05,no
+ppc,crand,other,2,2,0,0,0,377,1496109,2.520e-04,no
+ppc,crclr,other,2,2,0,0,0,0,1496109,0.000e+00,yes
+ppc,dcbtst,cache maintenance,2,1,1,0,0,0,1496109,0.000e+00,yes
+ppc,dcr,other,2,2,0,0,0,0,1496109,0.000e+00,yes
+ppc,evldd,other,2,0,0,2,0,0,1496109,0.000e+00,yes
+ppc,evlddx,other,2,2,0,0,0,0,1496109,0.000e+00,yes
+ppc,evmwumiaa,other,2,2,0,0,0,0,1496109,0.000e+00,yes
+ppc,evstddx,other,2,2,0,0,0,0,1496109,0.000e+00,yes
+ppc,fabs,other,2,0,0,0,2,52,1496109,3.476e-05,no
+ppc,hrfid,exception entry/return and system call,2,2,0,0,0,0,1496109,0.000e+00,yes
+ppc,iccci,other,2,2,0,0,0,0,1496109,0.000e+00,yes
+ppc,lvxl,other,2,0,0,1,1,0,1496109,0.000e+00,yes
+ppc,lxvd2x,other,2,0,1,0,1,60,1496109,4.010e-05,no
+ppc,mfocrf,other,2,2,0,0,0,199,1496109,1.330e-04,no
+ppc,mfrtcl,other,2,0,0,2,0,0,1496109,0.000e+00,yes
+ppc,mfrtcu,other,2,0,0,2,0,0,1496109,0.000e+00,yes
+ppc,rfdi,exception entry/return and system call,2,1,1,0,0,0,1496109,0.000e+00,yes
+ppc,rlwnm,other,2,1,0,1,0,1,1496109,6.684e-07,yes
+ppc,stop,"spin-wait, idle and hints",2,0,0,0,2,0,1496109,0.000e+00,yes
+ppc,stxvd2x,other,2,0,1,0,1,61,1496109,4.077e-05,no
+ppc,tdeqi,other,2,2,0,0,0,0,1496109,0.000e+00,yes
+ppc,addie,other,1,0,1,0,0,0,1496109,0.000e+00,yes
+ppc,bflr,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,blelr,other,1,1,0,0,0,48,1496109,3.208e-05,no
+ppc,bnectr,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,btlr,other,1,0,1,0,0,0,1496109,0.000e+00,yes
+ppc,clrlsldi,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,clrlslwi,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,clrrptri,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,cmpb,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,cntlzd,bit manipulation,1,1,0,0,0,59,1496109,3.944e-05,no
+ppc,crmove,other,1,1,0,0,0,121,1496109,8.088e-05,no
+ppc,crnot,other,1,1,0,0,0,261,1496109,1.745e-04,no
+ppc,crset,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,darn,random numbers,1,0,0,0,1,0,1496109,0.000e+00,yes
+ppc,dcbzl,cache maintenance,1,0,0,0,1,0,1496109,0.000e+00,yes
+ppc,"decrementer,",other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,divd,other,1,1,0,0,0,16,1496109,1.069e-05,no
+ppc,divdu,other,1,1,0,0,0,80,1496109,5.347e-05,no
+ppc,divw,other,1,1,0,0,0,93,1496109,6.216e-05,no
+ppc,"doorbell,",other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,evaddumiaaw,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,evstdd,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,extrdi,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,fdivs,other,1,1,0,0,0,2,1496109,1.337e-06,yes
+ppc,fmr,other,1,1,0,0,0,332,1496109,2.219e-04,no
+ppc,fres,other,1,0,0,0,1,0,1496109,0.000e+00,yes
+ppc,frsqrte,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,insrwi,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,iseleq,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,iselgt,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,isyncnop,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,lbzux,other,1,0,0,1,0,63,1496109,4.211e-05,no
+ppc,lhzux,other,1,0,0,1,0,24,1496109,1.604e-05,no
+ppc,lq,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,lswi,string and memory block,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,lwax,other,1,1,0,0,0,130,1496109,8.689e-05,no
+ppc,lwdx,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,lwzux,other,1,0,0,1,0,101,1496109,6.751e-05,no
+ppc,lxvw4x,other,1,0,1,0,0,0,1496109,0.000e+00,yes
+ppc,mfasr,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,mfdcr,privileged register access,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,mfpmr,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,mftbhi,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,mftblo,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,mtasr,other,1,0,1,0,0,0,1496109,0.000e+00,yes
+ppc,mtdccr,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,mticcr,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,mtpid,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,mtpmr,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,mulhd,other,1,1,0,0,0,1,1496109,6.684e-07,yes
+ppc,mulhw,other,1,1,0,0,0,5,1496109,3.342e-06,yes
+ppc,nap,"spin-wait, idle and hints",1,0,1,0,0,0,1496109,0.000e+00,yes
+ppc,nor,other,1,1,0,0,0,107,1496109,7.152e-05,no
+ppc,popcntd,bit manipulation,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,r13,other,1,0,0,0,1,0,1496109,0.000e+00,yes
+ppc,r2,other,1,0,0,0,1,2,1496109,1.337e-06,yes
+ppc,rotld,other,1,0,0,1,0,8,1496109,5.347e-06,yes
+ppc,rotrwi,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,stbux,other,1,0,0,1,0,40,1496109,2.674e-05,no
+ppc,stdbrx,other,1,0,0,1,0,9,1496109,6.016e-06,yes
+ppc,sthux,other,1,0,0,1,0,6,1496109,4.010e-06,yes
+ppc,stq,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,stswi,string and memory block,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,stwux,other,1,0,0,1,0,43,1496109,2.874e-05,no
+ppc,stxvw4x,other,1,0,1,0,0,64,1496109,4.278e-05,no
+ppc,subfme,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,subfze,other,1,1,0,0,0,37,1496109,2.473e-05,no
+ppc,tdgei,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,tdi,debug and breakpoints,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,tlbia,TLB and MMU maintenance,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,tlbrehi,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,tlbrelo,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,tweq,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,twlgti,other,1,1,0,0,0,0,1496109,0.000e+00,yes
+ppc,twllei,other,1,0,0,1,0,0,1496109,0.000e+00,yes
+ppc,vctsxs,other,1,0,0,0,1,0,1496109,0.000e+00,yes
+ppc,vctuxs,other,1,0,0,0,1,0,1496109,0.000e+00,yes
+ppc,vexptefp,other,1,0,0,0,1,0,1496109,0.000e+00,yes
+ppc,vlogefp,other,1,0,0,0,1,0,1496109,0.000e+00,yes
+ppc,vrsqrtefp,other,1,0,0,0,1,0,1496109,0.000e+00,yes
+ppc,wait,"spin-wait, idle and hints",1,1,0,0,0,0,1496109,0.000e+00,yes
+riscv,li,other,334,149,75,76,34,138209,1454720,9.501e-02,no
+riscv,ld,other,299,3,199,3,94,157343,1454720,1.082e-01,no
+riscv,sd,other,288,1,173,4,110,121674,1454720,8.364e-02,no
+riscv,addi,other,220,128,27,31,34,234216,1454720,1.610e-01,no
+riscv,mv,other,205,111,41,35,18,134338,1454720,9.235e-02,no
+riscv,ret,other,180,101,33,38,8,20341,1454720,1.398e-02,no
+riscv,add,other,167,96,23,39,9,45997,1454720,3.162e-02,no
+riscv,fld,other,161,64,64,32,1,1058,1454720,7.273e-04,no
+riscv,fsd,other,161,64,64,32,1,299,1454720,2.055e-04,no
+riscv,csrw,privileged register access,109,51,21,19,18,0,1454720,0.000e+00,yes
+riscv,la,other,99,50,21,10,18,0,1454720,0.000e+00,yes
+riscv,csrr,privileged register access,84,38,20,15,11,1,1454720,6.874e-07,yes
+riscv,beqz,other,83,35,18,17,13,20870,1454720,1.435e-02,no
+riscv,bnez,other,70,41,6,17,6,29496,1454720,2.028e-02,no
+riscv,call,other,69,23,12,23,11,89757,1454720,6.170e-02,no
+riscv,andi,other,66,51,6,4,5,7883,1454720,5.419e-03,no
+riscv,j,other,63,25,11,16,11,29138,1454720,2.003e-02,no
+riscv,fence,memory barrier and ordering,62,1,0,24,37,0,1454720,0.000e+00,yes
+riscv,or,other,49,24,9,10,6,16938,1454720,1.164e-02,no
+riscv,sub,other,47,36,4,2,5,6042,1454720,4.153e-03,no
+riscv,bne,other,44,28,10,6,0,46504,1454720,3.197e-02,no
+riscv,bltu,other,39,27,2,3,7,6139,1454720,4.220e-03,no
+riscv,csrrw,privileged register access,35,11,14,5,5,0,1454720,0.000e+00,yes
+riscv,slli,other,33,24,3,4,2,21632,1454720,1.487e-02,no
+riscv,srli,other,33,15,5,8,5,13097,1454720,9.003e-03,no
+riscv,fcvt.d.l,other,32,0,32,0,0,153,1454720,1.052e-04,no
+riscv,flw,other,32,32,0,0,0,157,1454720,1.079e-04,no
+riscv,fmv.s.x,other,32,32,0,0,0,2,1454720,1.375e-06,yes
+riscv,fsw,other,32,32,0,0,0,77,1454720,5.293e-05,no
+riscv,lla,other,31,1,17,3,10,0,1454720,0.000e+00,yes
+riscv,sb,other,31,17,5,5,4,16769,1454720,1.153e-02,no
+riscv,csrs,privileged register access,30,16,6,4,4,0,1454720,0.000e+00,yes
+riscv,sfence.vma,TLB and MMU maintenance,30,9,6,6,9,0,1454720,0.000e+00,yes
+riscv,and,other,28,12,10,5,1,9223,1454720,6.340e-03,no
+riscv,csrc,privileged register access,28,11,5,5,7,0,1454720,0.000e+00,yes
+riscv,lw,other,27,17,4,3,3,22806,1454720,1.568e-02,no
+riscv,tail,other,27,7,1,19,0,4228,1454720,2.906e-03,no
+riscv,beq,other,25,21,1,3,0,13827,1454720,9.505e-03,no
+riscv,bgeu,other,23,5,14,1,3,3727,1454720,2.562e-03,no
+riscv,jr,other,23,16,0,4,3,4758,1454720,3.271e-03,no
+riscv,lb,other,23,17,3,0,3,991,1454720,6.812e-04,no
+riscv,sll,other,22,17,0,5,0,332,1454720,2.282e-04,no
+riscv,sw,other,20,7,6,4,3,15713,1454720,1.080e-02,no
+riscv,lbu,other,19,12,2,5,0,57523,1454720,3.954e-02,no
+riscv,srl,other,18,16,0,2,0,450,1454720,3.093e-04,no
+riscv,ecall,exception entry/return and system call,14,5,3,4,2,0,1454720,0.000e+00,yes
+riscv,jal,other,14,9,3,0,2,0,1454720,0.000e+00,yes
+riscv,sret,exception entry/return and system call,14,4,5,2,3,0,1454720,0.000e+00,yes
+riscv,wfi,"spin-wait, idle and hints",14,2,5,6,1,0,1454720,0.000e+00,yes
+riscv,move,other,13,13,0,0,0,0,1454720,0.000e+00,yes
+riscv,csrsi,privileged register access,11,0,2,6,3,0,1454720,0.000e+00,yes
+riscv,fence.i,memory barrier and ordering,11,4,1,4,2,0,1454720,0.000e+00,yes
+riscv,jalr,other,11,10,0,0,1,1963,1454720,1.349e-03,no
+riscv,lr.w,atomics and exclusive access,10,6,3,1,0,0,1454720,0.000e+00,yes
+riscv,asm_op,other,9,9,0,0,0,0,1454720,0.000e+00,yes
+riscv,vle8.v,other,9,5,4,0,0,549,1454720,3.774e-04,no
+riscv,vse8.v,other,9,5,4,0,0,586,1454720,4.028e-04,no
+riscv,bge,other,8,6,0,2,0,882,1454720,6.063e-04,no
+riscv,ebreak,debug and breakpoints,8,3,1,2,2,13,1454720,8.936e-06,yes
+riscv,fscsr,other,8,3,3,1,1,0,1454720,0.000e+00,yes
+riscv,not,other,8,7,0,1,0,982,1454720,6.750e-04,no
+riscv,vmv.v.i,other,8,8,0,0,0,29,1454720,1.994e-05,no
+riscv,xor,other,8,6,1,1,0,13183,1454720,9.062e-03,no
+riscv,blt,other,7,5,1,0,1,1950,1454720,1.340e-03,no
+riscv,frcsr,other,7,3,2,1,1,0,1454720,0.000e+00,yes
+riscv,orc.b,bit manipulation,7,7,0,0,0,0,1454720,0.000e+00,yes
+riscv,sc.w,atomics and exclusive access,7,3,3,1,0,0,1454720,0.000e+00,yes
+riscv,sh,other,7,1,2,4,0,2790,1454720,1.918e-03,no
+riscv,vsetvli,context and FPU/vector state,7,5,2,0,0,1,1454720,6.874e-07,yes
+riscv,a0,other,6,2,2,1,1,0,1454720,0.000e+00,yes
+riscv,bgtu,other,6,2,0,0,4,1098,1454720,7.548e-04,no
+riscv,csrci,privileged register access,6,0,2,2,2,0,1454720,0.000e+00,yes
+riscv,lhu,other,6,0,2,4,0,3292,1454720,2.263e-03,no
+riscv,rev8,bit manipulation,6,6,0,0,0,618,1454720,4.248e-04,no
+riscv,sext.w,other,6,6,0,0,0,1551,1454720,1.066e-03,no
+riscv,w,other,6,6,0,0,0,3,1454720,2.062e-06,yes
+riscv,a1,other,5,2,1,1,1,0,1454720,0.000e+00,yes
+riscv,amoadd.w,atomics and exclusive access,5,1,4,0,0,0,1454720,0.000e+00,yes
+riscv,csrrci,privileged register access,5,0,1,3,1,0,1454720,0.000e+00,yes
+riscv,lr.d,atomics and exclusive access,5,1,3,1,0,0,1454720,0.000e+00,yes
+riscv,regname,other,5,0,0,5,0,0,1454720,0.000e+00,yes
+riscv,sstatus,other,5,0,4,0,1,0,1454720,0.000e+00,yes
+riscv,time,other,5,0,1,1,3,0,1454720,0.000e+00,yes
+riscv,a2,other,4,1,1,1,1,0,1454720,0.000e+00,yes
+riscv,a3,other,4,1,1,1,1,0,1454720,0.000e+00,yes
+riscv,a6,other,4,1,1,1,1,0,1454720,0.000e+00,yes
+riscv,a7,other,4,1,1,1,1,0,1454720,0.000e+00,yes
+riscv,auipc,other,4,3,0,1,0,0,1454720,0.000e+00,yes
+riscv,bgtz,other,4,4,0,0,0,141,1454720,9.693e-05,no
+riscv,hvip,other,4,0,4,0,0,0,1454720,0.000e+00,yes
+riscv,lr.,other,4,4,0,0,0,0,1454720,0.000e+00,yes
+riscv,mulw,other,4,0,3,0,1,1591,1454720,1.094e-03,no
+riscv,sc.,other,4,4,0,0,0,0,1454720,0.000e+00,yes
+riscv,sc.d,atomics and exclusive access,4,0,3,1,0,0,1454720,0.000e+00,yes
+riscv,vl8r.v,other,4,0,0,0,4,0,1454720,0.000e+00,yes
+riscv,vs8r.v,other,4,0,0,0,4,0,1454720,0.000e+00,yes
+riscv,vsetvl,context and FPU/vector state,4,2,1,0,1,0,1454720,0.000e+00,yes
+riscv,a4,other,3,1,1,1,0,0,1454720,0.000e+00,yes
+riscv,amo,other,3,3,0,0,0,0,1454720,0.000e+00,yes
+riscv,amoadd.d,atomics and exclusive access,3,0,3,0,0,0,1454720,0.000e+00,yes
+riscv,amoand.w,atomics and exclusive access,3,0,2,0,1,0,1454720,0.000e+00,yes
+riscv,amoor.d,atomics and exclusive access,3,0,3,0,0,0,1454720,0.000e+00,yes
+riscv,amoor.w,atomics and exclusive access,3,0,2,0,1,0,1454720,0.000e+00,yes
+riscv,blez,other,3,3,0,0,0,885,1454720,6.084e-04,no
+riscv,bltz,other,3,2,0,1,0,1521,1454720,1.046e-03,no
+riscv,cycle,other,3,0,1,1,1,0,1454720,0.000e+00,yes
+riscv,d,other,3,3,0,0,0,30,1454720,2.062e-05,no
+riscv,minu,other,3,3,0,0,0,299,1454720,2.055e-04,no
+riscv,neg,other,3,3,0,0,0,1032,1454720,7.094e-04,no
+riscv,negw,other,3,3,0,0,0,667,1454720,4.585e-04,no
+riscv,see,other,3,0,0,3,0,0,1454720,0.000e+00,yes
+riscv,sie,other,3,0,1,0,2,0,1454720,0.000e+00,yes
+riscv,sra,other,3,3,0,0,0,7,1454720,4.812e-06,yes
+riscv,srai,other,3,3,0,0,0,665,1454720,4.571e-04,no
+riscv,t0,other,3,0,3,0,0,0,1454720,0.000e+00,yes
+riscv,th.sync.s,other,3,0,0,0,3,0,1454720,0.000e+00,yes
+riscv,tp,other,3,1,0,1,1,0,1454720,0.000e+00,yes
+riscv,unimp,debug and breakpoints,3,0,0,1,2,0,1454720,0.000e+00,yes
+riscv,vsatp,other,3,0,3,0,0,0,1454720,0.000e+00,yes
+riscv,vsetivli,context and FPU/vector state,3,3,0,0,0,623,1454720,4.283e-04,no
+riscv,"a0,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"a1,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"a2,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"a3,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"a4,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,a5,other,2,1,0,1,0,0,1454720,0.000e+00,yes
+riscv,"a5,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"a6,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"a7,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,amoand.d,atomics and exclusive access,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,amocas,other,2,2,0,0,0,0,1454720,0.000e+00,yes
+riscv,amoswap,other,2,2,0,0,0,0,1454720,0.000e+00,yes
+riscv,amoswap.d,atomics and exclusive access,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,amoswap.w,atomics and exclusive access,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,brev8,other,2,2,0,0,0,0,1454720,0.000e+00,yes
+riscv,cbo.clean,cache maintenance,2,0,1,0,1,0,1454720,0.000e+00,yes
+riscv,cbo.flush,cache maintenance,2,0,1,0,1,0,1454720,0.000e+00,yes
+riscv,cbo.inval,cache maintenance,2,0,1,0,1,0,1454720,0.000e+00,yes
+riscv,csrrc,privileged register access,2,2,0,0,0,0,1454720,0.000e+00,yes
+riscv,csrrwi,privileged register access,2,0,1,0,1,0,1454720,0.000e+00,yes
+riscv,csrwi,privileged register access,2,0,1,0,1,0,1454720,0.000e+00,yes
+riscv,hlvx.hu,"hypervisor, secure and firmware calls",2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,hstatus,other,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,instret,other,2,0,1,0,1,0,1454720,0.000e+00,yes
+riscv,lh,other,2,2,0,0,0,1129,1454720,7.761e-04,no
+riscv,msr,other,2,0,0,0,2,0,1454720,0.000e+00,yes
+riscv,mul,other,2,0,0,2,0,7318,1454720,5.031e-03,no
+riscv,ori,other,2,2,0,0,0,690,1454720,4.743e-04,no
+riscv,"ra,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,sinval.vma,TLB and MMU maintenance,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,sip,other,2,0,1,0,1,0,1454720,0.000e+00,yes
+riscv,sltiu,other,2,2,0,0,0,378,1454720,2.598e-04,no
+riscv,sltu,other,2,2,0,0,0,1084,1454720,7.452e-04,no
+riscv,stvec,other,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,"t0,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"t1,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"t2,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"t3,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"t4,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"t5,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,"t6,",other,2,0,0,2,0,0,1454720,0.000e+00,yes
+riscv,vlenb,other,2,0,1,0,1,0,1454720,0.000e+00,yes
+riscv,vscause,other,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,vsepc,other,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,vsie,other,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,vsscratch,other,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,vsstatus,other,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,vstval,other,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,vstvec,other,2,0,2,0,0,0,1454720,0.000e+00,yes
+riscv,amoand,other,1,0,0,1,0,0,1454720,0.000e+00,yes
+riscv,amocas.q,atomics and exclusive access,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,amoor,other,1,0,0,1,0,0,1454720,0.000e+00,yes
+riscv,amoxor.d,atomics and exclusive access,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,bgez,other,1,0,0,1,0,311,1454720,2.138e-04,no
+riscv,ble,other,1,1,0,0,0,359,1454720,2.468e-04,no
+riscv,bleu,other,1,1,0,0,0,627,1454720,4.310e-04,no
+riscv,clz,bit manipulation,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,cpop,bit manipulation,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,csr,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,csrrs,privileged register access,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,ctz,bit manipulation,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,frflags,other,1,0,0,1,0,0,1454720,0.000e+00,yes
+riscv,frrm,other,1,0,0,1,0,0,1454720,0.000e+00,yes
+riscv,fsflags,other,1,0,0,1,0,0,1454720,0.000e+00,yes
+riscv,fsrm,other,1,0,0,1,0,0,1454720,0.000e+00,yes
+riscv,hcounteren,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,hedeleg,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,henvcfg,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,hfence.gvma,TLB and MMU maintenance,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,hgatp,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,hideleg,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,hie,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,htinst,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,htval,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,lr,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,lui,other,1,1,0,0,0,63968,1454720,4.397e-02,no
+riscv,mret,exception entry/return and system call,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,mrs,other,1,0,0,0,1,0,1454720,0.000e+00,yes
+riscv,nopcsrw,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,nopj,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,nopli,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,sc,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,scause,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,sepc,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,sfence.inval.ir,TLB and MMU maintenance,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,sfence.w.inval,TLB and MMU maintenance,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,sp,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,ssamoswap.d,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,stval,other,1,0,1,0,0,0,1454720,0.000e+00,yes
+riscv,t1,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,t2,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,t3,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,t4,other,1,1,0,0,0,0,1454720,0.000e+00,yes
+riscv,th.dcache.civa,other,1,0,0,0,1,0,1454720,0.000e+00,yes
+riscv,th.dcache.cva,other,1,0,0,0,1,0,1454720,0.000e+00,yes
+riscv,th.dcache.iva,other,1,0,0,0,1,0,1454720,0.000e+00,yes
+riscv,vle16.v,other,1,1,0,0,0,62,1454720,4.262e-05,no
+s390,lgr,other,113,113,0,0,0,49981,554773,9.009e-02,no
+s390,larl,other,85,85,0,0,0,34478,554773,6.215e-02,no
+s390,mvc,string and memory block,59,59,0,0,0,7398,554773,1.334e-02,no
+s390,lg,other,50,50,0,0,0,23223,554773,4.186e-02,no
+s390,lghi,other,47,47,0,0,0,37700,554773,6.796e-02,no
+s390,stg,other,47,47,0,0,0,14879,554773,2.682e-02,no
+s390,xgr,other,44,44,0,0,0,926,554773,1.669e-03,no
+s390,la,other,36,36,0,0,0,30507,554773,5.499e-02,no
+s390,diag,"hypervisor, secure and firmware calls",33,33,0,0,0,0,554773,0.000e+00,yes
+s390,lhi,other,33,33,0,0,0,11774,554773,2.122e-02,no
+s390,j,other,27,27,0,0,0,15938,554773,2.873e-02,no
+s390,xc,string and memory block,22,22,0,0,0,1197,554773,2.158e-03,no
+s390,aghi,other,21,21,0,0,0,14332,554773,2.583e-02,no
+s390,lmg,context and FPU/vector state,21,21,0,0,0,10326,554773,1.861e-02,no
+s390,jo,other,20,20,0,0,0,477,554773,8.598e-04,no
+s390,brasl,other,19,19,0,0,0,39715,554773,7.159e-02,no
+s390,je,other,19,19,0,0,0,7567,554773,1.364e-02,no
+s390,stmg,context and FPU/vector state,19,19,0,0,0,9914,554773,1.787e-02,no
+s390,brc,other,18,18,0,0,0,0,554773,0.000e+00,yes
+s390,std,other,17,17,0,0,0,900,554773,1.622e-03,no
+s390,lpswe,exception entry/return and system call,15,15,0,0,0,0,554773,0.000e+00,yes
+s390,jz,other,13,13,0,0,0,0,554773,0.000e+00,yes
+s390,cghi,other,12,12,0,0,0,581,554773,1.047e-03,no
+s390,jnz,other,12,12,0,0,0,0,554773,0.000e+00,yes
+s390,lay,other,12,12,0,0,0,6592,554773,1.188e-02,no
+s390,sigp,"spin-wait, idle and hints",12,12,0,0,0,0,554773,0.000e+00,yes
+s390,stpt,timers and counters,12,12,0,0,0,0,554773,0.000e+00,yes
+s390,agr,other,11,11,0,0,0,2825,554773,5.092e-03,no
+s390,basr,other,11,11,0,0,0,949,554773,1.711e-03,no
+s390,br,other,11,11,0,0,0,12708,554773,2.291e-02,no
+s390,tm,other,11,11,0,0,0,678,554773,1.222e-03,no
+s390,lctlg,privileged register access,10,10,0,0,0,0,554773,0.000e+00,yes
+s390,sam64,other,10,10,0,0,0,0,554773,0.000e+00,yes
+s390,srst,string and memory block,10,10,0,0,0,123,554773,2.217e-04,no
+s390,cs,atomics and exclusive access,9,9,0,0,0,0,554773,0.000e+00,yes
+s390,exrl,other,9,9,0,0,0,955,554773,1.721e-03,no
+s390,jl,other,9,9,0,0,0,472,554773,8.508e-04,no
+s390,spka,privileged register access,9,9,0,0,0,0,554773,0.000e+00,yes
+s390,mvcos,user-memory access,8,8,0,0,0,0,554773,0.000e+00,yes
+s390,bras,other,7,7,0,0,0,0,554773,0.000e+00,yes
+s390,idte,TLB and MMU maintenance,7,7,0,0,0,0,554773,0.000e+00,yes
+s390,jne,other,7,7,0,0,0,6439,554773,1.161e-02,no
+s390,jno,other,7,7,0,0,0,20,554773,3.605e-05,no
+s390,clc,string and memory block,6,6,0,0,0,584,554773,1.053e-03,no
+s390,epsw,privileged register access,6,6,0,0,0,0,554773,0.000e+00,yes
+s390,lr,other,6,6,0,0,0,4101,554773,7.392e-03,no
+s390,lra,other,6,6,0,0,0,0,554773,0.000e+00,yes
+s390,ltgr,other,6,6,0,0,0,269,554773,4.849e-04,no
+s390,ly,other,6,6,0,0,0,595,554773,1.073e-03,no
+s390,sgr,other,6,6,0,0,0,1432,554773,2.581e-03,no
+s390,slgr,other,6,6,0,0,0,7,554773,1.262e-05,no
+s390,st,other,6,6,0,0,0,5364,554773,9.669e-03,no
+s390,tmhh,other,6,6,0,0,0,2,554773,3.605e-06,yes
+s390,clg,other,5,5,0,0,0,263,554773,4.741e-04,no
+s390,clgr,other,5,5,0,0,0,233,554773,4.200e-04,no
+s390,mvi,other,5,5,0,0,0,1432,554773,2.581e-03,no
+s390,nop,other,5,5,0,0,0,0,554773,0.000e+00,yes
+s390,sam31,other,5,5,0,0,0,0,554773,0.000e+00,yes
+s390,stctg,privileged register access,5,5,0,0,0,0,554773,0.000e+00,yes
+s390,ag,other,4,4,0,0,0,1708,554773,3.079e-03,no
+s390,brctg,other,4,4,0,0,0,10903,554773,1.965e-02,no
+s390,csg,atomics and exclusive access,4,4,0,0,0,0,554773,0.000e+00,yes
+s390,l,other,4,4,0,0,0,6684,554773,1.205e-02,no
+s390,lgfr,other,4,4,0,0,0,4664,554773,8.407e-03,no
+s390,llilh,other,4,4,0,0,0,309,554773,5.570e-04,no
+s390,ni,other,4,4,0,0,0,65,554773,1.172e-04,no
+s390,nill,other,4,4,0,0,0,257,554773,4.633e-04,no
+s390,nop.insn,other,4,4,0,0,0,0,554773,0.000e+00,yes
+s390,sacf,privileged register access,4,4,0,0,0,0,554773,0.000e+00,yes
+s390,stcke,timers and counters,4,4,0,0,0,0,554773,0.000e+00,yes
+s390,tml,other,4,4,0,0,0,138,554773,2.488e-04,no
+s390,brct,other,3,3,0,0,0,412,554773,7.426e-04,no
+s390,cdsg,atomics and exclusive access,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,ic,other,3,3,0,0,0,558,554773,1.006e-03,no
+s390,ipte,TLB and MMU maintenance,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,lfpc,context and FPU/vector state,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,llgf,other,3,3,0,0,0,1482,554773,2.671e-03,no
+s390,mc,other,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,mvcl,string and memory block,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,nopr,other,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,oi,other,3,3,0,0,0,84,554773,1.514e-04,no
+s390,risbg,other,3,3,0,0,0,1111,554773,2.003e-03,no
+s390,spt,timers and counters,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,spx,privileged register access,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,srl,other,3,3,0,0,0,854,554773,1.539e-03,no
+s390,stap,privileged register access,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,stfpc,context and FPU/vector state,3,3,0,0,0,0,554773,0.000e+00,yes
+s390,agsi,other,2,2,0,0,0,160,554773,2.884e-04,no
+s390,algsi,other,2,2,0,0,0,39,554773,7.030e-05,no
+s390,asi,other,2,2,0,0,0,167,554773,3.010e-04,no
+s390,brcl,other,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,c,other,2,2,0,0,0,264,554773,4.759e-04,no
+s390,ipm,other,2,2,0,0,0,45,554773,8.111e-05,no
+s390,jg,other,2,2,0,0,0,1649,554773,2.972e-03,no
+s390,jh,other,2,2,0,0,0,745,554773,1.343e-03,no
+s390,lgrl,other,2,2,0,0,0,819,554773,1.476e-03,no
+s390,llgh,other,2,2,0,0,0,576,554773,1.038e-03,no
+s390,llill,other,2,2,0,0,0,184,554773,3.317e-04,no
+s390,mvcle,string and memory block,2,2,0,0,0,233,554773,4.200e-04,no
+s390,mvghi,other,2,2,0,0,0,2614,554773,4.712e-03,no
+s390,mvst,string and memory block,2,2,0,0,0,21,554773,3.785e-05,no
+s390,nilh,other,2,2,0,0,0,108,554773,1.947e-04,no
+s390,nr,other,2,2,0,0,0,812,554773,1.464e-03,no
+s390,or,other,2,2,0,0,0,887,554773,1.599e-03,no
+s390,ptlb,TLB and MMU maintenance,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,slbgr,other,2,2,0,0,0,9,554773,1.622e-05,no
+s390,slr,other,2,2,0,0,0,45,554773,8.111e-05,no
+s390,sske,cache maintenance,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,stamy,other,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,stckf,timers and counters,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,stidp,CPU identification and feature,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,stnsm,privileged register access,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,stosm,privileged register access,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,stpx,privileged register access,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,sturg,user-memory access,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,tr,string and memory block,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,tsch,other,2,2,0,0,0,0,554773,0.000e+00,yes
+s390,xr,other,2,2,0,0,0,2094,554773,3.775e-03,no
+s390,aghik,other,1,1,0,0,0,1231,554773,2.219e-03,no
+s390,ahi,other,1,1,0,0,0,2605,554773,4.696e-03,no
+s390,bcr,memory barrier and ordering,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,cefbr,other,1,1,0,0,0,3,554773,5.408e-06,yes
+s390,cgebr,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,cgr,other,1,1,0,0,0,194,554773,3.497e-04,no
+s390,cksm,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,clcle,string and memory block,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,clgrjhe,other,1,1,0,0,0,446,554773,8.039e-04,no
+s390,clgrjl,other,1,1,0,0,0,696,554773,1.255e-03,no
+s390,clst,string and memory block,1,1,0,0,0,87,554773,1.568e-04,no
+s390,cr,other,1,1,0,0,0,158,554773,2.848e-04,no
+s390,cspg,TLB and MMU maintenance,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,debr,other,1,1,0,0,0,1,554773,1.803e-06,yes
+s390,ecag,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,ecctr,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,ex,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,flogr,bit manipulation,1,1,0,0,0,9,554773,1.622e-05,no
+s390,iihf,other,1,1,0,0,0,91,554773,1.640e-04,no
+s390,iilf,other,1,1,0,0,0,543,554773,9.788e-04,no
+s390,iske,cache maintenance,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,jm,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,jnl,other,1,1,0,0,0,35,554773,6.309e-05,no
+s390,jnm,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,lamy,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,lcctl,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,ld,other,1,1,0,0,0,917,554773,1.653e-03,no
+s390,ldgr,other,1,1,0,0,0,972,554773,1.752e-03,no
+s390,lgf,other,1,1,0,0,0,921,554773,1.660e-03,no
+s390,lgh,other,1,1,0,0,0,31,554773,5.588e-05,no
+s390,lh,other,1,1,0,0,0,449,554773,8.093e-04,no
+s390,lmh,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,locgrz,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,lpp,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,lpq,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,lpsw,exception entry/return and system call,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,lsctl,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,ltg,other,1,1,0,0,0,1992,554773,3.591e-03,no
+s390,mghi,other,1,1,0,0,0,378,554773,6.814e-04,no
+s390,mvhi,other,1,1,0,0,0,1922,554773,3.464e-03,no
+s390,nilf,other,1,1,0,0,0,999,554773,1.801e-03,no
+s390,o,other,1,1,0,0,0,120,554773,2.163e-04,no
+s390,off,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,og,other,1,1,0,0,0,16,554773,2.884e-05,no
+s390,ogr,other,1,1,0,0,0,348,554773,6.273e-04,no
+s390,oill,other,1,1,0,0,0,425,554773,7.661e-04,no
+s390,plo,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,qctri,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,qsi,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,rrbe,cache maintenance,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,sck,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,sckc,timers and counters,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,sckpf,privileged register access,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,sfpc,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,sg,other,1,1,0,0,0,218,554773,3.930e-04,no
+s390,sgf,other,1,1,0,0,0,3,554773,5.408e-06,yes
+s390,sie,"hypervisor, secure and firmware calls",1,1,0,0,0,0,554773,0.000e+00,yes
+s390,sll,other,1,1,0,0,0,907,554773,1.635e-03,no
+s390,sr,other,1,1,0,0,0,892,554773,1.608e-03,no
+s390,srlg,other,1,1,0,0,0,2301,554773,4.148e-03,no
+s390,ssch,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,ssm,privileged register access,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,stckc,timers and counters,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,stfl,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,stm,context and FPU/vector state,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,stsch,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,stsi,CPU identification and feature,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,svc,exception entry/return and system call,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,tpi,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,tprot,other,1,1,0,0,0,0,554773,0.000e+00,yes
+s390,xilf,other,1,1,0,0,0,539,554773,9.716e-04,no
+sparc,mov,other,2348,1201,0,750,397,101812,711518,1.431e-01,no
+sparc,add,other,1647,1199,0,308,140,90742,711518,1.275e-01,no
+sparc,nop,other,1624,914,0,512,198,51459,711518,7.232e-02,no
+sparc,stx,other,1047,372,0,413,262,16113,711518,2.265e-02,no
+sparc,sethi,other,893,476,0,359,58,31247,711518,4.392e-02,no
+sparc,retl,other,759,380,0,230,149,1323,711518,1.859e-03,no
+sparc,or,other,709,462,0,168,79,28915,711518,4.064e-02,no
+sparc,wrpr,privileged register access,691,172,0,324,195,0,711518,0.000e+00,yes
+sparc,cmp,other,638,383,0,200,55,57736,711518,8.114e-02,no
+sparc,sub,other,547,450,0,72,25,5102,711518,7.171e-03,no
+sparc,ba,other,536,393,0,87,56,14491,711518,2.037e-02,no
+sparc,membar,memory barrier and ordering,533,235,0,181,117,0,711518,0.000e+00,yes
+sparc,stxa,user-memory access,527,372,0,154,1,0,711518,0.000e+00,yes
+sparc,ld,other,524,203,0,285,36,6701,711518,9.418e-03,no
+sparc,bne,other,508,371,0,97,40,35447,711518,4.982e-02,no
+sparc,wr,privileged register access,494,209,0,230,55,33,711518,4.638e-05,no
+sparc,rdpr,privileged register access,487,153,0,207,127,0,711518,0.000e+00,yes
+sparc,be,other,485,324,0,115,46,12730,711518,1.789e-02,no
+sparc,ldx,other,450,206,0,110,134,28025,711518,3.939e-02,no
+sparc,inc,other,400,13,0,238,149,0,711518,0.000e+00,yes
+sparc,call,other,368,222,0,120,26,49289,711518,6.927e-02,no
+sparc,andcc,other,367,333,0,20,14,888,711518,1.248e-03,no
+sparc,ldxa,user-memory access,356,217,0,138,1,0,711518,0.000e+00,yes
+sparc,st,other,350,113,0,217,20,8513,711518,1.196e-02,no
+sparc,and,other,334,186,0,110,38,8937,711518,1.256e-02,no
+sparc,sllx,other,328,184,0,86,58,17471,711518,2.455e-02,no
+sparc,btst,other,327,0,0,208,119,0,711518,0.000e+00,yes
+sparc,ta,exception entry/return and system call,325,125,0,104,96,13,711518,1.827e-05,no
+sparc,rd,privileged register access,282,152,0,101,29,0,711518,0.000e+00,yes
+sparc,std,other,277,73,0,203,1,346,711518,4.863e-04,no
+sparc,subcc,other,277,255,0,16,6,6,711518,8.433e-06,yes
+sparc,ldd,other,264,87,0,176,1,765,711518,1.075e-03,no
+sparc,sll,other,257,136,0,103,18,6409,711518,9.008e-03,no
+sparc,andn,other,252,144,0,78,30,601,711518,8.447e-04,no
+sparc,srl,other,244,176,0,56,12,11273,711518,1.584e-02,no
+sparc,clr,other,241,86,0,101,54,0,711518,0.000e+00,yes
+sparc,srlx,other,236,104,0,82,50,3465,711518,4.870e-03,no
+sparc,b,other,231,115,0,105,11,0,711518,0.000e+00,yes
+sparc,brz,other,190,91,0,65,34,5445,711518,7.653e-03,no
+sparc,sta,user-memory access,190,185,0,1,4,0,711518,0.000e+00,yes
+sparc,stb,other,189,68,0,83,38,7331,711518,1.030e-02,no
+sparc,restore,context and FPU/vector state,173,63,0,94,16,5770,711518,8.109e-03,no
+sparc,ldub,other,171,100,0,60,11,33448,711518,4.701e-02,no
+sparc,bz,other,170,16,0,99,55,0,711518,0.000e+00,yes
+sparc,save,context and FPU/vector state,164,62,0,85,17,10036,711518,1.411e-02,no
+sparc,brnz,other,143,69,0,43,31,2257,711518,3.172e-03,no
+sparc,dec,other,138,1,0,79,58,0,711518,0.000e+00,yes
+sparc,mulscc,other,131,99,0,32,0,0,711518,0.000e+00,yes
+sparc,flush,TLB and MMU maintenance,124,66,0,38,20,0,711518,0.000e+00,yes
+sparc,deccc,other,119,1,0,69,49,0,711518,0.000e+00,yes
+sparc,lduw,other,117,66,0,35,16,6650,711518,9.346e-03,no
+sparc,stw,other,103,57,0,41,5,0,711518,0.000e+00,yes
+sparc,jmpl,other,98,70,0,20,8,0,711518,0.000e+00,yes
+sparc,bnz,other,97,11,0,66,20,0,711518,0.000e+00,yes
+sparc,retry,exception entry/return and system call,95,37,0,30,28,0,711518,0.000e+00,yes
+sparc,bge,other,86,15,0,44,27,338,711518,4.750e-04,no
+sparc,faligndata,other,82,82,0,0,0,0,711518,0.000e+00,yes
+sparc,addxcc,other,79,77,0,1,1,0,711518,0.000e+00,yes
+sparc,bgu,other,74,60,0,13,1,1870,711518,2.628e-03,no
+sparc,bl,other,73,25,0,30,18,1312,711518,1.844e-03,no
+sparc,x,other,73,73,0,0,0,0,711518,0.000e+00,yes
+sparc,fsrc2,other,72,72,0,0,0,0,711518,0.000e+00,yes
+sparc,addcc,other,69,58,0,9,2,232,711518,3.261e-04,no
+sparc,lda,user-memory access,68,65,0,1,2,0,711518,0.000e+00,yes
+sparc,sth,other,62,10,0,31,21,1318,711518,1.852e-03,no
+sparc,blu,other,61,40,0,17,4,410,711518,5.762e-04,no
+sparc,tst,other,58,16,0,42,0,0,711518,0.000e+00,yes
+sparc,ret,other,54,20,0,25,9,4793,711518,6.736e-03,no
+sparc,stda,user-memory access,54,41,0,0,13,0,711518,0.000e+00,yes
+sparc,flushw,TLB and MMU maintenance,52,19,0,22,11,1,711518,1.405e-06,yes
+sparc,ldda,user-memory access,50,40,0,0,10,0,711518,0.000e+00,yes
+sparc,ldsb,other,50,6,0,23,21,442,711518,6.212e-04,no
+sparc,addx,other,48,38,0,8,2,292,711518,4.104e-04,no
+sparc,prefetch,cache maintenance,48,48,0,0,0,0,711518,0.000e+00,yes
+sparc,jmp,other,36,17,0,18,1,1791,711518,2.517e-03,no
+sparc,xor,other,36,9,0,14,13,7273,711518,1.022e-02,no
+sparc,brgez,other,35,3,0,19,13,9,711518,1.265e-05,no
+sparc,faddd,other,32,32,0,0,0,36,711518,5.060e-05,no
+sparc,fdtos,other,32,32,0,0,0,4,711518,5.622e-06,yes
+sparc,fitod,other,32,32,0,0,0,24,711518,3.373e-05,no
+sparc,sra,other,32,21,0,9,2,5647,711518,7.937e-03,no
+sparc,fmuld,other,31,31,0,0,0,34,711518,4.779e-05,no
+sparc,srax,other,29,1,0,24,4,230,711518,3.233e-04,no
+sparc,ble,other,27,20,0,2,5,826,711518,1.161e-03,no
+sparc,bleu,other,27,27,0,0,0,1167,711518,1.640e-03,no
+sparc,casxa,atomics and exclusive access,27,1,0,12,14,0,711518,0.000e+00,yes
+sparc,iflush,other,27,0,0,27,0,0,711518,0.000e+00,yes
+sparc,bgeu,other,26,18,0,4,4,341,711518,4.793e-04,no
+sparc,orcc,other,26,24,0,2,0,1815,711518,2.551e-03,no
+sparc,sir,other,26,0,0,20,6,0,711518,0.000e+00,yes
+sparc,bg,other,24,8,0,12,4,1234,711518,1.734e-03,no
+sparc,lduba,user-memory access,23,21,0,1,1,0,711518,0.000e+00,yes
+sparc,movrz,other,23,10,0,7,6,141,711518,1.982e-04,no
+sparc,stwa,user-memory access,23,5,0,17,1,0,711518,0.000e+00,yes
+sparc,ldsh,other,21,0,0,12,9,99,711518,1.391e-04,no
+sparc,stba,user-memory access,21,19,0,1,1,0,711518,0.000e+00,yes
+sparc,bcs,other,18,17,0,1,0,1031,711518,1.449e-03,no
+sparc,brgz,other,18,2,0,9,7,27,711518,3.795e-05,no
+sparc,ldstub,atomics and exclusive access,17,17,0,0,0,0,711518,0.000e+00,yes
+sparc,lduh,other,17,7,0,4,6,2076,711518,2.918e-03,no
+sparc,rett,exception entry/return and system call,17,13,0,4,0,0,711518,0.000e+00,yes
+sparc,saved,other,17,1,0,8,8,0,711518,0.000e+00,yes
+sparc,xnor,other,17,17,0,0,0,132,711518,1.855e-04,no
+sparc,andncc,other,16,11,0,3,2,8,711518,1.124e-05,no
+sparc,casx,atomics and exclusive access,16,14,0,0,2,0,711518,0.000e+00,yes
+sparc,lduwa,user-memory access,16,10,0,5,1,0,711518,0.000e+00,yes
+sparc,addccc,other,14,14,0,0,0,0,711518,0.000e+00,yes
+sparc,clruw,other,14,0,0,14,0,0,711518,0.000e+00,yes
+sparc,blt,other,13,6,0,5,2,0,711518,0.000e+00,yes
+sparc,done,exception entry/return and system call,13,6,0,4,3,0,711518,0.000e+00,yes
+sparc,lduha,user-memory access,13,11,0,1,1,0,711518,0.000e+00,yes
+sparc,stha,user-memory access,13,11,0,1,1,0,711518,0.000e+00,yes
+sparc,ldsba,user-memory access,12,0,0,6,6,0,711518,0.000e+00,yes
+sparc,beq,other,11,4,0,7,0,0,711518,0.000e+00,yes
+sparc,t,other,11,0,0,10,1,0,711518,0.000e+00,yes
+sparc,addc,other,10,10,0,0,0,0,711518,0.000e+00,yes
+sparc,mulx,other,10,6,0,3,1,4514,711518,6.344e-03,no
+sparc,pstate,other,10,0,0,0,10,0,711518,0.000e+00,yes
+sparc,restored,other,10,0,0,5,5,0,711518,0.000e+00,yes
+sparc,bcc,other,9,8,0,1,0,571,711518,8.025e-04,no
+sparc,g1,other,9,9,0,0,0,0,711518,0.000e+00,yes
+sparc,movrlz,other,9,0,0,6,3,16,711518,2.249e-05,no
+sparc,reg,other,9,0,0,9,0,0,711518,0.000e+00,yes
+sparc,tne,exception entry/return and system call,9,7,0,1,1,0,711518,0.000e+00,yes
+sparc,brlez,other,8,4,0,2,2,56,711518,7.870e-05,no
+sparc,inccc,other,8,1,0,6,1,0,711518,0.000e+00,yes
+sparc,neg,other,8,6,0,2,0,0,711518,0.000e+00,yes
+sparc,op,other,8,8,0,0,0,0,711518,0.000e+00,yes
+sparc,umul,other,8,7,0,1,0,0,711518,0.000e+00,yes
+sparc,cas,atomics and exclusive access,7,6,0,0,1,0,711518,0.000e+00,yes
+sparc,g6,other,7,7,0,0,0,0,711518,0.000e+00,yes
+sparc,subx,other,7,5,0,1,1,297,711518,4.174e-04,no
+sparc,tnz,other,7,0,0,7,0,0,711518,0.000e+00,yes
+sparc,xcc,other,7,7,0,0,0,0,711518,0.000e+00,yes
+sparc,alignaddr,other,6,6,0,0,0,0,711518,0.000e+00,yes
+sparc,fzero,other,6,6,0,0,0,13,711518,1.827e-05,no
+sparc,ldsha,user-memory access,6,0,0,3,3,0,711518,0.000e+00,yes
+sparc,popc,bit manipulation,6,6,0,0,0,0,711518,0.000e+00,yes
+sparc,subxcc,other,6,3,0,2,1,0,711518,0.000e+00,yes
+sparc,asi,other,5,0,0,0,5,0,711518,0.000e+00,yes
+sparc,bgt,other,5,1,0,4,0,0,711518,0.000e+00,yes
+sparc,bneg,other,5,1,0,3,1,3,711518,4.216e-06,yes
+sparc,brlz,other,5,1,0,3,1,44,711518,6.184e-05,no
+sparc,casa,atomics and exclusive access,5,2,0,1,2,0,711518,0.000e+00,yes
+sparc,pil,other,5,0,0,0,5,0,711518,0.000e+00,yes
+sparc,d,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,g5,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,h,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,l0,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,l1,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,l2,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,l3,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,l4,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,movle,other,4,1,0,2,1,82,711518,1.152e-04,no
+sparc,movnz,other,4,0,0,4,0,0,711518,0.000e+00,yes
+sparc,prefetcha,cache maintenance,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,ub,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,udiv,other,4,2,0,2,0,14,711518,1.968e-05,no
+sparc,uh,other,4,4,0,0,0,0,711518,0.000e+00,yes
+sparc,a,other,3,3,0,0,0,0,711518,0.000e+00,yes
+sparc,fprs,other,3,0,0,0,3,0,711518,0.000e+00,yes
+sparc,g7,other,3,1,0,0,2,0,711518,0.000e+00,yes
+sparc,l5,other,3,3,0,0,0,0,711518,0.000e+00,yes
+sparc,movrne,other,3,3,0,0,0,73,711518,1.026e-04,no
+sparc,movz,other,3,0,0,3,0,0,711518,0.000e+00,yes
+sparc,not,other,3,1,0,2,0,0,711518,0.000e+00,yes
+sparc,smul,other,3,0,0,3,0,0,711518,0.000e+00,yes
+sparc,swap,atomics and exclusive access,3,3,0,0,0,0,711518,0.000e+00,yes
+sparc,tlu,other,3,0,0,3,0,0,711518,0.000e+00,yes
+sparc,udivx,other,3,0,0,2,1,156,711518,2.192e-04,no
+sparc,unimp,other,3,0,0,1,2,0,711518,0.000e+00,yes
+sparc,asr,other,2,0,0,2,0,0,711518,0.000e+00,yes
+sparc,clrb,other,2,0,0,2,0,0,711518,0.000e+00,yes
+sparc,cwp,other,2,0,0,0,2,0,711518,0.000e+00,yes
+sparc,g2,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,g4,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,i0,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,i1,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,i2,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,i3,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,i4,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,i5,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,insn,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,l6,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,movg,other,2,0,0,1,1,146,711518,2.052e-04,no
+sparc,movl,other,2,0,0,1,1,181,711518,2.544e-04,no
+sparc,movne,other,2,1,0,1,0,260,711518,3.654e-04,no
+sparc,movrgz,other,2,0,0,1,1,9,711518,1.265e-05,no
+sparc,movrnz,other,2,0,0,2,0,70,711518,9.838e-05,no
+sparc,o0,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,sdiv,other,2,0,0,2,0,19,711518,2.670e-05,no
+sparc,setx,other,2,0,0,0,2,0,711518,0.000e+00,yes
+sparc,stub,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,swapa,atomics and exclusive access,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,uw,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,w,other,2,2,0,0,0,0,711518,0.000e+00,yes
+sparc,asr22,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,bclr,other,1,0,0,1,0,0,711518,0.000e+00,yes
+sparc,bpos,other,1,0,0,1,0,2,711518,2.811e-06,yes
+sparc,c,other,1,1,0,0,0,0,711518,0.000e+00,yes
+sparc,canrestore,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,cansave,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,cleanwin,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,clrx,other,1,0,0,1,0,0,711518,0.000e+00,yes
+sparc,cpcb,other,1,0,0,1,0,0,711518,0.000e+00,yes
+sparc,esigcode,other,1,0,0,1,0,0,711518,0.000e+00,yes
+sparc,help,other,1,0,0,1,0,0,711518,0.000e+00,yes
+sparc,l7,other,1,1,0,0,0,0,711518,0.000e+00,yes
+sparc,ldsw,other,1,1,0,0,0,942,711518,1.324e-03,no
+sparc,ldswa,user-memory access,1,0,0,1,0,0,711518,0.000e+00,yes
+sparc,movcc,other,1,1,0,0,0,2,711518,2.811e-06,yes
+sparc,move,other,1,1,0,0,0,1004,711518,1.411e-03,no
+sparc,movge,other,1,0,0,0,1,65,711518,9.135e-05,no
+sparc,movre,other,1,1,0,0,0,49,711518,6.887e-05,no
+sparc,o1,other,1,1,0,0,0,0,711518,0.000e+00,yes
+sparc,orn,other,1,1,0,0,0,190,711518,2.670e-04,no
+sparc,otherwin,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,schedule,other,1,1,0,0,0,0,711518,0.000e+00,yes
+sparc,sigcode,other,1,0,0,1,0,0,711518,0.000e+00,yes
+sparc,sys_tick,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,sys_tick_cmpr,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,tba,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,tick,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,tz,other,1,0,0,1,0,0,711518,0.000e+00,yes
+sparc,ver,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,wstate,other,1,0,0,0,1,0,711518,0.000e+00,yes
+sparc,xnorcc,other,1,1,0,0,0,0,711518,0.000e+00,yes
+vax,movl,other,353,0,0,353,0,29192,253923,1.150e-01,no
+vax,addl,other,109,0,0,109,0,10487,253923,4.130e-02,no
+vax,clrl,other,90,0,0,90,0,5348,253923,2.106e-02,no
+vax,cmpl,other,74,0,0,74,0,13622,253923,5.365e-02,no
+vax,subl,other,71,0,0,71,0,9541,253923,3.757e-02,no
+vax,jbr,other,66,0,0,66,0,7032,253923,2.769e-02,no
+vax,ret,other,61,0,0,61,0,8457,253923,3.331e-02,no
+vax,incl,other,59,0,0,59,0,7027,253923,2.767e-02,no
+vax,jeql,other,59,0,0,59,0,9041,253923,3.561e-02,no
+vax,pushl,other,57,0,0,57,0,36706,253923,1.446e-01,no
+vax,tstl,other,49,0,0,49,0,5886,253923,2.318e-02,no
+vax,bneq,other,43,0,0,43,0,0,253923,0.000e+00,yes
+vax,mfpr,privileged register access,42,0,0,42,0,0,253923,0.000e+00,yes
+vax,movb,other,41,0,0,41,0,2844,253923,1.120e-02,no
+vax,mtpr,privileged register access,40,0,0,40,0,0,253923,0.000e+00,yes
+vax,calls,other,37,0,0,37,0,22610,253923,8.904e-02,no
+vax,bsbw,other,35,0,0,35,0,0,253923,0.000e+00,yes
+vax,halt,"spin-wait, idle and hints",35,0,0,35,0,0,253923,0.000e+00,yes
+vax,brb,other,33,0,0,33,0,0,253923,0.000e+00,yes
+vax,insv,bit manipulation,32,0,0,32,0,23,253923,9.058e-05,no
+vax,sobgtr,other,32,0,0,32,0,0,253923,0.000e+00,yes
+vax,movab,other,31,0,0,31,0,5798,253923,2.283e-02,no
+vax,decl,other,30,0,0,30,0,468,253923,1.843e-03,no
+vax,rei,exception entry/return and system call,28,0,0,28,0,0,253923,0.000e+00,yes
+vax,ashl,other,26,0,0,26,0,2320,253923,9.137e-03,no
+vax,bisl,other,26,0,0,26,0,2193,253923,8.636e-03,no
+vax,pushr,context and FPU/vector state,26,0,0,26,0,0,253923,0.000e+00,yes
+vax,adwc,other,25,0,0,25,0,566,253923,2.229e-03,no
+vax,jneq,other,25,0,0,25,0,18135,253923,7.142e-02,no
+vax,movzbl,other,25,0,0,25,0,2410,253923,9.491e-03,no
+vax,brw,other,22,0,0,22,0,0,253923,0.000e+00,yes
+vax,popr,context and FPU/vector state,22,0,0,22,0,0,253923,0.000e+00,yes
+vax,beql,other,21,0,0,21,0,0,253923,0.000e+00,yes
+vax,jsb,other,21,0,0,21,0,0,253923,0.000e+00,yes
+vax,rsb,other,20,0,0,20,0,0,253923,0.000e+00,yes
+vax,mnegl,other,17,0,0,17,0,345,253923,1.359e-03,no
+vax,bicl,other,15,0,0,15,0,5105,253923,2.010e-02,no
+vax,cmpb,other,15,0,0,15,0,7436,253923,2.928e-02,no
+vax,movc3,string and memory block,14,0,0,14,0,2029,253923,7.991e-03,no
+vax,movq,other,13,0,0,13,0,1901,253923,7.487e-03,no
+vax,pushab,other,13,0,0,13,0,8518,253923,3.355e-02,no
+vax,mull,other,12,0,0,12,0,2901,253923,1.142e-02,no
+vax,jgeq,other,11,0,0,11,0,291,253923,1.146e-03,no
+vax,jmp,other,11,0,0,11,0,3,253923,1.181e-05,no
+vax,movpsl,privileged register access,11,0,0,11,0,0,253923,0.000e+00,yes
+vax,blbc,other,10,0,0,10,0,0,253923,0.000e+00,yes
+vax,locc,string and memory block,10,0,0,10,0,0,253923,0.000e+00,yes
+vax,blss,other,9,0,0,9,0,0,253923,0.000e+00,yes
+vax,movc5,string and memory block,9,0,0,9,0,388,253923,1.528e-03,no
+vax,movw,other,9,0,0,9,0,871,253923,3.430e-03,no
+vax,clrb,other,8,0,0,8,0,476,253923,1.875e-03,no
+vax,bbc,other,7,0,0,7,0,0,253923,0.000e+00,yes
+vax,bbssi,atomics and exclusive access,7,0,0,7,0,0,253923,0.000e+00,yes
+vax,callg,other,7,0,0,7,0,0,253923,0.000e+00,yes
+vax,caseb,other,7,0,0,7,0,0,253923,0.000e+00,yes
+vax,movd,other,7,0,0,7,0,326,253923,1.284e-03,no
+vax,movzwl,other,7,0,0,7,0,2338,253923,9.208e-03,no
+vax,rotl,other,7,0,0,7,0,4145,253923,1.632e-02,no
+vax,bgeq,other,6,0,0,6,0,0,253923,0.000e+00,yes
+vax,blbs,other,6,0,0,6,0,0,253923,0.000e+00,yes
+vax,jleq,other,6,0,0,6,0,429,253923,1.689e-03,no
+vax,xorl,other,6,0,0,6,0,3585,253923,1.412e-02,no
+vax,bbcci,atomics and exclusive access,5,0,0,5,0,0,253923,0.000e+00,yes
+vax,bvs,other,5,0,0,5,0,0,253923,0.000e+00,yes
+vax,chmk,exception entry/return and system call,5,0,0,5,0,0,253923,0.000e+00,yes
+vax,divl,other,5,0,0,5,0,42,253923,1.654e-04,no
+vax,jbc,other,5,0,0,5,0,1,253923,3.938e-06,yes
+vax,jlbc,other,5,0,0,5,0,0,253923,0.000e+00,yes
+vax,jlss,other,5,0,0,5,0,511,253923,2.012e-03,no
+vax,moval,other,5,0,0,5,0,169,253923,6.656e-04,no
+vax,tstb,other,5,0,0,5,0,935,253923,3.682e-03,no
+vax,bcs,other,4,0,0,4,0,0,253923,0.000e+00,yes
+vax,bgtru,other,4,0,0,4,0,0,253923,0.000e+00,yes
+vax,clrq,other,4,0,0,4,0,100,253923,3.938e-04,no
+vax,cmpw,other,4,0,0,4,0,293,253923,1.154e-03,no
+vax,jbs,other,4,0,0,4,0,0,253923,0.000e+00,yes
+vax,ldpctx,context and FPU/vector state,4,0,0,4,0,0,253923,0.000e+00,yes
+vax,bisb,other,3,0,0,3,0,139,253923,5.474e-04,no
+vax,bitl,other,3,0,0,3,0,8,253923,3.151e-05,no
+vax,bleq,other,3,0,0,3,0,0,253923,0.000e+00,yes
+vax,cmpc3,string and memory block,3,0,0,3,0,0,253923,0.000e+00,yes
+vax,cvtbl,other,3,0,0,3,0,207,253923,8.152e-04,no
+vax,cvtld,other,3,0,0,3,0,19,253923,7.483e-05,no
+vax,jgtr,other,3,0,0,3,0,484,253923,1.906e-03,no
+vax,jlbs,other,3,0,0,3,0,1,253923,3.938e-06,yes
+vax,muld,other,3,0,0,3,0,18,253923,7.089e-05,no
+vax,addb,other,2,0,0,2,0,196,253923,7.719e-04,no
+vax,addd,other,2,0,0,2,0,16,253923,6.301e-05,no
+vax,ashq,other,2,0,0,2,0,148,253923,5.829e-04,no
+vax,bcc,other,2,0,0,2,0,0,253923,0.000e+00,yes
+vax,bgtr,other,2,0,0,2,0,0,253923,0.000e+00,yes
+vax,bicb,other,2,0,0,2,0,620,253923,2.442e-03,no
+vax,bitb,other,2,0,0,2,0,0,253923,0.000e+00,yes
+vax,ediv,other,2,0,0,2,0,0,253923,0.000e+00,yes
+vax,extv,bit manipulation,2,0,0,2,0,12,253923,4.726e-05,no
+vax,mcomb,other,2,0,0,2,0,57,253923,2.245e-04,no
+vax,nop,other,2,0,0,2,0,0,253923,0.000e+00,yes
+vax,svpctx,context and FPU/vector state,2,0,0,2,0,0,253923,0.000e+00,yes
+vax,addw,other,1,0,0,1,0,63,253923,2.481e-04,no
+vax,blssu,other,1,0,0,1,0,0,253923,0.000e+00,yes
+vax,bpt,debug and breakpoints,1,0,0,1,0,0,253923,0.000e+00,yes
+vax,clrd,other,1,0,0,1,0,7,253923,2.757e-05,no
+vax,cvtdl,other,1,0,0,1,0,13,253923,5.120e-05,no
+vax,cvtwl,other,1,0,0,1,0,1324,253923,5.214e-03,no
+vax,insqti,atomics and exclusive access,1,0,0,1,0,0,253923,0.000e+00,yes
+vax,insque,atomics and exclusive access,1,0,0,1,0,0,253923,0.000e+00,yes
+vax,r0,other,1,0,0,1,0,0,253923,0.000e+00,yes
+vax,remqhi,atomics and exclusive access,1,0,0,1,0,0,253923,0.000e+00,yes
+vax,remque,atomics and exclusive access,1,0,0,1,0,0,253923,0.000e+00,yes
+vax,subd,other,1,0,0,1,0,9,253923,3.544e-05,no
+vax,tstd,other,1,0,0,1,0,17,253923,6.695e-05,no
+vax,tstw,other,1,0,0,1,0,91,253923,3.584e-04,no
+vax,xorb,other,1,0,0,1,0,131,253923,5.159e-04,no
+x86,mov,other,9407,1810,2334,2683,2580,375415,1280687,2.931e-01,no
+x86,j.cc,other,1798,393,394,554,457,122787,1280687,9.588e-02,no
+x86,push,other,1544,247,238,611,448,133154,1280687,1.040e-01,no
+x86,pop,other,1106,158,141,411,396,50623,1280687,3.953e-02,no
+x86,ret,other,876,164,167,360,185,24870,1280687,1.942e-02,no
+x86,call,other,864,146,157,321,240,82846,1280687,6.469e-02,no
+x86,jmp,other,859,191,181,279,208,32342,1280687,2.525e-02,no
+x86,add,other,842,223,84,288,247,64470,1280687,5.034e-02,no
+x86,cmp,other,786,143,202,234,207,78804,1280687,6.153e-02,no
+x86,xor,other,726,134,131,222,239,46054,1280687,3.596e-02,no
+x86,test,other,539,120,133,160,126,35455,1280687,2.768e-02,no
+x86,lea,other,496,166,71,146,113,42519,1280687,3.320e-02,no
+x86,and,other,429,112,69,111,137,12887,1280687,1.006e-02,no
+x86,sub,other,422,118,66,103,135,31593,1280687,2.467e-02,no
+x86,or,other,304,30,64,104,106,7342,1280687,5.733e-03,no
+x86,shr,other,252,58,32,90,72,8159,1280687,6.371e-03,no
+x86,adc,other,215,161,36,16,2,1678,1280687,1.310e-03,no
+x86,rep movs,string and memory block,181,48,28,65,40,4233,1280687,3.305e-03,no
+x86,inc,other,177,19,12,55,91,30513,1280687,2.383e-02,no
+x86,dec,other,170,48,19,55,48,3080,1280687,2.405e-03,no
+x86,cld,other,163,33,36,47,47,0,1280687,0.000e+00,yes
+x86,lfence,memory barrier and ordering,152,7,31,6,108,0,1280687,0.000e+00,yes
+x86,movzx,other,143,13,37,63,30,11351,1280687,8.863e-03,no
+x86,popf,other,135,46,34,30,25,0,1280687,0.000e+00,yes
+x86,cli,interrupt masking,133,16,31,29,57,0,1280687,0.000e+00,yes
+x86,sti,interrupt masking,133,5,34,30,64,0,1280687,0.000e+00,yes
+x86,pushf,other,127,43,34,24,26,0,1280687,0.000e+00,yes
+x86,wrmsr,privileged register access,113,27,56,30,0,0,1280687,0.000e+00,yes
+x86,movaps,other,90,0,0,0,90,2288,1280687,1.787e-03,no
+x86,set.cc,other,86,4,11,26,45,4900,1280687,3.826e-03,no
+x86,ljmp,other,81,17,2,27,35,0,1280687,0.000e+00,yes
+x86,lgdt,privileged register access,77,23,12,25,17,0,1280687,0.000e+00,yes
+x86,movdqa,other,74,32,16,0,26,1425,1280687,1.113e-03,no
+x86,shl,other,73,12,11,28,22,2842,1280687,2.219e-03,no
+x86,xchg,atomics and exclusive access,72,9,9,30,24,389,1280687,3.037e-04,no
+x86,pxor,other,68,0,8,0,60,613,1280687,4.786e-04,no
+x86,rdmsr,privileged register access,66,0,47,19,0,0,1280687,0.000e+00,yes
+x86,aesdec,other,65,0,0,0,65,0,1280687,0.000e+00,yes
+x86,aesenc,other,65,0,0,0,65,0,1280687,0.000e+00,yes
+x86,loop,other,60,1,0,7,52,0,1280687,0.000e+00,yes
+x86,hlt,"spin-wait, idle and hints",57,17,9,13,18,0,1280687,0.000e+00,yes
+x86,iret,exception entry/return and system call,57,14,8,7,28,0,1280687,0.000e+00,yes
+x86,int3,debug and breakpoints,56,50,0,2,4,0,1280687,0.000e+00,yes
+x86,movups,other,56,0,0,0,56,18961,1280687,1.481e-02,no
+x86,lods,string and memory block,54,6,0,13,35,0,1280687,0.000e+00,yes
+x86,clac,user-memory access,53,22,28,2,1,0,1280687,0.000e+00,yes
+x86,cpuid,CPU identification and feature,52,0,10,17,25,0,1280687,0.000e+00,yes
+x86,out,privileged register access,52,1,2,49,0,0,1280687,0.000e+00,yes
+x86,swapgs,per-CPU and thread base,51,19,19,0,13,0,1280687,0.000e+00,yes
+x86,endbr64,speculation control,47,32,0,0,15,0,1280687,0.000e+00,yes
+x86,pusha,other,44,2,5,30,7,0,1280687,0.000e+00,yes
+x86,movnti,other,41,34,2,0,5,0,1280687,0.000e+00,yes
+x86,rep stosb,string and memory block,39,5,9,8,17,392,1280687,3.061e-04,no
+x86,vmovdqa,other,38,32,4,0,2,0,1280687,0.000e+00,yes
+x86,lock cmpxchg,atomics and exclusive access,36,3,21,12,0,0,1280687,0.000e+00,yes
+x86,nop,other,36,2,4,17,13,0,1280687,0.000e+00,yes
+x86,popa,other,36,2,1,26,7,0,1280687,0.000e+00,yes
+x86,cmov.cc,other,35,32,2,1,0,1618,1280687,1.263e-03,no
+x86,leave,other,35,1,12,14,8,815,1280687,6.364e-04,no
+x86,mfence,memory barrier and ordering,35,4,17,2,12,0,1280687,0.000e+00,yes
+x86,stac,user-memory access,35,10,22,2,1,0,1280687,0.000e+00,yes
+x86,lidt,privileged register access,34,12,4,7,11,0,1280687,0.000e+00,yes
+x86,rep stos,string and memory block,34,14,5,6,9,533,1280687,4.162e-04,no
+x86,in,privileged register access,33,1,0,32,0,0,1280687,0.000e+00,yes
+x86,stos,string and memory block,32,1,0,6,25,0,1280687,0.000e+00,yes
+x86,aeskeygenassist,other,31,0,0,0,31,0,1280687,0.000e+00,yes
+x86,lret,exception entry/return and system call,31,8,8,12,3,0,1280687,0.000e+00,yes
+x86,pause,"spin-wait, idle and hints",30,5,10,5,10,0,1280687,0.000e+00,yes
+x86,cmpxchg,atomics and exclusive access,28,8,0,14,6,0,1280687,0.000e+00,yes
+x86,div,other,27,9,2,7,9,194,1280687,1.515e-04,no
+x86,movabs,other,27,5,4,9,9,954,1280687,7.449e-04,no
+x86,lcall,other,26,5,5,8,8,0,1280687,0.000e+00,yes
+x86,lldt,privileged register access,24,8,6,4,6,0,1280687,0.000e+00,yes
+x86,ltr,privileged register access,24,5,8,4,7,0,1280687,0.000e+00,yes
+x86,mul,other,24,7,3,13,1,1267,1280687,9.893e-04,no
+x86,not,other,23,11,3,4,5,1478,1280687,1.154e-03,no
+x86,sfence,memory barrier and ordering,22,5,10,1,6,0,1280687,0.000e+00,yes
+x86,ud2,debug and breakpoints,22,17,3,2,0,24,1280687,1.874e-05,no
+x86,btr,atomics and exclusive access,21,8,0,8,5,4,1280687,3.123e-06,yes
+x86,bts,atomics and exclusive access,21,16,0,5,0,1,1280687,7.808e-07,yes
+x86,std,other,20,5,2,9,4,0,1280687,0.000e+00,yes
+x86,lock add,atomics and exclusive access,18,7,6,5,0,0,1280687,0.000e+00,yes
+x86,str,privileged register access,18,2,5,5,6,0,1280687,0.000e+00,yes
+x86,bsr,bit manipulation,17,5,2,8,2,16,1280687,1.249e-05,no
+x86,rep ins,privileged register access,17,2,6,9,0,0,1280687,0.000e+00,yes
+x86,rep outs,privileged register access,17,2,6,9,0,0,1280687,0.000e+00,yes
+x86,wbinvd,cache maintenance,17,7,2,4,4,0,1280687,0.000e+00,yes
+x86,clts,privileged register access,16,1,15,0,0,0,1280687,0.000e+00,yes
+x86,invlpg,TLB and MMU maintenance,16,1,4,3,8,0,1280687,0.000e+00,yes
+x86,sgdt,privileged register access,16,3,5,3,5,0,1280687,0.000e+00,yes
+x86,stosb,other,16,4,0,4,8,0,1280687,0.000e+00,yes
+x86,rol,other,15,6,1,6,2,4424,1280687,3.454e-03,no
+x86,sidt,privileged register access,15,2,5,3,5,0,1280687,0.000e+00,yes
+x86,sldt,privileged register access,15,3,5,2,5,0,1280687,0.000e+00,yes
+x86,syscall,exception entry/return and system call,15,7,7,0,1,0,1280687,0.000e+00,yes
+x86,invpcid,TLB and MMU maintenance,14,1,1,3,9,0,1280687,0.000e+00,yes
+x86,neg,other,14,6,2,1,5,1514,1280687,1.182e-03,no
+x86,repe cmps,string and memory block,14,2,0,0,12,0,1280687,0.000e+00,yes
+x86,bt,bit manipulation,13,13,0,0,0,403,1280687,3.147e-04,no
+x86,lock cmpxchg8b,atomics and exclusive access,13,8,5,0,0,0,1280687,0.000e+00,yes
+x86,lock dec,atomics and exclusive access,13,2,0,0,11,0,1280687,0.000e+00,yes
+x86,movs,string and memory block,13,10,0,3,0,106,1280687,8.277e-05,no
+x86,orpd,other,12,0,8,0,4,20,1280687,1.562e-05,no
+x86,rdrand,random numbers,12,4,0,4,4,0,1280687,0.000e+00,yes
+x86,sbb,other,12,10,0,1,1,991,1280687,7.738e-04,no
+x86,vorpd,other,12,0,8,0,4,0,1280687,0.000e+00,yes
+x86,bsf,bit manipulation,11,3,0,0,8,16,1280687,1.249e-05,no
+x86,bswap,bit manipulation,11,6,0,5,0,960,1280687,7.496e-04,no
+x86,clc,other,11,3,2,1,5,0,1280687,0.000e+00,yes
+x86,clflushopt,cache maintenance,11,0,8,0,3,0,1280687,0.000e+00,yes
+x86,movdqu,other,11,0,0,0,11,2149,1280687,1.678e-03,no
+x86,sal,other,11,0,4,1,6,2339,1280687,1.826e-03,no
+x86,data32 ljmp,other,10,0,0,0,10,0,1280687,0.000e+00,yes
+x86,rdtscp,timers and counters,10,0,9,0,1,0,1280687,0.000e+00,yes
+x86,shufps,other,10,0,0,0,10,91,1280687,7.106e-05,no
+x86,clflush,cache maintenance,9,1,2,0,6,0,1280687,0.000e+00,yes
+x86,cmpxchg8b,atomics and exclusive access,9,3,3,2,1,0,1280687,0.000e+00,yes
+x86,fxrstor,context and FPU/vector state,9,0,0,2,7,0,1280687,0.000e+00,yes
+x86,imul,other,9,4,1,2,2,8844,1280687,6.906e-03,no
+x86,movntdq,other,9,0,6,0,3,0,1280687,0.000e+00,yes
+x86,mwait,"spin-wait, idle and hints",9,2,3,2,2,0,1280687,0.000e+00,yes
+x86,rdseed,random numbers,9,1,0,4,4,0,1280687,0.000e+00,yes
+x86,rdtsc,timers and counters,9,1,6,2,0,0,1280687,0.000e+00,yes
+x86,ror,other,9,1,2,4,2,686,1280687,5.357e-04,no
+x86,sysret,exception entry/return and system call,9,3,2,2,2,0,1280687,0.000e+00,yes
+x86,xadd,atomics and exclusive access,9,1,0,0,8,0,1280687,0.000e+00,yes
+x86,fninit,context and FPU/vector state,8,7,0,1,0,0,1280687,0.000e+00,yes
+x86,lock bts,atomics and exclusive access,8,3,5,0,0,0,1280687,0.000e+00,yes
+x86,pslldq,other,8,0,0,0,8,0,1280687,0.000e+00,yes
+x86,repne movs,string and memory block,8,0,0,0,8,0,1280687,0.000e+00,yes
+x86,xsave,context and FPU/vector state,8,0,5,2,1,0,1280687,0.000e+00,yes
+x86,fxsave,context and FPU/vector state,7,3,0,1,3,0,1280687,0.000e+00,yes
+x86,lock xadd,atomics and exclusive access,7,0,7,0,0,0,1280687,0.000e+00,yes
+x86,monitor,"spin-wait, idle and hints",7,1,2,2,2,0,1280687,0.000e+00,yes
+x86,rdfsbase,per-CPU and thread base,7,1,6,0,0,0,1280687,0.000e+00,yes
+x86,rep vmmcall,string and memory block,7,4,0,0,3,0,1280687,0.000e+00,yes
+x86,repne scas,string and memory block,7,5,0,0,2,0,1280687,0.000e+00,yes
+x86,verw,privileged register access,7,1,2,1,3,0,1280687,0.000e+00,yes
+x86,data32 mov,other,6,0,0,0,6,0,1280687,0.000e+00,yes
+x86,i,other,6,6,0,0,0,0,1280687,0.000e+00,yes
+x86,invd,cache maintenance,6,0,2,4,0,0,1280687,0.000e+00,yes
+x86,lock or,atomics and exclusive access,6,5,0,0,1,0,1280687,0.000e+00,yes
+x86,pshufb,other,6,0,0,0,6,0,1280687,0.000e+00,yes
+x86,pshufd,other,6,0,0,0,6,269,1280687,2.100e-04,no
+x86,repe scas,string and memory block,6,0,1,2,3,0,1280687,0.000e+00,yes
+x86,repne ins,privileged register access,6,0,0,0,6,0,1280687,0.000e+00,yes
+x86,repne outs,privileged register access,6,0,0,0,6,0,1280687,0.000e+00,yes
+x86,shrd,other,6,1,5,0,0,424,1280687,3.311e-04,no
+x86,vmovdqa64,other,6,0,4,0,2,0,1280687,0.000e+00,yes
+x86,xgetbv,privileged register access,6,1,2,1,2,0,1280687,0.000e+00,yes
+x86,xsetbv,privileged register access,6,1,2,1,2,0,1280687,0.000e+00,yes
+x86,aesdeclast,other,5,0,0,0,5,0,1280687,0.000e+00,yes
+x86,aesenclast,other,5,0,0,0,5,0,1280687,0.000e+00,yes
+x86,fdiv,other,5,1,1,1,2,2,1280687,1.562e-06,yes
+x86,ffree,other,5,0,2,2,1,0,1280687,0.000e+00,yes
+x86,fild,other,5,1,0,2,2,68,1280687,5.310e-05,no
+x86,fld,other,5,2,0,1,2,218,1280687,1.702e-04,no
+x86,lock and,atomics and exclusive access,5,5,0,0,0,0,1280687,0.000e+00,yes
+x86,lock btr,atomics and exclusive access,5,0,5,0,0,0,1280687,0.000e+00,yes
+x86,pslld,other,5,0,0,0,5,106,1280687,8.277e-05,no
+x86,psrld,other,5,0,0,0,5,128,1280687,9.995e-05,no
+x86,vmcall,"hypervisor, secure and firmware calls",5,5,0,0,0,0,1280687,0.000e+00,yes
+x86,vmrun,"hypervisor, secure and firmware calls",5,2,1,0,2,0,1280687,0.000e+00,yes
+x86,wrpkru,privileged register access,5,1,2,0,2,0,1280687,0.000e+00,yes
+x86,xrstor,context and FPU/vector state,5,0,3,2,0,0,1280687,0.000e+00,yes
+x86,xsaveopt,context and FPU/vector state,5,0,3,2,0,0,1280687,0.000e+00,yes
+x86,clgi,"hypervisor, secure and firmware calls",4,0,1,0,3,0,1280687,0.000e+00,yes
+x86,cs,other,4,4,0,0,0,0,1280687,0.000e+00,yes
+x86,data32 addr32,other,4,0,0,0,4,0,1280687,0.000e+00,yes
+x86,ds,other,4,4,0,0,0,0,1280687,0.000e+00,yes
+x86,fldz,other,4,0,1,2,1,19,1280687,1.484e-05,no
+x86,fnstcw,context and FPU/vector state,4,3,0,1,0,45,1280687,3.514e-05,no
+x86,fnstsw,context and FPU/vector state,4,3,0,1,0,0,1280687,0.000e+00,yes
+x86,lock xor,atomics and exclusive access,4,4,0,0,0,0,1280687,0.000e+00,yes
+x86,pclmulqdq,other,4,0,0,0,4,0,1280687,0.000e+00,yes
+x86,popcnt,bit manipulation,4,0,4,0,0,0,1280687,0.000e+00,yes
+x86,por,other,4,0,0,0,4,181,1280687,1.413e-04,no
+x86,psrldq,other,4,0,0,0,4,0,1280687,0.000e+00,yes
+x86,rdgsbase,per-CPU and thread base,4,1,3,0,0,0,1280687,0.000e+00,yes
+x86,rdpkru,privileged register access,4,1,2,0,1,0,1280687,0.000e+00,yes
+x86,sar,other,4,1,2,0,1,1055,1280687,8.238e-04,no
+x86,ss,other,4,2,0,0,2,0,1280687,0.000e+00,yes
+x86,vmload,"hypervisor, secure and firmware calls",4,2,1,0,1,0,1280687,0.000e+00,yes
+x86,vmread,"hypervisor, secure and firmware calls",4,1,1,0,2,0,1280687,0.000e+00,yes
+x86,vmwrite,"hypervisor, secure and firmware calls",4,0,1,0,3,0,1280687,0.000e+00,yes
+x86,wrgsbase,per-CPU and thread base,4,3,1,0,0,0,1280687,0.000e+00,yes
+x86,b,other,3,3,0,0,0,0,1280687,0.000e+00,yes
+x86,daa,other,3,0,0,3,0,0,1280687,0.000e+00,yes
+x86,dynamic,other,3,0,3,0,0,0,1280687,0.000e+00,yes
+x86,fistp,other,3,1,0,1,1,37,1280687,2.889e-05,no
+x86,fs,other,3,3,0,0,0,0,1280687,0.000e+00,yes
+x86,fwait,context and FPU/vector state,3,3,0,0,0,0,1280687,0.000e+00,yes
+x86,gs,other,3,3,0,0,0,0,1280687,0.000e+00,yes
+x86,invept,TLB and MMU maintenance,3,0,1,0,2,0,1280687,0.000e+00,yes
+x86,lahf,other,3,1,0,0,2,0,1280687,0.000e+00,yes
+x86,lss,other,3,3,0,0,0,0,1280687,0.000e+00,yes
+x86,movd,other,3,0,0,0,3,470,1280687,3.670e-04,no
+x86,movntiq,other,3,3,0,0,0,0,1280687,0.000e+00,yes
+x86,note,other,3,0,3,0,0,0,1280687,0.000e+00,yes
+x86,pextrw,other,3,0,0,0,3,10,1280687,7.808e-06,yes
+x86,r10,other,3,0,3,0,0,0,1280687,0.000e+00,yes
+x86,r8,other,3,1,2,0,0,0,1280687,0.000e+00,yes
+x86,rdpmc,timers and counters,3,1,2,0,0,0,1280687,0.000e+00,yes
+x86,repnz scas,string and memory block,3,1,0,0,2,0,1280687,0.000e+00,yes
+x86,shld,other,3,0,0,3,0,1076,1280687,8.402e-04,no
+x86,stc,other,3,0,0,1,2,0,1280687,0.000e+00,yes
+x86,text,other,3,0,3,0,0,0,1280687,0.000e+00,yes
+x86,vmlaunch,"hypervisor, secure and firmware calls",3,1,1,0,1,0,1280687,0.000e+00,yes
+x86,vmmcall,"hypervisor, secure and firmware calls",3,3,0,0,0,0,1280687,0.000e+00,yes
+x86,vmresume,"hypervisor, secure and firmware calls",3,1,1,0,1,0,1280687,0.000e+00,yes
+x86,vmsave,"hypervisor, secure and firmware calls",3,1,1,0,1,0,1280687,0.000e+00,yes
+x86,vpxor,other,3,0,2,0,1,0,1280687,0.000e+00,yes
+x86,w,other,3,3,0,0,0,0,1280687,0.000e+00,yes
+x86,wrfsbase,per-CPU and thread base,3,1,2,0,0,0,1280687,0.000e+00,yes
+x86,blkincr,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,bootcodeseg,other,2,0,0,2,0,0,1280687,0.000e+00,yes
+x86,bootdataseg,other,2,0,0,2,0,0,1280687,0.000e+00,yes
+x86,bootrealdata,other,2,0,0,2,0,0,1280687,0.000e+00,yes
+x86,bootrealseg,other,2,0,0,2,0,0,1280687,0.000e+00,yes
+x86,char,other,2,0,2,0,0,0,1280687,0.000e+00,yes
+x86,cmovnzl,other,2,0,1,1,0,0,1280687,0.000e+00,yes
+x86,cmovzl,other,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,cmpxchg16b,atomics and exclusive access,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,cwtl,other,2,0,0,2,0,7,1280687,5.466e-06,yes
+x86,encls,other,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,es,other,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,flatcodeseg,other,2,0,0,2,0,0,1280687,0.000e+00,yes
+x86,flatdataseg,other,2,0,0,2,0,0,1280687,0.000e+00,yes
+x86,fld1,other,2,0,1,0,1,5,1280687,3.904e-06,yes
+x86,flds,other,2,0,2,0,0,96,1280687,7.496e-05,no
+x86,fmulp,other,2,0,0,1,1,3,1280687,2.342e-06,yes
+x86,fnclex,context and FPU/vector state,2,1,0,1,0,0,1280687,0.000e+00,yes
+x86,fnsave,context and FPU/vector state,2,1,0,1,0,0,1280687,0.000e+00,yes
+x86,fsbtodb,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,fsubrp,other,2,0,0,1,1,3,1280687,2.342e-06,yes
+x86,gdtlen,other,2,0,0,2,0,0,1280687,0.000e+00,yes
+x86,indirect,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,inodeblk,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,inodedbl,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,int,exception entry/return and system call,2,0,2,0,0,0,1280687,0.000e+00,yes
+x86,intno,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,invvpid,TLB and MMU maintenance,2,0,1,0,1,0,1280687,0.000e+00,yes
+x86,l,other,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,ldmxcsr,context and FPU/vector state,2,1,0,1,0,0,1280687,0.000e+00,yes
+x86,lmsw,privileged register access,2,1,1,0,0,0,1280687,0.000e+00,yes
+x86,lock cmpxchg16b,atomics and exclusive access,2,0,2,0,0,0,1280687,0.000e+00,yes
+x86,lock inc,atomics and exclusive access,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,lock sub,atomics and exclusive access,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,maxheads,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,nblocks,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,nsectors,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,paddq,other,2,0,0,0,2,83,1280687,6.481e-05,no
+x86,pgtno,other,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,pinsrw,other,2,0,0,0,2,2,1280687,1.562e-06,yes
+x86,prefetcht0,cache maintenance,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,rep xcryptcbc,string and memory block,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,rep xstorerng,string and memory block,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,repne stos,string and memory block,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,scas,string and memory block,2,2,0,0,0,0,1280687,0.000e+00,yes
+x86,short,other,2,0,2,0,0,0,1280687,0.000e+00,yes
+x86,stgi,"hypervisor, secure and firmware calls",2,0,1,0,1,0,1280687,0.000e+00,yes
+x86,vmclear,"hypervisor, secure and firmware calls",2,0,1,0,1,0,1280687,0.000e+00,yes
+x86,vmptrld,"hypervisor, secure and firmware calls",2,0,1,0,1,0,1280687,0.000e+00,yes
+x86,vmptrst,"hypervisor, secure and firmware calls",2,0,1,0,1,0,1280687,0.000e+00,yes
+x86,vmxoff,"hypervisor, secure and firmware calls",2,0,1,0,1,0,1280687,0.000e+00,yes
+x86,vmxon,"hypervisor, secure and firmware calls",2,0,1,0,1,0,1280687,0.000e+00,yes
+x86,vpxord,other,2,0,2,0,0,0,1280687,0.000e+00,yes
+x86,wrmsrns,privileged register access,2,0,2,0,0,0,1280687,0.000e+00,yes
+x86,xlat,other,2,0,0,0,2,0,1280687,0.000e+00,yes
+x86,xrstors,context and FPU/vector state,2,0,1,0,1,0,1280687,0.000e+00,yes
+x86,aam,other,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,aesimc,other,1,0,0,0,1,0,1280687,0.000e+00,yes
+x86,btc,atomics and exclusive access,1,1,0,0,0,1,1280687,7.808e-07,yes
+x86,cbw,other,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,cltd,other,1,0,0,1,0,177,1280687,1.382e-04,no
+x86,clwb,cache maintenance,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,cmoval,other,1,0,0,1,0,46,1280687,3.592e-05,no
+x86,cmovbl,other,1,0,1,0,0,325,1280687,2.538e-04,no
+x86,cmoveq,other,1,0,0,0,1,168,1280687,1.312e-04,no
+x86,cmovgl,other,1,0,0,1,0,68,1280687,5.310e-05,no
+x86,cmovncl,other,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,cmovzq,other,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,edi,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,emms,context and FPU/vector state,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,esi,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,fldenv,context and FPU/vector state,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,fmul,other,1,1,0,0,0,11,1280687,8.589e-06,yes
+x86,fnop,other,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,fnstenv,context and FPU/vector state,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,frstor,context and FPU/vector state,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,fsubp,other,1,1,0,0,0,4,1280687,3.123e-06,yes
+x86,func,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,get_user,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,invlpgb,TLB and MMU maintenance,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,lar,privileged register access,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,long,other,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,monitorx,"spin-wait, idle and hints",1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,movntil,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,movsx,other,1,1,0,0,0,1970,1280687,1.538e-03,no
+x86,mwaitx,"spin-wait, idle and hints",1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,nop_func,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,paravirt_ret0,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,phdr,other,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,psec,other,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,psllq,other,1,0,0,0,1,79,1280687,6.169e-05,no
+x86,put_user,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,pv_native_irq_disable,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,pv_native_irq_enable,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,pv_native_read_cr2,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,pv_native_save_fl,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,r11,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,r9,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,rax,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,rcr,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,rcx,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,rdpid,CPU identification and feature,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,rdtsclfence,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,rdtscrdtscp,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,rdx,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,rep movsbcall,string and memory block,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,rep ret,string and memory block,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,rep stosbcall,string and memory block,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,rep stosqrep,string and memory block,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,repne stosb,string and memory block,1,0,0,0,1,0,1280687,0.000e+00,yes
+x86,repz cmps,string and memory block,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,sahf,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,smsw,privileged register access,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,stack,other,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,stmxcsr,context and FPU/vector state,1,0,0,1,0,0,1280687,0.000e+00,yes
+x86,sysexit,exception entry/return and system call,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,tlbsync,TLB and MMU maintenance,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,tzcnt,bit manipulation,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,u16,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,u32,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,u8,other,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,ud1,exception entry/return and system call,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,vpxorq,other,1,0,0,0,1,0,1280687,0.000e+00,yes
+x86,wruss,speculation control,1,1,0,0,0,0,1280687,0.000e+00,yes
+x86,xsaves,context and FPU/vector state,1,0,1,0,0,0,1280687,0.000e+00,yes
+x86,xstorerng,other,1,0,0,1,0,0,1280687,0.000e+00,yes

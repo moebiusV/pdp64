@@ -1,0 +1,154 @@
+class,family,distinct_invisible_mnemonics,occurrences
+CPU identification and feature,alpha,2,4
+CPU identification and feature,s390,2,3
+CPU identification and feature,x86,2,53
+TLB and MMU maintenance,arm64,1,76
+TLB and MMU maintenance,hppa,8,38
+TLB and MMU maintenance,loongarch,7,24
+TLB and MMU maintenance,m68k,8,50
+TLB and MMU maintenance,mips,4,72
+TLB and MMU maintenance,ppc,14,451
+TLB and MMU maintenance,riscv,5,35
+TLB and MMU maintenance,s390,4,13
+TLB and MMU maintenance,sparc,2,176
+TLB and MMU maintenance,x86,6,37
+atomics and exclusive access,alpha,4,109
+atomics and exclusive access,arm,11,181
+atomics and exclusive access,arm64,31,134
+atomics and exclusive access,hppa,1,4
+atomics and exclusive access,loongarch,7,32
+atomics and exclusive access,m68k,1,3
+atomics and exclusive access,m88k,1,8
+atomics and exclusive access,mips,4,68
+atomics and exclusive access,ppc,8,283
+atomics and exclusive access,riscv,14,51
+atomics and exclusive access,s390,3,16
+atomics and exclusive access,sparc,7,77
+atomics and exclusive access,vax,6,16
+atomics and exclusive access,x86,20,212
+bit manipulation,alpha,3,13
+bit manipulation,loongarch,2,3
+bit manipulation,m68k,5,21
+bit manipulation,mips,4,31
+bit manipulation,ppc,1,1
+bit manipulation,riscv,4,10
+bit manipulation,sparc,1,6
+bit manipulation,x86,2,5
+cache maintenance,arm,2,86
+cache maintenance,arm64,2,42
+cache maintenance,hppa,2,98
+cache maintenance,loongarch,1,1
+cache maintenance,m68k,5,45
+cache maintenance,mips,4,285
+cache maintenance,ppc,8,143
+cache maintenance,riscv,3,6
+cache maintenance,s390,3,4
+cache maintenance,sparc,2,52
+cache maintenance,x86,6,46
+context and FPU/vector state,arm,2,9
+context and FPU/vector state,m68k,2,40
+context and FPU/vector state,mips,2,47
+context and FPU/vector state,ppc,5,42
+context and FPU/vector state,riscv,2,11
+context and FPU/vector state,s390,3,7
+context and FPU/vector state,vax,4,54
+context and FPU/vector state,x86,18,63
+debug and breakpoints,arm64,2,3
+debug and breakpoints,mips,3,4
+debug and breakpoints,ppc,2,14
+debug and breakpoints,riscv,2,11
+debug and breakpoints,vax,1,1
+debug and breakpoints,x86,1,56
+exception entry/return and system call,alpha,1,180
+exception entry/return and system call,arm,5,19
+exception entry/return and system call,arm64,2,34
+exception entry/return and system call,hppa,4,58
+exception entry/return and system call,loongarch,1,9
+exception entry/return and system call,m68k,1,17
+exception entry/return and system call,m88k,2,9
+exception entry/return and system call,mips,3,23
+exception entry/return and system call,ppc,7,134
+exception entry/return and system call,riscv,3,29
+exception entry/return and system call,s390,3,17
+exception entry/return and system call,sparc,4,134
+exception entry/return and system call,vax,2,33
+exception entry/return and system call,x86,7,116
+"hypervisor, secure and firmware calls",arm,2,10
+"hypervisor, secure and firmware calls",arm64,2,15
+"hypervisor, secure and firmware calls",loongarch,4,9
+"hypervisor, secure and firmware calls",riscv,1,2
+"hypervisor, secure and firmware calls",s390,2,34
+"hypervisor, secure and firmware calls",x86,16,50
+interrupt masking,arm,3,41
+interrupt masking,mips,2,11
+interrupt masking,ppc,2,74
+interrupt masking,x86,2,266
+memory barrier and ordering,alpha,3,17
+memory barrier and ordering,arm,2,81
+memory barrier and ordering,arm64,3,222
+memory barrier and ordering,hppa,2,68
+memory barrier and ordering,loongarch,2,11
+memory barrier and ordering,mips,3,69
+memory barrier and ordering,ppc,7,1272
+memory barrier and ordering,riscv,2,73
+memory barrier and ordering,s390,1,1
+memory barrier and ordering,sparc,1,533
+memory barrier and ordering,x86,3,209
+other,alpha,166,5432
+other,arm,78,930
+other,arm64,158,1270
+other,hppa,128,4951
+other,loongarch,25,195
+other,m68k,163,4094
+other,m88k,50,1413
+other,mips,92,1409
+other,ppc,143,1407
+other,riscv,100,414
+other,s390,43,126
+other,sparc,107,3126
+other,vax,30,324
+other,x86,120,1250
+per-CPU and thread base,x86,5,69
+privileged register access,arm,6,2603
+privileged register access,arm64,4,667
+privileged register access,hppa,1,5
+privileged register access,loongarch,5,136
+privileged register access,m68k,4,143
+privileged register access,m88k,5,224
+privileged register access,mips,10,743
+privileged register access,ppc,23,740
+privileged register access,riscv,12,315
+privileged register access,s390,12,48
+privileged register access,sparc,3,1460
+privileged register access,vax,3,93
+privileged register access,x86,26,583
+random numbers,ppc,1,1
+random numbers,x86,2,21
+speculation control,arm64,1,6
+speculation control,x86,2,48
+"spin-wait, idle and hints",alpha,1,1
+"spin-wait, idle and hints",arm,3,14
+"spin-wait, idle and hints",arm64,6,48
+"spin-wait, idle and hints",loongarch,1,5
+"spin-wait, idle and hints",mips,1,12
+"spin-wait, idle and hints",ppc,3,4
+"spin-wait, idle and hints",riscv,1,14
+"spin-wait, idle and hints",s390,1,12
+"spin-wait, idle and hints",vax,1,35
+"spin-wait, idle and hints",x86,6,105
+string and memory block,arm64,6,6
+string and memory block,ppc,4,10
+string and memory block,s390,3,6
+string and memory block,vax,2,13
+string and memory block,x86,18,145
+timers and counters,alpha,1,12
+timers and counters,loongarch,3,3
+timers and counters,mips,1,8
+timers and counters,ppc,3,46
+timers and counters,s390,6,23
+timers and counters,x86,3,22
+user-memory access,arm,6,453
+user-memory access,arm64,6,52
+user-memory access,s390,2,10
+user-memory access,sparc,15,1373
+user-memory access,x86,2,88

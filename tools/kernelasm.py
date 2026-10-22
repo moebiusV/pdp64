@@ -130,7 +130,7 @@ def strip_line_comment(line, fam, table=COMMENT):
 # --------------------------------------------------------------------------------------------------------------------
 # normalisation of mnemonics
 # --------------------------------------------------------------------------------------------------------------------
-X86_BASE = set('''mov movabs lea push pop pushf popf pusha popa pushad popad call jmp ret lret leave enter nop xchg cmpxchg cmpxchg8b cmpxchg16b xadd
+X86_BASE = set('''nop nopw nopl mov movabs lea push pop pushf popf pusha popa pushad popad call jmp ret lret leave enter nop xchg cmpxchg cmpxchg8b cmpxchg16b xadd
 add sub adc sbb and or xor not neg inc dec mul imul div idiv cmp test bt bts btr btc bsf bsr tzcnt lzcnt popcnt shl shr sar sal rol ror rcl rcr shld shrd
 cbw cwd cdq cqo cwde cdqe cltq cqto cltd cwtl cbtw cwtd cld std cli sti hlt pause lfence mfence sfence clflush clflushopt clwb invd wbinvd invlpg invpcid
 rdmsr wrmsr rdtsc rdtscp rdpmc cpuid swapgs sysret sysexit sysenter syscall iret lcall ljmp lgdt lidt sgdt sidt lldt ltr sldt str lmsw smsw clts verr verw lar lsl
@@ -141,7 +141,7 @@ cmc clc stc xlat xlatb movbe crc32 prefetcht0 prefetcht1 prefetcht2 prefetchnta 
 fxch fchs fabs fsqrt fcom fcomp fucom fucomp fucomi fucomip fcomi fcomip fnstenv fldenv fnclex fnop invept invvpid rsm getsec
 adcx adox mulx rorx sarx shlx shrx andn bextr blsi blsmsk blsr bzhi pdep pext serialize rdssp incssp saveprevssp rstorssp wrss wruss setssbsy clrssbsy
 ud0 ud1 icebp retf aam aad aaa aas daa das bound arpl xend xbegin xabort xtest enqcmd enqcmds movdir64b movdiri wbnoinvd cldemote
-tdcall seamcall seamret senduipi uiret clui stui testui hreset lkgs eretu erets invlpgb tlbsync stosb'''.split())
+tdcall seamcall seamret senduipi uiret clui stui testui hreset lkgs eretu erets invlpgb tlbsync'''.split())
 X86_PREFIX = {'lock', 'rep', 'repz', 'repe', 'repnz', 'repne', 'data16', 'data32', 'rex', 'rex64', 'rex.w', 'notrack', 'bnd', 'xacquire', 'xrelease', 'addr32'}
 X86_JCC = set('jo jno jb jnae jc jnb jae jnc je jz jne jnz jbe jna ja jnbe js jns jp jpe jnp jpo jl jnge jge jnl jle jng jg jnle jcxz jecxz jrcxz'.split())
 ARM_BASE = set('''adc add adr adrl and asr b bfc bfi bic bkpt bl blx bx bxj cbnz cbz cdp cdp2 clrex clz cmn cmp cps cpsid cpsie csdb dbg dmb dsb eor eret hvc isb it ite itt itte ittt
@@ -171,7 +171,12 @@ def norm_x86(m):
         return m[:-1]
     return m
 
+ARM_ALIAS = {'ldmfd': 'ldmia', 'stmfd': 'stmdb', 'ldmea': 'ldmdb', 'stmea': 'stmia', 'ldmed': 'ldmib', 'stmed': 'stmda', 'ldmfa': 'ldmda', 'stmfa': 'stmib'}
+
 def norm_arm(m):
+    for a, b in ARM_ALIAS.items():
+        if m == a or (m.startswith(a) and m[len(a):] in ARM_COND):
+            return b
     if m in ARM_BASE:
         return m
     mm = m
@@ -190,6 +195,25 @@ def norm_arm(m):
             return stem[:-1]
     return m
 
+JUNK_RE = re.compile(r'^(?:[a-z]\d{1,2}|sp|lr|ip|fp|pc|xzr|wzr|ra|gp|tp|zero|sy|ish|ishst|ishld|nsh|nshst|nshld|osh|oshst|oshld|st|ld|op|reg|regname|insn|type|asm_op|code|buf|len|src|dst|sum|scno|tsk|tbl|td\d|cs|ds|es|ss|fs|gs|text|note|dynamic|char|w|x|b|h|d|l|i|a|n|o|t|aa|r\d+)$')
+JUNK_SUFFIX = re.compile(r'(?:[,:]|_el[0-3]|_ns)$')
+
+def is_junk(fam, w):
+    if w in ('b', 'bl') and fam in ('arm', 'arm64', 'riscv', 'mips', 'ppc', 'x86', 'sparc', 'm68k'):
+        return False
+    if w in ('b', 'h', 'd', 'l', 'a', 'w', 'x', 'i', 'n', 'o', 't') :
+        return True
+    return bool(JUNK_RE.match(w)) or bool(JUNK_SUFFIX.search(w))
+
+SPARC_ALIAS = {'cmp': 'subcc', 'tst': 'orcc', 'btst': 'andcc', 'inc': 'add', 'dec': 'sub', 'inccc': 'addcc', 'deccc': 'subcc', 'clr': 'mov', 'mov': 'or', 'neg': 'sub',
+               'not': 'xnor', 'clruw': 'srl', 'set': 'sethi', 'b': 'ba', 'bz': 'be', 'bnz': 'bne', 'jmp': 'jmpl', 'ret': 'jmpl', 'retl': 'jmpl', 'nop': 'sethi',
+               'iflush': 'flush', 'sir': 'sir', 'call': 'call'}
+M68K_BASE = set('''move movea moveq movem movep moves movec add adda addi addq addx sub suba subi subq subx cmp cmpa cmpi cmpm and andi or ori eor eori not neg negx clr tst ext extb lea pea
+link unlk jsr jmp bsr bra rts rte rtr rtd trap trapv swap exg lsl lsr asl asr rol ror roxl roxr bset bclr bchg btst mulu muls divu divs divul divsl abcd sbcd nbcd tas
+nop reset stop illegal fmove fmovem fadd fsub fmul fdiv fcmp ftst fsave frestore fnop pflush pflusha cinv cpush bfextu bfexts bfins bfffo bfset bfclr bfchg bftst cas cas2 chk'''.split())
+M68K_CC = set('ra eq ne lt le gt ge hi ls cc cs mi pl vc vs hs lo sr'.split())
+VAX_J = re.compile(r'^j(?!mp$|sb$)([a-z]+)$')
+
 VAX_RE = re.compile(r'^(.*[a-z])([234])$')
 
 def norm(fam, m):
@@ -204,13 +228,37 @@ def norm(fam, m):
         return m[2:] if m.startswith('c.') else m
     if fam == 'ppc':
         return m.rstrip('.+-') or m
-    if fam in ('sparc', 'hppa'):
+    if fam == 'hppa':
         return m.split(',')[0]
     if fam == 'alpha':
         return m.split('/')[0]
     if fam == 'm68k':
-        return re.sub(r'\.[bwls]$', '', m)
+        m = re.sub(r'\.[bwls]$', '', m)
+        if m in M68K_BASE:
+            return m
+        if m.startswith('jb') and (m[2:] in M68K_CC):
+            return 'b' + m[2:]
+        if m.startswith('j') and m[1:] in M68K_CC:
+            return 'b' + m[1:]
+        if m == 'jbsr':
+            return 'bsr'
+        if m.startswith('b') and m[:-1] in ('bra', 'bsr') or (m.startswith('b') and m[1:-1] in M68K_CC and m[-1] in 'sl'):
+            return m[:-1]
+        if len(m) > 2 and m[-1] in 'bwl' and m[:-1] in M68K_BASE:
+            return m[:-1]
+        if m.endswith('x') and m[:-1] in ('fmovem',):
+            return 'fmovem'
+        return m
+    if fam == 'sparc':
+        m = m.split(',')[0]
+        return SPARC_ALIAS.get(m, m)
     if fam == 'vax':
+        if m == 'jbr':
+            return 'brb'
+        mj = VAX_J.match(m)
+        if mj and mj.group(1) not in ('sb',):
+            m = 'b' + mj.group(1)
+            m = {'bbs': 'bbs', 'bbc': 'bbc'}.get(m, m)
         mm = VAX_RE.match(m)
         if mm and mm.group(1)[-1] in 'bwlqdfgh':
             return mm.group(1)
@@ -306,8 +354,14 @@ def handle_statement(st, fam, kernel, kind, f, tally, macro_names, pending):
         return
     if not WORD_RE.match(wl):
         return
+    if is_junk(fam, wl):
+        return
     if fam == 'x86' and wl in X86_PREFIX:
         r2 = rest.strip()
+        if wl not in ('lock', 'rep', 'repz', 'repe', 'repnz', 'repne'):
+            if r2:
+                handle_statement(r2, fam, kernel, kind, f, tally, macro_names, pending)
+            return
         if not r2:
             pending[0] = wl
             return
@@ -589,12 +643,17 @@ def corpus_family_counts(corpus, fam, dirs):
                     cnt[wl] += 1
                     per_dir[d] += 1
                     continue
+                if is_junk(fam, wl):
+                    continue
                 if fam == 'x86' and wl in X86_PREFIX:
                     if not rest.strip():
                         continue
                     w2, _ = first_word(rest.strip())
                     if w2 and w2[0].isalpha():
-                        cnt[wl + ' ' + norm('x86', w2.lower())] += 1
+                        if wl in ('lock', 'rep', 'repz', 'repe', 'repnz', 'repne'):
+                            cnt[wl + ' ' + norm('x86', w2.lower())] += 1
+                        else:
+                            cnt[norm('x86', w2.lower())] += 1
                         per_dir[d] += 1
                     continue
                 if not WORD_RE.match(wl):
@@ -662,12 +721,13 @@ def do_join(out, thresh=1e-5):
 CLASS_ORDER = ['exception entry/return and system call', 'privileged register access', 'interrupt masking', 'TLB and MMU maintenance', 'cache maintenance',
                'memory barrier and ordering', 'atomics and exclusive access', 'spin-wait, idle and hints', 'user-memory access', 'per-CPU and thread base',
                'context and FPU/vector state', 'string and memory block', 'bit manipulation', 'CPU identification and feature', 'timers and counters',
-               'random numbers', 'hypervisor, secure and firmware calls', 'debug and breakpoints', 'speculation control', 'other']
+               'random numbers', 'I/O and device access', 'hypervisor, secure and firmware calls', 'debug and breakpoints', 'speculation control', 'other']
 CLASS_TABLE = {
  'x86': {
-  'exception entry/return and system call': 'iret sysret sysexit sysenter syscall int into lret uiret eretu erets senduipi rsm ud1',
+  'exception entry/return and system call': 'iret sysret sysexit sysenter syscall int into lret ljmp lcall uiret eretu erets senduipi rsm ud1',
   'privileged register access': 'rdmsr wrmsr lgdt lidt lldt ltr sgdt sidt sldt str lmsw smsw clts xsetbv xgetbv rdpkru wrpkru verr verw lar lsl rdmsrlist wrmsrlist wrmsrns in out ins outs',
-  'interrupt masking': 'cli sti clui stui testui',
+  'interrupt masking': 'cli sti clui stui testui pushf popf',
+  'I/O and device access': 'in out ins outs',
   'TLB and MMU maintenance': 'invlpg invpcid invept invvpid invlpgb tlbsync',
   'cache maintenance': 'invd wbinvd clflush clflushopt clwb cldemote wbnoinvd prefetcht0 prefetcht1 prefetcht2 prefetchnta prefetchw',
   'memory barrier and ordering': 'mfence lfence sfence serialize',
@@ -675,8 +735,8 @@ CLASS_TABLE = {
   'spin-wait, idle and hints': 'pause hlt mwait monitor umwait tpause umonitor monitorx mwaitx',
   'user-memory access': 'stac clac',
   'per-CPU and thread base': 'swapgs rdgsbase wrgsbase rdfsbase wrfsbase lkgs',
-  'context and FPU/vector state': 'xsave xrstor xsaveopt xsavec xsaves xrstors fxsave fxrstor fnsave frstor fnstenv fldenv emms fninit fnclex fldcw fnstcw fnstsw ldmxcsr stmxcsr vzeroupper vzeroall fwait wait',
-  'string and memory block': 'movs stos scas cmps lods',
+  'context and FPU/vector state': 'pusha popa xsave xrstor xsaveopt xsavec xsaves xrstors fxsave fxrstor fnsave frstor fnstenv fldenv emms fninit fnclex fldcw fnstcw fnstsw ldmxcsr stmxcsr vzeroupper vzeroall fwait wait',
+  'string and memory block': 'movs stos scas cmps lods cld std movnti movntdq movntiq',
   'bit manipulation': 'bsf bsr tzcnt lzcnt popcnt bt bswap movbe crc32 bextr pdep pext',
   'CPU identification and feature': 'cpuid rdpid',
   'timers and counters': 'rdtsc rdtscp rdpmc',
@@ -803,6 +863,7 @@ CLASS_TABLE = {
  },
  's390': {
   'exception entry/return and system call': 'svc lpsw lpswe lpswey',
+  'I/O and device access': 'ssch tsch stsch msch hsch csch rsch tpi sal chsc xsch rchp schm stcrw',
   'privileged register access': 'lctl lctlg stctl stctg spx stpx stap spka ipk sckpf ssm stosm stnsm epsw sac sacf',
   'TLB and MMU maintenance': 'ptlb ipte idte csp cspg crdte ptlbe',
   'cache maintenance': 'iske sske rrbe rrbm pfmf pfd',
@@ -811,7 +872,7 @@ CLASS_TABLE = {
   'spin-wait, idle and hints': 'sigp',
   'user-memory access': 'mvcp mvcs mvcos lura lurag stura sturg',
   'context and FPU/vector state': 'stmg lmg stm lm stfpc lfpc vlm vstm',
-  'string and memory block': 'mvc mvcl mvcle clc clcl clcle xc oc nc tr trt trtr srst mvst clst mvn mvo mvz pack unpk',
+  'string and memory block': 'mvc mvcl mvcle cksm clc clcl clcle xc oc nc tr trt trtr srst mvst clst mvn mvo mvz pack unpk',
   'bit manipulation': 'flogr popcnt',
   'timers and counters': 'stck stckf stcke stckc sckc stpt spt',
   'random numbers': 'prno',
@@ -856,7 +917,25 @@ CLASS_TABLE = {
  },
 }
 
+CLASS_RE = {
+ 'ppc': [(r'm[ft](sprg\d|[id]bat[ul]|dar|dsisr|dec|srr\d|sdr1|pvr|hid\d+|esr|dear|ivpr|ivor\d+|tcr|tsr|pir|pid|dbcr\d|iac\d|dac\d|ear|ctrl|pmr|amr|iamr|uamr|lpcr|hsprg\d|hdec)', 'privileged register access'),
+         (r'mt(tbl|tbu)', 'timers and counters'), (r'tlb(ld|li)', 'TLB and MMU maintenance'), (r'dcba', 'cache maintenance'),
+         (r'(evld|evst|evmerge|evxor|evmra|stvx|lvx|stvxl|lvxl|evldw|evstdw)\w*', 'context and FPU/vector state')],
+ 'arm': [(r'(dc|ic)\w+', 'cache maintenance')],
+ 'arm64': [(r'(aes|sha|sm3|sm4)\w*', 'other'), (r'ldnp|stnp|prfm', 'cache maintenance')],
+ 'mips': [(r'(dmt|dmf)c2|cfc0|ctc0|mfcr|mtcr|mfps|mtm0|mfpc|cfcmsa|ctcmsa', 'privileged register access'), (r'syncw|sync\.[lp]|synciobdma', 'memory barrier and ordering'),
+          (r'dvpe|evpe|dmt|emt|dvp|evp', 'privileged register access'), (r'jr\.hb', 'memory barrier and ordering'), (r'rfe', 'exception entry/return and system call'), (r'ginvt', 'TLB and MMU maintenance')],
+ 'sparc': [(r'iflush|flush', 'cache maintenance'), (r'saved|restored', 'context and FPU/vector state'), (r'sir', 'debug and breakpoints')],
+ 'riscv': [(r'fscsr|frcsr|fsrm|frm|fsflags|frflags', 'context and FPU/vector state'), (r'th\.sync\w*|th\.dcache\w*|th\.icache\w*|th\.l2cache\w*', 'memory barrier and ordering'), (r'vl\d+r\.v|vs\d+r\.v', 'context and FPU/vector state')],
+ 's390': [(r'sam(24|31|64)|lra|tprot|lpp|lcctl|lsctl|qctri|qsi|ecctr|ecag|stfl|sck', 'privileged register access'), (r'lamy|stamy|lmh|lpq|plo', 'context and FPU/vector state')],
+ 'loongarch': [(r'x86\w+', 'other'), (r'lddir|ldpte', 'TLB and MMU maintenance'), (r'movgr2fcsr|movfcsr2gr|movgr2cf|movgr2scr|movscr2gr|movgr2frh\.w', 'context and FPU/vector state')],
+ 'x86': [(r'(aes|pclmul|pshuf|psrl|psll|pxor|vpxor|vmov|vor|pext|movdq|vp)\w*', 'other')],
+}
+
 def class_of(fam, m):
+    for rx, cls in CLASS_RE.get(fam, []):
+        if re.fullmatch(rx, m):
+            return cls
     tbl = CLASS_TABLE.get(fam, {})
     if fam == 'x86' and m.startswith('lock '):
         return 'atomics and exclusive access'
