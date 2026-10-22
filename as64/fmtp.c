@@ -24,6 +24,7 @@ int fmt_encode(const struct fmt *f, uint8_t *out, size_t *n)
 	case FS_SYSRD:  i.body.u.a13.rd = f->rd; break;
 	case FS_SYSN:   i.body.u.a14.n = f->n; break;
 	case FS_SYSP:   i.body.u.a15.p = f->d; break;
+	case FS_CB:     i.body.u.a16.imm = f->imm; i.body.u.a16.d = f->d; break;
 	}
 	return emit_bytes(&i, out, 8, n, err, sizeof err) ? 0 : -1;
 }
@@ -52,6 +53,7 @@ int fmt_decode(const uint8_t *buf, size_t n, struct fmt *f)
 	case FS_SYSRD:  f->rd = i.body.u.a13.rd; break;
 	case FS_SYSN:   f->n = i.body.u.a14.n; break;
 	case FS_SYSP:   f->d = i.body.u.a15.p; break;
+	case FS_CB:     f->imm = i.body.u.a16.imm; f->d = i.body.u.a16.d; break;
 	}
 	return 0;
 }

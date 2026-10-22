@@ -60,6 +60,25 @@ mn-branch = "br"@0b110000
           | "bhis"@0x137
           | "blo"@0x138
 
+; compare a register with a 5-bit immediate and branch (page 1, opcode 0x28): the number is the condition, as in `set` (cc below); the two
+; aliases are numbered above, as in the branch group
+mn-cbranch = "cbne"@0b0001
+           | "cbeq"@0b0010
+           | "cbpl"@0b0011
+           | "cbmi"@0b0100
+           | "cbvc"@0b0101
+           | "cbvs"@0b0110
+           | "cbcc"@0b0111
+           | "cbcs"@0b1000
+           | "cbge"@0b1001
+           | "cblt"@0b1010
+           | "cbgt"@0b1011
+           | "cble"@0b1100
+           | "cbhi"@0b1101
+           | "cblos"@0b1110
+           | "cbhis"@0x107
+           | "cblo"@0x108
+
 ; subtract one and branch
 mn-sob = "sob"@0b111111
 
@@ -102,6 +121,7 @@ mn-besc = "clz"@0b00000000
         | "bitrev"@0b00001000
         | "ror"@0b00010000
         | "rori"@0b00010001
+        | "rori32"@0b00010010
         | "dshr"@0b00100000
         | "extb"@0b00100001
         | "extzb"@0b00100010
@@ -299,7 +319,59 @@ opgroup = "lea"@0b001011
         | "sop"@0b010011
         | "sys"@0b010100
         | "tag"@0b010101
+        | "cbr"@0b101000
         | "sob"@0b111111
+
+; The length code of parcel 0 (`len`): 0, 1 and 2 are page-1 instructions of 1, 2 and 3 parcels; 3 is a one-parcel instruction of page 2.
+lencode = "parcels1"@0b00
+        | "parcels2"@0b01
+        | "parcels3"@0b10
+        | "page2"@0b11
+
+; Page 2: the opcodes of the one-parcel page (`len` = 3, parcel 0 is `11 opc:6 reg:4 low:4`).  The names are internal: they are encodings, not
+; assembler mnemonics (the assembler chooses a page-2 form by itself when the operands fit, and the instruction means exactly what the page-1
+; form means: common/p2.c has the table that says which).  A number not listed is reserved and is an illegal instruction.
+p2op = "ld.q"@0x00       ; movq (rn),rd
+     | "st.q"@0x01       ; movq rs,(rn)
+     | "ld.l"@0x02
+     | "st.l"@0x03
+     | "ld.w"@0x04
+     | "st.w"@0x05
+     | "ld.b"@0x06
+     | "st.b"@0x07
+     | "ldz.l"@0x08      ; movzl (rn),rd
+     | "ldz.w"@0x09
+     | "ldz.b"@0x0A
+     | "lea.sp"@0x0B     ; lea 8*d(sp),rd
+     | "ldq.sp0"@0x0C    ; movq d(sp),rd, d = 8 * (0 + low)
+     | "ldq.sp1"@0x0D    ;                d = 8 * (16 + low)
+     | "stq.sp"@0x0E     ; movq rs,d(sp), d = 8 * low
+     | "ldl.sp0"@0x10    ; movl d(sp),rd, d = 4 * (0 + low)
+     | "ldl.sp1"@0x11    ;                d = 4 * (16 + low)
+     | "stl.sp0"@0x12    ; movl rs,d(sp)
+     | "stl.sp1"@0x13
+     | "ldq.d1"@0x14     ; movq d(rn),rd, d = 8 * 1
+     | "ldq.d2"@0x15
+     | "ldq.d3"@0x16
+     | "ldq.d4"@0x17
+     | "stq.d1"@0x18     ; movq rs,d(rn), d = 8 * 1
+     | "stq.d2"@0x19
+     | "ldl.d1"@0x1A     ; movl d(rn),rd, d = 4 * 1
+     | "ldl.d2"@0x1B
+     | "ldl.d3"@0x1C
+     | "ldl.d4"@0x1D
+     | "pushm8"@0x1E     ; pushm #(mask << 8), mask = reg:low
+     | "popm8"@0x1F
+     | "sub.sp"@0x20     ; sub #(8*n),sp, n = reg:low
+     | "add.sp"@0x21
+     | "movq.i"@0x22     ; movq #imm4,rd
+     | "shl.i"@0x23      ; shl #count,rd, count = low (0 to 15)
+     | "shr.i"@0x24
+     | "sar.i"@0x25
+     | "and.i"@0x26      ; and #imm4,rd
+     | "bis.i"@0x27
+     | "xor.i"@0x28
+     | "add.i"@0x29
 
 ; The addressing modes, the `low` nibble of an instruction with a memory operand (ISA section 5).
 amode = "base"@0b0000

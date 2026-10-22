@@ -5,13 +5,15 @@
 ; order of the diagrams in the ISA document: bit 15 of parcel 0 is the first bit of the record.
 ;
 ;   parcel 0:   len:2 opc:6 reg:4 low:4
-;   len         the number of extension parcels, 0..3; the instruction is len+1 parcels
+;   len         0..2: the number of extension parcels, the instruction is len+1 parcels (page 1); 3: page 2, a one-parcel instruction with its own
+;               64-entry opcode map (the opcode of a page-2 instruction is not a page-1 opcode; the map is p2op in spec/pdp64-mnemonics.hbnf)
 ;   opc         the opcode, 0x00..0x3F (the map is in docs/11-64W/11-64W-isa-r20.md section 4.16)
 ;   reg, low    their meaning depends on the opcode class below; `low` is the mode at len >= 1 for the
 ;               memory classes and a second register at len == 0
 ;
 ; The extension parcels are `body`.  Displacement and immediate fields are unsigned here; the consumer sign-extends
-; from the width (`d` is 12+16*(len-1) bits in the base-register modes, and so on, ISA section 3.3).
+; from the width (`d` is 12+16*(len-1) bits in the base-register modes, 6+16*(len-1) in the indexed one, 16*len in the wide ones and the
+; branches: 12/28, 6/22, 16/32 bits).  Page 2 has no body: all of its information is in parcel 0, and what it means is a table (common/p2.c).
 prefix none
 ;
 ; This file is a template.  tools/mkgrammar.py writes spec/pdp64.hbnf from it, replacing every name between two at-signs with the number of that enumerator of
@@ -23,34 +25,43 @@ prefix none
 %define BASEMODE (low == @AMODE_BASE@ || low == @AMODE_POSTINC@ || low == @AMODE_PREDEC@)
 %define WIDEMODE (low == @AMODE_PCREL@ || low == @AMODE_IMM@ || low == @AMODE_ABS@)
 %define BESCFIELD (sub == @MN_BESC_DSHR@ || sub == @MN_BESC_EXTB@ || sub == @MN_BESC_EXTZB@ || sub == @MN_BESC_INSB@)
+%define LEN1 (len >= 1 && len < @LENCODE_PAGE2@)
+%define LEN2 (len >= 2 && len < @LENCODE_PAGE2@)
+%define BESCCOUNT (sub == @MN_BESC_RORI@ || sub == @MN_BESC_RORI32@)
 %define COND (opc >= @MN_BRANCH_BR@ && opc <= @MN_BRANCH_BLOS@)
 
 insn = len:2 opc:6 reg:4 low:4 body:(
 
     ; --- memory operand classes: moves, LEA, the ALU, SOP, XFER, the FP ALU group.  len = 0: low is a register.
       ?(len == 0 && @MEM@)
-    | ?(len >= 1 && @MEM@ && @BASEMODE@)                           rm:4 d:bits(12 + 16 * (len - 1))
-    | ?(len >= 1 && @MEM@ && low == @AMODE_INDEX@)                 rm:4 rx:4 s:2 d:bits(6 + 16 * (len - 1))
-    | ?(len >= 1 && @MEM@ && low == @AMODE_DP@)                    pad:4 d:bits(12 + 16 * (len - 1))
-    | ?(len >= 1 && @MEM@ && @WIDEMODE@)                           d:bits(16 * len)
+    | ?(@LEN1@ && @MEM@ && @BASEMODE@)                           rm:4 d:bits(12 + 16 * (len - 1))
+    | ?(@LEN1@ && @MEM@ && low == @AMODE_INDEX@)                 rm:4 rx:4 s:2 d:bits(6 + 16 * (len - 1))
+    | ?(@LEN1@ && @MEM@ && low == @AMODE_DP@)                    pad:4 d:bits(12 + 16 * (len - 1))
+    | ?(@LEN1@ && @MEM@ && @WIDEMODE@)                           d:bits(16 * len)
 
     ; --- BESC, MBLK, AESC, FESC, ATOM: low is a register; parcel 1 is sub:8 t:4 x:4, further parcels follow.  Three forms of BESC
     ;     name their fields: RORI keeps its count in the low byte, and the bit-field operations take position and width from parcel 2.
-    | ?(len >= 1 && opc == @OPGROUP_BESC@)                        sub:8 ?(sub == @MN_BESC_RORI@) count:8 more:bits(16 * (len - 1))
-    | ?(len >= 2 && opc == @OPGROUP_BESC@)                        sub:8 ?(@BESCFIELD@) t:4 x:4 pos:8 width:8 more:bits(16 * (len - 2))
-    | ?(len >= 1 && @REGESC@)                                      sub:8 t:4 x:4 more:bits(16 * (len - 1))
+    | ?(@LEN1@ && opc == @OPGROUP_BESC@)                        sub:8 ?(@BESCCOUNT@) count:8 more:bits(16 * (len - 1))
+    | ?(@LEN2@ && opc == @OPGROUP_BESC@)                        sub:8 ?(@BESCFIELD@) t:4 x:4 pos:8 width:8 more:bits(16 * (len - 2))
+    | ?(@LEN1@ && @REGESC@)                                      sub:8 t:4 x:4 more:bits(16 * (len - 1))
 
     ; --- MESC: low is a mode, parcel 1 is sub:4 rm:4 and 8 bits of displacement, 16 more per further parcel
-    | ?(len >= 1 && opc == @OPGROUP_MESC@)                         sub:4 rm:4 d:bits(8 + 16 * (len - 1))
+    | ?(@LEN1@ && opc == @OPGROUP_MESC@)                         sub:4 rm:4 d:bits(8 + 16 * (len - 1))
 
-    ; --- conditional branches: len = 0: reg:low is the 8-bit displacement (in parcels); len >= 1: 16, 32, 48 bits.
+    ; --- conditional branches: len = 0: reg:low is the 8-bit displacement (in parcels); len >= 1: 16 or 32 bits.
     ;     SOB and TAGOP exist from len = 1: reg is the register, low the sense and tag or unused.
     | ?(len == 0 && @COND@)
-    | ?(len >= 1 && (@COND@ || opc == @OPGROUP_SOB@ || opc == @OPGROUP_TAG@)) d:bits(16 * len)
+    | ?(@LEN1@ && (@COND@ || opc == @OPGROUP_SOB@ || opc == @OPGROUP_TAG@)) d:bits(16 * len)
 
     ; --- SYS: reg is the class, low the register or minor.  PROBER and PROBEW name a second register in parcel 1; TRAPL a vector number.
     | ?(len == 0 && opc == @OPGROUP_SYS@)
     | ?(len == 1 && opc == @OPGROUP_SYS@ && (reg == @MN_SYS_PROBER@ || reg == @MN_SYS_PROBEW@))   rd:4 pad:12
     | ?(len == 1 && opc == @OPGROUP_SYS@ && reg == @MN_SYS_TRAPL@) n:8 pad:8
-    | ?(len >= 1 && opc == @OPGROUP_SYS@)                          p:bits(16 * len)
+    | ?(@LEN1@ && opc == @OPGROUP_SYS@)                          p:bits(16 * len)
+
+    ; --- the compare-immediate-and-branch cbCC: low is the condition (as for `set`); parcel 1 is imm:5 and the first 11 bits of the displacement (parcels)
+    | ?(@LEN1@ && opc == @OPGROUP_CBR@)                             imm:5 d:bits(11 + 16 * (len - 1))
+
+    ; --- page 2: one parcel, nothing follows
+    | ?(len == @LENCODE_PAGE2@)
   )

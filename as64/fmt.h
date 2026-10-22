@@ -20,13 +20,15 @@ enum fmt_shape {
 	FS_SYS0,	/* len 0 SYS */
 	FS_SYSRD,	/* SYS prober, probew: rd */
 	FS_SYSN,	/* SYS trapl: n */
-	FS_SYSP		/* p: SYS payload */
+	FS_SYSP,	/* p: SYS payload */
+	FS_CB,		/* cbCC: imm (5 bits) d (11 or 27 bits, parcels) */
+	FS_P2		/* page 2 (len = 3): one parcel, nothing follows; opc is a page-2 opcode */
 };
 
 struct fmt {
 	int len, opc, reg, low;
 	int shape;
-	unsigned rm, rx, s, sub, t, x, count, pos, width, rd, n;
+	unsigned rm, rx, s, sub, t, x, count, pos, width, rd, n, imm;
 	uint64_t d;	/* displacement, immediate, address; `more` of FS_REGESC; `p` of FS_SYSP */
 };
 

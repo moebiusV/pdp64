@@ -24,12 +24,13 @@ def source(group, word):
         return '%s r1, r2' % word
     if g == 'lea': return 'lea 8(r1), r2'
     if g == 'branch': return '%s l\nl:' % word
+    if g == 'cbranch': return '%s r1, #3, l\nl:' % word
     if g == 'sob': return 'sob r1, l\nl:'
     if g == 'tag': return '%s r1, #1, l\nl:' % word
     if g == 'sop': return '%s #3' % word if word in ('pushm', 'popm') else '%s r1' % word
     if g == 'xfer': return 'jtag 8(r1)(r2*8)' if word == 'jtag' else '%s 8(r1)' % word
     if g in ('besc', 'aesc', 'mblk'):
-        if word == 'rori': return 'rori r1, #3, r2'
+        if word in ('rori', 'rori32'): return '%s r1, #3, r2' % word
         if word == 'rol': return 'rol r1, #3, r2'
         if word == 'dshr': return 'dshr r1, r2, #3, r3'
         if word in ('extb', 'extzb', 'insb'): return '%s r1, #3, #8, r2' % word
@@ -97,6 +98,7 @@ for group, items in en.items():
         if g in ('mov', 'movz', 'alu', 'branch'): got, want = opc, num
         elif g == 'lea': got, want = opc, OPG['lea']
         elif g == 'sob': got, want = opc, OPG['sob']
+        elif g == 'cbranch': got, want = (opc, low), (OPG['cbr'], num)
         elif g == 'tag': got, want = (opc, (low >> 3)), (OPG['tag'], num)
         elif g == 'sop': got, want = (opc, reg), (OPG['sop'], num)
         elif g == 'xfer': got, want = (opc, reg), (OPG['xfer'], num)
@@ -112,9 +114,10 @@ def numbers(rule, below=None):
     return {n for w, n in en[rule] if below is None or n < below}
 assigned = (numbers('mn-mov') | numbers('movstore') | numbers('mn-movz') | numbers('mn-alu', 64) | numbers('mn-branch', 64) | set(OPG.values()))
 bad_map = []
-if len(assigned) != 55: bad_map.append('%d top-level opcodes assigned, ISA 4.16 as corrected says 55' % len(assigned))
+if len(assigned) != 56: bad_map.append('%d top-level opcodes assigned, ISA 4.16 as corrected says 55, and errata 31 adds cbCC (0x28)' % len(assigned))
 free = set(range(64)) - assigned
-if free != {0x23} | set(range(0x28, 0x30)): bad_map.append('unassigned opcodes are %s, expected 0x23 and 0x28-0x2F' % sorted(hex(x) for x in free))
+if free != {0x23} | set(range(0x29, 0x30)): bad_map.append('unassigned opcodes are %s, expected 0x23 and 0x29-0x2F' % sorted(hex(x) for x in free))
+if OPG['cbr'] != 0x28: bad_map.append('cbCC is not top-level opcode 0x28')
 if [OPG[k] for k in ('besc', 'mblk', 'aesc', 'mesc', 'fesc', 'atom')] != list(range(0x0C, 0x12)): bad_map.append('the parcel-1 escapes are not contiguous at 0x0C-0x11 (ISA 4.3.1)')
 if [OPG[k] for k in ('xfer', 'sop', 'sys')] != [0x12, 0x13, 0x14]: bad_map.append('XFER, SOP and SYS are not adjacent at 0x12-0x14 (ISA 4.3.1)')
 if sorted(numbers('mn-branch', 64) | {OPG['sob']}) != list(range(0x30, 0x40)): bad_map.append('the sixteen branch slots are not 0x30-0x3F')
@@ -136,5 +139,60 @@ for rule in ('cc', 'ccalias'):
             bad += 1
             print('DRIFT cc %s: encoded %s, number %d, branch %s = %s' % (word, got, num, branch, want_branch))
         checked += 1
+# --- cbCC: the condition numbers are those of the branches and of `set`, and the aliases follow the branch group's ---
+CB = dict(en['mn-cbranch'])
+for word, num in en['cc']:
+    if word == 'al': continue
+    if CB.get('cb' + word) != num: bad += 1; print('DRIFT cbCC: cb%s is %s, the condition number is %d' % (word, CB.get('cb' + word), num))
+    checked += 1
+for word, num in en['ccalias']:
+    name = {'hs': 'cbhis', 'lo': 'cblo'}[word]          # as bhis and blo are the aliases of bcc and bcs
+    if CB.get(name) != num + ALIAS: bad += 1; print('DRIFT cbCC alias: %s is %s, expected %d' % (name, CB.get(name), num + ALIAS))
+    checked += 1
+# --- page 2: for each opcode, the assembler picks it for the abbreviated instruction, and the page-1 instruction the word expands to is
+#     the one the assembler writes with page 2 turned off (--no-p2) ---
+P2 = en['p2op']
+# name: (source, reg, low) -- the instruction a page-2 word abbreviates, and the fields the one-parcel encoding must carry
+CASE = {
+ 'ld.q': ('movq (r5), r3', 3, 5), 'st.q': ('movq r3, (r5)', 3, 5), 'ld.l': ('movl (r5), r3', 3, 5), 'st.l': ('movl r3, (r5)', 3, 5),
+ 'ld.w': ('movw (r5), r3', 3, 5), 'st.w': ('movw r3, (r5)', 3, 5), 'ld.b': ('movb (r5), r3', 3, 5), 'st.b': ('movb r3, (r5)', 3, 5),
+ 'ldz.l': ('movzl (r5), r3', 3, 5), 'ldz.w': ('movzw (r5), r3', 3, 5), 'ldz.b': ('movzb (r5), r3', 3, 5),
+ 'lea.sp': ('lea 24(sp), r3', 3, 3),
+ 'ldq.sp0': ('movq 24(sp), r3', 3, 3), 'ldq.sp1': ('movq 136(sp), r3', 3, 1), 'stq.sp': ('movq r3, 24(sp)', 3, 3),
+ 'ldl.sp0': ('movl 12(sp), r3', 3, 3), 'ldl.sp1': ('movl 68(sp), r3', 3, 1),
+ 'stl.sp0': ('movl r3, 12(sp)', 3, 3), 'stl.sp1': ('movl r3, 68(sp)', 3, 1),
+ 'ldq.d1': ('movq 8(r5), r3', 3, 5), 'ldq.d2': ('movq 16(r5), r3', 3, 5), 'ldq.d3': ('movq 24(r5), r3', 3, 5), 'ldq.d4': ('movq 32(r5), r3', 3, 5),
+ 'stq.d1': ('movq r3, 8(r5)', 3, 5), 'stq.d2': ('movq r3, 16(r5)', 3, 5),
+ 'ldl.d1': ('movl 4(r5), r3', 3, 5), 'ldl.d2': ('movl 8(r5), r3', 3, 5), 'ldl.d3': ('movl 12(r5), r3', 3, 5), 'ldl.d4': ('movl 16(r5), r3', 3, 5),
+ 'pushm8': ('pushm #0x8F00', 8, 15), 'popm8': ('popm #0x0100', 0, 1),
+ 'sub.sp': ('sub #64, sp', 0, 8), 'add.sp': ('add #2040, sp', 15, 15),
+ 'movq.i': ('movq #-5, r3', 3, 11), 'shl.i': ('shl #9, r3', 3, 9), 'shr.i': ('shr #15, r3', 3, 15), 'sar.i': ('sar #1, r3', 3, 1),
+ 'and.i': ('and #-1, r3', 3, 15), 'bis.i': ('bis #7, r3', 3, 7), 'xor.i': ('xor #-8, r3', 3, 8), 'add.i': ('add #3, r3', 3, 3),
+}
+def asm_words(src, *flags):
+    with tempfile.TemporaryDirectory() as t_:
+        f = os.path.join(t_, 'a.s'); o = os.path.join(t_, 'a.o')
+        open(f, 'w').write('\t.text\n\t' + src + '\n')
+        r = subprocess.run([AS, *flags, '-o', o, f], capture_output=True, text=True)
+        return words(o) if r.returncode == 0 else None
+def expand(word):
+    return subprocess.run([AS, '--p2-expand', '%04x' % word], capture_output=True, text=True).stdout.split()
+LENCODE = dict(en['lencode'])
+for name, num in P2:
+    checked += 1
+    if name not in CASE:
+        bad += 1; print('DRIFT p2 %s: no test case in tools/check-drift.py' % name); continue
+    src, reg, low = CASE[name]
+    w = asm_words(src)
+    want = LENCODE['page2'] << 14 | num << 8 | reg << 4 | low
+    if w != [want]:
+        bad += 1; print('DRIFT p2 %s: `%s` assembles to %s, expected %04x' % (name, src, ' '.join('%04x' % x for x in w or []), want)); continue
+    long_ = asm_words(src, '--no-p2')
+    if long_ is None or expand(w[0]) != ['%04x' % x for x in long_]:
+        bad += 1; print('DRIFT p2 %s: %04x expands to %s, the long form of `%s` is %s' % (name, w[0], expand(w[0]), src, long_))
+for num in range(64):
+    if num not in {n for _, n in P2} and expand(LENCODE['page2'] << 14 | num << 8) != ['reserved']:
+        bad += 1; print('DRIFT p2: opcode %#x is not in p2op but is not reserved' % num)
+    checked += 1
 print('drift: %d mnemonics checked, %d differ, %d not assembled yet%s' % (checked, bad, skipped, (': ' + ' '.join(todo)) if todo else ''))
 sys.exit(1 if bad else 0)
