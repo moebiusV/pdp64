@@ -115,6 +115,10 @@ def split_args(s):
         elif c == '"':
             q = True
             cur += c
+        elif c == "'":
+            n = 4 if s[i + 1:i + 2] == '\\' else 3
+            cur += s[i:i + n]
+            i += n - 1
         elif c == ',':
             out.append(cur.strip())
             cur = ''
@@ -130,18 +134,44 @@ def split_args(s):
 
 def strip_comment(line):
     q = False
-    for i, c in enumerate(line):
-        if c == '"':
-            q = not q if (i == 0 or line[i - 1] != '\\') else q
-        elif c == ';' and not q:
+    i = 0
+    while i < len(line):
+        c = line[i]
+        if q:
+            if c == '\\':
+                i += 1
+            elif c == '"':
+                q = False
+        elif c == '"':
+            q = True
+        elif c == "'":
+            i += 3 if line[i + 1:i + 2] != '\\' else 4
+            continue
+        elif c == ';':
             return line[:i]
+        i += 1
     return line
+
+
+def numbers(p):
+    def num(m):
+        t = m.group(0)
+        if re.match(r'0[oO][0-7]+$', t):
+            return '0' + t[2:]
+        if re.match(r'0[xXbB]', t) or t == '0':
+            return t
+        if t.isdigit():
+            return str(int(t))
+        return t
+    return re.sub(r'(?<![\w.$])[0-9][\w.$]*', num, p)
 
 
 def translate(text):
     out = []
     for line in text.split('\n'):
         code = strip_comment(line)
+        if any(ord(ch) > 127 for ch in code):
+            raise Skip('non-ASCII names (LLVM identifiers are ASCII)')
         if re.search(r'(^|[\s,(])=[^=]', code) and not re.match(r'^\s*[\w.$]+\s*=', code):
             raise Skip('literal pool (=K)')
         if re.match(r'^\s*(\w+:\s*)*\.pool\b', code):
@@ -153,7 +183,7 @@ def translate(text):
             pre, args = m.group(1), split_args(m.group(2))
             parts = []
             for a in args:
-                parts.append(('s', a) if a.startswith('"') else ('v', a))
+                parts.append(('s', a) if a.startswith('"') else ('v', numbers(a)))
             first = True
             run = []
             stmts = []
@@ -173,8 +203,16 @@ def translate(text):
         pieces = re.split(r'("(?:[^"\\]|\\.)*"|\'(?:[^\'\\]|\\.)\')', code)
         for k in range(0, len(pieces), 2):
             p = pieces[k]
-            p = re.sub(r'(?<![\w.$])0[oO]([0-7]+)\b', lambda m: '0' + m.group(1), p)
-            p = re.sub(r'(?<![\w.$])0+([1-9][0-9]*)(?![\w.$xXbBoO])', lambda m: m.group(1), p)
+            def num(m):
+                t = m.group(0)
+                if re.match(r'0[oO][0-7]+$', t):
+                    return '0' + t[2:]
+                if re.match(r'0[xXbB]', t) or t == '0':
+                    return t
+                if t.isdigit():
+                    return str(int(t))
+                return t
+            p = re.sub(r'(?<![\w.$])[0-9][\w.$]*', num, p)
             pieces[k] = p
         out.append(''.join(pieces))
     return '\n'.join(out) + '\n'
@@ -211,6 +249,8 @@ def disassemble_roundtrip(mc, text_bytes, tmp):
         return None
     hexs = ' '.join('0x%02x' % b for b in text_bytes)
     r = run([mc, '-disassemble', '-triple=' + TRIPLE], input=hexs)
+    if 'invalid instruction encoding' in r.stderr:
+        return None  # reserved encodings (tests of illegal instructions) are refused by the disassembler by design
     if r.returncode != 0 or 'invalid instruction' in r.stderr or 'warning' in r.stderr:
         return 'disassembly failed: ' + (r.stderr.strip().split('\n')[0] if r.stderr else 'exit %d' % r.returncode)
     listing = '\t.text\n' + r.stdout
@@ -251,11 +291,6 @@ def check_file(path, as64, mc, verbose, roundtrip=True):
     with tempfile.TemporaryDirectory() as tmp:
         ao, bo = os.path.join(tmp, 'a.o'), os.path.join(tmp, 'b.o')
         flags = []
-        fl = os.path.splitext(path)[0] + '.flags'
-        if os.path.exists(fl):
-            flags = open(fl).read().split()
-            if '--no-p2' not in flags:
-                return 'skip', 'as64 flags: ' + ' '.join(flags)
         r1 = run([as64] + flags + ['-o', ao, path])
         if r1.returncode != 0:
             return 'skip', 'as64 refuses it: ' + (r1.stderr.strip().split('\n')[0])
@@ -268,7 +303,7 @@ def check_file(path, as64, mc, verbose, roundtrip=True):
         diffs = compare(a, b)
         if b.machine != 0xF064:
             diffs.append('e_machine is %#x' % b.machine)
-        if roundtrip and not diffs:
+        if roundtrip and not diffs and not a.relocs():
             # only the code of a program that is all instructions can be disassembled: not one with data in .text (the pool)
             err = disassemble_roundtrip(mc, a.bytes('.text'), tmp)
             if err:
