@@ -1,5 +1,9 @@
 # sim64: the reference emulator
 
+> Repositories referenced: [moebiusV/pdp64](https://github.com/moebiusV/pdp64) (this one), [moebiusV/hbnf](https://github.com/moebiusV/hbnf) (the grammar compiler),
+> [moebiusV/pcc](https://github.com/moebiusV/pcc) (the C compiler; upstream [PortableCC/pcc](https://github.com/PortableCC/pcc)),
+> [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) (corpus tooling and C tests), [QEMU](https://gitlab.com/qemu-project/qemu).
+
 `sim64 [-t] [-r] [-n steps] program` loads an ELF executable written by `ld64`, decodes each instruction with the decoder generated from
 `spec/pdp64.hbnf` and runs it in user mode. It is the executable statement of what each instruction does; the field widths come from the same
 calibration as the assembler (`common/calib.c`), and the instruction numbers are the names in `build/pdp64-consts.h`, so nothing is typed twice.

@@ -1,5 +1,9 @@
 # pdp64: everything decided or changed since ISA revision 20 arrived
 
+> Repositories referenced: [moebiusV/pdp64](https://github.com/moebiusV/pdp64) (this one), [moebiusV/hbnf](https://github.com/moebiusV/hbnf) (the grammar compiler),
+> [moebiusV/pcc](https://github.com/moebiusV/pcc) (the C compiler; upstream [PortableCC/pcc](https://github.com/PortableCC/pcc)),
+> [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) (corpus tooling and C tests), [QEMU](https://gitlab.com/qemu-project/qemu).
+
 On 2026-10-21 a tar, `pdp64-docs-2026-10-21.tar`, appeared in `~/claude/pcc`: three documents about a 64-bit PDP-11 (`11-64W-isa-r20.md`, the
 FPGA plan, the LB64 accelerator note) and a README. Revision 20 of the ISA was a paper design, "nothing here has been synthesized, measured or taped
 out". We were asked for a pcc back end, an assembler (in the spirit of V7 `as`), a linker if needed, and a plan for a QEMU target. This file records

@@ -1,5 +1,9 @@
 # pdp64 assembly syntax
 
+> Repositories referenced: [moebiusV/pdp64](https://github.com/moebiusV/pdp64) (this one), [moebiusV/hbnf](https://github.com/moebiusV/hbnf) (the grammar compiler),
+> [moebiusV/pcc](https://github.com/moebiusV/pcc) (the C compiler; upstream [PortableCC/pcc](https://github.com/PortableCC/pcc)),
+> [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) (corpus tooling and C tests), [QEMU](https://gitlab.com/qemu-project/qemu).
+
 The grammar is `spec/pdp64-asm.hbnf` (hbnf text rules); `tools/check-asmsyntax.sh` generates the parser and runs `tests/asmsyntax.c` over it,
 and `tools/check-as64.sh` assembles `tests/asm/*.s` and compares the bytes with hand-worked expectations.
 
