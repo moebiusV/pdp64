@@ -30,6 +30,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [P14. Confirm: priority 7 on interrupt entry as well as exception entry](#p14-confirm-priority-7-on-interrupt-entry-as-well-as-exception-entry)
 * [P15. Prefetch](#p15-prefetch)
 * [P16. Performance counters](#p16-performance-counters)
+* [P17. Constant-time execution](#p17-constant-time-execution-a-timing-channel-defence)
 * [Part B. Previous decisions, written up so they can be changed](#part-b-previous-decisions-written-up-so-they-can-be-changed)
 * [Part C. The gaps: several cores, DMA devices and virtualization](#part-c-the-gaps-several-cores-dma-devices-and-virtualization)
 * [Part D. Vector and SIMD math](#part-d-vector-and-simd-math)
@@ -107,6 +108,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | P14 | Priority 7 also on interrupt entry | confirm | exception entry |
 | P15 | Prefetch instruction | none for now; reserve the shape | list and copy loops (from the kernel survey) |
 | P16 | Performance counters | cycle and instruction counters after the clock (P3) | profiling |
+| P17 | Constant-time execution (timing-channel defence) | proposed: option 4 for the integer unit, or option 3 with a `DIT` bit if fast divides matter | cryptography; the hardware-vulnerability rules |
 
 ## Already decided, listed so they are not asked twice
 
@@ -563,6 +565,34 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 **What Unix on the PDP-11 and the VAX-11 did.** Neither had a hardware counter that Unix used; profiling used a clock-driven sampling call (the `profil` system call and later `gprof`) **(checked: V7 `profil.2` manual and 4.2BSD `ucb/gprof`)**.
 
 **Recommendation.** Option 2, but only after P3: define the clock first (a constant-rate monotonic counter), then add `rdcycle` and `rdinstret` with the same enable-bit mechanism if profiling needs them. Option 3 should wait for a measured need. Cost to build option 2: two `SYSX` sub-opcodes, a counter definition. **If nothing is done:** option 1.
+
+---
+
+## P17. Constant-time execution (a timing-channel defence)
+
+> **PROPOSED, not decided.** The author asked for this ("a constant-time flag or something, so instructions always take an equal amount of time no matter the input") as part of "no Spectre, no timing-channel attacks". The options below are mine. The catalogue of past hardware bugs that this decision draws on is being written as `docs/hardware-vulnerabilities.md` (not linked yet; it does not exist at the time of writing).
+
+**The need.** A **timing channel** is an information leak through how long something takes. If an instruction takes longer for some operand values than for others, a program that can measure time (and with `RDTIME`, P3, every user program can) learns about the operands. For cryptography the operands are keys, so code that does a divide or a multiply on a secret can leak it. Real examples: an early-out multiplier or divider whose latency depends on the operand's leading zeros, a data-dependent prefetcher, and the frequency-throttling channel that turned power draw into a timing difference (the last two are part of the hardware-vulnerability catalogue). Defences exist in software (write code with no secret-dependent branches, addresses or variable-latency instructions) but only work if the hardware promises which instructions are safe.
+
+**The explanation.** Two different promises are involved, and the options differ in which they make. (1) **Data-independent latency of instructions**: the time an instruction takes does not depend on its operand *values*. (2) **Constant-time code**: a whole routine whose timing does not depend on secrets. The first is necessary for the second and is not sufficient: a load from a table indexed by a secret still leaks through the cache, and a branch on a secret leaks through the branch predictor. So the architecture can promise (1) for a defined set of instructions, and software must still avoid secret-dependent addresses and branches. For an in-order, non-speculative core the promise is cheap; an out-of-order core with predictors, prefetchers and caches has to work to keep it.
+
+**Where pdp64 stands.** The ISA says nothing about instruction timing. In any plausible implementation the instructions that may take data-dependent time are: the `DIV` sequencer (a divider often finishes early on small quotients), a multiplier built with an early-out, `mscn`/`mscnn` (stop at the first match, so they take time that depends on the data), the length-dependent `mcpy`, `mmov` and `mset` (time depends on the count, which is usually public but not always), floating point (subnormal operands, divide and square-root iterations), and every load and store (cache hit or miss). Naturally constant-time on a small core: add, subtract, logic, shifts by a register count (a barrel shifter), rotates, `popcount`, byte swap, compare, `set`, `min`/`max`/`abs`, carry-less multiply and a fixed-latency multiplier. Nothing in the architecture says so today.
+
+**Options.**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **A `PSW` bit, `DIT` (data-independent timing), that the program sets: while it is set, a defined list of instructions takes time independent of operand values; while it is clear, the hardware may use fast paths (divide early-out, `mscn` early exit)** (the shape of Arm's DIT bit and of Intel's data-operand-independent timing mode, both not confirmed in the sources read) | fast paths stay available for normal code; crypto turns it on only where it matters; a mode bit in the `PSW` is saved with it, so there is no new state to switch | a bit and a defined list; the implementation must be able to disable each fast path; a mode bit (accepted under errata 42 because it lives in the `PSW`) |
+| 2 | **An unconditional promise for a defined core set (add, logic, shift, rotate, multiply, high multiply, compare, bit counts, byte swap, carry-less multiply, `min`/`max`) with no flag; `DIV`, floating point and `mscn` explicitly excluded** (the shape of RISC-V's scalar-crypto timing subset, not confirmed in the sources read) | no state, no flag; gates are a design rule, not logic (a fixed-latency multiplier is *cheaper* than one with an early-out); easiest to test | nothing for divide or floating point: crypto that needs them (rare) has no safe instruction |
+| 3 | **Both: the core set always (option 2) plus the `DIT` bit (option 1) to extend the promise to `DIV`, `mscn` and the block operations** | the strongest; the common case costs nothing; the rare instructions are covered when asked | two things to specify; the bit still needs fast-path disable logic for the instructions it covers |
+| 4 | **Everything is always constant-time for integer instructions and the block operations** (`DIV` always takes its worst-case time, `mscn` always scans the whole range or takes a data-independent time, no early-out anywhere), no flag | the simplest to specify and verify; no flag, no fast-path logic at all (fewest gates); matches principles 2 and 3 on a small in-order core | an average divide is slower (the ISA says real divides are rare because compilers turn division by a constant into a multiply); `mscn` loses its early exit, which is its point; floating point still needs its own rule |
+| 5 | **Software only: no architectural promise; crypto libraries use a published safe list per implementation** | nothing to specify | the safe list drifts per implementation; this is the situation that produced the surprises on other architectures |
+
+**What current systems do.** Arm has a DIT bit in the processor state that, when set, makes a defined set of instructions data-independent in timing. Intel added a data-operand-independent timing mode (DOITM) in 2022 after earlier documenting a list of instructions that were already constant-time; AMD documents similar guidance. RISC-V's scalar-crypto extension lists the instructions that must have data-independent latency (Zkt), and a vector counterpart exists (Zvkt). Libraries such as OpenSSL, BearSSL and libsodium write constant-time code and are tested with tools that check for secret-dependent branches and addresses; BearSSL, which is in the pdp64 corpus, is built around constant-time implementations **(all of the above not confirmed in the sources read; the claims about specific bits and extensions will be verified in the hardware-vulnerabilities document)**.
+
+**What Unix on the PDP-11 and the VAX-11 did.** Nothing: the machines predate the concern, and the PDP-11's multiply and divide were microcoded with operand-dependent times **(not confirmed in the sources read)**. There was no cache timing to leak on most models. *Comparison:* the question is new, and the PDP-11 and VAX have no precedent; the 30 years since are the evidence.
+
+**Recommendation.** Option 3 if the divide matters to you, option 4 if it does not. On a small in-order core the safest and cheapest choice is **option 4 for the integer unit** (no early-out hardware at all, which removes gates, and nothing for software to opt into), plus a one-line rule that floating point and the data-dependent `mscn` are excluded and documented. If you want fast divides for normal code, option 3 keeps them and puts the cost in one `PSW` bit. Under your principles: fewer gates and less recovery code (nothing new to handle) favour option 4; hot-loop speed of divides favours option 3 (but the ISA's own data say divides are rare). Whichever is chosen, say in the ABI and the crypto notes that **constant-time instructions do not make code constant-time**: secret-dependent branches and table indexes still leak through the predictor and the cache. Cost to build: a few lines of specification and a test that measures the latency of each listed instruction over operand patterns (all zeros, all ones, random, small and large); for option 1 or 3, the `PSW` bit and the fast-path disable. **If nothing is decided:** option 5.
 
 ---
 
@@ -1415,7 +1445,7 @@ These are the decisions of 2026-10-22, copied from `errata.md` so they can be re
 
 ## What I need from you
 
-Please mark each of P1 to P16 (and any of Q1 to Q15 you want to reopen, R1 to R8, and S1 to S6) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
+Please mark each of P1 to P17 (and any of Q1 to Q15 you want to reopen, R1 to R8, and S1 to S6) with the number of the option you choose (or "defer"). I will then: write each choice as an erratum, update the ISA and system text, and queue the implementation for an agent, one at a time. The ones I think matter most before the OpenBSD work starts are **P2** (the guard), **P10** (remove `MMUCTL`), **P11** (the monitor) and **P13** (the `long double` ABI). The rest are safe to defer.
 
 ## Appendix: verification of the comparisons
 
