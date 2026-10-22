@@ -850,7 +850,7 @@ static void emit_sys0(int minor)
 
 static void pad_to(int64_t align)
 {
-	int64_t pos = cur_sec == SEC_BSS ? offs[cur_sec] : (int64_t)sec[cur_sec].n;
+	int64_t pos = (cur_sec == SEC_BSS || !final_pass) ? offs[cur_sec] : (int64_t)sec[cur_sec].n;
 	int64_t padn = (align - pos % align) % align;
 	if (cur_sec == SEC_BSS) { offs[cur_sec] += padn; return; }
 	if (final_pass) {
