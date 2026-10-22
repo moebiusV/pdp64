@@ -195,7 +195,9 @@ static bool pdp64_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
         }
         /* the entry is for the 4 KB page; tsize only tells QEMU how much a flush must cover */
         pa += page & (tsize - 1);
-    } else if (access_type == MMU_INST_FETCH && !pdp64_mapped(env, page, 1)) {
+    }
+    if (env->c.deliver && access_type == MMU_INST_FETCH
+        && !pdp64_mapped(env, pa, 1)) {
         /* code is only fetched from RAM */
         if (probe) {
             return false;

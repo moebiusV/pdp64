@@ -10,6 +10,7 @@ _start:
 	mtsr	ptbr, r1
 	movq	#1, r1
 	mtsr	mmuctl, r1
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -45,6 +46,7 @@ res_m_0_load:
 	movq	#5, r0	; check 4
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -80,6 +82,7 @@ res_m_0_store:
 	movq	#9, r0	; check 8
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -114,6 +117,7 @@ res_m_0_fetch:
 	movq	#13, r0	; check 12
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -149,6 +153,7 @@ res_m_1_load:
 	movq	#17, r0	; check 16
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -184,6 +189,7 @@ res_m_1_store:
 	movq	#21, r0	; check 20
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -218,6 +224,7 @@ res_m_1_fetch:
 	movq	#25, r0	; check 24
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -253,6 +260,7 @@ res_m_2_load:
 	movq	#29, r0	; check 28
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -288,6 +296,7 @@ res_m_2_store:
 	movq	#33, r0	; check 32
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -322,6 +331,7 @@ res_m_2_fetch:
 	movq	#37, r0	; check 36
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -357,6 +367,7 @@ res_m_3_load:
 	movq	#41, r0	; check 40
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -392,6 +403,7 @@ res_m_3_store:
 	movq	#45, r0	; check 44
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -426,6 +438,7 @@ res_m_3_fetch:
 	movq	#49, r0	; check 48
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -461,6 +474,7 @@ res_m_4_load:
 	movq	#53, r0	; check 52
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -496,6 +510,7 @@ res_m_4_store:
 	movq	#57, r0	; check 56
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -530,6 +545,7 @@ res_m_4_fetch:
 	movq	#61, r0	; check 60
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -565,6 +581,7 @@ res_m_5_load:
 	movq	#65, r0	; check 64
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -600,6 +617,7 @@ res_m_5_store:
 	movq	#69, r0	; check 68
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -634,6 +652,7 @@ res_m_5_fetch:
 	movq	#73, r0	; check 72
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -669,6 +688,7 @@ res_m_6_load:
 	movq	#77, r0	; check 76
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -704,6 +724,7 @@ res_m_6_store:
 	movq	#81, r0	; check 80
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -738,6 +759,7 @@ res_m_6_fetch:
 	movq	#85, r0	; check 84
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -773,6 +795,7 @@ res_m_7_load:
 	movq	#89, r0	; check 88
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -808,6 +831,7 @@ res_m_7_store:
 	movq	#93, r0	; check 92
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -842,6 +866,7 @@ res_m_7_fetch:
 	movq	#97, r0	; check 96
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -877,6 +902,7 @@ res_m_8_load:
 	movq	#101, r0	; check 100
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -912,6 +938,7 @@ res_m_8_store:
 	movq	#105, r0	; check 104
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -946,6 +973,7 @@ res_m_8_fetch:
 	movq	#109, r0	; check 108
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -981,6 +1009,7 @@ res_m_9_load:
 	movq	#113, r0	; check 112
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1016,6 +1045,7 @@ res_m_9_store:
 	movq	#117, r0	; check 116
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1050,6 +1080,7 @@ res_m_9_fetch:
 	movq	#121, r0	; check 120
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1085,6 +1116,7 @@ res_m_10_load:
 	movq	#125, r0	; check 124
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1120,6 +1152,7 @@ res_m_10_store:
 	movq	#129, r0	; check 128
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1154,6 +1187,7 @@ res_m_10_fetch:
 	movq	#133, r0	; check 132
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1189,6 +1223,7 @@ res_m_11_load:
 	movq	#137, r0	; check 136
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1224,6 +1259,7 @@ res_m_11_store:
 	movq	#141, r0	; check 140
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1258,6 +1294,7 @@ res_m_11_fetch:
 	movq	#145, r0	; check 144
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1293,6 +1330,7 @@ res_m_12_load:
 	movq	#149, r0	; check 148
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1328,6 +1366,7 @@ res_m_12_store:
 	movq	#153, r0	; check 152
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1362,6 +1401,7 @@ res_m_12_fetch:
 	movq	#157, r0	; check 156
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1397,6 +1437,7 @@ res_m_13_load:
 	movq	#161, r0	; check 160
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1432,6 +1473,7 @@ res_m_13_store:
 	movq	#165, r0	; check 164
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1466,6 +1508,7 @@ res_m_13_fetch:
 	movq	#169, r0	; check 168
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1501,6 +1544,7 @@ res_m_14_load:
 	movq	#173, r0	; check 172
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1536,6 +1580,7 @@ res_m_14_store:
 	movq	#177, r0	; check 176
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1570,6 +1615,7 @@ res_m_14_fetch:
 	movq	#181, r0	; check 180
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1605,6 +1651,7 @@ res_m_15_load:
 	movq	#185, r0	; check 184
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1640,6 +1687,7 @@ res_m_15_store:
 	movq	#189, r0	; check 188
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1674,6 +1722,7 @@ res_m_15_fetch:
 	movq	#193, r0	; check 192
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1709,6 +1758,7 @@ res_m_16_load:
 	movq	#197, r0	; check 196
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1744,6 +1794,7 @@ res_m_16_store:
 	movq	#201, r0	; check 200
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1778,6 +1829,7 @@ res_m_16_fetch:
 	movq	#205, r0	; check 204
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1813,6 +1865,7 @@ res_m_17_load:
 	movq	#209, r0	; check 208
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1848,6 +1901,7 @@ res_m_17_store:
 	movq	#213, r0	; check 212
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1882,6 +1936,7 @@ res_m_17_fetch:
 	movq	#217, r0	; check 216
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1917,6 +1972,7 @@ res_m_18_load:
 	movq	#221, r0	; check 220
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1952,6 +2008,7 @@ res_m_18_store:
 	movq	#225, r0	; check 224
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1986,6 +2043,7 @@ res_m_18_fetch:
 	movq	#229, r0	; check 228
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2021,6 +2079,7 @@ res_m_19_load:
 	movq	#233, r0	; check 232
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2056,6 +2115,7 @@ res_m_19_store:
 	movq	#237, r0	; check 236
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2090,6 +2150,7 @@ res_m_19_fetch:
 	movq	#241, r0	; check 240
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2125,6 +2186,7 @@ res_m_20_load:
 	movq	#245, r0	; check 244
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2160,6 +2222,7 @@ res_m_20_store:
 	movq	#249, r0	; check 248
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2194,6 +2257,7 @@ res_m_20_fetch:
 	movq	#253, r0	; check 252
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2229,6 +2293,7 @@ res_m_21_load:
 	movq	#2, r0	; check 256
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2264,6 +2329,7 @@ res_m_21_store:
 	movq	#6, r0	; check 260
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2298,6 +2364,7 @@ res_m_21_fetch:
 	movq	#10, r0	; check 264
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2333,6 +2400,7 @@ res_m_22_load:
 	movq	#14, r0	; check 268
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2368,6 +2436,7 @@ res_m_22_store:
 	movq	#18, r0	; check 272
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2402,6 +2471,7 @@ res_m_22_fetch:
 	movq	#22, r0	; check 276
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2437,6 +2507,7 @@ res_m_23_load:
 	movq	#26, r0	; check 280
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2472,6 +2543,7 @@ res_m_23_store:
 	movq	#30, r0	; check 284
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2506,6 +2578,7 @@ res_m_23_fetch:
 	movq	#34, r0	; check 288
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2541,6 +2614,7 @@ res_m_24_load:
 	movq	#38, r0	; check 292
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2576,6 +2650,7 @@ res_m_24_store:
 	movq	#42, r0	; check 296
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2610,6 +2685,7 @@ res_m_24_fetch:
 	movq	#46, r0	; check 300
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2645,6 +2721,7 @@ res_m_25_load:
 	movq	#50, r0	; check 304
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2680,6 +2757,7 @@ res_m_25_store:
 	movq	#54, r0	; check 308
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2714,6 +2792,7 @@ res_m_25_fetch:
 	movq	#58, r0	; check 312
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2749,6 +2828,7 @@ res_m_26_load:
 	movq	#62, r0	; check 316
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2784,6 +2864,7 @@ res_m_26_store:
 	movq	#66, r0	; check 320
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2818,6 +2899,7 @@ res_m_26_fetch:
 	movq	#70, r0	; check 324
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2853,6 +2935,7 @@ res_m_27_load:
 	movq	#74, r0	; check 328
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2888,6 +2971,7 @@ res_m_27_store:
 	movq	#78, r0	; check 332
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2922,6 +3006,7 @@ res_m_27_fetch:
 	movq	#82, r0	; check 336
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2957,6 +3042,7 @@ res_m_28_load:
 	movq	#86, r0	; check 340
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2992,6 +3078,7 @@ res_m_28_store:
 	movq	#90, r0	; check 344
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3026,6 +3113,7 @@ res_m_28_fetch:
 	movq	#94, r0	; check 348
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3061,6 +3149,7 @@ res_m_29_load:
 	movq	#98, r0	; check 352
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3096,6 +3185,7 @@ res_m_29_store:
 	movq	#102, r0	; check 356
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3130,6 +3220,7 @@ res_m_29_fetch:
 	movq	#106, r0	; check 360
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3165,6 +3256,7 @@ res_m_30_load:
 	movq	#110, r0	; check 364
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3200,6 +3292,7 @@ res_m_30_store:
 	movq	#114, r0	; check 368
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3234,6 +3327,7 @@ res_m_30_fetch:
 	movq	#118, r0	; check 372
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3269,6 +3363,7 @@ res_m_31_load:
 	movq	#122, r0	; check 376
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3304,6 +3399,7 @@ res_m_31_store:
 	movq	#126, r0	; check 380
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3338,6 +3434,7 @@ res_m_31_fetch:
 	movq	#130, r0	; check 384
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3373,6 +3470,7 @@ res_m_32_load:
 	movq	#134, r0	; check 388
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3408,6 +3506,7 @@ res_m_32_store:
 	movq	#138, r0	; check 392
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3442,6 +3541,7 @@ res_m_32_fetch:
 	movq	#142, r0	; check 396
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3477,6 +3577,7 @@ res_m_33_load:
 	movq	#146, r0	; check 400
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3512,6 +3613,7 @@ res_m_33_store:
 	movq	#150, r0	; check 404
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3546,6 +3648,7 @@ res_m_33_fetch:
 	movq	#154, r0	; check 408
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3581,6 +3684,7 @@ res_m_34_load:
 	movq	#158, r0	; check 412
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3616,6 +3720,7 @@ res_m_34_store:
 	movq	#162, r0	; check 416
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3650,6 +3755,7 @@ res_m_34_fetch:
 	movq	#166, r0	; check 420
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3672,6 +3778,7 @@ res_m_35_load:
 	movq	#168, r0	; check 422
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3707,6 +3814,7 @@ res_m_35_store:
 	movq	#172, r0	; check 426
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3741,6 +3849,7 @@ res_m_35_fetch:
 	movq	#176, r0	; check 430
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3776,6 +3885,7 @@ res_m_36_load:
 	movq	#180, r0	; check 434
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3811,6 +3921,7 @@ res_m_36_store:
 	movq	#184, r0	; check 438
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3845,6 +3956,7 @@ res_m_36_fetch:
 	movq	#188, r0	; check 442
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3880,6 +3992,7 @@ res_m_37_load:
 	movq	#192, r0	; check 446
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3915,6 +4028,7 @@ res_m_37_store:
 	movq	#196, r0	; check 450
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3949,6 +4063,7 @@ res_m_37_fetch:
 	movq	#200, r0	; check 454
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3984,6 +4099,7 @@ res_m_38_load:
 	movq	#204, r0	; check 458
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4019,6 +4135,7 @@ res_m_38_store:
 	movq	#208, r0	; check 462
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4053,6 +4170,7 @@ res_m_38_fetch:
 	movq	#212, r0	; check 466
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4075,6 +4193,7 @@ res_m_39_load:
 	movq	#214, r0	; check 468
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4110,6 +4229,7 @@ res_m_39_store:
 	movq	#218, r0	; check 472
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4144,6 +4264,7 @@ res_m_39_fetch:
 	movq	#222, r0	; check 476
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4179,6 +4300,7 @@ res_m_40_load:
 	movq	#226, r0	; check 480
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4214,6 +4336,7 @@ res_m_40_store:
 	movq	#230, r0	; check 484
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4248,6 +4371,7 @@ res_m_40_fetch:
 	movq	#234, r0	; check 488
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4283,6 +4407,7 @@ res_m_41_load:
 	movq	#238, r0	; check 492
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4318,6 +4443,7 @@ res_m_41_store:
 	movq	#242, r0	; check 496
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4334,6 +4460,7 @@ res_m_41_fetch:
 	movq	#243, r0	; check 497
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4369,6 +4496,7 @@ res_m_42_load:
 	movq	#247, r0	; check 501
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4404,6 +4532,7 @@ res_m_42_store:
 	movq	#251, r0	; check 505
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4438,6 +4567,7 @@ res_m_42_fetch:
 	movq	#255, r0	; check 509
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4460,6 +4590,7 @@ res_m_43_load:
 	movq	#2, r0	; check 511
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4495,6 +4626,7 @@ res_m_43_store:
 	movq	#6, r0	; check 515
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4511,6 +4643,7 @@ res_m_43_fetch:
 	movq	#7, r0	; check 516
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4546,6 +4679,7 @@ res_m_44_load:
 	movq	#11, r0	; check 520
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4581,6 +4715,7 @@ res_m_44_store:
 	movq	#15, r0	; check 524
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4615,6 +4750,7 @@ res_m_44_fetch:
 	movq	#19, r0	; check 528
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4650,6 +4786,7 @@ res_m_45_load:
 	movq	#23, r0	; check 532
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4685,6 +4822,7 @@ res_m_45_store:
 	movq	#27, r0	; check 536
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4719,6 +4857,7 @@ res_m_45_fetch:
 	movq	#31, r0	; check 540
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4754,6 +4893,7 @@ res_m_46_load:
 	movq	#35, r0	; check 544
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4789,6 +4929,7 @@ res_m_46_store:
 	movq	#39, r0	; check 548
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4823,6 +4964,7 @@ res_m_46_fetch:
 	movq	#43, r0	; check 552
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4845,6 +4987,7 @@ res_m_47_load:
 	movq	#45, r0	; check 554
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4880,6 +5023,7 @@ res_m_47_store:
 	movq	#49, r0	; check 558
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4896,6 +5040,7 @@ res_m_47_fetch:
 	movq	#50, r0	; check 559
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4931,6 +5076,7 @@ res_m_48_load:
 	movq	#54, r0	; check 563
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4966,6 +5112,7 @@ res_m_48_store:
 	movq	#58, r0	; check 567
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5000,6 +5147,7 @@ res_m_48_fetch:
 	movq	#62, r0	; check 571
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5035,6 +5183,7 @@ res_m_49_load:
 	movq	#66, r0	; check 575
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5070,6 +5219,7 @@ res_m_49_store:
 	movq	#70, r0	; check 579
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5104,6 +5254,7 @@ res_m_49_fetch:
 	movq	#74, r0	; check 583
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5139,6 +5290,7 @@ res_m_50_load:
 	movq	#78, r0	; check 587
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5174,6 +5326,7 @@ res_m_50_store:
 	movq	#82, r0	; check 591
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5208,6 +5361,7 @@ res_m_50_fetch:
 	movq	#86, r0	; check 595
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5230,6 +5384,7 @@ res_m_51_load:
 	movq	#88, r0	; check 597
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5265,6 +5420,7 @@ res_m_51_store:
 	movq	#92, r0	; check 601
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5299,6 +5455,7 @@ res_m_51_fetch:
 	movq	#96, r0	; check 605
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5334,6 +5491,7 @@ res_m_52_load:
 	movq	#100, r0	; check 609
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5369,6 +5527,7 @@ res_m_52_store:
 	movq	#104, r0	; check 613
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5403,6 +5562,7 @@ res_m_52_fetch:
 	movq	#108, r0	; check 617
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5438,6 +5598,7 @@ res_m_53_load:
 	movq	#112, r0	; check 621
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5473,6 +5634,7 @@ res_m_53_store:
 	movq	#116, r0	; check 625
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5507,6 +5669,7 @@ res_m_53_fetch:
 	movq	#120, r0	; check 629
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5542,6 +5705,7 @@ res_m_54_load:
 	movq	#124, r0	; check 633
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5577,6 +5741,7 @@ res_m_54_store:
 	movq	#128, r0	; check 637
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5611,6 +5776,7 @@ res_m_54_fetch:
 	movq	#132, r0	; check 641
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5633,6 +5799,7 @@ res_m_55_load:
 	movq	#134, r0	; check 643
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5668,6 +5835,7 @@ res_m_55_store:
 	movq	#138, r0	; check 647
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5702,6 +5870,7 @@ res_m_55_fetch:
 	movq	#142, r0	; check 651
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5737,6 +5906,7 @@ res_m_56_load:
 	movq	#146, r0	; check 655
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5772,6 +5942,7 @@ res_m_56_store:
 	movq	#150, r0	; check 659
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5806,6 +5977,7 @@ res_m_56_fetch:
 	movq	#154, r0	; check 663
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5841,6 +6013,7 @@ res_m_57_load:
 	movq	#158, r0	; check 667
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5876,6 +6049,7 @@ res_m_57_store:
 	movq	#162, r0	; check 671
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5910,6 +6084,7 @@ res_m_57_fetch:
 	movq	#166, r0	; check 675
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5945,6 +6120,7 @@ res_m_58_load:
 	movq	#170, r0	; check 679
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5980,6 +6156,7 @@ res_m_58_store:
 	movq	#174, r0	; check 683
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6014,6 +6191,7 @@ res_m_58_fetch:
 	movq	#178, r0	; check 687
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6036,6 +6214,7 @@ res_m_59_load:
 	movq	#180, r0	; check 689
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6071,6 +6250,7 @@ res_m_59_store:
 	movq	#184, r0	; check 693
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6105,6 +6285,7 @@ res_m_59_fetch:
 	movq	#188, r0	; check 697
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6140,6 +6321,7 @@ res_m_60_load:
 	movq	#192, r0	; check 701
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6175,6 +6357,7 @@ res_m_60_store:
 	movq	#196, r0	; check 705
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6209,6 +6392,7 @@ res_m_60_fetch:
 	movq	#200, r0	; check 709
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6244,6 +6428,7 @@ res_m_61_load:
 	movq	#204, r0	; check 713
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6279,6 +6464,7 @@ res_m_61_store:
 	movq	#208, r0	; check 717
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6313,6 +6499,7 @@ res_m_61_fetch:
 	movq	#212, r0	; check 721
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6348,6 +6535,7 @@ res_m_62_load:
 	movq	#216, r0	; check 725
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6383,6 +6571,7 @@ res_m_62_store:
 	movq	#220, r0	; check 729
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6417,6 +6606,7 @@ res_m_62_fetch:
 	movq	#224, r0	; check 733
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6439,6 +6629,7 @@ res_m_63_load:
 	movq	#226, r0	; check 735
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6474,6 +6665,7 @@ res_m_63_store:
 	movq	#230, r0	; check 739
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6508,6 +6700,7 @@ res_m_63_fetch:
 	movq	#234, r0	; check 743
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6543,6 +6736,7 @@ res_m_64_load:
 	movq	#238, r0	; check 747
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6578,6 +6772,7 @@ res_m_64_store:
 	movq	#242, r0	; check 751
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6612,6 +6807,7 @@ res_m_64_fetch:
 	movq	#246, r0	; check 755
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6647,6 +6843,7 @@ res_m_65_load:
 	movq	#250, r0	; check 759
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6682,6 +6879,7 @@ res_m_65_store:
 	movq	#254, r0	; check 763
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6716,6 +6914,7 @@ res_m_65_fetch:
 	movq	#3, r0	; check 767
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6751,6 +6950,7 @@ res_m_66_load:
 	movq	#7, r0	; check 771
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6786,6 +6986,7 @@ res_m_66_store:
 	movq	#11, r0	; check 775
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6820,6 +7021,7 @@ res_m_66_fetch:
 	movq	#15, r0	; check 779
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6855,6 +7057,7 @@ res_m_67_load:
 	movq	#19, r0	; check 783
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6890,6 +7093,7 @@ res_m_67_store:
 	movq	#23, r0	; check 787
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6924,6 +7128,7 @@ res_m_67_fetch:
 	movq	#27, r0	; check 791
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6959,6 +7164,7 @@ res_m_68_load:
 	movq	#31, r0	; check 795
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6994,6 +7200,7 @@ res_m_68_store:
 	movq	#35, r0	; check 799
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7028,6 +7235,7 @@ res_m_68_fetch:
 	movq	#39, r0	; check 803
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7063,6 +7271,7 @@ res_m_69_load:
 	movq	#43, r0	; check 807
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7098,6 +7307,7 @@ res_m_69_store:
 	movq	#47, r0	; check 811
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7132,6 +7342,7 @@ res_m_69_fetch:
 	movq	#51, r0	; check 815
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7167,6 +7378,7 @@ res_m_70_load:
 	movq	#55, r0	; check 819
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7202,6 +7414,7 @@ res_m_70_store:
 	movq	#59, r0	; check 823
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7236,6 +7449,7 @@ res_m_70_fetch:
 	movq	#63, r0	; check 827
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7271,6 +7485,7 @@ res_m_71_load:
 	movq	#67, r0	; check 831
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7306,6 +7521,7 @@ res_m_71_store:
 	movq	#71, r0	; check 835
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7340,6 +7556,7 @@ res_m_71_fetch:
 	movq	#75, r0	; check 839
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7375,6 +7592,7 @@ res_m_72_load:
 	movq	#79, r0	; check 843
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7410,6 +7628,7 @@ res_m_72_store:
 	movq	#83, r0	; check 847
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7444,6 +7663,7 @@ res_m_72_fetch:
 	movq	#87, r0	; check 851
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7479,6 +7699,7 @@ res_m_73_load:
 	movq	#91, r0	; check 855
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7514,6 +7735,7 @@ res_m_73_store:
 	movq	#95, r0	; check 859
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7548,6 +7770,7 @@ res_m_73_fetch:
 	movq	#99, r0	; check 863
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7583,6 +7806,7 @@ res_m_74_load:
 	movq	#103, r0	; check 867
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7618,6 +7842,7 @@ res_m_74_store:
 	movq	#107, r0	; check 871
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7652,6 +7877,7 @@ res_m_74_fetch:
 	movq	#111, r0	; check 875
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7687,6 +7913,7 @@ res_m_75_load:
 	movq	#115, r0	; check 879
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7722,6 +7949,7 @@ res_m_75_store:
 	movq	#119, r0	; check 883
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7756,6 +7984,7 @@ res_m_75_fetch:
 	movq	#123, r0	; check 887
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7791,6 +8020,7 @@ res_m_76_load:
 	movq	#127, r0	; check 891
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7826,6 +8056,7 @@ res_m_76_store:
 	movq	#131, r0	; check 895
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7860,6 +8091,7 @@ res_m_76_fetch:
 	movq	#135, r0	; check 899
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7895,6 +8127,7 @@ res_m_77_load:
 	movq	#139, r0	; check 903
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7930,6 +8163,7 @@ res_m_77_store:
 	movq	#143, r0	; check 907
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7964,6 +8198,7 @@ res_m_77_fetch:
 	movq	#147, r0	; check 911
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7999,6 +8234,7 @@ res_m_78_load:
 	movq	#151, r0	; check 915
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8034,6 +8270,7 @@ res_m_78_store:
 	movq	#155, r0	; check 919
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8068,6 +8305,7 @@ res_m_78_fetch:
 	movq	#159, r0	; check 923
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8103,6 +8341,7 @@ res_m_79_load:
 	movq	#163, r0	; check 927
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8138,6 +8377,7 @@ res_m_79_store:
 	movq	#167, r0	; check 931
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8172,6 +8412,7 @@ res_m_79_fetch:
 	movq	#171, r0	; check 935
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8207,6 +8448,7 @@ res_m_80_load:
 	movq	#175, r0	; check 939
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8242,6 +8484,7 @@ res_m_80_store:
 	movq	#179, r0	; check 943
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8276,6 +8519,7 @@ res_m_80_fetch:
 	movq	#183, r0	; check 947
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8311,6 +8555,7 @@ res_m_81_load:
 	movq	#187, r0	; check 951
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8346,6 +8591,7 @@ res_m_81_store:
 	movq	#191, r0	; check 955
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8380,6 +8626,7 @@ res_m_81_fetch:
 	movq	#195, r0	; check 959
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8415,6 +8662,7 @@ res_m_82_load:
 	movq	#199, r0	; check 963
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8450,6 +8698,7 @@ res_m_82_store:
 	movq	#203, r0	; check 967
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8484,6 +8733,7 @@ res_m_82_fetch:
 	movq	#207, r0	; check 971
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8519,6 +8769,7 @@ res_m_83_load:
 	movq	#211, r0	; check 975
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8554,6 +8805,7 @@ res_m_83_store:
 	movq	#215, r0	; check 979
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8588,6 +8840,7 @@ res_m_83_fetch:
 	movq	#219, r0	; check 983
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8623,6 +8876,7 @@ res_m_84_load:
 	movq	#223, r0	; check 987
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8658,6 +8912,7 @@ res_m_84_store:
 	movq	#227, r0	; check 991
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8692,6 +8947,7 @@ res_m_84_fetch:
 	movq	#231, r0	; check 995
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8727,6 +8983,7 @@ res_m_85_load:
 	movq	#235, r0	; check 999
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8762,6 +9019,7 @@ res_m_85_store:
 	movq	#239, r0	; check 1003
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8796,6 +9054,7 @@ res_m_85_fetch:
 	movq	#243, r0	; check 1007
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8831,6 +9090,7 @@ res_m_86_load:
 	movq	#247, r0	; check 1011
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8866,6 +9126,7 @@ res_m_86_store:
 	movq	#251, r0	; check 1015
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8900,6 +9161,7 @@ res_m_86_fetch:
 	movq	#255, r0	; check 1019
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8935,6 +9197,7 @@ res_m_87_load:
 	movq	#4, r0	; check 1023
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8970,6 +9233,7 @@ res_m_87_store:
 	movq	#8, r0	; check 1027
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9004,6 +9268,7 @@ res_m_87_fetch:
 	movq	#12, r0	; check 1031
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9039,6 +9304,7 @@ res_m_88_load:
 	movq	#16, r0	; check 1035
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9074,6 +9340,7 @@ res_m_88_store:
 	movq	#20, r0	; check 1039
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9108,6 +9375,7 @@ res_m_88_fetch:
 	movq	#24, r0	; check 1043
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9143,6 +9411,7 @@ res_m_89_load:
 	movq	#28, r0	; check 1047
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9178,6 +9447,7 @@ res_m_89_store:
 	movq	#32, r0	; check 1051
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9212,6 +9482,7 @@ res_m_89_fetch:
 	movq	#36, r0	; check 1055
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9247,6 +9518,7 @@ res_m_90_load:
 	movq	#40, r0	; check 1059
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9282,6 +9554,7 @@ res_m_90_store:
 	movq	#44, r0	; check 1063
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9316,6 +9589,7 @@ res_m_90_fetch:
 	movq	#48, r0	; check 1067
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9351,6 +9625,7 @@ res_m_91_load:
 	movq	#52, r0	; check 1071
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9386,6 +9661,7 @@ res_m_91_store:
 	movq	#56, r0	; check 1075
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9420,6 +9696,7 @@ res_m_91_fetch:
 	movq	#60, r0	; check 1079
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9455,6 +9732,7 @@ res_m_92_load:
 	movq	#64, r0	; check 1083
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9490,6 +9768,7 @@ res_m_92_store:
 	movq	#68, r0	; check 1087
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9524,6 +9803,7 @@ res_m_92_fetch:
 	movq	#72, r0	; check 1091
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9559,6 +9839,7 @@ res_m_93_load:
 	movq	#76, r0	; check 1095
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9594,6 +9875,7 @@ res_m_93_store:
 	movq	#80, r0	; check 1099
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9628,6 +9910,7 @@ res_m_93_fetch:
 	movq	#84, r0	; check 1103
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9663,6 +9946,7 @@ res_m_94_load:
 	movq	#88, r0	; check 1107
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9698,6 +9982,7 @@ res_m_94_store:
 	movq	#92, r0	; check 1111
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9732,6 +10017,7 @@ res_m_94_fetch:
 	movq	#96, r0	; check 1115
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9767,6 +10053,7 @@ res_m_95_load:
 	movq	#100, r0	; check 1119
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9802,6 +10089,7 @@ res_m_95_store:
 	movq	#104, r0	; check 1123
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9836,6 +10124,7 @@ res_m_95_fetch:
 	movq	#108, r0	; check 1127
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9871,6 +10160,7 @@ res_m_96_load:
 	movq	#112, r0	; check 1131
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9906,6 +10196,7 @@ res_m_96_store:
 	movq	#116, r0	; check 1135
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9940,6 +10231,7 @@ res_m_96_fetch:
 	movq	#120, r0	; check 1139
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9975,6 +10267,7 @@ res_m_97_load:
 	movq	#124, r0	; check 1143
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10010,6 +10303,7 @@ res_m_97_store:
 	movq	#128, r0	; check 1147
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10044,6 +10338,7 @@ res_m_97_fetch:
 	movq	#132, r0	; check 1151
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10079,6 +10374,7 @@ res_m_98_load:
 	movq	#136, r0	; check 1155
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10114,6 +10410,7 @@ res_m_98_store:
 	movq	#140, r0	; check 1159
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10148,6 +10445,7 @@ res_m_98_fetch:
 	movq	#144, r0	; check 1163
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10170,6 +10468,7 @@ res_m_99_load:
 	movq	#146, r0	; check 1165
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10205,6 +10504,7 @@ res_m_99_store:
 	movq	#150, r0	; check 1169
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10239,6 +10539,7 @@ res_m_99_fetch:
 	movq	#154, r0	; check 1173
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10274,6 +10575,7 @@ res_m_100_load:
 	movq	#158, r0	; check 1177
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10309,6 +10611,7 @@ res_m_100_store:
 	movq	#162, r0	; check 1181
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10343,6 +10646,7 @@ res_m_100_fetch:
 	movq	#166, r0	; check 1185
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10378,6 +10682,7 @@ res_m_101_load:
 	movq	#170, r0	; check 1189
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10413,6 +10718,7 @@ res_m_101_store:
 	movq	#174, r0	; check 1193
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10447,6 +10753,7 @@ res_m_101_fetch:
 	movq	#178, r0	; check 1197
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10482,6 +10789,7 @@ res_m_102_load:
 	movq	#182, r0	; check 1201
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10517,6 +10825,7 @@ res_m_102_store:
 	movq	#186, r0	; check 1205
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10551,6 +10860,7 @@ res_m_102_fetch:
 	movq	#190, r0	; check 1209
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10573,6 +10883,7 @@ res_m_103_load:
 	movq	#192, r0	; check 1211
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10590,6 +10901,7 @@ res_m_103_store:
 	movq	#193, r0	; check 1212
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10624,6 +10936,7 @@ res_m_103_fetch:
 	movq	#197, r0	; check 1216
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10659,6 +10972,7 @@ res_m_104_load:
 	movq	#201, r0	; check 1220
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10694,6 +11008,7 @@ res_m_104_store:
 	movq	#205, r0	; check 1224
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10728,6 +11043,7 @@ res_m_104_fetch:
 	movq	#209, r0	; check 1228
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10763,6 +11079,7 @@ res_m_105_load:
 	movq	#213, r0	; check 1232
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10798,6 +11115,7 @@ res_m_105_store:
 	movq	#217, r0	; check 1236
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10814,6 +11132,7 @@ res_m_105_fetch:
 	movq	#218, r0	; check 1237
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10849,6 +11168,7 @@ res_m_106_load:
 	movq	#222, r0	; check 1241
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10884,6 +11204,7 @@ res_m_106_store:
 	movq	#226, r0	; check 1245
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10918,6 +11239,7 @@ res_m_106_fetch:
 	movq	#230, r0	; check 1249
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10940,6 +11262,7 @@ res_m_107_load:
 	movq	#232, r0	; check 1251
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10975,6 +11298,7 @@ res_m_107_store:
 	movq	#236, r0	; check 1255
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10991,6 +11315,7 @@ res_m_107_fetch:
 	movq	#237, r0	; check 1256
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11026,6 +11351,7 @@ res_m_108_load:
 	movq	#241, r0	; check 1260
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11061,6 +11387,7 @@ res_m_108_store:
 	movq	#245, r0	; check 1264
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11095,6 +11422,7 @@ res_m_108_fetch:
 	movq	#249, r0	; check 1268
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11130,6 +11458,7 @@ res_m_109_load:
 	movq	#253, r0	; check 1272
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11165,6 +11494,7 @@ res_m_109_store:
 	movq	#2, r0	; check 1276
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11199,6 +11529,7 @@ res_m_109_fetch:
 	movq	#6, r0	; check 1280
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11234,6 +11565,7 @@ res_m_110_load:
 	movq	#10, r0	; check 1284
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11269,6 +11601,7 @@ res_m_110_store:
 	movq	#14, r0	; check 1288
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11303,6 +11636,7 @@ res_m_110_fetch:
 	movq	#18, r0	; check 1292
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11325,6 +11659,7 @@ res_m_111_load:
 	movq	#20, r0	; check 1294
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11342,6 +11677,7 @@ res_m_111_store:
 	movq	#21, r0	; check 1295
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11358,6 +11694,7 @@ res_m_111_fetch:
 	movq	#22, r0	; check 1296
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11393,6 +11730,7 @@ res_m_112_load:
 	movq	#26, r0	; check 1300
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11428,6 +11766,7 @@ res_m_112_store:
 	movq	#30, r0	; check 1304
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11462,6 +11801,7 @@ res_m_112_fetch:
 	movq	#34, r0	; check 1308
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11497,6 +11837,7 @@ res_m_113_load:
 	movq	#38, r0	; check 1312
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11532,6 +11873,7 @@ res_m_113_store:
 	movq	#42, r0	; check 1316
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11566,6 +11908,7 @@ res_m_113_fetch:
 	movq	#46, r0	; check 1320
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11601,6 +11944,7 @@ res_m_114_load:
 	movq	#50, r0	; check 1324
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11636,6 +11980,7 @@ res_m_114_store:
 	movq	#54, r0	; check 1328
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11670,6 +12015,7 @@ res_m_114_fetch:
 	movq	#58, r0	; check 1332
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11692,6 +12038,7 @@ res_m_115_load:
 	movq	#60, r0	; check 1334
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11727,6 +12074,7 @@ res_m_115_store:
 	movq	#64, r0	; check 1338
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11761,6 +12109,7 @@ res_m_115_fetch:
 	movq	#68, r0	; check 1342
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11796,6 +12145,7 @@ res_m_116_load:
 	movq	#72, r0	; check 1346
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11831,6 +12181,7 @@ res_m_116_store:
 	movq	#76, r0	; check 1350
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11865,6 +12216,7 @@ res_m_116_fetch:
 	movq	#80, r0	; check 1354
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11900,6 +12252,7 @@ res_m_117_load:
 	movq	#84, r0	; check 1358
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11935,6 +12288,7 @@ res_m_117_store:
 	movq	#88, r0	; check 1362
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11969,6 +12323,7 @@ res_m_117_fetch:
 	movq	#92, r0	; check 1366
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12004,6 +12359,7 @@ res_m_118_load:
 	movq	#96, r0	; check 1370
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12039,6 +12395,7 @@ res_m_118_store:
 	movq	#100, r0	; check 1374
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12073,6 +12430,7 @@ res_m_118_fetch:
 	movq	#104, r0	; check 1378
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12095,6 +12453,7 @@ res_m_119_load:
 	movq	#106, r0	; check 1380
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12112,6 +12471,7 @@ res_m_119_store:
 	movq	#107, r0	; check 1381
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12146,6 +12506,7 @@ res_m_119_fetch:
 	movq	#111, r0	; check 1385
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12181,6 +12542,7 @@ res_m_120_load:
 	movq	#115, r0	; check 1389
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12216,6 +12578,7 @@ res_m_120_store:
 	movq	#119, r0	; check 1393
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12250,6 +12613,7 @@ res_m_120_fetch:
 	movq	#123, r0	; check 1397
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12285,6 +12649,7 @@ res_m_121_load:
 	movq	#127, r0	; check 1401
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12320,6 +12685,7 @@ res_m_121_store:
 	movq	#131, r0	; check 1405
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12354,6 +12720,7 @@ res_m_121_fetch:
 	movq	#135, r0	; check 1409
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12389,6 +12756,7 @@ res_m_122_load:
 	movq	#139, r0	; check 1413
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12424,6 +12792,7 @@ res_m_122_store:
 	movq	#143, r0	; check 1417
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12458,6 +12827,7 @@ res_m_122_fetch:
 	movq	#147, r0	; check 1421
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12480,6 +12850,7 @@ res_m_123_load:
 	movq	#149, r0	; check 1423
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12515,6 +12886,7 @@ res_m_123_store:
 	movq	#153, r0	; check 1427
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12549,6 +12921,7 @@ res_m_123_fetch:
 	movq	#157, r0	; check 1431
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12584,6 +12957,7 @@ res_m_124_load:
 	movq	#161, r0	; check 1435
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12619,6 +12993,7 @@ res_m_124_store:
 	movq	#165, r0	; check 1439
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12653,6 +13028,7 @@ res_m_124_fetch:
 	movq	#169, r0	; check 1443
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12688,6 +13064,7 @@ res_m_125_load:
 	movq	#173, r0	; check 1447
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12723,6 +13100,7 @@ res_m_125_store:
 	movq	#177, r0	; check 1451
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12757,6 +13135,7 @@ res_m_125_fetch:
 	movq	#181, r0	; check 1455
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12792,6 +13171,7 @@ res_m_126_load:
 	movq	#185, r0	; check 1459
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12827,6 +13207,7 @@ res_m_126_store:
 	movq	#189, r0	; check 1463
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12861,6 +13242,7 @@ res_m_126_fetch:
 	movq	#193, r0	; check 1467
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12883,6 +13265,7 @@ res_m_127_load:
 	movq	#195, r0	; check 1469
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12900,6 +13283,7 @@ res_m_127_store:
 	movq	#196, r0	; check 1470
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12934,6 +13318,7 @@ res_m_127_fetch:
 	movq	#200, r0	; check 1474
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12956,6 +13341,7 @@ res_m_128_load:
 	movq	#202, r0	; check 1476
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12973,6 +13359,7 @@ res_m_128_store:
 	movq	#203, r0	; check 1477
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12989,6 +13376,7 @@ res_m_128_fetch:
 	movq	#204, r0	; check 1478
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13011,6 +13399,7 @@ res_m_129_load:
 	movq	#206, r0	; check 1480
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13028,6 +13417,7 @@ res_m_129_store:
 	movq	#207, r0	; check 1481
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13062,6 +13452,7 @@ res_m_129_fetch:
 	movq	#211, r0	; check 1485
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13084,6 +13475,7 @@ res_m_130_load:
 	movq	#213, r0	; check 1487
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13101,6 +13493,7 @@ res_m_130_store:
 	movq	#214, r0	; check 1488
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13117,6 +13510,7 @@ res_m_130_fetch:
 	movq	#215, r0	; check 1489
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13139,6 +13533,7 @@ res_m_131_load:
 	movq	#217, r0	; check 1491
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13156,6 +13551,7 @@ res_m_131_store:
 	movq	#218, r0	; check 1492
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13190,6 +13586,7 @@ res_m_131_fetch:
 	movq	#222, r0	; check 1496
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13212,6 +13609,7 @@ res_m_132_load:
 	movq	#224, r0	; check 1498
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13229,6 +13627,7 @@ res_m_132_store:
 	movq	#225, r0	; check 1499
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13245,6 +13644,7 @@ res_m_132_fetch:
 	movq	#226, r0	; check 1500
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13267,6 +13667,7 @@ res_m_133_load:
 	movq	#228, r0	; check 1502
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13284,6 +13685,7 @@ res_m_133_store:
 	movq	#229, r0	; check 1503
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13318,6 +13720,7 @@ res_m_133_fetch:
 	movq	#233, r0	; check 1507
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13340,6 +13743,7 @@ res_m_134_load:
 	movq	#235, r0	; check 1509
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13357,6 +13761,7 @@ res_m_134_store:
 	movq	#236, r0	; check 1510
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13373,6 +13778,7 @@ res_m_134_fetch:
 	movq	#237, r0	; check 1511
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13395,6 +13801,7 @@ res_m_135_load:
 	movq	#239, r0	; check 1513
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13412,6 +13819,7 @@ res_m_135_store:
 	movq	#240, r0	; check 1514
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13446,6 +13854,7 @@ res_m_135_fetch:
 	movq	#244, r0	; check 1518
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13468,6 +13877,7 @@ res_m_136_load:
 	movq	#246, r0	; check 1520
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13485,6 +13895,7 @@ res_m_136_store:
 	movq	#247, r0	; check 1521
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13501,6 +13912,7 @@ res_m_136_fetch:
 	movq	#248, r0	; check 1522
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13536,6 +13948,7 @@ res_m_137_load:
 	movq	#252, r0	; check 1526
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13571,6 +13984,7 @@ res_m_137_store:
 	movq	#1, r0	; check 1530
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13605,6 +14019,7 @@ res_m_137_fetch:
 	movq	#5, r0	; check 1534
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13640,6 +14055,7 @@ res_m_138_load:
 	movq	#9, r0	; check 1538
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13675,6 +14091,7 @@ res_m_138_store:
 	movq	#13, r0	; check 1542
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13709,6 +14126,7 @@ res_m_138_fetch:
 	movq	#17, r0	; check 1546
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13744,6 +14162,7 @@ res_m_139_load:
 	movq	#21, r0	; check 1550
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13779,6 +14198,7 @@ res_m_139_store:
 	movq	#25, r0	; check 1554
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13813,6 +14233,7 @@ res_m_139_fetch:
 	movq	#29, r0	; check 1558
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13848,6 +14269,7 @@ res_m_140_load:
 	movq	#33, r0	; check 1562
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13883,6 +14305,7 @@ res_m_140_store:
 	movq	#37, r0	; check 1566
 	halt
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7

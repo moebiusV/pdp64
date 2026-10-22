@@ -25,6 +25,7 @@ from pdp64size import corpus, ROOT, ARCH, run, fair_files, preprocess
 OUT = os.environ.get('ARCHCMP_OUT', '/tmp/p64opt/archcmp')
 DATA = os.path.join(REPO, 'docs', 'codegen-data', 'archcmp')
 GCCX = os.path.join(ROOT, 'gcc-cross', 'prefix', 'bin')
+GCCX15 = os.environ.get('GCCX', '/tmp/p64opt/gccx') + '/bin'     # tools/archcmp-gccx.sh
 
 # ---- the targets -------------------------------------------------------------------------------------------------------
 # header groups: preprocessed text is shared by the targets of a group.  Where no musl sysroot exists for an architecture
@@ -63,9 +64,23 @@ T = {
     'ppc64':      ('be64', _clang('powerpc64-unknown-linux-musl', '-fno-pic')),
     'systemz':    ('be64', _clang('s390x-linux-gnu', '-fno-pic')),
     'vax-gcc':    ('vax', [GCCX + '/vax-netbsdelf-gcc']),
+    # gcc 15 cross compilers unpacked from the distribution's packages by tools/archcmp-gccx.sh (compiler and assembler only)
+    'aarch64-gcc':   ('aarch64', [GCCX15 + '/aarch64-linux-gnu-gcc', '-fno-pie', '-mbranch-protection=none']),
+    'riscv64gc-gcc': ('riscv64', [GCCX15 + '/riscv64-linux-gnu-gcc', '-fno-pie']),
+    'systemz-gcc':   ('be64', [GCCX15 + '/s390x-linux-gnu-gcc', '-fno-pie']),
+    'ppc64-gcc':     ('be64', [GCCX15 + '/powerpc64-linux-gnu-gcc', '-fno-pie']),
+    'm68k-gcc':      ('m68k', [GCCX15 + '/m68k-linux-gnu-gcc', '-fno-pie']),
+    'sparc64-gcc':   ('sparc64', [GCCX15 + '/sparc64-linux-gnu-gcc', '-fno-pie']),
+    'arm-gcc':       ('arm', [GCCX15 + '/arm-linux-gnueabi-gcc', '-fno-pie', '-marm']),
+    'loongarch64-gcc': ('aarch64', [GCCX15 + '/loongarch64-linux-gnu-gcc', '-fno-pie']),
 }
+# gcc on Ubuntu defaults to -fstack-protector-strong and stack-clash probes; clang does not.  Switched off for every gcc target here.
+for _n, (_g, _c) in T.items():
+    if _c[0] != 'clang':
+        _c += ['-fno-stack-protector', '-fno-stack-clash-protection']
 PRIMARY = ['aarch64', 'loongarch64', 'amd64-clang', 'amd64-gcc', 'i386-clang', 'i386-gcc', 'arm', 'ppc32', 'm68k', 'mips64',
-           'riscv64gc', 'riscv64', 'sparcv9', 'ppc64', 'systemz', 'ppc32-gcc', 'arm-v7', 'riscv64zb', 'vax-gcc']
+           'riscv64gc', 'riscv64', 'sparcv9', 'ppc64', 'systemz', 'ppc32-gcc', 'arm-v7', 'riscv64zb', 'vax-gcc',
+           'aarch64-gcc', 'riscv64gc-gcc', 'systemz-gcc', 'ppc64-gcc', 'm68k-gcc', 'sparc64-gcc', 'arm-gcc', 'loongarch64-gcc']
 SIZETOOL = {'vax-gcc': GCCX + '/vax-netbsdelf-size'}
 
 
@@ -74,9 +89,7 @@ def asm_cmd(name):
     g, cmd = T[name]
     if cmd[0] == 'clang':
         return cmd + ['-c', '-x', 'assembler']
-    if name.endswith('-gcc') and name.startswith(('amd64', 'i386')):
-        return cmd + ['-c', '-x', 'assembler']
-    return None            # gcc: compile with -c a second time
+    return cmd + ['-c', '-x', 'assembler']        # gcc: its driver runs the cross assembler
 
 
 def elf_bytes(path):
@@ -310,8 +323,10 @@ def norm_factory(name, observed):
             return m
         if fam == 'm68k':
             m = re.sub(r'\.[bwl]$', '', m)
-            if re.match(r'^b(ne|eq|lt|ge|gt|le|hi|ls|cc|cs|mi|pl|vc|vs)$', m):
+            if re.match(r'^[bj](ne|eq|lt|ge|gt|le|hi|ls|cc|cs|mi|pl|vc|vs)$', m):
                 return 'bcc'
+            if m in ('jra', 'jbra', 'bra'):
+                return 'bra'
             if re.match(r'^s(ne|eq|lt|ge|gt|le|hi|ls|cc|cs|mi|pl|vc|vs)$', m):
                 return 'scc'
             return m

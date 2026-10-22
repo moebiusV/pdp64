@@ -20,6 +20,7 @@ _start:
 	mtsr	epsw, r1
 	rti
 user:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -55,6 +56,7 @@ res_m_0_load:
 	movq	#5, r0	; check 4
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -90,6 +92,7 @@ res_m_0_store:
 	movq	#9, r0	; check 8
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -124,6 +127,7 @@ res_m_0_fetch:
 	movq	#13, r0	; check 12
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -159,6 +163,7 @@ res_m_1_load:
 	movq	#17, r0	; check 16
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -194,6 +199,7 @@ res_m_1_store:
 	movq	#21, r0	; check 20
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -228,6 +234,7 @@ res_m_1_fetch:
 	movq	#25, r0	; check 24
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -263,6 +270,7 @@ res_m_2_load:
 	movq	#29, r0	; check 28
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -298,6 +306,7 @@ res_m_2_store:
 	movq	#33, r0	; check 32
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -332,6 +341,7 @@ res_m_2_fetch:
 	movq	#37, r0	; check 36
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -367,6 +377,7 @@ res_m_3_load:
 	movq	#41, r0	; check 40
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -402,6 +413,7 @@ res_m_3_store:
 	movq	#45, r0	; check 44
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -436,6 +448,7 @@ res_m_3_fetch:
 	movq	#49, r0	; check 48
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -471,6 +484,7 @@ res_m_4_load:
 	movq	#53, r0	; check 52
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -506,6 +520,7 @@ res_m_4_store:
 	movq	#57, r0	; check 56
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -540,6 +555,7 @@ res_m_4_fetch:
 	movq	#61, r0	; check 60
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -575,6 +591,7 @@ res_m_5_load:
 	movq	#65, r0	; check 64
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -610,6 +627,7 @@ res_m_5_store:
 	movq	#69, r0	; check 68
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -644,6 +662,7 @@ res_m_5_fetch:
 	movq	#73, r0	; check 72
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -679,6 +698,7 @@ res_m_6_load:
 	movq	#77, r0	; check 76
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -714,6 +734,7 @@ res_m_6_store:
 	movq	#81, r0	; check 80
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -748,6 +769,7 @@ res_m_6_fetch:
 	movq	#85, r0	; check 84
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -783,6 +805,7 @@ res_m_7_load:
 	movq	#89, r0	; check 88
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -818,6 +841,7 @@ res_m_7_store:
 	movq	#93, r0	; check 92
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -852,6 +876,7 @@ res_m_7_fetch:
 	movq	#97, r0	; check 96
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -887,6 +912,7 @@ res_m_8_load:
 	movq	#101, r0	; check 100
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -922,6 +948,7 @@ res_m_8_store:
 	movq	#105, r0	; check 104
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -956,6 +983,7 @@ res_m_8_fetch:
 	movq	#109, r0	; check 108
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -991,6 +1019,7 @@ res_m_9_load:
 	movq	#113, r0	; check 112
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1026,6 +1055,7 @@ res_m_9_store:
 	movq	#117, r0	; check 116
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1060,6 +1090,7 @@ res_m_9_fetch:
 	movq	#121, r0	; check 120
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1095,6 +1126,7 @@ res_m_10_load:
 	movq	#125, r0	; check 124
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1130,6 +1162,7 @@ res_m_10_store:
 	movq	#129, r0	; check 128
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1164,6 +1197,7 @@ res_m_10_fetch:
 	movq	#133, r0	; check 132
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1199,6 +1233,7 @@ res_m_11_load:
 	movq	#137, r0	; check 136
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1234,6 +1269,7 @@ res_m_11_store:
 	movq	#141, r0	; check 140
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1268,6 +1304,7 @@ res_m_11_fetch:
 	movq	#145, r0	; check 144
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1303,6 +1340,7 @@ res_m_12_load:
 	movq	#149, r0	; check 148
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1338,6 +1376,7 @@ res_m_12_store:
 	movq	#153, r0	; check 152
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1372,6 +1411,7 @@ res_m_12_fetch:
 	movq	#157, r0	; check 156
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1407,6 +1447,7 @@ res_m_13_load:
 	movq	#161, r0	; check 160
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1442,6 +1483,7 @@ res_m_13_store:
 	movq	#165, r0	; check 164
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1476,6 +1518,7 @@ res_m_13_fetch:
 	movq	#169, r0	; check 168
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1511,6 +1554,7 @@ res_m_14_load:
 	movq	#173, r0	; check 172
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1546,6 +1590,7 @@ res_m_14_store:
 	movq	#177, r0	; check 176
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1580,6 +1625,7 @@ res_m_14_fetch:
 	movq	#181, r0	; check 180
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1615,6 +1661,7 @@ res_m_15_load:
 	movq	#185, r0	; check 184
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1650,6 +1697,7 @@ res_m_15_store:
 	movq	#189, r0	; check 188
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1684,6 +1732,7 @@ res_m_15_fetch:
 	movq	#193, r0	; check 192
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1719,6 +1768,7 @@ res_m_16_load:
 	movq	#197, r0	; check 196
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1754,6 +1804,7 @@ res_m_16_store:
 	movq	#201, r0	; check 200
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1788,6 +1839,7 @@ res_m_16_fetch:
 	movq	#205, r0	; check 204
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1823,6 +1875,7 @@ res_m_17_load:
 	movq	#209, r0	; check 208
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1858,6 +1911,7 @@ res_m_17_store:
 	movq	#213, r0	; check 212
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1892,6 +1946,7 @@ res_m_17_fetch:
 	movq	#217, r0	; check 216
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1927,6 +1982,7 @@ res_m_18_load:
 	movq	#221, r0	; check 220
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1962,6 +2018,7 @@ res_m_18_store:
 	movq	#225, r0	; check 224
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -1996,6 +2053,7 @@ res_m_18_fetch:
 	movq	#229, r0	; check 228
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2031,6 +2089,7 @@ res_m_19_load:
 	movq	#233, r0	; check 232
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2066,6 +2125,7 @@ res_m_19_store:
 	movq	#237, r0	; check 236
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2100,6 +2160,7 @@ res_m_19_fetch:
 	movq	#241, r0	; check 240
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2135,6 +2196,7 @@ res_m_20_load:
 	movq	#245, r0	; check 244
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2170,6 +2232,7 @@ res_m_20_store:
 	movq	#249, r0	; check 248
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2204,6 +2267,7 @@ res_m_20_fetch:
 	movq	#253, r0	; check 252
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2239,6 +2303,7 @@ res_m_21_load:
 	movq	#2, r0	; check 256
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2274,6 +2339,7 @@ res_m_21_store:
 	movq	#6, r0	; check 260
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2308,6 +2374,7 @@ res_m_21_fetch:
 	movq	#10, r0	; check 264
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2343,6 +2410,7 @@ res_m_22_load:
 	movq	#14, r0	; check 268
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2378,6 +2446,7 @@ res_m_22_store:
 	movq	#18, r0	; check 272
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2412,6 +2481,7 @@ res_m_22_fetch:
 	movq	#22, r0	; check 276
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2447,6 +2517,7 @@ res_m_23_load:
 	movq	#26, r0	; check 280
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2482,6 +2553,7 @@ res_m_23_store:
 	movq	#30, r0	; check 284
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2516,6 +2588,7 @@ res_m_23_fetch:
 	movq	#34, r0	; check 288
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2551,6 +2624,7 @@ res_m_24_load:
 	movq	#38, r0	; check 292
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2586,6 +2660,7 @@ res_m_24_store:
 	movq	#42, r0	; check 296
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2620,6 +2695,7 @@ res_m_24_fetch:
 	movq	#46, r0	; check 300
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2655,6 +2731,7 @@ res_m_25_load:
 	movq	#50, r0	; check 304
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2690,6 +2767,7 @@ res_m_25_store:
 	movq	#54, r0	; check 308
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2724,6 +2802,7 @@ res_m_25_fetch:
 	movq	#58, r0	; check 312
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2759,6 +2838,7 @@ res_m_26_load:
 	movq	#62, r0	; check 316
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2794,6 +2874,7 @@ res_m_26_store:
 	movq	#66, r0	; check 320
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2828,6 +2909,7 @@ res_m_26_fetch:
 	movq	#70, r0	; check 324
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2863,6 +2945,7 @@ res_m_27_load:
 	movq	#74, r0	; check 328
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2898,6 +2981,7 @@ res_m_27_store:
 	movq	#78, r0	; check 332
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2932,6 +3016,7 @@ res_m_27_fetch:
 	movq	#82, r0	; check 336
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -2967,6 +3052,7 @@ res_m_28_load:
 	movq	#86, r0	; check 340
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3002,6 +3088,7 @@ res_m_28_store:
 	movq	#90, r0	; check 344
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3036,6 +3123,7 @@ res_m_28_fetch:
 	movq	#94, r0	; check 348
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3071,6 +3159,7 @@ res_m_29_load:
 	movq	#98, r0	; check 352
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3106,6 +3195,7 @@ res_m_29_store:
 	movq	#102, r0	; check 356
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3140,6 +3230,7 @@ res_m_29_fetch:
 	movq	#106, r0	; check 360
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3175,6 +3266,7 @@ res_m_30_load:
 	movq	#110, r0	; check 364
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3210,6 +3302,7 @@ res_m_30_store:
 	movq	#114, r0	; check 368
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3244,6 +3337,7 @@ res_m_30_fetch:
 	movq	#118, r0	; check 372
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3279,6 +3373,7 @@ res_m_31_load:
 	movq	#122, r0	; check 376
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3314,6 +3409,7 @@ res_m_31_store:
 	movq	#126, r0	; check 380
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3348,6 +3444,7 @@ res_m_31_fetch:
 	movq	#130, r0	; check 384
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3383,6 +3480,7 @@ res_m_32_load:
 	movq	#134, r0	; check 388
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3418,6 +3516,7 @@ res_m_32_store:
 	movq	#138, r0	; check 392
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3452,6 +3551,7 @@ res_m_32_fetch:
 	movq	#142, r0	; check 396
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3487,6 +3587,7 @@ res_m_33_load:
 	movq	#146, r0	; check 400
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3522,6 +3623,7 @@ res_m_33_store:
 	movq	#150, r0	; check 404
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3556,6 +3658,7 @@ res_m_33_fetch:
 	movq	#154, r0	; check 408
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3591,6 +3694,7 @@ res_m_34_load:
 	movq	#158, r0	; check 412
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3626,6 +3730,7 @@ res_m_34_store:
 	movq	#162, r0	; check 416
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3660,6 +3765,7 @@ res_m_34_fetch:
 	movq	#166, r0	; check 420
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3695,6 +3801,7 @@ res_m_35_load:
 	movq	#170, r0	; check 424
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3730,6 +3837,7 @@ res_m_35_store:
 	movq	#174, r0	; check 428
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3764,6 +3872,7 @@ res_m_35_fetch:
 	movq	#178, r0	; check 432
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3799,6 +3908,7 @@ res_m_36_load:
 	movq	#182, r0	; check 436
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3834,6 +3944,7 @@ res_m_36_store:
 	movq	#186, r0	; check 440
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3868,6 +3979,7 @@ res_m_36_fetch:
 	movq	#190, r0	; check 444
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3903,6 +4015,7 @@ res_m_37_load:
 	movq	#194, r0	; check 448
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3938,6 +4051,7 @@ res_m_37_store:
 	movq	#198, r0	; check 452
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -3972,6 +4086,7 @@ res_m_37_fetch:
 	movq	#202, r0	; check 456
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4007,6 +4122,7 @@ res_m_38_load:
 	movq	#206, r0	; check 460
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4042,6 +4158,7 @@ res_m_38_store:
 	movq	#210, r0	; check 464
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4076,6 +4193,7 @@ res_m_38_fetch:
 	movq	#214, r0	; check 468
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4111,6 +4229,7 @@ res_m_39_load:
 	movq	#218, r0	; check 472
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4146,6 +4265,7 @@ res_m_39_store:
 	movq	#222, r0	; check 476
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4180,6 +4300,7 @@ res_m_39_fetch:
 	movq	#226, r0	; check 480
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4215,6 +4336,7 @@ res_m_40_load:
 	movq	#230, r0	; check 484
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4250,6 +4372,7 @@ res_m_40_store:
 	movq	#234, r0	; check 488
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4284,6 +4407,7 @@ res_m_40_fetch:
 	movq	#238, r0	; check 492
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4319,6 +4443,7 @@ res_m_41_load:
 	movq	#242, r0	; check 496
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4354,6 +4479,7 @@ res_m_41_store:
 	movq	#246, r0	; check 500
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4388,6 +4514,7 @@ res_m_41_fetch:
 	movq	#250, r0	; check 504
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4423,6 +4550,7 @@ res_m_42_load:
 	movq	#254, r0	; check 508
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4458,6 +4586,7 @@ res_m_42_store:
 	movq	#3, r0	; check 512
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4492,6 +4621,7 @@ res_m_42_fetch:
 	movq	#7, r0	; check 516
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4527,6 +4657,7 @@ res_m_43_load:
 	movq	#11, r0	; check 520
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4562,6 +4693,7 @@ res_m_43_store:
 	movq	#15, r0	; check 524
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4596,6 +4728,7 @@ res_m_43_fetch:
 	movq	#19, r0	; check 528
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4631,6 +4764,7 @@ res_m_44_load:
 	movq	#23, r0	; check 532
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4666,6 +4800,7 @@ res_m_44_store:
 	movq	#27, r0	; check 536
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4700,6 +4835,7 @@ res_m_44_fetch:
 	movq	#31, r0	; check 540
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4735,6 +4871,7 @@ res_m_45_load:
 	movq	#35, r0	; check 544
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4770,6 +4907,7 @@ res_m_45_store:
 	movq	#39, r0	; check 548
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4804,6 +4942,7 @@ res_m_45_fetch:
 	movq	#43, r0	; check 552
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4839,6 +4978,7 @@ res_m_46_load:
 	movq	#47, r0	; check 556
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4874,6 +5014,7 @@ res_m_46_store:
 	movq	#51, r0	; check 560
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4908,6 +5049,7 @@ res_m_46_fetch:
 	movq	#55, r0	; check 564
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4943,6 +5085,7 @@ res_m_47_load:
 	movq	#59, r0	; check 568
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -4978,6 +5121,7 @@ res_m_47_store:
 	movq	#63, r0	; check 572
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5012,6 +5156,7 @@ res_m_47_fetch:
 	movq	#67, r0	; check 576
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5047,6 +5192,7 @@ res_m_48_load:
 	movq	#71, r0	; check 580
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5082,6 +5228,7 @@ res_m_48_store:
 	movq	#75, r0	; check 584
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5116,6 +5263,7 @@ res_m_48_fetch:
 	movq	#79, r0	; check 588
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5151,6 +5299,7 @@ res_m_49_load:
 	movq	#83, r0	; check 592
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5186,6 +5335,7 @@ res_m_49_store:
 	movq	#87, r0	; check 596
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5220,6 +5370,7 @@ res_m_49_fetch:
 	movq	#91, r0	; check 600
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5255,6 +5406,7 @@ res_m_50_load:
 	movq	#95, r0	; check 604
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5290,6 +5442,7 @@ res_m_50_store:
 	movq	#99, r0	; check 608
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5324,6 +5477,7 @@ res_m_50_fetch:
 	movq	#103, r0	; check 612
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5346,6 +5500,7 @@ res_m_51_load:
 	movq	#105, r0	; check 614
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5381,6 +5536,7 @@ res_m_51_store:
 	movq	#109, r0	; check 618
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5415,6 +5571,7 @@ res_m_51_fetch:
 	movq	#113, r0	; check 622
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5450,6 +5607,7 @@ res_m_52_load:
 	movq	#117, r0	; check 626
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5485,6 +5643,7 @@ res_m_52_store:
 	movq	#121, r0	; check 630
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5519,6 +5678,7 @@ res_m_52_fetch:
 	movq	#125, r0	; check 634
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5554,6 +5714,7 @@ res_m_53_load:
 	movq	#129, r0	; check 638
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5589,6 +5750,7 @@ res_m_53_store:
 	movq	#133, r0	; check 642
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5623,6 +5785,7 @@ res_m_53_fetch:
 	movq	#137, r0	; check 646
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5658,6 +5821,7 @@ res_m_54_load:
 	movq	#141, r0	; check 650
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5693,6 +5857,7 @@ res_m_54_store:
 	movq	#145, r0	; check 654
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5727,6 +5892,7 @@ res_m_54_fetch:
 	movq	#149, r0	; check 658
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5749,6 +5915,7 @@ res_m_55_load:
 	movq	#151, r0	; check 660
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5784,6 +5951,7 @@ res_m_55_store:
 	movq	#155, r0	; check 664
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5818,6 +5986,7 @@ res_m_55_fetch:
 	movq	#159, r0	; check 668
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5853,6 +6022,7 @@ res_m_56_load:
 	movq	#163, r0	; check 672
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5888,6 +6058,7 @@ res_m_56_store:
 	movq	#167, r0	; check 676
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5922,6 +6093,7 @@ res_m_56_fetch:
 	movq	#171, r0	; check 680
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5957,6 +6129,7 @@ res_m_57_load:
 	movq	#175, r0	; check 684
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -5992,6 +6165,7 @@ res_m_57_store:
 	movq	#179, r0	; check 688
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6008,6 +6182,7 @@ res_m_57_fetch:
 	movq	#180, r0	; check 689
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6043,6 +6218,7 @@ res_m_58_load:
 	movq	#184, r0	; check 693
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6078,6 +6254,7 @@ res_m_58_store:
 	movq	#188, r0	; check 697
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6112,6 +6289,7 @@ res_m_58_fetch:
 	movq	#192, r0	; check 701
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6134,6 +6312,7 @@ res_m_59_load:
 	movq	#194, r0	; check 703
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6169,6 +6348,7 @@ res_m_59_store:
 	movq	#198, r0	; check 707
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6185,6 +6365,7 @@ res_m_59_fetch:
 	movq	#199, r0	; check 708
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6220,6 +6401,7 @@ res_m_60_load:
 	movq	#203, r0	; check 712
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6255,6 +6437,7 @@ res_m_60_store:
 	movq	#207, r0	; check 716
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6289,6 +6472,7 @@ res_m_60_fetch:
 	movq	#211, r0	; check 720
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6324,6 +6508,7 @@ res_m_61_load:
 	movq	#215, r0	; check 724
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6359,6 +6544,7 @@ res_m_61_store:
 	movq	#219, r0	; check 728
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6393,6 +6579,7 @@ res_m_61_fetch:
 	movq	#223, r0	; check 732
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6428,6 +6615,7 @@ res_m_62_load:
 	movq	#227, r0	; check 736
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6463,6 +6651,7 @@ res_m_62_store:
 	movq	#231, r0	; check 740
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6497,6 +6686,7 @@ res_m_62_fetch:
 	movq	#235, r0	; check 744
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6519,6 +6709,7 @@ res_m_63_load:
 	movq	#237, r0	; check 746
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6554,6 +6745,7 @@ res_m_63_store:
 	movq	#241, r0	; check 750
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6570,6 +6762,7 @@ res_m_63_fetch:
 	movq	#242, r0	; check 751
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6605,6 +6798,7 @@ res_m_64_load:
 	movq	#246, r0	; check 755
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6640,6 +6834,7 @@ res_m_64_store:
 	movq	#250, r0	; check 759
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6674,6 +6869,7 @@ res_m_64_fetch:
 	movq	#254, r0	; check 763
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6709,6 +6905,7 @@ res_m_65_load:
 	movq	#3, r0	; check 767
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6744,6 +6941,7 @@ res_m_65_store:
 	movq	#7, r0	; check 771
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6778,6 +6976,7 @@ res_m_65_fetch:
 	movq	#11, r0	; check 775
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6813,6 +7012,7 @@ res_m_66_load:
 	movq	#15, r0	; check 779
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6848,6 +7048,7 @@ res_m_66_store:
 	movq	#19, r0	; check 783
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6882,6 +7083,7 @@ res_m_66_fetch:
 	movq	#23, r0	; check 787
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6917,6 +7119,7 @@ res_m_67_load:
 	movq	#27, r0	; check 791
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6952,6 +7155,7 @@ res_m_67_store:
 	movq	#31, r0	; check 795
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -6986,6 +7190,7 @@ res_m_67_fetch:
 	movq	#35, r0	; check 799
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7021,6 +7226,7 @@ res_m_68_load:
 	movq	#39, r0	; check 803
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7056,6 +7262,7 @@ res_m_68_store:
 	movq	#43, r0	; check 807
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7090,6 +7297,7 @@ res_m_68_fetch:
 	movq	#47, r0	; check 811
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7125,6 +7333,7 @@ res_m_69_load:
 	movq	#51, r0	; check 815
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7160,6 +7369,7 @@ res_m_69_store:
 	movq	#55, r0	; check 819
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7194,6 +7404,7 @@ res_m_69_fetch:
 	movq	#59, r0	; check 823
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7229,6 +7440,7 @@ res_m_70_load:
 	movq	#63, r0	; check 827
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7264,6 +7476,7 @@ res_m_70_store:
 	movq	#67, r0	; check 831
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7298,6 +7511,7 @@ res_m_70_fetch:
 	movq	#71, r0	; check 835
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7333,6 +7547,7 @@ res_m_71_load:
 	movq	#75, r0	; check 839
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7368,6 +7583,7 @@ res_m_71_store:
 	movq	#79, r0	; check 843
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7402,6 +7618,7 @@ res_m_71_fetch:
 	movq	#83, r0	; check 847
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7437,6 +7654,7 @@ res_m_72_load:
 	movq	#87, r0	; check 851
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7472,6 +7690,7 @@ res_m_72_store:
 	movq	#91, r0	; check 855
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7506,6 +7725,7 @@ res_m_72_fetch:
 	movq	#95, r0	; check 859
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7541,6 +7761,7 @@ res_m_73_load:
 	movq	#99, r0	; check 863
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7576,6 +7797,7 @@ res_m_73_store:
 	movq	#103, r0	; check 867
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7610,6 +7832,7 @@ res_m_73_fetch:
 	movq	#107, r0	; check 871
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7645,6 +7868,7 @@ res_m_74_load:
 	movq	#111, r0	; check 875
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7680,6 +7904,7 @@ res_m_74_store:
 	movq	#115, r0	; check 879
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7714,6 +7939,7 @@ res_m_74_fetch:
 	movq	#119, r0	; check 883
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7749,6 +7975,7 @@ res_m_75_load:
 	movq	#123, r0	; check 887
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7784,6 +8011,7 @@ res_m_75_store:
 	movq	#127, r0	; check 891
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7818,6 +8046,7 @@ res_m_75_fetch:
 	movq	#131, r0	; check 895
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7853,6 +8082,7 @@ res_m_76_load:
 	movq	#135, r0	; check 899
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7888,6 +8118,7 @@ res_m_76_store:
 	movq	#139, r0	; check 903
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7922,6 +8153,7 @@ res_m_76_fetch:
 	movq	#143, r0	; check 907
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7957,6 +8189,7 @@ res_m_77_load:
 	movq	#147, r0	; check 911
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -7992,6 +8225,7 @@ res_m_77_store:
 	movq	#151, r0	; check 915
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8026,6 +8260,7 @@ res_m_77_fetch:
 	movq	#155, r0	; check 919
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8061,6 +8296,7 @@ res_m_78_load:
 	movq	#159, r0	; check 923
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8096,6 +8332,7 @@ res_m_78_store:
 	movq	#163, r0	; check 927
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8130,6 +8367,7 @@ res_m_78_fetch:
 	movq	#167, r0	; check 931
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8165,6 +8403,7 @@ res_m_79_load:
 	movq	#171, r0	; check 935
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8200,6 +8439,7 @@ res_m_79_store:
 	movq	#175, r0	; check 939
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8234,6 +8474,7 @@ res_m_79_fetch:
 	movq	#179, r0	; check 943
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8269,6 +8510,7 @@ res_m_80_load:
 	movq	#183, r0	; check 947
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8304,6 +8546,7 @@ res_m_80_store:
 	movq	#187, r0	; check 951
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8338,6 +8581,7 @@ res_m_80_fetch:
 	movq	#191, r0	; check 955
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8373,6 +8617,7 @@ res_m_81_load:
 	movq	#195, r0	; check 959
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8408,6 +8653,7 @@ res_m_81_store:
 	movq	#199, r0	; check 963
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8442,6 +8688,7 @@ res_m_81_fetch:
 	movq	#203, r0	; check 967
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8477,6 +8724,7 @@ res_m_82_load:
 	movq	#207, r0	; check 971
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8512,6 +8760,7 @@ res_m_82_store:
 	movq	#211, r0	; check 975
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8546,6 +8795,7 @@ res_m_82_fetch:
 	movq	#215, r0	; check 979
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8581,6 +8831,7 @@ res_m_83_load:
 	movq	#219, r0	; check 983
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8616,6 +8867,7 @@ res_m_83_store:
 	movq	#223, r0	; check 987
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8650,6 +8902,7 @@ res_m_83_fetch:
 	movq	#227, r0	; check 991
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8685,6 +8938,7 @@ res_m_84_load:
 	movq	#231, r0	; check 995
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8720,6 +8974,7 @@ res_m_84_store:
 	movq	#235, r0	; check 999
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8754,6 +9009,7 @@ res_m_84_fetch:
 	movq	#239, r0	; check 1003
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8789,6 +9045,7 @@ res_m_85_load:
 	movq	#243, r0	; check 1007
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8824,6 +9081,7 @@ res_m_85_store:
 	movq	#247, r0	; check 1011
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8858,6 +9116,7 @@ res_m_85_fetch:
 	movq	#251, r0	; check 1015
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8893,6 +9152,7 @@ res_m_86_load:
 	movq	#255, r0	; check 1019
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8928,6 +9188,7 @@ res_m_86_store:
 	movq	#4, r0	; check 1023
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8962,6 +9223,7 @@ res_m_86_fetch:
 	movq	#8, r0	; check 1027
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -8997,6 +9259,7 @@ res_m_87_load:
 	movq	#12, r0	; check 1031
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9032,6 +9295,7 @@ res_m_87_store:
 	movq	#16, r0	; check 1035
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9066,6 +9330,7 @@ res_m_87_fetch:
 	movq	#20, r0	; check 1039
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9101,6 +9366,7 @@ res_m_88_load:
 	movq	#24, r0	; check 1043
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9136,6 +9402,7 @@ res_m_88_store:
 	movq	#28, r0	; check 1047
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9170,6 +9437,7 @@ res_m_88_fetch:
 	movq	#32, r0	; check 1051
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9205,6 +9473,7 @@ res_m_89_load:
 	movq	#36, r0	; check 1055
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9240,6 +9509,7 @@ res_m_89_store:
 	movq	#40, r0	; check 1059
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9274,6 +9544,7 @@ res_m_89_fetch:
 	movq	#44, r0	; check 1063
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9309,6 +9580,7 @@ res_m_90_load:
 	movq	#48, r0	; check 1067
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9344,6 +9616,7 @@ res_m_90_store:
 	movq	#52, r0	; check 1071
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9378,6 +9651,7 @@ res_m_90_fetch:
 	movq	#56, r0	; check 1075
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9413,6 +9687,7 @@ res_m_91_load:
 	movq	#60, r0	; check 1079
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9448,6 +9723,7 @@ res_m_91_store:
 	movq	#64, r0	; check 1083
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9482,6 +9758,7 @@ res_m_91_fetch:
 	movq	#68, r0	; check 1087
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9517,6 +9794,7 @@ res_m_92_load:
 	movq	#72, r0	; check 1091
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9552,6 +9830,7 @@ res_m_92_store:
 	movq	#76, r0	; check 1095
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9586,6 +9865,7 @@ res_m_92_fetch:
 	movq	#80, r0	; check 1099
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9621,6 +9901,7 @@ res_m_93_load:
 	movq	#84, r0	; check 1103
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9656,6 +9937,7 @@ res_m_93_store:
 	movq	#88, r0	; check 1107
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9690,6 +9972,7 @@ res_m_93_fetch:
 	movq	#92, r0	; check 1111
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9725,6 +10008,7 @@ res_m_94_load:
 	movq	#96, r0	; check 1115
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9760,6 +10044,7 @@ res_m_94_store:
 	movq	#100, r0	; check 1119
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9794,6 +10079,7 @@ res_m_94_fetch:
 	movq	#104, r0	; check 1123
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9829,6 +10115,7 @@ res_m_95_load:
 	movq	#108, r0	; check 1127
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9864,6 +10151,7 @@ res_m_95_store:
 	movq	#112, r0	; check 1131
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9898,6 +10186,7 @@ res_m_95_fetch:
 	movq	#116, r0	; check 1135
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9933,6 +10222,7 @@ res_m_96_load:
 	movq	#120, r0	; check 1139
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -9968,6 +10258,7 @@ res_m_96_store:
 	movq	#124, r0	; check 1143
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10002,6 +10293,7 @@ res_m_96_fetch:
 	movq	#128, r0	; check 1147
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10037,6 +10329,7 @@ res_m_97_load:
 	movq	#132, r0	; check 1151
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10072,6 +10365,7 @@ res_m_97_store:
 	movq	#136, r0	; check 1155
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10106,6 +10400,7 @@ res_m_97_fetch:
 	movq	#140, r0	; check 1159
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10141,6 +10436,7 @@ res_m_98_load:
 	movq	#144, r0	; check 1163
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10176,6 +10472,7 @@ res_m_98_store:
 	movq	#148, r0	; check 1167
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10210,6 +10507,7 @@ res_m_98_fetch:
 	movq	#152, r0	; check 1171
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10245,6 +10543,7 @@ res_m_99_load:
 	movq	#156, r0	; check 1175
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10280,6 +10579,7 @@ res_m_99_store:
 	movq	#160, r0	; check 1179
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10314,6 +10614,7 @@ res_m_99_fetch:
 	movq	#164, r0	; check 1183
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10349,6 +10650,7 @@ res_m_100_load:
 	movq	#168, r0	; check 1187
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10384,6 +10686,7 @@ res_m_100_store:
 	movq	#172, r0	; check 1191
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10418,6 +10721,7 @@ res_m_100_fetch:
 	movq	#176, r0	; check 1195
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10453,6 +10757,7 @@ res_m_101_load:
 	movq	#180, r0	; check 1199
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10488,6 +10793,7 @@ res_m_101_store:
 	movq	#184, r0	; check 1203
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10522,6 +10828,7 @@ res_m_101_fetch:
 	movq	#188, r0	; check 1207
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10557,6 +10864,7 @@ res_m_102_load:
 	movq	#192, r0	; check 1211
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10592,6 +10900,7 @@ res_m_102_store:
 	movq	#196, r0	; check 1215
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10626,6 +10935,7 @@ res_m_102_fetch:
 	movq	#200, r0	; check 1219
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10661,6 +10971,7 @@ res_m_103_load:
 	movq	#204, r0	; check 1223
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10696,6 +11007,7 @@ res_m_103_store:
 	movq	#208, r0	; check 1227
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10730,6 +11042,7 @@ res_m_103_fetch:
 	movq	#212, r0	; check 1231
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10765,6 +11078,7 @@ res_m_104_load:
 	movq	#216, r0	; check 1235
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10800,6 +11114,7 @@ res_m_104_store:
 	movq	#220, r0	; check 1239
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10834,6 +11149,7 @@ res_m_104_fetch:
 	movq	#224, r0	; check 1243
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10869,6 +11185,7 @@ res_m_105_load:
 	movq	#228, r0	; check 1247
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10904,6 +11221,7 @@ res_m_105_store:
 	movq	#232, r0	; check 1251
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10938,6 +11256,7 @@ res_m_105_fetch:
 	movq	#236, r0	; check 1255
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -10973,6 +11292,7 @@ res_m_106_load:
 	movq	#240, r0	; check 1259
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11008,6 +11328,7 @@ res_m_106_store:
 	movq	#244, r0	; check 1263
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11042,6 +11363,7 @@ res_m_106_fetch:
 	movq	#248, r0	; check 1267
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11077,6 +11399,7 @@ res_m_107_load:
 	movq	#252, r0	; check 1271
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11112,6 +11435,7 @@ res_m_107_store:
 	movq	#1, r0	; check 1275
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11146,6 +11470,7 @@ res_m_107_fetch:
 	movq	#5, r0	; check 1279
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11181,6 +11506,7 @@ res_m_108_load:
 	movq	#9, r0	; check 1283
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11216,6 +11542,7 @@ res_m_108_store:
 	movq	#13, r0	; check 1287
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11250,6 +11577,7 @@ res_m_108_fetch:
 	movq	#17, r0	; check 1291
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11285,6 +11613,7 @@ res_m_109_load:
 	movq	#21, r0	; check 1295
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11320,6 +11649,7 @@ res_m_109_store:
 	movq	#25, r0	; check 1299
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11354,6 +11684,7 @@ res_m_109_fetch:
 	movq	#29, r0	; check 1303
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11389,6 +11720,7 @@ res_m_110_load:
 	movq	#33, r0	; check 1307
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11424,6 +11756,7 @@ res_m_110_store:
 	movq	#37, r0	; check 1311
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11458,6 +11791,7 @@ res_m_110_fetch:
 	movq	#41, r0	; check 1315
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11493,6 +11827,7 @@ res_m_111_load:
 	movq	#45, r0	; check 1319
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11528,6 +11863,7 @@ res_m_111_store:
 	movq	#49, r0	; check 1323
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11562,6 +11898,7 @@ res_m_111_fetch:
 	movq	#53, r0	; check 1327
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11597,6 +11934,7 @@ res_m_112_load:
 	movq	#57, r0	; check 1331
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11632,6 +11970,7 @@ res_m_112_store:
 	movq	#61, r0	; check 1335
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11666,6 +12005,7 @@ res_m_112_fetch:
 	movq	#65, r0	; check 1339
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11701,6 +12041,7 @@ res_m_113_load:
 	movq	#69, r0	; check 1343
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11736,6 +12077,7 @@ res_m_113_store:
 	movq	#73, r0	; check 1347
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11770,6 +12112,7 @@ res_m_113_fetch:
 	movq	#77, r0	; check 1351
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11805,6 +12148,7 @@ res_m_114_load:
 	movq	#81, r0	; check 1355
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11840,6 +12184,7 @@ res_m_114_store:
 	movq	#85, r0	; check 1359
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11874,6 +12219,7 @@ res_m_114_fetch:
 	movq	#89, r0	; check 1363
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11896,6 +12242,7 @@ res_m_115_load:
 	movq	#91, r0	; check 1365
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11931,6 +12278,7 @@ res_m_115_store:
 	movq	#95, r0	; check 1369
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -11965,6 +12313,7 @@ res_m_115_fetch:
 	movq	#99, r0	; check 1373
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12000,6 +12349,7 @@ res_m_116_load:
 	movq	#103, r0	; check 1377
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12035,6 +12385,7 @@ res_m_116_store:
 	movq	#107, r0	; check 1381
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12069,6 +12420,7 @@ res_m_116_fetch:
 	movq	#111, r0	; check 1385
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12104,6 +12456,7 @@ res_m_117_load:
 	movq	#115, r0	; check 1389
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12139,6 +12492,7 @@ res_m_117_store:
 	movq	#119, r0	; check 1393
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12173,6 +12527,7 @@ res_m_117_fetch:
 	movq	#123, r0	; check 1397
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12208,6 +12563,7 @@ res_m_118_load:
 	movq	#127, r0	; check 1401
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12243,6 +12599,7 @@ res_m_118_store:
 	movq	#131, r0	; check 1405
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12277,6 +12634,7 @@ res_m_118_fetch:
 	movq	#135, r0	; check 1409
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12299,6 +12657,7 @@ res_m_119_load:
 	movq	#137, r0	; check 1411
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12316,6 +12675,7 @@ res_m_119_store:
 	movq	#138, r0	; check 1412
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12350,6 +12710,7 @@ res_m_119_fetch:
 	movq	#142, r0	; check 1416
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12385,6 +12746,7 @@ res_m_120_load:
 	movq	#146, r0	; check 1420
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12420,6 +12782,7 @@ res_m_120_store:
 	movq	#150, r0	; check 1424
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12454,6 +12817,7 @@ res_m_120_fetch:
 	movq	#154, r0	; check 1428
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12489,6 +12853,7 @@ res_m_121_load:
 	movq	#158, r0	; check 1432
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12524,6 +12889,7 @@ res_m_121_store:
 	movq	#162, r0	; check 1436
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12540,6 +12906,7 @@ res_m_121_fetch:
 	movq	#163, r0	; check 1437
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12575,6 +12942,7 @@ res_m_122_load:
 	movq	#167, r0	; check 1441
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12610,6 +12978,7 @@ res_m_122_store:
 	movq	#171, r0	; check 1445
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12644,6 +13013,7 @@ res_m_122_fetch:
 	movq	#175, r0	; check 1449
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12666,6 +13036,7 @@ res_m_123_load:
 	movq	#177, r0	; check 1451
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12701,6 +13072,7 @@ res_m_123_store:
 	movq	#181, r0	; check 1455
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12717,6 +13089,7 @@ res_m_123_fetch:
 	movq	#182, r0	; check 1456
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12752,6 +13125,7 @@ res_m_124_load:
 	movq	#186, r0	; check 1460
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12787,6 +13161,7 @@ res_m_124_store:
 	movq	#190, r0	; check 1464
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12821,6 +13196,7 @@ res_m_124_fetch:
 	movq	#194, r0	; check 1468
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12856,6 +13232,7 @@ res_m_125_load:
 	movq	#198, r0	; check 1472
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12891,6 +13268,7 @@ res_m_125_store:
 	movq	#202, r0	; check 1476
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12925,6 +13303,7 @@ res_m_125_fetch:
 	movq	#206, r0	; check 1480
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12960,6 +13339,7 @@ res_m_126_load:
 	movq	#210, r0	; check 1484
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -12995,6 +13375,7 @@ res_m_126_store:
 	movq	#214, r0	; check 1488
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13029,6 +13410,7 @@ res_m_126_fetch:
 	movq	#218, r0	; check 1492
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13051,6 +13433,7 @@ res_m_127_load:
 	movq	#220, r0	; check 1494
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13068,6 +13451,7 @@ res_m_127_store:
 	movq	#221, r0	; check 1495
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13084,6 +13468,7 @@ res_m_127_fetch:
 	movq	#222, r0	; check 1496
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13119,6 +13504,7 @@ res_m_128_load:
 	movq	#226, r0	; check 1500
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13154,6 +13540,7 @@ res_m_128_store:
 	movq	#230, r0	; check 1504
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13188,6 +13575,7 @@ res_m_128_fetch:
 	movq	#234, r0	; check 1508
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13210,6 +13598,7 @@ res_m_129_load:
 	movq	#236, r0	; check 1510
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13227,6 +13616,7 @@ res_m_129_store:
 	movq	#237, r0	; check 1511
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13243,6 +13633,7 @@ res_m_129_fetch:
 	movq	#238, r0	; check 1512
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13278,6 +13669,7 @@ res_m_130_load:
 	movq	#242, r0	; check 1516
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13313,6 +13705,7 @@ res_m_130_store:
 	movq	#246, r0	; check 1520
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13347,6 +13740,7 @@ res_m_130_fetch:
 	movq	#250, r0	; check 1524
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13369,6 +13763,7 @@ res_m_131_load:
 	movq	#252, r0	; check 1526
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13386,6 +13781,7 @@ res_m_131_store:
 	movq	#253, r0	; check 1527
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13402,6 +13798,7 @@ res_m_131_fetch:
 	movq	#254, r0	; check 1528
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13437,6 +13834,7 @@ res_m_132_load:
 	movq	#3, r0	; check 1532
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13472,6 +13870,7 @@ res_m_132_store:
 	movq	#7, r0	; check 1536
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13506,6 +13905,7 @@ res_m_132_fetch:
 	movq	#11, r0	; check 1540
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13528,6 +13928,7 @@ res_m_133_load:
 	movq	#13, r0	; check 1542
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13545,6 +13946,7 @@ res_m_133_store:
 	movq	#14, r0	; check 1543
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13561,6 +13963,7 @@ res_m_133_fetch:
 	movq	#15, r0	; check 1544
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13596,6 +13999,7 @@ res_m_134_load:
 	movq	#19, r0	; check 1548
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13631,6 +14035,7 @@ res_m_134_store:
 	movq	#23, r0	; check 1552
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13665,6 +14070,7 @@ res_m_134_fetch:
 	movq	#27, r0	; check 1556
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13687,6 +14093,7 @@ res_m_135_load:
 	movq	#29, r0	; check 1558
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13704,6 +14111,7 @@ res_m_135_store:
 	movq	#30, r0	; check 1559
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13720,6 +14128,7 @@ res_m_135_fetch:
 	movq	#31, r0	; check 1560
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13755,6 +14164,7 @@ res_m_136_load:
 	movq	#35, r0	; check 1564
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13790,6 +14200,7 @@ res_m_136_store:
 	movq	#39, r0	; check 1568
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13824,6 +14235,7 @@ res_m_136_fetch:
 	movq	#43, r0	; check 1572
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13859,6 +14271,7 @@ res_m_137_load:
 	movq	#47, r0	; check 1576
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13894,6 +14307,7 @@ res_m_137_store:
 	movq	#51, r0	; check 1580
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13928,6 +14342,7 @@ res_m_137_fetch:
 	movq	#55, r0	; check 1584
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13963,6 +14378,7 @@ res_m_138_load:
 	movq	#59, r0	; check 1588
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -13998,6 +14414,7 @@ res_m_138_store:
 	movq	#63, r0	; check 1592
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -14032,6 +14449,7 @@ res_m_138_fetch:
 	movq	#67, r0	; check 1596
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -14067,6 +14485,7 @@ res_m_139_load:
 	movq	#71, r0	; check 1600
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -14102,6 +14521,7 @@ res_m_139_store:
 	movq	#75, r0	; check 1604
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -14136,6 +14556,7 @@ res_m_139_fetch:
 	movq	#79, r0	; check 1608
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -14171,6 +14592,7 @@ res_m_140_load:
 	movq	#83, r0	; check 1612
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -14206,6 +14628,7 @@ res_m_140_store:
 	movq	#87, r0	; check 1616
 	trap	#1
 1:
+	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
