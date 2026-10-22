@@ -16,14 +16,16 @@ enum { D_ZERO, D_LOW, D_LOWHI, D_SLOW, D_STEP, D_BYTE };
 
 struct p2def {
 	int valid, opc, reg, mode, rm, dsrc, scale, idx;
-	int sysx;			/* 1 + the SYSX sub-opcode: the entry abbreviates pushx or popx; reg and low must be zero */
+	int sysx;			/* 1 + the SYSX sub-opcode: the entry abbreviates a SYSX word; reg and low must be zero, or (sysxn) are the pad byte n = reg:low */
+	int sysxn;
 	/* opc: the page-1 opcode.  reg: the reg field of that instruction, or FIELD.  mode: AMODE_BASE or AMODE_IMM.  rm: base register or FIELD or NONE.
 	   The displacement or immediate is, by dsrc:  D_ZERO 0;  D_LOW scale*low;  D_LOWHI scale*(16*idx + low);  D_SLOW low as 4-bit signed;
 	   D_STEP scale*(1+idx);  D_BYTE scale*(reg:low as an 8-bit number). */
 };
 
 #define E(op, ...) [P2OP_##op] = { 1, __VA_ARGS__ }
-#define X(op, sub) [P2OP_##op] = { 1, OPGROUP_SYS, 0, 0, 0, D_ZERO, 0, 0, 1 + (sub) }
+#define X(op, sub) [P2OP_##op] = { 1, OPGROUP_SYS, 0, 0, 0, D_ZERO, 0, 0, 1 + (sub), 0 }
+#define XN(op, sub) [P2OP_##op] = { 1, OPGROUP_SYS, 0, 0, 0, D_ZERO, 0, 0, 1 + (sub), 1 }
 static const struct p2def T[64] = {
 	E(LD_Q,  MN_MOV_MOVQ,      FIELD, AMODE_BASE, FIELD, D_ZERO, 0, 0),
 	E(ST_Q,  MOVSTORE_MOVQ,    FIELD, AMODE_BASE, FIELD, D_ZERO, 0, 0),
@@ -68,6 +70,8 @@ static const struct p2def T[64] = {
 	E(ADD_I,   MN_ALU_ADD,     FIELD, AMODE_IMM, NONE, D_SLOW, 0, 0),
 	X(PUSHX,   MN_SYSX_PUSHX),
 	X(POPX,    MN_SYSX_POPX),
+	X(ISYNC,   MN_SYSX_ISYNC),
+	XN(HINT,   MN_SYSX_HINT),
 };
 
 /* the opcode of a page-2 instruction is the index in T; the displacement it carries */
@@ -90,9 +94,9 @@ int p2_expand(const struct fmt *p, struct fmt *lf)
 	int64_t d = disp_of(e, p->reg, p->low);
 	memset(lf, 0, sizeof *lf);
 	if (e->sysx) {									/* pushx, popx: the SYSX of the long form */
-		if (p->reg || p->low) return -1;
+		if (!e->sysxn && (p->reg || p->low)) return -1;
 		lf->len = 1; lf->opc = OPGROUP_SYS; lf->reg = 0; lf->low = SYS_MINOR_SYSX;
-		lf->shape = FS_SYSX; lf->sub = e->sysx - 1; lf->n = 0;
+		lf->shape = FS_SYSX; lf->sub = e->sysx - 1; lf->n = e->sysxn ? (unsigned)(p->reg * 16 + p->low) : 0;
 		return 0;
 	}
 	lf->len = 1;
@@ -134,7 +138,7 @@ static void build_table(void)
 				p.len = LENCODE_PAGE2; p.opc = opc; p.reg = reg; p.low = low;
 				if (p2_expand(&p, &lf)) continue;
 				int64_t d = disp_of(e, reg, low);
-				if (e->sysx) { lf.rm = lf.sub; d = 0; }		/* the sub-opcode is the key's rm */
+				if (e->sysx) { lf.rm = lf.sub; d = lf.n; }	/* the sub-opcode is the key's rm, the pad byte its displacement */
 				struct slot *s = probe(key_of(lf.opc, lf.reg, lf.low, lf.rm, d));
 				if (s->used) continue;			/* the lowest page-2 opcode wins */
 				s->used = 1; s->key = key_of(lf.opc, lf.reg, lf.low, lf.rm, d);

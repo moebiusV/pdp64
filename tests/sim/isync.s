@@ -2,8 +2,8 @@
 	.text
 	.globl	_start
 _start:
-	movq	#15, r6
-	mtps	r6
+	movq	#5, r1
+	cmp	r1, #7		; N and C set
 	mfps	r10
 	isync
 	.word	0x540f, 0x0200	; isync, four bytes
@@ -12,6 +12,6 @@ _start:
 	cmp	r9, r10
 	bne	f1
 	movq	#0, r0
-	trap	#0
+	halt
 f1:	movq	#1, r0
-	trap	#0
+	halt

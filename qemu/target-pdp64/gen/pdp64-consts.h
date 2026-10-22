@@ -85,6 +85,7 @@
 #define MN_MESC_MOVUW                2
 #define MN_MOV_MOVL                  2
 #define MN_SOP_INC                   2
+#define MN_SYSX_ISYNC                2
 #define MN_SYS_MFPS                  2
 #define MN_SYS_NONE_RTT              2
 #define MN_XFER_JTAG                 2
@@ -94,6 +95,7 @@
 #define MN_CBRANCH_CBPL              3
 #define MN_MBLK_MCMP                 3
 #define MN_SOP_DEC                   3
+#define MN_SYSX_HINT                 3
 #define MN_SYS_NONE_RET              3
 #define MN_SYS_SPL                   3
 #define MN_AESC_MULHU                4
@@ -391,6 +393,8 @@
 #define P2OP_ADD_I                   41
 #define P2OP_PUSHX                   42
 #define P2OP_POPX                    43
+#define P2OP_ISYNC                   44
+#define P2OP_HINT                    45
 #define PSW_C                        0
 #define PSW_V                        1
 #define PSW_WIDTH_MODE               2
