@@ -1,0 +1,236 @@
+# OpenBSD's memory-safety and exploit mitigations, what pdp64 gives for free, and what would make them soft and easy
+
+[← pdp64 index](../README.md)
+
+**Companion of [`hardware-vulnerabilities.md`](hardware-vulnerabilities.md) and [`kernel-pain-points.md`](kernel-pain-points.md).** OpenBSD is the first operating system for pdp64 (errata 41). OpenBSD turns on, by default and for all programs, a long list of mitigations that other systems leave optional. The author's requirement: look at each one and design pdp64 so that it is **soft** (a default that a program or a kernel can relax, errata 42) and **easy** (cheap in time and code size, simple for the kernel and the compiler to enable, little recovery code); and think of improvements that the OpenBSD developers would want from a hardware platform.
+
+**Evidence labels.** **[G]** guarantee: a manual page or the OpenBSD innovations page says it (`man.openbsd.org`, `openbsd.org/innovations.html`, fetched 2026-10-22). **[P]** practice: the OpenBSD source tree in `~/claude/kernel-src/openbsd` (commit `2114d7b7`, 2026-10-22), counted with the commands in section 12. **[D]** developer statement: a post on a mailing list (marc.info, lore.kernel.org), URL given. **[S]** secondary. **[U]** unverified, from memory, to be fetched. The pdp64 facts are from the ISA, `errata.md` and `pdp64-system-architecture.md` section 15. Costs given as cycles or percentages are only given where a developer or a manual states them; the rest are *counts of code* in the tree, or my estimates, marked as estimates.
+
+**The author's three principles**, in order: (a) code size; (b) easy recoverability, fewer possible errors, less recovery code; (c) speed and efficiency through fewer gates and tighter hot loops. Verdicts: DESIGNED AWAY / MITIGATED BY DESIGN / SAME PROBLEM / WORSE / UNKNOWN, as in the other documents.
+
+## Contents
+
+* [1. The short version](#1-the-short-version)
+* [2. The mitigations, one by one](#2-the-mitigations-one-by-one)
+* [3. A table of all of them](#3-a-table-of-all-of-them)
+* [4. What the OS people asked the hardware vendors for](#4-what-the-os-people-asked-the-hardware-vendors-for)
+* [5. Improvements Theo would love](#5-improvements-theo-would-love)
+* [6. The weak spots of pdp64, found while doing this](#6-the-weak-spots-of-pdp64-found-while-doing-this)
+* [7. Ranking, by the three principles](#7-ranking-by-the-three-principles)
+* [8. What this does not show](#8-what-this-does-not-show)
+* [9. How the counts were made](#9-how-the-counts-were-made)
+
+## 1. The short version
+
+OpenBSD's mitigations fall into four families, and pdp64's position differs in each.
+
+1. **Memory layout and permissions**: W^X, position-independent executables, execute-only code, immutable mappings, address-space randomisation, kernel relinking (KARL). pdp64's page-table entry already has separate `R`, `W`, `X` bits, so *execute-only is an ordinary entry* (`R` = 0, `X` = 1), PC-relative addressing makes position independence nearly free (ISA 19), and a program or kernel can be relocated at no cost. **Exposures:** (i) the compiler's wide-constant literal pool (errata 33: `movq =K,rd` is a PC-relative *load from the text section*) conflicts with execute-only code; (ii) the 39-bit address space leaves a 38-bit user half, so there are fewer bits to randomise than on amd64's 47; (iii) a kernel W^X policy with 1 GB direct-map leaf pages needs smaller leaves for kernel text.
+2. **Control-flow integrity**: stack protector, retguard, IBT/BTI landing pads, system-call pinning. `LPAD` exists in the ISA and costs "one opcode and one comparison" (ISA 12.3, open item 3); the ABI has it off in version 1. Return addresses live on the data stack (`CALL` pushes, `RET` pops: no link register), so stack smashing is exactly as exposed as on x86; retguard in software costs a handful of instructions per function [estimate].
+3. **Least privilege**: `pledge(2)`, `unveil(2)`, privilege separation, `MAP_STACK`, `mimmutable(2)`. These are kernel policy; hardware changes the *cost* only slightly. The one place where pdp64's design helps is the system-call entry: the call number is in the instruction (`TRAP #n` takes vector 256 + n) and the old PC is in a register (`EPC`), so pinning a system call to its origin is a register compare with no memory fetch.
+4. **Hardening against hardware flaws**: SMAP, SMEP, SMT policy, Spectre and Meltdown mitigations, microcode. On pdp64: the `UA` guard (errata 43) is architectural from day one, so there is none of OpenBSD's boot-time patching to turn `stac` and `clac` into no-operations on CPUs without SMAP; no speculation, no SMT (see `hardware-vulnerabilities.md`).
+
+The best candidates for "improvements Theo would love", ranked in section 7: **(1)** make execute-only complete (a constant-pool rule in the ABI, nothing in hardware); **(2)** a page-level "system call allowed here" translation bit, so that the hardware refuses `TRAP` from anywhere else (one bit and one gate; the precise per-call pin stays a three-instruction kernel check); **(3)** the landing-pad check switched on by a page bit (the Arm `BTI` model: one bit, so mixed binaries work); **(4)** an architecturally defined return-address protection chosen for *low recovery cost*, which is the one place where the simple hardware answer (a shadow stack) fails principle (b); **(5)** a declared constant-time set and mode (decision P17). Several popular ideas turn out *not* to be worth hardware (a "sealed" translation bit, a stack-pointer check in hardware, hardware pledge): reasons in section 5.
+
+## 2. The mitigations, one by one
+
+Each entry: what it is in plain words (technical term first); when it arrived in OpenBSD (innovations page [G], release numbers; **innovations** = `openbsd.org/innovations.html`); what it costs today (counts of code in the OpenBSD tree [P], developer statements [D]); what pdp64 gives for free; the cheapest hardware or ISA support that would make it soft and easy, with cost; the verdict.
+
+### 2.1 W^X (write xor execute) and the kernel's own W^X
+
+* **What:** no page is both writable and executable, so injected data cannot be run. **When:** first used for sparc, sparc64, alpha, hppa in 3.3; "strictly enforced by default since OpenBSD 6.0" unless the binary is marked `PT_OPENBSD_WXNEEDED` and the file system mounted `wxallowed` [G innovations]. **Cost today:** the kernel code that checks is small: 15 lines in 4 files match `wxallowed|WXNEEDED|wxcheck|uvm_wxabort` [P]; the cost is paid by programs that generate code (JITs) which must toggle permissions with `mprotect(2)`, one system call and a TLB invalidation each way.
+* **pdp64 free:** the entry has separate `R`, `W`, `X` bits; "W without R is reserved"; the kernel may not execute `U` pages (system architecture 15). W^X is a policy over those bits. Instruction caches are not coherent with data (`ICINV`/`ICINVA`, ISA 17.2), so a JIT already needs the explicit `ICINV` and `ISYNC` after writing code.
+* **Cheapest support:** none needed. Kernel W^X is the one wrinkle: the direct map with 1 GB leaves (D6) must not map kernel text writable; kernel text needs 2 MB or 4 KB leaves, costing a few TLB entries (cost estimate, not measured).
+* **Verdict:** **MITIGATED BY DESIGN**. (a) none, (b) bits are in the entry already, (c) free except JIT transitions: `TLBI` is a single broadcast with no interrupt, which beats x86 shootdown.
+
+### 2.2 Position-independent executables (PIE) by default, static-PIE, library order randomisation
+
+* **What:** every program and library is loaded at a random address (address space layout randomisation, ASLR). **When:** PIE by default in 5.3 (Pascal Stumpf, Aug 2012), "the first widely used operating system to enable it globally ... on seven hardware platforms"; static-PIE 5.7; library relinking in random order at boot since 6.0 and 6.2 [G innovations]. **Cost today:** on i386 and register-starved machines PIE costs registers and code size [U]; on amd64 and arm64 small.
+* **pdp64 free:** PC-relative addressing is the norm: "PIE data access is *shorter* than absolute" and calls and branches are PC-relative from the instruction's first parcel (ISA 19, errata 3); imports through `MOVQ got(PC),Rd` and `CALLI got(PC)` (abi.md); thread pointer is `DP`.
+* **Exposure:** entropy. The virtual address is 39 bits and must be the sign extension of bit 38 (ISA 6.1.1), so the **user half is 2^38 bytes** (256 GB): with 4 KB pages that is 26 bits of page placement, against 35 on amd64's 47-bit user half (arithmetic, not a measurement). Everything OpenBSD gains from randomisation (ASLR, `mmap` placement, library relinking) is worth fewer bits.
+* **Cheapest support:** optional four-level page table (a 48-bit mode selected by a bit in `MMUCTL`) costs one more walk level: four fetches per TLB miss instead of three, and a second shape for the walker (gates). Rank: low priority, only if a 38-bit user space proves too small an entropy pool. Alternatively, rely on the unit that is cheap: relink and randomise more finely (libc order, KARL).
+* **Verdict:** **MITIGATED BY DESIGN** for cost, **WORSE** for entropy. (a) PIE is smaller than non-PIE here, (b) no recovery code, (c) free.
+
+### 2.3 Execute-only memory ("xonly")
+
+* **What:** code that can be run but not read, so an attacker who finds a memory-disclosure bug cannot read the program's code to find gadgets; the kernel also refuses to read it on behalf of a system call. **When:** 2022-2023, arm64 first, then riscv64, hppa, amd64, powerpc64, powerpc (G5 only), octeon; sparc64 unfinished; the linker option `--execute-only` is enabled by default; "Many sloppy practices in userland code had to be repaired" [G innovations, Mark Kettenis, Theo de Raadt and others]. On architectures that lack hardware enforcement, system calls are prevented from reading inside the main text, `ld.so`, `sigtramp` and `libc.so` text (copyin/copyinst) [G innovations, Jan 2023]; "architectures which lack xonly mmu-enforcement can still benefit ... if the cpu generates different traps for instruction-fetch versus data-fetch" [G]. amd64 gets it through protection keys (PKU) [U: verify]. **Cost today:** 33 lines in 15 files match `xonly|execute.only|EXEC_ONLY` [P].
+* **pdp64 free:** the entry allows `R` = 0, `W` = 0, `X` = 1; a data read of such a page takes the load protection abort (vector 10), an instruction fetch the instruction protection abort (vector 9): "different traps for fetch and data" are built in (system architecture 15). With `UA` = 0 (errata 43) a kernel `MCPY` from a user execute-only page faults too, so the kernel needs no copyin special case.
+* **Weak spot (important):** the toolchain puts wide constants into a **literal pool inside `.text`** and loads them with a PC-relative `movq =K,rd` (errata 33): a data read of the code. In an execute-only binary every such load faults. Likewise a jump table read by `JTAG`/`JMPI` from text. **Rule needed in the ABI and compiler:** with `--execute-only`, pools and tables go to a separate read-only section (reach: PC-relative displacement up to ±2 GB with the 32-bit payload, ISA 3.x), or wide constants are built from shorter immediates (more code bytes; estimate +2 to +6 bytes per constant, not measured). Cost: code size, and a switch in the back end.
+* **Cheapest support:** none in hardware. **Verdict:** **MITIGATED BY DESIGN**, with the pool exposure above. (a) a small size cost for xonly code, (b) none, (c) none.
+
+### 2.4 `mimmutable(2)` (immutable mappings)
+
+* **What:** a mapping marked immutable cannot be re-protected, re-mapped or unmapped: `madvise`, `minherit`, `mmap`, `mprotect`, `msync`, `munmap` return `EPERM` [G man page: "first appeared in OpenBSD 7.3"; "Not all implementations will guarantee that the immutable characteristic can be set on a page basis"]. The innovations page: "Most of the program static address space is now automatically immutable (main program, ld.so, main stack, load-time shared libraries...)" (Theo de Raadt, Dec 2022) [G]. **Cost today:** 51 lines in 23 files match `immutable|UVM_ET_IMMUTABLE` [P]: a flag in the kernel's map entry and a check in each of six system calls.
+* **pdp64 free:** nothing, and none is needed: the flag is **kernel state in the VM map**, not hardware state. A translation-entry bit would not help against the threat (a user program calling `mprotect`), because the kernel is what edits the entry; the check must be in the `mprotect` path whatever the hardware does.
+* **Cheapest support:** none. The ranking in section 7 puts a hardware "sealed" bit last. **Verdict:** **SAME PROBLEM** (kernel check), at essentially no cost. (a) ~50 lines, (b) a clean `EPERM` error path, (c) not a hot path.
+
+### 2.5 `MAP_STACK`, and the stack-pointer check on system calls and faults
+
+* **What:** the kernel checks that the stack pointer points into memory mapped as stack when a system call or a page fault arrives, which catches **stack pivots** (return-oriented programming moves `SP` to attacker data). **When:** `MAP_STACK` in `mmap(2)`, "opportunistic verification that the stack-register points at stack memory", Theo de Raadt, 12 Apr 2018; system calls no longer allowed from `PROT_WRITE` memory, 2 Jun 2019 [G innovations]. **Cost today:** 37 lines in 18 files match `MAP_STACK|UVM_FLAG_STACK|...` [P].
+* **pdp64 free:** at `TRAP` the user stack pointer is read with `MFSR usp` (errata 32): one instruction; the comparison is two more [estimate]. Entry writes no memory (errata 36), so the check cannot itself fault.
+* **Cheapest support:** none in hardware. A stack-limit register checked by every push and pop would cost a comparator on the stack-pointer path and context state; the check at the system call is enough for OpenBSD's threat model. **Verdict:** **MITIGATED BY DESIGN**. (a) ~3 instructions at entry, (b) none, (c) three instructions on the entry path: small against 40 to 70 elsewhere.
+
+### 2.6 `msyscall(2)` (removed), `pinsyscalls(2)` and the syscall pin table
+
+* **What:** the kernel only accepts a system call from code regions registered by the dynamic linker; **pinsyscalls** pins *each system call number to the one instruction* in libc that is allowed to make it, so a return-oriented-programming chain that reaches some other system call instruction, or the right instruction with the wrong number, is killed with `SIGABRT`. **When:** `msyscall` 28 Nov 2019; pinning of `execve` Feb 2023; `pinsyscalls(2)` "first appeared in OpenBSD 7.5" (Theo de Raadt, Jan 2024); `msyscall` became redundant: "immutable memory + pinsyscalls together are cheaper and more effective targeting" [G innovations; G man page: "a npins-sized array of u_int entries (indexed by the system call number) which are offsets from the start"]. **Cost today:** 38 lines in 13 files match `pinsyscall|ps_pin|pin_table` [P]. Theo's own account of how the mitigations compose, 29 Oct 2025 [D]: because of pinning the attacker "must find precisely that execve stub entry point"; because of retguard "you can only return into the stack of functions. You cannot jump into the middle" (URL: marc.info `m=176175324400465`).
+* **pdp64 free:** `TRAP #n`/`TRAPL #n` put the number in the instruction and enter vector 256 + *n* (D3): nothing in a register can forge the number. The faulting PC is in `EPC` (a register, no memory fetch), so a pin test is: load the pin offset for *n* (one load), compute `EPC - base` (one subtract), compare (one compare and branch): about four instructions [estimate].
+* **Cheapest support:** a **translation-entry bit "may enter the kernel from here"** (section 5, idea 2): one bit in the entry (a reserved bit today), copied into the TLB entry of the *instruction fetch* that is already being made; `TRAP` from a page without it raises a protection fault in hardware. Gate cost: one AND in the trap path. It gives the **region** policy of `msyscall` for free and no kernel check on the hot path, but not the **exact-instruction** policy of `pinsyscalls`, which stays a software table. OpenBSD found region pinning *less* effective than exact pinning ("cheaper and more effective targeting") [G], so the hardware bit alone does not replace the table. **Verdict:** **MITIGATED BY DESIGN** with the four-instruction check; the page bit is an optional, cheap extra (rank 2).
+
+### 2.7 `pledge(2)` and `unveil(2)`
+
+* **What:** a program promises which kinds of system calls it will make (`pledge`, 5.9, July 2015, Theo de Raadt) and which files it may see (`unveil`, 6.4, July 2018, Theo de Raadt and Bob Beck); violations kill the program. `systrace` was deleted after 5.9 "because pledge(2) is even better" [G innovations]. **Cost today:** `kern_pledge.c` is 1,738 lines; 430 lines in 33 files reference `pledge_|PLEDGE_` and 76 lines in 8 files `unveil_` [P]. The check runs at every system call: a table lookup of the call number to a required promise bit and a mask test.
+* **pdp64 free:** nothing special; the call number is known without decoding a register (it is the vector number).
+* **Cheapest support considered:** a 256-bit per-process "allowed system call" mask tested by hardware at `TRAP` (four 64-bit registers saved and restored per process, one comparator). Rejected: the software test is a load, a shift and a branch [estimate], the mask would cost 256 flip-flops and four context-switch stores for a non-hot saving, and pledge's policy is richer than a mask (promises, path checks). **Verdict:** **SAME PROBLEM**, tiny: (a) the same code, (b) the same error path, (c) three instructions per call.
+
+### 2.8 KARL (kernel address randomised link) and kernel ASLR
+
+* **What:** at every boot the kernel's `.o` files are **relinked in random order** from a link kit, so the kernel's internal layout, not just its base address, is unique per boot ("Basically a unique address space for each kernel boot") (Theo de Raadt, June 2017) [G innovations]; `sshd` since 2023 and libc, libcrypto and `ld.so` the same. **Cost today:** boot time to relink; no run-time cost.
+* **pdp64 free:** branches and calls are PC-relative (ISA 19), data through `d(PC)`; reordering object files does not need runtime relocation. Kernel entry data (`VBR + 8*vector`) is a physical address that the kernel must know.
+* **Exposure:** entropy again (38 bits of user, a 39-bit kernel half).
+* **Cheapest support:** none. **Verdict:** **MITIGATED BY DESIGN**.
+
+### 2.9 Stack protector and retguard
+
+* **What:** a **stack protector** puts a random value (a *canary*) between locals and the saved return address and checks it before returning; **retguard** instead XORs the return address with a *per-function random cookie* before the function body runs and checks it at return, so a corrupted return address is detected and returns cannot be redirected to the middle of functions [G innovations: "per-function random cookie (located in the read-only ELF .openbsd.randomdata section)"]. **When:** stack protector (ProPolice) systemwide in 3.3 (first OS to enable it); per-shared-object cookies 5.3; retguard amd64 and arm64 6.4, mips64 6.7, powerpc 6.9, amd64 syscall stubs 7.3; `-fret-clean` (cleaning the return value off the stack) Jan 2024 [G]; polymorphic-`RET` avoidance in the compiler (register allocation order Nov 2017; instruction re-encoding Apr 2018) [G]. **Cost today:** 466 lines in 37 files in the tree match `retguard|RETGUARD` [P] (macros in every assembly function). Per function: a load of the cookie, an XOR on entry, an XOR and a compare-and-branch before return: about 5 instructions [U, to be verified from the compiler output].
+* **pdp64 free:** nothing: `CALL` pushes the return address on the data stack (ISA 14.2) next to locals, exactly the layout these defences protect. **Compensation:** instructions are parcel-aligned, so a `RET` byte pattern can hide only at 2-byte boundaries (x86 hides one at any byte offset): OpenBSD's instruction re-encoding and register-order tricks have a smaller surface here. Theo's 2023 note on `openssl` tables placed in the text segment (bytes equal to `0xC3` that decode as `ret`) [D, marc.info `m=167511454301227`] describes the x86 problem; the pdp64 rule is: no data tables in the text section whose parcels equal the `RET` encoding, which the xonly pool rule of 2.3 gives as well.
+* **Cheapest support:** discussed in section 5, idea 4. **Verdict:** **SAME PROBLEM** for cost; (a) ~5 instructions of code per function, (b) detection leads to a trap, no recovery path needed, (c) a few cycles per call.
+
+### 2.10 Landing pads (IBT on Intel, BTI on arm64)
+
+* **What:** every target of an indirect call or jump must begin with a special marker instruction, or the program is killed; this removes mid-function gadgets for jump-oriented programming. **When:** "Mandatory enforcement of indirect branch targets (BTI on arm64, IBT on Intel amd64), unless a linker flag (-Wl,-z,nobtcfi) requests no enforcement" [G innovations, entry after Jan 2024]. **Cost today:** 29 lines in 13 files match `BTI|ENDBR|IBT` [P].
+* **pdp64 free:** `LPAD` (SYS class 0 minor 9, two bytes); the landing-pad-violation abort (vector 14); the assembler's `.lpad`; **ABI version 1 has landing pads off** (abi.md; ISA 12.3, open item 3: "costs one opcode and one comparison in the branch unit ... gets more expensive the longer it waits"). Also: every entry of a `JTAG` table must be a landing pad (ISA open item 3).
+* **What turning it on costs:** two bytes of `LPAD` per function whose address is taken or is exported (only those need one; a compiler can skip static functions never address-taken) and zero cycles in an in-order core (one comparison in the branch unit). Enforcement needs a switch. **Cheapest support:** a **page bit in the translation entry, "landing pads required for entry to this page"**, as Arm's guarded-page bit does: one bit, and old libraries without `LPAD` keep working on unguarded pages, which is what OpenBSD's linker flag `-z nobtcfi` wants. Alternative: a `PSW` or `MMUCTL` bit (global, simpler, all-or-nothing). **Verdict:** **MITIGATED BY DESIGN**. (a) 2 bytes per address-taken function, (b) a precise abort, (c) none. Recommendation: reserve the page bit now; decide before ABI version 2.
+
+### 2.11 `malloc(3)` hardening, `freezero`, `malloc_conceal`
+
+* **What:** randomised placement, **guard pages** (an unmapped page after each large allocation), junk fill of freed and new memory, canaries, delayed free and **unmapping on free**, `freezero` that clears before freeing, `malloc_conceal` memory excluded from core dumps [G innovations: randomisation Thierry Deval, guard pages and randomised free Ted Unangst, reimplemented by Otto Moerbeek in 4.4; `freezero` 6.2; `malloc_conceal` 6.5; `MAP_CONCEAL` Feb 2019]. **Cost today:** libc, not in the sampled tree [not counted].
+* **pdp64 free:** `MSET` is a one-instruction, interruptible fill (junking and zeroing are one instruction each); `TLBI` per page is a single broadcast with no inter-processor interrupt (D10), cheaper than x86's shootdown for unmapping on free; an unmapped guard page costs no TLB entry (an invalid entry is not cached) but **prevents 2 MB leaf pages** across the guarded range and adds a page-table page and a kernel map entry per guard [reasoning, not measured].
+* **Cheapest support:** none. **Verdict:** **MITIGATED BY DESIGN**. The cost to watch is the interaction of guard pages with large leaves (principle c, TLB reach).
+
+### 2.12 libc and `ld.so` hardening: `arc4random`, `explicit_bzero`, `strlcpy`, RELRO-like protections, `kbind(2)`
+
+* **What:** `arc4random(3)` (David Mazieres, 1996, 2.1) a random-number generator seeded by the kernel; `strlcpy`/`strlcat` (2.4); `explicit_bzero` (5.5, a clear that the compiler may not remove); GOT and PLT made read-only after relocation by `ld.so` (3.3), extended to `.init`/`.fini`; `kbind(2)`, a kernel call that makes lazy binding safe with W^X in threaded programs (5.9, Philip Guenther) [G innovations].
+* **pdp64 free:** PIC through `got(PC)` is simple; `MCPY`/`MSET`/`MSCN` make `strlcpy`'s scan and copy short; a **random source** needs an entropy device on Q64 (decision P9: "a Q64 entropy device suffices"); a free-running counter for timing jitter is P3.
+* **Cheapest support:** the entropy device (not an instruction: P9 declined a `rdrand`-style instruction). **Verdict:** **SAME PROBLEM**, small.
+
+### 2.13 SMAP and SMEP, copy routines, user/kernel separation
+
+* **What:** the kernel may not read or write user memory except inside the copy routines (SMAP) and may not execute it (SMEP). OpenBSD enables them where the CPU has them, and patches the `stac`/`clac` instructions into no-operations on CPUs without SMAP at boot (`replacesmap()` in `sys/arch/amd64/amd64/cpu.c`, with `_stac` and `_clac` externs) [P]. The amd64 kernel carries 17 code-patch tags and 75 references to them (`CPTAG_STAC`, `CPTAG_CLAC`, `CPTAG_MELTDOWN_NOP`, `CPTAG_MDS`, `CPTAG_IBPB_NOP`, `CPTAG_RETPOLINE_*`, `CPTAG_XSAVE`...) and a 213-line `codepatch.c`, existing only to select between CPU variants at boot [P].
+* **pdp64 free:** `UA` in the `PSW` with `stua` and `clua`, cleared on entry (errata 43); the kernel may not execute `U` pages (system architecture 15); **no patching is needed because the facility is architectural from the first implementation**. Wherever pdp64 is the same on every chip, OpenBSD's `codepatch` machinery (and the boot code that selects among variants) is not needed: this is principle (a) and (b) combined and it is the largest single code saving in this document, if feature registers (P4) keep the machine uniform.
+* **Cheapest support:** already added. **Verdict:** **DESIGNED AWAY** (the patching), **MITIGATED BY DESIGN** (the guard).
+
+### 2.14 SMT policy, Spectre and Meltdown policy, microcode
+
+* **What:** OpenBSD disables SMT by default since 6.4 (Theo de Raadt, 23 Aug 2018) [D, marc.info `m=153504937925732`]; implements user/kernel page-table separation (Meltdown) in Feb 2018 (commit `b767b017801a`) [D commit]; loads Intel microcode early (Patrick Wildt, 31 Jan 2018) [D]; chooses retpoline (`need_retpoline` in `cpu.c`) and codepatches the Meltdown and MDS handling [P]. **Cost today:** `sysctl hw.smt`; the amd64 files `cpu.c` 1,553 lines and `identcpu.c` 1,105 lines [P].
+* **pdp64 free:** no SMT, no speculation (hardware-vulnerabilities, rules C1 to C16); the missing piece is the **uniform description of the chip** (P4) that lets the kernel avoid per-model tables.
+* **Verdict:** **DESIGNED AWAY** today; see `hardware-vulnerabilities.md` for the rules that keep it so.
+
+## 3. A table of all of them
+
+| # | Mitigation | OpenBSD release | Kernel code today [P] | pdp64 gives free | Cheapest hardware or ISA support (cost) | Verdict |
+|---|---|---|---|---|---|---|
+| 1 | W^X, kernel W^X | 3.3 / 6.0 | 15 lines, 4 files | separate `R W X`, no kernel execution of `U` | none (kernel text needs small leaves) | MITIGATED BY DESIGN |
+| 2 | PIE, static-PIE, library relink | 5.3 / 5.7 / 6.0 | n/a | PC-relative addressing (ISA 19) | optional 48-bit mode for entropy (1 walk level) | MITIGATED (cost) / WORSE (entropy) |
+| 3 | execute-only | 2022-23 | 33 lines, 15 files | `R`=0, `X`=1 entry; different aborts for fetch and read | ABI rule: literal pools and tables out of `.text` | MITIGATED, with the pool exposure |
+| 4 | `mimmutable(2)` | 7.3 | 51 lines, 23 files | nothing needed | none (a hardware bit would not help) | SAME PROBLEM, tiny |
+| 5 | `MAP_STACK`, `SP` check at syscall and fault | 2018 | 37 lines, 18 files | `MFSR usp`, register-only entry | none | MITIGATED BY DESIGN |
+| 6 | `msyscall`, `pinsyscalls` | 2019 / 7.5 | 38 lines, 13 files | number in the instruction, `EPC` in a register | page bit "may enter kernel from here" (1 bit, 1 gate) | MITIGATED BY DESIGN |
+| 7 | `pledge`, `unveil` | 5.9 / 6.4 | 1,738-line `kern_pledge.c`, 430 / 76 lines | call number free | none | SAME PROBLEM, tiny |
+| 8 | KARL, kernel ASLR | June 2017 | boot-time link | PC-relative code | none | MITIGATED BY DESIGN |
+| 9 | stack protector, retguard | 3.3 / 6.4 | 466 lines in 37 files (macros) | nothing (return address on the data stack) | see section 5 idea 4 | SAME PROBLEM |
+| 10 | landing pads (IBT, BTI) | after 7.4 | 29 lines, 13 files | `LPAD`, vector 14, off in ABI 1 | page bit "guarded" (1 bit) | MITIGATED BY DESIGN |
+| 11 | malloc hardening, `freezero`, conceal | 4.4 on | libc | `MSET`, broadcast `TLBI` | none | MITIGATED BY DESIGN |
+| 12 | `arc4random`, `explicit_bzero`, `strlcpy`, GOT protection, `kbind` | 2.1 on | libc | `MSCN`/`MCPY`/`MSET` | entropy device (P9) | SAME PROBLEM, small |
+| 13 | SMAP, SMEP and boot-time patching | on amd64 | 17 patch tags, 75 refs, 213-line `codepatch.c` | `UA` guard, uniform chip | feature registers (P4) | DESIGNED AWAY (patching) |
+| 14 | SMT, Spectre, Meltdown, microcode policy | 6.4 on | `cpu.c` 1,553, `identcpu.c` 1,105 lines | no SMT, no speculation | C1 to C16 | DESIGNED AWAY (today) |
+
+## 4. What the OS people asked the hardware vendors for
+
+The author's request: collect, from primary sources, what OpenBSD and the Linux security people have asked of hardware vendors; for each request: who, when, the ask in short, whether anyone delivered, the pdp64 answer. **So far** 9 requests have been read in primary sources (marked **[D]**); further requests that I remember are listed as **[U]** and are the next items to fetch. Ranked in section 7.
+
+| # | Who | When | The ask, in short | Source | Delivered by a vendor? | pdp64 answer, by the three principles |
+|---|---|---|---|---|---|---|
+| 1 | Theo de Raadt (OpenBSD) | 23 Aug 2018 | **document what operating systems must do**: Intel "doing a terrible job by not publically documenting what operating systems must do to resolve the problems"; "we are having to do research by reading other operating systems" | marc.info `m=153504937925732` [D] | partly (later Intel hw-vuln guidance) [U] | **already by design**: one architecture document, errata numbered; a published list of microarchitectural state that survives a privilege change (rule C13): cost zero gates, (b) |
+| 2 | Theo de Raadt | 23 Aug 2018 | **hardware threads must not share resources without "security differentiators"**: "SMT is fundamentally broken because it shares resources between the two cpu instances and those shared resources lack security differentiators" | same [D] | no (SMT remains, with core scheduling) | **free**: no SMT (rule C6); if SMT ever: tag every shared structure with a thread/domain id |
+| 3 | Theo de Raadt | 23 Aug 2018 | tell the OS **what is coming next**: "Intel isn't telling us what is coming next" | same [D] | no | the errata process (E-numbers) is public; a rule to publish before silicon |
+| 4 | Linus Torvalds (Linux) | 3 Jan 2018 | **no speculation across protection domains**, or at least a keyed instruction cache; all workarounds must be switchable | lore `CA+55aFzCocoK+4kxAUEhaxxba4RTv3ewBmhiZ8Osc9iDkBtCEQ@mail.gmail.com` [D] | partly: eIBRS (2018+), `*_NO` bits, later `BHI_DIS_S` [U] | free (no speculation); rules C1, C2; feature bits P4 |
+| 5 | Jan Beulich (SUSE, Xen) | 26 Feb 2018 | a **return that underflows the return predictor must not use the indirect predictor** | lore `5A93E52002000078001AB99C@prv-mh.provo.novell.com` [D] | "RSB alternate" bit [U]; retbleed (2022) showed the problem persisted | no return predictor today; rule C2 |
+| 6 | Patrick Wildt (OpenBSD) | 31 Jan 2018 | **microcode must not change the instruction set under the kernel**, or the kernel must be able to load it before identifying the CPU | marc.info `m=151743333628424` [D] | no | rule C13: no microcode in the base design; if any, feature registers read after |
+| 7 | maya (NetBSD) | 19 Jan 2018 | NX and SMEP-like **kernel execute protection** and clearing branch buffers at kernel entry | tech-kern `2018/01/19/msg022992.html` [D] | NX, SMEP everywhere now; branch-history clear instructions 2022 [U] | already: `X` bit, kernel never executes `U` pages |
+| 8 | Dave Hansen (Intel) and Andy Lutomirski | 2016-17 | **address-space tags that really are tags** (PCID hashed, INVPCID slower than writing the base register) | lore `cover.1452294700.git.luto@kernel.org`, `CA+55aFxmc83...`; `20171031223146.6B47C861@viggo.jf.intel.com` [D] | partial | 16-bit ASID by design (E: ISA 8.1); the hash question is the implementer's: state "full tag compare" |
+| 9 | Andy Lutomirski | 2016 | **lazy floating-point switching is slower than saving state** and a source of leaks; hardware should not make software choose | commit `58122bf1d856` [D] | no (lazy remains optional) | free: no FPU state (S4 risk) |
+| 10 | Linux and OpenBSD security people (many) | 2018 to 2023 | **a way to clear predictors** (`IBPB`), **a buffer-clearing instruction** (`VERW`), **per-ASID invalidate**, **a speculation barrier that always works** (`lfence` made serialising), **tagged TLB and predictor entries**, **data-operand-independent timing** (a documented list and a mode: Intel DOIT) | from memory [U]; to be fetched (LKML 2018 posts by Gleixner, Hansen, Lutomirski; Intel DOIT documentation 2022-23) | `IBPB` 2018, `VERW` repurposed 2019, `lfence` serialising 2018, DOIT 2022 [U] | C2, C5, C4, C7; P5 (TLB invalidate by ASID); P17 (constant-time) |
+| 11 | Theo de Raadt and Mark Kettenis | 2018 on | **execute-only memory enforced by the MMU**, not by kernel tricks | innovations page [G]: "Architectures which lack xonly mmu-enforcement can still benefit..." | arm64 and riscv have it; amd64 via PKU [U] | free: `R`=0 `X`=1 |
+| 12 | OpenBSD developers | 2023 on | **a hardware-checked landing pad on every indirect branch target**, enforced by default | innovations [G] | IBT, BTI | `LPAD` exists; page bit to enable (section 5) |
+
+**Late or undelivered, as far as the primary evidence goes:** items 1 to 3 (documentation and disclosure), 6 (microcode that does not change the architecture), 9 (no lazy state), and the SMT item 2. Those cost pdp64 nothing in gates. They are *policy about the vendor*, and the author is the vendor: the rule is to write the documents (C13) and to publish errata as numbered decisions, as `errata.md` already does.
+
+## 5. Improvements Theo would love
+
+Concrete, cheap, ISA- or entry-level ideas. For each: what it is, gates and opcodes, the principles, my honest assessment (including where it is *not* worth it).
+
+| # | Idea | What it does | Cost (gates, opcodes, bits) | (a) code size | (b) recovery | (c) speed | Assessment |
+|---|---|---|---|---|---|---|---|
+| **1** | **Complete execute-only: an ABI/compiler rule that no constant pool or table lives in `.text` when `--execute-only` is on** | makes the already-available `R`=0, `X`=1 entry usable | zero gates, zero opcodes; a back-end switch; maybe +2 to +6 bytes per wide constant [estimate] | slightly worse | none | none | **do it**: highest value, nearly free; found because pdp64's constant pool is in text (errata 33) |
+| **2** | **Translation bit "SYS" (this page may execute `TRAP`)** | the hardware refuses a system call from any page lacking the bit: region pinning (the `msyscall` policy) with no kernel check on the hot path | 1 entry bit (a reserved bit today: bits 10, 11 or above 39), 1 AND gate in the trap path; 0 opcodes | −4 instructions in the entry | none (a protection abort, like any other) | saves about 4 instructions per call [estimate] | **good**: cheap. Does *not* replace exact pinning (OpenBSD found region pinning "less effective"); layers with it |
+| **3** | **Translation bit "GP" (landing pads required for entry to this page)** | the `BTI`/`IBT` model, page-granular, so a program with legacy libraries still runs | 1 entry bit, one comparison in the branch unit, `LPAD` exists (SYS minor 9) | +2 bytes per address-taken function | one abort type (vector 14) | none | **good**: decide the bit now so ABI version 2 can switch it on; OpenBSD makes it mandatory with a linker opt-out |
+| **4** | **Return-address protection chosen for low recovery cost** | detects a corrupted return address | see below | | | | see below |
+| **5** | **A declared constant-time set and mode** (P17) | secret-independent latency | gates in the sequencers only | none | none | worst-case latency only while on | **do it** (`hardware-vulnerabilities.md` section 4) |
+| **6** | **Hardware page zeroing**: none needed | `MSET` is a one-instruction, interruptible fill | 0 | | | | **already free**; mention it |
+| **7** | **Guard-page states that do not cost TLB entries**: already free | an invalid entry is not cached; the cost is the kernel map entry and lost 2 MB leaves | 0 | | | | **already free**; optional: a "guard" entry flavour the walker can skip quickly adds nothing |
+| **8** | **Pointer tag or key bits in the 25 spare high bits** (39-bit canonical addressing leaves bits 39 to 63 equal to bit 38) | a place for authentication codes or memory-tagging colours | *Tag ignore* needs a mask on every load/store address path (about 25 gates per port) and breaks the canonical-address abort; *authentication* needs a keyed hash (hundreds of gates) and key registers in context | tags in the ISA's low bits already (ISA 6.2) | a failed check is a trap | one extra cycle on pointer authentication in a deep pipeline | **not now**: the in-order machine has no speculation to brute-force PACs *by speculation*, but the gates and context state are not justified by a threat the OS asks for. Keep the canonical check |
+| **9** | **A position-independent kernel**: free | PC-relative everything | 0 | | | | **already free** (KARL) |
+| **10** | **A stack-pointer range check in hardware** | catches pivots without a system call | a comparator on the stack-pointer path and 2 context registers | | | | **not worth it**: the check at system call and fault (2.5) is enough |
+| **11** | **A "sealed" entry bit that `mprotect` cannot change** | | 1 bit | | | | **not worth it**: the kernel edits the entry, so the check must be in the kernel anyway (2.4) |
+| **12** | **A hardware syscall-permission mask (pledge)** | | 256 flip-flops, 4 context stores | | | | **not worth it** (2.7) |
+| **13** | **48-bit address mode (4-level walker)** | more ASLR bits | 1 walk level, 1 mode bit in `MMUCTL` | | | slower TLB miss in that mode | **maybe later** (2.2) |
+
+### Idea 4 in detail: protecting the return address
+
+The return address sits on the data stack beside local variables (`CALL` pushes, `RET` pops; ISA 14.2; there is no link register). OpenBSD answers in software: a stack protector canary, and **retguard**, which XORs the return address with a per-function random cookie and checks at return. Options for pdp64, evaluated by the three principles:
+
+| Option | Hardware cost | What it detects | Recovery and software cost (principle b) | Verdict |
+|---|---|---|---|---|
+| **A. Software retguard / canary** (as OpenBSD) | none | corrupted return address (per-function cookie) | 5 instructions per function [estimate]; detection ends the process; no recovery code | the baseline; keep |
+| **B. Hardware shadow stack** (a second stack in a protected page, `CALL` pushes both, `RET` compares) | a second stack pointer register (context state), a second write port or write per `CALL`, a compare in `RET`; a new translation-entry state "shadow stack page" | any return-address overwrite, strongly (the attacker cannot write the shadow page by ordinary stores) | **high**: `setjmp`/`longjmp`, C++ exceptions, signals, threads, `fork`, `rfork` and debuggers all need shadow-stack-aware code (Linux's CET shadow-stack support is a long series of patches [U: fetch]); recovery code is exactly what principle (b) wants less of | **WORSE for (b)**: do not add by default |
+| **C. Hardware XOR key**: `CALL` stores `ra XOR K`, `RET` loads and XORs, `K` a per-process privileged register | 64 XOR gates in each of two paths, 1 register in context | simple overwrites with an attacker who cannot read the stack; **not** an attacker who can read a stored value next to a known address (`K` is then recovered) | none beyond setting `K` at `exec` | weak against information leaks, which OpenBSD's per-function cookies are designed to survive; **not recommended alone** |
+| **D. Link-register call (change the ABI)** | none | leaf functions never store the address | large ABI change, frame layout and unwinders | **not** an option: rejected by ISA 14.2 |
+| **E. Landing pad on return targets** ("return landing pads", ISA open item 3: requiring "indirect branches *and returns*" to land on a pad) | one comparison in the branch unit; `LPAD` after every call site (+2 bytes per call) | returns into the middle of functions (not a return to the right call site with the wrong value) | none | **cheap partial answer**; costs code size at every call site, a real price under (a): about 2 bytes per call [estimate] |
+
+Assessment: **keep A (software), add rule E as an option only if code size allows, never B by default.** The author's principles put *less recovery code* second; shadow stacks add the most recovery code of any mitigation in this document.
+
+## 6. The weak spots of pdp64, found while doing this
+
+1. **The constant pool in `.text` blocks execute-only code** (errata 33). Fix: the ABI rule of idea 1.
+2. **The 38-bit user address space** limits ASLR entropy; compare 47 bits on amd64 (arithmetic).
+3. **The return address on the data stack** exposes the same attack surface as x86 and needs software retguard or an option of section 5.
+4. **Landing pads are off in ABI version 1** and the enforcement switch (page bit or global) is not specified. Deciding later "gets more expensive" (ISA 12.3).
+5. **No per-page switch for system call entry** (idea 2) and no list of reserved entry bits for security uses: the entry format reserves everything above bit 39 and bits 10 and 11 as zero and faults on any set reserved bit; any new bit needs an ISA and `errata` decision.
+6. **Kernel W^X with 1 GB leaves** needs a mixed leaf size for kernel text.
+7. **The address-space randomisation for the kernel** depends on a link kit and on the physical address of `VBR` being known.
+
+## 7. Ranking, by the three principles
+
+| Rank | Item | Why |
+|---|---|---|
+| 1 | Idea 1: constant-pool rule for execute-only | zero hardware, closes a real conflict, found by reading the ABI against OpenBSD's default |
+| 2 | Decision on `LPAD`: reserve the "GP" page bit; keep it off in ABI 1, plan on in ABI 2 | 1 bit, 1 comparator, 2 bytes per address-taken function, OpenBSD enforces it by default |
+| 3 | Idea 2: "SYS" page bit | 1 bit and 1 gate remove ~4 instructions from every system call and give region pinning |
+| 4 | Constant-time facility (P17) | the largest security class that a hardware design can remove at the source; cost only in sequencers |
+| 5 | Feature registers (P4) that let the kernel avoid per-model patching (OpenBSD carries 75 `codepatch` references) | principle (a) and (b): the biggest code saving of all; the chip says what it is |
+| 6 | Software retguard and canaries in the compiler; rule E only if code size allows | detection with no recovery code |
+| 7 | Optional 48-bit mode | entropy; costs a walker level |
+| 8 | Shadow stack | strongest, but the most recovery code (principle b); not by default |
+| 9 | Pointer authentication and tags | no threat the OS asked for; gates and state |
+| 10 | "Sealed" bit, hardware pledge mask, hardware SP check | no benefit over the kernel check |
+
+## 8. What this does not show
+
+* Costs in cycles are mostly **not measured**: OpenBSD developers rarely state them in the sources I read; where I give "estimate", it is arithmetic on the ISA, not a benchmark.
+* The libc and compiler parts (malloc, retguard instruction counts, `ld.so`) are described from the innovations page and manual pages, not from the libc and clang sources; the sampled tree contains only `sys/kern`, `sys/uvm`, `sys/arch` for the listed ports and `sys/sys`.
+* Requests to vendors are a sample of nine from primary sources; the Linux security people's 2018 to 2023 requests (item 10) are from memory until the lore threads are fetched.
+* "What Theo would love" is my inference from his posts and the innovations page, not a statement of his.
+* pdp64 verdicts are for the documented design; the kernel, compiler `--execute-only` mode and OpenBSD port do not exist yet.
+
+## 9. How the counts were made
+
+All counts: `grep -rEl <pattern> kern uvm arch` and `grep -rEh <pattern> kern uvm arch | wc -l` run in `~/claude/kernel-src/openbsd/sys` (commit `2114d7b7c8fbfd8d285dd7b5b5eb44e1f6b70f55`, 2026-10-22), with the patterns shown in each entry: immutable `UVM_ET_IMMUTABLE|immutable`; pinning `pinsyscall|ps_pin|pin_table|pinsys`; stack `MAP_STACK|UVM_FLAG_STACK|stack_check|uvm_map_check_stack`; xonly `xonly|execute.only|EXEC_ONLY|PROT_EXEC.*only`; W^X `wxallowed|WXNEEDED|wxcheck|uvm_wxabort`; landing pads `BTI|ENDBR|IBT\b`; pledge `pledge_|PLEDGE_`; unveil `unveil_`; retguard `retguard|RETGUARD`; code patch tags `grep -rEc 'CPTAG_' arch/amd64` summed (75) and the tag names in `arch/amd64/include/codepatch.h` (17); line counts with `wc -l`. The pages read: `openbsd.org/innovations.html`, `man.openbsd.org/mimmutable.2`, `pinsyscalls.2`, `pledge.2`, `unveil.2`, and the list posts cited by URL; the fetched files are in `~/claude/browse-output` and listed in `kernel-pain-points.md` Appendix C.

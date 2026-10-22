@@ -433,6 +433,8 @@ Ranked by the author's three principles. "Shows up as" says where the item appea
 | 8 | **Lock scalability beyond 2 to 4 cores, interrupt controller, IPIs, virtualization, hardware breakpoints, performance counters** | all | not yet faced | R1, R2, R3, R8, P16 |
 | 9 | **39-bit address space**: KASLR and ASLR entropy | security, not a principle | fewer bits to randomise | chapters 5, 12 |
 
+**See also:** the rules that keep pdp64 free of the speculation and side-channel flaws are in [`hardware-vulnerabilities.md`](hardware-vulnerabilities.md); OpenBSD's mitigations against pdp64, with the improvements an OpenBSD developer would want, are in [`openbsd-mitigations.md`](openbsd-mitigations.md).
+
 **Candidate actions suggested by the evidence** (none is decided; each cites the decision that would carry it): write the "visible only after `TLBI`" and the page-size-change rules into the ISA (E39 item 7) before any second core; decide whether a second page-table base is cheap enough to reserve now (chapter 4); state the cache-index-in-page-offset requirement for any future data cache; decide the fault-fixup mechanism for copies (chapter 9), because it is the only mandatory recovery code; keep P5 (by-ASID invalidate) and P1 (wake rule) on the list; keep hardware A/D management as a later option behind a feature register (P4) so that software can stay faulting-only if desired.
 
 ## 16. What this does not show
