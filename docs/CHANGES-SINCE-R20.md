@@ -507,5 +507,5 @@ narrow loads consumed by the next instruction, and only 146 of those would fuse 
 
 **QEMU.** `qemu-system-pdp64 -M pdp64-virt -kernel prog` runs the sim64 programs through the same shared core and generated decoder (qemu/README.md); the 9 assembly tests and all 492 C test runs give the same results as under sim64.
 
-**Devices.** Ethernet, USB and disk devices are each presented as eight registers (errata 29, the author's decision): trivial drivers and no multitasking burden on the
-processor. No ISA change; the layouts are not yet written (ISA section 16).
+**Devices.** Ethernet, USB and disk devices are each eight memory-mapped registers plus DMA (errata 29, the author's decision): trivial drivers and no multitasking burden
+on the processor. No ISA change; the layouts and the DMA descriptor format are not yet written (ISA section 16).

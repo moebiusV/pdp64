@@ -17,8 +17,9 @@ frequency, and the low bits of an opcode are wired straight to the function it s
 common jobs take the fewest instructions, and the architecture is set up so that surprises and failure modes happen less often, and when one does happen the code
 that recovers is shorter and simpler. That is why there are no mode bits, at most one memory operand per instruction, a register is always written in full, quad
 accesses are naturally aligned, every instruction can be restarted after a fault, and an instruction does what its name says and nothing else. The third layer is the
-system around the processor. Each device (Ethernet, USB, disk) is presented as a small set of eight registers, which makes a driver trivial to write and keeps the
-multitasking burden off the CPU, so that more of it is left for you and for the important things you are running. The choices were checked against compiled C, not
+system around the processor. Each device (Ethernet, USB, disk) is presented as eight memory-mapped registers, eight addresses in the ordinary address space, and moves
+its data by DMA. That makes a driver trivial to write and keeps the multitasking burden off the CPU, which only sets up a transfer, so that more of it is left for you
+and for the important things you are running. The choices were checked against compiled C, not
 guessed: on 841 real source files (bearssl, mbedtls, lua, zlib and others) the first compiler's output is about 3% smaller than amd64's and 11% smaller than aarch64's
 in code and data, with about the same number of instructions.
 
@@ -65,7 +66,7 @@ population-count and XNOR instructions that binary and sub-1-bit inference needs
 | Floating-point spelling: `fadd` is binary64, `fadd32` binary32, `fadd16` reserved; old spellings stay as aliases | errata 24 |
 | `set cc, rd` added; a conditional select is on hold pending evidence | errata 25; CHANGES §14 |
 | NaN results are the canonical quiet NaN | errata 26 |
-| Devices (Ethernet, USB, disk) present eight registers: trivial drivers, no multitasking burden on the CPU; no ISA change, layouts to be written | errata 29; ISA §16 |
+| Devices (Ethernet, USB, disk) are eight memory-mapped registers plus DMA: trivial drivers, no multitasking burden on the CPU; no ISA change, layouts to be written | errata 29; ISA §16 |
 | Half precision (binary16) added: 17 `FESC` words, arithmetic and conversions, correctly rounded, with flags | errata 27; CHANGES §14 |
 | ABI v1: LP64, signed `char`, `long double` = double, arguments in `r0`-`r5` (floats too), 8-byte stack alignment, no red zone, no leading underscore; variadic calls put every argument in slots | CHANGES §5; abi.md |
 | Assembly syntax: C-style numbers, characters and strings; `;` comments; names follow ELF (UTF-8, quoted names, digit-led names); lowercase mnemonics; nothing copied from V7 `as` for its own sake | CHANGES §6; asm-syntax.md |
