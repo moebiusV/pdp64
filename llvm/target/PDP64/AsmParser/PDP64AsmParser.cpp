@@ -12,6 +12,7 @@
 #include "TargetInfo/PDP64TargetInfo.h"
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/ADT/StringSwitch.h"
+#include "llvm/Support/Casting.h"
 #include "llvm/MC/MCContext.h"
 #include "llvm/MC/MCExpr.h"
 #include "llvm/MC/MCInst.h"
@@ -84,6 +85,7 @@ struct PDP64Operand : public MCParsedAsmOperand {
   PDP64Operand(KindTy K) : Kind(K) {}
 
   bool isToken() const override { return Kind == Token; }
+  StringRef getToken() const { return Tok; }
   bool isReg() const override { return Kind == Reg; }
   bool isImm() const override { return Kind == Imm; }
   bool isMem() const override { return false; }

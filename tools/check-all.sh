@@ -16,3 +16,7 @@ if [ -x "${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64}" ]; then
 else
 	echo "check-qemu: skipped (no qemu-system-pdp64; see qemu/README.md)"
 fi
+# the generated tables of the LLVM back end (the compiler itself is checked by llvm/check.sh, which needs a built llvm-mc)
+if [ -d llvm/target/PDP64/gen ]; then
+	tools/check-llvm-gen.sh
+fi

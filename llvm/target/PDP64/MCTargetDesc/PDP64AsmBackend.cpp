@@ -61,7 +61,7 @@ MCFixupKindInfo PDP64AsmBackend::getFixupKindInfo(MCFixupKind Kind) const {
   if (Kind < FirstTargetFixupKind)
     return MCAsmBackend::getFixupKindInfo(Kind);
   const PDP64::FixupDesc &D = PDP64::getFixupDesc(Kind);
-  return {D.Name, 0, D.Bits, 0};
+  return {D.Name, 0, (uint8_t)D.Bits, 0};
 }
 
 // A pc-relative reference to a symbol defined in the same section is resolved by the assembler, whatever the symbol's binding:

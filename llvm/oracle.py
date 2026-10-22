@@ -226,8 +226,23 @@ def disassemble_roundtrip(mc, text_bytes, tmp):
     return None
 
 
+def preprocess(path, tmp):
+    """NAME.S is run through the C preprocessor with the architecture's constants (tools/pp-asm.sh), as the project's own tests do."""
+    out = os.path.join(tmp, os.path.basename(path)[:-2] + '.pp.s')
+    r = run([os.path.join(ROOT, 'tools', 'pp-asm.sh'), path, out])
+    if r.returncode != 0:
+        raise Skip('preprocessing: ' + r.stderr.strip().split('\n')[0])
+    return out
+
+
 def check_file(path, as64, mc, verbose, roundtrip=True):
     """Returns ('pass'|'fail'|'skip', text)."""
+    if path.endswith('.S'):
+        with tempfile.TemporaryDirectory() as t0:
+            try:
+                return check_file(preprocess(path, t0), as64, mc, verbose, roundtrip)
+            except Skip as e:
+                return 'skip', str(e)
     src = open(path).read()
     try:
         llsrc = translate(src)
@@ -278,11 +293,11 @@ def main():
         elif a == '--verbose':
             verbose = True
         elif os.path.isdir(a):
-            files += sorted(os.path.join(a, f) for f in os.listdir(a) if f.endswith('.s'))
+            files += sorted(os.path.join(a, f) for f in os.listdir(a) if f.endswith(('.s', '.S')))
         else:
             files.append(a)
     if not files:
-        files = sorted(os.path.join(ROOT, 'tests', d, f) for d in ('asm', 'sim') for f in os.listdir(os.path.join(ROOT, 'tests', d)) if f.endswith('.s'))
+        files = sorted(os.path.join(ROOT, 'tests', d, f) for d in ('asm', 'sim') for f in os.listdir(os.path.join(ROOT, 'tests', d)) if f.endswith(('.s', '.S')))
     counts = {'pass': 0, 'fail': 0, 'skip': 0}
     for f in files:
         st, text = check_file(f, as64, mc, verbose)
