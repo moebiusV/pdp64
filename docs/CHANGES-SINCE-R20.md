@@ -504,3 +504,5 @@ assumes no signed overflow, gives 0.99 and 0.96 times amd64); a short `d(sp)` fo
 **Sized integer arithmetic.** Considered and decided against (errata 28, the user's decision): arithmetic stays 64-bit, narrow values are extended by `movb movw movl`
 (sign) and `movzb movzw movzl` (zero), and the compiler re-extends where needed. Cost measured on the fair corpus: 4.3% of instructions are re-extensions, 2.1% are
 narrow loads consumed by the next instruction, and only 146 of those would fuse into a sized memory operand.
+
+**QEMU.** `qemu-system-pdp64 -M pdp64-virt -kernel prog` runs the sim64 programs through the same shared core and generated decoder (qemu/README.md); the 9 assembly tests and all 492 C test runs give the same results as under sim64.
