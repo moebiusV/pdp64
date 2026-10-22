@@ -403,6 +403,16 @@ class SysProbe<string mn, bits<4> cls> : Inst32<(outs), (ins GPR:$rd, GPR:$rs), 
   let Inst{27-16} = 0;
   let Form = FORM_SYS;
 }
+// pushx, popx: SYS class 0, minor 15 (SYSX), the sub-opcode in parcel 1
+class SysX<string mn, bits<8> sub> : Inst32<(outs), (ins), mn> {
+  let Inst{15-14} = LENCODE_PARCELS2;
+  let Inst{13-8} = OPGROUP_SYS;
+  let Inst{7-4} = 0;
+  let Inst{3-0} = SYS_MINOR_SYSX;
+  let Inst{31-24} = sub;
+  let Inst{23-16} = 0;
+  let Form = FORM_SYS;
+}
 // mfsr rd, name / mtsr name, rs: SYS class 0, minors 13 and 14, the system register in parcel 1
 class SysRegMove<string mn, bits<4> minor, bit isMf> :
     Inst32<(outs), (ins GPR:$r, sysregop:$sr), !if(isMf, mn # "\t$r, $sr", mn # "\t$sr, $r")> {

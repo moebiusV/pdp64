@@ -25,13 +25,16 @@ struct Row {
   int Opc, Reg, Mode, Rm;
   int DSrc;
   int Scale, Idx;
+  int Sysx; // -1, or the SYSX sub-opcode that this word abbreviates (pushx, popx): reg and low must be zero
 };
 
 const Row Rows[] = {
 #define PDP64_P2_TABLE
-#define PDP64_P2ROW(p2, opc, reg, mode, rm, dsrc, scale, idx) {p2, opc, reg, mode, rm, dsrc, scale, idx},
+#define PDP64_P2ROW(p2, opc, reg, mode, rm, dsrc, scale, idx) {p2, opc, reg, mode, rm, dsrc, scale, idx, -1},
+#define PDP64_P2SYSX(p2, sub) {p2, OPGROUP_SYS, 0, 0, 0, D_ZERO, 0, 0, sub},
 #include "gen/PDP64Tables.inc"
 #undef PDP64_P2ROW
+#undef PDP64_P2SYSX
 #undef PDP64_P2_TABLE
 };
 
@@ -58,13 +61,21 @@ const Row *findRow(unsigned P2Opc) {
   return nullptr;
 }
 
-/// The fields of the page-1 instruction a page-2 (reg, low) of a row stands for.
+/// The fields of the page-1 instruction a page-2 (reg, low) of a row stands for (a SYSX row: mode is the SYS minor, rm the sub-opcode).
 struct Expanded {
   unsigned Opc, Reg, Mode, Rm;
   int64_t D;
 };
 Expanded expand(const Row &E, unsigned Reg, unsigned Low) {
   Expanded X;
+  if (E.Sysx >= 0) {
+    X.Opc = OPGROUP_SYS;
+    X.Reg = 0;
+    X.Mode = SYS_MINOR_SYSX;
+    X.Rm = E.Sysx;
+    X.D = 0;
+    return X;
+  }
   X.Opc = E.Opc;
   X.Reg = E.Reg == FIELD ? Reg : E.Reg;
   X.Mode = E.Mode;
@@ -75,7 +86,9 @@ Expanded expand(const Row &E, unsigned Reg, unsigned Low) {
 
 uint32_t pack(const Expanded &X) {
   uint32_t V;
-  if (X.Mode == AMODE_BASE)
+  if (X.Opc == OPGROUP_SYS)
+    V = X.Rm << 8; // SYSX: sub:8 pad:8 in parcel 1
+  else if (X.Mode == AMODE_BASE)
     V = (X.Rm << BASE_DISP_BITS_LEN1) | (uint32_t)((uint64_t)X.D & maskBits(BASE_DISP_BITS_LEN1));
   else
     V = (uint32_t)((uint64_t)X.D & maskBits(WIDE_BITS_LEN1));
@@ -96,6 +109,8 @@ DenseMap<uint64_t, Slot> &table() {
     for (const Row &E : Rows)
       for (unsigned Reg = 0; Reg < 16; ++Reg)
         for (unsigned Low = 0; Low < 16; ++Low) {
+          if (E.Sysx >= 0 && (Reg || Low))
+            continue; // pushx and popx have reg and low zero; anything else is reserved
           Expanded X = expand(E, Reg, Low);
           uint64_t K = key(X.Opc, X.Reg, X.Mode, X.Rm, X.D);
           // rows are in the order of the table, which is by page-2 opcode: the first to claim a key keeps it
@@ -112,6 +127,8 @@ bool PDP64::p2Expand(uint16_t W, uint32_t &Out) {
   const Row *E = findRow((W >> 8) & 63);
   if (!E)
     return false;
+  if (E->Sysx >= 0 && (W & 0xFF))
+    return false;
   Out = pack(expand(*E, (W >> 4) & 15, W & 15));
   return true;
 }
@@ -123,7 +140,12 @@ bool PDP64::p2Compress(uint32_t W, bool UnsignedImm, uint16_t &Out) {
   uint32_t P1 = W >> 16;
   unsigned Rm = 0;
   int64_t D;
-  if (Mode == AMODE_BASE) {
+  if (Opc == OPGROUP_SYS && Mode == SYS_MINOR_SYSX) {
+    if (P1 & 0xFF)
+      return false; // the pad byte
+    Rm = P1 >> 8;
+    D = 0;
+  } else if (Mode == AMODE_BASE) {
     Rm = P1 >> BASE_DISP_BITS_LEN1;
     D = signExtend(P1 & maskBits(BASE_DISP_BITS_LEN1), BASE_DISP_BITS_LEN1);
   } else if (Mode == AMODE_IMM) {
@@ -132,7 +154,7 @@ bool PDP64::p2Compress(uint32_t W, bool UnsignedImm, uint16_t &Out) {
     return false;
   }
   DenseMap<uint64_t, Slot> &T = table();
-  auto It = T.find(key(Opc, Reg, Mode, Mode == AMODE_BASE ? Rm : 0, D));
+  auto It = T.find(key(Opc, Reg, Mode, (Mode == AMODE_BASE || Opc == OPGROUP_SYS) ? Rm : 0, D));
   if (It == T.end())
     return false;
   Out = (LENCODE_PAGE2 << 14) | (It->second.P2Opc << 8) | (It->second.Reg << 4) | It->second.Low;

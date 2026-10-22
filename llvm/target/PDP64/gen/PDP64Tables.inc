@@ -131,6 +131,8 @@ PDP64_P2ROW(38, 29, -1, 4, -2, 3, 0, 0)
 PDP64_P2ROW(39, 25, -1, 4, -2, 3, 0, 0)
 PDP64_P2ROW(40, 28, -1, 4, -2, 3, 0, 0)
 PDP64_P2ROW(41, 22, -1, 4, -2, 3, 0, 0)
+PDP64_P2SYSX(42, 0)
+PDP64_P2SYSX(43, 1)
 #endif
 
 // relaxation: PDP64_WIDEN(narrower, wider, the step is allowed only for a 5-bit immediate)

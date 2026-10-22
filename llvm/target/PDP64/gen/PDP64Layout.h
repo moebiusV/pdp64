@@ -50,6 +50,9 @@ enum OpGroup : unsigned {
   OPGROUP_CBW = 41,
   OPGROUP_SOB = 63,
 };
+enum SysMinor : unsigned {
+  SYS_MINOR_SYSX = 15,
+};
 enum LenCode : unsigned {
   LENCODE_PARCELS1 = 0,
   LENCODE_PARCELS2 = 1,

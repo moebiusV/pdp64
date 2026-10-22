@@ -63,6 +63,9 @@ def p2rows():
     rows = []
     for m in re.finditer(r'^\s*E\((\w+),\s*(\w+),\s*(\w+),\s*(\w+),\s*(\w+),\s*(\w+),\s*(\d+),\s*(\d+)\)', text, re.M):
         rows.append(m.groups())
+    # X(NAME, MN_SYSX_...): the page-2 words that abbreviate pushx and popx (a SYSX sub-opcode)
+    for m in re.finditer(r'^\s*X\((\w+),\s*(\w+)\)', text, re.M):
+        rows.append((m.group(1), 'SYSX', m.group(2), '', '', '', '0', '0'))
     return rows
 
 
@@ -129,10 +132,10 @@ def hdr(comment):
 def consts_td():
     t = hdr('//')
     t += '// The opcodes of the top-level groups, the addressing modes, the length codes and the forms (TSFlags{4-0}).\n'
-    for rule in ('opgroup', 'amode', 'lencode', 'movstore'):
+    for rule in ('opgroup', 'amode', 'lencode', 'movstore', 'sys-minor'):
         for l, v in items(rule):
             t += 'defvar %s_%s = %d;\n' % (up(rule), up(l), v)
-    for rule in ('mn-sop', 'mn-sys', 'mn-sys-none'):
+    for rule in ('mn-sop', 'mn-sys', 'mn-sys-none', 'mn-sysx'):
         for l, v in real(rule):
             t += 'defvar %s_%s = %d;\n' % (up(rule), up(l), v)
     t += 'defvar SUBOP_SET = %d;\n' % dict(items('subop'))['set']
@@ -246,6 +249,9 @@ def instr_defs():
         else:
             assert l in SYS_REG, l
             d('def %s : SysReg1<"%s", %d>;' % (up(l), l, v))
+    d('// SYS class 0 minor 15: SYSX, the sub-opcode in parcel 1')
+    for l, v in real('mn-sysx'):
+        d('def %s : SysX<"%s", %d>;' % (up(l), l, v))
     d('def MFSR : SysRegMove<"mfsr", MN_SYSREG_MFSR, 1>;')
     d('def MTSR : SysRegMove<"mtsr", MN_SYSREG_MTSR, 0>;')
     d('def SET : SetCond<"set">;')
@@ -304,6 +310,7 @@ def layout_h():
     t += 'enum Form : unsigned {\n' + ''.join('  FORM_%s = %d,\n' % (n, k) for n, k in FORM.items()) + '};\n'
     t += 'enum AMode : unsigned {\n' + ''.join('  AMODE_%s = %d,\n' % (up(l), v) for l, v in items('amode')) + '};\n'
     t += 'enum OpGroup : unsigned {\n' + ''.join('  OPGROUP_%s = %d,\n' % (up(l), v) for l, v in items('opgroup')) + '};\n'
+    t += 'enum SysMinor : unsigned {\n' + ''.join('  SYS_MINOR_%s = %d,\n' % (up(l), v) for l, v in items('sys-minor')) + '};\n'
     t += 'enum LenCode : unsigned {\n' + ''.join('  LENCODE_%s = %d,\n' % (up(l), v) for l, v in items('lencode')) + '};\n'
     t += 'enum SopOp : unsigned {\n' + ''.join('  SOP_%s = %d,\n' % (up(l), v) for l, v in real('mn-sop')) + '};\n'
     t += 'enum AluOp : unsigned {\n' + ''.join('  ALU_%s = %d,\n' % (up(l), v) for l, v in real('mn-alu')) + '};\n'
@@ -347,6 +354,9 @@ def tables_inc():
     for name, opc, reg, mode, rm, ds, scale, idx in sorted(P2, key=lambda r: const('P2OP_' + r[0])):
         def num(x):
             return {'FIELD': -1, 'NONE': -2}[x] if x in ('FIELD', 'NONE') else const(x)
+        if opc == 'SYSX':
+            t += 'PDP64_P2SYSX(%d, %d)\n' % (const('P2OP_' + name), const(reg))
+            continue
         t += 'PDP64_P2ROW(%d, %d, %d, %d, %d, %d, %d, %d)\n' % (const('P2OP_' + name), num(opc), num(reg), num(mode), num(rm), dsrc[ds], int(scale), int(idx))
     t += '#endif\n\n'
     # the widening chain: every record that has a longer form of the same instruction.  The names follow the multiclasses of PDP64InstrInfo.td.
