@@ -81,7 +81,7 @@ class Ins:
 
 def load(d):
     """returns a list of basic blocks per file; a block is a list of Ins; a label starts a block"""
-    files = sorted(f for f in os.listdir(d) if f.endswith('.s'))
+    files = sorted(f for f in os.listdir(d) if f.endswith(EXTS))
     allins, blocks = [], []
     for fn in files:
         cur = []
@@ -154,16 +154,31 @@ def d_writes_partial(i): return bool(writes(i.m, i.ops)) and writes(i.m, i.ops) 
 def d_writes_c(i): return 'C' in writes(i.m, i.ops)
 def d_keeps_c(i): return bool(writes(i.m, i.ops)) and 'C' not in writes(i.m, i.ops)
 
+def d_symload(i): return i.m in MOVES and len(i.ops) == 2 and is_mem(i.ops[0]) and '(' not in i.ops[0] and is_reg(i.ops[1])
+def d_pool_or_pcrel_load(i): return d_symload(i) and i.ops[0].startswith('.L')
+def d_sp_modifier(i): return i.m in ('push', 'pop', 'call', 'calli', 'ret', 'pushm', 'popm') or d_spadj(i)
+def d_multi_uop(i): return i.m in ('push', 'pop', 'call', 'calli', 'ret', 'pushm', 'popm', 'mcpy', 'mmov', 'mset', 'mcmp', 'mscn', 'mscnn') or d_loadop(i) or d_rmw(i)
+def d_flag_and_reg(i):
+    if not writes(i.m, i.ops): return False
+    if CB.match(i.m) or i.m in ('cmp', 'bit', 'tst', 'fcmp', 'fcmp32', 'fcmp16', 'mcmp', 'mscn', 'mscnn'): return False
+    if d_store(i) or d_clrmem(i): return False
+    return True
+def d_flag_only(i): return bool(writes(i.m, i.ops)) and not d_flag_and_reg(i)
+
 DETECTORS = [(k[2:], v) for k, v in sorted(globals().items()) if k.startswith('d_') and callable(v)]
 DET = dict(DETECTORS)
 
 def pct(a, b): return '%.1f%%' % (100.0 * a / b) if b else '-'
 
+EXTS = ('.s',)
 def main():
+    global EXTS
     ap = argparse.ArgumentParser()
+    ap.add_argument('--ext', default='s')
     ap.add_argument('dir'); ap.add_argument('--samples', type=int, default=0); ap.add_argument('--seed', type=int, default=1)
     ap.add_argument('--detector', action='append')
     a = ap.parse_args()
+    EXTS = tuple('.' + e for e in a.ext.split(','))
     ins, blocks = load(a.dir)
     T = len(ins)
     rnd = random.Random(a.seed)
@@ -236,6 +251,14 @@ def main():
             readers[key] += 1
             if len(samples[key]) < 400: samples[key].append((b, k))
     for c, n in readers.most_common(): P('%-70s %8d %7s' % (c, n, pct(n, nreaders)))
+    gaps = Counter()
+    for b in blocks:
+        for k, i in enumerate(b):
+            need = reads(i.m)
+            if not need: continue
+            for j in range(k - 1, -1, -1):
+                if writes(b[j].m, b[j].ops) & need or b[j].m in ('call', 'calli'): gaps[min(k - j - 1, 5)] += 1; break
+    P('instructions between the flag writer and its reader (5 = five or more): ' + ', '.join('%d: %d' % (g, gaps[g]) for g in sorted(gaps)))
     P('flag readers (conditional bCC, adc, sbc, set): %d' % nreaders)
     if a.samples:
         for key, lst in samples.items():
