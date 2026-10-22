@@ -183,6 +183,125 @@ def cmd_gen(a):
         print(k, v)
 
 
+# ---- our own pcc for the other architectures (the compiler-quality normalisation) ----------------------------------------------
+PCC_ARCHS = {  # pcc target -> (corpus.ARCH entry, the clang target of this script it is compared with, the gcc target if any)
+    'aarch64': ('aarch64', 'aarch64', 'aarch64-gcc'), 'amd64': ('amd64', 'amd64-clang', 'amd64-gcc'), 'i386': ('i386', 'i386-clang', 'i386-gcc'),
+    'arm': ('arm', 'arm', 'arm-gcc'), 'mips64': ('mips64', 'mips64', None), 'powerpc': ('powerpc', 'ppc32', 'ppc32-gcc'),
+    'riscv64': ('riscv64', 'riscv64', 'riscv64gc-gcc'), 'sparc64': ('sparc64', 'sparcv9', 'sparc64-gcc'), 'm68k': ('m68k', 'm68k', 'm68k-gcc'),
+}
+
+
+def pcc_one(job):
+    corp, src, arch = job
+    sid = src.replace(ROOT + '/', '').replace('/', '_')
+    d = '%s/pcc-%s' % (OUT, arch)
+    if os.path.exists('%s/%s.size' % (d, sid)) or os.path.exists('%s/%s.fail' % (d, sid)):
+        return
+    a = ARCH[arch]
+    r = preprocess(corp, src, arch, [])
+    if r.returncode:
+        open('%s/%s.fail' % (d, sid), 'w').write('cpp')
+        return
+    with tempfile.TemporaryDirectory() as w:
+        i, s_, o = w + '/i.c', w + '/x.s', w + '/x.o'
+        open(i, 'w').write(r.stdout)
+        ccom = os.path.join(corpus.BUILDS, 'ours', arch, 'ccom')
+        try:
+            q = run([ccom] + corpus.ccomflags(arch, True).split() + [i, s_], timeout=corpus.CCOM_TIMEOUT)
+        except Exception:
+            open('%s/%s.fail' % (d, sid), 'w').write('timeout')
+            return
+        if q.returncode or not os.path.exists(s_):
+            open('%s/%s.fail' % (d, sid), 'w').write('ccom')
+            return
+        q = run(a['asm'] + ['-o', o, s_])
+        nb = elf_bytes(o) if q.returncode == 0 and os.path.exists(o) else None
+        shutil.copy(s_, '%s/%s.s' % (d, sid))
+        open('%s/%s.size' % (d, sid), 'w').write(str(nb if nb is not None else -1))
+
+
+def cmd_pcc(a):
+    names = a.arch.split(',') if a.arch else list(PCC_ARCHS)
+    for n in names:
+        os.makedirs('%s/pcc-%s' % (OUT, n), exist_ok=True)
+    files = fair_files()
+    jobs = [(c, f, n) for c, f in files for n in names]
+    with cf.ThreadPoolExecutor(max_workers=a.j) as ex:
+        for k, _ in enumerate(ex.map(pcc_one, jobs)):
+            if k % 200 == 0:
+                sys.stderr.write('%d / %d pcc jobs\n' % (k, len(jobs)))
+
+
+def totals_for(name, files, pd=None):
+    """(instructions, bytes) of target `name` on the given files (bytes None when any is missing)"""
+    S = summarize(name)
+    ins = sum(S[x]['n'] for x in files)
+    by = 0
+    for x in files:
+        b = pd[x]['image'] if name == 'pdp64' else load_size(name, x)
+        if b is None or b < 0:
+            return ins, None
+        by += b
+    return ins, by
+
+
+def cmd_headtohead(a):
+    """pdp64 against every target, on the files both compile; pcc gap per architecture"""
+    os.makedirs(DATA, exist_ok=True)
+    pd = pdp64_sizes()
+    rows = []
+    pds = summarize('pdp64')
+    def ok(n):
+        return {sid for sid in sid_list(n) if sid in pd and (load_size(n, sid) or -1) >= 0 or (n == 'vax-gcc' and sid in pd)}
+    for n in [x for x in archs_present() if x != 'pdp64'] + ['pcc-' + k for k in PCC_ARCHS if glob.glob('%s/pcc-%s/*.s' % (OUT, k))]:
+        files = sorted(ok(n))
+        if not files:
+            continue
+        oi, ob = totals_for(n, files, pd)
+        pi = sum(pds[x]['n'] for x in files)
+        pb = sum(pd[x]['image'] for x in files)
+        rows.append(dict(arch=n, files=len(files), ins=oi, bytes=ob, p_ins=pi, p_bytes=pb))
+    # the stored amd64 references (827 files)
+    ref = json.load(open('/tmp/p64opt/refs-gcc-clang-amd64.json'))
+    for nm in ('gcc-Os', 'clang-Os'):
+        rr = {x['src'].replace('/', '_'): x for x in ref if x['arch'] == nm and 'ins' in x}
+        files = sorted(set(rr) & set(pd))
+        rows.append(dict(arch='stored amd64 ' + nm, files=len(files), ins=sum(rr[x]['ins'] for x in files), bytes=sum(rr[x]['image'] for x in files),
+                         p_ins=sum(pds[x]['n'] for x in files), p_bytes=sum(pd[x]['image'] for x in files)))
+    with open(DATA + '/archcmp-headtohead.csv', 'w', newline='') as fh:
+        w = csv.writer(fh)
+        w.writerow(['arch', 'files', 'instructions', 'bytes', 'pdp64_instructions', 'pdp64_bytes', 'ins_pdp64_over_other', 'bytes_pdp64_over_other', 'other_bytes_per_ins', 'pdp64_bytes_per_ins'])
+        for r in rows:
+            w.writerow([r['arch'], r['files'], r['ins'], r['bytes'], r['p_ins'], r['p_bytes'], '%.3f' % (r['p_ins'] / r['ins']),
+                        '%.3f' % (r['p_bytes'] / r['bytes']) if r['bytes'] else '', '%.2f' % (r['bytes'] / r['ins']) if r['bytes'] else '', '%.2f' % (r['p_bytes'] / r['p_ins'])])
+    print('| other backend | files | other ins | other bytes | pdp64 ins | pdp64 bytes | ins pdp64/other | bytes pdp64/other | other bytes/ins | pdp64 bytes/ins |')
+    print('|---|---|---|---|---|---|---|---|---|---|')
+    for r in sorted(rows, key=lambda r: r['p_ins'] / r['ins']):
+        print('| %s | %d | %d | %s | %d | %d | %.3f | %s | %s | %.2f |' % (r['arch'], r['files'], r['ins'], r['bytes'], r['p_ins'], r['p_bytes'], r['p_ins'] / r['ins'],
+              '%.3f' % (r['p_bytes'] / r['bytes']) if r['bytes'] else '-', '%.2f' % (r['bytes'] / r['ins']) if r['bytes'] else '-', r['p_bytes'] / r['p_ins']))
+    # pcc gap, on the files all three (pcc, clang, pdp64) compile
+    print()
+    print('| arch | files | pcc ins | clang ins | pcc/clang ins | pcc bytes | clang bytes | pcc/clang bytes | gcc ins | pcc/gcc ins | pcc/gcc bytes |')
+    print('|---|---|---|---|---|---|---|---|---|---|---|')
+    gap = []
+    for k, (e, cl, gc) in PCC_ARCHS.items():
+        if not glob.glob('%s/pcc-%s/*.s' % (OUT, k)):
+            continue
+        fs = sorted(set(sid for sid in sid_list('pcc-' + k) if (load_size('pcc-' + k, sid) or -1) >= 0) & {sid for sid in sid_list(cl) if (load_size(cl, sid) or -1) >= 0} & set(pd))
+        pi, pb = totals_for('pcc-' + k, fs)
+        ci, cb = totals_for(cl, fs)
+        g = ''
+        gi = gb = None
+        if gc and glob.glob('%s/%s/*.s' % (OUT, gc)):
+            fg = sorted(set(fs) & {sid for sid in sid_list(gc) if (load_size(gc, sid) or -1) >= 0})
+            ppi, ppb = totals_for('pcc-' + k, fg)
+            gi, gb = totals_for(gc, fg)
+            gi, gb = (ppi / gi, ppb / gb)
+        gap.append(dict(arch=k, files=len(fs), pcc_ins=pi, pcc_bytes=pb, clang_ins=ci, clang_bytes=cb, ins_gap=pi / ci, bytes_gap=pb / cb, gcc_ins_gap=gi, gcc_bytes_gap=gb))
+        print('| %s | %d | %d | %d | %.3f | %d | %d | %.3f | %s | %s | %s |' % (k, len(fs), pi, ci, pi / ci, pb, cb, pb / cb, '', '%.3f' % gi if gi else '-', '%.3f' % gb if gb else '-'))
+    json.dump(gap, open(DATA + '/archcmp-pccgap.json', 'w'), indent=1)
+
+
 # ---- parsing of assembler output ------------------------------------------------------------------------------------------
 COMMENT = {  # line comment starters per target family
     'pdp64': ';', 'aarch64': '//', 'loongarch64': '#', 'amd64': '#', 'i386': '#', 'arm': '@', 'ppc': '#', 'm68k': ';',
@@ -1482,12 +1601,12 @@ def cmd_idioms(a):
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument('cmd', choices=['gen', 'table', 'classes', 'features', 'funcs', 'idioms', 'all'])
+    ap.add_argument('cmd', choices=['gen', 'pcc', 'table', 'headtohead', 'classes', 'features', 'funcs', 'idioms', 'all'])
     ap.add_argument('--arch', default='')
     ap.add_argument('-j', type=int, default=2)
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--force', action='store_true')
     ap.add_argument('--seed', type=int, default=1)
     a = ap.parse_args()
-    for c in (['gen', 'table', 'classes', 'features', 'funcs', 'idioms'] if a.cmd == 'all' else [a.cmd]):
+    for c in (['gen', 'pcc', 'table', 'headtohead', 'classes', 'features', 'funcs', 'idioms'] if a.cmd == 'all' else [a.cmd]):
         globals()['cmd_' + c](a)

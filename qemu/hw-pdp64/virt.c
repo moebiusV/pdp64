@@ -2,9 +2,11 @@
  * pdp64-virt: a minimal pdp64 machine.
  *
  *   0x00000000 .. ram_size    RAM (default 128 MiB, -m; at most 256 MiB)
- *   0x10000000 .. 0x1fffffff  reserved for devices (none yet)
+ *   0x10000000                timer   (kernel-mode machine only; MAP_TIMER)
+ *   0x10001000                console (kernel-mode machine only; MAP_CONSOLE)
+ *   up to 0x1fffffff          reserved for devices
  *
- * No MMU: addresses are physical.  -kernel loads an ELF executable (as made
+ * Without kernel-mode there is no MMU: addresses are physical.  -kernel loads an ELF executable (as made
  * by ld64) and starts at its entry point; r14 (sp) is the top of RAM minus
  * a page.
  * SPDX-License-Identifier: GPL-2.0-or-later
@@ -18,6 +20,8 @@
 #include "hw/core/qdev-properties.h"
 #include "system/system.h"
 #include "elf.h"
+#include "hw/core/sysbus.h"
+#include "hw/core/qdev-properties-system.h"
 #include "target/pdp64/cpu.h"
 
 #define TYPE_PDP64_VIRT_MACHINE MACHINE_TYPE_NAME("pdp64-virt")
@@ -49,6 +53,26 @@ static void pdp64_virt_init(MachineState *machine)
     cpu = PDP64_CPU(cpu_create(machine->cpu_type));
     cpu->env.ram_size = machine->ram_size;
     cpu->env.kernel_mode = vs->kernel_mode;
+
+    if (vs->kernel_mode) {
+        DeviceState *dev;
+
+        /* the timer: level IRQ_LEVEL_TIMER, vector VECTOR_TIMER */
+        dev = qdev_new("pdp64-timer");
+        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, MAP_TIMER);
+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
+            qdev_get_gpio_in(DEVICE(cpu), VECTOR_TIMER - VECTOR_IRQ_BASE));
+        /* the console on the first serial character device */
+        dev = qdev_new("pdp64-console");
+        qdev_prop_set_chr(dev, "chardev", serial_hd(0));
+        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, MAP_CONSOLE);
+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
+            qdev_get_gpio_in(DEVICE(cpu), VECTOR_CONSOLE_IN - VECTOR_IRQ_BASE));
+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 1,
+            qdev_get_gpio_in(DEVICE(cpu), VECTOR_CONSOLE_OUT - VECTOR_IRQ_BASE));
+    }
 
     if (machine->kernel_filename) {
         uint64_t low, high;

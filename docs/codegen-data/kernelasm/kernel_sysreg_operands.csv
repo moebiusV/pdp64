@@ -1,0 +1,1483 @@
+family,kernel,mnemonic,operand,count
+alpha,openbsd,call_pal,%1,14
+alpha,netbsd,call_pal,%1,13
+alpha,netbsd,call_pal,pal_osf1_swpipl,10
+alpha,linux,call_pal,%2,8
+alpha,openbsd,call_pal,pal_gentrap,8
+alpha,openbsd,call_pal,pal_osf1_swpipl,7
+alpha,linux,call_pal,pal_halt,6
+alpha,netbsd,call_pal,pal_cserve,6
+alpha,netbsd,call_pal,%2,5
+alpha,linux,call_pal,%0,4
+alpha,openbsd,call_pal,pal_halt,4
+alpha,openbsd,call_pal,pal_cserve,4
+alpha,linux,call_pal,%1,3
+alpha,netbsd,call_pal,pal_osf1_swpctx,3
+alpha,netbsd,call_pal,pal_halt,3
+alpha,openbsd,call_pal,pal_osf1_rdps,3
+alpha,openbsd,call_pal,%2,3
+alpha,openbsd,call_pal,pal_vms_mfpr_whami,3
+alpha,linux,call_pal,%3,2
+alpha,linux,call_pal,pal_rti,2
+alpha,linux,call_pal,pal_swpipl,2
+alpha,linux,call_pal,pal_swpctx,2
+alpha,linux,call_pal,pal_cserve,2
+alpha,linux,call_pal,9,2
+alpha,netbsd,call_pal,0x81,2
+alpha,netbsd,call_pal,pal_osf1_rdps,2
+alpha,netbsd,call_pal,pal_osf1_wrkgp,2
+alpha,netbsd,call_pal,pal_osf1_wrvptptr,2
+alpha,netbsd,call_pal,pal_osf1_tbi,2
+alpha,netbsd,call_pal,pal_imb,2
+alpha,netbsd,call_pal,pal_osf1_wrfen,2
+alpha,netbsd,call_pal,%0,2
+alpha,openbsd,call_pal,pal_osf1_callsys,2
+alpha,openbsd,call_pal,pal_osf1_wrfen,2
+alpha,openbsd,call_pal,pal_osf1_wrkgp,2
+alpha,openbsd,call_pal,pal_osf1_wrvptptr,2
+alpha,openbsd,call_pal,pal_osf1_tbi,2
+alpha,openbsd,call_pal,pal_imb,2
+alpha,openbsd,call_pal,%0,2
+alpha,openbsd,call_pal,0,2
+alpha,openbsd,call_pal,pal_vms_mfpr_ptbr,2
+alpha,openbsd,call_pal,pal_vms_mfpr_vptb,2
+alpha,openbsd,call_pal,pal_swppal,2
+alpha,linux,call_pal,pal_wrent,1
+alpha,linux,call_pal,pal_wrkgp,1
+alpha,linux,call_pal,pal_swppal,1
+alpha,linux,call_pal,pal_tbi,1
+alpha,linux,call_pal,%4,1
+alpha,linux,call_pal,pal_rduniq,1
+alpha,linux,call_pal,pal_bugchk,1
+alpha,netbsd,call_pal,pal_osf1_rti,1
+alpha,netbsd,call_pal,pal_bugchk,1
+alpha,netbsd,call_pal,pal_cflush,1
+alpha,netbsd,call_pal,pal_osf1_wrent,1
+alpha,netbsd,call_pal,pal_wtint,1
+alpha,netbsd,call_pal,0,1
+alpha,netbsd,call_pal,pal_vms_mfpr_whami,1
+alpha,netbsd,call_pal,pal_vms_mfpr_ptbr,1
+alpha,netbsd,call_pal,pal_vms_mfpr_vptb,1
+alpha,netbsd,call_pal,pal_swppal,1
+alpha,openbsd,call_pal,0x81,1
+alpha,openbsd,call_pal,pal_osf1_rti,1
+alpha,openbsd,call_pal,pal_bugchk,1
+alpha,openbsd,call_pal,pal_osf1_wrval,1
+alpha,openbsd,call_pal,pal_cflush,1
+alpha,openbsd,call_pal,pal_osf1_wrent,1
+arm,linux,mcr,p15 r0 c7 c10 4,110
+arm,netbsd,mcr,p15 r0 c7 c10 4,70
+arm,linux,mcr,p15 ip c7 c10 4,69
+arm,linux,mcr,p15 r0 c7 c10 1,69
+arm,linux,mcr,p15 r0 c7 c14 1,50
+arm,linux,mcr,p15 r0 c7 c5 0,46
+arm,linux,mcr,p15 ip c8 c7 0,38
+arm,linux,mcr,p15 r0 c1 c0 0,35
+arm,linux,mcr,p15 r0 c7 c6 1,32
+arm,netbsd,mcr,p15 r2 c7 c11 1,32
+arm,linux,mcr,p15 ip c7 c7 0,26
+arm,netbsd,mcr,p15 r0 c7 c10 1,25
+arm,netbsd,mcr,p15 r0 c7 c5 0,24
+arm,linux,mcr,p15 r0 c2 c0 0,22
+arm,netbsd,mcr,p15 r0 c2 c0 0,22
+arm,netbsd,mcr,p15 r0 c8 c7 0,19
+arm,linux,mcr,p15 ip c1 c0 0,18
+arm,netbsd,mcr,p15 r2 c7 c7 1,16
+arm,netbsd,mcr,p15 r0 c7 c6 1,16
+arm,linux,mcr,p15 r3 c7 c14 2,15
+arm,netbsd,mcr,p15 r0 c7 c5 1,15
+arm,linux,mcr,p15 r0 c7 c5 1,14
+arm,linux,mcr,p15 ip c7 c5 0,14
+arm,linux,mcr,p15 r0 c7 c7,13
+arm,linux,mcr,p15 r0 c8 c7,13
+arm,linux,mcr,p15 ip c7 c6 0,13
+arm,linux,mcr,p15 r0 c7 c0 4,12
+arm,netbsd,mcr,p15 r0 c8 c6 1,12
+arm,netbsd,mcr,p15 r0 c8 c5 1,12
+arm,linux,mcr,p15 r3 c7 c10 4,10
+arm,netbsd,mcr,p15 r0 c7 c7 0,10
+arm,netbsd,mcr,p15 r0 c8 c7 1,10
+arm,netbsd,mcr,p15 r0 c7 c14 1,10
+arm,linux,mcr,p15 r1 c2 c0 0,9
+arm,linux,mcr,p15 r0 c8 c7 0,8
+arm,linux,mcr,p15 r1 c7 c10 4,8
+arm,linux,mcr,p15 r1 c1 c0 0,8
+arm,linux,mcr,p15 r0 c7 c7 0,7
+arm,linux,mcr,p15 r0 c7 c5 4,7
+arm,linux,mcr,p15 r1 c7 c5 0,7
+arm,freebsd,mcr,cp15_csselr(r0),6
+arm,linux,mcr,p15 r0 c7 c5 6,6
+arm,linux,mcr,p15 c7 c10 4,6
+arm,linux,mcr,p15 ip c7 c5 4,6
+arm,linux,mcr,p15 r0 c8 c6 1,6
+arm,netbsd,mcr,p15 ip c0 c0 0,6
+arm,openbsd,mcr,p15 c0 c0 0,6
+arm,linux,mcr,p15 r0 c7 c6 0,5
+arm,linux,mcr,p15 r5 c3 c0 0,5
+arm,linux,mcr,p15 ip c7 c14 0,5
+arm,linux,mcr,p15 r1 c8 c7 0,5
+arm,linux,mcr,p15 r4 c13 c0 0,5
+arm,linux,mcr,p15 r0 c15 c1 0,5
+arm,linux,mcr,p15 r0 c15 c1 2,5
+arm,linux,mcr,p15 r0 c8 c7 1,5
+arm,netbsd,mcr,p15 rtmp1 c7 c5 0,5
+arm,openbsd,mcr,cp15_tlbiall(r0),5
+arm,freebsd,mcr,cp15_iciallu,4
+arm,linux,mcr,p15 r0 c6 c7 0,4
+arm,linux,mcr,p15 r0 c3 c0 0,4
+arm,linux,mcr,p15 r0 c7 c0 0,4
+arm,linux,mcr,p15 r0 c15 c0 0,4
+arm,linux,mcr,p15 r10 c15 c0 1,4
+arm,linux,mcr,p15 \rd c7 c2 5,4
+arm,netbsd,mcr,p15 r0 c1 c0 0,4
+arm,netbsd,mcr,p15 reg c7 c5 0,4
+arm,netbsd,mcr,p15 r0 c7 c14 0,4
+arm,netbsd,mcr,p15 r0 c8 c5 0,4
+arm,netbsd,mcr,p15 ip c7 c10 2,4
+arm,netbsd,mcr,p15 ip c7 c14 2,4
+arm,netbsd,mcr,p15 r0 c0 c0 0,4
+arm,openbsd,mcr,cp15_iciallu,4
+arm,openbsd,mcr,cp15_bpiall,4
+arm,openbsd,mcr,cp15_dccmvau(r0),4
+arm,openbsd,mcr,cp15_icimvau(r0),4
+arm,freebsd,mcr,cp15_tlbiall,3
+arm,linux,mcr,p15 r0 c2 c0 1,3
+arm,linux,mcr,p15 r0 c5 c0 0,3
+arm,linux,mcr,p15 r0 c1 c0,3
+arm,linux,mcr,p15 r10 c7 c10 4,3
+arm,linux,mcr,p15 c1 c0 0,3
+arm,linux,mcr,p15 r4 c2 c0 0,3
+arm,linux,mcr,p15 c15 c1 0,3
+arm,linux,mcr,p15 ip c7 c14 2,3
+arm,linux,mcr,p15 r2 c1 c0 0,3
+arm,linux,mcr,p14 r4 c6 c0 0,3
+arm,linux,mcr,p15 r5 c15 c1 0,3
+arm,linux,mcr,p15 r6 c13 c0 0,3
+arm,linux,mcr,p15 r7 c3 c0 0,3
+arm,linux,mcr,p15 r8 c1 c0 1,3
+arm,linux,mcr,p15 r2 c7 c10 4,3
+arm,netbsd,mcr,p15 r0 c7 c5 6,3
+arm,netbsd,mcr,p15 r0 c8 c6 0,3
+arm,netbsd,mcr,p15 r0 c7 c0 4,3
+arm,netbsd,mcr,p15 r0 c7 c0 0,3
+arm,netbsd,mcr,p15 r3 c7 c6 2,3
+arm,netbsd,mcr,p15 r3 c0 c0 0,3
+arm,netbsd,mcr,p15 c7 c10 5,3
+arm,openbsd,mcr,cp15_sctlr(r0),3
+arm,openbsd,mcr,cp15_ttbr0(r0),3
+arm,openbsd,mcr,p15 c1 c0 0,3
+arm,freebsd,mcr,cp15_dcisw(r3),2
+arm,freebsd,mcr,p15 c0 c0 0,2
+arm,freebsd,mcr,cp15_sctlr(r7),2
+arm,freebsd,mcr,cp15_ttbr0(r0),2
+arm,freebsd,mcr,cp15_sctlr(r0),2
+arm,freebsd,mcr,cp15_bpiall,2
+arm,freebsd,mcr,cp15_tlbiasid(r2),2
+arm,freebsd,mcr,,2
+arm,linux,mcr,p15 r0 c6 c7 1,2
+arm,linux,mcr,p15 r0 c5 c0 1,2
+arm,linux,mcr,p15 r10 c7 c5 0,2
+arm,linux,mcr,p14 c0 c5 0,2
+arm,linux,mcr,p14 c1 c0 0,2
+arm,linux,mcr,p15 c7 c5 4,2
+arm,linux,mcr,p15 c7 c5 0,2
+arm,linux,mcr,p15 r0 c1 c0 1,2
+arm,linux,mcr,p15 c1 c0 1,2
+arm,linux,mcr,p14,2
+arm,linux,mcr,p15 c8 c5 0,2
+arm,linux,mcr,p15 c7 c5 6,2
+arm,linux,mcr,p15 c13 c0 3,2
+arm,linux,mcr,p15 r6 c3 c0 0,2
+arm,linux,mcr,p15 ip c2 c0 0,2
+arm,linux,mcr,p15 r7 c1 c0 0,2
+arm,linux,mcr,p15 r4 c15 c1 0,2
+arm,linux,mcr,p15 c8 c3 1,2
+arm,linux,mcr,p15 ip c2 c0 2,2
+arm,linux,mcr,p15 r0 c7 c14 0,2
+arm,linux,mcr,p15 r0 c7 c15 0,2
+arm,linux,mcr,p15 r0 c7 c15 1,2
+arm,linux,mcr,p15 r10 c0 c0 0,2
+arm,linux,mcr,p15 c7 c14 0,2
+arm,linux,mcr,p15 r0 c3 c0,2
+arm,linux,mcr,p15 r3 c7 c6 2,2
+arm,linux,mcr,p15 r0 c6 c3 0,2
+arm,linux,mcr,p15 r0 c6 c4 0,2
+arm,linux,mcr,p15 r0 c6 c5 0,2
+arm,linux,mcr,p15 r0 c6 c6 0,2
+arm,linux,mcr,p15 r0 c6 c0 0,2
+arm,linux,mcr,p15 r3 c6 c1 0,2
+arm,linux,mcr,p15 r3 c6 c2 0,2
+arm,linux,mcr,p15 r0 c15 c15 0,2
+arm,linux,mcr,p15 r1 c15 c15 1,2
+arm,linux,mcr,p15 r0 c15 c2 2,2
+arm,linux,mcr,p15 ip c15 c2 2,2
+arm,linux,mcr,p15 r0 c15 c8 2,2
+arm,linux,mcr,p15 ip c9 c0 0,2
+arm,linux,mcr,p15 r1 c13 c0 1,2
+arm,linux,mcr,p15 ip c13 c0 1,2
+arm,linux,mcr,p14 r0 c7 c0 0,2
+arm,linux,mcr,p15 r0 c8 c5 1,2
+arm,netbsd,mcr,p15 r5 c2 c0 0//ttbr0write,2
+arm,netbsd,mcr,p15 r0 c3 c0 0,2
+arm,netbsd,mcr,p14 c0 c0 0,2
+arm,netbsd,mcr,p15 r0 c15 c1 2,2
+arm,netbsd,mcr,p15 r0 c8 c7 2,2
+arm,netbsd,mcr,p15 reg c7 c14 0,2
+arm,netbsd,mcr,p15 reg c7 c10 4,2
+arm,netbsd,mcr,p15 r0 c7 c5 4,2
+arm,netbsd,mcr,p15 r3 c13 c0 0,2
+arm,netbsd,mcr,p15 r3 c7 c5 4,2
+arm,netbsd,mcr,p15 r3 c7 c13 1,2
+arm,netbsd,mcr,p15 r0 c5 c0 0,2
+arm,netbsd,mcr,p15 r2 c15 c0 0,2
+arm,netbsd,mcr,p15 r0 c7 c7 1,2
+arm,netbsd,mcr,p15 r0 c7 c11 1,2
+arm,netbsd,mcr,p15 r0 c7 c10 0,2
+arm,netbsd,mcr,p15 r0 c8 c3 1,2
+arm,netbsd,mcr,p15 r0 c9 c0 0,2
+arm,netbsd,mcr,p15 r0 c7 c6 0,2
+arm,netbsd,mcr,p15 r0 c15 c15 0,2
+arm,netbsd,mcr,p15 r2 c15 c15 1,2
+arm,netbsd,mcr,p15 r0 c15 c9 4,2
+arm,netbsd,mcr,p15 r2 c15 c9 5,2
+arm,netbsd,mcr,p15 r0 c15 c11 4,2
+arm,netbsd,mcr,p15 r2 c15 c11 5,2
+arm,openbsd,mcr,p15 r0 c7 c5 0,2
+arm,openbsd,mcr,cp15_dacr(r0),2
+arm,openbsd,mcr,cp15_tlbimva(r0),2
+arm,openbsd,mcr,cp15_dccimvac(r0),2
+arm,freebsd,mcr,cp15_dccisw(r3),1
+arm,freebsd,mcr,cp15_dccmvac(r0),1
+arm,freebsd,mcr,cp15_icimvau(r0),1
+arm,freebsd,mcr,p15 r0 c15 c1 0,1
+arm,freebsd,mcr,p15 r0 c15 c1 1,1
+arm,freebsd,mcr,p15 r0 c15 c2 0,1
+arm,freebsd,mcr,p15 r0 c15 c1 2,1
+arm,freebsd,mcr,p15 r0 c1 c0 1,1
+arm,freebsd,mcr,p14,1
+arm,freebsd,mcr,cp15_hvbar(r0),1
+arm,freebsd,mcr,cp15_hcr(r0),1
+arm,freebsd,mcr,cp15_hcptr(r0),1
+arm,freebsd,mcr,cp15_hstr(r0),1
+arm,freebsd,mcr,cp15_hsctlr(r0),1
+arm,freebsd,mcr,cp15_hdcr(r0),1
+arm,freebsd,mcr,cp15_contextidr(r0),1
+arm,freebsd,mcr,cp15_dacr(r0),1
+arm,freebsd,mcr,cp15_ttbcr(r0),1
+arm,freebsd,mcr,cp15_prrr(r0),1
+arm,freebsd,mcr,cp15_nmrr(r0),1
+arm,freebsd,mcr,cp15_ttbr0(r4),1
+arm,freebsd,mcr,cp15_ttbr0(r1),1
+arm,freebsd,mcr,cp15_tpidrprw(r11),1
+arm,freebsd,mcr,cp15_tpidrurw(r3),1
+arm,freebsd,mcr,cp15_tpidruro(r3),1
+arm,freebsd,mcr,p15 c1 c0 2,1
+arm,freebsd,mcr,p15 c13 c0 4,1
+arm,freebsd,mcr,p15 c13 c0 2,1
+arm,freebsd,mcr,p15 c13 c0 3,1
+arm,freebsd,mcr,p15 r0 c7 c7 0,1
+arm,linux,mcr,p14 \ch c0 c5 0,1
+arm,linux,mcr,p14 \ch c8 c0 0,1
+arm,linux,mcr,p14 \ch c1 c0 0,1
+arm,linux,mcr,p15 \reg c1 c0 0,1
+arm,linux,mcr,p15 r3 c2 c0 0,1
+arm,linux,mcr,p15 r1 c3 c0 0,1
+arm,linux,mcr,p15 r1 c7 c14 0,1
+arm,linux,mcr,p15 r10 c7 c14 0,1
+arm,linux,mcr,p15 r10 c7 c5 4,1
+arm,linux,mcr,p15 r1 c7 c6 0,1
+arm,linux,mcr,p15 r1 c7 c0 0,1
+arm,linux,mcr,p15 r0 c12 c0 0,1
+arm,linux,mcr,p14 c8 c0 0,1
+arm,linux,mcr,p15 c14 c2 1,1
+arm,linux,mcr,p15 c14 c3 1,1
+arm,linux,mcr,p15 c14 c1 0,1
+arm,linux,mcr,p15 c7 c10 5,1
+arm,linux,mcr,p15 c7 c1 0,1
+arm,linux,mcr,p15 c0 c0 0,1
+arm,linux,mcr,p15 c1 c0 2,1
+arm,linux,mcr,p15 c3 c0,1
+arm,linux,mcr,p15 c13 c0 4,1
+arm,linux,mcr,p15 c2 c0 2,1
+arm,linux,mcr,,1
+arm,linux,mcr,p15 c7 c1 6,1
+arm,linux,mcr,p15 c13 c0 2,1
+arm,linux,mcr,p14 \rd c0 c5 0,1
+arm,linux,mcr,p14 \rd c8 c0 0,1
+arm,linux,mcr,p14 \rd c1 c0 0,1
+arm,linux,mcr,p15 r8 c7 c5 6,1
+arm,linux,mcr,p15 r1 c13 c0 3,1
+arm,linux,mcr,p15 \tmp c6 c2 0,1
+arm,linux,mcr,p15 \bar c6 c1 (0+\side),1
+arm,linux,mcr,p15 \acr c6 c1 (4+\side),1
+arm,linux,mcr,p15 \sr c6 c1 (2+\side),1
+arm,linux,mcr,p15 r5 c6 c10 0,1
+arm,linux,mcr,p15 r6 c6 c10 1,1
+arm,linux,mcr,p15 r4 c6 c2 1,1
+arm,linux,mcr,p15 r5 c6 c3 0,1
+arm,linux,mcr,p15 r6 c6 c3 1,1
+arm,linux,mcr,p15 r7 c12 c0 0,1
+arm,linux,mcr,p15 r7 c1 c1 0,1
+arm,linux,mcr,p15 r7 c1 c1 2,1
+arm,linux,mcr,p15 r7 c1 c1 3,1
+arm,linux,mcr,p15 r7 c1 c1 1,1
+arm,linux,mcr,p15 r7 c0 c0 0,1
+arm,linux,mcr,p15 r7 c0 c0 5,1
+arm,linux,mcr,p15 r7 c14 c1 0,1
+arm,linux,mcr,p15 r7 c14 c3 1,1
+arm,linux,mcr,p15 r7 c12 c9 5,1
+arm,linux,mcr,p15 r7 c12 c11 0,1
+arm,linux,mcr,p15 r1 c12 c0 0,1
+arm,linux,mcr,p15 r2 c15 c1 0,1
+arm,linux,mcr,p15 r1 c15 c1 0,1
+arm,linux,mcr,p15 c9 c2 0,1
+arm,linux,mcr,p15 c9 c1 0,1
+arm,linux,mcr,p15 c9 c1 1,1
+arm,linux,mcr,p15 ip c3 c0 0,1
+arm,linux,mcr,p15 c15 c9 3,1
+arm,linux,mcr,p15 c15 c9 4,1
+arm,linux,mcr,p15 c15 c9 5,1
+arm,linux,mcr,p15 c15 c10 3,1
+arm,linux,mcr,p15 c15 c11 3,1
+arm,linux,mcr,p15 c15 c11 4,1
+arm,linux,mcr,p15 c15 c11 5,1
+arm,linux,mcr,p15 c15 c11 0,1
+arm,linux,mcr,p15 c15 c2 0,1
+arm,linux,mcr,p15 c7 c11 3,1
+arm,linux,mcr,p15 c7 c15 3,1
+arm,linux,mcr,p15 c7 c7 3,1
+arm,linux,mcr,p15 c7 c11 0,1
+arm,linux,mcr,p15 c7 c7 0,1
+arm,linux,mcr,p15 r2 c7 c5 0,1
+arm,linux,mcr,p15 r0 c7 c7 1,1
+arm,linux,mcr,p15 r0 c7 c11 1,1
+arm,linux,mcr,p15 r0 c0 c0 0,1
+arm,linux,mcr,p15 ip c7 c6 2,1
+arm,linux,mcr,p15 r5 c7 c14 2,1
+arm,linux,mcr,p15 c7 c11 1,1
+arm,linux,mcr,p15 c7 c7 1,1
+arm,linux,mcr,p15 c7 c11 2,1
+arm,linux,mcr,p15 c7 c15 2,1
+arm,linux,mcr,p15 c2 c0 0,1
+arm,linux,mcr,p15 c13 c0 1,1
+arm,linux,mcr,p15 c12 c0 0,1
+arm,linux,mcr,p15 r4 c2 c0,1
+arm,linux,mcr,p15 r1 c7 c7 0,1
+arm,linux,mcr,p15 ip c7 c0 0,1
+arm,linux,mcr,p15 r0 c6 c3,1
+arm,linux,mcr,p15 r0 c6 c4,1
+arm,linux,mcr,p15 r0 c6 c5,1
+arm,linux,mcr,p15 r0 c6 c6,1
+arm,linux,mcr,p15 r0 c6 c7,1
+arm,linux,mcr,p15 r0 c6 c0,1
+arm,linux,mcr,p15 r0 c6 c1,1
+arm,linux,mcr,p15 r0 c6 c2,1
+arm,linux,mcr,p15 r0 c2 c0,1
+arm,linux,mcr,p15 r0 c5 c0,1
+arm,linux,mcr,p15 r3 c7 c10 2,1
+arm,linux,mcr,p15 r0 c6 c3 1,1
+arm,linux,mcr,p15 r0 c6 c4 1,1
+arm,linux,mcr,p15 r0 c6 c5 1,1
+arm,linux,mcr,p15 r0 c6 c6 1,1
+arm,linux,mcr,p15 r0 c6 c0 1,1
+arm,linux,mcr,p15 r3 c6 c1 1,1
+arm,linux,mcr,p15 r3 c6 c2 1,1
+arm,linux,mcr,p15 r0 c5 c0 2,1
+arm,linux,mcr,p15 r0 c5 c0 3,1
+arm,linux,mcr,p15 ip c7 c5 6,1
+arm,linux,mcr,p15 r0 c7 c5 5,1
+arm,linux,mcr,p15 r0 c1 c1 0,1
+arm,linux,mcr,p15 r0 c15 c9 0,1
+arm,linux,mcr,p15 r0 c15 c14 0,1
+arm,linux,mcr,p15 r1 c15 c14 1,1
+arm,linux,mcr,p15 r0 c15 c13 0,1
+arm,linux,mcr,p15 r1 c15 c13 1,1
+arm,linux,mcr,p15 r2 c15 c9 1,1
+arm,linux,mcr,p15 r0 c15 c9 1,1
+arm,linux,mcr,p15 r10 c7 c7,1
+arm,linux,mcr,p15 r10 c8 c7,1
+arm,linux,mcr,p15 r0 c9 c0 5,1
+arm,linux,mcr,p15 ip c9 c0 5,1
+arm,linux,mcr,p15 r4 c3 c0 0,1
+arm,linux,mcr,p15 r5 c13 c0 0,1
+arm,linux,mcr,p15 r1 c7 c5 4,1
+arm,linux,mcr,p15 r1 c7 c0 4,1
+arm,linux,mcr,p15 r2 c7 c5 6,1
+arm,linux,mcr,p15 ip c7 c15 0,1
+arm,linux,mcr,p15 r6 c2 c0 1,1
+arm,linux,mcr,p15 r7 c1 c0 1,1
+arm,linux,mcr,p15 r8 c1 c0 2,1
+arm,linux,mcr,p15 r0 c2 c0 2,1
+arm,linux,mcr,p15 r8 c2 c0 1,1
+arm,linux,mcr,p15 \zero c2 c0 2,1
+arm,linux,mcr,p15 \ttbr1 c2 c0 1,1
+arm,linux,mcr,p15 \tmp c2 c0 2,1
+arm,linux,mcr,p15 r3 c7 c5 0,1
+arm,linux,mcr,p15 r3 c7 c5 6,1
+arm,linux,mcr,p15 r5 c13 c0 3,1
+arm,linux,mcr,p15 r7 c2 c0 1,1
+arm,linux,mcr,p15 r11 c2 c0 2,1
+arm,linux,mcr,p15 r4 c10 c2 0,1
+arm,linux,mcr,p15 r5 c10 c2 1,1
+arm,linux,mcr,p15 r10 c1 c0 2,1
+arm,linux,mcr,p15 r6 c15 c1 0,1
+arm,linux,mcr,p15 r7 c15 c2 0,1
+arm,linux,mcr,p15 r8 c15 c1 2,1
+arm,linux,mcr,p15 r9 c15 c1 1,1
+arm,linux,mcr,p15 r10 c9 c14 0,1
+arm,linux,mcr,p15 r10 c15 c0 2,1
+arm,linux,mcr,p15 r0 c15 c1 1,1
+arm,linux,mcr,p15 r0 c15 c2 0,1
+arm,linux,mcr,p15 r10 c8 c7 0,1
+arm,linux,mcr,p15 r3 c10 c2 0,1
+arm,linux,mcr,p15 r6 c10 c2 1,1
+arm,linux,mcr,p14 r3 c1 c0 0,1
+arm,linux,mcr,p14 r0 c0 c0 0,1
+arm,linux,mcr,p15 \rd c7 c14 2,1
+arm,linux,mcr,p15 r1 c1 c0 1,1
+arm,linux,mcr,p15 r1 c10 c4 1,1
+arm,linux,mcr,p15 r1 c8 c5 0,1
+arm,linux,mcr,p15 r8 c1 c0 0,1
+arm,linux,mcr,p15 r3 c7 c5 4,1
+arm,linux,mcr,p15 r3 c8 c5 0,1
+arm,linux,mcr,p15 r2 c7 c5 4,1
+arm,netbsd,mcr,p15 r_tmp1 c1 c0 0,1
+arm,netbsd,mcr,p15 r0 c1 c0 0//sctlrwrite,1
+arm,netbsd,mcr,p15 r5 c2 c0 1//ttbr1write,1
+arm,netbsd,mcr,p15 r1 c2 c0 2//ttbcrwrite,1
+arm,netbsd,mcr,p15 r1 c13 c0 1//contextidrwrite,1
+arm,netbsd,mcr,p15 r1 c3 c0 0//dacrwrite,1
+arm,netbsd,mcr,cp15_prrr(r0),1
+arm,netbsd,mcr,cp15_nmrr(r0),1
+arm,netbsd,mcr,p15 r1 c8 c7 0//tlbiall(justthiscore),1
+arm,netbsd,mcr,p15 r5 c13 c0 4//squirrelawaycurcpu(),1
+arm,netbsd,mcr,p15 r6 c13 c0 4//squirrelawaycurlwp(),1
+arm,netbsd,mcr,p15 r1 c1 c0 0,1
+arm,netbsd,mcr,p15 r5 c2 c0 1,1
+arm,netbsd,mcr,p15 r1 c2 c0 2,1
+arm,netbsd,mcr,p15 r5 c2 c0 0,1
+arm,netbsd,mcr,p15 r1 c8 c7 0,1
+arm,netbsd,mcr,p15 r5 c3 c0 0,1
+arm,netbsd,mcr,p15 r6 c1 c0 0//actuallyenablemmu,1
+arm,netbsd,mcr,p15 c0 c0 2,1
+arm,netbsd,mcr,p14 c6 c0 0,1
+arm,netbsd,mcr,p13 c0 c1 0,1
+arm,netbsd,mcr,p15 c7 c7 0,1
+arm,netbsd,mcr,p15 r0 c7 c10 2,1
+arm,netbsd,mcr,p15 r0 c7 c10 5,1
+arm,netbsd,mcr,p15 r0 c6 c0 0,1
+arm,netbsd,mcr,p15 r1 c2 c0 0,1
+arm,netbsd,mcr,p15 r1 c15 c0 0,1
+arm,netbsd,mcr,p15 r0 c8 c3 2,1
+arm,netbsd,mcr,p15 r0 c8 c3 0,1
+arm,netbsd,mcr,p15 r0 c7 c1 6,1
+arm,netbsd,mcr,p15 r3 c7 c14 2,1
+arm,netbsd,mcr,p15 r2 c7 c14 0,1
+arm,netbsd,mcr,p15 r2 c7 c5 0,1
+arm,netbsd,mcr,p15 r2 c7 c5 6,1
+arm,netbsd,mcr,p15 r2 c7 c10 4,1
+arm,netbsd,mcr,p15 r0 c7 c5 5,1
+arm,netbsd,mcr,p15 r0 c15 c1 0,1
+arm,netbsd,mcr,p15 r0 c15 c1 1,1
+arm,netbsd,mcr,p15 r0 c15 c2 0,1
+arm,netbsd,mcr,p15 r0 c15 c2 2,1
+arm,netbsd,mcr,p15 r0 c15 c8 2,1
+arm,netbsd,mcr,p15 r0 c15 c14 0,1
+arm,netbsd,mcr,p15 r2 c15 c14 1,1
+arm,netbsd,mcr,p15 r0 c15 c13 0,1
+arm,netbsd,mcr,p15 r2 c15 c13 1,1
+arm,netbsd,mcr,p15 r0 c15 c9 0,1
+arm,netbsd,mcr,p15 r0 c15 c11 0,1
+arm,netbsd,mcr,p15 r0 c7 c2 5,1
+arm,netbsd,mcr,p14 r0 c7 c0 0,1
+arm,netbsd,mcr,p15 c15 c12 0,1
+arm,netbsd,mcr,p15 c15 c12 1,1
+arm,netbsd,mcr,p15 r6 c13 c0 4,1
+arm,netbsd,mcr,p15 r0 c13 c0 2,1
+arm,netbsd,mcr,p15 r0 c13 c0 3,1
+arm,netbsd,mcr,p15 r5 c13 c0 4,1
+arm,netbsd,mcr,p15 r4 c13 c0 4,1
+arm,netbsd,mcr,p15 r8 c13 c0 4,1
+arm,netbsd,mcr,p15 c7 c6 0,1
+arm,netbsd,mcr,,1
+arm,netbsd,mcr,p15 c7 c10 4,1
+arm,netbsd,mcr,p15 c7 c5 4,1
+arm,openbsd,mcr,p15 c7 c10 2,1
+arm,openbsd,mcr,cp15_bpimva,1
+arm,openbsd,mcr,cp15_dccmvac(r0),1
+arm,openbsd,mcr,cp15_dcimvac(r0),1
+arm,openbsd,mcr,cp15_tpidruro(r4),1
+arm,openbsd,mcr,cp15_tpidrprw(r8),1
+arm,openbsd,mcr,cp15_contextidr(r1),1
+arm,openbsd,mcr,cp15_tpidrprw(r1),1
+arm,openbsd,mcr,cp15_ttbr0(r8),1
+arm,openbsd,mcr,cp15_tlbiall(r8),1
+arm,openbsd,mcr,cp15_tlbiall(r2),1
+arm,openbsd,mcr,p15 c1 c0 2,1
+arm,openbsd,mcr,p15 c14 c2 1,1
+arm,openbsd,mcr,p15 c14 c2 0,1
+arm,openbsd,mcr,p15 c13 c0 3,1
+arm,openbsd,mcr,p15 c7 c14 2,1
+arm,openbsd,mcr,p15 r0 c8 c7 0,1
+arm,openbsd,mcr,p15 r0 c7 c5 6,1
+arm,netbsd,mcrr,p15 r1 r0 c5,4
+arm,linux,mcrr,p15 c14,3
+arm,linux,mcrr,p15 r4 r5 c2,3
+arm,netbsd,mcrr,p15 r1 r0 c12,3
+arm,netbsd,mcrr,p15 r1 r0 c14,3
+arm,linux,mcrr,p0 c0,2
+arm,freebsd,mcrr,,1
+arm,linux,mcrr,p15 r7 r7 c14,1
+arm,linux,mcrr,p15 c6,1
+arm,linux,mcrr,p15 rpgdl rpgdh c2,1
+arm,linux,mcrr,p15 \ttbr1 \tmp c2,1
+arm,linux,mcrr,p15 r1 ip c2,1
+arm,linux,mcrr,p15 r5 r7 c2,1
+arm,netbsd,mcrr,p15 r1 r1 c14,1
+arm,netbsd,mcrr,p15 r1 r0 c6,1
+arm,netbsd,mcrr,,1
+arm,linux,mrc,p15 r0 c1 c0 0,40
+arm,linux,mrc,p15 r0 c1 c0,22
+arm,linux,mrc,p15 ip c1 c0 0,17
+arm,netbsd,mrc,p15 r0 c1 c0 0,8
+arm,linux,mrc,p15 r1 c5 c0 0,7
+arm,linux,mrc,p15 r0 c6 c0 0,7
+arm,openbsd,mrc,p15 c0 c0 0,7
+arm,linux,mrc,p15 r1 c1 c0 0,6
+arm,netbsd,mrc,p15 r0 c0 c0 0,6
+arm,netbsd,mrc,p15 r0 c0 c0 1,6
+arm,openbsd,mrc,cp15_tpidrprw(r4),6
+arm,linux,mrc,p15 r9 c0 c0,5
+arm,linux,mrc,p15 apsr_nzcv c7 c14 3,5
+arm,linux,mrc,p15 c0 c0 1,5
+arm,linux,mrc,p15 r4 c13 c0 0,5
+arm,linux,mrc,p15 r10 c15 c0 1,5
+arm,netbsd,mrc,p15 r2 c0 c0 0,5
+arm,openbsd,mrc,cp15_tpidrprw(r2),5
+arm,openbsd,mrc,p15 c0 c0 1,5
+arm,linux,mrc,p15 c15 c1 0,4
+arm,linux,mrc,p15 r0 c0 c0 1,4
+arm,linux,mrc,p15 r5 c3 c0 0,4
+arm,linux,mrc,p15 r6 c1 c0 0,4
+arm,linux,mrc,p15 r9 c1 c0 0,4
+arm,openbsd,mrc,p15 c0 c0 5,4
+arm,freebsd,mrc,p15 tmp c13 c0 4,3
+arm,freebsd,mrc,cp15_clidr(r0),3
+arm,freebsd,mrc,cp15_ccsidr(r0),3
+arm,freebsd,mrc,cp15_csselr(r0),3
+arm,linux,mrc,p15 \tmp c0 c0 1,3
+arm,linux,mrc,p15 c1 c0 0,3
+arm,linux,mrc,p15 c1 c0 1,3
+arm,linux,mrc,p15 r2 c2 c0 0,3
+arm,linux,mrc,p15 r0 c0 c0 0,3
+arm,linux,mrc,p14 r4 c6 c0 0,3
+arm,linux,mrc,p15 r5 c15 c1 0,3
+arm,linux,mrc,p15 r6 c13 c0 0,3
+arm,linux,mrc,p15 r7 c3 c0 0,3
+arm,linux,mrc,p15 r8 c1 c0 1,3
+arm,linux,mrc,p15 \rd c2 c0 0,3
+arm,netbsd,mrc,p15 ip c0 c0 5,3
+arm,openbsd,mrc,p15 c2 c0 0,3
+arm,openbsd,mrc,p15 c1 c0 0,3
+arm,freebsd,mrc,p15 c0 c0 0,2
+arm,freebsd,mrc,p15 r0 c0 c0 5,2
+arm,freebsd,mrc,cp15_sctlr(r7),2
+arm,freebsd,mrc,cp15_sctlr(r0),2
+arm,linux,mrc,p14 c0 c1 0,2
+arm,linux,mrc,p15 r0 c1 c0 1,2
+arm,linux,mrc,p14,2
+arm,linux,mrc,p14 \rx c0 c1 0,2
+arm,linux,mrc,p14 \rx c14 c0 0,2
+arm,linux,mrc,p14 \rx c0 c0 0,2
+arm,linux,mrc,p15 r6 c3 c0 0,2
+arm,linux,mrc,p15 r0 c0 c0 4,2
+arm,linux,mrc,p15 ip c2 c0 1,2
+arm,linux,mrc,p15 r3 c0 c0 0,2
+arm,linux,mrc,p15 r7 c0 c1 1,2
+arm,linux,mrc,p15 r7 c12 c9 5,2
+arm,linux,mrc,p15 r1 c5 c0 1,2
+arm,linux,mrc,p15 r2 c13 c0 1,2
+arm,linux,mrc,p15 r8 c1 c0 0,2
+arm,netbsd,mrc,p15 r0 c0 c0 0//midr,2
+arm,netbsd,mrc,p15 r0 c0 c0 6//revidr,2
+arm,netbsd,mrc,p15 r0 c0 c0 5//mpidr,2
+arm,netbsd,mrc,p15 r3 c1 c0 0,2
+arm,netbsd,mrc,p15 apsr_nzcv c7 c14 3,2
+arm,netbsd,mrc,p15 r3 c0 c0 0,2
+arm,netbsd,mrc,p15 tmp c2 c0 0,2
+arm,netbsd,mrc,p15 r0 c13 c0 2,2
+arm,openbsd,mrc,p15 c0 c1 4,2
+arm,openbsd,mrc,p15 c0 c1 1,2
+arm,openbsd,mrc,cp15_sctlr(r0),2
+arm,freebsd,mrc,cp15_tpidrprw(tmp),1
+arm,freebsd,mrc,cp15_clidr(r1),1
+arm,freebsd,mrc,p15 c0 c0 1,1
+arm,freebsd,mrc,cp15_sctlr(r3),1
+arm,freebsd,mrc,p15 r0 c15 c1 0,1
+arm,freebsd,mrc,p15 r0 c15 c1 1,1
+arm,freebsd,mrc,p15 r0 c15 c2 0,1
+arm,freebsd,mrc,p15 r0 c15 c1 2,1
+arm,freebsd,mrc,p15 r0 c1 c0 1,1
+arm,freebsd,mrc,p14,1
+arm,freebsd,mrc,cp15_hdcr(r0),1
+arm,freebsd,mrc,cp15_actlr(r7),1
+arm,freebsd,mrc,cp15_mpidr(r0),1
+arm,freebsd,mrc,cp15_mpidr(tmp),1
+arm,freebsd,mrc,cp15_tpidrurw(r4),1
+arm,freebsd,mrc,cp15_ttbr0(r1),1
+arm,freebsd,mrc,p15 c1 c0 2,1
+arm,freebsd,mrc,,1
+arm,freebsd,mrc,p15 c0 c0 5,1
+arm,freebsd,mrc,p15 c13 c0 4,1
+arm,freebsd,mrc,p15 c13 c0 2,1
+arm,freebsd,mrc,p15 c13 c0 3,1
+arm,freebsd,mrc,p15 c15 c0 0,1
+arm,linux,mrc,p15 r4 c0 c0,1
+arm,linux,mrc,p15 \reg c1 c0 0,1
+arm,linux,mrc,p15 r11 c0 c1 4,1
+arm,linux,mrc,p15 r10 c0 c1 5,1
+arm,linux,mrc,p15 r3 c0 c0 1,1
+arm,linux,mrc,p14 c14 c0 0,1
+arm,linux,mrc,p14 c0 c0 0,1
+arm,linux,mrc,p15 c14 c2 1,1
+arm,linux,mrc,p15 c14 c3 1,1
+arm,linux,mrc,p15 c14 c0 0,1
+arm,linux,mrc,p15 c14 c1 0,1
+arm,linux,mrc,p15 c0 c0 0,1
+arm,linux,mrc,p15 c1 c0 2,1
+arm,linux,mrc,p15 c0 c0,1
+arm,linux,mrc,p15 c0,1
+arm,linux,mrc,p15 c13 c0 3,1
+arm,linux,mrc,p14 c0 c5 0,1
+arm,linux,mrc,p15 c3 c0,1
+arm,linux,mrc,p15 c13 c0 4,1
+arm,linux,mrc,p15 c2 c0 0,1
+arm,linux,mrc,p15 c2 c0 2,1
+arm,linux,mrc,p15 c15 c0 0,1
+arm,linux,mrc,p15 c13 c0 2,1
+arm,linux,mrc,p15 \rv c0 c0 0,1
+arm,linux,mrc,p15 \rv c15 c3 0,1
+arm,linux,mrc,p15 \tmp c0 c0 0,1
+arm,linux,mrc,p15 \tmp c0 c0 5,1
+arm,linux,mrc,p15 \rp c1 c0,1
+arm,linux,mrc,p15 \rp c0 c0 0,1
+arm,linux,mrc,p15 \rx c1 c0,1
+arm,linux,mrc,p15 r0 c13 c0 3,1
+arm,linux,mrc,p15 \rtmp2 c1 c0 0,1
+arm,linux,mrc,p15 r1 c13 c0 3,1
+arm,linux,mrc,p15 r0 c0 c1 4,1
+arm,linux,mrc,p15 r3 c0 c1 4,1
+arm,linux,mrc,p15 r0 c0 c0 5,1
+arm,linux,mrc,p15 r0 c15 c0,1
+arm,linux,mrc,p15 r7 c1 c1 1,1
+arm,linux,mrc,p15 r7 c1 c0 0,1
+arm,linux,mrc,p15 r7 c0 c0 0,1
+arm,linux,mrc,p15 r7 c0 c0 5,1
+arm,linux,mrc,p15 r7 c14 c1 0,1
+arm,linux,mrc,p15 r7 c14 c3 1,1
+arm,linux,mrc,p15 r2 c15 c1 0,1
+arm,linux,mrc,p15 r4 c15 c1 0,1
+arm,linux,mrc,p15 r1 c15 c1 0,1
+arm,linux,mrc,p15 r1 c2 c0 0,1
+arm,linux,mrc,p15 c2 c0,1
+arm,linux,mrc,p15 c1 c0,1
+arm,linux,mrc,p15 c9 c1 0,1
+arm,linux,mrc,p15 c9 c1 1,1
+arm,linux,mrc,p14 c1 c0 0,1
+arm,linux,mrc,p15 ip c3 c0 0,1
+arm,linux,mrc,p15 ip c2 c0 2,1
+arm,linux,mrc,p15 c15 c2 0,1
+arm,linux,mrc,p15 c0 c1 7,1
+arm,linux,mrc,p15 r1 c0 c0 0,1
+arm,linux,mrc,p15 c2 c0 1,1
+arm,linux,mrc,p15 c13 c0 1,1
+arm,linux,mrc,p15 r0 c6 c0 2,1
+arm,linux,mrc,p15 r4 c3 c0 0,1
+arm,linux,mrc,p15 r5 c13 c0 0,1
+arm,linux,mrc,p15 r6 c2 c0 1,1
+arm,linux,mrc,p15 r7 c1 c0 1,1
+arm,linux,mrc,p15 r8 c1 c0 2,1
+arm,linux,mrc,p15 r5 c0 c0 0,1
+arm,linux,mrc,p15 r2 c1 c0 0,1
+arm,linux,mrc,p15 r5 c13 c0 3,1
+arm,linux,mrc,p15 r7 c2 c0 1,1
+arm,linux,mrc,p15 r11 c2 c0 2,1
+arm,linux,mrc,p15 r9 c1 c0 1,1
+arm,linux,mrc,p15 r10 c1 c0 2,1
+arm,linux,mrc,p15 r4 c1 c0 1,1
+arm,linux,mrc,p15 r4 c15 c0 1,1
+arm,linux,mrc,p15 r5 c15 c0 0,1
+arm,linux,mrc,p15 r10 c15 c0 0,1
+arm,linux,mrc,p15 r6 c15 c1 0,1
+arm,linux,mrc,p15 r7 c15 c2 0,1
+arm,linux,mrc,p15 r8 c15 c1 2,1
+arm,linux,mrc,p15 r9 c15 c1 1,1
+arm,linux,mrc,p15 r10 c9 c14 0,1
+arm,linux,mrc,p15 r10 c15 c0 2,1
+arm,linux,mrc,p15 r0 c15 c1 1,1
+arm,linux,mrc,p15 r0 c15 c1 2,1
+arm,linux,mrc,p15 r0 c15 c2 0,1
+arm,linux,mrc,p15 r0 c15 c1 0,1
+arm,linux,mrc,p15 r0 c0 c1 0,1
+arm,linux,mrc,p14 r0 c0 c0 0,1
+arm,linux,mrc,p15 r1 c1 c0 1,1
+arm,netbsd,mrc,p15 r_tmp1 c1 c0 0,1
+arm,netbsd,mrc,p15 r0 c2 c0 0//ttbr0read,1
+arm,netbsd,mrc,p15 r0 c2 c0 1//ttbr1read,1
+arm,netbsd,mrc,p15 r0 c2 c0 2//ttbcrread,1
+arm,netbsd,mrc,p15 r0 c10 c2 0//primaryregionremapregister(prrr),1
+arm,netbsd,mrc,p15 r0 c10 c2 1//normalmemoryremapregister(nmrr),1
+arm,netbsd,mrc,p15 r1 c0 c0 0//midrget,1
+arm,netbsd,mrc,p15 r1 c0 c0 5//mpidrget,1
+arm,netbsd,mrc,p15 r1 c0 c0 5//mpidrread,1
+arm,netbsd,mrc,p15 r1 c1 c0 0//sctlrread,1
+arm,netbsd,mrc,p15 r4 c0 c0 5//mpidrget,1
+arm,netbsd,mrc,p15 r1 c1 c0 0,1
+arm,netbsd,mrc,p15 r5 c1 c0 0//readstatus+controlregister,1
+arm,netbsd,mrc,p15 r0 c1 c0 0//readcontrolregister,1
+arm,netbsd,mrc,p15 r0 c5 c0 0,1
+arm,netbsd,mrc,p15 r0 c6 c0 0,1
+arm,netbsd,mrc,p15 reg c7 c10 6,1
+arm,netbsd,mrc,p15 r3 c15 c0 0,1
+arm,netbsd,mrc,p15 apsr_nzcv c7 c10 3,1
+arm,netbsd,mrc,p15 r0 c2 c0 0,1
+arm,netbsd,mrc,p15 r0 c15 c1 0,1
+arm,netbsd,mrc,p15 r0 c15 c1 1,1
+arm,netbsd,mrc,p15 r0 c15 c1 2,1
+arm,netbsd,mrc,p15 r0 c15 c2 0,1
+arm,netbsd,mrc,p15 c15 c12 0,1
+arm,netbsd,mrc,p15 c15 c12 1,1
+arm,netbsd,mrc,p15 r4 c13 c0 4,1
+arm,netbsd,mrc,,1
+arm,netbsd,mrc,p15 c13 c0 3,1
+arm,openbsd,mrc,cp15_midr(r0),1
+arm,openbsd,mrc,cp15_ctr(r0),1
+arm,openbsd,mrc,cp15_dfsr(r0),1
+arm,openbsd,mrc,cp15_dfar(r0),1
+arm,openbsd,mrc,cp15_ifsr(r0),1
+arm,openbsd,mrc,cp15_ifar(r0),1
+arm,openbsd,mrc,cp15_sctlr(r3),1
+arm,openbsd,mrc,cp15_actlr(r3),1
+arm,openbsd,mrc,cp15_cbar(r0),1
+arm,openbsd,mrc,cp15_tpidrprw(r5),1
+arm,openbsd,mrc,cp15_tpidrprw(r0),1
+arm,openbsd,mrc,p15 c0 c1 7,1
+arm,openbsd,mrc,p15 c1 c0 2,1
+arm,openbsd,mrc,p15 c14 c2 1,1
+arm,openbsd,mrc,p15 c14 c0 0,1
+arm,openbsd,mrc,p15 c13 c0 4,1
+arm,openbsd,mrc,p15 c13 c0 3,1
+arm,linux,mrrc,p15 c14,2
+arm,linux,mrrc,p0 c0,2
+arm,linux,mrrc,p15 r4 r5 c2,2
+arm,freebsd,mrrc,,1
+arm,linux,mrrc,p15,1
+arm,linux,mrrc,p15 r5 r7 c2,1
+arm,netbsd,mrrc,,1
+arm,openbsd,mrrc,p15 c14,1
+arm,netbsd,mrs,cpsr,36
+arm,linux,mrs,cpsr,26
+arm,freebsd,mrs,cpsr,11
+arm,openbsd,mrs,cpsr,11
+arm,freebsd,mrs,spsr,4
+arm,linux,mrs,spsr,4
+arm,linux,mrs,ip,3
+arm,netbsd,mrs,tpidr_el1,3
+arm,linux,mrs,saved_psr,1
+arm,linux,mrs,ipsr,1
+arm,netbsd,mrs,spsr,1
+arm,netbsd,mrs,tpidr_el0,1
+arm,openbsd,mrs,spsr,1
+arm,linux,msr,cpsr_c,43
+arm,netbsd,msr,cpsr_c,29
+arm,netbsd,msr,cpsr_all,20
+arm,openbsd,msr,cpsr_c,10
+arm,linux,msr,spsr_cxsf,9
+arm,linux,msr,cpsr_fs,7
+arm,freebsd,msr,cpsr_fsxc,6
+arm,freebsd,msr,cpsr_c,4
+arm,freebsd,msr,spsr_fsxc,3
+arm,netbsd,msr,cpsr_cx,3
+arm,freebsd,msr,spsr_cxsf,1
+arm,freebsd,msr,cpsr_xc,1
+arm,linux,msr,psp,1
+arm,linux,msr,cpsr_cx,1
+arm,linux,msr,control,1
+arm,linux,msr,cpsr_cxsf,1
+arm,netbsd,msr,spsr_cxsf,1
+arm,netbsd,msr,elr_hyp,1
+arm,netbsd,msr,spsr_sxc,1
+arm,netbsd,msr,spsr_sx,1
+arm,openbsd,msr,spsr_fsxc,1
+arm,openbsd,msr,elr_hyp,1
+arm64,openbsd,mrs,tpidr_el1,17
+arm64,netbsd,mrs,tpidr_el1,12
+arm64,netbsd,mrs,currentel,7
+arm64,netbsd,mrs,sctlr_el1,7
+arm64,linux,mrs,currentel,6
+arm64,openbsd,mrs,ttbr1_el1,5
+arm64,openbsd,mrs,cntvct_el0,5
+arm64,linux,mrs,sp_el0,4
+arm64,linux,mrs,spsr_el2,4
+arm64,linux,mrs,tpidrro_el0,4
+arm64,linux,mrs,sctlr_el1,4
+arm64,linux,mrs,esr_el2,4
+arm64,openbsd,mrs,daif,4
+arm64,freebsd,mrs,tpidr_el1,3
+arm64,freebsd,mrs,daif,3
+arm64,freebsd,mrs,tpidr_el0,3
+arm64,linux,mrs,elr_el2,3
+arm64,linux,mrs,tcr_el1,3
+arm64,linux,mrs,tpidr_el0,3
+arm64,linux,mrs,ttbr1_el1,3
+arm64,linux,mrs,sctlr_el2,3
+arm64,linux,mrs,mpidr_el1,3
+arm64,netbsd,mrs,cpacr_el1,3
+arm64,netbsd,mrs,mpidr_el1,3
+arm64,netbsd,mrs,sctlr_el2,3
+arm64,freebsd,mrs,mpidr_el1,2
+arm64,freebsd,mrs,id_aa64mmfr0_el1,2
+arm64,freebsd,mrs,mdscr_el1,2
+arm64,freebsd,mrs,tpidrro_el0,2
+arm64,freebsd,mrs,fpcr,2
+arm64,freebsd,mrs,fpsr,2
+arm64,freebsd,mrs,cntpct_el0,2
+arm64,freebsd,mrs,vttbr_el2,2
+arm64,linux,mrs,spsr_el1,2
+arm64,linux,mrs,contextidr_el1,2
+arm64,linux,mrs,hcr_el2,2
+arm64,linux,mrs,id_aa64mmfr0_el1,2
+arm64,linux,mrs,reg_id_aa64mmfr3_el1,2
+arm64,linux,mrs,isr_el1,2
+arm64,linux,mrs,far_el2,2
+arm64,linux,mrs,swapper_ttb,2
+arm64,netbsd,mrs,midr_el1,2
+arm64,netbsd,mrs,daif,2
+arm64,openbsd,mrs,s3_5_c15_c5_0,2
+arm64,openbsd,mrs,mdscr_el1,2
+arm64,openbsd,mrs,tcr_el1,2
+arm64,openbsd,mrs,mpidr_el1,2
+arm64,openbsd,mrs,sctlr_el1,2
+arm64,openbsd,mrs,fpsr,2
+arm64,openbsd,mrs,fpcr,2
+arm64,openbsd,mrs,tpidrro_el0,2
+arm64,freebsd,mrs,dbg,1
+arm64,freebsd,mrs,sp_el0,1
+arm64,freebsd,mrs,elr_el1,1
+arm64,freebsd,mrs,spsr_el1,1
+arm64,freebsd,mrs,esr_el1,1
+arm64,freebsd,mrs,far_el1,1
+arm64,freebsd,mrs,tfsre0_el1_reg,1
+arm64,freebsd,mrs,icc_iar1_el1,1
+arm64,freebsd,mrs,currentel,1
+arm64,freebsd,mrs,hcr_el2,1
+arm64,freebsd,mrs,midr_el1,1
+arm64,freebsd,mrs,icc_sre_el2,1
+arm64,freebsd,mrs,sctlr_el1,1
+arm64,freebsd,mrs,id_aa64pfr1_el1,1
+arm64,freebsd,mrs,tcr_el1,1
+arm64,freebsd,mrs,par_el1,1
+arm64,freebsd,mrs,cntvct_el0,1
+arm64,freebsd,mrs,tpidr_el2,1
+arm64,freebsd,mrs,ich_misr_el2,1
+arm64,freebsd,mrs,vbar_el1,1
+arm64,freebsd,mrs,mair_el1,1
+arm64,freebsd,mrs,sctlr_el2,1
+arm64,linux,mrs,cntpct_el0nop,1
+arm64,linux,mrs,cntvct_el0nop,1
+arm64,linux,mrs,spsel,1
+arm64,linux,mrs,daif,1
+arm64,linux,mrs,nzcv,1
+arm64,linux,mrs,elr_el1,1
+arm64,linux,mrs,ttbr0_el1,1
+arm64,linux,mrs,far_el1,1
+arm64,linux,mrs,sp_el1,1
+arm64,linux,mrs,mdcr_el2,1
+arm64,linux,mrs,reg_tcr2_el12,1
+arm64,linux,mrs,reg_pire0_el12,1
+arm64,linux,mrs,reg_pir_el12,1
+arm64,linux,mrs,hpfar_el2,1
+arm64,linux,mrs,par_el1,1
+arm64,linux,mrs,tpidr_el2,1
+arm64,linux,mrs,tmp1,1
+arm64,linux,mrs,dczid_el0,1
+arm64,linux,mrs,osdlr_el1,1
+arm64,linux,mrs,cpacr_el1,1
+arm64,linux,mrs,vbar_el1,1
+arm64,linux,mrs,mdscr_el1,1
+arm64,linux,mrs,oslsr_el1,1
+arm64,linux,mrs,reg_tcr2_el1,1
+arm64,linux,mrs,id_aa64mmfr1_el1,1
+arm64,netbsd,mrs,s3_3_c2_c4_1,1
+arm64,netbsd,mrs,ctr_el0,1
+arm64,netbsd,mrs,fpcr,1
+arm64,netbsd,mrs,fpsr,1
+arm64,netbsd,mrs,tcr_el1,1
+arm64,netbsd,mrs,ttbr0_el1,1
+arm64,netbsd,mrs,ttbr1_el1,1
+arm64,netbsd,mrs,id_aa64mmfr0_el1,1
+arm64,netbsd,mrs,hcr_el2,1
+arm64,netbsd,mrs,id_aa64pfr0_el1,1
+arm64,netbsd,mrs,icc_sre_el2,1
+arm64,netbsd,mrs,dczid_el0,1
+arm64,netbsd,mrs,sp_el0,1
+arm64,netbsd,mrs,elr_el1,1
+arm64,netbsd,mrs,spsr_el1,1
+arm64,netbsd,mrs,esr_el1,1
+arm64,netbsd,mrs,far_el1,1
+arm64,netbsd,mrs,mdscr_el1,1
+arm64,openbsd,mrs,elr_el1,1
+arm64,openbsd,mrs,spsr_el1,1
+arm64,openbsd,mrs,sp_el0,1
+arm64,openbsd,mrs,clidr_el1,1
+arm64,openbsd,mrs,ccsidr_el1,1
+arm64,openbsd,mrs,currentel,1
+arm64,openbsd,mrs,far_el1,1
+arm64,openbsd,mrs,midr_el1,1
+arm64,openbsd,mrs,id_aa64pfr0_el1,1
+arm64,openbsd,mrs,icc_sre_el2,1
+arm64,openbsd,mrs,id_aa64mmfr0_el1,1
+arm64,openbsd,mrs,ttbr0_el1,1
+arm64,openbsd,mrs,cntfrq_el0,1
+arm64,openbsd,mrs,cntv_ctl_el0,1
+arm64,openbsd,mrs,tpidr_el0,1
+arm64,linux,msr,sctlr_el1,10
+arm64,linux,msr,ttbr1_el1,8
+arm64,openbsd,msr,ttbr1_el1,8
+arm64,freebsd,msr,sp_el0,7
+arm64,freebsd,msr,daifset,7
+arm64,linux,msr,sp_el0,7
+arm64,netbsd,msr,sctlr_el1,7
+arm64,linux,msr,elr_el2,6
+arm64,linux,msr,vbar_el1,6
+arm64,netbsd,msr,cpacr_el1,6
+arm64,netbsd,msr,apiakeylo_el1,6
+arm64,netbsd,msr,apiakeyhi_el1,6
+arm64,openbsd,msr,daifset,6
+arm64,freebsd,msr,daifclr,5
+arm64,linux,msr,spsr_el2,5
+arm64,linux,msr,sctlr_el2,5
+arm64,linux,msr,vbar_el2,5
+arm64,netbsd,msr,tpidr_el1,5
+arm64,freebsd,msr,vbar_el2,4
+arm64,freebsd,msr,ttbr0_el1,4
+arm64,freebsd,msr,sctlr_el1,4
+arm64,linux,msr,daifclr,4
+arm64,linux,msr,daifset,4
+arm64,linux,msr,tpidrro_el0,4
+arm64,linux,msr,tcr_el1,4
+arm64,netbsd,msr,pan,4
+arm64,netbsd,msr,ttbr0_el1,4
+arm64,openbsd,msr,daif,4
+arm64,openbsd,msr,tpidrro_el0,4
+arm64,openbsd,msr,tpidr_el1,4
+arm64,freebsd,msr,spsr_el1,3
+arm64,freebsd,msr,elr_el1,3
+arm64,freebsd,msr,contextidr_el1,3
+arm64,freebsd,msr,sctlr_el2,3
+arm64,freebsd,msr,vttbr_el2,3
+arm64,freebsd,msr,vbar_el1,3
+arm64,freebsd,msr,mdscr_el1,3
+arm64,freebsd,msr,tpidr_el0,3
+arm64,linux,msr,contextidr_el1,3
+arm64,linux,msr,spsr_el1,3
+arm64,linux,msr,ttbr0_el1,3
+arm64,linux,msr,cpacr_el1,3
+arm64,linux,msr,reg_tcr2_el1,3
+arm64,netbsd,msr,daif,3
+arm64,netbsd,msr,tpidr_el0,3
+arm64,netbsd,msr,tpidrro_el0,3
+arm64,netbsd,msr,sctlr_el2,3
+arm64,openbsd,msr,ttbr0_el1,3
+arm64,openbsd,msr,mdscr_el1,3
+arm64,openbsd,msr,vbar_el1,3
+arm64,openbsd,msr,tcr_el1,3
+arm64,openbsd,msr,hcr_el2,3
+arm64,openbsd,msr,sctlr_el1,3
+arm64,freebsd,msr,tfsre0_el1_reg,2
+arm64,freebsd,msr,tpidr_el1,2
+arm64,freebsd,msr,hcr_el2,2
+arm64,freebsd,msr,tcr_el1,2
+arm64,freebsd,msr,tpidrro_el0,2
+arm64,freebsd,msr,fpcr,2
+arm64,freebsd,msr,fpsr,2
+arm64,linux,msr,hcr_el2,2
+arm64,linux,msr,tpidr_el0,2
+arm64,linux,msr,elr_el1,2
+arm64,linux,msr,mair_el1,2
+arm64,linux,msr,reg_pire0_el1,2
+arm64,linux,msr,reg_pir_el1,2
+arm64,linux,msr,tpidr_el2,2
+arm64,linux,msr,ttbr0_el2,2
+arm64,linux,msr,mdscr_el1,2
+arm64,netbsd,msr,vbar_el1,2
+arm64,netbsd,msr,mdscr_el1,2
+arm64,netbsd,msr,tcr_el1,2
+arm64,netbsd,msr,ttbr1_el1,2
+arm64,netbsd,msr,elr_el1,2
+arm64,netbsd,msr,spsr_el1,2
+arm64,openbsd,msr,s3_5_c15_c5_0,2
+arm64,openbsd,msr,tpidr_el0,2
+arm64,freebsd,msr,dbg,1
+arm64,freebsd,msr,daif,1
+arm64,freebsd,msr,vpidr_el2,1
+arm64,freebsd,msr,vmpidr_el2,1
+arm64,freebsd,msr,sctlr_el12_reg,1
+arm64,freebsd,msr,mdcr_el2,1
+arm64,freebsd,msr,cptr_el2,1
+arm64,freebsd,msr,cnthctl_el2,1
+arm64,freebsd,msr,spsr_el2,1
+arm64,freebsd,msr,hcrx_el2_reg,1
+arm64,freebsd,msr,hstr_el2,1
+arm64,freebsd,msr,cntvoff_el2,1
+arm64,freebsd,msr,icc_sre_el2,1
+arm64,freebsd,msr,elr_el2,1
+arm64,freebsd,msr,ttbr1_el1,1
+arm64,freebsd,msr,gcr_el1_reg,1
+arm64,freebsd,msr,tfsr_el1_reg,1
+arm64,freebsd,msr,mair_el1,1
+arm64,freebsd,msr,pan,1
+arm64,freebsd,msr,s0_3_c1_c0_0,1
+arm64,freebsd,msr,s0_3_c1_c0_1,1
+arm64,freebsd,msr,tpidr_el2,1
+arm64,freebsd,msr,ttbr0_el2,1
+arm64,freebsd,msr,mair_el2,1
+arm64,freebsd,msr,tcr_el2,1
+arm64,freebsd,msr,vtcr_el2,1
+arm64,linux,msr,s0_3_c1_c0_0,1
+arm64,linux,msr,s0_3_c1_c0_1,1
+arm64,linux,msr,tpidr_el1,1
+arm64,linux,msr,far_el1,1
+arm64,linux,msr,mdcr_el2,1
+arm64,linux,msr,esr_el2,1
+arm64,linux,msr,mair_el2,1
+arm64,linux,msr,far_el2,1
+arm64,linux,msr,vttbr_el2,1
+arm64,linux,msr,vtcr_el2,1
+arm64,linux,msr,tcr_el2,1
+arm64,linux,msr,spsel,1
+arm64,linux,msr,osdlr_el1,1
+arm64,linux,msr,oslar_el1,1
+arm64,netbsd,msr,apibkeylo_el1,1
+arm64,netbsd,msr,apibkeyhi_el1,1
+arm64,netbsd,msr,apdakeylo_el1,1
+arm64,netbsd,msr,apdakeyhi_el1,1
+arm64,netbsd,msr,apdbkeylo_el1,1
+arm64,netbsd,msr,apdbkeyhi_el1,1
+arm64,netbsd,msr,apgakeylo_el1,1
+arm64,netbsd,msr,apgakeyhi_el1,1
+arm64,netbsd,msr,fpcr,1
+arm64,netbsd,msr,fpsr,1
+arm64,netbsd,msr,oslar_el1,1
+arm64,netbsd,msr,contextidr_el1,1
+arm64,netbsd,msr,cntkctl_el1,1
+arm64,netbsd,msr,mair_el1,1
+arm64,netbsd,msr,hcr_el2,1
+arm64,netbsd,msr,vpidr_el2,1
+arm64,netbsd,msr,vmpidr_el2,1
+arm64,netbsd,msr,cptr_el2,1
+arm64,netbsd,msr,hstr_el2,1
+arm64,netbsd,msr,cnthctl_el2,1
+arm64,netbsd,msr,cntvoff_el2,1
+arm64,netbsd,msr,vbar_el2,1
+arm64,netbsd,msr,spsr_el2,1
+arm64,netbsd,msr,icc_sre_el2,1
+arm64,netbsd,msr,sp_el1,1
+arm64,netbsd,msr,elr_el2,1
+arm64,netbsd,msr,sp_el0,1
+arm64,netbsd,msr,daifset,1
+arm64,openbsd,msr,dit,1
+arm64,openbsd,msr,sp_el0,1
+arm64,openbsd,msr,spsr_el1,1
+arm64,openbsd,msr,elr_el1,1
+arm64,openbsd,msr,csselr_el1,1
+arm64,openbsd,msr,far_el1,1
+arm64,openbsd,msr,far_el2,1
+arm64,openbsd,msr,vpidr_el2,1
+arm64,openbsd,msr,vmpidr_el2,1
+arm64,openbsd,msr,cptr_el2,1
+arm64,openbsd,msr,hstr_el2,1
+arm64,openbsd,msr,cnthctl_el2,1
+arm64,openbsd,msr,cntvoff_el2,1
+arm64,openbsd,msr,vbar_el2,1
+arm64,openbsd,msr,spsr_el2,1
+arm64,openbsd,msr,icc_sre_el2,1
+arm64,openbsd,msr,elr_el2,1
+arm64,openbsd,msr,mair_el1,1
+arm64,openbsd,msr,contextidr_el1,1
+arm64,openbsd,msr,apiakeylo_el1,1
+arm64,openbsd,msr,apiakeyhi_el1,1
+arm64,openbsd,msr,apdakeylo_el1,1
+arm64,openbsd,msr,apdakeyhi_el1,1
+arm64,openbsd,msr,apibkeylo_el1,1
+arm64,openbsd,msr,apibkeyhi_el1,1
+arm64,openbsd,msr,apdbkeylo_el1,1
+arm64,openbsd,msr,apdbkeyhi_el1,1
+arm64,openbsd,msr,apgakeylo_el1,1
+arm64,openbsd,msr,apgakeyhi_el1,1
+arm64,openbsd,msr,cntv_ctl_el0,1
+arm64,openbsd,msr,cntv_tval_el0,1
+arm64,openbsd,msr,daifclr,1
+loongarch,linux,csrrd,loongarch_csr_badv,10
+loongarch,linux,csrrd,exception_ks2,10
+loongarch,linux,csrrd,exception_ks0,7
+loongarch,linux,csrrd,exception_ks1,7
+loongarch,linux,csrrd,loongarch_csr_ecfg,3
+loongarch,linux,csrrd,loongarch_csr_pgdl,3
+loongarch,linux,csrrd,loongarch_csr_asid,3
+loongarch,linux,csrrd,loongarch_csr_prmd,2
+loongarch,linux,csrrd,loongarch_csr_crmd,2
+loongarch,linux,csrrd,loongarch_csr_estat,2
+loongarch,linux,csrrd,loongarch_csr_era,2
+loongarch,linux,csrrd,loongarch_csr_gtlbc,2
+loongarch,linux,csrrd,kvm_vcpu_ks,2
+loongarch,linux,csrrd,loongarch_csr_pgd,2
+loongarch,linux,csrrd,loongarch_csr_tlbrbadv,2
+loongarch,linux,csrrd,percpu_base_ks,1
+loongarch,linux,csrrd,loongarch_csr_euen,1
+loongarch,linux,csrrd,loongarch_csr_gstat,1
+loongarch,linux,csrrd,kvm_temp_ks,1
+loongarch,linux,csrrd,loongarch_csr_badi,1
+loongarch,linux,csrrd,loongarch_csr_tlbrsave,1
+loongarch,linux,csrwr,loongarch_csr_tlbelo0,6
+loongarch,linux,csrwr,loongarch_csr_tlbelo1,6
+loongarch,linux,csrwr,exception_ks0,4
+loongarch,linux,csrwr,exception_ks1,4
+loongarch,linux,csrwr,exception_ks2,4
+loongarch,linux,csrwr,loongarch_csr_ks0,3
+loongarch,linux,csrwr,loongarch_csr_ks1,3
+loongarch,linux,csrwr,loongarch_csr_prmd,2
+loongarch,linux,csrwr,loongarch_csr_ecfg,2
+loongarch,linux,csrwr,loongarch_csr_eentry,2
+loongarch,linux,csrwr,loongarch_csr_pgdl,2
+loongarch,linux,csrwr,loongarch_csr_gtlbc,2
+loongarch,linux,csrwr,kvm_vcpu_ks,2
+loongarch,linux,csrwr,percpu_base_ks,1
+loongarch,linux,csrwr,loongarch_csr_era,1
+loongarch,linux,csrwr,kvm_temp_ks,1
+loongarch,linux,csrwr,loongarch_csr_tlbrelo0,1
+loongarch,linux,csrwr,loongarch_csr_tlbrelo1,1
+loongarch,linux,csrwr,loongarch_csr_tlbrsave,1
+loongarch,linux,csrxchg,loongarch_csr_tlbidx,6
+loongarch,linux,csrxchg,loongarch_csr_crmd,3
+loongarch,linux,csrxchg,loongarch_csr_impctl1,2
+loongarch,linux,csrxchg,loongarch_csr_gstat,2
+loongarch,linux,csrxchg,loongarch_csr_euen,1
+mips,openbsd,dmfc0,k0,8
+mips,netbsd,dmfc0,k0,6
+mips,openbsd,dmfc0,ta0,3
+mips,netbsd,dmfc0,mips_cop_0_tlb_hi,2
+mips,netbsd,dmfc0,mips_cop_0_tlb_lo0,2
+mips,openbsd,dmfc0,cop_0_tlb_hi,2
+mips,linux,dmfc0,k0,1
+mips,openbsd,dmfc0,k1,1
+mips,openbsd,dmfc0,cop_0_bad_vaddr,1
+mips,openbsd,dmfc0,cop_0_exc_pc,1
+mips,openbsd,dmfc0,ta1,1
+mips,openbsd,dmfc0,ta2,1
+mips,openbsd,dmfc0,ta3,1
+mips,openbsd,dmtc0,cop_0_tlb_hi,14
+mips,openbsd,dmtc0,k0,12
+mips,openbsd,dmtc0,cop_0_tlb_lo0,7
+mips,openbsd,dmtc0,cop_0_tlb_lo1,7
+mips,openbsd,dmtc0,ta0,5
+mips,openbsd,dmtc0,cop_0_diag,4
+mips,openbsd,dmtc0,ta1,3
+mips,netbsd,dmtc0,mips_cop_0_tlb_hi,2
+mips,netbsd,dmtc0,mips_cop_0_tlb_lo0,2
+mips,openbsd,dmtc0,k1,2
+mips,linux,dmtc0,cp0_cacheerr,1
+mips,openbsd,dmtc0,cop_0_userlocal,1
+mips,netbsd,mfc0,mips_cop_0_status,59
+mips,linux,mfc0,k0,18
+mips,netbsd,mfc0,mips_cop_0_cause,18
+mips,linux,mfc0,cp0_config,15
+mips,netbsd,mfc0,k0,14
+mips,linux,mfc0,cp0_status,13
+mips,netbsd,mfc0,ta0,12
+mips,netbsd,mfc0,mips_cop_0_config,10
+mips,netbsd,mfc0,ta1,8
+mips,netbsd,mfc0,mips_cop_0_watch_hi,8
+mips,netbsd,mfc0,mips_cop_0_tlb_index,7
+mips,linux,mfc0,k1,6
+mips,netbsd,mfc0,mips_cop_0_tlb_hi,6
+mips,netbsd,mfc0,mips_cop_0_tlb_pg_mask,6
+mips,openbsd,mfc0,cop_0_status_reg,6
+mips,netbsd,mfc0,k1,5
+mips,linux,mfc0,cp0_mvpcontrol,4
+mips,netbsd,mfc0,mips_cop_0_tlb_wired,4
+mips,netbsd,mfc0,ta2,4
+mips,openbsd,mfc0,cop_0_tlb_index,4
+mips,openbsd,mfc0,cop_0_config,4
+mips,linux,mfc0,cp0_cacheerr,3
+mips,linux,mfc0,cp0_brcm_mode,3
+mips,netbsd,mfc0,r3900_cop_0_config,3
+mips,netbsd,mfc0,mips_cop_0_ebase,3
+mips,netbsd,mfc0,mips_cop_0_tlb_low,3
+mips,openbsd,mfc0,k0,3
+mips,linux,mfc0,cp0_brcm_config0,2
+mips,linux,mfc0,cp0_mvpconf0,2
+mips,openbsd,mfc0,cop_0_cause_reg,2
+mips,linux,mfc0,cp0_d_sec_cache_data_lo,1
+mips,linux,mfc0,cp0_prid,1
+mips,linux,mfc0,cp0_globalnumber,1
+mips,linux,mfc0,cp0_vpecontrol,1
+mips,linux,mfc0,cp0_segctl0,1
+mips,linux,mfc0,cp0_segctl1,1
+mips,linux,mfc0,cp0_segctl2,1
+mips,linux,mfc0,cp0_diagnostic1,1
+mips,netbsd,mfc0,mips_cop_0_prid,1
+mips,netbsd,mfc0,cp0_core_ctrl,1
+mips,netbsd,mfc0,cp0_core_status,1
+mips,netbsd,mfc0,cp0_core_reim,1
+mips,netbsd,mfc0,cp0_core0_mbox,1
+mips,netbsd,mfc0,cp0_core1_mbox,1
+mips,netbsd,mfc0,mips_cop_0_compare,1
+mips,netbsd,mfc0,mips_cop_0_count,1
+mips,netbsd,mfc0,at,1
+mips,netbsd,mfc0,mips_cop_0_ecc,1
+mips,netbsd,mfc0,mips_cop_0_cache_err,1
+mips,openbsd,mfc0,cop_0_tlb_pg_grain,1
+mips,openbsd,mfc0,k1,1
+mips,openbsd,mfc0,ta1,1
+mips,openbsd,mfc0,ta0,1
+mips,netbsd,mtc0,mips_cop_0_status,87
+mips,netbsd,mtc0,k0,14
+mips,netbsd,mtc0,mips_cop_0_tlb_index,14
+mips,netbsd,mtc0,mips_cop_0_tlb_hi,13
+mips,netbsd,mtc0,ta0,12
+mips,netbsd,mtc0,mips_cop_0_tlb_pg_mask,11
+mips,linux,mtc0,k0,10
+mips,netbsd,mtc0,mips_cop_0_tlb_low,9
+mips,netbsd,mtc0,mips_cop_0_watch_hi,8
+mips,openbsd,mtc0,cop_0_status_reg,8
+mips,netbsd,mtc0,ta1,7
+mips,netbsd,mtc0,mips_cop_0_diag,6
+mips,openbsd,mtc0,cop_0_tlb_pg_mask,6
+mips,linux,mtc0,cp0_mvpcontrol,4
+mips,linux,mtc0,cp0_status,4
+mips,netbsd,mtc0,mips_cop_0_config,4
+mips,netbsd,mtc0,r3900_cop_0_config,4
+mips,netbsd,mtc0,mips_cop_0_cause,4
+mips,netbsd,mtc0,ta2,4
+mips,linux,mtc0,cp0_cacheerr,3
+mips,linux,mtc0,cp0_brcm_mode,3
+mips,linux,mtc0,cp0_taglo,3
+mips,openbsd,mtc0,cop_0_tlb_index,3
+mips,linux,mtc0,cp0_brcm_config0,2
+mips,linux,mtc0,cp0_config,2
+mips,linux,mtc0,cp0_cause,2
+mips,linux,mtc0,cp0_taghi,2
+mips,netbsd,mtc0,mips_cop_0_ebase,2
+mips,linux,mtc0,cp0_icache_tag_lo,1
+mips,linux,mtc0,cp0_icache_tag_hi,1
+mips,linux,mtc0,cp0_icache_data_lo,1
+mips,linux,mtc0,cp0_icache_data_hi,1
+mips,linux,mtc0,cp0_dcache_tag_lo,1
+mips,linux,mtc0,cp0_dcache_tag_hi,1
+mips,linux,mtc0,cp0_d_sec_cache_data_lo,1
+mips,linux,mtc0,ta1,1
+mips,linux,mtc0,cp0_vpecontrol,1
+mips,linux,mtc0,cp0_tchalt,1
+mips,linux,mtc0,c0_cerr_d,1
+mips,netbsd,mtc0,cp0_core_ctrl,1
+mips,netbsd,mtc0,cp0_core_status,1
+mips,netbsd,mtc0,cp0_core_reim,1
+mips,netbsd,mtc0,cp0_core0_mbox,1
+mips,netbsd,mtc0,cp0_core1_mbox,1
+mips,netbsd,mtc0,mips_cop_0_compare,1
+mips,netbsd,mtc0,mips_cop_0_hwrena,1
+mips,netbsd,mtc0,mips_cop_0_count,1
+mips,netbsd,mtc0,mips_cop_0_tlb_wired,1
+mips,openbsd,mtc0,cop_0_tlb_pg_grain,1
+mips,openbsd,mtc0,ta1,1
+mips,openbsd,mtc0,cop_0_tlb_wired,1
+ppc,netbsd,mtdcr,dcr_ocm0_dscntl,1
+ppc,netbsd,mtdcr,dcr_ocm0_iscntl,1
+riscv,linux,csrc,csr_status,9
+riscv,openbsd,csrc,sstatus,6
+riscv,freebsd,csrc,sstatus,4
+riscv,netbsd,csrc,sstatus,3
+riscv,linux,csrc,sstatus,1
+riscv,netbsd,csrc,sie,1
+riscv,freebsd,csrci,sstatus,1
+riscv,netbsd,csrci,sstatus,1
+riscv,openbsd,csrci,sstatus,1
+riscv,linux,csrr,csr_tval,5
+riscv,linux,csrr,csr_cause,5
+riscv,linux,csrr,csr_status,4
+riscv,linux,csrr,csr_sstatus,4
+riscv,freebsd,csrr,sepc,3
+riscv,linux,csrr,csr_scratch,3
+riscv,linux,csrr,csr_epc,3
+riscv,netbsd,csrr,cycle,3
+riscv,freebsd,csrr,sstatus,2
+riscv,freebsd,csrr,stval,2
+riscv,freebsd,csrr,scause,2
+riscv,linux,csrr,csr_misa,2
+riscv,linux,csrr,csr_sepc,2
+riscv,netbsd,csrr,cycleh,2
+riscv,freebsd,csrr,sscratch,1
+riscv,freebsd,csrr,vstart,1
+riscv,freebsd,csrr,vtype,1
+riscv,freebsd,csrr,vl,1
+riscv,freebsd,csrr,vcsr,1
+riscv,freebsd,csrr,htval,1
+riscv,freebsd,csrr,htinst,1
+riscv,linux,csrr,csr_mhartid,1
+riscv,linux,csrr,csr_scause,1
+riscv,linux,csrr,csr_stval,1
+riscv,linux,csrr,csr_htval,1
+riscv,linux,csrr,csr_htinst,1
+riscv,linux,csrr,csr_vstart,1
+riscv,netbsd,csrr,sip,1
+riscv,openbsd,csrr,sscratch,1
+riscv,openbsd,csrr,sepc,1
+riscv,openbsd,csrr,sstatus,1
+riscv,openbsd,csrr,stval,1
+riscv,openbsd,csrr,scause,1
+riscv,openbsd,csrr,satp,1
+riscv,openbsd,csrr,vtype,1
+riscv,openbsd,csrr,vl,1
+riscv,openbsd,csrr,vstart,1
+riscv,openbsd,csrr,vcsr,1
+riscv,linux,csrrc,csr_status,1
+riscv,netbsd,csrrci,sstatus,3
+riscv,freebsd,csrrci,sstatus,1
+riscv,openbsd,csrrci,sstatus,1
+riscv,freebsd,csrrw,sscratch,6
+riscv,netbsd,csrrw,sscratch,5
+riscv,openbsd,csrrw,sscratch,4
+riscv,linux,csrrw,csr_scratch,3
+riscv,linux,csrrw,csr_sscratch,3
+riscv,freebsd,csrrw,sstatus,2
+riscv,freebsd,csrrw,hstatus,2
+riscv,freebsd,csrrw,scounteren,2
+riscv,linux,csrrw,csr_sstatus,2
+riscv,freebsd,csrrw,stvec,1
+riscv,linux,csrrw,csr_ssp,1
+riscv,linux,csrrw,csr_stvec,1
+riscv,linux,csrs,csr_status,9
+riscv,freebsd,csrs,sstatus,5
+riscv,linux,csrs,csr_sstatus,4
+riscv,openbsd,csrs,sstatus,3
+riscv,netbsd,csrs,sie,2
+riscv,linux,csrs,sstatus,1
+riscv,linux,csrs,csr_vcsr,1
+riscv,netbsd,csrs,sstatus,1
+riscv,netbsd,csrsi,sstatus,4
+riscv,openbsd,csrsi,sstatus,2
+riscv,freebsd,csrsi,sstatus,1
+riscv,netbsd,csrsi,sie,1
+riscv,linux,csrw,csr_tvec,7
+riscv,freebsd,csrw,sscratch,5
+riscv,freebsd,csrw,stvec,5
+riscv,linux,csrw,csr_scratch,5
+riscv,linux,csrw,csr_satp,5
+riscv,netbsd,csrw,stvec,5
+riscv,openbsd,csrw,satp,5
+riscv,freebsd,csrw,sepc,4
+riscv,linux,csrw,csr_sepc,4
+riscv,linux,csrw,csr_sstatus,4
+riscv,netbsd,csrw,sstatus,4
+riscv,openbsd,csrw,sscratch,4
+riscv,openbsd,csrw,stvec,4
+riscv,linux,csrw,csr_stvec,3
+riscv,netbsd,csrw,sscratch,3
+riscv,freebsd,csrw,sstatus,2
+riscv,freebsd,csrw,satp,2
+riscv,linux,csrw,csr_ie,2
+riscv,linux,csrw,csr_ip,2
+riscv,linux,csrw,csr_scounteren,2
+riscv,linux,csrw,csr_sie,2
+riscv,linux,csrw,csr_sip,2
+riscv,linux,csrw,csr_scause,2
+riscv,linux,csrw,csr_sscratch,2
+riscv,netbsd,csrw,sip,2
+riscv,netbsd,csrw,satp,2
+riscv,freebsd,csrw,vstart,1
+riscv,freebsd,csrw,vcsr,1
+riscv,linux,csrw,csr_ssp,1
+riscv,linux,csrw,csr_status,1
+riscv,linux,csrw,csr_epc,1
+riscv,linux,csrw,csr_pmpaddr0,1
+riscv,linux,csrw,csr_pmpcfg0,1
+riscv,linux,csrw,fcsr,1
+riscv,linux,csrw,satp,1
+riscv,netbsd,csrw,sepc,1
+riscv,netbsd,csrw,sie,1
+riscv,openbsd,csrw,sstatus,1
+riscv,openbsd,csrw,sepc,1
+riscv,openbsd,csrw,vstart,1
+riscv,openbsd,csrw,vcsr,1
+s390,linux,lctlg,__lc_cregs_save_area,1
+sparc,netbsd,rd,softint,2
+sparc,netbsd,rd,tick_cmpr,2
+sparc,netbsd,rd,stick,2
+sparc,openbsd,rd,softint,2
+sparc,netbsd,rd,stick_cmpr,1
+sparc,linux,wr,psr_et,42
+sparc,netbsd,wr,psr_et,25
+sparc,netbsd,wr,asi_primary_nofault,17
+sparc,netbsd,wr,fprs_fef,13
+sparc,openbsd,wr,asi_primary_nofault,13
+sparc,linux,wr,fprs_fef,11
+sparc,openbsd,wr,fprs_fef,10
+sparc,netbsd,wr,as,6
+sparc,netbsd,wr,asi_phys_cached,6
+sparc,linux,wr,asi_aius,5
+sparc,netbsd,wr,asi_aius,5
+sparc,netbsd,wr,asi_dmmu,5
+sparc,netbsd,wr,tick_cmpr,4
+sparc,linux,wr,asi_p,3
+sparc,linux,wr,asi_blk_init_quad_ldd_p,3
+sparc,netbsd,wr,asi_nucleus,3
+sparc,netbsd,wr,set_softint,3
+sparc,netbsd,wr,clear_softint,3
+sparc,netbsd,wr,stick_cmpr,3
+sparc,openbsd,wr,asi_phys_cached,3
+sparc,openbsd,wr,set_softint,3
+sparc,openbsd,wr,asi_aius,3
+sparc,netbsd,wr,asi_immu,2
+sparc,openbsd,wr,asi_dmmu,2
+sparc,openbsd,wr,clear_softint,2
+sparc,linux,wr,asi_aiup,1
+sparc,linux,wr,fprs_du,1
+sparc,linux,wr,asi_stbimru_p,1
+sparc,linux,wr,asi_pnf,1
+sparc,linux,wr,store_asi,1
+sparc,linux,wr,asi_blk_p,1
+sparc,linux,wr,asi_blk_commit_p,1
+sparc,openbsd,wr,asi_immu,1
+sparc,openbsd,wr,asi_nucleus,1
+sparc,netbsd,wrpr,wstate_kern,14
+sparc,linux,wrpr,pil_normal_max,13
+sparc,netbsd,wrpr,pstate_kern,13
+sparc,openbsd,wrpr,pstate_intr,12
+sparc,openbsd,wrpr,pstate_kern,11
+sparc,netbsd,wrpr,pstate_intr,9
+sparc,linux,wrpr,pstate_ie,7
+sparc,linux,wrpr,rtrap_pstate_irqoff,5
+sparc,openbsd,wrpr,wstate_kern,5
+sparc,linux,wrpr,rtrap_pstate,4
+sparc,netbsd,wrpr,pstate_ie,3
+sparc,netbsd,wrpr,pstate_prom,3
+sparc,netbsd,wrpr,wstate_user,2
+sparc,netbsd,wrpr,pil_high,2
+sparc,linux,wrpr,etrap_pstate1,1
+sparc,linux,wrpr,rtrap_pstate_ag_irqoff,1
+sparc,netbsd,wrpr,pstate_am,1
+sparc,netbsd,wrpr,g0,1
+sparc,netbsd,wrpr,t_align,1
+sparc,openbsd,wrpr,t_align,1
+sparc,openbsd,wrpr,t_breakpoint,1
+sparc,openbsd,wrpr,wstate_user,1
+x86,freebsd,mov-sysreg,cr0,9
+x86,netbsd,mov-sysreg,cr0,8
+x86,openbsd,mov-sysreg,cr0,6
+x86,freebsd,mov-sysreg,cr4,5
+x86,freebsd,mov-sysreg,cr3,3
+x86,linux,mov-sysreg,cr4,3
+x86,openbsd,mov-sysreg,cr4,3
+x86,linux,mov-sysreg,cr3,1
+x86,openbsd,mov-sysreg,cr2,1

@@ -5,7 +5,7 @@
 #                          count interrupt injection of sim64) skips the test: tests/qemu has the QEMU versions.
 #   tests/qemu/NAME.s|.S   System v1 tests that need the QEMU machine (MMU, devices); always kernel-mode=on.  NAME.in is the standard input of the run
 #                          (the console), NAME.qargs extra qemu arguments.
-# NAME.S is run through the C preprocessor with build/pdp64-consts.h first (tools/pp-asm.sh).  qemu/build.sh builds the emulator; PDP64_QEMU overrides its path.
+# PDP64_ONLY="name name" runs just those tests.  NAME.S is run through the C preprocessor with build/pdp64-consts.h first (tools/pp-asm.sh).  qemu/build.sh builds the emulator; PDP64_QEMU overrides its path.
 set -u
 cd "$(dirname "$0")/.."
 Q=${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64}
@@ -16,6 +16,7 @@ B=${BUILD:-build}; fail=0; n=0; skipped=0
 for s in tests/sim/*.s tests/sim/*.S tests/qemu/*.s tests/qemu/*.S; do
 	[ -f "$s" ] || continue
 	dir=$(dirname "$s"); t=$(basename "$s"); t=${t%.*}; src=$s
+	case "${PDP64_ONLY:-$t}" in *"$t"*) ;; *) continue;; esac
 	machine=pdp64-virt; serial=none
 	case "$dir" in *qemu) machine=pdp64-virt,kernel-mode=on; serial=stdio;; esac
 	if [ -f "$dir/$t.flags" ]; then
@@ -30,7 +31,7 @@ for s in tests/sim/*.s tests/sim/*.S tests/qemu/*.s tests/qemu/*.S; do
 	if ! "$B/ld64" -o "$B/qemu_$t.x" "$B/qemu_$t.o" 2>> "$B/qemu_$t.err"; then echo "FAIL $t: link: $(head -1 "$B/qemu_$t.err")"; fail=$((fail+1)); continue; fi
 	input=/dev/null; [ -f "$dir/$t.in" ] && input="$dir/$t.in"
 	extra=; [ -f "$dir/$t.qargs" ] && extra=$(cat "$dir/$t.qargs")
-	timeout 60 "$Q" -M "$machine" -display none -monitor none -serial "$serial" -nodefaults $extra -kernel "$B/qemu_$t.x" < "$input" > "$B/qemu_$t.stdout" 2> "$B/qemu_$t.stderr"
+	timeout 30 "$Q" -M "$machine" -display none -monitor none -serial "$serial" -nodefaults $extra -kernel "$B/qemu_$t.x" < "$input" > "$B/qemu_$t.stdout" 2> "$B/qemu_$t.stderr"
 	rc=$?
 	want=0; [ -f "$dir/$t.exit" ] && want=$(cat "$dir/$t.exit")
 	ok=1

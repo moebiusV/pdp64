@@ -103,9 +103,10 @@ timer-ctl = "enable"@0
 
 timer-clock = "hz"@10000000
 
-; The console, in the spirit of the KL11: four 64-bit registers.  RXDB reads the received byte (and clears RXCS READY), TXDB takes the byte to send (and clears
-; TXCS READY until it has gone).  READY is bit 7 and IE (interrupt enable) bit 6 of both status registers, as in the KL11.  Input interrupts with vector
-; vector console-in while RXCS READY and IE; output with vector console-out while TXCS READY and IE; both at level irq-level console.
+; The console, in the spirit of the KL11: four 64-bit registers.  RXDB reads the received byte (and clears RXCS READY), TXDB takes the byte to send.  Output is
+; instantaneous in the virt machine, so TXCS READY is always 1.  READY is bit 7 and IE (interrupt enable) bit 6 of both status registers, as in the KL11.  Input
+; interrupts with vector vector console-in while RXCS READY and IE; output with vector console-out while TXCS READY and IE (that is, while IE); both at level
+; irq-level console.  The registers are read and written with 64-bit (or smaller) accesses at their offsets.
 console-reg = "rxcs"@0
             | "rxdb"@8
             | "txcs"@16
