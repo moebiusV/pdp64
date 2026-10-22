@@ -1,8 +1,6 @@
 # pdp64: everything decided or changed since ISA revision 20 arrived
 
-> Repositories referenced: [moebiusV/pdp64](https://github.com/moebiusV/pdp64) (this one), [moebiusV/hbnf](https://github.com/moebiusV/hbnf) (the grammar compiler),
-> [moebiusV/pcc](https://github.com/moebiusV/pcc) (the C compiler; upstream [PortableCC/pcc](https://github.com/PortableCC/pcc)),
-> [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) (corpus tooling and C tests), [QEMU](https://gitlab.com/qemu-project/qemu).
+[← pdp64 index](../README.md)
 
 On 2026-10-21 a tar, `pdp64-docs-2026-10-21.tar`, appeared in `~/claude/pcc`: three documents about a 64-bit PDP-11 (`11-64W-isa-r20.md`, the
 FPGA plan, the LB64 accelerator note) and a README. Revision 20 of the ISA was a paper design, "nothing here has been synthesized, measured or taped
@@ -49,7 +47,7 @@ The repository is `~/claude/pdp64` (git, `main`). The commit history is listed i
 ## 2. Design errors found in ISA r20
 
 Writing the encoding down as something a machine could check turned up the following. Each entry: what the document says, what is wrong, what we do.
-`errata.md` has the same list in the order it was found; the numbers in parentheses refer to it.
+[`errata.md`](errata.md) has the same list in the order it was found; the numbers in parentheses refer to it.
 
 ### 2.1 Outright errors
 
@@ -231,7 +229,7 @@ Assigned so related operations share a range; the table is `spec/pdp64-mnemonics
 
 ## 5. The ABI
 
-The ISA (§19.5) leaves the ABI open; a compiler cannot emit a call without one. **Version 1, accepted by the user** (`docs/abi.md`):
+The ISA (§19.5) leaves the ABI open; a compiler cannot emit a call without one. **Version 1, accepted by the user** ([`docs/abi.md`](abi.md)):
 
 | Decision | Choice | Alternatives considered | Why |
 |---|---|---|---|
@@ -255,7 +253,7 @@ The only point the user questioned was the stack alignment ("why not 2 bytes ins
 
 ## 6. The assembly language
 
-Documented in `docs/asm-syntax.md`; grammar `spec/pdp64-asm.hbnf`. The design instruction was: *use the V7 assembler's layout, but don't copy its warts, and
+Documented in [`docs/asm-syntax.md`](asm-syntax.md); grammar `spec/pdp64-asm.hbnf`. The design instruction was: *use the V7 assembler's layout, but don't copy its warts, and
 make numbers, characters and strings C's.* The decisions, in the order the user gave them:
 
 * **Statements and comments.** One statement per line. `;` starts a comment (the ISA document's own examples use `;`). V7's `/` comment and `;`
@@ -490,8 +488,9 @@ compiler does not use the instructions.
 **Auto-increment (`(rN)+`, `-(rN)`).** Of 10,547 `lea n(rX),rX` in the corpus only 437 have a dereference through the same register next to them (about 0.1%);
 the compiler does not emit the modes. They remain in the ISA for hand-written code and for the string and block idioms.
 
-**Half precision (`binary16`).** Proposed, not decided. Conversion only (to and from binary32 and binary64) is about six words and no new operations,
-estimated at 500-1,000 LUTs on the FPGA plan; full arithmetic is estimated at 2,000-3,500 LUTs. The spelling is reserved (`fadd16`, errata 24).
+**Half precision (`binary16`).** Added at the user's request (errata 27): seventeen `FESC` words, `fadd16`..`fclass16` and six conversions (`fcvtsh`, `fcvths`,
+`fcvtdh`, `fcvthd`, `fcvthl`, `fcvtlh`). Estimates made before the decision, unmeasured: conversions only about 500-1,000 LUTs on the FPGA plan, full arithmetic
+2,000-3,500 LUTs. Open: half `fmin`/`fmax`/`frint*`, `fneg16`/`fabs16`, int64 conversions, bfloat16.
 
 **Directed rounding.** IEEE 754 requires rounding toward +infinity, -infinity and zero for arithmetic as well as to nearest. Three ways to provide it are open: a
 static two-bit field in the instruction, a mode register, or more opcodes. The cost of each is in section 12; none is chosen.
@@ -501,29 +500,3 @@ static two-bit field in the instruction, a mode register, or more opcodes. The c
 average. Costs the ISA could remove: about 35,000 six-byte cross-section `call` and `lea` (linker relaxation or a short relocation); memory operands that are
 quad only, so `movl` is 10% of all instructions; no 32-bit arithmetic, so a wrap-correct `int` costs 4.1% of instructions and 1.9% of bytes (`-mnowrap`, which
 assumes no signed overflow, gives 0.99 and 0.96 times amd64); a short `d(sp)` form (not measured).
-
-## SEE ALSO
-
-**Documents** (in `docs/`)
-: [`11-64W/11-64W-isa-r20.md`](11-64W/11-64W-isa-r20.md) (the ISA, revision 20),
-  [`11-64W-fpga-plan.md`](11-64W/11-64W-fpga-plan.md),
-  [`11-64W-lb64-accelerator.md`](11-64W/11-64W-lb64-accelerator.md),
-  [`CHANGES-SINCE-R20.md`](CHANGES-SINCE-R20.md) (every change and decision since, with reasons),
-  [`errata.md`](errata.md) (decisions 1-26), [`abi.md`](abi.md) (calling convention),
-  [`asm-syntax.md`](asm-syntax.md) (assembly language), [`sim64.md`](sim64.md) (emulator),
-  [`README.md`](../README.md) (index).
-
-**Grammars, the single source of truth** (in `spec/`)
-: [`pdp64-mnemonics.hbnf`](../spec/pdp64-mnemonics.hbnf) (every number), [`pdp64.hbnf.in`](../spec/pdp64.hbnf.in) (bit formats),
-  [`pdp64-asm.hbnf`](../spec/pdp64-asm.hbnf) (assembly syntax), [`elf.hbnf`](../spec/elf.hbnf) (object records).
-
-**Programs**
-: [`as64/`](../as64/) assembler, [`ld64/`](../ld64/) linker, [`sim64/`](../sim64/) emulator,
-  [`tools/`](../tools/) generator, builds and checks (`check-all.sh`), [`tests/`](../tests/).
-
-**Repositories**
-: [moebiusV/pdp64](https://github.com/moebiusV/pdp64) (this repository),
-  [moebiusV/hbnf](https://github.com/moebiusV/hbnf) (grammar compiler),
-  [moebiusV/pcc](https://github.com/moebiusV/pcc) (C compiler with the `pdp64` back end; upstream [PortableCC/pcc](https://github.com/PortableCC/pcc)),
-  [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) (corpus tooling, C tests),
-  [QEMU](https://gitlab.com/qemu-project/qemu) ([qemu.org](https://www.qemu.org/)).

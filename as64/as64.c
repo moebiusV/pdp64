@@ -745,15 +745,18 @@ static int build(const struct stmt *st, int64_t addr, struct ins *in)
 		int unary = (mn == MN_FESC_FSQRT || mn == MN_FESC_FSQRT32 || mn == MN_FESC_FNEG || mn == MN_FESC_FABS || mn == MN_FESC_FCLASS ||
 		    mn == MN_FESC_FCLASS32 || mn == MN_FESC_FRINT || mn == MN_FESC_FRINTZ || mn == MN_FESC_FRINTM || mn == MN_FESC_FRINTP ||
 		    mn == MN_FESC_FRINTA || mn == MN_FESC_FCVTDQ || mn == MN_FESC_FCVTQD || mn == MN_FESC_FCVTDS || mn == MN_FESC_FCVTSD ||
-		    mn == MN_FESC_FCVTSL || mn == MN_FESC_FCVTLS || mn == MN_FESC_FCVTDQU || mn == MN_FESC_FCVTQUD || mn == MN_FESC_FSFLAGS);
+		    mn == MN_FESC_FCVTSL || mn == MN_FESC_FCVTLS || mn == MN_FESC_FCVTDQU || mn == MN_FESC_FCVTQUD || mn == MN_FESC_FSFLAGS ||
+		    mn == MN_FESC_FSQRT16 || mn == MN_FESC_FCLASS16 || mn == MN_FESC_FCVTSH || mn == MN_FESC_FCVTHS || mn == MN_FESC_FCVTDH ||
+		    mn == MN_FESC_FCVTHD || mn == MN_FESC_FCVTHL || mn == MN_FESC_FCVTLH);
 		int binary = (mn == MN_FESC_FDIV || mn == MN_FESC_FADD32 || mn == MN_FESC_FSUB32 || mn == MN_FESC_FMUL32 || mn == MN_FESC_FDIV32 ||
-		    mn == MN_FESC_FCMP32);
+		    mn == MN_FESC_FCMP32 ||
+		    mn == MN_FESC_FADD16 || mn == MN_FESC_FSUB16 || mn == MN_FESC_FMUL16 || mn == MN_FESC_FDIV16 || mn == MN_FESC_FCMP16);
 		int three = (mn == MN_FESC_FCOPYSIGN || mn == MN_FESC_FMIN || mn == MN_FESC_FMAX);
 		int want = unary || binary ? 2 : three ? 3 : 4;		/* the rest is the fused multiply-add family */
 		for (k = 0; k < n; k++) if (o[k].kind != OK_REG) isreg = 0;
 		if (n != want || !isreg) { err(st->line, "this instruction takes %d registers", want); return -1; }
 		f->opc = OPGROUP_FESC; f->sub = mn; f->shape = FS_REGESC; in->minlen = 1;
-		if (mn == MN_FESC_FCMP32) { f->reg = o[0].reg; f->low = o[1].reg; break; }		/* register first, as cmp */
+		if (mn == MN_FESC_FCMP32 || mn == MN_FESC_FCMP16) { f->reg = o[0].reg; f->low = o[1].reg; break; }		/* register first, as cmp */
 		f->reg = o[n - 1].reg; f->low = o[0].reg;
 		if (want >= 3) f->t = o[1].reg;
 		if (want == 4) f->x = o[2].reg;

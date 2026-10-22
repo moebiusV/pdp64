@@ -173,6 +173,23 @@ mn-fesc = "fdiv"@0b00000000
         | "fcvtdqu"@0b00111110
         | "fcvtqud"@0b00111111
         | "fsflags"@0b01000000
+        | "fadd16"@0b01010000
+        | "fsub16"@0b01010001
+        | "fmul16"@0b01010010
+        | "fdiv16"@0b01010011
+        | "fsqrt16"@0b01010100
+        | "fcmp16"@0b01010101
+        | "fmadd16"@0b01011000
+        | "fmsub16"@0b01011001
+        | "fnmadd16"@0b01011010
+        | "fnmsub16"@0b01011011
+        | "fclass16"@0b01011100
+        | "fcvtsh"@0b01100000
+        | "fcvths"@0b01100001
+        | "fcvtdh"@0b01100010
+        | "fcvthd"@0b01100011
+        | "fcvthl"@0b01100100
+        | "fcvtlh"@0b01100101
         | "fdivd"@0x100
         | "fsqrtd"@0x101
         | "fadds"@0x108

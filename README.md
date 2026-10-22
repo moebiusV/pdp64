@@ -4,22 +4,23 @@
 *An update and refresh of the PDP-11 instruction set and architecture for the modern world.*
 
 A 64-bit, little-endian, LP64 successor to the PDP-11: sixteen general registers, variable-length instructions of 2, 4, 6 or 8 bytes in 16-bit parcels, the
-PDP-11's orthogonal addressing modes, and a modern base (bit counts, 64-bit divide, IEEE 754 binary64 and binary32 with exception flags, block operations,
+PDP-11's orthogonal addressing modes, and a modern base (bit counts, 64-bit divide, IEEE 754 binary64, binary32 and binary16 with exception flags, block operations,
 atomics, UTF-8 instructions). The toolchain here is written from one source of truth, a set of [hbnf](https://github.com/moebiusV/hbnf) grammars, so that the assembler, linker, emulator, compiler
 back end and [QEMU](https://www.qemu.org/) target cannot drift apart.
 
 ## What to read, in order
 
-1. **The architecture as it arrived (the baseline): [`docs/11-64W/`](docs/11-64W/).** The documents are kept exactly as received, under their working name
-   **11/64W**; the machine is **pdp64**. [`11-64W-isa-r20.md`](docs/11-64W/11-64W-isa-r20.md) is the ISA (revision 20),
-   [`11-64W-fpga-plan.md`](docs/11-64W/11-64W-fpga-plan.md) the implementation plan,
-   [`11-64W-lb64-accelerator.md`](docs/11-64W/11-64W-lb64-accelerator.md) the sub-1-bit inference accelerator; [its README](docs/11-64W/README.md) says where to start.
-2. **Everything decided or changed since, with the reasons: [`docs/CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md).** Read this before the ISA; where the two
-   disagree, this document wins. It holds, in order: where things stand (§1); the design errors found in the ISA (§2); instructions dropped, moved, added or
+1. **The architecture, updated: [`docs/`](docs/).** The three founding documents with every change and decision since revision 20 applied in
+   place and the machine renamed pdp64: [`pdp64-isa.md`](docs/pdp64-isa.md) is the ISA (revision 20, updated 2026-10-21),
+   [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md) the implementation plan,
+   [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md) the sub-1-bit inference accelerator. Each ends with its list of changes since r20.
+   The documents **as they arrived**, under the working name 11/64W, are kept unedited in [`docs/orig/`](docs/orig/) as the baseline.
+2. **Everything decided or changed since, with the reasons: [`docs/CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md).** It is the reasoned history of the updates above and the
+   record against the baseline; where it disagrees with the original r20 documents, it wins. It holds, in order: where things stand (§1); the design errors found in the ISA (§2); instructions dropped, moved, added or
    changed (§3); what the ISA left unspecified and is now specified (§4); the ABI (§5); the assembly language (§6); the object format (§7); why a grammar is the
    source (§8); errors in our own work, found and fixed (§9); changes to hbnf (§10); the environment (§11); what is still open (§12); an appendix with the
    opcode map (§13); the measurements behind the proposals (§14).
-3. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-26, each with the problem, the choice and the reason.
+3. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-27, each with the problem, the choice and the reason.
 4. [`docs/abi.md`](docs/abi.md): the calling convention (registers, stack, structures, variadic calls). [`docs/asm-syntax.md`](docs/asm-syntax.md): the assembly
    language. [`docs/sim64.md`](docs/sim64.md): the emulator and its system-call stand-in.
 
@@ -44,11 +45,12 @@ back end and [QEMU](https://www.qemu.org/) target cannot drift apart.
 | Floating-point spelling: `fadd` is binary64, `fadd32` binary32, `fadd16` reserved; old spellings stay as aliases | errata 24 |
 | `set cc, rd` added; a conditional select is on hold pending evidence | errata 25; CHANGES §14 |
 | NaN results are the canonical quiet NaN | errata 26 |
+| Half precision (binary16) added: 17 `FESC` words, arithmetic and conversions, correctly rounded, with flags | errata 27; CHANGES §14 |
 | ABI v1: LP64, signed `char`, `long double` = double, arguments in `r0`-`r5` (floats too), 8-byte stack alignment, no red zone, no leading underscore; variadic calls put every argument in slots | CHANGES §5; abi.md |
 | Assembly syntax: C-style numbers, characters and strings; `;` comments; names follow ELF (UTF-8, quoted names, digit-led names); lowercase mnemonics; nothing copied from V7 `as` for its own sake | CHANGES §6; asm-syntax.md |
 | An instruction at an odd address is an assembler error (the compiler writes `.even`) | CHANGES, "Toolchain status" |
 | The grammar is the single source of truth: numbers live once, in enum rules; the generator writes the rest | CHANGES §8 |
-| Open: directed rounding for IEEE arithmetic, half precision, a conditional select, the integer width spelling (`movq` against `mov:l`), linker relaxation, a short `d(sp)` form | CHANGES §12, §14 |
+| Open: directed rounding for IEEE arithmetic, half-precision extras (min/max, rounding, int64 conversions, bfloat16), a conditional select, the integer width spelling (`movq` against `mov:l`), linker relaxation, a short `d(sp)` form | CHANGES §12, §14 |
 
 ## The toolchain
 
@@ -91,13 +93,11 @@ instructions and 0.97 times its bytes; 486 of 486 C test runs pass. See CHANGES 
 ## SEE ALSO
 
 **Documents** (in `docs/`)
-: [`11-64W/11-64W-isa-r20.md`](docs/11-64W/11-64W-isa-r20.md) (the ISA, revision 20),
-  [`11-64W-fpga-plan.md`](docs/11-64W/11-64W-fpga-plan.md),
-  [`11-64W-lb64-accelerator.md`](docs/11-64W/11-64W-lb64-accelerator.md),
-  [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change and decision since, with reasons),
-  [`errata.md`](docs/errata.md) (decisions 1-26), [`abi.md`](docs/abi.md) (calling convention),
-  [`asm-syntax.md`](docs/asm-syntax.md) (assembly language), [`sim64.md`](docs/sim64.md) (emulator),
-  [`README.md`](README.md) (index).
+: Updated architecture: [`pdp64-isa.md`](docs/pdp64-isa.md) (the ISA), [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md),
+  [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md);
+  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-27);
+  conventions: [`abi.md`](docs/abi.md) (calling convention), [`asm-syntax.md`](docs/asm-syntax.md) (assembly language), [`sim64.md`](docs/sim64.md) (emulator);
+  baseline as received (working name 11/64W): [`orig/`](docs/orig/); index: [`README.md`](README.md).
 
 **Grammars, the single source of truth** (in `spec/`)
 : [`pdp64-mnemonics.hbnf`](spec/pdp64-mnemonics.hbnf) (every number), [`pdp64.hbnf.in`](spec/pdp64.hbnf.in) (bit formats),
