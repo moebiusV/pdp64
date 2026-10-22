@@ -14,7 +14,8 @@
 * [How the PDP-11 and the VAX did it](#how-the-pdp-11-and-the-vax-did-it)
 * [Is UEFI worth it?](#is-uefi-worth-it)
 * [What a BIOS is for, and whether the pdp64 needs one](#what-a-bios-is-for-and-whether-the-pdp64-needs-one)
-* [Decisions B1 to B5](#decisions-b1-to-b5)
+* [Decisions B1 to B5](#decisions-b1-to-b5-b6-and-b7-follow-the-disk-layout-section)
+* [Disk layout and partitions](#disk-layout-and-partitions)
 * [A concrete proposal: the pdp64 boot sequence](#a-concrete-proposal-the-pdp64-boot-sequence)
 * [Recovery: when boot fails](#recovery-when-boot-fails)
 * [What to verify next](#what-to-verify-next)
@@ -108,7 +109,7 @@ Seven jobs, in order. Different systems put them in different places, and that i
 
 So **the pdp64's "BIOS" is the controller's boot ROM and its monitor, a few hundred bytes to a few kilobytes, with no resident services and nothing to call after boot.** That is the PDP-11 and VAX arrangement (ROM bootstrap plus console), not the PC's. The cost is that the second-stage loader must carry the drivers for its boot devices; the benefit is that there is no firmware API to specify, no compatibility layer, no system management code, and no failure modes beyond "the first block did not load". Under the principles that is the smaller (1), simpler (2), cheaper (3) choice.
 
-## Decisions B1 to B5
+## Decisions B1 to B5 (B6 and B7 follow the disk-layout section)
 
 ### B1. The first code: where the first instruction comes from
 
@@ -197,6 +198,42 @@ So **the pdp64's "BIOS" is the controller's boot ROM and its monitor, a few hund
 | 5 | **Start with option 1 and add a UEFI shim later if asked** | no cost now; the door stays open | a later shim is a real project |
 
 **Recommendation.** Option 1, with the remark of option 5: keep the hand-off block simple enough that someone who wants a UEFI shim can write one. UEFI is not worth it for the pdp64 itself (see the UEFI section for the reasons).
+
+## Disk layout and partitions
+
+**The need.** The boot code and the kernel must know where on a disk the boot program, the root file system and the swap space are. That is the job of a **partition scheme** (a table that divides a disk into named regions) and of the program that reads it.
+
+**How Unix did it, from the sources on disk.**
+
+* **V7 (1979):** no table on the disk at all. The partitions are an array compiled into each disk driver: `hp_sizes[8]` in `usr/sys/dev/hp.c` holds, for each of eight partitions, a size in blocks and a starting cylinder, with a comment per entry ("cyl 44 thru 429", "cyl 44 thru 410 (rp04, rp05)") *(read in source)*. To change the layout you edit the driver and recompile the kernel, exactly as the author remembered.
+* **4.3BSD (1986):** the same arrangement (the 4.3BSD tree has no disk-label header; read in source).
+* **4.3BSD-Tahoe (1988):** the **disk label** arrives. `sys/h/disklabel.h` (version 7.10, 27 June 1988, copyright 1987 and 1988) says each disk "has a label which includes information about the hardware disk geometry, filesystem partitions, and drive specific information. The label is in block 0 or 1, possibly offset from the beginning to leave room for a bootstrap" *(read in source)*. It has a magic number, `0x82564557`, and up to eight partitions. The idea of a label written on the disk itself already existed elsewhere (Sun's disks carried one) *(not confirmed in the sources read)*; the BSD version is the one OpenBSD inherited.
+* **OpenBSD today:** the same label, with the **same magic number** `0x82564557`, extended to 16 partitions per disk (`MAXPARTITIONS16`) and to sector counts beyond 32 bits (fields such as `d_secperunith` hold the high part) *(read in source: `sys/sys/disklabel.h`)*. So OpenBSD's own scheme is a direct descendant of the 1988 BSD label, not of V7's compiled-in table.
+
+**Does it vary across architectures?** The *label* barely does; the *outer wrapper* does.
+
+* **Where the BSD label sits.** In the OpenBSD tree, seven architecture headers put it at sector 1 (offset 0): amd64, i386, arm, arm64, riscv64, hppa and one more; Alpha and SPARC64 put it at sector 0 (Alpha at offset 64) *(measured and read in `sys/arch/*/include/disklabel.h`)*. Sector 1 is chosen so that sector 0 stays free for a boot block, which is what the 1988 header's comment says.
+* **What surrounds it.** The PC uses the **MBR** (a table of four partitions in sector 0, with 446 bytes of boot code, from the 1980s) or **GPT**; Sun used its own label in sector 0, old Macs an Apple partition map, the Amiga its rigid-disk block, IBM mainframes a volume table of contents, and Alpha's firmware reads a BSD label *(none of these confirmed in the sources read)*. A BSD system on a PC puts its label **inside** one MBR or GPT partition; on a SPARC or Alpha it uses the whole disk. The OpenBSD kernel reads GPT and MBR (`spoofgpt` and the `gpt_*` routines in `kern/subr_disk.c`, with the GPT type identifiers for an EFI system partition and an OpenBSD partition in `sys/disklabel.h`) and builds the BSD view from them *(read in source)*.
+
+**How UEFI and GPT fit.** **GPT** (GUID partition table) is part of the UEFI specification: a header in the second block, an array of partition entries (each with a type GUID, start, end, name), a checksum, and a backup copy at the end of the disk, preceded by a "protective MBR" in block 0 so that old tools see the disk as used *(not confirmed in the sources read)*. UEFI firmware itself understands GPT and FAT: it finds the **EFI system partition** (a FAT file system with a known type GUID), runs a loader file from it, and that loader (OpenBSD's `efiboot`) then reads the BSD label inside the OpenBSD partition to find the root file system. So under UEFI the firmware does the partition parsing and the boot sector no longer exists; under a BIOS the boot sector code in the MBR does it, in 446 bytes, which is why PC boot sectors are so cramped.
+
+**Is it a worry for the BIOS or the boot sector?** Only minimally, if the design is right. The first stage needs to find *one thing*, the second-stage loader, and nothing else. If block 0 carries a short **block list** (start block, count, load address), it never parses a partition table (decision B1 and the proposal below). The second stage, written in C, is the program that reads the label, finds the root partition and the kernel file. That is how V7's second stage and OpenBSD's `biosboot` and `boot` split the work.
+
+**Decision B6: the partition scheme**
+
+| # | Option | Gains | Costs |
+|---|---|---|---|
+| 1 | **The BSD disk label only, at block 1 of the disk (block 0 is the boot block); no outer table** (the arrangement of the 1988 header and of OpenBSD on non-PC machines) | the OpenBSD kernel and tools already support it (`disklabel`, `newfs`, `installboot`); 16 partitions and 64-bit sizes; the port adds one small header (`LABELSECTOR` 1, `LABELOFFSET` 0); nothing for the ROM to parse | other operating systems and partitioning tools do not recognise the disk, which matters only for dual-boot or moving disks between machines |
+| 2 | **GPT with a protective MBR, and an OpenBSD partition holding the BSD label** (what OpenBSD does on UEFI systems) | other tools recognise it; large disks; checksummed and replicated | block 0 becomes the protective MBR (our first-stage code must live in its 446 boot-code bytes); a GPT parser in the second stage and the kernel (OpenBSD has one); more failure cases (bad checksum, backup mismatch) |
+| 3 | **MBR as the outer table** | tiny and universal | four partitions, 32-bit sizes (about 2 TB with 512-byte sectors), a 1980s format |
+| 4 | **A new minimal partition table defined in the project's grammar** (a magic number, 16 entries of type, 64-bit start and size, a checksum) | exactly what the project needs; generated headers | new tools and new kernel code, with no existing support |
+| 5 | **A table compiled into the driver, V7 style** | no parsing code at all | repartitioning means recompiling; unusable for any normal installation |
+
+**What current systems do:** PCs use MBR or GPT; UEFI systems require GPT and FAT on the system partition; arm64 and RISC-V servers use GPT with UEFI; the BSDs wrap their label inside the platform's partition; Linux has no scheme of its own and reads whichever the platform uses *(not confirmed in the sources read)*. **What the PDP-11 and VAX did:** V7's compiled-in table on the PDP-11; 4.3BSD's compiled-in table on the VAX; the label from 1988 on.
+
+**Recommendation.** **Option 1**, with option 2 as an optional wrapper to be added only if someone wants the disk to be recognised by other systems. Under the principles: it reuses code OpenBSD already has (1: less new code), the kernel and the tools already handle it, so there is no new partition-table code to get wrong (2: less recovery code), and the ROM and block 0 need no parser (3: fewer gates). It also keeps block 0 entirely ours, which option 2 would not (the protective MBR). Cost to build: `sys/arch/pdp64/include/disklabel.h` (about a dozen lines), an `installboot` that writes block 0 and the block list, and the second stage reading the label.
+
+**Decision B7: the boot software is open source (the author's requirement).** The author has said that the bootstrap, loader and the "BIOS" are open source and part of the specification: the boot ROM and its monitor, the first-block program, the second-stage loader and any boot tools (installer, `installboot`) are published with the project and are reviewed and changed like the rest. This is recorded as errata 47. The licence is not chosen here; the BSD-style licence of OpenBSD's own boot code (the headers in `sys/arch/*/stand` are BSD-licensed) is the natural fit *(not decided)*. The consequence for the design is good: no closed firmware blob sits at the bottom of the trust chain, and every stage can be rebuilt from source by the project's own compiler.
 
 ## A concrete proposal: the pdp64 boot sequence
 
