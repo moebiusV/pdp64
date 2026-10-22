@@ -454,16 +454,16 @@ Stated in revision 16, having been absent from every prior revision — an omiss
 
 | Operation | `C` | `N`, `Z` | `V` |
 |---|---|---|---|
-| `SHL`, `ASL` | last bit shifted out of bit 63 | from the result | cleared |
+| `SHL` | last bit shifted out of bit 63 | from the result | cleared |
+| `ASL` | last bit shifted out of bit 63 | from the result | `N` xor `C` (the PDP-11 rule: set if the sign changed) |
 | `SHR`, `SAR`, `ASR` | last bit shifted out of bit 0 | from the result | cleared |
-| `ROR`, `RORI` | bit rotated into bit 63 | from the result | cleared |
-| `DSHR` | **unchanged** | from the result | cleared |
+| `ROR`, `RORI`, `RORI32`, `DSHR` | **unchanged** | **unchanged** | **unchanged** (no flags are written) |
 
 Three rules behind that table:
 
-- **A shift count of zero changes no flag**, including `C`. This is the rule x86 gets wrong — its shifts leave flags undefined for a zero count, which is a documented hazard for anyone writing a variable shift. Here a zero count is a no-op in every respect.
+- **Shifts write the same flags for every count** (errata 39). A count of zero gives `N` and `Z` from the unchanged operand, `V` = 0 (for `ASL`, `N` xor `C` with `C` = 0) and `C` = 0. This is not x86's rule, where a zero count leaves the flags undefined or unchanged: a flag write that depends on the data is a problem for any implementation that renames the flags, and a defined, uniform write is not.
 - **A count of 64 or more** shifts the value entirely away: `SHL`/`SHR` give zero, `SAR` gives the sign, and `C` takes the last bit that left. The count is taken modulo nothing — it is treated as the unsigned value it is, so there is no surprise at exactly 64 the way there is on machines that mask the count to six bits. `ROR` is the exception and does take its count modulo 64, because a rotate by 64 is the identity by definition.
-- **No rotate is through carry.** `ROR` is a plain 64-bit rotate; `C` receives a copy of the bit that wrapped, which is informational rather than part of the rotation. Multi-precision shifting uses `DSHR` (§4.6.4), not a carry chain, which is why `DSHR` leaves `C` alone — a funnel shift in a loop must not disturb a carry the surrounding code is maintaining.
+- **No rotate is through carry, and rotates write no flags** (the author's decision, errata 39; the earlier text had `C` receive the wrapped bit, which no code reads). A rotate is a plain 64-bit rotate. Multi-precision shifting uses `DSHR` (§4.6.4), not a carry chain, and `DSHR` leaves every flag alone — a funnel shift in a loop must not disturb a carry the surrounding code is maintaining. Software that wants the wrapped bit tests it with a shift.
 
 ### 4.3 How the space is allocated
 
