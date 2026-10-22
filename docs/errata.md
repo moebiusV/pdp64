@@ -86,3 +86,7 @@ Items marked **DECISION** are choices the document left open; change them in the
     sub-opcode (`0x20`); the condition is the `x` field of parcel 1, numbered like the low nibble of the branch opcodes (`al` 0, `ne` 1, `eq` 2, `pl` 3, `mi` 4,
     `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14; the drift test checks that numbering against the branches). Flags
     are not changed. The condition words are reserved only in that position: a label may still be called `eq` or `lt`.
+26. **NaN results are canonical (decided in `sim64`).** The ISA is silent on the bits of a NaN that an operation creates. Every arithmetic or conversion
+    result that is a NaN is the canonical quiet NaN (`0x7FF8000000000000`, binary32 `0x7FC00000`), whatever the operands carried: no payload propagation
+    (the RISC-V rule). `FNEG`, `FABS` and `FCOPYSIGN` work on the bits and do not canonicalize. Without the rule the result would depend on the host that ran
+    the emulator (x86 makes a negative NaN for 0/0). Hardware must do the same for results to match `sim64`.

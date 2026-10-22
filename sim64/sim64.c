@@ -221,9 +221,10 @@ static int cond(int c)
 
 static int is_snan(uint64_t v) { return (v >> 52 & 0x7ff) == 0x7ff && (v & 0xfffffffffffffULL) && !(v >> 51 & 1); }
 static double asd(uint64_t v) { double d; memcpy(&d, &v, 8); return d; }
-static uint64_t fromd(double d) { uint64_t v; memcpy(&v, &d, 8); return v; }
+/* a NaN result is always the canonical quiet NaN, whatever the host produced and whatever the operands carried (errata 26) */
+static uint64_t fromd(double d) { uint64_t v; if (isnan(d)) return 0x7ff8000000000000ULL; memcpy(&v, &d, 8); return v; }
 static float ass(uint64_t v) { uint32_t w = (uint32_t)v; float x; memcpy(&x, &w, 4); return x; }
-static uint64_t froms(float x) { uint32_t w; memcpy(&w, &x, 4); return (uint64_t)sext(w, 32); }
+static uint64_t froms(float x) { uint32_t w; if (isnan(x)) return 0x7fc00000; memcpy(&w, &x, 4); return (uint64_t)sext(w, 32); }
 static void fp_begin(void) { feclearexcept(FE_ALL_EXCEPT); }
 static void fp_end(void)
 {
