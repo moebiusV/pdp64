@@ -11,6 +11,7 @@ tools/check-ld64.sh
 tools/check-sim64.sh
 tools/check-p2.sh
 tools/check-p2.sh --mutate
+tools/check-flaginv.sh | tail -n 1
 if [ -x "${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64}" ]; then
 	tools/check-qemu.sh
 else

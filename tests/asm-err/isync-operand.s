@@ -1,0 +1,2 @@
+	.text
+	isync #1
