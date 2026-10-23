@@ -102,7 +102,7 @@
 
 ## 1.7 How the book is organised
 
-**1.7.1** Chapter 2 is the bus. Chapter 3 is graphics: the terminal, a modernised C64 with its blitter, and how it drives HDMI and the other ports. Chapter 4 is boot. Chapter 5 is the device driver model. Chapter 6 is the kernel: modes, exceptions and memory management. Chapter 7 is multiple processors. Chapter 8 is vector work, AI and array languages, done by devices. Chapter 9 is the instruction set. Chapter 10 is the path to silicon.
+**1.7.1** Chapter 2 is the bus. Chapter 3 is graphics: the terminal, based on the C64 and the Blit and modernised, and how it drives HDMI and the other ports. Chapter 4 is boot. Chapter 5 is the device driver model. Chapter 6 is the kernel: modes, exceptions and memory management. Chapter 7 is multiple processors. Chapter 8 is vector work, AI and array languages, done by devices. Chapter 9 is the instruction set. Chapter 10 is the path to silicon.
 
 **1.7.2** Each section states its aphorisms first and its commentary after; the status tag *(D)* or *(P)* marks what is decided and what is proposed.
 

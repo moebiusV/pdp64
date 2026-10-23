@@ -83,7 +83,8 @@
 | **virtio** | a standard family of virtual devices of the same ring-and-descriptor shape; the emulator's first drivers (5.5, appendix B) |
 | **NVMe, SCSI, ATA, SATA** | storage interfaces, each a command queue in memory and a doorbell, which is the same device pattern (errata 61, 5.5) |
 | **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.3) |
-| **`VIC-64X`, `SID-64X`, `BLT64`** | the video, sound and blitter devices of the graphics terminal (chapter 3) |
+| **`VIC-64X`, `SID-64X`, `BLT64`** | the video, sound and blitter devices of the graphics terminal, which is based on the Commodore 64 (video and sound chips) and the Blit terminal (framebuffer and bit-block transfer) (chapter 3) |
+| **Blit** | Rob Pike's bit-mapped windowing terminal: a framebuffer in the address space and a bit-block-transfer operation that moves rectangles of pixels; with the C64, one of the two machines the pdp64's terminal is based on (3.1) |
 | **blitter, raster operation** | a device that copies and combines rectangles of pixels; the raster operation says how source and destination combine (3.1) |
 | **BIOS, boot ROM** | the first software that runs: it brings the hardware up, finds the disk label and loads the next stage; open source (4.1, errata 47) |
 | **GPT, disk label** | the GUID partition table wrapped around the disk's own label so other systems see the disk is in use (4.3, errata 50) |
