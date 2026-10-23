@@ -448,7 +448,7 @@ def build():
     texts['09-isa.md'] = embed(texts['09-isa.md'], 'notation', D.NOTATION, after_heading=True)
     # the official entries live in the instruction chapter; the chapters that give the rationale list them and link to them
     for fn, sec, home in (('06-kernel.md', '6.7', '9.14'), ('07-smp.md', '7.12', '9.13')):
-        rows = ['**The instruction entries for this section are in chapter 9, section %s:** each entry there is complete (syntax, encoding diagram, operation, flags, exceptions, status); this chapter gives the reasons, the history and the use.' % home, '',
+        rows = ['**The instruction entries for this section are in chapter 9, section %s:** each entry there is complete (syntax, encoding diagram, operation, flags, exceptions, status); this chapter gives the reasons and the use.' % home, '',
                 '| Entry | Mnemonics |', '|---|---|']
         for e in ents:
             if HOME[e['id']] == ('09-isa.md', home):
