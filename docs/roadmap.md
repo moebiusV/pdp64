@@ -2,7 +2,7 @@
 
 [← pdp64 index](../README.md)
 
-**Status: first draft, 2026-10-22, for the author's review.** Nothing here is decided unless it says so. The goal (errata 52, stated by the author) is what the project must have **before it goes onto silicon**: an **assembler, a linker, a compiler back end (LLVM), an emulator, and a port of OpenBSD that you can ssh into**. This document says where each stands, what stands between the project and the goal, in what order to do it, and which pending decisions gate which step. Sizes marked *(measured)* are line counts in the OpenBSD tree on this machine (`sys/arch/*`, lines of `.c`, `.S`, `.h`); everything marked *(estimate)* is my judgement; facts about OpenBSD's build requirements are *(not confirmed in the sources read)*.
+**Priority (errata 54): the manual for the architecture, not only the instruction set, is the primary deliverable; the assembler, linker, compiler back ends and emulator are also important and are advanced as needed to write and check it. So design and documentation come first in the order below.** **Status: first draft, 2026-10-22, for the author's review.** Nothing here is decided unless it says so. The goal (errata 52, stated by the author) is what the project must have **before it goes onto silicon**: an **assembler, a linker, a compiler back end (LLVM), an emulator, and a port of OpenBSD that you can ssh into**. This document says where each stands, what stands between the project and the goal, in what order to do it, and which pending decisions gate which step. Sizes marked *(measured)* are line counts in the OpenBSD tree on this machine (`sys/arch/*`, lines of `.c`, `.S`, `.h`); everything marked *(estimate)* is my judgement; facts about OpenBSD's build requirements are *(not confirmed in the sources read)*.
 
 ## The finish line, stated testably
 
@@ -61,6 +61,8 @@ My earlier estimate for a first back end that compiles C correctly, with the mac
 **Order of work (proposed).** (1) The generator and the reference entries, which are mechanical and independent of everything else; (2) the cluster stories and the "whole story" prose, gathered from the existing documents and checked against the grammar; (3) the device design document (uniform layout, DMA descriptors, the personalities of the bus controller, disk, network card, USB, entropy) for the author's review, then the devices chapter; (4) the bus, boot and security chapters, assembled from `boot.md`, the bus document, `hardware-vulnerabilities.md` and `openbsd-mitigations.md` once those settle; (5) the toolchain chapter and appendices. The published form (a single book, or a directory of chapters on the project's Pages site, plus section 1 manual pages for the command-line tools as the project standard asks) is for the author to choose.
 
 ## The order of work (proposed, with a testable exit for each step)
+
+**Design and documentation come first (errata 54):** the device designs (`devices.md`), the open decisions, the boot and bus designs and the manual of the previous section are the primary work; the table below is the engineering path to the finish line, advanced as the documents need it (for example, the assembler must accept every instruction the manual shows, the simulator and QEMU must run the examples, and the LLVM back end is on the critical path to the ssh goal).
 
 | Step | Work | Exit test |
 |---|---|---|
