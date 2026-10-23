@@ -149,7 +149,7 @@ emulator's device models are generated.
 
 ### The proposal: the bus controller's eight registers
 
-One device at a fixed physical address (the QEMU virt machine already puts devices in their own 4 KB pages from `0x10000000`). Eight 64-bit registers, using the uniform layout of decision R5 (ID first):
+One device at a fixed physical address (the QEMU virt machine puts devices in their own 4 KB pages in device space, from `0x8000000000`: bit 39 of the physical address is the space bit, errata 60). Eight 64-bit registers, using the uniform layout of decision R5 (ID first):
 
 | # | Register | What it does |
 |---|---|---|
