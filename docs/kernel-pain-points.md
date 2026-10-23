@@ -1369,9 +1369,9 @@ Commits whose subject or message matches the category, per 1000 non-merge commit
 
 ### C.1 Status
 
-Fetched: the local documents listed in B.1, the old Unix sources of chapter 14 (read in place), 7 LWN pages (before the block), about 30 lore.kernel.org search-result pages, 24 list messages in full, 4 archive indexes and 12 reference pages (below). **Not yet fetched**: the rest of the mailing-list archives, the other LWN articles (blocked), the papers and talks. Items from memory are titles and authors only and are **unverified** until fetched.
+Fetched, round 1: the local documents listed in B.1, the old Unix sources of chapter 14 (read in place), 7 LWN pages (before the block), about 30 lore.kernel.org search-result pages, 24 list messages in full, 4 archive indexes and 12 reference pages (the table below). **Round 2: about 340 further pages (319 unique URLs), every one listed with its query, date, author and whether it is cited in `docs/codegen-data/kernelpain/round2-index.tsv`; counts by area are in section 14C.** **Not yet fetched** (the resume list is `docs/codegen-data/kernelpain/RESUME.md`): the rest of the mailing-list archives, the other LWN articles (blocked), the papers and talks. Items from memory are titles and authors only and are **unverified** until fetched.
 
-Reading list with status (also `docs/codegen-data/kernelpain/reading-list.tsv`). Fetched pages are saved in `~/claude/browse-output` (outside the repository).
+Reading list with status (also `docs/codegen-data/kernelpain/reading-list.tsv`; round 2 pages are in `round2-index.tsv`). Fetched pages are saved in `~/claude/browse-output` (outside the repository).
 
 | Source | Date | Status | Note |
 |---|---|---|---|
@@ -1382,15 +1382,15 @@ Reading list with status (also `docs/codegen-data/kernelpain/reading-list.tsv`).
 | [Meltdown/Spectre mitigation for 4.15 and beyond](https://lwn.net/Articles/744287/) | 2018-01-15 | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
 | [MCS locks and qspinlocks](https://lwn.net/Articles/590243/) | 2014-03-11 | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
 | [LWN Kernel index (titles only; used to choose articles)](https://lwn.net/Kernel/Index/) |  | fetched 2026-10-22 | LWN, secondary; read from the saved copy |
-| [What is RCU, Fundamentally?](https://lwn.net/Articles/262464/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
-| [Validating Memory Barriers and Atomic Instructions](https://lwn.net/Articles/470681/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
-| [Memory barriers for TSO architectures](https://lwn.net/Articles/576486/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [What is RCU, Fundamentally?](https://lwn.net/Articles/262464/) |  | fetched through an archived copy (Wayback Machine) 2026-10-23 | archived copy: https://web.archive.org/web/2024/https://lwn.net/Articles/262464/ |
+| [Validating Memory Barriers and Atomic Instructions](https://lwn.net/Articles/470681/) |  | fetched through an archived copy (Wayback Machine) 2026-10-23 | archived copy: https://web.archive.org/web/2024/https://lwn.net/Articles/470681/ |
+| [Memory barriers for TSO architectures](https://lwn.net/Articles/576486/) |  | fetched through an archived copy (Wayback Machine) 2026-10-23 | archived copy: https://web.archive.org/web/2024/https://lwn.net/Articles/576486/ |
 | [Lockless patterns: full memory barriers](https://lwn.net/Articles/847481/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
-| [Lockless patterns: relaxed access and partial memory barriers](https://lwn.net/Articles/846700/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
-| [Safer speculation-free user-space access](https://lwn.net/Articles/1042711/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
-| [The strange story of the ARM Meltdown-fix backport](https://lwn.net/Articles/749217/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
-| [The impact of page-table isolation on I/O performance](https://lwn.net/Articles/752587/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
-| [Meltdown strikes back: the L1 terminal fault vulnerability](https://lwn.net/Articles/762570/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
+| [Lockless patterns: relaxed access and partial memory barriers](https://lwn.net/Articles/846700/) |  | fetched through an archived copy (Wayback Machine) 2026-10-23 | archived copy: https://web.archive.org/web/2024/https://lwn.net/Articles/846700/ |
+| [Safer speculation-free user-space access](https://lwn.net/Articles/1042711/) |  | fetched through an archived copy (Wayback Machine) 2026-10-23 | archived copy: https://web.archive.org/web/2024/https://lwn.net/Articles/1042711/ |
+| [The strange story of the ARM Meltdown-fix backport](https://lwn.net/Articles/749217/) |  | fetched through an archived copy (Wayback Machine) 2026-10-23 | archived copy: https://web.archive.org/web/2019/https://lwn.net/Articles/749217/ |
+| [The impact of page-table isolation on I/O performance](https://lwn.net/Articles/752587/) |  | fetched through an archived copy (Wayback Machine) 2026-10-23 | archived copy: https://web.archive.org/web/2024/https://lwn.net/Articles/752587/ |
+| [Meltdown strikes back: the L1 terminal fault vulnerability](https://lwn.net/Articles/762570/) |  | fetched through an archived copy (Wayback Machine) 2026-10-23 | archived copy: https://web.archive.org/web/2024/https://lwn.net/Articles/762570/ |
 | [Fighting Spectre with cache flushes](https://lwn.net/Articles/768418/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
 | [Relief for retpoline pain](https://lwn.net/Articles/774743/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
 | [Grand Schemozzle: Spectre continues to haunt](https://lwn.net/Articles/795637/) |  | not fetched: lwn.net blocked us (spam protection); only if the author allows | find the primary lore.kernel.org thread the article describes and cite that |
