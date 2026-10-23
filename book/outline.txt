@@ -1,0 +1,44 @@
+# The pdp64 manual, in the outline language of buildabook (see ~/claude/buildabook/LANGUAGE.md).
+# Order is the order of the book. The UUIDs are names, not numbers. filemap.txt says which source file holds each entry.
+n:id00001    About this manual
+
+p:label:Part
+p:number:roman
+p:id00100    The architecture
+c:id01001    Introduction
+c:id01002    The bus
+c:id01003    Graphics: the terminal and its devices
+c:id01004    Boot, the BIOS, the disk label and the GPT
+c:id01005    The device driver model
+c:id01006    The kernel: modes, exceptions and memory management
+c:id01007    Multiple processors
+c:id01008    Vector work, AI and array languages: the device route
+c:id01009    The instruction set
+c:id01010    Conclusion: from FPGA to silicon
+
+p:id00200    The instruction dictionary
+d:id02001    The instruction dictionary
+d:id02002    Moves and address formation
+d:id02003    Integer arithmetic and logic
+d:id02004    Single-operand instructions
+d:id02005    Branches and indirect transfers
+d:id02006    Bits, fields and text
+d:id02007    Block memory operations
+d:id02008    Divide, remainder and selection
+d:id02009    Floating point
+d:id02010    Atomics
+d:id02011    System instructions
+d:id02012    The second page: one-parcel abbreviations
+d:id02013    Assembler aliases and old spellings
+d:id02014    The architectural constants
+d:id02015    The mnemonics, alphabetically
+d:id02016    The opcodes, in order
+
+p:id00300    Appendices
+a:label:Appendix
+a:number:letter
+a:id03001    Possible improvements not decided on yet
+a:id03002    Decisions pending
+a:id03003    Glossary
+a:id03004    The ABI, version 1
+a:id03005    The assembly language and the object format

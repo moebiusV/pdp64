@@ -2,6 +2,8 @@
 
 [← pdp64 index](../../README.md)
 
+**A PDF of the whole manual (the chapters, the instruction dictionary and the appendices): [`book/pdp64-manual.pdf`](../../book/pdp64-manual.pdf).**
+
 **This is the short, ordered account of the pdp64: what it is, why, and how each part works.** The other documents in this repository are the working record, with every revision, correction and decision in the order it happened. This set is the same material arranged to be read straight through, with the history and the arguments moved to commentary. Nothing in the other documents was changed or removed to make it.
 
 ## Contents
@@ -30,5 +32,7 @@
 **Each aphorism carries a status.** *(D)* means decided, with the erratum or the revision that fixed it where useful. *(P)* means a proposal that the author has not yet settled. *(S)* means a stub: a place held for material the author is to supply. An aphorism with no tag describes the architecture as it is built and tested.
 
 **Numbers.** Where a figure is measured, the text says what was measured; where it is an estimate, it says so. A claim about another machine is the author's account, checked as far as the fact-check record shows ([`../fact-check-2026-10-22.md`](../fact-check-2026-10-22.md) and the verification appendix of [`../decisions-pending.md`](../decisions-pending.md)).
+
+**The PDF.** The same text as a book, [`book/pdp64-manual.pdf`](../../book/pdp64-manual.pdf), built by `tools/mkbook.py` from the sources of this directory (Typst; see `book/README.md`).
 
 **Where the rest is.** The full instruction set text is [`../pdp64-isa.md`](../pdp64-isa.md); every decision with its reasons is [`../errata.md`](../errata.md) and [`../CHANGES-SINCE-R20.md`](../CHANGES-SINCE-R20.md); the decisions still open, with five options each, are [`../decisions-pending.md`](../decisions-pending.md).
