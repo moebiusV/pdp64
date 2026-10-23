@@ -75,6 +75,7 @@ for the important things you are running. The architecture is the processor, the
 7. **Research reports, work in progress** (marked *(WIP)*: still being written or extended, and not yet checked claim by claim):
    [`docs/kernel-asm-survey.md`](docs/kernel-asm-survey.md) *(WIP)*, what Linux, FreeBSD, NetBSD and OpenBSD write in assembly and what pdp64 can learn from it;
    [`docs/kernel-pain-points.md`](docs/kernel-pain-points.md) *(WIP)*, what hurts kernel developers in the current kernels, from the source trees and the mailing lists;
+   [`docs/architecture-recommendations.md`](docs/architecture-recommendations.md) *(proposals, first pass)*, what the pain-point research suggests changing in the instruction set, modes and devices, for the author to accept or veto;
    [`docs/hardware-vulnerabilities.md`](docs/hardware-vulnerabilities.md) *(WIP)*, the processor, memory and system flaws of the last decade that needed mitigations, and the rules that keep pdp64 from repeating them (including the evidence on constant-time modes);
    [`docs/openbsd-mitigations.md`](docs/openbsd-mitigations.md) *(WIP)*, OpenBSD's exploit mitigations and what pdp64 gives for free;
    [`docs/codegen-analysis.md`](docs/codegen-analysis.md) *(WIP)*, instruction use in compiled C (its figures predate the second page and the compiler work that followed; see its notes and `CHANGES-SINCE-R20.md` section 14).
