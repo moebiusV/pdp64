@@ -5,7 +5,7 @@
 _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
-	movq	#(MAP_CONSOLE), r13
+	movq	=MAP_CONSOLE, r13
 	lea	buf, r12
 	movq	#0, r8
 	movq	#0, r7

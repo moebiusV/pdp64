@@ -97,7 +97,7 @@ r2x:
 	movq	#0, r8
 	movq	#0, r9
 	movq	#0, r12
-	movq	#(MAP_DEV_END), sp
+	movq	=MAP_DEV_END, sp
 	lea	r3x, r4
 un:
 	pushx
@@ -109,7 +109,8 @@ r3x:
 	bne	F17	; check 17
 	cmp	r8, #(VECTOR_BUSFAULT)
 	bne	F18	; check 18
-	cmp	sp, #(MAP_DEV_END)
+	movq	=MAP_DEV_END, r2
+	cmp	sp, r2
 	bne	F19	; check 19
 	lea	stk_top, sp
 	movq	#0, r4

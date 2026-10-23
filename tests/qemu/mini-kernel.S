@@ -8,6 +8,9 @@
 #include "pdp64-consts.h"
 USER_PAGES = 16				; the user's demand-paged region: 16 pages at 0x40000000
 PERIOD = 200000				; timer ticks between interrupts (20 ms)
+DEVVA = 0xC0000000			; the kernel's window on device space: a 1 GB device-typed leaf at level-2 index 3 maps it to physical 0x8000000000
+TIMER_VA = DEVVA + MAP_TIMER - MAP_DEV
+CONSOLE_VA = DEVVA + MAP_CONSOLE - MAP_DEV
 	.text
 	.globl	_start
 _start:
@@ -20,6 +23,8 @@ _start:
 	movq	r3, 8(r2)				; l2[1] -> l1a (0x40000000: the user's region)
 	movq	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_U|1<<PTE_A|1<<PTE_D), r3
 	movq	r3, 16(r2)				; l2[2]: the user alias of the first gigabyte
+	movq	=(MAP_DEV | 1<<PTE_V | 1<<PTE_R | 1<<PTE_W | 1<<PTE_A | 1<<PTE_D | MT_DEVICE<<PTE_MT), r3
+	movq	r3, 24(r2)				; l2[3]: device space (physical bit 39 set, memory type device), kernel only
 	lea	l1a, r2
 	lea	l0a, r3
 	bis	#(1<<PTE_V), r3
@@ -33,7 +38,7 @@ _start:
 	movq	#(1<<MMUCTL_ENABLE), r1
 	mtsr	mmuctl, r1
 	; ---- the timer ----
-	movq	#(MAP_TIMER), r13
+	movq	=TIMER_VA, r13
 	movq	(r13), r2
 	add	#PERIOD, r2
 	movq	r2, TIMER_REG_COMPARE(r13)
@@ -58,7 +63,7 @@ h_write:					; write(r1 = buffer, r2 = length); the entry has set the priority t
 	pushm	#0x3E				; r1..r5
 	spl	#0
 	movq	r2, r0
-	movq	#(MAP_CONSOLE), r3
+	movq	=CONSOLE_VA, r3
 1:	cmp	r2, #0
 	beq	3f
 	movb	(r1)+, r4			; the user's byte: the kernel may read U pages
@@ -101,7 +106,7 @@ kill:	movq	#99, r0
 	halt
 h_timer:					; level 6: counts a tick and sets the next compare.  EPC and EPSW are not touched by anything that can interrupt it (it runs at priority 6).
 	pushm	#0x06				; r1, r2
-	movq	#(MAP_TIMER), r1
+	movq	=TIMER_VA, r1
 	movq	TIMER_REG_COMPARE(r1), r2
 	add	#PERIOD, r2
 	movq	r2, TIMER_REG_COMPARE(r1)

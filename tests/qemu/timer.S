@@ -5,7 +5,7 @@
 _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
-	movq	#(MAP_TIMER), r13
+	movq	=MAP_TIMER, r13
 	movq	#0, r10
 	movq	(r13), r2
 	movq	r2, r3

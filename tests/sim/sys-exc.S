@@ -196,7 +196,7 @@ resm4:
 	movq	#0, r8
 	movq	#0, r9
 	movq	#0, r12
-	movq	#(MAP_DEV_END), r3
+	movq	=MAP_DEV_END, r3
 	lea	res4, r4
 un:
 	movq	(r3), r5
@@ -208,7 +208,8 @@ res4:
 	bne	F42	; check 42
 	cmp	r8, #(VECTOR_BUSFAULT)
 	bne	F43	; check 43
-	cmp	r9, #(MAP_DEV_END)
+	movq	=MAP_DEV_END, r2
+	cmp	r9, r2
 	bne	F44	; check 44
 	movq	#0, r4
 	movq	#0, r10

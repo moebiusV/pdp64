@@ -3,7 +3,7 @@
 	.text
 	.globl	_start
 _start:
-	movq	#(MAP_CONSOLE), r13
+	movq	=MAP_CONSOLE, r13
 	lea	msg, r1
 1:	movb	(r1)+, r2
 	cmp	r2, #0
