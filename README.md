@@ -53,6 +53,8 @@ for the important things you are running. The architecture is the processor, the
 
 ## What to read, in order
 
+**Start here: [`docs/streamlined/`](docs/streamlined/00-index.md).** A short, ordered account of the whole architecture (introduction, instruction set, bus, boot, the path to silicon, and the open decisions), written as aphorisms with commentary, for a reader who wants the machine and not its revision history. The documents listed below are the full record that it is drawn from; none of them was changed to make it.
+
 1. **The architecture, updated: [`docs/`](docs/).** The three founding documents with every change and decision since revision 20 applied in
    place and the machine renamed pdp64: [`pdp64-isa.md`](docs/pdp64-isa.md) is the ISA (revision 20, updated 2026-10-21),
    [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md) the implementation plan,
