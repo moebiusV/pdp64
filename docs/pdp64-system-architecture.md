@@ -116,7 +116,7 @@ calling convention is [`abi.md`](abi.md).
 
 ## 7. Memory management
 
-*Established* (ISA §8): a three-level page table of 4 KB pages (9 + 9 + 9 + 12 bits) gives a 39-bit virtual address; the physical address is 40 bits (Q64). Large pages at level 1
+*Established* (ISA §8): a three-level page table of 4 KB pages (9 + 9 + 9 + 12 bits) gives a 39-bit virtual address; the physical address is 40 bits (Q64). **Decided (errata 60, P19):** bit 39 of the physical address is the space bit: set is device space (memory-mapped registers), clear is memory (DRAM), as on the VAX. The page-table entry's memory type must agree with it (a cached mapping of device space, or a device-typed mapping of memory, is a fault), and the bus controller refuses a device's DMA into device space. The QEMU memory map (timer, console, bus controller) moves into the upper half; that change is queued for the System v1/QEMU agent. Large pages at level 1
 (2 MB) and level 2 (1 GB). A **hardware table walker** and a TLB (the plan assumes 4-way, 64 entries). A virtual address that is not the sign-extension of bit 38 aborts with
 `ECAUSE = NONCANON` (§6.1.1). The page table entry holds: valid `V`; permissions `R`, `W`, `X`; user `U`; global `G` (ignores the ASID); accessed `A` and dirty `D`; and a 2-bit memory
 type `MT` (`00` cached, `01` uncached, `10` device strongly ordered, `11` device weakly ordered). A 16-bit `ASID` makes a context switch constant-time (one store, no flush); the `G` bit
