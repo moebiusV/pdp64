@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**A driver on the pdp64 is a short ordinary program: it maps a device's page, writes its registers (at least eight), hands the device descriptors in memory, and finds them marked done, and because the device is always the same shape the same driver skeleton serves a disk, a network card and a serial line.** This chapter is the driver writer's view of the memory-mapped registers and of DMA: what a driver sees, the uniform eight-register convention and its descriptor, the life of a driver from probe to detach, how data moves and what the driver need not do, the default devices, how errors and departures are handled, interrupts, and how this maps onto OpenBSD's driver interfaces. The bus the devices sit on is chapter 2. Tags: *(D)* decided; *(P)* proposed and not yet settled; the drivers are expected to be trivially small because a device is eight registers, which the author has settled.
+**A driver on the pdp64 is a short ordinary program: it maps a device's page, writes its registers (at least eight), hands the device descriptors in memory, and finds them marked done, and because the device is always the same shape the same driver skeleton serves a disk, a network card and a serial line.** The chapter gives the driver writer's view of the memory-mapped registers and of DMA: what a driver sees, the uniform eight-register convention and its descriptor, the life of a driver from probe to detach, how data moves and what the driver need not do, the default devices, how errors and departures are handled, interrupts, and how this maps onto OpenBSD's driver interfaces. The bus the devices sit on is chapter 2. Tags: *(D)* decided; *(P)* proposed. A driver is small because a device is eight registers.
 
 ## 5.1 What a driver sees
 
@@ -18,9 +18,9 @@
 
 ## 5.2 The device convention: eight registers (at least) and DMA
 
-**5.2.1** Each device is at least eight memory-mapped registers and moves its data by DMA. *(D, errata 29)* Eight is the minimum every device has, not a limit: a device that needs more (a controller with many queues, a framebuffer, a display's mode and palette registers) maps a larger window in its slot, the first eight registers keep the common layout, and the rest are the device's own. *(D, the author, 2026-10-22, errata 61)*
+**5.2.1** Each device is at least eight memory-mapped registers and moves its data by DMA. *(D)* Eight is the minimum every device has, not a limit: a device that needs more (a controller with many queues, a framebuffer, a display's mode and palette registers) maps a larger window in its slot, the first eight registers keep the common layout, and the rest are the device's own. *(D)*
 
-**5.2.1a** The storage interfaces are all this one pattern: SCSI, ATA, SATA and NVMe each present a command queue in host memory, a doorbell and a completion in memory, which is the ring and the descriptor of 5.2.3 with a different descriptor body; an NVMe controller's submission and completion queues are the closest existing form of it. A disk driver for any of them is the same skeleton with a different command encoding. *(D, the author, 2026-10-22, errata 61)*
+**5.2.1a** The storage interfaces are all this one pattern: SCSI, ATA, SATA and NVMe each present a command queue in host memory, a doorbell and a completion in memory, which is the ring and the descriptor of 5.2.3 with a different descriptor body; an NVMe controller's submission and completion queues are the closest existing form of it. A disk driver for any of them is the same skeleton with a different command encoding. *(D)*
 
 **5.2.2** The first three registers are the same in every device: `ID`, `CONTROL` and `STATUS`. *(P)*
 
@@ -72,7 +72,7 @@ word 3:  RESULT (written by the device)
 
 **5.4.1** Buffers and descriptors are in memory mapped uncached, and the driver does no cache clean or invalidate. *(D)*
 
-**5.4.2** A device addresses physical memory directly, with 40-bit addresses, and the driver gives it physical addresses; until an address-translation unit for devices exists, every device must be able to address all of memory. *(P, decision R6)*
+**5.4.2** A device addresses physical memory directly, with 40-bit addresses, and the driver gives it physical addresses; until an address-translation unit for devices exists, every device must be able to address all of memory. *(P)*
 
 **5.4.3** A buffer that crosses a page is described by several descriptors chained with the `MORE` flag; the driver does not make buffers contiguous. *(P)*
 
@@ -86,13 +86,13 @@ word 3:  RESULT (written by the device)
 
 **5.5.2** The **network card** is a transmit slot and a receive slot: the transmit ring carries frames to send, the receive ring carries buffers the host posts and the device fills, completing each with the frame length; link changes raise an attention interrupt. *(P)*
 
-**5.5.3** **USB** is presented by a controller chip that does the protocol and the enumeration and shows each attached device as a slot on the bus with the personality of its class: a mass-storage device looks like a disk, a keyboard or mouse like a receive-only device, a serial adapter like a console. *(P, decision for the author)*
+**5.5.3** **USB** is presented by a controller chip that does the protocol and the enumeration and shows each attached device as a slot on the bus with the personality of its class: a mass-storage device looks like a disk, a keyboard or mouse like a receive-only device, a serial adapter like a console. *(P)*
 
-**5.5.4** The **console** is a polled serial device with a transmit-ready and a receive-ready bit and one data register; the **timer** is a 64-bit free-running counter, a compare register and a control register; the **entropy source** returns 64 random bits from its data register and fills buffers by descriptor. *(console and timer D, as built in the emulator; entropy P)*
+**5.5.4** The **console** is a polled serial device with a transmit-ready and a receive-ready bit and one data register; the **timer** is a 64-bit free-running counter, a compare register and a control register; the **entropy source** returns 64 random bits from its data register and fills buffers by descriptor. *(console and timer D; entropy P)*
 
 **5.5.5** A device raises one interrupt line at the level its slot asks for, with the vector numbered from the slot. *(P)*
 
-*Commentary.* **Precedent.** The PDP-11 had a disk with eight registers, a serial line with four, and network controllers with rings; this is the same set with a common layout. **Trade-offs.** USB in eight registers is the hard case: a conventional host controller exposes command, event and transfer rings and many registers. Presenting each device as a bus slot moves the protocol into the controller chip, which costs gates or a small embedded processor in the controller and takes the USB stack out of the operating system; the alternative is a conventional ring-based host controller, which an existing operating-system USB stack can drive at the price of that large stack. The decision is the author's. **Improvements.** Treating every USB port as a hot-pluggable slot reuses the bus's own enumeration and hot-plug machinery instead of a second one. **Benefits.** A disk driver written for the bus disk works for a USB disk. **Modern comparables.** `virtio` block and network devices have the same shape; xHCI is the conventional USB controller; a USB-to-Ethernet adapter appears to the host as a network class device. **Impact.** *Kernel:* A disk driver written for the bus disk also drives a USB disk; the network card is two slots. *Compiler:* None. *Hardware:* Each personality is a small block of logic behind the common ring engine; the USB protocol, if done in the controller, is where the gates go.
+*Commentary.* **Precedent.** The PDP-11 had a disk with eight registers, a serial line with four, and network controllers with rings; this is the same set with a common layout. **Trade-offs.** USB in eight registers is the hard case: a conventional host controller exposes command, event and transfer rings and many registers. Presenting each device as a bus slot moves the protocol into the controller chip, which costs gates or a small embedded processor in the controller and takes the USB stack out of the operating system; the alternative is a conventional ring-based host controller, which an existing operating-system USB stack can drive at the price of that large stack. The choice between them is undecided. **Improvements.** Treating every USB port as a hot-pluggable slot reuses the bus's own enumeration and hot-plug machinery instead of a second one. **Benefits.** A disk driver written for the bus disk works for a USB disk. **Modern comparables.** `virtio` block and network devices have the same shape; xHCI is the conventional USB controller; a USB-to-Ethernet adapter appears to the host as a network class device. **Impact.** *Kernel:* A disk driver written for the bus disk also drives a USB disk; the network card is two slots. *Compiler:* None. *Hardware:* Each personality is a small block of logic behind the common ring engine; the USB protocol, if done in the controller, is where the gates go.
 
 ## 5.6 Errors, departure and recovery
 
@@ -100,7 +100,7 @@ word 3:  RESULT (written by the device)
 
 **5.6.2** A device that is reset with `INIT` leaves its ring in memory untouched and clears its ring registers; the driver reprograms them and starts at the first descriptor that is not done. *(P)*
 
-**5.6.3** A device that leaves the bus leaves its queued work in memory; the driver finds it by scanning the ring from its last completed descriptor. *(P, the author's suggestion)*
+**5.6.3** A device that leaves the bus leaves its queued work in memory; the driver finds it by scanning the ring from its last completed descriptor. *(P)*
 
 **5.6.4** Operations are repeatable where possible (reads, writes of the same data, sends, buffer posts, identify), so that resending an unfinished descriptor is safe; an operation that must not run twice carries a `STARTED` flag so the driver can tell "never started" from "started, outcome unknown". *(P)*
 
@@ -114,17 +114,17 @@ word 3:  RESULT (written by the device)
 
 **5.7.3** A polled device (the console, the timer, the entropy source) may be used with its interrupts masked. *(D)*
 
-**5.7.4** A changeable interrupt target is changed with its vector masked and then read back, or is a single atomic register write. *(D, the author 2026-10-23, errata 71; not yet in the specification files, the simulator or QEMU)*
+**5.7.4** A changeable interrupt target is changed with its vector masked and then read back, or is a single atomic register write. *(D)*
 
-*Commentary.* **Precedent.** A PDP-11 device asserted one of four bus-request lines and supplied its own vector, set by switches on the card. **Trade-offs.** A vector derived from the slot needs no per-device switch and no assignment, and limits the device interrupts to 192 slots. **Benefits.** A driver's interrupt routine reads one register to learn why. **Modern comparables.** The causes and the write-one-to-clear convention are those of most memory-mapped controllers; message-signalled interrupts, which need no line, are added to the proposal later (decision R1). **Impact.** *Kernel:* An interrupt routine reads one register to learn why and clears it by writing the same bits. *Compiler:* None. *Hardware:* One line per device into an eight-level priority encoder, with the vector derived from the slot number.
+*Commentary.* **Precedent.** A PDP-11 device asserted one of four bus-request lines and supplied its own vector, set by switches on the card. **Trade-offs.** A vector derived from the slot needs no per-device switch and no assignment, and limits the device interrupts to 192 slots. **Benefits.** A driver's interrupt routine reads one register to learn why. **Modern comparables.** The causes and the write-one-to-clear convention are those of most memory-mapped controllers; message-signalled interrupts, which need no line, are an open option (decision R1). **Impact.** *Kernel:* An interrupt routine reads one register to learn why and clears it by writing the same bits. *Compiler:* None. *Hardware:* One line per device into an eight-level priority encoder, with the vector derived from the slot number.
 
 ## 5.8 Drivers in user space, and in OpenBSD
 
 **5.8.1** Because a device is one page, a driver can run in user space with only that page and its buffers mapped. *(P)*
 
-**5.8.2** Until devices have an address-translation unit, a user-space driver can instruct its device to write anywhere in memory, so it is as trusted as the device. *(P, decision R6)*
+**5.8.2** Until devices have an address-translation unit, a user-space driver can instruct its device to write anywhere in memory, so it is as trusted as the device. *(P)*
 
-**5.8.3** In OpenBSD the register accessors become loads and stores, the DMA mapping interface returns physical addresses with no cache-synchronisation work to do, and the autoconfiguration framework attaches a driver to each slot the bus reports. *(P, to be checked against the OpenBSD sources)*
+**5.8.3** In OpenBSD the register accessors become loads and stores, the DMA mapping interface returns physical addresses with no cache-synchronisation work to do, and the autoconfiguration framework attaches a driver to each slot the bus reports. *(P)*
 
 *Commentary.* **Precedent.** Microkernels and exokernels run drivers in user space where the hardware lets one device be mapped to one process; the PDP-11's Unibus gave every device a fixed address and no protection. **Trade-offs.** Without a translation unit the mapping protects against stray register writes but not against DMA. **Benefits.** A driver can be tested, restarted and replaced without taking the kernel with it. **Modern comparables.** Linux's `VFIO` and `UIO` and DPDK run drivers in user space, relying on an I/O translation unit for protection. **Impact.** *Kernel:* The accessors reduce to loads and stores, the DMA interface to physical addresses, and attach to the bus's slots. *Compiler:* None. *Hardware:* One device per page lets the translation unit protect a device, which a device-sharing page layout would not.
 
