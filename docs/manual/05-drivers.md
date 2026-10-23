@@ -114,6 +114,8 @@ word 3:  RESULT (written by the device)
 
 **5.7.3** A polled device (the console, the timer, the entropy source) may be used with its interrupts masked. *(D)*
 
+**5.7.4** A changeable interrupt target is changed with its vector masked and then read back, or is a single atomic register write. *(D, the author 2026-10-23, errata 71; not yet in the specification files, the simulator or QEMU)*
+
 *Commentary.* **Precedent.** A PDP-11 device asserted one of four bus-request lines and supplied its own vector, set by switches on the card. **Trade-offs.** A vector derived from the slot needs no per-device switch and no assignment, and limits the device interrupts to 192 slots. **Benefits.** A driver's interrupt routine reads one register to learn why. **Modern comparables.** The causes and the write-one-to-clear convention are those of most memory-mapped controllers; message-signalled interrupts, which need no line, are added to the proposal later (decision R1). **Impact.** *Kernel:* An interrupt routine reads one register to learn why and clears it by writing the same bits. *Compiler:* None. *Hardware:* One line per device into an eight-level priority encoder, with the vector derived from the slot number.
 
 ## 5.8 Drivers in user space, and in OpenBSD

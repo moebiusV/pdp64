@@ -53,6 +53,8 @@
 
 **4.4.3** The block's layout is defined once, in a grammar from which the headers are generated, and carries a checksum and a version. *(P)*
 
+**4.4.4** The boot-information block carries the video device's base address, size, pitch and pixel format when the boot loader has set it up, and nothing about the device's clock or power state is changed behind the kernel: its pixel clock stays up until the kernel's driver owns the device. *(D, the author 2026-10-23, errata 71; not yet in the specification files, the simulator or QEMU)*
+
 *Commentary.* **Precedent.** The VAX passed a restart parameter block, the Alpha a hardware restart parameter block, both fixed-layout records of the machine; the PDP-11 configured the kernel for the machine at build time and probed device addresses; x86 uses ACPI tables, and arm64 and RISC-V use a device tree. **Trade-offs.** A fixed-layout block with a checksum has two failure cases (bad checksum, unknown version), against the parser a device tree or ACPI requires; a device tree has the advantage that OpenBSD's arm64 and riscv64 ports already parse one and attach drivers from it, which could save kernel code if the port reuses many of their drivers. **Improvements.** Because the bus describes its own devices, the block shrinks to memory, cores and the bus controller's address. **Benefits.** The hand-off is a struct; the generated header cannot disagree with the loader. **Modern comparables.** The device tree and ACPI are the two standard answers. **Impact.** *Kernel:* The hand-off is a structure the kernel reads. *Compiler:* The header is generated from one grammar, so it cannot drift from the loader. *Hardware:* None.
 
 ## 4.5 Starting the other cores and the devices

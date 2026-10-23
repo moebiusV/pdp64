@@ -9,8 +9,8 @@ ATCF = '7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservat
 
 ENTRIES = [
     E('CAS', 'atomics', ['cas', 'casdb'], 'Compare and swap',
-      ['CAS expected, new, (address)        ; operand placement not yet fixed', 'CASDB ...                            ; with a full barrier'],
-      '''old <- M[address]
+      ['CAS expected, new, (address)        ; operand placement and size encoding not yet fixed; size is 4 or 8 bytes', 'CASDB ...                            ; with a full barrier'],
+      '''old <- M[address]                         ; 4 or 8 bytes, naturally aligned
 if old == expected then M[address] <- new
 result <- old          ; the program compares result with expected to learn whether the swap happened''', ATFLAG, ATEXC, '9.13, 7.12', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('SWAP', 'atomics', ['swap', 'swapdb'], 'Atomic exchange', ['SWAP value, (address)', 'SWAPDB ...'],
