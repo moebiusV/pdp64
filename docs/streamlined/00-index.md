@@ -16,9 +16,10 @@
 8. [**Vector work, AI and array languages: the device route**](08-vectors.md): why there is no SIMD register file, and how neural-network inference and the array languages APL and K are served by memory-mapped devices.
 9. [**The instruction set**](09-isa.md): how the opcode space is divided, the properties and principles of the architecture, the registers, the format, the addressing modes, and each group of instructions.
 10. [**Conclusion: from FPGA to silicon**](10-conclusion.md): the FPGA plan, the transistor budget, the path to an OpenBSD you can log into, and what is still open.
-11. [**Appendix A. Possible improvements not decided on yet**](appendix-a-improvements.md): ideas that nobody has turned into a decision, with their benefits and costs.
-12. [**Appendix B. Decisions pending**](appendix-b-decisions-pending.md): every open decision with its question, proposed answer, precedent, trade-offs and benefits.
-13. [**Appendix C. Glossary**](appendix-c-glossary.md): the book's terms in one place, by architecture, kernel, devices and process.
+11. [**The instruction dictionary**](dictionary/index.md): the reference part: one entry for every instruction, with syntax, encoding, operation, flags and exceptions, the second opcode page, the aliases, and appendices of the mnemonics and the opcodes. Generated from the machine-readable specification.
+12. [**Appendix A. Possible improvements not decided on yet**](appendix-a-improvements.md): ideas that nobody has turned into a decision, with their benefits and costs.
+13. [**Appendix B. Decisions pending**](appendix-b-decisions-pending.md): every open decision with its question, proposed answer, precedent, trade-offs and benefits.
+14. [**Appendix C. Glossary**](appendix-c-glossary.md): the book's terms in one place, by architecture, kernel, devices and process.
 
 ## How to read it
 

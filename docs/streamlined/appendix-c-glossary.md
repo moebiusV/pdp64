@@ -48,15 +48,15 @@
 | **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores (7.5) |
 | **`DMW`** | direct mapping window: a region translated by a fixed offset with no page table; deferred (errata 44) |
 | **`MMUCTL`** | the register that enables translation and sets the table base (6.3, 6.4) |
-| **walker** | the hardware that reads page-table entries on a translation-buffer miss (9.15) |
+| **walker** | the hardware that reads page-table entries on a translation-buffer miss (6.8) |
 | **`STUA` / `CLUA`** | set and clear the user-access guard bit, which lets kernel code touch user memory only inside the copy routines (errata 43, 6.5) |
-| **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (9.14) |
+| **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (6.7) |
 | **W^X** | write xor execute: no page is both writable and executable; OpenBSD enforces it (appendix A) |
 | **PIE** | position-independent executable: loadable at any address; costs nothing here (9.16) |
 | **GOT, PLT** | global offset table and procedure linkage table: the indirection that lets position-independent code reach imported symbols (9.16) |
 | **ABI** | application binary interface: calling convention, register use, data layout; version 1 is accepted (errata 46) |
 | **trap, exception, interrupt** | a deliberate entry (`TRAP #n`), a fault raised by an instruction, and a signal from a device; all enter through the vector table (6.2) |
-| **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (9.15) |
+| **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (6.8) |
 | **`SPL`** | set the interrupt priority level (6.2) |
 | **`WFE`, `SEV`** | wait for an event and send an event: the idle and wake-up pair (7.6) |
 | **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.2, 7.2) |
