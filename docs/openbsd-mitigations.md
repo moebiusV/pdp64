@@ -20,6 +20,9 @@
 * [8. What this does not show](#8-what-this-does-not-show)
 * [9. How the counts were made](#9-how-the-counts-were-made)
 * [10. Round 3 additions](#10-round-3-additions-23-oct-2026)
+* [11. Round 4 additions](#11-round-4-additions-23-oct-2026)
+* [12. Round 5 additions](#12-round-5-additions-23-oct-2026)
+* [13. Round 7 additions: the two slide decks, read as text](#13-round-7-additions-24-oct-2026)
 
 ## 1. The short version
 
@@ -258,3 +261,17 @@ Round 4 found **no new OpenBSD source**: Theo's and Bluhm's slides are PDF only 
 ## 12. Round 5 additions (23 Oct 2026)
 
 Round 5 found **no new OpenBSD developer statement**. One OpenBSD primary document was read: the manual page `fw_update(8)` (`man.openbsd.org`): "fw_update — install non-free firmware"; "Since firmware with an acceptable license is already present in OpenBSD, fw_update exists purely to deal with firmware that may not be freely distributed with OpenBSD."; firmware is fetched from `firmware.openbsd.org/firmware/` and checked with `signify(1)`. This is OpenBSD's answer to the GPU and Wi-Fi firmware problem: the base system ships only firmware with an acceptable licence, and a separate, signature-checked step installs the rest. It does **not** by itself show that OpenBSD carries graphics drivers ported from Linux (`manual/03-graphics.md` 3.5.3 says this "not confirmed"; it is still not confirmed here). FreeBSD's port of Linux DRM drivers **is** confirmed by its 2023Q1 status report (see `kernel-pain-points.md` 14F). Related, from the Nouveau project page (14F): reclocking on recent NVIDIA chips is "Managed by firmware", so an open driver talks to vendor firmware rather than to documented registers.
+
+## 13. Round 7 additions (24 Oct 2026)
+
+Two OpenBSD slide decks that rounds 3 to 5 had marked "fetched, no text extractable" were read in round 7 with the same-origin XHR method (`www.openbsd.org/papers/bsdtw.pdf`, 29 pages, 283 lines of text; `eurobsdcon2023-bluhm-mitigations.pdf`, 30 pages, 576 lines; saved as `/tmp/claude-1000/pdf7/bsdtw.txt` and `bluhm.txt`). Labels: [P] the slides themselves. The third deck of the row (`ru13-deraadt`, image slides) was not retried.
+
+| Source | What the slides say | Bears on |
+|---|---|---|
+| Bluhm, Sep 2023, "Hardware xonly" (slide 9) | "arm64, riscv64 have RWX" and "new amd64 have PKU" (the slide's two bullets; it does not spell out what RWX means here); the next two slides show **opportunistic xonly** (a page made executable is still readable on hardware that cannot separate the two) and **trap xonly** (the read after `mprotect(PROT_EXEC)` crashes) | 2.3: pdp64's entry (`R`=0, `X`=1) is hardware xonly; the slides show the software fallbacks OpenBSD needs where it is not. Only on x86 is it PKU-dependent, by the slide |
+| Bluhm, slide 6 and slide 25 | return-oriented-programming defences include "ARM BTI & Intel IBT endbr64"; under "Ports Pain": "BTI and IBT", "xonly", "map stack", "W^X" are the settings that break third-party programs | 2.1, 2.5: landing-pad instructions are already in use and already cost compatibility work in the ports tree; the manual's `BTAG`/`JTAG` (9.10) are the pdp64 counterpart |
+| Bluhm, slide 28 (Not Yet) | "ARM pointer authentication" and "shadow stack" are listed as not yet done | 2.6: OpenBSD has neither on any architecture, so pdp64 need not provide either to be supportable |
+| de Raadt, "Mitigations and other real security features" | "Mitigations are inexpensive tweaks which increase the difficulty of performing attack methods"; "When defect is detected, goal is to Fail-Closed"; on error recovery: "I strongly disagree – error-recovery is an unsound practice, and detection mechanisms do not exist"; "If memory has been overwritten, how does one continue?"; costs: "Not all migitations will be performance-cost-free", "Processors have gotten faster", "What % of performance would you spend on security?"; "Most mitigations are a reimplementation of an existing mechanism, just more strictly"; "Takes decades to add strictness / security"; "Postel's maxim is dangerous" | 6 and 7: the slides argue for crashing on detection; pdp64's "easy recoverability" principle (b) is about restartable faults and less recovery code, not recovering from corrupted memory, so the two agree if "recoverability" means the machine can describe and restart a fault and the software then terminates what is corrupt (my reading, not the slides') |
+| de Raadt, "17 years of mitigation work" | the list of mitigations ("W^X", "KARL", "PIE", "RETGUARD", "X-only .text?", "X-only kernel?") with question marks on the two execute-only items, **marked "?" on the slide** | 2.3 and idea 1: the slides record execute-only text and an execute-only kernel as not settled |
+
+**Correction check.** Nothing in sections 2 to 12 was contradicted by the slides. The earlier statement that no source had been read for OpenBSD's execute-only plans stands (the slides give only the question marks).
