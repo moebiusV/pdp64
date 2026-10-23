@@ -15,6 +15,11 @@
 * Page cache of round 2: `/tmp/claude-1000/corpus/doc*.txt`, `pg*.txt`, index `/tmp/claude-1000/corpus/index.tsv`; the raw fetch files are in `~/claude/browse-output/` (`*_fetch_*.txt`, `nav_*.txt`).
 * Query lists: `/tmp/claude-1000/queries.txt`, `queries2.txt`, `queries3.txt`, `wayback.txt`, `pages.txt`; drivers `driver.py` (lore, one fetch at a time, stops on block pages), `driver3.py`..`driver7.py`; helper `lk.py`; document pieces in `/tmp/claude-1000/doc/` (`part1.md`, `part2*.md`, `part3.md`, `appb.md`, `appc.md`, `assemble.py`). If `/tmp` is gone, the document `docs/kernel-pain-points.md` is the surviving result; the pieces can be rebuilt from it.
 
+## Updates at the end of 2026-10-23 01:00-02:15
+
+* Done since the first version of this note: FreeBSD `pipermail` 2018-January/February for `freebsd-arch` and `freebsd-current` (4 messages read); `lkml.iu.edu` thread indexes for 12 slices from 1997 to 2004 (36 messages read); NetBSD tech-kern 2018/02 and 2018/03 (5 messages); 8 LWN articles through the Wayback Machine; the browser was quit with `browsectl quit` and nothing from it was left running.
+* Not done: the other 21 Wayback LWN copies (stopped on the author's instruction; later allowed again at 60 s spacing).
+
 ## What is left, in order
 
 1. LWN articles through the Wayback Machine (29 wanted, listed in `reading-list.tsv`, status "not fetched"); 8 were fetched before the rate limit; several archived 2024 captures are LWN's own "Blocked due to excessive requests" page, so try an earlier year (2019, 2016). Rule: at least 60 s between archive.org requests, one at a time.
