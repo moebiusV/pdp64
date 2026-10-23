@@ -92,8 +92,8 @@ This chapter is a single place to see what hurt kernel developers, in order of h
 | 3 | The TSC cannot be trusted | Gleixner: "the stupid hardware is not reliable whether it has some 'I claim to be reliable tag' on it or not"; "500+ different variants of borked timer" | Gleixner | not measured | One architectural counter that is monotonic and constant | **MITIGATED**: a 64-bit counter and compare register (ch. 10); no user-mode read yet (P3) | ch. 10, 14B |
 | 4 | Ordering of data and interrupt behind a bridge | `msi-howto.rst`: with pin interrupts "the interrupt may arrive before all the data has arrived in memory"; a handler must read a device register | PCI maintainers | an extra register read per interrupt | Interrupt as a write on the same ordered path | **MITIGATED**: ring plus `FENCE` (ISA 7.1) | A.5 160-161 |
 | 5 | Timer tick versus tickless; timer wheel rework | dynticks off-case must not slow; timer wheel reworked four times in June-July 2016 | Weisbecker, Gleixner | not measured | A per-event compare register | **MITIGATED**: programmable compare register (ch. 10) | 14B |
-| 7 | The clock watchdog and its reference | 2026 rewrite: "To address this and bring back sanity to the watchdog, rewrite the code completely"; Gleixner: "BIOSes are insane by definition"; the TSC marked unstable on an SGI machine by a skewed RTC | Gleixner, Wiesner | `tsc skewed 703664 ns ... over watchdog 'sgi_rtc'` | A counter that does not need a second counter to trust it | **OPEN**: one counter, no reference (ch. 10) | 14H, A.5 188 |
-| 6 | Fixed-address entry points (vsyscall) | `vsyscall_64.c` (2014): "It interferes with ASLR" | Lutomirski | not measured | A vDSO-like page at a random address | **AVOIDED**: no such page | 14F |
+| 6 | The clock watchdog and its reference | 2026 rewrite: "To address this and bring back sanity to the watchdog, rewrite the code completely"; Gleixner: "BIOSes are insane by definition"; the TSC marked unstable on an SGI machine by a skewed RTC | Gleixner, Wiesner | `tsc skewed 703664 ns ... over watchdog 'sgi_rtc'` | A counter that does not need a second counter to trust it | **OPEN**: one counter, no reference (ch. 10) | 14H, A.5 188 |
+| 7 | Fixed-address entry points (vsyscall) | `vsyscall_64.c` (2014): "It interferes with ASLR" | Lutomirski | not measured | A vDSO-like page at a random address | **AVOIDED**: no such page | 14F |
 
 ### 0.5 Bus design
 
@@ -117,11 +117,11 @@ This chapter is a single place to see what hurt kernel developers, in order of h
 | 4 | Scan-out FIFO underrun | i915 underrun detection reworked (Syrjälä, Vetter, May 2014) | Intel graphics developers | corrupted display | Underrun status, fixed bus priority for the video master | **OPEN**: the line buffer in 3.4.2† has no underrun rule | A.5 183 |
 | 5 | GPU hangs and resets, indefinite fences | `drm-uapi.rst`: resets cannot be disabled "without tainting the kernel"; `dma-buf.rst`: deadlocks the kernel cannot prevent | DRM developers | not measured | Timeouts in the device | **OPEN**: BLT64 needs reset and error status | A.5 174-175 |
 | 6 | EDID and the HDMI transmitter | `edid.rst`: bad EDID makes "the computer ... unusable"; ADV7511 has four register maps on four I2C addresses; HPD status survives suspend (Das, 22 Apr 2026) | Pinchart, Das | qualitative | Fallback mode; transmitter state owned by the video device | **OPEN**: 3.3.1† says "set up once"; real chips need more | A.5 184-185 |
-| 11 | DisplayPort link training fallback | 5 Oct 2026: fallback "dead code on every Type-C board"; Intel's fallback series reached five revisions | Bobier, Deak | see left | Transmitter chip with tested fallback | **MITIGATED** by chip (3.3.1†) | 14H, A.5 192 |
-| 7 | HDMI licensing | HDMI Forum rejected an open HDMI 2.1 driver (Deucher, Feb 2024); first FRL patches May 2026 (heise) | Deucher | n/a | Protocol in a closed chip | **MITIGATED** by putting HDMI in the transmitter chip (3.3.1†) | A.5 186 |
-| 8 | Device-specific 2D acceleration | Packard 2014: software drew text at 9.3 million glyphs/s vs 3.2 million for GL points; Glamor to replace per-driver 2D | Packard, Anholt | see left | Copy/fill engines only | **MITIGATED**: BLT64 for copies and fills | A.5 179 |
-| 9 | Network-transparent display protocols | Sharp 2004: replies cost round trips; NeWS "not economically or politically viable" (Handbook) | Sharp, Packard, the Handbook authors | latency | Local devices with a ring | **AVOIDED** by local devices (3.1†) | 14F, 14G, A.5 187 |
-| 10 | GPU memory leakage and Rowhammer | LeftoverLocals (16 Jan 2024): ~5.5 MB per invocation on an RX 7900 XT; GPUHammer (arXiv 2507.08166) | Sorensen, Trail of Bits, Lin/Qu/Saileshwar | see left | Clear or tag device memory (N9) | **OPEN** (N9) | 14F, A.5 180 |
+| 7 | DisplayPort link training fallback | 5 Oct 2026: fallback "dead code on every Type-C board"; Intel's fallback series reached five revisions | Bobier, Deak | see left | Transmitter chip with tested fallback | **MITIGATED** by chip (3.3.1†) | 14H, A.5 192 |
+| 8 | HDMI licensing | HDMI Forum rejected an open HDMI 2.1 driver (Deucher, Feb 2024); first FRL patches May 2026 (heise) | Deucher | n/a | Protocol in a closed chip | **MITIGATED** by putting HDMI in the transmitter chip (3.3.1†) | A.5 186 |
+| 9 | Device-specific 2D acceleration | Packard 2014: software drew text at 9.3 million glyphs/s vs 3.2 million for GL points; Glamor to replace per-driver 2D | Packard, Anholt | see left | Copy/fill engines only | **MITIGATED**: BLT64 for copies and fills | A.5 179 |
+| 10 | Network-transparent display protocols | Sharp 2004: replies cost round trips; NeWS "not economically or politically viable" (Handbook) | Sharp, Packard, the Handbook authors | latency | Local devices with a ring | **AVOIDED** by local devices (3.1†) | 14F, 14G, A.5 187 |
+| 11 | GPU memory leakage and Rowhammer | LeftoverLocals (16 Jan 2024): ~5.5 MB per invocation on an RX 7900 XT; GPUHammer (arXiv 2507.08166) | Sorensen, Trail of Bits, Lin/Qu/Saileshwar | see left | Clear or tag device memory (N9) | **OPEN** (N9) | 14F, A.5 180 |
 
 ### 0.7 Security and speculation
 
@@ -879,7 +879,7 @@ Round 5 (23 Oct 2026, about 11:20 to 14:00 local) was the last round. Its purpos
 
 ### Coverage summary
 
-The matrix has **95 topics** in nine groups. Before round 5 (my reading of the three documents): **13 covered well, 25 thin, 57 missing**. After round 5: **52 covered well, 35 thin, 8 missing**. "Covered well after" means there is now at least one primary text (or, for local-tree evidence, the file text itself) in 14F or Appendix A.5 and the topic has a stated pdp64 consequence; it does not mean the topic is exhausted. Per group, before to after (covered well / thin / missing):
+The matrix has **95 topics** in nine groups. Before round 5 (my reading of the three documents): **13 covered well, 25 thin, 57 missing**. After round 5: **52 covered well, 38 thin, 5 missing**. "Covered well after" means there is now at least one primary text (or, for local-tree evidence, the file text itself) in 14F or Appendix A.5 and the topic has a stated pdp64 consequence; it does not mean the topic is exhausted. Per group, before to after (covered well / thin / missing):
 
 | Group | Topics | Before | After |
 |---|---:|---|---|
@@ -888,12 +888,12 @@ The matrix has **95 topics** in nine groups. Before round 5 (my reading of the t
 | Interrupts and timers | 10 | 2 / 5 / 3 | 8 / 2 / 0 |
 | Bus design | 15 | 4 / 6 / 5 | 9 / 6 / 0 |
 | GPU and graphics | 16 | 0 / 1 / 15 | 7 / 9 / 0 |
-| Old graphics pain | 9 | 0 / 0 / 9 | 5 / 2 / 2 |
-| HDMI and display link | 10 | 0 / 0 / 10 | 5 / 1 / 4 |
+| Old graphics pain | 9 | 0 / 0 / 9 | 5 / 3 / 1 |
+| HDMI and display link | 10 | 0 / 0 / 10 | 5 / 3 / 2 |
 | Remote display lineage | 2 | 0 / 0 / 2 | 1 / 0 / 1 |
 | Additions found while reading | 6 | 0 / 1 / 5 | 6 / 0 / 0 |
 
-**Still missing after round 5 (8):** hash MMUs (PowerPC), palette and colour-map pain, racing the beam in driver developers' writing, HDCP and CEC, HDMI audio, DisplayPort MST and DSC, deep colour and 48-bit pixels, the Blit and NeWS primary texts. For these **no primary record was read** (not "no record exists"). Where the matrix says thin the reason is in its column "what was done".
+**Still missing after round 5 (5):** hash MMUs (PowerPC), racing the beam in driver developers' writing, HDMI audio, DisplayPort MST and DSC, the Blit and NeWS primary texts. For these **no primary record was read** (not "no record exists"). Where the matrix says thin the reason is in its column "what was done".
 
 ### Memory system, CPU and early-hardware findings (round 5)
 
@@ -1040,7 +1040,7 @@ By host: lwn.net 8; lore.kernel.org and lkml.org and the dri-devel archive 16; a
 
 ### Not done in round 5
 
-* **Not reached (after the second pass, 14H):** hash MMUs, palette pain, HDCP, CEC, HDMI audio, MST/DSC, deep colour, the Blit and NeWS texts, the Linux 2.4 VM replacement (only a snippet), Torvalds on AVX-512 (RealWorldTech timed out), xHCI design posts (search found none), ASPM and PCIe hot-plug posts, AHCI, virtio, big.LITTLE and NUMA threads, KFD/ROCm, the OpenBSD `drm` port, simplefb/efifb sources.
+* **Not reached (after the second pass, 14H):** hash MMUs, racing the beam, HDMI audio, MST/DSC, HDCP statements, the Blit and NeWS texts, the Linux 2.4 VM replacement (only a snippet), Torvalds on AVX-512 (RealWorldTech timed out), xHCI design posts (search found none), ASPM and PCIe hot-plug posts, AHCI, virtio, big.LITTLE and NUMA threads, KFD/ROCm, the OpenBSD `drm` port, simplefb/efifb sources.
 * **Unverified or read in part:** the Ars Technica 2012 report is secondary (the video was not watched); the GPUHammer paper only through its abstract; the heise article only in two paragraphs; the Thunderclap FAQ answers did not appear in the saved text; the Wayland page has no named author; the USENIX 2003 notes have no byline in the saved text; counts of "about 45 local files" are by hand.
 
 ## 14G. What the UNIX-HATERS Handbook complained about, and which complaints have a hardware, instruction-set or bus cause
@@ -1078,9 +1078,18 @@ Gaps left by the first pass of round 5 (see the coverage summary in 14F), filled
 | NUMA is for bandwidth, not for software developers | "Platform vendors don't build NUMA systems just to make software developers' lives interesting. Rather, this architecture is a means to provide scalable memory bandwidth."; "Memory access time and effective memory bandwidth varies depending on how far away the cell containing the CPU or IO bus making the memory access is from the cell containing the target memory." | Kanoj Sarcar (started Nov 1999), `Documentation/mm/numa.rst` | local tree | [D-local] | ch. 6/7: pdp64's first system is a uniform-memory few-core machine; NUMA is out of scope until R3 |
 | PowerPC has its own PCI error recovery (EEH) | the directory `Documentation/arch/powerpc/` contains `eeh-pci-error-recovery.rst` and `pci_iov_resource_on_powernv.rst` (titles only; the files were not read) | local tree listing | local tree | [D-local], titles only | A.5 162 |
 
+### Display colour, palettes and CEC, from the local tree (second pass)
+
+| Pain | What was said | Who, when | Source | Label | pdp64 |
+|---|---|---|---|---|---|
+| The frame buffer API had to describe five ways pixels map to colours | the visuals are monochrome, "Pseudo color ... The whole pixel value is fed through a programmable lookup table that has one color (including red, green, and blue intensities) for each possible pixel value", "True color ... broken up into red, green, and blue fields", "Direct color ... each of which are looked up in separate red, green, and blue lookup tables", and grayscale variants; a driver note: "I didn't really test changing the palette, so you may find some weird" effects | `Documentation/fb/internals.rst`; `Documentation/fb/sstfb.rst` | local tree | [D-local] | 3.1.2: 48-bit pixels with no palette is the true-colour case; pseudo-colour needs a lookup table and a palette-write rule the manual does not have, and the 3.3.2 conversion to the connector's depth is where one would go |
+| Drivers expose bit depth, dithering and range as properties | the KMS property table lists "dithering mode" (`auto`, `off`, `on`), "dithering depth" (`auto`, `off`, `on`, `static 2x2`, `dynamic 2x2`, `temporal`), "underscan" (`auto`, `6 bpc`, `8 bpc`), "Broadcast RGB" (`Full`, `Limited 16:235`) and a plane "colorkey" (the table does not name the owning driver in these rows) | `Documentation/gpu/kms-properties.csv` | local tree | [D-local] | 3.3.2, VIC-64X 48-bit pixels: converting down at the connector is a driver-visible policy (dither or truncate, full or limited range), so the video device needs a documented conversion rule |
+| CEC: one chip, two drivers | `cec.rst` lists the transmitters supported in mainline, among them "V4L2 adv7511 (same HW, but a different driver from the drm adv7511)" and "drm adv7511/adv7533", besides Exynos, STIH, Allwinner, Raspberry Pi, dw-hdmi, Amlogic, omap4, tegra, rk3288/rk3399, tda998x, DisplayPort CEC-tunnelling on i915, nouveau and amdgpu, and USB dongles | `Documentation/admin-guide/media/cec.rst` | local tree | [D-local] | 3.3.1: the ADV7513 the plan uses has its CEC block behind a separate I2C address (binding `cec`), and Linux grew two drivers for the same hardware; a pdp64 driver should use one |
+| HDCP, HDMI audio, DisplayPort MST, DSC | `drm-kms-helpers.rst` has reference sections for HDCP helpers and for DP MST helpers, and `i915.rst` names HDCP and PXP among firmware-assisted features; **no developer statement about their pain was found in the saved or local text** | local tree | local tree | [D-local], headings only | recorded as not found |
+
 ### Updates to the coverage matrix from this pass
 
-HPET, IRQ affinity, AHCI/ATA quirks, DisplayPort link training and NUMA move from missing/thin to covered (HPET and link training with a primary thread, the others with local-tree text). Hash MMUs remain missing: the only text read was a directory listing, `firmware-assisted-dump.rst` mentions "HPTE" regions and nothing says why the hash table hurt.
+HPET, IRQ affinity, AHCI/ATA quirks, DisplayPort link training and NUMA move from missing/thin to covered (HPET and link training with a primary thread, the others with local-tree text). Palette pain, deep colour/dithering and CEC move from missing to thin (local `fb/internals.rst`, the KMS property table, `cec.rst`); HDCP, HDMI audio and MST remain without a developer statement. Hash MMUs remain missing: the only text read was a directory listing, `firmware-assisted-dump.rst` mentions "HPTE" regions and nothing says why the hash table hurt.
 
 ## 15. What this means for pdp64
 
@@ -1363,6 +1372,9 @@ Same columns. Evidence is in section 14F, `docs/codegen-data/kernelpain/round5-i
 | 191 | Storage | ATA/AHCI controllers need a forced-configuration language (cable type, link speed, reset suppression, NCQ on ATI chipsets, trim limits, ATAPI DMA) | undated | `kernel-parameters.txt` `libata.force` [D-local] | `libata.force=` | ATA/SATA | ring contract (5.2.1a) tested per chip | UNKNOWN |
 | 192 | Display | DisplayPort link training: fallback code dead on Type-C boards because it read the wrong HPD register; five revisions to add retry-before-reduce on Intel | 2024, 2026 | Deak 10 Jun 2024; Bobier 5 Oct 2026 [D] | modeset-retry, uevent | Intel, Qualcomm | protocol in the chip (3.3.1) | MITIGATED BY DESIGN |
 | 193 | NUMA | Memory bandwidth and latency depend on distance; vendors build NUMA "to provide scalable memory bandwidth" | from Nov 1999 | `numa.rst` (Sarcar) [D-local] | placement policy | SGI, others | out of scope for the first system | NOT APPLICABLE |
+| 194 | Display | Pixel-to-colour mapping needs five visual types (mono, pseudo, true, direct colour, grayscale); palette writes and lookup tables are driver-specific | fbdev era | `fb/internals.rst`, `fb/sstfb.rst` [D-local] | per-driver palette code | fbdev drivers | no palette in 3.1.2 | OPEN |
+| 195 | Display | Drivers expose bit depth, dithering mode/depth, underscan bpc and colour range as properties | undated | `kms-properties.csv` [D-local] | properties | KMS drivers | conversion rule needed for 48-bit pixels | UNKNOWN |
+| 196 | Display | CEC: dozens of transmitter drivers; the same ADV7511 hardware has two drivers (V4L2 and DRM) | undated | `cec.rst` [D-local] | per-chip drivers | HDMI transmitters | one driver per chip | MITIGATED BY DESIGN |
 
 ## Appendix B: the counts, the method and the commands
 

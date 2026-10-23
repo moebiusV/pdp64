@@ -73,17 +73,17 @@ Vblank interrupts and their jitter	Old graphics pain	blit queued at vblank may r
 Scan-out FIFO and line-buffer underruns; watermarks	Old graphics pain	display corruption when memory bandwidth is short	KPP: none	missing	Syrjala cover and Vetter reply (i915 underrun tracking, 2014); local intel-display/fifo-underrun.rst (kernel-doc references only)	thin
 Hardware cursors and overlay planes	Old graphics pain	cursor not synchronised; planes updated one ioctl at a time	KPP: none	missing	Vetter LWN 653071	covered well
 Shadow or double-buffered display registers; atomic mode setting	Old graphics pain	changes applied together at vblank; test-only commits	KPP: none	missing	Vetter LWN 653071	covered well
-Palette and colour-map pain (pseudocolour, gamma tables)	Old graphics pain	8-bit pseudocolour era	KPP: none	missing	no primary source found; not searched beyond one pass	missing
+Palette and colour-map pain (pseudocolour, gamma tables)	Old graphics pain	8-bit pseudocolour era	KPP: none	missing	local fb/internals.rst (five visuals) and sstfb.rst note; no developer thread; gamma tables not read	thin
 The X server era: compositing, tearing debate, vsync in X versus Wayland	Old graphics pain	X is a middle man between client and compositor	KPP: none	missing	Wayland architecture page, Packard present_sync	covered well
 Racing the beam (Amiga/C64 techniques) in driver developers' writing	Old graphics pain		KPP: none	missing	no kernel or driver developer source found; Packard queueing options are the nearest	missing
 EDID: corrupt or lying EDIDs, quirk tables, firmware overrides	HDMI and display link	monitors, KVMs and adapters send wrong EDID	KPP: none	missing	local admin-guide/edid.rst, kernel-parameters drm.edid_firmware	covered well
 Hot-plug detect glitches and resume	HDMI and display link	HPD status stale after suspend	KPP: none	missing	ADV7511 patches (Biju Das 22 Apr 2026; Pinchart 24 Jul 2026), lore search listing	covered well
 HDMI/DisplayPort link training failures, cables, retimers	HDMI and display link	link negotiation can fail	KPP: none	missing	Bobier msm/dp cover letter 5 Oct 2026 (doc0069); Deak i915 series (doc0068, subjects only)	covered well
-HDCP, CEC	HDMI and display link	content protection and control channel in the transmitter	KPP: none	missing	ADV7511 DT binding lists CEC and HDCP; no developer statement read	missing
+HDCP, CEC	HDMI and display link	content protection and control channel in the transmitter	KPP: none	missing	CEC: local cec.rst (two drivers for ADV7511 hardware); HDCP: headings only, no statement	thin
 HDMI audio through the transmitter; clocking and sync	HDMI and display link	audio stream shares the link	KPP: none	missing	ADV7511 binding only (S/PDIF); no source	missing
 DisplayPort MST, DSC	HDMI and display link	multi-stream topologies and compression	KPP: none	missing	Vetter LWN 653071 mentions DP branching; local dp-mst directory holds figures only	missing
 HDMI 2.1 and the HDMI Forum licence	HDMI and display link	spec terms kept open drivers from implementing FRL	KPP: none	missing	Ars Technica Feb 2024 (Deucher quoted), heise 4 May 2026	covered well
-Deep colour, bit depth negotiation, dithering; 48-bit pixels	HDMI and display link	how many bits reach the connector	KPP: none	missing	no source read	missing
+Deep colour, bit depth negotiation, dithering; 48-bit pixels	HDMI and display link	how many bits reach the connector	KPP: none	missing	local kms-properties.csv (dithering, bpc, colour range properties); no developer statement	thin
 Pixel clock generation (PLL bugs, tolerance)	HDMI and display link	mode timings need exact clocks	KPP: none	missing	"Vetter LWN 653071 (""driver ran out of display clock generators"")"	thin
 Transmitter chips (ADV7513) and I2C control-bus pain	HDMI and display link	four register maps, power-down state loss	KPP: none	missing	local adi,adv7511.yaml; ADV7511 lore posts 2026	covered well
 Remote display protocols: X11 round trips; network transparency versus local performance	Remote display lineage	every reply costs a round trip	KPP: none	missing	Sharp, USENIX FREENIX 2004; Wayland architecture page	covered well
