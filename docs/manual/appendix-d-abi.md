@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**The application binary interface fixes how compiled code, the linker and the operating system agree: the sizes of types, which registers carry arguments and results, who saves what, how the stack looks, and how position-independent code reaches its data.** These are accepted choices; the instruction-set text leaves the ABI open (book section 9.16 states what the instruction set makes cheap). The source is [`../abi.md`](../abi.md); the compiler, the assembler and the linker follow it, and the version number is how a later change is made without breaking old binaries (errata 46: `long double` is `double` in version 1).
+**The application binary interface fixes how compiled code, the linker and the operating system agree: the sizes of types, which registers carry arguments and results, who saves what, how the stack looks, and how position-independent code reaches its data.** These are decided choices (section 9.16 states what the instruction set makes cheap). The source is [`../abi.md`](../abi.md); the compiler, the assembler and the linker follow it, and the version number allows a later change without breaking old binaries; in version 1 `long double` is `double`.
 
 ## D.1 The conventions
 
@@ -32,4 +32,4 @@ return address, pushes `r5`..`r0` and pushes the return address again, so the re
 
 ## D.3 What the ABI leaves open
 
-Lazy against eager binding, mandatory landing pads and whether imports are always called without a PLT stub beyond version 1 are open (book section 9.16, decisions in appendix B).
+Lazy against eager binding, mandatory landing pads and whether imports are always called without a PLT stub beyond version 1 are open (section 9.16, decisions in appendix B).
