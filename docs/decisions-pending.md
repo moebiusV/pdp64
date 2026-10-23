@@ -111,7 +111,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | P15 | Prefetch instruction | none for now; reserve the shape | list and copy loops (from the kernel survey) |
 | P16 | Performance counters | cycle and instruction counters after the clock (P3) | profiling |
 | P18 | Literal pool out of `.text` so code can be execute-only | proposed: option 1, an ABI rule (a read-only pool section next to the text) | OpenBSD's execute-only mitigation |
-| P19 | The top bit of the 40-bit physical address selects device space (set) or memory (clear) | proposed (the author, 2026-10-22, 'what do you think?'); VAX precedent | the author's suggestion; precedent `NEX780` in 4.3BSD |
+| P19 | The top bit of the 40-bit physical address selects device space (set) or memory (clear) | **DECIDED** (the author, 2026-10-22: "bit 39 is right", errata 60); VAX precedent | the author's suggestion; precedent `NEX780` in 4.3BSD |
 | P17 | Constant-time execution (timing-channel defence) | proposed: option 3 (a core set always constant-time plus a `DIT` bit for divide, `mscn`, `mcmp` and floating point); option 4 costs about 1% on average by a rough estimate | cryptography; the hardware-vulnerability rules |
 
 ## Already decided, listed so they are not asked twice
@@ -1526,4 +1526,4 @@ Checked on 2026-10-22 in two passes; details per claim in `docs/codegen-data/ver
 
 **Costs.** The emulator's timer and console addresses move into the upper half; half the address space is spent on a bit that today's devices use a few megabytes of. The alternative (a forty-first bit) costs one more bit in every translation-buffer entry and bus address, and is not proposed.
 
-**Needs.** The author's confirmation; then an erratum, the system-architecture text, and the QEMU memory map.
+**DECIDED (the author, 2026-10-22: "bit 39 is right").** Bit 39 of the physical address: set is device space, clear is memory. **Still to do:** the system-architecture text and the QEMU memory map (the timer and console move into the upper half); implementation queued for an agent.

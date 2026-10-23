@@ -6,7 +6,7 @@
 
 ## 5.1 What a driver sees
 
-**5.1.1** A device is eight 64-bit registers at the start of its own 4 KB page, and the page is mapped with the device memory type, strongly ordered. *(P for the page per device; D for the memory types)*
+**5.1.1** A device is at least eight 64-bit registers at the start of its own 4 KB page (a larger device takes more pages, section 5.2.1), and the page is mapped with the device memory type, strongly ordered. *(P for the page per device; D for the memory types)*
 
 **5.1.2** A driver reaches a register with an ordinary load or store; there are no input or output instructions and no port space. *(D)*
 
@@ -18,7 +18,9 @@
 
 ## 5.2 The device convention: eight registers and DMA
 
-**5.2.1** Each device is eight memory-mapped registers and moves its data by DMA. *(D, errata 29)*
+**5.2.1** Each device is eight memory-mapped registers and moves its data by DMA. *(D, errata 29)* Eight is the minimum every device has, not a limit: a device that needs more (a controller with many queues, a framebuffer, a display's mode and palette registers) maps a larger window in its slot, the first eight registers keep the common layout, and the rest are the device's own. *(D, the author, 2026-10-22, errata 61)*
+
+**5.2.1a** The storage interfaces are all this one pattern: SCSI, ATA, SATA and NVMe each present a command queue in host memory, a doorbell and a completion in memory, which is the ring and the descriptor of 5.2.3 with a different descriptor body; an NVMe controller's submission and completion queues are the closest existing form of it. A disk driver for any of them is the same skeleton with a different command encoding. *(D, the author, 2026-10-22, errata 61)*
 
 **5.2.2** The first three registers are the same in every device: `ID`, `CONTROL` and `STATUS`. *(P)*
 
