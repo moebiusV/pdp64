@@ -3042,7 +3042,277 @@ FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction i
 
 **9.13.1** The atomic escape `ATOM` (opcode `0x11`) holds `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in the chapter named above. *(opcode `0x11`)*
 
-*Commentary.* The instructions are described where their effect is: the multiprocessor chapter. **Impact.** *Kernel:* see 7.12. *Compiler:* a lock acquire is one `_DB` instruction. *Hardware:* a reservation monitor beside the data cache.
+*Commentary.* The official entry of each instruction is below, in this section; chapter 7 gives the reasons, the memory model and the use. **Impact.** *Kernel:* the entries below are all a kernel needs to write its locks; chapter 7 explains how they compose. *Compiler:* a lock acquire is one `_DB` instruction. *Hardware:* a reservation monitor beside the data cache.
+
+<!-- entries:9.13 -->
+### CAS: Compare and swap
+
+**Mnemonics:** `CAS`, `CASDB`
+
+**Syntax**
+
+```
+CAS expected, new, (address)        ; operand placement not yet fixed
+CASDB ...                            ; with a full barrier
+```
+
+**Encoding**
+
+![Encoding of CAS](figures/cas.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `CAS` | `0x00` |
+| `CASDB` | `0x01` |
+
+**Operation**
+
+```
+old <- M[address]
+if old == expected then M[address] <- new
+result <- old          ; the program compares result with expected to learn whether the swap happened
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Why it is here.** ISA revision 13 expanded the atomic escape with barrier-fused variants, taken from LoongArch's pragmatism: a lock acquire is one instruction rather than an atomic followed by a `FENCE`, and that pair is in every critical section of the system. The design chat asked what is needed for symmetric multiprocessing and what can be learned from modern multi-core processors; revision 15 added section 17 (a sequentially consistent model, nearly free on an in-order machine) and the `SYS` additions. The author's question on 2026-10-21, "how many folded opcodes in system and smp? i thought atomics and smp would be in the same umbrella", made the seventeen-operation SMP umbrella. On 2026-10-22 the author chose atomics defined on a reservation monitor and not a bus lock (decision P11, errata 45). The group is specified and not yet implemented in the reference executor.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### SWAP: Atomic exchange
+
+**Mnemonics:** `SWAP`, `SWAPDB`
+
+**Syntax**
+
+```
+SWAP value, (address)
+SWAPDB ...
+```
+
+**Encoding**
+
+![Encoding of SWAP](figures/swap.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `SWAP` | `0x02` |
+| `SWAPDB` | `0x03` |
+
+**Operation**
+
+```
+old <- M[address] ; M[address] <- value ; result <- old
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Why it is here.** One of the read-modify-write atomics of the `ATOM` group (see `CAS`). The record gives no separate history for it.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### XADD: Atomic fetch and add
+
+**Mnemonics:** `XADD`, `XADDDB`
+
+**Syntax**
+
+```
+XADD value, (address)
+XADDDB ...
+```
+
+**Encoding**
+
+![Encoding of XADD](figures/xadd.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `XADD` | `0x04` |
+| `XADDDB` | `0x05` |
+
+**Operation**
+
+```
+old <- M[address] ; M[address] <- old + value ; result <- old
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Why it is here.** One of the fetch-and-operate atomics of `ATOM` (see `CAS`), in the place of the PDP-11's read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair (ISA section 9.13).
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### XAND: Atomic fetch and and, or, xor
+
+**Mnemonics:** `XAND`, `XANDDB`, `XOR`, `XOR_DB`, `XXOR`, `XXORDB`
+
+**Syntax**
+
+```
+XAND value, (address)
+XOR_ value, (address)        ; the trailing underscore keeps the mnemonic distinct from XOR
+XXOR value, (address)
+each with a DB form
+```
+
+**Encoding**
+
+![Encoding of XAND](figures/xand.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `XAND` | `0x06` |
+| `XANDDB` | `0x07` |
+| `XOR_` | `0x08` |
+| `XOR_DB` | `0x09` |
+| `XXOR` | `0x0A` |
+| `XXORDB` | `0x0B` |
+
+**Operation**
+
+```
+old <- M[address]
+XAND: M[address] <- old AND value
+XOR_: M[address] <- old OR value
+XXOR: M[address] <- old XOR value
+result <- old
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Why it is here.** The fetch-and-and, or and xor atomics of `ATOM` (see `CAS`). The record gives no separate history for them.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### XMAX: Atomic fetch and minimum or maximum
+
+**Mnemonics:** `XMAX`, `XMAXDB`, `XMIN`, `XMINDB`, `XMAXU`, `XMAXUDB`, `XMINU`, `XMINUDB`
+
+**Syntax**
+
+```
+XMAX value, (address)
+XMIN ..., XMAXU ..., XMINU ...
+each with a DB form
+```
+
+**Encoding**
+
+![Encoding of XMAX](figures/xmax.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `XMAX` | `0x0C` |
+| `XMAXDB` | `0x0D` |
+| `XMIN` | `0x0E` |
+| `XMINDB` | `0x0F` |
+| `XMAXU` | `0x10` |
+| `XMAXUDB` | `0x11` |
+| `XMINU` | `0x12` |
+| `XMINUDB` | `0x13` |
+
+**Operation**
+
+```
+old <- M[address] ; M[address] <- max(old, value) (XMAX, XMAXU) or min (XMIN, XMINU) ; result <- old
+signed for XMAX and XMIN, unsigned for the U forms
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Why it is here.** The fetch-and-minimum and maximum atomics, borrowed from LoongArch's richer atomic set (ISA section 15.1): each is a couple of hundred lookup tables and saves a compare-and-swap retry loop.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### LLSC: Load-linked and store-conditional
+
+**Mnemonics:** `LL`, `SC`
+
+**Syntax**
+
+```
+LL (address), Rd
+SC value, (address), result
+```
+
+**Encoding**
+
+![Encoding of LLSC](figures/llsc.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `LL` | `0x20` |
+| `SC` | `0x21` |
+
+**Operation**
+
+```
+LL: Rd <- M[address] ; take a reservation on the granule containing address
+SC: if the reservation is intact then M[address] <- value ; result <- 0 (success)
+    else nothing is written ; result <- 1 (failure)
+a write to the granule by any initiator, core or device, clears the reservation
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet. The result convention shown for `SC` is the usual one and is not yet fixed in the text.
+
+**Why it is here.** Load-linked and store-conditional, with the reservation made a monitor in errata 45 (the author's pick, decision P11, 2026-10-22), because a monitor maps onto the exclusive access of AXI and of FPGA and modern memory systems, where the Unibus's locked read-modify-write (`DATIP`/`DATO`) does not scale as cores multiply. A short sequence must eventually succeed if no other initiator keeps writing the granule, the RISC-V rule.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+<!-- /entries:9.13 -->
 
 ## 9.14 System instructions, exceptions and interrupts
 
@@ -3050,7 +3320,930 @@ FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction i
 
 **9.14.1** The system escape `SYS` (opcode `0x14`) holds the privileged and system instructions: `TRAP`, `TRAPL`, `RTI`, `RTT`, `RET`, `HALT`, `BPT`, `MTPS`, `MFPS`, `SPL`, `MFSR`, `MTSR`, `MTDP`, `MFDP`, `MFCPUID`, `PROBER`, `PROBEW`, `PUSHX`, `POPX`, and the translation and cache maintenance instructions (`TLBI`, `TLBIA`, `TLBSYNC`, `MTASID`, `MFASID`, `ICINV`, `ICINVA`). The user-memory guard instructions `STUA` and `CLUA` are described with them. *(opcode `0x14`)*
 
-*Commentary.* The modes, the entry sequence and the system registers are the kernel chapter's; this chapter lists the instructions. **Impact.** *Kernel:* see 6.7. *Compiler:* none, apart from `TRAP` in system-call stubs. *Hardware:* a class decode and one privilege check.
+*Commentary.* The official entry of each instruction is below, in this section; the kernel chapter gives the modes, the entry sequence, the system registers and the reasons. **Impact.** *Kernel:* the entries below are the complete list of what the kernel may execute that user code may not, and of what both may; chapter 6 explains how they are used. *Compiler:* none, apart from `TRAP` in system-call stubs. *Hardware:* a class decode and one privilege check.
+
+<!-- entries:9.14 -->
+### NOP: No operation and landing pad
+
+**Mnemonics:** `NOP`, `LPAD`
+
+**Syntax**
+
+```
+NOP
+LPAD
+```
+
+**Encoding**
+
+![Encoding of NOP](figures/nop.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `NOP` | 0 | `0x0` |
+| `LPAD` | 0 | `0x9` |
+
+**Operation**
+
+```
+nothing
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+`LPAD` marks a legal target of an indirect jump or call; no instruction enforces it in ABI version 1.
+
+**Why it is here.** `NOP` is common and has no story; `LPAD` is the landing pad. Landing pads, `LPAD`, mark the legal targets of indirect jumps and calls so that jump-oriented attacks can be stopped at the transfer, as Intel's indirect-branch tracking and ARM's branch target identification do and OpenBSD enforces. ABI version 1 leaves them off (an open item of the instruction set, section 12.3 of the text), and the assembler provides `.lpad`; the kernel pain-points and mitigations reports (this chat, 2026-10-22) record why deciding later gets more expensive (appendix A, section A.1).
+
+**Cf.** Appendix A, section A.1 (landing pads).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### RTI: Return from interrupt or exception
+
+**Mnemonics:** `RTI`, `RTT`
+
+**Syntax**
+
+```
+RTI
+RTT
+```
+
+**Encoding**
+
+![Encoding of RTI](figures/rti.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `RTI` | 0 | `0x1` |
+| `RTT` | 0 | `0x2` |
+
+**Operation**
+
+```
+PC <- EPC ; PSW <- EPSW           ; a PSW with the reserved mode 2 in either mode field aborts
+RTT: and then set the trace bit T after the return
+```
+
+**Flags** Replaced by `EPSW`, including the flags.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
+
+`RTT` sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler.
+
+**Why it is here.** `RTT` stays despite looking redundant against `RTI` (ISA revision 17): it sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler.
+
+**Cf.** 6.2 (exceptions and interrupts), 6.7.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### RET: Return from subroutine
+
+**Mnemonics:** `RET`
+
+**Syntax**
+
+```
+RET
+```
+
+**Encoding**
+
+![Encoding of RET](figures/ret.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `RET` | 0 | `0x3` |
+
+**Operation**
+
+```
+PC <- M[SP] ; SP <- SP + 8
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+Not privileged, though it is in the system escape: it is the two-byte partner of `CALL`.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### HALT: Halt the processor
+
+**Mnemonics:** `HALT`
+
+**Syntax**
+
+```
+HALT
+```
+
+**Encoding**
+
+![Encoding of HALT](figures/halt.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `HALT` | 0 | `0x4` |
+
+**Operation**
+
+```
+stop the processor
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
+
+**Cf.** 6.6.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### BPT: Breakpoint
+
+**Mnemonics:** `BPT`
+
+**Syntax**
+
+```
+BPT
+```
+
+**Encoding**
+
+![Encoding of BPT](figures/bpt.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `BPT` | 0 | `0x5` |
+
+**Operation**
+
+```
+take the breakpoint vector with EPC = the address of the next instruction
+```
+
+**Flags** None written.
+
+**Exceptions** Enters the kernel by the `BPT` vector.
+
+A trap like any other, but kept as its own two-byte instruction because a debugger patches it over an existing instruction, so it must be the shortest instruction the machine has.
+
+**Why it is here.** `BPT` is just a trap vector, but a debugger patches it over an existing instruction, so it must be the shortest instruction the machine has; that is why it stayed when `IOT` and `EMT` were dropped in ISA revision 17.
+
+**Cf.** 6.2.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FENCE: Memory fence
+
+**Mnemonics:** `FENCE`
+
+**Syntax**
+
+```
+FENCE
+```
+
+**Encoding**
+
+![Encoding of FENCE](figures/fence.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `FENCE` | 0 | `0x6` |
+
+**Operation**
+
+```
+order the memory accesses before it against those after it, for every initiator that observes them
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+Owed to devices (one `FENCE` separates writing a device's registers from setting its go bit) and to other cores.
+
+**Why it is here.** ISA revision 15 declared the memory model sequentially consistent and so needs `FENCE` only for what is outside the model: devices and the framebuffer (one `FENCE` between writing a device's registers and setting its go bit, section 3.4 of the book) and instruction streams. The record says the `_DB` barrier forms of the atomics were added so that a `FENCE` is not needed in a lock acquire.
+
+**Cf.** 7.2 (the memory model), 2.2 (what the processor owes the bus).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### WFE: Wait for an event
+
+**Mnemonics:** `WFE`  (aliases: `WAIT`)
+
+**Syntax**
+
+```
+WFE
+```
+
+**Encoding**
+
+![Encoding of WFE](figures/wfe.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `WFE` | 0 | `0x7` |
+
+**Operation**
+
+```
+sleep until an interrupt is pending or another core executes SEV
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
+
+`WAIT` is an assembler alias. Whether `WFE` wakes on a pending but masked interrupt (the idle-loop question) is open.
+
+**Why it is here.** `WAIT` was a PDP-11 instruction (sleep until an interrupt) and was dropped in ISA revision 17 as subsumed by `WFE`, which sleeps until an interrupt or another core's `SEV`; on a uniprocessor it behaves exactly as `WAIT` did. `WFE` and `SEV` came with the SMP additions of revision 15 (the design chat's question about symmetric multiprocessing). The wake rule (whether a pending but masked interrupt wakes it) was an accidental decision that the author asked to see written up like the others; it is open item P1.
+
+**Cf.** 7.6 (waiting and signalling).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### SEV: Send an event
+
+**Mnemonics:** `SEV`
+
+**Syntax**
+
+```
+SEV
+```
+
+**Encoding**
+
+![Encoding of SEV](figures/sev.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `SEV` | 0 | `0x8` |
+
+**Operation**
+
+```
+wake every core waiting in WFE
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+**Why it is here.** The signalling half of `WFE`, added in ISA revision 15 so that a core waiting for a lock can sleep instead of spinning and be woken by the core that releases it.
+
+**Cf.** 7.6.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### TLBA: Invalidate all translations; wait for translation invalidations; invalidate the whole instruction cache
+
+**Mnemonics:** `TLBIA`, `TLBSYNC`, `ICINVA`
+
+**Syntax**
+
+```
+TLBIA
+TLBSYNC
+ICINVA
+```
+
+**Encoding**
+
+![Encoding of TLBA](figures/tlba.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `TLBIA` | 0 | `0xA` |
+| `TLBSYNC` | 0 | `0xB` |
+| `ICINVA` | 0 | `0xC` |
+
+**Operation**
+
+```
+TLBIA   : invalidate every translation-buffer entry on this core and, by broadcast, on the others
+TLBSYNC : wait until the invalidations this core started have completed on every core
+ICINVA  : invalidate the whole instruction cache
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged (`TLBIA`, `TLBSYNC`); the reference executor treats `ICINVA` as a no-op.
+
+**Why it is here.** ISA revision 15 respecified `TLBI` and `TLBIA` as broadcasting and added `TLBSYNC` to wait for the other cores, and `ICINV` and `ICINVA`: "the absence of an I-cache invalidate through revision 14 was a hole", because a Lisp runtime that compiles a function cannot work without it.
+
+**Cf.** 7.5 (translation and instruction-cache coherence).
+
+**Status** implemented in the reference executor for `TLBIA`, `TLBSYNC`; not yet for the others.
+
+
+### PUSHX: Push and pop the exception state
+
+**Mnemonics:** `PUSHX`, `POPX`
+
+**Syntax**
+
+```
+PUSHX
+POPX
+```
+
+**Encoding**
+
+![Encoding of PUSHX](figures/pushx.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `PUSHX` | 0 | `0xF` (`SYSX`), sub-opcode `0` in parcel 1 |
+| `POPX` | 0 | `0xF` (`SYSX`), sub-opcode `1` in parcel 1 |
+
+**Operation**
+
+```
+PUSHX: SP <- SP - 16 ; M[SP] <- EPSW ; M[SP + 8] <- EPC
+POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. `SP` must be 8-byte aligned (a misaligned-access abort); both words are checked before either is touched.
+
+Four bytes (the `SYSX` escape, sub-opcodes 0 and 1) and two bytes on page 2. For a handler that wants to be interrupted: it can save the exception state and lower the priority.
+
+**Why it is here.** The author decided on 2026-10-22: "add pushx popx", then "i like the pushx popx savings; they might not show up high in the instruction count, but they'd save bytes and cycles in a very tight, very often used kernel loop, no?" A handler that can be interrupted must save `EPC` and `EPSW` before it lowers the priority; with only `MFSR` that costs two moves and two stores (sixteen bytes) on every such kernel entry, and the same to restore. It came out of the System v1 design (errata 36 and 37). Page 2 has the two-byte forms.
+
+**Cf.** 6.2, 6.7.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### ISYNC: Instruction synchronisation
+
+**Mnemonics:** `ISYNC`
+
+**Syntax**
+
+```
+ISYNC
+```
+
+**Encoding**
+
+![Encoding of ISYNC](figures/isync.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `ISYNC` | 0 | `0xF` (`SYSX`), sub-opcode `2` in parcel 1 |
+
+**Operation**
+
+```
+make earlier writes to PTBR, ASID, MMUCTL and VBR, and earlier ICINVs, take effect for the instructions that follow
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. A non-zero pad byte is an illegal instruction.
+
+The architecture promises the effect only after the next `ISYNC`; an in-order implementation may make it immediate, and software must not rely on that.
+
+**Why it is here.** Adopted on 2026-10-22 (errata 39) from the out-of-order readiness review, which the author asked for ("i'm ok with the fpga/asic being in order, but want to be ready for the out of order large scale design"): it makes earlier writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` take effect for what follows, so an in-order machine may make them immediate and a speculative one has a place to serialise.
+
+**Cf.** 7.5, 6.3.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### HINT: Hint
+
+**Mnemonics:** `HINT`
+
+**Syntax**
+
+```
+HINT #n        ; n = 0 to 255
+```
+
+**Encoding**
+
+![Encoding of HINT](figures/hint.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `HINT` | 0 | `0xF` (`SYSX`), sub-opcode `3` in parcel 1 |
+
+**Operation**
+
+```
+no architectural effect
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+Defined codes: 0 a plain no-op hint, 1 pause (spin-wait), 2 speculation barrier. Every other code is a reserved hint that executes as a no-op; software shall not use it. Not privileged.
+
+**Why it is here.** Adopted with `ISYNC` on 2026-10-22 (errata 39): a no-op with a byte of code, defined for `0` (plain), `1` (pause, for spin-wait loops) and `2` (speculation barrier), every other code a reserved hint that executes as a no-op so that a later machine can give it a meaning without breaking an old binary.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MFSR: Move from and to a system register
+
+**Mnemonics:** `MFSR`, `MTSR`
+
+**Syntax**
+
+```
+MFSR Rd, name
+MTSR name, Rs
+```
+
+**Encoding**
+
+![Encoding of MFSR](figures/mfsr.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `MFSR` | 0 | `0xD`, system register number in parcel 1 |
+| `MTSR` | 0 | `0xE`, system register number in parcel 1 |
+
+**Operation**
+
+```
+MFSR: Rd <- system register `name`
+MTSR: system register `name` <- Rs         ; read-only registers are an illegal instruction
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. An unassigned system register is an illegal instruction.
+
+The register is chosen by name (a number in parcel 1); the instruction is four bytes. A write to `PTBR`, `ASID` or `MMUCTL` flushes the translation buffer.
+
+| Name | Number | Access |
+|---|---|---|
+| `PTBR` | 0 | read and write |
+| `EPC` | 1 | read and write |
+| `EVA` | 2 | read only |
+| `ECAUSE` | 3 | read only |
+| `DMW0` | 4 | read and write |
+| `DMW1` | 5 | read and write |
+| `USP` | 6 | read and write |
+| `SSP` | 7 | read and write |
+| `EPSW` | 8 | read and write |
+| `VBR` | 9 | read and write |
+| `MMUCTL` | 10 | read and write |
+| `ASID` | 11 | read and write |
+| `CPUID` | 12 | read only |
+
+**Why it is here.** The author asked on 2026-10-22: "actually didn't you notice some missing instructions that a paging os needs? you should add them in now to, to the docs, the grammar, and the backend". The instruction-set text named `PTBR`, `EPC`, `EVA` and `ECAUSE` and had no instruction to write the first or read the others, so a kernel could neither install a page table nor learn why it was entered. One general pair reaches all of them by name (errata 32). The user and supervisor stack pointers are in the set because any kernel must read and write the user stack pointer to build a signal frame, copy a process or switch context.
+
+**Cf.** 6.3 (system registers).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MTPS: Move to and from the processor status word
+
+**Mnemonics:** `MTPS`, `MFPS`
+
+**Syntax**
+
+```
+MTPS Rs
+MFPS Rd
+```
+
+**Encoding**
+
+![Encoding of MTPS](figures/mtps.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `MTPS` | `0x1` | operand in `low` |
+| `MFPS` | `0x2` | operand in `low` |
+
+**Operation**
+
+```
+MTPS: PSW <- Rs          ; in user mode only the flags N Z V C are written
+MFPS: Rd <- PSW
+```
+
+**Flags** `MTPS` writes the flags from `Rs`; `MFPS` writes none.
+
+**Exceptions** A `MTPS` value with the reserved mode 2 in a mode field aborts.
+
+**Cf.** 6.1 (modes and the status word).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### SPL: Set the interrupt priority level
+
+**Mnemonics:** `SPL`
+
+**Syntax**
+
+```
+SPL #n        ; n = 0 to 7
+```
+
+**Encoding**
+
+![Encoding of SPL](figures/spl.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `SPL` | `0x3` | operand in `low` |
+
+**Operation**
+
+```
+PSW.priority <- n
+```
+
+**Flags** None written. The condition flags are untouched.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. A priority above 7 is an illegal instruction.
+
+Kept despite `MTPS` writing the whole word because it sets the priority alone: a kernel raising priority around a critical section must not clobber the flags.
+
+**Why it is here.** `SPL` stays despite `MTPS` writing the whole status word (ISA revision 17): it sets the priority alone, leaving the condition codes untouched, so a kernel raising priority around a critical section does not clobber flags. It is the PDP-11 instruction of the same name.
+
+**Cf.** 6.2.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### TRAP: System call and trap
+
+**Mnemonics:** `TRAP`, `TRAPL`
+
+**Syntax**
+
+```
+TRAP #n        ; n = 0 to 15, two bytes
+TRAPL #n       ; n = 0 to 255, four bytes
+```
+
+**Encoding**
+
+![Encoding of TRAP](figures/trap.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `TRAP` | `0x4` | operand in `low` |
+| `TRAPL` | `0xF` | operand in `low` |
+
+**Operation**
+
+```
+enter the kernel by vector (TRAP_BASE + n), with EPC = the address of the next instruction
+```
+
+**Flags** None written.
+
+**Exceptions** Enters the kernel; not privileged.
+
+The replacement for the PDP-11 `IOT` and `EMT`. `TRAPL` reaches the vectors 0 to 255 with `n` in the high byte of parcel 1.
+
+**Why it is here.** `TRAPL` was added (errata 5) so that the vector range of 256 and the two-byte common case could both be kept: `TRAP #n` for `n` below 16 is two bytes and the long form reaches 256. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, were dropped in ISA revision 17.
+
+**Cf.** 6.2, 6.5 (system calls).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### TLBI: Invalidate a translation
+
+**Mnemonics:** `TLBI`
+
+**Syntax**
+
+```
+TLBI Rs
+```
+
+**Encoding**
+
+![Encoding of TLBI](figures/tlbi.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `TLBI` | `0x5` | operand in `low` |
+
+**Operation**
+
+```
+invalidate the translation-buffer entry for the page containing the address in Rs, on this core and by broadcast on the others
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
+
+**Why it is here.** Respecified as broadcasting in ISA revision 15 (SMP section): a translation changed by one core must be invalidated on all of them, and `TLBSYNC` waits for it.
+
+**Cf.** 7.5, 6.4.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MTASID: Move to and from the address-space identifier
+
+**Mnemonics:** `MTASID`, `MFASID`
+
+**Syntax**
+
+```
+MTASID Rs
+MFASID Rd
+```
+
+**Encoding**
+
+![Encoding of MTASID](figures/mtasid.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `MTASID` | `0x6` | operand in `low` |
+| `MFASID` | `0x7` | operand in `low` |
+
+**Operation**
+
+```
+MTASID: ASID <- Rs[15:0]          ; the translation buffer is flushed in the reference executor
+MFASID: Rd <- ASID
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
+
+The `ASID` tags translation-buffer entries so a context switch is one store.
+
+**Why it is here.** The `ASID` tags translation-buffer entries so a context switch is one store and no flush, which preserves the constant-time context switch the earlier map-set design was for (ISA section 8.1). The record gives no further history.
+
+**Cf.** 6.4.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MTDP: Move to and from the direct pointer
+
+**Mnemonics:** `MTDP`, `MFDP`
+
+**Syntax**
+
+```
+MTDP Rs
+MFDP Rd
+```
+
+**Encoding**
+
+![Encoding of MTDP](figures/mtdp.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `MTDP` | `0x8` | operand in `low` |
+| `MFDP` | `0x9` | operand in `low` |
+
+**Operation**
+
+```
+MTDP: DP <- Rs
+MFDP: Rd <- DP
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+`DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.
+
+**Why it is here.** `DP` entered at revision 1 as the descendant of the 6502's zero page, kept for code density (a 12-bit displacement in four bytes); it turned out to be the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants (ISA sections 2.2 and 19.3). `MTDP` and `MFDP` read and write the current mode's copy.
+
+**Cf.** 7.4 (per-CPU state).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MTDMW: Move to a direct-mapping window
+
+**Mnemonics:** `MTDMW`
+
+**Syntax**
+
+```
+MTDMW Rs
+```
+
+**Encoding**
+
+![Encoding of MTDMW](figures/mtdmw.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `MTDMW` | `0xA` | operand in `low` |
+
+**Operation**
+
+```
+DMW0 <- Rs          ; storage only: the operand names no window and the windows are not yet defined
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
+
+The direct-mapping windows are deferred (errata 44).
+
+**Why it is here.** Taken from LoongArch's direct-mapping windows (ISA section 15.1), which stop the kernel taking translation-buffer misses on its own text. The author decided on 2026-10-22 that the windows are deferred, `MMUCTL` stays, and the instruction is storage only for now (errata 44).
+
+**Cf.** 6.4.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MFCPUID: Read the processor identifier
+
+**Mnemonics:** `MFCPUID`
+
+**Syntax**
+
+```
+MFCPUID Rd
+```
+
+**Encoding**
+
+![Encoding of MFCPUID](figures/mfcpuid.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `MFCPUID` | `0xB` | operand in `low` |
+
+**Operation**
+
+```
+Rd <- CPUID
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+The index of this core, for per-CPU data.
+
+**Why it is here.** Added in ISA revision 15 with the SMP section, because per-CPU data needs each core to know which one it is.
+
+**Cf.** 7.4, 7.8.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### ICINV: Invalidate the instruction cache for an address
+
+**Mnemonics:** `ICINV`
+
+**Syntax**
+
+```
+ICINV Rs
+```
+
+**Encoding**
+
+![Encoding of ICINV](figures/icinv.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `ICINV` | `0xC` | operand in `low` |
+
+**Operation**
+
+```
+invalidate the instruction-cache line containing the address in Rs
+```
+
+**Flags** None written.
+
+**Exceptions** The reference executor treats it as a no-op; privilege as for the other cache-maintenance instructions.
+
+**Why it is here.** Added with `ICINVA` in ISA revision 15: instruction-cache invalidation, by address and whole. The reason is the one given for `TLBA`: a runtime that compiles a function cannot work without it.
+
+**Cf.** 7.5.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### PROBE: Probe an address for read or write access
+
+**Mnemonics:** `PROBER`, `PROBEW`
+
+**Syntax**
+
+```
+PROBER Rd, Rs
+PROBEW Rd, Rs
+```
+
+**Encoding**
+
+![Encoding of PROBE](figures/probe.svg)
+
+The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+
+| Mnemonic | Class (`reg`) | Minor (`low`) |
+|---|---|---|
+| `PROBER` | `0xD` | operand in `low` |
+| `PROBEW` | `0xE` | operand in `low` |
+
+**Operation**
+
+```
+Rd <- 1 if the address in Rs is readable (PROBER) or writable (PROBEW) in the previous mode, else 0
+no fault is taken
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
+
+Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address before using it.
+
+**Why it is here.** Restored from the VAX `PROBER` and `PROBEW` in the idioms the revision 13 inventory brought back (ISA section 14.1): the kernel validates a user address before using it, and it replaces the `nofault` global of the V7 kernel for the address-validation case.
+
+**Cf.** 6.5 (the user-memory guard), 6.4.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+<!-- /entries:9.14 -->
 
 ## 9.15 Faults, restart and memory management
 

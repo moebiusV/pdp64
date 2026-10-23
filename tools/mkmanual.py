@@ -353,8 +353,8 @@ for _i in 'COUNT POPCNT BSWAP BITREV ROR RORI RORI32 DSHR EXTB INSB XNORPOP CLMU
 for _i in 'BCC SOB CBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md', '9.10')
 for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', '9.11')
 for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FHALF FCVTH'.split(): HOME[_i] = ('09-isa.md', '9.12')
-for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('07-smp.md', '7.12')
-for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT MFSR MTPS SPL TRAP TLBI MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('06-kernel.md', '6.7')
+for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', '9.13')
+for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT MFSR MTPS SPL TRAP TLBI MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', '9.14')
 CHAPDIR = os.path.join(ROOT, 'docs', 'streamlined')
 
 
@@ -428,6 +428,17 @@ def build():
     for (fn, sec), parts in sorted(heads.items()):
         texts[fn] = embed(texts[fn], 'entries:' + sec, '\n\n'.join(p.strip('\n') + '\n' for p in parts))
     texts['09-isa.md'] = embed(texts['09-isa.md'], 'notation', D.NOTATION, after_heading=True)
+    # the official entries live in the instruction chapter; the chapters that give the rationale list them and link to them
+    for fn, sec, home in (('06-kernel.md', '6.7', '9.14'), ('07-smp.md', '7.12', '9.13')):
+        rows = ['**The instruction entries for this section are in chapter 9, section %s:** each entry there is complete (syntax, encoding diagram, operation, flags, exceptions, status); this chapter gives the reasons, the history and the use.' % home, '',
+                '| Entry | Mnemonics |', '|---|---|']
+        for e in ents:
+            if HOME[e['id']] == ('09-isa.md', home):
+                mn = ', '.join('`%s`' % n.upper().rstrip('_') for n in e['names'] if not MN[n]['alias_of'])
+                rows.append('| [%s](09-isa.md#%s) | %s |' % (e['title'], anchor_for(e), mn))
+        if fn not in texts:
+            texts[fn] = open(os.path.join(CHAPDIR, fn)).read()
+        texts[fn] = embed(texts[fn], 'entries:' + sec, '\n'.join(rows))
     chapters = texts
     # slugs of the sections, for links
     def sec_link(fn, sec):

@@ -10,8 +10,6 @@ This is the reference part of the manual: **one entry for each instruction**, in
 
 ## Where the entries are
 
-* [Section 6.7, System instructions, exceptions and interrupts](../06-kernel.md#67-system-instructions-exceptions-and-interrupts): `NOP`, `RTI`, `RET`, `HALT`, `BPT`, `FENCE`, `WFE`, `SEV`, `TLBIA`, `PUSHX`, `ISYNC`, `HINT`, `MFSR`, `MTPS`, `SPL`, `TRAP`, `TLBI`, `MTASID`, `MTDP`, `MTDMW`, `MFCPUID`, `ICINV`, `PROBER`
-* [Section 7.12, The atomic and ordering instructions](../07-smp.md#712-the-atomic-and-ordering-instructions): `CAS`, `SWAP`, `XADD`, `XAND`, `XMAX`, `LL`
 * [Section 9.6, Moves, conversions and address formation](../09-isa.md#96-moves-conversions-and-address-formation): `MOVQ`, `MOVZL`, `LEA`, `MOVUB`
 * [Section 9.7, Integer arithmetic](../09-isa.md#97-integer-arithmetic): `ADD`, `SUB`, `CMP`, `MUL`, `MULH`, `ADDM`, `INC`, `DEC`, `NEG`, `ADC`, `SBC`, `DIV`, `MULHU`, `ABS`, `MIN`, `SET`
 * [Section 9.8, Logic, shifts and rotates](../09-isa.md#98-logic-shifts-and-rotates): `BIC`, `BIS`, `BIT`, `XOR`, `AND`, `SHL`, `CLR`, `COM`, `TST`, `ASL`, `ASR`
@@ -19,6 +17,8 @@ This is the reference part of the manual: **one entry for each instruction**, in
 * [Section 9.10, Branches and control flow](../09-isa.md#910-branches-and-control-flow): `BR`, `SOB`, `CBNE`, `BTAG`, `JMP`, `CALL`, `JMPI`, `JTAG`
 * [Section 9.11, The stack and block operations](../09-isa.md#911-the-stack-and-block-operations): `PUSHM`, `POPM`, `PUSH`, `POP`, `MCPY`, `MSET`, `MCMP`, `MSCN`, `MVAL`
 * [Section 9.12, Floating point](../09-isa.md#912-floating-point): `FADD`, `FCMP`, `FDIV`, `FADD32`, `FMADD`, `FMADD32`, `FNEG`, `FMIN`, `FCLASS`, `FRINT`, `FCVTDQ`, `FSFLAGS`, `FADD16`, `FCVTSH`
+* [Section 9.13, Atomics and ordering](../09-isa.md#913-atomics-and-ordering): `CAS`, `SWAP`, `XADD`, `XAND`, `XMAX`, `LL`
+* [Section 9.14, System instructions, exceptions and interrupts](../09-isa.md#914-system-instructions-exceptions-and-interrupts): `NOP`, `RTI`, `RET`, `HALT`, `BPT`, `FENCE`, `WFE`, `SEV`, `TLBIA`, `PUSHX`, `ISYNC`, `HINT`, `MFSR`, `MTPS`, `SPL`, `TRAP`, `TLBI`, `MTASID`, `MTDP`, `MTDMW`, `MFCPUID`, `ICINV`, `PROBER`
 
 ## The tables
 

@@ -34,7 +34,7 @@
 | `BNE` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x31` |  | Branches |
 | `BNTAG` | [BTAG](../09-isa.md#btag-branch-on-pointer-tag) (section 9.10) | `0x15` | `0x1` | Branches |
 | `BPL` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x33` |  | Branches |
-| `BPT` | [BPT](../06-kernel.md#bpt-breakpoint) (section 6.7) | `0x14` | `0x5` | System (SYS) |
+| `BPT` | [BPT](../09-isa.md#bpt-breakpoint) (section 9.14) | `0x14` | `0x5` | System (SYS) |
 | `BR` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x30` |  | Branches |
 | `BSWAP` | [BSWAP](../09-isa.md#bswap-byte-swap) (section 9.9) | `0x0C` | `0x5` | Bits and fields (BESC) |
 | `BSWAPL` | [BSWAP](../09-isa.md#bswap-byte-swap) (section 9.9) | `0x0C` | `0x7` | Bits and fields (BESC) |
@@ -44,8 +44,8 @@
 | `BVS` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x36` |  | Branches |
 | `CALL` | [CALL](../09-isa.md#call-call) (section 9.10) | `0x13` | `0xD` | Single operand (SOP) |
 | `CALLI` | [JMPI](../09-isa.md#jmpi-jump-and-call-through-memory) (section 9.10) | `0x12` | `0x1` | Indirect transfers (XFER) |
-| `CAS` | [CAS](../07-smp.md#cas-compare-and-swap) (section 7.12) | `0x11` | `0x0` | Atomics (ATOM) |
-| `CASDB` | [CAS](../07-smp.md#cas-compare-and-swap) (section 7.12) | `0x11` | `0x1` | Atomics (ATOM) |
+| `CAS` | [CAS](../09-isa.md#cas-compare-and-swap) (section 9.13) | `0x11` | `0x0` | Atomics (ATOM) |
+| `CASDB` | [CAS](../09-isa.md#cas-compare-and-swap) (section 9.13) | `0x11` | `0x1` | Atomics (ATOM) |
 | `CBCC` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x7` | Branches |
 | `CBCS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x8` | Branches |
 | `CBEQ` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x2` | Branches |
@@ -113,7 +113,7 @@
 | `FDIV32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xB` | Floating point (FESC) |
 | `FDIVD` (alias of `FDIV`) | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | `0x10` | `0x0` | Floating point (FESC) |
 | `FDIVS` (alias of `FDIV32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xB` | Floating point (FESC) |
-| `FENCE` | [FENCE](../06-kernel.md#fence-memory-fence) (section 6.7) | `0x14` | `0x6` | System (SYS) |
+| `FENCE` | [FENCE](../09-isa.md#fence-memory-fence) (section 9.14) | `0x14` | `0x6` | System (SYS) |
 | `FMADD` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | `0x10` | `0x10` | Floating point (FESC) |
 | `FMADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x58` | Floating point (FESC) |
 | `FMADD32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | `0x10` | `0x18` | Floating point (FESC) |
@@ -165,28 +165,28 @@
 | `FSUB32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0x9` | Floating point (FESC) |
 | `FSUBD` (alias of `FSUB`) | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | `0x25` |  | Moves, address formation and the ALU |
 | `FSUBS` (alias of `FSUB32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0x9` | Floating point (FESC) |
-| `HALT` | [HALT](../06-kernel.md#halt-halt-the-processor) (section 6.7) | `0x14` | `0x4` | System (SYS) |
-| `HINT` | [HINT](../06-kernel.md#hint-hint) (section 6.7) | `0x14` | `0x3` | System (SYS) |
-| `ICINV` | [ICINV](../06-kernel.md#icinv-invalidate-the-instruction-cache-for-an-address) (section 6.7) | `0x14` | `0xC` | System (SYS) |
-| `ICINVA` | [TLBA](../06-kernel.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 6.7) | `0x14` | `0xC` | System (SYS) |
+| `HALT` | [HALT](../09-isa.md#halt-halt-the-processor) (section 9.14) | `0x14` | `0x4` | System (SYS) |
+| `HINT` | [HINT](../09-isa.md#hint-hint) (section 9.14) | `0x14` | `0x3` | System (SYS) |
+| `ICINV` | [ICINV](../09-isa.md#icinv-invalidate-the-instruction-cache-for-an-address) (section 9.14) | `0x14` | `0xC` | System (SYS) |
+| `ICINVA` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | `0x14` | `0xC` | System (SYS) |
 | `INC` | [INC](../09-isa.md#inc-increment) (section 9.7) | `0x13` | `0x2` | Single operand (SOP) |
 | `INSB` | [INSB](../09-isa.md#insb-insert-a-bit-field) (section 9.9) | `0x0C` | `0x23` | Bits and fields (BESC) |
-| `ISYNC` | [ISYNC](../06-kernel.md#isync-instruction-synchronisation) (section 6.7) | `0x14` | `0x2` | System (SYS) |
+| `ISYNC` | [ISYNC](../09-isa.md#isync-instruction-synchronisation) (section 9.14) | `0x14` | `0x2` | System (SYS) |
 | `JMP` | [JMP](../09-isa.md#jmp-jump) (section 9.10) | `0x13` | `0xC` | Single operand (SOP) |
 | `JMPI` | [JMPI](../09-isa.md#jmpi-jump-and-call-through-memory) (section 9.10) | `0x12` | `0x0` | Indirect transfers (XFER) |
 | `JTAG` | [JTAG](../09-isa.md#jtag-jump-through-a-tag-table) (section 9.10) | `0x12` | `0x2` | Indirect transfers (XFER) |
 | `LEA` | [LEA](../09-isa.md#lea-load-effective-address) (section 9.6) | `0x0B` |  | Moves, address formation and the ALU |
-| `LL` | [LLSC](../07-smp.md#llsc-load-linked-and-store-conditional) (section 7.12) | `0x11` | `0x20` | Atomics (ATOM) |
-| `LPAD` | [NOP](../06-kernel.md#nop-no-operation-and-landing-pad) (section 6.7) | `0x14` | `0x9` | System (SYS) |
+| `LL` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | `0x11` | `0x20` | Atomics (ATOM) |
+| `LPAD` | [NOP](../09-isa.md#nop-no-operation-and-landing-pad) (section 9.14) | `0x14` | `0x9` | System (SYS) |
 | `MAX` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `0x0E` | `0x12` | Arithmetic (AESC) |
 | `MAXU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `0x0E` | `0x13` | Arithmetic (AESC) |
 | `MCMP` | [MCMP](../09-isa.md#mcmp-compare-two-blocks-of-bytes) (section 9.11) | `0x0D` | `0x3` | Block memory (MBLK) |
 | `MCPY` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | `0x0D` | `0x0` | Block memory (MBLK) |
-| `MFASID` | [MTASID](../06-kernel.md#mtasid-move-to-and-from-the-address-space-identifier) (section 6.7) | `0x14` | `0x7` | System (SYS) |
-| `MFCPUID` | [MFCPUID](../06-kernel.md#mfcpuid-read-the-processor-identifier) (section 6.7) | `0x14` | `0xB` | System (SYS) |
-| `MFDP` | [MTDP](../06-kernel.md#mtdp-move-to-and-from-the-direct-pointer) (section 6.7) | `0x14` | `0x9` | System (SYS) |
-| `MFPS` | [MTPS](../06-kernel.md#mtps-move-to-and-from-the-processor-status-word) (section 6.7) | `0x14` | `0x2` | System (SYS) |
-| `MFSR` | [MFSR](../06-kernel.md#mfsr-move-from-and-to-a-system-register) (section 6.7) | `0x14` | `0xD` | System (SYS) |
+| `MFASID` | [MTASID](../09-isa.md#mtasid-move-to-and-from-the-address-space-identifier) (section 9.14) | `0x14` | `0x7` | System (SYS) |
+| `MFCPUID` | [MFCPUID](../09-isa.md#mfcpuid-read-the-processor-identifier) (section 9.14) | `0x14` | `0xB` | System (SYS) |
+| `MFDP` | [MTDP](../09-isa.md#mtdp-move-to-and-from-the-direct-pointer) (section 9.14) | `0x14` | `0x9` | System (SYS) |
+| `MFPS` | [MTPS](../09-isa.md#mtps-move-to-and-from-the-processor-status-word) (section 9.14) | `0x14` | `0x2` | System (SYS) |
+| `MFSR` | [MFSR](../09-isa.md#mfsr-move-from-and-to-a-system-register) (section 9.14) | `0x14` | `0xD` | System (SYS) |
 | `MIN` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `0x0E` | `0x10` | Arithmetic (AESC) |
 | `MINU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `0x0E` | `0x11` | Arithmetic (AESC) |
 | `MMOV` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | `0x0D` | `0x1` | Block memory (MBLK) |
@@ -206,73 +206,73 @@
 | `MSCN` | [MSCN](../09-isa.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) (section 9.11) | `0x0D` | `0x4` | Block memory (MBLK) |
 | `MSCNN` | [MSCN](../09-isa.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) (section 9.11) | `0x0D` | `0x5` | Block memory (MBLK) |
 | `MSET` | [MSET](../09-isa.md#mset-fill-a-block-of-bytes) (section 9.11) | `0x0D` | `0x2` | Block memory (MBLK) |
-| `MTASID` | [MTASID](../06-kernel.md#mtasid-move-to-and-from-the-address-space-identifier) (section 6.7) | `0x14` | `0x6` | System (SYS) |
-| `MTDMW` | [MTDMW](../06-kernel.md#mtdmw-move-to-a-direct-mapping-window) (section 6.7) | `0x14` | `0xA` | System (SYS) |
-| `MTDP` | [MTDP](../06-kernel.md#mtdp-move-to-and-from-the-direct-pointer) (section 6.7) | `0x14` | `0x8` | System (SYS) |
-| `MTPS` | [MTPS](../06-kernel.md#mtps-move-to-and-from-the-processor-status-word) (section 6.7) | `0x14` | `0x1` | System (SYS) |
-| `MTSR` | [MFSR](../06-kernel.md#mfsr-move-from-and-to-a-system-register) (section 6.7) | `0x14` | `0xE` | System (SYS) |
+| `MTASID` | [MTASID](../09-isa.md#mtasid-move-to-and-from-the-address-space-identifier) (section 9.14) | `0x14` | `0x6` | System (SYS) |
+| `MTDMW` | [MTDMW](../09-isa.md#mtdmw-move-to-a-direct-mapping-window) (section 9.14) | `0x14` | `0xA` | System (SYS) |
+| `MTDP` | [MTDP](../09-isa.md#mtdp-move-to-and-from-the-direct-pointer) (section 9.14) | `0x14` | `0x8` | System (SYS) |
+| `MTPS` | [MTPS](../09-isa.md#mtps-move-to-and-from-the-processor-status-word) (section 9.14) | `0x14` | `0x1` | System (SYS) |
+| `MTSR` | [MFSR](../09-isa.md#mfsr-move-from-and-to-a-system-register) (section 9.14) | `0x14` | `0xE` | System (SYS) |
 | `MUL` | [MUL](../09-isa.md#mul-multiply-low-64-bits) (section 9.7) | `0x1E` |  | Moves, address formation and the ALU |
 | `MULH` | [MULH](../09-isa.md#mulh-multiply-high-64-bits-signed) (section 9.7) | `0x1F` |  | Moves, address formation and the ALU |
 | `MULHU` | [MULHU](../09-isa.md#mulhu-multiply-high-64-bits-unsigned) (section 9.7) | `0x0E` | `0x4` | Arithmetic (AESC) |
 | `MULU` (alias of `MUL`) | [MUL](../09-isa.md#mul-multiply-low-64-bits) (section 9.7) | `0x1E` |  | Moves, address formation and the ALU |
 | `MVAL` | [MVAL](../09-isa.md#mval-validate-a-block-as-utf-8) (section 9.11) | `0x0D` | `0x6` | Block memory (MBLK) |
 | `NEG` | [NEG](../09-isa.md#neg-negate) (section 9.7) | `0x13` | `0x4` | Single operand (SOP) |
-| `NOP` | [NOP](../06-kernel.md#nop-no-operation-and-landing-pad) (section 6.7) | `0x14` | `0x0` | System (SYS) |
+| `NOP` | [NOP](../09-isa.md#nop-no-operation-and-landing-pad) (section 9.14) | `0x14` | `0x0` | System (SYS) |
 | `POP` | [POP](../09-isa.md#pop-pop) (section 9.11) | `0x13` | `0xF` | Single operand (SOP) |
 | `POPCNT` | [POPCNT](../09-isa.md#popcnt-population-count) (section 9.9) | `0x0C` | `0x4` | Bits and fields (BESC) |
 | `POPM` | [POPM](../09-isa.md#popm-pop-registers-by-mask) (section 9.11) | `0x13` | `0xB` | Single operand (SOP) |
-| `POPX` | [PUSHX](../06-kernel.md#pushx-push-and-pop-the-exception-state) (section 6.7) | `0x14` | `0x1` | System (SYS) |
-| `PROBER` | [PROBE](../06-kernel.md#probe-probe-an-address-for-read-or-write-access) (section 6.7) | `0x14` | `0xD` | System (SYS) |
-| `PROBEW` | [PROBE](../06-kernel.md#probe-probe-an-address-for-read-or-write-access) (section 6.7) | `0x14` | `0xE` | System (SYS) |
+| `POPX` | [PUSHX](../09-isa.md#pushx-push-and-pop-the-exception-state) (section 9.14) | `0x14` | `0x1` | System (SYS) |
+| `PROBER` | [PROBE](../09-isa.md#probe-probe-an-address-for-read-or-write-access) (section 9.14) | `0x14` | `0xD` | System (SYS) |
+| `PROBEW` | [PROBE](../09-isa.md#probe-probe-an-address-for-read-or-write-access) (section 9.14) | `0x14` | `0xE` | System (SYS) |
 | `PUSH` | [PUSH](../09-isa.md#push-push) (section 9.11) | `0x13` | `0xE` | Single operand (SOP) |
 | `PUSHM` | [PUSHM](../09-isa.md#pushm-push-registers-by-mask) (section 9.11) | `0x13` | `0xA` | Single operand (SOP) |
-| `PUSHX` | [PUSHX](../06-kernel.md#pushx-push-and-pop-the-exception-state) (section 6.7) | `0x14` | `0x0` | System (SYS) |
-| `RET` | [RET](../06-kernel.md#ret-return-from-subroutine) (section 6.7) | `0x14` | `0x3` | System (SYS) |
+| `PUSHX` | [PUSHX](../09-isa.md#pushx-push-and-pop-the-exception-state) (section 9.14) | `0x14` | `0x0` | System (SYS) |
+| `RET` | [RET](../09-isa.md#ret-return-from-subroutine) (section 9.14) | `0x14` | `0x3` | System (SYS) |
 | `ROL` (alias of `RORI`) | [RORI](../09-isa.md#rori-rotate-right-by-an-immediate) (section 9.9) | `0x0C` | `0x11` | Bits and fields (BESC) |
 | `ROR` | [ROR](../09-isa.md#ror-rotate-right-by-a-register-count) (section 9.9) | `0x0C` | `0x10` | Bits and fields (BESC) |
 | `RORI` | [RORI](../09-isa.md#rori-rotate-right-by-an-immediate) (section 9.9) | `0x0C` | `0x11` | Bits and fields (BESC) |
 | `RORI32` | [RORI32](../09-isa.md#rori32-rotate-right-by-an-immediate-32-bits) (section 9.9) | `0x0C` | `0x12` | Bits and fields (BESC) |
-| `RTI` | [RTI](../06-kernel.md#rti-return-from-interrupt-or-exception) (section 6.7) | `0x14` | `0x1` | System (SYS) |
-| `RTT` | [RTI](../06-kernel.md#rti-return-from-interrupt-or-exception) (section 6.7) | `0x14` | `0x2` | System (SYS) |
+| `RTI` | [RTI](../09-isa.md#rti-return-from-interrupt-or-exception) (section 9.14) | `0x14` | `0x1` | System (SYS) |
+| `RTT` | [RTI](../09-isa.md#rti-return-from-interrupt-or-exception) (section 9.14) | `0x14` | `0x2` | System (SYS) |
 | `SAR` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | `0x22` |  | Moves, address formation and the ALU |
 | `SBC` | [SBC](../09-isa.md#sbc-subtract-carry) (section 9.7) | `0x13` | `0x7` | Single operand (SOP) |
-| `SC` | [LLSC](../07-smp.md#llsc-load-linked-and-store-conditional) (section 7.12) | `0x11` | `0x21` | Atomics (ATOM) |
+| `SC` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | `0x11` | `0x21` | Atomics (ATOM) |
 | `SET` | [SET](../09-isa.md#set-set-a-register-from-a-condition) (section 9.7) | `0x0E` | `0x20` | Arithmetic (AESC) |
-| `SEV` | [SEV](../06-kernel.md#sev-send-an-event) (section 6.7) | `0x14` | `0x8` | System (SYS) |
+| `SEV` | [SEV](../09-isa.md#sev-send-an-event) (section 9.14) | `0x14` | `0x8` | System (SYS) |
 | `SHL` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | `0x20` |  | Moves, address formation and the ALU |
 | `SHR` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | `0x21` |  | Moves, address formation and the ALU |
 | `SOB` | [SOB](../09-isa.md#sob-subtract-one-and-branch) (section 9.10) | `0x3F` | `0x3F` | Branches |
-| `SPL` | [SPL](../06-kernel.md#spl-set-the-interrupt-priority-level) (section 6.7) | `0x14` | `0x3` | System (SYS) |
+| `SPL` | [SPL](../09-isa.md#spl-set-the-interrupt-priority-level) (section 9.14) | `0x14` | `0x3` | System (SYS) |
 | `SUB` | [SUB](../09-isa.md#sub-subtract) (section 9.7) | `0x17` |  | Moves, address formation and the ALU |
 | `SUBM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | `0x0F` | `0x9` | Memory escape (MESC) |
-| `SWAP` | [SWAP](../07-smp.md#swap-atomic-exchange) (section 7.12) | `0x11` | `0x2` | Atomics (ATOM) |
-| `SWAPDB` | [SWAP](../07-smp.md#swap-atomic-exchange) (section 7.12) | `0x11` | `0x3` | Atomics (ATOM) |
-| `TLBI` | [TLBI](../06-kernel.md#tlbi-invalidate-a-translation) (section 6.7) | `0x14` | `0x5` | System (SYS) |
-| `TLBIA` | [TLBA](../06-kernel.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 6.7) | `0x14` | `0xA` | System (SYS) |
-| `TLBSYNC` | [TLBA](../06-kernel.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 6.7) | `0x14` | `0xB` | System (SYS) |
-| `TRAP` | [TRAP](../06-kernel.md#trap-system-call-and-trap) (section 6.7) | `0x14` | `0x4` | System (SYS) |
-| `TRAPL` | [TRAP](../06-kernel.md#trap-system-call-and-trap) (section 6.7) | `0x14` | `0xF` | System (SYS) |
+| `SWAP` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | `0x11` | `0x2` | Atomics (ATOM) |
+| `SWAPDB` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | `0x11` | `0x3` | Atomics (ATOM) |
+| `TLBI` | [TLBI](../09-isa.md#tlbi-invalidate-a-translation) (section 9.14) | `0x14` | `0x5` | System (SYS) |
+| `TLBIA` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | `0x14` | `0xA` | System (SYS) |
+| `TLBSYNC` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | `0x14` | `0xB` | System (SYS) |
+| `TRAP` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | `0x14` | `0x4` | System (SYS) |
+| `TRAPL` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | `0x14` | `0xF` | System (SYS) |
 | `TST` | [TST](../09-isa.md#tst-test) (section 9.8) | `0x13` | `0x5` | Single operand (SOP) |
 | `UTF8DEC` | [UTF8DEC](../09-isa.md#utf8dec-decode-a-utf-8-sequence) (section 9.9) | `0x0C` | `0x41` | Bits and fields (BESC) |
 | `UTF8ENC` | [UTF8ENC](../09-isa.md#utf8enc-encode-a-unicode-scalar-value) (section 9.9) | `0x0C` | `0x42` | Bits and fields (BESC) |
 | `UTF8LEN` | [UTF8LEN](../09-isa.md#utf8len-length-of-a-utf-8-sequence-from-its-leading-byte) (section 9.9) | `0x0C` | `0x40` | Bits and fields (BESC) |
-| `WAIT` (alias of `WFE`) | [WFE](../06-kernel.md#wfe-wait-for-an-event) (section 6.7) | `0x14` | `0x7` | System (SYS) |
-| `WFE` | [WFE](../06-kernel.md#wfe-wait-for-an-event) (section 6.7) | `0x14` | `0x7` | System (SYS) |
-| `XADD` | [XADD](../07-smp.md#xadd-atomic-fetch-and-add) (section 7.12) | `0x11` | `0x4` | Atomics (ATOM) |
-| `XADDDB` | [XADD](../07-smp.md#xadd-atomic-fetch-and-add) (section 7.12) | `0x11` | `0x5` | Atomics (ATOM) |
-| `XAND` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0x6` | Atomics (ATOM) |
-| `XANDDB` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0x7` | Atomics (ATOM) |
-| `XMAX` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0xC` | Atomics (ATOM) |
-| `XMAXDB` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0xD` | Atomics (ATOM) |
-| `XMAXU` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0x10` | Atomics (ATOM) |
-| `XMAXUDB` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0x11` | Atomics (ATOM) |
-| `XMIN` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0xE` | Atomics (ATOM) |
-| `XMINDB` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0xF` | Atomics (ATOM) |
-| `XMINU` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0x12` | Atomics (ATOM) |
-| `XMINUDB` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0x13` | Atomics (ATOM) |
+| `WAIT` (alias of `WFE`) | [WFE](../09-isa.md#wfe-wait-for-an-event) (section 9.14) | `0x14` | `0x7` | System (SYS) |
+| `WFE` | [WFE](../09-isa.md#wfe-wait-for-an-event) (section 9.14) | `0x14` | `0x7` | System (SYS) |
+| `XADD` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | `0x11` | `0x4` | Atomics (ATOM) |
+| `XADDDB` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | `0x11` | `0x5` | Atomics (ATOM) |
+| `XAND` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | `0x11` | `0x6` | Atomics (ATOM) |
+| `XANDDB` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | `0x11` | `0x7` | Atomics (ATOM) |
+| `XMAX` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | `0x11` | `0xC` | Atomics (ATOM) |
+| `XMAXDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | `0x11` | `0xD` | Atomics (ATOM) |
+| `XMAXU` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | `0x11` | `0x10` | Atomics (ATOM) |
+| `XMAXUDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | `0x11` | `0x11` | Atomics (ATOM) |
+| `XMIN` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | `0x11` | `0xE` | Atomics (ATOM) |
+| `XMINDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | `0x11` | `0xF` | Atomics (ATOM) |
+| `XMINU` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | `0x11` | `0x12` | Atomics (ATOM) |
+| `XMINUDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | `0x11` | `0x13` | Atomics (ATOM) |
 | `XNORPOP` | [XNORPOP](../09-isa.md#xnorpop-population-count-of-the-equality-of-two-words) (section 9.9) | `0x0C` | `0x30` | Bits and fields (BESC) |
 | `XOR` | [XOR](../09-isa.md#xor-exclusive-or) (section 9.8) | `0x1C` |  | Moves, address formation and the ALU |
-| `XOR_` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0x8` | Atomics (ATOM) |
-| `XOR_DB` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0x9` | Atomics (ATOM) |
-| `XXOR` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0xA` | Atomics (ATOM) |
-| `XXORDB` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0xB` | Atomics (ATOM) |
+| `XOR_` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | `0x11` | `0x8` | Atomics (ATOM) |
+| `XOR_DB` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | `0x11` | `0x9` | Atomics (ATOM) |
+| `XXOR` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | `0x11` | `0xA` | Atomics (ATOM) |
+| `XXORDB` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | `0x11` | `0xB` | Atomics (ATOM) |
