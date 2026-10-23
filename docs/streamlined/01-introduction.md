@@ -88,11 +88,11 @@
 
 | What differs | The figure | Where |
 |---|---|---|
-| The logic of a complete implementation, same company and era | the PDP-11's T-11, a full integer core, was about 12,000 transistors; the MicroVAX 78032, a subset of the VAX with no floating point, about 125,000 | 9.1 |
+| The logic of a complete implementation, same company and era | the PDP-11's T-11, a full integer core, was about 12,000 transistors; the MicroVAX 78032, a subset of the VAX with no floating point, about 125,000 | 10.1, 10.2 |
 | What it takes to find where the next instruction starts | pdp64: two bits of the first parcel; PDP-11: both operand specifiers; x86: prefixes, opcode, ModR/M and SIB in sequence; VAX: every specifier in order | 9.4 |
 | Whether flags block a faster implementation | 68.2% of compiled instructions wrote a flag and 1.5% read one, so the flag rules were changed at a measured cost of 0.39% in code size | 9.3, 10.3 |
 | Size of compiled code | for the same 827 source files and the same compiler family, the pdp64 output is 0.86 times the size of its amd64 output, and 1.002 times `gcc -Os` | 1.5 |
-| System-call path, instructions in and out (paper estimates) | x86-64 Linux about 45 and 30; AArch64 about 60 and 45; RISC-V about 66 and 45; VAX about 11 and 8; m68k 6 and 8; pdp64 4 to 5 and 4 | 6.2 |
+| System-call path, instructions in and out (paper estimates) | x86-64 Linux about 45 and 30; AArch64 about 60 and 45; RISC-V about 66 and 45; VAX about 11 and 8; m68k 6 and 8; pdp64 4 to 5 and 4 | 6.5 |
 | Lines of kernel code to start a second core | x86: 1,528 plus 1,258 of real-mode code; arm64: 124 or 127; RISC-V: 108 or 58; pdp64: one register write | 4.5, 7.8 |
 | Machine-dependent code in an OpenBSD port | riscv64 35,600 lines; arm64 61,613; amd64 79,167 | 10.4 |
 | Errata, workaround and quirk lines per 1,000 code lines in Linux's architecture directories | x86 0.8; arm64 0.7; arm 0.5; powerpc 0.4; mips 0.3; m68k 0.1; riscv 0.1; s390 0.0 | pain-points report |

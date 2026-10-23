@@ -24,32 +24,32 @@
 | **`JTAG`, `TAGOP`** | multiway dispatch on a pointer's low tag bits, and the tag-branch group (9.10) |
 | **`LPAD`** | marks a legal target of an indirect jump or call; optional in ABI version 1 (appendix A.1) |
 | **`CLMUL`** | carry-less multiply, the primitive under every CRC and Galois-field operation (9.9) |
-| **`XNORPOP`, `POPCNT`** | bit-population instructions used by binary operations and bitsets (chapter 8) |
+| **`XNORPOP`, `POPCNT`** | bit-population instructions used by binary operations and bitsets (8.3) |
 | **`SET cc, rd`** | set a register to 0 or 1 from a condition (9.7) |
 | **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page (9.3, 9.16) |
 | **`PSW`** | the processor status word: flags, mode, priority and the guard bit (6.1) |
 | **`N Z V C`** | the four condition flags: negative, zero, overflow, carry (9.3) |
-| **canonical address** | a 64-bit address whose bits above 38 equal bit 38; any other value faults, so software cannot hide tags in the high bits (6.5) |
-| **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (9.5) |
-| **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (8.1, 9.9) |
+| **canonical address** | a 64-bit address whose bits above 38 equal bit 38; any other value faults, so software cannot hide tags in the high bits (6.4) |
+| **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section 6.2; not otherwise used in this book) |
+| **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the book's bit and byte instructions of 9.9 make it effective) |
 | **`FPSR`** | the sticky floating-point exception flag register, read and written by `FSFLAGS` (9.12) |
 | **ulp** | unit in the last place: the spacing between adjacent floating-point numbers, the unit of rounding error |
-| **Payne–Hanek** | the argument-reduction algorithm that computes x mod π/2 to full precision for large x; what hardware transcendentals cannot do (9.7) |
-| **Table Maker's Dilemma** | that correct rounding of a transcendental may need unboundedly many bits to resolve a near-tie, so no fixed-time circuit can guarantee it (9.7) |
+| **Payne–Hanek** | the argument-reduction algorithm that computes x mod π/2 to full precision for large x; what hardware transcendentals cannot do (instruction-set text, section 9.7.1; the book's account of floating point is 9.12) |
+| **Table Maker's Dilemma** | that correct rounding of a transcendental may need unboundedly many bits to resolve a near-tie, so no fixed-time circuit can guarantee it (instruction-set text, section 9.7.1) |
 | **block floating point** | integer mantissas sharing one exponent, used by the LB64 accelerator so fixed-point accumulation is exact (8.3) |
 
 ## C.2 Memory, protection and the kernel
 
 | Term | Meaning |
 |---|---|
-| **`MT`** | memory type, a two-bit page attribute: normal cached, normal uncached, device strongly ordered (2.1, 6.6) |
-| **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.6) |
-| **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.6) |
+| **`MT`** | memory type, a two-bit page attribute: normal cached, normal uncached, device strongly ordered (2.1, 6.4) |
+| **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.4) |
+| **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.4) |
 | **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores (7.5) |
 | **`DMW`** | direct mapping window: a region translated by a fixed offset with no page table; deferred (errata 44) |
-| **`MMUCTL`** | the register that enables translation and sets the table base (6.6) |
+| **`MMUCTL`** | the register that enables translation and sets the table base (6.3, 6.4) |
 | **walker** | the hardware that reads page-table entries on a translation-buffer miss (9.15) |
-| **`STUA` / `CLUA`** | set and clear the user-access guard bit, which lets kernel code touch user memory only inside the copy routines (errata 43, 6.7) |
+| **`STUA` / `CLUA`** | set and clear the user-access guard bit, which lets kernel code touch user memory only inside the copy routines (errata 43, 6.5) |
 | **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (9.14) |
 | **W^X** | write xor execute: no page is both writable and executable; OpenBSD enforces it (appendix A) |
 | **PIE** | position-independent executable: loadable at any address; costs nothing here (9.16) |
@@ -59,11 +59,11 @@
 | **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (9.15) |
 | **`SPL`** | set the interrupt priority level (6.2) |
 | **`WFE`, `SEV`** | wait for an event and send an event: the idle and wake-up pair (7.6) |
-| **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.2, 7.3) |
-| **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (errata 45, 7.2) |
+| **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.2, 7.2) |
+| **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (errata 45, 7.3) |
 | **SMP** | symmetric multiprocessing: several identical cores sharing memory (chapter 7) |
-| **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.3) |
-| **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.3) |
+| **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.7) |
+| **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.2) |
 
 ## C.3 The bus, devices and boot
 
@@ -80,14 +80,14 @@
 | **ring, descriptor, `OWN`, doorbell** | the common device protocol: a ring of 32-byte descriptors in memory, each with an ownership bit the host sets and the device clears, and a register written to tell the device to look (5.2) |
 | **`ID` / `CONTROL` / `STATUS` / `RING_BASE` / `RING_SIZE` / `DOORBELL` / `IRQ` / `DEVICE`** | the eight common registers every device starts with (5.2) |
 | **`INIT`, `READY`** | the control bit that makes a device initialise itself and the status bit that says it has (5.2, 5.3) |
-| **virtio** | a standard family of virtual devices of the same ring-and-descriptor shape; the emulator's first drivers (appendix B) |
+| **virtio** | a standard family of virtual devices of the same ring-and-descriptor shape; the emulator's first drivers (5.5, appendix B) |
 | **NVMe, SCSI, ATA, SATA** | storage interfaces, each a command queue in memory and a doorbell, which is the same device pattern (errata 61, 5.5) |
 | **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.3) |
 | **`VIC-64X`, `SID-64X`, `BLT64`** | the video, sound and blitter devices of the graphics terminal (chapter 3) |
 | **blitter, raster operation** | a device that copies and combines rectangles of pixels; the raster operation says how source and destination combine (3.1) |
 | **BIOS, boot ROM** | the first software that runs: it brings the hardware up, finds the disk label and loads the next stage; open source (4.1, errata 47) |
 | **GPT, disk label** | the GUID partition table wrapped around the disk's own label so other systems see the disk is in use (4.3, errata 50) |
-| **LB64, MX64, VEC64** | the inference accelerator and its companions: sign-flip-accumulate layers, floating-point multiply-accumulate for attention, and element-wise vector work (chapter 8) |
+| **LB64, MX64, VEC64** | the inference accelerator and its companions: sign-flip-accumulate layers, floating-point multiply-accumulate for attention, and element-wise vector work (8.3) |
 | **APL, K** | array languages whose primitives work on whole arrays; one primitive maps to one descriptor (8.4) |
 
 ## C.4 Process and sources
@@ -98,6 +98,6 @@
 | **revision 20** | the last full revision of the instruction-set text before the streamlined set; changes since are in `../CHANGES-SINCE-R20.md` |
 | **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.5) |
 | **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.5) |
-| **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.5, 10.3) |
+| **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.5, 10.4; not otherwise described in this book) |
 | **(D), (P), (S)** | the tags on a numbered statement: decided, proposed, stub (index) |
 | **Impact** | the line ending each decision's commentary: effect on the kernel, on the compiler and on the hardware layout (index) |
