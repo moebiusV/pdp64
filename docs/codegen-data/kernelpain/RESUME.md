@@ -40,7 +40,7 @@
 
 | Host | State | Rule going on |
 |---|---|---|
-| lwn.net | blocked us on 2026-10-22; never requested directly | no direct request, ever; Wayback copies only |
+| lwn.net | blocked us on 2026-10-22; **the author lifted the ban on 2026-10-23** ("just be polite"); no direct request yet since the block | may be requested again, politely: 30 s or more between requests (a precaution: it blocked us once), growing back-off after any block page |
 | archive.org / web.archive.org | 21 pages served in round 3 at 65 s or more spacing; no 429 | 65 s between requests via `politewait.py archive.org 65`; first 429: wait at least 5 minutes, double after each further one |
 | marc.info | 4 pages, no error | 20 s or more |
 | lore.kernel.org | 43 pages at 20 s or more, no block | 20 s |
@@ -75,8 +75,8 @@
 
 | Host | State | Rule going on |
 |---|---|---|
-| lwn.net | never requested directly; not requested in round 4 | no direct request, ever; Wayback only |
-| archive.org / web.archive.org | not requested in round 4 | 65 s via `politewait.py archive.org 65` |
+| lwn.net | not requested in round 4; **the author lifted the ban on 2026-10-23** | may be requested directly again, politely: 30 s or more between requests (a precaution), growing back-off after any block page; Wayback copies remain an option |
+| archive.org / web.archive.org | not requested in round 4; **the author lifted the ban on 2026-10-23** (it had blocked us for excessive requests on 2026-10-23) | politely: at least 60 s via `politewait.py archive.org 65`, growing back-off after any 429 or block |
 | lore.kernel.org | 14 pages at 20 s or more, no block | 20 s |
 | mail-index.netbsd.org | 9 pages, no block | 20 s |
 | lists.freebsd.org, www.freebsd.org | 3 pages, no block | 20 s |
