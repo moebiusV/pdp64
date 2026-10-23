@@ -49,6 +49,8 @@ Context for all of them: the operating system order is now OpenBSD first through
 2. **Easy recoverability, meaning less recovery code.** Fewer possible errors means less code to handle them, and an easier recovery path means less code to write it. So an option scores well when it adds **fewer distinct failure outcomes**, makes a fault **restartable without special cases** (precise exceptions, no hidden state, a restart that repeats safely), and avoids partial results the handler would have to undo. A feature that adds a new fault, a new error return or a new "half done" state costs recovery code in every kernel that uses it.
 3. **Speed and efficiency through fewer gates and tighter hot loops.** Simpler hardware (fewer states, fewer special paths, less logic on an FPGA), and faster by *careful instruction choice*: the shortest sequences for the operations that run constantly (system-call entry and exit, context switch, copy to and from user memory, atomics, string and block loops, interrupt entry), not by adding hardware.
 
+**Also (2026-10-23, errata 68):** the architecture is designed to be efficient with in-order and out-of-order implementations, so an option that is safe only because the first cores do not speculate is scored as unsafe; and an instruction is scored by its weight in hot loops (executions times what it saves), not by how rarely it appears.
+
 All the rules are soft (errata 42). The README states these principles in its design paragraph and gives the examples in "How the principles show up".
 
 **What changed because of this.** The table lists every decision with the priority it mostly serves, my pick under the new test, and whether the pick moved.
