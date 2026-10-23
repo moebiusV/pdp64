@@ -72,3 +72,4 @@ display	Deak i915 link training fallback v3	https://lore.kernel.org/all/20240610
 display	Bobier msm dp link training fallback	https://lore.kernel.org/all/20261005131432.22840-1-jean-francois.bobier@laposte.net/	[PATCH 0/3] drm/msm/dp: fix dead link-training fallback on Type-C boards	Jean-Francois Bobier	2026-10-05	cited statement
 search	NeWS why lost	https://html.duckduckgo.com/html/?q=NeWS+Network+extensible+Window+System+Gosling+PostScript+Sun+why+X11+won+licensing	DDG results: NeWS	(search)		search (URL finding)
 display	LWN Rosenthal X at 40	https://lwn.net/Articles/980556/	Rosenthal: X Window System At 40 (LWN brief quoting David Rosenthal)	David Rosenthal (posted by corbet)	2024-07-03	cited statement
+display	cat-v Blit paper page	https://doc.cat-v.org/bell_labs/blit/	The Blit: A Multiplexed Graphics Terminal (abstract page)	Rob Pike	1983	cited statement (abstract only)
