@@ -69,9 +69,14 @@ for the important things you are running. The architecture is the processor, the
    changed (§3); what the ISA left unspecified and is now specified (§4); the ABI (§5); the assembly language (§6); the object format (§7); why a grammar is the
    source (§8); errors in our own work, found and fixed (§9); changes to hbnf (§10); the environment (§11); what is still open (§12); an appendix with the
    opcode map (§13); the measurements behind the proposals (§14).
-5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-55, each with the problem, the choice and the reason.
+5. **Each decision, numbered: [`docs/errata.md`](docs/errata.md)**, items 1-64, each with the problem, the choice and the reason.
 6. [`docs/abi.md`](docs/abi.md): the calling convention (registers, stack, structures, variadic calls). [`docs/asm-syntax.md`](docs/asm-syntax.md): the assembly
    language. [`docs/sim64.md`](docs/sim64.md): the emulator and its system-call stand-in.
+7. **Research reports, work in progress** (marked *(WIP)*: still being written or extended, and not yet checked claim by claim):
+   [`docs/kernel-asm-survey.md`](docs/kernel-asm-survey.md) *(WIP)*, what Linux, FreeBSD, NetBSD and OpenBSD write in assembly and what pdp64 can learn from it;
+   [`docs/kernel-pain-points.md`](docs/kernel-pain-points.md) *(WIP)*, what hurts kernel developers in the current kernels, from the source trees and the mailing lists;
+   [`docs/openbsd-mitigations.md`](docs/openbsd-mitigations.md) *(WIP)*, OpenBSD's exploit mitigations and what pdp64 gives for free;
+   [`docs/codegen-analysis.md`](docs/codegen-analysis.md) *(WIP)*, instruction use in compiled C (its figures predate the second page and the compiler work that followed; see its notes and `CHANGES-SINCE-R20.md` section 14).
 
 ## The decisions, and where their reasons are
 
@@ -159,7 +164,8 @@ BSD 2-clause, for everything in this repository: see [`COPYING`](COPYING) (errat
 **Documents** (in `docs/`)
 : Updated architecture: [`pdp64-isa.md`](docs/pdp64-isa.md) (the ISA), [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md),
   [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md), [`pdp64-q64-bus.md`](docs/pdp64-q64-bus.md) (the bus and devices), [`pdp64-system-architecture.md`](docs/pdp64-system-architecture.md) (privilege, exceptions, memory management, boot), [`pdp64-system-design.md`](docs/pdp64-system-design.md) (the options and the comparison with other architectures), [`pdp64-in-order-and-out-of-order.md`](docs/pdp64-in-order-and-out-of-order.md) (the design point and what out-of-order would need), [`pdp64-ooo-readiness.md`](docs/pdp64-ooo-readiness.md) (the review of the ISA for out-of-order), [`codegen-analysis.md`](docs/codegen-analysis.md) (measurements of compiled code); [`handoff.md`](handoff.md) (moving the work to another machine: what is not in git, the rebuild order, the state). [`kernel-asm-survey.md`](docs/kernel-asm-survey.md) (what the Linux, FreeBSD, NetBSD and OpenBSD kernels hand-write in assembly that compilers never emit, and what pdp64 has or lacks). [`roadmap.md`](docs/roadmap.md) (the finish line before silicon: toolchain, emulator and an OpenBSD you can ssh into; where each piece stands and the order of work), [`boot.md`](docs/boot.md) (how the machine and its other cores start, a review of how other systems boot, is UEFI worth it, and a PDP-11-style proposal), [`hardware-vulnerabilities.md`](docs/hardware-vulnerabilities.md) (the CPU and system bugs that needed mitigations, the pdp64 rules that avoid repeating them, and a constant-time table), [`openbsd-mitigations.md`](docs/openbsd-mitigations.md) (OpenBSD's memory-safety mitigations against pdp64, and improvements to make them cheap), [`kernel-pain-points.md`](docs/kernel-pain-points.md) (Part II of the survey, unfinished: what kernel developers say hurts, from the current sources, commit messages and mailing lists, compared with pdp64).
-  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-55);
+  research reports *(work in progress)*: [`kernel-asm-survey.md`](docs/kernel-asm-survey.md), [`kernel-pain-points.md`](docs/kernel-pain-points.md), [`openbsd-mitigations.md`](docs/openbsd-mitigations.md), [`codegen-analysis.md`](docs/codegen-analysis.md);
+  history and decisions: [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md) (every change since, with reasons), [`errata.md`](docs/errata.md) (decisions 1-64);
   conventions: [`abi.md`](docs/abi.md) (calling convention), [`asm-syntax.md`](docs/asm-syntax.md) (assembly language), [`sim64.md`](docs/sim64.md) (emulator);
   baseline as received (working name 11/64W): [`orig/`](docs/orig/); index: [`README.md`](README.md).
 
