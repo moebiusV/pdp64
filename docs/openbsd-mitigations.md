@@ -264,7 +264,7 @@ Round 5 found **no new OpenBSD developer statement**. One OpenBSD primary docume
 
 ## 13. Round 7 additions (24 Oct 2026)
 
-Two OpenBSD slide decks that rounds 3 to 5 had marked "fetched, no text extractable" were read in round 7 with the same-origin XHR method (`www.openbsd.org/papers/bsdtw.pdf`, 29 pages, 283 lines of text; `eurobsdcon2023-bluhm-mitigations.pdf`, 30 pages, 576 lines; saved as `/tmp/claude-1000/pdf7/bsdtw.txt` and `bluhm.txt`). Labels: [P] the slides themselves. The third deck of the row (`ru13-deraadt`, image slides) was not retried.
+Two OpenBSD slide decks that rounds 3 to 5 had marked "fetched, no text extractable" were read in round 7 with the same-origin XHR method (`www.openbsd.org/papers/bsdtw.pdf`, 29 pages, 283 lines of text; `eurobsdcon2023-bluhm-mitigations.pdf`, 30 pages, 576 lines). Labels: [P] the slides themselves. The third deck of the row (`ru13-deraadt`, image slides) was not retried.
 
 | Source | What the slides say | Bears on |
 |---|---|---|

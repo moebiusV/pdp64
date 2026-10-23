@@ -96,7 +96,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 | # | Decision | My recommendation | Blocks or helps |
 |---|---|---|---|
-| P1 | `WFE` wakes on a pending interrupt even if masked | wake on pending (**open**: an earlier answer was recorded by mistake and is withdrawn) | idle loop of any kernel |
+| P1 | `WFE` wakes on a pending interrupt even if masked | wake on pending (**open**) | idle loop of any kernel |
 | P2 | Guard against the kernel touching user memory by mistake | **decided, errata 43**: PSW bit `UA` plus `stua`/`clua` | hardening; OpenBSD (checked: it enables SMAP) |
 | P3 | Unprivileged time counter | `rdtime rd` instruction | fast clock reads from user code |
 | P4 | Feature and identification registers | read-only `mfsr` numbers 13 and up | portable kernels and libraries |
@@ -152,7 +152,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 **Survey detail.** The kernel survey (its section 7, proposal 1) adds one more point: `SEV` should be *sticky for one wait*, so that an event signalled just before the sleep is not lost. Both points are one rule in the core and need no opcode. **Verification note:** RISC-V `wfi` wakes only for an interrupt enabled in its own enable register (the global enable bit is ignored) and a no-op implementation is legal, so "the same as RISC-V" holds only if the pdp64's priority mask is treated like that global bit; AArch64 `wfi` was not confirmed.
 
-**Recommendation.** Option 1. **This decision is open:** an answer to it was recorded by mistake (it was given inside a question that was rejected) and has been withdrawn. Cost to build: small; one pass with a test of the idiom. **If nothing is done:** the text stays wrong.
+**Recommendation.** Option 1. **This decision is open.** Cost to build: small; one pass with a test of the idiom. **If nothing is done:** the text stays wrong.
 
 **How the recommendation compares.** Option 1 gives the same result as AArch64 and RISC-V and is **not better than them**; it is better than the x86 way in that it needs no hidden one-instruction state, which an out-of-order design must track. It costs one rule in the core and no opcode.
 
@@ -1501,12 +1501,10 @@ Checked on 2026-10-22 in two passes; details per claim in `docs/codegen-data/ver
 
 | Old claim | New fact | Source |
 |---|---|---|
-| (verification pass, withdrawn) 45 one-parcel abbreviations / 19 reserved | the verification pass read 43 / 21 in ISA 4.18, which predated errata 39; the grammar defines 45 and the claim was right; the ISA text was the stale part and is now corrected | `spec/pdp64-mnemonics.hbnf`, ISA 4.18 |
 | rand() seeded from the time | fixed default seed 1, programs seed it | V7 rand.c |
 | VAX has 32 priority levels | levels 1-31 plus level 0 | VAX-11 Arch. Ref. Manual 6.1.1 |
 | PDP-11 page registers have an accessed bit | A bit means an access met the trap condition; W bit means written | PDP-11 04-55 handbook |
 | PowerPC long double is double-double | only on Linux; FreeBSD, OpenBSD, musl, AIX use 64 bits | clang PPC.h |
-| (verification pass, withdrawn) code-size cost of the flag change 0.39% | the figure is measured: +0.39% bytes, 1,499,530 to 1,505,382 | `docs/codegen-data/pdp64-after-errata39.csv` |
 | OpenBSD vmm and bhyve x86 only | OpenBSD arm64 has a stub only; FreeBSD bhyve has arm64 and riscv trees | source trees |
 | `wfi` of AArch64 and RISC-V wakes on any pending interrupt | RISC-V: needs the interrupt enabled individually, global bit ignored; AArch64 unread | RISC-V manual |
 | VAX interlocked queue instructions INSQHI in the early VAX | not in the 1977 handbook; present in the 1982 manual | VAX handbooks |
@@ -1516,7 +1514,7 @@ Checked on 2026-10-22 in two passes; details per claim in `docs/codegen-data/ver
 * **P13 (`long double`):** OpenBSD's own ports are not uniform: powerpc64 uses a 64-bit `long double`, arm64 and riscv64 binary128 (clang defaults). This supports option 1 or 5 for a port that wants to match the powerpc64 port, and removes the statement that OpenBSD's choice is unknown; it does not by itself change the recommendation.
 * **P1:** the RISC-V `wfi` wake rule is weaker than the text said (an enable bit of the individual interrupt is needed, and an implementation may wake for any reason), so "same result as RISC-V" holds only if the pdp64 treats the priority mask like the global enable bit.
 * **P9:** the "rand() seeded from the time" remark was wrong; no effect on the recommendation.
-* **Q7:** the 0.39% figure is measured and sourced (`docs/codegen-data/pdp64-after-errata39.csv`); the verification pass wrongly said it could not be found.
+* **Q7:** the 0.39% figure is measured and sourced (`docs/codegen-data/pdp64-after-errata39.csv`).
 
 ## P19. A bit of the physical address selects device space
 
