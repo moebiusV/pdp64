@@ -168,6 +168,8 @@ nothing
 
 `LPAD` marks a legal target of an indirect jump or call; no instruction enforces it in ABI version 1.
 
+**Why it is here.** `NOP` is common and has no story; `LPAD` is the landing pad. Landing pads, `LPAD`, mark the legal targets of indirect jumps and calls so that jump-oriented attacks can be stopped at the transfer, as Intel's indirect-branch tracking and ARM's branch target identification do and OpenBSD enforces. ABI version 1 leaves them off (an open item of the instruction set, section 12.3 of the text), and the assembler provides `.lpad`; the kernel pain-points and mitigations reports (this chat, 2026-10-22) record why deciding later gets more expensive (appendix A, section A.1).
+
 **Cf.** Appendix A, section A.1 (landing pads).
 
 **Status** specified; **not yet implemented** in the reference executor.
@@ -207,6 +209,8 @@ RTT: and then set the trace bit T after the return
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
 `RTT` sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler.
+
+**Why it is here.** `RTT` stays despite looking redundant against `RTI` (ISA revision 17): it sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler.
 
 **Cf.** 6.2 (exceptions and interrupts), 6.7.
 
@@ -315,6 +319,8 @@ take the breakpoint vector with EPC = the address of the next instruction
 
 A trap like any other, but kept as its own two-byte instruction because a debugger patches it over an existing instruction, so it must be the shortest instruction the machine has.
 
+**Why it is here.** `BPT` is just a trap vector, but a debugger patches it over an existing instruction, so it must be the shortest instruction the machine has; that is why it stayed when `IOT` and `EMT` were dropped in ISA revision 17.
+
 **Cf.** 6.2.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
@@ -351,6 +357,8 @@ order the memory accesses before it against those after it, for every initiator 
 **Exceptions** None.
 
 Owed to devices (one `FENCE` separates writing a device's registers from setting its go bit) and to other cores.
+
+**Why it is here.** ISA revision 15 declared the memory model sequentially consistent and so needs `FENCE` only for what is outside the model: devices and the framebuffer (one `FENCE` between writing a device's registers and setting its go bit, section 3.4 of the book) and instruction streams. The record says the `_DB` barrier forms of the atomics were added so that a `FENCE` is not needed in a lock acquire.
 
 **Cf.** 7.2 (the memory model), 2.2 (what the processor owes the bus).
 
@@ -389,6 +397,8 @@ sleep until an interrupt is pending or another core executes SEV
 
 `WAIT` is an assembler alias. Whether `WFE` wakes on a pending but masked interrupt (the idle-loop question) is open.
 
+**Why it is here.** `WAIT` was a PDP-11 instruction (sleep until an interrupt) and was dropped in ISA revision 17 as subsumed by `WFE`, which sleeps until an interrupt or another core's `SEV`; on a uniprocessor it behaves exactly as `WAIT` did. `WFE` and `SEV` came with the SMP additions of revision 15 (the design chat's question about symmetric multiprocessing). The wake rule (whether a pending but masked interrupt wakes it) was an accidental decision that the author asked to see written up like the others; it is open item P1.
+
 **Cf.** 7.6 (waiting and signalling).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
@@ -423,6 +433,8 @@ wake every core waiting in WFE
 **Flags** None written.
 
 **Exceptions** None.
+
+**Why it is here.** The signalling half of `WFE`, added in ISA revision 15 so that a core waiting for a lock can sleep instead of spinning and be woken by the core that releases it.
 
 **Cf.** 7.6.
 
@@ -465,6 +477,8 @@ ICINVA  : invalidate the whole instruction cache
 
 **Exceptions** Privileged (`TLBIA`, `TLBSYNC`); the reference executor treats `ICINVA` as a no-op.
 
+**Why it is here.** ISA revision 15 respecified `TLBI` and `TLBIA` as broadcasting and added `TLBSYNC` to wait for the other cores, and `ICINV` and `ICINVA`: "the absence of an I-cache invalidate through revision 14 was a hole", because a Lisp runtime that compiles a function cannot work without it.
+
 **Cf.** 7.5 (translation and instruction-cache coherence).
 
 **Status** implemented in the reference executor for `TLBIA`, `TLBSYNC`; not yet for the others.
@@ -505,6 +519,8 @@ POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16
 
 Four bytes (the `SYSX` escape, sub-opcodes 0 and 1) and two bytes on page 2. For a handler that wants to be interrupted: it can save the exception state and lower the priority.
 
+**Why it is here.** The author decided on 2026-10-22: "add pushx popx", then "i like the pushx popx savings; they might not show up high in the instruction count, but they'd save bytes and cycles in a very tight, very often used kernel loop, no?" A handler that can be interrupted must save `EPC` and `EPSW` before it lowers the priority; with only `MFSR` that costs two moves and two stores (sixteen bytes) on every such kernel entry, and the same to restore. It came out of the System v1 design (errata 36 and 37). Page 2 has the two-byte forms.
+
 **Cf.** 6.2, 6.7.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
@@ -542,6 +558,8 @@ make earlier writes to PTBR, ASID, MMUCTL and VBR, and earlier ICINVs, take effe
 
 The architecture promises the effect only after the next `ISYNC`; an in-order implementation may make it immediate, and software must not rely on that.
 
+**Why it is here.** Adopted on 2026-10-22 (errata 39) from the out-of-order readiness review, which the author asked for ("i'm ok with the fpga/asic being in order, but want to be ready for the out of order large scale design"): it makes earlier writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` take effect for what follows, so an in-order machine may make them immediate and a speculative one has a place to serialise.
+
 **Cf.** 7.5, 6.3.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
@@ -578,6 +596,8 @@ no architectural effect
 **Exceptions** None.
 
 Defined codes: 0 a plain no-op hint, 1 pause (spin-wait), 2 speculation barrier. Every other code is a reserved hint that executes as a no-op; software shall not use it. Not privileged.
+
+**Why it is here.** Adopted with `ISYNC` on 2026-10-22 (errata 39): a no-op with a byte of code, defined for `0` (plain), `1` (pause, for spin-wait loops) and `2` (speculation barrier), every other code a reserved hint that executes as a no-op so that a later machine can give it a meaning without breaking an old binary.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
@@ -632,6 +652,8 @@ The register is chosen by name (a number in parcel 1); the instruction is four b
 | `MMUCTL` | 10 | read and write |
 | `ASID` | 11 | read and write |
 | `CPUID` | 12 | read only |
+
+**Why it is here.** The author asked on 2026-10-22: "actually didn't you notice some missing instructions that a paging os needs? you should add them in now to, to the docs, the grammar, and the backend". The instruction-set text named `PTBR`, `EPC`, `EVA` and `ECAUSE` and had no instruction to write the first or read the others, so a kernel could neither install a page table nor learn why it was entered. One general pair reaches all of them by name (errata 32). The user and supervisor stack pointers are in the set because any kernel must read and write the user stack pointer to build a signal frame, copy a process or switch context.
 
 **Cf.** 6.3 (system registers).
 
@@ -708,6 +730,8 @@ PSW.priority <- n
 
 Kept despite `MTPS` writing the whole word because it sets the priority alone: a kernel raising priority around a critical section must not clobber the flags.
 
+**Why it is here.** `SPL` stays despite `MTPS` writing the whole status word (ISA revision 17): it sets the priority alone, leaving the condition codes untouched, so a kernel raising priority around a critical section does not clobber flags. It is the PDP-11 instruction of the same name.
+
 **Cf.** 6.2.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
@@ -747,6 +771,8 @@ enter the kernel by vector (TRAP_BASE + n), with EPC = the address of the next i
 
 The replacement for the PDP-11 `IOT` and `EMT`. `TRAPL` reaches the vectors 0 to 255 with `n` in the high byte of parcel 1.
 
+**Why it is here.** `TRAPL` was added (errata 5) so that the vector range of 256 and the two-byte common case could both be kept: `TRAP #n` for `n` below 16 is two bytes and the long form reaches 256. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, were dropped in ISA revision 17.
+
 **Cf.** 6.2, 6.5 (system calls).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
@@ -781,6 +807,8 @@ invalidate the translation-buffer entry for the page containing the address in R
 **Flags** None written.
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
+
+**Why it is here.** Respecified as broadcasting in ISA revision 15 (SMP section): a translation changed by one core must be invalidated on all of them, and `TLBSYNC` waits for it.
 
 **Cf.** 7.5, 6.4.
 
@@ -822,6 +850,8 @@ MFASID: Rd <- ASID
 
 The `ASID` tags translation-buffer entries so a context switch is one store.
 
+**Why it is here.** The `ASID` tags translation-buffer entries so a context switch is one store and no flush, which preserves the constant-time context switch the earlier map-set design was for (ISA section 8.1). The record gives no further history.
+
 **Cf.** 6.4.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
@@ -862,6 +892,8 @@ MFDP: Rd <- DP
 
 `DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.
 
+**Why it is here.** `DP` entered at revision 1 as the descendant of the 6502's zero page, kept for code density (a 12-bit displacement in four bytes); it turned out to be the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants (ISA sections 2.2 and 19.3). `MTDP` and `MFDP` read and write the current mode's copy.
+
 **Cf.** 7.4 (per-CPU state).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
@@ -898,6 +930,8 @@ DMW0 <- Rs          ; storage only: the operand names no window and the windows 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
 The direct-mapping windows are deferred (errata 44).
+
+**Why it is here.** Taken from LoongArch's direct-mapping windows (ISA section 15.1), which stop the kernel taking translation-buffer misses on its own text. The author decided on 2026-10-22 that the windows are deferred, `MMUCTL` stays, and the instruction is storage only for now (errata 44).
 
 **Cf.** 6.4.
 
@@ -936,6 +970,8 @@ Rd <- CPUID
 
 The index of this core, for per-CPU data.
 
+**Why it is here.** Added in ISA revision 15 with the SMP section, because per-CPU data needs each core to know which one it is.
+
 **Cf.** 7.4, 7.8.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
@@ -970,6 +1006,8 @@ invalidate the instruction-cache line containing the address in Rs
 **Flags** None written.
 
 **Exceptions** The reference executor treats it as a no-op; privilege as for the other cache-maintenance instructions.
+
+**Why it is here.** Added with `ICINVA` in ISA revision 15: instruction-cache invalidation, by address and whole. The reason is the one given for `TLBA`: a runtime that compiles a function cannot work without it.
 
 **Cf.** 7.5.
 
@@ -1010,6 +1048,8 @@ no fault is taken
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
 Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address before using it.
+
+**Why it is here.** Restored from the VAX `PROBER` and `PROBEW` in the idioms the revision 13 inventory brought back (ISA section 14.1): the kernel validates a user address before using it, and it replaces the `nofault` global of the V7 kernel for the address-validation case.
 
 **Cf.** 6.5 (the user-memory guard), 6.4.
 

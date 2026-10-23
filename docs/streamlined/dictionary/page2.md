@@ -57,3 +57,7 @@ Page 2 (`len = 11`) is a second opcode map of 64 one-parcel instructions, 45 of 
 | `0x2D` | `hint` | `HINT #n`, `n = reg:low` (0 to 255) | n high | n low | `SYSX` sub-opcode 3 |
 
 Every page-2 opcode not listed (`0x0F` and `0x2E` to `0x3F`, 19 of 64) is reserved; a reserved page-2 opcode is an illegal-instruction abort.
+
+## Why there is a second page
+
+On 2026-10-22 the author asked: "so... why do we need 8 byte instructions? only amd64 has more than 6 bytes. can we squeeze into 3 parcels?" The fourth parcel had been there for 48-bit immediates and 44-bit displacements, and only 49 of 373,635 compiled instructions (0.013%) used it. Removing it freed the length code `11`, and the author's next question was "ok so... you ready to update the isa with all those new 1 parcel forms?": the code became a second page of one-parcel instructions, each an exact abbreviation of a long form, chosen from the forms the compiler emits most. The estimate from static counts on the 827-file corpus was about 118 KB, 7% of the 1.67 MB image (errata 31; CHANGES section 12). The rule that keeps the page honest: a page-2 instruction has the same result, flags and faults as the long form it abbreviates, so the assembler choosing the shortest encoding can never change what a program does.

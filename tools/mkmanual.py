@@ -280,6 +280,9 @@ def render_entry(e):
         st = 'specified; **not yet implemented** in the reference executor'
     else:
         st = 'implemented in the reference executor for ' + ', '.join('`%s`' % n.upper() for n in impl) + '; not yet for the others'
+    if D.STORY.get(e['id']):
+        out.append('**Why it is here.** ' + D.STORY[e['id']])
+        out.append('')
     if e.get('cf'):
         out.append('**Cf.** ' + e['cf'])
         out.append('')
@@ -400,6 +403,9 @@ def build():
         e['kind'] = MN[[x for x in e['names'] if not MN[x]['alias_of']][0]]['kind']
         if e['id'] not in HOME:
             raise SystemExit('entry %s has no home section' % e['id'])
+    badstory = set(D.STORY) - {e['id'] for e in ents}
+    if badstory:
+        raise SystemExit('stories for entries that do not exist: ' + ' '.join(sorted(badstory)))
     unused = set(HOME) - {e['id'] for e in ents}
     if unused:
         raise SystemExit('home sections for entries that do not exist: ' + ' '.join(sorted(unused)))
@@ -445,6 +451,10 @@ def build():
         P2.append('| `0x%02X` | `%s` | %s | %s | %s | %s |' % (v, n, op, reg, low, longf))
     P2.append('')
     P2.append('Every page-2 opcode not listed (`0x0F` and `0x2E` to `0x3F`, %d of 64) is reserved; a reserved page-2 opcode is an illegal-instruction abort.' % (64 - len(p2)))
+    P2.append('')
+    P2.append('## Why there is a second page')
+    P2.append('')
+    P2.append(D.P2_STORY)
     P2.append('')
     files['page2.md'] = '\n'.join(P2).replace('](figures/', '](../figures/')
     # aliases
