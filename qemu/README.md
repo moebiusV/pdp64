@@ -43,9 +43,14 @@ all of tests/qemu, with this option.
 | range                       | what                                                  |
 |-----------------------------|-------------------------------------------------------|
 | 0x00000000 .. ram_size      | RAM, default 128 MiB (`-m`, at most 256 MiB)          |
-| 0x10000000 (4 KB)           | timer (kernel-mode only)    `MAP_TIMER`               |
-| 0x10001000 (4 KB)           | console (kernel-mode only)  `MAP_CONSOLE`             |
-| up to 0x1fffffff            | reserved for devices                                  |
+| 0x8000000000 (4 KB)         | timer (kernel-mode only)    `MAP_TIMER`               |
+| 0x8000001000 (4 KB)         | console (kernel-mode only)  `MAP_CONSOLE`             |
+| 0x8000000000 .. 0x800fffffff | device space, reserved for devices (`MAP_DEV` .. `MAP_DEV_END`) |
+
+Bit 39 of the 40-bit physical address is the space bit (errata 60): clear is memory, set is device space.  A virtual address of device space is not
+canonical in a 39-bit virtual space, so a kernel maps devices through a leaf whose physical page has bit 39 set, with memory type device (tests/qemu/mini-kernel.S
+maps them with a 1 GB leaf).  With translation off, physical addresses are used as they are.  The assembler's immediates are 32 bits: a program loads these
+addresses with the literal pool form, `movq =MAP_TIMER, r13`.
 
 An address that no RAM or device answers is a bus fault (vector 13); the original machine reports it as a fault and exits with 139.  `-kernel` loads an ELF
 executable (machine 0xF064, little-endian, as ld64 writes it; text at 0x10000) and starts at its entry point.  The numbers above are in spec/pdp64-system.hbnf
@@ -67,13 +72,13 @@ always 1.  Input interrupt: level 4 vector 33 while receive READY and IE; output
 
 `tlb_fill` walks the three-level table of section 15 for every access of every mode: canonical check (vector 5), V and reserved bits (page fault 6/7/8
 by instruction/load/store), R/W/X/U permissions (protection fault 9/10/11), software A and D (a page fault of the kind of the access), 4 KB / 2 MB / 1 GB
-leaves (misaligned superpage: page fault), a bus error while reading a table or the target (vector 13).  Permissions are checked before A and D.  The
+leaves (misaligned superpage: page fault), the consistency of memory type and space bit (PROPOSED, errata 65: a leaf whose physical page has bit 39 set must have type device or device-weak, one with bit 39 clear cached or uncached; otherwise a protection fault), a bus error while reading a table or the target (vector 13).  Permissions are checked before A and D.  The
 walker never writes a table.  QEMU's TLB is per MMU index: 0 physical (translation off), 1 kernel, 2 user and supervisor.  Simplifications:
 
 - ASID and G are not modelled: any write to `PTBR`, `ASID` or `MMUCTL`, and `TLBIA`, flush the whole TLB (an implementation may drop entries at any time, so this is a valid
   one); `TLBI` flushes the page (the whole superpage entry, for a 2 MB or 1 GB leaf); stale translations persist until then, as the architecture says.
 - A write to a clean page (D = 0) re-walks even without `TLBI`, because the cached entry lacks write permission.
-- The memory type MT is stored and ignored: RAM or device follows from the physical address.
+- The memory type MT is checked against the space bit (above) and otherwise ignored: RAM or device follows from the physical address.
 - The supervisor mode is treated like user mode for page permissions.
 - Instruction fetch is checked per two-byte parcel; an instruction whose second parcel is on a bad page faults with EPC = the instruction, EVA = that parcel.
 - A fetch from an address that is not RAM is a bus fault.

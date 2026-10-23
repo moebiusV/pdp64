@@ -2,9 +2,9 @@
  * pdp64-virt: a minimal pdp64 machine.
  *
  *   0x00000000 .. ram_size    RAM (default 128 MiB, -m; at most 256 MiB)
- *   0x10000000                timer   (kernel-mode machine only; MAP_TIMER)
- *   0x10001000                console (kernel-mode machine only; MAP_CONSOLE)
- *   up to 0x1fffffff          reserved for devices
+ *   0x8000000000              timer   (kernel-mode machine only; MAP_TIMER)
+ *   0x8000001000              console (kernel-mode machine only; MAP_CONSOLE)
+ *   (bit 39 of the physical address is the space bit: set is device space, clear is memory; errata 60)
  *
  * Without kernel-mode there is no MMU: addresses are physical.  -kernel loads an ELF executable (as made
  * by ld64) and starts at its entry point; r14 (sp) is the top of RAM minus
@@ -35,7 +35,7 @@ typedef struct PDP64VirtState {
 DECLARE_INSTANCE_CHECKER(PDP64VirtState, PDP64_VIRT_MACHINE,
                          TYPE_PDP64_VIRT_MACHINE)
 
-#define PDP64_DEV_BASE MAP_DEV
+#define PDP64_RAM_MAX MAP_RAM_MAX
 
 static void pdp64_virt_init(MachineState *machine)
 {
@@ -44,7 +44,7 @@ static void pdp64_virt_init(MachineState *machine)
     PDP64VirtState *vs = PDP64_VIRT_MACHINE(machine);
     uint64_t entry = 0;
 
-    if (machine->ram_size > PDP64_DEV_BASE) {
+    if (machine->ram_size > PDP64_RAM_MAX) {
         error_report("pdp64-virt: RAM size must be at most 256 MiB");
         exit(1);
     }
