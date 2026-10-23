@@ -75,6 +75,7 @@
 | **space bit** | bit 39 of the physical address: set selects device space, clear selects memory (2.1.6, errata 60) |
 | **slot** | a device's own 4 KB (or larger) window of device space, found by enumeration (2.6, 5.1) |
 | **bus controller** | the device that is the bus: it enumerates slots, maps them, and reports arrivals and departures (2.6) |
+| **bridge** | a device on Q64 that is itself a bus: it presents the devices behind it as slots with the bus controller's registers, so arbitrary buses (PCI Express, USB, SATA) can be connected to Q64 and enumerated to any depth (2.6.7) |
 | **MMIO** | memory-mapped input/output: device registers reached by ordinary loads and stores (5.1) |
 | **DMA** | direct memory access: a device moving data to or from memory without the processor (5.4) |
 | **ring, descriptor, `OWN`, doorbell** | the common device protocol: a ring of 32-byte descriptors in memory, each with an ownership bit the host sets and the device clears, and a register written to tell the device to look (5.2) |
