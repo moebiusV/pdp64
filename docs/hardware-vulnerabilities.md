@@ -16,6 +16,7 @@
 * [6. Which rule would have prevented which attack](#6-which-rule-would-have-prevented-which-attack)
 * [7. What the OS people asked the hardware vendors for (short version)](#7-what-the-os-people-asked-the-hardware-vendors-for-short-version)
 * [8. What this does not show](#8-what-this-does-not-show)
+* [9. Round 3 additions: what the discoverers and developers said](#9-round-3-additions-what-the-discoverers-and-developers-said-read-in-the-primary-texts)
 
 ## 1. The pdp64 position today
 
@@ -200,3 +201,26 @@ Only the requests read in primary sources so far (Phase 2, `kernel-pain-points.m
 * "Cannot occur" means: cannot occur in the documented in-order, non-speculative design. Any real implementation may add structures (a return stack, a prefetcher, a store buffer with forwarding) that bring back the same questions; section 5 is the review list for that day.
 * Rules C7 and C9 are not satisfied by the current specification; C11 and C12 are not addressed by it. They are open items, not facts about the machine.
 * The coverage of vendors is Intel, AMD and Arm because that is where the disclosures were; RISC-V and Power findings are fewer, and a 2026 report says commercial RISC-V cores already show the same classes of weakness **[S]**.
+
+## 9. Round 3 additions: what the discoverers and developers said (read in the primary texts)
+
+Added 23 Oct 2026 from pages saved in round 3 (`docs/codegen-data/kernelpain/round3-index.tsv`; full table in `kernel-pain-points.md` section 14D). Labels as above; every quotation is from a saved page text.
+
+| Flaw | What the primary source says | Source | Rule it bears on |
+|---|---|---|---|
+| Spectre (the ISA gap) | "there is currently no way to know whether a particular code construction is, or is not, safe across today's processors - much less future designs"; "long-term solutions will require that instruction set architectures be updated to include clear guidance about the security properties of the processor" | Kocher et al., arXiv 1801.01203, sec. 8 [P] | C13 |
+| Spectre (serialization) | serializing instructions' guaranteed behaviour is to "constrain speculative execution because the results of speculatively executed instructions are discarded", which "is different from ensuring that speculative execution will not occur or leak information" | same, sec. 7 [P] | C4 |
+| Meltdown | root cause "is the hardware"; no documentation whether the fix needs new hardware or microcode; proposal: a hard split where "the privilege level can be directly derived from the virtual address"; KAISER leaves mapped pointers that "can be enough to again break KASLR" | Lipp et al., arXiv 1801.01207, sec. 7 [P] | C1 |
+| Foreshadow | "The mitigations against Meltdown and Spectre are not effective against Foreshadow"; effective "against systems deploying Kernel Page Table Isolation" | foreshadowattack.eu [P] | C5 |
+| ZombieLoad | "We have not found an instruction sequence that reliably prevents leakage across protection boundaries"; flushing L1 plus "load stuffing" is "not sufficient"; a microcode flush of the line-fill buffer is required; uncacheable memory leaks through the same buffer | Schwarz et al., arXiv 1905.05726 [P] | C5 |
+| RIDL / MDS | first fix "only partially addressed RIDL"; "Flawed MDS mitigation. The initial mitigations ... clear the buffers by writing stale, potentially sensitive, data into these buffers"; "Ironically, 9th-generation CPUs are more vulnerable to some of our attacks" | mdsattacks.com [P] | C13, C14 |
+| Retbleed | "between 14% and 39% overhead with the AMD and Intel patches respectively"; 68 files, 1783 added and 387 removed lines in Linux | comsec.ethz.ch Retbleed page [P] | C2 |
+| Downfall | gather leaks the vector register file; "up to 50% overhead" per Intel for some workloads; at least nine years of exposure | downfall.page [P] | C14 |
+| Rowhammer | unprivileged `CLFLUSH` "can't be intercepted or disabled, even using VMX"; "ARM doesn't have an unprivileged cache-flush instruction"; a vendor BIOS update that seemed to fix it still flipped bits after "almost 40 minutes" | Project Zero, 9 Mar 2015 [P] | 3.5 |
+| Page-table isolation, global bit | Atom without PCID: +23.9% (88 global lines) and +38.8% (94) in a system-call loop; Skylake with PCID: +1.71%, kernel compile -0.64% | Hansen, lore `20180404010946.6186729B@viggo.jf.intel.com` [D] | P5 |
+
+**Additions to section 7 (what the OS people asked the vendors for):** Linus Torvalds, 29 Jan 2018: asked Intel for "real architectural bits" ("Maybe it could be a bit in that IA32_ARCH_CAPABILITIES MSR. Say, add a bit #2 that says 'ret falls back on BTB'") in place of a per-model list [D]; David Woodhouse's commit of 14 Jan 2018 admitted that the Skylake return fix "is only a partial solution" [D]; Seaborn and Dullien, 2015: "There might be a case for changing the x86 architecture to allow CLFLUSH to be intercepted" [P]; Kocher et al., 2018: the ISA must say what a mispredicted path may leak [P]. The row marked **[U]** at the end of the section-7 table is partly answered: the papers on Spectre, Meltdown, ZombieLoad and the project pages for Foreshadow, RIDL, Retbleed and Downfall have been read; the vendor documents for DOIT and `VERW` have not.
+
+**Correction.** An earlier pass of the pain-points study suggested that the `MT = 01` (uncacheable) page attribute could serve as a countermeasure against Spectre and Meltdown. It cannot: Warner Losh (FreeBSD) rejected the idea on 5 Jan 2018, and the ZombieLoad paper shows that loads from an uncacheable page pass through the line-fill buffer and leak (`kernel-pain-points.md` 14D).
+
+**Still not read (section 8 stays true for these):** the original Hertzbleed and GoFetch papers (project pages were read in round 2), the Rowhammer paper by Kim et al., the KAISER paper, the vendor advisories.

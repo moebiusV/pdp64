@@ -19,6 +19,7 @@
 * [7. Ranking, by the three principles](#7-ranking-by-the-three-principles)
 * [8. What this does not show](#8-what-this-does-not-show)
 * [9. How the counts were made](#9-how-the-counts-were-made)
+* [10. Round 3 additions](#10-round-3-additions-23-oct-2026)
 
 ## 1. The short version
 
@@ -237,3 +238,10 @@ Assessment: **keep A (software), add rule E as an option only if code size allow
 ## 9. How the counts were made
 
 All counts: `grep -rEl <pattern> kern uvm arch` and `grep -rEh <pattern> kern uvm arch | wc -l` run in `~/claude/kernel-src/openbsd/sys` (commit `2114d7b7c8fbfd8d285dd7b5b5eb44e1f6b70f55`, 2026-10-22), with the patterns shown in each entry: immutable `UVM_ET_IMMUTABLE|immutable`; pinning `pinsyscall|ps_pin|pin_table|pinsys`; stack `MAP_STACK|UVM_FLAG_STACK|stack_check|uvm_map_check_stack`; xonly `xonly|execute.only|EXEC_ONLY|PROT_EXEC.*only`; W^X `wxallowed|WXNEEDED|wxcheck|uvm_wxabort`; landing pads `BTI|ENDBR|IBT\b`; pledge `pledge_|PLEDGE_`; unveil `unveil_`; retguard `retguard|RETGUARD`; code patch tags `grep -rEc 'CPTAG_' arch/amd64` summed (75) and the tag names in `arch/amd64/include/codepatch.h` (17); line counts with `wc -l`. The pages read: `openbsd.org/innovations.html`, `man.openbsd.org/mimmutable.2`, `pinsyscalls.2`, `pledge.2`, `unveil.2`, and the list posts cited by URL; the fetched files are in `~/claude/browse-output` and listed in `kernel-pain-points.md` Appendix C.
+
+## 10. Round 3 additions (23 Oct 2026)
+
+* **SMT default, in Theo's words, 1 Feb 2023** [D]: "You can read up on the micro-architectural risks of the specific cpu you have, and your usage pattern, and make your own decision. I have machines where I enable it, but a safe default is the right choice for us to make." (marc.info `m=167523371830534`, openbsd-misc, thread `hw.ncpuonline`; a user with 8 logical CPUs found 4 online because `hw.smt=0`.) This confirms the policy in 2.14 in the author's own phrase: the default is a decision about who bears the risk, not a statement that SMT is always unsafe.
+* **What the vendor was asked for, from people outside OpenBSD, now confirmed in primary texts** (details in `kernel-pain-points.md` 14D): an architectural capability bit instead of a model list (Torvalds, 29 Jan 2018); an unprivileged cache flush that can be trapped (Seaborn and Dullien, 2015); an ISA statement of what a mispredicted path may leak (Kocher et al., 2018).
+* **Retguard and return protection (2.9) in the light of Retbleed:** the Retbleed page says returns on AMD Zen 1 and 2 "behave like an indirect branch regardless of the state of their Return Address Stack" and that on Intel an underflowed return stack makes returns predicted like indirect jumps. This is a statement about the hardware, from the discoverers [P]; whether it matters for retguard was not examined in this round.
+* **Not read in round 3:** Theo's "Mitigations and other real Security Features" and Bluhm's "OpenBSD Attack Mitigations" slides (PDF files that give no text through the browser). The marc.info subject searches for `SMT` and `hyperthreading` returned recent unrelated posts and were used only to find the one thread above.

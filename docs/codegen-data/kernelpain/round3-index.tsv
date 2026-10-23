@@ -1,0 +1,90 @@
+area	query	url	title	author	date	kind
+lwn	lwn Fighting Spectre with cache flushes	https://web.archive.org/web/2019/https://lwn.net/Articles/768418/	Fighting Spectre with cache flushes [LWN.net]	Jonathan Corbet (LWN)	2018-10-15	cited statement
+lwn	wayback 774743	https://web.archive.org/web/2019/https://lwn.net/Articles/774743/	Relief for retpoline pain [LWN.net]	Jonathan Corbet (LWN)	2018-12-14	cited statement
+lwn	wayback 795637	https://web.archive.org/web/2019/https://lwn.net/Articles/795637/	Grand Schemozzle: Spectre continues to haunt [LWN.net]	Jonathan Corbet (LWN)	2019-08-08	cited statement
+lwn	wayback 267968	https://web.archive.org/web/2019/https://lwn.net/Articles/267968/	Ticket spinlocks [LWN.net]	Jonathan Corbet (LWN)	2008-02-06	cited statement
+lwn	wayback 531254	https://web.archive.org/web/2019/https://lwn.net/Articles/531254/	Improving ticket spinlocks [LWN.net]	Jonathan Corbet (LWN)	2013-01-03	cited statement
+lwn	wayback 852138	https://web.archive.org/web/2023/https://lwn.net/Articles/852138/	NUMA-aware qspinlocks [LWN.net]	Jonathan Corbet (LWN)	2021-04-12	cited statement
+lwn	wayback 379748	https://web.archive.org/web/2019/https://lwn.net/Articles/379748/	Huge pages part 5: A deeper look at TLBs and costs [LWN.net]	Mel Gorman (LWN)	2010-03-23	cited statement
+lwn	wayback 684934	https://web.archive.org/web/2019/https://lwn.net/Articles/684934/	TLB flush optimization [LWN.net]	Jonathan Corbet (LWN)	2016-04-27	cited statement
+lwn	wayback 787629	https://web.archive.org/web/2019/https://lwn.net/Articles/787629/	How to get rid of mmap_sem [LWN.net]	Jonathan Corbet (LWN)	2019-05-08	cited statement
+lwn	wayback 906852	https://web.archive.org/web/2023/https://lwn.net/Articles/906852/	Concurrent page-fault handling with per-VMA locks [LWN.net]	Jonathan Corbet (LWN)	2022-09-05	cited statement
+lwn	wayback 388188	https://web.archive.org/web/2019/https://lwn.net/Articles/388188/	The trouble with the TSC [LWN.net]	Jake Edge (LWN)	2010-05-19	cited statement
+lwn	wayback 646950	https://web.archive.org/web/2019/https://lwn.net/Articles/646950/	Reinventing the timer wheel [LWN.net]	Jonathan Corbet (LWN)	2015-06-03	read, routine or context
+lwn	wayback 599580	https://web.archive.org/web/2019/https://lwn.net/Articles/599580/	2038 is closer than it seems [LWN.net]	Jonathan Corbet (LWN)	2014-05-21	read, routine or context
+lwn	wayback 467509	https://web.archive.org/web/2019/https://lwn.net/Articles/467509/	Reworking the DMA mapping code (especially on ARM) [LWN.net]	Jonathan Corbet (LWN)	2011-11-16	cited statement
+lwn	wayback 89597	https://web.archive.org/web/2019/https://lwn.net/Articles/89597/	On the alignment of IP packets [LWN.net]	Jonathan Corbet (LWN)	2004-06-15	cited statement
+lwn	wayback 790464	https://web.archive.org/web/2019/https://lwn.net/Articles/790464/	Detecting and handling split locks [LWN.net]	Marta Rybczynska (LWN)	2019-06-07	cited statement
+lwn	wayback 89586	https://web.archive.org/web/2019/https://lwn.net/Articles/89586/	A nasty FPU bug [LWN.net]	Jonathan Corbet (LWN)	2004-06-15	cited statement
+lwn	wayback 348886	https://web.archive.org/web/2019/https://lwn.net/Articles/348886/	HWPOISON [LWN.net]	Jon Ashburn (LWN)	2009-08-26	cited statement
+lwn	wayback 885220	https://web.archive.org/web/2023/https://lwn.net/Articles/885220/	Shadow stacks for user space [LWN.net]	Jonathan Corbet (LWN)	2022-02-21	cited statement
+lwn	wayback 758245	https://web.archive.org/web/2019/https://lwn.net/Articles/758245/	Kernel support for control-flow enforcement [LWN.net]	Jonathan Corbet (LWN)	2018-06-25	cited statement
+lwn	wayback 847481	https://web.archive.org/web/2023/https://lwn.net/Articles/847481/	Lockless patterns: full memory barriers [LWN.net]	Paolo Bonzini (LWN)	2021-03-05	cited statement
+freebsd	thread index freebsd-hackers 2018-January	https://lists.freebsd.org/pipermail/freebsd-hackers/2018-January/thread.html	The freebsd-hackers January 2018 Archive by thread	(index)	2018-01	read, routine or context
+freebsd	A more general possible meltdown/spectre countermeasure (hackers)	https://lists.freebsd.org/pipermail/freebsd-hackers/2018-January/052096.html	A more general possible meltdown/spectre countermeasure	Warner Losh	2018-01-05	cited statement
+freebsd	A more general possible meltdown/spectre countermeasure (hackers)	https://lists.freebsd.org/pipermail/freebsd-hackers/2018-January/052101.html	A more general possible meltdown/spectre countermeasure	Warner Losh	2018-01-05	cited statement
+freebsd	thread index freebsd-hackers 2018-February	https://lists.freebsd.org/pipermail/freebsd-hackers/2018-February/thread.html	The freebsd-hackers February 2018 Archive by thread	(index)	2018-02	read, routine or context
+freebsd	Stale memory during post fork cow pmap update	https://lists.freebsd.org/pipermail/freebsd-hackers/2018-February/052226.html	Stale memory during post fork cow pmap update	Konstantin Belousov / Elliott Rabe	2018-02-10	cited statement
+freebsd	Stale memory during post fork cow pmap update	https://lists.freebsd.org/pipermail/freebsd-hackers/2018-February/052230.html	Stale memory during post fork cow pmap update	Elliott Rabe	2018-02-10	read, routine or context
+lkml	index 0101.0	https://lkml.iu.edu/hypermail/linux/kernel/0101.0/index.html	Linux-Kernel Archive: By Thread	(index)	2001-01	read, routine or context
+lkml	0101.0 thread	https://lkml.iu.edu/hypermail/linux/kernel/0101.0/0086.html	Linux-Kernel Archive: Re: About Celeron processor memory barrie	Riley Williams (quoting Linus Torvalds)	2001-01-01	cited statement
+lkml	0101.0 thread	https://lkml.iu.edu/hypermail/linux/kernel/0101.0/0076.html	Linux-Kernel Archive: [RFC, PATCH] TLB flush changes for S/390	Ulrich Weigand	2001-01-01	cited statement
+speculation	lore: x86/mm/pti Nov-Dec 2017	https://lore.kernel.org/all/?q=s%3A%22x86%2Fmm%2Fpti%22+d%3A2017-11-01..2017-12-31	s:"x86/mm/pti" d:2017-11-01..2017-12-31 - search results	(search)	2017-12	read, routine or context
+speculation	lore: patch 00/60 Gleixner Dec 2017	https://lore.kernel.org/all/?q=s%3A%2200%2F60%22+d%3A2017-12-04..2017-12-05	s:"00/60" d:2017-12-04..2017-12-05 - search results	(search)	2017-12	read, routine or context
+speculation	[patch 00/60] x86/kpti cover	https://lore.kernel.org/all/20171204140706.296109558@linutronix.de/	[patch 00/60] x86/kpti: Kernel Page Table Isolation (was KAISER) - Thomas Gleixner	Thomas Gleixner	2017-12-04	cited statement
+speculation	Re: [patch 00/60] x86/kpti (Linus)	https://lore.kernel.org/all/CA+55aFwhhvy5b5Y6FL2mQ6cLbwcv0okp+DYv2Pbwb3XQM8=fmg@mail.gmail.com/	Re: [patch 00/60] x86/kpti: Kernel Page Table Isolation (was KAISER) - Linus Torvalds	Linus Torvalds	2017-12-04	cited statement
+speculation	Re: [patch 00/60] x86/kpti (Linus)	https://lore.kernel.org/all/CA+55aFzd87ugUq9iE8TCo4cr4a1RpgEunUk0N9ShY89SyJgVYg@mail.gmail.com/	Re: [patch 00/60] x86/kpti: Kernel Page Table Isolation (was KAISER) - Linus Torvalds	Linus Torvalds	2017-12-04	cited statement
+speculation	Re: [patch 00/60] x86/kpti (Hansen)	https://lore.kernel.org/all/858a3396-4b13-ca98-7d0b-b4097b9aaa75@intel.com/	Re: [patch 00/60] x86/kpti: Kernel Page Table Isolation (was KAISER) - Dave Hansen	Dave Hansen	2017-12-05	read, routine or context
+speculation	Re: [patch 00/60] x86/kpti (Lutomirski 21:49)	https://lore.kernel.org/all/CALCETrWHV06PzqunEaBuwJZ5ykmeqn1=a+845cEd41=fEqetZA@mail.gmail.com/	Re: [patch 00/60] x86/kpti: Kernel Page Table Isolation (was KAISER) - Andy Lutomirski	Andy Lutomirski	2017-12-05	cited statement
+speculation	lore: RSB Jan 2018	https://lore.kernel.org/all/?q=s%3ARSB+d%3A2018-01-01..2018-01-31	s:RSB d:2018-01-01..2018-01-31 - search results	(search)	2018-01	read, routine or context
+speculation	[tip:x86/pti] Fill RSB on context switch (thread root)	https://lore.kernel.org/all/tip-c995efd5a740d9cbafbf58bde4973e8b50b4d761@git.kernel.org/	[tip:x86/pti] x86/retpoline: Fill RSB on context switch for affected CPUs - tip-bot for David Woodho	David Woodhouse (tip-bot commit mail)	2018-01-14	cited statement
+speculation	Re: [tip:x86/pti] Fill RSB on context switch	https://lore.kernel.org/all/20180115000554.GA7844@tassilo.jf.intel.com/	Re: [tip:x86/pti] x86/retpoline: Fill RSB on context switch for affected CPUs - Andi Kleen	Andi Kleen	2018-01-14	cited statement
+speculation	Re: [tip:x86/pti] Fill RSB on context switch	https://lore.kernel.org/all/1516011195.22147.132.camel@infradead.org/	Re: [tip:x86/pti] x86/retpoline: Fill RSB on context switch for affected CPUs - David Woodhouse	David Woodhouse	2018-01-15	cited statement
+speculation	Re: [tip:x86/pti] Fill RSB on context switch	https://lore.kernel.org/all/1516027166.22147.183.camel@infradead.org/	Re: [tip:x86/pti] x86/retpoline: Fill RSB on context switch for affected CPUs - David Woodhouse	David Woodhouse / David Laight	2018-01-15	cited statement
+riscv	lore: Zacas	https://lore.kernel.org/all/?q=s%3AZacas	s:Zacas - search results	(search)	2026	read, routine or context
+riscv	lore: Zacas 2024 H1	https://lore.kernel.org/all/?q=s%3AZacas+d%3A2024-01-01..2024-05-31	s:Zacas d:2024-01-01..2024-05-31 - search results	(search)	2024	read, routine or context
+riscv	[PATCH 0/7] Zacas/Zabha support and qspinlocks	https://lore.kernel.org/all/20240528151052.313031-1-alexghiti@rivosinc.com/	[PATCH 0/7] Zacas/Zabha support and qspinlocks - Alexandre Ghiti	Alexandre Ghiti	2024-05-28	cited statement
+riscv	Re: [PATCH 1/7] riscv: Implement cmpxchg32/64() using Zacas (Parri)	https://lore.kernel.org/all/ZlYff9x12FICHoP0@andrea/	Re: [PATCH 1/7] riscv: Implement cmpxchg32/64() using Zacas - Andrea Parri	Andrea Parri	2024-05-28	cited statement
+tlb	lore: TLBI RANGE 2020	https://lore.kernel.org/all/?q=s%3A%22TLBI+RANGE%22+d%3A2020-05-01..2020-08-31	s:"TLBI RANGE" d:2020-05-01..2020-08-31 - search results	(search)	2020	read, routine or context
+tlb	Re: [PATCH v2 0/2] arm64: tlb: add support for TLBI RANGE (Catalin)	https://lore.kernel.org/all/20200713165903.GD15829@gaia/	Re: [PATCH v2 0/2] arm64: tlb: add support for TLBI RANGE instructions - Catalin Marinas	Catalin Marinas	2020-07-13	cited statement
+mm	lore: THP original cover	https://lore.kernel.org/all/?q=s%3A%22Transparent+Hugepage+Support%22+d%3A2009-12-01..2010-12-31	s:"Transparent Hugepage Support" d:2009-12-01..2010-12-31 - search results	(search)	2010	read, routine or context
+mm	Kernel build bench with Transparent Hugepage Support #29	https://lore.kernel.org/all/20100803160131.GI6071@random.random/	Kernel build bench with Transparent Hugepage Support #29 - Andrea Arcangeli	Andrea Arcangeli	2010-08-03	cited statement
+netbsd	tech-kern 2019/05 month index	https://mail-index.netbsd.org/tech-kern/2019/05/	Index of /tech-kern/2019/05	(index)	2019-05	read, routine or context
+netbsd	tech-kern 2019/05 thread index	https://mail-index.netbsd.org/tech-kern/2019/05/thread1.html	tech-kern by thread	(index)	2019-05	read, routine or context
+netbsd	[RFC] Design considerations for XSAVE Extended Area	https://mail-index.netbsd.org/tech-kern/2019/05/28/msg025062.html	[RFC] Design considerations for XSAVE Extended Area getters/setters	Michal Gorny	2019-05-28	cited statement
+netbsd	port-vax root	https://mail-index.netbsd.org/port-vax/	Port-vax by date	(index)	2026-08	read, routine or context
+netbsd	tech-smp root	https://mail-index.netbsd.org/tech-smp/	tech-smp by date	(index)	2019-05	read, routine or context
+netbsd	tech-smp 2007 year index	https://mail-index.netbsd.org/tech-smp/2007/	Index of /tech-smp/2007	(index)	2007	read, routine or context
+netbsd	tech-smp 2007 thread index	https://mail-index.netbsd.org/tech-smp/2007/thread1.html	404 Not Found	(404)		failed
+netbsd	tech-smp 2007/02 thread index	https://mail-index.netbsd.org/tech-smp/2007/02/thread1.html	404 Not Found	(404)		failed
+netbsd	tech-smp 2007/02 month dir	https://mail-index.netbsd.org/tech-smp/2007/02/	Index of tech-smp for February, 2007	(index)	2007-02	read, routine or context
+netbsd	tech-smp MP safe syscall changes	(none: mistyped fetch)	Index of tech-smp for February, 2007	(empty URL, a mistake of mine)		failed
+papers	Meltdown paper (ar5iv)	https://ar5iv.labs.arxiv.org/html/1801.01207	[1801.01207] Meltdown	Lipp et al.	2018-01	cited statement
+papers	Spectre paper (ar5iv)	https://ar5iv.labs.arxiv.org/html/1801.01203	[1801.01203] Spectre Attacks: Exploiting Speculative Execution	Kocher et al.	2018-01	cited statement
+papers	ZombieLoad paper (ar5iv)	https://ar5iv.labs.arxiv.org/html/1905.05726	[1905.05726] ZombieLoad: Cross-Privilege-Boundary Data Sampling	Schwarz et al.	2019-05	cited statement
+papers	Retbleed project page	https://comsec.ethz.ch/research/microarch/retbleed/	Retbleed: Arbitrary Speculative Code Execution with Return Instructions – Computer Security Group	Wikner, Razavi (ETH COMSEC)	2022	cited statement
+papers	Downfall project page	https://downfall.page/	Downfall	Daniel Moghimi	2023	cited statement
+papers	Foreshadow project page	https://foreshadowattack.eu/	Foreshadow: Breaking the Virtual Memory Abstraction with Transient Out-of-Order Execution	Van Bulck et al.; Minkin et al.	2018	cited statement
+papers	RIDL / MDS project page	https://mdsattacks.com/	MDS Attacks: Microarchitectural Data Sampling	VUSec (Ridl, Fallout)	2019-2020	cited statement
+papers	Project Zero rowhammer privilege escalation	https://googleprojectzero.blogspot.com/2015/03/exploiting-dram-rowhammer-bug-to-gain.html	Exploiting the DRAM rowhammer bug to gain kernel privileges - Project Zero	Mark Seaborn, Thomas Dullien	2015-03-09	cited statement
+openbsd	marc.info openbsd-tech subject SMT	https://marc.info/?l=openbsd-tech&s=SMT&w=1&r=1&q=b	'smt' in openbsd-tech - MARC	(search)	2026	read, routine or context
+openbsd	marc.info openbsd-misc subject hyperthreading	https://marc.info/?l=openbsd-misc&s=hyperthreading&w=1&r=1&q=b	'hyperthreading' in openbsd-misc - MARC	(search)	2024	read, routine or context
+openbsd	Re: hw.ncpuonline	https://marc.info/?l=openbsd-misc&m=167523371830534&w=1	'Re: hw.ncpuonline' - MARC	Theo de Raadt	2023-02-01	cited statement
+misc	lore: Linus unaligned	https://lore.kernel.org/all/?q=f%3Atorvalds+s%3Aunaligned	f:torvalds s:unaligned - search results	(search)	2025	read, routine or context
+alpha-atomics	Re: [PATCH] Alpha: Emulate unaligned LDx_L/STx_C (Linus 2025-02-19)	https://lore.kernel.org/all/CAHk-=wgBZk1FFOyiTKLnz4jNe-eZtYsrztcYRRXZZxF8evk1Rw@mail.gmail.com/	Re: [PATCH] Alpha: Emulate unaligned LDx_L/STx_C for data consistency - Linus Torvalds	Linus Torvalds	2025-02-19	cited statement
+unaligned	Re: [PATCH] rwonce: fix crash by removing READ_ONCE() for unaligned read (Linus 2025-03-26)	https://lore.kernel.org/all/CAHk-=wgJRECUF-7yt9pNxW_bc=4nJcxn5H3duW_HefY3pKwZag@mail.gmail.com/	Re: [PATCH] rwonce: fix crash by removing READ_ONCE() for unaligned read - Linus Torvalds	Linus Torvalds	2025-03-26	cited statement
+unaligned	Re: [RFC][PATCHES] asm/unaligned.h removal (Linus 2024-10-02)	https://lore.kernel.org/all/CAHk-=wj7f32w8p1OrN4fahaF+44zWfTAD+3ucd=XETM_Pt-=6A@mail.gmail.com/	Re: [RFC][PATCHES] asm/unaligned.h removal - Linus Torvalds	Linus Torvalds	2024-10-02	read, routine or context
+unaligned	Unaligned user pointer issues.. (Linus 2019-10-07)	https://lore.kernel.org/all/CAHk-=wiGqnJc6obUGSAsP8YCFEb_ZhD2Zfz-aWxdS_E_R_1xVw@mail.gmail.com/	Unaligned user pointer issues.. - Linus Torvalds	Linus Torvalds	2019-10-06	cited statement
+lkml	index 0110.0	https://lkml.iu.edu/hypermail/linux/kernel/0110.0/index.html	Linux-Kernel Archive: By Thread	(index)	2001-10	read, routine or context
+lkml	0110.0 thread	https://lkml.iu.edu/hypermail/linux/kernel/0110.0/0436.html	Linux-Kernel Archive: VIA status	Roberto Jung Drebes	2001-10-02	read, routine or context
+lkml	0110.0 thread	https://lkml.iu.edu/hypermail/linux/kernel/0110.0/0302.html	Linux-Kernel Archive: 2.4.x with SMP on Alpha	Major A	2001-10-02	read, routine or context
+lkml	0110.0 thread	https://lkml.iu.edu/hypermail/linux/kernel/0110.0/0878.html	Linux-Kernel Archive: Re: ioremap() vs. ioremap_nocache()	Alan Cox	2001-10-04	cited statement
+lkml	0110.0 thread	https://lkml.iu.edu/hypermail/linux/kernel/0110.0/0681.html	Linux-Kernel Archive: ioremap() vs. ioremap_nocache()	David Mosberger	2001-10-03	cited statement
+speculation	lore: Linus PTI/retpoline/IBRS Nov2017-Jun2018	https://lore.kernel.org/all/?q=f%3Atorvalds+%28s%3Apti+OR+s%3Akpti+OR+s%3Aretpoline+OR+s%3Aspectre+OR+s%3Aibrs%29+d%3A2017-11-01..2018-06-30	f:torvalds (s:pti OR s:kpti OR s:retpoline OR s:spectre OR s:ibrs) d:2017-11-01..2018-06-30 - search	(search)	2018	read, routine or context
+speculation	Re: [PATCH 2/2] x86/speculation: Support Enhanced IBRS (Linus 2018-02-20)	https://lore.kernel.org/all/CA+55aFzm7zLd5BPtpp9MYMuP8We55bMd7noeLPrXiKfDynO6JA@mail.gmail.com/	Re: [PATCH 2/2] x86/speculation: Support "Enhanced IBRS" on future CPUs - Linus Torvalds	Linus Torvalds	2018-02-19	cited statement
+speculation	Re: [RFC,05/10] x86/speculation: Add basic IBRS support infrastructure (Linus 2018-01-30)	https://lore.kernel.org/all/CA+55aFyrKudn2QKe4D==BZCCQDqqfDzQZ6i8PR8-AfAufTtGFQ@mail.gmail.com/	Re: [RFC,05/10] x86/speculation: Add basic IBRS support infrastructure - Linus Torvalds	Linus Torvalds	2018-01-29	cited statement
+tlb	Re: [RFC][PATCH 00/10] Use global pages with PTI (Linus 2018-02-22)	https://lore.kernel.org/all/CA+55aFxYunj-s2N60Q2Y63TsrhJKwqLa=-GJPMb6--RA_ud6Fw@mail.gmail.com/	Re: [PATCH 00/11] [v4] Use global pages with PTI - Linus Torvalds	Linus Torvalds	2018-04-03	cited statement
+tlb	[PATCH 00/11] [v4] Use global pages with PTI (Hansen cover)	https://lore.kernel.org/all/20180404010946.6186729B@viggo.jf.intel.com/	[PATCH 00/11] [v4] Use global pages with PTI - Dave Hansen	Dave Hansen	2018-04-03	cited statement
+atomics	lore: Linus split lock	https://lore.kernel.org/all/?q=f%3Atorvalds+s%3A%22split+lock%22	f:torvalds s:"split lock" - search results	(search, no results)		failed
+atomics	lore: Linus split lock (body)	https://lore.kernel.org/all/?q=f%3Atorvalds+%22split+lock%22	f:torvalds "split lock" - search results	(search)		read, routine or context
+atomics	lore: Linus split_lock	https://lore.kernel.org/all/?q=f%3Atorvalds+s%3Asplit_lock	f:torvalds s:split_lock - search results	(search, no results)		failed
