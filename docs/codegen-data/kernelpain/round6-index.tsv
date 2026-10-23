@@ -1,0 +1,47 @@
+area	query	url	title	author	date	kind
+blit	archive.org search blit	https://archive.org/advancedsearch.php?q=blit+AND+%28pike+OR+locanthi+OR+jerq+OR+%22bell+laboratories%22%29&fl%5B%5D=identifier&fl%5B%5D=title&rows=40&output=json	{"responseHeader":{"status":0,"QTime":24,"params":{"query":"(text:blit OR text:blit OR text__reviews			search (URL finding), 0 hits
+blit	archive.org search jerq	https://archive.org/advancedsearch.php?q=jerq+OR+%22blit+terminal%22+OR+%22multiplexed+graphics+terminal%22+OR+%22overlapping+bitmap+layers%22&fl%5B%5D=identifier&fl%5B%5D=title&rows=40&output=json	{"responseHeader":{"status":0,"QTime":126,"params":{"query":"(text:jerq OR text:jerq OR text__review			search (URL finding): only the Blit Terminal (1982) video item
+blit	cat-v blit page	https://doc.cat-v.org/bell_labs/blit/	The Blit: A Multiplexed Graphics Terminal			abstract page (round 5 had only this)
+blit	cat-v bell_labs index	https://doc.cat-v.org/bell_labs/	Bell Labs			index
+blit	cat-v concurrent_window_system	https://doc.cat-v.org/bell_labs/concurrent_window_system/	A Concurrent Window System			abstract page
+blit	cat-v transparent_wsys	https://doc.cat-v.org/bell_labs/transparent_wsys/	Window Systems Should Be Transparent			abstract page
+blit	cat-v plan_9 index	https://doc.cat-v.org/plan_9/	Plan 9 from Bell Labs			index
+blit	cat-v plan9 4th_edition/papers	https://doc.cat-v.org/plan_9/4th_edition/papers	Plan 9 Manual - Volume 2			index
+blit	cat-v plan9 3rd_edition/rio/	https://doc.cat-v.org/plan_9/3rd_edition/rio/	Rio: Design of a Concurrent Window System			context
+blit	cat-v 8.5 page	https://doc.cat-v.org/plan_9/4th_edition/papers/812/	8½, the Plan 9 Window System			cited statement (full paper text in page)
+blit	cat-v plan9 4th_edition/papers/9	https://doc.cat-v.org/plan_9/4th_edition/papers/9	Plan 9 from Bell Labs			cited statement (full paper text in page; read in part: search by keyword and sections on window system)
+blit	cat-v plan9 3rd_edition/rio/	https://doc.cat-v.org/plan_9/3rd_edition/rio/	Rio: Design of a Concurrent Window System			context (rio history notes)
+blit	cat-v plan9 2nd_edition/papers/gfx/	https://doc.cat-v.org/plan_9/2nd_edition/papers/gfx/	gfx.ms			context (frame buffer, colour map; not cited)
+blit	cat-v man plan_9/1/rio	http://man.cat-v.org/plan_9/1/rio	rio page from Section 1 of the plan 9 manual			cited statement (man page)
+blit	cat-v man plan_9/3/draw	http://man.cat-v.org/plan_9/3/draw	draw page from Section 3 of the plan 9 manual			cited statement (man page)
+search	"Hardware/Software Tradeoffs for Bitmap Graphics on the Blit" Pike Locanthi Reiser	https://html.duckduckgo.com/html/?q=%22Hardware%2FSoftware+Tradeoffs+for+Bitmap+Graphics+on+the+Blit%22+Pike+Locanthi+Reiser	"Hardware/Software Tradeoffs for Bitmap Graphics on the Blit" Pike Locanthi Reiser at DuckDuckGo			search, no results
+search	Pike Locanthi Reiser Hardware Software Tradeoffs Bitmap Graphics Blit pdf	https://html.duckduckgo.com/html/?q=Pike+Locanthi+Reiser+Hardware+Software+Tradeoffs+Bitmap+Graphics+Blit+pdf	Pike Locanthi Reiser Hardware Software Tradeoffs Bitmap Graphics Blit pdf at DuckDuckGo			search (URL finding)
+search	Graphics in Overlapping Bitmap Layers Pike pdf	https://html.duckduckgo.com/html/?q=Graphics+in+Overlapping+Bitmap+Layers+Pike+pdf	Graphics in Overlapping Bitmap Layers Pike pdf at DuckDuckGo			search (URL finding)
+blit	tufts rob-pike archive dir	https://www.cs.tufts.edu/~nr/cs257/archive/rob-pike/	Index of /~nr/cs257/archive/rob-pike			index (directory listing)
+blit	archive.org SPE 1985-02 djvu.txt	https://archive.org/download/sim_software-practice-experience_1985-02_15_2/sim_software-practice-experience_1985-02_15_2_djvu.txt	401 Authorization Required			failed: 401 Authorization Required
+blit	9p.io CSRC reprints index	https://9p.io/cm/cs/doc/index.html	[P]Reprints from Computing Sciences Research Center			index (found archtr.ps.gz path)
+blit	9p.io CSRC reprints index (again, for links)	https://9p.io/cm/cs/doc/index.html	[P]Reprints from Computing Sciences Research Center			index (links)
+blit	wikipedia Blit	https://en.wikipedia.org/wiki/Blit_(computer_terminal)	Blit (computer terminal) - Wikipedia			cited statement [S]
+search	TUHS "Blit source" Pike 2019 jerq name Perq Lucasfilm	https://html.duckduckgo.com/html/?q=TUHS+%22Blit+source%22+Pike+2019+jerq+name+Perq+Lucasfilm	TUHS "Blit source" Pike 2019 jerq name Perq Lucasfilm at DuckDuckGo			search (URL finding)
+blit	TUHS 2019-December thread index	https://www.tuhs.org/pipermail/tuhs/2019-December/thread.html	The TUHS December 2019 Archive by thread			index
+blit	TUHS Blit source 019645	https://www.tuhs.org/pipermail/tuhs/2019-December/019645.html	[TUHS] Blit source			cited statement
+blit	TUHS Blit source 019639	https://www.tuhs.org/pipermail/tuhs/2019-December/019639.html	[TUHS] Blit source			cited statement (context)
+blit	TUHS Blit source 019658	https://www.tuhs.org/pipermail/tuhs/2019-December/019658.html	[TUHS] Blit source			cited statement (quoted Pike)
+blit	TUHS Blit source 019657	https://www.tuhs.org/pipermail/tuhs/2019-December/019657.html	[TUHS] Blit source			cited statement
+blit	TUHS Blit source 019656	https://www.tuhs.org/pipermail/tuhs/2019-December/019656.html	[TUHS] Blit source			cited statement (Pike)
+blit	TUHS Blit source 019655	https://www.tuhs.org/pipermail/tuhs/2019-December/019655.html	[TUHS] Blit source			context
+blit	TUHS Blit source 019654	https://www.tuhs.org/pipermail/tuhs/2019-December/019654.html	[TUHS] Blit source			cited statement
+blit	TUHS Blit source 019653	https://www.tuhs.org/pipermail/tuhs/2019-December/019653.html	[TUHS] Blit source			cited statement (Pike)
+blit	TUHS Blit source 019652	https://www.tuhs.org/pipermail/tuhs/2019-December/019652.html	[TUHS] Blit source			cited statement (Ruizendaal)
+blit	wikipedia NeWS	https://en.wikipedia.org/wiki/NeWS	NeWS - Wikipedia			context (no Blit mention found)
+blit	wikipedia Rio_(windowing_system)	https://en.wikipedia.org/wiki/Rio_(windowing_system)	Plan 9 from Bell Labs - Wikipedia			context (Plan 9 article)
+blit	wikipedia 8%C2%BD_(window_system)	https://en.wikipedia.org/wiki/8%C2%BD_(window_system)	8½ (window system) - Wikipedia			failed (no such article)
+blit	man.cat-v.org unix_10th/9/mux	http://man.cat-v.org/unix_10th/9/mux	mux page from Section 9 of the unix 10th manual			cited statement (man page)
+blit	man.cat-v.org unix_10th/9/32ld	http://man.cat-v.org/unix_10th/9/32ld	32ld page from Section 9 of the unix 10th manual			cited statement (man page)
+blit	XHR in browser tab	https://doc.cat-v.org/bell_labs/blit/blit.pdf	The Blit: A Multiplexed Graphics Terminal (PDF via same-origin XHR in the browser, base64 into the page, #save, decode, pdftotext)	Rob Pike	1983/1984	cited statement (full paper read, 15 pages)
+blit	XHR in browser tab	https://doc.cat-v.org/bell_labs/transparent_wsys/transparent_wsys.pdf	Window Systems Should Be Transparent (PDF, same method)	Rob Pike	1988	cited statement (read in full)
+blit	XHR in browser tab	https://doc.cat-v.org/bell_labs/concurrent_window_system/concurrent_window_system.pdf	A Concurrent Window System (PDF, same method)	Rob Pike	1989	cited statement (introduction and comparison sections read; the rest skimmed)
+blit	XHR in browser tab	https://www.cs.tufts.edu/~nr/cs257/archive/rob-pike/pike-bitmap.pdf	Graphics in Overlapping Bitmap Layers (PDF, same method; Computing Science Technical Report 999)	Rob Pike	1 Apr 1983	cited statement (introduction read; algorithm sections skimmed)
+blit	XHR in browser tab	https://www.cs.tufts.edu/~nr/cs257/archive/rob-pike/blit-tradeoffs.pdf	Hardware/Software Tradeoffs for Bitmap Graphics on the Blit (same method)			failed: 403 Forbidden (file listed but not readable by anyone)
+blit	XHR in browser tab	https://9p.io/cm/cs/doc/87/archtr.ps.gz	Hardware/Software Tradeoffs for Bitmap Graphics on the Blit (gzip PostScript via same method, gunzip, ps2ascii)	Rob Pike, Bart Locanthi, John Reiser	SP&E 15(2), Feb 1985	cited statement (read to the end of the text; the middle on graphics input skimmed)
+blit	XHR in browser tab	https://9p.io/cm/cs/doc/83/archtr.ps.gz	(guessed path from the index text)			failed: 404 (the index line is out of order; the link is 87/archtr.ps.gz)
