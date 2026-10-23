@@ -276,7 +276,7 @@ def render_entry(e):
     out.append('**Mnemonics:** ' + heads + (('  (aliases: ' + ', '.join('`%s`' % n.upper() for n in names if MN[n]['alias_of']) + ')') if any(MN[n]['alias_of'] for n in names) else ''))
     out.append('')
     out.append('**Syntax**\n')
-    out.append('```\n' + '\n'.join(e['syntax']) + '\n```')
+    out.append('```\n' + uni('\n'.join(e['syntax'])) + '\n```')
     out.append('')
     out.append('**Encoding**\n')
     out.append(encoding(e))

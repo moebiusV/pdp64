@@ -230,7 +230,7 @@ There is no zero-extending 64-bit move (it would be `MOVQ`). At `len = 00` these
 ```
 LEA d(Rn), Rd
 LEA d(PC), Rd
-LEA d(Rn)(Rx*s), Rd
+LEA d(Rn)(Rx×s), Rd
 ```
 
 **Encoding**
@@ -2008,8 +2008,8 @@ The return address is on the data stack where every unwinder and debugger expect
 **Syntax**
 
 ```
-JMPI rm        ; PC <- M[EA]
-CALLI rm       ; push the return address, then PC <- M[EA]
+JMPI rm        ; PC ← M[EA]
+CALLI rm       ; push the return address, then PC ← M[EA]
 ```
 
 **Encoding**
@@ -2048,7 +2048,7 @@ The one deferred reference the architecture admits, for control transfer only: t
 **Syntax**
 
 ```
-JTAG d(Rb)(Rx*s)
+JTAG d(Rb)(Rx×s)
 ```
 
 **Encoding**
