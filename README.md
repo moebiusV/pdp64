@@ -23,7 +23,7 @@ The architecture is designed to be efficient with in-order and out-of-order impl
 
 All the rules are soft rules: a rule gives way when breaking it is worth more than it costs. [How the principles show up](#how-the-principles-show-up) gives the examples.
 
-A 64-bit, little-endian, LP64 successor to the PDP-11: sixteen general registers, variable-length instructions of 2, 4 or 6 bytes in 16-bit parcels (plus a second page of one-parcel abbreviations of the common cases), the
+A 64-bit, little-endian, LP64 successor to the PDP-11, with support for several cores (SMP), designed to be efficient with in-order and out-of-order implementations: sixteen general registers, variable-length instructions of 2, 4 or 6 bytes in 16-bit parcels (plus a second page of one-parcel abbreviations of the common cases), the
 PDP-11's orthogonal addressing modes, and a modern base (bit counts, 64-bit divide, IEEE 754 binary64, binary32 and binary16 with exception flags, block operations,
 atomics, UTF-8 instructions). The toolchain here is written from one source of truth, a set of [hbnf](https://github.com/moebiusV/hbnf) grammars, so that the assembler, linker, emulator, compiler
 back end and [QEMU](https://www.qemu.org/) target cannot drift apart. It also has optimizations for crypto (bit rotation and reversal, byte swap, carry-less multiply, bit counts, wide multiply) and for AI (the

@@ -2,7 +2,7 @@
 
 [← streamlined index](00-index.md)
 
-**The pdp64 is a 64-bit successor to the PDP-11, designed to be as pleasant to program as the PDP-11 and the VAX-11 were, and as small to build as the PDP-11 was.** It is a little-endian machine with sixteen 64-bit registers, instructions of two, four or six bytes, and the PDP-11's addressing modes and branches, brought up to date with what fifty years of compilers and operating systems have shown to matter. This chapter says why it exists, what made its ancestors good, and the principles the rest of the book follows.
+**The pdp64 is a 64-bit successor to the PDP-11, designed to be as pleasant to program as the PDP-11 and the VAX-11 were, and as small to build as the PDP-11 was.** It is a little-endian machine with sixteen 64-bit registers, instructions of two, four or six bytes, and the PDP-11's addressing modes and branches, brought up to date with what fifty years of compilers and operating systems have shown to matter. It is a 64-bit machine that supports several cores from the start (symmetric multiprocessing, chapter 7), and it is designed to be efficient with in-order and out-of-order execution implementations (1.4.4). This chapter says why it exists, what made its ancestors good, and the principles the rest of the book follows.
 
 ## 1.1 Why the machine exists
 

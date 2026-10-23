@@ -4,7 +4,7 @@
 
 **A PDF of the whole manual (the chapters, with every instruction, the reference tables and the appendices): [`book/pdp64-manual.pdf`](../../book/pdp64-manual.pdf).**
 
-**This is the short, ordered account of the pdp64: what it is, why, and how each part works.** The other documents in this repository are the working record, with every revision, correction and decision in the order it happened. This set is the same material arranged to be read straight through, with the history and the arguments moved to commentary. Nothing in the other documents was changed or removed to make it.
+**This is the short, ordered account of the pdp64, a 64-bit architecture with SMP support designed to be efficient with in-order and out-of-order implementations: what it is, why, and how each part works.** The other documents in this repository are the working record, with every revision, correction and decision in the order it happened. This set is the same material arranged to be read straight through, with the history and the arguments moved to commentary. Nothing in the other documents was changed or removed to make it.
 
 ## Contents
 
