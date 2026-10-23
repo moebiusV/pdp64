@@ -21,3 +21,4 @@ a:id03002 docs/streamlined/appendix-b-decisions-pending.md
 a:id03003 docs/streamlined/appendix-c-glossary.md
 a:id03004 docs/streamlined/appendix-d-abi.md
 a:id03005 docs/streamlined/appendix-e-assembler.md
+a:id03006 docs/streamlined/appendix-f-evidence.md

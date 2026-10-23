@@ -32,3 +32,4 @@ a:id03002    Decisions pending
 a:id03003    Glossary
 a:id03004    The ABI, version 1
 a:id03005    The assembly language and the object format
+a:id03006    The evidence behind the manual

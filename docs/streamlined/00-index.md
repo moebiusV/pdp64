@@ -24,6 +24,7 @@
 14. [**Appendix C. Glossary**](appendix-c-glossary.md): the book's terms in one place, by architecture, kernel, devices and process.
 15. [**Appendix D. The ABI, version 1**](appendix-d-abi.md): data model, registers, arguments and results, variadic calls, position-independent code.
 16. [**Appendix E. The assembly language and the object format**](appendix-e-assembler.md): source syntax, directives, operand modes, the literal pool, and ELF.
+17. [**Appendix F. The evidence behind the manual**](appendix-f-evidence.md): the long documents the manual is drawn from: the full instruction-set text, the system and bus documents, the record of decisions, and the surveys and measurements.
 
 ## How to read it
 
@@ -35,4 +36,4 @@
 
 **The PDF.** The same text as a book, [`book/pdp64-manual.pdf`](../../book/pdp64-manual.pdf), built by `tools/mkbook.py` from the sources of this directory (Typst; see `book/README.md`).
 
-**Where the rest is.** The full instruction set text is [`../pdp64-isa.md`](../pdp64-isa.md); every decision with its reasons is [`../errata.md`](../errata.md) and [`../CHANGES-SINCE-R20.md`](../CHANGES-SINCE-R20.md); the decisions still open, with five options each, are [`../decisions-pending.md`](../decisions-pending.md).
+**Where the rest is** (all of it is listed in [appendix F](appendix-f-evidence.md)). The full instruction set text is [`../pdp64-isa.md`](../pdp64-isa.md); every decision with its reasons is [`../errata.md`](../errata.md) and [`../CHANGES-SINCE-R20.md`](../CHANGES-SINCE-R20.md); the decisions still open, with five options each, are [`../decisions-pending.md`](../decisions-pending.md).
