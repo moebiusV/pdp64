@@ -86,8 +86,8 @@ if cond(c) on that comparison then PC <- address of this instruction + 2 * disp'
       '**None written** (errata 39): the instruction computes the comparison for its own decision and leaves `N Z V C` as they were.', 'None.', '9.10',
       notes='Three encodings, chosen by the assembler: `CBCC` (`101000 (0x28)`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`101001 (0x29)`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`101010 (0x2A)`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.'),
     E('BTAG', 'branches', ['btag', 'bntag'], 'Branch on pointer tag', ['BTAG Rn, #tag, target', 'BNTAG Rn, #tag, target'],
-      '''BTAG : if (Rn & 7) == tag then PC <- address of this instruction + 2 * disp
-BNTAG: if (Rn & 7) != tag then PC <- address of this instruction + 2 * disp''',
+      '''BTAG : if (Rn & 111₂) == tag then PC <- address of this instruction + 2 * disp
+BNTAG: if (Rn & 111₂) != tag then PC <- address of this instruction + 2 * disp''',
       NOFLAGS, 'None.', '9.10', notes='For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`). Four bytes at least; the displacement is 16 bits (32 at `len = 10`).'),
 
     E('CLR', 'single', ['clr'], 'Clear', ['CLR rm'], 'rm <- 0', '`N` = 0, `Z` = 1, `V` = 0, `C` = 0.', MEMX, '9.8'),
@@ -128,6 +128,6 @@ CALLI: t <- M[EA(rm)] ; SP <- SP - 8 ; M[SP] <- address of the next instruction 
       NOFLAGS, MEMX + ' For `CALLI` the order is specified: load the target, then push, then transfer; a fault on the load leaves nothing changed.', '9.10, 9.16',
       notes='The one deferred reference the architecture admits, for control transfer only: the PLT stub (`JMPI got_slot(PC)`) and virtual-method dispatch (`CALLI vtbl_off(Robj)`). It needs a memory operand, so it is four bytes at least.'),
     E('JTAG', 'branches', ['jtag'], 'Jump through a tag table', ['JTAG d(Rb)(Rx*s)'],
-      'PC <- M[Rb + d + 8 * (Rx & 7)]', NOFLAGS, MEMX, '9.10',
+      'PC <- M[Rb + d + 8 * (Rx & 111₂)]', NOFLAGS, MEMX, '9.10',
       notes='Legal only with the scaled-index mode (`0001`). Dispatches on the low three bits of a tagged pointer through a table of eight entries; the 3-bit tag cannot index out of range.'),
 ]
