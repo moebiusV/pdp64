@@ -62,6 +62,8 @@ is committed and verified (the rule is a clean-clone `tools/check-all.sh` of the
 | Errata 40 (priority 7 on every exception and interrupt entry) | decided; documentation committed; core, QEMU and tests committed (`06e4a05`); see section 9 for whether it is pushed |
 | operating system | decided (errata 41): OpenBSD first, through the LLVM back end (the critical path: selection, calling convention, clang; needs the bigger machine); Unix/32V with pcc is the fallback if OpenBSD proves too hard; 3BSD dropped; nothing written |
 
+**The goal before silicon (errata 52):** assembler, linker, LLVM compiler back end, emulator, and an OpenBSD port that can be logged into with ssh; the roadmap with the order of work is [`docs/roadmap.md`](docs/roadmap.md).
+
 ## 5. Numbers (827 fair-corpus files, bytes = text + rodata + data)
 
 | point | instructions | bytes | against `gcc -Os` | against `clang -Os` |
