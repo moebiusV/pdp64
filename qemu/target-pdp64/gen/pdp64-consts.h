@@ -41,11 +41,12 @@
 #define LENCODE_PARCELS3             2
 #define LENCODE_PAGE2                3
 #define MAP_RAM                      0
-#define MAP_DEV                      268435456
+#define MAP_SPACE_BIT                39
 #define MAP_RAM_MAX                  268435456
-#define MAP_TIMER                    268435456
-#define MAP_CONSOLE                  268439552
-#define MAP_DEV_END                  536870912
+#define MAP_DEV                      549755813888
+#define MAP_TIMER                    549755813888
+#define MAP_CONSOLE                  549755817984
+#define MAP_DEV_END                  550024249344
 #define MMU_LEVELS                   3
 #define MMU_LEVEL_BITS               9
 #define MMU_PAGE_BITS                12

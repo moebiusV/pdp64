@@ -84,13 +84,15 @@ mmuctl = "enable"@0
 irq-level = "timer"@6
           | "console"@4
 
-; The physical memory map of the pdp64-virt machine.  RAM starts at 0 (at most `ram-max` bytes); each device has a 4 KB page.
+; The physical memory map of the pdp64-virt machine.  Bit 39 of the 40-bit physical address is the space bit (errata 60): clear is memory, set is device space.  RAM starts
+; at 0 (at most `ram-max` bytes); each device has a 4 KB page in the upper half.
 map = "ram"@0
     | "ram-max"@0x10000000
-    | "dev"@0x10000000
-    | "timer"@0x10000000
-    | "console"@0x10001000
-    | "dev-end"@0x20000000
+    | "space-bit"@39
+    | "dev"@0x8000000000
+    | "timer"@0x8000000000
+    | "console"@0x8000001000
+    | "dev-end"@0x8010000000
 
 ; The timer: a 64-bit free-running counter that counts at `hz` ticks a second of QEMU's virtual clock, a 64-bit compare, and a control/status register.
 ; The interrupt (level irq-level timer, vector vector timer) is asserted while counter >= compare and CTL enable is 1.  PENDING reads counter >= compare.
