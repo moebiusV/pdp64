@@ -36,4 +36,4 @@
 
 **The PDF.** The same text as a book, [`book/pdp64-manual.pdf`](../../book/pdp64-manual.pdf), built by [buildabook](https://github.com/moebiusV/buildabook) and Typst from the sources of this directory (`tools/mkbook.sh`; see `book/README.md`).
 
-**Evidence documents.** All of them are listed in [appendix F](appendix-f-evidence.md): the full instruction set text ([`../pdp64-isa.md`](../pdp64-isa.md)), the record of decisions ([`../errata.md`](../errata.md), [`../CHANGES-SINCE-R20.md`](../CHANGES-SINCE-R20.md)) and the open decisions with five options each ([`../decisions-pending.md`](../decisions-pending.md)).
+**Evidence documents.** All of them are listed in [appendix F](appendix-f-evidence.md): the full instruction set text ([`../pdp64-isa.md`](../pdp64-isa.md)), the record of decisions ([`../errata.md`](../errata.md)) and the open decisions with five options each ([`../decisions-pending.md`](../decisions-pending.md)).

@@ -8,7 +8,7 @@
 
 | Document | What it holds |
 |---|---|
-| [`pdp64-isa.md`](../pdp64-isa.md) | the full instruction-set text with every encoding, the revision history, the rejected features, the idioms lost and restored, the comparison with the PDP-11 and the VAX |
+| [`pdp64-isa.md`](../pdp64-isa.md) | the full instruction-set text with every encoding, the rejected features, the idioms lost and restored, the comparison with the PDP-11 and the VAX |
 | [`pdp64-system-architecture.md`](../pdp64-system-architecture.md) | privilege, exceptions, interrupts, memory management and boot as an operating system sees them, with what is undefined stated plainly |
 | [`pdp64-system-design.md`](../pdp64-system-design.md) | System v1: the options, how others do it, and how the choices serve the project's goals |
 | [`pdp64-q64-bus.md`](../pdp64-q64-bus.md) | the system bus and its devices |
@@ -23,7 +23,6 @@
 | Document | What it holds |
 |---|---|
 | [`errata.md`](../errata.md) | every decision, numbered, with the reasons |
-| [`CHANGES-SINCE-R20.md`](../CHANGES-SINCE-R20.md) | the changes to the instruction set from revision 20 on: instructions dropped, moved, added, the design errors found, the measurements |
 | [`decisions-pending.md`](../decisions-pending.md) | every open decision, with the need, five options, the survey of what other systems do and what the PDP-11 and VAX did (appendix B is drawn from it) |
 | [`fact-check-2026-10-22.md`](../fact-check-2026-10-22.md) | the comparison of statements about the outside world with a source where one could be read; the claims it could not check are marked "not confirmed" in the manual |
 
