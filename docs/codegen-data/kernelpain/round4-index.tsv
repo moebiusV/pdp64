@@ -1,0 +1,54 @@
+area	query	url	title	author	date	kind
+freebsd	arch 2017-12	https://lists.freebsd.org/pipermail/freebsd-arch/2017-December/thread.html	freebsd-arch December 2017 thread index	(index)	2017-12	context (no topic)
+paper	KAISER	https://gruss.cc/files/kaiser.pdf	KAISER PDF (no text)	Gruss et al.		failed
+paper	DOITM	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/best-practices/data-operand-independent-timing-instruction-set-architecture-isa-guidance.html	Intel Developer Zone shell (wrong URL)	Intel		failed
+paper	DOITM	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/best-practices/data-operand-independent-timing-isa-guidance.html	Data Operand Independent Timing ISA Guidance	Intel	2025-09-10	cited statement
+paper	intel best practices	https://www.intel.com/content/www/us/en/developer/topic-technology/software-security-guidance/best-practices.html	Intel best practices listing	Intel		context
+intel	jcc	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/best-practices/mitigation-strategies-jcc-microcode.html	Mitigation Strategies for JCC erratum	Intel		cited statement
+intel	srbds	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/best-practices/srbds-mitigation-impact-intel-secure-key.html	SRBDS mitigation impact on Intel Secure Key	Intel		cited statement
+intel	fsgsbase	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/best-practices/guidance-enabling-fsgsbase.html	Guidance for Enabling FSGSBASE	Intel		cited statement
+intel	freq	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/best-practices/frequency-throttling-side-channel-guidance.html	Frequency Throttling Side Channel Guidance	Intel		cited statement
+intel	timing-crypto	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/secure-coding/mitigate-timing-side-channel-crypto-implementation.html	Guidelines for Mitigating Timing Side Channels Against Cryptographic Implementations	Intel		cited statement
+intel	advisory	https://www.intel.com/content/www/us/en/developer/topic-technology/software-security-guidance/advisory-guidance.html	Intel advisory guidance listing	Intel		context
+intel	mds	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/technical-documentation/intel-analysis-microarchitectural-data-sampling.html	Intel Analysis of Microarchitectural Data Sampling	Intel		cited statement
+intel	swapgs	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/technical-documentation/speculative-behavior-swapgs-and-segment-registers.html	Speculative Behavior of SWAPGS and Segment Registers	Intel		cited statement
+paper	hertzbleed	https://www.hertzbleed.com/	Hertzbleed Attack	Wang, Paccagnella et al.	2022-06 (page updated to 2026)	cited statement
+paper	gofetch	https://gofetch.fail/	GoFetch	Chen et al.	2024 (page updated 2024-12)	context (headline only; FAQ folded)
+lore	RSB thread listing	https://lore.kernel.org/all/tip-c995efd5a740d9cbafbf58bde4973e8b50b4d761@git.kernel.org/T/	[PATCH] x86/retpoline: Fill RSB on context switch (whole thread)	David Woodhouse et al.	2018-01-12	cited statement
+lore	split lock torvalds	https://lore.kernel.org/all/?q=%22split+lock%22+d%3A2019-12-01..2020-03-31+AND+f%3Atorvalds	lore search split lock + torvalds	(search)		failed (no results)
+lore	split lock detection	https://lore.kernel.org/all/?q=%22split+lock+detection%22+d%3A2019-12-01..2020-02-28	lore search split lock detection	(search)	2020-02	context
+lore	split lock v17 Gleixner	https://lore.kernel.org/all/87v9omy0og.fsf@nanos.tec.linutronix.de/	Re: [PATCH v17] x86/split_lock	Thomas Gleixner	2020-02-04	context
+lore	split lock cover	https://lore.kernel.org/all/?q=%22Enable+split+lock+detection+for+real+time%22+d%3A2019-11-20..2019-11-23	lore search split lock cover	(search)	2019-11	context
+lore	split lock v10 cover	https://lore.kernel.org/all/1574297603-198156-1-git-send-email-fenghua.yu@intel.com/	[PATCH v10 0/6] Enable split lock detection for real time and debug	Fenghua Yu	2019-11-21	cited statement
+lore	split lock v10 thread	https://lore.kernel.org/all/1574297603-198156-1-git-send-email-fenghua.yu@intel.com/T/	split lock v10 thread (145 messages)	Peter Zijlstra; Ingo Molnar; Andy Lutomirski; David Laight	2019-11-21 to 2019-11-22	cited statement
+netbsd	port-vax root	https://mail-index.netbsd.org/port-vax/	port-vax root	(index)	2026-08	context
+netbsd	port-vax oindex	https://mail-index.netbsd.org/port-vax/oindex.html	port-vax index of months	(index)		context
+netbsd	port-vax 2012-01	https://mail-index.netbsd.org/port-vax/2012/01/oindex.html	port-vax 2012-01 index	(index)	2012-01	context (spam only)
+search	ddg port-vax	https://html.duckduckgo.com/html/?q=site%3Amail-index.netbsd.org%2Fport-vax+MMU+bug+workaround	DuckDuckGo port-vax	(search)		context
+netbsd	vax KA420 DMA	https://mail-index.netbsd.org/port-vax/2024/02/17/msg004868.html	Re: VAXstation 3100/30 KA420 SCSI DMA problem on netboot (and fix)	Anders Magnusson; Izumi Tsutsui	2024-02-17	cited statement
+netbsd	vax I/O bus reset	https://mail-index.netbsd.org/port-vax/2025/03/28/msg005109.html	Re: I/O bus reset to fix CMD MSCP controllers	Anders Magnusson; Hans Rosenfeld	2025-03-28	cited statement
+search	ddg tech-smp	https://html.duckduckgo.com/html/?q=site%3Amail-index.netbsd.org%2Ftech-smp+lock+cache+bug	DuckDuckGo tech-smp	(search)		context
+netbsd	alpha MP	https://mail-index.netbsd.org/tech-smp/2001/04/20/0000.html	Alpha MP goes multi-user, code committed to NetBSD-current	Jason R. Thorpe	2001-04-20	cited statement
+netbsd	softint	https://mail-index.netbsd.org/tech-smp/2000/03/14/0000.html	New softint interface	Eduardo E. Horvath	2000-03-14	cited statement
+netbsd	thorpe smp API	https://mail-index.netbsd.org/tech-smp/1999/07/27/0004.html	Re: SMP API things, lock debugging, etc.	Eduardo E. Horvath	1999-07-27	cited statement
+search	ddg port-alpha	https://html.duckduckgo.com/html/?q=site%3Amail-index.netbsd.org%2Fport-alpha+PALcode+bug+hardware	DuckDuckGo port-alpha	(search)		context
+netbsd	alpha qemu	https://mail-index.netbsd.org/port-alpha/2020/02/26/msg001040.html	NetBSD/alpha on qemu-system-alpha	Jason Thorpe	2020-02-25	cited statement
+lore	torvalds hardware people	https://lore.kernel.org/all/?q=f%3Atorvalds+%22hardware+people%22	lore search f:torvalds hardware people	(search)		context
+lore	lockref arm64 thread	https://lore.kernel.org/all/CAHk-=wiEahkwDXpoy=-SzJHNMRXKVSjPa870+eKKenufhO_Hgw@mail.gmail.com/T/	[RFC] Disable lockref on arm64 (whole thread, 74 messages)	Jan Glauber; Linus Torvalds; Will Deacon	2019-04-29 to 2019-05-06	cited statement
+lore	barrier_nospec thread	https://lore.kernel.org/all/CAHk-=wiUaWnHGgusaMOodypgm7bVztMVQkB6JUvQ0HoYJqDNYA@mail.gmail.com/T/	[PATCH] x86/uaccess: Avoid barrier_nospec() in copy_from_user() (whole thread, 54 messages)	Josh Poimboeuf; Andrew Cooper; Linus Torvalds; Borislav Petkov	2024-10-12 to 2024-10-15	cited statement
+lore	fork memory corruption Linus	https://lore.kernel.org/all/CAHk-=wi-99-DyMOGywTbjRnRRC+XfpPm=r=pei4A=MEL0QDBXA@mail.gmail.com/	Re: Fwd: Memory corruption in multithreaded user space program while calling fork	Linus Torvalds	2023-07-08	cited statement
+lore	NVMHCI Linus	https://lore.kernel.org/all/alpine.LFD.2.00.0904111250370.4583@localhost.localdomain/	Re: Implementing NVMHCI...	Linus Torvalds	2009-04-11	context (quoted question missing; not used)
+search	ddg freebsd pcid	https://html.duckduckgo.com/html/?q=lists.freebsd.org+svn-src-head+amd64+pmap+PCID+kib+Intel+Meltdown	DuckDuckGo FreeBSD PCID	(search)		context
+freebsd	wiki spec	https://wiki.freebsd.org/SpeculativeExecutionVulnerabilities	SpeculativeExecutionVulnerabilities (wiki)	FreeBSD wiki		failed (Anubis proof-of-work page)
+freebsd	r338715	https://lists.freebsd.org/pipermail/svn-src-head/2018-September/118436.html	svn commit: r338715 - head/sys/amd64/amd64	Konstantin Belousov	2018-09-17	cited statement
+freebsd	EN-26:10	https://www.freebsd.org/security/advisories/FreeBSD-EN-26:10.amd64.asc	FreeBSD-EN-26:10.amd64 TLB invalidation bug on AMD systems with INVLPGB	FreeBSD Project	2026-04-29	cited statement
+amd	AMD-SB-1010	https://www.amd.com/en/resources/product-security/bulletin/amd-sb-1010.html	AMD-SB-1010 Transient Execution of Non-canonical Accesses	AMD	2021 (page)	cited statement
+amd	AMD-SB-7005	https://www.amd.com/en/resources/product-security/bulletin/amd-sb-7005.html	AMD-SB-7005 Return Address Security Bulletin	AMD	2023	cited statement
+lkml	0307.1 index	https://lkml.iu.edu/hypermail/linux/kernel/0307.1/index.html	lkml 0307.1 index	(index)	2003-07	context
+lkml	4G/4G announce	https://lkml.iu.edu/hypermail/linux/kernel/0307.1/0246.html	[announce, patch] 4G/4G split on x86, 64 GB RAM (and more) support	Ingo Molnar	2003-07-08	cited statement
+lkml	4G/4G reply	https://lkml.iu.edu/hypermail/linux/kernel/0307.1/0293.html	Re: [announce, patch] 4G/4G split	William Lee Irwin III	2003-07-08	context
+search	ddg tsc	https://html.duckduckgo.com/html/?q=site%3Alore.kernel.org+torvalds+TSC+unsynchronized+hardware+broken+clocksource+watchdog	DuckDuckGo TSC	(search)		failed (one unrelated hit)
+lore	torvalds avx512	https://lore.kernel.org/all/?q=f%3Atorvalds+AVX512+d%3A2020-07-01..2020-07-31	lore search f:torvalds AVX512	(search)		failed (no results)
+intel	spec mitigations	https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/technical-documentation/speculative-execution-side-channel-mitigations.html	Speculative Execution Side Channel Mitigations	Intel		cited statement
+paper	TRRespass	https://www.vusec.net/projects/trrespass/	TRRespass	VUSec		cited statement
+lore	Linus 256-bit io	https://lore.kernel.org/all/CA+55aFydu4+MZ=-5L7wDr2LvNH6Dbmi4qLnfHAAOrHKZCb5wdA@mail.gmail.com/	Re: [RFC PATCH 2/3] x86/io: implement 256-bit IO read and write	Linus Torvalds	2018-03-21	cited statement

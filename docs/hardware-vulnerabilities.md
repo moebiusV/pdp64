@@ -17,6 +17,7 @@
 * [7. What the OS people asked the hardware vendors for (short version)](#7-what-the-os-people-asked-the-hardware-vendors-for-short-version)
 * [8. What this does not show](#8-what-this-does-not-show)
 * [9. Round 3 additions: what the discoverers and developers said](#9-round-3-additions-what-the-discoverers-and-developers-said-read-in-the-primary-texts)
+* [10. Round 4 additions: vendor documents, discoverers and kernel developers](#10-round-4-additions-vendor-documents-discoverers-and-kernel-developers-read-in-saved-page-texts)
 
 ## 1. The pdp64 position today
 
@@ -224,3 +225,37 @@ Added 23 Oct 2026 from pages saved in round 3 (`docs/codegen-data/kernelpain/rou
 **Correction.** An earlier pass of the pain-points study suggested that the `MT = 01` (uncacheable) page attribute could serve as a countermeasure against Spectre and Meltdown. It cannot: Warner Losh (FreeBSD) rejected the idea on 5 Jan 2018, and the ZombieLoad paper shows that loads from an uncacheable page pass through the line-fill buffer and leak (`kernel-pain-points.md` 14D).
 
 **Still not read (section 8 stays true for these):** the original Hertzbleed and GoFetch papers (project pages were read in round 2), the Rowhammer paper by Kim et al., the KAISER paper, the vendor advisories.
+
+## 10. Round 4 additions: vendor documents, discoverers and kernel developers (read in saved page texts)
+
+Added 23 Oct 2026 from pages saved in round 4 (`docs/codegen-data/kernelpain/round4-index.tsv`; full table in `kernel-pain-points.md` section 14E). Labels as above; [G] is vendor documentation. Every quotation is from a saved page text.
+
+| Flaw | What the source says | Source | Rule it bears on |
+|---|---|---|---|
+| JCC erratum | the fix "could cause a performance degradation ranging from 0-4% on certain industry-standard benchmarks"; "branches that overlay or end on a 32-byte boundary are unable to fill into the Decoded ICache"; software pads with the `0x2e` prefix | Intel JCC page [G] | N1 |
+| SRBDS | "Executions of RDRAND at the same time on multiple logical processors will be serialized"; other threads' off-core misses are delayed "with an impact similar to legacy locked cache-line-split accesses" | Intel SRBDS page [G] | C5 |
+| MDS and `VERW` | the clear is the memory form of `VERW m16`, "not guaranteed for the register operand variant"; code after it "may speculatively execute"; "There is no hardware support for atomic transition of both threads between kernel and user states" | Intel MDS page [G] | C5, N2 |
+| SWAPGS | speculative skip or extra execution of the privileged base swap; segment-base writes can be renamed, leaving "a stale segment register entry" | Intel SWAPGS page [G] | C1 |
+| FSGSBASE | user-writable base registers needed a `CR4` opt-in; Linux's use of bit 63 of GS base as "written by the kernel" had to go; "Incomplete implementations ... can be exploited to gain privilege escalation" | Intel FSGSBASE page [G] | C1 |
+| Constant time, hardware limits | "be wary of code generated from high-level language source code that appears to adhere to all of these recommendations"; throttling "frequency, and hence execution time, becomes data-variant" even for constant-cycle code; the DOITM write "is not defined as a serializing instruction"; SGX "cannot trust the OS to manipulate DOITM" so it is always on | Intel timing, frequency and DOITM pages [G] | C10, N6 |
+| Hertzbleed | "Is Hertzbleed a bug? No. The root cause ... is dynamic frequency scaling, a feature"; "current industry guidelines ... (such as Intel's one) are insufficient to guarantee constant-time execution"; no microcode patch; S&P 2025 banner: "5x faster" and works "even in the absence of frequency side-channel leakage" | hertzbleed.com [P] | C10 |
+| Non-canonical transient access | AMD "may transiently execute non-canonical loads and store using only the lower 48 address bits"; mitigation "inserting an LFENCE"; Linux's address-mask patch reopened it; Torvalds could find neither the CVE nor the bulletin in his mail | AMD-SB-1010 [G]; lore thread Oct 2024 [D] | C1 |
+| Inception | OS options "will require the µcode patch, which is incorporated in the BIOS update"; Zen and Zen 2 "are already designed to flush branch type predictions" | AMD-SB-7005 [G] | N3 |
+| Rowhammer, DDR4 | "TRRespass found bit flips on 12 of the 42 DIMMs"; "the vulnerability has gotten worse compared to DDR3"; the in-DRAM tracker cannot hold every row | VUSec TRRespass [P] | N4 |
+| iTLB multihit | a page-size change with a live translation can give a machine check; enumeration bit at `0` reads "Likely vulnerable,check model" | `hw-vuln/multihit.rst` [D-local] | N5 |
+| Split lock | "takes over 1000 extra cycles"; detection "cannot be virtualized"; the control MSR's per-core scope was found "58 days ago" after v1, "~485 days wasted" | lore split-lock cover and thread [D] | alignment (ISA 7.4) |
+| Coherence under contention | "if you have a case of failing cmpxchg a lot, your cache coherency is simply bad"; Marvell: "~25x retries for one cmpxchg" | lore `lockref` thread [D] | N7 |
+
+**New rule suggestions from round 4 (not yet in section 5; proposals, not decisions):**
+
+* **N1.** No erratum fix may depend on where an instruction sits relative to a fetch block or cache line (the JCC erratum made the assembler pad code).
+* **N2.** A buffer-clear is a dedicated instruction with a defined result: it clears for all threads of the unit, flags are not clobbered, and no younger instruction executes speculatively past it. (`VERW` is the opposite on each point.)
+* **N3.** Every mitigation must be switchable by the OS without a firmware or microcode update from the board vendor.
+* **N4.** The memory-controller interface carries a refresh-management command visible to software, so a DRAM-internal tracker is not the only defence (needs the memory vendors; not in pdp64's power).
+* **N5.** Enumeration is positive for safety: a CPU that does not report "not affected" is treated as affected; a missing register means "affected".
+* **N6.** A constant-time mode is a bit in `PSW`, saved and restored on entry, ordered with respect to the instructions after it, and not controllable only through a model-specific register.
+* **N7.** A compare-and-swap loop keeps its cache line until the next attempt (Torvalds' "sticky enough"), and an ISA offers a load-for-ownership hint.
+
+**Correction check.** No statement in sections 3 to 9 was found contradicted by the round 4 sources. The Skylake return-stack row of `kernel-pain-points.md` (14D) gains the nuance that Andi Kleen called the commit's first reason incorrect on 9 Mar 2018.
+
+**Still not read:** the original papers of KAISER, Rowhammer (Kim et al.), GoFetch and Hertzbleed (the KAISER PDF gave no text through the browser); the other AMD advisories (Zenbleed, Retbleed, Sinkclose, TSA); Intel's retpoline, L1TF, gather-data-sampling and Branch History Injection pages (listed on the Intel advisory page, not fetched).

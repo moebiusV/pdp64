@@ -52,3 +52,36 @@
 * The `kernelpain.py msgs` counts include known noise (see section 16); `mds-l1tf-taa` still matches Ceph "mds".
 * `boot.md` (the author's) is cross-referenced from section 14B only; it is not edited.
 * Round 3 row 1 of the index (LWN 768418) has no separate title in the saved text; `kind` for each page is a judgement made while reading, and a few pages marked "cited statement" were read only in part (the Foreshadow-style project pages were read as FAQ pages; the FreeBSD stale-memory thread was read only at its start; the RIDL page's long timeline was skimmed).
+
+## Round 4 (2026-10-23, about 10:40-12:00 local): what was done
+
+* 53 pages fetched one at a time (`round4-index.tsv` has 53 lines: 29 "cited statement", 18 context, 6 failed), plus one Google `#search` that returned only a redirect page. Page text cache `/tmp/claude-1000/corpus4/doc0001..doc0053.txt` (may be lost); fetcher `/tmp/claude-1000/r4.py` (calls `politewait.py` before every fetch, 20 s); notes with the exact quotations `/tmp/claude-1000/notes4.txt`; section pieces `/tmp/claude-1000/s14e.md`, `a4.md`.
+* Done from the queue: (1) FreeBSD: 2017-December `freebsd-arch` index (nothing on topic), svn r338715 (ifunc context switch), EN-26:10 (INVLPGB), wiki page blocked by Anubis; (2) lkml.iu.edu: 4G/4G announcement (July 2003); (3) lore: whole threads for the Skylake RSB commit (20 messages), split lock v10 (145), `lockref` on arm64 (74), `barrier_nospec()` (54), plus single posts (VIVT, 256-bit IO); (4) NetBSD: tech-smp 1999, 2000, 2001; port-vax 2024 and 2025; port-alpha 2020; (6) Intel documents (DOITM, MDS/VERW, SWAPGS, JCC, SRBDS, FSGSBASE, frequency, timing guide, mitigation guide), AMD-SB-1010 and 7005, Hertzbleed, GoFetch (headline only), TRRespass; local kernel `hw-vuln` documents.
+* Documents changed: `docs/kernel-pain-points.md` (new 14E with 34 rows, Appendix A.4 rows 113-139, contents entry), `docs/hardware-vulnerabilities.md` (section 10, new rule suggestions N1-N7), `docs/openbsd-mitigations.md` (section 11; no new OpenBSD source), `round4-index.tsv`.
+* No earlier claim was found wrong; one nuance added (the Skylake RSB commit comment was called incorrect by Kleen on 9 Mar 2018).
+* **Pace slip:** one lore search went through `lk.py` without `politewait.py` (53 s after the previous lore request, so the 20 s floor held). No 429, 503, captcha or block. Walls: wiki.freebsd.org (Anubis page), Google search (script redirect). Browser quit with `browsectl quit`; nothing from it was left running.
+
+## What is left after round 4, in order
+
+1. PDF-only papers (KAISER, Rowhammer by Kim et al., GoFetch, Hertzbleed, mixed-size atomics POPL 2017): the browser gives no text from PDFs; look for HTML or arXiv versions (ar5iv) or give up on them.
+2. lore: per-process KPTI discussion (Dec 2017), vDSO/TSC, MSI/GIC, arm64 TLBI RANGE cover timings; follow the thread `T/` flat view (it holds every message; 300-500 KB loads fine) from a message already known, as that worked for four threads in round 4.
+3. NetBSD `port-vax` by month needs a search engine to pick months (DuckDuckGo HTML page `html.duckduckgo.com/html/?q=site:mail-index.netbsd.org/<list>+...` worked and gives direct URLs); 1990s months unread; `tech-smp` 2003 (buffer cache locking) and 2001-11 (dual Athlon, BIOS interrupt setting) found but not read.
+4. Intel pages not fetched: retpoline, L1TF, gather data sampling, branch history injection, TSX asynchronous abort, load value injection, MMIO stale data (all listed at `.../topic-technology/software-security-guidance/advisory-guidance.html`); AMD bulletins for Zenbleed, Retbleed, TSA.
+5. FreeBSD months before 2018 for PCID work; FreeBSD wiki pages need a way past Anubis (not attempted).
+6. OpenBSD: nothing new; slides are PDF.
+7. lkml.iu.edu: NPTL, BKL slices of 2002-2003 (the `0307.1` index is cached in doc0046 and lists 4G/4G replies by Bligh, Hansen, Kirill Korotaev, Russell King, Andi Kleen, Petr Vandrovec that were not read).
+
+## Pacing state of each host after round 4 (machine clock about 11:30 local)
+
+| Host | State | Rule going on |
+|---|---|---|
+| lwn.net | never requested directly; not requested in round 4 | no direct request, ever; Wayback only |
+| archive.org / web.archive.org | not requested in round 4 | 65 s via `politewait.py archive.org 65` |
+| lore.kernel.org | 14 pages at 20 s or more, no block | 20 s |
+| mail-index.netbsd.org | 9 pages, no block | 20 s |
+| lists.freebsd.org, www.freebsd.org | 3 pages, no block | 20 s |
+| wiki.freebsd.org | Anubis proof-of-work page, not retried | needs a human or a different route |
+| www.intel.com | 12 pages at 20 s or more, no block (one wrong URL) | 20 s |
+| www.amd.com, hertzbleed.com, gofetch.fail, vusec.net, lkml.iu.edu, gruss.cc | no block | 20 s |
+| html.duckduckgo.com | 5 result pages, no block | 20 s |
+| www.google.com `#search` | returned a script-redirect page; not retried | avoid |
