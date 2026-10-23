@@ -7,7 +7,7 @@
     python3 tools/mkmanual.py        # regenerate the instruction entries, the reference tables and the figures
     tools/mkbook.sh                  # book/build/ -> book/pdp64-manual.pdf
 
-Needs `buildabook` (on `PATH`, in `$BUILDABOOK`, or at `~/claude/buildabook/buildabook`; build it from its repository with `gprbuild -P buildabook.gpr`, no hbnf needed), `typst` 0.15 or later (it fetches the `cmarker` 0.1.8 package on first use) and the fonts EB Garamond and DejaVu Sans Mono.
+Needs `buildabook` (on `PATH`, in `$BUILDABOOK`, or at `../buildabook/buildabook`; build it from its repository with `gprbuild -P buildabook.gpr`, no hbnf needed), `typst` 0.15 or later (it fetches the `cmarker` 0.1.8 package on first use) and the fonts EB Garamond and DejaVu Sans Mono.
 
 | file | what |
 |---|---|

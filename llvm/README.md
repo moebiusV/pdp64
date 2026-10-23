@@ -1,7 +1,7 @@
 # pdp64 on LLVM
 
-The LLVM back end of the pdp64.  This directory holds everything we write for it; `~/claude/llvm-project` (a checkout of
-`llvmorg-21.1.8`) and `~/claude/llvm-build` are scratch places where it is built, never committed here.  The arrangement is the
+The LLVM back end of the pdp64.  This directory holds everything we write for it; `../llvm-project` (a checkout of
+`llvmorg-21.1.8`) and `../llvm-build` are scratch places where it is built, never committed here.  The arrangement is the
 QEMU one (`qemu/README.md`): our sources live in this repository, an install script copies them into the LLVM tree and applies a
 small patch for the edits to LLVM's own files, a build script configures and builds, and the numbers are generated from the
 architecture's grammars so that nothing is typed twice.
@@ -14,7 +14,7 @@ byte for byte against our own assembler `as64`.  There is no code generator yet 
     llvm/check.sh               # the oracle: llvm-mc against as64, and the generated tables are fresh
     tools/gen-llvm-td.py [--check]   # write / verify llvm/target/PDP64/gen
 
-    ~/claude/llvm-build/bin/llvm-mc -triple=pdp64-unknown-elf -filetype=obj -o t.o t.s
+    ../llvm-build/bin/llvm-mc -triple=pdp64-unknown-elf -filetype=obj -o t.o t.s
     build/ld64 -o t.x t.o && build/sim64 t.x          # the object is ours: the linker takes it
     echo '0x40 0x80 0x00 0x08' | llvm-mc -triple=pdp64-unknown-elf -disassemble
 

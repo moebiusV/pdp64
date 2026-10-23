@@ -14,7 +14,7 @@ The machine-readable data behind the tables is in [`codegen-data/`](codegen-data
 |---|---|
 | Corpus | The "fair corpus": 827 C files from nine projects (bearssl 294, c-testsuite 213, gcc-torture 158, mbedtls 101, lua 34, zlib 12, chibicc 8, lz4 5, cjson 2) that every compiler below compiled. Fourteen more files (zlib 3, gcc-torture 11) are accepted by our pcc back ends but not by gcc or clang with these flags, and are left out of every column. The file list, the include directories and the defines are those of `tools/corpus.py` in the v7unix-toolchain repository. |
 | Preprocessing | Each file is preprocessed once per header set with the host `gcc -E` against musl headers: pdp64 gets the AArch64 musl set (LP64, little-endian, signed char, the same text as our aarch64 build); the three amd64 columns get the x86-64 musl set. |
-| pdp64 | pcc `ccom` from `~/claude/pcc` (commit named in section 2) with `-xdmr -xtemps -xdeljumps -xinline -xdce`, then `as64`. |
+| pdp64 | pcc `ccom` from `../pcc` (commit named in section 2) with `-xdmr -xtemps -xdeljumps -xinline -xdce`, then `as64`. |
 | pcc amd64 | our own amd64 pcc back end with the same flags plus `-xabs`, for continuity with earlier reports. |
 | gcc -Os | `gcc -m64 -fno-pie -fcf-protection=none -std=gnu99 -w -fno-asynchronous-unwind-tables -fno-unwind-tables -Os` (the amd64 entry of `corpus.py`), once with `-S` and once with `-c`. |
 | clang -Os | `clang --target=x86_64-linux-gnu -fno-pic -fcf-protection=none`, the same common flags and `-Os`. |
@@ -45,7 +45,7 @@ frame). The instruction count is higher than either ({{r_all_gi}} of gcc, {{r_al
 
 ### How the figure moved in this round
 
-The same 827 files, pdp64 only, one row per compiler change (`~/claude/pcc`, `arch/pdp64`); a row's figures include the earlier rows:
+The same 827 files, pdp64 only, one row per compiler change (`../pcc`, `arch/pdp64`); a row's figures include the earlier rows:
 
 | step | commit | instructions | bytes | bytes / gcc -Os | bytes / clang -Os |
 |---|---|---|---|---|---|
@@ -208,7 +208,7 @@ What the data supports:
 ## 11. Reproducing
 
 ```
-tools/build-pcc.sh                      # build/pcc/ccom from ~/claude/pcc
+tools/build-pcc.sh                      # build/pcc/ccom from ../pcc
 tools/pdp64size.sh --set fair --arch pdp64,amd64,gcc-Os,clang-Os --out DIR --keep DIR/s
 # tables: DIR/results.json holds every figure above per file; docs/codegen-data/ holds the aggregated CSV files;
 # tools/codegen/*.py rebuild them (see the list in section 1)

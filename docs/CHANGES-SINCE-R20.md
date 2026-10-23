@@ -2,7 +2,7 @@
 
 [← pdp64 index](../README.md)
 
-On 2026-10-21 a tar, `pdp64-docs-2026-10-21.tar`, appeared in `~/claude/pcc`: three documents about a 64-bit PDP-11 (`11-64W-isa-r20.md`, the
+On 2026-10-21 a tar, `pdp64-docs-2026-10-21.tar`, appeared in `../pcc`: three documents about a 64-bit PDP-11 (`11-64W-isa-r20.md`, the
 FPGA plan, the LB64 accelerator note) and a README. Revision 20 of the ISA was a paper design, "nothing here has been synthesized, measured or taped
 out". We were asked for a [pcc](https://github.com/moebiusV/pcc) back end, an assembler (in the spirit of V7 `as`), a linker if needed, and a plan for a [QEMU](https://www.qemu.org/) target. This file records
 **every decision, correction, clarification and dropped or changed instruction made since**, and why. Nothing in `docs/11-64W/` was edited; where
@@ -40,7 +40,7 @@ Contents
 | Not written | `sim64` (emulator), `ld64` (linker), the pcc back end, QEMU. |
 | Checks | `tools/check-all.sh`: 11 instruction-format vectors, 34 syntax cases, 6 assembled programs compared word for word with hand-worked expectations, and a drift test over every mnemonic plus the opcode-map checks. All pass. |
 
-The repository is `~/claude/pdp64` (git, `main`). The commit history is listed in §13.3.
+The repository is this one (git, `main`). The commit history is listed in §13.3.
 
 ---
 
@@ -688,7 +688,7 @@ tools/mkgrammar.py          generator                                    tools/c
 docs/errata.md  abi.md  asm-syntax.md  CHANGES-SINCE-R20.md (this)      tests/          formats.c, asmsyntax.c, asm/*.s + expected words
 ```
 
-### 13.3 History (commits in `~/claude/pdp64`, oldest first)
+### 13.3 History (commits in this repository, oldest first)
 
 ISA documents, spec, errata (`b9cc3e4`); ABI v1 and CMP/flag decisions (`f0b2837`); hbnf build script (`2ed1f9d`); bit-format grammar (`01908fa`); assembly syntax grammar (`100cca1`);
 mnemonic numbers in hex then binary and the hbnf numbers change (`90ab54c`, `d2334ab`, then upstream `c99c7cc` and the local patch removed `ca4cf63`, `ba6f84c`);
@@ -698,7 +698,7 @@ single source of numbers (`b04cb3b`); named layouts, generated enum/group order,
 
 ## Toolchain status (2026-10-21, end of day)
 
-* **ld64**, **sim64** (docs/sim64.md) and the pcc back end (`~/claude/pcc/arch/pdp64`) exist. `tools/check-all.sh` runs the format vectors, the
+* **ld64**, **sim64** (docs/sim64.md) and the pcc back end (`../pcc/arch/pdp64`) exist. `tools/check-all.sh` runs the format vectors, the
   syntax cases (42), the assembler programs, the link test, the drift test (214 checked, 0 differ), the header freshness check and the emulator
   programs (7). Compiled C runs under `sim64` through `tools/pdp64test.sh` in the toolchain repo (79 of 81 default-flag tests at this writing).
 * Found by running code: the format template named an alias (`fcmpd`) so every opcode above the ALU decoded as a memory instruction (the generator now

@@ -1,12 +1,12 @@
 # pdp64 on QEMU
 
 `qemu-system-pdp64 -M pdp64-virt -kernel prog` runs the programs that `sim64` runs, with the same results.
-This directory holds everything we write for it; `~/claude/qemu-src` (a QEMU v11.1.2 checkout) and
-`~/claude/qemu-build` are scratch places where it is built, never committed here.
+This directory holds everything we write for it; `../qemu-src` (a QEMU v11.1.2 checkout) and
+`../qemu-build` are scratch places where it is built, never committed here.
 
 ## Install, build, run
 
-    qemu/build.sh [-j N]        # install.sh + configure + ninja; the result is ~/claude/qemu-build/qemu-system-pdp64
+    qemu/build.sh [-j N]        # install.sh + configure + ninja; the result is ../qemu-build/qemu-system-pdp64
     qemu/install.sh [qemu-src]  # only put the target into a QEMU tree (idempotent)
     qemu/sync.sh [--check]      # refresh / verify the generated copies in target-pdp64/gen
 

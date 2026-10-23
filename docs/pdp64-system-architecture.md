@@ -254,7 +254,7 @@ instructions with no counterpart in LLVM's generic operations (block copy, bit-f
 ### 14.2 Status: milestone M1, the machine-code layer (2026-10-22)
 
 The first milestone is done: an assembler, a disassembler and an ELF object writer for the pdp64 in LLVM 21.1.8, checked byte for byte against our own assembler `as64`. There is no code generator yet (`llc`, `clang` and `lld` are later milestones). Everything we wrote lives in the pdp64
-repository under `llvm/`, in the arrangement of `qemu/`: `llvm/target/PDP64/` becomes `llvm/lib/Target/PDP64/` in a checkout of LLVM that is kept outside the repository (`~/claude/llvm-project`), `llvm/install.sh` copies it in and applies the small `llvm/patch/llvm-core.patch` (the `pdp64` triple, `EM_PDP64 = 0xF064` and
+repository under `llvm/`, in the arrangement of `qemu/`: `llvm/target/PDP64/` becomes `llvm/lib/Target/PDP64/` in a checkout of LLVM that is kept outside the repository (`../llvm-project`), `llvm/install.sh` copies it in and applies the small `llvm/patch/llvm-core.patch` (the `pdp64` triple, `EM_PDP64 = 0xF064` and
 its five relocation types, the experimental-target list), `llvm/build.sh` builds, `llvm/check.sh` runs the oracle. The register and instruction definitions are **generated** from the grammar by `tools/gen-llvm-td.py` (about 1,700 records), so the target cannot drift from the assembler.
 
 **Results, against the ISA as of the morning of 2026-10-22** (before the flag cleanup, `ISYNC` and `HINT` of errata 39):
@@ -353,7 +353,7 @@ What changed and what broke:
 
 ### 14.9 Building it on a bigger machine
 
-    git clone --depth 1 --branch llvmorg-21.1.8 https://github.com/llvm/llvm-project.git ~/claude/llvm-project
+    git clone --depth 1 --branch llvmorg-21.1.8 https://github.com/llvm/llvm-project.git ../llvm-project
     LLVM_USE_LINKER=lld TARGETS="llvm-tblgen llvm-mc llvm-objdump llvm-readobj llvm-objcopy" llvm/build.sh -j 16
     llvm/check.sh
 

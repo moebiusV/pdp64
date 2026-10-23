@@ -264,7 +264,7 @@ Added 23 Oct 2026 from pages saved in round 4 (`docs/codegen-data/kernelpain/rou
 
 ## 11. Round 5 additions: GPUs, DMA masters, and old processor bugs (read in saved page texts and local files)
 
-Added 23 Oct 2026 from `docs/codegen-data/kernelpain/round5-index.tsv` and the local Linux tree; full rows in `kernel-pain-points.md` section 14F and Appendix A.5 (rows 150, 163, 180). Labels as above; [D-local] is the file text in `~/claude/kernel-src/linux`.
+Added 23 Oct 2026 from `docs/codegen-data/kernelpain/round5-index.tsv` and the local Linux tree; full rows in `kernel-pain-points.md` section 14F and Appendix A.5 (rows 150, 163, 180). Labels as above; [D-local] is the file text in `../kernel-src/linux`.
 
 | Flaw | What the source says | Source | Rule it bears on |
 |---|---|---|---|

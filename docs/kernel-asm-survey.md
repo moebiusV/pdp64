@@ -31,7 +31,7 @@ The method is plain. Count the instruction mnemonics (the instruction names, suc
 
 ## 2. Sources and method
 
-**Sources** (shallow, blobless, sparse clones, kept outside the repository in `~/claude/kernel-src/`; nothing from them is copied into the repository, only counts of mnemonic names):
+**Sources** (shallow, blobless, sparse clones, kept outside the repository in `../kernel-src/`; nothing from them is copied into the repository, only counts of mnemonic names):
 
 | Kernel | Repository | Revision | Date of revision |
 |---|---|---|---|
