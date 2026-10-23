@@ -2,12 +2,10 @@
 
 [← manual index](00-index.md)
 
-**The assembler's source layout is the V7 assembler's, `as`; its lexical rules are C's.** This appendix is the syntax of a source file: lines, labels, numbers, strings, operators, directives, registers, the operand modes, the mnemonic conventions and the object format. The grammar itself is `spec/pdp64-asm.hbnf` (the machine-readable specification, whose text rules are checked by `tools/check-asmsyntax.sh`); the source of this appendix is [`../asm-syntax.md`](../asm-syntax.md). The mnemonics are in the [instruction dictionary](dictionary/index.md).
+**The assembler's source layout is the V7 assembler's, `as`; its lexical rules are C's.** This appendix is the syntax of a source file: lines, labels, numbers, strings, operators, directives, registers, the operand modes, the mnemonic conventions and the object format. The grammar itself is `spec/pdp64-asm.hbnf`; the source of this appendix is [`../asm-syntax.md`](../asm-syntax.md). The mnemonics are in the [instruction dictionary](dictionary/index.md).
 
 The grammar is `spec/pdp64-asm.hbnf` ([hbnf](https://github.com/moebiusV/hbnf) text rules); `tools/check-asmsyntax.sh` generates the parser and runs `tests/asmsyntax.c` over it,
 and `tools/check-as64.sh` assembles `tests/asm/*.s` and compares the bytes with hand-worked expectations.
-
-The layout of a source file is the V7 assembler's, `as`; the lexical rules are C's.
 
 - **Lines.** One statement to a line. `;` starts a comment that runs to the end of the line.
 - **Labels.** `name:` defines a label; `1:` defines a numeric label, referenced as `1b` (the nearest one before) or `1f` (the nearest after).
@@ -24,16 +22,16 @@ The layout of a source file is the V7 assembler's, `as`; the lexical rules are C
   (the ISA's PDP-11 terminology). `.align n` aligns to n bytes (a power of two).
 - **Registers.** `r0`..`r15`; `sp` is `r14`, `fp` is `r13`. `pc` and `dp` appear only as a base: `d(pc)`, `d(dp)`.
 - **Operand modes** (ISA section 5): `rN`; `#expr`; `@expr`; `expr(rN)` and `(rN)`; `expr(rN)(rX*s)` with `s` 1, 2, 4 or 8; `expr(pc)`; `expr(dp)`;
-  `(rN)+` and `(rN)+d`; `-(rN)` and `(rN)-d` (errata 15); a bare expression is a PC-relative reference.
+  `(rN)+` and `(rN)+d`; `-(rN)` and `(rN)-d`; a bare expression is a PC-relative reference.
 - **Mnemonics** are lowercase (`movq`, `add`, `bne`). A multi-register instruction writes its destination last: `add src, rd`, `xnorpop ra, rb, rd`.
-  `cmp` is the exception, `cmp rd, src`, because the encoding computes `rd - src` (errata 13).
+  `cmp` is the exception, `cmp rd, src`, because the encoding computes `rd - src`.
 - **Compare and branch.** `cbCC rd, #imm, label` compares `rd` with a 5-bit signed immediate (-16 to 15) and branches on the condition: `cbeq r3, #5, label`. The mnemonics are `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group (ISA §4.4.1). With a register as the second operand, `cbCC ra, rb, label` compares two registers (`cbeq r1, r2, label`, ISA §4.4.1), in four bytes or, beyond 4 KB, six.
   `rori32 rs, #n, rd` rotates the low 32 bits right and sign-extends the result (ISA §4.6). The immediate of `cbCC` may be up to 16 bits (`cbeq r3, #255, label`); the assembler chooses the four-byte, the wide or the long encoding, and refuses a wide immediate whose target is more than 64 KB away (ISA §4.4.1).
-- **Literal pool: `=expr`.** An operand written with a leading `=` is **syntactic sugar for a pooled constant, and nothing else**: `movq =0x123456789ABC, r1` puts the 64-bit value in the literal pool and loads it with
+- **Literal pool: `=expr`.** An operand written with a leading `=` is syntactic sugar for a pooled constant and has no other meaning: `movq =0x123456789ABC, r1` puts the 64-bit value in the literal pool and loads it with
   one PC-relative `movq`. It is accepted where a quad memory source is (`movq`, `push`, the ALU group with the register first for `cmp`: `cmp rd, =K`, and the floating-point ALU ops), and refused for sized moves, shifts, stores,
-  `lea` and a relocatable symbol. `=` always pools, even a small value; use `#imm` for a constant that fits the signed 32-bit field. A bare `#K` that does not fit that field is an **error** ("use =K to load it from the literal pool"):
+  `lea` and a relocatable symbol. `=` always pools, even a small value; use `#imm` for a constant that fits the signed 32-bit field. A bare `#K` that does not fit that field is an error ("use =K to load it from the literal pool"):
   the assembler never pools silently. Entries are 8 bytes, 8-byte aligned, one per distinct value per pool, in order of first use, emitted into `.text` at the end of the section or at the directive **`.pool`** (flush now; code must
-  jump over a mid-section pool). The `=` marks the sugar on the page, which is why it is allowed (errata 33).
+  jump over a mid-section pool). The `=` marks the sugar on the page, which is why it is allowed.
 - **Length.** The assembler chooses the shortest encoding, including the one-parcel forms of page 2 (ISA §4.18); those forms have no mnemonics of their own, so `movq (r3), r1` assembles to the one-parcel form when it fits and to the long form when it does not.
 
 - **`llvm-mc`.** The LLVM back end's assembler (`llvm/`, ISA-checked against `as64` by `llvm/check.sh`) accepts this syntax with these exceptions: no literal pool (`=K` and `.pool`), no names that start with a digit, no non-ASCII names, and `.comm` needs its alignment written (`as64` implies 8). `(pc)` and `(dp)` without a displacement are accepted by `as64` (displacement 0) and by `llvm-mc`.
