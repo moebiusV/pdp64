@@ -1,7 +1,7 @@
 // The pdp64 manual: a Typst template in the contract of buildabook (book-title, running-title, fm-pages, body-pages,
 // chapter(path, token, part, toc), pgan(id), pageof(id), cmarker's render), forked from buildabook's template/book.typ for a
 // technical reference: letter pages, a serif text face, a monospace face for code, small tables, no ornaments.
-// tools/mkbook.py appends one #chapter(...) call per outline entry below the marker at the end.
+// buildabook appends one #chapter(...) call per outline entry below the marker at the end.
 
 #import "@preview/cmarker:0.1.8": render
 
@@ -136,4 +136,4 @@
 #show: body-pages
 #counter(page).update(1)
 
-// Chapter list appended below by tools/mkbook.py — DO NOT EDIT BELOW THIS LINE
+// Chapter list appended below by buildabook — DO NOT EDIT BELOW THIS LINE

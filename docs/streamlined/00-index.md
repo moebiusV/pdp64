@@ -34,6 +34,6 @@
 
 **Numbers.** Where a figure is measured, the text says what was measured; where it is an estimate, it says so. A claim about another machine is the author's account, checked as far as the fact-check record shows ([`../fact-check-2026-10-22.md`](../fact-check-2026-10-22.md) and the verification appendix of [`../decisions-pending.md`](../decisions-pending.md)).
 
-**The PDF.** The same text as a book, [`book/pdp64-manual.pdf`](../../book/pdp64-manual.pdf), built by `tools/mkbook.py` from the sources of this directory (Typst; see `book/README.md`).
+**The PDF.** The same text as a book, [`book/pdp64-manual.pdf`](../../book/pdp64-manual.pdf), built by [buildabook](https://github.com/moebiusV/buildabook) and Typst from the sources of this directory (`tools/mkbook.sh`; see `book/README.md`).
 
 **Where the rest is** (all of it is listed in [appendix F](appendix-f-evidence.md)). The full instruction set text is [`../pdp64-isa.md`](../pdp64-isa.md); every decision with its reasons is [`../errata.md`](../errata.md) and [`../CHANGES-SINCE-R20.md`](../CHANGES-SINCE-R20.md); the decisions still open, with five options each, are [`../decisions-pending.md`](../decisions-pending.md).
