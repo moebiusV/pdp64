@@ -1,6 +1,6 @@
 # Appendix F. The evidence behind the manual
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **The manual states decisions; these are the documents that hold the evidence, the surveys and the long arguments they were drawn from.** Each is a document of the repository, not a chapter of this book, and each says in its own opening what it is based on and what it did not check. They are listed with what they hold and their status; the *Why it is here* paragraphs of the instruction entries and the *Impact* lines cite them.
 

@@ -1,6 +1,6 @@
 # Appendix B. Decisions pending
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **These are the decisions the author has not yet made, each with its question, the proposed answer, and the precedent, trade-offs and benefits that surround it.** Each has five options with their costs in the working document [`../decisions-pending.md`](../decisions-pending.md) (the identifiers P, R, S, N and B below are that document's), and the boot choices are worked through in [`../boot.md`](../boot.md). Decisions already made (errata 42 to 57) are not repeated here. Each entry is judged by the three principles in order: code size, easy recoverability (less recovery code), and speed and efficiency through fewer gates and tighter hot loops. Every entry is a proposal *(P)* until the author decides it.
 

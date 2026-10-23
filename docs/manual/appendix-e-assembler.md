@@ -1,6 +1,6 @@
 # Appendix E. The assembly language and the object format
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **The assembler's source layout is the V7 assembler's, `as`; its lexical rules are C's.** This appendix is the syntax of a source file: lines, labels, numbers, strings, operators, directives, registers, the operand modes, the mnemonic conventions and the object format. The grammar itself is `spec/pdp64-asm.hbnf` (the machine-readable specification, whose text rules are checked by `tools/check-asmsyntax.sh`); the source of this appendix is [`../asm-syntax.md`](../asm-syntax.md). The mnemonics are in the [instruction dictionary](dictionary/index.md).
 

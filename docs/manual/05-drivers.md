@@ -1,6 +1,6 @@
 # 5. The device driver model
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **A driver on the pdp64 is a short ordinary program: it maps a device's page, writes its registers (at least eight), hands the device descriptors in memory, and finds them marked done, and because the device is always the same shape the same driver skeleton serves a disk, a network card and a serial line.** This chapter is the driver writer's view of the memory-mapped registers and of DMA: what a driver sees, the uniform eight-register convention and its descriptor, the life of a driver from probe to detach, how data moves and what the driver need not do, the default devices, how errors and departures are handled, interrupts, and how this maps onto OpenBSD's driver interfaces. The bus the devices sit on is chapter 2. Tags: *(D)* decided; *(P)* proposed and not yet settled; the drivers are expected to be trivially small because a device is eight registers, which the author has settled.
 

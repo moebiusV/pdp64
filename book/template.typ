@@ -119,7 +119,7 @@
   #set par(first-line-indent: 0em, leading: 0.7em)
   Copyright #sym.copyright #book-year #book-author. Released under the BSD 2-Clause licence (the file `COPYING` of the repository).
 
-  The source of this book is https://github.com/moebiusV/pdp64 (`docs/streamlined/`); the instruction dictionary is generated from the machine-readable specification. Typeset with Typst in EB Garamond and DejaVu Sans Mono.
+  The source of this book is https://github.com/moebiusV/pdp64 (`docs/manual/`); the instruction dictionary is generated from the machine-readable specification. Typeset with Typst in EB Garamond and DejaVu Sans Mono.
 ]
 
 #show: fm-pages

@@ -1,6 +1,6 @@
 # 7. Multiple processors
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **The pdp64 is built so that adding a second core needs seventeen operations, one per-core register, and nothing a kernel writer has to work around: memory is sequentially consistent, the atomics are one instruction each, the per-CPU pointer is a register that already exists, and the other cores' translation buffers are invalidated by a single broadcast.** This chapter collects everything the architecture adds for symmetric multiprocessing, what a kernel does with it, what was deliberately left out, and what must still be built on the device side. The instruction-set text is [`../pdp64-isa.md`](../pdp64-isa.md), section 17. Tags: *(D)* decided; *(P)* proposed.
 

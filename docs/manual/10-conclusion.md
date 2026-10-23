@@ -1,6 +1,6 @@
 # 10. Conclusion: from FPGA to silicon
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **The pdp64 is built to be run first on a modest FPGA, to be small enough that its whole core is about sixteen thousand lookup tables or ninety thousand transistors, and to reach silicon only after an OpenBSD built by the project's own toolchain can be logged into over `ssh`.** This chapter gives the FPGA plan and its numbers, the transistor budget for a chip, why the first implementations are in order and how the architecture is kept ready for a faster one, and the path from today's state to the finish line. Tags: *(D)* decided; *(E)* an estimate, not a measurement.
 

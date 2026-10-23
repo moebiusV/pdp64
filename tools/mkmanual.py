@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the instruction dictionary of the manual (docs/streamlined/dictionary/).
+"""Generate the instruction dictionary of the manual (docs/manual/dictionary/).
 
 Every number comes from spec/pdp64-mnemonics.hbnf, the one place the architecture's numbers are written, so the dictionary
 cannot drift from the assembler and the simulators; the words (operation, flags, exceptions) are in tools/manual/isa_entries.py.
@@ -14,7 +14,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'manual'))
 import isa_entries as D
 
-OUT = os.path.join(ROOT, 'docs', 'streamlined', 'dictionary')
+OUT = os.path.join(ROOT, 'docs', 'manual', 'dictionary')
 HBNF = os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf')
 EXEC = os.path.join(ROOT, 'common', 'pdp64exec.c')
 
@@ -90,7 +90,7 @@ def bits(v, w):
     return format(v, '0%db' % w)
 
 
-FIGDIR = os.path.join(ROOT, 'docs', 'streamlined', 'figures')
+FIGDIR = os.path.join(ROOT, 'docs', 'manual', 'figures')
 FIGS = {}                                     # file name -> svg text, written by main()
 
 
@@ -373,7 +373,7 @@ for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('0
 for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FHALF FCVTH'.split(): HOME[_i] = ('09-isa.md', '9.12')
 for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', '9.13')
 for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT MFSR MTPS SPL TRAP TLBI MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', '9.14')
-CHAPDIR = os.path.join(ROOT, 'docs', 'streamlined')
+CHAPDIR = os.path.join(ROOT, 'docs', 'manual')
 
 
 def slug(heading):

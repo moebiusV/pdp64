@@ -1,6 +1,6 @@
 # 6. The kernel: modes, exceptions and memory management
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **An operating system on the pdp64 sees three things: a status word with a mode and a priority, an exception mechanism that writes only registers, and a three-level page table with software-managed accessed and dirty bits.** This chapter is what a kernel writer needs: the modes and the privileged instructions, the exception and interrupt entry, the vector table, the system registers, translation and the page-table entry, the user-memory guard, system calls, and how the machine starts. It is the design called System v1, accepted on 2026-10-22 and implemented in the simulator and the QEMU target; the options and the comparisons with other architectures are in [`../pdp64-system-architecture.md`](../pdp64-system-architecture.md) (section 15) and [`../pdp64-system-design.md`](../pdp64-system-design.md). Tags: *(D)* decided; *(P)* proposed.
 

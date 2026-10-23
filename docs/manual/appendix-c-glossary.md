@@ -1,6 +1,6 @@
 # Appendix C. Glossary
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **Terms the book uses, collected in one place.** Each entry gives the plain meaning and, in brackets, the chapter or section where the book deals with it. Terms for the instruction groups (the "escape" opcodes) are listed by name and opcode; the full encodings are in the instruction-set text [`../pdp64-isa.md`](../pdp64-isa.md).
 
@@ -97,7 +97,7 @@
 | Term | Meaning |
 |---|---|
 | **errata** | the numbered decision log of the project; every decision in the book cites its item (`../errata.md`) |
-| **revision 20** | the last full revision of the instruction-set text before the streamlined set; changes since are in `../CHANGES-SINCE-R20.md` |
+| **revision 20** | the last full revision of the instruction-set text before the manual in its present form; changes since are in `../CHANGES-SINCE-R20.md` |
 | **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.5) |
 | **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.5) |
 | **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.5, 10.4; not otherwise described in this book) |

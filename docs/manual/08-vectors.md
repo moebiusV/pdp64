@@ -1,6 +1,6 @@
 # 8. Vector work, AI and array languages: the device route
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **Wide data-parallel work, whether neural-network inference or the primitives of an array language, is done by memory-mapped devices with their own memory and driven by descriptors, not by SIMD registers in the processor.** There is no vector register file and no AVX2-style instruction set in the pdp64. This chapter states that decision, why it was taken, and how it serves the workloads the author named: AI and large-language-model inference, and the array languages APL and K. Graphics, the third, has its own chapter (chapter 3), since its devices are the first a user sees. It is the route ARM-based systems take for their neural-network and graphics engines, and the one the PDP-11 took for its attached array processors. The discussion of the alternatives is appendix B (S1 to S6); the accelerator designs are [`../pdp64-lb64-accelerator.md`](../pdp64-lb64-accelerator.md) and section 12 of [`../pdp64-fpga-plan.md`](../pdp64-fpga-plan.md). Tags: *(D)* decided; *(P)* proposed.
 

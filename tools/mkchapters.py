@@ -2,7 +2,7 @@
 """Prepare the chapters of the manual for buildabook (github.com/moebiusV/buildabook).
 
 buildabook builds a book from `chapters/*.md`, `outline.txt`, a filemap (UUID:filename) and a Typst template; it numbers the
-entries from the outline and resolves {{token}} references.  The Markdown of the manual (docs/streamlined/) is written for the
+entries from the outline and resolves {{token}} references.  The Markdown of the manual (docs/manual/) is written for the
 web, so this turns each page into a chapter file: the heading becomes `{{c:id01001}} - Title` (the number comes from buildabook),
 links between the pages become plain text (links to other files of the repository become GitHub links), HTML comments go, and
 `{{` is escaped.  It also checks, against buildabook's own number map, that the number in each source heading ("# 6. The kernel",
@@ -19,7 +19,7 @@ BOOK = os.path.join(ROOT, 'book')
 BUILD = os.path.join(BOOK, 'build')
 CHAP = os.path.join(BUILD, 'chapters')
 GITHUB = 'https://github.com/moebiusV/pdp64/blob/main/'
-STREAM = os.path.join(ROOT, 'docs', 'streamlined')
+STREAM = os.path.join(ROOT, 'docs', 'manual')
 
 
 def read_sources():
@@ -105,7 +105,7 @@ def main():
             full = os.path.join(ROOT, path)
             if not os.path.exists(full):
                 raise SystemExit('%s: %s does not exist' % (uuid, path))
-            name = re.sub(r'^docs/streamlined/', '', path).replace('/', '-')
+            name = re.sub(r'^docs/manual/', '', path).replace('/', '-')
             text = chapter_text(row, open(full).read(), full)
         if name in used:
             raise SystemExit('two entries make the file ' + name)

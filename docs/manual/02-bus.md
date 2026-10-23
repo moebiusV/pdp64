@@ -1,6 +1,6 @@
 # 2. The bus
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **The processor reaches the world through one bus, Q64, on which every device is a handful of memory locations, the bus itself is a device that says what is plugged into it, and every transfer of data is a descriptor in memory that a device carries out and marks done.** This chapter states what the processor owes the bus, how the bus enumerates and maps devices and tells the processor when one comes or goes. How a driver talks to a device, the eight-register layout and the default devices are in chapter 5. Where the design is decided it is tagged *(D)*; where it is the author's proposal not yet settled it is *(P)*. Interrupts and modes are chapter 6, and the other cores are chapter 7. The full discussion is in [`../pdp64-q64-bus.md`](../pdp64-q64-bus.md); the options still open are in [`../decisions-pending.md`](../decisions-pending.md) (R1 to R8, Q10).
 

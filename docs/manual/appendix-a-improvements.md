@@ -1,6 +1,6 @@
 # Appendix A. Possible improvements not decided on yet
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **These are ideas that would make the machine better in one respect or another and that nobody has yet turned into a decision.** They come from the reports on kernel pain points, hardware vulnerabilities and OpenBSD's mitigations, and from the open items of the instruction-set text. Each is stated as a possibility, with its benefit, its cost and what other machines do, so that it can be taken up, rejected or promoted to a decision in appendix B. Nothing here is built or specified unless it says so. The same ordering principle as the rest of the book applies: code size, then easy recoverability, then speed and efficiency through fewer gates and tighter hot loops.
 

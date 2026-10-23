@@ -1,6 +1,6 @@
 # Appendix D. The ABI, version 1
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **The application binary interface fixes how compiled code, the linker and the operating system agree: the sizes of types, which registers carry arguments and results, who saves what, how the stack looks, and how position-independent code reaches its data.** These are accepted choices; the instruction-set text leaves the ABI open (book section 9.16 states what the instruction set makes cheap). The source is [`../abi.md`](../abi.md); the compiler, the assembler and the linker follow it, and the version number is how a later change is made without breaking old binaries (errata 46: `long double` is `double` in version 1).
 

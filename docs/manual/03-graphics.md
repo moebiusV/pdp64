@@ -1,6 +1,6 @@
 # 3. Graphics: the terminal and its devices
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **The pdp64's display is built on two machines, the Commodore 64 and the Blit terminal, modernised and extended, as memory-mapped devices: a video device, a sound device and a blitter, each with the eight-register face of chapter 5, and a driver for each that is a page of register writes.** The pdp64 is an extension of the PDP-11 and its terminal is an extension of two older machines: from the C64 it takes video and sound as chips with registers, and from the Blit a framebuffer in the address space with a bit-block-transfer engine beside it. The idea in both is the same: a machine whose display is chips with registers, not a graphics card with a programming model, at a modern width. The processor never sees the display protocol: HDMI, like SATA and USB, is a transmitter chip on the board with its own standard, and the pdp64's side of it is a small set of registers. This chapter sits after the bus because the first thing a user sees is the terminal, and before boot because the terminal is the first device the boot software drives. Tags: *(D)* decided; *(P)* proposed; *(S)* stub, to be filled when the author supplies the source.
 

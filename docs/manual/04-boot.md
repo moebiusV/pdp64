@@ -1,6 +1,6 @@
 # 4. Boot, the BIOS, the disk label and the GPT
 
-[← streamlined index](00-index.md)
+[← manual index](00-index.md)
 
 **The machine starts the way the PDP-11 did: a small ROM in the controller chip loads one block from the boot device and jumps to it, and every later stage is an ordinary program, open source, compiled by the project's own compiler.** This chapter says what starts the machine, what takes the place of a BIOS, how the disk is laid out, how other cores and devices are started, and why UEFI is not used. The full review of how other systems boot is [`../boot.md`](../boot.md). Tags: *(D)* decided; *(P)* proposed and not yet settled.
 
