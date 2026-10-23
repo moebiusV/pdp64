@@ -10,53 +10,53 @@ Page 2 (`len = 11`) is a second opcode map of 64 one-parcel instructions, 45 of 
 
 | Opcode | Name | Operation | `reg` | `low` | Long form it abbreviates |
 |---|---|---|---|---|---|
-| `0x00` | `ld.q` | `MOVQ` load through `(rn)` | `rd` | `rn` | `MOVQ (rn), rd` |
-| `0x01` | `st.q` | `MOVQ` store through `(rn)` | `rs` | `rn` | `MOVQ rs, (rn)` |
-| `0x02` | `ld.l` | `MOVL` load through `(rn)` | `rd` | `rn` | `MOVL (rn), rd` |
-| `0x03` | `st.l` | `MOVL` store through `(rn)` | `rs` | `rn` | `MOVL rs, (rn)` |
-| `0x04` | `ld.w` | `MOVW` load through `(rn)` | `rd` | `rn` | `MOVW (rn), rd` |
-| `0x05` | `st.w` | `MOVW` store through `(rn)` | `rs` | `rn` | `MOVW rs, (rn)` |
-| `0x06` | `ld.b` | `MOVB` load through `(rn)` | `rd` | `rn` | `MOVB (rn), rd` |
-| `0x07` | `st.b` | `MOVB` store through `(rn)` | `rs` | `rn` | `MOVB rs, (rn)` |
-| `0x08` | `ldz.l` | `MOVZL` load through `(rn)` | `rd` | `rn` | `MOVZL (rn), rd` |
-| `0x09` | `ldz.w` | `MOVZW` load through `(rn)` | `rd` | `rn` | `MOVZW (rn), rd` |
-| `0x0A` | `ldz.b` | `MOVZB` load through `(rn)` | `rd` | `rn` | `MOVZB (rn), rd` |
-| `0x0B` | `lea.sp` | `LEA 8*d(SP), rd` | `rd` | `d` (0 to 15) | `LEA 8*d(SP), rd` |
-| `0x0C` | `ldq.sp0` | `MOVQ` load from `SP`, offset `8*low`, 0 to 120 | `rd` | offset / 8 | `MOVQ d(SP), rd` |
-| `0x0D` | `ldq.sp1` | `MOVQ` load from `SP`, offset `8*(16+low)`, 128 to 248 | `rd` | offset / 8 - 16 | `MOVQ d(SP), rd` |
-| `0x0E` | `stq.sp` | `MOVQ` store to `SP`, offset `8*low`, 0 to 120 | `rs` | offset / 8 | `MOVQ rs, d(SP)` |
-| `0x10` | `ldl.sp0` | `MOVL` load from `SP`, offset `4*low`, 0 to 60 | `rd` | offset / 4 | `MOVL d(SP), rd` |
-| `0x11` | `ldl.sp1` | `MOVL` load from `SP`, offset `4*(16+low)`, 64 to 124 | `rd` | offset / 4 - 16 | `MOVL d(SP), rd` |
-| `0x12` | `stl.sp0` | `MOVL` store to `SP`, offset `4*low`, 0 to 60 | `rs` | offset / 4 | `MOVL rs, d(SP)` |
-| `0x13` | `stl.sp1` | `MOVL` store to `SP`, offset `4*(16+low)`, 64 to 124 | `rs` | offset / 4 - 16 | `MOVL rs, d(SP)` |
-| `0x14` | `ldq.d1` | `MOVQ` load from `rn` at offset 8 | `rd` | `rn` | `MOVQ 8(rn), rd` |
-| `0x15` | `ldq.d2` | `MOVQ` load from `rn` at offset 16 | `rd` | `rn` | `MOVQ 16(rn), rd` |
-| `0x16` | `ldq.d3` | `MOVQ` load from `rn` at offset 24 | `rd` | `rn` | `MOVQ 24(rn), rd` |
-| `0x17` | `ldq.d4` | `MOVQ` load from `rn` at offset 32 | `rd` | `rn` | `MOVQ 32(rn), rd` |
-| `0x18` | `stq.d1` | `MOVQ` store to `rn` at offset 8 | `rs` | `rn` | `MOVQ rs, 8(rn)` |
-| `0x19` | `stq.d2` | `MOVQ` store to `rn` at offset 16 | `rs` | `rn` | `MOVQ rs, 16(rn)` |
-| `0x1A` | `ldl.d1` | `MOVL` load from `rn` at offset 4 | `rd` | `rn` | `MOVL 4(rn), rd` |
-| `0x1B` | `ldl.d2` | `MOVL` load from `rn` at offset 8 | `rd` | `rn` | `MOVL 8(rn), rd` |
-| `0x1C` | `ldl.d3` | `MOVL` load from `rn` at offset 12 | `rd` | `rn` | `MOVL 12(rn), rd` |
-| `0x1D` | `ldl.d4` | `MOVL` load from `rn` at offset 16 | `rd` | `rn` | `MOVL 16(rn), rd` |
-| `0x1E` | `pushm8` | push the registers `R8` to `R15` named by the 8-bit mask `reg:low` (bit i is `R(8+i)`) | mask high | mask low | `PUSHM #(mask << 8)` |
-| `0x1F` | `popm8` | pop the registers named by the mask, as `pushm8` | mask high | mask low | `POPM #(mask << 8)` |
-| `0x20` | `sub.sp` | `SUB #(8*n), SP`, `n = reg:low` (0 to 255) | n high | n low | `SUB #(8*n), SP` |
-| `0x21` | `add.sp` | `ADD #(8*n), SP`, `n = reg:low` | n high | n low | `ADD #(8*n), SP` |
-| `0x22` | `movq.i` | `MOVQ #imm, rd`, `imm` sign-extended 4 bits (-8 to 7) | `rd` | imm | `MOVQ #imm, rd` |
-| `0x23` | `shl.i` | `SHL` by `low` (0 to 15) | `rd` | count | `SHL #n, rd` |
-| `0x24` | `shr.i` | `SHR` by `low` (0 to 15) | `rd` | count | `SHR #n, rd` |
-| `0x25` | `sar.i` | `SAR` by `low` (0 to 15) | `rd` | count | `SAR #n, rd` |
-| `0x26` | `and.i` | `AND` with a 4-bit sign-extended immediate | `rd` | imm | `AND #imm, rd` |
-| `0x27` | `bis.i` | `BIS` with a 4-bit sign-extended immediate | `rd` | imm | `BIS #imm, rd` |
-| `0x28` | `xor.i` | `XOR` with a 4-bit sign-extended immediate | `rd` | imm | `XOR #imm, rd` |
-| `0x29` | `add.i` | `ADD` with a 4-bit sign-extended immediate | `rd` | imm | `ADD #imm, rd` |
-| `0x2A` | `pushx` | `PUSHX` (`reg` and `low` zero) | 0 | 0 | `SYSX` sub-opcode 0 |
-| `0x2B` | `popx` | `POPX` (`reg` and `low` zero) | 0 | 0 | `SYSX` sub-opcode 1 |
-| `0x2C` | `isync` | `ISYNC` (`reg` and `low` zero) | 0 | 0 | `SYSX` sub-opcode 2 |
-| `0x2D` | `hint` | `HINT #n`, `n = reg:low` (0 to 255) | n high | n low | `SYSX` sub-opcode 3 |
+| `000000 (0x00)` | `ld.q` | `MOVQ` load through `(rn)` | `rd` | `rn` | `MOVQ (rn), rd` |
+| `000001 (0x01)` | `st.q` | `MOVQ` store through `(rn)` | `rs` | `rn` | `MOVQ rs, (rn)` |
+| `000010 (0x02)` | `ld.l` | `MOVL` load through `(rn)` | `rd` | `rn` | `MOVL (rn), rd` |
+| `000011 (0x03)` | `st.l` | `MOVL` store through `(rn)` | `rs` | `rn` | `MOVL rs, (rn)` |
+| `000100 (0x04)` | `ld.w` | `MOVW` load through `(rn)` | `rd` | `rn` | `MOVW (rn), rd` |
+| `000101 (0x05)` | `st.w` | `MOVW` store through `(rn)` | `rs` | `rn` | `MOVW rs, (rn)` |
+| `000110 (0x06)` | `ld.b` | `MOVB` load through `(rn)` | `rd` | `rn` | `MOVB (rn), rd` |
+| `000111 (0x07)` | `st.b` | `MOVB` store through `(rn)` | `rs` | `rn` | `MOVB rs, (rn)` |
+| `001000 (0x08)` | `ldz.l` | `MOVZL` load through `(rn)` | `rd` | `rn` | `MOVZL (rn), rd` |
+| `001001 (0x09)` | `ldz.w` | `MOVZW` load through `(rn)` | `rd` | `rn` | `MOVZW (rn), rd` |
+| `001010 (0x0A)` | `ldz.b` | `MOVZB` load through `(rn)` | `rd` | `rn` | `MOVZB (rn), rd` |
+| `001011 (0x0B)` | `lea.sp` | `LEA 8*d(SP), rd` | `rd` | `d` (0 to 15) | `LEA 8*d(SP), rd` |
+| `001100 (0x0C)` | `ldq.sp0` | `MOVQ` load from `SP`, offset `8*low`, 0 to 120 | `rd` | offset / 8 | `MOVQ d(SP), rd` |
+| `001101 (0x0D)` | `ldq.sp1` | `MOVQ` load from `SP`, offset `8*(16+low)`, 128 to 248 | `rd` | offset / 8 - 16 | `MOVQ d(SP), rd` |
+| `001110 (0x0E)` | `stq.sp` | `MOVQ` store to `SP`, offset `8*low`, 0 to 120 | `rs` | offset / 8 | `MOVQ rs, d(SP)` |
+| `010000 (0x10)` | `ldl.sp0` | `MOVL` load from `SP`, offset `4*low`, 0 to 60 | `rd` | offset / 4 | `MOVL d(SP), rd` |
+| `010001 (0x11)` | `ldl.sp1` | `MOVL` load from `SP`, offset `4*(16+low)`, 64 to 124 | `rd` | offset / 4 - 16 | `MOVL d(SP), rd` |
+| `010010 (0x12)` | `stl.sp0` | `MOVL` store to `SP`, offset `4*low`, 0 to 60 | `rs` | offset / 4 | `MOVL rs, d(SP)` |
+| `010011 (0x13)` | `stl.sp1` | `MOVL` store to `SP`, offset `4*(16+low)`, 64 to 124 | `rs` | offset / 4 - 16 | `MOVL rs, d(SP)` |
+| `010100 (0x14)` | `ldq.d1` | `MOVQ` load from `rn` at offset 8 | `rd` | `rn` | `MOVQ 8(rn), rd` |
+| `010101 (0x15)` | `ldq.d2` | `MOVQ` load from `rn` at offset 16 | `rd` | `rn` | `MOVQ 16(rn), rd` |
+| `010110 (0x16)` | `ldq.d3` | `MOVQ` load from `rn` at offset 24 | `rd` | `rn` | `MOVQ 24(rn), rd` |
+| `010111 (0x17)` | `ldq.d4` | `MOVQ` load from `rn` at offset 32 | `rd` | `rn` | `MOVQ 32(rn), rd` |
+| `011000 (0x18)` | `stq.d1` | `MOVQ` store to `rn` at offset 8 | `rs` | `rn` | `MOVQ rs, 8(rn)` |
+| `011001 (0x19)` | `stq.d2` | `MOVQ` store to `rn` at offset 16 | `rs` | `rn` | `MOVQ rs, 16(rn)` |
+| `011010 (0x1A)` | `ldl.d1` | `MOVL` load from `rn` at offset 4 | `rd` | `rn` | `MOVL 4(rn), rd` |
+| `011011 (0x1B)` | `ldl.d2` | `MOVL` load from `rn` at offset 8 | `rd` | `rn` | `MOVL 8(rn), rd` |
+| `011100 (0x1C)` | `ldl.d3` | `MOVL` load from `rn` at offset 12 | `rd` | `rn` | `MOVL 12(rn), rd` |
+| `011101 (0x1D)` | `ldl.d4` | `MOVL` load from `rn` at offset 16 | `rd` | `rn` | `MOVL 16(rn), rd` |
+| `011110 (0x1E)` | `pushm8` | push the registers `R8` to `R15` named by the 8-bit mask `reg:low` (bit i is `R(8+i)`) | mask high | mask low | `PUSHM #(mask << 8)` |
+| `011111 (0x1F)` | `popm8` | pop the registers named by the mask, as `pushm8` | mask high | mask low | `POPM #(mask << 8)` |
+| `100000 (0x20)` | `sub.sp` | `SUB #(8*n), SP`, `n = reg:low` (0 to 255) | n high | n low | `SUB #(8*n), SP` |
+| `100001 (0x21)` | `add.sp` | `ADD #(8*n), SP`, `n = reg:low` | n high | n low | `ADD #(8*n), SP` |
+| `100010 (0x22)` | `movq.i` | `MOVQ #imm, rd`, `imm` sign-extended 4 bits (-8 to 7) | `rd` | imm | `MOVQ #imm, rd` |
+| `100011 (0x23)` | `shl.i` | `SHL` by `low` (0 to 15) | `rd` | count | `SHL #n, rd` |
+| `100100 (0x24)` | `shr.i` | `SHR` by `low` (0 to 15) | `rd` | count | `SHR #n, rd` |
+| `100101 (0x25)` | `sar.i` | `SAR` by `low` (0 to 15) | `rd` | count | `SAR #n, rd` |
+| `100110 (0x26)` | `and.i` | `AND` with a 4-bit sign-extended immediate | `rd` | imm | `AND #imm, rd` |
+| `100111 (0x27)` | `bis.i` | `BIS` with a 4-bit sign-extended immediate | `rd` | imm | `BIS #imm, rd` |
+| `101000 (0x28)` | `xor.i` | `XOR` with a 4-bit sign-extended immediate | `rd` | imm | `XOR #imm, rd` |
+| `101001 (0x29)` | `add.i` | `ADD` with a 4-bit sign-extended immediate | `rd` | imm | `ADD #imm, rd` |
+| `101010 (0x2A)` | `pushx` | `PUSHX` (`reg` and `low` zero) | 0 | 0 | `SYSX` sub-opcode 0 |
+| `101011 (0x2B)` | `popx` | `POPX` (`reg` and `low` zero) | 0 | 0 | `SYSX` sub-opcode 1 |
+| `101100 (0x2C)` | `isync` | `ISYNC` (`reg` and `low` zero) | 0 | 0 | `SYSX` sub-opcode 2 |
+| `101101 (0x2D)` | `hint` | `HINT #n`, `n = reg:low` (0 to 255) | n high | n low | `SYSX` sub-opcode 3 |
 
-Every page-2 opcode not listed (`0x0F` and `0x2E` to `0x3F`, 19 of 64) is reserved; a reserved page-2 opcode is an illegal-instruction abort.
+Every page-2 opcode not listed (`001111 (0x0F)` and `101110 (0x2E)` to `111111 (0x3F)`, 19 of 64) is reserved; a reserved page-2 opcode is an illegal-instruction abort.
 
 ## Why there is a second page
 

@@ -12,13 +12,13 @@
 
 **9.1.2** There are 64 opcodes on the first page. An operation gets a top-level opcode if its common case is register to register, because only then can it be two bytes; every other operation lives in an escape group and costs nothing for it.
 
-**9.1.3** Six escape groups, `0x0C` to `0x11`, read a sub-opcode from the second parcel: `BESC` (bits, fields, rotates, UTF-8), `MBLK` (block memory), `AESC` (divide, remainder, absolute, minimum, maximum, set), `MESC` (unaligned access, ALU to memory), `FESC` (fused multiply-add, binary32 and binary16, divide, square root, classify) and `ATOM` (atomics).
+**9.1.3** Six escape groups, `001100 (0x0C)` to `010001 (0x11)`, read a sub-opcode from the second parcel: `BESC` (bits, fields, rotates, UTF-8), `MBLK` (block memory), `AESC` (divide, remainder, absolute, minimum, maximum, set), `MESC` (unaligned access, ALU to memory), `FESC` (fused multiply-add, binary32 and binary16, divide, square root, classify) and `ATOM` (atomics).
 
-**9.1.4** Three groups, `0x12` to `0x14`, take their sub-opcode from the register field: `XFER` (indirect jump and call, tag dispatch), `SOP` (single-operand instructions, jump, call, push, pop) and `SYS` (system control).
+**9.1.4** Three groups, `010010 (0x12)` to `010100 (0x14)`, take their sub-opcode from the register field: `XFER` (indirect jump and call, tag dispatch), `SOP` (single-operand instructions, jump, call, push, pop) and `SYS` (system control).
 
-**9.1.5** Every other run of opcodes is one kind, and its low bits select the operation directly: twelve moves (`0x00`-`0x0B`), thirteen ALU operations (`0x16`-`0x22`), four floating-point operations (`0x24`-`0x27`), three compare-and-branch forms (`0x28`-`0x2A`) and sixteen branches (`0x30`-`0x3F`).
+**9.1.5** Every other run of opcodes is one kind, and its low bits select the operation directly: twelve moves (`000000 (0x00)`-`001011 (0x0B)`), thirteen ALU operations (`010110 (0x16)`-`100010 (0x22)`), four floating-point operations (`100100 (0x24)`-`100111 (0x27)`), three compare-and-branch forms (`101000 (0x28)`-`101010 (0x2A)`) and sixteen branches (`110000 (0x30)`-`111111 (0x3F)`).
 
-**9.1.6** Fifty-eight of the sixty-four opcodes are assigned, one ALU slot (`0x23`) is spare and five (`0x2B`-`0x2F`) are reserved.
+**9.1.6** Fifty-eight of the sixty-four opcodes are assigned, one ALU slot (`100011 (0x23)`) is spare and five (`101011 (0x2B)`-`101111 (0x2F)`) are reserved.
 
 **9.1.7** When `len` is `11`, the instruction is a single parcel from a second page of 64 opcodes, 45 defined and 19 reserved, each an exact abbreviation of a first-page instruction.
 
@@ -112,7 +112,7 @@
 ## 9.6 Moves, conversions and address formation
 
 <!-- notation -->
-**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (a drawing of the parcels and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the book explains the matter it touches (*Cf.*). The atomic instructions are in section 7.12 and the system instructions in section 6.7, where their subject is. The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) were checked against the reference executor, `common/pdp64exec.c`, which `sim64` and QEMU share, and an entry says when the executor does not implement an instruction yet. The one-parcel second page, the aliases, the constants and the lists of the mnemonics and the opcodes are in the [reference tables](dictionary/index.md).
+**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (a drawing of the parcels and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the book explains the matter it touches (*Cf.*). Every instruction, the atomic and the system instructions included, has its official entry in this chapter (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons and the history, and an entry may point back to them for a fuller explanation. In the pseudocode, ← is assignment, = and ≠ compare, × and ÷ multiply and divide, and `M[a]` is memory at address `a`. Numbers that are encodings (opcodes, sub-opcodes, field values) are written in binary with the hexadecimal value in brackets behind, as `010011 (0x13)`. The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) were checked against the reference executor, `common/pdp64exec.c`, which `sim64` and QEMU share, and an entry says when the executor does not implement an instruction yet. The one-parcel second page, the aliases, the constants and the lists of the mnemonics and the opcodes are in the [reference tables](dictionary/index.md).
 
 **The stories.** An instruction that is not common (the PDP-11 core and the operations every architecture has carry none) is followed by *Why it is here*: the record of why it was chosen, from the author's questions in the original design chat (`chat01.txt`), the author's messages in the archive of the working session (dates are those of the archive, in UTC), the revision changelogs of the instruction-set text, the errata and the measurements. Where the record gives no reason, the paragraph says so.
 
@@ -121,11 +121,11 @@
 
 *Cf. section 6.4 for the memory types that decide whether an access is cached, and section 6.8 for what a faulting load leaves behind.*
 
-**9.6.1** `MOVQ`, `MOVL`, `MOVW` and `MOVB` load and store 64, 32, 16 and 8 bits; the loads sign-extend. `MOVZL`, `MOVZW` and `MOVZB` load with zero extension. *(opcodes `0x00`-`0x0A`)*
+**9.6.1** `MOVQ`, `MOVL`, `MOVW` and `MOVB` load and store 64, 32, 16 and 8 bits; the loads sign-extend. `MOVZL`, `MOVZW` and `MOVZB` load with zero extension. *(opcodes `000000 (0x00)`-`001010 (0x0A)`)*
 
 **9.6.2** With a register operand, the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte, `MOVZW R1, R2` zero-extends the low word.
 
-**9.6.3** `LEA` forms an effective address; `LEA 0(PC), Rn` reads the program counter. *(opcode `0x0B`)*
+**9.6.3** `LEA` forms an effective address; `LEA 0(PC), Rn` reads the program counter. *(opcode `001011 (0x0B)`)*
 
 **9.6.4** Moves, loads and stores write no flags. *(D, errata 39)*
 
@@ -156,19 +156,19 @@ MOVL, MOVW, MOVB likewise
 
 | Mnemonic | Opcode (the load or direct form) |
 |---|---|
-| `MOVQ` | `0x00` |
-| `MOVL` | `0x02` |
-| `MOVW` | `0x04` |
-| `MOVB` | `0x06` |
+| `MOVQ` | `000000 (0x00)` |
+| `MOVL` | `000010 (0x02)` |
+| `MOVW` | `000100 (0x04)` |
+| `MOVB` | `000110 (0x06)` |
 
-The store form of each move has the opcode of its load form plus 1: `MOVQ` `0x01`, `MOVL` `0x03`, `MOVW` `0x05`, `MOVB` `0x07`.
+The store form of each move has the opcode of its load form plus 1: `MOVQ` `000001 (0x01)`, `MOVL` `000011 (0x03)`, `MOVW` `000101 (0x05)`, `MOVB` `000111 (0x07)`.
 
 **Operation**
 
 ```
 size = 8 (MOVQ), 4 (MOVL), 2 (MOVW) or 1 (MOVB) bytes
-load :  Rd <- sext(M[EA(rm)], size)          ; len = 00: Rd <- sext(Rs[8*size-1:0])
-store:  M[EA(rm)] <- Rs[8*size-1:0]          ; len = 00: Rd <- sext(Rs[8*size-1:0])
+load :  Rd ← sext(M[EA(rm)], size)          ; len = 00: Rd ← sext(Rs[8×size-1:0])
+store:  M[EA(rm)] ← Rs[8×size-1:0]          ; len = 00: Rd ← sext(Rs[8×size-1:0])
 ```
 
 **Flags** None written. (Errata 39: moves, loads and stores write no flags.)
@@ -202,14 +202,14 @@ MOVZB rm, Rd
 
 | Mnemonic | Opcode (the load or direct form) |
 |---|---|
-| `MOVZL` | `0x08` |
-| `MOVZW` | `0x09` |
-| `MOVZB` | `0x0A` |
+| `MOVZL` | `001000 (0x08)` |
+| `MOVZW` | `001001 (0x09)` |
+| `MOVZB` | `001010 (0x0A)` |
 
 **Operation**
 
 ```
-Rd <- zext(M[EA(rm)], size)      ; len = 00: Rd <- zext(Rs[8*size-1:0])
+Rd ← zext(M[EA(rm)], size)      ; len = 00: Rd ← zext(Rs[8×size-1:0])
 ```
 
 **Flags** None written.
@@ -242,7 +242,7 @@ LEA d(Rn)(Rx*s), Rd
 **Operation**
 
 ```
-Rd <- EA(rm)          ; no memory access
+Rd ← EA(rm)          ; no memory access
 ```
 
 **Flags** None written.
@@ -276,17 +276,17 @@ Parcel 0's `low` is an addressing mode, as in the ordinary memory format; parcel
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `MOVUB` | `0x0` |
-| `MOVUW` | `0x2` |
-| `MOVUL` | `0x4` |
-| `MOVUQ` | `0x6` |
+| `MOVUB` | `0000 (0x0)` |
+| `MOVUW` | `0010 (0x2)` |
+| `MOVUL` | `0100 (0x4)` |
+| `MOVUQ` | `0110 (0x6)` |
 
 **Operation**
 
 ```
 size = 1, 2, 4 or 8 bytes
-load :  Rd <- sext(M[EA(rm)], size)            ; the access may cross an alignment boundary
-store:  M[EA(rm)] <- Rs[8*size-1:0]
+load :  Rd ← sext(M[EA(rm)], size)            ; the access may cross an alignment boundary
+store:  M[EA(rm)] ← Rs[8×size-1:0]
 ```
 
 **Flags** None written.
@@ -338,7 +338,7 @@ ADD rm, Rd
 **Operation**
 
 ```
-Rd <- Rd + rm
+Rd ← Rd + rm
 ```
 
 **Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a carry out of bit 63.
@@ -369,7 +369,7 @@ SUB rm, Rd
 **Operation**
 
 ```
-Rd <- Rd - rm
+Rd ← Rd - rm
 ```
 
 **Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger.
@@ -400,7 +400,7 @@ CMP Rd, rm        ; register first
 **Operation**
 
 ```
-tmp <- Rd - rm         ; the result is discarded
+tmp ← Rd - rm         ; the result is discarded
 ```
 
 **Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger.
@@ -431,7 +431,7 @@ MUL rm, Rd
 **Operation**
 
 ```
-Rd <- (Rd * rm)[63:0]         ; sign-agnostic
+Rd ← (Rd × rm)[63:0]         ; sign-agnostic
 ```
 
 **Flags** `N` and `Z` from the result, `V` set when the signed 128-bit product does not fit in 64 bits, `C` unchanged.
@@ -462,7 +462,7 @@ MULH rm, Rd
 **Operation**
 
 ```
-Rd <- (sext(Rd) * sext(rm))[127:64]
+Rd ← (sext(Rd) × sext(rm))[127:64]
 ```
 
 **Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
@@ -497,18 +497,18 @@ Parcel 0's `low` is an addressing mode, as in the ordinary memory format; parcel
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `ADDM` | `0x8` |
-| `SUBM` | `0x9` |
-| `BICM` | `0xA` |
-| `BISM` | `0xB` |
+| `ADDM` | `1000 (0x8)` |
+| `SUBM` | `1001 (0x9)` |
+| `BICM` | `1010 (0xA)` |
+| `BISM` | `1011 (0xB)` |
 
 **Operation**
 
 ```
-ADDM: M[EA] <- M[EA] + Rs
-SUBM: M[EA] <- M[EA] - Rs
-BICM: M[EA] <- M[EA] AND NOT Rs
-BISM: M[EA] <- M[EA] OR Rs
+ADDM: M[EA] ← M[EA] + Rs
+SUBM: M[EA] ← M[EA] - Rs
+BICM: M[EA] ← M[EA] AND NOT Rs
+BISM: M[EA] ← M[EA] OR Rs
 ```
 
 **Flags** As for `ADD`, `SUB`, `BIC` and `BIS`.
@@ -517,7 +517,7 @@ BISM: M[EA] <- M[EA] OR Rs
 
 Parcel 0's low nibble is a mode, as in the ordinary memory format, so these are `MESC` forms with a memory destination (`len >= 01`). `INC`, `DEC`, `NEG`, `COM` and `CLR` on a memory operand are in `SOP`.
 
-**Why it is here.** Through ISA revision 19 these were top-level opcodes `0x20` to `0x23`. Revision 20 reallocated all sixty-four opcodes by one rule (a top-level opcode is for an operation whose common case is register to register) and moved them to `MESC` at no cost, because an instruction with a memory destination is at least four bytes anyway; that freed four top-level slots. They cover the case where the second operand is a register, for example `BISM Rmask, flags(DP)` (ISA section 4.13). The measurement of 2026-10-22 found 265 sites in the compiled corpus (1.6 KB), so they earn their place in the escape group but not in the opcode space (this chat, the instruction-set analysis).
+**Why it is here.** Through ISA revision 19 these were top-level opcodes `100000 (0x20)` to `100011 (0x23)`. Revision 20 reallocated all sixty-four opcodes by one rule (a top-level opcode is for an operation whose common case is register to register) and moved them to `MESC` at no cost, because an instruction with a memory destination is at least four bytes anyway; that freed four top-level slots. They cover the case where the second operand is a register, for example `BISM Rmask, flags(DP)` (ISA section 4.13). The measurement of 2026-10-22 found 265 sites in the compiled corpus (1.6 KB), so they earn their place in the escape group but not in the opcode space (this chat, the instruction-set analysis).
 
 **Status** specified; **not yet implemented** in the reference executor.
 
@@ -541,7 +541,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-rm <- rm + 1
+rm ← rm + 1
 ```
 
 **Flags** `N`, `Z` and `V` as for `ADD`; `C` **unchanged**.
@@ -570,7 +570,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-rm <- rm - 1
+rm ← rm - 1
 ```
 
 **Flags** `N`, `Z` and `V` as for `SUB`; `C` **unchanged**.
@@ -599,7 +599,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-rm <- 0 - rm
+rm ← 0 - rm
 ```
 
 **Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger. (`C` = 1 unless the operand was 0.)
@@ -628,7 +628,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-rm <- rm + C
+rm ← rm + C
 ```
 
 **Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a carry out of bit 63.
@@ -659,7 +659,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-rm <- rm - C
+rm ← rm - C
 ```
 
 **Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger.
@@ -690,19 +690,19 @@ From `len = 01`. In this group `low` is a register, never a mode.
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `DIV` | `0x00` |
-| `DIVU` | `0x01` |
-| `MOD` | `0x02` |
-| `MODU` | `0x03` |
+| `DIV` | `00000000 (0x00)` |
+| `DIVU` | `00000001 (0x01)` |
+| `MOD` | `00000010 (0x02)` |
+| `MODU` | `00000011 (0x03)` |
 
 **Operation**
 
 ```
 if Rb = 0 then divide-by-zero abort
-DIV : Rd <- Ra / Rb  (signed, rounded toward zero; INT_MIN / -1 = INT_MIN)
-DIVU: Rd <- Ra / Rb  (unsigned)
-MOD : Rd <- Ra mod Rb (signed, the sign of Ra; any value mod -1 = 0)
-MODU: Rd <- Ra mod Rb (unsigned)
+DIV : Rd ← Ra ÷ Rb  (signed, rounded toward zero; INT_MIN ÷ -1 = INT_MIN)
+DIVU: Rd ← Ra ÷ Rb  (unsigned)
+MOD : Rd ← Ra mod Rb (signed, the sign of Ra; any value mod -1 = 0)
+MODU: Rd ← Ra mod Rb (unsigned)
 ```
 
 **Flags** None written.
@@ -735,7 +735,7 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- (Ra * Rb)[127:64]    ; unsigned
+Rd ← (Ra × Rb)[127:64]    ; unsigned
 ```
 
 **Flags** None written.
@@ -768,7 +768,7 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- |Rs|
+Rd ← |Rs|
 ```
 
 **Flags** `N` and `Z` from the result, `V` set if `Rs` is the most negative value (the result is then still negative), `C` unchanged.
@@ -801,16 +801,16 @@ From `len = 01`. In this group `low` is a register, never a mode.
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `MIN` | `0x10` |
-| `MINU` | `0x11` |
-| `MAX` | `0x12` |
-| `MAXU` | `0x13` |
+| `MIN` | `00010000 (0x10)` |
+| `MINU` | `00010001 (0x11)` |
+| `MAX` | `00010010 (0x12)` |
+| `MAXU` | `00010011 (0x13)` |
 
 **Operation**
 
 ```
-MIN : Rd <- smaller of Ra, Rb (signed)         MINU: unsigned
-MAX : Rd <- larger of Ra, Rb (signed)          MAXU: unsigned
+MIN : Rd ← smaller of Ra, Rb (signed)         MINU: unsigned
+MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 ```
 
 **Flags** `N` and `Z` from the result, `V` = 0, `C` unchanged.
@@ -841,7 +841,7 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- 1 if condition cc holds on the current flags, else 0
+Rd ← 1 if condition cc holds on the current flags, else 0
 ```
 
 **Flags** None written.
@@ -857,7 +857,7 @@ The condition is the `x` field of parcel 1, numbered as the low nibble of the br
 
 ## 9.8 Logic, shifts and rotates
 
-**9.8.1** `AND`, `BIC` (bit clear), `BIS` (bit set, the or), `XOR` and `BIT` (test) are two-byte ALU operations; `COM` is one's complement. *(opcodes `0x18`, `0x19`, `0x1B`, `0x1C`, `0x1D`)*
+**9.8.1** `AND`, `BIC` (bit clear), `BIS` (bit set, the or), `XOR` and `BIT` (test) are two-byte ALU operations; `COM` is one's complement. *(opcodes `011000 (0x18)`, `011001 (0x19)`, `011011 (0x1B)`, `011100 (0x1C)`, `011101 (0x1D)`)*
 
 **9.8.2** `SHL`, `SHR` and `SAR` shift by a count taken from `rm` (a register, an immediate, or memory); `ASL` and `ASR` are the by-one forms in two bytes. *(D)*
 
@@ -889,7 +889,7 @@ BIC rm, Rd
 **Operation**
 
 ```
-Rd <- Rd AND NOT rm
+Rd ← Rd AND NOT rm
 ```
 
 **Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
@@ -920,7 +920,7 @@ BIS rm, Rd
 **Operation**
 
 ```
-Rd <- Rd OR rm
+Rd ← Rd OR rm
 ```
 
 **Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
@@ -949,7 +949,7 @@ BIT rm, Rd
 **Operation**
 
 ```
-tmp <- Rd AND rm         ; the result is discarded
+tmp ← Rd AND rm         ; the result is discarded
 ```
 
 **Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
@@ -978,7 +978,7 @@ XOR rm, Rd
 **Operation**
 
 ```
-Rd <- Rd XOR rm
+Rd ← Rd XOR rm
 ```
 
 **Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
@@ -1007,7 +1007,7 @@ AND rm, Rd
 **Operation**
 
 ```
-Rd <- Rd AND rm
+Rd ← Rd AND rm
 ```
 
 **Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
@@ -1037,17 +1037,17 @@ SAR rm, Rd
 
 | Mnemonic | Opcode (the load or direct form) |
 |---|---|
-| `SHL` | `0x20` |
-| `SHR` | `0x21` |
-| `SAR` | `0x22` |
+| `SHL` | `100000 (0x20)` |
+| `SHR` | `100001 (0x21)` |
+| `SAR` | `100010 (0x22)` |
 
 **Operation**
 
 ```
-n <- rm                                 ; the count: a register, an immediate, or memory
-SHL: Rd <- (n >= 64) ? 0 : Rd << n
-SHR: Rd <- (n >= 64) ? 0 : Rd >>u n
-SAR: Rd <- (n >= 64) ? (Rd < 0 ? -1 : 0) : Rd >>s n
+n ← rm                                 ; the count: a register, an immediate, or memory
+SHL: Rd ← (n ≥ 64) ? 0 : Rd << n
+SHR: Rd ← (n ≥ 64) ? 0 : Rd >>u n
+SAR: Rd ← (n ≥ 64) ? (Rd < 0 ? -1 : 0) : Rd >>s n
 ```
 
 **Flags** `N` and `Z` from the result, `V` cleared, `C` the last bit shifted out (bit 63 for `SHL`, bit 0 for `SHR` and `SAR`). **The same flags are written for every count**: a count of zero gives `N` and `Z` from the unchanged operand, `V` = 0 and `C` = 0 (errata 39).
@@ -1078,7 +1078,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-rm <- 0
+rm ← 0
 ```
 
 **Flags** `N` = 0, `Z` = 1, `V` = 0, `C` = 0.
@@ -1107,7 +1107,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-rm <- NOT rm
+rm ← NOT rm
 ```
 
 **Flags** `N` and `Z` from the result, `V` = 0, `C` = 1 (the PDP-11 rule).
@@ -1167,7 +1167,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-C <- rm[63] ; rm <- rm << 1
+C ← rm[63] ; rm ← rm << 1
 ```
 
 **Flags** `N` and `Z` from the result, `C` the bit shifted out of bit 63, `V` = `N` xor `C` (set if the sign changed: the PDP-11 rule).
@@ -1198,7 +1198,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-C <- rm[0] ; rm <- rm >>s 1
+C ← rm[0] ; rm ← rm >>s 1
 ```
 
 **Flags** `N` and `Z` from the result, `C` the bit shifted out of bit 0, `V` = 0.
@@ -1212,7 +1212,7 @@ The by-one form of `SAR` in two bytes.
 
 ## 9.9 Bits, bytes and text
 
-**9.9.1** The bit-and-field escape provides `CLZ`, `CTZ`, `CLO`, `CTO` (count leading and trailing zeros and ones), `POPCNT`, `BSWAP`, `BSWAPW`, `BSWAPL` and `BITREV`. *(opcode `0x0C`)*
+**9.9.1** The bit-and-field escape provides `CLZ`, `CTZ`, `CLO`, `CTO` (count leading and trailing zeros and ones), `POPCNT`, `BSWAP`, `BSWAPW`, `BSWAPL` and `BITREV`. *(opcode `001100 (0x0C)`)*
 
 **9.9.2** `EXTB` and `EXTZB` extract a bitfield at a position and width, sign- or zero-extended, and `INSB` inserts one; the position and width are in the third parcel, so these are six bytes. *(D)*
 
@@ -1246,18 +1246,18 @@ From `len = 01`. In this group `low` is a register, never a mode. Register to re
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `CLZ` | `0x00` |
-| `CTZ` | `0x01` |
-| `CLO` | `0x02` |
-| `CTO` | `0x03` |
+| `CLZ` | `00000000 (0x00)` |
+| `CTZ` | `00000001 (0x01)` |
+| `CLO` | `00000010 (0x02)` |
+| `CTO` | `00000011 (0x03)` |
 
 **Operation**
 
 ```
-CLZ: Rd <- number of leading zero bits of Rs        (64 if Rs = 0)
-CTZ: Rd <- number of trailing zero bits of Rs       (64 if Rs = 0)
-CLO: Rd <- number of leading one bits of Rs         (64 if Rs = all ones)
-CTO: Rd <- number of trailing one bits of Rs        (64 if Rs = all ones)
+CLZ: Rd ← number of leading zero bits of Rs        (64 if Rs = 0)
+CTZ: Rd ← number of trailing zero bits of Rs       (64 if Rs = 0)
+CLO: Rd ← number of leading one bits of Rs         (64 if Rs = all ones)
+CTO: Rd ← number of trailing one bits of Rs        (64 if Rs = all ones)
 ```
 
 **Flags** None written.
@@ -1290,7 +1290,7 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- number of one bits in Rs
+Rd ← number of one bits in Rs
 ```
 
 **Flags** None written.
@@ -1322,16 +1322,16 @@ From `len = 01`. In this group `low` is a register, never a mode.
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `BSWAP` | `0x05` |
-| `BSWAPW` | `0x06` |
-| `BSWAPL` | `0x07` |
+| `BSWAP` | `00000101 (0x05)` |
+| `BSWAPW` | `00000110 (0x06)` |
+| `BSWAPL` | `00000111 (0x07)` |
 
 **Operation**
 
 ```
-BSWAP : Rd <- Rs with all 8 bytes reversed
-BSWAPW: Rd <- Rs with the bytes of each 16-bit word reversed
-BSWAPL: Rd <- Rs with the bytes of each 32-bit long reversed
+BSWAP : Rd ← Rs with all 8 bytes reversed
+BSWAPW: Rd ← Rs with the bytes of each 16-bit word reversed
+BSWAPL: Rd ← Rs with the bytes of each 32-bit long reversed
 ```
 
 **Flags** None written.
@@ -1364,7 +1364,7 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- Rs with bit i moved to bit 63-i
+Rd ← Rs with bit i moved to bit 63-i
 ```
 
 **Flags** None written.
@@ -1395,7 +1395,7 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- Ra rotated right by (Rb mod 64)
+Rd ← Ra rotated right by (Rb mod 64)
 ```
 
 **Flags** None written (rotates write no flags: errata 39).
@@ -1429,7 +1429,7 @@ From `len = 01`. In this group `low` is a register, never a mode. Parcel 1 is `s
 **Operation**
 
 ```
-Rd <- Rs rotated right by (n mod 64)
+Rd ← Rs rotated right by (n mod 64)
 ```
 
 **Flags** None written.
@@ -1462,7 +1462,7 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- sext32(ror32(Rs[31:0], n mod 32))
+Rd ← sext32(ror32(Rs[31:0], n mod 32))
 ```
 
 **Flags** None written.
@@ -1495,8 +1495,8 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-t <- Ra:Rb                    ; 128 bits, Ra the high half
-Rd <- (t >> n)[63:0]          ; n = 0..63
+t ← Ra:Rb                    ; 128 bits, Ra the high half
+Rd ← (t >> n)[63:0]          ; n = 0..63
 ```
 
 **Flags** None written.
@@ -1529,13 +1529,13 @@ From `len = 01`. In this group `low` is a register, never a mode.
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `EXTB` | `0x21` |
-| `EXTZB` | `0x22` |
+| `EXTB` | `00100001 (0x21)` |
+| `EXTZB` | `00100010 (0x22)` |
 
 **Operation**
 
 ```
-Rd <- ext((Rs >> pos)[width-1:0])          ; sext for EXTB, zext for EXTZB; width 0 or > 64 means 64
+Rd ← ext((Rs >> pos)[width-1:0])          ; sext for EXTB, zext for EXTZB; width 0 or > 64 means 64
 ```
 
 **Flags** None written.
@@ -1568,8 +1568,8 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-mask <- ((1 << width) - 1) << pos
-Rd <- (Rd AND NOT mask) OR ((Rs << pos) AND mask)
+mask ← ((1 << width) - 1) << pos
+Rd ← (Rd AND NOT mask) OR ((Rs << pos) AND mask)
 ```
 
 **Flags** None written.
@@ -1602,7 +1602,7 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- popcount(NOT (Ra XOR Rb))
+Rd ← popcount(NOT (Ra XOR Rb))
 ```
 
 **Flags** None written.
@@ -1635,15 +1635,15 @@ From `len = 01`. In this group `low` is a register, never a mode.
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `CLMULL` | `0x31` |
-| `CLMULH` | `0x32` |
+| `CLMULL` | `00110001 (0x31)` |
+| `CLMULH` | `00110010 (0x32)` |
 
 **Operation**
 
 ```
-p <- carry-less (polynomial over GF(2)) product of Ra and Rb      ; 128 bits
-CLMULL: Rd <- p[63:0]
-CLMULH: Rd <- p[127:64]
+p ← carry-less (polynomial over GF(2)) product of Ra and Rb      ; 128 bits
+CLMULL: Rd ← p[63:0]
+CLMULH: Rd ← p[127:64]
 ```
 
 **Flags** None written.
@@ -1676,7 +1676,7 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- length (1 to 4) implied by the leading byte Rs[7:0]; 0 if it cannot begin a valid sequence
+Rd ← length (1 to 4) implied by the leading byte Rs[7:0]; 0 if it cannot begin a valid sequence
 ```
 
 **Flags** None written.
@@ -1708,11 +1708,11 @@ From `len = 01`. In this group `low` is a register, never a mode.
 
 ```
 Rs holds up to 4 bytes, leading byte in bits 7..0
-Rd <- the scalar value
-V  <- 1 if the sequence is not a valid encoding
+Rd ← the scalar value
+V  ← 1 if the sequence is not a valid encoding
 ```
 
-**Flags** `V` set for a bad continuation byte, an overlong form, a surrogate (U+D800 to U+DFFF), a value above U+10FFFF, or a leading byte of `0xC0`, `0xC1` or `0xF5` to `0xFF`; the length consumed is reported in a scratch field of the status word (details in the instruction-set text, section 4.6.1).
+**Flags** `V` set for a bad continuation byte, an overlong form, a surrogate (U+D800 to U+DFFF), a value above U+10FFFF, or a leading byte of `11000000 (0xC0)`, `11000001 (0xC1)` or `11110101 (0xF5)` to `11111111 (0xFF)`; the length consumed is reported in a scratch field of the status word (details in the instruction-set text, section 4.6.1).
 
 **Exceptions** None.
 
@@ -1740,8 +1740,8 @@ From `len = 01`. In this group `low` is a register, never a mode.
 **Operation**
 
 ```
-Rd <- the UTF-8 bytes of the scalar value Rs, leading byte in bits 7..0
-V  <- 1 if Rs is not a Unicode scalar value
+Rd ← the UTF-8 bytes of the scalar value Rs, leading byte in bits 7..0
+V  ← 1 if Rs is not a Unicode scalar value
 ```
 
 **Flags** `V` set if `Rs` is not a Unicode scalar value (a surrogate or above U+10FFFF).
@@ -1757,11 +1757,11 @@ V  <- 1 if Rs is not a Unicode scalar value
 
 *Cf. section 6.7 for `TRAP`, `RTI` and `RTT`, and section 6.2 for how a trap enters the kernel; section 9.16 for `CALLI` and `JMPI` in position-independent code.*
 
-**9.10.1** There is an unconditional branch `BR` and fourteen conditional branches, two bytes with an 8-bit displacement, four with 16 bits, six with 32 bits, counting two-byte parcels from the first parcel of the branch: ±256 bytes, ±64 KB, ±4 GB. *(opcodes `0x30`-`0x3E`)*
+**9.10.1** There is an unconditional branch `BR` and fourteen conditional branches, two bytes with an 8-bit displacement, four with 16 bits, six with 32 bits, counting two-byte parcels from the first parcel of the branch: ±256 bytes, ±64 KB, ±4 GB. *(opcodes `110000 (0x30)`-`111110 (0x3E)`)*
 
 **9.10.2** The conditions are `ne`, `eq`, `pl`, `mi`, `vc`, `vs`, `cc`/`hs`, `cs`/`lo`, `ge`, `lt`, `gt`, `le`, `hi` and `los`.
 
-**9.10.3** `SOB Rn, dst` subtracts one from `Rn` and branches if the result is nonzero, forward or backward. *(opcode `0x3F`)*
+**9.10.3** `SOB Rn, dst` subtracts one from `Rn` and branches if the result is nonzero, forward or backward. *(opcode `111111 (0x3F)`)*
 
 **9.10.4** `CBCC` compares a register with a 5-bit immediate and branches (four bytes, ±1024 parcels); `CBW` takes a 16-bit immediate and a 16-bit displacement (six bytes); `CBRR` compares two registers and branches. None writes the flags. *(D, errata 34, 35 and 39)*
 
@@ -1792,26 +1792,26 @@ The displacement is signed and counts 2-byte parcels from the first parcel of th
 
 | Mnemonic | Opcode |
 |---|---|
-| `BR` | `0x30` (condition 0) |
-| `BNE` | `0x31` (condition 1) |
-| `BEQ` | `0x32` (condition 2) |
-| `BPL` | `0x33` (condition 3) |
-| `BMI` | `0x34` (condition 4) |
-| `BVC` | `0x35` (condition 5) |
-| `BVS` | `0x36` (condition 6) |
-| `BCC` | `0x37` (condition 7) |
-| `BCS` | `0x38` (condition 8) |
-| `BGE` | `0x39` (condition 9) |
-| `BLT` | `0x3A` (condition 10) |
-| `BGT` | `0x3B` (condition 11) |
-| `BLE` | `0x3C` (condition 12) |
-| `BHI` | `0x3D` (condition 13) |
-| `BLOS` | `0x3E` (condition 14) |
+| `BR` | `110000 (0x30)` (condition 0) |
+| `BNE` | `110001 (0x31)` (condition 1) |
+| `BEQ` | `110010 (0x32)` (condition 2) |
+| `BPL` | `110011 (0x33)` (condition 3) |
+| `BMI` | `110100 (0x34)` (condition 4) |
+| `BVC` | `110101 (0x35)` (condition 5) |
+| `BVS` | `110110 (0x36)` (condition 6) |
+| `BCC` | `110111 (0x37)` (condition 7) |
+| `BCS` | `111000 (0x38)` (condition 8) |
+| `BGE` | `111001 (0x39)` (condition 9) |
+| `BLT` | `111010 (0x3A)` (condition 10) |
+| `BGT` | `111011 (0x3B)` (condition 11) |
+| `BLE` | `111100 (0x3C)` (condition 12) |
+| `BHI` | `111101 (0x3D)` (condition 13) |
+| `BLOS` | `111110 (0x3E)` (condition 14) |
 
 **Operation**
 
 ```
-if cond(c) then PC <- address of this instruction + 2 * disp
+if cond(c) then PC ← address of this instruction + 2 × disp
 ```
 
 **Flags** None written.
@@ -1844,8 +1844,8 @@ From `len = 01`; the signed displacement is 16 bits (32 at `len = 10`).
 **Operation**
 
 ```
-Rn <- Rn - 1
-if Rn != 0 then PC <- address of this instruction + 2 * disp
+Rn ← Rn - 1
+if Rn ≠ 0 then PC ← address of this instruction + 2 × disp
 ```
 
 **Flags** None written.
@@ -1874,30 +1874,30 @@ CBEQ Ra, Rb, target ... and the rest
 
 ![Encoding of CBCC](figures/cbcc-cbcc.svg)
 
-`CBCC` (opcode `0x28`), four bytes: a signed 5-bit immediate (-16 to 15) and an 11-bit displacement in parcels. At `len = 10` (six bytes) parcel 1 is `imm(5) disp(26..16)` and parcel 2 `disp(15..0)`.
+`CBCC` (opcode `101000 (0x28)`), four bytes: a signed 5-bit immediate (-16 to 15) and an 11-bit displacement in parcels. At `len = 10` (six bytes) parcel 1 is `imm(5) disp(26..16)` and parcel 2 `disp(15..0)`.
 
 ![Encoding of CBW](figures/cbcc-cbw.svg)
 
-`CBW` (opcode `0x29`), six bytes: a 16-bit immediate and a 16-bit displacement in parcels.
+`CBW` (opcode `101001 (0x29)`), six bytes: a 16-bit immediate and a 16-bit displacement in parcels.
 
 ![Encoding of CBRR](figures/cbcc-cbrr.svg)
 
-`CBRR` (opcode `0x2A`), four bytes (six at `len = 10`, with a 28-bit displacement): compares two registers. The condition numbers are those of the branches: `al` 0, `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. There is no `len = 00` form.
+`CBRR` (opcode `101010 (0x2A)`), four bytes (six at `len = 10`, with a 28-bit displacement): compares two registers. The condition numbers are those of the branches: `al` 0, `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. There is no `len = 00` form.
 
 **Operation**
 
 ```
-tmp <- Rd - (imm or Rb)         ; as CMP, for the decision only
-if cond(c) on that comparison then PC <- address of this instruction + 2 * disp
+tmp ← Rd - (imm or Rb)         ; as CMP, for the decision only
+if cond(c) on that comparison then PC ← address of this instruction + 2 × disp
 ```
 
 **Flags** **None written** (errata 39): the instruction computes the comparison for its own decision and leaves `N Z V C` as they were.
 
 **Exceptions** None.
 
-Three encodings, chosen by the assembler: `CBCC` (`0x28`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`0x29`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`0x2A`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.
+Three encodings, chosen by the assembler: `CBCC` (`101000 (0x28)`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`101001 (0x29)`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`101010 (0x2A)`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.
 
-**Why it is here.** The author asked on 2026-10-22: "why do we need 8 byte instructions? only amd64 has more than 6 bytes. can we squeeze into 3 parcels?" The fourth parcel was removed and the freed length code became the second page (errata 31); at the same time a fused compare-and-branch, `CBCC`, was added in the reserved opcode `0x28`, estimated with `RORI32` at 22 KB (1.3%) of the image. Then, measured, step by step: the author asked for the wider form ("do the wider cbcc") and the **wide-immediate `CBCC`** removed 11,735 instructions (3.4%) and 1,828 bytes; "do the register-register compare-and-branch" added **`CBRR`**, which removed 4,631 instructions (1.4%) and 142 bytes (errata 34 and 35). The reason it is not a replacement for flags: LoongArch and RISC-V chose fused compare-and-branch instead of flags, and the ISA declines that (section 15.2) because it needs a comparator in the branch unit and a third read port; here the fused form is added beside the flags. Errata 39 then made `CBCC` write no flags.
+**Why it is here.** The author asked on 2026-10-22: "why do we need 8 byte instructions? only amd64 has more than 6 bytes. can we squeeze into 3 parcels?" The fourth parcel was removed and the freed length code became the second page (errata 31); at the same time a fused compare-and-branch, `CBCC`, was added in the reserved opcode `101000 (0x28)`, estimated with `RORI32` at 22 KB (1.3%) of the image. Then, measured, step by step: the author asked for the wider form ("do the wider cbcc") and the **wide-immediate `CBCC`** removed 11,735 instructions (3.4%) and 1,828 bytes; "do the register-register compare-and-branch" added **`CBRR`**, which removed 4,631 instructions (1.4%) and 142 bytes (errata 34 and 35). The reason it is not a replacement for flags: LoongArch and RISC-V chose fused compare-and-branch instead of flags, and the ISA declines that (section 15.2) because it needs a comparator in the branch unit and a third read port; here the fused form is added beside the flags. Errata 39 then made `CBCC` write no flags.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
@@ -1922,8 +1922,8 @@ BNTAG Rn, #tag, target
 **Operation**
 
 ```
-BTAG : if (Rn & 7) == tag then PC <- address of this instruction + 2 * disp
-BNTAG: if (Rn & 7) != tag then PC <- address of this instruction + 2 * disp
+BTAG : if (Rn & 7) = tag then PC ← address of this instruction + 2 × disp
+BNTAG: if (Rn & 7) ≠ tag then PC ← address of this instruction + 2 × disp
 ```
 
 **Flags** None written.
@@ -1956,7 +1956,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-PC <- (register operand) ? Rm : EA(rm)
+PC ← (register operand) ? Rm : EA(rm)
 ```
 
 **Flags** None written.
@@ -1987,9 +1987,9 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-t <- (register operand) ? Rm : EA(rm)
-SP <- SP - 8 ; M[SP] <- address of the next instruction
-PC <- t
+t ← (register operand) ? Rm : EA(rm)
+SP ← SP - 8 ; M[SP] ← address of the next instruction
+PC ← t
 ```
 
 **Flags** None written.
@@ -2020,14 +2020,14 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 
 | Mnemonic | `reg` (sub-opcode) |
 |---|---|
-| `JMPI` | `0x0` |
-| `CALLI` | `0x1` |
+| `JMPI` | `0000 (0x0)` |
+| `CALLI` | `0001 (0x1)` |
 
 **Operation**
 
 ```
-JMPI : PC <- M[EA(rm)]
-CALLI: t <- M[EA(rm)] ; SP <- SP - 8 ; M[SP] <- address of the next instruction ; PC <- t
+JMPI : PC ← M[EA(rm)]
+CALLI: t ← M[EA(rm)] ; SP ← SP - 8 ; M[SP] ← address of the next instruction ; PC ← t
 ```
 
 **Flags** None written.
@@ -2060,7 +2060,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-PC <- M[Rb + d + 8 * (Rx & 7)]
+PC ← M[Rb + d + 8 × (Rx & 7)]
 ```
 
 **Flags** None written.
@@ -2082,7 +2082,7 @@ Legal only with the scaled-index mode (`0001`). Dispatches on the low three bits
 
 **9.11.2** `PUSHX` and `POPX` save and restore the exception state `EPSW` and `EPC` in one instruction each; both words are checked before either is accessed, so an abort leaves nothing changed. *(D, errata 37)*
 
-**9.11.3** The block operations `MCPY`, `MMOV` (overlap-safe), `MSET`, `MCMP`, `MSCN` and `MSCNN` take a destination pointer, a source pointer or value and a count in registers; `MVAL` validates a buffer as UTF-8. *(opcode `0x0D`)*
+**9.11.3** The block operations `MCPY`, `MMOV` (overlap-safe), `MSET`, `MCMP`, `MSCN` and `MSCNN` take a destination pointer, a source pointer or value and a count in registers; `MVAL` validates a buffer as UTF-8. *(opcode `001101 (0x0D)`)*
 
 **9.11.4** A block operation keeps its progress in its registers: when it completes, the count is zero and the pointers are one past the end; when it stops early or is interrupted, they point where it stopped, and it restarts by running again. *(D)*
 
@@ -2111,7 +2111,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 
 ```
 for n = 0 to 15, if mask bit n:
-    SP <- SP - 8 ; M[SP] <- Rn
+    SP ← SP - 8 ; M[SP] ← Rn
 ```
 
 **Flags** None written.
@@ -2147,7 +2147,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 
 ```
 for n = 15 down to 0, if mask bit n:
-    Rn <- M[SP] ; SP <- SP + 8
+    Rn ← M[SP] ; SP ← SP + 8
 ```
 
 **Flags** None written.
@@ -2178,7 +2178,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-v <- rm ; SP <- SP - 8 ; M[SP] <- v
+v ← rm ; SP ← SP - 8 ; M[SP] ← v
 ```
 
 **Flags** None written.
@@ -2209,7 +2209,7 @@ The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at
 **Operation**
 
 ```
-v <- M[SP] ; SP <- SP + 8 ; rm <- v
+v ← M[SP] ; SP ← SP + 8 ; rm ← v
 ```
 
 **Flags** None written.
@@ -2238,14 +2238,14 @@ MMOV Rd, Rs, Rn        ; correct for overlap
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `MCPY` | `0x00` |
-| `MMOV` | `0x01` |
+| `MCPY` | `00000000 (0x00)` |
+| `MMOV` | `00000001 (0x01)` |
 
 **Operation**
 
 ```
 MCPY:                            ; ascending; overlap is undefined
-  while Rn != 0:  M8[Rd] <- M8[Rs] ; Rd <- Rd + 1 ; Rs <- Rs + 1 ; Rn <- Rn - 1
+  while Rn ≠ 0:  M8[Rd] ← M8[Rs] ; Rd ← Rd + 1 ; Rs ← Rs + 1 ; Rn ← Rn - 1
 MMOV: as MCPY, but the direction is chosen from the pointers so that an overlapping copy is correct
 ```
 
@@ -2281,7 +2281,7 @@ MSET Rd, Rv, Rn
 **Operation**
 
 ```
-while Rn != 0:  M8[Rd] <- Rv[7:0] ; Rd <- Rd + 1 ; Rn <- Rn - 1
+while Rn ≠ 0:  M8[Rd] ← Rv[7:0] ; Rd ← Rd + 1 ; Rn ← Rn - 1
 ```
 
 **Flags** None written.
@@ -2316,10 +2316,10 @@ MCMP Rd, Rs, Rn
 **Operation**
 
 ```
-while Rn != 0:
-    x <- M8[Rd] ; y <- M8[Rs]
-    if x != y then  flags <- flags of (x - y) ; stop      ; pointers left AT the differing byte
-    Rd <- Rd + 1 ; Rs <- Rs + 1 ; Rn <- Rn - 1
+while Rn ≠ 0:
+    x ← M8[Rd] ; y ← M8[Rs]
+    if x ≠ y then  flags ← flags of (x - y) ; stop      ; pointers left AT the differing byte
+    Rd ← Rd + 1 ; Rs ← Rs + 1 ; Rn ← Rn - 1
 if equal:  N = 0, Z = 1, V = 0, C = 0
 ```
 
@@ -2355,16 +2355,16 @@ MSCNN Rd, Rv, Rn
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `MSCN` | `0x04` |
-| `MSCNN` | `0x05` |
+| `MSCN` | `00000100 (0x04)` |
+| `MSCNN` | `00000101 (0x05)` |
 
 **Operation**
 
 ```
-while Rn != 0:
-    hit <- (M8[Rd] == Rv[7:0])             ; MSCNN: hit <- (M8[Rd] != Rv[7:0])
+while Rn ≠ 0:
+    hit ← (M8[Rd] = Rv[7:0])             ; MSCNN: hit ← (M8[Rd] ≠ Rv[7:0])
     if hit then  Z = 1 ; stop              ; Rd points AT the byte found
-    Rd <- Rd + 1 ; Rn <- Rn - 1
+    Rd ← Rd + 1 ; Rn ← Rn - 1
 not found: Z = 0
 ```
 
@@ -2453,16 +2453,16 @@ FMUL rm, Rd
 
 | Mnemonic | Opcode (the load or direct form) |
 |---|---|
-| `FADD` | `0x24` |
-| `FSUB` | `0x25` |
-| `FMUL` | `0x26` |
+| `FADD` | `100100 (0x24)` |
+| `FSUB` | `100101 (0x25)` |
+| `FMUL` | `100110 (0x26)` |
 
 **Operation**
 
 ```
-Rd <- Rd + rm   (FADD)
-Rd <- Rd - rm   (FSUB)
-Rd <- Rd * rm   (FMUL)       ; IEEE 754 binary64, round to nearest even
+Rd ← Rd + rm   (FADD)
+Rd ← Rd - rm   (FSUB)
+Rd ← Rd × rm   (FMUL)       ; IEEE 754 binary64, round to nearest even
 ```
 
 **Flags** None written. The five IEEE exception flags are ORed into `FPSR`; no instruction traps.
@@ -2493,7 +2493,7 @@ FCMP Rd, rm        ; register first
 **Operation**
 
 ```
-N <- Rd < rm ; Z <- Rd == rm ; V <- unordered ; C <- 0
+N ← Rd < rm ; Z ← Rd = rm ; V ← unordered ; C ← 0
 ```
 
 **Flags** `N` set if `Rd < rm`, `Z` if equal, `V` if the operands are unordered (either is a NaN), `C` cleared. A signalling NaN raises `NV` in `FPSR`.
@@ -2524,14 +2524,14 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FDIV` | `0x00` |
-| `FSQRT` | `0x01` |
+| `FDIV` | `00000000 (0x00)` |
+| `FSQRT` | `00000001 (0x01)` |
 
 **Operation**
 
 ```
-FDIV : Rd <- Rd / Rs
-FSQRT: Rd <- sqrt(Rs)
+FDIV : Rd ← Rd ÷ Rs
+FSQRT: Rd ← sqrt(Rs)
 ```
 
 **Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
@@ -2566,17 +2566,17 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FADD32` | `0x08` |
-| `FSUB32` | `0x09` |
-| `FMUL32` | `0x0A` |
-| `FDIV32` | `0x0B` |
-| `FSQRT32` | `0x0C` |
-| `FCMP32` | `0x0D` |
+| `FADD32` | `00001000 (0x08)` |
+| `FSUB32` | `00001001 (0x09)` |
+| `FMUL32` | `00001010 (0x0A)` |
+| `FDIV32` | `00001011 (0x0B)` |
+| `FSQRT32` | `00001100 (0x0C)` |
+| `FCMP32` | `00001101 (0x0D)` |
 
 **Operation**
 
 ```
-Rd <- Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd <- sqrt(Rs) (FSQRT32)
+Rd ← Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd ← sqrt(Rs) (FSQRT32)
 FCMP32: flags as FCMP, comparing Rd with Rs
 ```
 
@@ -2612,18 +2612,18 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FMADD` | `0x10` |
-| `FMSUB` | `0x11` |
-| `FNMADD` | `0x12` |
-| `FNMSUB` | `0x13` |
+| `FMADD` | `00010000 (0x10)` |
+| `FMSUB` | `00010001 (0x11)` |
+| `FNMADD` | `00010010 (0x12)` |
+| `FNMSUB` | `00010011 (0x13)` |
 
 **Operation**
 
 ```
-FMADD : Rd <- Rs*Rt + Ru
-FMSUB : Rd <- Rs*Rt - Ru
-FNMADD: Rd <- -(Rs*Rt) - Ru
-FNMSUB: Rd <- -(Rs*Rt) + Ru          ; each rounded once
+FMADD : Rd ← Rs×Rt + Ru
+FMSUB : Rd ← Rs×Rt - Ru
+FNMADD: Rd ← -(Rs×Rt) - Ru
+FNMSUB: Rd ← -(Rs×Rt) + Ru          ; each rounded once
 ```
 
 **Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
@@ -2658,10 +2658,10 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FMADD32` | `0x18` |
-| `FMSUB32` | `0x19` |
-| `FNMADD32` | `0x1A` |
-| `FNMSUB32` | `0x1B` |
+| `FMADD32` | `00011000 (0x18)` |
+| `FMSUB32` | `00011001 (0x19)` |
+| `FNMADD32` | `00011010 (0x1A)` |
+| `FNMSUB32` | `00011011 (0x1B)` |
 
 **Operation**
 
@@ -2698,16 +2698,16 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FNEG` | `0x20` |
-| `FABS` | `0x21` |
-| `FCOPYSIGN` | `0x22` |
+| `FNEG` | `00100000 (0x20)` |
+| `FABS` | `00100001 (0x21)` |
+| `FCOPYSIGN` | `00100010 (0x22)` |
 
 **Operation**
 
 ```
-FNEG     : Rd <- Rs with the sign bit flipped
-FABS     : Rd <- Rs with the sign bit cleared
-FCOPYSIGN: Rd <- magnitude of Rs, sign of Rt
+FNEG     : Rd ← Rs with the sign bit flipped
+FABS     : Rd ← Rs with the sign bit cleared
+FCOPYSIGN: Rd ← magnitude of Rs, sign of Rt
 ```
 
 **Flags** None. These operate on the bits, do not canonicalise a NaN and raise no exception flag.
@@ -2738,13 +2738,13 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FMIN` | `0x23` |
-| `FMAX` | `0x24` |
+| `FMIN` | `00100011 (0x23)` |
+| `FMAX` | `00100100 (0x24)` |
 
 **Operation**
 
 ```
-if Rs is a NaN then Rd <- Rt ; else if Rt is a NaN then Rd <- Rs ; else Rd <- smaller (FMIN) or larger (FMAX)
+if Rs is a NaN then Rd ← Rt ; else if Rt is a NaN then Rd ← Rs ; else Rd ← smaller (FMIN) or larger (FMAX)
 if both are NaNs the result is the canonical quiet NaN
 ```
 
@@ -2779,14 +2779,14 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FCLASS` | `0x28` |
-| `FCLASS32` | `0x29` |
-| `FCLASS16` | `0x5C` |
+| `FCLASS` | `00101000 (0x28)` |
+| `FCLASS32` | `00101001 (0x29)` |
+| `FCLASS16` | `01011100 (0x5C)` |
 
 **Operation**
 
 ```
-Rd <- a bit vector with exactly one bit set:
+Rd ← a bit vector with exactly one bit set:
 bit 0 -infinity      bit 1 -normal      bit 2 -subnormal   bit 3 -zero
 bit 4 +zero          bit 5 +subnormal   bit 6 +normal      bit 7 +infinity
 bit 8 signalling NaN bit 9 quiet NaN
@@ -2825,16 +2825,16 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FRINT` | `0x30` |
-| `FRINTZ` | `0x31` |
-| `FRINTM` | `0x32` |
-| `FRINTP` | `0x33` |
-| `FRINTA` | `0x34` |
+| `FRINT` | `00110000 (0x30)` |
+| `FRINTZ` | `00110001 (0x31)` |
+| `FRINTM` | `00110010 (0x32)` |
+| `FRINTP` | `00110011 (0x33)` |
+| `FRINTA` | `00110100 (0x34)` |
 
 **Operation**
 
 ```
-FRINT : Rd <- Rs rounded to nearest, ties to even
+FRINT : Rd ← Rs rounded to nearest, ties to even
 FRINTZ: toward zero         FRINTM: toward -infinity
 FRINTP: toward +infinity    FRINTA: to nearest, ties away from zero (C round())
 ```
@@ -2875,14 +2875,14 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FCVTDQ` | `0x38` |
-| `FCVTDQU` | `0x3E` |
-| `FCVTQD` | `0x39` |
-| `FCVTQUD` | `0x3F` |
-| `FCVTDS` | `0x3A` |
-| `FCVTSD` | `0x3B` |
-| `FCVTSL` | `0x3C` |
-| `FCVTLS` | `0x3D` |
+| `FCVTDQ` | `00111000 (0x38)` |
+| `FCVTDQU` | `00111110 (0x3E)` |
+| `FCVTQD` | `00111001 (0x39)` |
+| `FCVTQUD` | `00111111 (0x3F)` |
+| `FCVTDS` | `00111010 (0x3A)` |
+| `FCVTSD` | `00111011 (0x3B)` |
+| `FCVTSL` | `00111100 (0x3C)` |
+| `FCVTLS` | `00111101 (0x3D)` |
 
 **Operation**
 
@@ -2921,9 +2921,9 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 **Operation**
 
 ```
-old <- FPSR
-FPSR <- Rs[4:0]
-Rd <- old
+old ← FPSR
+FPSR ← Rs[4:0]
+Rd ← old
 ```
 
 **Flags** None.
@@ -2961,21 +2961,21 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FADD16` | `0x50` |
-| `FSUB16` | `0x51` |
-| `FMUL16` | `0x52` |
-| `FDIV16` | `0x53` |
-| `FSQRT16` | `0x54` |
-| `FCMP16` | `0x55` |
-| `FMADD16` | `0x58` |
-| `FMSUB16` | `0x59` |
-| `FNMADD16` | `0x5A` |
-| `FNMSUB16` | `0x5B` |
+| `FADD16` | `01010000 (0x50)` |
+| `FSUB16` | `01010001 (0x51)` |
+| `FMUL16` | `01010010 (0x52)` |
+| `FDIV16` | `01010011 (0x53)` |
+| `FSQRT16` | `01010100 (0x54)` |
+| `FCMP16` | `01010101 (0x55)` |
+| `FMADD16` | `01011000 (0x58)` |
+| `FMSUB16` | `01011001 (0x59)` |
+| `FNMADD16` | `01011010 (0x5A)` |
+| `FNMSUB16` | `01011011 (0x5B)` |
 
 **Operation**
 
 ```
-as the binary32 words, in binary16: Rd <- Rd op Rs ; the fused forms take Rs, Rt, Ru, Rd
+as the binary32 words, in binary16: Rd ← Rd op Rs ; the fused forms take Rs, Rt, Ru, Rd
 a half lives in the low 16 bits of a register, sign-extended to 64
 ```
 
@@ -3013,12 +3013,12 @@ From `len = 01`. In this group `low` is a register, never a mode. Operand roles:
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `FCVTSH` | `0x60` |
-| `FCVTHS` | `0x61` |
-| `FCVTDH` | `0x62` |
-| `FCVTHD` | `0x63` |
-| `FCVTHL` | `0x64` |
-| `FCVTLH` | `0x65` |
+| `FCVTSH` | `01100000 (0x60)` |
+| `FCVTHS` | `01100001 (0x61)` |
+| `FCVTDH` | `01100010 (0x62)` |
+| `FCVTHD` | `01100011 (0x63)` |
+| `FCVTHL` | `01100100 (0x64)` |
+| `FCVTLH` | `01100101 (0x65)` |
 
 **Operation**
 
@@ -3040,7 +3040,7 @@ FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction i
 
 *Cf. chapter 7, section 7.12 (the atomic and ordering instructions), section 7.3 (the atomics in detail) and section 7.2 (the memory model).*
 
-**9.13.1** The atomic escape `ATOM` (opcode `0x11`) holds `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in the chapter named above. *(opcode `0x11`)*
+**9.13.1** The atomic escape `ATOM` (opcode `010001 (0x11)`) holds `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in the chapter named above. *(opcode `010001 (0x11)`)*
 
 *Commentary.* The official entry of each instruction is below, in this section; chapter 7 gives the reasons, the memory model and the use. **Impact.** *Kernel:* the entries below are all a kernel needs to write its locks; chapter 7 explains how they compose. *Compiler:* a lock acquire is one `_DB` instruction. *Hardware:* a reservation monitor beside the data cache.
 
@@ -3064,15 +3064,15 @@ From `len = 01`. In this group `low` is a register, never a mode. The text of th
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `CAS` | `0x00` |
-| `CASDB` | `0x01` |
+| `CAS` | `00000000 (0x00)` |
+| `CASDB` | `00000001 (0x01)` |
 
 **Operation**
 
 ```
-old <- M[address]
-if old == expected then M[address] <- new
-result <- old          ; the program compares result with expected to learn whether the swap happened
+old ← M[address]
+if old = expected then M[address] ← new
+result ← old          ; the program compares result with expected to learn whether the swap happened
 ```
 
 **Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
@@ -3107,13 +3107,13 @@ From `len = 01`. In this group `low` is a register, never a mode. The text of th
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `SWAP` | `0x02` |
-| `SWAPDB` | `0x03` |
+| `SWAP` | `00000010 (0x02)` |
+| `SWAPDB` | `00000011 (0x03)` |
 
 **Operation**
 
 ```
-old <- M[address] ; M[address] <- value ; result <- old
+old ← M[address] ; M[address] ← value ; result ← old
 ```
 
 **Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
@@ -3148,13 +3148,13 @@ From `len = 01`. In this group `low` is a register, never a mode. The text of th
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `XADD` | `0x04` |
-| `XADDDB` | `0x05` |
+| `XADD` | `00000100 (0x04)` |
+| `XADDDB` | `00000101 (0x05)` |
 
 **Operation**
 
 ```
-old <- M[address] ; M[address] <- old + value ; result <- old
+old ← M[address] ; M[address] ← old + value ; result ← old
 ```
 
 **Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
@@ -3191,21 +3191,21 @@ From `len = 01`. In this group `low` is a register, never a mode. The text of th
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `XAND` | `0x06` |
-| `XANDDB` | `0x07` |
-| `XOR_` | `0x08` |
-| `XOR_DB` | `0x09` |
-| `XXOR` | `0x0A` |
-| `XXORDB` | `0x0B` |
+| `XAND` | `00000110 (0x06)` |
+| `XANDDB` | `00000111 (0x07)` |
+| `XOR_` | `00001000 (0x08)` |
+| `XOR_DB` | `00001001 (0x09)` |
+| `XXOR` | `00001010 (0x0A)` |
+| `XXORDB` | `00001011 (0x0B)` |
 
 **Operation**
 
 ```
-old <- M[address]
-XAND: M[address] <- old AND value
-XOR_: M[address] <- old OR value
-XXOR: M[address] <- old XOR value
-result <- old
+old ← M[address]
+XAND: M[address] ← old AND value
+XOR_: M[address] ← old OR value
+XXOR: M[address] ← old XOR value
+result ← old
 ```
 
 **Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
@@ -3241,19 +3241,19 @@ From `len = 01`. In this group `low` is a register, never a mode. The text of th
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `XMAX` | `0x0C` |
-| `XMAXDB` | `0x0D` |
-| `XMIN` | `0x0E` |
-| `XMINDB` | `0x0F` |
-| `XMAXU` | `0x10` |
-| `XMAXUDB` | `0x11` |
-| `XMINU` | `0x12` |
-| `XMINUDB` | `0x13` |
+| `XMAX` | `00001100 (0x0C)` |
+| `XMAXDB` | `00001101 (0x0D)` |
+| `XMIN` | `00001110 (0x0E)` |
+| `XMINDB` | `00001111 (0x0F)` |
+| `XMAXU` | `00010000 (0x10)` |
+| `XMAXUDB` | `00010001 (0x11)` |
+| `XMINU` | `00010010 (0x12)` |
+| `XMINUDB` | `00010011 (0x13)` |
 
 **Operation**
 
 ```
-old <- M[address] ; M[address] <- max(old, value) (XMAX, XMAXU) or min (XMIN, XMINU) ; result <- old
+old ← M[address] ; M[address] ← max(old, value) (XMAX, XMAXU) or min (XMIN, XMINU) ; result ← old
 signed for XMAX and XMIN, unsigned for the U forms
 ```
 
@@ -3289,15 +3289,15 @@ From `len = 01`. In this group `low` is a register, never a mode. The text of th
 
 | Mnemonic | Sub-opcode |
 |---|---|
-| `LL` | `0x20` |
-| `SC` | `0x21` |
+| `LL` | `00100000 (0x20)` |
+| `SC` | `00100001 (0x21)` |
 
 **Operation**
 
 ```
-LL: Rd <- M[address] ; take a reservation on the granule containing address
-SC: if the reservation is intact then M[address] <- value ; result <- 0 (success)
-    else nothing is written ; result <- 1 (failure)
+LL: Rd ← M[address] ; take a reservation on the granule containing address
+SC: if the reservation is intact then M[address] ← value ; result ← 0 (success)
+    else nothing is written ; result ← 1 (failure)
 a write to the granule by any initiator, core or device, clears the reservation
 ```
 
@@ -3318,7 +3318,7 @@ A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps w
 
 *Cf. chapter 6, section 6.7 (system instructions, exceptions and interrupts), section 6.2 (exceptions and interrupts) and section 6.3 (system registers).*
 
-**9.14.1** The system escape `SYS` (opcode `0x14`) holds the privileged and system instructions: `TRAP`, `TRAPL`, `RTI`, `RTT`, `RET`, `HALT`, `BPT`, `MTPS`, `MFPS`, `SPL`, `MFSR`, `MTSR`, `MTDP`, `MFDP`, `MFCPUID`, `PROBER`, `PROBEW`, `PUSHX`, `POPX`, and the translation and cache maintenance instructions (`TLBI`, `TLBIA`, `TLBSYNC`, `MTASID`, `MFASID`, `ICINV`, `ICINVA`). The user-memory guard instructions `STUA` and `CLUA` are described with them. *(opcode `0x14`)*
+**9.14.1** The system escape `SYS` (opcode `010100 (0x14)`) holds the privileged and system instructions: `TRAP`, `TRAPL`, `RTI`, `RTT`, `RET`, `HALT`, `BPT`, `MTPS`, `MFPS`, `SPL`, `MFSR`, `MTSR`, `MTDP`, `MFDP`, `MFCPUID`, `PROBER`, `PROBEW`, `PUSHX`, `POPX`, and the translation and cache maintenance instructions (`TLBI`, `TLBIA`, `TLBSYNC`, `MTASID`, `MFASID`, `ICINV`, `ICINVA`). The user-memory guard instructions `STUA` and `CLUA` are described with them. *(opcode `010100 (0x14)`)*
 
 *Commentary.* The official entry of each instruction is below, in this section; the kernel chapter gives the modes, the entry sequence, the system registers and the reasons. **Impact.** *Kernel:* the entries below are the complete list of what the kernel may execute that user code may not, and of what both may; chapter 6 explains how they are used. *Compiler:* none, apart from `TRAP` in system-call stubs. *Hardware:* a class decode and one privilege check.
 
@@ -3342,8 +3342,8 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `NOP` | 0 | `0x0` |
-| `LPAD` | 0 | `0x9` |
+| `NOP` | 0 | `0000 (0x0)` |
+| `LPAD` | 0 | `1001 (0x9)` |
 
 **Operation**
 
@@ -3383,13 +3383,13 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `RTI` | 0 | `0x1` |
-| `RTT` | 0 | `0x2` |
+| `RTI` | 0 | `0001 (0x1)` |
+| `RTT` | 0 | `0010 (0x2)` |
 
 **Operation**
 
 ```
-PC <- EPC ; PSW <- EPSW           ; a PSW with the reserved mode 2 in either mode field aborts
+PC ← EPC ; PSW ← EPSW           ; a PSW with the reserved mode 2 in either mode field aborts
 RTT: and then set the trace bit T after the return
 ```
 
@@ -3424,12 +3424,12 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `RET` | 0 | `0x3` |
+| `RET` | 0 | `0011 (0x3)` |
 
 **Operation**
 
 ```
-PC <- M[SP] ; SP <- SP + 8
+PC ← M[SP] ; SP ← SP + 8
 ```
 
 **Flags** None written.
@@ -3459,7 +3459,7 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `HALT` | 0 | `0x4` |
+| `HALT` | 0 | `0100 (0x4)` |
 
 **Operation**
 
@@ -3494,7 +3494,7 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `BPT` | 0 | `0x5` |
+| `BPT` | 0 | `0101 (0x5)` |
 
 **Operation**
 
@@ -3533,7 +3533,7 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `FENCE` | 0 | `0x6` |
+| `FENCE` | 0 | `0110 (0x6)` |
 
 **Operation**
 
@@ -3572,7 +3572,7 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `WFE` | 0 | `0x7` |
+| `WFE` | 0 | `0111 (0x7)` |
 
 **Operation**
 
@@ -3611,7 +3611,7 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `SEV` | 0 | `0x8` |
+| `SEV` | 0 | `1000 (0x8)` |
 
 **Operation**
 
@@ -3650,9 +3650,9 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `TLBIA` | 0 | `0xA` |
-| `TLBSYNC` | 0 | `0xB` |
-| `ICINVA` | 0 | `0xC` |
+| `TLBIA` | 0 | `1010 (0xA)` |
+| `TLBSYNC` | 0 | `1011 (0xB)` |
+| `ICINVA` | 0 | `1100 (0xC)` |
 
 **Operation**
 
@@ -3692,14 +3692,14 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `PUSHX` | 0 | `0xF` (`SYSX`), sub-opcode `0` in parcel 1 |
-| `POPX` | 0 | `0xF` (`SYSX`), sub-opcode `1` in parcel 1 |
+| `PUSHX` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `0` in parcel 1 |
+| `POPX` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `1` in parcel 1 |
 
 **Operation**
 
 ```
-PUSHX: SP <- SP - 16 ; M[SP] <- EPSW ; M[SP + 8] <- EPC
-POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16
+PUSHX: SP ← SP - 16 ; M[SP] ← EPSW ; M[SP + 8] ← EPC
+POPX : EPSW ← M[SP] ; EPC ← M[SP + 8] ; SP ← SP + 16
 ```
 
 **Flags** None written.
@@ -3733,7 +3733,7 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `ISYNC` | 0 | `0xF` (`SYSX`), sub-opcode `2` in parcel 1 |
+| `ISYNC` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `2` in parcel 1 |
 
 **Operation**
 
@@ -3772,7 +3772,7 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `HINT` | 0 | `0xF` (`SYSX`), sub-opcode `3` in parcel 1 |
+| `HINT` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `3` in parcel 1 |
 
 **Operation**
 
@@ -3810,14 +3810,14 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `MFSR` | 0 | `0xD`, system register number in parcel 1 |
-| `MTSR` | 0 | `0xE`, system register number in parcel 1 |
+| `MFSR` | 0 | `1101 (0xD)`, system register number in parcel 1 |
+| `MTSR` | 0 | `1110 (0xE)`, system register number in parcel 1 |
 
 **Operation**
 
 ```
-MFSR: Rd <- system register `name`
-MTSR: system register `name` <- Rs         ; read-only registers are an illegal instruction
+MFSR: Rd ← system register `name`
+MTSR: system register `name` ← Rs         ; read-only registers are an illegal instruction
 ```
 
 **Flags** None written.
@@ -3868,14 +3868,14 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `MTPS` | `0x1` | operand in `low` |
-| `MFPS` | `0x2` | operand in `low` |
+| `MTPS` | `0001 (0x1)` | operand in `low` |
+| `MFPS` | `0010 (0x2)` | operand in `low` |
 
 **Operation**
 
 ```
-MTPS: PSW <- Rs          ; in user mode only the flags N Z V C are written
-MFPS: Rd <- PSW
+MTPS: PSW ← Rs          ; in user mode only the flags N Z V C are written
+MFPS: Rd ← PSW
 ```
 
 **Flags** `MTPS` writes the flags from `Rs`; `MFPS` writes none.
@@ -3905,12 +3905,12 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `SPL` | `0x3` | operand in `low` |
+| `SPL` | `0011 (0x3)` | operand in `low` |
 
 **Operation**
 
 ```
-PSW.priority <- n
+PSW.priority ← n
 ```
 
 **Flags** None written. The condition flags are untouched.
@@ -3945,8 +3945,8 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `TRAP` | `0x4` | operand in `low` |
-| `TRAPL` | `0xF` | operand in `low` |
+| `TRAP` | `0100 (0x4)` | operand in `low` |
+| `TRAPL` | `1111 (0xF)` | operand in `low` |
 
 **Operation**
 
@@ -3985,7 +3985,7 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `TLBI` | `0x5` | operand in `low` |
+| `TLBI` | `0101 (0x5)` | operand in `low` |
 
 **Operation**
 
@@ -4023,14 +4023,14 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `MTASID` | `0x6` | operand in `low` |
-| `MFASID` | `0x7` | operand in `low` |
+| `MTASID` | `0110 (0x6)` | operand in `low` |
+| `MFASID` | `0111 (0x7)` | operand in `low` |
 
 **Operation**
 
 ```
-MTASID: ASID <- Rs[15:0]          ; the translation buffer is flushed in the reference executor
-MFASID: Rd <- ASID
+MTASID: ASID ← Rs[15:0]          ; the translation buffer is flushed in the reference executor
+MFASID: Rd ← ASID
 ```
 
 **Flags** None written.
@@ -4065,14 +4065,14 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `MTDP` | `0x8` | operand in `low` |
-| `MFDP` | `0x9` | operand in `low` |
+| `MTDP` | `1000 (0x8)` | operand in `low` |
+| `MFDP` | `1001 (0x9)` | operand in `low` |
 
 **Operation**
 
 ```
-MTDP: DP <- Rs
-MFDP: Rd <- DP
+MTDP: DP ← Rs
+MFDP: Rd ← DP
 ```
 
 **Flags** None written.
@@ -4106,12 +4106,12 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `MTDMW` | `0xA` | operand in `low` |
+| `MTDMW` | `1010 (0xA)` | operand in `low` |
 
 **Operation**
 
 ```
-DMW0 <- Rs          ; storage only: the operand names no window and the windows are not yet defined
+DMW0 ← Rs          ; storage only: the operand names no window and the windows are not yet defined
 ```
 
 **Flags** None written.
@@ -4145,12 +4145,12 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `MFCPUID` | `0xB` | operand in `low` |
+| `MFCPUID` | `1011 (0xB)` | operand in `low` |
 
 **Operation**
 
 ```
-Rd <- CPUID
+Rd ← CPUID
 ```
 
 **Flags** None written.
@@ -4184,7 +4184,7 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `ICINV` | `0xC` | operand in `low` |
+| `ICINV` | `1100 (0xC)` | operand in `low` |
 
 **Operation**
 
@@ -4222,13 +4222,13 @@ The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the o
 
 | Mnemonic | Class (`reg`) | Minor (`low`) |
 |---|---|---|
-| `PROBER` | `0xD` | operand in `low` |
-| `PROBEW` | `0xE` | operand in `low` |
+| `PROBER` | `1101 (0xD)` | operand in `low` |
+| `PROBEW` | `1110 (0xE)` | operand in `low` |
 
 **Operation**
 
 ```
-Rd <- 1 if the address in Rs is readable (PROBER) or writable (PROBEW) in the previous mode, else 0
+Rd ← 1 if the address in Rs is readable (PROBER) or writable (PROBEW) in the previous mode, else 0
 no fault is taken
 ```
 

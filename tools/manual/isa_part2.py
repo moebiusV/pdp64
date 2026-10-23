@@ -52,7 +52,7 @@ CLMULH: Rd <- p[127:64]''', 'None written.', NONE, '9.9',
       '''Rs holds up to 4 bytes, leading byte in bits 7..0
 Rd <- the scalar value
 V  <- 1 if the sequence is not a valid encoding''',
-      '`V` set for a bad continuation byte, an overlong form, a surrogate (U+D800 to U+DFFF), a value above U+10FFFF, or a leading byte of `0xC0`, `0xC1` or `0xF5` to `0xFF`; the length consumed is reported in a scratch field of the status word (details in the instruction-set text, section 4.6.1).', NONE, '9.9'),
+      '`V` set for a bad continuation byte, an overlong form, a surrogate (U+D800 to U+DFFF), a value above U+10FFFF, or a leading byte of `11000000 (0xC0)`, `11000001 (0xC1)` or `11110101 (0xF5)` to `11111111 (0xFF)`; the length consumed is reported in a scratch field of the status word (details in the instruction-set text, section 4.6.1).', NONE, '9.9'),
     E('UTF8ENC', 'bits', ['utf8enc'], 'Encode a Unicode scalar value', ['UTF8ENC Rs, Rd'],
       '''Rd <- the UTF-8 bytes of the scalar value Rs, leading byte in bits 7..0
 V  <- 1 if Rs is not a Unicode scalar value''', '`V` set if `Rs` is not a Unicode scalar value (a surrogate or above U+10FFFF).', NONE, '9.9'),

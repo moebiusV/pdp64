@@ -8,117 +8,117 @@
 
 | Opcode | Use |
 |---|---|
-| `0x00` | `MOVQ` |
-| `0x01` | reserved |
-| `0x02` | `MOVL` |
-| `0x03` | reserved |
-| `0x04` | `MOVW` |
-| `0x05` | reserved |
-| `0x06` | `MOVB` |
-| `0x07` | reserved |
-| `0x08` | `MOVZL` |
-| `0x09` | `MOVZW` |
-| `0x0A` | `MOVZB` |
-| `0x0B` | `LEA` |
-| `0x0C` | `CLZ`, `CTZ`, `CLO`, `CTO`, `POPCNT` and 17 more (sub-opcodes in the entries) |
-| `0x0D` | `MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN` and 2 more (sub-opcodes in the entries) |
-| `0x0E` | `DIV`, `DIVU`, `MOD`, `MODU`, `MULHU` and 6 more (sub-opcodes in the entries) |
-| `0x0F` | `MOVUB`, `MOVUW`, `MOVUL`, `MOVUQ`, `ADDM` and 3 more (sub-opcodes in the entries) |
-| `0x10` | `FDIV`, `FSQRT`, `FADD32`, `FSUB32`, `FMUL32` and 49 more (sub-opcodes in the entries) |
-| `0x11` | `CAS`, `CASDB`, `SWAP`, `SWAPDB`, `XADD` and 17 more (sub-opcodes in the entries) |
-| `0x12` | `JMPI`, `CALLI`, `JTAG` |
-| `0x13` | `CLR`, `COM`, `INC`, `DEC`, `NEG` and 11 more (sub-opcodes in the entries) |
-| `0x14` | `NOP`, `RTI`, `RTT`, `RET`, `HALT` and 29 more (sub-opcodes in the entries) |
-| `0x15` | `BTAG`, `BNTAG` |
-| `0x16` | `ADD` |
-| `0x17` | `SUB` |
-| `0x18` | `BIC` |
-| `0x19` | `BIS` |
-| `0x1A` | `CMP` |
-| `0x1B` | `BIT` |
-| `0x1C` | `XOR` |
-| `0x1D` | `AND` |
-| `0x1E` | `MUL` |
-| `0x1F` | `MULH` |
-| `0x20` | `SHL` |
-| `0x21` | `SHR` |
-| `0x22` | `SAR` |
-| `0x23` | spare ALU slot (decodes, traps) |
-| `0x24` | `FADD` |
-| `0x25` | `FSUB` |
-| `0x26` | `FMUL` |
-| `0x27` | `FCMP` |
-| `0x28` | `CBNE`, `CBEQ`, `CBPL`, `CBMI`, `CBVC` and 9 more (sub-opcodes in the entries) |
-| `0x29` | reserved |
-| `0x2A` | reserved |
-| `0x2B` | reserved |
-| `0x2C` | reserved |
-| `0x2D` | reserved |
-| `0x2E` | reserved |
-| `0x2F` | reserved |
-| `0x30` | `BR` |
-| `0x31` | `BNE` |
-| `0x32` | `BEQ` |
-| `0x33` | `BPL` |
-| `0x34` | `BMI` |
-| `0x35` | `BVC` |
-| `0x36` | `BVS` |
-| `0x37` | `BCC` |
-| `0x38` | `BCS` |
-| `0x39` | `BGE` |
-| `0x3A` | `BLT` |
-| `0x3B` | `BGT` |
-| `0x3C` | `BLE` |
-| `0x3D` | `BHI` |
-| `0x3E` | `BLOS` |
-| `0x3F` | `SOB` |
+| `000000 (0x00)` | `MOVQ` |
+| `000001 (0x01)` | reserved |
+| `000010 (0x02)` | `MOVL` |
+| `000011 (0x03)` | reserved |
+| `000100 (0x04)` | `MOVW` |
+| `000101 (0x05)` | reserved |
+| `000110 (0x06)` | `MOVB` |
+| `000111 (0x07)` | reserved |
+| `001000 (0x08)` | `MOVZL` |
+| `001001 (0x09)` | `MOVZW` |
+| `001010 (0x0A)` | `MOVZB` |
+| `001011 (0x0B)` | `LEA` |
+| `001100 (0x0C)` | `CLZ`, `CTZ`, `CLO`, `CTO`, `POPCNT` and 17 more (sub-opcodes in the entries) |
+| `001101 (0x0D)` | `MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN` and 2 more (sub-opcodes in the entries) |
+| `001110 (0x0E)` | `DIV`, `DIVU`, `MOD`, `MODU`, `MULHU` and 6 more (sub-opcodes in the entries) |
+| `001111 (0x0F)` | `MOVUB`, `MOVUW`, `MOVUL`, `MOVUQ`, `ADDM` and 3 more (sub-opcodes in the entries) |
+| `010000 (0x10)` | `FDIV`, `FSQRT`, `FADD32`, `FSUB32`, `FMUL32` and 49 more (sub-opcodes in the entries) |
+| `010001 (0x11)` | `CAS`, `CASDB`, `SWAP`, `SWAPDB`, `XADD` and 17 more (sub-opcodes in the entries) |
+| `010010 (0x12)` | `JMPI`, `CALLI`, `JTAG` |
+| `010011 (0x13)` | `CLR`, `COM`, `INC`, `DEC`, `NEG` and 11 more (sub-opcodes in the entries) |
+| `010100 (0x14)` | `NOP`, `RTI`, `RTT`, `RET`, `HALT` and 29 more (sub-opcodes in the entries) |
+| `010101 (0x15)` | `BTAG`, `BNTAG` |
+| `010110 (0x16)` | `ADD` |
+| `010111 (0x17)` | `SUB` |
+| `011000 (0x18)` | `BIC` |
+| `011001 (0x19)` | `BIS` |
+| `011010 (0x1A)` | `CMP` |
+| `011011 (0x1B)` | `BIT` |
+| `011100 (0x1C)` | `XOR` |
+| `011101 (0x1D)` | `AND` |
+| `011110 (0x1E)` | `MUL` |
+| `011111 (0x1F)` | `MULH` |
+| `100000 (0x20)` | `SHL` |
+| `100001 (0x21)` | `SHR` |
+| `100010 (0x22)` | `SAR` |
+| `100011 (0x23)` | spare ALU slot (decodes, traps) |
+| `100100 (0x24)` | `FADD` |
+| `100101 (0x25)` | `FSUB` |
+| `100110 (0x26)` | `FMUL` |
+| `100111 (0x27)` | `FCMP` |
+| `101000 (0x28)` | `CBNE`, `CBEQ`, `CBPL`, `CBMI`, `CBVC` and 9 more (sub-opcodes in the entries) |
+| `101001 (0x29)` | reserved |
+| `101010 (0x2A)` | reserved |
+| `101011 (0x2B)` | reserved |
+| `101100 (0x2C)` | reserved |
+| `101101 (0x2D)` | reserved |
+| `101110 (0x2E)` | reserved |
+| `101111 (0x2F)` | reserved |
+| `110000 (0x30)` | `BR` |
+| `110001 (0x31)` | `BNE` |
+| `110010 (0x32)` | `BEQ` |
+| `110011 (0x33)` | `BPL` |
+| `110100 (0x34)` | `BMI` |
+| `110101 (0x35)` | `BVC` |
+| `110110 (0x36)` | `BVS` |
+| `110111 (0x37)` | `BCC` |
+| `111000 (0x38)` | `BCS` |
+| `111001 (0x39)` | `BGE` |
+| `111010 (0x3A)` | `BLT` |
+| `111011 (0x3B)` | `BGT` |
+| `111100 (0x3C)` | `BLE` |
+| `111101 (0x3D)` | `BHI` |
+| `111110 (0x3E)` | `BLOS` |
+| `111111 (0x3F)` | `SOB` |
 
 ## Page 2
 
 | Opcode | Name |
 |---|---|
-| `0x00` | `ld.q` |
-| `0x01` | `st.q` |
-| `0x02` | `ld.l` |
-| `0x03` | `st.l` |
-| `0x04` | `ld.w` |
-| `0x05` | `st.w` |
-| `0x06` | `ld.b` |
-| `0x07` | `st.b` |
-| `0x08` | `ldz.l` |
-| `0x09` | `ldz.w` |
-| `0x0A` | `ldz.b` |
-| `0x0B` | `lea.sp` |
-| `0x0C` | `ldq.sp0` |
-| `0x0D` | `ldq.sp1` |
-| `0x0E` | `stq.sp` |
-| `0x10` | `ldl.sp0` |
-| `0x11` | `ldl.sp1` |
-| `0x12` | `stl.sp0` |
-| `0x13` | `stl.sp1` |
-| `0x14` | `ldq.d1` |
-| `0x15` | `ldq.d2` |
-| `0x16` | `ldq.d3` |
-| `0x17` | `ldq.d4` |
-| `0x18` | `stq.d1` |
-| `0x19` | `stq.d2` |
-| `0x1A` | `ldl.d1` |
-| `0x1B` | `ldl.d2` |
-| `0x1C` | `ldl.d3` |
-| `0x1D` | `ldl.d4` |
-| `0x1E` | `pushm8` |
-| `0x1F` | `popm8` |
-| `0x20` | `sub.sp` |
-| `0x21` | `add.sp` |
-| `0x22` | `movq.i` |
-| `0x23` | `shl.i` |
-| `0x24` | `shr.i` |
-| `0x25` | `sar.i` |
-| `0x26` | `and.i` |
-| `0x27` | `bis.i` |
-| `0x28` | `xor.i` |
-| `0x29` | `add.i` |
-| `0x2A` | `pushx` |
-| `0x2B` | `popx` |
-| `0x2C` | `isync` |
-| `0x2D` | `hint` |
+| `000000 (0x00)` | `ld.q` |
+| `000001 (0x01)` | `st.q` |
+| `000010 (0x02)` | `ld.l` |
+| `000011 (0x03)` | `st.l` |
+| `000100 (0x04)` | `ld.w` |
+| `000101 (0x05)` | `st.w` |
+| `000110 (0x06)` | `ld.b` |
+| `000111 (0x07)` | `st.b` |
+| `001000 (0x08)` | `ldz.l` |
+| `001001 (0x09)` | `ldz.w` |
+| `001010 (0x0A)` | `ldz.b` |
+| `001011 (0x0B)` | `lea.sp` |
+| `001100 (0x0C)` | `ldq.sp0` |
+| `001101 (0x0D)` | `ldq.sp1` |
+| `001110 (0x0E)` | `stq.sp` |
+| `010000 (0x10)` | `ldl.sp0` |
+| `010001 (0x11)` | `ldl.sp1` |
+| `010010 (0x12)` | `stl.sp0` |
+| `010011 (0x13)` | `stl.sp1` |
+| `010100 (0x14)` | `ldq.d1` |
+| `010101 (0x15)` | `ldq.d2` |
+| `010110 (0x16)` | `ldq.d3` |
+| `010111 (0x17)` | `ldq.d4` |
+| `011000 (0x18)` | `stq.d1` |
+| `011001 (0x19)` | `stq.d2` |
+| `011010 (0x1A)` | `ldl.d1` |
+| `011011 (0x1B)` | `ldl.d2` |
+| `011100 (0x1C)` | `ldl.d3` |
+| `011101 (0x1D)` | `ldl.d4` |
+| `011110 (0x1E)` | `pushm8` |
+| `011111 (0x1F)` | `popm8` |
+| `100000 (0x20)` | `sub.sp` |
+| `100001 (0x21)` | `add.sp` |
+| `100010 (0x22)` | `movq.i` |
+| `100011 (0x23)` | `shl.i` |
+| `100100 (0x24)` | `shr.i` |
+| `100101 (0x25)` | `sar.i` |
+| `100110 (0x26)` | `and.i` |
+| `100111 (0x27)` | `bis.i` |
+| `101000 (0x28)` | `xor.i` |
+| `101001 (0x29)` | `add.i` |
+| `101010 (0x2A)` | `pushx` |
+| `101011 (0x2B)` | `popx` |
+| `101100 (0x2C)` | `isync` |
+| `101101 (0x2D)` | `hint` |

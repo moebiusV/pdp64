@@ -168,72 +168,72 @@ def encoding(entry):
 
     if k == 'mem':
         o = OPGROUP['lea'] if MN[first]['group'] == 'mn-lea' else opc
-        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, '0x%02X' % o if one else '0x%02X..' % o), ('reg', 4, None), ('low', 4, None)])]))
+        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, B(o, 6) if one else B(o, 6) + '..'), ('reg', 4, None), ('low', 4, None)])]))
         L.append('`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).')
-        table('Opcode (the load or direct form)', ['| `%s` | `0x%02X` |' % (U(n), MN[n]['value'] if MN[n]['group'] != 'mn-lea' else OPGROUP['lea']) for n in names])
+        table('Opcode (the load or direct form)', ['| `%s` | `%s` |' % (U(n), BH(MN[n]['value'] if MN[n]['group'] != 'mn-lea' else OPGROUP['lea'], 6)) for n in names])
         if entry.get('names') and any(MN[n]['group'] == 'mn-mov' for n in names):
-            L.append('The store form of each move has the opcode of its load form plus 1: ' + ', '.join('`%s` `0x%02X`' % (U(n), MN[n]['value'] + 1) for n in names if MN[n]['group'] == 'mn-mov') + '.')
+            L.append('The store form of each move has the opcode of its load form plus 1: ' + ', '.join('`%s` `%s`' % (U(n), BH(MN[n]['value'] + 1, 6)) for n in names if MN[n]['group'] == 'mn-mov') + '.')
     elif k == 'br':
-        L.append(fig(eid, 'Encoding of the conditional branches', [('len = 00', [('len', 2, '00'), ('opcode', 6, '0x30..0x3E'), ('displacement', 8, None)]),
+        L.append(fig(eid, 'Encoding of the conditional branches', [('len = 00', [('len', 2, '00'), ('opcode', 6, '110000..111110'), ('displacement', 8, None)]),
                                                                    ('len = 01', [('displacement (16 bits, parcel 1)', 16, None)])]))
         L.append('The displacement is signed and counts 2-byte parcels from the first parcel of the instruction: 8 bits at `len = 00` (about ±256 bytes), 16 bits at `len = 01` (±64 KB), 32 bits in parcels 1 and 2 at `len = 10` (±4 GB).')
-        table('Opcode', ['| `%s` | `0x%02X` (condition %d) |' % (U(n), MN[n]['value'], MN[n]['value'] & 15) for n in names])
+        table('Opcode', ['| `%s` | `%s` (condition %d) |' % (U(n), BH(MN[n]['value'], 6), MN[n]['value'] & 15) for n in names])
     elif k == 'cb':
-        L.append(fig(eid + '-cbcc', 'Encoding of CBCC', [('parcel 0', [('len', 2, '01'), ('opcode', 6, '0x28'), ('reg', 4, 'Rd'), ('low', 4, 'cond')]),
+        L.append(fig(eid + '-cbcc', 'Encoding of CBCC', [('parcel 0', [('len', 2, '01'), ('opcode', 6, '101000'), ('reg', 4, 'Rd'), ('low', 4, 'cond')]),
                                                        ('parcel 1', [('imm', 5, None), ('disp', 11, None)])]))
-        L.append('`CBCC` (opcode `0x28`), four bytes: a signed 5-bit immediate (-16 to 15) and an 11-bit displacement in parcels. At `len = 10` (six bytes) parcel 1 is `imm(5) disp(26..16)` and parcel 2 `disp(15..0)`.')
-        L.append(fig(eid + '-cbw', 'Encoding of CBW', [('parcel 0', [('len', 2, '10'), ('opcode', 6, '0x29'), ('reg', 4, 'Rd'), ('low', 4, 'cond')]),
+        L.append('`CBCC` (opcode `101000 (0x28)`), four bytes: a signed 5-bit immediate (-16 to 15) and an 11-bit displacement in parcels. At `len = 10` (six bytes) parcel 1 is `imm(5) disp(26..16)` and parcel 2 `disp(15..0)`.')
+        L.append(fig(eid + '-cbw', 'Encoding of CBW', [('parcel 0', [('len', 2, '10'), ('opcode', 6, '101001'), ('reg', 4, 'Rd'), ('low', 4, 'cond')]),
                                                      ('parcel 1', [('imm16', 16, None)]), ('parcel 2', [('disp16', 16, None)])]))
-        L.append('`CBW` (opcode `0x29`), six bytes: a 16-bit immediate and a 16-bit displacement in parcels.')
-        L.append(fig(eid + '-cbrr', 'Encoding of CBRR', [('parcel 0', [('len', 2, '01'), ('opcode', 6, '0x2A'), ('reg', 4, 'Ra'), ('low', 4, 'Rb')]),
+        L.append('`CBW` (opcode `101001 (0x29)`), six bytes: a 16-bit immediate and a 16-bit displacement in parcels.')
+        L.append(fig(eid + '-cbrr', 'Encoding of CBRR', [('parcel 0', [('len', 2, '01'), ('opcode', 6, '101010'), ('reg', 4, 'Ra'), ('low', 4, 'Rb')]),
                                                        ('parcel 1', [('cond', 4, None), ('disp', 12, None)])]))
-        L.append('`CBRR` (opcode `0x2A`), four bytes (six at `len = 10`, with a 28-bit displacement): compares two registers. The condition numbers are those of the branches: `al` 0, `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. There is no `len = 00` form.')
+        L.append('`CBRR` (opcode `101010 (0x2A)`), four bytes (six at `len = 10`, with a 28-bit displacement): compares two registers. The condition numbers are those of the branches: `al` 0, `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. There is no `len = 00` form.')
     elif k == 'sob':
-        L.append(fig(eid, 'Encoding of SOB', [('parcel 0', [('len', 2, None), ('opcode', 6, '0x3F'), ('reg', 4, 'Rn'), ('low', 4, '0')]), ('parcel 1', [('displacement (parcels)', 16, None)])]))
+        L.append(fig(eid, 'Encoding of SOB', [('parcel 0', [('len', 2, None), ('opcode', 6, '111111'), ('reg', 4, 'Rn'), ('low', 4, '0')]), ('parcel 1', [('displacement (parcels)', 16, None)])]))
         L.append('From `len = 01`; the signed displacement is 16 bits (32 at `len = 10`).')
     elif k == 'tag':
-        L.append(fig(eid, 'Encoding of BTAG and BNTAG', [('parcel 0', [('len', 2, '01'), ('opcode', 6, '0x15'), ('reg', 4, 'Rn'), ('low', 1, 'sense'), ('tag', 3, None)]), ('parcel 1', [('displacement (parcels)', 16, None)])]))
+        L.append(fig(eid, 'Encoding of BTAG and BNTAG', [('parcel 0', [('len', 2, '01'), ('opcode', 6, '010101'), ('reg', 4, 'Rn'), ('low', 1, 'sense'), ('tag', 3, None)]), ('parcel 1', [('displacement (parcels)', 16, None)])]))
         L.append('`sense` is 0 for `BTAG` and 1 for `BNTAG`; `tag` is the 3-bit tag. The displacement is 16 bits (32 at `len = 10`).')
     elif k in ('sop', 'xfer'):
-        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, '0x%02X' % opc), ('reg', 4, ('0x%X' % MN[first]['value']) if one else None), ('low', 4, None)])]))
+        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, B(opc, 6)), ('reg', 4, B(MN[first]['value'], 4) if one else None), ('low', 4, None)])]))
         L.append('The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).')
-        table('`reg` (sub-opcode)', ['| `%s` | `0x%X` |' % (U(n), MN[n]['value']) for n in names])
+        table('`reg` (sub-opcode)', ['| `%s` | `%s` |' % (U(n), BH(MN[n]['value'], 4)) for n in names])
     elif k in ('besc', 'aesc', 'fesc', 'atom'):
-        rows = [('parcel 0', [('len', 2, None), ('opcode', 6, '0x%02X' % opc), ('reg', 4, 'Rd'), ('low', 4, 'Rs')])]
+        rows = [('parcel 0', [('len', 2, None), ('opcode', 6, B(opc, 6)), ('reg', 4, 'Rd'), ('low', 4, 'Rs')])]
         if entry['id'] in ('RORI', 'RORI32'):
-            rows.append(('parcel 1', [('sub-opcode', 8, '0x%02X' % MN[first]['value']), ('count', 8, None)]))
+            rows.append(('parcel 1', [('sub-opcode', 8, B(MN[first]['value'], 8)), ('count', 8, None)]))
         elif entry['id'] in ('EXTB', 'INSB', 'DSHR'):
-            rows.append(('parcel 1', [('sub-opcode', 8, '0x%02X' % MN[first]['value'] if one else None), ('t', 4, 'Rt'), ('x', 4, None)]))
+            rows.append(('parcel 1', [('sub-opcode', 8, B(MN[first]['value'], 8) if one else None), ('t', 4, 'Rt'), ('x', 4, None)]))
             rows.append(('parcel 2', [('pos' if entry['id'] != 'DSHR' else 'count', 8, None), ('width' if entry['id'] != 'DSHR' else 'unused', 8, None)]))
         else:
-            rows.append(('parcel 1', [('sub-opcode', 8, ('0x%02X' % MN[first]['value']) if one else None), ('t', 4, 'Rt'), ('x', 4, None)]))
+            rows.append(('parcel 1', [('sub-opcode', 8, B(MN[first]['value'], 8) if one else None), ('t', 4, 'Rt'), ('x', 4, None)]))
         L.append(fig(eid, 'Encoding of %s' % entry['id'], rows))
         L.append('From `len = 01`. In this group `low` is a register, never a mode. ' + entry.get('xnote', ''))
-        table('Sub-opcode', ['| `%s` | `0x%02X` |' % (U(n), MN[n]['value']) for n in names])
+        table('Sub-opcode', ['| `%s` | `%s` |' % (U(n), BH(MN[n]['value'], 8)) for n in names])
     elif k == 'mblk':
-        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, '0x0D'), ('reg', 4, 'Rd'), ('low', 4, 'Rs')]),
-                                                           ('parcel 1', [('sub-opcode', 8, ('0x%02X' % MN[first]['value']) if one else None), ('t', 4, 'Rn'), ('x', 4, 'flags')])]))
+        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, '001101'), ('reg', 4, 'Rd'), ('low', 4, 'Rs')]),
+                                                           ('parcel 1', [('sub-opcode', 8, B(MN[first]['value'], 8) if one else None), ('t', 4, 'Rn'), ('x', 4, 'flags')])]))
         L.append('`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.')
-        table('Sub-opcode', ['| `%s` | `0x%02X` |' % (U(n), MN[n]['value']) for n in names])
+        table('Sub-opcode', ['| `%s` | `%s` |' % (U(n), BH(MN[n]['value'], 8)) for n in names])
     elif k == 'mesc':
-        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, '0x0F'), ('reg', 4, 'Rs/Rd'), ('low', 4, 'mode')]),
+        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, '001111'), ('reg', 4, 'Rs/Rd'), ('low', 4, 'mode')]),
                                                            ('parcel 1', [('sub', 4, None), ('rm', 4, None), ('disp', 8, None)])]))
         L.append("Parcel 0's `low` is an addressing mode, as in the ordinary memory format; parcel 1 is `sub(4) rm(4) disp(8)` (16 more displacement bits per further parcel).")
-        table('Sub-opcode', ['| `%s` | `0x%X` |' % (U(n), MN[n]['value']) for n in names])
+        table('Sub-opcode', ['| `%s` | `%s` |' % (U(n), BH(MN[n]['value'], 4)) for n in names])
     elif k in ('sysn', 'sysx', 'sysreg', 'sys'):
-        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, '0x14'), ('reg', 4, 'class'), ('low', 4, 'rm / minor')])]))
+        L.append(fig(eid, 'Encoding of %s' % entry['id'], [('parcel 0', [('len', 2, None), ('opcode', 6, '010100'), ('reg', 4, 'class'), ('low', 4, 'rm / minor')])]))
         L.append('The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.')
         rows = []
         for n in names:
             m = MN[n]
             if m['kind'] == 'sysn':
-                rows.append('| `%s` | 0 | `0x%X` |' % (U(n), m['value']))
+                rows.append('| `%s` | 0 | `%s` |' % (U(n), BH(m['value'], 4)))
             elif m['kind'] == 'sysx':
-                rows.append('| `%s` | 0 | `0xF` (`SYSX`), sub-opcode `%d` in parcel 1 |' % (U(n), m['value']))
+                rows.append('| `%s` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `%d` in parcel 1 |' % (U(n), m['value']))
             elif m['kind'] == 'sysreg':
-                rows.append('| `%s` | 0 | `0x%X`, system register number in parcel 1 |' % (U(n), m['value']))
+                rows.append('| `%s` | 0 | `%s`, system register number in parcel 1 |' % (U(n), BH(m['value'], 4)))
             else:
-                rows.append('| `%s` | `0x%X` | operand in `low` |' % (U(n), m['value']))
+                rows.append('| `%s` | `%s` | operand in `low` |' % (U(n), BH(m['value'], 4)))
         L.append('| Mnemonic | Class (`reg`) | Minor (`low`) |\n|---|---|---|\n' + '\n'.join(rows))
     return '\n\n'.join(L)
 
@@ -250,6 +250,24 @@ def length_note(entry):
     return entry.get('lengths', '')
 
 
+def B(v, w):
+    return format(v, '0%db' % w)
+
+
+def BH(v, w):
+    """A value in binary with its hexadecimal value in brackets behind it."""
+    return '%s (0x%0*X)' % (B(v, w), (w + 3) // 4, v)
+
+
+def uni(t):
+    """Pseudocode in Unicode: assignment, comparison and arithmetic use their proper characters, not ASCII spellings."""
+    t = t.replace('<-', '\u2190').replace('!=', '\u2260').replace('>=', '\u2265').replace('<=', '\u2264').replace('==', '=')
+    t = re.sub(r'(?<=[A-Za-z0-9)\]]) \* (?=[A-Za-z0-9(\-])', ' \u00d7 ', t)
+    t = re.sub(r'(?<=[A-Za-z0-9)\]])\*(?=[A-Za-z0-9(])', '\u00d7', t)
+    t = re.sub(r'(?<=[A-Za-z0-9)\]]) / (?=[A-Za-z0-9(\-])', ' \u00f7 ', t)
+    return t
+
+
 def render_entry(e):
     names = e['names']
     real = [n for n in names if not MN[n]['alias_of']]
@@ -264,7 +282,7 @@ def render_entry(e):
     out.append(encoding(e))
     out.append('')
     out.append('**Operation**\n')
-    out.append('```\n' + e['op'].strip('\n') + '\n```')
+    out.append('```\n' + uni(e['op'].strip('\n')) + '\n```')
     out.append('')
     out.append('**Flags** ' + e['flags'])
     out.append('')
@@ -459,9 +477,9 @@ def build():
         raise SystemExit('page-2 descriptions for opcodes that do not exist: ' + ' '.join(sorted(extra2)))
     for n, v in p2:
         op, reg, low, longf = D.P2[n]
-        P2.append('| `0x%02X` | `%s` | %s | %s | %s | %s |' % (v, n, op, reg, low, longf))
+        P2.append('| `%s` | `%s` | %s | %s | %s | %s |' % (BH(v, 6), n, op, reg, low, longf))
     P2.append('')
-    P2.append('Every page-2 opcode not listed (`0x0F` and `0x2E` to `0x3F`, %d of 64) is reserved; a reserved page-2 opcode is an illegal-instruction abort.' % (64 - len(p2)))
+    P2.append('Every page-2 opcode not listed (`001111 (0x0F)` and `101110 (0x2E)` to `111111 (0x3F)`, %d of 64) is reserved; a reserved page-2 opcode is an illegal-instruction abort.' % (64 - len(p2)))
     P2.append('')
     P2.append('## Why there is a second page')
     P2.append('')
@@ -489,8 +507,8 @@ def build():
         e = byid[eid]
         fn, sec = HOME[eid]
         o, s = opcode_of(tgt)
-        sub = '' if s is None else ('`0x%X`' % s)
-        by.append('| `%s`%s | [%s](%s) (section %s) | `0x%02X` | %s | %s |' % (n.upper(), ' (alias of `%s`)' % tgt.upper() if m['alias_of'] else '', eid, '../%s#%s' % (fn, anchor_for(e)), sec, o, sub, GROUPNAME[m['kind']]))
+        sub = '' if s is None else ('`%s`' % BH(s, 4 if m['kind'] in ('sop', 'xfer', 'sysn', 'sysx', 'sysreg', 'sys') else 8))
+        by.append('| `%s`%s | [%s](%s) (section %s) | `%s` | %s | %s |' % (n.upper(), ' (alias of `%s`)' % tgt.upper() if m['alias_of'] else '', eid, '../%s#%s' % (fn, anchor_for(e)), sec, BH(o, 6), sub, GROUPNAME[m['kind']]))
     by.append('')
     files['by-mnemonic.md'] = '\n'.join(by)
     # by opcode
@@ -509,17 +527,17 @@ def build():
                 text = ', '.join('`%s`' % n.upper() for n, _, _ in names[:5]) + ' and %d more (sub-opcodes in the entries)' % (len(names) - 5)
             else:
                 text = ', '.join('`%s`' % n.upper() for n, _, _ in names)
-            bo.append('| `0x%02X` | %s |' % (o, text))
+            bo.append('| `%s` | %s |' % (BH(o, 6), text))
         else:
             reserved = {0x23: 'spare ALU slot (decodes, traps)'}.get(o, 'reserved')
-            bo.append('| `0x%02X` | %s |' % (o, reserved))
+            bo.append('| `%s` | %s |' % (BH(o, 6), reserved))
     bo.append('')
     bo.append('## Page 2')
     bo.append('')
     bo.append('| Opcode | Name |')
     bo.append('|---|---|')
     for n, v in SPEC['p2op']:
-        bo.append('| `0x%02X` | `%s` |' % (v, n))
+        bo.append('| `%s` | `%s` |' % (BH(v, 6), n))
     bo.append('')
     files['by-opcode.md'] = '\n'.join(bo)
     files['constants.md'] = constants_page()

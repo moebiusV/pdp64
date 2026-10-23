@@ -84,7 +84,7 @@ if Rn != 0 then PC <- address of this instruction + 2 * disp''',
       '''tmp <- Rd - (imm or Rb)         ; as CMP, for the decision only
 if cond(c) on that comparison then PC <- address of this instruction + 2 * disp''',
       '**None written** (errata 39): the instruction computes the comparison for its own decision and leaves `N Z V C` as they were.', 'None.', '9.10',
-      notes='Three encodings, chosen by the assembler: `CBCC` (`0x28`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`0x29`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`0x2A`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.'),
+      notes='Three encodings, chosen by the assembler: `CBCC` (`101000 (0x28)`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`101001 (0x29)`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`101010 (0x2A)`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.'),
     E('BTAG', 'branches', ['btag', 'bntag'], 'Branch on pointer tag', ['BTAG Rn, #tag, target', 'BNTAG Rn, #tag, target'],
       '''BTAG : if (Rn & 7) == tag then PC <- address of this instruction + 2 * disp
 BNTAG: if (Rn & 7) != tag then PC <- address of this instruction + 2 * disp''',
