@@ -3,7 +3,7 @@
 **Digital Equity Collective's Pragmatic Digital Processor, 64 bit.**
 *An update and refresh of the PDP-11 instruction set and architecture for the modern world.*
 
-**The manual: [read it online](https://moebiusv.github.io/pdp64/docs/streamlined/00-index.html), or [as a PDF](book/pdp64-manual.pdf)** ([online](https://moebiusv.github.io/pdp64/book/pdp64-manual.pdf)) (source: [`docs/streamlined/`](docs/streamlined/00-index.md)). Ten chapters (introduction, bus, graphics, boot, device drivers, kernel, multiple processors, vectors and AI, the instruction set, the path to silicon), the [instruction dictionary](docs/streamlined/dictionary/index.md) with one entry for every instruction ([online](https://moebiusv.github.io/pdp64/docs/streamlined/dictionary/index.html)), and appendices on improvements, pending decisions, a glossary, the ABI and the assembly language.
+**The manual: [read it online](https://moebiusv.github.io/pdp64/docs/streamlined/00-index.html), or [as a PDF](book/pdp64-manual.pdf)** ([online](https://moebiusv.github.io/pdp64/book/pdp64-manual.pdf)) (source: [`docs/streamlined/`](docs/streamlined/00-index.md)). Ten chapters (introduction, bus, graphics, boot, device drivers, kernel, multiple processors, vectors and AI, the instruction set, the path to silicon), every instruction with its own entry in chapter 9 (syntax, encoding drawing, operation, flags, exceptions), the [reference tables](docs/streamlined/dictionary/index.md) ([online](https://moebiusv.github.io/pdp64/docs/streamlined/dictionary/index.html)), and appendices on improvements, pending decisions, a glossary, the ABI and the assembly language.
 
 The PDP-11 and the VAX-11 were famous for being pleasant, even fun, to program in assembly language. Afterward computer design went in many directions, and
 that fun was largely lost. This project brings them forward with the lessons of the last fifty years: which instructions are needed to get things done and which
@@ -55,7 +55,7 @@ for the important things you are running. The architecture is the processor, the
 
 ## What to read, in order
 
-**Start here: [`docs/streamlined/`](docs/streamlined/00-index.md)** ([online](https://moebiusv.github.io/pdp64/docs/streamlined/00-index.html)), the manual: a short, ordered account of the whole architecture, a reference entry for every instruction ([`dictionary/`](docs/streamlined/dictionary/index.md)), and the open decisions, written as numbered statements with a commentary and an impact line for each. The long documents below are the sources it is drawn from.
+**Start here: [`docs/streamlined/`](docs/streamlined/00-index.md)** ([online](https://moebiusv.github.io/pdp64/docs/streamlined/00-index.html)), the manual: a short, ordered account of the whole architecture, a reference entry for every instruction in the instruction-set chapter, and [reference tables](docs/streamlined/dictionary/index.md), and the open decisions, written as numbered statements with a commentary and an impact line for each. The long documents below are the sources it is drawn from.
 
 1. **The architecture, updated: [`docs/`](docs/).** The three founding documents with every change and decision since revision 20 applied in
    place and the machine renamed pdp64: [`pdp64-isa.md`](docs/pdp64-isa.md) is the ISA (revision 20, updated 2026-10-21),

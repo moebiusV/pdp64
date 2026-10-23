@@ -140,6 +140,8 @@ def transform(e, src, srcpath):
     d = designation(e)
     heading = '%s — %s' % (d, title) if d else title
     body = convert_links(body, srcpath)
+    body = body.replace('](../figures/', '](figures/')
+    body = re.sub(r'<!--.*?-->\n?', '', body, flags=re.S)
     # headings: the sources use ## for sections and ### for entries; the template renders markdown # as level 2, so they land on levels 3 and 4
     body = body.replace('{{', '{ {')
     return '# %s\n\n%s' % (heading, body)
@@ -149,6 +151,11 @@ def build(check_only=False):
     entries = parse_outline()
     fm = parse_filemap()
     os.makedirs(REND, exist_ok=True)
+    import shutil
+    figsrc = os.path.join(ROOT, 'docs', 'streamlined', 'figures')
+    if not check_only:
+        shutil.rmtree(os.path.join(REND, 'figures'), ignore_errors=True)
+        shutil.copytree(figsrc, os.path.join(REND, 'figures'))
     calls = []
     front = []
     n = 0

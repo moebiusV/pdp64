@@ -16,18 +16,8 @@ c:id01008    Vector work, AI and array languages: the device route
 c:id01009    The instruction set
 c:id01010    Conclusion: from FPGA to silicon
 
-p:id00200    The instruction dictionary
-d:id02001    The instruction dictionary
-d:id02002    Moves and address formation
-d:id02003    Integer arithmetic and logic
-d:id02004    Single-operand instructions
-d:id02005    Branches and indirect transfers
-d:id02006    Bits, fields and text
-d:id02007    Block memory operations
-d:id02008    Divide, remainder and selection
-d:id02009    Floating point
-d:id02010    Atomics
-d:id02011    System instructions
+p:id00200    The instruction reference tables
+d:id02001    The instruction reference tables
 d:id02012    The second page: one-parcel abbreviations
 d:id02013    Assembler aliases and old spellings
 d:id02014    The architectural constants

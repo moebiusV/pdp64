@@ -137,6 +137,264 @@
 
 *Commentary.* **Precedent.** The PDP-11's read-modify-write instructions were indivisible on the Unibus (the `DATIP`/`DATO` pair); the VAX had interlocked queue and bit instructions. **Trade-offs.** A bus lock is simple and does not scale as cores multiply; a monitor (reservation) maps onto the memory systems that FPGAs and modern chips use, at the cost of forward-progress rules. **Improvements.** The pdp64 offers all three designs found on other machines (load-linked/store-conditional, compare-and-swap, fetch-and-operate), more atomic operations than any architecture surveyed. **Benefits.** A kernel lock needs one instruction. **Modern comparables.** RISC-V `LR`/`SC` and the `AMO` set; AArch64 load-exclusive and its large-system atomics; x86 `LOCK`-prefixed read-modify-write. **Use.** `CAS` for lock-free structures; `XADD` for counters; `LL`/`SC` for anything else; `WFE` for the idle loop. **Impact.** *Kernel:* A lock is one instruction, and the `_DB` forms need no separate fence. *Compiler:* C11 atomics map one-to-one, no ordering fences are emitted under sequential consistency, and a `LL`/`SC` loop must be generated in the constrained form (short, no other memory access inside). *Hardware:* The reservation is a granule tag in the cache controller, and the read-modify-write atomics use an exclusive access with hardware retry.
 
+<!-- entries:7.12 -->
+### CAS: Compare and swap
+
+**Mnemonics:** `CAS`, `CASDB`
+
+**Syntax**
+
+```
+CAS expected, new, (address)        ; operand placement not yet fixed
+CASDB ...                            ; with a full barrier
+```
+
+**Encoding**
+
+![Encoding of CAS](figures/cas.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `CAS` | `0x00` |
+| `CASDB` | `0x01` |
+
+**Operation**
+
+```
+old <- M[address]
+if old == expected then M[address] <- new
+result <- old          ; the program compares result with expected to learn whether the swap happened
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### SWAP: Atomic exchange
+
+**Mnemonics:** `SWAP`, `SWAPDB`
+
+**Syntax**
+
+```
+SWAP value, (address)
+SWAPDB ...
+```
+
+**Encoding**
+
+![Encoding of SWAP](figures/swap.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `SWAP` | `0x02` |
+| `SWAPDB` | `0x03` |
+
+**Operation**
+
+```
+old <- M[address] ; M[address] <- value ; result <- old
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### XADD: Atomic fetch and add
+
+**Mnemonics:** `XADD`, `XADDDB`
+
+**Syntax**
+
+```
+XADD value, (address)
+XADDDB ...
+```
+
+**Encoding**
+
+![Encoding of XADD](figures/xadd.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `XADD` | `0x04` |
+| `XADDDB` | `0x05` |
+
+**Operation**
+
+```
+old <- M[address] ; M[address] <- old + value ; result <- old
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### XAND: Atomic fetch and and, or, xor
+
+**Mnemonics:** `XAND`, `XANDDB`, `XOR`, `XOR_DB`, `XXOR`, `XXORDB`
+
+**Syntax**
+
+```
+XAND value, (address)
+XOR_ value, (address)        ; the trailing underscore keeps the mnemonic distinct from XOR
+XXOR value, (address)
+each with a DB form
+```
+
+**Encoding**
+
+![Encoding of XAND](figures/xand.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `XAND` | `0x06` |
+| `XANDDB` | `0x07` |
+| `XOR_` | `0x08` |
+| `XOR_DB` | `0x09` |
+| `XXOR` | `0x0A` |
+| `XXORDB` | `0x0B` |
+
+**Operation**
+
+```
+old <- M[address]
+XAND: M[address] <- old AND value
+XOR_: M[address] <- old OR value
+XXOR: M[address] <- old XOR value
+result <- old
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### XMAX: Atomic fetch and minimum or maximum
+
+**Mnemonics:** `XMAX`, `XMAXDB`, `XMIN`, `XMINDB`, `XMAXU`, `XMAXUDB`, `XMINU`, `XMINUDB`
+
+**Syntax**
+
+```
+XMAX value, (address)
+XMIN ..., XMAXU ..., XMINU ...
+each with a DB form
+```
+
+**Encoding**
+
+![Encoding of XMAX](figures/xmax.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `XMAX` | `0x0C` |
+| `XMAXDB` | `0x0D` |
+| `XMIN` | `0x0E` |
+| `XMINDB` | `0x0F` |
+| `XMAXU` | `0x10` |
+| `XMAXUDB` | `0x11` |
+| `XMINU` | `0x12` |
+| `XMINUDB` | `0x13` |
+
+**Operation**
+
+```
+old <- M[address] ; M[address] <- max(old, value) (XMAX, XMAXU) or min (XMIN, XMINU) ; result <- old
+signed for XMAX and XMIN, unsigned for the U forms
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### LLSC: Load-linked and store-conditional
+
+**Mnemonics:** `LL`, `SC`
+
+**Syntax**
+
+```
+LL (address), Rd
+SC value, (address), result
+```
+
+**Encoding**
+
+![Encoding of LLSC](figures/llsc.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `LL` | `0x20` |
+| `SC` | `0x21` |
+
+**Operation**
+
+```
+LL: Rd <- M[address] ; take a reservation on the granule containing address
+SC: if the reservation is intact then M[address] <- value ; result <- 0 (success)
+    else nothing is written ; result <- 1 (failure)
+a write to the granule by any initiator, core or device, clears the reservation
+```
+
+**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+
+**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+
+A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, and the assembler and the reference executor do not implement the group yet. The result convention shown for `SC` is the usual one and is not yet fixed in the text.
+
+**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+
+**Status** specified; **not yet implemented** in the reference executor.
+<!-- /entries:7.12 -->
+
 ## 7.13 Still open
 
 The transport and the bus's own atomics mapping (decision R4), the interrupt controller and routing (R1), starting the other cores (R2, B2), how coherence scales beyond four cores (R3), the wake rule of `WFE` (P1), and lock scaling above a few cores, which is a kernel design question the instruction set does not settle.

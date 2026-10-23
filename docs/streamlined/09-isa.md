@@ -2,18 +2,13 @@
 
 [← streamlined index](00-index.md)
 
-**The instruction set is built around one idea: the length of an instruction is known from its first two bits, so the cheapest instructions are two bytes and nothing is longer than six.** This chapter first shows how the 64 opcodes are divided, then states the properties and principles that hold throughout, then the registers, the format and the addressing modes, then each group of instructions, then faults, restart and memory management, and ends with position-independent code, what was rejected, the idioms restored and lost, the comparison with the PDP-11 and VAX, what was taken from LoongArch, and what is still open. The reference entry for each instruction (syntax, encoding, operation, flags, exceptions) is in the [instruction dictionary](dictionary/index.md). The full text with every encoding is [`../pdp64-isa.md`](../pdp64-isa.md); every number here comes from the grammars that the tools are generated from.
+**The instruction set is built around one idea: the length of an instruction is known from its first two bits, so the cheapest instructions are two bytes and nothing is longer than six.** This chapter first shows how the 64 opcodes are divided, then states the properties and principles that hold throughout, then the registers, the format and the addressing modes, then each group of instructions, then faults, restart and memory management, and ends with position-independent code, what was rejected, the idioms restored and lost, the comparison with the PDP-11 and VAX, what was taken from LoongArch, and what is still open. Every instruction has its entry (syntax, encoding drawing, operation, flags, exceptions) in the section of its group below; the atomic instructions are in section 7.12 and the system instructions in section 6.7; the [reference tables](dictionary/index.md) hold the second page, the aliases, the constants and the lists of mnemonics and opcodes. The full text with every encoding is [`../pdp64-isa.md`](../pdp64-isa.md); every number here comes from the grammars that the tools are generated from.
 
 ## 9.1 How the opcode space is divided
 
 **9.1.1** Every instruction begins with a 16-bit parcel with four fields: `len` (2 bits), `opcode` (6 bits), `reg` (4 bits) and `mode` or `rm` (4 bits).
 
-```
- 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
-+-----+-----------------+-----------+-----------+
-| len |      opcode     |    reg    |  mode/rm  |
-+-----+-----------------+-----------+-----------+
-```
+![The first parcel of every instruction](figures/format-parcel0.svg)
 
 **9.1.2** There are 64 opcodes on the first page. An operation gets a top-level opcode if its common case is register to register, because only then can it be two bytes; every other operation lives in an escape group and costs nothing for it.
 
@@ -65,12 +60,7 @@
 
 **9.3.3** The processor status word is 16 bits. *(D)*
 
-```
- 15    13 12  11 10  9  8  7  6  5  4  3  2  1  0
-+--------+----+-----+-----+--------+---+---+---+---+---+
-|  --    | UA | prev | cur |  prio  | T | N | Z | V | C |
-+--------+----+-----+-----+--------+---+---+---+---+---+
-```
+![The processor status word](figures/psw.svg)
 
 (Bit positions as in System v1: `C` 0, `V` 1, `Z` 2, `N` 3, `T` 4, priority 5-7, current mode 8-9, previous mode 10-11, `UA` 12.)
 
@@ -86,12 +76,7 @@
 
 **9.4.1** The first parcel holds `len`, the opcode and two four-bit fields; `len` is the number of extension parcels (0, 1 or 2) when it is less than 3. *(D)*
 
-```
-len=01:  parcel 1:  rm(4)  displacement(12)                  2 parcels, 4 bytes
-len=10:  parcel 1:  rm(4)  displacement(27..16)
-         parcel 2:  displacement(15..0)                      3 parcels, 6 bytes
-len=11:  page 2:    11  opc(6)  reg(4)  low(4)               1 parcel, 2 bytes
-```
+![The extension parcels and the second page](figures/format-extension.svg)
 
 **9.4.2** Instructions are parcel-aligned and little-endian; an instruction may cross any boundary of 8 bytes, a cache line or a page. *(D)*
 
@@ -126,6 +111,12 @@ len=11:  page 2:    11  opc(6)  reg(4)  low(4)               1 parcel, 2 bytes
 
 ## 9.6 Moves, conversions and address formation
 
+<!-- notation -->
+**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (a drawing of the parcels and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the book explains the matter it touches (*Cf.*). The atomic instructions are in section 7.12 and the system instructions in section 6.7, where their subject is. The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) were checked against the reference executor, `common/pdp64exec.c`, which `sim64` and QEMU share, and an entry says when the executor does not implement an instruction yet. The one-parcel second page, the aliases, the constants and the lists of the mnemonics and the opcodes are in the [reference tables](dictionary/index.md).
+
+**Notation.** `Rd` is the destination register (the `reg` field of parcel 0), `Rs` the first source (`low`), `Rt` the second (`t` of parcel 1), `Ru` the third (`x`); the assembler writes the destination last. `rm` is a general operand: a register at `len = 00`, or a memory operand, an immediate or an absolute address by one of the eight addressing modes (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. A `len = 01` instruction is two parcels (four bytes) and a `len = 10` instruction three (six bytes); `len = 11` is page 2. `N Z V C` are the condition flags. In the drawings the bits of a parcel are numbered from 15 at the left, a shaded box is a fixed value, and a white box is a field that varies.
+<!-- /notation -->
+
 *Cf. section 6.4 for the memory types that decide whether an access is cached, and section 6.8 for what a faulting load leaves behind.*
 
 **9.6.1** `MOVQ`, `MOVL`, `MOVW` and `MOVB` load and store 64, 32, 16 and 8 bits; the loads sign-extend. `MOVZL`, `MOVZW` and `MOVZB` load with zero extension. *(opcodes `0x00`-`0x0A`)*
@@ -141,6 +132,169 @@ len=11:  page 2:    11  opc(6)  reg(4)  low(4)               1 parcel, 2 bytes
 **9.6.6** Page 2 abbreviates the common cases to one parcel: loads and stores through `(rn)`, loads and stores at small offsets from `SP`, `LEA` from `SP`, and `MOVQ #imm, rd` with a four-bit immediate. *(D)*
 
 *Commentary.* **Precedent.** The PDP-11 had `MOV` and `MOVB` with a byte sign-extended into a register; the VAX had a sized `MOV` for every width. **Trade-offs.** Keeping the sized loads costs four extra opcodes against a quad-only design, but without `MOVL` a struct field load becomes two `MOVW`s, a shift and an or, and ELF, timestamps and most on-disk and wire structures are full of 32- and 16-bit fields. **Improvements.** There is no separate `CVT` group: the conversions are the moves with a register source, so they cost nothing. **Benefits.** No partial-register state anywhere. **Modern comparables.** AArch64 and RISC-V have the same sized loads with sign and zero extension; x86-64 keeps 8- and 16-bit register writes that preserve the upper bits, which makes narrow writes depend on the old value. **Use.** `LEA 0(PC)` is how a position-independent program finds itself; the unaligned forms are for packed on-disk and network structures. **Impact.** *Kernel:* `LEA 0(PC)` lets position-independent kernel code find itself; the unaligned forms read packed on-disk and network structures. *Compiler:* Sized loads avoid the shift, mask and or of a struct-field read, and the conversions are moves, so no separate conversion selection exists. *Hardware:* No partial-register write anywhere; the conversions reuse the load-extend path.
+
+<!-- entries:9.6 -->
+### MOV: Move, load and store (64, 32, 16 and 8 bits)
+
+**Mnemonics:** `MOVQ`, `MOVL`, `MOVW`, `MOVB`
+
+**Syntax**
+
+```
+MOVQ rm, Rd        ; load
+MOVQ Rs, rm        ; store
+MOVL, MOVW, MOVB likewise
+```
+
+**Encoding**
+
+![Encoding of MOV](figures/mov.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+| Mnemonic | Opcode (the load or direct form) |
+|---|---|
+| `MOVQ` | `0x00` |
+| `MOVL` | `0x02` |
+| `MOVW` | `0x04` |
+| `MOVB` | `0x06` |
+
+The store form of each move has the opcode of its load form plus 1: `MOVQ` `0x01`, `MOVL` `0x03`, `MOVW` `0x05`, `MOVB` `0x07`.
+
+**Operation**
+
+```
+size = 8 (MOVQ), 4 (MOVL), 2 (MOVW) or 1 (MOVB) bytes
+load :  Rd <- sext(M[EA(rm)], size)          ; len = 00: Rd <- sext(Rs[8*size-1:0])
+store:  M[EA(rm)] <- Rs[8*size-1:0]          ; len = 00: Rd <- sext(Rs[8*size-1:0])
+```
+
+**Flags** None written. (Errata 39: moves, loads and stores write no flags.)
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`. Page 2 abbreviates the loads and stores through `(rn)`, at small offsets from `SP` and from a register, and `MOVQ #imm, rd` with a 4-bit immediate (see the page-2 table).
+
+**Cf.** 6.4 for the memory type that decides whether the access is cached; 6.8 for what a faulting access leaves behind.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MOVZ: Move zero-extended (32, 16 and 8 bits)
+
+**Mnemonics:** `MOVZL`, `MOVZW`, `MOVZB`
+
+**Syntax**
+
+```
+MOVZL rm, Rd
+MOVZW rm, Rd
+MOVZB rm, Rd
+```
+
+**Encoding**
+
+![Encoding of MOVZ](figures/movz.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+| Mnemonic | Opcode (the load or direct form) |
+|---|---|
+| `MOVZL` | `0x08` |
+| `MOVZW` | `0x09` |
+| `MOVZB` | `0x0A` |
+
+**Operation**
+
+```
+Rd <- zext(M[EA(rm)], size)      ; len = 00: Rd <- zext(Rs[8*size-1:0])
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+There is no zero-extending 64-bit move (it would be `MOVQ`). At `len = 00` these are the zero-extending half of the conversion set.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### LEA: Load effective address
+
+**Mnemonics:** `LEA`
+
+**Syntax**
+
+```
+LEA d(Rn), Rd
+LEA d(PC), Rd
+LEA d(Rn)(Rx*s), Rd
+```
+
+**Encoding**
+
+![Encoding of LEA](figures/lea.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+Rd <- EA(rm)          ; no memory access
+```
+
+**Flags** None written.
+
+**Exceptions** The operand must name memory; `len = 00` (a register) and the immediate mode are reserved. No memory access is made, so the instruction takes no memory fault. A reserved encoding aborts with the illegal-instruction vector.
+
+`LEA 0(PC), Rd` is how the program counter is read: it puts the address of the `LEA` itself in `Rd`. At `len = 10` it forms any address within ±2 GB of itself PC-relatively in six bytes. The base of every PC-relative displacement is the address of the first parcel of the instruction.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MOVU: Unaligned load and store
+
+**Mnemonics:** `MOVUB`, `MOVUW`, `MOVUL`, `MOVUQ`
+
+**Syntax**
+
+```
+MOVUQ rm, Rd        ; load, any alignment
+MOVUQ Rs, rm        ; store, any alignment
+MOVUW, MOVUL, MOVUB likewise
+```
+
+**Encoding**
+
+![Encoding of MOVU](figures/movu.svg)
+
+Parcel 0's `low` is an addressing mode, as in the ordinary memory format; parcel 1 is `sub(4) rm(4) disp(8)` (16 more displacement bits per further parcel).
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `MOVUB` | `0x0` |
+| `MOVUW` | `0x2` |
+| `MOVUL` | `0x4` |
+| `MOVUQ` | `0x6` |
+
+**Operation**
+
+```
+size = 1, 2, 4 or 8 bytes
+load :  Rd <- sext(M[EA(rm)], size)            ; the access may cross an alignment boundary
+store:  M[EA(rm)] <- Rs[8*size-1:0]
+```
+
+**Flags** None written.
+
+**Exceptions** Page and protection faults and bus errors as for any memory operand; **no alignment fault**.
+
+The ordinary moves fault on a misaligned address (the alignment fault is the tag check of section 9.5); these are the explicit forms for data that is not aligned, in `MESC`.
+
+**Cf.** 6.4, 6.8.
+
+**Status** specified; **not yet implemented** in the reference executor.
+<!-- /entries:9.6 -->
 
 ## 9.7 Integer arithmetic
 
@@ -158,6 +312,531 @@ len=11:  page 2:    11  opc(6)  reg(4)  low(4)               1 parcel, 2 bytes
 
 *Commentary.* **Precedent.** `ADD`, `SUB`, `CMP`, `BIT`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning except for the order of `CMP`'s operands. **Trade-offs.** The PDP-11 wrote `CMP a, b` to compute `a - b`; since the destination of an ALU operation here must be a register, a literal `src, dst` reading would force every comparison against an immediate or memory to be reversed, so the register comes first. Divide was demoted to four bytes because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs was added; a second unsigned multiply, which turned out to be the same instruction as the first, was not. **Benefits.** `SET` replaces a branch around a move for the very common "store the truth value of a comparison", and absolute value, minimum and maximum remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULHU` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; AArch64's conditional select and set instructions are the nearest to `SET`. **Use.** `MULH` and `MULHU` are for multi-precision arithmetic and for division by constants; `ADC` and `SBC` carry a multi-word add or subtract; `MIN`, `MAX` and `ABS` appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `ADC` and `SBC` carry multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SET` materialises a comparison without a branch; `CMP` takes the register first, as the compiler orders its operands. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
 
+<!-- entries:9.7 -->
+### ADD: Add
+
+**Mnemonics:** `ADD`
+
+**Syntax**
+
+```
+ADD rm, Rd
+```
+
+**Encoding**
+
+![Encoding of ADD](figures/add.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+Rd <- Rd + rm
+```
+
+**Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a carry out of bit 63.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+All ALU operations are 64 bits, with no size field. Page 2 has `ADD #imm, rd` with a 4-bit immediate and `ADD #(8*n), SP`.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### SUB: Subtract
+
+**Mnemonics:** `SUB`
+
+**Syntax**
+
+```
+SUB rm, Rd
+```
+
+**Encoding**
+
+![Encoding of SUB](figures/sub.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+Rd <- Rd - rm
+```
+
+**Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+Page 2 has `SUB #(8*n), SP`.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### CMP: Compare
+
+**Mnemonics:** `CMP`
+
+**Syntax**
+
+```
+CMP Rd, rm        ; register first
+```
+
+**Encoding**
+
+![Encoding of CMP](figures/cmp.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+tmp <- Rd - rm         ; the result is discarded
+```
+
+**Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**The operands are in the order register, then the other operand**, the reverse of the PDP-11 `CMP src,dst`: `CMP Rd, rm` computes `Rd - rm`, so a compare of a register against an immediate or memory operand does not reverse its branch condition. After `CMP`, `BHIS`/`BCC` mean unsigned `>=` (no borrow) and `BLO`/`BCS` mean a borrow occurred.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MUL: Multiply, low 64 bits
+
+**Mnemonics:** `MUL`  (aliases: `MULU`)
+
+**Syntax**
+
+```
+MUL rm, Rd
+```
+
+**Encoding**
+
+![Encoding of MUL](figures/mul.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+Rd <- (Rd * rm)[63:0]         ; sign-agnostic
+```
+
+**Flags** `N` and `Z` from the result, `V` set when the signed 128-bit product does not fit in 64 bits, `C` unchanged.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+The low 64 bits of a two's-complement product are the same whether the operands are read as signed or unsigned, so there is one low-half multiply. The old mnemonic `MULU` is an alias of `MUL`. The high half is `MULH` (signed) and `MULHU` (unsigned).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MULH: Multiply, high 64 bits, signed
+
+**Mnemonics:** `MULH`
+
+**Syntax**
+
+```
+MULH rm, Rd
+```
+
+**Encoding**
+
+![Encoding of MULH](figures/mulh.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+Rd <- (sext(Rd) * sext(rm))[127:64]
+```
+
+**Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+With `MULH`, division by a constant is a multiply by a reciprocal and a shift, which is what compilers emit.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### ADDM: ALU operation with a memory destination
+
+**Mnemonics:** `ADDM`, `SUBM`, `BICM`, `BISM`
+
+**Syntax**
+
+```
+ADDM Rs, rm
+SUBM Rs, rm
+BICM Rs, rm
+BISM Rs, rm
+```
+
+**Encoding**
+
+![Encoding of ADDM](figures/addm.svg)
+
+Parcel 0's `low` is an addressing mode, as in the ordinary memory format; parcel 1 is `sub(4) rm(4) disp(8)` (16 more displacement bits per further parcel).
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `ADDM` | `0x8` |
+| `SUBM` | `0x9` |
+| `BICM` | `0xA` |
+| `BISM` | `0xB` |
+
+**Operation**
+
+```
+ADDM: M[EA] <- M[EA] + Rs
+SUBM: M[EA] <- M[EA] - Rs
+BICM: M[EA] <- M[EA] AND NOT Rs
+BISM: M[EA] <- M[EA] OR Rs
+```
+
+**Flags** As for `ADD`, `SUB`, `BIC` and `BIS`.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. Write permission is checked during the read access, so the write cannot fault after the read has succeeded.
+
+Parcel 0's low nibble is a mode, as in the ordinary memory format, so these are `MESC` forms with a memory destination (`len >= 01`). `INC`, `DEC`, `NEG`, `COM` and `CLR` on a memory operand are in `SOP`.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### INC: Increment
+
+**Mnemonics:** `INC`
+
+**Syntax**
+
+```
+INC rm
+```
+
+**Encoding**
+
+![Encoding of INC](figures/inc.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+rm <- rm + 1
+```
+
+**Flags** `N`, `Z` and `V` as for `ADD`; `C` **unchanged**.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### DEC: Decrement
+
+**Mnemonics:** `DEC`
+
+**Syntax**
+
+```
+DEC rm
+```
+
+**Encoding**
+
+![Encoding of DEC](figures/dec.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+rm <- rm - 1
+```
+
+**Flags** `N`, `Z` and `V` as for `SUB`; `C` **unchanged**.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### NEG: Negate
+
+**Mnemonics:** `NEG`
+
+**Syntax**
+
+```
+NEG rm
+```
+
+**Encoding**
+
+![Encoding of NEG](figures/neg.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+rm <- 0 - rm
+```
+
+**Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger. (`C` = 1 unless the operand was 0.)
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### ADC: Add carry
+
+**Mnemonics:** `ADC`
+
+**Syntax**
+
+```
+ADC rm
+```
+
+**Encoding**
+
+![Encoding of ADC](figures/adc.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+rm <- rm + C
+```
+
+**Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a carry out of bit 63.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+With `ADD`, multi-word addition.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### SBC: Subtract carry
+
+**Mnemonics:** `SBC`
+
+**Syntax**
+
+```
+SBC rm
+```
+
+**Encoding**
+
+![Encoding of SBC](figures/sbc.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+rm <- rm - C
+```
+
+**Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### DIV: Divide and remainder, signed and unsigned
+
+**Mnemonics:** `DIV`, `DIVU`, `MOD`, `MODU`
+
+**Syntax**
+
+```
+DIV Ra, Rb, Rd
+DIVU Ra, Rb, Rd
+MOD Ra, Rb, Rd
+MODU Ra, Rb, Rd
+```
+
+**Encoding**
+
+![Encoding of DIV](figures/div.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `DIV` | `0x00` |
+| `DIVU` | `0x01` |
+| `MOD` | `0x02` |
+| `MODU` | `0x03` |
+
+**Operation**
+
+```
+if Rb = 0 then divide-by-zero abort
+DIV : Rd <- Ra / Rb  (signed, rounded toward zero; INT_MIN / -1 = INT_MIN)
+DIVU: Rd <- Ra / Rb  (unsigned)
+MOD : Rd <- Ra mod Rb (signed, the sign of Ra; any value mod -1 = 0)
+MODU: Rd <- Ra mod Rb (unsigned)
+```
+
+**Flags** None written.
+
+**Exceptions** Division by zero aborts with the divide-by-zero vector (cause `DIVZERO`). There is no overflow trap: `INT_MIN / -1` returns `INT_MIN`.
+
+Division by a constant is a `MULH` and a shift, so a real divide is rare; this is why divide has no two-byte form.
+
+**Cf.** 6.2 (the divide-by-zero vector).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MULHU: Multiply, high 64 bits, unsigned
+
+**Mnemonics:** `MULHU`
+
+**Syntax**
+
+```
+MULHU Ra, Rb, Rd
+```
+
+**Encoding**
+
+![Encoding of MULHU](figures/mulhu.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- (Ra * Rb)[127:64]    ; unsigned
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+`MULHSU` (signed by unsigned) is reserved and not committed.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### ABS: Absolute value
+
+**Mnemonics:** `ABS`
+
+**Syntax**
+
+```
+ABS Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of ABS](figures/abs.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- |Rs|
+```
+
+**Flags** `N` and `Z` from the result, `V` set if `Rs` is the most negative value (the result is then still negative), `C` unchanged.
+
+**Exceptions** None.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MINMAX: Minimum and maximum, signed and unsigned
+
+**Mnemonics:** `MIN`, `MINU`, `MAX`, `MAXU`
+
+**Syntax**
+
+```
+MIN Ra, Rb, Rd
+MINU Ra, Rb, Rd
+MAX Ra, Rb, Rd
+MAXU Ra, Rb, Rd
+```
+
+**Encoding**
+
+![Encoding of MINMAX](figures/minmax.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `MIN` | `0x10` |
+| `MINU` | `0x11` |
+| `MAX` | `0x12` |
+| `MAXU` | `0x13` |
+
+**Operation**
+
+```
+MIN : Rd <- smaller of Ra, Rb (signed)         MINU: unsigned
+MAX : Rd <- larger of Ra, Rb (signed)          MAXU: unsigned
+```
+
+**Flags** `N` and `Z` from the result, `V` = 0, `C` unchanged.
+
+**Exceptions** None.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### SET: Set a register from a condition
+
+**Mnemonics:** `SET`
+
+**Syntax**
+
+```
+SET cc, Rd        ; for example SET EQ, R1
+```
+
+**Encoding**
+
+![Encoding of SET](figures/set.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- 1 if condition cc holds on the current flags, else 0
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+The condition is the `x` field of parcel 1, numbered as the low nibble of the branch opcodes (`al` 0, `ne` 1, `eq` 2, ... `los` 14).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+<!-- /entries:9.7 -->
+
 ## 9.8 Logic, shifts and rotates
 
 **9.8.1** `AND`, `BIC` (bit clear), `BIS` (bit set, the or), `XOR` and `BIT` (test) are two-byte ALU operations; `COM` is one's complement. *(opcodes `0x18`, `0x19`, `0x1B`, `0x1C`, `0x1D`)*
@@ -172,6 +851,347 @@ len=11:  page 2:    11  opc(6)  reg(4)  low(4)               1 parcel, 2 bytes
 
 *Commentary.* **Precedent.** The PDP-11 had `ASL`, `ASR`, `ROL` and `ROR` by one through the carry; x86's `SHRD` and ARM's `EXTR` are the funnel shifts. **Trade-offs.** One rotate direction is enough, so the by-one `ROL` was removed from its two-byte slot; rotates are not through the carry because a carry chain is fragile when the carry flag is shared. **Improvements.** The shift count comes from `rm`, not from a fixed register like x86's `CL`, which costs a register shuffle in every hand-written loop. **Benefits.** Multi-precision shifting is `DSHR`, two instructions for any distance. **Modern comparables.** RISC-V and AArch64 have rotates by register and by immediate; x86 has `ROL`/`ROR` through the carry as well. **Use.** `RORI` and `RORI32` are for hashes and ciphers, which rotate by constants; `DSHR` shifts a bignum. **Impact.** *Kernel:* Bit tests and mask operations on the status and page-table words are single instructions. *Compiler:* The shift count may be any register, immediate or memory operand, so the compiler never has to move a count into a fixed register; hashes and ciphers rotate by constants. *Hardware:* The barrel shifter (about 450 lookup tables) serves shifts and rotates, and writing no flag for rotates removes a result path.
 
+<!-- entries:9.8 -->
+### BIC: Bit clear
+
+**Mnemonics:** `BIC`
+
+**Syntax**
+
+```
+BIC rm, Rd
+```
+
+**Encoding**
+
+![Encoding of BIC](figures/bic.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+Rd <- Rd AND NOT rm
+```
+
+**Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+The assembler also accepts `BIC #imm, rm` as `AND #~imm, rm`.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### BIS: Bit set (inclusive or)
+
+**Mnemonics:** `BIS`
+
+**Syntax**
+
+```
+BIS rm, Rd
+```
+
+**Encoding**
+
+![Encoding of BIS](figures/bis.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+Rd <- Rd OR rm
+```
+
+**Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### BIT: Bit test
+
+**Mnemonics:** `BIT`
+
+**Syntax**
+
+```
+BIT rm, Rd
+```
+
+**Encoding**
+
+![Encoding of BIT](figures/bit.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+tmp <- Rd AND rm         ; the result is discarded
+```
+
+**Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### XOR: Exclusive or
+
+**Mnemonics:** `XOR`
+
+**Syntax**
+
+```
+XOR rm, Rd
+```
+
+**Encoding**
+
+![Encoding of XOR](figures/xor.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+Rd <- Rd XOR rm
+```
+
+**Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### AND: And
+
+**Mnemonics:** `AND`
+
+**Syntax**
+
+```
+AND rm, Rd
+```
+
+**Encoding**
+
+![Encoding of AND](figures/and.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+Rd <- Rd AND rm
+```
+
+**Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### SHIFT: Shift left, shift right logical, shift right arithmetic
+
+**Mnemonics:** `SHL`, `SHR`, `SAR`
+
+**Syntax**
+
+```
+SHL rm, Rd
+SHR rm, Rd
+SAR rm, Rd
+```
+
+**Encoding**
+
+![Encoding of SHIFT](figures/shift.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+| Mnemonic | Opcode (the load or direct form) |
+|---|---|
+| `SHL` | `0x20` |
+| `SHR` | `0x21` |
+| `SAR` | `0x22` |
+
+**Operation**
+
+```
+n <- rm                                 ; the count: a register, an immediate, or memory
+SHL: Rd <- (n >= 64) ? 0 : Rd << n
+SHR: Rd <- (n >= 64) ? 0 : Rd >>u n
+SAR: Rd <- (n >= 64) ? (Rd < 0 ? -1 : 0) : Rd >>s n
+```
+
+**Flags** `N` and `Z` from the result, `V` cleared, `C` the last bit shifted out (bit 63 for `SHL`, bit 0 for `SHR` and `SAR`). **The same flags are written for every count**: a count of zero gives `N` and `Z` from the unchanged operand, `V` = 0 and `C` = 0 (errata 39).
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+The count is read as an unsigned 64-bit value, so a count of 64 or more shifts the value entirely away. Page 2 has the three shifts by an immediate 0 to 15. `ASL` and `ASR` (in `SOP`) are the by-one forms in two bytes; rotates are in `BESC`.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### CLR: Clear
+
+**Mnemonics:** `CLR`
+
+**Syntax**
+
+```
+CLR rm
+```
+
+**Encoding**
+
+![Encoding of CLR](figures/clr.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+rm <- 0
+```
+
+**Flags** `N` = 0, `Z` = 1, `V` = 0, `C` = 0.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### COM: Complement
+
+**Mnemonics:** `COM`
+
+**Syntax**
+
+```
+COM rm
+```
+
+**Encoding**
+
+![Encoding of COM](figures/com.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+rm <- NOT rm
+```
+
+**Flags** `N` and `Z` from the result, `V` = 0, `C` = 1 (the PDP-11 rule).
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+A two-byte instruction for a register operand.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### TST: Test
+
+**Mnemonics:** `TST`
+
+**Syntax**
+
+```
+TST rm
+```
+
+**Encoding**
+
+![Encoding of TST](figures/tst.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+set flags from rm; nothing is written
+```
+
+**Flags** `N` and `Z` from the operand, `V` = 0, `C` = 0.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### ASL: Arithmetic shift left by one
+
+**Mnemonics:** `ASL`
+
+**Syntax**
+
+```
+ASL rm
+```
+
+**Encoding**
+
+![Encoding of ASL](figures/asl.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+C <- rm[63] ; rm <- rm << 1
+```
+
+**Flags** `N` and `Z` from the result, `C` the bit shifted out of bit 63, `V` = `N` xor `C` (set if the sign changed: the PDP-11 rule).
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+The by-one form of `SHL` in two bytes.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### ASR: Arithmetic shift right by one
+
+**Mnemonics:** `ASR`
+
+**Syntax**
+
+```
+ASR rm
+```
+
+**Encoding**
+
+![Encoding of ASR](figures/asr.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+C <- rm[0] ; rm <- rm >>s 1
+```
+
+**Flags** `N` and `Z` from the result, `C` the bit shifted out of bit 0, `V` = 0.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+The by-one form of `SAR` in two bytes.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+<!-- /entries:9.8 -->
+
 ## 9.9 Bits, bytes and text
 
 **9.9.1** The bit-and-field escape provides `CLZ`, `CTZ`, `CLO`, `CTO` (count leading and trailing zeros and ones), `POPCNT`, `BSWAP`, `BSWAPW`, `BSWAPL` and `BITREV`. *(opcode `0x0C`)*
@@ -185,6 +1205,505 @@ len=11:  page 2:    11  opc(6)  reg(4)  low(4)               1 parcel, 2 bytes
 **9.9.5** `UTF8LEN`, `UTF8DEC` and `UTF8ENC` find the length of, decode and encode a UTF-8 sequence, and reject overlong forms, surrogates, out-of-range values and bad continuation bytes. *(D)*
 
 *Commentary.* **Precedent.** The PDP-11 had `SWAB`; the VAX had bit-field instructions and a table-driven `CRC`; x86 added `POPCNT`, `LZCNT` and `PCLMULQDQ` late, and committed `CRC32` to one polynomial. **Trade-offs.** A bit unit is one shared structure: `POPCNT`, `XNORPOP` and a garbage collector's mark-bitmap scan all want the same 64-input adder tree, and `CLZ` and its relatives want a priority encoder over the same operand. **Improvements.** A carry-less multiply replaced a `CRC` instruction: no polynomial is baked in, and the same instruction serves CRC, the Galois-counter-mode authentication used in TLS, and hashing. Every UTF-8 security hole of the past is three comparators, which an instruction cannot omit and software often does. **Benefits.** The bit unit and the UTF-8 decoder together cost less than 5% of the die. **Modern comparables.** RISC-V's bit-manipulation and carry-less-multiply extensions, AArch64's `CLZ`, `RBIT`, `REV` and `PMULL`, and x86's `PCLMULQDQ`. **Use.** `POPCNT` for bitsets and Hamming distance; `XNORPOP` for binary-weight neural networks and bitset intersection; `CLMUL` for CRC, GCM and fingerprinting; `UTF8*` for text validation in parsers and kernels. **Impact.** *Kernel:* `CTZ` and `CLZ` find the first set bit in a run-queue or free-page bitmap; `POPCNT` counts bits in bitmaps; `BSWAP` converts network byte order. *Compiler:* The compiler maps `__builtin_clz`, `__builtin_popcount` and `__builtin_bswap` directly, and a carry-less multiply is the primitive for CRC and hashing code. *Hardware:* One bit unit holds a shared 64-input adder tree and a priority encoder, and the UTF-8 comparators are about 300 lookup tables.
+
+<!-- entries:9.9 -->
+### COUNT: Count leading and trailing zeros and ones
+
+**Mnemonics:** `CLZ`, `CTZ`, `CLO`, `CTO`
+
+**Syntax**
+
+```
+CLZ Rs, Rd
+CTZ Rs, Rd
+CLO Rs, Rd
+CTO Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of COUNT](figures/count.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Register to register only; four bytes.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `CLZ` | `0x00` |
+| `CTZ` | `0x01` |
+| `CLO` | `0x02` |
+| `CTO` | `0x03` |
+
+**Operation**
+
+```
+CLZ: Rd <- number of leading zero bits of Rs        (64 if Rs = 0)
+CTZ: Rd <- number of trailing zero bits of Rs       (64 if Rs = 0)
+CLO: Rd <- number of leading one bits of Rs         (64 if Rs = all ones)
+CTO: Rd <- number of trailing one bits of Rs        (64 if Rs = all ones)
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+`CTZ` is the VAX `FFS`. Bit manipulation is core on a machine that does filesystem and bignum work, not an extension.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### POPCNT: Population count
+
+**Mnemonics:** `POPCNT`
+
+**Syntax**
+
+```
+POPCNT Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of POPCNT](figures/popcnt.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- number of one bits in Rs
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### BSWAP: Byte swap
+
+**Mnemonics:** `BSWAP`, `BSWAPW`, `BSWAPL`
+
+**Syntax**
+
+```
+BSWAP Rs, Rd
+BSWAPW Rs, Rd
+BSWAPL Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of BSWAP](figures/bswap.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `BSWAP` | `0x05` |
+| `BSWAPW` | `0x06` |
+| `BSWAPL` | `0x07` |
+
+**Operation**
+
+```
+BSWAP : Rd <- Rs with all 8 bytes reversed
+BSWAPW: Rd <- Rs with the bytes of each 16-bit word reversed
+BSWAPL: Rd <- Rs with the bytes of each 32-bit long reversed
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+The generalisation of the PDP-11 `SWAB` to 64 bits.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### BITREV: Reverse the bits
+
+**Mnemonics:** `BITREV`
+
+**Syntax**
+
+```
+BITREV Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of BITREV](figures/bitrev.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- Rs with bit i moved to bit 63-i
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### ROR: Rotate right by a register count
+
+**Mnemonics:** `ROR`
+
+**Syntax**
+
+```
+ROR Ra, Rb, Rd
+```
+
+**Encoding**
+
+![Encoding of ROR](figures/ror.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- Ra rotated right by (Rb mod 64)
+```
+
+**Flags** None written (rotates write no flags: errata 39).
+
+**Exceptions** None.
+
+There is no rotate left instruction: `ROL rs, #n, rd` is an assembler spelling of `RORI rs, #(64-n), rd`. No rotate is through carry; multi-word shifting uses `DSHR`.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### RORI: Rotate right by an immediate
+
+**Mnemonics:** `RORI`  (aliases: `ROL`)
+
+**Syntax**
+
+```
+RORI Rs, #n, Rd
+ROL Rs, #n, Rd        ; assembles to RORI Rs, #(64-n), Rd
+```
+
+**Encoding**
+
+![Encoding of RORI](figures/rori.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Parcel 1 is `sub:8 count:8`.
+
+**Operation**
+
+```
+Rd <- Rs rotated right by (n mod 64)
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+Four bytes: the count is in the low byte of parcel 1.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### RORI32: Rotate right by an immediate, 32 bits
+
+**Mnemonics:** `RORI32`
+
+**Syntax**
+
+```
+RORI32 Rs, #n, Rd
+```
+
+**Encoding**
+
+![Encoding of RORI32](figures/rori32.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- sext32(ror32(Rs[31:0], n mod 32))
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+The 32-bit rotate with the result sign-extended like every 32-bit result; the primitive of most hash functions and ciphers.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### DSHR: Double-width funnel shift right
+
+**Mnemonics:** `DSHR`
+
+**Syntax**
+
+```
+DSHR Ra, Rb, #n, Rd
+```
+
+**Encoding**
+
+![Encoding of DSHR](figures/dshr.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+t <- Ra:Rb                    ; 128 bits, Ra the high half
+Rd <- (t >> n)[63:0]          ; n = 0..63
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+x86 `SHRD`, ARM `EXTR`. Six bytes (the count is in parcel 2). A 128-bit left shift by k is `DSHR hi, hi, lo, #(64-k)` then `SHL #k, lo`.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### EXTB: Extract a bit field
+
+**Mnemonics:** `EXTB`, `EXTZB`
+
+**Syntax**
+
+```
+EXTB Rs, #pos, #width, Rd        ; sign-extended
+EXTZB Rs, #pos, #width, Rd       ; zero-extended
+```
+
+**Encoding**
+
+![Encoding of EXTB](figures/extb.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `EXTB` | `0x21` |
+| `EXTZB` | `0x22` |
+
+**Operation**
+
+```
+Rd <- ext((Rs >> pos)[width-1:0])          ; sext for EXTB, zext for EXTZB; width 0 or > 64 means 64
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+Six bytes (position and width are in parcel 2), so these exist at `len = 10` only.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### INSB: Insert a bit field
+
+**Mnemonics:** `INSB`
+
+**Syntax**
+
+```
+INSB Rs, #pos, #width, Rd
+```
+
+**Encoding**
+
+![Encoding of INSB](figures/insb.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+mask <- ((1 << width) - 1) << pos
+Rd <- (Rd AND NOT mask) OR ((Rs << pos) AND mask)
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+Six bytes. `Rd` is both source and destination.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### XNORPOP: Population count of the equality of two words
+
+**Mnemonics:** `XNORPOP`
+
+**Syntax**
+
+```
+XNORPOP Ra, Rb, Rd
+```
+
+**Encoding**
+
+![Encoding of XNORPOP](figures/xnorpop.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- popcount(NOT (Ra XOR Rb))
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (book section 8.3).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### CLMUL: Carry-less multiply
+
+**Mnemonics:** `CLMULL`, `CLMULH`
+
+**Syntax**
+
+```
+CLMULL Ra, Rb, Rd
+CLMULH Ra, Rb, Rd
+```
+
+**Encoding**
+
+![Encoding of CLMUL](figures/clmul.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `CLMULL` | `0x31` |
+| `CLMULH` | `0x32` |
+
+**Operation**
+
+```
+p <- carry-less (polynomial over GF(2)) product of Ra and Rb      ; 128 bits
+CLMULL: Rd <- p[63:0]
+CLMULH: Rd <- p[127:64]
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+The primitive under every CRC (with a Barrett reduction), GF(2^k) arithmetic and GCM; no polynomial is committed to the architecture.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### UTF8LEN: Length of a UTF-8 sequence from its leading byte
+
+**Mnemonics:** `UTF8LEN`
+
+**Syntax**
+
+```
+UTF8LEN Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of UTF8LEN](figures/utf8len.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- length (1 to 4) implied by the leading byte Rs[7:0]; 0 if it cannot begin a valid sequence
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### UTF8DEC: Decode a UTF-8 sequence
+
+**Mnemonics:** `UTF8DEC`
+
+**Syntax**
+
+```
+UTF8DEC Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of UTF8DEC](figures/utf8dec.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rs holds up to 4 bytes, leading byte in bits 7..0
+Rd <- the scalar value
+V  <- 1 if the sequence is not a valid encoding
+```
+
+**Flags** `V` set for a bad continuation byte, an overlong form, a surrogate (U+D800 to U+DFFF), a value above U+10FFFF, or a leading byte of `0xC0`, `0xC1` or `0xF5` to `0xFF`; the length consumed is reported in a scratch field of the status word (details in the instruction-set text, section 4.6.1).
+
+**Exceptions** None.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### UTF8ENC: Encode a Unicode scalar value
+
+**Mnemonics:** `UTF8ENC`
+
+**Syntax**
+
+```
+UTF8ENC Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of UTF8ENC](figures/utf8enc.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. 
+
+**Operation**
+
+```
+Rd <- the UTF-8 bytes of the scalar value Rs, leading byte in bits 7..0
+V  <- 1 if Rs is not a Unicode scalar value
+```
+
+**Flags** `V` set if `Rs` is not a Unicode scalar value (a surrogate or above U+10FFFF).
+
+**Exceptions** None.
+
+**Status** specified; **not yet implemented** in the reference executor.
+<!-- /entries:9.9 -->
 
 ## 9.10 Branches and control flow
 
@@ -204,6 +1723,299 @@ len=11:  page 2:    11  opc(6)  reg(4)  low(4)               1 parcel, 2 bytes
 
 *Commentary.* **Precedent.** The complete PDP-11 branch set, which the long-branch problem of the PDP-11 (±256 bytes) made awkward, here reaches ±4 GB with no long-branch opcode and no trampoline, because the displacement widens with the length. `SOB` was the PDP-11's, which could only branch backward. **Trade-offs.** A compare-and-branch that writes no flags cannot feed a second branch that reads them, so a three-way compare is compare-then-branch; the compiler fuses only where the flags are dead afterwards, which cost about 0.4% in code size and was accepted. **Improvements.** The tag branches serve a Lisp or other tagged runtime in one instruction. **Benefits.** Branch relaxation in the assembler is just choosing a length. **Modern comparables.** RISC-V and MIPS are compare-and-branch machines with no flags; AArch64 has `CBZ` and `TBZ`; x86 uses flags like the pdp64's branches. **Use.** `JMPI` and `CALLI` are the shared-library call and the virtual call; `JTAG` is the dispatch of a dynamic-language interpreter. **Impact.** *Kernel:* `JMPI`, `CALLI` and `JTAG` are the shared-library call, the virtual call and the dispatch of an interpreter; `SOB` and `CBCC` are the loops of the kernel's inner routines. *Compiler:* Branch relaxation is choosing a length; fusing a compare and a branch is legal only where the flags are dead afterwards, so the compiler needs a flag-liveness analysis. *Hardware:* The next-PC mux takes the load-return path for the indirect forms; the compare-and-branch compare runs in the branch unit beside the ALU; displacements count parcels, so no shifter is needed.
 
+<!-- entries:9.10 -->
+### BCC: Branch on condition
+
+**Mnemonics:** `BR`, `BNE`, `BEQ`, `BPL`, `BMI`, `BVC`, `BVS`, `BCC`, `BCS`, `BGE`, `BLT`, `BGT`, `BLE`, `BHI`, `BLOS`  (aliases: `BHIS`, `BLO`)
+
+**Syntax**
+
+```
+BR target
+BNE target
+BEQ target ... and the rest
+```
+
+**Encoding**
+
+![Encoding of the conditional branches](figures/bcc.svg)
+
+The displacement is signed and counts 2-byte parcels from the first parcel of the instruction: 8 bits at `len = 00` (about ±256 bytes), 16 bits at `len = 01` (±64 KB), 32 bits in parcels 1 and 2 at `len = 10` (±4 GB).
+
+| Mnemonic | Opcode |
+|---|---|
+| `BR` | `0x30` (condition 0) |
+| `BNE` | `0x31` (condition 1) |
+| `BEQ` | `0x32` (condition 2) |
+| `BPL` | `0x33` (condition 3) |
+| `BMI` | `0x34` (condition 4) |
+| `BVC` | `0x35` (condition 5) |
+| `BVS` | `0x36` (condition 6) |
+| `BCC` | `0x37` (condition 7) |
+| `BCS` | `0x38` (condition 8) |
+| `BGE` | `0x39` (condition 9) |
+| `BLT` | `0x3A` (condition 10) |
+| `BGT` | `0x3B` (condition 11) |
+| `BLE` | `0x3C` (condition 12) |
+| `BHI` | `0x3D` (condition 13) |
+| `BLOS` | `0x3E` (condition 14) |
+
+**Operation**
+
+```
+if cond(c) then PC <- address of this instruction + 2 * disp
+```
+
+**Flags** None written.
+
+**Exceptions** None; a branch to an unmapped or non-executable address faults on the fetch of the target.
+
+Condition numbers: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. Conditions on the flags: `ne` `!Z`; `eq` `Z`; `pl` `!N`; `mi` `N`; `vc` `!V`; `vs` `V`; `cc` `!C`; `cs` `C`; `ge` `N == V`; `lt` `N != V`; `gt` `!Z and N == V`; `le` `Z or N != V`; `hi` `!C and !Z`; `los` `C or Z`. The displacement counts 2-byte parcels; the branch reaches ±4 GB with no long-branch instruction.
+
+**Cf.** 6.7 for `TRAP`, `RTI` and `RTT`.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### SOB: Subtract one and branch
+
+**Mnemonics:** `SOB`
+
+**Syntax**
+
+```
+SOB Rn, target
+```
+
+**Encoding**
+
+![Encoding of SOB](figures/sob.svg)
+
+From `len = 01`; the signed displacement is 16 bits (32 at `len = 10`).
+
+**Operation**
+
+```
+Rn <- Rn - 1
+if Rn != 0 then PC <- address of this instruction + 2 * disp
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+Restored from the PDP-11, where it could branch only backward; here the signed displacement goes either way. Four bytes at least.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### CBCC: Compare and branch on condition
+
+**Mnemonics:** `CBNE`, `CBEQ`, `CBPL`, `CBMI`, `CBVC`, `CBVS`, `CBCC`, `CBCS`, `CBGE`, `CBLT`, `CBGT`, `CBLE`, `CBHI`, `CBLOS`  (aliases: `CBHIS`, `CBLO`)
+
+**Syntax**
+
+```
+CBNE Rd, #imm, target
+CBEQ Ra, Rb, target ... and the rest
+```
+
+**Encoding**
+
+![Encoding of CBCC](figures/cbcc-cbcc.svg)
+
+`CBCC` (opcode `0x28`), four bytes: a signed 5-bit immediate (-16 to 15) and an 11-bit displacement in parcels. At `len = 10` (six bytes) parcel 1 is `imm(5) disp(26..16)` and parcel 2 `disp(15..0)`.
+
+![Encoding of CBW](figures/cbcc-cbw.svg)
+
+`CBW` (opcode `0x29`), six bytes: a 16-bit immediate and a 16-bit displacement in parcels.
+
+![Encoding of CBRR](figures/cbcc-cbrr.svg)
+
+`CBRR` (opcode `0x2A`), four bytes (six at `len = 10`, with a 28-bit displacement): compares two registers. The condition numbers are those of the branches: `al` 0, `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. There is no `len = 00` form.
+
+**Operation**
+
+```
+tmp <- Rd - (imm or Rb)         ; as CMP, for the decision only
+if cond(c) on that comparison then PC <- address of this instruction + 2 * disp
+```
+
+**Flags** **None written** (errata 39): the instruction computes the comparison for its own decision and leaves `N Z V C` as they were.
+
+**Exceptions** None.
+
+Three encodings, chosen by the assembler: `CBCC` (`0x28`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`0x29`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`0x2A`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### BTAG: Branch on pointer tag
+
+**Mnemonics:** `BTAG`, `BNTAG`
+
+**Syntax**
+
+```
+BTAG Rn, #tag, target
+BNTAG Rn, #tag, target
+```
+
+**Encoding**
+
+![Encoding of BTAG and BNTAG](figures/btag.svg)
+
+`sense` is 0 for `BTAG` and 1 for `BNTAG`; `tag` is the 3-bit tag. The displacement is 16 bits (32 at `len = 10`).
+
+**Operation**
+
+```
+BTAG : if (Rn & 7) == tag then PC <- address of this instruction + 2 * disp
+BNTAG: if (Rn & 7) != tag then PC <- address of this instruction + 2 * disp
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`). Four bytes at least; the displacement is 16 bits (32 at `len = 10`).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### JMP: Jump
+
+**Mnemonics:** `JMP`
+
+**Syntax**
+
+```
+JMP rm        ; a register, or an address by any memory mode
+```
+
+**Encoding**
+
+![Encoding of JMP](figures/jmp.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+PC <- (register operand) ? Rm : EA(rm)
+```
+
+**Flags** None written.
+
+**Exceptions** A jump to an unmapped or non-executable address faults on the fetch of the target.
+
+A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` through a scaled index.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### CALL: Call
+
+**Mnemonics:** `CALL`
+
+**Syntax**
+
+```
+CALL rm
+```
+
+**Encoding**
+
+![Encoding of CALL](figures/call.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+t <- (register operand) ? Rm : EA(rm)
+SP <- SP - 8 ; M[SP] <- address of the next instruction
+PC <- t
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+The return address is on the data stack where every unwinder and debugger expects it. `RET` pops it.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### JMPI: Jump and call through memory
+
+**Mnemonics:** `JMPI`, `CALLI`
+
+**Syntax**
+
+```
+JMPI rm        ; PC <- M[EA]
+CALLI rm       ; push the return address, then PC <- M[EA]
+```
+
+**Encoding**
+
+![Encoding of JMPI](figures/jmpi.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+| Mnemonic | `reg` (sub-opcode) |
+|---|---|
+| `JMPI` | `0x0` |
+| `CALLI` | `0x1` |
+
+**Operation**
+
+```
+JMPI : PC <- M[EA(rm)]
+CALLI: t <- M[EA(rm)] ; SP <- SP - 8 ; M[SP] <- address of the next instruction ; PC <- t
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. For `CALLI` the order is specified: load the target, then push, then transfer; a fault on the load leaves nothing changed.
+
+The one deferred reference the architecture admits, for control transfer only: the PLT stub (`JMPI got_slot(PC)`) and virtual-method dispatch (`CALLI vtbl_off(Robj)`). It needs a memory operand, so it is four bytes at least.
+
+**Status** implemented in the reference executor for `CALLI`; not yet for the others.
+
+
+### JTAG: Jump through a tag table
+
+**Mnemonics:** `JTAG`
+
+**Syntax**
+
+```
+JTAG d(Rb)(Rx*s)
+```
+
+**Encoding**
+
+![Encoding of JTAG](figures/jtag.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+PC <- M[Rb + d + 8 * (Rx & 7)]
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+Legal only with the scaled-index mode (`0001`). Dispatches on the low three bits of a tagged pointer through a table of eight entries; the 3-bit tag cannot index out of range.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+<!-- /entries:9.10 -->
+
 ## 9.11 The stack and block operations
 
 *Cf. section 6.8 for restarting a block operation after a fault (progress is held in registers) and section 6.4 for the page faults it can take; section 7.2 for how block operations order their accesses.*
@@ -220,6 +2032,320 @@ len=11:  page 2:    11  opc(6)  reg(4)  low(4)               1 parcel, 2 bytes
 
 *Commentary.* **Precedent.** The VAX's `MOVC5` is the canonical argument against such instructions: its operands could be memory, its architectural definition needed the original values to survive, and so it required hidden state and a first-part-done bit in the status word to resume. The PDP-10 had a block transfer, and x86's `REP MOVS` keeps its progress in registers as the pdp64's do. **Trade-offs.** This is the one admitted exception to the one-memory-operand rule, accepted because its mechanism, hidden state, is absent: the state is the registers, which are already architectural. A large copy can evict the whole data cache, and a non-temporal variant is an open question. **Improvements.** ARM reached the same design in 2022 with `FEAT_MOPS`, whose specification says the registers are updated so that progress is not lost. **Benefits.** The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors. **Modern comparables.** x86 `REP MOVSB` and `REP STOSB` with fast-string microcode; AArch64 `CPYP`/`CPYM`/`CPYE` and `SETP`/`SETM`/`SETE`; s390 `MVC`. **Use.** `memcpy`, `memmove`, `memset`, `memcmp` and `memchr` in the C library; `MVAL` in parsers and kernels. **Impact.** *Kernel:* `PUSHM`, `POPM`, `PUSHX` and `POPX` shorten entry, exit and the context switch, and the block operations are `copyin`, `copyout`, page clearing and `memcpy`. *Compiler:* A prologue and an epilogue are one instruction each, and `memcpy` and `memset` lower to the block operations. *Hardware:* The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors, with no hidden state.
 
+<!-- entries:9.11 -->
+### PUSHM: Push registers by mask
+
+**Mnemonics:** `PUSHM`
+
+**Syntax**
+
+```
+PUSHM #mask        ; a 16-bit immediate, bit n is Rn
+```
+
+**Encoding**
+
+![Encoding of PUSHM](figures/pushm.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+for n = 0 to 15, if mask bit n:
+    SP <- SP - 8 ; M[SP] <- Rn
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. A mask that includes `R14` (`SP`) is reserved.
+
+Four bytes (mode `0100`, immediate). The registers are pushed in ascending order, so `POPM` with the same mask restores them. Page 2 has an 8-bit mask for `R8` to `R15`.
+
+**Cf.** 6.8 for the restart rule.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### POPM: Pop registers by mask
+
+**Mnemonics:** `POPM`
+
+**Syntax**
+
+```
+POPM #mask
+```
+
+**Encoding**
+
+![Encoding of POPM](figures/popm.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+for n = 15 down to 0, if mask bit n:
+    Rn <- M[SP] ; SP <- SP + 8
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+The mirror of `PUSHM`; four bytes, with an 8-bit-mask form on page 2.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### PUSH: Push
+
+**Mnemonics:** `PUSH`
+
+**Syntax**
+
+```
+PUSH rm
+```
+
+**Encoding**
+
+![Encoding of PUSH](figures/push.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+v <- rm ; SP <- SP - 8 ; M[SP] <- v
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+A one-parcel instruction for a register operand.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### POP: Pop
+
+**Mnemonics:** `POP`
+
+**Syntax**
+
+```
+POP rm
+```
+
+**Encoding**
+
+![Encoding of POP](figures/pop.svg)
+
+The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+
+**Operation**
+
+```
+v <- M[SP] ; SP <- SP + 8 ; rm <- v
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MCPY: Copy a block of bytes
+
+**Mnemonics:** `MCPY`, `MMOV`
+
+**Syntax**
+
+```
+MCPY Rd, Rs, Rn        ; destination pointer, source pointer, count
+MMOV Rd, Rs, Rn        ; correct for overlap
+```
+
+**Encoding**
+
+![Encoding of MCPY](figures/mcpy.svg)
+
+`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `MCPY` | `0x00` |
+| `MMOV` | `0x01` |
+
+**Operation**
+
+```
+MCPY:                            ; ascending; overlap is undefined
+  while Rn != 0:  M8[Rd] <- M8[Rs] ; Rd <- Rd + 1 ; Rs <- Rs + 1 ; Rn <- Rn - 1
+MMOV: as MCPY, but the direction is chosen from the pointers so that an overlapping copy is correct
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. The three registers are updated as work completes, so a fault leaves a consistent state and the instruction restarts from its registers.
+
+The one granted exception to the one-memory-operand rule. All three registers are architectural state: on completion `Rn` is 0 and `Rd` and `Rs` point one past the end. An implementation may move more than a byte per step, so long as the register state at every point where an exception can be taken is consistent with a byte-at-a-time copy. The accesses made inside one block operation are unordered with respect to each other.
+
+**Cf.** 6.8 (restart, progress faults); 7.2 (ordering of the accesses).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MSET: Fill a block of bytes
+
+**Mnemonics:** `MSET`
+
+**Syntax**
+
+```
+MSET Rd, Rv, Rn
+```
+
+**Encoding**
+
+![Encoding of MSET](figures/mset.svg)
+
+`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+
+**Operation**
+
+```
+while Rn != 0:  M8[Rd] <- Rv[7:0] ; Rd <- Rd + 1 ; Rn <- Rn - 1
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+`MSET` with `Rv = 0` is the range-zeroing instruction: `bzero` and the clear of `calloc` are one instruction.
+
+**Cf.** 6.8.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MCMP: Compare two blocks of bytes
+
+**Mnemonics:** `MCMP`
+
+**Syntax**
+
+```
+MCMP Rd, Rs, Rn
+```
+
+**Encoding**
+
+![Encoding of MCMP](figures/mcmp.svg)
+
+`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+
+**Operation**
+
+```
+while Rn != 0:
+    x <- M8[Rd] ; y <- M8[Rs]
+    if x != y then  flags <- flags of (x - y) ; stop      ; pointers left AT the differing byte
+    Rd <- Rd + 1 ; Rs <- Rs + 1 ; Rn <- Rn - 1
+if equal:  N = 0, Z = 1, V = 0, C = 0
+```
+
+**Flags** From the first differing byte as for `CMP` of the two bytes (`C` set if `x < y` unsigned, `N` and `V` from the signed difference); for equal blocks `N` = 0, `Z` = 1, `V` = 0, `C` = 0.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+When the instruction stops at a difference, `Rd` and `Rs` point at the differing bytes and `Rn` is the count remaining, so the position of the difference is in the registers.
+
+**Cf.** 6.8.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MSCN: Scan a block for a byte, or for a byte not equal to it
+
+**Mnemonics:** `MSCN`, `MSCNN`
+
+**Syntax**
+
+```
+MSCN Rd, Rv, Rn
+MSCNN Rd, Rv, Rn
+```
+
+**Encoding**
+
+![Encoding of MSCN](figures/mscn.svg)
+
+`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `MSCN` | `0x04` |
+| `MSCNN` | `0x05` |
+
+**Operation**
+
+```
+while Rn != 0:
+    hit <- (M8[Rd] == Rv[7:0])             ; MSCNN: hit <- (M8[Rd] != Rv[7:0])
+    if hit then  Z = 1 ; stop              ; Rd points AT the byte found
+    Rd <- Rd + 1 ; Rn <- Rn - 1
+not found: Z = 0
+```
+
+**Flags** **All four flags are written** (errata 39): `Z` = 1 if the byte was found, else 0; `N`, `V` and `C` are cleared.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+`MSCN` is `memchr`; with an explicit count it gives `strnlen`, and composing it with `MCPY` gives a bounded `strcpy` in two instructions. There are no NUL-terminated string instructions.
+
+**Cf.** 6.8.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### MVAL: Validate a block as UTF-8
+
+**Mnemonics:** `MVAL`
+
+**Syntax**
+
+```
+MVAL Rd, Rn
+```
+
+**Encoding**
+
+![Encoding of MVAL](figures/mval.svg)
+
+`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+
+**Operation**
+
+```
+scan Rn bytes at Rd; stop at the first byte that cannot be part of a valid UTF-8 sequence (the rules of UTF8DEC)
+```
+
+**Flags** On completion `Rn` is 0 and the buffer is valid; otherwise `Rd` points at the offending sequence and `Rn` counts the bytes remaining (details in the instruction-set text, section 4.7.1).
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+The `UTF8DEC` comparators wired to the block sequencer.
+
+**Cf.** 6.8.
+
+**Status** specified; **not yet implemented** in the reference executor.
+<!-- /entries:9.11 -->
+
 ## 9.12 Floating point
 
 **9.12.1** Floating point uses the general registers: a `binary64` value fills one register, and the instruction, not the register, decides how its bits are read. *(D)*
@@ -235,6 +2361,588 @@ len=11:  page 2:    11  opc(6)  reg(4)  low(4)               1 parcel, 2 bytes
 **9.12.6** There are no transcendental instructions. *(D)*
 
 *Commentary.* **Precedent.** The PDP-11's FP11 had `AC0` to `AC5` and mode bits for single and double precision; the VAX had F, D, G and H formats. **Trade-offs.** An integer operation applied to a register holding a `binary64` destroys it, with no trap and no tag; that is intended and must be said aloud in the ABI. A separate register file would cost a second set of read ports and a floating-point context; on a small implementation the register file is among the largest blocks. **Improvements.** The fused multiply-add is the largest single addition to the datapath (about 9,000 transistors) and the least negotiable; the IEEE exception flags are recorded without traps, which is what C99 `<fenv.h>` needs. **Benefits.** No transfer instructions between files and a single calling convention. **Modern comparables.** RISC-V Zfinx and Zdinx use the integer register file for the same reason; AArch64 and x86 have separate vector and floating-point files. **Use.** `FCLASS` begins every library maths function; `FMA` is the building block of accurate polynomial evaluation. **Impact.** *Kernel:* There is no separate floating-point state to save at a context switch beyond the registers already saved, and the sticky flags go with the status word. *Compiler:* One calling convention for integers and floats, fused multiply-add contraction, and no rounding-mode state for the compiler to track. *Hardware:* No second register file (one of the largest blocks of a small floating-point unit); the floating-point unit with fused multiply-add is about 34,000 transistors.
+
+<!-- entries:9.12 -->
+### FADD: Floating add, subtract and multiply, binary64
+
+**Mnemonics:** `FADD`, `FSUB`, `FMUL`  (aliases: `FADDD`, `FSUBD`, `FMULD`)
+
+**Syntax**
+
+```
+FADD rm, Rd
+FSUB rm, Rd
+FMUL rm, Rd
+```
+
+**Encoding**
+
+![Encoding of FADD](figures/fadd.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+| Mnemonic | Opcode (the load or direct form) |
+|---|---|
+| `FADD` | `0x24` |
+| `FSUB` | `0x25` |
+| `FMUL` | `0x26` |
+
+**Operation**
+
+```
+Rd <- Rd + rm   (FADD)
+Rd <- Rd - rm   (FSUB)
+Rd <- Rd * rm   (FMUL)       ; IEEE 754 binary64, round to nearest even
+```
+
+**Flags** None written. The five IEEE exception flags are ORed into `FPSR`; no instruction traps.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. Floating-point exceptions never trap.
+
+Floating-point values live in the general registers; there is no separate register file and no mode bit. A NaN result is the canonical quiet NaN `0x7FF8000000000000`. The old spellings `FADDD`, `FSUBD`, `FMULD` are aliases.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FCMP: Floating compare, binary64
+
+**Mnemonics:** `FCMP`  (aliases: `FCMPD`)
+
+**Syntax**
+
+```
+FCMP Rd, rm        ; register first
+```
+
+**Encoding**
+
+![Encoding of FCMP](figures/fcmp.svg)
+
+`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+
+**Operation**
+
+```
+N <- Rd < rm ; Z <- Rd == rm ; V <- unordered ; C <- 0
+```
+
+**Flags** `N` set if `Rd < rm`, `Z` if equal, `V` if the operands are unordered (either is a NaN), `C` cleared. A signalling NaN raises `NV` in `FPSR`.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+The signed branches do not yet treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1); this is an open item of the instruction set.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FDIV: Floating divide and square root, binary64
+
+**Mnemonics:** `FDIV`, `FSQRT`  (aliases: `FDIVD`, `FSQRTD`)
+
+**Syntax**
+
+```
+FDIV Rs, Rd
+FSQRT Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of FDIV](figures/fdiv.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FDIV` | `0x00` |
+| `FSQRT` | `0x01` |
+
+**Operation**
+
+```
+FDIV : Rd <- Rd / Rs
+FSQRT: Rd <- sqrt(Rs)
+```
+
+**Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+
+**Exceptions** None.
+
+`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`. The old spellings `FDIVD`, `FSQRTD` are aliases.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FSINGLE: Floating arithmetic, binary32
+
+**Mnemonics:** `FADD32`, `FSUB32`, `FMUL32`, `FDIV32`, `FSQRT32`, `FCMP32`  (aliases: `FADDS`, `FSUBS`, `FMULS`, `FDIVS`, `FSQRTS`, `FCMPS`)
+
+**Syntax**
+
+```
+FADD32 Rs, Rd
+FSUB32 Rs, Rd
+FMUL32 Rs, Rd
+FDIV32 Rs, Rd
+FSQRT32 Rs, Rd
+FCMP32 Rd, Rs
+```
+
+**Encoding**
+
+![Encoding of FSINGLE](figures/fsingle.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FADD32` | `0x08` |
+| `FSUB32` | `0x09` |
+| `FMUL32` | `0x0A` |
+| `FDIV32` | `0x0B` |
+| `FSQRT32` | `0x0C` |
+| `FCMP32` | `0x0D` |
+
+**Operation**
+
+```
+Rd <- Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd <- sqrt(Rs) (FSQRT32)
+FCMP32: flags as FCMP, comparing Rd with Rs
+```
+
+**Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps. `FCMP32` writes `N Z V C` as `FCMP` does.
+
+**Exceptions** None.
+
+A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even. The old spellings `FADDS`, `FSUBS`, ... are aliases.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FMADD: Fused multiply-add, binary64
+
+**Mnemonics:** `FMADD`, `FMSUB`, `FNMADD`, `FNMSUB`  (aliases: `FMADDD`, `FMSUBD`, `FNMADDD`, `FNMSUBD`)
+
+**Syntax**
+
+```
+FMADD Rs, Rt, Ru, Rd
+FMSUB Rs, Rt, Ru, Rd
+FNMADD Rs, Rt, Ru, Rd
+FNMSUB Rs, Rt, Ru, Rd
+```
+
+**Encoding**
+
+![Encoding of FMADD](figures/fmadd.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FMADD` | `0x10` |
+| `FMSUB` | `0x11` |
+| `FNMADD` | `0x12` |
+| `FNMSUB` | `0x13` |
+
+**Operation**
+
+```
+FMADD : Rd <- Rs*Rt + Ru
+FMSUB : Rd <- Rs*Rt - Ru
+FNMADD: Rd <- -(Rs*Rt) - Ru
+FNMSUB: Rd <- -(Rs*Rt) + Ru          ; each rounded once
+```
+
+**Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+
+**Exceptions** None.
+
+Four register operands are available at `len = 01`. The old spellings `FMADDD`, ... are aliases.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FMADD32: Fused multiply-add, binary32
+
+**Mnemonics:** `FMADD32`, `FMSUB32`, `FNMADD32`, `FNMSUB32`  (aliases: `FMADDS`, `FMSUBS`, `FNMADDS`, `FNMSUBS`)
+
+**Syntax**
+
+```
+FMADD32 Rs, Rt, Ru, Rd
+FMSUB32 ...
+FNMADD32 ...
+FNMSUB32 ...
+```
+
+**Encoding**
+
+![Encoding of FMADD32](figures/fmadd32.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FMADD32` | `0x18` |
+| `FMSUB32` | `0x19` |
+| `FNMADD32` | `0x1A` |
+| `FNMSUB32` | `0x1B` |
+
+**Operation**
+
+```
+As FMADD, in binary32, rounded once
+```
+
+**Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+
+**Exceptions** None.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FSIGN: Sign operations on the bits
+
+**Mnemonics:** `FNEG`, `FABS`, `FCOPYSIGN`
+
+**Syntax**
+
+```
+FNEG Rs, Rd
+FABS Rs, Rd
+FCOPYSIGN Rs, Rt, Rd
+```
+
+**Encoding**
+
+![Encoding of FSIGN](figures/fsign.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FNEG` | `0x20` |
+| `FABS` | `0x21` |
+| `FCOPYSIGN` | `0x22` |
+
+**Operation**
+
+```
+FNEG     : Rd <- Rs with the sign bit flipped
+FABS     : Rd <- Rs with the sign bit cleared
+FCOPYSIGN: Rd <- magnitude of Rs, sign of Rt
+```
+
+**Flags** None. These operate on the bits, do not canonicalise a NaN and raise no exception flag.
+
+**Exceptions** None.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FMIN: Floating minimum and maximum, binary64
+
+**Mnemonics:** `FMIN`, `FMAX`  (aliases: `FMIND`, `FMAXD`)
+
+**Syntax**
+
+```
+FMIN Rs, Rt, Rd
+FMAX Rs, Rt, Rd
+```
+
+**Encoding**
+
+![Encoding of FMIN](figures/fmin.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FMIN` | `0x23` |
+| `FMAX` | `0x24` |
+
+**Operation**
+
+```
+if Rs is a NaN then Rd <- Rt ; else if Rt is a NaN then Rd <- Rs ; else Rd <- smaller (FMIN) or larger (FMAX)
+if both are NaNs the result is the canonical quiet NaN
+```
+
+**Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+
+**Exceptions** None.
+
+The old spellings `FMIND`, `FMAXD` are aliases.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FCLASS: Classify a floating-point value
+
+**Mnemonics:** `FCLASS`, `FCLASS32`, `FCLASS16`  (aliases: `FCLASSD`, `FCLASSS`)
+
+**Syntax**
+
+```
+FCLASS Rs, Rd
+FCLASS32 Rs, Rd
+FCLASS16 Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of FCLASS](figures/fclass.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FCLASS` | `0x28` |
+| `FCLASS32` | `0x29` |
+| `FCLASS16` | `0x5C` |
+
+**Operation**
+
+```
+Rd <- a bit vector with exactly one bit set:
+bit 0 -infinity      bit 1 -normal      bit 2 -subnormal   bit 3 -zero
+bit 4 +zero          bit 5 +subnormal   bit 6 +normal      bit 7 +infinity
+bit 8 signalling NaN bit 9 quiet NaN
+```
+
+**Flags** None.
+
+**Exceptions** None.
+
+Every libm function begins with this dispatch. The old spellings `FCLASSD`, `FCLASSS` are aliases.
+
+**Status** implemented in the reference executor for `FCLASS`, `FCLASS16`; not yet for the others.
+
+
+### FRINT: Round to an integral value, binary64
+
+**Mnemonics:** `FRINT`, `FRINTZ`, `FRINTM`, `FRINTP`, `FRINTA`  (aliases: `FRINTD`, `FRINTDZ`, `FRINTDM`, `FRINTDP`, `FRINTDA`)
+
+**Syntax**
+
+```
+FRINT Rs, Rd
+FRINTZ Rs, Rd
+FRINTM Rs, Rd
+FRINTP Rs, Rd
+FRINTA Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of FRINT](figures/frint.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FRINT` | `0x30` |
+| `FRINTZ` | `0x31` |
+| `FRINTM` | `0x32` |
+| `FRINTP` | `0x33` |
+| `FRINTA` | `0x34` |
+
+**Operation**
+
+```
+FRINT : Rd <- Rs rounded to nearest, ties to even
+FRINTZ: toward zero         FRINTM: toward -infinity
+FRINTP: toward +infinity    FRINTA: to nearest, ties away from zero (C round())
+```
+
+**Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+
+**Exceptions** None.
+
+The rounding mode is in the opcode, never in a mode bit. The old spellings `FRINTD`, `FRINTDZ`, ... are aliases.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FCVT: Floating conversions
+
+**Mnemonics:** `FCVTDQ`, `FCVTDQU`, `FCVTQD`, `FCVTQUD`, `FCVTDS`, `FCVTSD`, `FCVTSL`, `FCVTLS`
+
+**Syntax**
+
+```
+FCVTDQ Rs, Rd        ; binary64 to signed quad
+FCVTDQU Rs, Rd       ; binary64 to unsigned quad
+FCVTQD Rs, Rd        ; signed quad to binary64
+FCVTQUD Rs, Rd       ; unsigned quad to binary64
+FCVTDS Rs, Rd        ; binary64 to binary32
+FCVTSD Rs, Rd        ; binary32 to binary64
+FCVTSL Rs, Rd        ; binary32 to signed 32-bit integer
+FCVTLS Rs, Rd        ; signed 32-bit integer to binary32
+```
+
+**Encoding**
+
+![Encoding of FCVT](figures/fcvt.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FCVTDQ` | `0x38` |
+| `FCVTDQU` | `0x3E` |
+| `FCVTQD` | `0x39` |
+| `FCVTQUD` | `0x3F` |
+| `FCVTDS` | `0x3A` |
+| `FCVTSD` | `0x3B` |
+| `FCVTSL` | `0x3C` |
+| `FCVTLS` | `0x3D` |
+
+**Operation**
+
+```
+float to integer: truncate toward zero, then saturate; a NaN gives the largest value
+integer to float: round to nearest even
+```
+
+**Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps. A NaN or an out-of-range value raises `NV` and saturates.
+
+**Exceptions** None.
+
+Integer results are 64-bit (`FCVTDQ`, `FCVTDQU`) or 32-bit sign-extended (`FCVTSL`). Unsigned conversion of a negative value is invalid and gives 0.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FSFLAGS: Swap the floating-point exception flags
+
+**Mnemonics:** `FSFLAGS`
+
+**Syntax**
+
+```
+FSFLAGS Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of FSFLAGS](figures/fsflags.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+**Operation**
+
+```
+old <- FPSR
+FPSR <- Rs[4:0]
+Rd <- old
+```
+
+**Flags** None.
+
+**Exceptions** None.
+
+`FPSR` is the sticky five-bit register (`NX` bit 0, `UF` 1, `OF` 2, `DZ` 3, `NV` 4). C99 `<fenv.h>` is built on this one instruction.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FHALF: Floating arithmetic, binary16
+
+**Mnemonics:** `FADD16`, `FSUB16`, `FMUL16`, `FDIV16`, `FSQRT16`, `FCMP16`, `FMADD16`, `FMSUB16`, `FNMADD16`, `FNMSUB16`
+
+**Syntax**
+
+```
+FADD16 Rs, Rd
+FSUB16 Rs, Rd
+FMUL16 Rs, Rd
+FDIV16 Rs, Rd
+FSQRT16 Rs, Rd
+FCMP16 Rd, Rs
+FMADD16 Rs, Rt, Ru, Rd ...
+```
+
+**Encoding**
+
+![Encoding of FHALF](figures/fhalf.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FADD16` | `0x50` |
+| `FSUB16` | `0x51` |
+| `FMUL16` | `0x52` |
+| `FDIV16` | `0x53` |
+| `FSQRT16` | `0x54` |
+| `FCMP16` | `0x55` |
+| `FMADD16` | `0x58` |
+| `FMSUB16` | `0x59` |
+| `FNMADD16` | `0x5A` |
+| `FNMSUB16` | `0x5B` |
+
+**Operation**
+
+```
+as the binary32 words, in binary16: Rd <- Rd op Rs ; the fused forms take Rs, Rt, Ru, Rd
+a half lives in the low 16 bits of a register, sign-extended to 64
+```
+
+**Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps. `FCMP16` writes `N Z V C` as `FCMP`.
+
+**Exceptions** None.
+
+Results are correctly rounded to nearest even, tininess judged after rounding; a NaN result is the canonical `0x7E00`. Half `FMIN`, `FMAX`, `FRINT*`, bfloat16 and conversions to and from 64-bit integers are open items.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+
+### FCVTH: Conversions to and from binary16
+
+**Mnemonics:** `FCVTSH`, `FCVTHS`, `FCVTDH`, `FCVTHD`, `FCVTHL`, `FCVTLH`
+
+**Syntax**
+
+```
+FCVTSH Rs, Rd        ; binary32 to half
+FCVTHS Rs, Rd        ; half to binary32
+FCVTDH Rs, Rd        ; binary64 to half
+FCVTHD Rs, Rd        ; half to binary64
+FCVTHL Rs, Rd        ; half to signed 32-bit integer, toward zero
+FCVTLH Rs, Rd        ; signed 32-bit integer to half
+```
+
+**Encoding**
+
+![Encoding of FCVTH](figures/fcvth.svg)
+
+From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+
+| Mnemonic | Sub-opcode |
+|---|---|
+| `FCVTSH` | `0x60` |
+| `FCVTHS` | `0x61` |
+| `FCVTDH` | `0x62` |
+| `FCVTHD` | `0x63` |
+| `FCVTHL` | `0x64` |
+| `FCVTLH` | `0x65` |
+
+**Operation**
+
+```
+narrowing: round to nearest even ; widening: exact
+FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction is inexact
+```
+
+**Flags** No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+
+**Exceptions** None.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+<!-- /entries:9.12 -->
 
 ## 9.13 Atomics and ordering
 

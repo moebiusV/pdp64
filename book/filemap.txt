@@ -11,16 +11,6 @@ c:id01008 docs/streamlined/08-vectors.md
 c:id01009 docs/streamlined/09-isa.md
 c:id01010 docs/streamlined/10-conclusion.md
 d:id02001 docs/streamlined/dictionary/index.md
-d:id02002 docs/streamlined/dictionary/moves.md
-d:id02003 docs/streamlined/dictionary/alu.md
-d:id02004 docs/streamlined/dictionary/single.md
-d:id02005 docs/streamlined/dictionary/branches.md
-d:id02006 docs/streamlined/dictionary/bits.md
-d:id02007 docs/streamlined/dictionary/block.md
-d:id02008 docs/streamlined/dictionary/arith.md
-d:id02009 docs/streamlined/dictionary/fp.md
-d:id02010 docs/streamlined/dictionary/atomics.md
-d:id02011 docs/streamlined/dictionary/system.md
 d:id02012 docs/streamlined/dictionary/page2.md
 d:id02013 docs/streamlined/dictionary/aliases.md
 d:id02014 docs/streamlined/dictionary/constants.md

@@ -2,9 +2,9 @@
 
 [← pdp64 index](../README.md)
 
-`pdp64-manual.pdf` is the manual (`docs/streamlined/`, including the generated instruction dictionary) typeset with Typst. It is tracked in git; **rebuild it after every change to the manual**:
+`pdp64-manual.pdf` is the manual (`docs/streamlined/`, with the instruction entries generated into its chapters) typeset with Typst. It is tracked in git; **rebuild it after every change to the manual**:
 
-    python3 tools/mkmanual.py        # regenerate the instruction dictionary
+    python3 tools/mkmanual.py        # regenerate the instruction entries, the reference tables and the figures
     python3 tools/mkbook.py --pdf    # book/build/rendered -> book/build/pdp64-manual.pdf -> book/pdp64-manual.pdf
 
 Needs `typst` (0.15 or later; it fetches the `cmarker` 0.1.8 package on first use) and the fonts EB Garamond and DejaVu Sans Mono.

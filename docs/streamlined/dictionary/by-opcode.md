@@ -1,4 +1,4 @@
-# Appendix: the opcodes, in order
+# The opcodes, in order
 
 [← dictionary index](index.md)
 

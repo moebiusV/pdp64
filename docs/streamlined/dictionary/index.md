@@ -1,4 +1,4 @@
-# The instruction dictionary
+# The instruction reference tables
 
 [← manual index](../00-index.md)
 
@@ -8,23 +8,25 @@ This is the reference part of the manual: **one entry for each instruction**, in
 
 **Cf.** lines point to the chapter that explains the matter an instruction touches: the kernel (chapter 6), the multiprocessor model (chapter 7), the bus (chapter 2).
 
-## The pages
+## Where the entries are
 
-* [Moves and address formation](moves.md): `MOVQ`, `MOVZL`, `LEA`, `MOVUB`
-* [Integer arithmetic and logic](alu.md): `ADD`, `SUB`, `CMP`, `BIC`, `BIS`, `BIT`, `XOR`, `AND`, `MUL`, `MULH`, `SHL`, `ADDM`
-* [Single-operand instructions](single.md): `CLR`, `COM`, `INC`, `DEC`, `NEG`, `TST`, `ADC`, `SBC`, `ASL`, `ASR`, `PUSHM`, `POPM`, `JMP`, `CALL`, `PUSH`, `POP`
-* [Branches and indirect transfers](branches.md): `BR`, `SOB`, `CBNE`, `BTAG`, `JMPI`, `JTAG`
-* [Bits, fields and text](bits.md): `CLZ`, `POPCNT`, `BSWAP`, `BITREV`, `ROR`, `RORI`, `RORI32`, `DSHR`, `EXTB`, `INSB`, `XNORPOP`, `CLMULL`, `UTF8LEN`, `UTF8DEC`, `UTF8ENC`
-* [Block memory operations](block.md): `MCPY`, `MSET`, `MCMP`, `MSCN`, `MVAL`
-* [Divide, remainder and selection](arith.md): `DIV`, `MULHU`, `ABS`, `MIN`, `SET`
-* [Floating point](fp.md): `FADD`, `FCMP`, `FDIV`, `FADD32`, `FMADD`, `FMADD32`, `FNEG`, `FMIN`, `FCLASS`, `FRINT`, `FCVTDQ`, `FSFLAGS`, `FADD16`, `FCVTSH`
-* [Atomics](atomics.md): `CAS`, `SWAP`, `XADD`, `XAND`, `XMAX`, `LL`
-* [System instructions](system.md): `NOP`, `RTI`, `RET`, `HALT`, `BPT`, `FENCE`, `WFE`, `SEV`, `TLBIA`, `PUSHX`, `ISYNC`, `HINT`, `MFSR`, `MTPS`, `SPL`, `TRAP`, `TLBI`, `MTASID`, `MTDP`, `MTDMW`, `MFCPUID`, `ICINV`, `PROBER`
+* [Section 6.7, System instructions, exceptions and interrupts](../06-kernel.md#67-system-instructions-exceptions-and-interrupts): `NOP`, `RTI`, `RET`, `HALT`, `BPT`, `FENCE`, `WFE`, `SEV`, `TLBIA`, `PUSHX`, `ISYNC`, `HINT`, `MFSR`, `MTPS`, `SPL`, `TRAP`, `TLBI`, `MTASID`, `MTDP`, `MTDMW`, `MFCPUID`, `ICINV`, `PROBER`
+* [Section 7.12, The atomic and ordering instructions](../07-smp.md#712-the-atomic-and-ordering-instructions): `CAS`, `SWAP`, `XADD`, `XAND`, `XMAX`, `LL`
+* [Section 9.6, Moves, conversions and address formation](../09-isa.md#96-moves-conversions-and-address-formation): `MOVQ`, `MOVZL`, `LEA`, `MOVUB`
+* [Section 9.7, Integer arithmetic](../09-isa.md#97-integer-arithmetic): `ADD`, `SUB`, `CMP`, `MUL`, `MULH`, `ADDM`, `INC`, `DEC`, `NEG`, `ADC`, `SBC`, `DIV`, `MULHU`, `ABS`, `MIN`, `SET`
+* [Section 9.8, Logic, shifts and rotates](../09-isa.md#98-logic-shifts-and-rotates): `BIC`, `BIS`, `BIT`, `XOR`, `AND`, `SHL`, `CLR`, `COM`, `TST`, `ASL`, `ASR`
+* [Section 9.9, Bits, bytes and text](../09-isa.md#99-bits-bytes-and-text): `CLZ`, `POPCNT`, `BSWAP`, `BITREV`, `ROR`, `RORI`, `RORI32`, `DSHR`, `EXTB`, `INSB`, `XNORPOP`, `CLMULL`, `UTF8LEN`, `UTF8DEC`, `UTF8ENC`
+* [Section 9.10, Branches and control flow](../09-isa.md#910-branches-and-control-flow): `BR`, `SOB`, `CBNE`, `BTAG`, `JMP`, `CALL`, `JMPI`, `JTAG`
+* [Section 9.11, The stack and block operations](../09-isa.md#911-the-stack-and-block-operations): `PUSHM`, `POPM`, `PUSH`, `POP`, `MCPY`, `MSET`, `MCMP`, `MSCN`, `MVAL`
+* [Section 9.12, Floating point](../09-isa.md#912-floating-point): `FADD`, `FCMP`, `FDIV`, `FADD32`, `FMADD`, `FMADD32`, `FNEG`, `FMIN`, `FCLASS`, `FRINT`, `FCVTDQ`, `FSFLAGS`, `FADD16`, `FCVTSH`
+
+## The tables
+
 * [The second page: one-parcel abbreviations](page2.md)
 * [Assembler aliases and old spellings](aliases.md)
-* [Appendix: the architectural constants](constants.md)
-* [Appendix: the mnemonics, alphabetically](by-mnemonic.md)
-* [Appendix: the opcodes, in order](by-opcode.md)
+* [The architectural constants](constants.md)
+* [The mnemonics, alphabetically](by-mnemonic.md)
+* [The opcodes, in order](by-opcode.md)
 
 The specification has 270 mnemonic words (234 instructions and 36 aliases) and 45 page-2 opcodes; the reference executor implements 193 of the 234 instructions; the rest are specified and have entries marked as not yet implemented.
 

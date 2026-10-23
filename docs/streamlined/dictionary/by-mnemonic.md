@@ -1,4 +1,4 @@
-# Appendix: the mnemonics, alphabetically
+# The mnemonics, alphabetically
 
 [← dictionary index](index.md)
 
@@ -6,273 +6,273 @@
 
 | Mnemonic | Entry | Opcode | Sub | Group |
 |---|---|---|---|---|
-| `ABS` | [ABS](arith.md#abs-absolute-value) | `0x0E` | `0x8` | Arithmetic (AESC) |
-| `ADC` | [ADC](single.md#adc-add-carry) | `0x13` | `0x6` | Single operand (SOP) |
-| `ADD` | [ADD](alu.md#add-add) | `0x16` |  | Moves, address formation and the ALU |
-| `ADDM` | [ADDM](alu.md#addm-alu-operation-with-a-memory-destination) | `0x0F` | `0x8` | Memory escape (MESC) |
-| `AND` | [AND](alu.md#and-and) | `0x1D` |  | Moves, address formation and the ALU |
-| `ASL` | [ASL](single.md#asl-arithmetic-shift-left-by-one) | `0x13` | `0x8` | Single operand (SOP) |
-| `ASR` | [ASR](single.md#asr-arithmetic-shift-right-by-one) | `0x13` | `0x9` | Single operand (SOP) |
-| `BCC` | [BCC](branches.md#bcc-branch-on-condition) | `0x37` |  | Branches |
-| `BCS` | [BCC](branches.md#bcc-branch-on-condition) | `0x38` |  | Branches |
-| `BEQ` | [BCC](branches.md#bcc-branch-on-condition) | `0x32` |  | Branches |
-| `BGE` | [BCC](branches.md#bcc-branch-on-condition) | `0x39` |  | Branches |
-| `BGT` | [BCC](branches.md#bcc-branch-on-condition) | `0x3B` |  | Branches |
-| `BHI` | [BCC](branches.md#bcc-branch-on-condition) | `0x3D` |  | Branches |
-| `BHIS` (alias of `BCC`) | [BCC](branches.md#bcc-branch-on-condition) | `0x37` |  | Branches |
-| `BIC` | [BIC](alu.md#bic-bit-clear) | `0x18` |  | Moves, address formation and the ALU |
-| `BICM` | [ADDM](alu.md#addm-alu-operation-with-a-memory-destination) | `0x0F` | `0xA` | Memory escape (MESC) |
-| `BIS` | [BIS](alu.md#bis-bit-set-inclusive-or) | `0x19` |  | Moves, address formation and the ALU |
-| `BISM` | [ADDM](alu.md#addm-alu-operation-with-a-memory-destination) | `0x0F` | `0xB` | Memory escape (MESC) |
-| `BIT` | [BIT](alu.md#bit-bit-test) | `0x1B` |  | Moves, address formation and the ALU |
-| `BITREV` | [BITREV](bits.md#bitrev-reverse-the-bits) | `0x0C` | `0x8` | Bits and fields (BESC) |
-| `BLE` | [BCC](branches.md#bcc-branch-on-condition) | `0x3C` |  | Branches |
-| `BLO` (alias of `BCS`) | [BCC](branches.md#bcc-branch-on-condition) | `0x38` |  | Branches |
-| `BLOS` | [BCC](branches.md#bcc-branch-on-condition) | `0x3E` |  | Branches |
-| `BLT` | [BCC](branches.md#bcc-branch-on-condition) | `0x3A` |  | Branches |
-| `BMI` | [BCC](branches.md#bcc-branch-on-condition) | `0x34` |  | Branches |
-| `BNE` | [BCC](branches.md#bcc-branch-on-condition) | `0x31` |  | Branches |
-| `BNTAG` | [BTAG](branches.md#btag-branch-on-pointer-tag) | `0x15` | `0x1` | Branches |
-| `BPL` | [BCC](branches.md#bcc-branch-on-condition) | `0x33` |  | Branches |
-| `BPT` | [BPT](system.md#bpt-breakpoint) | `0x14` | `0x5` | System (SYS) |
-| `BR` | [BCC](branches.md#bcc-branch-on-condition) | `0x30` |  | Branches |
-| `BSWAP` | [BSWAP](bits.md#bswap-byte-swap) | `0x0C` | `0x5` | Bits and fields (BESC) |
-| `BSWAPL` | [BSWAP](bits.md#bswap-byte-swap) | `0x0C` | `0x7` | Bits and fields (BESC) |
-| `BSWAPW` | [BSWAP](bits.md#bswap-byte-swap) | `0x0C` | `0x6` | Bits and fields (BESC) |
-| `BTAG` | [BTAG](branches.md#btag-branch-on-pointer-tag) | `0x15` | `0x0` | Branches |
-| `BVC` | [BCC](branches.md#bcc-branch-on-condition) | `0x35` |  | Branches |
-| `BVS` | [BCC](branches.md#bcc-branch-on-condition) | `0x36` |  | Branches |
-| `CALL` | [CALL](single.md#call-call) | `0x13` | `0xD` | Single operand (SOP) |
-| `CALLI` | [JMPI](branches.md#jmpi-jump-and-call-through-memory) | `0x12` | `0x1` | Indirect transfers (XFER) |
-| `CAS` | [CAS](atomics.md#cas-compare-and-swap) | `0x11` | `0x0` | Atomics (ATOM) |
-| `CASDB` | [CAS](atomics.md#cas-compare-and-swap) | `0x11` | `0x1` | Atomics (ATOM) |
-| `CBCC` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x7` | Branches |
-| `CBCS` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x8` | Branches |
-| `CBEQ` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x2` | Branches |
-| `CBGE` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x9` | Branches |
-| `CBGT` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0xB` | Branches |
-| `CBHI` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0xD` | Branches |
-| `CBHIS` (alias of `CBCC`) | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x7` | Branches |
-| `CBLE` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0xC` | Branches |
-| `CBLO` (alias of `CBCS`) | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x8` | Branches |
-| `CBLOS` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0xE` | Branches |
-| `CBLT` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0xA` | Branches |
-| `CBMI` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x4` | Branches |
-| `CBNE` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x1` | Branches |
-| `CBPL` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x3` | Branches |
-| `CBVC` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x5` | Branches |
-| `CBVS` | [CBCC](branches.md#cbcc-compare-and-branch-on-condition) | `0x28` | `0x6` | Branches |
-| `CLMULH` | [CLMUL](bits.md#clmul-carry-less-multiply) | `0x0C` | `0x32` | Bits and fields (BESC) |
-| `CLMULL` | [CLMUL](bits.md#clmul-carry-less-multiply) | `0x0C` | `0x31` | Bits and fields (BESC) |
-| `CLO` | [COUNT](bits.md#count-count-leading-and-trailing-zeros-and-ones) | `0x0C` | `0x2` | Bits and fields (BESC) |
-| `CLR` | [CLR](single.md#clr-clear) | `0x13` | `0x0` | Single operand (SOP) |
-| `CLZ` | [COUNT](bits.md#count-count-leading-and-trailing-zeros-and-ones) | `0x0C` | `0x0` | Bits and fields (BESC) |
-| `CMP` | [CMP](alu.md#cmp-compare) | `0x1A` |  | Moves, address formation and the ALU |
-| `COM` | [COM](single.md#com-complement) | `0x13` | `0x1` | Single operand (SOP) |
-| `CTO` | [COUNT](bits.md#count-count-leading-and-trailing-zeros-and-ones) | `0x0C` | `0x3` | Bits and fields (BESC) |
-| `CTZ` | [COUNT](bits.md#count-count-leading-and-trailing-zeros-and-ones) | `0x0C` | `0x1` | Bits and fields (BESC) |
-| `DEC` | [DEC](single.md#dec-decrement) | `0x13` | `0x3` | Single operand (SOP) |
-| `DIV` | [DIV](arith.md#div-divide-and-remainder-signed-and-unsigned) | `0x0E` | `0x0` | Arithmetic (AESC) |
-| `DIVU` | [DIV](arith.md#div-divide-and-remainder-signed-and-unsigned) | `0x0E` | `0x1` | Arithmetic (AESC) |
-| `DSHR` | [DSHR](bits.md#dshr-double-width-funnel-shift-right) | `0x0C` | `0x20` | Bits and fields (BESC) |
-| `EXTB` | [EXTB](bits.md#extb-extract-a-bit-field) | `0x0C` | `0x21` | Bits and fields (BESC) |
-| `EXTZB` | [EXTB](bits.md#extb-extract-a-bit-field) | `0x0C` | `0x22` | Bits and fields (BESC) |
-| `FABS` | [FSIGN](fp.md#fsign-sign-operations-on-the-bits) | `0x10` | `0x21` | Floating point (FESC) |
-| `FADD` | [FADD](fp.md#fadd-floating-add-subtract-and-multiply-binary64) | `0x24` |  | Moves, address formation and the ALU |
-| `FADD16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x50` | Floating point (FESC) |
-| `FADD32` | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0x8` | Floating point (FESC) |
-| `FADDD` (alias of `FADD`) | [FADD](fp.md#fadd-floating-add-subtract-and-multiply-binary64) | `0x24` |  | Moves, address formation and the ALU |
-| `FADDS` (alias of `FADD32`) | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0x8` | Floating point (FESC) |
-| `FCLASS` | [FCLASS](fp.md#fclass-classify-a-floating-point-value) | `0x10` | `0x28` | Floating point (FESC) |
-| `FCLASS16` | [FCLASS](fp.md#fclass-classify-a-floating-point-value) | `0x10` | `0x5C` | Floating point (FESC) |
-| `FCLASS32` | [FCLASS](fp.md#fclass-classify-a-floating-point-value) | `0x10` | `0x29` | Floating point (FESC) |
-| `FCLASSD` (alias of `FCLASS`) | [FCLASS](fp.md#fclass-classify-a-floating-point-value) | `0x10` | `0x28` | Floating point (FESC) |
-| `FCLASSS` (alias of `FCLASS32`) | [FCLASS](fp.md#fclass-classify-a-floating-point-value) | `0x10` | `0x29` | Floating point (FESC) |
-| `FCMP` | [FCMP](fp.md#fcmp-floating-compare-binary64) | `0x27` |  | Moves, address formation and the ALU |
-| `FCMP16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x55` | Floating point (FESC) |
-| `FCMP32` | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0xD` | Floating point (FESC) |
-| `FCMPD` (alias of `FCMP`) | [FCMP](fp.md#fcmp-floating-compare-binary64) | `0x27` |  | Moves, address formation and the ALU |
-| `FCMPS` (alias of `FCMP32`) | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0xD` | Floating point (FESC) |
-| `FCOPYSIGN` | [FSIGN](fp.md#fsign-sign-operations-on-the-bits) | `0x10` | `0x22` | Floating point (FESC) |
-| `FCVTDH` | [FCVTH](fp.md#fcvth-conversions-to-and-from-binary16) | `0x10` | `0x62` | Floating point (FESC) |
-| `FCVTDQ` | [FCVT](fp.md#fcvt-floating-conversions) | `0x10` | `0x38` | Floating point (FESC) |
-| `FCVTDQU` | [FCVT](fp.md#fcvt-floating-conversions) | `0x10` | `0x3E` | Floating point (FESC) |
-| `FCVTDS` | [FCVT](fp.md#fcvt-floating-conversions) | `0x10` | `0x3A` | Floating point (FESC) |
-| `FCVTHD` | [FCVTH](fp.md#fcvth-conversions-to-and-from-binary16) | `0x10` | `0x63` | Floating point (FESC) |
-| `FCVTHL` | [FCVTH](fp.md#fcvth-conversions-to-and-from-binary16) | `0x10` | `0x64` | Floating point (FESC) |
-| `FCVTHS` | [FCVTH](fp.md#fcvth-conversions-to-and-from-binary16) | `0x10` | `0x61` | Floating point (FESC) |
-| `FCVTLH` | [FCVTH](fp.md#fcvth-conversions-to-and-from-binary16) | `0x10` | `0x65` | Floating point (FESC) |
-| `FCVTLS` | [FCVT](fp.md#fcvt-floating-conversions) | `0x10` | `0x3D` | Floating point (FESC) |
-| `FCVTQD` | [FCVT](fp.md#fcvt-floating-conversions) | `0x10` | `0x39` | Floating point (FESC) |
-| `FCVTQUD` | [FCVT](fp.md#fcvt-floating-conversions) | `0x10` | `0x3F` | Floating point (FESC) |
-| `FCVTSD` | [FCVT](fp.md#fcvt-floating-conversions) | `0x10` | `0x3B` | Floating point (FESC) |
-| `FCVTSH` | [FCVTH](fp.md#fcvth-conversions-to-and-from-binary16) | `0x10` | `0x60` | Floating point (FESC) |
-| `FCVTSL` | [FCVT](fp.md#fcvt-floating-conversions) | `0x10` | `0x3C` | Floating point (FESC) |
-| `FDIV` | [FDIV](fp.md#fdiv-floating-divide-and-square-root-binary64) | `0x10` | `0x0` | Floating point (FESC) |
-| `FDIV16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x53` | Floating point (FESC) |
-| `FDIV32` | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0xB` | Floating point (FESC) |
-| `FDIVD` (alias of `FDIV`) | [FDIV](fp.md#fdiv-floating-divide-and-square-root-binary64) | `0x10` | `0x0` | Floating point (FESC) |
-| `FDIVS` (alias of `FDIV32`) | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0xB` | Floating point (FESC) |
-| `FENCE` | [FENCE](system.md#fence-memory-fence) | `0x14` | `0x6` | System (SYS) |
-| `FMADD` | [FMADD](fp.md#fmadd-fused-multiply-add-binary64) | `0x10` | `0x10` | Floating point (FESC) |
-| `FMADD16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x58` | Floating point (FESC) |
-| `FMADD32` | [FMADD32](fp.md#fmadd32-fused-multiply-add-binary32) | `0x10` | `0x18` | Floating point (FESC) |
-| `FMADDD` (alias of `FMADD`) | [FMADD](fp.md#fmadd-fused-multiply-add-binary64) | `0x10` | `0x10` | Floating point (FESC) |
-| `FMADDS` (alias of `FMADD32`) | [FMADD32](fp.md#fmadd32-fused-multiply-add-binary32) | `0x10` | `0x18` | Floating point (FESC) |
-| `FMAX` | [FMIN](fp.md#fmin-floating-minimum-and-maximum-binary64) | `0x10` | `0x24` | Floating point (FESC) |
-| `FMAXD` (alias of `FMAX`) | [FMIN](fp.md#fmin-floating-minimum-and-maximum-binary64) | `0x10` | `0x24` | Floating point (FESC) |
-| `FMIN` | [FMIN](fp.md#fmin-floating-minimum-and-maximum-binary64) | `0x10` | `0x23` | Floating point (FESC) |
-| `FMIND` (alias of `FMIN`) | [FMIN](fp.md#fmin-floating-minimum-and-maximum-binary64) | `0x10` | `0x23` | Floating point (FESC) |
-| `FMSUB` | [FMADD](fp.md#fmadd-fused-multiply-add-binary64) | `0x10` | `0x11` | Floating point (FESC) |
-| `FMSUB16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x59` | Floating point (FESC) |
-| `FMSUB32` | [FMADD32](fp.md#fmadd32-fused-multiply-add-binary32) | `0x10` | `0x19` | Floating point (FESC) |
-| `FMSUBD` (alias of `FMSUB`) | [FMADD](fp.md#fmadd-fused-multiply-add-binary64) | `0x10` | `0x11` | Floating point (FESC) |
-| `FMSUBS` (alias of `FMSUB32`) | [FMADD32](fp.md#fmadd32-fused-multiply-add-binary32) | `0x10` | `0x19` | Floating point (FESC) |
-| `FMUL` | [FADD](fp.md#fadd-floating-add-subtract-and-multiply-binary64) | `0x26` |  | Moves, address formation and the ALU |
-| `FMUL16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x52` | Floating point (FESC) |
-| `FMUL32` | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0xA` | Floating point (FESC) |
-| `FMULD` (alias of `FMUL`) | [FADD](fp.md#fadd-floating-add-subtract-and-multiply-binary64) | `0x26` |  | Moves, address formation and the ALU |
-| `FMULS` (alias of `FMUL32`) | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0xA` | Floating point (FESC) |
-| `FNEG` | [FSIGN](fp.md#fsign-sign-operations-on-the-bits) | `0x10` | `0x20` | Floating point (FESC) |
-| `FNMADD` | [FMADD](fp.md#fmadd-fused-multiply-add-binary64) | `0x10` | `0x12` | Floating point (FESC) |
-| `FNMADD16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x5A` | Floating point (FESC) |
-| `FNMADD32` | [FMADD32](fp.md#fmadd32-fused-multiply-add-binary32) | `0x10` | `0x1A` | Floating point (FESC) |
-| `FNMADDD` (alias of `FNMADD`) | [FMADD](fp.md#fmadd-fused-multiply-add-binary64) | `0x10` | `0x12` | Floating point (FESC) |
-| `FNMADDS` (alias of `FNMADD32`) | [FMADD32](fp.md#fmadd32-fused-multiply-add-binary32) | `0x10` | `0x1A` | Floating point (FESC) |
-| `FNMSUB` | [FMADD](fp.md#fmadd-fused-multiply-add-binary64) | `0x10` | `0x13` | Floating point (FESC) |
-| `FNMSUB16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x5B` | Floating point (FESC) |
-| `FNMSUB32` | [FMADD32](fp.md#fmadd32-fused-multiply-add-binary32) | `0x10` | `0x1B` | Floating point (FESC) |
-| `FNMSUBD` (alias of `FNMSUB`) | [FMADD](fp.md#fmadd-fused-multiply-add-binary64) | `0x10` | `0x13` | Floating point (FESC) |
-| `FNMSUBS` (alias of `FNMSUB32`) | [FMADD32](fp.md#fmadd32-fused-multiply-add-binary32) | `0x10` | `0x1B` | Floating point (FESC) |
-| `FRINT` | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x30` | Floating point (FESC) |
-| `FRINTA` | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x34` | Floating point (FESC) |
-| `FRINTD` (alias of `FRINT`) | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x30` | Floating point (FESC) |
-| `FRINTDA` (alias of `FRINTA`) | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x34` | Floating point (FESC) |
-| `FRINTDM` (alias of `FRINTM`) | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x32` | Floating point (FESC) |
-| `FRINTDP` (alias of `FRINTP`) | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x33` | Floating point (FESC) |
-| `FRINTDZ` (alias of `FRINTZ`) | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x31` | Floating point (FESC) |
-| `FRINTM` | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x32` | Floating point (FESC) |
-| `FRINTP` | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x33` | Floating point (FESC) |
-| `FRINTZ` | [FRINT](fp.md#frint-round-to-an-integral-value-binary64) | `0x10` | `0x31` | Floating point (FESC) |
-| `FSFLAGS` | [FSFLAGS](fp.md#fsflags-swap-the-floating-point-exception-flags) | `0x10` | `0x40` | Floating point (FESC) |
-| `FSQRT` | [FDIV](fp.md#fdiv-floating-divide-and-square-root-binary64) | `0x10` | `0x1` | Floating point (FESC) |
-| `FSQRT16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x54` | Floating point (FESC) |
-| `FSQRT32` | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0xC` | Floating point (FESC) |
-| `FSQRTD` (alias of `FSQRT`) | [FDIV](fp.md#fdiv-floating-divide-and-square-root-binary64) | `0x10` | `0x1` | Floating point (FESC) |
-| `FSQRTS` (alias of `FSQRT32`) | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0xC` | Floating point (FESC) |
-| `FSUB` | [FADD](fp.md#fadd-floating-add-subtract-and-multiply-binary64) | `0x25` |  | Moves, address formation and the ALU |
-| `FSUB16` | [FHALF](fp.md#fhalf-floating-arithmetic-binary16) | `0x10` | `0x51` | Floating point (FESC) |
-| `FSUB32` | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0x9` | Floating point (FESC) |
-| `FSUBD` (alias of `FSUB`) | [FADD](fp.md#fadd-floating-add-subtract-and-multiply-binary64) | `0x25` |  | Moves, address formation and the ALU |
-| `FSUBS` (alias of `FSUB32`) | [FSINGLE](fp.md#fsingle-floating-arithmetic-binary32) | `0x10` | `0x9` | Floating point (FESC) |
-| `HALT` | [HALT](system.md#halt-halt-the-processor) | `0x14` | `0x4` | System (SYS) |
-| `HINT` | [HINT](system.md#hint-hint) | `0x14` | `0x3` | System (SYS) |
-| `ICINV` | [ICINV](system.md#icinv-invalidate-the-instruction-cache-for-an-address) | `0x14` | `0xC` | System (SYS) |
-| `ICINVA` | [TLBA](system.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) | `0x14` | `0xC` | System (SYS) |
-| `INC` | [INC](single.md#inc-increment) | `0x13` | `0x2` | Single operand (SOP) |
-| `INSB` | [INSB](bits.md#insb-insert-a-bit-field) | `0x0C` | `0x23` | Bits and fields (BESC) |
-| `ISYNC` | [ISYNC](system.md#isync-instruction-synchronisation) | `0x14` | `0x2` | System (SYS) |
-| `JMP` | [JMP](single.md#jmp-jump) | `0x13` | `0xC` | Single operand (SOP) |
-| `JMPI` | [JMPI](branches.md#jmpi-jump-and-call-through-memory) | `0x12` | `0x0` | Indirect transfers (XFER) |
-| `JTAG` | [JTAG](branches.md#jtag-jump-through-a-tag-table) | `0x12` | `0x2` | Indirect transfers (XFER) |
-| `LEA` | [LEA](moves.md#lea-load-effective-address) | `0x0B` |  | Moves, address formation and the ALU |
-| `LL` | [LLSC](atomics.md#llsc-load-linked-and-store-conditional) | `0x11` | `0x20` | Atomics (ATOM) |
-| `LPAD` | [NOP](system.md#nop-no-operation-and-landing-pad) | `0x14` | `0x9` | System (SYS) |
-| `MAX` | [MINMAX](arith.md#minmax-minimum-and-maximum-signed-and-unsigned) | `0x0E` | `0x12` | Arithmetic (AESC) |
-| `MAXU` | [MINMAX](arith.md#minmax-minimum-and-maximum-signed-and-unsigned) | `0x0E` | `0x13` | Arithmetic (AESC) |
-| `MCMP` | [MCMP](block.md#mcmp-compare-two-blocks-of-bytes) | `0x0D` | `0x3` | Block memory (MBLK) |
-| `MCPY` | [MCPY](block.md#mcpy-copy-a-block-of-bytes) | `0x0D` | `0x0` | Block memory (MBLK) |
-| `MFASID` | [MTASID](system.md#mtasid-move-to-and-from-the-address-space-identifier) | `0x14` | `0x7` | System (SYS) |
-| `MFCPUID` | [MFCPUID](system.md#mfcpuid-read-the-processor-identifier) | `0x14` | `0xB` | System (SYS) |
-| `MFDP` | [MTDP](system.md#mtdp-move-to-and-from-the-direct-pointer) | `0x14` | `0x9` | System (SYS) |
-| `MFPS` | [MTPS](system.md#mtps-move-to-and-from-the-processor-status-word) | `0x14` | `0x2` | System (SYS) |
-| `MFSR` | [MFSR](system.md#mfsr-move-from-and-to-a-system-register) | `0x14` | `0xD` | System (SYS) |
-| `MIN` | [MINMAX](arith.md#minmax-minimum-and-maximum-signed-and-unsigned) | `0x0E` | `0x10` | Arithmetic (AESC) |
-| `MINU` | [MINMAX](arith.md#minmax-minimum-and-maximum-signed-and-unsigned) | `0x0E` | `0x11` | Arithmetic (AESC) |
-| `MMOV` | [MCPY](block.md#mcpy-copy-a-block-of-bytes) | `0x0D` | `0x1` | Block memory (MBLK) |
-| `MOD` | [DIV](arith.md#div-divide-and-remainder-signed-and-unsigned) | `0x0E` | `0x2` | Arithmetic (AESC) |
-| `MODU` | [DIV](arith.md#div-divide-and-remainder-signed-and-unsigned) | `0x0E` | `0x3` | Arithmetic (AESC) |
-| `MOVB` | [MOV](moves.md#mov-move-load-and-store-64-32-16-and-8-bits) | `0x06` |  | Moves, address formation and the ALU |
-| `MOVL` | [MOV](moves.md#mov-move-load-and-store-64-32-16-and-8-bits) | `0x02` |  | Moves, address formation and the ALU |
-| `MOVQ` | [MOV](moves.md#mov-move-load-and-store-64-32-16-and-8-bits) | `0x00` |  | Moves, address formation and the ALU |
-| `MOVUB` | [MOVU](moves.md#movu-unaligned-load-and-store) | `0x0F` | `0x0` | Memory escape (MESC) |
-| `MOVUL` | [MOVU](moves.md#movu-unaligned-load-and-store) | `0x0F` | `0x4` | Memory escape (MESC) |
-| `MOVUQ` | [MOVU](moves.md#movu-unaligned-load-and-store) | `0x0F` | `0x6` | Memory escape (MESC) |
-| `MOVUW` | [MOVU](moves.md#movu-unaligned-load-and-store) | `0x0F` | `0x2` | Memory escape (MESC) |
-| `MOVW` | [MOV](moves.md#mov-move-load-and-store-64-32-16-and-8-bits) | `0x04` |  | Moves, address formation and the ALU |
-| `MOVZB` | [MOVZ](moves.md#movz-move-zero-extended-32-16-and-8-bits) | `0x0A` |  | Moves, address formation and the ALU |
-| `MOVZL` | [MOVZ](moves.md#movz-move-zero-extended-32-16-and-8-bits) | `0x08` |  | Moves, address formation and the ALU |
-| `MOVZW` | [MOVZ](moves.md#movz-move-zero-extended-32-16-and-8-bits) | `0x09` |  | Moves, address formation and the ALU |
-| `MSCN` | [MSCN](block.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) | `0x0D` | `0x4` | Block memory (MBLK) |
-| `MSCNN` | [MSCN](block.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) | `0x0D` | `0x5` | Block memory (MBLK) |
-| `MSET` | [MSET](block.md#mset-fill-a-block-of-bytes) | `0x0D` | `0x2` | Block memory (MBLK) |
-| `MTASID` | [MTASID](system.md#mtasid-move-to-and-from-the-address-space-identifier) | `0x14` | `0x6` | System (SYS) |
-| `MTDMW` | [MTDMW](system.md#mtdmw-move-to-a-direct-mapping-window) | `0x14` | `0xA` | System (SYS) |
-| `MTDP` | [MTDP](system.md#mtdp-move-to-and-from-the-direct-pointer) | `0x14` | `0x8` | System (SYS) |
-| `MTPS` | [MTPS](system.md#mtps-move-to-and-from-the-processor-status-word) | `0x14` | `0x1` | System (SYS) |
-| `MTSR` | [MFSR](system.md#mfsr-move-from-and-to-a-system-register) | `0x14` | `0xE` | System (SYS) |
-| `MUL` | [MUL](alu.md#mul-multiply-low-64-bits) | `0x1E` |  | Moves, address formation and the ALU |
-| `MULH` | [MULH](alu.md#mulh-multiply-high-64-bits-signed) | `0x1F` |  | Moves, address formation and the ALU |
-| `MULHU` | [MULHU](arith.md#mulhu-multiply-high-64-bits-unsigned) | `0x0E` | `0x4` | Arithmetic (AESC) |
-| `MULU` (alias of `MUL`) | [MUL](alu.md#mul-multiply-low-64-bits) | `0x1E` |  | Moves, address formation and the ALU |
-| `MVAL` | [MVAL](block.md#mval-validate-a-block-as-utf-8) | `0x0D` | `0x6` | Block memory (MBLK) |
-| `NEG` | [NEG](single.md#neg-negate) | `0x13` | `0x4` | Single operand (SOP) |
-| `NOP` | [NOP](system.md#nop-no-operation-and-landing-pad) | `0x14` | `0x0` | System (SYS) |
-| `POP` | [POP](single.md#pop-pop) | `0x13` | `0xF` | Single operand (SOP) |
-| `POPCNT` | [POPCNT](bits.md#popcnt-population-count) | `0x0C` | `0x4` | Bits and fields (BESC) |
-| `POPM` | [POPM](single.md#popm-pop-registers-by-mask) | `0x13` | `0xB` | Single operand (SOP) |
-| `POPX` | [PUSHX](system.md#pushx-push-and-pop-the-exception-state) | `0x14` | `0x1` | System (SYS) |
-| `PROBER` | [PROBE](system.md#probe-probe-an-address-for-read-or-write-access) | `0x14` | `0xD` | System (SYS) |
-| `PROBEW` | [PROBE](system.md#probe-probe-an-address-for-read-or-write-access) | `0x14` | `0xE` | System (SYS) |
-| `PUSH` | [PUSH](single.md#push-push) | `0x13` | `0xE` | Single operand (SOP) |
-| `PUSHM` | [PUSHM](single.md#pushm-push-registers-by-mask) | `0x13` | `0xA` | Single operand (SOP) |
-| `PUSHX` | [PUSHX](system.md#pushx-push-and-pop-the-exception-state) | `0x14` | `0x0` | System (SYS) |
-| `RET` | [RET](system.md#ret-return-from-subroutine) | `0x14` | `0x3` | System (SYS) |
-| `ROL` (alias of `RORI`) | [RORI](bits.md#rori-rotate-right-by-an-immediate) | `0x0C` | `0x11` | Bits and fields (BESC) |
-| `ROR` | [ROR](bits.md#ror-rotate-right-by-a-register-count) | `0x0C` | `0x10` | Bits and fields (BESC) |
-| `RORI` | [RORI](bits.md#rori-rotate-right-by-an-immediate) | `0x0C` | `0x11` | Bits and fields (BESC) |
-| `RORI32` | [RORI32](bits.md#rori32-rotate-right-by-an-immediate-32-bits) | `0x0C` | `0x12` | Bits and fields (BESC) |
-| `RTI` | [RTI](system.md#rti-return-from-interrupt-or-exception) | `0x14` | `0x1` | System (SYS) |
-| `RTT` | [RTI](system.md#rti-return-from-interrupt-or-exception) | `0x14` | `0x2` | System (SYS) |
-| `SAR` | [SHIFT](alu.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) | `0x22` |  | Moves, address formation and the ALU |
-| `SBC` | [SBC](single.md#sbc-subtract-carry) | `0x13` | `0x7` | Single operand (SOP) |
-| `SC` | [LLSC](atomics.md#llsc-load-linked-and-store-conditional) | `0x11` | `0x21` | Atomics (ATOM) |
-| `SET` | [SET](arith.md#set-set-a-register-from-a-condition) | `0x0E` | `0x20` | Arithmetic (AESC) |
-| `SEV` | [SEV](system.md#sev-send-an-event) | `0x14` | `0x8` | System (SYS) |
-| `SHL` | [SHIFT](alu.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) | `0x20` |  | Moves, address formation and the ALU |
-| `SHR` | [SHIFT](alu.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) | `0x21` |  | Moves, address formation and the ALU |
-| `SOB` | [SOB](branches.md#sob-subtract-one-and-branch) | `0x3F` | `0x3F` | Branches |
-| `SPL` | [SPL](system.md#spl-set-the-interrupt-priority-level) | `0x14` | `0x3` | System (SYS) |
-| `SUB` | [SUB](alu.md#sub-subtract) | `0x17` |  | Moves, address formation and the ALU |
-| `SUBM` | [ADDM](alu.md#addm-alu-operation-with-a-memory-destination) | `0x0F` | `0x9` | Memory escape (MESC) |
-| `SWAP` | [SWAP](atomics.md#swap-atomic-exchange) | `0x11` | `0x2` | Atomics (ATOM) |
-| `SWAPDB` | [SWAP](atomics.md#swap-atomic-exchange) | `0x11` | `0x3` | Atomics (ATOM) |
-| `TLBI` | [TLBI](system.md#tlbi-invalidate-a-translation) | `0x14` | `0x5` | System (SYS) |
-| `TLBIA` | [TLBA](system.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) | `0x14` | `0xA` | System (SYS) |
-| `TLBSYNC` | [TLBA](system.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) | `0x14` | `0xB` | System (SYS) |
-| `TRAP` | [TRAP](system.md#trap-system-call-and-trap) | `0x14` | `0x4` | System (SYS) |
-| `TRAPL` | [TRAP](system.md#trap-system-call-and-trap) | `0x14` | `0xF` | System (SYS) |
-| `TST` | [TST](single.md#tst-test) | `0x13` | `0x5` | Single operand (SOP) |
-| `UTF8DEC` | [UTF8DEC](bits.md#utf8dec-decode-a-utf-8-sequence) | `0x0C` | `0x41` | Bits and fields (BESC) |
-| `UTF8ENC` | [UTF8ENC](bits.md#utf8enc-encode-a-unicode-scalar-value) | `0x0C` | `0x42` | Bits and fields (BESC) |
-| `UTF8LEN` | [UTF8LEN](bits.md#utf8len-length-of-a-utf-8-sequence-from-its-leading-byte) | `0x0C` | `0x40` | Bits and fields (BESC) |
-| `WAIT` (alias of `WFE`) | [WFE](system.md#wfe-wait-for-an-event) | `0x14` | `0x7` | System (SYS) |
-| `WFE` | [WFE](system.md#wfe-wait-for-an-event) | `0x14` | `0x7` | System (SYS) |
-| `XADD` | [XADD](atomics.md#xadd-atomic-fetch-and-add) | `0x11` | `0x4` | Atomics (ATOM) |
-| `XADDDB` | [XADD](atomics.md#xadd-atomic-fetch-and-add) | `0x11` | `0x5` | Atomics (ATOM) |
-| `XAND` | [XAND](atomics.md#xand-atomic-fetch-and-and-or-xor) | `0x11` | `0x6` | Atomics (ATOM) |
-| `XANDDB` | [XAND](atomics.md#xand-atomic-fetch-and-and-or-xor) | `0x11` | `0x7` | Atomics (ATOM) |
-| `XMAX` | [XMAX](atomics.md#xmax-atomic-fetch-and-minimum-or-maximum) | `0x11` | `0xC` | Atomics (ATOM) |
-| `XMAXDB` | [XMAX](atomics.md#xmax-atomic-fetch-and-minimum-or-maximum) | `0x11` | `0xD` | Atomics (ATOM) |
-| `XMAXU` | [XMAX](atomics.md#xmax-atomic-fetch-and-minimum-or-maximum) | `0x11` | `0x10` | Atomics (ATOM) |
-| `XMAXUDB` | [XMAX](atomics.md#xmax-atomic-fetch-and-minimum-or-maximum) | `0x11` | `0x11` | Atomics (ATOM) |
-| `XMIN` | [XMAX](atomics.md#xmax-atomic-fetch-and-minimum-or-maximum) | `0x11` | `0xE` | Atomics (ATOM) |
-| `XMINDB` | [XMAX](atomics.md#xmax-atomic-fetch-and-minimum-or-maximum) | `0x11` | `0xF` | Atomics (ATOM) |
-| `XMINU` | [XMAX](atomics.md#xmax-atomic-fetch-and-minimum-or-maximum) | `0x11` | `0x12` | Atomics (ATOM) |
-| `XMINUDB` | [XMAX](atomics.md#xmax-atomic-fetch-and-minimum-or-maximum) | `0x11` | `0x13` | Atomics (ATOM) |
-| `XNORPOP` | [XNORPOP](bits.md#xnorpop-population-count-of-the-equality-of-two-words) | `0x0C` | `0x30` | Bits and fields (BESC) |
-| `XOR` | [XOR](alu.md#xor-exclusive-or) | `0x1C` |  | Moves, address formation and the ALU |
-| `XOR_` | [XAND](atomics.md#xand-atomic-fetch-and-and-or-xor) | `0x11` | `0x8` | Atomics (ATOM) |
-| `XOR_DB` | [XAND](atomics.md#xand-atomic-fetch-and-and-or-xor) | `0x11` | `0x9` | Atomics (ATOM) |
-| `XXOR` | [XAND](atomics.md#xand-atomic-fetch-and-and-or-xor) | `0x11` | `0xA` | Atomics (ATOM) |
-| `XXORDB` | [XAND](atomics.md#xand-atomic-fetch-and-and-or-xor) | `0x11` | `0xB` | Atomics (ATOM) |
+| `ABS` | [ABS](../09-isa.md#abs-absolute-value) (section 9.7) | `0x0E` | `0x8` | Arithmetic (AESC) |
+| `ADC` | [ADC](../09-isa.md#adc-add-carry) (section 9.7) | `0x13` | `0x6` | Single operand (SOP) |
+| `ADD` | [ADD](../09-isa.md#add-add) (section 9.7) | `0x16` |  | Moves, address formation and the ALU |
+| `ADDM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | `0x0F` | `0x8` | Memory escape (MESC) |
+| `AND` | [AND](../09-isa.md#and-and) (section 9.8) | `0x1D` |  | Moves, address formation and the ALU |
+| `ASL` | [ASL](../09-isa.md#asl-arithmetic-shift-left-by-one) (section 9.8) | `0x13` | `0x8` | Single operand (SOP) |
+| `ASR` | [ASR](../09-isa.md#asr-arithmetic-shift-right-by-one) (section 9.8) | `0x13` | `0x9` | Single operand (SOP) |
+| `BCC` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x37` |  | Branches |
+| `BCS` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x38` |  | Branches |
+| `BEQ` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x32` |  | Branches |
+| `BGE` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x39` |  | Branches |
+| `BGT` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x3B` |  | Branches |
+| `BHI` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x3D` |  | Branches |
+| `BHIS` (alias of `BCC`) | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x37` |  | Branches |
+| `BIC` | [BIC](../09-isa.md#bic-bit-clear) (section 9.8) | `0x18` |  | Moves, address formation and the ALU |
+| `BICM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | `0x0F` | `0xA` | Memory escape (MESC) |
+| `BIS` | [BIS](../09-isa.md#bis-bit-set-inclusive-or) (section 9.8) | `0x19` |  | Moves, address formation and the ALU |
+| `BISM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | `0x0F` | `0xB` | Memory escape (MESC) |
+| `BIT` | [BIT](../09-isa.md#bit-bit-test) (section 9.8) | `0x1B` |  | Moves, address formation and the ALU |
+| `BITREV` | [BITREV](../09-isa.md#bitrev-reverse-the-bits) (section 9.9) | `0x0C` | `0x8` | Bits and fields (BESC) |
+| `BLE` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x3C` |  | Branches |
+| `BLO` (alias of `BCS`) | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x38` |  | Branches |
+| `BLOS` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x3E` |  | Branches |
+| `BLT` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x3A` |  | Branches |
+| `BMI` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x34` |  | Branches |
+| `BNE` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x31` |  | Branches |
+| `BNTAG` | [BTAG](../09-isa.md#btag-branch-on-pointer-tag) (section 9.10) | `0x15` | `0x1` | Branches |
+| `BPL` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x33` |  | Branches |
+| `BPT` | [BPT](../06-kernel.md#bpt-breakpoint) (section 6.7) | `0x14` | `0x5` | System (SYS) |
+| `BR` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x30` |  | Branches |
+| `BSWAP` | [BSWAP](../09-isa.md#bswap-byte-swap) (section 9.9) | `0x0C` | `0x5` | Bits and fields (BESC) |
+| `BSWAPL` | [BSWAP](../09-isa.md#bswap-byte-swap) (section 9.9) | `0x0C` | `0x7` | Bits and fields (BESC) |
+| `BSWAPW` | [BSWAP](../09-isa.md#bswap-byte-swap) (section 9.9) | `0x0C` | `0x6` | Bits and fields (BESC) |
+| `BTAG` | [BTAG](../09-isa.md#btag-branch-on-pointer-tag) (section 9.10) | `0x15` | `0x0` | Branches |
+| `BVC` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x35` |  | Branches |
+| `BVS` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | `0x36` |  | Branches |
+| `CALL` | [CALL](../09-isa.md#call-call) (section 9.10) | `0x13` | `0xD` | Single operand (SOP) |
+| `CALLI` | [JMPI](../09-isa.md#jmpi-jump-and-call-through-memory) (section 9.10) | `0x12` | `0x1` | Indirect transfers (XFER) |
+| `CAS` | [CAS](../07-smp.md#cas-compare-and-swap) (section 7.12) | `0x11` | `0x0` | Atomics (ATOM) |
+| `CASDB` | [CAS](../07-smp.md#cas-compare-and-swap) (section 7.12) | `0x11` | `0x1` | Atomics (ATOM) |
+| `CBCC` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x7` | Branches |
+| `CBCS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x8` | Branches |
+| `CBEQ` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x2` | Branches |
+| `CBGE` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x9` | Branches |
+| `CBGT` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0xB` | Branches |
+| `CBHI` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0xD` | Branches |
+| `CBHIS` (alias of `CBCC`) | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x7` | Branches |
+| `CBLE` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0xC` | Branches |
+| `CBLO` (alias of `CBCS`) | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x8` | Branches |
+| `CBLOS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0xE` | Branches |
+| `CBLT` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0xA` | Branches |
+| `CBMI` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x4` | Branches |
+| `CBNE` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x1` | Branches |
+| `CBPL` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x3` | Branches |
+| `CBVC` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x5` | Branches |
+| `CBVS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | `0x28` | `0x6` | Branches |
+| `CLMULH` | [CLMUL](../09-isa.md#clmul-carry-less-multiply) (section 9.9) | `0x0C` | `0x32` | Bits and fields (BESC) |
+| `CLMULL` | [CLMUL](../09-isa.md#clmul-carry-less-multiply) (section 9.9) | `0x0C` | `0x31` | Bits and fields (BESC) |
+| `CLO` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | `0x0C` | `0x2` | Bits and fields (BESC) |
+| `CLR` | [CLR](../09-isa.md#clr-clear) (section 9.8) | `0x13` | `0x0` | Single operand (SOP) |
+| `CLZ` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | `0x0C` | `0x0` | Bits and fields (BESC) |
+| `CMP` | [CMP](../09-isa.md#cmp-compare) (section 9.7) | `0x1A` |  | Moves, address formation and the ALU |
+| `COM` | [COM](../09-isa.md#com-complement) (section 9.8) | `0x13` | `0x1` | Single operand (SOP) |
+| `CTO` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | `0x0C` | `0x3` | Bits and fields (BESC) |
+| `CTZ` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | `0x0C` | `0x1` | Bits and fields (BESC) |
+| `DEC` | [DEC](../09-isa.md#dec-decrement) (section 9.7) | `0x13` | `0x3` | Single operand (SOP) |
+| `DIV` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | `0x0E` | `0x0` | Arithmetic (AESC) |
+| `DIVU` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | `0x0E` | `0x1` | Arithmetic (AESC) |
+| `DSHR` | [DSHR](../09-isa.md#dshr-double-width-funnel-shift-right) (section 9.9) | `0x0C` | `0x20` | Bits and fields (BESC) |
+| `EXTB` | [EXTB](../09-isa.md#extb-extract-a-bit-field) (section 9.9) | `0x0C` | `0x21` | Bits and fields (BESC) |
+| `EXTZB` | [EXTB](../09-isa.md#extb-extract-a-bit-field) (section 9.9) | `0x0C` | `0x22` | Bits and fields (BESC) |
+| `FABS` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | `0x10` | `0x21` | Floating point (FESC) |
+| `FADD` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | `0x24` |  | Moves, address formation and the ALU |
+| `FADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x50` | Floating point (FESC) |
+| `FADD32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0x8` | Floating point (FESC) |
+| `FADDD` (alias of `FADD`) | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | `0x24` |  | Moves, address formation and the ALU |
+| `FADDS` (alias of `FADD32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0x8` | Floating point (FESC) |
+| `FCLASS` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | `0x10` | `0x28` | Floating point (FESC) |
+| `FCLASS16` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | `0x10` | `0x5C` | Floating point (FESC) |
+| `FCLASS32` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | `0x10` | `0x29` | Floating point (FESC) |
+| `FCLASSD` (alias of `FCLASS`) | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | `0x10` | `0x28` | Floating point (FESC) |
+| `FCLASSS` (alias of `FCLASS32`) | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | `0x10` | `0x29` | Floating point (FESC) |
+| `FCMP` | [FCMP](../09-isa.md#fcmp-floating-compare-binary64) (section 9.12) | `0x27` |  | Moves, address formation and the ALU |
+| `FCMP16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x55` | Floating point (FESC) |
+| `FCMP32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xD` | Floating point (FESC) |
+| `FCMPD` (alias of `FCMP`) | [FCMP](../09-isa.md#fcmp-floating-compare-binary64) (section 9.12) | `0x27` |  | Moves, address formation and the ALU |
+| `FCMPS` (alias of `FCMP32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xD` | Floating point (FESC) |
+| `FCOPYSIGN` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | `0x10` | `0x22` | Floating point (FESC) |
+| `FCVTDH` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | `0x10` | `0x62` | Floating point (FESC) |
+| `FCVTDQ` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | `0x10` | `0x38` | Floating point (FESC) |
+| `FCVTDQU` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | `0x10` | `0x3E` | Floating point (FESC) |
+| `FCVTDS` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | `0x10` | `0x3A` | Floating point (FESC) |
+| `FCVTHD` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | `0x10` | `0x63` | Floating point (FESC) |
+| `FCVTHL` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | `0x10` | `0x64` | Floating point (FESC) |
+| `FCVTHS` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | `0x10` | `0x61` | Floating point (FESC) |
+| `FCVTLH` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | `0x10` | `0x65` | Floating point (FESC) |
+| `FCVTLS` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | `0x10` | `0x3D` | Floating point (FESC) |
+| `FCVTQD` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | `0x10` | `0x39` | Floating point (FESC) |
+| `FCVTQUD` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | `0x10` | `0x3F` | Floating point (FESC) |
+| `FCVTSD` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | `0x10` | `0x3B` | Floating point (FESC) |
+| `FCVTSH` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | `0x10` | `0x60` | Floating point (FESC) |
+| `FCVTSL` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | `0x10` | `0x3C` | Floating point (FESC) |
+| `FDIV` | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | `0x10` | `0x0` | Floating point (FESC) |
+| `FDIV16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x53` | Floating point (FESC) |
+| `FDIV32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xB` | Floating point (FESC) |
+| `FDIVD` (alias of `FDIV`) | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | `0x10` | `0x0` | Floating point (FESC) |
+| `FDIVS` (alias of `FDIV32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xB` | Floating point (FESC) |
+| `FENCE` | [FENCE](../06-kernel.md#fence-memory-fence) (section 6.7) | `0x14` | `0x6` | System (SYS) |
+| `FMADD` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | `0x10` | `0x10` | Floating point (FESC) |
+| `FMADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x58` | Floating point (FESC) |
+| `FMADD32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | `0x10` | `0x18` | Floating point (FESC) |
+| `FMADDD` (alias of `FMADD`) | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | `0x10` | `0x10` | Floating point (FESC) |
+| `FMADDS` (alias of `FMADD32`) | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | `0x10` | `0x18` | Floating point (FESC) |
+| `FMAX` | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | `0x10` | `0x24` | Floating point (FESC) |
+| `FMAXD` (alias of `FMAX`) | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | `0x10` | `0x24` | Floating point (FESC) |
+| `FMIN` | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | `0x10` | `0x23` | Floating point (FESC) |
+| `FMIND` (alias of `FMIN`) | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | `0x10` | `0x23` | Floating point (FESC) |
+| `FMSUB` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | `0x10` | `0x11` | Floating point (FESC) |
+| `FMSUB16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x59` | Floating point (FESC) |
+| `FMSUB32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | `0x10` | `0x19` | Floating point (FESC) |
+| `FMSUBD` (alias of `FMSUB`) | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | `0x10` | `0x11` | Floating point (FESC) |
+| `FMSUBS` (alias of `FMSUB32`) | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | `0x10` | `0x19` | Floating point (FESC) |
+| `FMUL` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | `0x26` |  | Moves, address formation and the ALU |
+| `FMUL16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x52` | Floating point (FESC) |
+| `FMUL32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xA` | Floating point (FESC) |
+| `FMULD` (alias of `FMUL`) | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | `0x26` |  | Moves, address formation and the ALU |
+| `FMULS` (alias of `FMUL32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xA` | Floating point (FESC) |
+| `FNEG` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | `0x10` | `0x20` | Floating point (FESC) |
+| `FNMADD` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | `0x10` | `0x12` | Floating point (FESC) |
+| `FNMADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x5A` | Floating point (FESC) |
+| `FNMADD32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | `0x10` | `0x1A` | Floating point (FESC) |
+| `FNMADDD` (alias of `FNMADD`) | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | `0x10` | `0x12` | Floating point (FESC) |
+| `FNMADDS` (alias of `FNMADD32`) | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | `0x10` | `0x1A` | Floating point (FESC) |
+| `FNMSUB` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | `0x10` | `0x13` | Floating point (FESC) |
+| `FNMSUB16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x5B` | Floating point (FESC) |
+| `FNMSUB32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | `0x10` | `0x1B` | Floating point (FESC) |
+| `FNMSUBD` (alias of `FNMSUB`) | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | `0x10` | `0x13` | Floating point (FESC) |
+| `FNMSUBS` (alias of `FNMSUB32`) | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | `0x10` | `0x1B` | Floating point (FESC) |
+| `FRINT` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x30` | Floating point (FESC) |
+| `FRINTA` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x34` | Floating point (FESC) |
+| `FRINTD` (alias of `FRINT`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x30` | Floating point (FESC) |
+| `FRINTDA` (alias of `FRINTA`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x34` | Floating point (FESC) |
+| `FRINTDM` (alias of `FRINTM`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x32` | Floating point (FESC) |
+| `FRINTDP` (alias of `FRINTP`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x33` | Floating point (FESC) |
+| `FRINTDZ` (alias of `FRINTZ`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x31` | Floating point (FESC) |
+| `FRINTM` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x32` | Floating point (FESC) |
+| `FRINTP` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x33` | Floating point (FESC) |
+| `FRINTZ` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | `0x10` | `0x31` | Floating point (FESC) |
+| `FSFLAGS` | [FSFLAGS](../09-isa.md#fsflags-swap-the-floating-point-exception-flags) (section 9.12) | `0x10` | `0x40` | Floating point (FESC) |
+| `FSQRT` | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | `0x10` | `0x1` | Floating point (FESC) |
+| `FSQRT16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x54` | Floating point (FESC) |
+| `FSQRT32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xC` | Floating point (FESC) |
+| `FSQRTD` (alias of `FSQRT`) | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | `0x10` | `0x1` | Floating point (FESC) |
+| `FSQRTS` (alias of `FSQRT32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0xC` | Floating point (FESC) |
+| `FSUB` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | `0x25` |  | Moves, address formation and the ALU |
+| `FSUB16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | `0x10` | `0x51` | Floating point (FESC) |
+| `FSUB32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0x9` | Floating point (FESC) |
+| `FSUBD` (alias of `FSUB`) | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | `0x25` |  | Moves, address formation and the ALU |
+| `FSUBS` (alias of `FSUB32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | `0x10` | `0x9` | Floating point (FESC) |
+| `HALT` | [HALT](../06-kernel.md#halt-halt-the-processor) (section 6.7) | `0x14` | `0x4` | System (SYS) |
+| `HINT` | [HINT](../06-kernel.md#hint-hint) (section 6.7) | `0x14` | `0x3` | System (SYS) |
+| `ICINV` | [ICINV](../06-kernel.md#icinv-invalidate-the-instruction-cache-for-an-address) (section 6.7) | `0x14` | `0xC` | System (SYS) |
+| `ICINVA` | [TLBA](../06-kernel.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 6.7) | `0x14` | `0xC` | System (SYS) |
+| `INC` | [INC](../09-isa.md#inc-increment) (section 9.7) | `0x13` | `0x2` | Single operand (SOP) |
+| `INSB` | [INSB](../09-isa.md#insb-insert-a-bit-field) (section 9.9) | `0x0C` | `0x23` | Bits and fields (BESC) |
+| `ISYNC` | [ISYNC](../06-kernel.md#isync-instruction-synchronisation) (section 6.7) | `0x14` | `0x2` | System (SYS) |
+| `JMP` | [JMP](../09-isa.md#jmp-jump) (section 9.10) | `0x13` | `0xC` | Single operand (SOP) |
+| `JMPI` | [JMPI](../09-isa.md#jmpi-jump-and-call-through-memory) (section 9.10) | `0x12` | `0x0` | Indirect transfers (XFER) |
+| `JTAG` | [JTAG](../09-isa.md#jtag-jump-through-a-tag-table) (section 9.10) | `0x12` | `0x2` | Indirect transfers (XFER) |
+| `LEA` | [LEA](../09-isa.md#lea-load-effective-address) (section 9.6) | `0x0B` |  | Moves, address formation and the ALU |
+| `LL` | [LLSC](../07-smp.md#llsc-load-linked-and-store-conditional) (section 7.12) | `0x11` | `0x20` | Atomics (ATOM) |
+| `LPAD` | [NOP](../06-kernel.md#nop-no-operation-and-landing-pad) (section 6.7) | `0x14` | `0x9` | System (SYS) |
+| `MAX` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `0x0E` | `0x12` | Arithmetic (AESC) |
+| `MAXU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `0x0E` | `0x13` | Arithmetic (AESC) |
+| `MCMP` | [MCMP](../09-isa.md#mcmp-compare-two-blocks-of-bytes) (section 9.11) | `0x0D` | `0x3` | Block memory (MBLK) |
+| `MCPY` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | `0x0D` | `0x0` | Block memory (MBLK) |
+| `MFASID` | [MTASID](../06-kernel.md#mtasid-move-to-and-from-the-address-space-identifier) (section 6.7) | `0x14` | `0x7` | System (SYS) |
+| `MFCPUID` | [MFCPUID](../06-kernel.md#mfcpuid-read-the-processor-identifier) (section 6.7) | `0x14` | `0xB` | System (SYS) |
+| `MFDP` | [MTDP](../06-kernel.md#mtdp-move-to-and-from-the-direct-pointer) (section 6.7) | `0x14` | `0x9` | System (SYS) |
+| `MFPS` | [MTPS](../06-kernel.md#mtps-move-to-and-from-the-processor-status-word) (section 6.7) | `0x14` | `0x2` | System (SYS) |
+| `MFSR` | [MFSR](../06-kernel.md#mfsr-move-from-and-to-a-system-register) (section 6.7) | `0x14` | `0xD` | System (SYS) |
+| `MIN` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `0x0E` | `0x10` | Arithmetic (AESC) |
+| `MINU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `0x0E` | `0x11` | Arithmetic (AESC) |
+| `MMOV` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | `0x0D` | `0x1` | Block memory (MBLK) |
+| `MOD` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | `0x0E` | `0x2` | Arithmetic (AESC) |
+| `MODU` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | `0x0E` | `0x3` | Arithmetic (AESC) |
+| `MOVB` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | `0x06` |  | Moves, address formation and the ALU |
+| `MOVL` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | `0x02` |  | Moves, address formation and the ALU |
+| `MOVQ` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | `0x00` |  | Moves, address formation and the ALU |
+| `MOVUB` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | `0x0F` | `0x0` | Memory escape (MESC) |
+| `MOVUL` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | `0x0F` | `0x4` | Memory escape (MESC) |
+| `MOVUQ` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | `0x0F` | `0x6` | Memory escape (MESC) |
+| `MOVUW` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | `0x0F` | `0x2` | Memory escape (MESC) |
+| `MOVW` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | `0x04` |  | Moves, address formation and the ALU |
+| `MOVZB` | [MOVZ](../09-isa.md#movz-move-zero-extended-32-16-and-8-bits) (section 9.6) | `0x0A` |  | Moves, address formation and the ALU |
+| `MOVZL` | [MOVZ](../09-isa.md#movz-move-zero-extended-32-16-and-8-bits) (section 9.6) | `0x08` |  | Moves, address formation and the ALU |
+| `MOVZW` | [MOVZ](../09-isa.md#movz-move-zero-extended-32-16-and-8-bits) (section 9.6) | `0x09` |  | Moves, address formation and the ALU |
+| `MSCN` | [MSCN](../09-isa.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) (section 9.11) | `0x0D` | `0x4` | Block memory (MBLK) |
+| `MSCNN` | [MSCN](../09-isa.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) (section 9.11) | `0x0D` | `0x5` | Block memory (MBLK) |
+| `MSET` | [MSET](../09-isa.md#mset-fill-a-block-of-bytes) (section 9.11) | `0x0D` | `0x2` | Block memory (MBLK) |
+| `MTASID` | [MTASID](../06-kernel.md#mtasid-move-to-and-from-the-address-space-identifier) (section 6.7) | `0x14` | `0x6` | System (SYS) |
+| `MTDMW` | [MTDMW](../06-kernel.md#mtdmw-move-to-a-direct-mapping-window) (section 6.7) | `0x14` | `0xA` | System (SYS) |
+| `MTDP` | [MTDP](../06-kernel.md#mtdp-move-to-and-from-the-direct-pointer) (section 6.7) | `0x14` | `0x8` | System (SYS) |
+| `MTPS` | [MTPS](../06-kernel.md#mtps-move-to-and-from-the-processor-status-word) (section 6.7) | `0x14` | `0x1` | System (SYS) |
+| `MTSR` | [MFSR](../06-kernel.md#mfsr-move-from-and-to-a-system-register) (section 6.7) | `0x14` | `0xE` | System (SYS) |
+| `MUL` | [MUL](../09-isa.md#mul-multiply-low-64-bits) (section 9.7) | `0x1E` |  | Moves, address formation and the ALU |
+| `MULH` | [MULH](../09-isa.md#mulh-multiply-high-64-bits-signed) (section 9.7) | `0x1F` |  | Moves, address formation and the ALU |
+| `MULHU` | [MULHU](../09-isa.md#mulhu-multiply-high-64-bits-unsigned) (section 9.7) | `0x0E` | `0x4` | Arithmetic (AESC) |
+| `MULU` (alias of `MUL`) | [MUL](../09-isa.md#mul-multiply-low-64-bits) (section 9.7) | `0x1E` |  | Moves, address formation and the ALU |
+| `MVAL` | [MVAL](../09-isa.md#mval-validate-a-block-as-utf-8) (section 9.11) | `0x0D` | `0x6` | Block memory (MBLK) |
+| `NEG` | [NEG](../09-isa.md#neg-negate) (section 9.7) | `0x13` | `0x4` | Single operand (SOP) |
+| `NOP` | [NOP](../06-kernel.md#nop-no-operation-and-landing-pad) (section 6.7) | `0x14` | `0x0` | System (SYS) |
+| `POP` | [POP](../09-isa.md#pop-pop) (section 9.11) | `0x13` | `0xF` | Single operand (SOP) |
+| `POPCNT` | [POPCNT](../09-isa.md#popcnt-population-count) (section 9.9) | `0x0C` | `0x4` | Bits and fields (BESC) |
+| `POPM` | [POPM](../09-isa.md#popm-pop-registers-by-mask) (section 9.11) | `0x13` | `0xB` | Single operand (SOP) |
+| `POPX` | [PUSHX](../06-kernel.md#pushx-push-and-pop-the-exception-state) (section 6.7) | `0x14` | `0x1` | System (SYS) |
+| `PROBER` | [PROBE](../06-kernel.md#probe-probe-an-address-for-read-or-write-access) (section 6.7) | `0x14` | `0xD` | System (SYS) |
+| `PROBEW` | [PROBE](../06-kernel.md#probe-probe-an-address-for-read-or-write-access) (section 6.7) | `0x14` | `0xE` | System (SYS) |
+| `PUSH` | [PUSH](../09-isa.md#push-push) (section 9.11) | `0x13` | `0xE` | Single operand (SOP) |
+| `PUSHM` | [PUSHM](../09-isa.md#pushm-push-registers-by-mask) (section 9.11) | `0x13` | `0xA` | Single operand (SOP) |
+| `PUSHX` | [PUSHX](../06-kernel.md#pushx-push-and-pop-the-exception-state) (section 6.7) | `0x14` | `0x0` | System (SYS) |
+| `RET` | [RET](../06-kernel.md#ret-return-from-subroutine) (section 6.7) | `0x14` | `0x3` | System (SYS) |
+| `ROL` (alias of `RORI`) | [RORI](../09-isa.md#rori-rotate-right-by-an-immediate) (section 9.9) | `0x0C` | `0x11` | Bits and fields (BESC) |
+| `ROR` | [ROR](../09-isa.md#ror-rotate-right-by-a-register-count) (section 9.9) | `0x0C` | `0x10` | Bits and fields (BESC) |
+| `RORI` | [RORI](../09-isa.md#rori-rotate-right-by-an-immediate) (section 9.9) | `0x0C` | `0x11` | Bits and fields (BESC) |
+| `RORI32` | [RORI32](../09-isa.md#rori32-rotate-right-by-an-immediate-32-bits) (section 9.9) | `0x0C` | `0x12` | Bits and fields (BESC) |
+| `RTI` | [RTI](../06-kernel.md#rti-return-from-interrupt-or-exception) (section 6.7) | `0x14` | `0x1` | System (SYS) |
+| `RTT` | [RTI](../06-kernel.md#rti-return-from-interrupt-or-exception) (section 6.7) | `0x14` | `0x2` | System (SYS) |
+| `SAR` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | `0x22` |  | Moves, address formation and the ALU |
+| `SBC` | [SBC](../09-isa.md#sbc-subtract-carry) (section 9.7) | `0x13` | `0x7` | Single operand (SOP) |
+| `SC` | [LLSC](../07-smp.md#llsc-load-linked-and-store-conditional) (section 7.12) | `0x11` | `0x21` | Atomics (ATOM) |
+| `SET` | [SET](../09-isa.md#set-set-a-register-from-a-condition) (section 9.7) | `0x0E` | `0x20` | Arithmetic (AESC) |
+| `SEV` | [SEV](../06-kernel.md#sev-send-an-event) (section 6.7) | `0x14` | `0x8` | System (SYS) |
+| `SHL` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | `0x20` |  | Moves, address formation and the ALU |
+| `SHR` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | `0x21` |  | Moves, address formation and the ALU |
+| `SOB` | [SOB](../09-isa.md#sob-subtract-one-and-branch) (section 9.10) | `0x3F` | `0x3F` | Branches |
+| `SPL` | [SPL](../06-kernel.md#spl-set-the-interrupt-priority-level) (section 6.7) | `0x14` | `0x3` | System (SYS) |
+| `SUB` | [SUB](../09-isa.md#sub-subtract) (section 9.7) | `0x17` |  | Moves, address formation and the ALU |
+| `SUBM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | `0x0F` | `0x9` | Memory escape (MESC) |
+| `SWAP` | [SWAP](../07-smp.md#swap-atomic-exchange) (section 7.12) | `0x11` | `0x2` | Atomics (ATOM) |
+| `SWAPDB` | [SWAP](../07-smp.md#swap-atomic-exchange) (section 7.12) | `0x11` | `0x3` | Atomics (ATOM) |
+| `TLBI` | [TLBI](../06-kernel.md#tlbi-invalidate-a-translation) (section 6.7) | `0x14` | `0x5` | System (SYS) |
+| `TLBIA` | [TLBA](../06-kernel.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 6.7) | `0x14` | `0xA` | System (SYS) |
+| `TLBSYNC` | [TLBA](../06-kernel.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 6.7) | `0x14` | `0xB` | System (SYS) |
+| `TRAP` | [TRAP](../06-kernel.md#trap-system-call-and-trap) (section 6.7) | `0x14` | `0x4` | System (SYS) |
+| `TRAPL` | [TRAP](../06-kernel.md#trap-system-call-and-trap) (section 6.7) | `0x14` | `0xF` | System (SYS) |
+| `TST` | [TST](../09-isa.md#tst-test) (section 9.8) | `0x13` | `0x5` | Single operand (SOP) |
+| `UTF8DEC` | [UTF8DEC](../09-isa.md#utf8dec-decode-a-utf-8-sequence) (section 9.9) | `0x0C` | `0x41` | Bits and fields (BESC) |
+| `UTF8ENC` | [UTF8ENC](../09-isa.md#utf8enc-encode-a-unicode-scalar-value) (section 9.9) | `0x0C` | `0x42` | Bits and fields (BESC) |
+| `UTF8LEN` | [UTF8LEN](../09-isa.md#utf8len-length-of-a-utf-8-sequence-from-its-leading-byte) (section 9.9) | `0x0C` | `0x40` | Bits and fields (BESC) |
+| `WAIT` (alias of `WFE`) | [WFE](../06-kernel.md#wfe-wait-for-an-event) (section 6.7) | `0x14` | `0x7` | System (SYS) |
+| `WFE` | [WFE](../06-kernel.md#wfe-wait-for-an-event) (section 6.7) | `0x14` | `0x7` | System (SYS) |
+| `XADD` | [XADD](../07-smp.md#xadd-atomic-fetch-and-add) (section 7.12) | `0x11` | `0x4` | Atomics (ATOM) |
+| `XADDDB` | [XADD](../07-smp.md#xadd-atomic-fetch-and-add) (section 7.12) | `0x11` | `0x5` | Atomics (ATOM) |
+| `XAND` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0x6` | Atomics (ATOM) |
+| `XANDDB` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0x7` | Atomics (ATOM) |
+| `XMAX` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0xC` | Atomics (ATOM) |
+| `XMAXDB` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0xD` | Atomics (ATOM) |
+| `XMAXU` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0x10` | Atomics (ATOM) |
+| `XMAXUDB` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0x11` | Atomics (ATOM) |
+| `XMIN` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0xE` | Atomics (ATOM) |
+| `XMINDB` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0xF` | Atomics (ATOM) |
+| `XMINU` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0x12` | Atomics (ATOM) |
+| `XMINUDB` | [XMAX](../07-smp.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 7.12) | `0x11` | `0x13` | Atomics (ATOM) |
+| `XNORPOP` | [XNORPOP](../09-isa.md#xnorpop-population-count-of-the-equality-of-two-words) (section 9.9) | `0x0C` | `0x30` | Bits and fields (BESC) |
+| `XOR` | [XOR](../09-isa.md#xor-exclusive-or) (section 9.8) | `0x1C` |  | Moves, address formation and the ALU |
+| `XOR_` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0x8` | Atomics (ATOM) |
+| `XOR_DB` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0x9` | Atomics (ATOM) |
+| `XXOR` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0xA` | Atomics (ATOM) |
+| `XXORDB` | [XAND](../07-smp.md#xand-atomic-fetch-and-and-or-xor) (section 7.12) | `0x11` | `0xB` | Atomics (ATOM) |

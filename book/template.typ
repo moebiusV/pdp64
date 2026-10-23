@@ -49,6 +49,8 @@
 #show line: _ => v(0.4em)
 #show quote.where(block: true): it => pad(left: 1.2em, right: 1.2em, text(style: "italic", it.body))
 #show link: set text(fill: rgb("#1a4f8b"))
+#set image(width: 92%)
+#show image: it => block(above: 0.8em, below: 0.9em, breakable: false, align(center, it))
 
 // Part title
 #show heading.where(level: 1): it => {
@@ -92,7 +94,7 @@
   running-title.update(md-short-title(src))
   heading(level: if part { 1 } else { 2 }, outlined: toc, numbering: none)[#md-title(src)]
   if token != none { pgan(token.split(":").last()) }
-  render(md-body(src), h1-level: 2, scope: (render: render, pgan: pgan, pageof: pageof))
+  render(md-body(src), h1-level: 2, scope: (render: render, pgan: pgan, pageof: pageof, image: (path, ..args) => image(path, ..args)))
 }
 
 // Title page
