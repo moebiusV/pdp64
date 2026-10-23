@@ -20,6 +20,8 @@
 12. [**Appendix A. Possible improvements not decided on yet**](appendix-a-improvements.md): ideas that nobody has turned into a decision, with their benefits and costs.
 13. [**Appendix B. Decisions pending**](appendix-b-decisions-pending.md): every open decision with its question, proposed answer, precedent, trade-offs and benefits.
 14. [**Appendix C. Glossary**](appendix-c-glossary.md): the book's terms in one place, by architecture, kernel, devices and process.
+15. [**Appendix D. The ABI, version 1**](appendix-d-abi.md): data model, registers, arguments and results, variadic calls, position-independent code.
+16. [**Appendix E. The assembly language and the object format**](appendix-e-assembler.md): source syntax, directives, operand modes, the literal pool, and ELF.
 
 ## How to read it
 
