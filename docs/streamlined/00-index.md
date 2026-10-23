@@ -18,6 +18,7 @@
 10. [**Conclusion: from FPGA to silicon**](10-conclusion.md): the FPGA plan, the transistor budget, the path to an OpenBSD you can log into, and what is still open.
 11. [**Appendix A. Possible improvements not decided on yet**](appendix-a-improvements.md): ideas that nobody has turned into a decision, with their benefits and costs.
 12. [**Appendix B. Decisions pending**](appendix-b-decisions-pending.md): every open decision with its question, proposed answer, precedent, trade-offs and benefits.
+13. [**Appendix C. Glossary**](appendix-c-glossary.md): the book's terms in one place, by architecture, kernel, devices and process.
 
 ## How to read it
 
