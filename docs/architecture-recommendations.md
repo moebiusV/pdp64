@@ -31,7 +31,7 @@
 | 15 | SPEC | Out-of-order safety rules, section 3.2: the rules that make today's in-order safeties hold for an out-of-order core | 0.7 | HV C and N rules | text, one `HINT` value, one control bit |
 | 15a | ADD | Split translation: `KTBR`, top address bit selects the root, upper half not walked in user mode (section 3.1; the safe form of D6) | 0.1 #1 | D6 reopened | one system register, one TLB tag bit |
 | 16 | LEAVE | Sequential consistency (Q5), no register windows, no 32-bit mode, aligned quad accesses, no SMM-like mode, no vsyscall page | 0.1 #11-13, 0.2 #1, 0.3 #2, 0.4 #7 | settled | none |
-| 17 | DROP? | Candidates to drop or defer: `MESC` unaligned `MOVU*`, UTF-8 instructions, `MVAL`, `FCLASS32`, `XNORPOP`, `CLMULH/L` | not pain-point driven | none | frees second-page space; see section 4 |
+| 17 | KEEP | The unimplemented or rarely used instructions (`MOVU*`, UTF-8, `MVAL`, `FCLASS32`, `XNORPOP`, `CLMULH/L`) stay unless a profile-weighted measurement shows no hot loop would use them | none; the author's rule | none | see section 4 |
 
 ---
 
@@ -126,18 +126,20 @@ Each row names what in-order hardware gives today, the rule that must be in the 
 
 ## 4. Candidates to drop or defer (DROP?)
 
-This section is **not driven by pain points**; the research does not show these instructions hurting anyone. It is here because the author asked for "dropping opcodes or modes" and these are the ones the handoff already lists as unimplemented or doubtful. Judge by principle 1 (code size) and by whether a compiler would ever emit them.
+**The author's rule (2026-10-23):** "a rarely used instruction can still pull its weight if it's used inside a critical tight hot loop." So rarity is not a reason to drop an instruction. The test is **weight**, not frequency: how many instructions, cycles and bytes it saves per use, multiplied by how often the loop it sits in runs, in the programs that matter (the kernel's copy, checksum, string and crypto loops, libc `memcpy`/`strlen`/UTF-8 code, floating-point kernels). A static count over a corpus is the wrong measure (a rare instruction in an inner loop outweighs a common one in start-up code); the right one is a **profile-weighted count** (dynamic instructions executed and the instructions each replaces).
 
-| Instruction(s) | Why a candidate | What the pain-point research says | Recommendation |
-|---|---|---|---|
-| `MOVU*` (MESC unaligned access) | quad accesses are naturally aligned by design (9.2.11); unaligned `MOVU*` exist for byte-oriented data | alignment faults are a long-run pain (0.1 #13); Alpha shows the cost of no unaligned access, x86 the cost of allowing it everywhere | LEAVE: they are explicit and opt-in |
-| `UTF8DEC/ENC/LEN` | not implemented in `common/pdp64exec.c` | nothing | defer (reserve the encodings) unless a compiler/libc use is shown |
-| `MVAL` | not implemented | nothing | defer, decide with the block-memory group |
-| `FCLASS32` | not implemented | nothing | implement or drop with the rest of the half/single classify group |
-| `XNORPOP`, `CLMULH/L` | in BESC | nothing | LEAVE if used by checksums/crypto kernels; otherwise defer |
-| `MESC` generally, `ATOM` | listed as not implemented in the executor | atomics: see R-14 | implement; they are needed by the SMP chapter |
+This section is **not driven by pain points**; the research does not show these instructions hurting anyone. It lists the ones the handoff already marks unimplemented or doubtful, because the author asked about dropping opcodes. **Default: keep, and drop only when it can be shown that no hot loop would use the instruction, or that an existing instruction does the same job in the same size.** The opcode space is not scarce enough to force a drop: all of these are in escape groups, which cost nothing for the common case (9.1.2).
 
-I did not measure how often any of these appears in the corpus or in the OpenBSD sources; that needs the compiler corpus (`tools/corpus.py`) and is the right next step before dropping anything.
+| Instruction(s) | Hot loop it could serve | Recommendation |
+|---|---|---|
+| `MOVU*` (MESC unaligned access) | unaligned loads in byte-stream parsers, network headers, checksum and hash loops | LEAVE: explicit and opt-in; one instruction replaces a load-shift-merge sequence |
+| `UTF8DEC/ENC/LEN` | UTF-8 decoding and validation, the standard inner loop of text processing (`mbrtowc`, validators) | KEEP and implement: its case is exactly the hot-loop case; measure on a UTF-8 benchmark against the best scalar code |
+| `MVAL` | block-memory validation loops (to be confirmed from its entry) | read the entry; decide with the block-memory group; do not drop on rarity |
+| `FCLASS32` | floating-point special-case tests in math libraries | implement with the rest of the classify group (the other widths exist) |
+| `XNORPOP`, `CLMULH/L` | population-count distance, CRC, GHASH/GCM and polynomial kernels | KEEP: carry-less multiply is the textbook hot-loop instruction for CRC and AES-GCM |
+| `MESC` ALU-to-memory forms, `ATOM` | read-modify-write in counters, locks, queues | implement; needed by the SMP chapter |
+
+I did not measure anything for this pass, and the handoff's list of unimplemented instructions (`MESC`, `ATOM`, UTF-8, `MVAL`, `FCLASS32`) concerns the reference executor in `common/pdp64exec.c`, not the specification. The next step before dropping anything is a profile-weighted measurement: run the compiler corpus and the OpenBSD kernel and libc hot paths under `sim64`, weight each candidate by executed count times instructions saved, and drop only what scores near zero. Where the corpus is silent because the compiler never emits the instruction, the question becomes whether the back end should (an LLVM pattern or an intrinsic), not whether the instruction should exist.
 
 ---
 
