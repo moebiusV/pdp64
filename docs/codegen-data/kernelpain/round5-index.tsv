@@ -70,3 +70,5 @@ timers	Gleixner clocksource watchdog rewrite	https://lkml.org/lkml/2026/3/8/179	
 display	lore link training fallback	https://lore.kernel.org/all/?q=s%3A%22link+training%22+s%3Afallback	lore search: link training fallback	(search)	2024-2026	context (listing)
 display	Deak i915 link training fallback v3	https://lore.kernel.org/all/20240610164933.2947366-1-imre.deak@intel.com/	[PATCH v3 00/21] drm/i915/dp_mst: Enable link training fallback	Imre Deak	2024-06-10	cited statement (subjects and change list only)
 display	Bobier msm dp link training fallback	https://lore.kernel.org/all/20261005131432.22840-1-jean-francois.bobier@laposte.net/	[PATCH 0/3] drm/msm/dp: fix dead link-training fallback on Type-C boards	Jean-Francois Bobier	2026-10-05	cited statement
+search	NeWS why lost	https://html.duckduckgo.com/html/?q=NeWS+Network+extensible+Window+System+Gosling+PostScript+Sun+why+X11+won+licensing	DDG results: NeWS	(search)		search (URL finding)
+display	LWN Rosenthal X at 40	https://lwn.net/Articles/980556/	Rosenthal: X Window System At 40 (LWN brief quoting David Rosenthal)	David Rosenthal (posted by corbet)	2024-07-03	cited statement
