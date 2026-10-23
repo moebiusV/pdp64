@@ -1,15 +1,14 @@
 """Dictionary entries, part 3: atomics and system instructions."""
 from isa_common import *
 
-ATNOTE = ('The text of the instruction set fixes the sub-opcodes of this group and its semantics but not yet the placement of the operands of each form; the forms below name the roles, '
-          'and the assembler and the reference executor do not implement the group yet.')
+ATNOTE = ('The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.')
 ATFLAG = 'Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.'
 ATEXC = 'Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.'
 ATCF = '7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).'
 
 ENTRIES = [
     E('CAS', 'atomics', ['cas', 'casdb'], 'Compare and swap',
-      ['CAS expected, new, (address)        ; operand placement and size encoding not yet fixed; size is 4 or 8 bytes', 'CASDB ...                            ; with a full barrier'],
+      ['CAS expected, new, (address)        ; operand placement and size encoding unspecified; size is 4 or 8 bytes', 'CASDB ...                            ; with a full barrier'],
       '''old <- M[address]                         ; 4 or 8 bytes, naturally aligned
 if old == expected then M[address] <- new
 result <- old          ; the program compares result with expected to learn whether the swap happened''', ATFLAG, ATEXC, '9.13, 7.12', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
@@ -33,7 +32,7 @@ signed for XMAX and XMIN, unsigned for the U forms''', ATFLAG, ATEXC, '9.13, 7.1
 SC: if the reservation is intact then M[address] <- value ; result <- 0 (success)
     else nothing is written ; result <- 1 (failure)
 a write to the granule by any initiator, core or device, clears the reservation''', ATFLAG, ATEXC, '9.13, 7.12',
-      notes='A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). ' + ATNOTE + ' The result convention shown for `SC` is the usual one and is not yet fixed in the text.', cf=ATCF, xnote=ATNOTE),
+      notes='A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). ' + ATNOTE + ' The result convention shown for `SC` is the usual one and is unspecified.', cf=ATCF, xnote=ATNOTE),
 
     # ---- SYS, class 0 ----
     E('NOP', 'system', ['nop', 'lpad'], 'No operation and landing pad', ['NOP', 'LPAD'], 'nothing', NOFLAGS, NONE, '9.14',
@@ -89,8 +88,8 @@ MFASID: Rd <- ASID''', NOFLAGS, PRIV, '9.14', notes='The `ASID` tags translation
     E('MTDP', 'system', ['mtdp', 'mfdp'], 'Move to and from the direct pointer', ['MTDP Rs', 'MFDP Rd'], '''MTDP: DP <- Rs
 MFDP: Rd <- DP''', NOFLAGS, NONE, '9.14',
       notes='`DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.', cf='7.4 (per-CPU state).'),
-    E('MTDMW', 'system', ['mtdmw'], 'Move to a direct-mapping window', ['MTDMW Rs'], 'DMW0 <- Rs          ; storage only: the operand names no window and the windows are not yet defined', NOFLAGS, PRIV, '9.14',
-      notes='The direct-mapping windows are deferred (errata 44).', cf='6.4.'),
+    E('MTDMW', 'system', ['mtdmw'], 'Move to a direct-mapping window', ['MTDMW Rs'], 'DMW0 <- Rs          ; storage only: the operand names no window and the format of the windows is unspecified', NOFLAGS, PRIV, '9.14',
+      notes='The direct-mapping windows have no defined format.', cf='6.4.'),
     E('MFCPUID', 'system', ['mfcpuid'], 'Read the processor identifier', ['MFCPUID Rd'], 'Rd <- CPUID', NOFLAGS, NONE, '9.14',
       notes='The index of this core, for per-CPU data.', cf='7.4, 7.8.'),
     E('ICINV', 'system', ['icinv'], 'Invalidate the instruction cache for an address', ['ICINV Rs'], 'invalidate the instruction-cache line containing the address in Rs', NOFLAGS,

@@ -19,7 +19,7 @@ The numbers of the processor status word, the modes, the exception vectors, the 
 | `MODE` | 8 | 2 | current mode |
 | `PREV` | 10 | 2 | previous mode (the mode before the last exception) |
 
-Bits 12 to 15 are reserved and read as zero. Bit 12 is the user-memory guard `UA` of errata 43 (not yet in the specification file).
+Bits 12 to 15 are reserved and read as zero. Bit 12 is the user-memory guard `UA`.
 
 ## The modes
 
@@ -117,7 +117,7 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 | postinc | `0110` |
 | predec | `0111` |
 
-Modes `1000` to `1111` are reserved. The syntax and the parcel layout of each mode are in the book, section 9.5.
+Modes `1000` to `1111` are reserved. The syntax and the parcel layout of each mode are in section 9.5.
 
 ## The condition codes
 

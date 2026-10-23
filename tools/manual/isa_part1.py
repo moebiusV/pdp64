@@ -7,7 +7,7 @@ ENTRIES = [
       '''size = 8 (MOVQ), 4 (MOVL), 2 (MOVW) or 1 (MOVB) bytes
 load :  Rd <- sext(M[EA(rm)], size)          ; len = 00: Rd <- sext(Rs[8*size-1:0])
 store:  M[EA(rm)] <- Rs[8*size-1:0]          ; len = 00: Rd <- sext(Rs[8*size-1:0])''',
-      NOFLAGS + ' (Errata 39: moves, loads and stores write no flags.)', MEMX, '9.6',
+      NOFLAGS, MEMX, '9.6',
       notes='A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`. Page 2 abbreviates the loads and stores through `(rn)`, at small offsets from `SP` and from a register, and `MOVQ #imm, rd` with a 4-bit immediate (see the page-2 table).',
       cf='6.4 for the memory type that decides whether the access is cached; 6.8 for what a faulting access leaves behind.'),
     E('MOVZ', 'moves', ['movzl', 'movzw', 'movzb'], 'Move zero-extended (32, 16 and 8 bits)',
@@ -40,7 +40,7 @@ store:  M[EA(rm)] <- Rs[8*size-1:0]''',
     E('XOR', 'alu', ['xor'], 'Exclusive or', ['XOR rm, Rd'], 'Rd <- Rd XOR rm', NZ0, MEMX, '9.8'),
     E('AND', 'alu', ['and'], 'And', ['AND rm, Rd'], 'Rd <- Rd AND rm', NZ0, MEMX, '9.8'),
     E('MUL', 'alu', ['mul'], 'Multiply, low 64 bits', ['MUL rm, Rd'], 'Rd <- (Rd * rm)[63:0]         ; sign-agnostic', '`N` and `Z` from the result, `V` set when the signed 128-bit product does not fit in 64 bits, `C` unchanged.', MEMX, '9.7',
-      notes="The low 64 bits of a two's-complement product are the same whether the operands are read as signed or unsigned, so there is one low-half multiply. The old mnemonic `MULU` is an alias of `MUL`. The high half is `MULH` (signed) and `MULHU` (unsigned)."),
+      notes="The low 64 bits of a two's-complement product are the same whether the operands are read as signed or unsigned, so there is one low-half multiply. The mnemonic `MULU` is an alias of `MUL`. The high half is `MULH` (signed) and `MULHU` (unsigned)."),
     E('MULH', 'alu', ['mulh'], 'Multiply, high 64 bits, signed', ['MULH rm, Rd'], 'Rd <- (sext(Rd) * sext(rm))[127:64]', '`N` and `Z` from the result, `V` cleared, `C` unchanged.', MEMX, '9.7',
       notes='With `MULH`, division by a constant is a multiply by a reciprocal and a shift, which is what compilers emit.'),
     E('SHIFT', 'alu', ['shl', 'shr', 'sar'], 'Shift left, shift right logical, shift right arithmetic', ['SHL rm, Rd', 'SHR rm, Rd', 'SAR rm, Rd'],
@@ -48,18 +48,18 @@ store:  M[EA(rm)] <- Rs[8*size-1:0]''',
 SHL: Rd <- (n >= 64) ? 0 : Rd << n
 SHR: Rd <- (n >= 64) ? 0 : Rd >>u n
 SAR: Rd <- (n >= 64) ? (Rd < 0 ? -1 : 0) : Rd >>s n''',
-      '`N` and `Z` from the result, `V` cleared, `C` the last bit shifted out (bit 63 for `SHL`, bit 0 for `SHR` and `SAR`). **The same flags are written for every count**: a count of zero gives `N` and `Z` from the unchanged operand, `V` = 0 and `C` = 0 (errata 39).', MEMX, '9.8',
+      '`N` and `Z` from the result, `V` cleared, `C` the last bit shifted out (bit 63 for `SHL`, bit 0 for `SHR` and `SAR`). **The same flags are written for every count**: a count of zero gives `N` and `Z` from the unchanged operand, `V` = 0 and `C` = 0.', MEMX, '9.8',
       notes='The count is read as an unsigned 64-bit value, so a count of 64 or more shifts the value entirely away. Page 2 has the three shifts by an immediate 0 to 15. `ASL` and `ASR` (in `SOP`) are the by-one forms in two bytes; rotates are in `BESC`.'),
     E('FADD', 'fp', ['fadd', 'fsub', 'fmul'], 'Floating add, subtract and multiply, binary64',
       ['FADD rm, Rd', 'FSUB rm, Rd', 'FMUL rm, Rd'], '''Rd <- Rd + rm   (FADD)
 Rd <- Rd - rm   (FSUB)
 Rd <- Rd * rm   (FMUL)       ; IEEE 754 binary64, round to nearest even''',
       NOFLAGS + ' The five IEEE exception flags are ORed into `FPSR`; no instruction traps.', MEMX + ' Floating-point exceptions never trap.', '9.12',
-      notes='Floating-point values live in the general registers; there is no separate register file and no mode bit. A NaN result is the canonical quiet NaN `0x7FF8000000000000`. The old spellings `FADDD`, `FSUBD`, `FMULD` are aliases.'),
+      notes='Floating-point values live in the general registers; there is no separate register file and no mode bit. A NaN result is the canonical quiet NaN `0x7FF8000000000000`. The alternative spellings `FADDD`, `FSUBD`, `FMULD` are aliases.'),
     E('FCMP', 'fp', ['fcmp'], 'Floating compare, binary64', ['FCMP Rd, rm        ; register first'],
       '''N <- Rd < rm ; Z <- Rd == rm ; V <- unordered ; C <- 0''',
       '`N` set if `Rd < rm`, `Z` if equal, `V` if the operands are unordered (either is a NaN), `C` cleared. A signalling NaN raises `NV` in `FPSR`.', MEMX, '9.12',
-      notes='The signed branches do not yet treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1); this is an open item of the instruction set.'),
+      notes='The signed branches do not treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1); this is an open item of the instruction set.'),
     E('ADDM', 'alu', ['addm', 'subm', 'bicm', 'bism'], 'ALU operation with a memory destination',
       ['ADDM Rs, rm', 'SUBM Rs, rm', 'BICM Rs, rm', 'BISM Rs, rm'],
       '''ADDM: M[EA] <- M[EA] + Rs
@@ -78,12 +78,12 @@ BISM: M[EA] <- M[EA] OR Rs''',
     E('SOB', 'branches', ['sob'], 'Subtract one and branch', ['SOB Rn, target'],
       '''Rn <- Rn - 1
 if Rn != 0 then PC <- address of this instruction + 2 * disp''',
-      NOFLAGS, 'None.', '9.10', notes='Restored from the PDP-11, where it could branch only backward; here the signed displacement goes either way. Four bytes at least.'),
+      NOFLAGS, 'None.', '9.10', notes='From the PDP-11, where it could branch only backward; here the signed displacement goes either way. Four bytes at least.'),
     E('CBCC', 'branches', ['cbne', 'cbeq', 'cbpl', 'cbmi', 'cbvc', 'cbvs', 'cbcc', 'cbcs', 'cbge', 'cblt', 'cbgt', 'cble', 'cbhi', 'cblos'], 'Compare and branch on condition',
       ['CBNE Rd, #imm, target', 'CBEQ Ra, Rb, target ... and the rest'],
       '''tmp <- Rd - (imm or Rb)         ; as CMP, for the decision only
 if cond(c) on that comparison then PC <- address of this instruction + 2 * disp''',
-      '**None written** (errata 39): the instruction computes the comparison for its own decision and leaves `N Z V C` as they were.', 'None.', '9.10',
+      '**None written**: the instruction computes the comparison for its own decision and leaves `N Z V C` as they were.', 'None.', '9.10',
       notes='Three encodings, chosen by the assembler: `CBCC` (`101000 (0x28)`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`101001 (0x29)`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`101010 (0x2A)`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.'),
     E('BTAG', 'branches', ['btag', 'bntag'], 'Branch on pointer tag', ['BTAG Rn, #tag, target', 'BNTAG Rn, #tag, target'],
       '''BTAG : if (Rn & 111₂) == tag then PC <- address of this instruction + 2 * disp

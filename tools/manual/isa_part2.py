@@ -22,7 +22,7 @@ CTO: Rd <- number of trailing one bits of Rs        (64 if Rs = all ones)''', NO
 BSWAPW: Rd <- Rs with the bytes of each 16-bit word reversed
 BSWAPL: Rd <- Rs with the bytes of each 32-bit long reversed''', NOFLAGS, NONE, '9.9', notes='The generalisation of the PDP-11 `SWAB` to 64 bits.'),
     E('BITREV', 'bits', ['bitrev'], 'Reverse the bits', ['BITREV Rs, Rd'], 'Rd <- Rs with bit i moved to bit 63-i', NOFLAGS, NONE, '9.9'),
-    E('ROR', 'bits', ['ror'], 'Rotate right by a register count', ['ROR Ra, Rb, Rd'], 'Rd <- Ra rotated right by (Rb mod 64)', 'None written (rotates write no flags: errata 39).', NONE, '9.8',
+    E('ROR', 'bits', ['ror'], 'Rotate right by a register count', ['ROR Ra, Rb, Rd'], 'Rd <- Ra rotated right by (Rb mod 64)', 'None written (rotates write no flags).', NONE, '9.8',
       notes='There is no rotate left instruction: `ROL rs, #n, rd` is an assembler spelling of `RORI rs, #(64-n), rd`. No rotate is through carry; multi-word shifting uses `DSHR`.'),
     E('RORI', 'bits', ['rori'], 'Rotate right by an immediate', ['RORI Rs, #n, Rd', 'ROL Rs, #n, Rd        ; assembles to RORI Rs, #(64-n), Rd'],
       'Rd <- Rs rotated right by (n mod 64)', 'None written.', NONE, '9.8', notes='Four bytes: the count is in the low byte of parcel 1.', xnote='Parcel 1 is `sub:8 count:8`.'),
@@ -40,7 +40,7 @@ Rd <- (t >> n)[63:0]          ; n = 0..63''', 'None written.', NONE, '9.9',
 Rd <- (Rd AND NOT mask) OR ((Rs << pos) AND mask)''', 'None written.', NONE, '9.9', notes='Six bytes. `Rd` is both source and destination.'),
     E('XNORPOP', 'bits', ['xnorpop'], 'Population count of the equality of two words', ['XNORPOP Ra, Rb, Rd'],
       'Rd <- popcount(NOT (Ra XOR Rb))', 'None written.', NONE, '9.9',
-      notes='For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (book section 8.3).'),
+      notes='For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (section 8.3).'),
     E('CLMUL', 'bits', ['clmull', 'clmulh'], 'Carry-less multiply', ['CLMULL Ra, Rb, Rd', 'CLMULH Ra, Rb, Rd'],
       '''p <- carry-less (polynomial over GF(2)) product of Ra and Rb      ; 128 bits
 CLMULL: Rd <- p[63:0]
@@ -83,7 +83,7 @@ if equal:  N = 0, Z = 1, V = 0, C = 0''',
     if hit then  Z = 1 ; stop              ; Rd points AT the byte found
     Rd <- Rd + 1 ; Rn <- Rn - 1
 not found: Z = 0''',
-      '**All four flags are written** (errata 39): `Z` = 1 if the byte was found, else 0; `N`, `V` and `C` are cleared.', MEMX, '9.11',
+      '**All four flags are written**: `Z` = 1 if the byte was found, else 0; `N`, `V` and `C` are cleared.', MEMX, '9.11',
       notes='`MSCN` is `memchr`; with an explicit count it gives `strnlen`, and composing it with `MCPY` gives a bounded `strcpy` in two instructions. There are no NUL-terminated string instructions.', cf='6.8.'),
     E('MVAL', 'block', ['mval'], 'Validate a block as UTF-8', ['MVAL Rd, Rn'],
       'scan Rn bytes at Rd; stop at the first byte that cannot be part of a valid UTF-8 sequence (the rules of UTF8DEC)',
@@ -114,19 +114,19 @@ MAX : Rd <- larger of Ra, Rb (signed)          MAXU: unsigned''', '`N` and `Z` f
     E('FDIV', 'fp', ['fdiv', 'fsqrt'], 'Floating divide and square root, binary64', ['FDIV Rs, Rd', 'FSQRT Rs, Rd'],
       '''FDIV : Rd <- Rd / Rs
 FSQRT: Rd <- sqrt(Rs)''', FPFLAG, NONE, '9.12', xnote=FXNOTE,
-      notes='`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`. The old spellings `FDIVD`, `FSQRTD` are aliases.'),
+      notes='`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`. The alternative spellings `FDIVD`, `FSQRTD` are aliases.'),
     E('FSINGLE', 'fp', ['fadd32', 'fsub32', 'fmul32', 'fdiv32', 'fsqrt32', 'fcmp32'], 'Floating arithmetic, binary32',
       ['FADD32 Rs, Rd', 'FSUB32 Rs, Rd', 'FMUL32 Rs, Rd', 'FDIV32 Rs, Rd', 'FSQRT32 Rs, Rd', 'FCMP32 Rd, Rs'],
       '''Rd <- Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd <- sqrt(Rs) (FSQRT32)
 FCMP32: flags as FCMP, comparing Rd with Rs''', FPFLAG + ' `FCMP32` writes `N Z V C` as `FCMP` does.', NONE, '9.12', xnote=FXNOTE,
-      notes='A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even. The old spellings `FADDS`, `FSUBS`, ... are aliases.'),
+      notes='A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even. The alternative spellings `FADDS`, `FSUBS`, ... are aliases.'),
     E('FMADD', 'fp', ['fmadd', 'fmsub', 'fnmadd', 'fnmsub'], 'Fused multiply-add, binary64',
       ['FMADD Rs, Rt, Ru, Rd', 'FMSUB Rs, Rt, Ru, Rd', 'FNMADD Rs, Rt, Ru, Rd', 'FNMSUB Rs, Rt, Ru, Rd'],
       '''FMADD : Rd <- Rs*Rt + Ru
 FMSUB : Rd <- Rs*Rt - Ru
 FNMADD: Rd <- -(Rs*Rt) - Ru
 FNMSUB: Rd <- -(Rs*Rt) + Ru          ; each rounded once''', FPFLAG, NONE, '9.12', xnote=FXNOTE,
-      notes='Four register operands are available at `len = 01`. The old spellings `FMADDD`, ... are aliases.'),
+      notes='Four register operands are available at `len = 01`. The alternative spellings `FMADDD`, ... are aliases.'),
     E('FMADD32', 'fp', ['fmadd32', 'fmsub32', 'fnmadd32', 'fnmsub32'], 'Fused multiply-add, binary32',
       ['FMADD32 Rs, Rt, Ru, Rd', 'FMSUB32 ...', 'FNMADD32 ...', 'FNMSUB32 ...'], 'As FMADD, in binary32, rounded once', FPFLAG, NONE, '9.12', xnote=FXNOTE),
     E('FSIGN', 'fp', ['fneg', 'fabs', 'fcopysign'], 'Sign operations on the bits', ['FNEG Rs, Rd', 'FABS Rs, Rd', 'FCOPYSIGN Rs, Rt, Rd'],
@@ -135,18 +135,18 @@ FABS     : Rd <- Rs with the sign bit cleared
 FCOPYSIGN: Rd <- magnitude of Rs, sign of Rt''', 'None. These operate on the bits, do not canonicalise a NaN and raise no exception flag.', NONE, '9.12', xnote=FXNOTE),
     E('FMIN', 'fp', ['fmin', 'fmax'], 'Floating minimum and maximum, binary64', ['FMIN Rs, Rt, Rd', 'FMAX Rs, Rt, Rd'],
       '''if Rs is a NaN then Rd <- Rt ; else if Rt is a NaN then Rd <- Rs ; else Rd <- smaller (FMIN) or larger (FMAX)
-if both are NaNs the result is the canonical quiet NaN''', FPFLAG, NONE, '9.12', xnote=FXNOTE, notes='The old spellings `FMIND`, `FMAXD` are aliases.'),
+if both are NaNs the result is the canonical quiet NaN''', FPFLAG, NONE, '9.12', xnote=FXNOTE, notes='The alternative spellings `FMIND`, `FMAXD` are aliases.'),
     E('FCLASS', 'fp', ['fclass', 'fclass32', 'fclass16'], 'Classify a floating-point value', ['FCLASS Rs, Rd', 'FCLASS32 Rs, Rd', 'FCLASS16 Rs, Rd'],
       '''Rd <- a bit vector with exactly one bit set:
 bit 0 -infinity      bit 1 -normal      bit 2 -subnormal   bit 3 -zero
 bit 4 +zero          bit 5 +subnormal   bit 6 +normal      bit 7 +infinity
-bit 8 signalling NaN bit 9 quiet NaN''', 'None.', NONE, '9.12', xnote=FXNOTE, notes='Every libm function begins with this dispatch. The old spellings `FCLASSD`, `FCLASSS` are aliases.'),
+bit 8 signalling NaN bit 9 quiet NaN''', 'None.', NONE, '9.12', xnote=FXNOTE, notes='Every libm function begins with this dispatch. The alternative spellings `FCLASSD`, `FCLASSS` are aliases.'),
     E('FRINT', 'fp', ['frint', 'frintz', 'frintm', 'frintp', 'frinta'], 'Round to an integral value, binary64',
       ['FRINT Rs, Rd', 'FRINTZ Rs, Rd', 'FRINTM Rs, Rd', 'FRINTP Rs, Rd', 'FRINTA Rs, Rd'],
       '''FRINT : Rd <- Rs rounded to nearest, ties to even
 FRINTZ: toward zero         FRINTM: toward -infinity
 FRINTP: toward +infinity    FRINTA: to nearest, ties away from zero (C round())''', FPFLAG, NONE, '9.12', xnote=FXNOTE,
-      notes='The rounding mode is in the opcode, never in a mode bit. The old spellings `FRINTD`, `FRINTDZ`, ... are aliases.'),
+      notes='The rounding mode is in the opcode, never in a mode bit. The alternative spellings `FRINTD`, `FRINTDZ`, ... are aliases.'),
     E('FCVT', 'fp', ['fcvtdq', 'fcvtdqu', 'fcvtqd', 'fcvtqud', 'fcvtds', 'fcvtsd', 'fcvtsl', 'fcvtls'], 'Floating conversions',
       ['FCVTDQ Rs, Rd        ; binary64 to signed quad', 'FCVTDQU Rs, Rd       ; binary64 to unsigned quad', 'FCVTQD Rs, Rd        ; signed quad to binary64', 'FCVTQUD Rs, Rd       ; unsigned quad to binary64',
        'FCVTDS Rs, Rd        ; binary64 to binary32', 'FCVTSD Rs, Rd        ; binary32 to binary64', 'FCVTSL Rs, Rd        ; binary32 to signed 32-bit integer', 'FCVTLS Rs, Rd        ; signed 32-bit integer to binary32'],
