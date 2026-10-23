@@ -1,4 +1,5 @@
-# token  source file (relative to the repository root); tools/mkbook.py reads this
+# token  source file (relative to the repository root): the Markdown of the manual that each outline entry is made from.
+# tools/mkchapters.py turns each into a chapter file for buildabook and writes buildabook's own filemap (UUID:filename).
 n:id00001 docs/streamlined/00-index.md
 c:id01001 docs/streamlined/01-introduction.md
 c:id01002 docs/streamlined/02-bus.md

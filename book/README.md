@@ -2,21 +2,20 @@
 
 [← pdp64 index](../README.md)
 
-`pdp64-manual.pdf` is the manual (`docs/streamlined/`, with the instruction entries generated into its chapters) typeset with Typst. It is tracked in git; **rebuild it after every change to the manual**:
+`pdp64-manual.pdf` is the manual (`docs/streamlined/`, with the instruction entries generated into its chapters) typeset by [buildabook](https://github.com/moebiusV/buildabook) and Typst. It is tracked in git; **rebuild it after every change to the manual**:
 
     python3 tools/mkmanual.py        # regenerate the instruction entries, the reference tables and the figures
-    python3 tools/mkbook.py --pdf    # book/build/rendered -> book/build/pdp64-manual.pdf -> book/pdp64-manual.pdf
+    tools/mkbook.sh                  # book/build/ -> book/pdp64-manual.pdf
 
-Needs `typst` (0.15 or later; it fetches the `cmarker` 0.1.8 package on first use) and the fonts EB Garamond and DejaVu Sans Mono.
+Needs `buildabook` (on `PATH`, in `$BUILDABOOK`, or at `~/claude/buildabook/buildabook`; build it from its repository with `gprbuild -P buildabook.gpr`, no hbnf needed), `typst` 0.15 or later (it fetches the `cmarker` 0.1.8 package on first use) and the fonts EB Garamond and DejaVu Sans Mono.
 
 | file | what |
 |---|---|
-| `outline.txt` | the order of the book, in the outline language of [buildabook](https://github.com/moebiusV/buildabook) (parts, chapters, divisions, appendices; numbers are computed from the position, never written) |
-| `filemap.txt` | which source file holds each outline entry |
-| `template.typ` | the Typst template, in buildabook's template contract, forked for a technical reference (letter pages, small tables, monospace code) |
+| `outline.txt` | the order of the book, in buildabook's outline language (parts, chapters, divisions, appendices; the numbers are computed from the position, never written) |
+| `sources.txt` | which Markdown file of the manual makes each outline entry |
+| `book.conf` | buildabook's configuration: title, author, and the paths |
+| `template.typ` | the Typst template, in buildabook's template contract, forked from its default for a technical reference (letter pages, small tables, monospace code) |
 | `pdp64-manual.pdf` | the built book |
-| `build/` | intermediate files (not tracked) |
+| `build/` | intermediate files (not tracked): the chapter files, the file map, buildabook's `rendered/book.typ` and `number_map.csv` |
 
-`tools/mkbook.py` does the work of `buildabook typst` because buildabook needs the `HBNF_Config` Ada crate, which is not available on this machine; the inputs are in buildabook's formats, so the real tool can build the same book. The chapter and appendix numbers come from the outline, and the build fails if a source file's own number (`# 6. The kernel`) disagrees, because the section numbers inside the text (6.7, 7.12) are literal. `python3 tools/mkbook.py --check` runs that check and is part of `tools/check-all.sh`.
-
-Links between the chapters become plain text in the PDF (the section numbers stay); links to other files of the repository become links to GitHub.
+`tools/mkchapters.py` prepares the chapter files, because the Markdown of the manual is written for the web: each heading becomes `{{c:id01001}} — Title` (buildabook supplies the number), links between the pages become plain text, links to other files of the repository become GitHub links, and HTML comments are removed. It also checks the number in each source heading (`# 6. The kernel`, `# Appendix B. ...`) against buildabook's own number map and fails if they disagree, because the section numbers inside the text (6.7, 7.12) are literal. `tools/mkbook.sh --check` runs only the checks and is part of `tools/check-all.sh` (it is skipped where buildabook is not installed).

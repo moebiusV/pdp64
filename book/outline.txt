@@ -1,5 +1,5 @@
 # The pdp64 manual, in the outline language of buildabook (see ~/claude/buildabook/LANGUAGE.md).
-# Order is the order of the book. The UUIDs are names, not numbers. filemap.txt says which source file holds each entry.
+# Order is the order of the book. The UUIDs are names, not numbers. sources.txt says which Markdown of the manual makes each entry.
 n:id00001    About this manual
 
 p:label:Part

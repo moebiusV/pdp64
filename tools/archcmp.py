@@ -253,7 +253,7 @@ def cmd_headtohead(a):
     pds = summarize('pdp64')
     def ok(n):
         return {sid for sid in sid_list(n) if sid in pd and (load_size(n, sid) or -1) >= 0 or (n == 'vax-gcc' and sid in pd)}
-    for n in [x for x in archs_present() if x != 'pdp64'] + ['pcc-' + k for k in PCC_ARCHS if glob.glob('%s/pcc-%s/*.s' % (OUT, k))]:
+    for n in [x for x in archs_present() if x != 'pdp64']   :
         files = sorted(ok(n))
         if not files:
             continue
@@ -279,26 +279,41 @@ def cmd_headtohead(a):
     for r in sorted(rows, key=lambda r: r['p_ins'] / r['ins']):
         print('| %s | %d | %d | %s | %d | %d | %.3f | %s | %s | %.2f |' % (r['arch'], r['files'], r['ins'], r['bytes'], r['p_ins'], r['p_bytes'], r['p_ins'] / r['ins'],
               '%.3f' % (r['p_bytes'] / r['bytes']) if r['bytes'] else '-', '%.2f' % (r['bytes'] / r['ins']) if r['bytes'] else '-', r['p_bytes'] / r['p_ins']))
-    # pcc gap, on the files all three (pcc, clang, pdp64) compile
+    # pcc gap, on the files that pcc and the reference both compile (pcc rejects or crashes on many files for some targets)
     print()
-    print('| arch | files | pcc ins | clang ins | pcc/clang ins | pcc bytes | clang bytes | pcc/clang bytes | gcc ins | pcc/gcc ins | pcc/gcc bytes |')
-    print('|---|---|---|---|---|---|---|---|---|---|---|')
+    print('| arch | files | pcc ins | clang ins | pcc/clang ins | pcc bytes | clang bytes | pcc/clang bytes | files with gcc | pcc/gcc ins | pcc/gcc bytes | pdp64 ins on the files | pdp64 bytes |')
+    print('|---|---|---|---|---|---|---|---|---|---|---|---|---|')
     gap = []
+
+    def okb(n, sid):
+        return (load_size(n, sid) or -1) >= 0
+
     for k, (e, cl, gc) in PCC_ARCHS.items():
-        if not glob.glob('%s/pcc-%s/*.s' % (OUT, k)):
+        pn = 'pcc-' + k
+        if not glob.glob('%s/%s/*.s' % (OUT, pn)):
             continue
-        fs = sorted(set(sid for sid in sid_list('pcc-' + k) if (load_size('pcc-' + k, sid) or -1) >= 0) & {sid for sid in sid_list(cl) if (load_size(cl, sid) or -1) >= 0} & set(pd))
-        pi, pb = totals_for('pcc-' + k, fs)
-        ci, cb = totals_for(cl, fs)
-        g = ''
+        fs = sorted(set(sid_list(pn)) & set(sid_list(cl)) & set(pd))
+        pi, _ = totals_for(pn, fs)
+        ci, _ = totals_for(cl, fs)
+        fb = [x for x in fs if okb(pn, x) and okb(cl, x)]
+        pb = sum(load_size(pn, x) for x in fb)
+        cb = sum(load_size(cl, x) for x in fb)
         gi = gb = None
+        nfg = 0
         if gc and glob.glob('%s/%s/*.s' % (OUT, gc)):
-            fg = sorted(set(fs) & {sid for sid in sid_list(gc) if (load_size(gc, sid) or -1) >= 0})
-            ppi, ppb = totals_for('pcc-' + k, fg)
-            gi, gb = totals_for(gc, fg)
-            gi, gb = (ppi / gi, ppb / gb)
-        gap.append(dict(arch=k, files=len(fs), pcc_ins=pi, pcc_bytes=pb, clang_ins=ci, clang_bytes=cb, ins_gap=pi / ci, bytes_gap=pb / cb, gcc_ins_gap=gi, gcc_bytes_gap=gb))
-        print('| %s | %d | %d | %d | %.3f | %d | %d | %.3f | %s | %s | %s |' % (k, len(fs), pi, ci, pi / ci, pb, cb, pb / cb, '', '%.3f' % gi if gi else '-', '%.3f' % gb if gb else '-'))
+            fg = [x for x in fs if x in sid_list(gc)]
+            fgb = [x for x in fg if okb(pn, x) and okb(gc, x)]
+            nfg = len(fg)
+            if fg:
+                gi = totals_for(pn, fg)[0] / totals_for(gc, fg)[0]
+            if fgb:
+                gb = sum(load_size(pn, x) for x in fgb) / sum(load_size(gc, x) for x in fgb)
+        ppi = sum(pds[x]['n'] for x in fs)
+        ppb = sum(pd[x]['image'] for x in fs)
+        gap.append(dict(arch=k, files=len(fs), files_bytes=len(fb), pcc_ins=pi, pcc_bytes=pb, clang_ins=ci, clang_bytes=cb, ins_gap=pi / ci, bytes_gap=(pb / cb if cb else None),
+                        gcc_ins_gap=gi, gcc_bytes_gap=gb, pdp64_ins_same_files=ppi, pdp64_ins_over_clang=ppi / ci, pdp64_ins_over_pcc=ppi / pi))
+        print('| %s | %d | %d | %d | %.3f | %s | %s | %s | %d | %s | %s | %d | %d |' % (k, len(fs), pi, ci, pi / ci, pb if fb else '-', cb if fb else '-', '%.3f' % (pb / cb) if cb else '-', nfg,
+              '%.3f' % gi if gi else '-', '%.3f' % gb if gb else '-', ppi, ppb))
     json.dump(gap, open(DATA + '/archcmp-pccgap.json', 'w'), indent=1)
 
 
@@ -310,6 +325,9 @@ COMMENT = {  # line comment starters per target family
 
 
 def family(name):
+    if name.startswith('pcc-'):
+        name = name[4:]
+        name = {'powerpc': 'ppc32', 'sparc64': 'sparcv9'}.get(name, name)
     for k in ('pdp64', 'aarch64', 'loongarch64', 'amd64', 'i386', 'arm', 'm68k', 'mips64', 'riscv64', 'systemz', 'vax'):
         if name.startswith(k):
             return k
@@ -1264,6 +1282,42 @@ def run_detectors(sid, funcs):
                     if len(y.ops) == 3 and {y.ops[0], y.ops[1]} == {ops[0], ops[1]} and (y is n1 or n1.w <= {rn(ops[1])}):
                         site('carry: add a,b ; cbCS/cbLOS b,a (carry tested by comparing the sum)', fname, sid, seq, i, 2 if y is n1 else 3, 1, 1, 2)
                         break
+            if mn in ('movl', 'movzl', 'movzw', 'movzb') and len(ops) == 2 and isreg(ops[1]) and x.ld and n1 is not None and n1.kind == 'ins':
+                y = n1
+                if y.mn in ('add', 'sub', 'and', 'bis', 'xor', 'bic', 'mul', 'cmp') and len(y.ops) == 2 and y.ops[0] == ops[1] and y.ops[1] != ops[1]:
+                    lv = live_after(seq, i + 1, rn(ops[1]))
+                    if lv != 'read':
+                        site('narrow mem operand: %s mem,rT ; %s rT,rD (needs a 32-bit/sized ALU memory operand; rT %s)' % (mn, y.mn, 'dead' if lv == 'dead' else 'maybe dead'), fname, sid, seq, i, 2, 1, 1 if lv == 'dead' else 0, 0)
+            if mn == 'and' and len(ops) == 2 and ops[0] in ('#65280', '#16711680', '#-16777216', '#4278190080', '#0xff00', '#0xff0000'):
+                site('byte-swap idiom: masking one byte lane (and #0xFF00 / 0xFF0000 / 0xFF000000)', fname, sid, seq, i, 1, 3, 0, 0)
+            if mn == 'movq' and len(ops) == 2 and isreg(ops[0]) and isreg(ops[1]) and n1 is not None and n2 is not None and n1.mn == 'shl' and n1.ops[1] == ops[1] and imm_of(n1.ops[0]) in (1, 2, 3) and n2.mn == 'add' and n2.ops[0] == ops[1] and len(n2.ops) == 2 and isreg(n2.ops[1]) and live_after(seq, i + 2, rn(ops[1])) != 'read':
+                site('scaled add with copy: movq a,t ; shl #1..3,t ; add t,b  ->  lea (b)(a*s),b', fname, sid, seq, i, 3, 1, 2, 0)
+            # --- (o) other: calls by name, constants that only feed a store, addresses of symbols that feed one access, where loads and stores point
+            if mn == 'call' and ops:
+                nm_ = ops[0]
+                if nm_ in ('__builtin_abort', 'abort', 'memcpy', 'memset', 'memmove', 'memcmp', 'strlen'):
+                    COUNTS['callee: ' + nm_] += 1
+                if nm_ in ('memcpy', 'memmove', 'memset', 'memcmp'):
+                    for t in range(i - 1, max(-1, i - 6), -1):
+                        if seq[t].kind == 'label':
+                            break
+                        if seq[t].w & {'r2'}:
+                            v = imm_of(seq[t].ops[0]) if seq[t].mn == 'movq' and len(seq[t].ops) == 2 else None
+                            if v is not None and v <= 16:
+                                site('call %s with a constant size <= 16 (inline load/store would do)' % nm_, fname, sid, seq, t, i - t + 1, 1, 0, 0)
+                            break
+            if (mn == 'clr' or (mn == 'movq' and len(ops) == 2 and imm_of(ops[0]) is not None)) and n1 is not None and n1.kind == 'ins' and n1.mn in MOVS and len(n1.ops) == 2 and n1.st and n1.ops[0] == (ops[-1]):
+                t_ = rn(ops[-1])
+                if t_ not in regs_in(n1.ops[1]) and live_after(seq, i + 1, t_) != 'read':
+                    site('constant that only feeds a store: %s ; store (store-immediate / clr mem)' % ('clr' if mn == 'clr' else 'movq #imm'), fname, sid, seq, i, 2, 1, 1, 0)
+            if mn == 'lea' and len(ops) == 2 and not isreg(ops[0]) and '(' not in ops[0] and not ops[0].startswith('#') and n1 is not None and n1.kind == 'ins' and n1.mn in MOVS and len(n1.ops) == 2:
+                t_ = rn(ops[1])
+                if any(re.fullmatch(r'-?\d*\(%s\)' % ops[1], o) for o in n1.ops) and live_after(seq, i + 1, t_) != 'read':
+                    site('lea sym,rT ; access (rT) : a direct pc-relative operand would do', fname, sid, seq, i, 2, 1, 1, 0)
+            if mn in MOVS and len(ops) == 2 and (x.ld or x.st):
+                o_ = ops[0] if x.ld else ops[1]
+                kind_ = 'sp-frame' if re.search(r'\((sp|r14)\)', o_) else ('global/pc-relative' if '(' not in o_ else 'through a pointer register')
+                COUNTS['memory access: %s %s' % ('load' if x.ld else 'store', kind_)] += 1
             if mn == 'call' and ops and re.match(r'__\w*(ti3|ti2|di3|si3)\w*$', ops[0]):
                 COUNTS['helper call: ' + ops[0]] += 1
         # ---- functions: prologue and epilogue
@@ -1530,8 +1584,8 @@ FEATURES = {
                                 'systemz': (r'^(mlgr|mlg|mgrk|msgr)$', None), 'riscv64': (r'^(mulh|mulhu|mulhsu)$', None), 'loongarch64': (r'^(mulh\.\w+|mulh\.du|mulh\.d)$', None), 'mips64': (r'^(dmultu|dmult|mfhi|dmulhu|dmuh\w*|dmulu)$', None), 'sparc': (r'^(umul\w*|smul\w*|umulxhi|rdy)$', None), 'm68k': (r'^(mulu\.l|muls\.l)$', None), 'vax': (r'^(emul|emodd)$', None)},
     'immediate construction (extra instructions)': {'aarch64': (r'^(movz|movk|movn)$', None), 'arm': (r'^(movw|movt)$', None), 'riscv64': (r'^(lui)$', None), 'ppc': (r'^(lis|addis)$', None), 'mips64': (r'^(lui|ori|dsll|dsll32|lui)$', None), 'loongarch64': (r'^(lu12i\.w|lu32i\.d|lu52i\.d|ori|pcalau12i|pcaddu18i)$', None),
                                                     'sparc': (r'^(sethi|or)$', None), 'systemz': (r'^(llihf|iihf|llilf|iilf|llihh|llihl|iihh|iihl)$', None), 'amd64': (r'^$', None), 'm68k': (r'^$', None), 'vax': (r'^$', None)},
-    'calls (all kinds)': {'amd64': (r'^call\w?$', None), 'aarch64': (r'^(bl|blr)$', None), 'arm': (r'^(bl|blx)\w*$', None), 'ppc': (r'^(bl|bctrl|blrl|bla)$', None), 'riscv64': (r'^(call|jal|jalr)$', r'^(ra|\.|ra,)'),
-                          'mips64': (r'^(jal|jalr|bal)$', None), 'loongarch64': (r'^(bl|jirl)$', r'^(\$ra|\$r1)'), 'sparc': (r'^(call|jmpl)$', None), 'systemz': (r'^(brasl|basr|bras|bas)$', None), 'm68k': (r'^(jsr|bsr)\w*$', None), 'vax': (r'^(calls|callg|jsb|bsbw)$', None)},
+    'calls (all kinds)': {'amd64': (r'^call\w?$', None), 'aarch64': (r'^(bl|blr)$', None), 'arm': (r'^(bl|blx)\w*$', None), 'ppc': (r'^(bl|bctrl|blrl|bla)$', None), 'riscv64': (r'^call$', None),
+                          'mips64': (r'^(jal|jalr|bal)$', None), 'loongarch64': (r'^bl$', None), 'sparc': (r'^(call|jmpl)$', None), 'systemz': (r'^(brasl|basr|bras|bas)$', None), 'm68k': (r'^(jsr|bsr)\w*$', None), 'vax': (r'^(calls|callg|jsb|bsbw)$', None)},
 }
 
 
