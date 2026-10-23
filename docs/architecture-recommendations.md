@@ -28,8 +28,10 @@
 | 12 | SPEC | I/O translation unit before any DMA device is trusted (R6) with descriptors carrying no kernel pointers | 0.5 #1, #2 | R6, N8 | none |
 | 13 | CHANGE | Device-space clear-on-free or tagged device memory (GPU/BLT memory reuse) | 0.6 #11 | N9 | device only |
 | 14 | SPEC | Atomic instruction operand placement written down; decide whether failing-CAS loops need an ownership hint | 0.2 #2 | N7, 7.12 | none or one hint |
-| 15 | LEAVE | Sequential consistency (Q5), no register windows, no 32-bit mode, aligned quad accesses, no SMM-like mode, no vsyscall page | 0.1 #11-13, 0.2 #1, 0.3 #2, 0.4 #7 | settled | none |
-| 16 | DROP? | Candidates to drop or defer: `MESC` unaligned `MOVU*`, UTF-8 instructions, `MVAL`, `FCLASS32`, `XNORPOP`, `CLMULH/L` | not pain-point driven | none | frees second-page space; see section 4 |
+| 15 | SPEC | Out-of-order safety rules, section 3.2: the rules that make today's in-order safeties hold for an out-of-order core | 0.7 | HV C and N rules | text, one `HINT` value, one control bit |
+| 15a | ADD | Split translation: `KTBR`, top address bit selects the root, upper half not walked in user mode (section 3.1; the safe form of D6) | 0.1 #1 | D6 reopened | one system register, one TLB tag bit |
+| 16 | LEAVE | Sequential consistency (Q5), no register windows, no 32-bit mode, aligned quad accesses, no SMM-like mode, no vsyscall page | 0.1 #11-13, 0.2 #1, 0.3 #2, 0.4 #7 | settled | none |
+| 17 | DROP? | Candidates to drop or defer: `MESC` unaligned `MOVU*`, UTF-8 instructions, `MVAL`, `FCLASS32`, `XNORPOP`, `CLMULH/L` | not pain-point driven | none | frees second-page space; see section 4 |
 
 ---
 
@@ -82,11 +84,45 @@ The research supports keeping: sequential consistency (0.2 #1, Alpha dependent-l
 
 ---
 
-## 3. The one big open design risk, not a recommendation
+## 3. Safe for out-of-order cores: decisions that in-order hardware makes safe by accident
 
-**Kernel mapped in every user address space** (0.1 #1). The research (Meltdown, PTI cost: NetBSD 2.7% on a build, LWN "about 5%" to "30% or more" for some loads) says that if pdp64 ever gets a speculating core, this decision (D6) must be reopened. Options in the sources: a hard split in the address (a bit selects kernel/user page table) or tagged translation. Because the FPGA and ASIC are in order today (Q6), I recommend **recording the risk now and deciding nothing**: a second page-table base register (`PTBR` for the upper half) would cost one system register, but it is a large change and nothing today needs it. If the author wants it designed in, it is an ABI-neutral change (kernel-only), best made before silicon.
+**The author's rule (2026-10-23):** "although the first implementations will be in-order, we have to make the decision safe for out of order implementations." So a decision that is safe today only because the core does not speculate is not safe: it must be written in a form that holds for an out-of-order core, while the in-order core stays as cheap as it is. This replaces my earlier suggestion to record the kernel-mapping risk and decide nothing.
 
----
+### 3.1 Kernel mapped in every user address space (D6): recommended design
+
+**Pain.** Meltdown: user code speculatively reads kernel memory through translations that are present but permission-denied; PTI split the page tables and cost NetBSD 2.7% on a build, LWN "about 5%" and "30% or more" for some loads, and Hansen's global-mapping numbers show the price of flushing without tags (0.1 #1). The Meltdown paper's own suggestion was a hard split of the address space (inferred from the paper as cited in the research; the paper itself was not re-read).
+
+**Recommendation (ADD, ABI-neutral for user code).** Make the split architectural, so no software trick and no trampoline is needed:
+1. Two translation roots: `PTBR` (lower half, per process, as now) and a new `KTBR` (upper half, kernel, one per system).
+2. The top bit of the virtual address selects the root. In **user mode the upper half is not walked at all**: an access to it takes a translation fault without consulting any page table, so there is nothing present-but-denied for speculation to forward. In **kernel mode both halves are walked**, so `copyin`/`copyout` and the user-access guard (errata 43, `UA`) keep working with no root switch, which is where PTI loses time.
+3. Exception entry changes mode in hardware (Q1), so it also changes which halves are walked; the entry code needs no trampoline page mapped in user space. Only the vector table address must be reachable on entry; it lives in the upper half.
+4. TLB entries carry the half bit alongside the ASID; a mode change flushes nothing. `TLBIASID` (P5) applies to the lower half; the upper half needs only `TLBIA` or a by-address form.
+5. Cost: one system register, a comparison on one address bit, one TLB tag bit. The in-order FPGA pays almost nothing; an out-of-order core gets Meltdown-class isolation for free.
+
+**To check before accepting (not done):** the manual's virtual address layout (39 bits, 6.8.4) and its canonical-address rule; the manual states that canonical virtual addresses cannot name device space (P19, errata 60), so the half selection must be shown to compose with that; the mini-kernel's device leaf at `0xC0000000`; and the effect on the QEMU `mmu.c` walker, `sim64`, the kernel-side ABI notes and any LLVM kernel code model. **Not covered by this change:** Spectre-class leaks inside one half (section 3.2, rules 1 to 4); the same protection for supervisor-to-user direction is the `UA` guard.
+
+### 3.2 Other in-order-only safeties: write the out-of-order rule now
+
+Each row names what in-order hardware gives today, the rule that must be in the ISA text so an out-of-order core cannot break it, and the pain-point source. Mapping is by topic to hardware-vulnerabilities.md rules C1-C16 and N1-N11; I did not re-read each rule for this pass.
+
+| # | Safe today because | Rule to write now | Source |
+|---|---|---|---|
+| 1 | No speculative execution past a branch | A conforming core may speculate, but **no data from a load whose permission check has not completed may reach a dependent instruction** (Meltdown, Foreshadow, MDS: the pain was that forwarding preceded the check; 0.7 #1) | 0.7 #1, HV |
+| 2 | No branch predictor state | **Predictor state is tagged by mode and address space, or cleared by an architectural operation, at a mode change and at `MTASID`**; the architecture defines that operation (a `HINT` value) so a kernel can request it (Spectre v2, Retbleed: 14% to 39% overhead of the software fix, 0.7 #1) | 0.7 #1, HV |
+| 3 | No speculative store bypass | An out-of-order core may bypass; the architecture provides a per-process way to forbid it (a `PSW` or system-register bit, or the same bit as `DIT`) and defines that memory-ordering instructions (`FENCE`) stop speculation past them (Spectre v4; 0.7 #1) | 0.7 #1, HV |
+| 4 | No indirect-branch speculation target ambiguity | Tag-dispatch and indirect jumps (`JTAG`, `JMPI`, `CALLI`, `BTAG`) must not speculate to a target outside the tagged region (inferred from the research on indirect-branch attacks; this is a pdp64-specific instruction case, so it needs the author) | HV, ISA 9.10 |
+| 5 | No speculative load from device pages | Already rule errata 39 item 7: keep it, and state it as **must not**, not "does not" | 0.5 #4 |
+| 6 | Sequential consistency by simplicity (Q5) | Keep SC as the architectural model; an out-of-order core implements it with speculation and replay at some cost, and any later weakening is an ABI-version change (Alpha and ARM lessons, 0.2 #1). State this in 7.11 | 0.2 #1 |
+| 7 | Accessed and dirty bits managed in software (Q2) | Fine for out-of-order cores: write that a core must not set them speculatively | 0.1 #5 |
+| 8 | No data-cache flush by address from user mode (P6 reserved, nothing built) | When built (non-coherent DMA only), make it **privileged**, not user-visible: unprivileged `CLFLUSH` is what made Rowhammer practical (HV 3.5; 0.7 #2). Note `ICINV`/`ICINVA` are user-visible for JITs (6.1.6): they flush instructions only, but must not leak timing; state it | 0.7 #2 |
+| 9 | Unprivileged timers absent (P3 not yet built) | `RDTIME` (R-4) gets a privileged **trap/disable control** and a coarse-resolution mode, because high-resolution user timers are the measuring instrument for every cache-timing attack (Hertzbleed; 0.7 #3) | 0.7 #3 |
+| 10 | Timing of divide, `mscn`, `mcmp`, floating point is fixed by the in-order pipeline | `DIT` (R-8) defines data-independent timing for these; an out-of-order core must honour it even when it would otherwise early-exit | 0.7 #3 |
+| 11 | Faults are precise because everything retires in order | State that exceptions are precise architecturally (they are, 6.8) and that a faulting load's data may not be used by later speculative instructions (same as rule 1) | 6.8 |
+| 12 | Page-table walks do not race with stores | Page-table walks may be speculative on an out-of-order core; `ISYNC`/`TLBI` ordering rules (6.3.2) must say the **walker only sees stores that are before the `TLBI`/`ISYNC`**, as already written for `PTBR`; extend to the A/D rule | 6.3.2, 7.5 |
+
+**What this costs the in-order core.** Rule 2 and rule 3 add a `HINT` encoding and a control bit; rules 1, 4 to 7 and 11 to 12 are text; rules 8 to 10 are bits that exist anyway. Section 3.1 adds one register and a tag bit. None adds an instruction to the common path.
+
+**What I could not settle.** Whether an out-of-order core can honestly implement rules 1 and 3 at the clock rates the author expects; the cost figures the sources give are all for x86 and ARM mitigations, not for a design that had them from the start (the research found no measured cost for a clean-sheet design). That is a design-space question for a microarchitect, not something the sources answer.
 
 ## 4. Candidates to drop or defer (DROP?)
 
