@@ -120,9 +120,9 @@
 
 ### B.2.8 The device layout and the descriptor (R5)
 
-**B.2.8.1** The proposal is the uniform layout and the 32-byte descriptor of chapter 2, with an identification register first, and virtio-compatible devices only if reusing OpenBSD's drivers saves more than it costs. *(P)*
+**B.2.8.1** The proposal is the uniform layout and the 32-byte descriptor of chapter 6, with an identification register first, and virtio-compatible devices only if reusing OpenBSD's drivers saves more than it costs. *(P)*
 
-*Commentary.* **Precedent.** The RK11 and the DEUNA, as in chapter 2. **Trade-offs.** The single ring per device makes duplex devices two slots. **Modern comparables.** `virtio`, NVMe, SATA's command lists, Intel Ethernet's done bit.
+*Commentary.* **Precedent.** The RK11 and the DEUNA, as in chapter 6. **Trade-offs.** The single ring per device makes duplex devices two slots. **Modern comparables.** `virtio`, NVMe, SATA's command lists, Intel Ethernet's done bit.
 
 ### B.2.9 DMA addressing and protection (R6)
 
@@ -146,7 +146,7 @@
 
 **B.2.12.1** The proposals are a fixed 4 KB page per slot with the mapping register for exceptions (N1), an interrupt with a small event queue and a rescan on overflow (N2), and an absent mark with a precise fault and the queued work left in memory (N3). *(P)*
 
-*Commentary.* See section 2.7 and its commentary: the VAX's nexus scan, PCI's configuration space and all-ones reads, USB's status-change endpoint.
+*Commentary.* See section 2.6 and its commentary: the VAX's nexus scan, PCI's configuration space and all-ones reads, USB's status-change endpoint.
 
 ### B.2.13 The boot decisions (B1, B3, B4, B5, B8)
 

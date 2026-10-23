@@ -2,7 +2,7 @@
 
 [← streamlined index](00-index.md)
 
-**The processor reaches the world through one bus, Q64, on which every device is a handful of memory locations, the bus itself is a device that says what is plugged into it, and every transfer of data is a descriptor in memory that a device carries out and marks done.** This chapter states what the processor owes the bus, how devices are laid out and described, how the bus enumerates and maps them and tells the processor when one comes or goes, and the default eight-register devices with their DMA design. Where the design is decided it is tagged *(D)*; where it is the author's proposal not yet settled it is *(P)*. The full discussion is in [`../pdp64-q64-bus.md`](../pdp64-q64-bus.md); the options still open are in [`../decisions-pending.md`](../decisions-pending.md) (R1 to R8, Q10).
+**The processor reaches the world through one bus, Q64, on which every device is a handful of memory locations, the bus itself is a device that says what is plugged into it, and every transfer of data is a descriptor in memory that a device carries out and marks done.** This chapter states what the processor owes the bus, how the bus enumerates and maps devices and tells the processor when one comes or goes. How a driver talks to a device, the eight-register layout and the default devices are in chapter 6. Where the design is decided it is tagged *(D)*; where it is the author's proposal not yet settled it is *(P)*. Interrupts and modes are chapter 5, and the other cores are chapter 7. The full discussion is in [`../pdp64-q64-bus.md`](../pdp64-q64-bus.md); the options still open are in [`../decisions-pending.md`](../decisions-pending.md) (R1 to R8, Q10).
 
 ## 2.1 Q64 and the address space
 
@@ -56,47 +56,11 @@
 
 *Commentary.* **Precedent.** The PDP-11's locked read-modify-write and the VAX's interlocked instructions are bus locks. **Trade-offs.** A lock is simple and a bottleneck as cores multiply; a monitor maps onto AXI's exclusive access and the memory systems of FPGAs and modern chips, at the cost of forward-progress rules. **Modern comparables.** RISC-V `LR`/`SC`, AArch64's exclusive loads and stores, and the large-system atomics that perform the operation at the memory.
 
-## 2.6 The device convention: eight registers and DMA
+## 2.6 The bus as a device
 
-**2.6.1** Each device is eight memory-mapped registers and moves its data by DMA. *(D, errata 29)*
+**2.6.1** The bus controller is itself a device with eight memory-mapped registers, through which the processor detects what is on the bus and asks it to map a device to an address range. *(D, errata 49)*
 
-**2.6.2** The first three registers are the same in every device: `ID`, `CONTROL` and `STATUS`. *(P)*
-
-| Offset | Register | Meaning |
-|---|---|---|
-| `0x00` | `ID` | type, variant, version, feature bits (read-only) |
-| `0x08` | `CONTROL` | enable, `INIT` (initialise yourself), interrupt enable |
-| `0x10` | `STATUS` | `READY`, `ERROR`, `BUSY`, error code |
-| `0x18` | `RING_BASE` | physical address of the descriptor ring |
-| `0x20` | `RING_SIZE` | the ring's size in entries (a power of two) |
-| `0x28` | `DOORBELL` | write the producer index to start work |
-| `0x30` | `IRQ` | cause bits (complete, error, attention); write 1 to clear |
-| `0x38` | `DEVICE` | device-specific (for the polled devices, the data register) |
-
-**2.6.3** A transfer is a 32-byte descriptor in a ring in host memory: four 64-bit words giving an operation and flags, a status field the device writes, a length, a buffer address, an argument (a block number, for a disk) and a result the device writes. *(P)*
-
-```
-word 0:  OP(8) FLAGS(8) STATUS(16) LENGTH(32)     FLAGS: OWN, STARTED, INTERRUPT, MORE
-word 1:  ADDRESS (physical)
-word 2:  ARGUMENT
-word 3:  RESULT (written by the device)
-```
-
-**2.6.4** The host sets `OWN` when it hands a descriptor to the device; the device clears it when it is finished, after writing the data, the status and the result. Progress is therefore in memory, not in the device. *(P)*
-
-**2.6.5** `INIT` makes a device initialise itself without touching the ring; a device may take a firmware image through an ordinary descriptor operation; boot-critical devices work without any image. *(P)*
-
-**2.6.6** Operations common to all devices: no-op, identify (the device writes an identification block into a buffer) and load-firmware; each device adds its own from `0x10`. *(P)*
-
-**2.6.7** A device that carries traffic in two directions (a network card, a serial line) is two slots, one ring each; a console, a timer and an entropy source are polled devices with their data in the last register. *(P)*
-
-*Commentary.* **Precedent.** The V7 RK11 disk is six registers (drive status, error, control and status, word count, bus address, disk address) with DMA by a word count and a bus address; the 4.3BSD DEUNA Ethernet is four registers plus transmit and receive rings in memory, each ring entry holding a segment length, an address, flags and errors, with an `OWN` bit that is zero when the descriptor belongs to the driver. The proposal is the second design, kept uniform. **Trade-offs.** A single ring per device makes duplex devices two slots, which is simple and slightly unusual, in exchange for in-order completion and no out-of-order bookkeeping; the ownership bit costs one status write per descriptor. **Improvements.** Because progress lives in the descriptor and not in a device register, a driver can recover from a departed or reset device with one routine: scan the ring for descriptors that are not done, then read, save, resend or fail them. **Benefits.** A driver is a skeleton shared by all devices, and the hardware is one reusable ring engine that fetches a descriptor, hands the operation to the device's own logic and writes the status back. **Modern comparables.** `virtio` rings, NVMe's submission and completion queues, the descriptor-done bit of Intel Ethernet controllers and the command lists of SATA controllers are all rings with a done mark; the 16550 serial chip is the classic eight-register device.
-
-## 2.7 The bus as a device
-
-**2.7.1** The bus controller is itself a device with eight memory-mapped registers, through which the processor detects what is on the bus and asks it to map a device to an address range. *(D, errata 49)*
-
-**2.7.2** The bus alerts the processor when a device enters or leaves. *(D, errata 49)*
+**2.6.2** The bus alerts the processor when a device enters or leaves. *(D, errata 49)*
 
 | Offset | Register | Meaning |
 |---|---|---|
@@ -109,40 +73,16 @@ word 3:  RESULT (written by the device)
 | `0x30` | `MAPCTL` | enable the mapping; request an orderly eject |
 | `0x38` | `EVENT` | next event (arrival, departure, fault) and its slot; zero if none |
 
-**2.7.3** Each slot starts at a fixed 4 KB page; `MAPADDR` is for devices that need a particular address or size. *(P, decision N1)*
+**2.6.3** Each slot starts at a fixed 4 KB page; `MAPADDR` is for devices that need a particular address or size. *(P, decision N1)*
 
-**2.7.4** An arrival or departure puts an event in a small queue and raises an interrupt; if the queue overflows a flag says events were lost and the driver rescans the bus, which is also what it does at boot. *(P, decision N2)*
+**2.6.4** An arrival or departure puts an event in a small queue and raises an interrupt; if the queue overflows a flag says events were lost and the driver rescans the bus, which is also what it does at boot. *(P, decision N2)*
 
-**2.7.5** When a device leaves, its slot is marked absent at once: a read of its window is a precise bus fault, a posted write is dropped and counted, and its in-flight bus transactions are aborted. *(P, decision N3)*
+**2.6.5** When a device leaves, its slot is marked absent at once: a read of its window is a precise bus fault, a posted write is dropped and counted, and its in-flight bus transactions are aborted. *(P, decision N3)*
 
-**2.7.6** The queued work of a departed device stays in memory untouched, so the driver can read, save, resend or fail it. *(P, the author's suggestion)*
+**2.6.6** The queued work of a departed device stays in memory untouched, so the driver can read, save, resend or fail it. *(P, the author's suggestion)*
 
 *Commentary.* **Precedent.** The VAX scanned its interconnect: `probenexi()` in 4.3BSD reads each nexus slot's status register, whose type field says what is plugged in; the Unibus had no enumeration at all, with devices at switch-set addresses and `badaddr()` probes, and nothing told the kernel when a device left. PCI sizes each device's windows by writing all ones to its base registers and assigns addresses; Amiga AutoConfig lets each board announce itself at a fixed address and be told where to live; NuBus gave each slot a fixed share of the address space. **Trade-offs.** A fixed page per slot needs no assignment step and limits the slot count; assignment on demand supports any layout at a few gates of logic per slot. **Improvements.** On a surprise removal PCI returns all ones, so every driver must treat all ones as a possible error; the pdp64 uses the precise bus fault the instruction set already defines, so the driver has a single recovery path. The queue's overflow rule makes boot and recovery the same code. **Benefits.** The kernel needs one fixed address, the bus controller's, to find every device, and the hand-off at boot shrinks to memory, cores and that address. **Modern comparables.** PCI Express enumerates through configuration space with hot-plug signalled by a slot-status interrupt; USB hubs report port changes through a status-change endpoint; NVMe and `virtio` keep their queues in host memory and re-queue them after a reset.
 
-## 2.8 The default devices
+## 2.7 Still open
 
-**2.8.1** The **disk** has the operations read, write and flush at 512-byte sectors, with the block number in the argument word; its identification block gives the capacity in sectors and the sector size; the boot ROM reads block 0 with one descriptor. *(P)*
-
-**2.8.2** The **network card** is a transmit slot and a receive slot: the transmit ring carries frames to send, the receive ring carries buffers the host posts and the device fills, completing each with the frame length; link changes raise an attention interrupt. *(P)*
-
-**2.8.3** **USB** is presented by a controller chip that does the protocol and the enumeration and shows each attached device as a slot on the bus with the personality of its class: a mass-storage device looks like a disk, a keyboard or mouse like a receive-only device, a serial adapter like a console. *(P, decision for the author)*
-
-**2.8.4** The **console** is a polled serial device with a transmit-ready and a receive-ready bit and one data register; the **timer** is a 64-bit free-running counter, a compare register and a control register; the **entropy source** returns 64 random bits from its data register and fills buffers by descriptor. *(console and timer D, as built in the emulator; entropy P)*
-
-**2.8.5** A device raises one interrupt line at the level its slot asks for, with the vector numbered from the slot. *(P)*
-
-*Commentary.* **Precedent.** The PDP-11 had a disk with eight registers, a serial line with four, and network controllers with rings; this is the same set with a common layout. **Trade-offs.** USB in eight registers is the hard case: a conventional host controller exposes command, event and transfer rings and many registers. Presenting each device as a bus slot moves the protocol into the controller chip, which costs gates or a small embedded processor in the controller and takes the USB stack out of the operating system; the alternative is a conventional ring-based host controller, which an existing operating-system USB stack can drive at the price of that large stack. The decision is the author's. **Improvements.** Treating every USB port as a hot-pluggable slot reuses the bus's own enumeration and hot-plug machinery instead of a second one. **Benefits.** A disk driver written for the bus disk works for a USB disk. **Modern comparables.** `virtio` block and network devices have the same shape; xHCI is the conventional USB controller; a USB-to-Ethernet adapter appears to the host as a network class device.
-
-## 2.9 Interrupts and other cores
-
-**2.9.1** Devices raise interrupts at one of eight priority levels; the timer is at level 6 and the console at level 4. *(D)*
-
-**2.9.2** An inter-processor interrupt needs only a memory-mapped per-core register; the interrupt controller and the routing of interrupts to cores are not yet defined. *(P, decisions R1 and R2)*
-
-**2.9.3** Starting the other cores is a write to a per-core start register in the bus controller (chapter 3). *(P, decision B2)*
-
-*Commentary.* **Precedent.** The PDP-11 had no interrupt controller: a device asserted one of four bus-request lines and supplied its own vector; the processor arbitrated by priority. **Trade-offs.** Eight levels need no controller code and give the operating system's `spl` locking directly; they cannot order devices at the same level and cannot route to a chosen core. **Benefits.** OpenBSD's `spl` model, which NetBSD and OpenBSD emulate in software on hardware that lacks priority levels, is native here. **Modern comparables.** x86's APIC, ARM's GIC and RISC-V's PLIC and AIA are controllers with per-source priorities and per-core routing.
-
-## 2.10 Still open
-
-The bus chapter's open items, each with five options in the decisions document: the transport (R4), the interrupt controller and routing (R1), starting the other cores and inter-processor interrupts (R2, B2), coherence beyond four cores (R3), the register layout and descriptor details above (R5), DMA addressing and protection (R6), errors raised by devices (R7), virtualization (R8), and whether to use `virtio` devices in the emulator to reach an OpenBSD login sooner (Q10 and the roadmap).
+The bus chapter's open items, each with five options in the decisions document: the transport (R4), the interrupt controller and routing (R1), starting the other cores and inter-processor interrupts (R2, B2), coherence beyond four cores (R3), the register layout and descriptor details (R5; chapter 6), DMA addressing and protection (R6), errors raised by devices (R7), virtualization (R8), and whether to use `virtio` devices in the emulator to reach an OpenBSD login sooner (Q10 and the roadmap).
