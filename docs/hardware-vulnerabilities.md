@@ -18,6 +18,7 @@
 * [8. What this does not show](#8-what-this-does-not-show)
 * [9. Round 3 additions: what the discoverers and developers said](#9-round-3-additions-what-the-discoverers-and-developers-said-read-in-the-primary-texts)
 * [10. Round 4 additions: vendor documents, discoverers and kernel developers](#10-round-4-additions-vendor-documents-discoverers-and-kernel-developers-read-in-saved-page-texts)
+* [11. Round 5 additions: GPUs, DMA masters, and old processor bugs](#11-round-5-additions-gpus-dma-masters-and-old-processor-bugs-read-in-saved-page-texts-and-local-files)
 
 ## 1. The pdp64 position today
 
@@ -259,3 +260,28 @@ Added 23 Oct 2026 from pages saved in round 4 (`docs/codegen-data/kernelpain/rou
 **Correction check.** No statement in sections 3 to 9 was found contradicted by the round 4 sources. The Skylake return-stack row of `kernel-pain-points.md` (14D) gains the nuance that Andi Kleen called the commit's first reason incorrect on 9 Mar 2018.
 
 **Still not read:** the original papers of KAISER, Rowhammer (Kim et al.), GoFetch and Hertzbleed (the KAISER PDF gave no text through the browser); the other AMD advisories (Zenbleed, Retbleed, Sinkclose, TSA); Intel's retpoline, L1TF, gather-data-sampling and Branch History Injection pages (listed on the Intel advisory page, not fetched).
+
+## 11. Round 5 additions: GPUs, DMA masters, and old processor bugs (read in saved page texts and local files)
+
+Added 23 Oct 2026 from `docs/codegen-data/kernelpain/round5-index.tsv` and the local Linux tree; full rows in `kernel-pain-points.md` section 14F and Appendix A.5 (rows 150, 163, 180). Labels as above; [D-local] is the file text in `~/claude/kernel-src/linux`.
+
+| Flaw | What the source says | Source | Rule it bears on |
+|---|---|---|---|
+| LeftoverLocals (CVE-2023-4969) | GPU local memory is not cleared between processes: "a vulnerability that allows recovery of data from GPU local memory created by another process on Apple, Qualcomm, AMD, and Imagination GPUs"; "~5.5 MB per GPU invocation on an AMD Radeon RX 7900 XT"; defence: "the GPU threads should clear memory (e.g., store 0s) to any local memory memory locations that were used in the kernel" | Trail of Bits, 16 Jan 2024 [P] | N9 |
+| GPUHammer | "the first Rowhammer attack on NVIDIA GPUs with GDDR6 DRAM"; the challenges listed are "proprietary mapping of physical memory to GDDR banks and rows", "faster refresh rates" and "proprietary mitigations in GDDR memories" (abstract only) | arXiv 2507.08166 via SemiEngineering [P] | N4 |
+| Thunderclap | an IOMMU does not protect enough: a malicious Thunderbolt/PCIe peripheral that looks like an Ethernet card "can compromise a target machine in a matter of seconds"; "seemingly innocuous peripherals like chargers and projectors" can do it | Markettos et al., NDSS 2019, project page [P] | N8 |
+| Thunderbolt as a DMA master | "the connected devices can be DMA masters and thus read contents of the host memory without CPU and OS knowing about it. There are ways to prevent this by setting up an IOMMU but it is not always available for various reasons." | `Documentation/admin-guide/thunderbolt.rst` [D-local] | N8 |
+| F00F, Cyrix coma, FDIV | "All models of Pentium ... have the F0 0F bug, which lets nonprivileged users lock up the system"; `X86_BUG_COMA` for the Cyrix 6x86; a boot test with `4195835.0` and `3145727.0` for FDIV | `intel.c`, `cyrix.c`, `fpu/bugs.c` [D-local] | N10 |
+| Hidden firmware mode | "the SMM BIOS isn't expecting the CPU to be in 64-bit mode"; firmware MTRRs for SMI handlers "for fan control" | `usb-legacy-support.rst`, `mtrr.rst` [D-local] | N11 |
+| AVX-512 | "known to slow the max clock speed of the core" | `fpu/core.c` [D-local] | C-series constant-time (frequency) |
+
+**New rule suggestions from round 5 (proposals, not decisions):**
+
+* **N8.** Every bus master the pdp64 defines (BLT64, the video and sound devices, SATA, USB, a PCI Express bridge) is bounded by an address window or an I/O translation unit (R6) that is **on by default**, and a device never receives a kernel pointer in a descriptor.
+* **N9.** Device-local memory that more than one process can use (blitter scratch, sound voice state, any GPU) is cleared, or tagged with its owner, when the owner changes.
+* **N10.** No unprivileged instruction sequence may stop the processor or an unrecoverable state; the instruction-set test suite includes every encoding, defined or reserved, from user mode (F00F-class).
+* **N11.** No hidden execution mode (SMM-like): the processor has no state that software cannot see or save.
+
+**Correction check.** Nothing in sections 3 to 10 was contradicted by round 5.
+
+**Still not read:** the GPUHammer paper itself, the Thunderclap FAQ answers, AMD and NVIDIA bulletins for GPUs.
