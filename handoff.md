@@ -2,7 +2,7 @@
 
 [← pdp64 index](README.md)
 
-Written 2026-10-22, brought up to date after errata 40 and the push of that day. It says what exists, where it lives, what is not in git, how to rebuild everything and in what order, what is half-done, and what is
+Written 2026-10-22, brought up to date after errata 62 (the manual, the instruction dictionary and the device and bus decisions of the day). It says what exists, where it lives, what is not in git, how to rebuild everything and in what order, what is half-done, and what is
 waiting on a decision. The small machine this was built on has 3.9 GB of RAM and 2 cores; that was the main limit, and the build commands below give the
 larger-machine settings.
 
@@ -60,6 +60,9 @@ is committed and verified (the rule is a clean-clone `tools/check-all.sh` of the
 | System v1 specification | accepted (`pdp64-system-architecture.md` section 15) |
 | Errata 39 (flag cleanup, `ISYNC`, `HINT`) | done, verified and pushed (compiler, core, grammar, tests, invariant checker `tools/check-flaginv.sh`) |
 | Errata 40 (priority 7 on every exception and interrupt entry) | decided; documentation committed; core, QEMU and tests committed (`06e4a05`); see section 9 for whether it is pushed |
+| the manual | the streamlined set `docs/streamlined/` (ten chapters, five appendices) and the generated instruction dictionary `docs/streamlined/dictionary/` are written and published at https://moebiusv.github.io/pdp64/ ; see section 10 |
+| bus and devices (errata 49 to 51, 58 to 61) | decided on paper only: the bus is a device (registers ID, CONTROL, STATUS, SLOT, INFO, MAPADDR, MAPCTL, EVENT), the common device registers and 32-byte descriptor with an ownership bit, storage interfaces (SCSI, ATA, SATA, NVMe) on the same pattern, a device window of at least eight registers, the GPT wrapper, boot offsets; bit 39 of the physical address selects device space (P19, errata 60: **not yet in the QEMU memory map or `spec/pdp64-system.hbnf`**) |
+| vector, graphics and AI work (errata 59) | decided: no SIMD register file; memory-mapped devices (graphics terminal, LB64 and companions, array languages); the register-level C64 devices are a stub awaiting the author's documents |
 | operating system | decided (errata 41): OpenBSD first, through the LLVM back end (the critical path: selection, calling convention, clang; needs the bigger machine); Unix/32V with pcc is the fallback if OpenBSD proves too hard; 3BSD dropped; nothing written |
 
 **The goal before silicon (errata 52):** assembler, linker, LLVM compiler back end, emulator, and an OpenBSD port that can be logged into with ssh; the roadmap with the order of work is [`docs/roadmap.md`](docs/roadmap.md).
@@ -79,22 +82,28 @@ Measured by `tools/pdp64size.sh`; references in `docs/codegen-data/`. The flag-r
   work in progress: finish or discard them; do not commit them unchecked. In `~/claude/pcc`: only an untracked `pdp64-docs-2026-10-21.tar`.
 * **Stopped agents** (their committed work is in git; their briefs are only in the session transcript): the cross-architecture comparison (`docs/arch-comparison.md` is not written; `tools/archcmp.py` exists; the totals file from a 13-file trial must not be quoted), the kernel-assembly survey (`docs/kernel-asm-survey.md` and `tools/kernelasm.py`
   partly written), the kernel pain-points research (`docs/kernel-pain-points.md` not written; Phase 1 had only begun cloning, and its clone directory `~/claude/kernel-history` is incomplete). Restart each with a fresh agent, one at a time on a small machine. **The LLVM re-check** (section 4) is queued first.
+* **Running when this was written:** the kernel pain-points research agent, round 2 (`docs/kernel-pain-points.md` and its companions were delivered and pushed in round 1; round 2 adds more primary sources, the cost of constant-time modes, what operating-system people asked vendors for, and boot pain points). When it reports: check that no browser is left (`pgrep -af 'chrome|browse.py|uc_driver'`), that no clone is left in `~/claude/kernel-msgs`, that no request to lwn.net was made after the block, spot-check its claims, link its documents from the manual, run a clean-clone `tools/check-all.sh`, then push.
 * **Known open spec items:** the `DMW` format and `MMUCTL`; bus atomics; `pushm`/`popm`/`pushx`/`popx` aborts can leave earlier stores; block copy more than one byte per step against the sequential-consistency promise; the architecture-text items of the readiness review still to be written into the ISA.
 * **Web research** (the kernel mailing lists, the handbooks listed in `docs/fact-check-2026-10-22.md` section 12) uses the browser skill, not `WebFetch`. The author wants to be told
   before `browse.py` is started because it opens a visible window; never `kill` it, use `./browsectl quit`. Chrome was found left running after a quit, which needs a WSL shutdown to clear (seen again after the verification run of 2026-10-22: ten chrome processes outlived `browsectl quit`, and `browse.py` keeps a defunct chrome child from its start).
 
 ## 7. Decisions taken, and decisions open
 
-Decided (all in `docs/errata.md`, items 1 to 40): the ISA (three parcels, page 2, `cbCC` forms, `rori32`, `=K` literal pool, `pushx`/`popx`, FP16), the ABI (`docs/abi.md`), System v1 (register-based exception entry,
+Decided (all in `docs/errata.md`, items 1 to 62; items 41 to 62 are summarised after this paragraph): the ISA (three parcels, page 2, `cbCC` forms, `rori32`, `=K` literal pool, `pushx`/`popx`, FP16), the ABI (`docs/abi.md`), System v1 (register-based exception entry,
 vector table at `VBR + 8*vector`, software accessed/dirty bits, three-level page tables, MMUCTL, eight priority levels), devices as eight memory-mapped registers plus DMA, the OS order (errata 41), and the
 flag cleanup of errata 39: flags are two groups (`C` and `{N,Z,V}`), `cbCC` and moves, loads and stores write no flags, shifts write the same flags for every count, `mscn` writes all four, rotates and `dshr`
 write no flags, `asl` keeps `V = N xor C`; new `ISYNC` and `HINT`; errata 41: the OS order is OpenBSD first, 32V fallback, 3BSD dropped; and errata 40: every exception and interrupt enters at priority 7 (a PDP-11 throwback, unverified against the handbook).
 
-Open: the `DMW` register format and whether `MMUCTL` should exist at all (system design document); the Q64 bus transactions and the atomics question (`pdp64-q64-bus.md`); the LLVM milestones
+Errata 41 to 62 in one line each: 41 OpenBSD first; 42 all rules soft; 43 the user-memory guard bit `UA` (`STUA`, `CLUA`; PSW bit 12); 44 `MMUCTL` stays, `DMW` deferred; 45 atomics are a monitor; 46 `long double` is `double` and the ABI is versioned; 47 boot software open source; 48 BSD 2-clause licence for everything; 49 the bus is a device; 50 a GPT wrapper around the BSD label; 51 majority offsets (label in sector 1, 8 KB boot area, superblock at 8192); 52 the goal before silicon; 53 the manual is the primary deliverable; 54 the manual is primary; 55 its published form; 56 aphorism then commentary; 57 the reference layout; 58 every decision states its impact on the kernel, the compiler and the hardware; 59 vector, graphics and AI work go to memory-mapped devices (APL and K); 60 bit 39 selects device space, and the book order; 61 storage interfaces share the device pattern and eight registers is a minimum; 62 the instruction dictionary, generated, with atomics in the SMP chapter and system instructions and faults in the kernel chapter. The decisions still open are in [`docs/decisions-pending.md`](docs/decisions-pending.md) and appendix B of the manual.
+
+Open: the operand placement of the atomic instructions (the ISA text fixes only their sub-opcodes); the register-level definition of the C64-derived devices; the `DMW` register format (deferred); the Q64 bus transactions and the atomics question (`pdp64-q64-bus.md`); the LLVM milestones
 (selection, calling convention, tied operands, clang); the architecture-text items of the readiness review (`pdp64-ooo-readiness.md` section 2) still to be written into the ISA; out-of-order readiness is a design
 aim while the FPGA and ASIC stay in order.
 
 ## 8. Rules of the house
+
+* **Agents:** one agent at a time on this machine (3.9 GB); stop an agent that eats memory. "Push everything when the agent reports", after a clean-clone `tools/check-all.sh`. Web access only through the browser skill with the politeness rules (at least 10 seconds between page loads, one directive at a time, stop on a captcha until the author has passed it, no requests to lwn.net, archived copies through the Wayback Machine allowed).
+* **Statements of the author supersede mine** unless they later agreed with me; the recent beats the old. Record each decision as an erratum with the author's words.
 
 * **The author's principles, in order:** (1) code size; (2) easy recoverability, meaning fewer possible errors and an easier recovery path, so less recovery code; (3) speed and efficiency through fewer gates and tighter hot loops, by careful instruction choice. All rules are soft (errata 42). The README states them and gives the examples. Judge every option against them.
 
@@ -105,4 +114,15 @@ aim while the FPGA and ASIC stay in order.
 
 ## 9. Commits at the time of writing
 
+On 2026-10-22 (later): `pdp64` `main` = `c3c794f` (documentation only since the last clean-clone `tools/check-all.sh`, which was at the commit that added the licence; the documentation commits since touch no code except `tools/mkmanual.py`, `tools/manual/` and one line of `tools/check-all.sh`, and `python3 tools/mkmanual.py --check` passes), `pcc` `master` = `d44d98a4`. Uncommitted and not mine to commit unchecked: `tools/archcmp.py` and the files under `docs/codegen-data/archcmp/` (the stopped comparison agent), `chat02.txt` (the author's). The earlier line:
+
 On 2026-10-22, after a clean-clone `tools/check-all.sh` of the committed HEAD (exit 0; sim64 43 of 43, QEMU 52 run, 0 failed, 3 skipped; C suite 516 of 516 under sim64 and QEMU): `pdp64` `main` = `06e4a05` plus the commit that adds this line (see `git log -1`), `pcc` `master` = `d44d98a4`. Both pushed.
+
+## 10. The manual
+
+The manual is the directory [`docs/streamlined/`](docs/streamlined/00-index.md), published at https://moebiusv.github.io/pdp64/docs/streamlined/00-index.html (the legacy GitHub Pages build; `.md` is served as `.html`; a push shows after one or two minutes). Order of the chapters (set by the author): introduction, bus, graphics, boot, device drivers, kernel (modes, exceptions, memory management, system instructions, faults), multiple processors (including the atomic instructions), vectors and AI, the instruction set, conclusion; then the instruction dictionary, then appendices A (improvements), B (decisions pending), C (glossary), D (ABI), E (assembly language).
+
+* **Form of a section:** numbered statements (*(D)* decided, *(P)* proposed, *(S)* stub, no tag as built), then a *Commentary* with the *Precedent*, *Trade-offs*, *Improvements*, *Benefits*, *Modern comparables*, *Use* where useful, and an **Impact** line (*Kernel*, *Compiler*, *Hardware*; errata 58).
+* **The dictionary** is generated: `tools/mkmanual.py` writes `docs/streamlined/dictionary/` from `spec/pdp64-mnemonics.hbnf` and `spec/pdp64-system.hbnf` (the numbers) and `tools/manual/isa_*.py` (the words); never edit the generated pages; `python3 tools/mkmanual.py --check` is part of `tools/check-all.sh`. Entries are marked implemented or not by reading `common/pdp64exec.c`.
+* **Known gaps:** the C64 devices (stub, section 3.2 of the graphics chapter); the atomic instructions, the memory escape (`MESC`), the UTF-8 instructions, `MVAL` and `FCLASS32` are specified but not implemented in the executor; `STUA` and `CLUA` are not in the grammar; the book form (Typst, through `~/claude/buildabook`) is `book/` in this repository, see its `README`.
+* **Checks to run after editing the manual:** every relative link resolves; chapter and section references match the headings (the glossary and the introduction's evidence table cite sections by number); `python3 tools/mkmanual.py --check`.
