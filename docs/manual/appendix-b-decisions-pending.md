@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**These are the decisions the author has not yet made, each with its question, the proposed answer, and the precedent, trade-offs and benefits that surround it.** Each has five options with their costs in the working document [`../decisions-pending.md`](../decisions-pending.md) (the identifiers P, R, S, N and B below are that document's), and the boot choices are worked through in [`../boot.md`](../boot.md). Decisions already made (errata 42 to 57) are not repeated here. Each entry is judged by the three principles in order: code size, easy recoverability (less recovery code), and speed and efficiency through fewer gates and tighter hot loops. Every entry is a proposal *(P)* until the author decides it.
+**These are the open decisions, each with its question, the proposed answer, and the precedent, trade-offs and benefits that surround it.** Each has five options with their costs in the working document [`../decisions-pending.md`](../decisions-pending.md) (the identifiers P, R, S, N and B below are that document's), and the boot choices are worked through in [`../boot.md`](../boot.md). Decided items are not repeated here. Each entry is judged by the three principles in order: code size, easy recoverability (less recovery code), and speed and efficiency through fewer gates and tighter hot loops. Every entry is a proposal *(P)* until it is decided.
 
 ## B.1 The instruction set and the system
 
@@ -38,13 +38,13 @@
 
 ### B.1.6 Priority 7 on interrupt entry as well as exception entry (P14)
 
-**B.1.6.1** Exceptions enter at priority 7, which is decided; the open question is whether interrupts do too, which the implementation does. *(exceptions D, errata 40; interrupts P)*
+**B.1.6.1** Exceptions enter at priority 7, which is decided; the open question is whether interrupts do too, which the implementation does. *(exceptions D; interrupts P)*
 
 *Commentary.* **Precedent.** The PDP-11 loaded each vector's own priority and pushed the old state on a stack, so an interrupt at any time could not lose it; trap vectors conventionally held priority 7. **Trade-offs.** Entering in registers needs the priority raised, or a higher-level interrupt could overwrite the saved state before the handler stores it; the cost is one `SPL` in a handler that wants to be interruptible. The alternatives are per-vector priority (the PDP-11's choice), a hardware push, and an interrupt shadow. **Modern comparables.** x86, AArch64 and RISC-V all mask interrupts on entry. **Impact.** *Kernel:* One `SPL` in a handler that wants to be interruptible. *Compiler:* None. *Hardware:* Priority 7 loaded into the new status word at entry.
 
 ### B.1.7 A prefetch instruction (P15)
 
-**B.1.7.1** The proposal is none for now, with the shape of a non-faulting `PREFETCH` with a memory operand reserved on a free sub-opcode. *(P)*
+**B.1.7.1** The proposal is none, with the shape of a non-faulting `PREFETCH` with a memory operand reserved on a free sub-opcode. *(P)*
 
 *Commentary.* **Precedent.** Neither the PDP-11 nor the VAX had one; caches there were transparent. **Trade-offs.** The kernel survey counts over a hundred prefetch instructions across the four kernels, mostly in tuned list and copy code; an in-order core with no data cache gains nothing. **Modern comparables.** AArch64 `PRFM`, ARM `PLD`, PowerPC `DCBT`, x86 `PREFETCHT0`. **Impact.** *Kernel:* List walks and copy loops can warm the cache. *Compiler:* `PREFETCH` would need compiler heuristics. *Hardware:* A non-faulting load path with no destination; nothing on a core with no data cache.
 
@@ -56,9 +56,9 @@
 
 ### B.1.9 Constant-time execution (P17)
 
-**B.1.9.1** The question is how to guarantee that instruction time does not depend on operand values; the proposal is a core set of instructions that is always constant-time plus a mode bit that extends the promise to divide, `MSCN`, `MCMP` and floating point. *(P, the author's request, option 3)*
+**B.1.9.1** The question is how to guarantee that instruction time does not depend on operand values; the proposal is a core set of instructions that is always constant-time plus a mode bit that extends the promise to divide, `MSCN`, `MCMP` and floating point. *(P)*
 
-*Commentary.* **Trade-offs.** Making all integer instructions constant-time would cost about 1% on average by a rough estimate, because divide is only 0.04% of compiled instructions (149 of 370,115; multiply costs nothing, since a fixed-latency multiplier needs less logic than one with an early-out); the mode bit keeps fast paths for ordinary code, which the author prefers. A constant-time instruction does not make code constant-time: a secret-dependent branch or table index still leaks through the predictor and the cache. **Precedent.** Neither ancestor addressed it; the PDP-11's multiply and divide were microcoded with operand-dependent times. **Modern comparables.** Arm's `DIT` bit, Intel's data-operand-independent timing mode, RISC-V's scalar-crypto timing subset. **Use.** Cryptography on secret keys. The published performance cost of those modes is being researched. **Impact.** *Kernel:* Crypto code sets the mode around secret-dependent work. *Compiler:* The back end must not turn a constant-time sequence into a variable-time one. *Hardware:* The core set costs nothing; the mode bit needs the fast paths of divide and the scanners to be gateable.
+*Commentary.* **Trade-offs.** Making all integer instructions constant-time would cost about 1% on average by a rough estimate, because divide is only 0.04% of compiled instructions (149 of 370,115; multiply costs nothing, since a fixed-latency multiplier needs less logic than one with an early-out); the mode bit keeps fast paths for ordinary code. A constant-time instruction does not make code constant-time: a secret-dependent branch or table index still leaks through the predictor and the cache. **Precedent.** Neither ancestor addressed it; the PDP-11's multiply and divide were microcoded with operand-dependent times. **Modern comparables.** Arm's `DIT` bit, Intel's data-operand-independent timing mode, RISC-V's scalar-crypto timing subset. **Use.** Cryptography on secret keys. The performance cost of those modes is not established. **Impact.** *Kernel:* Crypto code sets the mode around secret-dependent work. *Compiler:* The back end must not turn a constant-time sequence into a variable-time one. *Hardware:* The core set costs nothing; the mode bit needs the fast paths of divide and the scanners to be gateable.
 
 ### B.1.10 The literal pool and execute-only code (P18)
 
@@ -68,9 +68,9 @@
 
 ### B.1.11 Vector and SIMD math (S1 to S6)
 
-**B.1.11.1** The device route is decided: the processor has no vector register file and no SIMD instruction set, and wide data-parallel work (graphics, AI and large-language-model inference, the array languages APL and K) is done by memory-mapped devices (chapter 8). *(D, errata 59)*
+**B.1.11.1** The device route is decided: the processor has no vector register file and no SIMD instruction set, and wide data-parallel work (graphics, AI and large-language-model inference, the array languages APL and K) is done by memory-mapped devices (chapter 8). *(D)*
 
-**B.1.11.2** What remains open from the six questions is the number formats and operations of the devices and the reconciliation of the device descriptors with the standard descriptor; the six questions were: where data-parallel work lives (coprocessor, packed lanes in the integer registers, a fixed-width vector file, a scalable one, a matrix unit); which registers hold vectors; fixed or scalable length; how the machine state is saved on a context switch and whether the kernel may use it; which number formats (half precision, bfloat16, 8-bit integer dot products, 8-bit floating point); and the ABI and compiler support. *(P)*
+**B.1.11.2** Open are the number formats and operations of the devices and the reconciliation of the device descriptors with the standard descriptor; the six questions are: where data-parallel work lives (coprocessor, packed lanes in the integer registers, a fixed-width vector file, a scalable one, a matrix unit); which registers hold vectors; fixed or scalable length; how the machine state is saved on a context switch and whether the kernel may use it; which number formats (half precision, bfloat16, 8-bit integer dot products, 8-bit floating point); and the ABI and compiler support. *(P)*
 
 *Commentary.* **Precedent.** The PDP-11 sent heavy numerical work to attached array processors; the VAX had a vector extension on its 6000 series, with 16 vector registers of 64 elements, supported by VMS; neither Unix used it much. **Trade-offs.** A fixed-width vector file brings a second register file and its context-switch cost, opcodes, and a new width for every generation (the history of SSE, AVX and AVX-512); a scalable design runs one binary on a small and a large implementation at the price of the most complex specification. Lazy saving of vector state was a security hole on x86, and Linux went back to eager restore. **Benefits.** The coprocessor needs no opcodes and no processor state. **Modern comparables.** ARM SVE and RISC-V V (scalable), ARM NEON, x86 AVX, PowerPC VSX, Alpha MVI. **Use.** Neural-network inference (the LB64 accelerator), graphics, signal processing and the library's string and memory routines. The evidence needed first: compile the corpus at higher optimisation and count vectorised loops, measure the share of time in memory and string routines, and decide the target workloads. **Impact.** *Kernel:* No vector state to save. *Compiler:* No vectoriser for the processor; the runtime lowers array primitives to descriptors. *Hardware:* No register file; the devices carry the width.
 
@@ -96,7 +96,7 @@
 
 ### B.2.4 The interrupt controller and routing to cores (R1)
 
-**B.2.4.1** The proposal is wired interrupt lines to core 0 with a per-line target register, keeping the eight priority levels, with message-signalled interrupts added later. *(P)*
+**B.2.4.1** The proposal is wired interrupt lines to core 0 with a per-line target register, keeping the eight priority levels, with message-signalled interrupts as an extension. *(P)*
 
 *Commentary.* **Precedent.** The PDP-11 had no controller; a device asserted one of four request lines and supplied its vector. **Trade-offs.** The smallest design adds no new failure cases and cannot give a fast multi-queue device its own interrupt. **Modern comparables.** x86's APIC, ARM's GIC, RISC-V's PLIC and AIA. **Impact.** *Kernel:* A handler sees one interrupt model. *Compiler:* None. *Hardware:* Wired lines to one core with a target register.
 
@@ -126,7 +126,7 @@
 
 ### B.2.9 DMA addressing and protection (R6)
 
-**B.2.9.1** The proposal is no translation unit for now: every device must be able to address all 40 bits of physical memory. *(P)*
+**B.2.9.1** The proposal is no translation unit: every device must be able to address all 40 bits of physical memory. *(P)*
 
 *Commentary.* **Precedent.** The Unibus carried only 18 address bits, so the VAX and the larger PDP-11s had map registers that translated device addresses, in effect a simple translation unit for necessity. **Trade-offs.** No protection from a faulty or malicious device; a translation unit matters when virtualisation or untrusted devices do. **Modern comparables.** x86 VT-d, ARM SMMU, the RISC-V IOMMU; Linux's bounce buffers for limited devices. **Impact.** *Kernel:* A driver passes physical addresses. *Compiler:* None. *Hardware:* No translation unit for devices.
 
@@ -138,7 +138,7 @@
 
 ### B.2.11 Virtualisation (R8)
 
-**B.2.11.1** The proposal is to declare it out of scope for System v1 and fix five constraints now: privileged state stays privileged or controllable, the page-table walker could be wrapped by a second level, interrupts are injectable, system-register access can trap, and the translation-enable bit and software accessed and dirty bits are reviewed for what a hypervisor would need. *(P)*
+**B.2.11.1** The proposal is to declare it out of scope for System v1 and fix five constraints: privileged state stays privileged or controllable, the page-table walker could be wrapped by a second level, interrupts are injectable, system-register access can trap, and the translation-enable bit and software accessed and dirty bits are reviewed for what a hypervisor would need. *(P)*
 
 *Commentary.* **Precedent.** The PDP-11 was not designed for virtualisation and has sensitive instructions that do not trap in user mode; the VAX was not cleanly virtualisable either, and a 1991 paper described the changes needed. **Trade-offs.** Adding virtualisation late cost the VAX instruction changes; settling the constraints early costs a paragraph. **Modern comparables.** x86 VMX with nested paging, ARM exception level 2, the RISC-V hypervisor extension, IBM's trap-and-emulate machines. **Impact.** *Kernel:* A hypervisor could be added without changing a guest. *Compiler:* None. *Hardware:* Constraints on privileged state, the walker and interrupt injection.
 
@@ -156,6 +156,6 @@
 
 ### B.2.14 How USB attaches, and virtio first
 
-**B.2.14.1** The question is whether USB is a controller that shows each attached device as a bus slot, or a conventional ring-based host controller driven by an existing operating-system USB stack; and whether the emulator uses `virtio` devices first to reach an OpenBSD login sooner. *(P, for the author)*
+**B.2.14.1** The question is whether USB is a controller that shows each attached device as a bus slot, or a conventional ring-based host controller driven by an existing operating-system USB stack; and whether the emulator uses `virtio` devices first to reach an OpenBSD login sooner. *(P)*
 
 *Commentary.* **Trade-offs.** Per-slot USB moves the protocol into the controller chip and takes the stack out of the operating system; the conventional controller uses code that already exists. `virtio` reuses OpenBSD's existing drivers in the emulator and defers the project's own eight-register devices to silicon; it gets to `ssh` faster and puts native devices later. **Modern comparables.** xHCI for the conventional controller; `virtio-mmio` on every emulated RISC-V and ARM board. **Impact.** *Kernel:* A disk driver serves a USB disk; virtio reuses the existing drivers. *Compiler:* None. *Hardware:* USB protocol in the controller costs gates; virtio costs nothing for the emulator.
