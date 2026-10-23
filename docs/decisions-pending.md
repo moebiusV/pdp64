@@ -32,6 +32,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [P16. Performance counters](#p16-performance-counters)
 * [P17. Constant-time execution](#p17-constant-time-execution-a-timing-channel-defence)
 * [P18. The literal pool and execute-only code](#p18-the-literal-pool-and-execute-only-code)
+* [P19. A bit of the physical address selects device space](#p19-a-bit-of-the-physical-address-selects-device-space)
 * [Part B. Previous decisions, written up so they can be changed](#part-b-previous-decisions-written-up-so-they-can-be-changed)
 * [Part C. The gaps: several cores, DMA devices and virtualization](#part-c-the-gaps-several-cores-dma-devices-and-virtualization)
 * [Part D. Vector and SIMD math](#part-d-vector-and-simd-math)
@@ -110,6 +111,7 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 | P15 | Prefetch instruction | none for now; reserve the shape | list and copy loops (from the kernel survey) |
 | P16 | Performance counters | cycle and instruction counters after the clock (P3) | profiling |
 | P18 | Literal pool out of `.text` so code can be execute-only | proposed: option 1, an ABI rule (a read-only pool section next to the text) | OpenBSD's execute-only mitigation |
+| P19 | The top bit of the 40-bit physical address selects device space (set) or memory (clear) | proposed (the author, 2026-10-22, 'what do you think?'); VAX precedent | the author's suggestion; precedent `NEX780` in 4.3BSD |
 | P17 | Constant-time execution (timing-channel defence) | proposed: option 3 (a core set always constant-time plus a `DIT` bit for divide, `mscn`, `mcmp` and floating point); option 4 costs about 1% on average by a rough estimate | cryptography; the hardware-vulnerability rules |
 
 ## Already decided, listed so they are not asked twice
@@ -1283,7 +1285,7 @@ The boot decisions (the first code, starting the other cores, the hand-off, devi
 
 ## Part D. Vector and SIMD math
 
-> **DECIDED (errata 59, the author, 2026-10-22): the memory-mapped device route.** The processor has no vector register file and no SIMD instruction set; wide work is done by devices driven by descriptors, for graphics, AI and large-language-model inference, and the array languages APL and K. This closes S1 (option 1), S2 (no vector registers), S3 (no vector length in the processor), S4 (no vector state to save) and S6 (no vector ABI). S5 (the number formats and operations of the devices) and the open items listed in errata 59 remain. The options below are kept as the record. See [`streamlined/07-vectors.md`](streamlined/07-vectors.md).
+> **DECIDED (errata 59, the author, 2026-10-22): the memory-mapped device route.** The processor has no vector register file and no SIMD instruction set; wide work is done by devices driven by descriptors, for graphics, AI and large-language-model inference, and the array languages APL and K. This closes S1 (option 1), S2 (no vector registers), S3 (no vector length in the processor), S4 (no vector state to save) and S6 (no vector ABI). S5 (the number formats and operations of the devices) and the open items listed in errata 59 remain. The options below are kept as the record. See [`streamlined/08-vectors.md`](streamlined/08-vectors.md).
 
 (I read "avax" as AVX. If you meant something else, tell me.) **SIMD** means single instruction, multiple data: one instruction operating on several values packed side by side. This is a real gap: the ISA has considered and rejected separate vector register files (ISA section 15.2, "Separate vector register files (LSX, LASX)"), and put wide data-parallel work in a bus-attached coprocessor instead (the LB64 accelerator is the worked case), but no decision record exists and nothing weighs the alternatives. Facts about other systems are from my memory and **not confirmed in the sources read**; the [kernel survey](kernel-asm-survey.md) says only that avoiding floating-point state avoids about 180 x86 instructions that save it. The compiler corpus was built at `-Os`, where gcc and clang vectorize little, so **there is no measurement of how much vector code a pdp64 would run**; the first thing to do before choosing is collect that evidence (list at the end of this part).
 
@@ -1513,3 +1515,15 @@ Checked on 2026-10-22 in two passes; details per claim in `docs/codegen-data/ver
 * **P1:** the RISC-V `wfi` wake rule is weaker than the text said (an enable bit of the individual interrupt is needed, and an implementation may wake for any reason), so "same result as RISC-V" holds only if the pdp64 treats the priority mask like the global enable bit.
 * **P9:** the "rand() seeded from the time" remark was wrong; no effect on the recommendation.
 * **Q7:** the 0.39% figure is measured and sourced (`docs/codegen-data/pdp64-after-errata39.csv`); the verification pass wrongly said it could not be found.
+
+## P19. A bit of the physical address selects device space
+
+**Question.** Should the top bit of the 40-bit physical address (bit 39) say whether an access goes to a device (set) or to memory (clear)?
+
+**Proposed.** Yes. Memory occupies the lower 512 GB and device space the upper 512 GB; one bit, decoded first in the bus fabric, replaces a range comparison. The author suggested it (2026-10-22) and asked what I thought; I think it is right. Precedent: the VAX divides physical space into memory and I/O space (`NEX780` at `0x20000000` in 4.3BSD).
+
+**Gains.** Trivial first-level routing; a page-table entry whose memory type disagrees with the address bit can fault, which catches a cached device mapping and a device-typed mapping of memory; the bus controller can refuse device DMA into device space, so no device can write another's registers until devices have a translation unit.
+
+**Costs.** The emulator's timer and console addresses move into the upper half; half the address space is spent on a bit that today's devices use a few megabytes of. The alternative (a forty-first bit) costs one more bit in every translation-buffer entry and bus address, and is not proposed.
+
+**Needs.** The author's confirmation; then an erratum, the system-architecture text, and the QEMU memory map.

@@ -1,0 +1,61 @@
+# 3. Graphics: the terminal and its devices
+
+[← streamlined index](00-index.md)
+
+**The pdp64's display is a modernised and extended Commodore 64 built as memory-mapped devices: a video device, a sound device and a blitter, each with the eight-register face of chapter 5, and a driver for each that is a page of register writes.** The pdp64 is an extension of the PDP-11 and its terminal is an extension of the C64: the same idea (a machine whose video and sound are chips with registers, not a graphics card with a programming model) at a modern width. The processor never sees the display protocol: HDMI, like SATA and USB, is a transmitter chip on the board with its own standard, and the pdp64's side of it is a small set of registers. This chapter sits after the bus because the first thing a user sees is the terminal, and before boot because the terminal is the first device the boot software drives. Tags: *(D)* decided; *(P)* proposed; *(S)* stub, to be filled when the author supplies the source.
+
+## 3.1 The terminal: VIC-64X, SID-64X and BLT64
+
+**3.1.1** The video device `VIC-64X` is the Commodore 64's video chip (the VIC-II) extended: a framebuffer in the address space with 48-bit pixels, scanned out through a line buffer. *(D, the author's statement; the formats are to be written down)*
+
+**3.1.2** The sound device `SID-64X` is the C64's sound chip (the SID) extended: voices with filters, with 48-bit audio samples. *(D, the author's statement; the formats are to be written down)*
+
+**3.1.3** The blitter `BLT64` copies and combines rectangles of pixels with raster operations: registers for the source and destination base addresses, the strides, the width and height, a raster operation (the sixteen binary operations of source against destination and the common ternary ones), a mask or transparent colour, and a control register with direction, go, busy and interrupt on done. *(D, FPGA plan section 12)*
+
+**3.1.4** Each of the three is a device in a slot: it is enumerated by the bus, mapped into its own 4 KB page, and found by its identification register like any other (chapters 2 and 5). *(D)*
+
+*Commentary.* **Precedent.** The Commodore 64's VIC-II and SID were chips whose registers a program poked directly, with a screen in memory that the video chip read by direct memory access; Rob Pike's Blit had a framebuffer in the address space plus a bit-block-transfer engine, as did the Amiga and every 1980s windowing system. **Trade-offs.** The blitter covers scrolling a terminal, moving a window, drawing a glyph, filling a rectangle and exclusive-oring a cursor, which is the working set of a text-and-windows machine; it does not do three-dimensional graphics. `MCPY` is no substitute: it is one-dimensional and occupies the processor, where a blit has a stride and a raster operation and runs concurrently. 48-bit pixels (presumably 16 bits per channel) exceed what any display connector carries today, so the display device converts to the connector's depth on the way out; 48-bit audio samples likewise exceed what a converter takes, so the sound device keeps the precision for mixing and filtering and reduces it at the output. **Improvements.** The C64's video and sound registers were scattered and irregular; the pdp64 versions use the uniform register face, so one driver skeleton serves them. **Benefits.** The blitter is about 1,500 lookup tables and a line buffer, nearly all address arithmetic; the whole terminal is a handful of small devices. **Modern comparables.** Every embedded display controller has a 2-D blitter and a scan-out engine; sound chips are now audio codecs behind an I2S interface. **Impact.** *Kernel:* a framebuffer, a sound and a blit driver are each a mapped page and a few register writes; no cache maintenance is needed because the framebuffer is uncached. *Compiler:* none. *Hardware:* a scan-out engine, a line buffer, a small address-arithmetic unit for the blitter and a mixer for the sound device, each independent of the processor and of the others.
+
+## 3.2 The stub: the C64 documentation
+
+**3.2.1** The register-level definitions of `VIC-64X`, `SID-64X` and `BLT64` (register names, offsets, bit fields, the 48-bit pixel and sample formats, the sprite, raster-interrupt and voice models inherited from the C64) are not in the documents found so far and are to be supplied by the author. *(S)*
+
+**3.2.2** Until they are, the chapter states only what the author has stated and what the FPGA plan fixes: the devices exist, they follow the eight-register convention in the terminal's slots, and the interrupt, `FENCE` and uncached-framebuffer rules of section 3.4 apply. *(S)*
+
+*Commentary.* This section is a placeholder and is the place the C64-derived specification belongs; the author's earlier work on the C64 design is the source, and the phase-7 plan treats the video chip as the visible fun part that must wait until the platform exists. **Impact.** *Kernel:* none until defined. *Compiler:* none. *Hardware:* the block RAM budget (section 3.4) must be settled before the video device is built.
+
+## 3.3 How the terminal drives HDMI and the other ports
+
+**3.3.1** The display connector is standard kit: HDMI (and DVI and DisplayPort) is a transmitter chip that takes pixels and sync signals in parallel and does the link protocol, the encoding and the electrical signalling itself; on the first board it is the DE10-Nano's ADV7513, set up once over an I2C-style control bus. *(D, the author's statement; the board is FPGA plan section 3)*
+
+**3.3.2** The video device's output side is therefore a pixel stream with horizontal and vertical sync, a clock and a data-enable, which is what every such transmitter accepts; the device's registers set the mode (width, height, blanking, pixel clock, the pixel format), the base address of the framebuffer and the display on and off. *(P)*
+
+**3.3.3** Other ports are the same shape: a different transmitter (VGA digital-to-analogue converter, DisplayPort, an LVDS panel) takes the same pixel stream, so the pdp64's side does not change, and each port is one more slot or one more output of the video device. *(P)*
+
+**3.3.4** The sound device's output is likewise a standard digital audio stream (I2S or the HDMI audio channel) into a converter or the transmitter, and the processor never sees the protocol. *(P)*
+
+**3.3.5** The ports that carry data, SATA for storage and USB for peripherals, follow the same pattern: the protocol is in the chip or controller block, and the processor's side is a slot with eight registers and a ring (chapter 5). *(D)*
+
+*Commentary.* **Precedent.** The MiSTer framework on the DE10-Nano already does exactly this (the retro cores produce a pixel stream and the framework's scaler and the HDMI transmitter do the rest), which is why the plan buys HDMI there. **Trade-offs.** The control bus of the transmitter needs a small amount of one-time setup that a boot routine does by writing a few registers; the pixel clock must be generated to the mode, which on an FPGA is a phase-locked loop and in silicon is the same block. **Improvements.** Because the interface is a stream and a register set, replacing the transmitter or the connector changes nothing above the video device, as a SATA controller behind its ring can be replaced without changing the disk driver. **Benefits.** No part of the operating system carries an HDMI, SATA or USB protocol stack: each is one driver of the common shape. **Modern comparables.** Single-board ARM computers with a display controller and an HDMI transmitter; the video output of every SoC. **Impact.** *Kernel:* a display driver sets a mode and a base address and nothing else; hot-plug of a monitor is a bus event if the transmitter reports one. *Compiler:* none. *Hardware:* a pixel generator, a clock and an off-chip transmitter; no protocol logic in the pdp64's own gates.
+
+## 3.4 The framebuffer, the memory type and the memory budget
+
+**3.4.1** The framebuffer is mapped with the uncached memory type, or the processor's writes sit in the data cache while the video device scans out stale memory; a `FENCE` separates writing a device's registers from setting its go bit. *(D, FPGA plan section 12.2)*
+
+**3.4.2** On the first board the block RAM (about 5.5 megabits on the DE10-Nano) cannot hold a modern frame (a 1920 by 1080 frame at 32 bits is 8.3 MB), so the framebuffer lives in main memory and the block RAM holds the scan-out line buffer of a few kilobytes. *(D, FPGA plan section 12.3)*
+
+**3.4.3** The block RAM budget (caches, translation buffer, the blitter's scratch and the sound voices' state) is settled before the video device is built. *(D, FPGA plan risk 4)*
+
+**3.4.4** If the address-space split of section 2.1.6 is adopted, the framebuffer is ordinary memory in the lower half and the devices' registers are in the upper half, so a page-table entry that maps the framebuffer as a device (or a register page as cached memory) is detectably wrong. *(P)*
+
+*Commentary.* **Trade-offs.** An uncached framebuffer makes a single pixel write slow and a long run of writes no slower per byte, which suits the blitter (it writes the bus directly) and punishes pixel-by-pixel drawing from the processor, which is what a blitter is for. **Modern comparables.** Write-combining memory types on x86 and ARM serve the same purpose. **Impact.** *Kernel:* the mapping rule is one memory-type value in the page-table entry. *Compiler:* none. *Hardware:* the scan-out reads main memory by bus mastering, which competes with the processor for bandwidth.
+
+## 3.5 A standard graphics card
+
+**3.5.1** A PCI Express graphics card is not excluded by the architecture: a bridge could present PCI Express functions as slots on the bus, enumerated like any other device. *(P, the author asks; this replaces the earlier plan's flat refusal)*
+
+**3.5.2** The earlier plan's reasons against remain facts to weigh: PCI Express configuration space, base-address mapping and message-signalled interrupts, a driver stack for a programming model that for some vendors must be reverse-engineered, the card's firmware and the initialisation a PC's firmware performs, and no hard PCI Express block on the first board (the Cyclone V and the Zynq 7020 lack one; a Zynq UltraScale+ has it). *(D, as facts)*
+
+**3.5.3** On the other side PCI Express is a standard enumerated bus, which suits the bus-as-a-device design (each function a slot, as each USB device is), and OpenBSD carries graphics drivers for several vendors' cards ported from Linux *(not confirmed in the sources read)*. *(P)*
+
+*Commentary.* **Trade-offs.** The terminal of this chapter works on the first board and costs a few thousand lookup tables; a standard card needs a root complex, which is a large block when it is not already on the chip, and a graphics driver ported to the pdp64, which is a larger task than the architecture. **Modern comparables.** PowerPC and RISC-V workstations plug in PCI Express graphics cards with open drivers. **Impact.** *Kernel:* a PCI Express card would need a large graphics driver ported. *Compiler:* none. *Hardware:* a PCI Express root complex and bridge to the bus.

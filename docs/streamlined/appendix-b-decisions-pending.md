@@ -68,7 +68,7 @@
 
 ### B.1.11 Vector and SIMD math (S1 to S6)
 
-**B.1.11.1** The device route is decided: the processor has no vector register file and no SIMD instruction set, and wide data-parallel work (graphics, AI and large-language-model inference, the array languages APL and K) is done by memory-mapped devices (chapter 7). *(D, errata 59)*
+**B.1.11.1** The device route is decided: the processor has no vector register file and no SIMD instruction set, and wide data-parallel work (graphics, AI and large-language-model inference, the array languages APL and K) is done by memory-mapped devices (chapter 8). *(D, errata 59)*
 
 **B.1.11.2** What remains open from the six questions is the number formats and operations of the devices and the reconciliation of the device descriptors with the standard descriptor; the six questions were: where data-parallel work lives (coprocessor, packed lanes in the integer registers, a fixed-width vector file, a scalable one, a matrix unit); which registers hold vectors; fixed or scalable length; how the machine state is saved on a context switch and whether the kernel may use it; which number formats (half precision, bfloat16, 8-bit integer dot products, 8-bit floating point); and the ABI and compiler support. *(P)*
 
@@ -102,7 +102,7 @@
 
 ### B.2.5 Inter-processor interrupts and starting other cores (R2, B2)
 
-**B.2.5.1** The proposal is a per-core doorbell register and a per-core start register in the bus controller (chapter 3), with `SEV` and `WFE` for waiting. *(P)*
+**B.2.5.1** The proposal is a per-core doorbell register and a per-core start register in the bus controller (chapter 4), with `SEV` and `WFE` for waiting. *(P)*
 
 *Commentary.* **Precedent.** The VAX's console processor started the other processors. **Modern comparables.** x86's INIT and START-UP sequence, ARM's PSCI and spin table, RISC-V's hart-start call. **Impact.** *Kernel:* One register write per core and one per doorbell. *Compiler:* None. *Hardware:* A start register and a doorbell per core.
 
@@ -152,7 +152,7 @@
 
 **B.2.13.1** The proposals are a boot ROM that reads block 0 (B1), a boot-information block of memory, cores, the bus controller's address and two slots (B3), an `INIT` bit with an optional firmware descriptor (B4), no UEFI, with a simple hand-off a shim could use (B5), and a block list in the protective MBR's boot code (B8). *(P)*
 
-*Commentary.* See chapter 3 and [`../boot.md`](../boot.md): the PDP-11's block 0 and `ODT`, the VAX's boot block and restart parameter block, the BIOS and UEFI. **Impact.** *Kernel:* A boot-information struct and a core start register. *Compiler:* The loader and first block are built by the project's compiler. *Hardware:* A boot ROM, a block-0 reader and per-core start registers.
+*Commentary.* See chapter 4 and [`../boot.md`](../boot.md): the PDP-11's block 0 and `ODT`, the VAX's boot block and restart parameter block, the BIOS and UEFI. **Impact.** *Kernel:* A boot-information struct and a core start register. *Compiler:* The loader and first block are built by the project's compiler. *Hardware:* A boot ROM, a block-0 reader and per-core start registers.
 
 ### B.2.14 How USB attaches, and virtio first
 
