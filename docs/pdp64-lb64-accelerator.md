@@ -243,7 +243,7 @@ So the split is per-character in `BESC`, per-buffer in `MBLK`, and nothing in a 
 | Engine | Work | Primitive |
 |---|---|---|
 | **LB64** | projections, MLP | sign-flip accumulate, no multipliers |
-| **MX64** | QKᵀ, scores·V | FP16 MAC, FP32 accumulate — needs the DSPs after all. §10.3 shows this is also the training engine |
+| **MX64** | QKᵀ, scores·V | FP16 MAC, FP32 accumulate — needs the DSPs. §10.3 shows this is also the training engine |
 | **VEC64** | norm, softmax, activation, RoPE | FP16 elementwise and reductions, approximate transcendentals |
 | CPU | descriptor chains, sampling, tokenizer, everything else | §5 |
 
@@ -375,7 +375,7 @@ dx = (((( dy ⊙ h ) · U_sign ) ⊙ ℓ ) · V_signᵀ ) ⊙ g
 
 Compare §2's forward expression: identical structure, with `U` and `V` exchanged and `h` and `g` exchanged. Two binary contractions with a rank-r intermediate on chip. **No new hardware, no multipliers, the same sign-flip array.** That is why LB64 covers both halves of a LoRA step rather than just the forward one.
 
-**The layout changes, which is why `BT64` is required.** §3.3 established that stage 1 wants its sign matrix packed k-major in lane-width blocks (broadcast-and-scatter) while stage 2 wants i-major rows (gather-and-reduce). In the backward pass the two matrices swap roles, so each is needed in both layouts across a full step. Two ways out:
+**The layout changes, which is why `BT64` is required.** §3.3 shows that stage 1 wants its sign matrix packed k-major in lane-width blocks (broadcast-and-scatter) while stage 2 wants i-major rows (gather-and-reduce). In the backward pass the two matrices swap roles, so each is needed in both layouts across a full step. Two ways out:
 
 - **Store both layouts.** Doubles sign-bit storage — 0.1 bpw becomes 0.2 bpw, which is still almost nothing. Zero logic, zero latency. For LoRA this is the better answer, because the frozen weights are read-only and the second copy is written once at load time.
 - **Transpose on the fly with `BT64`.** Zero storage, and in fabric a 64 × 64 bit transpose is 4,096 wires with no logic at all. The right answer for factored fine-tuning (§10.2 item 1), where `U` and `V` are themselves updating and maintaining two copies would mean writing both every step.
@@ -679,9 +679,9 @@ The programming model is message passing, which the descriptor chain of §5 alre
 
 Three conclusions, in order of how much they should change the plan.
 
-**Eight boards give near-linear scaling today.** 356 tok/s against 44, for about $1,200 of hardware and a few LVDS pairs between boards. The scaling is near-linear precisely because of §14.4's 3,240:1 ratio, and this is buildable now with no new silicon. **It is the practical answer to the question.**
+**Eight boards give near-linear scaling today.** 356 tok/s against 44, for about $1,200 of hardware and a few LVDS pairs between boards. The scaling is near-linear precisely because of §14.4's 3,240:1 ratio, and this is buildable now with no new silicon. **It is the practical option.**
 
-**One HBM stack beats 128 DRAM-process cores.** 1.2 TB/s against 80 GB/s. So if a 3D stack is available, the many-small-units architecture is answering a question that no longer exists. Many-small-units is a **cost** play — commodity DRAM at a few dollars per gigabyte against HBM at ten to twenty, with no silicon interposer required — not a performance one.
+**One HBM stack beats 128 DRAM-process cores.** 1.2 TB/s against 80 GB/s. So if a 3D stack is available, the many-small-units architecture is unnecessary. Many-small-units is a **cost** play — commodity DRAM at a few dollars per gigabyte against HBM at ten to twenty, with no silicon interposer required — not a performance one.
 
 **A small model is capacity-rich and bandwidth-poor on PIM.** Reaching 1,000 tok/s needs 45 GB/s, which is 73 UPMEM-class cores — and each would hold 55 MB ÷ 73 ≈ 0.75 MB of weights while sitting on a 64 MB bank. Splitting the model finer is pointless. The right use of that capacity is to **replicate the model across groups of cores and serve many independent streams**, which is §11.5's serving case reappearing at the chip level.
 
@@ -693,7 +693,7 @@ The budget for a base die under a four-high stack is on the order of single-digi
 
 **The design's smallness is the property that makes it stackable.** A large out-of-order core would overheat the memory it sits under; this one would not, which is an argument for the design point of ISA §1.
 
-### 14.8 What to actually build
+### 14.8 What to build
 
 In order, each step independently useful:
 
