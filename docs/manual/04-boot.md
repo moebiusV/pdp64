@@ -69,7 +69,7 @@
 
 ## 4.6 Why UEFI is not used
 
-**4.6.1** The pdp64 does not use UEFI: its boot is the block-0 route of this chapter, its hand-off is the boot-information block, and its devices describe themselves. *(P)*
+**4.6.1** The pdp64 does not use UEFI: its boot is the block-0 route of sections 4.2 and 4.3, its hand-off is the boot-information block, and its devices describe themselves. *(P)*
 
 **4.6.2** The hand-off and the second stage are kept simple enough that a UEFI shim could be written by someone who wanted one. *(P)*
 

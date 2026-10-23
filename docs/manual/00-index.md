@@ -30,7 +30,7 @@
 
 **Each section is a few numbered aphorisms followed by a commentary.** The aphorisms say what is true of the machine, in plain short statements, and read on their own as the main text. The commentary under them gives, as they apply: the *Precedent* (what earlier machines did), the *Trade-offs* (what the choice costs), the *Improvements* (how the pdp64 departs from the precedent), the *Benefits*, the *Modern comparables* (what current architectures do), and, for an instruction that is not obvious, its *Use*. Every decision also carries an *Impact* line saying what it means for an efficient **kernel**, for efficient **compilation** and for an efficient **hardware layout**: the three things a processor designer asks of a choice. An instruction as plain as `MOV` or `ADD` needs no statement of use. The reference entries follow the layout of the classic CPU manuals, in which every instruction has its encoding diagram, its operation and its effects.
 
-**Each aphorism carries a status.** *(D)* means decided. *(P)* means a proposal that is not yet decided. *(S)* means a stub: the statement names what is left unspecified. An aphorism with no tag describes the architecture as it is built and tested.
+**Each aphorism carries a status.** *(D)* means decided. *(P)* means a proposal that is not decided. *(S)* means a stub: the statement names what is left unspecified. An aphorism with no tag describes the architecture as it is built and tested.
 
 **Numbers.** Where a figure is measured, the text says what was measured; where it is an estimate, it says so. Claims about other machines are checked against the fact-check record listed in [appendix F](appendix-f-evidence.md).
 
