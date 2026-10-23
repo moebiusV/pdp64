@@ -2,7 +2,7 @@
 
 [← streamlined index](00-index.md)
 
-**The processor reaches the world through one bus, Q64, on which every device is a handful of memory locations, the bus itself is a device that says what is plugged into it, and every transfer of data is a descriptor in memory that a device carries out and marks done.** This chapter states what the processor owes the bus, how the bus enumerates and maps devices and tells the processor when one comes or goes. How a driver talks to a device, the eight-register layout and the default devices are in chapter 6. Where the design is decided it is tagged *(D)*; where it is the author's proposal not yet settled it is *(P)*. Interrupts and modes are chapter 5, and the other cores are chapter 7. The full discussion is in [`../pdp64-q64-bus.md`](../pdp64-q64-bus.md); the options still open are in [`../decisions-pending.md`](../decisions-pending.md) (R1 to R8, Q10).
+**The processor reaches the world through one bus, Q64, on which every device is a handful of memory locations, the bus itself is a device that says what is plugged into it, and every transfer of data is a descriptor in memory that a device carries out and marks done.** This chapter states what the processor owes the bus, how the bus enumerates and maps devices and tells the processor when one comes or goes. How a driver talks to a device, the eight-register layout and the default devices are in chapter 5. Where the design is decided it is tagged *(D)*; where it is the author's proposal not yet settled it is *(P)*. Interrupts and modes are chapter 4, and the other cores are chapter 6. The full discussion is in [`../pdp64-q64-bus.md`](../pdp64-q64-bus.md); the options still open are in [`../decisions-pending.md`](../decisions-pending.md) (R1 to R8, Q10).
 
 ## 2.1 Q64 and the address space
 
@@ -85,4 +85,4 @@
 
 ## 2.7 Still open
 
-The bus chapter's open items, each with five options in the decisions document: the transport (R4), the interrupt controller and routing (R1), starting the other cores and inter-processor interrupts (R2, B2), coherence beyond four cores (R3), the register layout and descriptor details (R5; chapter 6), DMA addressing and protection (R6), errors raised by devices (R7), virtualization (R8), and whether to use `virtio` devices in the emulator to reach an OpenBSD login sooner (Q10 and the roadmap).
+The bus chapter's open items, each with five options in the decisions document: the transport (R4), the interrupt controller and routing (R1), starting the other cores and inter-processor interrupts (R2, B2), coherence beyond four cores (R3), the register layout and descriptor details (R5; chapter 5), DMA addressing and protection (R6), errors raised by devices (R7), virtualization (R8), and whether to use `virtio` devices in the emulator to reach an OpenBSD login sooner (Q10 and the roadmap).

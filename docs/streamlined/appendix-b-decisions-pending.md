@@ -120,9 +120,9 @@
 
 ### B.2.8 The device layout and the descriptor (R5)
 
-**B.2.8.1** The proposal is the uniform layout and the 32-byte descriptor of chapter 6, with an identification register first, and virtio-compatible devices only if reusing OpenBSD's drivers saves more than it costs. *(P)*
+**B.2.8.1** The proposal is the uniform layout and the 32-byte descriptor of chapter 5, with an identification register first, and virtio-compatible devices only if reusing OpenBSD's drivers saves more than it costs. *(P)*
 
-*Commentary.* **Precedent.** The RK11 and the DEUNA, as in chapter 6. **Trade-offs.** The single ring per device makes duplex devices two slots. **Modern comparables.** `virtio`, NVMe, SATA's command lists, Intel Ethernet's done bit.
+*Commentary.* **Precedent.** The RK11 and the DEUNA, as in chapter 5. **Trade-offs.** The single ring per device makes duplex devices two slots. **Modern comparables.** `virtio`, NVMe, SATA's command lists, Intel Ethernet's done bit.
 
 ### B.2.9 DMA addressing and protection (R6)
 
