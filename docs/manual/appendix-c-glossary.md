@@ -2,13 +2,13 @@
 
 [← manual index](00-index.md)
 
-**Terms the book uses, collected in one place.** Each entry gives the plain meaning and, in brackets, the chapter or section where the book deals with it. Terms for the instruction groups (the "escape" opcodes) are listed by name and opcode; the full encodings are in the instruction-set text [`../pdp64-isa.md`](../pdp64-isa.md).
+**Terms the manual uses, collected in one place.** Each entry gives the plain meaning and, in brackets, the chapter or section where the manual deals with it. Terms for the instruction groups (the "escape" opcodes) are listed by name and opcode; the full encodings are in the instruction-set text [`../pdp64-isa.md`](../pdp64-isa.md).
 
 ## C.1 Architecture and encoding
 
 | Term | Meaning |
 |---|---|
-| **pdp64** | the 64-bit extension of the PDP-11 this book describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter 1) |
+| **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter 1) |
 | **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes (9.4) |
 | **`len`** | bits 15 and 14 of the first parcel: the number of extension parcels for `00`, `01` and `10`; the value `11` selects the second opcode page (9.4) |
 | **page 1, page 2** | the two opcode maps. Page 1 has 64 top-level opcodes, 58 assigned; page 2 (`len = 11`) has 64 one-parcel entries, 45 defined, each an exact abbreviation of a page-1 instruction (9.1) |
@@ -30,11 +30,11 @@
 | **`PSW`** | the processor status word: flags, mode, priority and the guard bit (6.1) |
 | **`N Z V C`** | the four condition flags: negative, zero, overflow, carry (9.3) |
 | **canonical address** | a 64-bit address whose bits above 38 equal bit 38; any other value faults, so software cannot hide tags in the high bits (6.4) |
-| **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section 6.2; not otherwise used in this book) |
-| **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the book's bit and byte instructions of 9.9 make it effective) |
+| **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section 6.2; not otherwise used in this manual) |
+| **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of 9.9 make it effective) |
 | **`FPSR`** | the sticky floating-point exception flag register, read and written by `FSFLAGS` (9.12) |
 | **ulp** | unit in the last place: the spacing between adjacent floating-point numbers, the unit of rounding error |
-| **Payne–Hanek** | the argument-reduction algorithm that computes x mod π/2 to full precision for large x; what hardware transcendentals cannot do (instruction-set text, section 9.7.1; the book's account of floating point is 9.12) |
+| **Payne–Hanek** | the argument-reduction algorithm that computes x mod π/2 to full precision for large x; what hardware transcendentals cannot do (instruction-set text, section 9.7.1; the manual's account of floating point is 9.12) |
 | **Table Maker's Dilemma** | that correct rounding of a transcendental may need unboundedly many bits to resolve a near-tie, so no fixed-time circuit can guarantee it (instruction-set text, section 9.7.1) |
 | **block floating point** | integer mantissas sharing one exponent, used by the LB64 accelerator so fixed-point accumulation is exact (8.3) |
 
@@ -46,21 +46,21 @@
 | **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.4) |
 | **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.4) |
 | **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores (7.5) |
-| **`DMW`** | direct mapping window: a region translated by a fixed offset with no page table; deferred (errata 44) |
+| **`DMW`** | direct mapping window: a region translated by a fixed offset with no page table; deferred |
 | **`MMUCTL`** | the register that enables translation and sets the table base (6.3, 6.4) |
 | **walker** | the hardware that reads page-table entries on a translation-buffer miss (6.8) |
-| **`STUA` / `CLUA`** | set and clear the user-access guard bit, which lets kernel code touch user memory only inside the copy routines (errata 43, 6.5) |
+| **`STUA` / `CLUA`** | set and clear the user-access guard bit, which lets kernel code touch user memory only inside the copy routines (6.5) |
 | **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (6.7) |
 | **W^X** | write xor execute: no page is both writable and executable; OpenBSD enforces it (appendix A) |
 | **PIE** | position-independent executable: loadable at any address; costs nothing here (9.16) |
 | **GOT, PLT** | global offset table and procedure linkage table: the indirection that lets position-independent code reach imported symbols (9.16) |
-| **ABI** | application binary interface: calling convention, register use, data layout; version 1 is accepted (errata 46) |
+| **ABI** | application binary interface: calling convention, register use, data layout; version 1 is given in appendix D |
 | **trap, exception, interrupt** | a deliberate entry (`TRAP #n`), a fault raised by an instruction, and a signal from a device; all enter through the vector table (6.2) |
 | **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (6.8) |
 | **`SPL`** | set the interrupt priority level (6.2) |
 | **`WFE`, `SEV`** | wait for an event and send an event: the idle and wake-up pair (7.6) |
 | **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.2, 7.2) |
-| **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (errata 45, 7.3) |
+| **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (7.3) |
 | **SMP** | symmetric multiprocessing: several identical cores sharing memory (chapter 7) |
 | **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.7) |
 | **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.2) |
@@ -72,7 +72,7 @@
 | **Q64** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and 40-bit addresses (2.1) |
 | **Unibus, Q-bus** | the PDP-11's buses; Q64 keeps their programming model, with devices in the address space (2.1) |
 | **`DATIP` / `DATO`** | Unibus and Q-bus transaction types forming a locked read-modify-write (2.5) |
-| **space bit** | bit 39 of the physical address: set selects device space, clear selects memory (2.1.6, errata 60) |
+| **space bit** | bit 39 of the physical address: set selects device space, clear selects memory (2.1.6) |
 | **slot** | a device's own 4 KB (or larger) window of device space, found by enumeration (2.6, 5.1) |
 | **bus controller** | the device that is the bus: it enumerates slots, maps them, and reports arrivals and departures (2.6) |
 | **bridge** | a device on Q64 that is itself a bus: it presents the devices behind it as slots with the bus controller's registers, so arbitrary buses (PCI Express, USB, SATA) can be connected to Q64 and enumerated to any depth (2.6.7) |
@@ -82,13 +82,13 @@
 | **`ID` / `CONTROL` / `STATUS` / `RING_BASE` / `RING_SIZE` / `DOORBELL` / `IRQ` / `DEVICE`** | the eight common registers every device starts with (5.2) |
 | **`INIT`, `READY`** | the control bit that makes a device initialise itself and the status bit that says it has (5.2, 5.3) |
 | **virtio** | a standard family of virtual devices of the same ring-and-descriptor shape; the emulator's first drivers (5.5, appendix B) |
-| **NVMe, SCSI, ATA, SATA** | storage interfaces, each a command queue in memory and a doorbell, which is the same device pattern (errata 61, 5.5) |
+| **NVMe, SCSI, ATA, SATA** | storage interfaces, each a command queue in memory and a doorbell, which is the same device pattern (5.2, 5.5) |
 | **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.3) |
 | **`VIC-64X`, `SID-64X`, `BLT64`** | the video, sound and blitter devices of the graphics terminal, which is based on the Commodore 64 (video and sound chips) and the Blit terminal (framebuffer and bit-block transfer) (chapter 3) |
-| **Blit** | Rob Pike's bit-mapped windowing terminal: an 8 MHz Motorola 68000 machine that received downloaded code, characters and editing messages from its host over a serial line and drew every pixel itself (the author recalls "code and pixels" and calls it a precursor of the X11 protocol and of NeWS, which no source read states); a framebuffer in the address space and a bit-block-transfer operation, done in software, that moves rectangles of pixels; with the C64, one of the two machines the pdp64's terminal is based on (3.1) |
+| **Blit** | Rob Pike's bit-mapped windowing terminal: an 8 MHz Motorola 68000 machine that received downloaded code, characters and editing messages from its host over a serial line and drew every pixel itself (its description as a precursor of the X11 protocol and of NeWS is stated by no source read *(S)*; the lineage the sources confirm runs from its `mux` to 8½ and `rio`); a framebuffer in the address space and a bit-block-transfer operation, done in software, that moves rectangles of pixels; with the C64, one of the two machines the pdp64's terminal is based on (3.1) |
 | **blitter, raster operation** | a device that copies and combines rectangles of pixels; the raster operation says how source and destination combine (3.1) |
-| **BIOS, boot ROM** | the first software that runs: it brings the hardware up, finds the disk label and loads the next stage; open source (4.1, errata 47) |
-| **GPT, disk label** | the GUID partition table wrapped around the disk's own label so other systems see the disk is in use (4.3, errata 50) |
+| **BIOS, boot ROM** | the first software that runs: it brings the hardware up, finds the disk label and loads the next stage; open source (4.1) |
+| **GPT, disk label** | the GUID partition table wrapped around the disk's own label so other systems see the disk is in use (4.3) |
 | **LB64, MX64, VEC64** | the inference accelerator and its companions: sign-flip-accumulate layers, floating-point multiply-accumulate for attention, and element-wise vector work (8.3) |
 | **APL, K** | array languages whose primitives work on whole arrays; one primitive maps to one descriptor (8.4) |
 
@@ -96,10 +96,9 @@
 
 | Term | Meaning |
 |---|---|
-| **errata** | the numbered decision log of the project; every decision in the book cites its item (`../errata.md`) |
-| **revision 20** | the last full revision of the instruction-set text before the manual in its present form; changes since are in `../CHANGES-SINCE-R20.md` |
+| **errata** | the numbered decision log of the project (`../errata.md`, appendix F) |
 | **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.5) |
 | **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.5) |
-| **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.5, 10.4; not otherwise described in this book) |
+| **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.5, 10.4; not otherwise described in this manual) |
 | **(D), (P), (S)** | the tags on a numbered statement: decided, proposed, stub (index) |
 | **Impact** | the line ending each decision's commentary: effect on the kernel, on the compiler and on the hardware layout (index) |
