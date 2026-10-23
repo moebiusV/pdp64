@@ -86,6 +86,12 @@ bool pdp64_mmu_translate(CPUPDP64State *env, vaddr addr, MMUAccessType type,
         goto page_fault;
     }
 
+    /* the memory type must agree with the space bit of the physical address (errata 65, proposed) */
+    if (!pdp64_pte_space_ok(pte)) {
+        *fault_vector = protection_vector(type);
+        return false;
+    }
+
     /* the rights in this mode: user needs U; the kernel may read and write
        U pages but never execute them */
     rights = 0;
@@ -112,7 +118,7 @@ bool pdp64_mmu_translate(CPUPDP64State *env, vaddr addr, MMUAccessType type,
     if (!(pte & PTE_BIT(D))) {
         rights &= ~PAGE_WRITE;                  /* a read of a clean page: a later store walks again */
     }
-    /* the memory type MT (cached, uncached, device) makes no difference to
+    /* beyond the consistency check the memory type MT makes no difference to
        QEMU: whether an address is RAM or a device follows from the address */
     *prot = rights;
     *size = 1ULL << shift;

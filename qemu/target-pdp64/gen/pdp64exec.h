@@ -47,6 +47,15 @@ struct pdp64_env {
 #define PDP64_TLB_PAGE 0	/* tlbi: the page that contains addr, for the current ASID and the global entries */
 #define PDP64_TLB_ALL 1		/* tlbia, or a write to ptbr, asid or mmuctl */
 
+/* The space bit (errata 60): bit 39 of a 40-bit physical address is set for device space, clear for memory.  PROPOSED (errata 65): a leaf page-table entry must agree with
+   it: a page in device space has memory type device or device-weak, a page of memory has cached or uncached; the walker makes any other combination a protection fault. */
+static inline int pdp64_pte_space_ok(uint64_t pte)
+{
+	int device_page = (int)(((pte >> PTE_PPN) << 12) >> MAP_SPACE_BIT) & 1;
+	unsigned mt = (unsigned)(pte >> PTE_MT) & ((1u << PTE_WIDTH_MT) - 1);
+	return device_page == (mt == MT_DEVICE || mt == MT_DEVICE_WEAK);
+}
+
 static inline unsigned pdp64_mode(const struct pdp64_cpu *c) { return (c->psw >> PSW_MODE) & ((1u << PSW_WIDTH_MODE) - 1); }
 static inline unsigned pdp64_priority(const struct pdp64_cpu *c) { return (c->psw >> PSW_PRI) & ((1u << PSW_WIDTH_PRI) - 1); }
 

@@ -13918,14 +13918,27 @@ res_m_132_fetch:
 ins_m_133_load:
 	movq	8(r3), r5
 res_m_133_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
 	movq	#12, r0	; check 1541
 	trap	#1
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
 	movq	#13, r0	; check 1542
+	trap	#1
+1:
+	lea	ins_m_133_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#14, r0	; check 1543
+	trap	#1
+1:
+	movq	=1074286600, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#15, r0	; check 1544
 	trap	#1
 1:
 	movq	#0, r4
@@ -13941,9 +13954,27 @@ res_m_133_load:
 ins_m_133_store:
 	movq	r5, 8(r3)
 res_m_133_store:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#14, r0	; check 1543
+	movq	#16, r0	; check 1545
+	trap	#1
+1:
+	cmp	r8, #(VECTOR_SPROT)
+	beq	1f
+	movq	#17, r0	; check 1546
+	trap	#1
+1:
+	lea	ins_m_133_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#18, r0	; check 1547
+	trap	#1
+1:
+	movq	=1074286600, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#19, r0	; check 1548
 	trap	#1
 1:
 	movq	#0, r4
@@ -13958,9 +13989,27 @@ res_m_133_store:
 ins_m_133_fetch:
 	call	r3
 res_m_133_fetch:
-	cmp	r10, #(0)
+	bic	#15, r7
+	add	#8, sp
+	cmp	r10, #(1)
 	beq	1f
-	movq	#15, r0	; check 1544
+	movq	#20, r0	; check 1549
+	trap	#1
+1:
+	cmp	r8, #(VECTOR_IPROT)
+	beq	1f
+	movq	#21, r0	; check 1550
+	trap	#1
+1:
+	movq	=1074286592, r2
+	cmp	r6, r2
+	beq	1f
+	movq	#22, r0	; check 1551
+	trap	#1
+1:
+	cmp	r9, r2
+	beq	1f
+	movq	#23, r0	; check 1552
 	trap	#1
 1:
 	movq	#0, r4
@@ -13979,24 +14028,24 @@ res_m_134_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#16, r0	; check 1545
+	movq	#24, r0	; check 1553
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#17, r0	; check 1546
+	movq	#25, r0	; check 1554
 	trap	#1
 1:
 	lea	ins_m_134_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#18, r0	; check 1547
+	movq	#26, r0	; check 1555
 	trap	#1
 1:
 	movq	=1074290696, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#19, r0	; check 1548
+	movq	#27, r0	; check 1556
 	trap	#1
 1:
 	movq	#0, r4
@@ -14015,24 +14064,24 @@ res_m_134_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#20, r0	; check 1549
+	movq	#28, r0	; check 1557
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#21, r0	; check 1550
+	movq	#29, r0	; check 1558
 	trap	#1
 1:
 	lea	ins_m_134_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#22, r0	; check 1551
+	movq	#30, r0	; check 1559
 	trap	#1
 1:
 	movq	=1074290696, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#23, r0	; check 1552
+	movq	#31, r0	; check 1560
 	trap	#1
 1:
 	movq	#0, r4
@@ -14051,23 +14100,23 @@ res_m_134_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#24, r0	; check 1553
+	movq	#32, r0	; check 1561
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#25, r0	; check 1554
+	movq	#33, r0	; check 1562
 	trap	#1
 1:
 	movq	=1074290688, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#26, r0	; check 1555
+	movq	#34, r0	; check 1563
 	trap	#1
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#27, r0	; check 1556
+	movq	#35, r0	; check 1564
 	trap	#1
 1:
 	movq	#0, r4
@@ -14083,14 +14132,27 @@ res_m_134_fetch:
 ins_m_135_load:
 	movq	8(r3), r5
 res_m_135_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#28, r0	; check 1557
+	movq	#36, r0	; check 1565
 	trap	#1
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#29, r0	; check 1558
+	movq	#37, r0	; check 1566
+	trap	#1
+1:
+	lea	ins_m_135_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#38, r0	; check 1567
+	trap	#1
+1:
+	movq	=1074294792, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#39, r0	; check 1568
 	trap	#1
 1:
 	movq	#0, r4
@@ -14106,9 +14168,27 @@ res_m_135_load:
 ins_m_135_store:
 	movq	r5, 8(r3)
 res_m_135_store:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#30, r0	; check 1559
+	movq	#40, r0	; check 1569
+	trap	#1
+1:
+	cmp	r8, #(VECTOR_SPROT)
+	beq	1f
+	movq	#41, r0	; check 1570
+	trap	#1
+1:
+	lea	ins_m_135_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#42, r0	; check 1571
+	trap	#1
+1:
+	movq	=1074294792, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#43, r0	; check 1572
 	trap	#1
 1:
 	movq	#0, r4
@@ -14123,9 +14203,27 @@ res_m_135_store:
 ins_m_135_fetch:
 	call	r3
 res_m_135_fetch:
-	cmp	r10, #(0)
+	bic	#15, r7
+	add	#8, sp
+	cmp	r10, #(1)
 	beq	1f
-	movq	#31, r0	; check 1560
+	movq	#44, r0	; check 1573
+	trap	#1
+1:
+	cmp	r8, #(VECTOR_IPROT)
+	beq	1f
+	movq	#45, r0	; check 1574
+	trap	#1
+1:
+	movq	=1074294784, r2
+	cmp	r6, r2
+	beq	1f
+	movq	#46, r0	; check 1575
+	trap	#1
+1:
+	cmp	r9, r2
+	beq	1f
+	movq	#47, r0	; check 1576
 	trap	#1
 1:
 	movq	#0, r4
@@ -14144,24 +14242,24 @@ res_m_136_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#32, r0	; check 1561
+	movq	#48, r0	; check 1577
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#33, r0	; check 1562
+	movq	#49, r0	; check 1578
 	trap	#1
 1:
 	lea	ins_m_136_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#34, r0	; check 1563
+	movq	#50, r0	; check 1579
 	trap	#1
 1:
 	movq	=1074298888, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#35, r0	; check 1564
+	movq	#51, r0	; check 1580
 	trap	#1
 1:
 	movq	#0, r4
@@ -14180,24 +14278,24 @@ res_m_136_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#36, r0	; check 1565
+	movq	#52, r0	; check 1581
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#37, r0	; check 1566
+	movq	#53, r0	; check 1582
 	trap	#1
 1:
 	lea	ins_m_136_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#38, r0	; check 1567
+	movq	#54, r0	; check 1583
 	trap	#1
 1:
 	movq	=1074298888, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#39, r0	; check 1568
+	movq	#55, r0	; check 1584
 	trap	#1
 1:
 	movq	#0, r4
@@ -14216,23 +14314,23 @@ res_m_136_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#40, r0	; check 1569
+	movq	#56, r0	; check 1585
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#41, r0	; check 1570
+	movq	#57, r0	; check 1586
 	trap	#1
 1:
 	movq	=1074298880, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#42, r0	; check 1571
+	movq	#58, r0	; check 1587
 	trap	#1
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#43, r0	; check 1572
+	movq	#59, r0	; check 1588
 	trap	#1
 1:
 	movq	#0, r4
@@ -14251,24 +14349,24 @@ res_m_137_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#44, r0	; check 1573
+	movq	#60, r0	; check 1589
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#45, r0	; check 1574
+	movq	#61, r0	; check 1590
 	trap	#1
 1:
 	lea	ins_m_137_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#46, r0	; check 1575
+	movq	#62, r0	; check 1591
 	trap	#1
 1:
 	movq	=1074302984, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#47, r0	; check 1576
+	movq	#63, r0	; check 1592
 	trap	#1
 1:
 	movq	#0, r4
@@ -14287,24 +14385,24 @@ res_m_137_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#48, r0	; check 1577
+	movq	#64, r0	; check 1593
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#49, r0	; check 1578
+	movq	#65, r0	; check 1594
 	trap	#1
 1:
 	lea	ins_m_137_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#50, r0	; check 1579
+	movq	#66, r0	; check 1595
 	trap	#1
 1:
 	movq	=1074302984, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#51, r0	; check 1580
+	movq	#67, r0	; check 1596
 	trap	#1
 1:
 	movq	#0, r4
@@ -14323,23 +14421,23 @@ res_m_137_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#52, r0	; check 1581
+	movq	#68, r0	; check 1597
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#53, r0	; check 1582
+	movq	#69, r0	; check 1598
 	trap	#1
 1:
 	movq	=1074302976, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#54, r0	; check 1583
+	movq	#70, r0	; check 1599
 	trap	#1
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#55, r0	; check 1584
+	movq	#71, r0	; check 1600
 	trap	#1
 1:
 	movq	#0, r4
@@ -14358,24 +14456,24 @@ res_m_138_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#56, r0	; check 1585
+	movq	#72, r0	; check 1601
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#57, r0	; check 1586
+	movq	#73, r0	; check 1602
 	trap	#1
 1:
 	lea	ins_m_138_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#58, r0	; check 1587
+	movq	#74, r0	; check 1603
 	trap	#1
 1:
 	movq	=1074307080, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#59, r0	; check 1588
+	movq	#75, r0	; check 1604
 	trap	#1
 1:
 	movq	#0, r4
@@ -14394,24 +14492,24 @@ res_m_138_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#60, r0	; check 1589
+	movq	#76, r0	; check 1605
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#61, r0	; check 1590
+	movq	#77, r0	; check 1606
 	trap	#1
 1:
 	lea	ins_m_138_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#62, r0	; check 1591
+	movq	#78, r0	; check 1607
 	trap	#1
 1:
 	movq	=1074307080, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#63, r0	; check 1592
+	movq	#79, r0	; check 1608
 	trap	#1
 1:
 	movq	#0, r4
@@ -14430,23 +14528,23 @@ res_m_138_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#64, r0	; check 1593
+	movq	#80, r0	; check 1609
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#65, r0	; check 1594
+	movq	#81, r0	; check 1610
 	trap	#1
 1:
 	movq	=1074307072, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#66, r0	; check 1595
+	movq	#82, r0	; check 1611
 	trap	#1
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#67, r0	; check 1596
+	movq	#83, r0	; check 1612
 	trap	#1
 1:
 	movq	#0, r4
@@ -14465,24 +14563,24 @@ res_m_139_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#68, r0	; check 1597
+	movq	#84, r0	; check 1613
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#69, r0	; check 1598
+	movq	#85, r0	; check 1614
 	trap	#1
 1:
 	lea	ins_m_139_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#70, r0	; check 1599
+	movq	#86, r0	; check 1615
 	trap	#1
 1:
 	movq	=1074311176, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#71, r0	; check 1600
+	movq	#87, r0	; check 1616
 	trap	#1
 1:
 	movq	#0, r4
@@ -14501,24 +14599,24 @@ res_m_139_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#72, r0	; check 1601
+	movq	#88, r0	; check 1617
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#73, r0	; check 1602
+	movq	#89, r0	; check 1618
 	trap	#1
 1:
 	lea	ins_m_139_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#74, r0	; check 1603
+	movq	#90, r0	; check 1619
 	trap	#1
 1:
 	movq	=1074311176, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#75, r0	; check 1604
+	movq	#91, r0	; check 1620
 	trap	#1
 1:
 	movq	#0, r4
@@ -14537,23 +14635,23 @@ res_m_139_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#76, r0	; check 1605
+	movq	#92, r0	; check 1621
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#77, r0	; check 1606
+	movq	#93, r0	; check 1622
 	trap	#1
 1:
 	movq	=1074311168, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#78, r0	; check 1607
+	movq	#94, r0	; check 1623
 	trap	#1
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#79, r0	; check 1608
+	movq	#95, r0	; check 1624
 	trap	#1
 1:
 	movq	#0, r4
@@ -14572,24 +14670,24 @@ res_m_140_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#80, r0	; check 1609
+	movq	#96, r0	; check 1625
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#81, r0	; check 1610
+	movq	#97, r0	; check 1626
 	trap	#1
 1:
 	lea	ins_m_140_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#82, r0	; check 1611
+	movq	#98, r0	; check 1627
 	trap	#1
 1:
 	movq	=1074315272, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#83, r0	; check 1612
+	movq	#99, r0	; check 1628
 	trap	#1
 1:
 	movq	#0, r4
@@ -14608,24 +14706,24 @@ res_m_140_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#84, r0	; check 1613
+	movq	#100, r0	; check 1629
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#85, r0	; check 1614
+	movq	#101, r0	; check 1630
 	trap	#1
 1:
 	lea	ins_m_140_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#86, r0	; check 1615
+	movq	#102, r0	; check 1631
 	trap	#1
 1:
 	movq	=1074315272, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#87, r0	; check 1616
+	movq	#103, r0	; check 1632
 	trap	#1
 1:
 	movq	#0, r4
@@ -14644,23 +14742,23 @@ res_m_140_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#88, r0	; check 1617
+	movq	#104, r0	; check 1633
 	trap	#1
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#89, r0	; check 1618
+	movq	#105, r0	; check 1634
 	trap	#1
 1:
 	movq	=1074315264, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#90, r0	; check 1619
+	movq	#106, r0	; check 1635
 	trap	#1
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#91, r0	; check 1620
+	movq	#107, r0	; check 1636
 	trap	#1
 1:
 	movq	#0, r0
