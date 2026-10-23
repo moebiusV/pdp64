@@ -63,3 +63,7 @@ linux-git	git show 7be4bc52fd9e:drivers/gpu/drm/bridge/adv7511/adv7511.h	git:lin
 linux-git	git show 7be4bc52fd9e:drivers/gpu/drm/bridge/adv7511/adv7511_drv.c	git:linux@7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614:drivers/gpu/drm/bridge/adv7511/adv7511_drv.c	adv7511_drv.c		2026-10-21	cited statement [D-git]
 papers	XHR in browser tab (www.openbsd.org)	https://www.openbsd.org/papers/bsdtw.pdf	Mitigations and other real security features (slides)	Theo de Raadt		cited statement (29 pages read as text, 283 lines)
 papers	XHR in browser tab (www.openbsd.org)	https://www.openbsd.org/papers/eurobsdcon2023-bluhm-mitigations.pdf	OpenBSD Security Mitigations (slides)	Alexander Bluhm	2023-09	cited statement (30 pages, 576 lines)
+papers	comsec.ethz.ch Retbleed landing (same-origin PDF)	https://comsec.ethz.ch/research/microarch/retbleed/	Retbleed		2022	context
+papers	downfall.page landing (same-origin PDF)	https://downfall.page/	Downfall		2023	context
+papers	XHR in browser tab (comsec.ethz.ch)	https://comsec.ethz.ch/wp-content/files/retbleed_sec22.pdf	Retbleed: Arbitrary Speculative Code Execution with Return Instructions	Wikner, Razavi	2022	cited statement (read in part: abstract, introduction, mitigations and Table 2; 575,630 bytes)
+papers	XHR in browser tab (downfall.page)	https://downfall.page/media/downfall.pdf	Downfall: Exploiting Speculative Data Gathering	Moghimi	2023-08	checked for two figures (not in the text); not otherwise read; 337,607 bytes
