@@ -22,6 +22,7 @@ This is the reference part of the manual: **one entry for each instruction**, in
 * [System instructions](system.md): `NOP`, `RTI`, `RET`, `HALT`, `BPT`, `FENCE`, `WFE`, `SEV`, `TLBIA`, `PUSHX`, `ISYNC`, `HINT`, `MFSR`, `MTPS`, `SPL`, `TRAP`, `TLBI`, `MTASID`, `MTDP`, `MTDMW`, `MFCPUID`, `ICINV`, `PROBER`
 * [The second page: one-parcel abbreviations](page2.md)
 * [Assembler aliases and old spellings](aliases.md)
+* [Appendix: the architectural constants](constants.md)
 * [Appendix: the mnemonics, alphabetically](by-mnemonic.md)
 * [Appendix: the opcodes, in order](by-opcode.md)
 
