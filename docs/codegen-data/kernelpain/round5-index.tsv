@@ -65,3 +65,8 @@ display	Blit paper docslib	https://docslib.org/doc/404368/the-blit-a-multiplexed
 search	UNIX-HATERS Handbook full text archive.org djvu txt Garfinkel Weise Strassmann	https://html.duckduckgo.com/html/?q=UNIX-HATERS+Handbook+full+text+archive.org+djvu+txt+Garfinkel+Weise+Strassmann	DDG results: Unix-Haters	(search)		search (URL finding)
 uhh	archive.org directory listing	https://archive.org/download/TheUnixHatersHandbook	directory listing			context (found the full-text file)
 uhh	Unix-Haters Handbook full text	https://archive.org/download/TheUnixHatersHandbook/ugh_djvu.txt	The UNIX-Haters Handbook (OCR full text)	Garfinkel, Weise, Strassmann (eds.)	1994	cited statement
+search	lwn HPET	https://html.duckduckgo.com/html/?q=lwn.net+HPET+unreliable+clocksource+Linux+timer+hardware+broken+Gleixner	DDG results: HPET	(search)		search (URL finding)
+timers	Gleixner clocksource watchdog rewrite	https://lkml.org/lkml/2026/3/8/179	Re: [patch 5/5] clocksource: Rewrite watchdog code completely	Thomas Gleixner (replying to Jiri Wiesner)	2026-03-08	cited statement
+display	lore link training fallback	https://lore.kernel.org/all/?q=s%3A%22link+training%22+s%3Afallback	lore search: link training fallback	(search)	2024-2026	context (listing)
+display	Deak i915 link training fallback v3	https://lore.kernel.org/all/20240610164933.2947366-1-imre.deak@intel.com/	[PATCH v3 00/21] drm/i915/dp_mst: Enable link training fallback	Imre Deak	2024-06-10	cited statement (subjects and change list only)
+display	Bobier msm dp link training fallback	https://lore.kernel.org/all/20261005131432.22840-1-jean-francois.bobier@laposte.net/	[PATCH 0/3] drm/msm/dp: fix dead link-training fallback on Type-C boards	Jean-Francois Bobier	2026-10-05	cited statement

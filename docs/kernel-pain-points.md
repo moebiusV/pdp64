@@ -34,6 +34,7 @@
 * [14E. Round 4: vendor documents, chosen lore threads, NetBSD SMP, VAX and Alpha, FreeBSD errata](#14e-round-4-vendor-documents-chosen-lore-threads-netbsd-smp-vax-and-alpha-freebsd-errata)
 * [14F. Round 5: coverage check, bus design, GPU and display](#14f-round-5-coverage-check-bus-design-gpu-and-display)
 * [14G. What the UNIX-HATERS Handbook complained about, and which complaints have a hardware, instruction-set or bus cause](#14g-what-the-unix-haters-handbook-complained-about-and-which-complaints-have-a-hardware-instruction-set-or-bus-cause)
+* [14H. Round 5, second pass: timers, interrupts, storage controllers, display links, NUMA](#14h-round-5-second-pass-timers-interrupts-storage-controllers-display-links-numa)
 * [15. What this means for pdp64](#15-what-this-means-for-pdp64)
 * [16. What this does not show](#16-what-this-does-not-show)
 * [Appendix A: the pain-point catalogue](#appendix-a-the-pain-point-catalogue)
@@ -91,6 +92,7 @@ This chapter is a single place to see what hurt kernel developers, in order of h
 | 3 | The TSC cannot be trusted | Gleixner: "the stupid hardware is not reliable whether it has some 'I claim to be reliable tag' on it or not"; "500+ different variants of borked timer" | Gleixner | not measured | One architectural counter that is monotonic and constant | **MITIGATED**: a 64-bit counter and compare register (ch. 10); no user-mode read yet (P3) | ch. 10, 14B |
 | 4 | Ordering of data and interrupt behind a bridge | `msi-howto.rst`: with pin interrupts "the interrupt may arrive before all the data has arrived in memory"; a handler must read a device register | PCI maintainers | an extra register read per interrupt | Interrupt as a write on the same ordered path | **MITIGATED**: ring plus `FENCE` (ISA 7.1) | A.5 160-161 |
 | 5 | Timer tick versus tickless; timer wheel rework | dynticks off-case must not slow; timer wheel reworked four times in June-July 2016 | Weisbecker, Gleixner | not measured | A per-event compare register | **MITIGATED**: programmable compare register (ch. 10) | 14B |
+| 7 | The clock watchdog and its reference | 2026 rewrite: "To address this and bring back sanity to the watchdog, rewrite the code completely"; Gleixner: "BIOSes are insane by definition"; the TSC marked unstable on an SGI machine by a skewed RTC | Gleixner, Wiesner | `tsc skewed 703664 ns ... over watchdog 'sgi_rtc'` | A counter that does not need a second counter to trust it | **OPEN**: one counter, no reference (ch. 10) | 14H, A.5 188 |
 | 6 | Fixed-address entry points (vsyscall) | `vsyscall_64.c` (2014): "It interferes with ASLR" | Lutomirski | not measured | A vDSO-like page at a random address | **AVOIDED**: no such page | 14F |
 
 ### 0.5 Bus design
@@ -115,6 +117,7 @@ This chapter is a single place to see what hurt kernel developers, in order of h
 | 4 | Scan-out FIFO underrun | i915 underrun detection reworked (Syrjälä, Vetter, May 2014) | Intel graphics developers | corrupted display | Underrun status, fixed bus priority for the video master | **OPEN**: the line buffer in 3.4.2† has no underrun rule | A.5 183 |
 | 5 | GPU hangs and resets, indefinite fences | `drm-uapi.rst`: resets cannot be disabled "without tainting the kernel"; `dma-buf.rst`: deadlocks the kernel cannot prevent | DRM developers | not measured | Timeouts in the device | **OPEN**: BLT64 needs reset and error status | A.5 174-175 |
 | 6 | EDID and the HDMI transmitter | `edid.rst`: bad EDID makes "the computer ... unusable"; ADV7511 has four register maps on four I2C addresses; HPD status survives suspend (Das, 22 Apr 2026) | Pinchart, Das | qualitative | Fallback mode; transmitter state owned by the video device | **OPEN**: 3.3.1† says "set up once"; real chips need more | A.5 184-185 |
+| 11 | DisplayPort link training fallback | 5 Oct 2026: fallback "dead code on every Type-C board"; Intel's fallback series reached five revisions | Bobier, Deak | see left | Transmitter chip with tested fallback | **MITIGATED** by chip (3.3.1†) | 14H, A.5 192 |
 | 7 | HDMI licensing | HDMI Forum rejected an open HDMI 2.1 driver (Deucher, Feb 2024); first FRL patches May 2026 (heise) | Deucher | n/a | Protocol in a closed chip | **MITIGATED** by putting HDMI in the transmitter chip (3.3.1†) | A.5 186 |
 | 8 | Device-specific 2D acceleration | Packard 2014: software drew text at 9.3 million glyphs/s vs 3.2 million for GL points; Glamor to replace per-driver 2D | Packard, Anholt | see left | Copy/fill engines only | **MITIGATED**: BLT64 for copies and fills | A.5 179 |
 | 9 | Network-transparent display protocols | Sharp 2004: replies cost round trips; NeWS "not economically or politically viable" (Handbook) | Sharp, Packard, the Handbook authors | latency | Local devices with a ring | **AVOIDED** by local devices (3.1†) | 14F, 14G, A.5 187 |
@@ -876,21 +879,21 @@ Round 5 (23 Oct 2026, about 11:20 to 14:00 local) was the last round. Its purpos
 
 ### Coverage summary
 
-The matrix has **95 topics** in nine groups. Before round 5 (my reading of the three documents): **13 covered well, 25 thin, 57 missing**. After round 5: **49 covered well, 35 thin, 11 missing**. "Covered well after" means there is now at least one primary text (or, for local-tree evidence, the file text itself) in 14F or Appendix A.5 and the topic has a stated pdp64 consequence; it does not mean the topic is exhausted. Per group, before to after (covered well / thin / missing):
+The matrix has **95 topics** in nine groups. Before round 5 (my reading of the three documents): **13 covered well, 25 thin, 57 missing**. After round 5: **52 covered well, 35 thin, 8 missing**. "Covered well after" means there is now at least one primary text (or, for local-tree evidence, the file text itself) in 14F or Appendix A.5 and the topic has a stated pdp64 consequence; it does not mean the topic is exhausted. Per group, before to after (covered well / thin / missing):
 
 | Group | Topics | Before | After |
 |---|---:|---|---|
 | Memory system and CPUs | 22 | 7 / 9 / 6 | 11 / 10 / 1 |
 | Early hardware bugs | 5 | 0 / 3 / 2 | 0 / 5 / 0 |
-| Interrupts and timers | 10 | 2 / 5 / 3 | 7 / 1 / 2 |
-| Bus design | 15 | 4 / 6 / 5 | 8 / 7 / 0 |
+| Interrupts and timers | 10 | 2 / 5 / 3 | 8 / 2 / 0 |
+| Bus design | 15 | 4 / 6 / 5 | 9 / 6 / 0 |
 | GPU and graphics | 16 | 0 / 1 / 15 | 7 / 9 / 0 |
 | Old graphics pain | 9 | 0 / 0 / 9 | 5 / 2 / 2 |
-| HDMI and display link | 10 | 0 / 0 / 10 | 4 / 1 / 5 |
+| HDMI and display link | 10 | 0 / 0 / 10 | 5 / 1 / 4 |
 | Remote display lineage | 2 | 0 / 0 / 2 | 1 / 0 / 1 |
 | Additions found while reading | 6 | 0 / 1 / 5 | 6 / 0 / 0 |
 
-**Still missing after round 5 (11):** hash MMUs (PowerPC), IRQ affinity and balancing, HPET, palette and colour-map pain, racing the beam in driver developers' writing, HDMI and DisplayPort link training, HDCP and CEC, HDMI audio, DisplayPort MST and DSC, deep colour and 48-bit pixels, the Blit and NeWS lineage. For the last four display topics and for racing the beam **no primary record was read** (not "no record exists"). Where the matrix says thin the reason is in its column "what was done".
+**Still missing after round 5 (8):** hash MMUs (PowerPC), palette and colour-map pain, racing the beam in driver developers' writing, HDCP and CEC, HDMI audio, DisplayPort MST and DSC, deep colour and 48-bit pixels, the Blit and NeWS primary texts. For these **no primary record was read** (not "no record exists"). Where the matrix says thin the reason is in its column "what was done".
 
 ### Memory system, CPU and early-hardware findings (round 5)
 
@@ -1023,21 +1026,21 @@ The matrix has **95 topics** in nine groups. Before round 5 (my reading of the t
 
 Computed from `round5-index.tsv`.
 
-| Source type | Pages fetched | With a statement used above |
-|---|---:|---:|
-| lwn.net | 8 | 8 |
-| lore.kernel.org, lkml.org, the dri-devel archive (messages, listings, one search with no results) | 12 | 8 (the others are listings that found the messages) |
-| project, paper and press pages (Ars Technica 2, heise, SemiEngineering, nouveau, Trail of Bits, thunderclap.io, Wayland, FreeBSD, OpenBSD manual, Collabora, keithp.com 2, USENIX 2) | 15 | 15 |
-| DuckDuckGo result pages (URL finding only) | 24 | 0 |
-| Failed, empty or duplicate (Phoronix, RealWorldTech, docslib Blit page, a duplicate save of a search page) | 4 | 0 |
-| **Total** | **63 requests** (61 files saved) | **31 distinct pages with statements used** |
+| Kind (from `round5-index.tsv`) | Requests |
+|---|---:|
+| cited statement (a page with text quoted in 14F to 14H, Appendix A.5 or chapter 0) | 35 |
+| search results (DuckDuckGo, URL finding only) | 26 |
+| context (listings, searches that found messages, no results) | 6 |
+| failed (Phoronix and RealWorldTech never finished loading; docslib returned 137 bytes; one duplicate save) | 4 |
+| **Total** | **71 requests** (69 files saved) |
 
-* Local-tree evidence read (not fetched): about 45 files (listed by path in the rows); **no web page was needed for those rows**. The 4.3BSD `uba.c` was read from the `.gz` in `~/claude/facetlang/unixtree`.
+By host: lwn.net 8; lore.kernel.org and lkml.org and the dri-devel archive 16; archive.org 2 (65 s apart); DuckDuckGo 26; all others one to three each (see the index).
+
 * **Statement rows in 14F: 79** (memory and CPU 20, bus 20, GPU 24, old graphics 6, HDMI 6, remote display 3; one of them records that no text could be read) plus 7 rows mapping findings to chapter 3.
 
 ### Not done in round 5
 
-* **Not reached:** hash MMUs, IRQ affinity, HPET, palette pain, link training, HDCP, CEC, HDMI audio, MST/DSC, deep colour, the Blit and NeWS texts, the Linux 2.4 VM replacement (only a snippet), Torvalds on AVX-512 (RealWorldTech timed out), xHCI design posts (search found none), ASPM and PCIe hot-plug posts, AHCI, virtio, big.LITTLE and NUMA threads, KFD/ROCm, the OpenBSD `drm` port, simplefb/efifb sources.
+* **Not reached (after the second pass, 14H):** hash MMUs, palette pain, HDCP, CEC, HDMI audio, MST/DSC, deep colour, the Blit and NeWS texts, the Linux 2.4 VM replacement (only a snippet), Torvalds on AVX-512 (RealWorldTech timed out), xHCI design posts (search found none), ASPM and PCIe hot-plug posts, AHCI, virtio, big.LITTLE and NUMA threads, KFD/ROCm, the OpenBSD `drm` port, simplefb/efifb sources.
 * **Unverified or read in part:** the Ars Technica 2012 report is secondary (the video was not watched); the GPUHammer paper only through its abstract; the heise article only in two paragraphs; the Thunderclap FAQ answers did not appear in the saved text; the Wayland page has no named author; the USENIX 2003 notes have no byline in the saved text; counts of "about 45 local files" are by hand.
 
 ## 14G. What the UNIX-HATERS Handbook complained about, and which complaints have a hardware, instruction-set or bus cause
@@ -1059,6 +1062,25 @@ The author asked which of the pain points in this document caused what the UNIX-
 **Reading.** Of the complaints with a hardware or instruction-set root in the text, three are plain: the **size rule** (16-bit addresses), the **interrupted system call** (a trap that cannot describe half-done work, and a CPU that could not restart half an instruction), and the **display zoo** (many framebuffer and colour models, many terminal control sequences). Three more have hardware ancestry or a hardware part (the swap partition and paging policy from small, slow machines; the file-system damage after a crash, where SCSI termination and incomplete block transfers are the hardware mentions). The most useful finding for pdp64 is Gabriel's PC loser-ing passage: it states the restartable-instruction principle (the manual's 9.2.6 and 6.8) as a design argument from 1991, and it records the Unix answer that the pdp64 hardware cannot make for the kernel.
 
 **Counts.** One page fetched (the OCR text). Rows above: 7.
+
+## 14H. Round 5, second pass: timers, interrupts, storage controllers, display links, NUMA
+
+Gaps left by the first pass of round 5 (see the coverage summary in 14F), filled from saved pages and the local tree. Labels as in 14F.
+
+| Pain | What was said | Who, when | Source | Label | pdp64 |
+|---|---|---|---|---|---|
+| The clock watchdog had to be rewritten, and BIOSes cannot be trusted to pick the boot CPU | the Jan 2026 patch: "To address this and bring back sanity to the watchdog, rewrite the code completely with a different approach: 1) Restrict the validation against a reference clocksource to the boot CPU, which is usually the CPU/Socket closest to the legacy block which contains the reference source (HPET/ACPI-PM timer)."; Gleixner: "Picking a remote node CPU would be insane, but yes BIOSes are insane by definition."; an SGI machine marked `tsc` unstable: "tsc skewed 703664 ns (0 ms) over watchdog 'sgi_rtc' interval of 511302794 ns"; Wiesner: "the onus should be on hardware developers to make sure the reference clocksource is accurate"; Gleixner: "If the sgi_rtc is un-reliable, then it should be rated down." | Thomas Gleixner, 8 Mar 2026, replying to Jiri Wiesner (25 Feb 2026) | `lkml.org/lkml/2026/3/8/179` (`doc0066`) | [D] | ch. 10, A.5 row 103: a counter checked against a second counter needs one of them to be right; pdp64 has one architectural counter (ch. 10) and no reference to check it against |
+| HPET: many BIOSes never routed its interrupts | "Many x86 BIOS writers don't route HPET interrupts at all, which prevents use of that mode. They support the other 'legacy replacement' mode where the first two comparators block interrupts from 8254 timers and from the RTC."; the comparators "share a counter, complicating resets" | `Documentation/timers/hpet.rst` | local tree | [D-local] | ch. 10: a timer whose interrupt routing is up to firmware is the 8254/RTC problem again; the pdp64 timer is in the processor's own device slot |
+| IRQ affinity is a bitmask the controller may ignore | "if an IRQ controller does not support IRQ affinity then the value will not change from the default of all CPUs"; "It's not allowed to turn off all CPUs" | Ingo Molnar, Max Krasnyansky, `irq-affinity.rst` | local tree | [D-local] | R1: routing of device interrupts to cores is undefined in the manual (7.8.3) |
+| ATA/AHCI controllers: a forced-configuration language | `libata.force=` can force cable type (`40c`, `80c`, `short40c`, `unk`), SATA link speed limit (1.5 or 3.0 Gbps), transfer mode (`pio`, `mwdma`, `udma`), suppress hard/soft/both resets (`nohrst`, `nosrst`, `norst`), `rstonce` "only attempt one reset during hot-unplug link recovery", `dbdelay` "the extra 200ms delay before debouncing a link PHY and device presence detection", `[no]ncq`, `[no]ncqati` "NCQ on ATI chipsets", `[no]trim`, `trim_zero`, `max_trim_128m`, `[no]dma`, `atapi_dmadir`, `atapi_mod16_dma` | `Documentation/admin-guide/kernel-parameters.txt` | local tree | [D-local] | 5.2.1a: the manual says SCSI, ATA, SATA and NVMe all present one ring pattern; each option above is a defect a chip had; a pdp64 storage controller block must be tested against the ring contract, not trusted |
+| DisplayPort link training fails on real cables, and the fallback itself had bugs | Bobier (5 Oct 2026): "The link-training rate/lane fallback in msm_dp_ctrl_setup_main_link() is dead code on every Type-C board, because its liveness check reads the DP controller's own HPD register, which never reflects a real signal when HPD arrives out of band through a drm_dp_hpd_bridge"; "It is latent: fallback only runs when training fails at full rate, so a good cable never exercises it. Found with a cable whose lanes 2 and 3 never achieve clock recovery at any rate."; "a monitor that settles on two lanes after three attempts prints nine error lines on a completely healthy attach" | Jean-Francois Bobier, `[PATCH 0/3] drm/msm/dp: fix dead link-training fallback on Type-C boards` | lore (`doc0069`) | [D] | 3.3.1, 3.3.3: link training lives in the transmitter or DisplayPort controller chip; if the chip's driver is in the kernel it is a code path that a good cable never tests |
+| ... on Intel, five revisions to retry before reducing | `[PATCH v3 00/21] drm/i915/dp_mst: Enable link training fallback`, with patches "Reduce link params only after retrying with unchanged params", "Send a link training modeset-retry uevent to all MST connectors", "Use a commit modeset for link retraining MST links" (the lore listing shows revisions up to "rev5") | Imre Deak (Intel), 10 Jun 2024 | lore (`doc0068`; subjects and change list only, the patch bodies were not read) | [D] | same |
+| NUMA is for bandwidth, not for software developers | "Platform vendors don't build NUMA systems just to make software developers' lives interesting. Rather, this architecture is a means to provide scalable memory bandwidth."; "Memory access time and effective memory bandwidth varies depending on how far away the cell containing the CPU or IO bus making the memory access is from the cell containing the target memory." | Kanoj Sarcar (started Nov 1999), `Documentation/mm/numa.rst` | local tree | [D-local] | ch. 6/7: pdp64's first system is a uniform-memory few-core machine; NUMA is out of scope until R3 |
+| PowerPC has its own PCI error recovery (EEH) | the directory `Documentation/arch/powerpc/` contains `eeh-pci-error-recovery.rst` and `pci_iov_resource_on_powernv.rst` (titles only; the files were not read) | local tree listing | local tree | [D-local], titles only | A.5 162 |
+
+### Updates to the coverage matrix from this pass
+
+HPET, IRQ affinity, AHCI/ATA quirks, DisplayPort link training and NUMA move from missing/thin to covered (HPET and link training with a primary thread, the others with local-tree text). Hash MMUs remain missing: the only text read was a directory listing, `firmware-assisted-dump.rst` mentions "HPTE" regions and nothing says why the hash table hurt.
 
 ## 15. What this means for pdp64
 
@@ -1335,6 +1357,12 @@ Same columns. Evidence is in section 14F, `docs/codegen-data/kernelpain/round5-i
 | 185 | Display | HDMI transmitter: four I2C register maps, latched HPD survives suspend, regmap cache sync | 2026 | `adv7511.yaml` [D-local]; Das 22 Apr 2026; Pinchart 24 Jul 2026 [D] | clear status on enable | ADV7511/13 | 3.3.1 understates it | UNKNOWN |
 | 186 | Display | HDMI 2.1 licence kept open drivers out (2024); patches for FRL in 2026 | 2021-2026 | Ars Feb 2024 [S]; heise 4 May 2026 [S] | DisplayPort adapters | AMD, NVIDIA | protocol in chip (3.3.1) | MITIGATED BY DESIGN |
 | 187 | Display | Network-transparent protocol pays a round trip per reply; direct rendering and DRI3 grew beside it | 1987-2013 | Sharp, USENIX 2004 [P]; Wayland architecture [P] | XCB, DRI3, Present | X | local devices with a ring | DESIGNED AWAY |
+| 188 | Timers | The clock watchdog compared the TSC with a reference that was itself unreliable (SGI RTC); rewritten completely in 2026, validated on the boot CPU near the legacy HPET/ACPI-PM block | 2026 | Gleixner / Wiesner, 8 Mar 2026 [D] | rate the bad clocksource down | x86 | one architectural counter (ch. 10) | OPEN |
+| 189 | Timers | HPET interrupts not routed by many BIOSes; comparators share one counter | undated | `hpet.rst` [D-local] | legacy-replacement mode | x86 | timer in a processor device slot | MITIGATED BY DESIGN |
+| 190 | IRQ | Interrupt affinity is a mask the controller may ignore | undated | `irq-affinity.rst` [D-local] | none | x86 | R1 | UNKNOWN |
+| 191 | Storage | ATA/AHCI controllers need a forced-configuration language (cable type, link speed, reset suppression, NCQ on ATI chipsets, trim limits, ATAPI DMA) | undated | `kernel-parameters.txt` `libata.force` [D-local] | `libata.force=` | ATA/SATA | ring contract (5.2.1a) tested per chip | UNKNOWN |
+| 192 | Display | DisplayPort link training: fallback code dead on Type-C boards because it read the wrong HPD register; five revisions to add retry-before-reduce on Intel | 2024, 2026 | Deak 10 Jun 2024; Bobier 5 Oct 2026 [D] | modeset-retry, uevent | Intel, Qualcomm | protocol in the chip (3.3.1) | MITIGATED BY DESIGN |
+| 193 | NUMA | Memory bandwidth and latency depend on distance; vendors build NUMA "to provide scalable memory bandwidth" | from Nov 1999 | `numa.rst` (Sarcar) [D-local] | placement policy | SGI, others | out of scope for the first system | NOT APPLICABLE |
 
 ## Appendix B: the counts, the method and the commands
 
