@@ -102,7 +102,7 @@
 
 ### B.2.5 Inter-processor interrupts and starting other cores (R2, B2)
 
-**B.2.5.1** The proposal is a per-core doorbell register and a per-core start register in the bus controller (chapter 4), with `SEV` and `WFE` for waiting. *(P)*
+**B.2.5.1** The proposal is a per-core doorbell register and a per-core start register in the bus controller (chapter 3), with `SEV` and `WFE` for waiting. *(P)*
 
 *Commentary.* **Precedent.** The VAX's console processor started the other processors. **Modern comparables.** x86's INIT and START-UP sequence, ARM's PSCI and spin table, RISC-V's hart-start call.
 
@@ -120,9 +120,9 @@
 
 ### B.2.8 The device layout and the descriptor (R5)
 
-**B.2.8.1** The proposal is the uniform layout and the 32-byte descriptor of chapter 3, with an identification register first, and virtio-compatible devices only if reusing OpenBSD's drivers saves more than it costs. *(P)*
+**B.2.8.1** The proposal is the uniform layout and the 32-byte descriptor of chapter 2, with an identification register first, and virtio-compatible devices only if reusing OpenBSD's drivers saves more than it costs. *(P)*
 
-*Commentary.* **Precedent.** The RK11 and the DEUNA, as in chapter 3. **Trade-offs.** The single ring per device makes duplex devices two slots. **Modern comparables.** `virtio`, NVMe, SATA's command lists, Intel Ethernet's done bit.
+*Commentary.* **Precedent.** The RK11 and the DEUNA, as in chapter 2. **Trade-offs.** The single ring per device makes duplex devices two slots. **Modern comparables.** `virtio`, NVMe, SATA's command lists, Intel Ethernet's done bit.
 
 ### B.2.9 DMA addressing and protection (R6)
 
@@ -146,13 +146,13 @@
 
 **B.2.12.1** The proposals are a fixed 4 KB page per slot with the mapping register for exceptions (N1), an interrupt with a small event queue and a rescan on overflow (N2), and an absent mark with a precise fault and the queued work left in memory (N3). *(P)*
 
-*Commentary.* See sections 3.7 and its commentary: the VAX's nexus scan, PCI's configuration space and all-ones reads, USB's status-change endpoint.
+*Commentary.* See section 2.7 and its commentary: the VAX's nexus scan, PCI's configuration space and all-ones reads, USB's status-change endpoint.
 
 ### B.2.13 The boot decisions (B1, B3, B4, B5, B8)
 
 **B.2.13.1** The proposals are a boot ROM that reads block 0 (B1), a boot-information block of memory, cores, the bus controller's address and two slots (B3), an `INIT` bit with an optional firmware descriptor (B4), no UEFI, with a simple hand-off a shim could use (B5), and a block list in the protective MBR's boot code (B8). *(P)*
 
-*Commentary.* See chapter 4 and [`../boot.md`](../boot.md): the PDP-11's block 0 and `ODT`, the VAX's boot block and restart parameter block, the BIOS and UEFI.
+*Commentary.* See chapter 3 and [`../boot.md`](../boot.md): the PDP-11's block 0 and `ODT`, the VAX's boot block and restart parameter block, the BIOS and UEFI.
 
 ### B.2.14 How USB attaches, and virtio first
 

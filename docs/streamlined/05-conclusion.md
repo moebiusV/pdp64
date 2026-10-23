@@ -71,4 +71,4 @@
 
 ## 5.5 What remains open
 
-Everything not yet settled is collected, with its options and its benefits, in appendix B; the ideas that nobody has yet turned into a decision are in appendix A. The principal open choices are the transport and interrupt controller (chapter 3), the details of the device layout, the interrupt controller and virtualization position, the vector-math position, and the several smaller instruction-set proposals.
+Everything not yet settled is collected, with its options and its benefits, in appendix B; the ideas that nobody has yet turned into a decision are in appendix A. The principal open choices are the transport and interrupt controller (chapter 2), the details of the device layout, the interrupt controller and virtualization position, the vector-math position, and the several smaller instruction-set proposals.

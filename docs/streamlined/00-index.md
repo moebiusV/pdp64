@@ -7,9 +7,9 @@
 ## Contents
 
 1. [**Introduction**](01-introduction.md): why the machine exists, what made the PDP-10, PDP-11 and VAX-11 good to program, and the principles the design follows.
-2. [**The instruction set**](02-isa.md): how the opcode space is divided, the properties and principles of the architecture, the registers, the format, the addressing modes, and then each group of instructions, with exceptions, faults and memory management at the end.
-3. [**The bus**](03-bus.md): Q64, the way devices are reached and described, the bus as a device, enumeration and hot-plug, and the default eight-register devices with their DMA design.
-4. [**Boot, the BIOS, the disk label and the GPT**](04-boot.md): what starts the machine, what takes the place of a BIOS, how the disk is laid out, and why UEFI is not used.
+2. [**The bus**](02-bus.md): Q64, the way devices are reached and described, the bus as a device, enumeration and hot-plug, and the default eight-register devices with their DMA design.
+3. [**Boot, the BIOS, the disk label and the GPT**](03-boot.md): what starts the machine, what takes the place of a BIOS, how the disk is laid out, and why UEFI is not used.
+4. [**The instruction set**](04-isa.md): how the opcode space is divided, the properties and principles of the architecture, the registers, the format, the addressing modes, and then each group of instructions, with exceptions, faults and memory management at the end.
 5. [**Conclusion: from FPGA to silicon**](05-conclusion.md): the FPGA plan, the transistor budget, the path to an OpenBSD you can log into, and what is still open.
 6. [**Appendix A. Possible improvements not decided on yet**](appendix-a-improvements.md): ideas that nobody has turned into a decision, with their benefits and costs.
 7. [**Appendix B. Decisions pending**](appendix-b-decisions-pending.md): every open decision with its question, proposed answer, precedent, trade-offs and benefits.
