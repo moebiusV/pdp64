@@ -213,7 +213,7 @@ R08	-	-	round 6 explicit list	-	-	1	OpenBSD DRM port unconfirmed	CLARIFIED	drm(4
 R09	-	-	round 6 explicit list	-	-	1	Torvalds AVX-512 post not obtained	STILL UNVERIFIED	RealWorldTech page never loaded in round 5; not retried	
 R10	-	-	round 6 explicit list	-	-	1	phoronix and realworldtech failed fetches	STILL UNVERIFIED	not retried	
 R11	-	-	round 6 explicit list	-	-	1	hash MMU	STILL UNVERIFIED	matrix row thin; no developer statement found	
-R12	-	-	round 6 explicit list	-	-	1	level/edge	STILL UNVERIFIED	matrix row thin; not raised	
+R12	-	-	round 6 explicit list	-	-	1	level/edge	VERIFIED	worked in 14K from kernel/irq/chip.c and resend.c (local tree)	
 R13	-	-	round 6 explicit list	-	-	1	virtio	STILL UNVERIFIED	matrix row thin; not raised	
 R14	-	-	round 6 explicit list	-	-	1	ASPM / PCIe hot-plug	STILL UNVERIFIED	matrix row thin; not raised	
 R15	-	-	round 6 explicit list	-	-	1	USB host-controller design	STILL UNVERIFIED	matrix row thin; not raised	

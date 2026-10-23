@@ -37,6 +37,7 @@
 * [14H. Round 5, second pass: timers, interrupts, storage controllers, display links, NUMA](#14h-round-5-second-pass-timers-interrupts-storage-controllers-display-links-numa)
 * [14I. Round 6: the Blit, Research Unix and Plan 9: primary sources](#14i-round-6-the-blit-research-unix-and-plan-9-primary-sources)
 * [14J. Corrections and clarifications from round 6](#14j-corrections-and-clarifications-from-round-6)
+* [14K. Round 6: two thin matrix rows worked](#14k-round-6-two-thin-matrix-rows-worked-interrupt-trigger-types-bsd-graphics)
 * [15. What this means for pdp64](#15-what-this-means-for-pdp64)
 * [16. What this does not show](#16-what-this-does-not-show)
 * [Appendix A: the pain-point catalogue](#appendix-a-the-pain-point-catalogue)
@@ -898,7 +899,7 @@ The matrix has **95 topics** in nine groups. Before round 5 (my reading of the t
 
 **Still missing after round 5 (3):** racing the beam in driver developers' writing, HDMI audio, DisplayPort MST and DSC. For these **no primary record was read** (not "no record exists"). Where the matrix says thin the reason is in its column "what was done".
 
-**Round 6 update (matrix now 97 topics).** The row 'The Blit and NeWS lineage' was split into three: 'The Blit: hardware, software, protocol, trade-offs' (thin to **covered well**, 14I.1-I.3), 'NeWS and X11 as successors of the Blit' (stays **thin**: no source read makes the claim) and a new row 'Plan 9 window system: 8½, rio, `/dev/bitblt`, `/dev/draw`' (**covered well**, 14I.5). Counts: before round 6 **52 covered well, 40 thin, 3 missing** (of 95); after round 6 **54 covered well, 40 thin, 3 missing** (of 97). The remote-display group is now 3 covered well, 1 thin.
+**Round 6 update (matrix now 97 topics; read the last two sentences for the final counts).** The row 'The Blit and NeWS lineage' was split into three: 'The Blit: hardware, software, protocol, trade-offs' (thin to **covered well**, 14I.1-I.3), 'NeWS and X11 as successors of the Blit' (stays **thin**: no source read makes the claim) and a new row 'Plan 9 window system: 8½, rio, `/dev/bitblt`, `/dev/draw`' (**covered well**, 14I.5). Two thin rows were then worked in 14K (level versus edge triggering; BSD graphics). Counts: before round 6 **52 covered well, 40 thin, 3 missing** (of 95); after round 6 **56 covered well, 38 thin, 3 missing** (of 97). The remote-display group is now 3 covered well, 1 thin.
 
 ### Memory system, CPU and early-hardware findings (round 5)
 
@@ -1293,10 +1294,19 @@ The author asked round 6 to go back over earlier statements. The working list is
 * Torvalds on AVX-512 ("RealWorldTech"): the page never loaded in round 5; not retried in round 6.
 * UNIX-HATERS Handbook chapters 2, 3, 4, 5, 8, 9, 10 (skimmed) and 7, 11 to 14 (read in part): not re-read in round 6; the 14G rows quote only what was read.
 * The Wayland architecture page and the 2003 notes on reverse mapping: no byline in the saved text; both authors are unknown to this study.
-* The remaining thin rows of the coverage matrix (hash MMUs, level/edge, virtio, ASPM and PCIe hot-plug, USB host-controller design, KFD/ROCm, simplefb/efifb, HDCP, NUMA, big.LITTLE, CPU hotplug, PAT/MTRR, software TLB, register windows, x32, Itanium, AMD TLB errata, AHCI, small BAR, VGA arbiter, Panfrost) were **not** raised in round 6.
+* The remaining thin rows of the coverage matrix (hash MMUs, virtio, ASPM and PCIe hot-plug, USB host-controller design, KFD/ROCm, simplefb/efifb, HDCP, NUMA, big.LITTLE, CPU hotplug, PAT/MTRR, software TLB, register windows, x32, Itanium, AMD TLB errata, AHCI, small BAR, VGA arbiter, Panfrost) were **not** raised in round 6 (level/edge triggering and BSD graphics were: 14K).
 * Eras marked "unverified" in Appendix A.1 (rows 1 to 53 of the first catalogue) and the round-1 reading list (Appendix C.1): not re-audited.
 * Figures taken from secondary press or from memory (b): the LWN rows are quoted from saved LWN pages and pass the quotation gate, but LWN is itself a report; the kernel's "about 14 years" for mode setting and the Packard glyph rates were not re-derived.
 * Everything in the ledger with status STILL UNVERIFIED carries its reason in the ledger.
+
+## 14K. Round 6: two thin matrix rows worked (interrupt trigger types, BSD graphics)
+
+Both rows come from files that are saved or local; labels as in 14F ([D-local] the kernel tree, [M] manual page).
+
+| Pain | What was said | Who, when | Source | Label | pdp64 |
+|---|---|---|---|---|---|
+| Edge interrupts can arrive while the handler runs, and not every controller can re-trigger one | "Interrupt occurs on the falling and/or rising edge of a hardware signal. The occurrence is latched into the irq controller hardware and must be acked in order to be reenabled. After the ack another interrupt can happen on the same source even before the first one is handled by the associated event handler."; the generic code keeps a loop and a pending flag for it (`handle_edge_irq`: `IRQS_PENDING`, "mask_ack_irq"); moving the interrupt to another core needs a busy wait on the in-progress flag, or "for edge type interrupts the handler might get stuck on the previous target"; and "Not all irq controller chips can retrigger interrupts at the hardware level, so in those cases we allow the resending of IRQs via a tasklet." | Linus Torvalds, Ingo Molnar and Thomas Gleixner (copyright lines of `kernel/irq/resend.c`, 1992-2006); the `handle_edge_irq` comment, undated | `kernel/irq/chip.c`, `kernel/irq/resend.c` | [D-local] | **UNKNOWN**: 5.7.1 puts the cause in an `IRQ` register where "each bit is cleared by writing a 1", a latched cause, so a device cannot lose an edge between two reads; the manual does not say whether the line itself is level or edge, or how an interrupt moves between cores (7.8.3 leaves routing undefined, decision R1) |
+| The BSD ports of the Linux graphics drivers | OpenBSD: "Support is currently available for the following graphics cards: amdgpu(4) ... intel(4) ... radeon(4)"; "The drm driver first appeared in OpenBSD 4.3."; the page does not say the drivers come from Linux and names no NVIDIA part. FreeBSD's port of the Linux drivers was confirmed in round 5 (status report) | OpenBSD manual page `drm(4)` (page dated 7 Jan 2022) | `man.openbsd.org/drm.4` | [M] | manual 3.5.3: the OpenBSD half is **partly confirmed** (AMD and Intel only, 14J); a BSD that wants a PCI Express graphics card carries a driver for each vendor, which is the burden the on-bus terminal of 3.1 does not have |
 
 ## 15. What this means for pdp64
 
@@ -1597,6 +1607,8 @@ Same columns. Evidence is in section 14I and [`round6-index.tsv`](codegen-data/k
 | 202 | Display | Software cursor interferes with drawing; flicker during non-XOR drawing; cursor redrawn at 60 Hz | 1983 | Tradeoffs, graphics input [P] | XOR drawing; redraw at the clock | Blit | no cursor or sprite plane in 3.1 | OPEN |
 | 203 | Display | A window system as its own protocol versus device files: 8½ serves `/dev/cons`, `/dev/mouse`, `/dev/bitblt`; "design as a file server" gave its small size and remote use | 1991 | Pike 1991 [P] | file-server design | Plan 9 | no window system text in the manual | UNKNOWN |
 | 204 | CPU | No MMU: one trap on the first 8 bytes of the address space, cooperative scheduling, shared address space for all programs | 1983 | Pike 1983 pp. 11-13 [P] | null-pointer trap | Blit | MMU in chapter 6 | AVOIDED BY DESIGN |
+| 205 | IRQ | Edge-triggered lines: another edge can arrive before the handler finishes; not every controller can re-trigger, so software resends | 1992-2006 | `chip.c`, `resend.c` [D-local] | pending flag and loop; tasklet resend | all | cause latched in `IRQ` (5.7.1); line type not stated | UNKNOWN |
+| 206 | Display | The BSD ports of the Linux graphics drivers cover AMD and Intel only (OpenBSD `drm(4)`) | from OpenBSD 4.3 | `drm(4)` [M] | per-vendor driver | OpenBSD | no card in 3.1; PCI Express card is 3.5 | NOT APPLICABLE |
 
 ## Appendix B: the counts, the method and the commands
 

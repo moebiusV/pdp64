@@ -1,127 +1,196 @@
 idiom,sites,instructions_saved,bytes_saved
-2op unary after copy: com,32,32,0
+2op unary after copy: com,30,30,0
 2op unary after copy: dec,1,1,0
 2op unary after copy: inc,2,2,0
-2op unary after copy: neg,91,91,0
-3op: add coverable by lea (needs flags dead),468,468,0
-3op: add imm,115,115,0
-3op: add mem,40,40,16
-3op: add reg,361,361,0
-3op: all,3535,3535,276
-3op: and imm,780,780,32
-3op: and mem,66,66,116
-3op: and reg,93,93,0
+2op unary after copy: neg,83,83,0
+3op: add coverable by lea (needs flags dead),405,405,0
+3op: add imm,111,111,0
+3op: add mem,35,35,16
+3op: add reg,302,302,0
+3op: all,3020,3020,212
+3op: and imm,648,648,24
+3op: and mem,62,62,108
+3op: and reg,89,89,0
 3op: bis imm,15,15,0
 3op: bis mem,2,2,0
 3op: bis reg,29,29,0
-3op: mul imm,144,144,86
-3op: mul mem,3,3,4
-3op: mul reg,70,70,0
-3op: sar imm,16,16,0
-3op: shl imm,893,893,0
-3op: shl reg,44,44,0
-3op: shr imm,143,143,0
+3op: mul imm,104,104,40
+3op: mul mem,2,2,4
+3op: mul reg,66,66,0
+3op: sar imm,9,9,0
+3op: shl imm,745,745,0
+3op: shl reg,41,41,0
+3op: shr imm,128,128,0
 3op: shr reg,2,2,0
-3op: source dead,27,0,0
-3op: source read,2127,0,0
-3op: source unknown,1381,0,0
+3op: source dead,24,0,0
+3op: source read,1882,0,0
+3op: source unknown,1114,0,0
 3op: sub #imm coverable by lea,87,87,0
-3op: sub imm,92,92,0
-3op: sub mem,85,85,8
-3op: sub reg,296,296,0
-3op: xor mem,10,10,14
-3op: xor reg,236,236,0
-all,336408,0,0
-"autoinc: post-increment (access, then base += size), adjacent",102,102,0
-"autoinc: post-increment (access, then base += size), within 5",10,10,0
-"autoinc: pre-decrement (base +-= size, then access)",407,407,0
-"autoinc: pre-increment (base +-= size, then access)",38,38,0
+3op: sub imm,91,91,0
+3op: sub mem,73,73,8
+3op: sub reg,230,230,0
+3op: xor mem,9,9,12
+3op: xor reg,227,227,0
+all,288365,0,0
+"autoinc: post-increment (access, then base += size), adjacent",95,95,0
+"autoinc: post-increment (access, then base += size), within 5",8,8,0
+"autoinc: pre-decrement (base +-= size, then access)",405,405,0
+"autoinc: pre-increment (base +-= size, then access)",34,34,0
 "bit test: and #2^k,rX ; cbeq/cbne rX,#0 (single bit, rX dead afterwards)",6,6,0
-"bit test: and #2^k,rX ; cbeq/cbne rX,#0 (single bit, rX maybe live afterwards)",4,4,0
-bit test: shr #k ; and #1 ; branch,16,32,0
-calls: call,31877,0,0
-calls: calli,451,0,0
-"carry: add a,b ; cbCS/cbLOS b,a (carry tested by comparing the sum)",15,15,30
-const: clr reg,9705,0,0
-"const: movq #imm, 16-bit",9941,0,0
-"const: movq #imm, 32-bit",297,0,0
-"const: movq #imm, 4-bit",7838,0,0
-const: movq =K (pool),59,0,0
-ext: after a call (result),444,0,0
-ext: after a load (fusible into the load),584,0,0
-ext: after a narrower load,183,0,0
-ext: after an ALU result (a 32-bit ALU form would absorb it),4099,0,0
-ext: after another move/extension,809,0,0
-ext: after div,27,0,0
+"bit test: and #2^k,rX ; cbeq/cbne rX,#0 (single bit, rX maybe live afterwards)",3,3,0
+bit test: shr #k ; and #1 ; branch,15,30,0
+byte-swap idiom: masking one byte lane (and #0xFF00 / 0xFF0000 / 0xFF000000),350,0,0
+call memcmp with a constant size <= 16 (inline load/store would do),18,0,0
+call memcpy with a constant size <= 16 (inline load/store would do),827,0,0
+call memset with a constant size <= 16 (inline load/store would do),57,0,0
+callee: __builtin_abort,6214,0,0
+callee: abort,216,0,0
+callee: memcmp,131,0,0
+callee: memcpy,2872,0,0
+callee: memmove,34,0,0
+callee: memset,325,0,0
+callee: strlen,63,0,0
+calls: call,26975,0,0
+calls: calli,422,0,0
+"carry: add a,b ; cbCS/cbLOS b,a (carry tested by comparing the sum)",10,10,20
+const: clr reg,8427,0,0
+"const: movq #imm, 16-bit",8180,0,0
+"const: movq #imm, 32-bit",238,0,0
+"const: movq #imm, 4-bit",5769,0,0
+const: movq =K (pool),38,0,0
+constant that only feeds a store: clr ; store (store-immediate / clr mem),1087,1087,0
+constant that only feeds a store: movq #imm ; store (store-immediate / clr mem),1419,1419,0
+ext: after a call (result),309,0,0
+ext: after a load (fusible into the load),519,0,0
+ext: after a narrower load,140,0,0
+ext: after an ALU result (a 32-bit ALU form would absorb it),3497,0,0
+ext: after another move/extension,601,0,0
+ext: after div,25,0,0
 ext: after divu,6,0,0
 ext: after mod,5,0,0
-ext: after modu,16,0,0
-ext: after rori32,9,0,0
-"ext: total (movb r,r)",29,0,0
-"ext: total (movl r,r)",3428,0,0
-"ext: total (movw r,r)",11,0,0
-"ext: total (movzb r,r)",1311,0,0
-"ext: total (movzl r,r)",3614,0,0
-"ext: total (movzw r,r)",450,0,0
-ext: value from before the block/argument,2661,0,0
+ext: after modu,14,0,0
+ext: after rori32,1,0,0
+"ext: total (movb r,r)",21,0,0
+"ext: total (movl r,r)",2825,0,0
+"ext: total (movw r,r)",8,0,0
+"ext: total (movzb r,r)",1085,0,0
+"ext: total (movzl r,r)",3122,0,0
+"ext: total (movzw r,r)",347,0,0
+ext: value from before the block/argument,2291,0,0
 field: ... preceded by a copy (3 instructions to 1),1,2,0
-field: shr #n ; movzb/movzw/movzl (byte or word of a value),321,321,-368
-"field: unsigned extract, shl ; shr",4,4,4
-"field: unsigned extract, shr #n ; and #2^w-1",164,164,18
-frame: epilogue instructions (without ret),6654,0,0
-frame: functions,8650,0,0
-frame: functions with no call (leaf),2941,0,0
-frame: prologue instructions,6898,0,0
-frame: ret,8071,0,0
-frame: tail jmp,658,0,0
-loop: backward conditional branches,11059,0,0
-"loop: count down by dec/sub, other test (cbCC rX,#k or rY)",53,53,0
-"loop: count up, inc/add then cbCC rX,{rY|#k} (aoblss/acbl)",4785,4785,0
-"loop: dec rX ; cbne rX,#0 -> sob",72,72,0
-"mask test: ... preceded by a copy (movq a,b ; and #m,b ; cbCC b,#0)",15,15,0
-"mask test: and #mask,rX ; cbeq/cbne rX,#0 (several bits)",27,0,0
+field: ... preceded by movzl (32-bit field of an unsigned int; extzb replaces all three),84,168,118
+field: ... preceded by movzl (extzb replaces all three),252,504,210
+field: shr #n ; movzb/movzw/movzl (byte or word of a value),286,286,-326
+"field: unsigned extract, shl ; shr",3,3,6
+"field: unsigned extract, shr #n ; and #2^w-1",85,85,-52
+frame: epilogue instructions (without ret),5923,0,0
+frame: functions,7695,0,0
+frame: functions with no call (leaf),2617,0,0
+frame: prologue instructions,6128,0,0
+frame: ret,7069,0,0
+frame: tail jmp,556,0,0
+"lea sym,rT ; access (rT) : a direct pc-relative operand would do",7,7,0
+loop: backward conditional branches,10082,0,0
+"loop: count down by dec/sub, other test (cbCC rX,#k or rY)",5,5,0
+"loop: count up, inc/add then cbCC rX,{rY|#k} (aoblss/acbl)",89,89,0
+"loop: dec rX ; cbne rX,#0 -> sob",11,11,0
+loop: step ; LABEL ; cbCC (loop entered at its test; fusing needs loop rotation) [dec],82,82,0
+loop: step ; LABEL ; cbCC (loop entered at its test; fusing needs loop rotation) [inc],4587,4587,0
+"mask test: ... preceded by a copy (movq a,b ; and #m,b ; cbCC b,#0)",13,13,0
+"mask test: and #mask,rX ; cbeq/cbne rX,#0 (several bits)",23,0,0
 "mem operand: movq mem,rT ; add rT,rD (temp liveness unknown (block ends))",1,0,0
 "mem operand: movq mem,rT ; and rT,rD (temp dead afterwards)",1,1,0
 "mem operand: movq mem,rT ; and rT,rD (temp liveness unknown (block ends))",4,0,0
-"mem operand: movq mem,rT ; cmp rT,rD (temp liveness unknown (block ends))",13,0,0
+"mem operand: movq mem,rT ; cmp rT,rD (temp liveness unknown (block ends))",11,0,0
 "mem operand: movq mem,rT ; sub rT,rD (temp liveness unknown (block ends))",1,0,0
-mov: argument for a call,17945,0,0
-mov: call result kept,3518,0,0
-mov: frame,1563,0,0
-mov: other,12709,0,0
-mov: parameter kept in a saved register,6077,0,0
-mov: return value,510,0,0
-"mov: two-address copy, source dead after",23,0,0
-"mov: two-address copy, source liveness unknown (block ends)",1415,0,0
-"mov: two-address copy, source read later",2060,0,0
-mov: value kept in a saved register,492,0,0
-movrr,46312,0,0
-multiply-add: mul ; add,1402,1402,0
-pair: load movl,550,550,770
-pair: load movq,859,859,620
-pair: store movl,51,51,138
-pair: store movq,662,662,478
-"read-modify-write: movq M,rT ; op ,rT ; movq rT,M (rT dead)",949,1898,0
-"read-modify-write: movq M,rT ; op ,rT ; movq rT,M (rT read later)",44,0,0
+memory access: load global/pc-relative,633,0,0
+memory access: load sp-frame,13785,0,0
+memory access: load through a pointer register,29226,0,0
+memory access: store global/pc-relative,324,0,0
+memory access: store sp-frame,7473,0,0
+memory access: store through a pointer register,7640,0,0
+mov: argument for a call,13783,0,0
+mov: call result kept,2749,0,0
+mov: copy at a control-flow join (loop-carried value / phi),3327,0,0
+mov: frame,1361,0,0
+mov: other,7802,0,0
+mov: parameter kept in a saved register,829,0,0
+mov: parameter moved at function entry,5077,0,0
+mov: return value,444,0,0
+"mov: two-address copy, source dead after",20,0,0
+"mov: two-address copy, source liveness unknown (block ends)",1136,0,0
+"mov: two-address copy, source read later",1740,0,0
+mov: value kept in a saved register,420,0,0
+movrr,38688,0,0
+multiply-add: mul ; add,1380,1380,0
+"narrow mem operand: movl mem,rT ; add rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",999,999,0
+"narrow mem operand: movl mem,rT ; add rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",54,0,0
+"narrow mem operand: movl mem,rT ; and rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",179,179,0
+"narrow mem operand: movl mem,rT ; and rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",9,0,0
+"narrow mem operand: movl mem,rT ; bis rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",52,52,0
+"narrow mem operand: movl mem,rT ; bis rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",14,0,0
+"narrow mem operand: movl mem,rT ; cmp rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",63,0,0
+"narrow mem operand: movl mem,rT ; mul rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",1232,1232,0
+"narrow mem operand: movl mem,rT ; mul rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",5,0,0
+"narrow mem operand: movl mem,rT ; sub rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",66,66,0
+"narrow mem operand: movl mem,rT ; sub rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",49,0,0
+"narrow mem operand: movl mem,rT ; xor rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",670,670,0
+"narrow mem operand: movl mem,rT ; xor rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",27,0,0
+"narrow mem operand: movzb mem,rT ; add rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",42,42,0
+"narrow mem operand: movzb mem,rT ; add rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",19,0,0
+"narrow mem operand: movzb mem,rT ; and rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",2,2,0
+"narrow mem operand: movzb mem,rT ; bis rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",36,36,0
+"narrow mem operand: movzb mem,rT ; bis rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",17,0,0
+"narrow mem operand: movzb mem,rT ; cmp rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",1,0,0
+"narrow mem operand: movzb mem,rT ; mul rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",1,0,0
+"narrow mem operand: movzb mem,rT ; sub rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",20,20,0
+"narrow mem operand: movzb mem,rT ; sub rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",4,0,0
+"narrow mem operand: movzb mem,rT ; xor rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",5,5,0
+"narrow mem operand: movzb mem,rT ; xor rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",48,0,0
+"narrow mem operand: movzl mem,rT ; add rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",40,40,0
+"narrow mem operand: movzl mem,rT ; add rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",12,0,0
+"narrow mem operand: movzl mem,rT ; and rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",2,2,0
+"narrow mem operand: movzl mem,rT ; cmp rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",1,0,0
+"narrow mem operand: movzl mem,rT ; mul rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",285,285,0
+"narrow mem operand: movzl mem,rT ; mul rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",12,0,0
+"narrow mem operand: movzl mem,rT ; sub rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",13,13,0
+"narrow mem operand: movzl mem,rT ; sub rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",10,0,0
+"narrow mem operand: movzw mem,rT ; add rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",1,1,0
+"narrow mem operand: movzw mem,rT ; add rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",5,0,0
+"narrow mem operand: movzw mem,rT ; bis rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",2,2,0
+"narrow mem operand: movzw mem,rT ; bis rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",4,0,0
+"narrow mem operand: movzw mem,rT ; cmp rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",3,0,0
+"narrow mem operand: movzw mem,rT ; mul rT,rD (needs a 32-bit/sized ALU memory operand; rT dead)",3,3,0
+"narrow mem operand: movzw mem,rT ; mul rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",2,0,0
+"narrow mem operand: movzw mem,rT ; sub rT,rD (needs a 32-bit/sized ALU memory operand; rT maybe dead)",5,0,0
+pair: load movl,528,528,710
+pair: load movq,742,742,530
+pair: store movl,48,48,130
+pair: store movq,585,585,394
+"read-modify-write: movq M,rT ; op ,rT ; movq rT,M (rT dead)",711,1422,0
+"read-modify-write: movq M,rT ; op ,rT ; movq rT,M (rT read later)",37,0,0
+"scaled add with copy: movq a,t ; shl #1..3,t ; add t,b  ->  lea (b)(a*s),b",69,138,0
 scaled lea emitted,2,0,0
-scaled-index memory operand emitted,1455,0,0
-select: bCC over 1 simple instruction (alu),79,79,0
-select: bCC over 1 simple instruction (clr),49,49,0
-select: bCC over 1 simple instruction (mov),311,311,0
+scaled-index memory operand emitted,1241,0,0
+select: bCC over 1 simple instruction (alu),58,58,0
+select: bCC over 1 simple instruction (clr),43,43,0
+select: bCC over 1 simple instruction (mov),271,271,0
 select: bCC over 2 simple instructions (alu),8,16,0
-"select: bCC over 2 simple instructions (alu,clr)",2,4,0
-"select: bCC over 2 simple instructions (alu,mov)",33,66,0
+"select: bCC over 2 simple instructions (alu,clr)",1,2,0
+"select: bCC over 2 simple instructions (alu,mov)",26,52,0
 "select: bCC over 2 simple instructions (clr,mov)",1,2,0
-select: bCC over 2 simple instructions (mov),11,22,0
-select: bCC over 3 simple instructions (alu),7,21,0
-"select: bCC over 3 simple instructions (alu,clr,mov)",2,6,0
+select: bCC over 2 simple instructions (mov),8,16,0
+select: bCC over 3 simple instructions (alu),6,18,0
+"select: bCC over 3 simple instructions (alu,clr,mov)",1,3,0
 "select: bCC over 3 simple instructions (alu,mov)",17,51,0
 select: bCC over 3 simple instructions (mov),2,6,0
-"select: diamond, two one-instruction arms writing the same register",815,2445,0
-"shift-add: shl #2,rT ; add rT,rY (rT dead)",136,136,0
-"shift-add: shl #2,rT ; add rT,rY (rT read later)",14,0,0
-"shift-add: shl #3,rT ; add rT,rY (rT dead)",40,40,0
-"shift-add: shl #3,rT ; add rT,rY (rT read later)",3,0,0
-"shift-add: shl #n>3,rT ; add rT,rY (rT dead)",367,367,0
+select: diamond that materialises a boolean (movq #1 / clr): `set cc` exists,389,778,0
+"select: diamond, two one-instruction arms writing the same register (other values)",273,273,0
+"shift-add: shl #2,rT ; add rT,rY (rT dead)",120,120,0
+"shift-add: shl #2,rT ; add rT,rY (rT read later)",12,0,0
+"shift-add: shl #3,rT ; add rT,rY (rT dead)",28,28,0
+"shift-add: shl #3,rT ; add rT,rY (rT read later)",1,0,0
+"shift-add: shl #n>3,rT ; add rT,rY (rT dead)",342,342,0
 "shift-add: shl #n>3,rT ; add rT,rY (rT read later)",7,0,0
-tail call missed: call f ; epilogue ; ret,215,215,430
+"tail call missed: call f ; epilogue ; ret, address of the frame is taken (not legal)",132,0,0
+"tail call missed: call f ; epilogue ; ret, no frame address taken (legal)",63,63,126
