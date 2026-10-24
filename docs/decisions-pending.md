@@ -1484,7 +1484,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Decided (the author, 2026-10-24).** The VIC-64X pixel is **48 bits: RGBA, 12 bits per channel**. This is a new decision, made after the device chat; the chat's 32-bit foreground/background cell (lines 4822 onward, 5927) belonged to the earlier design and is superseded for the pixel. Recorded as errata 73; `manual/03-graphics.md` 3.1.2 is *(D)* again.
 
-**Still open.** (1) The SID-64X sample width: errata 60 says 48 bits, but nothing the author said explains it. (2) Whether the chat's other formats (indexed 8/4/1, RGB565) still exist beside the 48-bit RGBA pixel, and what the terminal's text cell looks like (two 48-bit colours and a character, or the c64x 32-bit pair).
+**Still open.** (1) ~~The SID-64X sample width~~ decided: 48 bits, and a general sound path beside the SID voices (errata 74); what remains is the sample's layout (one 48-bit integer, floating point, or two 24-bit stereo halves). (2) Whether the chat's other formats (indexed 8/4/1, RGB565) still exist beside the 48-bit RGBA pixel, and what the terminal's text cell looks like (two 48-bit colours and a character, or the c64x 32-bit pair).
 
 ### E2. Data alignment: "only 2 byte memory alignment"
 

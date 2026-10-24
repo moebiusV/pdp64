@@ -10,7 +10,7 @@
 
 **3.1.2** The video device `VIC-64X` is the Commodore 64's video chip (the VIC-II) extended: a framebuffer in the address space with 48-bit pixels, scanned out through a line buffer. A pixel is RGBA with 12 bits per channel (errata 73, the author's decision of 2026-10-24). The register formats and the other pixel formats are unspecified (3.2). *(D)*
 
-**3.1.3** The sound device `SID-64X` is the C64's sound chip (the SID) extended: voices with filters, with 48-bit audio samples. The register and sample formats are unspecified (3.2). The 48-bit width comes from the same note in errata 60 as 3.1.2, but the author's later statement (errata 73) covers only the pixel, so the sample width awaits confirmation. *(P)*
+**3.1.3** The sound device `SID-64X` is the C64's sound chip (the SID) extended: voices with filters, and also a general sound path that is not limited to the SID's voices; audio samples are 48 bits (errata 74, the author's decision of 2026-10-24). The register formats and the layout of a 48-bit sample are unspecified (3.2). *(D)*
 
 **3.1.4** The blitter `BLT64`, the Blit's bit-block-transfer operation as a device, copies and combines rectangles of pixels with raster operations: registers for the source and destination base addresses, the strides, the width and height, a raster operation (the sixteen binary operations of source against destination and the common ternary ones), a mask or transparent colour, and a control register with direction, go, busy and interrupt on done. The device chat chose a three-operand `draw` instead (`decisions-pending.md` E3). *(P)*
 
