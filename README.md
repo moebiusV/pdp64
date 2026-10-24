@@ -70,7 +70,7 @@ The C compiler is the `pdp64` back end of [pcc](https://github.com/moebiusV/pcc)
 - **QEMU target:** boots a kernel image and runs the machine tests (53 run, 0 failed, 3 skipped) and 516 C test runs.
 - **Compiler:** all 841 files of the benchmark corpus compile and assemble; the code is the size of `gcc -Os`.
 - **LLVM back end:** the machine-code layer (assembler, disassembler, ELF object writer); no code generator yet.
-- **Open:** the register-level specification of the C64- and Blit-derived devices, and the decisions in `docs/decisions-pending.md`.
+- **Open:** the register-level specification of the C64- and Blit-derived devices (the author's earlier chat decided much of it: `docs/c64-devices-from-chat.md`), and the decisions in `docs/decisions-pending.md`, including Part E (conflicts with that chat).
 
 ## Licence
 

@@ -36,6 +36,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [Part B. Previous decisions, written up so they can be changed](#part-b-previous-decisions-written-up-so-they-can-be-changed)
 * [Part C. The gaps: several cores, DMA devices and virtualization](#part-c-the-gaps-several-cores-dma-devices-and-virtualization)
 * [Part D. Vector and SIMD math](#part-d-vector-and-simd-math)
+* [Part E. Conflicts with the author's chat record](#part-e-conflicts-with-the-authors-chat-record)
 * [Appendix: errata 42 to 46 in full](#appendix-errata-42-to-46-in-full)
 * [What I need from you](#what-i-need-from-you)
 
@@ -1472,6 +1473,98 @@ None of these was measured. Each is a small job:
 3. List the codec, hash and cryptography routines in the corpus (the corpus has bearssl, cjson and others) and which of them use lane operations, byte shuffles or carry-less multiplication.
 4. Estimate the FPGA cost: block RAM for 16 vector registers of 128 bits against the 5.5 Mb budget in the FPGA plan.
 5. Decide the target workloads: LittleBit inference (LB64), graphics (`BLT64` and VIC-64X), signal processing, scientific loops. A workload list decides S1 better than any survey.
+
+## Part E. Conflicts with the author's chat record
+
+Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chats) against the repository. The repository was built from the ISA chat (2026-08-30); the device chat (2026-08-29) was never imported, and its content is now in [`c64-devices-from-chat.md`](c64-devices-from-chat.md). Each entry gives what the author said in the chats (with the line in `c64stuff.txt`), what the repository says, and the choice. **Nothing here is decided.** The manual statements involved are re-tagged *(P)* until the author rules (errata 72).
+
+### E1. The pixel and sample width: 48 bits, or a 32-bit cell with a format field
+
+**Chat.** The terminal cell is a 32-bit foreground, a 32-bit background, a UTF-8 character and attribute bits (line 4822 onward; "64 bits devoted to color is trivial"); revision 6 makes `format` (indexed 8/4/1, RGB565, RGBA) orthogonal to `layout`, and the author asked that the display not be limited to 16 colours (lines 5927, 5936). No chat text mentions 48 bits.
+
+**Repository.** `manual/03-graphics.md` 3.1.2 and 3.1.3: 48-bit pixels, 48-bit audio samples. Its only source is the last sentence of errata 60, an unquoted paraphrase. 3.4.2 and the FPGA plan (section 12) size frames at 32 bits; `kernel-pain-points.md` 14I builds on "48-bit, no palette".
+
+**Options.** (1) 48-bit pixels as the manual says. (2) The chat's 32-bit RGBA cell plus the format field. (3) 48-bit true colour as one `format` among several, with 32-bit RGBA the default.
+
+**Needed.** Which, and whether the audio sample is 48 bits.
+
+### E2. Data alignment: "only 2 byte memory alignment"
+
+**Chat.** "do r10 but only 2 byte memory alignment; don't put 8 byte memory alignment constraints that would be horrible" (line 6320). The assistant applied it to instructions only, kept natural alignment for data, and asked: "If you did mean data too, say so; that one's a real cost, since it puts back the rotator and the dual-access sequencer" (line 6324). **The author never answered.**
+
+**Repository.** ISA 7.4 requires natural alignment for word, long and quad data and says it "may not be relaxed" (`pdp64-isa.md` around 1227-1236; contradicted by errata 42, which made every rule soft); `abi.md` line 10 states that the 2-byte alignment "is for instructions only"; `MOVU*` are the unaligned forms; the Lisp tag bits (ISA 6.2) and the atomicity claims rest on it.
+
+**Options.** (1) Keep natural alignment (the assistant's reading). (2) Data may be 2-byte aligned; misaligned accesses cost cycles or a split access; the tag bits then need another source (allocator discipline only, no alignment fault as a tag check). (3) Natural alignment by default, a PSW or page-table flag permitting misaligned access.
+
+**Needed.** The answer to the chat's open question.
+
+### E3. The blitter: three-operand `draw` or `BLT64` bitblt
+
+**Chat.** Revision 1 chose a three-operand compositing `draw` shaped like a Plan 9 `Memimage`, with layers as display-list entries and sprites that are windows (line 5614). The author did not object. In the ISA chat the assistant wrote `BLT64`, the Blit's bitblt with raster operations (line 6546); the author did not discuss it.
+
+**Repository.** `manual/03-graphics.md` 3.1.4 `BLT64` *(D)* and 3.1.7 four raster operations; errata 66 says only "based on the Blit as well as the C64".
+
+**Options.** (1) `BLT64` as written. (2) `draw` as in revision 1. (3) `BLT64` for 1-bit and `draw` for compositing.
+
+### E4. The network card: onboard TCP/IP in eight registers
+
+**Chat.** "an ethernet card with onboard tcp/ip stack that uses 8 memory addresses as registers (less if needed)" (line 5603). KE64: programmed I/O through `NDAT` (a TCP client in about thirty lines of assembly, used for netboot) or descriptor rings; four registers as the floor (line 5616).
+
+**Repository.** `manual/05-drivers.md` 5.5.2 and 5.2.7: a raw-frame device with two rings; the boot order of `04-boot.md` has no network step. Errata 29 says only "eight memory-mapped registers plus DMA".
+
+**Options.** (1) Raw frames only (today). (2) KE64 as in the chat, with the stack on the card. (3) Raw frames as the base device, a TCP offload personality as a second device type.
+
+### E5. The device window: one 8 KB page per process, or a 4 KB page per device
+
+**Chat.** All C64 devices in the one 8 KB page at virtual `$C000-$DFFF` (APR6), mapped by pointing one page register at it; a poke changes the banking (line 5608).
+
+**Repository.** `manual/03-graphics.md` 3.1.5 *(D)*: each device in its own 4 KB page; `02-bus.md` 2.1.3.
+
+**Options.** (1) A page per device (today). (2) A single device window per process, assembled by the kernel from several devices. The question is whether the "peek and poke at the literal address" property is worth a special case.
+
+### E6. The FPGA plan: devices first, Zynq UltraScale+, 200-300 MHz
+
+**Chat.** "200-300MHz is fine" (line 5652); the assistant's staging, which the author did not contest: "build the devices in fabric first with an emulated CPU on the ARM side ... then replace the emulator with the real core" on a K26/ZU5EV, a ZU11EG for eight cores (line 5799-5803). The ISA chat later gave 50-80 MHz on a Cyclone V and made the DE10-Nano the first board (the ISA chat's FPGA plan).
+
+**Repository.** `manual/10-conclusion.md` 10.1.2 *(D)* "first board is the Terasic DE10-Nano"; `pdp64-fpga-plan.md` phase 6 (kernel) before phase 7 (devices). No erratum backs either (D).
+
+**Needed.** Confirm the DE10-Nano and CPU-first, or return to devices-first.
+
+### E7. The bus: display without cycle stealing, three classes, peer-to-peer DMA
+
+**Chat.** Revisions 3 and 4 (section 3 of the extraction): the display steals nothing; private, shared and peer-to-peer classes; the framebuffer has no DMA channel; 2 KB bursts; strict priority between classes.
+
+**Repository.** `manual/03-graphics.md` 3.4.x: scan-out "competes with the processor for bandwidth"; `02-bus.md` 2.1.5 and `pdp64-q64-bus.md`: arbitration and bursts unspecified.
+
+**Options.** Adopt the chat's rules as the bus specification (the largest single gap), or record that they were dropped.
+
+### E8. The IOMMU: mandatory, or none for now
+
+**Chat.** Mandatory in the eight-partition machine, with DMA credits (line 5784).
+
+**Repository.** R6 recommends none for now and is open (`decisions-pending.md`, Part C).
+
+**Note.** These are consistent if the partitioned machine is not built; say so.
+
+### E9. The ranking of principles in ISA section 1
+
+**Chat.** Decision order (line 6995): no weird side effects, then no opcode bumps that grow code, then not much more hardware. The author's order of 2026-10-22 (Part 0) is code size, recoverability, gates.
+
+**Repository.** ISA section 1 (`pdp64-isa.md` lines 17-25, r20 text) ranks low transistor count first and code density fifth.
+
+**Needed.** Replace the ranking in ISA section 1 with Part 0's, or state which governs.
+
+### E10. The three compare-and-branch opcodes against the "rare ones are bigger" rule
+
+**Chat.** "regroup the opcodes, rare ones are bigger ones, ... keep them grouped by theme" (line 7025); the resulting rule is that a top-level opcode is for an operation whose common case is register to register (ISA open item 2).
+
+**Repository.** `cbCC`, `CBW` and `CBRR` hold `0x28-0x2A` (errata 34 and 35, the author's), though none has a two-byte form; errata 34 says it "saves an instruction, not bytes". No document weighs this against the rule.
+
+**Options.** (1) Keep, and amend the rule to say what the compare-and-branch group buys. (2) Move them into an escape group and reserve the slots.
+
+### E11. Chat-1 material the manual calls a stub
+
+The register conventions, the 8502 island, `/dev/vic` and `/dev/sid`, the REU window, the realtime V7 changes (priority inheritance, preemption points, `SLOCK`) and the eight-partition machine are in [`c64-devices-from-chat.md`](c64-devices-from-chat.md) and nowhere else. **Needed:** for each, adopt, drop, or defer, so the stub in 3.2 can be replaced by a list of what is decided.
 
 ## Appendix: errata 42 to 46 in full
 

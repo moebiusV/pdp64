@@ -8,13 +8,13 @@
 
 **3.1.1** The graphics terminal is based on two machines, not one: the **Commodore 64**, for its video and sound as chips with registers that a program writes, and the **Blit terminal** (Rob Pike's bit-mapped windowing terminal), for its framebuffer in the address space and the bit-block-transfer operation that moves rectangles of pixels. The pdp64 modernises and extends both. *(D)*
 
-**3.1.2** The video device `VIC-64X` is the Commodore 64's video chip (the VIC-II) extended: a framebuffer in the address space with 48-bit pixels, scanned out through a line buffer. The register and pixel formats are unspecified (3.2). *(D)*
+**3.1.2** The video device `VIC-64X` is the Commodore 64's video chip (the VIC-II) extended: a framebuffer in the address space with 48-bit pixels, scanned out through a line buffer. The register and pixel formats are unspecified (3.2). The 48-bit width rests on an unquoted note in errata 60; the author's chats decided a 32-bit cell with a format field (`docs/c64-devices-from-chat.md` section 5; `decisions-pending.md` E1). *(P)*
 
-**3.1.3** The sound device `SID-64X` is the C64's sound chip (the SID) extended: voices with filters, with 48-bit audio samples. The register and sample formats are unspecified (3.2). *(D)*
+**3.1.3** The sound device `SID-64X` is the C64's sound chip (the SID) extended: voices with filters, with 48-bit audio samples. The register and sample formats are unspecified (3.2). The 48-bit width has the same source as 3.1.2 (`decisions-pending.md` E1). *(P)*
 
-**3.1.4** The blitter `BLT64`, the Blit's bit-block-transfer operation as a device, copies and combines rectangles of pixels with raster operations: registers for the source and destination base addresses, the strides, the width and height, a raster operation (the sixteen binary operations of source against destination and the common ternary ones), a mask or transparent colour, and a control register with direction, go, busy and interrupt on done. *(D)*
+**3.1.4** The blitter `BLT64`, the Blit's bit-block-transfer operation as a device, copies and combines rectangles of pixels with raster operations: registers for the source and destination base addresses, the strides, the width and height, a raster operation (the sixteen binary operations of source against destination and the common ternary ones), a mask or transparent colour, and a control register with direction, go, busy and interrupt on done. The device chat chose a three-operand `draw` instead (`decisions-pending.md` E3). *(P)*
 
-**3.1.5** Each of the three is a device in a slot: it is enumerated by the bus, mapped into its own 4 KB page, and found by its identification register like any other (chapters 2 and 5). *(D)*
+**3.1.5** Each of the three is a device in a slot: it is enumerated by the bus, mapped into its own 4 KB page, and found by its identification register like any other (chapters 2 and 5). The device chat put the C64 devices in one 8 KB window per process (`decisions-pending.md` E5). *(P)*
 
 **3.1.6** The framebuffer stays plain memory, so that software can draw without `BLT64`; the blitter is an assist that can be bypassed, not the only way to draw (the Blit authors' advice in 1985 was "transparent, so it can be bypassed"). *(P)*
 
@@ -28,7 +28,7 @@
 
 ## 3.2 The stub: the C64 and Blit documentation
 
-**3.2.1** The register-level definitions of `VIC-64X`, `SID-64X` and `BLT64` (register names, offsets, bit fields, the 48-bit pixel and sample formats, the sprite, raster-interrupt and voice models inherited from the C64, and the bit-block-transfer operations and windowing model inherited from the Blit) are a stub: only the `BLT64` registers listed in 3.1.4 are specified. *(S)*
+**3.2.1** The register-level definitions of `VIC-64X`, `SID-64X` and `BLT64` (register names, offsets, bit fields, the 48-bit pixel and sample formats, the sprite, raster-interrupt and voice models inherited from the C64, and the bit-block-transfer operations and windowing model inherited from the Blit) are a stub: only the `BLT64` registers listed in 3.1.4 are specified. The author's earlier device chat decided much of the rest (register conventions, the 8502 island, the display rules); it is extracted in `docs/c64-devices-from-chat.md` and awaits adoption (`decisions-pending.md` E1 to E11). *(S)*
 
 **3.2.2** What is fixed: the devices exist, they follow the eight-register convention in the terminal's slots, and the interrupt, `FENCE` and uncached-framebuffer rules of section 3.4 apply. *(S)*
 
