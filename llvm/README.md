@@ -1,13 +1,13 @@
 # pdp64 on LLVM
 
-The LLVM back end of the pdp64.  This directory holds everything we write for it; `../llvm-project` (a checkout of
+The LLVM back end of the pdp64.  This directory holds everything written for it; `../llvm-project` (a checkout of
 `llvmorg-21.1.8`) and `../llvm-build` are scratch places where it is built, never committed here.  The arrangement is the
-QEMU one (`qemu/README.md`): our sources live in this repository, an install script copies them into the LLVM tree and applies a
+QEMU one (`qemu/README.md`): the sources live in this repository, an install script copies them into the LLVM tree and applies a
 small patch for the edits to LLVM's own files, a build script configures and builds, and the numbers are generated from the
 architecture's grammars so that nothing is typed twice.
 
 **Milestone M1 (this directory): the machine-code layer.**  An assembler, a disassembler and an ELF object writer, checked
-byte for byte against our own assembler `as64`.  There is no code generator yet (`llc` and `clang` are later milestones).
+byte for byte against the project's assembler `as64`.  There is no code generator yet (`llc` and `clang` are later milestones).
 
     llvm/build.sh [-j N]        # install.sh + configure + ninja llvm-mc llvm-objdump llvm-readobj llvm-objcopy
     llvm/install.sh [llvm-src]  # only put the target into an LLVM tree (idempotent)
@@ -15,7 +15,7 @@ byte for byte against our own assembler `as64`.  There is no code generator yet 
     tools/gen-llvm-td.py [--check]   # write / verify llvm/target/PDP64/gen
 
     ../llvm-build/bin/llvm-mc -triple=pdp64-unknown-elf -filetype=obj -o t.o t.s
-    build/ld64 -o t.x t.o && build/sim64 t.x          # the object is ours: the linker takes it
+    build/ld64 -o t.x t.o && build/sim64 t.x          # the linker takes the object
     echo '0x40 0x80 0x00 0x08' | llvm-mc -triple=pdp64-unknown-elf -disassemble
 
 ## Layout
@@ -34,4 +34,4 @@ byte for byte against our own assembler `as64`.  There is no code generator yet 
 ## Where the rest is
 
 The design notes (how each feature maps to LLVM, where the numbers come from, how it is tested), the results of milestone M1, the awkward spots found in the ISA, what the next milestones need, the cost on a small machine and the way to build it on a bigger one are in
-[`docs/pdp64-system-architecture.md`](../docs/pdp64-system-architecture.md) section 14, so that there is one document about the LLVM back end, not two.
+[`docs/pdp64-system-architecture.md`](../docs/pdp64-system-architecture.md) section 14, so that one document covers the LLVM back end.
