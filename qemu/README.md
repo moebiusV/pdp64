@@ -1,7 +1,7 @@
 # pdp64 on QEMU
 
 `qemu-system-pdp64 -M pdp64-virt -kernel prog` runs the programs that `sim64` runs, with the same results.
-This directory holds everything we write for it; `../qemu-src` (a QEMU v11.1.2 checkout) and
+This directory holds everything written for it; `../qemu-src` (a QEMU v11.1.2 checkout) and
 `../qemu-build` are scratch places where it is built, never committed here.
 
 ## Install, build, run
@@ -28,7 +28,7 @@ runs the C tests (PDP64CCOM needed).  `tools/check-all.sh` includes check-qemu w
 
 ## Machine options
 
-    -M pdp64-virt                     the original machine: user mode, no MMU, no devices, the system-call stand-in (trap #0..#2, halt)
+    -M pdp64-virt                     the default machine: user mode, no MMU, no devices, the system-call stand-in (trap #0..#2, halt)
     -M pdp64-virt,kernel-mode=on      System v1 (docs/pdp64-system-architecture.md section 15)
 
 (The property is `kernel-mode` because `kernel` is QEMU's own name for the `-kernel` file of every machine.)  With `kernel-mode=on` the machine starts
@@ -47,12 +47,12 @@ all of tests/qemu, with this option.
 | 0x8000001000 (4 KB)         | console (kernel-mode only)  `MAP_CONSOLE`             |
 | 0x8000000000 .. 0x800fffffff | device space, reserved for devices (`MAP_DEV` .. `MAP_DEV_END`) |
 
-Bit 39 of the 40-bit physical address is the space bit (errata 60): clear is memory, set is device space.  A virtual address of device space is not
+Bit 39 of the 40-bit physical address is the space bit: clear is memory, set is device space.  A virtual address of device space is not
 canonical in a 39-bit virtual space, so a kernel maps devices through a leaf whose physical page has bit 39 set, with memory type device (tests/qemu/mini-kernel.S
 maps them with a 1 GB leaf).  With translation off, physical addresses are used as they are.  The assembler's immediates are 32 bits: a program loads these
 addresses with the literal pool form, `movq =MAP_TIMER, r13`.
 
-An address that no RAM or device answers is a bus fault (vector 13); the original machine reports it as a fault and exits with 139.  `-kernel` loads an ELF
+An address that no RAM or device answers is a bus fault (vector 13); the default machine reports it as a fault and exits with 139.  `-kernel` loads an ELF
 executable (machine 0xF064, little-endian, as ld64 writes it; text at 0x10000) and starts at its entry point.  The numbers above are in spec/pdp64-system.hbnf
 (rule `map`), the registers below too.
 
@@ -72,7 +72,7 @@ always 1.  Input interrupt: level 4 vector 33 while receive READY and IE; output
 
 `tlb_fill` walks the three-level table of section 15 for every access of every mode: canonical check (vector 5), V and reserved bits (page fault 6/7/8
 by instruction/load/store), R/W/X/U permissions (protection fault 9/10/11), software A and D (a page fault of the kind of the access), 4 KB / 2 MB / 1 GB
-leaves (misaligned superpage: page fault), the consistency of memory type and space bit (PROPOSED, errata 65: a leaf whose physical page has bit 39 set must have type device or device-weak, one with bit 39 clear cached or uncached; otherwise a protection fault), a bus error while reading a table or the target (vector 13).  Permissions are checked before A and D.  The
+leaves (misaligned superpage: page fault), the consistency of memory type and space bit (PROPOSED: a leaf whose physical page has bit 39 set must have type device or device-weak, one with bit 39 clear cached or uncached; otherwise a protection fault), a bus error while reading a table or the target (vector 13).  Permissions are checked before A and D.  The
 walker never writes a table.  QEMU's TLB is per MMU index: 0 physical (translation off), 1 kernel, 2 user and supervisor.  Simplifications:
 
 - ASID and G are not modelled: any write to `PTBR`, `ASID` or `MMUCTL`, and `TLBIA`, flush the whole TLB (an implementation may drop entries at any time, so this is a valid
@@ -100,5 +100,5 @@ of `struct pdp64_env`:
 
 ## Deliberately not done
 
-No TCG fast paths (every instruction is a helper call: correctness first, speed later), no user-mode `qemu-pdp64`, no gdbstub, no disassembler, no migration state (vmstate), no multi-CPU,
+No TCG fast paths (every instruction is a helper call: correctness over speed), no user-mode `qemu-pdp64`, no gdbstub, no disassembler, no migration state (vmstate), no multi-CPU,
 no DMW translation (stored only), no ASID/G, no reset vector (vector 0).
