@@ -13,7 +13,7 @@ calibration as the assembler (`common/calib.c`), and the instruction numbers are
 | `-k` | run in kernel mode: the privileged `mfsr` and `mtsr` are allowed (default: user mode, where they fault as "privileged instruction in user mode") |
 | `-n N` | stop after N instructions (default 200 million) |
 
-## System interface (a stand-in until there is an operating system)
+## System interface (a stand-in for an operating system)
 
 `trap #n`, arguments in `r0`..`r2`: `0` exit (status `r0`), `1` write(fd `r0`, buffer `r1`, length `r2`; count returned in `r0`), `2` read (same
 registers). `halt` stops with the status in `r0`. The emulator's exit status is the program's. A fault (misaligned data, unmapped address,
@@ -26,7 +26,7 @@ Text at `0x10000`, data on the next page, stack top at `0x7ffffff000` (grows dow
 ## Floating point
 
 Values are bits in the general registers. Flags accumulate in the sticky `fpsr` (NX UF OF DZ NV = bits 0..4; `fsflags rs, rd` swaps) and never trap.
-Any NaN result is the canonical quiet NaN (errata 26).
+Any NaN result is the canonical quiet NaN.
 
 ## Tests
 
@@ -42,4 +42,4 @@ operation read with `set cc`, every addressing mode and width with sign and zero
 `call`/`ret`, `push`/`pop`, `pushm`/`popm` ordering, `jmpi`/`calli`, bit counts and byte/bit reversal, integer `abs`/`min`/`max`, block copy/compare/fill/scan,
 binary64 arithmetic, comparison, conversion and the five exception flags.
 
-Not yet covered: `btag`/`bntag`, `extb`/`insb`, the binary32 forms, `ATOM`, `MESC`, privileged instructions.
+Not covered: `btag`/`bntag`, `extb`/`insb`, the binary32 forms, `ATOM`, `MESC`, privileged instructions.
