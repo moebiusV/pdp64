@@ -2,7 +2,7 @@
 
 [← pdp64 index](../README.md)
 
-`pdp64-manual.pdf` is the manual (`docs/manual/`, with the instruction entries generated into its chapters) typeset by [buildabook](https://github.com/moebiusV/buildabook) and Typst. It is tracked in git. **The author builds and commits the PDF himself, elsewhere; do not rebuild or commit it from the working sessions** (the copy in git can therefore be older than the manual). To build it:
+`pdp64-manual.pdf` is the manual (`docs/manual/`, with the instruction entries generated into its chapters) typeset by [buildabook](https://github.com/moebiusV/buildabook) and Typst. It is tracked in git. It is built and committed separately from the manual sources, so the copy in git can be older than the manual. To build it:
 
     python3 tools/mkmanual.py        # regenerate the instruction entries, the reference tables and the figures
     tools/mkbook.sh                  # book/build/ -> book/pdp64-manual.pdf
