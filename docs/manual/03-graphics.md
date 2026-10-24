@@ -8,9 +8,9 @@
 
 **3.1.1** The graphics terminal is based on two machines, not one: the **Commodore 64**, for its video and sound as chips with registers that a program writes, and the **Blit terminal** (Rob Pike's bit-mapped windowing terminal), for its framebuffer in the address space and the bit-block-transfer operation that moves rectangles of pixels. The pdp64 modernises and extends both. *(D)*
 
-**3.1.2** The video device `VIC-64X` is the Commodore 64's video chip (the VIC-II) extended: a framebuffer in the address space with 48-bit pixels, scanned out through a line buffer. The register and pixel formats are unspecified (3.2). The 48-bit width rests on an unquoted note in errata 60; the author's chats decided a 32-bit cell with a format field (`docs/c64-devices-from-chat.md` section 5; `decisions-pending.md` E1). *(P)*
+**3.1.2** The video device `VIC-64X` is the Commodore 64's video chip (the VIC-II) extended: a framebuffer in the address space with 48-bit pixels, scanned out through a line buffer. A pixel is RGBA with 12 bits per channel (errata 73, the author's decision of 2026-10-24). The register formats and the other pixel formats are unspecified (3.2). *(D)*
 
-**3.1.3** The sound device `SID-64X` is the C64's sound chip (the SID) extended: voices with filters, with 48-bit audio samples. The register and sample formats are unspecified (3.2). The 48-bit width has the same source as 3.1.2 (`decisions-pending.md` E1). *(P)*
+**3.1.3** The sound device `SID-64X` is the C64's sound chip (the SID) extended: voices with filters, with 48-bit audio samples. The register and sample formats are unspecified (3.2). The 48-bit width comes from the same note in errata 60 as 3.1.2, but the author's later statement (errata 73) covers only the pixel, so the sample width awaits confirmation. *(P)*
 
 **3.1.4** The blitter `BLT64`, the Blit's bit-block-transfer operation as a device, copies and combines rectangles of pixels with raster operations: registers for the source and destination base addresses, the strides, the width and height, a raster operation (the sixteen binary operations of source against destination and the common ternary ones), a mask or transparent colour, and a control register with direction, go, busy and interrupt on done. The device chat chose a three-operand `draw` instead (`decisions-pending.md` E3). *(P)*
 
@@ -52,7 +52,7 @@
 
 **3.4.1** The framebuffer is mapped with the uncached memory type, or the processor's writes sit in the data cache while the video device scans out stale memory; a `FENCE` separates writing a device's registers from setting its go bit. *(D)*
 
-**3.4.2** On the first board the block RAM (about 5.5 megabits on the DE10-Nano) cannot hold a modern frame (a 1920 by 1080 frame at 32 bits is 8.3 MB), so the framebuffer lives in main memory and the block RAM holds the scan-out line buffer of a few kilobytes. *(D)*
+**3.4.2** On the first board the block RAM (about 5.5 megabits on the DE10-Nano) cannot hold a modern frame (a 1920 by 1080 frame at 32 bits is 8.3 MB, and at the 48-bit pixel of 3.1.2 it is 12.4 MB), so the framebuffer lives in main memory and the block RAM holds the scan-out line buffer of a few kilobytes. *(D)*
 
 **3.4.3** The block RAM budget (caches, translation buffer, the blitter's scratch and the sound voices' state) is settled before the video device is built. *(D)*
 

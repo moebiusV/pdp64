@@ -1476,17 +1476,15 @@ None of these was measured. Each is a small job:
 
 ## Part E. Conflicts with the author's chat record
 
-Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chats) against the repository. The repository was built from the ISA chat (2026-08-30); the device chat (2026-08-29) was never imported, and its content is now in [`c64-devices-from-chat.md`](c64-devices-from-chat.md). Each entry gives what the author said in the chats (with the line in `c64stuff.txt`), what the repository says, and the choice. **Nothing here is decided.** The manual statements involved are re-tagged *(P)* until the author rules (errata 72).
+Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chats) against the repository. The repository was built from the ISA chat (2026-08-30); the device chat (2026-08-29) was never imported, and its content is now in [`c64-devices-from-chat.md`](c64-devices-from-chat.md). Each entry gives what the author said in the chats (with the line in `c64stuff.txt`), what the repository says, and the choice. **Nothing here is decided except E1.** The manual statements involved are re-tagged *(P)* until the author rules (errata 72).
 
-### E1. The pixel and sample width: 48 bits, or a 32-bit cell with a format field
+**Read the chat in its time.** The device chat was written before the 39-bit address space and before the 64-bit ISA, when the machine was still a PDP-11 emulation with very conservative extensions (the author, 2026-10-24). Entries E4 to E8 compare the manual with design choices of that earlier, smaller machine (a 16-bit word, an 8 KB device page, a 200-300 MHz Zynq part), so a difference is more likely a superseded choice than an oversight. The author is asked for a ruling only where the earlier choice might still hold.
 
-**Chat.** The terminal cell is a 32-bit foreground, a 32-bit background, a UTF-8 character and attribute bits (line 4822 onward; "64 bits devoted to color is trivial"); revision 6 makes `format` (indexed 8/4/1, RGB565, RGBA) orthogonal to `layout`, and the author asked that the display not be limited to 16 colours (lines 5927, 5936). No chat text mentions 48 bits.
+### E1. The pixel width (decided 2026-10-24)
 
-**Repository.** `manual/03-graphics.md` 3.1.2 and 3.1.3: 48-bit pixels, 48-bit audio samples. Its only source is the last sentence of errata 60, an unquoted paraphrase. 3.4.2 and the FPGA plan (section 12) size frames at 32 bits; `kernel-pain-points.md` 14I builds on "48-bit, no palette".
+**Decided (the author, 2026-10-24).** The VIC-64X pixel is **48 bits: RGBA, 12 bits per channel**. This is a new decision, made after the device chat; the chat's 32-bit foreground/background cell (lines 4822 onward, 5927) belonged to the earlier design and is superseded for the pixel. Recorded as errata 73; `manual/03-graphics.md` 3.1.2 is *(D)* again.
 
-**Options.** (1) 48-bit pixels as the manual says. (2) The chat's 32-bit RGBA cell plus the format field. (3) 48-bit true colour as one `format` among several, with 32-bit RGBA the default.
-
-**Needed.** Which, and whether the audio sample is 48 bits.
+**Still open.** (1) The SID-64X sample width: errata 60 says 48 bits, but nothing the author said explains it. (2) Whether the chat's other formats (indexed 8/4/1, RGB565) still exist beside the 48-bit RGBA pixel, and what the terminal's text cell looks like (two 48-bit colours and a character, or the c64x 32-bit pair).
 
 ### E2. Data alignment: "only 2 byte memory alignment"
 

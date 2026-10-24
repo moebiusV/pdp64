@@ -328,6 +328,7 @@ The BRAM question from §11 risk 4, concretely. On the DE10-Nano's ~5.5 Mb:
 | 640×480, 8-bit colour | 300 KB | no — 2.4 Mb, about half the device |
 | 1280×720, 8-bit | 900 KB | no |
 | 1920×1080, 32-bit | 8.3 MB | no |
+| 1920×1080, 48-bit (the VIC-64X pixel, errata 73) | 12.4 MB | no |
 
 So anything above a text console or a small bitmap lives in HPS DDR, reached through the FPGA-to-SDRAM ports, with BRAM used as a scanout line buffer of a few KB. The MiSTer cores do the same, so the pattern is proven on this board. Budget BRAM for caches, the TLB and line buffers; budget DDR for pixels.
 
