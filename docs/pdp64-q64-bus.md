@@ -20,7 +20,7 @@ side: how a driver is written, who moves the data, what the processor is promise
 ## 2. What Q64 is
 
 *Established* (ISA §18, glossary): `Q64` is the system bus, the PDP-11 Q-bus lineage widened to 64-bit data and a 40-bit physical address. It keeps the Unibus and
-Q-bus programming model, including the locked read-modify-write transaction pair `DATIP` (data in, pause) and `DATO` (data out). Lineage: Unibus, Q-bus, Q64.
+Q-bus programming model, including the locked read-modify-write transaction pair `DATIP` (data in, pause) and `DATO` (data out). *(Superseded for atomics: errata 45 makes them monitor-based, and `DATIP`/`DATO` are no longer architectural.)* Lineage: Unibus, Q-bus, Q64.
 
 *Open*: the transaction definitions (widths, bursts, arbitration, timing) are not written anywhere in this repository.
 

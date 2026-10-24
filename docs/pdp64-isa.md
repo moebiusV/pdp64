@@ -1118,7 +1118,7 @@ Anything between the two aborts with `ECAUSE = NONCANON`. This is the same arran
 
 Two benefits, one immediate and one deferred. Immediately, every address adder, TLB tag and comparator carries 39 bits instead of 64. Deferred: software cannot stash tags in the high bits, because an address with anything up there faults rather than working by accident, so the address space can be widened later.
 
-Against Q64's 40-bit physical address, 39 bits of virtual is the right pairing: one bit of headroom, no translation needed for the physical window (§8.3).
+Against Q64's 40-bit physical address, 39 bits of virtual is the right pairing: one bit of headroom, no translation needed for the physical window (§8.3). *(Since errata 60, bit 39 of the physical address selects device space, so memory is the lower 512 GB and the headroom is spent.)*
 
 ### 6.2 Low pointer bits are reserved to software
 
@@ -1930,7 +1930,7 @@ Instructions are the easy part. The hard part is what a program is promised abou
 
 > **pdp64 is sequentially consistent.** Stated here, once, and not revisited.
 
-On this machine sequential consistency is nearly free. A weak memory model is a tax paid by every piece of concurrent software ever written for the architecture, levied so that an aggressively speculative out-of-order core can reorder memory operations. **pdp64 is in-order and non-speculative** (§1 constraint 1), so there is no reordering to permit and nothing to buy with the weakness.
+On this machine sequential consistency is nearly free. A weak memory model is a tax paid by every piece of concurrent software ever written for the architecture, levied so that an aggressively speculative out-of-order core can reorder memory operations. **pdp64 is in-order and non-speculative** (§1 constraint 1; but errata 38 and 68 require the architecture to stay safe for an out-of-order implementation, and `decisions-pending.md` Q5 reopens this choice), so there is no reordering to permit and nothing to buy with the weakness.
 
 A store buffer is still allowed, and wanted, for write latency hiding: SC survives it provided loads snoop the buffer and stores drain in program order. The cost is that a store miss stalls later stores, which on two to four cores behind a shared L2 is acceptable.
 

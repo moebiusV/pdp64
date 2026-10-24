@@ -79,7 +79,7 @@ Writing the encoding down as something a machine could check turned up the follo
   "thin". What happens to the extra bits at `len=10`, `len=11` is not given. Decision in §4.2.
 * **Numbers for the sub-opcodes (errata 9).** The document names the sub-operations of `BESC`, `MBLK`, `AESC`, `MESC`, `FESC`, `ATOM` and `SYS` and
   numbers none of them. Without numbers there is no encoding. Decision in §4.5.
-* **Byte order.** The ISA never says whether pdp64 is little- or big-endian. Decision: **little-endian**, and instruction parcels are little-endian
+* **Byte order.** The ISA never says whether pdp64 is little- or big-endian. Decision: **little-endian** (the author's own, from the device chat of 2026-08-29: "we go full little endian, none of this middle endian stuff, that gets fixed right now"; errata 72), and instruction parcels are little-endian
   16-bit units in memory (§4.6).
 * **Operand roles for the register-escape forms.** Which of `reg`, `rm`, `t`, `x` is destination, which source, for `BESC`/`AESC`/`MBLK`. Decision in §4.4.
 
@@ -732,7 +732,7 @@ compiler does not use the instructions.
 **Auto-increment (`(rN)+`, `-(rN)`).** Of 10,547 `lea n(rX),rX` in the corpus only 437 have a dereference through the same register next to them (about 0.1%);
 the compiler does not emit the modes. They remain in the ISA for hand-written code and for the string and block idioms.
 
-**Half precision (`binary16`).** Added at the user's request (errata 27): seventeen `FESC` words, `fadd16`..`fclass16` and six conversions (`fcvtsh`, `fcvths`,
+**Half precision (`binary16`).** Added at the user's request (errata 27, which is missing from `errata.md`; see errata 72): seventeen `FESC` words, `fadd16`..`fclass16` and six conversions (`fcvtsh`, `fcvths`,
 `fcvtdh`, `fcvthd`, `fcvthl`, `fcvtlh`). Estimates made before the decision, unmeasured: conversions only about 500-1,000 LUTs on the FPGA plan, full arithmetic
 2,000-3,500 LUTs. Open: half `fmin`/`fmax`/`frint*`, `fneg16`/`fabs16`, int64 conversions, bfloat16.
 
