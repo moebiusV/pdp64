@@ -6,6 +6,8 @@ For the author's annotation. Follows [`layout-size-variants.md`](layout-size-var
 
 The scripts, form tables, logs and results are in [`codegen-data/encoding/`](codegen-data/encoding/) (script names below are relative to it). The scripts read the compiled corpus and the executed profile from the measurement work directories (the 16- and 32-register assembly of the 841 files, and the six-program `sim64` profile); their paths are absolute and must be adjusted to rerun them.
 
+**Update (2026-11-04):** sections 0-11 are the study on the old compiler's output, and pdp64/32 as measured in them reached too little with `cbCC`. Section 12 repeats it on the output of the new compiler (`pcc-enc`) and gives the grammars now in `spec/`: pdp64/16 944,600 and pdp64/32 976,000 bytes on the corpus, `cbCC` substitutions 328 -> 4 and 866 -> 17, pdp64/32 still +3.3% in fetched bytes and in size against pdp64/16 (-5.9% instructions).
+
 ## 0. Answer in one page
 
 * **Today's encoding is not near-optimal for 16 registers.** A prefix-coded redesign that keeps 16-bit little-endian parcels, natural alignment, one memory operand and the length known from parcel 0 gives **1,013,598 bytes against 1,083,870 (-6.48%)** on the 841-file 16-register corpus, and **2.822 bytes fetched per executed instruction against 3.129 (-9.8%)** on the six profiled programs. Both sized on the compile the scheme was built for, with a verified encode/decode round trip (338,616 hardware instructions, 0 mismatches, also at the byte level). The earlier "flat 6-bit opcode + escape" layout was the wrong comparison: it fixed the opcode width, which is what costs bytes.
@@ -256,3 +258,162 @@ Levers examined and not built or found not worth it: trailing literals (earlier 
 * Not built into the round trip: the six fusion candidates listed as "evaluated, not built"; trailing 32-bit immediate literals ("same trick for 32-bit immediates"); a second fused-pair pass after the first; a hardware-realistic estimate of the gates (only product-term counts are given).
 * The leave-one-out Lua result (3.807, equal to today's 3.799) is unexplained and was not debugged.
 * Files: `enc.py` (framework), `cat.py` (forms and candidate pool), `solve.py` (optimiser), `scheme.py` (selection, relaxation, round trip), `proof.py` (decodability, boundary tests, probe coverage), `final.py` (runs everything; `final.json`, `final.log`), `abl.py` (`abl.json`), `fuse.py`, `fuse_abl.py`, `loo.py`, `outlier.py`, `a32r.py`, `dyn3.py` (profile), `entropy.py`, `analysis.py`, `tables.py`, `fam.py`, `bytes_rt.py`, `fusion.py`.
+
+## 12. The study repeated on the new compiler's output: why pdp64/32 reached less, and the `cbCC` reach (2026-11-04)
+
+Sections 0-11 were measured on the output of the old compiler. The compiler of `pcc-enc` (branch under development; the **committed** state `abacdf17`, built by `arch/pdp64/test/build-ccom.sh`) emits for both encodings
+the fused pairs, a switch dispatch by halves, a forwarded value and `lea` folding (`pcc-enc/doc/PDP64-OPT.md`). The 841 files were compiled again (`ccom -m pdp64/16`, `ccom32 -m pdp64/32`), the optimiser trained on that
+output (`docs/codegen-data/encoding/export_forms.py`, `reopt.py`), the grammars rewritten (`spec/`), the real `as64`, `ld64` and `sim64` rebuilt, and the six programs run again. All figures below are from the real toolchain unless
+a row says *model*. The tools are in `codegen-data/encoding/`: `cbreach.py` (every `cbCC` site: distance, form that reaches it or the substitution), `cbforms.py`, `distances.py`, `reopt.py`, `loo_cb.py`.
+
+### 12.1 Diagnosis (the grammars of sections 0-11 on the new compiler's code)
+
+| | pdp64/16 | pdp64/32 |
+|---|---|---|
+| `cbCC` sites in the 841 files | 34,387 (1 parcel 7,839, 2 parcels 26,220) | 34,524 (1 parcel 6,269, 2 parcels 27,389) |
+| no form reaches: assembled as `cmp` + `bCC` | **328** (0.95%) | **866** (2.51%) |
+| ... of which the immediate needs more than 12 bits | 284 | 682 |
+| ... of which a form with that immediate exists but its pc field is too short | 44 | 168 hot-register sites + 16 cold |
+| ... of which the target is within 256 bytes (the immediate is the only reason) | 95 | 505 |
+| first parcels the `cbCC` leaves take (of 65,536) | 19,314 (29.5%) | 6,144 (9.4%) |
+| ... of which two-parcel forms with an immediate | 15,842 | 3,496 |
+| executed pairs in the six programs (instructions executed in the pair, `sim64 -P`) | 3,958,721 = 0.61% of 647.1 M | 6,233,099 = 1.02% of 611.4 M |
+| ... Lua's share | 3,957,360 | 6,128,801 |
+
+Distance of the target (bytes, absolute) of all sites / of the substituted ones, and the sites by project (the grammars of sections 0-11):
+
+| distance | <=16 | <=32 | <=64 | <=128 | <=256 | <=512 | <=1 K | <=2 K | <=4 K | <=8 K | <=16 K |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| pdp64/16 all | 14,796 | 10,473 | 3,062 | 2,277 | 1,628 | 975 | 527 | 360 | 200 | 73 | 16 |
+| pdp64/16 substituted | 25 | 24 | 28 | 10 | 8 | 27 | 48 | 114 | 34 | 6 | 4 |
+| pdp64/32 all | 14,615 | 10,380 | 3,235 | 2,363 | 1,670 | 1,003 | 572 | 386 | 215 | 74 | 11 |
+| pdp64/32 substituted | 142 | 126 | 99 | 67 | 71 | 72 | 43 | 151 | 44 | 42 | 9 |
+
+| project | sites 16 / 32 | substituted 16 | substituted 32 |
+|---|---|---|---|
+| mbedtls | 11,288 / 11,348 | 220 | 583 |
+| zlib | 1,345 / 1,348 | 54 | 116 |
+| lua | 3,243 / 3,247 | 11 | 74 |
+| bearssl | 2,039 / 2,076 | 23 | 45 |
+| chibicc | 1,576 / 1,576 | 8 | 21 |
+| lz4 | 843 / 875 | 9 | 18 |
+| gcc-torture | 13,032 / 13,032 | 1 | 4 |
+| c-testsuite, cjson | 335 + 686 / 335 + 687 | 1 + 1 | 3 + 2 |
+
+The executed `cbCC` of the six programs are 10.5% of the instructions (67.7 M, 3.50 bytes each) in pdp64/16 and 10.7% (65.5 M, 3.51 bytes) in pdp64/32; after the re-optimisation 11.1% (71.7 M, 3.75 bytes: 18.3 M of one parcel,
+43.9 M of two, 9.4 M of three) and 11.8% (71.7 M, 3.99 bytes: 9.9 M, 52.1 M, 9.7 M): the pairs became single `cbCC`s, the far ones three parcels long.
+
+* **Why the 32-register encoding reaches less.** The mechanism is arithmetic, not a bug. A two-parcel `cbCC` has 32 bits to share between the prefix and sub-opcode, the register (4 bits in pdp64/16; 5 bits, or 4 bits
+  if both registers are in the 16-entry hot table, in pdp64/32), the immediate and the pc field. A leaf takes 2^-(32-bits of operands) of the first parcels, so one more bit of register field halves the (immediate, pc) combinations a
+  given share of the code space buys, and in pdp64/32 every combination exists twice (hot and any register) when it is wanted for both. The optimiser spent the same 95% budget; the loads, stores and moves of
+  pdp64/32 won it from the `cbCC`, 9.4% of the space against 29.5%. The widest immediate of a pdp64/32 `cbCC` was 12 bits (`cbeq`, `cbne`, class `c` and the signed comparisons only with an 8-bit pc field), of a pdp64/16 `cbCC` 16 bits for `cbeq` and `cbne` alone; the wide
+  error-code constants of `mbedtls` and `zlib` (`cbne r,#16640`) are the 682 of the 866 (284 of the 328). It is the immediate, not the distance: 58% of the 866 (29% of the 328) are within 256 bytes.
+* **What the old numbers were.** The 38.8 M extra executed instructions of Lua in section 5 of the phase-2 report (68 static sites in a chain of `cbeq r0,#N,far`) are gone with the new compiler's switch dispatch by halves: 6.1 M
+  executed pairs remain in Lua under the old grammar, 3.96 M in pdp64/16. They come from one function, `luaV_execute`: `cbhi r0,#41,L` ... a binary search on the opcode whose targets are the handlers, far inside a large function, one site
+  executed 2.05 M times. The class-`c` conditions (`cbhi`, `cbcs`...) with an immediate of 7 bits or more had an 8-bit pc field (+-256 bytes) in the old pdp64/32, and the `cbeq` chain beyond +-4 KB had none.
+* **The model's 99-byte credit.** `solve.py` credited a `cbCC` form with the difference between 99 bytes and its own size for each site the form made encodable: a `cbCC` that no form reached counted as "unencodable". The real
+  cost is what `as64` does: `cmp` (2 to 4 bytes) + `bCC` (2 to 4), the same bytes as a two-parcel `cbCC`, plus an executed instruction and the flags. Priced that way (below) the byte objective *gives away* reach: the same corpus
+  size is reached with 1,436 substitutions in pdp64/32 as with 17.
+
+### 12.2 What the optimiser does now, and the ablation (pdp64/32 and pdp64/16, *model* bytes of the corpus, 841 files)
+
+`export_forms.py` options: the corpus of each encoding is the compiled assembly (`PDP64_CORPUS_DIR_<TAG>`); the distances fitted are those of the previous round's layout by the encoding being designed (the original
+used the old encoding's lengths); a `cbCC` that no form reaches costs the `cmp` and the `bCC` as the previous round sizes them plus `lam` bytes for the extra instruction; three-parcel `cbCC` candidates (`--cb3`; immediate of
+4 to 32 bits, pc field of 12 to 28 bits, registers with a pc field of 16 to 28 bits); a local search after the greedy selection (`--refine`: drop the leaf whose removal costs least per unit of code space, refill, keep if
+smaller; it gained 36 bytes: the greedy is not far from a local optimum); the hot tables are fixed to the grammar's (`--keep-hot`, they are the ABI and the corpus agrees: the same 8 and 16 registers, a different order of the last four).
+
+| configuration | pdp64/32: bytes | substituted sites | pdp64/16: bytes | substituted sites |
+|---|---|---|---|---|
+| the grammars of sections 0-11 (trained on the old compiler's code) | 985,082 | 866 | 951,212 | 328 |
+| retrained, 99-byte credit, old distances | 991,546 | 791 | 951,462 | 329 |
+| retrained, 99-byte credit, own distances (3 rounds) | 991,736 | 805 | | |
+| price of the extra instruction 0 bytes (bytes only) | 978,284 | 1,453 | 945,530 | 1,099 |
+| 2 bytes (one parcel) | 978,304 | 1,436 | 945,434 | 921 |
+| 4 bytes | 980,086 | 1,308 | | |
+| 2 bytes + three-parcel `cbCC` | 976,114 | 17 | | |
+| **2 bytes + three-parcel `cbCC` + local search (chosen)** | **976,078** (as64: 976,000) | **17** | **944,672** (as64: 944,600) | **4** |
+| ... with finer two-parcel candidates (pc 9, 11, 13 parcels; immediates of 7 and 14 bits) | 976,128 | 17 | | |
+
+* The retraining with the old cost model gives *worse* code than the committed grammar (+0.66% in pdp64/32): the greedy selection is sensitive to the weights at the percent level (section 11 said +-1%), and the committed
+  grammar had the luck of its corpus. The prices below that are what moved the result; the three-parcel `cbCC` is what removes the substitutions at no cost in bytes (-0.2%).
+* Without the three-parcel forms there is no setting that both keeps the bytes and the reach: the 14-bit pc field of a two-parcel form needs 4 + 3..10 + 14 bits and the prefix of the leaf at most 16.
+* Chosen forms (pdp64/32): `CB3I16_12H/b,c` and `CB3I16_12/a` (a 16-bit immediate, a 12-bit pc field = +-4 KB), `CB3I8_20H/a`, `CB3I8_20/b` (+-2 MB), `CB3I12_16/c`, `CB3R24H/a,b,c` (two hot registers, +-32 MB);
+  pdp64/16: `CB3I16_12/a,b,c`, `CB3I8_20/a,b,c`, `CB3R24/a,b,c`. They take 3.2% (pdp64/32) and 10.4% (pdp64/16) of the first parcels, three times less than the two-parcel forms of the old grammars took, and the rest went to loads, stores and
+  immediates: corpus bytes -0.69% (pdp64/16) and -0.92% (pdp64/32).
+* The one-parcel `cbCC` with 0 shrank: `CBZ1_5/a` (5-bit pc, +-64 bytes) became `CBZ1_4/a` (+-32 bytes) in pdp64/32; pdp64/16 has `CBZ1_4,5,7/a` (it had `_5`, `_6`). Static one-parcel `cbCC` sites in pdp64/32: 6,269 -> 4,037 (pdp64/16: 7,839 -> 8,968); executed one-parcel
+  `cbCC` in lz4: 3.07 M -> 0.90 M in pdp64/32 (3.12 M -> 4.14 M in pdp64/16): 2.17 M `cbCC` that grew by 2 bytes are 4.3 M of the 4.1 M bytes lz4 fetches more in pdp64/32 (section 12.4). The static objective does not see loops; weighting backward branches was not tried.
+* A profile-tuned variant was **not** tried (the task asked for corpus training; the in-sample variant would need the profile weights `dynkeys.pkl`, which were not kept).
+
+### 12.3 Reaches measured, and chosen (the layout of the new grammar; field widths in parcels: a field of w bits reaches +-2^w bytes)
+
+Share of the sites each pc-field width reaches (`distances.py`; sites resolved inside the file; the 841 files are compiled one by one, so a call or `lea` of another file is *external*: 14,136 calls, 12,787 `lea`, 6,556 `movcall` in
+pdp64/32, which need the 32-bit field until the linker relaxes them):
+
+| class | sites (external) pdp64/32 | 6 | 7 | 8 | 9 | 10 | 12 | 14 | 16 | widest form chosen: 1 / 2 / 3 parcels (pdp64/16 and /32) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `cbCC` | 34,524 (0) | 81.6 | 88.7 | 93.5 | 96.4 | 98.1 | 99.8 | 100 | 100 | 7 or 4 / 14 / 24 bits |
+| `bCC`, `br` | 18,613 (0) | 71.4 | 81.1 | 88.6 | 93.7 | 96.5 | 99.7 | 99.9 | 100 | 9 / 16 / 32 |
+| `call`, `jmp` | 6,830 (14,136) | 7.6 | 13.8 | 21.4 | 30.0 | 39.9 | 56.8 | 69.9 | 77.1 | - / 18 / 32 |
+| `movcall` | 4,960 (6,556) | 5.4 | 12.4 | 23.5 | 37.6 | 53.8 | 83.3 | 99.2 | 100 | - / 16 / 32 |
+| `lea d(pc)` | 7,176 (12,787) | 4.0 | 6.5 | 9.8 | 14.6 | 23.2 | 47.2 | 91.8 | 100 | - / 16 / 32 |
+
+(pdp64/16 is within 0.5 points in every cell; its sites are 34,387 / 18,773 / 7,137 / 4,658 / 7,176.) Reading: `bCC` and `cbCC` are short-range (93% within +-256 bytes, 98% within 1 KB), so their two-parcel
+forms with 8 to 14 bits and the one-parcel forms with 4 to 9 bits are chosen from the data; `call`, `movcall` and `lea` are long-range, and the field widths the optimiser chose (16 to 20 bits for two parcels) reach +-128 KB to +-2 MB,
+more than any of the six programs needs (the largest, Lua, is 85 KB of text). The call, `lea` and `bCC` reaches changed by one or two bits from the old grammars (`call` 2-parcel 20 -> 18 bits, `bCC` 1-parcel 8 -> 9 in pdp64/32);
+the data do not favour more.
+
+### 12.4 Measurements with the real toolchain (`pcc-enc abacdf17`, `as64`/`ld64`/`sim64` of this tree; before = the grammars of sections 0-11, after = the grammars of `spec/` now)
+
+Static, 841 files, instruction bytes (`as64 --stats`):
+
+| | before | after | change |
+|---|---|---|---|
+| pdp64/16 | 951,144 | **944,600** | -0.69%; substituted `cbCC` 328 -> 4 |
+| pdp64/32 | 985,082 | **976,000** | -0.92%; 866 -> 17 |
+| pdp64/32 over pdp64/16 | +3.57% | **+3.32%** | |
+| ... without the outlier file `memcpy-a2.c` (27% of the bytes, 6,144 `cbCC rN,#170/#88`) | 723,894 vs 693,028 = +4.45% | 717,884 vs 686,484 = **+4.57%** | |
+| the 16-register code assembled as pdp64/32 (identical compiler output, only the register fields differ) | 993,680 (+4.47%) | **984,554 (+4.23%)** | |
+
+Six programs (`sim64 -P`, all code: crt, stand-in libc, program; stdout identical to the host's in all 12 runs, before and after; recipe `scratchpad/cb/progs.py`, `dynstats.py`):
+
+| | executed instructions | executed bytes | bytes / instruction | executed `cmp`+`bCC` pairs | linked text, bytes |
+|---|---|---|---|---|---|
+| pdp64/16 before | 647,148,318 | 1,760,855,344 | 2.721 | 3,958,721 | 165,860 |
+| pdp64/16 after | 643,191,916 | **1,723,608,600** (-2.12%) | 2.680 | 133 | 164,014 |
+| pdp64/32 before | 611,383,541 | 1,785,556,760 | 2.921 | 6,233,099 | 171,854 |
+| pdp64/32 after | 605,235,949 | **1,779,890,292** (-0.32%) | 2.941 | 80,027 | 170,448 |
+| the 16-register code run as pdp64/32 | 643,194,549 | 1,908,917,398 | 2.968 | 133 | 174,326 |
+
+| pdp64/32 against pdp64/16 (after) | instructions | executed bytes | adjusted for the pairs |
+|---|---|---|---|
+| lua | -6.36% | +3.90% | the same |
+| lz4 | -6.62% | +0.26% | |
+| zlib | -9.45% | -4.64% | -9.50% / -4.71% |
+| bs_hash | -0.20% | +1.50% | |
+| bs_sym | -3.59% | +14.72% | |
+| bs_ec | -3.21% | +16.51% | |
+| **all six** | **-5.90%** | **+3.27%** | -5.91% / +3.25% |
+
+(Before: instructions -5.53% raw, -5.91% adjusted; bytes +1.40% raw, +0.89% adjusted.) Frame loads + stores (`sim64 -P` categories): 66.59 M in pdp64/16, 24.32 M in pdp64/32 (-63.5%), unchanged by the re-optimisation.
+
+### 12.5 Is pdp64/32 still worse than pdp64/16 in fetched bytes and size? Yes: +3.3% in both.
+
+* **Fetched bytes: +3.27% (1,779.9 M against 1,723.6 M)** for 5.90% fewer instructions and 63.5% fewer frame accesses. Before the re-optimisation the gap was +1.40%: the `cbCC` fix paid pdp64/16 more (-2.12% bytes) than pdp64/32 (-0.32%),
+  because pdp64/16 gained in the kernels (lz4 -4.6%, `bs_sym` -2.6%, `bs_ec` -2.9%) from its one-parcel `cbCC` forms, while pdp64/32's one-parcel form got shorter, and pdp64/32's fetch is dominated by what a 5-bit field costs on the crypto kernels (`bs_sym` +14.7%, `bs_ec` +16.5%).
+* **Where the bytes go.** The same 16-register code, assembled as pdp64/32, fetches **+10.75%** more bytes (1,908.9 M against 1,723.6 M) and is +4.23% larger statically; the 32-register compile of the same programs then fetches 6.76% less than that
+  (fewer instructions, fewer frame accesses) and is 0.9% smaller statically. So the price of the wider field is 10.75% on the fetch side, and the register file repays about two thirds of it.
+* **Size: +3.32% statically** (+4.57% without the outlier file); the linked text of the six programs is 170,448 bytes against 164,014 = **+3.92%**.
+* **The `cbCC` substitution is no longer a cause of anything**: 0.0% of the executed instructions of pdp64/16 and 0.013% of pdp64/32 (80,027 pairs, 78,000 of them at one site in zlib). The Lua +12.4% of phase 2 is gone: Lua executes 6.4% fewer instructions in pdp64/32.
+* Not a reason to change the verdict of section 10 (the 32-register encoding is not worth it for size or fetch alone), but the instruction-count and frame-traffic advantage is now measured without the `cbCC` artefact.
+
+### 12.6 Checks
+
+* **Round trip**: every instruction the new compiler emits for the corpus encodes and decodes: 301,258 hardware instructions (pdp64/32) and 306,022 (pdp64/16) through the model with 0 mismatches and 0 unencodable; boundary vectors of every
+  form (15,642 and 15,846) 0 failures; the C codec against the model on 19,073 and 18,856 vectors and 57,101 and 38,730 decoder patterns 0 mismatches (`tools/check-enc.sh`); hbnf's generated decoder against the codec on 262,144 parcel sequences per
+  encoding, 0 disagreements (`tools/check-grammar-enc.sh`).
+* **The real assembler against the model on the whole corpus** (`asm_vs_model.py`): pdp64/16 839 of 841 files identical, 304,054 instructions compared parcel by parcel, 0 differ, decoded back 0 differ; pdp64/32 the same
+  839 files, 299,350 instructions, 0 differ. The two files (`chibicc hashmap.c`, `lz4 xxhash.c`) differ in the model's pseudo-distance for a literal-pool load (as before; as64 knows the pool): model 944,672 and 976,078 bytes against as64's 944,600 and 976,000.
+* **Leave-projects-out** (`loo_cb.py`, model bytes): trained without `lua`, `lz4`, `zlib` and `bearssl` (348 files, the sources of the six programs) and measured on them, pdp64/32: 306,564 bytes with 126 substitutions, against 305,024 and 17 for the grammar
+  trained on everything and 307,812 and 253 for the grammars of sections 0-11. About half of the gain (-0.40% of -0.91%) is out of sample; the reach of the three-parcel forms is not fully (126 substitutions where the chosen set meets a register
+  pair or a constant it was not trained on). pdp64/16 on the same 348 files: 296,568 bytes and 73 substitutions trained without them, 293,880 and 4 trained on everything, 297,128 and 97 for the grammar of sections 0-11 (-0.19% of -1.09% is out of sample).
+* `tools/check-all.sh` green. Not measured: timing, energy, the gate count of the wider `cbCC` decode (the three-parcel `cbCC` has three formats that read a register pair, an immediate and a 12 to 24-bit pc field).

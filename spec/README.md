@@ -19,8 +19,8 @@ The principle of the project is that the toolchain is written from one source of
 compiler back end and the QEMU target cannot drift apart. pdp64/16 and pdp64/32 follow it: each is an hbnf grammar,
 
     spec/pdp64-enc.hbnf              what the two share: the operand shapes, the sizes of the moves' access, the numbered words of group mn-ext, and the vocabulary (its header)
-    spec/pdp64-16/pdp64-16.hbnf      pdp64/16: registers, hot table, the catalogue of 219 forms, 281 leaves
-    spec/pdp64-32/pdp64-32.hbnf      pdp64/32: the same for 32 registers (196 forms, 255 leaves, two hot tables)
+    spec/pdp64-16/pdp64-16.hbnf      pdp64/16: registers, hot table, the catalogue of 208 forms, 270 leaves
+    spec/pdp64-32/pdp64-32.hbnf      pdp64/32: the same for 32 registers (207 forms, 268 leaves, two hot tables)
 
 An instruction is a bit record read from the top bit of parcel 0 (each parcel big-endian, as in `pdp64.hbnf.in`). A **leaf** is one alternative of `insn`: the prefix as a
 constant (`0b0010`: 1 to 16 bits, as wide as its digits), the sub-opcode `sub:J`, and the pieces of the operands, `o2-r:4 o1-d-1:12 o1-d-2:16`, in the order of the bits; a field that
@@ -41,7 +41,7 @@ Everything is generated from these files; nothing is written by hand twice:
                          spec/pdp64-NN/tables.md   the leaves, for people (checked by `mkenc.py --check`)
 
 What hbnf itself generates, and what it cannot. hbnf (the commit in `tools/build-hbnf.sh`, `dd34982` when this was written, with no local patch) reads these grammars as they are: bit fields of any width,
-constants as prefixes, `name:N` widths, signed `s`, enum numbers, `?(expr)` checks, `bits(0)` for an operand with no bits, alternatives of 281 leaves. It generates from them a complete
+constants as prefixes, `name:N` widths, signed `s`, enum numbers, `?(expr)` checks, `bits(0)` for an operand with no bits, alternatives of 270 leaves. It generates from them a complete
 decoder and encoder (`parse_bits`, `emit_bits`), which is what `tests/enc/hbdec.c` compares with the codec. What no hbnf template produces is the *table* the codec runs on (leaves, runs of
 bits, the candidate forms of each mnemonic, in the order the assembler tries them): that is a small program, `tools/mkenc.py`, which reads the grammar (`tools/encgram.py`: the subset of
 hbnf the grammars use, with every consistency check it can make: each leaf covers its 16n bits once, each field has the width its shape says, the mnemonic counts fit the sub-opcode bits,
@@ -58,15 +58,24 @@ code, that each leaf covers its 16n bits exactly once and that no first parcel d
 ## Changing an encoding (the workflow)
 
 1. Edit the grammar: by hand (`spec/pdp64-NN/pdp64-NN.hbnf`: a new leaf is a `leaf-FORM-K` rule with its prefix, fields and `sub-FORM-K` list, added to `insn`; a new form is a `form-` rule, a
-   number in the catalogue and its leaves; the words and shapes shared by both are in `spec/pdp64-enc.hbnf`), or with the optimiser: `python3 docs/codegen-data/encoding/export_forms.py OUTDIR`
-   (needs the corpus) writes complete grammars to OUTDIR; compare with `diff -ru spec OUTDIR` and copy what is wanted.
+   number in the catalogue and its leaves; the words and shapes shared by both are in `spec/pdp64-enc.hbnf`), or with the optimiser, on the output of the compiler for each encoding (a directory of the `.s` files of the 841-file corpus, `ccom -m pdp64/16` and `-m pdp64/32`):
+
+       PDP64_CORPUS_DIR_NEW16=DIR16 PDP64_CORPUS_DIR_NEW32=DIR32 python3 docs/codegen-data/encoding/export_forms.py OUTDIR \
+           --tag16 new16 --tag32 new32 --rounds 2 --lam 2 --keep-hot --refine 6 --cb3
+
+   writes complete grammars to OUTDIR (`--rounds`: the distances are those of the previous round's layout; `--lam`: what a `cmp` + `bCC` costs beyond its bytes, in bytes; `--keep-hot`: the hot-register tables of the
+   grammars in `spec/` are kept, they are the ABI; `--cb3`: offer three-parcel `cbCC`); compare with `diff -ru spec OUTDIR` and copy what is wanted (the three `.hbnf` files; `pdp64-enc.hbnf` changes with the shapes the forms use).
+   Without options it reproduces the original study's grammars from its corpus. `cbreach.py`, `cbforms.py` and `distances.py` (same directory) report how many `cbCC` need the pair and why, the `cbCC` forms and the
+   distances of the pc-relative operands; `reopt.py` runs one configuration for an ablation.
 2. `tools/mkenc.py --md` rewrites the tables of `spec/pdp64-NN/tables.md`.
 3. `tools/check-grammar-enc.sh` fails, naming the generated files that changed; after reading the differences, `tools/check-grammar-enc.sh --update` records them in `tests/enc/generated.sha256`.
    The same script runs hbnf on both grammars (syntax, references, widths), compares hbnf's decoder with the codec built from the new tables on 262,144 parcel sequences per encoding,
    and checks tables.md. If the leaves do not form a prefix code, or a field has the wrong width, `mkenc.py` or `encgram.py` say which rule.
 4. `tools/check-enc.sh` (the codec against the Python model, the drift of every mnemonic through the assembler), then `tools/check-all.sh`. The vectors and assembler corpora derived from the
    forms (`tests/enc/vectors-NN.txt`, the ld64 and assembler tests) are rewritten by `docs/codegen-data/encoding/mk_vectors.py`, `mk_asm_tests.py`, `mk_ld_tests.py` (they read the grammar through `encgram`)
-   and checked in; `asm_vs_model.py` (needs the corpus) compares the real assembler with the model.
+   and checked in (run all three after a change: the tests record nothing by hand, but their expected words are the model's); `asm_vs_model.py` (needs the corpus and `as64 --dump-lens` of each file) compares the real
+   assembler with the model. What the checks record of the grammars is derived from them (the number of forms, leaves and unassigned first parcels is not written down anywhere); what stays written down is the ABI:
+   the hot-register tables (`tools/check-drift-enc.py`).
 5. Anything that depends on a layout (a compiler back end, QEMU, a disassembler) is generated from the same tables or the same grammar; if it is not, that is the bug.
 
 The mnemonics are those of the original grammar (aliases included) plus the words only the new encodings have, which the rule `mn-ext` of `pdp64-enc.hbnf` lists (`mkenc.py` checks the list against the words the leaves use) as the group `mn-ext`
@@ -78,8 +87,8 @@ movql trapcc.<cc> syspg0-5`, the user-qualified moves `movq.u movq.d movq.ud ...
 An instruction is one to five 16-bit parcels (little-endian in memory); its length is a function of parcel 0 alone. The top bits of parcel 0 are a prefix of 1 to 16 bits
 that selects a *leaf*: a group of mnemonics with one form (operand shapes and field widths); a sub-opcode field inside the leaf (binary-aligned) selects the mnemonic.
 Register fields start at bit 0 of parcel 0 and go up (the last register operand lowest), displacements and immediates fill the rest, the widest field last, so in the later parcels.
-No bit is padding: an unused sub-opcode, or a hot-register index beyond the table, decodes as an illegal instruction. 5.0% of the first-parcel patterns (3,277 of 65,536) are unassigned
-and illegal in both.
+No bit is padding: an unused sub-opcode, or a hot-register index beyond the table, decodes as an illegal instruction. 5.0% of the first-parcel patterns (3,277 of 65,536 in pdp64/16, 3,278 in pdp64/32) are unassigned
+and illegal.
 
 The assembler picks, for each instruction, the first form in the table's order (shorter first, then the order of the catalogue `forms`) whose fields can hold the operands, and relaxes
 (lengths only grow; every distance is measured on the layout of the previous pass, which is the iteration of the model). A branch, call or `d(PC)` operand is measured in bytes
@@ -93,7 +102,10 @@ of 32 bits or more and a relocation; the relocation types are those of `as64/rel
 * `set cc, rd`: 4 bytes (`SETF`). `trap #n`, `trapl #n`, `spl #n`, `hint #n`: one parcel with an 8-bit number. `trapcc.<cc>`: one parcel, no operand.
 * ATOM (assumed, section 3.2 of the proposal): three registers (`xadd`... `ll`, `sc`) and four (`cas`, `casdb`), the memory address in a register, operands in the order written. The roles of the registers
   are the ISA's to fix; the encoding only fixes where they sit.
-* `cbCC` for which no form reaches (a far target, a wide immediate, an external label) is assembled as `cmp` + `bCC`. **This writes the flags**, which `cbCC` does not.
+* `cbCC` for which no form reaches (an external label, an operand pair no form holds) is assembled as `cmp` + `bCC`. **This writes the flags**, which `cbCC` does not (the compiler forms a `cbCC` only where the flags are dead), and it
+  executes two instructions for one. There are three lengths of `cbCC`: one parcel (compare with 0, a pc field of 4 to 7 bits), two (an immediate of 3 to 10 bits, or two registers, with a pc field of 8 to 14 bits) and three (a 16-bit immediate with a
+  12-bit pc field, an 8-bit immediate with a 20-bit pc field, two registers with a 24-bit pc field: a target up to 4 KB, 2 MB, 32 MB away). The pc field counts parcels. On the 841-file corpus of the compiler (`pcc-enc` abacdf17) 4 of
+  34,387 sites (pdp64/16) and 17 of 34,524 (pdp64/32) still need the pair (`docs/encoding-proposal.md`, section 12, which also says why a two-parcel `cbCC` could not carry them).
 * `movq #imm, rd` whose constant fits no `movq` form is assembled as `movql`, a ten-byte instruction with the 64-bit immediate.
 * The 22 meaningless shapes the original assembler accepts (`clr/com/inc/dec/neg/tst/adc/sbc/asl/asr/jmp/call/pop/jmpi/calli #imm`, `movq/movl/movw/movb r,#imm`, `lea #imm,r`, `sob r,#imm`, ...) are refused.
 * The assembler never fuses. The fused instructions are ordinary mnemonics with operands: `movcall rs, rd, label` (`movq rs,rd ; call label`, the target measured from the first parcel of the fused instruction),
