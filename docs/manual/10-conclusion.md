@@ -49,7 +49,7 @@
 
 **10.3.2** The condition flags were the structural obstacle: 68.2% of compiled instructions wrote a flag and only 1.5% read one, so the flags form two groups that nothing writes in part, and moves, loads, stores and the compare-and-branch instructions write none. *(D)*
 
-**10.3.3** An in-order, non-speculative core has none of the speculative side channels of the last decade; the rules that keep a future faster core from repeating them are collected in the hardware-vulnerabilities report, and include no speculation across protection domains, no shared predictor state across privilege boundaries without a flush, and operand-independent timing for a declared set of instructions. *(D as a design aim; the rules are proposals)*
+**10.3.3** An in-order, non-speculative core has none of the speculative side channels of the last decade, and an out-of-order core must keep that property; the rules that keep a future faster core from repeating them are collected in the hardware-vulnerabilities report, and include no speculation across protection domains, no shared predictor state across privilege boundaries without a flush, and operand-independent timing for a declared set of instructions. *(D as a design aim; the rules are proposals)*
 
 **10.3.4** Sequential consistency is nearly free on a small in-order core and is the most expensive memory model for a large speculative one; if a large core is built it may be necessary to move to total store order, which is the least painful retreat. *(P)*
 

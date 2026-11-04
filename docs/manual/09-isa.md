@@ -34,7 +34,7 @@
 
 **9.2.4** A register is always written in full: narrow loads sign- or zero-extend, and there is no partial-register write. *(D)*
 
-**9.2.5** Compatibility is by conversion instructions, never by mode bits that change what other instructions mean. *(D)*
+**9.2.5** Anything that changes what an instruction means is, by default, visible state set by an instruction that names it, not hidden state; whether a mode bit is worth its cost is decided case by case (errata 83). Compatibility is by conversion instructions where that is cheap. *(D)*
 
 **9.2.6** Every instruction can be restarted after a fault, and exceptions are precise; the machine has no hidden instruction state. *(D)*
 

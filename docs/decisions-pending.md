@@ -45,11 +45,16 @@ Context for all of them: the operating system order is now OpenBSD first through
 
 **The rule change (errata 42).** All the design rules are soft. Several arguments earlier in this document leaned on "the ISA has a rule against that"; under errata 42 they count as costs and benefits like any others. P10 was the clearest case (decided: `MMUCTL` stays). Q9 option 4 is revised below.
 
-**Your principles (2026-10-22), in order, and the test I apply to every option:**
+**Your priorities (definitive list, 2026-11-03, errata 83), in order, and the test I apply to every option:**
 
-1. **Code size.** Bytes of kernel and user code, including hot-path length and the code spent on error handling. An instruction that makes common sequences shorter wins.
-2. **Easy recoverability, meaning less recovery code.** Fewer possible errors means less code to handle them, and an easier recovery path means less code to write it. So an option scores well when it adds **fewer distinct failure outcomes**, makes a fault **restartable without special cases** (precise exceptions, no hidden state, a restart that repeats safely), and avoids partial results the handler would have to undo. A feature that adds a new fault, a new error return or a new "half done" state costs recovery code in every kernel that uses it.
-3. **Speed and efficiency through fewer gates and tighter hot loops.** Simpler hardware (fewer states, fewer special paths, less logic on an FPGA), and faster by *careful instruction choice*: the shortest sequences for the operations that run constantly (system-call entry and exit, context switch, copy to and from user memory, atomics, string and block loops, interrupt entry), not by adding hardware.
+1. **Security and safety.** An error that can never arise is the ideal; failing that, one that is easy to detect; failing that, one that is cheap to recover from. Restart and recovery go together: a fault is restartable without special cases, with no hidden state and no partial results for the handler to undo. No strange side effects. An option that adds a new fault, a new error return or a new half-done state scores worse.
+2. **Opcode choice.** Fewer instructions executed means fewer memory fetches. An opcode that coalesces several operations wins; this is about executed instructions, not the number of opcodes.
+3. **Opcode encoding.** Dense, with rare instructions in longer encodings.
+4. **Speed and power,** served by a low gate count (fewer opcodes, addressing modes, flags and error conditions).
+5. **Good compiler target.**
+6. **Pleasant in assembler.**
+
+Standing constraints beside the ranking: ready for out-of-order execution; every rule is soft; hot-loop weight; Occam. The decisions below were scored under the earlier list (2026-10-22: code size, easy recoverability, speed and efficiency through fewer gates); the two agree on most picks, and a pick that depended on code size ranking above recoverability is not re-scored here.
 
 **Also (2026-10-23, errata 68):** the architecture is designed to be efficient with in-order and out-of-order implementations, so an option that is safe only because the first cores do not speculate is scored as unsafe; and an instruction is scored by its weight in hot loops (executions times what it saves), not by how rarely it appears.
 
@@ -1539,13 +1544,9 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Note.** These are consistent if the partitioned machine is not built; say so.
 
-### E9. The ranking of principles in ISA section 1
+### E9. The ranking of principles in ISA section 1 (decided 2026-11-03)
 
-**Chat.** Decision order (line 6995): no weird side effects, then no opcode bumps that grow code, then not much more hardware. The author's order of 2026-10-22 (Part 0) is code size, recoverability, gates.
-
-**Repository.** ISA section 1 (`pdp64-isa.md` lines 17-25, r20 text) ranks low transistor count first and code density fifth.
-
-**Needed.** Replace the ranking in ISA section 1 with Part 0's, or state which governs.
+**Decided (the author, errata 83).** The definitive priority list replaces the r20 ranking in ISA section 1, the README, manual 1.4 and Part 0.
 
 ### E10. The three compare-and-branch opcodes against the "rare ones are bigger" rule
 

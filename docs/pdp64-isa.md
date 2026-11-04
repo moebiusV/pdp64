@@ -12,27 +12,33 @@ Words are 16 bits. Longs are 32. Quads are 64. PDP-11 terminology throughout.
 
 ---
 
-## 1. Design constraints
+## 1. Design priorities
 
 Ranked, because they conflict:
 
-1. Low transistor count. A small ASIC or an FPGA soft core, not a superscalar.
-2. Bounded fault surface — every instruction restartable with O(1) recorded state.
-3. Pleasant in assembler. A PDP-11 programmer should recognize the language.
-4. Good compiler target.
-5. Code density.
+1. **Security and safety.** An error that can never arise is the ideal; failing that, an error that is easy to detect; failing that, an error that is cheap to recover from. Restart and recovery go together: every instruction is restartable after a fault with no instruction-specific cases, and a fault handler restarts blindly. An instruction does what its name says and nothing else, because a predictable machine is easier to reason about (for people and for tools) and needs less defensive code.
+2. **Opcode choice.** Fewer instructions executed means fewer memory fetches, and memory fetch is the slowest part of a modern processor. An opcode that coalesces several operations is good. This is about the instructions a program executes, not the number of opcodes the machine has.
+3. **Opcode encoding.** Pack the instructions densely, with rare instructions in longer encodings, which also saves fetches.
+4. **Speed and power,** served by a low gate count: fewer opcodes, addressing modes, flags and error conditions mean less logic, less heat and a higher clock, and they make out-of-order execution cheaper to build.
+5. **Good compiler target.** Consistent behaviour, so optimized code is easy to produce and few edge cases leave optimization on the table.
+6. **Pleasant in assembler.** Few opcodes and addressing modes, and related instructions behaving alike. A PDP-11 programmer should recognize the language.
 
-Constraints 1 and 3 mostly agree, which is why this works at all. Where they disagree, 1 wins.
+Four standing constraints sit beside the ranking and are not traded against it:
 
-Four rules govern everything below:
+* **Ready for out-of-order execution from the start.** The first implementations may be in order, but nothing is specified that is safe only because the core does not speculate or reorder, and a feature that serves priority 1 in an out-of-order core is looked at seriously.
+* **Every rule is soft** (§1.1).
+* **An instruction is judged by its weight in the loops where it is used,** executions times what it saves, not by how rarely it appears.
+* **Occam: do not multiply entities without benefit.** It applies at every level of the ranking.
 
-> **Compatibility is conversion instructions, never mode bits.**
->
+Three rules govern everything below:
+
 > **At most one operand of any instruction may be a memory reference.**
 >
 > **No instruction exceeds one `uint64_t`.**
 >
 > **A register is always written in full.**
+
+Mode bits are decided case by case. Hidden state that changes what unrelated instructions mean is a strange side effect (priority 1) and must be saved at every context switch, so the default is that a mode is visible state, set by an instruction that names it. A bit in a register that is saved anyway (the `PSW`, say) costs nothing extra and is accepted.
 
 ### 1.1 When a rule may be broken
 
@@ -44,14 +50,14 @@ Clause (c) does the work. It is not enough that an exception be useful; the spec
 
 The worked example is §4.7. VAX's `MOVC5` is the canonical argument for the one-memory-operand rule: it issues an unbounded number of memory references and needs hidden intermediate state plus `PSL<FPD>` to resume. The pdp64 block operations do the same job and are *not* that, because their operands come from registers and are consumed as progress. There is no hidden state to save, because the state is the registers, and they are already architectural. The mechanism is absent, so the exception is admissible. §7.5 writes down the cost.
 
-**No rule is absolute.** Every rule here is a default that records a benefit worth protecting and the failure it prevents, and it yields when breaking it is worth more than it costs, with the cost written down. The two strongest defaults each say what a break would cost:
+**No rule is absolute.** Every rule here is a default that records a benefit worth protecting and the failure it prevents, and it yields when breaking it is worth more than it costs, with the cost written down. The strongest default says what a break would cost:
 
-- **Mode bits.** The rule protects state that would have to be saved and restored across a context switch, and a bit whose value changes the meaning of unrelated instructions. A mode bit is accepted when it keeps those benefits (a machine-wide bit set once at boot, a bit in the `PSW` that is saved anyway) or when its benefit outweighs its written-down cost. (The sticky floating-point status register `FPSR`, §4.10, is not an exception: it never changes what an instruction does, it only records what an instruction did.) Accepted: `MMUCTL` and `UA`.
+- **Mode state.** Hidden state that changes the meaning of unrelated instructions must be saved and restored across a context switch and is a strange side effect. A mode bit is accepted when it keeps those benefits away (a machine-wide bit set once at boot, a bit in the `PSW` that is saved anyway) or when its benefit outweighs its written-down cost. (The sticky floating-point status register `FPSR`, §4.10, is not an exception: it never changes what an instruction does, it only records what an instruction did.) Accepted: `MMUCTL` and `UA`.
 - **Natural alignment for quad accesses** (§7.4). This is load-bearing for every tagged runtime (§6.2), and relaxing it converts a trapped bug into silent corruption. That is the cost of breaking it, and it is large; it is a cost to weigh, not a prohibition.
 
 ### 1.2 The decision order
 
-§1.1 says when a principle may be broken. This says how to choose between two designs that both work. The tests apply in order, and an earlier one is not traded against a later one.
+§1.1 says when a principle may be broken. This says how to choose between two designs that both work; it applies the ranking of §1 to the usual cases. The tests apply in order, and an earlier one is not traded against a later one. The first is priority 1, the second is priority 3, and the third (Occam) is the standing constraint of §1, which is why it is not a rung.
 
 > **1. No strange side effects.** An instruction does what its name says and nothing else. Nothing is left in a register the mnemonic does not mention, no flag is set that the table does not list, no state persists that the next instruction can observe without asking. This is why §4.2.1 had to be written, why §9.8 refuses mode bits, and why `CALLI`'s operation order is specified in §4.9.1 rather than left to the implementation.
 >
@@ -1447,7 +1453,7 @@ The ALU does not support the standard trig operations, deliberately. The one flo
 
 ### 9.8 Width and mode in the instruction, not in a register
 
-The founding rule — compatibility is conversion instructions, never mode bits — says that anything which changes what an instruction *means* belongs in the instruction. Operand size is in the opcode (§4.1), floating-point precision is in the opcode, rounding mode is in the opcode (§4.10). Nothing is in a control register.
+The default (§1) is that anything which changes what an instruction *means* belongs in the instruction, as visible state and not hidden state. Operand size is in the opcode (§4.1), floating-point precision is in the opcode, rounding mode is in the opcode (§4.10). Nothing is in a control register.
 
 **Operand size in the opcode is not unusual.** ARM has `LDRB`/`LDRH`/`LDR`, RISC-V has `LB`/`LH`/`LW`/`LD`, MIPS the same; x86 uses prefixes, which is encoding rather than state. On that axis pdp64 is conventional.
 
@@ -1881,7 +1887,7 @@ LoongArch64 is worth studying here because it is the most recent clean-room ISA 
 |---|---|
 | **`R0` hardwired to zero** | At 32 registers, losing one to get `MOVQ R0, Rd` as clear and `SUB R0, Rn` as negate is a good trade. At 16 it is a sixteenth of the file, and `CLR` and `NEG` are already one parcel each. The trade reverses with register count |
 | **No condition codes; compare-and-branch instead** | A comparator in the branch unit plus a third register read port, versus a four-bit latch (§4.4). LoongArch can afford it because its fixed 32-bit encoding has room for two register fields and a displacement in one instruction; a pdp64 encoding would need two parcels, which is the same size as `CMP`+`B`. `SOB` covers the loop case that motivates the idiom |
-| **`FCSR` with a rounding-mode field** | LoongArch kept the mode bits, as did RISC-V, ARM and x86. pdp64 is the outlier: the founding rule (§1.1) forbids invisible state that changes what other instructions mean, and rounding mode is the textbook case. The cost is more opcodes in `FESC`, which is the cheapest thing we have |
+| **`FCSR` with a rounding-mode field** | LoongArch kept the mode bits, as did RISC-V, ARM and x86. pdp64 is the outlier: the default of §1 is visible state in the instruction, not invisible state that changes what other instructions mean, and rounding mode is the textbook case; it is decided case by case and can be reopened. The cost is more opcodes in `FESC`, which is the cheapest thing we have |
 | **Four PC-relative address-formation instructions** | `PCADDI`, `PCADDU12I`, `PCADDU18I` and `PCALAU12I` exist because a fixed 32-bit encoding carries twenty bits of immediate, so building a full address takes a pair. `LEA d(PC), Rn` at `len = 10` carries 32 bits in one instruction (§4.1). This is the clearest case where variable-length beats fixed-width, and the property came free from §3.1 |
 | **32 general registers** | Doubles the register file and costs a bit in every register field — which this encoding does not have to spend. Sixteen is where the one-memory-operand rule (§3.4) left room |
 | **Separate vector register files (LSX, LASX)** | A second wide register file is the thing §2.3 specifically avoided, and it would bring wide load/store paths entangled with §7.4's alignment rules plus a large opcode demand on a map already at 58 of 64. Wide data-parallel work goes in a Q64 coprocessor with its own memory, which needs **no opcodes at all**; the LB64 document is the worked case |
@@ -1930,13 +1936,13 @@ Instructions are the easy part. The hard part is what a program is promised abou
 
 > **pdp64 is sequentially consistent.** Stated here, once, and not revisited.
 
-On this machine sequential consistency is nearly free. A weak memory model is a tax paid by every piece of concurrent software ever written for the architecture, levied so that an aggressively speculative out-of-order core can reorder memory operations. **pdp64 is in-order and non-speculative** (§1 constraint 1; but errata 38 and 68 require the architecture to stay safe for an out-of-order implementation, and `decisions-pending.md` Q5 reopens this choice), so there is no reordering to permit and nothing to buy with the weakness.
+On this machine sequential consistency is nearly free. A weak memory model is a tax paid by every piece of concurrent software ever written for the architecture, levied so that an aggressively speculative out-of-order core can reorder memory operations. **The first pdp64 implementations are in order and non-speculative,** so they have no reordering to permit and nothing to buy with the weakness. The architecture is ready for out-of-order execution from the start (§1, errata 68): an out-of-order implementation keeps sequential consistency by letting loads execute early and re-checking them against other cores' writes before retirement, with stores buffered and drained in program order, as the next paragraph and `decisions-pending.md` Q5 describe.
 
 A store buffer is still allowed, and wanted, for write latency hiding: SC survives it provided loads snoop the buffer and stores drain in program order. The cost is that a store miss stalls later stores, which on two to four cores behind a shared L2 is acceptable.
 
-The industry learned the hard way why this is not a close call. ARM's memory model took roughly a decade to formalize, academic papers are still finding corners in vendor implementations, and the C11/C++11 memory model exists in large part to paper over the differences between weak architectures. None of that complexity buys anything on a machine that does not speculate. Being small is the advantage here.
+The industry learned the hard way why this is not a close call. ARM's memory model took roughly a decade to formalize, academic papers are still finding corners in vendor implementations, and the C11/C++11 memory model exists in large part to paper over the differences between weak architectures. None of that complexity buys anything on a machine whose first implementations do not speculate, and a sequentially consistent out-of-order core pays for it in the load re-check rather than in a weaker contract. Being small is the advantage here.
 
-**Two classes of problem do not arise.** Non-speculative execution means no Spectre- or Meltdown-class speculative side channels. And §7.4's alignment requirement means every access is naturally atomic within its own size — misaligned atomicity is a nightmare on x86 and ARM, and pdp64 gets it free from a rule adopted for the datapath's sake and already paying for lowtags (§6.2). That is the third return on one decision.
+**Two classes of problem do not arise.** In the first implementations non-speculative execution means no Spectre- or Meltdown-class speculative side channels; an out-of-order implementation must keep that property by the rules in `hardware-vulnerabilities.md`, which is a design obligation and not a free consequence. And §7.4's alignment requirement means every access is naturally atomic within its own size — misaligned atomicity is a nightmare on x86 and ARM, and pdp64 gets it free from a rule adopted for the datapath's sake and already paying for lowtags (§6.2). That is the third return on one decision.
 
 ### 17.2 What the ISA needs — six additions
 
