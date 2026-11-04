@@ -11,8 +11,8 @@
 # HBNF and HBNF_TEMPLATES as in check-formats.sh.
 set -e
 cd "$(dirname "$0")/.."
-HBNF=${HBNF:-/tmp/claude-1000/alpine/hbnf}
-TPL=${HBNF_TEMPLATES:-/tmp/claude-1000/alpine/hbnf-templates}
+HBNF=${HBNF:-/tmp/claude-1000/hbnf-latest/hbnf}
+TPL=${HBNF_TEMPLATES:-/tmp/claude-1000/hbnf-latest/hbnf-templates}
 T=$(mktemp -d "${TMPDIR:-/tmp}/grammar-enc.XXXXXX")
 trap 'rm -rf "$T"' EXIT
 GOLD=tests/enc/generated.sha256

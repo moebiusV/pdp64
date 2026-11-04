@@ -4,9 +4,9 @@
 # an Alpine edge rootfs run under bwrap (user namespaces), GNAT 15 from Alpine, gprbuild and mustache-ada from
 # the ada-on-alpine overlay's .apk files.  Result: $OUT/hbnf (static, runs on the host), and the templates dir.
 #
-#   tools/build-hbnf.sh [WORKDIR]      default /tmp/claude-1000/alpine ; output WORKDIR/hbnf and WORKDIR/hbnf-templates
+#   tools/build-hbnf.sh [WORKDIR]      default /tmp/claude-1000/hbnf-latest ; output WORKDIR/hbnf and WORKDIR/hbnf-templates
 set -eu
-W=${1:-/tmp/claude-1000/alpine}
+W=${1:-/tmp/claude-1000/hbnf-latest}
 APKS=${HBNF_APKS:-$HOME/claude/ada-on-alpine/.work/packages}
 mkdir -p "$W"; cd "$W"
 if [ ! -d root/bin ]; then

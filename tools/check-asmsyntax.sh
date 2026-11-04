@@ -2,8 +2,8 @@
 # Generate the assembly-syntax parser from spec/pdp64-asm.hbnf and run tests/asmsyntax.c over it.
 set -e
 cd "$(dirname "$0")/.."
-HBNF=${HBNF:-/tmp/claude-1000/alpine/hbnf}
-TPL=${HBNF_TEMPLATES:-/tmp/claude-1000/alpine/hbnf-templates}
+HBNF=${HBNF:-/tmp/claude-1000/hbnf-latest/hbnf}
+TPL=${HBNF_TEMPLATES:-/tmp/claude-1000/hbnf-latest/hbnf-templates}
 [ -x "$HBNF" ] || { HBNF=/tmp/claude-1000/hbnf-bin; TPL=/tmp/claude-1000/hbnf/templates; }
 B=${BUILD:-build}; mkdir -p "$B"
 python3 tools/mkgrammar.py
