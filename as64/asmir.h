@@ -24,7 +24,6 @@ struct oper {
 struct darg { int isstr; struct slice s; };
 
 #define MAXOPS 6
-#define MAXARGS 128
 struct stmt {
 	int kind, line;
 	struct slice name;			/* S_LABEL, S_ASSIGN: the symbol (a local label is digits); S_DIR: the directive */
@@ -35,7 +34,7 @@ struct stmt {
 	int nops;
 	struct oper ops[MAXOPS];
 	int nargs;				/* S_DIR */
-	struct darg args[MAXARGS];
+	struct darg *args;			/* S_DIR: nargs of them (malloc'd; a statement used to carry room for 128, 3 KB, and a 284,000-line file needed 1.5 GB) */
 };
 
 /* Parse text into *out (malloc'd, *n entries).  Returns 0, or -1 with a message in err and the line in *errline. */

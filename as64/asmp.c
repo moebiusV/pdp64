@@ -122,11 +122,10 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			darg_t *a = &d->dargs.darg;
 			struct dargs_1_s *m = d->dargs.dargs_1.head;
 			for (;;) {
-				if (st->nargs < MAXARGS) {
-					st->args[st->nargs].s = sl(text, a->_pos, a->_end);
-					st->args[st->nargs].isstr = st->args[st->nargs].s.n > 0 && st->args[st->nargs].s.p[0] == '"';
-					st->nargs++;
-				}
+				if ((st->nargs & (st->nargs - 1)) == 0 && (st->nargs == 0 || st->nargs >= 4)) st->args = realloc(st->args, (st->nargs ? 2 * st->nargs : 4) * sizeof *st->args);	/* room for 4, then doubling */
+				st->args[st->nargs].s = sl(text, a->_pos, a->_end);
+				st->args[st->nargs].isstr = st->args[st->nargs].s.n > 0 && st->args[st->nargs].s.p[0] == '"';
+				st->nargs++;
 				if (!m) break;
 				a = &m->darg;
 				m = m->_link;

@@ -33,8 +33,8 @@ else echo "DIFF link at 2 GB: wrong message: $(head -1 $B/ldhigh.err)"; fail=1; 
 # the prefix-coded encodings: the same programs, the expected words from the Python prototype (tests/ld-pdp64-NN), the 2 GB limits, and objects of two encodings refused
 for e in 16 32; do
 	T=tests/ld-pdp64-$e
-	"$B/as64" -m pdp64/$e -o "$B/ldmain$e.o" $T/main.s
-	"$B/as64" -m pdp64/$e -o "$B/ldlib$e.o" $T/lib.s
+	"$B/as64" -m pdp64/$e --no-relax -o "$B/ldmain$e.o" $T/main.s
+	"$B/as64" -m pdp64/$e --no-relax -o "$B/ldlib$e.o" $T/lib.s
 	"$B/ld64" -M -o "$B/ld$e.out" "$B/ldmain$e.o" "$B/ldlib$e.o" > "$B/ld$e.map"
 	python3 - "$B/ld$e.out" "$B/ld$e.map" $T $e <<'PY' || fail=1
 import struct, sys
@@ -50,7 +50,9 @@ print(('DIFF ' if bad else 'ok   ') + 'link pdp64/%s (words, map, e_flags %d)' %
 if got != want: print('  got ', ' '.join(got)); print('  want', ' '.join(want))
 sys.exit(1 if bad else 0)
 PY
-	"$B/as64" -m pdp64/$e -o "$B/ldhigh$e.o" $T/high.s
+	# the relaxed link (the default) against the model's own relaxation
+	"$B/as64" -m pdp64/$e -o "$B/ldmainr$e.o" $T/main.s && "$B/as64" -m pdp64/$e -o "$B/ldlibr$e.o" $T/lib.s && "$B/ld64" -o "$B/ldr$e.out" "$B/ldmainr$e.o" "$B/ldlibr$e.o" && python3 tools/check-ld-relax.py $e "$B/ldr$e.out" || fail=1
+	"$B/as64" -m pdp64/$e --no-relax -o "$B/ldhigh$e.o" $T/high.s
 	"$B/ld64" -Ttext 0x7fffe000 -o "$B/ldhigh.out" "$B/ldhigh$e.o" 2> "$B/ldhigh.err" || { echo "DIFF pdp64/$e link below 2 GB: refused"; fail=1; }
 	if "$B/ld64" -Ttext 0x7ffff000 -o "$B/ldhigh.out" "$B/ldhigh$e.o" 2> "$B/ldhigh.err"; then echo "DIFF pdp64/$e link at 2 GB: accepted"; fail=1
 	elif grep -q "relocation to target out of range (value 2147483648" "$B/ldhigh.err"; then echo "ok   link pdp64/$e at 2 GB (refused, symbol named)"

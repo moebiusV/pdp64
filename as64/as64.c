@@ -49,6 +49,9 @@ static int enc_mode;			/* 0: the encoding of ISA r20 (parcel 0 = len opc reg low
 static void enc_sys0(const char *name);
 static void set_sym_val(int k, int sect, int64_t val);
 static void commit_syms(void);
+static int relax_set;		/* --relax or --no-relax given */
+static int relax_on;		/* --relax: a RELAX object (relocs.h): every address of a symbol in .text instructions has a relocation, paddings are R_PDP64_ALIGN */
+static int text_poison;		/* something in .text depends on a distance and is not a relocation: the object is marked NOADJ_TEXT */
 static int no_p2;		/* --no-p2: never choose a page-2 form (for testing the equivalence of the two) */
 static int errors, final_pass;
 static void err(int line, const char *fmt, ...)
@@ -270,6 +273,7 @@ static struct val deref(struct val v)
 		if (!changed) break;
 	}
 	if (v.p >= 0 && v.m >= 0 && syms[v.p].sect == syms[v.m].sect && syms[v.p].sect >= 0) {
+		if (syms[v.p].sect == SEC_TEXT) text_poison = 1;	/* a distance inside .text becomes a number: the linker cannot adjust it */
 		v.c += syms[v.p].val - syms[v.m].val;
 		v.p = v.m = -1;
 	}
@@ -983,6 +987,8 @@ static void pad_to(int64_t align)
 	int64_t pos = (cur_sec == SEC_BSS || !final_pass) ? offs[cur_sec] : (int64_t)sec[cur_sec].n;
 	int64_t padn = (align - pos % align) % align;
 	if (cur_sec == SEC_BSS) { offs[cur_sec] += padn; return; }
+	if (final_pass && relax_on && cur_sec == SEC_TEXT && (padn || align > 2))
+		addreloc(SEC_TEXT, pos, R_PDP64_ALIGN, -1, (padn << 32) | align);	/* the linker works the padding out again */
 	if (final_pass) {
 		for (int64_t i = 0; i < padn; i++) {
 			if (cur_sec == SEC_TEXT && padn - i >= 2 && (pos + i) % 2 == 0) { emit_sys0(MN_SYS_NONE_NOP); i++; }
@@ -1166,7 +1172,7 @@ struct buf { uint8_t *p; size_t n, cap; };
 static void bput(struct buf *b, const void *d, size_t n)
 {
 	if (b->n + n > b->cap) { b->cap = (b->n + n) * 2 + 256; b->p = realloc(b->p, b->cap); }
-	memcpy(b->p + b->n, d, n);
+	if (n) memcpy(b->p + b->n, d, n);					/* d is NULL for an empty section */
 	b->n += n;
 }
 static void balign(struct buf *b, size_t a) { static const uint8_t z[8]; while (b->n % a) bput(b, z, 1); }
@@ -1233,10 +1239,11 @@ static int write_object(const char *path)
 	/* relocations: by section symbol for anything defined here and not global, by symbol otherwise */
 	for (int i = 0; i < nrelocs; i++) {
 		struct reloc *rl = &relocs[i];
-		struct sym *s = &syms[rl->sym];
+		struct sym *s = &syms[rl->sym < 0 ? 0 : rl->sym];
 		int64_t add = rl->addend;
 		int idx;
-		if (s->sect >= 0 && s->sect < NSEC && !s->global) { idx = 1 + s->sect; add += s->val; }
+		if (rl->sym < 0) idx = 0;
+		else if (s->sect >= 0 && s->sect < NSEC && !s->global) { idx = 1 + s->sect; add += s->val; }
 		else if (s->outidx >= 0) idx = s->outidx;
 		else { fprintf(stderr, "%s: internal error: relocation against %s\n", progname, s->name); return -1; }
 		memset(&r, 0, sizeof r); r.kind = 4; r.body.kind = 4;
@@ -1285,7 +1292,7 @@ static int write_object(const char *path)
 		memset(&r, 0, sizeof r); r.kind = 1; r.body.kind = 1;
 		ehdr_t *e = &r.body.u.a1.e;
 		e->ident.ptr = ident; e->ident.len = 16;
-		e->type = 1; e->machine = EM_PDP64; e->version = 1; e->flags = (uint32_t)enc_mode; e->shoff = off_sh; e->ehsize = 64; e->shentsize = 64; e->shnum = 9; e->shstrndx = 8;
+		e->type = 1; e->machine = EM_PDP64; e->version = 1; e->flags = (uint32_t)enc_mode | (relax_on ? EF_PDP64_RELAX : 0) | (relax_on && text_poison ? EF_PDP64_NOADJ_TEXT : 0); e->shoff = off_sh; e->ehsize = 64; e->shentsize = 64; e->shnum = 9; e->shstrndx = 8;
 		rec(&r, &head);
 		memcpy(file.p, head.p, head.n);
 	}
@@ -1314,7 +1321,7 @@ static char *slurp(const char *path, size_t *len)
 	return b;
 }
 
-#define USAGE "usage: %s [-m pdp64/r20|pdp64/16|pdp64/32] [-o object] file.s\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text;\n -m chooses the instruction encoding and is recorded in e_flags; the fused mnemonics movcall, popmret, popret and mov2 are ordinary instructions there; nothing is ever fused by the assembler)\n"
+#define USAGE "usage: %s [-m pdp64/r20|pdp64/16|pdp64/32] [--no-relax] [-o object] file.s\n(pdp64/16 and pdp64/32 make relaxation objects by default, docs/relaxation.md: every address of a symbol in an instruction gets a relocation and every padding is re-computed by ld64, which then chooses the shortest form of each; --no-relax makes the plain object)\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text;\n -m chooses the instruction encoding and is recorded in e_flags; the fused mnemonics movcall, popmret, popret and mov2 are ordinary instructions there; nothing is ever fused by the assembler)\n"
 
 int main(int argc, char **argv)
 {
@@ -1341,12 +1348,16 @@ int main(int argc, char **argv)
 			continue;
 		}
 		if (!strcmp(argv[i], "--stats")) { enc_stats = 1; continue; }
+		if (!strcmp(argv[i], "--relax")) { relax_on = 1; relax_set = 1; continue; }
+		if (!strcmp(argv[i], "--no-relax")) { relax_on = 0; relax_set = 1; continue; }
 		if (!strcmp(argv[i], "--dump-lens") && i + 1 < argc) { enc_lens_path = argv[++i]; continue; }
 		if (!strcmp(argv[i], "-o") && i + 1 < argc) out = argv[++i];
 		else if (argv[i][0] == '-' && argv[i][1]) { fprintf(stderr, USAGE, progname); return 2; }
 		else in = argv[i];
 	}
 	if (!in) { fprintf(stderr, USAGE, progname); return 2; }
+	if (!relax_set) relax_on = enc_mode != 0;			/* the default: relaxation objects for pdp64/16 and pdp64/32 */
+	if (relax_on && !enc_mode) { fprintf(stderr, "%s: --relax is for pdp64/16 and pdp64/32 (-m)\n", progname); return 2; }
 	enc_setup(enc_mode);
 	if (enc_lens_path && !(enc_lens = fopen(enc_lens_path, "w"))) { fprintf(stderr, "%s: %s: %s\n", progname, enc_lens_path, strerror(errno)); return 1; }
 	srcname = in;

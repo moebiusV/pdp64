@@ -299,7 +299,7 @@ int enc_reloc_field(const struct etab *t, const uint16_t *p, int np, int want, s
 		if (!pl) return -1;
 		memset(f, 0, sizeof *f);
 		f->kind = s->kind; f->w = pl->w; f->unit = s->kind == ES_PC ? s->scale : 1; f->sgn = s->kind != ES_I || s->sgn;
-		f->nparcels = fm->n; f->nruns = pl->nruns;
+		f->nparcels = fm->n; f->oi = i; f->nruns = pl->nruns;
 		for (int r = 0; r < pl->nruns; r++) f->run[r] = t->runs[pl->run0 + r];
 		return 0;
 	}

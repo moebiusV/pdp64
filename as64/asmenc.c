@@ -50,7 +50,22 @@ struct hw {
 	int relsym;
 	int64_t reladd;
 	int isbranch;
+	int relocal;			/* relop is a symbol of this section (a relocation only for the linker's relaxation) */
 };
+
+/* The operand `dst` is the address of symbol sym (+add).  local: the symbol is in this section, its value is already in the operand.  An instruction has
+   one relocation: a second symbol is an error if both are external; a local one that finds no room cannot be adjusted, and poisons .text (NOADJ_TEXT). */
+static int take_rel(const struct stmt *st, struct hw *h, int dst, int sym, int64_t add, int local)
+{
+	if (local && !relax_on) return 0;
+	if (h->relop >= 0) {
+		if (local) { text_poison = 1; return 0; }
+		if (!h->relocal) { err(st->line, "only one operand of an instruction can be a relocatable symbol"); return -1; }
+		text_poison = 1;
+	}
+	h->relop = dst; h->relsym = sym; h->reladd = add; h->relocal = local;
+	return 0;
+}
 
 static int reg_limit(void) { return enc_mode == ENC_32 ? 32 : 16; }
 
@@ -69,15 +84,14 @@ static int econv(const struct stmt *st, int k, int dst, int64_t addr, int poolab
 		e->k = o->kind == OK_IMM ? EK_I : EK_A;
 		if (CONST(v)) { e->v = v.c; return 0; }
 		if (v.m >= 0) { err(st->line, "cannot subtract a symbol here"); return -1; }
-		if (h->relop >= 0) { err(st->line, "only one operand of an instruction can be a relocatable symbol"); return -1; }
-		e->ext = 1; h->relop = dst; h->relsym = v.p; h->reladd = v.c;
-		return 0;
+		e->ext = 1;
+		return take_rel(st, h, dst, v.p, v.c, 0);
 	case OK_POOL: {
 		if (!poolable) { err(st->line, "= is for 64-bit operations: a literal-pool load can be the source of movq, push or an ALU instruction; use #imm otherwise"); return -1; }
 		if (!CONST(v)) { err(st->line, "a literal-pool load takes a constant: a relocatable symbol is not allowed in =expr"); return -1; }
 		int ps = pool_get(v.c);
 		e->k = EK_PC; e->v = pending(ps) ? 0 : syms[ps].val - addr;
-		return 0;
+		return take_rel(st, h, dst, ps, 0, 1);
 	}
 	case OK_BARE: case OK_BASED:
 		if (o->kind == OK_BASED && o->special == 0) {
@@ -98,11 +112,12 @@ static int econv(const struct stmt *st, int k, int dst, int64_t addr, int poolab
 			if (samesec(v.p) || pending(v.p)) {
 				e->v = pending(v.p) ? 0 : syms[v.p].val + v.c - addr;
 				if (isbranch && (e->v & 1)) { err(st->line, "branch to an odd address"); return -1; }
+				return take_rel(st, h, dst, v.p, v.c, 1);
 			} else {
-				if (h->relop >= 0) { err(st->line, "only one operand of an instruction can be a relocatable symbol"); return -1; }
-				e->ext = 1; h->relop = dst; h->relsym = v.p; h->reladd = v.c;
+				e->ext = 1;
+				return take_rel(st, h, dst, v.p, v.c, 0);
 			}
-		} else e->v = v.c;
+		} else { e->v = v.c; if (relax_on) text_poison = 1; }	/* d(pc) written as a number: a distance the linker cannot see */
 		return 0;
 	case OK_INDEXED:
 		if (!CONST(v)) { err(st->line, "a displacement from a register must be a constant"); return -1; }
@@ -249,6 +264,7 @@ static int hw_emit(const struct stmt *st, struct hw *h, int minn, int final, uin
 		struct efield f;
 		int want = h->in.op[h->relop].k == EK_PC ? ES_PC : ES_A;
 		if (enc_reloc_field(etab, par, n, want, &f)) { err(st->line, "internal error: no field for the relocation"); return 0; }
+		if (h->relocal && f.oi != h->relop) { text_poison = 1; return n; }	/* the linker would patch another operand: no relocation, no relaxation */
 		*relkind = want == ES_PC ? (f.unit == 2 ? R_PDP64_INSN_BR : R_PDP64_INSN_PC) : R_PDP64_INSN_ABS;
 	}
 	return n;
