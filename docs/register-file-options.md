@@ -147,3 +147,36 @@ Each escape value spent on a longer form is one fewer opcode for one-parcel inst
 **Your annotations:**
 
 &nbsp;
+
+### 3.4 Your design as stated: two escape opcodes
+
+**The design.** Of the 64 opcode values, two are escapes. `ESC2` means "the real opcode is in the next parcel and this is a 2-parcel instruction"; `ESC3` means the same for 3 parcels. The escape parcel is `ESC | reg(5) | reg(5)`, so the registers sit in the same place as in a one-parcel instruction. The next parcel starts with the real 6-bit opcode, taken from its own map.
+
+```
+one parcel:     opcode(6)  reg(5) reg(5)                       62 opcodes
+two parcels:    ESC2(6)    reg(5) reg(5) | opcode(6) mode(4) disp(6)      64 opcodes of its own
+three parcels:  ESC3(6)    reg(5) reg(5) | opcode(6) mode(4) disp(6) | disp(16)   64 opcodes of its own
+```
+
+**What it gains.**
+
+* 32 registers in every form.
+* No `len` field, and the length is decoded from a single 6-bit comparison on parcel 0 (two values), cheaper than the range decode of section 3.3.
+* Opcode room: 62 one-parcel opcodes, and the two long forms each get a **separate** 64-opcode map instead of sharing one map with the one-parcel forms. That is about 190 opcodes in all, against 63 assigned in the shared map today.
+
+**What it costs.**
+
+* **The displacement of a two-parcel instruction is 6 bits (±32 bytes), where today it is 12 bits (±2 KB).** A local variable or a struct field more than 32 bytes from its base needs the three-parcel form, 2 bytes longer. The three-parcel displacement is 22 bits (±2 MB), where today it is 28.
+* The one-parcel set shrinks from 128 slots (page 1 and page 2) to 62.
+
+**Where the answer lies.** Almost all the cost is the share of memory instructions whose displacement is more than 32 bytes. In the corpus 81,244 instructions use a base register, 79,954 of them in the 4-byte form (`docs/codegen-data/shapes_pdp64.csv`), so these are 22% of all instructions. If most have displacements within ±32 bytes the design is nearly free; if most are beyond, it adds 2 bytes to a fifth of the instructions. That histogram is a measurement to take from the assembled corpus.
+
+**Measurements, updated.**
+
+1. Spills removed by 32 virtual registers (running).
+2. The displacement histogram of the base-register instructions: the share within ±32, ±128, ±512 and ±2048 bytes.
+3. The share of executed one-parcel instructions by mnemonic: do 62 opcodes cover the one-parcel set?
+
+**Your annotations:**
+
+&nbsp;
