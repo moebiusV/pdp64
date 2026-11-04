@@ -1,9 +1,9 @@
 /* relaxcheck: the self-consistency check of a linked (relaxed) executable of pdp64/16 or pdp64/32 (docs/relaxation.md).
- *   relaxcheck program.x starts.txt
+ *   relaxcheck program.x starts.txt [slack]
  * starts.txt: the address (hex) of every instruction of the executable segment, ascending, from the assembler's own list (tools/check-relax.py joins as64
  * --dump-lens with ld64 --dump-map).  Each is decoded with the C decoder and:
  *   - its length is the decoder's and does not run into the next instruction; what lies between two instructions is padding or data;
- *   - every global symbol of the text segment is an instruction start;
+ *   - every global symbol of the text segment is an instruction start or lies in the data between instructions (never inside an instruction);
  *   - a branch, call or jmp lands on an instruction start (no other address in the text segment);
  *   - another pc-relative operand lands inside the segments of the program (and, in the text segment, never in the middle of an instruction, and
  *     on a multiple of the access size when it is in data between instructions: a literal pool);
@@ -32,7 +32,8 @@ static long find(uint64_t a) { long lo = 0, hi = nstarts - 1; while (lo <= hi) {
 
 int main(int argc, char **argv)
 {
-	if (argc != 3) { fprintf(stderr, "usage: relaxcheck program.x starts.txt\n"); return 2; }
+	if (argc != 3 && argc != 4) { fprintf(stderr, "usage: relaxcheck program.x starts.txt [slack]\n"); return 2; }
+	uint64_t slack = argc == 4 ? strtoull(argv[3], 0, 0) : 0;	/* bytes beyond the data segment that an address may name (stubs that are smaller than the objects they stand for) */
 	FILE *f = fopen(argv[1], "rb");
 	if (!f) { perror(argv[1]); return 2; }
 	fseek(f, 0, SEEK_END); long n = ftell(f); fseek(f, 0, SEEK_SET);
@@ -54,7 +55,7 @@ int main(int argc, char **argv)
 	unsigned long long a;
 	long cap = 0;
 	while (fscanf(g, "%llx", &a) == 1) { if (nstarts == cap) { cap = cap ? cap * 2 : 4096; starts = realloc(starts, cap * sizeof *starts); } starts[nstarts++] = a; }
-	long bad = 0, ninsn = 0, ngap = 0, nctl = 0, ncall = 0, ndata = 0, npool = 0, nsym = 0;
+	long bad = 0, ninsn = 0, ngap = 0, nctl = 0, ncall = 0, ndata = 0, npool = 0, nsym = 0, ndsym = 0;
 	uint64_t gapbytes = 0;
 #define BAD(...) do { if (bad++ < 30) { fprintf(stderr, "relaxcheck: %llx: ", (unsigned long long)starts[i]); fprintf(stderr, __VA_ARGS__); fputc('\n', stderr); } } while (0)
 	for (long i = 0; i < nstarts; i++) {
@@ -92,7 +93,7 @@ int main(int argc, char **argv)
 				}
 				npool++;
 				if (t->mn[in.mn].msz > 1 && T % t->mn[in.mn].msz) BAD("%s reads %llx, which is not a multiple of %d", mn, (unsigned long long)T, t->mn[in.mn].msz);
-			} else if (T >= dlo && T < dhi) ndata++;
+			} else if (T >= dlo && T <= dhi + slack) ndata++;			/* one past the end of the last object is a legitimate pointer */
 			else BAD("%s refers to %llx, outside the program", mn, (unsigned long long)T);
 		}
 	}
@@ -108,12 +109,22 @@ int main(int argc, char **argv)
 				if (v >= tva && v < tva + tsz) {
 					nsym++;
 					long i = find(v);
-					if (i < 0) { fprintf(stderr, "relaxcheck: symbol at %llx is not the start of an instruction\n", (unsigned long long)v); bad++; }
+					if (i < 0) {						/* data in .text (a table, a string): it must not be inside an instruction */
+						long q = -i - 3;
+						if (q >= 0) {
+							uint8_t *pp = b + toff + starts[q] - tva;
+							uint16_t pr[5]; struct einsn qi;
+							for (int z = 0; z < 5; z++) pr[z] = pp[2 * z] | pp[2 * z + 1] << 8;
+							int ql = enc_decode(t, pr, 5, &qi, NULL);
+							if (ql > 0 && v < starts[q] + 2 * ql) { fprintf(stderr, "relaxcheck: symbol at %llx is in the middle of the instruction at %llx\n", (unsigned long long)v, (unsigned long long)starts[q]); bad++; continue; }
+						}
+						ndsym++;
+					}
 				}
 			}
 		}
 	}
-	printf("relaxcheck: %ld instructions decoded, %ld gaps (%llu bytes of padding and data), %ld branches/calls (%ld calls) on instruction starts, %ld pc-relative data operands (%ld in text), %ld text symbols on starts, %ld errors\n",
-	    ninsn, ngap, (unsigned long long)gapbytes, nctl, ncall, ndata + npool, npool, nsym, bad);
+	printf("relaxcheck: %ld instructions decoded, %ld gaps (%llu bytes of padding and data), %ld branches/calls (%ld calls) on instruction starts, %ld pc-relative data operands (%ld in text), %ld text symbols (%ld of them data in .text, none inside an instruction), %ld errors\n",
+	    ninsn, ngap, (unsigned long long)gapbytes, nctl, ncall, ndata + npool, npool, nsym, ndsym, bad);
 	return bad ? 1 : 0;
 }
