@@ -39,6 +39,9 @@ For the author's annotation. This answers two questions asked on [`crypto-secure
 
 **Your annotations:**
 
+
+i agree we should test this with pcc and even with llvm for spills before deciding, but how is htis for an option: remove the 2 leading len bits and give them to the opcode; then have one opcode for "2 parcels" and another opcode for "3 parcels" then that still leaves room to put more opcodes in single parcel format, no?
+
 &nbsp;
 
 ## 2. 128-bit registers
@@ -60,6 +63,53 @@ For the author's annotation. This answers two questions asked on [`crypto-secure
 **Against the priorities.** Priority 2: helps a few kernels, none of the general code. Priority 4: costs width everywhere. Priority 1: more state to save and clear, more to get wrong. The benefit is local and the cost is global.
 
 **Recommendation.** Keep 16 registers of 64 bits and use register pairs for 128-bit quantities. If 128-bit atomics matter, add the double-width compare-and-swap (P8) on a register pair.
+
+**Your annotations:**
+
+i agree about keeping the registers 64 bits; we may expand to 32 regs. evaluate.
+
+&nbsp;
+
+## 3. Replies to the annotations
+
+### 3.1 Giving the `len` bits to the opcode
+
+**The proposal.** Remove the 2-bit `len` field, make the opcode 8 bits, and let the opcode itself say how long the instruction is (one opcode for "two parcels", another for "three"), which leaves room for many more one-parcel opcodes.
+
+**What it does to the bits.** Moving the two `len` bits into the opcode gives `opcode(8) | reg(4) | low(4)`. The register fields stay 4 bits, so it does **not** help 32 registers: 8 + 5 + 5 is 18 again.
+
+**What it does to opcode room.** Today a one-parcel instruction can use any of 64 page-1 opcodes with `len = 00` and any of 64 page-2 opcodes (`len = 11`), 128 in all, of which page 2 has 19 free. With the length inside the opcode there are 256 values in total, but every operation that exists in several lengths needs one opcode per length (`ADD` as register-to-register, as a short memory form, as a long memory form). The total stays about the same as today's 64 × 3 + 64, so the gain is a re-labelling and not new room. The fetch path also changes: today the length is two bits read straight into a counter; it would become a small lookup on the 8-bit opcode (a few dozen gates, but on the critical path).
+
+**Verdict.** It trades a simple, fast length field for a lookup and gains no registers. It is not the way to 32 registers. (It could still be the way to more one-parcel opcodes, if page 2 runs out; 19 slots are free there.)
+
+### 3.2 What 32 registers would actually take
+
+The length information has to live somewhere, but it need not use two bits for every instruction. A **length-prefix code** (the idea behind UTF-8) spends 1 bit on the commonest case:
+
+| Form | Layout (16-bit parcel 0) | Primary opcodes | Registers |
+|---|---|---|---|
+| One parcel (about 46% of instructions) | `0 | op(5) | reg(5) | low(5)` | 32 | 32 |
+| Two parcels, parcel 0 | `10 | op(5) | reg(5) | mode(4)` | 32 | 32 |
+| Two parcels, parcel 1 | `rm(5) | disp(11)` | | displacement ±1 KB (was ±2 KB) |
+| Three parcels | `11 | op(5) | reg(5) | mode(4)`, then `rm(5) | disp(27)` | 32 | 32 |
+
+The one-parcel instructions keep their size. The two-parcel instructions keep their size and lose one displacement bit.
+
+**What it costs.**
+
+1. *Half the primary opcode space.* The opcode shrinks from 6 bits to 5, so 32 top-level opcodes instead of 64. The 58 assigned today do not fit. The rarer ones move into escape groups, where each costs an extra parcel (priority 3), and branches (16 conditions) alone would take half the new map unless they move.
+2. *Displacement:* 11 bits in the two-parcel forms. The corpus measurement of how many displacements need 12 bits decides whether that matters.
+3. *A rewrite of the opcode map,* the grammar, `as64`, the QEMU and `sim64` decoders, the LLVM tables and every test.
+
+**What it buys.** Fewer spills: the compiler already produces 1.04 times AArch64's instruction count with 16 registers against its 31, so the ceiling is a few percent of executed instructions.
+
+**The measurements that decide it,** all cheap, none requiring the redesign:
+
+1. Spills removed when pcc (and then LLVM) allocate from 32 virtual registers. This is the real ceiling on the benefit.
+2. For each one-parcel mnemonic, its share of executed instructions. If 32 opcodes cover about 95%, the primary map can hold the one-parcel set.
+3. The share of two-parcel memory instructions whose displacement needs 12 bits.
+
+**Recommendation.** Do not change the encoding yet. Run the three measurements; if the first shows more than about 5% of instructions are spills, design the prefix-code map as a proposal and cost it with the second and third. Until then the ISA stays at 16 registers, which keeps open the decision to go to 32 later at the price of a rewritten map.
 
 **Your annotations:**
 
