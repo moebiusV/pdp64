@@ -4,7 +4,7 @@
  * types (as64/relocs.h) and writes an ELF64 executable.  The ELF records come from the generated grammar (spec/elf.hbnf),
  * as in as64; the layout of the file, offsets and sizes, is done here.
  *
- *   ld64 [-o out] [-e entry] [-Ttext addr] [-M] file.o ...
+ *   ld64 [-o out] [-e entry] [-Ttext addr] [-M] [--no-relax] [--stats] file.o ...
  *
  * Layout: the executable code of every object in one segment at -Ttext (default 0x10000), then, on the next page, the
  * data and the zero-filled data (.bss and common symbols) in a second.  Pages are 4096 bytes (ISA 8.2).
@@ -17,6 +17,10 @@
  * encodings are refused.  In the prefix-coded encodings (pdp64/16, pdp64/32) the field a relocation patches is not at the end of the instruction: the
  * codec (common/pdp64enc.c, from the generated tables) finds the pc-relative or absolute operand of the instruction at r_offset, with the bit
  * positions and the unit (a branch or call field counts parcels), and inserts the value there.  The executable carries the same e_flags.
+ *
+ * Relaxation (docs/relaxation.md): an object made with `as64 --relax` (EF_PDP64_RELAX) has a relocation on every instruction of .text that holds the
+ * address of a symbol, local ones too, and R_PDP64_ALIGN on every padding.  ld64 re-chooses the length of each such instruction from the real
+ * distance: relax.c, included below.  `--no-relax` links such an object exactly as the assembler laid it out.
  */
 #include <errno.h>
 #include <stdarg.h>
@@ -75,11 +79,23 @@ static void rec_put(elfrec_t *r, struct buf *out)
 
 enum { C_TEXT, C_DATA, C_BSS, NCLASS };		/* output classes */
 
+struct site;
 struct isec {		/* an input section that is loaded */
 	int cls;
 	const uint8_t *data;	/* NULL for NOBITS */
 	uint64_t size, align, outoff;	/* offset within its class once placed */
 	int shndx;
+	uint64_t cursize;	/* the size once relaxed (size if nothing changes) */
+	struct site *sites;	/* relaxation: the instructions and paddings whose length may change, by offset (relax.c) */
+	int nsites;
+	int64_t *cum;		/* cum[i]: the bytes gained before site i; cum[nsites] the total */
+};
+struct rel {		/* a relocation record, read once */
+	int target;		/* the section it patches */
+	uint64_t off;
+	uint32_t type, symidx;
+	int64_t addend;
+	int site;		/* the site of the instruction it patches, or -1 */
 };
 struct obj {
 	const char *name;
@@ -93,9 +109,13 @@ struct obj {
 	char **symname;
 	int nsyms;
 	int *gsym;		/* object symbol -> global symbol index, or -1 */
+	int relax;		/* made with --relax and to be relaxed */
+	struct rel *rl;
+	int nrl;
 };
 static struct obj *objs;
 static int nobjs;
+static int relax_enabled = 1;			/* --no-relax clears it */
 static int link_enc = -1;			/* the encoding of the objects (EF_PDP64_ENC_*), set by the first */
 static struct etab *link_tab;			/* its tables, for the prefix-coded encodings */
 
@@ -142,8 +162,10 @@ static int load_object(const char *path)
 	ehdr_t eh = r.body.u.a1.e;
 	{
 		int e = (int)(eh.flags & EF_PDP64_ENC_MASK);
-		if (eh.flags & ~(uint32_t)EF_PDP64_ENC_MASK) { fail("%s: unknown e_flags %#x", path, (unsigned)eh.flags); return -1; }
+		if (eh.flags & ~(uint32_t)(EF_PDP64_ENC_MASK | EF_PDP64_RELAX | EF_PDP64_NOADJ_TEXT)) { fail("%s: unknown e_flags %#x", path, (unsigned)eh.flags); return -1; }
 		if (e > EF_PDP64_ENC_32) { fail("%s: unknown instruction encoding %d in e_flags", path, e); return -1; }
+		if ((eh.flags & (EF_PDP64_RELAX | EF_PDP64_NOADJ_TEXT)) && !e) { fail("%s: relaxation flags in an object of the original encoding", path); return -1; }
+		o.relax = (eh.flags & EF_PDP64_RELAX) && !(eh.flags & EF_PDP64_NOADJ_TEXT) && relax_enabled;
 		if (link_enc < 0) {
 			link_enc = e;
 			link_tab = e == EF_PDP64_ENC_16 ? &enc_tab_16 : e == EF_PDP64_ENC_32 ? &enc_tab_32 : NULL;
@@ -186,6 +208,16 @@ static int load_object(const char *path)
 			o.gsym[k] = -1;
 		}
 	}
+	for (int i = 0; i < o.nsec; i++) {
+		if (o.sh[i].type != 4) continue;
+		size_t n = o.sh[i].size / 24;
+		o.rl = realloc(o.rl, (o.nrl + n) * sizeof *o.rl);
+		for (size_t k = 0; k < n; k++) {
+			if (rec_get(REC_RELA, o.file + o.sh[i].offset + k * 24, o.flen, &r)) { fail("%s: bad relocation", path); return -1; }
+			rela_t rl = r.body.u.a4.r;
+			o.rl[o.nrl++] = (struct rel){ (int)o.sh[i].info, rl.offset, rl.type, rl.symidx, rl.addend, -1 };
+		}
+	}
 	objs = realloc(objs, (nobjs + 1) * sizeof *objs);
 	objs[nobjs] = o;
 	return nobjs++;
@@ -218,6 +250,9 @@ static void collect_globals(void)
 	}
 }
 
+static uint16_t get16(const uint8_t *p) { return (uint16_t)(p[0] | p[1] << 8); }
+static void put16(uint8_t *p, uint16_t v) { p[0] = v & 255; p[1] = v >> 8; }
+
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* layout                                                                                                              */
 
@@ -226,16 +261,71 @@ static uint64_t text_base = 0x10000;
 #define PAGE 4096
 static uint64_t alignup(uint64_t v, uint64_t a) { return a > 1 ? (v + a - 1) / a * a : v; }
 
+/* A relaxable section is a list of sites (instructions whose length may change, paddings) between stretches of bytes that are copied.  The offset
+   of a byte in the input section x becomes x plus the change in length of every site that ends at or before x. */
+enum { SK_INSN = 1, SK_ALIGN };
+struct site {
+	uint64_t off;		/* in the input section */
+	uint32_t len0, cur;	/* bytes: as the object has it, as it is now */
+	uint8_t kind, want;	/* SK_*; INSN: ES_PC or ES_A, the kind of field */
+	int oi;			/* INSN: the operand whose value is the symbol's */
+	uint32_t align;		/* ALIGN: the alignment */
+	int rl;			/* INSN: the relocation (index in obj->rl) */
+	struct einsn in;	/* INSN: the instruction as the assembler wrote it */
+};
+
+static int64_t isec_off(const struct isec *s, int64_t x)
+{
+	int lo = 0, hi = s->nsites;			/* the number of sites that end at or before x */
+	while (lo < hi) {
+		int mid = (lo + hi) / 2;
+		const struct site *t = &s->sites[mid];
+		if ((int64_t)(t->off + t->len0) <= x) lo = mid + 1; else hi = mid;
+	}
+	return s->nsites ? x + s->cum[lo] : x;
+}
+static uint64_t isec_addr(const struct obj *o, int sec, int64_t x)
+{
+	return cbase[o->cls[sec]] + o->is[sec].outoff + isec_off(&o->is[sec], x);
+}
+
+static int nop_parcel = -1;
+/* the padding the assembler writes for n bytes at offset pos: a nop where there are two bytes at an even offset, else a zero byte */
+static void fill_pad(uint8_t *d, uint64_t pos, uint64_t n)
+{
+	for (uint64_t i = 0; i < n; i++) {
+		if (n - i >= 2 && (pos + i) % 2 == 0 && nop_parcel >= 0) { put16(d + i, (uint16_t)nop_parcel); i++; }
+		else d[i] = 0;
+	}
+}
+
 static void layout(void)
 {
+	memset(csize, 0, sizeof csize);
 	for (int oi = 0; oi < nobjs; oi++) {
 		struct obj *o = &objs[oi];
 		for (int i = 0; i < o->nsec; i++) {
 			if (o->cls[i] < 0) continue;
+			struct isec *s = &o->is[i];
 			int c = o->cls[i];
-			csize[c] = alignup(csize[c], o->is[i].align);
-			o->is[i].outoff = csize[c];
-			csize[c] += o->is[i].size;
+			csize[c] = alignup(csize[c], s->align);
+			s->outoff = csize[c];
+			s->cursize = s->size;
+			if (s->nsites) {
+				int64_t run = 0;
+				for (int k = 0; k < s->nsites; k++) {
+					struct site *t = &s->sites[k];
+					s->cum[k] = run;
+					if (t->kind == SK_ALIGN) {
+						uint64_t pos = t->off + run;
+						t->cur = (uint32_t)((t->align - pos % t->align) % t->align);
+					}
+					run += (int64_t)t->cur - (int64_t)t->len0;
+				}
+				s->cum[s->nsites] = run;
+				s->cursize = s->size + run;
+			}
+			csize[c] += s->cursize;
 		}
 	}
 	/* common symbols go to the end of .bss */
@@ -253,10 +343,7 @@ static void layout(void)
 		if (!s->defined) continue;
 		if (s->abs) s->addr = s->value;
 		else if (s->common) s->addr = cbase[C_BSS] + s->value;
-		else {
-			struct obj *o = &objs[s->obj];
-			s->addr = cbase[o->cls[s->sec]] + o->is[s->sec].outoff + s->value;
-		}
+		else s->addr = isec_addr(&objs[s->obj], s->sec, (int64_t)s->value);
 	}
 }
 
@@ -265,23 +352,32 @@ static void layout(void)
 
 static int fits_signed(int64_t v, int bits) { return bits >= 64 || (v >= -((int64_t)1 << (bits - 1)) && v < ((int64_t)1 << (bits - 1))); }
 
-static uint16_t get16(const uint8_t *p) { return (uint16_t)(p[0] | p[1] << 8); }
-static void put16(uint8_t *p, uint16_t v) { p[0] = v & 255; p[1] = v >> 8; }
-
-/* The value of a symbol as a relocation sees it: S. */
-static int sym_addr(struct obj *o, int k, uint64_t *out, const char *what)
+/* The value S + A of a relocation.  A counts bytes of the symbol's section as the assembler had them, so it is carried through the section's changes
+   of length together with the symbol's value.  Returns -1 for an unusable symbol (a message unless quiet). */
+static int rel_value(struct obj *o, const struct rel *r, int64_t *V, int quiet)
 {
-	sym_t *y = &o->syms[k];
-	int type = y->info & 15;
-	if (type == 3) { *out = cbase[o->cls[y->shndx]] + o->is[y->shndx].outoff; return 0; }		/* section symbol */
-	if (o->gsym[k] >= 0 && gs[o->gsym[k]].defined) { *out = gs[o->gsym[k]].addr; return 0; }
-	if (o->gsym[k] >= 0) return -1;									/* undefined global: reported once, elsewhere */
-	if (y->shndx == SHN_ABS) { *out = y->value; return 0; }
-	if (y->shndx > 0 && y->shndx < o->nsec && o->cls[y->shndx] >= 0) {				/* a local symbol */
-		*out = cbase[o->cls[y->shndx]] + o->is[y->shndx].outoff + y->value;
+	if (r->symidx >= (uint32_t)o->nsyms) { if (!quiet) fail("%s: relocation names symbol %u", o->name, r->symidx); return -1; }
+	sym_t *y = &o->syms[r->symidx];
+	int type = y->info & 15, g = o->gsym[r->symidx];
+	if (type == 3) {								/* a section symbol: A is an offset in the section */
+		if (y->shndx >= (unsigned)o->nsec || o->cls[y->shndx] < 0) { if (!quiet) fail("%s: relocation against a section that is not loaded", o->name); return -1; }
+		*V = (int64_t)isec_addr(o, y->shndx, r->addend);
 		return 0;
 	}
-	fail("%s: relocation against %s: unusable symbol (%s)", o->name, o->symname[k], what);
+	if (g >= 0 && gs[g].defined > 0) {
+		struct gsym *s = &gs[g];
+		if (s->abs) *V = (int64_t)s->value + r->addend;
+		else if (s->common) *V = (int64_t)(cbase[C_BSS] + s->value) + r->addend;
+		else *V = (int64_t)isec_addr(&objs[s->obj], s->sec, (int64_t)s->value + r->addend);
+		return 0;
+	}
+	if (g >= 0) return -1;								/* undefined global: reported once, elsewhere */
+	if (y->shndx == SHN_ABS) { *V = (int64_t)y->value + r->addend; return 0; }
+	if (y->shndx > 0 && y->shndx < o->nsec && o->cls[y->shndx] >= 0) {		/* a local symbol */
+		*V = (int64_t)isec_addr(o, y->shndx, (int64_t)y->value + r->addend);
+		return 0;
+	}
+	if (!quiet) fail("%s: relocation against %s: unusable symbol", o->name, o->symname[r->symidx]);
 	return -1;
 }
 
@@ -304,16 +400,16 @@ static const char *relname(struct obj *o, int k, int64_t addend, char *buf, size
 }
 
 /* a relocation in a prefix-coded encoding: find the field in the instruction, check the range, insert */
-static void relocate_insn(struct obj *o, int target, uint8_t *where, const rela_t *rl, uint64_t S, uint64_t P, int64_t V, const char *sname)
+static void relocate_insn(struct obj *o, int target, uint8_t *where, const struct rel *rl, uint64_t P, int64_t V, const char *sname)
 {
 	uint16_t p[5];
-	size_t avail = (o->is[target].size - rl->offset) / 2;
+	size_t avail = (o->is[target].size - rl->off) / 2;
 	int np = avail > 5 ? 5 : (int)avail;
 	struct efield f;
 	int64_t val = V;
 	for (int k = 0; k < np; k++) p[k] = get16(where + 2 * k);
 	if (np < 1 || enc_reloc_field(link_tab, p, np, rl->type == R_PDP64_INSN_ABS ? ES_A : ES_PC, &f)) {
-		fail("%s: relocation to %s: the instruction at offset %#llx has no %s operand", o->name, sname, (unsigned long long)rl->offset, rl->type == R_PDP64_INSN_ABS ? "immediate or absolute" : "pc-relative");
+		fail("%s: relocation to %s: the instruction at offset %#llx has no %s operand", o->name, sname, (unsigned long long)rl->off, rl->type == R_PDP64_INSN_ABS ? "immediate or absolute" : "pc-relative");
 		return;
 	}
 	if (rl->type != R_PDP64_INSN_ABS) {
@@ -331,63 +427,57 @@ static void relocate_insn(struct obj *o, int target, uint8_t *where, const rela_
 	for (int k = 0; k < f.nparcels && k < np; k++) put16(where + 2 * k, p[k]);
 }
 
+#include "relax.c"
+
 static void relocate(uint8_t *image[NCLASS])
 {
 	for (int oi = 0; oi < nobjs; oi++) {
 		struct obj *o = &objs[oi];
-		for (int i = 0; i < o->nsec; i++) {
-			if (o->sh[i].type != 4) continue;
-			int target = (int)o->sh[i].info;
+		for (int k = 0; k < o->nrl; k++) {
+			struct rel *rl = &o->rl[k];
+			int target = rl->target;
 			if (target <= 0 || target >= o->nsec || o->cls[target] < 0 || o->cls[target] == C_BSS) continue;
+			if (rl->type == R_PDP64_ALIGN || rl->site >= 0) continue;		/* a padding; an instruction of a relaxed section (already encoded) */
 			int c = o->cls[target];
-			uint64_t secaddr = cbase[c] + o->is[target].outoff;
-			size_t n = o->sh[i].size / 24;
-			for (size_t k = 0; k < n; k++) {
-				elfrec_t r;
-				if (rec_get(REC_RELA, o->file + o->sh[i].offset + k * 24, o->flen, &r)) { fail("%s: bad relocation", o->name); continue; }
-				rela_t rl = r.body.u.a4.r;
-				uint64_t S;
-				if (rl.symidx >= (uint32_t)o->nsyms) { fail("%s: relocation names symbol %u", o->name, rl.symidx); continue; }
-				if (sym_addr(o, rl.symidx, &S, "relocation")) continue;
-				uint64_t P = secaddr + rl.offset;
-				uint8_t *where = image[c] + o->is[target].outoff + rl.offset;
-				int64_t V = (int64_t)S + rl.addend;
-				char nb[300];
-				const char *sname = relname(o, rl.symidx, rl.addend, nb, sizeof nb);
-				switch (rl.type) {
-				case R_PDP64_D64:
-					for (int b = 0; b < 8; b++) where[b] = (uint64_t)V >> (8 * b);
-					break;
-				case R_PDP64_D32:
-					if (!fits_signed(V, 32) && (uint64_t)V > 0xFFFFFFFFu) { fail("%s: %s: value %#llx does not fit 32 bits", o->name, sname, (unsigned long long)V); break; }
-					for (int b = 0; b < 4; b++) where[b] = (uint64_t)V >> (8 * b);
-					break;
-				case R_PDP64_INSN_ABS: case R_PDP64_INSN_PC: case R_PDP64_INSN_BR: {
-					if (link_tab) { relocate_insn(o, target, where, &rl, S, P, V, sname); break; }
-					int len = get16(where) >> 14;			/* 1 or 2: a page-2 instruction (len 3) has no field to patch */
-					int bits = 16 * len;
-					if (len == 3) { fail("%s: relocation to %s on a one-parcel (page 2) instruction", o->name, sname); break; }
-					int64_t val = V;
-					if (rl.type == R_PDP64_INSN_PC) val = V - (int64_t)P;
-					if (rl.type == R_PDP64_INSN_BR) {
-						val = V - (int64_t)P;
-						if (val & 1) { fail("%s: branch to %s is to an odd address", o->name, sname); break; }
-						val /= 2;
-					}
-					if (len == 0 || !fits_signed(val, bits)) {
-						fail("%s: relocation to %s out of range (%s %lld does not fit the %d-bit field of the instruction; an immediate or absolute address is a sign-extended 32-bit value)", o->name, sname,
-						    rl.type == R_PDP64_INSN_ABS ? "value" : "displacement", (long long)val, bits);
-						break;
-					}
-					for (int pc = 1; pc <= len; pc++) {			/* parcel 1 is the most significant */
-						int shift = 16 * (len - pc);
-						put16(where + 2 * pc, (uint16_t)((uint64_t)val >> shift));
-					}
+			int64_t V;
+			if (rel_value(o, rl, &V, 0)) continue;
+			uint64_t P = isec_addr(o, target, (int64_t)rl->off);
+			uint8_t *where = image[c] + o->is[target].outoff + isec_off(&o->is[target], (int64_t)rl->off);
+			char nb[300];
+			const char *sname = relname(o, rl->symidx, rl->addend, nb, sizeof nb);
+			switch (rl->type) {
+			case R_PDP64_D64:
+				for (int b = 0; b < 8; b++) where[b] = (uint64_t)V >> (8 * b);
+				break;
+			case R_PDP64_D32:
+				if (!fits_signed(V, 32) && (uint64_t)V > 0xFFFFFFFFu) { fail("%s: %s: value %#llx does not fit 32 bits", o->name, sname, (unsigned long long)V); break; }
+				for (int b = 0; b < 4; b++) where[b] = (uint64_t)V >> (8 * b);
+				break;
+			case R_PDP64_INSN_ABS: case R_PDP64_INSN_PC: case R_PDP64_INSN_BR: {
+				if (link_tab) { relocate_insn(o, target, where, rl, P, V, sname); break; }
+				int len = get16(where) >> 14;			/* 1 or 2: a page-2 instruction (len 3) has no field to patch */
+				int bits = 16 * len;
+				if (len == 3) { fail("%s: relocation to %s on a one-parcel (page 2) instruction", o->name, sname); break; }
+				int64_t val = V;
+				if (rl->type == R_PDP64_INSN_PC) val = V - (int64_t)P;
+				if (rl->type == R_PDP64_INSN_BR) {
+					val = V - (int64_t)P;
+					if (val & 1) { fail("%s: branch to %s is to an odd address", o->name, sname); break; }
+					val /= 2;
+				}
+				if (len == 0 || !fits_signed(val, bits)) {
+					fail("%s: relocation to %s out of range (%s %lld does not fit the %d-bit field of the instruction; an immediate or absolute address is a sign-extended 32-bit value)", o->name, sname,
+					    rl->type == R_PDP64_INSN_ABS ? "value" : "displacement", (long long)val, bits);
 					break;
 				}
-				default:
-					fail("%s: unknown relocation type %u", o->name, rl.type);
+				for (int pc = 1; pc <= len; pc++) {			/* parcel 1 is the most significant */
+					int shift = 16 * (len - pc);
+					put16(where + 2 * pc, (uint16_t)((uint64_t)val >> shift));
 				}
+				break;
+			}
+			default:
+				fail("%s: unknown relocation type %u", o->name, rl->type);
 			}
 		}
 	}
@@ -492,10 +582,13 @@ int main(int argc, char **argv)
 		else if (!strcmp(argv[i], "-e") && i + 1 < argc) entry = argv[++i];
 		else if (!strcmp(argv[i], "-Ttext") && i + 1 < argc) text_base = strtoull(argv[++i], NULL, 0);
 		else if (!strcmp(argv[i], "-M")) map = 1;
-		else if (argv[i][0] == '-' && argv[i][1]) { fprintf(stderr, "usage: %s [-o out] [-e entry] [-Ttext addr] [-M] file.o ...\n", progname); return 2; }
+		else if (!strcmp(argv[i], "--no-relax")) relax_enabled = 0;
+		else if (!strcmp(argv[i], "--relax")) relax_enabled = 1;
+		else if (!strcmp(argv[i], "--stats")) rx.stats = 1;
+		else if (argv[i][0] == '-' && argv[i][1]) { fprintf(stderr, "usage: %s [-o out] [-e entry] [-Ttext addr] [-M] [--no-relax] [--stats] file.o ...\n", progname); return 2; }
 		else files[nfiles++] = argv[i];
 	}
-	if (!nfiles) { fprintf(stderr, "usage: %s [-o out] [-e entry] [-Ttext addr] [-M] file.o ...\n", progname); return 2; }
+	if (!nfiles) { fprintf(stderr, "usage: %s [-o out] [-e entry] [-Ttext addr] [-M] [--no-relax] [--stats] file.o ...\n", progname); return 2; }
 	if (text_base % PAGE) { fprintf(stderr, "%s: -Ttext must be a multiple of %d\n", progname, PAGE); return 2; }
 	for (int i = 0; i < nfiles; i++) load_object(files[i]);
 	if (errors) return 1;
@@ -507,14 +600,27 @@ int main(int argc, char **argv)
 			if (g >= 0 && !gs[g].defined && objs[oi].syms[k].shndx == 0) { fail("undefined symbol %s (referenced from %s)", gs[g].name, objs[oi].name); gs[g].defined = -1; }
 		}
 	if (errors) return 1;
-	layout();
+	if (link_tab) {
+		struct einsn z;
+		uint16_t par[5];
+		memset(&z, 0, sizeof z);
+		z.mn = enc_mn_find(link_tab, "nop");
+		if (z.mn >= 0 && enc_encode(link_tab, &z, par, NULL, NULL) == 1) nop_parcel = par[0];
+		for (int oi = 0; oi < nobjs; oi++) if (objs[oi].relax && build_sites(&objs[oi])) return 1;
+	}
+	if (errors) return 1;
+	if (relax_all()) return 1;
 	uint8_t *image[NCLASS];
 	for (int c = 0; c < NCLASS; c++) image[c] = calloc(csize[c] + 1, 1);
 	for (int oi = 0; oi < nobjs; oi++)
-		for (int i = 0; i < objs[oi].nsec; i++)
-			if (objs[oi].cls[i] >= 0 && objs[oi].cls[i] != C_BSS)
-				memcpy(image[objs[oi].cls[i]] + objs[oi].is[i].outoff, objs[oi].is[i].data, objs[oi].is[i].size);
+		for (int i = 0; i < objs[oi].nsec; i++) {
+			struct isec *s = &objs[oi].is[i];
+			if (objs[oi].cls[i] < 0 || objs[oi].cls[i] == C_BSS) continue;
+			if (s->nsites) emit_isec(&objs[oi], i, image[objs[oi].cls[i]] + s->outoff);
+			else memcpy(image[objs[oi].cls[i]] + s->outoff, s->data, s->size);
+		}
 	relocate(image);
+	if (rx.stats) relax_stats();
 	int eg = -1;
 	for (int g = 0; g < ngs; g++) if (!strcmp(gs[g].name, entry) && gs[g].defined > 0) eg = g;
 	if (eg < 0) fail("entry symbol %s is not defined", entry);

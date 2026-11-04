@@ -119,6 +119,7 @@ struct efield {
 	int unit;			/* ES_PC: bytes per unit of the field (1 or 2); 1 for the others */
 	int sgn;
 	int nparcels;			/* the instruction's length */
+	int oi;				/* the index of the operand (of the einsn enc_decode gives) that the field belongs to */
 	int nruns;
 	struct erun run[8];		/* msb first */
 };
