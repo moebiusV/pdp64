@@ -182,3 +182,63 @@ Counting parcels from 1, the escape is parcel 1 and the real opcode lives in par
 **Your annotations:**
 
 &nbsp;
+
+### 3.5 The second parcel in detail, and the measured displacement overflow
+
+**The measurement.** The 841-file corpus compiled with the 16-register pcc back end, 81,051 memory operands with a base register (the scaled-index form, 1,516 operands, is counted apart). The share whose displacement fits:
+
+| Displacement field | Fits | Overflow to a third parcel | Added bytes (2 per overflow) | Share of code bytes |
+|---|---|---|---|---|
+| **6 bits, bytes, signed** (±32) | 60.3% | 32,147 | 64,294 | **+5.2%** |
+| 7 bits, bytes, signed | 74.4% | 20,752 | 41,504 | +3.3% |
+| **6 bits, scaled by operand size, signed** | 84.0% | 12,975 | 25,950 | **+2.1%** |
+| **6 bits, scaled by operand size, unsigned** (0 to 63 × size) | 88.7% | 9,194 | 18,388 | **+1.5%** |
+| 11 bits, scaled, signed | 98.7% | 1,057 | 2,114 | +0.2% |
+| 12 bits, bytes, signed (today) | 98.4% | 1,294 | | |
+
+Two facts make scaling free: **every displacement in the corpus is a multiple of its operand size** (data is naturally aligned, errata 82), and **only 221 of the 27,405 stack-pointer and frame-pointer displacements are negative**. A quad (8 bytes) at displacement 8 is stored as 1; the assembler scales it, the hardware multiplies by the size the opcode implies (1, 2, 4 or 8). The code bytes are the whole corpus's 1,244,148 bytes (`lengths_pdp64.csv`); the percentages are before any other change.
+
+**Layout of a two-parcel memory instruction** (bit 15 first; parcel 1 is the escape, parcel 2 the real instruction):
+
+```
+parcel 1:   15..10  ESC2          6   length escape: "2 parcels, real opcode follows"
+             9..5   reg           5   the data register (destination or source)
+             4..0   rm            5   the base register
+
+parcel 2:   15..10  opcode        6   the real operation, from the 2-parcel map
+             9..6   mode          4   addressing mode (table below)
+             5..0   disp          6   displacement, scaled by the operand size
+```
+
+The three-parcel form is the same two parcels followed by a third that extends the displacement: `parcel 2 [5..0]` is the high 6 bits and `parcel 3` the low 16, so 22 bits (scaled: ±2 M entries).
+
+**What each mode does with the fields.**
+
+| Mode | Meaning | `rm` | `disp` field |
+|---|---|---|---|
+| `0000` | `d(Rn)` base plus displacement | base | 6-bit displacement |
+| `0001` to `0100` | scaled index `(Rn)(Rx*s)`, one mode per scale 1, 2, 4, 8 | base | index register `Rx` in `disp[5..1]`, `disp[0]` unused (no displacement; a displacement needs the 3-parcel form) |
+| `0101` | `d(PC)` PC-relative | **unused** | `disp` plus the 5 `rm` bits: 11 bits |
+| `0110` | immediate | **unused** | 11 bits |
+| `0111` | absolute | **unused** | 11 bits |
+| `1000` | `d(DP)` direct page | **unused** | 11 bits |
+| `1001` | `(Rn)+` post-increment, stride in `disp` | base | stride |
+| `1010` | `-(Rn)` pre-decrement, stride in `disp` | base | stride |
+| `1011` | `d(SP)` stack-relative | **unused** (SP implied) | 11 bits |
+| `1100` to `1111` | reserved: user-qualified forms (item 18), deferred loads (item 10) | | |
+
+The mode numbering is a proposal; the present map (ISA section 5) puts base at 0, scaled index at 1, PC-relative at 2, direct page at 3, immediate at 4, absolute at 5, post-increment at 6, pre-decrement at 7 and reserves 8 to 15.
+
+**Ways to stop the overflow, each from the table above.**
+
+1. **Scale the displacement by the operand size.** 6 bits then reach 63 entries: 88.7% instead of 60.3% (+1.5% code instead of +5.2%). Costs a 2-bit size decode from the opcode (already known) and a shifter on the address adder. Free in data (all multiples).
+2. **Make the stack-pointer form implicit.** 27,405 of the 81,051 operands (34%) are relative to SP or FP. A mode that fixes the base to SP frees the 5 `rm` bits for an 11-bit displacement: scaled, that reaches 99.7% of those. One extra mode (`1011`), no extra opcode.
+3. **Reuse the `rm` bits where there is no base register.** PC-relative, immediate, absolute and direct-page modes name no register, so their 11-bit displacement uses the `rm` field as well. The register file is not read for them, so reading registers early from parcel 1 loses nothing.
+4. **Narrow the mode field.** The user-qualified and deferred-load variants (modes 8 to 15) could become opcodes in the 2-parcel map instead of modes, leaving 8 modes in 3 bits and giving the displacement a 7th bit.
+5. **Pick a signed or unsigned displacement per base.** Unsigned for SP-relative (almost never negative), signed for other bases (negative offsets are common in structure walks).
+
+Taken together (1 and 2), the overflow falls to about 1% of the memory operands: the 32 registers cost about 0.2% of the code in displacement overflow. The unresolved cost is then the one-parcel opcode room (62 against today's 128 slots), which the third measurement answers, and the spills the second measurement removes.
+
+**Your annotations:**
+
+&nbsp;
