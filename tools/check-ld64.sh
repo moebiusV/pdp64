@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 B=${BUILD:-build}
 tools/build-as64.sh > /dev/null
 RENAME="-Demit_bits=x_emit_bits"
-gcc -g -w -Ias64 -I"$B" -o "$B/ld64" ld64/ld64.c
+gcc -g -w -Ias64 -Icommon -I"$B" -o "$B/ld64" ld64/ld64.c common/pdp64enc.c "$B/pdp64-16-tab.c" "$B/pdp64-32-tab.c"
 "$B/as64" -o "$B/ldmain.o" tests/ld/main.s
 "$B/as64" -o "$B/ldlib.o" tests/ld/lib.s
 "$B/ld64" -M -o "$B/ld.out" "$B/ldmain.o" "$B/ldlib.o" > "$B/ld.map"

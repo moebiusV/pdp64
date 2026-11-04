@@ -12,6 +12,11 @@
  * An instruction relocation patches the last 16*len bits of the instruction whose first parcel is at r_offset; `len` is in
  * bits 15..14 of that parcel (docs/CHANGES-SINCE-R20.md 7).  The field holds its parcels most significant first, each
  * parcel little-endian in memory.
+ *
+ * The objects are of one instruction encoding, the one in their e_flags (as64/relocs.h): the original (0), pdp64/16 or pdp64/32.  Objects of different
+ * encodings are refused.  In the prefix-coded encodings (pdp64/16, pdp64/32) the field a relocation patches is not at the end of the instruction: the
+ * codec (common/pdp64enc.c, from the generated tables) finds the pc-relative or absolute operand of the instruction at r_offset, with the bit
+ * positions and the unit (a branch or call field counts parcels), and inserts the value there.  The executable carries the same e_flags.
  */
 #include <errno.h>
 #include <stdarg.h>
@@ -21,6 +26,7 @@
 #include <string.h>
 #include "elf-parser.c"
 #include "relocs.h"
+#include "pdp64enc.h"
 
 static const char *progname = "ld64";
 static int errors;
@@ -90,6 +96,8 @@ struct obj {
 };
 static struct obj *objs;
 static int nobjs;
+static int link_enc = -1;			/* the encoding of the objects (EF_PDP64_ENC_*), set by the first */
+static struct etab *link_tab;			/* its tables, for the prefix-coded encodings */
 
 struct gsym {
 	char *name;
@@ -132,6 +140,19 @@ static int load_object(const char *path)
 		fail("%s: not a pdp64 ELF relocatable object", path); return -1;
 	}
 	ehdr_t eh = r.body.u.a1.e;
+	{
+		int e = (int)(eh.flags & EF_PDP64_ENC_MASK);
+		if (eh.flags & ~(uint32_t)EF_PDP64_ENC_MASK) { fail("%s: unknown e_flags %#x", path, (unsigned)eh.flags); return -1; }
+		if (e > EF_PDP64_ENC_32) { fail("%s: unknown instruction encoding %d in e_flags", path, e); return -1; }
+		if (link_enc < 0) {
+			link_enc = e;
+			link_tab = e == EF_PDP64_ENC_16 ? &enc_tab_16 : e == EF_PDP64_ENC_32 ? &enc_tab_32 : NULL;
+		} else if (e != link_enc) {
+			static const char *const nm[] = { "pdp64/r20", "pdp64/16", "pdp64/32" };
+			fail("%s is %s, the objects before it are %s: objects of different instruction encodings cannot be linked", path, nm[e], nm[link_enc]);
+			return -1;
+		}
+	}
 	o.nsec = eh.shnum;
 	o.sh = calloc(o.nsec, sizeof *o.sh);
 	o.is = calloc(o.nsec, sizeof *o.is);
@@ -282,6 +303,34 @@ static const char *relname(struct obj *o, int k, int64_t addend, char *buf, size
 	return buf;
 }
 
+/* a relocation in a prefix-coded encoding: find the field in the instruction, check the range, insert */
+static void relocate_insn(struct obj *o, int target, uint8_t *where, const rela_t *rl, uint64_t S, uint64_t P, int64_t V, const char *sname)
+{
+	uint16_t p[5];
+	size_t avail = (o->is[target].size - rl->offset) / 2;
+	int np = avail > 5 ? 5 : (int)avail;
+	struct efield f;
+	int64_t val = V;
+	for (int k = 0; k < np; k++) p[k] = get16(where + 2 * k);
+	if (np < 1 || enc_reloc_field(link_tab, p, np, rl->type == R_PDP64_INSN_ABS ? ES_A : ES_PC, &f)) {
+		fail("%s: relocation to %s: the instruction at offset %#llx has no %s operand", o->name, sname, (unsigned long long)rl->offset, rl->type == R_PDP64_INSN_ABS ? "immediate or absolute" : "pc-relative");
+		return;
+	}
+	if (rl->type != R_PDP64_INSN_ABS) {
+		if ((rl->type == R_PDP64_INSN_BR) != (f.unit == 2)) { fail("%s: relocation to %s: the type does not match the field of the instruction (unit %d)", o->name, sname, f.unit); return; }
+		val = V - (int64_t)P;
+		if (val % f.unit) { fail("%s: branch to %s is to an odd address", o->name, sname); return; }
+		val /= f.unit;
+	}
+	if (!fits_signed(val, f.w)) {
+		fail("%s: relocation to %s out of range (%s %lld does not fit the %d-bit field of the instruction%s)", o->name, sname,
+		    rl->type == R_PDP64_INSN_ABS ? "value" : "displacement", (long long)val, f.w, rl->type == R_PDP64_INSN_ABS ? "; an immediate or absolute address is a sign-extended 32-bit value" : "");
+		return;
+	}
+	enc_field_put(&f, p, (uint64_t)val);
+	for (int k = 0; k < f.nparcels && k < np; k++) put16(where + 2 * k, p[k]);
+}
+
 static void relocate(uint8_t *image[NCLASS])
 {
 	for (int oi = 0; oi < nobjs; oi++) {
@@ -314,6 +363,7 @@ static void relocate(uint8_t *image[NCLASS])
 					for (int b = 0; b < 4; b++) where[b] = (uint64_t)V >> (8 * b);
 					break;
 				case R_PDP64_INSN_ABS: case R_PDP64_INSN_PC: case R_PDP64_INSN_BR: {
+					if (link_tab) { relocate_insn(o, target, where, &rl, S, P, V, sname); break; }
 					int len = get16(where) >> 14;			/* 1 or 2: a page-2 instruction (len 3) has no field to patch */
 					int bits = 16 * len;
 					if (len == 3) { fail("%s: relocation to %s on a one-parcel (page 2) instruction", o->name, sname); break; }
@@ -411,7 +461,7 @@ static int write_exec(const char *path, uint64_t entry, uint8_t *image[NCLASS])
 		memset(&r, 0, sizeof r); r.kind = REC_EHDR; r.body.kind = REC_EHDR;
 		ehdr_t *e = &r.body.u.a1.e;
 		e->ident.ptr = ident; e->ident.len = 16;
-		e->type = 2; e->machine = EM_PDP64; e->version = 1; e->entry = entry; e->phoff = 64; e->shoff = off_sh;
+		e->type = 2; e->machine = EM_PDP64; e->version = 1; e->flags = link_enc > 0 ? (uint32_t)link_enc : 0; e->entry = entry; e->phoff = 64; e->shoff = off_sh;
 		e->ehsize = 64; e->phentsize = 56; e->phnum = 2; e->shentsize = 64; e->shnum = 7; e->shstrndx = 6;
 		rec_put(&r, &head);
 		memset(&r, 0, sizeof r); r.kind = REC_PHDR; r.body.kind = REC_PHDR;
