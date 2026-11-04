@@ -158,6 +158,8 @@ two parcels:    ESC2(6)    reg(5) reg(5) | opcode(6) mode(4) disp(6)      64 opc
 three parcels:  ESC3(6)    reg(5) reg(5) | opcode(6) mode(4) disp(6) | disp(16)   64 opcodes of its own
 ```
 
+Counting parcels from 1, the escape is parcel 1 and the real opcode lives in parcel 2 (the author's wording); the diagram's second parcel is that parcel. The registers sit in parcel 1 at the same bit positions as in a one-parcel instruction, so the register file can be read from parcel 1 before parcel 2 has been decoded; both parcels are in the same fetch group, so the operation is known one decode step later at no extra fetch.
+
 **What it gains.**
 
 * 32 registers in every form.
