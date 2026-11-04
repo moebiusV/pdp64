@@ -2,11 +2,11 @@
 
 [← pdp64 index](../README.md)
 
-For the author's annotation. This follows the author's decisions on `security-round2.md` section 2: the branch-free select is in; at least one core is secure, with every timing channel removed, ticks kept, cache lines private; constant-time AES and SHA instructions, "or whichever opcodes would speed up and enable aes and sha"; any protection that costs nothing on the other cores goes on them too. The proposals are scored against the definitive list (errata 83): **1** security and safety (an error that cannot arise; else easy to detect; else cheap to recover from; no strange side effects), **2** opcode choice (fewer instructions executed; coalescing is good), **3** opcode encoding (dense; rare means longer), **4** speed and power (low gate count), **5** compiler target, **6** assembler; beside them out-of-order readiness, the soft-rule test, hot-loop weight and Occam.
+For the author's annotation. This follows the author's decisions on `security-round2.md` section 2: the branch-free select is in; at least one core is secure, with every timing channel removed, cache lines private, and no timer tick where none is required (the later annotation); constant-time AES and SHA instructions, "or whichever opcodes would speed up and enable aes and sha"; any protection that costs nothing on the other cores goes on them too. The proposals are scored against the definitive list (errata 83): **1** security and safety (an error that cannot arise; else easy to detect; else cheap to recover from; no strange side effects), **2** opcode choice (fewer instructions executed; coalescing is good), **3** opcode encoding (dense; rare means longer), **4** speed and power (low gate count), **5** compiler target, **6** assembler; beside them out-of-order readiness, the soft-rule test, hot-loop weight and Occam.
 
 **Sourcing.** Facts about pdp64 come from the repository, with paths. *Local* means read in `../kernel-src` (sparse trees: no `arch/*/crypto` directory exists in the Linux tree, and OpenBSD's `sys/crypto` is absent; what is there is `sys/arch/amd64/amd64/aesni.c`, `aes_intel.S`, `sys/arch/arm64/arm64/cryptox.c` and `cpu.c`, and Linux `Documentation/arch/riscv/hwprobe.rst` and `Documentation/devicetree/bindings/riscv/extensions.yaml`). Everything else outside the repository is marked *(from memory, not confirmed)*. No web page was fetched. Cycle counts, gate counts and instruction counts are **estimates** and are labelled as such.
 
-**Reading the author's sentence "all instructions take the same length of time".** Read here as: the time of every instruction depends only on the instruction (opcode and length), never on its operand values or addresses. It is not read as "`ADD` takes as long as `DIV`": the mix of instructions a program executes is fixed by its control flow, which software keeps independent of secrets, so padding every instruction to the slowest would cost speed and remove no leak. If the author meant the literal reading, say so.
+**Reading the author's sentence "all instructions take the same length of time".** Read here as: the time of every instruction depends only on the instruction (opcode and length), never on its operand values or addresses. It is not read as "`ADD` takes as long as `DIV`": the mix of instructions a program executes is fixed by its control flow, which software keeps independent of secrets, so padding every instruction to the slowest would cost speed and remove no leak. If the author meant the literal reading, say so. *Confirmed by the author:* `ADD` and `DIV` need not take the same time as each other; each takes a time independent of its data.
 
 ## Summary of the instructions
 
@@ -70,7 +70,7 @@ The author's wording is "all cache fetches take same length of time" and "all ca
 - The secure core has a **private window**: a contiguous range of the address space backed by the TCM, mapped by a direct-mapping window (ISA section 8.3), so translation is an add and a bounds check, with no TLB state. Its size is in the class register.
 - Secret-bearing data (keys, round keys, state, intermediate values, tables a secret indexes) lives in the window. Loads and stores to the window take one fixed latency, any address.
 - Loads and stores outside the window are not supported on the secure class; they abort with a new cause (`ECAUSE = SECWIN`). Data crosses the boundary only with `MBLK` (`MCPY`, `MMOV`), whose time is a function of the count and a published per-block constant (section 1.6). A hash input or ciphertext buffer is copied in, processed, copied out.
-- Instruction fetch comes from the window or from a private instruction memory of fixed latency. Code is public by assumption, so a miss in a private instruction cache would leak only the control flow, which software keeps secret-independent; it may be a real cache if the author prefers, with the tick-time and flush rules of section 1.5. The simplest conformant design fetches from the window.
+- Instruction fetch comes from the window or from a private instruction memory of fixed latency. Code is public by assumption, so a miss in a private instruction cache would leak only the control flow, which software keeps secret-independent; it may be a real cache if the author prefers, with the interrupt and flush rules of section 1.5. The simplest conformant design fetches from the window.
 - Option A is kept as a permitted implementation of the same promise for a larger window, never as the recommendation.
 
 The cost of B is that a secure core is a crypto engine, not a general-purpose core: a process that wants 100 MB of secret-indexed working set does not fit. That is acceptable because the use is keys and cipher state, which is kilobytes.
@@ -87,13 +87,13 @@ On the secure class: the TLB is small, fully associative, tagged by ASID, and **
 - The reading of `RDTIME` is allowed and exact; the core's own process may time itself. A timer is a danger only to a victim, and the victim's observers are on other cores (section 1.6).
 - Power analysis and electromagnetic emission are not timing channels and are out of the promise (section 5).
 
-### 1.5 Ticks, interrupts and the kernel's duties
+### 1.5 Interrupts and the kernel's duties
 
-The author wants ticks, not tickless. A periodic timer interrupt on the secure core is acceptable under these rules, which the kernel must obey:
+The secure core takes no periodic timer tick: if an instruction can take the same time whatever its operands without one, nothing needs introducing (the author's rule: no timing interrupts, ticks or hertz where they are not required). It is stopped or preempted by an inter-processor interrupt from a general core (the doorbell and the stop-and-drain register of manual 7.8.4), and any other interrupt it takes. The rules below bind the handler of every such interrupt:
 
-1. **The tick handler touches no secure state.** It reads and writes no address in the private window other than its own stack and per-core structure, which sit in a reserved part of the window. It does not read the interrupted process's registers or memory except to save them to that stack.
-2. **Its duration does not depend on secure state.** It runs with the same fixed-latency instructions and no secret-dependent branch, so each tick adds the same number of cycles, at fixed times. The total time of a computation is then its fixed work plus a fixed cost per elapsed tick, which depends on the elapsed time only, and the elapsed time of a secret-independent computation does not depend on the secret.
-3. **No scheduling decision uses secure state.** The secure core runs one secure domain at a time; the tick's job is accounting and preemption, not choosing among secret-dependent alternatives.
+1. **The interrupt handler touches no secure state.** It reads and writes no address in the private window other than its own stack and per-core structure, which sit in a reserved part of the window. It does not read the interrupted process's registers or memory except to save them to that stack.
+2. **Its duration does not depend on secure state.** It runs with the same fixed-latency instructions and no secret-dependent branch, so each interrupt adds the same number of cycles. The total time of a computation is then its fixed work plus a fixed cost per interrupt taken; the arrival of an interrupt is chosen by another core, so it carries no secret.
+3. **No scheduling decision uses secure state.** The secure core runs one secure domain at a time; the interrupt's job is accounting and preemption, not choosing among secret-dependent alternatives. A runaway computation is stopped by the doorbell, not by a tick.
 4. **A domain switch zeroizes.** Before another domain runs, hardware clears the window (a class-control write starts a clear engine that runs at the TCM's width per cycle, so a 256 KiB window at 64 bytes per cycle takes 4096 cycles, an estimate) and the kernel clears the sixteen registers. Nothing of the previous domain's keys survives in a register or in SRAM.
 5. **Interrupt latency** is bounded and public: an interrupt is taken at the next instruction boundary, or at the next block boundary of an `MBLK`. The worst case is the longest fixed latency (a divide) or the block time, both published (ISA section 12 item 5 asks for exactly this figure). The moment of arrival is external and carries no secret.
 
@@ -152,9 +152,13 @@ The author's rule: any of these that can run on the other cores without a perfor
 | Private TCM window, locked TLB, reserved bus slot, hardware clear, fixed frequency, forced `DIT`, no demand paging | | **yes** | each costs performance, area or flexibility |
 | 12 Retire-gated visibility ("strict" domain) | a per-domain bit on out-of-order cores | constant (nothing speculates) | the author leans toward it; costs only to domains that ask |
 
-**Impact.** *Kernel:* one affinity rule and a domain-switch routine; the tick handler obeys five rules. *Compiler:* nothing; secure code is written with intrinsics and checked by the harness. *Hardware:* the secure core is a small in-order core plus an SRAM block, a clear engine and a bus slot; no new mechanism on the other cores beyond a bit and some comparators.
+**Impact.** *Kernel:* one affinity rule and a domain-switch routine; the interrupt handler obeys five rules; no periodic tick. *Compiler:* nothing; secure code is written with intrinsics and checked by the harness. *Hardware:* the secure core is a small in-order core plus an SRAM block, a clear engine and a bus slot; no new mechanism on the other cores beyond a bit and some comparators.
 
 **Your annotations:**
+
+if we can make an instruction run in equal time regardless of its args, without tics, then we should. if we don't have to introduce timing interrupts, ticks, or hertz, then we shouldn't.
+i like your design. approved.
+
 
 &nbsp;
 
@@ -215,6 +219,8 @@ Constant-time buffer equality for secrets: `MCMP` on the secure class (or any co
 **Impact.** *Kernel:* a constant-time compare and select for MAC checks and key handling with no branch. *Compiler:* a back end must not turn the sequence back into a branch (a rule in `abi.md`: the optimizer treats `MASKEQZ` as opaque). *Hardware:* about 100 LUTs, one cycle.
 
 **Your annotations:**
+
+looks good.
 
 &nbsp;
 
@@ -290,6 +296,11 @@ An AES S-box is the inversion in GF(2^8) followed by an affine map. In hardware 
 
 **Your annotations:**
 
+
+did we carefully examine how the opcode layout is impacted if we had 32 registers instead of 16? would it spill a bunch of the single parcel instructions?
+what impact if we do 128 bit registers instead of 64 bit?
+
+
 &nbsp;
 
 ## 4. What the other cores get
@@ -313,10 +324,10 @@ The instruction set is one: every core, secure or not, executes every instructio
 **What a suite tests, and where it runs.**
 
 1. **Function** (sim64, QEMU, RTL): known-answer tests for every new instruction (FIPS 197 AES vectors, FIPS 180 SHA vectors, the NIST test vectors for modes, RFC test vectors for ChaCha20-Poly1305, GCM and X25519), round-trip encrypt/decrypt over random keys, `MASKEQZ`/`MASKNEZ`/`BSEL` truth tables with boundary operands, every `AESKS1` round number. Runs on the reference emulator now; this is the part `sim64` can do today. `sim64` has no cycle model (`sim64.md`).
-2. **Timing** (RTL simulation and FPGA; a cycle-accurate model in `sim64` for the harness itself, option to be added): a program run on the secure core, in kernel mode with ticks on, that for every instruction I in the constant-time set and every operand class pair measures the cycles of a chain of 100 repetitions, bracketed by `RDTIME` and `ISYNC`, repeated 10,000 times.
+2. **Timing** (RTL simulation and FPGA; a cycle-accurate model in `sim64` for the harness itself, option to be added): a program run on the secure core, in kernel mode with a doorbell interrupt injected at random times, that for every instruction I in the constant-time set and every operand class pair measures the cycles of a chain of 100 repetitions, bracketed by `RDTIME` and `ISYNC`, repeated 10,000 times.
    - *Operand classes:* zero, one, all ones, the most negative number, powers of two, every leading-zero count 0 to 63, every shift count 0 to 64 and above, random, subnormal and special floating-point values; for `AESES` and `SHA*`, random against fixed inputs; for `MBLK`, buffers equal at the first byte, at the last, never; `MCMP`/`MSCN` with the difference at each position.
    - *Memory:* every address of the window, strided, repeated, and with the cache or lines of the other cores warm and cold; the TLB hit and miss cases abort rather than vary.
-   - *Pass criterion:* **exact equality**. The core is deterministic, so the minimum and maximum of the deltas must be equal; with ticks on, the deltas take only the values `C` and `C + H`, where `H` is the published tick-handler length, and the count of `C + H` equals the number of ticks. A statistical test is unnecessary (and weaker); where a part is not cycle-exact (a general core's loads), a fixed-versus-random Welch t-test in the style of dudect *(from memory, not confirmed)* over a whole routine is the fallback.
+   - *Pass criterion:* **exact equality**. The core is deterministic, so the minimum and maximum of the deltas must be equal; with interrupts injected, the deltas take only the values `C` and `C + H`, where `H` is the published handler length, and the count of `C + H` equals the number of interrupts injected. A statistical test is unnecessary (and weaker); where a part is not cycle-exact (a general core's loads), a fixed-versus-random Welch t-test in the style of dudect *(from memory, not confirmed)* over a whole routine is the fallback.
 3. **Interference**: the same program while the other cores run a bus saturator, a cache thrasher, a DRAM row-conflict generator and an inter-processor-interrupt storm. Pass: the secure core's deltas are unchanged, bit for bit.
 4. **Structural check on the RTL** (formal or by simulation with data tainting): no operand-data signal is in the fan-in of any control signal (stall, valid, early-out, counter load, mux select) of a unit in the constant-time set. This catches a leak the timing test would miss for an operand pair it did not try. It is the method that makes "constant by construction" checkable.
 5. **Isolation**: after a domain switch the window reads zero, the registers are zero; a device write to the window address range faults at the IOMMU or does not reach it; accesses outside the window abort with `SECWIN`.

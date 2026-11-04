@@ -43,6 +43,8 @@ The hardware is cheap and the software is very expensive, the opposite of most o
 
 **Your annotations:**
 
+i accept your recommendation.
+
 &nbsp;
 
 ## 2. Trap and abort
@@ -55,6 +57,9 @@ Both are exceptions. The difference is whether the instruction that raised it is
 For `TRAPCC` as a trap, a handler that returns carries on after the check; as an abort, it would re-execute the check and re-test the flags. A check has nothing to retry, and its handler normally terminates the program or unwinds, so **trap** is the right choice, as proposed. The decision is recorded in errata 85.
 
 **Your annotations:**
+
+good, it is a trap not an abort
+
 
 &nbsp;
 
@@ -72,6 +77,9 @@ Poison is a bit on a register meaning "this value came from a failed operation; 
 
 &nbsp;
 
+your recommendations accepted.
+
+
 ## 4. Item 12: the `NS` page bit and item 11's `SEC` page
 
 Two different page bits do two different jobs.
@@ -82,6 +90,9 @@ Two different page bits do two different jobs.
 A key page wants both. But they stand alone: `NS` is useful on pages that are not secret in the taint sense (data across a sandbox boundary, say), and `SEC` is useful on a secure in-order core where nothing speculates. **Lean: keep them independent** (fewer coupled states, fewer surprises). The operating system sets both on a concealed mapping (`MAP_CONCEAL`).
 
 **Your annotations:**
+
+agree, keep independant.
+
 
 &nbsp;
 
@@ -96,5 +107,8 @@ A key page wants both. But they stand alone: `NS` is useful on pages that are no
 | 5 | Atomics take the user form | A futex on a user word needs a user-qualified atomic. | **Yes**, once the operand placement of `ATOM` is fixed. |
 
 **Your annotations:**
+
+i agree to your recommendations
+
 
 &nbsp;
