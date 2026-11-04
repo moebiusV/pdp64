@@ -10,7 +10,7 @@ B=${BUILD:-build}; mkdir -p "$B"
 python3 tools/mkgrammar.py
 python3 tools/mkenc.py
 cp spec/common.hbnf spec/ascii.hbnf "$B/x/"
-(cd "$B/x" && "$HBNF" pdp64-asm.hbnf --backend=c --templates="$TPL" --ast --spans) > "$B/x/pdp64-asm-parser.c"
+(cd "$B/x" && "$HBNF" pdp64-asm.hbnf --backend=c --templates="$TPL" --ast --spans --no-compact --no-overlay) > "$B/x/pdp64-asm-parser.c"
 ("$HBNF" "$B/pdp64.hbnf" --backend=c --templates="$TPL") > "$B/pdp64-parser.c"
 (cd "$B" && "$HBNF" elf.hbnf       --backend=c --templates="$TPL") > "$B/elf-parser.c"
 CFLAGS=${CFLAGS:--g -w}
