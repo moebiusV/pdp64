@@ -5,33 +5,71 @@ pdp64 is a family. Its members differ in the width of the register fields and so
 | name | registers | encoding | source of truth | `-m` | `e_flags & 0xF` |
 |---|---|---|---|---|---|
 | pdp64/r20 | r0-r15 | the original: parcel 0 = `len:2 opc:6 reg:4 low:4` | `pdp64-mnemonics.hbnf`, `pdp64.hbnf.in` (hbnf) | `pdp64/r20` (the default; `old`, `r20`) | 0 |
-| pdp64/16 | r0-r15 | prefix-coded, 4-bit register fields | `pdp64-16/forms.json` | `pdp64/16` (or `16`) | 1 |
-| pdp64/32 | r0-r31 | prefix-coded, 5-bit register fields (3- and 4-bit hot tables) | `pdp64-32/forms.json` | `pdp64/32` (or `32`) | 2 |
+| pdp64/16 | r0-r15 | prefix-coded, 4-bit register fields | `pdp64-enc.hbnf`, `pdp64-16/pdp64-16.hbnf` (hbnf) | `pdp64/16` (or `16`) | 1 |
+| pdp64/32 | r0-r31 | prefix-coded, 5-bit register fields (3- and 4-bit hot tables) | `pdp64-enc.hbnf`, `pdp64-32/pdp64-32.hbnf` (hbnf) | `pdp64/32` (or `32`) | 2 |
 
 The three coexist: the original encoding is untouched and is what every existing test checks; the assembler selects an encoding with `as64 -m`, writes it in the `e_flags` of
 the object (`EF_PDP64_ENC_*` in `as64/relocs.h`), and `ld64` refuses to link objects of different encodings and writes the flag in the executable.
 
 The design, its measurements and the reasons are in `docs/encoding-proposal.md`; the scripts that produced the tables are in `docs/codegen-data/encoding/`.
 
-## Why a table and not hbnf for the new encodings
+## The grammars of the new encodings
 
-hbnf bit rules (`spec/pdp64.hbnf.in`) describe a record as a sequence of fields read from the most significant bit, with the length of an instruction decided by a few fields
-of parcel 0. The prefix-coded encodings have a prefix of 1 to 16 bits whose length depends on its value (281 leaves in pdp64/16, 255 in pdp64/32), the register fields at the
-*low* end of parcel 0, and displacements that continue in later parcels, in several places split in two. It is expressible in hbnf only by writing one alternative per leaf with
-its fields cut into pieces, a union of hundreds of body shapes, and the consumer would still need a table (leaf to operand) to say what the pieces mean. So the new encodings
-keep the project's principle, one source of truth per encoding from which everything is generated or checked, with a different source:
+The principle of the project is that the toolchain is written from one source of truth, a set of hbnf grammars, so that the assembler, the linker, the emulator, the
+compiler back end and the QEMU target cannot drift apart. pdp64/16 and pdp64/32 follow it: each is an hbnf grammar,
 
-    spec/pdp64-NN/forms.json  --tools/mkenc.py-->  build/pdp64-NN-tab.c      the C tables of the codec (common/pdp64enc.c)
-                                                    build/x/*                  the assembly grammar of as64 (spec/ grammar + the new words + r16-r31)
-                                                    spec/pdp64-NN/tables.md    the leaves, for people (checked by `mkenc.py --check`)
+    spec/pdp64-enc.hbnf              what the two share: the operand shapes, the sizes of the moves' access, the numbered words of group mn-ext, and the vocabulary (its header)
+    spec/pdp64-16/pdp64-16.hbnf      pdp64/16: registers, hot table, the catalogue of 219 forms, 281 leaves
+    spec/pdp64-32/pdp64-32.hbnf      pdp64/32: the same for 32 registers (196 forms, 255 leaves, two hot tables)
 
-`forms.json` holds the forms (operand specs, mnemonics) and the leaves (prefix, sub-opcode bits, the bit positions of every field). It is *written by the optimiser*
-(`docs/codegen-data/encoding/export_forms.py`: `solve.py` with the four fused pairs forced in), not by hand, and it is checked by `tools/check-enc.py`, which lays the same
-forms out again with the Python model (`enc.py`) and requires the same prefixes and bit positions, then compares the C codec with the model on boundary vectors of every
-mnemonic of every form. `tools/mkenc.py` verifies, independently of the optimiser, that the prefixes are a prefix code, that each leaf covers its 16n bits exactly once and that
-no first parcel decodes to two leaves.
+An instruction is a bit record read from the top bit of parcel 0 (each parcel big-endian, as in `pdp64.hbnf.in`). A **leaf** is one alternative of `insn`: the prefix as a
+constant (`0b0010`: 1 to 16 bits, as wide as its digits), the sub-opcode `sub:J`, and the pieces of the operands, `o2-r:4 o1-d-1:12 o1-d-2:16`, in the order of the bits; a field that
+the layout splits is several pieces (`-1`, `-2`, from the top). A number of the sub-opcode that has no mnemonic is illegal (`?(sub < 30)`), a first parcel that no prefix matches is illegal.
+A **form** (`form-LDU-B28 = o1:b4d28s-x1 o2:reg4`) lists the operand **shapes** of its leaves; a shape (`reg4 = r:4`, `b4d28s-x1 = base:4 d:28s`) is the operand as the assembly language
+writes it, with the widths and signedness of its parts; its name carries what fields cannot say (the scale or unit of a displacement or an immediate, `sz` for "the size of the access").
+The mnemonics of a leaf are the enum `sub-FORM-K = "movq" | "movl" | ...`, numbered by position. `forms = "SYS0"@0 | "SYSR" | ...` numbers the forms (the order in which the assembler
+tries them), `hot3`, `hot4` are the hot-register tables, `regs` the register file, `fused` the fused instructions. The header of `pdp64-enc.hbnf` is the reference for all names.
 
-The mnemonics are those of the original grammar (aliases included) plus the words only the new encodings have, which `mkenc.py` collects into the group `mn-ext`
+Everything is generated from these files; nothing is written by hand twice:
+
+    spec/pdp64-enc.hbnf, spec/pdp64-NN/pdp64-NN.hbnf
+        --hbnf-->        parse_bits / emit_bits   the decoder of the encoding as hbnf writes it (tests/enc/hbdec.c checks the codec against it, see below)
+        --tools/mkenc.py (reading the grammar through tools/encgram.py)-->
+                         build/pdp64-NN-tab.c      the C tables of the codec (common/pdp64enc.c): forms, leaves, bit runs, mnemonics
+                         build/pdp64-NN-hbfields.h the accessor that reads the raw fields out of hbnf's record (for the check)
+                         build/x/*                 the assembly grammar of as64 (spec/ grammar + the new words + the registers r16-r31), the name tables
+                         spec/pdp64-NN/tables.md   the leaves, for people (checked by `mkenc.py --check`)
+
+What hbnf itself generates, and what it cannot. hbnf (the commit in `tools/build-hbnf.sh`, `dd34982` when this was written, with no local patch) reads these grammars as they are: bit fields of any width,
+constants as prefixes, `name:N` widths, signed `s`, enum numbers, `?(expr)` checks, `bits(0)` for an operand with no bits, alternatives of 281 leaves. It generates from them a complete
+decoder and encoder (`parse_bits`, `emit_bits`), which is what `tests/enc/hbdec.c` compares with the codec. What no hbnf template produces is the *table* the codec runs on (leaves, runs of
+bits, the candidate forms of each mnemonic, in the order the assembler tries them): that is a small program, `tools/mkenc.py`, which reads the grammar (`tools/encgram.py`: the subset of
+hbnf the grammars use, with every consistency check it can make: each leaf covers its 16n bits once, each field has the width its shape says, the mnemonic counts fit the sub-opcode bits,
+the catalogue is dense, `insn` lists every leaf) and nothing else. No data file stands beside the grammar. hbnf has two gaps that the grammars work around (neither blocks anything; see
+`docs/errata.md`, entry 89, for the upstream proposal): a rule name cannot hold a dot or slash, so the optimiser's form names (`LDI12/a`) are kept as literals of the catalogue and the rule
+names are their spelling with `-`; and a grammar that mixes bit rules with string-enum rules is read as bits only if its first rule is a bit rule (`insn` is the first rule), and a bit rule
+needs a field to count as one (`insn = leaf:( ... )`).
+
+The optimiser (`docs/codegen-data/encoding/`) stays as the independent oracle: `tools/check-enc.py` lays the grammar's forms out again with the Python model (`enc.py`) and requires the
+same prefixes and bit positions as the table, then compares the C codec with the model on boundary vectors of every mnemonic of every form. It is also the design tool that writes a
+new grammar (`export_forms.py` calls `write_hbnf.py`); a grammar can equally be edited by hand. `tools/mkenc.py` verifies, independently of the optimiser, that the prefixes are a prefix
+code, that each leaf covers its 16n bits exactly once and that no first parcel decodes to two leaves.
+
+## Changing an encoding (the workflow)
+
+1. Edit the grammar: by hand (`spec/pdp64-NN/pdp64-NN.hbnf`: a new leaf is a `leaf-FORM-K` rule with its prefix, fields and `sub-FORM-K` list, added to `insn`; a new form is a `form-` rule, a
+   number in the catalogue and its leaves; the words and shapes shared by both are in `spec/pdp64-enc.hbnf`), or with the optimiser: `python3 docs/codegen-data/encoding/export_forms.py OUTDIR`
+   (needs the corpus) writes complete grammars to OUTDIR; compare with `diff -ru spec OUTDIR` and copy what is wanted.
+2. `tools/mkenc.py --md` rewrites the tables of `spec/pdp64-NN/tables.md`.
+3. `tools/check-grammar-enc.sh` fails, naming the generated files that changed; after reading the differences, `tools/check-grammar-enc.sh --update` records them in `tests/enc/generated.sha256`.
+   The same script runs hbnf on both grammars (syntax, references, widths), compares hbnf's decoder with the codec built from the new tables on 262,144 parcel sequences per encoding,
+   and checks tables.md. If the leaves do not form a prefix code, or a field has the wrong width, `mkenc.py` or `encgram.py` say which rule.
+4. `tools/check-enc.sh` (the codec against the Python model, the drift of every mnemonic through the assembler), then `tools/check-all.sh`. The vectors and assembler corpora derived from the
+   forms (`tests/enc/vectors-NN.txt`, the ld64 and assembler tests) are rewritten by `docs/codegen-data/encoding/mk_vectors.py`, `mk_asm_tests.py`, `mk_ld_tests.py` (they read the grammar through `encgram`)
+   and checked in; `asm_vs_model.py` (needs the corpus) compares the real assembler with the model.
+5. Anything that depends on a layout (a compiler back end, QEMU, a disassembler) is generated from the same tables or the same grammar; if it is not, that is the bug.
+
+The mnemonics are those of the original grammar (aliases included) plus the words only the new encodings have, which the rule `mn-ext` of `pdp64-enc.hbnf` lists (`mkenc.py` checks the list against the words the leaves use) as the group `mn-ext`
 of the grammar as64 reads (`build/x/pdp64-mnemonics.hbnf`): `maskeqz masknez bsel aeses aesesm aesds aesdsm aesks1 aesks2 aesim sha256* sha512* msha256 msha512 maesctr addv subv mulv
 movql trapcc.<cc> syspg0-5`, the user-qualified moves `movq.u movq.d movq.ud ...`, and the fused `movcall popmret popret mov2`. In `-m pdp64/r20` they are refused.
 
@@ -43,7 +81,7 @@ Register fields start at bit 0 of parcel 0 and go up (the last register operand 
 No bit is padding: an unused sub-opcode, or a hot-register index beyond the table, decodes as an illegal instruction. 5.0% of the first-parcel patterns (3,277 of 65,536) are unassigned
 and illegal in both.
 
-The assembler picks, for each instruction, the first form in the table's order (shorter first, then the order of `forms.json`) whose fields can hold the operands, and relaxes
+The assembler picks, for each instruction, the first form in the table's order (shorter first, then the order of the catalogue `forms`) whose fields can hold the operands, and relaxes
 (lengths only grow; every distance is measured on the layout of the previous pass, which is the iteration of the model). A branch, call or `d(PC)` operand is measured in bytes
 from the first parcel of the instruction; the field counts parcels for branches and calls (unit 2) and bytes for the memory forms (unit 1). An unresolved symbol needs a form with a field
 of 32 bits or more and a relocation; the relocation types are those of `as64/relocs.h`, the linker finds the field through the codec.
@@ -70,10 +108,11 @@ its 3-bit table is the same as pdp64/16's. A different register allocation chang
 
 ## Commands
 
-    tools/mkenc.py [--md] [--check]      generate the tables (build/), rewrite or check spec/pdp64-NN/tables.md
+    tools/mkenc.py [--md] [--check]      generate the tables (build/) from the grammars, rewrite or check spec/pdp64-NN/tables.md
+    tools/check-grammar-enc.sh [--update]  hbnf accepts the grammars; regenerate everything and compare with the checked-in files; hbnf's decoder against the codec
     as64 -m pdp64/16|pdp64/32|pdp64/r20 [-o obj] file.s [--stats] [--dump-lens file]
-    tools/check-enc.sh                   mkenc --check, codec against the model, drift test of every mnemonic
-    python3 docs/codegen-data/encoding/export_forms.py 16|32 out.json       rerun the optimiser (needs the corpus)
+    tools/check-enc.sh                   mkenc --check, codec against the model, drift test of every mnemonic (and check-grammar-enc.sh)
+    python3 docs/codegen-data/encoding/export_forms.py OUTDIR     rerun the optimiser: writes the grammars (needs the corpus)
     python3 docs/codegen-data/encoding/asm_vs_model.py 16|32 outdir          real assembler against the model on the corpus (needs the corpus)
 
 Not part of this phase: relaxation of external calls and `lea` by the linker (the encoding is ready for it: a 4-byte `call` reaches +-2 MB), the simulator, the compiler.
