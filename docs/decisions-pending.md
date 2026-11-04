@@ -1571,8 +1571,8 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 
 **Blocking**
 
-* **F1. What is Q64 now?** Lean: the CPU's internal bus, with one PCI Express root complex on it; NVMe and USB (xHCI) are ordinary PCI Express devices.
-* **F2. Retire the eight-register device rule (errata 29), slot numbers and slot-derived vectors?** Lean: yes; configuration space and base address registers enumerate, MSI-X delivers interrupts.
+* **F1. What is Q64 now?** **Decided: PCI Express, backward compatible, plus pdp64 extensions (errata 80).** Earlier lean: the CPU's internal bus, with one PCI Express root complex on it; NVMe and USB (xHCI) are ordinary PCI Express devices.
+* **F2. Retire the eight-register device rule (errata 29), slot numbers and slot-derived vectors?** **Decided in outline (errata 80): standard PCI Express enumeration and MSI-X replace them.** Earlier lean: yes; configuration space and base address registers enumerate, MSI-X delivers interrupts.
 * **F3. First board.** The DE10-Nano has no PCI Express as far as I know. Lean: PCI Express first in QEMU and `sim64`; the DE10-Nano stays the CPU bring-up board.
 * **F4. IOMMU in iteration one?** Lean: yes; standard network and graphics cards do DMA, so it is the security boundary; reuse the CPU's page-table format.
 * **F5. DMA and the caches.** Coherent PCI Express DMA (more gates) or software-managed with uncached pages and `FENCE` (today's rule). Lean: software-managed first.
@@ -1594,6 +1594,8 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 * **F15. Conveniences over PCI Express.** Candidates: a per-process overlay mapping a BAR at a fixed address (the old `$C000` idea), doorbell and status helper registers, a CPU register for reading configuration space. Which ones?
 
 **Requirements the pain-points document found for PCI Express (re-marked 2026-11-03).**
+
+* **F29. How do the extensions announce themselves, so a plain PCI Express card is unaffected?** Lean: every pdp64 extension is optional and discovered through a PCI Express extended capability (the standard way to add features) in the root complex and in pdp64-aware devices; a stock card never sees or needs them, and software that finds no capability falls back to plain PCI Express behaviour.
 
 * **F24. Interrupt rules.** The bus must state that an interrupt (MSI-X) write cannot pass the DMA writes that precede it; and provide many vectors per core, an atomically retargetable entry, and a mask while an entry changes. Lean: write all three into the bus chapter.
 * **F25. IOMMU hardening.** An IOMMU alone is not enough (Thunderclap). Lean: translation on by default, one domain per device, no kernel pointers in descriptors, permanent mappings for rings, bounce copies for small buffers.
