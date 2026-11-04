@@ -45,6 +45,10 @@ static struct sym *syms;
 static int nsyms, capsyms;
 
 static const char *progname = "as64", *srcname;
+static int enc_mode;			/* 0: the encoding of ISA r20 (parcel 0 = len opc reg low); 1: pdp64/16; 2: pdp64/32 (asmenc.c) */
+static void enc_sys0(const char *name);
+static void set_sym_val(int k, int sect, int64_t val);
+static void commit_syms(void);
 static int no_p2;		/* --no-p2: never choose a page-2 form (for testing the equivalence of the two) */
 static int errors, final_pass;
 static void err(int line, const char *fmt, ...)
@@ -963,6 +967,7 @@ static void emit_sys0(int minor)
 {
 	struct fmt f;
 	uint8_t b[8]; size_t n;
+	if (enc_mode) { enc_sys0(minor == MN_SYS_NONE_NOP ? "nop" : "lpad"); return; }
 	memset(&f, 0, sizeof f);
 	f.opc = OPGROUP_SYS; f.low = minor; f.shape = FS_SYS0;
 	if (fmt_encode(&f, b, &n) < 0) { fprintf(stderr, "%s: internal error: cannot encode a SYS instruction\n", progname); exit(2); }
@@ -997,7 +1002,7 @@ static void flush_pool(int final)
 		for (int i = 0; i < npool; i++) {
 			if (poolseg[i] != pool_seg) continue;
 			int64_t pos = final ? (int64_t)sec[SEC_TEXT].n : offs[SEC_TEXT];
-			syms[pools[i]].sect = SEC_TEXT; syms[pools[i]].val = pos;
+			set_sym_val(pools[i], SEC_TEXT, pos);
 			if (final) put_le(poolv[i], 8); else offs[SEC_TEXT] += 8;
 		}
 	}
@@ -1080,6 +1085,8 @@ static void directive(const struct stmt *st)
 	if (final_pass) err(st->line, ".%.*s is not implemented", st->name.n, st->name.p);
 }
 
+#include "asmenc.c"
+
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* the passes                                                                                                          */
 
@@ -1105,7 +1112,7 @@ static int run_pass(int final)
 			if (all_digits(st->name.p, st->name.n)) {
 				for (int j = 0; j < nlloc; j++) if (lloc[j].stmt == i) k = lloc[j].sym;
 			} else k = symget(st->name.p, st->name.n);
-			if (k >= 0) { syms[k].sect = cur_sec; syms[k].val = pos; }
+			if (k >= 0) set_sym_val(k, cur_sec, pos);
 			break;
 		}
 		case S_ASSIGN: {
@@ -1122,7 +1129,13 @@ static int run_pass(int final)
 		case S_INSN: {
 			struct ins in;
 			int len = grow[i];
-			if (build(st, pos, &in) < 0) { in.minlen = 0; in.f.shape = FS_SYS0; len = 0; if (!final) { offs[cur_sec] += 2 * (len + grow[i] + 1); break; } }	/* an instruction in error keeps the size it had, so that the others do not move */
+			if (enc_mode) {
+				int ch = 0, sz = enc_insn(i, pos, final, &ch);
+				if (ch) changed = 1;
+				if (!final) offs[cur_sec] += sz;
+				break;
+			}
+			if (!regs_ok(st, 1) || build(st, pos, &in) < 0) { in.minlen = 0; in.f.shape = FS_SYS0; len = 0; if (!final) { offs[cur_sec] += 2 * (len + grow[i] + 1); break; } }	/* an instruction in error keeps the size it had, so that the others do not move */
 			int one = in.has_p2 && grow[i] == 0;		/* a one-parcel form, unless an earlier pass found that the instruction had to be longer */
 			if (!one && in.minlen > len) { len = in.minlen; if (len != grow[i]) { grow[i] = len; changed = 1; } }
 			if (!final) { offs[cur_sec] += one ? 2 : 2 * (len + 1); break; }
@@ -1142,6 +1155,7 @@ static int run_pass(int final)
 	}
 	cur_sec = SEC_TEXT;
 	flush_pool(final);							/* the literal pool at the end of .text */
+	commit_syms();
 	return changed;
 }
 
@@ -1271,7 +1285,7 @@ static int write_object(const char *path)
 		memset(&r, 0, sizeof r); r.kind = 1; r.body.kind = 1;
 		ehdr_t *e = &r.body.u.a1.e;
 		e->ident.ptr = ident; e->ident.len = 16;
-		e->type = 1; e->machine = EM_PDP64; e->version = 1; e->shoff = off_sh; e->ehsize = 64; e->shentsize = 64; e->shnum = 9; e->shstrndx = 8;
+		e->type = 1; e->machine = EM_PDP64; e->version = 1; e->flags = (uint32_t)enc_mode; e->shoff = off_sh; e->ehsize = 64; e->shentsize = 64; e->shnum = 9; e->shstrndx = 8;
 		rec(&r, &head);
 		memcpy(file.p, head.p, head.n);
 	}
@@ -1300,6 +1314,8 @@ static char *slurp(const char *path, size_t *len)
 	return b;
 }
 
+#define USAGE "usage: %s [-m pdp64/r20|pdp64/16|pdp64/32] [--fuse] [-o object] file.s\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text;\n -m chooses the instruction encoding and is recorded in e_flags; --fuse joins adjacent movq r,r; call / popm; ret / pop r; ret / movq r,r; movq r,r where that is shorter)\n"
+
 int main(int argc, char **argv)
 {
 	const char *out = "a.out", *in = NULL;
@@ -1316,11 +1332,25 @@ int main(int argc, char **argv)
 			printf("\n");
 			return 0;
 		}
+		if (!strcmp(argv[i], "-m") && i + 1 < argc) {			/* the encoding: pdp64/r20 (the original), pdp64/16, pdp64/32 */
+			const char *m = argv[++i];
+			if (!strcmp(m, "pdp64/r20") || !strcmp(m, "r20") || !strcmp(m, "old")) enc_mode = 0;
+			else if (!strcmp(m, "pdp64/16") || !strcmp(m, "16")) enc_mode = 1;
+			else if (!strcmp(m, "pdp64/32") || !strcmp(m, "32")) enc_mode = 2;
+			else { fprintf(stderr, "%s: -m %s: the encodings are pdp64/r20 (the default), pdp64/16 and pdp64/32\n", progname, m); return 2; }
+			continue;
+		}
+		if (!strcmp(argv[i], "--fuse")) { enc_fuse = 1; continue; }
+		if (!strcmp(argv[i], "--stats")) { enc_stats = 1; continue; }
+		if (!strcmp(argv[i], "--dump-lens") && i + 1 < argc) { enc_lens_path = argv[++i]; continue; }
 		if (!strcmp(argv[i], "-o") && i + 1 < argc) out = argv[++i];
-		else if (argv[i][0] == '-' && argv[i][1]) { fprintf(stderr, "usage: %s [-o object] file.s\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text)\n", progname); return 2; }
+		else if (argv[i][0] == '-' && argv[i][1]) { fprintf(stderr, USAGE, progname); return 2; }
 		else in = argv[i];
 	}
-	if (!in) { fprintf(stderr, "usage: %s [-o object] file.s\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text)\n", progname); return 2; }
+	if (!in) { fprintf(stderr, USAGE, progname); return 2; }
+	if (enc_fuse && !enc_mode) { fprintf(stderr, "%s: --fuse is for pdp64/16 and pdp64/32 (the fused instructions do not exist in pdp64/r20)\n", progname); return 2; }
+	enc_setup(enc_mode);
+	if (enc_lens_path && !(enc_lens = fopen(enc_lens_path, "w"))) { fprintf(stderr, "%s: %s: %s\n", progname, enc_lens_path, strerror(errno)); return 1; }
 	srcname = in;
 	size_t flen;
 	char *text = slurp(in, &flen);
@@ -1357,6 +1387,8 @@ int main(int argc, char **argv)
 	for (int it = 0; it < 200; it++)
 		if (!run_pass(0) && it >= 1) break;
 	run_pass(1);
+	if (enc_lens) fclose(enc_lens);
+	if (enc_stats && !errors) fprintf(stderr, "%s: %ld instructions, %ld bytes (%ld fused, %ld cbCC expanded to cmp + bCC)\n", progname, enc_ninsn, enc_nbytes, enc_nfused, enc_nexpanded);
 	if (errors) { fprintf(stderr, "%s: %d error%s\n", progname, errors, errors == 1 ? "" : "s"); return 1; }
 	return write_object(out) ? 1 : 0;
 }
