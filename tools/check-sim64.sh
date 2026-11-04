@@ -57,5 +57,25 @@ for s in $dir/*.s $dir/*.S; do
 	done
 done
 done
+# the profile: the totals of -P are the number of instructions and the bytes of the -t trace, in each encoding
+for e in r20 16 32; do
+	case $e in r20) sfx=; src=tests/sim/alu.s; mflag=;; *) sfx=_$e; src=tests/sim/alu.s; mflag="-m pdp64/$e";; esac
+	"$B/as64" $mflag -o "$B/sim_prof$sfx.o" $src && "$B/ld64" -o "$B/sim_prof$sfx.x" "$B/sim_prof$sfx.o" && "$B/sim64" -t -P "$B/sim_prof$sfx.prof" "$B/sim_prof$sfx.x" > /dev/null 2> "$B/sim_prof$sfx.trace"
+	if python3 - "$B/sim_prof$sfx.prof" "$B/sim_prof$sfx.trace" <<'PY'
+import sys, re
+h = {}; per = 0; perb = 0
+for l in open(sys.argv[1]):
+    if l.startswith('#instructions'): h['n'] = int(l.split()[1])
+    elif l.startswith('#bytes'): h['b'] = int(l.split()[1])
+    elif not l.startswith('#'):
+        a, c, b, k = l.split(); per += int(c); perb += int(c) * int(b)
+n = b = 0
+for l in open(sys.argv[2]):
+    m = re.match(r'^[0-9a-f]{8}:((?: [0-9a-f]{4})+)', l)
+    if m: n += 1; b += 2 * len(m.group(1).split())
+sys.exit(0 if (h['n'], h['b']) == (n, b) == (per, perb) else 1)
+PY
+	then echo "ok   profile ($e)"; n=$((n+1)); else echo "FAIL profile ($e): -P totals differ from the trace"; fail=$((fail+1)); fi
+done
 echo "sim64: $n run, $fail failed"
 [ $fail = 0 ]
