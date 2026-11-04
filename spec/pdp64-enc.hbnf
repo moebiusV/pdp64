@@ -82,16 +82,19 @@ imm24u-x256    = imm:24
 spd4u-x8       = d:4
 spd6u-x8       = d:6
 b3d1u-xsz      = base:3 d:1
+b3d2u-xsz      = base:3 d:2
 b3d3u-xsz      = base:3 d:3
 b4d0s-xsz      = base:4
 b4d12s-x1      = base:4 d:12s
 b4d28s-x1      = base:4 d:28s
+b4d2u-xsz      = base:4 d:2
 b4d8s-xsz      = base:4 d:8s
 b4d8u-xsz      = base:4 d:8
 b5d12s-x1      = base:5 d:12s
 b5d28s-x1      = base:5 d:28s
 b5d6s-xsz      = base:5 d:6s
 b5d6u-xsz      = base:5 d:6
+b5d8s-xsz      = base:5 d:8s
 b5d8u-xsz      = base:5 d:8
 dpd28s-x1      = d:28s
 spd12s-x1      = d:12s
@@ -99,10 +102,14 @@ spd12u-x8      = d:12
 spd14u-x8      = d:14
 spd4u-xsz      = d:4
 spd5u-xsz      = d:5
+spd7u-xsz      = d:7
 b4d10s-xsz     = base:4 d:10s
 b4d10u-xsz     = base:4 d:10
 b4d12s-xsz     = base:4 d:12s
 b4d12u-xsz     = base:4 d:12
+b4d14s-xsz     = base:4 d:14s
+b5d10s-xsz     = base:5 d:10s
+b5d12s-xsz     = base:5 d:12s
 spd12u-xsz     = d:12
 
 ; ---- operand shapes: indexed: d(rb,rx,scale)
@@ -110,7 +117,9 @@ spd12u-xsz     = d:12
 x4-4d2s        = base:4 index:4 scale:2 d:2s
 x4-4d4s        = base:4 index:4 scale:2 d:4s
 x4-4d6s        = base:4 index:4 scale:2 d:6s
+x4-4d8s        = base:4 index:4 scale:2 d:8s
 x5-5d0s        = base:5 index:5 scale:2
+x5-5d4s        = base:5 index:5 scale:2 d:4s
 x5-5d6s        = base:5 index:5 scale:2 d:6s
 x4-4d22s       = base:4 index:4 scale:2 d:22s
 x5-5d22s       = base:5 index:5 scale:2 d:22s
@@ -124,6 +133,7 @@ pi5-s12        = base:5 stride:12
 
 ; ---- operand shapes: pc-relative
 
+pc4-u2         = pcrel:4
 pc5-u2         = pcrel:5
 pc6-u2         = pcrel:6
 pc7-u2         = pcrel:7
@@ -139,6 +149,7 @@ pc16-u1        = pcrel:16
 pc16-u2        = pcrel:16
 pc18-u2        = pcrel:18
 pc20-u2        = pcrel:20
+pc24-u2        = pcrel:24
 pc32-u1        = pcrel:32
 pc32-u2        = pcrel:32
 
