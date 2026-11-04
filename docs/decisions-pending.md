@@ -1579,9 +1579,9 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 
 **Standard devices for iteration one**
 
-* **F6. Network.** Lean (revised by errata 78, one standard interface per class): virtio-net, so one transport driver (virtio over PCI Express) serves network, graphics and audio, and the same devices work in QEMU, `sim64` and the FPGA. Any other card (an Intel gigabit chip, say) may be attached with its own driver.
-* **F7. Graphics.** Lean: virtio-gpu in its 2D mode (create a surface, point it at memory, flush a rectangle); no firmware blob, and it has a flip and cursor path a bare framebuffer lacks. Fallback if the driver is a burden: a plain linear framebuffer.
-* **F8. Audio.** Lean: virtio-snd (streams in shared-memory queues). Intel HDA is the fiddly alternative (codec commands), USB Audio Class the alternative that needs no extra device. Check whether OpenBSD has a virtio-snd driver; if not, it is a small driver to write.
+* **F6. Network.** **Decided: virtio-net (errata 79).** Earlier lean (revised by errata 78, one standard interface per class): virtio-net, so one transport driver (virtio over PCI Express) serves network, graphics and audio, and the same devices work in QEMU, `sim64` and the FPGA. Any other card (an Intel gigabit chip, say) may be attached with its own driver.
+* **F7. Graphics.** **Decided: virtio-gpu, 2D mode (errata 79).** Earlier lean: virtio-gpu in its 2D mode (create a surface, point it at memory, flush a rectangle); no firmware blob, and it has a flip and cursor path a bare framebuffer lacks. Fallback if the driver is a burden: a plain linear framebuffer.
+* **F8. Audio.** **Decided: virtio-snd (errata 79).** Earlier lean: virtio-snd (streams in shared-memory queues). Intel HDA is the fiddly alternative (codec commands), USB Audio Class the alternative that needs no extra device. Check whether OpenBSD has a virtio-snd driver; if not, it is a small driver to write.
 * **F9. USB.** Lean: xHCI only.
 * **F10. Boot media.** Lean: NVMe, then USB storage, then network; SD only if the board has it.
 * **F11. Console.** Lean: a 16550-style UART in place of the KL11-style console.
