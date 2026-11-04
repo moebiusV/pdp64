@@ -300,3 +300,44 @@ The saving is concentrated in hot loops (zlib `longest_match`, the LZ4HC match f
 **Your annotations:**
 
 &nbsp;
+
+## 5. Trailing literals: a 16, 32, 48 or 64-bit field after the instruction, not counted in its parcels
+
+**The proposal (the author's).** An immediate of 16, 32, 48 or 64 bits sits immediately after the instruction and is not counted in the parcels the instruction takes. The instruction proper stays 1 to 3 parcels; a literal of 1, 2, 3 or 4 parcels follows.
+
+**One way to lay it out.** For an instruction with an immediate source and a register destination the second 5-bit register field of the one-parcel format is free:
+
+```
+opcode(6) | rd(5) | s(1) c(4)
+```
+
+* `s = 0`: `c` is an inline immediate, 0 to 15, and the instruction is one parcel (2 bytes), as today's 4-bit immediates.
+* `s = 1`: `c`'s low 2 bits give the literal size (16, 32, 48 or 64 bits) and the literal follows: 4, 6, 8 or 10 bytes in all.
+
+No extra opcodes are needed: every immediate-taking instruction (53 of the 234) uses the same field. `MOVQ #imm64, Rd` is the same instruction with the 64-bit size.
+
+**What it fixes** (items from [`layout-fit-analysis.md`](layout-fit-analysis.md) section 4):
+
+| Misfit | Today's repair | With trailing literals |
+|---|---|---|
+| 5. Immediates 16 to 11 bits at two parcels (4,432 sites) | three parcels, +6,120 bytes | 4 bytes, as today: the 16-bit literal is one parcel after a one-parcel base. **0** |
+| 6. Immediates beyond 27 bits (1,204 sites) | no form; four parcels, +2,408 | the 32 or 48-bit size: 6 or 8 bytes, as the four-parcel repair, but a regular mechanism |
+| 14. `MOVQL #imm64` | five parcels, impossible with only `ESC2`/`ESC3` | the 64-bit size, 10 bytes, no new opcode |
+| 4. PC-relative reach (19,183 sites, +20,658 unrepaired) | dedicated opcodes for `CALL label` and `LEA label` | a 16 or 32-bit trailing displacement after a one-parcel base: reach ±64 KB or ±8 GB (in parcels), 4 or 6 bytes |
+
+The same mechanism can carry an absolute address (32, 48 or 64 bits) and a long displacement for a memory operand or a branch.
+
+**What it does not fix.** The 6-bit base displacement in the two-parcel memory form (items 1; +10,906 and +942 bytes) unless that displacement too moves into a trailing field, the mode-field budget, the `PUSHM`/saved-state masks and the `cbCC` condition slots (the condition has no room in a base parcel with a register, a 5-bit immediate and no field for a 4-bit condition unless it rides in the trailing field).
+
+**What it costs.**
+
+1. *Longest instruction:* a three-parcel base plus a four-parcel literal is 14 bytes. A 12-byte instruction at a 2-byte offset can span three aligned quads, so the fetch buffer is three deep instead of two.
+2. *Where the length is known.* For a one-parcel base the size code is in parcel 0, so the length is known at once. For a two-parcel base whose mode and size code are in the second parcel, the length is known one parcel later. Keeping the size code in the escape parcel (extra escape values) avoids that at a cost in escape slots.
+3. *The "no instruction exceeds a `uint64_t`" rule* (already waived for `MOVQL`) is waived for every literal-bearing instruction; errata 31's cap applies to the instruction proper.
+4. *A literal can be reached by jumping into the middle of an instruction.* Landing pads (candidate 5) are the defence, as for `MOVQL`.
+
+**Verdict.** It repairs the immediates, the 64-bit constant and the PC-relative reach with one regular mechanism and no extra opcodes, which are most of the cost items that the layout check found beyond the memory displacement. It does not by itself close the layout. The byte effect has not been run through the allocation model.
+
+**Your annotations:**
+
+&nbsp;
