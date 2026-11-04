@@ -14,7 +14,7 @@
  * lies between a site and its target, and always a correct one.  (docs/relaxation.md has the argument.)
  */
 
-static struct { long nsites, ninsn, nalign, rounds, grown, shrunk, bytes0, bytes1; int stats; } rx;
+static struct { long nsites, ninsn, nalign, rounds, grown, shrunk, bytes0, bytes1; int stats; const char *dump; } rx;
 struct rxcat { const char *name; long n, b0, b1; };
 enum { RC_CALL_EXT, RC_CALL_SAME, RC_JMP_EXT, RC_JMP_SAME, RC_LEA_DATA, RC_LEA_CODE, RC_BRANCH, RC_DATA_REF, RC_ABS, RC_OTHER, NRC };
 static struct rxcat rxc[NRC] = {
@@ -215,4 +215,21 @@ static void relax_stats(void)
 	for (int c = 0; c < NRC; c++)
 		if (rxc[c].n) fprintf(stderr, "ld64:   %-56s %7ld sites %9ld -> %9ld bytes (%+ld)\n", rxc[c].name, rxc[c].n, rxc[c].b0, rxc[c].b1, rxc[c].b1 - rxc[c].b0);
 	fprintf(stderr, "ld64:   all sites and paddings: %ld -> %ld bytes (%+ld)\n", b0, b1, b1 - b0);
+}
+
+/* --dump-map FILE: where every input .text section went and what happened to its sites (tools/check-relax.py joins it with as64 --dump-lens):
+     S object-name section-index address size-in-object size-now
+     T offset-in-object length-in-object length-now kind          (kind: i instruction, a padding)  */
+static void relax_dump(const char *path)
+{
+	FILE *f = fopen(path, "w");
+	if (!f) { fprintf(stderr, "%s: %s: %s\n", progname, path, strerror(errno)); errors++; return; }
+	for (int oi = 0; oi < nobjs; oi++)
+		for (int i = 0; i < objs[oi].nsec; i++) {
+			struct isec *s = &objs[oi].is[i];
+			if (objs[oi].cls[i] != C_TEXT) continue;
+			fprintf(f, "S %s %d %#llx %llu %llu\n", objs[oi].name, i, (unsigned long long)(cbase[C_TEXT] + s->outoff), (unsigned long long)s->size, (unsigned long long)s->cursize);
+			for (int k = 0; k < s->nsites; k++) fprintf(f, "T %llu %u %u %c\n", (unsigned long long)s->sites[k].off, s->sites[k].len0, s->sites[k].cur, s->sites[k].kind == SK_INSN ? 'i' : 'a');
+		}
+	fclose(f);
 }

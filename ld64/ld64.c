@@ -4,7 +4,7 @@
  * types (as64/relocs.h) and writes an ELF64 executable.  The ELF records come from the generated grammar (spec/elf.hbnf),
  * as in as64; the layout of the file, offsets and sizes, is done here.
  *
- *   ld64 [-o out] [-e entry] [-Ttext addr] [-M] [--no-relax] [--stats] file.o ...
+ *   ld64 [-o out] [-e entry] [-Ttext addr] [-M] [--no-relax] [--stats] [--dump-map file] file.o ...
  *
  * Layout: the executable code of every object in one segment at -Ttext (default 0x10000), then, on the next page, the
  * data and the zero-filled data (.bss and common symbols) in a second.  Pages are 4096 bytes (ISA 8.2).
@@ -585,6 +585,7 @@ int main(int argc, char **argv)
 		else if (!strcmp(argv[i], "--no-relax")) relax_enabled = 0;
 		else if (!strcmp(argv[i], "--relax")) relax_enabled = 1;
 		else if (!strcmp(argv[i], "--stats")) rx.stats = 1;
+		else if (!strcmp(argv[i], "--dump-map") && i + 1 < argc) rx.dump = argv[++i];
 		else if (argv[i][0] == '-' && argv[i][1]) { fprintf(stderr, "usage: %s [-o out] [-e entry] [-Ttext addr] [-M] [--no-relax] [--stats] file.o ...\n", progname); return 2; }
 		else files[nfiles++] = argv[i];
 	}
@@ -621,6 +622,7 @@ int main(int argc, char **argv)
 		}
 	relocate(image);
 	if (rx.stats) relax_stats();
+	if (rx.dump) relax_dump(rx.dump);
 	int eg = -1;
 	for (int g = 0; g < ngs; g++) if (!strcmp(gs[g].name, entry) && gs[g].defined > 0) eg = g;
 	if (eg < 0) fail("entry symbol %s is not defined", entry);

@@ -4,6 +4,7 @@
 # expected status is normally 0; a test of an error expects the status in its .exit file.  NAME.flags, if there is one, holds extra
 # sim64 arguments (-k: kernel mode, for the privileged instructions; -K and -i: System v1, see docs/sim64.md).  NAME.S is NAME.s run through the C
 # preprocessor with build/pdp64-consts.h, so a test can use the architecture's numbers by name (PSW_PRI, VECTOR_ILLEGAL...).
+# Every test also runs relaxed (16r, 32r: as64 --relax, ld64 relaxes: docs/relaxation.md) with the same expectations.
 # Every test also runs in the other encodings (as64 -m pdp64/16, pdp64/32; sim64 takes the encoding from the e_flags of the executable) with the same
 # expectations, unless NAME.noenc lists the encodings (words 16 and/or 32) it does not apply to: tests that write instruction words by hand (.word) test the
 # original encoding.  tests/sim-enc/*.s are tests for the new encodings only (NAME.enc: the encodings they run in, default both).
@@ -13,7 +14,7 @@ tools/build-sim64.sh > /dev/null
 B=${BUILD:-build}; fail=0; n=0
 runtest() {	# src name enc
 	s=$1; t=$2; enc=$3; dir=$4
-	case $enc in r20) mflag=; sfx=;; *) mflag="-m pdp64/$enc"; sfx="_$enc";; esac
+	case $enc in r20) mflag=; sfx=;; *r) mflag="-m pdp64/${enc%r} --relax"; sfx="_$enc";; *) mflag="-m pdp64/$enc"; sfx="_$enc";; esac
 	if ! "$B/as64" $mflag -o "$B/sim_$t$sfx.o" "$s" 2> "$B/sim_$t$sfx.err"; then echo "FAIL $t ($enc): assembly: $(head -1 "$B/sim_$t$sfx.err")"; fail=$((fail+1)); return; fi
 	if ! "$B/ld64" -o "$B/sim_$t$sfx.x" "$B/sim_$t$sfx.o" 2>> "$B/sim_$t$sfx.err"; then echo "FAIL $t ($enc): link: $(head -1 "$B/sim_$t$sfx.err")"; fail=$((fail+1)); return; fi
 	flags=; [ -f "$dir/$t.flags" ] && flags=$(cat "$dir/$t.flags")
@@ -32,13 +33,13 @@ runtest() {	# src name enc
 for f in tests/sim-enc/*.same; do
 	[ -f "$f" ] || continue
 	t=$(basename "$f" .same); ok=1
-	for e in r20 16 32; do
-		case $e in r20) mflag=;; *) mflag="-m pdp64/$e";; esac
+	for e in r20 16 32 16r 32r; do
+		case $e in r20) mflag=;; *r) mflag="-m pdp64/${e%r} --relax";; *) mflag="-m pdp64/$e";; esac
 		if ! "$B/as64" $mflag -o "$B/sim_$t.$e.o" tests/sim-enc/$t.s 2> "$B/sim_$t.$e.err" || ! "$B/ld64" -M -Ttext 0x5a5a0000 -o "$B/sim_$t.$e.x" "$B/sim_$t.$e.o" > "$B/sim_$t.$e.map" 2>> "$B/sim_$t.$e.err"; then echo "FAIL $t ($e): $(head -1 "$B/sim_$t.$e.err")"; ok=0; continue; fi
 		"$B/sim64" "$B/sim_$t.$e.x" > "$B/sim_$t.$e.out" 2> "$B/sim_$t.$e.errs" || { echo "FAIL $t ($e): exit $? $(head -c 150 "$B/sim_$t.$e.errs" | head -1)"; ok=0; continue; }
 		python3 tests/sim-enc/normlog.py "$B/sim_$t.$e.map" < "$B/sim_$t.$e.out" > "$B/sim_$t.$e.norm"
 	done
-	for e in 16 32; do
+	for e in 16 32 16r 32r; do
 		[ $ok = 1 ] || break
 		if cmp -s "$B/sim_$t.r20.norm" "$B/sim_$t.$e.norm"; then echo "ok   $t ($e same as r20: $(wc -c < "$B/sim_$t.r20.out") bytes)"; n=$((n+1)); else echo "FAIL $t ($e): the output differs from pdp64/r20's ($(cmp "$B/sim_$t.r20.norm" "$B/sim_$t.$e.norm" 2>&1 | head -1))"; fail=$((fail+1)); fi
 	done
@@ -51,8 +52,9 @@ for s in $dir/*.s $dir/*.S; do
 	[ -f "$dir/$t.same" ] && continue
 	case "$s" in *.S) tools/pp-asm.sh "$s" "$B/sim_$t.pp.s" || { echo "FAIL $t: preprocessing"; fail=$((fail+1)); continue; }; s="$B/sim_$t.pp.s";; esac
 	encs="r20 16 32"; [ $dir = tests/sim-enc ] && { encs="16 32"; [ -f "$dir/$t.enc" ] && encs=$(cat "$dir/$t.enc"); }
+	for x in $encs; do case $x in 16|32) encs="$encs ${x}r";; esac; done
 	for e in $encs; do
-		if [ -f "$dir/$t.noenc" ] && grep -qw "${e}" "$dir/$t.noenc"; then continue; fi
+		if [ -f "$dir/$t.noenc" ] && grep -qw "${e%r}" "$dir/$t.noenc"; then continue; fi
 		runtest "$s" "$t" "$e" "$dir"
 	done
 done
