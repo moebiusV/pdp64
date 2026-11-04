@@ -13,9 +13,9 @@ For the author's annotation. This answers the four annotations on [`security-pro
 **What it does not do.**
 
 1. *It creates no entropy.* Mixing spreads the entropy that was written; it does not add any. The "new bit of randomness" is only as good as what was absorbed, so a physical source must feed the pool inside the device.
-2. *A read has a side effect.* Each squeeze advances the pool so that earlier outputs cannot be recomputed from later state (forward secrecy). That is a strange side effect (priority 1) and is acceptable only on a device page that is strongly ordered and never accessed speculatively. A load restarted after a fault merely discards one output, which is harmless.
-3. *It is one pool for the machine.* Each process still needs its own generator for fork safety and speed (OpenBSD's `arc4random` keeps one per process, seeded from the kernel), so the pool seeds those; it does not replace them.
-4. *The algorithm is frozen in silicon unless it is updatable.* A flaw in a hardware generator has shipped before and was repaired in firmware *(from memory, not confirmed)*. A version register and updatable firmware keep it repairable.
+2. *A read has a side effect.* Each squeeze advances the pool so that earlier outputs cannot be recomputed from later state (forward secrecy). The side effect is known and wanted, so it is not a strange one (priority 1). Nothing special is needed: a read repeated or issued speculatively merely discards one output, which is harmless, and ordinary device pages are not read speculatively in any case.
+3. *It is one pool for the machine, shared by all cores* (decided, errata 85). It assists the operating system's own generator, which absorbs everything OpenBSD gathers into it. OpenBSD's per-process generators (`arc4random`) are untouched.
+4. *The algorithm is fixed in the device.* It is simple enough to need no version register and no updatable firmware (decided, errata 85), so there are none.
 
 it isn't a strange side effect if it is known and wanted. not sure where you got the strongly ordered and no speculation restrictions from. its only a assistant to openbsds process, not a replacement. no need to have it per process; one shared among all cores is fine, since it will absorb all entropy that openbsd provides. no need for version reg and firmware, the algo is simple enough.
 
@@ -28,7 +28,7 @@ it isn't a strange side effect if it is known and wanted. not sure where you got
 | `ABSORB` | write 64 bits | mix into the pool |
 | `SQUEEZE` | read 64 bits | next output; ratchets the pool |
 | `SEED` | write, firmware only, once per boot | initial seed |
-| `STATUS` | read | seeded flag, sources present, algorithm version |
+| `STATUS` | read | seeded flag, sources present |
 
 This is the hardware behind the virtio-rng device of the P9 lean: the same four registers sit behind a virtio-rng function for standard software. No opcode (priorities 2 and 3), a small amount of logic (priority 4), and it adds a source without disturbing the OS generator (priority 1).
 
