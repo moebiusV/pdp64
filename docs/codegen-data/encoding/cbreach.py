@@ -34,7 +34,7 @@ for fn, ev, recs in corp:
                          dist=ops[2][1], ext=ops[2][1] is None, form=(ch[0].name if ch else None), n=(ch[0].n if ch else None)))
 json.dump(rows, open(sys.argv[4] if len(sys.argv) > 4 else '/dev/null', 'w'))
 N = len(rows); exp = [r for r in rows if r['form'] is None]
-print('pdp64/%s: %d cbCC sites; %d reached by a form (%d one-parcel is impossible: all 2 parcels: %s); %d substituted by cmp + bCC' % (which, N, N - len(exp), 0, collections.Counter(r['n'] for r in rows if r['form']), len(exp)))
+print('pdp64/%s: %d cbCC sites; %d reached by a form (parcels of the form: %s); %d substituted by cmp + bCC' % (which, N, N - len(exp), dict(sorted(collections.Counter(r['n'] for r in rows if r['form']).items())), len(exp)))
 def bucket(dv):
     if dv is None: return 'external'
     a = abs(dv)

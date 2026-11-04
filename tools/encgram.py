@@ -208,7 +208,7 @@ def part_list(spec):
 
 # ---------------------------------------------------------------- the loader
 def spec_dir(root=None):
-    return os.path.join(root or ROOT, 'spec')
+    return os.path.join(root or os.environ.get('PDP64_SPEC_ROOT') or ROOT, 'spec')    # PDP64_SPEC_ROOT: another tree (an older grammar to compare with)
 
 
 def load(tag, root=None):

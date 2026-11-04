@@ -35,3 +35,16 @@ for c, v in sorted(cls.items(), key=lambda x: -len(x[1])):
         row.append('%5.1f' % (100.0 * sum(1 for x in v if -lim <= x // 2 < lim) / len(v)))
     print('%-34s %8d %8d ' % (c, len(v), ext[c]) + ' '.join(row))
 print('(bytes: a field of w bits reaches +-2^w bytes)')
+
+# the forms that reach them: per class, the widest pc field for each length in parcels
+print('\nforms of the grammar (widest pc field in parcels, by length of the form in parcels; the mnemonic classes are the leaves of one form):')
+want = {'bCC/br': lambda f: any(m in ('br', 'beq') for m in f['mns']) and len(f['specs']) == 1, 'call/jmp': lambda f: 'call' in f['mns'] and len(f['specs']) == 1,
+        'movcall': lambda f: f['mns'] == ['movcall'], 'lea d(pc)': lambda f: 'lea' in f['mns'] and any(s['k'] == 'PC' for s in f['specs']),
+        'cbCC': lambda f: f['mns'] and f['mns'][0].startswith('cb') and len(f['specs']) == 3}
+for c, p in want.items():
+    best = collections.defaultdict(int)
+    for f in d['forms']:
+        if p(f) and any(s['k'] == 'PC' for s in f['specs']):
+            w = max(s['w'] for s in f['specs'] if s['k'] == 'PC')
+            best[f['n']] = max(best[f['n']], w)
+    print('  %-10s %s' % (c, ', '.join('%d parcel%s: %d bits' % (n, 's' if n > 1 else '', w) for n, w in sorted(best.items()))))

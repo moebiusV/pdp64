@@ -7,7 +7,9 @@ S=os.environ.get('PDP64_CORPUS_ROOT','/tmp/claude-1000/-home-david-claude-pdp64/
 def corpus(tag):
     d=os.environ.get('PDP64_CORPUS_DIR_'+tag.upper()) or f'{S}/spill/asm-{tag}'
     out=[]
-    for fn in sorted(x for x in os.listdir(d) if x.endswith('.s')):
+    ex = [p for p in os.environ.get('PDP64_CORPUS_EXCLUDE', '').split(',') if p]     # file name prefixes left out (leave-one-project-out training)
+    only = [p for p in os.environ.get('PDP64_CORPUS_ONLY', '').split(',') if p]       # ... or the only ones kept (the held-out measurement)
+    for fn in sorted(x for x in os.listdir(d) if x.endswith('.s') and not any(x.startswith(p) for p in ex) and (not only or any(x.startswith(p) for p in only))):
         ev,recs=parse(f'{d}/{fn}'); out.append((fn,ev,recs))
     return out
 if __name__=='__main__':
