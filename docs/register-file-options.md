@@ -336,6 +336,18 @@ The same mechanism can carry an absolute address (32, 48 or 64 bits) and a long 
 3. *The "no instruction exceeds a `uint64_t`" rule* (already waived for `MOVQL`) is waived for every literal-bearing instruction; errata 31's cap applies to the instruction proper.
 4. *A literal can be reached by jumping into the middle of an instruction.* Landing pads (candidate 5) are the defence, as for `MOVQL`.
 
+**How much room it frees for 32 registers.** Worked from the items of `layout-fit-analysis.md` section 4 (the arithmetic is mine; the allocation model has not been rerun with the new rule):
+
+| Resource | Without trailing literals | With them |
+|---|---|---|
+| Code bytes, layout as allocated (items 1, 2, 3, 4, 5, 6 and `cbCC` with one condition slot) | +44,812 (+4.13%) | immediates (items 5, 6) cost 0, saving 8,528; PC-relative (item 4) is repaired to a gain of 2,338 instead of costing 20,658: about **+13,200 (+1.2%)**; with four `cbCC` condition slots about **+6,400 (+0.6%)** |
+| Against the 32-register saving (about 1.0% of bytes) | net cost 0.4% to 3% | net **0.4% gain to 0.2% cost** |
+| Mode-field values (13 needed, 3 spare) | immediate, absolute and PC-relative each take a mode | those three leave the mode field if they become trailing-literal forms: **3 modes freed**, 6 spare against 5 to 8 wanted |
+| Opcode slots (one parcel 62 of 62, two parcels 61 of 64, three parcels 54 of 64) | immediate, absolute and PC-relative forms live inside the ALU and move slots as modes | the literal-bearing instructions need base opcodes: the three one-parcel immediate slots already exist (`MOVQ`, `AND`, `ADD #imm`), but every further instruction that takes an immediate (the other 14 ALU operations among them) needs a slot of its own, and **no slot is free in the one-parcel map** |
+| Longest instruction | 6 bytes (14 for `MOVQL`) | 14 bytes, a three-deep fetch buffer |
+
+So the mechanism frees mode values and about 7,000 to 31,000 code bytes (the two figures depend on whether the PC-relative opcodes are counted), and spends opcode slots, which are the resource that is already exhausted. To avoid spending them, the immediate forms for the other ALU operations would live in the two-parcel map as a mode, at 4 bytes plus the literal (2 bytes more than today for a 16-bit immediate), which brings back a part of the cost item 5.
+
 **Verdict.** It repairs the immediates, the 64-bit constant and the PC-relative reach with one regular mechanism and no extra opcodes, which are most of the cost items that the layout check found beyond the memory displacement. It does not by itself close the layout. The byte effect has not been run through the allocation model.
 
 **Your annotations:**
