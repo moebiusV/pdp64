@@ -102,6 +102,10 @@ Parallelism. R0, and the model side of R3, do not depend on LLVM; R4's start-up 
 | P3 `rdtime`, P4 feature registers, P5 `TLBIASID` | not on the critical path; useful early |
 | boot.md B1 to B8 | R4 (loader) and R7 (silicon); QEMU's `-kernel` skips them until then |
 
+## Measuring each design choice on the OpenBSD port
+
+The emulators answer whether a feature works. Whether it is worth its cost is answered only by the running system. Once QEMU and `sim64` are both working and the OpenBSD port boots, each adopted feature (errata 84: memory colouring, the stack limit register, page-gated landing pads, the `SYS` page bit, predictor isolation, residue checks, ECC and watchpoint reporting, the restart contract, and those studied) is measured on its own, switched on and off one at a time, for performance and for the errors it catches. The measurement list is the last section of [`retire-stage-candidates.md`](retire-stage-candidates.md). The QEMU back end is brought to parity with `sim64`, which is the simulator the first measurements use.
+
 ## Risks, and what would change the plan
 
 * The LLVM back end is the schedule. If it proves harder than estimated, the plan has no fallback to the goal (the fallback, 32V with pcc, does not reach ssh). The mitigation is to start R1 early and to measure progress against the 510 tests.

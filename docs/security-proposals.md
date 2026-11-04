@@ -108,6 +108,7 @@ The ChaCha20 core is `lib/libc/crypt/chacha_private.h:45-49` (fetched): per quar
 
 **Your annotations:**
 
+how about a separate 256 or 512 byte register that absorbs all randomness but is not readable, that is, a write to the register modifies the 512 byte pool, and reading it gets a new bit of randomness from it? that would break if openbsd changed their randomness algorithm.
 ## 2. Constant-time execution and cryptography (decision P17)
 
 
@@ -183,6 +184,8 @@ Scores as in section 1.
 
 **Your annotations:**
 
+i don't know what maskeqz is. how about no crypto devices; let cpu be in a constant time mode; let speculation and out of order and ticless be disabled individual per core, so one core could be dedicated to crypto with constant time instructions while the others run ticless.
+
 ## 3. The literal pool and execute-only code (decision P18)
 
 **Question.** Should the 8-byte constants loaded by `movq =K, rd` stay in `.text` (errata 33), or move to a read-only section outside the code, so that code pages hold only instructions and can be mapped **execute-only** (the page can be run but not read as data, so a memory-disclosure bug cannot be used to read the program's code and find gadgets, the short instruction sequences an attacker chains together)?
@@ -224,6 +227,8 @@ Scores as in section 1.
 **Lean:** option 1 as the rule for every object built execute-only, with option 3's segment flag for legacy objects, and option 2 as a later linker optimisation for the main program's hot constants once the cost of option 1 is measured. Reason: option 1 is the only one that makes code pages truly pure at no hardware cost, and the 2-byte penalty falls on a rarely executed instruction (a wide constant) except in a hot loop, where the compiler hoists it. **The author must decide:** (a) whether the 6-byte penalty is acceptable, or whether option 2 is wanted at once; (b) whether the kernel's own text is execute-only (OpenBSD itself has it as a question); (c) the real reach of a PC-relative `len = 10` operand (±128 MB or ±2 GB), which fixes how far the pool section may sit; (d) that the Meltdown-class rule (no data forwarded from a faulting load) is stated in the architecture.
 
 **Your annotations:**
+
+how about the executable only bit makes an exception for the load from memory as long as it is the address immediately after the instruction.... we could even have an opcode for that, after all, we do immediate loads, why not the 64 bits immediately after the instruction?
 
 ---
 
@@ -289,3 +294,5 @@ Scores as in section 1.
 **Lean:** layers L1 to L10 always; option 2 as the mechanism for data buffers, option 3 for rings only if the window registers prove cheap, option 1's copy kept only for buffers the driver cannot align and for untrusted devices; option 4 as the policy on top; not option 5. Reason: Thunderclap's two serious findings, kernel pointers and page granularity, are answered at the root complex without any card's help (priority 1: the error cannot arise because the access faults; detection is automatic, recovery is a reset and remap), and option 2 does it without copying (priority 2: memory traffic is the cost to minimise). Strict invalidation with permanent mappings keeps the cost of strictness to the rare per-I/O unmap. **The author must decide:** (a) whether the IOMMU leaf may carry the byte range in reserved bits 40-63 of the CPU's entry format, or the I/O format is separate; (b) the trust policy: which ports are internal, who may promote a device, whether an untrusted device is allowed at all on a machine without a console operator; (c) whether an IOMMU fault quarantines the device in hardware (L8) or only reports; (d) whether a peer-to-peer window for the C64/C128 card (errata 77) is a domain flag in iteration one or later; (e) the fault-ring size and what the kernel does when it overflows; (f) whether Thunderbolt/USB4 tunnelled PCI Express is supported in iteration one at all (the safest answer is no).
 
 **Your annotations:**
+not sure what to make of your recommendations on this one, they all have their strong points. synthesize all the good bits together in the way that is least disruptive., also try giving me a one line summary of each recommendation so i can evaluate.
+

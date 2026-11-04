@@ -58,6 +58,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 **OpenBSD fit.** `malloc(3)` already randomises, junks and delays reuse of freed chunks (openbsd-mitigations.md 2.11), so colouring turns its probabilistic detection into a deterministic one. OpenBSD's arm64 code detects PAC in `cpu.c` (read: `openbsd/sys/arch/arm64/arm64/cpu.c`); whether it uses MTE was not found in the sources read.
 
 **Verdict: Study.** The tag compare is cheap; the open question is the pointer-bit trade, which needs the measurement in "What to measure first".
+i like it, do it. approved. no delay.
+
 
 **2. Reserved colours: uninitialised and freed.**
 
@@ -79,6 +81,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Study.** Depends on item 1; the measurement is how often compiled code writes less than a granule into fresh memory.
 
+approved. do it.
+
 **3. Capability bit (pointer validity tag).**
 
 **What it does.** One tag bit per 16-byte granule marks "this granule holds a valid pointer"; ordinary stores clear it, only a capability store sets it, so pointers cannot be forged by integer writes. With a bounds field this is CHERI.
@@ -99,6 +103,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Defer.** Items 1 and 2 give most of the practical detection at far smaller cost; revisit only if the author wants provable spatial safety and accepts 128-bit pointers.
 
+can we do this with 64 bit pointers instead of 128 bit? if each register has flags or modes attached outside the official 64 usable bits, couldn't we do this cheri thing that way too?
+
 **4. Stack limit register, checked at retire.**
 
 **What it does.** A privileged register `SLIM` holds the lowest address the stack pointer may take; any instruction that writes `SP` (`CALL`, `PUSH`, `LEA -N(SP),SP`, `SUB`) faults precisely if the new `SP` is below it. A stack overflow and a stack pivot to a heap address both fault at the instruction that moved `SP`, before any store goes to the bad address.
@@ -118,6 +124,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 **OpenBSD fit.** Replaces the `MAP_STACK` check at syscall with a per-instruction one; the kernel would load `SLIM` at thread switch.
 
 **Verdict: Study.** Cheap, but the author already rejected one form; reconsider only with the numbers from "What to measure first".
+
+approved. do it.
 
 ## Control flow
 
@@ -141,6 +149,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Adopt.** Reserve the page bit now, specify the fault at the branch, switch on in ABI 2.
 
+approved. do it.
+
 **6. The return predictor as the shadow stack.**
 
 **What it does.** An out-of-order core carries a return-address stack (a hardware stack of predicted return targets). Make it architectural: `CALL` pushes the return address on the data stack as now and also on a per-thread protected shadow page via the predictor's spill path; `RET` compares the loaded address with the shadow top. One comparison serves both purposes: a mismatch between prediction and the loaded address is caught at execute anyway; here a mismatch with the shadow is a precise fault instead of a silent redirect.
@@ -160,6 +170,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 **OpenBSD fit.** OpenBSD chose retguard in software and has no shadow stack on amd64 *(from memory, not confirmed)*; it would use this only if `longjmp` and unwinding cost nothing.
 
 **Verdict: Study.** The cost is the recovery code; look only if the `setjmp` path can be made one instruction.
+
+definitely study how to do this in a way that minimizes recovery code; find ways to make the setjmp path one instruction.
 
 **7. Return-address authentication (PAC).**
 
@@ -181,6 +193,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Defer.** Items 5 and 6 are deterministic and cheaper.
 
+agreed. defer.
+
 **8. `SYS` page bit (system call only from marked pages).**
 
 **What it does.** The page-table entry gets one bit; a `TRAP` or `SYSCALL` executed from an unmarked page faults at decode. The kernel marks `libc` text; shellcode, JIT pages and writable pages cannot make system calls (openbsd-mitigations.md idea 2).
@@ -200,6 +214,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 **OpenBSD fit.** Matches `pinsyscalls` as a coarse first filter.
 
 **Verdict: Adopt.**
+
+agree. do it.
 
 ## Arithmetic and data
 
@@ -223,6 +239,9 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Study.** Count the `BVS` sites in the corpus first.
 
+study, but i'm leaning to yes, do it.
+
+
 **10. Architectural poison bit per register.**
 
 **What it does.** A 65th bit per register marks "this value came from a failed operation"; the failure is deferred and raised only if the poisoned value is used (stored, branched on, or used as an address). It moves the fault from creation to use.
@@ -243,6 +262,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Defer.**
 
+study this more, i'm leaning to yes on this, the extra bit on each register shouldn't be a big deal since other things are already doing it right? our register file is small enough it shouldn't be a big deal, only reason we aren't doing 32 registers is opcode layout, not gate cost.
+
 **11. Secret taint with `DIT` enforcement.**
 
 **What it does.** Extends the `DIT` bit decided in architecture-recommendations.md R-8. A register or load can be marked secret (`TAINT`/`UNTAINT` forms); taint propagates through ALU results; a *branch condition*, a *memory address* or a *variable-latency instruction operand* that is tainted raises a precise fault in a domain with `DIT` set. Constant-time code is verified by the hardware instead of by audit.
@@ -262,6 +283,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 **OpenBSD fit.** `libcrypto`/`libressl` constant-time code could be verified; OpenBSD has no taint qualifier today *(not confirmed in the sources read)*.
 
 **Verdict: Study.** Highest novelty on the list; the main risk is false positives.
+
+study; i don't like false positives. that isn't precise or deterministic. otherwise it sounds fantastic.
 
 ## Speculation and side channels
 
@@ -285,6 +308,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Study.**
 
+study, but i like the sound of it. leaning toward it.
+
 **13. Predictor and cache-way isolation by ASID.**
 
 **What it does.** Branch predictor entries (direction, target, return, history) carry the ASID and privilege level; an entry made by one domain is invisible to another. One instruction, a `HINT` kind, clears all predictor state. For caches, an optional way mask per ASID partitions L2/L3 ways between domains.
@@ -304,6 +329,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 **OpenBSD fit.** Removes the need for OpenBSD's per-model `codepatch` mitigation selection (openbsd-mitigations.md section 7, item 5).
 
 **Verdict: Adopt (predictors); Defer (way masks until SMP).**
+
+agree, adopt. smp is immediate, so don't defer.
 
 ## Glitches and RAS
 
@@ -327,6 +354,9 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Study.**
 
+do it. i like it.
+
+
 **15. Precise ECC and parity reporting for reads.**
 
 **What it does.** An uncorrectable ECC error on a *read* is reported as a precise abort `ECAUSE = ECCFAULT` at the reading instruction, with the physical address in `EVA`, exactly as `BUSFAULT` already is for a read timeout (ISA 7.1). A corrected error is logged and the load completes. Only posted writes and background scrub remain imprecise machine checks (ISA 7.1 already says this about posted writes). Parity on the PC, the TLB and the register file reports the same way.
@@ -346,6 +376,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 **OpenBSD fit.** OpenBSD's `mca`-style handling is minimal *(not confirmed in the sources read)*; a precise abort fits the existing signal path.
 
 **Verdict: Adopt.**
+
+agree, do it.
 
 ## Debug and recovery
 
@@ -369,6 +401,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Adopt.**
 
+agree, do it.
+
 **17. The restart contract (blind restart, restartable system calls).**
 
 **What it does.** State as architecture: every abort and progress exception leaves `EPC` at the instruction to re-execute, and `RTI` with `EPC` unchanged is always correct, with no handler knowledge of what the instruction was. A system call interrupted by a signal returns to the `TRAP` instruction itself, so a restart is `RTI`; a call that must not restart sets the result register and advances `EPC`. `EPC`, `EPSW`, `EVA`, `ECAUSE` are written once, at retire, atomically, so there is no window in which they are half updated.
@@ -388,6 +422,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 **OpenBSD fit.** Simplifies `userret` and `ERESTART` handling.
 
 **Verdict: Adopt.**
+
+agree, do it
 
 **18. `UA` window that closes itself.**
 
@@ -409,6 +445,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Study.**
 
+study, but i'm leaning toward it. i want a solid proposal.
+
 **19. User-visible transactional region.**
 
 **What it does.** `BEGIN`/`COMMIT` in user mode makes a short region atomic using the ROB and store buffer as the checkpoint.
@@ -429,6 +467,8 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 **Verdict: Reject.** Recorded so the question is not reopened without cause.
 
+agree. reject.
+
 ## Combinations no one ships
 
 1. **Colour plus reserved colours plus precise restart (items 1, 2, 17).** Allocation colours, an "unwritten" colour and a "freed" colour, all faulting synchronously and precisely, with a handler that can fix and resume. MTE ships the first piece, asynchronous by default; the others are software tools. The story: every heap error is a deterministic fault at the offending instruction, and `malloc` zeroing is initialisation.
@@ -441,10 +481,16 @@ For the author's annotation. The standing constraint is that the design is out-o
 
 All with `sim64` (`/home/david/claude/pdp64/sim64/`, `tests/sim/`) and the compiled corpus in `docs/codegen-data` (BearSSL, c-testsuite and others; `totals.csv` lists the corpora).
 
+
+sim64 is nice, but we should get the qemu backend working too.
+
 1. **`BVS`/`BVC` sites and `ADD`/`SUB`/`MUL` followed by them (item 9).** Count them per corpus. If under 1% of instructions, `TRAPV` is not worth an opcode.
 2. **Stores smaller than 16 bytes into fresh `malloc` memory, and `MSET`/`bzero` coverage (items 1, 2).** The share of first-touch stores that would fault under the "colour 0" rule.
 3. **Indirect `JMP`, `CALLI`, `JTAG` targets: how many are address-taken functions (item 5).** The corpus shows `calli` 451 and `jmp` 658 of 336,408 instructions (ooo-readiness.md 6.14); count the distinct targets and so the `LPAD` byte cost.
 4. **`CALL`/`RET` pairing in the corpus and in kernel code (item 6).** Count `longjmp`, exception unwinding and stack switching sites; each is shadow-stack recovery code.
 5. **Largest `SP` adjustment and maximum depth (item 4).** Frames larger than a page would skip a guard page; a limit register helps only if they exist.
 6. **`stua`/`clua` pairs per copy routine in the kernel assembly corpus (item 18)** under `docs/codegen-data/kernelasm`.
+
+once qemu and sim64 are working, and we do the openbsd port, we can test each choice individually for performance. and we will. put that on the roadmap.
+
 7. **Variable-latency instruction use with operands that are tainted (item 11):** run BearSSL under a software taint model in `sim64` and count false positives.
