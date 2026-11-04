@@ -6,42 +6,42 @@
 prefix none
 include "../pdp64-enc.hbnf"
 
-encoding-name = "pdp64/32"
+; The instruction: one leaf.  A first parcel that no leaf matches (3,277 of the 65,536) is an illegal instruction.
+insn = leaf:( leaf-SYS0-1 | leaf-SYS0-2 | leaf-SYSR-1 | leaf-SYSR-2 | leaf-SETF-1 | leaf-SYSI-1 | leaf-MFSR-1 | leaf-MTSR-1 | leaf-R2-1 | leaf-R3-1
+       | leaf-R4-1 | leaf-RRI-1 | leaf-BFx-1 | leaf-BFy-1 | leaf-MOVQL-1 | leaf-LDU-B28-1 | leaf-LDU-B28-2 | leaf-LDU-B28-3 | leaf-STU-B28-1
+       | leaf-LDU-B12-1 | leaf-LDU-B12-2 | leaf-LDU-B12-3 | leaf-STU-B12-1 | leaf-LDU-X6-1 | leaf-LDU-X6-2 | leaf-LDU-X6-3 | leaf-STU-X6-1
+       | leaf-LDF-B28-1 | leaf-LDF-B28-2 | leaf-LDF-B28-3 | leaf-LDF-B28-4 | leaf-LDF-X22-1 | leaf-LDF-X22-2 | leaf-LDF-X22-3 | leaf-LDF-X22-4
+       | leaf-LDF-PI12-1 | leaf-LDF-PI12-2 | leaf-LDF-PI12-3 | leaf-LDF-PI12-4 | leaf-LDF-PD12-1 | leaf-LDF-PD12-2 | leaf-LDF-PD12-3 | leaf-LDF-PD12-4
+       | leaf-LDF-PC32-1 | leaf-LDF-PC32-2 | leaf-LDF-PC32-3 | leaf-LDF-PC32-4 | leaf-LDF-A32-1 | leaf-LDF-A32-2 | leaf-LDF-A32-3 | leaf-LDF-A32-4
+       | leaf-LDFI-I32-1 | leaf-LDFI-I32-2 | leaf-LDFI-I32-3 | leaf-STF-B28-1 | leaf-STF-B28-2 | leaf-STF-X22-1 | leaf-STF-X22-2 | leaf-STF-PI12-1
+       | leaf-STF-PI12-2 | leaf-STF-PD12-1 | leaf-STF-PD12-2 | leaf-STF-PC32-1 | leaf-STF-PC32-2 | leaf-STF-A32-1 | leaf-STF-A32-2 | leaf-CMF-B28-1
+       | leaf-CMF-X22-1 | leaf-CMF-PI12-1 | leaf-CMF-PD12-1 | leaf-CMF-PC32-1 | leaf-CMF-A32-1 | leaf-CMF-I32-1 | leaf-SOF-B28-1 | leaf-SOF-X22-1
+       | leaf-SOF-PI12-1 | leaf-SOF-PD12-1 | leaf-SOF-PC32-1 | leaf-SOF-A32-1 | leaf-DPF-D28-1 | leaf-DPF-D28-2 | leaf-DPF-D28-3 | leaf-DPF-D28-4
+       | leaf-BRF-1 | leaf-BRF-2 | leaf-BRF-3 | leaf-BRF-4 | leaf-CALLF-1 | leaf-PUSHMF-1 | leaf-SOPR-1 | leaf-SOPR-2 | leaf-SOPR-3 | leaf-PUSHI3-1
+       | leaf-PUSHI2-1 | leaf-JTAG3-1 | leaf-JTAG2-1 | leaf-RRF-1 | leaf-RRF-2 | leaf-RRF5-1 | leaf-CBDI-1 | leaf-CBDR-1 | leaf-SOB-1 | leaf-TAG-1
+       | leaf-SPADJF-1 | leaf-FX-MOVCALL3-1 | leaf-FX-MOVCALL2-1 | leaf-FX-POPMRET-1 | leaf-FX-POPRET-1 | leaf-FX-MOV2-1 | leaf-RR5-1
+       | leaf-CBI4-8H-a-1 | leaf-CBR8H-a-1 | leaf-CBI5-8H-b-1 | leaf-CBZ2-12H-a-1 | leaf-BR2-16-a-1 | leaf-CBR8H-c-1 | leaf-LDI12H-a-1
+       | leaf-CBI5-8H-a-1 | leaf-LDBu6-a-1 | leaf-CALL2-16-c-1 | leaf-CBI8-8H-b-1 | leaf-CBR8H-b-1 | leaf-STBu6-a-1 | leaf-CBI10-8H-a-1
+       | leaf-CBI3-8-a-1 | leaf-LDI12H-b-1 | leaf-LDI12H-b-2 | leaf-LEASx12H-a-1 | leaf-CBI4-8H-c-1 | leaf-PUSHM16b-a-1 | leaf-BR2-16-b-1
+       | leaf-LDX0-a-1 | leaf-CBI4-10H-a-1 | leaf-STBu8H-b-1 | leaf-CBZ2-12H-b-1 | leaf-LDI12H-d-1 | leaf-LDI12H-d-2 | leaf-LDI12H-d-3
+       | leaf-CBI6-10H-a-1 | leaf-LDPC12H-a-1 | leaf-CBI6-8H-c-1 | leaf-CBR8-c-1 | leaf-LDBu6-b-1 | leaf-CALL2-18-c-1 | leaf-LDBs8H-a-1
+       | leaf-CMI12H-a-1 | leaf-CBR8-a-1 | leaf-BR1-6-a-1 | leaf-CMBu8H-a-1 | leaf-CALL2-16-j-1 | leaf-CBR10H-c-1 | leaf-LDPC14H-a-1 | leaf-LDI14H-a-1
+       | leaf-CBR10H-a-1 | leaf-SOBu12H-a-1 | leaf-SOBu12H-a-2 | leaf-CBI3-8-b-1 | leaf-CBR8-b-1 | leaf-CBI8-8H-c-1 | leaf-LDBu6-c-1 | leaf-LDBu6-c-2
+       | leaf-CBI3-12H-a-1 | leaf-CBI3-10-a-1 | leaf-CBZ2-14H-a-1 | leaf-LDBu8H-a-1 | leaf-SOBu12H-x-1 | leaf-LDI16H-a-1 | leaf-CBI8-12H-a-1
+       | leaf-BR2-16-c-1 | leaf-BR2-16-c-2 | leaf-IMMh43-a-1 | leaf-STBs8H-a-1 | leaf-STX0-b-1 | leaf-STX0-a-1 | leaf-CBI4-8-a-1 | leaf-CBI3-10H-c-1
+       | leaf-LDI12H-c-1 | leaf-LDI12-a-1 | leaf-LDPC16H-a-1 | leaf-CBI4-10H-b-1 | leaf-CBI3-8-c-1 | leaf-SPADJ6-a-1 | leaf-CBI10-8H-c-1
+       | leaf-STBs6-b-1 | leaf-LDHHH1-a-1 | leaf-CBI4-8-b-1 | leaf-LDX0-b-1 | leaf-BR1-6-b-1 | leaf-LDI14H-b-1 | leaf-LDI14H-b-2 | leaf-STBu10H-a-1
+       | leaf-CBI5-8-a-1 | leaf-LDBu10H-a-1 | leaf-STHHH1-a-1 | leaf-LEASPh4-a-1 | leaf-CBI12-8H-a-1 | leaf-BR1-8-a-1 | leaf-CBI5-10H-b-1
+       | leaf-LDBu8H-c-1 | leaf-LDBu8H-c-2 | leaf-CBI5-8-c-1 | leaf-CBR10H-b-1 | leaf-CBI5-10H-c-1 | leaf-LDBs6-a-1 | leaf-CBI3-14H-a-1
+       | leaf-PUSHM8-a-1 | leaf-CBI6-8-b-1 | leaf-CALL2-20-c-1 | leaf-LDSPh4-a-1 | leaf-CBI10-8H-b-1 | leaf-SHIh43-a-1 | leaf-LDI12-d-1
+       | leaf-LDI12-d-2 | leaf-LDI12-d-3 | leaf-IMMh45-a-1 | leaf-CBZ2-14H-b-1 | leaf-STSPh4-a-1 | leaf-CBR14H-a-1 | leaf-STBu10H-b-1
+       | leaf-CMBu10H-a-1 | leaf-CBZ1-5-a-1 | leaf-LDHHH3-a-1 | leaf-CBI12-8H-c-1 | leaf-CBI8-8-a-1 | leaf-CMBu6-a-1 | leaf-LEAS12H-a-1
+       | leaf-IMMh43-b-1 | leaf-IMMh43-b-2 | leaf-STHHH1-b-1 | leaf-LDI18H-b-1 | leaf-LDI18H-b-2 | leaf-CBI6-8-c-1 | leaf-LDBs12H-a-1
+       | leaf-PUSHM24-a-1 | leaf-STBu12H-a-1 | leaf-LDBu8H-b-1 | leaf-LDS12H-c-1 | leaf-LDS12H-c-2 | leaf-STBu12H-b-1 | leaf-CBR10-c-1
+       | leaf-CBI6-10H-b-1 | leaf-CMBu8-a-1 | leaf-LDX0-c-1 | leaf-LDX0-c-2 | leaf-LDI12-b-1 | leaf-LDI12-b-2 | leaf-CMI14H-a-1 | leaf-CBR10-a-1
+       | leaf-LDPC12-a-1 | leaf-LDPC16H-c-1 | leaf-LDPC16H-c-2 | leaf-CBI6-10H-c-1 | leaf-LDBu8-a-1 | leaf-LDX6H-a-1 | leaf-CMI18H-a-1 )
 
-; The instruction: one leaf.  An instruction that no leaf matches is illegal (3277 of the 65,536 first parcels).
-insn = leaf-SYS0-1 | leaf-SYS0-2 | leaf-SYSR-1 | leaf-SYSR-2 | leaf-SETF-1 | leaf-SYSI-1 | leaf-MFSR-1 | leaf-MTSR-1 | leaf-R2-1 | leaf-R3-1
-     | leaf-R4-1 | leaf-RRI-1 | leaf-BFx-1 | leaf-BFy-1 | leaf-MOVQL-1 | leaf-LDU-B28-1 | leaf-LDU-B28-2 | leaf-LDU-B28-3 | leaf-STU-B28-1
-     | leaf-LDU-B12-1 | leaf-LDU-B12-2 | leaf-LDU-B12-3 | leaf-STU-B12-1 | leaf-LDU-X6-1 | leaf-LDU-X6-2 | leaf-LDU-X6-3 | leaf-STU-X6-1
-     | leaf-LDF-B28-1 | leaf-LDF-B28-2 | leaf-LDF-B28-3 | leaf-LDF-B28-4 | leaf-LDF-X22-1 | leaf-LDF-X22-2 | leaf-LDF-X22-3 | leaf-LDF-X22-4
-     | leaf-LDF-PI12-1 | leaf-LDF-PI12-2 | leaf-LDF-PI12-3 | leaf-LDF-PI12-4 | leaf-LDF-PD12-1 | leaf-LDF-PD12-2 | leaf-LDF-PD12-3 | leaf-LDF-PD12-4
-     | leaf-LDF-PC32-1 | leaf-LDF-PC32-2 | leaf-LDF-PC32-3 | leaf-LDF-PC32-4 | leaf-LDF-A32-1 | leaf-LDF-A32-2 | leaf-LDF-A32-3 | leaf-LDF-A32-4
-     | leaf-LDFI-I32-1 | leaf-LDFI-I32-2 | leaf-LDFI-I32-3 | leaf-STF-B28-1 | leaf-STF-B28-2 | leaf-STF-X22-1 | leaf-STF-X22-2 | leaf-STF-PI12-1
-     | leaf-STF-PI12-2 | leaf-STF-PD12-1 | leaf-STF-PD12-2 | leaf-STF-PC32-1 | leaf-STF-PC32-2 | leaf-STF-A32-1 | leaf-STF-A32-2 | leaf-CMF-B28-1
-     | leaf-CMF-X22-1 | leaf-CMF-PI12-1 | leaf-CMF-PD12-1 | leaf-CMF-PC32-1 | leaf-CMF-A32-1 | leaf-CMF-I32-1 | leaf-SOF-B28-1 | leaf-SOF-X22-1
-     | leaf-SOF-PI12-1 | leaf-SOF-PD12-1 | leaf-SOF-PC32-1 | leaf-SOF-A32-1 | leaf-DPF-D28-1 | leaf-DPF-D28-2 | leaf-DPF-D28-3 | leaf-DPF-D28-4
-     | leaf-BRF-1 | leaf-BRF-2 | leaf-BRF-3 | leaf-BRF-4 | leaf-CALLF-1 | leaf-PUSHMF-1 | leaf-SOPR-1 | leaf-SOPR-2 | leaf-SOPR-3 | leaf-PUSHI3-1
-     | leaf-PUSHI2-1 | leaf-JTAG3-1 | leaf-JTAG2-1 | leaf-RRF-1 | leaf-RRF-2 | leaf-RRF5-1 | leaf-CBDI-1 | leaf-CBDR-1 | leaf-SOB-1 | leaf-TAG-1
-     | leaf-SPADJF-1 | leaf-FX-MOVCALL3-1 | leaf-FX-MOVCALL2-1 | leaf-FX-POPMRET-1 | leaf-FX-POPRET-1 | leaf-FX-MOV2-1 | leaf-RR5-1 | leaf-CBI4-8H-a-1
-     | leaf-CBR8H-a-1 | leaf-CBI5-8H-b-1 | leaf-CBZ2-12H-a-1 | leaf-BR2-16-a-1 | leaf-CBR8H-c-1 | leaf-LDI12H-a-1 | leaf-CBI5-8H-a-1 | leaf-LDBu6-a-1
-     | leaf-CALL2-16-c-1 | leaf-CBI8-8H-b-1 | leaf-CBR8H-b-1 | leaf-STBu6-a-1 | leaf-CBI10-8H-a-1 | leaf-CBI3-8-a-1 | leaf-LDI12H-b-1
-     | leaf-LDI12H-b-2 | leaf-LEASx12H-a-1 | leaf-CBI4-8H-c-1 | leaf-PUSHM16b-a-1 | leaf-BR2-16-b-1 | leaf-LDX0-a-1 | leaf-CBI4-10H-a-1
-     | leaf-STBu8H-b-1 | leaf-CBZ2-12H-b-1 | leaf-LDI12H-d-1 | leaf-LDI12H-d-2 | leaf-LDI12H-d-3 | leaf-CBI6-10H-a-1 | leaf-LDPC12H-a-1
-     | leaf-CBI6-8H-c-1 | leaf-CBR8-c-1 | leaf-LDBu6-b-1 | leaf-CALL2-18-c-1 | leaf-LDBs8H-a-1 | leaf-CMI12H-a-1 | leaf-CBR8-a-1 | leaf-BR1-6-a-1
-     | leaf-CMBu8H-a-1 | leaf-CALL2-16-j-1 | leaf-CBR10H-c-1 | leaf-LDPC14H-a-1 | leaf-LDI14H-a-1 | leaf-CBR10H-a-1 | leaf-SOBu12H-a-1
-     | leaf-SOBu12H-a-2 | leaf-CBI3-8-b-1 | leaf-CBR8-b-1 | leaf-CBI8-8H-c-1 | leaf-LDBu6-c-1 | leaf-LDBu6-c-2 | leaf-CBI3-12H-a-1 | leaf-CBI3-10-a-1
-     | leaf-CBZ2-14H-a-1 | leaf-LDBu8H-a-1 | leaf-SOBu12H-x-1 | leaf-LDI16H-a-1 | leaf-CBI8-12H-a-1 | leaf-BR2-16-c-1 | leaf-BR2-16-c-2
-     | leaf-IMMh43-a-1 | leaf-STBs8H-a-1 | leaf-STX0-b-1 | leaf-STX0-a-1 | leaf-CBI4-8-a-1 | leaf-CBI3-10H-c-1 | leaf-LDI12H-c-1 | leaf-LDI12-a-1
-     | leaf-LDPC16H-a-1 | leaf-CBI4-10H-b-1 | leaf-CBI3-8-c-1 | leaf-SPADJ6-a-1 | leaf-CBI10-8H-c-1 | leaf-STBs6-b-1 | leaf-LDHHH1-a-1
-     | leaf-CBI4-8-b-1 | leaf-LDX0-b-1 | leaf-BR1-6-b-1 | leaf-LDI14H-b-1 | leaf-LDI14H-b-2 | leaf-STBu10H-a-1 | leaf-CBI5-8-a-1 | leaf-LDBu10H-a-1
-     | leaf-STHHH1-a-1 | leaf-LEASPh4-a-1 | leaf-CBI12-8H-a-1 | leaf-BR1-8-a-1 | leaf-CBI5-10H-b-1 | leaf-LDBu8H-c-1 | leaf-LDBu8H-c-2
-     | leaf-CBI5-8-c-1 | leaf-CBR10H-b-1 | leaf-CBI5-10H-c-1 | leaf-LDBs6-a-1 | leaf-CBI3-14H-a-1 | leaf-PUSHM8-a-1 | leaf-CBI6-8-b-1
-     | leaf-CALL2-20-c-1 | leaf-LDSPh4-a-1 | leaf-CBI10-8H-b-1 | leaf-SHIh43-a-1 | leaf-LDI12-d-1 | leaf-LDI12-d-2 | leaf-LDI12-d-3 | leaf-IMMh45-a-1
-     | leaf-CBZ2-14H-b-1 | leaf-STSPh4-a-1 | leaf-CBR14H-a-1 | leaf-STBu10H-b-1 | leaf-CMBu10H-a-1 | leaf-CBZ1-5-a-1 | leaf-LDHHH3-a-1
-     | leaf-CBI12-8H-c-1 | leaf-CBI8-8-a-1 | leaf-CMBu6-a-1 | leaf-LEAS12H-a-1 | leaf-IMMh43-b-1 | leaf-IMMh43-b-2 | leaf-STHHH1-b-1 | leaf-LDI18H-b-1
-     | leaf-LDI18H-b-2 | leaf-CBI6-8-c-1 | leaf-LDBs12H-a-1 | leaf-PUSHM24-a-1 | leaf-STBu12H-a-1 | leaf-LDBu8H-b-1 | leaf-LDS12H-c-1
-     | leaf-LDS12H-c-2 | leaf-STBu12H-b-1 | leaf-CBR10-c-1 | leaf-CBI6-10H-b-1 | leaf-CMBu8-a-1 | leaf-LDX0-c-1 | leaf-LDX0-c-2 | leaf-LDI12-b-1
-     | leaf-LDI12-b-2 | leaf-CMI14H-a-1 | leaf-CBR10-a-1 | leaf-LDPC12-a-1 | leaf-LDPC16H-c-1 | leaf-LDPC16H-c-2 | leaf-CBI6-10H-c-1 | leaf-LDBu8-a-1
-     | leaf-LDX6H-a-1 | leaf-CMI18H-a-1
+encoding-name = "pdp64/32"
 
 ; ---- the registers
 regs = "r0"@0 | "r1"@1 | "r2"@2 | "r3"@3 | "r4"@4 | "r5"@5 | "r6"@6 | "r7"@7 | "r8"@8 | "r9"@9 | "r10"@10 | "r11"@11 | "r12"@12 | "r13"@13 | "r14"@14

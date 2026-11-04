@@ -2,7 +2,7 @@
 """
 check-drift-enc -- the drift test for the prefix-coded encodings (pdp64/16 and pdp64/32), the counterpart of check-drift.py.
 
-spec/pdp64-NN/forms.json is the one place the bit positions and the mnemonics of an encoding are written.  For every mnemonic of the table this
+spec/pdp64-NN/pdp64-NN.hbnf is the one place the bit positions and the mnemonics of an encoding are written.  For every mnemonic of the table this
 writes one assembly instruction of a shape the table has for it (from the operand specs of its shortest form), assembles it with as64 -m pdp64/NN, decodes the
 parcels with the C codec (tests/enc/encdrv -d) and requires the same mnemonic back: every mnemonic of the encoding can be written in the assembly language and
 reaches its own opcode (the 22 ATOM words, the 8 MESC words, TRAPL, the SYSX words, the new instructions and the fused pairs included).  Then:
@@ -15,6 +15,7 @@ import json, os, re, struct, subprocess, sys, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, '..')
 sys.path.insert(0, HERE)
+import encgram
 B = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
 AS = os.path.join(B, 'as64')
 DRV = os.path.join(B, 'encdrv')
@@ -91,7 +92,7 @@ def main():
         names[w] = c
     bad = checked = 0
     for tag in ('16', '32'):
-        d = json.load(open(os.path.join(ROOT, 'spec', 'pdp64-' + tag, 'forms.json')))
+        d = encgram.load(tag, ROOT)
         g = Gen(d)
         first = {}
         for fi, f in enumerate(d['forms']):

@@ -6,6 +6,7 @@ encoding (spec/README.md, "The grammars").  The same text is what a person edits
 which reads them through tools/encgram.py); nothing reads the optimiser's data.
 
     write_hbnf.py OUTDIR  16=forms16.json  32=forms32.json      write OUTDIR/pdp64-enc.hbnf, OUTDIR/pdp64-16/pdp64-16.hbnf, OUTDIR/pdp64-32/pdp64-32.hbnf
+    (export_forms.py calls write_all() with the optimiser's dicts; the JSON form is only for running this on a dict someone kept)
 
 The input is the dict the optimiser produces (the shape of export_forms.py's output), or what tools/encgram.py.load() returns.  The vocabulary of the
 grammars (rule and field names) is defined in the header written into spec/pdp64-enc.hbnf; tools/encgram.py is its reader.
@@ -13,7 +14,7 @@ grammars (rule and field names) is defined in the header written into spec/pdp64
 import json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'tools'))
-from encgram import guard_text
+from encgram import guard_text, leaf_pieces, runs as _runs
 
 SIZES = [(8, ['movq']), (4, ['movl', 'movzl']), (2, ['movw', 'movzw']), (1, ['movb', 'movzb'])]
 FUSED_DOC = {'movcall': 'movq rs,rd ; call label', 'popmret': 'popm #mask ; ret', 'popret': 'pop rd ; ret', 'mov2': 'movq ra,rb ; movq rc,rd'}
@@ -74,26 +75,6 @@ def shape(s):
     raise ValueError(k)
 
 
-def part_names(s):
-    """The names of the parts of an operand spec, in the order of the bits lists ('pi' of the leaves)."""
-    k = s['k']
-    if k == 'R':
-        return ['r']
-    if k == 'K':
-        return []
-    if k == 'I':
-        return ['imm']
-    if k == 'B':
-        return (['base'] if s['rn']['k'] == 'R' else []) + (['d'] if s['dw'] else [])
-    if k == 'X':
-        return ['base', 'index', 'scale'] + (['d'] if s['dw'] else [])
-    if k in ('PI', 'PD'):
-        return ['base'] + (['stride'] if s['dw'] else [])
-    if k == 'PC':
-        return ['pcrel']
-    if k == 'A':
-        return ['abs']
-
 
 # ---------------------------------------------------------------- text helpers
 def wrap(head, items, sep=' | ', width=150, cont='     | '):
@@ -108,20 +89,6 @@ def wrap(head, items, sep=' | ', width=150, cont='     | '):
             cur += sep + it
     lines.append(cur)
     return '\n'.join(lines)
-
-
-def runs(bits):
-    """absolute bit positions 16*parcel+bit (bit 15 the top of its parcel), in the order of the field's value -> record positions, merged
-    into maximal runs of consecutive positions: [(first record position, length)].  The record is the instruction read from the top bit of parcel 0."""
-    pos = [16 * (b // 16) + 15 - (b % 16) for b in bits]
-    assert pos == sorted(pos), 'the bits of a field are not in record order'
-    out = []
-    for p in pos:
-        if out and out[-1][0] + out[-1][1] == p:
-            out[-1][1] += 1
-        else:
-            out.append([p, 1])
-    return out
 
 
 # ---------------------------------------------------------------- the shared grammar
@@ -221,13 +188,15 @@ def write_member(d, tag):
     o('; Everything the codec, the assembler, the linker, the simulator and the documentation know of this encoding is generated from this file.\n')
     o('prefix none')
     o('include "../pdp64-enc.hbnf"\n')
-    o('encoding-name = "%s"\n' % d['name'])
-    # the root: every leaf, in the order of the catalogue (the prefixes are disjoint, so the order only matters to a reader)
+    # the root, which must be the first rule (hbnf reads a grammar whose first rule is a bit rule as bits alone: parse_bits is then the decoder of the encoding):
+    # one leaf; the prefixes are disjoint, so the order of the alternatives matters to a reader only
     lnames = []
     for li, lf in enumerate(leaves):
         lnames.append('leaf-%s-%d' % (names[lf['form']], 1 + sum(1 for x in leaves[:li] if x['form'] == lf['form'])))
-    o('; The instruction: one leaf.  An instruction that no leaf matches is illegal (%d of the 65,536 first parcels).' % d['stats']['decod']['free_patterns'] if 'stats' in d else '; The instruction: one leaf.  An instruction that no leaf matches is illegal.')
-    o(wrap('insn = ', lnames, cont='     | ') + '\n')
+    free = 65536 - sum(1 << (16 - lf['L']) for lf in leaves)
+    o('; The instruction: one leaf.  A first parcel that no leaf matches (%s of the 65,536) is an illegal instruction.' % format(free, ','))
+    o(wrap('insn = leaf:( ', lnames, cont='       | ') + ' )\n')
+    o('encoding-name = "%s"\n' % d['name'])
     # registers
     o('; ---- the registers\n' + wrap('regs = ', ['"r%d"@%d' % (i, i) for i in range(nreg)], cont='     | '))
     o('; A register field of W bits that cannot hold a register number is an index into the table hotW (the part of the ABI the encoding depends on, docs/abi.md).')
@@ -273,46 +242,25 @@ def write_member(d, tag):
 
 def write_leaf(lf, f, mname, k, d):
     n16 = 16 * f['n']
-    items = []                                   # (record position, text)
     L = lf['L']
-    items.append((0, '0b' + format(lf['prefix'], '0%db' % L)))
     nm = len(lf['mns'])
-    sub = lf['subbits']
-    xs = [p for p in lf['place'] if p[0] == -1]
-    guard = ''
-    def add(name, bits):
-        rr = runs(bits)
-        for ri, (p, ln) in enumerate(rr):
-            items.append((p, '%s%s:%d' % (name, '' if len(rr) == 1 else '-%d' % (ri + 1), ln)))
-        return [ln for _, ln in rr]
-    if sub:
-        assert not xs
-        ws = add('sub', sub)
-        if nm < 1 << len(sub):
-            guard = guard_text('sub', ws, nm)
-    for oi, pi, bits in lf['place']:
-        if oi == -1:
-            ws = add('xsub', bits)
-            if nm < 1 << len(bits):
-                guard = guard_text('xsub', ws, nm)
-        else:
-            add('o%d-%s' % (oi + 1, part_names(f['specs'][oi])[pi]), bits)
-    items.sort()
-    assert sum(int(t.rsplit(':', 1)[1]) if ':' in t else len(t) - 2 for _, t in items) == n16, (f['name'], lf)
+    pcs = leaf_pieces(lf, f['specs'])
+    flds = ['0b' + format(lf['prefix'], '0%db' % L)] + ['%s:%d' % (name, w) for _, name, w, _ in pcs]
+    assert L + sum(w for _, _, w, _ in pcs) == n16, (f['name'], lf)
+    # the check that rejects the unused sub-opcodes
+    for key in (('sub',), ('xsub',)):
+        ws = [w for _, _, w, kk in pcs if kk == key]
+        if ws and nm < 1 << sum(ws):
+            flds.append(guard_text(key[0], ws, nm))
     leaf = 'leaf-%s-%d' % (mname, k)
-    flds = [t for _, t in items] + ([guard] if guard else [])
     text = wrap('%s = ' % leaf, flds, sep=' ', width=150, cont='        ')
     en = wrap('sub-%s-%d = ' % (mname, k), ['"%s"' % m for m in lf['mns']], cont='     | ')
     return text + '\n' + en
 
 
 # ---------------------------------------------------------------- main
-def main():
-    out = sys.argv[1]
-    ds = []
-    for a in sys.argv[2:]:
-        tag, path = a.split('=')
-        ds.append((tag, json.load(open(path))))
+def write_all(out, ds):
+    """ds = [(tag, dict)]; writes out/pdp64-enc.hbnf and out/pdp64-TAG/pdp64-TAG.hbnf"""
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'tools'))
     import mkgrammar
     en = mkgrammar.enums(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'spec', 'pdp64-mnemonics.hbnf'))
@@ -323,6 +271,14 @@ def main():
     for tag, d in ds:
         os.makedirs(os.path.join(out, 'pdp64-' + tag), exist_ok=True)
         open(os.path.join(out, 'pdp64-' + tag, 'pdp64-%s.hbnf' % tag), 'w').write(write_member(d, tag))
+
+
+def main():
+    ds = []
+    for a in sys.argv[2:]:
+        tag, path = a.split('=')
+        ds.append((tag, json.load(open(path))))
+    write_all(sys.argv[1], ds)
 
 
 if __name__ == '__main__':

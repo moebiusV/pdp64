@@ -1,6 +1,6 @@
 /* pdp64enc.h: the shared codec of the prefix-coded encodings pdp64/16 and pdp64/32 (docs/encoding-proposal.md, spec/README.md).
  *
- * The bit positions are not in the C: they are in the generated tables (tools/mkenc.py reads spec/pdp64-NN/forms.json and writes build/pdp64-NN-tab.c).
+ * The bit positions are not in the C: they are in the generated tables (tools/mkenc.py reads the grammar spec/pdp64-NN/pdp64-NN.hbnf and writes build/pdp64-NN-tab.c).
  * One codec, any table.  as64 uses encode, ld64 the field extract/insert for relocations, sim64 and the disassembler the decoder.
  *
  * An instruction is a mnemonic and up to four operands of the kinds below; the same shapes as the assembly language (docs/asm-syntax.md).

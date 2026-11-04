@@ -1,9 +1,9 @@
-"""Build one scheme with the optimiser and write it as a machine-readable forms table (the single source of truth of an
-encoding: spec/pdp64-16/forms.json, spec/pdp64-32/forms.json).  Needs the corpus (load.py paths) and is run once per revision of the scheme;
-everything downstream (tools/mkenc.py, the codec, as64, ld64) reads only the JSON.
+"""Build the schemes with the optimiser and write them as the hbnf grammars of the encodings (spec/pdp64-enc.hbnf, spec/pdp64-16/pdp64-16.hbnf,
+spec/pdp64-32/pdp64-32.hbnf), by write_hbnf.py.  The grammars are the source of truth of the encodings; this is the design tool that writes a new one, and the
+optimiser stays the independent oracle (check-enc.py lays the grammar's forms out again with the model enc.py and requires the same bits).  Needs the corpus
+(load.py paths).  Nothing builds from the optimiser's data: what it writes is a grammar to review, diff and commit (spec/README.md, "Changing an encoding").
 
-    python3 export_forms.py 16 out.json      # A16 + the four fused pairs (corpus-trained, static objective)
-    python3 export_forms.py 32 out.json      # A32r + the four fused pairs
+    python3 export_forms.py OUTDIR             # A16 and A32r + the four fused pairs (corpus-trained, static objective); writes the three grammars under OUTDIR
 """
 import sys,json,collections
 sys.path.insert(0,'.')
@@ -21,7 +21,7 @@ def spec_json(sp):
     if isinstance(sp,SPC): return dict(k='PC',w=sp.w,unit=sp.unit)
     if isinstance(sp,SA): return dict(k='A',w=sp.w)
     raise TypeError(sp)
-def export(which,path):
+def export(which):
     mns=['movq','movl','add','sub','xor','and','bis','shl']
     if which=='16':
         sc,_=build('base16',reloc='max',fuse=FZ); regs=16; name='pdp64/16'
@@ -45,6 +45,12 @@ def export(which,path):
     out=dict(name=name,registers=regs,hot8=order[:8],hot16=order[:16] if which=='32' else None,
              fused=list(FZ),forms=forms,leaves=leaves,
              stats=dict(decod={k:v for k,v in dec.items()},boundary=[nb,len(bad),nf]))
-    json.dump(out,open(path,'w'),indent=0,default=str)
-    print(name,'forms',len(forms),'leaves',len(leaves),'kraft',sc.code.kraft,'boundary',nb,len(bad),'hot8',order[:8],'hot16',order[:16])
-if __name__=='__main__': export(sys.argv[1],sys.argv[2])
+    print(name,'kraft',sc.code.kraft,'boundary',nb,len(bad))
+    return out
+if __name__=='__main__':
+    import os,write_hbnf
+    outdir=sys.argv[1]
+    ds=[(w,json.loads(json.dumps(export(w),default=str))) for w in ('16','32')]
+    for w,d in ds: print(d['name'],'forms',len(d['forms']),'leaves',len(d['leaves']),'hot8',d['hot8'],'hot16',d['hot16'])
+    os.makedirs(outdir,exist_ok=True)
+    write_hbnf.write_all(outdir,ds)

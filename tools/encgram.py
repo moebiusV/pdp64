@@ -285,7 +285,10 @@ def load(tag, root=None):
             leaves.append(lf)
             insn_order.append(lr)
         forms.append(form)
-    listed = [x.strip() for x in g('insn').split('|')]
+    mi = re.match(r'^leaf:\(\s*(.*?)\s*\)$', g('insn'))
+    if not mi:
+        raise GrammarError('`insn` must be  leaf:( leaf-A | leaf-B | ... )')
+    listed = [x.strip() for x in mi.group(1).split('|')]
     if listed != insn_order:
         raise GrammarError('`insn` must list every leaf, in the order of the catalogue and the numbers (%d listed, %d leaves); first difference: %s' % (
             len(listed), len(insn_order), next(((a, b) for a, b in zip(listed, insn_order) if a != b), None)))
@@ -390,6 +393,39 @@ def parse_leaf(rn, rules, mname, k, specs, fi, off, form):
     if xsub:
         place.insert(0, [-1, 0, xsub])
     return dict(form=fi, off=off, j=len(sub), L=L, prefix=prefix, mns=mns, subbits=sub, place=place)
+
+
+def runs(bits):
+    """the bits of a field (16*parcel+bit, bit 15 the top of its parcel), from the top bit of its value down -> record positions (the instruction read from the
+    top bit of parcel 0), merged into maximal runs of consecutive positions: [[first position, length]].  The bits of a field are in record order."""
+    pos = [16 * (b // 16) + 15 - (b % 16) for b in bits]
+    if pos != sorted(pos):
+        raise GrammarError('the bits of a field are not in record order')
+    out = []
+    for p in pos:
+        if out and out[-1][0] + out[-1][1] == p:
+            out[-1][1] += 1
+        else:
+            out.append([p, 1])
+    return out
+
+
+def leaf_pieces(lf, specs):
+    """The fields of a leaf after its prefix, in record order: [(position, field name, width, key)], key = ('sub',), ('xsub',) or (operand index, part index).
+    A field the layout splits is several pieces, `name-1`, `name-2`, ... from the top."""
+    items = []
+    def add(name, bits, key):
+        rr = runs(bits)
+        for ri, (p, ln) in enumerate(rr):
+            items.append((p, name if len(rr) == 1 else '%s-%d' % (name, ri + 1), ln, key))
+    if lf['subbits']:
+        add('sub', lf['subbits'], ('sub',))
+    for oi, pi, bits in lf['place']:
+        if oi == -1:
+            add('xsub', bits, ('xsub',))
+        else:
+            add('o%d-%s' % (oi + 1, part_list(specs[oi])[pi][0]), bits, (oi, pi))
+    return sorted(items)
 
 
 def free_patterns(d):

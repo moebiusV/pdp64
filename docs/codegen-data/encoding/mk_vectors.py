@@ -1,5 +1,5 @@
 """Writes the format vectors of the prefix-coded encodings, tests/enc/vectors-16.txt and vectors-32.txt: an instruction (the operand notation of
-tests/enc/encdrv.c) and the parcels the Python prototype gives it (enc.py, from spec/pdp64-NN/forms.json; the shortest form that fits).  tools/check-enc.py
+tests/enc/encdrv.c) and the parcels the Python prototype gives it (enc.py, from spec/pdp64-NN/pdp64-NN.hbnf; the shortest form that fits).  tools/check-enc.py
 requires the C codec to produce the same parcels and to decode them back.  The vectors are chosen to show every length (1, 2, 3 and 5 parcels), the
 hot-register fields, the sp-relative forms, the rare groups and the instructions the original encoding could not assemble.
 
@@ -14,6 +14,8 @@ import importlib.util
 spec = importlib.util.spec_from_file_location('chk', os.path.join(HERE, '..', '..', '..', 'tools', 'check-enc.py'))
 chk = importlib.util.module_from_spec(spec); spec.loader.exec_module(chk)
 ROOT = os.path.join(HERE, '..', '..', '..')
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+import encgram
 
 def P(s):
     f = s.split(); mn = f[0]; ops = []
@@ -61,7 +63,7 @@ R32 = [
  ('', 'xadd R:17 R:18 R:19'), ('', 'cas R:20 R:21 R:22 R:23'), ('', 'bsel R:24 R:25 R:26 R:27'),
 ]
 for which in ('16', '32'):
-    d = json.load(open(os.path.join(ROOT, 'spec', 'pdp64-' + which, 'forms.json')))
+    d = encgram.load(which, ROOT)
     forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
     code = Code(forms)
     import collections

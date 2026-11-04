@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-check-enc -- the C codec (common/pdp64enc.c, with the tables generated from spec/pdp64-NN/forms.json) against the Python model of the encoding
+check-enc -- the C codec (common/pdp64enc.c, with the tables generated from spec/pdp64-NN/pdp64-NN.hbnf) against the Python model of the encoding
 (docs/codegen-data/encoding/enc.py, the code that produced and verified the tables).  For each of pdp64/16 and pdp64/32:
 
-  1. the model, given only the forms of forms.json, lays out the same prefixes and bit positions as the table says (the table is what the model computes);
+  1. the model, given only the forms of the grammar, lays out the same prefixes and bit positions as the table says (the table is what the model computes);
   2. a vector for every mnemonic of every form: the boundaries of every operand field (minimum, maximum, 0, +-1, a few random combinations) and, for
      the PC-relative and absolute fields, an unresolved external (a relocation);
   3. for each vector, the model chooses the form (the shortest that fits, in table order) and encodes; the C codec must produce the same parcels,
@@ -12,6 +12,8 @@ check-enc -- the C codec (common/pdp64enc.c, with the tables generated from spec
 import collections, json, os, random, subprocess, sys
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+import encgram
 sys.path.insert(0, os.path.join(ROOT, 'docs', 'codegen-data', 'encoding'))
 sys.dont_write_bytecode = True
 import enc
@@ -84,7 +86,7 @@ def tok(o):
 
 
 def run(tag):
-    d = json.load(open(os.path.join(ROOT, 'spec', 'pdp64-' + tag, 'forms.json')))
+    d = encgram.load(tag, ROOT)
     enc.RELOC = 'max'
     forms = []
     dpforms = set()

@@ -1,7 +1,7 @@
 """Writes the assembled-program tests of the prefix-coded encodings: tests/asm-pdp64-16 and tests/asm-pdp64-32 (NAME.s, NAME.words, NAME.flags).
 
 The expected parcels are not as64's: they come from the Python prototype of the encoding (enc.py, scheme.py: choose the shortest form, relax against real
-distances, pack the bits), built from spec/pdp64-NN/forms.json, applied to the parser of the prototype (fit/m2.py).  Unresolved externals are 0 in the
+distances, pack the bits), built from spec/pdp64-NN/pdp64-NN.hbnf, applied to the parser of the prototype (fit/m2.py).  Unresolved externals are 0 in the
 object (the linker fills them).  Run it after a change to the forms; the result is checked in.
 
     python3 mk_asm_tests.py
@@ -16,6 +16,8 @@ import importlib.util
 spec = importlib.util.spec_from_file_location('chk', os.path.join(HERE, '..', '..', '..', 'tools', 'check-enc.py'))
 chk = importlib.util.module_from_spec(spec); spec.loader.exec_module(chk)
 ROOT = os.path.join(HERE, '..', '..', '..')
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+import encgram
 FZ = ('movcall', 'popmret', 'popret', 'mov2')
 
 COMMON = {
@@ -174,7 +176,7 @@ x:\tret
 }
 
 def run(which):
-    d = json.load(open(os.path.join(ROOT, 'spec', 'pdp64-' + which, 'forms.json')))
+    d = encgram.load(which, ROOT)
     forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
     sc = Scheme(forms)
     enc.RELOC = 'max'

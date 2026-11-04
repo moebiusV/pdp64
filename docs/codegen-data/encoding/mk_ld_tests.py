@@ -15,10 +15,12 @@ import importlib.util
 spec = importlib.util.spec_from_file_location('chk', os.path.join(HERE, '..', '..', '..', 'tools', 'check-enc.py'))
 chk = importlib.util.module_from_spec(spec); spec.loader.exec_module(chk)
 ROOT = os.path.join(HERE, '..', '..', '..')
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+import encgram
 import collections
 
 for which in ('16', '32'):
-    d = json.load(open(os.path.join(ROOT, 'spec', 'pdp64-' + which, 'forms.json')))
+    d = encgram.load(which, ROOT)
     forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
     code = Code(forms)
     by_mn = collections.defaultdict(list)

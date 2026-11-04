@@ -4,7 +4,7 @@ against the length the model's scheme gives it (scheme.py: choose the shortest f
     python3 asm_vs_model.py 16|32 OUTDIR 
 
 OUTDIR holds NAME.lens for each corpus file (as64 -m pdp64/NN --dump-lens OUTDIR/NAME.lens ...).  The scheme is rebuilt from
-spec/pdp64-NN/forms.json (enc.Form objects), not re-solved.  Paths of the corpus are those of load.py."""
+spec/pdp64-NN/pdp64-NN.hbnf (enc.Form objects), not re-solved.  Paths of the corpus are those of load.py."""
 import sys, os, json, collections, struct
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from variants import *
@@ -17,7 +17,8 @@ chk = importlib.util.module_from_spec(spec); spec.loader.exec_module(chk)
 FZ = ('movcall', 'popmret', 'popret', 'mov2')
 which, outdir = sys.argv[1], sys.argv[2]
 tag = 'base16' if which == '16' else 'r32'
-d = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'spec', 'pdp64-' + which, 'forms.json')))
+import encgram
+d = encgram.load(which)
 forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
 sc = Scheme(forms)
 enc.RELOC = 'max'
