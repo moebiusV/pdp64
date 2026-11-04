@@ -14,6 +14,7 @@ calibration as the assembler (`common/calib.c`), and the instruction numbers are
 | `-n N` | stop after N instructions (default 200 million) |
 | `-m ENC` | the instruction encoding, `r20`, `16` or `32` (also `pdp64/16`...); by default the one in the `e_flags` of the program (`as64 -m` writes it, `ld64` carries it) |
 | `-P file` | profile: count the executed instructions per pc and write them at exit (see below) |
+| `--timing=SPEC` | a cycle estimate from a trace-driven in-order timing model (repeatable); `--timing-out=FILE`, `--timing-pc=FILE`, `--timing-help`: [timing-model.md](timing-model.md) |
 
 ## Encodings
 
