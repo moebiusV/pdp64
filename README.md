@@ -10,6 +10,8 @@ The PDP-11 and the VAX-11 were pleasant, even fun, to program in assembly langua
 
 The pdp64 is a 64-bit, little-endian, LP64 architecture with support for several cores, designed to be efficient with in-order and out-of-order implementations. It has sixteen general registers; variable-length instructions of 2, 4 or 6 bytes in 16-bit parcels, plus a second page of one-parcel abbreviations of the common cases; the PDP-11's orthogonal addressing modes; and a modern base: bit counts, 64-bit divide, IEEE 754 binary64, binary32 and binary16 with exception flags, block operations, atomics and UTF-8 instructions. It also has instructions for cryptography (rotation and bit reversal, byte swap, carry-less multiply, bit counts, wide multiply) and for inference (the population-count and XNOR instructions that binary and sub-1-bit networks need; see the [LB64 accelerator](docs/pdp64-lb64-accelerator.md)).
 
+**The architecture is a family, pdp64.** It has three members that share the instruction set, the assembly language, the system architecture and the operating-system interface and differ in the instruction encoding and the number of registers: **pdp64/r20** (the original encoding of this README's manual: sixteen registers, parcel 0 = `len opcode reg low`), **pdp64/16** (a prefix-coded encoding, sixteen registers) and **pdp64/32** (a prefix-coded encoding, 32 registers, r16-r31). The prefix-coded encodings add a few instructions (four fused pairs the compiler emits: `movcall`, `popret`, `popmret`, `mov2`; selects; overflow-trapping arithmetic; `trapcc`; the AES and SHA words). Everything is selected by `-m pdp64/r20|16|32` (`as64`, `sim64`, the compiler's `ccom`) and recorded in the object file. The grammars of the encodings are `spec/pdp64-16/pdp64-16.hbnf` and `spec/pdp64-32/pdp64-32.hbnf` (the source of truth; `spec/README.md` says how to change one), the original encoding is `spec/pdp64.hbnf.in` with `spec/pdp64-mnemonics.hbnf`. The reports of the work and the measured comparison of the three are in [`docs/encoding-work/`](docs/encoding-work/README.md). **The manual (`docs/manual/`) still describes pdp64/r20 only**; [`docs/manual-update-plan.md`](docs/manual-update-plan.md) says what must change.
+
 The toolchain is written from one source of truth, a set of [hbnf](https://github.com/moebiusV/hbnf) grammars, so that the assembler, linker, emulator, compiler back end and [QEMU](https://www.qemu.org/) target cannot drift apart.
 
 ## Design principles
@@ -64,6 +66,13 @@ The C compiler is the `pdp64` back end of [pcc](https://github.com/moebiusV/pcc)
 
 ## Building and checking
 
+    tools/build-hbnf.sh                       the grammar compiler (once)
+    tools/check-all.sh                        build as64, ld64, sim64 and run every check, all three encodings
+    PCC=~/claude/pcc-enc tools/build-pcc.sh   build/pcc/ccom (16 registers: -m pdp64/r20, -m pdp64/16) and build/pcc/ccom32 (-m pdp64/32)
+    tools/pdp64test-all.sh -m pdp64/16        the C test programs for one member (pdp64/r20, pdp64/16, pdp64/32; 602, 963, 963 runs)
+    as64 -m pdp64/32 x.s; ld64 -o x.out x.o; sim64 [-P profile] [--timing=SPEC] x.out      one member, by -m or by the object's e_flags
+
+
 `tools/build-hbnf.sh` builds the grammar compiler ([hbnf](https://github.com/moebiusV/hbnf)) in a rootless container. `tools/check-all.sh` then generates the grammars, builds the assembler, linker and emulator and runs every check: format vectors, syntax cases, assembled programs against hand-worked words, the link test, the drift test (every mnemonic's encoding against its number), the generated-header freshness check, the emulator programs and the QEMU machine tests. `tools/build-pcc.sh` builds the compiler and `tools/pdp64test-all.sh` runs the C programs under six flag sets.
 
 ## Status
@@ -71,7 +80,7 @@ The C compiler is the `pdp64` back end of [pcc](https://github.com/moebiusV/pcc)
 - **Specification:** the manual, the grammars and the research are described above.
 - **Assembler, linker, emulator:** the reference executor implements the integer core, bit and block operations, binary64 floating point with flags, and the system instructions; the atomics, the memory escape (`MESC`), the UTF-8 instructions, `MVAL` and `FCLASS32` are specified and not yet implemented.
 - **QEMU target:** boots a kernel image and runs the machine tests (53 run, 0 failed, 3 skipped) and 516 C test runs.
-- **Compiler:** all 841 files of the benchmark corpus compile and assemble; the code is the size of `gcc -Os`.
+- **Compiler:** all 841 files of the benchmark corpus compile and assemble for pdp64/r20, pdp64/16 and pdp64/32; the code for the prefix-coded members is 13.8% (pdp64/16) and 11.0% (pdp64/32) smaller than pdp64/r20 on the corpus, and the six large programs execute 19% and 24% fewer instructions (`docs/encoding-work/integration.md`).
 - **LLVM back end:** the machine-code layer (assembler, disassembler, ELF object writer); no code generator yet.
 - **Open:** the register-level specification of the C64- and Blit-derived devices (the author's earlier chat decided much of it: `docs/c64-devices-from-chat.md`), and the decisions in `docs/decisions-pending.md`, including Part E (conflicts with that chat).
 

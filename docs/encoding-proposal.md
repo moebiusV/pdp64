@@ -1,5 +1,7 @@
 # A complete instruction encoding for pdp64, 16 and 32 registers: designed, round-tripped, measured
 
+> **Note (2026-11-04, integration).** Sections 0 to 11 are the study as it was written, on the *old* compiler's output and with the Python model as the measuring instrument; they are kept as history. What overturned them: the real compiler (`pcc` `enc-prefix`) emits fused pairs and different code (real sizes: `docs/encoding-work/phase3-pcc.md`, `pcc2.md`), the grammars are the source of truth and `spec/pdp64-16`, `spec/pdp64-32` are not the layouts of sections 3 to 7 any more (section 12 and `docs/encoding-work/cbreach.md`: re-optimised, 3-parcel `cbCC`), a 4-byte `call` reaches +-1 MiB and not +-2 MB, and a relaxing linker (`docs/relaxation.md`) recovers 2 bytes of each 6-byte external call, not the 9% estimated in section 8. The sizes to quote today are the table of `docs/encoding-work/integration.md` (the real toolchain, the integrated tree), not A16/C16/A32/C32 of this document.
+
 [← pdp64 index](../README.md)
 
 For the author's annotation. Follows [`layout-size-variants.md`](layout-size-variants.md).

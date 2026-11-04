@@ -1,5 +1,7 @@
 # spec/: the grammars and the tables of the encodings
 
+> **Status (2026-11-04, integration).** The architecture family is pdp64 with the members pdp64/r20 (the original encoding), pdp64/16 and pdp64/32. The grammars in this directory are the source of truth; they were re-optimised on the new compiler's output (three-parcel `cbCC`), so a count of forms or leaves quoted in an older document must be checked against `spec/pdp64-NN/tables.md`, which is generated. Linker relaxation is the default (`as64 --no-relax`, `ld64 --no-relax` opt out). The reports and the order of events: `docs/encoding-work/README.md`.
+
 pdp64 is a family. Its members differ in the width of the register fields and so in the instruction encoding:
 
 | name | registers | encoding | source of truth | `-m` | `e_flags & 0xF` |

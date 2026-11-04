@@ -97,7 +97,9 @@ it too short.  The assembler's own relaxation (growth from the shortest, one pas
 prints the sites by category and the bytes they gained; `--dump-map` writes, per input `.text`, where it went and the length change of every site, which is what
 `tools/check-relax.py` needs to find every instruction of the linked image.
 
-## 4. The reaches (from `spec/pdp64-NN/forms.json`)
+## 4. The reaches (from the grammars `spec/pdp64-NN/pdp64-NN.hbnf`)
+
+> **Note (2026-11-04, integration).** The numbers of this section were taken from the grammars before the `cbCC` re-optimisation (`docs/encoding-work/cbreach.md`): the `cbCC` rows (4-byte forms 256 B to 16 KiB, no 6-byte form) are superseded, the re-optimised grammars have three-parcel `cbCC` (16-bit immediate with a 12-bit pc field, 8-bit immediate with a 20-bit pc field, two registers with a 24-bit pc field; `docs/encoding-proposal.md` 12.3). The call, `jmp`, `movcall` and `lea` rows are unchanged. Measurements in section 7 were made with the old grammars and the compiler of that time; the integrated numbers are in `docs/encoding-work/integration.md`.
 
 A pc-relative field counts parcels (2 bytes) for calls and branches and bytes for memory operands.  Range is the value of the signed field times the unit.
 
