@@ -114,3 +114,36 @@ The one-parcel instructions keep their size. The two-parcel instructions keep th
 **Your annotations:**
 
 &nbsp;
+
+### 3.3 `opcode(6) | reg(5) | reg(5)`, with opcode values that mean "2 parcels" and "3 parcels"
+
+**The layout.** Drop the `len` field. A one-parcel instruction is `opcode(6) | reg(5) | reg(5)`, which names 32 registers in 16 bits. Some of the 64 opcode values are length escapes: they mean the instruction continues into 2 or 3 parcels, with its registers in the same two fields of parcel 0.
+
+**What the escape costs.** A longer instruction still has to say what it is. Its operation is either in the escape value itself or in a later parcel. For a memory instruction (operation 6 bits, register 5, mode 4, register 5, displacement *d*) the parcels hold 20 + *d* bits, and the escape takes 6 of parcel 0's 16 bits:
+
+* with **one** escape value for 2-parcel instructions, the operation moves wholly into parcel 1, leaving a **6-bit displacement** (±32 bytes);
+* with **16** escape values, 4 bits of the operation ride in the escape value and the displacement is **10 bits** (±512 bytes);
+* with **32** escape values, it is **11 bits** (±1 KB).
+
+Each escape value spent on a longer form is one fewer opcode for one-parcel instructions. The balance is:
+
+| Escape values for 2-parcel forms | Displacement (2 parcels) | One-parcel opcodes left (if 8 values go to 3-parcel forms) |
+|---|---|---|
+| 1 | 6 bits | 55 |
+| 4 | 8 bits | 52 |
+| 16 | 10 bits | 40 |
+| 32 | 11 bits | 24 |
+| Today (`len` field, 2 bits) | 12 bits | 64 on page 1, plus 64 on page 2 |
+
+**The length decode is cheap.** Put the escape values in aligned ranges (for instance the top three bits of the opcode choose one, two or three parcels) and the length is read from three bits of parcel 0, as it is from `len` today. No lookup table is needed.
+
+**What it buys and costs.**
+
+* *Buys:* 32 registers in every form, no `len` field, and a clean, uniform one-parcel format.
+* *Costs:* about 2 bits of displacement in the two-parcel forms (at 16 escape values), and a one-parcel opcode set cut from 128 slots to about 40. That is the real price. The 45 defined page-2 forms exist to put the commonest operations in two bytes (`README.md`), and the one-parcel page-1 forms are about 30 more; roughly 75 forms would compete for 40 slots, and the losers become 4-byte instructions.
+
+**It is the same trade as the prefix code of section 3.2,** reached more simply: each register bit gained costs one opcode bit and one displacement bit, wherever the length is written. The question the measurements answer is whether the spills that 32 registers remove are worth losing half the one-parcel opcodes.
+
+**Your annotations:**
+
+&nbsp;
