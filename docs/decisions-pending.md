@@ -1595,7 +1595,7 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 
 **Requirements the pain-points document found for PCI Express (re-marked 2026-11-03).**
 
-* **F29. How do the extensions announce themselves, so a plain PCI Express card is unaffected?** Lean: every pdp64 extension is optional and discovered through a PCI Express extended capability (the standard way to add features) in the root complex and in pdp64-aware devices; a stock card never sees or needs them, and software that finds no capability falls back to plain PCI Express behaviour.
+* **F29. How do the extensions announce themselves, so a plain PCI Express card is unaffected?** **Decided (errata 81): only extensions that need a card's cooperation are announced; processor-side mitigations are invisible to cards.** Earlier lean: every pdp64 extension is optional and discovered through a PCI Express extended capability (the standard way to add features) in the root complex and in pdp64-aware devices; a stock card never sees or needs them, and software that finds no capability falls back to plain PCI Express behaviour.
 
 * **F24. Interrupt rules.** The bus must state that an interrupt (MSI-X) write cannot pass the DMA writes that precede it; and provide many vectors per core, an atomically retargetable entry, and a mask while an entry changes. Lean: write all three into the bus chapter.
 * **F25. IOMMU hardening.** An IOMMU alone is not enough (Thunderclap). Lean: translation on by default, one domain per device, no kernel pointers in descriptors, permanent mappings for rings, bounce copies for small buffers.
