@@ -101,6 +101,8 @@ const char *enc_mn_name(const struct etab *t, int mn);
 /* Encode: the first form, in order of length then of the table, in which every operand fits.  Returns the number of parcels (1, 2, 3, 5), 0 if no form
    takes the instruction.  The parcels are written as 16-bit values (not yet byte-swapped).  *form and *leaf (if not NULL) name the choice. */
 int enc_encode(const struct etab *t, const struct einsn *in, uint16_t *par, int *form, int *leaf);
+/* The same, but only a form of at least minn parcels (an instruction that has grown during relaxation never shrinks) */
+int enc_encode_n(const struct etab *t, const struct einsn *in, uint16_t *par, int *form, int *leaf, int minn);
 /* The length in parcels of the shortest form (0: none): the same search without producing bits */
 int enc_len(const struct etab *t, const struct einsn *in);
 

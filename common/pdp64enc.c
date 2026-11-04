@@ -158,13 +158,13 @@ static const struct eplace *find_place(const struct etab *t, const struct eleaf 
 
 /* ---- encode -------------------------------------------------------------------------------------------------------- */
 
-static const struct ecand *pick(const struct etab *t, const struct einsn *in, uint64_t pv[4][8], int npv[4])
+static const struct ecand *pick(const struct etab *t, const struct einsn *in, uint64_t pv[4][8], int npv[4], int minn)
 {
 	const struct emn *m = &t->mn[in->mn];
 	for (int c = 0; c < m->ncand; c++) {
 		const struct ecand *cd = &t->cands[m->cand0 + c];
 		const struct eform *f = &t->forms[cd->form];
-		int ok = f->nspecs == in->nops;
+		int ok = f->nspecs == in->nops && f->n >= minn;
 		for (int i = 0; ok && i < f->nspecs; i++) {
 			npv[i] = 0;
 			ok = fit_spec(t, t->formspec[f->spec0 + i], &in->op[i], m->msz, pv[i], &npv[i]);
@@ -177,14 +177,14 @@ static const struct ecand *pick(const struct etab *t, const struct einsn *in, ui
 int enc_len(const struct etab *t, const struct einsn *in)
 {
 	uint64_t pv[4][8]; int npv[4];
-	const struct ecand *cd = pick(t, in, pv, npv);
+	const struct ecand *cd = pick(t, in, pv, npv, 0);
 	return cd ? t->forms[cd->form].n : 0;
 }
 
-int enc_encode(const struct etab *t, const struct einsn *in, uint16_t *par, int *form, int *leaf)
+int enc_encode_n(const struct etab *t, const struct einsn *in, uint16_t *par, int *form, int *leaf, int minn)
 {
 	uint64_t pv[4][8]; int npv[4];
-	const struct ecand *cd = pick(t, in, pv, npv);
+	const struct ecand *cd = pick(t, in, pv, npv, minn);
 	if (!cd) return 0;
 	const struct eform *f = &t->forms[cd->form];
 	const struct eleaf *lf = &t->leaves[cd->leaf];
@@ -199,6 +199,8 @@ int enc_encode(const struct etab *t, const struct einsn *in, uint16_t *par, int 
 	if (leaf) *leaf = cd->leaf;
 	return f->n;
 }
+
+int enc_encode(const struct etab *t, const struct einsn *in, uint16_t *par, int *form, int *leaf) { return enc_encode_n(t, in, par, form, leaf, 0); }
 
 /* ---- decode -------------------------------------------------------------------------------------------------------- */
 

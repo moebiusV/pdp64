@@ -91,6 +91,8 @@ def mk(R,H3,H4=None,hot16=False):
         forced.append(Form('RRF',1,MOV7+ALUS+CMPS,[H4,H4]))
         forced.append(Form('RRF5',2,MOV7+ALUS+CMPS,[R,R],xbits=6))
     else: forced.append(Form('RRF',1,MOV7+ALUS+CMPS,[R,R]))
+    # cbpl/cbmi/cbvc/cbvs: the optimiser never selected a form for them (no corpus use); the ISA has them, so each has a narrow form
+    forced.append(Form('CBDI',2,CB_D,[R,SI(6,True),SPC(10,2)])); forced.append(Form('CBDR',2,CB_D,[R,R,SPC(12,2)]))
     forced.append(Form('SOB',2,['sob'],[R,SPC(16,2)],xbits=0))
     forced.append(Form('TAG',2,['btag','bntag'],[R,SI(3,False),SPC(13,2)]))
     forced.append(Form('SPADJF',3,['add','sub'],[SI(32,True),SK(('R',14))]))
