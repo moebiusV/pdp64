@@ -14,10 +14,10 @@ CBS=['cb'+c for c in CONDS]
 IMMS=['movq','add','sub','and','bis','xor','mul','bic']
 SHIFTS=['shl','shr','sar','rol']
 BESC2=['clz','ctz','clo','cto','popcnt','bswap','bswapw','bswapl','bitrev','utf8len','utf8dec','utf8enc']
-R2_RARE=BESC2+['mval','abs','set','prober','probew','fdiv','fsqrt','fadd32','fsub32','fmul32','fdiv32','fsqrt32','fcmp32','fneg','fabs','fclass','fclass32','frint','frintz','frintm','frintp','frinta','fcvtdq','fcvtqd','fcvtds','fcvtsd','fcvtsl','fcvtls','fcvtdqu','fcvtqud','fsflags','fadd16','fsub16','fmul16','fdiv16','fsqrt16','fcmp16','fclass16','fcvtsh','fcvths','fcvtdh','fcvthd','fcvthl','fcvtlh',
+R2_RARE=BESC2+['mval','abs','prober','probew','fdiv','fsqrt','fadd32','fsub32','fmul32','fdiv32','fsqrt32','fcmp32','fneg','fabs','fclass','fclass32','frint','frintz','frintm','frintp','frinta','fcvtdq','fcvtqd','fcvtds','fcvtsd','fcvtsl','fcvtls','fcvtdqu','fcvtqud','fsflags','fadd16','fsub16','fmul16','fdiv16','fsqrt16','fcmp16','fclass16','fcvtsh','fcvths','fcvtdh','fcvthd','fcvthl','fcvtlh',
    'aesim','sha256sig0','sha256sig1','sha256sum0','sha256sum1','sha512sig0','sha512sig1','sha512sum0','sha512sum1','addv','subv','mulv']
 R3_RARE=['ror','xnorpop','clmull','clmulh','mcpy','mmov','mset','mcmp','mscn','mscnn','div','divu','mod','modu','mulhu','min','minu','max','maxu','fcopysign','fmin','fmax',
-   'maskeqz','masknez','aeses','aesesm','aesds','aesdsm','aesks2','mfsr_','xadd','xadddb','swap','swapdb','xand','xanddb','xor_','xor_db','xxor','xxordb','xmax','xmaxdb','xmin','xmindb','xmaxu','xmaxudb','xminu','xminudb','ll','sc','msha256','msha512']
+   'maskeqz','masknez','aeses','aesesm','aesds','aesdsm','aesks2','xadd','xadddb','swap','swapdb','xand','xanddb','xor_','xor_db','xxor','xxordb','xmax','xmaxdb','xmin','xmindb','xmaxu','xmaxudb','xminu','xminudb','ll','sc','msha256','msha512']
 R4_RARE=['fmadd','fmsub','fnmadd','fnmsub','fmadd32','fmsub32','fnmadd32','fnmsub32','fmadd16','fmsub16','fnmadd16','fnmsub16','bsel','cas','casdb','maesctr']
 RRI_RARE=['rori','rori32','rol','aesks1']
 BF=['dshr','extb','extzb','insb']
@@ -32,6 +32,7 @@ def mk(R,H3,H4=None,hot16=False):
     # ---------------- rare, generic (forced)
     F(forced,'SYS0',1,SYS0,[],xbits=0)
     F(forced,'SYSR',1,SYSR,[R]); 
+    F(forced,'SETF',2,['set'],[SI(4,False),R],xbits=12)   # set cc,rd: the condition (as the branches' numbering) and the register
     F(forced,'SYSI',1,SYSI,[SI(8,False)])      # trap #0-255 in one parcel (merges TRAP/TRAPL)
     F(forced,'MFSR',2,['mfsr'],[R,SI(12,False)])
     F(forced,'MTSR',2,['mtsr'],[SI(12,False),R])
