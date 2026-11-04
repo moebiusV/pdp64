@@ -18,7 +18,7 @@ Verify current availability and pricing before ordering; the Cyclone V generatio
 |---|---|---|---|---|
 | **Terasic DE10-Nano** | Cyclone V SE 5CSEBA6 | ~110K LE (~41K ALM) | dual Cortex-A9 | 1 GB DDR3 on HPS, HDMI via ADV7513, MiSTer ecosystem |
 | Digilent Zybo Z7-20 | Zynq 7020 | 53K LUT, 220 DSP | dual Cortex-A9 | HDMI in *and* out, good Vivado support |
-| AMD Kria KV260 | Zynq UltraScale+ ZU5EV | ~117K LUT | quad A53 | much faster fabric, DisplayPort not HDMI |
+| AMD Kria KV260 | Zynq UltraScale+ ZU5EV | ~117K LUT | quad A53 | much faster fabric; DisplayPort 1.2a and HDMI 1.4 outputs (the board's product page lists both, so no adapter is needed for HDMI) |
 | ULX3S | Lattice ECP5-85F | 84K LUT | none | fully open toolchain, no hard CPU — loses §6 entirely |
 
 **Start on the DE10-Nano.** It is the slowest of the four, but the MiSTer ecosystem has already solved the problems that are not the CPU's: HDMI output and scaling, USB input, SD card, SDRAM daughterboard, and a body of working C64 core work that the VIC-64X and SID-64X can be measured against. Every hour spent writing an HDMI transmitter is an hour not spent on the CPU.
