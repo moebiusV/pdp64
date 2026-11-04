@@ -4,25 +4,39 @@
 # expected status is normally 0; a test of an error expects the status in its .exit file.  NAME.flags, if there is one, holds extra
 # sim64 arguments (-k: kernel mode, for the privileged instructions; -K and -i: System v1, see docs/sim64.md).  NAME.S is NAME.s run through the C
 # preprocessor with build/pdp64-consts.h, so a test can use the architecture's numbers by name (PSW_PRI, VECTOR_ILLEGAL...).
+# Every test also runs in the other encodings (as64 -m pdp64/16, pdp64/32; sim64 takes the encoding from the e_flags of the executable) with the same
+# expectations, unless NAME.noenc lists the encodings (words 16 and/or 32) it does not apply to: tests that write instruction words by hand (.word) test the
+# original encoding.  tests/sim-enc/*.s are tests for the new encodings only (NAME.enc: the encodings they run in, default both).
 set -u
 cd "$(dirname "$0")/.."
 tools/build-sim64.sh > /dev/null
 B=${BUILD:-build}; fail=0; n=0
-for s in tests/sim/*.s tests/sim/*.S; do
+runtest() {	# src name enc
+	s=$1; t=$2; enc=$3; dir=$4
+	case $enc in r20) mflag=; sfx=;; *) mflag="-m pdp64/$enc"; sfx="_$enc";; esac
+	if ! "$B/as64" $mflag -o "$B/sim_$t$sfx.o" "$s" 2> "$B/sim_$t$sfx.err"; then echo "FAIL $t ($enc): assembly: $(head -1 "$B/sim_$t$sfx.err")"; fail=$((fail+1)); return; fi
+	if ! "$B/ld64" -o "$B/sim_$t$sfx.x" "$B/sim_$t$sfx.o" 2>> "$B/sim_$t$sfx.err"; then echo "FAIL $t ($enc): link: $(head -1 "$B/sim_$t$sfx.err")"; fail=$((fail+1)); return; fi
+	flags=; [ -f "$dir/$t.flags" ] && flags=$(cat "$dir/$t.flags")
+	"$B/sim64" $flags "$B/sim_$t$sfx.x" > "$B/sim_$t$sfx.stdout" 2> "$B/sim_$t$sfx.stderr"
+	rc=$?
+	want=0; [ -f "$dir/$t.exit" ] && want=$(cat "$dir/$t.exit")
+	ok=1
+	[ "$rc" = "$want" ] || ok=0
+	[ -f "$dir/$t.out" ] && ! cmp -s "$B/sim_$t$sfx.stdout" "$dir/$t.out" && ok=0
+	n=$((n+1))
+	if [ $ok = 1 ]; then echo "ok   $t ($enc)"; else echo "FAIL $t ($enc): exit $rc, wanted $want $(head -c 200 "$B/sim_$t$sfx.stderr" | head -2 | tr '\n' ' ')"; fail=$((fail+1)); fi
+}
+for dir in tests/sim tests/sim-enc; do
+for s in $dir/*.s $dir/*.S; do
 	[ -f "$s" ] || continue
 	t=$(basename "$s"); t=${t%.*}
 	case "$s" in *.S) tools/pp-asm.sh "$s" "$B/sim_$t.pp.s" || { echo "FAIL $t: preprocessing"; fail=$((fail+1)); continue; }; s="$B/sim_$t.pp.s";; esac
-	if ! "$B/as64" -o "$B/sim_$t.o" "$s" 2> "$B/sim_$t.err"; then echo "FAIL $t: assembly: $(head -1 "$B/sim_$t.err")"; fail=$((fail+1)); continue; fi
-	if ! "$B/ld64" -o "$B/sim_$t.x" "$B/sim_$t.o" 2>> "$B/sim_$t.err"; then echo "FAIL $t: link: $(head -1 "$B/sim_$t.err")"; fail=$((fail+1)); continue; fi
-	flags=; [ -f "tests/sim/$t.flags" ] && flags=$(cat "tests/sim/$t.flags")
-	"$B/sim64" $flags "$B/sim_$t.x" > "$B/sim_$t.stdout" 2> "$B/sim_$t.stderr"
-	rc=$?
-	want=0; [ -f "tests/sim/$t.exit" ] && want=$(cat "tests/sim/$t.exit")
-	ok=1
-	[ "$rc" = "$want" ] || ok=0
-	[ -f "tests/sim/$t.out" ] && ! cmp -s "$B/sim_$t.stdout" "tests/sim/$t.out" && ok=0
-	n=$((n+1))
-	if [ $ok = 1 ]; then echo "ok   $t"; else echo "FAIL $t: exit $rc, wanted $want $(head -c 200 "$B/sim_$t.stderr" | head -2 | tr '\n' ' ')"; fail=$((fail+1)); fi
+	encs="r20 16 32"; [ $dir = tests/sim-enc ] && { encs="16 32"; [ -f "$dir/$t.enc" ] && encs=$(cat "$dir/$t.enc"); }
+	for e in $encs; do
+		if [ -f "$dir/$t.noenc" ] && grep -qw "${e}" "$dir/$t.noenc"; then continue; fi
+		runtest "$s" "$t" "$e" "$dir"
+	done
+done
 done
 echo "sim64: $n run, $fail failed"
 [ $fail = 0 ]

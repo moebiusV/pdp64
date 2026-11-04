@@ -10,7 +10,8 @@
 #define PSW_VALID	(PSW_FLAGS | (1u << PSW_T) | PSW_FIELD(PRI, ~0u) | PSW_FIELD(MODE, ~0u) | PSW_FIELD(PREV, ~0u))
 
 struct pdp64_cpu {
-	uint64_t r[16], pc, dp, fpsr;
+	uint64_t r[32], pc, dp, fpsr;	/* r16 to r31 exist only in pdp64/32 (enc 2) */
+	int enc;				/* the instruction encoding: 0 pdp64/r20 (the original, decoded by the generated format parser), 1 pdp64/16, 2 pdp64/32 (the table codec, common/pdp64enc; build with -DPDP64_ENC) */
 	int fN, fZ, fV, fC;				/* the flag bits of the PSW; the other bits are in `psw` */
 	uint64_t cur_pc;			/* the instruction being executed (set by pdp64_step) */
 	unsigned psw;				/* the PSW without the flags (bits 0 to 3 are always zero here): T, priority, current and previous mode.  Read and write it through pdp64_psw / pdp64_set_psw. */
@@ -26,7 +27,7 @@ struct pdp64_cpu {
 	int entered;				/* an exception was entered by this instruction */
 	int progress;				/* the instruction in progress is a block operation: an abort keeps its register progress */
 	int snap_valid;				/* an instruction is in progress (snap is its starting state); 0 for a fault before any instruction ran, e.g. in the translation of the fetch: EPC is then pc */
-	struct { uint64_t r[16], pc, dp, fpsr; int fN, fZ, fV, fC; } snap;	/* the state at the start of the instruction, for precise aborts (kept only when deliver is on) */
+	struct { uint64_t r[32], pc, dp, fpsr; int fN, fZ, fV, fC; } snap;	/* the state at the start of the instruction, for precise aborts (kept only when deliver is on) */
 };
 
 /* The host's side.  ld and st move 1, 2, 4 or 8 bytes, little-endian, and check alignment and mapping themselves; fault never returns. */
@@ -43,7 +44,12 @@ struct pdp64_env {
 	void (*tlb)(void *u, int op, uint64_t addr);	/* PDP64_TLB_*: tlbi (one page), tlbia, or a write to ptbr / asid / mmuctl */
 	void (*raise)(void *u, int vector, uint64_t eva) __attribute__((noreturn));	/* deliver mode: the core has an abort; unwind to the main loop, which calls pdp64_exception(vector, eva) */
 	void *u;
+	void (*profile)(void *u, uint64_t pc, int nparcels, int cat);	/* optional (NULL: none): called for every instruction at decode, before it runs; cat is a PDP64_CAT_ number.  A block instruction is one. */
 };
+/* the categories of the profile (the same for all encodings): what an instruction is, by its operation and operand */
+enum { PDP64_CAT_OTHER, PDP64_CAT_FRAME_LD, PDP64_CAT_FRAME_ST, PDP64_CAT_REGMOVE, PDP64_CAT_PUSHPOP, PDP64_CAT_MEMREF, PDP64_CAT_BRANCH, PDP64_CAT_CALL,
+       PDP64_CAT_BLOCK, PDP64_CAT_FUSED, PDP64_CAT_LEA, PDP64_NCAT };
+#define PDP64_CAT_NAMES { "other", "frame_load", "frame_store", "regmove", "pushpop", "memref", "branch", "call_ret_jmp", "block", "fused", "lea" }
 #define PDP64_TLB_PAGE 0	/* tlbi: the page that contains addr, for the current ASID and the global entries */
 #define PDP64_TLB_ALL 1		/* tlbia, or a write to ptbr, asid or mmuctl */
 
@@ -59,6 +65,7 @@ static inline int pdp64_pte_space_ok(uint64_t pte)
 static inline unsigned pdp64_mode(const struct pdp64_cpu *c) { return (c->psw >> PSW_MODE) & ((1u << PSW_WIDTH_MODE) - 1); }
 static inline unsigned pdp64_priority(const struct pdp64_cpu *c) { return (c->psw >> PSW_PRI) & ((1u << PSW_WIDTH_PRI) - 1); }
 
+int pdp64_insn_parcels_enc(int enc, uint16_t parcel0);	/* the same for the encodings 1 and 2 (0: an illegal pattern); enc 0 is pdp64_insn_parcels */
 int pdp64_insn_parcels(uint16_t parcel0);	/* the length in parcels of the instruction whose first parcel this is (a page-2 instruction is one) */
 void pdp64_init(void);				/* once, before the first step */
 void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e);
