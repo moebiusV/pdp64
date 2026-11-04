@@ -243,7 +243,7 @@ static void step(void)
 		if (len < 0) len = 0;
 		fprintf(stderr, "%08llx:", (unsigned long long)cpu.pc);
 		for (int i = 0; i <= len; i++) fprintf(stderr, " %04x", (unsigned)ld(cpu.pc + 2 * i, 2));
-		fprintf(stderr, "\n");
+		fprintf(stderr, "%*s sp=%llx\n", (4 - len) * 5, "", (unsigned long long)cpu.r[14]);
 	}
 	pdp64_step(&cpu, &env);
 }

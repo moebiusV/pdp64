@@ -546,9 +546,9 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		case MN_SOP_ASL: v = opval(&o, 8, 0); res = v << 1; fC = (int)(v >> 63); nz(res); fV = fN != fC; break;
 		case MN_SOP_ASR: v = opval(&o, 8, 0); res = (uint64_t)((int64_t)v >> 1); fC = (int)(v & 1); nz(res); fV = 0; break;
 		case MN_SOP_PUSHM: case MN_SOP_POPM: {
-			unsigned mask = (unsigned)(o.imm & 0xFFFF);
-			if (sub == MN_SOP_PUSHM) { for (int n = 0; n < 16; n++) if (mask >> n & 1) push(r[n]); }
-			else { for (int n = 15; n >= 0; n--) if (mask >> n & 1) r[n] = pop(); }
+			uint32_t mask = (uint32_t)(o.imm & (enc_active ? 0xFFFFFFFFu : 0xFFFF));	/* pdp64/32: 32 registers */
+			if (sub == MN_SOP_PUSHM) { for (int n = 0; n < 32; n++) if (mask >> n & 1) push(r[n]); }
+			else { for (int n = 31; n >= 0; n--) if (mask >> n & 1) r[n] = pop(); }
 			return;
 		}
 		case MN_SOP_JMP: pc = o.kind == O_REG ? r[o.reg] : o.addr; after(&o); return;
