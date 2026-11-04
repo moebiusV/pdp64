@@ -63,7 +63,7 @@ struct buf { uint8_t *p; size_t n, cap; };
 static void bput(struct buf *b, const void *d, size_t n)
 {
 	if (b->n + n > b->cap) { b->cap = (b->n + n) * 2 + 256; b->p = realloc(b->p, b->cap); }
-	memcpy(b->p + b->n, d, n);
+	if (n) memcpy(b->p + b->n, d, n);					/* d is NULL for an empty section */
 	b->n += n;
 }
 static void balign(struct buf *b, size_t a) { static const uint8_t z[1]; while (b->n % a) bput(b, z, 1); }
@@ -490,7 +490,7 @@ static int write_exec(const char *path, uint64_t entry, uint8_t *image[NCLASS])
 {
 	struct buf f = { 0 }, symtab = { 0 }, strtab = { 0 }, shstr = { 0 };
 	elfrec_t r;
-	uint8_t zero[64] = { 0 };
+	uint8_t zero[64 + 2 * 56] = { 0 };
 	bput(&strtab, "", 1);
 	bput(&shstr, "", 1);
 	/* file: ehdr, phdrs, (pad to a page), text, (pad to a page), data, then the tables and section headers */
