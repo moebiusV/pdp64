@@ -1,12 +1,14 @@
 /* relaxcheck: the self-consistency check of a linked (relaxed) executable of pdp64/16 or pdp64/32 (docs/relaxation.md).
- *   relaxcheck program.x starts.txt [slack]
+ *   relaxcheck program.x starts.txt [-datasyms] [-slack bytes]
  * starts.txt: the address (hex) of every instruction of the executable segment, ascending, from the assembler's own list (tools/check-relax.py joins as64
  * --dump-lens with ld64 --dump-map).  Each is decoded with the C decoder and:
  *   - its length is the decoder's and does not run into the next instruction; what lies between two instructions is padding or data;
- *   - every global symbol of the text segment is an instruction start or lies in the data between instructions (never inside an instruction);
+ *   - every global symbol of the text segment is an instruction start (-datasyms: or lies in the data between instructions, never inside an instruction: for
+ *     programs that keep tables in .text);
  *   - a branch, call or jmp lands on an instruction start (no other address in the text segment);
  *   - another pc-relative operand lands inside the segments of the program (and, in the text segment, never in the middle of an instruction, and
  *     on a multiple of the access size when it is in data between instructions: a literal pool);
+ * -slack: bytes beyond the end of the data segment that an address may name (stub objects that are smaller than the objects they stand for).
  * Prints a summary and exits 1 if anything is wrong. */
 #include <stdint.h>
 #include <stdio.h>
@@ -32,8 +34,14 @@ static long find(uint64_t a) { long lo = 0, hi = nstarts - 1; while (lo <= hi) {
 
 int main(int argc, char **argv)
 {
-	if (argc != 3 && argc != 4) { fprintf(stderr, "usage: relaxcheck program.x starts.txt [slack]\n"); return 2; }
-	uint64_t slack = argc == 4 ? strtoull(argv[3], 0, 0) : 0;	/* bytes beyond the data segment that an address may name (stubs that are smaller than the objects they stand for) */
+	uint64_t slack = 0;
+	int datasyms = 0;
+	for (int i = 3; i < argc; i++) {
+		if (!strcmp(argv[i], "-datasyms")) datasyms = 1;
+		else if (!strcmp(argv[i], "-slack") && i + 1 < argc) slack = strtoull(argv[++i], 0, 0);
+		else argc = 0;
+	}
+	if (argc < 3) { fprintf(stderr, "usage: relaxcheck program.x starts.txt [-datasyms] [-slack bytes]\n"); return 2; }	/* bytes beyond the data segment that an address may name (stubs that are smaller than the objects they stand for) */
 	FILE *f = fopen(argv[1], "rb");
 	if (!f) { perror(argv[1]); return 2; }
 	fseek(f, 0, SEEK_END); long n = ftell(f); fseek(f, 0, SEEK_SET);
@@ -109,7 +117,8 @@ int main(int argc, char **argv)
 				if (v >= tva && v < tva + tsz) {
 					nsym++;
 					long i = find(v);
-					if (i < 0) {						/* data in .text (a table, a string): it must not be inside an instruction */
+					if (i < 0 && !datasyms) { fprintf(stderr, "relaxcheck: symbol at %llx is not the start of an instruction\n", (unsigned long long)v); bad++; }
+					else if (i < 0) {					/* data in .text (a table, a string): it must not be inside an instruction */
 						long q = -i - 3;
 						if (q >= 0) {
 							uint8_t *pp = b + toff + starts[q] - tva;

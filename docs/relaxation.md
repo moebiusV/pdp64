@@ -138,7 +138,7 @@ The reach of the 4-byte `call` is +-1 MiB, not the +-2 MB of the encoding propos
 * **The self-consistency check** (`tools/relaxcheck.c`): the instruction offsets the assembler lists (`--dump-lens`) are moved by `--dump-map` to their addresses in the linked
   image; each is decoded by the C decoder; its length is the decoder's and ends at or before the next instruction; every `br`, `bCC`, `cbCC`, `sob`, `call`, `jmp`, `movcall`
   lands on one of those starts; any other pc-relative operand lands in the data segments or in `.text` outside every instruction; a load from `.text` (a literal pool) is at
-  a multiple of its size; every global symbol in `.text` is an instruction start or data between instructions, never inside an instruction.  It is run on the relaxed and on the unrelaxed images of the generated program and on every relaxed `tests/sim` program.
+  a multiple of its size; every global symbol in `.text` is an instruction start (for the programs that keep tables in `.text`: or data between instructions, never inside an instruction).  It is run on the relaxed and on the unrelaxed images of the generated program and on every relaxed `tests/sim` program.
 * `tools/check-relax.sh --mutate`: seven mutants of `ld64` (an unmapped offset, paddings not recomputed, no growth, three symbol-address paths left unmapped, a padding of the wrong length)
   are each caught by the generated program.
 * `NOADJ_TEXT` (`tests/relax/noadj.s`: a `.word L1 - L0` table in `.text`): the text is as assembled and the program runs; the 2 GB limit is still reported with the symbol named; `as64 --relax` for pdp64/r20 is refused.
@@ -226,7 +226,7 @@ Of the 12,787 data `lea` sites 12,288 are in `memcpy-a2.c`, a 258 KB text that t
   (c-testsuite, pdp64/16), 811,616 -> 786,806 (gcc-torture, 16); 742,856 -> 735,456 and 583,414 -> 577,174 (32).
 
 * The self-consistency check (`relaxcheck`) on the relaxed image of each of the six programs (12 images: 6,772 to 28,967 instructions each) and on the 840 + 840 relaxed images of the corpus files (312,274 and 308,027 instructions):
-  0 errors.  (The stub objects of the corpus define data in small quads, so an address up to 64 KiB behind the data segment is accepted there; the `lea` and `movq` of an array element that the real object would have are not stubs' fault.)
+  0 errors.  (The stub objects of the corpus define data in small quads, so `-slack 65536` accepts an address up to 64 KiB behind the data segment there, and `-datasyms` accepts the tables that the programs keep in `.text`; the `lea` and `movq` of an array element that the real object would have are not stubs' fault.)
 
 ### 7.4 What the linked programs still have at 6 bytes
 
