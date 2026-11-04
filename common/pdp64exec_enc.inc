@@ -305,11 +305,14 @@ static void step_enc(void)
 	}
 	case H_MASK: RG[op[2].r] = (RG[op[1].r] == 0) == (h->a == 0) ? 0 : RG[op[0].r]; return;	/* maskeqz ra, rc, rd: rd <- rc == 0 ? 0 : ra */
 	case H_BSEL: { uint64_t m = RG[op[0].r]; RG[op[3].r] = (m & RG[op[1].r]) | (~m & RG[op[2].r]); return; }	/* bsel rm, ra, rb, rd */
-	case H_OVF: {									/* addv/subv/mulv ra, rb, rd: signed overflow is an abort at this instruction, rd unwritten, no flags */
-		int64_t a = (int64_t)RG[op[0].r], b = (int64_t)RG[op[1].r], res;
+	case H_OVF: {									/* addv/subv/mulv rs, rd (the tables have the two-register form: rd <- rd op rs, as add/sub/mul): signed overflow is an abort
+										   at this instruction, rd unwritten, no flags.  (docs/study-proposals.md item 9 writes it with three registers: ra op rb -> rd; the three-register
+										   form is accepted here too, although no table has it.) */
+		int three = in.nops == 3;
+		int64_t a = (int64_t)RG[three ? op[0].r : op[1].r], b = (int64_t)RG[three ? op[1].r : op[0].r], res;
 		int ovf = h->a == 0 ? __builtin_add_overflow(a, b, &res) : h->a == 1 ? __builtin_sub_overflow(a, b, &res) : __builtin_mul_overflow(a, b, &res);
 		if (ovf) fault_v(VECTOR_CHECK, "arithmetic overflow (addv/subv/mulv)", 0);
-		RG[op[2].r] = (uint64_t)res;
+		RG[op[in.nops - 1].r] = (uint64_t)res;
 		return;
 	}
 	case H_TRAPCC:									/* a trap, not an abort: EPC is the next instruction, EVA the address of this one */

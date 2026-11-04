@@ -17,6 +17,7 @@ for s in tests/sim/*.s tests/sim/*.S tests/qemu/*.s tests/qemu/*.S; do
 	[ -f "$s" ] || continue
 	dir=$(dirname "$s"); t=$(basename "$s"); t=${t%.*}; src=$s
 	case "${PDP64_ONLY:-$t}" in *"$t"*) ;; *) continue;; esac
+	if [ -f "$dir/$t.noqemu" ]; then echo "skip $t ($(head -1 "$dir/$t.noqemu"))"; skipped=$((skipped+1)); continue; fi
 	machine=pdp64-virt; serial=none
 	case "$dir" in *qemu) machine=pdp64-virt,kernel-mode=on; serial=stdio;; esac
 	if [ -f "$dir/$t.flags" ]; then

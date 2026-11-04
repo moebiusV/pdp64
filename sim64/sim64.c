@@ -8,7 +8,7 @@
  *
  *   The instruction encoding is the one in the ELF e_flags of the program (0 pdp64/r20, 1 pdp64/16, 2 pdp64/32); -m ENC (r20, 16, 32, or pdp64/16...) overrides it.
  *   -P file  profile: count the executed instructions per pc and write them at exit: "#" lines (the encoding, the totals, the instructions per category)
- *       and one line "pc count bytes" in hex for each pc that ran.  A block instruction (mcpy...) is one executed instruction.
+ *       and one line "pc count bytes category" (pc in hex, category as the #category lines in order) for each pc that ran.  A block instruction (mcpy...) is one executed instruction.
  *
  *   -t  trace: one line per instruction, to standard error     -r  print the registers and flags when the program stops
  *   -n  stop after that many instructions (default 200 million)
@@ -53,7 +53,7 @@ static int nirqs;
 static long steps;
 static int enc_override = -1, elf_enc;
 static const char *profile_path;
-static struct { uint64_t lo, hi; uint32_t *count; uint8_t *len; uint64_t ninsn, nbytes, cat[PDP64_NCAT]; } prof;
+static struct { uint64_t lo, hi; uint32_t *count; uint8_t *len, *cat_of; uint64_t ninsn, nbytes, cat[PDP64_NCAT]; } prof;
 
 static void regdump(FILE *o)
 {
@@ -210,7 +210,7 @@ static void h_profile(void *u, uint64_t pc, int nparcels, int cat)
 	prof.ninsn++; prof.nbytes += 2 * nparcels; prof.cat[cat]++;
 	if (pc >= prof.lo && pc < prof.hi) {
 		uint64_t i = (pc - prof.lo) >> 1;
-		if (!prof.count[i]++) prof.len[i] = (uint8_t)(2 * nparcels);
+		if (!prof.count[i]++) { prof.len[i] = (uint8_t)(2 * nparcels); prof.cat_of[i] = (uint8_t)cat; }
 	}
 }
 static void profile_write(void)
@@ -222,7 +222,7 @@ static void profile_write(void)
 	    (unsigned long long)prof.ninsn, (unsigned long long)prof.nbytes);
 	for (int i = 0; i < PDP64_NCAT; i++) fprintf(o, "#category %s %llu\n", names[i], (unsigned long long)prof.cat[i]);
 	for (uint64_t i = 0; i < ((prof.hi - prof.lo) >> 1); i++)
-		if (prof.count[i]) fprintf(o, "%llx %u %u\n", (unsigned long long)(prof.lo + 2 * i), prof.count[i], prof.len[i]);
+		if (prof.count[i]) fprintf(o, "%llx %u %u %u\n", (unsigned long long)(prof.lo + 2 * i), prof.count[i], prof.len[i], prof.cat_of[i]);
 	fclose(o);
 }
 
@@ -296,7 +296,7 @@ int main(int argc, char **argv)
 	if (cpu.enc > 2) { fprintf(stderr, "sim64: %s: unknown instruction encoding %d in e_flags\n", prog, cpu.enc); return 1; }
 	if (profile_path) {
 		if (prof.hi <= prof.lo) { prof.lo = prof.hi = 0; }
-		prof.count = calloc(((prof.hi - prof.lo) >> 1) + 1, 4); prof.len = calloc(((prof.hi - prof.lo) >> 1) + 1, 1);
+		prof.count = calloc(((prof.hi - prof.lo) >> 1) + 1, 4); prof.len = calloc(((prof.hi - prof.lo) >> 1) + 1, 1); prof.cat_of = calloc(((prof.hi - prof.lo) >> 1) + 1, 1);
 		env.profile = h_profile;
 		atexit(profile_write);
 	}
