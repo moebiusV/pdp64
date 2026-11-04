@@ -1487,15 +1487,9 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Still open.** (1) ~~The SID-64X sample width~~ decided: 48 bits, and a general sound path beside the SID voices (errata 74); what remains is the sample's layout (one 48-bit integer, floating point, or two 24-bit stereo halves). (2) Whether the chat's other formats (indexed 8/4/1, RGB565) still exist beside the 48-bit RGBA pixel, and what the terminal's text cell looks like (two 48-bit colours and a character, or the c64x 32-bit pair).
 
-### E2. Data alignment: "only 2 byte memory alignment"
+### E2. Data alignment (decided 2026-11-03)
 
-**Chat.** "do r10 but only 2 byte memory alignment; don't put 8 byte memory alignment constraints that would be horrible" (line 6320). The assistant applied it to instructions only, kept natural alignment for data, and asked: "If you did mean data too, say so; that one's a real cost, since it puts back the rotator and the dual-access sequencer" (line 6324). **The author never answered.**
-
-**Repository.** ISA 7.4 requires natural alignment for word, long and quad data and says it "may not be relaxed" (`pdp64-isa.md` around 1227-1236; contradicted by errata 42, which made every rule soft); `abi.md` line 10 states that the 2-byte alignment "is for instructions only"; `MOVU*` are the unaligned forms; the Lisp tag bits (ISA 6.2) and the atomicity claims rest on it.
-
-**Options.** (1) Keep natural alignment (the assistant's reading). (2) Data may be 2-byte aligned; misaligned accesses cost cycles or a split access; the tag bits then need another source (allocator discipline only, no alignment fault as a tag check). (3) Natural alignment by default, a PSW or page-table flag permitting misaligned access.
-
-**Needed.** The answer to the chat's open question.
+**Decided (the author, errata 82).** Natural alignment for 16-, 32- and 64-bit data; instructions on 2-byte boundaries; individual bytes remain addressable; wide transfers of 64 bits or more are fine. The chat's message "only 2 byte memory alignment" is read as the instruction rule. Nothing further is needed.
 
 ### E3. The blitter: three-operand `draw` or `BLT64` bitblt
 
