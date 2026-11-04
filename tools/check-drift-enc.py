@@ -19,8 +19,10 @@ import encgram
 B = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
 AS = os.path.join(B, 'as64')
 DRV = os.path.join(B, 'encdrv')
-GOLD = {'16': dict(forms=219, leaves=281, free=3277, hot8=[0, 1, 8, 2, 14, 3, 9, 10], hot16=None),
-        '32': dict(forms=196, leaves=255, free=3277, hot8=[0, 1, 8, 2, 14, 3, 9, 10], hot16=[0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 26, 6])}
+# What the ABI pins and the grammar must keep (docs/abi.md, pcc's register allocation order follows it).  Nothing else is recorded here: the numbers of forms and leaves
+# are the grammar's, and the unassigned first parcels are checked against the space of its leaves.
+GOLD = {'16': dict(hot8=[0, 1, 8, 2, 14, 3, 9, 10], hot16=None),
+        '32': dict(hot8=[0, 1, 8, 2, 14, 3, 9, 10], hot16=[0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 26, 6])}
 SIZE = {'movq': 8, 'movl': 4, 'movw': 2, 'movb': 1, 'movzl': 4, 'movzw': 2, 'movzb': 1}
 
 
@@ -132,9 +134,12 @@ def main():
         r = subprocess.run([DRV, '-d', tag], input='\n'.join('%04x' % p for p in range(65536)) + '\n', capture_output=True, text=True).stdout.split('\n')
         free = sum(1 for x in r[:65536] if x == 'ILLEGAL')
         exp = GOLD[tag]
-        for k, v in (('forms', len(d['forms'])), ('leaves', len(d['leaves'])), ('free', free), ('hot8', d['hot8']), ('hot16', d['hot16'])):
+        for k, v in (('hot8', d['hot8']), ('hot16', d['hot16'])):
             if v != exp[k]:
                 bad += 1; print('MAP pdp64/%s: %s is %s, the record here says %s' % (tag, k, v, exp[k]))
+        want_free = 65536 - sum(1 << (16 - lf['L']) for lf in d['leaves'])
+        if free != want_free:
+            bad += 1; print('MAP pdp64/%s: the decoder leaves %d first parcels unassigned, the leaves of the grammar leave %d' % (tag, free, want_free))
         kraft = sum(2.0 ** -lf['L'] for lf in d['leaves'])
         if kraft > 0.95 + 1e-9:
             bad += 1; print('MAP pdp64/%s: Kraft sum %.6f above 0.95 (5%% of the code space is kept free)' % (tag, kraft))

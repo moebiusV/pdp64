@@ -1,10 +1,10 @@
 """The real assembler against the Python model: for every file of the corpus, the length of every instruction as64 produced (as64 --dump-lens)
 against the length the model's scheme gives it (scheme.py: choose the shortest form, relax against real distances).
 
-    python3 asm_vs_model.py 16|32 OUTDIR 
+    python3 asm_vs_model.py 16|32 OUTDIR [TAG]
 
 OUTDIR holds NAME.lens for each corpus file (as64 -m pdp64/NN --dump-lens OUTDIR/NAME.lens ...).  The scheme is rebuilt from
-spec/pdp64-NN/pdp64-NN.hbnf (enc.Form objects), not re-solved.  Paths of the corpus are those of load.py."""
+spec/pdp64-NN/pdp64-NN.hbnf (enc.Form objects), not re-solved.  The corpus is the TAG of load.py (default: the original study's; `new16`/`new32` with PDP64_CORPUS_DIR_NEW16/32: the compiled assembly of the new compiler)."""
 import sys, os, json, collections, struct
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from variants import *
@@ -16,7 +16,7 @@ spec = importlib.util.spec_from_file_location('chk', os.path.join(os.path.dirnam
 chk = importlib.util.module_from_spec(spec); spec.loader.exec_module(chk)
 FZ = ('movcall', 'popmret', 'popret', 'mov2')
 which, outdir = sys.argv[1], sys.argv[2]
-tag = 'base16' if which == '16' else 'r32'
+tag = sys.argv[3] if len(sys.argv) > 3 else ('base16' if which == '16' else 'r32')
 import encgram
 d = encgram.load(which)
 forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]

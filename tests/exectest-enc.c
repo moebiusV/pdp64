@@ -6,7 +6,8 @@
  *   - an instruction is `unimplemented` only if it is one of the known words (atomics, AES, SHA, UTF8DEC/ENC, MVAL, deferred loads, syspg),
  *   - the registers of a decoded instruction are below the number of registers of the encoding (r16 to r31 do not exist in pdp64/16),
  *   - no other message names an internal inconsistency ("unimplemented operand form").
- * usage: exectest-enc */
+ * usage: exectest-enc [ILLEGAL16 ILLEGAL32]   the number of first parcels the grammar leaves unassigned (tools/check-exec-enc.sh computes it from the leaves; without it only
+ *        the agreement of the decoder and the executor is checked) */
 #include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -75,7 +76,7 @@ static int regs_ok(const struct einsn *in, int nregs)
 	}
 	return 1;
 }
-int main(void)
+int main(int argc, char **argv)
 {
 	int bad = 0;
 	M = malloc(sizeof *M);
@@ -113,7 +114,8 @@ int main(void)
 		}
 		printf("%s: %ld of 65536 first parcels illegal (%.2f%%), %ld runs, %ld illegal after decoding (sub-opcode beyond the leaf), %ld runs of a word the executor does not implement\n",
 		    t->name, illegal, illegal / 655.36, ran, decode_illegal, unimpl);
-		if (illegal != 3277) { printf("FAIL %s: expected 3277 illegal first parcels\n", t->name); bad++; }
+		long want = argc > 2 ? atol(argv[enc]) : -1;
+		if (want >= 0 && illegal != want) { printf("FAIL %s: expected %ld illegal first parcels (the grammar's), found %ld\n", t->name, want, illegal); bad++; }
 	}
 	printf(bad ? "exectest-enc: %d FAILED\n" : "exectest-enc: ok (%d)\n", bad);
 	return bad != 0;

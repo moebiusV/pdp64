@@ -206,12 +206,19 @@ def cands(R,H3,H4=None,opts=None):
             add2('BR2_%d'%dw,2,BRC,[SPC(dw,2)])
             add2('CALL2_%d'%dw,2,[('c',['call']),('j',['jmp'])],[SPC(dw,2)])
             add2('SPADJ2_%d'%dw,2,[('a',['add','sub'])],[SI(dw,True),SPR])
-        for dw in Fw((8,10,12,14,16,18,20,22,24)):
+        for dw in Fw(o.get('cbrdw',(8,10,12,14,16,18,20,22,24))):
             add2('CBR%d'%dw,2,CBC,[Rv,Rv,SPC(dw,2)])
             if o['cbz']: add2('CBZ2_%d'%dw,2,CBC,[Rv,Z,SPC(dw,2)])
+        if o.get('cb3'):
+            # three-parcel compare-and-branch: a far target and/or a wide immediate (the forms that exist only if their leaves pay: the prefix of a leaf is at most 16 bits)
+            for iw in o.get('cb3iw',(4,8,12,16,20,24,32)):
+                for dw in o.get('cb3dw',(12,16,20,24,28)):
+                    add2('CB3I%d_%d'%(iw,dw),3,CBC,[Rv,SI(iw,True),SPC(dw,2)])
+            for dw in o.get('cb3rdw',(16,20,24,28)): add2('CB3R%d'%dw,3,CBC,[Rv,Rv,SPC(dw,2)])
+            for dw in o.get('cb3zdw',(28,32)): add2('CB3Z%d'%dw,3,CBC,[Rv,Z,SPC(dw,2)])
         if o['cbi']:
-            for iw in Fw2((3,4,5,6,8,10,12,16)):
-                for dw in Fw((8,10,12,14,16,18,20)):
+            for iw in Fw2(o.get('cbiw',(3,4,5,6,8,10,12,16))):
+                for dw in Fw(o.get('cbidw',(8,10,12,14,16,18,20))):
                     add2('CBI%d_%d'%(iw,dw),2,CBC,[Rv,SI(iw,True),SPC(dw,2)])
     return C
 
