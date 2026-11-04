@@ -175,7 +175,17 @@ def t_btb():
         # (decoded d, dl=1): so the next pair issues one cycle after: period 1 from the first pair at 3
         check('btb', 'tkb=0 no btb %s' % enc[0], res[1]['cycles'], 3 + (N - 1) + 1 + 2)
 
-for t in (t_chain, t_indep, t_loadchain, t_mulchain, t_div, t_loop, t_mispredict, t_fetch, t_btb):
+# ---- 10. a fused instruction is one issue slot and the dependent latencies add: mov2 r0,r1,r1,r2 (the second move reads what the first wrote) makes r2 ready 2 cycles after issue,
+#          mov2 r0,r1,r3,r2 (independent halves) 1 cycle.  movq r0 at 2, mov2 at 3, `add r2,r4` waits for r2: issue 3+2 = 5 (dependent) or 3+1 = 4; movq r0 and trap follow.
+def t_fused():
+    for dep, ready in ((True, 2), (False, 1)):
+        src = prog('\tmovq\t#1, r0\n\tmov2\tr0, r1, %s, r2\n\tadd\tr2, r4\n' % ('r1' if dep else 'r3'))
+        for enc in ENCS[1:]:
+            res, _ = run(src, enc, 'fused', [spec()])
+            check('fused', 'mov2 %s %s' % ('dependent' if dep else 'independent', enc[0]), res[0]['cycles'], 3 + ready + 3)
+            check('fused', 'one slot %s' % enc[0], res[0]['insns'], 5)
+
+for t in (t_fused, t_chain, t_indep, t_loadchain, t_mulchain, t_div, t_loop, t_mispredict, t_fetch, t_btb):
     t()
 print('timing: %d checks, %d failed' % (ran, fails))
 sys.exit(1 if fails else 0)
