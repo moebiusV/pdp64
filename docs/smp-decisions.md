@@ -4,7 +4,7 @@
 
 For the author's annotation. Two parts, each section with the question, the state of the repository, the history (PDP-11, VAX, early Unix), what other systems do, the pain points already collected, several options with a one-line summary each, a recommendation with its reasons, and what you must decide. Priorities are those of errata 83: security and safety first, then opcode choice and encoding, speed and power, compiler target, assembler; beside them out-of-order readiness, the soft-rule test and hot-loop weight.
 
-**Decisions already made that frame everything below** (errata 91):
+**Decisions already made that frame everything below** (errata 92):
 
 * At least **4 cores** must work in iteration one; **16 or more** is the preferred architectural ceiling, which no decision may preclude.
 * The **initial device has 4 cores**, hoped to fit the FPGA.
@@ -15,7 +15,7 @@ For the author's annotation. Two parts, each section with the question, the stat
 
 **Figures that need care.** The FPGA fit of 4 cores differs between the parts, because the plan's own figures conflict: by the plan's ratio of 16,000 LUTs to "about 15% of a DE10-Nano" that board would hold about 6 cores, but the DE10-Nano has about 41,000 ALMs, roughly 82,000 LUT-equivalents, which gives 2 to 3 cores with the FPU, or 4 without it at 64% nominal (89% at the +40% end). 16,020 LUTs is the plan's figure for a complete core (integer core, MMU, FPU, L1 caches, bridge) before the 600 LUTs per core for snooping; it is a paper estimate at ±40% for the old encoding, and no core has been synthesised. Both parts agree on the conclusion: 4 cores fit only the Kria KV260 class with the FPU, and 16 cores fit none of the boards in the plan.
 
-**Where the code is.** The new encodings and the tools mentioned (pdp64/16 and pdp64/32, `sim64` for them, the timing model, linker relaxation) are on the branches `enc-prefix`, `enc-hb`, `enc-ld`, `enc-tm` and `enc-cb` of worktrees beside this checkout, not yet merged; references to `spec/pdp64-16`, `spec/pdp64-32` and errata 87 to 90 are to those branches.
+**Where the code is.** The new encodings and the tools mentioned (pdp64/16 and pdp64/32, `sim64` for them, the timing model, linker relaxation) were on the branches `enc-prefix`, `enc-hb`, `enc-ld`, `enc-tm` and `enc-cb` when this was written (not yet merged then) and are merged in the integrated tree (branch `enc-int`); references to `spec/pdp64-16`, `spec/pdp64-32` and errata 87 to 90 mean entries 87 to 91 of the integrated numbering (87 phase 1, 88 sim64, 89 grammars, 90 cbCC reach, 91 linker relaxation; the old "89" of enc-ld).
 
 ---
 

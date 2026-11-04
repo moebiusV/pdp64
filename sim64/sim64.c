@@ -4,7 +4,11 @@
  * executes it.  The widths of the displacement fields come from the same calibration as the assembler's (common/calib.c); the numbers of
  * the instructions are the names of pdp64-consts.h.  What each instruction does is written here.
  *
- *   sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] program
+ *   sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] [-m ENC] [-P file] program
+ *
+ *   The instruction encoding is the one in the ELF e_flags of the program (0 pdp64/r20, 1 pdp64/16, 2 pdp64/32); -m ENC (r20, 16, 32, or pdp64/16...) overrides it.
+ *   -P file  profile: count the executed instructions per pc and write them at exit: "#" lines (the encoding, the totals, the instructions per category)
+ *       and one line "pc count bytes category" (pc in hex, category as the #category lines in order) for each pc that ran.  A block instruction (mcpy...) is one executed instruction.
  *
  *   -t  trace: one line per instruction, to standard error     -r  print the registers and flags when the program stops
  *   -n  stop after that many instructions (default 200 million)
@@ -29,26 +33,35 @@
 #include <unistd.h>
 #include "fmt.h"
 #include "calib.h"
+#include "pdp64enc.h"
 #include "pdp64exec.h"
 #include "pdp64-consts.h"
 #include "relocs.h"
+#include "timing.h"
 #include "elf-parser.c"
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* state                                                                                                               */
 
 static struct pdp64_cpu cpu;
-static int trace, maxsteps = 200000000;
+static struct tm_model *tms[32];
+static int ntms;
+static const char *timing_out, *timing_pc, *prog_name;
+static int trace;
+static long maxsteps = 200000000;
 static jmp_buf jb;				/* -K: an abort unwinds to the main loop */
 static int jvec;
 static uint64_t jeva;
 struct irq { long count; int level, vector, done; } irqs[64];
 static int nirqs;
 static long steps;
+static int enc_override = -1, elf_enc;
+static const char *profile_path;
+static struct { uint64_t lo, hi; uint32_t *count; uint8_t *len, *cat_of; uint64_t ninsn, nbytes, cat[PDP64_NCAT]; } prof;
 
 static void regdump(FILE *o)
 {
-	for (int i = 0; i < 16; i++) fprintf(o, "r%-2d %016llx%s", i, (unsigned long long)cpu.r[i], i % 4 == 3 ? "\n" : "  ");
+	for (int i = 0; i < (cpu.enc == 2 ? 32 : 16); i++) fprintf(o, "r%-2d %016llx%s", i, (unsigned long long)cpu.r[i], i % 4 == 3 ? "\n" : "  ");
 	fprintf(o, "pc  %016llx  N%d Z%d V%d C%d  fpsr %02llx  psw %04x\n", (unsigned long long)cpu.pc, cpu.fN, cpu.fZ, cpu.fV, cpu.fC, (unsigned long long)cpu.fpsr, pdp64_psw(&cpu));
 }
 static void die(const char *what, uint64_t addr)
@@ -133,12 +146,16 @@ static uint64_t load_elf(const char *path)
 		fprintf(stderr, "sim64: %s is not a pdp64 executable\n", path); exit(1);
 	}
 	ehdr_t eh = rec.body.u.a1.e;
+	elf_enc = eh.flags & 0xF;
+	prof.lo = ~(uint64_t)0;
 	for (int i = 0; i < eh.phnum; i++) {
 		tmp[0] = 5; memcpy(tmp + 1, b + eh.phoff + (size_t)i * 56, 56);
 		if (!parse_bytes(tmp, 57, &rec, e, sizeof e, &at)) { fprintf(stderr, "sim64: bad program header\n"); exit(1); }
 		phdr_t p = rec.body.u.a5.p;
 		if (p.type != 1) continue;
 		addregion(p.vaddr, p.vaddr + p.memsz);
+		if (p.vaddr < prof.lo) prof.lo = p.vaddr;
+		if (p.vaddr + p.memsz > prof.hi) prof.hi = p.vaddr + p.memsz;
 		for (uint64_t k = 0; k < p.filesz; k++) *bp(p.vaddr + k, 1) = b[p.offset + k];
 	}
 	return eh.entry;
@@ -147,7 +164,7 @@ static uint64_t load_elf(const char *path)
 static void syscall_n(int n)
 {
 	switch (n) {
-	case 0: fflush(stdout); exit((int)(cpu.r[0] & 255));
+	case 0: if (tm_on) { tm_ev(TM_EV_R, 0); tm_retire(tms, ntms, cpu.pc); } fflush(stdout); exit((int)(cpu.r[0] & 255));
 	case 1: {
 		uint64_t a = cpu.r[1], len = cpu.r[2];
 		for (uint64_t i = 0; i < len; i++) { uint8_t c = *bp(a + i, 0); if (write((int)cpu.r[0], &c, 1) != 1) break; }
@@ -170,8 +187,8 @@ static void syscall_n(int n)
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* the host's side of the shared instruction core (common/pdp64exec.c)                                                 */
 
-static uint64_t h_ld(void *u, uint64_t a, int size) { (void)u; return ld(a, size); }
-static void h_st(void *u, uint64_t a, int size, uint64_t v) { (void)u; st(a, size, v); }
+static uint64_t h_ld(void *u, uint64_t a, int size) { (void)u; if (tm_on) tm_mem(0, a, size); return ld(a, size); }
+static void h_st(void *u, uint64_t a, int size, uint64_t v) { (void)u; if (tm_on) tm_mem(1, a, size); st(a, size, v); }
 static void h_fault(void *u, const char *what, uint64_t addr) { (void)u; die(what, addr); }
 static void h_trap(void *u, int n) { (void)u; syscall_n(n); }
 static void h_halt(void *u) { (void)u; if (trace) regdump(stderr); fflush(stdout); exit((int)(cpu.r[0] & 255)); }
@@ -188,7 +205,32 @@ static int h_vecread(void *u, uint64_t pa, uint64_t *v)
 static void h_check(void *u, uint64_t a, int size, int write) { (void)u; (void)write; if (a & (size - 1)) memfault(VECTOR_MISALIGNED, "misaligned data access", a); bp(a, 0); bp(a + size - 1, 0); }
 static void h_tlb(void *u, int op, uint64_t a) { (void)u; (void)op; (void)a; }
 static void h_raise(void *u, int vector, uint64_t eva) { (void)u; jvec = vector; jeva = eva; longjmp(jb, 1); }
-static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL };
+static struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL, NULL };
+
+/* the profile (-P) */
+static void h_profile(void *u, uint64_t pc, int nparcels, int cat)
+{
+	(void)u;
+	if (tm_on) tm_begin(pc, nparcels);
+	if (!profile_path) return;
+	prof.ninsn++; prof.nbytes += 2 * nparcels; prof.cat[cat]++;
+	if (pc >= prof.lo && pc < prof.hi) {
+		uint64_t i = (pc - prof.lo) >> 1;
+		if (!prof.count[i]++) { prof.len[i] = (uint8_t)(2 * nparcels); prof.cat_of[i] = (uint8_t)cat; }
+	}
+}
+static void profile_write(void)
+{
+	static const char *const names[] = PDP64_CAT_NAMES;
+	FILE *o = fopen(profile_path, "w");
+	if (!o) { perror(profile_path); return; }
+	fprintf(o, "#encoding %s\n#instructions %llu\n#bytes %llu\n", cpu.enc == 2 ? "pdp64/32" : cpu.enc == 1 ? "pdp64/16" : "pdp64/r20",
+	    (unsigned long long)prof.ninsn, (unsigned long long)prof.nbytes);
+	for (int i = 0; i < PDP64_NCAT; i++) fprintf(o, "#category %s %llu\n", names[i], (unsigned long long)prof.cat[i]);
+	for (uint64_t i = 0; i < ((prof.hi - prof.lo) >> 1); i++)
+		if (prof.count[i]) fprintf(o, "%llx %u %u %u\n", (unsigned long long)(prof.lo + 2 * i), prof.count[i], prof.len[i], prof.cat_of[i]);
+	fclose(o);
+}
 
 /* -K: the pending interrupt requests; the highest level above the priority is taken */
 static int take_interrupt(void)
@@ -203,12 +245,27 @@ static int take_interrupt(void)
 static void step(void)
 {
 	if (trace) {
-		int len = pdp64_insn_parcels((uint16_t)ld(cpu.pc, 2)) - 1;
+		int len = (cpu.enc ? pdp64_insn_parcels_enc(cpu.enc, (uint16_t)ld(cpu.pc, 2)) : pdp64_insn_parcels((uint16_t)ld(cpu.pc, 2))) - 1;
+		if (len < 0) len = 0;
 		fprintf(stderr, "%08llx:", (unsigned long long)cpu.pc);
 		for (int i = 0; i <= len; i++) fprintf(stderr, " %04x", (unsigned)ld(cpu.pc + 2 * i, 2));
-		fprintf(stderr, "\n");
+		fprintf(stderr, "%*s sp=%llx\n", (4 - len) * 5, "", (unsigned long long)cpu.r[14]);
 	}
 	pdp64_step(&cpu, &env);
+	if (tm_on) tm_retire(tms, ntms, cpu.pc);
+}
+
+static void timing_write(void)
+{
+	FILE *o = timing_out ? fopen(timing_out, "a") : stderr;
+	if (!o) { perror(timing_out); return; }
+	tm_report(tms, ntms, o, prog_name);
+	if (o != stderr) fclose(o);
+	if (timing_pc) for (int k = 0; k < ntms; k++) {		/* FILE.NAME for each model */
+		char path[512];
+		snprintf(path, sizeof path, "%s.%s", timing_pc, tm_name(tms[k]));
+		FILE *p = fopen(path, "w"); if (p) { tm_pcdump(tms[k], p); fclose(p); }
+	}
 }
 
 static void step_k(void)
@@ -228,8 +285,8 @@ static void step_k(void)
 
 int main(int argc, char **argv)
 {
-	int regs = 0, mode = MODE_USER, sys = 0;
-	const char *prog = NULL;
+	int regs = 0, mode = MODE_USER, sys = 0, ntms_spec = 0;
+	const char *prog = NULL, *timing_specs[32];
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "-t")) trace = 1;
 		else if (!strcmp(argv[i], "-r")) regs = 1;
@@ -239,15 +296,48 @@ int main(int argc, char **argv)
 			struct irq *q = &irqs[nirqs++];
 			if (sscanf(argv[++i], "%ld:%d:%d", &q->count, &q->level, &q->vector) != 3 || q->level < 1 || q->level > 7 || q->vector < 0 || q->vector >= VECTOR_COUNT) { fprintf(stderr, "sim64: -i N:LEVEL:VECTOR\n"); return 2; }
 		}
-		else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxsteps = atoi(argv[++i]);
-		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] program\n"); return 2; }
+		else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxsteps = atol(argv[++i]);
+		else if (!strcmp(argv[i], "-P") && i + 1 < argc) profile_path = argv[++i];
+		else if (!strcmp(argv[i], "-m") && i + 1 < argc) {
+			const char *m = argv[++i];
+			if (!strncmp(m, "pdp64/", 6)) m += 6;
+			enc_override = !strcmp(m, "r20") || !strcmp(m, "old") ? 0 : !strcmp(m, "16") ? 1 : !strcmp(m, "32") ? 2 : -1;
+			if (enc_override < 0) { fprintf(stderr, "sim64: -m r20|16|32\n"); return 2; }
+		}
+		else if (!strncmp(argv[i], "--timing=", 9) && ntms_spec < 32) timing_specs[ntms_spec++] = argv[i] + 9;
+		else if (!strncmp(argv[i], "--timing-out=", 13)) timing_out = argv[i] + 13;
+		else if (!strncmp(argv[i], "--timing-pc=", 12)) timing_pc = argv[i] + 12;
+		else if (!strcmp(argv[i], "--timing-help")) { tm_help(stdout); return 0; }
+		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] [-m ENC] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 		else prog = argv[i];
 	}
-	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] program\n"); return 2; }
+	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] [-m ENC] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 	pdp64_init();
 	pdp64_set_psw(&cpu, mode << PSW_MODE | mode << PSW_PREV | (sys ? 7 << PSW_PRI : 0));
 	cpu.deliver = sys; cpu.standin = !sys;
 	cpu.pc = load_elf(prog);
+	cpu.enc = enc_override >= 0 ? enc_override : elf_enc;
+	if (cpu.enc > 2) { fprintf(stderr, "sim64: %s: unknown instruction encoding %d in e_flags\n", prog, cpu.enc); return 1; }
+	if (ntms_spec) {
+		char e[200];
+		if (sys) { fprintf(stderr, "sim64: --timing does not work with -K\n"); return 2; }
+		for (int k = 0; k < ntms_spec; k++) {
+			tms[ntms] = tm_new(timing_specs[k], cpu.enc, e, sizeof e);
+			if (!tms[ntms]) { fprintf(stderr, "sim64: %s\n", e); return 2; }
+			ntms++;
+		}
+		tm_set_text(prof.lo, prof.hi);
+		if (timing_pc) for (int k = 0; k < ntms; k++) tm_pcprof(tms[k]);
+		prog_name = strrchr(prog, '/') ? strrchr(prog, '/') + 1 : prog;
+		tm_on = 1; env.profile = h_profile;
+		atexit(timing_write);
+	}
+	if (profile_path) {
+		if (prof.hi <= prof.lo) { prof.lo = prof.hi = 0; }
+		prof.count = calloc(((prof.hi - prof.lo) >> 1) + 1, 4); prof.len = calloc(((prof.hi - prof.lo) >> 1) + 1, 1); prof.cat_of = calloc(((prof.hi - prof.lo) >> 1) + 1, 1);
+		env.profile = h_profile;
+		atexit(profile_write);
+	}
 	addregion(0x7fff000000ULL, 0x7fffffffffULL & ~(uint64_t)(PG - 1));
 	cpu.r[14] = 0x7ffffff000ULL;
 	for (steps = 0; steps < maxsteps; steps++) { if (sys) step_k(); else step(); }

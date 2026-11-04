@@ -1,0 +1,121 @@
+# format vectors of pdp64/32: the instruction, then `|` and the number of parcels and the parcels (hex, parcel 0 first), from the Python prototype
+# (docs/codegen-data/encoding/mk_vectors.py); `PC:v:E`, `A:v:E` is an unresolved external (its field is 0)
+# 1 parcel: register move, both registers hot or not (a 4-bit field each)
+movq R:1 R:2 | 1 2013
+movq R:15 R:0 | 1 20a0
+add R:3 R:4 | 1 2759
+cmp R:7 R:6 | 2 f325 58e6
+# movq #imm, one parcel
+movq I:5 R:3 | 1 ba55
+movq I:-64 R:15 | 1 640a
+movq I:63 R:0 | 1 63f0
+# sp-relative load/store, scaled offset
+movq B:8:14 R:3 | 1 b665
+movq R:3 B:16:14 | 1 bc25
+movl B:12:14 R:5 | 1 913b
+# hot-register base and destination, a scaled offset in one parcel
+movq B:8:8 R:1 | 1 b651
+movq R:0 B:16:9 | 2 f2f0 0242
+# 2 parcels: 12-bit displacement
+movq B:400:5 R:3 | 2 f171 6332
+movl B:-20:3 R:2 | 2 f28d 1f62
+# 3 parcels: a 32-bit displacement, a 32-bit immediate
+movq B:100000:1 R:2 | 3 7402 1001 86a0
+add I:100000 R:2 | 2 e613 86a0
+# indexed
+movq X:8:1:2:8 R:3 | 2 e703 13c8
+movq R:3 X:0:1:2:1 | 2 f278 3088
+# post-increment and pre-decrement
+movq PI:4:0 R:5 | 2 7c05 4000
+movq R:5 PD:4:0 | 2 b404 5000
+# branches: pc-relative field counts parcels
+br PC:6 | 1 ec03
+bne PC:-20 | 1 e4f6
+beq PC:2000 | 2 f2fa 03e8
+br PC:300000 | 3 f160 0002 49f0
+# compare and branch
+cbeq R:3 I:0 PC:8 | 1 9483
+cbne R:1 R:2 PC:-30 | 2 f2f5 13f1
+cblt R:4 I:100 PC:60 | 2 ec49 641e
+cbpl R:4 I:3 PC:8 | 2 e204 0c04
+# call; an external reference needs a 32-bit field
+call PC:200 | 2 f327 0064
+call PC:0:E | 3 f04d 0000 0000
+lea PC:0:E R:1 | 3 ccc1 0000 0000
+movq A:0:E R:2 | 3 aa02 0000 0000
+# no operand
+ret | 1 ee43
+nop | 1 ee40
+halt | 1 ee44
+lpad | 1 ee49
+# system: trap, trapl (one 8-bit vector), set, mfsr
+trap I:3 | 1 6903
+trapl I:200 | 1 6ac8
+set I:2 R:3 | 2 ee63 2000
+mfsr R:2 I:12 | 2 f2e0 200c
+mtsr I:1 R:2 | 2 f2e2 2001
+# trapcc, isync, hint, pushx
+trapcc.eq | 1 ee51
+isync | 1 ee4f
+hint I:165 | 1 6ba5
+pushx | 1 ee4d
+# three and four registers: ATOM
+xadd R:1 R:2 R:3 | 2 e843 7422
+cas R:1 R:2 R:3 R:4 | 2 c5c4 8443
+swapdb R:1 R:2 R:3 | 2 e843 8022
+ll R:1 R:2 R:3 | 2 e843 bc22
+sc R:1 R:2 R:3 | 2 e843 c022
+# MESC
+movub B:8:3 R:2 | 3 a3c2 3000 0008
+movul B:8:3 R:2 | 3 dcc2 3000 0008
+addm R:1 B:16:2 | 3 ce02 1000 0010
+bism R:1 B:0:2 | 3 cec2 1000 0000
+# new instructions
+maskeqz R:1 R:2 R:3 | 2 e843 5822
+masknez R:1 R:2 R:3 | 2 e843 5c22
+bsel R:1 R:2 R:3 R:4 | 2 c5c4 0443
+aeses R:1 R:2 R:3 | 2 e843 6022
+aesks1 R:1 I:3 R:2 | 2 f033 0862
+sha256sum0 R:1 R:2 | 2 f020 883a
+maesctr R:1 R:2 R:3 R:4 | 2 c5e4 8443
+addv R:1 R:2 | 2 f020 8840
+mulv R:1 R:2 | 2 f020 8842
+# fused pairs
+movcall R:1 R:2 PC:100 | 2 8c22 0032
+movcall R:1 R:2 PC:0:E | 3 8822 0000 0000
+popmret I:36608 | 1 d68f
+popret R:3 | 1 ef83
+mov2 R:1 R:2 R:8 R:3 | 1 32d5
+# user-qualified loads and stores
+movq.u B:8:1 R:2 | 2 7002 1008
+movb.ud B:8:1 R:2 | 2 c942 1008
+# bit fields, rotates
+extb R:1 I:4 I:8 R:2 | 3 c602 4420 0000
+dshr R:1 R:2 I:3 R:4 | 3 9c04 8830 0000
+rori32 R:1 I:5 R:2 | 2 f031 08a2
+rol R:1 I:3 R:2 | 2 f032 0862
+# MOVQL: five parcels, a 64-bit immediate
+movql I:1311768467463790320 R:4 | 5 ee84 1234 5678 9abc def0
+movql I:-1 R:0 | 5 ee80 ffff ffff ffff ffff
+# push/pop, masks
+pushm I:36608 | 1 be8f
+popm I:256 | 1 bf01
+push R:3 | 1 e1c3
+push I:100000 | 3 f323 0001 86a0
+# registers r16-r31: 5-bit fields
+movq R:17 R:20 | 1 0234
+add R:31 R:30 | 1 0bfe
+xor R:16 R:1 | 1 1201
+movq B:8:24 R:25 | 2 f171 9901
+movq B:100:17 R:30 | 3 743e 1000 0064
+# the eight register-register mnemonics have a 5-bit one-parcel form
+shl R:31 R:30 | 1 1ffe
+bis R:16 R:17 | 1 1a11
+sub R:20 R:21 | 1 0e95
+cmp R:20 R:21 | 2 f325 5a95
+movq X:0:16:31:8 R:18 | 2 f169 0ff2
+cbeq R:19 I:0 PC:8 | 1 9493
+cbne R:30 R:31 PC:16 | 2 f1a7 df08
+xadd R:17 R:18 R:19 | 2 e853 7632
+cas R:20 R:21 R:22 R:23 | 2 c5d7 d2b6
+bsel R:24 R:25 R:26 R:27 | 2 c5db 633a

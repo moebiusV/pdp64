@@ -1,12 +1,12 @@
 #!/bin/sh
-# Build a static hbnf from github.com/moebiusV/hbnf (origin/main) plus tools/hbnf-numbers.patch (any number form everywhere) without root and without a docker daemon:
+# Build a static hbnf from github.com/moebiusV/hbnf (origin/main, or HBNF_REF=<commit>) without root and without a docker daemon.  No local patch: upstream has what
+# the project needs (any number form everywhere since c99c7cc; bit rules; enum numbers).  The commit built is written to $W/hbnf.commit.
 # an Alpine edge rootfs run under bwrap (user namespaces), GNAT 15 from Alpine, gprbuild and mustache-ada from
 # the ada-on-alpine overlay's .apk files.  Result: $OUT/hbnf (static, runs on the host), and the templates dir.
 #
-#   tools/build-hbnf.sh [WORKDIR]      default /tmp/claude-1000/alpine ; output WORKDIR/hbnf and WORKDIR/hbnf-templates
+#   tools/build-hbnf.sh [WORKDIR]      default /tmp/claude-1000/hbnf-latest ; output WORKDIR/hbnf and WORKDIR/hbnf-templates
 set -eu
-PATCH=$(cd "$(dirname "$0")" && pwd)/hbnf-numbers.patch
-W=${1:-/tmp/claude-1000/alpine}
+W=${1:-/tmp/claude-1000/hbnf-latest}
 APKS=${HBNF_APKS:-$HOME/claude/ada-on-alpine/.work/packages}
 mkdir -p "$W"; cd "$W"
 if [ ! -d root/bin ]; then
@@ -29,7 +29,8 @@ s = open(d + 'libhbnf.gpr').read()
 s = re.sub(r'for Source_Files use\s*\(.*?\);', 'for Source_Files use\n     (' + ', '.join('"%s"' % f for f in fs) + ');', s, flags=re.S)
 open(d + 'libhbnf.gpr', 'w').write(s)
 PY
-( cd root/work/hbnf && patch -s hbnf_grammar.adb < "$PATCH" )
+[ -z "${HBNF_REF:-}" ] || $BW sh -c "cd /work/hbnf && git checkout -q $HBNF_REF"
+git -C root/work/hbnf log -1 --format='%H %cd %s' --date=short > "$W/hbnf.commit"
 $BW sh -c 'ADALIB=$(gcc -print-file-name=adalib); mkdir -p /work/linklibs
 ln -sf $ADALIB/libgnat.a /work/linklibs/libgnat-15.a; ln -sf $ADALIB/libgnarl.a /work/linklibs/libgnarl-15.a
 cd /work/hbnf && LIBRARY_PATH=/work/linklibs gprbuild -P hbnf.gpr -p -XLIBRARY_TYPE=static -q 2>&1 | grep -i "error\|failed" || true'

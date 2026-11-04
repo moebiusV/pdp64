@@ -5,6 +5,8 @@
 The grammar is `spec/pdp64-asm.hbnf` ([hbnf](https://github.com/moebiusV/hbnf) text rules); `tools/check-asmsyntax.sh` generates the parser and runs `tests/asmsyntax.c` over it,
 and `tools/check-as64.sh` assembles `tests/asm/*.s` and compares the bytes with hand-worked expectations.
 
+`as64 -m pdp64/r20|pdp64/16|pdp64/32` chooses the instruction encoding (default `pdp64/r20`, the original); the language is the same, and `spec/README.md` lists the instructions that exist only in the prefix-coded encodings and the shapes they refuse.
+
 The layout of a source file is the V7 assembler's, `as`; the lexical rules are C's.
 
 - **Lines.** One statement to a line. `;` starts a comment that runs to the end of the line.
@@ -20,7 +22,7 @@ The layout of a source file is the V7 assembler's, `as`; the lexical rules are C
   constants; `+` and `-` accept one relocatable symbol, and the difference of two symbols of one section is a constant.
 - **Directives.** `.text .data .bss .globl .comm .byte .word .long .quad .ascii .even .align .space .lpad .pool`. `.word` is 16 bits, `.long` 32, `.quad` 64
   (the ISA's PDP-11 terminology). `.align n` aligns to n bytes (a power of two).
-- **Registers.** `r0`..`r15`; `sp` is `r14`, `fp` is `r13`. `pc` and `dp` appear only as a base: `d(pc)`, `d(dp)`.
+- **Registers.** `r0`..`r15` (`r16`..`r31` in `-m pdp64/32` only); `sp` is `r14`, `fp` is `r13`. `pc` and `dp` appear only as a base: `d(pc)`, `d(dp)`.
 - **Operand modes** (ISA section 5): `rN`; `#expr`; `@expr`; `expr(rN)` and `(rN)`; `expr(rN)(rX*s)` with `s` 1, 2, 4 or 8; `expr(pc)`; `expr(dp)`;
   `(rN)+` and `(rN)+d`; `-(rN)` and `(rN)-d`; a bare expression is a PC-relative reference.
 - **Mnemonics** are lowercase (`movq`, `add`, `bne`). A multi-register instruction writes its destination last: `add src, rd`, `xnorpop ra, rb, rd`.

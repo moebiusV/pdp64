@@ -14,10 +14,10 @@ CBS=['cb'+c for c in CONDS]
 IMMS=['movq','add','sub','and','bis','xor','mul','bic']
 SHIFTS=['shl','shr','sar','rol']
 BESC2=['clz','ctz','clo','cto','popcnt','bswap','bswapw','bswapl','bitrev','utf8len','utf8dec','utf8enc']
-R2_RARE=BESC2+['mval','abs','set','prober','probew','fdiv','fsqrt','fadd32','fsub32','fmul32','fdiv32','fsqrt32','fcmp32','fneg','fabs','fclass','fclass32','frint','frintz','frintm','frintp','frinta','fcvtdq','fcvtqd','fcvtds','fcvtsd','fcvtsl','fcvtls','fcvtdqu','fcvtqud','fsflags','fadd16','fsub16','fmul16','fdiv16','fsqrt16','fcmp16','fclass16','fcvtsh','fcvths','fcvtdh','fcvthd','fcvthl','fcvtlh',
+R2_RARE=BESC2+['mval','abs','prober','probew','fdiv','fsqrt','fadd32','fsub32','fmul32','fdiv32','fsqrt32','fcmp32','fneg','fabs','fclass','fclass32','frint','frintz','frintm','frintp','frinta','fcvtdq','fcvtqd','fcvtds','fcvtsd','fcvtsl','fcvtls','fcvtdqu','fcvtqud','fsflags','fadd16','fsub16','fmul16','fdiv16','fsqrt16','fcmp16','fclass16','fcvtsh','fcvths','fcvtdh','fcvthd','fcvthl','fcvtlh',
    'aesim','sha256sig0','sha256sig1','sha256sum0','sha256sum1','sha512sig0','sha512sig1','sha512sum0','sha512sum1','addv','subv','mulv']
 R3_RARE=['ror','xnorpop','clmull','clmulh','mcpy','mmov','mset','mcmp','mscn','mscnn','div','divu','mod','modu','mulhu','min','minu','max','maxu','fcopysign','fmin','fmax',
-   'maskeqz','masknez','aeses','aesesm','aesds','aesdsm','aesks2','mfsr_','xadd','xadddb','swap','swapdb','xand','xanddb','xor_','xor_db','xxor','xxordb','xmax','xmaxdb','xmin','xmindb','xmaxu','xmaxudb','xminu','xminudb','ll','sc','msha256','msha512']
+   'maskeqz','masknez','aeses','aesesm','aesds','aesdsm','aesks2','xadd','xadddb','swap','swapdb','xand','xanddb','xor_','xor_db','xxor','xxordb','xmax','xmaxdb','xmin','xmindb','xmaxu','xmaxudb','xminu','xminudb','ll','sc','msha256','msha512']
 R4_RARE=['fmadd','fmsub','fnmadd','fnmsub','fmadd32','fmsub32','fnmadd32','fnmsub32','fmadd16','fmsub16','fnmadd16','fnmsub16','bsel','cas','casdb','maesctr']
 RRI_RARE=['rori','rori32','rol','aesks1']
 BF=['dshr','extb','extzb','insb']
@@ -32,6 +32,7 @@ def mk(R,H3,H4=None,hot16=False):
     # ---------------- rare, generic (forced)
     F(forced,'SYS0',1,SYS0,[],xbits=0)
     F(forced,'SYSR',1,SYSR,[R]); 
+    F(forced,'SETF',2,['set'],[SI(4,False),R],xbits=12)   # set cc,rd: the condition (as the branches' numbering) and the register
     F(forced,'SYSI',1,SYSI,[SI(8,False)])      # trap #0-255 in one parcel (merges TRAP/TRAPL)
     F(forced,'MFSR',2,['mfsr'],[R,SI(12,False)])
     F(forced,'MTSR',2,['mtsr'],[SI(12,False),R])
@@ -90,6 +91,8 @@ def mk(R,H3,H4=None,hot16=False):
         forced.append(Form('RRF',1,MOV7+ALUS+CMPS,[H4,H4]))
         forced.append(Form('RRF5',2,MOV7+ALUS+CMPS,[R,R],xbits=6))
     else: forced.append(Form('RRF',1,MOV7+ALUS+CMPS,[R,R]))
+    # cbpl/cbmi/cbvc/cbvs: the optimiser never selected a form for them (no corpus use); the ISA has them, so each has a narrow form
+    forced.append(Form('CBDI',2,CB_D,[R,SI(6,True),SPC(10,2)])); forced.append(Form('CBDR',2,CB_D,[R,R,SPC(12,2)]))
     forced.append(Form('SOB',2,['sob'],[R,SPC(16,2)],xbits=0))
     forced.append(Form('TAG',2,['btag','bntag'],[R,SI(3,False),SPC(13,2)]))
     forced.append(Form('SPADJF',3,['add','sub'],[SI(32,True),SK(('R',14))]))
@@ -203,12 +206,19 @@ def cands(R,H3,H4=None,opts=None):
             add2('BR2_%d'%dw,2,BRC,[SPC(dw,2)])
             add2('CALL2_%d'%dw,2,[('c',['call']),('j',['jmp'])],[SPC(dw,2)])
             add2('SPADJ2_%d'%dw,2,[('a',['add','sub'])],[SI(dw,True),SPR])
-        for dw in Fw((8,10,12,14,16,18,20,22,24)):
+        for dw in Fw(o.get('cbrdw',(8,10,12,14,16,18,20,22,24))):
             add2('CBR%d'%dw,2,CBC,[Rv,Rv,SPC(dw,2)])
             if o['cbz']: add2('CBZ2_%d'%dw,2,CBC,[Rv,Z,SPC(dw,2)])
+        if o.get('cb3'):
+            # three-parcel compare-and-branch: a far target and/or a wide immediate (the forms that exist only if their leaves pay: the prefix of a leaf is at most 16 bits)
+            for iw in o.get('cb3iw',(4,8,12,16,20,24,32)):
+                for dw in o.get('cb3dw',(12,16,20,24,28)):
+                    add2('CB3I%d_%d'%(iw,dw),3,CBC,[Rv,SI(iw,True),SPC(dw,2)])
+            for dw in o.get('cb3rdw',(16,20,24,28)): add2('CB3R%d'%dw,3,CBC,[Rv,Rv,SPC(dw,2)])
+            for dw in o.get('cb3zdw',(28,32)): add2('CB3Z%d'%dw,3,CBC,[Rv,Z,SPC(dw,2)])
         if o['cbi']:
-            for iw in Fw2((3,4,5,6,8,10,12,16)):
-                for dw in Fw((8,10,12,14,16,18,20)):
+            for iw in Fw2(o.get('cbiw',(3,4,5,6,8,10,12,16))):
+                for dw in Fw(o.get('cbidw',(8,10,12,14,16,18,20))):
                     add2('CBI%d_%d'%(iw,dw),2,CBC,[Rv,SI(iw,True),SPC(dw,2)])
     return C
 

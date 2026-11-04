@@ -7,12 +7,17 @@
 #include <fenv.h>
 #include <math.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "fmt.h"
 #include "calib.h"
 #include "p2.h"
 #include "pdp64-consts.h"
 #include "pdp64exec.h"
+#ifdef PDP64_ENC
+#include "pdp64enc.h"
+#endif
 
 static struct pdp64_cpu *C;
 static const struct pdp64_env *E;
@@ -45,11 +50,18 @@ enum { O_REG, O_MEM, O_IMM };
 struct opnd { int kind, reg; uint64_t addr; int64_t imm; int adjust_reg; int64_t adjust; };
 
 /* the memory-side operand of a decoded instruction.  The effect of (Rn)+ / -(Rn) on Rn is applied here; the stride is in the instruction. */
+static int enc_active;				/* the instruction being run was decoded by the table codec: its memory-side operand is built by eoperand, not from the fields of a struct fmt */
+#ifdef PDP64_ENC
+static void eoperand(uint64_t start, struct opnd *o);
+#endif
 static void operand(const struct fmt *f, uint64_t start, struct opnd *o)
 {
 	int len = f->len, mode = f->low;
 	memset(o, 0, sizeof *o);
 	o->adjust_reg = -1;
+#ifdef PDP64_ENC
+	if (enc_active) { eoperand(start, o); return; }
+#endif
 	if (f->shape == FS_MEM0) { o->kind = O_REG; o->reg = f->low; return; }
 	o->kind = O_MEM;
 	switch (f->shape) {
@@ -379,12 +391,43 @@ static int moves_size(int opc)
 	case MN_MOV_MOVW: case MOVSTORE_MOVW: case MN_MOVZ_MOVZW: return 2; default: return 1; }
 }
 
+/* the category of a decoded instruction of the original encoding, for the profile */
+static int classify_fmt(const struct fmt *f)
+{
+	int opc = f->opc, mem = !(f->shape == FS_MEM0 || (f->shape == FS_WIDE && f->low == AMODE_IMM));
+	if (opc == OPGROUP_LEA) return PDP64_CAT_LEA;
+	if (opc < OPGROUP_LEA) {
+		int store = opc == MOVSTORE_MOVQ || opc == MOVSTORE_MOVL || opc == MOVSTORE_MOVW || opc == MOVSTORE_MOVB;
+		if (!mem) return f->shape == FS_MEM0 && opc == MN_MOV_MOVQ ? PDP64_CAT_REGMOVE : PDP64_CAT_OTHER;
+		if (f->shape == FS_BASE && f->low == AMODE_BASE && (f->rm == RALIAS_SP || f->rm == RALIAS_FP)) return store ? PDP64_CAT_FRAME_ST : PDP64_CAT_FRAME_LD;
+		return PDP64_CAT_MEMREF;
+	}
+	if (opc >= MN_ALU_ADD && opc <= MN_ALU_FCMP) return mem ? PDP64_CAT_MEMREF : PDP64_CAT_OTHER;
+	if ((opc >= MN_BRANCH_BR && opc <= MN_BRANCH_BLOS) || opc == OPGROUP_CBR || opc == OPGROUP_CBW || opc == OPGROUP_CBRR || opc == OPGROUP_SOB || opc == OPGROUP_TAG) return PDP64_CAT_BRANCH;
+	if (opc == OPGROUP_SOP) {
+		int sub = f->reg;
+		if (sub == MN_SOP_PUSHM || sub == MN_SOP_POPM || sub == MN_SOP_PUSH || sub == MN_SOP_POP) return PDP64_CAT_PUSHPOP;
+		if (sub == MN_SOP_JMP || sub == MN_SOP_CALL) return PDP64_CAT_CALL;
+		return mem ? PDP64_CAT_MEMREF : PDP64_CAT_OTHER;
+	}
+	if (opc == OPGROUP_XFER) return PDP64_CAT_CALL;
+	if (opc == OPGROUP_SYS) return f->reg == 0 && f->low == MN_SYS_NONE_RET ? PDP64_CAT_CALL : PDP64_CAT_OTHER;
+	if (opc == OPGROUP_MBLK) return PDP64_CAT_BLOCK;
+	return PDP64_CAT_OTHER;
+}
+static void exec_fmt(struct fmt f, uint64_t start, int len);
+#ifdef PDP64_ENC
+static void step_enc(void);
+#endif
 static void step(void)
 {
 	uint8_t buf[8];
 	struct fmt f;
 	uint64_t start = pc;
 	cur_pc = pc;
+#ifdef PDP64_ENC
+	if (C->enc) { step_enc(); return; }
+#endif
 	uint16_t p0 = (uint16_t)E->fetch(E->u, pc);
 	int len = p0 >> 14, n = pdp64_insn_parcels(p0);
 	for (int i = 0; i < n; i++) { uint16_t p = (uint16_t)E->fetch(E->u, pc + 2 * i); buf[2 * i] = p >> 8; buf[2 * i + 1] = p & 255; }
@@ -395,7 +438,13 @@ static void step(void)
 		if (p2_expand(&f, &lf)) die("illegal instruction", 0);
 		f = lf; len = f.len;
 	}
+	if (E->profile) E->profile(E->u, start, n, classify_fmt(&f));
+	exec_fmt(f, start, len);
+}
 
+/* what a decoded instruction does (a struct fmt, from the generated parser or built from the table codec's instruction by step_enc) */
+static void exec_fmt(struct fmt f, uint64_t start, int len)
+{
 	int opc = f.opc;
 	struct opnd o;
 
@@ -497,9 +546,9 @@ static void step(void)
 		case MN_SOP_ASL: v = opval(&o, 8, 0); res = v << 1; fC = (int)(v >> 63); nz(res); fV = fN != fC; break;
 		case MN_SOP_ASR: v = opval(&o, 8, 0); res = (uint64_t)((int64_t)v >> 1); fC = (int)(v & 1); nz(res); fV = 0; break;
 		case MN_SOP_PUSHM: case MN_SOP_POPM: {
-			unsigned mask = (unsigned)(o.imm & 0xFFFF);
-			if (sub == MN_SOP_PUSHM) { for (int n = 0; n < 16; n++) if (mask >> n & 1) push(r[n]); }
-			else { for (int n = 15; n >= 0; n--) if (mask >> n & 1) r[n] = pop(); }
+			uint32_t mask = (uint32_t)(o.imm & (enc_active ? 0xFFFFFFFFu : 0xFFFF));	/* pdp64/32: 32 registers */
+			if (sub == MN_SOP_PUSHM) { for (int n = 0; n < 32; n++) if (mask >> n & 1) push(r[n]); }
+			else { for (int n = 31; n >= 0; n--) if (mask >> n & 1) r[n] = pop(); }
 			return;
 		}
 		case MN_SOP_JMP: pc = o.kind == O_REG ? r[o.reg] : o.addr; after(&o); return;
@@ -655,16 +704,16 @@ static void step(void)
 		case MN_BESC_ROR: r[rd] = ror64(a, (unsigned)b); return;
 		case MN_BESC_RORI: r[rd] = ror64(a, f.count); return;
 		case MN_BESC_RORI32: { uint32_t w = (uint32_t)a; unsigned n = f.count & 31; r[rd] = (uint64_t)(int64_t)(int32_t)(n ? (w >> n) | (w << (32 - n)) : w); return; }
-		case MN_BESC_DSHR: { unsigned n = (f.d >> 8) & 63; r[rd] = n ? (b >> n) | (a << (64 - n)) : b; return; }
+		case MN_BESC_DSHR: { unsigned n = f.pos & 63; r[rd] = n ? (b >> n) | (a << (64 - n)) : b; return; }
 		case MN_BESC_EXTB: case MN_BESC_EXTZB: {
-			unsigned pos = (f.d >> 8) & 63, w = f.d & 255;
+			unsigned pos = f.pos & 63, w = f.width & 255;
 			uint64_t v = a >> pos;
 			if (w == 0 || w > 64) w = 64;
 			r[rd] = sub == MN_BESC_EXTB ? (uint64_t)sext(v, w) : zext(v, w);
 			return;
 		}
 		case MN_BESC_INSB: {
-			unsigned pos = (f.d >> 8) & 63, w = f.d & 255;
+			unsigned pos = f.pos & 63, w = f.width & 255;
 			if (w == 0 || w > 64) w = 64;
 			uint64_t m = (w == 64 ? ~(uint64_t)0 : (((uint64_t)1 << w) - 1)) << pos;
 			r[rd] = (r[rd] & ~m) | ((a << pos) & m);
@@ -744,6 +793,12 @@ static void step(void)
 			else m = sgn ? 1u << 1 : 1u << 6;
 			r[rd] = m; break;
 		}
+		case MN_FESC_FCLASS32: {		/* as FCLASS16, for a binary32 in the low 32 bits */
+			uint32_t w = (uint32_t)r[f.low]; unsigned sgn = w >> 31, ex = (w >> 23) & 255, m = w & 0x7fffff, k;
+			k = ex == 255 ? (m ? ((w & 0x400000) ? 1u << 9 : 1u << 8) : (sgn ? 1u << 0 : 1u << 7))
+			    : ex == 0 ? (m ? (sgn ? 1u << 2 : 1u << 5) : (sgn ? 1u << 3 : 1u << 4)) : (sgn ? 1u << 1 : 1u << 6);
+			r[rd] = k; break;
+		}
 		case MN_FESC_FRINT: r[rd] = fromd(nearbyint(a)); break;
 		case MN_FESC_FRINTZ: r[rd] = fromd(trunc(a)); break;
 		case MN_FESC_FRINTM: r[rd] = fromd(floor(a)); break;
@@ -764,7 +819,25 @@ static void step(void)
 	}
 	die("unimplemented instruction", opc);
 }
-void pdp64_init(void) { calibrate(); }
+#ifdef PDP64_ENC
+#include "pdp64exec_enc.inc"
+#endif
+void pdp64_init(void)
+{
+	calibrate();
+#ifdef PDP64_ENC
+	enc_exec_init();
+#endif
+}
+
+int pdp64_insn_parcels_enc(int enc, uint16_t parcel0)
+{
+#ifdef PDP64_ENC
+	if (enc == 1 || enc == 2) return enc_len_p0(enc == 1 ? &enc_tab_16 : &enc_tab_32, parcel0);
+#endif
+	(void)enc; (void)parcel0;
+	return 0;
+}
 
 int pdp64_insn_parcels(uint16_t parcel0)
 {

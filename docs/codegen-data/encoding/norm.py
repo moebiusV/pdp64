@@ -24,5 +24,5 @@ def op_norm(o,k,dist,off,pool):
     return ('PC',dist,'sym')
 def inst_of(r,dist):
     ops=[op_norm(o,k,dist,r['off'],r['pool']) for o,k in zip(r['ops'],r['k'])]
-    if r['mn'] in('pushm','popm','fx_popmret'): ops=[('I',ops[0][1]&0xFFFFFFFF)]
+    if r['mn'] in('pushm','popm','fx_popmret','popmret'): ops=[('I',ops[0][1]&0xFFFFFFFF)]
     return r['mn'],tuple(ops)

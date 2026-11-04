@@ -11,6 +11,20 @@
 #define R_PDP64_INSN_ABS  3		/* immediate or absolute operand: S + A, signed, in the instruction's wide field */
 #define R_PDP64_INSN_PC   4		/* d(PC) operand: S + A - P, in bytes */
 #define R_PDP64_INSN_BR   5		/* branch: (S + A - P) / 2, in parcels */
+#define R_PDP64_ALIGN     6		/* padding the linker re-computes (relaxation objects only): r_offset the start of the padding, symbol 0,
+					   addend = (bytes of padding the assembler put there) << 32 | alignment (a power of two, in bytes) */
+
+/* e_flags of an object or executable: the instruction encoding it holds (as64 -m).  ld64 refuses to mix them. */
+#define EF_PDP64_ENC_MASK 0xF
+#define EF_PDP64_ENC_R20  0		/* pdp64/r20: parcel 0 = len:2 opc:6 reg:4 low:4 (the original; e_flags of every object made before the flag) */
+#define EF_PDP64_ENC_16   1		/* pdp64/16: prefix-coded, 16 registers (spec/pdp64-16) */
+#define EF_PDP64_ENC_32   2		/* pdp64/32: prefix-coded, 32 registers (spec/pdp64-32) */
+/* Flags above the encoding (docs/relaxation.md).  A RELAX object (as64 --relax; pdp64/16 and pdp64/32 only) has a relocation on every instruction of .text
+   whose operand is the address of a symbol, local ones too, and R_PDP64_ALIGN on every padding: so the linker may change the length of those
+   instructions and move everything behind them.  NOADJ_TEXT: the assembler met something in .text that depends on a distance and is not a relocation (a
+   difference of two labels in an expression, a `d(pc)` written as a number): the linker leaves that object's .text exactly as it is. */
+#define EF_PDP64_RELAX      0x10
+#define EF_PDP64_NOADJ_TEXT 0x20
 
 #define SHN_ABS     0xFFF1
 #define SHN_COMMON  0xFFF2

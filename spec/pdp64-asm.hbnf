@@ -19,7 +19,7 @@ keywords-on = word          ; names the word token (this is what turns whole-wor
 
 
 ws = SP | HTAB | comment
-comment = ";" *( %x01-09 | %x0B-D7FF | %xE000-10FFFF )
+comment = ";" *( 0x01..0x09 | 0x0B..0xD7FF | 0xE000..0x10FFFF )
 line = *label [ stmt ]
 
 label = symbol ":"
@@ -74,34 +74,34 @@ primary = prefixnum !idchar | localref !idchar | decnum !idchar | charlit | symb
 
 prefixnum = hexnum | binnum | octnum
 hexnum   = "0" xch 1*HEXDIG
-xch      = %x78 | %x58
+xch      = 0x78 | 0x58
 binnum   = "0" bch 1*( "0" | "1" )
-bch      = %x62 | %x42
+bch      = 0x62 | 0x42
 octnum   = "0" och 1*( "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" )
-och      = %x6F | %x4F
+och      = 0x6F | 0x4F
 decnum   = 1*DIGIT
-charlit  = %x27 chch %x27
-chch     = %x20-26 | %x28-5B | %x5D-7E | uni | escape
+charlit  = 0x27 chch 0x27
+chch     = 0x20..0x26 | 0x28..0x5B | 0x5D..0x7E | uni | escape
 localref = 1*DIGIT fbch
-fbch     = %x66 | %x62
+fbch     = 0x66 | 0x62
 ; a name cannot be `r` followed only by digits: r0..r15 are registers (pdp64-mnemonics.hbnf) and anything else of that shape (r16, r99) is an error,
 ; not a name.  So a name either starts with something other than `r`, or is `r` followed by digits and then something that is not a digit.
 symbol   = ( oidstart | DIGIT ) *idchar | rname | qname
-oidstart = %x41-5A | %x61-71 | %x73-7A | %x5F | %x2E | uni
-rname    = %x72 *DIGIT nodig *idchar | %x72
-nodig    = ALPHA | %x5F | %x2E | %x24 | uni
+oidstart = 0x41..0x5A | 0x61..0x71 | 0x73..0x7A | 0x5F | 0x2E | uni
+rname    = 0x72 *DIGIT nodig *idchar | 0x72
+nodig    = ALPHA | 0x5F | 0x2E | 0x24 | uni
 idstart  = ALPHA | "_" | "." | uni
 idchar   = idstart | DIGIT | "$"
-uni      = %x80-D7FF | %xE000-10FFFF
-qname    = %x22 1*qnch %x22
-qnch     = %x20-21 | %x23-D7FF | %xE000-10FFFF
-string   = %x22 *strch %x22
-strch    = %x20-21 | %x23-5B | %x5D-7E | uni | escape
+uni      = 0x80..0xD7FF | 0xE000..0x10FFFF
+qname    = 0x22 1*qnch 0x22
+qnch     = 0x20..0x21 | 0x23..0xD7FF | 0xE000..0x10FFFF
+string   = 0x22 *strch 0x22
+strch    = 0x20..0x21 | 0x23..0x5B | 0x5D..0x7E | uni | escape
 escape   = esc1 | esc-hex | esc-u4 | esc-u8 | esc-oct
-esc1     = %x5C escch
-escch    = %x6E | %x74 | %x72 | %x61 | %x62 | %x66 | %x76 | %x30 | %x5C | %x27 | %x22
-esc-hex  = %x5C %x78 1*2HEXDIG
-esc-u4   = %x5C %x75 4HEXDIG
-esc-u8   = %x5C %x55 8HEXDIG
-esc-oct  = %x5C OCT *2OCT
-OCT      = %x30-37
+esc1     = 0x5C escch
+escch    = 0x6E | 0x74 | 0x72 | 0x61 | 0x62 | 0x66 | 0x76 | 0x30 | 0x5C | 0x27 | 0x22
+esc-hex  = 0x5C 0x78 1*2HEXDIG
+esc-u4   = 0x5C 0x75 4HEXDIG
+esc-u8   = 0x5C 0x55 8HEXDIG
+esc-oct  = 0x5C OCT *2OCT
+OCT      = 0x30..0x37

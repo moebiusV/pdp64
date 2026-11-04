@@ -5,12 +5,18 @@ cd "$(dirname "$0")/.."
 tools/check-formats.sh | grep -c '^ok' | sed 's/$/ format vectors ok/'
 tools/check-asmsyntax.sh | grep -c '^ok' | sed 's/$/ syntax tests ok/'
 tools/check-as64.sh
+tools/check-enc.sh
+tools/check-grammar-enc.sh
 python3 tools/check-drift.py
 python3 tools/mkmanual.py --check
 tools/mkbook.sh --check
 tools/export-pcc-headers.sh --check
 tools/check-ld64.sh
 tools/check-sim64.sh
+tools/check-timing.sh
+tools/check-exec-enc.sh
+tools/check-relax.sh | tail -n 1
+tools/check-relax.sh --mutate | tail -n 1
 tools/check-p2.sh
 tools/check-p2.sh --mutate
 tools/check-flaginv.sh | tail -n 1

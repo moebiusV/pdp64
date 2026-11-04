@@ -28,6 +28,9 @@ corpus.ARCH['pdp64'] = dict(musl='aarch64', cpp=['-D__aarch64__', '-D__LP64__', 
 from corpus import ROOT, ARCH, CORPORA, BUILDS, run, ccomflags, cfiles
 
 TOOL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# PDP64_TARGET=pdp64/16|pdp64/32 measures the prefix-coded targets (ccom -m TARGET, as64 -m TARGET; build/pcc/ccom, ccom32 from tools/build-pcc.sh);
+# the default pdp64/r20 is the original encoding and the original flags.  The length statistics (histograms, pairs, modes) exist for r20 only.
+TARGET = os.environ.get('PDP64_TARGET', 'pdp64/r20')
 RESULTS = os.environ.get('RESULTS', '/tmp/co-final/results.jsonl')
 MNEM = os.path.expanduser('~/claude/pdp64/spec/pdp64-mnemonics.hbnf')
 
@@ -330,7 +333,7 @@ def one(job, nowrap, keep):
         return one_ref(job, keep)
     a = ARCH[arch]
     res = dict(corp=corp, src=src.replace(ROOT + '/', ''), arch=arch)
-    ccom = os.path.join(BUILDS, 'ours', arch, 'ccom') if arch != 'pdp64' else os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'build', 'pcc', 'ccom')
+    ccom = os.path.join(BUILDS, 'ours', arch, 'ccom') if arch != 'pdp64' else os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'build', 'pcc', 'ccom32' if TARGET == 'pdp64/32' else 'ccom')
     if arch == 'pdp64' and os.environ.get('PDP64_CCOM'):
         ccom = os.environ['PDP64_CCOM']          # a scratch build instead of the committed one
     with tempfile.TemporaryDirectory() as w:
@@ -342,6 +345,8 @@ def one(job, nowrap, keep):
         open(i, 'w').write(r.stdout)
         s, o = os.path.join(w, 'x.s'), os.path.join(w, 'x.o')
         fl = ccomflags(arch, True).split()
+        if arch == 'pdp64' and TARGET != 'pdp64/r20':
+            fl = ['-m', TARGET]          # the new targets turn on every optimization by default (pcc doc/PDP64-OPT.md)
         if arch == 'pdp64' and nowrap:
             fl.append('-mnowrap')
         if arch == 'pdp64':
@@ -360,6 +365,8 @@ def one(job, nowrap, keep):
             res['fail'] = ('ccom', msg[:200] + (' (signal %d)' % -p.returncode if p.returncode < 0 else ''))
             return res
         asm = [os.environ['AS64']] if arch == 'pdp64' and os.environ.get('AS64') else a['asm']
+        if arch == 'pdp64' and TARGET != 'pdp64/r20':
+            asm = asm + ['-m', TARGET, '--stats']
         q = run(asm + ['-o', o, s])
         if q.returncode:
             msg = ((q.stderr + q.stdout).strip().split('\n') or [''])[0]
@@ -373,7 +380,18 @@ def one(job, nowrap, keep):
         res['ins'] = count_ins(s, arch)
         res['text'] = text_bytes(o)
         res['image'] = image_bytes(o)
-        if arch == 'pdp64':
+        if arch == 'pdp64' and TARGET != 'pdp64/r20':
+            # the length walk below decodes the r20 length bits; for the prefix-coded targets as64 counts the instruction bytes itself
+            m = re.search(r'(\d+) instructions, (\d+) bytes(?: \((\d+) cbCC expanded)?', q.stderr)
+            res['ibytes'] = int(m.group(2)) if m else 0
+            res['cbcc_expanded'] = int(m.group(3) or 0) if m else 0
+            res['walk_ok'] = True
+            for k in ('p2', 'hist', 'mn', 'pair', 'modes', 'modelen', 'longs', 'cats', 'formlen', 'bigram', 'trigram'):
+                res[k] = {}
+            if keep:
+                os.makedirs(keep, exist_ok=True)
+                os.replace(s, os.path.join(keep, res['src'].replace('/', '_') + '.s'))
+        elif arch == 'pdp64':
             ins = parse_s(s, arch)
             p2c = collections.Counter()
             walked, ok = walk_pdp64(o, ins, p2c)
