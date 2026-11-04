@@ -201,3 +201,7 @@ With the old compiler on pdp64/r20 as the baseline, the new compiler with the pr
 * The commit-msg hook of the author strips the `Co-Authored-By` trailer from commit messages; it was left.
 * `tools/build-hbnf.sh` needs network access (upstream hbnf, Alpine rootfs); the clean-checkout verification below used the already built hbnf of `/tmp/claude-1000/hbnf-latest` unless stated.
 
+## 6. Verification from a clean checkout
+
+`git worktree add --detach` of `enc-int` at commit `22efcc8` in a scratch directory (no `build/`), hbnf built from scratch with `HBNF_REF=dd34982ab66ad47312e57b92eb25b4ece75ed57d tools/build-hbnf.sh` (2 min 28 s, the commit of `hbnf.commit`; warnings of upstream's Ada only), then `tools/check-all.sh`: **rc 0 in 2 min 1 s**: 63 format vectors, 42 syntax tests, the model/codec/drift checks of both encodings (0 mismatches), `check-grammar-enc` (hbnf's decoder against the codec: 262,144 sequences per encoding, 0 disagreements), manual/book/pcc-header checks, ld64 tests, sim64 (231 run, 0 failed), exectest-enc, p2diff (86,040 runs, 0 mismatches), timing (128 checks), relax (80 run) and 7 mutants (all caught), flaginv, QEMU (53 run, 0 failed, 4 skipped), the LLVM tables. Then `PCC=~/claude/pcc-enc tools/build-pcc.sh` built `ccom` and `ccom32` and `tools/pdp64test.sh -m pdp64/r20|16|32` ran `tests/c-new/ccp_signedness.c` (0 in all three). The full C harness and the program runs of section 3 were made in the working tree with the same sources.
+The tree `enc-int` after this report differs from `22efcc8` only by this section.
