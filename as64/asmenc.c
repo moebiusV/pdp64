@@ -6,8 +6,6 @@
  *     stands for (bhis is bcc, mulu is mul...);
  *   - a cbCC for which no form reaches (a far target, a wide immediate, an external label) is assembled as cmp + bCC (the flags are written);
  *   - `movq #imm, rd` whose constant fits no movq form is assembled as movql (a ten-byte instruction with the 64-bit immediate);
- *   - with --fuse, adjacent instructions movq r,r ; call, popm ; ret, pop r ; ret and movq r,r ; movq r,r that no label separates become the fused
- *     instruction when that is shorter (and when the second need not stay a separate branch target, which no label between guarantees).
  * The length of an instruction is the length of the first form that takes its operands; as in the old encoding it never shrinks between passes.
  */
 #include "pdp64enc.h"
@@ -17,10 +15,10 @@
 enum { ENC_OLD = 0, ENC_16 = 1, ENC_32 = 2 };		/* the value of e_flags & EF_PDP64_ENC (as64/relocs.h) */
 static int enc_mode;
 static struct etab *etab;
-static int enc_fuse, enc_stats;
+static int enc_stats;
 static const char *enc_lens_path;
 static FILE *enc_lens;
-static long enc_ninsn, enc_nbytes, enc_nfused, enc_nexpanded;
+static long enc_ninsn, enc_nbytes, enc_nexpanded;
 
 static const char *mn_canon[32][512];
 static const char *mn_word[32][512];
@@ -256,49 +254,6 @@ static int hw_emit(const struct stmt *st, struct hw *h, int minn, int final, uin
 	return n;
 }
 
-/* ---- fusion --------------------------------------------------------------------------------------------------------- */
-enum { FX_NONE, FX_MOVCALL, FX_POPMRET, FX_POPRET, FX_MOV2 };
-
-static int fuse_kind(int i)
-{
-	if (!enc_fuse || i + 1 >= nprog || prog[i].kind != S_INSN || prog[i + 1].kind != S_INSN) return FX_NONE;
-	const struct stmt *a = &prog[i], *b = &prog[i + 1];
-	const char *an = stmt_canon(a), *bn = stmt_canon(b);
-	if (!an || !bn || !regs_ok(a, 0) || !regs_ok(b, 0)) return FX_NONE;
-	if (!strcmp(an, "movq") && a->nops == 2 && a->ops[0].kind == OK_REG && a->ops[1].kind == OK_REG) {
-		if (!strcmp(bn, "call") && b->nops == 1 && b->ops[0].kind == OK_BARE) return FX_MOVCALL;
-		if (!strcmp(bn, "movq") && b->nops == 2 && b->ops[0].kind == OK_REG && b->ops[1].kind == OK_REG) return FX_MOV2;
-	}
-	if (!strcmp(an, "popm") && a->nops == 1 && a->ops[0].kind == OK_IMM && !strcmp(bn, "ret") && b->nops == 0) return FX_POPMRET;
-	if (!strcmp(an, "pop") && a->nops == 1 && a->ops[0].kind == OK_REG && !strcmp(bn, "ret") && b->nops == 0) return FX_POPRET;
-	return FX_NONE;
-}
-
-/* the fused instruction for the pair; the target of a movcall is measured from the first parcel of the fused instruction */
-static int fuse_plan(int i, int kind, int64_t pos, struct hw *h)
-{
-	static const char *const nm[] = { "", "movcall", "popmret", "popret", "mov2" };
-	const struct stmt *a = &prog[i], *b = &prog[i + 1];
-	int mn = enc_mn_find(etab, nm[kind]);
-	if (mn < 0) return -1;
-	hw_init(h, mn);
-	switch (kind) {
-	case FX_MOVCALL:
-		h->in.nops = 3;
-		h->in.op[0].k = EK_R; h->in.op[0].r = a->ops[0].reg; h->in.op[1].k = EK_R; h->in.op[1].r = a->ops[1].reg;
-		return econv(b, 0, 2, pos, 0, 0, h);
-	case FX_POPMRET: case FX_POPRET:
-		h->in.nops = 1;
-		if (econv(a, 0, 0, pos, 0, 0, h) < 0) return -1;
-		return kind == FX_POPMRET ? mask_fix(a, &h->in.op[0]) : 0;
-	case FX_MOV2:
-		h->in.nops = 4;
-		for (int k = 0; k < 4; k++) { const struct oper *o = &(k < 2 ? a : b)->ops[k & 1]; h->in.op[k].k = EK_R; h->in.op[k].r = o->reg; }
-		return 0;
-	}
-	return -1;
-}
-
 /* Relaxation measures every distance on the layout of the pass before, for the labels as for the instructions (the iteration of the model: all positions
    from the lengths at the start of the pass).  So a label defined in a pass takes its value when the pass ends. */
 static struct { int sym, sect; int64_t val; } *defer;
@@ -317,10 +272,8 @@ static void commit_syms(void)
 
 /* ---- one statement in a pass ---------------------------------------------------------------------------------------- */
 static uint8_t *egrow;			/* 4 per statement: the least number of parcels of each codec instruction slot, as relaxation has found */
-static uint8_t *egrowf;			/* the fused instruction at this statement */
 static int32_t *esize;			/* bytes the statement took in the last pass */
 static int64_t *epos;			/* where the statement was in the last pass: relaxation measures every distance on the layout of the pass before (as the model does) */
-static int enc_skip;			/* the next statement is the second of a fused pair */
 
 static void enc_note(const struct stmt *st, int n, int64_t off)
 {
@@ -336,43 +289,9 @@ static int enc_insn(int i, int64_t pos, int final, int *changed)
 	int slot[2], total = 0, nb[2] = { 0, 0 }, rk[2] = { 0, 0 };
 	uint8_t bytes[2][10];
 
-	if (!esize) { egrow = calloc(nprog + 1, 4); egrowf = calloc(nprog + 1, 1); esize = calloc(nprog + 1, sizeof *esize); epos = calloc(nprog + 1, sizeof *epos); }
+	if (!esize) { egrow = calloc(nprog + 1, 4); esize = calloc(nprog + 1, sizeof *esize); epos = calloc(nprog + 1, sizeof *epos); }
 	int64_t addr = epos[i];
 	if (epos[i] != pos) { epos[i] = pos; *changed = 1; }
-	if (enc_skip) { enc_skip = 0; if (esize[i]) { esize[i] = 0; *changed = 1; } return 0; }
-	int fk = fuse_kind(i);
-	if (fk != FX_NONE) {
-		struct hw fz;
-		int fp = final_pass;
-		final_pass = 0;							/* trial: say nothing */
-		int ok = fuse_plan(i, fk, addr, &fz) == 0;
-		int fn = ok ? hw_len(&fz, egrowf[i]) : 0, use = 0;
-		if (fn) {
-			int m1[4] = { egrow[4 * i], 0, egrow[4 * i + 2], egrow[4 * i + 3] }, m2[4] = { egrow[4 * (i + 1)], 0, egrow[4 * (i + 1) + 2], egrow[4 * (i + 1) + 3] };
-			struct hw s1[2], s2[2];
-			int sl[2];
-			int e1 = eplan(&prog[i], addr, m1, s1, sl), n1 = e1 == 1 ? hw_len(&s1[0], m1[0]) : 0;
-			int e2 = n1 ? eplan(&prog[i + 1], addr + 2 * n1, m2, s2, sl) : -1, n2 = e2 == 1 ? hw_len(&s2[0], m2[0]) : 0;
-			use = n1 && n2 && fn < n1 + n2;
-		}
-		final_pass = fp;
-		if (use) {
-			uint8_t b[10];
-			int rkind, n = hw_emit(st, &fz, egrowf[i], final, b, &rkind);
-			if (!n) return esize[i] ? esize[i] : 2;
-			if (n > egrowf[i]) { egrowf[i] = n; *changed = 1; if (final) { err(st->line, "internal error: relaxation did not converge"); return 0; } }
-			if (final) {
-				if (pos & 1) { err(st->line, "an instruction at an odd address (%lld): put .even before it", (long long)pos); return 0; }
-				if (cur_sec == SEC_BSS) { err(st->line, "an instruction in .bss"); return 0; }
-				if (fz.relop >= 0) addreloc(cur_sec, (int64_t)sec[cur_sec].n, rkind, fz.relsym, fz.reladd);
-				enc_note(st, n, (int64_t)sec[cur_sec].n);
-				emit_bytes_n(b, 2 * n); enc_nbytes += 2 * n; enc_nfused++;
-			}
-			if (esize[i] != 2 * n) { esize[i] = 2 * n; *changed = 1; }
-			enc_skip = 1;
-			return 2 * n;
-		}
-	}
 	int minn[4] = { egrow[4 * i], 0, egrow[4 * i + 2], egrow[4 * i + 3] };
 	int nh = eplan(st, addr, minn, hw, slot);
 	if (nh < 0) return esize[i] ? esize[i] : 2;				/* an error: the size it had, so that the others do not move */

@@ -1,14 +1,13 @@
 """The real assembler against the Python model: for every file of the corpus, the length of every instruction as64 produced (as64 --dump-lens)
 against the length the model's scheme gives it (scheme.py: choose the shortest form, relax against real distances).
 
-    python3 asm_vs_model.py 16|32 OUTDIR [fuse]
+    python3 asm_vs_model.py 16|32 OUTDIR 
 
-OUTDIR holds NAME.lens for each corpus file (as64 -m pdp64/NN [--fuse] --dump-lens OUTDIR/NAME.lens ...).  The scheme is rebuilt from
+OUTDIR holds NAME.lens for each corpus file (as64 -m pdp64/NN --dump-lens OUTDIR/NAME.lens ...).  The scheme is rebuilt from
 spec/pdp64-NN/forms.json (enc.Form objects), not re-solved.  Paths of the corpus are those of load.py."""
 import sys, os, json, collections, struct
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from variants import *
-from fuse import fuse_corpus
 import enc
 from enc import *
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'tools'))
@@ -17,14 +16,12 @@ spec = importlib.util.spec_from_file_location('chk', os.path.join(os.path.dirnam
 chk = importlib.util.module_from_spec(spec); spec.loader.exec_module(chk)
 FZ = ('movcall', 'popmret', 'popret', 'mov2')
 which, outdir = sys.argv[1], sys.argv[2]
-fuse = len(sys.argv) > 3 and sys.argv[3] == 'fuse'
 tag = 'base16' if which == '16' else 'r32'
 d = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'spec', 'pdp64-' + which, 'forms.json')))
 forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
 sc = Scheme(forms)
 enc.RELOC = 'max'
 corp = corpus(tag)
-if fuse: corp, nf = fuse_corpus(corp, FZ)
 dec_in = []; dec_exp = []
 tot_model = tot_as = ninsn = nmis = nfiles = nbytes_ = nbytes_bad = npool_ = 0
 badfiles = []
@@ -73,7 +70,7 @@ for fn, ev, recs in corp:
                 mnbad[lens[i][1] if i < len(lens) else '?'] += 1
                 if len(badfiles) <= 3: print('first difference in', fn, 'at hardware instruction', i, 'model', a, 'as64', b, lens[i] if i < len(lens) else '')
                 break
-print('pdp64/%s%s: %d files, %d instructions (as64), model %d bytes, as64 %d bytes, %d files that differ' % (which, ' with fusion' if fuse else '', nfiles, ninsn, tot_model, tot_as, len(badfiles)))
+print('pdp64/%s%s: %d files, %d instructions (as64), model %d bytes, as64 %d bytes, %d files that differ' % (which, '', nfiles, ninsn, tot_model, tot_as, len(badfiles)))
 print('first-difference mnemonics:', mnbad.most_common(8))
 print('parcels compared one by one in the files whose lengths agree: %d instructions, %d differ (%d literal-pool loads left out: the model\'s distance for them is a pseudo value)' % (nbytes_, nbytes_bad, npool_))
 

@@ -5,6 +5,7 @@ cd "$(dirname "$0")/.."
 tools/check-formats.sh | grep -c '^ok' | sed 's/$/ format vectors ok/'
 tools/check-asmsyntax.sh | grep -c '^ok' | sed 's/$/ syntax tests ok/'
 tools/check-as64.sh
+tools/check-enc.sh
 python3 tools/check-drift.py
 python3 tools/mkmanual.py --check
 tools/mkbook.sh --check

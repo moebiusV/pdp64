@@ -1314,7 +1314,7 @@ static char *slurp(const char *path, size_t *len)
 	return b;
 }
 
-#define USAGE "usage: %s [-m pdp64/r20|pdp64/16|pdp64/32] [--fuse] [-o object] file.s\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text;\n -m chooses the instruction encoding and is recorded in e_flags; --fuse joins adjacent movq r,r; call / popm; ret / pop r; ret / movq r,r; movq r,r where that is shorter)\n"
+#define USAGE "usage: %s [-m pdp64/r20|pdp64/16|pdp64/32] [-o object] file.s\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text;\n -m chooses the instruction encoding and is recorded in e_flags; the fused mnemonics movcall, popmret, popret and mov2 are ordinary instructions there; nothing is ever fused by the assembler)\n"
 
 int main(int argc, char **argv)
 {
@@ -1340,7 +1340,6 @@ int main(int argc, char **argv)
 			else { fprintf(stderr, "%s: -m %s: the encodings are pdp64/r20 (the default), pdp64/16 and pdp64/32\n", progname, m); return 2; }
 			continue;
 		}
-		if (!strcmp(argv[i], "--fuse")) { enc_fuse = 1; continue; }
 		if (!strcmp(argv[i], "--stats")) { enc_stats = 1; continue; }
 		if (!strcmp(argv[i], "--dump-lens") && i + 1 < argc) { enc_lens_path = argv[++i]; continue; }
 		if (!strcmp(argv[i], "-o") && i + 1 < argc) out = argv[++i];
@@ -1348,7 +1347,6 @@ int main(int argc, char **argv)
 		else in = argv[i];
 	}
 	if (!in) { fprintf(stderr, USAGE, progname); return 2; }
-	if (enc_fuse && !enc_mode) { fprintf(stderr, "%s: --fuse is for pdp64/16 and pdp64/32 (the fused instructions do not exist in pdp64/r20)\n", progname); return 2; }
 	enc_setup(enc_mode);
 	if (enc_lens_path && !(enc_lens = fopen(enc_lens_path, "w"))) { fprintf(stderr, "%s: %s: %s\n", progname, enc_lens_path, strerror(errno)); return 1; }
 	srcname = in;
@@ -1388,7 +1386,7 @@ int main(int argc, char **argv)
 		if (!run_pass(0) && it >= 1) break;
 	run_pass(1);
 	if (enc_lens) fclose(enc_lens);
-	if (enc_stats && !errors) fprintf(stderr, "%s: %ld instructions, %ld bytes (%ld fused, %ld cbCC expanded to cmp + bCC)\n", progname, enc_ninsn, enc_nbytes, enc_nfused, enc_nexpanded);
+	if (enc_stats && !errors) fprintf(stderr, "%s: %ld instructions, %ld bytes (%ld cbCC expanded to cmp + bCC)\n", progname, enc_ninsn, enc_nbytes, enc_nexpanded);
 	if (errors) { fprintf(stderr, "%s: %d error%s\n", progname, errors, errors == 1 ? "" : "s"); return 1; }
 	return write_object(out) ? 1 : 0;
 }

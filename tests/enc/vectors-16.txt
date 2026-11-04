@@ -1,0 +1,104 @@
+# format vectors of pdp64/16: the instruction, then `|` and the number of parcels and the parcels (hex, parcel 0 first), from the Python prototype
+# (docs/codegen-data/encoding/mk_vectors.py); `PC:v:E`, `A:v:E` is an unresolved external (its field is 0)
+# 1 parcel: register move, both registers hot or not (a 4-bit field each)
+movq R:1 R:2 | 1 2012
+movq R:15 R:0 | 1 20f0
+add R:3 R:4 | 1 2734
+cmp R:7 R:6 | 1 4676
+# movq #imm, one parcel
+movq I:5 R:3 | 1 a853
+movq I:-64 R:15 | 1 540f
+movq I:63 R:0 | 1 53f0
+# sp-relative load/store, scaled offset
+movq B:8:14 R:3 | 1 9e65
+movq R:3 B:16:14 | 1 a423
+movl B:12:14 R:5 | 1 7d35
+# hot-register base and destination, a scaled offset in one parcel
+movq B:8:8 R:1 | 1 9e51
+movq R:0 B:16:9 | 1 8c86
+# 2 parcels: 12-bit displacement
+movq B:400:5 R:3 | 2 f274 5332
+movl B:-20:3 R:2 | 2 f29d 32fb
+# 3 parcels: a 32-bit displacement, a 32-bit immediate
+movq B:100000:1 R:2 | 3 c102 1001 86a0
+add I:100000 R:2 | 2 e212 86a0
+# indexed
+movq X:8:1:2:8 R:3 | 2 e903 12c8
+movq R:3 X:0:1:2:1 | 2 f310 3120
+# post-increment and pre-decrement
+movq PI:4:0 R:5 | 2 c305 4000
+movq R:5 PD:4:0 | 2 dd04 5000
+# branches: pc-relative field counts parcels
+br PC:6 | 1 e7c3
+bne PC:-20 | 1 e0f6
+beq PC:2000 | 2 f306 03e8
+br PC:300000 | 3 f1f8 0002 49f0
+# compare and branch
+cbeq R:3 I:0 PC:8 | 1 8043
+cbne R:1 R:2 PC:-30 | 2 f2fd 12f1
+cblt R:4 I:100 PC:60 | 2 e784 641e
+cbpl R:4 I:3 PC:8 | 2 e704 0c04
+# call; an external reference needs a 32-bit field
+call PC:200 | 2 f326 0064
+call PC:0:E | 3 f09d 0000 0000
+lea PC:0:E R:1 | 3 dae1 0000 0000
+movq A:0:E R:2 | 3 c602 0000 0000
+# no operand
+ret | 1 ec43
+nop | 1 ec40
+halt | 1 ec44
+lpad | 1 ec49
+# system: trap, trapl (one 8-bit vector), set, mfsr
+trap I:3 | 1 7903
+trapl I:200 | 1 7ac8
+set I:2 R:3 | 2 ef63 2000
+mfsr R:2 I:12 | 2 f31c 200c
+mtsr I:1 R:2 | 2 f31d 2001
+# trapcc, isync, hint, pushx
+trapcc.eq | 1 ec51
+isync | 1 ec4f
+hint I:165 | 1 7ba5
+pushx | 1 ec4d
+# three and four registers: ATOM
+xadd R:1 R:2 R:3 | 2 ef83 121d
+cas R:1 R:2 R:3 R:4 | 2 ef94 d123
+swapdb R:1 R:2 R:3 | 2 ef83 1220
+ll R:1 R:2 R:3 | 2 ef83 122f
+sc R:1 R:2 R:3 | 2 ef83 1230
+# MESC
+movub B:8:3 R:2 | 3 d8f2 3000 0008
+movul B:8:3 R:2 | 3 ec92 3000 0008
+addm R:1 B:16:2 | 3 e542 1000 0010
+bism R:1 B:0:2 | 3 e572 1000 0000
+# new instructions
+maskeqz R:1 R:2 R:3 | 2 ef83 1216
+masknez R:1 R:2 R:3 | 2 ef83 1217
+bsel R:1 R:2 R:3 R:4 | 2 ef94 c123
+aeses R:1 R:2 R:3 | 2 ef83 1218
+aesks1 R:1 I:3 R:2 | 2 efa2 0c43
+sha256sum0 R:1 R:2 | 2 ef72 103a
+maesctr R:1 R:2 R:3 R:4 | 2 ef94 f123
+addv R:1 R:2 | 2 ef72 1040
+mulv R:1 R:2 | 2 ef72 1042
+# fused pairs
+movcall R:1 R:2 PC:100 | 2 c912 0032
+movcall R:1 R:2 PC:0:E | 3 c812 0000 0000
+popmret I:36608 | 1 ca8f
+popret R:3 | 1 f0d3
+mov2 R:1 R:2 R:8 R:3 | 1 32d5
+# user-qualified loads and stores
+movq.u B:8:1 R:2 | 2 bf02 1008
+movb.ud B:8:1 R:2 | 2 e412 1008
+# bit fields, rotates
+extb R:1 I:4 I:8 R:2 | 3 e342 4420 0000
+dshr R:1 R:2 I:3 R:4 | 3 e304 4830 0000
+rori32 R:1 I:5 R:2 | 2 efa2 0445
+rol R:1 I:3 R:2 | 2 efa2 0843
+# MOVQL: five parcels, a 64-bit immediate
+movql I:1311768467463790320 R:4 | 5 efb4 1234 5678 9abc def0
+movql I:-1 R:0 | 5 efb0 ffff ffff ffff ffff
+# push/pop, masks
+pushm I:36608 | 1 a28f
+popm I:256 | 1 a301
+push R:3 | 1 e6e3
+push I:100000 | 3 f320 0001 86a0

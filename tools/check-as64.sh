@@ -5,10 +5,13 @@ set -e
 cd "$(dirname "$0")/.."
 tools/build-as64.sh > /dev/null
 B=${BUILD:-build}; fail=0
-for s in tests/asm/*.s; do
+# the three encodings: the original (tests/asm, tests/asm-err), pdp64/16 and pdp64/32 (tests/asm-pdp64-16, tests/asm-err-pdp64-16, ...); each test has its own .flags
+for set in "" -pdp64-16 -pdp64-32; do
+A=tests/asm$set; E=tests/asm-err$set
+for s in $A/*.s; do
 	n=$(basename "$s" .s)
-	"$B/as64" $(cat tests/asm/$n.flags 2>/dev/null) -o "$B/$n.o" "$s"
-	python3 - "$B/$n.o" "tests/asm/$n" <<'PY' || fail=1
+	"$B/as64" $(cat $A/$n.flags 2>/dev/null) -o "$B/$set$n.o" "$s"
+	python3 - "$B/$set$n.o" "$A/$n" <<'PY' || fail=1
 import struct, sys
 d = open(sys.argv[1], 'rb').read()
 shoff = struct.unpack_from('<Q', d, 0x28)[0]
@@ -35,10 +38,12 @@ if bad: sys.exit(1)
 PY
 done
 # programs that must be refused: tests/asm-err/NAME.s with the expected text of the message in NAME.err
-for s in tests/asm-err/*.s; do
+for s in $E/*.s; do
+	[ -e "$s" ] || continue
 	n=$(basename "$s" .s)
-	if "$B/as64" -o "$B/err_$n.o" "$s" 2> "$B/err_$n.msg"; then echo "FAIL $n: accepted"; fail=1
-	elif grep -q "$(cat tests/asm-err/$n.err)" "$B/err_$n.msg"; then echo "ok   $n (refused)"
-	else echo "FAIL $n: wrong message: $(head -1 $B/err_$n.msg)"; fail=1; fi
+	if "$B/as64" $(cat $E/$n.flags 2>/dev/null) -o "$B/err_$set$n.o" "$s" 2> "$B/err_$set$n.msg"; then echo "FAIL $set$n: accepted"; fail=1
+	elif grep -q "$(cat $E/$n.err)" "$B/err_$set$n.msg"; then echo "ok   $set$n (refused)"
+	else echo "FAIL $set$n: wrong message: $(head -1 $B/err_$set$n.msg)"; fail=1; fi
+done
 done
 exit $fail

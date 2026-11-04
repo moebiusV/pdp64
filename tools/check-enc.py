@@ -186,9 +186,21 @@ def run(tag):
         if not ok:
             bad_d += 1
             if bad_d <= 5: print('DECODE MISMATCH', txt, got)
+    # 4. the hand-checked format vectors (tests/enc/vectors-NN.txt, from the prototype): the same parcels, and the instruction back
+    vl = [l.rstrip('\n') for l in open(os.path.join(ROOT, 'tests', 'enc', 'vectors-%s.txt' % tag)) if l.strip() and not l.startswith('#')]
+    out = subprocess.run([os.path.join(B, 'encdrv'), tag], input='\n'.join(l.split(' | ')[0] for l in vl) + '\n', capture_output=True, text=True).stdout.split('\n')
+    bad_v = 0
+    for l, got in zip(vl, out):
+        ins, want = l.split(' | ')
+        back = ins.replace(':E', '')
+        back = ' '.join(('PC:0' if t.startswith('PC:') and t.endswith(':E') else 'A:0' if t.startswith('A:') and t.endswith(':E') else t) for t in ins.split())
+        g_par, _, g_ins = got.partition(' | ')
+        if g_par.strip() != want.strip() or g_ins != back:
+            bad_v += 1; print('VECTOR', ins, 'wanted', want, 'got', got)
     print('pdp64/%s: %d forms, %d leaves laid out as the model does; %d vectors (%d encodable), %d mismatches; %d decoder patterns, %d mismatches' %
           (tag, len(forms), len(code.leaves), len(vecs), nenc, bad, nd, bad_d))
-    return bad + bad_d
+    print('pdp64/%s: %d format vectors, %d differ' % (tag, len(vl), bad_v))
+    return bad + bad_d + bad_v
 
 
 if __name__ == '__main__':
