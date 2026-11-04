@@ -242,3 +242,39 @@ Taken together (1 and 2), the overflow falls to about 1% of the memory operands:
 **Your annotations:**
 
 &nbsp;
+
+## 4. Results of the measurements
+
+### 4.1 Spills removed by 32 registers ([`spill-experiment.md`](spill-experiment.md))
+
+pcc with 32 registers (static counts, 841 files, the new registers are used):
+
+| | 16 registers | 32 registers | Change |
+|---|---|---|---|
+| Instructions | 338,313 | 333,872 | **−4,441 (−1.31%)** |
+| Stack-pointer and frame-pointer loads and stores | 23,962 | 15,683 | **−8,279 (−35%)** |
+| `movq reg,reg` | 46,197 | 50,477 | +4,280 |
+| Callee-saved registers saved | 23,476 | 26,442 | +2,966 |
+
+A 24-register machine gets 84% of the instruction saving (−1.11%). The effect is concentrated: zlib −3.3%, bearssl −3.0%, lz4 −3.0%, lua −1.6%, mbedtls −1.1%, and the large straight-line test programs near zero. The saving is small in instructions because the registers that replace the spills cost register moves and more callee-saved saves; the saving in **memory accesses** is larger, because the stack accesses removed are a third of all of them. Limits: static not executed counts; the result depends on pcc's allocator, and a better allocator (LLVM's, once it generates code) spills less at 16 registers and would gain less; no distinction between spills and named locals.
+
+### 4.2 What the encoding would cost, against the actual instruction lengths
+
+The baseline has 55.4% of instructions in 2 bytes, 29.0% in 4 and 15.6% in 6, and **86% of frame loads and 83% of stores are already 2-byte forms** (a one-parcel stack-relative form exists). The design of §3.4 as first drawn would lose those. Modelled over the 71,289 instructions with a base-register operand (21% of all instructions), assuming the 1,083,870 bytes of the baseline:
+
+| Design | Added code bytes |
+|---|---|
+| §3.4 as drawn: only `(Rn)` is one parcel, displacement 6 bits unscaled | **+10.5%** |
+| plus scaling, a one-parcel stack form `opcode(6) reg(5) disp(5)` (32 entries) and an 11-bit stack-implicit two-parcel mode | +1.4% |
+| a one-parcel stack form that reaches 128 entries (four opcode banks, about 32 of the 62 one-parcel opcodes) | +0.85% |
+| the same with a 7-bit two-parcel displacement (narrower mode field) | +0.46% |
+
+Against that stands the saving the experiment estimates: about −1.0% in bytes (a rough estimate: it assumes the removed instructions are 2-byte forms that fit the new encoding).
+
+**Reading.** On code size, 32 registers are about break-even at best (−1.0% saved, +0.5% to +0.9% spent) and spend most of the one-parcel opcode room. What they remove is memory traffic: roughly a third of the stack loads and stores. Whether that matters turns on the executed counts, which these static counts do not give.
+
+**Recommendation.** Stay at 16 registers now. Revisit if (a) executed-instruction counts from `sim64` on benchmark programs show the frame traffic is a larger share in hot loops than the static count, or (b) LLVM's allocator, when it generates code, shows a different picture. Neither needs a change to the encoding to measure: both can use the 32-register assembly text.
+
+**Your annotations:**
+
+&nbsp;
