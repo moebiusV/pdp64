@@ -29,7 +29,7 @@ tm name=LABEL prog=image.x enc=pdp64/16 insns=... bytes=... cycles=... ipc=... b
    fe=... ex=... branches=... cond=... taken=... mispred=... rets=... retmiss=... ind=... indmiss=... btbhit=... fused=... [iacc= imiss=] [dacc= dmiss=]
 ```
 
-`--timing-pc=FILE` writes the per-pc cycles of the first model (`pc count cycles fe_idle ex_idle`, one line per pc that ran), for finding tight loops.
+`--timing-pc=FILE` writes, for every model, the per-pc cycles to `FILE.NAME` (`pc count cycles fe_idle ex_idle`, one line per pc that ran; cycles are the issue-gap cycles charged to the instruction), for finding tight loops.
 `tools/timing.py` runs the models over images and prints a table (columns `image enc name insns bytes cycles cpi bpc fe% ex% misp%`, others with
 `--cols`); `-p` names presets (`--presets`), `-s W=2,4,8,16` sweeps a parameter, `--base` adds parameters to every set. The encoding is the one in the
 ELF `e_flags` (or `-m`). Not usable with `-K`.

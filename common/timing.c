@@ -647,3 +647,5 @@ void tm_pcdump(struct tm_model *m, FILE *o)
 	for (size_t i = 0; i < n; i++)
 		if (m->pc_n[i]) fprintf(o, "%llx %u %llu %llu %llu\n", (unsigned long long)(text_lo + 2 * i), m->pc_n[i], (unsigned long long)m->pc_cyc[i], (unsigned long long)m->pc_fe[i], (unsigned long long)m->pc_ex[i]);
 }
+
+const char *tm_name(struct tm_model *m) { return m->name; }

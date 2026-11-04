@@ -69,6 +69,7 @@ void tm_retire(struct tm_model **m, int nm, uint64_t next_pc);	/* the instructio
 void tm_set_text(uint64_t lo, uint64_t hi);		/* the range of addresses of the program, for the per-pc profile */
 void tm_report(struct tm_model **m, int nm, FILE *o, const char *prog);	/* one `tm ...` line per model, then the descriptions */
 void tm_pcprof(struct tm_model *m);		/* collect the per-pc cycles of this model */
+const char *tm_name(struct tm_model *m);
 void tm_pcdump(struct tm_model *m, FILE *o);
 void tm_total_cycles(struct tm_model *m, uint64_t *cycles, uint64_t *insns);
 #endif

@@ -261,7 +261,11 @@ static void timing_write(void)
 	if (!o) { perror(timing_out); return; }
 	tm_report(tms, ntms, o, prog_name);
 	if (o != stderr) fclose(o);
-	if (timing_pc && tms[0]) { FILE *p = fopen(timing_pc, "w"); if (p) { tm_pcdump(tms[0], p); fclose(p); } }
+	if (timing_pc) for (int k = 0; k < ntms; k++) {		/* FILE.NAME for each model */
+		char path[512];
+		snprintf(path, sizeof path, "%s.%s", timing_pc, tm_name(tms[k]));
+		FILE *p = fopen(path, "w"); if (p) { tm_pcdump(tms[k], p); fclose(p); }
+	}
 }
 
 static void step_k(void)
@@ -323,7 +327,7 @@ int main(int argc, char **argv)
 			ntms++;
 		}
 		tm_set_text(prof.lo, prof.hi);
-		if (timing_pc) tm_pcprof(tms[0]);
+		if (timing_pc) for (int k = 0; k < ntms; k++) tm_pcprof(tms[k]);
 		prog_name = strrchr(prog, '/') ? strrchr(prog, '/') + 1 : prog;
 		tm_on = 1; env.profile = h_profile;
 		atexit(timing_write);
