@@ -71,7 +71,7 @@ for k in (5000, 10800, 10930):
 # data, pools, alignment
 data = ['\t.data', 'ld0:\t.quad 77', 'ld1:\t.quad 1000000007', '\t.align 8', 'ltab:']
 for r in range(120):
-    t = rnd.randrange(12)
+    t = rnd.randrange(13)
     if t == 0:
         i = rnd.randrange(NF); body += ['\tlea d%d, r0' % i, '\tmovq (r0), r1', '\tadd r1, r6']; add((i + 1) * 1000 + 5)
     elif t == 1:
@@ -95,6 +95,8 @@ for r in range(120):
         add(0)
     elif t == 9:
         body += ['\tcall farf', '\tcall fh']; add(7 + 11)
+    elif t == 12:
+        i = rnd.randrange(NF); body += ['\tmovcall r1, r2, f%d' % i]; add(i + 1)
     elif t == 10:
         body += ['\tlea cbuf, r0', '\tmovq #%d, r1' % r, '\tmovq r1, (r0)', '\tadd (r0), r6']; add(r)
     else:
