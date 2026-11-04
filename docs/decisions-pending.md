@@ -1593,6 +1593,14 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 * **F14. Device-page ordering.** PCI Express writes are posted but the memory model is sequential consistency. Lean: device pages strongly ordered and uncached, with a barrier before every doorbell write.
 * **F15. Conveniences over PCI Express.** Candidates: a per-process overlay mapping a BAR at a fixed address (the old `$C000` idea), doorbell and status helper registers, a CPU register for reading configuration space. Which ones?
 
+**Requirements the pain-points document found for PCI Express (re-marked 2026-11-03).**
+
+* **F24. Interrupt rules.** The bus must state that an interrupt (MSI-X) write cannot pass the DMA writes that precede it; and provide many vectors per core, an atomically retargetable entry, and a mask while an entry changes. Lean: write all three into the bus chapter.
+* **F25. IOMMU hardening.** An IOMMU alone is not enough (Thunderclap). Lean: translation on by default, one domain per device, no kernel pointers in descriptors, permanent mappings for rings, bounce copies for small buffers.
+* **F26. Platform rules.** Lean: link power states (ASPM) off by default; legacy VGA decoding off; a stated hot-plug window reservation per bridge, since BAR sizes vary.
+* **F27. Errors and resets.** Lean: every PCI Express error completion and link-down becomes a precise `BUSFAULT`; a bus reset produces no removal events (as 2.6.9 says) and the manual states which slot events a reset causes; identity after power loss is defined.
+* **F28. Quirk policy.** Lean: the standard supports one virtio interface per class, a small compliance-tested subset of NVMe and xHCI, and no AHCI; any other device is attached without a promise, with its own driver and quirks.
+
 **The dedicated-core proposal (errata 76).** One core for graphics, one for the network running the full TCP/IP stack, one for audio (MIDI, DSP), the rest general. Questions it raises:
 
 * **F16. Iteration one or two?** Lean: reserve it in iteration one (the core-class register exists, 7.8.4) and use it as a *policy*: pin the network card's MSI-X queue and the graphics driver to a core by affinity. The separate stack and the separate address space come in iteration two.
