@@ -251,9 +251,9 @@ static void step_enc(void)
 			f.low = op[0].r; f.reg = op[2].r; f.count = (unsigned)op[1].v;
 			if (sub == MN_BESC_ROL) { f.sub = MN_BESC_RORI; f.count = (unsigned)((64 - op[1].v) & 63); }
 		}
-		else if (h->kind == H_BESC && sub == MN_BESC_DSHR) { f.low = op[0].r; f.t = op[1].r; f.d = (uint64_t)op[2].v << 8; f.reg = op[3].r; }	/* dshr ra, rb, #n, rd */
+		else if (h->kind == H_BESC && sub == MN_BESC_DSHR) { f.low = op[0].r; f.t = op[1].r; f.pos = (unsigned)op[2].v; f.reg = op[3].r; }	/* dshr ra, rb, #n, rd */
 		else if (h->kind == H_BESC && (sub == MN_BESC_EXTB || sub == MN_BESC_EXTZB || sub == MN_BESC_INSB)) {	/* extb rs, #pos, #width, rd */
-			f.low = op[0].r; f.d = ((uint64_t)op[1].v << 8) | (uint64_t)(op[2].v & 255); f.reg = op[3].r;
+			f.low = op[0].r; f.pos = (unsigned)op[1].v; f.width = (unsigned)(op[2].v & 255); f.reg = op[3].r;
 		} else {									/* sources first, the destination last */
 			f.reg = op[in.nops - 1].r; f.low = op[0].r;
 			if (in.nops >= 3) f.t = op[1].r;

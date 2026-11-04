@@ -704,16 +704,16 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		case MN_BESC_ROR: r[rd] = ror64(a, (unsigned)b); return;
 		case MN_BESC_RORI: r[rd] = ror64(a, f.count); return;
 		case MN_BESC_RORI32: { uint32_t w = (uint32_t)a; unsigned n = f.count & 31; r[rd] = (uint64_t)(int64_t)(int32_t)(n ? (w >> n) | (w << (32 - n)) : w); return; }
-		case MN_BESC_DSHR: { unsigned n = (f.d >> 8) & 63; r[rd] = n ? (b >> n) | (a << (64 - n)) : b; return; }
+		case MN_BESC_DSHR: { unsigned n = f.pos & 63; r[rd] = n ? (b >> n) | (a << (64 - n)) : b; return; }
 		case MN_BESC_EXTB: case MN_BESC_EXTZB: {
-			unsigned pos = (f.d >> 8) & 63, w = f.d & 255;
+			unsigned pos = f.pos & 63, w = f.width & 255;
 			uint64_t v = a >> pos;
 			if (w == 0 || w > 64) w = 64;
 			r[rd] = sub == MN_BESC_EXTB ? (uint64_t)sext(v, w) : zext(v, w);
 			return;
 		}
 		case MN_BESC_INSB: {
-			unsigned pos = (f.d >> 8) & 63, w = f.d & 255;
+			unsigned pos = f.pos & 63, w = f.width & 255;
 			if (w == 0 || w > 64) w = 64;
 			uint64_t m = (w == 64 ? ~(uint64_t)0 : (((uint64_t)1 << w) - 1)) << pos;
 			r[rd] = (r[rd] & ~m) | ((a << pos) & m);
