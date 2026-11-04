@@ -37,6 +37,7 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [Part C. The gaps: several cores, DMA devices and virtualization](#part-c-the-gaps-several-cores-dma-devices-and-virtualization)
 * [Part D. Vector and SIMD math](#part-d-vector-and-simd-math)
 * [Part E. Conflicts with the author's chat record](#part-e-conflicts-with-the-authors-chat-record)
+* [Part F. The PCI Express pivot: what must be decided now](#part-f-the-pci-express-pivot-what-must-be-decided-now)
 * [Appendix: errata 42 to 46 in full](#appendix-errata-42-to-46-in-full)
 * [What I need from you](#what-i-need-from-you)
 
@@ -1563,6 +1564,36 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 ### E11. Chat-1 material the manual calls a stub
 
 The register conventions, the 8502 island, `/dev/vic` and `/dev/sid`, the REU window, the realtime V7 changes (priority inheritance, preemption points, `SLOCK`) and the eight-partition machine are in [`c64-devices-from-chat.md`](c64-devices-from-chat.md) and nowhere else. **Needed:** for each, adopt, drop, or defer, so the stub in 3.2 can be replaced by a list of what is decided.
+
+## Part F. The PCI Express pivot: what must be decided now
+
+Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C64-derived and 12-register devices iteration two. These are the questions it leaves, most blocking first. Each gives my lean; **none is decided.**
+
+**Blocking**
+
+* **F1. What is Q64 now?** Lean: the CPU's internal bus, with one PCI Express root complex on it; NVMe and USB (xHCI) are ordinary PCI Express devices.
+* **F2. Retire the eight-register device rule (errata 29), slot numbers and slot-derived vectors?** Lean: yes; configuration space and base address registers enumerate, MSI-X delivers interrupts.
+* **F3. First board.** The DE10-Nano has no PCI Express as far as I know. Lean: PCI Express first in QEMU and `sim64`; the DE10-Nano stays the CPU bring-up board.
+* **F4. IOMMU in iteration one?** Lean: yes; standard network and graphics cards do DMA, so it is the security boundary; reuse the CPU's page-table format.
+* **F5. DMA and the caches.** Coherent PCI Express DMA (more gates) or software-managed with uncached pages and `FENCE` (today's rule). Lean: software-managed first.
+
+**Standard devices for iteration one**
+
+* **F6. Network.** Lean: virtio-net for QEMU plus one common Intel gigabit chip that OpenBSD already supports.
+* **F7. Graphics.** Lean: a plain linear framebuffer, no acceleration, no firmware blob.
+* **F8. Audio.** Lean: USB Audio Class (needs only the xHCI controller); alternative Intel HDA.
+* **F9. USB.** Lean: xHCI only.
+* **F10. Boot media.** Lean: NVMe, then USB storage, then network; SD only if the board has it.
+* **F11. Console.** Lean: a 16550-style UART in place of the KL11-style console.
+* **F12. Fixed non-PCI devices** (timer, interrupt controller, UART). Lean: a small device tree for these, PCI Express enumeration for the rest.
+
+**Rules to settle**
+
+* **F13. Where do the configuration space and BAR windows sit in the device half** (bit 39 set)? Lean: fixed bases and sizes, to be chosen.
+* **F14. Device-page ordering.** PCI Express writes are posted but the memory model is sequential consistency. Lean: device pages strongly ordered and uncached, with a barrier before every doorbell write.
+* **F15. Conveniences over PCI Express.** Candidates: a per-process overlay mapping a BAR at a fixed address (the old `$C000` idea), doorbell and status helper registers, a CPU register for reading configuration space. Which ones?
+
+**Kept for later.** The 48-bit pixel, the 48-bit sample, the 12-register devices and the Blit model are one iteration-two bundle (errata 75); the sample layout waits for it. A C64/C128 window mapped through the IOMMU is deferred.
 
 ## Appendix: errata 42 to 46 in full
 
