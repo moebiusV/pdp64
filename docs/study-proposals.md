@@ -61,6 +61,8 @@ Existing instructions change meaning only for V-tagged operands: `ADD`/`SUB`/`LE
 
 **Your annotations:**
 
+what would it cost for us to do the full 128 bits? if we just widen our 16 registers then that is ok.
+
 ## Item 6. The return predictor as the shadow stack
 
 **Question.** How is the shadow stack made so that `setjmp`, `longjmp`, C++ unwinding, a coroutine or context switch, signal return and `fork` cost the fewest instructions and no recovery code?
@@ -117,6 +119,9 @@ A brand-new context starts with `CALL entry` from a small stub on the new stack,
 
 **Open choices for the author.** Mirror (recommended) or dense. Use-once zeroing at `RET`. `SSK` for the kernel stacks too (recommended: the same mechanism). Bit 37 versus a configurable offset register. Whether item 3's V tag replaces the mirror: with stage 1 of item 3 a return slot written by an integer store has V=0 and `RET` can fault on V=0 with no alias memory at all, at the price of tag memory and with the weaker guarantee that a copied valid pointer is accepted.
 
+
+i approve the mirror, didn't understand what dense did differently.  i acccept your recommendations; does this give the same protections as cheri? if so, we can reject the cheri stuff unless any of it can provide benefit without significant cost.
+
 **Your annotations:**
 
 ## Item 9. Overflow-trapping arithmetic
@@ -166,6 +171,8 @@ A brand-new context starts with `CALL entry` from a small stub on the new stack,
 
 **Your annotations:**
 
+with the fused forms. no need for cbcc style. how are trap and abort different?
+
 ## Item 10. Architectural poison bit per register
 
 **Question.** What produces poison, what consumes it, where does it fault, how is it saved, and what does it buy over a precise trap?
@@ -198,6 +205,8 @@ A brand-new context starts with `CALL entry` from a small stub on the new stack,
 **Open choices for the author.** Faulting on flag writes from poisoned sources instead of the `FP` bit (fewer states, fewer chains). Whether the deferred-load policy lives in the kernel (proposed) or hardware. Whether `TRAP #n` itself checks `R0`-`R5` (rejected: stale poison in unused argument registers would be a false fault).
 
 **Your annotations:**
+
+not sure how to make those choices. compress it down a bit so i can understand the choices and ramifications.
 
 ## Item 11. Secret taint with `DIT` enforcement
 
@@ -258,6 +267,9 @@ It is acceptable because the check is one-sided and exact on what it covers: it 
 
 **Your annotations:**
 
+i follow your leanings on these open choices.
+
+
 ## Item 12. Retire-gated visibility (a strict domain)
 
 **Question.** What is gated, how is the domain chosen, what does it cost and how does it compose with predictor isolation?
@@ -287,6 +299,9 @@ It is acceptable because the check is one-sided and exact on what it covers: it 
 **Open choices for the author.** Both selectors (proposed) or domain only. Whether the kernel runs strict by default (`KSTRICT`; OpenBSD style says yes). Whether `NS` implies the item 11 `SEC` semantics or stays independent.
 
 **Your annotations:**
+
+both. yes strict default. not sure about ns item 11, tell me more.
+
 
 ## Item 18. A user-access window that closes itself
 
@@ -337,4 +352,7 @@ Option B, no `pcb_onfault` at all: because user-qualified instructions are the o
 **Open choices for the author.** Option A (`pcb_onfault`) or B (fixup table). The `.U` spelling. Whether to keep `PSW.UA` and `STUA`/`CLUA` after the port. Whether `ECAUSE` bit 15 is wanted. Whether atomics (futex on user words) take the mode variant, which waits on the operand placement of `ATOM` (not fixed in the text).
 
 **Your annotations:**
+
+tell me more, i don't know enough to answer those open choices. summarize each on one line.
+
 

@@ -17,6 +17,8 @@ For the author's annotation. This answers the four annotations on [`security-pro
 3. *It is one pool for the machine.* Each process still needs its own generator for fork safety and speed (OpenBSD's `arc4random` keeps one per process, seeded from the kernel), so the pool seeds those; it does not replace them.
 4. *The algorithm is frozen in silicon unless it is updatable.* A flaw in a hardware generator has shipped before and was repaired in firmware *(from memory, not confirmed)*. A version register and updatable firmware keep it repairable.
 
+it isn't a strange side effect if it is known and wanted. not sure where you got the strongly ordered and no speculation restrictions from. its only a assistant to openbsds process, not a replacement. no need to have it per process; one shared among all cores is fine, since it will absorb all entropy that openbsd provides. no need for version reg and firmware, the algo is simple enough.
+
 **Would it break if OpenBSD changed its algorithm?** No, provided the OS treats it as one more source and not as the generator. OpenBSD mixes every hardware source through `enqueue_randomness()` and trusts none alone (`security-proposals.md` section 1, commits cited there). It would absorb into the device, squeeze from it, and feed what it reads into its own generator. Its algorithm is untouched.
 
 **Proposal.** Build it as a platform device (memory-mapped, privileged), not as an instruction or a system register:
@@ -53,6 +55,7 @@ This is the hardware behind the virtio-rng device of the P9 lean: the same four 
 
 **Your annotations:**
 
+maskeqz is confirmed in; do it. approved. branchless select is needed.  so, let's have at least one secure core where all timing channel attacks are removed, all cache fetches take same length of time, all instructions take the same length of time, etc. ticks, not tickless. yes, add constant time aes and sha instructions, or whichever opcodes would speed up and enable aes and sha. i agree on all cache lines being private on the secure core; any of these security things that can run on the other cores without performance penalty, should. also i accept your recommendations.
 &nbsp;
 
 ## 3. A 64-bit literal inside the instruction (reply to the P18 annotation)
@@ -85,6 +88,8 @@ It wins on priority 2 (one instruction) and priority 3 (10 bytes against 12 or 1
 
 **Your annotations:**
 
+remember what i said about rules; for this one instruction, breaking the 3 parcel rule is ok, and doesn't really count since i'm not counting the 64 bit quantity as part of the instruction. and we can do the same trick for 32 bit immediates too.
+
 &nbsp;
 
 ## 4. One IOMMU design from the five options (reply to the F25 annotation)
@@ -112,5 +117,7 @@ It wins on priority 2 (one instruction) and priority 3 (10 bytes against 12 or 1
 **What changes where.** Root complex and IOMMU: a walker, two extra leaf fields, the fault ring. Kernel: `bus_dma` map and unmap set the byte range. Cards: nothing.
 
 **Your annotations:**
+
+confirm bits 40..63 are available. otherewise i accept your 5 recommendations in synthesis.
 
 &nbsp;
