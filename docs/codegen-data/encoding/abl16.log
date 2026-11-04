@@ -1,0 +1,16 @@
+full 1013598 2.822135702225164 215 12s
+no 3-bit hot-register one-parcel (R)+d forms 1029886 2.8794035329407186 215 11s
+no one-parcel sp-relative forms 1035244 2.8877491062236307 203 12s
+no one-parcel immediates/shifts/pushm8/spadj 1078820 2.981714187583073 209 12s
+no compare-with-zero-and-branch (cbz) forms 1026908 2.869827885178121 215 13s
+no compare-immediate-and-branch (cbi) forms 1041020 3.2732944182016825 182 10s
+no compare-zero and no compare-imm-and-branch 1056260 3.320599493721767 184 10s
+no scaled-index forms (X) beyond fallback 1036560 2.9464031525915444 198 11s
+no PC-relative/absolute narrow forms (fallback only) 1029602 2.8432320583963486 201 11s
+coarse widths only (W=8,12,16,20,24) 1022472 2.8258815264966692 188 9s
+code space reserve 20% (budget 0.80) 1021366 2.840166164140934 189 11s
+code space reserve 1% (budget 0.99) 1012594 2.824637620608683 215 12s
+no optional forms at all (framework fallback only) 1524200 5.172549565243273 73 8s
+policy near (linker relaxes externals) 943812 2.807896035842437 223 11s
+dynamic-tuned (mix 3) 1012556 2.7535340101588903 189 11s
+dynamic-tuned (mix 10) 1015484 2.7502724545312693 186 11s

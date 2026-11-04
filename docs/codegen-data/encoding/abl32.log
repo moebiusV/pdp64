@@ -1,0 +1,7 @@
+A32 full 1040280 None 267 13s
+A32 no 4-bit hot-register variants (5-bit everywhere) 1079408 None 145 9s
+A32 no 3-bit hot one-parcel mem forms 1052590 None 207 13s
+A32 no 4-bit hot variants in two-parcel families 1032144 None 181 9s
+A32 no one-parcel imm/shift/pushm 1094036 None 205 14s
+A32 no cb imm/zero forms 1064776 None 201 9s
+A32 policy near 970316 None 272 12s

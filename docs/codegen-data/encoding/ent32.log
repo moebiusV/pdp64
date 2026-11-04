@@ -1,0 +1,9 @@
+r32 N 333872
+H(mnemonic,operand shape) = 5.076 bits
+registers (order-0 per role) = 4.003 bits
+number class (bit-length bucket given mnemonic) = 1.883 bits
+number mantissa (uniform within bucket)         = 3.204 bits
+unresolved external reference payload (32 bit)  = 3.334 bits (34787 refs)
+TOTAL bound, externals free (near) = 14.165 bits = 1.771 bytes/instr = 591170 bytes
+TOTAL bound, externals 32-bit (max) = 17.499 bits = 2.187 bytes/instr = 730318 bytes
+PARCEL-ROUNDED bound (ideal order-0 code, rounded up to 16-bit parcels), externals 32-bit: 1058252 bytes

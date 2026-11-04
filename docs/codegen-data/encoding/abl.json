@@ -1,0 +1,98 @@
+{
+ "full": {
+  "total": 1013598,
+  "dyn": 2.822135702225164,
+  "forms": 215,
+  "kraft": 0.9499969482421875
+ },
+ "no 3-bit hot-register one-parcel (R)+d forms": {
+  "total": 1029886,
+  "dyn": 2.8794035329407186,
+  "forms": 215,
+  "kraft": 0.9499969482421875
+ },
+ "no one-parcel sp-relative forms": {
+  "total": 1035244,
+  "dyn": 2.8877491062236307,
+  "forms": 203,
+  "kraft": 0.9499969482421875
+ },
+ "no one-parcel immediates/shifts/pushm8/spadj": {
+  "total": 1078820,
+  "dyn": 2.981714187583073,
+  "forms": 209,
+  "kraft": 0.9499664306640625
+ },
+ "no compare-with-zero-and-branch (cbz) forms": {
+  "total": 1026908,
+  "dyn": 2.869827885178121,
+  "forms": 215,
+  "kraft": 0.9499664306640625
+ },
+ "no compare-immediate-and-branch (cbi) forms": {
+  "total": 1041020,
+  "dyn": 3.2732944182016825,
+  "forms": 182,
+  "kraft": 0.9499969482421875
+ },
+ "no compare-zero and no compare-imm-and-branch": {
+  "total": 1056260,
+  "dyn": 3.320599493721767,
+  "forms": 184,
+  "kraft": 0.9498748779296875
+ },
+ "no scaled-index forms (X) beyond fallback": {
+  "total": 1036560,
+  "dyn": 2.9464031525915444,
+  "forms": 198,
+  "kraft": 0.9499664306640625
+ },
+ "no PC-relative/absolute narrow forms (fallback only)": {
+  "total": 1029602,
+  "dyn": 2.8432320583963486,
+  "forms": 201,
+  "kraft": 0.9499664306640625
+ },
+ "coarse widths only (W=8,12,16,20,24)": {
+  "total": 1022472,
+  "dyn": 2.8258815264966692,
+  "forms": 188,
+  "kraft": 0.9497833251953125
+ },
+ "code space reserve 20% (budget 0.80)": {
+  "total": 1021366,
+  "dyn": 2.840166164140934,
+  "forms": 189,
+  "kraft": 0.7999725341796875
+ },
+ "code space reserve 1% (budget 0.99)": {
+  "total": 1012594,
+  "dyn": 2.824637620608683,
+  "forms": 215,
+  "kraft": 0.9899749755859375
+ },
+ "no optional forms at all (framework fallback only)": {
+  "total": 1524200,
+  "dyn": 5.172549565243273,
+  "forms": 73,
+  "kraft": 0.490386962890625
+ },
+ "policy near (linker relaxes externals)": {
+  "total": 943812,
+  "dyn": 2.807896035842437,
+  "forms": 223,
+  "kraft": 0.9499969482421875
+ },
+ "dynamic-tuned (mix 3)": {
+  "total": 1012556,
+  "dyn": 2.7535340101588903,
+  "forms": 189,
+  "kraft": 0.9499969482421875
+ },
+ "dynamic-tuned (mix 10)": {
+  "total": 1015484,
+  "dyn": 2.7502724545312693,
+  "forms": 186,
+  "kraft": 0.9499969482421875
+ }
+}

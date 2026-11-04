@@ -1,0 +1,6 @@
+lz4 leave-one-out 2.576
+zlib leave-one-out 2.714
+bs_hash leave-one-out 2.862
+bs_sym leave-one-out 2.433
+bs_ec leave-one-out 2.618
+lua leave-one-out 3.807

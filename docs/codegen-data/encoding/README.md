@@ -1,0 +1,3 @@
+# Encoding study: scripts, tables and results
+
+Working files of [`../../encoding-proposal.md`](../../encoding-proposal.md): the encoder/decoder prototype (`scheme.py`, `enc.py`, `proof.py`), the slot solver (`solve.py`), the entropy bound (`entropy.py`), the ablations (`abl.py`, `fuse_abl.py`), the leave-one-out check (`loo.py`) and the form tables of each candidate scheme (`tables-*.md`, `families-*.md`). The paths inside the scripts point at the measurement work directories used when they were written (the compiled corpus, the 32-register compile and the `sim64` profile) and need adjusting to rerun. `dynkeys.pkl` was not kept.

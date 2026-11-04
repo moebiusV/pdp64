@@ -1,0 +1,57 @@
+import sys,time,json,pickle,collections
+import enc
+from solve import *
+from scheme import *
+from cur import cur_len
+S='/tmp/claude-1000/-home-david-claude-pdp64/c8eb5fe9-a8c9-4e79-aafa-1502bfe6a13e/scratchpad/enc'
+_cache={}
+def prep(tag):
+    if tag in _cache: return _cache[tag]
+    c,keys=build_keys(tag); order,cnt=hot_tables(c)
+    _cache[tag]=(c,keys,order,cnt); return _cache[tag]
+def build(tag,opts=None,reloc='max',budget=0.95,weights=None,hot4=True,hot3n=8,rbits=None,verbose=False,mix=0.0,fuse=(),extra=None):
+    c,keys,order,cnt=prep(tag)
+    if mix:
+        dk,per=pickle.load(open(S+'/dynkeys.pkl','rb'))
+        lam=mix*sum(keys.values())/sum(dk.values())
+        W=collections.Counter()
+        for k,n in keys.items(): W[k]+=n
+        for k,n in dk.items(): W[k]+=lam*n
+        keys=collections.Counter(W); weights=W
+    enc.RELOC=reloc
+    rb=rbits or (5 if tag=='r32' else 4)
+    H3=SR(3,order[:hot3n]) if hot3n else SR(3,order[:8])
+    if rb==5:
+        R=SR(5); H4=SR(4,order[:16]) if hot4 else None
+    else: R=SR(4); H4=None
+    forced,_=mk(R,H3,H4 if rb==5 else None)
+    forced=forced+fused_forms(R,H3,fuse)
+    if extra: forced=forced+extra(R,H3,H4 if rb==5 else None)
+    cs=cands(R,H3,H4,opts)
+    forms,best,tot,used,unenc=solve(forced,cs,keys,budget,weights=weights,verbose=verbose)
+    sc=Scheme(forced+forms)
+    return sc,dict(approx=tot,used=used)
+def measure(sc,tag,do_rt=True,fuse=()):
+    corp=corpus(tag)
+    nfz=0
+    if fuse:
+        from fuse import fuse_corpus
+        corp,nfz=fuse_corpus(corp,fuse)
+    if do_rt:
+        total,stats,sizes,useform,bad=roundtrip(sc,corp)
+        return total,dict(fused_pairs=nfz,stats=dict(stats),sizes=dict(sizes),useform=useform,bad=bad[:3],fail=dict(sc.fail))
+    total=sum(layout(ev,sc.lenfun) for fn,ev,recs in corp)
+    return total,{}
+def cur_total(tag,reloc):
+    corp=corpus(tag)
+    if reloc=='near':
+        f=lambda r,d: cur_len(r,0 if d is None else d)
+    else: f=cur_len
+    return sum(layout(ev,f) for fn,ev,recs in corp)
+if __name__=='__main__':
+    tag=sys.argv[1]; reloc=sys.argv[2]
+    t=time.time()
+    print('today',tag,reloc,cur_total(tag,reloc))
+    sc,info=build(tag,reloc=reloc)
+    total,d=measure(sc,tag)
+    print(tag,reloc,'new',total,d['stats'],'forms',len(sc.forms),'kraft %.4f'%sc.code.kraft,'%.0fs'%(time.time()-t))

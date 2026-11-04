@@ -1,0 +1,16 @@
+max A16 1013598 vs today(same corpus,base16) 1083870 checked 338616 mismatch 0 boundary 16275 0 probe miss 113 26s
+max B16 1012556 vs today(same corpus,base16) 1083870 checked 338930 mismatch 0 boundary 15214 0 probe miss 113 14s
+max C16 979192 vs today(same corpus,base16) 1083870 checked 321102 mismatch 0 boundary 15000 0 probe miss 113 15s
+max A32 1040280 vs today(same corpus,r32) 1076780 checked 334487 mismatch 0 boundary 19192 0 probe miss 113 22s
+max C32 1007172 vs today(same corpus,r32) 1076780 checked 316904 mismatch 0 boundary 16450 0 probe miss 113 19s
+max dyn A16 A32 today 3.129 new16 2.822 new32 2.980
+max dyn B16 A32 today 3.129 new16 2.754 new32 2.980
+max dyn C16 C32 today 3.129 new16 2.743 new32 2.936
+near A16 943812 vs today(same corpus,base16) 1014098 checked 338613 mismatch 0 boundary 16578 0 probe miss 113 22s
+near B16 942808 vs today(same corpus,base16) 1014098 checked 338928 mismatch 0 boundary 15213 0 probe miss 113 16s
+near C16 909464 vs today(same corpus,base16) 1014098 checked 321099 mismatch 0 boundary 14894 0 probe miss 113 16s
+near A32 970316 vs today(same corpus,r32) 1007006 checked 334485 mismatch 0 boundary 19297 0 probe miss 113 20s
+near C32 937266 vs today(same corpus,r32) 1007006 checked 316904 mismatch 0 boundary 16538 0 probe miss 113 21s
+near dyn A16 A32 today 3.115 new16 2.808 new32 2.966
+near dyn B16 A32 today 3.115 new16 2.740 new32 2.967
+near dyn C16 C32 today 3.115 new16 2.730 new32 2.922
