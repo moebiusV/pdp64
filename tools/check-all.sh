@@ -12,6 +12,7 @@ tools/mkbook.sh --check
 tools/export-pcc-headers.sh --check
 tools/check-ld64.sh
 tools/check-sim64.sh
+tools/check-timing.sh
 tools/check-exec-enc.sh
 tools/check-p2.sh
 tools/check-p2.sh --mutate
