@@ -2,7 +2,7 @@
 
 [← pdp64 index](../README.md)
 
-Static baseline this extends: [](spill-experiment.md) (1.31% fewer instructions, 8,279 of 23,962 stack loads and stores = 35%).
+Static baseline this extends: [`spill-experiment.md`](spill-experiment.md) (1.31% fewer instructions; 8,279 of 23,962 stack loads and stores, 35%).
 
 ## 1. Result in six lines
 
