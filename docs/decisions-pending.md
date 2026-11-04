@@ -1602,6 +1602,8 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 * **F21. What does the audio core need?** MIDI arrives over USB (the USB MIDI class) and DSP wants a multiply-accumulate loop with a hard deadline per sample block. Lean: the same ISA, no new instructions at first; measure the loop on the 64-bit multiplier and the fused multiply-add before adding a DSP instruction. It is also the natural home for mixing SID-style voices into the 48-bit path in iteration two.
 * **F20. Isolation.** Lean: each dedicated core is its own IOMMU domain and address space, so a network-stack compromise cannot reach the kernel's memory; this is the security argument for the split.
 
+**Standard or optional (errata 77).** The C128 is an optional device. **F22. Are the VIC-64X, SID-64X and BLT64 standard devices in iteration two, or optional like the C128?** Lean: standard, since they are the author's own designs and the Blit model; the C128 stays the only strictly optional one.
+
 **Kept for later.** The 48-bit pixel, the 48-bit sample, the 12-register devices and the Blit model are one iteration-two bundle (errata 75); the sample layout waits for it. A C64/C128 window mapped through the IOMMU is deferred.
 
 ## Appendix: errata 42 to 46 in full
