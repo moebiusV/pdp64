@@ -353,3 +353,5 @@ So the mechanism frees mode values and about 7,000 to 31,000 code bytes (the two
 **Your annotations:**
 
 &nbsp;
+
+**Correction (measured).** The table above, "How much room it frees", gave an estimated net of a 0.4% gain to a 0.2% cost. The size model reran with the rule and does not reproduce it. [`layout-size-variants.md`](layout-size-variants.md): the best layouts that fit the opcode maps are **+0.2% to +0.6% larger** than today's 16-register encoding in static bytes, and **+2.65% more bytes fetched** dynamically (3.41 against 3.13 bytes per executed instruction on the 16-register code, an estimated 3.38 on the 32-register code), even though about 4.9% fewer instructions execute. The extra registers save 0.65% to 1.1% of static bytes in the same layout; the layout's narrower fields (the 6-bit scaled displacement, the 5-bit immediates, the 11-bit PC-relative reach) cost 1.3% to 1.7%. Strict trailing immediates are worse than inline immediates plus dedicated opcodes (3,548 bytes larger): the rule pays for its reach, not its bytes.
