@@ -220,7 +220,10 @@ Of the 12,787 data `lea` sites 12,288 are in `memcpy-a2.c`, a 258 KB text that t
 ### 7.3 Differential execution
 
 * The six programs, 16 and 32 registers: output of the relaxed link, of the unrelaxed link and of the host build identical (12 of 12); `ld64 --no-relax` of the relaxation objects is byte for byte the link of the plain objects (12 of 12).
-* c-testsuite and gcc-torture: see the table in the report of the session: every program gives the same status and standard output relaxed and unrelaxed.
+* c-testsuite (213 programs) and gcc-torture (169), each with the stand-in libc and crt, in 16 and 32 registers: the exit status and the standard output of the relaxed and the unrelaxed link are identical
+  for 213 of 213 and 168 of 169 programs, in both encodings (206 and 147 of them exit 0, as before; the 7 and the rest that do not, fail the same way in both).  The one that differs is `pr116799`, a program whose `main`
+  returns without a value, so its exit status is whatever `r0` holds, an address (it differs between pdp64/r20, /16 and /32 too, as errata 88 records).  Text of these links, all programs added: 700,604 -> 691,516
+  (c-testsuite, pdp64/16), 811,616 -> 786,806 (gcc-torture, 16); 742,856 -> 735,456 and 583,414 -> 577,174 (32).
 
 ### 7.4 What the linked programs still have at 6 bytes
 
