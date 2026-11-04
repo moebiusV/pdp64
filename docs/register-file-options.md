@@ -278,3 +278,25 @@ Against that stands the saving the experiment estimates: about −1.0% in bytes 
 **Your annotations:**
 
 &nbsp;
+
+### 4.3 Executed counts under `sim64` ([`dynamic-spill-estimate.md`](dynamic-spill-estimate.md))
+
+Six large programs ran under an instrumented copy of `sim64` with the 16-register pcc, each producing output identical to a host `gcc` build: lz4, zlib, Lua 5.4.7 running a script, and three BearSSL kernels (hashes; AES, ChaCha20-Poly1305, GHASH; curve25519 and P-256). They execute 755.8 million instructions. The 32-register code cannot be assembled, so the saving is **estimated** by weighting the static per-function difference by how often each function ran.
+
+| | Static (841 files) | Executed (six programs) |
+|---|---|---|
+| Stack loads and stores, share of instructions | 7.1% | **10.1%** |
+| Register moves | 13.7% | 7.1% |
+| Instructions removed by 32 registers | 1.31% | **4.3%** (2.1% to 6.5% per program; 4.9% by the uniform estimator) |
+| Stack loads and stores removed | 35% | **about 55%** (bounds 31% to 72%) |
+| Executed length mix, 2 / 4 / 6 bytes | 55 / 29 / 16 | 54 / 35 / 11 (3.13 bytes per instruction) |
+
+The saving is concentrated in hot loops (zlib `longest_match`, the LZ4HC match finder, `luaV_execute`, the Montgomery multiply), where 32 registers remove almost all the stack traffic.
+
+**How far to trust it.** The estimator was tested on a change that can be run: removing two callee-saved registers (11 allocatable) and predicting the 11-to-16 saving. Measured 7.75%, predicted 9.17%; per program the prediction was off by −32% to +54%, and the measured value always fell inside the bounds. Read 4.3% as good to about ±50%. Loop depth of the removed instructions is not identified, the byte saving is not estimated, and the result depends on pcc's allocator.
+
+**Reading against the priorities.** Priority 2 (fewer instructions executed, so fewer fetches and fewer memory accesses) now favours 32 registers: roughly 4% fewer executed instructions and half the stack traffic, against a static code growth of +0.5% to +0.9% in the best encoding (§4.2). The static and dynamic pictures differ because the instructions removed sit in hot loops while the displacement overflow falls on cold code. Neither is final: the 32-register code has not been run, and the allocator is pcc's.
+
+**Your annotations:**
+
+&nbsp;
