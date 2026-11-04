@@ -2802,7 +2802,7 @@ Every libm function begins with this dispatch. The alternative spellings `FCLASS
 
 **Why it is here.** Every libm function begins with this dispatch: one instruction returns which of ten kinds a value is (signalling or quiet NaN, infinity, normal, subnormal, zero, each signed), where software needs several compares and masks. It is justified by a workload, library mathematics, and not by compiled C, as the tag branches are. Nothing in the corpus emits it, because the compiler does not use it.
 
-**Status** implemented in the reference executor for `FCLASS`, `FCLASS16`; not yet for the others.
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 ### FRINT: Round to an integral value, binary64
