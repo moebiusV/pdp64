@@ -1579,9 +1579,9 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 
 **Standard devices for iteration one**
 
-* **F6. Network.** Lean: virtio-net for QEMU plus one common Intel gigabit chip that OpenBSD already supports.
-* **F7. Graphics.** Lean: a plain linear framebuffer, no acceleration, no firmware blob.
-* **F8. Audio.** Lean: USB Audio Class (needs only the xHCI controller); alternative Intel HDA.
+* **F6. Network.** Lean (revised by errata 78, one standard interface per class): virtio-net, so one transport driver (virtio over PCI Express) serves network, graphics and audio, and the same devices work in QEMU, `sim64` and the FPGA. Any other card (an Intel gigabit chip, say) may be attached with its own driver.
+* **F7. Graphics.** Lean: virtio-gpu in its 2D mode (create a surface, point it at memory, flush a rectangle); no firmware blob, and it has a flip and cursor path a bare framebuffer lacks. Fallback if the driver is a burden: a plain linear framebuffer.
+* **F8. Audio.** Lean: virtio-snd (streams in shared-memory queues). Intel HDA is the fiddly alternative (codec commands), USB Audio Class the alternative that needs no extra device. Check whether OpenBSD has a virtio-snd driver; if not, it is a small driver to write.
 * **F9. USB.** Lean: xHCI only.
 * **F10. Boot media.** Lean: NVMe, then USB storage, then network; SD only if the board has it.
 * **F11. Console.** Lean: a 16550-style UART in place of the KL11-style console.
@@ -1602,7 +1602,9 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 * **F21. What does the audio core need?** MIDI arrives over USB (the USB MIDI class) and DSP wants a multiply-accumulate loop with a hard deadline per sample block. Lean: the same ISA, no new instructions at first; measure the loop on the 64-bit multiplier and the fused multiply-add before adding a DSP instruction. It is also the natural home for mixing SID-style voices into the 48-bit path in iteration two.
 * **F20. Isolation.** Lean: each dedicated core is its own IOMMU domain and address space, so a network-stack compromise cannot reach the kernel's memory; this is the security argument for the split.
 
-**Standard or optional (errata 77).** The C128 is an optional device. **F22. Are the VIC-64X, SID-64X and BLT64 standard devices in iteration two, or optional like the C128?** Lean: standard, since they are the author's own designs and the Blit model; the C128 stays the only strictly optional one.
+**Standard or optional (errata 77, 78).** The C128 is an optional device. The VIC-64X, SID-64X and BLT64 are deferred (F22, closed by errata 78).
+
+* **F23. Hot-plug scope.** The bus document already specifies a departure event, a precise bus fault for a departed device and an orderly eject (`pdp64-q64-bus.md` section 13, manual 2.6.9 and 5.3.5). Lean: USB hot-plug in iteration one (it is the normal case); PCI Express slot hot-plug as software only (the fault and event rules) until a board has slot hardware.
 
 **Kept for later.** The 48-bit pixel, the 48-bit sample, the 12-register devices and the Blit model are one iteration-two bundle (errata 75); the sample layout waits for it. A C64/C128 window mapped through the IOMMU is deferred.
 
