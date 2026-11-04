@@ -23,6 +23,7 @@ runtest() {	# src name enc
 	ok=1
 	[ "$rc" = "$want" ] || ok=0
 	[ -f "$dir/$t.out" ] && ! cmp -s "$B/sim_$t$sfx.stdout" "$dir/$t.out" && ok=0
+	[ -f "$dir/$t.errgrep" ] && ! grep -q -F -- "$(cat "$dir/$t.errgrep")" "$B/sim_$t$sfx.stderr" && ok=0
 	n=$((n+1))
 	if [ $ok = 1 ]; then echo "ok   $t ($enc)"; else echo "FAIL $t ($enc): exit $rc, wanted $want $(head -c 200 "$B/sim_$t$sfx.stderr" | head -2 | tr '\n' ' ')"; fail=$((fail+1)); fi
 }
