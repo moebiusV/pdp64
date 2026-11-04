@@ -34,7 +34,7 @@ gen() {	# enc seed
 	python3 tests/relax/gen_relax.py $d $sd
 	"$B/as64" -m pdp64/$e --relax --dump-lens $d/main.o.lens -o $d/main.o $d/main.s && "$B/as64" -m pdp64/$e --relax --dump-lens $d/lib.o.lens -o $d/lib.o $d/lib.s || { echo "FAIL $t: assembly"; fail=$((fail+1)); return; }
 	n=$((n+1))
-	"$B/as64" -m pdp64/$e --dump-lens /dev/null -o $d/mainp.o $d/main.s && "$B/as64" -m pdp64/$e -o $d/libp.o $d/lib.s
+	"$B/as64" -m pdp64/$e --no-relax -o $d/mainp.o $d/main.s && "$B/as64" -m pdp64/$e --no-relax -o $d/libp.o $d/lib.s
 	if case_run $t 0 $d/main.o $d/lib.o; then
 		# --no-relax of the relaxed objects is the link of the plain ones, byte for byte
 		"$B/ld64" -o $W/$t.px $d/mainp.o $d/libp.o && cmp -s $W/$t.px $W/$t.nx || { echo "FAIL $t: ld64 --no-relax of the relaxed objects differs from the link of the objects without --relax"; fail=$((fail+1)); }

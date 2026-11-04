@@ -11,8 +11,8 @@ are linked as before.
 
 ## 1. The object format
 
-`as64 -m pdp64/16 --relax` (or `pdp64/32`) makes a **relaxation object**.  `--relax` is off by default: an object made without it is the object of
-the phase-1 assembler, byte for byte, and links as before.  A relaxation object differs in three ways.
+`as64 -m pdp64/16` (or `pdp64/32`) makes a **relaxation object** **by default** (the author's decision, errata 89).  `as64 --no-relax` makes the plain object, byte for byte the object of
+the phase-1 assembler, which links as before; `--relax` is the explicit spelling of the default and is refused for pdp64/r20, whose objects never carry the flags.  A relaxation object differs in three ways.
 
 **e_flags.**  The low four bits are the encoding (1 or 2) as before.  Two new bits (`as64/relocs.h`):
 
@@ -89,10 +89,10 @@ it too short.  The assembler's own relaxation (growth from the shortest, one pas
 
 ## 3. Options
 
-    as64 -m pdp64/16|pdp64/32 --relax [--no-relax] [--dump-lens f] -o obj file.s
+    as64 -m pdp64/16|pdp64/32 [--no-relax] [--dump-lens f] -o obj file.s       (relaxation objects are the default; --no-relax: the plain object)
     ld64 [--no-relax] [--stats] [--dump-map f] [-M] [-o out] objects...
 
-`ld64 --no-relax` links relaxation objects as they were assembled: the same image, byte for byte, as the link of the same program assembled without `--relax`
+`ld64 --no-relax` links relaxation objects as they were assembled: the same image, byte for byte, as the link of the same program assembled with `as64 --no-relax`
 (`tools/check-relax.sh` compares them).  An executable linked with relaxation is the same program as the one linked without (the differential runs below).  `--stats`
 prints the sites by category and the bytes they gained; `--dump-map` writes, per input `.text`, where it went and the length change of every site, which is what
 `tools/check-relax.py` needs to find every instruction of the linked image.
@@ -232,3 +232,9 @@ Of the 12,787 data `lea` sites 12,288 are in `memcpy-a2.c`, a 258 KB text that t
 
 In Lua (91,634 bytes of text) 284 `movcall` and 6 `jmp` are 6 bytes: their only 4-byte form has a 16-bit field (reach +-64 KiB), unlike `call` (18 and 20 bits).  In zlib 12 `movcall`.  No `call` is
 left long in these programs (7 and 3 indirect calls are not sites).  Beyond 1 MiB a `call` too would stay at 6 bytes (and beyond 2 GiB it cannot be linked).
+
+### 7.5 Relaxation is the default
+
+`as64` makes relaxation objects for pdp64/16 and pdp64/32 unless `--no-relax`; `ld64` relaxes every object that carries `RELAX` unless `--no-relax`; pdp64/r20 is untouched.  Consequences in this tree: the bytes of the `.text` of an object are the same with and without the flag (the relaxation object only adds relocations; paddings keep their length), so the assembler tests of `tests/asm-pdp64-NN` and `check-drift-enc` pass unchanged against the model's expectations; the unrelaxed link of `tests/ld-pdp64-NN` (words and map from the model) is made from `--no-relax` objects; the relaxed link of
+`tests/ld-pdp64-NN` is checked against the model relaxing the same program by itself (`tools/check-ld-relax.py`); `asm_vs_model.py` compares unrelaxed assembler sizes (`as64 --no-relax --dump-lens`).  A tool that assembles and links
+needs no flag (the compiler driver, `tools/pdp64test*.sh`, `pdp64size.py` work unchanged); it must pass `--no-relax` only to get the long forms.

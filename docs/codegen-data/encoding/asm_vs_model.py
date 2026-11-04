@@ -3,7 +3,7 @@ against the length the model's scheme gives it (scheme.py: choose the shortest f
 
     python3 asm_vs_model.py 16|32 OUTDIR 
 
-OUTDIR holds NAME.lens for each corpus file (as64 -m pdp64/NN --dump-lens OUTDIR/NAME.lens ...).  The scheme is rebuilt from
+OUTDIR holds NAME.lens for each corpus file (as64 -m pdp64/NN --no-relax --dump-lens OUTDIR/NAME.lens ...).  The scheme is rebuilt from
 spec/pdp64-NN/forms.json (enc.Form objects), not re-solved.  Paths of the corpus are those of load.py."""
 import sys, os, json, collections, struct
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

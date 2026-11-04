@@ -71,7 +71,7 @@ its 3-bit table is the same as pdp64/16's. A different register allocation chang
 ## Commands
 
     tools/mkenc.py [--md] [--check]      generate the tables (build/), rewrite or check spec/pdp64-NN/tables.md
-    as64 -m pdp64/16|pdp64/32|pdp64/r20 [-o obj] file.s [--stats] [--dump-lens file] [--relax]
+    as64 -m pdp64/16|pdp64/32|pdp64/r20 [-o obj] file.s [--stats] [--dump-lens file] [--no-relax]
     ld64 [--no-relax] [--stats] [--dump-map file] [-M] [-o out] objects...       (--relax objects are relaxed; docs/relaxation.md)
     tools/check-relax.sh [--mutate]      relaxation: generated program relaxed and not, decoder-based check of every relaxed image, mutants of ld64
     tools/check-enc.sh                   mkenc --check, codec against the model, drift test of every mnemonic
@@ -80,12 +80,12 @@ its 3-bit table is the same as pdp64/16's. A different register allocation chang
 
 ## Linker relaxation
 
-`as64 --relax` marks an object (`e_flags` 0x10, `EF_PDP64_RELAX`; 0x20, `EF_PDP64_NOADJ_TEXT`, if its `.text` holds a distance that is not a relocation) and gives every
+`as64` marks an object (by default for pdp64/16 and pdp64/32; `--no-relax` gives the plain object) (`e_flags` 0x10, `EF_PDP64_RELAX`; 0x20, `EF_PDP64_NOADJ_TEXT`, if its `.text` holds a distance that is not a relocation) and gives every
 instruction that holds the address of a symbol a relocation, local symbols too, and every padding of `.text` an `R_PDP64_ALIGN` (type 6; addend = padding bytes << 32 | alignment).
 `ld64` then picks, for each such instruction, the shortest form of the codec that reaches, after laying the sections out, and moves everything behind it (the lengths
 only grow from the shortest form, so the iteration ends; paddings are recomputed from the positions).  The reach of the forms is in the tables (`call`: 4 bytes up to
 +-1 MiB, `lea` and pc-relative loads: 4 bytes up to +-32 KiB, branches 2 bytes up to 64 to 512 bytes, 4 bytes +-64 KiB; the proposal's "+-2 MB" for `call` was twice the
-reach of the 20-bit field counted in parcels).  Objects made without `--relax` are linked as before; `ld64 --no-relax` links relaxation objects exactly as the assembler
+reach of the 20-bit field counted in parcels).  Objects made with `--no-relax` are linked as before; `ld64 --no-relax` links relaxation objects exactly as the assembler
 laid them out.  Details, the argument that it ends and is right, what it cannot do, the checks and the measurements: `docs/relaxation.md`.
 
-Not part of this phase: the compiler's use of `--relax` (the driver passes it), the simulator.
+Not part of this phase: the simulator.
