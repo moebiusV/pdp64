@@ -160,8 +160,6 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-STF-B28-1`](dictionary/by-encoding.md#16-STF-B28-1), [`16-STF-X22-1`](dictionary/by-encoding.md#16-STF-X22-1), [`16-STF-PI12-1`](dictionary/by-encoding.md#16-STF-PI12-1), [`16-STF-PD12-1`](dictionary/by-encoding.md#16-STF-PD12-1), [`16-STF-PC32-1`](dictionary/by-encoding.md#16-STF-PC32-1), [`16-STF-A32-1`](dictionary/by-encoding.md#16-STF-A32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-a-1`](dictionary/by-encoding.md#16-LDI12-a-1), [`16-STBs8-a-1`](dictionary/by-encoding.md#16-STBs8-a-1), [`16-LDPC12-a-1`](dictionary/by-encoding.md#16-LDPC12-a-1), [`16-LDBs8-a-1`](dictionary/by-encoding.md#16-LDBs8-a-1), [`16-LDPC14-a-1`](dictionary/by-encoding.md#16-LDPC14-a-1), [`16-LDI14-a-1`](dictionary/by-encoding.md#16-LDI14-a-1), [`16-STX2-a-1`](dictionary/by-encoding.md#16-STX2-a-1), [`16-LDI16-a-1`](dictionary/by-encoding.md#16-LDI16-a-1), [`16-IMM3-a-1`](dictionary/by-encoding.md#16-IMM3-a-1), [`16-LDPC16-a-1`](dictionary/by-encoding.md#16-LDPC16-a-1), [`16-LDBu10-a-1`](dictionary/by-encoding.md#16-LDBu10-a-1), [`16-LDHHH1-a-1`](dictionary/by-encoding.md#16-LDHHH1-a-1), [`16-STHHH1-a-1`](dictionary/by-encoding.md#16-STHHH1-a-1), [`16-STBu10-a-1`](dictionary/by-encoding.md#16-STBu10-a-1), [`16-LDSP4-a-1`](dictionary/by-encoding.md#16-LDSP4-a-1), [`16-STSP4-a-1`](dictionary/by-encoding.md#16-STSP4-a-1), [`16-LDBu12-a-1`](dictionary/by-encoding.md#16-LDBu12-a-1), [`16-IMM5-a-1`](dictionary/by-encoding.md#16-IMM5-a-1), [`16-LDHHH3-a-1`](dictionary/by-encoding.md#16-LDHHH3-a-1), [`16-LDX6-a-1`](dictionary/by-encoding.md#16-LDX6-a-1), [`16-IMM7-a-1`](dictionary/by-encoding.md#16-IMM7-a-1), [`16-STBu12-a-1`](dictionary/by-encoding.md#16-STBu12-a-1), [`16-STX6-a-1`](dictionary/by-encoding.md#16-STX6-a-1), [`16-LDBs10-a-1`](dictionary/by-encoding.md#16-LDBs10-a-1), [`16-LDSP5-a-1`](dictionary/by-encoding.md#16-LDSP5-a-1), [`16-STHHH3-a-1`](dictionary/by-encoding.md#16-STHHH3-a-1), [`16-LD0-a-1`](dictionary/by-encoding.md#16-LD0-a-1), [`16-STSP5-a-1`](dictionary/by-encoding.md#16-STSP5-a-1), [`16-LDI18-a-1`](dictionary/by-encoding.md#16-LDI18-a-1), [`16-ST0-a-1`](dictionary/by-encoding.md#16-ST0-a-1), [`16-LDBs14-a-1`](dictionary/by-encoding.md#16-LDBs14-a-1), [`16-STBs10-a-1`](dictionary/by-encoding.md#16-STBs10-a-1), [`16-LDHRH2-a-1`](dictionary/by-encoding.md#16-LDHRH2-a-1), [`16-LDSP7-a-1`](dictionary/by-encoding.md#16-LDSP7-a-1), [`16-LDX8-a-1`](dictionary/by-encoding.md#16-LDX8-a-1), [`16-LDHHR2-a-1`](dictionary/by-encoding.md#16-LDHHR2-a-1), [`16-LDFI-I32-2`](dictionary/by-encoding.md#16-LDFI-I32-2), [`16-STBu8-b-1`](dictionary/by-encoding.md#16-STBu8-b-1), [`16-LDBu8-b-1`](dictionary/by-encoding.md#16-LDBu8-b-1), [`16-STX2-b-1`](dictionary/by-encoding.md#16-STX2-b-1), [`16-LDX2-b-1`](dictionary/by-encoding.md#16-LDX2-b-1), [`16-STBs8-b-1`](dictionary/by-encoding.md#16-STBs8-b-1), [`16-STBu10-b-1`](dictionary/by-encoding.md#16-STBu10-b-1), [`16-STHHH1-b-1`](dictionary/by-encoding.md#16-STHHH1-b-1), [`16-STBu12-b-1`](dictionary/by-encoding.md#16-STBu12-b-1), [`16-LDBu10-b-1`](dictionary/by-encoding.md#16-LDBu10-b-1), [`16-LDHHH1-b-1`](dictionary/by-encoding.md#16-LDHHH1-b-1), [`16-LDBu12-b-1`](dictionary/by-encoding.md#16-LDBu12-b-1), [`16-STX6-b-1`](dictionary/by-encoding.md#16-STX6-b-1), [`16-LDPC12-b-1`](dictionary/by-encoding.md#16-LDPC12-b-1), [`16-LDBs8-b-1`](dictionary/by-encoding.md#16-LDBs8-b-1), [`16-LDX4-b-1`](dictionary/by-encoding.md#16-LDX4-b-1), [`16-LDPC14-b-1`](dictionary/by-encoding.md#16-LDPC14-b-1), [`16-STSP4-b-1`](dictionary/by-encoding.md#16-STSP4-b-1), [`16-STHHH2-b-1`](dictionary/by-encoding.md#16-STHHH2-b-1), [`16-STBs10-b-1`](dictionary/by-encoding.md#16-STBs10-b-1), [`16-LDI12-d-2`](dictionary/by-encoding.md#16-LDI12-d-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ`](dictionary/by-word.md#w-movq), [`MOVL`](dictionary/by-word.md#w-movl), [`MOVW`](dictionary/by-word.md#w-movw), [`MOVB`](dictionary/by-word.md#w-movb).
-
 **Operation**
 
 ```
@@ -179,6 +177,363 @@ A register is always written in full: a narrow load sign-extends to 64 bits and 
 **Cf.** 6.4 for the memory type that decides whether the access is cached; 6.8 for what a faulting access leaves behind.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-movq"></a>
+#### MOVQ
+
+![MOVQ: LDF.B28, prefix 11000101, sub-opcode 0000; operands b4d28s-x1, reg4; 6 bytes](figures/w/movq/01.svg)
+
+![MOVQ: LDF.X22, prefix 11000110, sub-opcode 0000; operands x4-4d22s, reg4; 6 bytes](figures/w/movq/02.svg)
+
+![MOVQ: LDF.PC32, prefix 11001001, sub-opcode 0000; operands pc32-u1, reg4; 6 bytes](figures/w/movq/05.svg)
+
+![MOVQ: LDF.A32, prefix 11001010, sub-opcode 0000; operands abs32, reg4; 6 bytes](figures/w/movq/06.svg)
+
+![MOVQ: LDFI.I32, prefix 11001011, sub-opcode 1111; operands imm32s, reg4; 6 bytes](figures/w/movq/07.svg)
+
+![MOVQ: STF.B28, prefix 110111011, sub-opcode 000; operands reg4, b4d28s-x1; 6 bytes](figures/w/movq/08.svg)
+
+![MOVQ: STF.X22, prefix 110111100, sub-opcode 000; operands reg4, x4-4d22s; 6 bytes](figures/w/movq/09.svg)
+
+![MOVQ: STF.PC32, prefix 110111111, sub-opcode 000; operands reg4, pc32-u1; 6 bytes](figures/w/movq/12.svg)
+
+![MOVQ: STF.A32, prefix 111000000, sub-opcode 000; operands reg4, abs32; 6 bytes](figures/w/movq/13.svg)
+
+![MOVQ: DPF.D28, prefix 111100001011, sub-opcode 0000; operands dpd28s-x1, reg4; 6 bytes](figures/w/movq/14.svg)
+
+![MOVQ: LDF.PI12, prefix 11000111, sub-opcode 0000; operands pi4-s12, reg4; 4 bytes](figures/w/movq/03.svg)
+
+![MOVQ: LDF.PD12, prefix 11001000, sub-opcode 0000; operands pd4-s12, reg4; 4 bytes](figures/w/movq/04.svg)
+
+![MOVQ: STF.PI12, prefix 110111101, sub-opcode 000; operands reg4, pi4-s12; 4 bytes](figures/w/movq/10.svg)
+
+![MOVQ: STF.PD12, prefix 110111110, sub-opcode 000; operands reg4, pd4-s12; 4 bytes](figures/w/movq/11.svg)
+
+![MOVQ: LDI12/a, prefix 1111001100100101; operands imm12s, reg4; 4 bytes](figures/w/movq/16.svg)
+
+![MOVQ: STBs8/a, prefix 111100101111011, sub-opcode 0; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movq/17.svg)
+
+![MOVQ: LDPC12/a, prefix 11110010011010, sub-opcode 00; operands pc12-u1, reg4; 4 bytes](figures/w/movq/18.svg)
+
+![MOVQ: LDBs8/a, prefix 11110010011111, sub-opcode 00; operands b4d8s-xsz, reg4; 4 bytes](figures/w/movq/19.svg)
+
+![MOVQ: LDPC14/a, prefix 111100001110, sub-opcode 00; operands pc14-u1, reg4; 4 bytes](figures/w/movq/20.svg)
+
+![MOVQ: LDI14/a, prefix 11110010100010; operands imm14s, reg4; 4 bytes](figures/w/movq/21.svg)
+
+![MOVQ: STX2/a, prefix 111100110000110, sub-opcode 0; operands reg4, x4-4d2s; 4 bytes](figures/w/movq/22.svg)
+
+![MOVQ: LDI16/a, prefix 111100001111; operands imm16s, reg4; 4 bytes](figures/w/movq/23.svg)
+
+![MOVQ: LDPC16/a, prefix 1110101000, sub-opcode 00; operands pc16-u1, reg4; 4 bytes](figures/w/movq/25.svg)
+
+![MOVQ: LDBu10/a, prefix 111100010000, sub-opcode 00; operands b4d10u-xsz, reg4; 4 bytes](figures/w/movq/26.svg)
+
+![MOVQ: STBu10/a, prefix 1111001000010, sub-opcode 0; operands reg4, b4d10u-xsz; 4 bytes](figures/w/movq/29.svg)
+
+![MOVQ: LDBu12/a, prefix 1110101001, sub-opcode 00; operands b4d12u-xsz, reg4; 4 bytes](figures/w/movq/32.svg)
+
+![MOVQ: LDX6/a, prefix 1110101010, sub-opcode 00; operands x4-4d6s, reg4; 4 bytes](figures/w/movq/35.svg)
+
+![MOVQ: STBu12/a, prefix 11101110110, sub-opcode 0; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movq/37.svg)
+
+![MOVQ: STX6/a, prefix 11101110111, sub-opcode 0; operands reg4, x4-4d6s; 4 bytes](figures/w/movq/38.svg)
+
+![MOVQ: LDBs10/a, prefix 111100010101, sub-opcode 00; operands b4d10s-xsz, reg4; 4 bytes](figures/w/movq/39.svg)
+
+![MOVQ: LDI18/a, prefix 1110110000; operands imm18s, reg4; 4 bytes](figures/w/movq/44.svg)
+
+![MOVQ: LDBs14/a, prefix 11010110, sub-opcode 00; operands b4d14s-xsz, reg4; 4 bytes](figures/w/movq/46.svg)
+
+![MOVQ: STBs10/a, prefix 1111001001000, sub-opcode 0; operands reg4, b4d10s-xsz; 4 bytes](figures/w/movq/47.svg)
+
+![MOVQ: LDX8/a, prefix 11011001, sub-opcode 00; operands x4-4d8s, reg4; 4 bytes](figures/w/movq/50.svg)
+
+![MOVQ: RRF, prefix 0010, sub-opcode 0000; operands reg4, reg4; 2 bytes](figures/w/movq/15.svg)
+
+![MOVQ: IMM3/a, prefix 111000010; operands imm3s, reg4; 2 bytes](figures/w/movq/24.svg)
+
+![MOVQ: LDHHH1/a, prefix 1010010, sub-opcode 00; operands b3d1u-xsz, reg3; 2 bytes](figures/w/movq/27.svg)
+
+![MOVQ: STHHH1/a, prefix 11001111, sub-opcode 0; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movq/28.svg)
+
+![MOVQ: LDSP4/a, prefix 100011, sub-opcode 00; operands spd4u-xsz, reg4; 2 bytes](figures/w/movq/30.svg)
+
+![MOVQ: STSP4/a, prefix 1010100, sub-opcode 0; operands reg4, spd4u-xsz; 2 bytes](figures/w/movq/31.svg)
+
+![MOVQ: IMM5/a, prefix 1010111; operands imm5s, reg4; 2 bytes](figures/w/movq/33.svg)
+
+![MOVQ: LDHHH3/a, prefix 01011, sub-opcode 00; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movq/34.svg)
+
+![MOVQ: IMM7/a, prefix 01100; operands imm7s, reg4; 2 bytes](figures/w/movq/36.svg)
+
+![MOVQ: LDSP5/a, prefix 01110, sub-opcode 00; operands spd5u-xsz, reg4; 2 bytes](figures/w/movq/40.svg)
+
+![MOVQ: STHHH3/a, prefix 100101, sub-opcode 0; operands reg3, b3d3u-xsz; 2 bytes](figures/w/movq/41.svg)
+
+![MOVQ: LD0/a, prefix 100110, sub-opcode 00; operands b4d0s-xsz, reg4; 2 bytes](figures/w/movq/42.svg)
+
+![MOVQ: STSP5/a, prefix 100111, sub-opcode 0; operands reg4, spd5u-xsz; 2 bytes](figures/w/movq/43.svg)
+
+![MOVQ: ST0/a, prefix 1011011, sub-opcode 0; operands reg4, b4d0s-xsz; 2 bytes](figures/w/movq/45.svg)
+
+![MOVQ: LDHRH2/a, prefix 01111, sub-opcode 00; operands b4d2u-xsz, reg3; 2 bytes](figures/w/movq/48.svg)
+
+![MOVQ: LDSP7/a, prefix 000, sub-opcode 00; operands spd7u-xsz, reg4; 2 bytes](figures/w/movq/49.svg)
+
+![MOVQ: LDHHR2/a, prefix 10000, sub-opcode 00; operands b3d2u-xsz, reg4; 2 bytes](figures/w/movq/51.svg)
+
+```
+MOVQ rm, Rd
+MOVQ Rs, rm
+```
+
+Operation, flags and exceptions as for the entry MOV above; 51 layout forms, each a chart of its own (above).
+
+<a id="w-movl"></a>
+#### MOVL
+
+![MOVL: LDF.B28, prefix 11000101, sub-opcode 0001; operands b4d28s-x1, reg4; 6 bytes](figures/w/movl/01.svg)
+
+![MOVL: LDF.X22, prefix 11000110, sub-opcode 0001; operands x4-4d22s, reg4; 6 bytes](figures/w/movl/02.svg)
+
+![MOVL: LDF.PC32, prefix 11001001, sub-opcode 0001; operands pc32-u1, reg4; 6 bytes](figures/w/movl/05.svg)
+
+![MOVL: LDF.A32, prefix 11001010, sub-opcode 0001; operands abs32, reg4; 6 bytes](figures/w/movl/06.svg)
+
+![MOVL: LDFI.I32, prefix 1110011100, sub-opcode 00; operands imm32s, reg4; 6 bytes](figures/w/movl/07.svg)
+
+![MOVL: STF.B28, prefix 110111011, sub-opcode 001; operands reg4, b4d28s-x1; 6 bytes](figures/w/movl/08.svg)
+
+![MOVL: STF.X22, prefix 110111100, sub-opcode 001; operands reg4, x4-4d22s; 6 bytes](figures/w/movl/09.svg)
+
+![MOVL: STF.PC32, prefix 110111111, sub-opcode 001; operands reg4, pc32-u1; 6 bytes](figures/w/movl/12.svg)
+
+![MOVL: STF.A32, prefix 111000000, sub-opcode 001; operands reg4, abs32; 6 bytes](figures/w/movl/13.svg)
+
+![MOVL: DPF.D28, prefix 111100001011, sub-opcode 0001; operands dpd28s-x1, reg4; 6 bytes](figures/w/movl/14.svg)
+
+![MOVL: LDF.PI12, prefix 11000111, sub-opcode 0001; operands pi4-s12, reg4; 4 bytes](figures/w/movl/03.svg)
+
+![MOVL: LDF.PD12, prefix 11001000, sub-opcode 0001; operands pd4-s12, reg4; 4 bytes](figures/w/movl/04.svg)
+
+![MOVL: STF.PI12, prefix 110111101, sub-opcode 001; operands reg4, pi4-s12; 4 bytes](figures/w/movl/10.svg)
+
+![MOVL: STF.PD12, prefix 110111110, sub-opcode 001; operands reg4, pd4-s12; 4 bytes](figures/w/movl/11.svg)
+
+![MOVL: STBs8/a, prefix 111100101111011, sub-opcode 1; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movl/16.svg)
+
+![MOVL: LDPC12/a, prefix 11110010011010, sub-opcode 01; operands pc12-u1, reg4; 4 bytes](figures/w/movl/17.svg)
+
+![MOVL: LDBs8/a, prefix 11110010011111, sub-opcode 01; operands b4d8s-xsz, reg4; 4 bytes](figures/w/movl/18.svg)
+
+![MOVL: LDPC14/a, prefix 111100001110, sub-opcode 01; operands pc14-u1, reg4; 4 bytes](figures/w/movl/19.svg)
+
+![MOVL: STX2/a, prefix 111100110000110, sub-opcode 1; operands reg4, x4-4d2s; 4 bytes](figures/w/movl/20.svg)
+
+![MOVL: LDPC16/a, prefix 1110101000, sub-opcode 01; operands pc16-u1, reg4; 4 bytes](figures/w/movl/21.svg)
+
+![MOVL: LDBu10/a, prefix 111100010000, sub-opcode 01; operands b4d10u-xsz, reg4; 4 bytes](figures/w/movl/22.svg)
+
+![MOVL: STBu10/a, prefix 1111001000010, sub-opcode 1; operands reg4, b4d10u-xsz; 4 bytes](figures/w/movl/25.svg)
+
+![MOVL: LDBu12/a, prefix 1110101001, sub-opcode 01; operands b4d12u-xsz, reg4; 4 bytes](figures/w/movl/28.svg)
+
+![MOVL: LDX6/a, prefix 1110101010, sub-opcode 01; operands x4-4d6s, reg4; 4 bytes](figures/w/movl/30.svg)
+
+![MOVL: STBu12/a, prefix 11101110110, sub-opcode 1; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movl/31.svg)
+
+![MOVL: STX6/a, prefix 11101110111, sub-opcode 1; operands reg4, x4-4d6s; 4 bytes](figures/w/movl/32.svg)
+
+![MOVL: LDBs10/a, prefix 111100010101, sub-opcode 01; operands b4d10s-xsz, reg4; 4 bytes](figures/w/movl/33.svg)
+
+![MOVL: LDBs14/a, prefix 11010110, sub-opcode 01; operands b4d14s-xsz, reg4; 4 bytes](figures/w/movl/39.svg)
+
+![MOVL: STBs10/a, prefix 1111001001000, sub-opcode 1; operands reg4, b4d10s-xsz; 4 bytes](figures/w/movl/40.svg)
+
+![MOVL: LDX8/a, prefix 11011001, sub-opcode 01; operands x4-4d8s, reg4; 4 bytes](figures/w/movl/43.svg)
+
+![MOVL: RRF, prefix 0010, sub-opcode 0001; operands reg4, reg4; 2 bytes](figures/w/movl/15.svg)
+
+![MOVL: LDHHH1/a, prefix 1010010, sub-opcode 01; operands b3d1u-xsz, reg3; 2 bytes](figures/w/movl/23.svg)
+
+![MOVL: STHHH1/a, prefix 11001111, sub-opcode 1; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movl/24.svg)
+
+![MOVL: LDSP4/a, prefix 100011, sub-opcode 01; operands spd4u-xsz, reg4; 2 bytes](figures/w/movl/26.svg)
+
+![MOVL: STSP4/a, prefix 1010100, sub-opcode 1; operands reg4, spd4u-xsz; 2 bytes](figures/w/movl/27.svg)
+
+![MOVL: LDHHH3/a, prefix 01011, sub-opcode 01; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movl/29.svg)
+
+![MOVL: LDSP5/a, prefix 01110, sub-opcode 01; operands spd5u-xsz, reg4; 2 bytes](figures/w/movl/34.svg)
+
+![MOVL: STHHH3/a, prefix 100101, sub-opcode 1; operands reg3, b3d3u-xsz; 2 bytes](figures/w/movl/35.svg)
+
+![MOVL: LD0/a, prefix 100110, sub-opcode 01; operands b4d0s-xsz, reg4; 2 bytes](figures/w/movl/36.svg)
+
+![MOVL: STSP5/a, prefix 100111, sub-opcode 1; operands reg4, spd5u-xsz; 2 bytes](figures/w/movl/37.svg)
+
+![MOVL: ST0/a, prefix 1011011, sub-opcode 1; operands reg4, b4d0s-xsz; 2 bytes](figures/w/movl/38.svg)
+
+![MOVL: LDHRH2/a, prefix 01111, sub-opcode 01; operands b4d2u-xsz, reg3; 2 bytes](figures/w/movl/41.svg)
+
+![MOVL: LDSP7/a, prefix 000, sub-opcode 01; operands spd7u-xsz, reg4; 2 bytes](figures/w/movl/42.svg)
+
+![MOVL: LDHHR2/a, prefix 10000, sub-opcode 01; operands b3d2u-xsz, reg4; 2 bytes](figures/w/movl/44.svg)
+
+```
+MOVL, MOVW, MOVB likewise
+```
+
+Operation, flags and exceptions as for the entry MOV above; 44 layout forms, each a chart of its own (above).
+
+<a id="w-movw"></a>
+#### MOVW
+
+![MOVW: LDF.B28, prefix 11000101, sub-opcode 0010; operands b4d28s-x1, reg4; 6 bytes](figures/w/movw/01.svg)
+
+![MOVW: LDF.X22, prefix 11000110, sub-opcode 0010; operands x4-4d22s, reg4; 6 bytes](figures/w/movw/02.svg)
+
+![MOVW: LDF.PC32, prefix 11001001, sub-opcode 0010; operands pc32-u1, reg4; 6 bytes](figures/w/movw/05.svg)
+
+![MOVW: LDF.A32, prefix 11001010, sub-opcode 0010; operands abs32, reg4; 6 bytes](figures/w/movw/06.svg)
+
+![MOVW: LDFI.I32, prefix 1110011100, sub-opcode 01; operands imm32s, reg4; 6 bytes](figures/w/movw/07.svg)
+
+![MOVW: STF.B28, prefix 110111011, sub-opcode 010; operands reg4, b4d28s-x1; 6 bytes](figures/w/movw/08.svg)
+
+![MOVW: STF.X22, prefix 110111100, sub-opcode 010; operands reg4, x4-4d22s; 6 bytes](figures/w/movw/09.svg)
+
+![MOVW: STF.PC32, prefix 110111111, sub-opcode 010; operands reg4, pc32-u1; 6 bytes](figures/w/movw/12.svg)
+
+![MOVW: STF.A32, prefix 111000000, sub-opcode 010; operands reg4, abs32; 6 bytes](figures/w/movw/13.svg)
+
+![MOVW: DPF.D28, prefix 111100001011, sub-opcode 0010; operands dpd28s-x1, reg4; 6 bytes](figures/w/movw/14.svg)
+
+![MOVW: LDF.PI12, prefix 11000111, sub-opcode 0010; operands pi4-s12, reg4; 4 bytes](figures/w/movw/03.svg)
+
+![MOVW: LDF.PD12, prefix 11001000, sub-opcode 0010; operands pd4-s12, reg4; 4 bytes](figures/w/movw/04.svg)
+
+![MOVW: STF.PI12, prefix 110111101, sub-opcode 010; operands reg4, pi4-s12; 4 bytes](figures/w/movw/10.svg)
+
+![MOVW: STF.PD12, prefix 110111110, sub-opcode 010; operands reg4, pd4-s12; 4 bytes](figures/w/movw/11.svg)
+
+![MOVW: STBu8/b, prefix 111100110000000, sub-opcode 0; operands reg4, b4d8u-xsz; 4 bytes](figures/w/movw/16.svg)
+
+![MOVW: LDBu8/b, prefix 11110010011011, sub-opcode 00; operands b4d8u-xsz, reg4; 4 bytes](figures/w/movw/17.svg)
+
+![MOVW: STX2/b, prefix 111100110000101, sub-opcode 0; operands reg4, x4-4d2s; 4 bytes](figures/w/movw/18.svg)
+
+![MOVW: LDX2/b, prefix 11110010100111, sub-opcode 00; operands x4-4d2s, reg4; 4 bytes](figures/w/movw/19.svg)
+
+![MOVW: STBs8/b, prefix 111100110001001, sub-opcode 0; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movw/20.svg)
+
+![MOVW: STBu10/b, prefix 1111001000100, sub-opcode 0; operands reg4, b4d10u-xsz; 4 bytes](figures/w/movw/21.svg)
+
+![MOVW: STBu12/b, prefix 11101111000, sub-opcode 0; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movw/23.svg)
+
+![MOVW: LDBu10/b, prefix 111100010100, sub-opcode 00; operands b4d10u-xsz, reg4; 4 bytes](figures/w/movw/24.svg)
+
+![MOVW: LDBu12/b, prefix 1110101110, sub-opcode 00; operands b4d12u-xsz, reg4; 4 bytes](figures/w/movw/26.svg)
+
+![MOVW: STX6/b, prefix 11101111001, sub-opcode 0; operands reg4, x4-4d6s; 4 bytes](figures/w/movw/27.svg)
+
+![MOVW: LDPC12/b, prefix 11110010110010, sub-opcode 00; operands pc12-u1, reg4; 4 bytes](figures/w/movw/28.svg)
+
+![MOVW: LDBs8/b, prefix 11110010110110, sub-opcode 00; operands b4d8s-xsz, reg4; 4 bytes](figures/w/movw/29.svg)
+
+![MOVW: LDX4/b, prefix 111100011011, sub-opcode 00; operands x4-4d4s, reg4; 4 bytes](figures/w/movw/30.svg)
+
+![MOVW: LDPC14/b, prefix 111100011100, sub-opcode 00; operands pc14-u1, reg4; 4 bytes](figures/w/movw/31.svg)
+
+![MOVW: STBs10/b, prefix 1111001001010, sub-opcode 0; operands reg4, b4d10s-xsz; 4 bytes](figures/w/movw/34.svg)
+
+![MOVW: RRF, prefix 0010, sub-opcode 0010; operands reg4, reg4; 2 bytes](figures/w/movw/15.svg)
+
+![MOVW: STHHH1/b, prefix 11010011, sub-opcode 0; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movw/22.svg)
+
+![MOVW: LDHHH1/b, prefix 1011001, sub-opcode 00; operands b3d1u-xsz, reg3; 2 bytes](figures/w/movw/25.svg)
+
+![MOVW: STSP4/b, prefix 1011101, sub-opcode 0; operands reg4, spd4u-xsz; 2 bytes](figures/w/movw/32.svg)
+
+![MOVW: STHHH2/b, prefix 1100000, sub-opcode 0; operands reg3, b3d2u-xsz; 2 bytes](figures/w/movw/33.svg)
+
+Operation, flags and exceptions as for the entry MOV above; 34 layout forms, each a chart of its own (above).
+
+<a id="w-movb"></a>
+#### MOVB
+
+![MOVB: LDF.B28, prefix 11000101, sub-opcode 0011; operands b4d28s-x1, reg4; 6 bytes](figures/w/movb/01.svg)
+
+![MOVB: LDF.X22, prefix 11000110, sub-opcode 0011; operands x4-4d22s, reg4; 6 bytes](figures/w/movb/02.svg)
+
+![MOVB: LDF.PC32, prefix 11001001, sub-opcode 0011; operands pc32-u1, reg4; 6 bytes](figures/w/movb/05.svg)
+
+![MOVB: LDF.A32, prefix 11001010, sub-opcode 0011; operands abs32, reg4; 6 bytes](figures/w/movb/06.svg)
+
+![MOVB: LDFI.I32, prefix 1110011100, sub-opcode 10; operands imm32s, reg4; 6 bytes](figures/w/movb/07.svg)
+
+![MOVB: STF.B28, prefix 110111011, sub-opcode 011; operands reg4, b4d28s-x1; 6 bytes](figures/w/movb/08.svg)
+
+![MOVB: STF.X22, prefix 110111100, sub-opcode 011; operands reg4, x4-4d22s; 6 bytes](figures/w/movb/09.svg)
+
+![MOVB: STF.PC32, prefix 110111111, sub-opcode 011; operands reg4, pc32-u1; 6 bytes](figures/w/movb/12.svg)
+
+![MOVB: STF.A32, prefix 111000000, sub-opcode 011; operands reg4, abs32; 6 bytes](figures/w/movb/13.svg)
+
+![MOVB: DPF.D28, prefix 111100001011, sub-opcode 0011; operands dpd28s-x1, reg4; 6 bytes](figures/w/movb/14.svg)
+
+![MOVB: LDF.PI12, prefix 11000111, sub-opcode 0011; operands pi4-s12, reg4; 4 bytes](figures/w/movb/03.svg)
+
+![MOVB: LDF.PD12, prefix 11001000, sub-opcode 0011; operands pd4-s12, reg4; 4 bytes](figures/w/movb/04.svg)
+
+![MOVB: STF.PI12, prefix 110111101, sub-opcode 011; operands reg4, pi4-s12; 4 bytes](figures/w/movb/10.svg)
+
+![MOVB: STF.PD12, prefix 110111110, sub-opcode 011; operands reg4, pd4-s12; 4 bytes](figures/w/movb/11.svg)
+
+![MOVB: STBu8/b, prefix 111100110000000, sub-opcode 1; operands reg4, b4d8u-xsz; 4 bytes](figures/w/movb/16.svg)
+
+![MOVB: LDI12/d, prefix 111100110000001, sub-opcode 1; operands imm12s, reg4; 4 bytes](figures/w/movb/17.svg)
+
+![MOVB: LDBu8/b, prefix 11110010011011, sub-opcode 01; operands b4d8u-xsz, reg4; 4 bytes](figures/w/movb/18.svg)
+
+![MOVB: STX2/b, prefix 111100110000101, sub-opcode 1; operands reg4, x4-4d2s; 4 bytes](figures/w/movb/19.svg)
+
+![MOVB: LDX2/b, prefix 11110010100111, sub-opcode 01; operands x4-4d2s, reg4; 4 bytes](figures/w/movb/20.svg)
+
+![MOVB: STBs8/b, prefix 111100110001001, sub-opcode 1; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movb/21.svg)
+
+![MOVB: STBu10/b, prefix 1111001000100, sub-opcode 1; operands reg4, b4d10u-xsz; 4 bytes](figures/w/movb/22.svg)
+
+![MOVB: STBu12/b, prefix 11101111000, sub-opcode 1; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movb/24.svg)
+
+![MOVB: LDBu10/b, prefix 111100010100, sub-opcode 01; operands b4d10u-xsz, reg4; 4 bytes](figures/w/movb/25.svg)
+
+![MOVB: LDBu12/b, prefix 1110101110, sub-opcode 01; operands b4d12u-xsz, reg4; 4 bytes](figures/w/movb/27.svg)
+
+![MOVB: STX6/b, prefix 11101111001, sub-opcode 1; operands reg4, x4-4d6s; 4 bytes](figures/w/movb/28.svg)
+
+![MOVB: LDPC12/b, prefix 11110010110010, sub-opcode 01; operands pc12-u1, reg4; 4 bytes](figures/w/movb/29.svg)
+
+![MOVB: LDBs8/b, prefix 11110010110110, sub-opcode 01; operands b4d8s-xsz, reg4; 4 bytes](figures/w/movb/30.svg)
+
+![MOVB: LDX4/b, prefix 111100011011, sub-opcode 01; operands x4-4d4s, reg4; 4 bytes](figures/w/movb/31.svg)
+
+![MOVB: LDPC14/b, prefix 111100011100, sub-opcode 01; operands pc14-u1, reg4; 4 bytes](figures/w/movb/32.svg)
+
+![MOVB: STBs10/b, prefix 1111001001010, sub-opcode 1; operands reg4, b4d10s-xsz; 4 bytes](figures/w/movb/35.svg)
+
+![MOVB: RRF, prefix 0010, sub-opcode 0011; operands reg4, reg4; 2 bytes](figures/w/movb/15.svg)
+
+![MOVB: STHHH1/b, prefix 11010011, sub-opcode 1; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movb/23.svg)
+
+![MOVB: LDHHH1/b, prefix 1011001, sub-opcode 01; operands b3d1u-xsz, reg3; 2 bytes](figures/w/movb/26.svg)
+
+![MOVB: STSP4/b, prefix 1011101, sub-opcode 1; operands reg4, spd4u-xsz; 2 bytes](figures/w/movb/33.svg)
+
+![MOVB: STHHH2/b, prefix 1100000, sub-opcode 1; operands reg3, b3d2u-xsz; 2 bytes](figures/w/movb/34.svg)
+
+Operation, flags and exceptions as for the entry MOV above; 35 layout forms, each a chart of its own (above).
 
 
 ### MOVZ: Move zero-extended (32, 16 and 8 bits)
@@ -201,8 +556,6 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-2`](dictionary/by-encoding.md#16-LDFI-I32-2), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDBu8-b-1`](dictionary/by-encoding.md#16-LDBu8-b-1), [`16-LDX2-b-1`](dictionary/by-encoding.md#16-LDX2-b-1), [`16-LDBu10-b-1`](dictionary/by-encoding.md#16-LDBu10-b-1), [`16-LDHHH1-b-1`](dictionary/by-encoding.md#16-LDHHH1-b-1), [`16-LDBu12-b-1`](dictionary/by-encoding.md#16-LDBu12-b-1), [`16-LDPC12-b-1`](dictionary/by-encoding.md#16-LDPC12-b-1), [`16-LDBs8-b-1`](dictionary/by-encoding.md#16-LDBs8-b-1), [`16-LDX4-b-1`](dictionary/by-encoding.md#16-LDX4-b-1), [`16-LDPC14-b-1`](dictionary/by-encoding.md#16-LDPC14-b-1), [`16-LDFI-I32-3`](dictionary/by-encoding.md#16-LDFI-I32-3), [`16-LDPC12-a-1`](dictionary/by-encoding.md#16-LDPC12-a-1), [`16-LDBs8-a-1`](dictionary/by-encoding.md#16-LDBs8-a-1), [`16-LDPC14-a-1`](dictionary/by-encoding.md#16-LDPC14-a-1), [`16-LDPC16-a-1`](dictionary/by-encoding.md#16-LDPC16-a-1), [`16-LDBu10-a-1`](dictionary/by-encoding.md#16-LDBu10-a-1), [`16-LDHHH1-a-1`](dictionary/by-encoding.md#16-LDHHH1-a-1), [`16-LDSP4-a-1`](dictionary/by-encoding.md#16-LDSP4-a-1), [`16-LDBu12-a-1`](dictionary/by-encoding.md#16-LDBu12-a-1), [`16-LDHHH3-a-1`](dictionary/by-encoding.md#16-LDHHH3-a-1), [`16-LDX6-a-1`](dictionary/by-encoding.md#16-LDX6-a-1), [`16-LDBs10-a-1`](dictionary/by-encoding.md#16-LDBs10-a-1), [`16-LDSP5-a-1`](dictionary/by-encoding.md#16-LDSP5-a-1), [`16-LD0-a-1`](dictionary/by-encoding.md#16-LD0-a-1), [`16-LDBs14-a-1`](dictionary/by-encoding.md#16-LDBs14-a-1), [`16-LDHRH2-a-1`](dictionary/by-encoding.md#16-LDHRH2-a-1), [`16-LDSP7-a-1`](dictionary/by-encoding.md#16-LDSP7-a-1), [`16-LDX8-a-1`](dictionary/by-encoding.md#16-LDX8-a-1), [`16-LDHHR2-a-1`](dictionary/by-encoding.md#16-LDHHR2-a-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVZL`](dictionary/by-word.md#w-movzl), [`MOVZW`](dictionary/by-word.md#w-movzw), [`MOVZB`](dictionary/by-word.md#w-movzb).
-
 **Operation**
 
 ```
@@ -217,8 +570,222 @@ There is no zero-extending 64-bit move (it would be `MOVQ`). The register-to-reg
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-movzl"></a>
+#### MOVZL
 
+![MOVZL: LDF.B28, prefix 11000101, sub-opcode 0100; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzl/01.svg)
+
+![MOVZL: LDF.X22, prefix 11000110, sub-opcode 0100; operands x4-4d22s, reg4; 6 bytes](figures/w/movzl/02.svg)
+
+![MOVZL: LDF.PC32, prefix 11001001, sub-opcode 0100; operands pc32-u1, reg4; 6 bytes](figures/w/movzl/05.svg)
+
+![MOVZL: LDF.A32, prefix 11001010, sub-opcode 0100; operands abs32, reg4; 6 bytes](figures/w/movzl/06.svg)
+
+![MOVZL: LDFI.I32, prefix 1110011100, sub-opcode 11; operands imm32s, reg4; 6 bytes](figures/w/movzl/07.svg)
+
+![MOVZL: DPF.D28, prefix 111100001011, sub-opcode 0100; operands dpd28s-x1, reg4; 6 bytes](figures/w/movzl/08.svg)
+
+![MOVZL: LDF.PI12, prefix 11000111, sub-opcode 0100; operands pi4-s12, reg4; 4 bytes](figures/w/movzl/03.svg)
+
+![MOVZL: LDF.PD12, prefix 11001000, sub-opcode 0100; operands pd4-s12, reg4; 4 bytes](figures/w/movzl/04.svg)
+
+![MOVZL: LDBu8/b, prefix 11110010011011, sub-opcode 10; operands b4d8u-xsz, reg4; 4 bytes](figures/w/movzl/10.svg)
+
+![MOVZL: LDX2/b, prefix 11110010100111, sub-opcode 10; operands x4-4d2s, reg4; 4 bytes](figures/w/movzl/11.svg)
+
+![MOVZL: LDBu10/b, prefix 111100010100, sub-opcode 10; operands b4d10u-xsz, reg4; 4 bytes](figures/w/movzl/12.svg)
+
+![MOVZL: LDBu12/b, prefix 1110101110, sub-opcode 10; operands b4d12u-xsz, reg4; 4 bytes](figures/w/movzl/14.svg)
+
+![MOVZL: LDPC12/b, prefix 11110010110010, sub-opcode 10; operands pc12-u1, reg4; 4 bytes](figures/w/movzl/15.svg)
+
+![MOVZL: LDBs8/b, prefix 11110010110110, sub-opcode 10; operands b4d8s-xsz, reg4; 4 bytes](figures/w/movzl/16.svg)
+
+![MOVZL: LDX4/b, prefix 111100011011, sub-opcode 10; operands x4-4d4s, reg4; 4 bytes](figures/w/movzl/17.svg)
+
+![MOVZL: LDPC14/b, prefix 111100011100, sub-opcode 10; operands pc14-u1, reg4; 4 bytes](figures/w/movzl/18.svg)
+
+![MOVZL: RRF, prefix 0010, sub-opcode 0100; operands reg4, reg4; 2 bytes](figures/w/movzl/09.svg)
+
+![MOVZL: LDHHH1/b, prefix 1011001, sub-opcode 10; operands b3d1u-xsz, reg3; 2 bytes](figures/w/movzl/13.svg)
+
+```
+MOVZL rm, Rd
+```
+
+Operation, flags and exceptions as for the entry MOVZ above; 18 layout forms, each a chart of its own (above).
+
+<a id="w-movzw"></a>
+#### MOVZW
+
+![MOVZW: LDF.B28, prefix 11000101, sub-opcode 0101; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzw/01.svg)
+
+![MOVZW: LDF.X22, prefix 11000110, sub-opcode 0101; operands x4-4d22s, reg4; 6 bytes](figures/w/movzw/02.svg)
+
+![MOVZW: LDF.PC32, prefix 11001001, sub-opcode 0101; operands pc32-u1, reg4; 6 bytes](figures/w/movzw/05.svg)
+
+![MOVZW: LDF.A32, prefix 11001010, sub-opcode 0101; operands abs32, reg4; 6 bytes](figures/w/movzw/06.svg)
+
+![MOVZW: LDFI.I32, prefix 11101101100, sub-opcode 0; operands imm32s, reg4; 6 bytes](figures/w/movzw/07.svg)
+
+![MOVZW: DPF.D28, prefix 111100001011, sub-opcode 0101; operands dpd28s-x1, reg4; 6 bytes](figures/w/movzw/08.svg)
+
+![MOVZW: LDF.PI12, prefix 11000111, sub-opcode 0101; operands pi4-s12, reg4; 4 bytes](figures/w/movzw/03.svg)
+
+![MOVZW: LDF.PD12, prefix 11001000, sub-opcode 0101; operands pd4-s12, reg4; 4 bytes](figures/w/movzw/04.svg)
+
+![MOVZW: LDBu8/b, prefix 11110010011011, sub-opcode 11; operands b4d8u-xsz, reg4; 4 bytes](figures/w/movzw/10.svg)
+
+![MOVZW: LDX2/b, prefix 11110010100111, sub-opcode 11; operands x4-4d2s, reg4; 4 bytes](figures/w/movzw/11.svg)
+
+![MOVZW: LDBu10/b, prefix 111100010100, sub-opcode 11; operands b4d10u-xsz, reg4; 4 bytes](figures/w/movzw/12.svg)
+
+![MOVZW: LDBu12/b, prefix 1110101110, sub-opcode 11; operands b4d12u-xsz, reg4; 4 bytes](figures/w/movzw/14.svg)
+
+![MOVZW: LDPC12/b, prefix 11110010110010, sub-opcode 11; operands pc12-u1, reg4; 4 bytes](figures/w/movzw/15.svg)
+
+![MOVZW: LDBs8/b, prefix 11110010110110, sub-opcode 11; operands b4d8s-xsz, reg4; 4 bytes](figures/w/movzw/16.svg)
+
+![MOVZW: LDX4/b, prefix 111100011011, sub-opcode 11; operands x4-4d4s, reg4; 4 bytes](figures/w/movzw/17.svg)
+
+![MOVZW: LDPC14/b, prefix 111100011100, sub-opcode 11; operands pc14-u1, reg4; 4 bytes](figures/w/movzw/18.svg)
+
+![MOVZW: RRF, prefix 0010, sub-opcode 0101; operands reg4, reg4; 2 bytes](figures/w/movzw/09.svg)
+
+![MOVZW: LDHHH1/b, prefix 1011001, sub-opcode 11; operands b3d1u-xsz, reg3; 2 bytes](figures/w/movzw/13.svg)
+
+```
+MOVZW rm, Rd
+```
+
+Operation, flags and exceptions as for the entry MOVZ above; 18 layout forms, each a chart of its own (above).
+
+<a id="w-movzb"></a>
+#### MOVZB
+
+![MOVZB: LDF.B28, prefix 11000101, sub-opcode 0110; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzb/01.svg)
+
+![MOVZB: LDF.X22, prefix 11000110, sub-opcode 0110; operands x4-4d22s, reg4; 6 bytes](figures/w/movzb/02.svg)
+
+![MOVZB: LDF.PC32, prefix 11001001, sub-opcode 0110; operands pc32-u1, reg4; 6 bytes](figures/w/movzb/05.svg)
+
+![MOVZB: LDF.A32, prefix 11001010, sub-opcode 0110; operands abs32, reg4; 6 bytes](figures/w/movzb/06.svg)
+
+![MOVZB: LDFI.I32, prefix 11101101100, sub-opcode 1; operands imm32s, reg4; 6 bytes](figures/w/movzb/07.svg)
+
+![MOVZB: DPF.D28, prefix 111100001011, sub-opcode 0110; operands dpd28s-x1, reg4; 6 bytes](figures/w/movzb/08.svg)
+
+![MOVZB: LDF.PI12, prefix 11000111, sub-opcode 0110; operands pi4-s12, reg4; 4 bytes](figures/w/movzb/03.svg)
+
+![MOVZB: LDF.PD12, prefix 11001000, sub-opcode 0110; operands pd4-s12, reg4; 4 bytes](figures/w/movzb/04.svg)
+
+![MOVZB: LDPC12/a, prefix 11110010011010, sub-opcode 10; operands pc12-u1, reg4; 4 bytes](figures/w/movzb/10.svg)
+
+![MOVZB: LDBs8/a, prefix 11110010011111, sub-opcode 10; operands b4d8s-xsz, reg4; 4 bytes](figures/w/movzb/11.svg)
+
+![MOVZB: LDPC14/a, prefix 111100001110, sub-opcode 10; operands pc14-u1, reg4; 4 bytes](figures/w/movzb/12.svg)
+
+![MOVZB: LDPC16/a, prefix 1110101000, sub-opcode 10; operands pc16-u1, reg4; 4 bytes](figures/w/movzb/13.svg)
+
+![MOVZB: LDBu10/a, prefix 111100010000, sub-opcode 10; operands b4d10u-xsz, reg4; 4 bytes](figures/w/movzb/14.svg)
+
+![MOVZB: LDBu12/a, prefix 1110101001, sub-opcode 10; operands b4d12u-xsz, reg4; 4 bytes](figures/w/movzb/17.svg)
+
+![MOVZB: LDX6/a, prefix 1110101010, sub-opcode 10; operands x4-4d6s, reg4; 4 bytes](figures/w/movzb/19.svg)
+
+![MOVZB: LDBs10/a, prefix 111100010101, sub-opcode 10; operands b4d10s-xsz, reg4; 4 bytes](figures/w/movzb/20.svg)
+
+![MOVZB: LDBs14/a, prefix 11010110, sub-opcode 10; operands b4d14s-xsz, reg4; 4 bytes](figures/w/movzb/23.svg)
+
+![MOVZB: LDX8/a, prefix 11011001, sub-opcode 10; operands x4-4d8s, reg4; 4 bytes](figures/w/movzb/26.svg)
+
+![MOVZB: RRF, prefix 0010, sub-opcode 0110; operands reg4, reg4; 2 bytes](figures/w/movzb/09.svg)
+
+![MOVZB: LDHHH1/a, prefix 1010010, sub-opcode 10; operands b3d1u-xsz, reg3; 2 bytes](figures/w/movzb/15.svg)
+
+![MOVZB: LDSP4/a, prefix 100011, sub-opcode 10; operands spd4u-xsz, reg4; 2 bytes](figures/w/movzb/16.svg)
+
+![MOVZB: LDHHH3/a, prefix 01011, sub-opcode 10; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movzb/18.svg)
+
+![MOVZB: LDSP5/a, prefix 01110, sub-opcode 10; operands spd5u-xsz, reg4; 2 bytes](figures/w/movzb/21.svg)
+
+![MOVZB: LD0/a, prefix 100110, sub-opcode 10; operands b4d0s-xsz, reg4; 2 bytes](figures/w/movzb/22.svg)
+
+![MOVZB: LDHRH2/a, prefix 01111, sub-opcode 10; operands b4d2u-xsz, reg3; 2 bytes](figures/w/movzb/24.svg)
+
+![MOVZB: LDSP7/a, prefix 000, sub-opcode 10; operands spd7u-xsz, reg4; 2 bytes](figures/w/movzb/25.svg)
+
+![MOVZB: LDHHR2/a, prefix 10000, sub-opcode 10; operands b3d2u-xsz, reg4; 2 bytes](figures/w/movzb/27.svg)
+
+```
+MOVZB rm, Rd
+```
+
+Operation, flags and exceptions as for the entry MOVZ above; 27 layout forms, each a chart of its own (above).
+
+
+<a id="w-lea"></a>
 ### LEA: Load effective address
+
+![LEA: LDF.B28, prefix 110110101, sub-opcode 110; operands b4d28s-x1, reg4; 6 bytes](figures/w/lea/01.svg)
+
+![LEA: LDF.X22, prefix 110110110, sub-opcode 110; operands x4-4d22s, reg4; 6 bytes](figures/w/lea/02.svg)
+
+![LEA: LDF.PC32, prefix 110111001, sub-opcode 110; operands pc32-u1, reg4; 6 bytes](figures/w/lea/05.svg)
+
+![LEA: LDF.A32, prefix 110111010, sub-opcode 110; operands abs32, reg4; 6 bytes](figures/w/lea/06.svg)
+
+![LEA: DPF.D28, prefix 1111000111110, sub-opcode 110; operands dpd28s-x1, reg4; 6 bytes](figures/w/lea/07.svg)
+
+![LEA: LDF.PI12, prefix 110110111, sub-opcode 110; operands pi4-s12, reg4; 4 bytes](figures/w/lea/03.svg)
+
+![LEA: LDF.PD12, prefix 110111000, sub-opcode 110; operands pd4-s12, reg4; 4 bytes](figures/w/lea/04.svg)
+
+![LEA: LEASx12/a, prefix 1111001100101001; operands spd12s-x1, reg4; 4 bytes](figures/w/lea/08.svg)
+
+![LEA: LDPC12/a, prefix 11110010011010, sub-opcode 11; operands pc12-u1, reg4; 4 bytes](figures/w/lea/09.svg)
+
+![LEA: LDBs8/a, prefix 11110010011111, sub-opcode 11; operands b4d8s-xsz, reg4; 4 bytes](figures/w/lea/10.svg)
+
+![LEA: LDPC14/a, prefix 111100001110, sub-opcode 11; operands pc14-u1, reg4; 4 bytes](figures/w/lea/11.svg)
+
+![LEA: LDPC16/a, prefix 1110101000, sub-opcode 11; operands pc16-u1, reg4; 4 bytes](figures/w/lea/12.svg)
+
+![LEA: LDBu10/a, prefix 111100010000, sub-opcode 11; operands b4d10u-xsz, reg4; 4 bytes](figures/w/lea/13.svg)
+
+![LEA: LDBu12/a, prefix 1110101001, sub-opcode 11; operands b4d12u-xsz, reg4; 4 bytes](figures/w/lea/17.svg)
+
+![LEA: LDX6/a, prefix 1110101010, sub-opcode 11; operands x4-4d6s, reg4; 4 bytes](figures/w/lea/19.svg)
+
+![LEA: LDBs10/a, prefix 111100010101, sub-opcode 11; operands b4d10s-xsz, reg4; 4 bytes](figures/w/lea/20.svg)
+
+![LEA: LEAS12/a, prefix 1111001100110000; operands spd12u-x8, reg4; 4 bytes](figures/w/lea/22.svg)
+
+![LEA: LDBs14/a, prefix 11010110, sub-opcode 11; operands b4d14s-xsz, reg4; 4 bytes](figures/w/lea/25.svg)
+
+![LEA: LDX8/a, prefix 11011001, sub-opcode 11; operands x4-4d8s, reg4; 4 bytes](figures/w/lea/28.svg)
+
+![LEA: LEAS14/a, prefix 11110010111010; operands spd14u-x8, reg4; 4 bytes](figures/w/lea/30.svg)
+
+![LEA: LDHHH1/a, prefix 1010010, sub-opcode 11; operands b3d1u-xsz, reg3; 2 bytes](figures/w/lea/14.svg)
+
+![LEA: LEASP4/a, prefix 11010000; operands spd4u-x8, reg4; 2 bytes](figures/w/lea/15.svg)
+
+![LEA: LDSP4/a, prefix 100011, sub-opcode 11; operands spd4u-xsz, reg4; 2 bytes](figures/w/lea/16.svg)
+
+![LEA: LDHHH3/a, prefix 01011, sub-opcode 11; operands b3d3u-xsz, reg3; 2 bytes](figures/w/lea/18.svg)
+
+![LEA: LDSP5/a, prefix 01110, sub-opcode 11; operands spd5u-xsz, reg4; 2 bytes](figures/w/lea/21.svg)
+
+![LEA: LD0/a, prefix 100110, sub-opcode 11; operands b4d0s-xsz, reg4; 2 bytes](figures/w/lea/23.svg)
+
+![LEA: LEASP6/a, prefix 101000; operands spd6u-x8, reg4; 2 bytes](figures/w/lea/24.svg)
+
+![LEA: LDHRH2/a, prefix 01111, sub-opcode 11; operands b4d2u-xsz, reg3; 2 bytes](figures/w/lea/26.svg)
+
+![LEA: LDSP7/a, prefix 000, sub-opcode 11; operands spd7u-xsz, reg4; 2 bytes](figures/w/lea/27.svg)
+
+![LEA: LDHHR2/a, prefix 10000, sub-opcode 11; operands b3d2u-xsz, reg4; 2 bytes](figures/w/lea/29.svg)
 
 **Mnemonics:** `LEA`
 
@@ -237,8 +804,6 @@ LEA d(Rn)(Rx×s), Rd
 The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `shr` 000, `sar` 001, `fadd` 010, `fsub` 011, `fmul` 100, `bit` 101, `lea` 110, `movub` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-LEASx12-a-1`](dictionary/by-encoding.md#16-LEASx12-a-1), [`16-LDPC12-a-1`](dictionary/by-encoding.md#16-LDPC12-a-1), [`16-LDBs8-a-1`](dictionary/by-encoding.md#16-LDBs8-a-1), [`16-LDPC14-a-1`](dictionary/by-encoding.md#16-LDPC14-a-1), [`16-LDPC16-a-1`](dictionary/by-encoding.md#16-LDPC16-a-1), [`16-LDBu10-a-1`](dictionary/by-encoding.md#16-LDBu10-a-1), [`16-LDHHH1-a-1`](dictionary/by-encoding.md#16-LDHHH1-a-1), [`16-LEASP4-a-1`](dictionary/by-encoding.md#16-LEASP4-a-1), [`16-LDSP4-a-1`](dictionary/by-encoding.md#16-LDSP4-a-1), [`16-LDBu12-a-1`](dictionary/by-encoding.md#16-LDBu12-a-1), [`16-LDHHH3-a-1`](dictionary/by-encoding.md#16-LDHHH3-a-1), [`16-LDX6-a-1`](dictionary/by-encoding.md#16-LDX6-a-1), [`16-LDBs10-a-1`](dictionary/by-encoding.md#16-LDBs10-a-1), [`16-LDSP5-a-1`](dictionary/by-encoding.md#16-LDSP5-a-1), [`16-LEAS12-a-1`](dictionary/by-encoding.md#16-LEAS12-a-1), [`16-LD0-a-1`](dictionary/by-encoding.md#16-LD0-a-1), [`16-LEASP6-a-1`](dictionary/by-encoding.md#16-LEASP6-a-1), [`16-LDBs14-a-1`](dictionary/by-encoding.md#16-LDBs14-a-1), [`16-LDHRH2-a-1`](dictionary/by-encoding.md#16-LDHRH2-a-1), [`16-LDSP7-a-1`](dictionary/by-encoding.md#16-LDSP7-a-1), [`16-LDX8-a-1`](dictionary/by-encoding.md#16-LDX8-a-1), [`16-LDHHR2-a-1`](dictionary/by-encoding.md#16-LDHHR2-a-1), [`16-LEAS14-a-1`](dictionary/by-encoding.md#16-LEAS14-a-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`LEA`](dictionary/by-word.md#w-lea).
 
 **Operation**
 
@@ -277,8 +842,6 @@ The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-STF-B28-1`](dictionary/by-encoding.md#16-STF-B28-1), [`16-STF-X22-1`](dictionary/by-encoding.md#16-STF-X22-1), [`16-STF-PI12-1`](dictionary/by-encoding.md#16-STF-PI12-1), [`16-STF-PD12-1`](dictionary/by-encoding.md#16-STF-PD12-1), [`16-STF-PC32-1`](dictionary/by-encoding.md#16-STF-PC32-1), [`16-STF-A32-1`](dictionary/by-encoding.md#16-STF-A32-1), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-LDF-B28-3`](dictionary/by-encoding.md#16-LDF-B28-3), [`16-LDF-X22-3`](dictionary/by-encoding.md#16-LDF-X22-3), [`16-LDF-PI12-3`](dictionary/by-encoding.md#16-LDF-PI12-3), [`16-LDF-PD12-3`](dictionary/by-encoding.md#16-LDF-PD12-3), [`16-LDF-PC32-3`](dictionary/by-encoding.md#16-LDF-PC32-3), [`16-LDF-A32-3`](dictionary/by-encoding.md#16-LDF-A32-3), [`16-DPF-D28-3`](dictionary/by-encoding.md#16-DPF-D28-3), [`16-LDF-B28-4`](dictionary/by-encoding.md#16-LDF-B28-4), [`16-LDF-X22-4`](dictionary/by-encoding.md#16-LDF-X22-4), [`16-LDF-PI12-4`](dictionary/by-encoding.md#16-LDF-PI12-4), [`16-LDF-PD12-4`](dictionary/by-encoding.md#16-LDF-PD12-4), [`16-LDF-PC32-4`](dictionary/by-encoding.md#16-LDF-PC32-4), [`16-LDF-A32-4`](dictionary/by-encoding.md#16-LDF-A32-4), [`16-DPF-D28-4`](dictionary/by-encoding.md#16-DPF-D28-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVUB`](dictionary/by-word.md#w-movub), [`MOVUW`](dictionary/by-word.md#w-movuw), [`MOVUL`](dictionary/by-word.md#w-movul), [`MOVUQ`](dictionary/by-word.md#w-movuq).
-
 **Operation**
 
 ```
@@ -299,8 +862,144 @@ The ordinary moves fault on a misaligned address (the alignment fault is the tag
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-movub"></a>
+#### MOVUB
 
+![MOVUB: LDF.B28, prefix 110110101, sub-opcode 111; operands b4d28s-x1, reg4; 6 bytes](figures/w/movub/01.svg)
+
+![MOVUB: LDF.X22, prefix 110110110, sub-opcode 111; operands x4-4d22s, reg4; 6 bytes](figures/w/movub/02.svg)
+
+![MOVUB: LDF.PC32, prefix 110111001, sub-opcode 111; operands pc32-u1, reg4; 6 bytes](figures/w/movub/05.svg)
+
+![MOVUB: LDF.A32, prefix 110111010, sub-opcode 111; operands abs32, reg4; 6 bytes](figures/w/movub/06.svg)
+
+![MOVUB: STF.B28, prefix 110111011, sub-opcode 100; operands reg4, b4d28s-x1; 6 bytes](figures/w/movub/07.svg)
+
+![MOVUB: STF.X22, prefix 110111100, sub-opcode 100; operands reg4, x4-4d22s; 6 bytes](figures/w/movub/08.svg)
+
+![MOVUB: STF.PC32, prefix 110111111, sub-opcode 100; operands reg4, pc32-u1; 6 bytes](figures/w/movub/11.svg)
+
+![MOVUB: STF.A32, prefix 111000000, sub-opcode 100; operands reg4, abs32; 6 bytes](figures/w/movub/12.svg)
+
+![MOVUB: DPF.D28, prefix 1111000111110, sub-opcode 111; operands dpd28s-x1, reg4; 6 bytes](figures/w/movub/13.svg)
+
+![MOVUB: LDF.PI12, prefix 110110111, sub-opcode 111; operands pi4-s12, reg4; 4 bytes](figures/w/movub/03.svg)
+
+![MOVUB: LDF.PD12, prefix 110111000, sub-opcode 111; operands pd4-s12, reg4; 4 bytes](figures/w/movub/04.svg)
+
+![MOVUB: STF.PI12, prefix 110111101, sub-opcode 100; operands reg4, pi4-s12; 4 bytes](figures/w/movub/09.svg)
+
+![MOVUB: STF.PD12, prefix 110111110, sub-opcode 100; operands reg4, pd4-s12; 4 bytes](figures/w/movub/10.svg)
+
+Operation, flags and exceptions as for the entry MOVU above; 13 layout forms, each a chart of its own (above).
+
+<a id="w-movuw"></a>
+#### MOVUW
+
+![MOVUW: LDF.B28, prefix 11101100110, sub-opcode 0; operands b4d28s-x1, reg4; 6 bytes](figures/w/movuw/01.svg)
+
+![MOVUW: LDF.X22, prefix 11101100111, sub-opcode 0; operands x4-4d22s, reg4; 6 bytes](figures/w/movuw/02.svg)
+
+![MOVUW: LDF.PC32, prefix 11101101010, sub-opcode 0; operands pc32-u1, reg4; 6 bytes](figures/w/movuw/05.svg)
+
+![MOVUW: LDF.A32, prefix 11101101011, sub-opcode 0; operands abs32, reg4; 6 bytes](figures/w/movuw/06.svg)
+
+![MOVUW: STF.B28, prefix 110111011, sub-opcode 101; operands reg4, b4d28s-x1; 6 bytes](figures/w/movuw/07.svg)
+
+![MOVUW: STF.X22, prefix 110111100, sub-opcode 101; operands reg4, x4-4d22s; 6 bytes](figures/w/movuw/08.svg)
+
+![MOVUW: STF.PC32, prefix 110111111, sub-opcode 101; operands reg4, pc32-u1; 6 bytes](figures/w/movuw/11.svg)
+
+![MOVUW: STF.A32, prefix 111000000, sub-opcode 101; operands reg4, abs32; 6 bytes](figures/w/movuw/12.svg)
+
+![MOVUW: DPF.D28, prefix 111100101110110, sub-opcode 0; operands dpd28s-x1, reg4; 6 bytes](figures/w/movuw/13.svg)
+
+![MOVUW: LDF.PI12, prefix 11101101000, sub-opcode 0; operands pi4-s12, reg4; 4 bytes](figures/w/movuw/03.svg)
+
+![MOVUW: LDF.PD12, prefix 11101101001, sub-opcode 0; operands pd4-s12, reg4; 4 bytes](figures/w/movuw/04.svg)
+
+![MOVUW: STF.PI12, prefix 110111101, sub-opcode 101; operands reg4, pi4-s12; 4 bytes](figures/w/movuw/09.svg)
+
+![MOVUW: STF.PD12, prefix 110111110, sub-opcode 101; operands reg4, pd4-s12; 4 bytes](figures/w/movuw/10.svg)
+
+```
+MOVUW, MOVUL, MOVUB likewise
+```
+
+Operation, flags and exceptions as for the entry MOVU above; 13 layout forms, each a chart of its own (above).
+
+<a id="w-movul"></a>
+#### MOVUL
+
+![MOVUL: LDF.B28, prefix 11101100110, sub-opcode 1; operands b4d28s-x1, reg4; 6 bytes](figures/w/movul/01.svg)
+
+![MOVUL: LDF.X22, prefix 11101100111, sub-opcode 1; operands x4-4d22s, reg4; 6 bytes](figures/w/movul/02.svg)
+
+![MOVUL: LDF.PC32, prefix 11101101010, sub-opcode 1; operands pc32-u1, reg4; 6 bytes](figures/w/movul/05.svg)
+
+![MOVUL: LDF.A32, prefix 11101101011, sub-opcode 1; operands abs32, reg4; 6 bytes](figures/w/movul/06.svg)
+
+![MOVUL: STF.B28, prefix 110111011, sub-opcode 110; operands reg4, b4d28s-x1; 6 bytes](figures/w/movul/07.svg)
+
+![MOVUL: STF.X22, prefix 110111100, sub-opcode 110; operands reg4, x4-4d22s; 6 bytes](figures/w/movul/08.svg)
+
+![MOVUL: STF.PC32, prefix 110111111, sub-opcode 110; operands reg4, pc32-u1; 6 bytes](figures/w/movul/11.svg)
+
+![MOVUL: STF.A32, prefix 111000000, sub-opcode 110; operands reg4, abs32; 6 bytes](figures/w/movul/12.svg)
+
+![MOVUL: DPF.D28, prefix 111100101110110, sub-opcode 1; operands dpd28s-x1, reg4; 6 bytes](figures/w/movul/13.svg)
+
+![MOVUL: LDF.PI12, prefix 11101101000, sub-opcode 1; operands pi4-s12, reg4; 4 bytes](figures/w/movul/03.svg)
+
+![MOVUL: LDF.PD12, prefix 11101101001, sub-opcode 1; operands pd4-s12, reg4; 4 bytes](figures/w/movul/04.svg)
+
+![MOVUL: STF.PI12, prefix 110111101, sub-opcode 110; operands reg4, pi4-s12; 4 bytes](figures/w/movul/09.svg)
+
+![MOVUL: STF.PD12, prefix 110111110, sub-opcode 110; operands reg4, pd4-s12; 4 bytes](figures/w/movul/10.svg)
+
+Operation, flags and exceptions as for the entry MOVU above; 13 layout forms, each a chart of its own (above).
+
+<a id="w-movuq"></a>
+#### MOVUQ
+
+![MOVUQ: LDF.B28, prefix 111011111111; operands b4d28s-x1, reg4; 6 bytes](figures/w/movuq/01.svg)
+
+![MOVUQ: LDF.X22, prefix 111100000000; operands x4-4d22s, reg4; 6 bytes](figures/w/movuq/02.svg)
+
+![MOVUQ: LDF.PC32, prefix 111100000011; operands pc32-u1, reg4; 6 bytes](figures/w/movuq/05.svg)
+
+![MOVUQ: LDF.A32, prefix 111100000100; operands abs32, reg4; 6 bytes](figures/w/movuq/06.svg)
+
+![MOVUQ: STF.B28, prefix 110111011, sub-opcode 111; operands reg4, b4d28s-x1; 6 bytes](figures/w/movuq/07.svg)
+
+![MOVUQ: STF.X22, prefix 110111100, sub-opcode 111; operands reg4, x4-4d22s; 6 bytes](figures/w/movuq/08.svg)
+
+![MOVUQ: STF.PC32, prefix 110111111, sub-opcode 111; operands reg4, pc32-u1; 6 bytes](figures/w/movuq/11.svg)
+
+![MOVUQ: STF.A32, prefix 111000000, sub-opcode 111; operands reg4, abs32; 6 bytes](figures/w/movuq/12.svg)
+
+![MOVUQ: DPF.D28, prefix 1111001100011110; operands dpd28s-x1, reg4; 6 bytes](figures/w/movuq/13.svg)
+
+![MOVUQ: LDF.PI12, prefix 111100000001; operands pi4-s12, reg4; 4 bytes](figures/w/movuq/03.svg)
+
+![MOVUQ: LDF.PD12, prefix 111100000010; operands pd4-s12, reg4; 4 bytes](figures/w/movuq/04.svg)
+
+![MOVUQ: STF.PI12, prefix 110111101, sub-opcode 111; operands reg4, pi4-s12; 4 bytes](figures/w/movuq/09.svg)
+
+![MOVUQ: STF.PD12, prefix 110111110, sub-opcode 111; operands reg4, pd4-s12; 4 bytes](figures/w/movuq/10.svg)
+
+```
+MOVUQ rm, Rd
+MOVUQ Rs, rm
+```
+
+Operation, flags and exceptions as for the entry MOVU above; 13 layout forms, each a chart of its own (above).
+
+
+<a id="w-mov2"></a>
 ### MOV2: Two register moves
+
+![MOV2: FX.MOV2, prefix 0011; operands reg3, reg3, reg3, reg3; 2 bytes](figures/w/mov2/01.svg)
 
 **Mnemonics:** `MOV2`
 
@@ -317,8 +1016,6 @@ MOV2 Ra, Rb, Rc, Rd
 The chart is the leaf `16-FX-MOV2-1`, FX.MOV2, prefix `0011`. `op1` is `reg3`: register, 3 bits (an index into the hot-register table). `op2` is `reg3`: register, 3 bits (an index into the hot-register table). `op3` is `reg3`: register, 3 bits (an index into the hot-register table). `op4` is `reg3`: register, 3 bits (an index into the hot-register table).
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-MOV2-1`](dictionary/by-encoding.md#16-FX-MOV2-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOV2`](dictionary/by-word.md#w-mov2).
 
 **Operation**
 
@@ -340,7 +1037,10 @@ Rd ← Rc           ; in this order
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-movql"></a>
 ### MOVQL: Move a 64-bit literal
+
+![MOVQL: MOVQL, prefix 111011111011; operands imm64s, reg4; 10 bytes](figures/w/movql/01.svg)
 
 **Mnemonics:** `MOVQL`
 
@@ -357,8 +1057,6 @@ MOVQL #imm64, Rd
 The chart is the leaf `16-MOVQL-1`, MOVQL, prefix `111011111011`. `op1` is `imm64s`: signed 64-bit immediate, -9223372036854775808 to 9223372036854775807. `op2` is `reg4`: register, 4 bits.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-MOVQL-1`](dictionary/by-encoding.md#16-MOVQL-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQL`](dictionary/by-word.md#w-movql).
 
 **Operation**
 
@@ -397,8 +1095,6 @@ The chart is the leaf `16-LDU-B28-1`, LDU.B28, prefix `11000010`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDU-B28-1`](dictionary/by-encoding.md#16-LDU-B28-1), [`16-LDU-B12-1`](dictionary/by-encoding.md#16-LDU-B12-1), [`16-LDU-X6-1`](dictionary/by-encoding.md#16-LDU-X6-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ.D`](dictionary/by-word.md#w-movq-d), [`MOVL.D`](dictionary/by-word.md#w-movl-d), [`MOVW.D`](dictionary/by-word.md#w-movw-d), [`MOVB.D`](dictionary/by-word.md#w-movb-d), [`MOVZL.D`](dictionary/by-word.md#w-movzl-d), [`MOVZW.D`](dictionary/by-word.md#w-movzw-d), [`MOVZB.D`](dictionary/by-word.md#w-movzb-d).
-
 **Operation**
 
 ```
@@ -418,6 +1114,95 @@ when the access faults: the fault is precise as always; the kernel's handler rep
 **Cf.** 6.2, docs/study-proposals.md item 10.
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-movq-d"></a>
+#### MOVQ.D
+
+![MOVQ.D: LDU.B28, prefix 11000010, sub-opcode 0111; operands b4d28s-x1, reg4; 6 bytes](figures/w/movq-d/01.svg)
+
+![MOVQ.D: LDU.B12, prefix 11000011, sub-opcode 0111; operands b4d12s-x1, reg4; 4 bytes](figures/w/movq-d/02.svg)
+
+![MOVQ.D: LDU.X6, prefix 11000100, sub-opcode 0111; operands x4-4d6s, reg4; 4 bytes](figures/w/movq-d/03.svg)
+
+```
+MOVQ.D d(Rn), Rd
+```
+
+Operation, flags and exceptions as for the entry MOVD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movl-d"></a>
+#### MOVL.D
+
+![MOVL.D: LDU.B28, prefix 11000010, sub-opcode 1000; operands b4d28s-x1, reg4; 6 bytes](figures/w/movl-d/01.svg)
+
+![MOVL.D: LDU.B12, prefix 11000011, sub-opcode 1000; operands b4d12s-x1, reg4; 4 bytes](figures/w/movl-d/02.svg)
+
+![MOVL.D: LDU.X6, prefix 11000100, sub-opcode 1000; operands x4-4d6s, reg4; 4 bytes](figures/w/movl-d/03.svg)
+
+```
+MOVL.D ..., MOVW.D ..., MOVB.D ...
+```
+
+Operation, flags and exceptions as for the entry MOVD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movw-d"></a>
+#### MOVW.D
+
+![MOVW.D: LDU.B28, prefix 11000010, sub-opcode 1001; operands b4d28s-x1, reg4; 6 bytes](figures/w/movw-d/01.svg)
+
+![MOVW.D: LDU.B12, prefix 11000011, sub-opcode 1001; operands b4d12s-x1, reg4; 4 bytes](figures/w/movw-d/02.svg)
+
+![MOVW.D: LDU.X6, prefix 11000100, sub-opcode 1001; operands x4-4d6s, reg4; 4 bytes](figures/w/movw-d/03.svg)
+
+Operation, flags and exceptions as for the entry MOVD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movb-d"></a>
+#### MOVB.D
+
+![MOVB.D: LDU.B28, prefix 11000010, sub-opcode 1010; operands b4d28s-x1, reg4; 6 bytes](figures/w/movb-d/01.svg)
+
+![MOVB.D: LDU.B12, prefix 11000011, sub-opcode 1010; operands b4d12s-x1, reg4; 4 bytes](figures/w/movb-d/02.svg)
+
+![MOVB.D: LDU.X6, prefix 11000100, sub-opcode 1010; operands x4-4d6s, reg4; 4 bytes](figures/w/movb-d/03.svg)
+
+Operation, flags and exceptions as for the entry MOVD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzl-d"></a>
+#### MOVZL.D
+
+![MOVZL.D: LDU.B28, prefix 11000010, sub-opcode 1011; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzl-d/01.svg)
+
+![MOVZL.D: LDU.B12, prefix 11000011, sub-opcode 1011; operands b4d12s-x1, reg4; 4 bytes](figures/w/movzl-d/02.svg)
+
+![MOVZL.D: LDU.X6, prefix 11000100, sub-opcode 1011; operands x4-4d6s, reg4; 4 bytes](figures/w/movzl-d/03.svg)
+
+```
+MOVZL.D ..., MOVZW.D ..., MOVZB.D ...
+```
+
+Operation, flags and exceptions as for the entry MOVD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzw-d"></a>
+#### MOVZW.D
+
+![MOVZW.D: LDU.B28, prefix 11000010, sub-opcode 1100; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzw-d/01.svg)
+
+![MOVZW.D: LDU.B12, prefix 11000011, sub-opcode 1100; operands b4d12s-x1, reg4; 4 bytes](figures/w/movzw-d/02.svg)
+
+![MOVZW.D: LDU.X6, prefix 11000100, sub-opcode 1100; operands x4-4d6s, reg4; 4 bytes](figures/w/movzw-d/03.svg)
+
+Operation, flags and exceptions as for the entry MOVD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzb-d"></a>
+#### MOVZB.D
+
+![MOVZB.D: LDU.B28, prefix 11000010, sub-opcode 1101; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzb-d/01.svg)
+
+![MOVZB.D: LDU.B12, prefix 11000011, sub-opcode 1101; operands b4d12s-x1, reg4; 4 bytes](figures/w/movzb-d/02.svg)
+
+![MOVZB.D: LDU.X6, prefix 11000100, sub-opcode 1101; operands x4-4d6s, reg4; 4 bytes](figures/w/movzb-d/03.svg)
+
+Operation, flags and exceptions as for the entry MOVD above; 3 layout forms, each a chart of its own (above).
 
 
 ### MOVUSER: User-qualified load and store
@@ -441,8 +1226,6 @@ The chart is the leaf `16-LDU-B28-1`, LDU.B28, prefix `11000010`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDU-B28-1`](dictionary/by-encoding.md#16-LDU-B28-1), [`16-STU-B28-1`](dictionary/by-encoding.md#16-STU-B28-1), [`16-LDU-B12-1`](dictionary/by-encoding.md#16-LDU-B12-1), [`16-STU-B12-1`](dictionary/by-encoding.md#16-STU-B12-1), [`16-LDU-X6-1`](dictionary/by-encoding.md#16-LDU-X6-1), [`16-STU-X6-1`](dictionary/by-encoding.md#16-STU-X6-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ.U`](dictionary/by-word.md#w-movq-u), [`MOVL.U`](dictionary/by-word.md#w-movl-u), [`MOVW.U`](dictionary/by-word.md#w-movw-u), [`MOVB.U`](dictionary/by-word.md#w-movb-u), [`MOVZL.U`](dictionary/by-word.md#w-movzl-u), [`MOVZW.U`](dictionary/by-word.md#w-movzw-u), [`MOVZB.U`](dictionary/by-word.md#w-movzb-u).
-
 **Operation**
 
 ```
@@ -462,6 +1245,120 @@ whatever PSW.UA says
 **Cf.** 6.4 (the user-memory guard), docs/study-proposals.md item 18.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-movq-u"></a>
+#### MOVQ.U
+
+![MOVQ.U: LDU.B28, prefix 11000010, sub-opcode 0000; operands b4d28s-x1, reg4; 6 bytes](figures/w/movq-u/01.svg)
+
+![MOVQ.U: STU.B28, prefix 1110010111, sub-opcode 00; operands reg4, b4d28s-x1; 6 bytes](figures/w/movq-u/02.svg)
+
+![MOVQ.U: LDU.B12, prefix 11000011, sub-opcode 0000; operands b4d12s-x1, reg4; 4 bytes](figures/w/movq-u/03.svg)
+
+![MOVQ.U: STU.B12, prefix 1110011001, sub-opcode 00; operands reg4, b4d12s-x1; 4 bytes](figures/w/movq-u/04.svg)
+
+![MOVQ.U: LDU.X6, prefix 11000100, sub-opcode 0000; operands x4-4d6s, reg4; 4 bytes](figures/w/movq-u/05.svg)
+
+![MOVQ.U: STU.X6, prefix 1110011011, sub-opcode 00; operands reg4, x4-4d6s; 4 bytes](figures/w/movq-u/06.svg)
+
+```
+MOVQ.U d(Rn), Rd
+MOVQ.U Rs, d(Rn)
+```
+
+Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-movl-u"></a>
+#### MOVL.U
+
+![MOVL.U: LDU.B28, prefix 11000010, sub-opcode 0001; operands b4d28s-x1, reg4; 6 bytes](figures/w/movl-u/01.svg)
+
+![MOVL.U: STU.B28, prefix 1110010111, sub-opcode 01; operands reg4, b4d28s-x1; 6 bytes](figures/w/movl-u/02.svg)
+
+![MOVL.U: LDU.B12, prefix 11000011, sub-opcode 0001; operands b4d12s-x1, reg4; 4 bytes](figures/w/movl-u/03.svg)
+
+![MOVL.U: STU.B12, prefix 1110011001, sub-opcode 01; operands reg4, b4d12s-x1; 4 bytes](figures/w/movl-u/04.svg)
+
+![MOVL.U: LDU.X6, prefix 11000100, sub-opcode 0001; operands x4-4d6s, reg4; 4 bytes](figures/w/movl-u/05.svg)
+
+![MOVL.U: STU.X6, prefix 1110011011, sub-opcode 01; operands reg4, x4-4d6s; 4 bytes](figures/w/movl-u/06.svg)
+
+```
+MOVL.U ..., MOVW.U ..., MOVB.U ...
+```
+
+Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-movw-u"></a>
+#### MOVW.U
+
+![MOVW.U: LDU.B28, prefix 11000010, sub-opcode 0010; operands b4d28s-x1, reg4; 6 bytes](figures/w/movw-u/01.svg)
+
+![MOVW.U: STU.B28, prefix 1110010111, sub-opcode 10; operands reg4, b4d28s-x1; 6 bytes](figures/w/movw-u/02.svg)
+
+![MOVW.U: LDU.B12, prefix 11000011, sub-opcode 0010; operands b4d12s-x1, reg4; 4 bytes](figures/w/movw-u/03.svg)
+
+![MOVW.U: STU.B12, prefix 1110011001, sub-opcode 10; operands reg4, b4d12s-x1; 4 bytes](figures/w/movw-u/04.svg)
+
+![MOVW.U: LDU.X6, prefix 11000100, sub-opcode 0010; operands x4-4d6s, reg4; 4 bytes](figures/w/movw-u/05.svg)
+
+![MOVW.U: STU.X6, prefix 1110011011, sub-opcode 10; operands reg4, x4-4d6s; 4 bytes](figures/w/movw-u/06.svg)
+
+Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-movb-u"></a>
+#### MOVB.U
+
+![MOVB.U: LDU.B28, prefix 11000010, sub-opcode 0011; operands b4d28s-x1, reg4; 6 bytes](figures/w/movb-u/01.svg)
+
+![MOVB.U: STU.B28, prefix 1110010111, sub-opcode 11; operands reg4, b4d28s-x1; 6 bytes](figures/w/movb-u/02.svg)
+
+![MOVB.U: LDU.B12, prefix 11000011, sub-opcode 0011; operands b4d12s-x1, reg4; 4 bytes](figures/w/movb-u/03.svg)
+
+![MOVB.U: STU.B12, prefix 1110011001, sub-opcode 11; operands reg4, b4d12s-x1; 4 bytes](figures/w/movb-u/04.svg)
+
+![MOVB.U: LDU.X6, prefix 11000100, sub-opcode 0011; operands x4-4d6s, reg4; 4 bytes](figures/w/movb-u/05.svg)
+
+![MOVB.U: STU.X6, prefix 1110011011, sub-opcode 11; operands reg4, x4-4d6s; 4 bytes](figures/w/movb-u/06.svg)
+
+Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-movzl-u"></a>
+#### MOVZL.U
+
+![MOVZL.U: LDU.B28, prefix 11000010, sub-opcode 0100; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzl-u/01.svg)
+
+![MOVZL.U: LDU.B12, prefix 11000011, sub-opcode 0100; operands b4d12s-x1, reg4; 4 bytes](figures/w/movzl-u/02.svg)
+
+![MOVZL.U: LDU.X6, prefix 11000100, sub-opcode 0100; operands x4-4d6s, reg4; 4 bytes](figures/w/movzl-u/03.svg)
+
+```
+MOVZL.U ..., MOVZW.U ..., MOVZB.U ...
+```
+
+Operation, flags and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzw-u"></a>
+#### MOVZW.U
+
+![MOVZW.U: LDU.B28, prefix 11000010, sub-opcode 0101; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzw-u/01.svg)
+
+![MOVZW.U: LDU.B12, prefix 11000011, sub-opcode 0101; operands b4d12s-x1, reg4; 4 bytes](figures/w/movzw-u/02.svg)
+
+![MOVZW.U: LDU.X6, prefix 11000100, sub-opcode 0101; operands x4-4d6s, reg4; 4 bytes](figures/w/movzw-u/03.svg)
+
+Operation, flags and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzb-u"></a>
+#### MOVZB.U
+
+![MOVZB.U: LDU.B28, prefix 11000010, sub-opcode 0110; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzb-u/01.svg)
+
+![MOVZB.U: LDU.B12, prefix 11000011, sub-opcode 0110; operands b4d12s-x1, reg4; 4 bytes](figures/w/movzb-u/02.svg)
+
+![MOVZB.U: LDU.X6, prefix 11000100, sub-opcode 0110; operands x4-4d6s, reg4; 4 bytes](figures/w/movzb-u/03.svg)
+
+Operation, flags and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
 
 
 ### MOVUSERD: User-qualified deferred-fault load
@@ -484,8 +1381,6 @@ The chart is the leaf `16-LDU-B28-1`, LDU.B28, prefix `11000010`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDU-B28-1`](dictionary/by-encoding.md#16-LDU-B28-1), [`16-LDU-B12-1`](dictionary/by-encoding.md#16-LDU-B12-1), [`16-LDU-X6-1`](dictionary/by-encoding.md#16-LDU-X6-1), [`16-LDU-B28-2`](dictionary/by-encoding.md#16-LDU-B28-2), [`16-LDU-B12-2`](dictionary/by-encoding.md#16-LDU-B12-2), [`16-LDU-X6-2`](dictionary/by-encoding.md#16-LDU-X6-2), [`16-LDU-B28-3`](dictionary/by-encoding.md#16-LDU-B28-3), [`16-LDU-B12-3`](dictionary/by-encoding.md#16-LDU-B12-3), [`16-LDU-X6-3`](dictionary/by-encoding.md#16-LDU-X6-3).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ.UD`](dictionary/by-word.md#w-movq-ud), [`MOVL.UD`](dictionary/by-word.md#w-movl-ud), [`MOVW.UD`](dictionary/by-word.md#w-movw-ud), [`MOVB.UD`](dictionary/by-word.md#w-movb-ud), [`MOVZL.UD`](dictionary/by-word.md#w-movzl-ud), [`MOVZW.UD`](dictionary/by-word.md#w-movzw-ud), [`MOVZB.UD`](dictionary/by-word.md#w-movzb-ud).
-
 **Operation**
 
 ```
@@ -501,6 +1396,95 @@ Rd ← M[EA], the access being both user-qualified (MOVU) and deferred (MOVD)
 **Why it is here.** See `MOVD` and `MOVUSER`. The record gives no separate reason for the combination; it is listed because both qualifiers exist and a probe of a user pointer wants both.
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-movq-ud"></a>
+#### MOVQ.UD
+
+![MOVQ.UD: LDU.B28, prefix 11000010, sub-opcode 1110; operands b4d28s-x1, reg4; 6 bytes](figures/w/movq-ud/01.svg)
+
+![MOVQ.UD: LDU.B12, prefix 11000011, sub-opcode 1110; operands b4d12s-x1, reg4; 4 bytes](figures/w/movq-ud/02.svg)
+
+![MOVQ.UD: LDU.X6, prefix 11000100, sub-opcode 1110; operands x4-4d6s, reg4; 4 bytes](figures/w/movq-ud/03.svg)
+
+```
+MOVQ.UD d(Rn), Rd
+```
+
+Operation, flags and exceptions as for the entry MOVUSERD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movl-ud"></a>
+#### MOVL.UD
+
+![MOVL.UD: LDU.B28, prefix 11000010, sub-opcode 1111; operands b4d28s-x1, reg4; 6 bytes](figures/w/movl-ud/01.svg)
+
+![MOVL.UD: LDU.B12, prefix 11000011, sub-opcode 1111; operands b4d12s-x1, reg4; 4 bytes](figures/w/movl-ud/02.svg)
+
+![MOVL.UD: LDU.X6, prefix 11000100, sub-opcode 1111; operands x4-4d6s, reg4; 4 bytes](figures/w/movl-ud/03.svg)
+
+```
+MOVL.UD ..., MOVW.UD ..., MOVB.UD ...
+```
+
+Operation, flags and exceptions as for the entry MOVUSERD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movw-ud"></a>
+#### MOVW.UD
+
+![MOVW.UD: LDU.B28, prefix 1110010110, sub-opcode 00; operands b4d28s-x1, reg4; 6 bytes](figures/w/movw-ud/01.svg)
+
+![MOVW.UD: LDU.B12, prefix 1110011000, sub-opcode 00; operands b4d12s-x1, reg4; 4 bytes](figures/w/movw-ud/02.svg)
+
+![MOVW.UD: LDU.X6, prefix 1110011010, sub-opcode 00; operands x4-4d6s, reg4; 4 bytes](figures/w/movw-ud/03.svg)
+
+Operation, flags and exceptions as for the entry MOVUSERD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movb-ud"></a>
+#### MOVB.UD
+
+![MOVB.UD: LDU.B28, prefix 1110010110, sub-opcode 01; operands b4d28s-x1, reg4; 6 bytes](figures/w/movb-ud/01.svg)
+
+![MOVB.UD: LDU.B12, prefix 1110011000, sub-opcode 01; operands b4d12s-x1, reg4; 4 bytes](figures/w/movb-ud/02.svg)
+
+![MOVB.UD: LDU.X6, prefix 1110011010, sub-opcode 01; operands x4-4d6s, reg4; 4 bytes](figures/w/movb-ud/03.svg)
+
+Operation, flags and exceptions as for the entry MOVUSERD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzl-ud"></a>
+#### MOVZL.UD
+
+![MOVZL.UD: LDU.B28, prefix 1110010110, sub-opcode 10; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzl-ud/01.svg)
+
+![MOVZL.UD: LDU.B12, prefix 1110011000, sub-opcode 10; operands b4d12s-x1, reg4; 4 bytes](figures/w/movzl-ud/02.svg)
+
+![MOVZL.UD: LDU.X6, prefix 1110011010, sub-opcode 10; operands x4-4d6s, reg4; 4 bytes](figures/w/movzl-ud/03.svg)
+
+```
+MOVZL.UD ..., MOVZW.UD ..., MOVZB.UD ...
+```
+
+Operation, flags and exceptions as for the entry MOVUSERD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzw-ud"></a>
+#### MOVZW.UD
+
+![MOVZW.UD: LDU.B28, prefix 1110010110, sub-opcode 11; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzw-ud/01.svg)
+
+![MOVZW.UD: LDU.B12, prefix 1110011000, sub-opcode 11; operands b4d12s-x1, reg4; 4 bytes](figures/w/movzw-ud/02.svg)
+
+![MOVZW.UD: LDU.X6, prefix 1110011010, sub-opcode 11; operands x4-4d6s, reg4; 4 bytes](figures/w/movzw-ud/03.svg)
+
+Operation, flags and exceptions as for the entry MOVUSERD above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzb-ud"></a>
+#### MOVZB.UD
+
+![MOVZB.UD: LDU.B28, prefix 111011111100; operands b4d28s-x1, reg4; 6 bytes](figures/w/movzb-ud/01.svg)
+
+![MOVZB.UD: LDU.B12, prefix 111011111101; operands b4d12s-x1, reg4; 4 bytes](figures/w/movzb-ud/02.svg)
+
+![MOVZB.UD: LDU.X6, prefix 111011111110; operands x4-4d6s, reg4; 4 bytes](figures/w/movzb-ud/03.svg)
+
+Operation, flags and exceptions as for the entry MOVUSERD above; 3 layout forms, each a chart of its own (above).
 <!-- /entries:9.6 -->
 
 ## 9.7 Integer arithmetic
@@ -520,7 +1504,52 @@ Rd ← M[EA], the access being both user-qualified (MOVU) and deferred (MOVD)
 *Commentary.* **Precedent.** `ADD`, `SUB`, `CMP`, `BIT`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning except for the order of `CMP`'s operands. **Trade-offs.** The PDP-11 wrote `CMP a, b` to compute `a - b`; since the destination of an ALU operation here must be a register, a literal `src, dst` reading would force every comparison against an immediate or memory to be reversed, so the register comes first. Divide is in the escape group, at four bytes, because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs is present; a second unsigned multiply is the same instruction as the first and is not provided. **Benefits.** `SET` replaces a branch around a move for the very common "store the truth value of a comparison", and absolute value, minimum and maximum remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULHU` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; AArch64's conditional select and set instructions are the nearest to `SET`. **Use.** `MULH` and `MULHU` are for multi-precision arithmetic and for division by constants; `ADC` and `SBC` carry a multi-word add or subtract; `MIN`, `MAX` and `ABS` appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `ADC` and `SBC` carry multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SET` materialises a comparison without a branch; `CMP` takes the register first, as the compiler orders its operands. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
 
 <!-- entries:9.7 -->
+<a id="w-add"></a>
 ### ADD: Add
+
+![ADD: LDF.B28, prefix 11000101, sub-opcode 0111; operands b4d28s-x1, reg4; 6 bytes](figures/w/add/01.svg)
+
+![ADD: LDF.X22, prefix 11000110, sub-opcode 0111; operands x4-4d22s, reg4; 6 bytes](figures/w/add/02.svg)
+
+![ADD: LDF.PC32, prefix 11001001, sub-opcode 0111; operands pc32-u1, reg4; 6 bytes](figures/w/add/05.svg)
+
+![ADD: LDF.A32, prefix 11001010, sub-opcode 0111; operands abs32, reg4; 6 bytes](figures/w/add/06.svg)
+
+![ADD: LDFI.I32, prefix 11001011, sub-opcode 0000; operands imm32s, reg4; 6 bytes](figures/w/add/07.svg)
+
+![ADD: DPF.D28, prefix 111100001011, sub-opcode 0111; operands dpd28s-x1, reg4; 6 bytes](figures/w/add/08.svg)
+
+![ADD: SPADJF, prefix 111100101111010, sub-opcode 0; operands imm32s, k-sp; 6 bytes](figures/w/add/10.svg)
+
+![ADD: LDF.PI12, prefix 11000111, sub-opcode 0111; operands pi4-s12, reg4; 4 bytes](figures/w/add/03.svg)
+
+![ADD: LDF.PD12, prefix 11001000, sub-opcode 0111; operands pd4-s12, reg4; 4 bytes](figures/w/add/04.svg)
+
+![ADD: LDI12/b, prefix 111100101111101, sub-opcode 0; operands imm12s, reg4; 4 bytes](figures/w/add/11.svg)
+
+![ADD: LDBu8/c, prefix 11110010100000, sub-opcode 00; operands b4d8u-xsz, reg4; 4 bytes](figures/w/add/12.svg)
+
+![ADD: LDI14/b, prefix 1111001000011, sub-opcode 0; operands imm14s, reg4; 4 bytes](figures/w/add/14.svg)
+
+![ADD: LDX2/c, prefix 11110010101110, sub-opcode 00; operands x4-4d2s, reg4; 4 bytes](figures/w/add/15.svg)
+
+![ADD: LDS12/c, prefix 11110010101111, sub-opcode 00; operands spd12u-xsz, reg4; 4 bytes](figures/w/add/17.svg)
+
+![ADD: LDI18/b, prefix 111000111, sub-opcode 0; operands imm18s, reg4; 4 bytes](figures/w/add/18.svg)
+
+![ADD: LDPC16/c, prefix 1110101101, sub-opcode 00; operands pc16-u1, reg4; 4 bytes](figures/w/add/19.svg)
+
+![ADD: LDBs10/c, prefix 111100010111, sub-opcode 00; operands b4d10s-xsz, reg4; 4 bytes](figures/w/add/20.svg)
+
+![ADD: RRF, prefix 0010, sub-opcode 0111; operands reg4, reg4; 2 bytes](figures/w/add/09.svg)
+
+![ADD: SPADJ6/a, prefix 111000100, sub-opcode 0; operands imm6u-x8, k-sp; 2 bytes](figures/w/add/13.svg)
+
+![ADD: IMM3/b, prefix 11010010, sub-opcode 0; operands imm3s, reg4; 2 bytes](figures/w/add/16.svg)
+
+![ADD: IMM4/b, prefix 1011010, sub-opcode 0; operands imm4s, reg4; 2 bytes](figures/w/add/21.svg)
+
+![ADD: SPADJ8/a, prefix 1011110, sub-opcode 0; operands imm8u-x8, k-sp; 2 bytes](figures/w/add/22.svg)
 
 **Mnemonics:** `ADD`
 
@@ -538,8 +1567,6 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-SPADJF-1`](dictionary/by-encoding.md#16-SPADJF-1), [`16-LDI12-b-1`](dictionary/by-encoding.md#16-LDI12-b-1), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-SPADJ6-a-1`](dictionary/by-encoding.md#16-SPADJ6-a-1), [`16-LDI14-b-1`](dictionary/by-encoding.md#16-LDI14-b-1), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-IMM3-b-1`](dictionary/by-encoding.md#16-IMM3-b-1), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDI18-b-1`](dictionary/by-encoding.md#16-LDI18-b-1), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM4-b-1`](dictionary/by-encoding.md#16-IMM4-b-1), [`16-SPADJ8-a-1`](dictionary/by-encoding.md#16-SPADJ8-a-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADD`](dictionary/by-word.md#w-add).
-
 **Operation**
 
 ```
@@ -555,7 +1582,52 @@ All ALU operations are 64 bits, with no size field.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-sub"></a>
 ### SUB: Subtract
+
+![SUB: LDF.B28, prefix 11000101, sub-opcode 1000; operands b4d28s-x1, reg4; 6 bytes](figures/w/sub/01.svg)
+
+![SUB: LDF.X22, prefix 11000110, sub-opcode 1000; operands x4-4d22s, reg4; 6 bytes](figures/w/sub/02.svg)
+
+![SUB: LDF.PC32, prefix 11001001, sub-opcode 1000; operands pc32-u1, reg4; 6 bytes](figures/w/sub/05.svg)
+
+![SUB: LDF.A32, prefix 11001010, sub-opcode 1000; operands abs32, reg4; 6 bytes](figures/w/sub/06.svg)
+
+![SUB: LDFI.I32, prefix 11001011, sub-opcode 0001; operands imm32s, reg4; 6 bytes](figures/w/sub/07.svg)
+
+![SUB: DPF.D28, prefix 111100001011, sub-opcode 1000; operands dpd28s-x1, reg4; 6 bytes](figures/w/sub/08.svg)
+
+![SUB: SPADJF, prefix 111100101111010, sub-opcode 1; operands imm32s, k-sp; 6 bytes](figures/w/sub/10.svg)
+
+![SUB: LDF.PI12, prefix 11000111, sub-opcode 1000; operands pi4-s12, reg4; 4 bytes](figures/w/sub/03.svg)
+
+![SUB: LDF.PD12, prefix 11001000, sub-opcode 1000; operands pd4-s12, reg4; 4 bytes](figures/w/sub/04.svg)
+
+![SUB: LDI12/b, prefix 111100101111101, sub-opcode 1; operands imm12s, reg4; 4 bytes](figures/w/sub/11.svg)
+
+![SUB: LDBu8/c, prefix 11110010100000, sub-opcode 01; operands b4d8u-xsz, reg4; 4 bytes](figures/w/sub/12.svg)
+
+![SUB: LDI14/b, prefix 1111001000011, sub-opcode 1; operands imm14s, reg4; 4 bytes](figures/w/sub/14.svg)
+
+![SUB: LDX2/c, prefix 11110010101110, sub-opcode 01; operands x4-4d2s, reg4; 4 bytes](figures/w/sub/15.svg)
+
+![SUB: LDS12/c, prefix 11110010101111, sub-opcode 01; operands spd12u-xsz, reg4; 4 bytes](figures/w/sub/17.svg)
+
+![SUB: LDI18/b, prefix 111000111, sub-opcode 1; operands imm18s, reg4; 4 bytes](figures/w/sub/18.svg)
+
+![SUB: LDPC16/c, prefix 1110101101, sub-opcode 01; operands pc16-u1, reg4; 4 bytes](figures/w/sub/19.svg)
+
+![SUB: LDBs10/c, prefix 111100010111, sub-opcode 01; operands b4d10s-xsz, reg4; 4 bytes](figures/w/sub/20.svg)
+
+![SUB: RRF, prefix 0010, sub-opcode 1000; operands reg4, reg4; 2 bytes](figures/w/sub/09.svg)
+
+![SUB: SPADJ6/a, prefix 111000100, sub-opcode 1; operands imm6u-x8, k-sp; 2 bytes](figures/w/sub/13.svg)
+
+![SUB: IMM3/b, prefix 11010010, sub-opcode 1; operands imm3s, reg4; 2 bytes](figures/w/sub/16.svg)
+
+![SUB: IMM4/b, prefix 1011010, sub-opcode 1; operands imm4s, reg4; 2 bytes](figures/w/sub/21.svg)
+
+![SUB: SPADJ8/a, prefix 1011110, sub-opcode 1; operands imm8u-x8, k-sp; 2 bytes](figures/w/sub/22.svg)
 
 **Mnemonics:** `SUB`
 
@@ -573,8 +1645,6 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-SPADJF-1`](dictionary/by-encoding.md#16-SPADJF-1), [`16-LDI12-b-1`](dictionary/by-encoding.md#16-LDI12-b-1), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-SPADJ6-a-1`](dictionary/by-encoding.md#16-SPADJ6-a-1), [`16-LDI14-b-1`](dictionary/by-encoding.md#16-LDI14-b-1), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-IMM3-b-1`](dictionary/by-encoding.md#16-IMM3-b-1), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDI18-b-1`](dictionary/by-encoding.md#16-LDI18-b-1), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM4-b-1`](dictionary/by-encoding.md#16-IMM4-b-1), [`16-SPADJ8-a-1`](dictionary/by-encoding.md#16-SPADJ8-a-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SUB`](dictionary/by-word.md#w-sub).
-
 **Operation**
 
 ```
@@ -588,7 +1658,42 @@ Rd ← Rd - rm
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-cmp"></a>
 ### CMP: Compare
+
+![CMP: CMF.B28, prefix 11101101101, sub-opcode 0; operands reg4, b4d28s-x1; 6 bytes](figures/w/cmp/01.svg)
+
+![CMP: CMF.X22, prefix 11101101110, sub-opcode 0; operands reg4, x4-4d22s; 6 bytes](figures/w/cmp/02.svg)
+
+![CMP: CMF.PC32, prefix 11101110001, sub-opcode 0; operands reg4, pc32-u1; 6 bytes](figures/w/cmp/05.svg)
+
+![CMP: CMF.A32, prefix 11101110010, sub-opcode 0; operands reg4, abs32; 6 bytes](figures/w/cmp/06.svg)
+
+![CMP: CMF.I32, prefix 11101110011, sub-opcode 0; operands reg4, imm32s; 6 bytes](figures/w/cmp/07.svg)
+
+![CMP: CMF.PI12, prefix 11101101111, sub-opcode 0; operands reg4, pi4-s12; 4 bytes](figures/w/cmp/03.svg)
+
+![CMP: CMF.PD12, prefix 11101110000, sub-opcode 0; operands reg4, pd4-s12; 4 bytes](figures/w/cmp/04.svg)
+
+![CMP: CMBu8/a, prefix 1111001100101010; operands reg4, b4d8u-xsz; 4 bytes](figures/w/cmp/09.svg)
+
+![CMP: CMI12/a, prefix 1111001100101101; operands reg4, imm12s; 4 bytes](figures/w/cmp/10.svg)
+
+![CMP: CMBu10/a, prefix 11110010101101; operands reg4, b4d10u-xsz; 4 bytes](figures/w/cmp/11.svg)
+
+![CMP: CMI18/a, prefix 1110101111; operands reg4, imm18s; 4 bytes](figures/w/cmp/12.svg)
+
+![CMP: CMPC16/a, prefix 111100011000; operands reg4, pc16-u1; 4 bytes](figures/w/cmp/13.svg)
+
+![CMP: CMX2/a, prefix 1111001100110001; operands reg4, x4-4d2s; 4 bytes](figures/w/cmp/14.svg)
+
+![CMP: CMS12/a, prefix 1111001100110010; operands reg4, spd12u-xsz; 4 bytes](figures/w/cmp/15.svg)
+
+![CMP: CMBu12/a, prefix 111100011101; operands reg4, b4d12u-xsz; 4 bytes](figures/w/cmp/16.svg)
+
+![CMP: CMBs10/a, prefix 11110010111001; operands reg4, b4d10s-xsz; 4 bytes](figures/w/cmp/17.svg)
+
+![CMP: RRF, prefix 01010, sub-opcode 110; operands reg4, reg4; 2 bytes](figures/w/cmp/08.svg)
 
 **Mnemonics:** `CMP`
 
@@ -606,8 +1711,6 @@ The chart is the leaf `16-CMF-B28-1`, CMF.B28, prefix `11101101101`. `op1` is `r
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-CMF-B28-1`](dictionary/by-encoding.md#16-CMF-B28-1), [`16-CMF-X22-1`](dictionary/by-encoding.md#16-CMF-X22-1), [`16-CMF-PI12-1`](dictionary/by-encoding.md#16-CMF-PI12-1), [`16-CMF-PD12-1`](dictionary/by-encoding.md#16-CMF-PD12-1), [`16-CMF-PC32-1`](dictionary/by-encoding.md#16-CMF-PC32-1), [`16-CMF-A32-1`](dictionary/by-encoding.md#16-CMF-A32-1), [`16-CMF-I32-1`](dictionary/by-encoding.md#16-CMF-I32-1), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2), [`16-CMBu8-a-1`](dictionary/by-encoding.md#16-CMBu8-a-1), [`16-CMI12-a-1`](dictionary/by-encoding.md#16-CMI12-a-1), [`16-CMBu10-a-1`](dictionary/by-encoding.md#16-CMBu10-a-1), [`16-CMI18-a-1`](dictionary/by-encoding.md#16-CMI18-a-1), [`16-CMPC16-a-1`](dictionary/by-encoding.md#16-CMPC16-a-1), [`16-CMX2-a-1`](dictionary/by-encoding.md#16-CMX2-a-1), [`16-CMS12-a-1`](dictionary/by-encoding.md#16-CMS12-a-1), [`16-CMBu12-a-1`](dictionary/by-encoding.md#16-CMBu12-a-1), [`16-CMBs10-a-1`](dictionary/by-encoding.md#16-CMBs10-a-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CMP`](dictionary/by-word.md#w-cmp).
-
 **Operation**
 
 ```
@@ -623,7 +1726,39 @@ tmp ← Rd - rm         ; the result is discarded
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-mul"></a>
+<a id="w-mulu"></a>
 ### MUL: Multiply, low 64 bits
+
+![MUL: LDF.B28, prefix 11000101, sub-opcode 1101; operands b4d28s-x1, reg4; 6 bytes](figures/w/mul/01.svg)
+
+![MUL: LDF.X22, prefix 11000110, sub-opcode 1101; operands x4-4d22s, reg4; 6 bytes](figures/w/mul/02.svg)
+
+![MUL: LDF.PC32, prefix 11001001, sub-opcode 1101; operands pc32-u1, reg4; 6 bytes](figures/w/mul/05.svg)
+
+![MUL: LDF.A32, prefix 11001010, sub-opcode 1101; operands abs32, reg4; 6 bytes](figures/w/mul/06.svg)
+
+![MUL: LDFI.I32, prefix 11001011, sub-opcode 0110; operands imm32s, reg4; 6 bytes](figures/w/mul/07.svg)
+
+![MUL: DPF.D28, prefix 111100001011, sub-opcode 1101; operands dpd28s-x1, reg4; 6 bytes](figures/w/mul/08.svg)
+
+![MUL: LDF.PI12, prefix 11000111, sub-opcode 1101; operands pi4-s12, reg4; 4 bytes](figures/w/mul/03.svg)
+
+![MUL: LDF.PD12, prefix 11001000, sub-opcode 1101; operands pd4-s12, reg4; 4 bytes](figures/w/mul/04.svg)
+
+![MUL: LDI12/d, prefix 11110010011001, sub-opcode 11; operands imm12s, reg4; 4 bytes](figures/w/mul/10.svg)
+
+![MUL: LDI12/c, prefix 11110010100110, sub-opcode 10; operands imm12s, reg4; 4 bytes](figures/w/mul/11.svg)
+
+![MUL: LDPC12/d, prefix 1111001000111, sub-opcode 001; operands pc12-u1, reg4; 4 bytes](figures/w/mul/12.svg)
+
+![MUL: LDI14/c, prefix 111100011110, sub-opcode 10; operands imm14s, reg4; 4 bytes](figures/w/mul/14.svg)
+
+![MUL: LDBs8/d, prefix 1111001001001, sub-opcode 001; operands b4d8s-xsz, reg4; 4 bytes](figures/w/mul/15.svg)
+
+![MUL: RRF, prefix 0010, sub-opcode 1101; operands reg4, reg4; 2 bytes](figures/w/mul/09.svg)
+
+![MUL: IMM3/c, prefix 1011111, sub-opcode 10; operands imm3s, reg4; 2 bytes](figures/w/mul/13.svg)
 
 **Mnemonics:** `MUL`  (aliases: `MULU`)
 
@@ -641,8 +1776,6 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-d-1`](dictionary/by-encoding.md#16-LDI12-d-1), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MUL`](dictionary/by-word.md#w-mul).
-
 **Operation**
 
 ```
@@ -657,8 +1790,34 @@ The low 64 bits of a two's-complement product are the same whether the operands 
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-mulu"></a>
+**`MULU`** is an alias of `MUL`: the assembler writes it as that word.
 
+
+<a id="w-mulh"></a>
 ### MULH: Multiply, high 64 bits, signed
+
+![MULH: LDF.B28, prefix 11000101, sub-opcode 1110; operands b4d28s-x1, reg4; 6 bytes](figures/w/mulh/01.svg)
+
+![MULH: LDF.X22, prefix 11000110, sub-opcode 1110; operands x4-4d22s, reg4; 6 bytes](figures/w/mulh/02.svg)
+
+![MULH: LDF.PC32, prefix 11001001, sub-opcode 1110; operands pc32-u1, reg4; 6 bytes](figures/w/mulh/05.svg)
+
+![MULH: LDF.A32, prefix 11001010, sub-opcode 1110; operands abs32, reg4; 6 bytes](figures/w/mulh/06.svg)
+
+![MULH: LDFI.I32, prefix 11001011, sub-opcode 0111; operands imm32s, reg4; 6 bytes](figures/w/mulh/07.svg)
+
+![MULH: DPF.D28, prefix 111100001011, sub-opcode 1110; operands dpd28s-x1, reg4; 6 bytes](figures/w/mulh/08.svg)
+
+![MULH: LDF.PI12, prefix 11000111, sub-opcode 1110; operands pi4-s12, reg4; 4 bytes](figures/w/mulh/03.svg)
+
+![MULH: LDF.PD12, prefix 11001000, sub-opcode 1110; operands pd4-s12, reg4; 4 bytes](figures/w/mulh/04.svg)
+
+![MULH: LDPC12/d, prefix 1111001000111, sub-opcode 010; operands pc12-u1, reg4; 4 bytes](figures/w/mulh/10.svg)
+
+![MULH: LDBs8/d, prefix 1111001001001, sub-opcode 010; operands b4d8s-xsz, reg4; 4 bytes](figures/w/mulh/11.svg)
+
+![MULH: RRF, prefix 0010, sub-opcode 1110; operands reg4, reg4; 2 bytes](figures/w/mulh/09.svg)
 
 **Mnemonics:** `MULH`
 
@@ -675,8 +1834,6 @@ MULH rm, Rd
 The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MULH`](dictionary/by-word.md#w-mulh).
 
 **Operation**
 
@@ -716,8 +1873,6 @@ The chart is the leaf `16-STF-B28-2`, STF.B28, prefix `1110011101`. `op1` is `re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-STF-B28-2`](dictionary/by-encoding.md#16-STF-B28-2), [`16-STF-X22-2`](dictionary/by-encoding.md#16-STF-X22-2), [`16-STF-PI12-2`](dictionary/by-encoding.md#16-STF-PI12-2), [`16-STF-PD12-2`](dictionary/by-encoding.md#16-STF-PD12-2), [`16-STF-PC32-2`](dictionary/by-encoding.md#16-STF-PC32-2), [`16-STF-A32-2`](dictionary/by-encoding.md#16-STF-A32-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADDM`](dictionary/by-word.md#w-addm), [`SUBM`](dictionary/by-word.md#w-subm), [`BICM`](dictionary/by-word.md#w-bicm), [`BISM`](dictionary/by-word.md#w-bism).
-
 **Operation**
 
 ```
@@ -737,8 +1892,113 @@ The forms with a memory destination are in the ordinary memory families of the e
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-addm"></a>
+#### ADDM
 
+![ADDM: STF.B28, prefix 1110011101, sub-opcode 00; operands reg4, b4d28s-x1; 6 bytes](figures/w/addm/01.svg)
+
+![ADDM: STF.X22, prefix 1110011110, sub-opcode 00; operands reg4, x4-4d22s; 6 bytes](figures/w/addm/02.svg)
+
+![ADDM: STF.PC32, prefix 1110100001, sub-opcode 00; operands reg4, pc32-u1; 6 bytes](figures/w/addm/05.svg)
+
+![ADDM: STF.A32, prefix 1110100010, sub-opcode 00; operands reg4, abs32; 6 bytes](figures/w/addm/06.svg)
+
+![ADDM: STF.PI12, prefix 1110011111, sub-opcode 00; operands reg4, pi4-s12; 4 bytes](figures/w/addm/03.svg)
+
+![ADDM: STF.PD12, prefix 1110100000, sub-opcode 00; operands reg4, pd4-s12; 4 bytes](figures/w/addm/04.svg)
+
+```
+ADDM Rs, rm
+```
+
+Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-subm"></a>
+#### SUBM
+
+![SUBM: STF.B28, prefix 1110011101, sub-opcode 01; operands reg4, b4d28s-x1; 6 bytes](figures/w/subm/01.svg)
+
+![SUBM: STF.X22, prefix 1110011110, sub-opcode 01; operands reg4, x4-4d22s; 6 bytes](figures/w/subm/02.svg)
+
+![SUBM: STF.PC32, prefix 1110100001, sub-opcode 01; operands reg4, pc32-u1; 6 bytes](figures/w/subm/05.svg)
+
+![SUBM: STF.A32, prefix 1110100010, sub-opcode 01; operands reg4, abs32; 6 bytes](figures/w/subm/06.svg)
+
+![SUBM: STF.PI12, prefix 1110011111, sub-opcode 01; operands reg4, pi4-s12; 4 bytes](figures/w/subm/03.svg)
+
+![SUBM: STF.PD12, prefix 1110100000, sub-opcode 01; operands reg4, pd4-s12; 4 bytes](figures/w/subm/04.svg)
+
+```
+SUBM Rs, rm
+```
+
+Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-bicm"></a>
+#### BICM
+
+![BICM: STF.B28, prefix 1110011101, sub-opcode 10; operands reg4, b4d28s-x1; 6 bytes](figures/w/bicm/01.svg)
+
+![BICM: STF.X22, prefix 1110011110, sub-opcode 10; operands reg4, x4-4d22s; 6 bytes](figures/w/bicm/02.svg)
+
+![BICM: STF.PC32, prefix 1110100001, sub-opcode 10; operands reg4, pc32-u1; 6 bytes](figures/w/bicm/05.svg)
+
+![BICM: STF.A32, prefix 1110100010, sub-opcode 10; operands reg4, abs32; 6 bytes](figures/w/bicm/06.svg)
+
+![BICM: STF.PI12, prefix 1110011111, sub-opcode 10; operands reg4, pi4-s12; 4 bytes](figures/w/bicm/03.svg)
+
+![BICM: STF.PD12, prefix 1110100000, sub-opcode 10; operands reg4, pd4-s12; 4 bytes](figures/w/bicm/04.svg)
+
+```
+BICM Rs, rm
+```
+
+Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-bism"></a>
+#### BISM
+
+![BISM: STF.B28, prefix 1110011101, sub-opcode 11; operands reg4, b4d28s-x1; 6 bytes](figures/w/bism/01.svg)
+
+![BISM: STF.X22, prefix 1110011110, sub-opcode 11; operands reg4, x4-4d22s; 6 bytes](figures/w/bism/02.svg)
+
+![BISM: STF.PC32, prefix 1110100001, sub-opcode 11; operands reg4, pc32-u1; 6 bytes](figures/w/bism/05.svg)
+
+![BISM: STF.A32, prefix 1110100010, sub-opcode 11; operands reg4, abs32; 6 bytes](figures/w/bism/06.svg)
+
+![BISM: STF.PI12, prefix 1110011111, sub-opcode 11; operands reg4, pi4-s12; 4 bytes](figures/w/bism/03.svg)
+
+![BISM: STF.PD12, prefix 1110100000, sub-opcode 11; operands reg4, pd4-s12; 4 bytes](figures/w/bism/04.svg)
+
+```
+BISM Rs, rm
+```
+
+Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
+
+
+<a id="w-inc"></a>
 ### INC: Increment
+
+![INC: SOF.B28, prefix 111100000101, sub-opcode 0010; operands b4d28s-x1; 6 bytes](figures/w/inc/01.svg)
+
+![INC: SOF.X22, prefix 111100000110, sub-opcode 0010; operands x4-4d22s; 6 bytes](figures/w/inc/02.svg)
+
+![INC: SOF.PC32, prefix 111100001001, sub-opcode 0010; operands pc32-u1; 6 bytes](figures/w/inc/05.svg)
+
+![INC: SOF.A32, prefix 111100001010, sub-opcode 0010; operands abs32; 6 bytes](figures/w/inc/06.svg)
+
+![INC: SOF.PI12, prefix 111100000111, sub-opcode 0010; operands pi4-s12; 4 bytes](figures/w/inc/03.svg)
+
+![INC: SOF.PD12, prefix 111100001000, sub-opcode 0010; operands pd4-s12; 4 bytes](figures/w/inc/04.svg)
+
+![INC: SOBu12/a, prefix 11110010100011, sub-opcode 01; operands b4d12u-xsz; 4 bytes](figures/w/inc/08.svg)
+
+![INC: SOX6/a, prefix 11110010110100, sub-opcode 01; operands x4-4d6s; 4 bytes](figures/w/inc/09.svg)
+
+![INC: SOBs12/a, prefix 11110010110111, sub-opcode 01; operands b4d12s-xsz; 4 bytes](figures/w/inc/10.svg)
+
+![INC: SOPR, prefix 111000001, sub-opcode 010; operands reg4; 2 bytes](figures/w/inc/07.svg)
 
 **Mnemonics:** `INC`
 
@@ -756,8 +2016,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`INC`](dictionary/by-word.md#w-inc).
-
 **Operation**
 
 ```
@@ -771,7 +2029,28 @@ rm ← rm + 1
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-dec"></a>
 ### DEC: Decrement
+
+![DEC: SOF.B28, prefix 111100000101, sub-opcode 0011; operands b4d28s-x1; 6 bytes](figures/w/dec/01.svg)
+
+![DEC: SOF.X22, prefix 111100000110, sub-opcode 0011; operands x4-4d22s; 6 bytes](figures/w/dec/02.svg)
+
+![DEC: SOF.PC32, prefix 111100001001, sub-opcode 0011; operands pc32-u1; 6 bytes](figures/w/dec/05.svg)
+
+![DEC: SOF.A32, prefix 111100001010, sub-opcode 0011; operands abs32; 6 bytes](figures/w/dec/06.svg)
+
+![DEC: SOF.PI12, prefix 111100000111, sub-opcode 0011; operands pi4-s12; 4 bytes](figures/w/dec/03.svg)
+
+![DEC: SOF.PD12, prefix 111100001000, sub-opcode 0011; operands pd4-s12; 4 bytes](figures/w/dec/04.svg)
+
+![DEC: SOBu12/a, prefix 11110010100011, sub-opcode 10; operands b4d12u-xsz; 4 bytes](figures/w/dec/08.svg)
+
+![DEC: SOX6/a, prefix 11110010110100, sub-opcode 10; operands x4-4d6s; 4 bytes](figures/w/dec/09.svg)
+
+![DEC: SOBs12/a, prefix 11110010110111, sub-opcode 10; operands b4d12s-xsz; 4 bytes](figures/w/dec/10.svg)
+
+![DEC: SOPR, prefix 111000001, sub-opcode 011; operands reg4; 2 bytes](figures/w/dec/07.svg)
 
 **Mnemonics:** `DEC`
 
@@ -789,8 +2068,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DEC`](dictionary/by-word.md#w-dec).
-
 **Operation**
 
 ```
@@ -804,7 +2081,22 @@ rm ← rm - 1
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-neg"></a>
 ### NEG: Negate
+
+![NEG: SOF.B28, prefix 111100000101, sub-opcode 0100; operands b4d28s-x1; 6 bytes](figures/w/neg/01.svg)
+
+![NEG: SOF.X22, prefix 111100000110, sub-opcode 0100; operands x4-4d22s; 6 bytes](figures/w/neg/02.svg)
+
+![NEG: SOF.PC32, prefix 111100001001, sub-opcode 0100; operands pc32-u1; 6 bytes](figures/w/neg/05.svg)
+
+![NEG: SOF.A32, prefix 111100001010, sub-opcode 0100; operands abs32; 6 bytes](figures/w/neg/06.svg)
+
+![NEG: SOF.PI12, prefix 111100000111, sub-opcode 0100; operands pi4-s12; 4 bytes](figures/w/neg/03.svg)
+
+![NEG: SOF.PD12, prefix 111100001000, sub-opcode 0100; operands pd4-s12; 4 bytes](figures/w/neg/04.svg)
+
+![NEG: SOPR, prefix 111000001, sub-opcode 100; operands reg4; 2 bytes](figures/w/neg/07.svg)
 
 **Mnemonics:** `NEG`
 
@@ -822,8 +2114,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`NEG`](dictionary/by-word.md#w-neg).
-
 **Operation**
 
 ```
@@ -837,7 +2127,22 @@ rm ← 0 - rm
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-adc"></a>
 ### ADC: Add carry
+
+![ADC: SOF.B28, prefix 111100000101, sub-opcode 0110; operands b4d28s-x1; 6 bytes](figures/w/adc/01.svg)
+
+![ADC: SOF.X22, prefix 111100000110, sub-opcode 0110; operands x4-4d22s; 6 bytes](figures/w/adc/02.svg)
+
+![ADC: SOF.PC32, prefix 111100001001, sub-opcode 0110; operands pc32-u1; 6 bytes](figures/w/adc/05.svg)
+
+![ADC: SOF.A32, prefix 111100001010, sub-opcode 0110; operands abs32; 6 bytes](figures/w/adc/06.svg)
+
+![ADC: SOF.PI12, prefix 111100000111, sub-opcode 0110; operands pi4-s12; 4 bytes](figures/w/adc/03.svg)
+
+![ADC: SOF.PD12, prefix 111100001000, sub-opcode 0110; operands pd4-s12; 4 bytes](figures/w/adc/04.svg)
+
+![ADC: SOPR, prefix 111000001, sub-opcode 110; operands reg4; 2 bytes](figures/w/adc/07.svg)
 
 **Mnemonics:** `ADC`
 
@@ -855,8 +2160,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADC`](dictionary/by-word.md#w-adc).
-
 **Operation**
 
 ```
@@ -872,7 +2175,22 @@ With `ADD`, multi-word addition.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-sbc"></a>
 ### SBC: Subtract carry
+
+![SBC: SOF.B28, prefix 111100000101, sub-opcode 0111; operands b4d28s-x1; 6 bytes](figures/w/sbc/01.svg)
+
+![SBC: SOF.X22, prefix 111100000110, sub-opcode 0111; operands x4-4d22s; 6 bytes](figures/w/sbc/02.svg)
+
+![SBC: SOF.PC32, prefix 111100001001, sub-opcode 0111; operands pc32-u1; 6 bytes](figures/w/sbc/05.svg)
+
+![SBC: SOF.A32, prefix 111100001010, sub-opcode 0111; operands abs32; 6 bytes](figures/w/sbc/06.svg)
+
+![SBC: SOF.PI12, prefix 111100000111, sub-opcode 0111; operands pi4-s12; 4 bytes](figures/w/sbc/03.svg)
+
+![SBC: SOF.PD12, prefix 111100001000, sub-opcode 0111; operands pd4-s12; 4 bytes](figures/w/sbc/04.svg)
+
+![SBC: SOPR, prefix 111000001, sub-opcode 111; operands reg4; 2 bytes](figures/w/sbc/07.svg)
 
 **Mnemonics:** `SBC`
 
@@ -889,8 +2207,6 @@ SBC rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SBC`](dictionary/by-word.md#w-sbc).
 
 **Operation**
 
@@ -926,8 +2242,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DIV`](dictionary/by-word.md#w-div), [`DIVU`](dictionary/by-word.md#w-divu), [`MOD`](dictionary/by-word.md#w-mod), [`MODU`](dictionary/by-word.md#w-modu).
-
 **Operation**
 
 ```
@@ -948,8 +2262,55 @@ Division by a constant is a `MULH` and a shift, so a real divide is rare; this i
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-div"></a>
+#### DIV
 
+![DIV: R3, prefix 111011111000, sub-opcode 00001010; operands reg4, reg4, reg4; 4 bytes](figures/w/div/01.svg)
+
+```
+DIV Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
+
+<a id="w-divu"></a>
+#### DIVU
+
+![DIVU: R3, prefix 111011111000, sub-opcode 00001011; operands reg4, reg4, reg4; 4 bytes](figures/w/divu/01.svg)
+
+```
+DIVU Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
+
+<a id="w-mod"></a>
+#### MOD
+
+![MOD: R3, prefix 111011111000, sub-opcode 00001100; operands reg4, reg4, reg4; 4 bytes](figures/w/mod/01.svg)
+
+```
+MOD Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
+
+<a id="w-modu"></a>
+#### MODU
+
+![MODU: R3, prefix 111011111000, sub-opcode 00001101; operands reg4, reg4, reg4; 4 bytes](figures/w/modu/01.svg)
+
+```
+MODU Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-mulhu"></a>
 ### MULHU: Multiply, high 64 bits, unsigned
+
+![MULHU: R3, prefix 111011111000, sub-opcode 00001110; operands reg4, reg4, reg4; 4 bytes](figures/w/mulhu/01.svg)
 
 **Mnemonics:** `MULHU`
 
@@ -966,8 +2327,6 @@ MULHU Ra, Rb, Rd
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MULHU`](dictionary/by-word.md#w-mulhu).
 
 **Operation**
 
@@ -986,7 +2345,10 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-abs"></a>
 ### ABS: Absolute value
+
+![ABS: R2, prefix 111011110111, sub-opcode 000000001101; operands reg4, reg4; 4 bytes](figures/w/abs/01.svg)
 
 **Mnemonics:** `ABS`
 
@@ -1003,8 +2365,6 @@ ABS Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ABS`](dictionary/by-word.md#w-abs).
 
 **Operation**
 
@@ -1042,8 +2402,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MIN`](dictionary/by-word.md#w-min), [`MINU`](dictionary/by-word.md#w-minu), [`MAX`](dictionary/by-word.md#w-max), [`MAXU`](dictionary/by-word.md#w-maxu).
-
 **Operation**
 
 ```
@@ -1059,8 +2417,55 @@ MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-min"></a>
+#### MIN
 
+![MIN: R3, prefix 111011111000, sub-opcode 00001111; operands reg4, reg4, reg4; 4 bytes](figures/w/min/01.svg)
+
+```
+MIN Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry MINMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-minu"></a>
+#### MINU
+
+![MINU: R3, prefix 111011111000, sub-opcode 00010000; operands reg4, reg4, reg4; 4 bytes](figures/w/minu/01.svg)
+
+```
+MINU Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry MINMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-max"></a>
+#### MAX
+
+![MAX: R3, prefix 111011111000, sub-opcode 00010001; operands reg4, reg4, reg4; 4 bytes](figures/w/max/01.svg)
+
+```
+MAX Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry MINMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-maxu"></a>
+#### MAXU
+
+![MAXU: R3, prefix 111011111000, sub-opcode 00010010; operands reg4, reg4, reg4; 4 bytes](figures/w/maxu/01.svg)
+
+```
+MAXU Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry MINMAX above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-set"></a>
 ### SET: Set a register from a condition
+
+![SET: SETF, prefix 111011110110, sub-opcode 000000000000; operands imm4u, reg4; 4 bytes](figures/w/set/01.svg)
 
 **Mnemonics:** `SET`
 
@@ -1077,8 +2482,6 @@ SET cc, Rd        ; for example SET EQ, R1
 The chart is the leaf `16-SETF-1`, SETF, prefix `111011110110`. `op1` is `imm4u`: unsigned 4-bit immediate, 0 to 15. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SETF-1`](dictionary/by-encoding.md#16-SETF-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SET`](dictionary/by-word.md#w-set).
 
 **Operation**
 
@@ -1116,8 +2519,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MASKEQZ`](dictionary/by-word.md#w-maskeqz), [`MASKNEZ`](dictionary/by-word.md#w-masknez).
-
 **Operation**
 
 ```
@@ -1136,6 +2537,28 @@ MASKNEZ: Rd ← (Rc ≠ 0) ? 0 : Ra
 **Cf.** 9.7 (SET), docs/crypto-secure-core.md section 2.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-maskeqz"></a>
+#### MASKEQZ
+
+![MASKEQZ: R3, prefix 111011111000, sub-opcode 00010110; operands reg4, reg4, reg4; 4 bytes](figures/w/maskeqz/01.svg)
+
+```
+MASKEQZ Ra, Rc, Rd
+```
+
+Operation, flags and exceptions as for the entry MASK above; 1 layout form, each a chart of its own (above).
+
+<a id="w-masknez"></a>
+#### MASKNEZ
+
+![MASKNEZ: R3, prefix 111011111000, sub-opcode 00010111; operands reg4, reg4, reg4; 4 bytes](figures/w/masknez/01.svg)
+
+```
+MASKNEZ Ra, Rc, Rd
+```
+
+Operation, flags and exceptions as for the entry MASK above; 1 layout form, each a chart of its own (above).
 
 
 ### OVF: Add, subtract and multiply, trapping on signed overflow
@@ -1158,8 +2581,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADDV`](dictionary/by-word.md#w-addv), [`SUBV`](dictionary/by-word.md#w-subv), [`MULV`](dictionary/by-word.md#w-mulv).
-
 **Operation**
 
 ```
@@ -1179,6 +2600,39 @@ else Rd ← t
 **Cf.** 9.14 (TRAPCC), docs/study-proposals.md item 9.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-addv"></a>
+#### ADDV
+
+![ADDV: R2, prefix 111011110111, sub-opcode 000001000000; operands reg4, reg4; 4 bytes](figures/w/addv/01.svg)
+
+```
+ADDV Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry OVF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-subv"></a>
+#### SUBV
+
+![SUBV: R2, prefix 111011110111, sub-opcode 000001000001; operands reg4, reg4; 4 bytes](figures/w/subv/01.svg)
+
+```
+SUBV Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry OVF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-mulv"></a>
+#### MULV
+
+![MULV: R2, prefix 111011110111, sub-opcode 000001000010; operands reg4, reg4; 4 bytes](figures/w/mulv/01.svg)
+
+```
+MULV Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry OVF above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.7 -->
 
 ## 9.8 Logic, shifts and rotates
@@ -1196,7 +2650,38 @@ else Rd ← t
 *Commentary.* **Precedent.** The PDP-11 had `ASL`, `ASR`, `ROL` and `ROR` by one through the carry; x86's `SHRD` and ARM's `EXTR` are the funnel shifts. **Trade-offs.** One rotate direction is enough, so there is no by-one `ROL` in a two-byte slot; rotates are not through the carry because a carry chain is fragile when the carry flag is shared. **Improvements.** The shift count comes from `rm`, not from a fixed register like x86's `CL`, which costs a register shuffle in every hand-written loop. **Benefits.** Multi-precision shifting is `DSHR`, two instructions for any distance. **Modern comparables.** RISC-V and AArch64 have rotates by register and by immediate; x86 has `ROL`/`ROR` through the carry as well. **Use.** `RORI` and `RORI32` are for hashes and ciphers, which rotate by constants; `DSHR` shifts a bignum. **Impact.** *Kernel:* Bit tests and mask operations on the status and page-table words are single instructions. *Compiler:* The shift count may be any register, immediate or memory operand, so the compiler never has to move a count into a fixed register; hashes and ciphers rotate by constants. *Hardware:* The barrel shifter (about 450 lookup tables) serves shifts and rotates, and writing no flag for rotates removes a result path.
 
 <!-- entries:9.8 -->
+<a id="w-bic"></a>
 ### BIC: Bit clear
+
+![BIC: LDF.B28, prefix 11000101, sub-opcode 1001; operands b4d28s-x1, reg4; 6 bytes](figures/w/bic/01.svg)
+
+![BIC: LDF.X22, prefix 11000110, sub-opcode 1001; operands x4-4d22s, reg4; 6 bytes](figures/w/bic/02.svg)
+
+![BIC: LDF.PC32, prefix 11001001, sub-opcode 1001; operands pc32-u1, reg4; 6 bytes](figures/w/bic/05.svg)
+
+![BIC: LDF.A32, prefix 11001010, sub-opcode 1001; operands abs32, reg4; 6 bytes](figures/w/bic/06.svg)
+
+![BIC: LDFI.I32, prefix 11001011, sub-opcode 0010; operands imm32s, reg4; 6 bytes](figures/w/bic/07.svg)
+
+![BIC: DPF.D28, prefix 111100001011, sub-opcode 1001; operands dpd28s-x1, reg4; 6 bytes](figures/w/bic/08.svg)
+
+![BIC: LDF.PI12, prefix 11000111, sub-opcode 1001; operands pi4-s12, reg4; 4 bytes](figures/w/bic/03.svg)
+
+![BIC: LDF.PD12, prefix 11001000, sub-opcode 1001; operands pd4-s12, reg4; 4 bytes](figures/w/bic/04.svg)
+
+![BIC: LDI12/d, prefix 111100110000001, sub-opcode 0; operands imm12s, reg4; 4 bytes](figures/w/bic/10.svg)
+
+![BIC: LDI12/c, prefix 11110010100110, sub-opcode 11; operands imm12s, reg4; 4 bytes](figures/w/bic/11.svg)
+
+![BIC: LDPC12/d, prefix 1111001000111, sub-opcode 000; operands pc12-u1, reg4; 4 bytes](figures/w/bic/12.svg)
+
+![BIC: LDI14/c, prefix 111100011110, sub-opcode 11; operands imm14s, reg4; 4 bytes](figures/w/bic/14.svg)
+
+![BIC: LDBs8/d, prefix 1111001001001, sub-opcode 000; operands b4d8s-xsz, reg4; 4 bytes](figures/w/bic/15.svg)
+
+![BIC: RRF, prefix 0010, sub-opcode 1001; operands reg4, reg4; 2 bytes](figures/w/bic/09.svg)
+
+![BIC: IMM3/c, prefix 1011111, sub-opcode 11; operands imm3s, reg4; 2 bytes](figures/w/bic/13.svg)
 
 **Mnemonics:** `BIC`
 
@@ -1214,8 +2699,6 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-d-2`](dictionary/by-encoding.md#16-LDI12-d-2), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIC`](dictionary/by-word.md#w-bic).
-
 **Operation**
 
 ```
@@ -1231,7 +2714,42 @@ The assembler also accepts `BIC #imm, rm` as `AND #~imm, rm`.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-bis"></a>
 ### BIS: Bit set (inclusive or)
+
+![BIS: LDF.B28, prefix 11000101, sub-opcode 1010; operands b4d28s-x1, reg4; 6 bytes](figures/w/bis/01.svg)
+
+![BIS: LDF.X22, prefix 11000110, sub-opcode 1010; operands x4-4d22s, reg4; 6 bytes](figures/w/bis/02.svg)
+
+![BIS: LDF.PC32, prefix 11001001, sub-opcode 1010; operands pc32-u1, reg4; 6 bytes](figures/w/bis/05.svg)
+
+![BIS: LDF.A32, prefix 11001010, sub-opcode 1010; operands abs32, reg4; 6 bytes](figures/w/bis/06.svg)
+
+![BIS: LDFI.I32, prefix 11001011, sub-opcode 0011; operands imm32s, reg4; 6 bytes](figures/w/bis/07.svg)
+
+![BIS: DPF.D28, prefix 111100001011, sub-opcode 1010; operands dpd28s-x1, reg4; 6 bytes](figures/w/bis/08.svg)
+
+![BIS: LDF.PI12, prefix 11000111, sub-opcode 1010; operands pi4-s12, reg4; 4 bytes](figures/w/bis/03.svg)
+
+![BIS: LDF.PD12, prefix 11001000, sub-opcode 1010; operands pd4-s12, reg4; 4 bytes](figures/w/bis/04.svg)
+
+![BIS: LDBu8/c, prefix 11110010100000, sub-opcode 11; operands b4d8u-xsz, reg4; 4 bytes](figures/w/bis/10.svg)
+
+![BIS: LDI12/c, prefix 11110010100110, sub-opcode 00; operands imm12s, reg4; 4 bytes](figures/w/bis/11.svg)
+
+![BIS: LDX2/c, prefix 11110010101110, sub-opcode 11; operands x4-4d2s, reg4; 4 bytes](figures/w/bis/12.svg)
+
+![BIS: LDS12/c, prefix 11110010101111, sub-opcode 11; operands spd12u-xsz, reg4; 4 bytes](figures/w/bis/13.svg)
+
+![BIS: LDPC16/c, prefix 1110101101, sub-opcode 11; operands pc16-u1, reg4; 4 bytes](figures/w/bis/14.svg)
+
+![BIS: LDBs10/c, prefix 111100010111, sub-opcode 11; operands b4d10s-xsz, reg4; 4 bytes](figures/w/bis/15.svg)
+
+![BIS: LDI14/c, prefix 111100011110, sub-opcode 00; operands imm14s, reg4; 4 bytes](figures/w/bis/17.svg)
+
+![BIS: RRF, prefix 0010, sub-opcode 1010; operands reg4, reg4; 2 bytes](figures/w/bis/09.svg)
+
+![BIS: IMM3/c, prefix 1011111, sub-opcode 00; operands imm3s, reg4; 2 bytes](figures/w/bis/16.svg)
 
 **Mnemonics:** `BIS`
 
@@ -1249,8 +2767,6 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIS`](dictionary/by-word.md#w-bis).
-
 **Operation**
 
 ```
@@ -1264,7 +2780,32 @@ Rd ← Rd OR rm
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-bit"></a>
 ### BIT: Bit test
+
+![BIT: LDF.B28, prefix 110110101, sub-opcode 101; operands b4d28s-x1, reg4; 6 bytes](figures/w/bit/01.svg)
+
+![BIT: LDF.X22, prefix 110110110, sub-opcode 101; operands x4-4d22s, reg4; 6 bytes](figures/w/bit/02.svg)
+
+![BIT: LDF.PC32, prefix 110111001, sub-opcode 101; operands pc32-u1, reg4; 6 bytes](figures/w/bit/05.svg)
+
+![BIT: LDF.A32, prefix 110111010, sub-opcode 101; operands abs32, reg4; 6 bytes](figures/w/bit/06.svg)
+
+![BIT: LDFI.I32, prefix 11001011, sub-opcode 1110; operands imm32s, reg4; 6 bytes](figures/w/bit/07.svg)
+
+![BIT: DPF.D28, prefix 1111000111110, sub-opcode 101; operands dpd28s-x1, reg4; 6 bytes](figures/w/bit/08.svg)
+
+![BIT: LDF.PI12, prefix 110110111, sub-opcode 101; operands pi4-s12, reg4; 4 bytes](figures/w/bit/03.svg)
+
+![BIT: LDF.PD12, prefix 110111000, sub-opcode 101; operands pd4-s12, reg4; 4 bytes](figures/w/bit/04.svg)
+
+![BIT: LDI12/d, prefix 1111001100101000; operands imm12s, reg4; 4 bytes](figures/w/bit/10.svg)
+
+![BIT: LDPC12/d, prefix 111100110001011, sub-opcode 1; operands pc12-u1, reg4; 4 bytes](figures/w/bit/11.svg)
+
+![BIT: LDBs8/d, prefix 111100110001101, sub-opcode 1; operands b4d8s-xsz, reg4; 4 bytes](figures/w/bit/12.svg)
+
+![BIT: RRF, prefix 01010, sub-opcode 101; operands reg4, reg4; 2 bytes](figures/w/bit/09.svg)
 
 **Mnemonics:** `BIT`
 
@@ -1282,8 +2823,6 @@ The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2), [`16-LDI12-d-3`](dictionary/by-encoding.md#16-LDI12-d-3), [`16-LDPC12-d-2`](dictionary/by-encoding.md#16-LDPC12-d-2), [`16-LDBs8-d-2`](dictionary/by-encoding.md#16-LDBs8-d-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIT`](dictionary/by-word.md#w-bit).
-
 **Operation**
 
 ```
@@ -1297,7 +2836,42 @@ tmp ← Rd AND rm         ; the result is discarded
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-xor"></a>
 ### XOR: Exclusive or
+
+![XOR: LDF.B28, prefix 11000101, sub-opcode 1011; operands b4d28s-x1, reg4; 6 bytes](figures/w/xor/01.svg)
+
+![XOR: LDF.X22, prefix 11000110, sub-opcode 1011; operands x4-4d22s, reg4; 6 bytes](figures/w/xor/02.svg)
+
+![XOR: LDF.PC32, prefix 11001001, sub-opcode 1011; operands pc32-u1, reg4; 6 bytes](figures/w/xor/05.svg)
+
+![XOR: LDF.A32, prefix 11001010, sub-opcode 1011; operands abs32, reg4; 6 bytes](figures/w/xor/06.svg)
+
+![XOR: LDFI.I32, prefix 11001011, sub-opcode 0100; operands imm32s, reg4; 6 bytes](figures/w/xor/07.svg)
+
+![XOR: DPF.D28, prefix 111100001011, sub-opcode 1011; operands dpd28s-x1, reg4; 6 bytes](figures/w/xor/08.svg)
+
+![XOR: LDF.PI12, prefix 11000111, sub-opcode 1011; operands pi4-s12, reg4; 4 bytes](figures/w/xor/03.svg)
+
+![XOR: LDF.PD12, prefix 11001000, sub-opcode 1011; operands pd4-s12, reg4; 4 bytes](figures/w/xor/04.svg)
+
+![XOR: LDBu8/c, prefix 1111001100101100; operands b4d8u-xsz, reg4; 4 bytes](figures/w/xor/10.svg)
+
+![XOR: LDI12/c, prefix 11110010100110, sub-opcode 01; operands imm12s, reg4; 4 bytes](figures/w/xor/11.svg)
+
+![XOR: LDX2/c, prefix 1111001100101110; operands x4-4d2s, reg4; 4 bytes](figures/w/xor/12.svg)
+
+![XOR: LDS12/c, prefix 1111001100101111; operands spd12u-xsz, reg4; 4 bytes](figures/w/xor/13.svg)
+
+![XOR: LDPC16/c, prefix 111100010110; operands pc16-u1, reg4; 4 bytes](figures/w/xor/14.svg)
+
+![XOR: LDBs10/c, prefix 11110010110000; operands b4d10s-xsz, reg4; 4 bytes](figures/w/xor/15.svg)
+
+![XOR: LDI14/c, prefix 111100011110, sub-opcode 01; operands imm14s, reg4; 4 bytes](figures/w/xor/17.svg)
+
+![XOR: RRF, prefix 0010, sub-opcode 1011; operands reg4, reg4; 2 bytes](figures/w/xor/09.svg)
+
+![XOR: IMM3/c, prefix 1011111, sub-opcode 01; operands imm3s, reg4; 2 bytes](figures/w/xor/16.svg)
 
 **Mnemonics:** `XOR`
 
@@ -1315,8 +2889,6 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDBu8-c-2`](dictionary/by-encoding.md#16-LDBu8-c-2), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDX2-c-2`](dictionary/by-encoding.md#16-LDX2-c-2), [`16-LDS12-c-2`](dictionary/by-encoding.md#16-LDS12-c-2), [`16-LDPC16-c-2`](dictionary/by-encoding.md#16-LDPC16-c-2), [`16-LDBs10-c-2`](dictionary/by-encoding.md#16-LDBs10-c-2), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XOR`](dictionary/by-word.md#w-xor).
-
 **Operation**
 
 ```
@@ -1330,7 +2902,46 @@ Rd ← Rd XOR rm
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-and"></a>
 ### AND: And
+
+![AND: LDF.B28, prefix 11000101, sub-opcode 1100; operands b4d28s-x1, reg4; 6 bytes](figures/w/and/01.svg)
+
+![AND: LDF.X22, prefix 11000110, sub-opcode 1100; operands x4-4d22s, reg4; 6 bytes](figures/w/and/02.svg)
+
+![AND: LDF.PC32, prefix 11001001, sub-opcode 1100; operands pc32-u1, reg4; 6 bytes](figures/w/and/05.svg)
+
+![AND: LDF.A32, prefix 11001010, sub-opcode 1100; operands abs32, reg4; 6 bytes](figures/w/and/06.svg)
+
+![AND: LDFI.I32, prefix 11001011, sub-opcode 0101; operands imm32s, reg4; 6 bytes](figures/w/and/07.svg)
+
+![AND: DPF.D28, prefix 111100001011, sub-opcode 1100; operands dpd28s-x1, reg4; 6 bytes](figures/w/and/08.svg)
+
+![AND: LDF.PI12, prefix 11000111, sub-opcode 1100; operands pi4-s12, reg4; 4 bytes](figures/w/and/03.svg)
+
+![AND: LDF.PD12, prefix 11001000, sub-opcode 1100; operands pd4-s12, reg4; 4 bytes](figures/w/and/04.svg)
+
+![AND: LDI12/b, prefix 1111001100100111; operands imm12s, reg4; 4 bytes](figures/w/and/10.svg)
+
+![AND: LDBu8/c, prefix 11110010100000, sub-opcode 10; operands b4d8u-xsz, reg4; 4 bytes](figures/w/and/11.svg)
+
+![AND: LDI14/b, prefix 11110010101011; operands imm14s, reg4; 4 bytes](figures/w/and/12.svg)
+
+![AND: LDX2/c, prefix 11110010101110, sub-opcode 10; operands x4-4d2s, reg4; 4 bytes](figures/w/and/13.svg)
+
+![AND: LDS12/c, prefix 11110010101111, sub-opcode 10; operands spd12u-xsz, reg4; 4 bytes](figures/w/and/15.svg)
+
+![AND: LDI18/b, prefix 1110101011; operands imm18s, reg4; 4 bytes](figures/w/and/16.svg)
+
+![AND: LDPC16/c, prefix 1110101101, sub-opcode 10; operands pc16-u1, reg4; 4 bytes](figures/w/and/17.svg)
+
+![AND: LDBs10/c, prefix 111100010111, sub-opcode 10; operands b4d10s-xsz, reg4; 4 bytes](figures/w/and/18.svg)
+
+![AND: RRF, prefix 0010, sub-opcode 1100; operands reg4, reg4; 2 bytes](figures/w/and/09.svg)
+
+![AND: IMM3/b, prefix 111000110; operands imm3s, reg4; 2 bytes](figures/w/and/14.svg)
+
+![AND: IMM4/b, prefix 11010100; operands imm4s, reg4; 2 bytes](figures/w/and/19.svg)
 
 **Mnemonics:** `AND`
 
@@ -1347,8 +2958,6 @@ AND rm, Rd
 The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-b-2`](dictionary/by-encoding.md#16-LDI12-b-2), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-LDI14-b-2`](dictionary/by-encoding.md#16-LDI14-b-2), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-IMM3-b-2`](dictionary/by-encoding.md#16-IMM3-b-2), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDI18-b-2`](dictionary/by-encoding.md#16-LDI18-b-2), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM4-b-2`](dictionary/by-encoding.md#16-IMM4-b-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`AND`](dictionary/by-word.md#w-and).
 
 **Operation**
 
@@ -1383,8 +2992,6 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-d-1`](dictionary/by-encoding.md#16-LDI12-d-1), [`16-SHI3-a-1`](dictionary/by-encoding.md#16-SHI3-a-1), [`16-SHI5-a-1`](dictionary/by-encoding.md#16-SHI5-a-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1), [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SHL`](dictionary/by-word.md#w-shl), [`SHR`](dictionary/by-word.md#w-shr), [`SAR`](dictionary/by-word.md#w-sar).
-
 **Operation**
 
 ```
@@ -1402,8 +3009,140 @@ The count is read as an unsigned 64-bit value, so a count of 64 or more shifts t
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-shl"></a>
+#### SHL
 
+![SHL: LDF.B28, prefix 11000101, sub-opcode 1111; operands b4d28s-x1, reg4; 6 bytes](figures/w/shl/01.svg)
+
+![SHL: LDF.X22, prefix 11000110, sub-opcode 1111; operands x4-4d22s, reg4; 6 bytes](figures/w/shl/02.svg)
+
+![SHL: LDF.PC32, prefix 11001001, sub-opcode 1111; operands pc32-u1, reg4; 6 bytes](figures/w/shl/05.svg)
+
+![SHL: LDF.A32, prefix 11001010, sub-opcode 1111; operands abs32, reg4; 6 bytes](figures/w/shl/06.svg)
+
+![SHL: LDFI.I32, prefix 11001011, sub-opcode 1000; operands imm32s, reg4; 6 bytes](figures/w/shl/07.svg)
+
+![SHL: DPF.D28, prefix 111100001011, sub-opcode 1111; operands dpd28s-x1, reg4; 6 bytes](figures/w/shl/08.svg)
+
+![SHL: LDF.PI12, prefix 11000111, sub-opcode 1111; operands pi4-s12, reg4; 4 bytes](figures/w/shl/03.svg)
+
+![SHL: LDF.PD12, prefix 11001000, sub-opcode 1111; operands pd4-s12, reg4; 4 bytes](figures/w/shl/04.svg)
+
+![SHL: LDI12/d, prefix 11110010011001, sub-opcode 00; operands imm12s, reg4; 4 bytes](figures/w/shl/10.svg)
+
+![SHL: LDPC12/d, prefix 1111001000111, sub-opcode 011; operands pc12-u1, reg4; 4 bytes](figures/w/shl/13.svg)
+
+![SHL: LDBs8/d, prefix 1111001001001, sub-opcode 011; operands b4d8s-xsz, reg4; 4 bytes](figures/w/shl/14.svg)
+
+![SHL: RRF, prefix 0010, sub-opcode 1111; operands reg4, reg4; 2 bytes](figures/w/shl/09.svg)
+
+![SHL: SHI3/a, prefix 1010101, sub-opcode 00; operands imm3u, reg4; 2 bytes](figures/w/shl/11.svg)
+
+![SHL: SHI5/a, prefix 01101, sub-opcode 00; operands imm5u, reg4; 2 bytes](figures/w/shl/12.svg)
+
+```
+SHL rm, Rd
+```
+
+Operation, flags and exceptions as for the entry SHIFT above; 14 layout forms, each a chart of its own (above).
+
+<a id="w-shr"></a>
+#### SHR
+
+![SHR: LDF.B28, prefix 110110101, sub-opcode 000; operands b4d28s-x1, reg4; 6 bytes](figures/w/shr/01.svg)
+
+![SHR: LDF.X22, prefix 110110110, sub-opcode 000; operands x4-4d22s, reg4; 6 bytes](figures/w/shr/02.svg)
+
+![SHR: LDF.PC32, prefix 110111001, sub-opcode 000; operands pc32-u1, reg4; 6 bytes](figures/w/shr/05.svg)
+
+![SHR: LDF.A32, prefix 110111010, sub-opcode 000; operands abs32, reg4; 6 bytes](figures/w/shr/06.svg)
+
+![SHR: LDFI.I32, prefix 11001011, sub-opcode 1001; operands imm32s, reg4; 6 bytes](figures/w/shr/07.svg)
+
+![SHR: DPF.D28, prefix 1111000111110, sub-opcode 000; operands dpd28s-x1, reg4; 6 bytes](figures/w/shr/08.svg)
+
+![SHR: LDF.PI12, prefix 110110111, sub-opcode 000; operands pi4-s12, reg4; 4 bytes](figures/w/shr/03.svg)
+
+![SHR: LDF.PD12, prefix 110111000, sub-opcode 000; operands pd4-s12, reg4; 4 bytes](figures/w/shr/04.svg)
+
+![SHR: LDI12/d, prefix 11110010011001, sub-opcode 01; operands imm12s, reg4; 4 bytes](figures/w/shr/10.svg)
+
+![SHR: LDPC12/d, prefix 1111001000111, sub-opcode 100; operands pc12-u1, reg4; 4 bytes](figures/w/shr/13.svg)
+
+![SHR: LDBs8/d, prefix 1111001001001, sub-opcode 100; operands b4d8s-xsz, reg4; 4 bytes](figures/w/shr/14.svg)
+
+![SHR: RRF, prefix 01010, sub-opcode 000; operands reg4, reg4; 2 bytes](figures/w/shr/09.svg)
+
+![SHR: SHI3/a, prefix 1010101, sub-opcode 01; operands imm3u, reg4; 2 bytes](figures/w/shr/11.svg)
+
+![SHR: SHI5/a, prefix 01101, sub-opcode 01; operands imm5u, reg4; 2 bytes](figures/w/shr/12.svg)
+
+```
+SHR rm, Rd
+```
+
+Operation, flags and exceptions as for the entry SHIFT above; 14 layout forms, each a chart of its own (above).
+
+<a id="w-sar"></a>
+#### SAR
+
+![SAR: LDF.B28, prefix 110110101, sub-opcode 001; operands b4d28s-x1, reg4; 6 bytes](figures/w/sar/01.svg)
+
+![SAR: LDF.X22, prefix 110110110, sub-opcode 001; operands x4-4d22s, reg4; 6 bytes](figures/w/sar/02.svg)
+
+![SAR: LDF.PC32, prefix 110111001, sub-opcode 001; operands pc32-u1, reg4; 6 bytes](figures/w/sar/05.svg)
+
+![SAR: LDF.A32, prefix 110111010, sub-opcode 001; operands abs32, reg4; 6 bytes](figures/w/sar/06.svg)
+
+![SAR: LDFI.I32, prefix 11001011, sub-opcode 1010; operands imm32s, reg4; 6 bytes](figures/w/sar/07.svg)
+
+![SAR: DPF.D28, prefix 1111000111110, sub-opcode 001; operands dpd28s-x1, reg4; 6 bytes](figures/w/sar/08.svg)
+
+![SAR: LDF.PI12, prefix 110110111, sub-opcode 001; operands pi4-s12, reg4; 4 bytes](figures/w/sar/03.svg)
+
+![SAR: LDF.PD12, prefix 110111000, sub-opcode 001; operands pd4-s12, reg4; 4 bytes](figures/w/sar/04.svg)
+
+![SAR: LDI12/d, prefix 11110010011001, sub-opcode 10; operands imm12s, reg4; 4 bytes](figures/w/sar/10.svg)
+
+![SAR: LDPC12/d, prefix 1111001000111, sub-opcode 101; operands pc12-u1, reg4; 4 bytes](figures/w/sar/13.svg)
+
+![SAR: LDBs8/d, prefix 1111001001001, sub-opcode 101; operands b4d8s-xsz, reg4; 4 bytes](figures/w/sar/14.svg)
+
+![SAR: RRF, prefix 01010, sub-opcode 001; operands reg4, reg4; 2 bytes](figures/w/sar/09.svg)
+
+![SAR: SHI3/a, prefix 1010101, sub-opcode 10; operands imm3u, reg4; 2 bytes](figures/w/sar/11.svg)
+
+![SAR: SHI5/a, prefix 01101, sub-opcode 10; operands imm5u, reg4; 2 bytes](figures/w/sar/12.svg)
+
+```
+SAR rm, Rd
+```
+
+Operation, flags and exceptions as for the entry SHIFT above; 14 layout forms, each a chart of its own (above).
+
+
+<a id="w-clr"></a>
 ### CLR: Clear
+
+![CLR: SOF.B28, prefix 111100000101, sub-opcode 0000; operands b4d28s-x1; 6 bytes](figures/w/clr/01.svg)
+
+![CLR: SOF.X22, prefix 111100000110, sub-opcode 0000; operands x4-4d22s; 6 bytes](figures/w/clr/02.svg)
+
+![CLR: SOF.PC32, prefix 111100001001, sub-opcode 0000; operands pc32-u1; 6 bytes](figures/w/clr/05.svg)
+
+![CLR: SOF.A32, prefix 111100001010, sub-opcode 0000; operands abs32; 6 bytes](figures/w/clr/06.svg)
+
+![CLR: SOF.PI12, prefix 111100000111, sub-opcode 0000; operands pi4-s12; 4 bytes](figures/w/clr/03.svg)
+
+![CLR: SOF.PD12, prefix 111100001000, sub-opcode 0000; operands pd4-s12; 4 bytes](figures/w/clr/04.svg)
+
+![CLR: SOBu12/a, prefix 11110010100011, sub-opcode 00; operands b4d12u-xsz; 4 bytes](figures/w/clr/08.svg)
+
+![CLR: SOX6/a, prefix 11110010110100, sub-opcode 00; operands x4-4d6s; 4 bytes](figures/w/clr/09.svg)
+
+![CLR: SOBs12/a, prefix 11110010110111, sub-opcode 00; operands b4d12s-xsz; 4 bytes](figures/w/clr/10.svg)
+
+![CLR: SOPR, prefix 111000001, sub-opcode 000; operands reg4; 2 bytes](figures/w/clr/07.svg)
 
 **Mnemonics:** `CLR`
 
@@ -1421,8 +3160,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLR`](dictionary/by-word.md#w-clr).
-
 **Operation**
 
 ```
@@ -1436,7 +3173,22 @@ rm ← 0
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-com"></a>
 ### COM: Complement
+
+![COM: SOF.B28, prefix 111100000101, sub-opcode 0001; operands b4d28s-x1; 6 bytes](figures/w/com/01.svg)
+
+![COM: SOF.X22, prefix 111100000110, sub-opcode 0001; operands x4-4d22s; 6 bytes](figures/w/com/02.svg)
+
+![COM: SOF.PC32, prefix 111100001001, sub-opcode 0001; operands pc32-u1; 6 bytes](figures/w/com/05.svg)
+
+![COM: SOF.A32, prefix 111100001010, sub-opcode 0001; operands abs32; 6 bytes](figures/w/com/06.svg)
+
+![COM: SOF.PI12, prefix 111100000111, sub-opcode 0001; operands pi4-s12; 4 bytes](figures/w/com/03.svg)
+
+![COM: SOF.PD12, prefix 111100001000, sub-opcode 0001; operands pd4-s12; 4 bytes](figures/w/com/04.svg)
+
+![COM: SOPR, prefix 111000001, sub-opcode 001; operands reg4; 2 bytes](figures/w/com/07.svg)
 
 **Mnemonics:** `COM`
 
@@ -1454,8 +3206,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`COM`](dictionary/by-word.md#w-com).
-
 **Operation**
 
 ```
@@ -1471,7 +3221,28 @@ A two-byte instruction for a register operand.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-tst"></a>
 ### TST: Test
+
+![TST: SOF.B28, prefix 111100000101, sub-opcode 0101; operands b4d28s-x1; 6 bytes](figures/w/tst/01.svg)
+
+![TST: SOF.X22, prefix 111100000110, sub-opcode 0101; operands x4-4d22s; 6 bytes](figures/w/tst/02.svg)
+
+![TST: SOF.PC32, prefix 111100001001, sub-opcode 0101; operands pc32-u1; 6 bytes](figures/w/tst/05.svg)
+
+![TST: SOF.A32, prefix 111100001010, sub-opcode 0101; operands abs32; 6 bytes](figures/w/tst/06.svg)
+
+![TST: SOF.PI12, prefix 111100000111, sub-opcode 0101; operands pi4-s12; 4 bytes](figures/w/tst/03.svg)
+
+![TST: SOF.PD12, prefix 111100001000, sub-opcode 0101; operands pd4-s12; 4 bytes](figures/w/tst/04.svg)
+
+![TST: SOBu12/a, prefix 11110010100011, sub-opcode 11; operands b4d12u-xsz; 4 bytes](figures/w/tst/08.svg)
+
+![TST: SOX6/a, prefix 11110010110100, sub-opcode 11; operands x4-4d6s; 4 bytes](figures/w/tst/09.svg)
+
+![TST: SOBs12/a, prefix 11110010110111, sub-opcode 11; operands b4d12s-xsz; 4 bytes](figures/w/tst/10.svg)
+
+![TST: SOPR, prefix 111000001, sub-opcode 101; operands reg4; 2 bytes](figures/w/tst/07.svg)
 
 **Mnemonics:** `TST`
 
@@ -1489,8 +3260,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TST`](dictionary/by-word.md#w-tst).
-
 **Operation**
 
 ```
@@ -1504,7 +3273,22 @@ set flags from rm; nothing is written
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-asl"></a>
 ### ASL: Arithmetic shift left by one
+
+![ASL: SOF.B28, prefix 111100000101, sub-opcode 1000; operands b4d28s-x1; 6 bytes](figures/w/asl/01.svg)
+
+![ASL: SOF.X22, prefix 111100000110, sub-opcode 1000; operands x4-4d22s; 6 bytes](figures/w/asl/02.svg)
+
+![ASL: SOF.PC32, prefix 111100001001, sub-opcode 1000; operands pc32-u1; 6 bytes](figures/w/asl/05.svg)
+
+![ASL: SOF.A32, prefix 111100001010, sub-opcode 1000; operands abs32; 6 bytes](figures/w/asl/06.svg)
+
+![ASL: SOF.PI12, prefix 111100000111, sub-opcode 1000; operands pi4-s12; 4 bytes](figures/w/asl/03.svg)
+
+![ASL: SOF.PD12, prefix 111100001000, sub-opcode 1000; operands pd4-s12; 4 bytes](figures/w/asl/04.svg)
+
+![ASL: SOPR, prefix 1110100011, sub-opcode 00; operands reg4; 2 bytes](figures/w/asl/07.svg)
 
 **Mnemonics:** `ASL`
 
@@ -1522,8 +3306,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ASL`](dictionary/by-word.md#w-asl).
-
 **Operation**
 
 ```
@@ -1539,7 +3321,22 @@ The by-one form of `SHL`.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-asr"></a>
 ### ASR: Arithmetic shift right by one
+
+![ASR: SOF.B28, prefix 111100000101, sub-opcode 1001; operands b4d28s-x1; 6 bytes](figures/w/asr/01.svg)
+
+![ASR: SOF.X22, prefix 111100000110, sub-opcode 1001; operands x4-4d22s; 6 bytes](figures/w/asr/02.svg)
+
+![ASR: SOF.PC32, prefix 111100001001, sub-opcode 1001; operands pc32-u1; 6 bytes](figures/w/asr/05.svg)
+
+![ASR: SOF.A32, prefix 111100001010, sub-opcode 1001; operands abs32; 6 bytes](figures/w/asr/06.svg)
+
+![ASR: SOF.PI12, prefix 111100000111, sub-opcode 1001; operands pi4-s12; 4 bytes](figures/w/asr/03.svg)
+
+![ASR: SOF.PD12, prefix 111100001000, sub-opcode 1001; operands pd4-s12; 4 bytes](figures/w/asr/04.svg)
+
+![ASR: SOPR, prefix 1110100011, sub-opcode 01; operands reg4; 2 bytes](figures/w/asr/07.svg)
 
 **Mnemonics:** `ASR`
 
@@ -1556,8 +3353,6 @@ ASR rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ASR`](dictionary/by-word.md#w-asr).
 
 **Operation**
 
@@ -1610,8 +3405,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLZ`](dictionary/by-word.md#w-clz), [`CTZ`](dictionary/by-word.md#w-ctz), [`CLO`](dictionary/by-word.md#w-clo), [`CTO`](dictionary/by-word.md#w-cto).
-
 **Operation**
 
 ```
@@ -1631,8 +3424,55 @@ CTO: Rd ← number of trailing one bits of Rs        (64 if Rs = all ones)
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-clz"></a>
+#### CLZ
 
+![CLZ: R2, prefix 111011110111, sub-opcode 000000000000; operands reg4, reg4; 4 bytes](figures/w/clz/01.svg)
+
+```
+CLZ Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-ctz"></a>
+#### CTZ
+
+![CTZ: R2, prefix 111011110111, sub-opcode 000000000001; operands reg4, reg4; 4 bytes](figures/w/ctz/01.svg)
+
+```
+CTZ Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-clo"></a>
+#### CLO
+
+![CLO: R2, prefix 111011110111, sub-opcode 000000000010; operands reg4, reg4; 4 bytes](figures/w/clo/01.svg)
+
+```
+CLO Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-cto"></a>
+#### CTO
+
+![CTO: R2, prefix 111011110111, sub-opcode 000000000011; operands reg4, reg4; 4 bytes](figures/w/cto/01.svg)
+
+```
+CTO Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-popcnt"></a>
 ### POPCNT: Population count
+
+![POPCNT: R2, prefix 111011110111, sub-opcode 000000000100; operands reg4, reg4; 4 bytes](figures/w/popcnt/01.svg)
 
 **Mnemonics:** `POPCNT`
 
@@ -1649,8 +3489,6 @@ POPCNT Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPCNT`](dictionary/by-word.md#w-popcnt).
 
 **Operation**
 
@@ -1687,8 +3525,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BSWAP`](dictionary/by-word.md#w-bswap), [`BSWAPW`](dictionary/by-word.md#w-bswapw), [`BSWAPL`](dictionary/by-word.md#w-bswapl).
-
 **Operation**
 
 ```
@@ -1707,8 +3543,44 @@ The generalisation of the PDP-11 `SWAB` to 64 bits.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-bswap"></a>
+#### BSWAP
 
+![BSWAP: R2, prefix 111011110111, sub-opcode 000000000101; operands reg4, reg4; 4 bytes](figures/w/bswap/01.svg)
+
+```
+BSWAP Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
+
+<a id="w-bswapw"></a>
+#### BSWAPW
+
+![BSWAPW: R2, prefix 111011110111, sub-opcode 000000000110; operands reg4, reg4; 4 bytes](figures/w/bswapw/01.svg)
+
+```
+BSWAPW Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
+
+<a id="w-bswapl"></a>
+#### BSWAPL
+
+![BSWAPL: R2, prefix 111011110111, sub-opcode 000000000111; operands reg4, reg4; 4 bytes](figures/w/bswapl/01.svg)
+
+```
+BSWAPL Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-bitrev"></a>
 ### BITREV: Reverse the bits
+
+![BITREV: R2, prefix 111011110111, sub-opcode 000000001000; operands reg4, reg4; 4 bytes](figures/w/bitrev/01.svg)
 
 **Mnemonics:** `BITREV`
 
@@ -1726,8 +3598,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BITREV`](dictionary/by-word.md#w-bitrev).
-
 **Operation**
 
 ```
@@ -1743,7 +3613,10 @@ Rd ← Rs with bit i moved to bit 63-i
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-ror"></a>
 ### ROR: Rotate right by a register count
+
+![ROR: R3, prefix 111011111000, sub-opcode 00000000; operands reg4, reg4, reg4; 4 bytes](figures/w/ror/01.svg)
 
 **Mnemonics:** `ROR`
 
@@ -1760,8 +3633,6 @@ ROR Ra, Rb, Rd
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ROR`](dictionary/by-word.md#w-ror).
 
 **Operation**
 
@@ -1780,7 +3651,11 @@ There is no rotate left instruction: `ROL rs, #n, rd` is an assembler spelling o
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-rori"></a>
+<a id="w-rol"></a>
 ### RORI: Rotate right by an immediate
+
+![RORI: RRI, prefix 111011111010, sub-opcode 000000; operands reg4, imm6u, reg4; 4 bytes](figures/w/rori/01.svg)
 
 **Mnemonics:** `RORI`  (aliases: `ROL`)
 
@@ -1799,8 +3674,6 @@ The chart is the leaf `16-RRI-1`, RRI, prefix `111011111010`. `op1` is `reg4`: r
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-RRI-1`](dictionary/by-encoding.md#16-RRI-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RORI`](dictionary/by-word.md#w-rori).
-
 **Operation**
 
 ```
@@ -1815,8 +3688,14 @@ Rd ← Rs rotated right by (n mod 64)
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-rol"></a>
+**`ROL`** is an alias of `RORI`: the assembler writes it as that word.
 
+
+<a id="w-rori32"></a>
 ### RORI32: Rotate right by an immediate, 32 bits
+
+![RORI32: RRI, prefix 111011111010, sub-opcode 000001; operands reg4, imm6u, reg4; 4 bytes](figures/w/rori32/01.svg)
 
 **Mnemonics:** `RORI32`
 
@@ -1833,8 +3712,6 @@ RORI32 Rs, #n, Rd
 The chart is the leaf `16-RRI-1`, RRI, prefix `111011111010`. `op1` is `reg4`: register, 4 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-RRI-1`](dictionary/by-encoding.md#16-RRI-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RORI32`](dictionary/by-word.md#w-rori32).
 
 **Operation**
 
@@ -1853,7 +3730,10 @@ The 32-bit rotate with the result sign-extended like every 32-bit result; the pr
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-dshr"></a>
 ### DSHR: Double-width funnel shift right
+
+![DSHR: BFx, prefix 1110010100, sub-opcode 00000000000000000000; operands reg4, reg4, imm6u, reg4; 6 bytes](figures/w/dshr/01.svg)
 
 **Mnemonics:** `DSHR`
 
@@ -1870,8 +3750,6 @@ DSHR Ra, Rb, #n, Rd
 The chart is the leaf `16-BFx-1`, BFx, prefix `1110010100`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BFx-1`](dictionary/by-encoding.md#16-BFx-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DSHR`](dictionary/by-word.md#w-dshr).
 
 **Operation**
 
@@ -1910,8 +3788,6 @@ The chart is the leaf `16-BFy-1`, BFy, prefix `1110010101`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BFy-1`](dictionary/by-encoding.md#16-BFy-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`EXTB`](dictionary/by-word.md#w-extb), [`EXTZB`](dictionary/by-word.md#w-extzb).
-
 **Operation**
 
 ```
@@ -1928,8 +3804,33 @@ Position and width are immediate operands; a width of 64 cannot be encoded (erra
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-extb"></a>
+#### EXTB
 
+![EXTB: BFy, prefix 1110010101, sub-opcode 000000000000000000; operands reg4, imm6u, imm6u, reg4; 6 bytes](figures/w/extb/01.svg)
+
+```
+EXTB Rs, #pos, #width, Rd
+```
+
+Operation, flags and exceptions as for the entry EXTB above; 1 layout form, each a chart of its own (above).
+
+<a id="w-extzb"></a>
+#### EXTZB
+
+![EXTZB: BFy, prefix 1110010101, sub-opcode 000000000000000001; operands reg4, imm6u, imm6u, reg4; 6 bytes](figures/w/extzb/01.svg)
+
+```
+EXTZB Rs, #pos, #width, Rd
+```
+
+Operation, flags and exceptions as for the entry EXTB above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-insb"></a>
 ### INSB: Insert a bit field
+
+![INSB: BFy, prefix 1110010101, sub-opcode 000000000000000010; operands reg4, imm6u, imm6u, reg4; 6 bytes](figures/w/insb/01.svg)
 
 **Mnemonics:** `INSB`
 
@@ -1946,8 +3847,6 @@ INSB Rs, #pos, #width, Rd
 The chart is the leaf `16-BFy-1`, BFy, prefix `1110010101`. `op1` is `reg4`: register, 4 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BFy-1`](dictionary/by-encoding.md#16-BFy-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`INSB`](dictionary/by-word.md#w-insb).
 
 **Operation**
 
@@ -1967,7 +3866,10 @@ Six bytes. `Rd` is both source and destination.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-xnorpop"></a>
 ### XNORPOP: Population count of the equality of two words
+
+![XNORPOP: R3, prefix 111011111000, sub-opcode 00000001; operands reg4, reg4, reg4; 4 bytes](figures/w/xnorpop/01.svg)
 
 **Mnemonics:** `XNORPOP`
 
@@ -1984,8 +3886,6 @@ XNORPOP Ra, Rb, Rd
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XNORPOP`](dictionary/by-word.md#w-xnorpop).
 
 **Operation**
 
@@ -2023,8 +3923,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLMULL`](dictionary/by-word.md#w-clmull), [`CLMULH`](dictionary/by-word.md#w-clmulh).
-
 **Operation**
 
 ```
@@ -2043,8 +3941,33 @@ The primitive under every CRC (with a Barrett reduction), GF(2^k) arithmetic and
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-clmull"></a>
+#### CLMULL
 
+![CLMULL: R3, prefix 111011111000, sub-opcode 00000010; operands reg4, reg4, reg4; 4 bytes](figures/w/clmull/01.svg)
+
+```
+CLMULL Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry CLMUL above; 1 layout form, each a chart of its own (above).
+
+<a id="w-clmulh"></a>
+#### CLMULH
+
+![CLMULH: R3, prefix 111011111000, sub-opcode 00000011; operands reg4, reg4, reg4; 4 bytes](figures/w/clmulh/01.svg)
+
+```
+CLMULH Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry CLMUL above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-utf8len"></a>
 ### UTF8LEN: Length of a UTF-8 sequence from its leading byte
+
+![UTF8LEN: R2, prefix 111011110111, sub-opcode 000000001001; operands reg4, reg4; 4 bytes](figures/w/utf8len/01.svg)
 
 **Mnemonics:** `UTF8LEN`
 
@@ -2062,8 +3985,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8LEN`](dictionary/by-word.md#w-utf8len).
-
 **Operation**
 
 ```
@@ -2079,7 +4000,10 @@ Rd ← length (1 to 4) implied by the leading byte Rs[7:0]; 0 if it cannot begin
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-utf8dec"></a>
 ### UTF8DEC: Decode a UTF-8 sequence
+
+![UTF8DEC: R2, prefix 111011110111, sub-opcode 000000001010; operands reg4, reg4; 4 bytes](figures/w/utf8dec/01.svg)
 
 **Mnemonics:** `UTF8DEC`
 
@@ -2096,8 +4020,6 @@ UTF8DEC Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8DEC`](dictionary/by-word.md#w-utf8dec).
 
 **Operation**
 
@@ -2116,7 +4038,10 @@ V  ← 1 if the sequence is not a valid encoding
 **Status** specified; **not yet implemented** in the reference executor.
 
 
+<a id="w-utf8enc"></a>
 ### UTF8ENC: Encode a Unicode scalar value
+
+![UTF8ENC: R2, prefix 111011110111, sub-opcode 000000001011; operands reg4, reg4; 4 bytes](figures/w/utf8enc/01.svg)
 
 **Mnemonics:** `UTF8ENC`
 
@@ -2134,8 +4059,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8ENC`](dictionary/by-word.md#w-utf8enc).
-
 **Operation**
 
 ```
@@ -2152,7 +4075,10 @@ V  ← 1 if Rs is not a Unicode scalar value
 **Status** specified; **not yet implemented** in the reference executor.
 
 
+<a id="w-bsel"></a>
 ### BSEL: Bitwise select
+
+![BSEL: R4, prefix 111011111001, sub-opcode 1100; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/bsel/01.svg)
 
 **Mnemonics:** `BSEL`
 
@@ -2169,8 +4095,6 @@ BSEL Rm, Ra, Rb, Rd
 The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BSEL`](dictionary/by-word.md#w-bsel).
 
 **Operation**
 
@@ -2210,8 +4134,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`AESES`](dictionary/by-word.md#w-aeses), [`AESESM`](dictionary/by-word.md#w-aesesm), [`AESDS`](dictionary/by-word.md#w-aesds), [`AESDSM`](dictionary/by-word.md#w-aesdsm).
-
 **Operation**
 
 ```
@@ -2235,6 +4157,50 @@ Rd ← the 8 bytes of the new state that belong to columns 0 and 1; with Ra and 
 
 **Status** specified; **not yet implemented** in the reference executor.
 
+<a id="w-aeses"></a>
+#### AESES
+
+![AESES: R3, prefix 111011111000, sub-opcode 00011000; operands reg4, reg4, reg4; 4 bytes](figures/w/aeses/01.svg)
+
+```
+AESES Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
+
+<a id="w-aesesm"></a>
+#### AESESM
+
+![AESESM: R3, prefix 111011111000, sub-opcode 00011001; operands reg4, reg4, reg4; 4 bytes](figures/w/aesesm/01.svg)
+
+```
+AESESM Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
+
+<a id="w-aesds"></a>
+#### AESDS
+
+![AESDS: R3, prefix 111011111000, sub-opcode 00011010; operands reg4, reg4, reg4; 4 bytes](figures/w/aesds/01.svg)
+
+```
+AESDS Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
+
+<a id="w-aesdsm"></a>
+#### AESDSM
+
+![AESDSM: R3, prefix 111011111000, sub-opcode 00011011; operands reg4, reg4, reg4; 4 bytes](figures/w/aesdsm/01.svg)
+
+```
+AESDSM Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
+
 
 ### AESK: AES key schedule steps
 
@@ -2256,8 +4222,6 @@ The chart is the leaf `16-RRI-1`, RRI, prefix `111011111010`. `op1` is `reg4`: r
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-RRI-1`](dictionary/by-encoding.md#16-RRI-1), [`16-R3-1`](dictionary/by-encoding.md#16-R3-1), [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`AESKS1`](dictionary/by-word.md#w-aesks1), [`AESKS2`](dictionary/by-word.md#w-aesks2), [`AESIM`](dictionary/by-word.md#w-aesim).
-
 **Operation**
 
 ```
@@ -2275,6 +4239,39 @@ AESIM : Rd ← InvMixColumns of the two columns in Rs         ; for the decrypti
 **Why it is here.** The key schedule and the inverse mix of the round key complete the round instructions: three instructions per round of the AES-128 schedule, about 30 for the whole schedule instead of about 150, once per key; `AESIM` adds 18 for the decryption schedule. The same precedent as `AESR`.
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-aesks1"></a>
+#### AESKS1
+
+![AESKS1: RRI, prefix 111011111010, sub-opcode 000011; operands reg4, imm6u, reg4; 4 bytes](figures/w/aesks1/01.svg)
+
+```
+AESKS1 Rs, #n, Rd
+```
+
+Operation, flags and exceptions as for the entry AESK above; 1 layout form, each a chart of its own (above).
+
+<a id="w-aesks2"></a>
+#### AESKS2
+
+![AESKS2: R3, prefix 111011111000, sub-opcode 00011100; operands reg4, reg4, reg4; 4 bytes](figures/w/aesks2/01.svg)
+
+```
+AESKS2 Ra, Rb, Rd
+```
+
+Operation, flags and exceptions as for the entry AESK above; 1 layout form, each a chart of its own (above).
+
+<a id="w-aesim"></a>
+#### AESIM
+
+![AESIM: R2, prefix 111011110111, sub-opcode 000000110111; operands reg4, reg4; 4 bytes](figures/w/aesim/01.svg)
+
+```
+AESIM Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry AESK above; 1 layout form, each a chart of its own (above).
 
 
 ### SHA256: The SHA-256 functions
@@ -2298,8 +4295,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SHA256SIG0`](dictionary/by-word.md#w-sha256sig0), [`SHA256SIG1`](dictionary/by-word.md#w-sha256sig1), [`SHA256SUM0`](dictionary/by-word.md#w-sha256sum0), [`SHA256SUM1`](dictionary/by-word.md#w-sha256sum1).
-
 **Operation**
 
 ```
@@ -2319,6 +4314,50 @@ SUM1: ror(x,6)  XOR ror(x,11) XOR ror(x,25)
 **Why it is here.** The SHA-2 rounds are rotations and three-input exclusive ors, which the integer instructions do in several steps; the RISC-V scalar cryptography extension has the eight functions as instructions. The crypto proposal counts the gain honestly: the primitives remove half the work, not nineteen twentieths, because a round still needs the adds and the register traffic (about 1,200 against 2,500 instructions for a 64-byte block with `BSEL`, estimates).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-sha256sig0"></a>
+#### SHA256SIG0
+
+![SHA256SIG0: R2, prefix 111011110111, sub-opcode 000000111000; operands reg4, reg4; 4 bytes](figures/w/sha256sig0/01.svg)
+
+```
+SHA256SIG0 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-sha256sig1"></a>
+#### SHA256SIG1
+
+![SHA256SIG1: R2, prefix 111011110111, sub-opcode 000000111001; operands reg4, reg4; 4 bytes](figures/w/sha256sig1/01.svg)
+
+```
+SHA256SIG1 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-sha256sum0"></a>
+#### SHA256SUM0
+
+![SHA256SUM0: R2, prefix 111011110111, sub-opcode 000000111010; operands reg4, reg4; 4 bytes](figures/w/sha256sum0/01.svg)
+
+```
+SHA256SUM0 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-sha256sum1"></a>
+#### SHA256SUM1
+
+![SHA256SUM1: R2, prefix 111011110111, sub-opcode 000000111011; operands reg4, reg4; 4 bytes](figures/w/sha256sum1/01.svg)
+
+```
+SHA256SUM1 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
 
 
 ### SHA512: The SHA-512 functions
@@ -2342,8 +4381,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SHA512SIG0`](dictionary/by-word.md#w-sha512sig0), [`SHA512SIG1`](dictionary/by-word.md#w-sha512sig1), [`SHA512SUM0`](dictionary/by-word.md#w-sha512sum0), [`SHA512SUM1`](dictionary/by-word.md#w-sha512sum1).
-
 **Operation**
 
 ```
@@ -2363,6 +4400,50 @@ SUM1: ror(x,14) XOR ror(x,18) XOR ror(x,41)
 **Why it is here.** See `SHA256`: the four 64-bit functions of SHA-512, with the same gain of about two (about 1,500 against 3,100 instructions for a 128-byte block, estimates).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-sha512sig0"></a>
+#### SHA512SIG0
+
+![SHA512SIG0: R2, prefix 111011110111, sub-opcode 000000111100; operands reg4, reg4; 4 bytes](figures/w/sha512sig0/01.svg)
+
+```
+SHA512SIG0 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-sha512sig1"></a>
+#### SHA512SIG1
+
+![SHA512SIG1: R2, prefix 111011110111, sub-opcode 000000111101; operands reg4, reg4; 4 bytes](figures/w/sha512sig1/01.svg)
+
+```
+SHA512SIG1 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-sha512sum0"></a>
+#### SHA512SUM0
+
+![SHA512SUM0: R2, prefix 111011110111, sub-opcode 000000111110; operands reg4, reg4; 4 bytes](figures/w/sha512sum0/01.svg)
+
+```
+SHA512SUM0 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-sha512sum1"></a>
+#### SHA512SUM1
+
+![SHA512SUM1: R2, prefix 111011110111, sub-opcode 000000111111; operands reg4, reg4; 4 bytes](figures/w/sha512sum1/01.svg)
+
+```
+SHA512SUM1 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.9 -->
 
 ## 9.10 Branches and control flow
@@ -2404,8 +4485,6 @@ The chart is the leaf `16-BRF-1`, BRF, prefix `1111000111111`. `op1` is `pc32-u2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BRF-1`](dictionary/by-encoding.md#16-BRF-1), [`16-BR2-16-a-1`](dictionary/by-encoding.md#16-BR2-16-a-1), [`16-BR1-6-a-1`](dictionary/by-encoding.md#16-BR1-6-a-1), [`16-BR1-8-a-1`](dictionary/by-encoding.md#16-BR1-8-a-1), [`16-BR1-9-a-1`](dictionary/by-encoding.md#16-BR1-9-a-1), [`16-BR2-16-b-1`](dictionary/by-encoding.md#16-BR2-16-b-1), [`16-BR1-6-b-1`](dictionary/by-encoding.md#16-BR1-6-b-1), [`16-BR1-7-b-1`](dictionary/by-encoding.md#16-BR1-7-b-1), [`16-BR2-16-c-1`](dictionary/by-encoding.md#16-BR2-16-c-1), [`16-BR1-6-c-1`](dictionary/by-encoding.md#16-BR1-6-c-1), [`16-BRF-2`](dictionary/by-encoding.md#16-BRF-2), [`16-BR2-16-c-2`](dictionary/by-encoding.md#16-BR2-16-c-2), [`16-BR1-6-c-2`](dictionary/by-encoding.md#16-BR1-6-c-2), [`16-BRF-3`](dictionary/by-encoding.md#16-BRF-3), [`16-BRF-4`](dictionary/by-encoding.md#16-BRF-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BR`](dictionary/by-word.md#w-br), [`BNE`](dictionary/by-word.md#w-bne), [`BEQ`](dictionary/by-word.md#w-beq), [`BPL`](dictionary/by-word.md#w-bpl), [`BMI`](dictionary/by-word.md#w-bmi), [`BVC`](dictionary/by-word.md#w-bvc), [`BVS`](dictionary/by-word.md#w-bvs), [`BCC`](dictionary/by-word.md#w-bcc), [`BCS`](dictionary/by-word.md#w-bcs), [`BGE`](dictionary/by-word.md#w-bge), [`BLT`](dictionary/by-word.md#w-blt), [`BGT`](dictionary/by-word.md#w-bgt), [`BLE`](dictionary/by-word.md#w-ble), [`BHI`](dictionary/by-word.md#w-bhi), [`BLOS`](dictionary/by-word.md#w-blos).
-
 **Operation**
 
 ```
@@ -2422,8 +4501,206 @@ Condition numbers: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-br"></a>
+#### BR
 
+![BR: BRF, prefix 1111000111111, sub-opcode 000; operands pc32-u2; 6 bytes](figures/w/br/01.svg)
+
+![BR: BR2_16/a, prefix 1111001100100100; operands pc16-u2; 4 bytes](figures/w/br/02.svg)
+
+![BR: BR1_6/a, prefix 1110100110; operands pc6-u2; 2 bytes](figures/w/br/03.svg)
+
+![BR: BR1_8/a, prefix 11010001; operands pc8-u2; 2 bytes](figures/w/br/04.svg)
+
+![BR: BR1_9/a, prefix 1011000; operands pc9-u2; 2 bytes](figures/w/br/05.svg)
+
+```
+BR target
+```
+
+Operation, flags and exceptions as for the entry BCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-bne"></a>
+#### BNE
+
+![BNE: BRF, prefix 1111000111111, sub-opcode 001; operands pc32-u2; 6 bytes](figures/w/bne/01.svg)
+
+![BNE: BR2_16/b, prefix 111100110000010, sub-opcode 1; operands pc16-u2; 4 bytes](figures/w/bne/02.svg)
+
+![BNE: BR1_6/b, prefix 111000101, sub-opcode 1; operands pc6-u2; 2 bytes](figures/w/bne/03.svg)
+
+![BNE: BR1_7/b, prefix 11010111, sub-opcode 1; operands pc7-u2; 2 bytes](figures/w/bne/04.svg)
+
+```
+BNE target
+```
+
+Operation, flags and exceptions as for the entry BCC above; 4 layout forms, each a chart of its own (above).
+
+<a id="w-beq"></a>
+#### BEQ
+
+![BEQ: BRF, prefix 1111000111111, sub-opcode 010; operands pc32-u2; 6 bytes](figures/w/beq/01.svg)
+
+![BEQ: BR2_16/b, prefix 111100110000010, sub-opcode 0; operands pc16-u2; 4 bytes](figures/w/beq/02.svg)
+
+![BEQ: BR1_6/b, prefix 111000101, sub-opcode 0; operands pc6-u2; 2 bytes](figures/w/beq/03.svg)
+
+![BEQ: BR1_7/b, prefix 11010111, sub-opcode 0; operands pc7-u2; 2 bytes](figures/w/beq/04.svg)
+
+```
+BEQ target ... and the rest
+```
+
+Operation, flags and exceptions as for the entry BCC above; 4 layout forms, each a chart of its own (above).
+
+<a id="w-bpl"></a>
+#### BPL
+
+![BPL: BRF, prefix 1111000111111, sub-opcode 011; operands pc32-u2; 6 bytes](figures/w/bpl/01.svg)
+
+![BPL: BR2_16/c, prefix 1111001000001, sub-opcode 000; operands pc16-u2; 4 bytes](figures/w/bpl/02.svg)
+
+![BPL: BR1_6/c, prefix 1011100, sub-opcode 000; operands pc6-u2; 2 bytes](figures/w/bpl/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bmi"></a>
+#### BMI
+
+![BMI: BRF, prefix 1111000111111, sub-opcode 100; operands pc32-u2; 6 bytes](figures/w/bmi/01.svg)
+
+![BMI: BR2_16/c, prefix 1111001000001, sub-opcode 001; operands pc16-u2; 4 bytes](figures/w/bmi/02.svg)
+
+![BMI: BR1_6/c, prefix 1011100, sub-opcode 001; operands pc6-u2; 2 bytes](figures/w/bmi/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bvc"></a>
+#### BVC
+
+![BVC: BRF, prefix 1111000111111, sub-opcode 101; operands pc32-u2; 6 bytes](figures/w/bvc/01.svg)
+
+![BVC: BR2_16/c, prefix 1111001000001, sub-opcode 010; operands pc16-u2; 4 bytes](figures/w/bvc/02.svg)
+
+![BVC: BR1_6/c, prefix 1011100, sub-opcode 010; operands pc6-u2; 2 bytes](figures/w/bvc/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bvs"></a>
+#### BVS
+
+![BVS: BRF, prefix 1111000111111, sub-opcode 110; operands pc32-u2; 6 bytes](figures/w/bvs/01.svg)
+
+![BVS: BR2_16/c, prefix 1111001000001, sub-opcode 011; operands pc16-u2; 4 bytes](figures/w/bvs/02.svg)
+
+![BVS: BR1_6/c, prefix 1011100, sub-opcode 011; operands pc6-u2; 2 bytes](figures/w/bvs/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bcc"></a>
+#### BCC
+
+![BCC: BRF, prefix 1111000111111, sub-opcode 111; operands pc32-u2; 6 bytes](figures/w/bcc/01.svg)
+
+![BCC: BR2_16/c, prefix 1111001000001, sub-opcode 100; operands pc16-u2; 4 bytes](figures/w/bcc/02.svg)
+
+![BCC: BR1_6/c, prefix 1011100, sub-opcode 100; operands pc6-u2; 2 bytes](figures/w/bcc/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bcs"></a>
+#### BCS
+
+![BCS: BRF, prefix 11110010010111, sub-opcode 00; operands pc32-u2; 6 bytes](figures/w/bcs/01.svg)
+
+![BCS: BR2_16/c, prefix 1111001000001, sub-opcode 101; operands pc16-u2; 4 bytes](figures/w/bcs/02.svg)
+
+![BCS: BR1_6/c, prefix 1011100, sub-opcode 101; operands pc6-u2; 2 bytes](figures/w/bcs/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bge"></a>
+#### BGE
+
+![BGE: BRF, prefix 11110010010111, sub-opcode 01; operands pc32-u2; 6 bytes](figures/w/bge/01.svg)
+
+![BGE: BR2_16/c, prefix 1111001000001, sub-opcode 110; operands pc16-u2; 4 bytes](figures/w/bge/02.svg)
+
+![BGE: BR1_6/c, prefix 1011100, sub-opcode 110; operands pc6-u2; 2 bytes](figures/w/bge/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-blt"></a>
+#### BLT
+
+![BLT: BRF, prefix 11110010010111, sub-opcode 10; operands pc32-u2; 6 bytes](figures/w/blt/01.svg)
+
+![BLT: BR2_16/c, prefix 1111001000001, sub-opcode 111; operands pc16-u2; 4 bytes](figures/w/blt/02.svg)
+
+![BLT: BR1_6/c, prefix 1011100, sub-opcode 111; operands pc6-u2; 2 bytes](figures/w/blt/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bgt"></a>
+#### BGT
+
+![BGT: BRF, prefix 11110010010111, sub-opcode 11; operands pc32-u2; 6 bytes](figures/w/bgt/01.svg)
+
+![BGT: BR2_16/c, prefix 11110010101000, sub-opcode 00; operands pc16-u2; 4 bytes](figures/w/bgt/02.svg)
+
+![BGT: BR1_6/c, prefix 11010101, sub-opcode 00; operands pc6-u2; 2 bytes](figures/w/bgt/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-ble"></a>
+#### BLE
+
+![BLE: BRF, prefix 111100101110111, sub-opcode 0; operands pc32-u2; 6 bytes](figures/w/ble/01.svg)
+
+![BLE: BR2_16/c, prefix 11110010101000, sub-opcode 01; operands pc16-u2; 4 bytes](figures/w/ble/02.svg)
+
+![BLE: BR1_6/c, prefix 11010101, sub-opcode 01; operands pc6-u2; 2 bytes](figures/w/ble/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bhi"></a>
+#### BHI
+
+![BHI: BRF, prefix 111100101110111, sub-opcode 1; operands pc32-u2; 6 bytes](figures/w/bhi/01.svg)
+
+![BHI: BR2_16/c, prefix 11110010101000, sub-opcode 10; operands pc16-u2; 4 bytes](figures/w/bhi/02.svg)
+
+![BHI: BR1_6/c, prefix 11010101, sub-opcode 10; operands pc6-u2; 2 bytes](figures/w/bhi/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-blos"></a>
+#### BLOS
+
+![BLOS: BRF, prefix 1111001100011111; operands pc32-u2; 6 bytes](figures/w/blos/01.svg)
+
+![BLOS: BR2_16/c, prefix 11110010101000, sub-opcode 11; operands pc16-u2; 4 bytes](figures/w/blos/02.svg)
+
+![BLOS: BR1_6/c, prefix 11010101, sub-opcode 11; operands pc6-u2; 2 bytes](figures/w/blos/03.svg)
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bhis"></a>
+#### BHIS
+
+An alias of [`BCC`](#w-bcc): the assembler writes it as that word.
+
+<a id="w-blo"></a>
+#### BLO
+
+An alias of [`BCS`](#w-bcs): the assembler writes it as that word.
+
+
+<a id="w-sob"></a>
 ### SOB: Subtract one and branch
+
+![SOB: SOB, prefix 111100001100; operands reg4, pc16-u2; 4 bytes](figures/w/sob/01.svg)
 
 **Mnemonics:** `SOB`
 
@@ -2440,8 +4717,6 @@ SOB Rn, target
 The chart is the leaf `16-SOB-1`, SOB, prefix `111100001100`. `op1` is `reg4`: register, 4 bits. `op2` is `pc16-u2`: pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes).
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOB-1`](dictionary/by-encoding.md#16-SOB-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SOB`](dictionary/by-word.md#w-sob).
 
 **Operation**
 
@@ -2480,8 +4755,6 @@ The chart is the leaf `16-CB3I16-12-a-1`, CB3I16_12/a, prefix `111100101111100`.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-CB3I16-12-a-1`](dictionary/by-encoding.md#16-CB3I16-12-a-1), [`16-CBR8-a-1`](dictionary/by-encoding.md#16-CBR8-a-1), [`16-CBZ2-12-a-1`](dictionary/by-encoding.md#16-CBZ2-12-a-1), [`16-CBI5-8-a-1`](dictionary/by-encoding.md#16-CBI5-8-a-1), [`16-CBI6-8-a-1`](dictionary/by-encoding.md#16-CBI6-8-a-1), [`16-CBI10-8-a-1`](dictionary/by-encoding.md#16-CBI10-8-a-1), [`16-CB3I8-20-a-1`](dictionary/by-encoding.md#16-CB3I8-20-a-1), [`16-CBZ1-4-a-1`](dictionary/by-encoding.md#16-CBZ1-4-a-1), [`16-CBI5-10-a-1`](dictionary/by-encoding.md#16-CBI5-10-a-1), [`16-CB3R24-a-1`](dictionary/by-encoding.md#16-CB3R24-a-1), [`16-CBZ1-5-a-1`](dictionary/by-encoding.md#16-CBZ1-5-a-1), [`16-CBI8-10-a-1`](dictionary/by-encoding.md#16-CBI8-10-a-1), [`16-CBR10-a-1`](dictionary/by-encoding.md#16-CBR10-a-1), [`16-CBI4-12-a-1`](dictionary/by-encoding.md#16-CBI4-12-a-1), [`16-CBZ1-7-a-1`](dictionary/by-encoding.md#16-CBZ1-7-a-1), [`16-CBZ2-14-a-1`](dictionary/by-encoding.md#16-CBZ2-14-a-1), [`16-CBI6-12-a-1`](dictionary/by-encoding.md#16-CBI6-12-a-1), [`16-CBDI-1`](dictionary/by-encoding.md#16-CBDI-1), [`16-CBDR-1`](dictionary/by-encoding.md#16-CBDR-1), [`16-CBR8-c-1`](dictionary/by-encoding.md#16-CBR8-c-1), [`16-CB3I16-12-c-1`](dictionary/by-encoding.md#16-CB3I16-12-c-1), [`16-CBI4-8-c-1`](dictionary/by-encoding.md#16-CBI4-8-c-1), [`16-CBI6-8-c-1`](dictionary/by-encoding.md#16-CBI6-8-c-1), [`16-CB3R24-c-1`](dictionary/by-encoding.md#16-CB3R24-c-1), [`16-CBR10-c-1`](dictionary/by-encoding.md#16-CBR10-c-1), [`16-CBI8-8-c-1`](dictionary/by-encoding.md#16-CBI8-8-c-1), [`16-CBI4-10-c-1`](dictionary/by-encoding.md#16-CBI4-10-c-1), [`16-CB3I8-20-c-1`](dictionary/by-encoding.md#16-CB3I8-20-c-1), [`16-CBI10-8-c-1`](dictionary/by-encoding.md#16-CBI10-8-c-1), [`16-CBI6-10-c-1`](dictionary/by-encoding.md#16-CBI6-10-c-1), [`16-CB3I16-12-b-1`](dictionary/by-encoding.md#16-CB3I16-12-b-1), [`16-CBR8-b-1`](dictionary/by-encoding.md#16-CBR8-b-1), [`16-CBI8-8-b-1`](dictionary/by-encoding.md#16-CBI8-8-b-1), [`16-CBZ2-12-b-1`](dictionary/by-encoding.md#16-CBZ2-12-b-1), [`16-CB3I8-20-b-1`](dictionary/by-encoding.md#16-CB3I8-20-b-1), [`16-CB3R24-b-1`](dictionary/by-encoding.md#16-CB3R24-b-1), [`16-CBI4-10-b-1`](dictionary/by-encoding.md#16-CBI4-10-b-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CBNE`](dictionary/by-word.md#w-cbne), [`CBEQ`](dictionary/by-word.md#w-cbeq), [`CBPL`](dictionary/by-word.md#w-cbpl), [`CBMI`](dictionary/by-word.md#w-cbmi), [`CBVC`](dictionary/by-word.md#w-cbvc), [`CBVS`](dictionary/by-word.md#w-cbvs), [`CBCC`](dictionary/by-word.md#w-cbcc), [`CBCS`](dictionary/by-word.md#w-cbcs), [`CBGE`](dictionary/by-word.md#w-cbge), [`CBLT`](dictionary/by-word.md#w-cblt), [`CBGT`](dictionary/by-word.md#w-cbgt), [`CBLE`](dictionary/by-word.md#w-cble), [`CBHI`](dictionary/by-word.md#w-cbhi), [`CBLOS`](dictionary/by-word.md#w-cblos).
-
 **Operation**
 
 ```
@@ -2498,6 +4771,322 @@ The family has several forms for each condition (the layouts of this entry): the
 **Why it is here.** A fused compare-and-branch, estimated with `RORI32` at 22 KB (1.3%) of the image of the original encoding. There the wide-immediate form removes 11,735 instructions (3.4%) and 1,828 bytes, and the register-register compare-and-branch removes 4,631 instructions (1.4%) and 142 bytes. It is not a replacement for flags: LoongArch and RISC-V chose fused compare-and-branch instead of flags, and this architecture declines that (9.20) because it needs a comparator in the branch unit and a third read port; here the fused form is added beside the flags. `CBCC` writes no flags.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-cbne"></a>
+#### CBNE
+
+![CBNE: CB3I16_12/a, prefix 111100101111100, sub-opcode 1; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbne/01.svg)
+
+![CBNE: CB3I8_20/a, prefix 111100110000111, sub-opcode 1; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cbne/07.svg)
+
+![CBNE: CB3R24/a, prefix 111100110001000, sub-opcode 1; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbne/10.svg)
+
+![CBNE: CBR8/a, prefix 111100101111110, sub-opcode 1; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cbne/02.svg)
+
+![CBNE: CBZ2_12/a, prefix 111100110000011, sub-opcode 1; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cbne/03.svg)
+
+![CBNE: CBI5_8/a, prefix 11110010100001, sub-opcode 1; operands reg4, imm5s, pc8-u2; 4 bytes](figures/w/cbne/04.svg)
+
+![CBNE: CBI6_8/a, prefix 1111001000000, sub-opcode 1; operands reg4, imm6s, pc8-u2; 4 bytes](figures/w/cbne/05.svg)
+
+![CBNE: CBI10_8/a, prefix 111000011, sub-opcode 1; operands reg4, imm10s, pc8-u2; 4 bytes](figures/w/cbne/06.svg)
+
+![CBNE: CBI5_10/a, prefix 111100010010, sub-opcode 1; operands reg4, imm5s, pc10-u2; 4 bytes](figures/w/cbne/09.svg)
+
+![CBNE: CBI8_10/a, prefix 111001000, sub-opcode 1; operands reg4, imm8s, pc10-u2; 4 bytes](figures/w/cbne/12.svg)
+
+![CBNE: CBR10/a, prefix 1111001000101, sub-opcode 1; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbne/13.svg)
+
+![CBNE: CBI4_12/a, prefix 11101111010, sub-opcode 1; operands reg4, imm4s, pc12-u2; 4 bytes](figures/w/cbne/14.svg)
+
+![CBNE: CBZ2_14/a, prefix 1111001000110, sub-opcode 1; operands reg4, k-imm0, pc14-u2; 4 bytes](figures/w/cbne/16.svg)
+
+![CBNE: CBI6_12/a, prefix 111001001, sub-opcode 1; operands reg4, imm6s, pc12-u2; 4 bytes](figures/w/cbne/17.svg)
+
+![CBNE: CBZ1_4/a, prefix 1010011, sub-opcode 1; operands reg4, k-imm0, pc4-u2; 2 bytes](figures/w/cbne/08.svg)
+
+![CBNE: CBZ1_5/a, prefix 100100, sub-opcode 1; operands reg4, k-imm0, pc5-u2; 2 bytes](figures/w/cbne/11.svg)
+
+![CBNE: CBZ1_7/a, prefix 0100, sub-opcode 1; operands reg4, k-imm0, pc7-u2; 2 bytes](figures/w/cbne/15.svg)
+
+```
+CBNE Rd, #imm, target
+```
+
+Operation, flags and exceptions as for the entry CBCC above; 17 layout forms, each a chart of its own (above).
+
+<a id="w-cbeq"></a>
+#### CBEQ
+
+![CBEQ: CB3I16_12/a, prefix 111100101111100, sub-opcode 0; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbeq/01.svg)
+
+![CBEQ: CB3I8_20/a, prefix 111100110000111, sub-opcode 0; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cbeq/07.svg)
+
+![CBEQ: CB3R24/a, prefix 111100110001000, sub-opcode 0; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbeq/10.svg)
+
+![CBEQ: CBR8/a, prefix 111100101111110, sub-opcode 0; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cbeq/02.svg)
+
+![CBEQ: CBZ2_12/a, prefix 111100110000011, sub-opcode 0; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cbeq/03.svg)
+
+![CBEQ: CBI5_8/a, prefix 11110010100001, sub-opcode 0; operands reg4, imm5s, pc8-u2; 4 bytes](figures/w/cbeq/04.svg)
+
+![CBEQ: CBI6_8/a, prefix 1111001000000, sub-opcode 0; operands reg4, imm6s, pc8-u2; 4 bytes](figures/w/cbeq/05.svg)
+
+![CBEQ: CBI10_8/a, prefix 111000011, sub-opcode 0; operands reg4, imm10s, pc8-u2; 4 bytes](figures/w/cbeq/06.svg)
+
+![CBEQ: CBI5_10/a, prefix 111100010010, sub-opcode 0; operands reg4, imm5s, pc10-u2; 4 bytes](figures/w/cbeq/09.svg)
+
+![CBEQ: CBI8_10/a, prefix 111001000, sub-opcode 0; operands reg4, imm8s, pc10-u2; 4 bytes](figures/w/cbeq/12.svg)
+
+![CBEQ: CBR10/a, prefix 1111001000101, sub-opcode 0; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbeq/13.svg)
+
+![CBEQ: CBI4_12/a, prefix 11101111010, sub-opcode 0; operands reg4, imm4s, pc12-u2; 4 bytes](figures/w/cbeq/14.svg)
+
+![CBEQ: CBZ2_14/a, prefix 1111001000110, sub-opcode 0; operands reg4, k-imm0, pc14-u2; 4 bytes](figures/w/cbeq/16.svg)
+
+![CBEQ: CBI6_12/a, prefix 111001001, sub-opcode 0; operands reg4, imm6s, pc12-u2; 4 bytes](figures/w/cbeq/17.svg)
+
+![CBEQ: CBZ1_4/a, prefix 1010011, sub-opcode 0; operands reg4, k-imm0, pc4-u2; 2 bytes](figures/w/cbeq/08.svg)
+
+![CBEQ: CBZ1_5/a, prefix 100100, sub-opcode 0; operands reg4, k-imm0, pc5-u2; 2 bytes](figures/w/cbeq/11.svg)
+
+![CBEQ: CBZ1_7/a, prefix 0100, sub-opcode 0; operands reg4, k-imm0, pc7-u2; 2 bytes](figures/w/cbeq/15.svg)
+
+```
+CBEQ Ra, Rb, target ... and the rest
+```
+
+Operation, flags and exceptions as for the entry CBCC above; 17 layout forms, each a chart of its own (above).
+
+<a id="w-cbpl"></a>
+#### CBPL
+
+![CBPL: CBDI, prefix 1110100100, sub-opcode 00; operands reg4, imm6s, pc10-u2; 4 bytes](figures/w/cbpl/01.svg)
+
+![CBPL: CBDR, prefix 1110100101, sub-opcode 00; operands reg4, reg4, pc12-u2; 4 bytes](figures/w/cbpl/02.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-cbmi"></a>
+#### CBMI
+
+![CBMI: CBDI, prefix 1110100100, sub-opcode 01; operands reg4, imm6s, pc10-u2; 4 bytes](figures/w/cbmi/01.svg)
+
+![CBMI: CBDR, prefix 1110100101, sub-opcode 01; operands reg4, reg4, pc12-u2; 4 bytes](figures/w/cbmi/02.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-cbvc"></a>
+#### CBVC
+
+![CBVC: CBDI, prefix 1110100100, sub-opcode 10; operands reg4, imm6s, pc10-u2; 4 bytes](figures/w/cbvc/01.svg)
+
+![CBVC: CBDR, prefix 1110100101, sub-opcode 10; operands reg4, reg4, pc12-u2; 4 bytes](figures/w/cbvc/02.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-cbvs"></a>
+#### CBVS
+
+![CBVS: CBDI, prefix 1110100100, sub-opcode 11; operands reg4, imm6s, pc10-u2; 4 bytes](figures/w/cbvs/01.svg)
+
+![CBVS: CBDR, prefix 1110100101, sub-opcode 11; operands reg4, reg4, pc12-u2; 4 bytes](figures/w/cbvs/02.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-cbcc"></a>
+#### CBCC
+
+![CBCC: CB3I16_12/c, prefix 11110010011110, sub-opcode 01; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbcc/02.svg)
+
+![CBCC: CB3R24/c, prefix 11110010101100, sub-opcode 01; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbcc/05.svg)
+
+![CBCC: CB3I8_20/c, prefix 11110010110101, sub-opcode 01; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cbcc/09.svg)
+
+![CBCC: CBR8/c, prefix 11110010011101, sub-opcode 01; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cbcc/01.svg)
+
+![CBCC: CBI4_8/c, prefix 11110010101001, sub-opcode 01; operands reg4, imm4s, pc8-u2; 4 bytes](figures/w/cbcc/03.svg)
+
+![CBCC: CBI6_8/c, prefix 111100010001, sub-opcode 01; operands reg4, imm6s, pc8-u2; 4 bytes](figures/w/cbcc/04.svg)
+
+![CBCC: CBR10/c, prefix 111100010011, sub-opcode 01; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbcc/06.svg)
+
+![CBCC: CBI8_8/c, prefix 1110101100, sub-opcode 01; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbcc/07.svg)
+
+![CBCC: CBI4_10/c, prefix 111100011001, sub-opcode 01; operands reg4, imm4s, pc10-u2; 4 bytes](figures/w/cbcc/08.svg)
+
+![CBCC: CBI10_8/c, prefix 11011000, sub-opcode 01; operands reg4, imm10s, pc8-u2; 4 bytes](figures/w/cbcc/10.svg)
+
+![CBCC: CBI6_10/c, prefix 1110110001, sub-opcode 01; operands reg4, imm6s, pc10-u2; 4 bytes](figures/w/cbcc/11.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 11 layout forms, each a chart of its own (above).
+
+<a id="w-cbcs"></a>
+#### CBCS
+
+![CBCS: CB3I16_12/c, prefix 11110010011110, sub-opcode 00; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbcs/02.svg)
+
+![CBCS: CB3R24/c, prefix 11110010101100, sub-opcode 00; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbcs/05.svg)
+
+![CBCS: CB3I8_20/c, prefix 11110010110101, sub-opcode 00; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cbcs/09.svg)
+
+![CBCS: CBR8/c, prefix 11110010011101, sub-opcode 00; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cbcs/01.svg)
+
+![CBCS: CBI4_8/c, prefix 11110010101001, sub-opcode 00; operands reg4, imm4s, pc8-u2; 4 bytes](figures/w/cbcs/03.svg)
+
+![CBCS: CBI6_8/c, prefix 111100010001, sub-opcode 00; operands reg4, imm6s, pc8-u2; 4 bytes](figures/w/cbcs/04.svg)
+
+![CBCS: CBR10/c, prefix 111100010011, sub-opcode 00; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbcs/06.svg)
+
+![CBCS: CBI8_8/c, prefix 1110101100, sub-opcode 00; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbcs/07.svg)
+
+![CBCS: CBI4_10/c, prefix 111100011001, sub-opcode 00; operands reg4, imm4s, pc10-u2; 4 bytes](figures/w/cbcs/08.svg)
+
+![CBCS: CBI10_8/c, prefix 11011000, sub-opcode 00; operands reg4, imm10s, pc8-u2; 4 bytes](figures/w/cbcs/10.svg)
+
+![CBCS: CBI6_10/c, prefix 1110110001, sub-opcode 00; operands reg4, imm6s, pc10-u2; 4 bytes](figures/w/cbcs/11.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 11 layout forms, each a chart of its own (above).
+
+<a id="w-cbge"></a>
+#### CBGE
+
+![CBGE: CB3I16_12/b, prefix 11110010011000, sub-opcode 01; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbge/01.svg)
+
+![CBGE: CB3I8_20/b, prefix 11110010110001, sub-opcode 01; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cbge/05.svg)
+
+![CBGE: CB3R24/b, prefix 11110010110011, sub-opcode 01; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbge/06.svg)
+
+![CBGE: CBR8/b, prefix 11110010100100, sub-opcode 01; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cbge/02.svg)
+
+![CBGE: CBI8_8/b, prefix 1110100111, sub-opcode 01; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbge/03.svg)
+
+![CBGE: CBZ2_12/b, prefix 11110010101010, sub-opcode 01; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cbge/04.svg)
+
+![CBGE: CBI4_10/b, prefix 111100011010, sub-opcode 01; operands reg4, imm4s, pc10-u2; 4 bytes](figures/w/cbge/07.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
+
+<a id="w-cblt"></a>
+#### CBLT
+
+![CBLT: CB3I16_12/b, prefix 11110010011000, sub-opcode 00; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cblt/01.svg)
+
+![CBLT: CB3I8_20/b, prefix 11110010110001, sub-opcode 00; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cblt/05.svg)
+
+![CBLT: CB3R24/b, prefix 11110010110011, sub-opcode 00; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cblt/06.svg)
+
+![CBLT: CBR8/b, prefix 11110010100100, sub-opcode 00; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cblt/02.svg)
+
+![CBLT: CBI8_8/b, prefix 1110100111, sub-opcode 00; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cblt/03.svg)
+
+![CBLT: CBZ2_12/b, prefix 11110010101010, sub-opcode 00; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cblt/04.svg)
+
+![CBLT: CBI4_10/b, prefix 111100011010, sub-opcode 00; operands reg4, imm4s, pc10-u2; 4 bytes](figures/w/cblt/07.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
+
+<a id="w-cbgt"></a>
+#### CBGT
+
+![CBGT: CB3I16_12/b, prefix 11110010011000, sub-opcode 10; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbgt/01.svg)
+
+![CBGT: CB3I8_20/b, prefix 11110010110001, sub-opcode 10; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cbgt/05.svg)
+
+![CBGT: CB3R24/b, prefix 11110010110011, sub-opcode 10; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbgt/06.svg)
+
+![CBGT: CBR8/b, prefix 11110010100100, sub-opcode 10; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cbgt/02.svg)
+
+![CBGT: CBI8_8/b, prefix 1110100111, sub-opcode 10; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbgt/03.svg)
+
+![CBGT: CBZ2_12/b, prefix 11110010101010, sub-opcode 10; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cbgt/04.svg)
+
+![CBGT: CBI4_10/b, prefix 111100011010, sub-opcode 10; operands reg4, imm4s, pc10-u2; 4 bytes](figures/w/cbgt/07.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
+
+<a id="w-cble"></a>
+#### CBLE
+
+![CBLE: CB3I16_12/b, prefix 11110010011000, sub-opcode 11; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cble/01.svg)
+
+![CBLE: CB3I8_20/b, prefix 11110010110001, sub-opcode 11; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cble/05.svg)
+
+![CBLE: CB3R24/b, prefix 11110010110011, sub-opcode 11; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cble/06.svg)
+
+![CBLE: CBR8/b, prefix 11110010100100, sub-opcode 11; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cble/02.svg)
+
+![CBLE: CBI8_8/b, prefix 1110100111, sub-opcode 11; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cble/03.svg)
+
+![CBLE: CBZ2_12/b, prefix 11110010101010, sub-opcode 11; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cble/04.svg)
+
+![CBLE: CBI4_10/b, prefix 111100011010, sub-opcode 11; operands reg4, imm4s, pc10-u2; 4 bytes](figures/w/cble/07.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
+
+<a id="w-cbhi"></a>
+#### CBHI
+
+![CBHI: CB3I16_12/c, prefix 11110010011110, sub-opcode 10; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbhi/02.svg)
+
+![CBHI: CB3R24/c, prefix 11110010101100, sub-opcode 10; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbhi/05.svg)
+
+![CBHI: CB3I8_20/c, prefix 11110010110101, sub-opcode 10; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cbhi/09.svg)
+
+![CBHI: CBR8/c, prefix 11110010011101, sub-opcode 10; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cbhi/01.svg)
+
+![CBHI: CBI4_8/c, prefix 11110010101001, sub-opcode 10; operands reg4, imm4s, pc8-u2; 4 bytes](figures/w/cbhi/03.svg)
+
+![CBHI: CBI6_8/c, prefix 111100010001, sub-opcode 10; operands reg4, imm6s, pc8-u2; 4 bytes](figures/w/cbhi/04.svg)
+
+![CBHI: CBR10/c, prefix 111100010011, sub-opcode 10; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbhi/06.svg)
+
+![CBHI: CBI8_8/c, prefix 1110101100, sub-opcode 10; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbhi/07.svg)
+
+![CBHI: CBI4_10/c, prefix 111100011001, sub-opcode 10; operands reg4, imm4s, pc10-u2; 4 bytes](figures/w/cbhi/08.svg)
+
+![CBHI: CBI10_8/c, prefix 11011000, sub-opcode 10; operands reg4, imm10s, pc8-u2; 4 bytes](figures/w/cbhi/10.svg)
+
+![CBHI: CBI6_10/c, prefix 1110110001, sub-opcode 10; operands reg4, imm6s, pc10-u2; 4 bytes](figures/w/cbhi/11.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 11 layout forms, each a chart of its own (above).
+
+<a id="w-cblos"></a>
+#### CBLOS
+
+![CBLOS: CB3I16_12/c, prefix 11110010011110, sub-opcode 11; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cblos/02.svg)
+
+![CBLOS: CB3R24/c, prefix 11110010101100, sub-opcode 11; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cblos/05.svg)
+
+![CBLOS: CB3I8_20/c, prefix 11110010110101, sub-opcode 11; operands reg4, imm8s, pc20-u2; 6 bytes](figures/w/cblos/09.svg)
+
+![CBLOS: CBR8/c, prefix 11110010011101, sub-opcode 11; operands reg4, reg4, pc8-u2; 4 bytes](figures/w/cblos/01.svg)
+
+![CBLOS: CBI4_8/c, prefix 11110010101001, sub-opcode 11; operands reg4, imm4s, pc8-u2; 4 bytes](figures/w/cblos/03.svg)
+
+![CBLOS: CBI6_8/c, prefix 111100010001, sub-opcode 11; operands reg4, imm6s, pc8-u2; 4 bytes](figures/w/cblos/04.svg)
+
+![CBLOS: CBR10/c, prefix 111100010011, sub-opcode 11; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cblos/06.svg)
+
+![CBLOS: CBI8_8/c, prefix 1110101100, sub-opcode 11; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cblos/07.svg)
+
+![CBLOS: CBI4_10/c, prefix 111100011001, sub-opcode 11; operands reg4, imm4s, pc10-u2; 4 bytes](figures/w/cblos/08.svg)
+
+![CBLOS: CBI10_8/c, prefix 11011000, sub-opcode 11; operands reg4, imm10s, pc8-u2; 4 bytes](figures/w/cblos/10.svg)
+
+![CBLOS: CBI6_10/c, prefix 1110110001, sub-opcode 11; operands reg4, imm6s, pc10-u2; 4 bytes](figures/w/cblos/11.svg)
+
+Operation, flags and exceptions as for the entry CBCC above; 11 layout forms, each a chart of its own (above).
+
+<a id="w-cbhis"></a>
+#### CBHIS
+
+An alias of [`CBCC`](#w-cbcc): the assembler writes it as that word.
+
+<a id="w-cblo"></a>
+#### CBLO
+
+An alias of [`CBCS`](#w-cbcs): the assembler writes it as that word.
 
 
 ### BTAG: Branch on pointer tag
@@ -2519,8 +5108,6 @@ The chart is the leaf `16-TAG-1`, TAG, prefix `11101110101`. `op1` is `reg4`: re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-TAG-1`](dictionary/by-encoding.md#16-TAG-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BTAG`](dictionary/by-word.md#w-btag), [`BNTAG`](dictionary/by-word.md#w-bntag).
-
 **Operation**
 
 ```
@@ -2538,8 +5125,53 @@ For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-btag"></a>
+#### BTAG
 
+![BTAG: TAG, prefix 11101110101, sub-opcode 0; operands reg4, imm3u, pc13-u2; 4 bytes](figures/w/btag/01.svg)
+
+```
+BTAG Rn, #tag, target
+```
+
+Operation, flags and exceptions as for the entry BTAG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-bntag"></a>
+#### BNTAG
+
+![BNTAG: TAG, prefix 11101110101, sub-opcode 1; operands reg4, imm3u, pc13-u2; 4 bytes](figures/w/bntag/01.svg)
+
+```
+BNTAG Rn, #tag, target
+```
+
+Operation, flags and exceptions as for the entry BTAG above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-jmp"></a>
 ### JMP: Jump
+
+![JMP: SOF.B28, prefix 111100000101, sub-opcode 1100; operands b4d28s-x1; 6 bytes](figures/w/jmp/01.svg)
+
+![JMP: SOF.X22, prefix 111100000110, sub-opcode 1100; operands x4-4d22s; 6 bytes](figures/w/jmp/02.svg)
+
+![JMP: SOF.PC32, prefix 111100001001, sub-opcode 1100; operands pc32-u1; 6 bytes](figures/w/jmp/05.svg)
+
+![JMP: SOF.A32, prefix 111100001010, sub-opcode 1100; operands abs32; 6 bytes](figures/w/jmp/06.svg)
+
+![JMP: CALLF, prefix 111100101111000, sub-opcode 1; operands pc32-u2; 6 bytes](figures/w/jmp/07.svg)
+
+![JMP: SOF.PI12, prefix 111100000111, sub-opcode 1100; operands pi4-s12; 4 bytes](figures/w/jmp/03.svg)
+
+![JMP: SOF.PD12, prefix 111100001000, sub-opcode 1100; operands pd4-s12; 4 bytes](figures/w/jmp/04.svg)
+
+![JMP: CALL2_16/j, prefix 1111001100101011; operands pc16-u2; 4 bytes](figures/w/jmp/09.svg)
+
+![JMP: SOBu12/x, prefix 11110010100101, sub-opcode 00; operands b4d12u-xsz; 4 bytes](figures/w/jmp/10.svg)
+
+![JMP: SOX6/x, prefix 11110010111000, sub-opcode 00; operands x4-4d6s; 4 bytes](figures/w/jmp/11.svg)
+
+![JMP: SOPR, prefix 11101110100, sub-opcode 0; operands reg4; 2 bytes](figures/w/jmp/08.svg)
 
 **Mnemonics:** `JMP`
 
@@ -2557,8 +5189,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-CALLF-1`](dictionary/by-encoding.md#16-CALLF-1), [`16-SOPR-3`](dictionary/by-encoding.md#16-SOPR-3), [`16-CALL2-16-j-1`](dictionary/by-encoding.md#16-CALL2-16-j-1), [`16-SOBu12-x-1`](dictionary/by-encoding.md#16-SOBu12-x-1), [`16-SOX6-x-1`](dictionary/by-encoding.md#16-SOX6-x-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JMP`](dictionary/by-word.md#w-jmp).
-
 **Operation**
 
 ```
@@ -2574,7 +5204,32 @@ A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` throu
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-call"></a>
 ### CALL: Call
+
+![CALL: SOF.B28, prefix 111100000101, sub-opcode 1101; operands b4d28s-x1; 6 bytes](figures/w/call/01.svg)
+
+![CALL: SOF.X22, prefix 111100000110, sub-opcode 1101; operands x4-4d22s; 6 bytes](figures/w/call/02.svg)
+
+![CALL: SOF.PC32, prefix 111100001001, sub-opcode 1101; operands pc32-u1; 6 bytes](figures/w/call/05.svg)
+
+![CALL: SOF.A32, prefix 111100001010, sub-opcode 1101; operands abs32; 6 bytes](figures/w/call/06.svg)
+
+![CALL: CALLF, prefix 111100101111000, sub-opcode 0; operands pc32-u2; 6 bytes](figures/w/call/07.svg)
+
+![CALL: SOF.PI12, prefix 111100000111, sub-opcode 1101; operands pi4-s12; 4 bytes](figures/w/call/03.svg)
+
+![CALL: SOF.PD12, prefix 111100001000, sub-opcode 1101; operands pd4-s12; 4 bytes](figures/w/call/04.svg)
+
+![CALL: CALL2_16/c, prefix 1111001100100110; operands pc16-u2; 4 bytes](figures/w/call/09.svg)
+
+![CALL: CALL2_18/c, prefix 11110010011100; operands pc18-u2; 4 bytes](figures/w/call/10.svg)
+
+![CALL: SOBu12/x, prefix 11110010100101, sub-opcode 01; operands b4d12u-xsz; 4 bytes](figures/w/call/11.svg)
+
+![CALL: SOX6/x, prefix 11110010111000, sub-opcode 01; operands x4-4d6s; 4 bytes](figures/w/call/12.svg)
+
+![CALL: SOPR, prefix 11101110100, sub-opcode 1; operands reg4; 2 bytes](figures/w/call/08.svg)
 
 **Mnemonics:** `CALL`
 
@@ -2591,8 +5246,6 @@ CALL rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-CALLF-1`](dictionary/by-encoding.md#16-CALLF-1), [`16-SOPR-3`](dictionary/by-encoding.md#16-SOPR-3), [`16-CALL2-16-c-1`](dictionary/by-encoding.md#16-CALL2-16-c-1), [`16-CALL2-18-c-1`](dictionary/by-encoding.md#16-CALL2-18-c-1), [`16-SOBu12-x-1`](dictionary/by-encoding.md#16-SOBu12-x-1), [`16-SOX6-x-1`](dictionary/by-encoding.md#16-SOX6-x-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CALL`](dictionary/by-word.md#w-call).
 
 **Operation**
 
@@ -2630,8 +5283,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOBu12-x-1`](dictionary/by-encoding.md#16-SOBu12-x-1), [`16-SOX6-x-1`](dictionary/by-encoding.md#16-SOX6-x-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JMPI`](dictionary/by-word.md#w-jmpi), [`CALLI`](dictionary/by-word.md#w-calli).
-
 **Operation**
 
 ```
@@ -2649,8 +5300,63 @@ The one deferred reference the architecture admits, for control transfer only: t
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-jmpi"></a>
+#### JMPI
 
+![JMPI: SOF.B28, prefix 111100000101, sub-opcode 1110; operands b4d28s-x1; 6 bytes](figures/w/jmpi/01.svg)
+
+![JMPI: SOF.X22, prefix 111100000110, sub-opcode 1110; operands x4-4d22s; 6 bytes](figures/w/jmpi/02.svg)
+
+![JMPI: SOF.PC32, prefix 111100001001, sub-opcode 1110; operands pc32-u1; 6 bytes](figures/w/jmpi/05.svg)
+
+![JMPI: SOF.A32, prefix 111100001010, sub-opcode 1110; operands abs32; 6 bytes](figures/w/jmpi/06.svg)
+
+![JMPI: SOF.PI12, prefix 111100000111, sub-opcode 1110; operands pi4-s12; 4 bytes](figures/w/jmpi/03.svg)
+
+![JMPI: SOF.PD12, prefix 111100001000, sub-opcode 1110; operands pd4-s12; 4 bytes](figures/w/jmpi/04.svg)
+
+![JMPI: SOBu12/x, prefix 11110010100101, sub-opcode 10; operands b4d12u-xsz; 4 bytes](figures/w/jmpi/07.svg)
+
+![JMPI: SOX6/x, prefix 11110010111000, sub-opcode 10; operands x4-4d6s; 4 bytes](figures/w/jmpi/08.svg)
+
+```
+JMPI rm
+```
+
+Operation, flags and exceptions as for the entry JMPI above; 8 layout forms, each a chart of its own (above).
+
+<a id="w-calli"></a>
+#### CALLI
+
+![CALLI: SOF.B28, prefix 111100000101, sub-opcode 1111; operands b4d28s-x1; 6 bytes](figures/w/calli/01.svg)
+
+![CALLI: SOF.X22, prefix 111100000110, sub-opcode 1111; operands x4-4d22s; 6 bytes](figures/w/calli/02.svg)
+
+![CALLI: SOF.PC32, prefix 111100001001, sub-opcode 1111; operands pc32-u1; 6 bytes](figures/w/calli/05.svg)
+
+![CALLI: SOF.A32, prefix 111100001010, sub-opcode 1111; operands abs32; 6 bytes](figures/w/calli/06.svg)
+
+![CALLI: SOF.PI12, prefix 111100000111, sub-opcode 1111; operands pi4-s12; 4 bytes](figures/w/calli/03.svg)
+
+![CALLI: SOF.PD12, prefix 111100001000, sub-opcode 1111; operands pd4-s12; 4 bytes](figures/w/calli/04.svg)
+
+![CALLI: SOBu12/x, prefix 11110010100101, sub-opcode 11; operands b4d12u-xsz; 4 bytes](figures/w/calli/07.svg)
+
+![CALLI: SOX6/x, prefix 11110010111000, sub-opcode 11; operands x4-4d6s; 4 bytes](figures/w/calli/08.svg)
+
+```
+CALLI rm
+```
+
+Operation, flags and exceptions as for the entry JMPI above; 8 layout forms, each a chart of its own (above).
+
+
+<a id="w-jtag"></a>
 ### JTAG: Jump through a tag table
+
+![JTAG: JTAG3, prefix 1111001100100010; operands x4-4d22s; 6 bytes](figures/w/jtag/01.svg)
+
+![JTAG: JTAG2, prefix 1111001100100011; operands x4-4d6s; 4 bytes](figures/w/jtag/02.svg)
 
 **Mnemonics:** `JTAG`
 
@@ -2667,8 +5373,6 @@ JTAG d(Rb)(Rx×s)
 The chart is the leaf `16-JTAG3-1`, JTAG3, prefix `1111001100100010`. `op1` is `x4-4d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 4 bits, index register, 4 bits.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-JTAG3-1`](dictionary/by-encoding.md#16-JTAG3-1), [`16-JTAG2-1`](dictionary/by-encoding.md#16-JTAG2-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JTAG`](dictionary/by-word.md#w-jtag).
 
 **Operation**
 
@@ -2687,7 +5391,12 @@ Legal only with the scaled-index mode (`0001`). Dispatches on the low three bits
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-movcall"></a>
 ### MOVCALL: Move a register and call
+
+![MOVCALL: FX.MOVCALL3, prefix 11001100; operands reg4, reg4, pc32-u2; 6 bytes](figures/w/movcall/01.svg)
+
+![MOVCALL: FX.MOVCALL2, prefix 11001101; operands reg4, reg4, pc16-u2; 4 bytes](figures/w/movcall/02.svg)
 
 **Mnemonics:** `MOVCALL`
 
@@ -2704,8 +5413,6 @@ MOVCALL Rs, Rd, target
 The chart is the leaf `16-FX-MOVCALL3-1`, FX.MOVCALL3, prefix `11001100`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes).
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-MOVCALL3-1`](dictionary/by-encoding.md#16-FX-MOVCALL3-1), [`16-FX-MOVCALL2-1`](dictionary/by-encoding.md#16-FX-MOVCALL2-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVCALL`](dictionary/by-word.md#w-movcall).
 
 **Operation**
 
@@ -2728,7 +5435,10 @@ PC ← target
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-popret"></a>
 ### POPRET: Pop a register and return
+
+![POPRET: FX.POPRET, prefix 111100001101; operands reg4; 2 bytes](figures/w/popret/01.svg)
 
 **Mnemonics:** `POPRET`
 
@@ -2745,8 +5455,6 @@ POPRET Rd
 The chart is the leaf `16-FX-POPRET-1`, FX.POPRET, prefix `111100001101`. `op1` is `reg4`: register, 4 bits.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-POPRET-1`](dictionary/by-encoding.md#16-FX-POPRET-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPRET`](dictionary/by-word.md#w-popret).
 
 **Operation**
 
@@ -2766,7 +5474,10 @@ PC ← M[SP] ; SP ← SP + 8
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-popmret"></a>
 ### POPMRET: Pop several registers and return
+
+![POPMRET: FX.POPMRET, prefix 11001110; operands imm8u-x256; 2 bytes](figures/w/popmret/01.svg)
 
 **Mnemonics:** `POPMRET`
 
@@ -2783,8 +5494,6 @@ POPMRET #mask
 The chart is the leaf `16-FX-POPMRET-1`, FX.POPMRET, prefix `11001110`. `op1` is `imm8u-x256`: unsigned 8-bit immediate times 256, 0 to 65280.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-POPMRET-1`](dictionary/by-encoding.md#16-FX-POPMRET-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPMRET`](dictionary/by-word.md#w-popmret).
 
 **Operation**
 
@@ -2822,7 +5531,14 @@ PC ← M[SP] ; SP ← SP + 8
 *Commentary.* **Precedent.** The VAX's `MOVC5` is the canonical argument against such instructions: its operands could be memory, its architectural definition needed the original values to survive, and so it required hidden state and a first-part-done bit in the status word to resume. The PDP-10 had a block transfer, and x86's `REP MOVS` keeps its progress in registers as the pdp64's do. **Trade-offs.** This is the one admitted exception to the one-memory-operand rule, accepted because its mechanism, hidden state, is absent: the state is the registers, which are already architectural. A large copy can evict the whole data cache, and a non-temporal variant is an open question. **Improvements.** ARM reached the same design in 2022 with `FEAT_MOPS`, whose specification says the registers are updated so that progress is not lost. **Benefits.** The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors. **Modern comparables.** x86 `REP MOVSB` and `REP STOSB` with fast-string microcode; AArch64 `CPYP`/`CPYM`/`CPYE` and `SETP`/`SETM`/`SETE`; s390 `MVC`. **Use.** `memcpy`, `memmove`, `memset`, `memcmp` and `memchr` in the C library; `MVAL` in parsers and kernels. **Impact.** *Kernel:* `PUSHM`, `POPM`, `PUSHX` and `POPX` shorten entry, exit and the context switch, and the block operations are `copyin`, `copyout`, page clearing and `memcpy`. *Compiler:* A prologue and an epilogue are one instruction each, and `memcpy` and `memset` lower to the block operations. *Hardware:* The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors, with no hidden state.
 
 <!-- entries:9.11 -->
+<a id="w-pushm"></a>
 ### PUSHM: Push registers by mask
+
+![PUSHM: PUSHMF, prefix 111100101111001, sub-opcode 0; operands imm32u; 6 bytes](figures/w/pushm/01.svg)
+
+![PUSHM: PUSHM16a/a, prefix 111100101111111, sub-opcode 0; operands imm16u; 4 bytes](figures/w/pushm/02.svg)
+
+![PUSHM: PUSHM8/a, prefix 1010110, sub-opcode 0; operands imm8u-x256; 2 bytes](figures/w/pushm/03.svg)
 
 **Mnemonics:** `PUSHM`
 
@@ -2839,8 +5555,6 @@ PUSHM #mask        ; a 16-bit immediate, bit n is Rn
 The chart is the leaf `16-PUSHMF-1`, PUSHMF, prefix `111100101111001`. `op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295. `sub` (1 bit) selects the mnemonic: `pushm` 0, `popm` 1.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-PUSHMF-1`](dictionary/by-encoding.md#16-PUSHMF-1), [`16-PUSHM16a-a-1`](dictionary/by-encoding.md#16-PUSHM16a-a-1), [`16-PUSHM8-a-1`](dictionary/by-encoding.md#16-PUSHM8-a-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSHM`](dictionary/by-word.md#w-pushm).
 
 **Operation**
 
@@ -2862,7 +5576,14 @@ The registers are pushed in ascending order, so `POPM` with the same mask restor
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-popm"></a>
 ### POPM: Pop registers by mask
+
+![POPM: PUSHMF, prefix 111100101111001, sub-opcode 1; operands imm32u; 6 bytes](figures/w/popm/01.svg)
+
+![POPM: PUSHM16a/a, prefix 111100101111111, sub-opcode 1; operands imm16u; 4 bytes](figures/w/popm/02.svg)
+
+![POPM: PUSHM8/a, prefix 1010110, sub-opcode 1; operands imm8u-x256; 2 bytes](figures/w/popm/03.svg)
 
 **Mnemonics:** `POPM`
 
@@ -2880,8 +5601,6 @@ The chart is the leaf `16-PUSHMF-1`, PUSHMF, prefix `111100101111001`. `op1` is 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-PUSHMF-1`](dictionary/by-encoding.md#16-PUSHMF-1), [`16-PUSHM16a-a-1`](dictionary/by-encoding.md#16-PUSHM16a-a-1), [`16-PUSHM8-a-1`](dictionary/by-encoding.md#16-PUSHM8-a-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPM`](dictionary/by-word.md#w-popm).
-
 **Operation**
 
 ```
@@ -2898,7 +5617,32 @@ The mirror of `PUSHM`.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-push"></a>
 ### PUSH: Push
+
+![PUSH: SOF.B28, prefix 111100000101, sub-opcode 1010; operands b4d28s-x1; 6 bytes](figures/w/push/01.svg)
+
+![PUSH: SOF.X22, prefix 111100000110, sub-opcode 1010; operands x4-4d22s; 6 bytes](figures/w/push/02.svg)
+
+![PUSH: SOF.PC32, prefix 111100001001, sub-opcode 1010; operands pc32-u1; 6 bytes](figures/w/push/05.svg)
+
+![PUSH: SOF.A32, prefix 111100001010, sub-opcode 1010; operands abs32; 6 bytes](figures/w/push/06.svg)
+
+![PUSH: PUSHI3, prefix 1111001100100000; operands imm32s; 6 bytes](figures/w/push/08.svg)
+
+![PUSH: SOF.PI12, prefix 111100000111, sub-opcode 1010; operands pi4-s12; 4 bytes](figures/w/push/03.svg)
+
+![PUSH: SOF.PD12, prefix 111100001000, sub-opcode 1010; operands pd4-s12; 4 bytes](figures/w/push/04.svg)
+
+![PUSH: PUSHI2, prefix 1111001100100001; operands imm16s; 4 bytes](figures/w/push/09.svg)
+
+![PUSH: SOBu12/a, prefix 111100110000100, sub-opcode 0; operands b4d12u-xsz; 4 bytes](figures/w/push/10.svg)
+
+![PUSH: SOX6/a, prefix 111100110001010, sub-opcode 0; operands x4-4d6s; 4 bytes](figures/w/push/11.svg)
+
+![PUSH: SOBs12/a, prefix 111100110001100, sub-opcode 0; operands b4d12s-xsz; 4 bytes](figures/w/push/12.svg)
+
+![PUSH: SOPR, prefix 1110100011, sub-opcode 10; operands reg4; 2 bytes](figures/w/push/07.svg)
 
 **Mnemonics:** `PUSH`
 
@@ -2916,8 +5660,6 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2), [`16-PUSHI3-1`](dictionary/by-encoding.md#16-PUSHI3-1), [`16-PUSHI2-1`](dictionary/by-encoding.md#16-PUSHI2-1), [`16-SOBu12-a-2`](dictionary/by-encoding.md#16-SOBu12-a-2), [`16-SOX6-a-2`](dictionary/by-encoding.md#16-SOX6-a-2), [`16-SOBs12-a-2`](dictionary/by-encoding.md#16-SOBs12-a-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSH`](dictionary/by-word.md#w-push).
-
 **Operation**
 
 ```
@@ -2931,7 +5673,28 @@ v ← rm ; SP ← SP - 8 ; M[SP] ← v
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-pop"></a>
 ### POP: Pop
+
+![POP: SOF.B28, prefix 111100000101, sub-opcode 1011; operands b4d28s-x1; 6 bytes](figures/w/pop/01.svg)
+
+![POP: SOF.X22, prefix 111100000110, sub-opcode 1011; operands x4-4d22s; 6 bytes](figures/w/pop/02.svg)
+
+![POP: SOF.PC32, prefix 111100001001, sub-opcode 1011; operands pc32-u1; 6 bytes](figures/w/pop/05.svg)
+
+![POP: SOF.A32, prefix 111100001010, sub-opcode 1011; operands abs32; 6 bytes](figures/w/pop/06.svg)
+
+![POP: SOF.PI12, prefix 111100000111, sub-opcode 1011; operands pi4-s12; 4 bytes](figures/w/pop/03.svg)
+
+![POP: SOF.PD12, prefix 111100001000, sub-opcode 1011; operands pd4-s12; 4 bytes](figures/w/pop/04.svg)
+
+![POP: SOBu12/a, prefix 111100110000100, sub-opcode 1; operands b4d12u-xsz; 4 bytes](figures/w/pop/08.svg)
+
+![POP: SOX6/a, prefix 111100110001010, sub-opcode 1; operands x4-4d6s; 4 bytes](figures/w/pop/09.svg)
+
+![POP: SOBs12/a, prefix 111100110001100, sub-opcode 1; operands b4d12s-xsz; 4 bytes](figures/w/pop/10.svg)
+
+![POP: SOPR, prefix 1110100011, sub-opcode 11; operands reg4; 2 bytes](figures/w/pop/07.svg)
 
 **Mnemonics:** `POP`
 
@@ -2948,8 +5711,6 @@ POP rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2), [`16-SOBu12-a-2`](dictionary/by-encoding.md#16-SOBu12-a-2), [`16-SOX6-a-2`](dictionary/by-encoding.md#16-SOX6-a-2), [`16-SOBs12-a-2`](dictionary/by-encoding.md#16-SOBs12-a-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POP`](dictionary/by-word.md#w-pop).
 
 **Operation**
 
@@ -2983,8 +5744,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MCPY`](dictionary/by-word.md#w-mcpy), [`MMOV`](dictionary/by-word.md#w-mmov).
-
 **Operation**
 
 ```
@@ -3005,8 +5764,33 @@ The one granted exception to the one-memory-operand rule. All three registers ar
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-mcpy"></a>
+#### MCPY
 
+![MCPY: R3, prefix 111011111000, sub-opcode 00000100; operands reg4, reg4, reg4; 4 bytes](figures/w/mcpy/01.svg)
+
+```
+MCPY Rd, Rs, Rn
+```
+
+Operation, flags and exceptions as for the entry MCPY above; 1 layout form, each a chart of its own (above).
+
+<a id="w-mmov"></a>
+#### MMOV
+
+![MMOV: R3, prefix 111011111000, sub-opcode 00000101; operands reg4, reg4, reg4; 4 bytes](figures/w/mmov/01.svg)
+
+```
+MMOV Rd, Rs, Rn
+```
+
+Operation, flags and exceptions as for the entry MCPY above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-mset"></a>
 ### MSET: Fill a block of bytes
+
+![MSET: R3, prefix 111011111000, sub-opcode 00000110; operands reg4, reg4, reg4; 4 bytes](figures/w/mset/01.svg)
 
 **Mnemonics:** `MSET`
 
@@ -3023,8 +5807,6 @@ MSET Rd, Rv, Rn
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSET`](dictionary/by-word.md#w-mset).
 
 **Operation**
 
@@ -3045,7 +5827,10 @@ while Rn ≠ 0:  M8[Rd] ← Rv[7:0] ; Rd ← Rd + 1 ; Rn ← Rn - 1
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-mcmp"></a>
 ### MCMP: Compare two blocks of bytes
+
+![MCMP: R3, prefix 111011111000, sub-opcode 00000111; operands reg4, reg4, reg4; 4 bytes](figures/w/mcmp/01.svg)
 
 **Mnemonics:** `MCMP`
 
@@ -3062,8 +5847,6 @@ MCMP Rd, Rs, Rn
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MCMP`](dictionary/by-word.md#w-mcmp).
 
 **Operation**
 
@@ -3107,8 +5890,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSCN`](dictionary/by-word.md#w-mscn), [`MSCNN`](dictionary/by-word.md#w-mscnn).
-
 **Operation**
 
 ```
@@ -3131,8 +5912,33 @@ not found: Z = 0
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-mscn"></a>
+#### MSCN
 
+![MSCN: R3, prefix 111011111000, sub-opcode 00001000; operands reg4, reg4, reg4; 4 bytes](figures/w/mscn/01.svg)
+
+```
+MSCN Rd, Rv, Rn
+```
+
+Operation, flags and exceptions as for the entry MSCN above; 1 layout form, each a chart of its own (above).
+
+<a id="w-mscnn"></a>
+#### MSCNN
+
+![MSCNN: R3, prefix 111011111000, sub-opcode 00001001; operands reg4, reg4, reg4; 4 bytes](figures/w/mscnn/01.svg)
+
+```
+MSCNN Rd, Rv, Rn
+```
+
+Operation, flags and exceptions as for the entry MSCN above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-mval"></a>
 ### MVAL: Validate a block as UTF-8
+
+![MVAL: R2, prefix 111011110111, sub-opcode 000000001100; operands reg4, reg4; 4 bytes](figures/w/mval/01.svg)
 
 **Mnemonics:** `MVAL`
 
@@ -3149,8 +5955,6 @@ MVAL Rd, Rn
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MVAL`](dictionary/by-word.md#w-mval).
 
 **Operation**
 
@@ -3190,8 +5994,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSHA256`](dictionary/by-word.md#w-msha256), [`MSHA512`](dictionary/by-word.md#w-msha512).
-
 **Operation**
 
 ```
@@ -3209,8 +6011,33 @@ progress is held in Rd, Rs and Rn; an interrupt or a fault restarts the instruct
 
 **Status** specified; **not yet implemented** in the reference executor.
 
+<a id="w-msha256"></a>
+#### MSHA256
 
+![MSHA256: R3, prefix 111011111000, sub-opcode 00110001; operands reg4, reg4, reg4; 4 bytes](figures/w/msha256/01.svg)
+
+```
+MSHA256 Rd, Rs, Rn
+```
+
+Operation, flags and exceptions as for the entry MSHA above; 1 layout form, each a chart of its own (above).
+
+<a id="w-msha512"></a>
+#### MSHA512
+
+![MSHA512: R3, prefix 111011111000, sub-opcode 00110010; operands reg4, reg4, reg4; 4 bytes](figures/w/msha512/01.svg)
+
+```
+MSHA512 Rd, Rs, Rn
+```
+
+Operation, flags and exceptions as for the entry MSHA above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-maesctr"></a>
 ### MAESCTR: AES in counter mode over a buffer
+
+![MAESCTR: R4, prefix 111011111001, sub-opcode 1111; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/maesctr/01.svg)
 
 **Mnemonics:** `MAESCTR`
 
@@ -3227,8 +6054,6 @@ MAESCTR Rd, Rs, Rn, Rp
 The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MAESCTR`](dictionary/by-word.md#w-maesctr).
 
 **Operation**
 
@@ -3285,8 +6110,6 @@ The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1), [`16-LDPC12-d-2`](dictionary/by-encoding.md#16-LDPC12-d-2), [`16-LDBs8-d-2`](dictionary/by-encoding.md#16-LDBs8-d-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD`](dictionary/by-word.md#w-fadd), [`FSUB`](dictionary/by-word.md#w-fsub), [`FMUL`](dictionary/by-word.md#w-fmul).
-
 **Operation**
 
 ```
@@ -3303,8 +6126,134 @@ Floating-point values live in the general registers; there is no separate regist
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-fadd"></a>
+#### FADD
 
+![FADD: LDF.B28, prefix 110110101, sub-opcode 010; operands b4d28s-x1, reg4; 6 bytes](figures/w/fadd/01.svg)
+
+![FADD: LDF.X22, prefix 110110110, sub-opcode 010; operands x4-4d22s, reg4; 6 bytes](figures/w/fadd/02.svg)
+
+![FADD: LDF.PC32, prefix 110111001, sub-opcode 010; operands pc32-u1, reg4; 6 bytes](figures/w/fadd/05.svg)
+
+![FADD: LDF.A32, prefix 110111010, sub-opcode 010; operands abs32, reg4; 6 bytes](figures/w/fadd/06.svg)
+
+![FADD: LDFI.I32, prefix 11001011, sub-opcode 1011; operands imm32s, reg4; 6 bytes](figures/w/fadd/07.svg)
+
+![FADD: DPF.D28, prefix 1111000111110, sub-opcode 010; operands dpd28s-x1, reg4; 6 bytes](figures/w/fadd/08.svg)
+
+![FADD: LDF.PI12, prefix 110110111, sub-opcode 010; operands pi4-s12, reg4; 4 bytes](figures/w/fadd/03.svg)
+
+![FADD: LDF.PD12, prefix 110111000, sub-opcode 010; operands pd4-s12, reg4; 4 bytes](figures/w/fadd/04.svg)
+
+![FADD: LDPC12/d, prefix 1111001000111, sub-opcode 110; operands pc12-u1, reg4; 4 bytes](figures/w/fadd/10.svg)
+
+![FADD: LDBs8/d, prefix 1111001001001, sub-opcode 110; operands b4d8s-xsz, reg4; 4 bytes](figures/w/fadd/11.svg)
+
+![FADD: RRF, prefix 01010, sub-opcode 010; operands reg4, reg4; 2 bytes](figures/w/fadd/09.svg)
+
+```
+FADD rm, Rd
+```
+
+Operation, flags and exceptions as for the entry FADD above; 11 layout forms, each a chart of its own (above).
+
+<a id="w-fsub"></a>
+#### FSUB
+
+![FSUB: LDF.B28, prefix 110110101, sub-opcode 011; operands b4d28s-x1, reg4; 6 bytes](figures/w/fsub/01.svg)
+
+![FSUB: LDF.X22, prefix 110110110, sub-opcode 011; operands x4-4d22s, reg4; 6 bytes](figures/w/fsub/02.svg)
+
+![FSUB: LDF.PC32, prefix 110111001, sub-opcode 011; operands pc32-u1, reg4; 6 bytes](figures/w/fsub/05.svg)
+
+![FSUB: LDF.A32, prefix 110111010, sub-opcode 011; operands abs32, reg4; 6 bytes](figures/w/fsub/06.svg)
+
+![FSUB: LDFI.I32, prefix 11001011, sub-opcode 1100; operands imm32s, reg4; 6 bytes](figures/w/fsub/07.svg)
+
+![FSUB: DPF.D28, prefix 1111000111110, sub-opcode 011; operands dpd28s-x1, reg4; 6 bytes](figures/w/fsub/08.svg)
+
+![FSUB: LDF.PI12, prefix 110110111, sub-opcode 011; operands pi4-s12, reg4; 4 bytes](figures/w/fsub/03.svg)
+
+![FSUB: LDF.PD12, prefix 110111000, sub-opcode 011; operands pd4-s12, reg4; 4 bytes](figures/w/fsub/04.svg)
+
+![FSUB: LDPC12/d, prefix 1111001000111, sub-opcode 111; operands pc12-u1, reg4; 4 bytes](figures/w/fsub/10.svg)
+
+![FSUB: LDBs8/d, prefix 1111001001001, sub-opcode 111; operands b4d8s-xsz, reg4; 4 bytes](figures/w/fsub/11.svg)
+
+![FSUB: RRF, prefix 01010, sub-opcode 011; operands reg4, reg4; 2 bytes](figures/w/fsub/09.svg)
+
+```
+FSUB rm, Rd
+```
+
+Operation, flags and exceptions as for the entry FADD above; 11 layout forms, each a chart of its own (above).
+
+<a id="w-fmul"></a>
+#### FMUL
+
+![FMUL: LDF.B28, prefix 110110101, sub-opcode 100; operands b4d28s-x1, reg4; 6 bytes](figures/w/fmul/01.svg)
+
+![FMUL: LDF.X22, prefix 110110110, sub-opcode 100; operands x4-4d22s, reg4; 6 bytes](figures/w/fmul/02.svg)
+
+![FMUL: LDF.PC32, prefix 110111001, sub-opcode 100; operands pc32-u1, reg4; 6 bytes](figures/w/fmul/05.svg)
+
+![FMUL: LDF.A32, prefix 110111010, sub-opcode 100; operands abs32, reg4; 6 bytes](figures/w/fmul/06.svg)
+
+![FMUL: LDFI.I32, prefix 11001011, sub-opcode 1101; operands imm32s, reg4; 6 bytes](figures/w/fmul/07.svg)
+
+![FMUL: DPF.D28, prefix 1111000111110, sub-opcode 100; operands dpd28s-x1, reg4; 6 bytes](figures/w/fmul/08.svg)
+
+![FMUL: LDF.PI12, prefix 110110111, sub-opcode 100; operands pi4-s12, reg4; 4 bytes](figures/w/fmul/03.svg)
+
+![FMUL: LDF.PD12, prefix 110111000, sub-opcode 100; operands pd4-s12, reg4; 4 bytes](figures/w/fmul/04.svg)
+
+![FMUL: LDPC12/d, prefix 111100110001011, sub-opcode 0; operands pc12-u1, reg4; 4 bytes](figures/w/fmul/10.svg)
+
+![FMUL: LDBs8/d, prefix 111100110001101, sub-opcode 0; operands b4d8s-xsz, reg4; 4 bytes](figures/w/fmul/11.svg)
+
+![FMUL: RRF, prefix 01010, sub-opcode 100; operands reg4, reg4; 2 bytes](figures/w/fmul/09.svg)
+
+```
+FMUL rm, Rd
+```
+
+Operation, flags and exceptions as for the entry FADD above; 11 layout forms, each a chart of its own (above).
+
+<a id="w-faddd"></a>
+#### FADDD
+
+An alias of [`FADD`](#w-fadd): the assembler writes it as that word.
+
+<a id="w-fsubd"></a>
+#### FSUBD
+
+An alias of [`FSUB`](#w-fsub): the assembler writes it as that word.
+
+<a id="w-fmuld"></a>
+#### FMULD
+
+An alias of [`FMUL`](#w-fmul): the assembler writes it as that word.
+
+
+<a id="w-fcmp"></a>
+<a id="w-fcmpd"></a>
 ### FCMP: Floating compare, binary64
+
+![FCMP: CMF.B28, prefix 11101101101, sub-opcode 1; operands reg4, b4d28s-x1; 6 bytes](figures/w/fcmp/01.svg)
+
+![FCMP: CMF.X22, prefix 11101101110, sub-opcode 1; operands reg4, x4-4d22s; 6 bytes](figures/w/fcmp/02.svg)
+
+![FCMP: CMF.PC32, prefix 11101110001, sub-opcode 1; operands reg4, pc32-u1; 6 bytes](figures/w/fcmp/05.svg)
+
+![FCMP: CMF.A32, prefix 11101110010, sub-opcode 1; operands reg4, abs32; 6 bytes](figures/w/fcmp/06.svg)
+
+![FCMP: CMF.I32, prefix 11101110011, sub-opcode 1; operands reg4, imm32s; 6 bytes](figures/w/fcmp/07.svg)
+
+![FCMP: CMF.PI12, prefix 11101101111, sub-opcode 1; operands reg4, pi4-s12; 4 bytes](figures/w/fcmp/03.svg)
+
+![FCMP: CMF.PD12, prefix 11101110000, sub-opcode 1; operands reg4, pd4-s12; 4 bytes](figures/w/fcmp/04.svg)
+
+![FCMP: RRF, prefix 01010, sub-opcode 111; operands reg4, reg4; 2 bytes](figures/w/fcmp/08.svg)
 
 **Mnemonics:** `FCMP`  (aliases: `FCMPD`)
 
@@ -3322,8 +6271,6 @@ The chart is the leaf `16-CMF-B28-1`, CMF.B28, prefix `11101101101`. `op1` is `r
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-CMF-B28-1`](dictionary/by-encoding.md#16-CMF-B28-1), [`16-CMF-X22-1`](dictionary/by-encoding.md#16-CMF-X22-1), [`16-CMF-PI12-1`](dictionary/by-encoding.md#16-CMF-PI12-1), [`16-CMF-PD12-1`](dictionary/by-encoding.md#16-CMF-PD12-1), [`16-CMF-PC32-1`](dictionary/by-encoding.md#16-CMF-PC32-1), [`16-CMF-A32-1`](dictionary/by-encoding.md#16-CMF-A32-1), [`16-CMF-I32-1`](dictionary/by-encoding.md#16-CMF-I32-1), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCMP`](dictionary/by-word.md#w-fcmp).
-
 **Operation**
 
 ```
@@ -3337,6 +6284,9 @@ N ← Rd < rm ; Z ← Rd = rm ; V ← unordered ; C ← 0
 The signed branches do not treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1); this is an open item of the instruction set.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fcmpd"></a>
+**`FCMPD`** is an alias of `FCMP`: the assembler writes it as that word.
 
 
 ### FDIV: Floating divide and square root, binary64
@@ -3358,8 +6308,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FDIV`](dictionary/by-word.md#w-fdiv), [`FSQRT`](dictionary/by-word.md#w-fsqrt).
-
 **Operation**
 
 ```
@@ -3374,6 +6322,38 @@ FSQRT: Rd ← sqrt(Rs)
 `FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a one-parcel form. The alternative spellings `FDIVD`, `FSQRTD` are aliases.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fdiv"></a>
+#### FDIV
+
+![FDIV: R2, prefix 111011110111, sub-opcode 000000010000; operands reg4, reg4; 4 bytes](figures/w/fdiv/01.svg)
+
+```
+FDIV Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FDIV above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fsqrt"></a>
+#### FSQRT
+
+![FSQRT: R2, prefix 111011110111, sub-opcode 000000010001; operands reg4, reg4; 4 bytes](figures/w/fsqrt/01.svg)
+
+```
+FSQRT Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FDIV above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fdivd"></a>
+#### FDIVD
+
+An alias of [`FDIV`](#w-fdiv): the assembler writes it as that word.
+
+<a id="w-fsqrtd"></a>
+#### FSQRTD
+
+An alias of [`FSQRT`](#w-fsqrt): the assembler writes it as that word.
 
 
 ### FSINGLE: Floating arithmetic, binary32
@@ -3399,8 +6379,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD32`](dictionary/by-word.md#w-fadd32), [`FSUB32`](dictionary/by-word.md#w-fsub32), [`FMUL32`](dictionary/by-word.md#w-fmul32), [`FDIV32`](dictionary/by-word.md#w-fdiv32), [`FSQRT32`](dictionary/by-word.md#w-fsqrt32), [`FCMP32`](dictionary/by-word.md#w-fcmp32).
-
 **Operation**
 
 ```
@@ -3417,6 +6395,102 @@ A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like ev
 **Why it is here.** `binary64` has first-class opcodes because on a 64-bit machine it is the common case; `binary32` has the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other formats (`FADD16`); the older spellings (`FADDS` and so on) are aliases.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fadd32"></a>
+#### FADD32
+
+![FADD32: R2, prefix 111011110111, sub-opcode 000000010010; operands reg4, reg4; 4 bytes](figures/w/fadd32/01.svg)
+
+```
+FADD32 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fsub32"></a>
+#### FSUB32
+
+![FSUB32: R2, prefix 111011110111, sub-opcode 000000010011; operands reg4, reg4; 4 bytes](figures/w/fsub32/01.svg)
+
+```
+FSUB32 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmul32"></a>
+#### FMUL32
+
+![FMUL32: R2, prefix 111011110111, sub-opcode 000000010100; operands reg4, reg4; 4 bytes](figures/w/fmul32/01.svg)
+
+```
+FMUL32 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fdiv32"></a>
+#### FDIV32
+
+![FDIV32: R2, prefix 111011110111, sub-opcode 000000010101; operands reg4, reg4; 4 bytes](figures/w/fdiv32/01.svg)
+
+```
+FDIV32 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fsqrt32"></a>
+#### FSQRT32
+
+![FSQRT32: R2, prefix 111011110111, sub-opcode 000000010110; operands reg4, reg4; 4 bytes](figures/w/fsqrt32/01.svg)
+
+```
+FSQRT32 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcmp32"></a>
+#### FCMP32
+
+![FCMP32: R2, prefix 111011110111, sub-opcode 000000010111; operands reg4, reg4; 4 bytes](figures/w/fcmp32/01.svg)
+
+```
+FCMP32 Rd, Rs
+```
+
+Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fadds"></a>
+#### FADDS
+
+An alias of [`FADD32`](#w-fadd32): the assembler writes it as that word.
+
+<a id="w-fsubs"></a>
+#### FSUBS
+
+An alias of [`FSUB32`](#w-fsub32): the assembler writes it as that word.
+
+<a id="w-fmuls"></a>
+#### FMULS
+
+An alias of [`FMUL32`](#w-fmul32): the assembler writes it as that word.
+
+<a id="w-fdivs"></a>
+#### FDIVS
+
+An alias of [`FDIV32`](#w-fdiv32): the assembler writes it as that word.
+
+<a id="w-fsqrts"></a>
+#### FSQRTS
+
+An alias of [`FSQRT32`](#w-fsqrt32): the assembler writes it as that word.
+
+<a id="w-fcmps"></a>
+#### FCMPS
+
+An alias of [`FCMP32`](#w-fcmp32): the assembler writes it as that word.
 
 
 ### FMADD: Fused multiply-add, binary64
@@ -3440,8 +6514,6 @@ The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMADD`](dictionary/by-word.md#w-fmadd), [`FMSUB`](dictionary/by-word.md#w-fmsub), [`FNMADD`](dictionary/by-word.md#w-fnmadd), [`FNMSUB`](dictionary/by-word.md#w-fnmsub).
-
 **Operation**
 
 ```
@@ -3460,6 +6532,70 @@ The alternative spellings `FMADDD`, ... are aliases.
 **Why it is here.** The whole fused multiply-add family is in the instruction set because its absence would be the single worst gap in the floating-point set: one rounding instead of two, and the inner step of dot products, polynomial evaluation and every matrix kernel. It has four register operands. It replaces the VAX `POLY`, which was the best answer before fused multiply-add.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fmadd"></a>
+#### FMADD
+
+![FMADD: R4, prefix 111011111001, sub-opcode 0000; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fmadd/01.svg)
+
+```
+FMADD Rs, Rt, Ru, Rd
+```
+
+Operation, flags and exceptions as for the entry FMADD above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmsub"></a>
+#### FMSUB
+
+![FMSUB: R4, prefix 111011111001, sub-opcode 0001; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fmsub/01.svg)
+
+```
+FMSUB Rs, Rt, Ru, Rd
+```
+
+Operation, flags and exceptions as for the entry FMADD above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fnmadd"></a>
+#### FNMADD
+
+![FNMADD: R4, prefix 111011111001, sub-opcode 0010; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fnmadd/01.svg)
+
+```
+FNMADD Rs, Rt, Ru, Rd
+```
+
+Operation, flags and exceptions as for the entry FMADD above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fnmsub"></a>
+#### FNMSUB
+
+![FNMSUB: R4, prefix 111011111001, sub-opcode 0011; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fnmsub/01.svg)
+
+```
+FNMSUB Rs, Rt, Ru, Rd
+```
+
+Operation, flags and exceptions as for the entry FMADD above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmaddd"></a>
+#### FMADDD
+
+An alias of [`FMADD`](#w-fmadd): the assembler writes it as that word.
+
+<a id="w-fmsubd"></a>
+#### FMSUBD
+
+An alias of [`FMSUB`](#w-fmsub): the assembler writes it as that word.
+
+<a id="w-fnmaddd"></a>
+#### FNMADDD
+
+An alias of [`FNMADD`](#w-fnmadd): the assembler writes it as that word.
+
+<a id="w-fnmsubd"></a>
+#### FNMSUBD
+
+An alias of [`FNMSUB`](#w-fnmsub): the assembler writes it as that word.
 
 
 ### FMADD32: Fused multiply-add, binary32
@@ -3483,8 +6619,6 @@ The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMADD32`](dictionary/by-word.md#w-fmadd32), [`FMSUB32`](dictionary/by-word.md#w-fmsub32), [`FNMADD32`](dictionary/by-word.md#w-fnmadd32), [`FNMSUB32`](dictionary/by-word.md#w-fnmsub32).
-
 **Operation**
 
 ```
@@ -3498,6 +6632,70 @@ As FMADD, in binary32, rounded once
 **Why it is here.** The `binary32` forms of the fused multiply-add family.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fmadd32"></a>
+#### FMADD32
+
+![FMADD32: R4, prefix 111011111001, sub-opcode 0100; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fmadd32/01.svg)
+
+```
+FMADD32 Rs, Rt, Ru, Rd
+```
+
+Operation, flags and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmsub32"></a>
+#### FMSUB32
+
+![FMSUB32: R4, prefix 111011111001, sub-opcode 0101; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fmsub32/01.svg)
+
+```
+FMSUB32 ...
+```
+
+Operation, flags and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fnmadd32"></a>
+#### FNMADD32
+
+![FNMADD32: R4, prefix 111011111001, sub-opcode 0110; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fnmadd32/01.svg)
+
+```
+FNMADD32 ...
+```
+
+Operation, flags and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fnmsub32"></a>
+#### FNMSUB32
+
+![FNMSUB32: R4, prefix 111011111001, sub-opcode 0111; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fnmsub32/01.svg)
+
+```
+FNMSUB32 ...
+```
+
+Operation, flags and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmadds"></a>
+#### FMADDS
+
+An alias of [`FMADD32`](#w-fmadd32): the assembler writes it as that word.
+
+<a id="w-fmsubs"></a>
+#### FMSUBS
+
+An alias of [`FMSUB32`](#w-fmsub32): the assembler writes it as that word.
+
+<a id="w-fnmadds"></a>
+#### FNMADDS
+
+An alias of [`FNMADD32`](#w-fnmadd32): the assembler writes it as that word.
+
+<a id="w-fnmsubs"></a>
+#### FNMSUBS
+
+An alias of [`FNMSUB32`](#w-fnmsub32): the assembler writes it as that word.
 
 
 ### FSIGN: Sign operations on the bits
@@ -3520,8 +6718,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1), [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FNEG`](dictionary/by-word.md#w-fneg), [`FABS`](dictionary/by-word.md#w-fabs), [`FCOPYSIGN`](dictionary/by-word.md#w-fcopysign).
-
 **Operation**
 
 ```
@@ -3537,6 +6733,39 @@ FCOPYSIGN: Rd ← magnitude of Rs, sign of Rt
 **Why it is here.** Sign and selection operations (negate, absolute value and the like) work on the bits, do not canonicalise a NaN and raise no flag, so they cost almost nothing. The PowerPC 601 floating-point set has the same operations (stated from memory, not checked against a manual). No separate reason is recorded for these three.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fneg"></a>
+#### FNEG
+
+![FNEG: R2, prefix 111011110111, sub-opcode 000000011000; operands reg4, reg4; 4 bytes](figures/w/fneg/01.svg)
+
+```
+FNEG Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fabs"></a>
+#### FABS
+
+![FABS: R2, prefix 111011110111, sub-opcode 000000011001; operands reg4, reg4; 4 bytes](figures/w/fabs/01.svg)
+
+```
+FABS Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcopysign"></a>
+#### FCOPYSIGN
+
+![FCOPYSIGN: R3, prefix 111011111000, sub-opcode 00010011; operands reg4, reg4, reg4; 4 bytes](figures/w/fcopysign/01.svg)
+
+```
+FCOPYSIGN Rs, Rt, Rd
+```
+
+Operation, flags and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
 
 
 ### FMIN: Floating minimum and maximum, binary64
@@ -3558,8 +6787,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMIN`](dictionary/by-word.md#w-fmin), [`FMAX`](dictionary/by-word.md#w-fmax).
-
 **Operation**
 
 ```
@@ -3576,6 +6803,38 @@ The alternative spellings `FMIND`, `FMAXD` are aliases.
 **Why it is here.** The floating counterparts of the integer `MIN` and `MAX`. A NaN operand loses to a number and two NaNs give the canonical quiet NaN.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fmin"></a>
+#### FMIN
+
+![FMIN: R3, prefix 111011111000, sub-opcode 00010100; operands reg4, reg4, reg4; 4 bytes](figures/w/fmin/01.svg)
+
+```
+FMIN Rs, Rt, Rd
+```
+
+Operation, flags and exceptions as for the entry FMIN above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmax"></a>
+#### FMAX
+
+![FMAX: R3, prefix 111011111000, sub-opcode 00010101; operands reg4, reg4, reg4; 4 bytes](figures/w/fmax/01.svg)
+
+```
+FMAX Rs, Rt, Rd
+```
+
+Operation, flags and exceptions as for the entry FMIN above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmind"></a>
+#### FMIND
+
+An alias of [`FMIN`](#w-fmin): the assembler writes it as that word.
+
+<a id="w-fmaxd"></a>
+#### FMAXD
+
+An alias of [`FMAX`](#w-fmax): the assembler writes it as that word.
 
 
 ### FCLASS: Classify a floating-point value
@@ -3598,8 +6857,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCLASS`](dictionary/by-word.md#w-fclass), [`FCLASS32`](dictionary/by-word.md#w-fclass32), [`FCLASS16`](dictionary/by-word.md#w-fclass16).
-
 **Operation**
 
 ```
@@ -3618,6 +6875,49 @@ Every libm function begins with this dispatch. The alternative spellings `FCLASS
 **Why it is here.** Every libm function begins with this dispatch: one instruction returns which of ten kinds a value is (signalling or quiet NaN, infinity, normal, subnormal, zero, each signed), where software needs several compares and masks. It is justified by a workload, library mathematics, and not by compiled C, as the tag branches are. Nothing in the corpus emits it, because the compiler does not use it.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fclass"></a>
+#### FCLASS
+
+![FCLASS: R2, prefix 111011110111, sub-opcode 000000011010; operands reg4, reg4; 4 bytes](figures/w/fclass/01.svg)
+
+```
+FCLASS Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fclass32"></a>
+#### FCLASS32
+
+![FCLASS32: R2, prefix 111011110111, sub-opcode 000000011011; operands reg4, reg4; 4 bytes](figures/w/fclass32/01.svg)
+
+```
+FCLASS32 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fclass16"></a>
+#### FCLASS16
+
+![FCLASS16: R2, prefix 111011110111, sub-opcode 000000110000; operands reg4, reg4; 4 bytes](figures/w/fclass16/01.svg)
+
+```
+FCLASS16 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fclassd"></a>
+#### FCLASSD
+
+An alias of [`FCLASS`](#w-fclass): the assembler writes it as that word.
+
+<a id="w-fclasss"></a>
+#### FCLASSS
+
+An alias of [`FCLASS32`](#w-fclass32): the assembler writes it as that word.
 
 
 ### FRINT: Round to an integral value, binary64
@@ -3642,8 +6942,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FRINT`](dictionary/by-word.md#w-frint), [`FRINTZ`](dictionary/by-word.md#w-frintz), [`FRINTM`](dictionary/by-word.md#w-frintm), [`FRINTP`](dictionary/by-word.md#w-frintp), [`FRINTA`](dictionary/by-word.md#w-frinta).
-
 **Operation**
 
 ```
@@ -3661,6 +6959,86 @@ The rounding mode is in the instruction, never in a mode bit. The alternative sp
 **Why it is here.** Rounding to an integral value in each direction (nearest even, toward zero, down, up) is in the set, and `FRINTA`, ties away from zero, serves C's `round()`, which is common in libm; it is a qualifier of the round operation and so costs no new operation.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-frint"></a>
+#### FRINT
+
+![FRINT: R2, prefix 111011110111, sub-opcode 000000011100; operands reg4, reg4; 4 bytes](figures/w/frint/01.svg)
+
+```
+FRINT Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-frintz"></a>
+#### FRINTZ
+
+![FRINTZ: R2, prefix 111011110111, sub-opcode 000000011101; operands reg4, reg4; 4 bytes](figures/w/frintz/01.svg)
+
+```
+FRINTZ Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-frintm"></a>
+#### FRINTM
+
+![FRINTM: R2, prefix 111011110111, sub-opcode 000000011110; operands reg4, reg4; 4 bytes](figures/w/frintm/01.svg)
+
+```
+FRINTM Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-frintp"></a>
+#### FRINTP
+
+![FRINTP: R2, prefix 111011110111, sub-opcode 000000011111; operands reg4, reg4; 4 bytes](figures/w/frintp/01.svg)
+
+```
+FRINTP Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-frinta"></a>
+#### FRINTA
+
+![FRINTA: R2, prefix 111011110111, sub-opcode 000000100000; operands reg4, reg4; 4 bytes](figures/w/frinta/01.svg)
+
+```
+FRINTA Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-frintd"></a>
+#### FRINTD
+
+An alias of [`FRINT`](#w-frint): the assembler writes it as that word.
+
+<a id="w-frintdz"></a>
+#### FRINTDZ
+
+An alias of [`FRINTZ`](#w-frintz): the assembler writes it as that word.
+
+<a id="w-frintdm"></a>
+#### FRINTDM
+
+An alias of [`FRINTM`](#w-frintm): the assembler writes it as that word.
+
+<a id="w-frintdp"></a>
+#### FRINTDP
+
+An alias of [`FRINTP`](#w-frintp): the assembler writes it as that word.
+
+<a id="w-frintda"></a>
+#### FRINTDA
+
+An alias of [`FRINTA`](#w-frinta): the assembler writes it as that word.
 
 
 ### FCVT: Floating conversions
@@ -3688,8 +7066,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCVTDQ`](dictionary/by-word.md#w-fcvtdq), [`FCVTDQU`](dictionary/by-word.md#w-fcvtdqu), [`FCVTQD`](dictionary/by-word.md#w-fcvtqd), [`FCVTQUD`](dictionary/by-word.md#w-fcvtqud), [`FCVTDS`](dictionary/by-word.md#w-fcvtds), [`FCVTSD`](dictionary/by-word.md#w-fcvtsd), [`FCVTSL`](dictionary/by-word.md#w-fcvtsl), [`FCVTLS`](dictionary/by-word.md#w-fcvtls).
-
 **Operation**
 
 ```
@@ -3707,8 +7083,99 @@ Integer results are 64-bit (`FCVTDQ`, `FCVTDQU`) or 32-bit sign-extended (`FCVTS
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-fcvtdq"></a>
+#### FCVTDQ
 
+![FCVTDQ: R2, prefix 111011110111, sub-opcode 000000100001; operands reg4, reg4; 4 bytes](figures/w/fcvtdq/01.svg)
+
+```
+FCVTDQ Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtdqu"></a>
+#### FCVTDQU
+
+![FCVTDQU: R2, prefix 111011110111, sub-opcode 000000100111; operands reg4, reg4; 4 bytes](figures/w/fcvtdqu/01.svg)
+
+```
+FCVTDQU Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtqd"></a>
+#### FCVTQD
+
+![FCVTQD: R2, prefix 111011110111, sub-opcode 000000100010; operands reg4, reg4; 4 bytes](figures/w/fcvtqd/01.svg)
+
+```
+FCVTQD Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtqud"></a>
+#### FCVTQUD
+
+![FCVTQUD: R2, prefix 111011110111, sub-opcode 000000101000; operands reg4, reg4; 4 bytes](figures/w/fcvtqud/01.svg)
+
+```
+FCVTQUD Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtds"></a>
+#### FCVTDS
+
+![FCVTDS: R2, prefix 111011110111, sub-opcode 000000100011; operands reg4, reg4; 4 bytes](figures/w/fcvtds/01.svg)
+
+```
+FCVTDS Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtsd"></a>
+#### FCVTSD
+
+![FCVTSD: R2, prefix 111011110111, sub-opcode 000000100100; operands reg4, reg4; 4 bytes](figures/w/fcvtsd/01.svg)
+
+```
+FCVTSD Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtsl"></a>
+#### FCVTSL
+
+![FCVTSL: R2, prefix 111011110111, sub-opcode 000000100101; operands reg4, reg4; 4 bytes](figures/w/fcvtsl/01.svg)
+
+```
+FCVTSL Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtls"></a>
+#### FCVTLS
+
+![FCVTLS: R2, prefix 111011110111, sub-opcode 000000100110; operands reg4, reg4; 4 bytes](figures/w/fcvtls/01.svg)
+
+```
+FCVTLS Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-fsflags"></a>
 ### FSFLAGS: Swap the floating-point exception flags
+
+![FSFLAGS: R2, prefix 111011110111, sub-opcode 000000101001; operands reg4, reg4; 4 bytes](figures/w/fsflags/01.svg)
 
 **Mnemonics:** `FSFLAGS`
 
@@ -3725,8 +7192,6 @@ FSFLAGS Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FSFLAGS`](dictionary/by-word.md#w-fsflags).
 
 **Operation**
 
@@ -3771,8 +7236,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1), [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD16`](dictionary/by-word.md#w-fadd16), [`FSUB16`](dictionary/by-word.md#w-fsub16), [`FMUL16`](dictionary/by-word.md#w-fmul16), [`FDIV16`](dictionary/by-word.md#w-fdiv16), [`FSQRT16`](dictionary/by-word.md#w-fsqrt16), [`FCMP16`](dictionary/by-word.md#w-fcmp16), [`FMADD16`](dictionary/by-word.md#w-fmadd16), [`FMSUB16`](dictionary/by-word.md#w-fmsub16), [`FNMADD16`](dictionary/by-word.md#w-fnmadd16), [`FNMSUB16`](dictionary/by-word.md#w-fnmsub16).
-
 **Operation**
 
 ```
@@ -3789,6 +7252,104 @@ Results are correctly rounded to nearest even, tininess judged after rounding; a
 **Why it is here.** Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. Two levels are possible: conversions only (about 500 to 1,000 lookup tables, no new operation by the folding rule) and full arithmetic (about 2,000 to 3,500 tables; estimates), and the existing double datapath can compute half correctly rounded. The architecture has both conversions and arithmetic. The leftovers (half `FMIN`, `FRINT*`, bfloat16, 64-bit integer conversions) are open items. 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fadd16"></a>
+#### FADD16
+
+![FADD16: R2, prefix 111011110111, sub-opcode 000000101010; operands reg4, reg4; 4 bytes](figures/w/fadd16/01.svg)
+
+```
+FADD16 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fsub16"></a>
+#### FSUB16
+
+![FSUB16: R2, prefix 111011110111, sub-opcode 000000101011; operands reg4, reg4; 4 bytes](figures/w/fsub16/01.svg)
+
+```
+FSUB16 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmul16"></a>
+#### FMUL16
+
+![FMUL16: R2, prefix 111011110111, sub-opcode 000000101100; operands reg4, reg4; 4 bytes](figures/w/fmul16/01.svg)
+
+```
+FMUL16 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fdiv16"></a>
+#### FDIV16
+
+![FDIV16: R2, prefix 111011110111, sub-opcode 000000101101; operands reg4, reg4; 4 bytes](figures/w/fdiv16/01.svg)
+
+```
+FDIV16 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fsqrt16"></a>
+#### FSQRT16
+
+![FSQRT16: R2, prefix 111011110111, sub-opcode 000000101110; operands reg4, reg4; 4 bytes](figures/w/fsqrt16/01.svg)
+
+```
+FSQRT16 Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcmp16"></a>
+#### FCMP16
+
+![FCMP16: R2, prefix 111011110111, sub-opcode 000000101111; operands reg4, reg4; 4 bytes](figures/w/fcmp16/01.svg)
+
+```
+FCMP16 Rd, Rs
+```
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmadd16"></a>
+#### FMADD16
+
+![FMADD16: R4, prefix 111011111001, sub-opcode 1000; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fmadd16/01.svg)
+
+```
+FMADD16 Rs, Rt, Ru, Rd ...
+```
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fmsub16"></a>
+#### FMSUB16
+
+![FMSUB16: R4, prefix 111011111001, sub-opcode 1001; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fmsub16/01.svg)
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fnmadd16"></a>
+#### FNMADD16
+
+![FNMADD16: R4, prefix 111011111001, sub-opcode 1010; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fnmadd16/01.svg)
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fnmsub16"></a>
+#### FNMSUB16
+
+![FNMSUB16: R4, prefix 111011111001, sub-opcode 1011; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/fnmsub16/01.svg)
+
+Operation, flags and exceptions as for the entry FHALF above; 1 layout form, each a chart of its own (above).
 
 
 ### FCVTH: Conversions to and from binary16
@@ -3814,8 +7375,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCVTSH`](dictionary/by-word.md#w-fcvtsh), [`FCVTHS`](dictionary/by-word.md#w-fcvths), [`FCVTDH`](dictionary/by-word.md#w-fcvtdh), [`FCVTHD`](dictionary/by-word.md#w-fcvthd), [`FCVTHL`](dictionary/by-word.md#w-fcvthl), [`FCVTLH`](dictionary/by-word.md#w-fcvtlh).
-
 **Operation**
 
 ```
@@ -3830,6 +7389,72 @@ FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction i
 **Why it is here.** The conversion half of the `binary16` support (see `FHALF`). The conversions are the part machine-learning code needs most, because a half is normally loaded and stored with `MOVW`, converted, computed in single or double, and converted back.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-fcvtsh"></a>
+#### FCVTSH
+
+![FCVTSH: R2, prefix 111011110111, sub-opcode 000000110001; operands reg4, reg4; 4 bytes](figures/w/fcvtsh/01.svg)
+
+```
+FCVTSH Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvths"></a>
+#### FCVTHS
+
+![FCVTHS: R2, prefix 111011110111, sub-opcode 000000110010; operands reg4, reg4; 4 bytes](figures/w/fcvths/01.svg)
+
+```
+FCVTHS Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtdh"></a>
+#### FCVTDH
+
+![FCVTDH: R2, prefix 111011110111, sub-opcode 000000110011; operands reg4, reg4; 4 bytes](figures/w/fcvtdh/01.svg)
+
+```
+FCVTDH Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvthd"></a>
+#### FCVTHD
+
+![FCVTHD: R2, prefix 111011110111, sub-opcode 000000110100; operands reg4, reg4; 4 bytes](figures/w/fcvthd/01.svg)
+
+```
+FCVTHD Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvthl"></a>
+#### FCVTHL
+
+![FCVTHL: R2, prefix 111011110111, sub-opcode 000000110101; operands reg4, reg4; 4 bytes](figures/w/fcvthl/01.svg)
+
+```
+FCVTHL Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtlh"></a>
+#### FCVTLH
+
+![FCVTLH: R2, prefix 111011110111, sub-opcode 000000110110; operands reg4, reg4; 4 bytes](figures/w/fcvtlh/01.svg)
+
+```
+FCVTLH Rs, Rd
+```
+
+Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.12 -->
 
 ## 9.13 Atomics and ordering
@@ -3862,8 +7487,6 @@ The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CAS`](dictionary/by-word.md#w-cas), [`CASDB`](dictionary/by-word.md#w-casdb).
-
 **Operation**
 
 ```
@@ -3883,6 +7506,28 @@ The sub-opcodes and the semantics of this group are specified. The ISA text stil
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-cas"></a>
+#### CAS
+
+![CAS: R4, prefix 111011111001, sub-opcode 1101; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/cas/01.svg)
+
+```
+CAS expected, new, (address)
+```
+
+Operation, flags and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
+
+<a id="w-casdb"></a>
+#### CASDB
+
+![CASDB: R4, prefix 111011111001, sub-opcode 1110; operands reg4, reg4, reg4, reg4; 4 bytes](figures/w/casdb/01.svg)
+
+```
+CASDB ...
+```
+
+Operation, flags and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
 
 
 ### SWAP: Atomic exchange
@@ -3904,8 +7549,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SWAP`](dictionary/by-word.md#w-swap), [`SWAPDB`](dictionary/by-word.md#w-swapdb).
-
 **Operation**
 
 ```
@@ -3923,6 +7566,28 @@ The sub-opcodes and the semantics of this group are specified. The ISA text stil
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-swap"></a>
+#### SWAP
+
+![SWAP: R3, prefix 111011111000, sub-opcode 00011111; operands reg4, reg4, reg4; 4 bytes](figures/w/swap/01.svg)
+
+```
+SWAP value, (address)
+```
+
+Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
+
+<a id="w-swapdb"></a>
+#### SWAPDB
+
+![SWAPDB: R3, prefix 111011111000, sub-opcode 00100000; operands reg4, reg4, reg4; 4 bytes](figures/w/swapdb/01.svg)
+
+```
+SWAPDB ...
+```
+
+Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
 
 
 ### XADD: Atomic fetch and add
@@ -3944,8 +7609,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XADD`](dictionary/by-word.md#w-xadd), [`XADDDB`](dictionary/by-word.md#w-xadddb).
-
 **Operation**
 
 ```
@@ -3963,6 +7626,28 @@ The sub-opcodes and the semantics of this group are specified. The ISA text stil
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-xadd"></a>
+#### XADD
+
+![XADD: R3, prefix 111011111000, sub-opcode 00011101; operands reg4, reg4, reg4; 4 bytes](figures/w/xadd/01.svg)
+
+```
+XADD value, (address)
+```
+
+Operation, flags and exceptions as for the entry XADD above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xadddb"></a>
+#### XADDDB
+
+![XADDDB: R3, prefix 111011111000, sub-opcode 00011110; operands reg4, reg4, reg4; 4 bytes](figures/w/xadddb/01.svg)
+
+```
+XADDDB ...
+```
+
+Operation, flags and exceptions as for the entry XADD above; 1 layout form, each a chart of its own (above).
 
 
 ### XAND: Atomic fetch and and, or, xor
@@ -3986,8 +7671,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XAND`](dictionary/by-word.md#w-xand), [`XANDDB`](dictionary/by-word.md#w-xanddb), [`XOR_`](dictionary/by-word.md#w-xor-), [`XOR_DB`](dictionary/by-word.md#w-xor-db), [`XXOR`](dictionary/by-word.md#w-xxor), [`XXORDB`](dictionary/by-word.md#w-xxordb).
-
 **Operation**
 
 ```
@@ -4010,6 +7693,60 @@ The sub-opcodes and the semantics of this group are specified. The ISA text stil
 
 **Status** specified; **not yet implemented** in the reference executor.
 
+<a id="w-xand"></a>
+#### XAND
+
+![XAND: R3, prefix 111011111000, sub-opcode 00100001; operands reg4, reg4, reg4; 4 bytes](figures/w/xand/01.svg)
+
+```
+XAND value, (address)
+```
+
+Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xanddb"></a>
+#### XANDDB
+
+![XANDDB: R3, prefix 111011111000, sub-opcode 00100010; operands reg4, reg4, reg4; 4 bytes](figures/w/xanddb/01.svg)
+
+Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xor-"></a>
+#### XOR_
+
+![XOR_: R3, prefix 111011111000, sub-opcode 00100011; operands reg4, reg4, reg4; 4 bytes](figures/w/xor-/01.svg)
+
+```
+XOR_ value, (address)
+```
+
+Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xor-db"></a>
+#### XOR_DB
+
+![XOR_DB: R3, prefix 111011111000, sub-opcode 00100100; operands reg4, reg4, reg4; 4 bytes](figures/w/xor-db/01.svg)
+
+Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xxor"></a>
+#### XXOR
+
+![XXOR: R3, prefix 111011111000, sub-opcode 00100101; operands reg4, reg4, reg4; 4 bytes](figures/w/xxor/01.svg)
+
+```
+XXOR value, (address)
+```
+
+Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xxordb"></a>
+#### XXORDB
+
+![XXORDB: R3, prefix 111011111000, sub-opcode 00100110; operands reg4, reg4, reg4; 4 bytes](figures/w/xxordb/01.svg)
+
+Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
+
 
 ### XMAX: Atomic fetch and minimum or maximum
 
@@ -4031,8 +7768,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XMAX`](dictionary/by-word.md#w-xmax), [`XMAXDB`](dictionary/by-word.md#w-xmaxdb), [`XMIN`](dictionary/by-word.md#w-xmin), [`XMINDB`](dictionary/by-word.md#w-xmindb), [`XMAXU`](dictionary/by-word.md#w-xmaxu), [`XMAXUDB`](dictionary/by-word.md#w-xmaxudb), [`XMINU`](dictionary/by-word.md#w-xminu), [`XMINUDB`](dictionary/by-word.md#w-xminudb).
-
 **Operation**
 
 ```
@@ -4051,6 +7786,70 @@ The sub-opcodes and the semantics of this group are specified. The ISA text stil
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-xmax"></a>
+#### XMAX
+
+![XMAX: R3, prefix 111011111000, sub-opcode 00100111; operands reg4, reg4, reg4; 4 bytes](figures/w/xmax/01.svg)
+
+```
+XMAX value, (address)
+```
+
+Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xmaxdb"></a>
+#### XMAXDB
+
+![XMAXDB: R3, prefix 111011111000, sub-opcode 00101000; operands reg4, reg4, reg4; 4 bytes](figures/w/xmaxdb/01.svg)
+
+Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xmin"></a>
+#### XMIN
+
+![XMIN: R3, prefix 111011111000, sub-opcode 00101001; operands reg4, reg4, reg4; 4 bytes](figures/w/xmin/01.svg)
+
+```
+XMIN ..., XMAXU ..., XMINU ...
+```
+
+Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xmindb"></a>
+#### XMINDB
+
+![XMINDB: R3, prefix 111011111000, sub-opcode 00101010; operands reg4, reg4, reg4; 4 bytes](figures/w/xmindb/01.svg)
+
+Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xmaxu"></a>
+#### XMAXU
+
+![XMAXU: R3, prefix 111011111000, sub-opcode 00101011; operands reg4, reg4, reg4; 4 bytes](figures/w/xmaxu/01.svg)
+
+Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xmaxudb"></a>
+#### XMAXUDB
+
+![XMAXUDB: R3, prefix 111011111000, sub-opcode 00101100; operands reg4, reg4, reg4; 4 bytes](figures/w/xmaxudb/01.svg)
+
+Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xminu"></a>
+#### XMINU
+
+![XMINU: R3, prefix 111011111000, sub-opcode 00101101; operands reg4, reg4, reg4; 4 bytes](figures/w/xminu/01.svg)
+
+Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-xminudb"></a>
+#### XMINUDB
+
+![XMINUDB: R3, prefix 111011111000, sub-opcode 00101110; operands reg4, reg4, reg4; 4 bytes](figures/w/xminudb/01.svg)
+
+Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
 
 
 ### LLSC: Load-linked and store-conditional
@@ -4072,8 +7871,6 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`LL`](dictionary/by-word.md#w-ll), [`SC`](dictionary/by-word.md#w-sc).
-
 **Operation**
 
 ```
@@ -4094,6 +7891,28 @@ A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps w
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-ll"></a>
+#### LL
+
+![LL: R3, prefix 111011111000, sub-opcode 00101111; operands reg4, reg4, reg4; 4 bytes](figures/w/ll/01.svg)
+
+```
+LL (address), Rd
+```
+
+Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-sc"></a>
+#### SC
+
+![SC: R3, prefix 111011111000, sub-opcode 00110000; operands reg4, reg4, reg4; 4 bytes](figures/w/sc/01.svg)
+
+```
+SC value, (address), result
+```
+
+Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.13 -->
 
 ## 9.14 System instructions, exceptions and interrupts
@@ -4124,8 +7943,6 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`NOP`](dictionary/by-word.md#w-nop), [`LPAD`](dictionary/by-word.md#w-lpad).
-
 **Operation**
 
 ```
@@ -4143,6 +7960,28 @@ nothing
 **Cf.** Appendix A, section A.1 (landing pads).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-nop"></a>
+#### NOP
+
+![NOP: SYS0, prefix 11101100100, sub-opcode 00000; operands no operand; 2 bytes](figures/w/nop/01.svg)
+
+```
+NOP
+```
+
+Operation, flags and exceptions as for the entry NOP above; 1 layout form, each a chart of its own (above).
+
+<a id="w-lpad"></a>
+#### LPAD
+
+![LPAD: SYS0, prefix 11101100100, sub-opcode 01001; operands no operand; 2 bytes](figures/w/lpad/01.svg)
+
+```
+LPAD
+```
+
+Operation, flags and exceptions as for the entry NOP above; 1 layout form, each a chart of its own (above).
 
 
 ### RTI: Return from interrupt or exception
@@ -4164,8 +8003,6 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RTI`](dictionary/by-word.md#w-rti), [`RTT`](dictionary/by-word.md#w-rtt).
-
 **Operation**
 
 ```
@@ -4185,8 +8022,33 @@ RTT: and then set the trace bit T after the return
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-rti"></a>
+#### RTI
 
+![RTI: SYS0, prefix 11101100100, sub-opcode 00001; operands no operand; 2 bytes](figures/w/rti/01.svg)
+
+```
+RTI
+```
+
+Operation, flags and exceptions as for the entry RTI above; 1 layout form, each a chart of its own (above).
+
+<a id="w-rtt"></a>
+#### RTT
+
+![RTT: SYS0, prefix 11101100100, sub-opcode 00010; operands no operand; 2 bytes](figures/w/rtt/01.svg)
+
+```
+RTT
+```
+
+Operation, flags and exceptions as for the entry RTI above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-ret"></a>
 ### RET: Return from subroutine
+
+![RET: SYS0, prefix 11101100100, sub-opcode 00011; operands no operand; 2 bytes](figures/w/ret/01.svg)
 
 **Mnemonics:** `RET`
 
@@ -4204,8 +8066,6 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RET`](dictionary/by-word.md#w-ret).
-
 **Operation**
 
 ```
@@ -4221,7 +8081,10 @@ Not privileged: it is the partner of `CALL`.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-halt"></a>
 ### HALT: Halt the processor
+
+![HALT: SYS0, prefix 11101100100, sub-opcode 00100; operands no operand; 2 bytes](figures/w/halt/01.svg)
 
 **Mnemonics:** `HALT`
 
@@ -4239,8 +8102,6 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`HALT`](dictionary/by-word.md#w-halt).
-
 **Operation**
 
 ```
@@ -4256,7 +8117,10 @@ stop the processor
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-bpt"></a>
 ### BPT: Breakpoint
+
+![BPT: SYS0, prefix 11101100100, sub-opcode 00101; operands no operand; 2 bytes](figures/w/bpt/01.svg)
 
 **Mnemonics:** `BPT`
 
@@ -4273,8 +8137,6 @@ BPT
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BPT`](dictionary/by-word.md#w-bpt).
 
 **Operation**
 
@@ -4295,7 +8157,10 @@ A trap like any other, but kept as its own two-byte instruction because a debugg
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-fence"></a>
 ### FENCE: Memory fence
+
+![FENCE: SYS0, prefix 11101100100, sub-opcode 00110; operands no operand; 2 bytes](figures/w/fence/01.svg)
 
 **Mnemonics:** `FENCE`
 
@@ -4312,8 +8177,6 @@ FENCE
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FENCE`](dictionary/by-word.md#w-fence).
 
 **Operation**
 
@@ -4334,7 +8197,11 @@ Owed to devices (one `FENCE` separates writing a device's registers from setting
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-wfe"></a>
+<a id="w-wait"></a>
 ### WFE: Wait for an event
+
+![WFE: SYS0, prefix 11101100100, sub-opcode 00111; operands no operand; 2 bytes](figures/w/wfe/01.svg)
 
 **Mnemonics:** `WFE`  (aliases: `WAIT`)
 
@@ -4351,8 +8218,6 @@ WFE
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`WFE`](dictionary/by-word.md#w-wfe).
 
 **Operation**
 
@@ -4372,8 +8237,14 @@ sleep until an interrupt is pending or another core executes SEV
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-wait"></a>
+**`WAIT`** is an alias of `WFE`: the assembler writes it as that word.
 
+
+<a id="w-sev"></a>
 ### SEV: Send an event
+
+![SEV: SYS0, prefix 11101100100, sub-opcode 01000; operands no operand; 2 bytes](figures/w/sev/01.svg)
 
 **Mnemonics:** `SEV`
 
@@ -4390,8 +8261,6 @@ SEV
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SEV`](dictionary/by-word.md#w-sev).
 
 **Operation**
 
@@ -4430,8 +8299,6 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TLBIA`](dictionary/by-word.md#w-tlbia), [`TLBSYNC`](dictionary/by-word.md#w-tlbsync), [`ICINVA`](dictionary/by-word.md#w-icinva).
-
 **Operation**
 
 ```
@@ -4449,6 +8316,39 @@ ICINVA  : invalidate the whole instruction cache
 **Cf.** 7.5 (translation and instruction-cache coherence).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-tlbia"></a>
+#### TLBIA
+
+![TLBIA: SYS0, prefix 11101100100, sub-opcode 01010; operands no operand; 2 bytes](figures/w/tlbia/01.svg)
+
+```
+TLBIA
+```
+
+Operation, flags and exceptions as for the entry TLBA above; 1 layout form, each a chart of its own (above).
+
+<a id="w-tlbsync"></a>
+#### TLBSYNC
+
+![TLBSYNC: SYS0, prefix 11101100100, sub-opcode 01011; operands no operand; 2 bytes](figures/w/tlbsync/01.svg)
+
+```
+TLBSYNC
+```
+
+Operation, flags and exceptions as for the entry TLBA above; 1 layout form, each a chart of its own (above).
+
+<a id="w-icinva"></a>
+#### ICINVA
+
+![ICINVA: SYS0, prefix 11101100100, sub-opcode 01100; operands no operand; 2 bytes](figures/w/icinva/01.svg)
+
+```
+ICINVA
+```
+
+Operation, flags and exceptions as for the entry TLBA above; 1 layout form, each a chart of its own (above).
 
 
 ### PUSHX: Push and pop the exception state
@@ -4470,8 +8370,6 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSHX`](dictionary/by-word.md#w-pushx), [`POPX`](dictionary/by-word.md#w-popx).
-
 **Operation**
 
 ```
@@ -4491,8 +8389,33 @@ For a handler that wants to be interrupted: it can save the exception state and 
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-pushx"></a>
+#### PUSHX
 
+![PUSHX: SYS0, prefix 11101100100, sub-opcode 01101; operands no operand; 2 bytes](figures/w/pushx/01.svg)
+
+```
+PUSHX
+```
+
+Operation, flags and exceptions as for the entry PUSHX above; 1 layout form, each a chart of its own (above).
+
+<a id="w-popx"></a>
+#### POPX
+
+![POPX: SYS0, prefix 11101100100, sub-opcode 01110; operands no operand; 2 bytes](figures/w/popx/01.svg)
+
+```
+POPX
+```
+
+Operation, flags and exceptions as for the entry PUSHX above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-isync"></a>
 ### ISYNC: Instruction synchronisation
+
+![ISYNC: SYS0, prefix 11101100100, sub-opcode 01111; operands no operand; 2 bytes](figures/w/isync/01.svg)
 
 **Mnemonics:** `ISYNC`
 
@@ -4509,8 +8432,6 @@ ISYNC
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ISYNC`](dictionary/by-word.md#w-isync).
 
 **Operation**
 
@@ -4531,7 +8452,10 @@ The architecture promises the effect only after the next `ISYNC`; an in-order im
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-hint"></a>
 ### HINT: Hint
+
+![HINT: SYSI, prefix 100010, sub-opcode 11; operands imm8u; 2 bytes](figures/w/hint/01.svg)
 
 **Mnemonics:** `HINT`
 
@@ -4548,8 +8472,6 @@ HINT #n        ; n = 0 to 255
 The chart is the leaf `16-SYSI-1`, SYSI, prefix `100010`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSI-1`](dictionary/by-encoding.md#16-SYSI-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`HINT`](dictionary/by-word.md#w-hint).
 
 **Operation**
 
@@ -4587,8 +8509,6 @@ The chart is the leaf `16-MFSR-1`, MFSR, prefix `1111001100011100`. `op1` is `re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-MFSR-1`](dictionary/by-encoding.md#16-MFSR-1), [`16-MTSR-1`](dictionary/by-encoding.md#16-MTSR-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MFSR`](dictionary/by-word.md#w-mfsr), [`MTSR`](dictionary/by-word.md#w-mtsr).
-
 **Operation**
 
 ```
@@ -4624,6 +8544,28 @@ The register is chosen by name. A write to `PTBR`, `ASID` or `MMUCTL` flushes th
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-mfsr"></a>
+#### MFSR
+
+![MFSR: MFSR, prefix 1111001100011100; operands reg4, imm12u; 4 bytes](figures/w/mfsr/01.svg)
+
+```
+MFSR Rd, name
+```
+
+Operation, flags and exceptions as for the entry MFSR above; 1 layout form, each a chart of its own (above).
+
+<a id="w-mtsr"></a>
+#### MTSR
+
+![MTSR: MTSR, prefix 1111001100011101; operands imm12u, reg4; 4 bytes](figures/w/mtsr/01.svg)
+
+```
+MTSR name, Rs
+```
+
+Operation, flags and exceptions as for the entry MFSR above; 1 layout form, each a chart of its own (above).
+
 
 ### MTPS: Move to and from the processor status word
 
@@ -4644,8 +8586,6 @@ The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTPS`](dictionary/by-word.md#w-mtps), [`MFPS`](dictionary/by-word.md#w-mfps).
-
 **Operation**
 
 ```
@@ -4661,8 +8601,33 @@ MFPS: Rd ← PSW
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-mtps"></a>
+#### MTPS
 
+![MTPS: SYSR, prefix 110110100, sub-opcode 000; operands reg4; 2 bytes](figures/w/mtps/01.svg)
+
+```
+MTPS Rs
+```
+
+Operation, flags and exceptions as for the entry MTPS above; 1 layout form, each a chart of its own (above).
+
+<a id="w-mfps"></a>
+#### MFPS
+
+![MFPS: SYSR, prefix 110110100, sub-opcode 001; operands reg4; 2 bytes](figures/w/mfps/01.svg)
+
+```
+MFPS Rd
+```
+
+Operation, flags and exceptions as for the entry MTPS above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-spl"></a>
 ### SPL: Set the interrupt priority level
+
+![SPL: SYSI, prefix 100010, sub-opcode 00; operands imm8u; 2 bytes](figures/w/spl/01.svg)
 
 **Mnemonics:** `SPL`
 
@@ -4679,8 +8644,6 @@ SPL #n        ; n = 0 to 7
 The chart is the leaf `16-SYSI-1`, SYSI, prefix `100010`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSI-1`](dictionary/by-encoding.md#16-SYSI-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SPL`](dictionary/by-word.md#w-spl).
 
 **Operation**
 
@@ -4720,8 +8683,6 @@ The chart is the leaf `16-SYSI-1`, SYSI, prefix `100010`. `op1` is `imm8u`: unsi
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSI-1`](dictionary/by-encoding.md#16-SYSI-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TRAP`](dictionary/by-word.md#w-trap), [`TRAPL`](dictionary/by-word.md#w-trapl).
-
 **Operation**
 
 ```
@@ -4740,8 +8701,33 @@ The replacement for the PDP-11 `IOT` and `EMT`. In these encodings `TRAP` and `T
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-trap"></a>
+#### TRAP
 
+![TRAP: SYSI, prefix 100010, sub-opcode 01; operands imm8u; 2 bytes](figures/w/trap/01.svg)
+
+```
+TRAP #n
+```
+
+Operation, flags and exceptions as for the entry TRAP above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapl"></a>
+#### TRAPL
+
+![TRAPL: SYSI, prefix 100010, sub-opcode 10; operands imm8u; 2 bytes](figures/w/trapl/01.svg)
+
+```
+TRAPL #n
+```
+
+Operation, flags and exceptions as for the entry TRAP above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-tlbi"></a>
 ### TLBI: Invalidate a translation
+
+![TLBI: SYSR, prefix 110110100, sub-opcode 010; operands reg4; 2 bytes](figures/w/tlbi/01.svg)
 
 **Mnemonics:** `TLBI`
 
@@ -4758,8 +8744,6 @@ TLBI Rs
 The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `mtps` 000, `mfps` 001, `tlbi` 010, `mtasid` 011, `mfasid` 100, `mtdp` 101, `mfdp` 110, `mtdmw` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TLBI`](dictionary/by-word.md#w-tlbi).
 
 **Operation**
 
@@ -4797,8 +8781,6 @@ The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTASID`](dictionary/by-word.md#w-mtasid), [`MFASID`](dictionary/by-word.md#w-mfasid).
-
 **Operation**
 
 ```
@@ -4817,6 +8799,28 @@ The `ASID` tags translation-buffer entries so a context switch is one store.
 **Cf.** 6.4.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-mtasid"></a>
+#### MTASID
+
+![MTASID: SYSR, prefix 110110100, sub-opcode 011; operands reg4; 2 bytes](figures/w/mtasid/01.svg)
+
+```
+MTASID Rs
+```
+
+Operation, flags and exceptions as for the entry MTASID above; 1 layout form, each a chart of its own (above).
+
+<a id="w-mfasid"></a>
+#### MFASID
+
+![MFASID: SYSR, prefix 110110100, sub-opcode 100; operands reg4; 2 bytes](figures/w/mfasid/01.svg)
+
+```
+MFASID Rd
+```
+
+Operation, flags and exceptions as for the entry MTASID above; 1 layout form, each a chart of its own (above).
 
 
 ### MTDP: Move to and from the direct pointer
@@ -4838,8 +8842,6 @@ The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTDP`](dictionary/by-word.md#w-mtdp), [`MFDP`](dictionary/by-word.md#w-mfdp).
-
 **Operation**
 
 ```
@@ -4859,8 +8861,33 @@ MFDP: Rd ← DP
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
+<a id="w-mtdp"></a>
+#### MTDP
 
+![MTDP: SYSR, prefix 110110100, sub-opcode 101; operands reg4; 2 bytes](figures/w/mtdp/01.svg)
+
+```
+MTDP Rs
+```
+
+Operation, flags and exceptions as for the entry MTDP above; 1 layout form, each a chart of its own (above).
+
+<a id="w-mfdp"></a>
+#### MFDP
+
+![MFDP: SYSR, prefix 110110100, sub-opcode 110; operands reg4; 2 bytes](figures/w/mfdp/01.svg)
+
+```
+MFDP Rd
+```
+
+Operation, flags and exceptions as for the entry MTDP above; 1 layout form, each a chart of its own (above).
+
+
+<a id="w-mtdmw"></a>
 ### MTDMW: Move to a direct-mapping window
+
+![MTDMW: SYSR, prefix 110110100, sub-opcode 111; operands reg4; 2 bytes](figures/w/mtdmw/01.svg)
 
 **Mnemonics:** `MTDMW`
 
@@ -4877,8 +8904,6 @@ MTDMW Rs
 The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `mtps` 000, `mfps` 001, `tlbi` 010, `mtasid` 011, `mfasid` 100, `mtdp` 101, `mfdp` 110, `mtdmw` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTDMW`](dictionary/by-word.md#w-mtdmw).
 
 **Operation**
 
@@ -4899,7 +8924,10 @@ The direct-mapping windows have no defined format.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-mfcpuid"></a>
 ### MFCPUID: Read the processor identifier
+
+![MFCPUID: SYSR, prefix 11101100101, sub-opcode 0; operands reg4; 2 bytes](figures/w/mfcpuid/01.svg)
 
 **Mnemonics:** `MFCPUID`
 
@@ -4916,8 +8944,6 @@ MFCPUID Rd
 The chart is the leaf `16-SYSR-2`, SYSR, prefix `11101100101`. `op1` is `reg4`: register, 4 bits. `sub` (1 bit) selects the mnemonic: `mfcpuid` 0, `icinv` 1.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-2`](dictionary/by-encoding.md#16-SYSR-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MFCPUID`](dictionary/by-word.md#w-mfcpuid).
 
 **Operation**
 
@@ -4938,7 +8964,10 @@ The index of this core, for per-CPU data.
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
+<a id="w-icinv"></a>
 ### ICINV: Invalidate the instruction cache for an address
+
+![ICINV: SYSR, prefix 11101100101, sub-opcode 1; operands reg4; 2 bytes](figures/w/icinv/01.svg)
 
 **Mnemonics:** `ICINV`
 
@@ -4955,8 +8984,6 @@ ICINV Rs
 The chart is the leaf `16-SYSR-2`, SYSR, prefix `11101100101`. `op1` is `reg4`: register, 4 bits. `sub` (1 bit) selects the mnemonic: `mfcpuid` 0, `icinv` 1.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-2`](dictionary/by-encoding.md#16-SYSR-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ICINV`](dictionary/by-word.md#w-icinv).
 
 **Operation**
 
@@ -4994,8 +9021,6 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PROBER`](dictionary/by-word.md#w-prober), [`PROBEW`](dictionary/by-word.md#w-probew).
-
 **Operation**
 
 ```
@@ -5014,6 +9039,28 @@ Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address be
 **Cf.** 6.5 (the user-memory guard), 6.4.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-prober"></a>
+#### PROBER
+
+![PROBER: R2, prefix 111011110111, sub-opcode 000000001110; operands reg4, reg4; 4 bytes](figures/w/prober/01.svg)
+
+```
+PROBER Rd, Rs
+```
+
+Operation, flags and exceptions as for the entry PROBE above; 1 layout form, each a chart of its own (above).
+
+<a id="w-probew"></a>
+#### PROBEW
+
+![PROBEW: R2, prefix 111011110111, sub-opcode 000000001111; operands reg4, reg4; 4 bytes](figures/w/probew/01.svg)
+
+```
+PROBEW Rd, Rs
+```
+
+Operation, flags and exceptions as for the entry PROBE above; 1 layout form, each a chart of its own (above).
 
 
 ### TRAPCC: Trap on condition
@@ -5034,8 +9081,6 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TRAPCC.NE`](dictionary/by-word.md#w-trapcc-ne), [`TRAPCC.EQ`](dictionary/by-word.md#w-trapcc-eq), [`TRAPCC.PL`](dictionary/by-word.md#w-trapcc-pl), [`TRAPCC.MI`](dictionary/by-word.md#w-trapcc-mi), [`TRAPCC.VC`](dictionary/by-word.md#w-trapcc-vc), [`TRAPCC.VS`](dictionary/by-word.md#w-trapcc-vs), [`TRAPCC.CC`](dictionary/by-word.md#w-trapcc-cc), [`TRAPCC.CS`](dictionary/by-word.md#w-trapcc-cs), [`TRAPCC.GE`](dictionary/by-word.md#w-trapcc-ge), [`TRAPCC.LT`](dictionary/by-word.md#w-trapcc-lt), [`TRAPCC.GT`](dictionary/by-word.md#w-trapcc-gt), [`TRAPCC.LE`](dictionary/by-word.md#w-trapcc-le), [`TRAPCC.HI`](dictionary/by-word.md#w-trapcc-hi), [`TRAPCC.LOS`](dictionary/by-word.md#w-trapcc-los).
-
 **Operation**
 
 ```
@@ -5054,6 +9099,104 @@ if condition cc holds on the flags then take the CHECK trap
 **Cf.** 6.2 (traps and aborts), docs/study-proposals.md item 9.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+<a id="w-trapcc-ne"></a>
+#### TRAPCC.NE
+
+![TRAPCC.NE: SYS0, prefix 11101100100, sub-opcode 10000; operands no operand; 2 bytes](figures/w/trapcc-ne/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-eq"></a>
+#### TRAPCC.EQ
+
+![TRAPCC.EQ: SYS0, prefix 11101100100, sub-opcode 10001; operands no operand; 2 bytes](figures/w/trapcc-eq/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-pl"></a>
+#### TRAPCC.PL
+
+![TRAPCC.PL: SYS0, prefix 11101100100, sub-opcode 10010; operands no operand; 2 bytes](figures/w/trapcc-pl/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-mi"></a>
+#### TRAPCC.MI
+
+![TRAPCC.MI: SYS0, prefix 11101100100, sub-opcode 10011; operands no operand; 2 bytes](figures/w/trapcc-mi/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-vc"></a>
+#### TRAPCC.VC
+
+![TRAPCC.VC: SYS0, prefix 11101100100, sub-opcode 10100; operands no operand; 2 bytes](figures/w/trapcc-vc/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-vs"></a>
+#### TRAPCC.VS
+
+![TRAPCC.VS: SYS0, prefix 11101100100, sub-opcode 10101; operands no operand; 2 bytes](figures/w/trapcc-vs/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-cc"></a>
+#### TRAPCC.CC
+
+![TRAPCC.CC: SYS0, prefix 11101100100, sub-opcode 10110; operands no operand; 2 bytes](figures/w/trapcc-cc/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-cs"></a>
+#### TRAPCC.CS
+
+![TRAPCC.CS: SYS0, prefix 11101100100, sub-opcode 10111; operands no operand; 2 bytes](figures/w/trapcc-cs/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-ge"></a>
+#### TRAPCC.GE
+
+![TRAPCC.GE: SYS0, prefix 11101100100, sub-opcode 11000; operands no operand; 2 bytes](figures/w/trapcc-ge/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-lt"></a>
+#### TRAPCC.LT
+
+![TRAPCC.LT: SYS0, prefix 11101100100, sub-opcode 11001; operands no operand; 2 bytes](figures/w/trapcc-lt/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-gt"></a>
+#### TRAPCC.GT
+
+![TRAPCC.GT: SYS0, prefix 11101100100, sub-opcode 11010; operands no operand; 2 bytes](figures/w/trapcc-gt/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-le"></a>
+#### TRAPCC.LE
+
+![TRAPCC.LE: SYS0, prefix 11101100100, sub-opcode 11011; operands no operand; 2 bytes](figures/w/trapcc-le/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-hi"></a>
+#### TRAPCC.HI
+
+![TRAPCC.HI: SYS0, prefix 11101100100, sub-opcode 11100; operands no operand; 2 bytes](figures/w/trapcc-hi/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+<a id="w-trapcc-los"></a>
+#### TRAPCC.LOS
+
+![TRAPCC.LOS: SYS0, prefix 11101100100, sub-opcode 11101; operands no operand; 2 bytes](figures/w/trapcc-los/01.svg)
+
+Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
 
 
 ### SYSPG: Reserved system words
@@ -5074,8 +9217,6 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1), [`16-SYS0-2`](dictionary/by-encoding.md#16-SYS0-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SYSPG0`](dictionary/by-word.md#w-syspg0), [`SYSPG1`](dictionary/by-word.md#w-syspg1), [`SYSPG2`](dictionary/by-word.md#w-syspg2), [`SYSPG3`](dictionary/by-word.md#w-syspg3), [`SYSPG4`](dictionary/by-word.md#w-syspg4), [`SYSPG5`](dictionary/by-word.md#w-syspg5).
-
 **Operation**
 
 ```
@@ -5091,6 +9232,52 @@ none: the six words are reserved
 **Why it is here.** The grammars reserve six words next to `LPAD` and `TRAPCC` for the page-bit mechanisms: the author approved landing pads gated by a page bit and the `SYS` page bit "to be specified" (errata 84), and the retire-stage study found that these need no opcode. The placeholders keep the space; the record does not say what any of them will be.
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-syspg0"></a>
+#### SYSPG0
+
+![SYSPG0: SYS0, prefix 11101100100, sub-opcode 11110; operands no operand; 2 bytes](figures/w/syspg0/01.svg)
+
+```
+SYSPG0 ... SYSPG5
+```
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg1"></a>
+#### SYSPG1
+
+![SYSPG1: SYS0, prefix 11101100100, sub-opcode 11111; operands no operand; 2 bytes](figures/w/syspg1/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg2"></a>
+#### SYSPG2
+
+![SYSPG2: SYS0, prefix 11110010010110, sub-opcode 00; operands no operand; 2 bytes](figures/w/syspg2/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg3"></a>
+#### SYSPG3
+
+![SYSPG3: SYS0, prefix 11110010010110, sub-opcode 01; operands no operand; 2 bytes](figures/w/syspg3/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg4"></a>
+#### SYSPG4
+
+![SYSPG4: SYS0, prefix 11110010010110, sub-opcode 10; operands no operand; 2 bytes](figures/w/syspg4/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg5"></a>
+#### SYSPG5
+
+![SYSPG5: SYS0, prefix 11110010010110, sub-opcode 11; operands no operand; 2 bytes](figures/w/syspg5/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.14 -->
 
 ## 9.15 Faults, restart and memory management

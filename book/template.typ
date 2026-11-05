@@ -94,7 +94,7 @@
   running-title.update(md-short-title(src))
   heading(level: if part { 1 } else { 2 }, outlined: toc, numbering: none)[#md-title(src)]
   if token != none { pgan(token.split(":").last()) }
-  render(md-body(src), h1-level: 2, scope: (render: render, pgan: pgan, pageof: pageof, image: (path, ..args) => image(path, ..args)))
+  render(md-body(src), h1-level: 2, scope: (render: render, pgan: pgan, pageof: pageof, image: (path, ..args) => { let parts = path.split("?"); let img = image(parts.at(0), ..args); if parts.len() > 1 { block(sticky: true, img) } else { img } }))
 }
 
 // Title page

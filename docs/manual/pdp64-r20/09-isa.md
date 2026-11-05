@@ -165,8 +165,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ`](dictionary/by-word.md#w-movq), [`MOVL`](dictionary/by-word.md#w-movl), [`MOVW`](dictionary/by-word.md#w-movw), [`MOVB`](dictionary/by-word.md#w-movb).
-
 **Operation**
 
 ```
@@ -184,6 +182,195 @@ A register is always written in full: a narrow load sign-extends to 64 bits and 
 **Cf.** 6.4 for the memory type that decides whether the access is cached; 6.8 for what a faulting access leaves behind.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-movq"></a>
+#### MOVQ
+
+![MOVQ, opcode 000000, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movq/06.svg)
+
+![MOVQ, opcode 000000, three parcels (modes index) (6 bytes)](figures/w/movq/07.svg)
+
+![MOVQ, opcode 000000, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movq/08.svg)
+
+![MOVQ, opcode 000000, three parcels (modes dp) (6 bytes)](figures/w/movq/09.svg)
+
+![MOVQ, opcode 000001, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movq/15.svg)
+
+![MOVQ, opcode 000001, three parcels (modes index) (6 bytes)](figures/w/movq/16.svg)
+
+![MOVQ, opcode 000001, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movq/17.svg)
+
+![MOVQ, opcode 000001, three parcels (modes dp) (6 bytes)](figures/w/movq/18.svg)
+
+![MOVQ, opcode 000000, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movq/02.svg)
+
+![MOVQ, opcode 000000, two parcels (modes index) (4 bytes)](figures/w/movq/03.svg)
+
+![MOVQ, opcode 000000, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movq/04.svg)
+
+![MOVQ, opcode 000000, two parcels (modes dp) (4 bytes)](figures/w/movq/05.svg)
+
+![MOVQ, opcode 000001, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movq/11.svg)
+
+![MOVQ, opcode 000001, two parcels (modes index) (4 bytes)](figures/w/movq/12.svg)
+
+![MOVQ, opcode 000001, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movq/13.svg)
+
+![MOVQ, opcode 000001, two parcels (modes dp) (4 bytes)](figures/w/movq/14.svg)
+
+![MOVQ, opcode 000000, one parcel (2 bytes)](figures/w/movq/01.svg)
+
+![MOVQ, opcode 000001, one parcel (2 bytes)](figures/w/movq/10.svg)
+
+```
+MOVQ rm, Rd
+MOVQ Rs, rm
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `MOVQ` | `000000 (0x00)`, `000001 (0x01)` |
+
+Operation, flags and exceptions as for the entry MOV above; 18 layout forms, each a chart of its own (above).
+
+<a id="w-movl"></a>
+#### MOVL
+
+![MOVL, opcode 000010, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movl/06.svg)
+
+![MOVL, opcode 000010, three parcels (modes index) (6 bytes)](figures/w/movl/07.svg)
+
+![MOVL, opcode 000010, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movl/08.svg)
+
+![MOVL, opcode 000010, three parcels (modes dp) (6 bytes)](figures/w/movl/09.svg)
+
+![MOVL, opcode 000011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movl/15.svg)
+
+![MOVL, opcode 000011, three parcels (modes index) (6 bytes)](figures/w/movl/16.svg)
+
+![MOVL, opcode 000011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movl/17.svg)
+
+![MOVL, opcode 000011, three parcels (modes dp) (6 bytes)](figures/w/movl/18.svg)
+
+![MOVL, opcode 000010, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movl/02.svg)
+
+![MOVL, opcode 000010, two parcels (modes index) (4 bytes)](figures/w/movl/03.svg)
+
+![MOVL, opcode 000010, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movl/04.svg)
+
+![MOVL, opcode 000010, two parcels (modes dp) (4 bytes)](figures/w/movl/05.svg)
+
+![MOVL, opcode 000011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movl/11.svg)
+
+![MOVL, opcode 000011, two parcels (modes index) (4 bytes)](figures/w/movl/12.svg)
+
+![MOVL, opcode 000011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movl/13.svg)
+
+![MOVL, opcode 000011, two parcels (modes dp) (4 bytes)](figures/w/movl/14.svg)
+
+![MOVL, opcode 000010, one parcel (2 bytes)](figures/w/movl/01.svg)
+
+![MOVL, opcode 000011, one parcel (2 bytes)](figures/w/movl/10.svg)
+
+```
+MOVL, MOVW, MOVB likewise
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `MOVL` | `000010 (0x02)`, `000011 (0x03)` |
+
+Operation, flags and exceptions as for the entry MOV above; 18 layout forms, each a chart of its own (above).
+
+<a id="w-movw"></a>
+#### MOVW
+
+![MOVW, opcode 000100, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movw/06.svg)
+
+![MOVW, opcode 000100, three parcels (modes index) (6 bytes)](figures/w/movw/07.svg)
+
+![MOVW, opcode 000100, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movw/08.svg)
+
+![MOVW, opcode 000100, three parcels (modes dp) (6 bytes)](figures/w/movw/09.svg)
+
+![MOVW, opcode 000101, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movw/15.svg)
+
+![MOVW, opcode 000101, three parcels (modes index) (6 bytes)](figures/w/movw/16.svg)
+
+![MOVW, opcode 000101, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movw/17.svg)
+
+![MOVW, opcode 000101, three parcels (modes dp) (6 bytes)](figures/w/movw/18.svg)
+
+![MOVW, opcode 000100, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movw/02.svg)
+
+![MOVW, opcode 000100, two parcels (modes index) (4 bytes)](figures/w/movw/03.svg)
+
+![MOVW, opcode 000100, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movw/04.svg)
+
+![MOVW, opcode 000100, two parcels (modes dp) (4 bytes)](figures/w/movw/05.svg)
+
+![MOVW, opcode 000101, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movw/11.svg)
+
+![MOVW, opcode 000101, two parcels (modes index) (4 bytes)](figures/w/movw/12.svg)
+
+![MOVW, opcode 000101, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movw/13.svg)
+
+![MOVW, opcode 000101, two parcels (modes dp) (4 bytes)](figures/w/movw/14.svg)
+
+![MOVW, opcode 000100, one parcel (2 bytes)](figures/w/movw/01.svg)
+
+![MOVW, opcode 000101, one parcel (2 bytes)](figures/w/movw/10.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `MOVW` | `000100 (0x04)`, `000101 (0x05)` |
+
+Operation, flags and exceptions as for the entry MOV above; 18 layout forms, each a chart of its own (above).
+
+<a id="w-movb"></a>
+#### MOVB
+
+![MOVB, opcode 000110, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movb/06.svg)
+
+![MOVB, opcode 000110, three parcels (modes index) (6 bytes)](figures/w/movb/07.svg)
+
+![MOVB, opcode 000110, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movb/08.svg)
+
+![MOVB, opcode 000110, three parcels (modes dp) (6 bytes)](figures/w/movb/09.svg)
+
+![MOVB, opcode 000111, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movb/15.svg)
+
+![MOVB, opcode 000111, three parcels (modes index) (6 bytes)](figures/w/movb/16.svg)
+
+![MOVB, opcode 000111, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movb/17.svg)
+
+![MOVB, opcode 000111, three parcels (modes dp) (6 bytes)](figures/w/movb/18.svg)
+
+![MOVB, opcode 000110, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movb/02.svg)
+
+![MOVB, opcode 000110, two parcels (modes index) (4 bytes)](figures/w/movb/03.svg)
+
+![MOVB, opcode 000110, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movb/04.svg)
+
+![MOVB, opcode 000110, two parcels (modes dp) (4 bytes)](figures/w/movb/05.svg)
+
+![MOVB, opcode 000111, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movb/11.svg)
+
+![MOVB, opcode 000111, two parcels (modes index) (4 bytes)](figures/w/movb/12.svg)
+
+![MOVB, opcode 000111, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movb/13.svg)
+
+![MOVB, opcode 000111, two parcels (modes dp) (4 bytes)](figures/w/movb/14.svg)
+
+![MOVB, opcode 000110, one parcel (2 bytes)](figures/w/movb/01.svg)
+
+![MOVB, opcode 000111, one parcel (2 bytes)](figures/w/movb/10.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `MOVB` | `000110 (0x06)`, `000111 (0x07)` |
+
+Operation, flags and exceptions as for the entry MOV above; 18 layout forms, each a chart of its own (above).
 
 
 ### MOVZ: Move zero-extended (32, 16 and 8 bits)
@@ -212,8 +399,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVZL`](dictionary/by-word.md#w-movzl), [`MOVZW`](dictionary/by-word.md#w-movzw), [`MOVZB`](dictionary/by-word.md#w-movzb).
-
 **Operation**
 
 ```
@@ -228,8 +413,120 @@ There is no zero-extending 64-bit move (it would be `MOVQ`). At `len = 00` these
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-movzl"></a>
+#### MOVZL
 
+![MOVZL, opcode 001000, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movzl/06.svg)
+
+![MOVZL, opcode 001000, three parcels (modes index) (6 bytes)](figures/w/movzl/07.svg)
+
+![MOVZL, opcode 001000, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movzl/08.svg)
+
+![MOVZL, opcode 001000, three parcels (modes dp) (6 bytes)](figures/w/movzl/09.svg)
+
+![MOVZL, opcode 001000, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movzl/02.svg)
+
+![MOVZL, opcode 001000, two parcels (modes index) (4 bytes)](figures/w/movzl/03.svg)
+
+![MOVZL, opcode 001000, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movzl/04.svg)
+
+![MOVZL, opcode 001000, two parcels (modes dp) (4 bytes)](figures/w/movzl/05.svg)
+
+![MOVZL, opcode 001000, one parcel (2 bytes)](figures/w/movzl/01.svg)
+
+```
+MOVZL rm, Rd
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `MOVZL` | `001000 (0x08)` |
+
+Operation, flags and exceptions as for the entry MOVZ above; 9 layout forms, each a chart of its own (above).
+
+<a id="w-movzw"></a>
+#### MOVZW
+
+![MOVZW, opcode 001001, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movzw/06.svg)
+
+![MOVZW, opcode 001001, three parcels (modes index) (6 bytes)](figures/w/movzw/07.svg)
+
+![MOVZW, opcode 001001, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movzw/08.svg)
+
+![MOVZW, opcode 001001, three parcels (modes dp) (6 bytes)](figures/w/movzw/09.svg)
+
+![MOVZW, opcode 001001, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movzw/02.svg)
+
+![MOVZW, opcode 001001, two parcels (modes index) (4 bytes)](figures/w/movzw/03.svg)
+
+![MOVZW, opcode 001001, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movzw/04.svg)
+
+![MOVZW, opcode 001001, two parcels (modes dp) (4 bytes)](figures/w/movzw/05.svg)
+
+![MOVZW, opcode 001001, one parcel (2 bytes)](figures/w/movzw/01.svg)
+
+```
+MOVZW rm, Rd
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `MOVZW` | `001001 (0x09)` |
+
+Operation, flags and exceptions as for the entry MOVZ above; 9 layout forms, each a chart of its own (above).
+
+<a id="w-movzb"></a>
+#### MOVZB
+
+![MOVZB, opcode 001010, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/movzb/06.svg)
+
+![MOVZB, opcode 001010, three parcels (modes index) (6 bytes)](figures/w/movzb/07.svg)
+
+![MOVZB, opcode 001010, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/movzb/08.svg)
+
+![MOVZB, opcode 001010, three parcels (modes dp) (6 bytes)](figures/w/movzb/09.svg)
+
+![MOVZB, opcode 001010, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/movzb/02.svg)
+
+![MOVZB, opcode 001010, two parcels (modes index) (4 bytes)](figures/w/movzb/03.svg)
+
+![MOVZB, opcode 001010, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/movzb/04.svg)
+
+![MOVZB, opcode 001010, two parcels (modes dp) (4 bytes)](figures/w/movzb/05.svg)
+
+![MOVZB, opcode 001010, one parcel (2 bytes)](figures/w/movzb/01.svg)
+
+```
+MOVZB rm, Rd
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `MOVZB` | `001010 (0x0A)` |
+
+Operation, flags and exceptions as for the entry MOVZ above; 9 layout forms, each a chart of its own (above).
+
+
+<a id="w-lea"></a>
 ### LEA: Load effective address
+
+![LEA, opcode 001011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/lea/06.svg)
+
+![LEA, opcode 001011, three parcels (modes index) (6 bytes)](figures/w/lea/07.svg)
+
+![LEA, opcode 001011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/lea/08.svg)
+
+![LEA, opcode 001011, three parcels (modes dp) (6 bytes)](figures/w/lea/09.svg)
+
+![LEA, opcode 001011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/lea/02.svg)
+
+![LEA, opcode 001011, two parcels (modes index) (4 bytes)](figures/w/lea/03.svg)
+
+![LEA, opcode 001011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/lea/04.svg)
+
+![LEA, opcode 001011, two parcels (modes dp) (4 bytes)](figures/w/lea/05.svg)
+
+![LEA, opcode 001011, one parcel (2 bytes)](figures/w/lea/01.svg)
 
 **Mnemonics:** `LEA`
 
@@ -252,8 +549,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 | `LEA` | `001011 (0x0B)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`LEA`](dictionary/by-word.md#w-lea).
 
 **Operation**
 
@@ -299,8 +594,6 @@ The chart is the layout `r20-mesc-1`, Memory escape (MESC), two parcels (`len = 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mesc-1`](dictionary/by-encoding.md#r20-mesc-1), [`r20-mesc-2`](dictionary/by-encoding.md#r20-mesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVUB`](dictionary/by-word.md#w-movub), [`MOVUW`](dictionary/by-word.md#w-movuw), [`MOVUL`](dictionary/by-word.md#w-movul), [`MOVUQ`](dictionary/by-word.md#w-movuq).
-
 **Operation**
 
 ```
@@ -320,6 +613,67 @@ The ordinary moves fault on a misaligned address (the alignment fault is the tag
 **Cf.** 6.4, 6.8.
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-movub"></a>
+#### MOVUB
+
+![MOVUB, opcode 001111, three parcels, sub-opcode 0000 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (6 bytes)](figures/w/movub/02.svg)
+
+![MOVUB, opcode 001111, two parcels, sub-opcode 0000 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (4 bytes)](figures/w/movub/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MOVUB` | `001111 (0x0F)` | `0000 (0x0)` |
+
+Operation, flags and exceptions as for the entry MOVU above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-movuw"></a>
+#### MOVUW
+
+![MOVUW, opcode 001111, three parcels, sub-opcode 0010 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (6 bytes)](figures/w/movuw/02.svg)
+
+![MOVUW, opcode 001111, two parcels, sub-opcode 0010 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (4 bytes)](figures/w/movuw/01.svg)
+
+```
+MOVUW, MOVUL, MOVUB likewise
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MOVUW` | `001111 (0x0F)` | `0010 (0x2)` |
+
+Operation, flags and exceptions as for the entry MOVU above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-movul"></a>
+#### MOVUL
+
+![MOVUL, opcode 001111, three parcels, sub-opcode 0100 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (6 bytes)](figures/w/movul/02.svg)
+
+![MOVUL, opcode 001111, two parcels, sub-opcode 0100 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (4 bytes)](figures/w/movul/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MOVUL` | `001111 (0x0F)` | `0100 (0x4)` |
+
+Operation, flags and exceptions as for the entry MOVU above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-movuq"></a>
+#### MOVUQ
+
+![MOVUQ, opcode 001111, three parcels, sub-opcode 0110 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (6 bytes)](figures/w/movuq/02.svg)
+
+![MOVUQ, opcode 001111, two parcels, sub-opcode 0110 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (4 bytes)](figures/w/movuq/01.svg)
+
+```
+MOVUQ rm, Rd
+MOVUQ Rs, rm
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MOVUQ` | `001111 (0x0F)` | `0110 (0x6)` |
+
+Operation, flags and exceptions as for the entry MOVU above; 2 layout forms, each a chart of its own (above).
 <!-- /entries:9.6 -->
 
 ## 9.7 Integer arithmetic
@@ -339,7 +693,26 @@ The ordinary moves fault on a misaligned address (the alignment fault is the tag
 *Commentary.* **Precedent.** `ADD`, `SUB`, `CMP`, `BIT`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning except for the order of `CMP`'s operands. **Trade-offs.** The PDP-11 wrote `CMP a, b` to compute `a - b`; since the destination of an ALU operation here must be a register, a literal `src, dst` reading would force every comparison against an immediate or memory to be reversed, so the register comes first. Divide is in the escape group, at four bytes, because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs is present; a second unsigned multiply is the same instruction as the first and is not provided. **Benefits.** `SET` replaces a branch around a move for the very common "store the truth value of a comparison", and absolute value, minimum and maximum remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULHU` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; AArch64's conditional select and set instructions are the nearest to `SET`. **Use.** `MULH` and `MULHU` are for multi-precision arithmetic and for division by constants; `ADC` and `SBC` carry a multi-word add or subtract; `MIN`, `MAX` and `ABS` appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `ADC` and `SBC` carry multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SET` materialises a comparison without a branch; `CMP` takes the register first, as the compiler orders its operands. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
 
 <!-- entries:9.7 -->
+<a id="w-add"></a>
 ### ADD: Add
+
+![ADD, opcode 010110, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/add/06.svg)
+
+![ADD, opcode 010110, three parcels (modes index) (6 bytes)](figures/w/add/07.svg)
+
+![ADD, opcode 010110, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/add/08.svg)
+
+![ADD, opcode 010110, three parcels (modes dp) (6 bytes)](figures/w/add/09.svg)
+
+![ADD, opcode 010110, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/add/02.svg)
+
+![ADD, opcode 010110, two parcels (modes index) (4 bytes)](figures/w/add/03.svg)
+
+![ADD, opcode 010110, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/add/04.svg)
+
+![ADD, opcode 010110, two parcels (modes dp) (4 bytes)](figures/w/add/05.svg)
+
+![ADD, opcode 010110, one parcel (2 bytes)](figures/w/add/01.svg)
 
 **Mnemonics:** `ADD`
 
@@ -361,8 +734,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADD`](dictionary/by-word.md#w-add).
-
 **Operation**
 
 ```
@@ -378,7 +749,26 @@ All ALU operations are 64 bits, with no size field. Page 2 has `ADD #imm, rd` wi
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-sub"></a>
 ### SUB: Subtract
+
+![SUB, opcode 010111, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/sub/06.svg)
+
+![SUB, opcode 010111, three parcels (modes index) (6 bytes)](figures/w/sub/07.svg)
+
+![SUB, opcode 010111, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/sub/08.svg)
+
+![SUB, opcode 010111, three parcels (modes dp) (6 bytes)](figures/w/sub/09.svg)
+
+![SUB, opcode 010111, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/sub/02.svg)
+
+![SUB, opcode 010111, two parcels (modes index) (4 bytes)](figures/w/sub/03.svg)
+
+![SUB, opcode 010111, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/sub/04.svg)
+
+![SUB, opcode 010111, two parcels (modes dp) (4 bytes)](figures/w/sub/05.svg)
+
+![SUB, opcode 010111, one parcel (2 bytes)](figures/w/sub/01.svg)
 
 **Mnemonics:** `SUB`
 
@@ -400,8 +790,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SUB`](dictionary/by-word.md#w-sub).
-
 **Operation**
 
 ```
@@ -417,7 +805,26 @@ Page 2 has `SUB #(8*n), SP`.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-cmp"></a>
 ### CMP: Compare
+
+![CMP, opcode 011010, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/cmp/06.svg)
+
+![CMP, opcode 011010, three parcels (modes index) (6 bytes)](figures/w/cmp/07.svg)
+
+![CMP, opcode 011010, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/cmp/08.svg)
+
+![CMP, opcode 011010, three parcels (modes dp) (6 bytes)](figures/w/cmp/09.svg)
+
+![CMP, opcode 011010, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/cmp/02.svg)
+
+![CMP, opcode 011010, two parcels (modes index) (4 bytes)](figures/w/cmp/03.svg)
+
+![CMP, opcode 011010, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/cmp/04.svg)
+
+![CMP, opcode 011010, two parcels (modes dp) (4 bytes)](figures/w/cmp/05.svg)
+
+![CMP, opcode 011010, one parcel (2 bytes)](figures/w/cmp/01.svg)
 
 **Mnemonics:** `CMP`
 
@@ -439,8 +846,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CMP`](dictionary/by-word.md#w-cmp).
-
 **Operation**
 
 ```
@@ -456,7 +861,27 @@ tmp ← Rd - rm         ; the result is discarded
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-mul"></a>
+<a id="w-mulu"></a>
 ### MUL: Multiply, low 64 bits
+
+![MUL, opcode 011110, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/mul/06.svg)
+
+![MUL, opcode 011110, three parcels (modes index) (6 bytes)](figures/w/mul/07.svg)
+
+![MUL, opcode 011110, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/mul/08.svg)
+
+![MUL, opcode 011110, three parcels (modes dp) (6 bytes)](figures/w/mul/09.svg)
+
+![MUL, opcode 011110, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/mul/02.svg)
+
+![MUL, opcode 011110, two parcels (modes index) (4 bytes)](figures/w/mul/03.svg)
+
+![MUL, opcode 011110, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/mul/04.svg)
+
+![MUL, opcode 011110, two parcels (modes dp) (4 bytes)](figures/w/mul/05.svg)
+
+![MUL, opcode 011110, one parcel (2 bytes)](figures/w/mul/01.svg)
 
 **Mnemonics:** `MUL`  (aliases: `MULU`)
 
@@ -478,8 +903,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MUL`](dictionary/by-word.md#w-mul).
-
 **Operation**
 
 ```
@@ -494,8 +917,30 @@ The low 64 bits of a two's-complement product are the same whether the operands 
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-mulu"></a>
+**`MULU`** is an alias of `MUL`: the assembler writes it as that word.
 
+
+<a id="w-mulh"></a>
 ### MULH: Multiply, high 64 bits, signed
+
+![MULH, opcode 011111, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/mulh/06.svg)
+
+![MULH, opcode 011111, three parcels (modes index) (6 bytes)](figures/w/mulh/07.svg)
+
+![MULH, opcode 011111, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/mulh/08.svg)
+
+![MULH, opcode 011111, three parcels (modes dp) (6 bytes)](figures/w/mulh/09.svg)
+
+![MULH, opcode 011111, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/mulh/02.svg)
+
+![MULH, opcode 011111, two parcels (modes index) (4 bytes)](figures/w/mulh/03.svg)
+
+![MULH, opcode 011111, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/mulh/04.svg)
+
+![MULH, opcode 011111, two parcels (modes dp) (4 bytes)](figures/w/mulh/05.svg)
+
+![MULH, opcode 011111, one parcel (2 bytes)](figures/w/mulh/01.svg)
 
 **Mnemonics:** `MULH`
 
@@ -516,8 +961,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 | `MULH` | `011111 (0x1F)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MULH`](dictionary/by-word.md#w-mulh).
 
 **Operation**
 
@@ -564,8 +1007,6 @@ The chart is the layout `r20-mesc-1`, Memory escape (MESC), two parcels (`len = 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mesc-1`](dictionary/by-encoding.md#r20-mesc-1), [`r20-mesc-2`](dictionary/by-encoding.md#r20-mesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADDM`](dictionary/by-word.md#w-addm), [`SUBM`](dictionary/by-word.md#w-subm), [`BICM`](dictionary/by-word.md#w-bicm), [`BISM`](dictionary/by-word.md#w-bism).
-
 **Operation**
 
 ```
@@ -585,8 +1026,95 @@ Parcel 0's low nibble is a mode, as in the ordinary memory format, so these are 
 
 **Status** specified; **not yet implemented** in the reference executor.
 
+<a id="w-addm"></a>
+#### ADDM
 
+![ADDM, opcode 001111, three parcels, sub-opcode 1000 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (6 bytes)](figures/w/addm/02.svg)
+
+![ADDM, opcode 001111, two parcels, sub-opcode 1000 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (4 bytes)](figures/w/addm/01.svg)
+
+```
+ADDM Rs, rm
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `ADDM` | `001111 (0x0F)` | `1000 (0x8)` |
+
+Operation, flags and exceptions as for the entry ADDM above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-subm"></a>
+#### SUBM
+
+![SUBM, opcode 001111, three parcels, sub-opcode 1001 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (6 bytes)](figures/w/subm/02.svg)
+
+![SUBM, opcode 001111, two parcels, sub-opcode 1001 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (4 bytes)](figures/w/subm/01.svg)
+
+```
+SUBM Rs, rm
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `SUBM` | `001111 (0x0F)` | `1001 (0x9)` |
+
+Operation, flags and exceptions as for the entry ADDM above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-bicm"></a>
+#### BICM
+
+![BICM, opcode 001111, three parcels, sub-opcode 1010 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (6 bytes)](figures/w/bicm/02.svg)
+
+![BICM, opcode 001111, two parcels, sub-opcode 1010 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (4 bytes)](figures/w/bicm/01.svg)
+
+```
+BICM Rs, rm
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `BICM` | `001111 (0x0F)` | `1010 (0xA)` |
+
+Operation, flags and exceptions as for the entry ADDM above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-bism"></a>
+#### BISM
+
+![BISM, opcode 001111, three parcels, sub-opcode 1011 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (6 bytes)](figures/w/bism/02.svg)
+
+![BISM, opcode 001111, two parcels, sub-opcode 1011 (modes base, index, pcrel, dp, imm, abs, postinc, predec) (4 bytes)](figures/w/bism/01.svg)
+
+```
+BISM Rs, rm
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `BISM` | `001111 (0x0F)` | `1011 (0xB)` |
+
+Operation, flags and exceptions as for the entry ADDM above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-inc"></a>
 ### INC: Increment
+
+![INC, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/inc/06.svg)
+
+![INC, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/inc/07.svg)
+
+![INC, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/inc/08.svg)
+
+![INC, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/inc/09.svg)
+
+![INC, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/inc/02.svg)
+
+![INC, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/inc/03.svg)
+
+![INC, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/inc/04.svg)
+
+![INC, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/inc/05.svg)
+
+![INC, opcode 010011, one parcel (2 bytes)](figures/w/inc/01.svg)
 
 **Mnemonics:** `INC`
 
@@ -608,8 +1136,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`INC`](dictionary/by-word.md#w-inc).
-
 **Operation**
 
 ```
@@ -623,7 +1149,26 @@ rm ← rm + 1
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-dec"></a>
 ### DEC: Decrement
+
+![DEC, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/dec/06.svg)
+
+![DEC, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/dec/07.svg)
+
+![DEC, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/dec/08.svg)
+
+![DEC, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/dec/09.svg)
+
+![DEC, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/dec/02.svg)
+
+![DEC, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/dec/03.svg)
+
+![DEC, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/dec/04.svg)
+
+![DEC, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/dec/05.svg)
+
+![DEC, opcode 010011, one parcel (2 bytes)](figures/w/dec/01.svg)
 
 **Mnemonics:** `DEC`
 
@@ -645,8 +1190,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DEC`](dictionary/by-word.md#w-dec).
-
 **Operation**
 
 ```
@@ -660,7 +1203,26 @@ rm ← rm - 1
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-neg"></a>
 ### NEG: Negate
+
+![NEG, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/neg/06.svg)
+
+![NEG, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/neg/07.svg)
+
+![NEG, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/neg/08.svg)
+
+![NEG, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/neg/09.svg)
+
+![NEG, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/neg/02.svg)
+
+![NEG, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/neg/03.svg)
+
+![NEG, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/neg/04.svg)
+
+![NEG, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/neg/05.svg)
+
+![NEG, opcode 010011, one parcel (2 bytes)](figures/w/neg/01.svg)
 
 **Mnemonics:** `NEG`
 
@@ -682,8 +1244,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`NEG`](dictionary/by-word.md#w-neg).
-
 **Operation**
 
 ```
@@ -697,7 +1257,26 @@ rm ← 0 - rm
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-adc"></a>
 ### ADC: Add carry
+
+![ADC, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/adc/06.svg)
+
+![ADC, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/adc/07.svg)
+
+![ADC, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/adc/08.svg)
+
+![ADC, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/adc/09.svg)
+
+![ADC, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/adc/02.svg)
+
+![ADC, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/adc/03.svg)
+
+![ADC, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/adc/04.svg)
+
+![ADC, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/adc/05.svg)
+
+![ADC, opcode 010011, one parcel (2 bytes)](figures/w/adc/01.svg)
 
 **Mnemonics:** `ADC`
 
@@ -719,8 +1298,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADC`](dictionary/by-word.md#w-adc).
-
 **Operation**
 
 ```
@@ -736,7 +1313,26 @@ With `ADD`, multi-word addition.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-sbc"></a>
 ### SBC: Subtract carry
+
+![SBC, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/sbc/06.svg)
+
+![SBC, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/sbc/07.svg)
+
+![SBC, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/sbc/08.svg)
+
+![SBC, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/sbc/09.svg)
+
+![SBC, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/sbc/02.svg)
+
+![SBC, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/sbc/03.svg)
+
+![SBC, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/sbc/04.svg)
+
+![SBC, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/sbc/05.svg)
+
+![SBC, opcode 010011, one parcel (2 bytes)](figures/w/sbc/01.svg)
 
 **Mnemonics:** `SBC`
 
@@ -757,8 +1353,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `SBC` | `010011 (0x13)` | `0111 (0x7)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SBC`](dictionary/by-word.md#w-sbc).
 
 **Operation**
 
@@ -801,8 +1395,6 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DIV`](dictionary/by-word.md#w-div), [`DIVU`](dictionary/by-word.md#w-divu), [`MOD`](dictionary/by-word.md#w-mod), [`MODU`](dictionary/by-word.md#w-modu).
-
 **Operation**
 
 ```
@@ -823,8 +1415,81 @@ Division by a constant is a `MULH` and a shift, so a real divide is rare; this i
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-div"></a>
+#### DIV
 
+![DIV, opcode 001110, three parcels, sub-opcode 00000000 (6 bytes)](figures/w/div/02.svg)
+
+![DIV, opcode 001110, two parcels, sub-opcode 00000000 (4 bytes)](figures/w/div/01.svg)
+
+```
+DIV Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `DIV` | `001110 (0x0E)` | `00000000 (0x00)` |
+
+Operation, flags and exceptions as for the entry DIV above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-divu"></a>
+#### DIVU
+
+![DIVU, opcode 001110, three parcels, sub-opcode 00000001 (6 bytes)](figures/w/divu/02.svg)
+
+![DIVU, opcode 001110, two parcels, sub-opcode 00000001 (4 bytes)](figures/w/divu/01.svg)
+
+```
+DIVU Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `DIVU` | `001110 (0x0E)` | `00000001 (0x01)` |
+
+Operation, flags and exceptions as for the entry DIV above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-mod"></a>
+#### MOD
+
+![MOD, opcode 001110, three parcels, sub-opcode 00000010 (6 bytes)](figures/w/mod/02.svg)
+
+![MOD, opcode 001110, two parcels, sub-opcode 00000010 (4 bytes)](figures/w/mod/01.svg)
+
+```
+MOD Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MOD` | `001110 (0x0E)` | `00000010 (0x02)` |
+
+Operation, flags and exceptions as for the entry DIV above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-modu"></a>
+#### MODU
+
+![MODU, opcode 001110, three parcels, sub-opcode 00000011 (6 bytes)](figures/w/modu/02.svg)
+
+![MODU, opcode 001110, two parcels, sub-opcode 00000011 (4 bytes)](figures/w/modu/01.svg)
+
+```
+MODU Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MODU` | `001110 (0x0E)` | `00000011 (0x03)` |
+
+Operation, flags and exceptions as for the entry DIV above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-mulhu"></a>
 ### MULHU: Multiply, high 64 bits, unsigned
+
+![MULHU, opcode 001110, three parcels, sub-opcode 00000100 (6 bytes)](figures/w/mulhu/02.svg)
+
+![MULHU, opcode 001110, two parcels, sub-opcode 00000100 (4 bytes)](figures/w/mulhu/01.svg)
 
 **Mnemonics:** `MULHU`
 
@@ -846,8 +1511,6 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MULHU`](dictionary/by-word.md#w-mulhu).
-
 **Operation**
 
 ```
@@ -865,7 +1528,12 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-abs"></a>
 ### ABS: Absolute value
+
+![ABS, opcode 001110, three parcels, sub-opcode 00001000 (6 bytes)](figures/w/abs/02.svg)
+
+![ABS, opcode 001110, two parcels, sub-opcode 00001000 (4 bytes)](figures/w/abs/01.svg)
 
 **Mnemonics:** `ABS`
 
@@ -886,8 +1554,6 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 | `ABS` | `001110 (0x0E)` | `00001000 (0x08)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ABS`](dictionary/by-word.md#w-abs).
 
 **Operation**
 
@@ -932,8 +1598,6 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MIN`](dictionary/by-word.md#w-min), [`MINU`](dictionary/by-word.md#w-minu), [`MAX`](dictionary/by-word.md#w-max), [`MAXU`](dictionary/by-word.md#w-maxu).
-
 **Operation**
 
 ```
@@ -949,8 +1613,81 @@ MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-min"></a>
+#### MIN
 
+![MIN, opcode 001110, three parcels, sub-opcode 00010000 (6 bytes)](figures/w/min/02.svg)
+
+![MIN, opcode 001110, two parcels, sub-opcode 00010000 (4 bytes)](figures/w/min/01.svg)
+
+```
+MIN Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MIN` | `001110 (0x0E)` | `00010000 (0x10)` |
+
+Operation, flags and exceptions as for the entry MINMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-minu"></a>
+#### MINU
+
+![MINU, opcode 001110, three parcels, sub-opcode 00010001 (6 bytes)](figures/w/minu/02.svg)
+
+![MINU, opcode 001110, two parcels, sub-opcode 00010001 (4 bytes)](figures/w/minu/01.svg)
+
+```
+MINU Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MINU` | `001110 (0x0E)` | `00010001 (0x11)` |
+
+Operation, flags and exceptions as for the entry MINMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-max"></a>
+#### MAX
+
+![MAX, opcode 001110, three parcels, sub-opcode 00010010 (6 bytes)](figures/w/max/02.svg)
+
+![MAX, opcode 001110, two parcels, sub-opcode 00010010 (4 bytes)](figures/w/max/01.svg)
+
+```
+MAX Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MAX` | `001110 (0x0E)` | `00010010 (0x12)` |
+
+Operation, flags and exceptions as for the entry MINMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-maxu"></a>
+#### MAXU
+
+![MAXU, opcode 001110, three parcels, sub-opcode 00010011 (6 bytes)](figures/w/maxu/02.svg)
+
+![MAXU, opcode 001110, two parcels, sub-opcode 00010011 (4 bytes)](figures/w/maxu/01.svg)
+
+```
+MAXU Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MAXU` | `001110 (0x0E)` | `00010011 (0x13)` |
+
+Operation, flags and exceptions as for the entry MINMAX above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-set"></a>
 ### SET: Set a register from a condition
+
+![SET, opcode 001110, three parcels, sub-opcode 00100000 (6 bytes)](figures/w/set/02.svg)
+
+![SET, opcode 001110, two parcels, sub-opcode 00100000 (4 bytes)](figures/w/set/01.svg)
 
 **Mnemonics:** `SET`
 
@@ -971,8 +1708,6 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 | `SET` | `001110 (0x0E)` | `00100000 (0x20)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SET`](dictionary/by-word.md#w-set).
 
 **Operation**
 
@@ -1006,7 +1741,26 @@ The condition is the `x` field of parcel 1, numbered as the low nibble of the br
 *Commentary.* **Precedent.** The PDP-11 had `ASL`, `ASR`, `ROL` and `ROR` by one through the carry; x86's `SHRD` and ARM's `EXTR` are the funnel shifts. **Trade-offs.** One rotate direction is enough, so there is no by-one `ROL` in a two-byte slot; rotates are not through the carry because a carry chain is fragile when the carry flag is shared. **Improvements.** The shift count comes from `rm`, not from a fixed register like x86's `CL`, which costs a register shuffle in every hand-written loop. **Benefits.** Multi-precision shifting is `DSHR`, two instructions for any distance. **Modern comparables.** RISC-V and AArch64 have rotates by register and by immediate; x86 has `ROL`/`ROR` through the carry as well. **Use.** `RORI` and `RORI32` are for hashes and ciphers, which rotate by constants; `DSHR` shifts a bignum. **Impact.** *Kernel:* Bit tests and mask operations on the status and page-table words are single instructions. *Compiler:* The shift count may be any register, immediate or memory operand, so the compiler never has to move a count into a fixed register; hashes and ciphers rotate by constants. *Hardware:* The barrel shifter (about 450 lookup tables) serves shifts and rotates, and writing no flag for rotates removes a result path.
 
 <!-- entries:9.8 -->
+<a id="w-bic"></a>
 ### BIC: Bit clear
+
+![BIC, opcode 011000, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/bic/06.svg)
+
+![BIC, opcode 011000, three parcels (modes index) (6 bytes)](figures/w/bic/07.svg)
+
+![BIC, opcode 011000, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/bic/08.svg)
+
+![BIC, opcode 011000, three parcels (modes dp) (6 bytes)](figures/w/bic/09.svg)
+
+![BIC, opcode 011000, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/bic/02.svg)
+
+![BIC, opcode 011000, two parcels (modes index) (4 bytes)](figures/w/bic/03.svg)
+
+![BIC, opcode 011000, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/bic/04.svg)
+
+![BIC, opcode 011000, two parcels (modes dp) (4 bytes)](figures/w/bic/05.svg)
+
+![BIC, opcode 011000, one parcel (2 bytes)](figures/w/bic/01.svg)
 
 **Mnemonics:** `BIC`
 
@@ -1028,8 +1782,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIC`](dictionary/by-word.md#w-bic).
-
 **Operation**
 
 ```
@@ -1045,7 +1797,26 @@ The assembler also accepts `BIC #imm, rm` as `AND #~imm, rm`.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-bis"></a>
 ### BIS: Bit set (inclusive or)
+
+![BIS, opcode 011001, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/bis/06.svg)
+
+![BIS, opcode 011001, three parcels (modes index) (6 bytes)](figures/w/bis/07.svg)
+
+![BIS, opcode 011001, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/bis/08.svg)
+
+![BIS, opcode 011001, three parcels (modes dp) (6 bytes)](figures/w/bis/09.svg)
+
+![BIS, opcode 011001, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/bis/02.svg)
+
+![BIS, opcode 011001, two parcels (modes index) (4 bytes)](figures/w/bis/03.svg)
+
+![BIS, opcode 011001, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/bis/04.svg)
+
+![BIS, opcode 011001, two parcels (modes dp) (4 bytes)](figures/w/bis/05.svg)
+
+![BIS, opcode 011001, one parcel (2 bytes)](figures/w/bis/01.svg)
 
 **Mnemonics:** `BIS`
 
@@ -1067,8 +1838,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIS`](dictionary/by-word.md#w-bis).
-
 **Operation**
 
 ```
@@ -1082,7 +1851,26 @@ Rd ← Rd OR rm
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-bit"></a>
 ### BIT: Bit test
+
+![BIT, opcode 011011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/bit/06.svg)
+
+![BIT, opcode 011011, three parcels (modes index) (6 bytes)](figures/w/bit/07.svg)
+
+![BIT, opcode 011011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/bit/08.svg)
+
+![BIT, opcode 011011, three parcels (modes dp) (6 bytes)](figures/w/bit/09.svg)
+
+![BIT, opcode 011011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/bit/02.svg)
+
+![BIT, opcode 011011, two parcels (modes index) (4 bytes)](figures/w/bit/03.svg)
+
+![BIT, opcode 011011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/bit/04.svg)
+
+![BIT, opcode 011011, two parcels (modes dp) (4 bytes)](figures/w/bit/05.svg)
+
+![BIT, opcode 011011, one parcel (2 bytes)](figures/w/bit/01.svg)
 
 **Mnemonics:** `BIT`
 
@@ -1104,8 +1892,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIT`](dictionary/by-word.md#w-bit).
-
 **Operation**
 
 ```
@@ -1119,7 +1905,26 @@ tmp ← Rd AND rm         ; the result is discarded
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-xor"></a>
 ### XOR: Exclusive or
+
+![XOR, opcode 011100, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/xor/06.svg)
+
+![XOR, opcode 011100, three parcels (modes index) (6 bytes)](figures/w/xor/07.svg)
+
+![XOR, opcode 011100, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/xor/08.svg)
+
+![XOR, opcode 011100, three parcels (modes dp) (6 bytes)](figures/w/xor/09.svg)
+
+![XOR, opcode 011100, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/xor/02.svg)
+
+![XOR, opcode 011100, two parcels (modes index) (4 bytes)](figures/w/xor/03.svg)
+
+![XOR, opcode 011100, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/xor/04.svg)
+
+![XOR, opcode 011100, two parcels (modes dp) (4 bytes)](figures/w/xor/05.svg)
+
+![XOR, opcode 011100, one parcel (2 bytes)](figures/w/xor/01.svg)
 
 **Mnemonics:** `XOR`
 
@@ -1141,8 +1946,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XOR`](dictionary/by-word.md#w-xor).
-
 **Operation**
 
 ```
@@ -1156,7 +1959,26 @@ Rd ← Rd XOR rm
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-and"></a>
 ### AND: And
+
+![AND, opcode 011101, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/and/06.svg)
+
+![AND, opcode 011101, three parcels (modes index) (6 bytes)](figures/w/and/07.svg)
+
+![AND, opcode 011101, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/and/08.svg)
+
+![AND, opcode 011101, three parcels (modes dp) (6 bytes)](figures/w/and/09.svg)
+
+![AND, opcode 011101, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/and/02.svg)
+
+![AND, opcode 011101, two parcels (modes index) (4 bytes)](figures/w/and/03.svg)
+
+![AND, opcode 011101, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/and/04.svg)
+
+![AND, opcode 011101, two parcels (modes dp) (4 bytes)](figures/w/and/05.svg)
+
+![AND, opcode 011101, one parcel (2 bytes)](figures/w/and/01.svg)
 
 **Mnemonics:** `AND`
 
@@ -1177,8 +1999,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 | `AND` | `011101 (0x1D)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`AND`](dictionary/by-word.md#w-and).
 
 **Operation**
 
@@ -1219,8 +2039,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SHL`](dictionary/by-word.md#w-shl), [`SHR`](dictionary/by-word.md#w-shr), [`SAR`](dictionary/by-word.md#w-sar).
-
 **Operation**
 
 ```
@@ -1238,8 +2056,120 @@ The count is read as an unsigned 64-bit value, so a count of 64 or more shifts t
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-shl"></a>
+#### SHL
 
+![SHL, opcode 100000, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/shl/06.svg)
+
+![SHL, opcode 100000, three parcels (modes index) (6 bytes)](figures/w/shl/07.svg)
+
+![SHL, opcode 100000, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/shl/08.svg)
+
+![SHL, opcode 100000, three parcels (modes dp) (6 bytes)](figures/w/shl/09.svg)
+
+![SHL, opcode 100000, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/shl/02.svg)
+
+![SHL, opcode 100000, two parcels (modes index) (4 bytes)](figures/w/shl/03.svg)
+
+![SHL, opcode 100000, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/shl/04.svg)
+
+![SHL, opcode 100000, two parcels (modes dp) (4 bytes)](figures/w/shl/05.svg)
+
+![SHL, opcode 100000, one parcel (2 bytes)](figures/w/shl/01.svg)
+
+```
+SHL rm, Rd
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `SHL` | `100000 (0x20)` |
+
+Operation, flags and exceptions as for the entry SHIFT above; 9 layout forms, each a chart of its own (above).
+
+<a id="w-shr"></a>
+#### SHR
+
+![SHR, opcode 100001, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/shr/06.svg)
+
+![SHR, opcode 100001, three parcels (modes index) (6 bytes)](figures/w/shr/07.svg)
+
+![SHR, opcode 100001, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/shr/08.svg)
+
+![SHR, opcode 100001, three parcels (modes dp) (6 bytes)](figures/w/shr/09.svg)
+
+![SHR, opcode 100001, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/shr/02.svg)
+
+![SHR, opcode 100001, two parcels (modes index) (4 bytes)](figures/w/shr/03.svg)
+
+![SHR, opcode 100001, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/shr/04.svg)
+
+![SHR, opcode 100001, two parcels (modes dp) (4 bytes)](figures/w/shr/05.svg)
+
+![SHR, opcode 100001, one parcel (2 bytes)](figures/w/shr/01.svg)
+
+```
+SHR rm, Rd
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `SHR` | `100001 (0x21)` |
+
+Operation, flags and exceptions as for the entry SHIFT above; 9 layout forms, each a chart of its own (above).
+
+<a id="w-sar"></a>
+#### SAR
+
+![SAR, opcode 100010, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/sar/06.svg)
+
+![SAR, opcode 100010, three parcels (modes index) (6 bytes)](figures/w/sar/07.svg)
+
+![SAR, opcode 100010, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/sar/08.svg)
+
+![SAR, opcode 100010, three parcels (modes dp) (6 bytes)](figures/w/sar/09.svg)
+
+![SAR, opcode 100010, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/sar/02.svg)
+
+![SAR, opcode 100010, two parcels (modes index) (4 bytes)](figures/w/sar/03.svg)
+
+![SAR, opcode 100010, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/sar/04.svg)
+
+![SAR, opcode 100010, two parcels (modes dp) (4 bytes)](figures/w/sar/05.svg)
+
+![SAR, opcode 100010, one parcel (2 bytes)](figures/w/sar/01.svg)
+
+```
+SAR rm, Rd
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `SAR` | `100010 (0x22)` |
+
+Operation, flags and exceptions as for the entry SHIFT above; 9 layout forms, each a chart of its own (above).
+
+
+<a id="w-clr"></a>
 ### CLR: Clear
+
+![CLR, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/clr/06.svg)
+
+![CLR, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/clr/07.svg)
+
+![CLR, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/clr/08.svg)
+
+![CLR, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/clr/09.svg)
+
+![CLR, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/clr/02.svg)
+
+![CLR, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/clr/03.svg)
+
+![CLR, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/clr/04.svg)
+
+![CLR, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/clr/05.svg)
+
+![CLR, opcode 010011, one parcel (2 bytes)](figures/w/clr/01.svg)
 
 **Mnemonics:** `CLR`
 
@@ -1261,8 +2191,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLR`](dictionary/by-word.md#w-clr).
-
 **Operation**
 
 ```
@@ -1276,7 +2204,26 @@ rm ← 0
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-com"></a>
 ### COM: Complement
+
+![COM, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/com/06.svg)
+
+![COM, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/com/07.svg)
+
+![COM, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/com/08.svg)
+
+![COM, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/com/09.svg)
+
+![COM, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/com/02.svg)
+
+![COM, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/com/03.svg)
+
+![COM, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/com/04.svg)
+
+![COM, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/com/05.svg)
+
+![COM, opcode 010011, one parcel (2 bytes)](figures/w/com/01.svg)
 
 **Mnemonics:** `COM`
 
@@ -1298,8 +2245,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`COM`](dictionary/by-word.md#w-com).
-
 **Operation**
 
 ```
@@ -1315,7 +2260,26 @@ A two-byte instruction for a register operand.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-tst"></a>
 ### TST: Test
+
+![TST, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/tst/06.svg)
+
+![TST, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/tst/07.svg)
+
+![TST, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/tst/08.svg)
+
+![TST, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/tst/09.svg)
+
+![TST, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/tst/02.svg)
+
+![TST, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/tst/03.svg)
+
+![TST, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/tst/04.svg)
+
+![TST, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/tst/05.svg)
+
+![TST, opcode 010011, one parcel (2 bytes)](figures/w/tst/01.svg)
 
 **Mnemonics:** `TST`
 
@@ -1337,8 +2301,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TST`](dictionary/by-word.md#w-tst).
-
 **Operation**
 
 ```
@@ -1352,7 +2314,26 @@ set flags from rm; nothing is written
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-asl"></a>
 ### ASL: Arithmetic shift left by one
+
+![ASL, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/asl/06.svg)
+
+![ASL, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/asl/07.svg)
+
+![ASL, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/asl/08.svg)
+
+![ASL, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/asl/09.svg)
+
+![ASL, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/asl/02.svg)
+
+![ASL, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/asl/03.svg)
+
+![ASL, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/asl/04.svg)
+
+![ASL, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/asl/05.svg)
+
+![ASL, opcode 010011, one parcel (2 bytes)](figures/w/asl/01.svg)
 
 **Mnemonics:** `ASL`
 
@@ -1374,8 +2355,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ASL`](dictionary/by-word.md#w-asl).
-
 **Operation**
 
 ```
@@ -1391,7 +2370,26 @@ The by-one form of `SHL` in two bytes.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-asr"></a>
 ### ASR: Arithmetic shift right by one
+
+![ASR, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/asr/06.svg)
+
+![ASR, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/asr/07.svg)
+
+![ASR, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/asr/08.svg)
+
+![ASR, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/asr/09.svg)
+
+![ASR, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/asr/02.svg)
+
+![ASR, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/asr/03.svg)
+
+![ASR, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/asr/04.svg)
+
+![ASR, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/asr/05.svg)
+
+![ASR, opcode 010011, one parcel (2 bytes)](figures/w/asr/01.svg)
 
 **Mnemonics:** `ASR`
 
@@ -1412,8 +2410,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `ASR` | `010011 (0x13)` | `1001 (0x9)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ASR`](dictionary/by-word.md#w-asr).
 
 **Operation**
 
@@ -1473,8 +2469,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLZ`](dictionary/by-word.md#w-clz), [`CTZ`](dictionary/by-word.md#w-ctz), [`CLO`](dictionary/by-word.md#w-clo), [`CTO`](dictionary/by-word.md#w-cto).
-
 **Operation**
 
 ```
@@ -1494,8 +2488,81 @@ CTO: Rd ← number of trailing one bits of Rs        (64 if Rs = all ones)
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-clz"></a>
+#### CLZ
 
+![CLZ, opcode 001100, three parcels, sub-opcode 00000000 (6 bytes)](figures/w/clz/02.svg)
+
+![CLZ, opcode 001100, two parcels, sub-opcode 00000000 (4 bytes)](figures/w/clz/01.svg)
+
+```
+CLZ Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CLZ` | `001100 (0x0C)` | `00000000 (0x00)` |
+
+Operation, flags and exceptions as for the entry COUNT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-ctz"></a>
+#### CTZ
+
+![CTZ, opcode 001100, three parcels, sub-opcode 00000001 (6 bytes)](figures/w/ctz/02.svg)
+
+![CTZ, opcode 001100, two parcels, sub-opcode 00000001 (4 bytes)](figures/w/ctz/01.svg)
+
+```
+CTZ Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CTZ` | `001100 (0x0C)` | `00000001 (0x01)` |
+
+Operation, flags and exceptions as for the entry COUNT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-clo"></a>
+#### CLO
+
+![CLO, opcode 001100, three parcels, sub-opcode 00000010 (6 bytes)](figures/w/clo/02.svg)
+
+![CLO, opcode 001100, two parcels, sub-opcode 00000010 (4 bytes)](figures/w/clo/01.svg)
+
+```
+CLO Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CLO` | `001100 (0x0C)` | `00000010 (0x02)` |
+
+Operation, flags and exceptions as for the entry COUNT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-cto"></a>
+#### CTO
+
+![CTO, opcode 001100, three parcels, sub-opcode 00000011 (6 bytes)](figures/w/cto/02.svg)
+
+![CTO, opcode 001100, two parcels, sub-opcode 00000011 (4 bytes)](figures/w/cto/01.svg)
+
+```
+CTO Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CTO` | `001100 (0x0C)` | `00000011 (0x03)` |
+
+Operation, flags and exceptions as for the entry COUNT above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-popcnt"></a>
 ### POPCNT: Population count
+
+![POPCNT, opcode 001100, three parcels, sub-opcode 00000100 (6 bytes)](figures/w/popcnt/02.svg)
+
+![POPCNT, opcode 001100, two parcels, sub-opcode 00000100 (4 bytes)](figures/w/popcnt/01.svg)
 
 **Mnemonics:** `POPCNT`
 
@@ -1516,8 +2583,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `POPCNT` | `001100 (0x0C)` | `00000100 (0x04)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPCNT`](dictionary/by-word.md#w-popcnt).
 
 **Operation**
 
@@ -1560,8 +2625,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BSWAP`](dictionary/by-word.md#w-bswap), [`BSWAPW`](dictionary/by-word.md#w-bswapw), [`BSWAPL`](dictionary/by-word.md#w-bswapl).
-
 **Operation**
 
 ```
@@ -1580,8 +2643,64 @@ The generalisation of the PDP-11 `SWAB` to 64 bits.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-bswap"></a>
+#### BSWAP
 
+![BSWAP, opcode 001100, three parcels, sub-opcode 00000101 (6 bytes)](figures/w/bswap/02.svg)
+
+![BSWAP, opcode 001100, two parcels, sub-opcode 00000101 (4 bytes)](figures/w/bswap/01.svg)
+
+```
+BSWAP Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `BSWAP` | `001100 (0x0C)` | `00000101 (0x05)` |
+
+Operation, flags and exceptions as for the entry BSWAP above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-bswapw"></a>
+#### BSWAPW
+
+![BSWAPW, opcode 001100, three parcels, sub-opcode 00000110 (6 bytes)](figures/w/bswapw/02.svg)
+
+![BSWAPW, opcode 001100, two parcels, sub-opcode 00000110 (4 bytes)](figures/w/bswapw/01.svg)
+
+```
+BSWAPW Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `BSWAPW` | `001100 (0x0C)` | `00000110 (0x06)` |
+
+Operation, flags and exceptions as for the entry BSWAP above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-bswapl"></a>
+#### BSWAPL
+
+![BSWAPL, opcode 001100, three parcels, sub-opcode 00000111 (6 bytes)](figures/w/bswapl/02.svg)
+
+![BSWAPL, opcode 001100, two parcels, sub-opcode 00000111 (4 bytes)](figures/w/bswapl/01.svg)
+
+```
+BSWAPL Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `BSWAPL` | `001100 (0x0C)` | `00000111 (0x07)` |
+
+Operation, flags and exceptions as for the entry BSWAP above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-bitrev"></a>
 ### BITREV: Reverse the bits
+
+![BITREV, opcode 001100, three parcels, sub-opcode 00001000 (6 bytes)](figures/w/bitrev/02.svg)
+
+![BITREV, opcode 001100, two parcels, sub-opcode 00001000 (4 bytes)](figures/w/bitrev/01.svg)
 
 **Mnemonics:** `BITREV`
 
@@ -1603,8 +2722,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BITREV`](dictionary/by-word.md#w-bitrev).
-
 **Operation**
 
 ```
@@ -1620,7 +2737,12 @@ Rd ← Rs with bit i moved to bit 63-i
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-ror"></a>
 ### ROR: Rotate right by a register count
+
+![ROR, opcode 001100, three parcels, sub-opcode 00010000 (6 bytes)](figures/w/ror/02.svg)
+
+![ROR, opcode 001100, two parcels, sub-opcode 00010000 (4 bytes)](figures/w/ror/01.svg)
 
 **Mnemonics:** `ROR`
 
@@ -1642,8 +2764,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ROR`](dictionary/by-word.md#w-ror).
-
 **Operation**
 
 ```
@@ -1661,7 +2781,13 @@ There is no rotate left instruction: `ROL rs, #n, rd` is an assembler spelling o
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-rori"></a>
+<a id="w-rol"></a>
 ### RORI: Rotate right by an immediate
+
+![RORI, opcode 001100, three parcels, sub-opcode 00010001 (6 bytes)](figures/w/rori/02.svg)
+
+![RORI, opcode 001100, two parcels, sub-opcode 00010001 (4 bytes)](figures/w/rori/01.svg)
 
 **Mnemonics:** `RORI`  (aliases: `ROL`)
 
@@ -1684,8 +2810,6 @@ The chart is the layout `r20-besc-1-2`, Bits and fields (BESC), two parcels (`le
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1-2`](dictionary/by-encoding.md#r20-besc-1-2), [`r20-besc-2-2`](dictionary/by-encoding.md#r20-besc-2-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RORI`](dictionary/by-word.md#w-rori).
-
 **Operation**
 
 ```
@@ -1702,8 +2826,16 @@ Four bytes: the count is in the low byte of parcel 1.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-rol"></a>
+**`ROL`** is an alias of `RORI`: the assembler writes it as that word.
 
+
+<a id="w-rori32"></a>
 ### RORI32: Rotate right by an immediate, 32 bits
+
+![RORI32, opcode 001100, three parcels, sub-opcode 00010010 (6 bytes)](figures/w/rori32/02.svg)
+
+![RORI32, opcode 001100, two parcels, sub-opcode 00010010 (4 bytes)](figures/w/rori32/01.svg)
 
 **Mnemonics:** `RORI32`
 
@@ -1725,8 +2857,6 @@ The chart is the layout `r20-besc-1-2`, Bits and fields (BESC), two parcels (`le
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1-2`](dictionary/by-encoding.md#r20-besc-1-2), [`r20-besc-2-2`](dictionary/by-encoding.md#r20-besc-2-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RORI32`](dictionary/by-word.md#w-rori32).
-
 **Operation**
 
 ```
@@ -1744,7 +2874,12 @@ The 32-bit rotate with the result sign-extended like every 32-bit result; the pr
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-dshr"></a>
 ### DSHR: Double-width funnel shift right
+
+![DSHR, opcode 001100, three parcels, sub-opcode 00100000 (6 bytes)](figures/w/dshr/02.svg)
+
+![DSHR, opcode 001100, two parcels, sub-opcode 00100000 (4 bytes)](figures/w/dshr/01.svg)
 
 **Mnemonics:** `DSHR`
 
@@ -1765,8 +2900,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `DSHR` | `001100 (0x0C)` | `00100000 (0x20)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2-3`](dictionary/by-encoding.md#r20-besc-2-3).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DSHR`](dictionary/by-word.md#w-dshr).
 
 **Operation**
 
@@ -1810,8 +2943,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2-3`](dictionary/by-encoding.md#r20-besc-2-3).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`EXTB`](dictionary/by-word.md#w-extb), [`EXTZB`](dictionary/by-word.md#w-extzb).
-
 **Operation**
 
 ```
@@ -1828,8 +2959,47 @@ Six bytes (position and width are in parcel 2), so these exist at `len = 10` onl
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-extb"></a>
+#### EXTB
 
+![EXTB, opcode 001100, three parcels, sub-opcode 00100001 (6 bytes)](figures/w/extb/02.svg)
+
+![EXTB, opcode 001100, two parcels, sub-opcode 00100001 (4 bytes)](figures/w/extb/01.svg)
+
+```
+EXTB Rs, #pos, #width, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `EXTB` | `001100 (0x0C)` | `00100001 (0x21)` |
+
+Operation, flags and exceptions as for the entry EXTB above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-extzb"></a>
+#### EXTZB
+
+![EXTZB, opcode 001100, three parcels, sub-opcode 00100010 (6 bytes)](figures/w/extzb/02.svg)
+
+![EXTZB, opcode 001100, two parcels, sub-opcode 00100010 (4 bytes)](figures/w/extzb/01.svg)
+
+```
+EXTZB Rs, #pos, #width, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `EXTZB` | `001100 (0x0C)` | `00100010 (0x22)` |
+
+Operation, flags and exceptions as for the entry EXTB above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-insb"></a>
 ### INSB: Insert a bit field
+
+![INSB, opcode 001100, three parcels, sub-opcode 00100011 (6 bytes)](figures/w/insb/02.svg)
+
+![INSB, opcode 001100, two parcels, sub-opcode 00100011 (4 bytes)](figures/w/insb/01.svg)
 
 **Mnemonics:** `INSB`
 
@@ -1851,8 +3021,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2-3`](dictionary/by-encoding.md#r20-besc-2-3).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`INSB`](dictionary/by-word.md#w-insb).
-
 **Operation**
 
 ```
@@ -1871,7 +3039,12 @@ Six bytes. `Rd` is both source and destination.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-xnorpop"></a>
 ### XNORPOP: Population count of the equality of two words
+
+![XNORPOP, opcode 001100, three parcels, sub-opcode 00110000 (6 bytes)](figures/w/xnorpop/02.svg)
+
+![XNORPOP, opcode 001100, two parcels, sub-opcode 00110000 (4 bytes)](figures/w/xnorpop/01.svg)
 
 **Mnemonics:** `XNORPOP`
 
@@ -1892,8 +3065,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `XNORPOP` | `001100 (0x0C)` | `00110000 (0x30)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XNORPOP`](dictionary/by-word.md#w-xnorpop).
 
 **Operation**
 
@@ -1936,8 +3107,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLMULL`](dictionary/by-word.md#w-clmull), [`CLMULH`](dictionary/by-word.md#w-clmulh).
-
 **Operation**
 
 ```
@@ -1956,8 +3125,47 @@ The primitive under every CRC (with a Barrett reduction), GF(2^k) arithmetic and
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-clmull"></a>
+#### CLMULL
 
+![CLMULL, opcode 001100, three parcels, sub-opcode 00110001 (6 bytes)](figures/w/clmull/02.svg)
+
+![CLMULL, opcode 001100, two parcels, sub-opcode 00110001 (4 bytes)](figures/w/clmull/01.svg)
+
+```
+CLMULL Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CLMULL` | `001100 (0x0C)` | `00110001 (0x31)` |
+
+Operation, flags and exceptions as for the entry CLMUL above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-clmulh"></a>
+#### CLMULH
+
+![CLMULH, opcode 001100, three parcels, sub-opcode 00110010 (6 bytes)](figures/w/clmulh/02.svg)
+
+![CLMULH, opcode 001100, two parcels, sub-opcode 00110010 (4 bytes)](figures/w/clmulh/01.svg)
+
+```
+CLMULH Ra, Rb, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CLMULH` | `001100 (0x0C)` | `00110010 (0x32)` |
+
+Operation, flags and exceptions as for the entry CLMUL above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-utf8len"></a>
 ### UTF8LEN: Length of a UTF-8 sequence from its leading byte
+
+![UTF8LEN, opcode 001100, three parcels, sub-opcode 01000000 (6 bytes)](figures/w/utf8len/02.svg)
+
+![UTF8LEN, opcode 001100, two parcels, sub-opcode 01000000 (4 bytes)](figures/w/utf8len/01.svg)
 
 **Mnemonics:** `UTF8LEN`
 
@@ -1979,8 +3187,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8LEN`](dictionary/by-word.md#w-utf8len).
-
 **Operation**
 
 ```
@@ -1996,7 +3202,12 @@ Rd ← length (1 to 4) implied by the leading byte Rs[7:0]; 0 if it cannot begin
 **Status** specified; **not yet implemented** in the reference executor.
 
 
+<a id="w-utf8dec"></a>
 ### UTF8DEC: Decode a UTF-8 sequence
+
+![UTF8DEC, opcode 001100, three parcels, sub-opcode 01000001 (6 bytes)](figures/w/utf8dec/02.svg)
+
+![UTF8DEC, opcode 001100, two parcels, sub-opcode 01000001 (4 bytes)](figures/w/utf8dec/01.svg)
 
 **Mnemonics:** `UTF8DEC`
 
@@ -2018,8 +3229,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8DEC`](dictionary/by-word.md#w-utf8dec).
-
 **Operation**
 
 ```
@@ -2037,7 +3246,12 @@ V  ← 1 if the sequence is not a valid encoding
 **Status** specified; **not yet implemented** in the reference executor.
 
 
+<a id="w-utf8enc"></a>
 ### UTF8ENC: Encode a Unicode scalar value
+
+![UTF8ENC, opcode 001100, three parcels, sub-opcode 01000010 (6 bytes)](figures/w/utf8enc/02.svg)
+
+![UTF8ENC, opcode 001100, two parcels, sub-opcode 01000010 (4 bytes)](figures/w/utf8enc/01.svg)
 
 **Mnemonics:** `UTF8ENC`
 
@@ -2058,8 +3272,6 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `UTF8ENC` | `001100 (0x0C)` | `01000010 (0x42)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8ENC`](dictionary/by-word.md#w-utf8enc).
 
 **Operation**
 
@@ -2134,8 +3346,6 @@ The chart is the layout `r20-br-0`, Conditional branches, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-br-0`](dictionary/by-encoding.md#r20-br-0), [`r20-br-1`](dictionary/by-encoding.md#r20-br-1), [`r20-br-2`](dictionary/by-encoding.md#r20-br-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BR`](dictionary/by-word.md#w-br), [`BNE`](dictionary/by-word.md#w-bne), [`BEQ`](dictionary/by-word.md#w-beq), [`BPL`](dictionary/by-word.md#w-bpl), [`BMI`](dictionary/by-word.md#w-bmi), [`BVC`](dictionary/by-word.md#w-bvc), [`BVS`](dictionary/by-word.md#w-bvs), [`BCC`](dictionary/by-word.md#w-bcc), [`BCS`](dictionary/by-word.md#w-bcs), [`BGE`](dictionary/by-word.md#w-bge), [`BLT`](dictionary/by-word.md#w-blt), [`BGT`](dictionary/by-word.md#w-bgt), [`BLE`](dictionary/by-word.md#w-ble), [`BHI`](dictionary/by-word.md#w-bhi), [`BLOS`](dictionary/by-word.md#w-blos).
-
 **Operation**
 
 ```
@@ -2152,8 +3362,260 @@ Condition numbers: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-br"></a>
+#### BR
 
+![BR, opcode 110000, three parcels (6 bytes)](figures/w/br/03.svg)
+
+![BR, opcode 110000, two parcels (4 bytes)](figures/w/br/02.svg)
+
+![BR, opcode 110000, one parcel (2 bytes)](figures/w/br/01.svg)
+
+```
+BR target
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `BR` | `110000 (0x30)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bne"></a>
+#### BNE
+
+![BNE, opcode 110001, three parcels (6 bytes)](figures/w/bne/03.svg)
+
+![BNE, opcode 110001, two parcels (4 bytes)](figures/w/bne/02.svg)
+
+![BNE, opcode 110001, one parcel (2 bytes)](figures/w/bne/01.svg)
+
+```
+BNE target
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `BNE` | `110001 (0x31)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-beq"></a>
+#### BEQ
+
+![BEQ, opcode 110010, three parcels (6 bytes)](figures/w/beq/03.svg)
+
+![BEQ, opcode 110010, two parcels (4 bytes)](figures/w/beq/02.svg)
+
+![BEQ, opcode 110010, one parcel (2 bytes)](figures/w/beq/01.svg)
+
+```
+BEQ target ... and the rest
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `BEQ` | `110010 (0x32)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bpl"></a>
+#### BPL
+
+![BPL, opcode 110011, three parcels (6 bytes)](figures/w/bpl/03.svg)
+
+![BPL, opcode 110011, two parcels (4 bytes)](figures/w/bpl/02.svg)
+
+![BPL, opcode 110011, one parcel (2 bytes)](figures/w/bpl/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BPL` | `110011 (0x33)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bmi"></a>
+#### BMI
+
+![BMI, opcode 110100, three parcels (6 bytes)](figures/w/bmi/03.svg)
+
+![BMI, opcode 110100, two parcels (4 bytes)](figures/w/bmi/02.svg)
+
+![BMI, opcode 110100, one parcel (2 bytes)](figures/w/bmi/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BMI` | `110100 (0x34)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bvc"></a>
+#### BVC
+
+![BVC, opcode 110101, three parcels (6 bytes)](figures/w/bvc/03.svg)
+
+![BVC, opcode 110101, two parcels (4 bytes)](figures/w/bvc/02.svg)
+
+![BVC, opcode 110101, one parcel (2 bytes)](figures/w/bvc/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BVC` | `110101 (0x35)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bvs"></a>
+#### BVS
+
+![BVS, opcode 110110, three parcels (6 bytes)](figures/w/bvs/03.svg)
+
+![BVS, opcode 110110, two parcels (4 bytes)](figures/w/bvs/02.svg)
+
+![BVS, opcode 110110, one parcel (2 bytes)](figures/w/bvs/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BVS` | `110110 (0x36)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bcc"></a>
+#### BCC
+
+![BCC, opcode 110111, three parcels (6 bytes)](figures/w/bcc/03.svg)
+
+![BCC, opcode 110111, two parcels (4 bytes)](figures/w/bcc/02.svg)
+
+![BCC, opcode 110111, one parcel (2 bytes)](figures/w/bcc/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BCC` | `110111 (0x37)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bcs"></a>
+#### BCS
+
+![BCS, opcode 111000, three parcels (6 bytes)](figures/w/bcs/03.svg)
+
+![BCS, opcode 111000, two parcels (4 bytes)](figures/w/bcs/02.svg)
+
+![BCS, opcode 111000, one parcel (2 bytes)](figures/w/bcs/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BCS` | `111000 (0x38)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bge"></a>
+#### BGE
+
+![BGE, opcode 111001, three parcels (6 bytes)](figures/w/bge/03.svg)
+
+![BGE, opcode 111001, two parcels (4 bytes)](figures/w/bge/02.svg)
+
+![BGE, opcode 111001, one parcel (2 bytes)](figures/w/bge/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BGE` | `111001 (0x39)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-blt"></a>
+#### BLT
+
+![BLT, opcode 111010, three parcels (6 bytes)](figures/w/blt/03.svg)
+
+![BLT, opcode 111010, two parcels (4 bytes)](figures/w/blt/02.svg)
+
+![BLT, opcode 111010, one parcel (2 bytes)](figures/w/blt/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BLT` | `111010 (0x3A)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bgt"></a>
+#### BGT
+
+![BGT, opcode 111011, three parcels (6 bytes)](figures/w/bgt/03.svg)
+
+![BGT, opcode 111011, two parcels (4 bytes)](figures/w/bgt/02.svg)
+
+![BGT, opcode 111011, one parcel (2 bytes)](figures/w/bgt/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BGT` | `111011 (0x3B)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-ble"></a>
+#### BLE
+
+![BLE, opcode 111100, three parcels (6 bytes)](figures/w/ble/03.svg)
+
+![BLE, opcode 111100, two parcels (4 bytes)](figures/w/ble/02.svg)
+
+![BLE, opcode 111100, one parcel (2 bytes)](figures/w/ble/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BLE` | `111100 (0x3C)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bhi"></a>
+#### BHI
+
+![BHI, opcode 111101, three parcels (6 bytes)](figures/w/bhi/03.svg)
+
+![BHI, opcode 111101, two parcels (4 bytes)](figures/w/bhi/02.svg)
+
+![BHI, opcode 111101, one parcel (2 bytes)](figures/w/bhi/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BHI` | `111101 (0x3D)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-blos"></a>
+#### BLOS
+
+![BLOS, opcode 111110, three parcels (6 bytes)](figures/w/blos/03.svg)
+
+![BLOS, opcode 111110, two parcels (4 bytes)](figures/w/blos/02.svg)
+
+![BLOS, opcode 111110, one parcel (2 bytes)](figures/w/blos/01.svg)
+
+| Mnemonic | Opcode |
+|---|---|
+| `BLOS` | `111110 (0x3E)` |
+
+Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-bhis"></a>
+#### BHIS
+
+An alias of [`BCC`](#w-bcc): the assembler writes it as that word.
+
+<a id="w-blo"></a>
+#### BLO
+
+An alias of [`BCS`](#w-bcs): the assembler writes it as that word.
+
+
+<a id="w-sob"></a>
 ### SOB: Subtract one and branch
+
+![SOB, opcode 111111, three parcels (6 bytes)](figures/w/sob/02.svg)
+
+![SOB, opcode 111111, two parcels (4 bytes)](figures/w/sob/01.svg)
 
 **Mnemonics:** `SOB`
 
@@ -2174,8 +3636,6 @@ The chart is the layout `r20-sob-1`, SOB, two parcels (`len = 01`): The displace
 | `SOB` | `111111 (0x3F)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sob-1`](dictionary/by-encoding.md#r20-sob-1), [`r20-sob-2`](dictionary/by-encoding.md#r20-sob-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SOB`](dictionary/by-word.md#w-sob).
 
 **Operation**
 
@@ -2231,8 +3691,6 @@ The chart is the layout `r20-cb-1`, Compare and branch, two parcels (`len = 01`)
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-cb-1`](dictionary/by-encoding.md#r20-cb-1), [`r20-cb-1-2`](dictionary/by-encoding.md#r20-cb-1-2), [`r20-cb-2`](dictionary/by-encoding.md#r20-cb-2), [`r20-cb-2-2`](dictionary/by-encoding.md#r20-cb-2-2), [`r20-cb-2-3`](dictionary/by-encoding.md#r20-cb-2-3).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CBNE`](dictionary/by-word.md#w-cbne), [`CBEQ`](dictionary/by-word.md#w-cbeq), [`CBPL`](dictionary/by-word.md#w-cbpl), [`CBMI`](dictionary/by-word.md#w-cbmi), [`CBVC`](dictionary/by-word.md#w-cbvc), [`CBVS`](dictionary/by-word.md#w-cbvs), [`CBCC`](dictionary/by-word.md#w-cbcc), [`CBCS`](dictionary/by-word.md#w-cbcs), [`CBGE`](dictionary/by-word.md#w-cbge), [`CBLT`](dictionary/by-word.md#w-cblt), [`CBGT`](dictionary/by-word.md#w-cbgt), [`CBLE`](dictionary/by-word.md#w-cble), [`CBHI`](dictionary/by-word.md#w-cbhi), [`CBLOS`](dictionary/by-word.md#w-cblos).
-
 **Operation**
 
 ```
@@ -2249,6 +3707,290 @@ Three encodings, chosen by the assembler: `CBCC` (`101000 (0x28)`, a 5-bit signe
 **Why it is here.** A fused compare-and-branch in the reserved opcode `101000 (0x28)`, estimated with `RORI32` at 22 KB (1.3%) of the image. The wide-immediate `CBCC` removes 11,735 instructions (3.4%) and 1,828 bytes; `CBRR`, the register-register compare-and-branch, removes 4,631 instructions (1.4%) and 142 bytes. It is not a replacement for flags: LoongArch and RISC-V chose fused compare-and-branch instead of flags, and this architecture declines that (9.20) because it needs a comparator in the branch unit and a third read port; here the fused form is added beside the flags. `CBCC` writes no flags.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-cbne"></a>
+#### CBNE
+
+![CBNE, opcode 101000, three parcels (6 bytes)](figures/w/cbne/02.svg)
+
+![CBNE, opcode 101001, three parcels (6 bytes)](figures/w/cbne/03.svg)
+
+![CBNE, opcode 101010, three parcels (6 bytes)](figures/w/cbne/05.svg)
+
+![CBNE, opcode 101000, two parcels (4 bytes)](figures/w/cbne/01.svg)
+
+![CBNE, opcode 101010, two parcels (4 bytes)](figures/w/cbne/04.svg)
+
+```
+CBNE Rd, #imm, target
+```
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBNE` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0001 (0x1)`, `0001 (0x1)`, `0001 (0x1)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbeq"></a>
+#### CBEQ
+
+![CBEQ, opcode 101000, three parcels (6 bytes)](figures/w/cbeq/02.svg)
+
+![CBEQ, opcode 101001, three parcels (6 bytes)](figures/w/cbeq/03.svg)
+
+![CBEQ, opcode 101010, three parcels (6 bytes)](figures/w/cbeq/05.svg)
+
+![CBEQ, opcode 101000, two parcels (4 bytes)](figures/w/cbeq/01.svg)
+
+![CBEQ, opcode 101010, two parcels (4 bytes)](figures/w/cbeq/04.svg)
+
+```
+CBEQ Ra, Rb, target ... and the rest
+```
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBEQ` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0010 (0x2)`, `0010 (0x2)`, `0010 (0x2)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbpl"></a>
+#### CBPL
+
+![CBPL, opcode 101000, three parcels (6 bytes)](figures/w/cbpl/02.svg)
+
+![CBPL, opcode 101001, three parcels (6 bytes)](figures/w/cbpl/03.svg)
+
+![CBPL, opcode 101010, three parcels (6 bytes)](figures/w/cbpl/05.svg)
+
+![CBPL, opcode 101000, two parcels (4 bytes)](figures/w/cbpl/01.svg)
+
+![CBPL, opcode 101010, two parcels (4 bytes)](figures/w/cbpl/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBPL` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0011 (0x3)`, `0011 (0x3)`, `0011 (0x3)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbmi"></a>
+#### CBMI
+
+![CBMI, opcode 101000, three parcels (6 bytes)](figures/w/cbmi/02.svg)
+
+![CBMI, opcode 101001, three parcels (6 bytes)](figures/w/cbmi/03.svg)
+
+![CBMI, opcode 101010, three parcels (6 bytes)](figures/w/cbmi/05.svg)
+
+![CBMI, opcode 101000, two parcels (4 bytes)](figures/w/cbmi/01.svg)
+
+![CBMI, opcode 101010, two parcels (4 bytes)](figures/w/cbmi/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBMI` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0100 (0x4)`, `0100 (0x4)`, `0100 (0x4)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbvc"></a>
+#### CBVC
+
+![CBVC, opcode 101000, three parcels (6 bytes)](figures/w/cbvc/02.svg)
+
+![CBVC, opcode 101001, three parcels (6 bytes)](figures/w/cbvc/03.svg)
+
+![CBVC, opcode 101010, three parcels (6 bytes)](figures/w/cbvc/05.svg)
+
+![CBVC, opcode 101000, two parcels (4 bytes)](figures/w/cbvc/01.svg)
+
+![CBVC, opcode 101010, two parcels (4 bytes)](figures/w/cbvc/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBVC` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0101 (0x5)`, `0101 (0x5)`, `0101 (0x5)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbvs"></a>
+#### CBVS
+
+![CBVS, opcode 101000, three parcels (6 bytes)](figures/w/cbvs/02.svg)
+
+![CBVS, opcode 101001, three parcels (6 bytes)](figures/w/cbvs/03.svg)
+
+![CBVS, opcode 101010, three parcels (6 bytes)](figures/w/cbvs/05.svg)
+
+![CBVS, opcode 101000, two parcels (4 bytes)](figures/w/cbvs/01.svg)
+
+![CBVS, opcode 101010, two parcels (4 bytes)](figures/w/cbvs/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBVS` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0110 (0x6)`, `0110 (0x6)`, `0110 (0x6)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbcc"></a>
+#### CBCC
+
+![CBCC, opcode 101000, three parcels (6 bytes)](figures/w/cbcc/02.svg)
+
+![CBCC, opcode 101001, three parcels (6 bytes)](figures/w/cbcc/03.svg)
+
+![CBCC, opcode 101010, three parcels (6 bytes)](figures/w/cbcc/05.svg)
+
+![CBCC, opcode 101000, two parcels (4 bytes)](figures/w/cbcc/01.svg)
+
+![CBCC, opcode 101010, two parcels (4 bytes)](figures/w/cbcc/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBCC` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0111 (0x7)`, `0111 (0x7)`, `0111 (0x7)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbcs"></a>
+#### CBCS
+
+![CBCS, opcode 101000, three parcels (6 bytes)](figures/w/cbcs/02.svg)
+
+![CBCS, opcode 101001, three parcels (6 bytes)](figures/w/cbcs/03.svg)
+
+![CBCS, opcode 101010, three parcels (6 bytes)](figures/w/cbcs/05.svg)
+
+![CBCS, opcode 101000, two parcels (4 bytes)](figures/w/cbcs/01.svg)
+
+![CBCS, opcode 101010, two parcels (4 bytes)](figures/w/cbcs/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBCS` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1000 (0x8)`, `1000 (0x8)`, `1000 (0x8)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbge"></a>
+#### CBGE
+
+![CBGE, opcode 101000, three parcels (6 bytes)](figures/w/cbge/02.svg)
+
+![CBGE, opcode 101001, three parcels (6 bytes)](figures/w/cbge/03.svg)
+
+![CBGE, opcode 101010, three parcels (6 bytes)](figures/w/cbge/05.svg)
+
+![CBGE, opcode 101000, two parcels (4 bytes)](figures/w/cbge/01.svg)
+
+![CBGE, opcode 101010, two parcels (4 bytes)](figures/w/cbge/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBGE` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1001 (0x9)`, `1001 (0x9)`, `1001 (0x9)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cblt"></a>
+#### CBLT
+
+![CBLT, opcode 101000, three parcels (6 bytes)](figures/w/cblt/02.svg)
+
+![CBLT, opcode 101001, three parcels (6 bytes)](figures/w/cblt/03.svg)
+
+![CBLT, opcode 101010, three parcels (6 bytes)](figures/w/cblt/05.svg)
+
+![CBLT, opcode 101000, two parcels (4 bytes)](figures/w/cblt/01.svg)
+
+![CBLT, opcode 101010, two parcels (4 bytes)](figures/w/cblt/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBLT` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1010 (0xA)`, `1010 (0xA)`, `1010 (0xA)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbgt"></a>
+#### CBGT
+
+![CBGT, opcode 101000, three parcels (6 bytes)](figures/w/cbgt/02.svg)
+
+![CBGT, opcode 101001, three parcels (6 bytes)](figures/w/cbgt/03.svg)
+
+![CBGT, opcode 101010, three parcels (6 bytes)](figures/w/cbgt/05.svg)
+
+![CBGT, opcode 101000, two parcels (4 bytes)](figures/w/cbgt/01.svg)
+
+![CBGT, opcode 101010, two parcels (4 bytes)](figures/w/cbgt/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBGT` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1011 (0xB)`, `1011 (0xB)`, `1011 (0xB)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cble"></a>
+#### CBLE
+
+![CBLE, opcode 101000, three parcels (6 bytes)](figures/w/cble/02.svg)
+
+![CBLE, opcode 101001, three parcels (6 bytes)](figures/w/cble/03.svg)
+
+![CBLE, opcode 101010, three parcels (6 bytes)](figures/w/cble/05.svg)
+
+![CBLE, opcode 101000, two parcels (4 bytes)](figures/w/cble/01.svg)
+
+![CBLE, opcode 101010, two parcels (4 bytes)](figures/w/cble/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBLE` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1100 (0xC)`, `1100 (0xC)`, `1100 (0xC)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbhi"></a>
+#### CBHI
+
+![CBHI, opcode 101000, three parcels (6 bytes)](figures/w/cbhi/02.svg)
+
+![CBHI, opcode 101001, three parcels (6 bytes)](figures/w/cbhi/03.svg)
+
+![CBHI, opcode 101010, three parcels (6 bytes)](figures/w/cbhi/05.svg)
+
+![CBHI, opcode 101000, two parcels (4 bytes)](figures/w/cbhi/01.svg)
+
+![CBHI, opcode 101010, two parcels (4 bytes)](figures/w/cbhi/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBHI` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1101 (0xD)`, `1101 (0xD)`, `1101 (0xD)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cblos"></a>
+#### CBLOS
+
+![CBLOS, opcode 101000, three parcels (6 bytes)](figures/w/cblos/02.svg)
+
+![CBLOS, opcode 101001, three parcels (6 bytes)](figures/w/cblos/03.svg)
+
+![CBLOS, opcode 101010, three parcels (6 bytes)](figures/w/cblos/05.svg)
+
+![CBLOS, opcode 101000, two parcels (4 bytes)](figures/w/cblos/01.svg)
+
+![CBLOS, opcode 101010, two parcels (4 bytes)](figures/w/cblos/04.svg)
+
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBLOS` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1110 (0xE)`, `1110 (0xE)`, `1110 (0xE)` |
+
+Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, each a chart of its own (above).
+
+<a id="w-cbhis"></a>
+#### CBHIS
+
+An alias of [`CBCC`](#w-cbcc): the assembler writes it as that word.
+
+<a id="w-cblo"></a>
+#### CBLO
+
+An alias of [`CBCS`](#w-cbcs): the assembler writes it as that word.
 
 
 ### BTAG: Branch on pointer tag
@@ -2275,8 +4017,6 @@ The chart is the layout `r20-tag-1`, Tag branches, two parcels (`len = 01`): `se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-tag-1`](dictionary/by-encoding.md#r20-tag-1), [`r20-tag-2`](dictionary/by-encoding.md#r20-tag-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BTAG`](dictionary/by-word.md#w-btag), [`BNTAG`](dictionary/by-word.md#w-bntag).
-
 **Operation**
 
 ```
@@ -2294,8 +4034,61 @@ For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-btag"></a>
+#### BTAG
 
+![BTAG, opcode 010101, three parcels (6 bytes)](figures/w/btag/02.svg)
+
+![BTAG, opcode 010101, two parcels (4 bytes)](figures/w/btag/01.svg)
+
+```
+BTAG Rn, #tag, target
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `BTAG` | `010101 (0x15)` |
+
+Operation, flags and exceptions as for the entry BTAG above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-bntag"></a>
+#### BNTAG
+
+![BNTAG, opcode 010101, three parcels (6 bytes)](figures/w/bntag/02.svg)
+
+![BNTAG, opcode 010101, two parcels (4 bytes)](figures/w/bntag/01.svg)
+
+```
+BNTAG Rn, #tag, target
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `BNTAG` | `010101 (0x15)` |
+
+Operation, flags and exceptions as for the entry BTAG above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-jmp"></a>
 ### JMP: Jump
+
+![JMP, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/jmp/06.svg)
+
+![JMP, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/jmp/07.svg)
+
+![JMP, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/jmp/08.svg)
+
+![JMP, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/jmp/09.svg)
+
+![JMP, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/jmp/02.svg)
+
+![JMP, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/jmp/03.svg)
+
+![JMP, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/jmp/04.svg)
+
+![JMP, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/jmp/05.svg)
+
+![JMP, opcode 010011, one parcel (2 bytes)](figures/w/jmp/01.svg)
 
 **Mnemonics:** `JMP`
 
@@ -2317,8 +4110,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JMP`](dictionary/by-word.md#w-jmp).
-
 **Operation**
 
 ```
@@ -2334,7 +4125,26 @@ A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` throu
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-call"></a>
 ### CALL: Call
+
+![CALL, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/call/06.svg)
+
+![CALL, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/call/07.svg)
+
+![CALL, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/call/08.svg)
+
+![CALL, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/call/09.svg)
+
+![CALL, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/call/02.svg)
+
+![CALL, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/call/03.svg)
+
+![CALL, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/call/04.svg)
+
+![CALL, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/call/05.svg)
+
+![CALL, opcode 010011, one parcel (2 bytes)](figures/w/call/01.svg)
 
 **Mnemonics:** `CALL`
 
@@ -2355,8 +4165,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `CALL` | `010011 (0x13)` | `1101 (0xD)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CALL`](dictionary/by-word.md#w-call).
 
 **Operation**
 
@@ -2399,8 +4207,6 @@ The chart is the layout `r20-xfer-0`, Indirect transfers (XFER), one parcel (`le
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-xfer-0`](dictionary/by-encoding.md#r20-xfer-0), [`r20-xfer-1`](dictionary/by-encoding.md#r20-xfer-1), [`r20-xfer-1-2`](dictionary/by-encoding.md#r20-xfer-1-2), [`r20-xfer-1-3`](dictionary/by-encoding.md#r20-xfer-1-3), [`r20-xfer-1-4`](dictionary/by-encoding.md#r20-xfer-1-4), [`r20-xfer-2`](dictionary/by-encoding.md#r20-xfer-2), [`r20-xfer-2-2`](dictionary/by-encoding.md#r20-xfer-2-2), [`r20-xfer-2-3`](dictionary/by-encoding.md#r20-xfer-2-3), [`r20-xfer-2-4`](dictionary/by-encoding.md#r20-xfer-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JMPI`](dictionary/by-word.md#w-jmpi), [`CALLI`](dictionary/by-word.md#w-calli).
-
 **Operation**
 
 ```
@@ -2418,8 +4224,89 @@ The one deferred reference the architecture admits, for control transfer only: t
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-jmpi"></a>
+#### JMPI
 
+![JMPI, opcode 010010, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/jmpi/06.svg)
+
+![JMPI, opcode 010010, three parcels (modes index) (6 bytes)](figures/w/jmpi/07.svg)
+
+![JMPI, opcode 010010, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/jmpi/08.svg)
+
+![JMPI, opcode 010010, three parcels (modes dp) (6 bytes)](figures/w/jmpi/09.svg)
+
+![JMPI, opcode 010010, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/jmpi/02.svg)
+
+![JMPI, opcode 010010, two parcels (modes index) (4 bytes)](figures/w/jmpi/03.svg)
+
+![JMPI, opcode 010010, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/jmpi/04.svg)
+
+![JMPI, opcode 010010, two parcels (modes dp) (4 bytes)](figures/w/jmpi/05.svg)
+
+![JMPI, opcode 010010, one parcel (2 bytes)](figures/w/jmpi/01.svg)
+
+```
+JMPI rm
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `JMPI` | `010010 (0x12)` | `0000 (0x0)` |
+
+Operation, flags and exceptions as for the entry JMPI above; 9 layout forms, each a chart of its own (above).
+
+<a id="w-calli"></a>
+#### CALLI
+
+![CALLI, opcode 010010, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/calli/06.svg)
+
+![CALLI, opcode 010010, three parcels (modes index) (6 bytes)](figures/w/calli/07.svg)
+
+![CALLI, opcode 010010, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/calli/08.svg)
+
+![CALLI, opcode 010010, three parcels (modes dp) (6 bytes)](figures/w/calli/09.svg)
+
+![CALLI, opcode 010010, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/calli/02.svg)
+
+![CALLI, opcode 010010, two parcels (modes index) (4 bytes)](figures/w/calli/03.svg)
+
+![CALLI, opcode 010010, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/calli/04.svg)
+
+![CALLI, opcode 010010, two parcels (modes dp) (4 bytes)](figures/w/calli/05.svg)
+
+![CALLI, opcode 010010, one parcel (2 bytes)](figures/w/calli/01.svg)
+
+```
+CALLI rm
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `CALLI` | `010010 (0x12)` | `0001 (0x1)` |
+
+Operation, flags and exceptions as for the entry JMPI above; 9 layout forms, each a chart of its own (above).
+
+
+<a id="w-jtag"></a>
 ### JTAG: Jump through a tag table
+
+![JTAG, opcode 010010, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/jtag/06.svg)
+
+![JTAG, opcode 010010, three parcels (modes index) (6 bytes)](figures/w/jtag/07.svg)
+
+![JTAG, opcode 010010, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/jtag/08.svg)
+
+![JTAG, opcode 010010, three parcels (modes dp) (6 bytes)](figures/w/jtag/09.svg)
+
+![JTAG, opcode 010010, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/jtag/02.svg)
+
+![JTAG, opcode 010010, two parcels (modes index) (4 bytes)](figures/w/jtag/03.svg)
+
+![JTAG, opcode 010010, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/jtag/04.svg)
+
+![JTAG, opcode 010010, two parcels (modes dp) (4 bytes)](figures/w/jtag/05.svg)
+
+![JTAG, opcode 010010, one parcel (2 bytes)](figures/w/jtag/01.svg)
 
 **Mnemonics:** `JTAG`
 
@@ -2440,8 +4327,6 @@ The chart is the layout `r20-xfer-0`, Indirect transfers (XFER), one parcel (`le
 | `JTAG` | `010010 (0x12)` | `0010 (0x2)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-xfer-0`](dictionary/by-encoding.md#r20-xfer-0), [`r20-xfer-1`](dictionary/by-encoding.md#r20-xfer-1), [`r20-xfer-1-2`](dictionary/by-encoding.md#r20-xfer-1-2), [`r20-xfer-1-3`](dictionary/by-encoding.md#r20-xfer-1-3), [`r20-xfer-1-4`](dictionary/by-encoding.md#r20-xfer-1-4), [`r20-xfer-2`](dictionary/by-encoding.md#r20-xfer-2), [`r20-xfer-2-2`](dictionary/by-encoding.md#r20-xfer-2-2), [`r20-xfer-2-3`](dictionary/by-encoding.md#r20-xfer-2-3), [`r20-xfer-2-4`](dictionary/by-encoding.md#r20-xfer-2-4).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JTAG`](dictionary/by-word.md#w-jtag).
 
 **Operation**
 
@@ -2477,7 +4362,26 @@ Legal only with the scaled-index mode (`0001`). Dispatches on the low three bits
 *Commentary.* **Precedent.** The VAX's `MOVC5` is the canonical argument against such instructions: its operands could be memory, its architectural definition needed the original values to survive, and so it required hidden state and a first-part-done bit in the status word to resume. The PDP-10 had a block transfer, and x86's `REP MOVS` keeps its progress in registers as the pdp64's do. **Trade-offs.** This is the one admitted exception to the one-memory-operand rule, accepted because its mechanism, hidden state, is absent: the state is the registers, which are already architectural. A large copy can evict the whole data cache, and a non-temporal variant is an open question. **Improvements.** ARM reached the same design in 2022 with `FEAT_MOPS`, whose specification says the registers are updated so that progress is not lost. **Benefits.** The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors. **Modern comparables.** x86 `REP MOVSB` and `REP STOSB` with fast-string microcode; AArch64 `CPYP`/`CPYM`/`CPYE` and `SETP`/`SETM`/`SETE`; s390 `MVC`. **Use.** `memcpy`, `memmove`, `memset`, `memcmp` and `memchr` in the C library; `MVAL` in parsers and kernels. **Impact.** *Kernel:* `PUSHM`, `POPM`, `PUSHX` and `POPX` shorten entry, exit and the context switch, and the block operations are `copyin`, `copyout`, page clearing and `memcpy`. *Compiler:* A prologue and an epilogue are one instruction each, and `memcpy` and `memset` lower to the block operations. *Hardware:* The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors, with no hidden state.
 
 <!-- entries:9.11 -->
+<a id="w-pushm"></a>
 ### PUSHM: Push registers by mask
+
+![PUSHM, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/pushm/06.svg)
+
+![PUSHM, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/pushm/07.svg)
+
+![PUSHM, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/pushm/08.svg)
+
+![PUSHM, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/pushm/09.svg)
+
+![PUSHM, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/pushm/02.svg)
+
+![PUSHM, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/pushm/03.svg)
+
+![PUSHM, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/pushm/04.svg)
+
+![PUSHM, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/pushm/05.svg)
+
+![PUSHM, opcode 010011, one parcel (2 bytes)](figures/w/pushm/01.svg)
 
 **Mnemonics:** `PUSHM`
 
@@ -2499,8 +4403,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSHM`](dictionary/by-word.md#w-pushm).
-
 **Operation**
 
 ```
@@ -2521,7 +4423,26 @@ Four bytes (mode `0100`, immediate). The registers are pushed in ascending order
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-popm"></a>
 ### POPM: Pop registers by mask
+
+![POPM, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/popm/06.svg)
+
+![POPM, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/popm/07.svg)
+
+![POPM, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/popm/08.svg)
+
+![POPM, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/popm/09.svg)
+
+![POPM, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/popm/02.svg)
+
+![POPM, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/popm/03.svg)
+
+![POPM, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/popm/04.svg)
+
+![POPM, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/popm/05.svg)
+
+![POPM, opcode 010011, one parcel (2 bytes)](figures/w/popm/01.svg)
 
 **Mnemonics:** `POPM`
 
@@ -2543,8 +4464,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPM`](dictionary/by-word.md#w-popm).
-
 **Operation**
 
 ```
@@ -2561,7 +4480,26 @@ The mirror of `PUSHM`; four bytes, with an 8-bit-mask form on page 2.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-push"></a>
 ### PUSH: Push
+
+![PUSH, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/push/06.svg)
+
+![PUSH, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/push/07.svg)
+
+![PUSH, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/push/08.svg)
+
+![PUSH, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/push/09.svg)
+
+![PUSH, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/push/02.svg)
+
+![PUSH, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/push/03.svg)
+
+![PUSH, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/push/04.svg)
+
+![PUSH, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/push/05.svg)
+
+![PUSH, opcode 010011, one parcel (2 bytes)](figures/w/push/01.svg)
 
 **Mnemonics:** `PUSH`
 
@@ -2583,8 +4521,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSH`](dictionary/by-word.md#w-push).
-
 **Operation**
 
 ```
@@ -2600,7 +4536,26 @@ A one-parcel instruction for a register operand.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-pop"></a>
 ### POP: Pop
+
+![POP, opcode 010011, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/pop/06.svg)
+
+![POP, opcode 010011, three parcels (modes index) (6 bytes)](figures/w/pop/07.svg)
+
+![POP, opcode 010011, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/pop/08.svg)
+
+![POP, opcode 010011, three parcels (modes dp) (6 bytes)](figures/w/pop/09.svg)
+
+![POP, opcode 010011, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/pop/02.svg)
+
+![POP, opcode 010011, two parcels (modes index) (4 bytes)](figures/w/pop/03.svg)
+
+![POP, opcode 010011, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/pop/04.svg)
+
+![POP, opcode 010011, two parcels (modes dp) (4 bytes)](figures/w/pop/05.svg)
+
+![POP, opcode 010011, one parcel (2 bytes)](figures/w/pop/01.svg)
 
 **Mnemonics:** `POP`
 
@@ -2621,8 +4576,6 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `POP` | `010011 (0x13)` | `1111 (0xF)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POP`](dictionary/by-word.md#w-pop).
 
 **Operation**
 
@@ -2661,8 +4614,6 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MCPY`](dictionary/by-word.md#w-mcpy), [`MMOV`](dictionary/by-word.md#w-mmov).
-
 **Operation**
 
 ```
@@ -2683,8 +4634,47 @@ The one granted exception to the one-memory-operand rule. All three registers ar
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-mcpy"></a>
+#### MCPY
 
+![MCPY, opcode 001101, three parcels, sub-opcode 00000000 (6 bytes)](figures/w/mcpy/02.svg)
+
+![MCPY, opcode 001101, two parcels, sub-opcode 00000000 (4 bytes)](figures/w/mcpy/01.svg)
+
+```
+MCPY Rd, Rs, Rn
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MCPY` | `001101 (0x0D)` | `00000000 (0x00)` |
+
+Operation, flags and exceptions as for the entry MCPY above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-mmov"></a>
+#### MMOV
+
+![MMOV, opcode 001101, three parcels, sub-opcode 00000001 (6 bytes)](figures/w/mmov/02.svg)
+
+![MMOV, opcode 001101, two parcels, sub-opcode 00000001 (4 bytes)](figures/w/mmov/01.svg)
+
+```
+MMOV Rd, Rs, Rn
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MMOV` | `001101 (0x0D)` | `00000001 (0x01)` |
+
+Operation, flags and exceptions as for the entry MCPY above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-mset"></a>
 ### MSET: Fill a block of bytes
+
+![MSET, opcode 001101, three parcels, sub-opcode 00000010 (6 bytes)](figures/w/mset/02.svg)
+
+![MSET, opcode 001101, two parcels, sub-opcode 00000010 (4 bytes)](figures/w/mset/01.svg)
 
 **Mnemonics:** `MSET`
 
@@ -2706,8 +4696,6 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSET`](dictionary/by-word.md#w-mset).
-
 **Operation**
 
 ```
@@ -2727,7 +4715,12 @@ while Rn ≠ 0:  M8[Rd] ← Rv[7:0] ; Rd ← Rd + 1 ; Rn ← Rn - 1
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-mcmp"></a>
 ### MCMP: Compare two blocks of bytes
+
+![MCMP, opcode 001101, three parcels, sub-opcode 00000011 (6 bytes)](figures/w/mcmp/02.svg)
+
+![MCMP, opcode 001101, two parcels, sub-opcode 00000011 (4 bytes)](figures/w/mcmp/01.svg)
 
 **Mnemonics:** `MCMP`
 
@@ -2748,8 +4741,6 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 | `MCMP` | `001101 (0x0D)` | `00000011 (0x03)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MCMP`](dictionary/by-word.md#w-mcmp).
 
 **Operation**
 
@@ -2798,8 +4789,6 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSCN`](dictionary/by-word.md#w-mscn), [`MSCNN`](dictionary/by-word.md#w-mscnn).
-
 **Operation**
 
 ```
@@ -2822,8 +4811,47 @@ not found: Z = 0
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-mscn"></a>
+#### MSCN
 
+![MSCN, opcode 001101, three parcels, sub-opcode 00000100 (6 bytes)](figures/w/mscn/02.svg)
+
+![MSCN, opcode 001101, two parcels, sub-opcode 00000100 (4 bytes)](figures/w/mscn/01.svg)
+
+```
+MSCN Rd, Rv, Rn
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MSCN` | `001101 (0x0D)` | `00000100 (0x04)` |
+
+Operation, flags and exceptions as for the entry MSCN above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-mscnn"></a>
+#### MSCNN
+
+![MSCNN, opcode 001101, three parcels, sub-opcode 00000101 (6 bytes)](figures/w/mscnn/02.svg)
+
+![MSCNN, opcode 001101, two parcels, sub-opcode 00000101 (4 bytes)](figures/w/mscnn/01.svg)
+
+```
+MSCNN Rd, Rv, Rn
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MSCNN` | `001101 (0x0D)` | `00000101 (0x05)` |
+
+Operation, flags and exceptions as for the entry MSCN above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-mval"></a>
 ### MVAL: Validate a block as UTF-8
+
+![MVAL, opcode 001101, three parcels, sub-opcode 00000110 (6 bytes)](figures/w/mval/02.svg)
+
+![MVAL, opcode 001101, two parcels, sub-opcode 00000110 (4 bytes)](figures/w/mval/01.svg)
 
 **Mnemonics:** `MVAL`
 
@@ -2844,8 +4872,6 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 | `MVAL` | `001101 (0x0D)` | `00000110 (0x06)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MVAL`](dictionary/by-word.md#w-mval).
 
 **Operation**
 
@@ -2909,8 +4935,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD`](dictionary/by-word.md#w-fadd), [`FSUB`](dictionary/by-word.md#w-fsub), [`FMUL`](dictionary/by-word.md#w-fmul).
-
 **Operation**
 
 ```
@@ -2927,8 +4951,136 @@ Floating-point values live in the general registers; there is no separate regist
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-fadd"></a>
+#### FADD
 
+![FADD, opcode 100100, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/fadd/06.svg)
+
+![FADD, opcode 100100, three parcels (modes index) (6 bytes)](figures/w/fadd/07.svg)
+
+![FADD, opcode 100100, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/fadd/08.svg)
+
+![FADD, opcode 100100, three parcels (modes dp) (6 bytes)](figures/w/fadd/09.svg)
+
+![FADD, opcode 100100, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/fadd/02.svg)
+
+![FADD, opcode 100100, two parcels (modes index) (4 bytes)](figures/w/fadd/03.svg)
+
+![FADD, opcode 100100, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/fadd/04.svg)
+
+![FADD, opcode 100100, two parcels (modes dp) (4 bytes)](figures/w/fadd/05.svg)
+
+![FADD, opcode 100100, one parcel (2 bytes)](figures/w/fadd/01.svg)
+
+```
+FADD rm, Rd
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `FADD` | `100100 (0x24)` |
+
+Operation, flags and exceptions as for the entry FADD above; 9 layout forms, each a chart of its own (above).
+
+<a id="w-fsub"></a>
+#### FSUB
+
+![FSUB, opcode 100101, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/fsub/06.svg)
+
+![FSUB, opcode 100101, three parcels (modes index) (6 bytes)](figures/w/fsub/07.svg)
+
+![FSUB, opcode 100101, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/fsub/08.svg)
+
+![FSUB, opcode 100101, three parcels (modes dp) (6 bytes)](figures/w/fsub/09.svg)
+
+![FSUB, opcode 100101, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/fsub/02.svg)
+
+![FSUB, opcode 100101, two parcels (modes index) (4 bytes)](figures/w/fsub/03.svg)
+
+![FSUB, opcode 100101, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/fsub/04.svg)
+
+![FSUB, opcode 100101, two parcels (modes dp) (4 bytes)](figures/w/fsub/05.svg)
+
+![FSUB, opcode 100101, one parcel (2 bytes)](figures/w/fsub/01.svg)
+
+```
+FSUB rm, Rd
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `FSUB` | `100101 (0x25)` |
+
+Operation, flags and exceptions as for the entry FADD above; 9 layout forms, each a chart of its own (above).
+
+<a id="w-fmul"></a>
+#### FMUL
+
+![FMUL, opcode 100110, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/fmul/06.svg)
+
+![FMUL, opcode 100110, three parcels (modes index) (6 bytes)](figures/w/fmul/07.svg)
+
+![FMUL, opcode 100110, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/fmul/08.svg)
+
+![FMUL, opcode 100110, three parcels (modes dp) (6 bytes)](figures/w/fmul/09.svg)
+
+![FMUL, opcode 100110, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/fmul/02.svg)
+
+![FMUL, opcode 100110, two parcels (modes index) (4 bytes)](figures/w/fmul/03.svg)
+
+![FMUL, opcode 100110, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/fmul/04.svg)
+
+![FMUL, opcode 100110, two parcels (modes dp) (4 bytes)](figures/w/fmul/05.svg)
+
+![FMUL, opcode 100110, one parcel (2 bytes)](figures/w/fmul/01.svg)
+
+```
+FMUL rm, Rd
+```
+
+| Mnemonic | Opcode |
+|---|---|
+| `FMUL` | `100110 (0x26)` |
+
+Operation, flags and exceptions as for the entry FADD above; 9 layout forms, each a chart of its own (above).
+
+<a id="w-faddd"></a>
+#### FADDD
+
+An alias of [`FADD`](#w-fadd): the assembler writes it as that word.
+
+<a id="w-fsubd"></a>
+#### FSUBD
+
+An alias of [`FSUB`](#w-fsub): the assembler writes it as that word.
+
+<a id="w-fmuld"></a>
+#### FMULD
+
+An alias of [`FMUL`](#w-fmul): the assembler writes it as that word.
+
+
+<a id="w-fcmp"></a>
+<a id="w-fcmpd"></a>
 ### FCMP: Floating compare, binary64
+
+![FCMP, opcode 100111, three parcels (modes base, postinc, predec) (6 bytes)](figures/w/fcmp/06.svg)
+
+![FCMP, opcode 100111, three parcels (modes index) (6 bytes)](figures/w/fcmp/07.svg)
+
+![FCMP, opcode 100111, three parcels (modes pcrel, imm, abs) (6 bytes)](figures/w/fcmp/08.svg)
+
+![FCMP, opcode 100111, three parcels (modes dp) (6 bytes)](figures/w/fcmp/09.svg)
+
+![FCMP, opcode 100111, two parcels (modes base, postinc, predec) (4 bytes)](figures/w/fcmp/02.svg)
+
+![FCMP, opcode 100111, two parcels (modes index) (4 bytes)](figures/w/fcmp/03.svg)
+
+![FCMP, opcode 100111, two parcels (modes pcrel, imm, abs) (4 bytes)](figures/w/fcmp/04.svg)
+
+![FCMP, opcode 100111, two parcels (modes dp) (4 bytes)](figures/w/fcmp/05.svg)
+
+![FCMP, opcode 100111, one parcel (2 bytes)](figures/w/fcmp/01.svg)
 
 **Mnemonics:** `FCMP`  (aliases: `FCMPD`)
 
@@ -2950,8 +5102,6 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCMP`](dictionary/by-word.md#w-fcmp).
-
 **Operation**
 
 ```
@@ -2965,6 +5115,9 @@ N ← Rd < rm ; Z ← Rd = rm ; V ← unordered ; C ← 0
 The signed branches do not treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1); this is an open item of the instruction set.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fcmpd"></a>
+**`FCMPD`** is an alias of `FCMP`: the assembler writes it as that word.
 
 
 ### FDIV: Floating divide and square root, binary64
@@ -2991,8 +5144,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FDIV`](dictionary/by-word.md#w-fdiv), [`FSQRT`](dictionary/by-word.md#w-fsqrt).
-
 **Operation**
 
 ```
@@ -3007,6 +5158,50 @@ FSQRT: Rd ← sqrt(Rs)
 `FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`. The alternative spellings `FDIVD`, `FSQRTD` are aliases.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fdiv"></a>
+#### FDIV
+
+![FDIV, opcode 010000, three parcels, sub-opcode 00000000 (6 bytes)](figures/w/fdiv/02.svg)
+
+![FDIV, opcode 010000, two parcels, sub-opcode 00000000 (4 bytes)](figures/w/fdiv/01.svg)
+
+```
+FDIV Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FDIV` | `010000 (0x10)` | `00000000 (0x00)` |
+
+Operation, flags and exceptions as for the entry FDIV above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fsqrt"></a>
+#### FSQRT
+
+![FSQRT, opcode 010000, three parcels, sub-opcode 00000001 (6 bytes)](figures/w/fsqrt/02.svg)
+
+![FSQRT, opcode 010000, two parcels, sub-opcode 00000001 (4 bytes)](figures/w/fsqrt/01.svg)
+
+```
+FSQRT Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FSQRT` | `010000 (0x10)` | `00000001 (0x01)` |
+
+Operation, flags and exceptions as for the entry FDIV above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fdivd"></a>
+#### FDIVD
+
+An alias of [`FDIV`](#w-fdiv): the assembler writes it as that word.
+
+<a id="w-fsqrtd"></a>
+#### FSQRTD
+
+An alias of [`FSQRT`](#w-fsqrt): the assembler writes it as that word.
 
 
 ### FSINGLE: Floating arithmetic, binary32
@@ -3041,8 +5236,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD32`](dictionary/by-word.md#w-fadd32), [`FSUB32`](dictionary/by-word.md#w-fsub32), [`FMUL32`](dictionary/by-word.md#w-fmul32), [`FDIV32`](dictionary/by-word.md#w-fdiv32), [`FSQRT32`](dictionary/by-word.md#w-fsqrt32), [`FCMP32`](dictionary/by-word.md#w-fcmp32).
-
 **Operation**
 
 ```
@@ -3059,6 +5252,138 @@ A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like ev
 **Why it is here.** `binary64` has first-class opcodes because on a 64-bit machine it is the common case; `binary32` is in `FESC` with the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other formats (`FADD16`); the older spellings (`FADDS` and so on) are aliases.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fadd32"></a>
+#### FADD32
+
+![FADD32, opcode 010000, three parcels, sub-opcode 00001000 (6 bytes)](figures/w/fadd32/02.svg)
+
+![FADD32, opcode 010000, two parcels, sub-opcode 00001000 (4 bytes)](figures/w/fadd32/01.svg)
+
+```
+FADD32 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FADD32` | `010000 (0x10)` | `00001000 (0x08)` |
+
+Operation, flags and exceptions as for the entry FSINGLE above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fsub32"></a>
+#### FSUB32
+
+![FSUB32, opcode 010000, three parcels, sub-opcode 00001001 (6 bytes)](figures/w/fsub32/02.svg)
+
+![FSUB32, opcode 010000, two parcels, sub-opcode 00001001 (4 bytes)](figures/w/fsub32/01.svg)
+
+```
+FSUB32 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FSUB32` | `010000 (0x10)` | `00001001 (0x09)` |
+
+Operation, flags and exceptions as for the entry FSINGLE above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmul32"></a>
+#### FMUL32
+
+![FMUL32, opcode 010000, three parcels, sub-opcode 00001010 (6 bytes)](figures/w/fmul32/02.svg)
+
+![FMUL32, opcode 010000, two parcels, sub-opcode 00001010 (4 bytes)](figures/w/fmul32/01.svg)
+
+```
+FMUL32 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMUL32` | `010000 (0x10)` | `00001010 (0x0A)` |
+
+Operation, flags and exceptions as for the entry FSINGLE above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fdiv32"></a>
+#### FDIV32
+
+![FDIV32, opcode 010000, three parcels, sub-opcode 00001011 (6 bytes)](figures/w/fdiv32/02.svg)
+
+![FDIV32, opcode 010000, two parcels, sub-opcode 00001011 (4 bytes)](figures/w/fdiv32/01.svg)
+
+```
+FDIV32 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FDIV32` | `010000 (0x10)` | `00001011 (0x0B)` |
+
+Operation, flags and exceptions as for the entry FSINGLE above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fsqrt32"></a>
+#### FSQRT32
+
+![FSQRT32, opcode 010000, three parcels, sub-opcode 00001100 (6 bytes)](figures/w/fsqrt32/02.svg)
+
+![FSQRT32, opcode 010000, two parcels, sub-opcode 00001100 (4 bytes)](figures/w/fsqrt32/01.svg)
+
+```
+FSQRT32 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FSQRT32` | `010000 (0x10)` | `00001100 (0x0C)` |
+
+Operation, flags and exceptions as for the entry FSINGLE above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcmp32"></a>
+#### FCMP32
+
+![FCMP32, opcode 010000, three parcels, sub-opcode 00001101 (6 bytes)](figures/w/fcmp32/02.svg)
+
+![FCMP32, opcode 010000, two parcels, sub-opcode 00001101 (4 bytes)](figures/w/fcmp32/01.svg)
+
+```
+FCMP32 Rd, Rs
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCMP32` | `010000 (0x10)` | `00001101 (0x0D)` |
+
+Operation, flags and exceptions as for the entry FSINGLE above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fadds"></a>
+#### FADDS
+
+An alias of [`FADD32`](#w-fadd32): the assembler writes it as that word.
+
+<a id="w-fsubs"></a>
+#### FSUBS
+
+An alias of [`FSUB32`](#w-fsub32): the assembler writes it as that word.
+
+<a id="w-fmuls"></a>
+#### FMULS
+
+An alias of [`FMUL32`](#w-fmul32): the assembler writes it as that word.
+
+<a id="w-fdivs"></a>
+#### FDIVS
+
+An alias of [`FDIV32`](#w-fdiv32): the assembler writes it as that word.
+
+<a id="w-fsqrts"></a>
+#### FSQRTS
+
+An alias of [`FSQRT32`](#w-fsqrt32): the assembler writes it as that word.
+
+<a id="w-fcmps"></a>
+#### FCMPS
+
+An alias of [`FCMP32`](#w-fcmp32): the assembler writes it as that word.
 
 
 ### FMADD: Fused multiply-add, binary64
@@ -3089,8 +5414,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMADD`](dictionary/by-word.md#w-fmadd), [`FMSUB`](dictionary/by-word.md#w-fmsub), [`FNMADD`](dictionary/by-word.md#w-fnmadd), [`FNMSUB`](dictionary/by-word.md#w-fnmsub).
-
 **Operation**
 
 ```
@@ -3109,6 +5432,94 @@ Four register operands are available at `len = 01`. The alternative spellings `F
 **Why it is here.** The whole fused multiply-add family is in `FESC`, because its absence would be the single worst gap in the floating-point set: one rounding instead of two, and the inner step of dot products, polynomial evaluation and every matrix kernel. `FESC` gives it four register operands. It replaces the VAX `POLY`, which was the best answer before fused multiply-add.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fmadd"></a>
+#### FMADD
+
+![FMADD, opcode 010000, three parcels, sub-opcode 00010000 (6 bytes)](figures/w/fmadd/02.svg)
+
+![FMADD, opcode 010000, two parcels, sub-opcode 00010000 (4 bytes)](figures/w/fmadd/01.svg)
+
+```
+FMADD Rs, Rt, Ru, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMADD` | `010000 (0x10)` | `00010000 (0x10)` |
+
+Operation, flags and exceptions as for the entry FMADD above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmsub"></a>
+#### FMSUB
+
+![FMSUB, opcode 010000, three parcels, sub-opcode 00010001 (6 bytes)](figures/w/fmsub/02.svg)
+
+![FMSUB, opcode 010000, two parcels, sub-opcode 00010001 (4 bytes)](figures/w/fmsub/01.svg)
+
+```
+FMSUB Rs, Rt, Ru, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMSUB` | `010000 (0x10)` | `00010001 (0x11)` |
+
+Operation, flags and exceptions as for the entry FMADD above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fnmadd"></a>
+#### FNMADD
+
+![FNMADD, opcode 010000, three parcels, sub-opcode 00010010 (6 bytes)](figures/w/fnmadd/02.svg)
+
+![FNMADD, opcode 010000, two parcels, sub-opcode 00010010 (4 bytes)](figures/w/fnmadd/01.svg)
+
+```
+FNMADD Rs, Rt, Ru, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FNMADD` | `010000 (0x10)` | `00010010 (0x12)` |
+
+Operation, flags and exceptions as for the entry FMADD above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fnmsub"></a>
+#### FNMSUB
+
+![FNMSUB, opcode 010000, three parcels, sub-opcode 00010011 (6 bytes)](figures/w/fnmsub/02.svg)
+
+![FNMSUB, opcode 010000, two parcels, sub-opcode 00010011 (4 bytes)](figures/w/fnmsub/01.svg)
+
+```
+FNMSUB Rs, Rt, Ru, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FNMSUB` | `010000 (0x10)` | `00010011 (0x13)` |
+
+Operation, flags and exceptions as for the entry FMADD above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmaddd"></a>
+#### FMADDD
+
+An alias of [`FMADD`](#w-fmadd): the assembler writes it as that word.
+
+<a id="w-fmsubd"></a>
+#### FMSUBD
+
+An alias of [`FMSUB`](#w-fmsub): the assembler writes it as that word.
+
+<a id="w-fnmaddd"></a>
+#### FNMADDD
+
+An alias of [`FNMADD`](#w-fnmadd): the assembler writes it as that word.
+
+<a id="w-fnmsubd"></a>
+#### FNMSUBD
+
+An alias of [`FNMSUB`](#w-fnmsub): the assembler writes it as that word.
 
 
 ### FMADD32: Fused multiply-add, binary32
@@ -3139,8 +5550,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMADD32`](dictionary/by-word.md#w-fmadd32), [`FMSUB32`](dictionary/by-word.md#w-fmsub32), [`FNMADD32`](dictionary/by-word.md#w-fnmadd32), [`FNMSUB32`](dictionary/by-word.md#w-fnmsub32).
-
 **Operation**
 
 ```
@@ -3154,6 +5563,94 @@ As FMADD, in binary32, rounded once
 **Why it is here.** The `binary32` forms of the fused multiply-add family.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fmadd32"></a>
+#### FMADD32
+
+![FMADD32, opcode 010000, three parcels, sub-opcode 00011000 (6 bytes)](figures/w/fmadd32/02.svg)
+
+![FMADD32, opcode 010000, two parcels, sub-opcode 00011000 (4 bytes)](figures/w/fmadd32/01.svg)
+
+```
+FMADD32 Rs, Rt, Ru, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMADD32` | `010000 (0x10)` | `00011000 (0x18)` |
+
+Operation, flags and exceptions as for the entry FMADD32 above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmsub32"></a>
+#### FMSUB32
+
+![FMSUB32, opcode 010000, three parcels, sub-opcode 00011001 (6 bytes)](figures/w/fmsub32/02.svg)
+
+![FMSUB32, opcode 010000, two parcels, sub-opcode 00011001 (4 bytes)](figures/w/fmsub32/01.svg)
+
+```
+FMSUB32 ...
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMSUB32` | `010000 (0x10)` | `00011001 (0x19)` |
+
+Operation, flags and exceptions as for the entry FMADD32 above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fnmadd32"></a>
+#### FNMADD32
+
+![FNMADD32, opcode 010000, three parcels, sub-opcode 00011010 (6 bytes)](figures/w/fnmadd32/02.svg)
+
+![FNMADD32, opcode 010000, two parcels, sub-opcode 00011010 (4 bytes)](figures/w/fnmadd32/01.svg)
+
+```
+FNMADD32 ...
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FNMADD32` | `010000 (0x10)` | `00011010 (0x1A)` |
+
+Operation, flags and exceptions as for the entry FMADD32 above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fnmsub32"></a>
+#### FNMSUB32
+
+![FNMSUB32, opcode 010000, three parcels, sub-opcode 00011011 (6 bytes)](figures/w/fnmsub32/02.svg)
+
+![FNMSUB32, opcode 010000, two parcels, sub-opcode 00011011 (4 bytes)](figures/w/fnmsub32/01.svg)
+
+```
+FNMSUB32 ...
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FNMSUB32` | `010000 (0x10)` | `00011011 (0x1B)` |
+
+Operation, flags and exceptions as for the entry FMADD32 above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmadds"></a>
+#### FMADDS
+
+An alias of [`FMADD32`](#w-fmadd32): the assembler writes it as that word.
+
+<a id="w-fmsubs"></a>
+#### FMSUBS
+
+An alias of [`FMSUB32`](#w-fmsub32): the assembler writes it as that word.
+
+<a id="w-fnmadds"></a>
+#### FNMADDS
+
+An alias of [`FNMADD32`](#w-fnmadd32): the assembler writes it as that word.
+
+<a id="w-fnmsubs"></a>
+#### FNMSUBS
+
+An alias of [`FNMSUB32`](#w-fnmsub32): the assembler writes it as that word.
 
 
 ### FSIGN: Sign operations on the bits
@@ -3182,8 +5679,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FNEG`](dictionary/by-word.md#w-fneg), [`FABS`](dictionary/by-word.md#w-fabs), [`FCOPYSIGN`](dictionary/by-word.md#w-fcopysign).
-
 **Operation**
 
 ```
@@ -3199,6 +5694,57 @@ FCOPYSIGN: Rd ← magnitude of Rs, sign of Rt
 **Why it is here.** Sign and selection operations (negate, absolute value and the like) work on the bits, do not canonicalise a NaN and raise no flag, so they cost almost nothing. The PowerPC 601 floating-point set has the same operations (stated from memory, not checked against a manual). No separate reason is recorded for these three.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fneg"></a>
+#### FNEG
+
+![FNEG, opcode 010000, three parcels, sub-opcode 00100000 (6 bytes)](figures/w/fneg/02.svg)
+
+![FNEG, opcode 010000, two parcels, sub-opcode 00100000 (4 bytes)](figures/w/fneg/01.svg)
+
+```
+FNEG Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FNEG` | `010000 (0x10)` | `00100000 (0x20)` |
+
+Operation, flags and exceptions as for the entry FSIGN above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fabs"></a>
+#### FABS
+
+![FABS, opcode 010000, three parcels, sub-opcode 00100001 (6 bytes)](figures/w/fabs/02.svg)
+
+![FABS, opcode 010000, two parcels, sub-opcode 00100001 (4 bytes)](figures/w/fabs/01.svg)
+
+```
+FABS Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FABS` | `010000 (0x10)` | `00100001 (0x21)` |
+
+Operation, flags and exceptions as for the entry FSIGN above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcopysign"></a>
+#### FCOPYSIGN
+
+![FCOPYSIGN, opcode 010000, three parcels, sub-opcode 00100010 (6 bytes)](figures/w/fcopysign/02.svg)
+
+![FCOPYSIGN, opcode 010000, two parcels, sub-opcode 00100010 (4 bytes)](figures/w/fcopysign/01.svg)
+
+```
+FCOPYSIGN Rs, Rt, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCOPYSIGN` | `010000 (0x10)` | `00100010 (0x22)` |
+
+Operation, flags and exceptions as for the entry FSIGN above; 2 layout forms, each a chart of its own (above).
 
 
 ### FMIN: Floating minimum and maximum, binary64
@@ -3225,8 +5771,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMIN`](dictionary/by-word.md#w-fmin), [`FMAX`](dictionary/by-word.md#w-fmax).
-
 **Operation**
 
 ```
@@ -3243,6 +5787,50 @@ The alternative spellings `FMIND`, `FMAXD` are aliases.
 **Why it is here.** The floating counterparts of the integer `MIN` and `MAX`. A NaN operand loses to a number and two NaNs give the canonical quiet NaN.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fmin"></a>
+#### FMIN
+
+![FMIN, opcode 010000, three parcels, sub-opcode 00100011 (6 bytes)](figures/w/fmin/02.svg)
+
+![FMIN, opcode 010000, two parcels, sub-opcode 00100011 (4 bytes)](figures/w/fmin/01.svg)
+
+```
+FMIN Rs, Rt, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMIN` | `010000 (0x10)` | `00100011 (0x23)` |
+
+Operation, flags and exceptions as for the entry FMIN above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmax"></a>
+#### FMAX
+
+![FMAX, opcode 010000, three parcels, sub-opcode 00100100 (6 bytes)](figures/w/fmax/02.svg)
+
+![FMAX, opcode 010000, two parcels, sub-opcode 00100100 (4 bytes)](figures/w/fmax/01.svg)
+
+```
+FMAX Rs, Rt, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMAX` | `010000 (0x10)` | `00100100 (0x24)` |
+
+Operation, flags and exceptions as for the entry FMIN above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmind"></a>
+#### FMIND
+
+An alias of [`FMIN`](#w-fmin): the assembler writes it as that word.
+
+<a id="w-fmaxd"></a>
+#### FMAXD
+
+An alias of [`FMAX`](#w-fmax): the assembler writes it as that word.
 
 
 ### FCLASS: Classify a floating-point value
@@ -3271,8 +5859,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCLASS`](dictionary/by-word.md#w-fclass), [`FCLASS32`](dictionary/by-word.md#w-fclass32), [`FCLASS16`](dictionary/by-word.md#w-fclass16).
-
 **Operation**
 
 ```
@@ -3291,6 +5877,67 @@ Every libm function begins with this dispatch. The alternative spellings `FCLASS
 **Why it is here.** Every libm function begins with this dispatch: one instruction returns which of ten kinds a value is (signalling or quiet NaN, infinity, normal, subnormal, zero, each signed), where software needs several compares and masks. It is justified by a workload, library mathematics, and not by compiled C, as the tag branches are. Nothing in the corpus emits it, because the compiler does not use it.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fclass"></a>
+#### FCLASS
+
+![FCLASS, opcode 010000, three parcels, sub-opcode 00101000 (6 bytes)](figures/w/fclass/02.svg)
+
+![FCLASS, opcode 010000, two parcels, sub-opcode 00101000 (4 bytes)](figures/w/fclass/01.svg)
+
+```
+FCLASS Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCLASS` | `010000 (0x10)` | `00101000 (0x28)` |
+
+Operation, flags and exceptions as for the entry FCLASS above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fclass32"></a>
+#### FCLASS32
+
+![FCLASS32, opcode 010000, three parcels, sub-opcode 00101001 (6 bytes)](figures/w/fclass32/02.svg)
+
+![FCLASS32, opcode 010000, two parcels, sub-opcode 00101001 (4 bytes)](figures/w/fclass32/01.svg)
+
+```
+FCLASS32 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCLASS32` | `010000 (0x10)` | `00101001 (0x29)` |
+
+Operation, flags and exceptions as for the entry FCLASS above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fclass16"></a>
+#### FCLASS16
+
+![FCLASS16, opcode 010000, three parcels, sub-opcode 01011100 (6 bytes)](figures/w/fclass16/02.svg)
+
+![FCLASS16, opcode 010000, two parcels, sub-opcode 01011100 (4 bytes)](figures/w/fclass16/01.svg)
+
+```
+FCLASS16 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCLASS16` | `010000 (0x10)` | `01011100 (0x5C)` |
+
+Operation, flags and exceptions as for the entry FCLASS above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fclassd"></a>
+#### FCLASSD
+
+An alias of [`FCLASS`](#w-fclass): the assembler writes it as that word.
+
+<a id="w-fclasss"></a>
+#### FCLASSS
+
+An alias of [`FCLASS32`](#w-fclass32): the assembler writes it as that word.
 
 
 ### FRINT: Round to an integral value, binary64
@@ -3323,8 +5970,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FRINT`](dictionary/by-word.md#w-frint), [`FRINTZ`](dictionary/by-word.md#w-frintz), [`FRINTM`](dictionary/by-word.md#w-frintm), [`FRINTP`](dictionary/by-word.md#w-frintp), [`FRINTA`](dictionary/by-word.md#w-frinta).
-
 **Operation**
 
 ```
@@ -3342,6 +5987,116 @@ The rounding mode is in the opcode, never in a mode bit. The alternative spellin
 **Why it is here.** Rounding to an integral value in each direction (nearest even, toward zero, down, up) is in the set, and `FRINTA`, ties away from zero, serves C's `round()`, which is common in libm; it is a qualifier of the round operation and so costs no new operation.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-frint"></a>
+#### FRINT
+
+![FRINT, opcode 010000, three parcels, sub-opcode 00110000 (6 bytes)](figures/w/frint/02.svg)
+
+![FRINT, opcode 010000, two parcels, sub-opcode 00110000 (4 bytes)](figures/w/frint/01.svg)
+
+```
+FRINT Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FRINT` | `010000 (0x10)` | `00110000 (0x30)` |
+
+Operation, flags and exceptions as for the entry FRINT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-frintz"></a>
+#### FRINTZ
+
+![FRINTZ, opcode 010000, three parcels, sub-opcode 00110001 (6 bytes)](figures/w/frintz/02.svg)
+
+![FRINTZ, opcode 010000, two parcels, sub-opcode 00110001 (4 bytes)](figures/w/frintz/01.svg)
+
+```
+FRINTZ Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FRINTZ` | `010000 (0x10)` | `00110001 (0x31)` |
+
+Operation, flags and exceptions as for the entry FRINT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-frintm"></a>
+#### FRINTM
+
+![FRINTM, opcode 010000, three parcels, sub-opcode 00110010 (6 bytes)](figures/w/frintm/02.svg)
+
+![FRINTM, opcode 010000, two parcels, sub-opcode 00110010 (4 bytes)](figures/w/frintm/01.svg)
+
+```
+FRINTM Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FRINTM` | `010000 (0x10)` | `00110010 (0x32)` |
+
+Operation, flags and exceptions as for the entry FRINT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-frintp"></a>
+#### FRINTP
+
+![FRINTP, opcode 010000, three parcels, sub-opcode 00110011 (6 bytes)](figures/w/frintp/02.svg)
+
+![FRINTP, opcode 010000, two parcels, sub-opcode 00110011 (4 bytes)](figures/w/frintp/01.svg)
+
+```
+FRINTP Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FRINTP` | `010000 (0x10)` | `00110011 (0x33)` |
+
+Operation, flags and exceptions as for the entry FRINT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-frinta"></a>
+#### FRINTA
+
+![FRINTA, opcode 010000, three parcels, sub-opcode 00110100 (6 bytes)](figures/w/frinta/02.svg)
+
+![FRINTA, opcode 010000, two parcels, sub-opcode 00110100 (4 bytes)](figures/w/frinta/01.svg)
+
+```
+FRINTA Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FRINTA` | `010000 (0x10)` | `00110100 (0x34)` |
+
+Operation, flags and exceptions as for the entry FRINT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-frintd"></a>
+#### FRINTD
+
+An alias of [`FRINT`](#w-frint): the assembler writes it as that word.
+
+<a id="w-frintdz"></a>
+#### FRINTDZ
+
+An alias of [`FRINTZ`](#w-frintz): the assembler writes it as that word.
+
+<a id="w-frintdm"></a>
+#### FRINTDM
+
+An alias of [`FRINTM`](#w-frintm): the assembler writes it as that word.
+
+<a id="w-frintdp"></a>
+#### FRINTDP
+
+An alias of [`FRINTP`](#w-frintp): the assembler writes it as that word.
+
+<a id="w-frintda"></a>
+#### FRINTDA
+
+An alias of [`FRINTA`](#w-frinta): the assembler writes it as that word.
 
 
 ### FCVT: Floating conversions
@@ -3380,8 +6135,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCVTDQ`](dictionary/by-word.md#w-fcvtdq), [`FCVTDQU`](dictionary/by-word.md#w-fcvtdqu), [`FCVTQD`](dictionary/by-word.md#w-fcvtqd), [`FCVTQUD`](dictionary/by-word.md#w-fcvtqud), [`FCVTDS`](dictionary/by-word.md#w-fcvtds), [`FCVTSD`](dictionary/by-word.md#w-fcvtsd), [`FCVTSL`](dictionary/by-word.md#w-fcvtsl), [`FCVTLS`](dictionary/by-word.md#w-fcvtls).
-
 **Operation**
 
 ```
@@ -3399,8 +6152,149 @@ Integer results are 64-bit (`FCVTDQ`, `FCVTDQU`) or 32-bit sign-extended (`FCVTS
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-fcvtdq"></a>
+#### FCVTDQ
 
+![FCVTDQ, opcode 010000, three parcels, sub-opcode 00111000 (6 bytes)](figures/w/fcvtdq/02.svg)
+
+![FCVTDQ, opcode 010000, two parcels, sub-opcode 00111000 (4 bytes)](figures/w/fcvtdq/01.svg)
+
+```
+FCVTDQ Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTDQ` | `010000 (0x10)` | `00111000 (0x38)` |
+
+Operation, flags and exceptions as for the entry FCVT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvtdqu"></a>
+#### FCVTDQU
+
+![FCVTDQU, opcode 010000, three parcels, sub-opcode 00111110 (6 bytes)](figures/w/fcvtdqu/02.svg)
+
+![FCVTDQU, opcode 010000, two parcels, sub-opcode 00111110 (4 bytes)](figures/w/fcvtdqu/01.svg)
+
+```
+FCVTDQU Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTDQU` | `010000 (0x10)` | `00111110 (0x3E)` |
+
+Operation, flags and exceptions as for the entry FCVT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvtqd"></a>
+#### FCVTQD
+
+![FCVTQD, opcode 010000, three parcels, sub-opcode 00111001 (6 bytes)](figures/w/fcvtqd/02.svg)
+
+![FCVTQD, opcode 010000, two parcels, sub-opcode 00111001 (4 bytes)](figures/w/fcvtqd/01.svg)
+
+```
+FCVTQD Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTQD` | `010000 (0x10)` | `00111001 (0x39)` |
+
+Operation, flags and exceptions as for the entry FCVT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvtqud"></a>
+#### FCVTQUD
+
+![FCVTQUD, opcode 010000, three parcels, sub-opcode 00111111 (6 bytes)](figures/w/fcvtqud/02.svg)
+
+![FCVTQUD, opcode 010000, two parcels, sub-opcode 00111111 (4 bytes)](figures/w/fcvtqud/01.svg)
+
+```
+FCVTQUD Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTQUD` | `010000 (0x10)` | `00111111 (0x3F)` |
+
+Operation, flags and exceptions as for the entry FCVT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvtds"></a>
+#### FCVTDS
+
+![FCVTDS, opcode 010000, three parcels, sub-opcode 00111010 (6 bytes)](figures/w/fcvtds/02.svg)
+
+![FCVTDS, opcode 010000, two parcels, sub-opcode 00111010 (4 bytes)](figures/w/fcvtds/01.svg)
+
+```
+FCVTDS Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTDS` | `010000 (0x10)` | `00111010 (0x3A)` |
+
+Operation, flags and exceptions as for the entry FCVT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvtsd"></a>
+#### FCVTSD
+
+![FCVTSD, opcode 010000, three parcels, sub-opcode 00111011 (6 bytes)](figures/w/fcvtsd/02.svg)
+
+![FCVTSD, opcode 010000, two parcels, sub-opcode 00111011 (4 bytes)](figures/w/fcvtsd/01.svg)
+
+```
+FCVTSD Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTSD` | `010000 (0x10)` | `00111011 (0x3B)` |
+
+Operation, flags and exceptions as for the entry FCVT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvtsl"></a>
+#### FCVTSL
+
+![FCVTSL, opcode 010000, three parcels, sub-opcode 00111100 (6 bytes)](figures/w/fcvtsl/02.svg)
+
+![FCVTSL, opcode 010000, two parcels, sub-opcode 00111100 (4 bytes)](figures/w/fcvtsl/01.svg)
+
+```
+FCVTSL Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTSL` | `010000 (0x10)` | `00111100 (0x3C)` |
+
+Operation, flags and exceptions as for the entry FCVT above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvtls"></a>
+#### FCVTLS
+
+![FCVTLS, opcode 010000, three parcels, sub-opcode 00111101 (6 bytes)](figures/w/fcvtls/02.svg)
+
+![FCVTLS, opcode 010000, two parcels, sub-opcode 00111101 (4 bytes)](figures/w/fcvtls/01.svg)
+
+```
+FCVTLS Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTLS` | `010000 (0x10)` | `00111101 (0x3D)` |
+
+Operation, flags and exceptions as for the entry FCVT above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-fsflags"></a>
 ### FSFLAGS: Swap the floating-point exception flags
+
+![FSFLAGS, opcode 010000, three parcels, sub-opcode 01000000 (6 bytes)](figures/w/fsflags/02.svg)
+
+![FSFLAGS, opcode 010000, two parcels, sub-opcode 01000000 (4 bytes)](figures/w/fsflags/01.svg)
 
 **Mnemonics:** `FSFLAGS`
 
@@ -3421,8 +6315,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 | `FSFLAGS` | `010000 (0x10)` | `01000000 (0x40)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FSFLAGS`](dictionary/by-word.md#w-fsflags).
 
 **Operation**
 
@@ -3480,8 +6372,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD16`](dictionary/by-word.md#w-fadd16), [`FSUB16`](dictionary/by-word.md#w-fsub16), [`FMUL16`](dictionary/by-word.md#w-fmul16), [`FDIV16`](dictionary/by-word.md#w-fdiv16), [`FSQRT16`](dictionary/by-word.md#w-fsqrt16), [`FCMP16`](dictionary/by-word.md#w-fcmp16), [`FMADD16`](dictionary/by-word.md#w-fmadd16), [`FMSUB16`](dictionary/by-word.md#w-fmsub16), [`FNMADD16`](dictionary/by-word.md#w-fnmadd16), [`FNMSUB16`](dictionary/by-word.md#w-fnmsub16).
-
 **Operation**
 
 ```
@@ -3498,6 +6388,164 @@ Results are correctly rounded to nearest even, tininess judged after rounding; a
 **Why it is here.** Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. Two levels are possible: conversions only (about 500 to 1,000 lookup tables, no new operation by the folding rule) and full arithmetic (about 2,000 to 3,500 tables; estimates), and the existing double datapath can compute half correctly rounded. The architecture has both conversions and arithmetic. The leftovers (half `FMIN`, `FRINT*`, bfloat16, 64-bit integer conversions) are open items. 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fadd16"></a>
+#### FADD16
+
+![FADD16, opcode 010000, three parcels, sub-opcode 01010000 (6 bytes)](figures/w/fadd16/02.svg)
+
+![FADD16, opcode 010000, two parcels, sub-opcode 01010000 (4 bytes)](figures/w/fadd16/01.svg)
+
+```
+FADD16 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FADD16` | `010000 (0x10)` | `01010000 (0x50)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fsub16"></a>
+#### FSUB16
+
+![FSUB16, opcode 010000, three parcels, sub-opcode 01010001 (6 bytes)](figures/w/fsub16/02.svg)
+
+![FSUB16, opcode 010000, two parcels, sub-opcode 01010001 (4 bytes)](figures/w/fsub16/01.svg)
+
+```
+FSUB16 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FSUB16` | `010000 (0x10)` | `01010001 (0x51)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmul16"></a>
+#### FMUL16
+
+![FMUL16, opcode 010000, three parcels, sub-opcode 01010010 (6 bytes)](figures/w/fmul16/02.svg)
+
+![FMUL16, opcode 010000, two parcels, sub-opcode 01010010 (4 bytes)](figures/w/fmul16/01.svg)
+
+```
+FMUL16 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMUL16` | `010000 (0x10)` | `01010010 (0x52)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fdiv16"></a>
+#### FDIV16
+
+![FDIV16, opcode 010000, three parcels, sub-opcode 01010011 (6 bytes)](figures/w/fdiv16/02.svg)
+
+![FDIV16, opcode 010000, two parcels, sub-opcode 01010011 (4 bytes)](figures/w/fdiv16/01.svg)
+
+```
+FDIV16 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FDIV16` | `010000 (0x10)` | `01010011 (0x53)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fsqrt16"></a>
+#### FSQRT16
+
+![FSQRT16, opcode 010000, three parcels, sub-opcode 01010100 (6 bytes)](figures/w/fsqrt16/02.svg)
+
+![FSQRT16, opcode 010000, two parcels, sub-opcode 01010100 (4 bytes)](figures/w/fsqrt16/01.svg)
+
+```
+FSQRT16 Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FSQRT16` | `010000 (0x10)` | `01010100 (0x54)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcmp16"></a>
+#### FCMP16
+
+![FCMP16, opcode 010000, three parcels, sub-opcode 01010101 (6 bytes)](figures/w/fcmp16/02.svg)
+
+![FCMP16, opcode 010000, two parcels, sub-opcode 01010101 (4 bytes)](figures/w/fcmp16/01.svg)
+
+```
+FCMP16 Rd, Rs
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCMP16` | `010000 (0x10)` | `01010101 (0x55)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmadd16"></a>
+#### FMADD16
+
+![FMADD16, opcode 010000, three parcels, sub-opcode 01011000 (6 bytes)](figures/w/fmadd16/02.svg)
+
+![FMADD16, opcode 010000, two parcels, sub-opcode 01011000 (4 bytes)](figures/w/fmadd16/01.svg)
+
+```
+FMADD16 Rs, Rt, Ru, Rd ...
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMADD16` | `010000 (0x10)` | `01011000 (0x58)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fmsub16"></a>
+#### FMSUB16
+
+![FMSUB16, opcode 010000, three parcels, sub-opcode 01011001 (6 bytes)](figures/w/fmsub16/02.svg)
+
+![FMSUB16, opcode 010000, two parcels, sub-opcode 01011001 (4 bytes)](figures/w/fmsub16/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMSUB16` | `010000 (0x10)` | `01011001 (0x59)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fnmadd16"></a>
+#### FNMADD16
+
+![FNMADD16, opcode 010000, three parcels, sub-opcode 01011010 (6 bytes)](figures/w/fnmadd16/02.svg)
+
+![FNMADD16, opcode 010000, two parcels, sub-opcode 01011010 (4 bytes)](figures/w/fnmadd16/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FNMADD16` | `010000 (0x10)` | `01011010 (0x5A)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fnmsub16"></a>
+#### FNMSUB16
+
+![FNMSUB16, opcode 010000, three parcels, sub-opcode 01011011 (6 bytes)](figures/w/fnmsub16/02.svg)
+
+![FNMSUB16, opcode 010000, two parcels, sub-opcode 01011011 (4 bytes)](figures/w/fnmsub16/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FNMSUB16` | `010000 (0x10)` | `01011011 (0x5B)` |
+
+Operation, flags and exceptions as for the entry FHALF above; 2 layout forms, each a chart of its own (above).
 
 
 ### FCVTH: Conversions to and from binary16
@@ -3532,8 +6580,6 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCVTSH`](dictionary/by-word.md#w-fcvtsh), [`FCVTHS`](dictionary/by-word.md#w-fcvths), [`FCVTDH`](dictionary/by-word.md#w-fcvtdh), [`FCVTHD`](dictionary/by-word.md#w-fcvthd), [`FCVTHL`](dictionary/by-word.md#w-fcvthl), [`FCVTLH`](dictionary/by-word.md#w-fcvtlh).
-
 **Operation**
 
 ```
@@ -3548,6 +6594,108 @@ FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction i
 **Why it is here.** The conversion half of the `binary16` support (see `FHALF`). The conversions are the part machine-learning code needs most, because a half is normally loaded and stored with `MOVW`, converted, computed in single or double, and converted back.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-fcvtsh"></a>
+#### FCVTSH
+
+![FCVTSH, opcode 010000, three parcels, sub-opcode 01100000 (6 bytes)](figures/w/fcvtsh/02.svg)
+
+![FCVTSH, opcode 010000, two parcels, sub-opcode 01100000 (4 bytes)](figures/w/fcvtsh/01.svg)
+
+```
+FCVTSH Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTSH` | `010000 (0x10)` | `01100000 (0x60)` |
+
+Operation, flags and exceptions as for the entry FCVTH above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvths"></a>
+#### FCVTHS
+
+![FCVTHS, opcode 010000, three parcels, sub-opcode 01100001 (6 bytes)](figures/w/fcvths/02.svg)
+
+![FCVTHS, opcode 010000, two parcels, sub-opcode 01100001 (4 bytes)](figures/w/fcvths/01.svg)
+
+```
+FCVTHS Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTHS` | `010000 (0x10)` | `01100001 (0x61)` |
+
+Operation, flags and exceptions as for the entry FCVTH above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvtdh"></a>
+#### FCVTDH
+
+![FCVTDH, opcode 010000, three parcels, sub-opcode 01100010 (6 bytes)](figures/w/fcvtdh/02.svg)
+
+![FCVTDH, opcode 010000, two parcels, sub-opcode 01100010 (4 bytes)](figures/w/fcvtdh/01.svg)
+
+```
+FCVTDH Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTDH` | `010000 (0x10)` | `01100010 (0x62)` |
+
+Operation, flags and exceptions as for the entry FCVTH above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvthd"></a>
+#### FCVTHD
+
+![FCVTHD, opcode 010000, three parcels, sub-opcode 01100011 (6 bytes)](figures/w/fcvthd/02.svg)
+
+![FCVTHD, opcode 010000, two parcels, sub-opcode 01100011 (4 bytes)](figures/w/fcvthd/01.svg)
+
+```
+FCVTHD Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTHD` | `010000 (0x10)` | `01100011 (0x63)` |
+
+Operation, flags and exceptions as for the entry FCVTH above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvthl"></a>
+#### FCVTHL
+
+![FCVTHL, opcode 010000, three parcels, sub-opcode 01100100 (6 bytes)](figures/w/fcvthl/02.svg)
+
+![FCVTHL, opcode 010000, two parcels, sub-opcode 01100100 (4 bytes)](figures/w/fcvthl/01.svg)
+
+```
+FCVTHL Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTHL` | `010000 (0x10)` | `01100100 (0x64)` |
+
+Operation, flags and exceptions as for the entry FCVTH above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-fcvtlh"></a>
+#### FCVTLH
+
+![FCVTLH, opcode 010000, three parcels, sub-opcode 01100101 (6 bytes)](figures/w/fcvtlh/02.svg)
+
+![FCVTLH, opcode 010000, two parcels, sub-opcode 01100101 (4 bytes)](figures/w/fcvtlh/01.svg)
+
+```
+FCVTLH Rs, Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTLH` | `010000 (0x10)` | `01100101 (0x65)` |
+
+Operation, flags and exceptions as for the entry FCVTH above; 2 layout forms, each a chart of its own (above).
 <!-- /entries:9.12 -->
 
 ## 9.13 Atomics and ordering
@@ -3585,8 +6733,6 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CAS`](dictionary/by-word.md#w-cas), [`CASDB`](dictionary/by-word.md#w-casdb).
-
 **Operation**
 
 ```
@@ -3606,6 +6752,40 @@ The sub-opcodes and the semantics of this group are specified; the placement of 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-cas"></a>
+#### CAS
+
+![CAS, opcode 010001, three parcels, sub-opcode 00000000 (6 bytes)](figures/w/cas/02.svg)
+
+![CAS, opcode 010001, two parcels, sub-opcode 00000000 (4 bytes)](figures/w/cas/01.svg)
+
+```
+CAS expected, new, (address)
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CAS` | `010001 (0x11)` | `00000000 (0x00)` |
+
+Operation, flags and exceptions as for the entry CAS above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-casdb"></a>
+#### CASDB
+
+![CASDB, opcode 010001, three parcels, sub-opcode 00000001 (6 bytes)](figures/w/casdb/02.svg)
+
+![CASDB, opcode 010001, two parcels, sub-opcode 00000001 (4 bytes)](figures/w/casdb/01.svg)
+
+```
+CASDB ...
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CASDB` | `010001 (0x11)` | `00000001 (0x01)` |
+
+Operation, flags and exceptions as for the entry CAS above; 2 layout forms, each a chart of its own (above).
 
 
 ### SWAP: Atomic exchange
@@ -3632,8 +6812,6 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SWAP`](dictionary/by-word.md#w-swap), [`SWAPDB`](dictionary/by-word.md#w-swapdb).
-
 **Operation**
 
 ```
@@ -3651,6 +6829,40 @@ The sub-opcodes and the semantics of this group are specified; the placement of 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-swap"></a>
+#### SWAP
+
+![SWAP, opcode 010001, three parcels, sub-opcode 00000010 (6 bytes)](figures/w/swap/02.svg)
+
+![SWAP, opcode 010001, two parcels, sub-opcode 00000010 (4 bytes)](figures/w/swap/01.svg)
+
+```
+SWAP value, (address)
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `SWAP` | `010001 (0x11)` | `00000010 (0x02)` |
+
+Operation, flags and exceptions as for the entry SWAP above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-swapdb"></a>
+#### SWAPDB
+
+![SWAPDB, opcode 010001, three parcels, sub-opcode 00000011 (6 bytes)](figures/w/swapdb/02.svg)
+
+![SWAPDB, opcode 010001, two parcels, sub-opcode 00000011 (4 bytes)](figures/w/swapdb/01.svg)
+
+```
+SWAPDB ...
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `SWAPDB` | `010001 (0x11)` | `00000011 (0x03)` |
+
+Operation, flags and exceptions as for the entry SWAP above; 2 layout forms, each a chart of its own (above).
 
 
 ### XADD: Atomic fetch and add
@@ -3677,8 +6889,6 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XADD`](dictionary/by-word.md#w-xadd), [`XADDDB`](dictionary/by-word.md#w-xadddb).
-
 **Operation**
 
 ```
@@ -3696,6 +6906,40 @@ The sub-opcodes and the semantics of this group are specified; the placement of 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-xadd"></a>
+#### XADD
+
+![XADD, opcode 010001, three parcels, sub-opcode 00000100 (6 bytes)](figures/w/xadd/02.svg)
+
+![XADD, opcode 010001, two parcels, sub-opcode 00000100 (4 bytes)](figures/w/xadd/01.svg)
+
+```
+XADD value, (address)
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XADD` | `010001 (0x11)` | `00000100 (0x04)` |
+
+Operation, flags and exceptions as for the entry XADD above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xadddb"></a>
+#### XADDDB
+
+![XADDDB, opcode 010001, three parcels, sub-opcode 00000101 (6 bytes)](figures/w/xadddb/02.svg)
+
+![XADDDB, opcode 010001, two parcels, sub-opcode 00000101 (4 bytes)](figures/w/xadddb/01.svg)
+
+```
+XADDDB ...
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XADDDB` | `010001 (0x11)` | `00000101 (0x05)` |
+
+Operation, flags and exceptions as for the entry XADD above; 2 layout forms, each a chart of its own (above).
 
 
 ### XAND: Atomic fetch and and, or, xor
@@ -3728,8 +6972,6 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XAND`](dictionary/by-word.md#w-xand), [`XANDDB`](dictionary/by-word.md#w-xanddb), [`XOR_`](dictionary/by-word.md#w-xor-), [`XOR_DB`](dictionary/by-word.md#w-xor-db), [`XXOR`](dictionary/by-word.md#w-xxor), [`XXORDB`](dictionary/by-word.md#w-xxordb).
-
 **Operation**
 
 ```
@@ -3751,6 +6993,96 @@ The sub-opcodes and the semantics of this group are specified; the placement of 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-xand"></a>
+#### XAND
+
+![XAND, opcode 010001, three parcels, sub-opcode 00000110 (6 bytes)](figures/w/xand/02.svg)
+
+![XAND, opcode 010001, two parcels, sub-opcode 00000110 (4 bytes)](figures/w/xand/01.svg)
+
+```
+XAND value, (address)
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XAND` | `010001 (0x11)` | `00000110 (0x06)` |
+
+Operation, flags and exceptions as for the entry XAND above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xanddb"></a>
+#### XANDDB
+
+![XANDDB, opcode 010001, three parcels, sub-opcode 00000111 (6 bytes)](figures/w/xanddb/02.svg)
+
+![XANDDB, opcode 010001, two parcels, sub-opcode 00000111 (4 bytes)](figures/w/xanddb/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XANDDB` | `010001 (0x11)` | `00000111 (0x07)` |
+
+Operation, flags and exceptions as for the entry XAND above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xor-"></a>
+#### XOR_
+
+![XOR_, opcode 010001, three parcels, sub-opcode 00001000 (6 bytes)](figures/w/xor-/02.svg)
+
+![XOR_, opcode 010001, two parcels, sub-opcode 00001000 (4 bytes)](figures/w/xor-/01.svg)
+
+```
+XOR_ value, (address)
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XOR_` | `010001 (0x11)` | `00001000 (0x08)` |
+
+Operation, flags and exceptions as for the entry XAND above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xor-db"></a>
+#### XOR_DB
+
+![XOR_DB, opcode 010001, three parcels, sub-opcode 00001001 (6 bytes)](figures/w/xor-db/02.svg)
+
+![XOR_DB, opcode 010001, two parcels, sub-opcode 00001001 (4 bytes)](figures/w/xor-db/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XOR_DB` | `010001 (0x11)` | `00001001 (0x09)` |
+
+Operation, flags and exceptions as for the entry XAND above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xxor"></a>
+#### XXOR
+
+![XXOR, opcode 010001, three parcels, sub-opcode 00001010 (6 bytes)](figures/w/xxor/02.svg)
+
+![XXOR, opcode 010001, two parcels, sub-opcode 00001010 (4 bytes)](figures/w/xxor/01.svg)
+
+```
+XXOR value, (address)
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XXOR` | `010001 (0x11)` | `00001010 (0x0A)` |
+
+Operation, flags and exceptions as for the entry XAND above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xxordb"></a>
+#### XXORDB
+
+![XXORDB, opcode 010001, three parcels, sub-opcode 00001011 (6 bytes)](figures/w/xxordb/02.svg)
+
+![XXORDB, opcode 010001, two parcels, sub-opcode 00001011 (4 bytes)](figures/w/xxordb/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XXORDB` | `010001 (0x11)` | `00001011 (0x0B)` |
+
+Operation, flags and exceptions as for the entry XAND above; 2 layout forms, each a chart of its own (above).
 
 
 ### XMAX: Atomic fetch and minimum or maximum
@@ -3784,8 +7116,6 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XMAX`](dictionary/by-word.md#w-xmax), [`XMAXDB`](dictionary/by-word.md#w-xmaxdb), [`XMIN`](dictionary/by-word.md#w-xmin), [`XMINDB`](dictionary/by-word.md#w-xmindb), [`XMAXU`](dictionary/by-word.md#w-xmaxu), [`XMAXUDB`](dictionary/by-word.md#w-xmaxudb), [`XMINU`](dictionary/by-word.md#w-xminu), [`XMINUDB`](dictionary/by-word.md#w-xminudb).
-
 **Operation**
 
 ```
@@ -3804,6 +7134,118 @@ The sub-opcodes and the semantics of this group are specified; the placement of 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-xmax"></a>
+#### XMAX
+
+![XMAX, opcode 010001, three parcels, sub-opcode 00001100 (6 bytes)](figures/w/xmax/02.svg)
+
+![XMAX, opcode 010001, two parcels, sub-opcode 00001100 (4 bytes)](figures/w/xmax/01.svg)
+
+```
+XMAX value, (address)
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XMAX` | `010001 (0x11)` | `00001100 (0x0C)` |
+
+Operation, flags and exceptions as for the entry XMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xmaxdb"></a>
+#### XMAXDB
+
+![XMAXDB, opcode 010001, three parcels, sub-opcode 00001101 (6 bytes)](figures/w/xmaxdb/02.svg)
+
+![XMAXDB, opcode 010001, two parcels, sub-opcode 00001101 (4 bytes)](figures/w/xmaxdb/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XMAXDB` | `010001 (0x11)` | `00001101 (0x0D)` |
+
+Operation, flags and exceptions as for the entry XMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xmin"></a>
+#### XMIN
+
+![XMIN, opcode 010001, three parcels, sub-opcode 00001110 (6 bytes)](figures/w/xmin/02.svg)
+
+![XMIN, opcode 010001, two parcels, sub-opcode 00001110 (4 bytes)](figures/w/xmin/01.svg)
+
+```
+XMIN ..., XMAXU ..., XMINU ...
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XMIN` | `010001 (0x11)` | `00001110 (0x0E)` |
+
+Operation, flags and exceptions as for the entry XMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xmindb"></a>
+#### XMINDB
+
+![XMINDB, opcode 010001, three parcels, sub-opcode 00001111 (6 bytes)](figures/w/xmindb/02.svg)
+
+![XMINDB, opcode 010001, two parcels, sub-opcode 00001111 (4 bytes)](figures/w/xmindb/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XMINDB` | `010001 (0x11)` | `00001111 (0x0F)` |
+
+Operation, flags and exceptions as for the entry XMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xmaxu"></a>
+#### XMAXU
+
+![XMAXU, opcode 010001, three parcels, sub-opcode 00010000 (6 bytes)](figures/w/xmaxu/02.svg)
+
+![XMAXU, opcode 010001, two parcels, sub-opcode 00010000 (4 bytes)](figures/w/xmaxu/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XMAXU` | `010001 (0x11)` | `00010000 (0x10)` |
+
+Operation, flags and exceptions as for the entry XMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xmaxudb"></a>
+#### XMAXUDB
+
+![XMAXUDB, opcode 010001, three parcels, sub-opcode 00010001 (6 bytes)](figures/w/xmaxudb/02.svg)
+
+![XMAXUDB, opcode 010001, two parcels, sub-opcode 00010001 (4 bytes)](figures/w/xmaxudb/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XMAXUDB` | `010001 (0x11)` | `00010001 (0x11)` |
+
+Operation, flags and exceptions as for the entry XMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xminu"></a>
+#### XMINU
+
+![XMINU, opcode 010001, three parcels, sub-opcode 00010010 (6 bytes)](figures/w/xminu/02.svg)
+
+![XMINU, opcode 010001, two parcels, sub-opcode 00010010 (4 bytes)](figures/w/xminu/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XMINU` | `010001 (0x11)` | `00010010 (0x12)` |
+
+Operation, flags and exceptions as for the entry XMAX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-xminudb"></a>
+#### XMINUDB
+
+![XMINUDB, opcode 010001, three parcels, sub-opcode 00010011 (6 bytes)](figures/w/xminudb/02.svg)
+
+![XMINUDB, opcode 010001, two parcels, sub-opcode 00010011 (4 bytes)](figures/w/xminudb/01.svg)
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XMINUDB` | `010001 (0x11)` | `00010011 (0x13)` |
+
+Operation, flags and exceptions as for the entry XMAX above; 2 layout forms, each a chart of its own (above).
 
 
 ### LLSC: Load-linked and store-conditional
@@ -3830,8 +7272,6 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`LL`](dictionary/by-word.md#w-ll), [`SC`](dictionary/by-word.md#w-sc).
-
 **Operation**
 
 ```
@@ -3852,6 +7292,40 @@ A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps w
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
 **Status** specified; **not yet implemented** in the reference executor.
+
+<a id="w-ll"></a>
+#### LL
+
+![LL, opcode 010001, three parcels, sub-opcode 00100000 (6 bytes)](figures/w/ll/02.svg)
+
+![LL, opcode 010001, two parcels, sub-opcode 00100000 (4 bytes)](figures/w/ll/01.svg)
+
+```
+LL (address), Rd
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `LL` | `010001 (0x11)` | `00100000 (0x20)` |
+
+Operation, flags and exceptions as for the entry LLSC above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-sc"></a>
+#### SC
+
+![SC, opcode 010001, three parcels, sub-opcode 00100001 (6 bytes)](figures/w/sc/02.svg)
+
+![SC, opcode 010001, two parcels, sub-opcode 00100001 (4 bytes)](figures/w/sc/01.svg)
+
+```
+SC value, (address), result
+```
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `SC` | `010001 (0x11)` | `00100001 (0x21)` |
+
+Operation, flags and exceptions as for the entry LLSC above; 2 layout forms, each a chart of its own (above).
 <!-- /entries:9.13 -->
 
 ## 9.14 System instructions, exceptions and interrupts
@@ -3887,8 +7361,6 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`NOP`](dictionary/by-word.md#w-nop), [`LPAD`](dictionary/by-word.md#w-lpad).
-
 **Operation**
 
 ```
@@ -3906,6 +7378,44 @@ nothing
 **Cf.** Appendix A, section A.1 (landing pads).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-nop"></a>
+#### NOP
+
+![NOP, opcode 010100, three parcels (6 bytes)](figures/w/nop/03.svg)
+
+![NOP, opcode 010100, two parcels (4 bytes)](figures/w/nop/02.svg)
+
+![NOP, opcode 010100, one parcel (2 bytes)](figures/w/nop/01.svg)
+
+```
+NOP
+```
+
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `NOP` | `010100 (0x14)` | `0000 (0x0)` | `0000 (0x0)` |
+
+Operation, flags and exceptions as for the entry NOP above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-lpad"></a>
+#### LPAD
+
+![LPAD, opcode 010100, three parcels (6 bytes)](figures/w/lpad/03.svg)
+
+![LPAD, opcode 010100, two parcels (4 bytes)](figures/w/lpad/02.svg)
+
+![LPAD, opcode 010100, one parcel (2 bytes)](figures/w/lpad/01.svg)
+
+```
+LPAD
+```
+
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `LPAD` | `010100 (0x14)` | `0000 (0x0)` | `1001 (0x9)` |
+
+Operation, flags and exceptions as for the entry NOP above; 3 layout forms, each a chart of its own (above).
 
 
 ### RTI: Return from interrupt or exception
@@ -3932,8 +7442,6 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RTI`](dictionary/by-word.md#w-rti), [`RTT`](dictionary/by-word.md#w-rtt).
-
 **Operation**
 
 ```
@@ -3953,8 +7461,53 @@ RTT: and then set the trace bit T after the return
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-rti"></a>
+#### RTI
 
+![RTI, opcode 010100, three parcels (6 bytes)](figures/w/rti/03.svg)
+
+![RTI, opcode 010100, two parcels (4 bytes)](figures/w/rti/02.svg)
+
+![RTI, opcode 010100, one parcel (2 bytes)](figures/w/rti/01.svg)
+
+```
+RTI
+```
+
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `RTI` | `010100 (0x14)` | `0000 (0x0)` | `0001 (0x1)` |
+
+Operation, flags and exceptions as for the entry RTI above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-rtt"></a>
+#### RTT
+
+![RTT, opcode 010100, three parcels (6 bytes)](figures/w/rtt/03.svg)
+
+![RTT, opcode 010100, two parcels (4 bytes)](figures/w/rtt/02.svg)
+
+![RTT, opcode 010100, one parcel (2 bytes)](figures/w/rtt/01.svg)
+
+```
+RTT
+```
+
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `RTT` | `010100 (0x14)` | `0000 (0x0)` | `0010 (0x2)` |
+
+Operation, flags and exceptions as for the entry RTI above; 3 layout forms, each a chart of its own (above).
+
+
+<a id="w-ret"></a>
 ### RET: Return from subroutine
+
+![RET, opcode 010100, three parcels (6 bytes)](figures/w/ret/03.svg)
+
+![RET, opcode 010100, two parcels (4 bytes)](figures/w/ret/02.svg)
+
+![RET, opcode 010100, one parcel (2 bytes)](figures/w/ret/01.svg)
 
 **Mnemonics:** `RET`
 
@@ -3976,8 +7529,6 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RET`](dictionary/by-word.md#w-ret).
-
 **Operation**
 
 ```
@@ -3993,7 +7544,14 @@ Not privileged, though it is in the system escape: it is the two-byte partner of
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-halt"></a>
 ### HALT: Halt the processor
+
+![HALT, opcode 010100, three parcels (6 bytes)](figures/w/halt/03.svg)
+
+![HALT, opcode 010100, two parcels (4 bytes)](figures/w/halt/02.svg)
+
+![HALT, opcode 010100, one parcel (2 bytes)](figures/w/halt/01.svg)
 
 **Mnemonics:** `HALT`
 
@@ -4015,8 +7573,6 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`HALT`](dictionary/by-word.md#w-halt).
-
 **Operation**
 
 ```
@@ -4032,7 +7588,14 @@ stop the processor
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-bpt"></a>
 ### BPT: Breakpoint
+
+![BPT, opcode 010100, three parcels (6 bytes)](figures/w/bpt/03.svg)
+
+![BPT, opcode 010100, two parcels (4 bytes)](figures/w/bpt/02.svg)
+
+![BPT, opcode 010100, one parcel (2 bytes)](figures/w/bpt/01.svg)
 
 **Mnemonics:** `BPT`
 
@@ -4054,8 +7617,6 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BPT`](dictionary/by-word.md#w-bpt).
-
 **Operation**
 
 ```
@@ -4075,7 +7636,14 @@ A trap like any other, but kept as its own two-byte instruction because a debugg
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-fence"></a>
 ### FENCE: Memory fence
+
+![FENCE, opcode 010100, three parcels (6 bytes)](figures/w/fence/03.svg)
+
+![FENCE, opcode 010100, two parcels (4 bytes)](figures/w/fence/02.svg)
+
+![FENCE, opcode 010100, one parcel (2 bytes)](figures/w/fence/01.svg)
 
 **Mnemonics:** `FENCE`
 
@@ -4097,8 +7665,6 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FENCE`](dictionary/by-word.md#w-fence).
-
 **Operation**
 
 ```
@@ -4118,7 +7684,15 @@ Owed to devices (one `FENCE` separates writing a device's registers from setting
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-wfe"></a>
+<a id="w-wait"></a>
 ### WFE: Wait for an event
+
+![WFE, opcode 010100, three parcels (6 bytes)](figures/w/wfe/03.svg)
+
+![WFE, opcode 010100, two parcels (4 bytes)](figures/w/wfe/02.svg)
+
+![WFE, opcode 010100, one parcel (2 bytes)](figures/w/wfe/01.svg)
 
 **Mnemonics:** `WFE`  (aliases: `WAIT`)
 
@@ -4140,8 +7714,6 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`WFE`](dictionary/by-word.md#w-wfe).
-
 **Operation**
 
 ```
@@ -4160,8 +7732,18 @@ sleep until an interrupt is pending or another core executes SEV
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-wait"></a>
+**`WAIT`** is an alias of `WFE`: the assembler writes it as that word.
 
+
+<a id="w-sev"></a>
 ### SEV: Send an event
+
+![SEV, opcode 010100, three parcels (6 bytes)](figures/w/sev/03.svg)
+
+![SEV, opcode 010100, two parcels (4 bytes)](figures/w/sev/02.svg)
+
+![SEV, opcode 010100, one parcel (2 bytes)](figures/w/sev/01.svg)
 
 **Mnemonics:** `SEV`
 
@@ -4182,8 +7764,6 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 | `SEV` | `010100 (0x14)` | `0000 (0x0)` | `1000 (0x8)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SEV`](dictionary/by-word.md#w-sev).
 
 **Operation**
 
@@ -4228,8 +7808,6 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TLBIA`](dictionary/by-word.md#w-tlbia), [`TLBSYNC`](dictionary/by-word.md#w-tlbsync), [`ICINVA`](dictionary/by-word.md#w-icinva).
-
 **Operation**
 
 ```
@@ -4247,6 +7825,63 @@ ICINVA  : invalidate the whole instruction cache
 **Cf.** 7.5 (translation and instruction-cache coherence).
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-tlbia"></a>
+#### TLBIA
+
+![TLBIA, opcode 010100, three parcels (6 bytes)](figures/w/tlbia/03.svg)
+
+![TLBIA, opcode 010100, two parcels (4 bytes)](figures/w/tlbia/02.svg)
+
+![TLBIA, opcode 010100, one parcel (2 bytes)](figures/w/tlbia/01.svg)
+
+```
+TLBIA
+```
+
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `TLBIA` | `010100 (0x14)` | `0000 (0x0)` | `1010 (0xA)` |
+
+Operation, flags and exceptions as for the entry TLBA above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-tlbsync"></a>
+#### TLBSYNC
+
+![TLBSYNC, opcode 010100, three parcels (6 bytes)](figures/w/tlbsync/03.svg)
+
+![TLBSYNC, opcode 010100, two parcels (4 bytes)](figures/w/tlbsync/02.svg)
+
+![TLBSYNC, opcode 010100, one parcel (2 bytes)](figures/w/tlbsync/01.svg)
+
+```
+TLBSYNC
+```
+
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `TLBSYNC` | `010100 (0x14)` | `0000 (0x0)` | `1011 (0xB)` |
+
+Operation, flags and exceptions as for the entry TLBA above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-icinva"></a>
+#### ICINVA
+
+![ICINVA, opcode 010100, three parcels (6 bytes)](figures/w/icinva/03.svg)
+
+![ICINVA, opcode 010100, two parcels (4 bytes)](figures/w/icinva/02.svg)
+
+![ICINVA, opcode 010100, one parcel (2 bytes)](figures/w/icinva/01.svg)
+
+```
+ICINVA
+```
+
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `ICINVA` | `010100 (0x14)` | `0000 (0x0)` | `1100 (0xC)` |
+
+Operation, flags and exceptions as for the entry TLBA above; 3 layout forms, each a chart of its own (above).
 
 
 ### PUSHX: Push and pop the exception state
@@ -4273,8 +7908,6 @@ The chart is the layout `r20-sysx-0`, System, SYSX, one parcel (`len = 00`): Cla
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysx-0`](dictionary/by-encoding.md#r20-sysx-0), [`r20-sysx-1`](dictionary/by-encoding.md#r20-sysx-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSHX`](dictionary/by-word.md#w-pushx), [`POPX`](dictionary/by-word.md#w-popx).
-
 **Operation**
 
 ```
@@ -4294,8 +7927,47 @@ Four bytes (the `SYSX` escape, sub-opcodes 0 and 1) and two bytes on page 2. For
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-pushx"></a>
+#### PUSHX
 
+![PUSHX, opcode 010100, two parcels, sub-opcode 00000000 (4 bytes)](figures/w/pushx/02.svg)
+
+![PUSHX, opcode 010100, one parcel, sub-opcode 00000000 (2 bytes)](figures/w/pushx/01.svg)
+
+```
+PUSHX
+```
+
+| Mnemonic | Opcode | `reg` | `low` | Sub-opcode |
+|---|---|---|---|---|
+| `PUSHX` | `010100 (0x14)` | `0000 (0x0)` | `1111 (0xF)` | `00000000 (0x00)` |
+
+Operation, flags and exceptions as for the entry PUSHX above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-popx"></a>
+#### POPX
+
+![POPX, opcode 010100, two parcels, sub-opcode 00000001 (4 bytes)](figures/w/popx/02.svg)
+
+![POPX, opcode 010100, one parcel, sub-opcode 00000001 (2 bytes)](figures/w/popx/01.svg)
+
+```
+POPX
+```
+
+| Mnemonic | Opcode | `reg` | `low` | Sub-opcode |
+|---|---|---|---|---|
+| `POPX` | `010100 (0x14)` | `0000 (0x0)` | `1111 (0xF)` | `00000001 (0x01)` |
+
+Operation, flags and exceptions as for the entry PUSHX above; 2 layout forms, each a chart of its own (above).
+
+
+<a id="w-isync"></a>
 ### ISYNC: Instruction synchronisation
+
+![ISYNC, opcode 010100, two parcels, sub-opcode 00000010 (4 bytes)](figures/w/isync/02.svg)
+
+![ISYNC, opcode 010100, one parcel, sub-opcode 00000010 (2 bytes)](figures/w/isync/01.svg)
 
 **Mnemonics:** `ISYNC`
 
@@ -4317,8 +7989,6 @@ The chart is the layout `r20-sysx-0`, System, SYSX, one parcel (`len = 00`): Cla
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysx-0`](dictionary/by-encoding.md#r20-sysx-0), [`r20-sysx-1`](dictionary/by-encoding.md#r20-sysx-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ISYNC`](dictionary/by-word.md#w-isync).
-
 **Operation**
 
 ```
@@ -4338,7 +8008,12 @@ The architecture promises the effect only after the next `ISYNC`; an in-order im
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-hint"></a>
 ### HINT: Hint
+
+![HINT, opcode 010100, two parcels, sub-opcode 00000011 (4 bytes)](figures/w/hint/02.svg)
+
+![HINT, opcode 010100, one parcel, sub-opcode 00000011 (2 bytes)](figures/w/hint/01.svg)
 
 **Mnemonics:** `HINT`
 
@@ -4359,8 +8034,6 @@ The chart is the layout `r20-sysx-0`, System, SYSX, one parcel (`len = 00`): Cla
 | `HINT` | `010100 (0x14)` | `0000 (0x0)` | `1111 (0xF)` | `00000011 (0x03)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysx-0`](dictionary/by-encoding.md#r20-sysx-0), [`r20-sysx-1`](dictionary/by-encoding.md#r20-sysx-1).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`HINT`](dictionary/by-word.md#w-hint).
 
 **Operation**
 
@@ -4403,8 +8076,6 @@ The chart is the layout `r20-sysreg-0`, System registers (MFSR, MTSR), one parce
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysreg-0`](dictionary/by-encoding.md#r20-sysreg-0), [`r20-sysreg-1`](dictionary/by-encoding.md#r20-sysreg-1).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MFSR`](dictionary/by-word.md#w-mfsr), [`MTSR`](dictionary/by-word.md#w-mtsr).
-
 **Operation**
 
 ```
@@ -4440,6 +8111,40 @@ The register is chosen by name (a number in parcel 1); the instruction is four b
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-mfsr"></a>
+#### MFSR
+
+![MFSR, opcode 010100, two parcels (4 bytes)](figures/w/mfsr/02.svg)
+
+![MFSR, opcode 010100, one parcel (2 bytes)](figures/w/mfsr/01.svg)
+
+```
+MFSR Rd, name
+```
+
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `MFSR` | `010100 (0x14)` | `0000 (0x0)` | `1101 (0xD)` |
+
+Operation, flags and exceptions as for the entry MFSR above; 2 layout forms, each a chart of its own (above).
+
+<a id="w-mtsr"></a>
+#### MTSR
+
+![MTSR, opcode 010100, two parcels (4 bytes)](figures/w/mtsr/02.svg)
+
+![MTSR, opcode 010100, one parcel (2 bytes)](figures/w/mtsr/01.svg)
+
+```
+MTSR name, Rs
+```
+
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `MTSR` | `010100 (0x14)` | `0000 (0x0)` | `1110 (0xE)` |
+
+Operation, flags and exceptions as for the entry MFSR above; 2 layout forms, each a chart of its own (above).
+
 
 ### MTPS: Move to and from the processor status word
 
@@ -4465,8 +8170,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTPS`](dictionary/by-word.md#w-mtps), [`MFPS`](dictionary/by-word.md#w-mfps).
-
 **Operation**
 
 ```
@@ -4482,8 +8185,53 @@ MFPS: Rd ← PSW
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-mtps"></a>
+#### MTPS
 
+![MTPS, opcode 010100, three parcels (6 bytes)](figures/w/mtps/03.svg)
+
+![MTPS, opcode 010100, two parcels (4 bytes)](figures/w/mtps/02.svg)
+
+![MTPS, opcode 010100, one parcel (2 bytes)](figures/w/mtps/01.svg)
+
+```
+MTPS Rs
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `MTPS` | `010100 (0x14)` | `0001 (0x1)` |
+
+Operation, flags and exceptions as for the entry MTPS above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-mfps"></a>
+#### MFPS
+
+![MFPS, opcode 010100, three parcels (6 bytes)](figures/w/mfps/03.svg)
+
+![MFPS, opcode 010100, two parcels (4 bytes)](figures/w/mfps/02.svg)
+
+![MFPS, opcode 010100, one parcel (2 bytes)](figures/w/mfps/01.svg)
+
+```
+MFPS Rd
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `MFPS` | `010100 (0x14)` | `0010 (0x2)` |
+
+Operation, flags and exceptions as for the entry MTPS above; 3 layout forms, each a chart of its own (above).
+
+
+<a id="w-spl"></a>
 ### SPL: Set the interrupt priority level
+
+![SPL, opcode 010100, three parcels (6 bytes)](figures/w/spl/03.svg)
+
+![SPL, opcode 010100, two parcels (4 bytes)](figures/w/spl/02.svg)
+
+![SPL, opcode 010100, one parcel (2 bytes)](figures/w/spl/01.svg)
 
 **Mnemonics:** `SPL`
 
@@ -4504,8 +8252,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 | `SPL` | `010100 (0x14)` | `0011 (0x3)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SPL`](dictionary/by-word.md#w-spl).
 
 **Operation**
 
@@ -4550,8 +8296,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2), [`r20-sys-1-3`](dictionary/by-encoding.md#r20-sys-1-3).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TRAP`](dictionary/by-word.md#w-trap), [`TRAPL`](dictionary/by-word.md#w-trapl).
-
 **Operation**
 
 ```
@@ -4570,8 +8314,53 @@ The replacement for the PDP-11 `IOT` and `EMT`. `TRAPL` reaches the vectors 0 to
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-trap"></a>
+#### TRAP
 
+![TRAP, opcode 010100, three parcels (6 bytes)](figures/w/trap/03.svg)
+
+![TRAP, opcode 010100, two parcels (4 bytes)](figures/w/trap/02.svg)
+
+![TRAP, opcode 010100, one parcel (2 bytes)](figures/w/trap/01.svg)
+
+```
+TRAP #n
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `TRAP` | `010100 (0x14)` | `0100 (0x4)` |
+
+Operation, flags and exceptions as for the entry TRAP above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-trapl"></a>
+#### TRAPL
+
+![TRAPL, opcode 010100, three parcels (6 bytes)](figures/w/trapl/03.svg)
+
+![TRAPL, opcode 010100, two parcels (4 bytes)](figures/w/trapl/02.svg)
+
+![TRAPL, opcode 010100, one parcel (2 bytes)](figures/w/trapl/01.svg)
+
+```
+TRAPL #n
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `TRAPL` | `010100 (0x14)` | `1111 (0xF)` |
+
+Operation, flags and exceptions as for the entry TRAP above; 3 layout forms, each a chart of its own (above).
+
+
+<a id="w-tlbi"></a>
 ### TLBI: Invalidate a translation
+
+![TLBI, opcode 010100, three parcels (6 bytes)](figures/w/tlbi/03.svg)
+
+![TLBI, opcode 010100, two parcels (4 bytes)](figures/w/tlbi/02.svg)
+
+![TLBI, opcode 010100, one parcel (2 bytes)](figures/w/tlbi/01.svg)
 
 **Mnemonics:** `TLBI`
 
@@ -4592,8 +8381,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 | `TLBI` | `010100 (0x14)` | `0101 (0x5)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TLBI`](dictionary/by-word.md#w-tlbi).
 
 **Operation**
 
@@ -4636,8 +8423,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTASID`](dictionary/by-word.md#w-mtasid), [`MFASID`](dictionary/by-word.md#w-mfasid).
-
 **Operation**
 
 ```
@@ -4656,6 +8441,44 @@ The `ASID` tags translation-buffer entries so a context switch is one store.
 **Cf.** 6.4.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-mtasid"></a>
+#### MTASID
+
+![MTASID, opcode 010100, three parcels (6 bytes)](figures/w/mtasid/03.svg)
+
+![MTASID, opcode 010100, two parcels (4 bytes)](figures/w/mtasid/02.svg)
+
+![MTASID, opcode 010100, one parcel (2 bytes)](figures/w/mtasid/01.svg)
+
+```
+MTASID Rs
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `MTASID` | `010100 (0x14)` | `0110 (0x6)` |
+
+Operation, flags and exceptions as for the entry MTASID above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-mfasid"></a>
+#### MFASID
+
+![MFASID, opcode 010100, three parcels (6 bytes)](figures/w/mfasid/03.svg)
+
+![MFASID, opcode 010100, two parcels (4 bytes)](figures/w/mfasid/02.svg)
+
+![MFASID, opcode 010100, one parcel (2 bytes)](figures/w/mfasid/01.svg)
+
+```
+MFASID Rd
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `MFASID` | `010100 (0x14)` | `0111 (0x7)` |
+
+Operation, flags and exceptions as for the entry MTASID above; 3 layout forms, each a chart of its own (above).
 
 
 ### MTDP: Move to and from the direct pointer
@@ -4682,8 +8505,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTDP`](dictionary/by-word.md#w-mtdp), [`MFDP`](dictionary/by-word.md#w-mfdp).
-
 **Operation**
 
 ```
@@ -4703,8 +8524,53 @@ MFDP: Rd ← DP
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
+<a id="w-mtdp"></a>
+#### MTDP
 
+![MTDP, opcode 010100, three parcels (6 bytes)](figures/w/mtdp/03.svg)
+
+![MTDP, opcode 010100, two parcels (4 bytes)](figures/w/mtdp/02.svg)
+
+![MTDP, opcode 010100, one parcel (2 bytes)](figures/w/mtdp/01.svg)
+
+```
+MTDP Rs
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `MTDP` | `010100 (0x14)` | `1000 (0x8)` |
+
+Operation, flags and exceptions as for the entry MTDP above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-mfdp"></a>
+#### MFDP
+
+![MFDP, opcode 010100, three parcels (6 bytes)](figures/w/mfdp/03.svg)
+
+![MFDP, opcode 010100, two parcels (4 bytes)](figures/w/mfdp/02.svg)
+
+![MFDP, opcode 010100, one parcel (2 bytes)](figures/w/mfdp/01.svg)
+
+```
+MFDP Rd
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `MFDP` | `010100 (0x14)` | `1001 (0x9)` |
+
+Operation, flags and exceptions as for the entry MTDP above; 3 layout forms, each a chart of its own (above).
+
+
+<a id="w-mtdmw"></a>
 ### MTDMW: Move to a direct-mapping window
+
+![MTDMW, opcode 010100, three parcels (6 bytes)](figures/w/mtdmw/03.svg)
+
+![MTDMW, opcode 010100, two parcels (4 bytes)](figures/w/mtdmw/02.svg)
+
+![MTDMW, opcode 010100, one parcel (2 bytes)](figures/w/mtdmw/01.svg)
 
 **Mnemonics:** `MTDMW`
 
@@ -4726,8 +8592,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTDMW`](dictionary/by-word.md#w-mtdmw).
-
 **Operation**
 
 ```
@@ -4747,7 +8611,14 @@ The direct-mapping windows have no defined format.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-mfcpuid"></a>
 ### MFCPUID: Read the processor identifier
+
+![MFCPUID, opcode 010100, three parcels (6 bytes)](figures/w/mfcpuid/03.svg)
+
+![MFCPUID, opcode 010100, two parcels (4 bytes)](figures/w/mfcpuid/02.svg)
+
+![MFCPUID, opcode 010100, one parcel (2 bytes)](figures/w/mfcpuid/01.svg)
 
 **Mnemonics:** `MFCPUID`
 
@@ -4769,8 +8640,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MFCPUID`](dictionary/by-word.md#w-mfcpuid).
-
 **Operation**
 
 ```
@@ -4790,7 +8659,14 @@ The index of this core, for per-CPU data.
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
+<a id="w-icinv"></a>
 ### ICINV: Invalidate the instruction cache for an address
+
+![ICINV, opcode 010100, three parcels (6 bytes)](figures/w/icinv/03.svg)
+
+![ICINV, opcode 010100, two parcels (4 bytes)](figures/w/icinv/02.svg)
+
+![ICINV, opcode 010100, one parcel (2 bytes)](figures/w/icinv/01.svg)
 
 **Mnemonics:** `ICINV`
 
@@ -4811,8 +8687,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 | `ICINV` | `010100 (0x14)` | `1100 (0xC)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
-
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ICINV`](dictionary/by-word.md#w-icinv).
 
 **Operation**
 
@@ -4855,8 +8729,6 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1-2`](dictionary/by-encoding.md#r20-sys-1-2), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
-**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PROBER`](dictionary/by-word.md#w-prober), [`PROBEW`](dictionary/by-word.md#w-probew).
-
 **Operation**
 
 ```
@@ -4875,6 +8747,44 @@ Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address be
 **Cf.** 6.5 (the user-memory guard), 6.4.
 
 **Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+<a id="w-prober"></a>
+#### PROBER
+
+![PROBER, opcode 010100, three parcels (6 bytes)](figures/w/prober/03.svg)
+
+![PROBER, opcode 010100, two parcels (4 bytes)](figures/w/prober/02.svg)
+
+![PROBER, opcode 010100, one parcel (2 bytes)](figures/w/prober/01.svg)
+
+```
+PROBER Rd, Rs
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `PROBER` | `010100 (0x14)` | `1101 (0xD)` |
+
+Operation, flags and exceptions as for the entry PROBE above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-probew"></a>
+#### PROBEW
+
+![PROBEW, opcode 010100, three parcels (6 bytes)](figures/w/probew/03.svg)
+
+![PROBEW, opcode 010100, two parcels (4 bytes)](figures/w/probew/02.svg)
+
+![PROBEW, opcode 010100, one parcel (2 bytes)](figures/w/probew/01.svg)
+
+```
+PROBEW Rd, Rs
+```
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `PROBEW` | `010100 (0x14)` | `1110 (0xE)` |
+
+Operation, flags and exceptions as for the entry PROBE above; 3 layout forms, each a chart of its own (above).
 <!-- /entries:9.14 -->
 
 ## 9.15 Faults, restart and memory management

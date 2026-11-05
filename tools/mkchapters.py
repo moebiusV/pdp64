@@ -74,6 +74,35 @@ def convert_links(text, srcpath):
     return re.sub(r'(?<!!)\[([^\]]+)\]\(([^)\s]+)\)', one, text)
 
 
+CHARTRUN = 6          # a run of at most this many charts of one instruction is kept together with the heading before it and the text after it; a longer run only at its two ends
+
+
+def mark_sticky(body):
+    """The charts of a dictionary entry (figures/w/...) are a run of images between blank lines.  The author's rule: an entry's title and charts are not left at the bottom of a page
+    without text after them.  The images that must stay with the next block get `?s` on their path; book/template.typ turns that into a sticky block."""
+    lines = body.split('\n')
+    out = []
+    i = 0
+    pat = re.compile(r'^(!\[[^\n]*\]\()(figures/[^)]*)(\))$')
+    while i < len(lines):
+        if pat.match(lines[i]):
+            run = []
+            j = i
+            while j < len(lines) and (pat.match(lines[j]) or (lines[j] == '' and j + 1 < len(lines) and pat.match(lines[j + 1]))):
+                if lines[j]:
+                    run.append(j)
+                j += 1
+            for k, idx in enumerate(run):
+                keep = len(run) <= CHARTRUN or k in (0, len(run) - 1)
+                lines[idx] = pat.sub(lambda m: m.group(1) + m.group(2) + ('?s' if keep else '') + m.group(3), lines[idx])
+            out += lines[i:j]
+            i = j
+        else:
+            out.append(lines[i])
+            i += 1
+    return '\n'.join(out)
+
+
 def chapter_text(row, src, srcpath):
     lines = src.split('\n')
     i = next(k for k, l in enumerate(lines) if l.startswith('# '))
@@ -104,7 +133,9 @@ def chapter_text(row, src, srcpath):
     body = convert_links(body, srcpath)
     body = body.replace('](../figures/', '](figures/')
     body = re.sub(r'<!--.*?-->\n?', '', body, flags=re.S)
-    body = re.sub(r'<a id="[^"]*"></a>', '', body)           # the anchors of the dictionary pages are for the web
+    body = re.sub(r'<a id="[^"]*"></a>', '', body)
+    body = re.sub(r'(?m)^\*\*(Syntax|Encoding|Operation)\*\*\n', r'##### \1\n', body)      # a label that must stay with what it labels is a (sticky) heading in the book
+    body = mark_sticky(body)           # the anchors of the dictionary pages are for the web
     body = body.replace('{{', '{ {')
     return '# %s\n\n%s' % (head, body)
 

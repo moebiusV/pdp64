@@ -363,7 +363,7 @@ def r20_word_charts(name, m):
                 cap += ', sub-opcode %s' % b(c['sub'], dict(f).get('sub', 4 if m['kind'] == 'mesc' else 8))
             if ch['legend'] and ch['legend'][0].startswith('Addressing modes'):
                 cap += ' (modes ' + ', '.join(G.amode[x] for x in sorted(lows) if x in G.amode) + ')'
-            out.append((cap, ch['rows']))
+            out.append((cap + ' (%d bytes)' % (2 * (ln + 1)), ch['rows'], 2 * (ln + 1)))
     return out
 
 
@@ -552,8 +552,9 @@ class Enc:
                 else:
                     flat.append((re.sub(r'-\d+$', '', nm), w, bitsj[used:used + w]))
                     used += w
-            cap = '%s: %s, prefix %s%s' % (name.upper(), f['name'], format(lf['prefix'], '0%db' % lf['L']), (', sub-opcode ' + bitsj) if bitsj else '')
-            out.append((cap, parcel_rows(flat)))
+            ops = ', '.join(self.operands(f)) or 'no operand'
+            cap = '%s: %s, prefix %s%s; operands %s; %d bytes' % (name.upper(), f['name'], format(lf['prefix'], '0%db' % lf['L']), (', sub-opcode ' + bitsj) if bitsj else '', ops, 2 * f['n'])
+            out.append((cap, parcel_rows(flat), 2 * f['n']))
         return out
 
     def operands(self, f):

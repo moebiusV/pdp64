@@ -181,7 +181,7 @@ def wslug(name):
     return re.sub(r'[^a-z0-9]', '-', name)
 
 
-WORDCH = {}                                   # word -> [(caption, rows)] for the member being generated
+WORDCH = {}                                   # word -> [(caption, rows, bytes)], one SVG each: figures/w/WORD/NN.svg for the member being generated
 
 
 def chart_files(CH):
@@ -200,7 +200,8 @@ def chart_files(CH):
             raise SystemExit('the words %s and %s have the same file name' % (n, slugs[wslug(n)]))
         slugs[wslug(n)] = n
         WORDCH[n] = items
-        FIGS['w/%s.svg' % wslug(n)] = LAY.svg_stack(items)
+        for k, (cap, rows, nb) in enumerate(items, 1):
+            FIGS['w/%s/%02d.svg' % (wslug(n), k)] = LAY.svg_stack([(cap, rows)])
 
 
 def encoding(entry):
@@ -227,8 +228,6 @@ def encoding(entry):
         L.append('The chart is the leaf `%s`, %s. ' % (first, ch['title']) + ' '.join(ch['legend']))
     links = ', '.join('[`%s`](dictionary/by-encoding.md#%s)' % (cid, cid) for cid, _ in cs)
     L.append('**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): %s.' % links)
-    wl = ', '.join('[`%s`](dictionary/by-word.md#w-%s)' % (n.upper(), wslug(n)) for n in names)
-    L.append('**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): %s.' % wl)
     return '\n\n'.join(L)
 
 
@@ -281,11 +280,50 @@ def prose(e, field):
     return t
 
 
+def forms_block(name):
+    """every layout form of one word, each as a chart of its own (one SVG for each form, in the order of the grammar, grouped by length in bytes)"""
+    items = WORDCH[name]
+    out = []
+    for k, (cap, rows, nb) in sorted(enumerate(items, 1), key=lambda t: -t[1][2]):
+        out += ['![%s](figures/w/%s/%02d.svg)' % (cap.replace(']', ')').replace('[', '('), wslug(name), k), '']
+    return out
+
+
+def words_section(e, real):
+    """The layout forms of the mnemonics of an entry: an entry of one mnemonic shows them in place; an entry of several gives each mnemonic its own sub-entry (its syntax, its numbers, its forms) after the shared text, and each alias a line"""
+    names = e['names']
+    out = []
+    if len(real) == 1:
+        for a in names:
+            if MN[a]['alias_of']:
+                out += ['<a id="w-%s"></a>' % wslug(a), '**`%s`** is an alias of `%s`: the assembler writes it as that word.' % (a.upper(), MN[a]['alias_of'].upper()), '']
+        return out
+    for n in names:
+        out.append('<a id="w-%s"></a>' % wslug(n))
+        if MN[n]['alias_of']:
+            out += ['#### %s' % n.upper(), '', 'An alias of [`%s`](#w-%s): the assembler writes it as that word.' % (MN[n]['alias_of'].upper(), wslug(MN[n]['alias_of'])), '']
+            continue
+        syn = [l.split(';')[0].rstrip() for l in e['syntax'] if re.match(r'\s*%s\b' % re.escape(n.upper()), l)]
+        out += ['#### %s' % n.upper(), ''] + forms_block(n)
+        if syn:
+            out += ['```', uni('\n'.join(syn)), '```', '']
+        num = LAY.r20_entry_numbers(MN, [n]) if MEMBER == 'r20' else ''
+        if num:
+            out += [num, '']
+        out += ['Operation, flags and exceptions as for the entry %s above; %d layout form%s, each a chart of its own (above).' % (e['id'], len(WORDCH[n]), '' if len(WORDCH[n]) == 1 else 's'), '']
+    return out
+
+
 def render_entry(e):
     names = e['names']
     real = [n for n in names if not MN[n]['alias_of']]
     heads = ', '.join('`%s`' % n.upper().rstrip('_').replace('XOR_', 'XOR_') for n in names if not MN[n]['alias_of'])
-    out = ['### %s: %s' % (e['id'], e['title']), '']
+    out = []
+    if len(real) == 1:
+        out += ['<a id="w-%s"></a>' % wslug(n) for n in names]
+    out += ['### %s: %s' % (e['id'], e['title']), '']
+    if len(real) == 1:
+        out += forms_block(real[0])
     out.append('**Mnemonics:** ' + heads + (('  (aliases: ' + ', '.join('`%s`' % n.upper() for n in names if MN[n]['alias_of']) + ')') if any(MN[n]['alias_of'] for n in names) else ''))
     out.append('')
     out.append('**Syntax**\n')
@@ -320,6 +358,7 @@ def render_entry(e):
         out.append('')
     out.append('**Status** ' + st + '.')
     out.append('')
+    out += words_section(e, real)
     return '\n'.join(out)
 
 
@@ -456,20 +495,6 @@ def sources(member):
         if member in ASM.file_members(t):
             out[fn] = ASM.for_member(t, member, 'docs/manual-src/' + fn)
     return out
-
-
-def by_word_page(member):
-    """dictionary/by-word.md: the chart of every instruction word with that word's own bits filled in (one for each form the grammar gives it)"""
-    L = ['# The bit layout of every instruction word (%s)' % ASM.NAME[member], '', '[← dictionary index](index.md)', '',
-         'One chart for each way a word is encoded: the bits that the word fixes (its opcode or prefix, its sub-opcode, the fields it holds constant) are shaded and carry their value; '
-         'the operand fields are named. A word that has several forms (a length, an addressing form, a load and a store) has one chart for each, one under the other. '
-         'The charts are generated from the grammar by `tools/mkmanual.py`, as those of [the bit layouts of every opcode](by-encoding.md), which show a layout once for all the words that share it.', '']
-    for n in sorted(WORDCH):
-        e = [x for x in D.ENTRIES if n in x['names'] and member in x.get('only', ASM.MEMBERS)][0]
-        L += ['<a id="w-%s"></a>' % wslug(n), '### %s' % n.upper(), '', '![Layouts of %s](../figures/w/%s.svg)' % (n.upper(), wslug(n)), '',
-              'Entry: [%s](../%s#%s). %d form%s.' % (e['id'], HOME[e['id']][0], anchor_for(e), len(WORDCH[n]), '' if len(WORDCH[n]) == 1 else 's'), '']
-    L += ['*Generated by `tools/mkmanual.py`; do not edit.*', '']
-    return '\n'.join(L)
 
 
 def by_encoding_page(member):
@@ -664,7 +689,7 @@ def build(member='r20'):
         fn, sec = HOME[eid]
         head = '`%s`%s | [%s](%s) (section %s)' % (n.upper(), ' (alias of `%s`)' % tgt.upper() if m['alias_of'] else '', eid, '../%s#%s' % (fn, anchor_for(e)), sec)
         nl = len(CH.byname.get(tgt, []))
-        lay = '[%d](by-encoding.md#mn-%s), [chart](by-word.md#w-%s)' % (nl, re.sub(r'[^a-z0-9]', '-', tgt), wslug(tgt))
+        lay = '[%d](by-encoding.md#mn-%s), [entry](../%s#w-%s)' % (nl, re.sub(r'[^a-z0-9]', '-', tgt), HOME[eid][0], wslug(tgt))
         if r20:
             o, s = opcode_of(tgt)
             sub = '' if s is None else ('`%s`' % BH(s, 4 if m['kind'] in ('sop', 'xfer', 'sysn', 'sysx', 'sysreg', 'sys') else 8))
@@ -705,7 +730,6 @@ def build(member='r20'):
         bo.append('')
         files['by-opcode.md'] = '\n'.join(bo)
     files['by-encoding.md'] = by_encoding_page(member)
-    files['by-word.md'] = by_word_page(member)
     files['constants.md'] = constants_page()
     # index
     I = ['# The instruction reference tables (%s)' % ASM.NAME[member], '', '[← manual index](../00-index.md)', '', D.INDEX_INTRO if r20 else D.INDEX_INTRO_ENC, '', '## Where the entries are', '']
@@ -726,15 +750,14 @@ def build(member='r20'):
     if r20:
         I.append('* [The opcodes, in order](by-opcode.md)')
     I.append('* [The bit layouts of every opcode](by-encoding.md): a chart for each layout, generated from the grammar')
-    I.append('* [The bit layout of every instruction word](by-word.md): a chart for each word, with its own bits filled in')
     I.append('')
     n_real = sum(1 for m in MN.values() if not m['alias_of'])
     n_alias = sum(1 for m in MN.values() if m['alias_of'])
     n_impl = sum(1 for n, m in MN.items() if not m['alias_of'] and implemented(n))
     n_ext = sum(1 for m in MN.values() if m['kind'] == 'ext')
-    I.append('The specification of %s has %d mnemonic words (%d instructions and %d aliases)%s%s; the reference executor implements %d of the %d instructions; the Status line of the entry of each of the rest says that it is not implemented. There are %d instruction entries, %d bit-layout charts and %d charts of single words.'
+    I.append('The specification of %s has %d mnemonic words (%d instructions and %d aliases)%s%s; the reference executor implements %d of the %d instructions; the Status line of the entry of each of the rest says that it is not implemented. There are %d instruction entries, %d bit-layout charts of the layouts, and an entry for each of the %d instructions with a chart of each of its %d forms.'
              % (ASM.NAME[member], len(MN), n_real, n_alias, (', %d of them only in the prefix-coded CPUs' % n_ext) if n_ext else '', (' and %d page-2 opcodes' % len(SPEC['p2op'])) if r20 else '',
-                n_impl, n_real, len(ents), len(CH.charts), len(WORDCH)))
+                n_impl, n_real, len(ents), len(CH.charts), len(WORDCH), sum(len(v) for v in WORDCH.values())))
     I.append('')
     I.append('*Generated by `tools/mkmanual.py`; do not edit.*')
     I.append('')
