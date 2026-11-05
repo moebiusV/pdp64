@@ -94,7 +94,7 @@
   running-title.update(md-short-title(src))
   heading(level: if part { 1 } else { 2 }, outlined: toc, numbering: none)[#md-title(src)]
   if token != none { pgan(token.split(":").last()) }
-  render(md-body(src), h1-level: 2, scope: (render: render, pgan: pgan, pageof: pageof, image: (path, ..args) => image(path, ..args)))
+  render(md-body(src), h1-level: 2, scope: (render: render, pgan: pgan, pageof: pageof, image: (path, ..args) => { let parts = path.split("?"); let img = image(parts.at(0), ..args); if parts.len() > 1 { block(sticky: true, img) } else { img } }))
 }
 
 // Title page
@@ -119,7 +119,7 @@
   #set par(first-line-indent: 0em, leading: 0.7em)
   Copyright #sym.copyright #book-year #book-author. Released under the BSD 2-Clause licence (the file `COPYING` of the repository).
 
-  The source of this book is https://github.com/moebiusV/pdp64 (`docs/manual/`); the instruction dictionary is generated from the machine-readable specification. Typeset with Typst in EB Garamond and DejaVu Sans Mono.
+  The source of this book is https://github.com/moebiusV/pdp64 (`docs/manual/`, the manual of each member in `docs/manual/pdp64-r20/`, `pdp64-16/`, `pdp64-32/`); the instruction dictionary is generated from the machine-readable specification. Typeset with Typst in EB Garamond and DejaVu Sans Mono.
 ]
 
 #show: fm-pages

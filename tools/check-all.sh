@@ -8,6 +8,7 @@ tools/check-as64.sh
 tools/check-enc.sh
 tools/check-grammar-enc.sh
 python3 tools/check-drift.py
+python3 tools/check-manual-src.py
 python3 tools/mkmanual.py --check
 tools/mkbook.sh --check
 tools/export-pcc-headers.sh --check

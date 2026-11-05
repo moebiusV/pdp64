@@ -8,18 +8,42 @@ links between the pages become plain text (links to other files of the repositor
 `{{` is escaped.  It also checks, against buildabook's own number map, that the number in each source heading ("# 6. The kernel",
 "# Appendix B. ...") is the number the outline gives the entry, because the section numbers inside the text (6.7, 7.12) are literal.
 
-Run by tools/mkbook.sh in book/build/, after `buildabook number-map` has written number_map.csv:
+Run by tools/mkbook.sh in book/build-MEMBER/, after `buildabook number-map` has written number_map.csv:
 
-    tools/mkchapters.py        write book/build/chapters/*.md, book/build/filemap.txt, book/build/figures/
+    tools/mkchapters.py MEMBER write book/build-MEMBER/chapters/*.md, book/build-MEMBER/filemap.txt, book/build-MEMBER/figures/
+    tools/mkchapters.py MEMBER --outline   print book/outline.txt for that member
 """
 import csv, os, re, shutil, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOK = os.path.join(ROOT, 'book')
-BUILD = os.path.join(BOOK, 'build')
+MEMBERS = ('r20', '16', '32')
+ID = 'r20'                                              # the member (argument 1); set by main()
+BUILD = os.path.join(BOOK, 'build-r20')
 CHAP = os.path.join(BUILD, 'chapters')
 GITHUB = 'https://github.com/moebiusV/pdp64/blob/main/'
-STREAM = os.path.join(ROOT, 'docs', 'manual')
+STREAM = os.path.join(ROOT, 'docs', 'manual', 'pdp64-r20')
+
+
+def setmember(member):
+    global ID, BUILD, CHAP, STREAM
+    ID = member
+    BUILD = os.path.join(BOOK, 'build-' + member)
+    CHAP = os.path.join(BUILD, 'chapters')
+    STREAM = os.path.join(ROOT, 'docs', 'manual', 'pdp64-' + member)
+
+
+def outline_for(member):
+    """book/outline.txt for one member: a line that starts with `@16,32:` is only in the books of those members"""
+    out = []
+    for line in open(os.path.join(BOOK, 'outline.txt')):
+        m = re.match(r'^@([a-z0-9,]+):(.*)$', line.rstrip('\n'))
+        if m:
+            if member in m.group(1).split(','):
+                out.append(m.group(2) + '\n')
+        else:
+            out.append(line)
+    return ''.join(out)
 
 
 def read_sources():
@@ -28,7 +52,7 @@ def read_sources():
         line = line.strip()
         if line and not line.startswith('#'):
             tok, path = line.split(None, 1)
-            m[tok.split(':', 1)[1]] = path
+            m[tok.split(':', 1)[1]] = path.replace('@ID@', ID)
     return m
 
 
@@ -48,6 +72,35 @@ def convert_links(text, srcpath):
             return label
         return '[%s](%s%s)' % (label, GITHUB, os.path.relpath(full, ROOT))
     return re.sub(r'(?<!!)\[([^\]]+)\]\(([^)\s]+)\)', one, text)
+
+
+CHARTRUN = 6          # a run of at most this many charts of one instruction is kept together with the heading before it and the text after it; a longer run only at its two ends
+
+
+def mark_sticky(body):
+    """The charts of a dictionary entry (figures/w/...) are a run of images between blank lines.  The author's rule: an entry's title and charts are not left at the bottom of a page
+    without text after them.  The images that must stay with the next block get `?s` on their path; book/template.typ turns that into a sticky block."""
+    lines = body.split('\n')
+    out = []
+    i = 0
+    pat = re.compile(r'^(!\[[^\n]*\]\()(figures/[^)]*)(\))$')
+    while i < len(lines):
+        if pat.match(lines[i]):
+            run = []
+            j = i
+            while j < len(lines) and (pat.match(lines[j]) or (lines[j] == '' and j + 1 < len(lines) and pat.match(lines[j + 1]))):
+                if lines[j]:
+                    run.append(j)
+                j += 1
+            for k, idx in enumerate(run):
+                keep = len(run) <= CHARTRUN or k in (0, len(run) - 1)
+                lines[idx] = pat.sub(lambda m: m.group(1) + m.group(2) + ('?s' if keep else '') + m.group(3), lines[idx])
+            out += lines[i:j]
+            i = j
+        else:
+            out.append(lines[i])
+            i += 1
+    return '\n'.join(out)
 
 
 def chapter_text(row, src, srcpath):
@@ -80,11 +133,20 @@ def chapter_text(row, src, srcpath):
     body = convert_links(body, srcpath)
     body = body.replace('](../figures/', '](figures/')
     body = re.sub(r'<!--.*?-->\n?', '', body, flags=re.S)
+    body = re.sub(r'<a id="[^"]*"></a>', '', body)
+    body = re.sub(r'(?m)^\*\*(Syntax|Encoding|Operation)\*\*\n', r'##### \1\n', body)      # a label that must stay with what it labels is a (sticky) heading in the book
+    body = mark_sticky(body)           # the anchors of the dictionary pages are for the web
     body = body.replace('{{', '{ {')
     return '# %s\n\n%s' % (head, body)
 
 
 def main():
+    if len(sys.argv) < 2 or sys.argv[1] not in MEMBERS:
+        raise SystemExit('usage: mkchapters.py r20|16|32 [--outline]')
+    setmember(sys.argv[1])
+    if '--outline' in sys.argv:
+        sys.stdout.write(outline_for(ID))
+        return
     rows = list(csv.DictReader(open(os.path.join(BUILD, 'number_map.csv'))))
     src = read_sources()
     shutil.rmtree(CHAP, ignore_errors=True)

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="228" viewBox="0 0 690 228" font-family="DejaVu Sans, sans-serif">
+<text x="8" y="18" font-size="13" font-weight="bold" fill="#111">MOVB: LDF.A32, prefix 1010101, sub-opcode 0011; operands abs32, reg5; 6 bytes</text>
+<text x="66" y="60" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="38" width="266" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="34" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="338" y="34" font-size="9" fill="#555" text-anchor="end">9</text>
+<text x="207.0" y="52" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="207.0" y="67" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">1010101</text>
+<rect x="340" y="38" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="342" y="34" font-size="9" fill="#555" text-anchor="start">8</text>
+<text x="490" y="34" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="416.0" y="52" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="416.0" y="67" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0011</text>
+<rect x="492" y="38" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="34" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="34" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="61" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="124" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="102" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="98" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="98" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="125" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.abs</text>
+<text x="66" y="188" font-size="11" text-anchor="end" fill="#444">parcel 2</text>
+<rect x="74" y="166" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="162" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="162" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="189" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.abs (cont.)</text>
+</svg>
