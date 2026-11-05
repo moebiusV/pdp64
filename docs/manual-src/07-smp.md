@@ -15,7 +15,7 @@
 
 **7.1.2** Every atomic has a variant, `_DB`, that folds a barrier into the instruction, so that a lock acquire or release is one instruction. *(D)*
 
-**7.1.3** The atomics live in the atomic escape group and the other operations in the system group; the umbrella is conceptual, not an encoding. *(D)*
+**7.1.3** The atomics live in the atomic [[r20: escape group]][[16 32: leaves]] and the other operations in the system [[r20: group]][[16 32: leaves]]; the umbrella is conceptual, not an encoding. *(D)*
 
 **7.1.4** Supporting these are the banked direct-page register, the address-space tag, the global-page bit and the banked stack pointer (section 7.4). *(D)*
 
@@ -83,9 +83,13 @@
 
 ## 7.7 Cache coherence
 
-**7.7.1** Between processors, coherence is transparent to software, by snooping with three states (modified, shared, invalid), for two to four cores. *(D)*
+**7.7.1** Between processors, coherence is transparent to software, by snooping with three states (modified, shared, invalid), for the four cores of the first device. *(D)*
 
 **7.7.2** A DMA device is the opposite case: the buffers are uncached and the hand-off is explicit, because snooping the DMA path is expensive and DMA transfers are large, infrequent and have an explicit hand-off. *(D)*
+
+**7.7.3** The design supports at least four cores; sixteen or more is the preferred ceiling that no decision may preclude; the initial device has four cores, which it is hoped will fit the FPGA. *(D)*
+
+**7.7.4** The protocol for more than four coherent cores is open. The leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters, with dedicated cores as non-coherent partners that use uncached rings; the architecture promises only that memory is coherent and sequentially consistent. *(P)*
 
 *Commentary.* **Trade-offs.** MESI would add an exclusive state to avoid a bus transaction when writing a clean line nobody else holds; at four cores the benefit is small and the state machine larger; a directory scales further and is not needed below about eight cores. Software-managed coherence is cheaper in hardware and is where concurrency bugs live, since every missing flush is a race that reproduces once a week. **Benefits.** The instruction set owes nothing to the coherence protocol, which keeps the two separate. **Modern comparables.** x86 snoops with MESIF or MOESI and directories across sockets; ARM's coherent interconnects use directories or snoop filters. **Impact.** *Kernel:* No coherence code, in either direction between cores. *Compiler:* None. *Hardware:* A snoop port on each data cache, about 500 lookup tables and a small state machine for three states, plus about 600 per core.
 
@@ -98,6 +102,12 @@
 **7.8.3** The routing of device interrupts to cores, and a shared second-level cache or a coherent interconnect, are device-side and unspecified. *(P)*
 
 **7.8.4** Each core has a read-only identification register giving its class and capacity, defined from the first system although every core is alike, and a stop-and-drain register that a kernel writes to take a core offline: the core finishes its outstanding bus transactions and stops. *(D)*
+
+**7.8.5** In-order and out-of-order cores may share a die if software can tell which is which, which the class register of 7.8.4 reports; the memory model and the semantics of every instruction are identical on every core, and a core class may differ in speed and never in what a program can observe. *(D)*
+
+**7.8.6** At least one core is a secure core: every timing channel is removed (every instruction and every cache fetch takes a time independent of its data), it has private cache lines and takes no periodic timer tick, and it is stopped and preempted by an inter-processor interrupt. [[16 32: The AES and SHA words of this CPU are the constant-time instructions proposed for it.]] *(D)*
+
+**7.8.7** The author's recommendation is dedicated cores for graphics, for the network and for audio, then general-purpose cores. *(P)*
 
 *Commentary.* **Precedent.** An x86 core wakes in 16-bit real mode and has to be walked through three modes by a trampoline (1,528 lines of start-up code and 1,258 of real-mode code in Linux); arm64 uses a firmware call in 124 lines or a spin table in 127; RISC-V 108 or 58; the VAX's console processor started the others. **Benefits.** A core can start in its normal mode at any address, so the whole protocol is one register write. **Modern comparables.** x86's INIT and START-UP interrupts, ARM's PSCI, RISC-V's hart-start call. **Impact.** *Kernel:* Starting a core is one register write, and a stuck core is reset by another. *Compiler:* None. *Hardware:* A start register and a reset-hold per core in the controller.
 
@@ -131,7 +141,7 @@
 
 ## 7.12 The atomic and ordering instructions
 
-**7.12.1** The atomic escape provides `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`. *(opcode `0x11`)*
+**7.12.1** The atomic [[r20: escape]][[16 32: group]] provides `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`.[[r20:  *(opcode `0x11`)*]]
 
 **7.12.2** `LL` takes a reservation on a granule of memory; any write to it by any initiator clears it; `SC` succeeds exactly when the reservation is intact. A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule. *(D)*
 
@@ -139,6 +149,10 @@
 
 **7.12.4** `FENCE` orders device accesses; `WFE` and `SEV` wait for and signal an event; `ISYNC` makes earlier system-register writes take effect; `HINT #n` has no architectural effect (1 pause, 2 speculation barrier, others reserved). *(D)*
 
+<!-- member: 16 32 -->
+**7.12.5** The operands of the atomic words sit in three register fields (four for `CAS`) in the grammar, with the address in a register and the size in the sub-opcode; the roles of the registers and the size encoding of `CAS` are not fixed in the text, and the reference executor does not implement the group. The study leans to fixing three register fields now, with the fourth field reserved zero. *(P)*
+
+<!-- /member -->
 *Commentary.* **Precedent.** The PDP-11's read-modify-write instructions were indivisible on the Unibus (the `DATIP`/`DATO` pair); the VAX had interlocked queue and bit instructions. **Trade-offs.** A bus lock is simple and does not scale as cores multiply; a monitor (reservation) maps onto the memory systems that FPGAs and modern chips use, at the cost of forward-progress rules. **Improvements.** The pdp64 offers all three designs found on other machines (load-linked/store-conditional, compare-and-swap, fetch-and-operate), more atomic operations than any architecture surveyed. **Benefits.** A kernel lock needs one instruction. **Modern comparables.** RISC-V `LR`/`SC` and the `AMO` set; AArch64 load-exclusive and its large-system atomics; x86 `LOCK`-prefixed read-modify-write. **Use.** `CAS` for lock-free structures; `XADD` for counters; `LL`/`SC` for anything else; `WFE` for the idle loop. **Impact.** *Kernel:* A lock is one instruction, and the `_DB` forms need no separate fence. *Compiler:* C11 atomics map one-to-one, no ordering fences are emitted under sequential consistency, and a `LL`/`SC` loop must be generated in the constrained form (short, no other memory access inside). *Hardware:* The reservation is a granule tag in the cache controller, and the read-modify-write atomics use an exclusive access with hardware retry.
 
 <!-- entries:7.12 -->
