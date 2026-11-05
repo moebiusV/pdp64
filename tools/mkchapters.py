@@ -104,6 +104,7 @@ def chapter_text(row, src, srcpath):
     body = convert_links(body, srcpath)
     body = body.replace('](../figures/', '](figures/')
     body = re.sub(r'<!--.*?-->\n?', '', body, flags=re.S)
+    body = re.sub(r'<a id="[^"]*"></a>', '', body)           # the anchors of the dictionary pages are for the web
     body = body.replace('{{', '{ {')
     return '# %s\n\n%s' % (head, body)
 

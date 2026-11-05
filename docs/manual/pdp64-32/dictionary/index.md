@@ -1,33 +1,32 @@
-# The instruction reference tables
+# The instruction reference tables (pdp64/32)
 
 [← manual index](../00-index.md)
 
-This is the reference part of the manual: **one entry for each instruction**, in the layout of a processor reference manual. Each entry gives its mnemonics, its syntax, its encoding (the parcel diagram and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains it. The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) are in `tools/manual/isa_entries.py` and are checked against the reference executor, `common/pdp64exec.c`, which `sim64` and QEMU share. The Status line of each entry says whether the executor implements the instruction.
+This is the reference part of the manual: **one entry for each instruction**, in the layout of a processor reference manual. Each entry gives its mnemonics, its syntax, its encoding (a chart of its layout, and the list of all its layouts), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains it. The charts, the hot-register tables and the operand widths are generated from the grammars of the encoding (`spec/pdp64-enc.hbnf` and the grammar of the CPU), the one place where the encoding is written, so a layout here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) are in `tools/manual/isa_entries.py` and are checked against the reference executor, `common/pdp64exec.c` and `common/pdp64exec_enc.inc`, which `sim64` runs. The Status line of each entry says whether the executor implements the instruction.
 
-**Notation.** `Rd` is the destination register (the `reg` field of parcel 0), `Rs` the first source (`low`), `Rt` the second (`t` of parcel 1), `Ru` the third (`x`); the assembler writes the destination last. `rm` is a general operand: a register at `len = 00`, or a memory operand, an immediate or an absolute address by one of the eight addressing modes (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. A `len = 01` instruction is two parcels (four bytes) and a `len = 10` instruction three (six bytes); `len = 11` is page 2. `N Z V C` are the condition flags. Bit diagrams number the bits of a parcel from 15 at the left.
+**Notation.** `Rd` is the destination register, `Rs` the first source, `Rt` the second, `Ru` the third; the assembler writes the destination last. `rm` is a general operand. `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. `N Z V C` are the condition flags. Bit charts number the bits of a parcel from 15 at the left.
 
 **Cf.** lines point to the chapter that explains the matter an instruction touches: the kernel (chapter 6), the multiprocessor model (chapter 7), the bus (chapter 2).
 
 ## Where the entries are
 
-* [Section 9.6, Moves, conversions and address formation](../09-isa.md#96-moves-conversions-and-address-formation): `MOVQ`, `MOVZL`, `LEA`, `MOVUB`
-* [Section 9.7, Integer arithmetic](../09-isa.md#97-integer-arithmetic): `ADD`, `SUB`, `CMP`, `MUL`, `MULH`, `ADDM`, `INC`, `DEC`, `NEG`, `ADC`, `SBC`, `DIV`, `MULHU`, `ABS`, `MIN`, `SET`
+* [Section 9.6, Moves, conversions and address formation](../09-isa.md#96-moves-conversions-and-address-formation): `MOVQ`, `MOVZL`, `LEA`, `MOVUB`, `MOV2`, `MOVQL`, `MOVQ.D`, `MOVQ.U`, `MOVQ.UD`
+* [Section 9.7, Integer arithmetic](../09-isa.md#97-integer-arithmetic): `ADD`, `SUB`, `CMP`, `MUL`, `MULH`, `ADDM`, `INC`, `DEC`, `NEG`, `ADC`, `SBC`, `DIV`, `MULHU`, `ABS`, `MIN`, `SET`, `MASKEQZ`, `ADDV`
 * [Section 9.8, Logic, shifts and rotates](../09-isa.md#98-logic-shifts-and-rotates): `BIC`, `BIS`, `BIT`, `XOR`, `AND`, `SHL`, `CLR`, `COM`, `TST`, `ASL`, `ASR`
-* [Section 9.9, Bits, bytes and text](../09-isa.md#99-bits-bytes-and-text): `CLZ`, `POPCNT`, `BSWAP`, `BITREV`, `ROR`, `RORI`, `RORI32`, `DSHR`, `EXTB`, `INSB`, `XNORPOP`, `CLMULL`, `UTF8LEN`, `UTF8DEC`, `UTF8ENC`
-* [Section 9.10, Branches and control flow](../09-isa.md#910-branches-and-control-flow): `BR`, `SOB`, `CBNE`, `BTAG`, `JMP`, `CALL`, `JMPI`, `JTAG`
-* [Section 9.11, The stack and block operations](../09-isa.md#911-the-stack-and-block-operations): `PUSHM`, `POPM`, `PUSH`, `POP`, `MCPY`, `MSET`, `MCMP`, `MSCN`, `MVAL`
+* [Section 9.9, Bits, bytes and text](../09-isa.md#99-bits-bytes-and-text): `CLZ`, `POPCNT`, `BSWAP`, `BITREV`, `ROR`, `RORI`, `RORI32`, `DSHR`, `EXTB`, `INSB`, `XNORPOP`, `CLMULL`, `UTF8LEN`, `UTF8DEC`, `UTF8ENC`, `BSEL`, `AESES`, `AESKS1`, `SHA256SIG0`, `SHA512SIG0`
+* [Section 9.10, Branches and control flow](../09-isa.md#910-branches-and-control-flow): `BR`, `SOB`, `CBNE`, `BTAG`, `JMP`, `CALL`, `JMPI`, `JTAG`, `MOVCALL`, `POPRET`, `POPMRET`
+* [Section 9.11, The stack and block operations](../09-isa.md#911-the-stack-and-block-operations): `PUSHM`, `POPM`, `PUSH`, `POP`, `MCPY`, `MSET`, `MCMP`, `MSCN`, `MVAL`, `MSHA256`, `MAESCTR`
 * [Section 9.12, Floating point](../09-isa.md#912-floating-point): `FADD`, `FCMP`, `FDIV`, `FADD32`, `FMADD`, `FMADD32`, `FNEG`, `FMIN`, `FCLASS`, `FRINT`, `FCVTDQ`, `FSFLAGS`, `FADD16`, `FCVTSH`
 * [Section 9.13, Atomics and ordering](../09-isa.md#913-atomics-and-ordering): `CAS`, `SWAP`, `XADD`, `XAND`, `XMAX`, `LL`
-* [Section 9.14, System instructions, exceptions and interrupts](../09-isa.md#914-system-instructions-exceptions-and-interrupts): `NOP`, `RTI`, `RET`, `HALT`, `BPT`, `FENCE`, `WFE`, `SEV`, `TLBIA`, `PUSHX`, `ISYNC`, `HINT`, `MFSR`, `MTPS`, `SPL`, `TRAP`, `TLBI`, `MTASID`, `MTDP`, `MTDMW`, `MFCPUID`, `ICINV`, `PROBER`
+* [Section 9.14, System instructions, exceptions and interrupts](../09-isa.md#914-system-instructions-exceptions-and-interrupts): `NOP`, `RTI`, `RET`, `HALT`, `BPT`, `FENCE`, `WFE`, `SEV`, `TLBIA`, `PUSHX`, `ISYNC`, `HINT`, `MFSR`, `MTPS`, `SPL`, `TRAP`, `TLBI`, `MTASID`, `MTDP`, `MTDMW`, `MFCPUID`, `ICINV`, `PROBER`, `TRAPCC.NE`, `SYSPG0`
 
 ## The tables
 
-* [The second page: one-parcel abbreviations](page2.md)
 * [Assembler aliases and alternative spellings](aliases.md)
 * [The architectural constants](constants.md)
 * [The mnemonics, alphabetically](by-mnemonic.md)
-* [The opcodes, in order](by-opcode.md)
+* [The bit layouts of every opcode](by-encoding.md): a chart for each, generated from the grammar
 
-The specification has 270 mnemonic words (234 instructions and 36 aliases) and 45 page-2 opcodes; the reference executor implements 194 of the 234 instructions; the Status line of the entry of each of the rest says that it is not implemented.
+The specification of pdp64/32 has 340 mnemonic words (304 instructions and 36 aliases), 70 of them only in the prefix-coded CPUs; the reference executor implements 241 of the 304 instructions; the Status line of the entry of each of the rest says that it is not implemented. There are 125 instruction entries and 268 bit-layout charts.
 
 *Generated by `tools/mkmanual.py`; do not edit.*

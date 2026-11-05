@@ -17,6 +17,7 @@ d:id02013 docs/manual/pdp64-@ID@/dictionary/aliases.md
 d:id02014 docs/manual/pdp64-@ID@/dictionary/constants.md
 d:id02015 docs/manual/pdp64-@ID@/dictionary/by-mnemonic.md
 d:id02016 docs/manual/pdp64-@ID@/dictionary/by-opcode.md
+d:id02017 docs/manual/pdp64-@ID@/dictionary/by-encoding.md
 a:id03001 docs/manual/pdp64-@ID@/appendix-a-improvements.md
 a:id03002 docs/manual/pdp64-@ID@/appendix-b-decisions-pending.md
 a:id03003 docs/manual/pdp64-@ID@/appendix-c-glossary.md

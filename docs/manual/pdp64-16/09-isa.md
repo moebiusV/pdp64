@@ -114,11 +114,13 @@
 ## 9.6 Moves, conversions and address formation
 
 <!-- notation -->
-**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (a drawing of the parcels and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains the matter it touches (*Cf.*). Every instruction, the atomic and the system instructions included, has its official entry below (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons, and an entry may point back to them for a fuller explanation. In the pseudocode, ← is assignment, = and ≠ compare, × and ÷ multiply and divide, and `M[a]` is memory at address `a`. Numbers that are encodings (opcodes, sub-opcodes, field values) are written in binary with the hexadecimal value in brackets behind, as `010011 (0x13)`. Masks are binary too, with a subscript 2 to mark the base (`Rn & 111₂` keeps the low three bits). The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) are checked against the reference executor, `common/pdp64exec.c`, which `sim64` and QEMU share, and the Status line of each entry says whether the executor implements the instruction. The one-parcel second page, the aliases, the constants and the lists of the mnemonics and the opcodes are in the [reference tables](dictionary/index.md).
+**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (the chart of its layout and the list of all its layouts, each with a chart of its own), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains the matter it touches (*Cf.*). Every instruction, the atomic and the system instructions included, has its official entry below (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons, and an entry may point back to them for a fuller explanation. In the pseudocode, ← is assignment, = and ≠ compare, × and ÷ multiply and divide, and `M[a]` is memory at address `a`. Numbers that are encodings (prefixes, sub-opcodes, field values) are written in binary. Masks are binary too, with a subscript 2 to mark the base (`Rn & 111₂` keeps the low three bits). The layouts are generated from the grammars of the encodings, `spec/pdp64-enc.hbnf` and the grammar of the CPU, so a chart here cannot disagree with the assembler, the linker or the simulator; the words (operation, flags, exceptions) are checked against the reference executor, `common/pdp64exec.c` and `common/pdp64exec_enc.inc`, which `sim64` runs, and the Status line of each entry says whether the executor implements the instruction. The aliases, the constants, the lists of the mnemonics and the bit layouts of every opcode are in the [reference tables](dictionary/index.md).
 
 **The stories.** An instruction that is not common (the PDP-11 core and the operations every architecture has carry none) is followed by *Why it is here*: the machine the idea came from and the reason it was chosen, with the measurements that bear on it. Where no reason is recorded, the paragraph says so. The documents behind the paragraphs are listed in [appendix F](appendix-f-evidence.md).
 
-**Notation.** `Rd` is the destination register (the `reg` field of parcel 0), `Rs` the first source (`low`), `Rt` the second (`t` of parcel 1), `Ru` the third (`x`); the assembler writes the destination last. `rm` is a general operand: a register at `len = 00`, or a memory operand, an immediate or an absolute address by one of the eight addressing modes (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. A `len = 01` instruction is two parcels (four bytes) and a `len = 10` instruction three (six bytes); `len = 11` is page 2. `N Z V C` are the condition flags. In the drawings the bits of a parcel are numbered from 15 at the left, a shaded box is a fixed value, and a white box is a field that varies.
+**Notation.** `Rd` is the destination register, `Rs` the first source, `Rt` the second, `Ru` the third; the assembler writes the destination last, and the operands of a chart are numbered `op1`, `op2`, ... in the order of the assembly syntax. `rm` is a general operand: a register, or a memory operand, an immediate, a pc-relative or an absolute address, by the addressing forms that the layouts of the instruction give (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. `N Z V C` are the condition flags. In the charts the bits of a parcel are numbered from 15 at the left, a shaded box is a fixed value, and a white box is a field that varies.
+
+**Registers.** pdp64/16 has 16 registers, `R0` to `R15`. A register field of an instruction is the full number of bits (4), or fewer where the field names one of the hot registers; the hot-register tables are part of the ABI: the 3-bit fields hold, in order, `R0` `R1` `R8` `R2` `SP` `R3` `R9` `R10`.
 <!-- /notation -->
 
 *Cf. section 6.4 for the memory types that decide whether an access is cached, and section 6.8 for what a faulting load leaves behind.*
@@ -152,18 +154,11 @@ MOVL, MOVW, MOVB likewise
 
 **Encoding**
 
-![Encoding of MOV](figures/mov.svg)
+![Encoding of MOV](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
-| Mnemonic | Opcode (the load or direct form) |
-|---|---|
-| `MOVQ` | `000000 (0x00)` |
-| `MOVL` | `000010 (0x02)` |
-| `MOVW` | `000100 (0x04)` |
-| `MOVB` | `000110 (0x06)` |
-
-The store form of each move has the opcode of its load form plus 1: `MOVQ` `000001 (0x01)`, `MOVL` `000011 (0x03)`, `MOVW` `000101 (0x05)`, `MOVB` `000111 (0x07)`.
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-STF-B28-1`](dictionary/by-encoding.md#16-STF-B28-1), [`16-STF-X22-1`](dictionary/by-encoding.md#16-STF-X22-1), [`16-STF-PI12-1`](dictionary/by-encoding.md#16-STF-PI12-1), [`16-STF-PD12-1`](dictionary/by-encoding.md#16-STF-PD12-1), [`16-STF-PC32-1`](dictionary/by-encoding.md#16-STF-PC32-1), [`16-STF-A32-1`](dictionary/by-encoding.md#16-STF-A32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-a-1`](dictionary/by-encoding.md#16-LDI12-a-1), [`16-STBs8-a-1`](dictionary/by-encoding.md#16-STBs8-a-1), [`16-LDPC12-a-1`](dictionary/by-encoding.md#16-LDPC12-a-1), [`16-LDBs8-a-1`](dictionary/by-encoding.md#16-LDBs8-a-1), [`16-LDPC14-a-1`](dictionary/by-encoding.md#16-LDPC14-a-1), [`16-LDI14-a-1`](dictionary/by-encoding.md#16-LDI14-a-1), [`16-STX2-a-1`](dictionary/by-encoding.md#16-STX2-a-1), [`16-LDI16-a-1`](dictionary/by-encoding.md#16-LDI16-a-1), [`16-IMM3-a-1`](dictionary/by-encoding.md#16-IMM3-a-1), [`16-LDPC16-a-1`](dictionary/by-encoding.md#16-LDPC16-a-1), [`16-LDBu10-a-1`](dictionary/by-encoding.md#16-LDBu10-a-1), [`16-LDHHH1-a-1`](dictionary/by-encoding.md#16-LDHHH1-a-1), [`16-STHHH1-a-1`](dictionary/by-encoding.md#16-STHHH1-a-1), [`16-STBu10-a-1`](dictionary/by-encoding.md#16-STBu10-a-1), [`16-LDSP4-a-1`](dictionary/by-encoding.md#16-LDSP4-a-1), [`16-STSP4-a-1`](dictionary/by-encoding.md#16-STSP4-a-1), [`16-LDBu12-a-1`](dictionary/by-encoding.md#16-LDBu12-a-1), [`16-IMM5-a-1`](dictionary/by-encoding.md#16-IMM5-a-1), [`16-LDHHH3-a-1`](dictionary/by-encoding.md#16-LDHHH3-a-1), [`16-LDX6-a-1`](dictionary/by-encoding.md#16-LDX6-a-1), [`16-IMM7-a-1`](dictionary/by-encoding.md#16-IMM7-a-1), [`16-STBu12-a-1`](dictionary/by-encoding.md#16-STBu12-a-1), [`16-STX6-a-1`](dictionary/by-encoding.md#16-STX6-a-1), [`16-LDBs10-a-1`](dictionary/by-encoding.md#16-LDBs10-a-1), [`16-LDSP5-a-1`](dictionary/by-encoding.md#16-LDSP5-a-1), [`16-STHHH3-a-1`](dictionary/by-encoding.md#16-STHHH3-a-1), [`16-LD0-a-1`](dictionary/by-encoding.md#16-LD0-a-1), [`16-STSP5-a-1`](dictionary/by-encoding.md#16-STSP5-a-1), [`16-LDI18-a-1`](dictionary/by-encoding.md#16-LDI18-a-1), [`16-ST0-a-1`](dictionary/by-encoding.md#16-ST0-a-1), [`16-LDBs14-a-1`](dictionary/by-encoding.md#16-LDBs14-a-1), [`16-STBs10-a-1`](dictionary/by-encoding.md#16-STBs10-a-1), [`16-LDHRH2-a-1`](dictionary/by-encoding.md#16-LDHRH2-a-1), [`16-LDSP7-a-1`](dictionary/by-encoding.md#16-LDSP7-a-1), [`16-LDX8-a-1`](dictionary/by-encoding.md#16-LDX8-a-1), [`16-LDHHR2-a-1`](dictionary/by-encoding.md#16-LDHHR2-a-1), [`16-LDFI-I32-2`](dictionary/by-encoding.md#16-LDFI-I32-2), [`16-STBu8-b-1`](dictionary/by-encoding.md#16-STBu8-b-1), [`16-LDBu8-b-1`](dictionary/by-encoding.md#16-LDBu8-b-1), [`16-STX2-b-1`](dictionary/by-encoding.md#16-STX2-b-1), [`16-LDX2-b-1`](dictionary/by-encoding.md#16-LDX2-b-1), [`16-STBs8-b-1`](dictionary/by-encoding.md#16-STBs8-b-1), [`16-STBu10-b-1`](dictionary/by-encoding.md#16-STBu10-b-1), [`16-STHHH1-b-1`](dictionary/by-encoding.md#16-STHHH1-b-1), [`16-STBu12-b-1`](dictionary/by-encoding.md#16-STBu12-b-1), [`16-LDBu10-b-1`](dictionary/by-encoding.md#16-LDBu10-b-1), [`16-LDHHH1-b-1`](dictionary/by-encoding.md#16-LDHHH1-b-1), [`16-LDBu12-b-1`](dictionary/by-encoding.md#16-LDBu12-b-1), [`16-STX6-b-1`](dictionary/by-encoding.md#16-STX6-b-1), [`16-LDPC12-b-1`](dictionary/by-encoding.md#16-LDPC12-b-1), [`16-LDBs8-b-1`](dictionary/by-encoding.md#16-LDBs8-b-1), [`16-LDX4-b-1`](dictionary/by-encoding.md#16-LDX4-b-1), [`16-LDPC14-b-1`](dictionary/by-encoding.md#16-LDPC14-b-1), [`16-STSP4-b-1`](dictionary/by-encoding.md#16-STSP4-b-1), [`16-STHHH2-b-1`](dictionary/by-encoding.md#16-STHHH2-b-1), [`16-STBs10-b-1`](dictionary/by-encoding.md#16-STBs10-b-1), [`16-LDI12-d-2`](dictionary/by-encoding.md#16-LDI12-d-2).
 
 **Operation**
 
@@ -177,11 +172,11 @@ store:  M[EA(rm)] ← Rs[8×size-1:0]          ; len = 00: Rd ← sext(Rs[8×siz
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`. Page 2 abbreviates the loads and stores through `(rn)`, at small offsets from `SP` and from a register, and `MOVQ #imm, rd` with a 4-bit immediate (see the page-2 table).
+A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The register-to-register forms of the sized moves are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`.
 
 **Cf.** 6.4 for the memory type that decides whether the access is cached; 6.8 for what a faulting access leaves behind.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MOVZ: Move zero-extended (32, 16 and 8 bits)
@@ -198,15 +193,11 @@ MOVZB rm, Rd
 
 **Encoding**
 
-![Encoding of MOVZ](figures/movz.svg)
+![Encoding of MOVZ](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
-| Mnemonic | Opcode (the load or direct form) |
-|---|---|
-| `MOVZL` | `001000 (0x08)` |
-| `MOVZW` | `001001 (0x09)` |
-| `MOVZB` | `001010 (0x0A)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-2`](dictionary/by-encoding.md#16-LDFI-I32-2), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDBu8-b-1`](dictionary/by-encoding.md#16-LDBu8-b-1), [`16-LDX2-b-1`](dictionary/by-encoding.md#16-LDX2-b-1), [`16-LDBu10-b-1`](dictionary/by-encoding.md#16-LDBu10-b-1), [`16-LDHHH1-b-1`](dictionary/by-encoding.md#16-LDHHH1-b-1), [`16-LDBu12-b-1`](dictionary/by-encoding.md#16-LDBu12-b-1), [`16-LDPC12-b-1`](dictionary/by-encoding.md#16-LDPC12-b-1), [`16-LDBs8-b-1`](dictionary/by-encoding.md#16-LDBs8-b-1), [`16-LDX4-b-1`](dictionary/by-encoding.md#16-LDX4-b-1), [`16-LDPC14-b-1`](dictionary/by-encoding.md#16-LDPC14-b-1), [`16-LDFI-I32-3`](dictionary/by-encoding.md#16-LDFI-I32-3), [`16-LDPC12-a-1`](dictionary/by-encoding.md#16-LDPC12-a-1), [`16-LDBs8-a-1`](dictionary/by-encoding.md#16-LDBs8-a-1), [`16-LDPC14-a-1`](dictionary/by-encoding.md#16-LDPC14-a-1), [`16-LDPC16-a-1`](dictionary/by-encoding.md#16-LDPC16-a-1), [`16-LDBu10-a-1`](dictionary/by-encoding.md#16-LDBu10-a-1), [`16-LDHHH1-a-1`](dictionary/by-encoding.md#16-LDHHH1-a-1), [`16-LDSP4-a-1`](dictionary/by-encoding.md#16-LDSP4-a-1), [`16-LDBu12-a-1`](dictionary/by-encoding.md#16-LDBu12-a-1), [`16-LDHHH3-a-1`](dictionary/by-encoding.md#16-LDHHH3-a-1), [`16-LDX6-a-1`](dictionary/by-encoding.md#16-LDX6-a-1), [`16-LDBs10-a-1`](dictionary/by-encoding.md#16-LDBs10-a-1), [`16-LDSP5-a-1`](dictionary/by-encoding.md#16-LDSP5-a-1), [`16-LD0-a-1`](dictionary/by-encoding.md#16-LD0-a-1), [`16-LDBs14-a-1`](dictionary/by-encoding.md#16-LDBs14-a-1), [`16-LDHRH2-a-1`](dictionary/by-encoding.md#16-LDHRH2-a-1), [`16-LDSP7-a-1`](dictionary/by-encoding.md#16-LDSP7-a-1), [`16-LDX8-a-1`](dictionary/by-encoding.md#16-LDX8-a-1), [`16-LDHHR2-a-1`](dictionary/by-encoding.md#16-LDHHR2-a-1).
 
 **Operation**
 
@@ -218,9 +209,9 @@ Rd ← zext(M[EA(rm)], size)      ; len = 00: Rd ← zext(Rs[8×size-1:0])
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-There is no zero-extending 64-bit move (it would be `MOVQ`). At `len = 00` these are the zero-extending half of the conversion set.
+There is no zero-extending 64-bit move (it would be `MOVQ`). The register-to-register forms are the zero-extending half of the conversion set.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### LEA: Load effective address
@@ -237,9 +228,11 @@ LEA d(Rn)(Rx×s), Rd
 
 **Encoding**
 
-![Encoding of LEA](figures/lea.svg)
+![Encoding of LEA](figures/16-LDF-B28-2.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `shr` 000, `sar` 001, `fadd` 010, `fsub` 011, `fmul` 100, `bit` 101, `lea` 110, `movub` 111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-LEASx12-a-1`](dictionary/by-encoding.md#16-LEASx12-a-1), [`16-LDPC12-a-1`](dictionary/by-encoding.md#16-LDPC12-a-1), [`16-LDBs8-a-1`](dictionary/by-encoding.md#16-LDBs8-a-1), [`16-LDPC14-a-1`](dictionary/by-encoding.md#16-LDPC14-a-1), [`16-LDPC16-a-1`](dictionary/by-encoding.md#16-LDPC16-a-1), [`16-LDBu10-a-1`](dictionary/by-encoding.md#16-LDBu10-a-1), [`16-LDHHH1-a-1`](dictionary/by-encoding.md#16-LDHHH1-a-1), [`16-LEASP4-a-1`](dictionary/by-encoding.md#16-LEASP4-a-1), [`16-LDSP4-a-1`](dictionary/by-encoding.md#16-LDSP4-a-1), [`16-LDBu12-a-1`](dictionary/by-encoding.md#16-LDBu12-a-1), [`16-LDHHH3-a-1`](dictionary/by-encoding.md#16-LDHHH3-a-1), [`16-LDX6-a-1`](dictionary/by-encoding.md#16-LDX6-a-1), [`16-LDBs10-a-1`](dictionary/by-encoding.md#16-LDBs10-a-1), [`16-LDSP5-a-1`](dictionary/by-encoding.md#16-LDSP5-a-1), [`16-LEAS12-a-1`](dictionary/by-encoding.md#16-LEAS12-a-1), [`16-LD0-a-1`](dictionary/by-encoding.md#16-LD0-a-1), [`16-LEASP6-a-1`](dictionary/by-encoding.md#16-LEASP6-a-1), [`16-LDBs14-a-1`](dictionary/by-encoding.md#16-LDBs14-a-1), [`16-LDHRH2-a-1`](dictionary/by-encoding.md#16-LDHRH2-a-1), [`16-LDSP7-a-1`](dictionary/by-encoding.md#16-LDSP7-a-1), [`16-LDX8-a-1`](dictionary/by-encoding.md#16-LDX8-a-1), [`16-LDHHR2-a-1`](dictionary/by-encoding.md#16-LDHHR2-a-1), [`16-LEAS14-a-1`](dictionary/by-encoding.md#16-LEAS14-a-1).
 
 **Operation**
 
@@ -249,13 +242,13 @@ Rd ← EA(rm)          ; no memory access
 
 **Flags** None written.
 
-**Exceptions** The operand must name memory; `len = 00` (a register) and the immediate mode are reserved. No memory access is made, so the instruction takes no memory fault. A reserved encoding aborts with the illegal-instruction vector.
+**Exceptions** The operand must name memory (a register or an immediate is not a form). No memory access is made, so the instruction takes no memory fault. A reserved encoding aborts with the illegal-instruction vector.
 
-`LEA 0(PC), Rd` is how the program counter is read: it puts the address of the `LEA` itself in `Rd`. At `len = 10` it forms any address within ±2 GB of itself PC-relatively in six bytes. The base of every PC-relative displacement is the address of the first parcel of the instruction.
+`LEA 0(PC), Rd` is how the program counter is read: it puts the address of the `LEA` itself in `Rd`. The base of every PC-relative displacement is the address of the first parcel of the instruction.
 
 **Why it is here.** The PDP-11 and the VAX made the program counter a register (R7, R15). Here the program counter is kept out of the register file, because every register write would then be a potential branch, and a read-only view of it (R7 as a view of the PC) is refused, because it would fix for ever *which* PC is meant (ARM32 is stuck with `PC+8`). `LEA 0(PC), Rn` gives the capability without the commitment: the address of the instruction itself, in one instruction. The same instruction forms any address PC-relatively, which is what makes position-independent code free (section 9.16).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MOVU: Unaligned load and store
@@ -272,16 +265,11 @@ MOVUW, MOVUL, MOVUB likewise
 
 **Encoding**
 
-![Encoding of MOVU](figures/movu.svg)
+![Encoding of MOVU](figures/16-LDF-B28-2.svg)
 
-Parcel 0's `low` is an addressing mode, as in the ordinary memory format; parcel 1 is `sub(4) rm(4) disp(8)` (16 more displacement bits per further parcel).
+The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `shr` 000, `sar` 001, `fadd` 010, `fsub` 011, `fmul` 100, `bit` 101, `lea` 110, `movub` 111.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `MOVUB` | `0000 (0x0)` |
-| `MOVUW` | `0010 (0x2)` |
-| `MOVUL` | `0100 (0x4)` |
-| `MOVUQ` | `0110 (0x6)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-STF-B28-1`](dictionary/by-encoding.md#16-STF-B28-1), [`16-STF-X22-1`](dictionary/by-encoding.md#16-STF-X22-1), [`16-STF-PI12-1`](dictionary/by-encoding.md#16-STF-PI12-1), [`16-STF-PD12-1`](dictionary/by-encoding.md#16-STF-PD12-1), [`16-STF-PC32-1`](dictionary/by-encoding.md#16-STF-PC32-1), [`16-STF-A32-1`](dictionary/by-encoding.md#16-STF-A32-1), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-LDF-B28-3`](dictionary/by-encoding.md#16-LDF-B28-3), [`16-LDF-X22-3`](dictionary/by-encoding.md#16-LDF-X22-3), [`16-LDF-PI12-3`](dictionary/by-encoding.md#16-LDF-PI12-3), [`16-LDF-PD12-3`](dictionary/by-encoding.md#16-LDF-PD12-3), [`16-LDF-PC32-3`](dictionary/by-encoding.md#16-LDF-PC32-3), [`16-LDF-A32-3`](dictionary/by-encoding.md#16-LDF-A32-3), [`16-DPF-D28-3`](dictionary/by-encoding.md#16-DPF-D28-3), [`16-LDF-B28-4`](dictionary/by-encoding.md#16-LDF-B28-4), [`16-LDF-X22-4`](dictionary/by-encoding.md#16-LDF-X22-4), [`16-LDF-PI12-4`](dictionary/by-encoding.md#16-LDF-PI12-4), [`16-LDF-PD12-4`](dictionary/by-encoding.md#16-LDF-PD12-4), [`16-LDF-PC32-4`](dictionary/by-encoding.md#16-LDF-PC32-4), [`16-LDF-A32-4`](dictionary/by-encoding.md#16-LDF-A32-4), [`16-DPF-D28-4`](dictionary/by-encoding.md#16-DPF-D28-4).
 
 **Operation**
 
@@ -295,11 +283,204 @@ store:  M[EA(rm)] ← Rs[8×size-1:0]
 
 **Exceptions** Page and protection faults and bus errors as for any memory operand; **no alignment fault**.
 
-The ordinary moves fault on a misaligned address (the alignment fault is the tag check of section 9.5); these are the explicit forms for data that is not aligned, in `MESC`.
+The ordinary moves fault on a misaligned address (the alignment fault is the tag check of section 9.5); these are the explicit forms for data that is not aligned.
 
-**Why it is here.** Data alignment is architectural on this machine (9.2.11): an ordinary quad access to an address that is not a multiple of 8 aborts, and that abort doubles as the tag check for tagged pointers; a load form that ignores low pointer bits is rejected for that reason. Packed on-disk and network structures still need unaligned access, so `MESC` carries explicit unaligned forms rather than weakening the rule for every load. No further reason is recorded for these four.
+**Why it is here.** Data alignment is architectural on this machine (9.2.11): an ordinary quad access to an address that is not a multiple of 8 aborts, and that abort doubles as the tag check for tagged pointers; a load form that ignores low pointer bits is rejected for that reason. No further reason is recorded for these four.
 
 **Cf.** 6.4, 6.8.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### MOV2: Two register moves
+
+**Mnemonics:** `MOV2`
+
+**Syntax**
+
+```
+MOV2 Ra, Rb, Rc, Rd
+```
+
+**Encoding**
+
+![Encoding of MOV2](figures/16-FX-MOV2-1.svg)
+
+The chart is the leaf `16-FX-MOV2-1`, FX.MOV2, prefix `0011`. `op1` is `reg3`: register, 3 bits (an index into the hot-register table). `op2` is `reg3`: register, 3 bits (an index into the hot-register table). `op3` is `reg3`: register, 3 bits (an index into the hot-register table). `op4` is `reg3`: register, 3 bits (an index into the hot-register table).
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-MOV2-1`](dictionary/by-encoding.md#16-FX-MOV2-1).
+
+**Operation**
+
+```
+Rb ← Ra
+Rd ← Rc           ; in this order
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+*(D)* `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd`, fused (errata 87). The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the pdp64/16 and pdp64/32 grammars give it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.
+
+**Why it is here.** The author decided the four fused pairs in errata 87 (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in pdp64/16 and pdp64/32): `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd` occurs 6,742 times and saves 0.61% (pdp64/16) and 0.50% (pdp64/32), the smallest gain of the four and the dearest in code space: four 3-bit register fields use one sixteenth of the first-parcel space and can name only the eight hot registers. The proposal lists both as costs, and one instruction that writes two registers (the rename width of an out-of-order core).
+
+**Cf.** Appendix D (the hot-register tables).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### MOVQL: Move a 64-bit literal
+
+**Mnemonics:** `MOVQL`
+
+**Syntax**
+
+```
+MOVQL #imm64, Rd
+```
+
+**Encoding**
+
+![Encoding of MOVQL](figures/16-MOVQL-1.svg)
+
+The chart is the leaf `16-MOVQL-1`, MOVQL, prefix `111011111011`. `op1` is `imm64s`: signed 64-bit immediate, -9223372036854775808 to 9223372036854775807. `op2` is `reg4`: register, 4 bits.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-MOVQL-1`](dictionary/by-encoding.md#16-MOVQL-1).
+
+**Operation**
+
+```
+Rd ← imm64
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+*(D)* Errata 85: `MOVQL #imm64, Rd` is accepted, and breaking the three-parcel rule for it is acceptable because a 64-bit literal is not counted as part of the instruction. The instruction is five parcels, ten bytes: the literal is inside the instruction, so the length is still known from parcel 0 and the fetch has no exception for a trailing literal (`docs/encoding-proposal.md` section 3). The assembler uses it for a `MOVQ #imm, Rd` that fits no `MOVQ` form (errata 87, assumption 6).
+
+**Why it is here.** The author accepted it in the second round of security answers (errata 85, proposal P18): "we can do the same trick for 32 bit immediates too", the author added, which the grammars have not taken up. A 64-bit constant otherwise comes from the literal pool; the literal inside the instruction is one instruction, and it is not counted against the three-parcel rule because it is data, not instruction. The encoding work found no use of a trailing literal worth its exception to the fetch rule, so the literal is part of a five-parcel instruction (`docs/encoding-proposal.md` section 3).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### MOVD: Deferred-fault load
+
+**Mnemonics:** `MOVQ.D`, `MOVL.D`, `MOVW.D`, `MOVB.D`, `MOVZL.D`, `MOVZW.D`, `MOVZB.D`
+
+**Syntax**
+
+```
+MOVQ.D d(Rn), Rd
+MOVL.D ..., MOVW.D ..., MOVB.D ...
+MOVZL.D ..., MOVZW.D ..., MOVZB.D ...
+```
+
+**Encoding**
+
+![Encoding of MOVD](figures/16-LDU-B28-1.svg)
+
+The chart is the leaf `16-LDU-B28-1`, LDU.B28, prefix `11000010`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq.u` 0000, `movl.u` 0001, `movw.u` 0010, `movb.u` 0011, `movzl.u` 0100, `movzw.u` 0101, `movzb.u` 0110, `movq.d` 0111, `movl.d` 1000, `movw.d` 1001, `movb.d` 1010, `movzl.d` 1011, `movzw.d` 1100, `movzb.d` 1101, `movq.ud` 1110, `movl.ud` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDU-B28-1`](dictionary/by-encoding.md#16-LDU-B28-1), [`16-LDU-B12-1`](dictionary/by-encoding.md#16-LDU-B12-1), [`16-LDU-X6-1`](dictionary/by-encoding.md#16-LDU-X6-1).
+
+**Operation**
+
+```
+Rd ← M[EA]                     ; as the load without .D, when the access succeeds
+when the access faults: the fault is precise as always; the kernel's handler repairs the cause and restarts,
+    or, if the access is invalid, marks Rd as poisoned in the saved state and goes on at the next instruction
+```
+
+**Flags** None written.
+
+**Exceptions** The ordinary faults of a load (page fault, protection fault, alignment fault, bus error), precise; what the handler does with them is the difference.
+
+*(P)* The deferred-fault load is item 10 of `docs/study-proposals.md` (the poison bit); the author accepted its three leanings (errata 86: the fault is taken at the instruction that writes the flags from a poisoned source; the kernel decides a deferred load's fault; the kernel dispatcher, not the hardware, tests the argument registers for poison), but the poison bit itself is a proposal, so the semantics above are *(P)*. The proposal spells the load `MOVQ.S`; the grammars spell it `.D`. Base and indexed operands only (a mode that needs a base register needs `LEA` first). **Not implemented** in the reference executor: it traps as an unimplemented instruction.
+
+**Why it is here.** The poison bit of item 10 of the study (`docs/study-proposals.md`) wants a load that can be hoisted above its guard: it either gives a value or a poisoned value, and a use of a poisoned value is the fault the guard would have prevented. That removes the recovery code of if-conversion and software pipelining, gives a deterministic Spectre version 1 form (a deferred, bounds-checked address computation yields poison, not a branch the predictor can train), and makes a chain of checks one fault. The author accepted the three leanings of the proposal (errata 86); the record does not show the author deciding the poison bit itself, so the instruction is a proposal.
+
+**Cf.** 6.2, docs/study-proposals.md item 10.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### MOVUSER: User-qualified load and store
+
+**Mnemonics:** `MOVQ.U`, `MOVL.U`, `MOVW.U`, `MOVB.U`, `MOVZL.U`, `MOVZW.U`, `MOVZB.U`
+
+**Syntax**
+
+```
+MOVQ.U d(Rn), Rd
+MOVQ.U Rs, d(Rn)
+MOVL.U ..., MOVW.U ..., MOVB.U ...
+MOVZL.U ..., MOVZW.U ..., MOVZB.U ...    ; loads only
+```
+
+**Encoding**
+
+![Encoding of MOVUSER](figures/16-LDU-B28-1.svg)
+
+The chart is the leaf `16-LDU-B28-1`, LDU.B28, prefix `11000010`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq.u` 0000, `movl.u` 0001, `movw.u` 0010, `movb.u` 0011, `movzl.u` 0100, `movzw.u` 0101, `movzb.u` 0110, `movq.d` 0111, `movl.d` 1000, `movw.d` 1001, `movb.d` 1010, `movzl.d` 1011, `movzw.d` 1100, `movzb.d` 1101, `movq.ud` 1110, `movl.ud` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDU-B28-1`](dictionary/by-encoding.md#16-LDU-B28-1), [`16-STU-B28-1`](dictionary/by-encoding.md#16-STU-B28-1), [`16-LDU-B12-1`](dictionary/by-encoding.md#16-LDU-B12-1), [`16-STU-B12-1`](dictionary/by-encoding.md#16-STU-B12-1), [`16-LDU-X6-1`](dictionary/by-encoding.md#16-LDU-X6-1), [`16-STU-X6-1`](dictionary/by-encoding.md#16-STU-X6-1).
+
+**Operation**
+
+```
+the access of MOVQ, MOVL, MOVW, MOVB and MOVZ* with the operand checked as a user-mode access:
+the page must be present, have U = 1, and permit R (a load) or W (a store); a kernel page takes the protection abort
+whatever PSW.UA says
+```
+
+**Flags** None written.
+
+**Exceptions** The faults of the access, as a user-mode access. In user mode the encoding is a privileged-instruction abort.
+
+*(P)* Item 18 of `docs/study-proposals.md`: user access is an attribute of one memory operand, so it cannot outlive the instruction, cannot leak across an interrupt, and `RTI` re-executes the instruction with the attribute. The author accepted the five leanings (errata 86): a fixup table in place of `pcb_onfault`, the `.U` spelling, keeping `PSW.UA`, `STUA` and `CLUA` until the OpenBSD port confirms, `ECAUSE` bit 15 to say that the access was user-qualified, and the atomics taking the user form once the operand placement of `ATOM` is fixed. The proposal is not specified in full, so the text is *(P)*. (Not to be confused with `MOVU`, the unaligned move.) The reference executor runs a `.U` move as a plain move, because it has no MMU in that mode.
+
+**Why it is here.** Copying between the kernel and the user is where kernels pay for the user-memory guard. x86 opens a window with `STAC` and closes it with `CLAC` (35 and 53 sites in the kernel-assembly corpus), and a forgotten `CLAC` on an error path is the bug class; Arm's `LDTR` and `STTR` make the access itself unprivileged (52 sites), but only for plain loads and stores. Item 18 of the study makes user access an attribute of one operand, so that no window exists to leave open and the range check of the copy routines (`addr + len` against the top of the user half) disappears into the hardware: a kernel address faults at the first byte. The author accepted its five leanings (errata 86) and kept `PSW.UA`, `STUA` and `CLUA` until the OpenBSD port confirms; the instruction is a proposal until then.
+
+**Cf.** 6.4 (the user-memory guard), docs/study-proposals.md item 18.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### MOVUSERD: User-qualified deferred-fault load
+
+**Mnemonics:** `MOVQ.UD`, `MOVL.UD`, `MOVW.UD`, `MOVB.UD`, `MOVZL.UD`, `MOVZW.UD`, `MOVZB.UD`
+
+**Syntax**
+
+```
+MOVQ.UD d(Rn), Rd
+MOVL.UD ..., MOVW.UD ..., MOVB.UD ...
+MOVZL.UD ..., MOVZW.UD ..., MOVZB.UD ...
+```
+
+**Encoding**
+
+![Encoding of MOVUSERD](figures/16-LDU-B28-1.svg)
+
+The chart is the leaf `16-LDU-B28-1`, LDU.B28, prefix `11000010`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq.u` 0000, `movl.u` 0001, `movw.u` 0010, `movb.u` 0011, `movzl.u` 0100, `movzw.u` 0101, `movzb.u` 0110, `movq.d` 0111, `movl.d` 1000, `movw.d` 1001, `movb.d` 1010, `movzl.d` 1011, `movzw.d` 1100, `movzb.d` 1101, `movq.ud` 1110, `movl.ud` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDU-B28-1`](dictionary/by-encoding.md#16-LDU-B28-1), [`16-LDU-B12-1`](dictionary/by-encoding.md#16-LDU-B12-1), [`16-LDU-X6-1`](dictionary/by-encoding.md#16-LDU-X6-1), [`16-LDU-B28-2`](dictionary/by-encoding.md#16-LDU-B28-2), [`16-LDU-B12-2`](dictionary/by-encoding.md#16-LDU-B12-2), [`16-LDU-X6-2`](dictionary/by-encoding.md#16-LDU-X6-2), [`16-LDU-B28-3`](dictionary/by-encoding.md#16-LDU-B28-3), [`16-LDU-B12-3`](dictionary/by-encoding.md#16-LDU-B12-3), [`16-LDU-X6-3`](dictionary/by-encoding.md#16-LDU-X6-3).
+
+**Operation**
+
+```
+Rd ← M[EA], the access being both user-qualified (MOVU) and deferred (MOVD)
+```
+
+**Flags** None written.
+
+**Exceptions** The faults of `MOVU` and `MOVD` together.
+
+*(P)* The combination of the two qualifiers. The repository defines each qualifier alone (items 10 and 18 of `docs/study-proposals.md`) and gives the combination no text of its own: a kernel that reads a user word without wanting to fail on it (a probe of a user pointer) is the case the combination serves, and its meaning is the composition. Loads only, base and indexed operands. **Not implemented** in the reference executor.
+
+**Why it is here.** See `MOVD` and `MOVUSER`. The record gives no separate reason for the combination; it is listed because both qualifiers exist and a probe of a user pointer wants both.
 
 **Status** specified; **not yet implemented** in the reference executor.
 <!-- /entries:9.6 -->
@@ -333,9 +514,11 @@ ADD rm, Rd
 
 **Encoding**
 
-![Encoding of ADD](figures/add.svg)
+![Encoding of ADD](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-SPADJF-1`](dictionary/by-encoding.md#16-SPADJF-1), [`16-LDI12-b-1`](dictionary/by-encoding.md#16-LDI12-b-1), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-SPADJ6-a-1`](dictionary/by-encoding.md#16-SPADJ6-a-1), [`16-LDI14-b-1`](dictionary/by-encoding.md#16-LDI14-b-1), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-IMM3-b-1`](dictionary/by-encoding.md#16-IMM3-b-1), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDI18-b-1`](dictionary/by-encoding.md#16-LDI18-b-1), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM4-b-1`](dictionary/by-encoding.md#16-IMM4-b-1), [`16-SPADJ8-a-1`](dictionary/by-encoding.md#16-SPADJ8-a-1).
 
 **Operation**
 
@@ -347,9 +530,9 @@ Rd ← Rd + rm
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-All ALU operations are 64 bits, with no size field. Page 2 has `ADD #imm, rd` with a 4-bit immediate and `ADD #(8*n), SP`.
+All ALU operations are 64 bits, with no size field.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### SUB: Subtract
@@ -364,9 +547,11 @@ SUB rm, Rd
 
 **Encoding**
 
-![Encoding of SUB](figures/sub.svg)
+![Encoding of SUB](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-SPADJF-1`](dictionary/by-encoding.md#16-SPADJF-1), [`16-LDI12-b-1`](dictionary/by-encoding.md#16-LDI12-b-1), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-SPADJ6-a-1`](dictionary/by-encoding.md#16-SPADJ6-a-1), [`16-LDI14-b-1`](dictionary/by-encoding.md#16-LDI14-b-1), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-IMM3-b-1`](dictionary/by-encoding.md#16-IMM3-b-1), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDI18-b-1`](dictionary/by-encoding.md#16-LDI18-b-1), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM4-b-1`](dictionary/by-encoding.md#16-IMM4-b-1), [`16-SPADJ8-a-1`](dictionary/by-encoding.md#16-SPADJ8-a-1).
 
 **Operation**
 
@@ -378,9 +563,7 @@ Rd ← Rd - rm
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-Page 2 has `SUB #(8*n), SP`.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### CMP: Compare
@@ -395,9 +578,11 @@ CMP Rd, rm        ; register first
 
 **Encoding**
 
-![Encoding of CMP](figures/cmp.svg)
+![Encoding of CMP](figures/16-CMF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-CMF-B28-1`, CMF.B28, prefix `11101101101`. `op1` is `reg4`: register, 4 bits. `op2` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-CMF-B28-1`](dictionary/by-encoding.md#16-CMF-B28-1), [`16-CMF-X22-1`](dictionary/by-encoding.md#16-CMF-X22-1), [`16-CMF-PI12-1`](dictionary/by-encoding.md#16-CMF-PI12-1), [`16-CMF-PD12-1`](dictionary/by-encoding.md#16-CMF-PD12-1), [`16-CMF-PC32-1`](dictionary/by-encoding.md#16-CMF-PC32-1), [`16-CMF-A32-1`](dictionary/by-encoding.md#16-CMF-A32-1), [`16-CMF-I32-1`](dictionary/by-encoding.md#16-CMF-I32-1), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2), [`16-CMBu8-a-1`](dictionary/by-encoding.md#16-CMBu8-a-1), [`16-CMI12-a-1`](dictionary/by-encoding.md#16-CMI12-a-1), [`16-CMBu10-a-1`](dictionary/by-encoding.md#16-CMBu10-a-1), [`16-CMI18-a-1`](dictionary/by-encoding.md#16-CMI18-a-1), [`16-CMPC16-a-1`](dictionary/by-encoding.md#16-CMPC16-a-1), [`16-CMX2-a-1`](dictionary/by-encoding.md#16-CMX2-a-1), [`16-CMS12-a-1`](dictionary/by-encoding.md#16-CMS12-a-1), [`16-CMBu12-a-1`](dictionary/by-encoding.md#16-CMBu12-a-1), [`16-CMBs10-a-1`](dictionary/by-encoding.md#16-CMBs10-a-1).
 
 **Operation**
 
@@ -411,7 +596,7 @@ tmp ← Rd - rm         ; the result is discarded
 
 **The operands are in the order register, then the other operand**, the reverse of the PDP-11 `CMP src,dst`: `CMP Rd, rm` computes `Rd - rm`, so a compare of a register against an immediate or memory operand does not reverse its branch condition. After `CMP`, `BHIS`/`BCC` mean unsigned `>=` (no borrow) and `BLO`/`BCS` mean a borrow occurred.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MUL: Multiply, low 64 bits
@@ -426,9 +611,11 @@ MUL rm, Rd
 
 **Encoding**
 
-![Encoding of MUL](figures/mul.svg)
+![Encoding of MUL](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-d-1`](dictionary/by-encoding.md#16-LDI12-d-1), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1).
 
 **Operation**
 
@@ -442,7 +629,7 @@ Rd ← (Rd × rm)[63:0]         ; sign-agnostic
 
 The low 64 bits of a two's-complement product are the same whether the operands are read as signed or unsigned, so there is one low-half multiply. The mnemonic `MULU` is an alias of `MUL`. The high half is `MULH` (signed) and `MULHU` (unsigned).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MULH: Multiply, high 64 bits, signed
@@ -457,9 +644,11 @@ MULH rm, Rd
 
 **Encoding**
 
-![Encoding of MULH](figures/mulh.svg)
+![Encoding of MULH](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1).
 
 **Operation**
 
@@ -475,7 +664,7 @@ With `MULH`, division by a constant is a multiply by a reciprocal and a shift, w
 
 **Why it is here.** The low 64 bits of a two's-complement product are identical signed or unsigned, so a second multiply (`MULU`) would duplicate `MUL`; what the architecture needs in that place is the *high* half of the product. Without it a 64 by 64 to 128-bit multiply, every bignum multiply, 128-bit fixed point and divide-by-a-constant by multiplying by the reciprocal are impossible. `MULH` is that instruction. It is also why a divide is rare in compiled code: compilers turn division by a constant into `MULH` and a shift.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### ADDM: ALU operation with a memory destination
@@ -493,16 +682,11 @@ BISM Rs, rm
 
 **Encoding**
 
-![Encoding of ADDM](figures/addm.svg)
+![Encoding of ADDM](figures/16-STF-B28-2.svg)
 
-Parcel 0's `low` is an addressing mode, as in the ordinary memory format; parcel 1 is `sub(4) rm(4) disp(8)` (16 more displacement bits per further parcel).
+The chart is the leaf `16-STF-B28-2`, STF.B28, prefix `1110011101`. `op1` is `reg4`: register, 4 bits. `op2` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (2 bits) selects the mnemonic: `addm` 00, `subm` 01, `bicm` 10, `bism` 11.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `ADDM` | `1000 (0x8)` |
-| `SUBM` | `1001 (0x9)` |
-| `BICM` | `1010 (0xA)` |
-| `BISM` | `1011 (0xB)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-STF-B28-2`](dictionary/by-encoding.md#16-STF-B28-2), [`16-STF-X22-2`](dictionary/by-encoding.md#16-STF-X22-2), [`16-STF-PI12-2`](dictionary/by-encoding.md#16-STF-PI12-2), [`16-STF-PD12-2`](dictionary/by-encoding.md#16-STF-PD12-2), [`16-STF-PC32-2`](dictionary/by-encoding.md#16-STF-PC32-2), [`16-STF-A32-2`](dictionary/by-encoding.md#16-STF-A32-2).
 
 **Operation**
 
@@ -517,11 +701,11 @@ BISM: M[EA] ← M[EA] OR Rs
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. Write permission is checked during the read access, so the write cannot fault after the read has succeeded.
 
-Parcel 0's low nibble is a mode, as in the ordinary memory format, so these are `MESC` forms with a memory destination (`len >= 01`). `INC`, `DEC`, `NEG`, `COM` and `CLR` on a memory operand are in `SOP`.
+The forms with a memory destination are in the ordinary memory families of the encoding, with every addressing form (errata 87).
 
-**Why it is here.** These are the read-modify-write forms with a memory destination. An instruction with a memory destination is at least four bytes anyway, so they live in `MESC` at no cost; the opcode map follows one rule, that a top-level opcode is for an operation whose common case is register to register. They cover the case where the second operand is a register, for example `BISM Rmask, flags(DP)`. The compiled corpus has 265 sites (1.6 KB), so they earn their place in the escape group but not in the opcode space.
+**Why it is here.** These are the read-modify-write forms with a memory destination. They cover the case where the second operand is a register, for example `BISM Rmask, flags(DP)`.
 
-**Status** specified; **not yet implemented** in the reference executor.
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### INC: Increment
@@ -536,9 +720,11 @@ INC rm
 
 **Encoding**
 
-![Encoding of INC](figures/inc.svg)
+![Encoding of INC](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
 **Operation**
 
@@ -550,7 +736,7 @@ rm ← rm + 1
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### DEC: Decrement
@@ -565,9 +751,11 @@ DEC rm
 
 **Encoding**
 
-![Encoding of DEC](figures/dec.svg)
+![Encoding of DEC](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
 **Operation**
 
@@ -579,7 +767,7 @@ rm ← rm - 1
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### NEG: Negate
@@ -594,9 +782,11 @@ NEG rm
 
 **Encoding**
 
-![Encoding of NEG](figures/neg.svg)
+![Encoding of NEG](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
 
 **Operation**
 
@@ -608,7 +798,7 @@ rm ← 0 - rm
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### ADC: Add carry
@@ -623,9 +813,11 @@ ADC rm
 
 **Encoding**
 
-![Encoding of ADC](figures/adc.svg)
+![Encoding of ADC](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
 
 **Operation**
 
@@ -639,7 +831,7 @@ rm ← rm + C
 
 With `ADD`, multi-word addition.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### SBC: Subtract carry
@@ -654,9 +846,11 @@ SBC rm
 
 **Encoding**
 
-![Encoding of SBC](figures/sbc.svg)
+![Encoding of SBC](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
 
 **Operation**
 
@@ -668,7 +862,7 @@ rm ← rm - C
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### DIV: Divide and remainder, signed and unsigned
@@ -686,16 +880,11 @@ MODU Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of DIV](figures/div.svg)
+![Encoding of DIV](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `DIV` | `00000000 (0x00)` |
-| `DIVU` | `00000001 (0x01)` |
-| `MOD` | `00000010 (0x02)` |
-| `MODU` | `00000011 (0x03)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -715,7 +904,7 @@ Division by a constant is a `MULH` and a shift, so a real divide is rare; this i
 
 **Cf.** 6.2 (the divide-by-zero vector).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MULHU: Multiply, high 64 bits, unsigned
@@ -730,9 +919,11 @@ MULHU Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of MULHU](figures/mulhu.svg)
+![Encoding of MULHU](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -746,9 +937,9 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 
 `MULHSU` (signed by unsigned) is reserved and not committed.
 
-**Why it is here.** The unsigned partner of `MULH`, for the same reason (the high half of the product). It is in `AESC`, where arithmetic belongs. `MULHSU`, signed times unsigned for a bignum's top limb, is reserved because it can be built from `MULH` with one correction.
+**Why it is here.** The unsigned partner of `MULH`, for the same reason (the high half of the product). It is, where arithmetic belongs. `MULHSU`, signed times unsigned for a bignum's top limb, is reserved because it can be built from `MULH` with one correction.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### ABS: Absolute value
@@ -763,9 +954,11 @@ ABS Rs, Rd
 
 **Encoding**
 
-![Encoding of ABS](figures/abs.svg)
+![Encoding of ABS](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -779,7 +972,7 @@ Rd ← |Rs|
 
 **Why it is here.** Integer absolute value is the counterpart of `FABS`. Its cost is about 150 to 250 lookup tables, no new operation by the folding rule (integer against float and signed against unsigned are qualifiers), and the compiler's work of recognising `x < 0 ? -x : x`, which is the real cost. The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MINMAX: Minimum and maximum, signed and unsigned
@@ -797,16 +990,11 @@ MAXU Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of MINMAX](figures/minmax.svg)
+![Encoding of MINMAX](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `MIN` | `00010000 (0x10)` |
-| `MINU` | `00010001 (0x11)` |
-| `MAX` | `00010010 (0x12)` |
-| `MAXU` | `00010011 (0x13)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -821,7 +1009,7 @@ MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 
 **Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`. By the folding rule they add no operation, and the hardware reuses the subtract-and-compare that `CMP` already does plus a 64-bit select. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all. A general conditional select is the alternative; it is open (9.21) for want of a speed model.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### SET: Set a register from a condition
@@ -836,9 +1024,11 @@ SET cc, Rd        ; for example SET EQ, R1
 
 **Encoding**
 
-![Encoding of SET](figures/set.svg)
+![Encoding of SET](figures/16-SETF-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-SETF-1`, SETF, prefix `111011110110`. `op1` is `imm4u`: unsigned 4-bit immediate, 0 to 15. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SETF-1`](dictionary/by-encoding.md#16-SETF-1).
 
 **Operation**
 
@@ -850,11 +1040,89 @@ Rd ← 1 if condition cc holds on the current flags, else 0
 
 **Exceptions** None.
 
-The condition is the `x` field of parcel 1, numbered as the low nibble of the branch opcodes (`al` 0, `ne` 1, `eq` 2, ... `los` 14).
+The condition is numbered as the low nibble of the branch opcodes (`al` 0, `ne` 1, `eq` 2, ... `los` 14).
 
-**Why it is here.** The first instruction written with a condition word: one instruction, `SET cc, Rd`, rather than one opcode per condition, with the condition in a field numbered like the low nibble of the branch opcodes. It turns a comparison used as a value into 0 or 1 without a branch. gcc `-Os` for amd64 emits 673 `set<cc>` on the corpus, and `SET` would remove about six bytes per site, around 0.4% of code; the compiler's first pass turns such a comparison into branches before its second pass sees it, so the saving is not reached in compiled code.
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+
+### MASK: Mask by a condition register
+
+**Mnemonics:** `MASKEQZ`, `MASKNEZ`
+
+**Syntax**
+
+```
+MASKEQZ Ra, Rc, Rd
+MASKNEZ Ra, Rc, Rd
+```
+
+**Encoding**
+
+![Encoding of MASK](figures/16-R3-1.svg)
+
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**Operation**
+
+```
+MASKEQZ: Rd ← (Rc = 0) ? 0 : Ra
+MASKNEZ: Rd ← (Rc ≠ 0) ? 0 : Ra
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+*(D)* Errata 85: the branch-free select is adopted. `Rc` is tested whole, all 64 bits, so any non-zero value is true; no flag is read or written, and the latency is fixed. `Rd` may be `Ra` or `Rc`. A constant-time select `d = c ? a : b` is `MASKEQZ a, c, t`, `MASKNEZ b, c, d`, `BIS t, d`. The semantics are those of LoongArch `maskeqz` and `masknez` and of RISC-V Zicond (the crypto proposal states this from memory). A flag-reading `CSEL` is not in the set (reserved, recommended only if the compiler work shows selects on comparisons matter).
+
+**Why it is here.** The author adopted the branch-free select (errata 85) when the crypto proposal asked for it: constant-time code must choose between two values without a branch, and a flag-reading conditional move would put a secret in a flag. `MASKEQZ` and `MASKNEZ` are the select of LoongArch and of RISC-V Zicond (stated from memory in the proposal, not checked against a manual); the pair and an `OR` make `c ? a : b` in three instructions, against two for `CMP` and a conditional move, but the conditional move would be used at 783 sites in 284,641 instructions (0.28%), and the case for the pair is the constant-time idiom, where the condition is already a register. The author confirmed the pair and wrote "looks good" on the section (errata 86). About 100 look-up tables, one cycle (the proposal's estimate).
+
+**Cf.** 9.7 (SET), docs/crypto-secure-core.md section 2.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### OVF: Add, subtract and multiply, trapping on signed overflow
+
+**Mnemonics:** `ADDV`, `SUBV`, `MULV`
+
+**Syntax**
+
+```
+ADDV Rs, Rd
+SUBV Rs, Rd
+MULV Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of OVF](figures/16-R2-1.svg)
+
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**Operation**
+
+```
+t ← Rd op Rs                 ; op is +, - or ×, on signed 64-bit values
+if t does not fit in 64 bits then abort at this instruction (vector CHECK), Rd unwritten
+else Rd ← t
+```
+
+**Flags** None written.
+
+**Exceptions** Aborts with the `CHECK` vector on signed overflow, with `EPC` at the instruction and the destination unwritten; a blind restart faults again unless the handler changed an operand.
+
+*(D)* Errata 85: `TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` forms. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form; `docs/study-proposals.md` item 9 writes a three-register form (`Rd <- Ra op Rb`), which no table has *(P)*. The check vector is number 16 (`CHECK`) in `docs/study-proposals.md` item 9 and in the reference executor; `spec/pdp64-system.hbnf` has no vector of that name yet, so the number is *(P)*.
+
+**Why it is here.** Checked arithmetic is what clang `-ftrapv` and `__builtin_*_overflow`, Rust's debug overflow checks, Swift's default arithmetic and Ada's `Constraint_Error` need. The author decided `TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` and no compare-and-trap form (errata 85), the fused forms as the case where one non-destructive instruction beats `ADD` and `TRAPCC`. The corpus cannot size the use: it contains no `BVS` or `BVC` at all, because the overflow builtins were not implemented in the compiler that produced it, and the proposal says that sanitiser builds are the target. The record gives the precedent only for the trap, not for the fused forms.
+
+**Cf.** 9.14 (TRAPCC), docs/study-proposals.md item 9.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 <!-- /entries:9.7 -->
 
 ## 9.8 Logic, shifts and rotates
@@ -884,9 +1152,11 @@ BIC rm, Rd
 
 **Encoding**
 
-![Encoding of BIC](figures/bic.svg)
+![Encoding of BIC](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-d-2`](dictionary/by-encoding.md#16-LDI12-d-2), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1).
 
 **Operation**
 
@@ -900,7 +1170,7 @@ Rd ← Rd AND NOT rm
 
 The assembler also accepts `BIC #imm, rm` as `AND #~imm, rm`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### BIS: Bit set (inclusive or)
@@ -915,9 +1185,11 @@ BIS rm, Rd
 
 **Encoding**
 
-![Encoding of BIS](figures/bis.svg)
+![Encoding of BIS](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1).
 
 **Operation**
 
@@ -929,7 +1201,7 @@ Rd ← Rd OR rm
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### BIT: Bit test
@@ -944,9 +1216,11 @@ BIT rm, Rd
 
 **Encoding**
 
-![Encoding of BIT](figures/bit.svg)
+![Encoding of BIT](figures/16-LDF-B28-2.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `shr` 000, `sar` 001, `fadd` 010, `fsub` 011, `fmul` 100, `bit` 101, `lea` 110, `movub` 111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2), [`16-LDI12-d-3`](dictionary/by-encoding.md#16-LDI12-d-3), [`16-LDPC12-d-2`](dictionary/by-encoding.md#16-LDPC12-d-2), [`16-LDBs8-d-2`](dictionary/by-encoding.md#16-LDBs8-d-2).
 
 **Operation**
 
@@ -958,7 +1232,7 @@ tmp ← Rd AND rm         ; the result is discarded
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### XOR: Exclusive or
@@ -973,9 +1247,11 @@ XOR rm, Rd
 
 **Encoding**
 
-![Encoding of XOR](figures/xor.svg)
+![Encoding of XOR](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDBu8-c-2`](dictionary/by-encoding.md#16-LDBu8-c-2), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDX2-c-2`](dictionary/by-encoding.md#16-LDX2-c-2), [`16-LDS12-c-2`](dictionary/by-encoding.md#16-LDS12-c-2), [`16-LDPC16-c-2`](dictionary/by-encoding.md#16-LDPC16-c-2), [`16-LDBs10-c-2`](dictionary/by-encoding.md#16-LDBs10-c-2), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1).
 
 **Operation**
 
@@ -987,7 +1263,7 @@ Rd ← Rd XOR rm
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### AND: And
@@ -1002,9 +1278,11 @@ AND rm, Rd
 
 **Encoding**
 
-![Encoding of AND](figures/and.svg)
+![Encoding of AND](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-b-2`](dictionary/by-encoding.md#16-LDI12-b-2), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-LDI14-b-2`](dictionary/by-encoding.md#16-LDI14-b-2), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-IMM3-b-2`](dictionary/by-encoding.md#16-IMM3-b-2), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDI18-b-2`](dictionary/by-encoding.md#16-LDI18-b-2), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM4-b-2`](dictionary/by-encoding.md#16-IMM4-b-2).
 
 **Operation**
 
@@ -1016,7 +1294,7 @@ Rd ← Rd AND rm
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### SHIFT: Shift left, shift right logical, shift right arithmetic
@@ -1033,15 +1311,11 @@ SAR rm, Rd
 
 **Encoding**
 
-![Encoding of SHIFT](figures/shift.svg)
+![Encoding of SHIFT](figures/16-LDF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
-| Mnemonic | Opcode (the load or direct form) |
-|---|---|
-| `SHL` | `100000 (0x20)` |
-| `SHR` | `100001 (0x21)` |
-| `SAR` | `100010 (0x22)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-d-1`](dictionary/by-encoding.md#16-LDI12-d-1), [`16-SHI3-a-1`](dictionary/by-encoding.md#16-SHI3-a-1), [`16-SHI5-a-1`](dictionary/by-encoding.md#16-SHI5-a-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1), [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2).
 
 **Operation**
 
@@ -1056,9 +1330,9 @@ SAR: Rd ← (n ≥ 64) ? (Rd < 0 ? -1 : 0) : Rd >>s n
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-The count is read as an unsigned 64-bit value, so a count of 64 or more shifts the value entirely away. Page 2 has the three shifts by an immediate 0 to 15. `ASL` and `ASR` (in `SOP`) are the by-one forms in two bytes; rotates are in `BESC`.
+The count is read as an unsigned 64-bit value, so a count of 64 or more shifts the value entirely away. Small immediate counts have one-parcel forms (the layouts of this entry); `ASL` and `ASR` are the by-one forms; rotates are `ROR` and `RORI`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### CLR: Clear
@@ -1073,9 +1347,11 @@ CLR rm
 
 **Encoding**
 
-![Encoding of CLR](figures/clr.svg)
+![Encoding of CLR](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
 **Operation**
 
@@ -1087,7 +1363,7 @@ rm ← 0
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### COM: Complement
@@ -1102,9 +1378,11 @@ COM rm
 
 **Encoding**
 
-![Encoding of COM](figures/com.svg)
+![Encoding of COM](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
 
 **Operation**
 
@@ -1118,7 +1396,7 @@ rm ← NOT rm
 
 A two-byte instruction for a register operand.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### TST: Test
@@ -1133,9 +1411,11 @@ TST rm
 
 **Encoding**
 
-![Encoding of TST](figures/tst.svg)
+![Encoding of TST](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
 **Operation**
 
@@ -1147,7 +1427,7 @@ set flags from rm; nothing is written
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### ASL: Arithmetic shift left by one
@@ -1162,9 +1442,11 @@ ASL rm
 
 **Encoding**
 
-![Encoding of ASL](figures/asl.svg)
+![Encoding of ASL](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2).
 
 **Operation**
 
@@ -1176,9 +1458,9 @@ C ← rm[63] ; rm ← rm << 1
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-The by-one form of `SHL` in two bytes.
+The by-one form of `SHL`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### ASR: Arithmetic shift right by one
@@ -1193,9 +1475,11 @@ ASR rm
 
 **Encoding**
 
-![Encoding of ASR](figures/asr.svg)
+![Encoding of ASR](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2).
 
 **Operation**
 
@@ -1207,9 +1491,9 @@ C ← rm[0] ; rm ← rm >>s 1
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-The by-one form of `SAR` in two bytes.
+The by-one form of `SAR`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 <!-- /entries:9.8 -->
 
 ## 9.9 Bits, bytes and text
@@ -1242,16 +1526,11 @@ CTO Rs, Rd
 
 **Encoding**
 
-![Encoding of COUNT](figures/count.svg)
+![Encoding of COUNT](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Register to register only; four bytes.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `CLZ` | `00000000 (0x00)` |
-| `CTZ` | `00000001 (0x01)` |
-| `CLO` | `00000010 (0x02)` |
-| `CTO` | `00000011 (0x03)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -1268,9 +1547,9 @@ CTO: Rd ← number of trailing one bits of Rs        (64 if Rs = all ones)
 
 `CTZ` is the VAX `FFS`. Bit manipulation is core on a machine that does filesystem and bignum work, not an extension.
 
-**Why it is here.** `BESC` is the bit-manipulation group: bit manipulation is not an extension on a machine that does filesystem work, bignum arithmetic and the like. The counts are the VAX `FFS` and `FFC` idiom (find first set, find first clear). LoongArch is the model for putting them in the base: it has `CLO`, `CLZ`, `CTO`, `CTZ` there, which is the decisive argument for giving `BESC` a top-level opcode. The compiler emits none of them, since C has no operator for them; the corpus shows zero uses.
+**Why it is here.** The counts are the VAX `FFS` and `FFC` idiom (find first set, find first clear). The compiler emits none of them, since C has no operator for them; the corpus shows zero uses.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### POPCNT: Population count
@@ -1285,9 +1564,11 @@ POPCNT Rs, Rd
 
 **Encoding**
 
-![Encoding of POPCNT](figures/popcnt.svg)
+![Encoding of POPCNT](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -1299,9 +1580,9 @@ Rd ← number of one bits in Rs
 
 **Exceptions** None.
 
-**Why it is here.** One of the counts of `BESC`; it is also the building block of `XNORPOP`. A compiler needs `__builtin_popcount` to emit it, so the corpus shows no use (see `COUNT`).
+**Why it is here.** A compiler needs `__builtin_popcount` to emit it, so the corpus shows no use (see `COUNT`).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### BSWAP: Byte swap
@@ -1318,15 +1599,11 @@ BSWAPL Rs, Rd
 
 **Encoding**
 
-![Encoding of BSWAP](figures/bswap.svg)
+![Encoding of BSWAP](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `BSWAP` | `00000101 (0x05)` |
-| `BSWAPW` | `00000110 (0x06)` |
-| `BSWAPL` | `00000111 (0x07)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -1344,7 +1621,7 @@ The generalisation of the PDP-11 `SWAB` to 64 bits.
 
 **Why it is here.** The PDP-11 `SWAB` swapped the bytes of a word; `BSWAP` generalises it to 64 bits, with word and long variants. `SWAB` is therefore subsumed, not lost (9.18).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### BITREV: Reverse the bits
@@ -1359,9 +1636,11 @@ BITREV Rs, Rd
 
 **Encoding**
 
-![Encoding of BITREV](figures/bitrev.svg)
+![Encoding of BITREV](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -1373,9 +1652,9 @@ Rd ← Rs with bit i moved to bit 63-i
 
 **Exceptions** None.
 
-**Why it is here.** Part of the `BESC` group, borrowed with the other LoongArch bit operations (`REVB`, `REVH`, `BITREV`). No workload from the corpus is recorded.
+**Why it is here.** No workload from the corpus is recorded.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### ROR: Rotate right by a register count
@@ -1390,9 +1669,11 @@ ROR Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of ROR](figures/ror.svg)
+![Encoding of ROR](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -1406,9 +1687,9 @@ Rd ← Ra rotated right by (Rb mod 64)
 
 There is no rotate left instruction: `ROL rs, #n, rd` is an assembler spelling of `RORI rs, #(64-n), rd`. No rotate is through carry; multi-word shifting uses `DSHR`.
 
-**Why it is here.** One rotate direction suffices and `ROR` is the one to keep: `ROL x, #n` is exactly `ROR x, #(64-n)`, and a funnel shifter yields `ROR` directly. No rotate is through carry (see `DSHR`). `ROR` is in `BESC`, not the ALU group: cryptographic code rotates by compile-time constants, so a four-byte immediate form is needed either way, and the register-count form has almost no users. Rotates write no flags.
+**Why it is here.** One rotate direction suffices and `ROR` is the one to keep: `ROL x, #n` is exactly `ROR x, #(64-n)`, and a funnel shifter yields `ROR` directly. No rotate is through carry (see `DSHR`). `ROR` is, not the ALU group: cryptographic code rotates by compile-time constants, so a four-byte immediate form is needed either way, and the register-count form has almost no users. Rotates write no flags.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### RORI: Rotate right by an immediate
@@ -1424,9 +1705,11 @@ ROL Rs, #n, Rd        ; assembles to RORI Rs, #(64-n), Rd
 
 **Encoding**
 
-![Encoding of RORI](figures/rori.svg)
+![Encoding of RORI](figures/16-RRI-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Parcel 1 is `sub:8 count:8`.
+The chart is the leaf `16-RRI-1`, RRI, prefix `111011111010`. `op1` is `reg4`: register, 4 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-RRI-1`](dictionary/by-encoding.md#16-RRI-1).
 
 **Operation**
 
@@ -1438,11 +1721,9 @@ Rd ← Rs rotated right by (n mod 64)
 
 **Exceptions** None.
 
-Four bytes: the count is in the low byte of parcel 1.
-
 **Why it is here.** It has its own mnemonic because an immediate count and a register count are different encodings. `ROL Rs, #n, Rd` is accepted by the assembler as `RORI Rs, #(64-n), Rd`: the complement costs nothing at assembly time, so there is no reason to make programmers do it, and a register-count `ROL` is rejected so that one mnemonic stays one instruction.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### RORI32: Rotate right by an immediate, 32 bits
@@ -1457,9 +1738,11 @@ RORI32 Rs, #n, Rd
 
 **Encoding**
 
-![Encoding of RORI32](figures/rori32.svg)
+![Encoding of RORI32](figures/16-RRI-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-RRI-1`, RRI, prefix `111011111010`. `op1` is `reg4`: register, 4 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-RRI-1`](dictionary/by-encoding.md#16-RRI-1).
 
 **Operation**
 
@@ -1475,7 +1758,7 @@ The 32-bit rotate with the result sign-extended like every 32-bit result; the pr
 
 **Why it is here.** A 32-bit rotate by a constant, the shape of crypto and hash inner loops, estimated together with `CBCC` at 22 KB (1.3%) of the compiled image. The result is sign-extended like the rest of the 32-bit operations, so that no instruction is needed after it. It removes 44 `MOVL` instructions in the corpus (the demand analysis already removes nearly all of them).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### DSHR: Double-width funnel shift right
@@ -1490,9 +1773,11 @@ DSHR Ra, Rb, #n, Rd
 
 **Encoding**
 
-![Encoding of DSHR](figures/dshr.svg)
+![Encoding of DSHR](figures/16-BFx-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-BFx-1`, BFx, prefix `1110010100`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BFx-1`](dictionary/by-encoding.md#16-BFx-1).
 
 **Operation**
 
@@ -1505,11 +1790,11 @@ Rd ← (t >> n)[63:0]          ; n = 0..63
 
 **Exceptions** None.
 
-x86 `SHRD`, ARM `EXTR`. Six bytes (the count is in parcel 2). A 128-bit left shift by k is `DSHR hi, hi, lo, #(64-k)` then `SHL #k, lo`.
+x86 `SHRD`, ARM `EXTR`. A 128-bit left shift by k is `DSHR hi, hi, lo, #(64-k)` then `SHL #k, lo`.
 
 **Why it is here.** A double-width funnel shift (x86 `SHRD`, ARM `EXTR`), the right primitive for multi-word shifting. Two instructions shift a 128-bit value by any distance, where rotate-through-carry takes one bit per instruction, and that is why no rotate is through carry. It also subsumes `ROR` when both sources are the same register. It leaves every flag alone.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### EXTB: Extract a bit field
@@ -1525,14 +1810,11 @@ EXTZB Rs, #pos, #width, Rd       ; zero-extended
 
 **Encoding**
 
-![Encoding of EXTB](figures/extb.svg)
+![Encoding of EXTB](figures/16-BFy-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-BFy-1`, BFy, prefix `1110010101`. `op1` is `reg4`: register, 4 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `EXTB` | `00100001 (0x21)` |
-| `EXTZB` | `00100010 (0x22)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BFy-1`](dictionary/by-encoding.md#16-BFy-1).
 
 **Operation**
 
@@ -1544,11 +1826,11 @@ Rd ← ext((Rs >> pos)[width-1:0])          ; sext for EXTB, zext for EXTZB; wid
 
 **Exceptions** None.
 
-Six bytes (position and width are in parcel 2), so these exist at `len = 10` only.
+Position and width are immediate operands; a width of 64 cannot be encoded (errata 87, assumption 8).
 
-**Why it is here.** Bit-field extract and insert are the VAX `EXTV`, `EXTZV` and `INSV` idiom. The compiler does not use them: the shift-pair extraction pattern occurs 151 times in 26 files of the corpus, about 600 bytes at best (0.03%), and there are four true bit-field extracts in all. They are for hand-written protocol and bit-stream code.
+**Why it is here.** Bit-field extract and insert are the VAX `EXTV`, `EXTZV` and `INSV` idiom. They are for hand-written protocol and bit-stream code.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### INSB: Insert a bit field
@@ -1563,9 +1845,11 @@ INSB Rs, #pos, #width, Rd
 
 **Encoding**
 
-![Encoding of INSB](figures/insb.svg)
+![Encoding of INSB](figures/16-BFy-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-BFy-1`, BFy, prefix `1110010101`. `op1` is `reg4`: register, 4 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BFy-1`](dictionary/by-encoding.md#16-BFy-1).
 
 **Operation**
 
@@ -1582,7 +1866,7 @@ Six bytes. `Rd` is both source and destination.
 
 **Why it is here.** The VAX `INSV` idiom, with `EXTB`. No use in the compiled corpus is recorded.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### XNORPOP: Population count of the equality of two words
@@ -1597,9 +1881,11 @@ XNORPOP Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of XNORPOP](figures/xnorpop.svg)
+![Encoding of XNORPOP](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -1613,9 +1899,9 @@ Rd ← popcount(NOT (Ra XOR Rb))
 
 For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (section 8.3).
 
-**Why it is here.** It serves binary-activation networks, Hamming distance, bitset intersection counts and counting a collector's mark bitmap. It does not serve sub-1-bit language models: their activations (in the LittleBit work) are FP16 and the inner loop is a conditional add, not a popcount. The sub-1-bit kernel is bandwidth-bound and belongs to a bus-mastering accelerator, not an opcode (chapter 8).
+**Why it is here.** It serves binary-activation networks, Hamming distance, bitset intersection counts and counting a collector's mark bitmap. It does not serve sub-1-bit language models: their activations (in the LittleBit work) are FP16 and the inner loop is a conditional add, not a popcount.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### CLMUL: Carry-less multiply
@@ -1631,14 +1917,11 @@ CLMULH Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of CLMUL](figures/clmul.svg)
+![Encoding of CLMUL](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `CLMULL` | `00110001 (0x31)` |
-| `CLMULH` | `00110010 (0x32)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -1656,7 +1939,7 @@ The primitive under every CRC (with a Barrett reduction), GF(2^k) arithmetic and
 
 **Why it is here.** Carry-less multiply is the primitive beneath every CRC polynomial (a CRC is a carry-less multiply plus a Barrett reduction), GF(2^k) erasure codes and AES-GCM. It is chosen over a `CRC` instruction because x86 and ARM each committed a polynomial to the architecture; there are no `CRC32` or `CRC32C` words.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### UTF8LEN: Length of a UTF-8 sequence from its leading byte
@@ -1671,9 +1954,11 @@ UTF8LEN Rs, Rd
 
 **Encoding**
 
-![Encoding of UTF8LEN](figures/utf8len.svg)
+![Encoding of UTF8LEN](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -1687,7 +1972,7 @@ Rd ← length (1 to 4) implied by the leading byte Rs[7:0]; 0 if it cannot begin
 
 **Why it is here.** Most of what UTF-8 needs is general bit manipulation, but the validity rules are where the bugs are, so the group has three instructions. `UTF8LEN` is the one that is nearly free: `CLO` on the leading byte, mapped to 1, 2, 3 or 4.
 
-**Status** specified; **not yet implemented** in the reference executor.
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### UTF8DEC: Decode a UTF-8 sequence
@@ -1702,9 +1987,11 @@ UTF8DEC Rs, Rd
 
 **Encoding**
 
-![Encoding of UTF8DEC](figures/utf8dec.svg)
+![Encoding of UTF8DEC](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -1735,9 +2022,11 @@ UTF8ENC Rs, Rd
 
 **Encoding**
 
-![Encoding of UTF8ENC](figures/utf8enc.svg)
+![Encoding of UTF8ENC](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -1751,6 +2040,209 @@ V  ← 1 if Rs is not a Unicode scalar value
 **Exceptions** None.
 
 **Why it is here.** The encoding half of the UTF-8 pair; it refuses surrogates and values above U+10FFFF so that an encoder cannot produce what a decoder must reject.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### BSEL: Bitwise select
+
+**Mnemonics:** `BSEL`
+
+**Syntax**
+
+```
+BSEL Rm, Ra, Rb, Rd
+```
+
+**Encoding**
+
+![Encoding of BSEL](figures/16-R4-1.svg)
+
+The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
+
+**Operation**
+
+```
+Rd ← (Rm AND Ra) OR (NOT Rm AND Rb)       ; bit by bit
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+*(P)* In the crypto proposal (`docs/crypto-secure-core.md` section 3.2), marked "adopt" there and not separately confirmed by the author; the reference executor implements it. `Ch(e, f, g)` of SHA-2 is `BSEL e, f, g`; `Maj(a, b, c)` is `BSEL (a XOR b), c, b`; a mask-controlled swap of two registers is two `BSEL`. Three sources and a destination: the four register fields of the three-operand group.
+
+**Why it is here.** A bit select takes three sources and a destination, the four register fields of the three-operand group. Its case in the crypto proposal is SHA-2 (`Ch` and `Maj` are one `BSEL` each) and the constant-time swap: the X25519 ladder swaps ten limbs per step, 50 instructions with the mask pair against about 25 with `BSEL`. It is the select of ARM (`BSL`) and of x86 ternary logic, and it serves MD5 and SHA-1 round functions, blends and bit insertion. The proposal names it as the one instruction to drop "if the author wants fewer entities than the minimum", and the record does not show the author deciding it separately.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### AESR: AES round on a 128-bit block in two registers
+
+**Mnemonics:** `AESES`, `AESESM`, `AESDS`, `AESDSM`
+
+**Syntax**
+
+```
+AESES Ra, Rb, Rd
+AESESM Ra, Rb, Rd
+AESDS Ra, Rb, Rd
+AESDSM Ra, Rb, Rd
+```
+
+**Encoding**
+
+![Encoding of AESR](figures/16-R3-1.svg)
+
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**Operation**
+
+```
+the 16 bytes of the block are Rb:Ra (Ra holds bytes 0 to 7, columns 0 and 1; Rb bytes 8 to 15)
+AESES  : ShiftRows, then SubBytes
+AESESM : ShiftRows, SubBytes, then MixColumns
+AESDS  : inverse ShiftRows, then inverse SubBytes
+AESDSM : inverse ShiftRows, inverse SubBytes, then inverse MixColumns
+Rd ← the 8 bytes of the new state that belong to columns 0 and 1; with Ra and Rb exchanged, columns 2 and 3
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+*(P)* `docs/crypto-secure-core.md` section 3.2; the author approved the secure-core design and the select instructions (errata 86) and has not yet answered sections 3 to 5 of that document. Any two registers hold a block (no even-odd pairing): a round on one block is `AESESM Ra, Rb, T` and `AESESM Rb, Ra, Rb`, with the round key XORed by `XOR` with a memory operand. The latency is fixed and the instruction reads and writes no memory, so it has no cache-timing channel; the architecture does not say whether the S-box is a table inside the unit or a circuit. The definitions are those of FIPS 197 and must be checked against it before the text is final. **Not implemented** in the reference executor.
+
+**Why it is here.** Constant-time software AES takes about 1,000 instructions a block (BearSSL's bitsliced code, scaled; the proposal's estimate), and table AES leaks through the cache. The author asked for constant-time AES and SHA instructions "or whichever opcodes would speed up and enable aes and sha" for the secure core (errata 85). The design is RISC-V's scalar cryptography (`aes64es` and its kin): the state is in the general registers, so no vector register file is needed and, unlike the AES drivers of OpenBSD for x86 and ARM, no `fpu_kernel_enter()` bracket either: a kernel AES loop saves nothing and is preemptible with the ordinary register save. A block costs 42 instructions for AES-128, 20 to 25 times fewer than the software sequence (estimates). Precedent for the pair-in-registers shape: RISC-V; the other machines (x86 AES-NI, ARM `AESE`) use vector registers.
+
+**Cf.** docs/crypto-secure-core.md section 3.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### AESK: AES key schedule steps
+
+**Mnemonics:** `AESKS1`, `AESKS2`, `AESIM`
+
+**Syntax**
+
+```
+AESKS1 Rs, #n, Rd
+AESKS2 Ra, Rb, Rd
+AESIM Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of AESK](figures/16-RRI-1.svg)
+
+The chart is the leaf `16-RRI-1`, RRI, prefix `111011111010`. `op1` is `reg4`: register, 4 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-RRI-1`](dictionary/by-encoding.md#16-RRI-1), [`16-R3-1`](dictionary/by-encoding.md#16-R3-1), [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**Operation**
+
+```
+AESKS1: Rd ← (SubWord(RotWord(Rs[63:32])) XOR rcon(n)), replicated in both halves   ; n = 10: no round constant (AES-256)
+AESKS2: Rd[31:0] ← Ra[31:0] XOR Rb[63:32] ; Rd[63:32] ← Ra[63:32] XOR Rd[31:0]
+AESIM : Rd ← InvMixColumns of the two columns in Rs         ; for the decryption key schedule
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+*(P)* As `AESR`: `docs/crypto-secure-core.md` section 3.2, awaiting the author's answer. The key schedule of AES-128 takes three instructions per round. **Not implemented** in the reference executor.
+
+**Why it is here.** The key schedule and the inverse mix of the round key complete the round instructions: three instructions per round of the AES-128 schedule, about 30 for the whole schedule instead of about 150, once per key; `AESIM` adds 18 for the decryption schedule. The same precedent as `AESR`.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### SHA256: The SHA-256 functions
+
+**Mnemonics:** `SHA256SIG0`, `SHA256SIG1`, `SHA256SUM0`, `SHA256SUM1`
+
+**Syntax**
+
+```
+SHA256SIG0 Rs, Rd
+SHA256SIG1 Rs, Rd
+SHA256SUM0 Rs, Rd
+SHA256SUM1 Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of SHA256](figures/16-R2-1.svg)
+
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**Operation**
+
+```
+on the low 32 bits x of Rs; the result is in the low 32 bits of Rd, the upper bits zero
+SIG0: ror(x,7)  XOR ror(x,18) XOR shr(x,3)
+SIG1: ror(x,17) XOR ror(x,19) XOR shr(x,10)
+SUM0: ror(x,2)  XOR ror(x,13) XOR ror(x,22)
+SUM1: ror(x,6)  XOR ror(x,11) XOR ror(x,25)
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+*(P)* `docs/crypto-secure-core.md` section 3.2, awaiting the author's answer. The result is zero-extended there; every other 32-bit result of the machine is sign-extended (`RORI32`), so the choice is open. Rotations and three-input exclusive ors, one cycle in hardware, no data-dependent timing. **Not implemented** in the reference executor.
+
+**Why it is here.** The SHA-2 rounds are rotations and three-input exclusive ors, which the integer instructions do in several steps; the RISC-V scalar cryptography extension has the eight functions as instructions. The crypto proposal counts the gain honestly: the primitives remove half the work, not nineteen twentieths, because a round still needs the adds and the register traffic (about 1,200 against 2,500 instructions for a 64-byte block with `BSEL`, estimates).
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### SHA512: The SHA-512 functions
+
+**Mnemonics:** `SHA512SIG0`, `SHA512SIG1`, `SHA512SUM0`, `SHA512SUM1`
+
+**Syntax**
+
+```
+SHA512SIG0 Rs, Rd
+SHA512SIG1 Rs, Rd
+SHA512SUM0 Rs, Rd
+SHA512SUM1 Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of SHA512](figures/16-R2-1.svg)
+
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**Operation**
+
+```
+on the 64 bits x of Rs
+SIG0: ror(x,1)  XOR ror(x,8)  XOR shr(x,7)
+SIG1: ror(x,19) XOR ror(x,61) XOR shr(x,6)
+SUM0: ror(x,28) XOR ror(x,34) XOR ror(x,39)
+SUM1: ror(x,14) XOR ror(x,18) XOR ror(x,41)
+```
+
+**Flags** None written.
+
+**Exceptions** None.
+
+*(P)* As `SHA256`. **Not implemented** in the reference executor.
+
+**Why it is here.** See `SHA256`: the four 64-bit functions of SHA-512, with the same gain of about two (about 1,500 against 3,100 instructions for a 128-byte block, estimates).
 
 **Status** specified; **not yet implemented** in the reference executor.
 <!-- /entries:9.9 -->
@@ -1788,27 +2280,11 @@ BEQ target ... and the rest
 
 **Encoding**
 
-![Encoding of the conditional branches](figures/bcc.svg)
+![Encoding of BCC](figures/16-BRF-1.svg)
 
-The displacement is signed and counts 2-byte parcels from the first parcel of the instruction: 8 bits at `len = 00` (about ±256 bytes), 16 bits at `len = 01` (±64 KB), 32 bits in parcels 1 and 2 at `len = 10` (±4 GB).
+The chart is the leaf `16-BRF-1`, BRF, prefix `1111000111111`. `op1` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes). `sub` (3 bits) selects the mnemonic: `br` 000, `bne` 001, `beq` 010, `bpl` 011, `bmi` 100, `bvc` 101, `bvs` 110, `bcc` 111.
 
-| Mnemonic | Opcode |
-|---|---|
-| `BR` | `110000 (0x30)` (condition 0) |
-| `BNE` | `110001 (0x31)` (condition 1) |
-| `BEQ` | `110010 (0x32)` (condition 2) |
-| `BPL` | `110011 (0x33)` (condition 3) |
-| `BMI` | `110100 (0x34)` (condition 4) |
-| `BVC` | `110101 (0x35)` (condition 5) |
-| `BVS` | `110110 (0x36)` (condition 6) |
-| `BCC` | `110111 (0x37)` (condition 7) |
-| `BCS` | `111000 (0x38)` (condition 8) |
-| `BGE` | `111001 (0x39)` (condition 9) |
-| `BLT` | `111010 (0x3A)` (condition 10) |
-| `BGT` | `111011 (0x3B)` (condition 11) |
-| `BLE` | `111100 (0x3C)` (condition 12) |
-| `BHI` | `111101 (0x3D)` (condition 13) |
-| `BLOS` | `111110 (0x3E)` (condition 14) |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BRF-1`](dictionary/by-encoding.md#16-BRF-1), [`16-BR2-16-a-1`](dictionary/by-encoding.md#16-BR2-16-a-1), [`16-BR1-6-a-1`](dictionary/by-encoding.md#16-BR1-6-a-1), [`16-BR1-8-a-1`](dictionary/by-encoding.md#16-BR1-8-a-1), [`16-BR1-9-a-1`](dictionary/by-encoding.md#16-BR1-9-a-1), [`16-BR2-16-b-1`](dictionary/by-encoding.md#16-BR2-16-b-1), [`16-BR1-6-b-1`](dictionary/by-encoding.md#16-BR1-6-b-1), [`16-BR1-7-b-1`](dictionary/by-encoding.md#16-BR1-7-b-1), [`16-BR2-16-c-1`](dictionary/by-encoding.md#16-BR2-16-c-1), [`16-BR1-6-c-1`](dictionary/by-encoding.md#16-BR1-6-c-1), [`16-BRF-2`](dictionary/by-encoding.md#16-BRF-2), [`16-BR2-16-c-2`](dictionary/by-encoding.md#16-BR2-16-c-2), [`16-BR1-6-c-2`](dictionary/by-encoding.md#16-BR1-6-c-2), [`16-BRF-3`](dictionary/by-encoding.md#16-BRF-3), [`16-BRF-4`](dictionary/by-encoding.md#16-BRF-4).
 
 **Operation**
 
@@ -1820,11 +2296,11 @@ if cond(c) then PC ← address of this instruction + 2 × disp
 
 **Exceptions** None; a branch to an unmapped or non-executable address faults on the fetch of the target.
 
-Condition numbers: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. Conditions on the flags: `ne` `!Z`; `eq` `Z`; `pl` `!N`; `mi` `N`; `vc` `!V`; `vs` `V`; `cc` `!C`; `cs` `C`; `ge` `N == V`; `lt` `N != V`; `gt` `!Z and N == V`; `le` `Z or N != V`; `hi` `!C and !Z`; `los` `C or Z`. The displacement counts 2-byte parcels; the branch reaches ±4 GB with no long-branch instruction.
+Condition numbers: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. Conditions on the flags: `ne` `!Z`; `eq` `Z`; `pl` `!N`; `mi` `N`; `vc` `!V`; `vs` `V`; `cc` `!C`; `cs` `C`; `ge` `N == V`; `lt` `N != V`; `gt` `!Z and N == V`; `le` `Z or N != V`; `hi` `!C and !Z`; `los` `C or Z`. The displacement counts 2-byte parcels; the reach of each form is in its chart.
 
 **Cf.** 6.7 for `TRAP`, `RTI` and `RTT`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### SOB: Subtract one and branch
@@ -1839,9 +2315,11 @@ SOB Rn, target
 
 **Encoding**
 
-![Encoding of SOB](figures/sob.svg)
+![Encoding of SOB](figures/16-SOB-1.svg)
 
-From `len = 01`; the signed displacement is 16 bits (32 at `len = 10`).
+The chart is the leaf `16-SOB-1`, SOB, prefix `111100001100`. `op1` is `reg4`: register, 4 bits. `op2` is `pc16-u2`: pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes).
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOB-1`](dictionary/by-encoding.md#16-SOB-1).
 
 **Operation**
 
@@ -1856,9 +2334,9 @@ if Rn ≠ 0 then PC ← address of this instruction + 2 × disp
 
 From the PDP-11, where it could branch only backward; here the signed displacement goes either way. Four bytes at least.
 
-**Why it is here.** Taken from the PDP-11, at the branch group's one free opcode. The PDP-11's could only branch backward (a 6-bit unsigned displacement); this one branches either way. Against the `cbnz` idiom of other architectures it does not save bytes (`DEC` plus `BNE` is also four) but it saves an instruction issue, a cycle per iteration on a machine that does not pipeline: same size, one instruction fewer (static `dec; bne` pairs exist).
+**Why it is here.** The PDP-11's could only branch backward (a 6-bit unsigned displacement); this one branches either way. Against the `cbnz` idiom of other architectures it does not save bytes (`DEC` plus `BNE` is also four) but it saves an instruction issue, a cycle per iteration on a machine that does not pipeline: same size, one instruction fewer (static `dec; bne` pairs exist).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### CBCC: Compare and branch on condition
@@ -1874,17 +2352,11 @@ CBEQ Ra, Rb, target ... and the rest
 
 **Encoding**
 
-![Encoding of CBCC](figures/cbcc-cbcc.svg)
+![Encoding of CBCC](figures/16-CB3I16-12-a-1.svg)
 
-`CBCC` (opcode `101000 (0x28)`), four bytes: a signed 5-bit immediate (-16 to 15) and an 11-bit displacement in parcels. At `len = 10` (six bytes) parcel 1 is `imm(5) disp(26..16)` and parcel 2 `disp(15..0)`.
+The chart is the leaf `16-CB3I16-12-a-1`, CB3I16_12/a, prefix `111100101111100`. `op1` is `reg4`: register, 4 bits. `op2` is `imm16s`: signed 16-bit immediate, -32768 to 32767. `op3` is `pc12-u2`: pc-relative, 12 bits counted in 2-byte units (-4096 to 4094 bytes). `sub` (1 bit) selects the mnemonic: `cbeq` 0, `cbne` 1.
 
-![Encoding of CBW](figures/cbcc-cbw.svg)
-
-`CBW` (opcode `101001 (0x29)`), six bytes: a 16-bit immediate and a 16-bit displacement in parcels.
-
-![Encoding of CBRR](figures/cbcc-cbrr.svg)
-
-`CBRR` (opcode `101010 (0x2A)`), four bytes (six at `len = 10`, with a 28-bit displacement): compares two registers. The condition numbers are those of the branches: `al` 0, `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. There is no `len = 00` form.
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-CB3I16-12-a-1`](dictionary/by-encoding.md#16-CB3I16-12-a-1), [`16-CBR8-a-1`](dictionary/by-encoding.md#16-CBR8-a-1), [`16-CBZ2-12-a-1`](dictionary/by-encoding.md#16-CBZ2-12-a-1), [`16-CBI5-8-a-1`](dictionary/by-encoding.md#16-CBI5-8-a-1), [`16-CBI6-8-a-1`](dictionary/by-encoding.md#16-CBI6-8-a-1), [`16-CBI10-8-a-1`](dictionary/by-encoding.md#16-CBI10-8-a-1), [`16-CB3I8-20-a-1`](dictionary/by-encoding.md#16-CB3I8-20-a-1), [`16-CBZ1-4-a-1`](dictionary/by-encoding.md#16-CBZ1-4-a-1), [`16-CBI5-10-a-1`](dictionary/by-encoding.md#16-CBI5-10-a-1), [`16-CB3R24-a-1`](dictionary/by-encoding.md#16-CB3R24-a-1), [`16-CBZ1-5-a-1`](dictionary/by-encoding.md#16-CBZ1-5-a-1), [`16-CBI8-10-a-1`](dictionary/by-encoding.md#16-CBI8-10-a-1), [`16-CBR10-a-1`](dictionary/by-encoding.md#16-CBR10-a-1), [`16-CBI4-12-a-1`](dictionary/by-encoding.md#16-CBI4-12-a-1), [`16-CBZ1-7-a-1`](dictionary/by-encoding.md#16-CBZ1-7-a-1), [`16-CBZ2-14-a-1`](dictionary/by-encoding.md#16-CBZ2-14-a-1), [`16-CBI6-12-a-1`](dictionary/by-encoding.md#16-CBI6-12-a-1), [`16-CBDI-1`](dictionary/by-encoding.md#16-CBDI-1), [`16-CBDR-1`](dictionary/by-encoding.md#16-CBDR-1), [`16-CBR8-c-1`](dictionary/by-encoding.md#16-CBR8-c-1), [`16-CB3I16-12-c-1`](dictionary/by-encoding.md#16-CB3I16-12-c-1), [`16-CBI4-8-c-1`](dictionary/by-encoding.md#16-CBI4-8-c-1), [`16-CBI6-8-c-1`](dictionary/by-encoding.md#16-CBI6-8-c-1), [`16-CB3R24-c-1`](dictionary/by-encoding.md#16-CB3R24-c-1), [`16-CBR10-c-1`](dictionary/by-encoding.md#16-CBR10-c-1), [`16-CBI8-8-c-1`](dictionary/by-encoding.md#16-CBI8-8-c-1), [`16-CBI4-10-c-1`](dictionary/by-encoding.md#16-CBI4-10-c-1), [`16-CB3I8-20-c-1`](dictionary/by-encoding.md#16-CB3I8-20-c-1), [`16-CBI10-8-c-1`](dictionary/by-encoding.md#16-CBI10-8-c-1), [`16-CBI6-10-c-1`](dictionary/by-encoding.md#16-CBI6-10-c-1), [`16-CB3I16-12-b-1`](dictionary/by-encoding.md#16-CB3I16-12-b-1), [`16-CBR8-b-1`](dictionary/by-encoding.md#16-CBR8-b-1), [`16-CBI8-8-b-1`](dictionary/by-encoding.md#16-CBI8-8-b-1), [`16-CBZ2-12-b-1`](dictionary/by-encoding.md#16-CBZ2-12-b-1), [`16-CB3I8-20-b-1`](dictionary/by-encoding.md#16-CB3I8-20-b-1), [`16-CB3R24-b-1`](dictionary/by-encoding.md#16-CB3R24-b-1), [`16-CBI4-10-b-1`](dictionary/by-encoding.md#16-CBI4-10-b-1).
 
 **Operation**
 
@@ -1897,11 +2369,11 @@ if cond(c) on that comparison then PC ← address of this instruction + 2 × dis
 
 **Exceptions** None.
 
-Three encodings, chosen by the assembler: `CBCC` (`101000 (0x28)`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`101001 (0x29)`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`101010 (0x2A)`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.
+The family has several forms for each condition (the layouts of this entry): the second operand is a register or an immediate of some width, and the reach differs. A `cbCC` that no form reaches is assembled by `as64` as `CMP` and `bCC`, which **writes the flags** (errata 87, assumption 6; the integration measured 4 such sites in 34,387 for pdp64/16 and 17 in 34,524 for pdp64/32, errata 90).
 
-**Why it is here.** A fused compare-and-branch in the reserved opcode `101000 (0x28)`, estimated with `RORI32` at 22 KB (1.3%) of the image. The wide-immediate `CBCC` removes 11,735 instructions (3.4%) and 1,828 bytes; `CBRR`, the register-register compare-and-branch, removes 4,631 instructions (1.4%) and 142 bytes. It is not a replacement for flags: LoongArch and RISC-V chose fused compare-and-branch instead of flags, and this architecture declines that (9.20) because it needs a comparator in the branch unit and a third read port; here the fused form is added beside the flags. `CBCC` writes no flags.
+**Why it is here.** It is not a replacement for flags: LoongArch and RISC-V chose fused compare-and-branch instead of flags, and this architecture declines that (9.20) because it needs a comparator in the branch unit and a third read port; here the fused form is added beside the flags. `CBCC` writes no flags.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### BTAG: Branch on pointer tag
@@ -1917,9 +2389,11 @@ BNTAG Rn, #tag, target
 
 **Encoding**
 
-![Encoding of BTAG and BNTAG](figures/btag.svg)
+![Encoding of BTAG](figures/16-TAG-1.svg)
 
-`sense` is 0 for `BTAG` and 1 for `BNTAG`; `tag` is the 3-bit tag. The displacement is 16 bits (32 at `len = 10`).
+The chart is the leaf `16-TAG-1`, TAG, prefix `11101110101`. `op1` is `reg4`: register, 4 bits. `op2` is `imm3u`: unsigned 3-bit immediate, 0 to 7. `op3` is `pc13-u2`: pc-relative, 13 bits counted in 2-byte units (-8192 to 8190 bytes). `sub` (1 bit) selects the mnemonic: `btag` 0, `bntag` 1.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-TAG-1`](dictionary/by-encoding.md#16-TAG-1).
 
 **Operation**
 
@@ -1932,11 +2406,11 @@ BNTAG: if (Rn & 111₂) ≠ tag then PC ← address of this instruction + 2 × d
 
 **Exceptions** None.
 
-For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`). Four bytes at least; the displacement is 16 bits (32 at `len = 10`).
+For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`). The displacement is signed and counts parcels.
 
-**Why it is here.** The tag branches `BTAG` and `BNTAG` and the table dispatch `JTAG` make tagged pointers cheap to use rather than merely possible: three bits of tag and one of sense fit the `low` nibble exactly, so parcel 1 is a full displacement. Because quad-aligned objects have zero in the low three bits, the tag is free, and an unaligned access is a fault. The compiler for C never emits them (the corpus shows none); they are for Lisp and other tagged runtimes.
+**Why it is here.** Because quad-aligned objects have zero in the low three bits, the tag is free, and an unaligned access is a fault. The compiler for C never emits them (the corpus shows none); they are for Lisp and other tagged runtimes.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### JMP: Jump
@@ -1951,9 +2425,11 @@ JMP rm        ; a register, or an address by any memory mode
 
 **Encoding**
 
-![Encoding of JMP](figures/jmp.svg)
+![Encoding of JMP](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-CALLF-1`](dictionary/by-encoding.md#16-CALLF-1), [`16-SOPR-3`](dictionary/by-encoding.md#16-SOPR-3), [`16-CALL2-16-j-1`](dictionary/by-encoding.md#16-CALL2-16-j-1), [`16-SOBu12-x-1`](dictionary/by-encoding.md#16-SOBu12-x-1), [`16-SOX6-x-1`](dictionary/by-encoding.md#16-SOX6-x-1).
 
 **Operation**
 
@@ -1967,7 +2443,7 @@ PC ← (register operand) ? Rm : EA(rm)
 
 A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` through a scaled index.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### CALL: Call
@@ -1982,9 +2458,11 @@ CALL rm
 
 **Encoding**
 
-![Encoding of CALL](figures/call.svg)
+![Encoding of CALL](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-CALLF-1`](dictionary/by-encoding.md#16-CALLF-1), [`16-SOPR-3`](dictionary/by-encoding.md#16-SOPR-3), [`16-CALL2-16-c-1`](dictionary/by-encoding.md#16-CALL2-16-c-1), [`16-CALL2-18-c-1`](dictionary/by-encoding.md#16-CALL2-18-c-1), [`16-SOBu12-x-1`](dictionary/by-encoding.md#16-SOBu12-x-1), [`16-SOX6-x-1`](dictionary/by-encoding.md#16-SOX6-x-1).
 
 **Operation**
 
@@ -2000,7 +2478,7 @@ PC ← t
 
 The return address is on the data stack where every unwinder and debugger expects it. `RET` pops it.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### JMPI: Jump and call through memory
@@ -2016,14 +2494,11 @@ CALLI rm       ; push the return address, then PC ← M[EA]
 
 **Encoding**
 
-![Encoding of JMPI](figures/jmpi.svg)
+![Encoding of JMPI](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
-| Mnemonic | `reg` (sub-opcode) |
-|---|---|
-| `JMPI` | `0000 (0x0)` |
-| `CALLI` | `0001 (0x1)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOBu12-x-1`](dictionary/by-encoding.md#16-SOBu12-x-1), [`16-SOX6-x-1`](dictionary/by-encoding.md#16-SOX6-x-1).
 
 **Operation**
 
@@ -2036,11 +2511,11 @@ CALLI: t ← M[EA(rm)] ; SP ← SP - 8 ; M[SP] ← address of the next instructi
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. For `CALLI` the order is specified: load the target, then push, then transfer; a fault on the load leaves nothing changed.
 
-The one deferred reference the architecture admits, for control transfer only: the PLT stub (`JMPI got_slot(PC)`) and virtual-method dispatch (`CALLI vtbl_off(Robj)`). It needs a memory operand, so it is four bytes at least.
+The one deferred reference the architecture admits, for control transfer only: the PLT stub (`JMPI got_slot(PC)`) and virtual-method dispatch (`CALLI vtbl_off(Robj)`). It needs a memory operand.
 
-**Why it is here.** Exactly one deferred reference, for control transfer only, in `XFER`: the PLT stub of every dynamically linked program (`JMPI got_slot(PC)`) and virtual-method dispatch (`CALLI vtbl_off(Robj)`), each two instructions and a scratch register without it. It is admitted because it breaks none of the reasons deferred modes are removed (no register is side-effected, the reference is in the branch path and not the operand path, a fault is clean by ordering). Jump tables through `JMPI` are not smaller, because the table entries are 8 bytes against 8 for a case in a compare chain.
+**Why it is here.** It is admitted because it breaks none of the reasons deferred modes are removed (no register is side-effected, the reference is in the branch path and not the operand path, a fault is clean by ordering).
 
-**Status** implemented in the reference executor for `CALLI`; not yet for the others.
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### JTAG: Jump through a tag table
@@ -2055,9 +2530,11 @@ JTAG d(Rb)(Rx×s)
 
 **Encoding**
 
-![Encoding of JTAG](figures/jtag.svg)
+![Encoding of JTAG](figures/16-JTAG3-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-JTAG3-1`, JTAG3, prefix `1111001100100010`. `op1` is `x4-4d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 4 bits, index register, 4 bits.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-JTAG3-1`](dictionary/by-encoding.md#16-JTAG3-1), [`16-JTAG2-1`](dictionary/by-encoding.md#16-JTAG2-1).
 
 **Operation**
 
@@ -2073,7 +2550,119 @@ Legal only with the scaled-index mode (`0001`). Dispatches on the low three bits
 
 **Why it is here.** The table-dispatch partner of `BTAG`. It is legal only in the scaled-index mode, the one mode with a free register slot for the tagged value. It replaces the PDP-11 dispatch-table idiom `@(Rn)+` better, because it needs no pointer register and cannot index out of range.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### MOVCALL: Move a register and call
+
+**Mnemonics:** `MOVCALL`
+
+**Syntax**
+
+```
+MOVCALL Rs, Rd, target
+```
+
+**Encoding**
+
+![Encoding of MOVCALL](figures/16-FX-MOVCALL3-1.svg)
+
+The chart is the leaf `16-FX-MOVCALL3-1`, FX.MOVCALL3, prefix `11001100`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes).
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-MOVCALL3-1`](dictionary/by-encoding.md#16-FX-MOVCALL3-1), [`16-FX-MOVCALL2-1`](dictionary/by-encoding.md#16-FX-MOVCALL2-1).
+
+**Operation**
+
+```
+Rd ← Rs
+SP ← SP - 8 ; M[SP] ← address of the next instruction
+PC ← target
+```
+
+**Flags** None written.
+
+**Exceptions** The store of the return address can fault (the memory faults of `CALL`): the instruction restarts whole, because the first half reads a register that the second half does not change.
+
+*(D)* One of the four fused pairs of errata 87: `MOVQ Rs, Rd` followed by `CALL target`, in one instruction. The target is a pc-relative field in parcels, measured from the first parcel of the fused instruction (errata 87, assumption 9); the instruction is two parcels (a 16-bit field) or three (a 32-bit field), and the linker grows it from its shortest form like a `CALL` (`docs/relaxation.md`). **The assembler never fuses**: the compiler writes `MOVCALL` where it wants it. An instruction that writes two registers (`Rd` and the stack pointer) and stores to memory is a two-micro-operation instruction for an out-of-order core (errata 87).
+
+**Why it is here.** The author decided the four fused pairs in errata 87 (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in pdp64/16 and pdp64/32): `MOVQ Rs, Rd` followed by `CALL` occurs 11,123 times, and fusing it alone shrinks the code by 2.19% (pdp64/16) and 2.39% (pdp64/32), the largest of the four; all four together fuse 20,428 pairs and save 3.29% and 3.18% of the bytes and about 1.1% of the executed instructions. The call keeps its reach (four or six bytes). The cost, named in the proposal: a new mnemonic, and one instruction that writes two registers (the destination and the stack pointer), which is two micro-operations for an out-of-order core. The record gives no earlier machine for this particular pair; the reasoning is the fourth priority of the definitive list (errata 83), fewer instructions executed, where coalescing is good.
+
+**Cf.** 9.5 (the pc-relative operand and the relaxation), 6.2 (restart after a fault).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### POPRET: Pop a register and return
+
+**Mnemonics:** `POPRET`
+
+**Syntax**
+
+```
+POPRET Rd
+```
+
+**Encoding**
+
+![Encoding of POPRET](figures/16-FX-POPRET-1.svg)
+
+The chart is the leaf `16-FX-POPRET-1`, FX.POPRET, prefix `111100001101`. `op1` is `reg4`: register, 4 bits.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-POPRET-1`](dictionary/by-encoding.md#16-FX-POPRET-1).
+
+**Operation**
+
+```
+Rd ← M[SP] ; SP ← SP + 8
+PC ← M[SP] ; SP ← SP + 8
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+*(D)* `POP Rd` followed by `RET`, fused (errata 87). The register is the one the function restores last, usually a callee-saved register or the frame pointer. One parcel of 16 bits at pdp64/16 with the register in a 4-bit field; at pdp64/32 the 5-bit field makes the prefix one bit shorter.
+
+**Why it is here.** The author decided the four fused pairs in errata 87 (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in pdp64/16 and pdp64/32): `POP Rd` followed by `RET` and `POPM` followed by `RET` (`POPMRET`) occur 4,862 times together and save 0.95% (pdp64/16) and 1.00% (pdp64/32); this is the epilogue of nearly every function. The fault of the second half restarts the whole instruction, which is idempotent because the first half reads a register the second does not change and `POPM` is already specified restartable (the proposal's decision 2).
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### POPMRET: Pop several registers and return
+
+**Mnemonics:** `POPMRET`
+
+**Syntax**
+
+```
+POPMRET #mask
+```
+
+**Encoding**
+
+![Encoding of POPMRET](figures/16-FX-POPMRET-1.svg)
+
+The chart is the leaf `16-FX-POPMRET-1`, FX.POPMRET, prefix `11001110`. `op1` is `imm8u-x256`: unsigned 8-bit immediate times 256, 0 to 65280.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-POPMRET-1`](dictionary/by-encoding.md#16-FX-POPMRET-1).
+
+**Operation**
+
+```
+for each bit i set in mask, highest register first:
+    Ri ← M[SP] ; SP ← SP + 8
+PC ← M[SP] ; SP ← SP + 8
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. A fault after some registers have been popped leaves them popped: the instruction restarts whole and pops them again, which is idempotent because the stack pointer is restored with the rest of the state at the start of the instruction.
+
+*(D)* `POPM #mask` followed by `RET`, fused (errata 87): the epilogue of every function that saved registers with `PUSHM`. The mask is an 8-bit field scaled by 256, so the instruction names `R8` to `R15`; any other set of registers is `POPM` and `RET`. One parcel.
+
+**Why it is here.** See `POPRET`: the two are measured together (4,862 pairs, 0.95% and 1.00% of the bytes). The mask is an 8-bit field scaled by 256 because one parcel has no room for a wider one; the epilogue that restores `R8` to `R15` is the common case the corpus shows, and any other set stays `POPM` and `RET`.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 <!-- /entries:9.10 -->
 
 ## 9.11 The stack and block operations
@@ -2105,9 +2694,11 @@ PUSHM #mask        ; a 16-bit immediate, bit n is Rn
 
 **Encoding**
 
-![Encoding of PUSHM](figures/pushm.svg)
+![Encoding of PUSHM](figures/16-PUSHMF-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-PUSHMF-1`, PUSHMF, prefix `111100101111001`. `op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295. `sub` (1 bit) selects the mnemonic: `pushm` 0, `popm` 1.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-PUSHMF-1`](dictionary/by-encoding.md#16-PUSHMF-1), [`16-PUSHM16a-a-1`](dictionary/by-encoding.md#16-PUSHM16a-a-1), [`16-PUSHM8-a-1`](dictionary/by-encoding.md#16-PUSHM8-a-1).
 
 **Operation**
 
@@ -2120,13 +2711,13 @@ for n = 0 to 15, if mask bit n:
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. A mask that includes `R14` (`SP`) is reserved.
 
-Four bytes (mode `0100`, immediate). The registers are pushed in ascending order, so `POPM` with the same mask restores them. Page 2 has an 8-bit mask for `R8` to `R15`.
+The registers are pushed in ascending order, so `POPM` with the same mask restores them. The mask is the low 32 bits of the number (errata 87, assumption 7); the one-parcel form takes an 8-bit mask scaled by 256, which names `R8` to `R15`.
 
-**Why it is here.** The VAX procedure entry mask was the useful half of `CALLS`; `PUSHM` and `POPM` keep that half without the frame (hardware call frames ran slower than the sequence on later VAXes). They are in `SOP` because a 16-bit mask does not fit beside `MBLK`'s sub-opcode; that uses `SOP`'s last two free slots. The second page has 8-bit forms for `R8` to `R15`, because all 2,392 push sites and 2,392 pop sites in the measured corpus use a mask within `R8` to `R15`.
+**Why it is here.** The VAX procedure entry mask was the useful half of `CALLS`; `PUSHM` and `POPM` keep that half without the frame (hardware call frames ran slower than the sequence on later VAXes). The second page has 8-bit forms for `R8` to `R15`, because all 2,392 push sites and 2,392 pop sites in the measured corpus use a mask within `R8` to `R15`.
 
 **Cf.** 6.8 for the restart rule.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### POPM: Pop registers by mask
@@ -2141,9 +2732,11 @@ POPM #mask
 
 **Encoding**
 
-![Encoding of POPM](figures/popm.svg)
+![Encoding of POPM](figures/16-PUSHMF-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-PUSHMF-1`, PUSHMF, prefix `111100101111001`. `op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295. `sub` (1 bit) selects the mnemonic: `pushm` 0, `popm` 1.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-PUSHMF-1`](dictionary/by-encoding.md#16-PUSHMF-1), [`16-PUSHM16a-a-1`](dictionary/by-encoding.md#16-PUSHM16a-a-1), [`16-PUSHM8-a-1`](dictionary/by-encoding.md#16-PUSHM8-a-1).
 
 **Operation**
 
@@ -2156,9 +2749,9 @@ for n = 15 down to 0, if mask bit n:
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-The mirror of `PUSHM`; four bytes, with an 8-bit-mask form on page 2.
+The mirror of `PUSHM`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### PUSH: Push
@@ -2173,9 +2766,11 @@ PUSH rm
 
 **Encoding**
 
-![Encoding of PUSH](figures/push.svg)
+![Encoding of PUSH](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2), [`16-PUSHI3-1`](dictionary/by-encoding.md#16-PUSHI3-1), [`16-PUSHI2-1`](dictionary/by-encoding.md#16-PUSHI2-1), [`16-SOBu12-a-2`](dictionary/by-encoding.md#16-SOBu12-a-2), [`16-SOX6-a-2`](dictionary/by-encoding.md#16-SOX6-a-2), [`16-SOBs12-a-2`](dictionary/by-encoding.md#16-SOBs12-a-2).
 
 **Operation**
 
@@ -2187,9 +2782,7 @@ v ← rm ; SP ← SP - 8 ; M[SP] ← v
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-A one-parcel instruction for a register operand.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### POP: Pop
@@ -2204,9 +2797,11 @@ POP rm
 
 **Encoding**
 
-![Encoding of POP](figures/pop.svg)
+![Encoding of POP](figures/16-SOF-B28-1.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2), [`16-SOBu12-a-2`](dictionary/by-encoding.md#16-SOBu12-a-2), [`16-SOX6-a-2`](dictionary/by-encoding.md#16-SOX6-a-2), [`16-SOBs12-a-2`](dictionary/by-encoding.md#16-SOBs12-a-2).
 
 **Operation**
 
@@ -2218,7 +2813,7 @@ v ← M[SP] ; SP ← SP + 8 ; rm ← v
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MCPY: Copy a block of bytes
@@ -2234,14 +2829,11 @@ MMOV Rd, Rs, Rn        ; correct for overlap
 
 **Encoding**
 
-![Encoding of MCPY](figures/mcpy.svg)
+![Encoding of MCPY](figures/16-R3-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `MCPY` | `00000000 (0x00)` |
-| `MMOV` | `00000001 (0x01)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -2261,7 +2853,7 @@ The one granted exception to the one-memory-operand rule. All three registers ar
 
 **Cf.** 6.8 (restart, progress faults); 7.2 (ordering of the accesses).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MSET: Fill a block of bytes
@@ -2276,9 +2868,11 @@ MSET Rd, Rv, Rn
 
 **Encoding**
 
-![Encoding of MSET](figures/mset.svg)
+![Encoding of MSET](figures/16-R3-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -2292,11 +2886,9 @@ while Rn ≠ 0:  M8[Rd] ← Rv[7:0] ; Rd ← Rd + 1 ; Rn ← Rn - 1
 
 `MSET` with `Rv = 0` is the range-zeroing instruction: `bzero` and the clear of `calloc` are one instruction.
 
-**Why it is here.** With a zero value it is the range-zeroing instruction, so `bzero` and the clearing of `calloc` need no separate opcode.
-
 **Cf.** 6.8.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MCMP: Compare two blocks of bytes
@@ -2311,9 +2903,11 @@ MCMP Rd, Rs, Rn
 
 **Encoding**
 
-![Encoding of MCMP](figures/mcmp.svg)
+![Encoding of MCMP](figures/16-R3-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -2335,7 +2929,7 @@ When the instruction stops at a difference, `Rd` and `Rs` point at the differing
 
 **Cf.** 6.8.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MSCN: Scan a block for a byte, or for a byte not equal to it
@@ -2351,14 +2945,11 @@ MSCNN Rd, Rv, Rn
 
 **Encoding**
 
-![Encoding of MSCN](figures/mscn.svg)
+![Encoding of MSCN](figures/16-R3-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `MSCN` | `00000100 (0x04)` |
-| `MSCNN` | `00000101 (0x05)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -2376,11 +2967,11 @@ not found: Z = 0
 
 `MSCN` is `memchr`; with an explicit count it gives `strnlen`, and composing it with `MCPY` gives a bounded `strcpy` in two instructions. There are no NUL-terminated string instructions.
 
-**Why it is here.** `MSCN` is `LOCC` and `memchr`; `MSCNN` fills the `SKPC` gap (the first byte that is *not* equal). Both cost no opcode and almost no hardware. With an explicit count `MSCN` gives `strnlen`, and with `MCPY` a bounded `strcpy` in two instructions. NUL-terminated string instructions (the System/z `MVST`, `SRST`, `CLST`) are rejected, because they encode an unbounded read, the largest single source of memory-safety failures in C (9.17).
+**Why it is here.** `MSCN` is `LOCC` and `memchr`; `MSCNN` fills the `SKPC` gap (the first byte that is *not* equal). With an explicit count `MSCN` gives `strnlen`, and with `MCPY` a bounded `strcpy` in two instructions. NUL-terminated string instructions (the System/z `MVST`, `SRST`, `CLST`) are rejected, because they encode an unbounded read, the largest single source of memory-safety failures in C (9.17).
 
 **Cf.** 6.8.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MVAL: Validate a block as UTF-8
@@ -2395,9 +2986,11 @@ MVAL Rd, Rn
 
 **Encoding**
 
-![Encoding of MVAL](figures/mval.svg)
+![Encoding of MVAL](figures/16-R2-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -2411,9 +3004,82 @@ scan Rn bytes at Rd; stop at the first byte that cannot be part of a valid UTF-8
 
 The `UTF8DEC` comparators wired to the block sequencer.
 
-**Why it is here.** The UTF-8 validity comparators already built for `UTF8DEC`, wired to the `MBLK` streaming sequencer already built for `MCPY`, so it costs no opcode and almost no hardware. The alternative, a SWAR loop (SIMD within a register), runs at about two to three cycles a byte and is respectable, which is why the justification is cost and not throughput.
+**Why it is here.** The alternative, a SWAR loop (SIMD within a register), runs at about two to three cycles a byte and is respectable, which is why the justification is cost and not throughput.
 
 **Cf.** 6.8.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### MSHA: Hash whole blocks of memory
+
+**Mnemonics:** `MSHA256`, `MSHA512`
+
+**Syntax**
+
+```
+MSHA256 Rd, Rs, Rn
+MSHA512 Rd, Rs, Rn
+```
+
+**Encoding**
+
+![Encoding of MSHA](figures/16-R3-1.svg)
+
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**Operation**
+
+```
+hash the Rn bytes (whole blocks) at (Rs) into the state at (Rd)
+progress is held in Rd, Rs and Rn; an interrupt or a fault restarts the instruction where it stopped
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+*(P)* Stage 2 of the crypto proposal (`docs/crypto-secure-core.md` section 3.4): the whole-buffer form, in the manner of the s390 CPACF instructions, to be built "only after measurement"; the grammars reserve its encoding. The unit would need about 2,000 look-up tables and 1,000 flip-flops (the proposal's estimate). **Not implemented** in the reference executor.
+
+**Why it is here.** Stage 2 of the crypto proposal, in the manner of the s390 CPACF instructions (`KIMD` and kin): one instruction hashes a buffer, the padding and chaining are done in hardware and so cannot be got wrong, and progress is held in registers, so a fault or an interrupt restarts it, as for `MCPY`. The estimate is 64 cycles for a 64-byte SHA-256 block against about 1,200 instructions, roughly 18 times; the cost is gates in proportion to the algorithms frozen into opcodes. The proposal says to build `MSHA256` first and the others only after measurement, and the author has not decided it.
+
+**Status** specified; **not yet implemented** in the reference executor.
+
+
+### MAESCTR: AES in counter mode over a buffer
+
+**Mnemonics:** `MAESCTR`
+
+**Syntax**
+
+```
+MAESCTR Rd, Rs, Rn, Rp
+```
+
+**Encoding**
+
+![Encoding of MAESCTR](figures/16-R4-1.svg)
+
+The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
+
+**Operation**
+
+```
+AES counter mode over the Rn bytes at (Rs), written at (Rd); the key, the counter and the number of rounds are in the parameter block at (Rp)
+progress is held in the registers and the parameter block; an interrupt or a fault restarts the instruction where it stopped
+```
+
+**Flags** None written.
+
+**Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+*(P)* Stage 2, as `MSHA`; the layout of the parameter block is not specified. **Not implemented** in the reference executor.
+
+**Why it is here.** Stage 2, as `MSHA`; whole-buffer AES gains less (about 4 times: 0.6 against 2.6 instructions per byte), because the round instructions are already good, and the proposal puts it after `MSHA256` and `MSHA512`.
 
 **Status** specified; **not yet implemented** in the reference executor.
 <!-- /entries:9.11 -->
@@ -2449,15 +3115,11 @@ FMUL rm, Rd
 
 **Encoding**
 
-![Encoding of FADD](figures/fadd.svg)
+![Encoding of FADD](figures/16-LDF-B28-2.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `shr` 000, `sar` 001, `fadd` 010, `fsub` 011, `fmul` 100, `bit` 101, `lea` 110, `movub` 111.
 
-| Mnemonic | Opcode (the load or direct form) |
-|---|---|
-| `FADD` | `100100 (0x24)` |
-| `FSUB` | `100101 (0x25)` |
-| `FMUL` | `100110 (0x26)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1), [`16-LDPC12-d-2`](dictionary/by-encoding.md#16-LDPC12-d-2), [`16-LDBs8-d-2`](dictionary/by-encoding.md#16-LDBs8-d-2).
 
 **Operation**
 
@@ -2473,7 +3135,7 @@ Rd ← Rd × rm   (FMUL)       ; IEEE 754 binary64, round to nearest even
 
 Floating-point values live in the general registers; there is no separate register file and no mode bit. A NaN result is the canonical quiet NaN `0x7FF8000000000000`. The alternative spellings `FADDD`, `FSUBD`, `FMULD` are aliases.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FCMP: Floating compare, binary64
@@ -2488,9 +3150,11 @@ FCMP Rd, rm        ; register first
 
 **Encoding**
 
-![Encoding of FCMP](figures/fcmp.svg)
+![Encoding of FCMP](figures/16-CMF-B28-1.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the leaf `16-CMF-B28-1`, CMF.B28, prefix `11101101101`. `op1` is `reg4`: register, 4 bits. `op2` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-CMF-B28-1`](dictionary/by-encoding.md#16-CMF-B28-1), [`16-CMF-X22-1`](dictionary/by-encoding.md#16-CMF-X22-1), [`16-CMF-PI12-1`](dictionary/by-encoding.md#16-CMF-PI12-1), [`16-CMF-PD12-1`](dictionary/by-encoding.md#16-CMF-PD12-1), [`16-CMF-PC32-1`](dictionary/by-encoding.md#16-CMF-PC32-1), [`16-CMF-A32-1`](dictionary/by-encoding.md#16-CMF-A32-1), [`16-CMF-I32-1`](dictionary/by-encoding.md#16-CMF-I32-1), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2).
 
 **Operation**
 
@@ -2504,7 +3168,7 @@ N ← Rd < rm ; Z ← Rd = rm ; V ← unordered ; C ← 0
 
 The signed branches do not treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1); this is an open item of the instruction set.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FDIV: Floating divide and square root, binary64
@@ -2520,14 +3184,11 @@ FSQRT Rs, Rd
 
 **Encoding**
 
-![Encoding of FDIV](figures/fdiv.svg)
+![Encoding of FDIV](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FDIV` | `00000000 (0x00)` |
-| `FSQRT` | `00000001 (0x01)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -2540,9 +3201,9 @@ FSQRT: Rd ← sqrt(Rs)
 
 **Exceptions** None.
 
-`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`. The alternative spellings `FDIVD`, `FSQRTD` are aliases.
+`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a one-parcel form. The alternative spellings `FDIVD`, `FSQRTD` are aliases.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FSINGLE: Floating arithmetic, binary32
@@ -2562,18 +3223,11 @@ FCMP32 Rd, Rs
 
 **Encoding**
 
-![Encoding of FSINGLE](figures/fsingle.svg)
+![Encoding of FSINGLE](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FADD32` | `00001000 (0x08)` |
-| `FSUB32` | `00001001 (0x09)` |
-| `FMUL32` | `00001010 (0x0A)` |
-| `FDIV32` | `00001011 (0x0B)` |
-| `FSQRT32` | `00001100 (0x0C)` |
-| `FCMP32` | `00001101 (0x0D)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -2588,9 +3242,9 @@ FCMP32: flags as FCMP, comparing Rd with Rs
 
 A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even. The alternative spellings `FADDS`, `FSUBS`, ... are aliases.
 
-**Why it is here.** `binary64` has first-class opcodes because on a 64-bit machine it is the common case; `binary32` is in `FESC` with the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other formats (`FADD16`); the older spellings (`FADDS` and so on) are aliases.
+**Why it is here.** `binary32` is with the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other formats (`FADD16`); the older spellings (`FADDS` and so on) are aliases.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FMADD: Fused multiply-add, binary64
@@ -2608,16 +3262,11 @@ FNMSUB Rs, Rt, Ru, Rd
 
 **Encoding**
 
-![Encoding of FMADD](figures/fmadd.svg)
+![Encoding of FMADD](figures/16-R4-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FMADD` | `00010000 (0x10)` |
-| `FMSUB` | `00010001 (0x11)` |
-| `FNMADD` | `00010010 (0x12)` |
-| `FNMSUB` | `00010011 (0x13)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
 **Operation**
 
@@ -2632,11 +3281,11 @@ FNMSUB: Rd ← -(Rs×Rt) + Ru          ; each rounded once
 
 **Exceptions** None.
 
-Four register operands are available at `len = 01`. The alternative spellings `FMADDD`, ... are aliases.
+The alternative spellings `FMADDD`, ... are aliases.
 
-**Why it is here.** The whole fused multiply-add family is in `FESC`, because its absence would be the single worst gap in the floating-point set: one rounding instead of two, and the inner step of dot products, polynomial evaluation and every matrix kernel. `FESC` gives it four register operands. It replaces the VAX `POLY`, which was the best answer before fused multiply-add.
+**Why it is here.** The whole fused multiply-add family is, because its absence would be the single worst gap in the floating-point set: one rounding instead of two, and the inner step of dot products, polynomial evaluation and every matrix kernel. It replaces the VAX `POLY`, which was the best answer before fused multiply-add.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FMADD32: Fused multiply-add, binary32
@@ -2654,16 +3303,11 @@ FNMSUB32 ...
 
 **Encoding**
 
-![Encoding of FMADD32](figures/fmadd32.svg)
+![Encoding of FMADD32](figures/16-R4-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FMADD32` | `00011000 (0x18)` |
-| `FMSUB32` | `00011001 (0x19)` |
-| `FNMADD32` | `00011010 (0x1A)` |
-| `FNMSUB32` | `00011011 (0x1B)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
 **Operation**
 
@@ -2677,7 +3321,7 @@ As FMADD, in binary32, rounded once
 
 **Why it is here.** The `binary32` forms of the fused multiply-add family.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FSIGN: Sign operations on the bits
@@ -2694,15 +3338,11 @@ FCOPYSIGN Rs, Rt, Rd
 
 **Encoding**
 
-![Encoding of FSIGN](figures/fsign.svg)
+![Encoding of FSIGN](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FNEG` | `00100000 (0x20)` |
-| `FABS` | `00100001 (0x21)` |
-| `FCOPYSIGN` | `00100010 (0x22)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1), [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -2718,7 +3358,7 @@ FCOPYSIGN: Rd ← magnitude of Rs, sign of Rt
 
 **Why it is here.** Sign and selection operations (negate, absolute value and the like) work on the bits, do not canonicalise a NaN and raise no flag, so they cost almost nothing. The PowerPC 601 floating-point set has the same operations (stated from memory, not checked against a manual). No separate reason is recorded for these three.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FMIN: Floating minimum and maximum, binary64
@@ -2734,14 +3374,11 @@ FMAX Rs, Rt, Rd
 
 **Encoding**
 
-![Encoding of FMIN](figures/fmin.svg)
+![Encoding of FMIN](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FMIN` | `00100011 (0x23)` |
-| `FMAX` | `00100100 (0x24)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -2758,7 +3395,7 @@ The alternative spellings `FMIND`, `FMAXD` are aliases.
 
 **Why it is here.** The floating counterparts of the integer `MIN` and `MAX`. A NaN operand loses to a number and two NaNs give the canonical quiet NaN.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FCLASS: Classify a floating-point value
@@ -2775,15 +3412,11 @@ FCLASS16 Rs, Rd
 
 **Encoding**
 
-![Encoding of FCLASS](figures/fclass.svg)
+![Encoding of FCLASS](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FCLASS` | `00101000 (0x28)` |
-| `FCLASS32` | `00101001 (0x29)` |
-| `FCLASS16` | `01011100 (0x5C)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -2802,7 +3435,7 @@ Every libm function begins with this dispatch. The alternative spellings `FCLASS
 
 **Why it is here.** Every libm function begins with this dispatch: one instruction returns which of ten kinds a value is (signalling or quiet NaN, infinity, normal, subnormal, zero, each signed), where software needs several compares and masks. It is justified by a workload, library mathematics, and not by compiled C, as the tag branches are. Nothing in the corpus emits it, because the compiler does not use it.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FRINT: Round to an integral value, binary64
@@ -2821,17 +3454,11 @@ FRINTA Rs, Rd
 
 **Encoding**
 
-![Encoding of FRINT](figures/frint.svg)
+![Encoding of FRINT](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FRINT` | `00110000 (0x30)` |
-| `FRINTZ` | `00110001 (0x31)` |
-| `FRINTM` | `00110010 (0x32)` |
-| `FRINTP` | `00110011 (0x33)` |
-| `FRINTA` | `00110100 (0x34)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -2845,11 +3472,11 @@ FRINTP: toward +infinity    FRINTA: to nearest, ties away from zero (C round())
 
 **Exceptions** None.
 
-The rounding mode is in the opcode, never in a mode bit. The alternative spellings `FRINTD`, `FRINTDZ`, ... are aliases.
+The rounding mode is in the instruction, never in a mode bit. The alternative spellings `FRINTD`, `FRINTDZ`, ... are aliases.
 
 **Why it is here.** Rounding to an integral value in each direction (nearest even, toward zero, down, up) is in the set, and `FRINTA`, ties away from zero, serves C's `round()`, which is common in libm; it is a qualifier of the round operation and so costs no new operation.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FCVT: Floating conversions
@@ -2871,20 +3498,11 @@ FCVTLS Rs, Rd        ; signed 32-bit integer to binary32
 
 **Encoding**
 
-![Encoding of FCVT](figures/fcvt.svg)
+![Encoding of FCVT](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FCVTDQ` | `00111000 (0x38)` |
-| `FCVTDQU` | `00111110 (0x3E)` |
-| `FCVTQD` | `00111001 (0x39)` |
-| `FCVTQUD` | `00111111 (0x3F)` |
-| `FCVTDS` | `00111010 (0x3A)` |
-| `FCVTSD` | `00111011 (0x3B)` |
-| `FCVTSL` | `00111100 (0x3C)` |
-| `FCVTLS` | `00111101 (0x3D)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -2901,7 +3519,7 @@ Integer results are 64-bit (`FCVTDQ`, `FCVTDQU`) or 32-bit sign-extended (`FCVTS
 
 **Why it is here.** `FCVTDQU` and `FCVTQUD` convert unsigned 64-bit integers to and from `binary64`. C needs both, and without them each takes a branch and several instructions.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FSFLAGS: Swap the floating-point exception flags
@@ -2916,9 +3534,11 @@ FSFLAGS Rs, Rd
 
 **Encoding**
 
-![Encoding of FSFLAGS](figures/fsflags.svg)
+![Encoding of FSFLAGS](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -2936,7 +3556,7 @@ Rd ← old
 
 **Why it is here.** IEEE 754 requires five status flags, and C99 `<fenv.h>` needs software access to them. The architecture has a sticky five-bit `FPSR`, laid out as RISC-V's `fflags`, written by every operation that can raise a flag and never trapping, and one swap instruction to read and write it. It is a record of what happened, not a mode, so the rule against mode bits is untouched.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FHALF: Floating arithmetic, binary16
@@ -2957,22 +3577,11 @@ FMADD16 Rs, Rt, Ru, Rd ...
 
 **Encoding**
 
-![Encoding of FHALF](figures/fhalf.svg)
+![Encoding of FHALF](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FADD16` | `01010000 (0x50)` |
-| `FSUB16` | `01010001 (0x51)` |
-| `FMUL16` | `01010010 (0x52)` |
-| `FDIV16` | `01010011 (0x53)` |
-| `FSQRT16` | `01010100 (0x54)` |
-| `FCMP16` | `01010101 (0x55)` |
-| `FMADD16` | `01011000 (0x58)` |
-| `FMSUB16` | `01011001 (0x59)` |
-| `FNMADD16` | `01011010 (0x5A)` |
-| `FNMSUB16` | `01011011 (0x5B)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1), [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
 **Operation**
 
@@ -2989,7 +3598,7 @@ Results are correctly rounded to nearest even, tininess judged after rounding; a
 
 **Why it is here.** Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. Two levels are possible: conversions only (about 500 to 1,000 lookup tables, no new operation by the folding rule) and full arithmetic (about 2,000 to 3,500 tables; estimates), and the existing double datapath can compute half correctly rounded. The architecture has both conversions and arithmetic. The leftovers (half `FMIN`, `FRINT*`, bfloat16, 64-bit integer conversions) are open items. 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FCVTH: Conversions to and from binary16
@@ -3009,18 +3618,11 @@ FCVTLH Rs, Rd        ; signed 32-bit integer to half
 
 **Encoding**
 
-![Encoding of FCVTH](figures/fcvth.svg)
+![Encoding of FCVTH](figures/16-R2-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FCVTSH` | `01100000 (0x60)` |
-| `FCVTHS` | `01100001 (0x61)` |
-| `FCVTDH` | `01100010 (0x62)` |
-| `FCVTHD` | `01100011 (0x63)` |
-| `FCVTHL` | `01100100 (0x64)` |
-| `FCVTLH` | `01100101 (0x65)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -3035,7 +3637,7 @@ FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction i
 
 **Why it is here.** The conversion half of the `binary16` support (see `FHALF`). The conversions are the part machine-learning code needs most, because a half is normally loaded and stored with `MOVW`, converted, computed in single or double, and converted back.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 <!-- /entries:9.12 -->
 
 ## 9.13 Atomics and ordering
@@ -3062,14 +3664,11 @@ CASDB ...                            ; with a full barrier
 
 **Encoding**
 
-![Encoding of CAS](figures/cas.svg)
+![Encoding of CAS](figures/16-R4-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `CAS` | `00000000 (0x00)` |
-| `CASDB` | `00000001 (0x01)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
 **Operation**
 
@@ -3083,7 +3682,7 @@ result ← old          ; the program compares result with expected to learn whe
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The sub-opcodes and the semantics of this group are specified. The ISA text still does not fix where the operands go; the grammars of the prefix-coded encodings **assume** a placement (errata 87, assumption 4: three registers, the address in a register, in the order written; four for `CAS` and `CASDB`), so the forms below name the roles and the placement is *(P)*. The reference executor does not implement the group.
 
 **Why it is here.** The barrier-fused variants are taken from LoongArch's pragmatism: a lock acquire is one instruction rather than an atomic followed by a `FENCE`, and that pair is in every critical section of the system. With the other multiprocessor operations the atomics make the seventeen-operation SMP umbrella (7.1). They are defined on a reservation monitor and not on a bus lock (2.5).
 
@@ -3105,14 +3704,11 @@ SWAPDB ...
 
 **Encoding**
 
-![Encoding of SWAP](figures/swap.svg)
+![Encoding of SWAP](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `SWAP` | `00000010 (0x02)` |
-| `SWAPDB` | `00000011 (0x03)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -3124,9 +3720,9 @@ old ← M[address] ; M[address] ← value ; result ← old
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The sub-opcodes and the semantics of this group are specified. The ISA text still does not fix where the operands go; the grammars of the prefix-coded encodings **assume** a placement (errata 87, assumption 4: three registers, the address in a register, in the order written; four for `CAS` and `CASDB`), so the forms below name the roles and the placement is *(P)*. The reference executor does not implement the group.
 
-**Why it is here.** One of the read-modify-write atomics of the `ATOM` group (see `CAS`). No separate reason is recorded for it.
+**Why it is here.** No separate reason is recorded for it.
 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
@@ -3146,14 +3742,11 @@ XADDDB ...
 
 **Encoding**
 
-![Encoding of XADD](figures/xadd.svg)
+![Encoding of XADD](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `XADD` | `00000100 (0x04)` |
-| `XADDDB` | `00000101 (0x05)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -3165,9 +3758,7 @@ old ← M[address] ; M[address] ← old + value ; result ← old
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
-
-**Why it is here.** One of the fetch-and-operate atomics of `ATOM` (see `CAS`), in the place of the PDP-11's read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair (7.1).
+The sub-opcodes and the semantics of this group are specified. The ISA text still does not fix where the operands go; the grammars of the prefix-coded encodings **assume** a placement (errata 87, assumption 4: three registers, the address in a register, in the order written; four for `CAS` and `CASDB`), so the forms below name the roles and the placement is *(P)*. The reference executor does not implement the group.
 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
@@ -3189,18 +3780,11 @@ each with a DB form
 
 **Encoding**
 
-![Encoding of XAND](figures/xand.svg)
+![Encoding of XAND](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `XAND` | `00000110 (0x06)` |
-| `XANDDB` | `00000111 (0x07)` |
-| `XOR_` | `00001000 (0x08)` |
-| `XOR_DB` | `00001001 (0x09)` |
-| `XXOR` | `00001010 (0x0A)` |
-| `XXORDB` | `00001011 (0x0B)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -3216,9 +3800,9 @@ result ← old
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The sub-opcodes and the semantics of this group are specified. The ISA text still does not fix where the operands go; the grammars of the prefix-coded encodings **assume** a placement (errata 87, assumption 4: three registers, the address in a register, in the order written; four for `CAS` and `CASDB`), so the forms below name the roles and the placement is *(P)*. The reference executor does not implement the group.
 
-**Why it is here.** The fetch-and-and, or and xor atomics of `ATOM` (see `CAS`). No separate reason is recorded for them.
+**Why it is here.** No separate reason is recorded for them.
 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
 
@@ -3239,20 +3823,11 @@ each with a DB form
 
 **Encoding**
 
-![Encoding of XMAX](figures/xmax.svg)
+![Encoding of XMAX](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `XMAX` | `00001100 (0x0C)` |
-| `XMAXDB` | `00001101 (0x0D)` |
-| `XMIN` | `00001110 (0x0E)` |
-| `XMINDB` | `00001111 (0x0F)` |
-| `XMAXU` | `00010000 (0x10)` |
-| `XMAXUDB` | `00010001 (0x11)` |
-| `XMINU` | `00010010 (0x12)` |
-| `XMINUDB` | `00010011 (0x13)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -3265,7 +3840,7 @@ signed for XMAX and XMIN, unsigned for the U forms
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The sub-opcodes and the semantics of this group are specified. The ISA text still does not fix where the operands go; the grammars of the prefix-coded encodings **assume** a placement (errata 87, assumption 4: three registers, the address in a register, in the order written; four for `CAS` and `CASDB`), so the forms below name the roles and the placement is *(P)*. The reference executor does not implement the group.
 
 **Why it is here.** The fetch-and-minimum and maximum atomics, borrowed from LoongArch's richer atomic set: each is a couple of hundred lookup tables and saves a compare-and-swap retry loop.
 
@@ -3287,14 +3862,11 @@ SC value, (address), result
 
 **Encoding**
 
-![Encoding of LLSC](figures/llsc.svg)
+![Encoding of LLSC](figures/16-R3-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `LL` | `00100000 (0x20)` |
-| `SC` | `00100001 (0x21)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
 **Operation**
 
@@ -3309,7 +3881,7 @@ a write to the granule by any initiator, core or device, clears the reservation
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles. The result convention shown for `SC` is the usual one and is unspecified.
+The sub-opcodes and the semantics of this group are specified. The ISA text still does not fix where the operands go; the grammars of the prefix-coded encodings **assume** a placement (errata 87, assumption 4: three registers, the address in a register, in the order written; four for `CAS` and `CASDB`), so the forms below name the roles and the placement is *(P)*. The reference executor does not implement the group.
 
 **Why it is here.** Load-linked and store-conditional, with the reservation a monitor, because a monitor maps onto the exclusive access of AXI and of FPGA and modern memory systems, where the Unibus's locked read-modify-write (`DATIP`/`DATO`) does not scale as cores multiply. A short sequence must eventually succeed if no other initiator keeps writing the granule, the RISC-V rule.
 
@@ -3340,14 +3912,11 @@ LPAD
 
 **Encoding**
 
-![Encoding of NOP](figures/nop.svg)
+![Encoding of NOP](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `NOP` | 0 | `0000 (0x0)` |
-| `LPAD` | 0 | `1001 (0x9)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3365,7 +3934,7 @@ nothing
 
 **Cf.** Appendix A, section A.1 (landing pads).
 
-**Status** specified; **not yet implemented** in the reference executor.
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### RTI: Return from interrupt or exception
@@ -3381,14 +3950,11 @@ RTT
 
 **Encoding**
 
-![Encoding of RTI](figures/rti.svg)
+![Encoding of RTI](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `RTI` | 0 | `0001 (0x1)` |
-| `RTT` | 0 | `0010 (0x2)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3407,7 +3973,7 @@ RTT: and then set the trace bit T after the return
 
 **Cf.** 6.2 (exceptions and interrupts), 6.7.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### RET: Return from subroutine
@@ -3422,13 +3988,11 @@ RET
 
 **Encoding**
 
-![Encoding of RET](figures/ret.svg)
+![Encoding of RET](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `RET` | 0 | `0011 (0x3)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3440,9 +4004,9 @@ PC ← M[SP] ; SP ← SP + 8
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-Not privileged, though it is in the system escape: it is the two-byte partner of `CALL`.
+Not privileged: it is the partner of `CALL`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### HALT: Halt the processor
@@ -3457,13 +4021,11 @@ HALT
 
 **Encoding**
 
-![Encoding of HALT](figures/halt.svg)
+![Encoding of HALT](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `HALT` | 0 | `0100 (0x4)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3477,7 +4039,7 @@ stop the processor
 
 **Cf.** 6.6.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### BPT: Breakpoint
@@ -3492,13 +4054,11 @@ BPT
 
 **Encoding**
 
-![Encoding of BPT](figures/bpt.svg)
+![Encoding of BPT](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `BPT` | 0 | `0101 (0x5)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3516,7 +4076,7 @@ A trap like any other, but kept as its own two-byte instruction because a debugg
 
 **Cf.** 6.2.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### FENCE: Memory fence
@@ -3531,13 +4091,11 @@ FENCE
 
 **Encoding**
 
-![Encoding of FENCE](figures/fence.svg)
+![Encoding of FENCE](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `FENCE` | 0 | `0110 (0x6)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3555,7 +4113,7 @@ Owed to devices (one `FENCE` separates writing a device's registers from setting
 
 **Cf.** 7.2 (the memory model), 2.2 (what the processor owes the bus).
 
-**Status** specified; **not yet implemented** in the reference executor.
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### WFE: Wait for an event
@@ -3570,13 +4128,11 @@ WFE
 
 **Encoding**
 
-![Encoding of WFE](figures/wfe.svg)
+![Encoding of WFE](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `WFE` | 0 | `0111 (0x7)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3594,7 +4150,7 @@ sleep until an interrupt is pending or another core executes SEV
 
 **Cf.** 7.6 (waiting and signalling).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### SEV: Send an event
@@ -3609,13 +4165,11 @@ SEV
 
 **Encoding**
 
-![Encoding of SEV](figures/sev.svg)
+![Encoding of SEV](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `SEV` | 0 | `1000 (0x8)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3631,7 +4185,7 @@ wake every core waiting in WFE
 
 **Cf.** 7.6.
 
-**Status** specified; **not yet implemented** in the reference executor.
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### TLBA: Invalidate all translations; wait for translation invalidations; invalidate the whole instruction cache
@@ -3648,15 +4202,11 @@ ICINVA
 
 **Encoding**
 
-![Encoding of TLBA](figures/tlba.svg)
+![Encoding of TLBA](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `TLBIA` | 0 | `1010 (0xA)` |
-| `TLBSYNC` | 0 | `1011 (0xB)` |
-| `ICINVA` | 0 | `1100 (0xC)` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3674,7 +4224,7 @@ ICINVA  : invalidate the whole instruction cache
 
 **Cf.** 7.5 (translation and instruction-cache coherence).
 
-**Status** implemented in the reference executor for `TLBIA`, `TLBSYNC`; not yet for the others.
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### PUSHX: Push and pop the exception state
@@ -3690,14 +4240,11 @@ POPX
 
 **Encoding**
 
-![Encoding of PUSHX](figures/pushx.svg)
+![Encoding of PUSHX](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `PUSHX` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `0` in parcel 1 |
-| `POPX` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `1` in parcel 1 |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3710,13 +4257,13 @@ POPX : EPSW ← M[SP] ; EPC ← M[SP + 8] ; SP ← SP + 16
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. `SP` must be 8-byte aligned (a misaligned-access abort); both words are checked before either is touched.
 
-Four bytes (the `SYSX` escape, sub-opcodes 0 and 1) and two bytes on page 2. For a handler that wants to be interrupted: it can save the exception state and lower the priority.
+For a handler that wants to be interrupted: it can save the exception state and lower the priority.
 
-**Why it is here.** A handler that can be interrupted must save `EPC` and `EPSW` before it lowers the priority; with only `MFSR` that costs two moves and two stores (sixteen bytes) on every such kernel entry, and the same to restore. The instructions may not show up high in the instruction count, but they save bytes and cycles in a tight, very often used kernel loop. Page 2 has the two-byte forms.
+**Why it is here.** A handler that can be interrupted must save `EPC` and `EPSW` before it lowers the priority; with only `MFSR` that costs two moves and two stores (sixteen bytes) on every such kernel entry, and the same to restore. The instructions may not show up high in the instruction count, but they save bytes and cycles in a tight, very often used kernel loop.
 
 **Cf.** 6.2, 6.7.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### ISYNC: Instruction synchronisation
@@ -3731,13 +4278,11 @@ ISYNC
 
 **Encoding**
 
-![Encoding of ISYNC](figures/isync.svg)
+![Encoding of ISYNC](figures/16-SYS0-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `ISYNC` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `2` in parcel 1 |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
 **Operation**
 
@@ -3755,7 +4300,7 @@ The architecture promises the effect only after the next `ISYNC`; an in-order im
 
 **Cf.** 7.5, 6.3.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### HINT: Hint
@@ -3770,13 +4315,11 @@ HINT #n        ; n = 0 to 255
 
 **Encoding**
 
-![Encoding of HINT](figures/hint.svg)
+![Encoding of HINT](figures/16-SYSI-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSI-1`, SYSI, prefix `100010`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `HINT` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `3` in parcel 1 |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSI-1`](dictionary/by-encoding.md#16-SYSI-1).
 
 **Operation**
 
@@ -3792,7 +4335,7 @@ Defined codes: 0 a plain no-op hint, 1 pause (spin-wait), 2 speculation barrier.
 
 **Why it is here.** Defined with `ISYNC`: a no-op with a byte of code, defined for `0` (plain), `1` (pause, for spin-wait loops) and `2` (speculation barrier), every other code a reserved hint that executes as a no-op so that a later machine can give it a meaning without breaking an old binary.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MFSR: Move from and to a system register
@@ -3808,14 +4351,11 @@ MTSR name, Rs
 
 **Encoding**
 
-![Encoding of MFSR](figures/mfsr.svg)
+![Encoding of MFSR](figures/16-MFSR-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-MFSR-1`, MFSR, prefix `1111001100011100`. `op1` is `reg4`: register, 4 bits. `op2` is `imm12u`: unsigned 12-bit immediate, 0 to 4095.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `MFSR` | 0 | `1101 (0xD)`, system register number in parcel 1 |
-| `MTSR` | 0 | `1110 (0xE)`, system register number in parcel 1 |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-MFSR-1`](dictionary/by-encoding.md#16-MFSR-1), [`16-MTSR-1`](dictionary/by-encoding.md#16-MTSR-1).
 
 **Operation**
 
@@ -3828,7 +4368,7 @@ MTSR: system register `name` ← Rs         ; read-only registers are an illegal
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. An unassigned system register is an illegal instruction.
 
-The register is chosen by name (a number in parcel 1); the instruction is four bytes. A write to `PTBR`, `ASID` or `MMUCTL` flushes the translation buffer.
+The register is chosen by name. A write to `PTBR`, `ASID` or `MMUCTL` flushes the translation buffer.
 
 | Name | Number | Access |
 |---|---|---|
@@ -3850,7 +4390,7 @@ The register is chosen by name (a number in parcel 1); the instruction is four b
 
 **Cf.** 6.3 (system registers).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MTPS: Move to and from the processor status word
@@ -3866,14 +4406,11 @@ MFPS Rd
 
 **Encoding**
 
-![Encoding of MTPS](figures/mtps.svg)
+![Encoding of MTPS](figures/16-SYSR-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `mtps` 000, `mfps` 001, `tlbi` 010, `mtasid` 011, `mfasid` 100, `mtdp` 101, `mfdp` 110, `mtdmw` 111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `MTPS` | `0001 (0x1)` | operand in `low` |
-| `MFPS` | `0010 (0x2)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
 **Operation**
 
@@ -3888,7 +4425,7 @@ MFPS: Rd ← PSW
 
 **Cf.** 6.1 (modes and the status word).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### SPL: Set the interrupt priority level
@@ -3903,13 +4440,11 @@ SPL #n        ; n = 0 to 7
 
 **Encoding**
 
-![Encoding of SPL](figures/spl.svg)
+![Encoding of SPL](figures/16-SYSI-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSI-1`, SYSI, prefix `100010`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `SPL` | `0011 (0x3)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSI-1`](dictionary/by-encoding.md#16-SYSI-1).
 
 **Operation**
 
@@ -3927,7 +4462,7 @@ Kept despite `MTPS` writing the whole word because it sets the priority alone: a
 
 **Cf.** 6.2.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### TRAP: System call and trap
@@ -3943,14 +4478,11 @@ TRAPL #n       ; n = 0 to 255, four bytes
 
 **Encoding**
 
-![Encoding of TRAP](figures/trap.svg)
+![Encoding of TRAP](figures/16-SYSI-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSI-1`, SYSI, prefix `100010`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `TRAP` | `0100 (0x4)` | operand in `low` |
-| `TRAPL` | `1111 (0xF)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSI-1`](dictionary/by-encoding.md#16-SYSI-1).
 
 **Operation**
 
@@ -3962,13 +4494,13 @@ enter the kernel by vector (TRAP_BASE + n), with EPC = the address of the next i
 
 **Exceptions** Enters the kernel; not privileged.
 
-The replacement for the PDP-11 `IOT` and `EMT`. `TRAPL` reaches the vectors 0 to 255 with `n` in the high byte of parcel 1.
+The replacement for the PDP-11 `IOT` and `EMT`. In these encodings `TRAP` and `TRAPL` are one word with an 8-bit vector number (`docs/encoding-proposal.md`).
 
-**Why it is here.** `TRAPL` exists so that the vector range of 256 and the two-byte common case can both be kept: `TRAP #n` for `n` below 16 is two bytes and the long form reaches 256. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.
+**Why it is here.** `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.
 
 **Cf.** 6.2, 6.5 (system calls).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### TLBI: Invalidate a translation
@@ -3983,13 +4515,11 @@ TLBI Rs
 
 **Encoding**
 
-![Encoding of TLBI](figures/tlbi.svg)
+![Encoding of TLBI](figures/16-SYSR-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `mtps` 000, `mfps` 001, `tlbi` 010, `mtasid` 011, `mfasid` 100, `mtdp` 101, `mfdp` 110, `mtdmw` 111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `TLBI` | `0101 (0x5)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
 **Operation**
 
@@ -4005,7 +4535,7 @@ invalidate the translation-buffer entry for the page containing the address in R
 
 **Cf.** 7.5, 6.4.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MTASID: Move to and from the address-space identifier
@@ -4021,14 +4551,11 @@ MFASID Rd
 
 **Encoding**
 
-![Encoding of MTASID](figures/mtasid.svg)
+![Encoding of MTASID](figures/16-SYSR-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `mtps` 000, `mfps` 001, `tlbi` 010, `mtasid` 011, `mfasid` 100, `mtdp` 101, `mfdp` 110, `mtdmw` 111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `MTASID` | `0110 (0x6)` | operand in `low` |
-| `MFASID` | `0111 (0x7)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
 **Operation**
 
@@ -4047,7 +4574,7 @@ The `ASID` tags translation-buffer entries so a context switch is one store.
 
 **Cf.** 6.4.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MTDP: Move to and from the direct pointer
@@ -4063,14 +4590,11 @@ MFDP Rd
 
 **Encoding**
 
-![Encoding of MTDP](figures/mtdp.svg)
+![Encoding of MTDP](figures/16-SYSR-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `mtps` 000, `mfps` 001, `tlbi` 010, `mtasid` 011, `mfasid` 100, `mtdp` 101, `mfdp` 110, `mtdmw` 111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `MTDP` | `1000 (0x8)` | operand in `low` |
-| `MFDP` | `1001 (0x9)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
 **Operation**
 
@@ -4085,11 +4609,11 @@ MFDP: Rd ← DP
 
 `DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.
 
-**Why it is here.** `DP` descends from the 6502's zero page and is kept for code density (a 12-bit displacement in four bytes); it is also the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants (7.4). `MTDP` and `MFDP` read and write the current mode's copy.
+**Why it is here.** `MTDP` and `MFDP` read and write the current mode's copy.
 
 **Cf.** 7.4 (per-CPU state).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MTDMW: Move to a direct-mapping window
@@ -4104,13 +4628,11 @@ MTDMW Rs
 
 **Encoding**
 
-![Encoding of MTDMW](figures/mtdmw.svg)
+![Encoding of MTDMW](figures/16-SYSR-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `mtps` 000, `mfps` 001, `tlbi` 010, `mtasid` 011, `mfasid` 100, `mtdp` 101, `mfdp` 110, `mtdmw` 111.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `MTDMW` | `1010 (0xA)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
 **Operation**
 
@@ -4128,7 +4650,7 @@ The direct-mapping windows have no defined format.
 
 **Cf.** 6.4.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### MFCPUID: Read the processor identifier
@@ -4143,13 +4665,11 @@ MFCPUID Rd
 
 **Encoding**
 
-![Encoding of MFCPUID](figures/mfcpuid.svg)
+![Encoding of MFCPUID](figures/16-SYSR-2.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSR-2`, SYSR, prefix `11101100101`. `op1` is `reg4`: register, 4 bits. `sub` (1 bit) selects the mnemonic: `mfcpuid` 0, `icinv` 1.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `MFCPUID` | `1011 (0xB)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-2`](dictionary/by-encoding.md#16-SYSR-2).
 
 **Operation**
 
@@ -4167,7 +4687,7 @@ The index of this core, for per-CPU data.
 
 **Cf.** 7.4, 7.8.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### ICINV: Invalidate the instruction cache for an address
@@ -4182,13 +4702,11 @@ ICINV Rs
 
 **Encoding**
 
-![Encoding of ICINV](figures/icinv.svg)
+![Encoding of ICINV](figures/16-SYSR-2.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-SYSR-2`, SYSR, prefix `11101100101`. `op1` is `reg4`: register, 4 bits. `sub` (1 bit) selects the mnemonic: `mfcpuid` 0, `icinv` 1.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `ICINV` | `1100 (0xC)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-2`](dictionary/by-encoding.md#16-SYSR-2).
 
 **Operation**
 
@@ -4204,7 +4722,7 @@ invalidate the instruction-cache line containing the address in Rs
 
 **Cf.** 7.5.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
 
 
 ### PROBE: Probe an address for read or write access
@@ -4220,14 +4738,11 @@ PROBEW Rd, Rs
 
 **Encoding**
 
-![Encoding of PROBE](figures/probe.svg)
+![Encoding of PROBE](figures/16-R2-1.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `PROBER` | `1101 (0xD)` | operand in `low` |
-| `PROBEW` | `1110 (0xE)` | operand in `low` |
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
 **Operation**
 
@@ -4246,7 +4761,80 @@ Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address be
 
 **Cf.** 6.5 (the user-memory guard), 6.4.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### TRAPCC: Trap on condition
+
+**Mnemonics:** `TRAPCC.NE`, `TRAPCC.EQ`, `TRAPCC.PL`, `TRAPCC.MI`, `TRAPCC.VC`, `TRAPCC.VS`, `TRAPCC.CC`, `TRAPCC.CS`, `TRAPCC.GE`, `TRAPCC.LT`, `TRAPCC.GT`, `TRAPCC.LE`, `TRAPCC.HI`, `TRAPCC.LOS`
+
+**Syntax**
+
+```
+TRAPCC.cc          ; one word for each of the 14 conditions: TRAPCC.EQ, TRAPCC.VS, TRAPCC.HI ...
+```
+
+**Encoding**
+
+![Encoding of TRAPCC](figures/16-SYS0-1.svg)
+
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
+
+**Operation**
+
+```
+if condition cc holds on the flags then take the CHECK trap
+    EPC ← address of the next instruction ; EVA ← address of this instruction
+```
+
+**Flags** None written.
+
+**Exceptions** The `CHECK` trap, when the condition holds. A *trap*, not an abort: the instruction completes, `EPC` is the next instruction, and `RTI` resumes after the check.
+
+*(D)* Errata 85 and 86: `TRAPCC` is a trap and not an abort, there is no compare-and-trap form, and the fused `ADDV`, `SUBV` and `MULV` carry the register-only cases. There is one word for each of the 14 conditions, in two bytes with no operand: the condition numbers are those of the branches (`ne` 1 ... `los` 14; `al` is not a word). After `ADD` the check for signed overflow is `TRAPCC.VS` (`docs/study-proposals.md` item 9 calls it `ADD; TRAPV`). `EVA` is the address of the `TRAPCC` itself, the one trap that defines it, so a handler need not decode backwards from `EPC`. The check vector is number 16 (`CHECK`) in `docs/study-proposals.md` item 9 and in the reference executor; `spec/pdp64-system.hbnf` has no vector of that name yet, so the number is *(P)*. The reference executor takes a trap that fires outside the kernel as the end of the program.
+
+**Why it is here.** A check that costs two bytes and no branch. The comparison with the alternatives is in the study (`docs/study-proposals.md` item 9): `ADD #1, 8(R2)` and a check is four plus two bytes and the add keeps its immediate and memory forms, where `ADD` and a `BVS` to a shared stub is six bytes and two instructions; and the same instruction checks what is not overflow (a bounds check after `CMP`, unsigned overflow after `ADD`). The OpenBSD kernels of i386, hppa and sparc64 already deliver integer-overflow traps as `SIGFPE` (`FPE_INTOVF`), so the signal route exists. The author made it a trap and not an abort (errata 85 and 86), so a handler that promotes a fixnum to a bignum can repair the register and resume; the one case where a trap defines `EVA`.
+
+**Cf.** 6.2 (traps and aborts), docs/study-proposals.md item 9.
+
+**Status** implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding).
+
+
+### SYSPG: Reserved system words
+
+**Mnemonics:** `SYSPG0`, `SYSPG1`, `SYSPG2`, `SYSPG3`, `SYSPG4`, `SYSPG5`
+
+**Syntax**
+
+```
+SYSPG0 ... SYSPG5
+```
+
+**Encoding**
+
+![Encoding of SYSPG](figures/16-SYS0-1.svg)
+
+The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1), [`16-SYS0-2`](dictionary/by-encoding.md#16-SYS0-2).
+
+**Operation**
+
+```
+none: the six words are reserved
+```
+
+**Flags** None written.
+
+**Exceptions** Not specified. The reference executor traps them as unimplemented instructions.
+
+*(S)* Placeholders. The grammars reserve six system words for the page-bit mechanisms that the author approved to be specified (errata 84: landing pads gated by a page bit, the `SYS` page bit), which `docs/retire-stage-candidates.md` describes as needing no opcode; no text of the repository gives these words a meaning, and software must not use them.
+
+**Why it is here.** The grammars reserve six words next to `LPAD` and `TRAPCC` for the page-bit mechanisms: the author approved landing pads gated by a page bit and the `SYS` page bit "to be specified" (errata 84), and the retire-stage study found that these need no opcode. The placeholders keep the space; the record does not say what any of them will be.
+
+**Status** specified; **not yet implemented** in the reference executor.
 <!-- /entries:9.14 -->
 
 ## 9.15 Faults, restart and memory management

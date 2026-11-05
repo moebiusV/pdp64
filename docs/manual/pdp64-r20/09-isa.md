@@ -152,18 +152,18 @@ MOVL, MOVW, MOVB likewise
 
 **Encoding**
 
-![Encoding of MOV](figures/mov.svg)
+![Encoding of MOV](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
 
-| Mnemonic | Opcode (the load or direct form) |
+| Mnemonic | Opcode |
 |---|---|
-| `MOVQ` | `000000 (0x00)` |
-| `MOVL` | `000010 (0x02)` |
-| `MOVW` | `000100 (0x04)` |
-| `MOVB` | `000110 (0x06)` |
+| `MOVQ` | `000000 (0x00)`, `000001 (0x01)` |
+| `MOVL` | `000010 (0x02)`, `000011 (0x03)` |
+| `MOVW` | `000100 (0x04)`, `000101 (0x05)` |
+| `MOVB` | `000110 (0x06)`, `000111 (0x07)` |
 
-The store form of each move has the opcode of its load form plus 1: `MOVQ` `000001 (0x01)`, `MOVL` `000011 (0x03)`, `MOVW` `000101 (0x05)`, `MOVB` `000111 (0x07)`.
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -198,15 +198,17 @@ MOVZB rm, Rd
 
 **Encoding**
 
-![Encoding of MOVZ](figures/movz.svg)
+![Encoding of MOVZ](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
 
-| Mnemonic | Opcode (the load or direct form) |
+| Mnemonic | Opcode |
 |---|---|
 | `MOVZL` | `001000 (0x08)` |
 | `MOVZW` | `001001 (0x09)` |
 | `MOVZB` | `001010 (0x0A)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -237,9 +239,15 @@ LEA d(Rn)(Rx×s), Rd
 
 **Encoding**
 
-![Encoding of LEA](figures/lea.svg)
+![Encoding of LEA](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `LEA` | `001011 (0x0B)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -272,16 +280,18 @@ MOVUW, MOVUL, MOVUB likewise
 
 **Encoding**
 
-![Encoding of MOVU](figures/movu.svg)
+![Encoding of MOVU](figures/r20-mesc-1.svg)
 
-Parcel 0's `low` is an addressing mode, as in the ordinary memory format; parcel 1 is `sub(4) rm(4) disp(8)` (16 more displacement bits per further parcel).
+The chart is the layout `r20-mesc-1`, Memory escape (MESC), two parcels (`len = 01`): Addressing modes (`low`) that use this layout: `base` 0000, `index` 0001, `pcrel` 0010, `dp` 0011, `imm` 0100, `abs` 0101, `postinc` 0110, `predec` 0111. `low` of parcel 0 is an addressing mode; parcel 1 holds the sub-opcode, `rm` and the first 8 bits of the displacement.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `MOVUB` | `0000 (0x0)` |
-| `MOVUW` | `0010 (0x2)` |
-| `MOVUL` | `0100 (0x4)` |
-| `MOVUQ` | `0110 (0x6)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MOVUB` | `001111 (0x0F)` | `0000 (0x0)` |
+| `MOVUW` | `001111 (0x0F)` | `0010 (0x2)` |
+| `MOVUL` | `001111 (0x0F)` | `0100 (0x4)` |
+| `MOVUQ` | `001111 (0x0F)` | `0110 (0x6)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mesc-1`](dictionary/by-encoding.md#r20-mesc-1), [`r20-mesc-2`](dictionary/by-encoding.md#r20-mesc-2).
 
 **Operation**
 
@@ -333,9 +343,15 @@ ADD rm, Rd
 
 **Encoding**
 
-![Encoding of ADD](figures/add.svg)
+![Encoding of ADD](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `ADD` | `010110 (0x16)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -364,9 +380,15 @@ SUB rm, Rd
 
 **Encoding**
 
-![Encoding of SUB](figures/sub.svg)
+![Encoding of SUB](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `SUB` | `010111 (0x17)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -395,9 +417,15 @@ CMP Rd, rm        ; register first
 
 **Encoding**
 
-![Encoding of CMP](figures/cmp.svg)
+![Encoding of CMP](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `CMP` | `011010 (0x1A)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -426,9 +454,15 @@ MUL rm, Rd
 
 **Encoding**
 
-![Encoding of MUL](figures/mul.svg)
+![Encoding of MUL](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `MUL` | `011110 (0x1E)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -457,9 +491,15 @@ MULH rm, Rd
 
 **Encoding**
 
-![Encoding of MULH](figures/mulh.svg)
+![Encoding of MULH](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `MULH` | `011111 (0x1F)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -493,16 +533,18 @@ BISM Rs, rm
 
 **Encoding**
 
-![Encoding of ADDM](figures/addm.svg)
+![Encoding of ADDM](figures/r20-mesc-1.svg)
 
-Parcel 0's `low` is an addressing mode, as in the ordinary memory format; parcel 1 is `sub(4) rm(4) disp(8)` (16 more displacement bits per further parcel).
+The chart is the layout `r20-mesc-1`, Memory escape (MESC), two parcels (`len = 01`): Addressing modes (`low`) that use this layout: `base` 0000, `index` 0001, `pcrel` 0010, `dp` 0011, `imm` 0100, `abs` 0101, `postinc` 0110, `predec` 0111. `low` of parcel 0 is an addressing mode; parcel 1 holds the sub-opcode, `rm` and the first 8 bits of the displacement.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `ADDM` | `1000 (0x8)` |
-| `SUBM` | `1001 (0x9)` |
-| `BICM` | `1010 (0xA)` |
-| `BISM` | `1011 (0xB)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `ADDM` | `001111 (0x0F)` | `1000 (0x8)` |
+| `SUBM` | `001111 (0x0F)` | `1001 (0x9)` |
+| `BICM` | `001111 (0x0F)` | `1010 (0xA)` |
+| `BISM` | `001111 (0x0F)` | `1011 (0xB)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mesc-1`](dictionary/by-encoding.md#r20-mesc-1), [`r20-mesc-2`](dictionary/by-encoding.md#r20-mesc-2).
 
 **Operation**
 
@@ -536,9 +578,15 @@ INC rm
 
 **Encoding**
 
-![Encoding of INC](figures/inc.svg)
+![Encoding of INC](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `INC` | `010011 (0x13)` | `0010 (0x2)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -565,9 +613,15 @@ DEC rm
 
 **Encoding**
 
-![Encoding of DEC](figures/dec.svg)
+![Encoding of DEC](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `DEC` | `010011 (0x13)` | `0011 (0x3)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -594,9 +648,15 @@ NEG rm
 
 **Encoding**
 
-![Encoding of NEG](figures/neg.svg)
+![Encoding of NEG](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `NEG` | `010011 (0x13)` | `0100 (0x4)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -623,9 +683,15 @@ ADC rm
 
 **Encoding**
 
-![Encoding of ADC](figures/adc.svg)
+![Encoding of ADC](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `ADC` | `010011 (0x13)` | `0110 (0x6)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -654,9 +720,15 @@ SBC rm
 
 **Encoding**
 
-![Encoding of SBC](figures/sbc.svg)
+![Encoding of SBC](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `SBC` | `010011 (0x13)` | `0111 (0x7)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -686,16 +758,18 @@ MODU Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of DIV](figures/div.svg)
+![Encoding of DIV](figures/r20-aesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `DIV` | `00000000 (0x00)` |
-| `DIVU` | `00000001 (0x01)` |
-| `MOD` | `00000010 (0x02)` |
-| `MODU` | `00000011 (0x03)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `DIV` | `001110 (0x0E)` | `00000000 (0x00)` |
+| `DIVU` | `001110 (0x0E)` | `00000001 (0x01)` |
+| `MOD` | `001110 (0x0E)` | `00000010 (0x02)` |
+| `MODU` | `001110 (0x0E)` | `00000011 (0x03)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
 **Operation**
 
@@ -730,9 +804,15 @@ MULHU Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of MULHU](figures/mulhu.svg)
+![Encoding of MULHU](figures/r20-aesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MULHU` | `001110 (0x0E)` | `00000100 (0x04)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
 **Operation**
 
@@ -763,9 +843,15 @@ ABS Rs, Rd
 
 **Encoding**
 
-![Encoding of ABS](figures/abs.svg)
+![Encoding of ABS](figures/r20-aesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `ABS` | `001110 (0x0E)` | `00001000 (0x08)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
 **Operation**
 
@@ -797,16 +883,18 @@ MAXU Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of MINMAX](figures/minmax.svg)
+![Encoding of MINMAX](figures/r20-aesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `MIN` | `00010000 (0x10)` |
-| `MINU` | `00010001 (0x11)` |
-| `MAX` | `00010010 (0x12)` |
-| `MAXU` | `00010011 (0x13)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MIN` | `001110 (0x0E)` | `00010000 (0x10)` |
+| `MINU` | `001110 (0x0E)` | `00010001 (0x11)` |
+| `MAX` | `001110 (0x0E)` | `00010010 (0x12)` |
+| `MAXU` | `001110 (0x0E)` | `00010011 (0x13)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
 **Operation**
 
@@ -836,9 +924,15 @@ SET cc, Rd        ; for example SET EQ, R1
 
 **Encoding**
 
-![Encoding of SET](figures/set.svg)
+![Encoding of SET](figures/r20-aesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `SET` | `001110 (0x0E)` | `00100000 (0x20)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
 **Operation**
 
@@ -884,9 +978,15 @@ BIC rm, Rd
 
 **Encoding**
 
-![Encoding of BIC](figures/bic.svg)
+![Encoding of BIC](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `BIC` | `011000 (0x18)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -915,9 +1015,15 @@ BIS rm, Rd
 
 **Encoding**
 
-![Encoding of BIS](figures/bis.svg)
+![Encoding of BIS](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `BIS` | `011001 (0x19)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -944,9 +1050,15 @@ BIT rm, Rd
 
 **Encoding**
 
-![Encoding of BIT](figures/bit.svg)
+![Encoding of BIT](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `BIT` | `011011 (0x1B)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -973,9 +1085,15 @@ XOR rm, Rd
 
 **Encoding**
 
-![Encoding of XOR](figures/xor.svg)
+![Encoding of XOR](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `XOR` | `011100 (0x1C)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -1002,9 +1120,15 @@ AND rm, Rd
 
 **Encoding**
 
-![Encoding of AND](figures/and.svg)
+![Encoding of AND](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `AND` | `011101 (0x1D)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -1033,15 +1157,17 @@ SAR rm, Rd
 
 **Encoding**
 
-![Encoding of SHIFT](figures/shift.svg)
+![Encoding of SHIFT](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
 
-| Mnemonic | Opcode (the load or direct form) |
+| Mnemonic | Opcode |
 |---|---|
 | `SHL` | `100000 (0x20)` |
 | `SHR` | `100001 (0x21)` |
 | `SAR` | `100010 (0x22)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -1073,9 +1199,15 @@ CLR rm
 
 **Encoding**
 
-![Encoding of CLR](figures/clr.svg)
+![Encoding of CLR](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `CLR` | `010011 (0x13)` | `0000 (0x0)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -1102,9 +1234,15 @@ COM rm
 
 **Encoding**
 
-![Encoding of COM](figures/com.svg)
+![Encoding of COM](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `COM` | `010011 (0x13)` | `0001 (0x1)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -1133,9 +1271,15 @@ TST rm
 
 **Encoding**
 
-![Encoding of TST](figures/tst.svg)
+![Encoding of TST](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `TST` | `010011 (0x13)` | `0101 (0x5)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -1162,9 +1306,15 @@ ASL rm
 
 **Encoding**
 
-![Encoding of ASL](figures/asl.svg)
+![Encoding of ASL](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `ASL` | `010011 (0x13)` | `1000 (0x8)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -1193,9 +1343,15 @@ ASR rm
 
 **Encoding**
 
-![Encoding of ASR](figures/asr.svg)
+![Encoding of ASR](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `ASR` | `010011 (0x13)` | `1001 (0x9)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -1242,16 +1398,18 @@ CTO Rs, Rd
 
 **Encoding**
 
-![Encoding of COUNT](figures/count.svg)
+![Encoding of COUNT](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Register to register only; four bytes.
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `CLZ` | `00000000 (0x00)` |
-| `CTZ` | `00000001 (0x01)` |
-| `CLO` | `00000010 (0x02)` |
-| `CTO` | `00000011 (0x03)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CLZ` | `001100 (0x0C)` | `00000000 (0x00)` |
+| `CTZ` | `001100 (0x0C)` | `00000001 (0x01)` |
+| `CLO` | `001100 (0x0C)` | `00000010 (0x02)` |
+| `CTO` | `001100 (0x0C)` | `00000011 (0x03)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1285,9 +1443,15 @@ POPCNT Rs, Rd
 
 **Encoding**
 
-![Encoding of POPCNT](figures/popcnt.svg)
+![Encoding of POPCNT](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `POPCNT` | `001100 (0x0C)` | `00000100 (0x04)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1318,15 +1482,17 @@ BSWAPL Rs, Rd
 
 **Encoding**
 
-![Encoding of BSWAP](figures/bswap.svg)
+![Encoding of BSWAP](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `BSWAP` | `00000101 (0x05)` |
-| `BSWAPW` | `00000110 (0x06)` |
-| `BSWAPL` | `00000111 (0x07)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `BSWAP` | `001100 (0x0C)` | `00000101 (0x05)` |
+| `BSWAPW` | `001100 (0x0C)` | `00000110 (0x06)` |
+| `BSWAPL` | `001100 (0x0C)` | `00000111 (0x07)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1359,9 +1525,15 @@ BITREV Rs, Rd
 
 **Encoding**
 
-![Encoding of BITREV](figures/bitrev.svg)
+![Encoding of BITREV](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `BITREV` | `001100 (0x0C)` | `00001000 (0x08)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1390,9 +1562,15 @@ ROR Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of ROR](figures/ror.svg)
+![Encoding of ROR](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `ROR` | `001100 (0x0C)` | `00010000 (0x10)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1424,9 +1602,15 @@ ROL Rs, #n, Rd        ; assembles to RORI Rs, #(64-n), Rd
 
 **Encoding**
 
-![Encoding of RORI](figures/rori.svg)
+![Encoding of RORI](figures/r20-besc-1-2.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Parcel 1 is `sub:8 count:8`.
+The chart is the layout `r20-besc-1-2`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `RORI` | `001100 (0x0C)` | `00010001 (0x11)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1-2`](dictionary/by-encoding.md#r20-besc-1-2), [`r20-besc-2-2`](dictionary/by-encoding.md#r20-besc-2-2).
 
 **Operation**
 
@@ -1457,9 +1641,15 @@ RORI32 Rs, #n, Rd
 
 **Encoding**
 
-![Encoding of RORI32](figures/rori32.svg)
+![Encoding of RORI32](figures/r20-besc-1-2.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1-2`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `RORI32` | `001100 (0x0C)` | `00010010 (0x12)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1-2`](dictionary/by-encoding.md#r20-besc-1-2), [`r20-besc-2-2`](dictionary/by-encoding.md#r20-besc-2-2).
 
 **Operation**
 
@@ -1490,9 +1680,15 @@ DSHR Ra, Rb, #n, Rd
 
 **Encoding**
 
-![Encoding of DSHR](figures/dshr.svg)
+![Encoding of DSHR](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `DSHR` | `001100 (0x0C)` | `00100000 (0x20)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2-3`](dictionary/by-encoding.md#r20-besc-2-3).
 
 **Operation**
 
@@ -1525,14 +1721,16 @@ EXTZB Rs, #pos, #width, Rd       ; zero-extended
 
 **Encoding**
 
-![Encoding of EXTB](figures/extb.svg)
+![Encoding of EXTB](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `EXTB` | `00100001 (0x21)` |
-| `EXTZB` | `00100010 (0x22)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `EXTB` | `001100 (0x0C)` | `00100001 (0x21)` |
+| `EXTZB` | `001100 (0x0C)` | `00100010 (0x22)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2-3`](dictionary/by-encoding.md#r20-besc-2-3).
 
 **Operation**
 
@@ -1563,9 +1761,15 @@ INSB Rs, #pos, #width, Rd
 
 **Encoding**
 
-![Encoding of INSB](figures/insb.svg)
+![Encoding of INSB](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `INSB` | `001100 (0x0C)` | `00100011 (0x23)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2-3`](dictionary/by-encoding.md#r20-besc-2-3).
 
 **Operation**
 
@@ -1597,9 +1801,15 @@ XNORPOP Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of XNORPOP](figures/xnorpop.svg)
+![Encoding of XNORPOP](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XNORPOP` | `001100 (0x0C)` | `00110000 (0x30)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1631,14 +1841,16 @@ CLMULH Ra, Rb, Rd
 
 **Encoding**
 
-![Encoding of CLMUL](figures/clmul.svg)
+![Encoding of CLMUL](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `CLMULL` | `00110001 (0x31)` |
-| `CLMULH` | `00110010 (0x32)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CLMULL` | `001100 (0x0C)` | `00110001 (0x31)` |
+| `CLMULH` | `001100 (0x0C)` | `00110010 (0x32)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1671,9 +1883,15 @@ UTF8LEN Rs, Rd
 
 **Encoding**
 
-![Encoding of UTF8LEN](figures/utf8len.svg)
+![Encoding of UTF8LEN](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `UTF8LEN` | `001100 (0x0C)` | `01000000 (0x40)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1702,9 +1920,15 @@ UTF8DEC Rs, Rd
 
 **Encoding**
 
-![Encoding of UTF8DEC](figures/utf8dec.svg)
+![Encoding of UTF8DEC](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `UTF8DEC` | `001100 (0x0C)` | `01000001 (0x41)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1735,9 +1959,15 @@ UTF8ENC Rs, Rd
 
 **Encoding**
 
-![Encoding of UTF8ENC](figures/utf8enc.svg)
+![Encoding of UTF8ENC](figures/r20-besc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. 
+The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `UTF8ENC` | `001100 (0x0C)` | `01000010 (0x42)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
 **Operation**
 
@@ -1788,27 +2018,29 @@ BEQ target ... and the rest
 
 **Encoding**
 
-![Encoding of the conditional branches](figures/bcc.svg)
+![Encoding of BCC](figures/r20-br-0.svg)
 
-The displacement is signed and counts 2-byte parcels from the first parcel of the instruction: 8 bits at `len = 00` (about ±256 bytes), 16 bits at `len = 01` (±64 KB), 32 bits in parcels 1 and 2 at `len = 10` (±4 GB).
+The chart is the layout `r20-br-0`, Conditional branches, one parcel (`len = 00`): The displacement is signed and counts 2-byte parcels from the first parcel of the instruction.
 
 | Mnemonic | Opcode |
 |---|---|
-| `BR` | `110000 (0x30)` (condition 0) |
-| `BNE` | `110001 (0x31)` (condition 1) |
-| `BEQ` | `110010 (0x32)` (condition 2) |
-| `BPL` | `110011 (0x33)` (condition 3) |
-| `BMI` | `110100 (0x34)` (condition 4) |
-| `BVC` | `110101 (0x35)` (condition 5) |
-| `BVS` | `110110 (0x36)` (condition 6) |
-| `BCC` | `110111 (0x37)` (condition 7) |
-| `BCS` | `111000 (0x38)` (condition 8) |
-| `BGE` | `111001 (0x39)` (condition 9) |
-| `BLT` | `111010 (0x3A)` (condition 10) |
-| `BGT` | `111011 (0x3B)` (condition 11) |
-| `BLE` | `111100 (0x3C)` (condition 12) |
-| `BHI` | `111101 (0x3D)` (condition 13) |
-| `BLOS` | `111110 (0x3E)` (condition 14) |
+| `BR` | `110000 (0x30)` |
+| `BNE` | `110001 (0x31)` |
+| `BEQ` | `110010 (0x32)` |
+| `BPL` | `110011 (0x33)` |
+| `BMI` | `110100 (0x34)` |
+| `BVC` | `110101 (0x35)` |
+| `BVS` | `110110 (0x36)` |
+| `BCC` | `110111 (0x37)` |
+| `BCS` | `111000 (0x38)` |
+| `BGE` | `111001 (0x39)` |
+| `BLT` | `111010 (0x3A)` |
+| `BGT` | `111011 (0x3B)` |
+| `BLE` | `111100 (0x3C)` |
+| `BHI` | `111101 (0x3D)` |
+| `BLOS` | `111110 (0x3E)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-br-0`](dictionary/by-encoding.md#r20-br-0), [`r20-br-1`](dictionary/by-encoding.md#r20-br-1), [`r20-br-2`](dictionary/by-encoding.md#r20-br-2).
 
 **Operation**
 
@@ -1839,9 +2071,15 @@ SOB Rn, target
 
 **Encoding**
 
-![Encoding of SOB](figures/sob.svg)
+![Encoding of SOB](figures/r20-sob-1.svg)
 
-From `len = 01`; the signed displacement is 16 bits (32 at `len = 10`).
+The chart is the layout `r20-sob-1`, SOB, two parcels (`len = 01`): The displacement is signed and counts parcels.
+
+| Mnemonic | Opcode |
+|---|---|
+| `SOB` | `111111 (0x3F)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sob-1`](dictionary/by-encoding.md#r20-sob-1), [`r20-sob-2`](dictionary/by-encoding.md#r20-sob-2).
 
 **Operation**
 
@@ -1874,17 +2112,28 @@ CBEQ Ra, Rb, target ... and the rest
 
 **Encoding**
 
-![Encoding of CBCC](figures/cbcc-cbcc.svg)
+![Encoding of CBCC](figures/r20-cb-1.svg)
 
-`CBCC` (opcode `101000 (0x28)`), four bytes: a signed 5-bit immediate (-16 to 15) and an 11-bit displacement in parcels. At `len = 10` (six bytes) parcel 1 is `imm(5) disp(26..16)` and parcel 2 `disp(15..0)`.
+The chart is the layout `r20-cb-1`, Compare and branch, two parcels (`len = 01`): `low` is the condition; the immediate and the displacement are signed.
 
-![Encoding of CBW](figures/cbcc-cbw.svg)
+| Mnemonic | Opcode | `low` |
+|---|---|---|
+| `CBNE` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0001 (0x1)`, `0001 (0x1)`, `0001 (0x1)` |
+| `CBEQ` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0010 (0x2)`, `0010 (0x2)`, `0010 (0x2)` |
+| `CBPL` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0011 (0x3)`, `0011 (0x3)`, `0011 (0x3)` |
+| `CBMI` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0100 (0x4)`, `0100 (0x4)`, `0100 (0x4)` |
+| `CBVC` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0101 (0x5)`, `0101 (0x5)`, `0101 (0x5)` |
+| `CBVS` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0110 (0x6)`, `0110 (0x6)`, `0110 (0x6)` |
+| `CBCC` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `0111 (0x7)`, `0111 (0x7)`, `0111 (0x7)` |
+| `CBCS` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1000 (0x8)`, `1000 (0x8)`, `1000 (0x8)` |
+| `CBGE` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1001 (0x9)`, `1001 (0x9)`, `1001 (0x9)` |
+| `CBLT` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1010 (0xA)`, `1010 (0xA)`, `1010 (0xA)` |
+| `CBGT` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1011 (0xB)`, `1011 (0xB)`, `1011 (0xB)` |
+| `CBLE` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1100 (0xC)`, `1100 (0xC)`, `1100 (0xC)` |
+| `CBHI` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1101 (0xD)`, `1101 (0xD)`, `1101 (0xD)` |
+| `CBLOS` | `101000 (0x28)`, `101001 (0x29)`, `101010 (0x2A)` | `1110 (0xE)`, `1110 (0xE)`, `1110 (0xE)` |
 
-`CBW` (opcode `101001 (0x29)`), six bytes: a 16-bit immediate and a 16-bit displacement in parcels.
-
-![Encoding of CBRR](figures/cbcc-cbrr.svg)
-
-`CBRR` (opcode `101010 (0x2A)`), four bytes (six at `len = 10`, with a 28-bit displacement): compares two registers. The condition numbers are those of the branches: `al` 0, `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. There is no `len = 00` form.
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-cb-1`](dictionary/by-encoding.md#r20-cb-1), [`r20-cb-1-2`](dictionary/by-encoding.md#r20-cb-1-2), [`r20-cb-2`](dictionary/by-encoding.md#r20-cb-2), [`r20-cb-2-2`](dictionary/by-encoding.md#r20-cb-2-2), [`r20-cb-2-3`](dictionary/by-encoding.md#r20-cb-2-3).
 
 **Operation**
 
@@ -1917,9 +2166,16 @@ BNTAG Rn, #tag, target
 
 **Encoding**
 
-![Encoding of BTAG and BNTAG](figures/btag.svg)
+![Encoding of BTAG](figures/r20-tag-1.svg)
 
-`sense` is 0 for `BTAG` and 1 for `BNTAG`; `tag` is the 3-bit tag. The displacement is 16 bits (32 at `len = 10`).
+The chart is the layout `r20-tag-1`, Tag branches, two parcels (`len = 01`): `sense` is 0 for `BTAG` and 1 for `BNTAG`; `tag` is the 3-bit tag.
+
+| Mnemonic | Opcode |
+|---|---|
+| `BTAG` | `010101 (0x15)` |
+| `BNTAG` | `010101 (0x15)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-tag-1`](dictionary/by-encoding.md#r20-tag-1), [`r20-tag-2`](dictionary/by-encoding.md#r20-tag-2).
 
 **Operation**
 
@@ -1951,9 +2207,15 @@ JMP rm        ; a register, or an address by any memory mode
 
 **Encoding**
 
-![Encoding of JMP](figures/jmp.svg)
+![Encoding of JMP](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `JMP` | `010011 (0x13)` | `1100 (0xC)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -1982,9 +2244,15 @@ CALL rm
 
 **Encoding**
 
-![Encoding of CALL](figures/call.svg)
+![Encoding of CALL](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `CALL` | `010011 (0x13)` | `1101 (0xD)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -2016,14 +2284,16 @@ CALLI rm       ; push the return address, then PC ← M[EA]
 
 **Encoding**
 
-![Encoding of JMPI](figures/jmpi.svg)
+![Encoding of JMPI](figures/r20-xfer-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-xfer-0`, Indirect transfers (XFER), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
 
-| Mnemonic | `reg` (sub-opcode) |
-|---|---|
-| `JMPI` | `0000 (0x0)` |
-| `CALLI` | `0001 (0x1)` |
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `JMPI` | `010010 (0x12)` | `0000 (0x0)` |
+| `CALLI` | `010010 (0x12)` | `0001 (0x1)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-xfer-0`](dictionary/by-encoding.md#r20-xfer-0), [`r20-xfer-1`](dictionary/by-encoding.md#r20-xfer-1), [`r20-xfer-1-2`](dictionary/by-encoding.md#r20-xfer-1-2), [`r20-xfer-1-3`](dictionary/by-encoding.md#r20-xfer-1-3), [`r20-xfer-1-4`](dictionary/by-encoding.md#r20-xfer-1-4), [`r20-xfer-2`](dictionary/by-encoding.md#r20-xfer-2), [`r20-xfer-2-2`](dictionary/by-encoding.md#r20-xfer-2-2), [`r20-xfer-2-3`](dictionary/by-encoding.md#r20-xfer-2-3), [`r20-xfer-2-4`](dictionary/by-encoding.md#r20-xfer-2-4).
 
 **Operation**
 
@@ -2055,9 +2325,15 @@ JTAG d(Rb)(Rx×s)
 
 **Encoding**
 
-![Encoding of JTAG](figures/jtag.svg)
+![Encoding of JTAG](figures/r20-xfer-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-xfer-0`, Indirect transfers (XFER), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `JTAG` | `010010 (0x12)` | `0010 (0x2)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-xfer-0`](dictionary/by-encoding.md#r20-xfer-0), [`r20-xfer-1`](dictionary/by-encoding.md#r20-xfer-1), [`r20-xfer-1-2`](dictionary/by-encoding.md#r20-xfer-1-2), [`r20-xfer-1-3`](dictionary/by-encoding.md#r20-xfer-1-3), [`r20-xfer-1-4`](dictionary/by-encoding.md#r20-xfer-1-4), [`r20-xfer-2`](dictionary/by-encoding.md#r20-xfer-2), [`r20-xfer-2-2`](dictionary/by-encoding.md#r20-xfer-2-2), [`r20-xfer-2-3`](dictionary/by-encoding.md#r20-xfer-2-3), [`r20-xfer-2-4`](dictionary/by-encoding.md#r20-xfer-2-4).
 
 **Operation**
 
@@ -2105,9 +2381,15 @@ PUSHM #mask        ; a 16-bit immediate, bit n is Rn
 
 **Encoding**
 
-![Encoding of PUSHM](figures/pushm.svg)
+![Encoding of PUSHM](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `PUSHM` | `010011 (0x13)` | `1010 (0xA)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -2141,9 +2423,15 @@ POPM #mask
 
 **Encoding**
 
-![Encoding of POPM](figures/popm.svg)
+![Encoding of POPM](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `POPM` | `010011 (0x13)` | `1011 (0xB)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -2173,9 +2461,15 @@ PUSH rm
 
 **Encoding**
 
-![Encoding of PUSH](figures/push.svg)
+![Encoding of PUSH](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `PUSH` | `010011 (0x13)` | `1110 (0xE)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -2204,9 +2498,15 @@ POP rm
 
 **Encoding**
 
-![Encoding of POP](figures/pop.svg)
+![Encoding of POP](figures/r20-sop-0.svg)
 
-The `reg` field is the sub-opcode; `rm` and the mode give the single operand, at any length (section 9.5).
+The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00`): The `reg` field is the sub-opcode; the operand is `rm` with its mode, at any length.
+
+| Mnemonic | Opcode | `reg` |
+|---|---|---|
+| `POP` | `010011 (0x13)` | `1111 (0xF)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
 **Operation**
 
@@ -2234,14 +2534,16 @@ MMOV Rd, Rs, Rn        ; correct for overlap
 
 **Encoding**
 
-![Encoding of MCPY](figures/mcpy.svg)
+![Encoding of MCPY](figures/r20-mblk-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 01`): `reg` is the destination pointer, `low` the source pointer (or the value register), `Rn` the count register.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `MCPY` | `00000000 (0x00)` |
-| `MMOV` | `00000001 (0x01)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MCPY` | `001101 (0x0D)` | `00000000 (0x00)` |
+| `MMOV` | `001101 (0x0D)` | `00000001 (0x01)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
 **Operation**
 
@@ -2276,9 +2578,15 @@ MSET Rd, Rv, Rn
 
 **Encoding**
 
-![Encoding of MSET](figures/mset.svg)
+![Encoding of MSET](figures/r20-mblk-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 01`): `reg` is the destination pointer, `low` the source pointer (or the value register), `Rn` the count register.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MSET` | `001101 (0x0D)` | `00000010 (0x02)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
 **Operation**
 
@@ -2311,9 +2619,15 @@ MCMP Rd, Rs, Rn
 
 **Encoding**
 
-![Encoding of MCMP](figures/mcmp.svg)
+![Encoding of MCMP](figures/r20-mblk-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 01`): `reg` is the destination pointer, `low` the source pointer (or the value register), `Rn` the count register.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MCMP` | `001101 (0x0D)` | `00000011 (0x03)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
 **Operation**
 
@@ -2351,14 +2665,16 @@ MSCNN Rd, Rv, Rn
 
 **Encoding**
 
-![Encoding of MSCN](figures/mscn.svg)
+![Encoding of MSCN](figures/r20-mblk-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 01`): `reg` is the destination pointer, `low` the source pointer (or the value register), `Rn` the count register.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `MSCN` | `00000100 (0x04)` |
-| `MSCNN` | `00000101 (0x05)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MSCN` | `001101 (0x0D)` | `00000100 (0x04)` |
+| `MSCNN` | `001101 (0x0D)` | `00000101 (0x05)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
 **Operation**
 
@@ -2395,9 +2711,15 @@ MVAL Rd, Rn
 
 **Encoding**
 
-![Encoding of MVAL](figures/mval.svg)
+![Encoding of MVAL](figures/r20-mblk-1.svg)
 
-`reg` is the destination pointer, `low` the source pointer (or the value register `Rv`), parcel 1 `t` the count register `Rn`.
+The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 01`): `reg` is the destination pointer, `low` the source pointer (or the value register), `Rn` the count register.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `MVAL` | `001101 (0x0D)` | `00000110 (0x06)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
 **Operation**
 
@@ -2449,15 +2771,17 @@ FMUL rm, Rd
 
 **Encoding**
 
-![Encoding of FADD](figures/fadd.svg)
+![Encoding of FADD](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
 
-| Mnemonic | Opcode (the load or direct form) |
+| Mnemonic | Opcode |
 |---|---|
 | `FADD` | `100100 (0x24)` |
 | `FSUB` | `100101 (0x25)` |
 | `FMUL` | `100110 (0x26)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -2488,9 +2812,15 @@ FCMP Rd, rm        ; register first
 
 **Encoding**
 
-![Encoding of FCMP](figures/fcmp.svg)
+![Encoding of FCMP](figures/r20-mem-0.svg)
 
-`reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00`, where the instruction is two bytes. At `len = 01` or `10`, `low` is the addressing mode and parcel 1 (and 2) carry the operand (section 9.5).
+The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one parcel (`len = 00`): `reg` is the register `Rd` (the source of a store); `low` is a second register (`Rs`) at `len = 00` and the addressing mode from `len = 01`; the extension parcels hold the operand (section 9.5).
+
+| Mnemonic | Opcode |
+|---|---|
+| `FCMP` | `100111 (0x27)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
 **Operation**
 
@@ -2520,14 +2850,16 @@ FSQRT Rs, Rd
 
 **Encoding**
 
-![Encoding of FDIV](figures/fdiv.svg)
+![Encoding of FDIV](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FDIV` | `00000000 (0x00)` |
-| `FSQRT` | `00000001 (0x01)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FDIV` | `010000 (0x10)` | `00000000 (0x00)` |
+| `FSQRT` | `010000 (0x10)` | `00000001 (0x01)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2562,18 +2894,20 @@ FCMP32 Rd, Rs
 
 **Encoding**
 
-![Encoding of FSINGLE](figures/fsingle.svg)
+![Encoding of FSINGLE](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FADD32` | `00001000 (0x08)` |
-| `FSUB32` | `00001001 (0x09)` |
-| `FMUL32` | `00001010 (0x0A)` |
-| `FDIV32` | `00001011 (0x0B)` |
-| `FSQRT32` | `00001100 (0x0C)` |
-| `FCMP32` | `00001101 (0x0D)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FADD32` | `010000 (0x10)` | `00001000 (0x08)` |
+| `FSUB32` | `010000 (0x10)` | `00001001 (0x09)` |
+| `FMUL32` | `010000 (0x10)` | `00001010 (0x0A)` |
+| `FDIV32` | `010000 (0x10)` | `00001011 (0x0B)` |
+| `FSQRT32` | `010000 (0x10)` | `00001100 (0x0C)` |
+| `FCMP32` | `010000 (0x10)` | `00001101 (0x0D)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2608,16 +2942,18 @@ FNMSUB Rs, Rt, Ru, Rd
 
 **Encoding**
 
-![Encoding of FMADD](figures/fmadd.svg)
+![Encoding of FMADD](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FMADD` | `00010000 (0x10)` |
-| `FMSUB` | `00010001 (0x11)` |
-| `FNMADD` | `00010010 (0x12)` |
-| `FNMSUB` | `00010011 (0x13)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMADD` | `010000 (0x10)` | `00010000 (0x10)` |
+| `FMSUB` | `010000 (0x10)` | `00010001 (0x11)` |
+| `FNMADD` | `010000 (0x10)` | `00010010 (0x12)` |
+| `FNMSUB` | `010000 (0x10)` | `00010011 (0x13)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2654,16 +2990,18 @@ FNMSUB32 ...
 
 **Encoding**
 
-![Encoding of FMADD32](figures/fmadd32.svg)
+![Encoding of FMADD32](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FMADD32` | `00011000 (0x18)` |
-| `FMSUB32` | `00011001 (0x19)` |
-| `FNMADD32` | `00011010 (0x1A)` |
-| `FNMSUB32` | `00011011 (0x1B)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMADD32` | `010000 (0x10)` | `00011000 (0x18)` |
+| `FMSUB32` | `010000 (0x10)` | `00011001 (0x19)` |
+| `FNMADD32` | `010000 (0x10)` | `00011010 (0x1A)` |
+| `FNMSUB32` | `010000 (0x10)` | `00011011 (0x1B)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2694,15 +3032,17 @@ FCOPYSIGN Rs, Rt, Rd
 
 **Encoding**
 
-![Encoding of FSIGN](figures/fsign.svg)
+![Encoding of FSIGN](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FNEG` | `00100000 (0x20)` |
-| `FABS` | `00100001 (0x21)` |
-| `FCOPYSIGN` | `00100010 (0x22)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FNEG` | `010000 (0x10)` | `00100000 (0x20)` |
+| `FABS` | `010000 (0x10)` | `00100001 (0x21)` |
+| `FCOPYSIGN` | `010000 (0x10)` | `00100010 (0x22)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2734,14 +3074,16 @@ FMAX Rs, Rt, Rd
 
 **Encoding**
 
-![Encoding of FMIN](figures/fmin.svg)
+![Encoding of FMIN](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FMIN` | `00100011 (0x23)` |
-| `FMAX` | `00100100 (0x24)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FMIN` | `010000 (0x10)` | `00100011 (0x23)` |
+| `FMAX` | `010000 (0x10)` | `00100100 (0x24)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2775,15 +3117,17 @@ FCLASS16 Rs, Rd
 
 **Encoding**
 
-![Encoding of FCLASS](figures/fclass.svg)
+![Encoding of FCLASS](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FCLASS` | `00101000 (0x28)` |
-| `FCLASS32` | `00101001 (0x29)` |
-| `FCLASS16` | `01011100 (0x5C)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCLASS` | `010000 (0x10)` | `00101000 (0x28)` |
+| `FCLASS32` | `010000 (0x10)` | `00101001 (0x29)` |
+| `FCLASS16` | `010000 (0x10)` | `01011100 (0x5C)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2821,17 +3165,19 @@ FRINTA Rs, Rd
 
 **Encoding**
 
-![Encoding of FRINT](figures/frint.svg)
+![Encoding of FRINT](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FRINT` | `00110000 (0x30)` |
-| `FRINTZ` | `00110001 (0x31)` |
-| `FRINTM` | `00110010 (0x32)` |
-| `FRINTP` | `00110011 (0x33)` |
-| `FRINTA` | `00110100 (0x34)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FRINT` | `010000 (0x10)` | `00110000 (0x30)` |
+| `FRINTZ` | `010000 (0x10)` | `00110001 (0x31)` |
+| `FRINTM` | `010000 (0x10)` | `00110010 (0x32)` |
+| `FRINTP` | `010000 (0x10)` | `00110011 (0x33)` |
+| `FRINTA` | `010000 (0x10)` | `00110100 (0x34)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2871,20 +3217,22 @@ FCVTLS Rs, Rd        ; signed 32-bit integer to binary32
 
 **Encoding**
 
-![Encoding of FCVT](figures/fcvt.svg)
+![Encoding of FCVT](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FCVTDQ` | `00111000 (0x38)` |
-| `FCVTDQU` | `00111110 (0x3E)` |
-| `FCVTQD` | `00111001 (0x39)` |
-| `FCVTQUD` | `00111111 (0x3F)` |
-| `FCVTDS` | `00111010 (0x3A)` |
-| `FCVTSD` | `00111011 (0x3B)` |
-| `FCVTSL` | `00111100 (0x3C)` |
-| `FCVTLS` | `00111101 (0x3D)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTDQ` | `010000 (0x10)` | `00111000 (0x38)` |
+| `FCVTDQU` | `010000 (0x10)` | `00111110 (0x3E)` |
+| `FCVTQD` | `010000 (0x10)` | `00111001 (0x39)` |
+| `FCVTQUD` | `010000 (0x10)` | `00111111 (0x3F)` |
+| `FCVTDS` | `010000 (0x10)` | `00111010 (0x3A)` |
+| `FCVTSD` | `010000 (0x10)` | `00111011 (0x3B)` |
+| `FCVTSL` | `010000 (0x10)` | `00111100 (0x3C)` |
+| `FCVTLS` | `010000 (0x10)` | `00111101 (0x3D)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2916,9 +3264,15 @@ FSFLAGS Rs, Rd
 
 **Encoding**
 
-![Encoding of FSFLAGS](figures/fsflags.svg)
+![Encoding of FSFLAGS](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
+
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FSFLAGS` | `010000 (0x10)` | `01000000 (0x40)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -2957,22 +3311,24 @@ FMADD16 Rs, Rt, Ru, Rd ...
 
 **Encoding**
 
-![Encoding of FHALF](figures/fhalf.svg)
+![Encoding of FHALF](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FADD16` | `01010000 (0x50)` |
-| `FSUB16` | `01010001 (0x51)` |
-| `FMUL16` | `01010010 (0x52)` |
-| `FDIV16` | `01010011 (0x53)` |
-| `FSQRT16` | `01010100 (0x54)` |
-| `FCMP16` | `01010101 (0x55)` |
-| `FMADD16` | `01011000 (0x58)` |
-| `FMSUB16` | `01011001 (0x59)` |
-| `FNMADD16` | `01011010 (0x5A)` |
-| `FNMSUB16` | `01011011 (0x5B)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FADD16` | `010000 (0x10)` | `01010000 (0x50)` |
+| `FSUB16` | `010000 (0x10)` | `01010001 (0x51)` |
+| `FMUL16` | `010000 (0x10)` | `01010010 (0x52)` |
+| `FDIV16` | `010000 (0x10)` | `01010011 (0x53)` |
+| `FSQRT16` | `010000 (0x10)` | `01010100 (0x54)` |
+| `FCMP16` | `010000 (0x10)` | `01010101 (0x55)` |
+| `FMADD16` | `010000 (0x10)` | `01011000 (0x58)` |
+| `FMSUB16` | `010000 (0x10)` | `01011001 (0x59)` |
+| `FNMADD16` | `010000 (0x10)` | `01011010 (0x5A)` |
+| `FNMSUB16` | `010000 (0x10)` | `01011011 (0x5B)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -3009,18 +3365,20 @@ FCVTLH Rs, Rd        ; signed 32-bit integer to half
 
 **Encoding**
 
-![Encoding of FCVTH](figures/fcvth.svg)
+![Encoding of FCVTH](figures/r20-fesc-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.
+The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `FCVTSH` | `01100000 (0x60)` |
-| `FCVTHS` | `01100001 (0x61)` |
-| `FCVTDH` | `01100010 (0x62)` |
-| `FCVTHD` | `01100011 (0x63)` |
-| `FCVTHL` | `01100100 (0x64)` |
-| `FCVTLH` | `01100101 (0x65)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `FCVTSH` | `010000 (0x10)` | `01100000 (0x60)` |
+| `FCVTHS` | `010000 (0x10)` | `01100001 (0x61)` |
+| `FCVTDH` | `010000 (0x10)` | `01100010 (0x62)` |
+| `FCVTHD` | `010000 (0x10)` | `01100011 (0x63)` |
+| `FCVTHL` | `010000 (0x10)` | `01100100 (0x64)` |
+| `FCVTLH` | `010000 (0x10)` | `01100101 (0x65)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
 **Operation**
 
@@ -3062,14 +3420,16 @@ CASDB ...                            ; with a full barrier
 
 **Encoding**
 
-![Encoding of CAS](figures/cas.svg)
+![Encoding of CAS](figures/r20-atom-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): From `len = 01`. The placement of the operands is not specified.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `CAS` | `00000000 (0x00)` |
-| `CASDB` | `00000001 (0x01)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `CAS` | `010001 (0x11)` | `00000000 (0x00)` |
+| `CASDB` | `010001 (0x11)` | `00000001 (0x01)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
 **Operation**
 
@@ -3105,14 +3465,16 @@ SWAPDB ...
 
 **Encoding**
 
-![Encoding of SWAP](figures/swap.svg)
+![Encoding of SWAP](figures/r20-atom-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): From `len = 01`. The placement of the operands is not specified.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `SWAP` | `00000010 (0x02)` |
-| `SWAPDB` | `00000011 (0x03)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `SWAP` | `010001 (0x11)` | `00000010 (0x02)` |
+| `SWAPDB` | `010001 (0x11)` | `00000011 (0x03)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
 **Operation**
 
@@ -3146,14 +3508,16 @@ XADDDB ...
 
 **Encoding**
 
-![Encoding of XADD](figures/xadd.svg)
+![Encoding of XADD](figures/r20-atom-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): From `len = 01`. The placement of the operands is not specified.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `XADD` | `00000100 (0x04)` |
-| `XADDDB` | `00000101 (0x05)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XADD` | `010001 (0x11)` | `00000100 (0x04)` |
+| `XADDDB` | `010001 (0x11)` | `00000101 (0x05)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
 **Operation**
 
@@ -3189,18 +3553,20 @@ each with a DB form
 
 **Encoding**
 
-![Encoding of XAND](figures/xand.svg)
+![Encoding of XAND](figures/r20-atom-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): From `len = 01`. The placement of the operands is not specified.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `XAND` | `00000110 (0x06)` |
-| `XANDDB` | `00000111 (0x07)` |
-| `XOR_` | `00001000 (0x08)` |
-| `XOR_DB` | `00001001 (0x09)` |
-| `XXOR` | `00001010 (0x0A)` |
-| `XXORDB` | `00001011 (0x0B)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XAND` | `010001 (0x11)` | `00000110 (0x06)` |
+| `XANDDB` | `010001 (0x11)` | `00000111 (0x07)` |
+| `XOR_` | `010001 (0x11)` | `00001000 (0x08)` |
+| `XOR_DB` | `010001 (0x11)` | `00001001 (0x09)` |
+| `XXOR` | `010001 (0x11)` | `00001010 (0x0A)` |
+| `XXORDB` | `010001 (0x11)` | `00001011 (0x0B)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
 **Operation**
 
@@ -3239,20 +3605,22 @@ each with a DB form
 
 **Encoding**
 
-![Encoding of XMAX](figures/xmax.svg)
+![Encoding of XMAX](figures/r20-atom-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): From `len = 01`. The placement of the operands is not specified.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `XMAX` | `00001100 (0x0C)` |
-| `XMAXDB` | `00001101 (0x0D)` |
-| `XMIN` | `00001110 (0x0E)` |
-| `XMINDB` | `00001111 (0x0F)` |
-| `XMAXU` | `00010000 (0x10)` |
-| `XMAXUDB` | `00010001 (0x11)` |
-| `XMINU` | `00010010 (0x12)` |
-| `XMINUDB` | `00010011 (0x13)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `XMAX` | `010001 (0x11)` | `00001100 (0x0C)` |
+| `XMAXDB` | `010001 (0x11)` | `00001101 (0x0D)` |
+| `XMIN` | `010001 (0x11)` | `00001110 (0x0E)` |
+| `XMINDB` | `010001 (0x11)` | `00001111 (0x0F)` |
+| `XMAXU` | `010001 (0x11)` | `00010000 (0x10)` |
+| `XMAXUDB` | `010001 (0x11)` | `00010001 (0x11)` |
+| `XMINU` | `010001 (0x11)` | `00010010 (0x12)` |
+| `XMINUDB` | `010001 (0x11)` | `00010011 (0x13)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
 **Operation**
 
@@ -3287,14 +3655,16 @@ SC value, (address), result
 
 **Encoding**
 
-![Encoding of LLSC](figures/llsc.svg)
+![Encoding of LLSC](figures/r20-atom-1.svg)
 
-From `len = 01`. In this group `low` is a register, never a mode. The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): From `len = 01`. The placement of the operands is not specified.
 
-| Mnemonic | Sub-opcode |
-|---|---|
-| `LL` | `00100000 (0x20)` |
-| `SC` | `00100001 (0x21)` |
+| Mnemonic | Opcode | Sub-opcode |
+|---|---|---|
+| `LL` | `010001 (0x11)` | `00100000 (0x20)` |
+| `SC` | `010001 (0x11)` | `00100001 (0x21)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
 **Operation**
 
@@ -3340,14 +3710,16 @@ LPAD
 
 **Encoding**
 
-![Encoding of NOP](figures/nop.svg)
+![Encoding of NOP](figures/r20-sysn-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`): The `reg` field is the class (0); class 0 takes a minor opcode from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `NOP` | 0 | `0000 (0x0)` |
-| `LPAD` | 0 | `1001 (0x9)` |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `NOP` | `010100 (0x14)` | `0000 (0x0)` | `0000 (0x0)` |
+| `LPAD` | `010100 (0x14)` | `0000 (0x0)` | `1001 (0x9)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
 **Operation**
 
@@ -3381,14 +3753,16 @@ RTT
 
 **Encoding**
 
-![Encoding of RTI](figures/rti.svg)
+![Encoding of RTI](figures/r20-sysn-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`): The `reg` field is the class (0); class 0 takes a minor opcode from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `RTI` | 0 | `0001 (0x1)` |
-| `RTT` | 0 | `0010 (0x2)` |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `RTI` | `010100 (0x14)` | `0000 (0x0)` | `0001 (0x1)` |
+| `RTT` | `010100 (0x14)` | `0000 (0x0)` | `0010 (0x2)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
 **Operation**
 
@@ -3422,13 +3796,15 @@ RET
 
 **Encoding**
 
-![Encoding of RET](figures/ret.svg)
+![Encoding of RET](figures/r20-sysn-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`): The `reg` field is the class (0); class 0 takes a minor opcode from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `RET` | 0 | `0011 (0x3)` |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `RET` | `010100 (0x14)` | `0000 (0x0)` | `0011 (0x3)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
 **Operation**
 
@@ -3457,13 +3833,15 @@ HALT
 
 **Encoding**
 
-![Encoding of HALT](figures/halt.svg)
+![Encoding of HALT](figures/r20-sysn-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`): The `reg` field is the class (0); class 0 takes a minor opcode from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `HALT` | 0 | `0100 (0x4)` |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `HALT` | `010100 (0x14)` | `0000 (0x0)` | `0100 (0x4)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
 **Operation**
 
@@ -3492,13 +3870,15 @@ BPT
 
 **Encoding**
 
-![Encoding of BPT](figures/bpt.svg)
+![Encoding of BPT](figures/r20-sysn-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`): The `reg` field is the class (0); class 0 takes a minor opcode from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `BPT` | 0 | `0101 (0x5)` |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `BPT` | `010100 (0x14)` | `0000 (0x0)` | `0101 (0x5)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
 **Operation**
 
@@ -3531,13 +3911,15 @@ FENCE
 
 **Encoding**
 
-![Encoding of FENCE](figures/fence.svg)
+![Encoding of FENCE](figures/r20-sysn-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`): The `reg` field is the class (0); class 0 takes a minor opcode from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `FENCE` | 0 | `0110 (0x6)` |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `FENCE` | `010100 (0x14)` | `0000 (0x0)` | `0110 (0x6)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
 **Operation**
 
@@ -3570,13 +3952,15 @@ WFE
 
 **Encoding**
 
-![Encoding of WFE](figures/wfe.svg)
+![Encoding of WFE](figures/r20-sysn-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`): The `reg` field is the class (0); class 0 takes a minor opcode from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `WFE` | 0 | `0111 (0x7)` |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `WFE` | `010100 (0x14)` | `0000 (0x0)` | `0111 (0x7)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
 **Operation**
 
@@ -3609,13 +3993,15 @@ SEV
 
 **Encoding**
 
-![Encoding of SEV](figures/sev.svg)
+![Encoding of SEV](figures/r20-sysn-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`): The `reg` field is the class (0); class 0 takes a minor opcode from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `SEV` | 0 | `1000 (0x8)` |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `SEV` | `010100 (0x14)` | `0000 (0x0)` | `1000 (0x8)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
 **Operation**
 
@@ -3648,15 +4034,17 @@ ICINVA
 
 **Encoding**
 
-![Encoding of TLBA](figures/tlba.svg)
+![Encoding of TLBA](figures/r20-sysn-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`): The `reg` field is the class (0); class 0 takes a minor opcode from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `TLBIA` | 0 | `1010 (0xA)` |
-| `TLBSYNC` | 0 | `1011 (0xB)` |
-| `ICINVA` | 0 | `1100 (0xC)` |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `TLBIA` | `010100 (0x14)` | `0000 (0x0)` | `1010 (0xA)` |
+| `TLBSYNC` | `010100 (0x14)` | `0000 (0x0)` | `1011 (0xB)` |
+| `ICINVA` | `010100 (0x14)` | `0000 (0x0)` | `1100 (0xC)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
 **Operation**
 
@@ -3690,14 +4078,16 @@ POPX
 
 **Encoding**
 
-![Encoding of PUSHX](figures/pushx.svg)
+![Encoding of PUSHX](figures/r20-sysx-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysx-0`, System, SYSX, one parcel (`len = 00`): Class 0, minor 15: the sub-opcode is in parcel 1.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `PUSHX` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `0` in parcel 1 |
-| `POPX` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `1` in parcel 1 |
+| Mnemonic | Opcode | `reg` | `low` | Sub-opcode |
+|---|---|---|---|---|
+| `PUSHX` | `010100 (0x14)` | `0000 (0x0)` | `1111 (0xF)` | `00000000 (0x00)` |
+| `POPX` | `010100 (0x14)` | `0000 (0x0)` | `1111 (0xF)` | `00000001 (0x01)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysx-0`](dictionary/by-encoding.md#r20-sysx-0), [`r20-sysx-1`](dictionary/by-encoding.md#r20-sysx-1).
 
 **Operation**
 
@@ -3731,13 +4121,15 @@ ISYNC
 
 **Encoding**
 
-![Encoding of ISYNC](figures/isync.svg)
+![Encoding of ISYNC](figures/r20-sysx-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysx-0`, System, SYSX, one parcel (`len = 00`): Class 0, minor 15: the sub-opcode is in parcel 1.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `ISYNC` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `2` in parcel 1 |
+| Mnemonic | Opcode | `reg` | `low` | Sub-opcode |
+|---|---|---|---|---|
+| `ISYNC` | `010100 (0x14)` | `0000 (0x0)` | `1111 (0xF)` | `00000010 (0x02)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysx-0`](dictionary/by-encoding.md#r20-sysx-0), [`r20-sysx-1`](dictionary/by-encoding.md#r20-sysx-1).
 
 **Operation**
 
@@ -3770,13 +4162,15 @@ HINT #n        ; n = 0 to 255
 
 **Encoding**
 
-![Encoding of HINT](figures/hint.svg)
+![Encoding of HINT](figures/r20-sysx-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysx-0`, System, SYSX, one parcel (`len = 00`): Class 0, minor 15: the sub-opcode is in parcel 1.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `HINT` | 0 | `1111 (0xF)` (`SYSX`), sub-opcode `3` in parcel 1 |
+| Mnemonic | Opcode | `reg` | `low` | Sub-opcode |
+|---|---|---|---|---|
+| `HINT` | `010100 (0x14)` | `0000 (0x0)` | `1111 (0xF)` | `00000011 (0x03)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysx-0`](dictionary/by-encoding.md#r20-sysx-0), [`r20-sysx-1`](dictionary/by-encoding.md#r20-sysx-1).
 
 **Operation**
 
@@ -3808,14 +4202,16 @@ MTSR name, Rs
 
 **Encoding**
 
-![Encoding of MFSR](figures/mfsr.svg)
+![Encoding of MFSR](figures/r20-sysreg-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sysreg-0`, System registers (MFSR, MTSR), one parcel (`len = 00`): Class 0: the system register number is in parcel 1.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
-|---|---|---|
-| `MFSR` | 0 | `1101 (0xD)`, system register number in parcel 1 |
-| `MTSR` | 0 | `1110 (0xE)`, system register number in parcel 1 |
+| Mnemonic | Opcode | `reg` | `low` |
+|---|---|---|---|
+| `MFSR` | `010100 (0x14)` | `0000 (0x0)` | `1101 (0xD)` |
+| `MTSR` | `010100 (0x14)` | `0000 (0x0)` | `1110 (0xE)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysreg-0`](dictionary/by-encoding.md#r20-sysreg-0), [`r20-sysreg-1`](dictionary/by-encoding.md#r20-sysreg-1).
 
 **Operation**
 
@@ -3866,14 +4262,16 @@ MFPS Rd
 
 **Encoding**
 
-![Encoding of MTPS](figures/mtps.svg)
+![Encoding of MTPS](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `MTPS` | `0001 (0x1)` | operand in `low` |
-| `MFPS` | `0010 (0x2)` | operand in `low` |
+| `MTPS` | `010100 (0x14)` | `0001 (0x1)` |
+| `MFPS` | `010100 (0x14)` | `0010 (0x2)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
 **Operation**
 
@@ -3903,13 +4301,15 @@ SPL #n        ; n = 0 to 7
 
 **Encoding**
 
-![Encoding of SPL](figures/spl.svg)
+![Encoding of SPL](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `SPL` | `0011 (0x3)` | operand in `low` |
+| `SPL` | `010100 (0x14)` | `0011 (0x3)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
 **Operation**
 
@@ -3943,14 +4343,16 @@ TRAPL #n       ; n = 0 to 255, four bytes
 
 **Encoding**
 
-![Encoding of TRAP](figures/trap.svg)
+![Encoding of TRAP](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `TRAP` | `0100 (0x4)` | operand in `low` |
-| `TRAPL` | `1111 (0xF)` | operand in `low` |
+| `TRAP` | `010100 (0x14)` | `0100 (0x4)` |
+| `TRAPL` | `010100 (0x14)` | `1111 (0xF)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2), [`r20-sys-1-3`](dictionary/by-encoding.md#r20-sys-1-3).
 
 **Operation**
 
@@ -3983,13 +4385,15 @@ TLBI Rs
 
 **Encoding**
 
-![Encoding of TLBI](figures/tlbi.svg)
+![Encoding of TLBI](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `TLBI` | `0101 (0x5)` | operand in `low` |
+| `TLBI` | `010100 (0x14)` | `0101 (0x5)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
 **Operation**
 
@@ -4021,14 +4425,16 @@ MFASID Rd
 
 **Encoding**
 
-![Encoding of MTASID](figures/mtasid.svg)
+![Encoding of MTASID](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `MTASID` | `0110 (0x6)` | operand in `low` |
-| `MFASID` | `0111 (0x7)` | operand in `low` |
+| `MTASID` | `010100 (0x14)` | `0110 (0x6)` |
+| `MFASID` | `010100 (0x14)` | `0111 (0x7)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
 **Operation**
 
@@ -4063,14 +4469,16 @@ MFDP Rd
 
 **Encoding**
 
-![Encoding of MTDP](figures/mtdp.svg)
+![Encoding of MTDP](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `MTDP` | `1000 (0x8)` | operand in `low` |
-| `MFDP` | `1001 (0x9)` | operand in `low` |
+| `MTDP` | `010100 (0x14)` | `1000 (0x8)` |
+| `MFDP` | `010100 (0x14)` | `1001 (0x9)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
 **Operation**
 
@@ -4104,13 +4512,15 @@ MTDMW Rs
 
 **Encoding**
 
-![Encoding of MTDMW](figures/mtdmw.svg)
+![Encoding of MTDMW](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `MTDMW` | `1010 (0xA)` | operand in `low` |
+| `MTDMW` | `010100 (0x14)` | `1010 (0xA)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
 **Operation**
 
@@ -4143,13 +4553,15 @@ MFCPUID Rd
 
 **Encoding**
 
-![Encoding of MFCPUID](figures/mfcpuid.svg)
+![Encoding of MFCPUID](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `MFCPUID` | `1011 (0xB)` | operand in `low` |
+| `MFCPUID` | `010100 (0x14)` | `1011 (0xB)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
 **Operation**
 
@@ -4182,13 +4594,15 @@ ICINV Rs
 
 **Encoding**
 
-![Encoding of ICINV](figures/icinv.svg)
+![Encoding of ICINV](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `ICINV` | `1100 (0xC)` | operand in `low` |
+| `ICINV` | `010100 (0x14)` | `1100 (0xC)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
 **Operation**
 
@@ -4220,14 +4634,16 @@ PROBEW Rd, Rs
 
 **Encoding**
 
-![Encoding of PROBE](figures/probe.svg)
+![Encoding of PROBE](figures/r20-sys-0.svg)
 
-The `reg` field is the **class**. Class 0 takes a minor opcode from `low`; the other classes take a register or a 4-bit immediate from `low`.
+The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` field is the class; the other classes take a register or a 4-bit immediate from `low`.
 
-| Mnemonic | Class (`reg`) | Minor (`low`) |
+| Mnemonic | Opcode | `reg` |
 |---|---|---|
-| `PROBER` | `1101 (0xD)` | operand in `low` |
-| `PROBEW` | `1110 (0xE)` | operand in `low` |
+| `PROBER` | `010100 (0x14)` | `1101 (0xD)` |
+| `PROBEW` | `010100 (0x14)` | `1110 (0xE)` |
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1-2`](dictionary/by-encoding.md#r20-sys-1-2), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
 **Operation**
 

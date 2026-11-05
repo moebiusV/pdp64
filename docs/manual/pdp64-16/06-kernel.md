@@ -163,6 +163,8 @@
 | [Read the processor identifier](09-isa.md#mfcpuid-read-the-processor-identifier) | `MFCPUID` |
 | [Invalidate the instruction cache for an address](09-isa.md#icinv-invalidate-the-instruction-cache-for-an-address) | `ICINV` |
 | [Probe an address for read or write access](09-isa.md#probe-probe-an-address-for-read-or-write-access) | `PROBER`, `PROBEW` |
+| [Trap on condition](09-isa.md#trapcc-trap-on-condition) | `TRAPCC.NE`, `TRAPCC.EQ`, `TRAPCC.PL`, `TRAPCC.MI`, `TRAPCC.VC`, `TRAPCC.VS`, `TRAPCC.CC`, `TRAPCC.CS`, `TRAPCC.GE`, `TRAPCC.LT`, `TRAPCC.GT`, `TRAPCC.LE`, `TRAPCC.HI`, `TRAPCC.LOS` |
+| [Reserved system words](09-isa.md#syspg-reserved-system-words) | `SYSPG0`, `SYSPG1`, `SYSPG2`, `SYSPG3`, `SYSPG4`, `SYSPG5` |
 <!-- /entries:6.7 -->
 
 ## 6.8 Faults, restart and memory management

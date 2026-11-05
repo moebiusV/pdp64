@@ -18,11 +18,12 @@ c:id01010    Conclusion: from FPGA to silicon
 
 p:id00200    The instruction reference tables
 d:id02001    The instruction reference tables
-d:id02012    The second page: one-parcel abbreviations
+@r20:d:id02012    The second page: one-parcel abbreviations
 d:id02013    Assembler aliases and old spellings
 d:id02014    The architectural constants
 d:id02015    The mnemonics, alphabetically
-d:id02016    The opcodes, in order
+@r20:d:id02016    The opcodes, in order
+d:id02017    The bit layouts of every opcode
 
 p:id00300    Appendices
 a:label:Appendix

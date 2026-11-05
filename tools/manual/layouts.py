@@ -313,7 +313,7 @@ def r20_charts(MN):
         for name, cs in ch['mns'].items():
             byname.setdefault(name, []).append((cid, ch))
     # page 2
-    p2 = dict(id='r20-page2', kind='p2', len=3, title='Page 2: a one-parcel instruction with its own opcode map', mns={}, legend=[],
+    p2 = dict(id='r20-page2', kind='p2', len=3, body=(), title='Page 2: a one-parcel instruction with its own opcode map', mns={}, legend=[],
               rows=[('parcel 0', [('len', hw['len'], b(3, hw['len'])), ('opc', hw['opc'], None), ('reg', hw['reg'], None), ('low', hw['low'], None)])])
     assert G.body(len=3, opc=0, reg=0, low=0, sub=0) == []
     out.append(p2)
@@ -375,7 +375,7 @@ def build_r20_chart(ch, cid, hw, G):
     ch['title'] = '%s, %s (`len = %s`)' % (KINDTITLE[kind], lens[ln], b(ln, 2))
 
 
-KINDTITLE = {'mem': 'Moves, address formation and the ALU', 'br': 'Conditional branches', 'cb': 'Compare and branch', 'sob': 'SOB', 'tag': 'Tag branches',
+KINDTITLE = {'cbrr': 'Compare two registers and branch', 'mem': 'Moves, address formation and the ALU', 'br': 'Conditional branches', 'cb': 'Compare and branch', 'sob': 'SOB', 'tag': 'Tag branches',
              'sop': 'Single operand (SOP)', 'xfer': 'Indirect transfers (XFER)', 'besc': 'Bits and fields (BESC)', 'mblk': 'Block memory (MBLK)',
              'aesc': 'Arithmetic (AESC)', 'fesc': 'Floating point (FESC)', 'atom': 'Atomics (ATOM)', 'mesc': 'Memory escape (MESC)',
              'sysn': 'System, no operand', 'sysx': 'System, SYSX', 'sysreg': 'System registers (MFSR, MTSR)', 'sys': 'System'}
@@ -525,10 +525,19 @@ class Enc:
 
     @staticmethod
     def fieldpos(lf, f):
+        """`name=pK[hi:lo]` for each field, in record order; a field that crosses a parcel boundary is `pK[hi:0]+pK+1[15:lo]`"""
         out = []
         for p, nm, w, key in encgram.leaf_pieces(lf, f['specs']):
-            hi = 15 - p % 16
-            out.append('%s=p%d[%d:%d]' % (nm.replace('o', 'op', 1).replace('-', '.', 1) if nm.startswith('o') else nm, p // 16, hi, hi - w + 1 if (p % 16) + w <= 16 else 0))
+            segs, start, left = [], p, w
+            while left:
+                k, off = start // 16, start % 16
+                take = min(left, 16 - off)
+                hi = 15 - off
+                segs.append('p%d[%d:%d]' % (k, hi, hi - take + 1) if take > 1 else 'p%d[%d]' % (k, hi))
+                start += take
+                left -= take
+            label = re.sub(r'^o(\d+)-', r'op\1.', nm) if nm.startswith('o') else nm
+            out.append('%s=%s' % (label, '+'.join(segs)))
         return ' '.join(out)
 
     def shapes_used(self):
@@ -538,3 +547,58 @@ class Enc:
             for nm, spec in zip(self.operands(f), f['specs']):
                 seen.setdefault(nm, shape_describe(spec))
         return seen
+
+
+class _EncCache(dict):
+    def __missing__(self, tag):
+        self[tag] = Enc(tag)
+        return self[tag]
+
+
+ENC = _EncCache()
+
+
+def r20_entry_numbers(MN, names):
+    """A table of the numbers that the grammar gives the mnemonics of an entry (opcode, `reg`, `low`, sub-opcode), in the columns that are used."""
+    G = grammar()
+    rows = []
+    for n in names:
+        m = MN[n]
+        cs = r20_constraints(n, m, G)
+        r = {}
+        for col, key, w in (('Opcode', 'opc', 6), ('`reg`', 'reg', 4), ('`low`', 'low', 4), ('Sub-opcode', 'sub', 4 if m['kind'] == 'mesc' else 8)):
+            vals = [c[key] for c in cs if key in c]
+            if vals:
+                r[col] = ', '.join('`%s (0x%0*X)`' % (b(v, w), (w + 3) // 4, v) for v in vals)
+        rows.append((n, r))
+    cols = [c for c in ('Opcode', '`reg`', '`low`', 'Sub-opcode') if any(c in r for _, r in rows)]
+    if not rows or not cols:
+        return ''
+    out = ['| Mnemonic | ' + ' | '.join(cols) + ' |', '|---|' + '---|' * len(cols)]
+    for n, r in rows:
+        out.append('| `%s` | ' % n.upper() + ' | '.join(r.get(c, '') for c in cols) + ' |')
+    return '\n'.join(out)
+
+
+def r20_chart_numbers(ch, hw=None):
+    """The numbers of the mnemonics that share one chart: a table with a row for each and a column for each of opcode, `reg`, `low`, sub-opcode that has a value"""
+    hw = hw or dict(grammar().head)
+    subw = dict(ch['body']).get('sub', 4 if ch['kind'] == 'mesc' else 8)
+    rows = []
+    for n, cs in ch['mns'].items():
+        r = {}
+        for col, key, w in (('Opcode', 'opc', hw['opc']), ('`reg`', 'reg', hw['reg']), ('`low`', 'low', hw['low']), ('Sub-opcode', 'sub', subw)):
+            vals = []
+            for c in cs:
+                if c.get(key) is not None and c[key] not in vals:
+                    vals.append(c[key])
+            if vals:
+                r[col] = ', '.join('`%s (0x%0*X)`' % (b(v, w), (w + 3) // 4, v) for v in vals)
+        rows.append((n, r))
+    cols = [c for c in ('Opcode', '`reg`', '`low`', 'Sub-opcode') if any(c in r for _, r in rows)]
+    if not cols:
+        return ''
+    out = ['| Mnemonic | ' + ' | '.join(cols) + ' |', '|---|' + '---|' * len(cols)]
+    for n, r in rows:
+        out.append('| `%s` | ' % n.upper() + ' | '.join(r.get(c, '') for c in cols) + ' |')
+    return '\n'.join(out)
