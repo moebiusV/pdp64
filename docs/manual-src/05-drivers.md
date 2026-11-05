@@ -6,6 +6,8 @@
 
 ## 5.1 What a driver sees
 
+> **PCI Express.** Since errata 75 and 80 (2026-11-03) Q64 is PCI Express, backward compatible, with convenience and security circuitry added on top, and storage is NVMe and USB; the standard network, graphics and audio devices are virtio-net, virtio-gpu and virtio-snd over the virtio PCI Express transport (errata 79). Devices are enumerated by PCI Express configuration space and base-address registers and interrupt by MSI-X, which replace the slot numbers, the slot-derived vectors and the eight-register device rule of the statements below (errata 80, in outline). The eight-register convention and its descriptor describe the pdp64's own devices (the iteration-two cards of chapter 3) and the shape of a driver; the standard devices of iteration one are PCI Express devices with their own drivers; the full rewrite of the chapter waits for the author's answers to the remaining items of `decisions-pending.md` Part F. Statements keep their tags.
+
 **5.1.1** A device is at least eight 64-bit registers at the start of its own 4 KB page (a larger device takes more pages, section 5.2.1), and the page is mapped with the device memory type, strongly ordered. *(P for the page per device; D for the memory types)*
 
 **5.1.2** A driver reaches a register with an ordinary load or store; there are no input or output instructions and no port space. *(D)*

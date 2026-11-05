@@ -4,7 +4,7 @@
 
 **A PDF of the whole manual (the chapters, with every instruction, the reference tables and the appendices): [`book/pdp64-r20.pdf`](../../../book/pdp64-r20.pdf).**
 
-**This is the manual of the pdp64, a 64-bit architecture with SMP support designed to be efficient with in-order and out-of-order implementations: what it is, why, and how each part works.** It is the statement of the architecture, arranged to be read straight through; every instruction has its complete entry in chapter 9.
+**This is the manual of the pdp64, a 64-bit architecture with SMP support designed to be efficient with in-order and out-of-order implementations: what it is, why, and how each part works.** It is the statement of the architecture, arranged to be read straight through; every instruction has its complete entry in chapter 9. This manual describes pdp64/r20, one of the three CPUs of the family; section 1.8 says how the three relate, and the [landing page](../00-index.md) links the three manuals.
 
 ## Contents
 

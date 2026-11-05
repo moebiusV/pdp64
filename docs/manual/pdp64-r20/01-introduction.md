@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**The pdp64 is a 64-bit successor to the PDP-11, designed to be as pleasant to program as the PDP-11 and the VAX-11 were, and as small to build as the PDP-11 was.** It is a little-endian machine with sixteen 64-bit registers, instructions of two, four or six bytes, and the PDP-11's addressing modes and branches, brought up to date with what fifty years of compilers and operating systems have shown to matter. It is a 64-bit machine that supports several cores from the start (symmetric multiprocessing, chapter 7), and it is designed to be efficient with in-order and out-of-order execution implementations (1.4.4). Sections 1.1 to 1.4 give the reasons for the machine, what made its ancestors good, and the principles the rest of the manual follows.
+**The pdp64 is a 64-bit successor to the PDP-11, designed to be as pleasant to program as the PDP-11 and the VAX-11 were, and as small to build as the PDP-11 was.** It is a little-endian machine with sixteen 64-bit registers, instructions of two, four or six bytes, and the PDP-11's addressing modes and branches, brought up to date with what fifty years of compilers and operating systems have shown to matter. It is a 64-bit machine that supports several cores from the start (symmetric multiprocessing, chapter 7), and it is designed to be efficient with in-order and out-of-order execution implementations (1.4.4). Sections 1.1 to 1.4 give the reasons for the machine, what made its ancestors good, and the principles the rest of the manual follows; section 1.8 says how this CPU and the other CPUs of the family relate.
 
 ## 1.1 Why the machine exists
 
@@ -111,3 +111,17 @@
 **1.7.2** Each section states its aphorisms first and its commentary after; the status tag *(D)* or *(P)* marks what is decided and what is proposed.
 
 *Commentary.* **Precedent.** The form follows the old commentary traditions, in which a short text can be read straight through and the discussion of each line sits beneath it; and the layout of the classic CPU manuals for the reference material, in which every instruction has a fixed entry. **Benefits.** A designer who wants only the architecture reads the aphorisms; one who wants the reasons reads on.
+
+## 1.8 The three CPUs
+
+**1.8.1** The pdp64 is an architecture with three CPUs, pdp64/r20, pdp64/16 and pdp64/32. They share the roles of the registers, the memory model, the exception mechanism, the page tables, the bus and the devices, the calling convention and the assembly language; they differ in how an instruction is encoded and in the size of the register file. *(D)*
+
+**1.8.2** pdp64/r20 is the original CPU: sixteen registers and an instruction whose first parcel is `len`, opcode, `reg` and `low`. pdp64/16 has sixteen registers and pdp64/32 has thirty-two, and both encode an instruction by a prefix code over the first parcel; pdp64/32 has 5-bit register fields in its one-parcel forms. This manual is the manual of pdp64/r20. *(D)*
+
+**1.8.3** Each CPU has its own manual, because the CPUs are different, and all three are generated from one text, so that what is common is written once. The assembler selects the encoding (`-m pdp64/r20`, `-m pdp64/16`, `-m pdp64/32`), the object records it, and the linker refuses to link objects of different encodings. *(D)*
+
+**1.8.4** This CPU has 106 instruction entries (270 mnemonic words with the aliases); the other two CPUs have the same instructions and 70 more words, the fused pairs, the selects, the checked arithmetic, `TRAPCC`, the deferred and user-qualified moves and the AES and SHA words, none of which this CPU accepts. *(D for the fused pairs, the selects, `MOVQL`, the checked arithmetic and `TRAPCC`; P for the rest, tagged in their entries)*
+
+The manuals of the family: [pdp64/16](../pdp64-16/00-index.md) and [pdp64/32](../pdp64-32/00-index.md); the landing page is [`docs/manual/`](../00-index.md).
+
+*Commentary.* **Precedent.** One architecture with more than one encoding is not new: AArch32 has the ARM and Thumb encodings and RISC-V a compressed extension; the PDP-11 family had many implementations of one instruction set. **Trade-offs.** Three manuals cost the reader a choice and the maintainers a generator; one manual with a line of availability on every instruction would have mixed three layouts on every page, and the author decided against it. **Benefits.** A reader of one manual meets only the encoding of that CPU; the bus, the kernel and the devices are the same text in all three. **Impact.** *Kernel:* the system architecture is common, so one kernel serves all three. *Compiler:* one back end with three targets (`ccom -m`), a different set of instructions on the original CPU. *Hardware:* the CPUs have different decoders and register files and the same programming model above the instruction set.

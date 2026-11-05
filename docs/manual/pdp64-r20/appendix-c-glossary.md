@@ -9,6 +9,7 @@
 | Term | Meaning |
 |---|---|
 | **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter 1) |
+| **family** | the three CPUs of the architecture, pdp64/r20, pdp64/16 and pdp64/32, each with its own encoding and its own manual (1.8) |
 | **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes (9.4) |
 | **`len`** | bits 15 and 14 of the first parcel: the number of extension parcels for `00`, `01` and `10`; the value `11` selects the second opcode page (9.4) |
 | **page 1, page 2** | the two opcode maps. Page 1 has 64 top-level opcodes, 58 assigned; page 2 (`len = 11`) has 64 one-parcel entries, 45 defined, each an exact abbreviation of a page-1 instruction (9.1) |
@@ -62,6 +63,9 @@
 | **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.2, 7.2) |
 | **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (7.3) |
 | **SMP** | symmetric multiprocessing: several identical cores sharing memory (chapter 7) |
+| **core class** | the read-only register of each core that gives its class and capacity, so that software can tell an in-order core from an out-of-order one (7.8.4) |
+| **secure core** | a core with every timing channel removed (every instruction and cache fetch takes a time independent of its data), private cache lines and no periodic tick (7.8.6) |
+| **dedicated core** | a core given to one job, graphics, network or audio; proposed (7.8.7) |
 | **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.7) |
 | **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.2) |
 
