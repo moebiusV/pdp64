@@ -1,4 +1,4 @@
-# The pdp64 manual, in the outline language of buildabook (see ~/claude/buildabook/LANGUAGE.md).
+# The pdp64 manuals (one book for each member of the family; a line that starts with @16,32: is only in the books of those members), in the outline language of buildabook (see ~/claude/buildabook/LANGUAGE.md).
 # Order is the order of the book. The UUIDs are names, not numbers. sources.txt says which Markdown of the manual makes each entry.
 n:id00001    About this manual
 

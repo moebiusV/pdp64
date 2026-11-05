@@ -5,16 +5,28 @@ Every number comes from spec/pdp64-mnemonics.hbnf, the one place the architectur
 cannot drift from the assembler and the simulators; the words (operation, flags, exceptions) are in tools/manual/isa_entries.py.
 Whether an instruction is implemented in the reference executor is read from common/pdp64exec.c.
 
-    tools/mkmanual.py            write the dictionary
-    tools/mkmanual.py --check    exit 1 if a mnemonic has no entry, an entry names a mnemonic that does not exist, or the files differ
+    tools/mkmanual.py [MEMBER]         write the manual of each member (r20, 16, 32; default all three) into docs/manual/pdp64-MEMBER/: the hand-written
+                                       text of docs/manual-src/ (tools/manual/assemble.py), the instruction entries, the dictionary and the figures
+    tools/mkmanual.py --check          exit 1 if a mnemonic has no entry, an entry names a mnemonic that does not exist, a committed file differs, a section
+                                       or statement number is not contiguous, or a link or a section reference has no target
 """
 import os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'manual'))
 import isa_entries as D
+import assemble as ASM
 
-OUT = os.path.join(ROOT, 'docs', 'manual', 'dictionary')
+MANUALS = os.path.join(ROOT, 'docs', 'manual')            # the landing page; the manuals are MANUALS/pdp64-<member>/
+SRCDIR = os.path.join(ROOT, 'docs', 'manual-src')         # the hand-written text, once (docs/manual-src/README.md)
+MEMBER = 'r20'                                            # the member being generated (set by main())
+
+
+def outdir(member):
+    return os.path.join(MANUALS, 'pdp64-' + member)
+
+
+OUT = os.path.join(MANUALS, 'pdp64-r20', 'dictionary')
 HBNF = os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf')
 EXEC = os.path.join(ROOT, 'common', 'pdp64exec.c')
 
@@ -90,7 +102,7 @@ def bits(v, w):
     return format(v, '0%db' % w)
 
 
-FIGDIR = os.path.join(ROOT, 'docs', 'manual', 'figures')
+FIGDIR = os.path.join(MANUALS, 'pdp64-r20', 'figures')
 FIGS = {}                                     # file name -> svg text, written by main()
 
 
@@ -373,7 +385,6 @@ for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('0
 for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FHALF FCVTH'.split(): HOME[_i] = ('09-isa.md', '9.12')
 for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', '9.13')
 for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT MFSR MTPS SPL TRAP TLBI MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', '9.14')
-CHAPDIR = os.path.join(ROOT, 'docs', 'manual')
 
 
 def slug(heading):
@@ -406,7 +417,22 @@ def embed(text, key, body, after_heading=False):
     return head + '\n\n' + block + '\n\n' + text[end:]
 
 
-def build():
+def sources(member):
+    """The hand-written text for one member: every file of docs/manual-src/ that is written for it, with its member blocks resolved."""
+    out = {}
+    for fn in sorted(os.listdir(SRCDIR)):
+        if not fn.endswith('.md') or fn == 'README.md':
+            continue
+        t = open(os.path.join(SRCDIR, fn)).read()
+        if member in ASM.file_members(t):
+            out[fn] = ASM.for_member(t, member, 'docs/manual-src/' + fn)
+    return out
+
+
+def build(member='r20'):
+    global MEMBER, FIGS
+    MEMBER = member
+    FIGS = {}
     files = {}
     chapters = {}
     ents = D.ENTRIES
@@ -434,12 +460,10 @@ def build():
     for e in ents:
         e['aliases'] = [a for a, t in alias_of.items() if t in e['names'] and a not in e['names']]
     # the entries, into the sections of the chapters
-    texts = {}
+    texts = sources(member)
     heads = {}
     for e in ents:
         fn, sec = HOME[e['id']]
-        if fn not in texts:
-            texts[fn] = open(os.path.join(CHAPDIR, fn)).read()
         e2 = dict(e)
         e2['names'] = e['names'] + e['aliases']
         heads.setdefault((fn, sec), []).append(render_entry(e2))
@@ -454,8 +478,6 @@ def build():
             if HOME[e['id']] == ('09-isa.md', home):
                 mn = ', '.join('`%s`' % n.upper().rstrip('_') for n in e['names'] if not MN[n]['alias_of'])
                 rows.append('| [%s](09-isa.md#%s) | %s |' % (e['title'], anchor_for(e), mn))
-        if fn not in texts:
-            texts[fn] = open(os.path.join(CHAPDIR, fn)).read()
         texts[fn] = embed(texts[fn], 'entries:' + sec, '\n'.join(rows))
     chapters = texts
     # slugs of the sections, for links
@@ -582,37 +604,48 @@ def anchor_for(e):
 
 
 def main():
-    files, chapters = build()
     check = '--check' in sys.argv
-    os.makedirs(OUT, exist_ok=True)
-    os.makedirs(FIGDIR, exist_ok=True)
+    only = [a for a in sys.argv[1:] if a in ASM.MEMBERS] or list(ASM.MEMBERS)
     bad = False
-    targets = {}
-    for name, text in files.items():
-        targets[os.path.join(OUT, name)] = text
-    for fn, text in chapters.items():
-        targets[os.path.join(CHAPDIR, fn)] = text
-    for name, text in FIGS.items():
-        targets[os.path.join(FIGDIR, name)] = text
-    for p, text in targets.items():
-        if check:
-            if not os.path.exists(p) or open(p).read() != text:
-                print('stale: ' + os.path.relpath(p, ROOT))
-                bad = True
-        else:
-            open(p, 'w').write(text)
-    # figures and dictionary pages that nothing generates any more
-    for d, keep in ((FIGDIR, set(FIGS)), (OUT, set(files))):
-        for f in os.listdir(d):
-            if f not in keep:
-                if check:
-                    print('stale (no longer generated): ' + os.path.relpath(os.path.join(d, f), ROOT))
+    for member in only:
+        files, chapters = build(member)
+        base = outdir(member)
+        rel = {}
+        for name, text in files.items():
+            rel['dictionary/' + name] = text
+        for name, text in chapters.items():
+            rel[name] = text
+        for name, text in FIGS.items():
+            rel['figures/' + name] = text
+        for pr in ASM.verify(rel, set(rel), base):
+            print('%s: %s' % (ASM.NAME[member], pr))
+            bad = True
+        # what is on disk and not generated
+        on_disk = set()
+        if os.path.isdir(base):
+            for d, _, fs in os.walk(base):
+                for f in fs:
+                    on_disk.add(os.path.relpath(os.path.join(d, f), base))
+        for name, text in sorted(rel.items()):
+            p = os.path.join(base, name)
+            if check:
+                if not os.path.exists(p) or open(p).read() != text:
+                    print('stale: ' + os.path.relpath(p, ROOT))
                     bad = True
-                else:
-                    os.remove(os.path.join(d, f))
+            else:
+                os.makedirs(os.path.dirname(p), exist_ok=True)
+                open(p, 'w').write(text)
+        for name in sorted(on_disk - set(rel)):
+            if check:
+                print('stale (no longer generated): ' + os.path.relpath(os.path.join(base, name), ROOT))
+                bad = True
+            else:
+                os.remove(os.path.join(base, name))
+        if not check:
+            print('%s: wrote %d dictionary pages, %d figures and %d chapters' % (ASM.NAME[member], len(files), len(FIGS), len(chapters)))
     if check:
         sys.exit(1 if bad else 0)
-    print('wrote %d dictionary pages, %d figures and %d chapters' % (len(files), len(FIGS), len(chapters)))
+    sys.exit(1 if bad else 0)
 
 
 if __name__ == '__main__':
