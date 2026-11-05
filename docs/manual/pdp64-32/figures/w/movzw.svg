@@ -1,0 +1,457 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="3044" viewBox="0 0 690 3044" font-family="DejaVu Sans, sans-serif">
+<text x="8" y="18" font-size="13" font-weight="bold" fill="#111">MOVZW: LDF.B28, prefix 011101, sub-opcode 0101</text>
+<text x="66" y="60" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="38" width="228" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="34" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="300" y="34" font-size="9" fill="#555" text-anchor="end">10</text>
+<text x="188.0" y="52" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="188.0" y="67" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">011101</text>
+<rect x="302" y="38" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="304" y="34" font-size="9" fill="#555" text-anchor="start">9</text>
+<text x="452" y="34" font-size="9" fill="#555" text-anchor="end">6</text>
+<text x="378.0" y="52" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="378.0" y="67" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0101</text>
+<rect x="454" y="38" width="38" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="456" y="34" font-size="9" fill="#555" text-anchor="start">5</text>
+<text x="473.0" y="61" font-size="7.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base[1]</text>
+<rect x="492" y="38" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="34" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="34" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="61" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="124" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="102" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="98" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="224" y="98" font-size="9" fill="#555" text-anchor="end">12</text>
+<text x="150.0" y="125" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base[2]</text>
+<rect x="226" y="102" width="456" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="228" y="98" font-size="9" fill="#555" text-anchor="start">11</text>
+<text x="680" y="98" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="454.0" y="125" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d</text>
+<text x="66" y="188" font-size="11" text-anchor="end" fill="#444">parcel 2</text>
+<rect x="74" y="166" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="162" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="162" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="189" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d (cont.)</text>
+<text x="8" y="242" font-size="13" font-weight="bold" fill="#111">MOVZW: LDF.X22, prefix 01001, sub-opcode 0101</text>
+<text x="66" y="284" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="262" width="190" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="258" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="262" y="258" font-size="9" fill="#555" text-anchor="end">11</text>
+<text x="169.0" y="276" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="169.0" y="291" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">01001</text>
+<rect x="264" y="262" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="266" y="258" font-size="9" fill="#555" text-anchor="start">10</text>
+<text x="414" y="258" font-size="9" fill="#555" text-anchor="end">7</text>
+<text x="340.0" y="276" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="340.0" y="291" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0101</text>
+<rect x="416" y="262" width="76" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="418" y="258" font-size="9" fill="#555" text-anchor="start">6</text>
+<text x="490" y="258" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="454.0" y="285" font-size="10.6" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base[1]</text>
+<rect x="492" y="262" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="258" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="258" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="285" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="348" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="326" width="114" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="322" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="186" y="322" font-size="9" fill="#555" text-anchor="end">13</text>
+<text x="131.0" y="349" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base[2]</text>
+<rect x="188" y="326" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="190" y="322" font-size="9" fill="#555" text-anchor="start">12</text>
+<text x="376" y="322" font-size="9" fill="#555" text-anchor="end">8</text>
+<text x="283.0" y="349" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.index</text>
+<rect x="378" y="326" width="76" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="380" y="322" font-size="9" fill="#555" text-anchor="start">7</text>
+<text x="452" y="322" font-size="9" fill="#555" text-anchor="end">6</text>
+<text x="416.0" y="349" font-size="12.9" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.scale</text>
+<rect x="454" y="326" width="228" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="456" y="322" font-size="9" fill="#555" text-anchor="start">5</text>
+<text x="680" y="322" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="568.0" y="349" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d</text>
+<text x="66" y="412" font-size="11" text-anchor="end" fill="#444">parcel 2</text>
+<rect x="74" y="390" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="386" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="386" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="413" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d (cont.)</text>
+<text x="8" y="466" font-size="13" font-weight="bold" fill="#111">MOVZW: LDF.PI12, prefix 011111, sub-opcode 0101</text>
+<text x="66" y="508" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="486" width="228" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="482" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="300" y="482" font-size="9" fill="#555" text-anchor="end">10</text>
+<text x="188.0" y="500" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="188.0" y="515" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">011111</text>
+<rect x="302" y="486" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="304" y="482" font-size="9" fill="#555" text-anchor="start">9</text>
+<text x="452" y="482" font-size="9" fill="#555" text-anchor="end">6</text>
+<text x="378.0" y="500" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="378.0" y="515" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0101</text>
+<rect x="454" y="486" width="38" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="456" y="482" font-size="9" fill="#555" text-anchor="start">5</text>
+<text x="473.0" y="509" font-size="7.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base[1]</text>
+<rect x="492" y="486" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="482" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="482" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="509" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="572" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="550" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="546" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="224" y="546" font-size="9" fill="#555" text-anchor="end">12</text>
+<text x="150.0" y="573" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base[2]</text>
+<rect x="226" y="550" width="456" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="228" y="546" font-size="9" fill="#555" text-anchor="start">11</text>
+<text x="680" y="546" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="454.0" y="573" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.stride</text>
+<text x="8" y="626" font-size="13" font-weight="bold" fill="#111">MOVZW: LDF.PD12, prefix 100000, sub-opcode 0101</text>
+<text x="66" y="668" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="646" width="228" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="642" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="300" y="642" font-size="9" fill="#555" text-anchor="end">10</text>
+<text x="188.0" y="660" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="188.0" y="675" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">100000</text>
+<rect x="302" y="646" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="304" y="642" font-size="9" fill="#555" text-anchor="start">9</text>
+<text x="452" y="642" font-size="9" fill="#555" text-anchor="end">6</text>
+<text x="378.0" y="660" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="378.0" y="675" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0101</text>
+<rect x="454" y="646" width="38" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="456" y="642" font-size="9" fill="#555" text-anchor="start">5</text>
+<text x="473.0" y="669" font-size="7.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base[1]</text>
+<rect x="492" y="646" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="642" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="642" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="669" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="732" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="710" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="706" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="224" y="706" font-size="9" fill="#555" text-anchor="end">12</text>
+<text x="150.0" y="733" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base[2]</text>
+<rect x="226" y="710" width="456" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="228" y="706" font-size="9" fill="#555" text-anchor="start">11</text>
+<text x="680" y="706" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="454.0" y="733" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.stride</text>
+<text x="8" y="786" font-size="13" font-weight="bold" fill="#111">MOVZW: LDF.PC32, prefix 1010100, sub-opcode 0101</text>
+<text x="66" y="828" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="806" width="266" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="802" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="338" y="802" font-size="9" fill="#555" text-anchor="end">9</text>
+<text x="207.0" y="820" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="207.0" y="835" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">1010100</text>
+<rect x="340" y="806" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="342" y="802" font-size="9" fill="#555" text-anchor="start">8</text>
+<text x="490" y="802" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="416.0" y="820" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="416.0" y="835" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0101</text>
+<rect x="492" y="806" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="802" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="802" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="829" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="892" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="870" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="866" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="866" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="893" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.pcrel</text>
+<text x="66" y="956" font-size="11" text-anchor="end" fill="#444">parcel 2</text>
+<rect x="74" y="934" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="930" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="930" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="957" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.pcrel (cont.)</text>
+<text x="8" y="1010" font-size="13" font-weight="bold" fill="#111">MOVZW: LDF.A32, prefix 1010101, sub-opcode 0101</text>
+<text x="66" y="1052" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="1030" width="266" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1026" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="338" y="1026" font-size="9" fill="#555" text-anchor="end">9</text>
+<text x="207.0" y="1044" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="207.0" y="1059" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">1010101</text>
+<rect x="340" y="1030" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="342" y="1026" font-size="9" fill="#555" text-anchor="start">8</text>
+<text x="490" y="1026" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="416.0" y="1044" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="416.0" y="1059" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0101</text>
+<rect x="492" y="1030" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="1026" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="1026" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="1053" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="1116" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="1094" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1090" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="1090" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="1117" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.abs</text>
+<text x="66" y="1180" font-size="11" text-anchor="end" fill="#444">parcel 2</text>
+<rect x="74" y="1158" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1154" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="1154" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="1181" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.abs (cont.)</text>
+<text x="8" y="1234" font-size="13" font-weight="bold" fill="#111">MOVZW: LDFI.I32, prefix 1110101001, sub-opcode 0</text>
+<text x="66" y="1276" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="1254" width="380" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1250" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="452" y="1250" font-size="9" fill="#555" text-anchor="end">6</text>
+<text x="264.0" y="1268" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="264.0" y="1283" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">1110101001</text>
+<rect x="454" y="1254" width="38" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="456" y="1250" font-size="9" fill="#555" text-anchor="start">5</text>
+<text x="473.0" y="1268" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="473.0" y="1283" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0</text>
+<rect x="492" y="1254" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="1250" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="1250" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="1277" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="1340" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="1318" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1314" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="1314" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="1341" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.imm</text>
+<text x="66" y="1404" font-size="11" text-anchor="end" fill="#444">parcel 2</text>
+<rect x="74" y="1382" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1378" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="1378" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="1405" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.imm (cont.)</text>
+<text x="8" y="1458" font-size="13" font-weight="bold" fill="#111">MOVZW: DPF.D28, prefix 11101111010, sub-opcode 0101</text>
+<text x="66" y="1500" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="1478" width="418" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1474" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="490" y="1474" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="283.0" y="1492" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="283.0" y="1507" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11101111010</text>
+<rect x="492" y="1478" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="1474" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="642" y="1474" font-size="9" fill="#555" text-anchor="end">1</text>
+<text x="568.0" y="1492" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="568.0" y="1507" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0101</text>
+<rect x="644" y="1478" width="38" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="646" y="1474" font-size="9" fill="#555" text-anchor="start">0</text>
+<text x="663.0" y="1501" font-size="11.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="1564" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="1542" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1538" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="224" y="1538" font-size="9" fill="#555" text-anchor="end">12</text>
+<text x="150.0" y="1565" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r (cont.)</text>
+<rect x="226" y="1542" width="456" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="228" y="1538" font-size="9" fill="#555" text-anchor="start">11</text>
+<text x="680" y="1538" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="454.0" y="1565" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d</text>
+<text x="66" y="1628" font-size="11" text-anchor="end" fill="#444">parcel 2</text>
+<rect x="74" y="1606" width="608" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1602" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="1602" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="1629" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d (cont.)</text>
+<text x="8" y="1682" font-size="13" font-weight="bold" fill="#111">MOVZW: RRF, prefix 0010, sub-opcode 0101</text>
+<text x="66" y="1724" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="1702" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1698" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="224" y="1698" font-size="9" fill="#555" text-anchor="end">12</text>
+<text x="150.0" y="1716" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="150.0" y="1731" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0010</text>
+<rect x="226" y="1702" width="152" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="228" y="1698" font-size="9" fill="#555" text-anchor="start">11</text>
+<text x="376" y="1698" font-size="9" fill="#555" text-anchor="end">8</text>
+<text x="302.0" y="1716" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="302.0" y="1731" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">0101</text>
+<rect x="378" y="1702" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="380" y="1698" font-size="9" fill="#555" text-anchor="start">7</text>
+<text x="528" y="1698" font-size="9" fill="#555" text-anchor="end">4</text>
+<text x="454.0" y="1725" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.r</text>
+<rect x="530" y="1702" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="532" y="1698" font-size="9" fill="#555" text-anchor="start">3</text>
+<text x="680" y="1698" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="606.0" y="1725" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="8" y="1778" font-size="13" font-weight="bold" fill="#111">MOVZW: RRF5, prefix 1111001100100101, sub-opcode 000101</text>
+<text x="66" y="1820" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="1798" width="608" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1794" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="680" y="1794" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="378.0" y="1812" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="378.0" y="1827" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">1111001100100101</text>
+<text x="66" y="1884" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="1862" width="228" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1858" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="300" y="1858" font-size="9" fill="#555" text-anchor="end">10</text>
+<text x="188.0" y="1876" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">xsub</text>
+<text x="188.0" y="1891" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">000101</text>
+<rect x="302" y="1862" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="304" y="1858" font-size="9" fill="#555" text-anchor="start">9</text>
+<text x="490" y="1858" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="397.0" y="1885" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.r</text>
+<rect x="492" y="1862" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="1858" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="1858" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="1885" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="8" y="1938" font-size="13" font-weight="bold" fill="#111">MOVZW: LDBu6/b, prefix 11110010010101, sub-opcode 11</text>
+<text x="66" y="1980" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="1958" width="532" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="1954" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="604" y="1954" font-size="9" fill="#555" text-anchor="end">2</text>
+<text x="340.0" y="1972" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="340.0" y="1987" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11110010010101</text>
+<rect x="606" y="1958" width="76" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="608" y="1954" font-size="9" fill="#555" text-anchor="start">1</text>
+<text x="680" y="1954" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="644.0" y="1972" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="644.0" y="1987" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11</text>
+<text x="66" y="2044" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="2022" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2018" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="262" y="2018" font-size="9" fill="#555" text-anchor="end">11</text>
+<text x="169.0" y="2045" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base</text>
+<rect x="264" y="2022" width="228" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="266" y="2018" font-size="9" fill="#555" text-anchor="start">10</text>
+<text x="490" y="2018" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="378.0" y="2045" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d</text>
+<rect x="492" y="2022" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="2018" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="2018" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="2045" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="8" y="2098" font-size="13" font-weight="bold" fill="#111">MOVZW: LDX0/b, prefix 1111000110001, sub-opcode 11</text>
+<text x="66" y="2140" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="2118" width="494" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2114" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="566" y="2114" font-size="9" fill="#555" text-anchor="end">3</text>
+<text x="321.0" y="2132" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="321.0" y="2147" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">1111000110001</text>
+<rect x="568" y="2118" width="76" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="570" y="2114" font-size="9" fill="#555" text-anchor="start">2</text>
+<text x="642" y="2114" font-size="9" fill="#555" text-anchor="end">1</text>
+<text x="606.0" y="2132" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="606.0" y="2147" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11</text>
+<rect x="644" y="2118" width="38" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="646" y="2114" font-size="9" fill="#555" text-anchor="start">0</text>
+<text x="663.0" y="2141" font-size="7.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base</text>
+<text x="66" y="2204" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="2182" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2178" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="224" y="2178" font-size="9" fill="#555" text-anchor="end">12</text>
+<text x="150.0" y="2205" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base (cont.)</text>
+<rect x="226" y="2182" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="228" y="2178" font-size="9" fill="#555" text-anchor="start">11</text>
+<text x="414" y="2178" font-size="9" fill="#555" text-anchor="end">7</text>
+<text x="321.0" y="2205" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.index</text>
+<rect x="416" y="2182" width="76" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="418" y="2178" font-size="9" fill="#555" text-anchor="start">6</text>
+<text x="490" y="2178" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="454.0" y="2205" font-size="12.9" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.scale</text>
+<rect x="492" y="2182" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="2178" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="2178" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="2205" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="8" y="2258" font-size="13" font-weight="bold" fill="#111">MOVZW: LDBu8H/b, prefix 1111000111010, sub-opcode 11</text>
+<text x="66" y="2300" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="2278" width="494" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2274" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="566" y="2274" font-size="9" fill="#555" text-anchor="end">3</text>
+<text x="321.0" y="2292" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="321.0" y="2307" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">1111000111010</text>
+<rect x="568" y="2278" width="76" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="570" y="2274" font-size="9" fill="#555" text-anchor="start">2</text>
+<text x="642" y="2274" font-size="9" fill="#555" text-anchor="end">1</text>
+<text x="606.0" y="2292" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="606.0" y="2307" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11</text>
+<rect x="644" y="2278" width="38" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="646" y="2274" font-size="9" fill="#555" text-anchor="start">0</text>
+<text x="663.0" y="2301" font-size="7.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base</text>
+<text x="66" y="2364" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="2342" width="114" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2338" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="186" y="2338" font-size="9" fill="#555" text-anchor="end">13</text>
+<text x="131.0" y="2365" font-size="11.1" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base (cont.)</text>
+<rect x="188" y="2342" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="190" y="2338" font-size="9" fill="#555" text-anchor="start">12</text>
+<text x="376" y="2338" font-size="9" fill="#555" text-anchor="end">8</text>
+<text x="283.0" y="2365" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<rect x="378" y="2342" width="304" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="380" y="2338" font-size="9" fill="#555" text-anchor="start">7</text>
+<text x="680" y="2338" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="530.0" y="2365" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d</text>
+<text x="8" y="2418" font-size="13" font-weight="bold" fill="#111">MOVZW: LDPC12H/b, prefix 11110010101100, sub-opcode 11</text>
+<text x="66" y="2460" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="2438" width="532" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2434" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="604" y="2434" font-size="9" fill="#555" text-anchor="end">2</text>
+<text x="340.0" y="2452" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="340.0" y="2467" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11110010101100</text>
+<rect x="606" y="2438" width="76" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="608" y="2434" font-size="9" fill="#555" text-anchor="start">1</text>
+<text x="680" y="2434" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="644.0" y="2452" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="644.0" y="2467" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11</text>
+<text x="66" y="2524" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="2502" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2498" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="224" y="2498" font-size="9" fill="#555" text-anchor="end">12</text>
+<text x="150.0" y="2525" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<rect x="226" y="2502" width="456" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="228" y="2498" font-size="9" fill="#555" text-anchor="start">11</text>
+<text x="680" y="2498" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="454.0" y="2525" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.pcrel</text>
+<text x="8" y="2578" font-size="13" font-weight="bold" fill="#111">MOVZW: LDS12H/b, prefix 11110010101111, sub-opcode 11</text>
+<text x="66" y="2620" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="2598" width="532" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2594" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="604" y="2594" font-size="9" fill="#555" text-anchor="end">2</text>
+<text x="340.0" y="2612" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="340.0" y="2627" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11110010101111</text>
+<rect x="606" y="2598" width="76" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="608" y="2594" font-size="9" fill="#555" text-anchor="start">1</text>
+<text x="680" y="2594" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="644.0" y="2612" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="644.0" y="2627" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11</text>
+<text x="66" y="2684" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="2662" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2658" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="224" y="2658" font-size="9" fill="#555" text-anchor="end">12</text>
+<text x="150.0" y="2685" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<rect x="226" y="2662" width="456" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="228" y="2658" font-size="9" fill="#555" text-anchor="start">11</text>
+<text x="680" y="2658" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="454.0" y="2685" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d</text>
+<text x="8" y="2738" font-size="13" font-weight="bold" fill="#111">MOVZW: LDBu12H/b, prefix 111001111, sub-opcode 11</text>
+<text x="66" y="2780" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="2758" width="342" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2754" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="414" y="2754" font-size="9" fill="#555" text-anchor="end">7</text>
+<text x="245.0" y="2772" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="245.0" y="2787" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">111001111</text>
+<rect x="416" y="2758" width="76" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="418" y="2754" font-size="9" fill="#555" text-anchor="start">6</text>
+<text x="490" y="2754" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="454.0" y="2772" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="454.0" y="2787" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11</text>
+<rect x="492" y="2758" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="2754" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="2754" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="2781" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+<text x="66" y="2844" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="2822" width="152" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2818" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="224" y="2818" font-size="9" fill="#555" text-anchor="end">12</text>
+<text x="150.0" y="2845" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base</text>
+<rect x="226" y="2822" width="456" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="228" y="2818" font-size="9" fill="#555" text-anchor="start">11</text>
+<text x="680" y="2818" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="454.0" y="2845" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d</text>
+<text x="8" y="2898" font-size="13" font-weight="bold" fill="#111">MOVZW: LDBs6/b, prefix 11110010110100, sub-opcode 11</text>
+<text x="66" y="2940" font-size="11" text-anchor="end" fill="#444">parcel 0</text>
+<rect x="74" y="2918" width="532" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2914" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="604" y="2914" font-size="9" fill="#555" text-anchor="end">2</text>
+<text x="340.0" y="2932" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">prefix</text>
+<text x="340.0" y="2947" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11110010110100</text>
+<rect x="606" y="2918" width="76" height="36" fill="#e8e8e8" stroke="#222" stroke-width="1.2"/>
+<text x="608" y="2914" font-size="9" fill="#555" text-anchor="start">1</text>
+<text x="680" y="2914" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="644.0" y="2932" font-size="10.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif" fill="#333">sub</text>
+<text x="644.0" y="2947" font-size="12.0" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">11</text>
+<text x="66" y="3004" font-size="11" text-anchor="end" fill="#444">parcel 1</text>
+<rect x="74" y="2982" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="76" y="2978" font-size="9" fill="#555" text-anchor="start">15</text>
+<text x="262" y="2978" font-size="9" fill="#555" text-anchor="end">11</text>
+<text x="169.0" y="3005" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base</text>
+<rect x="264" y="2982" width="228" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="266" y="2978" font-size="9" fill="#555" text-anchor="start">10</text>
+<text x="490" y="2978" font-size="9" fill="#555" text-anchor="end">5</text>
+<text x="378.0" y="3005" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.d</text>
+<rect x="492" y="2982" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
+<text x="494" y="2978" font-size="9" fill="#555" text-anchor="start">4</text>
+<text x="680" y="2978" font-size="9" fill="#555" text-anchor="end">0</text>
+<text x="587.0" y="3005" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
+</svg>

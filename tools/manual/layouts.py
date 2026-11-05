@@ -22,13 +22,10 @@ def esc(t):
 
 
 # ---------------------------------------------------------------- drawing
-def svg_rows(rows):
-    """rows: [(row label, [(field label, width in bits, value or None), ...]), ...]; each row is one 16-bit parcel.
-    Draws the parcel as a row of boxes, widths proportional to the bits, bit numbers above, the fixed values shaded."""
+def _rows_body(rows, y):
+    """the SVG elements of the rows, the first row at height y; returns (elements, the next y)"""
     unit, left, top, rh, gap = 38, 74, 16, 36, 16
-    width = left + 16 * unit + 8
     out = []
-    y = 4
     for lab, fields in rows:
         pos = 15
         out.append('<text x="%d" y="%d" font-size="11" text-anchor="end" fill="#444">%s</text>' % (left - 8, y + top + rh // 2 + 4, esc(lab)))
@@ -53,9 +50,32 @@ def svg_rows(rows):
                 out.append('<text x="%.1f" y="%d" font-size="%.1f" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold">%s</text>' % (cx, y + top + 29, vs, esc(str(val))))
             pos -= w
         y += top + rh + gap - 4
+    return out, y
+
+
+WIDTH = 74 + 16 * 38 + 8
+
+
+def svg_rows(rows):
+    """rows: [(row label, [(field label, width in bits, value or None), ...]), ...]; each row is one 16-bit parcel.
+    Draws the parcel as a row of boxes, widths proportional to the bits, bit numbers above, the fixed values shaded."""
+    out, y = _rows_body(rows, 4)
     h = y + 4
     return ('<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" font-family="DejaVu Sans, sans-serif">\n%s\n</svg>\n'
-            % (width, h, width, h, '\n'.join(out)))
+            % (WIDTH, h, WIDTH, h, '\n'.join(out)))
+
+
+def svg_stack(items):
+    """items: [(caption, rows)]: the charts one under the other, each under a caption line (the charts of one instruction word, one for each form it has)"""
+    out, y = [], 4
+    for cap, rows in items:
+        out.append('<text x="8" y="%d" font-size="13" font-weight="bold" fill="#111">%s</text>' % (y + 14, esc(cap)))
+        el, y = _rows_body(rows, y + 18)
+        out += el
+        y += 14
+    h = y
+    return ('<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" font-family="DejaVu Sans, sans-serif">\n%s\n</svg>\n'
+            % (WIDTH, h, WIDTH, h, '\n'.join(out)))
 
 
 def parcel_rows(flat, first_label=None):
@@ -320,6 +340,33 @@ def r20_charts(MN):
     return out, byname
 
 
+def r20_word_charts(name, m):
+    """The charts of one instruction word of pdp64/r20: for each way the word is encoded (its opcode, and each length and body that the grammar admits for it) the layout with the
+    word's own fixed bits in place: [(caption, rows)]"""
+    G = grammar()
+    hw = dict(G.head)
+    out = []
+    for c in r20_constraints(name, m, G):
+        sub = c.get('sub', 0)
+        seen = {}
+        for ln in (0, 1, 2):
+            for reg in ([c['reg']] if 'reg' in c else range(16)):
+                for low in ([c['low']] if 'low' in c else range(16)):
+                    f = G.body(len=ln, opc=c['opc'], reg=reg, low=low, sub=sub)
+                    if f is not None:
+                        seen.setdefault((ln, tuple(f)), set()).add(low)
+        for (ln, f), lows in seen.items():
+            ch = dict(kind=m['kind'], len=ln, body=f, lows=lows, mns={name: [dict(c, sub=c.get('sub'))]})
+            build_r20_chart(ch, 'w', hw, G)
+            cap = '%s, opcode %s, %s' % (name.upper(), b(c['opc'], hw['opc']), {0: 'one parcel', 1: 'two parcels', 2: 'three parcels'}[ln])
+            if c.get('sub') is not None:
+                cap += ', sub-opcode %s' % b(c['sub'], dict(f).get('sub', 4 if m['kind'] == 'mesc' else 8))
+            if ch['legend'] and ch['legend'][0].startswith('Addressing modes'):
+                cap += ' (modes ' + ', '.join(G.amode[x] for x in sorted(lows) if x in G.amode) + ')'
+            out.append((cap, ch['rows']))
+    return out
+
+
 MN_KINDS = ['mem', 'br', 'cb', 'sob', 'tag', 'sop', 'xfer', 'besc', 'mblk', 'aesc', 'fesc', 'atom', 'mesc', 'sysn', 'sysx', 'sysreg', 'sys']
 
 
@@ -349,8 +396,9 @@ def build_r20_chart(ch, cid, hw, G):
         p0.append((role(kind, 'reg', ln), hw['reg'], reg))
         sp = SPLIT.get('%s:low' % kind)
         if sp:
-            p0.append((sp[0][0], sp[0][1], None))
-            p0.append((sp[1][0], sp[1][1], None))
+            for pname, pw in sp:
+                v = common(pname, pw)
+                p0.append((pname, pw, v))
         else:
             lab = role(kind, 'low', ln)
             p0.append((lab, lw, low if low is not None else None))
@@ -486,6 +534,27 @@ class Enc:
             self.charts.append(ch)
             for j, mn in enumerate(lf['mns']):
                 self.byname.setdefault(mn, []).append((cid, ch, j))
+
+    def word_charts(self, name):
+        """The charts of one word: for every leaf that has it, the leaf with the prefix and the sub-opcode of the word filled in: [(caption, rows)]"""
+        out = []
+        for cid, ch, j in self.byname[name]:
+            lf, f = ch['leaf'], ch['formd']
+            nb = len(lf['subbits']) or len(lf['place'][0][2] if lf['place'] and lf['place'][0][0] == -1 else [])
+            bitsj = format(j, '0%db' % nb) if nb else ''
+            flat = [('prefix', lf['L'], format(lf['prefix'], '0%db' % lf['L']))]
+            used = 0
+            for p, nm, w, key in encgram.leaf_pieces(lf, f['specs']):
+                if nm.startswith('o'):
+                    lab = re.sub(r'^o(\d+)-', r'op\1.', nm)
+                    lab = re.sub(r'-(\d+)$', r'[\1]', lab) if re.search(r'-\d+$', nm) else lab
+                    flat.append((lab, w, None))
+                else:
+                    flat.append((re.sub(r'-\d+$', '', nm), w, bitsj[used:used + w]))
+                    used += w
+            cap = '%s: %s, prefix %s%s' % (name.upper(), f['name'], format(lf['prefix'], '0%db' % lf['L']), (', sub-opcode ' + bitsj) if bitsj else '')
+            out.append((cap, parcel_rows(flat)))
+        return out
 
     def operands(self, f):
         body = self.rules['form-' + _mangle(f['name'])][0].strip()

@@ -160,6 +160,8 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-STF-B28-1`](dictionary/by-encoding.md#16-STF-B28-1), [`16-STF-X22-1`](dictionary/by-encoding.md#16-STF-X22-1), [`16-STF-PI12-1`](dictionary/by-encoding.md#16-STF-PI12-1), [`16-STF-PD12-1`](dictionary/by-encoding.md#16-STF-PD12-1), [`16-STF-PC32-1`](dictionary/by-encoding.md#16-STF-PC32-1), [`16-STF-A32-1`](dictionary/by-encoding.md#16-STF-A32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-a-1`](dictionary/by-encoding.md#16-LDI12-a-1), [`16-STBs8-a-1`](dictionary/by-encoding.md#16-STBs8-a-1), [`16-LDPC12-a-1`](dictionary/by-encoding.md#16-LDPC12-a-1), [`16-LDBs8-a-1`](dictionary/by-encoding.md#16-LDBs8-a-1), [`16-LDPC14-a-1`](dictionary/by-encoding.md#16-LDPC14-a-1), [`16-LDI14-a-1`](dictionary/by-encoding.md#16-LDI14-a-1), [`16-STX2-a-1`](dictionary/by-encoding.md#16-STX2-a-1), [`16-LDI16-a-1`](dictionary/by-encoding.md#16-LDI16-a-1), [`16-IMM3-a-1`](dictionary/by-encoding.md#16-IMM3-a-1), [`16-LDPC16-a-1`](dictionary/by-encoding.md#16-LDPC16-a-1), [`16-LDBu10-a-1`](dictionary/by-encoding.md#16-LDBu10-a-1), [`16-LDHHH1-a-1`](dictionary/by-encoding.md#16-LDHHH1-a-1), [`16-STHHH1-a-1`](dictionary/by-encoding.md#16-STHHH1-a-1), [`16-STBu10-a-1`](dictionary/by-encoding.md#16-STBu10-a-1), [`16-LDSP4-a-1`](dictionary/by-encoding.md#16-LDSP4-a-1), [`16-STSP4-a-1`](dictionary/by-encoding.md#16-STSP4-a-1), [`16-LDBu12-a-1`](dictionary/by-encoding.md#16-LDBu12-a-1), [`16-IMM5-a-1`](dictionary/by-encoding.md#16-IMM5-a-1), [`16-LDHHH3-a-1`](dictionary/by-encoding.md#16-LDHHH3-a-1), [`16-LDX6-a-1`](dictionary/by-encoding.md#16-LDX6-a-1), [`16-IMM7-a-1`](dictionary/by-encoding.md#16-IMM7-a-1), [`16-STBu12-a-1`](dictionary/by-encoding.md#16-STBu12-a-1), [`16-STX6-a-1`](dictionary/by-encoding.md#16-STX6-a-1), [`16-LDBs10-a-1`](dictionary/by-encoding.md#16-LDBs10-a-1), [`16-LDSP5-a-1`](dictionary/by-encoding.md#16-LDSP5-a-1), [`16-STHHH3-a-1`](dictionary/by-encoding.md#16-STHHH3-a-1), [`16-LD0-a-1`](dictionary/by-encoding.md#16-LD0-a-1), [`16-STSP5-a-1`](dictionary/by-encoding.md#16-STSP5-a-1), [`16-LDI18-a-1`](dictionary/by-encoding.md#16-LDI18-a-1), [`16-ST0-a-1`](dictionary/by-encoding.md#16-ST0-a-1), [`16-LDBs14-a-1`](dictionary/by-encoding.md#16-LDBs14-a-1), [`16-STBs10-a-1`](dictionary/by-encoding.md#16-STBs10-a-1), [`16-LDHRH2-a-1`](dictionary/by-encoding.md#16-LDHRH2-a-1), [`16-LDSP7-a-1`](dictionary/by-encoding.md#16-LDSP7-a-1), [`16-LDX8-a-1`](dictionary/by-encoding.md#16-LDX8-a-1), [`16-LDHHR2-a-1`](dictionary/by-encoding.md#16-LDHHR2-a-1), [`16-LDFI-I32-2`](dictionary/by-encoding.md#16-LDFI-I32-2), [`16-STBu8-b-1`](dictionary/by-encoding.md#16-STBu8-b-1), [`16-LDBu8-b-1`](dictionary/by-encoding.md#16-LDBu8-b-1), [`16-STX2-b-1`](dictionary/by-encoding.md#16-STX2-b-1), [`16-LDX2-b-1`](dictionary/by-encoding.md#16-LDX2-b-1), [`16-STBs8-b-1`](dictionary/by-encoding.md#16-STBs8-b-1), [`16-STBu10-b-1`](dictionary/by-encoding.md#16-STBu10-b-1), [`16-STHHH1-b-1`](dictionary/by-encoding.md#16-STHHH1-b-1), [`16-STBu12-b-1`](dictionary/by-encoding.md#16-STBu12-b-1), [`16-LDBu10-b-1`](dictionary/by-encoding.md#16-LDBu10-b-1), [`16-LDHHH1-b-1`](dictionary/by-encoding.md#16-LDHHH1-b-1), [`16-LDBu12-b-1`](dictionary/by-encoding.md#16-LDBu12-b-1), [`16-STX6-b-1`](dictionary/by-encoding.md#16-STX6-b-1), [`16-LDPC12-b-1`](dictionary/by-encoding.md#16-LDPC12-b-1), [`16-LDBs8-b-1`](dictionary/by-encoding.md#16-LDBs8-b-1), [`16-LDX4-b-1`](dictionary/by-encoding.md#16-LDX4-b-1), [`16-LDPC14-b-1`](dictionary/by-encoding.md#16-LDPC14-b-1), [`16-STSP4-b-1`](dictionary/by-encoding.md#16-STSP4-b-1), [`16-STHHH2-b-1`](dictionary/by-encoding.md#16-STHHH2-b-1), [`16-STBs10-b-1`](dictionary/by-encoding.md#16-STBs10-b-1), [`16-LDI12-d-2`](dictionary/by-encoding.md#16-LDI12-d-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ`](dictionary/by-word.md#w-movq), [`MOVL`](dictionary/by-word.md#w-movl), [`MOVW`](dictionary/by-word.md#w-movw), [`MOVB`](dictionary/by-word.md#w-movb).
+
 **Operation**
 
 ```
@@ -199,6 +201,8 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-2`](dictionary/by-encoding.md#16-LDFI-I32-2), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDBu8-b-1`](dictionary/by-encoding.md#16-LDBu8-b-1), [`16-LDX2-b-1`](dictionary/by-encoding.md#16-LDX2-b-1), [`16-LDBu10-b-1`](dictionary/by-encoding.md#16-LDBu10-b-1), [`16-LDHHH1-b-1`](dictionary/by-encoding.md#16-LDHHH1-b-1), [`16-LDBu12-b-1`](dictionary/by-encoding.md#16-LDBu12-b-1), [`16-LDPC12-b-1`](dictionary/by-encoding.md#16-LDPC12-b-1), [`16-LDBs8-b-1`](dictionary/by-encoding.md#16-LDBs8-b-1), [`16-LDX4-b-1`](dictionary/by-encoding.md#16-LDX4-b-1), [`16-LDPC14-b-1`](dictionary/by-encoding.md#16-LDPC14-b-1), [`16-LDFI-I32-3`](dictionary/by-encoding.md#16-LDFI-I32-3), [`16-LDPC12-a-1`](dictionary/by-encoding.md#16-LDPC12-a-1), [`16-LDBs8-a-1`](dictionary/by-encoding.md#16-LDBs8-a-1), [`16-LDPC14-a-1`](dictionary/by-encoding.md#16-LDPC14-a-1), [`16-LDPC16-a-1`](dictionary/by-encoding.md#16-LDPC16-a-1), [`16-LDBu10-a-1`](dictionary/by-encoding.md#16-LDBu10-a-1), [`16-LDHHH1-a-1`](dictionary/by-encoding.md#16-LDHHH1-a-1), [`16-LDSP4-a-1`](dictionary/by-encoding.md#16-LDSP4-a-1), [`16-LDBu12-a-1`](dictionary/by-encoding.md#16-LDBu12-a-1), [`16-LDHHH3-a-1`](dictionary/by-encoding.md#16-LDHHH3-a-1), [`16-LDX6-a-1`](dictionary/by-encoding.md#16-LDX6-a-1), [`16-LDBs10-a-1`](dictionary/by-encoding.md#16-LDBs10-a-1), [`16-LDSP5-a-1`](dictionary/by-encoding.md#16-LDSP5-a-1), [`16-LD0-a-1`](dictionary/by-encoding.md#16-LD0-a-1), [`16-LDBs14-a-1`](dictionary/by-encoding.md#16-LDBs14-a-1), [`16-LDHRH2-a-1`](dictionary/by-encoding.md#16-LDHRH2-a-1), [`16-LDSP7-a-1`](dictionary/by-encoding.md#16-LDSP7-a-1), [`16-LDX8-a-1`](dictionary/by-encoding.md#16-LDX8-a-1), [`16-LDHHR2-a-1`](dictionary/by-encoding.md#16-LDHHR2-a-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVZL`](dictionary/by-word.md#w-movzl), [`MOVZW`](dictionary/by-word.md#w-movzw), [`MOVZB`](dictionary/by-word.md#w-movzb).
+
 **Operation**
 
 ```
@@ -233,6 +237,8 @@ LEA d(Rn)(Rx×s), Rd
 The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `shr` 000, `sar` 001, `fadd` 010, `fsub` 011, `fmul` 100, `bit` 101, `lea` 110, `movub` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-LEASx12-a-1`](dictionary/by-encoding.md#16-LEASx12-a-1), [`16-LDPC12-a-1`](dictionary/by-encoding.md#16-LDPC12-a-1), [`16-LDBs8-a-1`](dictionary/by-encoding.md#16-LDBs8-a-1), [`16-LDPC14-a-1`](dictionary/by-encoding.md#16-LDPC14-a-1), [`16-LDPC16-a-1`](dictionary/by-encoding.md#16-LDPC16-a-1), [`16-LDBu10-a-1`](dictionary/by-encoding.md#16-LDBu10-a-1), [`16-LDHHH1-a-1`](dictionary/by-encoding.md#16-LDHHH1-a-1), [`16-LEASP4-a-1`](dictionary/by-encoding.md#16-LEASP4-a-1), [`16-LDSP4-a-1`](dictionary/by-encoding.md#16-LDSP4-a-1), [`16-LDBu12-a-1`](dictionary/by-encoding.md#16-LDBu12-a-1), [`16-LDHHH3-a-1`](dictionary/by-encoding.md#16-LDHHH3-a-1), [`16-LDX6-a-1`](dictionary/by-encoding.md#16-LDX6-a-1), [`16-LDBs10-a-1`](dictionary/by-encoding.md#16-LDBs10-a-1), [`16-LDSP5-a-1`](dictionary/by-encoding.md#16-LDSP5-a-1), [`16-LEAS12-a-1`](dictionary/by-encoding.md#16-LEAS12-a-1), [`16-LD0-a-1`](dictionary/by-encoding.md#16-LD0-a-1), [`16-LEASP6-a-1`](dictionary/by-encoding.md#16-LEASP6-a-1), [`16-LDBs14-a-1`](dictionary/by-encoding.md#16-LDBs14-a-1), [`16-LDHRH2-a-1`](dictionary/by-encoding.md#16-LDHRH2-a-1), [`16-LDSP7-a-1`](dictionary/by-encoding.md#16-LDSP7-a-1), [`16-LDX8-a-1`](dictionary/by-encoding.md#16-LDX8-a-1), [`16-LDHHR2-a-1`](dictionary/by-encoding.md#16-LDHHR2-a-1), [`16-LEAS14-a-1`](dictionary/by-encoding.md#16-LEAS14-a-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`LEA`](dictionary/by-word.md#w-lea).
 
 **Operation**
 
@@ -270,6 +276,8 @@ MOVUW, MOVUL, MOVUB likewise
 The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `shr` 000, `sar` 001, `fadd` 010, `fsub` 011, `fmul` 100, `bit` 101, `lea` 110, `movub` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-STF-B28-1`](dictionary/by-encoding.md#16-STF-B28-1), [`16-STF-X22-1`](dictionary/by-encoding.md#16-STF-X22-1), [`16-STF-PI12-1`](dictionary/by-encoding.md#16-STF-PI12-1), [`16-STF-PD12-1`](dictionary/by-encoding.md#16-STF-PD12-1), [`16-STF-PC32-1`](dictionary/by-encoding.md#16-STF-PC32-1), [`16-STF-A32-1`](dictionary/by-encoding.md#16-STF-A32-1), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-LDF-B28-3`](dictionary/by-encoding.md#16-LDF-B28-3), [`16-LDF-X22-3`](dictionary/by-encoding.md#16-LDF-X22-3), [`16-LDF-PI12-3`](dictionary/by-encoding.md#16-LDF-PI12-3), [`16-LDF-PD12-3`](dictionary/by-encoding.md#16-LDF-PD12-3), [`16-LDF-PC32-3`](dictionary/by-encoding.md#16-LDF-PC32-3), [`16-LDF-A32-3`](dictionary/by-encoding.md#16-LDF-A32-3), [`16-DPF-D28-3`](dictionary/by-encoding.md#16-DPF-D28-3), [`16-LDF-B28-4`](dictionary/by-encoding.md#16-LDF-B28-4), [`16-LDF-X22-4`](dictionary/by-encoding.md#16-LDF-X22-4), [`16-LDF-PI12-4`](dictionary/by-encoding.md#16-LDF-PI12-4), [`16-LDF-PD12-4`](dictionary/by-encoding.md#16-LDF-PD12-4), [`16-LDF-PC32-4`](dictionary/by-encoding.md#16-LDF-PC32-4), [`16-LDF-A32-4`](dictionary/by-encoding.md#16-LDF-A32-4), [`16-DPF-D28-4`](dictionary/by-encoding.md#16-DPF-D28-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVUB`](dictionary/by-word.md#w-movub), [`MOVUW`](dictionary/by-word.md#w-movuw), [`MOVUL`](dictionary/by-word.md#w-movul), [`MOVUQ`](dictionary/by-word.md#w-movuq).
 
 **Operation**
 
@@ -310,6 +318,8 @@ The chart is the leaf `16-FX-MOV2-1`, FX.MOV2, prefix `0011`. `op1` is `reg3`: r
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-MOV2-1`](dictionary/by-encoding.md#16-FX-MOV2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOV2`](dictionary/by-word.md#w-mov2).
+
 **Operation**
 
 ```
@@ -348,6 +358,8 @@ The chart is the leaf `16-MOVQL-1`, MOVQL, prefix `111011111011`. `op1` is `imm6
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-MOVQL-1`](dictionary/by-encoding.md#16-MOVQL-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQL`](dictionary/by-word.md#w-movql).
+
 **Operation**
 
 ```
@@ -384,6 +396,8 @@ MOVZL.D ..., MOVZW.D ..., MOVZB.D ...
 The chart is the leaf `16-LDU-B28-1`, LDU.B28, prefix `11000010`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq.u` 0000, `movl.u` 0001, `movw.u` 0010, `movb.u` 0011, `movzl.u` 0100, `movzw.u` 0101, `movzb.u` 0110, `movq.d` 0111, `movl.d` 1000, `movw.d` 1001, `movb.d` 1010, `movzl.d` 1011, `movzw.d` 1100, `movzb.d` 1101, `movq.ud` 1110, `movl.ud` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDU-B28-1`](dictionary/by-encoding.md#16-LDU-B28-1), [`16-LDU-B12-1`](dictionary/by-encoding.md#16-LDU-B12-1), [`16-LDU-X6-1`](dictionary/by-encoding.md#16-LDU-X6-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ.D`](dictionary/by-word.md#w-movq-d), [`MOVL.D`](dictionary/by-word.md#w-movl-d), [`MOVW.D`](dictionary/by-word.md#w-movw-d), [`MOVB.D`](dictionary/by-word.md#w-movb-d), [`MOVZL.D`](dictionary/by-word.md#w-movzl-d), [`MOVZW.D`](dictionary/by-word.md#w-movzw-d), [`MOVZB.D`](dictionary/by-word.md#w-movzb-d).
 
 **Operation**
 
@@ -427,6 +441,8 @@ The chart is the leaf `16-LDU-B28-1`, LDU.B28, prefix `11000010`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDU-B28-1`](dictionary/by-encoding.md#16-LDU-B28-1), [`16-STU-B28-1`](dictionary/by-encoding.md#16-STU-B28-1), [`16-LDU-B12-1`](dictionary/by-encoding.md#16-LDU-B12-1), [`16-STU-B12-1`](dictionary/by-encoding.md#16-STU-B12-1), [`16-LDU-X6-1`](dictionary/by-encoding.md#16-LDU-X6-1), [`16-STU-X6-1`](dictionary/by-encoding.md#16-STU-X6-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ.U`](dictionary/by-word.md#w-movq-u), [`MOVL.U`](dictionary/by-word.md#w-movl-u), [`MOVW.U`](dictionary/by-word.md#w-movw-u), [`MOVB.U`](dictionary/by-word.md#w-movb-u), [`MOVZL.U`](dictionary/by-word.md#w-movzl-u), [`MOVZW.U`](dictionary/by-word.md#w-movzw-u), [`MOVZB.U`](dictionary/by-word.md#w-movzb-u).
+
 **Operation**
 
 ```
@@ -467,6 +483,8 @@ MOVZL.UD ..., MOVZW.UD ..., MOVZB.UD ...
 The chart is the leaf `16-LDU-B28-1`, LDU.B28, prefix `11000010`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq.u` 0000, `movl.u` 0001, `movw.u` 0010, `movb.u` 0011, `movzl.u` 0100, `movzw.u` 0101, `movzb.u` 0110, `movq.d` 0111, `movl.d` 1000, `movw.d` 1001, `movb.d` 1010, `movzl.d` 1011, `movzw.d` 1100, `movzb.d` 1101, `movq.ud` 1110, `movl.ud` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDU-B28-1`](dictionary/by-encoding.md#16-LDU-B28-1), [`16-LDU-B12-1`](dictionary/by-encoding.md#16-LDU-B12-1), [`16-LDU-X6-1`](dictionary/by-encoding.md#16-LDU-X6-1), [`16-LDU-B28-2`](dictionary/by-encoding.md#16-LDU-B28-2), [`16-LDU-B12-2`](dictionary/by-encoding.md#16-LDU-B12-2), [`16-LDU-X6-2`](dictionary/by-encoding.md#16-LDU-X6-2), [`16-LDU-B28-3`](dictionary/by-encoding.md#16-LDU-B28-3), [`16-LDU-B12-3`](dictionary/by-encoding.md#16-LDU-B12-3), [`16-LDU-X6-3`](dictionary/by-encoding.md#16-LDU-X6-3).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ.UD`](dictionary/by-word.md#w-movq-ud), [`MOVL.UD`](dictionary/by-word.md#w-movl-ud), [`MOVW.UD`](dictionary/by-word.md#w-movw-ud), [`MOVB.UD`](dictionary/by-word.md#w-movb-ud), [`MOVZL.UD`](dictionary/by-word.md#w-movzl-ud), [`MOVZW.UD`](dictionary/by-word.md#w-movzw-ud), [`MOVZB.UD`](dictionary/by-word.md#w-movzb-ud).
 
 **Operation**
 
@@ -520,6 +538,8 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-SPADJF-1`](dictionary/by-encoding.md#16-SPADJF-1), [`16-LDI12-b-1`](dictionary/by-encoding.md#16-LDI12-b-1), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-SPADJ6-a-1`](dictionary/by-encoding.md#16-SPADJ6-a-1), [`16-LDI14-b-1`](dictionary/by-encoding.md#16-LDI14-b-1), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-IMM3-b-1`](dictionary/by-encoding.md#16-IMM3-b-1), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDI18-b-1`](dictionary/by-encoding.md#16-LDI18-b-1), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM4-b-1`](dictionary/by-encoding.md#16-IMM4-b-1), [`16-SPADJ8-a-1`](dictionary/by-encoding.md#16-SPADJ8-a-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADD`](dictionary/by-word.md#w-add).
+
 **Operation**
 
 ```
@@ -553,6 +573,8 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-SPADJF-1`](dictionary/by-encoding.md#16-SPADJF-1), [`16-LDI12-b-1`](dictionary/by-encoding.md#16-LDI12-b-1), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-SPADJ6-a-1`](dictionary/by-encoding.md#16-SPADJ6-a-1), [`16-LDI14-b-1`](dictionary/by-encoding.md#16-LDI14-b-1), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-IMM3-b-1`](dictionary/by-encoding.md#16-IMM3-b-1), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDI18-b-1`](dictionary/by-encoding.md#16-LDI18-b-1), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM4-b-1`](dictionary/by-encoding.md#16-IMM4-b-1), [`16-SPADJ8-a-1`](dictionary/by-encoding.md#16-SPADJ8-a-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SUB`](dictionary/by-word.md#w-sub).
+
 **Operation**
 
 ```
@@ -583,6 +605,8 @@ CMP Rd, rm        ; register first
 The chart is the leaf `16-CMF-B28-1`, CMF.B28, prefix `11101101101`. `op1` is `reg4`: register, 4 bits. `op2` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-CMF-B28-1`](dictionary/by-encoding.md#16-CMF-B28-1), [`16-CMF-X22-1`](dictionary/by-encoding.md#16-CMF-X22-1), [`16-CMF-PI12-1`](dictionary/by-encoding.md#16-CMF-PI12-1), [`16-CMF-PD12-1`](dictionary/by-encoding.md#16-CMF-PD12-1), [`16-CMF-PC32-1`](dictionary/by-encoding.md#16-CMF-PC32-1), [`16-CMF-A32-1`](dictionary/by-encoding.md#16-CMF-A32-1), [`16-CMF-I32-1`](dictionary/by-encoding.md#16-CMF-I32-1), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2), [`16-CMBu8-a-1`](dictionary/by-encoding.md#16-CMBu8-a-1), [`16-CMI12-a-1`](dictionary/by-encoding.md#16-CMI12-a-1), [`16-CMBu10-a-1`](dictionary/by-encoding.md#16-CMBu10-a-1), [`16-CMI18-a-1`](dictionary/by-encoding.md#16-CMI18-a-1), [`16-CMPC16-a-1`](dictionary/by-encoding.md#16-CMPC16-a-1), [`16-CMX2-a-1`](dictionary/by-encoding.md#16-CMX2-a-1), [`16-CMS12-a-1`](dictionary/by-encoding.md#16-CMS12-a-1), [`16-CMBu12-a-1`](dictionary/by-encoding.md#16-CMBu12-a-1), [`16-CMBs10-a-1`](dictionary/by-encoding.md#16-CMBs10-a-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CMP`](dictionary/by-word.md#w-cmp).
 
 **Operation**
 
@@ -617,6 +641,8 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-d-1`](dictionary/by-encoding.md#16-LDI12-d-1), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MUL`](dictionary/by-word.md#w-mul).
+
 **Operation**
 
 ```
@@ -649,6 +675,8 @@ MULH rm, Rd
 The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MULH`](dictionary/by-word.md#w-mulh).
 
 **Operation**
 
@@ -688,6 +716,8 @@ The chart is the leaf `16-STF-B28-2`, STF.B28, prefix `1110011101`. `op1` is `re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-STF-B28-2`](dictionary/by-encoding.md#16-STF-B28-2), [`16-STF-X22-2`](dictionary/by-encoding.md#16-STF-X22-2), [`16-STF-PI12-2`](dictionary/by-encoding.md#16-STF-PI12-2), [`16-STF-PD12-2`](dictionary/by-encoding.md#16-STF-PD12-2), [`16-STF-PC32-2`](dictionary/by-encoding.md#16-STF-PC32-2), [`16-STF-A32-2`](dictionary/by-encoding.md#16-STF-A32-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADDM`](dictionary/by-word.md#w-addm), [`SUBM`](dictionary/by-word.md#w-subm), [`BICM`](dictionary/by-word.md#w-bicm), [`BISM`](dictionary/by-word.md#w-bism).
+
 **Operation**
 
 ```
@@ -726,6 +756,8 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`INC`](dictionary/by-word.md#w-inc).
+
 **Operation**
 
 ```
@@ -756,6 +788,8 @@ DEC rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DEC`](dictionary/by-word.md#w-dec).
 
 **Operation**
 
@@ -788,6 +822,8 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`NEG`](dictionary/by-word.md#w-neg).
+
 **Operation**
 
 ```
@@ -818,6 +854,8 @@ ADC rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADC`](dictionary/by-word.md#w-adc).
 
 **Operation**
 
@@ -852,6 +890,8 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SBC`](dictionary/by-word.md#w-sbc).
+
 **Operation**
 
 ```
@@ -885,6 +925,8 @@ MODU Ra, Rb, Rd
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DIV`](dictionary/by-word.md#w-div), [`DIVU`](dictionary/by-word.md#w-divu), [`MOD`](dictionary/by-word.md#w-mod), [`MODU`](dictionary/by-word.md#w-modu).
 
 **Operation**
 
@@ -925,6 +967,8 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MULHU`](dictionary/by-word.md#w-mulhu).
+
 **Operation**
 
 ```
@@ -959,6 +1003,8 @@ ABS Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ABS`](dictionary/by-word.md#w-abs).
 
 **Operation**
 
@@ -996,6 +1042,8 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MIN`](dictionary/by-word.md#w-min), [`MINU`](dictionary/by-word.md#w-minu), [`MAX`](dictionary/by-word.md#w-max), [`MAXU`](dictionary/by-word.md#w-maxu).
+
 **Operation**
 
 ```
@@ -1030,6 +1078,8 @@ The chart is the leaf `16-SETF-1`, SETF, prefix `111011110110`. `op1` is `imm4u`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SETF-1`](dictionary/by-encoding.md#16-SETF-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SET`](dictionary/by-word.md#w-set).
+
 **Operation**
 
 ```
@@ -1063,6 +1113,8 @@ MASKNEZ Ra, Rc, Rd
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MASKEQZ`](dictionary/by-word.md#w-maskeqz), [`MASKNEZ`](dictionary/by-word.md#w-masknez).
 
 **Operation**
 
@@ -1103,6 +1155,8 @@ MULV Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADDV`](dictionary/by-word.md#w-addv), [`SUBV`](dictionary/by-word.md#w-subv), [`MULV`](dictionary/by-word.md#w-mulv).
 
 **Operation**
 
@@ -1158,6 +1212,8 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-d-2`](dictionary/by-encoding.md#16-LDI12-d-2), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIC`](dictionary/by-word.md#w-bic).
+
 **Operation**
 
 ```
@@ -1191,6 +1247,8 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIS`](dictionary/by-word.md#w-bis).
+
 **Operation**
 
 ```
@@ -1221,6 +1279,8 @@ BIT rm, Rd
 The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `shr` 000, `sar` 001, `fadd` 010, `fsub` 011, `fmul` 100, `bit` 101, `lea` 110, `movub` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2), [`16-LDI12-d-3`](dictionary/by-encoding.md#16-LDI12-d-3), [`16-LDPC12-d-2`](dictionary/by-encoding.md#16-LDPC12-d-2), [`16-LDBs8-d-2`](dictionary/by-encoding.md#16-LDBs8-d-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIT`](dictionary/by-word.md#w-bit).
 
 **Operation**
 
@@ -1253,6 +1313,8 @@ The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDBu8-c-2`](dictionary/by-encoding.md#16-LDBu8-c-2), [`16-LDI12-c-1`](dictionary/by-encoding.md#16-LDI12-c-1), [`16-LDX2-c-2`](dictionary/by-encoding.md#16-LDX2-c-2), [`16-LDS12-c-2`](dictionary/by-encoding.md#16-LDS12-c-2), [`16-LDPC16-c-2`](dictionary/by-encoding.md#16-LDPC16-c-2), [`16-LDBs10-c-2`](dictionary/by-encoding.md#16-LDBs10-c-2), [`16-IMM3-c-1`](dictionary/by-encoding.md#16-IMM3-c-1), [`16-LDI14-c-1`](dictionary/by-encoding.md#16-LDI14-c-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XOR`](dictionary/by-word.md#w-xor).
+
 **Operation**
 
 ```
@@ -1283,6 +1345,8 @@ AND rm, Rd
 The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-b-2`](dictionary/by-encoding.md#16-LDI12-b-2), [`16-LDBu8-c-1`](dictionary/by-encoding.md#16-LDBu8-c-1), [`16-LDI14-b-2`](dictionary/by-encoding.md#16-LDI14-b-2), [`16-LDX2-c-1`](dictionary/by-encoding.md#16-LDX2-c-1), [`16-IMM3-b-2`](dictionary/by-encoding.md#16-IMM3-b-2), [`16-LDS12-c-1`](dictionary/by-encoding.md#16-LDS12-c-1), [`16-LDI18-b-2`](dictionary/by-encoding.md#16-LDI18-b-2), [`16-LDPC16-c-1`](dictionary/by-encoding.md#16-LDPC16-c-1), [`16-LDBs10-c-1`](dictionary/by-encoding.md#16-LDBs10-c-1), [`16-IMM4-b-2`](dictionary/by-encoding.md#16-IMM4-b-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`AND`](dictionary/by-word.md#w-and).
 
 **Operation**
 
@@ -1316,6 +1380,8 @@ SAR rm, Rd
 The chart is the leaf `16-LDF-B28-1`, LDF.B28, prefix `11000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg4`: register, 4 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-1`](dictionary/by-encoding.md#16-LDF-B28-1), [`16-LDF-X22-1`](dictionary/by-encoding.md#16-LDF-X22-1), [`16-LDF-PI12-1`](dictionary/by-encoding.md#16-LDF-PI12-1), [`16-LDF-PD12-1`](dictionary/by-encoding.md#16-LDF-PD12-1), [`16-LDF-PC32-1`](dictionary/by-encoding.md#16-LDF-PC32-1), [`16-LDF-A32-1`](dictionary/by-encoding.md#16-LDF-A32-1), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-1`](dictionary/by-encoding.md#16-DPF-D28-1), [`16-RRF-1`](dictionary/by-encoding.md#16-RRF-1), [`16-LDI12-d-1`](dictionary/by-encoding.md#16-LDI12-d-1), [`16-SHI3-a-1`](dictionary/by-encoding.md#16-SHI3-a-1), [`16-SHI5-a-1`](dictionary/by-encoding.md#16-SHI5-a-1), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1), [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SHL`](dictionary/by-word.md#w-shl), [`SHR`](dictionary/by-word.md#w-shr), [`SAR`](dictionary/by-word.md#w-sar).
 
 **Operation**
 
@@ -1353,6 +1419,8 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLR`](dictionary/by-word.md#w-clr).
+
 **Operation**
 
 ```
@@ -1383,6 +1451,8 @@ COM rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`COM`](dictionary/by-word.md#w-com).
 
 **Operation**
 
@@ -1417,6 +1487,8 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-1`](dictionary/by-encoding.md#16-SOPR-1), [`16-SOBu12-a-1`](dictionary/by-encoding.md#16-SOBu12-a-1), [`16-SOX6-a-1`](dictionary/by-encoding.md#16-SOX6-a-1), [`16-SOBs12-a-1`](dictionary/by-encoding.md#16-SOBs12-a-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TST`](dictionary/by-word.md#w-tst).
+
 **Operation**
 
 ```
@@ -1447,6 +1519,8 @@ ASL rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ASL`](dictionary/by-word.md#w-asl).
 
 **Operation**
 
@@ -1480,6 +1554,8 @@ ASR rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ASR`](dictionary/by-word.md#w-asr).
 
 **Operation**
 
@@ -1532,6 +1608,8 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLZ`](dictionary/by-word.md#w-clz), [`CTZ`](dictionary/by-word.md#w-ctz), [`CLO`](dictionary/by-word.md#w-clo), [`CTO`](dictionary/by-word.md#w-cto).
+
 **Operation**
 
 ```
@@ -1570,6 +1648,8 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPCNT`](dictionary/by-word.md#w-popcnt).
+
 **Operation**
 
 ```
@@ -1604,6 +1684,8 @@ BSWAPL Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BSWAP`](dictionary/by-word.md#w-bswap), [`BSWAPW`](dictionary/by-word.md#w-bswapw), [`BSWAPL`](dictionary/by-word.md#w-bswapl).
 
 **Operation**
 
@@ -1642,6 +1724,8 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BITREV`](dictionary/by-word.md#w-bitrev).
+
 **Operation**
 
 ```
@@ -1674,6 +1758,8 @@ ROR Ra, Rb, Rd
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ROR`](dictionary/by-word.md#w-ror).
 
 **Operation**
 
@@ -1711,6 +1797,8 @@ The chart is the leaf `16-RRI-1`, RRI, prefix `111011111010`. `op1` is `reg4`: r
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-RRI-1`](dictionary/by-encoding.md#16-RRI-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RORI`](dictionary/by-word.md#w-rori).
+
 **Operation**
 
 ```
@@ -1743,6 +1831,8 @@ RORI32 Rs, #n, Rd
 The chart is the leaf `16-RRI-1`, RRI, prefix `111011111010`. `op1` is `reg4`: register, 4 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-RRI-1`](dictionary/by-encoding.md#16-RRI-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RORI32`](dictionary/by-word.md#w-rori32).
 
 **Operation**
 
@@ -1778,6 +1868,8 @@ DSHR Ra, Rb, #n, Rd
 The chart is the leaf `16-BFx-1`, BFx, prefix `1110010100`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BFx-1`](dictionary/by-encoding.md#16-BFx-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DSHR`](dictionary/by-word.md#w-dshr).
 
 **Operation**
 
@@ -1816,6 +1908,8 @@ The chart is the leaf `16-BFy-1`, BFy, prefix `1110010101`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BFy-1`](dictionary/by-encoding.md#16-BFy-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`EXTB`](dictionary/by-word.md#w-extb), [`EXTZB`](dictionary/by-word.md#w-extzb).
+
 **Operation**
 
 ```
@@ -1850,6 +1944,8 @@ INSB Rs, #pos, #width, Rd
 The chart is the leaf `16-BFy-1`, BFy, prefix `1110010101`. `op1` is `reg4`: register, 4 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BFy-1`](dictionary/by-encoding.md#16-BFy-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`INSB`](dictionary/by-word.md#w-insb).
 
 **Operation**
 
@@ -1887,6 +1983,8 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XNORPOP`](dictionary/by-word.md#w-xnorpop).
+
 **Operation**
 
 ```
@@ -1922,6 +2020,8 @@ CLMULH Ra, Rb, Rd
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLMULL`](dictionary/by-word.md#w-clmull), [`CLMULH`](dictionary/by-word.md#w-clmulh).
 
 **Operation**
 
@@ -1960,6 +2060,8 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8LEN`](dictionary/by-word.md#w-utf8len).
+
 **Operation**
 
 ```
@@ -1992,6 +2094,8 @@ UTF8DEC Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8DEC`](dictionary/by-word.md#w-utf8dec).
 
 **Operation**
 
@@ -2028,6 +2132,8 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8ENC`](dictionary/by-word.md#w-utf8enc).
+
 **Operation**
 
 ```
@@ -2061,6 +2167,8 @@ BSEL Rm, Ra, Rb, Rd
 The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BSEL`](dictionary/by-word.md#w-bsel).
 
 **Operation**
 
@@ -2099,6 +2207,8 @@ AESDSM Ra, Rb, Rd
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`AESES`](dictionary/by-word.md#w-aeses), [`AESESM`](dictionary/by-word.md#w-aesesm), [`AESDS`](dictionary/by-word.md#w-aesds), [`AESDSM`](dictionary/by-word.md#w-aesdsm).
 
 **Operation**
 
@@ -2144,6 +2254,8 @@ The chart is the leaf `16-RRI-1`, RRI, prefix `111011111010`. `op1` is `reg4`: r
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-RRI-1`](dictionary/by-encoding.md#16-RRI-1), [`16-R3-1`](dictionary/by-encoding.md#16-R3-1), [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`AESKS1`](dictionary/by-word.md#w-aesks1), [`AESKS2`](dictionary/by-word.md#w-aesks2), [`AESIM`](dictionary/by-word.md#w-aesim).
+
 **Operation**
 
 ```
@@ -2183,6 +2295,8 @@ SHA256SUM1 Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SHA256SIG0`](dictionary/by-word.md#w-sha256sig0), [`SHA256SIG1`](dictionary/by-word.md#w-sha256sig1), [`SHA256SUM0`](dictionary/by-word.md#w-sha256sum0), [`SHA256SUM1`](dictionary/by-word.md#w-sha256sum1).
 
 **Operation**
 
@@ -2225,6 +2339,8 @@ SHA512SUM1 Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SHA512SIG0`](dictionary/by-word.md#w-sha512sig0), [`SHA512SIG1`](dictionary/by-word.md#w-sha512sig1), [`SHA512SUM0`](dictionary/by-word.md#w-sha512sum0), [`SHA512SUM1`](dictionary/by-word.md#w-sha512sum1).
 
 **Operation**
 
@@ -2286,6 +2402,8 @@ The chart is the leaf `16-BRF-1`, BRF, prefix `1111000111111`. `op1` is `pc32-u2
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-BRF-1`](dictionary/by-encoding.md#16-BRF-1), [`16-BR2-16-a-1`](dictionary/by-encoding.md#16-BR2-16-a-1), [`16-BR1-6-a-1`](dictionary/by-encoding.md#16-BR1-6-a-1), [`16-BR1-8-a-1`](dictionary/by-encoding.md#16-BR1-8-a-1), [`16-BR1-9-a-1`](dictionary/by-encoding.md#16-BR1-9-a-1), [`16-BR2-16-b-1`](dictionary/by-encoding.md#16-BR2-16-b-1), [`16-BR1-6-b-1`](dictionary/by-encoding.md#16-BR1-6-b-1), [`16-BR1-7-b-1`](dictionary/by-encoding.md#16-BR1-7-b-1), [`16-BR2-16-c-1`](dictionary/by-encoding.md#16-BR2-16-c-1), [`16-BR1-6-c-1`](dictionary/by-encoding.md#16-BR1-6-c-1), [`16-BRF-2`](dictionary/by-encoding.md#16-BRF-2), [`16-BR2-16-c-2`](dictionary/by-encoding.md#16-BR2-16-c-2), [`16-BR1-6-c-2`](dictionary/by-encoding.md#16-BR1-6-c-2), [`16-BRF-3`](dictionary/by-encoding.md#16-BRF-3), [`16-BRF-4`](dictionary/by-encoding.md#16-BRF-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BR`](dictionary/by-word.md#w-br), [`BNE`](dictionary/by-word.md#w-bne), [`BEQ`](dictionary/by-word.md#w-beq), [`BPL`](dictionary/by-word.md#w-bpl), [`BMI`](dictionary/by-word.md#w-bmi), [`BVC`](dictionary/by-word.md#w-bvc), [`BVS`](dictionary/by-word.md#w-bvs), [`BCC`](dictionary/by-word.md#w-bcc), [`BCS`](dictionary/by-word.md#w-bcs), [`BGE`](dictionary/by-word.md#w-bge), [`BLT`](dictionary/by-word.md#w-blt), [`BGT`](dictionary/by-word.md#w-bgt), [`BLE`](dictionary/by-word.md#w-ble), [`BHI`](dictionary/by-word.md#w-bhi), [`BLOS`](dictionary/by-word.md#w-blos).
+
 **Operation**
 
 ```
@@ -2320,6 +2438,8 @@ SOB Rn, target
 The chart is the leaf `16-SOB-1`, SOB, prefix `111100001100`. `op1` is `reg4`: register, 4 bits. `op2` is `pc16-u2`: pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes).
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOB-1`](dictionary/by-encoding.md#16-SOB-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SOB`](dictionary/by-word.md#w-sob).
 
 **Operation**
 
@@ -2358,6 +2478,8 @@ The chart is the leaf `16-CB3I16-12-a-1`, CB3I16_12/a, prefix `111100101111100`.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-CB3I16-12-a-1`](dictionary/by-encoding.md#16-CB3I16-12-a-1), [`16-CBR8-a-1`](dictionary/by-encoding.md#16-CBR8-a-1), [`16-CBZ2-12-a-1`](dictionary/by-encoding.md#16-CBZ2-12-a-1), [`16-CBI5-8-a-1`](dictionary/by-encoding.md#16-CBI5-8-a-1), [`16-CBI6-8-a-1`](dictionary/by-encoding.md#16-CBI6-8-a-1), [`16-CBI10-8-a-1`](dictionary/by-encoding.md#16-CBI10-8-a-1), [`16-CB3I8-20-a-1`](dictionary/by-encoding.md#16-CB3I8-20-a-1), [`16-CBZ1-4-a-1`](dictionary/by-encoding.md#16-CBZ1-4-a-1), [`16-CBI5-10-a-1`](dictionary/by-encoding.md#16-CBI5-10-a-1), [`16-CB3R24-a-1`](dictionary/by-encoding.md#16-CB3R24-a-1), [`16-CBZ1-5-a-1`](dictionary/by-encoding.md#16-CBZ1-5-a-1), [`16-CBI8-10-a-1`](dictionary/by-encoding.md#16-CBI8-10-a-1), [`16-CBR10-a-1`](dictionary/by-encoding.md#16-CBR10-a-1), [`16-CBI4-12-a-1`](dictionary/by-encoding.md#16-CBI4-12-a-1), [`16-CBZ1-7-a-1`](dictionary/by-encoding.md#16-CBZ1-7-a-1), [`16-CBZ2-14-a-1`](dictionary/by-encoding.md#16-CBZ2-14-a-1), [`16-CBI6-12-a-1`](dictionary/by-encoding.md#16-CBI6-12-a-1), [`16-CBDI-1`](dictionary/by-encoding.md#16-CBDI-1), [`16-CBDR-1`](dictionary/by-encoding.md#16-CBDR-1), [`16-CBR8-c-1`](dictionary/by-encoding.md#16-CBR8-c-1), [`16-CB3I16-12-c-1`](dictionary/by-encoding.md#16-CB3I16-12-c-1), [`16-CBI4-8-c-1`](dictionary/by-encoding.md#16-CBI4-8-c-1), [`16-CBI6-8-c-1`](dictionary/by-encoding.md#16-CBI6-8-c-1), [`16-CB3R24-c-1`](dictionary/by-encoding.md#16-CB3R24-c-1), [`16-CBR10-c-1`](dictionary/by-encoding.md#16-CBR10-c-1), [`16-CBI8-8-c-1`](dictionary/by-encoding.md#16-CBI8-8-c-1), [`16-CBI4-10-c-1`](dictionary/by-encoding.md#16-CBI4-10-c-1), [`16-CB3I8-20-c-1`](dictionary/by-encoding.md#16-CB3I8-20-c-1), [`16-CBI10-8-c-1`](dictionary/by-encoding.md#16-CBI10-8-c-1), [`16-CBI6-10-c-1`](dictionary/by-encoding.md#16-CBI6-10-c-1), [`16-CB3I16-12-b-1`](dictionary/by-encoding.md#16-CB3I16-12-b-1), [`16-CBR8-b-1`](dictionary/by-encoding.md#16-CBR8-b-1), [`16-CBI8-8-b-1`](dictionary/by-encoding.md#16-CBI8-8-b-1), [`16-CBZ2-12-b-1`](dictionary/by-encoding.md#16-CBZ2-12-b-1), [`16-CB3I8-20-b-1`](dictionary/by-encoding.md#16-CB3I8-20-b-1), [`16-CB3R24-b-1`](dictionary/by-encoding.md#16-CB3R24-b-1), [`16-CBI4-10-b-1`](dictionary/by-encoding.md#16-CBI4-10-b-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CBNE`](dictionary/by-word.md#w-cbne), [`CBEQ`](dictionary/by-word.md#w-cbeq), [`CBPL`](dictionary/by-word.md#w-cbpl), [`CBMI`](dictionary/by-word.md#w-cbmi), [`CBVC`](dictionary/by-word.md#w-cbvc), [`CBVS`](dictionary/by-word.md#w-cbvs), [`CBCC`](dictionary/by-word.md#w-cbcc), [`CBCS`](dictionary/by-word.md#w-cbcs), [`CBGE`](dictionary/by-word.md#w-cbge), [`CBLT`](dictionary/by-word.md#w-cblt), [`CBGT`](dictionary/by-word.md#w-cbgt), [`CBLE`](dictionary/by-word.md#w-cble), [`CBHI`](dictionary/by-word.md#w-cbhi), [`CBLOS`](dictionary/by-word.md#w-cblos).
+
 **Operation**
 
 ```
@@ -2395,6 +2517,8 @@ The chart is the leaf `16-TAG-1`, TAG, prefix `11101110101`. `op1` is `reg4`: re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-TAG-1`](dictionary/by-encoding.md#16-TAG-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BTAG`](dictionary/by-word.md#w-btag), [`BNTAG`](dictionary/by-word.md#w-bntag).
+
 **Operation**
 
 ```
@@ -2431,6 +2555,8 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-CALLF-1`](dictionary/by-encoding.md#16-CALLF-1), [`16-SOPR-3`](dictionary/by-encoding.md#16-SOPR-3), [`16-CALL2-16-j-1`](dictionary/by-encoding.md#16-CALL2-16-j-1), [`16-SOBu12-x-1`](dictionary/by-encoding.md#16-SOBu12-x-1), [`16-SOX6-x-1`](dictionary/by-encoding.md#16-SOX6-x-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JMP`](dictionary/by-word.md#w-jmp).
+
 **Operation**
 
 ```
@@ -2463,6 +2589,8 @@ CALL rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-CALLF-1`](dictionary/by-encoding.md#16-CALLF-1), [`16-SOPR-3`](dictionary/by-encoding.md#16-SOPR-3), [`16-CALL2-16-c-1`](dictionary/by-encoding.md#16-CALL2-16-c-1), [`16-CALL2-18-c-1`](dictionary/by-encoding.md#16-CALL2-18-c-1), [`16-SOBu12-x-1`](dictionary/by-encoding.md#16-SOBu12-x-1), [`16-SOX6-x-1`](dictionary/by-encoding.md#16-SOX6-x-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CALL`](dictionary/by-word.md#w-call).
 
 **Operation**
 
@@ -2500,6 +2628,8 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOBu12-x-1`](dictionary/by-encoding.md#16-SOBu12-x-1), [`16-SOX6-x-1`](dictionary/by-encoding.md#16-SOX6-x-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JMPI`](dictionary/by-word.md#w-jmpi), [`CALLI`](dictionary/by-word.md#w-calli).
+
 **Operation**
 
 ```
@@ -2536,6 +2666,8 @@ The chart is the leaf `16-JTAG3-1`, JTAG3, prefix `1111001100100010`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-JTAG3-1`](dictionary/by-encoding.md#16-JTAG3-1), [`16-JTAG2-1`](dictionary/by-encoding.md#16-JTAG2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JTAG`](dictionary/by-word.md#w-jtag).
+
 **Operation**
 
 ```
@@ -2570,6 +2702,8 @@ MOVCALL Rs, Rd, target
 The chart is the leaf `16-FX-MOVCALL3-1`, FX.MOVCALL3, prefix `11001100`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes).
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-MOVCALL3-1`](dictionary/by-encoding.md#16-FX-MOVCALL3-1), [`16-FX-MOVCALL2-1`](dictionary/by-encoding.md#16-FX-MOVCALL2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVCALL`](dictionary/by-word.md#w-movcall).
 
 **Operation**
 
@@ -2610,6 +2744,8 @@ The chart is the leaf `16-FX-POPRET-1`, FX.POPRET, prefix `111100001101`. `op1` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-POPRET-1`](dictionary/by-encoding.md#16-FX-POPRET-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPRET`](dictionary/by-word.md#w-popret).
+
 **Operation**
 
 ```
@@ -2645,6 +2781,8 @@ POPMRET #mask
 The chart is the leaf `16-FX-POPMRET-1`, FX.POPMRET, prefix `11001110`. `op1` is `imm8u-x256`: unsigned 8-bit immediate times 256, 0 to 65280.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-FX-POPMRET-1`](dictionary/by-encoding.md#16-FX-POPMRET-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPMRET`](dictionary/by-word.md#w-popmret).
 
 **Operation**
 
@@ -2700,6 +2838,8 @@ The chart is the leaf `16-PUSHMF-1`, PUSHMF, prefix `111100101111001`. `op1` is 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-PUSHMF-1`](dictionary/by-encoding.md#16-PUSHMF-1), [`16-PUSHM16a-a-1`](dictionary/by-encoding.md#16-PUSHM16a-a-1), [`16-PUSHM8-a-1`](dictionary/by-encoding.md#16-PUSHM8-a-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSHM`](dictionary/by-word.md#w-pushm).
+
 **Operation**
 
 ```
@@ -2738,6 +2878,8 @@ The chart is the leaf `16-PUSHMF-1`, PUSHMF, prefix `111100101111001`. `op1` is 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-PUSHMF-1`](dictionary/by-encoding.md#16-PUSHMF-1), [`16-PUSHM16a-a-1`](dictionary/by-encoding.md#16-PUSHM16a-a-1), [`16-PUSHM8-a-1`](dictionary/by-encoding.md#16-PUSHM8-a-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPM`](dictionary/by-word.md#w-popm).
+
 **Operation**
 
 ```
@@ -2772,6 +2914,8 @@ The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2), [`16-PUSHI3-1`](dictionary/by-encoding.md#16-PUSHI3-1), [`16-PUSHI2-1`](dictionary/by-encoding.md#16-PUSHI2-1), [`16-SOBu12-a-2`](dictionary/by-encoding.md#16-SOBu12-a-2), [`16-SOX6-a-2`](dictionary/by-encoding.md#16-SOX6-a-2), [`16-SOBs12-a-2`](dictionary/by-encoding.md#16-SOBs12-a-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSH`](dictionary/by-word.md#w-push).
+
 **Operation**
 
 ```
@@ -2802,6 +2946,8 @@ POP rm
 The chart is the leaf `16-SOF-B28-1`, SOF.B28, prefix `111100000101`. `op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SOF-B28-1`](dictionary/by-encoding.md#16-SOF-B28-1), [`16-SOF-X22-1`](dictionary/by-encoding.md#16-SOF-X22-1), [`16-SOF-PI12-1`](dictionary/by-encoding.md#16-SOF-PI12-1), [`16-SOF-PD12-1`](dictionary/by-encoding.md#16-SOF-PD12-1), [`16-SOF-PC32-1`](dictionary/by-encoding.md#16-SOF-PC32-1), [`16-SOF-A32-1`](dictionary/by-encoding.md#16-SOF-A32-1), [`16-SOPR-2`](dictionary/by-encoding.md#16-SOPR-2), [`16-SOBu12-a-2`](dictionary/by-encoding.md#16-SOBu12-a-2), [`16-SOX6-a-2`](dictionary/by-encoding.md#16-SOX6-a-2), [`16-SOBs12-a-2`](dictionary/by-encoding.md#16-SOBs12-a-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POP`](dictionary/by-word.md#w-pop).
 
 **Operation**
 
@@ -2834,6 +2980,8 @@ MMOV Rd, Rs, Rn        ; correct for overlap
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MCPY`](dictionary/by-word.md#w-mcpy), [`MMOV`](dictionary/by-word.md#w-mmov).
 
 **Operation**
 
@@ -2874,6 +3022,8 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSET`](dictionary/by-word.md#w-mset).
+
 **Operation**
 
 ```
@@ -2908,6 +3058,8 @@ MCMP Rd, Rs, Rn
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MCMP`](dictionary/by-word.md#w-mcmp).
 
 **Operation**
 
@@ -2951,6 +3103,8 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSCN`](dictionary/by-word.md#w-mscn), [`MSCNN`](dictionary/by-word.md#w-mscnn).
+
 **Operation**
 
 ```
@@ -2992,6 +3146,8 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MVAL`](dictionary/by-word.md#w-mval).
+
 **Operation**
 
 ```
@@ -3030,6 +3186,8 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSHA256`](dictionary/by-word.md#w-msha256), [`MSHA512`](dictionary/by-word.md#w-msha512).
+
 **Operation**
 
 ```
@@ -3065,6 +3223,8 @@ MAESCTR Rd, Rs, Rn, Rp
 The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MAESCTR`](dictionary/by-word.md#w-maesctr).
 
 **Operation**
 
@@ -3121,6 +3281,8 @@ The chart is the leaf `16-LDF-B28-2`, LDF.B28, prefix `110110101`. `op1` is `b4d
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-LDF-B28-2`](dictionary/by-encoding.md#16-LDF-B28-2), [`16-LDF-X22-2`](dictionary/by-encoding.md#16-LDF-X22-2), [`16-LDF-PI12-2`](dictionary/by-encoding.md#16-LDF-PI12-2), [`16-LDF-PD12-2`](dictionary/by-encoding.md#16-LDF-PD12-2), [`16-LDF-PC32-2`](dictionary/by-encoding.md#16-LDF-PC32-2), [`16-LDF-A32-2`](dictionary/by-encoding.md#16-LDF-A32-2), [`16-LDFI-I32-1`](dictionary/by-encoding.md#16-LDFI-I32-1), [`16-DPF-D28-2`](dictionary/by-encoding.md#16-DPF-D28-2), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2), [`16-LDPC12-d-1`](dictionary/by-encoding.md#16-LDPC12-d-1), [`16-LDBs8-d-1`](dictionary/by-encoding.md#16-LDBs8-d-1), [`16-LDPC12-d-2`](dictionary/by-encoding.md#16-LDPC12-d-2), [`16-LDBs8-d-2`](dictionary/by-encoding.md#16-LDBs8-d-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD`](dictionary/by-word.md#w-fadd), [`FSUB`](dictionary/by-word.md#w-fsub), [`FMUL`](dictionary/by-word.md#w-fmul).
+
 **Operation**
 
 ```
@@ -3156,6 +3318,8 @@ The chart is the leaf `16-CMF-B28-1`, CMF.B28, prefix `11101101101`. `op1` is `r
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-CMF-B28-1`](dictionary/by-encoding.md#16-CMF-B28-1), [`16-CMF-X22-1`](dictionary/by-encoding.md#16-CMF-X22-1), [`16-CMF-PI12-1`](dictionary/by-encoding.md#16-CMF-PI12-1), [`16-CMF-PD12-1`](dictionary/by-encoding.md#16-CMF-PD12-1), [`16-CMF-PC32-1`](dictionary/by-encoding.md#16-CMF-PC32-1), [`16-CMF-A32-1`](dictionary/by-encoding.md#16-CMF-A32-1), [`16-CMF-I32-1`](dictionary/by-encoding.md#16-CMF-I32-1), [`16-RRF-2`](dictionary/by-encoding.md#16-RRF-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCMP`](dictionary/by-word.md#w-fcmp).
+
 **Operation**
 
 ```
@@ -3189,6 +3353,8 @@ FSQRT Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FDIV`](dictionary/by-word.md#w-fdiv), [`FSQRT`](dictionary/by-word.md#w-fsqrt).
 
 **Operation**
 
@@ -3229,6 +3395,8 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD32`](dictionary/by-word.md#w-fadd32), [`FSUB32`](dictionary/by-word.md#w-fsub32), [`FMUL32`](dictionary/by-word.md#w-fmul32), [`FDIV32`](dictionary/by-word.md#w-fdiv32), [`FSQRT32`](dictionary/by-word.md#w-fsqrt32), [`FCMP32`](dictionary/by-word.md#w-fcmp32).
+
 **Operation**
 
 ```
@@ -3267,6 +3435,8 @@ FNMSUB Rs, Rt, Ru, Rd
 The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `op4` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMADD`](dictionary/by-word.md#w-fmadd), [`FMSUB`](dictionary/by-word.md#w-fmsub), [`FNMADD`](dictionary/by-word.md#w-fnmadd), [`FNMSUB`](dictionary/by-word.md#w-fnmsub).
 
 **Operation**
 
@@ -3309,6 +3479,8 @@ The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMADD32`](dictionary/by-word.md#w-fmadd32), [`FMSUB32`](dictionary/by-word.md#w-fmsub32), [`FNMADD32`](dictionary/by-word.md#w-fnmadd32), [`FNMSUB32`](dictionary/by-word.md#w-fnmsub32).
+
 **Operation**
 
 ```
@@ -3343,6 +3515,8 @@ FCOPYSIGN Rs, Rt, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1), [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FNEG`](dictionary/by-word.md#w-fneg), [`FABS`](dictionary/by-word.md#w-fabs), [`FCOPYSIGN`](dictionary/by-word.md#w-fcopysign).
 
 **Operation**
 
@@ -3379,6 +3553,8 @@ FMAX Rs, Rt, Rd
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMIN`](dictionary/by-word.md#w-fmin), [`FMAX`](dictionary/by-word.md#w-fmax).
 
 **Operation**
 
@@ -3417,6 +3593,8 @@ FCLASS16 Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCLASS`](dictionary/by-word.md#w-fclass), [`FCLASS32`](dictionary/by-word.md#w-fclass32), [`FCLASS16`](dictionary/by-word.md#w-fclass16).
 
 **Operation**
 
@@ -3459,6 +3637,8 @@ FRINTA Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FRINT`](dictionary/by-word.md#w-frint), [`FRINTZ`](dictionary/by-word.md#w-frintz), [`FRINTM`](dictionary/by-word.md#w-frintm), [`FRINTP`](dictionary/by-word.md#w-frintp), [`FRINTA`](dictionary/by-word.md#w-frinta).
 
 **Operation**
 
@@ -3504,6 +3684,8 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCVTDQ`](dictionary/by-word.md#w-fcvtdq), [`FCVTDQU`](dictionary/by-word.md#w-fcvtdqu), [`FCVTQD`](dictionary/by-word.md#w-fcvtqd), [`FCVTQUD`](dictionary/by-word.md#w-fcvtqud), [`FCVTDS`](dictionary/by-word.md#w-fcvtds), [`FCVTSD`](dictionary/by-word.md#w-fcvtsd), [`FCVTSL`](dictionary/by-word.md#w-fcvtsl), [`FCVTLS`](dictionary/by-word.md#w-fcvtls).
+
 **Operation**
 
 ```
@@ -3539,6 +3721,8 @@ FSFLAGS Rs, Rd
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FSFLAGS`](dictionary/by-word.md#w-fsflags).
 
 **Operation**
 
@@ -3583,6 +3767,8 @@ The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1), [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD16`](dictionary/by-word.md#w-fadd16), [`FSUB16`](dictionary/by-word.md#w-fsub16), [`FMUL16`](dictionary/by-word.md#w-fmul16), [`FDIV16`](dictionary/by-word.md#w-fdiv16), [`FSQRT16`](dictionary/by-word.md#w-fsqrt16), [`FCMP16`](dictionary/by-word.md#w-fcmp16), [`FMADD16`](dictionary/by-word.md#w-fmadd16), [`FMSUB16`](dictionary/by-word.md#w-fmsub16), [`FNMADD16`](dictionary/by-word.md#w-fnmadd16), [`FNMSUB16`](dictionary/by-word.md#w-fnmsub16).
+
 **Operation**
 
 ```
@@ -3623,6 +3809,8 @@ FCVTLH Rs, Rd        ; signed 32-bit integer to half
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCVTSH`](dictionary/by-word.md#w-fcvtsh), [`FCVTHS`](dictionary/by-word.md#w-fcvths), [`FCVTDH`](dictionary/by-word.md#w-fcvtdh), [`FCVTHD`](dictionary/by-word.md#w-fcvthd), [`FCVTHL`](dictionary/by-word.md#w-fcvthl), [`FCVTLH`](dictionary/by-word.md#w-fcvtlh).
 
 **Operation**
 
@@ -3670,6 +3858,8 @@ The chart is the leaf `16-R4-1`, R4, prefix `111011111001`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R4-1`](dictionary/by-encoding.md#16-R4-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CAS`](dictionary/by-word.md#w-cas), [`CASDB`](dictionary/by-word.md#w-casdb).
+
 **Operation**
 
 ```
@@ -3710,6 +3900,8 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SWAP`](dictionary/by-word.md#w-swap), [`SWAPDB`](dictionary/by-word.md#w-swapdb).
+
 **Operation**
 
 ```
@@ -3748,6 +3940,8 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XADD`](dictionary/by-word.md#w-xadd), [`XADDDB`](dictionary/by-word.md#w-xadddb).
+
 **Operation**
 
 ```
@@ -3785,6 +3979,8 @@ each with a DB form
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XAND`](dictionary/by-word.md#w-xand), [`XANDDB`](dictionary/by-word.md#w-xanddb), [`XOR_`](dictionary/by-word.md#w-xor-), [`XOR_DB`](dictionary/by-word.md#w-xor-db), [`XXOR`](dictionary/by-word.md#w-xxor), [`XXORDB`](dictionary/by-word.md#w-xxordb).
 
 **Operation**
 
@@ -3829,6 +4025,8 @@ The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: reg
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XMAX`](dictionary/by-word.md#w-xmax), [`XMAXDB`](dictionary/by-word.md#w-xmaxdb), [`XMIN`](dictionary/by-word.md#w-xmin), [`XMINDB`](dictionary/by-word.md#w-xmindb), [`XMAXU`](dictionary/by-word.md#w-xmaxu), [`XMAXUDB`](dictionary/by-word.md#w-xmaxudb), [`XMINU`](dictionary/by-word.md#w-xminu), [`XMINUDB`](dictionary/by-word.md#w-xminudb).
+
 **Operation**
 
 ```
@@ -3867,6 +4065,8 @@ SC value, (address), result
 The chart is the leaf `16-R3-1`, R3, prefix `111011111000`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `op3` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R3-1`](dictionary/by-encoding.md#16-R3-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`LL`](dictionary/by-word.md#w-ll), [`SC`](dictionary/by-word.md#w-sc).
 
 **Operation**
 
@@ -3918,6 +4118,8 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`NOP`](dictionary/by-word.md#w-nop), [`LPAD`](dictionary/by-word.md#w-lpad).
+
 **Operation**
 
 ```
@@ -3955,6 +4157,8 @@ RTT
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RTI`](dictionary/by-word.md#w-rti), [`RTT`](dictionary/by-word.md#w-rtt).
 
 **Operation**
 
@@ -3994,6 +4198,8 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RET`](dictionary/by-word.md#w-ret).
+
 **Operation**
 
 ```
@@ -4027,6 +4233,8 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`HALT`](dictionary/by-word.md#w-halt).
+
 **Operation**
 
 ```
@@ -4059,6 +4267,8 @@ BPT
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BPT`](dictionary/by-word.md#w-bpt).
 
 **Operation**
 
@@ -4097,6 +4307,8 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FENCE`](dictionary/by-word.md#w-fence).
+
 **Operation**
 
 ```
@@ -4133,6 +4345,8 @@ WFE
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`WFE`](dictionary/by-word.md#w-wfe).
 
 **Operation**
 
@@ -4171,6 +4385,8 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SEV`](dictionary/by-word.md#w-sev).
+
 **Operation**
 
 ```
@@ -4207,6 +4423,8 @@ ICINVA
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TLBIA`](dictionary/by-word.md#w-tlbia), [`TLBSYNC`](dictionary/by-word.md#w-tlbsync), [`ICINVA`](dictionary/by-word.md#w-icinva).
 
 **Operation**
 
@@ -4246,6 +4464,8 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSHX`](dictionary/by-word.md#w-pushx), [`POPX`](dictionary/by-word.md#w-popx).
+
 **Operation**
 
 ```
@@ -4284,6 +4504,8 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ISYNC`](dictionary/by-word.md#w-isync).
+
 **Operation**
 
 ```
@@ -4321,6 +4543,8 @@ The chart is the leaf `16-SYSI-1`, SYSI, prefix `100010`. `op1` is `imm8u`: unsi
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSI-1`](dictionary/by-encoding.md#16-SYSI-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`HINT`](dictionary/by-word.md#w-hint).
+
 **Operation**
 
 ```
@@ -4356,6 +4580,8 @@ MTSR name, Rs
 The chart is the leaf `16-MFSR-1`, MFSR, prefix `1111001100011100`. `op1` is `reg4`: register, 4 bits. `op2` is `imm12u`: unsigned 12-bit immediate, 0 to 4095.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-MFSR-1`](dictionary/by-encoding.md#16-MFSR-1), [`16-MTSR-1`](dictionary/by-encoding.md#16-MTSR-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MFSR`](dictionary/by-word.md#w-mfsr), [`MTSR`](dictionary/by-word.md#w-mtsr).
 
 **Operation**
 
@@ -4412,6 +4638,8 @@ The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTPS`](dictionary/by-word.md#w-mtps), [`MFPS`](dictionary/by-word.md#w-mfps).
+
 **Operation**
 
 ```
@@ -4445,6 +4673,8 @@ SPL #n        ; n = 0 to 7
 The chart is the leaf `16-SYSI-1`, SYSI, prefix `100010`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSI-1`](dictionary/by-encoding.md#16-SYSI-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SPL`](dictionary/by-word.md#w-spl).
 
 **Operation**
 
@@ -4484,6 +4714,8 @@ The chart is the leaf `16-SYSI-1`, SYSI, prefix `100010`. `op1` is `imm8u`: unsi
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSI-1`](dictionary/by-encoding.md#16-SYSI-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TRAP`](dictionary/by-word.md#w-trap), [`TRAPL`](dictionary/by-word.md#w-trapl).
+
 **Operation**
 
 ```
@@ -4521,6 +4753,8 @@ The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TLBI`](dictionary/by-word.md#w-tlbi).
+
 **Operation**
 
 ```
@@ -4556,6 +4790,8 @@ MFASID Rd
 The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: register, 4 bits. `sub` (3 bits) selects the mnemonic: `mtps` 000, `mfps` 001, `tlbi` 010, `mtasid` 011, `mfasid` 100, `mtdp` 101, `mfdp` 110, `mtdmw` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTASID`](dictionary/by-word.md#w-mtasid), [`MFASID`](dictionary/by-word.md#w-mfasid).
 
 **Operation**
 
@@ -4596,6 +4832,8 @@ The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTDP`](dictionary/by-word.md#w-mtdp), [`MFDP`](dictionary/by-word.md#w-mfdp).
+
 **Operation**
 
 ```
@@ -4634,6 +4872,8 @@ The chart is the leaf `16-SYSR-1`, SYSR, prefix `110110100`. `op1` is `reg4`: re
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-1`](dictionary/by-encoding.md#16-SYSR-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTDMW`](dictionary/by-word.md#w-mtdmw).
+
 **Operation**
 
 ```
@@ -4670,6 +4910,8 @@ MFCPUID Rd
 The chart is the leaf `16-SYSR-2`, SYSR, prefix `11101100101`. `op1` is `reg4`: register, 4 bits. `sub` (1 bit) selects the mnemonic: `mfcpuid` 0, `icinv` 1.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-2`](dictionary/by-encoding.md#16-SYSR-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MFCPUID`](dictionary/by-word.md#w-mfcpuid).
 
 **Operation**
 
@@ -4708,6 +4950,8 @@ The chart is the leaf `16-SYSR-2`, SYSR, prefix `11101100101`. `op1` is `reg4`: 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYSR-2`](dictionary/by-encoding.md#16-SYSR-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ICINV`](dictionary/by-word.md#w-icinv).
+
 **Operation**
 
 ```
@@ -4743,6 +4987,8 @@ PROBEW Rd, Rs
 The chart is the leaf `16-R2-1`, R2, prefix `111011110111`. `op1` is `reg4`: register, 4 bits. `op2` is `reg4`: register, 4 bits. `xsub` selects the mnemonic.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-R2-1`](dictionary/by-encoding.md#16-R2-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PROBER`](dictionary/by-word.md#w-prober), [`PROBEW`](dictionary/by-word.md#w-probew).
 
 **Operation**
 
@@ -4782,6 +5028,8 @@ The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TRAPCC.NE`](dictionary/by-word.md#w-trapcc-ne), [`TRAPCC.EQ`](dictionary/by-word.md#w-trapcc-eq), [`TRAPCC.PL`](dictionary/by-word.md#w-trapcc-pl), [`TRAPCC.MI`](dictionary/by-word.md#w-trapcc-mi), [`TRAPCC.VC`](dictionary/by-word.md#w-trapcc-vc), [`TRAPCC.VS`](dictionary/by-word.md#w-trapcc-vs), [`TRAPCC.CC`](dictionary/by-word.md#w-trapcc-cc), [`TRAPCC.CS`](dictionary/by-word.md#w-trapcc-cs), [`TRAPCC.GE`](dictionary/by-word.md#w-trapcc-ge), [`TRAPCC.LT`](dictionary/by-word.md#w-trapcc-lt), [`TRAPCC.GT`](dictionary/by-word.md#w-trapcc-gt), [`TRAPCC.LE`](dictionary/by-word.md#w-trapcc-le), [`TRAPCC.HI`](dictionary/by-word.md#w-trapcc-hi), [`TRAPCC.LOS`](dictionary/by-word.md#w-trapcc-los).
+
 **Operation**
 
 ```
@@ -4819,6 +5067,8 @@ SYSPG0 ... SYSPG5
 The chart is the leaf `16-SYS0-1`, SYS0, prefix `11101100100`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`16-SYS0-1`](dictionary/by-encoding.md#16-SYS0-1), [`16-SYS0-2`](dictionary/by-encoding.md#16-SYS0-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SYSPG0`](dictionary/by-word.md#w-syspg0), [`SYSPG1`](dictionary/by-word.md#w-syspg1), [`SYSPG2`](dictionary/by-word.md#w-syspg2), [`SYSPG3`](dictionary/by-word.md#w-syspg3), [`SYSPG4`](dictionary/by-word.md#w-syspg4), [`SYSPG5`](dictionary/by-word.md#w-syspg5).
 
 **Operation**
 

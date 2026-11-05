@@ -165,6 +165,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVQ`](dictionary/by-word.md#w-movq), [`MOVL`](dictionary/by-word.md#w-movl), [`MOVW`](dictionary/by-word.md#w-movw), [`MOVB`](dictionary/by-word.md#w-movb).
+
 **Operation**
 
 ```
@@ -210,6 +212,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVZL`](dictionary/by-word.md#w-movzl), [`MOVZW`](dictionary/by-word.md#w-movzw), [`MOVZB`](dictionary/by-word.md#w-movzb).
+
 **Operation**
 
 ```
@@ -248,6 +252,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 | `LEA` | `001011 (0x0B)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`LEA`](dictionary/by-word.md#w-lea).
 
 **Operation**
 
@@ -292,6 +298,8 @@ The chart is the layout `r20-mesc-1`, Memory escape (MESC), two parcels (`len = 
 | `MOVUQ` | `001111 (0x0F)` | `0110 (0x6)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mesc-1`](dictionary/by-encoding.md#r20-mesc-1), [`r20-mesc-2`](dictionary/by-encoding.md#r20-mesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MOVUB`](dictionary/by-word.md#w-movub), [`MOVUW`](dictionary/by-word.md#w-movuw), [`MOVUL`](dictionary/by-word.md#w-movul), [`MOVUQ`](dictionary/by-word.md#w-movuq).
 
 **Operation**
 
@@ -353,6 +361,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADD`](dictionary/by-word.md#w-add).
+
 **Operation**
 
 ```
@@ -389,6 +399,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 | `SUB` | `010111 (0x17)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SUB`](dictionary/by-word.md#w-sub).
 
 **Operation**
 
@@ -427,6 +439,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CMP`](dictionary/by-word.md#w-cmp).
+
 **Operation**
 
 ```
@@ -464,6 +478,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MUL`](dictionary/by-word.md#w-mul).
+
 **Operation**
 
 ```
@@ -500,6 +516,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 | `MULH` | `011111 (0x1F)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MULH`](dictionary/by-word.md#w-mulh).
 
 **Operation**
 
@@ -546,6 +564,8 @@ The chart is the layout `r20-mesc-1`, Memory escape (MESC), two parcels (`len = 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mesc-1`](dictionary/by-encoding.md#r20-mesc-1), [`r20-mesc-2`](dictionary/by-encoding.md#r20-mesc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADDM`](dictionary/by-word.md#w-addm), [`SUBM`](dictionary/by-word.md#w-subm), [`BICM`](dictionary/by-word.md#w-bicm), [`BISM`](dictionary/by-word.md#w-bism).
+
 **Operation**
 
 ```
@@ -588,6 +608,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`INC`](dictionary/by-word.md#w-inc).
+
 **Operation**
 
 ```
@@ -622,6 +644,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `DEC` | `010011 (0x13)` | `0011 (0x3)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DEC`](dictionary/by-word.md#w-dec).
 
 **Operation**
 
@@ -658,6 +682,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`NEG`](dictionary/by-word.md#w-neg).
+
 **Operation**
 
 ```
@@ -692,6 +718,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `ADC` | `010011 (0x13)` | `0110 (0x6)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ADC`](dictionary/by-word.md#w-adc).
 
 **Operation**
 
@@ -729,6 +757,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `SBC` | `010011 (0x13)` | `0111 (0x7)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SBC`](dictionary/by-word.md#w-sbc).
 
 **Operation**
 
@@ -770,6 +800,8 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 | `MODU` | `001110 (0x0E)` | `00000011 (0x03)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DIV`](dictionary/by-word.md#w-div), [`DIVU`](dictionary/by-word.md#w-divu), [`MOD`](dictionary/by-word.md#w-mod), [`MODU`](dictionary/by-word.md#w-modu).
 
 **Operation**
 
@@ -814,6 +846,8 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MULHU`](dictionary/by-word.md#w-mulhu).
+
 **Operation**
 
 ```
@@ -852,6 +886,8 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 | `ABS` | `001110 (0x0E)` | `00001000 (0x08)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ABS`](dictionary/by-word.md#w-abs).
 
 **Operation**
 
@@ -896,6 +932,8 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MIN`](dictionary/by-word.md#w-min), [`MINU`](dictionary/by-word.md#w-minu), [`MAX`](dictionary/by-word.md#w-max), [`MAXU`](dictionary/by-word.md#w-maxu).
+
 **Operation**
 
 ```
@@ -933,6 +971,8 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 | `SET` | `001110 (0x0E)` | `00100000 (0x20)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SET`](dictionary/by-word.md#w-set).
 
 **Operation**
 
@@ -988,6 +1028,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIC`](dictionary/by-word.md#w-bic).
+
 **Operation**
 
 ```
@@ -1025,6 +1067,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIS`](dictionary/by-word.md#w-bis).
+
 **Operation**
 
 ```
@@ -1059,6 +1103,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 | `BIT` | `011011 (0x1B)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BIT`](dictionary/by-word.md#w-bit).
 
 **Operation**
 
@@ -1095,6 +1141,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XOR`](dictionary/by-word.md#w-xor).
+
 **Operation**
 
 ```
@@ -1129,6 +1177,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 | `AND` | `011101 (0x1D)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`AND`](dictionary/by-word.md#w-and).
 
 **Operation**
 
@@ -1168,6 +1218,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 | `SAR` | `100010 (0x22)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SHL`](dictionary/by-word.md#w-shl), [`SHR`](dictionary/by-word.md#w-shr), [`SAR`](dictionary/by-word.md#w-sar).
 
 **Operation**
 
@@ -1209,6 +1261,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLR`](dictionary/by-word.md#w-clr).
+
 **Operation**
 
 ```
@@ -1243,6 +1297,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `COM` | `010011 (0x13)` | `0001 (0x1)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`COM`](dictionary/by-word.md#w-com).
 
 **Operation**
 
@@ -1281,6 +1337,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TST`](dictionary/by-word.md#w-tst).
+
 **Operation**
 
 ```
@@ -1315,6 +1373,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `ASL` | `010011 (0x13)` | `1000 (0x8)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ASL`](dictionary/by-word.md#w-asl).
 
 **Operation**
 
@@ -1352,6 +1412,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `ASR` | `010011 (0x13)` | `1001 (0x9)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ASR`](dictionary/by-word.md#w-asr).
 
 **Operation**
 
@@ -1411,6 +1473,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLZ`](dictionary/by-word.md#w-clz), [`CTZ`](dictionary/by-word.md#w-ctz), [`CLO`](dictionary/by-word.md#w-clo), [`CTO`](dictionary/by-word.md#w-cto).
+
 **Operation**
 
 ```
@@ -1453,6 +1517,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPCNT`](dictionary/by-word.md#w-popcnt).
+
 **Operation**
 
 ```
@@ -1493,6 +1559,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `BSWAPL` | `001100 (0x0C)` | `00000111 (0x07)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BSWAP`](dictionary/by-word.md#w-bswap), [`BSWAPW`](dictionary/by-word.md#w-bswapw), [`BSWAPL`](dictionary/by-word.md#w-bswapl).
 
 **Operation**
 
@@ -1535,6 +1603,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BITREV`](dictionary/by-word.md#w-bitrev).
+
 **Operation**
 
 ```
@@ -1571,6 +1641,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `ROR` | `001100 (0x0C)` | `00010000 (0x10)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ROR`](dictionary/by-word.md#w-ror).
 
 **Operation**
 
@@ -1612,6 +1684,8 @@ The chart is the layout `r20-besc-1-2`, Bits and fields (BESC), two parcels (`le
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1-2`](dictionary/by-encoding.md#r20-besc-1-2), [`r20-besc-2-2`](dictionary/by-encoding.md#r20-besc-2-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RORI`](dictionary/by-word.md#w-rori).
+
 **Operation**
 
 ```
@@ -1651,6 +1725,8 @@ The chart is the layout `r20-besc-1-2`, Bits and fields (BESC), two parcels (`le
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1-2`](dictionary/by-encoding.md#r20-besc-1-2), [`r20-besc-2-2`](dictionary/by-encoding.md#r20-besc-2-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RORI32`](dictionary/by-word.md#w-rori32).
+
 **Operation**
 
 ```
@@ -1689,6 +1765,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `DSHR` | `001100 (0x0C)` | `00100000 (0x20)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2-3`](dictionary/by-encoding.md#r20-besc-2-3).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`DSHR`](dictionary/by-word.md#w-dshr).
 
 **Operation**
 
@@ -1732,6 +1810,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2-3`](dictionary/by-encoding.md#r20-besc-2-3).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`EXTB`](dictionary/by-word.md#w-extb), [`EXTZB`](dictionary/by-word.md#w-extzb).
+
 **Operation**
 
 ```
@@ -1770,6 +1850,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `INSB` | `001100 (0x0C)` | `00100011 (0x23)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2-3`](dictionary/by-encoding.md#r20-besc-2-3).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`INSB`](dictionary/by-word.md#w-insb).
 
 **Operation**
 
@@ -1810,6 +1892,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `XNORPOP` | `001100 (0x0C)` | `00110000 (0x30)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XNORPOP`](dictionary/by-word.md#w-xnorpop).
 
 **Operation**
 
@@ -1852,6 +1936,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CLMULL`](dictionary/by-word.md#w-clmull), [`CLMULH`](dictionary/by-word.md#w-clmulh).
+
 **Operation**
 
 ```
@@ -1893,6 +1979,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8LEN`](dictionary/by-word.md#w-utf8len).
+
 **Operation**
 
 ```
@@ -1929,6 +2017,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `UTF8DEC` | `001100 (0x0C)` | `01000001 (0x41)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8DEC`](dictionary/by-word.md#w-utf8dec).
 
 **Operation**
 
@@ -1968,6 +2058,8 @@ The chart is the layout `r20-besc-1`, Bits and fields (BESC), two parcels (`len 
 | `UTF8ENC` | `001100 (0x0C)` | `01000010 (0x42)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-besc-1`](dictionary/by-encoding.md#r20-besc-1), [`r20-besc-2`](dictionary/by-encoding.md#r20-besc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`UTF8ENC`](dictionary/by-word.md#w-utf8enc).
 
 **Operation**
 
@@ -2042,6 +2134,8 @@ The chart is the layout `r20-br-0`, Conditional branches, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-br-0`](dictionary/by-encoding.md#r20-br-0), [`r20-br-1`](dictionary/by-encoding.md#r20-br-1), [`r20-br-2`](dictionary/by-encoding.md#r20-br-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BR`](dictionary/by-word.md#w-br), [`BNE`](dictionary/by-word.md#w-bne), [`BEQ`](dictionary/by-word.md#w-beq), [`BPL`](dictionary/by-word.md#w-bpl), [`BMI`](dictionary/by-word.md#w-bmi), [`BVC`](dictionary/by-word.md#w-bvc), [`BVS`](dictionary/by-word.md#w-bvs), [`BCC`](dictionary/by-word.md#w-bcc), [`BCS`](dictionary/by-word.md#w-bcs), [`BGE`](dictionary/by-word.md#w-bge), [`BLT`](dictionary/by-word.md#w-blt), [`BGT`](dictionary/by-word.md#w-bgt), [`BLE`](dictionary/by-word.md#w-ble), [`BHI`](dictionary/by-word.md#w-bhi), [`BLOS`](dictionary/by-word.md#w-blos).
+
 **Operation**
 
 ```
@@ -2080,6 +2174,8 @@ The chart is the layout `r20-sob-1`, SOB, two parcels (`len = 01`): The displace
 | `SOB` | `111111 (0x3F)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sob-1`](dictionary/by-encoding.md#r20-sob-1), [`r20-sob-2`](dictionary/by-encoding.md#r20-sob-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SOB`](dictionary/by-word.md#w-sob).
 
 **Operation**
 
@@ -2135,6 +2231,8 @@ The chart is the layout `r20-cb-1`, Compare and branch, two parcels (`len = 01`)
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-cb-1`](dictionary/by-encoding.md#r20-cb-1), [`r20-cb-1-2`](dictionary/by-encoding.md#r20-cb-1-2), [`r20-cb-2`](dictionary/by-encoding.md#r20-cb-2), [`r20-cb-2-2`](dictionary/by-encoding.md#r20-cb-2-2), [`r20-cb-2-3`](dictionary/by-encoding.md#r20-cb-2-3).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CBNE`](dictionary/by-word.md#w-cbne), [`CBEQ`](dictionary/by-word.md#w-cbeq), [`CBPL`](dictionary/by-word.md#w-cbpl), [`CBMI`](dictionary/by-word.md#w-cbmi), [`CBVC`](dictionary/by-word.md#w-cbvc), [`CBVS`](dictionary/by-word.md#w-cbvs), [`CBCC`](dictionary/by-word.md#w-cbcc), [`CBCS`](dictionary/by-word.md#w-cbcs), [`CBGE`](dictionary/by-word.md#w-cbge), [`CBLT`](dictionary/by-word.md#w-cblt), [`CBGT`](dictionary/by-word.md#w-cbgt), [`CBLE`](dictionary/by-word.md#w-cble), [`CBHI`](dictionary/by-word.md#w-cbhi), [`CBLOS`](dictionary/by-word.md#w-cblos).
+
 **Operation**
 
 ```
@@ -2177,6 +2275,8 @@ The chart is the layout `r20-tag-1`, Tag branches, two parcels (`len = 01`): `se
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-tag-1`](dictionary/by-encoding.md#r20-tag-1), [`r20-tag-2`](dictionary/by-encoding.md#r20-tag-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BTAG`](dictionary/by-word.md#w-btag), [`BNTAG`](dictionary/by-word.md#w-bntag).
+
 **Operation**
 
 ```
@@ -2217,6 +2317,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JMP`](dictionary/by-word.md#w-jmp).
+
 **Operation**
 
 ```
@@ -2253,6 +2355,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 | `CALL` | `010011 (0x13)` | `1101 (0xD)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CALL`](dictionary/by-word.md#w-call).
 
 **Operation**
 
@@ -2295,6 +2399,8 @@ The chart is the layout `r20-xfer-0`, Indirect transfers (XFER), one parcel (`le
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-xfer-0`](dictionary/by-encoding.md#r20-xfer-0), [`r20-xfer-1`](dictionary/by-encoding.md#r20-xfer-1), [`r20-xfer-1-2`](dictionary/by-encoding.md#r20-xfer-1-2), [`r20-xfer-1-3`](dictionary/by-encoding.md#r20-xfer-1-3), [`r20-xfer-1-4`](dictionary/by-encoding.md#r20-xfer-1-4), [`r20-xfer-2`](dictionary/by-encoding.md#r20-xfer-2), [`r20-xfer-2-2`](dictionary/by-encoding.md#r20-xfer-2-2), [`r20-xfer-2-3`](dictionary/by-encoding.md#r20-xfer-2-3), [`r20-xfer-2-4`](dictionary/by-encoding.md#r20-xfer-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JMPI`](dictionary/by-word.md#w-jmpi), [`CALLI`](dictionary/by-word.md#w-calli).
+
 **Operation**
 
 ```
@@ -2310,7 +2416,7 @@ The one deferred reference the architecture admits, for control transfer only: t
 
 **Why it is here.** Exactly one deferred reference, for control transfer only, in `XFER`: the PLT stub of every dynamically linked program (`JMPI got_slot(PC)`) and virtual-method dispatch (`CALLI vtbl_off(Robj)`), each two instructions and a scratch register without it. It is admitted because it breaks none of the reasons deferred modes are removed (no register is side-effected, the reference is in the branch path and not the operand path, a fault is clean by ordering). Jump tables through `JMPI` are not smaller, because the table entries are 8 bytes against 8 for a case in a compare chain.
 
-**Status** implemented in the reference executor for `CALLI`; not yet for the others.
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 ### JTAG: Jump through a tag table
@@ -2334,6 +2440,8 @@ The chart is the layout `r20-xfer-0`, Indirect transfers (XFER), one parcel (`le
 | `JTAG` | `010010 (0x12)` | `0010 (0x2)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-xfer-0`](dictionary/by-encoding.md#r20-xfer-0), [`r20-xfer-1`](dictionary/by-encoding.md#r20-xfer-1), [`r20-xfer-1-2`](dictionary/by-encoding.md#r20-xfer-1-2), [`r20-xfer-1-3`](dictionary/by-encoding.md#r20-xfer-1-3), [`r20-xfer-1-4`](dictionary/by-encoding.md#r20-xfer-1-4), [`r20-xfer-2`](dictionary/by-encoding.md#r20-xfer-2), [`r20-xfer-2-2`](dictionary/by-encoding.md#r20-xfer-2-2), [`r20-xfer-2-3`](dictionary/by-encoding.md#r20-xfer-2-3), [`r20-xfer-2-4`](dictionary/by-encoding.md#r20-xfer-2-4).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`JTAG`](dictionary/by-word.md#w-jtag).
 
 **Operation**
 
@@ -2391,6 +2499,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSHM`](dictionary/by-word.md#w-pushm).
+
 **Operation**
 
 ```
@@ -2433,6 +2543,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POPM`](dictionary/by-word.md#w-popm).
+
 **Operation**
 
 ```
@@ -2471,6 +2583,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSH`](dictionary/by-word.md#w-push).
+
 **Operation**
 
 ```
@@ -2508,6 +2622,8 @@ The chart is the layout `r20-sop-0`, Single operand (SOP), one parcel (`len = 00
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sop-0`](dictionary/by-encoding.md#r20-sop-0), [`r20-sop-1`](dictionary/by-encoding.md#r20-sop-1), [`r20-sop-1-2`](dictionary/by-encoding.md#r20-sop-1-2), [`r20-sop-1-3`](dictionary/by-encoding.md#r20-sop-1-3), [`r20-sop-1-4`](dictionary/by-encoding.md#r20-sop-1-4), [`r20-sop-2`](dictionary/by-encoding.md#r20-sop-2), [`r20-sop-2-2`](dictionary/by-encoding.md#r20-sop-2-2), [`r20-sop-2-3`](dictionary/by-encoding.md#r20-sop-2-3), [`r20-sop-2-4`](dictionary/by-encoding.md#r20-sop-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`POP`](dictionary/by-word.md#w-pop).
+
 **Operation**
 
 ```
@@ -2544,6 +2660,8 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 | `MMOV` | `001101 (0x0D)` | `00000001 (0x01)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MCPY`](dictionary/by-word.md#w-mcpy), [`MMOV`](dictionary/by-word.md#w-mmov).
 
 **Operation**
 
@@ -2588,6 +2706,8 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSET`](dictionary/by-word.md#w-mset).
+
 **Operation**
 
 ```
@@ -2628,6 +2748,8 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 | `MCMP` | `001101 (0x0D)` | `00000011 (0x03)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MCMP`](dictionary/by-word.md#w-mcmp).
 
 **Operation**
 
@@ -2676,6 +2798,8 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MSCN`](dictionary/by-word.md#w-mscn), [`MSCNN`](dictionary/by-word.md#w-mscnn).
+
 **Operation**
 
 ```
@@ -2720,6 +2844,8 @@ The chart is the layout `r20-mblk-1`, Block memory (MBLK), two parcels (`len = 0
 | `MVAL` | `001101 (0x0D)` | `00000110 (0x06)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mblk-1`](dictionary/by-encoding.md#r20-mblk-1), [`r20-mblk-2`](dictionary/by-encoding.md#r20-mblk-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MVAL`](dictionary/by-word.md#w-mval).
 
 **Operation**
 
@@ -2783,6 +2909,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD`](dictionary/by-word.md#w-fadd), [`FSUB`](dictionary/by-word.md#w-fsub), [`FMUL`](dictionary/by-word.md#w-fmul).
+
 **Operation**
 
 ```
@@ -2822,6 +2950,8 @@ The chart is the layout `r20-mem-0`, Moves, address formation and the ALU, one p
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-mem-0`](dictionary/by-encoding.md#r20-mem-0), [`r20-mem-1`](dictionary/by-encoding.md#r20-mem-1), [`r20-mem-1-2`](dictionary/by-encoding.md#r20-mem-1-2), [`r20-mem-1-3`](dictionary/by-encoding.md#r20-mem-1-3), [`r20-mem-1-4`](dictionary/by-encoding.md#r20-mem-1-4), [`r20-mem-2`](dictionary/by-encoding.md#r20-mem-2), [`r20-mem-2-2`](dictionary/by-encoding.md#r20-mem-2-2), [`r20-mem-2-3`](dictionary/by-encoding.md#r20-mem-2-3), [`r20-mem-2-4`](dictionary/by-encoding.md#r20-mem-2-4).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCMP`](dictionary/by-word.md#w-fcmp).
+
 **Operation**
 
 ```
@@ -2860,6 +2990,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 | `FSQRT` | `010000 (0x10)` | `00000001 (0x01)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FDIV`](dictionary/by-word.md#w-fdiv), [`FSQRT`](dictionary/by-word.md#w-fsqrt).
 
 **Operation**
 
@@ -2909,6 +3041,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD32`](dictionary/by-word.md#w-fadd32), [`FSUB32`](dictionary/by-word.md#w-fsub32), [`FMUL32`](dictionary/by-word.md#w-fmul32), [`FDIV32`](dictionary/by-word.md#w-fdiv32), [`FSQRT32`](dictionary/by-word.md#w-fsqrt32), [`FCMP32`](dictionary/by-word.md#w-fcmp32).
+
 **Operation**
 
 ```
@@ -2954,6 +3088,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 | `FNMSUB` | `010000 (0x10)` | `00010011 (0x13)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMADD`](dictionary/by-word.md#w-fmadd), [`FMSUB`](dictionary/by-word.md#w-fmsub), [`FNMADD`](dictionary/by-word.md#w-fnmadd), [`FNMSUB`](dictionary/by-word.md#w-fnmsub).
 
 **Operation**
 
@@ -3003,6 +3139,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMADD32`](dictionary/by-word.md#w-fmadd32), [`FMSUB32`](dictionary/by-word.md#w-fmsub32), [`FNMADD32`](dictionary/by-word.md#w-fnmadd32), [`FNMSUB32`](dictionary/by-word.md#w-fnmsub32).
+
 **Operation**
 
 ```
@@ -3044,6 +3182,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FNEG`](dictionary/by-word.md#w-fneg), [`FABS`](dictionary/by-word.md#w-fabs), [`FCOPYSIGN`](dictionary/by-word.md#w-fcopysign).
+
 **Operation**
 
 ```
@@ -3084,6 +3224,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 | `FMAX` | `010000 (0x10)` | `00100100 (0x24)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FMIN`](dictionary/by-word.md#w-fmin), [`FMAX`](dictionary/by-word.md#w-fmax).
 
 **Operation**
 
@@ -3128,6 +3270,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 | `FCLASS16` | `010000 (0x10)` | `01011100 (0x5C)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCLASS`](dictionary/by-word.md#w-fclass), [`FCLASS32`](dictionary/by-word.md#w-fclass32), [`FCLASS16`](dictionary/by-word.md#w-fclass16).
 
 **Operation**
 
@@ -3178,6 +3322,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 | `FRINTA` | `010000 (0x10)` | `00110100 (0x34)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FRINT`](dictionary/by-word.md#w-frint), [`FRINTZ`](dictionary/by-word.md#w-frintz), [`FRINTM`](dictionary/by-word.md#w-frintm), [`FRINTP`](dictionary/by-word.md#w-frintp), [`FRINTA`](dictionary/by-word.md#w-frinta).
 
 **Operation**
 
@@ -3234,6 +3380,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCVTDQ`](dictionary/by-word.md#w-fcvtdq), [`FCVTDQU`](dictionary/by-word.md#w-fcvtdqu), [`FCVTQD`](dictionary/by-word.md#w-fcvtqd), [`FCVTQUD`](dictionary/by-word.md#w-fcvtqud), [`FCVTDS`](dictionary/by-word.md#w-fcvtds), [`FCVTSD`](dictionary/by-word.md#w-fcvtsd), [`FCVTSL`](dictionary/by-word.md#w-fcvtsl), [`FCVTLS`](dictionary/by-word.md#w-fcvtls).
+
 **Operation**
 
 ```
@@ -3273,6 +3421,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 | `FSFLAGS` | `010000 (0x10)` | `01000000 (0x40)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FSFLAGS`](dictionary/by-word.md#w-fsflags).
 
 **Operation**
 
@@ -3330,6 +3480,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FADD16`](dictionary/by-word.md#w-fadd16), [`FSUB16`](dictionary/by-word.md#w-fsub16), [`FMUL16`](dictionary/by-word.md#w-fmul16), [`FDIV16`](dictionary/by-word.md#w-fdiv16), [`FSQRT16`](dictionary/by-word.md#w-fsqrt16), [`FCMP16`](dictionary/by-word.md#w-fcmp16), [`FMADD16`](dictionary/by-word.md#w-fmadd16), [`FMSUB16`](dictionary/by-word.md#w-fmsub16), [`FNMADD16`](dictionary/by-word.md#w-fnmadd16), [`FNMSUB16`](dictionary/by-word.md#w-fnmsub16).
+
 **Operation**
 
 ```
@@ -3379,6 +3531,8 @@ The chart is the layout `r20-fesc-1`, Floating point (FESC), two parcels (`len =
 | `FCVTLH` | `010000 (0x10)` | `01100101 (0x65)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-fesc-1`](dictionary/by-encoding.md#r20-fesc-1), [`r20-fesc-2`](dictionary/by-encoding.md#r20-fesc-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FCVTSH`](dictionary/by-word.md#w-fcvtsh), [`FCVTHS`](dictionary/by-word.md#w-fcvths), [`FCVTDH`](dictionary/by-word.md#w-fcvtdh), [`FCVTHD`](dictionary/by-word.md#w-fcvthd), [`FCVTHL`](dictionary/by-word.md#w-fcvthl), [`FCVTLH`](dictionary/by-word.md#w-fcvtlh).
 
 **Operation**
 
@@ -3431,6 +3585,8 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`CAS`](dictionary/by-word.md#w-cas), [`CASDB`](dictionary/by-word.md#w-casdb).
+
 **Operation**
 
 ```
@@ -3476,6 +3632,8 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SWAP`](dictionary/by-word.md#w-swap), [`SWAPDB`](dictionary/by-word.md#w-swapdb).
+
 **Operation**
 
 ```
@@ -3518,6 +3676,8 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 | `XADDDB` | `010001 (0x11)` | `00000101 (0x05)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XADD`](dictionary/by-word.md#w-xadd), [`XADDDB`](dictionary/by-word.md#w-xadddb).
 
 **Operation**
 
@@ -3567,6 +3727,8 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 | `XXORDB` | `010001 (0x11)` | `00001011 (0x0B)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XAND`](dictionary/by-word.md#w-xand), [`XANDDB`](dictionary/by-word.md#w-xanddb), [`XOR_`](dictionary/by-word.md#w-xor-), [`XOR_DB`](dictionary/by-word.md#w-xor-db), [`XXOR`](dictionary/by-word.md#w-xxor), [`XXORDB`](dictionary/by-word.md#w-xxordb).
 
 **Operation**
 
@@ -3622,6 +3784,8 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`XMAX`](dictionary/by-word.md#w-xmax), [`XMAXDB`](dictionary/by-word.md#w-xmaxdb), [`XMIN`](dictionary/by-word.md#w-xmin), [`XMINDB`](dictionary/by-word.md#w-xmindb), [`XMAXU`](dictionary/by-word.md#w-xmaxu), [`XMAXUDB`](dictionary/by-word.md#w-xmaxudb), [`XMINU`](dictionary/by-word.md#w-xminu), [`XMINUDB`](dictionary/by-word.md#w-xminudb).
+
 **Operation**
 
 ```
@@ -3665,6 +3829,8 @@ The chart is the layout `r20-atom-1`, Atomics (ATOM), two parcels (`len = 01`): 
 | `SC` | `010001 (0x11)` | `00100001 (0x21)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-atom-1`](dictionary/by-encoding.md#r20-atom-1), [`r20-atom-2`](dictionary/by-encoding.md#r20-atom-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`LL`](dictionary/by-word.md#w-ll), [`SC`](dictionary/by-word.md#w-sc).
 
 **Operation**
 
@@ -3721,6 +3887,8 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`NOP`](dictionary/by-word.md#w-nop), [`LPAD`](dictionary/by-word.md#w-lpad).
+
 **Operation**
 
 ```
@@ -3737,7 +3905,7 @@ nothing
 
 **Cf.** Appendix A, section A.1 (landing pads).
 
-**Status** specified; **not yet implemented** in the reference executor.
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 ### RTI: Return from interrupt or exception
@@ -3763,6 +3931,8 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 | `RTT` | `010100 (0x14)` | `0000 (0x0)` | `0010 (0x2)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RTI`](dictionary/by-word.md#w-rti), [`RTT`](dictionary/by-word.md#w-rtt).
 
 **Operation**
 
@@ -3806,6 +3976,8 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`RET`](dictionary/by-word.md#w-ret).
+
 **Operation**
 
 ```
@@ -3843,6 +4015,8 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`HALT`](dictionary/by-word.md#w-halt).
+
 **Operation**
 
 ```
@@ -3879,6 +4053,8 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 | `BPT` | `010100 (0x14)` | `0000 (0x0)` | `0101 (0x5)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`BPT`](dictionary/by-word.md#w-bpt).
 
 **Operation**
 
@@ -3921,6 +4097,8 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`FENCE`](dictionary/by-word.md#w-fence).
+
 **Operation**
 
 ```
@@ -3937,7 +4115,7 @@ Owed to devices (one `FENCE` separates writing a device's registers from setting
 
 **Cf.** 7.2 (the memory model), 2.2 (what the processor owes the bus).
 
-**Status** specified; **not yet implemented** in the reference executor.
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 ### WFE: Wait for an event
@@ -3961,6 +4139,8 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 | `WFE` | `010100 (0x14)` | `0000 (0x0)` | `0111 (0x7)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`WFE`](dictionary/by-word.md#w-wfe).
 
 **Operation**
 
@@ -4003,6 +4183,8 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SEV`](dictionary/by-word.md#w-sev).
+
 **Operation**
 
 ```
@@ -4017,7 +4199,7 @@ wake every core waiting in WFE
 
 **Cf.** 7.6.
 
-**Status** specified; **not yet implemented** in the reference executor.
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 ### TLBA: Invalidate all translations; wait for translation invalidations; invalidate the whole instruction cache
@@ -4046,6 +4228,8 @@ The chart is the layout `r20-sysn-0`, System, no operand, one parcel (`len = 00`
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysn-0`](dictionary/by-encoding.md#r20-sysn-0), [`r20-sysn-1`](dictionary/by-encoding.md#r20-sysn-1), [`r20-sysn-2`](dictionary/by-encoding.md#r20-sysn-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TLBIA`](dictionary/by-word.md#w-tlbia), [`TLBSYNC`](dictionary/by-word.md#w-tlbsync), [`ICINVA`](dictionary/by-word.md#w-icinva).
+
 **Operation**
 
 ```
@@ -4062,7 +4246,7 @@ ICINVA  : invalidate the whole instruction cache
 
 **Cf.** 7.5 (translation and instruction-cache coherence).
 
-**Status** implemented in the reference executor for `TLBIA`, `TLBSYNC`; not yet for the others.
+**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 ### PUSHX: Push and pop the exception state
@@ -4088,6 +4272,8 @@ The chart is the layout `r20-sysx-0`, System, SYSX, one parcel (`len = 00`): Cla
 | `POPX` | `010100 (0x14)` | `0000 (0x0)` | `1111 (0xF)` | `00000001 (0x01)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysx-0`](dictionary/by-encoding.md#r20-sysx-0), [`r20-sysx-1`](dictionary/by-encoding.md#r20-sysx-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PUSHX`](dictionary/by-word.md#w-pushx), [`POPX`](dictionary/by-word.md#w-popx).
 
 **Operation**
 
@@ -4131,6 +4317,8 @@ The chart is the layout `r20-sysx-0`, System, SYSX, one parcel (`len = 00`): Cla
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysx-0`](dictionary/by-encoding.md#r20-sysx-0), [`r20-sysx-1`](dictionary/by-encoding.md#r20-sysx-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ISYNC`](dictionary/by-word.md#w-isync).
+
 **Operation**
 
 ```
@@ -4172,6 +4360,8 @@ The chart is the layout `r20-sysx-0`, System, SYSX, one parcel (`len = 00`): Cla
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysx-0`](dictionary/by-encoding.md#r20-sysx-0), [`r20-sysx-1`](dictionary/by-encoding.md#r20-sysx-1).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`HINT`](dictionary/by-word.md#w-hint).
+
 **Operation**
 
 ```
@@ -4212,6 +4402,8 @@ The chart is the layout `r20-sysreg-0`, System registers (MFSR, MTSR), one parce
 | `MTSR` | `010100 (0x14)` | `0000 (0x0)` | `1110 (0xE)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sysreg-0`](dictionary/by-encoding.md#r20-sysreg-0), [`r20-sysreg-1`](dictionary/by-encoding.md#r20-sysreg-1).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MFSR`](dictionary/by-word.md#w-mfsr), [`MTSR`](dictionary/by-word.md#w-mtsr).
 
 **Operation**
 
@@ -4273,6 +4465,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTPS`](dictionary/by-word.md#w-mtps), [`MFPS`](dictionary/by-word.md#w-mfps).
+
 **Operation**
 
 ```
@@ -4310,6 +4504,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 | `SPL` | `010100 (0x14)` | `0011 (0x3)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`SPL`](dictionary/by-word.md#w-spl).
 
 **Operation**
 
@@ -4354,6 +4550,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2), [`r20-sys-1-3`](dictionary/by-encoding.md#r20-sys-1-3).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TRAP`](dictionary/by-word.md#w-trap), [`TRAPL`](dictionary/by-word.md#w-trapl).
+
 **Operation**
 
 ```
@@ -4395,6 +4593,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`TLBI`](dictionary/by-word.md#w-tlbi).
+
 **Operation**
 
 ```
@@ -4435,6 +4635,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 | `MFASID` | `010100 (0x14)` | `0111 (0x7)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTASID`](dictionary/by-word.md#w-mtasid), [`MFASID`](dictionary/by-word.md#w-mfasid).
 
 **Operation**
 
@@ -4480,6 +4682,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTDP`](dictionary/by-word.md#w-mtdp), [`MFDP`](dictionary/by-word.md#w-mfdp).
+
 **Operation**
 
 ```
@@ -4522,6 +4726,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MTDMW`](dictionary/by-word.md#w-mtdmw).
+
 **Operation**
 
 ```
@@ -4562,6 +4768,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 | `MFCPUID` | `010100 (0x14)` | `1011 (0xB)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`MFCPUID`](dictionary/by-word.md#w-mfcpuid).
 
 **Operation**
 
@@ -4604,6 +4812,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1`](dictionary/by-encoding.md#r20-sys-1), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
 
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`ICINV`](dictionary/by-word.md#w-icinv).
+
 **Operation**
 
 ```
@@ -4644,6 +4854,8 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 | `PROBEW` | `010100 (0x14)` | `1110 (0xE)` |
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-sys-0`](dictionary/by-encoding.md#r20-sys-0), [`r20-sys-1-2`](dictionary/by-encoding.md#r20-sys-1-2), [`r20-sys-2`](dictionary/by-encoding.md#r20-sys-2).
+
+**The chart of each word with its own bits filled in** ([the bit layout of every instruction word](dictionary/by-word.md)): [`PROBER`](dictionary/by-word.md#w-prober), [`PROBEW`](dictionary/by-word.md#w-probew).
 
 **Operation**
 
