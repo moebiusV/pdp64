@@ -44,7 +44,6 @@
 | 12, 13 | divide by zero, bus fault |
 | 14, 15 | landing-pad violation, breakpoint |
 | 16 to 31 | reserved |
-
 | 32 to 63 | interrupts (in the virt machine, 32 timer, 33 console input, 34 console output) |
 | 64 to 255 | reserved (the proposal assigns device interrupts here, vector 64 plus the slot) |
 | 256 + n | `TRAP #n` and `TRAPL #n`, n from 0 to 255 |
