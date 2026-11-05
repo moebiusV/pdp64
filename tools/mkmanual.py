@@ -270,7 +270,7 @@ def prose(e, field):
     t = e.get(field) if field != 'story' else D.STORY.get(e['id'], '')
     if MEMBER == 'r20' or e.get('only') or not t:
         return t
-    over = {'notes': ENCPROSE.NOTES, 'exc': ENCPROSE.EXC}.get(field, {})
+    over = {'notes': ENCPROSE.NOTES, 'exc': ENCPROSE.EXC, 'story': ENCPROSE.STORY}.get(field, {})
     if e['id'] in over:
         return over[e['id']]
     dr = []
