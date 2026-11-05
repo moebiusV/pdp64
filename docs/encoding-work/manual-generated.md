@@ -66,7 +66,7 @@ Nineteen entries (`tools/manual/isa_part4.py`, stories in `isa_stories_ext.py`).
 * The spelling of the deferred load: the proposal says `.S`, the grammar `.d`. The combination `.ud` is described as the composition of two qualifiers; the repository has no text for it.
 * AES and SHA: all semantics are the proposal's, to be checked against FIPS 197 and 180-4 (the proposal says so); the SHA-256 result is zero-extended there while every other 32-bit result is sign-extended; the register pair of the AES round is fixed by the proposal (any two registers, low half first) and by nothing else.
 * The placement of the operands of the atomics is still open in the ISA text; the manuals of pdp64/16 and /32 say that the grammars assume three registers (errata 87 (4)) and tag it (P).
-* The text under the entries that are common to the three CPUs is the text of pdp64/r20 with the sentences that state a layout of the original encoding left out (`tools/mkmanual.py --dropped` lists the entries) and 29 entries given a replacement note (`isa_enc.py`); a sentence that carried a meaning besides a layout may have been lost, and byte counts that differ between the CPUs are not stated.
+* The text under the entries that are common to the three CPUs is the text of pdp64/r20 with the sentences that state a layout of the original encoding left out (`tools/mkmanual.py --dropped` lists the entries) and 33 entries given a replacement note (`isa_enc.py`); a sentence that carried a meaning besides a layout may have been lost, and byte counts that differ between the CPUs are not stated.
 
 ## 6. Left for the hand-written text (`docs/manual-src/`, section 3.2 of `docs/manual-update-plan.md`)
 
