@@ -4,7 +4,7 @@
 
 **A PDF of the whole manual (the chapters, with every instruction, the reference tables and the appendices): [`book/pdp64-32.pdf`](../../../book/pdp64-32.pdf).**
 
-**This is the manual of the pdp64, a 64-bit architecture with SMP support designed to be efficient with in-order and out-of-order implementations: what it is, why, and how each part works.** It is the statement of the architecture, arranged to be read straight through; every instruction has its complete entry in chapter 9.
+**This is the manual of the pdp64, a 64-bit architecture with SMP support designed to be efficient with in-order and out-of-order implementations: what it is, why, and how each part works.** It is the statement of the architecture, arranged to be read straight through; every instruction has its complete entry in chapter 9. This manual describes pdp64/32, one of the three CPUs of the family; section 1.8 says how the three relate, and the [landing page](../00-index.md) links the three manuals.
 
 ## Contents
 
@@ -18,7 +18,7 @@
 8. [**Vector work, AI and array languages: the device route**](08-vectors.md): why there is no SIMD register file, and how neural-network inference and the array languages APL and K are served by memory-mapped devices.
 9. [**The instruction set**](09-isa.md): how the opcode space is divided, the properties and principles of the architecture, the registers, the format, the addressing modes, and each group of instructions.
 10. [**Conclusion: from FPGA to silicon**](10-conclusion.md): the FPGA plan, the transistor budget, the path to an OpenBSD you can log into, and what is still open.
-11. [**The instruction reference tables**](dictionary/index.md): the one-parcel second page, the assembler aliases, the architectural constants (status word, vectors, page-table entry, system registers, conditions), and the lists of the mnemonics and the opcodes. The entry for each instruction (syntax, encoding drawing, operation, flags, exceptions) is in chapter 9 in the section of its group, with the atomic instructions in section 7.12 and the system instructions in section 6.7.
+11. [**The instruction reference tables**](dictionary/index.md): the assembler aliases, the architectural constants (status word, vectors, page-table entry, system registers, conditions), and the lists of the mnemonics and the bit-layout chart of every leaf. The entry for each instruction (syntax, encoding drawing, operation, flags, exceptions) is in chapter 9 in the section of its group, with the atomic instructions in section 7.12 and the system instructions in section 6.7.
 12. [**Appendix A. Possible improvements not decided on**](appendix-a-improvements.md): ideas that nobody has turned into a decision, with their benefits and costs.
 13. [**Appendix B. Decisions pending**](appendix-b-decisions-pending.md): every open decision with its question, proposed answer, precedent, trade-offs and benefits.
 14. [**Appendix C. Glossary**](appendix-c-glossary.md): the manual's terms in one place, by architecture, kernel, devices and process.

@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**The pdp64 is a 64-bit successor to the PDP-11, designed to be as pleasant to program as the PDP-11 and the VAX-11 were, and as small to build as the PDP-11 was.** It is a little-endian machine with sixteen 64-bit registers, instructions of two, four or six bytes, and the PDP-11's addressing modes and branches, brought up to date with what fifty years of compilers and operating systems have shown to matter. It is a 64-bit machine that supports several cores from the start (symmetric multiprocessing, chapter 7), and it is designed to be efficient with in-order and out-of-order execution implementations (1.4.4). Sections 1.1 to 1.4 give the reasons for the machine, what made its ancestors good, and the principles the rest of the manual follows.
+**The pdp64 is a 64-bit successor to the PDP-11, designed to be as pleasant to program as the PDP-11 and the VAX-11 were, and as small to build as the PDP-11 was.** It is a little-endian machine with thirty-two 64-bit registers, instructions of two, four or six bytes, and the PDP-11's addressing modes and branches, brought up to date with what fifty years of compilers and operating systems have shown to matter. It is a 64-bit machine that supports several cores from the start (symmetric multiprocessing, chapter 7), and it is designed to be efficient with in-order and out-of-order execution implementations (1.4.4). Sections 1.1 to 1.4 give the reasons for the machine, what made its ancestors good, and the principles the rest of the manual follows; section 1.8 says how this CPU and the other CPUs of the family relate.
 
 ## 1.1 Why the machine exists
 
@@ -72,9 +72,9 @@
 
 **1.5.1** The machine is specified by machine-readable grammars; the assembler, linker, simulator, a compiler back end and the QEMU target are generated from or checked against them, so that the numbers cannot drift apart.
 
-**1.5.2** On 827 real source files that every compiler accepts, the first compiler's output, in code and data, is within 0.2% of `gcc -Os` and 6.5% smaller than `clang -Os` on amd64, using 1.19 and 1.10 times as many (shorter) instructions.
+**1.5.2** On 827 real source files that every compiler accepts, the first compiler's output, in code and data, is within 0.2% of `gcc -Os` and 6.5% smaller than `clang -Os` on amd64, using 1.19 and 1.10 times as many (shorter) instructions. That is the figure of the original CPU; the figures of this CPU are in 9.2.13 and appendix F.
 
-**1.5.3** 516 C test programs pass on the simulator and on QEMU.
+**1.5.3** The C test programs pass on the simulator for this CPU, 963 of 963 runs (programs under the flag sets of the harness); the six large programs (lz4, zlib, Lua and three cryptographic kernels) print exactly what the host build prints; QEMU does not yet execute this encoding.
 
 **1.5.4** The finish line before silicon is an assembler, a linker, an LLVM compiler back end, an emulator, and a port of OpenBSD that can be logged into with `ssh`. *(D)*
 
@@ -93,9 +93,9 @@
 | What differs | The figure | Where |
 |---|---|---|
 | The logic of a complete implementation, same company and era | the PDP-11's T-11, a full integer core, was about 12,000 transistors; the MicroVAX 78032, a subset of the VAX with no floating point, about 125,000 | 10.1, 10.2 |
-| What it takes to find where the next instruction starts | pdp64: two bits of the first parcel; PDP-11: both operand specifiers; x86: prefixes, opcode, ModR/M and SIB in sequence; VAX: every specifier in order | 9.4 |
+| What it takes to find where the next instruction starts | pdp64: a prefix of 3 to 16 bits of the first parcel; PDP-11: both operand specifiers; x86: prefixes, opcode, ModR/M and SIB in sequence; VAX: every specifier in order | 9.4 |
 | Whether flags block a faster implementation | 68.2% of compiled instructions wrote a flag and 1.5% read one, so the flag rules are set at a measured cost of 0.39% in code size | 9.3, 10.3 |
-| Size of compiled code | for the same 827 source files and the same compiler family, the pdp64 output is 0.86 times the size of its amd64 output, and 1.002 times `gcc -Os` | 1.5 |
+| Size of compiled code | on the 841-file corpus the output of the new compiler for this CPU is 11.04% smaller than the original CPU's | 1.5 |
 | System-call path, instructions in and out (paper estimates) | x86-64 Linux about 45 and 30; AArch64 about 60 and 45; RISC-V about 66 and 45; VAX about 11 and 8; m68k 6 and 8; pdp64 4 to 5 and 4 | 6.5 |
 | Lines of kernel code to start a second core | x86: 1,528 plus 1,258 of real-mode code; arm64: 124 or 127; RISC-V: 108 or 58; pdp64: one register write | 4.5, 7.8 |
 | Machine-dependent code in an OpenBSD port | riscv64 35,600 lines; arm64 61,613; amd64 79,167 | 10.4 |
@@ -111,3 +111,17 @@
 **1.7.2** Each section states its aphorisms first and its commentary after; the status tag *(D)* or *(P)* marks what is decided and what is proposed.
 
 *Commentary.* **Precedent.** The form follows the old commentary traditions, in which a short text can be read straight through and the discussion of each line sits beneath it; and the layout of the classic CPU manuals for the reference material, in which every instruction has a fixed entry. **Benefits.** A designer who wants only the architecture reads the aphorisms; one who wants the reasons reads on.
+
+## 1.8 The three CPUs
+
+**1.8.1** The pdp64 is an architecture with three CPUs, pdp64/r20, pdp64/16 and pdp64/32. They share the roles of the registers, the memory model, the exception mechanism, the page tables, the bus and the devices, the calling convention and the assembly language; they differ in how an instruction is encoded and in the size of the register file. *(D)*
+
+**1.8.2** pdp64/r20 is the original CPU: sixteen registers and an instruction whose first parcel is `len`, opcode, `reg` and `low`. pdp64/16 has sixteen registers and pdp64/32 has thirty-two, and both encode an instruction by a prefix code over the first parcel; pdp64/32 has 5-bit register fields in its one-parcel forms. This manual is the manual of pdp64/32. *(D)*
+
+**1.8.3** Each CPU has its own manual, because the CPUs are different, and all three are generated from one text, so that what is common is written once. The assembler selects the encoding (`-m pdp64/r20`, `-m pdp64/16`, `-m pdp64/32`), the object records it, and the linker refuses to link objects of different encodings. *(D)*
+
+**1.8.4** This CPU has 125 instruction entries (340 mnemonic words with the aliases): the 106 entries of the original CPU and 19 more for the 70 new words, the fused pairs, the selects, the checked arithmetic, `TRAPCC`, the deferred and user-qualified moves and the AES and SHA words, which the original CPU does not accept. *(D for the fused pairs, the selects, `MOVQL`, the checked arithmetic and `TRAPCC`; P for the rest, tagged in their entries)*
+
+The manuals of the family: [pdp64/r20](../pdp64-r20/00-index.md) and [pdp64/16](../pdp64-16/00-index.md); the landing page is [`docs/manual/`](../00-index.md).
+
+*Commentary.* **Precedent.** One architecture with more than one encoding is not new: AArch32 has the ARM and Thumb encodings and RISC-V a compressed extension; the PDP-11 family had many implementations of one instruction set. **Trade-offs.** Three manuals cost the reader a choice and the maintainers a generator; one manual with a line of availability on every instruction would have mixed three layouts on every page, and the author decided against it. **Benefits.** A reader of one manual meets only the encoding of that CPU; the bus, the kernel and the devices are the same text in all three. **Impact.** *Kernel:* the system architecture is common, so one kernel serves all three. *Compiler:* one back end with three targets (`ccom -m`), a different set of instructions on the original CPU. *Hardware:* the CPUs have different decoders and register files and the same programming model above the instruction set.
