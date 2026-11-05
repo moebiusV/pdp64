@@ -6,7 +6,9 @@
 
 ## 2.1 Q64 and the address space
 
-**2.1.1** Q64 is the system bus: the Q-bus of the PDP-11 widened to 64-bit data and a 40-bit physical address. *(D)*
+> **PCI Express.** Since errata 75 and 80 (2026-11-03) Q64 is PCI Express, backward compatible, with convenience and security circuitry added on top, and storage is NVMe and USB; the standard network, graphics and audio devices are virtio-net, virtio-gpu and virtio-snd over the virtio PCI Express transport (errata 79). Devices are enumerated by PCI Express configuration space and base-address registers and interrupt by MSI-X, which replace the slot numbers, the slot-derived vectors and the eight-register device rule of the statements below (errata 80, in outline). This chapter describes the programming model that the pdp64 keeps on top of PCI Express; its full rewrite waits for the author's answers to the remaining items of `decisions-pending.md` Part F. Statements keep their tags.
+
+**2.1.1** Q64 is the system bus: PCI Express, so that an ordinary PCI Express device works on it unchanged, with the programming model of the PDP-11 Q-bus (devices as memory locations in the one address space) widened to 64-bit data and a 40-bit physical address, and with convenience and security circuitry added. *(D)*
 
 **2.1.2** Devices live in the ordinary address space; the processor has no input or output instructions. *(D)*
 
@@ -14,7 +16,7 @@
 
 **2.1.4** Every page has a memory type: normal cached, normal uncached, device strongly ordered, or device weakly ordered. *(D)*
 
-**2.1.5** The detailed transactions of Q64 (widths, bursts, arbitration, timing) are unspecified; the proposal is to take AXI as the transport and to treat Q64 as the programming model on top of it. *(P)*
+**2.1.5** The transactions of Q64 are those of PCI Express; the circuitry the pdp64 adds is for convenience (overlays, helper registers) and security (the IOMMU, error and reset rules), and is measured against the list of pain points of `kernel-pain-points.md`. An extension is announced to a card, through a PCI Express extended capability, only if the card must take part in it; a mitigation that lives on the processor side is invisible to cards. *(D)* The detail of the extensions is not specified. *(S)*
 
 **2.1.6** The top bit of the 40-bit physical address (bit 39) selects the space (errata 60, the author's decision): set, the access goes to a device; clear, it goes to memory. Memory is then 512 GB and device space 512 GB, with one bit and no range comparison deciding where an access goes. This is the VAX's arrangement (below). *(D)*
 
@@ -99,4 +101,4 @@
 
 ## 2.7 Still open
 
-The bus chapter's open items, each with five options in the decisions document: the transport (R4), the interrupt controller and routing (R1), starting the other cores and inter-processor interrupts (R2, B2), coherence beyond four cores (R3), the register layout and descriptor details (R5; chapter 5), DMA addressing and protection (R6), errors raised by devices (R7), virtualization (R8), and whether to use `virtio` devices in the emulator to reach an OpenBSD login sooner (Q10 and the roadmap).
+The bus chapter's open items, each with five options in the decisions document: the interrupt controller and routing (R1), starting the other cores and inter-processor interrupts (R2, B2), coherence beyond four cores (R3), the register layout and descriptor details (R5; chapter 5), the detail of the IOMMU (its five recommendations are accepted, errata 85), errors raised by devices (R7), virtualization (R8), and whether to use `virtio` devices in the emulator to reach an OpenBSD login sooner (Q10 and the roadmap).

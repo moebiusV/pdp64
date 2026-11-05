@@ -6,6 +6,8 @@
 
 ## 4.1 What takes the place of a BIOS
 
+> **PCI Express.** Since errata 75 and 80 (2026-11-03) Q64 is PCI Express, backward compatible, with convenience and security circuitry added on top, and storage is NVMe and USB; the standard network, graphics and audio devices are virtio-net, virtio-gpu and virtio-snd over the virtio PCI Express transport (errata 79). Devices are enumerated by PCI Express configuration space and base-address registers and interrupt by MSI-X, which replace the slot numbers, the slot-derived vectors and the eight-register device rule of the statements below (errata 80, in outline). Where this chapter finds devices by slot, the boot ROM finds them by PCI Express enumeration; the full rewrite of the chapter waits for the author's answers to the remaining items of `decisions-pending.md` Part F. Statements keep their tags.
+
 **4.1.1** The pdp64's "BIOS" is the controller chip's boot ROM and its monitor. It brings up the machine, loads the first block, and offers a console monitor when nothing boots. It has no resident services and nothing is called after boot. *(P)*
 
 **4.1.2** The boot software is open source and part of the specification: the ROM and monitor, the first-block program, the second-stage loader and the boot tools. *(D)*

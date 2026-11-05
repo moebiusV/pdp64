@@ -166,4 +166,4 @@
 
 ## 7.13 Still open
 
-The transport and the bus's own atomics mapping (decision R4), the interrupt controller and routing (R1), starting the other cores (R2, B2), how coherence scales beyond four cores (R3), the wake rule of `WFE` (P1), and lock scaling above a few cores, which is a kernel design question the instruction set does not settle.
+The mapping of the bus's atomics onto PCI Express (the transport of decision R4 is settled by errata 80), the interrupt controller and routing (R1), starting the other cores (R2, B2), how coherence scales beyond four cores (R3), the wake rule of `WFE` (P1), and lock scaling above a few cores, which is a kernel design question the instruction set does not settle.
