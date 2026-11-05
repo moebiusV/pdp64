@@ -61,4 +61,3 @@ Lazy against eager binding, mandatory landing pads and whether imports are alway
 
 Lazy against eager binding, mandatory landing pads and whether imports are always called without a PLT stub beyond version 1 are open (section 9.16, decisions in appendix B).
 <!-- /member -->
-

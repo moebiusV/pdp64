@@ -18,7 +18,6 @@
 | **hot register** | one of the eight (in pdp64/32, sixteen) most-used registers, which a 3-bit (4-bit) register field of a one-parcel form names by an index into a table; the tables are part of the ABI (9.4, appendix D) |
 | **fused instruction** | `MOVCALL`, `POPRET`, `POPMRET` or `MOV2`: one instruction for a pair that the compiler finds adjacent (9.10) |
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default (9.5) |
-
 | **`CBCC`** | compare-immediate-and-branch on condition, the one fused compare and branch (9.10) |
 | **`RORI32`** | rotate right by an immediate, 32-bit, sign-extended result |
 | **`SOB`** | subtract one and branch, either direction (9.10) |

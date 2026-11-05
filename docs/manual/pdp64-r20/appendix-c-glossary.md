@@ -15,7 +15,6 @@
 | **page 1, page 2** | the two opcode maps. Page 1 has 64 top-level opcodes, 58 assigned; page 2 (`len = 11`) has 64 one-parcel entries, 45 defined, each an exact abbreviation of a page-1 instruction (9.1) |
 | **top-level opcode** | the six bits that select an instruction group; reserved for an operation whose common case is register-to-register (9.1) |
 | **escape opcode** | a top-level opcode that selects a group by a sub-opcode: `BESC` (bits, `0x0C`), `MBLK` (block memory, `0x0D`), `AESC` (arithmetic, `0x0E`), `MESC` (unaligned and memory ALU, `0x0F`), `FESC` (floating point, `0x10`), `ATOM` (atomics, `0x11`), `XFER` (indirect transfers, `0x12`), `SOP` (single operand, `0x13`), `SYS` (system, `0x14`), `TAGOP` (tag branch, `0x15`) |
-
 | **`CBCC`** | compare-immediate-and-branch on condition, opcode `0x28`, the one fused compare and branch (9.10) |
 | **`RORI32`** | rotate right by an immediate, 32-bit, sign-extended result, a `BESC` sub-opcode |
 | **`SOB`** | subtract one and branch, either direction (9.10) |

@@ -26,7 +26,6 @@
 | **fused instruction** | `MOVCALL`, `POPRET`, `POPMRET` or `MOV2`: one instruction for a pair that the compiler finds adjacent (9.10) |
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default (9.5) |
 <!-- /member -->
-
 | **`CBCC`** | compare-immediate-and-branch on condition[[r20: , opcode `0x28`]], the one fused compare and branch (9.10) |
 | **`RORI32`** | rotate right by an immediate, 32-bit, sign-extended result[[r20: , a `BESC` sub-opcode]] |
 | **`SOB`** | subtract one and branch, either direction (9.10) |
