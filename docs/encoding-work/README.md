@@ -49,3 +49,4 @@ branched from phase 2, `enc-ld` and `enc-tm` from phase 2 before the grammar mig
 | `-xssa` might be worth turning on | phase 3 | pcc2.md | correct since a fix in `pp_avail`, but +3 to 5% cycles on both: off |
 | pdp64/32 is on par with /16 in fetched bytes (+0.01% in phase 2, +1.4% in the first cbCC measurement) | phase 2, cbreach.md | cbreach.md, integration.md | +3.3% executed bytes and size; -5.9% executed instructions |
 | `ccp` folded an int against an unsigned constant wrongly (c-testsuite 00104) | pcc2.md | integration (a fix in pcc `enc-prefix`) | fixed, test `ccp_signedness` |
+* [manual-generated.md](manual-generated.md): the generated parts of the three manuals (charts from the grammars, the entries of the 70 new words, what is left for the hand-written text).

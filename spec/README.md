@@ -142,3 +142,8 @@ reach of the 20-bit field counted in parcels).  Objects made with `--no-relax` a
 laid them out.  Details, the argument that it ends and is right, what it cannot do, the checks and the measurements: `docs/relaxation.md`.
 
 Not part of this phase: the simulator.
+
+
+## The manual's charts
+
+`spec/pdp64-layout.hbnf` names the fields of pdp64/r20 for the bit-layout charts of the manual (what `reg` and `low` are for in each class of instruction); the fields themselves are the bit rules of `spec/pdp64.hbnf.in`. The charts of pdp64/16 and pdp64/32 need nothing beyond their grammars. `tools/mkmanual.py` draws them (`tools/manual/layouts.py`); a change to a field in a grammar changes the chart, and `tools/mkmanual.py --check` fails until the manuals are regenerated.
