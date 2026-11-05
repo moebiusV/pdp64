@@ -58,6 +58,8 @@
 
 **B.1.9.1** The question is how to guarantee that instruction time does not depend on operand values; the proposal is a core set of instructions that is always constant-time plus a mode bit that extends the promise to divide, `MSCN`, `MCMP` and floating point. *(P)*
 
+**B.1.9.2** Closed in part: the branch-free select is adopted, at least one secure core has every timing channel removed (all instructions and cache fetches take fixed time, no periodic tick), and on that core each instruction takes a time independent of its data, with no ticks or timing interrupts introduced to achieve it (errata 85, 86; `docs/crypto-secure-core.md`); the mode bit of the proposal above is superseded for the secure core. *(D)*
+
 *Commentary.* **Trade-offs.** Making all integer instructions constant-time would cost about 1% on average by a rough estimate, because divide is only 0.04% of compiled instructions (149 of 370,115; multiply costs nothing, since a fixed-latency multiplier needs less logic than one with an early-out); the mode bit keeps fast paths for ordinary code. A constant-time instruction does not make code constant-time: a secret-dependent branch or table index still leaks through the predictor and the cache. **Precedent.** Neither ancestor addressed it; the PDP-11's multiply and divide were microcoded with operand-dependent times. **Modern comparables.** Arm's `DIT` bit, Intel's data-operand-independent timing mode, RISC-V's scalar-crypto timing subset. **Use.** Cryptography on secret keys. The performance cost of those modes is not established. **Impact.** *Kernel:* Crypto code sets the mode around secret-dependent work. *Compiler:* The back end must not turn a constant-time sequence into a variable-time one. *Hardware:* The core set costs nothing; the mode bit needs the fast paths of divide and the scanners to be gateable.
 
 ### B.1.10 The literal pool and execute-only code (P18)
@@ -92,6 +94,8 @@
 
 **B.2.3.1** The proposals are to add neither: the evidence for a 128-bit compare-and-swap is one Linux use (software can tag a pointer with the 25 spare bits instead), and random numbers come from an entropy device on the bus rather than an instruction. *(P)*
 
+**B.2.3.2** The random-number pool is one device shared by all cores, with no per-process pool, no version register and no updatable firmware; it assists the operating system's own generator (errata 85). *(D)*
+
 *Commentary.* **Precedent.** The VAX solved the lock-free queue with whole-queue interlocked instructions; no machine of the period had a random-number instruction. **Modern comparables.** x86 `CMPXCHG16B`, AArch64 `CASP`, RISC-V `AMOCAS.Q`; x86 `RDRAND` and `RDSEED`, PowerPC `DARN`, s390 `PRNO`, AArch64 `RNDR`. **Impact.** *Kernel:* Entropy from a device at boot. *Compiler:* Tagged pointers in software if a double-width compare-and-swap is not wanted. *Hardware:* An entropy source device; no new opcode.
 
 ### B.2.4 The interrupt controller and routing to cores (R1)
@@ -108,13 +112,13 @@
 
 ### B.2.6 How coherence scales (R3)
 
-**B.2.6.1** The proposal is to keep snooping for two to four cores and to record the ceiling. *(P)*
+**B.2.6.1** The proposal is to keep snooping for the four cores of the first device; the ceiling is now sixteen or more (errata 92), and the protocol for that many is open (7.7.4). *(P)*
 
 *Commentary.* **Trade-offs.** Directory protocols scale and are large; software coherence is cheap and fragile. **Modern comparables.** x86's snoop filters and directories across sockets, ARM's coherent interconnects. **Impact.** *Kernel:* Cache coherence is invisible to the kernel. *Compiler:* None. *Hardware:* Snooping on two to four cores.
 
 ### B.2.7 The bus transport (R4)
 
-**B.2.7.1** The proposal is AXI as the transport, with Q64 as the model of ordering, memory types and the hand-off on top. *(P)*
+**B.2.7.1** Closed: the transport is PCI Express, with the pdp64's convenience and security circuitry on top (errata 75, 80). *(D)*
 
 *Commentary.* **Trade-offs.** It saves a bridge and makes the atomics a monitor naturally, and the Unibus's lock is no longer a native transaction. **Modern comparables.** ARM's AMBA, RISC-V's TileLink or AXI, FPGA systems on AXI throughout. **Impact.** *Kernel:* None. *Compiler:* None. *Hardware:* The bridge to AXI is not needed if AXI is the transport.
 
@@ -126,7 +130,7 @@
 
 ### B.2.9 DMA addressing and protection (R6)
 
-**B.2.9.1** The proposal is no translation unit: every device must be able to address all 40 bits of physical memory. *(P)*
+**B.2.9.1** Superseded: an IOMMU is part of the design and its five recommendations are accepted (errata 75, 85); bits 40 to 63 of its leaf are free. *(D)*
 
 *Commentary.* **Precedent.** The Unibus carried only 18 address bits, so the VAX and the larger PDP-11s had map registers that translated device addresses, in effect a simple translation unit for necessity. **Trade-offs.** No protection from a faulty or malicious device; a translation unit matters when virtualisation or untrusted devices do. **Modern comparables.** x86 VT-d, ARM SMMU, the RISC-V IOMMU; Linux's bounce buffers for limited devices. **Impact.** *Kernel:* A driver passes physical addresses. *Compiler:* None. *Hardware:* No translation unit for devices.
 
@@ -156,6 +160,6 @@
 
 ### B.2.14 How USB attaches, and virtio first
 
-**B.2.14.1** The question is whether USB is a controller that shows each attached device as a bus slot, or a conventional ring-based host controller driven by an existing operating-system USB stack; and whether the emulator uses `virtio` devices first to reach an OpenBSD login sooner. *(P)*
+**B.2.14.1** Closed: USB is a standard PCI Express device with an existing operating-system stack, and virtio-net, virtio-gpu and virtio-snd are the standard network, graphics and audio interfaces (errata 75, 79). *(D)* The question was whether USB is a controller that shows each attached device as a bus slot, or a conventional ring-based host controller driven by an existing operating-system USB stack; and whether the emulator uses `virtio` devices first to reach an OpenBSD login sooner.
 
 *Commentary.* **Trade-offs.** Per-slot USB moves the protocol into the controller chip and takes the stack out of the operating system; the conventional controller uses code that already exists. `virtio` reuses OpenBSD's existing drivers in the emulator and defers the project's own eight-register devices to silicon; it gets to `ssh` faster and puts native devices later. **Modern comparables.** xHCI for the conventional controller; `virtio-mmio` on every emulated RISC-V and ARM board. **Impact.** *Kernel:* A disk driver serves a USB disk; virtio reuses the existing drivers. *Compiler:* None. *Hardware:* USB protocol in the controller costs gates; virtio costs nothing for the emulator.

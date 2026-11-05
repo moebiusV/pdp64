@@ -27,12 +27,15 @@ and `tools/check-as64.sh` assembles `tests/asm/*.s` and compares the bytes with 
   `cmp` is the exception, `cmp rd, src`, because the encoding computes `rd - src`.
 - **Compare and branch.** `cbCC rd, #imm, label` compares `rd` with a 5-bit signed immediate (-16 to 15) and branches on the condition: `cbeq r3, #5, label`. The mnemonics are `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group (ISA §4.4.1). With a register as the second operand, `cbCC ra, rb, label` compares two registers (`cbeq r1, r2, label`, ISA §4.4.1), in four bytes or, beyond 4 KB, six.
   `rori32 rs, #n, rd` rotates the low 32 bits right and sign-extends the result (ISA §4.6). The immediate of `cbCC` may be up to 16 bits (`cbeq r3, #255, label`); the assembler chooses the four-byte, the wide or the long encoding, and refuses a wide immediate whose target is more than 64 KB away (ISA §4.4.1).
+
 - **Literal pool: `=expr`.** An operand written with a leading `=` is syntactic sugar for a pooled constant and has no other meaning: `movq =0x123456789ABC, r1` puts the 64-bit value in the literal pool and loads it with
   one PC-relative `movq`. It is accepted where a quad memory source is (`movq`, `push`, the ALU group with the register first for `cmp`: `cmp rd, =K`, and the floating-point ALU ops), and refused for sized moves, shifts, stores,
   `lea` and a relocatable symbol. `=` always pools, even a small value; use `#imm` for a constant that fits the signed 32-bit field. A bare `#K` that does not fit that field is an error ("use =K to load it from the literal pool"):
   the assembler never pools silently. Entries are 8 bytes, 8-byte aligned, one per distinct value per pool, in order of first use, emitted into `.text` at the end of the section or at the directive **`.pool`** (flush now; code must
   jump over a mid-section pool). The `=` marks the sugar on the page, which is why it is allowed.
 - **Length.** The assembler chooses the shortest encoding, including the one-parcel forms of page 2 (ISA §4.18); those forms have no mnemonics of their own, so `movq (r3), r1` assembles to the one-parcel form when it fits and to the long form when it does not.
+
+- **Invocation.** `as64 -m pdp64/r20|pdp64/16|pdp64/32 [-o obj] file.s`: `-m` selects the encoding (the default is `pdp64/r20`; `r20`, `16`, `32` and `old` are accepted) and the object records it in its `e_flags`; `ld64 [-M] [-o out] objects...` refuses to link objects of different encodings.
 
 - **`llvm-mc`.** The LLVM back end's assembler (`llvm/`, ISA-checked against `as64` by `llvm/check.sh`) accepts this syntax with these exceptions: no literal pool (`=K` and `.pool`), no names that start with a digit, no non-ASCII names, and `.comm` needs its alignment written (`as64` implies 8). `(pc)` and `(dp)` without a displacement are accepted by `as64` (displacement 0) and by `llvm-mc`.
 - **Object format.** ELF64, little-endian, `e_machine` 0xF064 (`EM_PDP64`); relocations `R_PDP64_D64`, `R_PDP64_D32`, `R_PDP64_INSN_ABS`, `R_PDP64_INSN_PC`, `R_PDP64_INSN_BR` (`as64/relocs.h`; LLVM: `ELFRelocs/PDP64.def`).

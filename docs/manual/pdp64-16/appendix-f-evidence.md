@@ -36,5 +36,55 @@
 | [`hardware-vulnerabilities.md`](../../hardware-vulnerabilities.md) | the processor, memory and system flaws of the last decade that needed mitigations, and the rules that keep pdp64 from repeating them, including the evidence on constant-time modes |
 | [`openbsd-mitigations.md`](../../openbsd-mitigations.md) | OpenBSD's memory-safety and exploit mitigations, what pdp64 gives for free and what would make the rest soft and easy |
 | [`sim64.md`](../../sim64.md) | the reference emulator |
+| [`smp-decisions.md`](../../smp-decisions.md) | the open symmetric-multiprocessing decisions, proposals awaiting the author's annotations (tag P) |
+| [`crypto-secure-core.md`](../../crypto-secure-core.md), [`security-proposals.md`](../../security-proposals.md), [`study-proposals.md`](../../study-proposals.md), [`retire-stage-candidates.md`](../../retire-stage-candidates.md) | the proposals on the secure core, the security mechanisms, the studied instructions and the retire-stage mechanisms, with the author's replies in errata 84 to 86 |
+| [`priority-lists.md`](../../priority-lists.md) | the lists of priorities that errata 83 settled |
 
 The data behind the tables is in `docs/codegen-data/`, the generators are in `tools/`, and the sources of the design discussions are `chat01.txt` and the archive of the working session.
+
+## F.4 The prefix-coded encoding: the measurements
+
+**F.4.1** The encoding, the compiler, the assembler, the linker, the simulator and the timing model were built and measured together; the sources of the numbers below are [`encoding-proposal.md`](../../encoding-proposal.md) (the study, sections 6 and 12) and [`encoding-work/integration.md`](../../encoding-work/integration.md) (section 4 is the final table, made on the integrated tree), with the reports of each phase in [`encoding-work/`](../../encoding-work/README.md). The baseline is the original CPU with the compiler as it was before the work. There is no baseline of the original CPU with the new compiler: several of the compiler's passes use instructions only the prefix-coded encodings have. Relaxation is on by default; the model of timing is an in-order toy with ideal memory (128 exact checks of its own pipeline), not hardware.
+
+**F.4.2** The static size on the 841-file corpus (instruction bytes from `as64 --stats`):
+
+| | pdp64/r20, old compiler | this CPU, new compiler |
+|---|---:|---:|
+| instruction bytes | 1,083,870 | 934,470 (-13.78%) |
+| without `memcpy-a2.c` (27% of the bytes) | 785,836 | 676,354 (-13.93%) |
+| instructions | 338,313 | 300,821 |
+| fused pairs (`MOVCALL`, `POPMRET`, `POPRET`, `MOV2`) | 0 | 10,757, 2,246, 2,609, 4,049 = 19,661 |
+| `CBCC` replaced by `CMP` and `BCC` | 0 | 0 |
+| text of the objects (840 files, before linking) | 1,305,878 | 1,167,388 |
+| the same linked with relaxation | not applicable | 1,122,322 (-3.86% against unrelaxed) |
+
+Relaxation shortens the text of the objects by 45,066 bytes: external calls 20,333 sites (40,666 bytes), data `LEA` 12,787 sites (1,802), pc-relative loads (1,588), `JMP` to another section (718), branches (266). The corpus stub places the symbols right behind each file, so the saving is an upper bound for the reach of the 4-byte call.
+
+**F.4.3** Six large programs (lz4, zlib, Lua and three BearSSL kernels, linked with a stand-in C library, run on the simulator; all print exactly the host's output on all three CPUs), totals:
+
+| | pdp64/r20, old compiler | this CPU, new compiler |
+|---|---:|---:|
+| instructions executed | 755,816,022 | 609,755,229 (-19.32%) |
+| bytes fetched | 2,365,226,284 | 1,633,050,156 (-30.96%) |
+| bytes per instruction | 3.129 | 2.678 |
+| linked text (relaxed) | 226,606 | 196,772 (-13.17%) |
+| fused instructions executed | 0 | 10,079,611 |
+| frame loads and stores executed | 68,936,548 | 65,203,703 (-5.41%) |
+
+Linking the same objects with `--no-relax` instead of the default makes the linked text 1.73% larger and changes the bytes executed by 0.4%.
+
+**F.4.4** The timing model (in order, ideal memory, no branch predictor; issue width 1 or 2, fetch window W bytes a cycle; the prefix-coded CPUs pay one cycle of length-decode latency on a taken branch and a refill), all six programs summed:
+
+| model | pdp64/r20, old compiler | this CPU, new compiler |
+|---|---:|---:|
+| issue 1, W = 4: cycles | 1,133,787,653 | 914,840,325 (-19.31%) |
+| issue 2, W = 4: cycles | 1,001,691,461 | 789,767,576 (-21.16%) |
+| issue 1, W = 2: cycles | 1,305,661,982 | 1,007,176,894 (-22.86%) |
+| issue 1, W = 4: fetch-wait, execute-wait (share of cycles) | 1.7%, 31.6% | 5.5%, 27.9% |
+
+At four bytes a cycle and above the programs are bound by execution and not by fetch (widening the fetch from 4 to 16 bytes a cycle takes 0.5% off the cycles at issue width 1); the saving in cycles is the saving in instructions, and the saving in bytes buys nothing at those widths. By program (issue 1, W = 4, against pdp64/r20): lz4 +1.3%, zlib -5.9%, Lua -45.4%, bs_hash -2.1%, bs_sym -1.2%, bs_ec -23.6%. The gain on Lua is the switch dispatch of the new compiler, not the encoding.
+
+**F.4.5** The predictions of the study against the final measurement: the model of the study put the corpus at 1,013,598 bytes (-6.48%) and, with the four fused pairs, 979,192 (-9.66%); the measurement is 934,470, because the model measured the old compiler's code and the compiler now fuses, reuses values, tail-calls, builds jump tables and scales indexes, and the grammar was re-optimised on the new compiler's output. The study put relaxation at 9% of the corpus text and a first measurement at 3.5%; the final measurement is 3.86%.
+
+**F.4.6** What these measurements do not establish: the timing is one sweep of an in-order model with ideal memory; the cache variants were not re-run on the final compiler; the 3-parcel `CBCC` and the other form choices were trained on the corpus and not on the six programs, so a profile-tuned variant was not tried; one corpus file does not link in the stub measurement (a 64-bit constant used as a displacement); the compiler does not use `MOVUW`, `MOVUL`, `MOVUQ` (the unaligned-access idiom is 10% of the instructions of lz4), `MULH`-based division by 64-bit constants, loop-invariant motion or live-range splitting; QEMU does not execute this encoding; the atomics, a number of cryptographic words, `MVAL`, `UTF8DEC` and `UTF8ENC` are not implemented in the reference executor.
+

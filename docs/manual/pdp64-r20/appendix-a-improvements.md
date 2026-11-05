@@ -8,11 +8,15 @@
 
 **A.1.1** The `LPAD` instruction marks a legal target of an indirect jump or call; a page bit could make the hardware fault when an indirect transfer lands anywhere else, with enforcement off in ABI version 1 and on from version 2.
 
+**A.1.2** A page bit that gates landing pads is approved, with the fault attributed to the branch, to be specified (errata 84, item 5). *(D)*
+
 *Commentary.* **Precedent.** `LPAD` already exists, and the ABI leaves landing pads off in version 1, with no switch to enforce them. **Trade-offs.** The bit costs one comparator and two bytes per address-taken function, and deciding later gets more expensive because every binary built in the meantime lacks the pads. **Benefits.** It blocks jump-oriented attacks at the transfer, with no recovery code beyond the fault handler that already exists. **Modern comparables.** Intel's indirect-branch tracking and ARM's branch target identification, both of which OpenBSD enforces by default where the hardware has them. **Impact.** *Kernel:* A landing-pad violation is a fault the handler already handles; the kernel sets the page bit at exec time. *Compiler:* The compiler emits `LPAD` at every address-taken function, two bytes each. *Hardware:* One page bit and one comparator on an indirect-transfer target.
 
 ## A.2 A page bit that says a system call may be made from here
 
 **A.2.1** A page-table bit could let the hardware refuse a system call from any page not so marked, so that the kernel's check of where a call came from moves into the instruction.
+
+**A.2.2** A page bit for system-call entry (the `SYS` page bit) is approved, to be specified (errata 84, item 8). *(D)*
 
 *Commentary.* **Precedent.** OpenBSD's `msyscall` and `pinsyscalls` restrict where system calls may be issued from. **Trade-offs.** One bit and one gate; the kernel would no longer need to check the origin on every call. **Benefits.** About four instructions removed from every system call, and region pinning with no hot-path check. **Modern comparables.** No architecture surveyed has this bit; it is done by the kernel in software. **Impact.** *Kernel:* The kernel no longer checks where a system call came from on every call, which removes about four instructions from each. *Compiler:* None. *Hardware:* One page bit and one gate at the `TRAP` decode.
 
@@ -20,17 +24,23 @@
 
 **A.3.1** The hardware could check that the stack pointer lies in a region registered as a stack when a system call or a fault is taken.
 
+**A.3.2** A stack-limit register is approved, to be specified (errata 84, item 4). *(D)*
+
 *Commentary.* **Precedent.** OpenBSD checks the stack pointer against a `MAP_STACK` region on system calls and faults. **Trade-offs.** It adds a comparison to entry, which is the path the design most wants short, and gives no benefit over the kernel making the same check. **Verdict.** Not recommended; recorded because the question is natural. **Impact.** *Kernel:* None over the check the kernel already makes. *Compiler:* None. *Hardware:* A comparator and a region register on the entry path, which is the path the design most wants short.
 
 ## A.4 Protecting the return address
 
 **A.4.1** The return address lives on the data stack, because `CALL` pushes it and there is no link register; there are four ways to protect it: software canaries and OpenBSD's return-address protection in the compiler, a hardware return stack, a shadow stack, and nothing.
 
+**A.4.2** The mirror shadow stack is approved with its recommendations (errata 85, study item 6); return-address authentication is deferred (errata 84, item 7). *(D)*
+
 *Commentary.* **Precedent.** x86 has the same exposure and uses stack canaries, `retguard` in OpenBSD's clang, and the shadow stacks of Intel's control-flow enforcement; ARM has pointer authentication. **Trade-offs.** A shadow stack is the strongest and brings the most recovery code (a second stack to overflow, switch and unwind), so the analysis does not recommend it by default; software detection costs a few instructions per function and no hardware. **Benefits.** Detection with little or no recovery code. **Verdict.** Start with the compiler; consider a hardware mechanism only if code size allows. **Impact.** *Kernel:* A shadow stack is a second stack for the kernel to manage and unwind; software detection needs only a fault handler. *Compiler:* The compiler adds a canary or a return-address check per function. *Hardware:* Software costs nothing; a hardware return stack or a shadow stack costs a second stack structure and its control.
 
 ## A.5 Tag or key bits in pointers
 
 **A.5.1** The 25 spare bits of a 64-bit pointer (a 39-bit virtual address uses the rest) could carry a tag or a key, as a memory-tagging or pointer-authentication scheme does.
+
+**A.5.2** Full 128-bit CHERI is rejected, and a valid-pointer tag per register and per 8-byte word (stage 1) is kept, with bounds deferred (errata 86, study item 3); granule colouring and reserved colours for uninitialised and freed memory are approved, to be specified, and spend pointer bits that the canonical-address rule refuses to software, so that rule must be restated (errata 84, open). *(D)*
 
 *Commentary.* **Precedent.** ARM's top-byte-ignore, pointer authentication and memory tagging. **Trade-offs.** The cost is canonical-address rules: pointers must be masked before use, and the hardware must define what a tagged pointer does. **Verdict.** No threat that the operating system asked for requires it; it costs gates and state, so it is not recommended. **Impact.** *Kernel:* The kernel would have to define what a tagged pointer means across the user and kernel boundary. *Compiler:* Every pointer use needs masking, and pointer arithmetic must preserve tags. *Hardware:* Gates and state in the address path.
 
