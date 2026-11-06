@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # Roadmap: from here to an OpenBSD you can ssh into
 
 [← pdp64 index](../README.md)
@@ -112,3 +113,5 @@ The emulators answer whether a feature works. Whether it is worth its cost is an
 * The OpenBSD userland build may assume a native or an established cross build; bootstrapping a new architecture involves a cross-compiled first userland *(not confirmed in the sources read)*. The first step of R5 should be to read OpenBSD's cross-build procedure.
 * Entropy and time for `sshd` in the emulator: the emulator can feed a seed and a clock; the real boards need the entropy device (P9).
 * Virtio first, eight registers later is a real trade-off: virtio gets to ssh faster (existing drivers) and the eight-register devices are the architecture's own design (principles 1 and 2: simple, small drivers). Decision R3 above takes the fast route for the emulator and keeps the native devices for silicon; it is a proposal.
+
+<!-- {% endraw %} -->

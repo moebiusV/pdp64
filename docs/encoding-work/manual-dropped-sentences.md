@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # The sentences of the instruction entries that were changed for pdp64/16 and pdp64/32
 
 [← encoding work](README.md)
@@ -418,3 +419,5 @@ pdp64/16 and /32: In the original encoding `TRAPL` existed so that the vector ra
 pdp64/r20: `DP` descends from the 6502's zero page and is kept for code density (a 12-bit displacement in four bytes); it is also the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants (7.4). `MTDP` and `MFDP` read and write the current mode's copy.
 
 pdp64/16 and /32: `DP` descends from the 6502's zero page and is kept for code density (a short displacement from `DP`); it is also the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants (7.4). `MTDP` and `MFDP` read and write the current mode's copy.
+
+<!-- {% endraw %} -->

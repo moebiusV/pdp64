@@ -1,3 +1,4 @@
+<!-- {% raw %} -->
 # The book form of the manual
 
 [← pdp64 index](../README.md)
@@ -19,3 +20,5 @@ Needs `buildabook` (on `PATH`, in `$BUILDABOOK`, or at `../buildabook/buildabook
 | `build-r20/`, `build-16/`, `build-32/` | intermediate files (not tracked): the chapter files, the file map, buildabook's `rendered/book.typ` and `number_map.csv` |
 
 `tools/mkchapters.py` prepares the chapter files, because the Markdown of the manual is written for the web: each heading becomes `{{c:id01001}} — Title` (buildabook supplies the number), links between the pages become plain text, links to other files of the repository become GitHub links, and HTML comments are removed. It also checks the number in each source heading (`# 6. The kernel`, `# Appendix B. ...`) against buildabook's own number map and fails if they disagree, because the section numbers inside the text (6.7, 7.12) are literal. `tools/mkbook.sh --check` runs only the checks and is part of `tools/check-all.sh` (it is skipped where buildabook is not installed).
+
+<!-- {% endraw %} -->
