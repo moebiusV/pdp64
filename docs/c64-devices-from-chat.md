@@ -142,3 +142,7 @@ The later chat (lines 6029-7140) changed the base the above sits on. Recorded so
 | Three-operand `draw` blitter | `BLT64`, a bitblt engine with raster ops (r13, line 6546; the author did not discuss it) |
 | Zynq UltraScale+, devices first with an emulated CPU | DE10-Nano first, CPU first (the ISA chat's FPGA plan) |
 | 200-300 MHz | 50-80 MHz on the Cyclone V, 180-250 MHz on UltraScale+ (the later chat calls the 250 MHz figure optimistic) |
+
+## 8. A historical link between Commodore and DEC (found 2026-11-07)
+
+The author found a link between the C64's makers and DEC: Ira Velinsky, "Commodore's amazing industrial designer" (https://www.commodore.ca/commodore-history/ira-velinsky-commodores-amazing-industrial-designer/, read 2026-11-07). The article says that he "sharpened his teeth at Digital Equipment Corporation", where he "challenged the company's beige box status quo", and that "His work at DEC caught the attention of Commodore's upper management". It credits him with the DEC Rainbow 100 (1981) and, at Commodore, with a modified C64 "breadbox" case, the CBM-II, the PET SK series, the Ultimax, an early 1541 case, the Commodore 116, the Plus/4, the 1531 Datassette and the Commodore 900 (a UNIX workstation). He followed Jack Tramiel to Atari in 1984 and died in late 2001. The article gives no years for his time at DEC and claims no influence of DEC designs on Commodore's; the link is the person. It does not credit him with the PET, the VIC-20 or the C128.
