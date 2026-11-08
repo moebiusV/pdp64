@@ -154,3 +154,19 @@ The later chat (lines 6029-7140) changed the base the above sits on. Recorded so
 **Evidence still wanted.**
 * The author's list of the C64/PDP-11 similarities, in his words, each to be marked as sourced or as his observation. The repository so far records resemblances that are the author's own design choices (the C64 I/O block inside the PDP-11 APR6 page, the 8502 island, `DP` as the descendant of 6502 zero page) and PDP-11 features the pdp64 inherits (autoincrement, devices as memory locations, no I/O instructions); neither kind is evidence of a historical link by itself.
 * Further names, in either direction, of people who moved between the two companies.
+
+### 8.1 Candidate similarities between the C64 and the PDP-11, for the author's annotation
+
+Compiled 2026-11-07 from the repository's own documents. Each is a candidate, not a finding: the *Source* column says where the repository records it, and the *Kind* column says whether it is a resemblance the repository records as already existing (**shared**), a feature the pdp64 takes from one side (**inherited**) or something the author chose to join (**chosen**). The author marks each *real* or *not*; none enters the manual until he does.
+
+| # | Candidate | Kind | Source |
+|---|---|---|---|
+| 1 | Devices are a few memory locations and a driver is an ordinary program; no I/O instructions | shared (PDP-11 by design; the C64's devices are memory-mapped registers too) | manual 1.2.6; Multics chat, `c64stuff.txt` lines 5261-5308 ("devices as memory-mapped regions, peek and poke") |
+| 2 | Peek and poke as the programmer's model of the machine | shared (C64 BASIC; PDP-11 console deposit and examine) | `c64stuff.txt` lines 4816-5260 (the c64x terminal "like the old C64"), lines 5261-5308 |
+| 3 | A small page of memory near the base of the address space that is cheap to reach (6502 zero page; PDP-11 short addressing of low memory and the I/O page) | candidate | r20 ISA text, section on `DP` (line 206) and the 6502 passage (line 1182) |
+| 4 | The C64 I/O block `$D000-$DFFF` falls inside the PDP-11 virtual page `$C000-$DFFF` (APR6) | chosen | `docs/c64-devices-from-chat.md`, section 3 (revision 1) |
+| 5 | The program counter and stack pointer as ordinary registers, a small register file, autoincrement and autodecrement for `*p++` and `*--p` | inherited from the PDP-11; the 6502's indexed and indirect modes serve the same loops | manual 1.2.5 |
+| 6 | The 6502's decode as a PLA with no microcode ROM, and the T-11's small logic budget, as the model for a minimal implementation | shared (small-gate-count design of the 1970s) | r20 ISA text, lines 1236 and 1367 |
+| 7 | One designer, Velinsky, for DEC and for Commodore | **sourced** (section 8) | the article |
+
+Rows 1 to 6 are candidates the author has not yet confirmed; the author's own list, in his words, replaces or extends them.
