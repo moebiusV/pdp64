@@ -1,6 +1,6 @@
 # DEC PDP-64
 
-Index: [All Projects](https://moebiusv.github.io/) | Git Repository: [github.com/moebiusV/pdp64](https://github.com/moebiusV/pdp64) | `git clone https://github.com/moebiusV/pdp64`
+Parent: [All Projects](https://moebiusv.github.io/) | Git Repo: [github.com/moebiusV/pdp64](https://github.com/moebiusV/pdp64) | `git clone https://github.com/moebiusV/pdp64`
 
 **Digital Equity Collective's Pragmatic Digital Processor, 64 bit.**
 *A 64-bit successor to the PDP-11 instruction set and architecture.*
