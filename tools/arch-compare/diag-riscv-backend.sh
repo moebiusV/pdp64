@@ -1,6 +1,6 @@
 #!/bin/sh
 # diag-riscv-backend.sh WORK -- the probes of the report's section "pcc's RISC-V back end: status".
-# needs: WORK/pcc/rv (riscv64 ccom, tools/riscv-compare/build-ccoms.sh), WORK/pcc/rv32 (the same tree configured for riscv32: see README),
+# needs: WORK/pcc/rv (riscv64 ccom, tools/arch-compare/build-ccoms.sh), WORK/pcc/rv32 (the same tree configured for riscv32: see README),
 #        WORK/gccx/prefix/bin/riscv64-unknown-elf-{as,ld} (build-gcc-riscv.sh), qemu-riscv32 (user mode).
 # Prints, for each probe, what ccom says; for the rv32 run tests, the exit status of the program under qemu-riscv32.
 W=${1:?WORK}

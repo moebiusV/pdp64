@@ -1,6 +1,6 @@
-# riscv-compare
+# arch-compare
 
-Measurement scripts for `docs/encoding-work/riscv-comparison.md`: the static size of the 841-file corpus of `docs/encoding-work/integration.md`
+Measurement scripts for `docs/encoding-work/arch-comparison.md`: the static size of the 841-file corpus of `docs/encoding-work/integration.md`
 for pdp64/32 and pdp64/16 (pcc), pcc amd64 and i386, and GCC and clang for RISC-V (rv64gc, rv64g), AArch64, x86-64, i386, Arm and MIPS64 at
 -O0, -O1, -O2, -O3 and -Os.  Not a GNU-packaged project: a folder of scripts.
 
@@ -36,7 +36,7 @@ for pdp64/32 and pdp64/16 (pcc), pcc amd64 and i386, and GCC and clang for RISC-
     make WORK=/scratch/rv prep ccoms          # preprocess, build the compilers
     make WORK=/scratch/rv pdp64 pccx86        # pdp64/32, /16, pcc amd64, i386 (two flag sets each)
     python3 run-refs.py /scratch/rv           # the GCC/clang matrix (about 40 configurations, each 1 to 4 minutes on two idle cores)
-    python3 summarize.py /scratch/rv ../../docs/encoding-work/riscv-data
+    python3 summarize.py /scratch/rv ../../docs/encoding-work/arch-data
 
 Each `static.csv` has one row per file: `file,status,ins,ibytes,text,data_in_text,pad_ins,pad_bytes,msg` (`pdp64-static.py` has `cbcc_expanded` in
 place of the padding columns, and `ins`, `ibytes` come from the assembler's statistics line).
