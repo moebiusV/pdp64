@@ -107,7 +107,7 @@ def fig_cells_glyphs():
         c.line([(x, cy + 4 + 4 * 28), (x, ay + i * 6), (gx - 14 - (i % 2) * 5 - i * 0, ay + i * 6), (gx - 14 - (i % 2) * 5, ty), (gx - 1, ty)], arrow=True)
     c.text(20, 290, 'a cell is a few bytes at  base + (row * columns + column) * cell size;  cells 0 to 4 of row 0 are shown', 9, 'start', '#555')
     c.text(20, 322, 'The same slot 4 serves both letters l: a glyph is drawn once and used by every cell that names it.', 10, 'start', '#333')
-    c.text(20, 338, 'A TrueType engine rasterises each glyph into its slot (3.11.3). Field names and sizes are placeholders, not a specification.', 9, 'start', '#555')
+    c.text(20, 338, 'A TrueType engine rasterises each glyph into its slot (3.9.3). Field names and sizes are placeholders, not a specification.', 9, 'start', '#555')
     c.text(20, 352, 'Slot 6 shows an empty slot, to be filled when a cell first needs it.', 9, 'start', '#555')
     return c.svg()
 

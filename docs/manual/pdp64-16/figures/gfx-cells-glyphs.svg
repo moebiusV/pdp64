@@ -91,6 +91,6 @@
 <polygon points="399.0,227.0 391.0,230.6 391.0,223.4" fill="#222"/>
 <text x="20.0" y="290.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">a cell is a few bytes at  base + (row * columns + column) * cell size;  cells 0 to 4 of row 0 are shown</text>
 <text x="20.0" y="322.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">The same slot 4 serves both letters l: a glyph is drawn once and used by every cell that names it.</text>
-<text x="20.0" y="338.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">A TrueType engine rasterises each glyph into its slot (3.11.3). Field names and sizes are placeholders, not a specification.</text>
+<text x="20.0" y="338.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">A TrueType engine rasterises each glyph into its slot (3.9.3). Field names and sizes are placeholders, not a specification.</text>
 <text x="20.0" y="352.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Slot 6 shows an empty slot, to be filled when a cell first needs it.</text>
 </svg>

@@ -14,7 +14,7 @@
 <polygon points="192.0,58.0 184.0,61.6 184.0,54.4" fill="#222"/>
 <rect x="192.0" y="36.0" width="140.0" height="44.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
 <text x="262.0" y="57.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">block 0</text>
-<text x="262.0" y="69.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">first stage: 512 bytes</text>
+<text x="262.0" y="69.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">first stage: 446 bytes</text>
 <rect x="192.0" y="80.0" width="140.0" height="116.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
 <text x="200.0" y="98.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">knows: a block list</text>
 <text x="200.0" y="110.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">(start, count, load</text>

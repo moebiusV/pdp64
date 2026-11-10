@@ -14,7 +14,7 @@
 <text x="595.0" y="131.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">EPC, EPSW, registers</text>
 <rect x="190.0" y="34.0" width="310.0" height="106.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
 <text x="198.0" y="50.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans Mono, monospace">1  push callee-saved registers on A's stack</text>
-<text x="198.0" y="63.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans Mono, monospace">    A.ksp = R14</text>
+<text x="198.0" y="63.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans Mono, monospace">    A.ksp = R14 ; A.usp = MFSR USP</text>
 <text x="198.0" y="76.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans Mono, monospace">2  R14 = B.ksp; pop B's callee-saved registers</text>
 <text x="198.0" y="89.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans Mono, monospace">3  if B has another address space:</text>
 <text x="198.0" y="102.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans Mono, monospace">       MTSR PTBR, B.root     MTASID B.asid</text>

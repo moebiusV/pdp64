@@ -118,7 +118,7 @@ Accepted at lines 5830-5840 and 5894-5923 (the idea came from a document the aut
 * Not limited to 16 colours, 40 x 25, an 8 x 8 cell or 320 x 200; no obligation to 50 or 60 Hz (author, line 5936).
 * The cell is a 32-bit foreground and a 32-bit background (the c64x model, which makes the 9p path zero-translation); indexed and 565 formats exist beside RGBA.
 * The raster contract is virtual: the VIC beam is a counter, not the HDMI beam, so PAL code written for 312 lines of 63 cycles runs on a 1080p panel. `FRAMEPOL` chooses between 1080p50 (exact) and 60 Hz with a repeated frame in six. The author prefers 50 Hz when running legacy code.
-* **The 48-bit pixel of `manual/03-graphics.md` 3.10.2 (3.1.2 before the rewrite of errata 105) does not appear in these chats.** It is a later decision of the author's: RGBA, 12 bits per channel (errata 73). The 32-bit cell above is the earlier design.
+* **The 48-bit pixel of `manual/03-graphics.md` 3.8.2 (3.1.2 before errata 105, 3.10.2 between errata 105 and 114) does not appear in these chats.** It is a later decision of the author's: RGBA, 12 bits per channel (errata 73). The 32-bit cell above is the earlier design.
 
 ## 6. The c64x terminal chat (2026-06-18)
 

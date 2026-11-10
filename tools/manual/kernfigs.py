@@ -224,7 +224,7 @@ def fig_ctxswitch():
     c.box(520, 100, 150, 40, 'B: trap frame', GREEN, 11, bold=True, sub='EPC, EPSW, registers')
     c.box(190, 34, 310, 106, '', '#fff')
     steps = ['1  push callee-saved registers on A\'s stack',
-             '    A.ksp = R14',
+             '    A.ksp = R14 ; A.usp = MFSR USP',
              '2  R14 = B.ksp; pop B\'s callee-saved registers',
              '3  if B has another address space:',
              '       MTSR PTBR, B.root     MTASID B.asid',
@@ -310,7 +310,7 @@ def fig_firstpages():
     c.text(x + w + 18, 246, 'pages is not decided)', 9, 'start', '#222')
     c.text(20, 300, '(not to scale; the place and size of the boot-information block are not specified)', 9, 'start', '#444')
     c.text(20, 314, 'After reset: kernel mode, priority 7, translation off (every address physical), VBR 0, guard clear.', 9, 'start', '#444')
-    c.text(20, 328, 'The PDP-11 kept its vectors at 0 to 0376 octal and booted from elsewhere; here the table is one whole page at 0.', 9, 'start', '#444')
+    c.text(20, 328, 'The PDP-11 kept its vectors in the low few hundred bytes (V7 goes past octal 0224) and booted from elsewhere; here the table is one whole page at 0.', 9, 'start', '#444')
     return c.svg()
 
 

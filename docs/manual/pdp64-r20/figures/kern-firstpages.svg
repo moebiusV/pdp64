@@ -27,5 +27,5 @@
 <text x="388.0" y="246.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">pages is not decided)</text>
 <text x="20.0" y="300.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">(not to scale; the place and size of the boot-information block are not specified)</text>
 <text x="20.0" y="314.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">After reset: kernel mode, priority 7, translation off (every address physical), VBR 0, guard clear.</text>
-<text x="20.0" y="328.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">The PDP-11 kept its vectors at 0 to 0376 octal and booted from elsewhere; here the table is one whole page at 0.</text>
+<text x="20.0" y="328.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">The PDP-11 kept its vectors in the low few hundred bytes (V7 goes past octal 0224) and booted from elsewhere; here the table is one whole page at 0.</text>
 </svg>

@@ -1502,7 +1502,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** Revision 1 chose a three-operand compositing `draw` shaped like a Plan 9 `Memimage`, with layers as display-list entries and sprites that are windows (line 5614). The author did not object. In the ISA chat the assistant wrote `BLT64`, the Blit's bitblt with raster operations (line 6546); the author did not discuss it.
 
-**Repository.** `manual/03-graphics.md` 3.10.4 `BLT64` *(D)* and 3.10.7 four raster operations; errata 66 says only "based on the Blit as well as the C64".
+**Repository.** `manual/03-graphics.md` 3.8.4 `BLT64` *(D)* and 3.8.7 four raster operations; errata 66 says only "based on the Blit as well as the C64".
 
 **Options.** (1) `BLT64` as written. (2) `draw` as in revision 1. (3) `BLT64` for 1-bit and `draw` for compositing.
 
@@ -1518,7 +1518,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** All C64 devices in the one 8 KB page at virtual `$C000-$DFFF` (APR6), mapped by pointing one page register at it; a poke changes the banking (line 5608).
 
-**Repository.** `manual/03-graphics.md` 3.10.5 *(D)*: each device in its own 4 KB page; `02-bus.md` 2.3.3.
+**Repository.** `manual/03-graphics.md` 3.8.5 *(D)*: each device in its own 4 KB page; `02-bus.md` 2.3.3.
 
 **Options.** (1) A page per device (today). (2) A single device window per process, assembled by the kernel from several devices. The question is whether the "peek and poke at the literal address" property is worth a special case.
 

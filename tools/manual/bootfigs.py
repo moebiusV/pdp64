@@ -24,7 +24,7 @@ def fig_stages():
     c.text(20, 16, 'the boot stages: each is small, knows one more thing than the one before, and hands on a little', 12, 'start', bold=True)
     cols = [('boot ROM', 'in the controller chip', GREY,
              ['knows: the boot devices,', 'how to read one block', 'from a virtio-blk disk', '', 'does not know: partitions,', 'files, a label, a kernel']),
-            ('block 0', 'first stage: 512 bytes', PINK,
+            ('block 0', 'first stage: 446 bytes', PINK,
              ['knows: a block list', '(start, count, load', 'address) written by', 'installboot', '', 'does not know: the GPT,', 'any file system']),
             ('second stage', 'a C program, any size', YELLOW,
              ['knows: the GPT, the label,', 'the root file system,', 'ELF files, the machine', '(memory, cores, console)', '', 'calls no firmware']),
@@ -269,7 +269,7 @@ def fig_shim():
     c.text(20, 332, 'The loader needs the services table, a PE/COFF image of its own and a machine-type number for the pdp64 that the owners of the UEFI', 9, 'start', '#444')
     c.text(20, 345, 'specification would have to assign (unverified, 4.12).  The shim is a few services over drivers that already exist; it is not a firmware', 9, 'start', '#444')
     c.text(20, 358, 'stack: no PEI, DXE or driver model, no variable store, no setup screen.  Nothing is built; this illustrates the size of the job (4.9).', 9, 'start', '#444')
-    c.text(20, 380, 'The services named are those OpenBSD\'s efiboot loaders call (measured, 4.12): about fifteen boot and runtime services in each.', 9, 'start', '#555')
+    c.text(20, 380, 'The services named are those OpenBSD\'s efiboot loaders call (measured, 4.12): 17 (amd64) or 18 (arm64, riscv64) boot and runtime services, counted.', 9, 'start', '#555')
     c.text(20, 393, 'Which of them a given loader needs is for the person who writes the shim to find by reading that loader.', 9, 'start', '#555')
     return c.svg()
 
@@ -278,7 +278,7 @@ def fig_five_boots():
     c = Canvas(470)
     c.text(20, 16, 'five boots and the pdp64: who runs, in what order, and what each stage knows', 12, 'start', bold=True)
     rows = [
-        ('a  PDP-11', [('keys or ROM', 'a few dozen words', GREY), ('block 0', 'reads a name: #', PINK), ('boot', 'C program: ":"', YELLOW), ('unix', 'r0..r3 hand-off', GREEN)]),
+        ('a  PDP-11', [('keys or ROM', 'a few dozen words', GREY), ('block 0', 'reads a name: #', PINK), ('boot', 'C program: ":"', YELLOW), ('unix', 'registers (2.11BSD)', GREEN)]),
         ('b  VAX', [('console processor', 'self-test, console', GREY), ('boot block', 'block 0; loads 7.5 KB', PINK), ('boot', 'C program: ":"', YELLOW), ('vmunix', 'r10, r11 hand-off', GREEN)]),
         ('c  Commodore 64', [('reset vector', 'at 0xFFFC, in ROM', GREY), ('KERNAL init', 'chips, RAM, screen', SOFT), ('CBM80 at 0x8000?', 'yes: cartridge runs', PINK), ('BASIC, READY.', 'you LOAD and RUN', GREEN)]),
         ('d  x86, BIOS, MBR', [('firmware', 'POST, option ROMs', GREY), ('MBR', '446 B at 0x7C00', PINK), ('boot record', 'of the active part.', YELLOW), ('OS loader', 'calls INT 13h', BLUE), ('kernel', 'memory map', GREEN)]),
@@ -296,7 +296,7 @@ def fig_five_boots():
             if i < n - 1:
                 c.line([(x + bw, y + 32), (x + bw + 20, y + 32)], arrow=True)
             x += bw + 20
-    c.text(20, 462, 'Sources: a and b read in V7M, 2.11BSD and 4.3BSD; d and e partly read in OpenBSD; c, and the rest of b, d and e, are general knowledge, unverified (4.12).', 8, 'start', '#555')
+    c.text(20, 462, 'Sources: a and b read in V7M, 2.11BSD and 4.3BSD-Tahoe; d and e partly read in OpenBSD; c, and the rest of b, d and e, are general knowledge, unverified (4.12).', 8, 'start', '#555')
     return c.svg()
 
 

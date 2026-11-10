@@ -71,7 +71,7 @@ def convert_links(text, srcpath):
         if path.endswith('.md') and full.startswith(STREAM):
             return label
         return '[%s](%s%s)' % (label, GITHUB, os.path.relpath(full, ROOT))
-    return re.sub(r'(?<!!)\[([^\]]+)\]\(([^)\s]+)\)', one, text)
+    return re.sub(r'(?<!!)\[([^\]\[\n]+)\]\(([^)\s]+)\)', one, text)
 
 
 CHARTRUN = 6          # a run of at most this many charts of one instruction is kept together with the heading before it and the text after it; a longer run only at its two ends
