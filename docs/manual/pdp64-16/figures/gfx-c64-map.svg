@@ -121,5 +121,5 @@
 <polygon points="478.0,296.0 470.0,299.6 470.0,292.4" fill="#222"/>
 <text x="445.0" y="290.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">x 64</text>
 <text x="250.0" y="328.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">The VIC-II reads screen, colour RAM, glyphs and sprites itself, while the processor runs.</text>
-<text x="250.0" y="344.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Addresses: general knowledge of the C64 (unverified, 3.20); the glyph bits are an example.</text>
+<text x="250.0" y="344.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Addresses: general knowledge of the C64 (unverified, 3.22); the glyph bits are an example.</text>
 </svg>

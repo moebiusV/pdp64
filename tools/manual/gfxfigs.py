@@ -2,7 +2,7 @@
 
 Like tools/manual/busfigs.py (whose Canvas it uses) these are drawn by hand-written code, not generated from the grammar, and
 tools/mkmanual.py writes the ones the text names (figures/gfx-NAME.svg) into the figures directory of every member's manual.
-Facts about historical machines (the C64 map, the VGA cell) are general knowledge, marked unverified in section 3.19 of the chapter;
+Facts about historical machines (the C64 map, the VGA cell) are general knowledge, marked unverified in section 3.21 of the chapter;
 the virtio-gpu command names and the field order are from /usr/include/linux/virtio_gpu.h.  All figures are 690 units wide.
 """
 from busfigs import Canvas, W, GREY, SOFT, BLUE
@@ -60,7 +60,7 @@ def fig_c64_map():
     c.line([(ix + 160, 296), (ix + 228, 296)], arrow=True)
     c.text(ix + 195, 290, 'x 64', 9, fill='#555')
     c.text(ix, 328, 'The VIC-II reads screen, colour RAM, glyphs and sprites itself, while the processor runs.', 10, 'start', '#333')
-    c.text(ix, 344, 'Addresses: general knowledge of the C64 (unverified, 3.20); the glyph bits are an example.', 9, 'start', '#555')
+    c.text(ix, 344, 'Addresses: general knowledge of the C64 (unverified, 3.22); the glyph bits are an example.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -140,7 +140,7 @@ def fig_vga_cell():
     c.text(zx + 250, zy + 63, 'odd address: attribute. 4 bits a colour: 16 colours', 9, 'start', '#333')
     c.text(zx + 250, zy + 76, 'bit 7: blink, or a bright background (a mode bit chooses)', 9, 'start', '#333')
     c.text(zx, 244, 'The glyph shapes are in the display adapter, not in this memory; the cell says which, and in what colours.', 10, 'start', '#333')
-    c.text(zx, 260, 'Layout as in general knowledge of the IBM PC adapters (unverified here, 3.20).', 9, 'start', '#555')
+    c.text(zx, 260, 'Layout as in general knowledge of the IBM PC adapters (unverified here, 3.22).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -200,7 +200,7 @@ def fig_pipeline():
     c.line([(205, 190), (205, y + h + 34)], arrow=True)
     c.text(20, 270, 'Every vertex goes through the same program at the same time on different lanes; so does every pixel.', 10, 'start', '#333')
     c.text(20, 286, 'The programmer writes the two shaders (pink); the rasterizer between them is fixed.', 10, 'start', '#333')
-    c.text(20, 304, 'This is the model of general knowledge of current GPUs (unverified here, 3.20); stages such as geometry and tessellation are left out.', 9, 'start', '#555')
+    c.text(20, 304, 'This is the model of general knowledge of current GPUs (unverified here, 3.22); stages such as geometry and tessellation are left out.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -347,7 +347,7 @@ def fig_layers():
     c.text(lx + 100, 250, '', 9)
     c.text(20, 340, 'Sketch 1: the CPU writes the arrays; the display hardware does the composing; there is no command queue.', 10, 'start', '#333')
     c.text(20, 356, 'Sketch 2: the same, plus a few registers that move rectangles inside video memory (scrolling, window moves, glyph copies).', 10, 'start', '#333')
-    c.text(20, 372, 'Nothing here is decided (3.19); the boxes are the shape of the idea.', 9, 'start', '#555')
+    c.text(20, 372, 'Nothing here is decided (3.21); the boxes are the shape of the idea.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -369,7 +369,7 @@ def fig_cmdqueue():
     c.line([(340, 175), (400, 175)], arrow=True)
     c.text(20, 250, 'The program mostly writes commands (put this text, move this sprite); the window is for the cases where a poke is simpler.', 10, 'start', '#333')
     c.text(20, 266, 'The window and the engine both reach video memory, so the device must say which one wins when they touch the same cell.', 10, 'start', '#333')
-    c.text(20, 290, 'Nothing here is decided (3.19).', 9, 'start', '#555')
+    c.text(20, 290, 'Nothing here is decided (3.21).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -439,6 +439,31 @@ def fig_compositor_paths():
     return c.svg()
 
 
+def fig_audio_path():
+    """The audio path drawn beside the video path: streams, a combining stage, a buffer read at a fixed rate, the converter."""
+    c = Canvas(300)
+    c.text(20, 16, 'pixels and sound: several sources, one combiner, one buffer read at a fixed rate', 12, 'start', bold=True)
+    def chain(y, tag, labs):
+        c.text(20, y + 22, tag, 11, 'start', bold=True)
+        x = 64
+        pos = []
+        for lab, sub, fill, w in labs:
+            c.box(x, y + 4, w, 40, lab, fill, 10, bold=True, sub=sub)
+            pos.append((x, w))
+            x += w + 22
+        for i in range(len(pos) - 1):
+            c.line([(pos[i][0] + pos[i][1], y + 24), (pos[i + 1][0], y + 24)])
+    chain(36, 'video', [('windows', 'buffers: app, app, c128', GREEN, 110), ('compositor', 'place, overlap, flip', GREY, 105),
+                        ('framebuffer', 'rows of pixels', BLUE, 95), ('scanout', 'reads at 60 Hz: tear', PINK, 120), ('HDMI video', '', '#fff', 80)])
+    chain(120, 'audio', [('streams', 'app, app, SID', GREEN, 110), ('convert', 'rate, format, volume', SOFT, 105),
+                         ('mixer', 'sum, clip or limit', GREY, 95), ('ring buffer', 'read at 48 kHz: underrun', PINK, 120), ('DAC / HDMI audio', '', '#fff', 100)])
+    c.text(20, 206, 'A late frame tears; a late buffer underruns: a click. Both are cured by writing ahead of the reader and by', 10, 'start', '#333')
+    c.text(20, 222, 'letting the device clock, not the program clock, decide when the combiner runs.', 10, 'start', '#333')
+    c.text(20, 246, 'The SID is the C64\'s exception: it makes the sound itself from three voices, so it has no buffer and no mixer in memory.', 10, 'start', '#333')
+    c.text(20, 270, 'Stages after the model of general knowledge of sound servers (unverified, 3.22); virtio-snd streams as in virtio_snd.h.', 9, 'start', '#555')
+    return c.svg()
+
+
 FIGURES = {
     'gfx-c64-map': ('The C64 address space', fig_c64_map),
     'gfx-cells-glyphs': ('A cell array and a glyph slot table', fig_cells_glyphs),
@@ -451,5 +476,6 @@ FIGURES = {
     'gfx-layers': ('Layers composed at scanout', fig_layers),
     'gfx-core-map': ('A small core as the terminal: the loaded program and its address space', fig_core_map),
     'gfx-compositor-paths': ('Five data paths for a c64-mode core sharing the display', fig_compositor_paths),
+    'gfx-audio-path': ('The audio path beside the video path', fig_audio_path),
     'gfx-cmdqueue': ('A command queue with a peek/poke window', fig_cmdqueue),
 }

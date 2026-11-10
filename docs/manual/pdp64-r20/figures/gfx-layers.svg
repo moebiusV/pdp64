@@ -50,5 +50,5 @@
 <text x="330.0" y="250.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif"></text>
 <text x="20.0" y="340.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">Sketch 1: the CPU writes the arrays; the display hardware does the composing; there is no command queue.</text>
 <text x="20.0" y="356.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">Sketch 2: the same, plus a few registers that move rectangles inside video memory (scrolling, window moves, glyph copies).</text>
-<text x="20.0" y="372.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Nothing here is decided (3.19); the boxes are the shape of the idea.</text>
+<text x="20.0" y="372.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Nothing here is decided (3.21); the boxes are the shape of the idea.</text>
 </svg>
