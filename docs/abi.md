@@ -19,18 +19,17 @@ The choices below are fixed for version 1 (the ISA, §19.5, leaves the ABI open)
 | Landing pads | off in version 1; the assembler provides `.lpad`. |
 | PIC | globals through `d(PC)`; imported symbols through `MOVQ got(PC),Rd`; calls to imports through `CALLI got(PC)`; TLS local-exec `MOVQ off(DP),Rd`. |
 
-## Register tables of the prefix-coded encodings (draft)
+## Register tables of the instruction encoding (draft)
 
-The encodings pdp64/16 and pdp64/32 (`spec/README.md`) give one-parcel forms to a few registers: a 3-bit register field is an index into a table of the eight hottest registers,
-a 4-bit field (pdp64/32) into the sixteen hottest. The tables are measured on the compiled corpus with the registers assigned as above, and they are part of the ABI: the compiler's
+The encoding of the pdp64 (`spec/README.md`) gives one-parcel forms to a few registers: a 3-bit register field is an index into a table of the eight hottest registers,
+a 4-bit field into the sixteen hottest. The tables are measured on the compiled corpus with the registers assigned as above, and they are part of the ABI: the compiler's
 allocation should prefer them, and `mov2` (two register moves in one parcel) takes only registers of the 3-bit table.
 
-| encoding | 3-bit table (index 0-7) | 4-bit table (index 0-15) |
-|---|---|---|
-| pdp64/16 | `r0 r1 r8 r2 sp r3 r9 r10` | none |
-| pdp64/32 | `r0 r1 r8 r2 sp r3 r9 r10` | `r0 r1 r8 r2 sp r3 r9 r10 r11 r4 r15 r5 r24 r25 r26 r6` |
+| 3-bit table (index 0-7) | 4-bit table (index 0-15) |
+|---|---|
+| `r0 r1 r8 r2 sp r3 r9 r10` | `r0 r1 r8 r2 sp r3 r9 r10 r11 r4 r15 r5 r24 r25 r26 r6` |
 
-In pdp64/32, `r16`-`r31` are the added registers; the draft convention is `r24`-`r26` callee-saved (the 32-register compile of the corpus used them so); the rest of `r16`-`r31` is not yet assigned.
+`r16`-`r31` are the added registers; the draft convention is `r24`-`r26` callee-saved (the 32-register compile of the corpus used them so); the rest of `r16`-`r31` is not yet assigned.
 
 ## Variadic calls
 

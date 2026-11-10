@@ -1,4 +1,4 @@
-"""Writes the link tests of the prefix-coded encodings, tests/ld-pdp64-16 and tests/ld-pdp64-32 (link.words, link.map, with the sources copied from tests/ld).
+"""Writes the link test of the encoding, tests/ld (link.words, link.map; main.s, lib.s and high.s are the sources there).
 
 The expected linked words come from the Python prototype, not from as64 or ld64: each instruction of tests/ld/main.s and lib.s is encoded with the form
 the prototype chooses for an unresolved external (a 32-bit field) and the field is then given the value the linking rules say (S + A - P in bytes, divided by the
@@ -19,8 +19,8 @@ sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import encgram
 import collections
 
-for which in ('16', '32'):
-    d = encgram.load(which, ROOT)
+for which in ('32',):
+    d = encgram.load(ROOT)
     forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
     code = Code(forms)
     by_mn = collections.defaultdict(list)
@@ -69,9 +69,7 @@ for which in ('16', '32'):
     f, w = enc1('halt', (), ()); words += w; pos += 2 * f.n
     assert pos == f_addr
     f, w = enc1('ret', (), ()); words += w
-    out = os.path.join(ROOT, 'tests', 'ld-pdp64-' + which)
-    for n in ('main.s', 'lib.s'): shutil.copy(os.path.join(ROOT, 'tests', 'ld', n), os.path.join(out, n))
-    shutil.copy(os.path.join(ROOT, 'tests', 'ld', 'high.s'), os.path.join(out, 'high.s'))
+    out = os.path.join(ROOT, 'tests', 'ld')
     open(os.path.join(out, 'link.words'), 'w').write(' '.join('%04x' % x for x in words) + '\n')
     open(os.path.join(out, 'link.map'), 'w').write('0x%016x _start\n0x%016x f\n0x%016x val\n' % (TEXT, f_addr, DATA + 8))
     print(which, 'text parcels', len(words), 'f at %#x' % f_addr)

@@ -4,7 +4,7 @@
 
 A trace-driven, in-order timing model inside `sim64`. The program runs functionally as always; for every executed instruction the model is told its
 address, length, the registers and flags it read and wrote (in order), its memory accesses, and where control went next, and it computes how many cycles
-a small in-order core would need. It exists to compare **encodings** (pdp64/r20, /16, /32: different instruction bytes, different length decode) and
+a small in-order core would need. It exists to compare **implementations** (different widths and latencies, instruction bytes against the fetch width, the length decode) and
 **compiler options** (instruction counts and sizes) by estimated cycles, and to say when a program is **fetch-bound** (the core waits for instruction
 bytes) and when it is **execute-bound** (it waits for operands, loads, multiply/divide, branch resolution).
 
@@ -24,7 +24,7 @@ feeds all the models at once**, each with its own state, so a sweep costs one fu
 to `--timing-out`):
 
 ```
-tm name=LABEL prog=image.x enc=pdp64/16 insns=... bytes=... cycles=... ipc=... bpc=... cpi=... active=... fe_start=... fe_seq=... fe_imiss=... fe_taken=...
+tm name=LABEL prog=image.x enc=pdp64 insns=... bytes=... cycles=... ipc=... bpc=... cpi=... active=... fe_start=... fe_seq=... fe_imiss=... fe_taken=...
    fe_misp=... fe_dec=... fe_queue=... ex_alu=... ex_load=... ex_dmiss=... ex_mul=... ex_div=... ex_fp=... ex_block=... ex_struct=... occ_blk=... occ_sys=... occ_mem=...
    fe=... ex=... branches=... cond=... taken=... mispred=... rets=... retmiss=... ind=... indmiss=... btbhit=... fused=... [iacc= imiss=] [dacc= dmiss=]
 ```
@@ -51,7 +51,7 @@ ELF `e_flags` (or `-m`). Not usable with `-K`.
   After a taken branch the first window is the one that holds the target; the bytes before the target in it are not used.
 * **I-cache** (`ic=1`): size/line/ways/LRU, one lookup per window request, miss penalty `imiss`; a miss blocks the fetch unit until the line is there (`ipf=1`: next-line prefetch). `ic=0`: every fetch hits.
 * **Decode.** `iw` instructions and `decw` bytes per cycle (an instruction longer than `decw` takes several cycles). It happens `ldec` cycles after the bytes arrive: `ldec` is the **length-decode latency**
-  (pdp64/r20 takes the length from two bits; the prefix-coded pdp64/16 and /32 need a table of the first parcel; `ldec=-1`, the default, gives pdp64/r20 `ldec0` = 0 and the others `ldecp` = 1; `ldec=N` forces N for all three).
+  (the length of an instruction is a table of its first parcel; the default is 1, `ldec=N` sets N; `ldec0` and `ldecp`, which gave the earlier iterations different defaults, are gone).
   Decode takes the bytes out of the buffer (this is what frees space for the fetch unit). Between decode and issue are `dl` cycles and a queue: decode may run at most `dq` instructions ahead of issue.
 * **Issue** is in order. An instruction issues when it has been decoded, its source registers (and flags) are ready, the registers it writes are free (a write after write waits for the older result),
   an issue slot is free (`iw` per cycle), memory ports are free (`mp` accesses per cycle; an instruction with more accesses than ports, `pushm`, `popm`, `popmret`, holds the stage for the extra cycles)
@@ -92,7 +92,7 @@ is reported in its own column (`misp%`, inside `fe%`) because it is partly the b
 |---|---|---|
 | `iw` `decw` `dq` | 1 16 4 | issue/decode width, decode bytes per cycle, decode-to-issue queue |
 | `W` `N` `fl` `dl` | 8 32 1 1 | fetch width, prefetch buffer, fetch latency, decode-to-issue latency |
-| `ldec` `ldecp` | -1 1 | length-decode latency (r20: 0, /16 and /32: `ldecp`; `ldec=N` for all) |
+| `ldec` | 1 | length-decode latency (`ldec=N`) |
 | `pred` `bht` `btb` `tkb` `ras` `ibtb` `brlat` `mpx` | bimodal 2048 0 1 16 64 1 0 | branches |
 | `ic` `isz` `iline` `iways` `imiss` `ipf` | 0 16384 32 2 20 0 | I-cache |
 | `dc` `dsz` `dline` `dways` `dmiss` | 0 16384 32 2 20 | D-cache |
@@ -103,13 +103,13 @@ is reported in its own column (`misp%`, inside `fe%`) because it is partly the b
 `tools/check-timing.sh` (`tests/timing/check_timing.py`): hand-derived cycle counts, exact, for a dependent chain of adds (ALU latency 1, 2, 3, 5), independent adds at issue width 1 and 2, a load-use chain
 (load latency 2, 3, 4, 6), a multiply chain, a non-pipelined divider, a loop with a predicted-taken branch for several fetch/decode latencies, the same loop with every taken branch mispredicted (several
 resolution latencies, extra penalties, length-decode latencies), a straight-line stream that is limited by fetch for `W` = 2, 4, 8, 16 (expected cycles computed from the real instruction addresses), and a two-instruction loop at
-issue width 2 with and without a BTB (one iteration per cycle). All in the three encodings (120 checks). What this validates is that the code implements the stated pipeline; it cannot validate that the pipeline resembles hardware (section 7).
+issue width 2 with and without a BTB (one iteration per cycle). (44 checks). What this validates is that the code implements the stated pipeline; it cannot validate that the pipeline resembles hardware (section 7).
 
 ## 6. How it is built
 
 `common/timing.c` is the model; `common/timing.h` the record of an instruction. The register accesses come from `build/pdp64exec_tm.c`, which `tools/mk-exec-tm.py` generates from the shared `common/pdp64exec.c` and `pdp64exec_enc.inc`
 (left unchanged for QEMU): every `r[..]`, flag and `dp` access is replaced by a call that logs it and returns the same value, so the semantics are identical (all of `tools/check-sim64.sh` runs through the generated copy). The classes
-(ALU, move, multiply...) come from the decoded fields (original encoding) or the mnemonic (pdp64/16, /32). The memory accesses are logged by the host hooks of `sim64`.
+(ALU, move, multiply...) come from the mnemonic, and for the instructions run through `exec_fmt` from the decoded fields. The memory accesses are logged by the host hooks of `sim64`.
 
 ## 7. Assumptions and limits (errata-style)
 

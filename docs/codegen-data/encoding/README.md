@@ -9,3 +9,6 @@ Working files of [`../../encoding-proposal.md`](../../encoding-proposal.md): the
 * `cbreach.py` (every `cbCC` site: distance, immediate, form or substitution), `cbforms.py` (the `cbCC` forms of a grammar and the code space they take), `distances.py` (the distances of the pc-relative operands and the reaches that cover them), `asm_vs_model.py 16|32 OUTDIR [TAG]` (real assembler against the model).
   `PDP64_SPEC_ROOT=DIR` makes `tools/encgram.py` read the grammars of another tree (an older `spec/`) to compare with.
 
+## Status of the scripts
+
+The two-grammar period (pdp64/16 and pdp64/32) is over: pdp64/32 is the pdp64, and `spec/pdp64/pdp64.hbnf` is its only grammar (errata 122). `mk_vectors.py`, `mk_asm_tests.py` and `mk_ld_tests.py` write the tests of that grammar (`tests/enc/vectors.txt`, `tests/asm`, `tests/ld`) and are current. The scripts that compare the two encodings or train one for a corpus (`export_forms.py`, `write_hbnf.py`, `asm_vs_model.py`, `cbreach.py`, `cbforms.py`, `distances.py`, `reopt.py`, `loo_cb.py`, `abl.py`) call `tools/encgram.py` with an encoding tag (`16`, `32`) and read `spec/pdp64-16/` and `spec/pdp64-32/`; they are history, not maintained, and run from the git tag `pre-code-removal`.

@@ -135,11 +135,11 @@ The failure mode this prevents is the one every hand-built ISA project hits: the
 | Fact | Written in | Consumed by |
 |---|---|---|
 | every opcode, sub-opcode, group opcode, addressing-mode number, store opcode, alias and register number | `spec/pdp64-mnemonics.hbnf` (enum rules; the only place the numbers are written) | the assembly parser, the bit-format grammar (via `tools/mkgrammar.py`), a generated C header of named constants, the drift test |
-| instruction bit layout | `spec/pdp64.hbnf.in` (a template: numbers come in by name) | the generated decoder and encoder (hbnf `parse_bytes` / `emit_bytes`) |
+| instruction bit layout | `spec/pdp64/pdp64.hbnf` (the encoding) | the generated decoder and encoder (hbnf `parse_bytes` / `emit_bytes`) |
 | assembly syntax | `spec/pdp64-asm.hbnf` | the generated text parser |
 | ELF record layouts | `spec/elf.hbnf` | the generated record writer (later `ld64`'s reader) |
 
-`tools/mkgrammar.py` reads the enum rules and writes the bit-format grammar (the template with every name replaced by its number) and the generated headers of named constants. `tools/check-drift.py` assembles one instruction for every mnemonic the assembler can encode, reads the encoding back and compares it with the number in the grammar, and checks the opcode map (58 assigned opcodes; only `0x23` and `0x2B`–`0x2F` free; escapes contiguous; branches `0x30`–`0x3F`). Displacement widths and field sizes are not copied into C: the assembler measures them by asking the generated encoder how many bits it accepts.
+`tools/mkgrammar.py` reads the enum rules and writes the generated headers of named constants. `tools/mkenc.py` reads the grammar of the encoding (`spec/pdp64/pdp64.hbnf`) and writes the tables of the codec, and `tools/check-drift-enc.py` assembles one instruction for every mnemonic of the table, reads the encoding back and compares it with the mnemonic, and checks the opcode map (the unassigned first parcels against the leaves of the grammar, the hot-register tables of the ABI).
 
 Not yet derived from the grammars: the roles of the fields for each mnemonic, the default stride of post-increment/pre-decrement, and which shapes the escape groups take. These live in C and are shared with the emulator; the drift test guards the numbers but not these conventions. Moving an operand-role table into the mnemonic file is the recommended next step. RTL constants and a constrained random generator are not yet produced from the grammars; they remain plan items.
 

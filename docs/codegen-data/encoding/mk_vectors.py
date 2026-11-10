@@ -1,4 +1,4 @@
-"""Writes the format vectors of the prefix-coded encodings, tests/enc/vectors-16.txt and vectors-32.txt: an instruction (the operand notation of
+"""Writes the format vectors of the prefix-coded encodings, tests/enc/vectors.txt: an instruction (the operand notation of
 tests/enc/encdrv.c) and the parcels the Python prototype gives it (enc.py, from spec/pdp64-NN/pdp64-NN.hbnf; the shortest form that fits).  tools/check-enc.py
 requires the C codec to produce the same parcels and to decode them back.  The vectors are chosen to show every length (1, 2, 3 and 5 parcels), the
 hot-register fields, the sp-relative forms, the rare groups and the instructions the original encoding could not assemble.
@@ -62,8 +62,8 @@ R32 = [
  ('', 'cmp R:20 R:21'), ('', 'movq X:0:16:31:8 R:18'), ('', 'cbeq R:19 I:0 PC:8'), ('', 'cbne R:30 R:31 PC:16'),
  ('', 'xadd R:17 R:18 R:19'), ('', 'cas R:20 R:21 R:22 R:23'), ('', 'bsel R:24 R:25 R:26 R:27'),
 ]
-for which in ('16', '32'):
-    d = encgram.load(which, ROOT)
+for which in ('32',):
+    d = encgram.load(ROOT)
     forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
     code = Code(forms)
     import collections
@@ -72,7 +72,7 @@ for which in ('16', '32'):
         for m in f.mns: by_mn[m].append((f.n, i, f))
     for m in by_mn: by_mn[m].sort(key=lambda x: (x[0], x[1]))
     enc.RELOC = 'max'
-    out = ['# format vectors of pdp64/%s: the instruction, then `|` and the number of parcels and the parcels (hex, parcel 0 first), from the Python prototype' % which,
+    out = ['# format vectors of the pdp64: the instruction, then `|` and the number of parcels and the parcels (hex, parcel 0 first), from the Python prototype',
            '# (docs/codegen-data/encoding/mk_vectors.py); `PC:v:E`, `A:v:E` is an unresolved external (its field is 0)']
     for note, s in COMMON + (R32 if which == '32' else []):
         if note: out.append('# ' + note)
@@ -86,5 +86,5 @@ for which in ('16', '32'):
         lf = next(l for l in code.leaves if l.form is f and mn in l.mns)
         ws = words_of(build_word(lf, mn, vals), f.n)
         out.append('%s | %d %s' % (s, f.n, ' '.join('%04x' % w for w in ws)))
-    open(os.path.join(ROOT, 'tests', 'enc', 'vectors-%s.txt' % which), 'w').write('\n'.join(out) + '\n')
+    open(os.path.join(ROOT, 'tests', 'enc', 'vectors.txt'), 'w').write('\n'.join(out) + '\n')
     print(which, len(out))

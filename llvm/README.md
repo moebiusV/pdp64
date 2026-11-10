@@ -1,5 +1,7 @@
 # pdp64 on LLVM
 
+> **Status (errata 122).** The machine-code layer in this directory encodes the original encoding of the earlier iterations (parcel 0 = `len:2 opc:6 reg:4 low:4`, sixteen registers, page 2), which is no longer a CPU of the project: `as64` produces only the encoding of `spec/pdp64/pdp64.hbnf`. The tests that compared `llvm-mc` with `as64` (`check.sh`, `oracle.py`, `forms.py`, `negative.py`, `runsim.py`) and the generator of the tables (`tools/gen-llvm-td.py`) depended on that encoding and were removed with it (they are in the git tag `pre-code-removal`). The sources here are frozen at that stage; the back end needs a port to the prefix-coded encoding (its instruction records come from `spec/pdp64/pdp64.hbnf`, not from the numbering in `spec/pdp64-mnemonics.hbnf`) before it can be built and checked again.
+
 The LLVM back end of the pdp64.  This directory holds everything written for it; `../llvm-project` (a checkout of
 `llvmorg-21.1.8`) and `../llvm-build` are scratch places where it is built, never committed here.  The arrangement is the
 QEMU one (`qemu/README.md`): the sources live in this repository, an install script copies them into the LLVM tree and applies a

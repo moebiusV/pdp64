@@ -1,4 +1,4 @@
-# Linker relaxation (pdp64/16 and pdp64/32)
+# Linker relaxation
 
 The assembler cannot know how far a symbol of another file is, so an external `call f` is assembled in its longest form (6 bytes) and so is `lea sym, rd` of a
 data symbol.  The encodings have shorter forms (a `call` of 4 bytes reaches +-1 MiB; `lea` and the pc-relative loads of 4 bytes reach +-32 KiB).  Once the
@@ -6,13 +6,12 @@ linker has put the sections at their addresses the distance is known, so the lin
 makes it possible, the algorithm of `ld64`, what it cannot do, how it is checked and what it saves.  The decision (errata 91): the author asked for the
 relaxation of external `call` and `lea`; the rest of what is described here is how the implementer made that correct.
 
-Only the new encodings are relaxed.  The original encoding (pdp64/r20) is untouched: its lengths come from the parcel's `len` bits and its objects
-are linked as before.
+The measurements below (sections 4 to 6) were taken in the period of the earlier iterations of the design, pdp64/16 and pdp64/32; pdp64/32 is the pdp64 (the author, 2026-11-10, errata 122) and the pdp64/16 columns are history (the tools that produced them are in the git tag `pre-single-cpu`).
 
 ## 1. The object format
 
-`as64 -m pdp64/16` (or `pdp64/32`) makes a **relaxation object** **by default** (the author's decision, errata 91).  `as64 --no-relax` makes the plain object, byte for byte the object of
-the phase-1 assembler, which links as before; `--relax` is the explicit spelling of the default and is refused for pdp64/r20, whose objects never carry the flags.  A relaxation object differs in three ways.
+`as64` makes a **relaxation object** **by default** (the author's decision, errata 91).  `as64 --no-relax` makes the plain object, byte for byte the object of
+the phase-1 assembler, which links as before; `--relax` is the explicit spelling of the default.  A relaxation object differs in three ways.
 
 **e_flags.**  The low four bits are the encoding (1 or 2) as before.  Two new bits (`as64/relocs.h`):
 
@@ -89,7 +88,7 @@ it too short.  The assembler's own relaxation (growth from the shortest, one pas
 
 ## 3. Options
 
-    as64 -m pdp64/16|pdp64/32 [--no-relax] [--dump-lens f] -o obj file.s       (relaxation objects are the default; --no-relax: the plain object)
+    as64 [--no-relax] [--dump-lens f] -o obj file.s       (relaxation objects are the default; --no-relax: the plain object)
     ld64 [--no-relax] [--stats] [--dump-map f] [-M] [-o out] objects...
 
 `ld64 --no-relax` links relaxation objects as they were assembled: the same image, byte for byte, as the link of the same program assembled with `as64 --no-relax`
@@ -97,7 +96,7 @@ it too short.  The assembler's own relaxation (growth from the shortest, one pas
 prints the sites by category and the bytes they gained; `--dump-map` writes, per input `.text`, where it went and the length change of every site, which is what
 `tools/check-relax.py` needs to find every instruction of the linked image.
 
-## 4. The reaches (from the grammars `spec/pdp64-NN/pdp64-NN.hbnf`)
+## 4. The reaches (from the grammar `spec/pdp64/pdp64.hbnf`)
 
 > **Note (2026-11-04, integration).** The numbers of this section were taken from the grammars before the `cbCC` re-optimisation (`docs/encoding-work/cbreach.md`): the `cbCC` rows (4-byte forms 256 B to 16 KiB, no 6-byte form) are superseded, the re-optimised grammars have three-parcel `cbCC` (16-bit immediate with a 12-bit pc field, 8-bit immediate with a 20-bit pc field, two registers with a 24-bit pc field; `docs/encoding-proposal.md` 12.3). The call, `jmp`, `movcall` and `lea` rows are unchanged. Measurements in section 7 were made with the old grammars and the compiler of that time; the integrated numbers are in `docs/encoding-work/integration.md`.
 
@@ -236,6 +235,6 @@ left long in these programs (7 and 3 indirect calls are not sites).  Beyond 1 Mi
 
 ### 7.5 Relaxation is the default
 
-`as64` makes relaxation objects for pdp64/16 and pdp64/32 unless `--no-relax`; `ld64` relaxes every object that carries `RELAX` unless `--no-relax`; pdp64/r20 is untouched.  Consequences in this tree: the bytes of the `.text` of an object are the same with and without the flag (the relaxation object only adds relocations; paddings keep their length), so the assembler tests of `tests/asm-pdp64-NN` and `check-drift-enc` pass unchanged against the model's expectations; the unrelaxed link of `tests/ld-pdp64-NN` (words and map from the model) is made from `--no-relax` objects; the relaxed link of
+`as64` makes relaxation objects unless `--no-relax`; `ld64` relaxes every object that carries `RELAX` unless `--no-relax`; pdp64/r20 is untouched.  Consequences in this tree: the bytes of the `.text` of an object are the same with and without the flag (the relaxation object only adds relocations; paddings keep their length), so the assembler tests of `tests/asm-pdp64-NN` and `check-drift-enc` pass unchanged against the model's expectations; the unrelaxed link of `tests/ld-pdp64-NN` (words and map from the model) is made from `--no-relax` objects; the relaxed link of
 `tests/ld-pdp64-NN` is checked against the model relaxing the same program by itself (`tools/check-ld-relax.py`); `asm_vs_model.py` compares unrelaxed assembler sizes (`as64 --no-relax --dump-lens`).  A tool that assembles and links
 needs no flag (`tools/pdp64test*.sh` and `pdp64size.py`, which call `ccom`, `as64` and `ld64` themselves, work unchanged; the pcc driver `cc` is not built for pdp64); it must pass `--no-relax` only to get the long forms.

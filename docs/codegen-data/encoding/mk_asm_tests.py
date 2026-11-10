@@ -1,4 +1,4 @@
-"""Writes the assembled-program tests of the prefix-coded encodings: tests/asm-pdp64-16 and tests/asm-pdp64-32 (NAME.s, NAME.words, NAME.flags).
+"""Writes the assembled-program tests of the prefix-coded encodings: tests/asm (NAME.s, NAME.words).
 
 The expected parcels are not as64's: they come from the Python prototype of the encoding (enc.py, scheme.py: choose the shortest form, relax against real
 distances, pack the bits), built from spec/pdp64-NN/pdp64-NN.hbnf, applied to the parser of the prototype (fit/m2.py).  Unresolved externals are 0 in the
@@ -176,11 +176,11 @@ x:\tret
 }
 
 def run(which):
-    d = encgram.load(which, ROOT)
+    d = encgram.load(ROOT)
     forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
     sc = Scheme(forms)
     enc.RELOC = 'max'
-    outdir = os.path.join(ROOT, 'tests', 'asm-pdp64-' + which)
+    outdir = os.path.join(ROOT, 'tests', 'asm')
     progs = dict(COMMON)
     if which == '32': progs.update(EXTRA32)
     for name, (flags, src) in sorted(progs.items()):
@@ -218,6 +218,5 @@ def run(which):
         open(os.path.join(outdir, name + '.words'), 'w').write(' '.join(out) + '\n')
         if longrun: open(os.path.join(outdir, name + '.total'), 'w').write('%d\n' % len(txt))
         elif os.path.exists(os.path.join(outdir, name + '.total')): os.remove(os.path.join(outdir, name + '.total'))
-        open(os.path.join(outdir, name + '.flags'), 'w').write(('-m pdp64/%s %s' % (which, flags)).strip() + '\n')
         print(which, name, len(words), 'parcels')
-run('16'); run('32')
+run('32')
