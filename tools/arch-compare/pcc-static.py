@@ -6,7 +6,8 @@ columns: file,status,ins,ibytes,text,data_in_text,pad_ins,pad_bytes,calls,msg"""
 import os, sys, subprocess, tempfile, concurrent.futures as cf
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import objstat
-TOOLCHAIN = os.environ.get('TOOLCHAIN', os.path.expanduser('~/claude/facetlang/pdp11/v7unix-toolchain')) + '/tools'
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+TOOLCHAIN = os.environ.get('TOOLCHAIN', os.path.join(os.path.dirname(REPO), 'facetlang', 'pdp11', 'v7unix-toolchain')) + '/tools'
 sys.path.insert(0, TOOLCHAIN)
 from corpus import ARCH
 indir, out, arch, ccom = sys.argv[1:5]

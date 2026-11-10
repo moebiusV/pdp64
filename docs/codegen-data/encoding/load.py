@@ -3,7 +3,7 @@ import sys,json,collections,pickle,os
 sys.dont_write_bytecode=True
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 from m2 import *
-S=os.environ.get('PDP64_CORPUS_ROOT','/tmp/claude-1000/-home-david-claude-pdp64/c8eb5fe9-a8c9-4e79-aafa-1502bfe6a13e/scratchpad')
+S=os.environ.get('PDP64_CORPUS_ROOT',os.environ.get('PDP64_SCRATCH','/tmp/pdp64-scratch'))
 def corpus(tag):
     d=os.environ.get('PDP64_CORPUS_DIR_'+tag.upper()) or f'{S}/spill/asm-{tag}'
     out=[]

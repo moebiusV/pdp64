@@ -4,10 +4,10 @@
 # an Alpine edge rootfs run under bwrap (user namespaces), GNAT 15 from Alpine, gprbuild and mustache-ada from
 # the ada-on-alpine overlay's .apk files.  Result: $OUT/hbnf (static, runs on the host), and the templates dir.
 #
-#   tools/build-hbnf.sh [WORKDIR]      default /tmp/claude-1000/hbnf-latest ; output WORKDIR/hbnf and WORKDIR/hbnf-templates
+#   tools/build-hbnf.sh [WORKDIR]      default /tmp/hbnf-latest ; output WORKDIR/hbnf and WORKDIR/hbnf-templates
 set -eu
-W=${1:-/tmp/claude-1000/hbnf-latest}
-APKS=${HBNF_APKS:-$HOME/claude/ada-on-alpine/.work/packages}
+W=${1:-/tmp/hbnf-latest}
+APKS=${HBNF_APKS:-$(cd "$(dirname "$0")/../.." && pwd)/ada-on-alpine/.work/packages}   # the ada-on-alpine tree, next to this repository
 mkdir -p "$W"; cd "$W"
 if [ ! -d root/bin ]; then
 	[ -f mini.tar.gz ] || curl -sfL -o mini.tar.gz https://dl-cdn.alpinelinux.org/alpine/edge/releases/x86_64/alpine-minirootfs-3.24.0-x86_64.tar.gz

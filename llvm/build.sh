@@ -3,14 +3,15 @@
 #
 #   llvm/build.sh [-j N]       install.sh + configure + ninja; the result is $LLVM_BUILD/bin/llvm-mc
 #
-# LLVM_SRC (default ~/claude/llvm-project, tag llvmorg-21.1.8) and LLVM_BUILD (default ~/claude/llvm-build) name the two trees.
+# LLVM_SRC (default ../llvm-project next to this repository, tag llvmorg-21.1.8) and LLVM_BUILD (default ../llvm-build) name the two trees.
 # The defaults are for a small machine (3 GB, 2 cores): one compile job, one link job, the BFD linker with --no-keep-memory,
 # assertions on (they catch an encoder that disagrees with the tables).  On a bigger machine:  llvm/build.sh -j 16  with
 # LLVM_USE_LINKER=lld, and add the targets you want (clang, llc ...) to TARGETS.
 set -e
 here=$(CDPATH= cd -- "$(dirname "$0")" && pwd -P)
-L=${LLVM_SRC:-$HOME/claude/llvm-project}
-B=${LLVM_BUILD:-$HOME/claude/llvm-build}
+SIB=$(dirname "$(dirname "$here")")
+L=${LLVM_SRC:-$SIB/llvm-project}
+B=${LLVM_BUILD:-$SIB/llvm-build}
 J=1
 [ "${1:-}" = -j ] && J=$2
 [ -d "$L/.git" ] || git clone --depth 1 --branch llvmorg-21.1.8 https://github.com/llvm/llvm-project.git "$L"

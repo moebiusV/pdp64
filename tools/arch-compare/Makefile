@@ -1,7 +1,7 @@
 # arch-compare -- static size of the 841-file corpus for pdp64 (pcc), pcc amd64 and i386, and GCC/clang for RISC-V, AArch64, x86, Arm, MIPS64.
 # usage: make WORK=/some/scratch/dir all       (see README.md for what has to exist first)
 WORK     ?= /tmp/arch-compare
-PCCENC   ?= $(HOME)/claude/pcc   # the pcc branch single-pdp64 (one target)
+PCCENC   ?= $(abspath $(CURDIR)/../../../pcc)   # the pcc branch single-pdp64 (one target)
 AS64     ?= $(CURDIR)/../../build/as64
 OUT      ?= $(CURDIR)/../../docs/encoding-work/arch-data
 FLAGS_A  = -xdmr -xtemps -xdeljumps -xinline -xdce -xssa

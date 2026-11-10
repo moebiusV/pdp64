@@ -1,11 +1,11 @@
 #!/bin/sh
-# Build the pdp64 pcc ccom from the tracked files of the pcc working tree (PCC, default ~/claude/pcc) into build/pcc/:
+# Build the pdp64 pcc ccom from the tracked files of the pcc working tree (PCC, default ../pcc, a sibling of this repository) into build/pcc/:
 #	build/pcc/ccom		the compiler of the pdp64 (32 registers, the encoding of spec/pdp64/pdp64.hbnf); `-m pdp64` is accepted, any other target refused
 # This needs the pcc branch `single-pdp64` (one target); the master of moebiusV/pcc still builds the earlier iterations, which these tools no longer assemble.
 # An unchanged source tree is not rebuilt.
 set -eu
 cd "$(dirname "$0")/.."
-PCC=${PCC:-$HOME/claude/pcc}
+PCC=${PCC:-$(dirname "$PWD")/pcc}
 d=$PWD/build/pcc
 id=$(cd "$PCC" && git ls-files -z -- cc mip common os configure.ac arch/pdp64 cc2 | xargs -0 sha1sum | sha1sum | cut -c1-40)
 if [ -x "$d/ccom" ] && [ "$(cat "$d/.srcid" 2>/dev/null)" = "$id" ]; then echo "pcc: unchanged"; exit 0; fi

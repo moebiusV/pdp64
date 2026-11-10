@@ -1,10 +1,11 @@
 #!/bin/sh
-# Configure and build qemu-system-pdp64 out of tree (default ~/claude/qemu-build) from ~/claude/qemu-src.
+# Configure and build qemu-system-pdp64 out of tree (QEMU_BUILD, default ../qemu-build next to this repository) from QEMU_SRC (default ../qemu-src).
 # usage: qemu/build.sh [-j N]      (a first build takes a long time on two cores: run it in the background)
 set -e
 here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
-Q=${QEMU_SRC:-$HOME/claude/qemu-src}
-B=${QEMU_BUILD:-$HOME/claude/qemu-build}
+SIB=$(dirname "$(dirname "$here")")
+Q=${QEMU_SRC:-$SIB/qemu-src}
+B=${QEMU_BUILD:-$SIB/qemu-build}
 J=2; [ "${1:-}" = "-j" ] && J=$2
 "$here/install.sh" "$Q"
 mkdir -p "$B"

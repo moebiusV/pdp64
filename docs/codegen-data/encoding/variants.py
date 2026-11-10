@@ -3,7 +3,7 @@ import enc
 from solve import *
 from scheme import *
 from cur import cur_len
-S='/tmp/claude-1000/-home-david-claude-pdp64/c8eb5fe9-a8c9-4e79-aafa-1502bfe6a13e/scratchpad/enc'
+import os; S=os.environ.get('PDP64_SCRATCH','/tmp/pdp64-scratch')+'/enc'
 _cache={}
 def prep(tag,lenfun=None):
     if tag in _cache and lenfun is None: return _cache[tag]

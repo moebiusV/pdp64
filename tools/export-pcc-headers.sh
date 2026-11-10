@@ -1,11 +1,11 @@
 #!/bin/sh
 # Write the header the pcc back end includes (mnemonic spellings) into the back end's directory, or with --check
 # say whether the copy there is current.  It is generated, but committed with the back end, so building pcc does not need hbnf.
-#   tools/export-pcc-headers.sh [--check] [DIR]      default DIR: ~/claude/pcc/arch/pdp64
+#   tools/export-pcc-headers.sh [--check] [DIR]      default DIR: $PCC/arch/pdp64, PCC being ../pcc (a sibling of this repository) unless set
 set -e
 cd "$(dirname "$0")/.."
 mode=export; [ "$1" = --check ] && { mode=check; shift; }
-DEST=${1:-$HOME/claude/pcc/arch/pdp64}
+DEST=${1:-${PCC:-$(dirname "$PWD")/pcc}/arch/pdp64}
 B=${BUILD:-build}
 python3 tools/mkgrammar.py
 if [ "$mode" = check ]; then

@@ -1,5 +1,5 @@
 import sys, json, csv, collections, re
-sys.path.insert(0,'/home/david/claude/pdp64/tools'); sys.argv=['x']
+import os; sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..')); sys.argv=['x']
 import pdp64size as p
 MN=json.load(open('/tmp/p64opt/analysis.json'))['pdp64_mn']
 MN['rori']=MN.get('rori',0)+MN.get('rol',0)

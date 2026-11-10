@@ -17,7 +17,7 @@ tools/check-exec-enc.sh
 tools/check-relax.sh | tail -n 1
 tools/check-relax.sh --mutate | tail -n 1
 tools/check-flaginv.sh | tail -n 1
-if [ -x "${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64}" ]; then
+if [ -x "${PDP64_QEMU:-$(dirname "$PWD")/qemu-build/qemu-system-pdp64}" ]; then
 	tools/check-qemu.sh
 else
 	echo "check-qemu: skipped (no qemu-system-pdp64; see qemu/README.md)"

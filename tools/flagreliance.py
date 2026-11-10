@@ -122,7 +122,7 @@ def main():
     if a.ctests:
         if not a.ccom:
             sys.exit('--ctests needs --ccom or PDP64CCOM')
-        toolchain = os.environ.get('TOOLCHAIN', os.path.expanduser('~/claude/facetlang/pdp11/v7unix-toolchain'))
+        toolchain = os.environ.get('TOOLCHAIN', os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'facetlang', 'pdp11', 'v7unix-toolchain'))
         flagsets = ['', '-xdmr', '-xtemps -xdeljumps -xinline -xdce', '-xdmr -xtemps -xdeljumps -xinline -xdce',
                     '-xdmr -xtemps -xdeljumps -xinline -xdce -xssa', '-xdmr -xtemps -xdeljumps -xinline -xdce -xabs']
         work += compile_ctests(a.ccom, flagsets, [os.path.join(here, '..', 'tests', 'c'), os.path.join(toolchain, 'tools', 'a64tests')])

@@ -15,10 +15,11 @@ of each operand, so the tables of the report (lengths, mnemonics, addressing mod
 Files that fail to compile or assemble are listed with the first error, grouped by cause.
 """
 import os, re, sys, json, glob, struct, argparse, tempfile, subprocess, collections
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import concurrent.futures as cf
 
 # the corpus machinery (file lists, per-corpus defines, the other targets' builds) belongs to the v7unix-toolchain repo; this script borrows it
-TOOLCHAIN = os.environ.get('TOOLCHAIN', os.path.expanduser('~/claude/facetlang/pdp11/v7unix-toolchain')) + '/tools'
+TOOLCHAIN = os.environ.get('TOOLCHAIN', os.path.join(os.path.dirname(REPO), 'facetlang', 'pdp11', 'v7unix-toolchain')) + '/tools'
 sys.path.insert(0, TOOLCHAIN)
 import corpus
 # pdp64 is LP64, little-endian, signed char, like aarch64: the same musl headers and the same defines (the same preprocessed text);
@@ -30,7 +31,7 @@ from corpus import ROOT, ARCH, CORPORA, BUILDS, run, ccomflags, cfiles
 TOOL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # pdp64 is measured with build/pcc/ccom (tools/build-pcc.sh) and build/as64 --stats, which counts the instruction bytes itself.
 RESULTS = os.environ.get('RESULTS', '/tmp/co-final/results.jsonl')
-MNEM = os.path.expanduser('~/claude/pdp64/spec/pdp64-mnemonics.hbnf')
+MNEM = os.path.join(REPO, 'spec', 'pdp64-mnemonics.hbnf')
 
 CCOMFLAGS_NOSSA = '-xdmr -xtemps -xdeljumps -xinline -xdce'
 COMMENT = {'pdp64': ';', 'amd64': '#', 'i386': '#', 'aarch64': '//', 'gcc-Os': '#', 'clang-Os': '#'}

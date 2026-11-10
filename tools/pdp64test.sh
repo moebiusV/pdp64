@@ -71,6 +71,6 @@ if [ $nomemcpy = 1 ]; then awk '/^\t.globl\tmemcpy/{skip=6} skip>0{skip--; next}
 for f in t main crt; do "$T/as64" -o "$tmp/$f.o" "$tmp/$f.s"; done
 "$T/ld64" -o "$tmp/t.x" "$tmp/crt.o" "$tmp/main.o" "$tmp/t.o"
 if [ "${PDP64RUN:-sim64}" = qemu ]; then
-	exec ${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64} -M pdp64-virt -display none -monitor none -serial none -nodefaults -kernel "$tmp/t.x"
+	exec ${PDP64_QEMU:-$(dirname "${B%/build}")/qemu-build/qemu-system-pdp64} -M pdp64-virt -display none -monitor none -serial none -nodefaults -kernel "$tmp/t.x"
 fi
 "$T/sim64" "$tmp/t.x"

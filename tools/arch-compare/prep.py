@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""prep.py -- preprocess the fair corpus (fair.txt: "corpus<TAB>path relative to ~/claude/corpora") for an architecture.
+"""prep.py -- preprocess the fair corpus (fair.txt: "corpus<TAB>path relative to the corpora tree (ROOT of corpus.py, in the toolchain repository)") for an architecture.
 
 usage: prep.py ARCH OUTDIR [-j N]       ARCH = aarch64 (the text pdp64 gets) or riscv64
 
 Exactly the preprocessing of tools/pdp64size.py / corpus.py (gcc -E -P -undef -nostdinc -std=gnu99, the architecture's musl headers
-under ~/claude/corpora/sysroot/<arch>/include, the corpus's -I and -D); per architecture only the arch defines differ.
+under <corpora>/sysroot/<arch>/include, the corpus's -I and -D); per architecture only the arch defines differ.
 Writes OUTDIR/NNN.i and OUTDIR/index.tsv (NNN, corpus, source).  corpus.py comes from the v7unix-toolchain repository (TOOLCHAIN=).
 """
 import os, sys, concurrent.futures as cf
-TOOLCHAIN = os.environ.get('TOOLCHAIN', os.path.expanduser('~/claude/facetlang/pdp11/v7unix-toolchain')) + '/tools'
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+TOOLCHAIN = os.environ.get('TOOLCHAIN', os.path.join(os.path.dirname(REPO), 'facetlang', 'pdp11', 'v7unix-toolchain')) + '/tools'
 sys.path.insert(0, TOOLCHAIN)
 import corpus
 from corpus import ROOT, ARCH, CORPORA, run

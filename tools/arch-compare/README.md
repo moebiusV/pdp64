@@ -7,9 +7,9 @@ for pdp64 (pcc), pcc amd64 and i386, and GCC and clang for RISC-V (rv64gc, rv64g
 ## What has to exist
 
 * the pdp64 tools of the repository: `build/as64` (`tools/build-as64.sh`);
-* the pcc tree: `PCCENC=~/claude/pcc` on the branch `single-pdp64` (`build-ccoms.sh` builds from a scratch copy and leaves the tree alone); the numbers of pdp64/32 and pdp64/16 in `docs/encoding-work/arch-data` were measured with the tools of the git tag `pre-single-cpu`;
-* the corpora under `~/claude/corpora` (with `sysroot/<arch>/include`, the musl headers) and the v7unix-toolchain repository
-  (`~/claude/facetlang/pdp11/v7unix-toolchain`, `TOOLCHAIN=` to move it): `prep.py` imports its `tools/corpus.py` for the per-corpus include directories and defines,
+* the pcc tree: `PCCENC=<work>/pcc` on the branch `single-pdp64` (`build-ccoms.sh` builds from a scratch copy and leaves the tree alone); the numbers of pdp64/32 and pdp64/16 in `docs/encoding-work/arch-data` were measured with the tools of the git tag `pre-single-cpu`;
+* the corpora under `<work>/corpora` (with `sysroot/<arch>/include`, the musl headers) and the v7unix-toolchain repository
+  (`<work>/facetlang/pdp11/v7unix-toolchain`, `TOOLCHAIN=` to move it): `prep.py` imports its `tools/corpus.py` for the per-corpus include directories and defines,
   exactly as `tools/pdp64size.py` does;
 * `clang` (21) with the RISC-V, AArch64, ARM, MIPS and x86 targets, `llvm-objdump-21`, host `gcc` (x86-64 and -m32);
 * No GCC rows (dropped); the diagnosis probes of `diag-riscv-backend.sh` need GNU `as` and `ld` for RISC-V (binutils 2.43.1 configured `--target=riscv64-unknown-elf`) in `WORK/gccx/prefix/bin`.
@@ -18,7 +18,7 @@ for pdp64 (pcc), pcc amd64 and i386, and GCC and clang for RISC-V (rv64gc, rv64g
 
 | file | what |
 |---|---|
-| `fair.txt` | the 841 files: corpus, path under `~/claude/corpora` (the `fair` set of `tools/pdp64size.py`: what the aarch64, amd64 and i386 builds of corpus.py all compile with `ours -O`, from `/tmp/co-final/results.jsonl`) |
+| `fair.txt` | the 841 files: corpus, path under `<work>/corpora` (the `fair` set of `tools/pdp64size.py`: what the aarch64, amd64 and i386 builds of corpus.py all compile with `ours -O`, from `/tmp/co-final/results.jsonl`) |
 | `prep.py ARCH OUT` | preprocess the 841 files for ARCH (`aarch64` is the text pdp64 gets) into `OUT/NNN.i`, `OUT/index.tsv` |
 | `build-ccoms.sh TREE DIR` | build ccom for pdp64, amd64, i386 and (for the diagnosis) riscv64 from scratch copies of TREE |
 | `pdp64-static.py` | `ccom -m pdp64`, `as64 -m pdp64 --stats`: instructions, instruction bytes and `.text` bytes per file |

@@ -8,7 +8,7 @@
 # PDP64_ONLY="name name" runs just those tests.  NAME.S is run through the C preprocessor with build/pdp64-consts.h first (tools/pp-asm.sh).  qemu/build.sh builds the emulator; PDP64_QEMU overrides its path.
 set -u
 cd "$(dirname "$0")/.."
-Q=${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64}
+Q=${PDP64_QEMU:-$(dirname "$PWD")/qemu-build/qemu-system-pdp64}
 [ -x "$Q" ] || { echo "check-qemu: $Q not found (qemu/build.sh)"; exit 1; }
 tools/build-sim64.sh > /dev/null
 qemu/sync.sh --check > /dev/null || { echo "check-qemu: qemu/target-pdp64/gen is stale (qemu/sync.sh)"; exit 1; }

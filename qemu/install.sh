@@ -1,9 +1,10 @@
 #!/bin/sh
-# Put the pdp64 target into a QEMU v11.1.x source tree (default ~/claude/qemu-src): apply qemu-core.patch (the small changes to
+# Put the pdp64 target into a QEMU v11.1.x source tree (QEMU_SRC, default ../qemu-src next to this repository): apply qemu-core.patch (the small changes to
 # QEMU's own files) and copy the new directories.  Idempotent.  The tree is a scratch clone; nothing here is committed to it.
 set -e
 here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
-Q=${1:-${QEMU_SRC:-$HOME/claude/qemu-src}}
+SIB=$(dirname "$(dirname "$here")")
+Q=${1:-${QEMU_SRC:-$SIB/qemu-src}}
 [ -f "$Q/target/meson.build" ] || { echo "$Q is not a QEMU source tree" >&2; exit 1; }
 "$here/sync.sh" --check > /dev/null || { echo "qemu/target-pdp64/gen is stale: run qemu/sync.sh" >&2; exit 1; }
 cd "$Q"

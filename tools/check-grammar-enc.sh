@@ -11,8 +11,8 @@
 # HBNF and HBNF_TEMPLATES as in tools/build-as64.sh.
 set -e
 cd "$(dirname "$0")/.."
-HBNF=${HBNF:-/tmp/claude-1000/hbnf-latest/hbnf}
-TPL=${HBNF_TEMPLATES:-/tmp/claude-1000/hbnf-latest/hbnf-templates}
+HBNF=${HBNF:-/tmp/hbnf-latest/hbnf}
+TPL=${HBNF_TEMPLATES:-/tmp/hbnf-latest/hbnf-templates}
 T=$(mktemp -d "${TMPDIR:-/tmp}/grammar-enc.XXXXXX")
 trap 'rm -rf "$T"' EXIT
 GOLD=tests/enc/generated.sha256

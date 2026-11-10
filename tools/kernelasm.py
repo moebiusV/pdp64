@@ -5,7 +5,8 @@ Research use only.  The kernel sources are GPL or BSD licensed; nothing is copie
 
 HOW TO REPRODUCE (the revisions used for docs/kernel-asm-survey.md are in that document and in docs/codegen-data/kernelasm/sources.txt)
   1. Clone, blobless and sparse, OUTSIDE the repository (nothing under kernel-src is ever committed):
-       mkdir -p ~/claude/kernel-src && cd ~/claude/kernel-src
+       (KERNEL_SRC defaults to ../kernel-src, next to this repository)
+       mkdir -p $KERNEL_SRC && cd $KERNEL_SRC
        git clone --depth 1 --filter=blob:none --sparse https://github.com/torvalds/linux linux
        git clone --depth 1 --filter=blob:none --sparse https://github.com/freebsd/freebsd-src freebsd
        git clone --depth 1 --filter=blob:none --sparse https://github.com/NetBSD/src netbsd
@@ -16,7 +17,7 @@ HOW TO REPRODUCE (the revisions used for docs/kernel-asm-survey.md are in that d
      hp300,sun3,mac68k,amiga,hppa} and sys/lib/libkern/arch; OpenBSD sys/arch/{amd64,i386,arm64,armv7,arm,riscv64,powerpc,powerpc64,sparc64,mips64,
      alpha,hppa,m88k} and sys/lib/libkern/arch).
   2. The compiled-code side is the assembly of the fair corpus, /tmp/p64opt/archcmp/<arch>/*.s (the comparison agent's output).
-  3. python3 tools/kernelasm.py all --src ~/claude/kernel-src --corpus /tmp/p64opt/archcmp --out docs/codegen-data/kernelasm
+  3. python3 tools/kernelasm.py all --src $KERNEL_SRC --corpus /tmp/p64opt/archcmp --out docs/codegen-data/kernelasm
      (sub-commands: extract, corpus, join, classify, sample FAMILY KERNEL N, all; the output CSVs are listed in docs/kernel-asm-survey.md).
   Revisions used (shallow clones, 2026-10-22): linux 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614, freebsd 3200a274272d28cf6d2385a8ea46959f313866de,
   netbsd cdcd52a8183344cabc6a4296b4bbe7e7c5fd3cdc, openbsd 2114d7b7c8fbfd8d285dd7b5b5eb44e1f6b70f55 (also in docs/codegen-data/kernelasm/sources.txt).
@@ -987,7 +988,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('cmd', choices=['extract', 'corpus', 'join', 'classify', 'all', 'sample'])
     ap.add_argument('rest', nargs='*')
-    ap.add_argument('--src', default=os.path.expanduser('~/claude/kernel-src'))
+    ap.add_argument('--src', default=os.environ.get('KERNEL_SRC', os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'kernel-src')))
     ap.add_argument('--corpus', default='/tmp/p64opt/archcmp')
     ap.add_argument('--out', default=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'codegen-data', 'kernelasm'))
     a = ap.parse_args()

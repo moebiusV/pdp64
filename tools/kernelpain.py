@@ -17,13 +17,13 @@ Sub-commands
   grep         run every category over every tree, write the CSVs under
                docs/codegen-data/kernelpain/ (counts.csv, totals.csv)
   structural   run the named structural measurements (structural.csv)
-  clonemsgs R  clone repo R treeless and bare into ~/claude/kernel-msgs/R.git
+  clonemsgs R  clone repo R treeless and bare into $KERNEL_MSGS/R.git (default ../kernel-msgs)
   msgs R       mine the commit messages of that clone (counts per year, per
                subject prefix, telling commits); the clone is deleted by the
                caller afterwards (tools/kernelpain-msgs.sh)
   report       print markdown tables from the CSVs
 
-Trees (sparse checkouts under ~/claude/kernel-src; shallow, blobless):
+Trees (sparse checkouts under $KERNEL_SRC (default ../kernel-src); shallow, blobless):
   linux, freebsd, netbsd, openbsd. Which directories are present is recorded
   in trees.csv by `trees`. Sparse additions used for this study, one at a time:
     linux:   git sparse-checkout add Documentation mm kernel include/linux
@@ -39,7 +39,8 @@ A category's regex measures vocabulary, not truth.
 import csv, os, re, subprocess, sys, collections
 
 HOME = os.path.expanduser("~")
-SRC = os.path.join(HOME, "claude", "kernel-src")
+SIB = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))   # the directory holding this repository
+SRC = os.environ.get("KERNEL_SRC", os.path.join(SIB, "kernel-src"))
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "docs", "codegen-data", "kernelpain")
 TREES = ["linux", "freebsd", "netbsd", "openbsd"]
@@ -374,7 +375,7 @@ def report():
             print(f"| {a} | {n} | {g('errata')} | {g('workaround')} | {g('quirk')} | {g('hardware-is-broken')} | {1000.0*s/n:.1f} |")
 
 
-MSGDIR = os.path.join(HOME, "claude", "kernel-msgs")
+MSGDIR = os.environ.get("KERNEL_MSGS", os.path.join(SIB, "kernel-msgs"))
 MSG_URLS = {
     "linux": "https://github.com/torvalds/linux",
     "freebsd": "https://github.com/freebsd/freebsd-src",

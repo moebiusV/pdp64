@@ -1,4 +1,4 @@
-import sys,random,collections,json,re
+import os,sys,random,collections,json,re
 sys.path.insert(0,'.')
 import enc
 from enc import *
@@ -104,7 +104,7 @@ def decodability(sc):
     return dict(leaves=len(code.leaves),forms=len(code.forms),clashes=clash,assigned_patterns=assigned,free_patterns=65536-assigned,by_len={k:v for k,v in sorted(cnt.items())},
                 kraft=code.kraft,free_fraction=1-code.kraft)
 def probe_cases():
-    d=json.load(open('/tmp/claude-1000/-home-david-claude-pdp64/c8eb5fe9-a8c9-4e79-aafa-1502bfe6a13e/scratchpad/layouts/probe.json'))
+    d=json.load(open(os.path.join(os.environ.get('PDP64_SCRATCH','/tmp/pdp64-scratch'),'layouts','probe.json')))
     out=[]
     REGRE=re.compile(r'^(r\d+|sp|fp)$')
     for w,lst in d.items():

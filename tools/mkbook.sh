@@ -7,7 +7,7 @@
 #
 # book/outline.txt (the order), book/sources.txt (which Markdown makes each entry), book/book.conf and book/template.typ are the inputs;
 # book/build/ is made fresh.  The Markdown is the generated manual, docs/manual/ (tools/mkmanual.py).  buildabook is found on PATH, or in
-# $BUILDABOOK, or at ~/claude/buildabook/buildabook.
+# $BUILDABOOK, or at ../buildabook/buildabook (a sibling of this repository).
 set -eu
 cd "$(dirname "$0")/.."
 ROOT=$(pwd)
@@ -19,7 +19,7 @@ for a in "$@"; do
 	esac
 done
 BAB=${BUILDABOOK:-$(command -v buildabook || true)}
-[ -n "$BAB" ] || BAB=$HOME/claude/buildabook/buildabook
+[ -n "$BAB" ] || BAB=$(dirname "$ROOT")/buildabook/buildabook
 if [ ! -x "$BAB" ]; then
 	if [ "$CHECK" = 1 ]; then echo "mkbook: skipped (buildabook not found; put it on PATH or set BUILDABOOK)"; exit 0; fi
 	echo "mkbook: buildabook not found (put it on PATH or set BUILDABOOK)" >&2

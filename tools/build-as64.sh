@@ -4,8 +4,8 @@
 # tables of the encoding (build/pdp64-tab.c, from spec/pdp64/pdp64.hbnf).
 set -e
 cd "$(dirname "$0")/.."
-HBNF=${HBNF:-/tmp/claude-1000/hbnf-latest/hbnf}
-TPL=${HBNF_TEMPLATES:-/tmp/claude-1000/hbnf-latest/hbnf-templates}
+HBNF=${HBNF:-/tmp/hbnf-latest/hbnf}
+TPL=${HBNF_TEMPLATES:-/tmp/hbnf-latest/hbnf-templates}
 B=${BUILD:-build}; mkdir -p "$B"
 python3 tools/mkgrammar.py
 python3 tools/mkenc.py
