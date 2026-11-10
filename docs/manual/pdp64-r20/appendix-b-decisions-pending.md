@@ -106,7 +106,7 @@
 
 ### B.2.5 Inter-processor interrupts and starting other cores (R2, B2)
 
-**B.2.5.1** The proposal is a per-core doorbell register and a per-core start register in the bus controller (chapter 4), with `SEV` and `WFE` for waiting. *(P)*
+**B.2.5.1** The proposal is a per-core doorbell register and a per-core start register in the bus controller (4.7), with `SEV` and `WFE` for waiting. *(P)*
 
 *Commentary.* **Precedent.** The VAX's console processor started the other processors. **Modern comparables.** x86's INIT and START-UP sequence, ARM's PSCI and spin table, RISC-V's hart-start call. **Impact.** *Kernel:* One register write per core and one per doorbell. *Compiler:* None. *Hardware:* A start register and a doorbell per core.
 
@@ -154,9 +154,9 @@
 
 ### B.2.13 The boot decisions (B1, B3, B4, B5, B8)
 
-**B.2.13.1** The proposals are a boot ROM that reads block 0 (B1), a boot-information block of memory, cores, the root complex's address and the boot device and console (B3), an `INIT` bit with an optional firmware descriptor (B4), no UEFI, with a simple hand-off a shim could use (B5), and a block list in the protective MBR's boot code (B8). *(P)*
+**B.2.13.1** The proposals are a boot ROM that reads block 0 (B1), a boot-information block of memory, cores, the root complex's address and the boot device and console (B3), an `INIT` bit with an optional firmware descriptor (B4) and a block list in the protective MBR's boot code (B8). *(P)* There is no UEFI, with a hand-off and a second stage simple enough for a shim (B5, decided by the author, errata 109, 4.9). *(D)*
 
-*Commentary.* See chapter 4 and [`../boot.md`](../../boot.md): the PDP-11's block 0 and `ODT`, the VAX's boot block and restart parameter block, the BIOS and UEFI. **Impact.** *Kernel:* A boot-information struct and a core start register. *Compiler:* The loader and first block are built by the project's compiler. *Hardware:* A boot ROM, a block-0 reader and per-core start registers.
+*Commentary.* See chapter 4 and [`../boot.md`](../../boot.md): the PDP-11's block 0 and `ODT`, the VAX's boot block and restart parameter block, the BIOS and UEFI (4.9 for the UEFI decision and the shim). **Impact.** *Kernel:* A boot-information struct and a core start register. *Compiler:* The loader and first block are built by the project's compiler. *Hardware:* A boot ROM, a block-0 reader and per-core start registers.
 
 ### B.2.14 How USB attaches, and virtio first
 

@@ -87,7 +87,7 @@ used ring (the device writes):       flags, idx, ring[ ] of (head id, bytes writ
 
 ## 5.5 The default devices
 
-**5.5.1** The **disk** is virtio-blk (the author's decision of 2026-11-10, errata 101) with read, write and flush at 512-byte sectors. *(D)* The boot ROM reads block 0 with one read request on the device's queue. *(P)*
+**5.5.1** The **disk** is virtio-blk (the author's decision of 2026-11-10, errata 101) with read, write and flush at 512-byte sectors. *(D)* The boot ROM reads block 0 with one read request on the device's queue (4.4). *(P)*
 
 **5.5.2** The **network card** is virtio-net: a receive queue the host fills with buffers for the device and a transmit queue of frames to send; the device completes each receive buffer with the frame length. *(D)*
 

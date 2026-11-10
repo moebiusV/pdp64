@@ -117,8 +117,15 @@
 | **rio, NeWS** | Plan 9's window system, in which each window is a private screen served as files, a descendant of the Blit's `mux` through 8½; and Sun's window server that programs downloaded from the host could extend (3.19) |
 | **mixer, ring buffer, underrun** | the program that sums the sample streams of several programs into one after converting their rates and formats; the circular buffer the sound device reads at the converter's clock; the reader reaching samples not yet written, audio's tear (3.20) |
 | **GPU, shader** | a graphics processing unit, thousands of simple lanes; a shader is a small program it runs for every vertex or every pixel (3.6) |
-| **BIOS, boot ROM** | the first software that runs: it brings the hardware up, finds the disk label and loads the next stage; open source (4.1) |
-| **GPT, disk label** | the GUID partition table wrapped around the disk's own label so other systems see the disk is in use (4.3) |
+| **bootstrap, boot ROM, block 0** | the program that loads programs; the ROM in the controller chip that reads the first block of the boot device into memory and jumps to it; that first 512-byte block (4.1, 4.4) |
+| **BIOS** | the PC's firmware: bring-up and self-test, the first sector, a library of services called by software interrupt, and setup; the pdp64's "BIOS" is its boot ROM and monitor, with no resident services; open source (4.2, 4.3) |
+| **first stage, second stage, `installboot`** | the program in block 0, which carries a list of where the next program lies; the C program that reads the label and the file system and loads `/bsd`; the tool that writes the first stage and its list (4.3, 4.5, 4.6) |
+| **partition, MBR, protective MBR** | a named region of a disk; the PC's first sector, with 446 bytes of boot code, a four-entry table and `0xAA55`; the MBR of a GPT disk, with one entry of type `0xEE` covering the disk (4.2, 4.5) |
+| **GPT, disk label** | the GUID partition table wrapped around the disk's own label so other systems see the disk is in use; the BSD label that names the root, swap and other partitions inside one partition (4.2, 4.5) |
+| **boot-information block** | the structure whose address the second stage passes in `r1`: memory ranges, cores, the root complex, the boot device, the console, the screen, the command line (4.6) |
+| **UEFI, PE/COFF, shim** | the PC's later firmware standard, which runs a loader file of the PE/COFF format and offers it boot services; not used by the pdp64; a shim is the small program that would offer those services over virtio to an existing loader (4.2, 4.9) |
+| **`ODT`, monitor, watchdog** | the PDP-11's console debugger; the ROM's console program for examine, deposit, load and start; a timer that restarts the machine if the kernel stops writing to it (4.1, 4.10) |
+| **INIT, START-UP, spin table, hart** | x86's signals that start another core; ARM's table the waiting cores poll; RISC-V's word for a core; the pdp64 writes a start register instead (4.7) |
 | **LB64, MX64, VEC64** | the inference accelerator and its companions: sign-flip-accumulate layers, floating-point multiply-accumulate for attention, and element-wise vector work (8.3) |
 | **APL, K** | array languages whose primitives work on whole arrays; one primitive maps to one descriptor (8.4) |
 
