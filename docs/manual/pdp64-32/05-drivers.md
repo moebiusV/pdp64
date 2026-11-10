@@ -2,134 +2,137 @@
 
 [← manual index](00-index.md)
 
-**A driver on the pdp64 is a short ordinary program: it maps a device's page, writes its registers (at least eight), hands the device descriptors in memory, and finds them marked done, and because the device is always the same shape the same driver skeleton serves a disk, a network card and a serial line.** The chapter gives the driver writer's view of the memory-mapped registers and of DMA: what a driver sees, the uniform eight-register convention and its descriptor, the life of a driver from probe to detach, how data moves and what the driver need not do, the default devices, how errors and departures are handled, interrupts, and how this maps onto OpenBSD's driver interfaces. The bus the devices sit on is chapter 2. Tags: *(D)* decided; *(P)* proposed. A driver is small because a device is eight registers.
+**A driver on the pdp64 is a short ordinary program: it maps a device's windows, negotiates features and sets up queues through the virtio transport, hands the device descriptors in memory and finds them marked used, and because every device speaks virtio the same transport code serves a network card, a display and a sound device, each with a thin class driver on top.** The chapter gives the driver writer's view of the memory-mapped registers and of DMA: what a driver sees, the virtio transport and its queue, the life of a driver from probe to detach, how data moves and what the driver need not do, the default devices, how errors and departures are handled, interrupts, and how this maps onto OpenBSD's driver interfaces. The bus the devices sit on, and how they are found, is chapter 2. Tags: *(D)* decided; *(P)* proposed; *(S)* unspecified.
 
 ## 5.1 What a driver sees
 
-> **PCI Express.** Since errata 75 and 80 (2026-11-03) Q64 is PCI Express, backward compatible, with convenience and security circuitry added on top, and storage is NVMe and USB; the standard network, graphics and audio devices are virtio-net, virtio-gpu and virtio-snd over the virtio PCI Express transport (errata 79). Devices are enumerated by PCI Express configuration space and base-address registers and interrupt by MSI-X, which replace the slot numbers, the slot-derived vectors and the eight-register device rule of the statements below (errata 80, in outline). The eight-register convention and its descriptor describe the pdp64's own devices (the iteration-two cards of chapter 3) and the shape of a driver; the standard devices of iteration one are PCI Express devices with their own drivers; the full rewrite of the chapter waits for the author's answers to the remaining items of `decisions-pending.md` Part F. Statements keep their tags.
-
-**5.1.1** A device is at least eight 64-bit registers at the start of its own 4 KB page (a larger device takes more pages, section 5.2.1), and the page is mapped with the device memory type, strongly ordered. *(P for the page per device; D for the memory types)*
+**5.1.1** A device is a PCI Express function whose windows (the regions its base-address registers describe) a driver maps with the device memory type, strongly ordered. *(D for the memory types; P for windows that start on page boundaries and are whole pages)*
 
 **5.1.2** A driver reaches a register with an ordinary load or store; there are no input or output instructions and no port space. *(D)*
 
-**5.1.3** The registers are 64 bits wide, naturally aligned and accessed whole; the machine is little-endian throughout, so a driver has no byte-order or byte-lane cases. *(D)*
+**5.1.3** Registers are naturally aligned and accessed at their own width; the machine is little-endian throughout and the virtio structures are little-endian, so a driver has no byte-order or byte-lane cases. *(D)*
 
-**5.1.4** Accesses to a device page happen in program order; one `FENCE` separates the last write to memory the device will read from the write of the doorbell. *(D)*
+**5.1.4** Accesses to a device page happen in program order; one `FENCE` separates the last write to memory the device will read from the write that notifies the device. *(D)*
 
-*Commentary.* **Precedent.** A V7 driver is a structure laid over a fixed address: `rk.c` declares `struct device { int rkds; int rker; int rkcs; int rkwc; caddr_t rkba; int rkda; }` and a pointer to it at `0177400`, and reads and writes the fields. **Trade-offs.** One page per device wastes address space and no memory, and lets the kernel give one device to one protection domain. **Improvements.** The register's address is a virtual address the kernel maps, so the driver is position-independent and the same code serves any slot. **Benefits.** There is no accessor layer to learn and nothing to get wrong with endianness or alignment. **Modern comparables.** Linux and BSD wrap register access in an accessor (`readl`, `bus_space_read_8`) to hide port and memory differences and byte order; on the pdp64 those wrappers reduce to a load or a store. **Impact.** *Kernel:* No accessor layer: a register access is a load or a store. *Compiler:* Register access is a 64-bit `volatile` load or store through a pointer to a structure. *Hardware:* A device is decoded by page address; its eight registers are an eight-way decode within the page.
+*Commentary.* **Precedent.** A V7 driver is a structure laid over a fixed address: `rk.c` declares `struct device { int rkds; int rker; int rkcs; int rkwc; caddr_t rkba; int rkda; }` and a pointer to it at `0177400`, and reads and writes the fields. **Trade-offs.** A window of whole pages wastes address space and no memory, and lets the kernel give one device to one protection domain. **Improvements.** The register's address is a virtual address the kernel maps, so the driver is position-independent. **Benefits.** There is no accessor layer to learn and nothing to get wrong with endianness or alignment. **Modern comparables.** Linux and BSD wrap register access in an accessor (`readl`, `bus_space_read_8`) to hide port and memory differences and byte order; on the pdp64 those wrappers reduce to a load or a store. **Impact.** *Kernel:* No accessor layer: a register access is a load or a store. *Compiler:* Register access is a `volatile` load or store of the register's width through a pointer to a structure. *Hardware:* A device window is decoded by page address.
 
-## 5.2 The device convention: eight registers (at least) and DMA
+## 5.2 The device interface: virtio
 
-**5.2.1** Each device is at least eight memory-mapped registers and moves its data by DMA. *(D)* Eight is the minimum every device has, not a limit: a device that needs more (a controller with many queues, a framebuffer, a display's mode and palette registers) maps a larger window in its slot, the first eight registers keep the common layout, and the rest are the device's own. *(D)*
+**5.2.1** Every device is a virtio device, an NVMe controller or a USB (xHCI) controller; the network, graphics and audio devices are virtio-net, virtio-gpu (2D) and virtio-snd, over the virtio PCI Express transport, so that one transport driver and a thin class driver per device serve the system and the same devices run in QEMU, `sim64` and the FPGA. *(D)* Any other PCI Express device may be attached with its own driver. *(D)*
 
-**5.2.1a** The storage interfaces are all this one pattern: SCSI, ATA, SATA and NVMe each present a command queue in host memory, a doorbell and a completion in memory, which is the ring and the descriptor of 5.2.3 with a different descriptor body; an NVMe controller's submission and completion queues are the closest existing form of it. A disk driver for any of them is the same skeleton with a different command encoding. *(D)*
+**5.2.2** The driver finds a virtio device's structures through the capabilities in its configuration space: the common configuration, the notification area, the interrupt status and the device-specific configuration, each at an offset in one of the device's windows. *(D)* The common configuration has these fields, as the virtio specification lays them out:
 
-**5.2.2** The first three registers are the same in every device: `ID`, `CONTROL` and `STATUS`. *(P)*
-
-| Offset | Register | Meaning |
+| Offset | Field | Meaning |
 |---|---|---|
-| `0x00` | `ID` | type, variant, version, feature bits (read-only) |
-| `0x08` | `CONTROL` | enable, `INIT` (initialise yourself), interrupt enable |
-| `0x10` | `STATUS` | `READY`, `ERROR`, `BUSY`, error code |
-| `0x18` | `RING_BASE` | physical address of the descriptor ring |
-| `0x20` | `RING_SIZE` | the ring's size in entries (a power of two) |
-| `0x28` | `DOORBELL` | write the producer index to start work |
-| `0x30` | `IRQ` | cause bits (complete, error, attention); write 1 to clear |
-| `0x38` | `DEVICE` | device-specific (for the polled devices, the data register) |
+| `0x00` | `device_feature_select` | which 32 bits of the device's features `device_feature` shows |
+| `0x04` | `device_feature` | the device's feature bits (read-only) |
+| `0x08` | `driver_feature_select` | which 32 bits of the driver's features `driver_feature` sets |
+| `0x0C` | `driver_feature` | the features the driver accepts |
+| `0x10` | `config_msix_vector` | the interrupt vector for a change of configuration |
+| `0x12` | `num_queues` | how many queues the device has (read-only) |
+| `0x14` | `device_status` | the handshake bits; writing zero resets the device |
+| `0x15` | `config_generation` | changes when the device-specific configuration changes |
+| `0x16` | `queue_select` | which queue the next fields describe |
+| `0x18` | `queue_size` | the number of entries of the selected queue |
+| `0x1A` | `queue_msix_vector` | the interrupt vector of the selected queue |
+| `0x1C` | `queue_enable` | the driver sets it to 1 to start the queue |
+| `0x1E` | `queue_notify_off` | where, in the notification area, the driver notifies this queue |
+| `0x20` | `queue_desc` | physical address of the descriptor table |
+| `0x28` | `queue_driver` | physical address of the available ring |
+| `0x30` | `queue_device` | physical address of the used ring |
 
-**5.2.3** A transfer is a 32-byte descriptor in a ring in host memory: four 64-bit words giving an operation and flags, a status field the device writes, a length, a buffer address, an argument (a block number, for a disk) and a result the device writes. *(P)*
+**5.2.3** A transfer is a chain of descriptors in a queue (a virtqueue) in host memory. A descriptor is 16 bytes: a 64-bit buffer address, a 32-bit length, 16 bits of flags (`NEXT`: the chain continues; `WRITE`: the device writes the buffer; `INDIRECT`: the buffer is a table of descriptors) and a 16-bit index of the next descriptor. *(D)*
 
 ```
-word 0:  OP(8) FLAGS(8) STATUS(16) LENGTH(32)     FLAGS: OWN, STARTED, INTERRUPT, MORE
-word 1:  ADDRESS (physical)
-word 2:  ARGUMENT
-word 3:  RESULT (written by the device)
+descriptor:  ADDRESS(64)  LENGTH(32)  FLAGS(16)  NEXT(16)
+available ring (the driver writes):  flags, idx, ring[ ] of descriptor-chain heads
+used ring (the device writes):       flags, idx, ring[ ] of (head id, bytes written)
 ```
 
-**5.2.4** The host sets `OWN` when it hands a descriptor to the device; the device clears it when it is finished, after writing the data, the status and the result. Progress is therefore in memory, not in the device. *(P)*
+**5.2.4** The driver puts the head of a chain in the available ring and advances its index, executes `FENCE`, and writes the queue's notification address; the device carries the chain out and writes the head and the byte count in the used ring, advances the used index, and may interrupt. Progress is therefore in memory, not in the device. *(D)*
 
-**5.2.5** `INIT` makes a device initialise itself without touching the ring; a device may take a firmware image through an ordinary descriptor operation; boot-critical devices work without any image. *(P)*
+**5.2.5** The driver and device agree on features before any queue runs: the driver reads the device's features, writes the subset it accepts, and the device confirms it; the version-1 feature is required. *(D)* The feature subset that the pdp64 accepts for each device, and the platform-ordering feature that the pdp64 must declare, are not specified. *(S)*
 
-**5.2.6** Operations common to all devices: no-op, identify (the device writes an identification block into a buffer) and load-firmware; each device adds its own from `0x10`. *(P)*
+**5.2.6** A device that carries traffic in two directions (a network card) has one queue for each direction in the one device; a console-like device is the same pattern. *(D)*
 
-**5.2.7** A device that carries traffic in two directions (a network card, a serial line) is two slots, one ring each; a console, a timer and an entropy source are polled devices with their data in the last register. *(P)*
+**5.2.7** Storage is NVMe: a submission queue and a completion queue in host memory, a doorbell register for each, and a completion entry written to memory, which is the shape of the virtqueue with a different command encoding. *(D)*
 
-*Commentary.* **Precedent.** The V7 RK11 disk is six registers (drive status, error, control and status, word count, bus address, disk address) with DMA by a word count and a bus address; the 4.3BSD DEUNA Ethernet is four registers plus transmit and receive rings in memory, each ring entry holding a segment length, an address, flags and errors, with an `OWN` bit that is zero when the descriptor belongs to the driver. The proposal is the second design, kept uniform. **Trade-offs.** A single ring per device makes duplex devices two slots, which is simple and slightly unusual, in exchange for in-order completion and no out-of-order bookkeeping; the ownership bit costs one status write per descriptor. **Improvements.** Because progress lives in the descriptor and not in a device register, a driver can recover from a departed or reset device with one routine: scan the ring for descriptors that are not done, then read, save, resend or fail them. **Benefits.** A driver is a skeleton shared by all devices, and the hardware is one reusable ring engine that fetches a descriptor, hands the operation to the device's own logic and writes the status back. **Modern comparables.** `virtio` rings, NVMe's submission and completion queues, the descriptor-done bit of Intel Ethernet controllers and the command lists of SATA controllers are all rings with a done mark; the 16550 serial chip is the classic eight-register device. **Impact.** *Kernel:* One driver skeleton serves every device, and the layout is the same for a disk, a network card and a serial line. *Compiler:* The descriptor is a 32-byte aligned C structure, and register offsets are generated constants. *Hardware:* One reusable ring engine fetches a descriptor, hands the operation to the device's logic and writes the status back.
+*Commentary.* **Precedent.** The V7 RK11 disk is six registers (drive status, error, control and status, word count, bus address, disk address) with DMA by a word count and a bus address; the 4.3BSD DEUNA Ethernet is four registers plus transmit and receive rings in memory, each ring entry holding a segment length, an address, flags and errors, with an `OWN` bit that is zero when the descriptor belongs to the driver. The virtqueue is the second design, standardised: the done mark is the used ring instead of a bit in the descriptor. **Trade-offs.** A queue per direction keeps each ring in order and simple; the used ring costs one write per chain. Taking a standard interface rather than a design of the pdp64's own gives up the freedom to shape the registers and gains every driver and every emulated device that already exists. **Improvements.** Because progress lives in the rings and not in a device register, a driver can recover from a departed or reset device with one routine: scan the available ring for chains that are not in the used ring, then read, save, resend or fail them. **Benefits.** A driver is a skeleton shared by all devices. **Modern comparables.** `virtio` rings, NVMe's submission and completion queues, the descriptor-done bit of Intel Ethernet controllers and the command lists of SATA controllers are all rings with a done mark. **Impact.** *Kernel:* One transport driver and a thin driver per class. *Compiler:* The descriptor is a 16-byte aligned C structure, and register offsets are generated constants. *Hardware:* A device is a standard PCI Express function and the virtio interface is the specification's.
 
 ## 5.3 The life of a driver
 
-**5.3.1** *Probe.* The kernel reads the bus controller's slots (section 2.6), reads each present device's `ID` register, and matches the type and version against the drivers it has. *(P)*
+**5.3.1** *Probe.* The kernel enumerates the bus (section 2.6), reads each function's identifiers, and matches the virtio device type (or the NVMe or USB class) against the drivers it has. *(D)*
 
-**5.3.2** *Attach.* The driver maps the slot's page, writes `INIT`, waits for `READY`, and reads the device's identification block by submitting an identify descriptor. *(P)*
+**5.3.2** *Attach.* The driver resets the device (zero to `device_status`), sets the acknowledge and driver bits, negotiates features, sets the features-ok bit and reads it back, sets up each queue (its size and the three addresses, then `queue_enable`), and sets the driver-ok bit. *(D)*
 
-**5.3.3** *Run.* The driver puts the ring in uncached memory, writes `RING_BASE` and `RING_SIZE`, fills descriptors with `OWN` set, executes `FENCE`, and writes `DOORBELL`; a descriptor is complete when the device has cleared `OWN`, which the driver sees by polling or by the interrupt. *(P)*
+**5.3.3** *Run.* The driver puts the queue in uncached memory, fills descriptors, publishes the chain in the available ring, executes `FENCE`, and notifies the queue; a chain is complete when it appears in the used ring, which the driver sees by polling or by the interrupt. *(D)*
 
-**5.3.4** *Fail.* A failed descriptor completes with an error code in its status; a device that stops answering is reset with `INIT` and its ring reprogrammed from the first descriptor that is not done. *(P)*
+**5.3.4** *Fail.* A device that sets its needs-reset bit, or that stops answering, is reset and its queues reprogrammed, and the driver resubmits the chains that are not in the used ring. *(P for the resubmission rule; D for the reset)*
 
-**5.3.5** *Detach.* A departure event, or a bus fault from an absent slot, tells the driver to stop; it reads, saves, resends or fails the descriptors still queued. *(P)*
+**5.3.5** *Detach.* A departure event, or a bus fault from an absent device, tells the driver to stop; it reads, saves, resends or fails the chains still queued. *(P)*
 
-*Commentary.* **Precedent.** A V7 disk driver is a strategy routine that queues a buffer, a start routine that writes the registers, and an interrupt routine that completes the buffer; 4.3BSD's Unibus drivers add a probe routine that tests whether a device answers at an address and an attach routine, which BSD's autoconfiguration calls in order. **Trade-offs.** The five steps are the same for every device, so the work that differs is the personality: what the operations mean. **Improvements.** Probe reads the bus and not a configuration file, and detach is a defined path because the bus reports departures. **Benefits.** A new device is a new set of operations in a driver that already has the skeleton. **Modern comparables.** OpenBSD's autoconfiguration calls a driver's `match`, `attach` and `detach` functions; Linux's driver model has `probe` and `remove`. **Impact.** *Kernel:* The five steps are the same for every driver, so only the operations differ. *Compiler:* Nothing special. *Hardware:* The `INIT` and `READY` handshake is a small state machine in each device.
+*Commentary.* **Precedent.** A V7 disk driver is a strategy routine that queues a buffer, a start routine that writes the registers, and an interrupt routine that completes the buffer; 4.3BSD's Unibus drivers add a probe routine that tests whether a device answers at an address and an attach routine, which BSD's autoconfiguration calls in order. **Trade-offs.** The five steps are the same for every device, so the work that differs is the personality: what the requests mean. **Improvements.** Probe reads the bus and not a configuration file, and detach is a defined path because the bus reports departures. **Benefits.** A new device is a new set of requests in a driver that already has the skeleton. **Modern comparables.** OpenBSD's autoconfiguration calls a driver's `match`, `attach` and `detach` functions; Linux's driver model has `probe` and `remove`. **Impact.** *Kernel:* The five steps are the same for every driver, so only the requests differ. *Compiler:* Nothing special. *Hardware:* None beyond the device's own.
 
 ## 5.4 DMA and the hand-off
 
-**5.4.1** Buffers and descriptors are in memory mapped uncached, and the driver does no cache clean or invalidate. *(D)*
+**5.4.1** Buffers and queues are in memory mapped uncached, and the driver does no cache clean or invalidate. *(D)*
 
-**5.4.2** A device addresses physical memory directly, with 40-bit addresses, and the driver gives it physical addresses; until an address-translation unit for devices exists, every device must be able to address all of memory. *(P)*
+**5.4.2** A device addresses physical memory directly and the driver gives it physical addresses; until an address-translation unit for devices exists, every device must be able to address all of memory. *(P)*
 
-**5.4.3** A buffer that crosses a page is described by several descriptors chained with the `MORE` flag; the driver does not make buffers contiguous. *(P)*
+**5.4.3** A buffer that crosses a page is described by several descriptors chained with the `NEXT` flag; the driver does not make buffers contiguous. *(D)*
 
-**5.4.4** The device writes the data, then the status and result, then clears `OWN`; the driver reads `OWN` and then the data. *(P)*
+**5.4.4** The device writes the data, then the used-ring entry, then advances the used index; the driver reads the used index and then the data. *(D)*
 
-*Commentary.* **Precedent.** The Unibus carried 18 address bits, so the VAX and the larger PDP-11s had map registers (`uballoc` in 4.3BSD) translating device addresses to memory, and the VAX's adapter had data paths a driver had to purge before reading; the 11/70's cache watched DMA writes so that the data appeared coherent. **Trade-offs.** Uncached buffers make the processor's reads of received data slow, in return for a driver that cannot forget a cache operation; a non-coherent device that came later would call for cache-maintenance instructions. No address-translation unit means no protection from a faulty or malicious device. **Benefits.** The sequence build, `FENCE`, doorbell, complete is the whole of the hand-off. **Modern comparables.** ARM and MIPS systems with non-coherent DMA need a DMA-mapping layer that places cache maintenance; x86 DMA is coherent; `swiotlb` in Linux copies for devices that cannot address all memory. **Impact.** *Kernel:* No cache clean or invalidate in any driver, so none can be forgotten. *Compiler:* None. *Hardware:* DMA goes around the processor's data cache, so the cache needs no snoop port for devices.
+*Commentary.* **Precedent.** The Unibus carried 18 address bits, so the VAX and the larger PDP-11s had map registers (`uballoc` in 4.3BSD) translating device addresses to memory, and the VAX's adapter had data paths a driver had to purge before reading; the 11/70's cache watched DMA writes so that the data appeared coherent. **Trade-offs.** Uncached buffers make the processor's reads of received data slow, in return for a driver that cannot forget a cache operation; a non-coherent device that came later would call for cache-maintenance instructions. No address-translation unit means no protection from a faulty or malicious device. **Benefits.** The sequence build, `FENCE`, notify, complete is the whole of the hand-off. **Modern comparables.** ARM and MIPS systems with non-coherent DMA need a DMA-mapping layer that places cache maintenance; x86 DMA is coherent; `swiotlb` in Linux copies for devices that cannot address all memory. **Impact.** *Kernel:* No cache clean or invalidate in any driver, so none can be forgotten. *Compiler:* None. *Hardware:* DMA goes around the processor's data cache, so the cache needs no snoop port for devices.
 
 ## 5.5 The default devices
 
-**5.5.1** The **disk** has the operations read, write and flush at 512-byte sectors, with the block number in the argument word; its identification block gives the capacity in sectors and the sector size; the boot ROM reads block 0 with one descriptor. *(P)*
+**5.5.1** The **disk** is an NVMe controller with read, write and flush at 512-byte sectors; the boot ROM reads block 0 with one read command. *(P)*
 
-**5.5.2** The **network card** is a transmit slot and a receive slot: the transmit ring carries frames to send, the receive ring carries buffers the host posts and the device fills, completing each with the frame length; link changes raise an attention interrupt. *(P)*
+**5.5.2** The **network card** is virtio-net: a receive queue the host fills with buffers for the device and a transmit queue of frames to send; the device completes each receive buffer with the frame length. *(D)*
 
-**5.5.3** **USB** is presented by a controller chip that does the protocol and the enumeration and shows each attached device as a slot on the bus with the personality of its class: a mass-storage device looks like a disk, a keyboard or mouse like a receive-only device, a serial adapter like a console. *(P)*
+**5.5.3** The **graphics device** is virtio-gpu in its 2D mode (create a surface, point it at memory, flush a rectangle) and the **audio device** is virtio-snd (streams in queues in shared memory). *(D)*
 
-**5.5.4** The **console** is a polled serial device with a transmit-ready and a receive-ready bit and one data register; the **timer** is a 64-bit free-running counter, a compare register and a control register; the **entropy source** returns 64 random bits from its data register and fills buffers by descriptor. *(console and timer D; entropy P)*
+**5.5.4** **USB** is an xHCI host controller, a PCI Express function, driven by the operating system's USB stack, which enumerates the attached devices. *(P)*
 
-**5.5.5** A device raises one interrupt line at the level its slot asks for, with the vector numbered from the slot. *(P)*
+**5.5.5** The form of the console, the timer and the entropy source under this interface is not specified: the candidates are a UART-style console, a small fixed timer and interrupt controller that need no enumeration, and virtio's console and entropy devices; the entropy pool is one device shared by all cores. *(S)*
 
-*Commentary.* **Precedent.** The PDP-11 had a disk with eight registers, a serial line with four, and network controllers with rings; this is the same set with a common layout. **Trade-offs.** USB in eight registers is the hard case: a conventional host controller exposes command, event and transfer rings and many registers. Presenting each device as a bus slot moves the protocol into the controller chip, which costs gates or a small embedded processor in the controller and takes the USB stack out of the operating system; the alternative is a conventional ring-based host controller, which an existing operating-system USB stack can drive at the price of that large stack. The choice between them is undecided. **Improvements.** Treating every USB port as a hot-pluggable slot reuses the bus's own enumeration and hot-plug machinery instead of a second one. **Benefits.** A disk driver written for the bus disk works for a USB disk. **Modern comparables.** `virtio` block and network devices have the same shape; xHCI is the conventional USB controller; a USB-to-Ethernet adapter appears to the host as a network class device. **Impact.** *Kernel:* A disk driver written for the bus disk also drives a USB disk; the network card is two slots. *Compiler:* None. *Hardware:* Each personality is a small block of logic behind the common ring engine; the USB protocol, if done in the controller, is where the gates go.
+*Commentary.* **Precedent.** The PDP-11 had a disk with eight registers, a serial line with four, and network controllers with rings. **Trade-offs.** One transport for network, graphics and audio means one driver, and the cost is the feature negotiation and the queue format of a standard that the pdp64 does not control. An existing USB stack comes with xHCI, at the price of that large stack. **Improvements.** A card of any vendor that speaks the standard works with the drivers already written. **Benefits.** OpenBSD's tree has drivers for several virtio devices (`if_vio`, `vioblk`, `viornd`, `viogpu`, `viocon`) under `sys/dev/pv`, by the listing recorded in `security-proposals.md`; whether it has one for virtio-snd is open. **Modern comparables.** xHCI is the conventional USB controller; a USB-to-Ethernet adapter appears to the host as a network class device. **Impact.** *Kernel:* One transport driver, a thin driver per class. *Compiler:* None. *Hardware:* Standard PCI Express devices; the same virtio devices in the emulator, the simulator and the FPGA.
 
 ## 5.6 Errors, departure and recovery
 
-**5.6.1** A descriptor's status carries a code: success; bad operation; bad address (a DMA access faulted); bad length; media error; not ready; aborted (the device was reset); bad image. *(P)*
+**5.6.1** A request that fails completes with the status of its device class (for a virtio-blk request, a status byte in the last descriptor of its chain); a device that is broken sets its needs-reset bit in `device_status`. *(D)*
 
-**5.6.2** A device that is reset with `INIT` leaves its ring in memory untouched and clears its ring registers; the driver reprograms them and starts at the first descriptor that is not done. *(P)*
+**5.6.2** A device that is reset leaves its queues in memory untouched; the driver reprograms the queue registers and resubmits the chains that are not in the used ring. *(P)*
 
-**5.6.3** A device that leaves the bus leaves its queued work in memory; the driver finds it by scanning the ring from its last completed descriptor. *(P)*
+**5.6.3** A device that leaves the bus leaves its queued work in memory; the driver finds it by comparing the available ring with the used ring. *(P)*
 
-**5.6.4** Operations are repeatable where possible (reads, writes of the same data, sends, buffer posts, identify), so that resending an unfinished descriptor is safe; an operation that must not run twice carries a `STARTED` flag so the driver can tell "never started" from "started, outcome unknown". *(P)*
+**5.6.4** Requests are repeatable where possible (reads, writes of the same data, sends, buffer posts), so that resending an unfinished chain is safe; a request that must not run twice is tracked by its class driver, which can tell "never started" from "started, outcome unknown" only by the request's own status. *(P)*
 
-*Commentary.* **Precedent.** 4.3BSD's `ubareset()` resets the Unibus adapter and then calls each driver's reset routine, so each driver re-issues what was pending: resending as a design, driver by driver. **Trade-offs.** The cost is a status write per descriptor and the ordering rule between data and the done mark. **Improvements.** One recovery routine serves a device that fails and is reset, a device replaced by another, and, with a saved ring, a hand-over between cores. **Benefits.** This is the recoverability principle in the driver: fewer failure outcomes (the precise bus fault, not all ones on a removed device) and one path to recover from any of them. **Modern comparables.** NVMe and virtio drivers requeue outstanding requests after a reset; PCI returns all ones for a read of a removed device. **Impact.** *Kernel:* One recovery routine handles a failed, reset, replaced or departed device. *Compiler:* None. *Hardware:* The device writes data before status before clearing the ownership bit, and the bus keeps one presence bit per slot.
+*Commentary.* **Precedent.** 4.3BSD's `ubareset()` resets the Unibus adapter and then calls each driver's reset routine, so each driver re-issues what was pending: resending as a design, driver by driver. **Trade-offs.** The cost is a write to the used ring per chain and the ordering rule between data and the used index. **Improvements.** One recovery routine serves a device that fails and is reset, a device replaced by another, and, with a saved queue, a hand-over between cores. **Benefits.** This is the recoverability principle in the driver: fewer failure outcomes (the precise bus fault, not all ones on a removed device) and one path to recover from any of them. **Modern comparables.** NVMe and virtio drivers requeue outstanding requests after a reset; PCI returns all ones for a read of a removed device. **Impact.** *Kernel:* One recovery routine handles a failed, reset, replaced or departed device. *Compiler:* None. *Hardware:* The device writes data before the used entry before the used index.
 
 ## 5.7 Interrupts from devices
 
-**5.7.1** A device raises one interrupt line, at the priority level its slot asks for, and its cause is in the `IRQ` register, where each bit is cleared by writing a 1. *(P)*
+**5.7.1** A device interrupts by a message-signalled write (MSI-X): the configuration change and each queue have a vector that the driver sets in the common configuration, and the interrupt status structure says why. *(P)*
 
-**5.7.2** The vector of a device interrupt is its slot number added to 64. *(P)*
+**5.7.2** A driver may mask a device's interrupts and poll the used ring instead. *(D)*
 
-**5.7.3** A polled device (the console, the timer, the entropy source) may be used with its interrupts masked. *(D)*
+**5.7.3** A changeable interrupt target is changed with its vector masked and then read back, or is a single atomic register write. *(D)*
 
-**5.7.4** A changeable interrupt target is changed with its vector masked and then read back, or is a single atomic register write. *(D)*
+**5.7.4** The write that raises an interrupt cannot overtake the data writes that precede it (section 2.4.4). *(D)*
 
-*Commentary.* **Precedent.** A PDP-11 device asserted one of four bus-request lines and supplied its own vector, set by switches on the card. **Trade-offs.** A vector derived from the slot needs no per-device switch and no assignment, and limits the device interrupts to 192 slots. **Benefits.** A driver's interrupt routine reads one register to learn why. **Modern comparables.** The causes and the write-one-to-clear convention are those of most memory-mapped controllers; message-signalled interrupts, which need no line, are an open option. **Impact.** *Kernel:* An interrupt routine reads one register to learn why and clears it by writing the same bits. *Compiler:* None. *Hardware:* One line per device into an eight-level priority encoder, with the vector derived from the slot number.
+*Commentary.* **Precedent.** A PDP-11 device asserted one of four bus-request lines and supplied its own vector, set by switches on the card. **Trade-offs.** A message carries its own vector, so no switch and no assignment table are needed; the controller and routing are an open decision (R1). **Benefits.** A driver's interrupt routine reads the used ring to learn what completed. **Modern comparables.** MSI-X is how PCI Express devices interrupt. **Impact.** *Kernel:* An interrupt routine reads the used ring and the status structure. *Compiler:* None. *Hardware:* An MSI-X target in the interrupt controller, and the eight-level priority encoder.
 
 ## 5.8 Drivers in user space, and in OpenBSD
 
-**5.8.1** Because a device is one page, a driver can run in user space with only that page and its buffers mapped. *(P)*
+**5.8.1** Because a device's windows are whole pages, a driver can run in user space with only those pages and its buffers mapped. *(P)*
 
 **5.8.2** Until devices have an address-translation unit, a user-space driver can instruct its device to write anywhere in memory, so it is as trusted as the device. *(P)*
 
-**5.8.3** In OpenBSD the register accessors become loads and stores, the DMA mapping interface returns physical addresses with no cache-synchronisation work to do, and the autoconfiguration framework attaches a driver to each slot the bus reports. *(P)*
+**5.8.3** In OpenBSD the register accessors become loads and stores, the DMA mapping interface returns physical addresses with no cache-synchronisation work to do, and the autoconfiguration framework attaches a driver to each function the bus reports. *(P)*
 
-*Commentary.* **Precedent.** Microkernels and exokernels run drivers in user space where the hardware lets one device be mapped to one process; the PDP-11's Unibus gave every device a fixed address and no protection. **Trade-offs.** Without a translation unit the mapping protects against stray register writes but not against DMA. **Benefits.** A driver can be tested, restarted and replaced without taking the kernel with it. **Modern comparables.** Linux's `VFIO` and `UIO` and DPDK run drivers in user space, relying on an I/O translation unit for protection. **Impact.** *Kernel:* The accessors reduce to loads and stores, the DMA interface to physical addresses, and attach to the bus's slots. *Compiler:* None. *Hardware:* One device per page lets the translation unit protect a device, which a device-sharing page layout would not.
+*Commentary.* **Precedent.** Microkernels and exokernels run drivers in user space where the hardware lets one device be mapped to one process; the PDP-11's Unibus gave every device a fixed address and no protection. **Trade-offs.** Without a translation unit the mapping protects against stray register writes but not against DMA. **Benefits.** A driver can be tested, restarted and replaced without taking the kernel with it. **Modern comparables.** Linux's `VFIO` and `UIO` and DPDK run drivers in user space, relying on an I/O translation unit for protection. **Impact.** *Kernel:* The accessors reduce to loads and stores, the DMA interface to physical addresses, and attach to the functions the bus reports. *Compiler:* None. *Hardware:* Windows of whole pages let the translation unit protect a device.
 
 ## 5.9 Still open
 
-The register layout and descriptor details (decision R5), whether USB is a per-slot controller or a conventional ring controller, whether the emulator uses `virtio` devices first to reach an OpenBSD login sooner, DMA addressing and protection (R6), errors raised by devices (R7), and the details of the interrupt vector and cause (R1). The proposal is in the working documents ([`../decisions-pending.md`](../../decisions-pending.md), [`../pdp64-q64-bus.md`](../../pdp64-q64-bus.md)) and appendix B.
+The feature subset of each virtio device and the platform-ordering feature, the form of the console, the timer and the entropy source, whether the disk is NVMe alone, DMA addressing and protection (R6), errors raised by devices (R7), and the details of interrupt routing (R1). The working documents are [`../decisions-pending.md`](../../decisions-pending.md) and [`../pdp64-q64-bus.md`](../../pdp64-q64-bus.md), and appendix B.

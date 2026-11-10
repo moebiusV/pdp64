@@ -6,8 +6,6 @@
 
 ## 4.1 What takes the place of a BIOS
 
-> **PCI Express.** Since errata 75 and 80 (2026-11-03) Q64 is PCI Express, backward compatible, with convenience and security circuitry added on top, and storage is NVMe and USB; the standard network, graphics and audio devices are virtio-net, virtio-gpu and virtio-snd over the virtio PCI Express transport (errata 79). Devices are enumerated by PCI Express configuration space and base-address registers and interrupt by MSI-X, which replace the slot numbers, the slot-derived vectors and the eight-register device rule of the statements below (errata 80, in outline). Where this chapter finds devices by slot, the boot ROM finds them by PCI Express enumeration; the full rewrite of the chapter waits for the author's answers to the remaining items of `decisions-pending.md` Part F. Statements keep their tags.
-
 **4.1.1** The pdp64's "BIOS" is the controller chip's boot ROM and its monitor. It brings up the machine, loads the first block, and offers a console monitor when nothing boots. It has no resident services and nothing is called after boot. *(P)*
 
 **4.1.2** The boot software is open source and part of the specification: the ROM and monitor, the first-block program, the second-stage loader and the boot tools. *(D)*
@@ -51,7 +49,7 @@
 
 **4.4.1** The second stage is a program in C that understands the root file system, reads the GPT and the label, loads `/bsd` (an ELF file) and jumps to it with `r0` and `r1` as before and a command line in the boot-information block. *(P)*
 
-**4.4.2** The boot-information block names the memory ranges, the core count, the address of the bus controller and the slots of the boot device and the console; the kernel enumerates every other device by asking the bus. *(P)*
+**4.4.2** The boot-information block names the memory ranges, the core count, the address of the root complex and the identity of the boot device and the console; the kernel enumerates every other device by PCI Express enumeration (section 2.6). *(P)*
 
 **4.4.3** The block's layout is defined once, in a grammar from which the headers are generated, and carries a checksum and a version. *(P)*
 

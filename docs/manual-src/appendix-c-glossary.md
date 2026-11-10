@@ -9,7 +9,7 @@
 | Term | Meaning |
 |---|---|
 | **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter 1) |
-| **family** | the three CPUs of the architecture, pdp64/r20, pdp64/16 and pdp64/32, each with its own encoding and its own manual (1.8) |
+| **tested alternative** | pdp64/r20 or pdp64/16: an encoding built and measured against pdp64/32, which is the pdp64, and documented in its own manual (1.8) |
 | **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes[[16 32: , or five parcels for `MOVQL`]] (9.4) |
 <!-- member: r20 -->
 | **`len`** | bits 15 and 14 of the first parcel: the number of extension parcels for `00`, `01` and `10`; the value `11` selects the second opcode page (9.4) |
@@ -41,7 +41,7 @@
 | **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page (9.3, 9.16) |
 | **`PSW`** | the processor status word: flags, mode, priority and the guard bit (6.1) |
 | **`N Z V C`** | the four condition flags: negative, zero, overflow, carry (9.3) |
-| **canonical address** | a 64-bit address whose bits above 38 equal bit 38; any other value faults, so software cannot hide tags in the high bits (6.4) |
+| **canonical address** | a 64-bit address whose bits above the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, so software cannot hide tags in the high bits (6.4) |
 | **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section 6.2; not otherwise used in this manual) |
 | **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of 9.9 make it effective) |
 | **`FPSR`** | the sticky floating-point exception flag register, read and written by `FSFLAGS` (9.12) |
@@ -87,16 +87,14 @@
 | **Q64** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and 40-bit addresses (2.1) |
 | **Unibus, Q-bus** | the PDP-11's buses; Q64 keeps their programming model, with devices in the address space (2.1) |
 | **`DATIP` / `DATO`** | Unibus and Q-bus transaction types forming a locked read-modify-write (2.5) |
-| **space bit** | bit 39 of the physical address: set selects device space, clear selects memory (2.1.6) |
-| **slot** | a device's own 4 KB (or larger) window of device space, found by enumeration (2.6, 5.1) |
-| **bus controller** | the device that is the bus: it enumerates slots, maps them, and reports arrivals and departures (2.6) |
-| **bridge** | a device on Q64 that is itself a bus: it presents the devices behind it as slots with the bus controller's registers, so arbitrary buses (PCI Express, USB, SATA) can be connected to Q64 and enumerated to any depth (2.6.7) |
+| **window** | a region of the physical address space that a device's base-address register describes, a whole number of pages, found by enumeration (2.6, 5.1) |
+| **root complex** | the PCI Express root of Q64: it enumerates the functions, assigns their windows, and reports arrivals and departures (2.6) |
+| **bridge** | a function that is itself a bus: it presents the functions behind it, so arbitrary buses (PCI Express, USB) can be connected to Q64 and enumerated to any depth (2.6.3) |
 | **MMIO** | memory-mapped input/output: device registers reached by ordinary loads and stores (5.1) |
 | **DMA** | direct memory access: a device moving data to or from memory without the processor (5.4) |
-| **ring, descriptor, `OWN`, doorbell** | the common device protocol: a ring of 32-byte descriptors in memory, each with an ownership bit the host sets and the device clears, and a register written to tell the device to look (5.2) |
-| **`ID` / `CONTROL` / `STATUS` / `RING_BASE` / `RING_SIZE` / `DOORBELL` / `IRQ` / `DEVICE`** | the eight common registers every device starts with (5.2) |
-| **`INIT`, `READY`** | the control bit that makes a device initialise itself and the status bit that says it has (5.2, 5.3) |
-| **virtio** | a standard family of virtual devices of the same ring-and-descriptor shape; the emulator's first drivers (5.5, appendix B) |
+| **virtqueue, descriptor, available ring, used ring, doorbell** | the common device protocol: a table of 16-byte descriptors in memory, a ring in which the driver offers chains, a ring in which the device returns them, and a write that tells the device to look (5.2) |
+| **`device_status`** | the common-configuration field through which the driver and the device handshake; writing zero resets the device (5.2, 5.3) |
+| **virtio** | a standard family of devices of the same queue-and-descriptor shape, the pdp64's device interface (5.2) |
 | **NVMe, SCSI, ATA, SATA** | storage interfaces, each a command queue in memory and a doorbell, which is the same device pattern (5.2, 5.5) |
 | **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.3) |
 | **`VIC-64X`, `SID-64X`, `BLT64`** | the video, sound and blitter devices of the graphics terminal, which is based on the Commodore 64 (video and sound chips) and the Blit terminal (framebuffer and bit-block transfer) (chapter 3) |

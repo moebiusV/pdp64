@@ -1,8 +1,8 @@
-# The source of the three manuals
+# The source of the manuals
 
 [← pdp64 index](../../README.md)
 
-The pdp64 is a family of three CPUs, **pdp64/r20**, **pdp64/16** and **pdp64/32**, and each has its own complete manual (`docs/manual/pdp64-r20/`, `docs/manual/pdp64-16/`, `docs/manual/pdp64-32/`; landing page `docs/manual/00-index.md`). This directory is the one place where the hand-written text of the three is written. `tools/mkmanual.py` assembles from it the manual of each member and writes it, together with the generated parts (the instruction entries, the dictionary, the bit-layout charts), into `docs/manual/pdp64-<member>/`. The three generated manuals are committed, and `tools/check-all.sh` (through `tools/mkmanual.py --check`) fails if a committed file differs from what the generator produces. **Never edit a file under `docs/manual/pdp64-*/`: edit this directory (or the generators under `tools/manual/`) and run `tools/mkmanual.py`.**
+The pdp64 is **pdp64/32**. Two earlier encodings, **pdp64/r20** and **pdp64/16**, were tested against it and are documented as the comparison; each of the three has its own complete manual (`docs/manual/pdp64-r20/`, `docs/manual/pdp64-16/`, `docs/manual/pdp64-32/`; landing page `docs/manual/00-index.md`). This directory is the one place where the hand-written text of the three is written; the manual of the pdp64 is `pdp64-32`. `tools/mkmanual.py` assembles from it the manual of each member and writes it, together with the generated parts (the instruction entries, the dictionary, the bit-layout charts), into `docs/manual/pdp64-<member>/`. The three generated manuals are committed, and `tools/check-all.sh` (through `tools/mkmanual.py --check`) fails if a committed file differs from what the generator produces. **Never edit a file under `docs/manual/pdp64-*/`: edit this directory (or the generators under `tools/manual/`) and run `tools/mkmanual.py`.**
 
 ## What is here
 

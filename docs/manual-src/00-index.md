@@ -4,15 +4,15 @@
 
 **A PDF of the whole manual (the chapters, with every instruction, the reference tables and the appendices): [`book/@@PDF@@`](../../../book/@@PDF@@).**
 
-**This is the manual of the pdp64, a 64-bit architecture with SMP support designed to be efficient with in-order and out-of-order implementations: what it is, why, and how each part works.** It is the statement of the architecture, arranged to be read straight through; every instruction has its complete entry in chapter 9. This manual describes @@MEMBER@@, one of the three CPUs of the family; section 1.8 says how the three relate, and the [landing page](../00-index.md) links the three manuals.
+**This is the manual of the pdp64, a 64-bit architecture with SMP support designed to be efficient with in-order and out-of-order implementations: what it is, why, and how each part works.** It is the statement of the architecture, arranged to be read straight through; every instruction has its complete entry in chapter 9. [[r20 16: This manual describes @@MEMBER@@, one of the two encodings tested against pdp64/32, which is the pdp64; ]][[32: This manual describes pdp64/32, which is the pdp64; ]]section 1.8 says how it relates to the encodings tested against it, and the [landing page](../00-index.md) links the three manuals.
 
 ## Contents
 
 1. [**Introduction**](01-introduction.md): why the machine exists, what made the PDP-10, PDP-11 and VAX-11 good to program, and the principles the design follows.
-2. [**The bus**](02-bus.md): Q64, the address space, what the processor owes the bus, failures, coherence, atomics, and the bus as a device with enumeration and hot-plug.
+2. [**The bus**](02-bus.md): Q64, which is PCI Express with convenience and security circuitry, the address space, what the processor owes the bus, failures, coherence, atomics, and enumeration and hot-plug.
 3. [**Graphics: the terminal and its devices**](03-graphics.md): the terminal, based on the Commodore 64 and the Blit terminal (video, sound and blitter), modernised, as memory-mapped devices, how it drives HDMI and the other ports, the framebuffer, and the question of a standard graphics card. The register-level specification is a stub.
 4. [**Boot, the BIOS, the disk label and the GPT**](04-boot.md): what starts the machine, what takes over, how the disk is laid out, and how the kernel is found.
-5. [**The device driver model**](05-drivers.md): memory-mapped registers and DMA as a driver sees them, the eight-register convention and its descriptor, the life of a driver, the default devices, errors and recovery.
+5. [**The device driver model**](05-drivers.md): memory-mapped registers and DMA as a driver sees them, the virtio transport and its queue, the life of a driver, the default devices, errors and recovery.
 6. [**The kernel: modes, exceptions and memory management**](06-kernel.md): the status word and the modes, exception and interrupt entry, the vector table, the system registers, the page table, the user-memory guard and the first kernel.
 7. [**Multiple processors**](07-smp.md): everything the architecture adds so that a second core is easy: the seventeen operations, the memory model, per-CPU state, translation coherence, waiting and signalling, starting cores.
 8. [**Vector work, AI and array languages: the device route**](08-vectors.md): why there is no SIMD register file, and how neural-network inference and the array languages APL and K are served by memory-mapped devices.

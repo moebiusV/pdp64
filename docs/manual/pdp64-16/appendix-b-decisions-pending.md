@@ -120,13 +120,13 @@
 
 **B.2.7.1** Closed: the transport is PCI Express, with the pdp64's convenience and security circuitry on top (errata 75, 80). *(D)*
 
-*Commentary.* **Trade-offs.** It saves a bridge and makes the atomics a monitor naturally, and the Unibus's lock is no longer a native transaction. **Modern comparables.** ARM's AMBA, RISC-V's TileLink or AXI, FPGA systems on AXI throughout. **Impact.** *Kernel:* None. *Compiler:* None. *Hardware:* The bridge to AXI is not needed if AXI is the transport.
+*Commentary.* **Trade-offs.** An ordinary PCI Express device works unchanged, and the Unibus's lock is not a native transaction (the atomics are a monitor, section 2.5). **Modern comparables.** Every current system board. **Impact.** *Kernel:* None. *Compiler:* None. *Hardware:* A standard root complex.
 
 ### B.2.8 The device layout and the descriptor (R5)
 
-**B.2.8.1** The proposal is the uniform layout and the 32-byte descriptor of chapter 5, with an identification register first, and virtio-compatible devices only if reusing OpenBSD's drivers saves more than it costs. *(P)*
+**B.2.8.1** Closed: the device interface is virtio, the 16-byte descriptor and the available and used rings of chapter 5 (errata 95). *(D)* The feature subset of each device is open. *(S)*
 
-*Commentary.* **Precedent.** The RK11 and the DEUNA, as in chapter 5. **Trade-offs.** The single ring per device makes duplex devices two slots. **Modern comparables.** `virtio`, NVMe, SATA's command lists, Intel Ethernet's done bit. **Impact.** *Kernel:* One driver skeleton. *Compiler:* The descriptor is a generated C structure. *Hardware:* One ring engine behind all devices.
+*Commentary.* **Precedent.** The RK11 and the DEUNA, as in chapter 5. **Trade-offs.** A standard interface gives up the freedom to shape the registers and gains every existing driver. **Modern comparables.** `virtio`, NVMe, SATA's command lists, Intel Ethernet's done bit. **Impact.** *Kernel:* One transport driver and a thin driver per class. *Compiler:* The descriptor is a generated C structure. *Hardware:* Standard devices.
 
 ### B.2.9 DMA addressing and protection (R6)
 
@@ -146,20 +146,20 @@
 
 *Commentary.* **Precedent.** The PDP-11 was not designed for virtualisation and has sensitive instructions that do not trap in user mode; the VAX was not cleanly virtualisable either, and a 1991 paper described the changes needed. **Trade-offs.** Adding virtualisation late cost the VAX instruction changes; settling the constraints early costs a paragraph. **Modern comparables.** x86 VMX with nested paging, ARM exception level 2, the RISC-V hypervisor extension, IBM's trap-and-emulate machines. **Impact.** *Kernel:* A hypervisor could be added without changing a guest. *Compiler:* None. *Hardware:* Constraints on privileged state, the walker and interrupt injection.
 
-### B.2.12 The bus controller's mechanisms (N1 to N3)
+### B.2.12 Enumeration and hot-plug (N1 to N3)
 
-**B.2.12.1** The proposals are a fixed 4 KB page per slot with the mapping register for exceptions (N1), an interrupt with a small event queue and a rescan on overflow (N2), and an absent mark with a precise fault and the queued work left in memory (N3). *(P)*
+**B.2.12.1** The proposals are enumeration by PCI Express configuration space with the windows placed in the physical address space (N1, closed in outline by errata 80; the placement is open), an interrupt and a rescan on a hot-plug event (N2), and an absent mark with a precise fault and the queued work left in memory (N3). *(P)*
 
-*Commentary.* See section 2.6 and its commentary: the VAX's nexus scan, PCI's configuration space and all-ones reads, USB's status-change endpoint. **Impact.** *Kernel:* Enumeration and hot-plug are one loop and one queue. *Compiler:* None. *Hardware:* A fixed page per slot, an event queue and a presence bit.
+*Commentary.* See section 2.6 and its commentary: the VAX's nexus scan, PCI's configuration space and all-ones reads, USB's status-change endpoint. **Impact.** *Kernel:* Enumeration and hot-plug are one loop and one rescan. *Compiler:* None. *Hardware:* A standard root complex and the precise fault for an absent device.
 
 ### B.2.13 The boot decisions (B1, B3, B4, B5, B8)
 
-**B.2.13.1** The proposals are a boot ROM that reads block 0 (B1), a boot-information block of memory, cores, the bus controller's address and two slots (B3), an `INIT` bit with an optional firmware descriptor (B4), no UEFI, with a simple hand-off a shim could use (B5), and a block list in the protective MBR's boot code (B8). *(P)*
+**B.2.13.1** The proposals are a boot ROM that reads block 0 (B1), a boot-information block of memory, cores, the root complex's address and the boot device and console (B3), an `INIT` bit with an optional firmware descriptor (B4), no UEFI, with a simple hand-off a shim could use (B5), and a block list in the protective MBR's boot code (B8). *(P)*
 
 *Commentary.* See chapter 4 and [`../boot.md`](../../boot.md): the PDP-11's block 0 and `ODT`, the VAX's boot block and restart parameter block, the BIOS and UEFI. **Impact.** *Kernel:* A boot-information struct and a core start register. *Compiler:* The loader and first block are built by the project's compiler. *Hardware:* A boot ROM, a block-0 reader and per-core start registers.
 
 ### B.2.14 How USB attaches, and virtio first
 
-**B.2.14.1** Closed in part: USB is attached over PCI Express, and virtio-net, virtio-gpu and virtio-snd are the standard network, graphics and audio interfaces (errata 75, 79). *(D)* What those decisions do not say is whether USB is a controller that shows each attached device as a bus slot, or a conventional ring-based host controller driven by an existing operating-system USB stack; and whether the emulator uses `virtio` devices first to reach an OpenBSD login sooner.
+**B.2.14.1** Closed in part: USB is attached over PCI Express, and virtio-net, virtio-gpu and virtio-snd are the standard network, graphics and audio interfaces (errata 75, 79). *(D)* What those decisions do not say is whether USB is a conventional ring-based host controller driven by an existing operating-system USB stack, the proposal of chapter 5, or a controller that does the protocol itself.
 
-*Commentary.* **Trade-offs.** Per-slot USB moves the protocol into the controller chip and takes the stack out of the operating system; the conventional controller uses code that already exists. `virtio` reuses OpenBSD's existing drivers in the emulator and defers the project's own eight-register devices to silicon; it gets to `ssh` faster and puts native devices later. **Modern comparables.** xHCI for the conventional controller; `virtio-mmio` on every emulated RISC-V and ARM board. **Impact.** *Kernel:* A disk driver serves a USB disk; virtio reuses the existing drivers. *Compiler:* None. *Hardware:* USB protocol in the controller costs gates; virtio costs nothing for the emulator.
+*Commentary.* **Trade-offs.** A controller that does the protocol moves it into the chip and takes the stack out of the operating system; the conventional controller uses code that already exists. `virtio` reuses OpenBSD's existing drivers in the emulator and in silicon. **Modern comparables.** xHCI for the conventional controller; `virtio-mmio` on every emulated RISC-V and ARM board. **Impact.** *Kernel:* A disk driver serves a USB disk; virtio reuses the existing drivers. *Compiler:* None. *Hardware:* USB protocol in the controller costs gates; virtio costs nothing for the emulator.

@@ -38,17 +38,17 @@
 
 ## A.5 Tag or key bits in pointers
 
-**A.5.1** The 25 spare bits of a 64-bit pointer (a 39-bit virtual address uses the rest) could carry a tag or a key, as a memory-tagging or pointer-authentication scheme does.
+**A.5.1** The 25 spare bits of a 64-bit pointer (a 39-bit virtual address, the three-level form, uses the rest; 48 and 57 bits leave fewer) could carry a tag or a key, as a memory-tagging or pointer-authentication scheme does.
 
 **A.5.2** Full 128-bit CHERI is rejected, and a valid-pointer tag per register and per 8-byte word (stage 1) is kept, with bounds deferred (errata 86, study item 3); granule colouring and reserved colours for uninitialised and freed memory are approved, to be specified, and spend pointer bits that the canonical-address rule refuses to software, so that rule must be restated (errata 84, open). *(D)*
 
 *Commentary.* **Precedent.** ARM's top-byte-ignore, pointer authentication and memory tagging. **Trade-offs.** The cost is canonical-address rules: pointers must be masked before use, and the hardware must define what a tagged pointer does. **Verdict.** No threat that the operating system asked for requires it; it costs gates and state, so it is not recommended. **Impact.** *Kernel:* The kernel would have to define what a tagged pointer means across the user and kernel boundary. *Compiler:* Every pointer use needs masking, and pointer arithmetic must preserve tags. *Hardware:* Gates and state in the address path.
 
-## A.6 An optional 48-bit address mode
+## A.6 A physical address wider than 40 bits
 
-**A.6.1** A fourth page-table level, switched on by a feature bit, could raise the virtual address from 39 to 48 bits.
+**A.6.1** A physical address wider than 40 bits would let petabytes of memory and device windows be mapped; the page-table entry holds the physical page number in bits 12 to 39 and keeps bits 40 to 63 zero, so the entry format would have to grow its page number into them.
 
-*Commentary.* **Trade-offs.** The user half of the 39-bit space is 38 bits, which gives address-space randomisation far less entropy than the 47 bits of amd64; the price of fixing it is a longer walk on every miss. **Benefits.** Entropy and a bigger address space for a database or a memory-mapped file. **Modern comparables.** x86-64 and AArch64 have four levels (and x86-64 five); RISC-V offers three, four and five by feature. **Impact.** *Kernel:* A mode for the kernel to switch on, with a fourth-level table to allocate and walk. *Compiler:* None beyond pointer size, which does not change. *Hardware:* A fourth walker level and a longer walk on every miss.
+*Commentary.* **Trade-offs.** The author's reason is that mapping petabytes needs those bits (errata 97). The cost is a wider page number in the entry, in every translation-buffer entry and in every bus address; the benefit is room for devices and memory in one address space without a decoding bit. **Modern comparables.** x86-64 and AArch64 define physical addresses of up to 52 bits and RISC-V up to 56 (stated from memory, not confirmed in the sources read). **Impact.** *Kernel:* a wider entry and a physical-address width to discover. *Compiler:* none. *Hardware:* more bits in the walker, the translation buffer and the bus.
 
 ## A.7 A second page-table base register
 
