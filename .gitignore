@@ -2,3 +2,6 @@ build/
 __pycache__/
 book/build/
 book/build-*/
+
+# the decision log quotes the author's own messages: local only (never pushed)
+docs/decision-log/
