@@ -1484,7 +1484,7 @@ None of these was measured. Each is a small job:
 
 ## Part E. Conflicts with the author's chat record
 
-Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chats) against the repository. The repository was built from the ISA chat (2026-08-30); the device chat (2026-08-29) was never imported, and its content is now in [`c64-devices-from-chat.md`](c64-devices-from-chat.md). Each entry gives what the author said in the chats (with the line in `c64stuff.txt`), what the repository says, and the choice. **Nothing here is decided except E1.** The manual statements involved are re-tagged *(P)* until the author rules (errata 72).
+Found 2026-10-24 by reading `c64stuff.txt` (the author's exported chats) against the repository. The repository was built from the ISA chat (2026-08-30); the device chat (2026-08-29) was never imported, and its content is now in [`c64-devices-from-chat.md`](c64-devices-from-chat.md). Each entry gives what the author said in the chats (with the line in `c64stuff.txt`), what the repository says, and the choice. **Nothing here is decided except E1.** The manual statements involved are re-tagged *(P)* until the author rules (errata 72).
 
 **Read the chat in its time.** The device chat was written before the 39-bit address space and before the 64-bit ISA, when the machine was still a PDP-11 emulation with very conservative extensions (the author, 2026-10-24). Entries E4 to E8 compare the manual with design choices of that earlier, smaller machine (a 16-bit word, an 8 KB device page, a 200-300 MHz Zynq part), so a difference is more likely a superseded choice than an oversight. The author is asked for a ruling only where the earlier choice might still hold.
 
