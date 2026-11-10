@@ -129,6 +129,7 @@ import busfigs as BUSFIGS
 import gfxfigs as GFXFIGS
 import kernfigs as KERNFIGS
 import bootfigs as BOOTFIGS
+import drvfigs as DRVFIGS
 
 
 def fig(name, alt, rows):
@@ -782,7 +783,7 @@ def build(member='r20'):
             ('len = 01, parcel 1', c1['rows'][1][1]), ('len = 10, parcel 1', c2['rows'][1][1]), ('len = 10, parcel 2', c2['rows'][2][1]), ('len = 11 (page 2)', p2c['rows'][0][1])])
     if 'figures/psw.svg' in used:
         fig('psw', 'The processor status word', LAY.psw_chart(SYS))
-    for fname, (_alt, draw) in list(BUSFIGS.FIGURES.items()) + list(GFXFIGS.FIGURES.items()) + list(KERNFIGS.FIGURES.items()) + list(BOOTFIGS.FIGURES.items()):     # the box-and-arrow figures of chapters 2, 3, 4 and 6 (tools/manual/busfigs.py, gfxfigs.py, bootfigs.py, kernfigs.py); not instruction encodings
+    for fname, (_alt, draw) in list(BUSFIGS.FIGURES.items()) + list(GFXFIGS.FIGURES.items()) + list(KERNFIGS.FIGURES.items()) + list(BOOTFIGS.FIGURES.items()) + list(DRVFIGS.FIGURES.items()):     # the box-and-arrow figures of chapters 2 to 6 (tools/manual/busfigs.py, gfxfigs.py, bootfigs.py, drvfigs.py, kernfigs.py); not instruction encodings
         if 'figures/%s.svg' % fname in used:
             FIGS[fname + '.svg'] = draw()
     return files, chapters

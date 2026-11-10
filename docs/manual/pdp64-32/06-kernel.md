@@ -126,7 +126,7 @@ Three differences from the PDP-11 matter to a kernel writer. Entry **cannot faul
 | 16 | check, taken by `TRAPCC` *(P)* |
 | 17 to 31 | reserved |
 | 32 to 63 | interrupts (in the virt machine, 32 timer, 33 console input, 34 console output) |
-| 64 to 255 | reserved (device interrupts are message-signalled, section 5.7) |
+| 64 to 255 | reserved (device interrupts are message-signalled, section 5.9) |
 | 256 + n | `TRAP #n` and `TRAPL #n`, n from 0 to 255 |
 
 **6.3.7** There are eight interrupt priority levels; the processor takes an interrupt between instructions when its level is greater than the priority in the status word; the timer is at level 6 and the console at level 4. *(D)*

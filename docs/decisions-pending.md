@@ -1510,7 +1510,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** "an ethernet card with onboard tcp/ip stack that uses 8 memory addresses as registers (less if needed)" (line 5603). KE64: programmed I/O through `NDAT` (a TCP client in about thirty lines of assembly, used for netboot) or descriptor rings; four registers as the floor (line 5616).
 
-**Repository.** `manual/05-drivers.md` 5.5.2 and 5.2.7: a raw-frame device with two rings; the boot order of `04-boot.md` has no network step. Errata 29 says only "eight memory-mapped registers plus DMA".
+**Repository.** `manual/05-drivers.md` 5.8.1 and 5.6.1: a raw-frame device with two rings; the boot order of `04-boot.md` has no network step. Errata 29 says only "eight memory-mapped registers plus DMA".
 
 **Options.** (1) Raw frames only (today). (2) KE64 as in the chat, with the stack on the card. (3) Raw frames as the base device, a TCP offload personality as a second device type.
 
@@ -1611,7 +1611,7 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 
 **Standard or optional (errata 77, 78).** The C128 is an optional device. The VIC-64X, SID-64X and BLT64 are deferred (F22, closed by errata 78).
 
-* **F23. Hot-plug scope.** The bus document already specifies a departure event, a precise bus fault for a departed device and an orderly eject (`pdp64-q64-bus.md` section 13, manual 2.4.7 and 5.3.5). Lean: USB hot-plug in iteration one (it is the normal case); PCI Express slot hot-plug as software only (the fault and event rules) until a board has slot hardware.
+* **F23. Hot-plug scope.** The bus document already specifies a departure event, a precise bus fault for a departed device and an orderly eject (`pdp64-q64-bus.md` section 13, manual 2.4.7 and 5.5.5). Lean: USB hot-plug in iteration one (it is the normal case); PCI Express slot hot-plug as software only (the fault and event rules) until a board has slot hardware.
 
 **Kept for later.** The 48-bit pixel, the 48-bit sample, the 12-register devices and the Blit model are one iteration-two bundle (errata 75); the sample layout waits for it. A C64/C128 window mapped through the IOMMU is deferred.
 
