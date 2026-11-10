@@ -5,8 +5,8 @@ Every number comes from spec/pdp64-mnemonics.hbnf, the one place the architectur
 cannot drift from the assembler and the simulators; the words (operation, flags, exceptions) are in tools/manual/isa_entries.py.
 Whether an instruction is implemented in the reference executor is read from common/pdp64exec.c.
 
-    tools/mkmanual.py [MEMBER]         write the manual of each member (r20, 16, 32; default all three) into docs/manual/pdp64-MEMBER/: the hand-written
-                                       text of docs/manual-src/ (tools/manual/assemble.py), the instruction entries, the dictionary and the figures
+    tools/mkmanual.py                  write the manual of the pdp64 into docs/manual/: the hand-written text of docs/manual-src/ (tools/manual/assemble.py),
+                                       the instruction entries, the dictionary and the figures; the bit layouts are read from the grammar of pdp64/32 only
     tools/mkmanual.py --check          exit 1 if a mnemonic has no entry, an entry names a mnemonic that does not exist, a committed file differs, a section
                                        or statement number is not contiguous, or a link or a section reference has no target
 """
@@ -19,16 +19,9 @@ import assemble as ASM
 import memberprose as MP
 import isa_enc as ENCPROSE
 
-MANUALS = os.path.join(ROOT, 'docs', 'manual')            # the landing page; the manuals are MANUALS/pdp64-<member>/
+MANUAL = os.path.join(ROOT, 'docs', 'manual')             # the manual of the pdp64
 SRCDIR = os.path.join(ROOT, 'docs', 'manual-src')         # the hand-written text, once (docs/manual-src/README.md)
-MEMBER = 'r20'                                            # the member being generated (set by main())
-
-
-def outdir(member):
-    return os.path.join(MANUALS, 'pdp64-' + member)
-
-
-OUT = os.path.join(MANUALS, 'pdp64-r20', 'dictionary')
+ENC = '32'                                               # the grammar the manual reads: spec/pdp64-32/pdp64-32.hbnf
 HBNF = os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf')
 EXEC = os.path.join(ROOT, 'common', 'pdp64exec.c')
 
@@ -54,7 +47,7 @@ KIND = {'mn-ext': 'ext', 'mn-mov': 'mem', 'mn-movz': 'mem', 'mn-lea': 'mem', 'mn
         'mn-sob': 'sob', 'mn-tag': 'tag', 'mn-sop': 'sop', 'mn-xfer': 'xfer', 'mn-besc': 'besc', 'mn-mblk': 'mblk',
         'mn-aesc': 'aesc', 'mn-fesc': 'fesc', 'mn-atom': 'atom', 'mn-mesc': 'mesc', 'mn-sys-none': 'sysn',
         'mn-sysx': 'sysx', 'mn-sysreg': 'sysreg', 'mn-sys': 'sys', 'subop': 'aesc'}
-GROUPNAME = {'ext': 'New in the prefix-coded CPUs', 'mem': 'Moves, address formation and the ALU', 'br': 'Branches', 'cb': 'Branches', 'sob': 'Branches',
+GROUPNAME = {'ext': 'Added by the prefix-coded encoding', 'mem': 'Moves, address formation and the ALU', 'br': 'Branches', 'cb': 'Branches', 'sob': 'Branches',
              'tag': 'Branches', 'sop': 'Single operand (SOP)', 'xfer': 'Indirect transfers (XFER)', 'besc': 'Bits and fields (BESC)',
              'mblk': 'Block memory (MBLK)', 'aesc': 'Arithmetic (AESC)', 'fesc': 'Floating point (FESC)',
              'atom': 'Atomics (ATOM)', 'mesc': 'Memory escape (MESC)', 'sysn': 'System (SYS)', 'sysx': 'System (SYS)',
@@ -79,51 +72,32 @@ def mnemonics():
     return out
 
 
-MN_R20 = mnemonics()                                # the words of the original specification
-MN = MN_R20                                         # the words of the member being generated (build() sets it)
+MN_BASE = mnemonics()                               # the words of spec/pdp64-mnemonics.hbnf
+MN = MN_BASE                                        # the words of the manual (build() sets it)
 CH = None                                           # its charts (class Charts)
 EXECTEXT = open(EXEC).read()
 EXECENC = open(os.path.join(ROOT, 'common', 'pdp64exec_enc.inc')).read()
 ENC_IMPL = set(re.findall(r'\{ "([a-z0-9_.]+)", H_(?!UNIMPL)', EXECENC))       # the words the prefix-coded front end of the executor has a case for
 
 
-def member_mn(member):
-    """The words of one member: the original words (every one of them is in all three encodings) and, for the prefix-coded CPUs, the words of group mn-ext."""
-    mn = dict(MN_R20)
-    if member != 'r20':
-        for i, w in enumerate(LAY.ENC[member].d['ext']):
-            mn[w] = dict(group='mn-ext', kind='ext', value=i, alias_of=None)
+def manual_mn():
+    """The words of the manual: those of spec/pdp64-mnemonics.hbnf and the words of group mn-ext, from the grammar of pdp64/32."""
+    mn = dict(MN_BASE)
+    for i, w in enumerate(LAY.ENC[ENC].d['ext']):
+        mn[w] = dict(group='mn-ext', kind='ext', value=i, alias_of=None)
     return mn
 
 
 def implemented(name):
-    """Does the reference executor have a case for this mnemonic (for the member being generated)?"""
-    if MEMBER != 'r20':
-        return name in ENC_IMPL
-    m = MN[name]
-    # the system words with no number of their own in the executor (`nop`, `fence`, `sev`, `lpad`, `icinva`) fall to the `default: return` of the class-0 switch of
-    # common/pdp64exec.c, and `jmpi` is the fall-through of the XFER group after `jtag` and `calli`: they are implemented
-    if m['group'] in ('mn-sys-none', 'mn-xfer'):
-        return True
-    g = m['group'][3:].upper().replace('-', '_')
-    pat = {'mn-sys-none': 'MN_SYS_NONE_', 'mn-sysx': 'MN_SYSX_', 'mn-sysreg': 'MN_SYSREG_', 'mn-sys': 'MN_SYS_'}.get(m['group'], 'MN_%s_' % g)
-    key = pat + name.upper().replace('_', '_')
-    if name in ('mfsr', 'mtsr'):
-        key = 'MN_SYSREG_' + name.upper()
-    if key in EXECTEXT or (name == 'set' and 'SUBOP_SET' in EXECTEXT):
-        return True
-    if m['kind'] in ('mem',) and m['group'] in ('mn-mov', 'mn-movz', 'mn-lea'):
-        return True
-    if m['kind'] in ('br', 'cb', 'sob', 'tag'):
-        return True
-    return False
+    """Does the reference executor have a case for this mnemonic?"""
+    return name in ENC_IMPL
 
 
 def bits(v, w):
     return format(v, '0%db' % w)
 
 
-FIGS = {}                                     # file name -> svg text of the member being generated (build() resets it)
+FIGS = {}                                     # file name -> svg text (build() resets it)
 import layouts as LAY
 import busfigs as BUSFIGS
 import gfxfigs as GFXFIGS
@@ -153,40 +127,22 @@ def opcode_of(name):
     return OPGROUP[ESC_OPC[k]], v
 
 
-# ---------------------------------------------------------------- the charts of the member being generated
+# ---------------------------------------------------------------- the charts
 class Charts:
-    """The bit-layout charts of one member, from its grammar (tools/manual/layouts.py): charts (a list of dicts, see layouts.py), byname (mnemonic -> [(chart id, chart)])."""
+    """The bit-layout charts, from the grammar of pdp64/32 (tools/manual/layouts.py): charts (a list of dicts, see layouts.py), byname (mnemonic -> [(chart id, chart)])."""
 
-    def __init__(self, member):
-        self.member = member
-        if member == 'r20':
-            self.charts, by = LAY.r20_charts({n: m for n, m in MN_R20.items()})
-            self.byname = {n: [(cid, ch) for cid, ch in v] for n, v in by.items()}
-            for n, m in MN_R20.items():
-                if m['alias_of'] and m['alias_of'] in self.byname:
-                    self.byname[n] = self.byname[m['alias_of']]
-            self.enc = None
-        else:
-            self.enc = LAY.ENC[member]
-            self.charts = self.enc.charts
-            self.byname = {n: [(cid, ch) for cid, ch, _ in v] for n, v in self.enc.byname.items()}
+    def __init__(self):
+        self.enc = LAY.ENC[ENC]
+        self.charts = self.enc.charts
+        self.byname = {n: [(cid, ch) for cid, ch, _ in v] for n, v in self.enc.byname.items()}
         self.byid = {c['id']: c for c in self.charts}
-
-
-_R20C = []
-
-
-def r20_charts():
-    if not _R20C:
-        _R20C.append(Charts('r20'))
-    return _R20C[0]
 
 
 def wslug(name):
     return re.sub(r'[^a-z0-9]', '-', name)
 
 
-WORDCH = {}                                   # word -> [(caption, rows, bytes)], one SVG each: figures/w/WORD/NN.svg for the member being generated
+WORDCH = {}                                   # word -> [(caption, rows, bytes)], one SVG each: figures/w/WORD/NN.svg
 
 
 def chart_files(CH):
@@ -198,9 +154,9 @@ def chart_files(CH):
     for n, m in MN.items():
         if m['alias_of']:
             continue
-        items = LAY.r20_word_charts(n, m) if CH.member == 'r20' else CH.enc.word_charts(n)
+        items = CH.enc.word_charts(n)
         if not items:
-            raise SystemExit('%s: the word %s has no layout in the grammar' % (CH.member, n))
+            raise SystemExit('the word %s has no layout in the grammar' % n)
         if wslug(n) in slugs:
             raise SystemExit('the words %s and %s have the same file name' % (n, slugs[wslug(n)]))
         slugs[wslug(n)] = n
@@ -219,18 +175,12 @@ def encoding(entry):
             if cid not in [c for c, _ in cs]:
                 cs.append((cid, ch))
     if not cs:
-        raise SystemExit('entry %s: no bit layout in the grammar of %s' % (entry['id'], MEMBER))
+        raise SystemExit('entry %s: no bit layout in the grammar' % entry['id'])
     first = cs[0][0]
     L.append('![Encoding of %s](figures/%s.svg)' % (entry['id'], first))
     FIGS.setdefault(first + '.svg', LAY.svg_rows(CH.byid[first]['rows']))
-    if MEMBER == 'r20':
-        L.append('The chart is the layout `%s`, %s: %s' % (first, CH.byid[first]['title'], ' '.join(CH.byid[first]['legend'])))
-        rows = LAY.r20_entry_numbers(MN, names)
-        if rows:
-            L.append(rows)
-    else:
-        ch = CH.byid[first]
-        L.append('The chart is the leaf `%s`, %s. ' % (first, ch['title']) + ' '.join(ch['legend']))
+    ch = CH.byid[first]
+    L.append('The chart is the leaf `%s`, %s. ' % (first, ch['title']) + ' '.join(ch['legend']))
     links = ', '.join('[`%s`](dictionary/by-encoding.md#%s)' % (cid, cid) for cid, _ in cs)
     L.append('**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): %s.' % links)
     return '\n\n'.join(L)
@@ -266,13 +216,13 @@ def uni(t):
     return t
 
 
-DROPPED = {}                                  # entry id -> sentences of the r20 text left out of a prefix-coded manual
+DROPPED = {}                                  # entry id -> sentences of the text written for the original encoding that are left out
 
 
 def prose(e, field):
-    """The text of a field of an entry for the member being generated"""
+    """The text of a field of an entry"""
     t = e.get(field) if field != 'story' else D.STORY.get(e['id'], '')
-    if MEMBER == 'r20' or e.get('only') or not t:
+    if e.get('only') or not t:
         return t
     over = {'notes': ENCPROSE.NOTES, 'exc': ENCPROSE.EXC, 'story': ENCPROSE.STORY}.get(field, {})
     if e['id'] in over:
@@ -312,9 +262,6 @@ def words_section(e, real):
         out += ['#### %s' % n.upper(), ''] + forms_block(n)
         if syn:
             out += ['```', uni('\n'.join(syn)), '```', '']
-        num = LAY.r20_entry_numbers(MN, [n]) if MEMBER == 'r20' else ''
-        if num:
-            out += [num, '']
         out += ['Operation, flags and exceptions as for the entry %s above; %d layout form%s, each a chart of its own (above).' % (e['id'], len(WORDCH[n]), '' if len(WORDCH[n]) == 1 else 's'), '']
     return out
 
@@ -438,22 +385,16 @@ for _i in 'MSHA MAESCTR'.split(): HOME[_i] = ('09-isa.md', '9.11')
 for _i in 'TRAPCC SYSPG'.split(): HOME[_i] = ('09-isa.md', '9.14')
 
 
-NAMES = ASM.NAME
-
-
-def notation(member):
-    """The notation paragraph of chapter 9, with what is particular to the member: the registers and the masks of PUSHM and POPM."""
-    t = D.NOTATION if member == 'r20' else D.NOTATION_ENC
-    if member != 'r20':
-        d = LAY.ENC[member].d
-        rn = lambda rs: ' '.join('`R%d`' % r if r != 14 else '`SP`' for r in rs)
-        t += ("\n\n**Registers.** %s has %d registers, `R0` to `R%d`%s. A register field of an instruction is %s; the hot-register tables are part of the ABI: the 3-bit fields hold, in order, %s%s."
-              % (NAMES[member], d['registers'], d['registers'] - 1,
-                 '; the entries that name `R0` to `R15` apply to `R16` to `R31` too, which exist only in this CPU' if d['registers'] == 32 else '',
-                 'the full number of bits (%d), or fewer where the field names one of the hot registers' % (d['registers'].bit_length() - 1),
-                 rn(d['hot8']), ('; the 4-bit fields hold, in order, ' + rn(d['hot16'])) if d['hot16'] else ''))
-        if d['registers'] == 32:
-            t += " `PUSHM` and `POPM` take a 32-bit mask there (errata 87)."
+def notation():
+    """The notation paragraph of chapter 9, with the registers and the masks of PUSHM and POPM."""
+    t = D.NOTATION_ENC
+    d = LAY.ENC[ENC].d
+    rn = lambda rs: ' '.join('`R%d`' % r if r != 14 else '`SP`' for r in rs)
+    t += ("\n\n**Registers.** The pdp64 has %d registers, `R0` to `R%d`. A register field of an instruction is %s; the entries that name `R0` to `R15` apply to `R16` to `R31` too; the hot-register tables are part of the ABI: the 3-bit fields hold, in order, %s%s."
+          % (d['registers'], d['registers'] - 1,
+             'the full number of bits (%d), or fewer where the field names one of the hot registers' % (d['registers'].bit_length() - 1),
+             rn(d['hot8']), ('; the 4-bit fields hold, in order, ' + rn(d['hot16'])) if d['hot16'] else ''))
+    t += " `PUSHM` and `POPM` take a 32-bit mask (errata 87)."
     return t
 
 
@@ -487,19 +428,18 @@ def embed(text, key, body, after_heading=False):
     return head + '\n\n' + block + '\n\n' + text[end:]
 
 
-def sources(member):
-    """The hand-written text for one member: every file of docs/manual-src/ that is written for it, with its member blocks resolved."""
+def sources():
+    """The hand-written text: every file of docs/manual-src/."""
     out = {}
     for fn in sorted(os.listdir(SRCDIR)):
         if not fn.endswith('.md') or fn == 'README.md':
             continue
         t = open(os.path.join(SRCDIR, fn)).read()
-        if member in ASM.file_members(t):
-            out[fn] = ASM.for_member(t, member, 'docs/manual-src/' + fn)
+        out[fn] = ASM.resolve(t, 'docs/manual-src/' + fn)
     # appendices H (proposed), I (deferred) and J (open items): assembled from the fragments of docs/manual-src/appendix-parts/, one file per chapter and kind
     pdir = os.path.join(SRCDIR, 'appendix-parts')
     frags = {fn: open(os.path.join(pdir, fn)).read() for fn in sorted(os.listdir(pdir))} if os.path.isdir(pdir) else {}
-    probs = ASM.assemble_parts(out, frags, member)
+    probs = ASM.assemble_parts(out, frags)
     if probs:
         raise SystemExit('\n'.join(probs))
     return out
@@ -511,55 +451,35 @@ def held_chart_ids():
             if all(n in D.HELD_NAMES for n, v in CH.byname.items() if any(c == cid for c, _ in v))}
 
 
-def by_encoding_page(member):
-    """dictionary/by-encoding.md: a chart for every opcode (every distinct layout) of the member, generated from its grammar, with the index of the mnemonics."""
-    r20 = member == 'r20'
-    L = ['# The bit layouts of every opcode (%s)' % ASM.NAME[member], '', '[← dictionary index](index.md)', '']
-    if r20:
-        L += ['Every opcode of the original encoding has a chart here: one for each distinct layout (class of instruction, length, and body) that the grammar admits. '
-              'The fields and their widths are the bit rules of `spec/pdp64.hbnf.in` (parcel 0 is `len opcode reg low`, and the body that follows is chosen by the guards of its alternatives), '
-              'the numbers are the enumerations of `spec/pdp64-mnemonics.hbnf`, and what a field is called is `spec/pdp64-layout.hbnf`. '
-              'The charts are generated from those files by `tools/mkmanual.py`; changing a field in a grammar changes the chart.']
-    else:
-        L += ['Every leaf of the encoding of %s has a chart here. A leaf is a prefix of 3 to 16 bits of the first parcel, a sub-opcode that selects one of its mnemonics, and the pieces of its operands; '
-              'there is no `len` field, because the prefix decides the length. The charts are generated by `tools/mkmanual.py` from the grammars `spec/pdp64-enc.hbnf` and `spec/pdp64-%s/pdp64-%s.hbnf`, '
-              'read by `tools/encgram.py`; changing a field in a grammar changes the chart.' % (ASM.NAME[member], member, member)]
+def by_encoding_page():
+    """dictionary/by-encoding.md: a chart for every opcode (every distinct layout), generated from the grammar, with the index of the mnemonics."""
+    L = ['# The bit layouts of every opcode', '', '[← dictionary index](index.md)', '']
+    L += ['Every leaf of the encoding has a chart here. A leaf is a prefix of 3 to 16 bits of the first parcel, a sub-opcode that selects one of its mnemonics, and the pieces of its operands; '
+          'there is no `len` field, because the prefix decides the length. The charts are generated by `tools/mkmanual.py` from the grammars `spec/pdp64-enc.hbnf` and `spec/pdp64-%s/pdp64-%s.hbnf`, '
+          'read by `tools/encgram.py`; changing a field in a grammar changes the chart.' % (ENC, ENC)]
     L += ['', '**How to read a chart.** Each row is one 16-bit parcel, bit 15 on the left, the bit numbers above the boxes. A shaded box has a fixed value, written in it; a white box is a field of the instruction. '
           'Fields are named `opN.part` for the part of the Nth operand of the assembly syntax (`op1.d` is the displacement of the first operand); a field the layout splits is `name[1]`, `name[2]` from the top. '
           'A register field of 3 or 4 bits holds an index into the hot-register table of the ABI, not a register number.', '']
-    if not r20:
-        d = LAY.ENC[member].d
-        rn = lambda r: 'SP' if r == 14 else 'R%d' % r
-        L += ['## The hot-register tables', '', 'The part of the ABI on which the encoding depends: a 3-bit register field holds, in order, `%s`' % ' '.join(rn(r) for r in d['hot8'])
-              + ('; a 4-bit field holds `%s`' % ' '.join(rn(r) for r in d['hot16']) if d['hot16'] else '') + '. The fused instructions of the encoding are `%s`.' % '`, `'.join(d['fused']), '',
-              '## The operand shapes', '', 'The widths and the reach of the immediates and displacements of each shape the forms use (the shapes are rules of the grammar):', '', '| Shape | Meaning |', '|---|---|']
-        for nm, desc in sorted(LAY.ENC[member].shapes_used().items()):
-            L.append('| `%s` | %s |' % (nm, desc))
-        L.append('')
+    d = LAY.ENC[ENC].d
+    rn = lambda r: 'SP' if r == 14 else 'R%d' % r
+    L += ['## The hot-register tables', '', 'The part of the ABI on which the encoding depends: a 3-bit register field holds, in order, `%s`' % ' '.join(rn(r) for r in d['hot8'])
+          + ('; a 4-bit field holds `%s`' % ' '.join(rn(r) for r in d['hot16']) if d['hot16'] else '') + '. The fused instructions of the encoding are `%s`.' % '`, `'.join(d['fused']), '',
+          '## The operand shapes', '', 'The widths and the reach of the immediates and displacements of each shape the forms use (the shapes are rules of the grammar):', '', '| Shape | Meaning |', '|---|---|']
+    for nm, desc in sorted(LAY.ENC[ENC].shapes_used().items()):
+        L.append('| `%s` | %s |' % (nm, desc))
+    L.append('')
     L += ['## The charts', '']
     held_charts = held_chart_ids()
-    if r20:
-        for kind in LAY.MN_KINDS:
-            cs = [c for c in CH.charts if c['kind'] == kind]
-            if not cs:
-                continue
-            L += ['### %s' % LAY.KINDTITLE[kind], '']
-            for ch in cs:
-                if ch['id'] not in held_charts:
-                    L += chart_block(ch, member)
-        ch = CH.byid['r20-page2']
-        L += ['### Page 2', ''] + chart_block(ch, member)
-    else:
-        order = sorted(range(len(CH.charts)), key=lambda i: (CH.charts[i]['parcels'], CH.charts[i]['L'], i))
-        cur = None
-        for i in order:
-            ch = CH.charts[i]
-            if ch['id'] in held_charts:
-                continue
-            if ch['parcels'] != cur:
-                cur = ch['parcels']
-                L += ['### Instructions of %d parcel%s (%d bytes)' % (cur, '' if cur == 1 else 's', 2 * cur), '']
-            L += chart_block(ch, member)
+    order = sorted(range(len(CH.charts)), key=lambda i: (CH.charts[i]['parcels'], CH.charts[i]['L'], i))
+    cur = None
+    for i in order:
+        ch = CH.charts[i]
+        if ch['id'] in held_charts:
+            continue
+        if ch['parcels'] != cur:
+            cur = ch['parcels']
+            L += ['### Instructions of %d parcel%s (%d bytes)' % (cur, '' if cur == 1 else 's', 2 * cur), '']
+        L += chart_block(ch)
     L += ['## The index of the mnemonics', '', 'For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.', '']
     for n in sorted(MN):
         if MN[n]['alias_of'] or n in D.HELD_NAMES:
@@ -572,41 +492,35 @@ def by_encoding_page(member):
     return '\n'.join(L).replace('](figures/', '](../figures/')
 
 
-def chart_block(ch, member):
+def chart_block(ch):
     cid = ch['id']
     out = ['<a id="%s"></a>' % cid, '#### %s: %s' % (cid, ch['title']), '', '![Layout %s](figures/%s.svg)' % (cid, cid), '']
     for line in ch['legend']:
         out += [line, '']
-    if member == 'r20':
-        t = LAY.r20_chart_numbers(ch)
-        if t:
-            out += [t, '']
-    else:
-        out += ['Fields: ' + ' '.join('`%s`' % f for f in ch['fields'].split()), '']
+    out += ['Fields: ' + ' '.join('`%s`' % f for f in ch['fields'].split()), '']
     return out
 
 
-def build(member='r20'):
-    global MEMBER, FIGS, MN, CH
-    MEMBER = member
+def build():
+    global FIGS, MN, CH
     FIGS = {}
-    MN = member_mn(member)
-    CH = Charts(member)
+    MN = manual_mn()
+    CH = Charts()
     chart_files(CH)
     # a chart for every opcode: no mnemonic without a layout, no chart without a mnemonic, and (prefix-coded) a chart for every leaf of the grammar
     nochart = [n for n, m in MN.items() if not m['alias_of'] and not CH.byname.get(n)]
     if nochart:
-        raise SystemExit('%s: mnemonics with no bit layout in the grammar: %s' % (ASM.NAME[member], ' '.join(sorted(nochart))))
+        raise SystemExit('mnemonics with no bit layout in the grammar: ' + ' '.join(sorted(nochart)))
     used = {cid for v in CH.byname.values() for cid, _ in v}
     orphan = [c['id'] for c in CH.charts if c['id'] not in used and c['kind'] != 'p2']
     if orphan:
-        raise SystemExit('%s: charts for no mnemonic: %s' % (ASM.NAME[member], ' '.join(orphan)))
+        raise SystemExit('charts for no mnemonic: ' + ' '.join(orphan))
     if CH.enc and len(CH.charts) != len(CH.enc.d['leaves']):
-        raise SystemExit('%s: %d charts for %d leaves' % (ASM.NAME[member], len(CH.charts), len(CH.enc.d['leaves'])))
+        raise SystemExit('%d charts for %d leaves' % (len(CH.charts), len(CH.enc.d['leaves'])))
     files = {}
     chapters = {}
     allents = D.ENTRIES
-    ents = [e for e in allents if member in e.get('only', ASM.MEMBERS) and e['id'] not in D.HELD]   # a proposed or stub entry is held back (isa_entries.HELD): its text is in appendix-parts/09-proposed.md or 09-open.md
+    ents = [e for e in allents if e['id'] not in D.HELD]   # a proposed or stub entry is held back (isa_entries.HELD): its text is in appendix-parts/09-proposed.md or 09-open.md
     seen = {}
     for e in ents:
         for n in e['names']:
@@ -631,7 +545,7 @@ def build(member='r20'):
     for e in ents:
         e['aliases'] = [a for a, t in alias_of.items() if t in e['names'] and a not in e['names']]
     # the entries, into the sections of the chapters
-    texts = sources(member)
+    texts = sources()
     heads = {}
     for e in ents:
         fn, sec = HOME[e['id']]
@@ -640,7 +554,7 @@ def build(member='r20'):
         heads.setdefault((fn, sec), []).append(render_entry(e2))
     for (fn, sec), parts in sorted(heads.items()):
         texts[fn] = embed(texts[fn], 'entries:' + sec, '\n\n'.join(p.strip('\n') + '\n' for p in parts))
-    texts['09-isa.md'] = embed(texts['09-isa.md'], 'notation', notation(member), after_heading=True)
+    texts['09-isa.md'] = embed(texts['09-isa.md'], 'notation', notation(), after_heading=True)
     # the official entries live in the instruction chapter; the chapters that give the rationale list them and link to them
     for fn, sec, home in (('06-kernel.md', '6.13', '9.14'), ('07-smp.md', '7.12', '9.13')):
         rows = ['**The instruction entries for this section are in chapter 9, section %s:** each entry there is complete (syntax, encoding diagram, operation, flags, exceptions, status); the commentary above gives the reasons and the use.' % home, '',
@@ -655,31 +569,6 @@ def build(member='r20'):
     def sec_link(fn, sec):
         m = re.search(r'(?m)^## %s (.*)$' % re.escape(sec), texts[fn])
         return '../%s#%s' % (fn, slug('%s %s' % (sec, m.group(1))))
-    # page 2 (the original encoding only: the prefix-coded CPUs have no second page)
-    if member == 'r20':
-        P2 = ['# The second page: one-parcel abbreviations', '', '[← dictionary index](index.md)', '', D.P2_INTRO, '',
-              '*Generated by `tools/mkmanual.py` from `spec/pdp64-mnemonics.hbnf` and `tools/manual/isa_entries.py`; do not edit.*', '',
-              fig('page2', 'Layout of a page-2 instruction', CH.byid['r20-page2']['rows']), '',
-              '| Opcode | Name | Operation | `reg` | `low` | Long form it abbreviates |', '|---|---|---|---|---|---|']
-        p2 = SPEC['p2op']
-        pnames = {n for n, _ in p2}
-        miss2 = pnames - set(D.P2)
-        if miss2:
-            raise SystemExit('page-2 opcodes with no description: ' + ' '.join(sorted(miss2)))
-        extra2 = set(D.P2) - pnames
-        if extra2:
-            raise SystemExit('page-2 descriptions for opcodes that do not exist: ' + ' '.join(sorted(extra2)))
-        for n, v in p2:
-            op, reg, low, longf = D.P2[n]
-            P2.append('| `%s` | `%s` | %s | %s | %s | %s |' % (BH(v, 6), n, op, reg, low, longf))
-        P2.append('')
-        P2.append('Every page-2 opcode not listed (`001111 (0x0F)` and `101110 (0x2E)` to `111111 (0x3F)`, %d of 64) is reserved; a reserved page-2 opcode is an illegal-instruction abort.' % (64 - len(p2)))
-        P2.append('')
-        P2.append('## Why there is a second page')
-        P2.append('')
-        P2.append(D.P2_STORY)
-        P2.append('')
-        files['page2.md'] = '\n'.join(P2).replace('](figures/', '](../figures/')
     # aliases
     A = ['# Assembler aliases and alternative spellings', '', '[← dictionary index](index.md)', '',
          'A mnemonic that assembles to another instruction. One mnemonic is one instruction (section 9.18); the disassembler never prints an alias.', '',
@@ -692,13 +581,9 @@ def build(member='r20'):
     files['aliases.md'] = '\n'.join(A)
     # by mnemonic
     byid = {e['id']: e for e in ents}
-    r20 = member == 'r20'
     by = ['# The mnemonics, alphabetically', '', '[← dictionary index](index.md)', '',
           '*Generated by `tools/mkmanual.py`; do not edit.*', '']
-    if r20:
-        by += ['| Mnemonic | Entry | Opcode | Sub | Layouts | Group |', '|---|---|---|---|---|---|']
-    else:
-        by += ['| Mnemonic | Entry | Layouts | Group |', '|---|---|---|---|']
+    by += ['| Mnemonic | Entry | Layouts | Group |', '|---|---|---|---|']
     for n in sorted(MN):
         if n in D.HELD_NAMES:
             continue
@@ -710,49 +595,13 @@ def build(member='r20'):
         head = '`%s`%s | [%s](%s) (section %s)' % (n.upper(), ' (alias of `%s`)' % tgt.upper() if m['alias_of'] else '', eid, '../%s#%s' % (fn, anchor_for(e)), sec)
         nl = len(CH.byname.get(tgt, []))
         lay = '[%d](by-encoding.md#mn-%s), [entry](../%s#w-%s)' % (nl, re.sub(r'[^a-z0-9]', '-', tgt), HOME[eid][0], wslug(tgt))
-        if r20:
-            o, s = opcode_of(tgt)
-            sub = '' if s is None else ('`%s`' % BH(s, 4 if m['kind'] in ('sop', 'xfer', 'sysn', 'sysx', 'sysreg', 'sys') else 8))
-            by.append('| %s | `%s` | %s | %s | %s |' % (head, BH(o, 6), sub, lay, GROUPNAME[m['kind']]))
-        else:
-            by.append('| %s | %s | %s |' % (head, lay, GROUPNAME[m['kind']]))
+        by.append('| %s | %s | %s |' % (head, lay, GROUPNAME[m['kind']]))
     by.append('')
     files['by-mnemonic.md'] = '\n'.join(by)
-    if r20:
-        # by opcode
-        bo = ['# The opcodes, in order', '', '[← dictionary index](index.md)', '',
-              '*Generated by `tools/mkmanual.py`; do not edit.*', '', 'The opcodes of the original encoding. The bit layout of each is in [the bit layouts of every opcode](by-encoding.md).', '',
-              '## Page 1', '', '| Opcode | Use |', '|---|---|']
-        use = {}
-        for n, m in MN.items():
-            if m['alias_of']:
-                continue
-            o, s = opcode_of(n)
-            use.setdefault(o, []).append((n, s, m))
-        for o in range(64):
-            if o in use:
-                names = use[o]
-                if len(names) > 6:
-                    text = ', '.join('`%s`' % n.upper() for n, _, _ in names[:5]) + ' and %d more (sub-opcodes in the entries)' % (len(names) - 5)
-                else:
-                    text = ', '.join('`%s`' % n.upper() for n, _, _ in names)
-                bo.append('| `%s` | %s |' % (BH(o, 6), text))
-            else:
-                reserved = {0x23: 'spare ALU slot (decodes, traps)'}.get(o, 'reserved')
-                bo.append('| `%s` | %s |' % (BH(o, 6), reserved))
-        bo.append('')
-        bo.append('## Page 2')
-        bo.append('')
-        bo.append('| Opcode | Name |')
-        bo.append('|---|---|')
-        for n, v in SPEC['p2op']:
-            bo.append('| `%s` | `%s` |' % (BH(v, 6), n))
-        bo.append('')
-        files['by-opcode.md'] = '\n'.join(bo)
-    files['by-encoding.md'] = by_encoding_page(member)
+    files['by-encoding.md'] = by_encoding_page()
     files['constants.md'] = constants_page()
     # index
-    I = ['# The instruction reference tables (%s)' % ASM.NAME[member], '', '[← manual index](../00-index.md)', '', D.INDEX_INTRO if r20 else D.INDEX_INTRO_ENC, '', '## Where the entries are', '']
+    I = ['# The instruction reference tables', '', '[← manual index](../00-index.md)', '', D.INDEX_INTRO_ENC, '', '## Where the entries are', '']
     where = {}
     for e in ents:
         where.setdefault(HOME[e['id']], []).append(e)
@@ -762,13 +611,9 @@ def build(member='r20'):
     I.append('')
     I.append('## The tables')
     I.append('')
-    if r20:
-        I.append('* [The second page: one-parcel abbreviations](page2.md)')
     I.append('* [Assembler aliases and alternative spellings](aliases.md)')
     I.append('* [The architectural constants](constants.md)')
     I.append('* [The mnemonics, alphabetically](by-mnemonic.md)')
-    if r20:
-        I.append('* [The opcodes, in order](by-opcode.md)')
     I.append('* [The bit layouts of every opcode](by-encoding.md): a chart for each layout, generated from the grammar')
     I.append('')
     vis = {n: m for n, m in MN.items() if n not in D.HELD_NAMES}
@@ -776,22 +621,15 @@ def build(member='r20'):
     n_alias = sum(1 for m in vis.values() if m['alias_of'])
     n_ext = sum(1 for m in vis.values() if m['kind'] == 'ext')
     wch = {n: v for n, v in WORDCH.items() if n not in D.HELD_NAMES}
-    I.append('The specification of %s has %d mnemonic words (%d instructions and %d aliases)%s%s. There are %d instruction entries, %d bit-layout charts of the layouts, and an entry for each of the %d instructions with a chart of each of its %d forms.'
-             % (ASM.NAME[member], len(vis), n_real, n_alias, (', %d of them only in the prefix-coded CPUs' % n_ext) if n_ext else '', (' and %d page-2 opcodes' % len(SPEC['p2op'])) if r20 else '',
+    I.append('The specification of the pdp64 has %d mnemonic words (%d instructions and %d aliases)%s. There are %d instruction entries, %d bit-layout charts of the layouts, and an entry for each of the %d instructions with a chart of each of its %d forms.'
+             % (len(vis), n_real, n_alias, (', %d of them added by the prefix-coded encoding' % n_ext) if n_ext else '',
                 len(ents), len(CH.charts) - len(held_chart_ids()), len(wch), sum(len(v) for v in wch.values())))
     I.append('')
     I.append('*Generated by `tools/mkmanual.py`; do not edit.*')
     I.append('')
     files['index.md'] = '\n'.join(I)
-    # the figures of chapter 9 that the text refers to by name, drawn from the grammars (the status word from spec/pdp64-system.hbnf, the format from spec/pdp64.hbnf.in)
+    # the figures of chapter 9 that the text refers to by name, drawn from the grammars (the status word from spec/pdp64-system.hbnf)
     used = '\n'.join(texts.values())
-    if 'figures/format-parcel0.svg' in used:
-        fig('format-parcel0', 'The first parcel of every instruction', LAY.head_rows(LAY.grammar()))
-    if 'figures/format-extension.svg' in used:
-        R = r20_charts()                    # until the text of a prefix-coded manual is rewritten, it shows the figure of the original format
-        c1, c2, p2c = R.byid['r20-mem-1'], R.byid['r20-mem-2'], R.byid['r20-page2']
-        fig('format-extension', 'The extension parcels and the second page', [
-            ('len = 01, parcel 1', c1['rows'][1][1]), ('len = 10, parcel 1', c2['rows'][1][1]), ('len = 10, parcel 2', c2['rows'][2][1]), ('len = 11 (page 2)', p2c['rows'][0][1])])
     if 'figures/psw.svg' in used:
         fig('psw', 'The processor status word', LAY.psw_chart(SYS))
     for fname, (_alt, draw) in list(BUSFIGS.FIGURES.items()) + list(GFXFIGS.FIGURES.items()) + list(KERNFIGS.FIGURES.items()) + list(BOOTFIGS.FIGURES.items()) + list(DRVFIGS.FIGURES.items()):     # the box-and-arrow figures of chapters 2 to 6 (tools/manual/busfigs.py, gfxfigs.py, bootfigs.py, drvfigs.py, kernfigs.py); not instruction encodings
@@ -806,49 +644,45 @@ def anchor_for(e):
 
 def main():
     check = '--check' in sys.argv
-    only = [a for a in sys.argv[1:] if a in ASM.MEMBERS] or list(ASM.MEMBERS)
     bad = False
-    for member in only:
-        files, chapters = build(member)
-        if '--dropped' in sys.argv:
-            for k, v in sorted(DROPPED.items()):
-                print('%s: %s: %d sentences of the r20 text left out' % (ASM.NAME[member], k, len(v)))
-        base = outdir(member)
-        rel = {}
-        for name, text in files.items():
-            rel['dictionary/' + name] = text
-        for name, text in chapters.items():
-            rel[name] = text
-        for name, text in FIGS.items():
-            rel['figures/' + name] = text
-        for pr in ASM.verify(rel, set(rel), base):
-            print('%s: %s' % (ASM.NAME[member], pr))
-            bad = True
-        # what is on disk and not generated
-        on_disk = set()
-        if os.path.isdir(base):
-            for d, _, fs in os.walk(base):
-                for f in fs:
-                    on_disk.add(os.path.relpath(os.path.join(d, f), base))
-        for name, text in sorted(rel.items()):
-            p = os.path.join(base, name)
-            if check:
-                if not os.path.exists(p) or open(p).read() != text:
-                    print('stale: ' + os.path.relpath(p, ROOT))
-                    bad = True
-            else:
-                os.makedirs(os.path.dirname(p), exist_ok=True)
-                open(p, 'w').write(text)
-        for name in sorted(on_disk - set(rel)):
-            if check:
-                print('stale (no longer generated): ' + os.path.relpath(os.path.join(base, name), ROOT))
+    files, chapters = build()
+    if '--dropped' in sys.argv:
+        for k, v in sorted(DROPPED.items()):
+            print('%s: %d sentences of the original text left out' % (k, len(v)))
+    base = MANUAL
+    rel = {}
+    for name, text in files.items():
+        rel['dictionary/' + name] = text
+    for name, text in chapters.items():
+        rel[name] = text
+    for name, text in FIGS.items():
+        rel['figures/' + name] = text
+    for pr in ASM.verify(rel, set(rel), base):
+        print(pr)
+        bad = True
+    # what is on disk and not generated
+    on_disk = set()
+    if os.path.isdir(base):
+        for d, _, fs in os.walk(base):
+            for f in fs:
+                on_disk.add(os.path.relpath(os.path.join(d, f), base))
+    for name, text in sorted(rel.items()):
+        p = os.path.join(base, name)
+        if check:
+            if not os.path.exists(p) or open(p).read() != text:
+                print('stale: ' + os.path.relpath(p, ROOT))
                 bad = True
-            else:
-                os.remove(os.path.join(base, name))
-        if not check:
-            print('%s: wrote %d dictionary pages, %d figures and %d chapters' % (ASM.NAME[member], len(files), len(FIGS), len(chapters)))
-    if check:
-        sys.exit(1 if bad else 0)
+        else:
+            os.makedirs(os.path.dirname(p), exist_ok=True)
+            open(p, 'w').write(text)
+    for name in sorted(on_disk - set(rel)):
+        if check:
+            print('stale (no longer generated): ' + os.path.relpath(os.path.join(base, name), ROOT))
+            bad = True
+        else:
+            os.remove(os.path.join(base, name))
+    if not check:
+        print('pdp64: wrote %d dictionary pages, %d figures and %d chapters' % (len(files), len(FIGS), len(chapters)))
     sys.exit(1 if bad else 0)
 
 

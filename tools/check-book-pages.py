@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Look at every page of a built book (book/pdp64-MEMBER.pdf) and report the pages that end with the title or the layout charts of a dictionary entry and no text after them
+"""Look at every page of a built book (book/pdp64.pdf) and report the pages that end with the title or the layout charts of a dictionary entry and no text after them
 (the author's rule: an entry that would leave its title and charts at the bottom of a page starts on the next page).  Uses pdftotext.
-    tools/check-book-pages.py book/pdp64-16.pdf"""
+    tools/check-book-pages.py book/pdp64.pdf"""
 import re, subprocess, sys
 
 def pages(pdf):

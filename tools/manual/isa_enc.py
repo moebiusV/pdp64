@@ -1,4 +1,4 @@
-"""Alternative prose for the entries whose text for pdp64/r20 states how the original encoding lays the instruction out: for pdp64/16 and pdp64/32 the field
+"""Alternative prose for the entries whose text, written for the original encoding, states how that encoding lays the instruction out: the field
 named here replaces the one in the entry (tools/mkmanual.py; the other fields of those entries are trimmed by memberprose.py).  The layouts themselves are the
 charts, generated from the grammars; what is written here is meaning only."""
 
@@ -11,7 +11,7 @@ NOTES = {
     'MOVU': 'The ordinary moves fault on a misaligned address (the alignment fault is the tag check of section 9.5); these are the explicit forms for data that is not aligned.',
     'ADDM': 'The forms with a memory destination are in the ordinary memory families of the encoding, with every addressing form (errata 87).',
     'BCC': 'Condition numbers: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. Conditions on the flags: `ne` `!Z`; `eq` `Z`; `pl` `!N`; `mi` `N`; `vc` `!V`; `vs` `V`; `cc` `!C`; `cs` `C`; `ge` `N == V`; `lt` `N != V`; `gt` `!Z and N == V`; `le` `Z or N != V`; `hi` `!C and !Z`; `los` `C or Z`. The displacement counts 2-byte parcels; the reach of each form is in its chart.',
-    'CBCC': 'The family has several forms for each condition (the layouts of this entry): the second operand is a register or an immediate of some width, and the reach differs. A `cbCC` that no form reaches is assembled by `as64` as `CMP` and `bCC`, which **writes the flags** (errata 87, assumption 6; the integration measured 4 such sites in 34,387 for pdp64/16 and 17 in 34,524 for pdp64/32, errata 90).',
+    'CBCC': 'The family has several forms for each condition (the layouts of this entry): the second operand is a register or an immediate of some width, and the reach differs. A `cbCC` that no form reaches is assembled by `as64` as `CMP` and `bCC`, which **writes the flags** (errata 87, assumption 6; the integration measured 17 such sites in 34,524, errata 90).',
     'BTAG': 'For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`). The displacement is signed and counts parcels.',
     'SET': 'The condition is numbered as the low nibble of the branch opcodes (`al` 0, `ne` 1, `eq` 2, ... `los` 14).',
     'RET': 'Not privileged: it is the partner of `CALL`.',
@@ -37,7 +37,7 @@ NOTES['LLSC'] = ('A short `LL`/`SC` sequence must eventually succeed if no other
                  + ' The result convention of `SC` is part of the open placement ([J.9.3](appendix-j-open.md#j93)).')
 EXC = {'LEA': 'The operand must name memory (a register or an immediate is not a form). No memory access is made, so the instruction takes no memory fault. A reserved encoding aborts with the illegal-instruction vector.'}
 
-# The "Why it is here" paragraphs rewritten for the prefix-coded CPUs where the paragraph of pdp64/r20 mixes a rationale with a statement about the original encoding;
+# The "Why it is here" paragraphs rewritten for the prefix-coded encoding where the original paragraph mixes a rationale with a statement about the original encoding;
 # the rationale, the precedent and the measurements are kept (a measurement of the original encoding is said to be one).
 STORY = {
     'MOVU': 'Data alignment is architectural on this machine (9.2.11): an ordinary quad access to an address that is not a multiple of 8 aborts, and that abort doubles as the tag check for tagged pointers; a load form that ignores low pointer bits is rejected for that reason. Packed on-disk and network structures still need unaligned access, so the architecture has explicit unaligned forms rather than weakening the rule for every load. No further reason is recorded for these four.',

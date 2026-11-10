@@ -8,7 +8,7 @@
 
 **10.1.1** The first implementation is a soft core on a system-on-chip FPGA whose hard ARM cores serve as the bring-up harness: they load programs, run the tests and provide the console while the pdp64 core is still being debugged. *(D)*
 
-**10.1.2** A complete core is about 16,000 six-input lookup tables, 10 to 16 multiplier blocks and 11 block RAMs, with an error of about ±40%: the register file is 250 lookup tables of distributed RAM, the 64-bit ALU 600, the barrel shifter 450, the caches 300 and 500 plus 8 block RAMs, the bus bridge 600[[16 32: ; the figures are for the original encoding, and the decoder and register file of this CPU have not been estimated separately]]. *(E)*
+**10.1.2** A complete core is about 16,000 six-input lookup tables, 10 to 16 multiplier blocks and 11 block RAMs, with an error of about ±40%: the register file is 250 lookup tables of distributed RAM, the 64-bit ALU 600, the barrel shifter 450, the caches 300 and 500 plus 8 block RAMs, the bus bridge 600; the figures are for the original encoding, and the decoder and register file of this CPU have not been estimated separately. *(E)*
 
 **10.1.3** Block RAM, not logic, is the scarce resource: the caches, the translation buffer, the framebuffer and the blitter scratch compete for about 5.5 megabits. *(E)*
 

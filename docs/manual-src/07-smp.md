@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**The pdp64 is built so that adding a second core needs seventeen operations, one per-core register, and nothing a kernel writer has to work around: memory is sequentially consistent, the atomics are one instruction each, the per-CPU pointer is a register that already exists, and the other cores' translation buffers are invalidated by a single broadcast.** The chapter collects everything the architecture adds for symmetric multiprocessing, what a kernel does with it, what is left out, and what the device side supplies. The instruction-set text is [`../pdp64-isa.md`](../../pdp64-isa.md), section 17.
+**The pdp64 is built so that adding a second core needs seventeen operations, one per-core register, and nothing a kernel writer has to work around: memory is sequentially consistent, the atomics are one instruction each, the per-CPU pointer is a register that already exists, and the other cores' translation buffers are invalidated by a single broadcast.** The chapter collects everything the architecture adds for symmetric multiprocessing, what a kernel does with it, what is left out, and what the device side supplies. The instruction-set text is [`pdp64-isa.md`](../pdp64-isa.md), section 17.
 
 ## 7.1 The seventeen operations
 
@@ -15,7 +15,7 @@
 
 **7.1.2** Every atomic has a variant, `_DB`, that folds a barrier into the instruction, so that a lock acquire or release is one instruction. *(D)*
 
-**7.1.3** The atomics live in the atomic [[r20: escape group]][[16 32: leaves]] and the other operations in the system [[r20: group]][[16 32: leaves]]; the umbrella is conceptual, not an encoding. *(D)*
+**7.1.3** The atomics live in the atomic leaves and the other operations in the system leaves; the umbrella is conceptual, not an encoding. *(D)*
 
 **7.1.4** Supporting these are the banked direct-page register, the address-space tag, the global-page bit and the banked stack pointer (section 7.4). *(D)*
 
@@ -47,7 +47,7 @@
 
 **7.3.4** A device that writes memory shared with a core takes part by clearing reservations. *(D)*
 
-**7.3.5** Open: what an atomic does on uncached memory and on device memory ([J.7.[[r20: 3]][[16 32: 4]]](appendix-j-open.md#j7[[r20: 3]][[16 32: 4]])).
+**7.3.5** Open: what an atomic does on uncached memory and on device memory ([J.7.4](appendix-j-open.md#j74)).
 
 *Commentary.* **Precedent.** A bus lock, the Unibus's `DATIP`/`DATO` pair, is simple and a bottleneck as cores multiply; a monitor maps onto the exclusive access of AXI and the memory systems of FPGAs and modern chips. **Trade-offs.** A monitor needs forward-progress rules and, under contention, can livelock if not specified; RISC-V's guarantee of eventual success for constrained sequences is the model. The pain-points report records that the kernels' simple lock does not scale (OpenBSD's ticket kernel lock measured 155% worse than an Anderson lock in one developer's test) and that Linux moved from test-and-set through ticket locks to queued locks; the instruction set provides the primitives and the lock design is the kernel's. **Benefits.** A kernel's lock needs one instruction; lock-free queues need compare-and-swap. **Modern comparables.** RISC-V `LR`/`SC` with its constrained-loop guarantee, AArch64 load-exclusive and `CAS`, x86 `LOCK CMPXCHG`. **Use.** `CAS` for lock-free structures and lock words; `XADD` for counters and ticket numbers; `LL`/`SC` for everything else. **Impact.** *Kernel:* A lock is one `_DB` instruction. *Compiler:* A `LL`/`SC` loop must be emitted in the constrained form, with no other memory access between the two. *Hardware:* A reservation granule tag in the cache controller and an exclusive-access path to memory.
 
@@ -55,13 +55,13 @@
 
 **7.4.1** `MFCPUID` returns the number of the core that executes it. It cannot be synthesised and per-CPU data needs it. *(D)*
 
-**7.4.2** `DP`, the direct-page register, has a copy per mode; in kernel mode it is the per-CPU pointer and a field of the per-CPU structure is one [[r20: four-byte]][[16 32: six-byte]] instruction, `MOVQ d(DP), Rd`. *(D)*
+**7.4.2** `DP`, the direct-page register, has a copy per mode; in kernel mode it is the per-CPU pointer and a field of the per-CPU structure is one six-byte instruction, `MOVQ d(DP), Rd`. *(D)*
 
 **7.4.3** The address-space tag makes a context switch constant-time, and global page-table entries and the direct-mapping windows keep the kernel's own mappings out of the invalidation path. *(D)*
 
 **7.4.4** The stack pointer is banked by mode, so an interrupt arriving in user mode on any core finds that core's kernel stack without a search. *(D)*
 
-*Commentary.* **Precedent.** Every SMP kernel builds a per-CPU base by hand: x86 uses the `GS` base and a `swapgs` instruction, ARM uses `TPIDR_EL1`, RISC-V the supervisor scratch register, MIPS reserves two registers; the kernel survey found seven architectures paying for the problem of having no free register at the moment of entry. **Improvements.** `DP` serves code density and is also what both an SMP kernel and a threaded C runtime need most, in the mode where each needs it, and the two copies do not conflict. **Benefits.** No `swapgs`, no reserved scratch register, no code spent finding the CPU. **Modern comparables.** `GS` and `TPIDR` as above. **Impact.** *Kernel:* Per-CPU data is one [[r20: four-byte]][[16 32: six-byte]] `MOVQ d(DP), Rd`, with no `swapgs` and no reserved register. *Compiler:* The compiler addresses per-CPU variables relative to `DP`. *Hardware:* Three copies of `DP`, one per mode.
+*Commentary.* **Precedent.** Every SMP kernel builds a per-CPU base by hand: x86 uses the `GS` base and a `swapgs` instruction, ARM uses `TPIDR_EL1`, RISC-V the supervisor scratch register, MIPS reserves two registers; the kernel survey found seven architectures paying for the problem of having no free register at the moment of entry. **Improvements.** `DP` serves code density and is also what both an SMP kernel and a threaded C runtime need most, in the mode where each needs it, and the two copies do not conflict. **Benefits.** No `swapgs`, no reserved scratch register, no code spent finding the CPU. **Modern comparables.** `GS` and `TPIDR` as above. **Impact.** *Kernel:* Per-CPU data is one six-byte `MOVQ d(DP), Rd`, with no `swapgs` and no reserved register. *Compiler:* The compiler addresses per-CPU variables relative to `DP`. *Hardware:* Three copies of `DP`, one per mode.
 
 ## 7.5 Translation and instruction-cache coherence
 
@@ -107,7 +107,7 @@
 
 **7.8.5** At least one core is a secure core: every timing channel is removed (every instruction and every cache fetch takes a time independent of its data), it has private cache lines and takes no periodic timer tick, and it is stopped and preempted by an inter-processor interrupt. It has constant-time AES and SHA instructions, or whichever opcodes would speed up and enable AES and SHA. *(D)* Details to be determined.
 
-**7.8.6** The machine has one core dedicated to the graphics device, one dedicated to the network interface and running the full TCP/IP stack, one dedicated to audio (MIDI, digital signal processing and the like), and a number of other cores for general processing. *(D)* Details pending ([J.7.[[r20: 4]][[16 32: 5]]](appendix-j-open.md#j7[[r20: 4]][[16 32: 5]])).
+**7.8.6** The machine has one core dedicated to the graphics device, one dedicated to the network interface and running the full TCP/IP stack, one dedicated to audio (MIDI, digital signal processing and the like), and a number of other cores for general processing. *(D)* Details pending ([J.7.5](appendix-j-open.md#j75)).
 
 ## 7.9 A kernel's view
 
@@ -135,11 +135,11 @@
 
 **7.11.3** Sequential consistency on a speculative core needs loads that are replayed when another core intervenes; the readiness review calls this awkward but defined, and names the flag rules, the reservation rules and the `ISYNC` and `HINT` instructions as what a speculative core needs. *(D)*
 
-*Commentary.* **Precedent.** One instruction set often spans small in-order and large out-of-order cores: ARM's small and large cores, RISC-V's Rocket and BOOM, the x86 Pentium and P6, Alpha's 21064 and 21264. **Trade-offs.** What the pdp64 gains by refusing speculation is a smaller design with fewer error cases and none of the speculative side channels; what it gives up is the performance of an aggressive core, which an FPGA or a small chip could not build anyway. The readiness document ([`../pdp64-ooo-readiness.md`](../../pdp64-ooo-readiness.md)) and the hardware-vulnerabilities report give the rules a future core would follow. **Impact.** *Kernel:* None. *Compiler:* None. *Hardware:* A speculative core would need loads that replay when another core intervenes, and the flag and reservation rules keep that path open.
+*Commentary.* **Precedent.** One instruction set often spans small in-order and large out-of-order cores: ARM's small and large cores, RISC-V's Rocket and BOOM, the x86 Pentium and P6, Alpha's 21064 and 21264. **Trade-offs.** What the pdp64 gains by refusing speculation is a smaller design with fewer error cases and none of the speculative side channels; what it gives up is the performance of an aggressive core, which an FPGA or a small chip could not build anyway. The readiness document ([`pdp64-ooo-readiness.md`](../pdp64-ooo-readiness.md)) and the hardware-vulnerabilities report give the rules a future core would follow. **Impact.** *Kernel:* None. *Compiler:* None. *Hardware:* A speculative core would need loads that replay when another core intervenes, and the flag and reservation rules keep that path open.
 
 ## 7.12 The atomic and ordering instructions
 
-**7.12.1** The atomic [[r20: escape]][[16 32: group]] provides `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`.[[r20:  *(opcode `0x11`)*]]
+**7.12.1** The atomic group provides `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`.
 
 **7.12.2** `LL` takes a reservation on a granule of memory; any write to it by any initiator clears it; `SC` succeeds exactly when the reservation is intact. A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule. *(D)*
 
@@ -147,10 +147,8 @@
 
 **7.12.4** `FENCE` orders device accesses; `WFE` and `SEV` wait for and signal an event; `ISYNC` makes earlier system-register writes take effect; `HINT #n` has no architectural effect (1 pause, 2 speculation barrier, others reserved). *(D)*
 
-<!-- member: 16 32 -->
 **7.12.5** Open: where the registers and the size of the atomic words sit in the instruction ([J.7.3](appendix-j-open.md#j73)).
 
-<!-- /member -->
 *Commentary.* **Precedent.** The PDP-11's read-modify-write instructions were indivisible on the Unibus (the `DATIP`/`DATO` pair); the VAX had interlocked queue and bit instructions. **Trade-offs.** A bus lock is simple and does not scale as cores multiply; a monitor (reservation) maps onto the memory systems that FPGAs and modern chips use, at the cost of forward-progress rules. **Improvements.** The pdp64 offers all three designs found on other machines (load-linked/store-conditional, compare-and-swap, fetch-and-operate), more atomic operations than any architecture surveyed. **Benefits.** A kernel lock needs one instruction. **Modern comparables.** RISC-V `LR`/`SC` and the `AMO` set; AArch64 load-exclusive and its large-system atomics; x86 `LOCK`-prefixed read-modify-write. **Use.** `CAS` for lock-free structures; `XADD` for counters; `LL`/`SC` for anything else; `WFE` for the idle loop. **Impact.** *Kernel:* A lock is one instruction, and the `_DB` forms need no separate fence. *Compiler:* C11 atomics map one-to-one, no ordering fences are emitted under sequential consistency, and a `LL`/`SC` loop must be generated in the constrained form (short, no other memory access inside). *Hardware:* The reservation is a granule tag in the cache controller, and the read-modify-write atomics use an exclusive access with hardware retry.
 
 <!-- entries:7.12 -->

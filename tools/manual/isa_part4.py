@@ -1,4 +1,4 @@
-"""Dictionary entries, part 4: the instructions that only the prefix-coded CPUs (pdp64/16 and pdp64/32) have, the 70 words of group mn-ext of
+"""Dictionary entries, part 4: the instructions that only the prefix-coded encoding has, the 70 words of group mn-ext of
 spec/pdp64-enc.hbnf.  The encodings are not here: the entry shows the bit-layout charts that tools/mkmanual.py generates from the grammars.
 An entry whose notes open with (P), a proposal that the author has not accepted, or (S), a stub, is held back by isa_entries.HELD and is not printed in the manual (errata 120); the entries of decided instructions are tagged (D)."""
 from isa_common import *
@@ -26,7 +26,7 @@ PC <- target''', NOFLAGS,
     X('POPRET', 'branches', ['popret'], 'Pop a register and return', ['POPRET Rd'],
       '''Rd <- M[SP] ; SP <- SP + 8
 PC <- M[SP] ; SP <- SP + 8''', NOFLAGS, MEMX, '9.10',
-      notes='*(D)* `POP Rd` followed by `RET`, fused (errata 87). The register is the one the function restores last, usually a callee-saved register or the frame pointer. One parcel of 16 bits at pdp64/16 with the register in a 4-bit field; at pdp64/32 the 5-bit field makes the prefix one bit shorter.'),
+      notes='*(D)* `POP Rd` followed by `RET`, fused (errata 87). The register is the one the function restores last, usually a callee-saved register or the frame pointer. One parcel of 16 bits, with the register in a 5-bit field.'),
     X('POPMRET', 'branches', ['popmret'], 'Pop several registers and return', ['POPMRET #mask'],
       '''for each bit i set in mask, highest register first:
     Ri <- M[SP] ; SP <- SP + 8
@@ -35,7 +35,7 @@ PC <- M[SP] ; SP <- SP + 8''', NOFLAGS, MEMX + ' A fault after some registers ha
     X('MOV2', 'moves', ['mov2'], 'Two register moves', ['MOV2 Ra, Rb, Rc, Rd'],
       '''Rb <- Ra
 Rd <- Rc           ; in this order''', NOFLAGS, NONE, '9.6',
-      notes='*(D)* `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd`, fused (errata 87). The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the pdp64/16 and pdp64/32 grammars give it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.',
+      notes='*(D)* `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd`, fused (errata 87). The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the grammar gives it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.',
       cf='Appendix D (the hot-register tables).'),
     # ---- selects
     X('MASK', 'alu', ['maskeqz', 'masknez'], 'Mask by a condition register', ['MASKEQZ Ra, Rc, Rd', 'MASKNEZ Ra, Rc, Rd'],

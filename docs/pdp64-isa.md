@@ -4,7 +4,7 @@
 
 **Digital Equity Collective's Pragmatic Digital Processor, 64 bit** — an update and refresh of the PDP-11 instruction set and architecture for the modern world.
 
-The machine is **pdp64**, which is pdp64/32 (thirty-two registers, a prefix-coded instruction encoding; its manual is [`manual/pdp64-32/`](manual/pdp64-32/00-index.md), its grammar `spec/pdp64-32/pdp64-32.hbnf`). This document is the instruction-set text of the original encoding, pdp64/r20, one of the two encodings that were tested against pdp64/32 (section 1.8 of the manual); the register file below (sixteen registers, `R0`-`R15`) and the instruction lengths are those of pdp64/r20, and the rest (the memory model, the exception mechanism, the page tables, the bus) is common to all three. Where a number in prose disagrees with the grammars `spec/pdp64-mnemonics.hbnf` and `spec/pdp64.hbnf.in`, the grammar is right.
+The machine is **pdp64**, which is pdp64/32 (thirty-two registers, a prefix-coded instruction encoding; its manual is [`manual/`](manual/00-index.md), its grammar `spec/pdp64-32/pdp64-32.hbnf`). This document is the instruction-set text of the original encoding, pdp64/r20, one of the two encodings that were tested against pdp64/32 (section 1.8 of the manual); the register file below (sixteen registers, `R0`-`R15`) and the instruction lengths are those of pdp64/r20, and the rest (the memory model, the exception mechanism, the page tables, the bus) is common to all three. Where a number in prose disagrees with the grammars `spec/pdp64-mnemonics.hbnf` and `spec/pdp64.hbnf.in`, the grammar is right.
 
 Words are 16 bits. Longs are 32. Quads are 64. PDP-11 terminology throughout.
 

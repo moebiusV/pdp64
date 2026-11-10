@@ -2,7 +2,7 @@
 the translation buffer, the exception entry, a context switch, the layout of an address space, the first pages of physical memory.
 
 Like tools/manual/busfigs.py (whose Canvas it uses) these are drawn by hand-written code, not generated from the grammar, and
-tools/mkmanual.py writes the ones the text names (figures/kern-NAME.svg) into the figures directory of every member's manual.
+tools/mkmanual.py writes the ones the text names (figures/kern-NAME.svg) into the figures directory of the manual.
 The numbers drawn are the decided ones of chapter 6 (the page-table entry bits, the vector table, the system registers, the sizes of the levels);
 the arrangements marked 'example' or 'open' in a figure are not specified by the architecture (section 6.14 of the chapter lists them).
 The PDP-11 side of the first figure uses what the 2.11BSD and V7 sources on this machine show (section 6.14).  All figures are 690 units wide.

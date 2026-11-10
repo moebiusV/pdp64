@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**An operating system on the pdp64 sees a status word with a mode and a priority, an exception mechanism that writes only registers, and a page table of three, four or five levels whose accessed and dirty bits the kernel maintains in software.** The reader is taken to be a first-year computer-science student or a PDP-11 programmer who has read the Unix Version 6 or 7 kernel, and to know nothing that appeared after the 1970s. The chapter starts from that kernel (the status word, the vectors, `trap()`, the KT11 memory-management unit with its eight page registers per mode, `mfpi` and `mtpi`, swapping). Each later idea follows with the PDP-11 way first, the intermediate machines that changed it, and the pdp64 way with the reason. Pseudocode walks a system call, a page fault, a timer interrupt and a context switch. The design is System v1; the comparisons with other architectures are in [`../pdp64-system-architecture.md`](../../pdp64-system-architecture.md) (section 15) and [`../pdp64-system-design.md`](../../pdp64-system-design.md). A fact about an older or another machine that could not be checked on this computer is marked *unverified* and listed in section 6.14.
+**An operating system on the pdp64 sees a status word with a mode and a priority, an exception mechanism that writes only registers, and a page table of three, four or five levels whose accessed and dirty bits the kernel maintains in software.** The reader is taken to be a first-year computer-science student or a PDP-11 programmer who has read the Unix Version 6 or 7 kernel, and to know nothing that appeared after the 1970s. The chapter starts from that kernel (the status word, the vectors, `trap()`, the KT11 memory-management unit with its eight page registers per mode, `mfpi` and `mtpi`, swapping). Each later idea follows with the PDP-11 way first, the intermediate machines that changed it, and the pdp64 way with the reason. Pseudocode walks a system call, a page fault, a timer interrupt and a context switch. The design is System v1; the comparisons with other architectures are in [`pdp64-system-architecture.md`](../pdp64-system-architecture.md) (section 15) and [`pdp64-system-design.md`](../pdp64-system-design.md). A fact about an older or another machine that could not be checked on this computer is marked *unverified* and listed in section 6.14.
 
 *How to read this chapter.* A term is defined where it first appears, as the technical word followed by a plain restatement. In the pictures a box is a piece of memory or a register and an arrow is an address stored in it. Code blocks are pseudocode (C-like, `#` starts a comment) unless the text says they are PDP-11 or pdp64 assembly. The PDP-11 code is quoted from the V7 and 2.11BSD kernels on this machine (section 6.14). The pdp64 code is **an illustration written for this chapter**, not part of the architecture (the first operating system is OpenBSD, 6.12.2). The decisions are the numbered statements.
 
@@ -127,7 +127,7 @@ Three differences from the PDP-11 matter to a kernel writer. Entry **cannot faul
 | 9, 10, 11 | protection violation on instruction, load and store |
 | 12, 13 | divide by zero, bus fault |
 | 14, 15 | landing-pad violation, breakpoint |
-| 16 | [[r20: reserved]][[16 32: check (`TRAPCC`; `ADDV`, `SUBV` and `MULV` on overflow)]] |
+| 16 | check (`TRAPCC`; `ADDV`, `SUBV` and `MULV` on overflow) |
 | 17 to 31 | reserved |
 | 32 to 63 | interrupts (in the virt machine, 32 timer, 33 console input, 34 console output) |
 | 64 to 255 | reserved (device interrupts are message-signalled, section 5.9) |
@@ -170,10 +170,8 @@ A **progress** exception belongs to the block instructions (`MCPY` and the other
 
 **6.4.3** A read of non-existent memory is a precise abort with cause `BUSFAULT`; a posted write that times out and an uncorrectable memory error are machine checks. *(D)*
 
-<!-- member: 16 32 -->
 **6.4.4** A deferred load (`MOVQ.D` and the six other `.D` words) does not fault at the load: a faulting load leaves a poison mark on its destination register, and the fault is taken at the first instruction that writes the flags from a poisoned source. The kernel decides the fault of a deferred load, and the kernel dispatcher, not the hardware, tests the argument registers for poison. *(D)* Details to be determined: the form of the poison bit, and the combination `.UD` of the two qualifiers.
 
-<!-- /member -->
 
 Three consequences. The undo buffer is a single entry, and row 3 of the fault matrix (an operand write) can never fault, so no journal or undo protocol exists. One small page-fault handler serves first touch, first write and demand paging (6.11), and there is no `backup()` and no `MMR1`. The `nofault` idiom of V6 and V7 `trap.c` (set the global, do the probe, `longjmp` out of the handler instead of panicking) remains the pattern for probing hardware, though `PROBER` and `PROBEW` cover address validation. A read of a configuration position that holds no device is not a fault at all (it returns all ones, 2.4.7), so a bus scan does not take a `BUSFAULT` for every empty slot. The pdp64 makes floating-point exceptions flags that never trap, so they need no imprecise case; whether current architectures keep exceptions precise for page faults and leave some floating-point and bus errors imprecise is *unverified*.
 
@@ -347,15 +345,13 @@ The **user half** holds the program's text, data, heap and stack, in pages with 
 
 Details pending: which registers carry the system-call number, the arguments and the result ([J.6.5](appendix-j-open.md#j65)).
 
-**6.10.2** [[r20: `TRAP #n` (n up to 15, two bytes) and `TRAPL #n` (n up to 255)]][[16 32: `TRAP #n` and `TRAPL #n` (n up to 255, two bytes each: one word with an 8-bit vector number)]] enter the kernel through vector 256 + n; the system-call number and arguments travel in registers by the ABI. *(D)*
+**6.10.2** `TRAP #n` and `TRAPL #n` (n up to 255, two bytes each: one word with an 8-bit vector number) enter the kernel through vector 256 + n; the system-call number and arguments travel in registers by the ABI. *(D)*
 
 **6.10.3** A copy routine opens the guard, copies, and closes it; every error path out of the copy must close it, and entry clearing it bounds the damage if one does not. *(D)*
 
-<!-- member: 16 32 -->
 **6.10.4** A move with the qualifier `.U` (`MOVQ.U`, `MOVL.U` and the others, seven words) accesses its memory operand with user privilege, so that a copy-in or copy-out routine needs no window in the status word. A fault on that operand is attributed to the instruction and recovered through a **fixup table** (a table of recovery addresses, one entry for each instruction that may fault): the handler looks up the faulting `EPC` in the table, and the copy returns an error. Bit 15 of `ECAUSE` marks the fault. `UA`, `STUA` and `CLUA` stay until the OpenBSD port confirms them, and the atomics take the user form once the operand placement of `ATOM` is fixed. *(D)* Details pending ([J.6.12](appendix-j-open.md#j612)).
 
-<!-- /member -->
-[[r20: Details pending: how a copy that faults on an address the kernel cannot repair returns an error ([J.6.12](appendix-j-open.md#j612)).]]
+
 
 A copy routine, for the case that a user address is bad:
 
@@ -522,7 +518,7 @@ This section collects, in the vocabulary of the kernel, the statements of 6.2 to
 
 **6.13.1** There are three modes (kernel, supervisor, user); supervisor is defined and unused. System instructions executed outside kernel mode abort with the privileged-instruction vector. *(D)*
 
-**6.13.2** [[r20: `TRAP #n` (0 to 15, two bytes) and `TRAPL #n` (vectors 0 to 255)]][[16 32: `TRAP #n` and `TRAPL #n` (vectors 0 to 255, two bytes each)]] enter the kernel; `RTI` returns, and `RTT` returns and sets the trace bit after. *(D)*
+**6.13.2** `TRAP #n` and `TRAPL #n` (vectors 0 to 255, two bytes each) enter the kernel; `RTI` returns, and `RTT` returns and sets the trace bit after. *(D)*
 
 **6.13.3** An exception or interrupt writes only registers: `EPC` receives the address of the faulting instruction (or the next one, for a trap or interrupt), `EPSW` the old status word, `EVA` the faulting address and `ECAUSE` the vector number; the new program counter is the 64-bit word at `VBR + 8 × vector`. *(D)*
 
@@ -534,12 +530,10 @@ This section collects, in the vocabulary of the kernel, the statements of 6.2 to
 
 **6.13.7** `UA` in the status word guards user memory: with it clear, a kernel-mode data access to a user page faults; `STUA` sets it and `CLUA` clears it; entry clears it. *(D)*
 
-<!-- member: 16 32 -->
 **6.13.8** `TRAPCC.cc` (fourteen words, one for each condition; one parcel, no operand) enters the kernel when its condition holds; it is a trap and not an abort, so the instruction completes and `EPC` is the next instruction. It takes the check vector, 16 (6.3). `ADDV`, `SUBV` and `MULV` take the same vector on signed overflow, in the two-register form, as an abort that writes nothing. *(D)*
 
 Details pending: the number of the vector and the value of `EVA` ([J.6.10](appendix-j-open.md#j610)).
 
-<!-- /member -->
 The modes and exceptions are 6.2 to 6.4 and the multiprocessor instructions are chapter 7. `PROBER` and `PROBEW` replace the `nofault` idiom for address checks, and `ISYNC` follows a write to the page-table base or the vector base. The compiler never emits these instructions except through intrinsics. This is the kernel's whole instruction vocabulary: `MFSR`, `MTSR`, `TLBI`, `RTI`, `SPL`, `ISYNC` and the probes. *Hardware:* the system group takes its sub-opcode from the register field, and the privilege check is one comparison on the current mode.
 
 <!-- entries:6.13 -->

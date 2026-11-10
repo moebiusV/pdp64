@@ -2,7 +2,7 @@
 boot-information block, the start of the other cores as a time line, the PC's path beside the pdp64's, and the place of a UEFI shim.
 
 Like tools/manual/busfigs.py (whose Canvas it uses) these are drawn by hand-written code, not generated from the grammar, and
-tools/mkmanual.py writes the ones the text names (figures/boot-NAME.svg) into the figures directory of every member's manual.
+tools/mkmanual.py writes the ones the text names (figures/boot-NAME.svg) into the figures directory of the manual.
 What is drawn is what chapter 4 states: the decided and proposed statements of 4.3 to 4.10 and the V7M and 2.11BSD facts of 4.1
 (checked against the sources on this machine, section 4.12).  Arrangements marked 'example' or 'not specified' in a figure are
 illustrations: the boot-information block's field order and widths, the load address of block 0 and the size of the

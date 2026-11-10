@@ -32,7 +32,8 @@
 - 2026-11-04 19:21 — the first device: "4 cores is enough hopefully that fits on the fpga" (1882:258)
 - 2026-11-08 02:37 — the link between Commodore and DEC found: "I found the evidence, there IS a link between C64 and DEC!" (1882:354). The source, a Commodore history of the industrial designer Ira Velinsky, shows one designer who worked for both companies (section 1.1). The author's own description, 2026-11-10 06:47: "the smoking gun that there was indeed intercourse between dec and commodore" (1882:j7644)
 - 2026-11-09 07:02 — virtio across the board for the devices, approved for the bus chapter (592:15)
-- 2026-11-10 05:30 — "pdp64/32 is the decided upon pdp64"; r20 and pdp64/16 are tested alternatives, no longer part of it (1882:j4575)
+- 2026-11-10 05:30 — "pdp64/32 is the decided upon pdp64"; r20 and pdp64/16 are no longer part of it (1882:j4575)
+- 2026-11-10 — "r20 and 64/16 are gone as cpus with manuals etc; they are previous iterations that were superseded by 64/32 which is now the official pdp64"; one manual of the pdp64, and the two iterations are history (errata 122)
 
 ## G.2 The influences, inspirations and precedents, in the order they were introduced
 

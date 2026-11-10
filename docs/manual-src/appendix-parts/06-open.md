@@ -224,7 +224,7 @@
 <a id="j610"></a>
 ### J.6.10 The vector of `TRAPCC`
 
-**Issue.** `TRAPCC.cc` (the pdp64/16 and pdp64/32 word that enters the kernel when a condition holds) is a decided trap: it completes and `EPC` is the next instruction (6.13.8), and the body gives it the check vector, 16, which the study the author approved (errata 85, 86) names. What is not worked out is the number itself, which the author did not discuss (errata 88: "the vector number is the proposal's"), and what `EVA` holds (the study says the address of the `TRAPCC`). The options below are the alternatives to the study's choice.
+**Issue.** `TRAPCC.cc` (the word that enters the kernel when a condition holds) is a decided trap: it completes and `EPC` is the next instruction (6.13.8), and the body gives it the check vector, 16, which the study the author approved (errata 85, 86) names. What is not worked out is the number itself, which the author did not discuss (errata 88: "the vector number is the proposal's"), and what `EVA` holds (the study says the address of the `TRAPCC`). The options below are the alternatives to the study's choice.
 
 **Why it matters.** The kernel's vector table needs the entry, a debugger and a signal layer need to know what the trap means, and a compiler that emits `TRAPCC` for a runtime check (an array bound, an arithmetic overflow) must name what the program sees.
 
@@ -243,7 +243,7 @@
 
 **The assistant's leaning.** Option 1 as the study had it, and as the body states it; a decision of the author fixes the number.
 
-**Where the body refers to it.** [[r20: Section 6.3.]][[16 32: Sections 6.3 and 6.13.8.]]
+**Where the body refers to it.** Sections 6.3 and 6.13.8.
 
 
 <a id="j611"></a>
@@ -290,4 +290,4 @@
 
 **The assistant's leaning.** Option 3 is decided for the `.U` moves; option 1 for the first kernel's other copies, which is what the OpenBSD port will expect (`pcb_onfault`).
 
-**Where the body refers to it.** [[r20: Section 6.10.]][[16 32: Sections 6.10 and 6.10.4.]]
+**Where the body refers to it.** Sections 6.10 and 6.10.4.

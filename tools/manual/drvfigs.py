@@ -2,7 +2,7 @@
 request, the layers from a system call to the device, the interrupt path, and the console and timer as the options stand.
 
 Like tools/manual/busfigs.py (whose Canvas it uses) these are drawn by hand-written code, not generated from the grammar, and
-tools/mkmanual.py writes the ones the text names (figures/drv-NAME.svg) into the figures directory of every member's manual.
+tools/mkmanual.py writes the ones the text names (figures/drv-NAME.svg) into the figures directory of the manual.
 What is drawn is what chapter 5 states: the V7 and 2.11BSD facts of 5.1 (read in the sources on this machine), the decided and
 proposed statements of 5.3 to 5.11, and, in the last figure, options that are open (5.7).  No pdp64 driver exists: the pdp64 side
 of the figures is an illustration of the design.  All figures are 690 units wide.

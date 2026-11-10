@@ -1,20 +1,17 @@
-**9.3.9** (moved from chapter 9) `R16` to `R31` in the ABI of pdp64/32: the compiler for this CPU saves `R24` to `R31` in the callee and treats `R16` to `R23` as clobbered by a call. The ABI documents call this split a draft; it is built into the compiler and the runtime of the six large programs. *(P)*
+**9.3.9** (moved from chapter 9) `R16` to `R31` in the ABI: the compiler saves `R24` to `R31` in the callee and treats `R16` to `R23` as clobbered by a call. The ABI documents call this split a draft; it is built into the compiler and the runtime of the six large programs. *(P)*
 
-**9.20.4** (moved from chapter 9) Under consideration: separate floating-point condition flags, software-visible translation-buffer manipulation (to pin an entry for a real-time kernel)[[r20: , and a conditional select for constant-time code]]. *(P)* The floating-point condition flags and the conditional select are open items now (J.9.9, J.9.1); the translation-buffer manipulation is only a proposal: an instruction that pins one translation so that a real-time kernel's interrupt path never takes a miss.
+**9.20.4** (moved from chapter 9) Under consideration: separate floating-point condition flags, software-visible translation-buffer manipulation (to pin an entry for a real-time kernel). *(P)* The floating-point condition flags and the conditional select are open items now (J.9.9, J.9.1); the translation-buffer manipulation is only a proposal: an instruction that pins one translation so that a real-time kernel's interrupt path never takes a miss.
 
 **9.2 commentary** (moved from chapter 9) Whether the extension instruction after some narrow operations costs enough to justify 32-bit forms of add and subtract is a proposal that the compiled corpus can answer; it is the proposal of appendix A.9. *(P)*
 
 **9.18 commentary** (moved from chapter 9) A bounds-checked `INDEX` instruction for Pascal and Ada is a possible addition. *(P)*
 
-<!-- member: 16 32 -->
 **9.21.3** (moved from chapter 9) Not decided in the encodings: the combination `.ud` of the two load qualifiers, the stage 2 whole-buffer hash and cipher words (`MSHA256`, `MSHA512`, `MAESCTR`), and a profile-tuned variant of the encoding (not tried). In the compiler: the use of `MOVUW`, `MOVUL` and `MOVUQ`, division by 64-bit constants, loop-invariant motion and live-range splitting. *(P)*
 
-<!-- /member -->
 
-<!-- member: 16 32 -->
 ### The instruction entries held back from chapter 9 (moved from the dictionary of chapter 9)
 
-The entries below were in the instruction chapter, in the section named at the end of each entry. They describe instructions that the grammars of the prefix-coded encodings carry and that the author has not decided: each is tagged *(P)*. (The words the author did decide, with their details pending, are back in the chapter: `BSEL`, the deferred-fault and user-qualified moves, and the AES and SHA words.) The bit layouts are in the grammars `spec/pdp64-enc.hbnf` and `spec/pdp64-32/pdp64-32.hbnf`; the charts are not reproduced.
+The entries below were in the instruction chapter, in the section named at the end of each entry. They describe instructions that the grammar of the encoding carries and that the author has not decided: each is tagged *(P)*. (The words the author did decide, with their details pending, are back in the chapter: `BSEL`, the deferred-fault and user-qualified moves, and the AES and SHA words.) The bit layouts are in the grammars `spec/pdp64-enc.hbnf` and `spec/pdp64-32/pdp64-32.hbnf`; the charts are not reproduced.
 
 #### MOVUSERD: User-qualified deferred-fault load
 
@@ -92,4 +89,3 @@ progress is held in the registers and the parameter block; an interrupt or a fau
 *(P)* Stage 2, as `MSHA`; the layout of the parameter block is not specified.
 
 **Why it is here.** Stage 2, as `MSHA`; whole-buffer AES gains less (about 4 times: 0.6 against 2.6 instructions per byte), because the round instructions are already good, and the proposal puts it after `MSHA256` and `MSHA512`.
-<!-- /member -->

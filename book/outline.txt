@@ -1,4 +1,4 @@
-# The pdp64 manuals (one book for each member of the family; a line that starts with @16,32: is only in the books of those members), in the outline language of buildabook (see ~/claude/buildabook/LANGUAGE.md).
+# The pdp64 manual, in the outline language of buildabook (see ~/claude/buildabook/LANGUAGE.md).
 # Order is the order of the book. The UUIDs are names, not numbers. sources.txt says which Markdown of the manual makes each entry.
 n:id00001    About this manual
 
@@ -18,11 +18,9 @@ c:id01010    Conclusion: from FPGA to silicon
 
 p:id00200    The instruction reference tables
 d:id02001    The instruction reference tables
-@r20:d:id02012    The second page: one-parcel abbreviations
 d:id02013    Assembler aliases and old spellings
 d:id02014    The architectural constants
 d:id02015    The mnemonics, alphabetically
-@r20:d:id02016    The opcodes, in order
 d:id02017    The bit layouts of every opcode
 
 p:id00300    Appendices

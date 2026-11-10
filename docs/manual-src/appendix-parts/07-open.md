@@ -44,7 +44,6 @@
 
 **Where the body refers to it.** Section 7.7.4.
 
-<!-- member: 16 32 -->
 <a id="j73"></a>
 ### J.7.3 The operands of the atomic instructions
 
@@ -67,10 +66,9 @@
 **The assistant's leaning.** Option 1 now, with the spare field reserved, and a displacement taken only when the OpenBSD port is compiled and the `LEA` count in front of atomics is measured.
 
 **Where the body refers to it.** Section 7.12.5.
-<!-- /member -->
 
-<a id="j7[[r20: 3]][[16 32: 4]]"></a>
-### J.7.[[r20: 3]][[16 32: 4]] Atomics on uncached memory and on device memory
+<a id="j74"></a>
+### J.7.4 Atomics on uncached memory and on device memory
 
 **Issue.** The read-modify-write atomics are atomic with respect to every initiator, cores and devices alike (7.3.3, 7.12.3). That is easy on cached memory, where the cache line is held exclusively. On a page of uncached memory or a device page the access goes to the bus, and a PCI Express transaction has atomic operations (`AtomicOp`) only on devices that choose to implement them. The mapping of the machine's atomics onto the bus is therefore not stated.
 
@@ -91,8 +89,8 @@
 
 **Where the body refers to it.** Section 7.3.5.
 
-<a id="j7[[r20: 4]][[16 32: 5]]"></a>
-### J.7.[[r20: 4]][[16 32: 5]] The dedicated cores: how many, how they share memory, what they run
+<a id="j75"></a>
+### J.7.5 The dedicated cores: how many, how they share memory, what they run
 
 **Issue.** The author decided (errata 76: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing", and "one core for audio processing, doing midi, dsp, etc.") that the machine has dedicated cores for graphics, network and audio besides the general cores (7.8.6). Not worked out: whether the first device has them or only the general cores (it has four cores in all, 7.7.3), how a dedicated core shares memory with the others, what runs the TCP/IP stack, how many cores in total, and the IOMMU domain of each.
 

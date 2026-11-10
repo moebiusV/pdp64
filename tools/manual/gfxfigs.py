@@ -1,7 +1,7 @@
 """The box-and-arrow figures of chapter 3 (graphics): memory maps, cell arrays, the pipeline, the timing of a frame.
 
 Like tools/manual/busfigs.py (whose Canvas it uses) these are drawn by hand-written code, not generated from the grammar, and
-tools/mkmanual.py writes the ones the text names (figures/gfx-NAME.svg) into the figures directory of every member's manual.
+tools/mkmanual.py writes the ones the text names (figures/gfx-NAME.svg) into the figures directory of the manual.
 Facts about historical machines (the C64 map, the VGA cell) are general knowledge, marked unverified in section 3.21 of the chapter;
 the virtio-gpu command names and the field order are from /usr/include/linux/virtio_gpu.h.  All figures are 690 units wide.
 """

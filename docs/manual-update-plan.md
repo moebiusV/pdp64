@@ -1,6 +1,6 @@
 # Plan for bringing the manual up to the prefix-coded encodings
 
-The manual is generated from one hand-written source, `docs/manual-src/`, into `docs/manual/pdp64-32/` (the manual of the pdp64) and the comparison manuals `pdp64-r20/` and `pdp64-16/` (errata 93 and 94). The original encoding `pdp64/r20` (parcel 0 = `len opcode reg low`), `pdp64/16` (prefix-coded, 16 registers) and `pdp64/32` (prefix-coded, 32 registers; the pdp64) have
+The manual is generated from one hand-written source, `docs/manual-src/`, into `docs/manual/` (the manual of the pdp64; this plan was written when there were three manuals, `pdp64-32/`, `pdp64-r20/` and `pdp64-16/` (errata 93 and 94); the two others were removed by errata 122 and are in the git tag `pre-single-cpu`). The original encoding `pdp64/r20` (parcel 0 = `len opcode reg low`), `pdp64/16` (prefix-coded, 16 registers) and `pdp64/32` (prefix-coded, 32 registers; the pdp64) have
 new instructions that exist only in the two prefix-coded encodings (the 70 words of group `mn-ext` in `spec/pdp64-enc.hbnf`). What follows says what
 in the manual is generated, what is written by hand, what the new encodings and the new instructions invalidate, and what the work costs.
 

@@ -1,84 +1,24 @@
-"""Assembly of the three manuals from one source tree, and the checks of the result.
+"""Assembly of the manual of the pdp64 from its source tree, and the checks of the result.
 
-The hand-written text of the manual is in docs/manual-src/ once.  tools/mkmanual.py writes from it the complete manual of each member of the family
-(docs/manual/pdp64-r20/, docs/manual/pdp64-16/, docs/manual/pdp64-32/).  The source syntax (also in docs/manual-src/README.md):
+The hand-written text of the manual is in docs/manual-src/ (the chapters and appendices, and the fragments of appendices H, I and J in appendix-parts/).
+tools/mkmanual.py writes from it the manual (docs/manual/), adding the generated parts (the instruction entries, the dictionary, the figures).  There is
+one manual, so the source has no conditional text: resolve() only refuses the markers of the old three-manual source if one comes back.
 
-    text outside any block                    in every manual
-    <!-- member: 16 32 -->  ...  <!-- /member -->      (each marker on a line of its own) these lines only in the manuals of pdp64/16 and pdp64/32
-    <!-- member: !r20 -->  ...  <!-- /member -->        the same, written as "not r20"
-    [[16 32: some words]]                     the same, inline (the words end at the first ]] ; no line break inside)
-    <!-- members: 16 32 -->                   as the first line of a file: the whole file is in those manuals only
-    @@MEMBER@@  @@ID@@  @@PDF@@               pdp64/16, 16, pdp64-16.pdf (the name of the member, its short name, the file name of its book)
-
-Blocks do not nest.  Numbers (chapters, sections 9.2, statements 9.2.3) are literal in the text: the author of a member block writes the numbers that
-the manual of that member must have, and verify() checks, for each generated manual, that the numbers are contiguous and that every link and every
-reference to a section or a statement has a target.
+Numbers (chapters, sections 9.2, statements 9.2.3) are literal in the text, and verify() checks, for the generated manual, that the numbers are contiguous
+and that every link and every reference to a section or a statement has a target.
 """
 import os, re
-
-MEMBERS = ('r20', '16', '32')
-NAME = {'r20': 'pdp64/r20', '16': 'pdp64/16', '32': 'pdp64/32'}
 
 
 class SourceError(Exception):
     pass
 
 
-def selected(spec, member):
-    """spec: the words after `member:`, e.g. '16 32' or '!r20'"""
-    words = spec.split()
-    if not words:
-        raise SourceError('empty member list')
-    for w in words:
-        if w.lstrip('!') not in MEMBERS:
-            raise SourceError('unknown member %r (members: %s)' % (w, ' '.join(MEMBERS)))
-    neg = [w for w in words if w.startswith('!')]
-    if neg and len(neg) != len(words):
-        raise SourceError('a member list is either all negated or none: ' + spec)
-    if neg:
-        return member not in [w[1:] for w in words]
-    return member in words
-
-
-def file_members(text):
-    """the members a file is written for (all of them when it has no <!-- members: --> line)"""
-    m = re.match(r'<!-- members: ([^>]*?) -->\n', text)
-    if not m:
-        return list(MEMBERS)
-    return [x for x in MEMBERS if selected(m.group(1), x)]
-
-
-def for_member(text, member, where='source'):
-    m = re.match(r'<!-- members: ([^>]*?) -->\n', text)
+def resolve(text, where='source'):
+    """the text of a source file as it goes into the manual; a leftover marker of the old per-CPU source is an error"""
+    m = re.search(r'<!-- /?members?\b|\[\[!?(?:r20|16|32)\b|@@(?:MEMBER|ID|PDF)@@', text)
     if m:
-        text = text[m.end():]
-    out, skipping, depth, spec = [], False, 0, None
-    for n, line in enumerate(text.split('\n'), 1):
-        s = line.strip()
-        mm = re.match(r'^<!-- member: (.*?) -->$', s)
-        if mm:
-            if depth:
-                raise SourceError('%s:%d: member blocks do not nest' % (where, n))
-            depth = 1
-            skipping = not selected(mm.group(1), member)
-            continue
-        if s == '<!-- /member -->':
-            if not depth:
-                raise SourceError('%s:%d: <!-- /member --> with no block open' % (where, n))
-            depth, skipping = 0, False
-            continue
-        if '<!-- member' in line and not re.match(r'^<!-- members: ', s):
-            raise SourceError('%s:%d: a member marker must be on a line of its own' % (where, n))
-        if not skipping:
-            out.append(line)
-    if depth:
-        raise SourceError('%s: a <!-- member: --> block is not closed' % where)
-    text = '\n'.join(out)
-
-    def inline(mm):
-        return mm.group(2) if selected(mm.group(1), member) else ''
-    text = re.sub(r'\[\[(!?(?:r20|16|32)(?: !?(?:r20|16|32))*): (.*?)\]\]', inline, text)
-    text = text.replace('@@MEMBER@@', NAME[member]).replace('@@ID@@', member).replace('@@PDF@@', 'pdp64-%s.pdf' % member)
+        raise SourceError('%s: %r is a marker of the old three-manual source; the text is for the one manual' % (where, m.group(0)))
     return text
 
 
@@ -163,7 +103,7 @@ def outline(files):
 
 
 def verify(files, outdir_files, root_dir):
-    """files: the generated manual of one member (relative name -> text, with dictionary/ pages); outdir_files: the set of all relative names that exist
+    """files: the generated manual (relative name -> text, with dictionary/ pages); outdir_files: the set of all relative names that exist
     (figures included); root_dir: the directory of the manual in the repository, for links that leave it.  Returns the problems."""
     problems, exist = outline(files)
     anchors = {}
@@ -222,8 +162,8 @@ def fragment_key(fn):
     return (m.group(1), m.group(2)) if m else None
 
 
-def assemble_parts(texts, fragments, member):
-    """texts: the sources of one member (file name -> text, member blocks resolved), changed in place: the region `<!-- parts:KIND -->` ... `<!-- /parts:KIND -->` of
+def assemble_parts(texts, fragments):
+    """texts: the sources (file name -> text), changed in place: the region `<!-- parts:KIND -->` ... `<!-- /parts:KIND -->` of
     appendix-h-proposed.md, appendix-i-deferred.md and appendix-j-open.md is filled with a heading `## H.N Chapter N: Title` for each chapter whose fragment is not empty, in chapter order,
     then the appendices (`## J.D Appendix D: Title`).  fragments: file name -> raw text.  Returns the problems."""
     problems = []
@@ -252,9 +192,7 @@ def assemble_parts(texts, fragments, member):
             fn = '%s-%s.md' % (key, kind)
             if fn not in fragments:
                 continue
-            if member not in file_members(fragments[fn]):
-                continue
-            text = for_member(fragments[fn], member, 'appendix-parts/' + fn)
+            text = resolve(fragments[fn], 'appendix-parts/' + fn)
             if not text.strip():
                 continue
             num, label, title = titles[key]

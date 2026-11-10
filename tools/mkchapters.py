@@ -8,42 +8,18 @@ links between the pages become plain text (links to other files of the repositor
 `{{` is escaped.  It also checks, against buildabook's own number map, that the number in each source heading ("# 6. The kernel",
 "# Appendix B. ...") is the number the outline gives the entry, because the section numbers inside the text (6.13, 7.12) are literal.
 
-Run by tools/mkbook.sh in book/build-MEMBER/, after `buildabook number-map` has written number_map.csv:
+Run by tools/mkbook.sh in book/build/, after `buildabook number-map` has written number_map.csv:
 
-    tools/mkchapters.py MEMBER write book/build-MEMBER/chapters/*.md, book/build-MEMBER/filemap.txt, book/build-MEMBER/figures/
-    tools/mkchapters.py MEMBER --outline   print book/outline.txt for that member
+    tools/mkchapters.py    write book/build/chapters/*.md, book/build/filemap.txt, book/build/figures/
 """
 import csv, os, re, shutil, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOK = os.path.join(ROOT, 'book')
-MEMBERS = ('r20', '16', '32')
-ID = 'r20'                                              # the member (argument 1); set by main()
-BUILD = os.path.join(BOOK, 'build-r20')
+BUILD = os.path.join(BOOK, 'build')
 CHAP = os.path.join(BUILD, 'chapters')
 GITHUB = 'https://github.com/moebiusV/pdp64/blob/main/'
-STREAM = os.path.join(ROOT, 'docs', 'manual', 'pdp64-r20')
-
-
-def setmember(member):
-    global ID, BUILD, CHAP, STREAM
-    ID = member
-    BUILD = os.path.join(BOOK, 'build-' + member)
-    CHAP = os.path.join(BUILD, 'chapters')
-    STREAM = os.path.join(ROOT, 'docs', 'manual', 'pdp64-' + member)
-
-
-def outline_for(member):
-    """book/outline.txt for one member: a line that starts with `@16,32:` is only in the books of those members"""
-    out = []
-    for line in open(os.path.join(BOOK, 'outline.txt')):
-        m = re.match(r'^@([a-z0-9,]+):(.*)$', line.rstrip('\n'))
-        if m:
-            if member in m.group(1).split(','):
-                out.append(m.group(2) + '\n')
-        else:
-            out.append(line)
-    return ''.join(out)
+STREAM = os.path.join(ROOT, 'docs', 'manual')
 
 
 def read_sources():
@@ -52,7 +28,7 @@ def read_sources():
         line = line.strip()
         if line and not line.startswith('#'):
             tok, path = line.split(None, 1)
-            m[tok.split(':', 1)[1]] = path.replace('@ID@', ID)
+            m[tok.split(':', 1)[1]] = path
     return m
 
 
@@ -141,12 +117,6 @@ def chapter_text(row, src, srcpath):
 
 
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] not in MEMBERS:
-        raise SystemExit('usage: mkchapters.py r20|16|32 [--outline]')
-    setmember(sys.argv[1])
-    if '--outline' in sys.argv:
-        sys.stdout.write(outline_for(ID))
-        return
     rows = list(csv.DictReader(open(os.path.join(BUILD, 'number_map.csv'))))
     src = read_sources()
     shutil.rmtree(CHAP, ignore_errors=True)

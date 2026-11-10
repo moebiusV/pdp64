@@ -111,7 +111,7 @@ NOTATION = ("**The instructions.** Every instruction has an entry in the section
 
 P2_STORY = ("Instructions are at most six bytes: an eight-byte form would serve 48-bit immediates and 44-bit displacements, and only 49 of 373,635 compiled instructions (0.013%) would use it. The length code `11` is therefore a second page of one-parcel instructions, each an exact abbreviation of a long form, chosen from the forms the compiler emits most. The estimate from static counts on the 827-file corpus is about 118 KB, 7% of the 1.67 MB image. The rule that governs the page: a page-2 instruction has the same result, flags and faults as the long form it abbreviates, so the assembler choosing the shortest encoding can never change what a program does.")
 
-# The same two texts for the prefix-coded CPUs (pdp64/16 and pdp64/32), whose instructions have no `len` field and no second page.
+# The same two texts for the prefix-coded encoding of the pdp64, whose instructions have no `len` field and no second page.
 NOTATION_ENC = ("**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (the chart of its layout and the list of all its layouts, "
                 "each with a chart of its own), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains the matter it touches (*Cf.*). Every instruction, the atomic and the system instructions included, "
                 "has its official entry below (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons, and an entry may point back to them for a fuller explanation. "

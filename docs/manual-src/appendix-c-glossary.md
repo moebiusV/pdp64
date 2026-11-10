@@ -2,32 +2,24 @@
 
 [← manual index](00-index.md)
 
-**Terms the manual uses, collected in one place.** Each entry gives the plain meaning and, in brackets, the chapter or section where the manual deals with it. Terms for the instruction groups (the "escape" opcodes) are listed by name and opcode; the full encodings are in the instruction-set text [`../pdp64-isa.md`](../../pdp64-isa.md).
+**Terms the manual uses, collected in one place.** Each entry gives the plain meaning and, in brackets, the chapter or section where the manual deals with it. Terms for the instruction groups (the "escape" opcodes) are listed by name and opcode; the full encodings are in the instruction-set text [`pdp64-isa.md`](../pdp64-isa.md).
 
 ## C.1 Architecture and encoding
 
 | Term | Meaning |
 |---|---|
 | **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter 1) |
-| **tested alternative** | pdp64/r20 or pdp64/16: an encoding built and measured against pdp64/32, which is the pdp64, and documented in its own manual (1.8) |
-| **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes[[16 32: , or five parcels for `MOVQL`]] (9.4) |
-<!-- member: r20 -->
-| **`len`** | bits 15 and 14 of the first parcel: the number of extension parcels for `00`, `01` and `10`; the value `11` selects the second opcode page (9.4) |
-| **page 1, page 2** | the two opcode maps. Page 1 has 64 top-level opcodes, 58 assigned; page 2 (`len = 11`) has 64 one-parcel entries, 45 defined, each an exact abbreviation of a page-1 instruction (9.1) |
-| **top-level opcode** | the six bits that select an instruction group; reserved for an operation whose common case is register-to-register (9.1) |
-| **escape opcode** | a top-level opcode that selects a group by a sub-opcode: `BESC` (bits, `0x0C`), `MBLK` (block memory, `0x0D`), `AESC` (arithmetic, `0x0E`), `MESC` (unaligned and memory ALU, `0x0F`), `FESC` (floating point, `0x10`), `ATOM` (atomics, `0x11`), `XFER` (indirect transfers, `0x12`), `SOP` (single operand, `0x13`), `SYS` (system, `0x14`), `TAGOP` (tag branch, `0x15`) |
-<!-- /member -->
-<!-- member: 16 32 -->
+| **earlier iteration** | pdp64/r20 (the original encoding) or pdp64/16 (a 16-register prefix code): a design built and measured before the pdp64 was chosen, superseded by it, and no longer a CPU (1.8) |
+| **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOVQL` (9.4) |
 | **leaf** | a group of mnemonics with one form, selected by a prefix of the first parcel; a sub-opcode picks the mnemonic (9.1) |
 | **prefix** | the top 3 to 16 bits of the first parcel; the prefixes form a prefix code (no prefix begins another), so the first parcel matches at most one leaf and fixes the length of the instruction (9.1) |
 | **form** | the list of operand shapes of a leaf: how each operand is written in assembly and how many bits each part has (9.1) |
 | **sub-opcode** | the field after the prefix that selects one mnemonic of the leaf (9.1) |
-| **hot register** | one of the eight (in pdp64/32, sixteen) most-used registers, which a 3-bit (4-bit) register field of a one-parcel form names by an index into a table; the tables are part of the ABI (9.4, appendix D) |
+| **hot register** | one of the eight (3-bit field) or sixteen (4-bit field) most-used registers, which a register field of a one-parcel form names by an index into a table; the tables are part of the ABI (9.4, appendix D) |
 | **fused instruction** | `MOVCALL`, `POPRET`, `POPMRET` or `MOV2`: one instruction for a pair that the compiler finds adjacent (9.10) |
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default (9.5) |
-<!-- /member -->
-| **`CBCC`** | compare-immediate-and-branch on condition[[r20: , opcode `0x28`]], the one fused compare and branch (9.10) |
-| **`RORI32`** | rotate right by an immediate, 32-bit, sign-extended result[[r20: , a `BESC` sub-opcode]] |
+| **`CBCC`** | compare-immediate-and-branch on condition, the one fused compare and branch (9.10) |
+| **`RORI32`** | rotate right by an immediate, 32-bit, sign-extended result |
 | **`SOB`** | subtract one and branch, either direction (9.10) |
 | **`MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN`** | the block operations: copy, move (overlap-safe), fill, compare, scan for a byte, scan for the first byte not equal; progress is held in registers so a fault restarts for free (9.11) |
 | **`MVAL`** | block scan of valid UTF-8, one of the string instructions of the same family (9.9) |

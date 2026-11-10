@@ -1,7 +1,7 @@
 """The memory-layout figures of chapter 2 (the bus): boxes and arrows, as a textbook draws a linked list.
 
 These are not instruction encodings, so they are not generated from the grammar; they are drawn here, by hand-written code, and
-tools/mkmanual.py writes the ones the text names (figures/bus-NAME.svg) into the figures directory of every member's manual.
+tools/mkmanual.py writes the ones the text names (figures/bus-NAME.svg) into the figures directory of the manual.
 Every field offset and size drawn here is one of the checked facts listed in chapter 2 (section 2.12): the descriptor, the rings,
 the configuration-space header, the base-address register, the MSI-X table entry.
 All figures are 690 units wide, as the other figures of the manual are.
