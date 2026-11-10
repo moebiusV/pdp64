@@ -1,0 +1,841 @@
+000	ok	
+001	ok	
+002	ok	
+003	ok	
+004	fail	<stdin>, line 2384: warning: shift larger than type
+005	fail	<stdin>, line 2384: warning: shift larger than type
+006	ok	
+007	ok	
+008	ok	
+009	ok	
+010	ok	
+011	ok	
+012	ok	
+013	ok	
+014	ok	
+015	ok	
+016	fail	<stdin>, line 2425: warning: shift larger than type
+017	ok	
+018	ok	
+019	ok	
+020	fail	<stdin>, line 2384: warning: shift larger than type
+021	ok	
+022	fail	<stdin>, line 2384: warning: shift larger than type
+023	fail	<stdin>, line 2384: warning: shift larger than type
+024	ok	
+025	ok	
+026	ok	
+027	ok	
+028	ok	
+029	fail	<stdin>, line 2384: warning: shift larger than type
+030	fail	<stdin>, line 2384: warning: shift larger than type
+031	ok	
+032	ok	
+033	fail	<stdin>, line 2384: warning: shift larger than type
+034	ok	
+035	ok	
+036	ok	
+037	ok	
+038	ok	
+039	ok	
+040	ok	
+041	ok	
+042	ok	
+043	ok	
+044	fail	<stdin>, line 2384: warning: shift larger than type
+045	ok	
+046	fail	<stdin>, line 2384: warning: shift larger than type
+047	ok	
+048	fail	<stdin>, line 2384: warning: shift larger than type
+049	ok	
+050	ok	
+051	ok	
+052	ok	
+053	ok	
+054	ok	
+055	ok	
+056	ok	
+057	ok	
+058	ok	
+059	ok	
+060	ok	
+061	ok	
+062	fail	<stdin>, line 2384: warning: shift larger than type
+063	ok	
+064	ok	
+065	ok	
+066	fail	<stdin>, line 2384: warning: shift larger than type
+067	fail	<stdin>, line 2384: warning: shift larger than type
+068	fail	<stdin>, line 2384: warning: shift larger than type
+069	fail	<stdin>, line 2384: warning: shift larger than type
+070	ok	
+071	fail	<stdin>, line 2384: warning: shift larger than type
+072	fail	<stdin>, line 2384: warning: shift larger than type
+073	fail	<stdin>, line 2384: warning: shift larger than type
+074	ok	
+075	fail	<stdin>, line 2384: warning: shift larger than type
+076	ok	
+077	fail	<stdin>, line 2384: warning: shift larger than type
+078	fail	<stdin>, line 2384: warning: shift larger than type
+079	fail	<stdin>, line 2384: warning: shift larger than type
+080	fail	<stdin>, line 2384: warning: shift larger than type
+081	fail	<stdin>, line 2384: warning: shift larger than type
+082	fail	<stdin>, line 2384: warning: shift larger than type
+083	ok	
+084	fail	<stdin>, line 2384: warning: shift larger than type
+085	fail	<stdin>, line 2384: warning: shift larger than type
+086	fail	<stdin>, line 2384: warning: shift larger than type
+087	ok	
+088	ok	
+089	ok	
+090	fail	<stdin>, line 2384: warning: shift larger than type
+091	ok	
+092	ok	
+093	ok	
+094	ok	
+095	ok	
+096	fail	<stdin>, line 2384: warning: shift larger than type
+097	fail	<stdin>, line 2384: warning: shift larger than type
+098	ok	
+099	ok	
+100	ok	
+101	fail	<stdin>, line 2384: warning: shift larger than type
+102	ok	
+103	ok	
+104	ok	
+105	ok	
+106	ok	
+107	ok	
+108	ok	
+109	fail	<stdin>, line 2384: warning: shift larger than type
+110	ok	
+111	ok	
+112	ok	
+113	ok	
+114	ok	
+115	ok	
+116	fail	<stdin>, line 2384: warning: shift larger than type
+117	ok	
+118	ok	
+119	fail	<stdin>, line 2384: warning: shift larger than type
+120	ok	
+121	ok	
+122	ok	
+123	ok	
+124	ok	
+125	ok	
+126	ok	
+127	ok	
+128	fail	<stdin>, line 2384: warning: shift larger than type
+129	ok	
+130	ok	
+131	ok	
+132	ok	
+133	ok	
+134	ok	
+135	ok	
+136	ok	
+137	ok	
+138	ok	
+139	ok	
+140	ok	
+141	ok	
+142	ok	
+143	ok	
+144	fail	<stdin>, line 2384: warning: shift larger than type
+145	fail	<stdin>, line 2384: warning: shift larger than type
+146	ok	
+147	fail	<stdin>, line 2384: warning: shift larger than type
+148	ok	
+149	ok	
+150	fail	<stdin>, line 2384: warning: shift larger than type
+151	fail	<stdin>, line 2384: warning: shift larger than type
+152	ok	
+153	ok	
+154	ok	
+155	fail	<stdin>, line 2384: warning: shift larger than type
+156	ok	
+157	fail	<stdin>, line 2384: warning: shift larger than type
+158	ok	
+159	ok	
+160	fail	<stdin>, line 2384: warning: shift larger than type
+161	ok	
+162	ok	
+163	ok	
+164	ok	
+165	ok	
+166	ok	
+167	ok	
+168	ok	
+169	ok	
+170	fail	<stdin>, line 2384: warning: shift larger than type
+171	ok	
+172	ok	
+173	ok	
+174	ok	
+175	ok	
+176	ok	
+177	ok	
+178	ok	
+179	ok	
+180	ok	
+181	ok	
+182	ok	
+183	ok	
+184	ok	
+185	ok	
+186	ok	
+187	ok	
+188	ok	
+189	ok	
+190	fail	<stdin>, line 2384: warning: shift larger than type
+191	fail	<stdin>, line 2384: warning: shift larger than type
+192	ok	
+193	ok	
+194	ok	
+195	ok	
+196	ok	
+197	ok	
+198	ok	
+199	ok	
+200	fail	<stdin>, line 2384: warning: shift larger than type
+201	ok	
+202	fail	<stdin>, line 2384: warning: shift larger than type
+203	fail	<stdin>, line 2384: warning: shift larger than type
+204	ok	
+205	ok	
+206	ok	
+207	ok	
+208	ok	
+209	ok	
+210	ok	
+211	ok	
+212	ok	
+213	fail	<stdin>, line 2425: warning: shift larger than type
+214	fail	<stdin>, line 2425: warning: shift larger than type
+215	ok	
+216	ok	
+217	fail	<stdin>, line 2384: warning: shift larger than type
+218	ok	
+219	ok	
+220	fail	<stdin>, line 2384: warning: shift larger than type
+221	ok	
+222	fail	<stdin>, line 2384: warning: shift larger than type
+223	fail	<stdin>, line 2384: warning: shift larger than type
+224	ok	
+225	fail	<stdin>, line 2384: warning: shift larger than type
+226	fail	<stdin>, line 2384: warning: shift larger than type
+227	fail	<stdin>, line 2384: warning: shift larger than type
+228	fail	<stdin>, line 2384: warning: shift larger than type
+229	fail	<stdin>, line 2384: warning: shift larger than type
+230	fail	<stdin>, line 2384: warning: shift larger than type
+231	fail	<stdin>, line 2384: warning: shift larger than type
+232	fail	<stdin>, line 2384: warning: shift larger than type
+233	fail	<stdin>, line 2384: warning: shift larger than type
+234	ok	
+235	ok	
+236	ok	
+237	ok	
+238	ok	
+239	ok	
+240	ok	
+241	fail	<stdin>, line 2384: warning: shift larger than type
+242	ok	
+243	ok	
+244	ok	
+245	ok	
+246	ok	
+247	ok	
+248	ok	
+249	ok	
+250	ok	
+251	ok	
+252	ok	
+253	ok	
+254	ok	
+255	ok	
+256	ok	
+257	ok	
+258	ok	
+259	ok	
+260	ok	
+261	ok	
+262	ok	
+263	ok	
+264	ok	
+265	ok	
+266	ok	
+267	ok	
+268	ok	
+269	ok	
+270	ok	
+271	ok	
+272	ok	
+273	ok	
+274	ok	
+275	ok	
+276	ok	
+277	ok	
+278	ok	
+279	ok	
+280	ok	
+281	ok	
+282	ok	
+283	fail	<stdin>, line 2384: warning: shift larger than type
+284	ok	
+285	ok	
+286	ok	
+287	ok	
+288	fail	<stdin>, line 2384: warning: shift larger than type
+289	fail	<stdin>, line 2425: warning: shift larger than type
+290	fail	<stdin>, line 2425: warning: shift larger than type
+291	ok	
+292	fail	<stdin>, line 2425: warning: shift larger than type
+293	ok	
+294	ok	
+295	ok	
+296	ok	
+297	ok	
+298	ok	
+299	ok	
+300	ok	
+301	ok	
+302	ok	
+303	ok	
+304	ok	
+305	ok	
+306	ok	
+307	ok	
+308	ok	
+309	ok	
+310	ok	
+311	ok	
+312	ok	
+313	ok	
+314	ok	
+315	ok	
+316	ok	
+317	ok	
+318	ok	
+319	ok	
+320	ok	
+321	ok	
+322	ok	
+323	ok	
+324	ok	
+325	ok	
+326	ok	
+327	ok	
+328	ok	
+329	ok	
+330	ok	
+331	ok	
+332	ok	
+333	ok	
+334	ok	
+335	ok	
+336	ok	
+337	ok	
+338	ok	
+339	ok	
+340	ok	
+341	ok	
+342	ok	
+343	ok	
+344	ok	
+345	ok	
+346	ok	
+347	ok	
+348	ok	
+349	ok	
+350	ok	
+351	ok	
+352	ok	
+353	ok	
+354	ok	
+355	ok	
+356	ok	
+357	ok	
+358	ok	
+359	ok	
+360	ok	
+361	ok	
+362	ok	
+363	ok	
+364	ok	
+365	ok	
+366	ok	
+367	ok	
+368	ok	
+369	ok	
+370	ok	
+371	ok	
+372	ok	
+373	ok	
+374	ok	
+375	ok	
+376	ok	
+377	ok	
+378	ok	
+379	ok	
+380	ok	
+381	ok	
+382	ok	
+383	ok	
+384	ok	
+385	ok	
+386	ok	
+387	ok	
+388	ok	
+389	ok	
+390	ok	
+391	ok	
+392	ok	
+393	ok	
+394	ok	
+395	ok	
+396	ok	
+397	ok	
+398	ok	
+399	ok	
+400	ok	
+401	ok	
+402	ok	
+403	ok	
+404	ok	
+405	ok	
+406	fail	<stdin>, line 6: compiler error: Cannot generate code, node 0x5b2f52f08870 op SCONV
+407	ok	
+408	ok	
+409	ok	
+410	ok	
+411	ok	
+412	ok	
+413	ok	
+414	ok	
+415	ok	
+416	ok	
+417	ok	
+418	ok	
+419	ok	
+420	ok	
+421	fail	<stdin>, line 36: compiler error: Cannot generate code, node 0x5f0ca81524b0 op =
+422	ok	
+423	ok	
+424	ok	
+425	ok	
+426	ok	
+427	ok	
+428	ok	
+429	ok	
+430	ok	
+431	ok	
+432	ok	
+433	ok	
+434	ok	
+435	ok	
+436	ok	
+437	ok	
+438	ok	
+439	ok	
+440	ok	
+441	ok	
+442	ok	
+443	ok	
+444	ok	
+445	ok	
+446	ok	
+447	ok	
+448	ok	
+449	ok	
+450	ok	
+451	ok	
+452	ok	
+453	ok	
+454	ok	
+455	ok	
+456	ok	
+457	ok	
+458	ok	
+459	ok	
+460	ok	
+461	ok	
+462	fail	<stdin>, line 127: warning: illegal pointer combination
+463	ok	
+464	ok	
+465	ok	
+466	fail	major internal compiler error: <stdin>, line 335
+467	fail	<stdin>, line 112: compiler error: Cannot generate code, node 0x634f1b97d870 op SCONV
+468	ok	
+469	ok	
+470	ok	
+471	ok	
+472	ok	
+473	ok	
+474	ok	
+475	ok	
+476	ok	
+477	ok	
+478	ok	
+479	ok	
+480	ok	
+481	ok	
+482	ok	
+483	ok	
+484	ok	
+485	ok	
+486	ok	
+487	ok	
+488	ok	
+489	ok	
+490	ok	
+491	ok	
+492	ok	
+493	ok	
+494	ok	
+495	ok	
+496	ok	
+497	ok	
+498	ok	
+499	ok	
+500	ok	
+501	ok	
+502	ok	
+503	ok	
+504	ok	
+505	ok	
+506	ok	
+507	fail	<stdin>, line 1399: compiler error: Cannot generate code, node 0x6019285cc120 op SCONV
+508	ok	
+509	fail	<stdin>, line 1910: compiler error: Cannot generate code, node 0x6034000d1920 op =
+510	ok	
+511	ok	
+512	fail	<stdin>, line 949: compiler error: Cannot generate code, node 0x564c3db7f740 op =
+513	ok	
+514	ok	
+515	fail	major internal compiler error: <stdin>, line 744
+516	ok	
+517	ok	
+518	ok	
+519	ok	
+520	ok	
+521	ok	
+522	ok	
+523	ok	
+524	fail	<stdin>, line 22: compiler error: 0x65038e89c1d0) temporary -1903663952 outside boundaries 201-203
+525	fail	<stdin>, line 19: compiler error: Cannot generate code, node 0x582e5b7a3ea0 op USTCALL
+526	fail	<stdin>, line 27: compiler error: Cannot generate code, node 0x6284707c5710 op STCALL
+527	fail	<stdin>, line 57: compiler error: Cannot generate code, node 0x57eaead49ee0 op =
+528	ok	
+529	ok	
+530	ok	
+531	ok	
+532	ok	
+533	fail	<stdin>, line 15: compiler error: Cannot generate code, node 0x5b3f6777e870 op =
+534	fail	<stdin>, line 40: compiler error: Cannot generate code, node 0x59806f5647f0 op UGT
+535	ok	
+536	ok	
+537	ok	
+538	fail	<stdin>, line 31: compiler error: Cannot generate code, node 0x558f67d5e7d0 op ==
+539	ok	
+540	ok	
+541	ok	
+542	ok	
+543	ok	
+544	ok	
+545	ok	
+546	ok	
+547	ok	
+548	ok	
+549	ok	
+550	ok	
+551	ok	
+552	ok	
+553	ok	
+554	fail	<stdin>:3: warning: unsupported attribute `vector_size'
+555	ok	
+556	ok	
+557	ok	
+558	fail	<stdin>, line 52: compiler error: Cannot generate code, node 0x651d1bcd5a60 op >>
+559	fail	<stdin>, line 4: compiler error: Cannot generate code, node 0x627a000ef880 op >>
+560	fail	<stdin>, line 12: compiler error: Cannot generate code, node 0x57db0c05e8a0 op ==
+561	ok	
+562	fail	<stdin>, line 15: compiler error: Cannot generate code, node 0x61b40673a8d0 op USTCALL
+563	ok	
+564	fail	<stdin>:5: warning: unsupported attribute `noipa'
+565	ok	
+566	fail	<stdin>, line 8: compiler error: Cannot generate code, node 0x5bf1596e1a00 op GOTO
+567	ok	
+568	ok	
+569	ok	
+570	ok	
+571	ok	
+572	ok	
+573	ok	
+574	ok	
+575	fail	<stdin>, line 5: compiler error: Cannot generate code, node 0x57c7cd4e7840 op SCONV
+576	fail	<stdin>, line 7: compiler error: Cannot generate code, node 0x5745924a2900 op =
+577	ok	
+578	fail	<stdin>, line 19: warning: char promoted to int when passed through ...
+579	ok	
+580	ok	
+581	ok	
+582	ok	
+583	fail	<stdin>, line 21: compiler error: Cannot generate code, node 0x62ceeac8ca50 op USTCALL
+584	ok	
+585	ok	
+586	ok	
+587	ok	
+588	ok	
+589	ok	
+590	fail	major internal compiler error: <stdin>, line 17
+591	ok	
+592	ok	
+593	fail	major internal compiler error: <stdin>, line 20
+594	ok	
+595	ok	
+596	ok	
+597	ok	
+598	fail	<stdin>, line 26: compiler error: Cannot generate code, node 0x55e9d2e01790 op SCONV
+599	ok	
+600	fail	<stdin>:7: warning: unsupported attribute `__noipa__'
+601	ok	
+602	ok	
+603	ok	
+604	fail	<stdin>, line 12: compiler error: Cannot generate code, node 0x61329a2c7a40 op !=
+605	ok	
+606	fail	<stdin>, line 14: compiler error: Cannot generate code, node 0x5c85d017dd30 op SCONV
+607	ok	
+608	ok	
+609	ok	
+610	ok	
+611	ok	
+612	ok	
+613	fail	<stdin>, line 97: compiler error: Cannot generate code, node 0x6046b156ae30 op =
+614	ok	
+615	ok	
+616	ok	
+617	ok	
+618	fail	<stdin>, line 22: compiler error: Cannot generate code, node 0x5f5e3d1804c0 op =
+619	fail	<stdin>, line 6: compiler error: Cannot generate code, node 0x62ffc7ca27d0 op ULT
+620	ok	
+621	ok	
+622	fail	<stdin>, line 21: compiler error: Cannot generate code, node 0x591d5b45f920 op SCONV
+623	ok	
+624	ok	
+625	fail	<stdin>, line 21: compiler error: Cannot generate code, node 0x5dabe23874d0 op FUNARG
+626	ok	
+627	ok	
+628	ok	
+629	ok	
+630	ok	
+631	ok	
+632	fail	<stdin>, line 21: compiler error: Cannot generate code, node 0x638f92c9e760 op SCONV
+633	fail	<stdin>, line 20: compiler error: Cannot generate code, node 0x577bf31d7b60 op =
+634	ok	
+635	ok	
+636	ok	
+637	fail	<stdin>, line 13: compiler error: Cannot generate code, node 0x5a0df7086a00 op ==
+638	ok	
+639	ok	
+640	fail	<stdin>, line 21: compiler error: oalloc: reallocated
+641	fail	<stdin>, line 8: compiler error: Cannot generate code, node 0x5de97b7302a0 op >>
+642	ok	
+643	ok	
+644	ok	
+645	ok	
+646	ok	
+647	fail	<stdin>, line 18: compiler error: Cannot generate code, node 0x5da3bd2b8030 op >=
+648	ok	
+649	ok	
+650	fail	<stdin>, line 11: compiler error: Cannot generate code, node 0x56e9405c2650 op =
+651	ok	
+652	ok	
+653	ok	
+654	fail	<stdin>, line 8: compiler error: Cannot generate code, node 0x57a25a143b40 op &
+655	fail	<stdin>, line 10: compiler error: Cannot generate code, node 0x571d0d393d30 op =
+656	fail	<stdin>, line 36: compiler error: Cannot generate code, node 0x5bf65577ea30 op =
+657	ok	
+658	ok	
+659	ok	
+660	ok	
+661	fail	<stdin>, line 24: compiler error: Cannot generate code, node 0x609c31e9a630 op =
+662	ok	
+663	ok	
+664	ok	
+665	fail	<stdin>, line 10: compiler error: Cannot generate code, node 0x6175d6e14800 op <
+666	ok	
+667	ok	
+668	fail	<stdin>:3: warning: unsupported attribute `scalar_storage_order'
+669	ok	
+670	ok	
+671	ok	
+672	ok	
+673	fail	<stdin>:3: warning: unsupported attribute `noipa'
+674	fail	<stdin>, line 12: compiler error: Cannot generate code, node 0x60f70f3984c0 op =
+675	ok	
+676	ok	
+677	ok	
+678	fail	<stdin>, line 17: compiler error: Cannot generate code, node 0x61e066e54160 op SCONV
+679	fail	<stdin>, line 24: compiler error: Cannot generate code, node 0x608b2c547e90 op =
+680	ok	
+681	fail	<stdin>, line 5: compiler error: Cannot generate code, node 0x5c6e62104830 op !=
+682	fail	<stdin>, line 7: compiler error: too many arguments, do something intelligent
+683	fail	<stdin>, line 25: compiler error: Cannot generate code, node 0x64bd7ad1ad70 op ==
+684	ok	
+685	ok	
+686	fail	<stdin>, line 1105: compiler error: Cannot generate code, node 0x5a08c34a2160 op OREG
+687	fail	<stdin>, line 929: compiler error: Cannot generate code, node 0x638a911642e0 op >>
+688	fail	<stdin>, line 546: compiler error: Cannot generate code, node 0x5a6b8a04fe70 op >
+689	fail	<stdin>, line 1676: compiler error: Cannot generate code, node 0x628740a4df90 op !=
+690	ok	
+691	ok	
+692	ok	
+693	fail	<stdin>, line 1150: compiler error: Cannot generate code, node 0x588787da9cf0 op >>
+694	fail	<stdin>, line 1296: compiler error: Cannot generate code, node 0x5c267628ce90 op =
+695	ok	
+696	fail	<stdin>, line 853: compiler error: Cannot generate code, node 0x5c80fa295df0 op =
+697	fail	<stdin>, line 1426: compiler error: Cannot generate code, node 0x5f0edb230a00 op =
+698	ok	
+699	fail	<stdin>, line 804: compiler error: Cannot generate code, node 0x5c738d976530 op ==
+700	fail	<stdin>, line 1124: compiler error: Cannot generate code, node 0x59bd0b08b380 op OREG
+701	fail	<stdin>, line 686: compiler error: Cannot generate code, node 0x6516f71c7660 op >=
+702	ok	
+703	fail	<stdin>, line 521: compiler error: Cannot generate code, node 0x6536173e1650 op >=
+704	fail	<stdin>, line 1245: compiler error: Cannot generate code, node 0x571baf9b2230 op &
+705	ok	
+706	fail	major internal compiler error: <stdin>, line 668
+707	fail	<stdin>, line 1226: compiler error: Cannot generate code, node 0x653dc3a863c0 op =
+708	fail	<stdin>, line 960: compiler error: Cannot generate code, node 0x625acb5e0ed0 op =
+709	fail	<stdin>, line 968: compiler error: Cannot generate code, node 0x5639d82b76d0 op =
+710	fail	<stdin>, line 734: compiler error: Cannot generate code, node 0x561dba573ea0 op <=
+711	fail	<stdin>, line 1023: compiler error: Cannot generate code, node 0x556e6bb86680 op UGT
+712	fail	<stdin>, line 403: compiler error: Cannot generate code, node 0x62348197ac80 op ULT
+713	ok	
+714	ok	
+715	ok	
+716	fail	<stdin>, line 856: compiler error: Cannot generate code, node 0x6353009833e0 op OREG
+717	fail	<stdin>, line 450: compiler error: Cannot generate code, node 0x6487f486f8a0 op <
+718	fail	<stdin>, line 1318: compiler error: Cannot generate code, node 0x5ff4a4996480 op SCONV
+719	ok	
+720	fail	<stdin>, line 310: compiler error: Cannot generate code, node 0x56e00a59a560 op =
+721	ok	
+722	fail	<stdin>, line 575: warning: shift larger than type
+723	fail	<stdin>, line 407: warning: shift larger than type
+724	fail	<stdin>, line 484: warning: shift larger than type
+725	ok	
+726	ok	
+727	ok	
+728	fail	<stdin>, line 838: compiler error: Cannot generate code, node 0x5e9fdd6fa190 op >>
+729	ok	
+730	fail	major internal compiler error: <stdin>, line 878
+731	fail	<stdin>, line 948: compiler error: Cannot generate code, node 0x63e3c40a5fa0 op >>
+732	ok	
+733	ok	
+734	ok	
+735	fail	<stdin>, line 665: compiler error: Cannot generate code, node 0x5653ece0a160 op >>
+736	fail	<stdin>, line 915: compiler error: Cannot generate code, node 0x55fc2a842030 op >>
+737	ok	
+738	fail	<stdin>, line 736: compiler error: Cannot generate code, node 0x5a8d9ab8aec0 op FUNARG
+739	fail	<stdin>, line 2158: compiler error: Cannot generate code, node 0x626e6b602210 op FUNARG
+740	ok	
+741	fail	<stdin>, line 1729: compiler error: Cannot generate code, node 0x64f1cd161ec0 op FUNARG
+742	ok	
+743	fail	<stdin>, line 923: compiler error: Cannot generate code, node 0x5a4b589b4cd0 op >>
+744	fail	<stdin>, line 4138: compiler error: Cannot generate code, node 0x5814da40e230 op >>
+745	ok	
+746	ok	
+747	fail	<stdin>, line 1094: compiler error: Cannot generate code, node 0x5edb982d9a40 op >>
+748	fail	<stdin>, line 997: compiler error: Cannot generate code, node 0x5c97a508b1e0 op >>
+749	fail	<stdin>, line 1090: compiler error: Cannot generate code, node 0x6248987444d0 op FUNARG
+750	fail	<stdin>, line 1193: compiler error: Cannot generate code, node 0x5bd7a0a43800 op =
+751	fail	<stdin>, line 5445: compiler error: Cannot generate code, node 0x5f04e83e2870 op =
+752	ok	
+753	ok	
+754	ok	
+755	ok	
+756	fail	<stdin>, line 633: compiler error: Cannot generate code, node 0x5e8fbc899770 op >>
+757	fail	<stdin>, line 2885: compiler error: Cannot generate code, node 0x5ce1b4f78550 op =
+758	fail	<stdin>, line 3009: compiler error: Cannot generate code, node 0x642d8cc8fcb0 op >>
+759	ok	
+760	ok	
+761	ok	
+762	ok	
+763	ok	
+764	fail	<stdin>, line 1147: compiler error: Cannot generate code, node 0x56bb79dd23f0 op >>
+765	ok	
+766	ok	
+767	fail	<stdin>, line 1349: compiler error: Cannot generate code, node 0x5a402f219f50 op >>
+768	fail	<stdin>, line 3244: compiler error: Cannot generate code, node 0x5b79ea003fd0 op =
+769	ok	
+770	fail	<stdin>, line 3262: compiler error: Cannot generate code, node 0x644f1d0de200 op FUNARG
+771	fail	<stdin>, line 2859: compiler error: Cannot generate code, node 0x64dbc5df9a00 op FUNARG
+772	fail	<stdin>, line 3131: compiler error: Cannot generate code, node 0x5f99e3075e70 op FUNARG
+773	ok	
+774	fail	<stdin>, line 3636: compiler error: Cannot generate code, node 0x5c83e98e5380 op FUNARG
+775	fail	<stdin>, line 3168: compiler error: Cannot generate code, node 0x5e5dd53480d0 op >>
+776	ok	
+777	fail	<stdin>, line 500: warning: shift larger than type
+778	fail	<stdin>, line 6411: compiler error: Cannot generate code, node 0x57d3e0593390 op =
+779	fail	<stdin>, line 3113: compiler error: Cannot generate code, node 0x61449c097330 op =
+780	ok	
+781	ok	
+782	ok	
+783	fail	<stdin>, line 3429: compiler error: Cannot generate code, node 0x57cf03394a80 op >>
+784	fail	<stdin>, line 3454: compiler error: Cannot generate code, node 0x55b09ac86070 op >>
+785	ok	
+786	ok	
+787	fail	<stdin>, line 3226: compiler error: Cannot generate code, node 0x649d9da70900 op USTCALL
+788	fail	<stdin>, line 3998: compiler error: Cannot generate code, node 0x61e39cc49780 op FUNARG
+789	ok	
+790	fail	<stdin>, line 3054: compiler error: Cannot generate code, node 0x5b62e126c080 op >>
+791	fail	<stdin>, line 2951: compiler error: Cannot generate code, node 0x59341a6481d0 op =
+792	ok	
+793	fail	<stdin>, line 4334: compiler error: Cannot generate code, node 0x579971fcf6f0 op >>
+794	ok	
+795	fail	<stdin>, line 3480: compiler error: Cannot generate code, node 0x641bbea8cab0 op FUNARG
+796	ok	
+797	ok	
+798	ok	
+799	fail	<stdin>, line 499: warning: shift larger than type
+800	fail	<stdin>, line 574: warning: shift larger than type
+801	ok	
+802	ok	
+803	fail	<stdin>, line 5759: compiler error: Cannot generate code, node 0x5fa639443a00 op =
+804	ok	
+805	ok	
+806	fail	<stdin>, line 5517: compiler error: Cannot generate code, node 0x5dbba8222d60 op >>
+807	fail	<stdin>, line 5357: compiler error: Cannot generate code, node 0x63dfa05cd550 op =
+808	fail	<stdin>, line 5654: compiler error: Cannot generate code, node 0x5837b81a0670 op FUNARG
+809	fail	<stdin>, line 5402: compiler error: Cannot generate code, node 0x5f8650d3efe0 op =
+810	fail	<stdin>, line 2775: compiler error: Cannot generate code, node 0x5beb913b6320 op >>
+811	fail	<stdin>, line 5775: compiler error: Cannot generate code, node 0x5e220ff4e8c0 op =
+812	fail	<stdin>, line 5773: compiler error: Cannot generate code, node 0x647037dbc230 op =
+813	fail	<stdin>, line 5435: compiler error: Cannot generate code, node 0x56d77f353970 op FUNARG
+814	fail	<stdin>, line 6509: compiler error: Cannot generate code, node 0x5fb636db6770 op =
+815	ok	
+816	ok	
+817	ok	
+818	fail	<stdin>, line 4270: compiler error: Cannot generate code, node 0x60bbfe3526e0 op FUNARG
+819	fail	<stdin>, line 3441: compiler error: Cannot generate code, node 0x59362c4bf9c0 op >>
+820	fail	<stdin>, line 3622: compiler error: Cannot generate code, node 0x5b0f848752f0 op FUNARG
+821	fail	<stdin>, line 3493: warning: shift larger than type
+822	ok	
+823	fail	<stdin>, line 3459: compiler error: Cannot generate code, node 0x5ae6399e1ff0 op ULE
+824	fail	<stdin>, line 3633: compiler error: Cannot generate code, node 0x584a043521a0 op =
+825	fail	<stdin>, line 3420: compiler error: Cannot generate code, node 0x5a70927a3ba0 op FUNARG
+826	ok	
+827	ok	
+828	ok	
+829	fail	<stdin>, line 81: warning: shift larger than type
+830	ok	
+831	ok	
+832	ok	
+833	ok	
+834	fail	<stdin>, line 81: warning: shift larger than type
+835	fail	<stdin>, line 81: warning: shift larger than type
+836	fail	<stdin>, line 81: warning: shift larger than type
+837	fail	<stdin>, line 81: warning: shift larger than type
+838	fail	<stdin>, line 81: warning: shift larger than type
+839	ok	
+840	ok	

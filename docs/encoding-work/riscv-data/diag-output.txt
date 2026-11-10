@@ -1,0 +1,19 @@
+--- sizes: char a[sizeof(long)==8?1:-1]; char b[sizeof(void*)==8?1:-1];
+<stdin>, line 1: array size cannot be negative
+<stdin>, line 1: array size cannot be negative
+--- valist: typedef __builtin_va_list va_list; int f(int a){return a;}
+<stdin>, line 1: invalid function definition
+<stdin>, line 1: syntax error
+<stdin>, line 1: cannot recover from earlier errors: goodbye!
+--- ll: long long f(long long a, long long b){ return a*b + 0x123456789abcdefLL; }
+<stdin>, line 1: compiler error: Cannot generate code, node 0x64092023da60 op OREG
+--- va: int f(int n, ...){ __builtin_va_list ap; __builtin_va_start(ap,n); int x=__builtin_va_arg(ap,int); __builtin_va_end(ap); return x;}
+<stdin>, line 1: syntax error
+<stdin>, line 1: cannot recover from earlier errors: goodbye!
+--- cmp: int f(long a,long b){ return a<b; }
+run b: exit 16 (expected 16)
+run c: exit 7 (expected 7)
+run d: exit 45 (expected 45)
+Segmentation fault (core dumped)
+run fib: exit 139 (expected 55)
+(work files in /tmp/tmp.zxfm9VxzVB)
