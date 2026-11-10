@@ -73,7 +73,7 @@
 
 | Term | Meaning |
 |---|---|
-| **Q64** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and a physical address of 24 to 64 bits (2.1) |
+| **Q64** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and a physical address of 40 to 64 bits (2.1) |
 | **Unibus, Q-bus** | the PDP-11's buses; Q64 keeps their programming model, with devices in the address space (2.1) |
 | **`DATIP` / `DATO`** | Unibus and Q-bus transaction types forming a locked read-modify-write (2.5) |
 | **window** | a region of the physical address space that a device's base-address register describes, a whole number of pages, found by enumeration (2.6, 5.1) |

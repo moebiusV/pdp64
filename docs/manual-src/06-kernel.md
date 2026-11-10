@@ -162,7 +162,7 @@
 
 **6.8.3** A read of non-existent memory is a precise abort with cause `BUSFAULT`; a posted write that times out and an uncorrectable memory error are machine checks. *(D)*
 
-**6.8.4** Virtual addresses are 39, 48 or 57 bits, translated by three, four or five levels of nine bits over 4 KB pages (section 6.4.1) to a physical address of 24 to 64 bits, 40 in the present implementation (section 2.1.6). *(D)*
+**6.8.4** Virtual addresses are 39, 48 or 57 bits, translated by three, four or five levels of nine bits over 4 KB pages (section 6.4.1) to a physical address of 40 to 64 bits, 40 in the present implementation (section 2.1.6). *(D)*
 
 **6.8.5** A page-table entry carries the physical page number in place and read, write, execute and user permission bits; accessed and dirty bits are managed by software; one memory type per page selects cached, uncached, strongly ordered or weakly ordered. *(D)*
 

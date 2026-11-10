@@ -68,7 +68,7 @@
 
 **9.2.9** The ALU has one width, 64 bits; sizes appear only on loads, stores and conversions. *(D)*
 
-**9.2.10** Addresses are canonical: 39, 48 or 57 bits of virtual address, according to the three, four or five levels of the page table (6.4.1), and a physical address of 24 to 64 bits, 40 in the present implementation (2.1.6). *(D)*
+**9.2.10** Addresses are canonical: 39, 48 or 57 bits of virtual address, according to the three, four or five levels of the page table (6.4.1), and a physical address of 40 to 64 bits, 40 in the present implementation (2.1.6). *(D)*
 
 **9.2.11** Instructions are aligned to two bytes; quad data accesses are naturally aligned, and the explicit unaligned forms exist for the cases that need them. *(D)*
 
