@@ -11,7 +11,6 @@
 | [`pdp64-isa.md`](../../pdp64-isa.md) | the full instruction-set text with every encoding, the rejected features, the idioms lost and restored, the comparison with the PDP-11 and the VAX |
 | [`pdp64-system-architecture.md`](../../pdp64-system-architecture.md) | privilege, exceptions, interrupts, memory management and boot as an operating system sees them, with what is undefined stated plainly |
 | [`pdp64-system-design.md`](../../pdp64-system-design.md) | System v1: the options, how others do it, and how the choices serve the project's goals |
-| [`pdp64-q64-bus.md`](../../pdp64-q64-bus.md) | the system bus and its devices |
 | [`boot.md`](../../boot.md) | boot and bring-up: how the main systems start themselves, whether UEFI is worth having, and the proposal |
 | [`pdp64-in-order-and-out-of-order.md`](../../pdp64-in-order-and-out-of-order.md) and [`pdp64-ooo-readiness.md`](../../pdp64-ooo-readiness.md) | what the in-order design point costs and buys, and what the architecture must decide to stay ready for an out-of-order core |
 | [`pdp64-fpga-plan.md`](../../pdp64-fpga-plan.md) and [`pdp64-lb64-accelerator.md`](../../pdp64-lb64-accelerator.md) | the FPGA build plan and the inference accelerator |

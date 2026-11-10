@@ -108,7 +108,7 @@
 
 **1.7.1** Chapter 2 is the bus. Chapter 3 is graphics: the terminal, based on the C64 and the Blit and modernised, and how it drives HDMI and the other ports. Chapter 4 is boot. Chapter 5 is the device driver model. Chapter 6 is the kernel: modes, exceptions and memory management. Chapter 7 is multiple processors. Chapter 8 is vector work, AI and array languages, done by devices. Chapter 9 is the instruction set. Chapter 10 is the path to silicon.
 
-**1.7.2** Each section states its aphorisms first and its commentary after; the status tag *(D)* or *(P)* marks what is decided and what is proposed.
+**1.7.2** Each section states its aphorisms first and its commentary after; the status tag *(D)* marks what the author has decided; a statement with no tag describes the architecture as it is built and tested. What is proposed, deferred or open is in appendices H, I and J.
 
 *Commentary.* **Precedent.** The form follows the old commentary traditions, in which a short text can be read straight through and the discussion of each line sits beneath it; and the layout of the classic CPU manuals for the reference material, in which every instruction has a fixed entry. **Benefits.** A designer who wants only the architecture reads the aphorisms; one who wants the reasons reads on.
 

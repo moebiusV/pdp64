@@ -95,12 +95,11 @@
 
 | Term | Meaning |
 |---|---|
-| **Q64** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and a physical address of 40 to 64 bits (2.3) |
-| **Unibus, Q-bus** | the PDP-11's buses; Q64 keeps their programming model, with devices in the address space (2.3) |
+| **Unibus, Q-bus** | the PDP-11's buses; PCI Express keeps their programming model, with devices in the address space (2.3) |
 | **`DATIP` / `DATO`** | Unibus and Q-bus transaction types forming a locked read-modify-write (2.10) |
 | **window** | a region of the physical address space that a device's base-address register describes, a whole number of pages, found by enumeration (2.4, 5.3) |
-| **root complex** | the PCI Express root of Q64: it enumerates the functions, assigns their windows, and reports arrivals and departures (2.4) |
-| **bridge** | a function that is itself a bus: it presents the functions behind it, so arbitrary buses (PCI Express, USB) can be connected to Q64 and enumerated to any depth (2.4.3) |
+| **root complex** | the root of the PCI Express bus: it enumerates the functions, assigns their windows, and reports arrivals and departures (2.4) |
+| **bridge** | a function that is itself a bus: it presents the functions behind it, so arbitrary buses (PCI Express, USB) can be connected to the bus and enumerated to any depth (2.4.3) |
 | **MMIO** | memory-mapped input/output: device registers reached by ordinary loads and stores (5.3) |
 | **DMA** | direct memory access: a device moving data to or from memory without the processor (5.10) |
 | **virtqueue, descriptor, available ring, used ring, doorbell** | the common device protocol: a table of 16-byte descriptors in memory, a ring in which the driver offers chains, a ring in which the device returns them, and a write that tells the device to look (5.4) |
@@ -112,7 +111,6 @@
 | **`INIT` and `READY`** | the PDP-11 CSR's reset command and done bit; on the pdp64 the `device_status` handshake (5.5) |
 | **softc, `cfattach`** | OpenBSD's per-device structure and the table of a driver's `match` and `attach` functions (5.13) |
 | **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.12) |
-| **`VIC-64X`, `SID-64X`, `BLT64`** | the video, sound and blitter devices of the graphics terminal, which is based on the Commodore 64 (video and sound chips) and the Blit terminal (framebuffer and bit-block transfer) (chapter 3) |
 | **Blit** | Rob Pike's bit-mapped windowing terminal: an 8 MHz Motorola 68000 machine that received downloaded code, characters and editing messages from its host over a serial line and drew every pixel itself (its description as a precursor of the X11 protocol and of NeWS is stated by no source read *(S)*; the lineage the sources confirm runs from its `mux` to 8½ and `rio`); a framebuffer in the address space and a bit-block-transfer operation, done in software, that moves rectangles of pixels; with the C64, one of the two machines the pdp64's terminal is based on (3.1) |
 | **blitter, raster operation** | a device that copies and combines rectangles of pixels; the raster operation says how source and destination combine (3.8) |
 | **scanout, tearing, double buffering** | the display reading the picture out of memory row by row at a fixed rate; the seam where a picture changed during the reading shows old above and new below; drawing the next frame in a hidden second picture and swapping at the vertical blank (3.17) |

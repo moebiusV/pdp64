@@ -25,3 +25,6 @@ a:id03004 docs/manual/pdp64-@ID@/appendix-d-abi.md
 a:id03005 docs/manual/pdp64-@ID@/appendix-e-assembler.md
 a:id03006 docs/manual/pdp64-@ID@/appendix-f-evidence.md
 a:id03007 docs/manual/pdp64-@ID@/appendix-g-evolution.md
+a:id03008 docs/manual/pdp64-@ID@/appendix-h-proposed.md
+a:id03009 docs/manual/pdp64-@ID@/appendix-i-deferred.md
+a:id03010 docs/manual/pdp64-@ID@/appendix-j-open.md

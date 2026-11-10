@@ -504,6 +504,12 @@ def sources(member):
         t = open(os.path.join(SRCDIR, fn)).read()
         if member in ASM.file_members(t):
             out[fn] = ASM.for_member(t, member, 'docs/manual-src/' + fn)
+    # appendices H (proposed), I (deferred) and J (open items): assembled from the fragments of docs/manual-src/appendix-parts/, one file per chapter and kind
+    pdir = os.path.join(SRCDIR, 'appendix-parts')
+    frags = {fn: open(os.path.join(pdir, fn)).read() for fn in sorted(os.listdir(pdir))} if os.path.isdir(pdir) else {}
+    probs = ASM.assemble_parts(out, frags, member)
+    if probs:
+        raise SystemExit('\n'.join(probs))
     return out
 
 
