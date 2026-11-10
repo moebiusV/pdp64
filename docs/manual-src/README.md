@@ -2,7 +2,7 @@
 
 [← pdp64 index](../../README.md)
 
-This directory is the one place where the hand-written text of the manual of the pdp64 is written. `tools/mkmanual.py` assembles from it the manual and writes it, together with the generated parts (the instruction entries, the dictionary, the bit-layout charts, read from the grammar of pdp64/32 only), into `docs/manual/`. The generated manual is committed, and `tools/check-all.sh` (through `tools/mkmanual.py --check`) fails if a committed file differs from what the generator produces. **Never edit a file under `docs/manual/`: edit this directory (or the generators under `tools/manual/`) and run `tools/mkmanual.py`.**
+This directory is the one place where the hand-written text of the manual of the pdp64 is written. `tools/mkmanual.py` assembles from it the manual and writes it, together with the generated parts (the instruction entries, the dictionary, the bit-layout charts, read from the grammar of the encoding), into `docs/manual/`. The generated manual is committed, and `tools/check-all.sh` (through `tools/mkmanual.py --check`) fails if a committed file differs from what the generator produces. **Never edit a file under `docs/manual/`: edit this directory (or the generators under `tools/manual/`) and run `tools/mkmanual.py`.**
 
 (Earlier the text of three manuals, for pdp64/r20, pdp64/16 and pdp64/32, was written here with member blocks; pdp64/r20 and pdp64/16 are previous iterations, no longer CPUs with manuals: errata 122.)
 
