@@ -13,8 +13,7 @@ for pdp64/32 and pdp64/16 (pcc), pcc amd64 and i386, and GCC and clang for RISC-
   (`~/claude/facetlang/pdp11/v7unix-toolchain`, `TOOLCHAIN=` to move it): `prep.py` imports its `tools/corpus.py` for the per-corpus include directories and defines,
   exactly as `tools/pdp64size.py` does;
 * `clang` (21) with the RISC-V, AArch64, ARM, MIPS and x86 targets, `llvm-objdump-21`, host `gcc` (x86-64 and -m32);
-* GCC for RISC-V: `build-gcc-riscv.sh DIR` builds binutils 2.43.1 and a C-only GCC 14.2.0 for `riscv64-unknown-elf` into `DIR/prefix` (about an hour on two cores;
-  it needs the sources of `~/claude/corpora/gcc-cross`, linked into DIR); `run-refs.py` uses `DIR/gccx/prefix/bin/riscv64-unknown-elf-gcc` when it is there (`GCCRV=` overrides).
+* No GCC rows (dropped); the diagnosis probes of `diag-riscv-backend.sh` need GNU `as` and `ld` for RISC-V (binutils 2.43.1 configured `--target=riscv64-unknown-elf`) in `WORK/gccx/prefix/bin`.
 
 ## Files
 
@@ -36,7 +35,6 @@ for pdp64/32 and pdp64/16 (pcc), pcc amd64 and i386, and GCC and clang for RISC-
 
     make WORK=/scratch/rv prep ccoms          # preprocess, build the compilers
     make WORK=/scratch/rv pdp64 pccx86        # pdp64/32, /16, pcc amd64, i386 (two flag sets each)
-    sh build-gcc-riscv.sh /scratch/rv/gccx    # optional, long
     python3 run-refs.py /scratch/rv           # the GCC/clang matrix (about 40 configurations, each 1 to 4 minutes on two idle cores)
     python3 summarize.py /scratch/rv ../../docs/encoding-work/riscv-data
 
