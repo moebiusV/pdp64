@@ -61,7 +61,7 @@ used ring (the device writes):       flags, idx, ring[ ] of (head id, bytes writ
 
 ## 5.3 The life of a driver
 
-**5.3.1** *Probe.* The kernel enumerates the bus (section 2.6), reads each function's identifiers, and matches the virtio device type (or the USB class) against the drivers it has. *(D)*
+**5.3.1** *Probe.* The kernel enumerates the bus (section 2.4), reads each function's identifiers, and matches the virtio device type (or the USB class) against the drivers it has. *(D)*
 
 **5.3.2** *Attach.* The driver resets the device (zero to `device_status`), sets the acknowledge and driver bits, negotiates features, sets the features-ok bit and reads it back, sets up each queue (its size and the three addresses, then `queue_enable`), and sets the driver-ok bit. *(D)*
 
@@ -119,7 +119,7 @@ used ring (the device writes):       flags, idx, ring[ ] of (head id, bytes writ
 
 **5.7.3** A changeable interrupt target is changed with its vector masked and then read back, or is a single atomic register write. *(D)*
 
-**5.7.4** The write that raises an interrupt cannot overtake the data writes that precede it (section 2.4.4). *(D)*
+**5.7.4** The write that raises an interrupt cannot overtake the data writes that precede it (section 2.5.4). *(D)*
 
 *Commentary.* **Precedent.** A PDP-11 device asserted one of four bus-request lines and supplied its own vector, set by switches on the card. **Trade-offs.** A message carries its own vector, so no switch and no assignment table are needed; the controller and routing are an open decision (R1). **Benefits.** A driver's interrupt routine reads the used ring to learn what completed. **Modern comparables.** MSI-X is how PCI Express devices interrupt. **Impact.** *Kernel:* An interrupt routine reads the used ring and the status structure. *Compiler:* None. *Hardware:* An MSI-X target in the interrupt controller, and the eight-level priority encoder.
 

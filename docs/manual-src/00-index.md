@@ -9,7 +9,7 @@
 ## Contents
 
 1. [**Introduction**](01-introduction.md): why the machine exists, what made the PDP-10, PDP-11 and VAX-11 good to program, and the principles the design follows.
-2. [**The bus**](02-bus.md): Q64, which is PCI Express with convenience and security circuitry, the address space, what the processor owes the bus, failures, coherence, atomics, and enumeration and hot-plug.
+2. [**The bus**](02-bus.md): what the Unibus did, and PCI Express, virtio, message-signalled interrupts and the IOMMU explained from it; Q64, the address space, enumeration and hot-plug, DMA and coherence, what the processor owes the bus, failures and atomics.
 3. [**Graphics: the terminal and its devices**](03-graphics.md): the terminal, based on the Commodore 64 and the Blit terminal (video, sound and blitter), modernised, as memory-mapped devices, how it drives HDMI and the other ports, the framebuffer, and the question of a standard graphics card. The register-level specification is a stub.
 4. [**Boot, the BIOS, the disk label and the GPT**](04-boot.md): what starts the machine, what takes over, how the disk is laid out, and how the kernel is found.
 5. [**The device driver model**](05-drivers.md): memory-mapped registers and DMA as a driver sees them, the virtio transport and its queue, the life of a driver, the default devices, errors and recovery.

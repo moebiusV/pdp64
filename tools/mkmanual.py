@@ -125,6 +125,7 @@ def bits(v, w):
 
 FIGS = {}                                     # file name -> svg text of the member being generated (build() resets it)
 import layouts as LAY
+import busfigs as BUSFIGS
 
 
 def fig(name, alt, rows):
@@ -778,6 +779,9 @@ def build(member='r20'):
             ('len = 01, parcel 1', c1['rows'][1][1]), ('len = 10, parcel 1', c2['rows'][1][1]), ('len = 10, parcel 2', c2['rows'][2][1]), ('len = 11 (page 2)', p2c['rows'][0][1])])
     if 'figures/psw.svg' in used:
         fig('psw', 'The processor status word', LAY.psw_chart(SYS))
+    for fname, (_alt, draw) in BUSFIGS.FIGURES.items():     # the box-and-arrow figures of chapter 2 (tools/manual/busfigs.py); not instruction encodings
+        if 'figures/%s.svg' % fname in used:
+            FIGS[fname + '.svg'] = draw()
     return files, chapters
 
 

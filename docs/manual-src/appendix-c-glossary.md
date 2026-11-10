@@ -54,7 +54,7 @@
 
 | Term | Meaning |
 |---|---|
-| **`MT`** | memory type, a two-bit page attribute: normal cached, normal uncached, device strongly ordered (2.1, 6.4) |
+| **`MT`** | memory type, a two-bit page attribute: normal cached, normal uncached, device strongly ordered (2.3, 6.4) |
 | **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.4) |
 | **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.4) |
 | **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores (7.5) |
@@ -71,7 +71,7 @@
 | **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (6.8) |
 | **`SPL`** | set the interrupt priority level (6.2) |
 | **`WFE`, `SEV`** | wait for an event and send an event: the idle and wake-up pair (7.6) |
-| **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.2, 7.2) |
+| **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.8, 7.2) |
 | **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (7.3) |
 | **SMP** | symmetric multiprocessing: several identical cores sharing memory (chapter 7) |
 | **core class** | the read-only register of each core that gives its class and capacity, so that software can tell an in-order core from an out-of-order one (7.8.4) |
@@ -84,12 +84,12 @@
 
 | Term | Meaning |
 |---|---|
-| **Q64** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and a physical address of 40 to 64 bits (2.1) |
-| **Unibus, Q-bus** | the PDP-11's buses; Q64 keeps their programming model, with devices in the address space (2.1) |
-| **`DATIP` / `DATO`** | Unibus and Q-bus transaction types forming a locked read-modify-write (2.5) |
-| **window** | a region of the physical address space that a device's base-address register describes, a whole number of pages, found by enumeration (2.6, 5.1) |
-| **root complex** | the PCI Express root of Q64: it enumerates the functions, assigns their windows, and reports arrivals and departures (2.6) |
-| **bridge** | a function that is itself a bus: it presents the functions behind it, so arbitrary buses (PCI Express, USB) can be connected to Q64 and enumerated to any depth (2.6.3) |
+| **Q64** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and a physical address of 40 to 64 bits (2.3) |
+| **Unibus, Q-bus** | the PDP-11's buses; Q64 keeps their programming model, with devices in the address space (2.3) |
+| **`DATIP` / `DATO`** | Unibus and Q-bus transaction types forming a locked read-modify-write (2.10) |
+| **window** | a region of the physical address space that a device's base-address register describes, a whole number of pages, found by enumeration (2.4, 5.1) |
+| **root complex** | the PCI Express root of Q64: it enumerates the functions, assigns their windows, and reports arrivals and departures (2.4) |
+| **bridge** | a function that is itself a bus: it presents the functions behind it, so arbitrary buses (PCI Express, USB) can be connected to Q64 and enumerated to any depth (2.4.3) |
 | **MMIO** | memory-mapped input/output: device registers reached by ordinary loads and stores (5.1) |
 | **DMA** | direct memory access: a device moving data to or from memory without the processor (5.4) |
 | **virtqueue, descriptor, available ring, used ring, doorbell** | the common device protocol: a table of 16-byte descriptors in memory, a ring in which the driver offers chains, a ring in which the device returns them, and a write that tells the device to look (5.2) |

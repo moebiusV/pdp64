@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="300" viewBox="0 0 690 300" font-family="DejaVu Sans, sans-serif">
+<text x="20.0" y="18.0" font-size="12" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">a PCI Express tree: a bus of point-to-point links, not a shared set of wires</text>
+<rect x="260.0" y="34.0" width="170.0" height="44.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="345.0" y="55.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">CPU + memory</text>
+<text x="345.0" y="67.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">the host</text>
+<rect x="240.0" y="100.0" width="210.0" height="44.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="345.0" y="121.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">root complex</text>
+<text x="345.0" y="133.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">bus 0: the root of the tree</text>
+<path d="M345.0,78.0 L345.0,100.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<rect x="20.0" y="196.0" width="150.0" height="44.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="95.0" y="217.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace">virtio-blk</text>
+<text x="95.0" y="229.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">bus 1, endpoint</text>
+<rect x="200.0" y="196.0" width="150.0" height="44.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="275.0" y="217.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace">virtio-net</text>
+<text x="275.0" y="229.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">bus 2, endpoint</text>
+<rect x="420.0" y="160.0" width="150.0" height="34.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="495.0" y="180.8" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">bridge / switch</text>
+<rect x="370.0" y="224.0" width="130.0" height="44.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="435.0" y="245.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace">xHCI (USB)</text>
+<text x="435.0" y="257.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">bus 3, endpoint</text>
+<rect x="530.0" y="224.0" width="130.0" height="44.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<text x="595.0" y="245.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">any other card</text>
+<text x="595.0" y="257.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">bus 3, endpoint</text>
+<path d="M290.0,144.0 L290.0,170.0 L95.0,170.0 L95.0,196.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<path d="M290.0,170.0 L275.0,170.0 L275.0,196.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<path d="M400.0,144.0 L400.0,152.0 L495.0,152.0 L495.0,160.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<path d="M495.0,194.0 L495.0,208.0 L435.0,208.0 L435.0,224.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<path d="M495.0,208.0 L595.0,208.0 L595.0,224.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<text x="20.0" y="284.0" font-size="10" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">each line is a link: one or more lanes, each a pair of one-way wire pairs</text>
+<text x="20.0" y="297.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Bus numbers and the shape are examples.</text>
+</svg>

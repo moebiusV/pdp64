@@ -58,7 +58,7 @@
 
 **3.4.3** The block RAM budget (caches, translation buffer, the blitter's scratch and the sound voices' state) is settled before the video device is built. *(D)*
 
-**3.4.4** The framebuffer is ordinary memory and the devices' registers are device windows (section 2.1.6), so a page-table entry that maps the framebuffer as a device, or a register page as cached memory, is a mistake that the memory type of the page makes visible to the kernel. *(P)*
+**3.4.4** The framebuffer is ordinary memory and the devices' registers are device windows (section 2.3.6), so a page-table entry that maps the framebuffer as a device, or a register page as cached memory, is a mistake that the memory type of the page makes visible to the kernel. *(P)*
 
 *Commentary.* **Trade-offs.** An uncached framebuffer makes a single pixel write slow and a long run of writes no slower per byte, which suits the blitter (it writes the bus directly) and punishes pixel-by-pixel drawing from the processor, which is what a blitter is for. **Modern comparables.** Write-combining memory types on x86 and ARM serve the same purpose. **Impact.** *Kernel:* the mapping rule is one memory-type value in the page-table entry. *Compiler:* none. *Hardware:* the scan-out reads main memory by bus mastering, which competes with the processor for bandwidth.
 

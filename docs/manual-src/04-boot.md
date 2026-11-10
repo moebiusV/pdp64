@@ -20,7 +20,7 @@
 
 **4.2.2** It reads block 0 of the first device that answers (for the standard disk, a virtio-blk read request) into low memory, checks the `0x55AA` signature in the last two bytes, and starts core 0 at that address. It does not parse a partition table. *(P)*
 
-**4.2.3** Core 0 starts in kernel mode at priority 7 with translation off (every address physical), `VBR` zero and the user-memory guard clear; `r0` holds the boot device number, `r1` the address of the boot-information block, `r14` the top of the first 64 KB of memory, and the other registers are zero. *(P)* The first few pages of the physical address space are reserved for the boot code and boot data, and no device window is mapped there (2.1.6, *(D)*); how many pages is not decided. *(P)*
+**4.2.3** Core 0 starts in kernel mode at priority 7 with translation off (every address physical), `VBR` zero and the user-memory guard clear; `r0` holds the boot device number, `r1` the address of the boot-information block, `r14` the top of the first 64 KB of memory, and the other registers are zero. *(P)* The first few pages of the physical address space are reserved for the boot code and boot data, and no device window is mapped there (2.3.6, *(D)*); how many pages is not decided. *(P)*
 
 **4.2.4** If no boot device answers, or a key is held at power-up, the monitor runs on the serial console. *(P)*
 
@@ -49,7 +49,7 @@
 
 **4.4.1** The second stage is a program in C that understands the root file system, reads the GPT and the label, loads `/bsd` (an ELF file) and jumps to it with `r0` and `r1` as before and a command line in the boot-information block. *(P)*
 
-**4.4.2** The boot-information block names the memory ranges, the core count, the address of the root complex and the identity of the boot device and the console; the kernel enumerates every other device by PCI Express enumeration (section 2.6). *(P)*
+**4.4.2** The boot-information block names the memory ranges, the core count, the address of the root complex and the identity of the boot device and the console; the kernel enumerates every other device by PCI Express enumeration (section 2.4). *(P)*
 
 **4.4.3** The block's layout is defined once, in a grammar from which the headers are generated, and carries a checksum and a version. *(P)*
 

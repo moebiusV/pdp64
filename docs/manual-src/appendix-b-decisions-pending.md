@@ -120,7 +120,7 @@
 
 **B.2.7.1** Closed: the transport is PCI Express, with the pdp64's convenience and security circuitry on top (errata 75, 80). *(D)*
 
-*Commentary.* **Trade-offs.** An ordinary PCI Express device works unchanged, and the Unibus's lock is not a native transaction (the atomics are a monitor, section 2.5). **Modern comparables.** Every current system board. **Impact.** *Kernel:* None. *Compiler:* None. *Hardware:* A standard root complex.
+*Commentary.* **Trade-offs.** An ordinary PCI Express device works unchanged, and the Unibus's lock is not a native transaction (the atomics are a monitor, section 2.10). **Modern comparables.** Every current system board. **Impact.** *Kernel:* None. *Compiler:* None. *Hardware:* A standard root complex.
 
 ### B.2.8 The device layout and the descriptor (R5)
 
@@ -150,7 +150,7 @@
 
 **B.2.12.1** The proposals are enumeration by PCI Express configuration space with the windows placed in the physical address space (N1, closed in outline by errata 80; the placement is open), an interrupt and a rescan on a hot-plug event (N2), and an absent mark with a precise fault and the queued work left in memory (N3). *(P)*
 
-*Commentary.* See section 2.6 and its commentary: the VAX's nexus scan, PCI's configuration space and all-ones reads, USB's status-change endpoint. **Impact.** *Kernel:* Enumeration and hot-plug are one loop and one rescan. *Compiler:* None. *Hardware:* A standard root complex and the precise fault for an absent device.
+*Commentary.* See section 2.4 and its commentary: the VAX's nexus scan, PCI's configuration space and all-ones reads, USB's status-change endpoint. **Impact.** *Kernel:* Enumeration and hot-plug are one loop and one rescan. *Compiler:* None. *Hardware:* A standard root complex and the precise fault for an absent device.
 
 ### B.2.13 The boot decisions (B1, B3, B4, B5, B8)
 

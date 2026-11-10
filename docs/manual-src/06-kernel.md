@@ -87,7 +87,7 @@
 
 **6.4.1a** Software can find the number of levels of the machine at run time, so that a kernel adapts to the implementation without a build option; the register or field that reports it is not specified. *(S)* The simulator and the emulator implement three levels.
 
-**6.4.2** A page-table entry is 64 bits: `V` (valid) in bit 0, `R`, `W`, `X`, `U` and `G` (global) in bits 1 to 5, `A` (accessed) and `D` (dirty) in bits 6 and 7, the memory type `MT` in bits 8 and 9, and the physical page number in bits 12 to 39, in place in the present implementation; all other bits are zero, and a set reserved bit is a page fault. *(D)* The format of the entry for a physical address of up to 64 bits (2.1.6) is open: a page number of 52 bits in place would take bits 12 to 63 and leave no bit above bit 11 for anything else, and whether the entry keeps that shape or changes is the author's question. *(S)*
+**6.4.2** A page-table entry is 64 bits: `V` (valid) in bit 0, `R`, `W`, `X`, `U` and `G` (global) in bits 1 to 5, `A` (accessed) and `D` (dirty) in bits 6 and 7, the memory type `MT` in bits 8 and 9, and the physical page number in bits 12 to 39, in place in the present implementation; all other bits are zero, and a set reserved bit is a page fault. *(D)* The format of the entry for a physical address of up to 64 bits (2.3.6) is open: a page number of 52 bits in place would take bits 12 to 63 and leave no bit above bit 11 for anything else, and whether the entry keeps that shape or changes is the author's question. *(S)*
 
 **6.4.3** A non-leaf entry has `V` set and `R`, `W` and `X` clear and points to the next table; a leaf at level 2 maps 1 GB, at level 1 maps 2 MB and at level 0 maps 4 KB, and where the levels exist a leaf at level 3 maps 512 GB and at level 4 maps 256 TB. *(D)*
 
@@ -162,7 +162,7 @@
 
 **6.8.3** A read of non-existent memory is a precise abort with cause `BUSFAULT`; a posted write that times out and an uncorrectable memory error are machine checks. *(D)*
 
-**6.8.4** Virtual addresses are 39, 48 or 57 bits, translated by three, four or five levels of nine bits over 4 KB pages (section 6.4.1) to a physical address of 40 to 64 bits, 40 in the present implementation (section 2.1.6). *(D)*
+**6.8.4** Virtual addresses are 39, 48 or 57 bits, translated by three, four or five levels of nine bits over 4 KB pages (section 6.4.1) to a physical address of 40 to 64 bits, 40 in the present implementation (section 2.3.6). *(D)*
 
 **6.8.5** A page-table entry carries the physical page number in place and read, write, execute and user permission bits; accessed and dirty bits are managed by software; one memory type per page selects cached, uncached, strongly ordered or weakly ordered. *(D)*
 
