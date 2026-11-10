@@ -6,8 +6,8 @@ Static counts over the 841-file corpus compiled by pcc, with the 16-register bac
 
 
 ## Method (same as the project's)
-- Corpus: the 841 files from `fair_files()` of tools/pdp64size.py (RESULTS=/tmp/co-final/results.jsonl, sources in ~/claude/corpora), each preprocessed once with `gcc -E` against the aarch64 musl headers, exactly as pdp64size.py does (`tools/pdp64size.py` imported unmodified for preprocess/parse/shape).
-- Compiler: pcc `ccom` built from a copy of ~/claude/pcc HEAD (d44d98a4), flags `-xdmr -xtemps -xdeljumps -xinline -xdce` (the project's `ccomflags('pdp64')`). Static counts: the project's rule (text-section lines that are not directives, labels or comments). Static, not executed counts.
+- Corpus: the 841 files from `fair_files()` of tools/pdp64size.py (RESULTS=/tmp/co-final/results.jsonl, sources in <work>/corpora), each preprocessed once with `gcc -E` against the aarch64 musl headers, exactly as pdp64size.py does (`tools/pdp64size.py` imported unmodified for preprocess/parse/shape).
+- Compiler: pcc `ccom` built from a copy of <work>/pcc HEAD (d44d98a4), flags `-xdmr -xtemps -xdeljumps -xinline -xdce` (the project's `ccomflags('pdp64')`). Static counts: the project's rule (text-section lines that are not directives, labels or comments). Static, not executed counts.
 - Baseline sanity: 16-register copy compiles 841/841 files; all 841 assemble with build/as64. Total 338,313 instructions (all 841 files). docs/codegen-data/pdp64-after-errata39.csv last row: 335,877 for the 827-file set; the extra 14 files and the small gap explain the difference. The 370,115 figure of docs/codegen-analysis.md is an older compiler. Consistent.
 
 ## The 32-register back end (copy of arch/pdp64)

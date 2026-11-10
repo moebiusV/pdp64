@@ -1,6 +1,6 @@
 # Phase 4 report: pcc back ends for pdp64/16 and pdp64/32 (steps 1-5)
 
-Worktree /home/david/claude/pcc-enc, branch enc-prefix, commits 361458a6 .. HEAD (8 code/doc commits on top of phase 3; none pushed). Full documentation, tables and measurements: /home/david/claude/pcc-enc/doc/PDP64-OPT.md (sections "The -xdmr family", "-xccp and -xtailcall", "The passes added in this phase", "Phase 4 measurements", "-xssa against the timing model").
+Worktree <work>/pcc-enc, branch enc-prefix, commits 361458a6 .. HEAD (8 code/doc commits on top of phase 3; none pushed). Full documentation, tables and measurements: <work>/pcc-enc/doc/PDP64-OPT.md (sections "The -xdmr family", "-xccp and -xtailcall", "The passes added in this phase", "Phase 4 measurements", "-xssa against the timing model").
 Work files: scratchpad/p4/ (scripts, logs in log/, mkpatch.py/mktiming.py generate the doc tables from the logs).
 
 ## 1. -xccp, -xtailcall (done)

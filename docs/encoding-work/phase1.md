@@ -1,6 +1,6 @@
 # Phase 1 report: pdp64/16 and pdp64/32 encodings, shared codec, as64, ld64
 
-Worktree /home/david/claude/pdp64-enc, branch enc-prefix (seven commits on top of 96b4180, none pushed, no history rewritten; main checkouts untouched; pcc-enc not needed).
+Worktree <worktree>, branch enc-prefix (seven commits on top of 96b4180, none pushed, no history rewritten; main checkouts untouched; pcc-enc not needed).
 
 ## Baseline
 The unmodified worktree built and `tools/check-all.sh` passed (exit 0, 47 s; output in scratchpad/baseline-check-all.txt). After the work `tools/check-all.sh` passes again with the same old checks unchanged (old format vectors, syntax tests, 

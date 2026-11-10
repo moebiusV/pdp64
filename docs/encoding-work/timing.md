@@ -1,6 +1,6 @@
 # frag-timing: sim64 timing model (STEP 3 support) -- PARTIAL, stopped after validation and first sweeps
 
-Worktree /home/david/claude/pdp64-enc-tm, branch enc-tm, 3 commits on enc-prefix (2a7b55a model, eb6cb8e docs+tools/timing.py, then fused-instruction test). tools/check-all.sh green at the first two (the third only ran check-timing). Nothing pushed.
+Worktree <worktree>, branch enc-tm, 3 commits on enc-prefix (2a7b55a model, eb6cb8e docs+tools/timing.py, then fused-instruction test). tools/check-all.sh green at the first two (the third only ran check-timing). Nothing pushed.
 
 ## Done
 - `sim64 --timing=SPEC` (repeatable, up to 32 models per functional run; --timing-out, --timing-pc, --timing-help). common/timing.c/.h; the shared executor is untouched: tools/mk-exec-tm.py generates build/pdp64exec_tm.c (logs register/flag/DP accesses in order).

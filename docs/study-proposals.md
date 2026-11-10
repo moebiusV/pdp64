@@ -4,7 +4,7 @@
 
 For the author's annotation. Items 6, 9, 10, 11, 12 and 18 are those of `retire-stage-candidates.md`; the capability question is its item 3. Each section gives a concrete design scored against the definitive priority list (errata 83): **P1** security and safety, **P2** opcode choice (fewer instructions executed), **P3** encoding, **P4** speed and power (gate count), **P5** compiler target, **P6** assembler. The design is out-of-order ready; the first in-order core pays almost nothing for any of it.
 
-**Sourcing.** Facts about pdp64 are from the repository (paths given). Facts about OpenBSD marked *(read)* are from `/home/david/claude/kernel-src/openbsd`. Everything else outside the repository is *(from memory, not confirmed)*. No performance number for another machine was read for this text; none is quoted as fact.
+**Sourcing.** Facts about pdp64 are from the repository (paths given). Facts about OpenBSD marked *(read)* are from `<work>/kernel-src/openbsd`. Everything else outside the repository is *(from memory, not confirmed)*. No performance number for another machine was read for this text; none is quoted as fact.
 
 ## Common ground: where the new state lives
 

@@ -479,7 +479,7 @@ agree. reject.
 
 ## What to measure first
 
-All with `sim64` (`/home/david/claude/pdp64/sim64/`, `tests/sim/`) and the compiled corpus in `docs/codegen-data` (BearSSL, c-testsuite and others; `totals.csv` lists the corpora).
+All with `sim64` (`<repo>/sim64/`, `tests/sim/`) and the compiled corpus in `docs/codegen-data` (BearSSL, c-testsuite and others; `totals.csv` lists the corpora).
 
 
 sim64 is nice, but we should get the qemu backend working too.

@@ -1,6 +1,6 @@
 # Phase 2 report: sim64 and the executor for pdp64/r20, pdp64/16, pdp64/32
 
-Worktree /home/david/claude/pdp64-enc, branch enc-prefix, commits 2ece7fe..acf1d7f on top of phase 1 (bb79182); nothing pushed; main checkouts, pcc and pcc-enc untouched. `tools/check-all.sh` passes at HEAD (exit 0).
+Worktree <worktree>, branch enc-prefix, commits 2ece7fe..acf1d7f on top of phase 1 (bb79182); nothing pushed; main checkouts, pcc and pcc-enc untouched. `tools/check-all.sh` passes at HEAD (exit 0).
 Honest note on "every commit green": acf1d7f (first sim64 commit) had a stale generated manual page (fixed by 6b5afeb) and 49012d2 added tests/sim/bitfield.s before the QEMU skip file (220a19d); all later commits and HEAD are green. History was not rewritten.
 
 ## 1. What was built
@@ -13,7 +13,7 @@ Honest note on "every commit green": acf1d7f (first sim64 commit) had a stale ge
 - `tools/encdis` (new): a disassembler of pdp64/16 and /32 executables (was missing).
 
 ## 2. Bugs found
-In the original code (fixed, tested): the executor read position and width of `extb extzb insb dshr` from the wrong field and ignored both (tests/sim/bitfield.s; found by the cross-encoding differential test; the QEMU binary in ~/claude/qemu-build still has it: tests/sim/bitfield.noqemu skips the test under QEMU until qemu/build.sh is run, then delete the file).
+In the original code (fixed, tested): the executor read position and width of `extb extzb insb dshr` from the wrong field and ignored both (tests/sim/bitfield.s; found by the cross-encoding differential test; the QEMU binary in <work>/qemu-build still has it: tests/sim/bitfield.noqemu skips the test under QEMU until qemu/build.sh is run, then delete the file).
 In my own work (found by the first 32-register run, fixed): pushm/popm of r16+ dropped the upper half of the mask. No bug was found in as64, ld64 or the codec by the end-to-end runs; there were none to fix.
 Findings about tables/docs (errata 88): (a) addv/subv/mulv are two-register in the tables (rd <- rd op rs), the study proposal says three registers; (b) the tables have no store to d(dp) (`movq r3, 24(dp)` has no form in either new encoding; loads exist); (c) a cbCC far target / large immediate without a form becomes cmp + bCC which clobbers the flags (known; hit by tests/sim/cbrori in pdp64/32, which is therefore excluded there) and, much more important, it executes two instructions (see the Lua number below); (d) trapcc vector 16 and its EVA convention are assumed.
 

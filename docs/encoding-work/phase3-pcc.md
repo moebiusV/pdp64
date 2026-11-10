@@ -1,8 +1,8 @@
 # Phase 3 report: pcc back ends for pdp64/16 and pdp64/32
 
-Worktree /home/david/claude/pcc-enc, branch enc-prefix, 11 commits on top of d44d98a4 (none pushed; /home/david/claude/pcc and /home/david/claude/pdp64 untouched; pdp64-enc only read, its as64/ld64/sim64 builds copied).
-Documentation of everything below, with all tables: /home/david/claude/pcc-enc/doc/PDP64-OPT.md.
-Work files (scripts, corpus runs, program runs, ablation outputs): /tmp/claude-1000/-home-david-claude-pdp64/c8eb5fe9-a8c9-4e79-aafa-1502bfe6a13e/scratchpad/p3/ (corp.py, lensrep.py, pairs.py, ablate.sh, prog/progs.py, out/, prog/out/).
+Worktree <work>/pcc-enc, branch enc-prefix, 11 commits on top of d44d98a4 (none pushed; <work>/pcc and <repo> untouched; pdp64-enc only read, its as64/ld64/sim64 builds copied).
+Documentation of everything below, with all tables: <work>/pcc-enc/doc/PDP64-OPT.md.
+Work files (scripts, corpus runs, program runs, ablation outputs): <scratchpad>/p3/ (corp.py, lensrep.py, pairs.py, ablate.sh, prog/progs.py, out/, prog/out/).
 
 ## 1. Targets and ABI (done)
 * `ccom -m pdp64/r20|pdp64/16|pdp64/32` (same spelling as `as64 -m`).  pdp64/r20 is the default and its output is byte-identical to the old compiler on all 841 files (instruction bytes 1,083,870 reproduced exactly) and 516 tests.

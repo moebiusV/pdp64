@@ -1,6 +1,6 @@
 # Integration report: the encoding work merged, the compiler combined, the final table
 
-Branch `enc-int` of `/home/david/claude/pdp64-enc-int` (from `enc-hb`). Nothing was merged into `main`, nothing was pushed. pcc: `/home/david/claude/pcc-enc`, branch `enc-prefix` of pcc, **one small commit was made there** (see 3.2).
+Branch `enc-int` of `<worktree>` (from `enc-hb`). Nothing was merged into `main`, nothing was pushed. pcc: `<work>/pcc-enc`, branch `enc-prefix` of pcc, **one small commit was made there** (see 3.2).
 Work files: `scratchpad/int/` (scripts `corp.py`, `corpus.py`, `build6.py`, `runtm.py`, `norelax.py`, `runsmall.py`, `final.py`, logs, `final.md`).
 
 ## 1. The merges
@@ -20,7 +20,7 @@ Nothing was red after any merge; the first run of each was green. The wall time 
 
 ## 2. The tools in the repository for the new compiler
 
-* `tools/build-pcc.sh`: builds `build/pcc/ccom` (16 registers: r20 and /16) and `build/pcc/ccom32` (`-DPDP64_REGS32`, /32) from `PCC` (default `~/claude/pcc`; the new targets need `PCC=~/claude/pcc-enc` until the branch is merged into pcc's main).
+* `tools/build-pcc.sh`: builds `build/pcc/ccom` (16 registers: r20 and /16) and `build/pcc/ccom32` (`-DPDP64_REGS32`, /32) from `PCC` (default `<work>/pcc`; the new targets need `PCC=<work>/pcc-enc` until the branch is merged into pcc's main).
 * `tools/pdp64test.sh`, `tools/pdp64test-all.sh`: target-aware (`-m pdp64/r20|16|32`), default tools in `build/`, tests from `tests/c` plus the 21 programs of the new targets in `tests/c-new` (copied from pcc's `arch/pdp64/test/c`).
 * `tools/pdp64size.py`: `PDP64_TARGET=pdp64/16|pdp64/32` selects `ccom -m`, `as64 -m` and counts instruction bytes with `as64 --stats` (the r20 length walk and its statistics stay r20-only). Not exercised here on the full fair corpus (it needs the v7unix-toolchain corpus builds); the measurements below use `corp.py` on the 841 preprocessed files.
 
@@ -37,7 +37,7 @@ Nothing was red after any merge; the first run of each was green. The wall time 
 
 ### 3.2 What the combination found: a compiler bug (fixed, committed in pcc-enc)
 
-With the new compiler and the integrated tools, c-testsuite `00104` returned 1 on /16 and /32 (0 on r20): `int x = ~0; if (x != 0xffffffff) return 1;`. The cause is in the compiler's `-xccp` (conditional constant propagation, new in the phase 4 of the compiler, on for the new targets): a temporary holding the `int` value -1 was read as `unsigned` without normalising the value to the type of the read, so it compared 0xffffffffffffffff with 0xffffffff. This is not an incompatibility between the compiler and the toolchain; it was in the compiler and was not found before because the last c-testsuite run was made with the phase 3 compiler (before `-xccp`). Fix: `cp_eval` normalises a TEMP's value to the type of the read (`mip/optim2.c`), commit `5e580523` in `/home/david/claude/pcc-enc` (branch `enc-prefix`): "pdp64 ccp: a temporary read in another type than it was written in is normalised ...", with the test `arch/pdp64/test/c/ccp_signedness.c` (copied to `tests/c-new/`). After the fix: ct 206/206/206 and gt 147/147/147. The sizes below are of the fixed compiler.
+With the new compiler and the integrated tools, c-testsuite `00104` returned 1 on /16 and /32 (0 on r20): `int x = ~0; if (x != 0xffffffff) return 1;`. The cause is in the compiler's `-xccp` (conditional constant propagation, new in the phase 4 of the compiler, on for the new targets): a temporary holding the `int` value -1 was read as `unsigned` without normalising the value to the type of the read, so it compared 0xffffffffffffffff with 0xffffffff. This is not an incompatibility between the compiler and the toolchain; it was in the compiler and was not found before because the last c-testsuite run was made with the phase 3 compiler (before `-xccp`). Fix: `cp_eval` normalises a TEMP's value to the type of the read (`mip/optim2.c`), commit `5e580523` in `<work>/pcc-enc` (branch `enc-prefix`): "pdp64 ccp: a temporary read in another type than it was written in is normalised ...", with the test `arch/pdp64/test/c/ccp_signedness.c` (copied to `tests/c-new/`). After the fix: ct 206/206/206 and gt 147/147/147. The sizes below are of the fixed compiler.
 
 No other incompatibility was found: the merged grammars accept everything the compiler emits (0 assembler failures), the compiler needed no change for the re-optimised `cbCC` lengths (the compiler forms a `cbCC` where the codes are dead and the assembler expands the ones that do not reach; after re-optimisation that is 0 sites in the /16 corpus, 13 in /32, and 6+6 sites / 79,894 executed pairs in the six /32 programs).
 
@@ -190,7 +190,7 @@ With the old compiler on pdp64/r20 as the baseline, the new compiler with the pr
 ## 5. Known problems and what is left undone
 
 * The manual (`docs/manual/`) is not updated; `docs/manual-update-plan.md` lists what, and the effort (about 16 working days).
-* The pcc branch `enc-prefix` is not merged into pcc's main; `tools/build-pcc.sh` needs `PCC=~/claude/pcc-enc`. The pcc driver `cc` is not built for pdp64 (every tool calls `ccom`).
+* The pcc branch `enc-prefix` is not merged into pcc's main; `tools/build-pcc.sh` needs `PCC=<work>/pcc-enc`. The pcc driver `cc` is not built for pdp64 (every tool calls `ccom`).
 * `pdp64size.py` for the new targets was edited but not run on the fair corpus (the v7unix-toolchain corpus builds were not re-made); the numbers here come from `corp.py`.
 * The "r20 with the new compiler" column does not exist (see 4). The model of the table's "old compiler" r20 is pcc-enc's `-m pdp64/r20`, identical in output to the old compiler on all 841 files.
 * Timing: a single fresh sweep (set A, ideal memory, no BTB). The cache/ldec variants (sets B, C) of the timing agent were not re-run on the integrated tree; the agent's earlier sweeps (`scratchpad/tm/res`) are of an older compiler. The model is an in-order toy.
@@ -199,9 +199,9 @@ With the old compiler on pdp64/r20 as the baseline, the new compiler with the pr
 * The 3-parcel `cbCC` and the other form choices were trained on the corpus only (not on the six programs): the one-parcel `cbCC` shrank in /32 (cbreach.md) which costs lz4 about 1.2% in fetched bytes; a profile-tuned variant was not tried.
 * The compiler does not use `movuw/movul/movuq` (the unaligned-access idiom: 10% of lz4's instructions), `mulh`-based 64-bit division by constants, loop-invariant motion or live-range splitting (`pcc2.md`).
 * The commit-msg hook of the author strips the `Co-Authored-By` trailer from commit messages; it was left.
-* `tools/build-hbnf.sh` needs network access (upstream hbnf, Alpine rootfs); the clean-checkout verification below used the already built hbnf of `/tmp/claude-1000/hbnf-latest` unless stated.
+* `tools/build-hbnf.sh` needs network access (upstream hbnf, Alpine rootfs); the clean-checkout verification below used the already built hbnf of `/tmp/hbnf-latest` unless stated.
 
 ## 6. Verification from a clean checkout
 
-`git worktree add --detach` of `enc-int` at commit `22efcc8` in a scratch directory (no `build/`), hbnf built from scratch with `HBNF_REF=dd34982ab66ad47312e57b92eb25b4ece75ed57d tools/build-hbnf.sh` (2 min 28 s, the commit of `hbnf.commit`; warnings of upstream's Ada only), then `tools/check-all.sh`: **rc 0 in 2 min 1 s**: 63 format vectors, 42 syntax tests, the model/codec/drift checks of both encodings (0 mismatches), `check-grammar-enc` (hbnf's decoder against the codec: 262,144 sequences per encoding, 0 disagreements), manual/book/pcc-header checks, ld64 tests, sim64 (231 run, 0 failed), exectest-enc, p2diff (86,040 runs, 0 mismatches), timing (128 checks), relax (80 run) and 7 mutants (all caught), flaginv, QEMU (53 run, 0 failed, 4 skipped), the LLVM tables. Then `PCC=~/claude/pcc-enc tools/build-pcc.sh` built `ccom` and `ccom32` and `tools/pdp64test.sh -m pdp64/r20|16|32` ran `tests/c-new/ccp_signedness.c` (0 in all three). The full C harness and the program runs of section 3 were made in the working tree with the same sources.
+`git worktree add --detach` of `enc-int` at commit `22efcc8` in a scratch directory (no `build/`), hbnf built from scratch with `HBNF_REF=dd34982ab66ad47312e57b92eb25b4ece75ed57d tools/build-hbnf.sh` (2 min 28 s, the commit of `hbnf.commit`; warnings of upstream's Ada only), then `tools/check-all.sh`: **rc 0 in 2 min 1 s**: 63 format vectors, 42 syntax tests, the model/codec/drift checks of both encodings (0 mismatches), `check-grammar-enc` (hbnf's decoder against the codec: 262,144 sequences per encoding, 0 disagreements), manual/book/pcc-header checks, ld64 tests, sim64 (231 run, 0 failed), exectest-enc, p2diff (86,040 runs, 0 mismatches), timing (128 checks), relax (80 run) and 7 mutants (all caught), flaginv, QEMU (53 run, 0 failed, 4 skipped), the LLVM tables. Then `PCC=<work>/pcc-enc tools/build-pcc.sh` built `ccom` and `ccom32` and `tools/pdp64test.sh -m pdp64/r20|16|32` ran `tests/c-new/ccp_signedness.c` (0 in all three). The full C harness and the program runs of section 3 were made in the working tree with the same sources.
 The tree `enc-int` after this report differs from `22efcc8` only by this section.

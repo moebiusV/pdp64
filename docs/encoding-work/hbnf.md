@@ -1,6 +1,6 @@
 # pdp64/16 and pdp64/32 as hbnf grammars (correction of the Python/JSON pivot)
 
-Worktree /home/david/claude/pdp64-enc-hb, branch enc-hb, 6 commits on top of 2ece7fe (nothing pushed, no other checkout touched).
+Worktree <worktree>, branch enc-hb, 6 commits on top of 2ece7fe (nothing pushed, no other checkout touched).
 `tools/check-all.sh` is green at HEAD with the default tool locations (exit 0, 298 `ok` lines, qemu 53 run / 0 failed); it was green at each behavioural commit.
 
 ## 1. hbnf
@@ -12,7 +12,7 @@ Worktree /home/david/claude/pdp64-enc-hb, branch enc-hb, 6 commits on top of 2ec
 * Two consequences of the new hbnf for the old grammars, both fixed in the first commit: (a) upstream's 2026-11-03 notation change refuses ABNF's `%x41`/`%x30-39` in hbnf's own notation; I ran upstream's
   `tools/hbnf_modernize.py` over `spec/ascii.hbnf common.hbnf pdp64-asm.hbnf pdp64.hbnf.in` (pure respelling, `0x41..0x5A`); (b) upstream's C parsers now default to compact, overlaid nodes, which
   breaks `as64/asmp.c` (it reads the old node layout); the as64 and asm-syntax parsers are generated with `--no-compact --no-overlay` (documented flags). Everything else, formats, sim64, ld64, qemu, llvm, passes unchanged.
-* The scripts now default to `/tmp/claude-1000/hbnf-latest/{hbnf,hbnf-templates}` (what the recipe builds; I installed my build there). I did **not** overwrite `/tmp/claude-1000/alpine/hbnf`, which the other
+* The scripts now default to `/tmp/hbnf-latest/{hbnf,hbnf-templates}` (what the recipe builds; I installed my build there). I did **not** overwrite `/tmp/alpine/hbnf`, which the other
   agents' branches (old notation) run. After merging, `tools/build-hbnf.sh` must be run once (or copy that directory) on any other machine.
 * What hbnf can express now and what I used: bit rules (fields `name:N`, `:Ns` signed, constants as wide as their digits `0b0010`, `bits(0)` for an operand with no bits, 64-bit fields), enum numbers
   (`"x"@N`), `?(expr)` checks, 281-alternative choices, `include` relative to the file; it generates a complete decoder and encoder (`parse_bits`, `emit_bits`) from them in 0.7 s.

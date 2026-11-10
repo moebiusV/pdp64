@@ -1,6 +1,6 @@
 # Step 1: linker relaxation (ld64, with the as64 object support)
 
-Worktree /home/david/claude/pdp64-enc-ld, branch enc-ld (from enc-prefix). Commits on top of 2ece7fe: 00cd96b (relaxation), 3e10ac9 (checks), 9955813 + 68e8078 (docs), cda047f, the last one (relaxcheck strictness). Nothing pushed, no other tree touched (pcc-enc was only *read*: its build-ccom.sh was run into the scratchpad, `scratchpad/ld/pcc/ccom` and `ccom32`). `tools/check-all.sh` is green at the commits (last full run before the final small relaxcheck commit: rc 0; the final run is noted at the end of this file).
+Worktree <worktree>, branch enc-ld (from enc-prefix). Commits on top of 2ece7fe: 00cd96b (relaxation), 3e10ac9 (checks), 9955813 + 68e8078 (docs), cda047f, the last one (relaxcheck strictness). Nothing pushed, no other tree touched (pcc-enc was only *read*: its build-ccom.sh was run into the scratchpad, `scratchpad/ld/pcc/ccom` and `ccom32`). `tools/check-all.sh` is green at the commits (last full run before the final small relaxcheck commit: rc 0; the final run is noted at the end of this file).
 The full description is `docs/relaxation.md` (new), `spec/README.md` (section "Linker relaxation"), `docs/errata.md` entry 89 (decided / assumed).
 
 ## 1. Design (what was built)

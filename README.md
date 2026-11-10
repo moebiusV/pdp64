@@ -71,7 +71,7 @@ The C compiler is the `pdp64` back end of [pcc](https://github.com/moebiusV/pcc)
 
     tools/build-hbnf.sh                       the grammar compiler (once)
     tools/check-all.sh                        build as64, ld64, sim64 and run every check
-    PCC=~/claude/pcc tools/build-pcc.sh       build/pcc/ccom, the compiler (the pcc branch single-pdp64; -m pdp64 is accepted, no other target)
+    PCC=../pcc tools/build-pcc.sh       build/pcc/ccom, the compiler (the pcc branch single-pdp64; -m pdp64 is accepted, no other target)
     tools/pdp64test-all.sh                    the C test programs (963 runs: 107 programs under nine flag sets)
     as64 x.s; ld64 -o x.out x.o; sim64 [-P profile] [--timing=SPEC] x.out      assemble, link, run (there is one target: no option selects an encoding)
 
