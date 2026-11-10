@@ -853,11 +853,11 @@ The arithmetic that is rare enough not to need a two-byte form. Parcel 0's low n
 | `MOD`, `MODU` | remainder, signed and unsigned |
 | `MULHU` | high 64 bits of an unsigned product (§4.2.2) |
 | `MULHSU` | high 64 bits of signed × unsigned — reserved, see below |
-| `ABS Rs, Rd` | absolute value |
-| `MIN`, `MINU`, `MAX`, `MAXU Ra, Rb, Rd` | minimum and maximum; the `U` forms compare unsigned |
+| `ABS Rs, Rd` | absolute value (an assembler alias by decision, errata 98; the present build encodes it as sub-opcode `0x08`) |
+| `MIN`, `MINU`, `MAX`, `MAXU Ra, Rb, Rd` | minimum and maximum; the `U` forms compare unsigned (assembler aliases by decision, errata 98; the present build encodes them as sub-opcodes `0x10`–`0x13`) |
 | `SET cc, Rd` | `Rd ← 1` if the condition holds, `0` if not |
 
-`ABS`, `MIN`, `MAX` (sub-opcodes `0x08`, `0x10`–`0x13`) are the integer counterparts of `FABS`, `FMIN` and `FMAX`, so by the folding rule (integer versus float, and signed versus unsigned, are qualifiers) they add no operation. Flags: `ABS` sets `N` and `Z` from the result and `V` when the operand is the most negative number (whose absolute value is itself, the result wrapping), and leaves `C`; `MIN` and `MAX` set `N` and `Z` from the result, clear `V` and leave `C`. The hardware reuses the negate path and the compare of `SUB`/`CMP` with a 64-bit select (estimated at 150–250 LUTs).
+`ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are **assembler aliases, not native instructions** (the author's decision of 2026-11-10, errata 98, *(D)*): they are the integer counterparts of `FABS`, `FMIN` and `FMAX` and are written over the conditional select (§12 item 15), the way the author asked on 2026-10-21. Their meaning and flags stay as they were: `ABS` sets `N` and `Z` from the result and `V` when the operand is the most negative number (whose absolute value is itself, the result wrapping), and leaves `C`; `MIN`, `MINU`, `MAX` and `MAXU` set `N` and `Z` from the result, clear `V` and leave `C`; the alias must keep these flags, or the decision that defines it must say that it changes them. **The expansion is not decided *(P)*:** the conditional select is on hold (§12 item 15) and has no form yet, so the sequence each word assembles to cannot be written down; a sequence of the instructions that exist (`CMP`, a conditional branch around a `MOV`, or `SET` and arithmetic) would serve but is longer than the one instruction. **What the present build does:** the grammars (`spec/pdp64-mnemonics.hbnf` and the encoding grammars), `as64`, `sim64`, pcc, QEMU and LLVM still encode and execute the five words as the `AESC` sub-opcodes `0x08` (`ABS`) and `0x10`–`0x13` (`MIN`, `MINU`, `MAX`, `MAXU`); that is the encoding of the build, not the design, and it changes when the select is defined. The native hardware reused the negate path and the compare of `SUB`/`CMP` with a 64-bit select (estimated at 150–250 LUTs) *(E)*.
 
 **`SET cc, Rd`** (sub-opcode `0x20`) is the first instruction written with a condition word: `SET EQ, R1`. The condition is the `x` field of parcel 1, numbered as the low nibble of the branch opcodes (§4.4); `SET` changes no flag. The condition words are reserved only in that position — a label may still be called `eq` or `lt`.
 
@@ -979,7 +979,7 @@ This section fixes the numbering of the sub-operations of every escape group and
 |---|---|
 | `BESC` | counts `0x00`–`0x08` (`CLZ`, `CTZ`, `CLO`, `CTO`, `POPCNT`, `BSWAP`, `BSWAPW`, `BSWAPL`, `BITREV`); rotate `0x10` (`ROR`), `0x11` (`RORI`), `0x12` (`RORI32`); field and funnel `0x20` (`DSHR`), `0x21`–`0x23` (`EXTB`, `EXTZB`, `INSB`); polynomial and popcount `0x30`–`0x32` (`XNORPOP`, `CLMULL`, `CLMULH`); UTF-8 `0x40`–`0x42` (`UTF8LEN`, `UTF8DEC`, `UTF8ENC`) |
 | `MBLK` | `MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN`, `MVAL` = `0`–`6` |
-| `AESC` | `DIV` 0, `DIVU` 1, `MOD` 2, `MODU` 3, `MULHU` 4, `ABS` `0x08`, `MIN` `0x10`, `MINU` `0x11`, `MAX` `0x12`, `MAXU` `0x13`, `SET` `0x20` |
+| `AESC` | `DIV` 0, `DIVU` 1, `MOD` 2, `MODU` 3, `MULHU` 4, `SET` `0x20`; the present build also holds the aliases `ABS` `0x08`, `MIN` `0x10`, `MINU` `0x11`, `MAX` `0x12`, `MAXU` `0x13` (errata 98) |
 | `MESC` | the loads `MOVUB`, `MOVUW`, `MOVUL`, `MOVUQ` are 0, 2, 4, 6 and the store form is the load number + 1, as for the moves; `ADDM`, `SUBM`, `BICM`, `BISM` = 8–11 |
 | `FESC` | by kind: divide and square root (`0x00`, `0x01`), the `binary32` forms (`0x08`–`0x0D`), the fused multiply-add family (`0x10`–`0x13`, and `0x18`–`0x1B` for `binary32`), sign and selection (`0x20`–`0x24`), classify (`0x28`, `0x29`), round (`0x30`–`0x34`), convert (`0x38`–`0x3F`), `FSFLAGS` `0x40`, `binary16` arithmetic `0x50`–`0x5C` and conversions `0x60`–`0x65` |
 | `ATOM` | plain then barrier-fused (`_DB`) pairs, then `LL` `0x20` and `SC` `0x21` |
@@ -1508,7 +1508,7 @@ Each entry states what is decided and why.
 
 **Unsigned 64-bit conversions and `FRINTA`** (§4.10) because C needs them: without `FCVTDQU`/`FCVTQUD` each unsigned conversion is a compare, a branch and several instructions, and `FRINTA` is C's `round()`; both are qualifiers of existing operations.
 
-**Integer `ABS`, `MIN`, `MAX`, `MINU`, `MAXU` and `SET cc, rd`** (§4.12). The first group are the integer counterparts of the float operations and by the folding rule add no operation. `SET` removes about six bytes per site that would otherwise be compare, branch, two moves and a jump, about 0.4% of code on the measured corpus (§14.4).
+**Integer `ABS`, `MIN`, `MAX`, `MINU`, `MAXU` and `SET cc, rd`** (§4.12). The first group are the integer counterparts of the float operations and by the folding rule add no operation; by the author's decision they are assembler aliases, not native instructions (errata 98). `SET` removes about six bytes per site that would otherwise be compare, branch, two moves and a jump, about 0.4% of code on the measured corpus (§14.4).
 
 **Half precision** (§4.10) is a third width in the same spelling rule, with the `binary32` set minus what a half has little use for.
 
@@ -1650,7 +1650,7 @@ A 64-bit machine with floating point and memory management below the 78032's 125
 
 14. **Half precision — resolved, with leftovers.** `binary16` is defined (§4.10). Open: half `FMIN`/`FMAX`/`FRINT*`, `FNEG16`/`FABS16`, conversions to and from int64 and unsigned, and bfloat16. The cost estimates (conversions 500–1,000 LUTs, full arithmetic 2,000–3,500) are unmeasured.
 
-15. **Conditional select.** `SET cc, rd` exists (§4.12). A conditional select (`CMOV`/`CSEL`) is size-neutral and pays only in speed, by removing a misprediction; one integer select would also serve floating point, since values live in the general registers. On hold until there is a speed model to justify it (§14.4).
+15. **Conditional select.** `SET cc, rd` exists (§4.12). A conditional select (`CMOV`/`CSEL`) is size-neutral and pays only in speed, by removing a misprediction; one integer select would also serve floating point, since values live in the general registers. On hold until there is a speed model to justify it (§14.4). `ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases over this select by the author's decision (errata 98, *(D)*); until the select is defined their expansion is open *(P)*, and the present build encodes them as `AESC` sub-opcodes (§4.12).
 
 16. **ABI questions of §19.5.** Decided in ABI version 1: `R12` is the linker scratch register, and calls to imports go through `CALLI got(PC)`. Open: lazy versus eager binding, the red zone (none in version 1), and mandatory landing pads (item 3).
 
@@ -1774,7 +1774,7 @@ The PDP-11's indirect bit is the detail to note. Making the low bit of the mode 
 | — | — | `POPCNT` `XNORPOP` `BITREV` | new, §4.6 |
 | — | — | `UTF8LEN` `UTF8DEC` `UTF8ENC` | new, §4.6.1 |
 | — | — | `FMADD` family, `FCLASS`, `FSFLAGS`, `binary16` | new, §4.10 |
-| — | — | `ABS` `MIN` `MAX` `MINU` `MAXU` `SET` | new, §4.12 |
+| — | — | `ABS` `MIN` `MAX` `MINU` `MAXU` (aliases, errata 98) `SET` | new, §4.12 |
 | — | — | `_DB` atomics | new, §4.11 |
 
 ---
@@ -1858,7 +1858,7 @@ What `CALL`/`RET` gain here: no register burned, no push-and-shuffle of the old 
 
 The figures behind the decisions on added and rejected instructions. Method: the "fair corpus" is the 841 files of the benchmark set (bearssl, c-testsuite, chibicc, cjson, gcc-torture, lua, lz4, mbedtls, zlib) that the aarch64, amd64 and i386 builds of the project's C compiler all compile.
 
-- **`SET`, and conditional selection.** gcc `-Os` for amd64 emits 284,641 instructions on the corpus, 11.0% conditional branches, 783 `cmov` and 673 `set<cc>`. A `set cc, rd` removes about six bytes per site, about 0.4% of code. A select is size-neutral and pays only in speed. `SET` exists; the select is on hold. The compiler cannot yet use `SET`: pass 1 turns a comparison used as a value into branches before the back end sees it.
+- **`SET`, and conditional selection.** gcc `-Os` for amd64 emits 284,641 instructions on the corpus, 11.0% conditional branches, 783 `cmov` and 673 `set<cc>`. A `set cc, rd` removes about six bytes per site, about 0.4% of code. A select is size-neutral and pays only in speed. `SET` exists; the select is on hold, and `ABS`, `MIN` and `MAX` wait on it as aliases (errata 98). The compiler cannot yet use `SET`: pass 1 turns a comparison used as a value into branches before the back end sees it.
 - **Integer `ABS`, `MIN`, `MAX`.** `ABS` at 18 sites and `ABSU` at 5, `MIN` at 171 and `MAX` at 52, across 95 files. The measured gain is under 0.1% of code; the case is clarity and the idiom, not size.
 - **Bit-fields (`EXTB`, `EXTZB`, `INSB`).** The shift-pair extraction pattern occurs 151 times in 26 files, about 600 bytes at best (0.03%); the compiler does not use the instructions.
 - **Auto-increment.** Of 10,547 `lea n(rX),rX` only 437 have a dereference through the same register next to them (about 0.1%); the compiler does not emit the modes. They remain for hand-written code and the string and block idioms.
@@ -1896,7 +1896,7 @@ LoongArch64 is worth studying here because it is the most recent clean-room ISA 
 
 - **Separate FP condition flags.** LoongArch's eight one-bit `FCC` registers solve a real problem that §12.7 records.
 - **Software-visible TLB manipulation.** LoongArch has both a hardware walker *and* `TLBSRCH`, `TLBRD`, `TLBWR`, `TLBFILL` — so the kernel can manage entries directly when it knows better. pdp64 has only `TLBI`/`TLBIA`. Being able to pin an entry is useful for a realtime kernel, and worth one `SYS` sub-opcode.
-- **`MASKEQZ`/`MASKNEZ`.** Conditional-move primitives that avoid a branch. With flags available, `CMOV` would be the natural form, and the branch-free-select case matters for constant-time cryptographic code where it is not optional. `SET cc, rd` (§4.12) exists; a select is on hold (§12 item 15).
+- **`MASKEQZ`/`MASKNEZ`.** Conditional-move primitives that avoid a branch. With flags available, `CMOV` would be the natural form, and the branch-free-select case matters for constant-time cryptographic code where it is not optional. `SET cc, rd` (§4.12) exists; a select is on hold (§12 item 15), and the aliases `ABS`, `MIN` and `MAX` of errata 98 sit on it.
 
 ---
 
@@ -2016,7 +2016,7 @@ Terms used in this document.
 | **`MBLK`** | **m**emory **bl**oc**k** — opcode `0x0D`, the block memory operations (§4.7) |
 | **`MESC`** | **m**emory **esc**ape — opcode `0x0F`, unaligned access and ALU-to-memory (§4.13) |
 | **`FESC`** | **f**loating-point **esc**ape — opcode `0x10`, FMA, `binary16`, `binary32`, divide, square root, classify, convert (§4.10) |
-| **`AESC`** | **a**rithmetic **esc**ape — opcode `0x0E`, divide, remainder, high multiply, abs/min/max, `SET` (§4.12) |
+| **`AESC`** | **a**rithmetic **esc**ape — opcode `0x0E`, divide, remainder, high multiply, `SET`, and in the present build the sub-opcodes of the aliases abs/min/max (§4.12) |
 | **`FPSR`** | the sticky five-bit floating-point exception flag register, read and written by `FSFLAGS` (§4.10.1) |
 | **`XFER`** | transfer escape — opcode `0x12`, `JMPI`, `CALLI`, `JTAG` (§4.9) |
 | **`TAGOP`** | opcode `0x15`, the tag-branch group (§4.8) |
