@@ -39,7 +39,10 @@ static void pdp64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
     CPUPDP64State *env = cpu_env(cs);
     vaddr pc = dcbase->pc_next;
     uint16_t parcel0 = translator_lduw_end(env, dcbase, pc, MO_LE);
-    int parcels = pdp64_insn_parcels(parcel0);   /* 1 to 3; a page-2 instruction is one */
+    int parcels = pdp64_insn_parcels(parcel0);   /* 1, 2, 3 or 5; 0 (an illegal pattern) is one parcel: the helper raises the exception */
+    if (parcels < 1) {
+        parcels = 1;
+    }
     TCGv_i64 tpc = tcg_constant_i64(pc);
 
     dcbase->pc_next = pc + 2 * parcels;

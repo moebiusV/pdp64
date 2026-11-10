@@ -1,6 +1,6 @@
-/* encdis: disassemble the executable segment of a pdp64/16 or pdp64/32 executable with the codec (a debugging aid and the oracle of tools/check-sim64-enc).
+/* encdis: disassemble the executable segment of a pdp64 executable with the codec (a debugging aid).
  *   encdis program.x [start [end]]       one line per instruction: address, parcels, mnemonic and operands in assembly order
- * The encoding is taken from the e_flags of the file.  Not a round-trip assembler: addresses of pc-relative operands are shown as the target. */
+ *  Not a round-trip assembler: addresses of pc-relative operands are shown as the target. */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,8 +29,8 @@ int main(int argc, char **argv)
 	uint8_t *b = malloc(n);
 	if (fread(b, 1, n, f) != (size_t)n) return 1;
 	uint32_t flags = b[0x30] | b[0x31] << 8 | b[0x32] << 16 | (uint32_t)b[0x33] << 24;
-	struct etab *t = (flags & 15) == 1 ? &enc_tab_16 : (flags & 15) == 2 ? &enc_tab_32 : NULL;
-	if (!t) { fprintf(stderr, "encdis: %s is not a pdp64/16 or pdp64/32 executable\n", argv[1]); return 1; }
+	struct etab *t = (flags & 15) == 2 ? &enc_tab : NULL;
+	if (!t) { fprintf(stderr, "encdis: %s is not a pdp64 executable\n", argv[1]); return 1; }
 	uint64_t phoff = *(uint64_t *)(b + 0x20); int phnum = b[0x38] | b[0x39] << 8;
 	for (int i = 0; i < phnum; i++) {
 		uint8_t *p = b + phoff + 56 * i;

@@ -112,8 +112,8 @@ int main(int argc, char **argv)
 	while (fgets(line, sizeof line, f)) {
 		char *hash = strchr(line, '#');
 		if (!hash) continue;
-		unsigned p[4]; int n = sscanf(line, "%x %x %x %x", &p[0], &p[1], &p[2], &p[3]);
-		uint16_t w[4];
+		unsigned p[5]; int n = sscanf(line, "%x %x %x %x %x", &p[0], &p[1], &p[2], &p[3], &p[4]);
+		uint16_t w[5];
 		for (int i = 0; i < n; i++) w[i] = (uint16_t)p[i];
 		char *src = hash + 1; while (*src == ' ') src++;
 		src[strcspn(src, "\n")] = 0;

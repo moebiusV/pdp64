@@ -1,9 +1,9 @@
-/* hbdec: the decoder hbnf generates from the grammar of an encoding (parse_bits of spec/pdp64-NN/pdp64-NN.hbnf) against the codec of common/pdp64enc.c with the tables
+/* hbdec: the decoder hbnf generates from the grammar of an encoding (parse_bits of spec/pdp64/pdp64.hbnf) against the codec of common/pdp64enc.c with the tables
  * tools/mkenc.py generates from the same grammar.  For every first parcel (65,536) and several tails: both say legal or illegal, the same length, the same leaf, and the
  * same raw value in every field (the sub-opcode, the pieces of every operand).  The two readings of the grammar are made by different programs (hbnf, and mkenc through
  * tools/encgram.py), so a disagreement is a bug in one of them.
  *
- *   cc -DT16 (or -DT32) -I build -I common tests/enc/hbdec.c common/pdp64enc.c build/pdp64-NN-tab.c   with HBDEC and HBFIELDS the generated parser and the accessor
+ *   cc -I build -I common tests/enc/hbdec.c common/pdp64enc.c build/pdp64-tab.c   with HBDEC and HBFIELDS the generated parser and the accessor
  */
 #include <stdio.h>
 #include <stdint.h>
@@ -12,11 +12,7 @@
 #include "pdp64enc.h"
 #include HBDEC
 #include HBFIELDS
-#ifdef T16
-#define TAB (&enc_tab_16)
-#else
-#define TAB (&enc_tab_32)
-#endif
+#define TAB (&enc_tab)
 
 static int codec_fields(const struct etab *t, int li, const uint16_t *p, int *key, uint64_t *val)
 {

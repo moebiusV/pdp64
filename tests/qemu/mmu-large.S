@@ -195,7 +195,7 @@ l1a:
 	.space	4072
 
 	.align	4096
-pgdata:	.word	0x1403
+pgdata:	ret
 	.space	6
 	.quad	0x1234
 	.space	4080

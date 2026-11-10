@@ -1,6 +1,6 @@
-/* pdp64enc.h: the shared codec of the prefix-coded encodings pdp64/16 and pdp64/32 (docs/encoding-proposal.md, spec/README.md).
+/* pdp64enc.h: the codec of the encoding of the pdp64 (docs/encoding-proposal.md, spec/README.md).
  *
- * The bit positions are not in the C: they are in the generated tables (tools/mkenc.py reads the grammar spec/pdp64-NN/pdp64-NN.hbnf and writes build/pdp64-NN-tab.c).
+ * The bit positions are not in the C: they are in the generated tables (tools/mkenc.py reads the grammar spec/pdp64/pdp64.hbnf and writes build/pdp64-tab.c).
  * One codec, any table.  as64 uses encode, ld64 the field extract/insert for relocations, sim64 and the disassembler the decoder.
  *
  * An instruction is a mnemonic and up to four operands of the kinds below; the same shapes as the assembly language (docs/asm-syntax.md).
@@ -30,7 +30,7 @@ struct einsn {
 	struct eop op[4];
 };
 
-/* ---- the generated tables: plain data, defined in build/pdp64-NN-tab.c ---------------------------------------------- */
+/* ---- the generated tables: plain data, defined in build/pdp64-tab.c ---------------------------------------------- */
 enum { ES_R = 1, ES_K, ES_I, ES_B, ES_X, ES_PI, ES_PD, ES_PC, ES_A };
 
 struct espec {
@@ -76,8 +76,8 @@ struct ecand { uint16_t form, leaf, k; };	/* a way to encode a mnemonic: the for
 struct emn { const char *name; uint8_t msz; uint16_t cand0, ncand; };
 
 struct etab {
-	const char *name;		/* "pdp64/16" */
-	int regs;			/* 16 or 32 */
+	const char *name;		/* "pdp64" */
+	int regs;			/* 32 */
 	int nmn, nforms, nleaves, nspecs;
 	const struct emn *mn;		/* sorted by name */
 	const struct eform *forms;
@@ -91,7 +91,7 @@ struct etab {
 	const struct ecand *cands;
 	uint16_t *lut;			/* parcel 0 -> leaf index + 1, 0 for an illegal pattern (built by enc_init) */
 };
-extern struct etab enc_tab_16, enc_tab_32;
+extern struct etab enc_tab;
 
 /* ---- the codec ------------------------------------------------------------------------------------------------------ */
 void enc_init(const struct etab *t);			/* builds the length/leaf table; the other calls do it on first use */

@@ -16,7 +16,7 @@ _start:
 	lea	res1, r4
 	cmp	r1, r1
 ill1:
-	.word	0x540d, 0x0011
+	.word	0xffff		; an illegal instruction (no leaf has this first parcel)
 res1:
 	bne	FZ
 	cmp	r10, #(1)

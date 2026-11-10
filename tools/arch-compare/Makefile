@@ -1,7 +1,7 @@
-# arch-compare -- static size of the 841-file corpus for pdp64/32 (pcc), pcc amd64 and i386, and GCC/clang for RISC-V, AArch64, x86, Arm, MIPS64.
+# arch-compare -- static size of the 841-file corpus for pdp64 (pcc), pcc amd64 and i386, and GCC/clang for RISC-V, AArch64, x86, Arm, MIPS64.
 # usage: make WORK=/some/scratch/dir all       (see README.md for what has to exist first)
 WORK     ?= /tmp/arch-compare
-PCCENC   ?= $(HOME)/claude/pcc-enc
+PCCENC   ?= $(HOME)/claude/pcc   # the pcc branch single-pdp64 (one target)
 AS64     ?= $(CURDIR)/../../build/as64
 OUT      ?= $(CURDIR)/../../docs/encoding-work/arch-data
 FLAGS_A  = -xdmr -xtemps -xdeljumps -xinline -xdce -xssa
@@ -19,9 +19,8 @@ ccoms:
 	sh build-ccoms.sh $(PCCENC) $(WORK)/pcc
 
 pdp64: prep ccoms
-	python3 pdp64-static.py $(WORK)/i-a64 $(WORK)/r-p32 $(WORK)/pcc/pdp32/cc/ccom/pdp64-unknown-linux-ccom $(AS64) pdp64/32 -j $(J)
-	python3 pdp64-static.py $(WORK)/i-a64 $(WORK)/r-p16 $(WORK)/pcc/pdp16/cc/ccom/pdp64-unknown-linux-ccom $(AS64) pdp64/16 -j $(J)
-	touch $(WORK)/r-p32/done $(WORK)/r-p16/done
+	python3 pdp64-static.py $(WORK)/i-a64 $(WORK)/r-pdp64 $(WORK)/pcc/pdp64/cc/ccom/pdp64-unknown-linux-ccom $(AS64) pdp64 -j $(J)
+	touch $(WORK)/r-pdp64/done
 
 pccx86: prep ccoms
 	python3 pcc-static.py $(WORK)/i-amd64 $(WORK)/r-pcc-amd64-A amd64 $(WORK)/pcc/amd64/cc/ccom/x86_64-unknown-linux-ccom -j $(J) -- $(FLAGS_A) -xabs

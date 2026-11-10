@@ -4,7 +4,7 @@
  * order, to any number of model instances.  A model computes, for the instruction, the cycle in which its bytes are in the prefetch buffer, the cycle
  * it is decoded, and the cycle it issues, from
  *   - the fetch unit: one aligned window of W bytes per cycle, an I-cache (optional), a prefetch buffer of N bytes with back pressure,
- *   - the decode stage (iw instructions and decw bytes per cycle, the length decode of the prefix-coded encodings as extra latency `ldec`),
+ *   - the decode stage (iw instructions and decw bytes per cycle, the length decode of the prefix-coded encoding as extra latency `ldec`),
  *   - a queue of dq instructions between decode and issue,
  *   - the issue stage (iw instructions per cycle, mp memory accesses per cycle, one branch per cycle) with a register scoreboard,
  *   - result latencies by class, a D-cache (optional), non-pipelined divide units, block instructions and system calls as counted costs,
@@ -18,7 +18,6 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "fmt.h"
-#include "calib.h"
 #include "pdp64-consts.h"
 #include "pdp64enc.h"
 #include "timing.h"
@@ -45,9 +44,7 @@ void tm_mem(int store, uint64_t addr, int size)
 	}
 }
 
-static int64_t sx(uint64_t v, int bits) { return bits >= 64 || bits <= 0 ? (int64_t)v : (int64_t)(v << (64 - bits)) >> (64 - bits); }
-
-/* the original encoding: class from the decoded fields */
+/* the class of an instruction run through exec_fmt (the groups of the mnemonic numbering), from the struct fmt step_enc builds; it refines the class tm_enc gave */
 void tm_fmt(const struct fmt *f)
 {
 	struct tm_rec *t = &tm_cur;
@@ -61,23 +58,12 @@ void tm_fmt(const struct fmt *f)
 		else if (opc == MN_ALU_FMUL) t->cls = TC_FMUL;
 		return;
 	}
-	if (opc >= MN_BRANCH_BR && opc <= MN_BRANCH_BLOS) {
-		int64_t d = f->shape == FS_BR0 ? (int8_t)((f->reg << lowbits) | f->low) : sx(f->d, branchbits(f->len));
-		t->cls = TC_BRANCH; t->bk = opc == MN_BRANCH_BR ? BK_JMP_D : BK_COND; t->back = d < 0;
-		return;
-	}
-	if (opc == OPGROUP_CBR || opc == OPGROUP_CBW || opc == OPGROUP_CBRR || opc == OPGROUP_SOB || opc == OPGROUP_TAG) {
-		int bits = opc == OPGROUP_CBR ? cbbits(f->len) : opc == OPGROUP_CBW ? cbwbits(f->len) : opc == OPGROUP_CBRR ? cbrbits(f->len) : branchbits(f->len);
-		t->cls = TC_BRANCH; t->bk = BK_COND; t->back = sx(f->d, bits) < 0;
-		return;
-	}
 	if (opc == OPGROUP_SOP) {
 		int sub = f->reg;
 		if (sub == MN_SOP_PUSH || sub == MN_SOP_POP || sub == MN_SOP_PUSHM || sub == MN_SOP_POPM) { t->cls = TC_MOVE; return; }
 		if (sub == MN_SOP_JMP || sub == MN_SOP_CALL) {
-			int direct = f->shape == FS_WIDE && (f->low == AMODE_PCREL || f->low == AMODE_ABS);
 			t->cls = sub == MN_SOP_CALL ? TC_CALL : TC_BRANCH;
-			t->bk = sub == MN_SOP_CALL ? (direct ? BK_CALL_D : BK_CALL_I) : (direct ? BK_JMP_D : BK_JMP_I);
+			t->bk = sub == MN_SOP_CALL ? BK_CALL_I : BK_JMP_I;
 		}
 		return;
 	}
@@ -107,9 +93,9 @@ void tm_fmt(const struct fmt *f)
 	}
 }
 
-/* the prefix-coded encodings: class from the mnemonic (cached per table) */
+/* class from the mnemonic (cached) */
 struct mnc { uint8_t done, cls, bk, fused, dir_op; };	/* dir_op: operand index to test for a direct transfer; 0xff none */
-static struct mnc *MC[3];
+static struct mnc *MC;
 static const char *const CCS[] = { "ne", "eq", "pl", "mi", "vc", "vs", "cc", "cs", "ge", "lt", "gt", "le", "hi", "los" };
 static int is_cc(const char *s) { for (size_t i = 0; i < sizeof CCS / sizeof *CCS; i++) if (!strcmp(s, CCS[i])) return 1; return 0; }
 static int starts(const char *s, const char *p) { return !strncmp(s, p, strlen(p)); }
@@ -139,13 +125,12 @@ static void classify_name(const char *n, struct mnc *c)
 		else c->cls = TC_FADD;
 	}
 }
-void tm_enc(int enc, int mn, const char *name, const struct einsn *in)
+void tm_enc(int mn, const char *name, const struct einsn *in)
 {
 	struct tm_rec *t = &tm_cur;
 	if (!tm_on) return;
-	const struct etab *tab = enc == 1 ? &enc_tab_16 : &enc_tab_32;
-	if (!MC[enc]) MC[enc] = calloc(tab->nmn, sizeof **MC);
-	struct mnc *c = &MC[enc][mn];
+	if (!MC) MC = calloc(enc_tab.nmn, sizeof *MC);
+	struct mnc *c = &MC[mn];
 	if (!c->done) classify_name(name, c);
 	t->cls = c->cls; t->bk = c->bk; t->fused = c->fused;
 	if (c->bk == BK_COND) {
@@ -162,7 +147,7 @@ void tm_enc(int enc, int mn, const char *name, const struct einsn *in)
 /* parameters                                                                                                          */
 
 struct cfg {
-	int iw, decw, dq, W, N, fl, dl, ldec, ldecp;
+	int iw, decw, dq, W, N, fl, dl, ldec;
 	int pred, bht, btb, tkb, ras, ibtb, brlat, mpx;
 	int ic, isz, iline, iways, imiss, ipf;
 	int dc, dsz, dline, dways, dmiss;
@@ -178,8 +163,7 @@ static const struct param { const char *name; int off, def, lo, hi; const char *
 	P(N, 32, 4, 256, "prefetch buffer bytes (raised to W+9 if smaller: an instruction may be 10 bytes)"),
 	P(fl, 1, 1, 8, "fetch latency: cycles from the window request to its bytes in the buffer (cache hit)"),
 	P(dl, 1, 1, 8, "decode stage: cycles from decode to being ready to issue"),
-	P(ldec, -1, -1, 8, "length-decode latency added to the front end of every encoding (-1: use ldec0 for pdp64/r20 and ldecp for /16 and /32)"),
-	P(ldecp, 1, 0, 8, "length-decode latency of pdp64/16 and pdp64/32 (prefix-coded) when ldec=-1; pdp64/r20 has 0"),
+	P(ldec, 1, 0, 8, "length-decode latency added to the front end (the prefix-coded encoding finds an instruction's length from its first parcel)"),
 	P(pred, P_BIMODAL, 0, 4, "conditional branch prediction: none (always not taken) static (backward taken) bimodal perfect taken"),
 	P(bht, 2048, 1, 1 << 20, "bimodal table entries (2-bit counters)"),
 	P(btb, 0, 0, 1 << 20, "branch target buffer entries (0: none); a hit redirects the fetch unit with no bubble"),
@@ -215,7 +199,7 @@ static const struct param { const char *name; int off, def, lo, hi; const char *
 #define NPARAMS ((int)(sizeof PARAMS / sizeof *PARAMS))
 void tm_help(FILE *o)
 {
-	fprintf(o, "timing model parameters (--timing=name=value,...; also name=LABEL for the label of the result line, pred=none|static|bimodal|perfect|taken, ldec0=N):\n");
+	fprintf(o, "timing model parameters (--timing=name=value,...; also name=LABEL for the label of the result line, pred=none|static|bimodal|perfect|taken)\n");
 	for (int i = 0; i < NPARAMS; i++) fprintf(o, "  %-6s %-8d %s\n", PARAMS[i].name, PARAMS[i].def, PARAMS[i].help);
 }
 
@@ -270,7 +254,7 @@ struct win { int64_t arr, req; int cause; };
 struct tm_model {
 	struct cfg c;
 	char name[64];
-	int enc, ld_extra;
+	int ld_extra;
 	/* fetch */
 	int newseg, segcause; int64_t R;
 	uint64_t nextwin, seg_pc0, firstwin, seg_base, cum; int64_t qready; unsigned nseg;
@@ -304,11 +288,10 @@ static int parse_pred(const char *v)
 	if (!strcmp(v, "perfect")) return P_PERFECT; if (!strcmp(v, "taken")) return P_TAKEN; return -1;
 }
 
-struct tm_model *tm_new(const char *spec, int enc, char *err, size_t errsz)
+struct tm_model *tm_new(const char *spec, char *err, size_t errsz)
 {
 	struct tm_model *m = calloc(1, sizeof *m);
 	struct cfg *c = &m->c;
-	int ldec0 = 0;
 	char *buf = strdup(spec ? spec : ""), *save = NULL;
 	for (int i = 0; i < NPARAMS; i++) *(int *)((char *)c + PARAMS[i].off) = PARAMS[i].def;
 	snprintf(m->name, sizeof m->name, "m");
@@ -317,7 +300,6 @@ struct tm_model *tm_new(const char *spec, int enc, char *err, size_t errsz)
 		if (!eq) { snprintf(err, errsz, "timing: '%s' is not name=value", tok); goto bad; }
 		*eq = 0; const char *k = tok, *v = eq + 1;
 		if (!strcmp(k, "name") || !strcmp(k, "label")) { snprintf(m->name, sizeof m->name, "%s", v); continue; }
-		if (!strcmp(k, "ldec0")) { ldec0 = atoi(v); continue; }
 		if (!strcmp(k, "pred") && parse_pred(v) >= 0) { c->pred = parse_pred(v); continue; }
 		int found = 0;
 		for (int i = 0; i < NPARAMS; i++) if (!strcmp(k, PARAMS[i].name)) {
@@ -327,8 +309,7 @@ struct tm_model *tm_new(const char *spec, int enc, char *err, size_t errsz)
 		}
 		if (!found) { snprintf(err, errsz, "timing: unknown parameter '%s' (sim64 --timing-help)", k); goto bad; }
 	}
-	m->enc = enc;
-	m->ld_extra = c->ldec >= 0 ? c->ldec : enc ? c->ldecp : ldec0;
+	m->ld_extra = c->ldec;
 	if (c->N < c->W + 9) c->N = c->W + 9;
 	if (c->iline < c->W) c->iline = c->W;
 	if (c->ic && !cache_init(&m->ic, c->isz, c->iline, c->iways)) goto bad;
@@ -616,14 +597,13 @@ void tm_pcprof(struct tm_model *m)
 	m->pcprof = 1;
 }
 
-static const char *encname(int e) { return e == 2 ? "pdp64/32" : e == 1 ? "pdp64/16" : "pdp64/r20"; }
 void tm_report(struct tm_model **ms, int nm, FILE *o, const char *prog)
 {
 	for (int i = 0; i < nm; i++) {
 		struct tm_model *m = ms[i];
 		uint64_t cycles = (uint64_t)(m->lastc + 1);
 		fprintf(o, "tm name=%s prog=%s enc=%s insns=%llu bytes=%llu cycles=%llu ipc=%.4f bpc=%.3f cpi=%.4f active=%llu",
-		    m->name, prog, encname(m->enc), (unsigned long long)m->insns, (unsigned long long)m->bytes, (unsigned long long)cycles,
+		    m->name, prog, "pdp64", (unsigned long long)m->insns, (unsigned long long)m->bytes, (unsigned long long)cycles,
 		    cycles ? (double)m->insns / cycles : 0, cycles ? (double)m->bytes / cycles : 0, m->insns ? (double)cycles / m->insns : 0, (unsigned long long)m->active);
 		uint64_t fe = 0, ex = 0;
 		for (int k = 0; k < FC_N; k++) { fprintf(o, " fe_%s=%llu", FC_NAME[k], (unsigned long long)m->fe[k]); fe += m->fe[k]; }

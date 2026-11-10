@@ -10,7 +10,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "pdp64enc.h"
-struct fmt;
 
 /* ---- the log of one instruction -------------------------------------------------------------------------------------- */
 enum { TM_EV_R, TM_EV_W, TM_EV_M, TM_EV_WA, TM_EV_MA, TM_EV_LD, TM_EV_ST };	/* read, write, read-modify-write, address-update write (base register of an addressing mode, sp), the same read-modify-write, load, store */
@@ -56,14 +55,15 @@ static inline uint64_t *tm_wr(uint64_t *a, int i, int kind)
 }
 static inline void tm_set(uint64_t *a, int i, uint64_t v, int kind) { tm_ev(kind, i); a[i] = v; }
 void tm_mem(int store, uint64_t addr, int size);	/* from the host's load and store hooks */
-void tm_fmt(const struct fmt *f);			/* the decoded instruction of the original encoding about to run */
-void tm_enc(int enc, int mn, const char *name, const struct einsn *in);	/* the same for pdp64/16 and /32 */
+struct fmt;
+void tm_fmt(const struct fmt *f);			/* the struct fmt an instruction of the numbering groups is run as */
+void tm_enc(int mn, const char *name, const struct einsn *in);	/* the decoded instruction about to run */
 void tm_begin(uint64_t pc, int nparcels);		/* an instruction is decoded (the profile hook) */
 
 /* ---- the model ------------------------------------------------------------------------------------------------------- */
 struct tm_model;
-/* Parse "name=val,name=val,..." into a new model for the encoding enc (0 r20, 1 16, 2 32).  NULL and a message in err on failure.  `tm_help` lists the parameters. */
-struct tm_model *tm_new(const char *spec, int enc, char *err, size_t errsz);
+/* Parse "name=val,name=val,..." into a new model .  NULL and a message in err on failure.  `tm_help` lists the parameters. */
+struct tm_model *tm_new(const char *spec, char *err, size_t errsz);
 void tm_help(FILE *o);
 void tm_retire(struct tm_model **m, int nm, uint64_t next_pc);	/* the instruction in tm_cur has completed: feed it to every model */
 void tm_set_text(uint64_t lo, uint64_t hi);		/* the range of addresses of the program, for the per-pc profile */

@@ -1,7 +1,7 @@
 """The bit-layout charts of the manual, generated from the grammars.
 
-    the encoding   spec/pdp64-32/pdp64-32.hbnf and spec/pdp64-enc.hbnf, read by tools/encgram.py; spec/pdp64-mnemonics.hbnf (every number),
-                   spec/pdp64-system.hbnf (the status word), spec/pdp64-layout.hbnf (what a field is called in each class)
+    the encoding   spec/pdp64/pdp64.hbnf and spec/pdp64-enc.hbnf, read by tools/encgram.py; spec/pdp64-mnemonics.hbnf (every number),
+                   spec/pdp64-system.hbnf (the status word)
 
 No layout is written in this file: a chart is what the grammar says for that opcode, so changing a field in a grammar changes the chart.  The drawing
 (boxes, bit numbers, shading of the fixed fields) is the only thing here.  A chart is a dict
@@ -104,34 +104,6 @@ def parcel_rows(flat, first_label=None):
     return rows
 
 
-# ---------------------------------------------------------------- the roles file
-def read_layout_file():
-    t = '\n'.join(encgram.strip_comment(l) for l in open(os.path.join(ROOT, 'spec', 'pdp64-layout.hbnf')).read().split('\n'))
-    out = {}
-    for rule, body in re.findall(r'(?m)^([a-z-]+)\s*=(.*?)(?=^\S|\Z)', t, re.S):
-        out[rule] = re.findall(r'"((?:[^"\\]|\\.)*)"', body)
-    return out
-
-
-LAYOUT = read_layout_file()
-ROLE = {}
-for _x in LAYOUT['layout-role']:
-    _k, _v = _x.split('=', 1)
-    ROLE[_k] = _v
-NOTE = dict(x.split(':', 1) for x in LAYOUT['layout-note'])
-MERGE = {}
-for _x in LAYOUT['layout-merge']:
-    _k, _v = _x.split('=', 1)
-    MERGE[_k] = _v
-SPLIT = {}
-for _x in LAYOUT['layout-split']:
-    _k, _v = _x.split('=', 1)
-    SPLIT[_k] = [(p.split(':')[0], int(p.split(':')[1])) for p in _v.split(',')]
-
-def role(kind, field, ln):
-    return ROLE.get('%s:%s@%d' % (kind, field, ln)) or ROLE.get('%s:%s' % (kind, field)) or field
-
-
 def b(v, w):
     return format(v, '0%db' % w)
 
@@ -197,13 +169,12 @@ def shape_describe(s):
 
 
 class Enc:
-    """One prefix-coded member: its charts, built from the grammar."""
+    """The encoding: its charts, built from the grammar."""
 
-    def __init__(self, tag):
-        self.tag = tag
-        self.d = encgram.load(tag, ROOT)
+    def __init__(self):
+        self.d = encgram.load(ROOT)
         d = self.d
-        path = os.path.join(ROOT, 'spec', 'pdp64-' + tag, 'pdp64-%s.hbnf' % tag)
+        path = os.path.join(ROOT, 'spec', 'pdp64', 'pdp64.hbnf')
         self.rules, _ = encgram.read_rules(path)
         self.name = d['name']
         self.words = [m for f in d['forms'] for m in f['mns']]
@@ -215,7 +186,7 @@ class Enc:
             f = d['forms'][lf['form']]
             counts[lf['form']] = counts.get(lf['form'], 0) + 1
             k = counts[lf['form']]
-            cid = '%s-%s-%d' % (tag, _mangle(f['name']), k)
+            cid = '%s-%d' % (_mangle(f['name']), k)
             ch = self.chart(lf, f, cid, k)
             self.charts.append(ch)
             for j, mn in enumerate(lf['mns']):
@@ -305,10 +276,12 @@ class Enc:
         return seen
 
 
-class _EncCache(dict):
-    def __missing__(self, tag):
-        self[tag] = Enc(tag)
-        return self[tag]
+_enc = None
 
 
-ENC = _EncCache()
+def enc():
+    """the charts of the encoding, built once from the grammar"""
+    global _enc
+    if _enc is None:
+        _enc = Enc()
+    return _enc

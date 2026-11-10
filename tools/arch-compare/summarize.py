@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """summarize.py WORKDIR OUTDIR -- read the per-configuration static.csv files and write
   OUTDIR/static-wide.csv   one row per corpus file, columns <config>:ins, <config>:ibytes (status != ok -> empty)
-  OUTDIR/static-summary.md the tables used by the report (totals, common subset with pdp64/32, ratios, per-corpus bytes)
-Configurations: pdp64/32 and pdp64/16 (WORKDIR/r-p32, r-p16), pcc amd64/i386 (r-pcc-<arch>-<A|C>), the GCC/clang matrix (WORKDIR/ref/<name>)."""
+  OUTDIR/static-summary.md the tables used by the report (totals, common subset with pdp64, ratios, per-corpus bytes)
+Configurations: pdp64 (WORKDIR/r-pdp64), pcc amd64/i386 (r-pcc-<arch>-<A|C>), the GCC/clang matrix (WORKDIR/ref/<name>)."""
 import os, sys, csv, collections
 W, OUT = sys.argv[1:3]
 os.makedirs(OUT, exist_ok=True)
@@ -13,7 +13,7 @@ def add(name, d):
     p = d + '/static.csv'
     if os.path.exists(p) and os.path.exists(d + '/done'):
         cfgs[name] = {r['file']: r for r in csv.DictReader(open(p))}
-for n, d in (('pdp64/32 (pcc)', 'r-p32'), ('pdp64/16 (pcc)', 'r-p16')):
+for n, d in (('pdp64 (pcc)', 'r-pdp64'),):
     if os.path.exists(W + '/' + d + '/static.csv'):
         cfgs[n] = {r['file']: r for r in csv.DictReader(open(W + '/' + d + '/static.csv'))}
 for a in ('amd64', 'i386'):
@@ -24,7 +24,7 @@ if os.path.isdir(W + '/ref'):
     names = sorted(os.listdir(W + '/ref'), key=lambda s: (s.split('-O')[0], order.index('O' + s.split('-O')[1]) if 'O' + s.split('-O')[1] in order else 9))
     for nm in names:
         add(nm, W + '/ref/' + nm)
-base = cfgs['pdp64/32 (pcc)']
+base = cfgs['pdp64 (pcc)']
 def tot(rows, files, k):
     return sum(int(rows[f][k] or 0) for f in files)
 def okf(rows):
@@ -83,7 +83,7 @@ for c, rows in cfgs.items():
     L.append('| %s | %s | %s | %.3f | %s | %.3f |' % (c, format(nc, ','), format(rb, ','), rb / cb, format(ri, ','), ri / ci))
 L.append('')
 L.append('Instruction bytes by corpus (all files each configuration compiled; the count of files in brackets), selected configurations:')
-sel = [c for c in cfgs if c in ('pdp64/32 (pcc)', 'pcc amd64, project flags', 'pcc i386, project flags') or c in ('clang-rv64gc-O2', 'clang-rv64gc-Os', 'clang-rv64g-O2', 'clang-rv64g-Os', 'gcc-rv64gc-O2', 'gcc-rv64gc-Os', 'clang-aarch64-O2', 'clang-aarch64-Os')]
+sel = [c for c in cfgs if c in ('pdp64 (pcc)', 'pcc amd64, project flags', 'pcc i386, project flags') or c in ('clang-rv64gc-O2', 'clang-rv64gc-Os', 'clang-rv64g-O2', 'clang-rv64g-Os', 'gcc-rv64gc-O2', 'gcc-rv64gc-Os', 'clang-aarch64-O2', 'clang-aarch64-Os')]
 cs = sorted(set(corp.values()))
 L.append('| corpus (files) | ' + ' | '.join(sel) + ' |')
 L.append('|---|' + '---:|' * len(sel))

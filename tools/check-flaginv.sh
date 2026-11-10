@@ -5,5 +5,5 @@ cd "$(dirname "$0")/.."
 tools/build-sim64.sh > /dev/null
 B=${BUILD:-build}
 python3 tests/flaginv.py "$B/as64" "$B/flaginv-forms.txt"
-gcc -g -w -std=gnu11 -Ias64 -Icommon -I"$B" -o "$B/flaginv" tests/flaginv.c common/pdp64exec.c common/calib.c common/p2.c "$B/fmtp.o" -lm
+gcc -g -w -std=gnu11 -Ias64 -Icommon -I"$B" -o "$B/flaginv" tests/flaginv.c common/pdp64exec.c common/pdp64enc.c "$B/pdp64-tab.c" -lm
 "$B/flaginv" "$B/flaginv-forms.txt"

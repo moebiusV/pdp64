@@ -1,5 +1,5 @@
-/* pdp64enc.c: the codec of the prefix-coded encodings.  Table driven: every bit position comes from the generated tables
-   (tools/mkenc.py, from the grammar spec/pdp64-NN/pdp64-NN.hbnf); nothing here knows where a field is.  The semantics of the operand
+/* pdp64enc.c: the codec of the encoding.  Table driven: every bit position comes from the generated tables
+   (tools/mkenc.py, from the grammar spec/pdp64/pdp64.hbnf); nothing here knows where a field is.  The semantics of the operand
    specs are those of docs/codegen-data/encoding/enc.py (the model that produced the tables), which this file is checked against. */
 #include <stdlib.h>
 #include <string.h>

@@ -1,6 +1,6 @@
 #!/bin/sh
-# Copy the files the QEMU target needs from their single sources (the shared core, calib, the format parser generated from
-# spec/pdp64.hbnf.in) into qemu/target-pdp64/gen/.  The copies are generated: never edit them.
+# Copy the files the QEMU target needs from their single sources (the shared core, the table codec and its tables generated from
+# spec/pdp64/pdp64.hbnf) into qemu/target-pdp64/gen/.  The copies are generated: never edit them.
 #   qemu/sync.sh           regenerate the parser (tools/build-as64.sh) and copy
 #   qemu/sync.sh --check   fail if a copy differs from its source (no copying)
 set -e
@@ -10,7 +10,7 @@ D=qemu/target-pdp64/gen
 tools/build-as64.sh > /dev/null
 mkdir -p "$D"
 # source -> name in gen/
-LIST="common/pdp64exec.c common/pdp64exec.h common/calib.c common/calib.h common/p2.c common/p2.h as64/fmtp.c as64/fmt.h $B/pdp64-parser.c $B/pdp64-consts.h"
+LIST="common/pdp64exec.c common/pdp64exec.h common/pdp64exec_enc.inc common/fmt.h common/pdp64enc.c common/pdp64enc.h $B/pdp64-tab.c $B/pdp64-consts.h"
 stale=0
 for f in $LIST; do
 	g="$D/$(basename "$f")"

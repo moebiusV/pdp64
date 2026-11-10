@@ -1,4 +1,4 @@
-/* asmenc.c: assembling for the prefix-coded encodings (pdp64/16 and pdp64/32).  Included by as64.c, which owns the symbols, the expressions and the
+/* asmenc.c: assembling the instruction encoding of the pdp64.  Included by as64.c, which owns the symbols, the expressions and the
  * passes; the bits come from the shared codec (common/pdp64enc.c) and its generated tables.  See spec/README.md.
  *
  * An instruction of the source becomes one or two instructions of the codec (an einsn: a mnemonic and operands of the shapes R, I, B, X, PI, PD, PC, A):
@@ -6,14 +6,12 @@
  *     stands for (bhis is bcc, mulu is mul...);
  *   - a cbCC for which no form reaches (a far target, a wide immediate, an external label) is assembled as cmp + bCC (the flags are written);
  *   - `movq #imm, rd` whose constant fits no movq form is assembled as movql (a ten-byte instruction with the 64-bit immediate);
- * The length of an instruction is the length of the first form that takes its operands; as in the old encoding it never shrinks between passes.
+ * The length of an instruction is the length of the first form that takes its operands; it never shrinks between passes.
  */
 #include "pdp64enc.h"
 #include "pdp64-mnnames.h"
 #include "pdp64-extnames.h"
 
-enum { ENC_OLD = 0, ENC_16 = 1, ENC_32 = 2 };		/* the value of e_flags & EF_PDP64_ENC (as64/relocs.h) */
-static int enc_mode;
 static struct etab *etab;
 static int enc_stats;
 static const char *enc_lens_path;
@@ -23,11 +21,9 @@ static long enc_ninsn, enc_nbytes, enc_nexpanded;
 static const char *mn_canon[32][512];
 static const char *mn_word[32][512];
 
-static void enc_setup(int mode)
+static void enc_setup(void)
 {
-	enc_mode = mode;
-	if (mode == ENC_OLD) return;
-	etab = mode == ENC_16 ? &enc_tab_16 : &enc_tab_32;
+	etab = &enc_tab;
 	enc_init(etab);
 	for (unsigned i = 0; i < sizeof mnnames / sizeof *mnnames; i++) {
 		mn_canon[mnnames[i].mg][mnnames[i].num] = mnnames[i].canon;
@@ -67,7 +63,7 @@ static int take_rel(const struct stmt *st, struct hw *h, int dst, int sym, int64
 	return 0;
 }
 
-static int reg_limit(void) { return enc_mode == ENC_32 ? 32 : 16; }
+static int reg_limit(void) { return 32; }
 
 /* an operand of the source as operand `dst` of the codec instruction.  addr is the address of the first parcel of the instruction it belongs to. */
 static int econv(const struct stmt *st, int k, int dst, int64_t addr, int poolable, int isbranch, struct hw *h)
@@ -154,7 +150,6 @@ static int mask_fix(const struct stmt *st, struct eop *e)
 	if (e->k != EK_I || e->ext) { err(st->line, "pushm/popm take #mask"); return -1; }
 	if (e->v < -((int64_t)1 << 31) || e->v >= ((int64_t)1 << 32)) { err(st->line, "register mask out of range"); return -1; }
 	e->v &= 0xFFFFFFFF;
-	if (enc_mode == ENC_16 && e->v > 0xFFFF) { err(st->line, "register mask out of range (%s has registers r0 to r15)", etab->name); return -1; }
 	return 0;
 }
 
@@ -169,7 +164,7 @@ static int regs_ok(const struct stmt *st, int report)
 		else if ((o->kind == OK_BASED && o->special == 0 || o->kind == OK_INDEXED || o->kind == OK_POSTINC || o->kind == OK_PREDEC || o->kind == OK_PREDEC2) && o->reg >= lim) bad = o->reg;
 		else if (o->kind == OK_INDEXED && o->reg2 >= lim) bad = o->reg2;
 		if (bad >= 0) {
-			if (report) err(st->line, "r%d: %s has registers r0 to r%d", bad, enc_mode ? etab->name : "this encoding", lim - 1);
+			if (report) err(st->line, "r%d: %s has registers r0 to r%d", bad, etab->name, lim - 1);
 			return 0;
 		}
 	}
@@ -276,7 +271,6 @@ static struct { int sym, sect; int64_t val; } *defer;
 static int ndefer, capdefer;
 static void set_sym_val(int k, int sect, int64_t val)
 {
-	if (!enc_mode) { syms[k].sect = sect; syms[k].val = val; return; }
 	if (ndefer == capdefer) { capdefer = capdefer ? capdefer * 2 : 1024; defer = realloc(defer, capdefer * sizeof *defer); }
 	defer[ndefer].sym = k; defer[ndefer].sect = sect; defer[ndefer].val = val; ndefer++;
 }

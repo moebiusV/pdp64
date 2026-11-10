@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""check-ld-relax -- the relaxed link of tests/ld-pdp64-NN (main.s + lib.s) against the Python model of the encoding (docs/codegen-data/encoding/enc.py).
+"""check-ld-relax -- the relaxed link of tests/ld (main.s + lib.s) against the Python model of the encoding (docs/codegen-data/encoding/enc.py).
 The model relaxes this five-instruction program by itself (every instruction from its shortest form, growing until each address fits, the data page after
-the text) and encodes the result; ld64's words must be the same.   usage: check-ld-relax.py 16|32 linked.out"""
+the text) and encodes the result; ld64's words must be the same.   usage: check-ld-relax.py linked.out"""
 import json, os, struct, sys
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 sys.path.insert(0, os.path.join(ROOT, 'docs', 'codegen-data', 'encoding'))
@@ -9,9 +9,9 @@ sys.dont_write_bytecode = True
 import enc
 from enc import *
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
-tag, path = sys.argv[1], sys.argv[2]
+path = sys.argv[1]
 import encgram
-d = encgram.load(tag, ROOT)
+d = encgram.load(ROOT)
 enc.RELOC = 'max'
 def mkspec(s):
     k = s['k']
@@ -64,6 +64,6 @@ want = []
 for i, (mn, ops) in enumerate(prog): want += ['%04x' % x for x in words(mn, ops(A, pos[i]), cur[i])]
 b = open(path, 'rb').read()
 got = ['%04x' % struct.unpack_from('<H', b, 0x1000 + 2 * i)[0] for i in range(len(want))]
-print(('ok   ' if got == want else 'DIFF ') + 'relaxed link pdp64/%s equals the model\'s own relaxation (%d bytes of text)' % (tag, 2 * len(want)))
+print(('ok   ' if got == want else 'DIFF ') + 'relaxed link equals the model\'s own relaxation (%d bytes of text)' % (2 * len(want)))
 if got != want: print('  got ', ' '.join(got)); print('  want', ' '.join(want))
 sys.exit(got != want)

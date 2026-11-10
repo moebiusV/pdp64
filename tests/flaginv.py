@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Writes the instruction forms for tests/flaginv.c: for every mnemonic of the grammar one or several operand forms (register, memory, immediate,
-literal-pool, page-2), assembled with as64; a line is `parcels # source`.  usage: flaginv.py AS64 OUTFILE"""
+literal-pool), assembled with as64; a line is `parcels # source`.  usage: flaginv.py AS64 OUTFILE"""
 import os, struct, subprocess, sys, tempfile
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'tools'))
 import mkgrammar
@@ -53,18 +53,15 @@ with tempfile.TemporaryDirectory() as t:
     for src in forms:
         s = os.path.join(t, 'a.s'); ob = os.path.join(t, 'a.o')
         open(s, 'w').write('\t.text\n' + ''.join('\t%s\n' % l for l in src.split('\n')))
-        for flags in (['--no-p2'], []):
-            r = subprocess.run([AS] + flags + ['-o', ob, s], capture_output=True, text=True)
-            if r.returncode: break
-            d = open(ob, 'rb').read()
-            shoff = struct.unpack_from('<Q', d, 0x28)[0]
-            off, size = struct.unpack_from('<QQ', d, shoff + 64 + 24)
-            w = [struct.unpack_from('<H', d, off + 2 * i)[0] for i in range(size // 2)]
-            n = 1 if w[0] >> 14 == 3 else (w[0] >> 14) + 1
-            # the pool of =K follows the instruction: keep only the instruction's parcels (the operand then reads the pool by pc: not mapped here, it faults, fine)
-            wd = ' '.join('%04x' % x for x in w[:n])
-            if not any(o.startswith(wd + ' #') for o in out): out.append('%s # %s%s' % (wd, src.split('\n')[0], '' if flags else '  [page 2]'))
-        else:
+        r = subprocess.run([AS, '-o', ob, s], capture_output=True, text=True)
+        if r.returncode:
+            sys.stderr.write('flaginv.py: %s: %s' % (src, r.stderr))
             continue
-        if r.returncode: sys.stderr.write('flaginv.py: %s: %s' % (src, r.stderr))
+        d = open(ob, 'rb').read()
+        shoff = struct.unpack_from('<Q', d, 0x28)[0]
+        off, size = struct.unpack_from('<QQ', d, shoff + 64 + 24)
+        w = [struct.unpack_from('<H', d, off + 2 * i)[0] for i in range(size // 2)]
+        # the first five parcels: an instruction is at most five; what follows an instruction shorter than that (a pool of =K, the next instruction) is never fetched
+        wd = ' '.join('%04x' % x for x in w[:5])
+        if not any(o.startswith(wd + ' #') for o in out): out.append('%s # %s' % (wd, src.split('\n')[0]))
 open(OUT, 'w').write('\n'.join(out) + '\n')

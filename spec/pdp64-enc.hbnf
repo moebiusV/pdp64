@@ -1,11 +1,11 @@
-; pdp64-enc.hbnf -- what the prefix-coded encodings (pdp64/16, pdp64/32) have in common.  Written by docs/codegen-data/encoding/write_hbnf.py
+; pdp64-enc.hbnf -- the vocabulary of the encoding of the pdp64 (spec/pdp64/pdp64.hbnf).  Written by docs/codegen-data/encoding/write_hbnf.py
 ; from the optimiser's layout, and edited by hand from then on; tools/mkenc.py reads it (through tools/encgram.py) and the members' grammars
-; (pdp64-16/pdp64-16.hbnf, pdp64-32/pdp64-32.hbnf) include it.  Nothing else holds the encodings: see spec/README.md.
+; (pdp64/pdp64.hbnf) includes it.  Nothing else holds the encodings: see spec/README.md.
 ;
 ; HOW THE GRAMMARS DESCRIBE AN ENCODING
 ;
 ; The input is one instruction: a record of bit fields, read from the top bit of parcel 0, parcel after parcel, each parcel big-endian (the
-; same convention as pdp64.hbnf.in: in memory the parcels are little-endian and the reader swaps them).  hbnf numbers bits from the top, so the
+; each parcel is written big-endian here: in memory the parcels are little-endian and the reader swaps them).  hbnf numbers bits from the top, so the
 ; first field of a record is bits 15... of parcel 0 and a field that runs on from parcel k to parcel k+1 is one field.
 ;
 ; A LEAF is one alternative of `insn`: the prefix (a constant, as wide as its binary digits: 1 to 16 bits), then the sub-opcode `sub` (or `xsub`),
@@ -34,7 +34,7 @@
 ;
 ; The assembler tries the forms of a mnemonic in the order of the `forms` catalogue of the member's grammar (the number is the index of the form), the shorter
 ; first; the order of the leaves of one form is the order of their numbers.  Everything else is generated from this: the C tables of the codec
-; (build/pdp64-NN-tab.c), the assembly grammar of as64 (build/x/), the tables of spec/pdp64-NN/tables.md.
+; (build/pdp64-tab.c), the assembly grammar of as64 (build/x/), the tables of spec/pdp64/tables.md.
 prefix none
 
 ; ---- operand shapes: a register

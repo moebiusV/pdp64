@@ -1,1 +1,0 @@
-the installed QEMU binary predates the executor fix (extb, dshr: qemu/build.sh rebuilds it, then delete this file)

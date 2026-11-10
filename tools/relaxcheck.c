@@ -1,4 +1,4 @@
-/* relaxcheck: the self-consistency check of a linked (relaxed) executable of pdp64/16 or pdp64/32 (docs/relaxation.md).
+/* relaxcheck: the self-consistency check of a linked (relaxed) executable of the pdp64 (docs/relaxation.md).
  *   relaxcheck program.x starts.txt [-datasyms] [-slack bytes]
  * starts.txt: the address (hex) of every instruction of the executable segment, ascending, from the assembler's own list (tools/check-relax.py joins as64
  * --dump-lens with ld64 --dump-map).  Each is decoded with the C decoder and:
@@ -48,8 +48,8 @@ int main(int argc, char **argv)
 	uint8_t *b = malloc(n);
 	if (fread(b, 1, n, f) != (size_t)n) return 2;
 	uint32_t flags = b[0x30] | b[0x31] << 8 | b[0x32] << 16 | (uint32_t)b[0x33] << 24;
-	struct etab *t = (flags & 15) == 1 ? &enc_tab_16 : (flags & 15) == 2 ? &enc_tab_32 : NULL;
-	if (!t) { fprintf(stderr, "relaxcheck: not a pdp64/16 or pdp64/32 executable\n"); return 2; }
+	struct etab *t = (flags & 15) == 2 ? &enc_tab : NULL;
+	if (!t) { fprintf(stderr, "relaxcheck: not a pdp64 executable\n"); return 2; }
 	uint64_t phoff = *(uint64_t *)(b + 0x20), shoff = *(uint64_t *)(b + 0x28); int phnum = b[0x38] | b[0x39] << 8, shnum = b[0x3c] | b[0x3d] << 8;
 	uint64_t tva = 0, tsz = 0, toff = 0, dlo = ~0ull, dhi = 0;
 	for (int i = 0; i < phnum; i++) {

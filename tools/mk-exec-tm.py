@@ -172,7 +172,7 @@ def main():
     inc = in_comment_aware(inc, 'RG')
     old = '\tif (E->profile) E->profile(E->u, start, n, classify_enc(h, &in));\n'
     assert old in inc
-    inc = inc.replace(old, old + '\ttm_enc(C->enc, in.mn, t->mn[in.mn].name, &in);\n', 1)
+    inc = inc.replace(old, old + '\ttm_enc(in.mn, t->mn[in.mn].name, &in);\n', 1)
     open(os.path.join(OUT, 'pdp64exec_tm.c'), 'w').write(PRELUDE + c)
     open(os.path.join(OUT, 'pdp64exec_enc.inc'), 'w').write(inc)
 

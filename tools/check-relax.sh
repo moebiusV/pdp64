@@ -7,7 +7,7 @@ set -u
 cd "$(dirname "$0")/.."
 B=${BUILD:-build}; fail=0; n=0
 tools/build-sim64.sh > /dev/null
-gcc -g -w -Icommon -I"$B" -o "$B/relaxcheck" tools/relaxcheck.c common/pdp64enc.c "$B/pdp64-16-tab.c" "$B/pdp64-32-tab.c" || exit 1
+gcc -g -w -Icommon -I"$B" -o "$B/relaxcheck" tools/relaxcheck.c common/pdp64enc.c "$B/pdp64-tab.c" || exit 1
 W=$B/relax; mkdir -p $W
 LD=$B/ld64
 [ "${1:-}" = "--mutate" ] && { LD=$B/ld64-mut; MUT=1; } || MUT=0
@@ -29,18 +29,18 @@ case_run() {
 }
 textsize() { "$B/ld64" --no-relax -M -o /dev/null "$@" 2>/dev/null | sed -n 1p | sed 's/.*+//'; }
 
-gen() {	# enc seed
-	e=$1; sd=$2; t=gen$e.$sd; d=$W/$t
+gen() {	# seed
+	sd=$1; t=gen.$sd; d=$W/$t
 	python3 tests/relax/gen_relax.py $d $sd
-	"$B/as64" -m pdp64/$e --relax --dump-lens $d/main.o.lens -o $d/main.o $d/main.s && "$B/as64" -m pdp64/$e --relax --dump-lens $d/lib.o.lens -o $d/lib.o $d/lib.s || { echo "FAIL $t: assembly"; fail=$((fail+1)); return; }
+	"$B/as64" --relax --dump-lens $d/main.o.lens -o $d/main.o $d/main.s && "$B/as64" --relax --dump-lens $d/lib.o.lens -o $d/lib.o $d/lib.s || { echo "FAIL $t: assembly"; fail=$((fail+1)); return; }
 	n=$((n+1))
-	"$B/as64" -m pdp64/$e --no-relax -o $d/mainp.o $d/main.s && "$B/as64" -m pdp64/$e --no-relax -o $d/libp.o $d/lib.s
+	"$B/as64" --no-relax -o $d/mainp.o $d/main.s && "$B/as64" --no-relax -o $d/libp.o $d/lib.s
 	if case_run $t 0 $d/main.o $d/lib.o; then
 		# --no-relax of the relaxed objects is the link of the plain ones, byte for byte
 		"$B/ld64" -o $W/$t.px $d/mainp.o $d/libp.o && cmp -s $W/$t.px $W/$t.nx || { echo "FAIL $t: ld64 --no-relax of the relaxed objects differs from the link of the objects without --relax"; fail=$((fail+1)); }
 		rt=$(sed -n 's/^relaxcheck: \([0-9]*\) instructions.*/\1/p' $W/$t.rc)
 		tr=$(sed -n 's/.*text \([0-9]*\) bytes.*/\1/p' $W/$t.lderr)
-		echo "ok   generated program, pdp64/$e, seed $sd: $rt instructions, relaxed image $rsize bytes, unrelaxed $nsize"
+		echo "ok   generated program, seed $sd: $rt instructions, relaxed image $rsize bytes, unrelaxed $nsize"
 		[ "$rsize" -lt "$nsize" ] || { echo "FAIL $t: the relaxed image is not smaller"; fail=$((fail+1)); }
 	else fail=$((fail+1)); fi
 }
@@ -58,8 +58,8 @@ s = open(f).read()
 if s.count(a) != 1: sys.exit(1)
 open(f, 'w').write(s.replace(a, b))
 PY
-		gcc -g -w -Ias64 -Icommon -I"$B" -I$W/mut -o $LD $W/mut/ld64.c common/pdp64enc.c "$B/pdp64-16-tab.c" "$B/pdp64-32-tab.c" 2>"$W/mut/cc.err" || { echo "FAIL mutant $i: does not compile"; fail=$((fail+1)); continue; }
-		if (fail=0; gen 16 1 > "$W/mut/out"; [ $fail = 0 ] && ! grep -q '^FAIL' "$W/mut/out"); then echo "FAIL mutant $i ($from -> $to) was not caught"; fail=$((fail+1)); else echo "ok   mutant $i caught"; fi
+		gcc -g -w -Ias64 -Icommon -I"$B" -I$W/mut -o $LD $W/mut/ld64.c common/pdp64enc.c "$B/pdp64-tab.c" 2>"$W/mut/cc.err" || { echo "FAIL mutant $i: does not compile"; fail=$((fail+1)); continue; }
+		if (fail=0; gen 1 > "$W/mut/out"; [ $fail = 0 ] && ! grep -q '^FAIL' "$W/mut/out"); then echo "FAIL mutant $i ($from -> $to) was not caught"; fail=$((fail+1)); else echo "ok   mutant $i caught"; fi
 		n=$((n+1))
 	done <<'MUTANTS'
 ld64.c|return s->nsites ? x + s->cum[lo] : x;|return x;
@@ -74,19 +74,17 @@ MUTANTS
 	[ $fail = 0 ]; exit $?
 fi
 
-for e in 16 32; do gen $e 1; done
-gen 16 2
+gen 1
+gen 2
 # every program of tests/sim relaxed: the images are checked (check-sim64.sh runs them and compares the results)
-for dir in tests/sim tests/sim-enc; do
+for dir in tests/sim; do
 	for s in $dir/*.s; do
 		t=$(basename "$s" .s)
 		[ -f "$dir/$t.same" ] && continue
 		[ $t = fused ] && continue		# calls an unmapped address on purpose
-		for e in 16 32; do
-			[ -f "$dir/$t.noenc" ] && grep -qw $e "$dir/$t.noenc" && continue
-			[ -f "$dir/$t.enc" ] && ! grep -qw $e "$dir/$t.enc" && continue
+		for e in x; do
 			o=$W/s_$t.$e.o
-			"$B/as64" -m pdp64/$e --relax --dump-lens $o.lens -o $o "$s" 2>/dev/null || { echo "FAIL $t ($e): assembly"; fail=$((fail+1)); continue; }
+			"$B/as64" --relax --dump-lens $o.lens -o $o "$s" 2>/dev/null || { echo "FAIL $t ($e): assembly"; fail=$((fail+1)); continue; }
 			$LD --dump-map $W/s_$t.$e.map -o $W/s_$t.$e.x $o 2>$W/s_$t.$e.err || { echo "FAIL $t ($e): link"; fail=$((fail+1)); continue; }
 			python3 tools/check-relax.py $W/s_$t.$e.map > $W/s_$t.$e.starts
 			n=$((n+1))
@@ -96,26 +94,30 @@ for dir in tests/sim tests/sim-enc; do
 done
 echo "ok   $n images so far decode and are consistent"
 # NOADJ_TEXT: the object is marked, the text is not adjusted, the program runs; a relaxed object and an unrelaxed one of the same encoding link together
-for e in 16 32; do
-	"$B/as64" -m pdp64/$e --relax --dump-lens $W/noadj.$e.o.lens -o $W/noadj.$e.o tests/relax/noadj.s && "$B/as64" -m pdp64/$e --relax --dump-lens $W/noadjlib.$e.o.lens -o $W/noadjlib.$e.o tests/relax/noadj-lib.s || { echo "FAIL noadj ($e): assembly"; fail=$((fail+1)); continue; }
+for e in x; do
+	"$B/as64" --relax --dump-lens $W/noadj.$e.o.lens -o $W/noadj.$e.o tests/relax/noadj.s && "$B/as64" --relax --dump-lens $W/noadjlib.$e.o.lens -o $W/noadjlib.$e.o tests/relax/noadj-lib.s || { echo "FAIL noadj ($e): assembly"; fail=$((fail+1)); continue; }
 	flags=$(python3 -c "import struct,sys; print(struct.unpack_from('<I', open(sys.argv[1],'rb').read(), 0x30)[0])" $W/noadj.$e.o)
 	n=$((n+1))
-	if [ $flags = $(( e/16 + 1 + 0x30 - 1 )) ] || [ $flags = $(( (e==16?1:2) | 0x30 )) ]; then
+	if [ $flags = $(( 2 | 0x30 )) ]; then
 		if case_run noadj$e 0 $W/noadj.$e.o $W/noadjlib.$e.o; then echo "ok   noadj ($e): e_flags $flags, the text is as assembled"; [ "$rsize" = "$nsize" ] || { echo "FAIL noadj ($e): the text of a NOADJ object changed"; fail=$((fail+1)); }
 		else fail=$((fail+1)); fi
 	else echo "FAIL noadj ($e): e_flags $flags (wanted RELAX|NOADJ_TEXT)"; fail=$((fail+1)); fi
 done
 # the 2 GB limit is still reported, with the symbol named
-for e in 16 32; do
-	"$B/as64" -m pdp64/$e --relax -o $W/high$e.o tests/ld-pdp64-$e/high.s
+for e in x; do
+	"$B/as64" --relax -o $W/high$e.o tests/ld/high.s
 	n=$((n+1))
-	$LD -Ttext 0x7fffe000 -o $W/high.x $W/high$e.o 2>$W/high.err || { echo "FAIL pdp64/$e relaxed link below 2 GB: refused"; fail=$((fail+1)); }
-	if $LD -Ttext 0x7ffff000 -o $W/high.x $W/high$e.o 2>$W/high.err; then echo "FAIL pdp64/$e relaxed link at 2 GB: accepted"; fail=$((fail+1))
-	elif grep -q "relocation to target out of range (value 2147483648" $W/high.err; then echo "ok   relaxed link pdp64/$e at 2 GB (refused, symbol named)"
-	else echo "FAIL pdp64/$e relaxed link at 2 GB: wrong message: $(head -1 $W/high.err)"; fail=$((fail+1)); fi
+	$LD -Ttext 0x7fffe000 -o $W/high.x $W/high$e.o 2>$W/high.err || { echo "FAIL relaxed link below 2 GB: refused"; fail=$((fail+1)); }
+	if $LD -Ttext 0x7ffff000 -o $W/high.x $W/high$e.o 2>$W/high.err; then echo "FAIL relaxed link at 2 GB: accepted"; fail=$((fail+1))
+	elif grep -q "relocation to target out of range (value 2147483648" $W/high.err; then echo "ok   relaxed link at 2 GB (refused, symbol named)"
+	else echo "FAIL relaxed link at 2 GB: wrong message: $(head -1 $W/high.err)"; fail=$((fail+1)); fi
 done
-# an object of the original encoding cannot have the flags; relaxed objects need the new encodings
-if "$B/as64" --relax -o $W/x.o tests/relax/noadj-lib.s 2>$W/x.err; then echo "FAIL as64 --relax without -m pdp64/16|32 was accepted"; fail=$((fail+1)); else echo "ok   as64 --relax needs pdp64/16 or pdp64/32"; fi
+# --no-relax objects have no relaxation flags; the default is a relaxation object
+"$B/as64" -o $W/x.o tests/relax/noadj-lib.s && "$B/as64" --no-relax -o $W/y.o tests/relax/noadj-lib.s && python3 - $W/x.o $W/y.o <<'PY' && echo "ok   as64 makes relaxation objects by default; --no-relax does not" || { echo "FAIL as64 default flags"; fail=$((fail+1)); }
+import struct, sys
+f = [struct.unpack_from('<I', open(p, 'rb').read(), 0x30)[0] for p in sys.argv[1:3]]
+sys.exit(0 if f == [0x12, 0x2] else 1)
+PY
 n=$((n+1))
 echo "relax: $n run, $fail failed"
 [ $fail = 0 ]

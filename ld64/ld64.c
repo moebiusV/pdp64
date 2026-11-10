@@ -9,14 +9,10 @@
  * Layout: the executable code of every object in one segment at -Ttext (default 0x10000), then, on the next page, the
  * data and the zero-filled data (.bss and common symbols) in a second.  Pages are 4096 bytes (ISA 8.2).
  *
- * An instruction relocation patches the last 16*len bits of the instruction whose first parcel is at r_offset; `len` is in
- * bits 15..14 of that parcel (docs/CHANGES-SINCE-R20.md 7).  The field holds its parcels most significant first, each
- * parcel little-endian in memory.
- *
- * The objects are of one instruction encoding, the one in their e_flags (as64/relocs.h): the original (0), pdp64/16 or pdp64/32.  Objects of different
- * encodings are refused.  In the prefix-coded encodings (pdp64/16, pdp64/32) the field a relocation patches is not at the end of the instruction: the
+ * The field an instruction relocation patches is not at the end of the instruction: the
  * codec (common/pdp64enc.c, from the generated tables) finds the pc-relative or absolute operand of the instruction at r_offset, with the bit
- * positions and the unit (a branch or call field counts parcels), and inserts the value there.  The executable carries the same e_flags.
+ * positions and the unit (a branch or call field counts parcels), and inserts the value there.  The objects are of the pdp64 instruction set (the
+ * low four bits of e_flags, as64/relocs.h); an object that names another is refused.  The executable carries the same e_flags.
  *
  * Relaxation (docs/relaxation.md): an object made with `as64 --relax` (EF_PDP64_RELAX) has a relocation on every instruction of .text that holds the
  * address of a symbol, local ones too, and R_PDP64_ALIGN on every padding.  ld64 re-chooses the length of each such instruction from the real
@@ -116,8 +112,7 @@ struct obj {
 static struct obj *objs;
 static int nobjs;
 static int relax_enabled = 1;			/* --no-relax clears it */
-static int link_enc = -1;			/* the encoding of the objects (EF_PDP64_ENC_*), set by the first */
-static struct etab *link_tab;			/* its tables, for the prefix-coded encodings */
+static struct etab *link_tab = &enc_tab;	/* the tables of the codec */
 
 struct gsym {
 	char *name;
@@ -161,19 +156,9 @@ static int load_object(const char *path)
 	}
 	ehdr_t eh = r.body.u.a1.e;
 	{
-		int e = (int)(eh.flags & EF_PDP64_ENC_MASK);
-		if (eh.flags & ~(uint32_t)(EF_PDP64_ENC_MASK | EF_PDP64_RELAX | EF_PDP64_NOADJ_TEXT)) { fail("%s: unknown e_flags %#x", path, (unsigned)eh.flags); return -1; }
-		if (e > EF_PDP64_ENC_32) { fail("%s: unknown instruction encoding %d in e_flags", path, e); return -1; }
-		if ((eh.flags & (EF_PDP64_RELAX | EF_PDP64_NOADJ_TEXT)) && !e) { fail("%s: relaxation flags in an object of the original encoding", path); return -1; }
+		if (eh.flags & ~(uint32_t)(EF_PDP64_ISA_MASK | EF_PDP64_RELAX | EF_PDP64_NOADJ_TEXT)) { fail("%s: unknown e_flags %#x", path, (unsigned)eh.flags); return -1; }
+		if ((int)(eh.flags & EF_PDP64_ISA_MASK) != EF_PDP64_ISA) { fail("%s: e_flags names the instruction set %d, not the pdp64 (%d)", path, (int)(eh.flags & EF_PDP64_ISA_MASK), EF_PDP64_ISA); return -1; }
 		o.relax = (eh.flags & EF_PDP64_RELAX) && !(eh.flags & EF_PDP64_NOADJ_TEXT) && relax_enabled;
-		if (link_enc < 0) {
-			link_enc = e;
-			link_tab = e == EF_PDP64_ENC_16 ? &enc_tab_16 : e == EF_PDP64_ENC_32 ? &enc_tab_32 : NULL;
-		} else if (e != link_enc) {
-			static const char *const nm[] = { "pdp64/r20", "pdp64/16", "pdp64/32" };
-			fail("%s is %s, the objects before it are %s: objects of different instruction encodings cannot be linked", path, nm[e], nm[link_enc]);
-			return -1;
-		}
 	}
 	o.nsec = eh.shnum;
 	o.sh = calloc(o.nsec, sizeof *o.sh);
@@ -399,7 +384,7 @@ static const char *relname(struct obj *o, int k, int64_t addend, char *buf, size
 	return buf;
 }
 
-/* a relocation in a prefix-coded encoding: find the field in the instruction, check the range, insert */
+/* a relocation of an instruction: find the field in the instruction, check the range, insert */
 static void relocate_insn(struct obj *o, int target, uint8_t *where, const struct rel *rl, uint64_t P, int64_t V, const char *sname)
 {
 	uint16_t p[5];
@@ -454,26 +439,7 @@ static void relocate(uint8_t *image[NCLASS])
 				for (int b = 0; b < 4; b++) where[b] = (uint64_t)V >> (8 * b);
 				break;
 			case R_PDP64_INSN_ABS: case R_PDP64_INSN_PC: case R_PDP64_INSN_BR: {
-				if (link_tab) { relocate_insn(o, target, where, rl, P, V, sname); break; }
-				int len = get16(where) >> 14;			/* 1 or 2: a page-2 instruction (len 3) has no field to patch */
-				int bits = 16 * len;
-				if (len == 3) { fail("%s: relocation to %s on a one-parcel (page 2) instruction", o->name, sname); break; }
-				int64_t val = V;
-				if (rl->type == R_PDP64_INSN_PC) val = V - (int64_t)P;
-				if (rl->type == R_PDP64_INSN_BR) {
-					val = V - (int64_t)P;
-					if (val & 1) { fail("%s: branch to %s is to an odd address", o->name, sname); break; }
-					val /= 2;
-				}
-				if (len == 0 || !fits_signed(val, bits)) {
-					fail("%s: relocation to %s out of range (%s %lld does not fit the %d-bit field of the instruction; an immediate or absolute address is a sign-extended 32-bit value)", o->name, sname,
-					    rl->type == R_PDP64_INSN_ABS ? "value" : "displacement", (long long)val, bits);
-					break;
-				}
-				for (int pc = 1; pc <= len; pc++) {			/* parcel 1 is the most significant */
-					int shift = 16 * (len - pc);
-					put16(where + 2 * pc, (uint16_t)((uint64_t)val >> shift));
-				}
+				relocate_insn(o, target, where, rl, P, V, sname);
 				break;
 			}
 			default:
@@ -551,7 +517,7 @@ static int write_exec(const char *path, uint64_t entry, uint8_t *image[NCLASS])
 		memset(&r, 0, sizeof r); r.kind = REC_EHDR; r.body.kind = REC_EHDR;
 		ehdr_t *e = &r.body.u.a1.e;
 		e->ident.ptr = ident; e->ident.len = 16;
-		e->type = 2; e->machine = EM_PDP64; e->version = 1; e->flags = link_enc > 0 ? (uint32_t)link_enc : 0; e->entry = entry; e->phoff = 64; e->shoff = off_sh;
+		e->type = 2; e->machine = EM_PDP64; e->version = 1; e->flags = EF_PDP64_ISA; e->entry = entry; e->phoff = 64; e->shoff = off_sh;
 		e->ehsize = 64; e->phentsize = 56; e->phnum = 2; e->shentsize = 64; e->shnum = 7; e->shstrndx = 6;
 		rec_put(&r, &head);
 		memset(&r, 0, sizeof r); r.kind = REC_PHDR; r.body.kind = REC_PHDR;
@@ -601,7 +567,7 @@ int main(int argc, char **argv)
 			if (g >= 0 && !gs[g].defined && objs[oi].syms[k].shndx == 0) { fail("undefined symbol %s (referenced from %s)", gs[g].name, objs[oi].name); gs[g].defined = -1; }
 		}
 	if (errors) return 1;
-	if (link_tab) {
+	{
 		struct einsn z;
 		uint16_t par[5];
 		memset(&z, 0, sizeof z);

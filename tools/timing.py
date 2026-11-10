@@ -7,11 +7,10 @@ usage: timing.py [options] IMAGE...
   -s KEY=V1,V2,..  sweep: every parameter set gets one copy per value (repeatable: cross product)
   --base SPEC      parameters added to every set (before -s)
   -n STEPS         stop after that many instructions (sim64 -n)
-  -m ENC           force the encoding (r20, 16, 32)
   --sim PATH       the sim64 binary (default build/sim64 next to this script's tree)
-  --cols A,B,..    columns (default: image,enc,name,insns,bytes,cycles,cpi,bpc,fe%,ex%,misp%)   --csv  comma separated
+  --cols A,B,..    columns (default: image,name,insns,bytes,cycles,cpi,bpc,fe%,ex%,misp%)   --csv  comma separated
   --raw            print sim64's own `tm` lines
-An IMAGE is a linked executable (ld64 output); its encoding comes from the file (-m overrides).  One sim64 run per image serves all parameter sets
+An IMAGE is a linked executable (ld64 output).  One sim64 run per image serves all parameter sets
 (at most 32 per run; more are split).  Percentages are shares of the cycles: fe% = issue cycles lost waiting for instruction bytes (fetch-wait),
 ex% = lost waiting for an operand, a unit or a long instruction (execute-wait), mispredict recovery is inside fe% (cause `misp`) and shown as misp%.
 """
@@ -42,9 +41,8 @@ def parse_args():
     ap.add_argument('-s', action='append', default=[])
     ap.add_argument('--base', default='')
     ap.add_argument('-n', default=None)
-    ap.add_argument('-m', default=None)
     ap.add_argument('--sim', default=os.path.join(ROOT, 'build', 'sim64'))
-    ap.add_argument('--cols', default='image,enc,name,insns,bytes,cycles,cpi,bpc,fe%,ex%,misp%')
+    ap.add_argument('--cols', default='image,name,insns,bytes,cycles,cpi,bpc,fe%,ex%,misp%')
     ap.add_argument('--csv', action='store_true')
     ap.add_argument('--raw', action='store_true')
     ap.add_argument('--presets', action='store_true')
@@ -74,7 +72,7 @@ def run_image(a, img, specs):
     out = []
     for i in range(0, len(specs), 32):
         chunk = specs[i:i + 32]
-        cmd = [a.sim] + (['-m', a.m] if a.m else []) + (['-n', a.n] if a.n else []) + ['--timing=' + s for _, s in chunk] + [img]
+        cmd = [a.sim] + (['-n', a.n] if a.n else []) + ['--timing=' + s for _, s in chunk] + [img]
         r = subprocess.run(cmd, capture_output=True, stdin=subprocess.DEVNULL, text=True, errors='replace')
         for l in r.stderr.splitlines():
             if l.startswith('tm '): out.append(l)

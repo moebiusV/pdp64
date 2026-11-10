@@ -28,9 +28,7 @@ corpus.ARCH['pdp64'] = dict(musl='aarch64', cpp=['-D__aarch64__', '-D__LP64__', 
 from corpus import ROOT, ARCH, CORPORA, BUILDS, run, ccomflags, cfiles
 
 TOOL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# PDP64_TARGET=pdp64/16|pdp64/32 measures the prefix-coded targets (ccom -m TARGET, as64 -m TARGET; build/pcc/ccom, ccom32 from tools/build-pcc.sh);
-# the default pdp64/r20 is the original encoding and the original flags.  The length statistics (histograms, pairs, modes) exist for r20 only.
-TARGET = os.environ.get('PDP64_TARGET', 'pdp64/r20')
+# pdp64 is measured with build/pcc/ccom (tools/build-pcc.sh) and build/as64 --stats, which counts the instruction bytes itself.
 RESULTS = os.environ.get('RESULTS', '/tmp/co-final/results.jsonl')
 MNEM = os.path.expanduser('~/claude/pdp64/spec/pdp64-mnemonics.hbnf')
 
@@ -173,43 +171,6 @@ def count_ins(path, arch):
     return sum(1 for s, m, o in parse_s(path, arch) if s == 'text' and not m.startswith('.'))
 
 
-def walk_pdp64(obj, ins, p2count=None):
-    """pair every instruction line of .text with its encoded length"""
-    d, secs = sections(obj)
-    off, size = secs['.text']
-    text = d[off:off + size]
-    pos = 0
-    out = []
-    for sec, mn, ops in ins:
-        if sec != 'text':
-            continue
-        if mn.startswith('.'):
-            if mn == '.even':
-                pos += pos & 1
-            elif mn == '.align':
-                n = int(ops[0])
-                pos += (-pos) % n
-            elif mn == '.space':
-                pos += int(ops[0])
-            elif mn == '.ascii':
-                pos += sum(len(bytes(x.strip().strip('"'), 'utf-8').decode('unicode_escape')) for x in ops)
-            else:
-                pos += {'.byte': 1, '.word': 2, '.long': 4, '.quad': 8}[mn] * len(ops)
-            continue
-        if pos + 2 > len(text):
-            break
-        p, = struct.unpack_from('<H', text, pos)
-        ln = 1 if p >> 14 == 3 else (p >> 14) + 1			# len = 11 is a one-parcel instruction of page 2
-        if p >> 14 == 3 and p2count is not None:
-            p2count[(p >> 8) & 63] += 1
-        out.append((mn, ops, ln * 2))
-        pos += 2 * ln
-    return out, (pos == len(text))
-
-
-PROLOGUE = {'push fp', 'movq sp,fp', 'pop fp', 'movq fp,sp'}
-
-
 def category(mn, ops, sh, ln):
     """the cost centre an instruction belongs to (for the analysis): one name"""
     o = ','.join(ops)
@@ -333,7 +294,7 @@ def one(job, nowrap, keep):
         return one_ref(job, keep)
     a = ARCH[arch]
     res = dict(corp=corp, src=src.replace(ROOT + '/', ''), arch=arch)
-    ccom = os.path.join(BUILDS, 'ours', arch, 'ccom') if arch != 'pdp64' else os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'build', 'pcc', 'ccom32' if TARGET == 'pdp64/32' else 'ccom')
+    ccom = os.path.join(BUILDS, 'ours', arch, 'ccom') if arch != 'pdp64' else os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'build', 'pcc', 'ccom')
     if arch == 'pdp64' and os.environ.get('PDP64_CCOM'):
         ccom = os.environ['PDP64_CCOM']          # a scratch build instead of the committed one
     with tempfile.TemporaryDirectory() as w:
@@ -345,8 +306,8 @@ def one(job, nowrap, keep):
         open(i, 'w').write(r.stdout)
         s, o = os.path.join(w, 'x.s'), os.path.join(w, 'x.o')
         fl = ccomflags(arch, True).split()
-        if arch == 'pdp64' and TARGET != 'pdp64/r20':
-            fl = ['-m', TARGET]          # the new targets turn on every optimization by default (pcc doc/PDP64-OPT.md)
+        if arch == 'pdp64':
+            fl = []                      # the pdp64 turns on every optimization by default (pcc doc/PDP64-OPT.md)
         if arch == 'pdp64' and nowrap:
             fl.append('-mnowrap')
         if arch == 'pdp64':
@@ -365,8 +326,8 @@ def one(job, nowrap, keep):
             res['fail'] = ('ccom', msg[:200] + (' (signal %d)' % -p.returncode if p.returncode < 0 else ''))
             return res
         asm = [os.environ['AS64']] if arch == 'pdp64' and os.environ.get('AS64') else a['asm']
-        if arch == 'pdp64' and TARGET != 'pdp64/r20':
-            asm = asm + ['-m', TARGET, '--stats']
+        if arch == 'pdp64':
+            asm = asm + ['--stats']
         q = run(asm + ['-o', o, s])
         if q.returncode:
             msg = ((q.stderr + q.stdout).strip().split('\n') or [''])[0]
@@ -380,65 +341,13 @@ def one(job, nowrap, keep):
         res['ins'] = count_ins(s, arch)
         res['text'] = text_bytes(o)
         res['image'] = image_bytes(o)
-        if arch == 'pdp64' and TARGET != 'pdp64/r20':
-            # the length walk below decodes the r20 length bits; for the prefix-coded targets as64 counts the instruction bytes itself
+        if arch == 'pdp64':
             m = re.search(r'(\d+) instructions, (\d+) bytes(?: \((\d+) cbCC expanded)?', q.stderr)
             res['ibytes'] = int(m.group(2)) if m else 0
             res['cbcc_expanded'] = int(m.group(3) or 0) if m else 0
             res['walk_ok'] = True
             for k in ('p2', 'hist', 'mn', 'pair', 'modes', 'modelen', 'longs', 'cats', 'formlen', 'bigram', 'trigram'):
                 res[k] = {}
-            if keep:
-                os.makedirs(keep, exist_ok=True)
-                os.replace(s, os.path.join(keep, res['src'].replace('/', '_') + '.s'))
-        elif arch == 'pdp64':
-            ins = parse_s(s, arch)
-            p2c = collections.Counter()
-            walked, ok = walk_pdp64(o, ins, p2c)
-            res['p2'] = dict(p2c)
-            res['walk_ok'] = ok
-            hist = collections.Counter()
-            mn = collections.Counter()
-            pair = collections.Counter()
-            modes = collections.Counter()
-            modelen = collections.Counter()
-            longs = collections.Counter()
-            cats = collections.Counter()
-            formlen = collections.Counter()
-            bigram = collections.Counter()
-            trigram = collections.Counter()
-            prev = []
-            for m, ops, ln in walked:
-                sh = tuple(shape(x) for x in ops)
-                cats['%s' % category(m, ops, sh, ln)] += 1
-                cats['bytes:%s' % category(m, ops, sh, ln)] += ln
-                key = '%s %s' % (m, ','.join(sh))
-                prev.append(key)
-                if len(prev) >= 2:
-                    bigram[prev[-2] + ' ; ' + prev[-1]] += 1
-                if len(prev) >= 3:
-                    trigram[prev[-3] + ' ; ' + prev[-2] + ' ; ' + prev[-1]] += 1
-                if m == 'ret':
-                    prev = []
-                hist[ln] += 1
-                mn[m] += 1
-                pair['%s %s' % (m, ','.join(sh))] += 1
-                formlen['%d %s %s' % (ln, m, ','.join(sh))] += 1
-                for x in sh:
-                    modes[x] += 1
-                    modelen['%s/%d' % (x, ln)] += 1
-                if ln >= 6:
-                    longs['%d %s %s' % (ln, m, ','.join(sh))] += 1
-            res['hist'] = hist
-            res['mn'] = mn
-            res['pair'] = pair
-            res['modes'] = modes
-            res['modelen'] = modelen
-            res['longs'] = longs
-            res['cats'] = cats
-            res['formlen'] = formlen
-            res['bigram'] = dict(bigram.most_common(800))
-            res['trigram'] = dict(trigram.most_common(500))
             if keep:
                 os.makedirs(keep, exist_ok=True)
                 os.replace(s, os.path.join(keep, res['src'].replace('/', '_') + '.s'))

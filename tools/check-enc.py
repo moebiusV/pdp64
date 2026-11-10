@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-check-enc -- the C codec (common/pdp64enc.c, with the tables generated from spec/pdp64-NN/pdp64-NN.hbnf) against the Python model of the encoding
-(docs/codegen-data/encoding/enc.py, the code that produced and verified the tables).  For each of pdp64/16 and pdp64/32:
+check-enc -- the C codec (common/pdp64enc.c, with the tables generated from spec/pdp64/pdp64.hbnf) against the Python model of the encoding
+(docs/codegen-data/encoding/enc.py, the code that produced and verified the tables).  For the encoding:
 
   1. the model, given only the forms of the grammar, lays out the same prefixes and bit positions as the table says (the table is what the model computes);
   2. a vector for every mnemonic of every form: the boundaries of every operand field (minimum, maximum, 0, +-1, a few random combinations) and, for
@@ -85,8 +85,8 @@ def tok(o):
     if k == 'A': return 'A:0:E' if o[1] is None else 'A:%d' % o[1]
 
 
-def run(tag):
-    d = encgram.load(tag, ROOT)
+def run():
+    d = encgram.load(ROOT)
     enc.RELOC = 'max'
     forms = []
     dpforms = set()
@@ -123,8 +123,7 @@ def run(tag):
             for c in set(combos): vecs.append((mn, c))
     # DP: the model writes the base of d(DP) as register 16; the C codec as 255
     def cop(o):
-        if o[0] == 'B' and o[2] == 16 and tag == '16' and False: return o
-        return o
+                return o
     inp = []
     exp = []
     nenc = 0
@@ -153,7 +152,7 @@ def run(tag):
         dec = mn + ''.join(' ' + tok(o) for o in dm[1])
         dec = dec.replace(':16 ', ':%d ' % DPC) if False else dec
         exp.append('%d %s| %s' % (f.n, ''.join('%04x ' % x for x in par), dec))
-    out = subprocess.run([os.path.join(B, 'encdrv'), tag], input='\n'.join(inp) + '\n', capture_output=True, text=True).stdout.split('\n')
+    out = subprocess.run([os.path.join(B, 'encdrv')], input='\n'.join(inp) + '\n', capture_output=True, text=True).stdout.split('\n')
     bad = 0
     for i, (a, b) in enumerate(zip(exp, out)):
         # DP base: the model says 16, the codec 255
@@ -173,7 +172,7 @@ def run(tag):
         if n == 1 or p0 % 11 == 0:
             ps = [p0] + [rnd.randrange(65536) for _ in range(n - 1)]
             pats.append((' '.join('%04x' % x for x in ps), ps))
-    out = subprocess.run([os.path.join(B, 'encdrv'), '-d', tag], input='\n'.join(p for p, _ in pats) + '\n', capture_output=True, text=True).stdout.split('\n')
+    out = subprocess.run([os.path.join(B, 'encdrv'), '-d'], input='\n'.join(p for p, _ in pats) + '\n', capture_output=True, text=True).stdout.split('\n')
     bad_d = 0
     for (txt, ps), got in zip(pats, out):
         nd += 1
@@ -188,9 +187,9 @@ def run(tag):
         if not ok:
             bad_d += 1
             if bad_d <= 5: print('DECODE MISMATCH', txt, got)
-    # 4. the hand-checked format vectors (tests/enc/vectors-NN.txt, from the prototype): the same parcels, and the instruction back
-    vl = [l.rstrip('\n') for l in open(os.path.join(ROOT, 'tests', 'enc', 'vectors-%s.txt' % tag)) if l.strip() and not l.startswith('#')]
-    out = subprocess.run([os.path.join(B, 'encdrv'), tag], input='\n'.join(l.split(' | ')[0] for l in vl) + '\n', capture_output=True, text=True).stdout.split('\n')
+    # 4. the hand-checked format vectors (tests/enc/vectors.txt, from the prototype): the same parcels, and the instruction back
+    vl = [l.rstrip('\n') for l in open(os.path.join(ROOT, 'tests', 'enc', 'vectors.txt')) if l.strip() and not l.startswith('#')]
+    out = subprocess.run([os.path.join(B, 'encdrv')], input='\n'.join(l.split(' | ')[0] for l in vl) + '\n', capture_output=True, text=True).stdout.split('\n')
     bad_v = 0
     for l, got in zip(vl, out):
         ins, want = l.split(' | ')
@@ -199,11 +198,11 @@ def run(tag):
         g_par, _, g_ins = got.partition(' | ')
         if g_par.strip() != want.strip() or g_ins != back:
             bad_v += 1; print('VECTOR', ins, 'wanted', want, 'got', got)
-    print('pdp64/%s: %d forms, %d leaves laid out as the model does; %d vectors (%d encodable), %d mismatches; %d decoder patterns, %d mismatches' %
-          (tag, len(forms), len(code.leaves), len(vecs), nenc, bad, nd, bad_d))
-    print('pdp64/%s: %d format vectors, %d differ' % (tag, len(vl), bad_v))
+    print('pdp64: %d forms, %d leaves laid out as the model does; %d vectors (%d encodable), %d mismatches; %d decoder patterns, %d mismatches' %
+          (len(forms), len(code.leaves), len(vecs), nenc, bad, nd, bad_d))
+    print('pdp64: %d format vectors, %d differ' % (len(vl), bad_v))
     return bad + bad_d + bad_v
 
 
 if __name__ == '__main__':
-    sys.exit(1 if (run('16') + run('32')) else 0)
+    sys.exit(1 if run() else 0)

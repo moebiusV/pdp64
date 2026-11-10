@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-encgram -- reads the hbnf grammars of the prefix-coded encodings (spec/pdp64-enc.hbnf, spec/pdp64-NN/pdp64-NN.hbnf) and returns the forms and the
+encgram -- reads the hbnf grammars of the prefix-coded encodings (spec/pdp64-enc.hbnf, spec/pdp64/pdp64.hbnf) and returns the forms and the
 leaves of an encoding as a plain dict.  The grammars are the source of truth; this is how the generators and the checks read them.
 
-    import encgram; d = encgram.load('16')       # or '32'
+    import encgram; d = encgram.load()
 
 The dict has the shape tools/mkenc.py and the checks have always worked on:
 
@@ -211,10 +211,10 @@ def spec_dir(root=None):
     return os.path.join(root or os.environ.get('PDP64_SPEC_ROOT') or ROOT, 'spec')    # PDP64_SPEC_ROOT: another tree (an older grammar to compare with)
 
 
-def load(tag, root=None):
+def load(root=None):
     import mkgrammar
     sd = spec_dir(root)
-    path = os.path.join(sd, 'pdp64-' + tag, 'pdp64-%s.hbnf' % tag)
+    path = os.path.join(sd, 'pdp64', 'pdp64.hbnf')
     rules, files = read_rules(path)
     aliases = {lit: v for lit, v in numbered(read_rules(os.path.join(sd, 'pdp64-mnemonics.hbnf'))[0]['ralias'][0])}
     g = lambda n: rules[n][0] if n in rules else (_ for _ in ()).throw(GrammarError('%s: no rule %s' % (path, n)))

@@ -10,8 +10,7 @@
 #define PSW_VALID	(PSW_FLAGS | (1u << PSW_T) | PSW_FIELD(PRI, ~0u) | PSW_FIELD(MODE, ~0u) | PSW_FIELD(PREV, ~0u))
 
 struct pdp64_cpu {
-	uint64_t r[32], pc, dp, fpsr;	/* r16 to r31 exist only in pdp64/32 (enc 2) */
-	int enc;				/* the instruction encoding: 0 pdp64/r20 (the original, decoded by the generated format parser), 1 pdp64/16, 2 pdp64/32 (the table codec, common/pdp64enc; build with -DPDP64_ENC) */
+	uint64_t r[32], pc, dp, fpsr;
 	int fN, fZ, fV, fC;				/* the flag bits of the PSW; the other bits are in `psw` */
 	uint64_t cur_pc;			/* the instruction being executed (set by pdp64_step) */
 	unsigned psw;				/* the PSW without the flags (bits 0 to 3 are always zero here): T, priority, current and previous mode.  Read and write it through pdp64_psw / pdp64_set_psw. */
@@ -65,8 +64,7 @@ static inline int pdp64_pte_space_ok(uint64_t pte)
 static inline unsigned pdp64_mode(const struct pdp64_cpu *c) { return (c->psw >> PSW_MODE) & ((1u << PSW_WIDTH_MODE) - 1); }
 static inline unsigned pdp64_priority(const struct pdp64_cpu *c) { return (c->psw >> PSW_PRI) & ((1u << PSW_WIDTH_PRI) - 1); }
 
-int pdp64_insn_parcels_enc(int enc, uint16_t parcel0);	/* the same for the encodings 1 and 2 (0: an illegal pattern); enc 0 is pdp64_insn_parcels */
-int pdp64_insn_parcels(uint16_t parcel0);	/* the length in parcels of the instruction whose first parcel this is (a page-2 instruction is one) */
+int pdp64_insn_parcels(uint16_t parcel0);	/* the length in parcels of the instruction whose first parcel this is (0: an illegal pattern) */
 void pdp64_init(void);				/* once, before the first step */
 void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e);
 

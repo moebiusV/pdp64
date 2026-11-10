@@ -1,10 +1,10 @@
-/* The executor against the tables of pdp64/16 and pdp64/32, exhaustively over the first parcel:
+/* The executor against the table of the encoding, exhaustively over the first parcel:
  *   - a first parcel is illegal (enc_len_p0 == 0, 5.0% of them) iff the executor faults with `illegal instruction`; every first parcel the tables give a
  *     length to is run, with the following parcels random, at least 3 times,
  *   - an instruction the tables decode never runs as `illegal instruction` (the sub-opcode beyond the leaf's mnemonics is the one other illegal pattern: the
  *     decoder rejects it, and so does the executor),
  *   - an instruction is `unimplemented` only if it is one of the known words (atomics, AES, SHA, UTF8DEC/ENC, MVAL, deferred loads, syspg),
- *   - the registers of a decoded instruction are below the number of registers of the encoding (r16 to r31 do not exist in pdp64/16),
+ *   - the registers of a decoded instruction are below the number of registers of the encoding,
  *   - no other message names an internal inconsistency ("unimplemented operand form").
  * usage: exectest-enc [ILLEGAL16 ILLEGAL32]   the number of first parcels the grammar leaves unassigned (tools/check-exec-enc.sh computes it from the leaves; without it only
  *        the agreement of the decoder and the executor is checked) */
@@ -81,15 +81,15 @@ int main(int argc, char **argv)
 	int bad = 0;
 	M = malloc(sizeof *M);
 	pdp64_init();
-	for (int enc = 1; enc <= 2; enc++) {
-		const struct etab *t = enc == 1 ? &enc_tab_16 : &enc_tab_32;
+	{
+		const struct etab *t = &enc_tab;
 		long illegal = 0, ran = 0, unimpl = 0, decode_illegal = 0;
 		for (int p0 = 0; p0 < 65536; p0++) {
 			int n = enc_len_p0(t, (uint16_t)p0);
 			if (!n) illegal++;
 			for (int rep = 0; rep < (n ? 3 : 1); rep++) {
 				memset(M, 0, sizeof *M);
-				M->c.enc = enc; M->c.standin = 1;
+				M->c.standin = 1;
 				pdp64_set_psw(&M->c, MODE_USER << PSW_MODE | MODE_USER << PSW_PREV);
 				for (int i = 0; i < DSIZE; i++) M->mem[i] = (uint8_t)rnd();
 				for (int i = 0; i < 32; i++) M->c.r[i] = DBASE + 8 * (rnd() % 1024);
@@ -114,7 +114,7 @@ int main(int argc, char **argv)
 		}
 		printf("%s: %ld of 65536 first parcels illegal (%.2f%%), %ld runs, %ld illegal after decoding (sub-opcode beyond the leaf), %ld runs of a word the executor does not implement\n",
 		    t->name, illegal, illegal / 655.36, ran, decode_illegal, unimpl);
-		long want = argc > 2 ? atol(argv[enc]) : -1;
+		long want = argc > 1 ? atol(argv[1]) : -1;
 		if (want >= 0 && illegal != want) { printf("FAIL %s: expected %ld illegal first parcels (the grammar's), found %ld\n", t->name, want, illegal); bad++; }
 	}
 	printf(bad ? "exectest-enc: %d FAILED\n" : "exectest-enc: ok (%d)\n", bad);

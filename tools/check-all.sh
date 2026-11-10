@@ -1,13 +1,11 @@
 #!/bin/sh
-# Every check: the format round trips, the syntax tests, the assembler tests, the drift test.
+# Every check: the syntax tests, the assembler and linker tests, the encoding checks, the manual, the simulator, timing, relaxation and flag tests, QEMU.
 set -e
 cd "$(dirname "$0")/.."
-tools/check-formats.sh | grep -c '^ok' | sed 's/$/ format vectors ok/'
 tools/check-asmsyntax.sh | grep -c '^ok' | sed 's/$/ syntax tests ok/'
 tools/check-as64.sh
 tools/check-enc.sh
 tools/check-grammar-enc.sh
-python3 tools/check-drift.py
 python3 tools/check-manual-src.py
 python3 tools/mkmanual.py --check
 tools/mkbook.sh --check
@@ -18,15 +16,9 @@ tools/check-timing.sh
 tools/check-exec-enc.sh
 tools/check-relax.sh | tail -n 1
 tools/check-relax.sh --mutate | tail -n 1
-tools/check-p2.sh
-tools/check-p2.sh --mutate
 tools/check-flaginv.sh | tail -n 1
 if [ -x "${PDP64_QEMU:-$HOME/claude/qemu-build/qemu-system-pdp64}" ]; then
 	tools/check-qemu.sh
 else
 	echo "check-qemu: skipped (no qemu-system-pdp64; see qemu/README.md)"
-fi
-# the generated tables of the LLVM back end (the compiler itself is checked by llvm/check.sh, which needs a built llvm-mc)
-if [ -d llvm/target/PDP64/gen ]; then
-	tools/check-llvm-gen.sh
 fi

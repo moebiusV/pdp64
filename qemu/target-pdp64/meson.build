@@ -1,13 +1,11 @@
 # The instruction semantics and the decoder are not written here: gen/ holds
-# copies (qemu/sync.sh in the pdp64 repository) of common/pdp64exec.c and the
-# decoder generated from spec/pdp64.hbnf.  They are built as a separate
-# library, with the flags the pdp64 tools use, not QEMU's.
+# copies (qemu/sync.sh in the pdp64 repository) of common/pdp64exec.c, the
+# table codec common/pdp64enc.c and its tables generated from
+# spec/pdp64/pdp64.hbnf.  They are built as a separate library, with the flags
+# the pdp64 tools use, not QEMU's.
 pdp64_core = static_library('pdp64core',
-  files('gen/pdp64exec.c', 'gen/calib.c', 'gen/p2.c', 'gen/fmtp.c'),
-  c_args: ['-w', '-std=gnu11', '-fPIC',
-           '-Demit_bits=fmt_emit_bits', '-Demit_bytes=fmt_emit_bytes',
-           '-Dparse_bits=fmt_parse_bits', '-Dparse_bytes=fmt_parse_bytes',
-           '-Dfree_arena=fmt_free_arena'],
+  files('gen/pdp64exec.c', 'gen/pdp64enc.c', 'gen/pdp64-tab.c'),
+  c_args: ['-w', '-std=gnu11', '-fPIC'],
   include_directories: include_directories('gen'),
   dependencies: [dependency('threads', required: false)],
   build_by_default: false)

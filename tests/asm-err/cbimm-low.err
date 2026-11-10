@@ -1,1 +1,0 @@
-immediate -32769 does not fit 16 bits; use cmp and bCC

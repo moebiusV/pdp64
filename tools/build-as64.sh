@@ -1,7 +1,7 @@
 #!/bin/sh
-# Generate the parsers from the grammars and build as64.  HBNF and HBNF_TEMPLATES as in check-formats.sh.
-# as64 reads a superset of the grammar of spec/ (build/x: the words and registers r16-r31 of the prefix-coded encodings, tools/mkenc.py) and carries the
-# tables of both of them (build/pdp64-16-tab.c, build/pdp64-32-tab.c).
+# Generate the parsers and tables from the grammars and build as64.  HBNF and HBNF_TEMPLATES as in check-formats.sh.
+# as64 reads a superset of the grammar of spec/ (build/x: the words and registers r16-r31 of the pdp64 encoding, tools/mkenc.py) and carries the
+# tables of the encoding (build/pdp64-tab.c, from spec/pdp64/pdp64.hbnf).
 set -e
 cd "$(dirname "$0")/.."
 HBNF=${HBNF:-/tmp/claude-1000/hbnf-latest/hbnf}
@@ -11,11 +11,7 @@ python3 tools/mkgrammar.py
 python3 tools/mkenc.py
 cp spec/common.hbnf spec/ascii.hbnf "$B/x/"
 (cd "$B/x" && "$HBNF" pdp64-asm.hbnf --backend=c --templates="$TPL" --ast --spans --no-compact --no-overlay) > "$B/x/pdp64-asm-parser.c"
-("$HBNF" "$B/pdp64.hbnf" --backend=c --templates="$TPL") > "$B/pdp64-parser.c"
 (cd "$B" && "$HBNF" elf.hbnf       --backend=c --templates="$TPL") > "$B/elf-parser.c"
 CFLAGS=${CFLAGS:--g -w}
-# each generated parser exports parse_bytes, emit_bytes and friends: rename them in the format parser's object
-RENAME="-Demit_bits=fmt_emit_bits -Demit_bytes=fmt_emit_bytes -Dparse_bits=fmt_parse_bits -Dparse_bytes=fmt_parse_bytes -Dfree_arena=fmt_free_arena"
-gcc $CFLAGS $RENAME -Ias64 -I"$B" -c as64/fmtp.c -o "$B/fmtp.o"
-gcc $CFLAGS -Ias64 -Icommon -I"$B/x" -I"$B" -o "$B/as64" as64/as64.c as64/asmp.c common/calib.c common/p2.c common/pdp64enc.c "$B/pdp64-16-tab.c" "$B/pdp64-32-tab.c" "$B/fmtp.o"
+gcc $CFLAGS -Ias64 -Icommon -I"$B/x" -I"$B" -o "$B/as64" as64/as64.c as64/asmp.c common/pdp64enc.c "$B/pdp64-tab.c"
 echo "built $B/as64"

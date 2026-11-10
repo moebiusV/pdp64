@@ -2,7 +2,6 @@
 """
 mkgrammar -- the numbers of the architecture are written once, as the enum rules of spec/pdp64-mnemonics.hbnf.  This reads them and writes
 
-    build/pdp64.hbnf       from spec/pdp64.hbnf.in, with every @NAME@ replaced by that number
     build/pdp64-consts.h   one #define per enumerator, for the C that needs a number by name (as64, sim64, ld64)
 
 An enumerator "cmp"@0b011010 of the rule mn-alu is MN_ALU_CMP.  An enumerator without a number is the one before plus one, as in hbnf.
@@ -57,29 +56,9 @@ def main():
             if k in const:
                 sys.exit('mkgrammar: %s is defined twice' % k)
             const[k] = v
-    # the template
-    t = open(os.path.join(ROOT, 'spec', 'pdp64.hbnf.in')).read()
-    macros = {}
-    def take(m):
-        macros[m.group(1)] = m.group(2).strip()
-        return ''
-    t = re.sub(r'^%define (\w+) (.*)\n', take, t, flags=re.M)
-    for _ in range(4):                                      # macros may use macros
-        t = re.sub(r'@(\w+)@', lambda m: macros.get(m.group(1), m.group(0)), t)
-    alias_offset = dict(en['offset'])['alias']
-    def sub(m):
-        if m.group(1) not in const:
-            sys.exit('mkgrammar: no enumerator %s' % m.group(1))
-        if const[m.group(1)] >= alias_offset:
-            sys.exit('mkgrammar: %s is an alias (number %#x): a template must name the word it stands for' % (m.group(1), const[m.group(1)]))
-        return '0x%X' % const[m.group(1)]
-    g = re.sub(r'@([A-Z0-9_]+)@', sub, t)
-    g = g.replace('\n; This file is a template: ', '\n; GENERATED from pdp64.hbnf.in by tools/mkgrammar.py; this file was a template: ', 1) if False else g
-    bd = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
-    os.makedirs(bd, exist_ok=True)
-    open(os.path.join(bd, 'pdp64.hbnf'), 'w').write(g)
     # the grammars hbnf reads: enums longest-first, and the mnemonic rule in a safe order
     bd = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
+    os.makedirs(bd, exist_ok=True)
     mn = open(os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf')).read()
     mn += '\n; written by tools/mkgrammar.py: the groups of mnemonics\nmnemonic = ' + '\n         | '.join(group_order(en)) + '\n'
     open(os.path.join(bd, 'pdp64-mnemonics.hbnf'), 'w').write(mn)

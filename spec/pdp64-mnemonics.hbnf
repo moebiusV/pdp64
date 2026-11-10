@@ -368,7 +368,7 @@ lencode = "parcels1"@0b00
 
 ; Page 2: the opcodes of the one-parcel page (`len` = 3, parcel 0 is `11 opc:6 reg:4 low:4`).  The names are internal: they are encodings, not
 ; assembler mnemonics (the assembler chooses a page-2 form by itself when the operands fit, and the instruction means exactly what the page-1
-; form means: common/p2.c has the table that says which).  A number not listed is reserved and is an illegal instruction.
+; form means).  Page 2 belongs to the original encoding of the earlier iterations; no tool reads this table any more.  A number not listed is reserved and is an illegal instruction.
 p2op = "ld.q"@0x00       ; movq (rn),rd
      | "st.q"@0x01       ; movq rs,(rn)
      | "ld.l"@0x02
@@ -436,7 +436,7 @@ ralias = "sp"@14 | "fp"@13
 basespec = "pc"@1 | "dp"@2
 
 ; The conditions (ISA 4.4), for the instructions that take one: the number is the low nibble of the corresponding branch opcode (`bne` is 0x31, so ne is 1),
-; checked by tools/check-drift.py.  `al` is "always" (`br`).  hs and lo are the usual other names of cc and cs.
+; checked by tools/check-drift-enc.py.  `al` is "always" (`br`).  hs and lo are the usual other names of cc and cs.
 cc = "al"@0 | "ne"@1 | "eq"@2 | "pl"@3 | "mi"@4 | "vc"@5 | "vs"@6 | "cc"@7 | "cs"@8 | "ge"@9 | "lt"@10 | "gt"@11 | "le"@12 | "hi"@13 | "los"@14
 ccalias = "hs"@7 | "lo"@8
 

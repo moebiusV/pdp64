@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""pdp64-static.py -- static size of the corpus for pdp64 exactly as tools/pdp64size.py does it (PDP64_TARGET=pdp64/16|32):
-ccom -m TARGET on the aarch64-preprocessed text, as64 -m TARGET --stats, instruction count and instruction bytes from as64's statistics line,
+"""pdp64-static.py -- static size of the corpus for pdp64 exactly as tools/pdp64size.py does it (the compiler is build/pcc/ccom of tools/build-pcc.sh):
+ccom -m TARGET on the aarch64-preprocessed text, as64 -m pdp64 --stats, instruction count and instruction bytes from as64's statistics line,
 .text bytes of the object (instructions + constant pools + padding).
+TARGET is pdp64, the only target (both tools accept `-m pdp64`; the earlier iterations pdp64/32 and pdp64/16 were measured with the tools of the git tag pre-single-cpu).
 usage: pdp64-static.py INDIR OUTDIR CCOM AS64 TARGET [-j N]      writes OUTDIR/static.csv (nnn,status,ins,ibytes,text,cbcc_expanded,msg)
 """
 import os, re, sys, struct, subprocess, tempfile, concurrent.futures as cf
@@ -29,7 +30,7 @@ def one(n):
         if p.returncode or not os.path.exists(s):
             m = [x for x in (p.stderr or p.stdout).strip().split('\n') if x.strip() and 'warning' not in x]
             return [n, 'fail', 0, 0, 0, 0, 'ccom: ' + (m[0] if m else 'exit %d' % p.returncode)[:150].replace(',', ';')]
-        q = subprocess.run([as64, '-m', target, '--stats', '-o', o, s], capture_output=True, text=True, errors='replace')
+        q = subprocess.run([as64, '-m', 'pdp64', '--stats', '-o', o, s], capture_output=True, text=True, errors='replace')
         if q.returncode:
             return [n, 'fail', 0, 0, 0, 0, 'as64: ' + (q.stderr.strip().split('\n') or [''])[0][:150].replace(',', ';')]
         m = re.search(r'(\d+) instructions, (\d+) bytes(?: \((\d+) cbCC expanded)?', q.stderr)

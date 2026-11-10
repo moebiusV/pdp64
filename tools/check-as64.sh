@@ -1,16 +1,15 @@
 #!/bin/sh
-# Assemble tests/asm/*.s with as64 and compare the .text words (little-endian parcels) with tests/asm/NAME.words,
+# Assemble tests/asm/*.s with as64 (the pdp64 encoding) and compare the .text words (little-endian parcels) with tests/asm/NAME.words,
 # which were worked out by hand from the ISA.
 set -e
 cd "$(dirname "$0")/.."
 tools/build-as64.sh > /dev/null
 B=${BUILD:-build}; fail=0
-# the three encodings: the original (tests/asm, tests/asm-err), pdp64/16 and pdp64/32 (tests/asm-pdp64-16, tests/asm-err-pdp64-16, ...); each test has its own .flags
-for set in "" -pdp64-16 -pdp64-32; do
-A=tests/asm$set; E=tests/asm-err$set
+set=
+A=tests/asm; E=tests/asm-err
 for s in $A/*.s; do
 	n=$(basename "$s" .s)
-	"$B/as64" $(cat $A/$n.flags 2>/dev/null) -o "$B/$set$n.o" "$s"
+	"$B/as64" -o "$B/$set$n.o" "$s"
 	python3 - "$B/$set$n.o" "$A/$n" <<'PY' || fail=1
 import struct, sys
 d = open(sys.argv[1], 'rb').read()
@@ -41,9 +40,8 @@ done
 for s in $E/*.s; do
 	[ -e "$s" ] || continue
 	n=$(basename "$s" .s)
-	if "$B/as64" $(cat $E/$n.flags 2>/dev/null) -o "$B/err_$set$n.o" "$s" 2> "$B/err_$set$n.msg"; then echo "FAIL $set$n: accepted"; fail=1
+	if "$B/as64" -o "$B/err_$set$n.o" "$s" 2> "$B/err_$set$n.msg"; then echo "FAIL $set$n: accepted"; fail=1
 	elif grep -q "$(cat $E/$n.err)" "$B/err_$set$n.msg"; then echo "ok   $set$n (refused)"
 	else echo "FAIL $set$n: wrong message: $(head -1 $B/err_$set$n.msg)"; fail=1; fi
-done
 done
 exit $fail

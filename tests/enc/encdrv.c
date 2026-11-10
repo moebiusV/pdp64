@@ -45,9 +45,8 @@ static int get_op(char *t, struct eop *p)
 int main(int argc, char **argv)
 {
 	char line[1024];
-	int dec = 0, ai = 1;
-	if (ai < argc && !strcmp(argv[ai], "-d")) { dec = 1; ai++; }
-	T = !strcmp(argv[ai], "16") ? &enc_tab_16 : &enc_tab_32;
+	int dec = argc > 1 && !strcmp(argv[1], "-d");
+	T = &enc_tab;
 	while (fgets(line, sizeof line, stdin)) {
 		line[strcspn(line, "\n")] = 0;
 		if (dec) {

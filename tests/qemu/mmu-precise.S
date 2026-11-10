@@ -423,18 +423,18 @@ l0a:
 	.space	4048
 
 	.align	4096
-pgdata:	.word	0x1403
+pgdata:	ret
 	.space	6
 	.quad	0x1234
 	.space	4080
 
 	.align	4096
-pgdata2:	.word	0x1403
+pgdata2:	ret
 	.space	6
 	.quad	0x5678
 	.space	4080
 pgx:	.space	4094
-	.word	0x540d
+	.word	0xf2f2		; the first parcel of `add #1000, r1`; its second parcel is on the next page
 
 	.data
 	.align	8

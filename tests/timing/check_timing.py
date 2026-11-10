@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """Validation of the timing model against microbenchmarks whose cycle count is worked out by hand from the model's stated pipeline.
 
-usage: check_timing.py BUILD_DIR      (runs each test in the three encodings; exits 1 if any differs)
+usage: check_timing.py BUILD_DIR      (exits 1 if any differs)
 
 The pipeline (docs/timing-model.md): fetch request at cycle R, bytes in the buffer at R+fl, decode at R+fl+ldec, ready to issue dl cycles after that.  So with the
 program starting at cycle 0 the first instruction issues at t0 = fl + ldec + dl (2 with the base parameters).  The cycle count is the cycle of the last issue (the
 exit `trap #0`, held for `sys` cycles) plus 1.  Each expectation below is a closed formula in the parameters; the formula is derived on paper from that
 description, not from the code.  The base configuration has an ideal memory system, perfect branch prediction, ldec=0 and a wide fetch, so that
-the code of the three encodings (different lengths) gives the same count unless the test is about fetch.
+the count does not depend on the lengths of the instructions unless the test is about fetch.
 """
 import sys, os, subprocess, re, tempfile
 
 B = sys.argv[1] if len(sys.argv) > 1 else 'build'
 AS, LD, SIM = B + '/as64', B + '/ld64', B + '/sim64'
-ENCS = [('r20', []), ('16', ['-m', 'pdp64/16']), ('32', ['-m', 'pdp64/32'])]
+ENCS = [('pdp64', [])]
 BASE = dict(iw=1, W=16, N=64, fl=1, dl=1, ldec=0, sys=1, alu=1, ld=3, mul=3, div=20, pred='perfect', tkb=1, btb=0, brlat=1, dq=4, mp=1, mpx=0, ic=0, dc=0, decw=16, ras=16)
 TMP = tempfile.mkdtemp(prefix='tmchk')
 fails = 0; ran = 0
@@ -136,7 +136,7 @@ def t_mispredict():
             check('mispredict', 'N=%d brlat=%d mpx=%d ldec=%d %s' % (N, brlat, mpx, ldec, enc[0]), res[0]['cycles'], exp)
             check('mispredict', 'count %s' % enc[0], res[0]['mispred'], N - 1)
 
-# ---- 8. a straight line of instructions that is limited by fetch: independent `movq #imm64, rK` (10 bytes in pdp64/r20), W bytes per cycle, one window per cycle.
+# ---- 8. a straight line of instructions that is limited by fetch: independent `movq #imm64, rK`, W bytes per cycle, one window per cycle.
 #         Instruction i ends in window floor((end_i - 1)/W) of the stream, which arrives at (window index - first window index + 1)... computed from the real addresses of the profile
 def t_fetch():
     N = 30
@@ -180,7 +180,7 @@ def t_btb():
 def t_fused():
     for dep, ready in ((True, 2), (False, 1)):
         src = prog('\tmovq\t#1, r0\n\tmov2\tr0, r1, %s, r2\n\tadd\tr2, r4\n' % ('r1' if dep else 'r3'))
-        for enc in ENCS[1:]:
+        for enc in ENCS:
             res, _ = run(src, enc, 'fused', [spec()])
             check('fused', 'mov2 %s %s' % ('dependent' if dep else 'independent', enc[0]), res[0]['cycles'], 3 + ready + 3)
             check('fused', 'one slot %s' % enc[0], res[0]['insns'], 5)

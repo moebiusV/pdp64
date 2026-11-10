@@ -1,11 +1,11 @@
-/* The prefix-coded encodings pdp64/16 and pdp64/32 in the shared executor.  Included by pdp64exec.c (it shares that file's statics) when PDP64_ENC is
- * defined; the codec is common/pdp64enc.c with the generated tables.
+/* The instruction decoder of the shared executor.  Included by pdp64exec.c (it shares that file's statics); the codec is common/pdp64enc.c with the
+ * generated tables.
  *
  * An instruction is decoded by the table codec into an einsn (a mnemonic and operands as the assembly language writes them: sources first, destination
- * last, `cmp` register first).  The meaning is the one of exec_fmt: an instruction of the groups the original encoding has is turned into the struct fmt
- * the old decoder would have produced (opcode group, sub-opcode, register fields) and run by exec_fmt, with its memory-side operand built by eoperand from
- * the einsn; so the semantics of those instructions are one piece of code for the three encodings.  What only the new encodings have (the fused
- * instructions, the selects, the overflow-checked arithmetic, the checked trap, movql, MESC) is written here.
+ * last, `cmp` register first).  An instruction of the groups of the mnemonic numbering (spec/pdp64-mnemonics.hbnf) is turned into the struct fmt (opcode
+ * group, sub-opcode, register fields) and run by exec_fmt, with its memory-side operand built by eoperand from the einsn, so that the semantics are one
+ * piece of code.  What only the grammar of the encoding has (the fused instructions, the selects, the overflow-checked arithmetic, the checked trap, movql,
+ * MESC) is written here.
  *
  * What is not implemented traps as an illegal instruction with a message that names the mnemonic (list: H_UNIMPL below): the atomic group (the operand
  * placement and the size encoding are not fixed by the ISA text), the AES and SHA instructions, UTF8DEC, UTF8ENC, MVAL, the deferred loads (.d, .ud),
@@ -96,21 +96,16 @@ static const struct hdef hdefs[] = {
    xminu xminudb ll sc), aeses aesesm aesds aesdsm aesks1 aesks2 aesim, sha256sig0/1 sha256sum0/1 sha512sig0/1 sha512sum0/1, msha256 msha512 maesctr, utf8dec utf8enc
    mval, the deferred loads movX.d movX.ud, syspg0 to syspg5 */
 
-static struct hinfo { uint8_t kind; int a; } *HT[3];
-static const struct etab *ETAB[3];
+static struct hinfo { uint8_t kind; int a; } *HT;
 
 static void enc_exec_init(void)
 {
-	const struct etab *tabs[3] = { NULL, &enc_tab_16, &enc_tab_32 };
-	for (int e = 1; e <= 2; e++) {
-		const struct etab *t = tabs[e];
-		ETAB[e] = t;
-		enc_init(t);
-		HT[e] = calloc(t->nmn, sizeof **HT);
-		for (size_t i = 0; i < sizeof hdefs / sizeof *hdefs; i++) {
-			int m = enc_mn_find(t, hdefs[i].name);
-			if (m >= 0) { HT[e][m].kind = hdefs[i].kind; HT[e][m].a = hdefs[i].a; }
-		}
+	const struct etab *t = &enc_tab;
+	enc_init(t);
+	HT = calloc(t->nmn, sizeof *HT);
+	for (size_t i = 0; i < sizeof hdefs / sizeof *hdefs; i++) {
+		int m = enc_mn_find(t, hdefs[i].name);
+		if (m >= 0) { HT[m].kind = hdefs[i].kind; HT[m].a = hdefs[i].a; }
 	}
 }
 
@@ -145,7 +140,7 @@ static void check_both(uint64_t a, int size, int write)
 	E->check(E->u, a + size - 1, 1, write);
 }
 
-/* the category of a decoded instruction, for the profile (the same classes as classify_fmt) */
+/* the category of a decoded instruction, for the profile  */
 static int is_frame(const struct eop *e) { return e->k == EK_B && (e->r == 13 || e->r == 14); }
 static int classify_enc(const struct hinfo *h, const struct einsn *in)
 {
@@ -173,7 +168,7 @@ static int classify_enc(const struct hinfo *h, const struct einsn *in)
 
 static void step_enc(void)
 {
-	const struct etab *t = ETAB[C->enc];
+	const struct etab *t = &enc_tab;
 	uint64_t start = pc;
 	uint16_t par[5];
 	struct einsn in;
@@ -184,12 +179,11 @@ static void step_enc(void)
 	if (enc_decode(t, par, n, &in, NULL) != n) die("illegal instruction", 0);
 	pc += 2 * n;
 
-	const struct hinfo *h = &HT[C->enc][in.mn];
+	const struct hinfo *h = &HT[in.mn];
 	const struct eop *op = in.op;
 	if (E->profile) E->profile(E->u, start, n, classify_enc(h, &in));
 	struct fmt f;
-	memset(&f, 0, sizeof f);
-	enc_active = 0; EO = NULL; EO_size = 8;
+	memset(&f, 0, sizeof f); EO = NULL; EO_size = 8;
 	switch (h->kind) {
 	case H_UNIMPL: {
 		static char msg[96];
@@ -198,23 +192,23 @@ static void step_enc(void)
 	}
 	case H_MOV: case H_MOVZ: {
 		int opc = h->a, size = moves_size(opc);
-		EO_size = size; enc_active = 1;
+		EO_size = size;
 		if (in.nops == 2 && is_mem(&op[1])) {					/* the store: rs, memory */
 			f.opc = opc == MN_MOV_MOVQ ? MOVSTORE_MOVQ : opc == MN_MOV_MOVL ? MOVSTORE_MOVL : opc == MN_MOV_MOVW ? MOVSTORE_MOVW : MOVSTORE_MOVB;
 			f.reg = op[0].r; EO = &op[1];
 		} else { f.opc = opc; f.reg = op[1].r; EO = &op[0]; }
-		exec_fmt(f, start, 0); enc_active = 0; return;
+		exec_fmt(f, start, 0); return;
 	}
-	case H_LEA: f.opc = OPGROUP_LEA; f.reg = op[1].r; EO = &op[0]; enc_active = 1; exec_fmt(f, start, 0); enc_active = 0; return;
+	case H_LEA: f.opc = OPGROUP_LEA; f.reg = op[1].r; EO = &op[0]; exec_fmt(f, start, 0); return;
 	case H_ALU:
-		f.opc = h->a; enc_active = 1;
+		f.opc = h->a;
 		if (h->a == MN_ALU_CMP || h->a == MN_ALU_FCMP) { f.reg = op[0].r; EO = &op[1]; }
 		else { f.reg = op[1].r; EO = &op[0]; }
-		exec_fmt(f, start, 0); enc_active = 0; return;
+		exec_fmt(f, start, 0); return;
 	case H_SOP:
-		f.opc = OPGROUP_SOP; f.reg = h->a; EO = &op[0]; enc_active = 1; exec_fmt(f, start, 0); enc_active = 0; return;
+		f.opc = OPGROUP_SOP; f.reg = h->a; EO = &op[0]; exec_fmt(f, start, 0); return;
 	case H_XFER:
-		f.opc = OPGROUP_XFER; f.reg = h->a; EO = &op[0]; enc_active = 1; exec_fmt(f, start, 0); enc_active = 0; return;
+		f.opc = OPGROUP_XFER; f.reg = h->a; EO = &op[0]; exec_fmt(f, start, 0); return;
 	case H_JTAG: {									/* jtag d(rbase)(rtagged): jump to the table entry that the tag selects */
 		uint64_t a = RG[op[0].r] + op[0].v + 8 * (RG[op[0].x] & 7);
 		pc = ld(a, 8);
@@ -269,7 +263,7 @@ static void step_enc(void)
 	case H_MOVU: {									/* explicit unaligned access (MESC): little-endian bytes, no alignment fault */
 		int size = h->a;
 		struct opnd o;
-		EO_size = size; enc_active = 1;
+		EO_size = size;
 		if (is_mem(&op[1])) {
 			EO = &op[1]; operand(&f, start, &o);
 			check_both(o.addr, size, 1);
@@ -283,15 +277,13 @@ static void step_enc(void)
 			for (int i = 0; i < size; i++) v |= ld(o.addr + i, 1) << (8 * i);
 			after(&o);
 			RG[op[1].r] = (uint64_t)sext(v, size * 8);
-		}
-		enc_active = 0; return;
+		} return;
 	}
 	case H_RMW: {									/* addm rs, mem: M[EA] <- M[EA] op rs, the flags of the ALU operation */
 		struct opnd o;
 		uint64_t a, b = RG[op[0].r], res;
-		EO_size = 8; EO = &op[1]; enc_active = 1;
+		EO_size = 8; EO = &op[1];
 		operand(&f, start, &o);
-		enc_active = 0;
 		E->check(E->u, o.addr, 8, 1);						/* write permission is checked with the read */
 		a = ld(o.addr, 8);
 		switch (h->a) {
