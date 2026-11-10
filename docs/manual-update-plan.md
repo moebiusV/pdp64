@@ -1,9 +1,7 @@
-# Plan for bringing the manual up to the architecture family
+# Plan for bringing the manual up to the prefix-coded encodings
 
-Status on 2026-11-04. This is a plan, not an update: **`docs/manual/` has not been touched** by the integration of the encoding work.
-The manual describes one machine, revision 20 (`pdp64/r20`, parcel 0 = `len opcode reg low`). The repository now has a family of three
-members: `pdp64/r20` (the original encoding), `pdp64/16` (prefix-coded, 16 registers) and `pdp64/32` (prefix-coded, 32 registers), with
-new instructions that exist only in the two new encodings (the 70 words of group `mn-ext` in `spec/pdp64-enc.hbnf`). What follows says what
+The manual is generated from one hand-written source, `docs/manual-src/`, into `docs/manual/pdp64-32/` (the manual of the pdp64) and the comparison manuals `pdp64-r20/` and `pdp64-16/` (errata 93 and 94). The original encoding `pdp64/r20` (parcel 0 = `len opcode reg low`), `pdp64/16` (prefix-coded, 16 registers) and `pdp64/32` (prefix-coded, 32 registers; the pdp64) have
+new instructions that exist only in the two prefix-coded encodings (the 70 words of group `mn-ext` in `spec/pdp64-enc.hbnf`). What follows says what
 in the manual is generated, what is written by hand, what the new encodings and the new instructions invalidate, and what the work costs.
 
 ## 1. What is generated, and from what
