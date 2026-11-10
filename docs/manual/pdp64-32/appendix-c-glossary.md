@@ -76,7 +76,7 @@
 
 | Term | Meaning |
 |---|---|
-| **Q64** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and 40-bit addresses (2.1) |
+| **Q64** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and a physical address of 24 to 64 bits (2.1) |
 | **Unibus, Q-bus** | the PDP-11's buses; Q64 keeps their programming model, with devices in the address space (2.1) |
 | **`DATIP` / `DATO`** | Unibus and Q-bus transaction types forming a locked read-modify-write (2.5) |
 | **window** | a region of the physical address space that a device's base-address register describes, a whole number of pages, found by enumeration (2.6, 5.1) |
@@ -87,7 +87,8 @@
 | **virtqueue, descriptor, available ring, used ring, doorbell** | the common device protocol: a table of 16-byte descriptors in memory, a ring in which the driver offers chains, a ring in which the device returns them, and a write that tells the device to look (5.2) |
 | **`device_status`** | the common-configuration field through which the driver and the device handshake; writing zero resets the device (5.2, 5.3) |
 | **virtio** | a standard family of devices of the same queue-and-descriptor shape, the pdp64's device interface (5.2) |
-| **NVMe, SCSI, ATA, SATA** | storage interfaces, each a command queue in memory and a doorbell, which is the same device pattern (5.2, 5.5) |
+| **virtio-blk** | the standard disk: a virtqueue of read, write and flush requests (5.2.7, 5.5.1) |
+| **NVMe, SCSI, ATA, SATA** | storage interfaces, each a command queue in memory and a doorbell, which is the same device pattern (5.2); an NVMe device may be attached as any PCI Express device may, but the standard disk is virtio-blk |
 | **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.3) |
 | **`VIC-64X`, `SID-64X`, `BLT64`** | the video, sound and blitter devices of the graphics terminal, which is based on the Commodore 64 (video and sound chips) and the Blit terminal (framebuffer and bit-block transfer) (chapter 3) |
 | **Blit** | Rob Pike's bit-mapped windowing terminal: an 8 MHz Motorola 68000 machine that received downloaded code, characters and editing messages from its host over a serial line and drew every pixel itself (its description as a precursor of the X11 protocol and of NeWS is stated by no source read *(S)*; the lineage the sources confirm runs from its `mux` to 8½ and `rio`); a framebuffer in the address space and a bit-block-transfer operation, done in software, that moves rectangles of pixels; with the C64, one of the two machines the pdp64's terminal is based on (3.1) |

@@ -18,7 +18,7 @@
 
 ## 5.2 The device interface: virtio
 
-**5.2.1** Every device is a virtio device, an NVMe controller or a USB (xHCI) controller; the network, graphics and audio devices are virtio-net, virtio-gpu (2D) and virtio-snd, over the virtio PCI Express transport, so that one transport driver and a thin class driver per device serve the system and the same devices run in QEMU, `sim64` and the FPGA. *(D)* Any other PCI Express device may be attached with its own driver. *(D)*
+**5.2.1** Every standard device is a virtio device or a USB (xHCI) controller; the disk, network, graphics and audio devices are virtio-blk, virtio-net, virtio-gpu (2D) and virtio-snd, over the virtio PCI Express transport, so that one transport driver and a thin class driver per device serve the system and the same devices run in QEMU, `sim64` and the FPGA. *(D)* Any other PCI Express device, an NVMe controller for example, may be attached with its own driver; it is not a standard device. *(D)*
 
 **5.2.2** The driver finds a virtio device's structures through the capabilities in its configuration space: the common configuration, the notification area, the interrupt status and the device-specific configuration, each at an offset in one of the device's windows. *(D)* The common configuration has these fields, as the virtio specification lays them out:
 
@@ -55,13 +55,13 @@ used ring (the device writes):       flags, idx, ring[ ] of (head id, bytes writ
 
 **5.2.6** A device that carries traffic in two directions (a network card) has one queue for each direction in the one device; a console-like device is the same pattern. *(D)*
 
-**5.2.7** Storage is NVMe: a submission queue and a completion queue in host memory, a doorbell register for each, and a completion entry written to memory, which is the shape of the virtqueue with a different command encoding. *(D)*
+**5.2.7** Storage is virtio-blk: a virtqueue of requests, each a header (read, write or flush, and the sector), the data buffers and a status byte, the device marking the request done in the used ring. *(D)* An NVMe controller, which keeps a submission queue and a completion queue in host memory with a doorbell register for each (the shape of the virtqueue with a different command encoding), may be attached as any PCI Express device may; it is not the standard disk. *(D)*
 
 *Commentary.* **Precedent.** The V7 RK11 disk is six registers (drive status, error, control and status, word count, bus address, disk address) with DMA by a word count and a bus address; the 4.3BSD DEUNA Ethernet is four registers plus transmit and receive rings in memory, each ring entry holding a segment length, an address, flags and errors, with an `OWN` bit that is zero when the descriptor belongs to the driver. The virtqueue is the second design, standardised: the done mark is the used ring instead of a bit in the descriptor. **Trade-offs.** A queue per direction keeps each ring in order and simple; the used ring costs one write per chain. Taking a standard interface rather than a design of the pdp64's own gives up the freedom to shape the registers and gains every driver and every emulated device that already exists. **Improvements.** Because progress lives in the rings and not in a device register, a driver can recover from a departed or reset device with one routine: scan the available ring for chains that are not in the used ring, then read, save, resend or fail them. **Benefits.** A driver is a skeleton shared by all devices. **Modern comparables.** `virtio` rings, NVMe's submission and completion queues, the descriptor-done bit of Intel Ethernet controllers and the command lists of SATA controllers are all rings with a done mark. **Impact.** *Kernel:* One transport driver and a thin driver per class. *Compiler:* The descriptor is a 16-byte aligned C structure, and register offsets are generated constants. *Hardware:* A device is a standard PCI Express function and the virtio interface is the specification's.
 
 ## 5.3 The life of a driver
 
-**5.3.1** *Probe.* The kernel enumerates the bus (section 2.6), reads each function's identifiers, and matches the virtio device type (or the NVMe or USB class) against the drivers it has. *(D)*
+**5.3.1** *Probe.* The kernel enumerates the bus (section 2.6), reads each function's identifiers, and matches the virtio device type (or the USB class) against the drivers it has. *(D)*
 
 **5.3.2** *Attach.* The driver resets the device (zero to `device_status`), sets the acknowledge and driver bits, negotiates features, sets the features-ok bit and reads it back, sets up each queue (its size and the three addresses, then `queue_enable`), and sets the driver-ok bit. *(D)*
 
@@ -87,7 +87,7 @@ used ring (the device writes):       flags, idx, ring[ ] of (head id, bytes writ
 
 ## 5.5 The default devices
 
-**5.5.1** The **disk** is an NVMe controller with read, write and flush at 512-byte sectors; the boot ROM reads block 0 with one read command. *(P)*
+**5.5.1** The **disk** is virtio-blk (the author's decision of 2026-11-10, errata 101) with read, write and flush at 512-byte sectors. *(D)* The boot ROM reads block 0 with one read request on the device's queue. *(P)*
 
 **5.5.2** The **network card** is virtio-net: a receive queue the host fills with buffers for the device and a transmit queue of frames to send; the device completes each receive buffer with the frame length. *(D)*
 
@@ -135,4 +135,4 @@ used ring (the device writes):       flags, idx, ring[ ] of (head id, bytes writ
 
 ## 5.9 Still open
 
-The feature subset of each virtio device and the platform-ordering feature, the form of the console, the timer and the entropy source, whether the disk is NVMe alone, DMA addressing and protection (R6), errors raised by devices (R7), and the details of interrupt routing (R1). The working documents are [`../decisions-pending.md`](../../decisions-pending.md) and [`../pdp64-q64-bus.md`](../../pdp64-q64-bus.md), and appendix B.
+The feature subset of each virtio device and the platform-ordering feature, the form of the console, the timer and the entropy source, the feature subset of virtio-blk (flush, block size, ordering), DMA addressing and protection (R6), errors raised by devices (R7), and the details of interrupt routing (R1). The working documents are [`../decisions-pending.md`](../../decisions-pending.md) and [`../pdp64-q64-bus.md`](../../pdp64-q64-bus.md), and appendix B.

@@ -14,7 +14,7 @@
 
 **10.1.4** Block RAM, not logic, is the scarce resource: the caches, the translation buffer, the framebuffer and the blitter scratch compete for about 5.5 megabits. *(E)*
 
-**10.1.5** The realistic clock is 50 to 80 MHz on the Cyclone V, 90 to 130 MHz on a Zynq 7020 and 180 to 250 MHz on an UltraScale+; a correct 40 MHz machine is worth more than a fast broken one, and 60 MHz is already some fifty times a PDP-11/70. *(E)*
+**10.1.5** The clock the FPGA design aims at is 200 to 300 MHz. *(D)* The estimated clock is 50 to 80 MHz on the Cyclone V, 90 to 130 MHz on a Zynq 7020 and 180 to 250 MHz on an UltraScale+; every one of those estimates is below the target except the upper part of the UltraScale+ range, and reaching the target means pipeline stages in the datapath. *(E)* A correct machine at a lower clock still comes before a fast broken one.
 
 **10.1.6** The work is staged in phases, each ending in a demonstration and a regression suite: specification and tools; an integer core; exceptions; the memory-management unit; the memory system; floating point; a booting kernel; peripherals; and, last, the other cores: the design supports at least four, and the initial device has four. *(D)*
 

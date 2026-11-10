@@ -42,7 +42,7 @@
 
 **9.2.9** The ALU has one width, 64 bits; sizes appear only on loads, stores and conversions. *(D)*
 
-**9.2.10** Addresses are canonical: 39, 48 or 57 bits of virtual address, according to the three, four or five levels of the page table (6.4.1), and a physical address of 40 bits in the present implementation (2.1.6). *(D)*
+**9.2.10** Addresses are canonical: 39, 48 or 57 bits of virtual address, according to the three, four or five levels of the page table (6.4.1), and a physical address of 24 to 64 bits, 40 in the present implementation (2.1.6). *(D)*
 
 **9.2.11** Instructions are aligned to two bytes; quad data accesses are naturally aligned, and the explicit unaligned forms exist for the cases that need them. *(D)*
 
@@ -56,7 +56,7 @@
 
 **9.3.1** There are thirty-two 64-bit general registers, `R0` to `R31`. `R14` is the stack pointer `SP`, with three copies (kernel, supervisor, user) chosen by the current mode; `R13` is the frame pointer by convention only; the others carry no meaning to the hardware. *(D)*
 
-**9.3.2** The program counter is not a general register; it is read with `LEA 0(PC), Rn`. *(D)*
+**9.3.2** The program counter is not a general register, and `R7` is an ordinary general register, not a view of the program counter; the program counter is read with `LEA 0(PC), Rn`. *(D)*
 
 **9.3.3** The processor status word is 16 bits. *(D)*
 

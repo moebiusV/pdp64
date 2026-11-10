@@ -44,9 +44,9 @@
 
 *Commentary.* **Precedent.** ARM's top-byte-ignore, pointer authentication and memory tagging. **Trade-offs.** The cost is canonical-address rules: pointers must be masked before use, and the hardware must define what a tagged pointer does. **Verdict.** No threat that the operating system asked for requires it; it costs gates and state, so it is not recommended. **Impact.** *Kernel:* The kernel would have to define what a tagged pointer means across the user and kernel boundary. *Compiler:* Every pointer use needs masking, and pointer arithmetic must preserve tags. *Hardware:* Gates and state in the address path.
 
-## A.6 A physical address wider than 40 bits
+## A.6 A physical address wider than 40 bits: decided, with the entry format open
 
-**A.6.1** A physical address wider than 40 bits would let petabytes of memory and device windows be mapped; the page-table entry holds the physical page number in bits 12 to 39 and keeps bits 40 to 63 zero, so the entry format would have to grow its page number into them.
+**A.6.1** The physical address is 24 to 64 bits (errata 102, *(D)*), which lets petabytes of memory and device windows be mapped; the present page-table entry holds the physical page number in bits 12 to 39 and keeps bits 40 to 63 zero, so the entry format has to grow its page number into them or change. The format is open. *(S)*
 
 *Commentary.* **Trade-offs.** The author's reason is that mapping petabytes needs those bits (errata 97). The cost is a wider page number in the entry, in every translation-buffer entry and in every bus address; the benefit is room for devices and memory in one address space without a decoding bit. **Modern comparables.** x86-64 and AArch64 define physical addresses of up to 52 bits and RISC-V up to 56 (stated from memory, not confirmed in the sources read). **Impact.** *Kernel:* a wider entry and a physical-address width to discover. *Compiler:* none. *Hardware:* more bits in the walker, the translation buffer and the bus.
 
