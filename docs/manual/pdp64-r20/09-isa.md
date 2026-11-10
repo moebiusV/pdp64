@@ -7683,7 +7683,7 @@ order the memory accesses before it against those after it, for every initiator 
 
 Owed to devices (one `FENCE` separates writing a device's registers from setting its go bit) and to other cores.
 
-**Why it is here.** The memory model is sequentially consistent, so `FENCE` is needed only for what is outside the model: devices and the framebuffer (one `FENCE` between writing a device's registers and setting its go bit, section 3.4) and instruction streams. The `_DB` barrier forms of the atomics exist so that a `FENCE` is not needed in a lock acquire.
+**Why it is here.** The memory model is sequentially consistent, so `FENCE` is needed only for what is outside the model: devices and the framebuffer (one `FENCE` between writing a device's registers and setting its go bit, section 3.15) and instruction streams. The `_DB` barrier forms of the atomics exist so that a `FENCE` is not needed in a lock acquire.
 
 **Cf.** 7.2 (the memory model), 2.2 (what the processor owes the bus).
 

@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="380" viewBox="0 0 690 380" font-family="DejaVu Sans, sans-serif">
+<text x="115.0" y="16.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">the C64 address space (64 KB)</text>
+<rect x="20.0" y="30.0" width="190.0" height="34.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="115.0" y="46.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">Kernal ROM</text>
+<text x="115.0" y="58.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">$E000-$FFFF</text>
+<rect x="20.0" y="64.0" width="190.0" height="70.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="115.0" y="98.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">I/O and colour RAM</text>
+<text x="115.0" y="110.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">$D000-$DFFF</text>
+<rect x="20.0" y="134.0" width="190.0" height="34.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="115.0" y="150.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">BASIC ROM</text>
+<text x="115.0" y="162.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">$A000-$BFFF</text>
+<rect x="20.0" y="168.0" width="190.0" height="80.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<text x="115.0" y="207.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">free RAM (programs)</text>
+<text x="115.0" y="219.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">$0800-$9FFF</text>
+<rect x="20.0" y="248.0" width="190.0" height="44.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="115.0" y="269.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">screen memory</text>
+<text x="115.0" y="281.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">$0400-$07E7, 1000 bytes</text>
+<rect x="20.0" y="292.0" width="190.0" height="36.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="115.0" y="309.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">zero page, stack, system</text>
+<text x="115.0" y="321.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">$0000-$03FF</text>
+<text x="216.0" y="38.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans Mono, monospace">$FFFF</text>
+<text x="216.0" y="336.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans Mono, monospace">$0000</text>
+<text x="250.0" y="58.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">inside the I/O block</text>
+<rect x="250.0" y="66.0" width="78.0" height="22.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<text x="289.0" y="80.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">VIC-II</text>
+<text x="334.0" y="81.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">$D000: 47 registers; $D020 border, $D021 background</text>
+<rect x="250.0" y="88.0" width="78.0" height="22.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<text x="289.0" y="102.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">SID</text>
+<text x="334.0" y="103.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">$D400: sound registers</text>
+<rect x="250.0" y="110.0" width="78.0" height="22.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="289.0" y="124.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">colour RAM</text>
+<text x="334.0" y="125.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">$D800-$DBE7: 1000 nibbles, one per cell</text>
+<rect x="250.0" y="132.0" width="78.0" height="22.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="289.0" y="146.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">CIA 1, 2</text>
+<text x="334.0" y="147.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">$DC00, $DD00: keyboard, timers</text>
+<path d="M210.0,99.0 L244.0,99.0 L244.0,99.0 L250.0,99.0" fill="none" stroke="#222" stroke-width="1.4" stroke-dasharray="5 3"/>
+<text x="250.0" y="184.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">one text cell = two small numbers, in two places</text>
+<rect x="250.0" y="192.0" width="110.0" height="24.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="305.0" y="207.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace">screen byte = 1</text>
+<rect x="250.0" y="222.0" width="110.0" height="24.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="305.0" y="237.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace">colour nibble = 14</text>
+<text x="368.0" y="208.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">which glyph: code x 8 = ROM offset</text>
+<text x="368.0" y="238.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">which colour (of 16)</text>
+<path d="M210.0,270.0 L238.0,270.0 L238.0,204.0 L250.0,204.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="250.0,204.0 242.0,207.6 242.0,200.4" fill="#222"/>
+<text x="620.0" y="180.0" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">character ROM</text>
+<text x="620.0" y="170.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif"></text>
+<rect x="580.0" y="190.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="590.0" y="190.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="600.0" y="190.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="610.0" y="190.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="620.0" y="190.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="630.0" y="190.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="640.0" y="190.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="650.0" y="190.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="580.0" y="200.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="590.0" y="200.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="600.0" y="200.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="610.0" y="200.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="620.0" y="200.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="630.0" y="200.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="640.0" y="200.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="650.0" y="200.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="580.0" y="210.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="590.0" y="210.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="600.0" y="210.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="610.0" y="210.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="620.0" y="210.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="630.0" y="210.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="640.0" y="210.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="650.0" y="210.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="580.0" y="220.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="590.0" y="220.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="600.0" y="220.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="610.0" y="220.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="620.0" y="220.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="630.0" y="220.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="640.0" y="220.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="650.0" y="220.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="580.0" y="230.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="590.0" y="230.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="600.0" y="230.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="610.0" y="230.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="620.0" y="230.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="630.0" y="230.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="640.0" y="230.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="650.0" y="230.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="580.0" y="240.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="590.0" y="240.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="600.0" y="240.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="610.0" y="240.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="620.0" y="240.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="630.0" y="240.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="640.0" y="240.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="650.0" y="240.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="580.0" y="250.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="590.0" y="250.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="600.0" y="250.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="610.0" y="250.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="620.0" y="250.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="630.0" y="250.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="640.0" y="250.0" width="10.0" height="10.0" fill="#222" stroke="#222" stroke-width="1.2"/>
+<rect x="650.0" y="250.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="580.0" y="260.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="590.0" y="260.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="600.0" y="260.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="610.0" y="260.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="620.0" y="260.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="630.0" y="260.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="640.0" y="260.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<rect x="650.0" y="260.0" width="10.0" height="10.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<text x="620.0" y="280.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">8 bytes (A)</text>
+<path d="M360.0,204.0 L572.0,204.0 L572.0,204.0 L579.0,204.0" fill="none" stroke="#222" stroke-width="1.4" stroke-dasharray="5 3"/>
+<polygon points="579.0,204.0 571.0,207.6 571.0,200.4" fill="#222"/>
+<text x="250.0" y="276.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">sprite pointers: the last 8 bytes of screen memory</text>
+<rect x="250.0" y="284.0" width="160.0" height="24.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="330.0" y="299.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace">pointer n (a byte)</text>
+<rect x="480.0" y="284.0" width="150.0" height="24.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<text x="555.0" y="299.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">63 bytes: 24 x 21 bits</text>
+<path d="M410.0,296.0 L478.0,296.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="478.0,296.0 470.0,299.6 470.0,292.4" fill="#222"/>
+<text x="445.0" y="290.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">x 64</text>
+<text x="250.0" y="328.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">The VIC-II reads screen, colour RAM, glyphs and sprites itself, while the processor runs.</text>
+<text x="250.0" y="344.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Addresses: general knowledge of the C64 (unverified, 3.20); the glyph bits are an example.</text>
+</svg>

@@ -86,10 +86,13 @@
 | **virtio** | a standard family of devices of the same queue-and-descriptor shape, the pdp64's device interface (5.2) |
 | **virtio-blk** | the standard disk: a virtqueue of read, write and flush requests (5.2.7, 5.5.1) |
 | **NVMe, SCSI, ATA, SATA** | storage interfaces, each a command queue in memory and a doorbell, which is the same device pattern (5.2); an NVMe device may be attached as any PCI Express device may, but the standard disk is virtio-blk |
-| **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.3) |
+| **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.14) |
 | **`VIC-64X`, `SID-64X`, `BLT64`** | the video, sound and blitter devices of the graphics terminal, which is based on the Commodore 64 (video and sound chips) and the Blit terminal (framebuffer and bit-block transfer) (chapter 3) |
 | **Blit** | Rob Pike's bit-mapped windowing terminal: an 8 MHz Motorola 68000 machine that received downloaded code, characters and editing messages from its host over a serial line and drew every pixel itself (its description as a precursor of the X11 protocol and of NeWS is stated by no source read *(S)*; the lineage the sources confirm runs from its `mux` to 8½ and `rio`); a framebuffer in the address space and a bit-block-transfer operation, done in software, that moves rectangles of pixels; with the C64, one of the two machines the pdp64's terminal is based on (3.1) |
-| **blitter, raster operation** | a device that copies and combines rectangles of pixels; the raster operation says how source and destination combine (3.1) |
+| **blitter, raster operation** | a device that copies and combines rectangles of pixels; the raster operation says how source and destination combine (3.10) |
+| **scanout, tearing, double buffering** | the display reading the picture out of memory row by row at a fixed rate; the seam where a picture changed during the reading shows old above and new below; drawing the next frame in a hidden second picture and swapping at the vertical blank (3.8) |
+| **glyph map, glyph atlas** | a table of slots each holding the picture of one glyph, filled by a TrueType engine (3.11); the GPU form is one texture holding every glyph the screen uses (3.7) |
+| **GPU, shader** | a graphics processing unit, thousands of simple lanes; a shader is a small program it runs for every vertex or every pixel (3.6) |
 | **BIOS, boot ROM** | the first software that runs: it brings the hardware up, finds the disk label and loads the next stage; open source (4.1) |
 | **GPT, disk label** | the GUID partition table wrapped around the disk's own label so other systems see the disk is in use (4.3) |
 | **LB64, MX64, VEC64** | the inference accelerator and its companions: sign-flip-accumulate layers, floating-point multiply-accumulate for attention, and element-wise vector work (8.3) |

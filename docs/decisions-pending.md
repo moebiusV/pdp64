@@ -1502,7 +1502,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** Revision 1 chose a three-operand compositing `draw` shaped like a Plan 9 `Memimage`, with layers as display-list entries and sprites that are windows (line 5614). The author did not object. In the ISA chat the assistant wrote `BLT64`, the Blit's bitblt with raster operations (line 6546); the author did not discuss it.
 
-**Repository.** `manual/03-graphics.md` 3.1.4 `BLT64` *(D)* and 3.1.7 four raster operations; errata 66 says only "based on the Blit as well as the C64".
+**Repository.** `manual/03-graphics.md` 3.10.4 `BLT64` *(D)* and 3.10.7 four raster operations; errata 66 says only "based on the Blit as well as the C64".
 
 **Options.** (1) `BLT64` as written. (2) `draw` as in revision 1. (3) `BLT64` for 1-bit and `draw` for compositing.
 
@@ -1518,7 +1518,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** All C64 devices in the one 8 KB page at virtual `$C000-$DFFF` (APR6), mapped by pointing one page register at it; a poke changes the banking (line 5608).
 
-**Repository.** `manual/03-graphics.md` 3.1.5 *(D)*: each device in its own 4 KB page; `02-bus.md` 2.1.3.
+**Repository.** `manual/03-graphics.md` 3.10.5 *(D)*: each device in its own 4 KB page; `02-bus.md` 2.3.3.
 
 **Options.** (1) A page per device (today). (2) A single device window per process, assembled by the kernel from several devices. The question is whether the "peek and poke at the literal address" property is worth a special case.
 
@@ -1534,7 +1534,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** Revisions 3 and 4 (section 3 of the extraction): the display steals nothing; private, shared and peer-to-peer classes; the framebuffer has no DMA channel; 2 KB bursts; strict priority between classes.
 
-**Repository.** `manual/03-graphics.md` 3.4.x: scan-out "competes with the processor for bandwidth"; `02-bus.md` 2.1.5 and `pdp64-q64-bus.md`: arbitration and bursts unspecified.
+**Repository.** `manual/03-graphics.md` 3.15.x: scan-out "competes with the processor for bandwidth"; `02-bus.md` 2.3.5 and `pdp64-q64-bus.md`: arbitration and bursts unspecified.
 
 **Options.** Adopt the chat's rules as the bus specification (the largest single gap), or record that they were dropped.
 
@@ -1597,7 +1597,7 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 * **F24. Interrupt rules.** The bus must state that an interrupt (MSI-X) write cannot pass the DMA writes that precede it; and provide many vectors per core, an atomically retargetable entry, and a mask while an entry changes. Lean: write all three into the bus chapter.
 * **F25. IOMMU hardening.** An IOMMU alone is not enough (Thunderclap). Lean: translation on by default, one domain per device, no kernel pointers in descriptors, permanent mappings for rings, bounce copies for small buffers.
 * **F26. Platform rules.** Lean: link power states (ASPM) off by default; legacy VGA decoding off; a stated hot-plug window reservation per bridge, since BAR sizes vary.
-* **F27. Errors and resets.** Lean: every PCI Express error completion and link-down becomes a precise `BUSFAULT`; a bus reset produces no removal events (as 2.6.9 says) and the manual states which slot events a reset causes; identity after power loss is defined.
+* **F27. Errors and resets.** Lean: every PCI Express error completion and link-down becomes a precise `BUSFAULT`; a bus reset produces no removal events (as 2.4.7 says) and the manual states which slot events a reset causes; identity after power loss is defined.
 * **F28. Quirk policy.** Lean: the standard supports one virtio interface per class, a small compliance-tested subset of xHCI (the disk is virtio-blk, errata 101; an NVMe device may be attached like any other PCI Express device), and no AHCI; any other device is attached without a promise, with its own driver and quirks.
 
 **The dedicated-core proposal (errata 76).** One core for graphics, one for the network running the full TCP/IP stack, one for audio (MIDI, DSP), the rest general. Questions it raises:
@@ -1611,7 +1611,7 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 
 **Standard or optional (errata 77, 78).** The C128 is an optional device. The VIC-64X, SID-64X and BLT64 are deferred (F22, closed by errata 78).
 
-* **F23. Hot-plug scope.** The bus document already specifies a departure event, a precise bus fault for a departed device and an orderly eject (`pdp64-q64-bus.md` section 13, manual 2.6.9 and 5.3.5). Lean: USB hot-plug in iteration one (it is the normal case); PCI Express slot hot-plug as software only (the fault and event rules) until a board has slot hardware.
+* **F23. Hot-plug scope.** The bus document already specifies a departure event, a precise bus fault for a departed device and an orderly eject (`pdp64-q64-bus.md` section 13, manual 2.4.7 and 5.3.5). Lean: USB hot-plug in iteration one (it is the normal case); PCI Express slot hot-plug as software only (the fault and event rules) until a board has slot hardware.
 
 **Kept for later.** The 48-bit pixel, the 48-bit sample, the 12-register devices and the Blit model are one iteration-two bundle (errata 75); the sample layout waits for it. A C64/C128 window mapped through the IOMMU is deferred.
 

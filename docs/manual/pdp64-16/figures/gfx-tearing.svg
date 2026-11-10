@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="450" viewBox="0 0 690 450" font-family="DejaVu Sans, sans-serif">
+<text x="20.0" y="32.0" font-size="12" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">single buffer: the program draws frame N+1 into the picture being shown</text>
+<text x="62.0" y="44.0" font-size="9" text-anchor="end" fill="#555" font-family="DejaVu Sans, sans-serif">row 0</text>
+<text x="62.0" y="174.0" font-size="9" text-anchor="end" fill="#555" font-family="DejaVu Sans, sans-serif">last row</text>
+<path d="M70.0,40.0 L670.0,40.0" fill="none" stroke="#222" stroke-width="0.6"/>
+<path d="M70.0,170.0 L670.0,170.0" fill="none" stroke="#222" stroke-width="0.6"/>
+<rect x="220" y="40" width="40" height="130" fill="#ddd" opacity="0.5"/>
+<path d="M70.0,40.0 L220.0,170.0" fill="none" stroke="#222" stroke-width="1.8"/>
+<text x="240.0" y="110.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">blank</text>
+<rect x="410" y="40" width="40" height="130" fill="#ddd" opacity="0.5"/>
+<path d="M260.0,40.0 L410.0,170.0" fill="none" stroke="#222" stroke-width="1.8"/>
+<text x="430.0" y="110.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">blank</text>
+<rect x="600" y="40" width="40" height="130" fill="#ddd" opacity="0.5"/>
+<path d="M450.0,40.0 L600.0,170.0" fill="none" stroke="#222" stroke-width="1.8"/>
+<text x="620.0" y="110.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">blank</text>
+<text x="100.0" y="32.0" font-size="8" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif"></text>
+<path d="M330.0,36.0 L330.0,174.0" fill="none" stroke="#222" stroke-width="1.2" stroke-dasharray="5 3"/>
+<text x="338.0" y="58.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">the program writes the new frame here</text>
+<rect x="330" y="40" width="6" height="130" fill="#f2b8a8" opacity="0.7"/>
+<text x="380.0" y="188.0" font-size="9" text-anchor="end" fill="#333" font-family="DejaVu Sans, sans-serif">rows read before the write show frame N;</text>
+<text x="380.0" y="200.0" font-size="9" text-anchor="end" fill="#333" font-family="DejaVu Sans, sans-serif">rows read after show frame N+1: a TEAR at the line</text>
+<path d="M260.0,100.7 L410.0,100.7" fill="none" stroke="#222" stroke-width="1.2" stroke-dasharray="5 3"/>
+<text x="414.0" y="104.7" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">tear</text>
+<text x="20.0" y="232.0" font-size="12" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">double buffer: draw into the hidden picture; the base address changes in the blank</text>
+<text x="62.0" y="244.0" font-size="9" text-anchor="end" fill="#555" font-family="DejaVu Sans, sans-serif">row 0</text>
+<text x="62.0" y="374.0" font-size="9" text-anchor="end" fill="#555" font-family="DejaVu Sans, sans-serif">last row</text>
+<path d="M70.0,240.0 L670.0,240.0" fill="none" stroke="#222" stroke-width="0.6"/>
+<path d="M70.0,370.0 L670.0,370.0" fill="none" stroke="#222" stroke-width="0.6"/>
+<rect x="220" y="240" width="40" height="130" fill="#ddd" opacity="0.5"/>
+<path d="M70.0,240.0 L220.0,370.0" fill="none" stroke="#222" stroke-width="1.8"/>
+<text x="240.0" y="310.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">blank</text>
+<rect x="410" y="240" width="40" height="130" fill="#ddd" opacity="0.5"/>
+<path d="M260.0,240.0 L410.0,370.0" fill="none" stroke="#222" stroke-width="1.8"/>
+<text x="430.0" y="310.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">blank</text>
+<rect x="600" y="240" width="40" height="130" fill="#ddd" opacity="0.5"/>
+<path d="M450.0,240.0 L600.0,370.0" fill="none" stroke="#222" stroke-width="1.8"/>
+<text x="620.0" y="310.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">blank</text>
+<text x="100.0" y="232.0" font-size="8" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif"></text>
+<text x="120.0" y="356.0" font-size="10" text-anchor="middle" fill="#333" font-family="DejaVu Sans, sans-serif">shows A</text>
+<rect x="80" y="374" width="140" height="10" fill="#cfe3c9" opacity="0.6"/>
+<text x="310.0" y="356.0" font-size="10" text-anchor="middle" fill="#333" font-family="DejaVu Sans, sans-serif">shows B</text>
+<rect x="270" y="374" width="140" height="10" fill="#cfe3c9" opacity="0.6"/>
+<text x="90.0" y="398.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">program draws into B while A is shown</text>
+<path d="M240.0,240.0 L240.0,370.0" fill="none" stroke="#222" stroke-width="1.4" stroke-dasharray="5 3"/>
+<text x="244.0" y="414.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">flip: base A to B, latched in the blank</text>
+<text x="20.0" y="440.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Time runs to the right; a frame is about 16.7 ms at 60 Hz (an example rate). The slanted line is the display reading one row after another.</text>
+</svg>

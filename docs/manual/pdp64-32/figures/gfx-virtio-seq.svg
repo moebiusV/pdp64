@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="430" viewBox="0 0 690 430" font-family="DejaVu Sans, sans-serif">
+<text x="130.0" y="16.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">driver (the pdp64)</text>
+<text x="560.0" y="16.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">virtio-gpu device</text>
+<path d="M130.0,24.0 L130.0,416.0" fill="none" stroke="#222" stroke-width="1.4" stroke-dasharray="5 3"/>
+<path d="M560.0,24.0 L560.0,416.0" fill="none" stroke="#222" stroke-width="1.4" stroke-dasharray="5 3"/>
+<path d="M130.0,54.0 L560.0,54.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="560.0,54.0 552.0,57.6 552.0,50.4" fill="#222"/>
+<text x="345.0" y="46.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace" font-weight="bold">RESOURCE_CREATE_2D</text>
+<text x="345.0" y="68.0" font-size="9" text-anchor="middle" fill="#333" font-family="DejaVu Sans, sans-serif">resource_id=1, format, width, height</text>
+<text x="138.0" y="82.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">a host-side picture, named 1</text>
+<path d="M560.0,86.0 L130.0,86.0" fill="none" stroke="#222" stroke-width="1" stroke-dasharray="5 3"/>
+<polygon points="130.0,86.0 138.0,82.4 138.0,89.6" fill="#222"/>
+<text x="515.0" y="98.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans Mono, monospace">OK_NODATA</text>
+<path d="M130.0,116.0 L560.0,116.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="560.0,116.0 552.0,119.6 552.0,112.4" fill="#222"/>
+<text x="345.0" y="108.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace" font-weight="bold">RESOURCE_ATTACH_BACKING</text>
+<text x="345.0" y="130.0" font-size="9" text-anchor="middle" fill="#333" font-family="DejaVu Sans, sans-serif">resource_id=1, nr_entries, then {addr, length} x n</text>
+<text x="138.0" y="144.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">tell it which pages of my memory back the picture</text>
+<path d="M560.0,148.0 L130.0,148.0" fill="none" stroke="#222" stroke-width="1" stroke-dasharray="5 3"/>
+<polygon points="130.0,148.0 138.0,144.4 138.0,151.6" fill="#222"/>
+<text x="515.0" y="160.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans Mono, monospace">OK_NODATA</text>
+<path d="M130.0,178.0 L560.0,178.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="560.0,178.0 552.0,181.6 552.0,174.4" fill="#222"/>
+<text x="345.0" y="170.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace" font-weight="bold">SET_SCANOUT</text>
+<text x="345.0" y="192.0" font-size="9" text-anchor="middle" fill="#333" font-family="DejaVu Sans, sans-serif">rect, scanout_id=0, resource_id=1</text>
+<text x="138.0" y="206.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">display resource 1 on output 0</text>
+<path d="M560.0,210.0 L130.0,210.0" fill="none" stroke="#222" stroke-width="1" stroke-dasharray="5 3"/>
+<polygon points="130.0,210.0 138.0,206.4 138.0,213.6" fill="#222"/>
+<text x="515.0" y="222.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans Mono, monospace">OK_NODATA</text>
+<rect x="30.0" y="232.0" width="200.0" height="28.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="130.0" y="249.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">draw pixels into the backing memory</text>
+<path d="M130.0,286.0 L560.0,286.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="560.0,286.0 552.0,289.6 552.0,282.4" fill="#222"/>
+<text x="345.0" y="278.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace" font-weight="bold">TRANSFER_TO_HOST_2D</text>
+<text x="345.0" y="300.0" font-size="9" text-anchor="middle" fill="#333" font-family="DejaVu Sans, sans-serif">rect, offset, resource_id=1</text>
+<text x="138.0" y="314.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">copy this rectangle from my memory into the picture</text>
+<path d="M560.0,318.0 L130.0,318.0" fill="none" stroke="#222" stroke-width="1" stroke-dasharray="5 3"/>
+<polygon points="130.0,318.0 138.0,314.4 138.0,321.6" fill="#222"/>
+<text x="515.0" y="330.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans Mono, monospace">OK_NODATA</text>
+<path d="M130.0,348.0 L560.0,348.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="560.0,348.0 552.0,351.6 552.0,344.4" fill="#222"/>
+<text x="345.0" y="340.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace" font-weight="bold">RESOURCE_FLUSH</text>
+<text x="345.0" y="362.0" font-size="9" text-anchor="middle" fill="#333" font-family="DejaVu Sans, sans-serif">rect, resource_id=1</text>
+<text x="138.0" y="376.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">now show this rectangle on screen</text>
+<path d="M560.0,380.0 L130.0,380.0" fill="none" stroke="#222" stroke-width="1" stroke-dasharray="5 3"/>
+<polygon points="130.0,380.0 138.0,376.4 138.0,383.6" fill="#222"/>
+<text x="515.0" y="392.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans Mono, monospace">OK_NODATA</text>
+<text x="20.0" y="424.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Each line is one command in the control queue, answered by a response; the header of every command is a type, flags, a fence id, a context id.</text>
+</svg>

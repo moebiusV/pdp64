@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="430" viewBox="0 0 690 430" font-family="DejaVu Sans, sans-serif">
+<text x="20.0" y="16.0" font-size="12" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">five ways the c64-mode core and the host could share the display and the audio</text>
+<text x="20.0" y="54.0" font-size="11" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">(a)</text>
+<rect x="50.0" y="36.0" width="74.0" height="34.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="87.0" y="56.1" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">c128 core</text>
+<rect x="148.0" y="36.0" width="150.0" height="34.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="223.0" y="56.1" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">enable bit: output owner</text>
+<rect x="322.0" y="36.0" width="90.0" height="34.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="367.0" y="56.1" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">scanout 0 + audio</text>
+<path d="M124.0,53.0 L148.0,53.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="148.0,53.0 140.0,56.6 140.0,49.4" fill="#222"/>
+<path d="M298.0,53.0 L322.0,53.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="322.0,53.0 314.0,56.6 314.0,49.4" fill="#222"/>
+<text x="424.0" y="57.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">exclusive: host picture off while on</text>
+<text x="20.0" y="118.0" font-size="11" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">(b)</text>
+<rect x="50.0" y="100.0" width="74.0" height="34.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="87.0" y="120.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">c128 core</text>
+<rect x="148.0" y="100.0" width="130.0" height="34.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="213.0" y="120.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">scanout 1 + stream 2</text>
+<rect x="302.0" y="100.0" width="150.0" height="34.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="377.0" y="120.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">host: head 0 + sound</text>
+<path d="M124.0,117.0 L148.0,117.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="148.0,117.0 140.0,120.6 140.0,113.4" fill="#222"/>
+<path d="M278.0,117.0 L302.0,117.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="302.0,117.0 294.0,120.6 294.0,113.4" fill="#222"/>
+<text x="464.0" y="121.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">a second head and stream</text>
+<text x="20.0" y="182.0" font-size="11" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">(c)</text>
+<rect x="50.0" y="164.0" width="74.0" height="34.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="87.0" y="184.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">c128 core</text>
+<rect x="148.0" y="164.0" width="90.0" height="34.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="193.0" y="184.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">resource / blob</text>
+<rect x="262.0" y="164.0" width="130.0" height="34.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="327.0" y="184.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">host compositor: a window</text>
+<rect x="416.0" y="164.0" width="60.0" height="34.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="446.0" y="184.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">scanout</text>
+<path d="M124.0,181.0 L148.0,181.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="148.0,181.0 140.0,184.6 140.0,177.4" fill="#222"/>
+<path d="M238.0,181.0 L262.0,181.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="262.0,181.0 254.0,184.6 254.0,177.4" fill="#222"/>
+<path d="M392.0,181.0 L416.0,181.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="416.0,181.0 408.0,184.6 408.0,177.4" fill="#222"/>
+<text x="488.0" y="185.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">a client of the host</text>
+<text x="20.0" y="246.0" font-size="11" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">(d)</text>
+<rect x="50.0" y="228.0" width="74.0" height="34.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="87.0" y="248.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">c128 layer</text>
+<rect x="148.0" y="228.0" width="74.0" height="34.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="185.0" y="248.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">host layer</text>
+<rect x="246.0" y="228.0" width="130.0" height="34.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="311.0" y="248.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">scanout composes layers</text>
+<rect x="400.0" y="228.0" width="50.0" height="34.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="425.0" y="248.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">HDMI</text>
+<path d="M124.0,245.0 L148.0,245.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="148.0,245.0 140.0,248.6 140.0,241.4" fill="#222"/>
+<path d="M222.0,245.0 L246.0,245.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="246.0,245.0 238.0,248.6 238.0,241.4" fill="#222"/>
+<path d="M376.0,245.0 L400.0,245.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="400.0,245.0 392.0,248.6 392.0,241.4" fill="#222"/>
+<text x="462.0" y="249.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">planes in hardware (sketch 1)</text>
+<text x="20.0" y="310.0" font-size="11" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">(e)</text>
+<rect x="50.0" y="292.0" width="74.0" height="34.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="87.0" y="312.1" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">c128 core</text>
+<rect x="148.0" y="292.0" width="74.0" height="34.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="185.0" y="312.1" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">host clients</text>
+<rect x="246.0" y="292.0" width="150.0" height="34.0" fill="#fff" stroke="#222" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="321.0" y="312.1" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">no such virtio device</text>
+<rect x="420.0" y="292.0" width="60.0" height="34.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="450.0" y="312.1" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">scanout</text>
+<path d="M124.0,309.0 L148.0,309.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="148.0,309.0 140.0,312.6 140.0,305.4" fill="#222"/>
+<path d="M222.0,309.0 L246.0,309.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="246.0,309.0 238.0,312.6 238.0,305.4" fill="#222"/>
+<path d="M396.0,309.0 L420.0,309.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="420.0,309.0 412.0,312.6 412.0,305.4" fill="#222"/>
+<text x="492.0" y="313.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">a device type that does not exist</text>
+<text x="20.0" y="372.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">Green: the on-die core. Blue: output. Grey: the arbiter. Dashed: a thing that would have to be invented.</text>
+<text x="20.0" y="388.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">In (a) the multiplexer is one enable bit; in (b) to (e) the core becomes a client of something else.</text>
+<text x="20.0" y="408.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The hand-over of any of these should happen in a vertical blank, with the audio muted by a short ramp (3.18).</text>
+</svg>

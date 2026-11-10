@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="380" viewBox="0 0 690 380" font-family="DejaVu Sans, sans-serif">
+<text x="20.0" y="16.0" font-size="12" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">sketches 1 and 2: layers in video memory, composed by the display hardware as it reads them out</text>
+<rect x="20.0" y="36.0" width="120.0" height="56.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="80.0" y="63.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">CPU</text>
+<text x="80.0" y="75.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">pokes and peeks</text>
+<rect x="230.0" y="30.0" width="190.0" height="40.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<text x="325.0" y="49.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">sprite layer</text>
+<text x="325.0" y="61.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">position, pointer, colour: a table</text>
+<rect x="230.0" y="76.0" width="190.0" height="40.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="325.0" y="95.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">pixel layer</text>
+<text x="325.0" y="107.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">rows of pixels, base, stride</text>
+<rect x="230.0" y="122.0" width="190.0" height="40.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="325.0" y="141.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">text layer</text>
+<text x="325.0" y="153.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">cells: glyph, fg, bg, attr</text>
+<rect x="230.0" y="168.0" width="190.0" height="40.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<text x="325.0" y="187.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">glyph slots</text>
+<text x="325.0" y="199.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">bitmaps the TrueType engine writes</text>
+<text x="325.0" y="224.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">all in video memory, plain arrays</text>
+<path d="M140.0,64.0 L230.0,50.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="230.0,50.0 222.6,54.8 221.5,47.7" fill="#222"/>
+<path d="M140.0,64.0 L230.0,96.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="230.0,96.0 221.3,96.7 223.7,89.9" fill="#222"/>
+<path d="M140.0,64.0 L230.0,142.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="230.0,142.0 221.6,139.5 226.3,134.0" fill="#222"/>
+<path d="M140.0,64.0 L220.0,64.0 L220.0,188.0 L230.0,188.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="230.0,188.0 222.0,191.6 222.0,184.4" fill="#222"/>
+<text x="20.0" y="120.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">peek / poke</text>
+<rect x="500.0" y="66.0" width="90.0" height="100.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="545.0" y="115.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">scanout</text>
+<text x="545.0" y="127.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">composes the layers</text>
+<text x="545.0" y="176.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">a pixel at a time</text>
+<path d="M420.0,50.0 L500.0,90.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="500.0,90.0 491.2,89.6 494.5,83.2" fill="#222"/>
+<path d="M420.0,96.0 L500.0,108.4" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="500.0,108.4 491.5,110.7 492.6,103.6" fill="#222"/>
+<path d="M420.0,142.0 L500.0,126.8" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="500.0,126.8 492.8,131.8 491.5,124.8" fill="#222"/>
+<path d="M420.0,188.0 L545.0,188.0 L545.0,166.0" fill="none" stroke="#222" stroke-width="1.4" stroke-dasharray="5 3"/>
+<polygon points="545.0,166.0 548.6,174.0 541.4,174.0" fill="#222"/>
+<rect x="610.0" y="96.0" width="70.0" height="40.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="645.0" y="119.8" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">HDMI</text>
+<path d="M590.0,116.0 L610.0,116.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="610.0,116.0 602.0,119.6 602.0,112.4" fill="#222"/>
+<rect x="20.0" y="260.0" width="150.0" height="54.0" fill="#fff" stroke="#222" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="95.0" y="286.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">blitter (sketch 2)</text>
+<text x="95.0" y="298.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">copy / combine rectangles</text>
+<path d="M95.0,260.0 L95.0,100.0 L95.0,100.0" fill="none" stroke="#222" stroke-width="1.4" stroke-dasharray="5 3"/>
+<path d="M170.0,287.0 L210.0,287.0 L210.0,250.0 L325.0,250.0 L325.0,232.0" fill="none" stroke="#222" stroke-width="1.4" stroke-dasharray="5 3"/>
+<polygon points="325.0,232.0 328.6,240.0 321.4,240.0" fill="#222"/>
+<text x="330.0" y="250.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif"></text>
+<text x="20.0" y="340.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">Sketch 1: the CPU writes the arrays; the display hardware does the composing; there is no command queue.</text>
+<text x="20.0" y="356.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">Sketch 2: the same, plus a few registers that move rectangles inside video memory (scrolling, window moves, glyph copies).</text>
+<text x="20.0" y="372.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Nothing here is decided (3.19); the boxes are the shape of the idea.</text>
+</svg>
