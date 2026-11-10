@@ -65,10 +65,10 @@ V  <- 1 if Rs is not a Unicode scalar value''', '`V` set if `Rs` is not a Unicod
 MMOV: as MCPY, but the direction is chosen from the pointers so that an overlapping copy is correct''',
       NOFLAGS, MEMX + ' The three registers are updated as work completes, so a fault leaves a consistent state and the instruction restarts from its registers.', '9.11',
       notes='The one granted exception to the one-memory-operand rule. All three registers are architectural state: on completion `Rn` is 0 and `Rd` and `Rs` point one past the end. An implementation may move more than a byte per step, so long as the register state at every point where an exception can be taken is consistent with a byte-at-a-time copy. The accesses made inside one block operation are unordered with respect to each other.',
-      cf='6.8 (restart, progress faults); 7.2 (ordering of the accesses).'),
+      cf='6.4 (restart, progress faults); 7.2 (ordering of the accesses).'),
     E('MSET', 'block', ['mset'], 'Fill a block of bytes', ['MSET Rd, Rv, Rn'],
       'while Rn != 0:  M8[Rd] <- Rv[7:0] ; Rd <- Rd + 1 ; Rn <- Rn - 1', NOFLAGS, MEMX, '9.11',
-      notes='`MSET` with `Rv = 0` is the range-zeroing instruction: `bzero` and the clear of `calloc` are one instruction.', cf='6.8.'),
+      notes='`MSET` with `Rv = 0` is the range-zeroing instruction: `bzero` and the clear of `calloc` are one instruction.', cf='6.4.'),
     E('MCMP', 'block', ['mcmp'], 'Compare two blocks of bytes', ['MCMP Rd, Rs, Rn'],
       '''while Rn != 0:
     x <- M8[Rd] ; y <- M8[Rs]
@@ -76,7 +76,7 @@ MMOV: as MCPY, but the direction is chosen from the pointers so that an overlapp
     Rd <- Rd + 1 ; Rs <- Rs + 1 ; Rn <- Rn - 1
 if equal:  N = 0, Z = 1, V = 0, C = 0''',
       'From the first differing byte as for `CMP` of the two bytes (`C` set if `x < y` unsigned, `N` and `V` from the signed difference); for equal blocks `N` = 0, `Z` = 1, `V` = 0, `C` = 0.', MEMX, '9.11',
-      notes='When the instruction stops at a difference, `Rd` and `Rs` point at the differing bytes and `Rn` is the count remaining, so the position of the difference is in the registers.', cf='6.8.'),
+      notes='When the instruction stops at a difference, `Rd` and `Rs` point at the differing bytes and `Rn` is the count remaining, so the position of the difference is in the registers.', cf='6.4.'),
     E('MSCN', 'block', ['mscn', 'mscnn'], 'Scan a block for a byte, or for a byte not equal to it', ['MSCN Rd, Rv, Rn', 'MSCNN Rd, Rv, Rn'],
       '''while Rn != 0:
     hit <- (M8[Rd] == Rv[7:0])             ; MSCNN: hit <- (M8[Rd] != Rv[7:0])
@@ -84,11 +84,11 @@ if equal:  N = 0, Z = 1, V = 0, C = 0''',
     Rd <- Rd + 1 ; Rn <- Rn - 1
 not found: Z = 0''',
       '**All four flags are written**: `Z` = 1 if the byte was found, else 0; `N`, `V` and `C` are cleared.', MEMX, '9.11',
-      notes='`MSCN` is `memchr`; with an explicit count it gives `strnlen`, and composing it with `MCPY` gives a bounded `strcpy` in two instructions. There are no NUL-terminated string instructions.', cf='6.8.'),
+      notes='`MSCN` is `memchr`; with an explicit count it gives `strnlen`, and composing it with `MCPY` gives a bounded `strcpy` in two instructions. There are no NUL-terminated string instructions.', cf='6.4.'),
     E('MVAL', 'block', ['mval'], 'Validate a block as UTF-8', ['MVAL Rd, Rn'],
       'scan Rn bytes at Rd; stop at the first byte that cannot be part of a valid UTF-8 sequence (the rules of UTF8DEC)',
       'On completion `Rn` is 0 and the buffer is valid; otherwise `Rd` points at the offending sequence and `Rn` counts the bytes remaining (details in the instruction-set text, section 4.7.1).', MEMX, '9.9',
-      notes='The `UTF8DEC` comparators wired to the block sequencer.', cf='6.8.'),
+      notes='The `UTF8DEC` comparators wired to the block sequencer.', cf='6.4.'),
 
     # ---- AESC ----
     E('DIV', 'arith', ['div', 'divu', 'mod', 'modu'], 'Divide and remainder, signed and unsigned',
@@ -98,7 +98,7 @@ DIV : Rd <- Ra / Rb  (signed, rounded toward zero; INT_MIN / -1 = INT_MIN)
 DIVU: Rd <- Ra / Rb  (unsigned)
 MOD : Rd <- Ra mod Rb (signed, the sign of Ra; any value mod -1 = 0)
 MODU: Rd <- Ra mod Rb (unsigned)''', NOFLAGS, 'Division by zero aborts with the divide-by-zero vector (cause `DIVZERO`). There is no overflow trap: `INT_MIN / -1` returns `INT_MIN`.', '9.7',
-      notes='Division by a constant is a `MULH` and a shift, so a real divide is rare; this is why divide has no two-byte form.', cf='6.2 (the divide-by-zero vector).'),
+      notes='Division by a constant is a `MULH` and a shift, so a real divide is rare; this is why divide has no two-byte form.', cf='6.3 (the divide-by-zero vector).'),
     E('MULHU', 'arith', ['mulhu'], 'Multiply, high 64 bits, unsigned', ['MULHU Ra, Rb, Rd'], 'Rd <- (Ra * Rb)[127:64]    ; unsigned', NOFLAGS, NONE, '9.7',
       notes='`MULHSU` (signed by unsigned) is reserved and not committed.'),
     E('ABS', 'arith', ['abs'], 'Absolute value (assembler alias)', ['ABS Rs, Rd'], 'Rd <- |Rs|', '`N` and `Z` from the result, `V` set if `Rs` is the most negative value (the result is then still negative), `C` unchanged.', NONE, '9.7', alias="`ABS` is an assembler alias, not a native instruction (the author's decision, errata 98). Meaning: `Rd <- |Rs|`, with the flags below, which the alias must keep or the decision that defines it must change. Expansion: open *(P)*; the flag-driven conditional select (`CMOV`, `CSEL`) is on hold and has no form in the records (ISA section 12 item 15); the only select the records define is the branch-free `MASKEQZ`/`MASKNEZ` (errata 85), which reads a register and no flag. A candidate over it, not decided: compare the operands, `SET` the condition into a scratch register, then `MASKEQZ`, `MASKNEZ` and `BIS` (the constant-time select `d = c ? a : b` of the `MASKEQZ` entry) for the minimum and maximum, and the same around the negated value for `ABS`; it needs a scratch register and leaves `C` as the comparison set it, which the native word does not do, so the flags would change. Which expansion, and whether the select the author meant is this one, is the author's question. The present assembler still encodes the word as the arithmetic-escape sub-opcode of the chart below."),

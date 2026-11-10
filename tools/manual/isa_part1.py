@@ -9,7 +9,7 @@ load :  Rd <- sext(M[EA(rm)], size)          ; len = 00: Rd <- sext(Rs[8*size-1:
 store:  M[EA(rm)] <- Rs[8*size-1:0]          ; len = 00: Rd <- sext(Rs[8*size-1:0])''',
       NOFLAGS, MEMX, '9.6',
       notes='A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`. Page 2 abbreviates the loads and stores through `(rn)`, at small offsets from `SP` and from a register, and `MOVQ #imm, rd` with a 4-bit immediate (see the page-2 table).',
-      cf='6.4 for the memory type that decides whether the access is cached; 6.8 for what a faulting access leaves behind.'),
+      cf='6.7 for the memory type that decides whether the access is cached; 6.4 for what a faulting access leaves behind.'),
     E('MOVZ', 'moves', ['movzl', 'movzw', 'movzb'], 'Move zero-extended (32, 16 and 8 bits)',
       ['MOVZL rm, Rd', 'MOVZW rm, Rd', 'MOVZB rm, Rd'],
       '''Rd <- zext(M[EA(rm)], size)      ; len = 00: Rd <- zext(Rs[8*size-1:0])''',
@@ -26,7 +26,7 @@ load :  Rd <- sext(M[EA(rm)], size)            ; the access may cross an alignme
 store:  M[EA(rm)] <- Rs[8*size-1:0]''',
       NOFLAGS, 'Page and protection faults and bus errors as for any memory operand; **no alignment fault**.', '9.6',
       notes='The ordinary moves fault on a misaligned address (the alignment fault is the tag check of section 9.5); these are the explicit forms for data that is not aligned, in `MESC`.',
-      cf='6.4, 6.8.'),
+      cf='6.6, 6.4.'),
 
     E('ADD', 'alu', ['add'], 'Add', ['ADD rm, Rd'], 'Rd <- Rd + rm', NZVC_ADD, MEMX, '9.7',
       notes='All ALU operations are 64 bits, with no size field. Page 2 has `ADD #imm, rd` with a 4-bit immediate and `ADD #(8*n), SP`.'),
@@ -74,7 +74,7 @@ BISM: M[EA] <- M[EA] OR Rs''',
       '''if cond(c) then PC <- address of this instruction + 2 * disp''',
       NOFLAGS, 'None; a branch to an unmapped or non-executable address faults on the fetch of the target.', '9.10',
       notes='Condition numbers: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. Conditions on the flags: `ne` `!Z`; `eq` `Z`; `pl` `!N`; `mi` `N`; `vc` `!V`; `vs` `V`; `cc` `!C`; `cs` `C`; `ge` `N == V`; `lt` `N != V`; `gt` `!Z and N == V`; `le` `Z or N != V`; `hi` `!C and !Z`; `los` `C or Z`. The displacement counts 2-byte parcels; the branch reaches ±4 GB with no long-branch instruction.',
-      cf='6.7 for `TRAP`, `RTI` and `RTT`.'),
+      cf='6.13 for `TRAP`, `RTI` and `RTT`.'),
     E('SOB', 'branches', ['sob'], 'Subtract one and branch', ['SOB Rn, target'],
       '''Rn <- Rn - 1
 if Rn != 0 then PC <- address of this instruction + 2 * disp''',
@@ -106,7 +106,7 @@ BNTAG: if (Rn & 111₂) != tag then PC <- address of this instruction + 2 * disp
       '''for n = 0 to 15, if mask bit n:
     SP <- SP - 8 ; M[SP] <- Rn''',
       NOFLAGS, MEMX + ' A mask that includes `R14` (`SP`) is reserved.', '9.11',
-      notes='Four bytes (mode `0100`, immediate). The registers are pushed in ascending order, so `POPM` with the same mask restores them. Page 2 has an 8-bit mask for `R8` to `R15`.', cf='6.8 for the restart rule.'),
+      notes='Four bytes (mode `0100`, immediate). The registers are pushed in ascending order, so `POPM` with the same mask restores them. Page 2 has an 8-bit mask for `R8` to `R15`.', cf='6.4 for the restart rule.'),
     E('POPM', 'single', ['popm'], 'Pop registers by mask', ['POPM #mask'],
       '''for n = 15 down to 0, if mask bit n:
     Rn <- M[SP] ; SP <- SP + 8''',

@@ -30,7 +30,7 @@ PAGE_INTRO = {
     'arith': 'The `AESC` group: divide and remainder, the high unsigned product, absolute value, minimum and maximum, and `SET`.',
     'fp': 'Floating point is in the general registers; precision and rounding are in the opcode and there are no mode bits. Exception flags accumulate in `FPSR` and never trap.',
     'atomics': 'The atomic group (opcode `010001 (0x11)`). The operand placement of each form is unspecified. For the semantics see chapter 7.',
-    'system': 'The system escape (opcode `010100 (0x14)`). For the modes, the entry sequence, the system registers and the translation machinery see chapter 6; for waiting, signalling and coherence see chapter 7. `STUA` and `CLUA` are described in section 6.5; they have no entry here.',
+    'system': 'The system escape (opcode `010100 (0x14)`). For the modes, the entry sequence, the system registers and the translation machinery see chapter 6; for waiting, signalling and coherence see chapter 7. `STUA` and `CLUA` are described in section 6.10; they have no entry here.',
 }
 
 INDEX_INTRO = ('This is the reference part of the manual: **one entry for each instruction**, in the layout of a processor reference manual. Each entry gives its mnemonics, its syntax, its encoding (the parcel diagram and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains it. '

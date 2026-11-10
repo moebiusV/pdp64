@@ -62,7 +62,7 @@
 **A.8.1** `STUA` and `CLUA` could have one-parcel page-2 forms, saving four bytes per user-copy routine.
 <!-- /member -->
 <!-- member: 16 32 -->
-**A.8.1** `STUA` and `CLUA` are not in the grammar of this CPU; whether they are added as one-parcel system words is decided when the kernel exists, and the user-access moves (section 6.5.4) may make them unnecessary; they are kept until the OpenBSD port confirms them (errata 86).
+**A.8.1** `STUA` and `CLUA` are not in the grammar of this CPU; whether they are added as one-parcel system words is decided when the kernel exists, and the user-access moves (section 6.10.4) may make them unnecessary; they are kept until the OpenBSD port confirms them (errata 86).
 <!-- /member -->
 
 <!-- member: r20 -->

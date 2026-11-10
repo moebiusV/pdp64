@@ -23,7 +23,7 @@ PC <- target''', NOFLAGS,
       'The store of the return address can fault (the memory faults of `CALL`): the instruction restarts whole, because the first half reads a register that the second half does not change.',
       '9.10',
       notes='*(D)* One of the four fused pairs of errata 87: `MOVQ Rs, Rd` followed by `CALL target`, in one instruction. The target is a pc-relative field in parcels, measured from the first parcel of the fused instruction (errata 87, assumption 9); the instruction is two parcels (a 16-bit field) or three (a 32-bit field), and the linker grows it from its shortest form like a `CALL` (`docs/relaxation.md`). **The assembler never fuses**: the compiler writes `MOVCALL` where it wants it. An instruction that writes two registers (`Rd` and the stack pointer) and stores to memory is a two-micro-operation instruction for an out-of-order core (errata 87).',
-      cf='9.5 (the pc-relative operand and the relaxation), 6.2 (restart after a fault).'),
+      cf='9.5 (the pc-relative operand and the relaxation), 6.4 (restart after a fault).'),
     X('POPRET', 'branches', ['popret'], 'Pop a register and return', ['POPRET Rd'],
       '''Rd <- M[SP] ; SP <- SP + 8
 PC <- M[SP] ; SP <- SP + 8''', NOFLAGS, MEMX, '9.10',
@@ -62,7 +62,7 @@ else Rd <- t''', 'None written.', 'Aborts with the `CHECK` vector on signed over
     EPC <- address of the next instruction ; EVA <- address of this instruction''', NOFLAGS,
       'The `CHECK` trap, when the condition holds. A *trap*, not an abort: the instruction completes, `EPC` is the next instruction, and `RTI` resumes after the check.', '9.14',
       notes='*(D)* Errata 85 and 86: `TRAPCC` is a trap and not an abort, there is no compare-and-trap form, and the fused `ADDV`, `SUBV` and `MULV` carry the register-only cases. There is one word for each of the 14 conditions, in two bytes with no operand: the condition numbers are those of the branches (`ne` 1 ... `los` 14; `al` is not a word). After `ADD` the check for signed overflow is `TRAPCC.VS` (`docs/study-proposals.md` item 9 calls it `ADD; TRAPV`). `EVA` is the address of the `TRAPCC` itself, the one trap that defines it, so a handler need not decode backwards from `EPC`. ' + CHECKV + ' The reference executor takes a trap that fires outside the kernel as the end of the program.',
-      cf='6.2 (traps and aborts), docs/study-proposals.md item 9.'),
+      cf='6.4 (traps and aborts), docs/study-proposals.md item 9.'),
     # ---- deferred and user-qualified moves
     X('MOVD', 'moves', ['movq.d', 'movl.d', 'movw.d', 'movb.d', 'movzl.d', 'movzw.d', 'movzb.d'], 'Deferred-fault load', ['MOVQ.D d(Rn), Rd', 'MOVL.D ..., MOVW.D ..., MOVB.D ...', 'MOVZL.D ..., MOVZW.D ..., MOVZB.D ...'],
       '''Rd <- M[EA]                     ; as the load without .D, when the access succeeds
@@ -70,14 +70,14 @@ when the access faults: the fault is precise as always; the kernel's handler rep
     or, if the access is invalid, marks Rd as poisoned in the saved state and goes on at the next instruction''',
       NOFLAGS, 'The ordinary faults of a load (page fault, protection fault, alignment fault, bus error), precise; what the handler does with them is the difference.', '9.6',
       notes='*(P)* The deferred-fault load is item 10 of `docs/study-proposals.md` (the poison bit); the author accepted its three leanings (errata 86: the fault is taken at the instruction that writes the flags from a poisoned source; the kernel decides a deferred load\'s fault; the kernel dispatcher, not the hardware, tests the argument registers for poison), but the poison bit itself is a proposal, so the semantics above are *(P)*. The proposal spells the load `MOVQ.S`; the grammars spell it `.D`. Base and indexed operands only (a mode that needs a base register needs `LEA` first). **Not implemented** in the reference executor: it traps as an unimplemented instruction.',
-      cf='6.2, docs/study-proposals.md item 10.'),
+      cf='6.4, docs/study-proposals.md item 10.'),
     X('MOVUSER', 'moves', ['movq.u', 'movl.u', 'movw.u', 'movb.u', 'movzl.u', 'movzw.u', 'movzb.u'], 'User-qualified load and store', ['MOVQ.U d(Rn), Rd', 'MOVQ.U Rs, d(Rn)', 'MOVL.U ..., MOVW.U ..., MOVB.U ...', 'MOVZL.U ..., MOVZW.U ..., MOVZB.U ...    ; loads only'],
       '''the access of MOVQ, MOVL, MOVW, MOVB and MOVZ* with the operand checked as a user-mode access:
 the page must be present, have U = 1, and permit R (a load) or W (a store); a kernel page takes the protection abort
 whatever PSW.UA says''', NOFLAGS,
       'The faults of the access, as a user-mode access. In user mode the encoding is a privileged-instruction abort.', '9.6',
       notes='*(P)* Item 18 of `docs/study-proposals.md`: user access is an attribute of one memory operand, so it cannot outlive the instruction, cannot leak across an interrupt, and `RTI` re-executes the instruction with the attribute. The author accepted the five leanings (errata 86): a fixup table in place of `pcb_onfault`, the `.U` spelling, keeping `PSW.UA`, `STUA` and `CLUA` until the OpenBSD port confirms, `ECAUSE` bit 15 to say that the access was user-qualified, and the atomics taking the user form once the operand placement of `ATOM` is fixed. The proposal is not specified in full, so the text is *(P)*. (Not to be confused with `MOVU`, the unaligned move.) The reference executor runs a `.U` move as a plain move, because it has no MMU in that mode.',
-      cf='6.4 (the user-memory guard), docs/study-proposals.md item 18.'),
+      cf='6.10 (the user-memory guard), docs/study-proposals.md item 18.'),
     X('MOVUSERD', 'moves', ['movq.ud', 'movl.ud', 'movw.ud', 'movb.ud', 'movzl.ud', 'movzw.ud', 'movzb.ud'], 'User-qualified deferred-fault load', ['MOVQ.UD d(Rn), Rd', 'MOVL.UD ..., MOVW.UD ..., MOVB.UD ...', 'MOVZL.UD ..., MOVZW.UD ..., MOVZB.UD ...'],
       '''Rd <- M[EA], the access being both user-qualified (MOVU) and deferred (MOVD)''', NOFLAGS, 'The faults of `MOVU` and `MOVD` together.', '9.6',
       notes='*(P)* The combination of the two qualifiers. The repository defines each qualifier alone (items 10 and 18 of `docs/study-proposals.md`) and gives the combination no text of its own: a kernel that reads a user word without wanting to fail on it (a probe of a user pointer) is the case the combination serves, and its meaning is the composition. Loads only, base and indexed operands. **Not implemented** in the reference executor.'),

@@ -28,9 +28,9 @@
 | **`XNORPOP`, `POPCNT`** | bit-population instructions used by binary operations and bitsets (8.3) |
 | **`SET cc, rd`** | set a register to 0 or 1 from a condition (9.7) |
 | **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page (9.3, 9.16) |
-| **`PSW`** | the processor status word: flags, mode, priority and the guard bit (6.1) |
+| **`PSW`** | the processor status word: flags, mode, priority and the guard bit (6.2) |
 | **`N Z V C`** | the four condition flags: negative, zero, overflow, carry (9.3) |
-| **canonical address** | a 64-bit address whose bits above the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, so software cannot hide tags in the high bits (6.4) |
+| **canonical address** | a 64-bit address whose bits above the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, so software cannot hide tags in the high bits (6.6) |
 | **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section 6.2; not otherwise used in this manual) |
 | **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of 9.9 make it effective) |
 | **`FPSR`** | the sticky floating-point exception flag register, read and written by `FSFLAGS` (9.12) |
@@ -43,22 +43,33 @@
 
 | Term | Meaning |
 |---|---|
-| **`MT`** | memory type, a two-bit page attribute: normal cached, normal uncached, device strongly ordered (2.3, 6.4) |
-| **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.4) |
-| **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.4) |
+| **`MT`** | memory type, a two-bit page attribute: normal cached, normal uncached, device strongly ordered (2.3, 6.7) |
+| **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.8) |
+| **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.8) |
 | **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores (7.5) |
-| **`DMW`** | direct mapping window: a region translated by a fixed offset with no page table; deferred |
-| **`MMUCTL`** | the register that enables translation and sets the table base (6.3, 6.4) |
-| **walker** | the hardware that reads page-table entries on a translation-buffer miss (6.8) |
-| **`STUA` / `CLUA`** | set and clear the user-access guard bit, which lets kernel code touch user memory only inside the copy routines (6.5) |
-| **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (6.7) |
+| **`DMW`** | direct mapping window: a region translated by a fixed offset with no page table; stored without effect, the format is open (6.9) |
+| **`MMUCTL`** | the register that enables translation and sets the table base (6.5, 6.8) |
+| **virtual address, physical address** | the number a program uses, and the number the memory answers to; the page tables translate one into the other (6.6) |
+| **page, frame, page table** | a 4 KB piece of virtual space, a 4 KB piece of physical memory, and the tree of tables of 512 entries that says which frame holds which page (6.6) |
+| **PTE** | page-table entry: one 64-bit word with the valid, permission, accessed, dirty, global and memory-type bits and the physical page number (6.7) |
+| **leaf, pointer** | the two kinds of page-table entry: one that maps a page (`R`, `W` or `X` set) and one that points to the next table (6.7) |
+| **`KT11`, `PAR`, `PDR`** | the PDP-11's memory-management unit, with eight pairs of page address and page descriptor registers for each mode (6.1, 6.6) |
+| **`EPC`, `EPSW`, `EVA`, `ECAUSE`** | the registers that exception entry writes: where to resume, the old status word, the faulting address, the vector number (6.3) |
+| **`VBR`** | the vector base register: where the table of 512 eight-byte entries begins (6.3) |
+| **`ISYNC`** | makes earlier writes to system registers take effect: wait for earlier instructions, discard later ones, fetch again (6.5) |
+| **`MFSR`, `MTSR`** | move from and to a system register, by number (6.5) |
+| **software-managed `A`, `D`** | accessed and dirty bits set by the kernel's page-fault handler, never by the walker (6.8) |
+| **shootdown** | removing a stale translation from the buffers of other cores; on the pdp64 `TLBI` broadcasts and `TLBSYNC` waits (6.8) |
+| **walker** | the hardware that reads page-table entries on a translation-buffer miss (6.6) |
+| **`STUA` / `CLUA`** | set and clear the user-access guard bit, which lets kernel code touch user memory only inside the copy routines (6.10) |
+| **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (6.10, 6.13) |
 | **W^X** | write xor execute: no page is both writable and executable; OpenBSD enforces it (appendix A) |
 | **PIE** | position-independent executable: loadable at any address; costs nothing here (9.16) |
 | **GOT, PLT** | global offset table and procedure linkage table: the indirection that lets position-independent code reach imported symbols (9.16) |
 | **ABI** | application binary interface: calling convention, register use, data layout; version 1 is given in appendix D |
-| **trap, exception, interrupt** | a deliberate entry (`TRAP #n`), a fault raised by an instruction, and a signal from a device; all enter through the vector table (6.2) |
-| **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (6.8) |
-| **`SPL`** | set the interrupt priority level (6.2) |
+| **trap, exception, interrupt** | a deliberate entry (`TRAP #n`), a fault raised by an instruction, and a signal from a device; all enter through the vector table (6.3) |
+| **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (6.4) |
+| **`SPL`** | set the interrupt priority level (6.3) |
 | **`WFE`, `SEV`** | wait for an event and send an event: the idle and wake-up pair (7.6) |
 | **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.8, 7.2) |
 | **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (7.3) |

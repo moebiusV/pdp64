@@ -189,7 +189,7 @@ The worked example of the figure: reading back 0xFFFFC000 means the low 14 bits 
 
 **2.4.8** Where the configuration space and the windows of the functions sit in the physical address space (fixed bases and sizes) is unspecified, as is how a hot-plug event behind a bridge is reported. *(S)*
 
-**2.4.9** A read of a configuration position that never held a function completes normally and returns all ones in every byte, so a vendor ID of `0xFFFF` means that nothing is there; it is not a bus fault (the read of other non-existent addresses stays a precise `BUSFAULT`, 6.8.3). *(D)*
+**2.4.9** A read of a configuration position that never held a function completes normally and returns all ones in every byte, so a vendor ID of `0xFFFF` means that nothing is there; it is not a bus fault (the read of other non-existent addresses stays a precise `BUSFAULT`, 6.4.3). *(D)*
 
 **2.4.10** The root complex records such a miss in a sticky bit of its own status register, cleared by writing a one to it, so that a dead link can be told from an empty slot; the register and its place are not specified. *(D)*
 

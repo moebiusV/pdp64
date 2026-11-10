@@ -58,7 +58,7 @@
 
 ## A.8 Two-byte forms of the user-memory guard instructions
 
-**A.8.1** `STUA` and `CLUA` are not in the grammar of this CPU; whether they are added as one-parcel system words is decided when the kernel exists, and the user-access moves (section 6.5.4) may make them unnecessary; they are kept until the OpenBSD port confirms them (errata 86).
+**A.8.1** `STUA` and `CLUA` are not in the grammar of this CPU; whether they are added as one-parcel system words is decided when the kernel exists, and the user-access moves (section 6.10.4) may make them unnecessary; they are kept until the OpenBSD port confirms them (errata 86).
 
 *Commentary.* **Trade-offs.** It is not worth deciding until a kernel exists to count the copy routines. **Benefits.** Smaller and faster user copies. **Verdict.** Decide when the kernel exists. **Impact.** *Kernel:* Each user copy routine is four bytes smaller. *Compiler:* None. *Hardware:* One more system word.
 

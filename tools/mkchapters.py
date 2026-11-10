@@ -6,7 +6,7 @@ entries from the outline and resolves {{token}} references.  The Markdown of the
 web, so this turns each page into a chapter file: the heading becomes `{{c:id01001}} - Title` (the number comes from buildabook),
 links between the pages become plain text (links to other files of the repository become GitHub links), HTML comments go, and
 `{{` is escaped.  It also checks, against buildabook's own number map, that the number in each source heading ("# 6. The kernel",
-"# Appendix B. ...") is the number the outline gives the entry, because the section numbers inside the text (6.7, 7.12) are literal.
+"# Appendix B. ...") is the number the outline gives the entry, because the section numbers inside the text (6.13, 7.12) are literal.
 
 Run by tools/mkbook.sh in book/build-MEMBER/, after `buildabook number-map` has written number_map.csv:
 
