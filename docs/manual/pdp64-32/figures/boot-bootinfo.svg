@@ -89,5 +89,5 @@
 <text x="20.0" y="353.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">the offsets, the widths and the order drawn are an example, not specified.</text>
 <text x="20.0" y="370.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">Defined once in a grammar from which the headers are generated, so the loader and the kernel cannot disagree (4.6.3).</text>
 <text x="20.0" y="383.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">The devices are found by enumerating the bus (2.4), so the block stays short.</text>
-<text x="20.0" y="398.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The VAX and Alpha passed similar blocks, a restart parameter block each (from the boot review, unverified, 4.11).</text>
+<text x="20.0" y="398.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The VAX and Alpha passed similar blocks, a restart parameter block each (from the boot review, unverified, 4.12).</text>
 </svg>

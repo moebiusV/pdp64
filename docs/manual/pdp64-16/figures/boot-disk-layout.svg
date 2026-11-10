@@ -59,6 +59,6 @@
 <text x="20.0" y="339.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">its sizes carry high fields beyond 32 bits.  The kernel is a file in the root file system, which the second stage finds.</text>
 <text x="20.0" y="360.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">On the PDP-11 there was no such table: V7 compiled eight (size, first cylinder) pairs into each disk driver (hp_sizes[8] in hp.c).</text>
 <text x="20.0" y="374.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">In 2.11BSD block 0 held the 512-byte bootstrap and block 1 the disk label: the same two places as here.</text>
-<text x="20.0" y="396.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The MBR and GPT layouts are as the OpenBSD header disklabel.h has them (4.11); the 8 KB area and sector 1 are decided (4.5.3).</text>
-<text x="20.0" y="410.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Whether a separate boot partition is needed at all is open: the block list can point into the root file system (4.12).</text>
+<text x="20.0" y="396.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The MBR and GPT layouts are as the OpenBSD header disklabel.h has them (4.12); the 8 KB area and sector 1 are decided (4.5.3).</text>
+<text x="20.0" y="410.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Whether a separate boot partition is needed at all is open: the block list can point into the root file system (4.13).</text>
 </svg>

@@ -70,8 +70,8 @@
 <text x="597.8" y="295.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">/bsd</text>
 <text x="20.0" y="330.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">no services layer to call and nothing to give up: every stage after the ROM is an ordinary program built by the project's compiler</text>
 <text x="20.0" y="358.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The PDP-11 chain was the pdp64's: ROM or front panel, block 0, boot, unix (4.1).</text>
-<text x="20.0" y="371.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Both PC chains are general knowledge, unverified (4.11), except where the OpenBSD loaders show it: the amd64 tree</text>
-<text x="20.0" y="384.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">on this machine has both, biosboot (862 lines) with boot (189), and efiboot (4,593 lines), measured (4.11).</text>
+<text x="20.0" y="371.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Both PC chains are general knowledge, unverified (4.12), except where the OpenBSD loaders show it: the amd64 tree</text>
+<text x="20.0" y="384.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">on this machine has both, biosboot (862 lines) with boot (189), and efiboot (4,593 lines), measured (4.12).</text>
 <text x="20.0" y="399.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Years are general knowledge, unverified.  Real UEFI firmware has more phases than drawn,</text>
 <text x="20.0" y="412.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">and keeps some code resident that the operating system cannot see.</text>
 </svg>

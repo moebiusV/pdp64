@@ -61,5 +61,5 @@
 <text x="520.0" y="250.0" font-size="9" text-anchor="middle" fill="#333" font-family="DejaVu Sans, sans-serif">boot-information block</text>
 <text x="20.0" y="284.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">Stage sizes are the reason for the stages: the ROM and the first block are the smallest code that can be made to find the next,</text>
 <text x="20.0" y="297.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">and only the second stage is big enough to read a file system.  The ROM holds the monitor too (4.10), reached when no block 0 loads.</text>
-<text x="20.0" y="316.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The kernel is OpenBSD (errata 41 and 47).  Where block 0 lands (0x1000 in 4.4) is an address still to be chosen (4.12).</text>
+<text x="20.0" y="316.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The kernel is OpenBSD (errata 41 and 47).  Where block 0 lands (0x1000 in 4.4) is an address still to be chosen (4.13).</text>
 </svg>

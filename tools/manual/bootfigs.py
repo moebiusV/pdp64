@@ -4,9 +4,9 @@ boot-information block, the start of the other cores as a time line, the PC's pa
 Like tools/manual/busfigs.py (whose Canvas it uses) these are drawn by hand-written code, not generated from the grammar, and
 tools/mkmanual.py writes the ones the text names (figures/boot-NAME.svg) into the figures directory of every member's manual.
 What is drawn is what chapter 4 states: the decided and proposed statements of 4.3 to 4.10 and the V7M and 2.11BSD facts of 4.1
-(checked against the sources on this machine, section 4.11).  Arrangements marked 'example' or 'not specified' in a figure are
+(checked against the sources on this machine, section 4.12).  Arrangements marked 'example' or 'not specified' in a figure are
 illustrations: the boot-information block's field order and widths, the load address of block 0 and the size of the
-first few pages are not decided (4.6, 4.4, 4.12).  The PC half of the sixth figure is general knowledge, unverified (4.11).
+first few pages are not decided (4.6, 4.4, 4.13).  The PC half of the sixth figure is general knowledge, unverified (4.12).
 All figures are 690 units wide.
 """
 from busfigs import Canvas, W, GREY, SOFT, BLUE
@@ -46,7 +46,7 @@ def fig_stages():
         lines(c, cx, 226, hs, 9, 'middle', '#333')
     c.text(20, 284, 'Stage sizes are the reason for the stages: the ROM and the first block are the smallest code that can be made to find the next,', 9, 'start', '#444')
     c.text(20, 297, 'and only the second stage is big enough to read a file system.  The ROM holds the monitor too (4.10), reached when no block 0 loads.', 9, 'start', '#444')
-    c.text(20, 316, 'The kernel is OpenBSD (errata 41 and 47).  Where block 0 lands (0x1000 in 4.4) is an address still to be chosen (4.12).', 9, 'start', '#555')
+    c.text(20, 316, 'The kernel is OpenBSD (errata 41 and 47).  Where block 0 lands (0x1000 in 4.4) is an address still to be chosen (4.13).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -130,8 +130,8 @@ def fig_disk_layout():
     c.text(20, 339, 'its sizes carry high fields beyond 32 bits.  The kernel is a file in the root file system, which the second stage finds.', 9, 'start', '#222')
     c.text(20, 360, 'On the PDP-11 there was no such table: V7 compiled eight (size, first cylinder) pairs into each disk driver (hp_sizes[8] in hp.c).', 9, 'start', '#444')
     c.text(20, 374, 'In 2.11BSD block 0 held the 512-byte bootstrap and block 1 the disk label: the same two places as here.', 9, 'start', '#444')
-    c.text(20, 396, 'The MBR and GPT layouts are as the OpenBSD header disklabel.h has them (4.11); the 8 KB area and sector 1 are decided (4.5.3).', 9, 'start', '#555')
-    c.text(20, 410, 'Whether a separate boot partition is needed at all is open: the block list can point into the root file system (4.12).', 9, 'start', '#555')
+    c.text(20, 396, 'The MBR and GPT layouts are as the OpenBSD header disklabel.h has them (4.12); the 8 KB area and sector 1 are decided (4.5.3).', 9, 'start', '#555')
+    c.text(20, 410, 'Whether a separate boot partition is needed at all is open: the block list can point into the root file system (4.13).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -164,7 +164,7 @@ def fig_bootinfo():
     c.text(20, 353, 'the offsets, the widths and the order drawn are an example, not specified.', 9, 'start', '#444')
     c.text(20, 370, 'Defined once in a grammar from which the headers are generated, so the loader and the kernel cannot disagree (4.6.3).', 9, 'start', '#444')
     c.text(20, 383, 'The devices are found by enumerating the bus (2.4), so the block stays short.', 9, 'start', '#444')
-    c.text(20, 398, 'The VAX and Alpha passed similar blocks, a restart parameter block each (from the boot review, unverified, 4.11).', 9, 'start', '#555')
+    c.text(20, 398, 'The VAX and Alpha passed similar blocks, a restart parameter block each (from the boot review, unverified, 4.12).', 9, 'start', '#555')
     return c.svg()
 
 def fig_smp_timeline():
@@ -201,7 +201,7 @@ def fig_smp_timeline():
     c.text(20, 306, 'x86, for comparison (general knowledge and Linux smpboot.c, 4.7): the boot core sends INIT and START-UP signals through the interrupt controller;', 9, 'start', '#444')
     c.text(20, 317, 'the other core wakes in 16-bit real mode at an address below 1 MB, and a trampoline must walk it through protected mode into 64-bit mode.', 9, 'start', '#444')
     c.text(20, 340, 'The pdp64 has no such ladder: a core starts in its normal mode at any address.  What the start registers look like is proposed, not decided (4.7.1);', 9, 'start', '#555')
-    c.text(20, 353, 'the register block\'s address is open (4.12); the SMP chapter (7.8.1) names r0 only, where 4.7.1 loads r1 too.', 9, 'start', '#555')
+    c.text(20, 353, 'the register block\'s address is open (4.13); the SMP chapter (7.8.1) names r0 only, where 4.7.1 loads r1 too.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -229,8 +229,8 @@ def fig_pc_vs_pdp64():
     row(256, 'the pdp64', [('boot ROM', 'in the controller chip', GREY), ('block 0', 'the first stage', PINK), ('second stage', 'its own drivers; virtio', YELLOW), ('kernel', '/bsd', GREEN)],
         'no services layer to call and nothing to give up: every stage after the ROM is an ordinary program built by the project\'s compiler')
     c.text(20, 358, 'The PDP-11 chain was the pdp64\'s: ROM or front panel, block 0, boot, unix (4.1).', 9, 'start', '#555')
-    c.text(20, 371, 'Both PC chains are general knowledge, unverified (4.11), except where the OpenBSD loaders show it: the amd64 tree', 9, 'start', '#555')
-    c.text(20, 384, 'on this machine has both, biosboot (862 lines) with boot (189), and efiboot (4,593 lines), measured (4.11).', 9, 'start', '#555')
+    c.text(20, 371, 'Both PC chains are general knowledge, unverified (4.12), except where the OpenBSD loaders show it: the amd64 tree', 9, 'start', '#555')
+    c.text(20, 384, 'on this machine has both, biosboot (862 lines) with boot (189), and efiboot (4,593 lines), measured (4.12).', 9, 'start', '#555')
     c.text(20, 399, 'Years are general knowledge, unverified.  Real UEFI firmware has more phases than drawn,', 9, 'start', '#555')
     c.text(20, 412, 'and keeps some code resident that the operating system cannot see.', 9, 'start', '#555')
     return c.svg()
@@ -267,11 +267,38 @@ def fig_shim():
     c.text(rx + 110, 236, 'hand-off to the kernel', 10, bold=True)
     lines(c, rx + 110, 252, ['the boot-information block (4.6), or', 'a device tree or tables made from it,', 'and the memory map in the form', 'the loader expects'], 9, 'middle', '#222', gap=12)
     c.text(20, 332, 'The loader needs the services table, a PE/COFF image of its own and a machine-type number for the pdp64 that the owners of the UEFI', 9, 'start', '#444')
-    c.text(20, 345, 'specification would have to assign (unverified, 4.11).  The shim is a few services over drivers that already exist; it is not a firmware', 9, 'start', '#444')
+    c.text(20, 345, 'specification would have to assign (unverified, 4.12).  The shim is a few services over drivers that already exist; it is not a firmware', 9, 'start', '#444')
     c.text(20, 358, 'stack: no PEI, DXE or driver model, no variable store, no setup screen.  Nothing is built; this illustrates the size of the job (4.9).', 9, 'start', '#444')
-    c.text(20, 380, 'The services named are those OpenBSD\'s efiboot loaders call (measured, 4.11): about fifteen boot and runtime services in each.', 9, 'start', '#555')
+    c.text(20, 380, 'The services named are those OpenBSD\'s efiboot loaders call (measured, 4.12): about fifteen boot and runtime services in each.', 9, 'start', '#555')
     c.text(20, 393, 'Which of them a given loader needs is for the person who writes the shim to find by reading that loader.', 9, 'start', '#555')
     return c.svg()
+
+def fig_five_boots():
+    """The five boots the author named, and the pdp64's, as chains with what each stage knows."""
+    c = Canvas(470)
+    c.text(20, 16, 'five boots and the pdp64: who runs, in what order, and what each stage knows', 12, 'start', bold=True)
+    rows = [
+        ('a  PDP-11', [('keys or ROM', 'a few dozen words', GREY), ('block 0', 'reads a name: #', PINK), ('boot', 'C program: ":"', YELLOW), ('unix', 'r0..r3 hand-off', GREEN)]),
+        ('b  VAX', [('console processor', 'self-test, console', GREY), ('boot block', 'block 0; loads 7.5 KB', PINK), ('boot', 'C program: ":"', YELLOW), ('vmunix', 'r10, r11 hand-off', GREEN)]),
+        ('c  Commodore 64', [('reset vector', 'at 0xFFFC, in ROM', GREY), ('KERNAL init', 'chips, RAM, screen', SOFT), ('CBM80 at 0x8000?', 'yes: cartridge runs', PINK), ('BASIC, READY.', 'you LOAD and RUN', GREEN)]),
+        ('d  x86, BIOS, MBR', [('firmware', 'POST, option ROMs', GREY), ('MBR', '446 B at 0x7C00', PINK), ('boot record', 'of the active part.', YELLOW), ('OS loader', 'calls INT 13h', BLUE), ('kernel', 'memory map', GREEN)]),
+        ('e  GPT and UEFI', [('firmware', 'boot manager, NVRAM', GREY), ('GPT + FAT', 'ESP: files by name', PINK), ('loader.efi', 'PE/COFF program', YELLOW), ('exit services', 'map and tables', BLUE), ('kernel', 'ACPI or tree', GREEN)]),
+        ('f  pdp64', [('boot ROM', 'virtio-blk read', GREY), ('block 0', 'a block list', PINK), ('second stage', 'GPT, label, ELF', YELLOW), ('kernel /bsd', 'r0, r1, info block', GREEN)]),
+    ]
+    for r, (tag, items) in enumerate(rows):
+        y = 34 + r * 70
+        c.text(20, y + 6, tag, 10, 'start', bold=True)
+        n = len(items)
+        bw = (650 - (n - 1) * 20) / 5.0 if n == 5 else (650 - (n - 1) * 20) / 5.0
+        x = 20
+        for i, (a, b, fill) in enumerate(items):
+            c.box(x, y + 12, bw, 40, a, fill, 10 if len(a) < 16 else 9, bold=True, sub=b)
+            if i < n - 1:
+                c.line([(x + bw, y + 32), (x + bw + 20, y + 32)], arrow=True)
+            x += bw + 20
+    c.text(20, 462, 'Sources: a and b read in V7M, 2.11BSD and 4.3BSD; d and e partly read in OpenBSD; c, and the rest of b, d and e, are general knowledge, unverified (4.12).', 8, 'start', '#555')
+    return c.svg()
+
 
 FIGURES = {
     'boot-stages': ('The boot stages as a chain', fig_stages),
@@ -281,4 +308,5 @@ FIGURES = {
     'boot-smp-timeline': ('Starting the other cores', fig_smp_timeline),
     'boot-pc-vs-pdp64': ('The PC path beside the pdp64 path', fig_pc_vs_pdp64),
     'boot-shim': ('The place of a UEFI shim', fig_shim),
+    'boot-five-boots': ('Five boots and the pdp64', fig_five_boots),
 }

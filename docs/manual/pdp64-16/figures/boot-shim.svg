@@ -50,8 +50,8 @@
 <text x="560.0" y="276.0" font-size="9" text-anchor="middle" fill="#222" font-family="DejaVu Sans, sans-serif">and the memory map in the form</text>
 <text x="560.0" y="288.0" font-size="9" text-anchor="middle" fill="#222" font-family="DejaVu Sans, sans-serif">the loader expects</text>
 <text x="20.0" y="332.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">The loader needs the services table, a PE/COFF image of its own and a machine-type number for the pdp64 that the owners of the UEFI</text>
-<text x="20.0" y="345.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">specification would have to assign (unverified, 4.11).  The shim is a few services over drivers that already exist; it is not a firmware</text>
+<text x="20.0" y="345.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">specification would have to assign (unverified, 4.12).  The shim is a few services over drivers that already exist; it is not a firmware</text>
 <text x="20.0" y="358.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">stack: no PEI, DXE or driver model, no variable store, no setup screen.  Nothing is built; this illustrates the size of the job (4.9).</text>
-<text x="20.0" y="380.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The services named are those OpenBSD's efiboot loaders call (measured, 4.11): about fifteen boot and runtime services in each.</text>
+<text x="20.0" y="380.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The services named are those OpenBSD's efiboot loaders call (measured, 4.12): about fifteen boot and runtime services in each.</text>
 <text x="20.0" y="393.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Which of them a given loader needs is for the person who writes the shim to find by reading that loader.</text>
 </svg>
