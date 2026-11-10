@@ -1097,7 +1097,7 @@ The form that mattered, `@#addr`, returns properly as mode `0101`. The dispatch-
 
 Thirty-nine bits of virtual address is 512 GB, and it is not an arbitrary number: it is what the page table in §8.2 indexes. Three levels of nine bits each, plus a twelve-bit page offset, is 9 + 9 + 9 + 12 = 39. Nine bits per level is itself forced — 2⁹ entries × 8 bytes per entry is exactly one 4 KB page, so every table is one page and the walker never needs a table that straddles.
 
-**Why 39 and not 40, when Q64's physical address is 40 bits.** The one extra bit has nowhere to come from:
+**Why 39 and not 40 bits of virtual address.** The one extra bit has nowhere to come from:
 
 | Geometry | VA bits | Cost of getting there |
 |---|---|---|
@@ -1109,7 +1109,7 @@ Thirty-nine bits of virtual address is 512 GB, and it is not an arbitrary number
 
 Forty is not a number this page geometry produces, and reaching it would mean paying a full walk level for one bit of address.
 
-**That leaves VA one bit narrower than PA, which is normal and harmless here.** It means the kernel cannot map all of a fully-populated 1 TB physical space into one address space simultaneously; it maps a window instead, which is what every kernel does anyway. x86-64 and AArch64 both ship configurations where PA exceeds VA for the same reason. Against the 1 GB of a DE10-Nano, or 16 GB of a larger board, 512 GB of virtual space is between 32× and 512× the physical memory, so the asymmetry is unobservable.
+**That leaves VA one bit narrower than PA, which is normal and harmless here.** It means that, with a 40-bit physical address (the present implementation), the kernel cannot map all of a fully-populated 1 TB physical space into one address space simultaneously; it maps a window instead, which is what every kernel does anyway. x86-64 and AArch64 both ship configurations where PA exceeds VA for the same reason. Against the 1 GB of a DE10-Nano, or 16 GB of a larger board, 512 GB of virtual space is between 32× and 512× the physical memory, so the asymmetry is unobservable.
 
 Under the canonical rule below, moving to a four-level table and 48 bits breaks no program, a migration x86-64 cannot make cleanly because its software stashed things in the high bits.
 
@@ -1124,7 +1124,7 @@ Anything between the two aborts with `ECAUSE = NONCANON`. This is the same arran
 
 Two benefits, one immediate and one deferred. Immediately, every address adder, TLB tag and comparator carries 39 bits instead of 64. Deferred: software cannot stash tags in the high bits, because an address with anything up there faults rather than working by accident, so the address space can be widened later.
 
-Against Q64's 40-bit physical address, 39 bits of virtual is the right pairing: one bit of headroom, no translation needed for the physical window (§8.3). *(The physical address may be wider than 40 bits, errata 97; the width is not decided.)*
+The physical address is 24 to 64 bits (errata 102, *(D)*; an implementation chooses, and the present one has 40), so the virtual address of 39 bits is not paired with a fixed physical width; with a 40-bit physical address it leaves one bit of headroom and needs no translation for the physical window (§8.3). The page-table entry format for a physical address wider than 40 bits is open *(S)*.
 
 ### 6.2 Low pointer bits are reserved to software
 
@@ -1672,7 +1672,7 @@ A 64-bit machine with floating point and memory management below the 78032's 125
 | SP | `R6`, per-mode copies | `R14`, per-mode copies | **`R14`**, per-mode copies |
 | FP | software convention | `R13`, used by `CALLS`/`CALLG` | **`R13`**, software convention |
 | AP | — | `R12`, for `CALLS`/`CALLG` | none — `R12` is general |
-| Virtual address | 16 bits (18/22 physical) | 32 bits | 39 bits (40 physical) |
+| Virtual address | 16 bits (18/22 physical) | 32 bits | 39 bits (24 to 64 physical) |
 | Instruction count | ~70 base, plus EIS/FIS/FP11/CIS options | 304 | 58 assigned top-level opcodes in page 1 and 45 defined opcodes in page 2; 234 instructions in 266 mnemonic words (the rest are aliases); 95 operations once width, precision and similar qualifiers are folded |
 | Instruction length | 1–3 words (2–6 bytes) | 1 to over 50 bytes | 1–3 parcels (2–6 bytes), plus a one-parcel second page |
 | Operands per instruction | 1 or 2 | 0 to 6 | 1 or 2, plus 3 for `MBLK` |
@@ -2023,7 +2023,7 @@ Terms used in this document.
 | **`SOP`** | single-operand escape — opcode `0x13` (§4.5) |
 | **`ATOM`** | opcode `0x11`, atomics with and without barrier (§4.11) |
 | **`SYS`** | opcode `0x14`, system control (§4.11) |
-| **`Q64`** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and 40-bit addressing. It keeps the Unibus and Q-bus programming model, including `DATIP`/`DATO` locked read-modify-write. Unibus → Q-bus → Q64 |
+| **`Q64`** | the system bus: the PDP-11 Q-bus lineage widened to 64-bit data and a physical address of 24 to 64 bits. It keeps the Unibus and Q-bus programming model, including `DATIP`/`DATO` locked read-modify-write. Unibus → Q-bus → Q64 |
 | **`DATIP` / `DATO`** | Unibus and Q-bus transaction types: data-in-pause and data-out, which together form a locked read-modify-write. Carried into Q64; see §17.6 |
 | **`DMW`** | direct mapping window — a region translated as `PA = VA − base + physbase` with no page table reference (§8.3) |
 | **`ASID`** | address space identifier, tagging TLB entries so a context switch flushes nothing (§8.1) |

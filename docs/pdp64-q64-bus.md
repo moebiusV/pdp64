@@ -19,14 +19,14 @@ side: how a driver is written, who moves the data, what the processor is promise
 
 ## 2. What Q64 is
 
-*Established* (ISA §18, glossary): `Q64` is the system bus, the PDP-11 Q-bus lineage widened to 64-bit data and a 40-bit physical address. It keeps the Unibus and
+*Established* (ISA §18, glossary): `Q64` is the system bus, the PDP-11 Q-bus lineage widened to 64-bit data and a physical address of 24 to 64 bits (errata 102). It keeps the Unibus and
 Q-bus programming model, including the locked read-modify-write transaction pair `DATIP` (data in, pause) and `DATO` (data out). *(Superseded for atomics: errata 45 makes them monitor-based, and `DATIP`/`DATO` are no longer architectural.)* Lineage: Unibus, Q-bus, Q64.
 
 *Open*: the transaction definitions (widths, bursts, arbitration, timing) are not written anywhere in this repository.
 
 ## 3. Addressing
 
-* *Established* (ISA §6.1, §8): the physical address is 40 bits; the virtual address is 39 bits (9 + 9 + 9 + 12), "one bit of headroom, no translation needed for
+* *Established* (ISA §6.1, §8): the physical address is 24 to 64 bits (errata 102: 40 in the present implementation); the virtual address is 39 bits (9 + 9 + 9 + 12), "one bit of headroom, no translation needed for
   the physical window".
 * *Established* (ISA §8.3): two direct mapping windows, `DMW0` and `DMW1`, translate `PA = VA - VirtualBase + PhysicalBase` with no page-table reference. Physical memory,
   and so a device's registers and a DMA descriptor, are reachable without mapping them first. This is what a driver, a debugger and the bootstrap need.
@@ -92,7 +92,7 @@ initiator and before the memory system is built.
 
 ## 9. The device convention
 
-*Decided* (errata 75, 79, 95): every device is a virtio device, an NVMe controller or a USB (xHCI) controller; the network, graphics and audio devices are virtio-net, virtio-gpu (2D) and virtio-snd over the virtio PCI Express transport. The device moves its own data by DMA, so the processor only sets up a transfer and carries no multitasking burden for it. A driver finds the virtio structures through the capabilities in the function's configuration space, negotiates features, sets up its queues (a table of 16-byte descriptors, an available ring the driver writes and a used ring the device writes) and notifies the device by a write to the queue's notification address; chapter 5 of the manual gives the layout. It costs the ISA nothing: it is bus and device design, and uses only what section 5 lists.
+*Decided* (errata 75, 79, 95): every standard device is a virtio device or a USB (xHCI) controller (errata 101: the disk is virtio-blk, not NVMe); any other PCI Express device, an NVMe controller for example, may be attached with its own driver; the disk, network, graphics and audio devices are virtio-blk, virtio-net, virtio-gpu (2D) and virtio-snd over the virtio PCI Express transport. The device moves its own data by DMA, so the processor only sets up a transfer and carries no multitasking burden for it. A driver finds the virtio structures through the capabilities in the function's configuration space, negotiates features, sets up its queues (a table of 16-byte descriptors, an available ring the driver writes and a used ring the device writes) and notifies the device by a write to the queue's notification address; chapter 5 of the manual gives the layout. It costs the ISA nothing: it is bus and device design, and uses only what section 5 lists.
 
 *Open*:
 
@@ -115,7 +115,7 @@ transfer is done (section 6, step 4). *Open*: the interrupt controller, the vect
 1. The Q64 transaction definitions (widths, bursts, arbitration, timing).
 2. Locked read-modify-write against exclusive access (section 8): blocking for SMP and for LB64.
 3. The feature subset of each virtio device; the form of the console, the timer and the entropy source (section 9).
-4. Where the configuration space and the device windows sit in the physical address space, and the width of the physical address (errata 97).
+4. Decided (errata 102): the physical address is 24 to 64 bits, and windows can be mapped anywhere except the first few pages, where the boot code and boot data are loaded. Open: how many pages those are, where the configuration space sits, how software discovers the implemented width, and the page-table entry format for a wide address.
 5. The root complex's error registers (section 7).
 6. The interrupt controller, the inter-processor interrupt registers and the boot protocol for secondary cores (section 10).
 7. The details of enumeration and hot-plug: where the windows sit, the hot-plug alert and the handling of accesses to a departed device (section 13).
