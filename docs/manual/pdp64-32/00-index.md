@@ -25,6 +25,7 @@
 15. [**Appendix D. The ABI, version 1**](appendix-d-abi.md): data model, registers, arguments and results, variadic calls, position-independent code.
 16. [**Appendix E. The assembly language and the object format**](appendix-e-assembler.md): source syntax, directives, operand modes, the literal pool, and ELF.
 17. [**Appendix F. The evidence behind the manual**](appendix-f-evidence.md): the long documents the manual is drawn from: the full instruction-set text, the system and bus documents, the record of decisions, and the surveys and measurements.
+18. [**Appendix G. The evolution of the design**](appendix-g-evolution.md): how the design grew from a small question, and the influences, inspirations and precedents in the order they were introduced, each with its date and time.
 
 ## How to read it
 

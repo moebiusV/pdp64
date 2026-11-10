@@ -24,3 +24,4 @@ a:id03003 docs/manual/pdp64-@ID@/appendix-c-glossary.md
 a:id03004 docs/manual/pdp64-@ID@/appendix-d-abi.md
 a:id03005 docs/manual/pdp64-@ID@/appendix-e-assembler.md
 a:id03006 docs/manual/pdp64-@ID@/appendix-f-evidence.md
+a:id03007 docs/manual/pdp64-@ID@/appendix-g-evolution.md
