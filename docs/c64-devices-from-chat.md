@@ -141,7 +141,7 @@ The later chat (lines 6029-7140) changed the base the above sits on. Recorded so
 | 64 KB TCM, `DPR` | `DP` register and direct-page mode |
 | Three-operand `draw` blitter | `BLT64`, a bitblt engine with raster ops (r13, line 6546; the author did not discuss it) |
 | Zynq UltraScale+, devices first with an emulated CPU | DE10-Nano first, CPU first (the ISA chat's FPGA plan) |
-| 200-300 MHz | 50-80 MHz on the Cyclone V, 180-250 MHz on UltraScale+ (the later chat calls the 250 MHz figure optimistic) |
+| 200-300 MHz | 50-80 MHz on the Cyclone V, 180-250 MHz on UltraScale+ (the later chat calls the 250 MHz figure optimistic); settled: the target is 200-300 MHz and the estimates stay as estimates (errata 99) |
 
 ## 8. A historical link between Commodore and DEC (found 2026-11-07)
 

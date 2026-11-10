@@ -90,13 +90,17 @@ Three places where the FPGA target differs from the transistor-level design of t
 
 ## 3. Clock frequency
 
-Expected `Fmax` for pdp64:
+**The target is 200 to 300 MHz** *(D)*, the author's decision (errata 99).
 
-| Device | Expected `Fmax` |
-|---|---|
-| Cyclone V (DE10-Nano) | 50–80 MHz |
-| Artix-7 / Zynq 7020, -1 speed | 90–130 MHz |
-| UltraScale+ (KV260) | 180–250 MHz |
+Estimated `Fmax` for pdp64 *(E)*, from the structure of the critical path below and not from a synthesis run, since no RTL exists:
+
+| Device | Estimated `Fmax` | Against the 200–300 MHz target |
+|---|---|---|
+| Cyclone V (DE10-Nano) | 50–80 MHz | below the target: a quarter to two fifths of its lower bound |
+| Artix-7 / Zynq 7020, -1 speed | 90–130 MHz | below the target: under two thirds of its lower bound |
+| UltraScale+ (KV260) | 180–250 MHz | reaches the target only at the top of its range: 180 MHz is below 200, 250 is inside 200–300 |
+
+On these estimates only the UltraScale+ can meet the target, and only in the upper part of its range; the other two boards cannot, with the datapath described here. The estimates assume the single-issue core of this plan with the critical path named below; reaching the target on any board means shortening that path with pipeline stages, which is why the pipeline register boundaries of risk 2 (§11) are left in the RTL from phase 1.
 
 The critical path is expected to be **register read → address adder → TLB lookup → cache tag compare → way select**. The alternative candidate is ALU → flag generation → branch condition → next-PC mux.
 
@@ -107,7 +111,7 @@ Two things to do about the path when it binds:
 - **Virtually-indexed, physically-tagged L1.** With 4 KB pages and a way size no larger than 4 KB, index bits come entirely from the page offset, so TLB lookup and cache indexing run in parallel and there is no aliasing to police. This removes the TLB from the serial path and is the single highest-value microarchitectural decision on this list.
 - **Split branch resolution from the ALU.** Flags are cheap in transistors (§4.4 of the ISA) but they are a serialization point on FPGA, where a 64-bit carry chain is slow. A dedicated comparator for branch conditions, running in parallel with the ALU rather than downstream of it, buys a stage.
 
-Do not chase frequency in phase 1. A correct 40 MHz machine is worth more than a fast broken one, and the DE10-Nano at 60 MHz is already fifty times a PDP-11/70.
+Frequency is a target from phase 1, not an afterthought: the pipeline boundaries are kept in the RTL and the critical path above is watched in every timing report. The order of the phases does not change, and a correct machine at a lower clock still comes before a fast broken one, so the phase that first runs on the DE10-Nano (50 to 80 MHz estimated, below the target) is a correctness milestone, and the clock target is met on the board that can reach it. The earlier claim that 60 MHz is already some fifty times a PDP-11/70 had no derivation in this plan and is not repeated.
 
 ---
 
@@ -274,7 +278,7 @@ Phase 6 is the widest because it is not really a hardware phase. It is a compile
 ## 11. Risks, in order
 
 1. **The compiler backend.** A pcc back end for pdp64 exists and compiled C runs under `sim64`. On the 841-file fair corpus it produces 1.03 times amd64 and 1.04 times aarch64 in instructions and 0.97 and 0.89 times in bytes, with instruction lengths 2/4/6/8 bytes at 46.5/42.8/10.6/0.1 % (measured before errata 31 removed the 8-byte form; the maximum is now 6 bytes). That answers the measured-length-distribution question; the scaled-index displacement width (ISA open item 1) is still open. Phase 6 needs a production compiler. Nothing in phases 0–5 produces one, and no schedule line above covers writing it. The target (LLVM, a Facet backend, or a small self-hosted generator) changes the ISA's ABI document and bears on ISA open items 1 and 6, the scaled-index displacement width and the measured length distribution, which only a code generator can answer.
-2. **Timing closure on Cyclone V.** If the design lands at 35 MHz rather than 60, the fix is architectural — pipeline stages — and pipelining a machine with memory operands and precise faults is not a small change. Mitigate by leaving pipeline register boundaries in the RTL from phase 1, even when unused.
+2. **Timing closure on Cyclone V.** The target is 200 to 300 MHz (errata 99) and the estimate for this board is 50 to 80 MHz, so the target is not met here even on the estimate. If the design lands at 35 MHz rather than 60, the fix is architectural — pipeline stages — and pipelining a machine with memory operands and precise faults is not a small change. Mitigate by leaving pipeline register boundaries in the RTL from phase 1, even when unused.
 3. **Q64 exclusive access over AXI.** Open item 4 of the spec. The Unibus-derived `DATIP`/`DATO` locked read-modify-write is a *lock*; AXI exclusive access is a *monitor*. They are not the same primitive and the mapping is not clean. This needs settling before phase 4, not during it. The `_DB` barrier-fused atomics raise the stakes, because they assert an ordering guarantee that has to mean something on the actual interconnect.
 4. **BRAM exhaustion at phase 7.** The caches, the TLB, the VIC-64X framebuffer, the `BLT64` scratch and the SID-64X voice state all want BRAM, and the DE10-Nano has about 5.5 Mb. Budget it before building the VIC, not after. §12 has the framebuffer numbers.
 5. **`MBLK` cache pollution.** ISA open item 8. A large `MCPY` will evict the entire D-cache for data that is never read again. On an 8 KB cache this shows up immediately. The architectural fix is a non-temporal variant or a streaming `MT` value; the non-fix is deciding by length in the implementation, which is a performance cliff with no architectural visibility. Decide in phase 4, when the cache exists and the effect is measurable.

@@ -1343,7 +1343,7 @@ What does transfer from the 6502 is the direct page as a **density** mechanism, 
 
 Tolerable on a non-pipelined machine, a persistent tax beyond. ARM32 carried it; AArch64 dropped it.
 
-**The read-only proposal.** If `R7` merely *read* as the PC and writes to it were reserved, almost all of that cost disappears: reading needs only a mux on the register read path, since the PC is already a flop in the fetch unit. No write hazard, no branch-on-write. It is cheap.
+**The read-only alternative (rejected).** If `R7` merely *read* as the PC and writes to it were reserved, almost all of that cost disappears: reading needs only a mux on the register read path, since the PC is already a flop in the fetch unit. No write hazard, no branch-on-write. It is cheap.
 
 It is still the wrong trade, for a reason that has nothing to do with cost. **Reading the PC forces a definitional commitment about *which* PC.** ARM32 answered "the address of this instruction plus eight," because the original three-stage pipeline had already advanced the PC twice by the time the register file was read. That answer is permanent. It leaks a 1985 pipeline depth into the architecture forever, every implementation since has had to reproduce it, and ARM's own documentation lists it among the architecture's warts. It is the same error class as branch delay slots, which §11 rejects for the same reason: an implementation detail promoted to an architectural promise.
 
@@ -1357,7 +1357,7 @@ And the capability is already present without the commitment:
 
 Mode `0010`'s displacement is defined relative to a stated point — the address of the first parcel of the instruction (§4.1) — so `LEA 0(PC), R0` has one meaning (the address of the `LEA` itself) and the architecture never has to say what "reading R7" would produce. At `len = 10` the same instruction forms any address within ±2 GB of itself PC-relatively, which is a strictly larger capability than a readable PC register offers.
 
-So: `R7` is a general register, the PC is reached through mode `0010` and `LEA`, and the **syntax** is preserved — `MOV #5, R0`, `MOV foo(PC), R0` and `MOV @#addr, R0` all assemble. What is lost is encoding uniformity; what is gained is a clean register file, a clean hazard story, one more general register, and no number specified in perpetuity. The requirement is mnemonic compatibility, not binary compatibility.
+So *(D)*: `R7` is an ordinary general register and is not a view of the program counter (the author's decision of 2026-11-10, errata 100); the PC is reached through mode `0010` and `LEA`, and the **syntax** is preserved — `MOV #5, R0`, `MOV foo(PC), R0` and `MOV @#addr, R0` all assemble. What is lost is encoding uniformity; what is gained is a clean register file, a clean hazard story, one more general register, and no number specified in perpetuity. The requirement is mnemonic compatibility, not binary compatibility.
 
 **Everyone modern agrees.** AArch64: `PC` is not a GPR, read via `ADR`/`ADRP`. LoongArch64: `PC` is not a GPR, read via `PCADDI`, `PCADDU12I`, `PCADDU18I` and `PCALAU12I`. RISC-V: not a GPR, read via `AUIPC`. The convergence is independent teams finding the same hazard.
 

@@ -84,7 +84,7 @@
 
 **9.3.1** There are [[r20 16: sixteen]][[32: thirty-two]] 64-bit general registers, [[r20 16: `R0` to `R15`]][[32: `R0` to `R31`]]. `R14` is the stack pointer `SP`, with three copies (kernel, supervisor, user) chosen by the current mode; `R13` is the frame pointer by convention only; the others carry no meaning to the hardware. *(D)*
 
-**9.3.2** The program counter is not a general register; it is read with `LEA 0(PC), Rn`. *(D)*
+**9.3.2** The program counter is not a general register, and `R7` is an ordinary general register, not a view of the program counter; the program counter is read with `LEA 0(PC), Rn`. *(D)*
 
 **9.3.3** The processor status word is 16 bits. *(D)*
 
