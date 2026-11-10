@@ -1528,7 +1528,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Repository.** `manual/10-conclusion.md` 10.1.2 *(D)* "first board is the Terasic DE10-Nano"; `pdp64-fpga-plan.md` phase 6 (kernel) before phase 7 (devices). No erratum backs either (D).
 
-**Needed.** Confirm the DE10-Nano and CPU-first, or return to devices-first.
+**Decided: the clock target is 200 to 300 MHz (errata 99).** The Cyclone V estimate of 50-80 MHz is below it, so the DE10-Nano cannot be the board on which the target is met. **Needed.** Confirm the DE10-Nano and CPU-first, or return to devices-first, in the light of that target.
 
 ### E7. The bus: display without cycle stealing, three classes, peer-to-peer DMA
 
@@ -1580,7 +1580,7 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 * **F7. Graphics.** **Decided: virtio-gpu, 2D mode (errata 79).** Earlier lean: virtio-gpu in its 2D mode (create a surface, point it at memory, flush a rectangle); no firmware blob, and it has a flip and cursor path a bare framebuffer lacks. Fallback if the driver is a burden: a plain linear framebuffer.
 * **F8. Audio.** **Decided: virtio-snd (errata 79).** Earlier lean: virtio-snd (streams in shared-memory queues). Intel HDA is the fiddly alternative (codec commands), USB Audio Class the alternative that needs no extra device. Check whether OpenBSD has a virtio-snd driver; if not, it is a small driver to write.
 * **F9. USB.** Lean: xHCI only.
-* **F10. Boot media.** Lean: NVMe, then USB storage, then network; SD only if the board has it.
+* **F10. Boot media.** **Decided in part: the disk is virtio-blk (errata 101).** Earlier lean: NVMe, then USB storage, then network; SD only if the board has it. Open: the order of the other media after the virtio-blk disk.
 * **F11. Console.** Lean: a 16550-style UART in place of the KL11-style console.
 * **F12. Fixed non-PCI devices** (timer, interrupt controller, UART). Lean: a small device tree for these, PCI Express enumeration for the rest.
 
@@ -1598,7 +1598,7 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 * **F25. IOMMU hardening.** An IOMMU alone is not enough (Thunderclap). Lean: translation on by default, one domain per device, no kernel pointers in descriptors, permanent mappings for rings, bounce copies for small buffers.
 * **F26. Platform rules.** Lean: link power states (ASPM) off by default; legacy VGA decoding off; a stated hot-plug window reservation per bridge, since BAR sizes vary.
 * **F27. Errors and resets.** Lean: every PCI Express error completion and link-down becomes a precise `BUSFAULT`; a bus reset produces no removal events (as 2.6.9 says) and the manual states which slot events a reset causes; identity after power loss is defined.
-* **F28. Quirk policy.** Lean: the standard supports one virtio interface per class, a small compliance-tested subset of NVMe and xHCI, and no AHCI; any other device is attached without a promise, with its own driver and quirks.
+* **F28. Quirk policy.** Lean: the standard supports one virtio interface per class, a small compliance-tested subset of xHCI (the disk is virtio-blk, errata 101; an NVMe device may be attached like any other PCI Express device), and no AHCI; any other device is attached without a promise, with its own driver and quirks.
 
 **The dedicated-core proposal (errata 76).** One core for graphics, one for the network running the full TCP/IP stack, one for audio (MIDI, DSP), the rest general. Questions it raises:
 
