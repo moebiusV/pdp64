@@ -743,6 +743,8 @@ These were decided earlier (the errata cited). They are set out in the same form
 
 **View.** Keep. A fourth level can be added later behind a feature bit if 512 GB becomes the limit.
 
+**Decided (the author, 2026-11-09; errata 96).** Three, four and five levels (39, 48 and 57 bits) are all allowed, as long as the level count is discoverable at runtime; option 2 is no longer rejected by default.
+
 ---
 
 ## Q4. Eight interrupt priority levels in the `PSW`, no interrupt controller
