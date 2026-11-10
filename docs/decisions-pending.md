@@ -1502,7 +1502,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** Revision 1 chose a three-operand compositing `draw` shaped like a Plan 9 `Memimage`, with layers as display-list entries and sprites that are windows (line 5614). The author did not object. In the ISA chat the assistant wrote `BLT64`, the Blit's bitblt with raster operations (line 6546); the author did not discuss it.
 
-**Repository.** `manual/03-graphics.md` 3.8.4 `BLT64` *(P)* (the register list is the assistant's; the author said "did we ever really specify the blt64 device? I think that was just our name for whatever came of the gpu/c64/blit mashup") and 3.8.7 four raster operations *(P)*; errata 66 says only "based on the Blit as well as the C64".
+**Repository.** manual appendix H, 3.8.4 `BLT64` *(P)* (the register list is the assistant's; the author said "did we ever really specify the blt64 device? I think that was just our name for whatever came of the gpu/c64/blit mashup") and appendix H, 3.8.7 four raster operations *(P)*; errata 66 says only "based on the Blit as well as the C64".
 
 **Options.** (1) `BLT64` as written. (2) `draw` as in revision 1. (3) `BLT64` for 1-bit and `draw` for compositing.
 
@@ -1518,7 +1518,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** All C64 devices in the one 8 KB page at virtual `$C000-$DFFF` (APR6), mapped by pointing one page register at it; a poke changes the banking (line 5608).
 
-**Repository.** `manual/03-graphics.md` 3.8.5 *(P)*: each device in its own 4 KB page; `02-bus.md` 2.3.3.
+**Repository.** manual appendix H, 3.8.5 *(P)*: each device in its own 4 KB page; `02-bus.md` 2.3.6.
 
 **Options.** (1) A page per device (today). (2) A single device window per process, assembled by the kernel from several devices. The question is whether the "peek and poke at the literal address" property is worth a special case.
 
@@ -1526,7 +1526,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** "200-300MHz is fine" (line 5652); the assistant's staging, which the author did not contest: "build the devices in fabric first with an emulated CPU on the ARM side ... then replace the emulator with the real core" on a K26/ZU5EV, a ZU11EG for eight cores (line 5799-5803). The ISA chat later gave 50-80 MHz on a Cyclone V and made the DE10-Nano the first board (the ISA chat's FPGA plan).
 
-**Repository.** `manual/10-conclusion.md` 10.1.2 *(D)* "first board is the Terasic DE10-Nano"; `pdp64-fpga-plan.md` phase 6 (kernel) before phase 7 (devices). No erratum backs either (D).
+**Repository.** manual appendix H, 10.1.2 *(D)* "first board is the Terasic DE10-Nano"; `pdp64-fpga-plan.md` phase 6 (kernel) before phase 7 (devices). No erratum backs either (D).
 
 **Decided: the clock target is 200 to 300 MHz (errata 99).** The Cyclone V estimate of 50-80 MHz is below it, so the DE10-Nano cannot be the board on which the target is met. **Needed.** Confirm the DE10-Nano and CPU-first, or return to devices-first, in the light of that target.
 
@@ -1534,7 +1534,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported claude.ai chat
 
 **Chat.** Revisions 3 and 4 (section 3 of the extraction): the display steals nothing; private, shared and peer-to-peer classes; the framebuffer has no DMA channel; 2 KB bursts; strict priority between classes.
 
-**Repository.** `manual/03-graphics.md` 3.15.x: scan-out "competes with the processor for bandwidth"; `02-bus.md` 2.3.5 and `pdp64-q64-bus.md`: arbitration and bursts unspecified.
+**Repository.** `manual/03-graphics.md` 3.13.x: scan-out "competes with the processor for bandwidth"; `02-bus.md` 2.3.4 and `pdp64-q64-bus.md`: arbitration and bursts unspecified.
 
 **Options.** Adopt the chat's rules as the bus specification (the largest single gap), or record that they were dropped.
 
@@ -1597,21 +1597,21 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 * **F24. Interrupt rules.** The bus must state that an interrupt (MSI-X) write cannot pass the DMA writes that precede it; and provide many vectors per core, an atomically retargetable entry, and a mask while an entry changes. Lean: write all three into the bus chapter.
 * **F25. IOMMU hardening.** An IOMMU alone is not enough (Thunderclap). Lean: translation on by default, one domain per device, no kernel pointers in descriptors, permanent mappings for rings, bounce copies for small buffers.
 * **F26. Platform rules.** Lean: link power states (ASPM) off by default; legacy VGA decoding off; a stated hot-plug window reservation per bridge, since BAR sizes vary.
-* **F27. Errors and resets.** Lean: every PCI Express error completion and link-down becomes a precise `BUSFAULT`; a bus reset produces no removal events (as 2.4.7 says) and the manual states which slot events a reset causes; identity after power loss is defined.
+* **F27. Errors and resets.** Lean: every PCI Express error completion and link-down becomes a precise `BUSFAULT`; a bus reset produces no removal events (as 2.4.6 says) and the manual states which slot events a reset causes; identity after power loss is defined.
 * **F28. Quirk policy.** Lean: the standard supports one virtio interface per class, a small compliance-tested subset of xHCI (the disk is virtio-blk, errata 101; an NVMe device may be attached like any other PCI Express device), and no AHCI; any other device is attached without a promise, with its own driver and quirks.
 
 **The dedicated-core proposal (errata 76).** One core for graphics, one for the network running the full TCP/IP stack, one for audio (MIDI, DSP), the rest general. Questions it raises:
 
-* **F16. Iteration one or two?** Lean: reserve it in iteration one (the core-class register exists, 7.8.4) and use it as a *policy*: pin the network card's MSI-X queue and the graphics driver to a core by affinity. The separate stack and the separate address space come in iteration two.
+* **F16. Iteration one or two?** Lean: reserve it in iteration one (the core-class register exists, 7.8.3) and use it as a *policy*: pin the network card's MSI-X queue and the graphics driver to a core by affinity. The separate stack and the separate address space come in iteration two.
 * **F17. What runs the stack?** Lean: OpenBSD's own stack as a service on the network core, reached through shared rings, rather than writing a stack. OpenBSD keeps its stack in the kernel, so splitting it out is a port task of its own; affinity (F16) captures most of the benefit without it.
 * **F18. How do the dedicated cores share memory?** The coherence ceiling is two to four snooping cores (7.7.1, ISA open item 12). Lean: the general cores stay coherent with each other; the graphics, network and audio cores are message-passing partners using uncached rings and `FENCE`, the same rule as a DMA device (7.7.2). That keeps "a bunch of general cores" below the ceiling or lets them grow past it separately.
-* **F19. How many cores in iteration one?** A complete core is about 16,000 lookup tables (10.1.3, ±40%); the DE10-Nano fits a few. Lean: two or three general cores plus the three dedicated ones on a larger part; one general plus affinity on the DE10-Nano.
+* **F19. How many cores in iteration one?** A complete core is about 16,000 lookup tables (10.1.2, ±40%); the DE10-Nano fits a few. Lean: two or three general cores plus the three dedicated ones on a larger part; one general plus affinity on the DE10-Nano.
 * **F21. What does the audio core need?** MIDI arrives over USB (the USB MIDI class) and DSP wants a multiply-accumulate loop with a hard deadline per sample block. Lean: the same ISA, no new instructions at first; measure the loop on the 64-bit multiplier and the fused multiply-add before adding a DSP instruction. It is also the natural home for mixing SID-style voices into the 48-bit path in iteration two.
 * **F20. Isolation.** Lean: each dedicated core is its own IOMMU domain and address space, so a network-stack compromise cannot reach the kernel's memory; this is the security argument for the split.
 
 **Standard or optional (errata 77, 78).** The C128 is an optional device. The VIC-64X, SID-64X and BLT64 are deferred (F22, closed by errata 78).
 
-* **F23. Hot-plug scope.** The bus document already specifies a departure event, a precise bus fault for a departed device and an orderly eject (`pdp64-q64-bus.md` section 13, manual 2.4.7 and 5.5.5). Lean: USB hot-plug in iteration one (it is the normal case); PCI Express slot hot-plug as software only (the fault and event rules) until a board has slot hardware.
+* **F23. Hot-plug scope.** The bus document already specifies a departure event, a precise bus fault for a departed device and an orderly eject (`pdp64-q64-bus.md` section 13, manual 2.4.6 and 5.5.5). Lean: USB hot-plug in iteration one (it is the normal case); PCI Express slot hot-plug as software only (the fault and event rules) until a board has slot hardware.
 
 **Kept for later.** The 48-bit pixel, the 48-bit sample, the 12-register devices and the Blit model are one iteration-two bundle (errata 75); the sample layout waits for it. A C64/C128 window mapped through the IOMMU is deferred.
 

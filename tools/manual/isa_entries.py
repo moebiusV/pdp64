@@ -7,6 +7,21 @@ STORY = dict(STORY, **isa_stories_ext.STORY)
 
 ENTRIES = isa_part1.ENTRIES + isa_part2.ENTRIES + isa_part3.ENTRIES + isa_part4.ENTRIES
 
+# The manual is about the architecture as it is to be (errata 120).  An entry whose notes open with the tag (P), a proposal the author has not
+# accepted, or (S), a stub, is not emitted into the body or the reference tables; its text lives in docs/manual-src/appendix-parts/09-proposed.md
+# (and 09-open.md for a stub).  An instruction the author asked for or accepted is decided even when its details are not worked out: its entry is
+# tagged (D) and says "Details pending", and it is not held.  Only the words he did not decide are held: MOVUSERD (a combination of two decided
+# qualifiers that no text of his or of the study defines), MSHA and MAESCTR (stage 2 of the crypto study, "only after measurement"), SYSPG0-5
+# (placeholders).  The entry stays in this file so that the grammar's words keep their descriptions.
+HELD = {}
+for _e in ENTRIES:
+    _n = _e['notes'].lstrip()
+    if _n.startswith('*(P)*'):
+        HELD[_e['id']] = 'proposed'
+    elif _n.startswith('*(S)*'):
+        HELD[_e['id']] = 'open'
+HELD_NAMES = {_n for _e in ENTRIES if _e['id'] in HELD for _n in _e['names']}
+
 PAGES = [
     ('moves', 'Moves and address formation'),
     ('alu', 'Integer arithmetic and logic'),
@@ -27,15 +42,14 @@ PAGE_INTRO = {
     'branches': 'Conditional branches, `SOB`, the fused compare-and-branch family, the tag branches and the three indirect transfers.',
     'bits': 'The `BESC` group: counts, byte and bit reversal, rotates, the funnel shift, bit fields, carry-less multiply and UTF-8. Register to register; none writes a flag except the UTF-8 validity bit.',
     'block': 'The `MBLK` group: the block operations. Their progress is held in architectural registers, so a fault restarts them for free.',
-    'arith': 'The `AESC` group: divide and remainder, the high unsigned product, absolute value, minimum and maximum, and `SET`.',
+    'arith': 'The `AESC` group: divide and remainder, the high unsigned product and `SET`.',
     'fp': 'Floating point is in the general registers; precision and rounding are in the opcode and there are no mode bits. Exception flags accumulate in `FPSR` and never trap.',
-    'atomics': 'The atomic group (opcode `010001 (0x11)`). The operand placement of each form is unspecified. For the semantics see chapter 7.',
+    'atomics': 'The atomic group (opcode `010001 (0x11)`). The operand placement of each form is open ([J.9.3](appendix-j-open.md#j93)). For the semantics see chapter 7.',
     'system': 'The system escape (opcode `010100 (0x14)`). For the modes, the entry sequence, the system registers and the translation machinery see chapter 6; for waiting, signalling and coherence see chapter 7. `STUA` and `CLUA` are described in section 6.10; they have no entry here.',
 }
 
 INDEX_INTRO = ('This is the reference part of the manual: **one entry for each instruction**, in the layout of a processor reference manual. Each entry gives its mnemonics, its syntax, its encoding (the parcel diagram and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains it. '
-               'The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) are in `tools/manual/isa_entries.py` and are checked against the reference executor, `common/pdp64exec.c`, which `sim64` and QEMU share. '
-               'The Status line of each entry says whether the executor implements the instruction.\n\n'
+               'The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators.\n\n'
                '**Notation.** `Rd` is the destination register (the `reg` field of parcel 0), `Rs` the first source (`low`), `Rt` the second (`t` of parcel 1), `Ru` the third (`x`); the assembler writes the destination last. `rm` is a general operand: a register at `len = 00`, or a memory operand, an immediate or an absolute address by one of the eight addressing modes (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. A `len = 01` instruction is two parcels (four bytes) and a `len = 10` instruction three (six bytes); `len = 11` is page 2. `N Z V C` are the condition flags. Bit diagrams number the bits of a parcel from 15 at the left.\n\n'
                '**Cf.** lines point to the chapter that explains the matter an instruction touches: the kernel (chapter 6), the multiprocessor model (chapter 7), the bus (chapter 2).')
 
@@ -91,7 +105,7 @@ P2 = {
 }
 
 NOTATION = ("**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (a drawing of the parcels and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains the matter it touches (*Cf.*). Every instruction, the atomic and the system instructions included, has its official entry below (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons, and an entry may point back to them for a fuller explanation. In the pseudocode, \u2190 is assignment, = and \u2260 compare, \u00d7 and \u00f7 multiply and divide, and `M[a]` is memory at address `a`. Numbers that are encodings (opcodes, sub-opcodes, field values) are written in binary with the hexadecimal value in brackets behind, as `010011 (0x13)`. Masks are binary too, with a subscript 2 to mark the base (`Rn & 111\u2082` keeps the low three bits). "
-            "The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) are checked against the reference executor, `common/pdp64exec.c`, which `sim64` and QEMU share, and the Status line of each entry says whether the executor implements the instruction. "
+            "The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators. "
             "The one-parcel second page, the aliases, the constants and the lists of the mnemonics and the opcodes are in the [reference tables](dictionary/index.md).\n\n"
             "**The stories.** An instruction that is not common (the PDP-11 core and the operations every architecture has carry none) is followed by *Why it is here*: the machine the idea came from and the reason it was chosen, with the measurements that bear on it. Where no reason is recorded, the paragraph says so. The documents behind the paragraphs are listed in [appendix F](appendix-f-evidence.md).\n\n**Notation.** `Rd` is the destination register (the `reg` field of parcel 0), `Rs` the first source (`low`), `Rt` the second (`t` of parcel 1), `Ru` the third (`x`); the assembler writes the destination last. `rm` is a general operand: a register at `len = 00`, or a memory operand, an immediate or an absolute address by one of the eight addressing modes (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. A `len = 01` instruction is two parcels (four bytes) and a `len = 10` instruction three (six bytes); `len = 11` is page 2. `N Z V C` are the condition flags. In the drawings the bits of a parcel are numbered from 15 at the left, a shaded box is a fixed value, and a white box is a field that varies.")
 
@@ -103,8 +117,7 @@ NOTATION_ENC = ("**The instructions.** Every instruction has an entry in the sec
                 "has its official entry below (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons, and an entry may point back to them for a fuller explanation. "
                 "In the pseudocode, ← is assignment, = and ≠ compare, × and ÷ multiply and divide, and `M[a]` is memory at address `a`. Numbers that are encodings (prefixes, sub-opcodes, field values) are written in binary. "
                 "Masks are binary too, with a subscript 2 to mark the base (`Rn & 111₂` keeps the low three bits). The layouts are generated from the grammars of the encodings, `spec/pdp64-enc.hbnf` and the grammar of the CPU, "
-                "so a chart here cannot disagree with the assembler, the linker or the simulator; the words (operation, flags, exceptions) are checked against the reference executor, `common/pdp64exec.c` and `common/pdp64exec_enc.inc`, "
-                "which `sim64` runs, and the Status line of each entry says whether the executor implements the instruction. The aliases, the constants, the lists of the mnemonics and the bit layouts of every opcode are in the [reference tables](dictionary/index.md).\n\n"
+                "so a chart here cannot disagree with the assembler, the linker or the simulator. The aliases, the constants, the lists of the mnemonics and the bit layouts of every opcode are in the [reference tables](dictionary/index.md).\n\n"
                 "**The stories.** An instruction that is not common (the PDP-11 core and the operations every architecture has carry none) is followed by *Why it is here*: the machine the idea came from and the reason it was chosen, with the measurements that bear on it. "
                 "Where no reason is recorded, the paragraph says so. The documents behind the paragraphs are listed in [appendix F](appendix-f-evidence.md).\n\n"
                 "**Notation.** `Rd` is the destination register, `Rs` the first source, `Rt` the second, `Ru` the third; the assembler writes the destination last, and the operands of a chart are numbered `op1`, `op2`, ... in the order of the assembly syntax. "
@@ -113,8 +126,7 @@ NOTATION_ENC = ("**The instructions.** Every instruction has an entry in the sec
 
 INDEX_INTRO_ENC = ("This is the reference part of the manual: **one entry for each instruction**, in the layout of a processor reference manual. Each entry gives its mnemonics, its syntax, its encoding (a chart of its layout, and the list of all its layouts), its operation in pseudocode, "
                    "the flags it writes, the exceptions it can take, and where the manual explains it. The charts, the hot-register tables and the operand widths are generated from the grammars of the encoding (`spec/pdp64-enc.hbnf` and the grammar of the CPU), "
-                   "the one place where the encoding is written, so a layout here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) are in `tools/manual/isa_entries.py` and are checked against the reference executor, "
-                   "`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, which `sim64` runs. The Status line of each entry says whether the executor implements the instruction.\n\n"
+                   "the one place where the encoding is written, so a layout here cannot disagree with the assembler or the simulators.\n\n"
                    "**Notation.** `Rd` is the destination register, `Rs` the first source, `Rt` the second, `Ru` the third; the assembler writes the destination last. `rm` is a general operand. `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. "
                    "`sext` and `zext` sign- and zero-extend. `N Z V C` are the condition flags. Bit charts number the bits of a parcel from 15 at the left.\n\n"
                    "**Cf.** lines point to the chapter that explains the matter an instruction touches: the kernel (chapter 6), the multiprocessor model (chapter 7), the bus (chapter 2).")

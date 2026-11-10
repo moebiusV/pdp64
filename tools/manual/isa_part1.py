@@ -59,7 +59,7 @@ Rd <- Rd * rm   (FMUL)       ; IEEE 754 binary64, round to nearest even''',
     E('FCMP', 'fp', ['fcmp'], 'Floating compare, binary64', ['FCMP Rd, rm        ; register first'],
       '''N <- Rd < rm ; Z <- Rd == rm ; V <- unordered ; C <- 0''',
       '`N` set if `Rd < rm`, `Z` if equal, `V` if the operands are unordered (either is a NaN), `C` cleared. A signalling NaN raises `NV` in `FPSR`.', MEMX, '9.12',
-      notes='The signed branches do not treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1); this is an open item of the instruction set.'),
+      notes='The signed branches do not treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1). Open: how floating-point comparisons set flags that the signed branches can use ([J.9.9](appendix-j-open.md#j99)).'),
     E('ADDM', 'alu', ['addm', 'subm', 'bicm', 'bism'], 'ALU operation with a memory destination',
       ['ADDM Rs, rm', 'SUBM Rs, rm', 'BICM Rs, rm', 'BISM Rs, rm'],
       '''ADDM: M[EA] <- M[EA] + Rs

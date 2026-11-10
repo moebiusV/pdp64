@@ -324,10 +324,10 @@ def render_entry(e):
     real = [n for n in names if not MN[n]['alias_of']]
     heads = ', '.join('`%s`' % n.upper().rstrip('_').replace('XOR_', 'XOR_') for n in names if not MN[n]['alias_of'])
     out = []
-    if len(real) == 1:
+    if len(real) == 1 or e.get('alias'):
         out += ['<a id="w-%s"></a>' % wslug(n) for n in names]
     out += ['### %s: %s' % (e['id'], e['title']), '']
-    if len(real) == 1:
+    if len(real) == 1 and not e.get('alias'):
         out += forms_block(real[0])
     out.append('**Mnemonics:** ' + heads + (('  (aliases: ' + ', '.join('`%s`' % n.upper() for n in names if MN[n]['alias_of']) + ')') if any(MN[n]['alias_of'] for n in names) else ''))
     out.append('')
@@ -337,8 +337,11 @@ def render_entry(e):
     out.append('**Syntax**\n')
     out.append('```\n' + uni('\n'.join(e['syntax'])) + '\n```')
     out.append('')
-    out.append('**Encoding**' + (' (the present encoding of the build, as the grammar gives it; not the design)' if e.get('alias') else '') + '\n')
-    out.append(encoding(e))
+    if e.get('alias'):
+        out.append('**Encoding** None of its own: the assembler expands an alias into other instructions. Open: the expansion ([J.9.1](appendix-j-open.md#j91)).')
+    else:
+        out.append('**Encoding**\n')
+        out.append(encoding(e))
     out.append('')
     out.append('**Operation**\n')
     out.append('```\n' + uni(e['op'].strip('\n')) + '\n```')
@@ -350,25 +353,14 @@ def render_entry(e):
     if prose(e, 'notes'):
         out.append(prose(e, 'notes').replace('{{SYSREGS}}', sysreg_table()))
         out.append('')
-    impl = [n for n in real if implemented(n)]
-    if len(impl) == len(real):
-        st = ('implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU)' if MEMBER == 'r20' else
-              'implemented in the reference executor (`common/pdp64exec.c` and `common/pdp64exec_enc.inc`, run by `sim64`; QEMU does not yet execute this encoding)')
-    elif not impl:
-        st = 'specified; **not yet implemented** in the reference executor'
-    else:
-        st = 'implemented in the reference executor for ' + ', '.join('`%s`' % n.upper() for n in impl) + '; not yet for the others'
     if prose(e, 'story'):
         out.append('**Why it is here.** ' + prose(e, 'story'))
         out.append('')
     if e.get('cf'):
         out.append('**Cf.** ' + e['cf'])
         out.append('')
-    if e.get('alias'):
-        st = 'by decision an assembler alias (errata 98); the present assembler, simulator, QEMU and LLVM still encode and execute the word as the arithmetic-escape sub-opcode shown above, so the word is ' + st.replace('implemented', 'implemented', 1)
-    out.append('**Status** ' + st + '.')
-    out.append('')
-    out += words_section(e, real)
+    if not e.get('alias'):
+        out += words_section(e, real)
     return '\n'.join(out)
 
 
@@ -513,6 +505,12 @@ def sources(member):
     return out
 
 
+def held_chart_ids():
+    """the charts whose mnemonics are all held back (proposed or stub entries, isa_entries.HELD): they are not shown"""
+    return {cid for cid in {c for v in CH.byname.values() for c, _ in v}
+            if all(n in D.HELD_NAMES for n, v in CH.byname.items() if any(c == cid for c, _ in v))}
+
+
 def by_encoding_page(member):
     """dictionary/by-encoding.md: a chart for every opcode (every distinct layout) of the member, generated from its grammar, with the index of the mnemonics."""
     r20 = member == 'r20'
@@ -539,6 +537,7 @@ def by_encoding_page(member):
             L.append('| `%s` | %s |' % (nm, desc))
         L.append('')
     L += ['## The charts', '']
+    held_charts = held_chart_ids()
     if r20:
         for kind in LAY.MN_KINDS:
             cs = [c for c in CH.charts if c['kind'] == kind]
@@ -546,7 +545,8 @@ def by_encoding_page(member):
                 continue
             L += ['### %s' % LAY.KINDTITLE[kind], '']
             for ch in cs:
-                L += chart_block(ch, member)
+                if ch['id'] not in held_charts:
+                    L += chart_block(ch, member)
         ch = CH.byid['r20-page2']
         L += ['### Page 2', ''] + chart_block(ch, member)
     else:
@@ -554,13 +554,15 @@ def by_encoding_page(member):
         cur = None
         for i in order:
             ch = CH.charts[i]
+            if ch['id'] in held_charts:
+                continue
             if ch['parcels'] != cur:
                 cur = ch['parcels']
                 L += ['### Instructions of %d parcel%s (%d bytes)' % (cur, '' if cur == 1 else 's', 2 * cur), '']
             L += chart_block(ch, member)
     L += ['## The index of the mnemonics', '', 'For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.', '']
     for n in sorted(MN):
-        if MN[n]['alias_of']:
+        if MN[n]['alias_of'] or n in D.HELD_NAMES:
             continue
         refs = []
         for cid, ch in CH.byname.get(n, []):
@@ -604,7 +606,7 @@ def build(member='r20'):
     files = {}
     chapters = {}
     allents = D.ENTRIES
-    ents = [e for e in allents if member in e.get('only', ASM.MEMBERS)]
+    ents = [e for e in allents if member in e.get('only', ASM.MEMBERS) and e['id'] not in D.HELD]   # a proposed or stub entry is held back (isa_entries.HELD): its text is in appendix-parts/09-proposed.md or 09-open.md
     seen = {}
     for e in ents:
         for n in e['names']:
@@ -622,7 +624,7 @@ def build(member='r20'):
     unused = set(HOME) - {e['id'] for e in allents}
     if unused:
         raise SystemExit('home sections for entries that do not exist: ' + ' '.join(sorted(unused)))
-    missing = [n for n, m in MN.items() if n not in seen and not (m['alias_of'] and m['alias_of'] in seen)]
+    missing = [n for n, m in MN.items() if n not in seen and n not in D.HELD_NAMES and not (m['alias_of'] and m['alias_of'] in seen)]
     if missing:
         raise SystemExit('mnemonics with no entry: ' + ' '.join(sorted(missing)))
     alias_of = {n: m['alias_of'] for n, m in MN.items() if m['alias_of']}
@@ -698,6 +700,8 @@ def build(member='r20'):
     else:
         by += ['| Mnemonic | Entry | Layouts | Group |', '|---|---|---|---|']
     for n in sorted(MN):
+        if n in D.HELD_NAMES:
+            continue
         m = MN[n]
         tgt = m['alias_of'] or n
         eid = seen.get(n) or seen.get(tgt)
@@ -767,13 +771,14 @@ def build(member='r20'):
         I.append('* [The opcodes, in order](by-opcode.md)')
     I.append('* [The bit layouts of every opcode](by-encoding.md): a chart for each layout, generated from the grammar')
     I.append('')
-    n_real = sum(1 for m in MN.values() if not m['alias_of'])
-    n_alias = sum(1 for m in MN.values() if m['alias_of'])
-    n_impl = sum(1 for n, m in MN.items() if not m['alias_of'] and implemented(n))
-    n_ext = sum(1 for m in MN.values() if m['kind'] == 'ext')
-    I.append('The specification of %s has %d mnemonic words (%d instructions and %d aliases)%s%s; the reference executor implements %d of the %d instructions; the Status line of the entry of each of the rest says that it is not implemented. There are %d instruction entries, %d bit-layout charts of the layouts, and an entry for each of the %d instructions with a chart of each of its %d forms.'
-             % (ASM.NAME[member], len(MN), n_real, n_alias, (', %d of them only in the prefix-coded CPUs' % n_ext) if n_ext else '', (' and %d page-2 opcodes' % len(SPEC['p2op'])) if r20 else '',
-                n_impl, n_real, len(ents), len(CH.charts), len(WORDCH), sum(len(v) for v in WORDCH.values())))
+    vis = {n: m for n, m in MN.items() if n not in D.HELD_NAMES}
+    n_real = sum(1 for m in vis.values() if not m['alias_of'])
+    n_alias = sum(1 for m in vis.values() if m['alias_of'])
+    n_ext = sum(1 for m in vis.values() if m['kind'] == 'ext')
+    wch = {n: v for n, v in WORDCH.items() if n not in D.HELD_NAMES}
+    I.append('The specification of %s has %d mnemonic words (%d instructions and %d aliases)%s%s. There are %d instruction entries, %d bit-layout charts of the layouts, and an entry for each of the %d instructions with a chart of each of its %d forms.'
+             % (ASM.NAME[member], len(vis), n_real, n_alias, (', %d of them only in the prefix-coded CPUs' % n_ext) if n_ext else '', (' and %d page-2 opcodes' % len(SPEC['p2op'])) if r20 else '',
+                len(ents), len(CH.charts) - len(held_chart_ids()), len(wch), sum(len(v) for v in wch.values())))
     I.append('')
     I.append('*Generated by `tools/mkmanual.py`; do not edit.*')
     I.append('')

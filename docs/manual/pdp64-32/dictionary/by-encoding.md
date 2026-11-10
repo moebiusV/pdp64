@@ -502,15 +502,6 @@ Fields: `sub=p0[4:0]`
 
 Fields: `op1.r=p0[4:0]`
 
-<a id="32-SYS0-2"></a>
-#### 32-SYS0-2: SYS0, prefix `11110010001100`
-
-![Layout 32-SYS0-2](../figures/32-SYS0-2.svg)
-
-`sub` (2 bits) selects the mnemonic: `syspg2` 00, `syspg3` 01, `syspg4` 10, `syspg5` 11.
-
-Fields: `sub=p0[1:0]`
-
 ### Instructions of 2 parcels (4 bytes)
 
 <a id="32-LDU-X6-1"></a>
@@ -577,19 +568,6 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 `op3` is `pc16-u2`: pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes).
 
 Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]`
-
-<a id="32-LDU-X6-2"></a>
-#### 32-LDU-X6-2: LDU.X6, prefix `1001111`
-
-![Layout 32-LDU-X6-2](../figures/32-LDU-X6-2.svg)
-
-`op1` is `x5-5d6s`: memory at base + (index << scale) + signed 6-bit displacement; base register, 5 bits, index register, 5 bits.
-
-`op2` is `reg5`: register, 5 bits.
-
-`sub` (2 bits) selects the mnemonic: `movw.ud` 00, `movb.ud` 01, `movzl.ud` 10, `movzw.ud` 11.
-
-Fields: `sub=p0[8:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="32-STU-X6-1"></a>
 #### 32-STU-X6-1: STU.X6, prefix `1010000`
@@ -684,19 +662,6 @@ Fields: `sub=p0[8]` `op1.imm=p0[7:0]+p1[15:0]`
 
 Fields: `xsub-1=p0[7:5]` `op4.r=p0[4:0]` `xsub-2=p1[15]` `op1.r=p1[14:10]` `op2.r=p1[9:5]` `op3.r=p1[4:0]`
 
-<a id="32-LDU-B12-2"></a>
-#### 32-LDU-B12-2: LDU.B12, prefix `11001001`
-
-![Layout 32-LDU-B12-2](../figures/32-LDU-B12-2.svg)
-
-`op1` is `b5d12s-x1`: memory at base register, 5 bits + signed 12-bit displacement times 1, -2048 to 2047 bytes.
-
-`op2` is `reg5`: register, 5 bits.
-
-`sub` (2 bits) selects the mnemonic: `movw.ud` 00, `movb.ud` 01, `movzl.ud` 10, `movzw.ud` 11.
-
-Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]`
-
 <a id="32-STU-B12-1"></a>
 #### 32-STU-B12-1: STU.B12, prefix `11001010`
 
@@ -750,17 +715,6 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 `sub` (2 bits) selects the mnemonic: `cbpl` 00, `cbmi` 01, `cbvc` 10, `cbvs` 11.
 
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.r=p0[4:0]` `op1.r-2=p1[15:12]` `op3.pcrel=p1[11:0]`
-
-<a id="32-LDU-X6-3"></a>
-#### 32-LDU-X6-3: LDU.X6, prefix `110111000`
-
-![Layout 32-LDU-X6-3](../figures/32-LDU-X6-3.svg)
-
-`op1` is `x5-5d6s`: memory at base + (index << scale) + signed 6-bit displacement; base register, 5 bits, index register, 5 bits.
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="32-LDF-PI12-3"></a>
 #### 32-LDF-PI12-3: LDF.PI12, prefix `110111011`
@@ -925,17 +879,6 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 `xsub` selects the mnemonic.
 
 Fields: `xsub-1=p0[5]` `op3.r=p0[4:0]` `xsub-2=p1[15:10]` `op1.r=p1[9:5]` `op2.r=p1[4:0]`
-
-<a id="32-LDU-B12-3"></a>
-#### 32-LDU-B12-3: LDU.B12, prefix `1110100011`
-
-![Layout 32-LDU-B12-3](../figures/32-LDU-B12-3.svg)
-
-`op1` is `b5d12s-x1`: memory at base register, 5 bits + signed 12-bit displacement times 1, -2048 to 2047 bytes.
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="32-LDF-PI12-4"></a>
 #### 32-LDF-PI12-4: LDF.PI12, prefix `1110100101`
@@ -2817,19 +2760,6 @@ Fields: `sub=p0[8:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` 
 
 Fields: `op1.r-1=p0[7:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15:14]` `op2.imm=p1[13:8]` `op3.imm=p1[7:2]` `xsub=p1[1:0]+p2[15:0]`
 
-<a id="32-LDU-B28-2"></a>
-#### 32-LDU-B28-2: LDU.B28, prefix `11000111`
-
-![Layout 32-LDU-B28-2](../figures/32-LDU-B28-2.svg)
-
-`op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
-
-`op2` is `reg5`: register, 5 bits.
-
-`sub` (2 bits) selects the mnemonic: `movw.ud` 00, `movb.ud` 01, `movzl.ud` 10, `movzw.ud` 11.
-
-Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
-
 <a id="32-STU-B28-1"></a>
 #### 32-STU-B28-1: STU.B28, prefix `11001000`
 
@@ -3009,17 +2939,6 @@ Fields: `sub=p0[6:5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 `sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
 
 Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
-
-<a id="32-LDU-B28-3"></a>
-#### 32-LDU-B28-3: LDU.B28, prefix `1110100010`
-
-![Layout 32-LDU-B28-3](../figures/32-LDU-B28-3.svg)
-
-`op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="32-LDF-B28-4"></a>
 #### 32-LDF-B28-4: LDF.B28, prefix `1110100100`
@@ -3621,7 +3540,6 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-lea"></a>`LEA`: [32-LDF-B28-2](#32-LDF-B28-2), [32-LDF-X22-2](#32-LDF-X22-2), [32-LDF-PI12-2](#32-LDF-PI12-2), [32-LDF-PD12-2](#32-LDF-PD12-2), [32-LDF-PC32-2](#32-LDF-PC32-2), [32-LDF-A32-2](#32-LDF-A32-2), [32-DPF-D28-2](#32-DPF-D28-2), [32-LEASx12H-a-1](#32-LEASx12H-a-1), [32-LDX0-a-1](#32-LDX0-a-1), [32-LDPC12H-a-1](#32-LDPC12H-a-1), [32-LDPC14H-a-1](#32-LDPC14H-a-1), [32-LDBu8H-a-1](#32-LDBu8H-a-1), [32-LDPC16H-a-1](#32-LDPC16H-a-1), [32-LDBu10H-a-1](#32-LDBu10H-a-1), [32-LDHHH1-a-1](#32-LDHHH1-a-1), [32-LEASPh4-a-1](#32-LEASPh4-a-1), [32-LDBs6-a-1](#32-LDBs6-a-1), [32-LEAS12H-a-1](#32-LEAS12H-a-1), [32-LDSPh4-a-1](#32-LDSPh4-a-1), [32-LDBu12H-a-1](#32-LDBu12H-a-1), [32-LDHHH3-a-1](#32-LDHHH3-a-1), [32-LDPC12-a-1](#32-LDPC12-a-1), [32-LDBu8-a-1](#32-LDBu8-a-1), [32-LDX6H-a-1](#32-LDX6H-a-1), [32-LDBs10-a-1](#32-LDBs10-a-1), [32-LEAS14H-a-1](#32-LEAS14H-a-1)
 * <a id="mn-ll"></a>`LL`: [32-R3-1](#32-R3-1)
 * <a id="mn-lpad"></a>`LPAD`: [32-SYS0-1](#32-SYS0-1)
-* <a id="mn-maesctr"></a>`MAESCTR`: [32-R4-1](#32-R4-1)
 * <a id="mn-maskeqz"></a>`MASKEQZ`: [32-R3-1](#32-R3-1)
 * <a id="mn-masknez"></a>`MASKNEZ`: [32-R3-1](#32-R3-1)
 * <a id="mn-max"></a>`MAX`: [32-R3-1](#32-R3-1)
@@ -3642,16 +3560,13 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-movb"></a>`MOVB`: [32-LDF-B28-1](#32-LDF-B28-1), [32-LDF-X22-1](#32-LDF-X22-1), [32-LDF-PI12-1](#32-LDF-PI12-1), [32-LDF-PD12-1](#32-LDF-PD12-1), [32-LDF-PC32-1](#32-LDF-PC32-1), [32-LDF-A32-1](#32-LDF-A32-1), [32-LDFI-I32-2](#32-LDFI-I32-2), [32-STF-B28-1](#32-STF-B28-1), [32-STF-X22-1](#32-STF-X22-1), [32-STF-PI12-1](#32-STF-PI12-1), [32-STF-PD12-1](#32-STF-PD12-1), [32-STF-PC32-1](#32-STF-PC32-1), [32-STF-A32-1](#32-STF-A32-1), [32-DPF-D28-1](#32-DPF-D28-1), [32-RRF-1](#32-RRF-1), [32-RRF5-1](#32-RRF5-1), [32-STBu8H-b-1](#32-STBu8H-b-1), [32-LDBu6-b-1](#32-LDBu6-b-1), [32-STX0-b-1](#32-STX0-b-1), [32-STBs6-b-1](#32-STBs6-b-1), [32-LDX0-b-1](#32-LDX0-b-1), [32-LDI12-d-2](#32-LDI12-d-2), [32-STBu10H-b-1](#32-STBu10H-b-1), [32-LDBu8H-b-1](#32-LDBu8H-b-1), [32-STHHH1-b-1](#32-STHHH1-b-1), [32-STBu12H-b-1](#32-STBu12H-b-1), [32-LDPC12H-b-1](#32-LDPC12H-b-1), [32-STBs8H-b-1](#32-STBs8H-b-1), [32-LDS12H-b-1](#32-LDS12H-b-1), [32-STX4H-b-1](#32-STX4H-b-1), [32-LDBu12H-b-1](#32-LDBu12H-b-1), [32-LDBs6-b-1](#32-LDBs6-b-1), [32-STBu6-b-1](#32-STBu6-b-1)
 * <a id="mn-movb-d"></a>`MOVB.D`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
 * <a id="mn-movb-u"></a>`MOVB.U`: [32-LDU-B28-1](#32-LDU-B28-1), [32-STU-B28-1](#32-STU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-STU-B12-1](#32-STU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1), [32-STU-X6-1](#32-STU-X6-1)
-* <a id="mn-movb-ud"></a>`MOVB.UD`: [32-LDU-B28-2](#32-LDU-B28-2), [32-LDU-B12-2](#32-LDU-B12-2), [32-LDU-X6-2](#32-LDU-X6-2)
 * <a id="mn-movcall"></a>`MOVCALL`: [32-FX-MOVCALL3-1](#32-FX-MOVCALL3-1), [32-FX-MOVCALL2-1](#32-FX-MOVCALL2-1)
 * <a id="mn-movl"></a>`MOVL`: [32-LDF-B28-1](#32-LDF-B28-1), [32-LDF-X22-1](#32-LDF-X22-1), [32-LDF-PI12-1](#32-LDF-PI12-1), [32-LDF-PD12-1](#32-LDF-PD12-1), [32-LDF-PC32-1](#32-LDF-PC32-1), [32-LDF-A32-1](#32-LDF-A32-1), [32-LDFI-I32-2](#32-LDFI-I32-2), [32-STF-B28-1](#32-STF-B28-1), [32-STF-X22-1](#32-STF-X22-1), [32-STF-PI12-1](#32-STF-PI12-1), [32-STF-PD12-1](#32-STF-PD12-1), [32-STF-PC32-1](#32-STF-PC32-1), [32-STF-A32-1](#32-STF-A32-1), [32-DPF-D28-1](#32-DPF-D28-1), [32-RRF-1](#32-RRF-1), [32-RRF5-1](#32-RRF5-1), [32-RR5-1](#32-RR5-1), [32-STBu6-a-1](#32-STBu6-a-1), [32-LDX0-a-1](#32-LDX0-a-1), [32-LDPC12H-a-1](#32-LDPC12H-a-1), [32-LDPC14H-a-1](#32-LDPC14H-a-1), [32-STBs8H-a-1](#32-STBs8H-a-1), [32-LDBu8H-a-1](#32-LDBu8H-a-1), [32-STX0-a-1](#32-STX0-a-1), [32-LDPC16H-a-1](#32-LDPC16H-a-1), [32-STBu10H-a-1](#32-STBu10H-a-1), [32-LDBu10H-a-1](#32-LDBu10H-a-1), [32-LDHHH1-a-1](#32-LDHHH1-a-1), [32-STHHH1-a-1](#32-STHHH1-a-1), [32-LDBs6-a-1](#32-LDBs6-a-1), [32-LDSPh4-a-1](#32-LDSPh4-a-1), [32-STSPh4-a-1](#32-STSPh4-a-1), [32-LDBu12H-a-1](#32-LDBu12H-a-1), [32-STBu12H-a-1](#32-STBu12H-a-1), [32-LDHHH3-a-1](#32-LDHHH3-a-1), [32-LDPC12-a-1](#32-LDPC12-a-1), [32-LDBu8-a-1](#32-LDBu8-a-1), [32-STBs6-a-1](#32-STBs6-a-1), [32-LDX6H-a-1](#32-LDX6H-a-1), [32-STX6H-a-1](#32-STX6H-a-1), [32-LDBs10-a-1](#32-LDBs10-a-1), [32-STBs8-a-1](#32-STBs8-a-1)
 * <a id="mn-movl-d"></a>`MOVL.D`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
 * <a id="mn-movl-u"></a>`MOVL.U`: [32-LDU-B28-1](#32-LDU-B28-1), [32-STU-B28-1](#32-STU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-STU-B12-1](#32-STU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1), [32-STU-X6-1](#32-STU-X6-1)
-* <a id="mn-movl-ud"></a>`MOVL.UD`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
 * <a id="mn-movq"></a>`MOVQ`: [32-LDF-B28-1](#32-LDF-B28-1), [32-LDF-X22-1](#32-LDF-X22-1), [32-LDF-PI12-1](#32-LDF-PI12-1), [32-LDF-PD12-1](#32-LDF-PD12-1), [32-LDF-PC32-1](#32-LDF-PC32-1), [32-LDF-A32-1](#32-LDF-A32-1), [32-LDFI-I32-1](#32-LDFI-I32-1), [32-STF-B28-1](#32-STF-B28-1), [32-STF-X22-1](#32-STF-X22-1), [32-STF-PI12-1](#32-STF-PI12-1), [32-STF-PD12-1](#32-STF-PD12-1), [32-STF-PC32-1](#32-STF-PC32-1), [32-STF-A32-1](#32-STF-A32-1), [32-DPF-D28-1](#32-DPF-D28-1), [32-RRF-1](#32-RRF-1), [32-RRF5-1](#32-RRF5-1), [32-RR5-1](#32-RR5-1), [32-STBu6-a-1](#32-STBu6-a-1), [32-LDX0-a-1](#32-LDX0-a-1), [32-LDPC12H-a-1](#32-LDPC12H-a-1), [32-LDI14H-a-1](#32-LDI14H-a-1), [32-LDPC14H-a-1](#32-LDPC14H-a-1), [32-STBs8H-a-1](#32-STBs8H-a-1), [32-LDBu8H-a-1](#32-LDBu8H-a-1), [32-LDI16H-a-1](#32-LDI16H-a-1), [32-STX0-a-1](#32-STX0-a-1), [32-IMMh43-a-1](#32-IMMh43-a-1), [32-LDI12-a-1](#32-LDI12-a-1), [32-LDPC16H-a-1](#32-LDPC16H-a-1), [32-STBu10H-a-1](#32-STBu10H-a-1), [32-LDBu10H-a-1](#32-LDBu10H-a-1), [32-LDHHH1-a-1](#32-LDHHH1-a-1), [32-STHHH1-a-1](#32-STHHH1-a-1), [32-LDBs6-a-1](#32-LDBs6-a-1), [32-LDSPh4-a-1](#32-LDSPh4-a-1), [32-IMMh45-a-1](#32-IMMh45-a-1), [32-STSPh4-a-1](#32-STSPh4-a-1), [32-LDBu12H-a-1](#32-LDBu12H-a-1), [32-STBu12H-a-1](#32-STBu12H-a-1), [32-LDHHH3-a-1](#32-LDHHH3-a-1), [32-LDPC12-a-1](#32-LDPC12-a-1), [32-IMMh47-a-1](#32-IMMh47-a-1), [32-LDBu8-a-1](#32-LDBu8-a-1), [32-STBs6-a-1](#32-STBs6-a-1), [32-LDX6H-a-1](#32-LDX6H-a-1), [32-STX6H-a-1](#32-STX6H-a-1), [32-LDBs10-a-1](#32-LDBs10-a-1), [32-STBs8-a-1](#32-STBs8-a-1)
 * <a id="mn-movq-d"></a>`MOVQ.D`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
 * <a id="mn-movq-u"></a>`MOVQ.U`: [32-LDU-B28-1](#32-LDU-B28-1), [32-STU-B28-1](#32-STU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-STU-B12-1](#32-STU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1), [32-STU-X6-1](#32-STU-X6-1)
-* <a id="mn-movq-ud"></a>`MOVQ.UD`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
 * <a id="mn-movql"></a>`MOVQL`: [32-MOVQL-1](#32-MOVQL-1)
 * <a id="mn-movub"></a>`MOVUB`: [32-LDF-B28-2](#32-LDF-B28-2), [32-LDF-X22-2](#32-LDF-X22-2), [32-LDF-PI12-2](#32-LDF-PI12-2), [32-LDF-PD12-2](#32-LDF-PD12-2), [32-LDF-PC32-2](#32-LDF-PC32-2), [32-LDF-A32-2](#32-LDF-A32-2), [32-STF-B28-1](#32-STF-B28-1), [32-STF-X22-1](#32-STF-X22-1), [32-STF-PI12-1](#32-STF-PI12-1), [32-STF-PD12-1](#32-STF-PD12-1), [32-STF-PC32-1](#32-STF-PC32-1), [32-STF-A32-1](#32-STF-A32-1), [32-DPF-D28-2](#32-DPF-D28-2)
 * <a id="mn-movul"></a>`MOVUL`: [32-LDF-B28-3](#32-LDF-B28-3), [32-LDF-X22-3](#32-LDF-X22-3), [32-LDF-PI12-3](#32-LDF-PI12-3), [32-LDF-PD12-3](#32-LDF-PD12-3), [32-LDF-PC32-3](#32-LDF-PC32-3), [32-LDF-A32-3](#32-LDF-A32-3), [32-STF-B28-1](#32-STF-B28-1), [32-STF-X22-1](#32-STF-X22-1), [32-STF-PI12-1](#32-STF-PI12-1), [32-STF-PD12-1](#32-STF-PD12-1), [32-STF-PC32-1](#32-STF-PC32-1), [32-STF-A32-1](#32-STF-A32-1), [32-DPF-D28-3](#32-DPF-D28-3)
@@ -3660,24 +3575,18 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-movw"></a>`MOVW`: [32-LDF-B28-1](#32-LDF-B28-1), [32-LDF-X22-1](#32-LDF-X22-1), [32-LDF-PI12-1](#32-LDF-PI12-1), [32-LDF-PD12-1](#32-LDF-PD12-1), [32-LDF-PC32-1](#32-LDF-PC32-1), [32-LDF-A32-1](#32-LDF-A32-1), [32-LDFI-I32-2](#32-LDFI-I32-2), [32-STF-B28-1](#32-STF-B28-1), [32-STF-X22-1](#32-STF-X22-1), [32-STF-PI12-1](#32-STF-PI12-1), [32-STF-PD12-1](#32-STF-PD12-1), [32-STF-PC32-1](#32-STF-PC32-1), [32-STF-A32-1](#32-STF-A32-1), [32-DPF-D28-1](#32-DPF-D28-1), [32-RRF-1](#32-RRF-1), [32-RRF5-1](#32-RRF5-1), [32-STBu8H-b-1](#32-STBu8H-b-1), [32-LDBu6-b-1](#32-LDBu6-b-1), [32-STX0-b-1](#32-STX0-b-1), [32-STBs6-b-1](#32-STBs6-b-1), [32-LDX0-b-1](#32-LDX0-b-1), [32-STBu10H-b-1](#32-STBu10H-b-1), [32-LDBu8H-b-1](#32-LDBu8H-b-1), [32-STHHH1-b-1](#32-STHHH1-b-1), [32-STBu12H-b-1](#32-STBu12H-b-1), [32-LDPC12H-b-1](#32-LDPC12H-b-1), [32-STBs8H-b-1](#32-STBs8H-b-1), [32-LDS12H-b-1](#32-LDS12H-b-1), [32-STX4H-b-1](#32-STX4H-b-1), [32-LDBu12H-b-1](#32-LDBu12H-b-1), [32-LDBs6-b-1](#32-LDBs6-b-1), [32-STBu6-b-1](#32-STBu6-b-1)
 * <a id="mn-movw-d"></a>`MOVW.D`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
 * <a id="mn-movw-u"></a>`MOVW.U`: [32-LDU-B28-1](#32-LDU-B28-1), [32-STU-B28-1](#32-STU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-STU-B12-1](#32-STU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1), [32-STU-X6-1](#32-STU-X6-1)
-* <a id="mn-movw-ud"></a>`MOVW.UD`: [32-LDU-B28-2](#32-LDU-B28-2), [32-LDU-B12-2](#32-LDU-B12-2), [32-LDU-X6-2](#32-LDU-X6-2)
 * <a id="mn-movzb"></a>`MOVZB`: [32-LDF-B28-1](#32-LDF-B28-1), [32-LDF-X22-1](#32-LDF-X22-1), [32-LDF-PI12-1](#32-LDF-PI12-1), [32-LDF-PD12-1](#32-LDF-PD12-1), [32-LDF-PC32-1](#32-LDF-PC32-1), [32-LDF-A32-1](#32-LDF-A32-1), [32-LDFI-I32-3](#32-LDFI-I32-3), [32-DPF-D28-1](#32-DPF-D28-1), [32-RRF-1](#32-RRF-1), [32-RRF5-1](#32-RRF5-1), [32-LDX0-a-1](#32-LDX0-a-1), [32-LDPC12H-a-1](#32-LDPC12H-a-1), [32-LDPC14H-a-1](#32-LDPC14H-a-1), [32-LDBu8H-a-1](#32-LDBu8H-a-1), [32-LDPC16H-a-1](#32-LDPC16H-a-1), [32-LDBu10H-a-1](#32-LDBu10H-a-1), [32-LDHHH1-a-1](#32-LDHHH1-a-1), [32-LDBs6-a-1](#32-LDBs6-a-1), [32-LDSPh4-a-1](#32-LDSPh4-a-1), [32-LDBu12H-a-1](#32-LDBu12H-a-1), [32-LDHHH3-a-1](#32-LDHHH3-a-1), [32-LDPC12-a-1](#32-LDPC12-a-1), [32-LDBu8-a-1](#32-LDBu8-a-1), [32-LDX6H-a-1](#32-LDX6H-a-1), [32-LDBs10-a-1](#32-LDBs10-a-1)
 * <a id="mn-movzb-d"></a>`MOVZB.D`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
 * <a id="mn-movzb-u"></a>`MOVZB.U`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
-* <a id="mn-movzb-ud"></a>`MOVZB.UD`: [32-LDU-B28-3](#32-LDU-B28-3), [32-LDU-B12-3](#32-LDU-B12-3), [32-LDU-X6-3](#32-LDU-X6-3)
 * <a id="mn-movzl"></a>`MOVZL`: [32-LDF-B28-1](#32-LDF-B28-1), [32-LDF-X22-1](#32-LDF-X22-1), [32-LDF-PI12-1](#32-LDF-PI12-1), [32-LDF-PD12-1](#32-LDF-PD12-1), [32-LDF-PC32-1](#32-LDF-PC32-1), [32-LDF-A32-1](#32-LDF-A32-1), [32-LDFI-I32-2](#32-LDFI-I32-2), [32-DPF-D28-1](#32-DPF-D28-1), [32-RRF-1](#32-RRF-1), [32-RRF5-1](#32-RRF5-1), [32-LDBu6-b-1](#32-LDBu6-b-1), [32-LDX0-b-1](#32-LDX0-b-1), [32-LDBu8H-b-1](#32-LDBu8H-b-1), [32-LDPC12H-b-1](#32-LDPC12H-b-1), [32-LDS12H-b-1](#32-LDS12H-b-1), [32-LDBu12H-b-1](#32-LDBu12H-b-1), [32-LDBs6-b-1](#32-LDBs6-b-1)
 * <a id="mn-movzl-d"></a>`MOVZL.D`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
 * <a id="mn-movzl-u"></a>`MOVZL.U`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
-* <a id="mn-movzl-ud"></a>`MOVZL.UD`: [32-LDU-B28-2](#32-LDU-B28-2), [32-LDU-B12-2](#32-LDU-B12-2), [32-LDU-X6-2](#32-LDU-X6-2)
 * <a id="mn-movzw"></a>`MOVZW`: [32-LDF-B28-1](#32-LDF-B28-1), [32-LDF-X22-1](#32-LDF-X22-1), [32-LDF-PI12-1](#32-LDF-PI12-1), [32-LDF-PD12-1](#32-LDF-PD12-1), [32-LDF-PC32-1](#32-LDF-PC32-1), [32-LDF-A32-1](#32-LDF-A32-1), [32-LDFI-I32-3](#32-LDFI-I32-3), [32-DPF-D28-1](#32-DPF-D28-1), [32-RRF-1](#32-RRF-1), [32-RRF5-1](#32-RRF5-1), [32-LDBu6-b-1](#32-LDBu6-b-1), [32-LDX0-b-1](#32-LDX0-b-1), [32-LDBu8H-b-1](#32-LDBu8H-b-1), [32-LDPC12H-b-1](#32-LDPC12H-b-1), [32-LDS12H-b-1](#32-LDS12H-b-1), [32-LDBu12H-b-1](#32-LDBu12H-b-1), [32-LDBs6-b-1](#32-LDBs6-b-1)
 * <a id="mn-movzw-d"></a>`MOVZW.D`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
 * <a id="mn-movzw-u"></a>`MOVZW.U`: [32-LDU-B28-1](#32-LDU-B28-1), [32-LDU-B12-1](#32-LDU-B12-1), [32-LDU-X6-1](#32-LDU-X6-1)
-* <a id="mn-movzw-ud"></a>`MOVZW.UD`: [32-LDU-B28-2](#32-LDU-B28-2), [32-LDU-B12-2](#32-LDU-B12-2), [32-LDU-X6-2](#32-LDU-X6-2)
 * <a id="mn-mscn"></a>`MSCN`: [32-R3-1](#32-R3-1)
 * <a id="mn-mscnn"></a>`MSCNN`: [32-R3-1](#32-R3-1)
 * <a id="mn-mset"></a>`MSET`: [32-R3-1](#32-R3-1)
-* <a id="mn-msha256"></a>`MSHA256`: [32-R3-1](#32-R3-1)
-* <a id="mn-msha512"></a>`MSHA512`: [32-R3-1](#32-R3-1)
 * <a id="mn-mtasid"></a>`MTASID`: [32-SYSR-1](#32-SYSR-1)
 * <a id="mn-mtdmw"></a>`MTDMW`: [32-SYSR-1](#32-SYSR-1)
 * <a id="mn-mtdp"></a>`MTDP`: [32-SYSR-1](#32-SYSR-1)
@@ -3729,12 +3638,6 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-subv"></a>`SUBV`: [32-R2-1](#32-R2-1)
 * <a id="mn-swap"></a>`SWAP`: [32-R3-1](#32-R3-1)
 * <a id="mn-swapdb"></a>`SWAPDB`: [32-R3-1](#32-R3-1)
-* <a id="mn-syspg0"></a>`SYSPG0`: [32-SYS0-1](#32-SYS0-1)
-* <a id="mn-syspg1"></a>`SYSPG1`: [32-SYS0-1](#32-SYS0-1)
-* <a id="mn-syspg2"></a>`SYSPG2`: [32-SYS0-2](#32-SYS0-2)
-* <a id="mn-syspg3"></a>`SYSPG3`: [32-SYS0-2](#32-SYS0-2)
-* <a id="mn-syspg4"></a>`SYSPG4`: [32-SYS0-2](#32-SYS0-2)
-* <a id="mn-syspg5"></a>`SYSPG5`: [32-SYS0-2](#32-SYS0-2)
 * <a id="mn-tlbi"></a>`TLBI`: [32-SYSR-1](#32-SYSR-1)
 * <a id="mn-tlbia"></a>`TLBIA`: [32-SYS0-1](#32-SYS0-1)
 * <a id="mn-tlbsync"></a>`TLBSYNC`: [32-SYS0-1](#32-SYS0-1)

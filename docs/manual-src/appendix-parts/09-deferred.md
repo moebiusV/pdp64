@@ -1,0 +1,1 @@
+**9.20 commentary** (moved from chapter 9) The direct-mapping windows that LoongArch uses to avoid translation-buffer misses on kernel text are deferred: `DMW0` and `DMW1` are stored and have no effect on translation, and their format is defined when a kernel needs a window (6.9.2, and the deferred matter of chapter 6 in appendix I).

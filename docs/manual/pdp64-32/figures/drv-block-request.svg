@@ -49,5 +49,5 @@
 <text x="20.0" y="165.0" font-size="9.5" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">4  the device reads the chain, moves the sector into the buffer, writes the status byte</text>
 <text x="20.0" y="180.0" font-size="9.5" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">5  it writes { id, len } in the used ring, then adds 1 to the used idx</text>
 <text x="20.0" y="195.0" font-size="9.5" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">6  an interrupt (or the driver polling used.idx) lets the driver read the status, free the chain, iodone(bp)</text>
-<text x="20.0" y="408.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Sizes and flags as in chapter 2 (2.7.5 to 2.7.7) and virtio_blk.h; the numbers 12 and 513 are an example.  The data is written before the used entry before the used idx (5.10.4).</text>
+<text x="20.0" y="408.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Sizes and flags as in chapter 2 (2.7.5 to 2.7.7) and virtio_blk.h; the numbers 12 and 513 are an example.  The data is written before the used entry before the used idx (5.10.3).</text>
 </svg>

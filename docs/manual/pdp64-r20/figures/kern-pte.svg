@@ -49,6 +49,6 @@
 <text x="24.0" y="242.0" font-size="11" text-anchor="start" fill="#111" font-family="DejaVu Sans Mono, monospace" font-weight="bold">MT</text>
 <text x="90.0" y="242.0" font-size="10" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">memory type: 0 normal cached, 1 normal uncached, 2 device strongly ordered, 3 device weakly ordered</text>
 <text x="24.0" y="264.0" font-size="11" text-anchor="start" fill="#111" font-family="DejaVu Sans Mono, monospace" font-weight="bold">rsvd</text>
-<text x="90.0" y="264.0" font-size="10" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">bits 10-11 and 40-63 must be zero; a set bit is a page fault (for 40-bit physical addresses; wider ones are open, 6.7.1)</text>
+<text x="90.0" y="264.0" font-size="10" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">bits 10-11 and 40-63 must be zero; a set bit is a page fault (for a 40-bit physical address)</text>
 <text x="20.0" y="292.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Bit positions are those of statement 6.7.1; bits 0 to 7 are in the same places as in RISC-V.</text>
 </svg>

@@ -12,7 +12,7 @@
 
 **9.1.2** There are 64 opcodes on the first page. An operation gets a top-level opcode if its common case is register to register, because only then can it be two bytes; every other operation lives in an escape group and costs nothing for it.
 
-**9.1.3** Six escape groups, `001100 (0x0C)` to `010001 (0x11)`, read a sub-opcode from the second parcel: `BESC` (bits, fields, rotates, UTF-8), `MBLK` (block memory), `AESC` (divide, remainder, absolute, minimum, maximum, set), `MESC` (unaligned access, ALU to memory), `FESC` (fused multiply-add, binary32 and binary16, divide, square root, classify) and `ATOM` (atomics).
+**9.1.3** Six escape groups, `001100 (0x0C)` to `010001 (0x11)`, read a sub-opcode from the second parcel: `BESC` (bits, fields, rotates, UTF-8), `MBLK` (block memory), `AESC` (divide, remainder, set), `MESC` (unaligned access, ALU to memory), `FESC` (fused multiply-add, binary32 and binary16, divide, square root, classify) and `ATOM` (atomics).
 
 **9.1.4** Three groups, `010010 (0x12)` to `010100 (0x14)`, take their sub-opcode from the register field: `XFER` (indirect jump and call, tag dispatch), `SOP` (single-operand instructions, jump, call, push, pop) and `SYS` (system control).
 
@@ -44,13 +44,13 @@
 
 **9.2.9** The ALU has one width, 64 bits; sizes appear only on loads, stores and conversions. *(D)*
 
-**9.2.10** Addresses are canonical: 39, 48 or 57 bits of virtual address, according to the three, four or five levels of the page table (6.6.1), and a physical address of 40 to 64 bits, 40 in the present implementation (2.3.6). *(D)*
+**9.2.10** Addresses are canonical: 39, 48 or 57 bits of virtual address, according to the three, four or five levels of the page table (6.6.1), and a physical address of 40 to 64 bits, 40 in the present implementation (2.3.5). *(D)*
 
 **9.2.11** Instructions are aligned to two bytes; quad data accesses are naturally aligned, and the explicit unaligned forms exist for the cases that need them. *(D)*
 
 **9.2.12** An instruction does what its name says and nothing else; no flag is set that its entry does not list. *(D)*
 
-*Commentary.* **Precedent.** 9.2.2 is x86's ModR/M idea made architectural; it is also what lets the exception machinery be small (the PDP-11 recorded at most two register side effects per instruction because it had two specifiers; with one memory operand there is at most one). 9.2.6 exists because the Motorola 68000, which was very nearly this machine, could not restart an instruction after a bus error and so could not do demand paging until its successor retrofitted a fault model. 9.2.4 is the rule x86-64 adopted for 32-bit writes and failed to apply to the 8- and 16-bit forms. 9.2.7 is the arrangement RISC-V standardised as Zfinx. **Trade-offs.** 9.2.9 means narrow arithmetic is done wide and converted, which costs an extension instruction after some narrow operations; whether that cost is large enough to justify 32-bit forms of add and subtract is an open question that the compiled corpus can answer (appendix B). 9.2.8 is the cheapest model on a small in-order core and the most expensive on a large speculative one. 9.2.10 lets the page table have three levels, as RISC-V's Sv39 does, or four or five as x86-64, AArch64 and Sv48 and Sv57 do, at a longer walk for each level. **Improvements.** The rules are soft defaults: each says what it protects and what breaking it costs. **Benefits.** Together they make the machine small, restartable and easy for a compiler; the measured code size is in chapter 1. **Modern comparables.** AArch64 and RISC-V have fixed-length register-to-register encodings and weak memory models; x86-64 has memory operands and total store order; the pdp64 takes memory operands, strong ordering and a bounded fault surface. **Impact.** *Kernel:* Restartable instructions and precise exceptions mean a page-fault handler repairs the mapping and returns, with no instruction-specific cases, and sequential consistency means no barrier code. *Compiler:* One memory operand keeps instruction selection and register allocation simple; a register written in full removes partial-register merges; the single ALU width costs an extension instruction after some narrow arithmetic. *Hardware:* One address generator, at most one register side effect, a single-entry undo buffer, no byte-lane multiplexing and a two-bit length are what keep the die small.
+*Commentary.* **Precedent.** 9.2.2 is x86's ModR/M idea made architectural; it is also what lets the exception machinery be small (the PDP-11 recorded at most two register side effects per instruction because it had two specifiers; with one memory operand there is at most one). 9.2.6 exists because the Motorola 68000, which was very nearly this machine, could not restart an instruction after a bus error and so could not do demand paging until its successor retrofitted a fault model. 9.2.4 is the rule x86-64 adopted for 32-bit writes and failed to apply to the 8- and 16-bit forms. 9.2.7 is the arrangement RISC-V standardised as Zfinx. **Trade-offs.** 9.2.9 means narrow arithmetic is done wide and converted, which costs an extension instruction after some narrow operations. 9.2.8 is the cheapest model on a small in-order core and the most expensive on a large speculative one. 9.2.10 lets the page table have three levels, as RISC-V's Sv39 does, or four or five as x86-64, AArch64 and Sv48 and Sv57 do, at a longer walk for each level. **Improvements.** The rules are soft defaults: each says what it protects and what breaking it costs. **Benefits.** Together they make the machine small, restartable and easy for a compiler; the measured code size is in chapter 1. **Modern comparables.** AArch64 and RISC-V have fixed-length register-to-register encodings and weak memory models; x86-64 has memory operands and total store order; the pdp64 takes memory operands, strong ordering and a bounded fault surface. **Impact.** *Kernel:* Restartable instructions and precise exceptions mean a page-fault handler repairs the mapping and returns, with no instruction-specific cases, and sequential consistency means no barrier code. *Compiler:* One memory operand keeps instruction selection and register allocation simple; a register written in full removes partial-register merges; the single ALU width costs an extension instruction after some narrow arithmetic. *Hardware:* One address generator, at most one register side effect, a single-entry undo buffer, no byte-lane multiplexing and a two-bit length are what keep the die small.
 
 ## 9.3 State: registers and flags
 
@@ -70,7 +70,7 @@
 
 **9.3.6** Other special registers: `FPSR` (five sticky floating-point flags), `ASID`, `PTBR`, `DMW0` and `DMW1`, `EPC`, `EPSW`, `EVA`, `ECAUSE`, `VBR`, `MMUCTL`; the system registers are read and written by `MFSR` and `MTSR` with an 8-bit register number. *(D)*
 
-**9.3.7** A bit `DIT` in the status word (its position is unspecified) promises data-independent timing: while it is set no data-dependent timing effect of any kind remains, neither in instruction latency (divide, `MSCN`, `MCMP` and floating point included), nor in frequency or power management (a core that scales frequency holds it steady while the bit is set, or says in a feature register that it cannot), nor from any data-dependent prefetcher or value predictor (a core may have one, but it is off while the bit is set). User code may set it for its own use. *(D)*
+**9.3.7** A bit `DIT` in the status word promises data-independent timing: while it is set no data-dependent timing effect of any kind remains, neither in instruction latency (divide, `MSCN`, `MCMP` and floating point included), nor in frequency or power management (a core that scales frequency holds it steady while the bit is set, or says in a feature register that it cannot), nor from any data-dependent prefetcher or value predictor (a core may have one, but it is off while the bit is set). User code may set it for its own use. *(D)* Open: the position of the bit in the status word, and which instructions take constant time while it is clear ([J.9.2](appendix-j-open.md#j92)).
 
 *Commentary.* **Precedent.** The PDP-11's PC and SP were ordinary registers and its flags were set by nearly every instruction. The VAX put the PC in R15. **Trade-offs.** Keeping the PC out of the register file means a jump to a computed address uses `JMP`, not a write to a register, so that writing `SP` has no control-flow consequence and the hazard logic treats it like any other destination. Condition codes are kept (rather than a flagless design) because compare-and-branch and flag-setting arithmetic make for dense code; the flag rules make them cheap for an out-of-order implementation, because the compiled corpus shows that 68% of instructions write a flag and only 1.5% read one. **Improvements.** The status word carries a user-memory guard bit (9.14) and the per-mode `DP` serves two jobs, the per-CPU pointer in the kernel and the thread pointer in user mode. **Benefits.** An exception handler finds a kernel stack and a per-CPU pointer without first searching for them; a threaded program's thread-local variable is one instruction. **Modern comparables.** x86-64 keeps `FS` and `GS` base registers for the same two jobs; AArch64 has `TPIDR_EL0` and `TPIDR_EL1`; RISC-V uses `tp` and the supervisor scratch register. **Impact.** *Kernel:* Banked stack and direct-page registers let entry find a kernel stack and a per-CPU pointer with no code, and the status word is saved by one `PUSHX`. *Compiler:* The flag rules decide when a compare may fuse with its branch (1,893 pairs stay separate because a second branch reads the flags) and what the compiler may move between a compare and a branch. *Hardware:* Two flag groups need one or two rename targets, not one per bit; the register file is 16 by 64 with two read ports and one write (about 250 lookup tables of distributed memory); the banked copies are a three-way mux.
 
@@ -109,12 +109,14 @@
 
 **9.5.3** At most one register side effect occurs per instruction, and it is committed at retirement; a fault discards it. *(D)*
 
+Open: the displacement of the shortest scaled-index form, and a store through `d(DP)` ([J.9.5](appendix-j-open.md#j95)).
+
 *Commentary.* **Precedent.** The PDP-11 had eight modes for each of eight registers, with a deferred flavour of each, and it made `*p++` and `*--p` single instructions. **Trade-offs.** Dropping the deferred modes removes the case where a fault occurs after a register has been updated at an address that itself came from a load; keeping the strided autoincrement costs nothing, because the undo information was already a delta (the PDP-11's `MMR1` recorded an amount for the same reason). **Improvements.** The increment is a stride, so walking an array of 16-byte records is one instruction; the PC-relative modes count from the instruction itself, so a branch needs no adjustment and `LEA` reads the PC. **Benefits.** Address generation is one adder pass, never load-then-add, which is the difference between one cycle and a long path on an FPGA. **Modern comparables.** AArch64 has pre- and post-indexed forms with an immediate; x86 has scaled index with a base; RISC-V has base plus immediate only. **Impact.** *Kernel:* A strided autoincrement walks a table of records, and `d(DP)` reaches the per-CPU structure in one instruction. *Compiler:* The modes match C idioms (`*p++`, `a[i]`) one-to-one, and dropping the deferred modes removes the cases the selector would otherwise have to consider. *Hardware:* Address generation is one adder pass, never load-then-add, and the PC-relative base is the first parcel, so no adjustment is needed.
 
 ## 9.6 Moves, conversions and address formation
 
 <!-- notation -->
-**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (a drawing of the parcels and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains the matter it touches (*Cf.*). Every instruction, the atomic and the system instructions included, has its official entry below (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons, and an entry may point back to them for a fuller explanation. In the pseudocode, ← is assignment, = and ≠ compare, × and ÷ multiply and divide, and `M[a]` is memory at address `a`. Numbers that are encodings (opcodes, sub-opcodes, field values) are written in binary with the hexadecimal value in brackets behind, as `010011 (0x13)`. Masks are binary too, with a subscript 2 to mark the base (`Rn & 111₂` keeps the low three bits). The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators; the words (operation, flags, exceptions) are checked against the reference executor, `common/pdp64exec.c`, which `sim64` and QEMU share, and the Status line of each entry says whether the executor implements the instruction. The one-parcel second page, the aliases, the constants and the lists of the mnemonics and the opcodes are in the [reference tables](dictionary/index.md).
+**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (a drawing of the parcels and the numbers), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains the matter it touches (*Cf.*). Every instruction, the atomic and the system instructions included, has its official entry below (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons, and an entry may point back to them for a fuller explanation. In the pseudocode, ← is assignment, = and ≠ compare, × and ÷ multiply and divide, and `M[a]` is memory at address `a`. Numbers that are encodings (opcodes, sub-opcodes, field values) are written in binary with the hexadecimal value in brackets behind, as `010011 (0x13)`. Masks are binary too, with a subscript 2 to mark the base (`Rn & 111₂` keeps the low three bits). The entries are generated from `spec/pdp64-mnemonics.hbnf`, the one place where the numbers of the architecture are written, so an encoding here cannot disagree with the assembler or the simulators. The one-parcel second page, the aliases, the constants and the lists of the mnemonics and the opcodes are in the [reference tables](dictionary/index.md).
 
 **The stories.** An instruction that is not common (the PDP-11 core and the operations every architecture has carry none) is followed by *Why it is here*: the machine the idea came from and the reason it was chosen, with the measurements that bear on it. Where no reason is recorded, the paragraph says so. The documents behind the paragraphs are listed in [appendix F](appendix-f-evidence.md).
 
@@ -133,7 +135,9 @@
 
 **9.6.5** The explicit unaligned forms `MOVUB`, `MOVUW`, `MOVUL` and `MOVUQ` exist in both directions, in the memory escape. *(D)*
 
+
 **9.6.6** Page 2 abbreviates the common cases to one parcel: loads and stores through `(rn)`, loads and stores at small offsets from `SP`, `LEA` from `SP`, and `MOVQ #imm, rd` with a four-bit immediate. *(D)*
+
 
 *Commentary.* **Precedent.** The PDP-11 had `MOV` and `MOVB` with a byte sign-extended into a register; the VAX had a sized `MOV` for every width. **Trade-offs.** Keeping the sized loads costs four extra opcodes against a quad-only design, but without `MOVL` a struct field load becomes two `MOVW`s, a shift and an or, and ELF, timestamps and most on-disk and wire structures are full of 32- and 16-bit fields. **Improvements.** There is no separate `CVT` group: the conversions are the moves with a register source, so they cost nothing. **Benefits.** No partial-register state anywhere. **Modern comparables.** AArch64 and RISC-V have the same sized loads with sign and zero extension; x86-64 keeps 8- and 16-bit register writes that preserve the upper bits, which makes narrow writes depend on the old value. **Use.** `LEA 0(PC)` is how a position-independent program finds itself; the unaligned forms are for packed on-disk and network structures. **Impact.** *Kernel:* `LEA 0(PC)` lets position-independent kernel code find itself; the unaligned forms read packed on-disk and network structures. *Compiler:* Sized loads avoid the shift, mask and or of a struct-field read, and the conversions are moves, so no separate conversion selection exists. *Hardware:* No partial-register write anywhere; the conversions reuse the load-extend path.
 
@@ -180,8 +184,6 @@ store:  M[EA(rm)] ← Rs[8×size-1:0]          ; len = 00: Rd ← sext(Rs[8×siz
 A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`. Page 2 abbreviates the loads and stores through `(rn)`, at small offsets from `SP` and from a register, and `MOVQ #imm, rd` with a 4-bit immediate (see the page-2 table).
 
 **Cf.** 6.7 for the memory type that decides whether the access is cached; 6.4 for what a faulting access leaves behind.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-movq"></a>
 #### MOVQ
@@ -411,8 +413,6 @@ Rd ← zext(M[EA(rm)], size)      ; len = 00: Rd ← zext(Rs[8×size-1:0])
 
 There is no zero-extending 64-bit move (it would be `MOVQ`). At `len = 00` these are the zero-extending half of the conversion set.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 <a id="w-movzl"></a>
 #### MOVZL
 
@@ -564,8 +564,6 @@ Rd ← EA(rm)          ; no memory access
 
 **Why it is here.** The PDP-11 and the VAX made the program counter a register (R7, R15). Here the program counter is kept out of the register file, because every register write would then be a potential branch, and a read-only view of it (R7 as a view of the PC) is refused, because it would fix for ever *which* PC is meant (ARM32 is stuck with `PC+8`). `LEA 0(PC), Rn` gives the capability without the commitment: the address of the instruction itself, in one instruction. The same instruction forms any address PC-relatively, which is what makes position-independent code free (section 9.16).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### MOVU: Unaligned load and store
 
@@ -611,8 +609,6 @@ The ordinary moves fault on a misaligned address (the alignment fault is the tag
 **Why it is here.** Data alignment is architectural on this machine (9.2.11): an ordinary quad access to an address that is not a multiple of 8 aborts, and that abort doubles as the tag check for tagged pointers; a load form that ignores low pointer bits is rejected for that reason. Packed on-disk and network structures still need unaligned access, so `MESC` carries explicit unaligned forms rather than weakening the rule for every load. No further reason is recorded for these four.
 
 **Cf.** 6.6, 6.4.
-
-**Status** specified; **not yet implemented** in the reference executor.
 
 <a id="w-movub"></a>
 #### MOVUB
@@ -690,7 +686,7 @@ Operation, flags and exceptions as for the entry MOVU above; 2 layout forms, eac
 
 **9.7.5** `SET cc, Rd` (write 1 if the condition holds, else 0) is in the arithmetic escape. *(D)*
 
-**9.7.6** `ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions: `ABS` is the absolute value, and the others the smaller or the larger of two registers, signed or unsigned, with `N` and `Z` from the result, `C` unchanged, and `V` cleared (set by `ABS` on the most negative number). *(D)* Their expansion is open *(P)*: the flag-driven conditional select has no form yet, and a candidate over the branch-free `MASKEQZ` and `MASKNEZ` (a comparison, `SET` into a scratch register, the two masks and `BIS`) needs a scratch register and changes `C`. The present assembler still encodes the five words as sub-opcodes of the arithmetic escape; their dictionary entries show that encoding as the build's, not the design's. *(D)*
+**9.7.6** `ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions: `ABS` is the absolute value, and the others the smaller or the larger of two registers, signed or unsigned. *(D)* Open: their expansion, and with it the flags they leave ([J.9.1](appendix-j-open.md#j91)).
 
 *Commentary.* **Precedent.** `ADD`, `SUB`, `CMP`, `BIT`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning except for the order of `CMP`'s operands. **Trade-offs.** The PDP-11 wrote `CMP a, b` to compute `a - b`; since the destination of an ALU operation here must be a register, a literal `src, dst` reading would force every comparison against an immediate or memory to be reversed, so the register comes first. Divide is in the escape group, at four bytes, because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs is present; a second unsigned multiply is the same instruction as the first and is not provided. **Benefits.** `SET` replaces a branch around a move for the very common "store the truth value of a comparison", and absolute value, minimum and maximum (as aliases) remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULHU` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; AArch64's conditional select and set instructions are the nearest to `SET`. **Use.** `MULH` and `MULHU` are for multi-precision arithmetic and for division by constants; `ADC` and `SBC` carry a multi-word add or subtract; `MIN`, `MAX` and `ABS` (aliases) appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `ADC` and `SBC` carry multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SET` materialises a comparison without a branch; `CMP` takes the register first, as the compiler orders its operands. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
 
@@ -748,8 +744,6 @@ Rd ← Rd + rm
 
 All ALU operations are 64 bits, with no size field. Page 2 has `ADD #imm, rd` with a 4-bit immediate and `ADD #(8*n), SP`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-sub"></a>
 ### SUB: Subtract
@@ -803,8 +797,6 @@ Rd ← Rd - rm
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 Page 2 has `SUB #(8*n), SP`.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-cmp"></a>
@@ -860,8 +852,6 @@ tmp ← Rd - rm         ; the result is discarded
 
 **The operands are in the order register, then the other operand**, the reverse of the PDP-11 `CMP src,dst`: `CMP Rd, rm` computes `Rd - rm`, so a compare of a register against an immediate or memory operand does not reverse its branch condition. After `CMP`, `BHIS`/`BCC` mean unsigned `>=` (no borrow) and `BLO`/`BCS` mean a borrow occurred.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-mul"></a>
 <a id="w-mulu"></a>
@@ -916,8 +906,6 @@ Rd ← (Rd × rm)[63:0]         ; sign-agnostic
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 The low 64 bits of a two's-complement product are the same whether the operands are read as signed or unsigned, so there is one low-half multiply. The mnemonic `MULU` is an alias of `MUL`. The high half is `MULH` (signed) and `MULHU` (unsigned).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-mulu"></a>
 **`MULU`** is an alias of `MUL`: the assembler writes it as that word.
@@ -978,8 +966,6 @@ With `MULH`, division by a constant is a multiply by a reciprocal and a shift, w
 
 **Why it is here.** The low 64 bits of a two's-complement product are identical signed or unsigned, so a second multiply (`MULU`) would duplicate `MUL`; what the architecture needs in that place is the *high* half of the product. Without it a 64 by 64 to 128-bit multiply, every bignum multiply, 128-bit fixed point and divide-by-a-constant by multiplying by the reciprocal are impossible. `MULH` is that instruction. It is also why a divide is rare in compiled code: compilers turn division by a constant into `MULH` and a shift.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### ADDM: ALU operation with a memory destination
 
@@ -1025,8 +1011,6 @@ BISM: M[EA] ← M[EA] OR Rs
 Parcel 0's low nibble is a mode, as in the ordinary memory format, so these are `MESC` forms with a memory destination (`len >= 01`). `INC`, `DEC`, `NEG`, `COM` and `CLR` on a memory operand are in `SOP`.
 
 **Why it is here.** These are the read-modify-write forms with a memory destination. An instruction with a memory destination is at least four bytes anyway, so they live in `MESC` at no cost; the opcode map follows one rule, that a top-level opcode is for an operation whose common case is register to register. They cover the case where the second operand is a register, for example `BISM Rmask, flags(DP)`. The compiled corpus has 265 sites (1.6 KB), so they earn their place in the escape group but not in the opcode space.
-
-**Status** specified; **not yet implemented** in the reference executor.
 
 <a id="w-addm"></a>
 #### ADDM
@@ -1148,8 +1132,6 @@ rm ← rm + 1
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-dec"></a>
 ### DEC: Decrement
@@ -1202,8 +1184,6 @@ rm ← rm - 1
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-neg"></a>
 ### NEG: Negate
@@ -1255,8 +1235,6 @@ rm ← 0 - rm
 **Flags** `N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger. (`C` = 1 unless the operand was 0.)
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-adc"></a>
@@ -1312,8 +1290,6 @@ rm ← rm + C
 
 With `ADD`, multi-word addition.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-sbc"></a>
 ### SBC: Subtract carry
@@ -1366,8 +1342,6 @@ rm ← rm - C
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### DIV: Divide and remainder, signed and unsigned
 
@@ -1414,8 +1388,6 @@ MODU: Rd ← Ra mod Rb (unsigned)
 Division by a constant is a `MULH` and a shift, so a real divide is rare; this is why divide has no two-byte form.
 
 **Cf.** 6.3 (the divide-by-zero vector).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-div"></a>
 #### DIV
@@ -1523,23 +1495,15 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 
 **Exceptions** None.
 
-`MULHSU` (signed by unsigned) is reserved and not committed.
-
 **Why it is here.** The unsigned partner of `MULH`, for the same reason (the high half of the product). It is in `AESC`, where arithmetic belongs. `MULHSU`, signed times unsigned for a bignum's top limb, is reserved because it can be built from `MULH` with one correction.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-abs"></a>
 ### ABS: Absolute value (assembler alias)
 
-![ABS, opcode 001110, three parcels, sub-opcode 00001000 (6 bytes)](figures/w/abs/02.svg)
-
-![ABS, opcode 001110, two parcels, sub-opcode 00001000 (4 bytes)](figures/w/abs/01.svg)
-
 **Mnemonics:** `ABS`
 
-**Alias** *(D)* `ABS` is an assembler alias, not a native instruction (the author's decision, errata 98). Meaning: `Rd <- |Rs|`, with the flags below, which the alias must keep or the decision that defines it must change. Expansion: open *(P)*; the flag-driven conditional select (`CMOV`, `CSEL`) is on hold and has no form in the records (ISA section 12 item 15); the only select the records define is the branch-free `MASKEQZ`/`MASKNEZ` (errata 85), which reads a register and no flag. A candidate over it, not decided: compare the operands, `SET` the condition into a scratch register, then `MASKEQZ`, `MASKNEZ` and `BIS` (the constant-time select `d = c ? a : b` of the `MASKEQZ` entry) for the minimum and maximum, and the same around the negated value for `ABS`; it needs a scratch register and leaves `C` as the comparison set it, which the native word does not do, so the flags would change. Which expansion, and whether the select the author meant is this one, is the author's question. The present assembler still encodes the word as the arithmetic-escape sub-opcode of the chart below.
+**Alias** *(D)* `ABS` is an assembler alias, not a native instruction (the author's decision, errata 98). Meaning: `Rd <- |Rs|`. Open: its expansion, and with it the flags it leaves ([J.9.1](appendix-j-open.md#j91)).
 
 **Syntax**
 
@@ -1547,17 +1511,7 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 ABS Rs, Rd
 ```
 
-**Encoding** (the present encoding of the build, as the grammar gives it; not the design)
-
-![Encoding of ABS](figures/r20-aesc-1.svg)
-
-The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
-
-| Mnemonic | Opcode | Sub-opcode |
-|---|---|---|
-| `ABS` | `001110 (0x0E)` | `00001000 (0x08)` |
-
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
+**Encoding** None of its own: the assembler expands an alias into other instructions. Open: the expansion ([J.9.1](appendix-j-open.md#j91)).
 
 **Operation**
 
@@ -1565,20 +1519,22 @@ The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`
 Rd ← |Rs|
 ```
 
-**Flags** `N` and `Z` from the result, `V` set if `Rs` is the most negative value (the result is then still negative), `C` unchanged.
+**Flags** Open with the expansion ([J.9.1](appendix-j-open.md#j91)).
 
 **Exceptions** None.
 
-**Why it is here.** Integer absolute value is the counterpart of `FABS`. It was added as a native sub-opcode and the author then decided (2026-11-10) that it is an assembler alias over the conditional select, which is not yet defined. The cost of the native word was about 150 to 250 lookup tables, no new operation by the folding rule (integer against float and signed against unsigned are qualifiers), and the compiler's work of recognising `x < 0 ? -x : x`, which is the real cost. The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.
-
-**Status** by decision an assembler alias (errata 98); the present assembler, simulator, QEMU and LLVM still encode and execute the word as the arithmetic-escape sub-opcode shown above, so the word is implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Why it is here.** Integer absolute value is the counterpart of `FABS`. The author decided (2026-11-10) that it is an assembler alias, not a native instruction (errata 98); the compiler's work of recognising `x < 0 ? -x : x` is the real cost, and the expansion is open ([J.9.1](appendix-j-open.md#j91)). The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.
 
 
+<a id="w-min"></a>
+<a id="w-minu"></a>
+<a id="w-max"></a>
+<a id="w-maxu"></a>
 ### MINMAX: Minimum and maximum, signed and unsigned (assembler aliases)
 
 **Mnemonics:** `MIN`, `MINU`, `MAX`, `MAXU`
 
-**Alias** *(D)* `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions (the author's decision, errata 98). Meaning: the smaller or the larger of `Ra` and `Rb`, signed for `MIN` and `MAX` and unsigned for `MINU` and `MAXU`, with the flags below, which an alias must keep or the decision that defines it must change. Expansion: open *(P)*; the flag-driven conditional select (`CMOV`, `CSEL`) is on hold and has no form in the records (ISA section 12 item 15); the only select the records define is the branch-free `MASKEQZ`/`MASKNEZ` (errata 85), which reads a register and no flag. A candidate over it, not decided: compare the operands, `SET` the condition into a scratch register, then `MASKEQZ`, `MASKNEZ` and `BIS` (the constant-time select `d = c ? a : b` of the `MASKEQZ` entry) for the minimum and maximum, and the same around the negated value for `ABS`; it needs a scratch register and leaves `C` as the comparison set it, which the native word does not do, so the flags would change. Which expansion, and whether the select the author meant is this one, is the author's question. The present assembler still encodes each word as an arithmetic-escape sub-opcode, as the chart below shows.
+**Alias** *(D)* `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions (the author's decision, errata 98). Meaning: the smaller or the larger of `Ra` and `Rb`, signed for `MIN` and `MAX` and unsigned for `MINU` and `MAXU`. Open: their expansion, and with it the flags they leave ([J.9.1](appendix-j-open.md#j91)).
 
 **Syntax**
 
@@ -1589,20 +1545,7 @@ MAX Ra, Rb, Rd
 MAXU Ra, Rb, Rd
 ```
 
-**Encoding** (the present encoding of the build, as the grammar gives it; not the design)
-
-![Encoding of MINMAX](figures/r20-aesc-1.svg)
-
-The chart is the layout `r20-aesc-1`, Arithmetic (AESC), two parcels (`len = 01`): From `len = 01`. In this group `low` is a register, never a mode.
-
-| Mnemonic | Opcode | Sub-opcode |
-|---|---|---|
-| `MIN` | `001110 (0x0E)` | `00010000 (0x10)` |
-| `MINU` | `001110 (0x0E)` | `00010001 (0x11)` |
-| `MAX` | `001110 (0x0E)` | `00010010 (0x12)` |
-| `MAXU` | `001110 (0x0E)` | `00010011 (0x13)` |
-
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`r20-aesc-1`](dictionary/by-encoding.md#r20-aesc-1), [`r20-aesc-2`](dictionary/by-encoding.md#r20-aesc-2).
+**Encoding** None of its own: the assembler expands an alias into other instructions. Open: the expansion ([J.9.1](appendix-j-open.md#j91)).
 
 **Operation**
 
@@ -1611,81 +1554,11 @@ MIN : Rd ← smaller of Ra, Rb (signed)         MINU: unsigned
 MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 ```
 
-**Flags** `N` and `Z` from the result, `V` = 0, `C` unchanged.
+**Flags** Open with the expansion ([J.9.1](appendix-j-open.md#j91)).
 
 **Exceptions** None.
 
-**Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; the author decided (2026-11-10) that they are assembler aliases over the conditional select, which is not yet defined. By the folding rule they add no operation, and the native hardware reused the subtract-and-compare that `CMP` already does plus a 64-bit select. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all. A general conditional select is the alternative; it is open (9.21) for want of a speed model.
-
-**Status** by decision an assembler alias (errata 98); the present assembler, simulator, QEMU and LLVM still encode and execute the word as the arithmetic-escape sub-opcode shown above, so the word is implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
-<a id="w-min"></a>
-#### MIN
-
-![MIN, opcode 001110, three parcels, sub-opcode 00010000 (6 bytes)](figures/w/min/02.svg)
-
-![MIN, opcode 001110, two parcels, sub-opcode 00010000 (4 bytes)](figures/w/min/01.svg)
-
-```
-MIN Ra, Rb, Rd
-```
-
-| Mnemonic | Opcode | Sub-opcode |
-|---|---|---|
-| `MIN` | `001110 (0x0E)` | `00010000 (0x10)` |
-
-Operation, flags and exceptions as for the entry MINMAX above; 2 layout forms, each a chart of its own (above).
-
-<a id="w-minu"></a>
-#### MINU
-
-![MINU, opcode 001110, three parcels, sub-opcode 00010001 (6 bytes)](figures/w/minu/02.svg)
-
-![MINU, opcode 001110, two parcels, sub-opcode 00010001 (4 bytes)](figures/w/minu/01.svg)
-
-```
-MINU Ra, Rb, Rd
-```
-
-| Mnemonic | Opcode | Sub-opcode |
-|---|---|---|
-| `MINU` | `001110 (0x0E)` | `00010001 (0x11)` |
-
-Operation, flags and exceptions as for the entry MINMAX above; 2 layout forms, each a chart of its own (above).
-
-<a id="w-max"></a>
-#### MAX
-
-![MAX, opcode 001110, three parcels, sub-opcode 00010010 (6 bytes)](figures/w/max/02.svg)
-
-![MAX, opcode 001110, two parcels, sub-opcode 00010010 (4 bytes)](figures/w/max/01.svg)
-
-```
-MAX Ra, Rb, Rd
-```
-
-| Mnemonic | Opcode | Sub-opcode |
-|---|---|---|
-| `MAX` | `001110 (0x0E)` | `00010010 (0x12)` |
-
-Operation, flags and exceptions as for the entry MINMAX above; 2 layout forms, each a chart of its own (above).
-
-<a id="w-maxu"></a>
-#### MAXU
-
-![MAXU, opcode 001110, three parcels, sub-opcode 00010011 (6 bytes)](figures/w/maxu/02.svg)
-
-![MAXU, opcode 001110, two parcels, sub-opcode 00010011 (4 bytes)](figures/w/maxu/01.svg)
-
-```
-MAXU Ra, Rb, Rd
-```
-
-| Mnemonic | Opcode | Sub-opcode |
-|---|---|---|
-| `MAXU` | `001110 (0x0E)` | `00010011 (0x13)` |
-
-Operation, flags and exceptions as for the entry MINMAX above; 2 layout forms, each a chart of its own (above).
+**Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; the author decided (2026-11-10) that they are assembler aliases, not native instructions (errata 98). The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all. Their expansion is open ([J.9.1](appendix-j-open.md#j91)).
 
 
 <a id="w-set"></a>
@@ -1728,8 +1601,6 @@ Rd ← 1 if condition cc holds on the current flags, else 0
 The condition is the `x` field of parcel 1, numbered as the low nibble of the branch opcodes (`al` 0, `ne` 1, `eq` 2, ... `los` 14).
 
 **Why it is here.** The first instruction written with a condition word: one instruction, `SET cc, Rd`, rather than one opcode per condition, with the condition in a field numbered like the low nibble of the branch opcodes. It turns a comparison used as a value into 0 or 1 without a branch. gcc `-Os` for amd64 emits 673 `set<cc>` on the corpus, and `SET` would remove about six bytes per site, around 0.4% of code; the compiler's first pass turns such a comparison into branches before its second pass sees it, so the saving is not reached in compiled code.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 <!-- /entries:9.7 -->
 
 ## 9.8 Logic, shifts and rotates
@@ -1800,8 +1671,6 @@ Rd ← Rd AND NOT rm
 
 The assembler also accepts `BIC #imm, rm` as `AND #~imm, rm`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-bis"></a>
 ### BIS: Bit set (inclusive or)
@@ -1853,8 +1722,6 @@ Rd ← Rd OR rm
 **Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-bit"></a>
@@ -1908,8 +1775,6 @@ tmp ← Rd AND rm         ; the result is discarded
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-xor"></a>
 ### XOR: Exclusive or
@@ -1961,8 +1826,6 @@ Rd ← Rd XOR rm
 **Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-and"></a>
@@ -2016,8 +1879,6 @@ Rd ← Rd AND rm
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### SHIFT: Shift left, shift right logical, shift right arithmetic
 
@@ -2059,8 +1920,6 @@ SAR: Rd ← (n ≥ 64) ? (Rd < 0 ? -1 : 0) : Rd >>s n
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 The count is read as an unsigned 64-bit value, so a count of 64 or more shifts the value entirely away. Page 2 has the three shifts by an immediate 0 to 15. `ASL` and `ASR` (in `SOP`) are the by-one forms in two bytes; rotates are in `BESC`.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-shl"></a>
 #### SHL
@@ -2207,8 +2066,6 @@ rm ← 0
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-com"></a>
 ### COM: Complement
@@ -2263,8 +2120,6 @@ rm ← NOT rm
 
 A two-byte instruction for a register operand.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-tst"></a>
 ### TST: Test
@@ -2316,8 +2171,6 @@ set flags from rm; nothing is written
 **Flags** `N` and `Z` from the operand, `V` = 0, `C` = 0.
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-asl"></a>
@@ -2373,8 +2226,6 @@ C ← rm[63] ; rm ← rm << 1
 
 The by-one form of `SHL` in two bytes.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-asr"></a>
 ### ASR: Arithmetic shift right by one
@@ -2428,8 +2279,6 @@ C ← rm[0] ; rm ← rm >>s 1
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 The by-one form of `SAR` in two bytes.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 <!-- /entries:9.8 -->
 
 ## 9.9 Bits, bytes and text
@@ -2443,6 +2292,9 @@ The by-one form of `SAR` in two bytes.
 **9.9.4** `CLMULL` and `CLMULH` are the low and high halves of a carry-less multiply; no polynomial is built into the architecture. *(D)*
 
 **9.9.5** `UTF8LEN`, `UTF8DEC` and `UTF8ENC` find the length of, decode and encode a UTF-8 sequence, and reject overlong forms, surrogates, out-of-range values and bad continuation bytes. *(D)*
+
+**9.9.6** `BSEL` selects bit by bit between two registers under the control of a third: it is `Ch` and `Maj` of SHA-2 in one instruction each, and the constant-time swap of two registers in two. *(D)*
+
 
 *Commentary.* **Precedent.** The PDP-11 had `SWAB`; the VAX had bit-field instructions and a table-driven `CRC`; x86 added `POPCNT`, `LZCNT` and `PCLMULQDQ` late, and committed `CRC32` to one polynomial. **Trade-offs.** A bit unit is one shared structure: `POPCNT`, `XNORPOP` and a garbage collector's mark-bitmap scan all want the same 64-input adder tree, and `CLZ` and its relatives want a priority encoder over the same operand. **Improvements.** A carry-less multiply stands in for a `CRC` instruction: no polynomial is baked in, and the same instruction serves CRC, the Galois-counter-mode authentication used in TLS, and hashing. Every UTF-8 security hole of the past is three comparators, which an instruction cannot omit and software often does. **Benefits.** The bit unit and the UTF-8 decoder together cost less than 5% of the die. **Modern comparables.** RISC-V's bit-manipulation and carry-less-multiply extensions, AArch64's `CLZ`, `RBIT`, `REV` and `PMULL`, and x86's `PCLMULQDQ`. **Use.** `POPCNT` for bitsets and Hamming distance; `XNORPOP` for binary-weight neural networks and bitset intersection; `CLMUL` for CRC, GCM and fingerprinting; `UTF8*` for text validation in parsers and kernels. **Impact.** *Kernel:* `CTZ` and `CLZ` find the first set bit in a run-queue or free-page bitmap; `POPCNT` counts bits in bitmaps; `BSWAP` converts network byte order. *Compiler:* The compiler maps `__builtin_clz`, `__builtin_popcount` and `__builtin_bswap` directly, and a carry-less multiply is the primitive for CRC and hashing code. *Hardware:* One bit unit holds a shared 64-input adder tree and a priority encoder, and the UTF-8 comparators are about 300 lookup tables.
 
@@ -2491,8 +2343,6 @@ CTO: Rd ← number of trailing one bits of Rs        (64 if Rs = all ones)
 `CTZ` is the VAX `FFS`. Bit manipulation is core on a machine that does filesystem and bignum work, not an extension.
 
 **Why it is here.** `BESC` is the bit-manipulation group: bit manipulation is not an extension on a machine that does filesystem work, bignum arithmetic and the like. The counts are the VAX `FFS` and `FFC` idiom (find first set, find first clear). LoongArch is the model for putting them in the base: it has `CLO`, `CLZ`, `CTO`, `CTZ` there, which is the decisive argument for giving `BESC` a top-level opcode. The compiler emits none of them, since C has no operator for them; the corpus shows zero uses.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-clz"></a>
 #### CLZ
@@ -2602,8 +2452,6 @@ Rd ← number of one bits in Rs
 
 **Why it is here.** One of the counts of `BESC`; it is also the building block of `XNORPOP`. A compiler needs `__builtin_popcount` to emit it, so the corpus shows no use (see `COUNT`).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### BSWAP: Byte swap
 
@@ -2646,8 +2494,6 @@ BSWAPL: Rd ← Rs with the bytes of each 32-bit long reversed
 The generalisation of the PDP-11 `SWAB` to 64 bits.
 
 **Why it is here.** The PDP-11 `SWAB` swapped the bytes of a word; `BSWAP` generalises it to 64 bits, with word and long variants. `SWAB` is therefore subsumed, not lost (9.18).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-bswap"></a>
 #### BSWAP
@@ -2740,8 +2586,6 @@ Rd ← Rs with bit i moved to bit 63-i
 
 **Why it is here.** Part of the `BESC` group, borrowed with the other LoongArch bit operations (`REVB`, `REVH`, `BITREV`). No workload from the corpus is recorded.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-ror"></a>
 ### ROR: Rotate right by a register count
@@ -2783,8 +2627,6 @@ Rd ← Ra rotated right by (Rb mod 64)
 There is no rotate left instruction: `ROL rs, #n, rd` is an assembler spelling of `RORI rs, #(64-n), rd`. No rotate is through carry; multi-word shifting uses `DSHR`.
 
 **Why it is here.** One rotate direction suffices and `ROR` is the one to keep: `ROL x, #n` is exactly `ROR x, #(64-n)`, and a funnel shifter yields `ROR` directly. No rotate is through carry (see `DSHR`). `ROR` is in `BESC`, not the ALU group: cryptographic code rotates by compile-time constants, so a four-byte immediate form is needed either way, and the register-count form has almost no users. Rotates write no flags.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-rori"></a>
@@ -2829,8 +2671,6 @@ Rd ← Rs rotated right by (n mod 64)
 Four bytes: the count is in the low byte of parcel 1.
 
 **Why it is here.** It has its own mnemonic because an immediate count and a register count are different encodings. `ROL Rs, #n, Rd` is accepted by the assembler as `RORI Rs, #(64-n), Rd`: the complement costs nothing at assembly time, so there is no reason to make programmers do it, and a register-count `ROL` is rejected so that one mnemonic stays one instruction.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-rol"></a>
 **`ROL`** is an alias of `RORI`: the assembler writes it as that word.
@@ -2877,8 +2717,6 @@ The 32-bit rotate with the result sign-extended like every 32-bit result; the pr
 
 **Why it is here.** A 32-bit rotate by a constant, the shape of crypto and hash inner loops, estimated together with `CBCC` at 22 KB (1.3%) of the compiled image. The result is sign-extended like the rest of the 32-bit operations, so that no instruction is needed after it. It removes 44 `MOVL` instructions in the corpus (the demand analysis already removes nearly all of them).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-dshr"></a>
 ### DSHR: Double-width funnel shift right
@@ -2922,8 +2760,6 @@ x86 `SHRD`, ARM `EXTR`. Six bytes (the count is in parcel 2). A 128-bit left shi
 
 **Why it is here.** A double-width funnel shift (x86 `SHRD`, ARM `EXTR`), the right primitive for multi-word shifting. Two instructions shift a 128-bit value by any distance, where rotate-through-carry takes one bit per instruction, and that is why no rotate is through carry. It also subsumes `ROR` when both sources are the same register. It leaves every flag alone.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### EXTB: Extract a bit field
 
@@ -2962,8 +2798,6 @@ Rd ← ext((Rs >> pos)[width-1:0])          ; sext for EXTB, zext for EXTZB; wid
 Six bytes (position and width are in parcel 2), so these exist at `len = 10` only.
 
 **Why it is here.** Bit-field extract and insert are the VAX `EXTV`, `EXTZV` and `INSV` idiom. The compiler does not use them: the shift-pair extraction pattern occurs 151 times in 26 files of the corpus, about 600 bytes at best (0.03%), and there are four true bit-field extracts in all. They are for hand-written protocol and bit-stream code.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-extb"></a>
 #### EXTB
@@ -3042,8 +2876,6 @@ Six bytes. `Rd` is both source and destination.
 
 **Why it is here.** The VAX `INSV` idiom, with `EXTB`. No use in the compiled corpus is recorded.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-xnorpop"></a>
 ### XNORPOP: Population count of the equality of two words
@@ -3086,8 +2918,6 @@ For binary-activation networks, Hamming distance and bitset intersection cardina
 
 **Why it is here.** It serves binary-activation networks, Hamming distance, bitset intersection counts and counting a collector's mark bitmap. It does not serve sub-1-bit language models: their activations (in the LittleBit work) are FP16 and the inner loop is a conditional add, not a popcount. The sub-1-bit kernel is bandwidth-bound and belongs to a bus-mastering accelerator, not an opcode (chapter 8).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### CLMUL: Carry-less multiply
 
@@ -3128,8 +2958,6 @@ CLMULH: Rd ← p[127:64]
 The primitive under every CRC (with a Barrett reduction), GF(2^k) arithmetic and GCM; no polynomial is committed to the architecture.
 
 **Why it is here.** Carry-less multiply is the primitive beneath every CRC polynomial (a CRC is a carry-less multiply plus a Barrett reduction), GF(2^k) erasure codes and AES-GCM. It is chosen over a `CRC` instruction because x86 and ARM each committed a polynomial to the architecture; there are no `CRC32` or `CRC32C` words.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-clmull"></a>
 #### CLMULL
@@ -3205,8 +3033,6 @@ Rd ← length (1 to 4) implied by the leading byte Rs[7:0]; 0 if it cannot begin
 
 **Why it is here.** Most of what UTF-8 needs is general bit manipulation, but the validity rules are where the bugs are, so the group has three instructions. `UTF8LEN` is the one that is nearly free: `CLO` on the leading byte, mapped to 1, 2, 3 or 4.
 
-**Status** specified; **not yet implemented** in the reference executor.
-
 
 <a id="w-utf8dec"></a>
 ### UTF8DEC: Decode a UTF-8 sequence
@@ -3249,8 +3075,6 @@ V  ← 1 if the sequence is not a valid encoding
 
 **Why it is here.** Not for speed but for correctness: overlong forms, surrogates, values above U+10FFFF and the bytes that can never begin a sequence are each a historical security hole, each is three comparators in hardware, and software implementations get them wrong or omit them for speed (about 300 lookup tables).
 
-**Status** specified; **not yet implemented** in the reference executor.
-
 
 <a id="w-utf8enc"></a>
 ### UTF8ENC: Encode a Unicode scalar value
@@ -3291,8 +3115,6 @@ V  ← 1 if Rs is not a Unicode scalar value
 **Exceptions** None.
 
 **Why it is here.** The encoding half of the UTF-8 pair; it refuses surrogates and values above U+10FFFF so that an encoder cannot produce what a decoder must reject.
-
-**Status** specified; **not yet implemented** in the reference executor.
 <!-- /entries:9.9 -->
 
 ## 9.10 Branches and control flow
@@ -3365,8 +3187,6 @@ if cond(c) then PC ← address of this instruction + 2 × disp
 Condition numbers: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6, `cc`/`hs` 7, `cs`/`lo` 8, `ge` 9, `lt` 10, `gt` 11, `le` 12, `hi` 13, `los` 14. Conditions on the flags: `ne` `!Z`; `eq` `Z`; `pl` `!N`; `mi` `N`; `vc` `!V`; `vs` `V`; `cc` `!C`; `cs` `C`; `ge` `N == V`; `lt` `N != V`; `gt` `!Z and N == V`; `le` `Z or N != V`; `hi` `!C and !Z`; `los` `C or Z`. The displacement counts 2-byte parcels; the branch reaches ±4 GB with no long-branch instruction.
 
 **Cf.** 6.13 for `TRAP`, `RTI` and `RTT`.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-br"></a>
 #### BR
@@ -3658,8 +3478,6 @@ From the PDP-11, where it could branch only backward; here the signed displaceme
 
 **Why it is here.** Taken from the PDP-11, at the branch group's one free opcode. The PDP-11's could only branch backward (a 6-bit unsigned displacement); this one branches either way. Against the `cbnz` idiom of other architectures it does not save bytes (`DEC` plus `BNE` is also four) but it saves an instruction issue, a cycle per iteration on a machine that does not pipeline: same size, one instruction fewer (static `dec; bne` pairs exist).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### CBCC: Compare and branch on condition
 
@@ -3711,8 +3529,6 @@ if cond(c) on that comparison then PC ← address of this instruction + 2 × dis
 Three encodings, chosen by the assembler: `CBCC` (`101000 (0x28)`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`101001 (0x29)`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`101010 (0x2A)`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.
 
 **Why it is here.** A fused compare-and-branch in the reserved opcode `101000 (0x28)`, estimated with `RORI32` at 22 KB (1.3%) of the image. The wide-immediate `CBCC` removes 11,735 instructions (3.4%) and 1,828 bytes; `CBRR`, the register-register compare-and-branch, removes 4,631 instructions (1.4%) and 142 bytes. It is not a replacement for flags: LoongArch and RISC-V chose fused compare-and-branch instead of flags, and this architecture declines that (9.20) because it needs a comparator in the branch unit and a third read port; here the fused form is added beside the flags. `CBCC` writes no flags.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-cbne"></a>
 #### CBNE
@@ -4038,8 +3854,6 @@ For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`).
 
 **Why it is here.** The tag branches `BTAG` and `BNTAG` and the table dispatch `JTAG` make tagged pointers cheap to use rather than merely possible: three bits of tag and one of sense fit the `low` nibble exactly, so parcel 1 is a full displacement. Because quad-aligned objects have zero in the low three bits, the tag is free, and an unaligned access is a fault. The compiler for C never emits them (the corpus shows none); they are for Lisp and other tagged runtimes.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 <a id="w-btag"></a>
 #### BTAG
 
@@ -4128,8 +3942,6 @@ PC ← (register operand) ? Rm : EA(rm)
 
 A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` through a scaled index.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-call"></a>
 ### CALL: Call
@@ -4186,8 +3998,6 @@ PC ← t
 
 The return address is on the data stack where every unwinder and debugger expects it. `RET` pops it.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### JMPI: Jump and call through memory
 
@@ -4227,8 +4037,6 @@ CALLI: t ← M[EA(rm)] ; SP ← SP - 8 ; M[SP] ← address of the next instructi
 The one deferred reference the architecture admits, for control transfer only: the PLT stub (`JMPI got_slot(PC)`) and virtual-method dispatch (`CALLI vtbl_off(Robj)`). It needs a memory operand, so it is four bytes at least.
 
 **Why it is here.** Exactly one deferred reference, for control transfer only, in `XFER`: the PLT stub of every dynamically linked program (`JMPI got_slot(PC)`) and virtual-method dispatch (`CALLI vtbl_off(Robj)`), each two instructions and a scratch register without it. It is admitted because it breaks none of the reasons deferred modes are removed (no register is side-effected, the reference is in the branch path and not the operand path, a fault is clean by ordering). Jump tables through `JMPI` are not smaller, because the table entries are 8 bytes against 8 for a case in a compare chain.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-jmpi"></a>
 #### JMPI
@@ -4347,8 +4155,6 @@ PC ← M[Rb + d + 8 × (Rx & 111₂)]
 Legal only with the scaled-index mode (`0001`). Dispatches on the low three bits of a tagged pointer through a table of eight entries; the 3-bit tag cannot index out of range.
 
 **Why it is here.** The table-dispatch partner of `BTAG`. It is legal only in the scaled-index mode, the one mode with a free register slot for the tagged value. It replaces the PDP-11 dispatch-table idiom `@(Rn)+` better, because it needs no pointer register and cannot index out of range.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 <!-- /entries:9.10 -->
 
 ## 9.11 The stack and block operations
@@ -4365,7 +4171,9 @@ Legal only with the scaled-index mode (`0001`). Dispatches on the low three bits
 
 **9.11.5** An implementation may move more than a byte per step, provided the registers are consistent with byte-at-a-time progress wherever an exception can be taken. *(D)*
 
-*Commentary.* **Precedent.** The VAX's `MOVC5` is the canonical argument against such instructions: its operands could be memory, its architectural definition needed the original values to survive, and so it required hidden state and a first-part-done bit in the status word to resume. The PDP-10 had a block transfer, and x86's `REP MOVS` keeps its progress in registers as the pdp64's do. **Trade-offs.** This is the one admitted exception to the one-memory-operand rule, accepted because its mechanism, hidden state, is absent: the state is the registers, which are already architectural. A large copy can evict the whole data cache, and a non-temporal variant is an open question. **Improvements.** ARM reached the same design in 2022 with `FEAT_MOPS`, whose specification says the registers are updated so that progress is not lost. **Benefits.** The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors. **Modern comparables.** x86 `REP MOVSB` and `REP STOSB` with fast-string microcode; AArch64 `CPYP`/`CPYM`/`CPYE` and `SETP`/`SETM`/`SETE`; s390 `MVC`. **Use.** `memcpy`, `memmove`, `memset`, `memcmp` and `memchr` in the C library; `MVAL` in parsers and kernels. **Impact.** *Kernel:* `PUSHM`, `POPM`, `PUSHX` and `POPX` shorten entry, exit and the context switch, and the block operations are `copyin`, `copyout`, page clearing and `memcpy`. *Compiler:* A prologue and an epilogue are one instruction each, and `memcpy` and `memset` lower to the block operations. *Hardware:* The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors, with no hidden state.
+Open: the worst-case latency of a block operation ([J.9.7](appendix-j-open.md#j97)) and whether the block operations have a form that does not fill the data cache ([J.9.8](appendix-j-open.md#j98)).
+
+*Commentary.* **Precedent.** The VAX's `MOVC5` is the canonical argument against such instructions: its operands could be memory, its architectural definition needed the original values to survive, and so it required hidden state and a first-part-done bit in the status word to resume. The PDP-10 had a block transfer, and x86's `REP MOVS` keeps its progress in registers as the pdp64's do. **Trade-offs.** This is the one admitted exception to the one-memory-operand rule, accepted because its mechanism, hidden state, is absent: the state is the registers, which are already architectural. **Improvements.** ARM reached the same design in 2022 with `FEAT_MOPS`, whose specification says the registers are updated so that progress is not lost. **Benefits.** The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors. **Modern comparables.** x86 `REP MOVSB` and `REP STOSB` with fast-string microcode; AArch64 `CPYP`/`CPYM`/`CPYE` and `SETP`/`SETM`/`SETE`; s390 `MVC`. **Use.** `memcpy`, `memmove`, `memset`, `memcmp` and `memchr` in the C library; `MVAL` in parsers and kernels. **Impact.** *Kernel:* `PUSHM`, `POPM`, `PUSHX` and `POPX` shorten entry, exit and the context switch, and the block operations are `copyin`, `copyout`, page clearing and `memcpy`. *Compiler:* A prologue and an epilogue are one instruction each, and `memcpy` and `memset` lower to the block operations. *Hardware:* The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors, with no hidden state.
 
 <!-- entries:9.11 -->
 <a id="w-pushm"></a>
@@ -4426,8 +4234,6 @@ Four bytes (mode `0100`, immediate). The registers are pushed in ascending order
 
 **Cf.** 6.4 for the restart rule.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-popm"></a>
 ### POPM: Pop registers by mask
@@ -4483,8 +4289,6 @@ for n = 15 down to 0, if mask bit n:
 
 The mirror of `PUSHM`; four bytes, with an 8-bit-mask form on page 2.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-push"></a>
 ### PUSH: Push
@@ -4539,8 +4343,6 @@ v ← rm ; SP ← SP - 8 ; M[SP] ← v
 
 A one-parcel instruction for a register operand.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-pop"></a>
 ### POP: Pop
@@ -4593,8 +4395,6 @@ v ← M[SP] ; SP ← SP + 8 ; rm ← v
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### MCPY: Copy a block of bytes
 
@@ -4637,8 +4437,6 @@ The one granted exception to the one-memory-operand rule. All three registers ar
 **Why it is here.** The block operations are the one granted exception to the one-memory-operand rule (an exception to a principle is allowed where there is a clear benefit), made safe by keeping the progress in architectural registers: the VAX `MOVC5` kept it in hidden microstate, which is why it is rejected, and ARM reached the same design in 2022 with `FEAT_MOPS`. The names `MCPY`, `MMOV` and `MSET` follow the memory operations of IBM System z; `MCMP` and `MSCN` complete the set. `MCPY` replaces the PDP-11 `MOV (R1)+,(R2)+` loop, and the `rep movsb` of x86, with one restartable instruction.
 
 **Cf.** 6.4 (restart, progress faults); 7.2 (ordering of the accesses).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-mcpy"></a>
 #### MCPY
@@ -4718,8 +4516,6 @@ while Rn ≠ 0:  M8[Rd] ← Rv[7:0] ; Rd ← Rd + 1 ; Rn ← Rn - 1
 
 **Cf.** 6.4.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-mcmp"></a>
 ### MCMP: Compare two blocks of bytes
@@ -4768,8 +4564,6 @@ When the instruction stops at a difference, `Rd` and `Rs` point at the differing
 
 **Cf.** 6.4.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### MSCN: Scan a block for a byte, or for a byte not equal to it
 
@@ -4814,8 +4608,6 @@ not found: Z = 0
 **Why it is here.** `MSCN` is `LOCC` and `memchr`; `MSCNN` fills the `SKPC` gap (the first byte that is *not* equal). Both cost no opcode and almost no hardware. With an explicit count `MSCN` gives `strnlen`, and with `MCPY` a bounded `strcpy` in two instructions. NUL-terminated string instructions (the System/z `MVST`, `SRST`, `CLST`) are rejected, because they encode an unbounded read, the largest single source of memory-safety failures in C (9.17).
 
 **Cf.** 6.4.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-mscn"></a>
 #### MSCN
@@ -4894,8 +4686,6 @@ The `UTF8DEC` comparators wired to the block sequencer.
 **Why it is here.** The UTF-8 validity comparators already built for `UTF8DEC`, wired to the `MBLK` streaming sequencer already built for `MCPY`, so it costs no opcode and almost no hardware. The alternative, a SWAR loop (SIMD within a register), runs at about two to three cycles a byte and is respectable, which is why the justification is cost and not throughput.
 
 **Cf.** 6.4.
-
-**Status** specified; **not yet implemented** in the reference executor.
 <!-- /entries:9.11 -->
 
 ## 9.12 Floating point
@@ -4911,6 +4701,8 @@ The `UTF8DEC` comparators wired to the block sequencer.
 **9.12.5** There are no rounding-mode or precision mode bits: the precision is in the opcode, and so is the rounding mode wherever it is not nearest-even. *(D)*
 
 **9.12.6** There are no transcendental instructions. *(D)*
+
+Open: how a floating-point comparison sets flags that the signed branches can use ([J.9.9](appendix-j-open.md#j99)), and directed rounding and the remaining half-precision operations ([J.9.10](appendix-j-open.md#j910)).
 
 *Commentary.* **Precedent.** The PDP-11's FP11 had `AC0` to `AC5` and mode bits for single and double precision; the VAX had F, D, G and H formats. **Trade-offs.** An integer operation applied to a register holding a `binary64` destroys it, with no trap and no tag; that is intended and the ABI states it. A separate register file would cost a second set of read ports and a floating-point context; on a small implementation the register file is among the largest blocks. **Improvements.** The fused multiply-add is the largest single addition to the datapath (about 9,000 transistors) and the least negotiable; the IEEE exception flags are recorded without traps, which is what C99 `<fenv.h>` needs. **Benefits.** No transfer instructions between files and a single calling convention. **Modern comparables.** RISC-V Zfinx and Zdinx use the integer register file for the same reason; AArch64 and x86 have separate vector and floating-point files. **Use.** `FCLASS` begins every library maths function; `FMA` is the building block of accurate polynomial evaluation. **Impact.** *Kernel:* There is no separate floating-point state to save at a context switch beyond the registers already saved, and the sticky flags go with the status word. *Compiler:* One calling convention for integers and floats, fused multiply-add contraction, and no rounding-mode state for the compiler to track. *Hardware:* No second register file (one of the largest blocks of a small floating-point unit); the floating-point unit with fused multiply-add is about 34,000 transistors.
 
@@ -4954,8 +4746,6 @@ Rd ← Rd × rm   (FMUL)       ; IEEE 754 binary64, round to nearest even
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. Floating-point exceptions never trap.
 
 Floating-point values live in the general registers; there is no separate register file and no mode bit. A NaN result is the canonical quiet NaN `0x7FF8000000000000`. The alternative spellings `FADDD`, `FSUBD`, `FMULD` are aliases.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-fadd"></a>
 #### FADD
@@ -5118,9 +4908,7 @@ N ← Rd < rm ; Z ← Rd = rm ; V ← unordered ; C ← 0
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-The signed branches do not treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1); this is an open item of the instruction set.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+The signed branches do not treat the unordered case cleanly (`BLT` after an unordered compare takes `N xor V` = 1). Open: how floating-point comparisons set flags that the signed branches can use ([J.9.9](appendix-j-open.md#j99)).
 
 <a id="w-fcmpd"></a>
 **`FCMPD`** is an alias of `FCMP`: the assembler writes it as that word.
@@ -5162,8 +4950,6 @@ FSQRT: Rd ← sqrt(Rs)
 **Exceptions** None.
 
 `FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`. The alternative spellings `FDIVD`, `FSQRTD` are aliases.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-fdiv"></a>
 #### FDIV
@@ -5256,8 +5042,6 @@ FCMP32: flags as FCMP, comparing Rd with Rs
 A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even. The alternative spellings `FADDS`, `FSUBS`, ... are aliases.
 
 **Why it is here.** `binary64` has first-class opcodes because on a 64-bit machine it is the common case; `binary32` is in `FESC` with the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other formats (`FADD16`); the older spellings (`FADDS` and so on) are aliases.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-fadd32"></a>
 #### FADD32
@@ -5437,8 +5221,6 @@ Four register operands are available at `len = 01`. The alternative spellings `F
 
 **Why it is here.** The whole fused multiply-add family is in `FESC`, because its absence would be the single worst gap in the floating-point set: one rounding instead of two, and the inner step of dot products, polynomial evaluation and every matrix kernel. `FESC` gives it four register operands. It replaces the VAX `POLY`, which was the best answer before fused multiply-add.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 <a id="w-fmadd"></a>
 #### FMADD
 
@@ -5567,8 +5349,6 @@ As FMADD, in binary32, rounded once
 **Exceptions** None.
 
 **Why it is here.** The `binary32` forms of the fused multiply-add family.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-fmadd32"></a>
 #### FMADD32
@@ -5699,8 +5479,6 @@ FCOPYSIGN: Rd ← magnitude of Rs, sign of Rt
 
 **Why it is here.** Sign and selection operations (negate, absolute value and the like) work on the bits, do not canonicalise a NaN and raise no flag, so they cost almost nothing. The PowerPC 601 floating-point set has the same operations (stated from memory, not checked against a manual). No separate reason is recorded for these three.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 <a id="w-fneg"></a>
 #### FNEG
 
@@ -5792,8 +5570,6 @@ The alternative spellings `FMIND`, `FMAXD` are aliases.
 
 **Why it is here.** The floating counterparts of the integer `MIN` and `MAX`. A NaN operand loses to a number and two NaNs give the canonical quiet NaN.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 <a id="w-fmin"></a>
 #### FMIN
 
@@ -5881,8 +5657,6 @@ bit 8 signalling NaN bit 9 quiet NaN
 Every libm function begins with this dispatch. The alternative spellings `FCLASSD`, `FCLASSS` are aliases.
 
 **Why it is here.** Every libm function begins with this dispatch: one instruction returns which of ten kinds a value is (signalling or quiet NaN, infinity, normal, subnormal, zero, each signed), where software needs several compares and masks. It is justified by a workload, library mathematics, and not by compiled C, as the tag branches are. Nothing in the corpus emits it, because the compiler does not use it.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-fclass"></a>
 #### FCLASS
@@ -5991,8 +5765,6 @@ FRINTP: toward +infinity    FRINTA: to nearest, ties away from zero (C round())
 The rounding mode is in the opcode, never in a mode bit. The alternative spellings `FRINTD`, `FRINTDZ`, ... are aliases.
 
 **Why it is here.** Rounding to an integral value in each direction (nearest even, toward zero, down, up) is in the set, and `FRINTA`, ties away from zero, serves C's `round()`, which is common in libm; it is a qualifier of the round operation and so costs no new operation.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-frint"></a>
 #### FRINT
@@ -6155,8 +5927,6 @@ integer to float: round to nearest even
 Integer results are 64-bit (`FCVTDQ`, `FCVTDQU`) or 32-bit sign-extended (`FCVTSL`). Unsigned conversion of a negative value is invalid and gives 0.
 
 **Why it is here.** `FCVTDQU` and `FCVTQUD` convert unsigned 64-bit integers to and from `binary64`. C needs both, and without them each takes a branch and several instructions.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-fcvtdq"></a>
 #### FCVTDQ
@@ -6338,8 +6108,6 @@ Rd ← old
 
 **Why it is here.** IEEE 754 requires five status flags, and C99 `<fenv.h>` needs software access to them. The architecture has a sticky five-bit `FPSR`, laid out as RISC-V's `fflags`, written by every operation that can raise a flag and never trapping, and one swap instruction to read and write it. It is a record of what happened, not a mode, so the rule against mode bits is untouched.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### FHALF: Floating arithmetic, binary16
 
@@ -6389,11 +6157,9 @@ a half lives in the low 16 bits of a register, sign-extended to 64
 
 **Exceptions** None.
 
-Results are correctly rounded to nearest even, tininess judged after rounding; a NaN result is the canonical `0x7E00`. Half `FMIN`, `FMAX`, `FRINT*`, bfloat16 and conversions to and from 64-bit integers are open items.
+Results are correctly rounded to nearest even, tininess judged after rounding; a NaN result is the canonical `0x7E00`. Open: the remaining half-precision operations ([J.9.10](appendix-j-open.md#j910)).
 
-**Why it is here.** Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. Two levels are possible: conversions only (about 500 to 1,000 lookup tables, no new operation by the folding rule) and full arithmetic (about 2,000 to 3,500 tables; estimates), and the existing double datapath can compute half correctly rounded. The architecture has both conversions and arithmetic. The leftovers (half `FMIN`, `FRINT*`, bfloat16, 64-bit integer conversions) are open items. 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Why it is here.** Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. Two levels are possible: conversions only (about 500 to 1,000 lookup tables, no new operation by the folding rule) and full arithmetic (about 2,000 to 3,500 tables; estimates), and the existing double datapath can compute half correctly rounded. The architecture has both conversions and arithmetic. Open: the remaining half-precision operations ([J.9.10](appendix-j-open.md#j910)). 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
 
 <a id="w-fadd16"></a>
 #### FADD16
@@ -6599,8 +6365,6 @@ FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction i
 
 **Why it is here.** The conversion half of the `binary16` support (see `FHALF`). The conversions are the part machine-learning code needs most, because a half is normally loaded and stored with `MOVW`, converted, computed in single or double, and converted back.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 <a id="w-fcvtsh"></a>
 #### FCVTSH
 
@@ -6710,7 +6474,7 @@ Operation, flags and exceptions as for the entry FCVTH above; 2 layout forms, ea
 
 **9.13.1** The atomic escape `ATOM` (opcode `010001 (0x11)`) holds `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in chapter 7. *(opcode `010001 (0x11)`)*
 
-**9.13.2** `CAS` operates on 4 or 8 bytes; an 8-byte compare-and-swap may span two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members). *(D)* The encoding of the `CAS` size is unspecified. *(S)*
+**9.13.2** `CAS` operates on 4 or 8 bytes; an 8-byte compare-and-swap may span two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members). *(D)* Open: the encoding of the `CAS` size and the placement of the operands of the atomics ([J.9.3](appendix-j-open.md#j93)).
 
 *Commentary.* The official entry of each instruction is below, in this section; chapter 7 gives the reasons, the memory model and the use. **Impact.** *Kernel:* the entries below are all a kernel needs to write its locks; chapter 7 explains how they compose. *Compiler:* a lock acquire is one `_DB` instruction. *Hardware:* a reservation monitor beside the data cache.
 
@@ -6722,7 +6486,7 @@ Operation, flags and exceptions as for the entry FCVTH above; 2 layout forms, ea
 **Syntax**
 
 ```
-CAS expected, new, (address)        ; operand placement and size encoding unspecified; size is 4 or 8 bytes
+CAS expected, new, (address)        ; size is 4 or 8 bytes; operand placement open (J.9.3)
 CASDB ...                            ; with a full barrier
 ```
 
@@ -6751,13 +6515,11 @@ result ← old          ; the program compares result with expected to learn whe
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The sub-opcodes and the semantics of this group are specified; the forms below name the roles, and the placement of the operands is open ([J.9.3](appendix-j-open.md#j93)).
 
 **Why it is here.** The barrier-fused variants are taken from LoongArch's pragmatism: a lock acquire is one instruction rather than an atomic followed by a `FENCE`, and that pair is in every critical section of the system. With the other multiprocessor operations the atomics make the seventeen-operation SMP umbrella (7.1). They are defined on a reservation monitor and not on a bus lock (2.5).
 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
-
-**Status** specified; **not yet implemented** in the reference executor.
 
 <a id="w-cas"></a>
 #### CAS
@@ -6828,13 +6590,11 @@ old ← M[address] ; M[address] ← value ; result ← old
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The sub-opcodes and the semantics of this group are specified; the forms below name the roles, and the placement of the operands is open ([J.9.3](appendix-j-open.md#j93)).
 
 **Why it is here.** One of the read-modify-write atomics of the `ATOM` group (see `CAS`). No separate reason is recorded for it.
 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
-
-**Status** specified; **not yet implemented** in the reference executor.
 
 <a id="w-swap"></a>
 #### SWAP
@@ -6905,13 +6665,11 @@ old ← M[address] ; M[address] ← old + value ; result ← old
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The sub-opcodes and the semantics of this group are specified; the forms below name the roles, and the placement of the operands is open ([J.9.3](appendix-j-open.md#j93)).
 
 **Why it is here.** One of the fetch-and-operate atomics of `ATOM` (see `CAS`), in the place of the PDP-11's read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair (7.1).
 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
-
-**Status** specified; **not yet implemented** in the reference executor.
 
 <a id="w-xadd"></a>
 #### XADD
@@ -6992,13 +6750,11 @@ result ← old
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The sub-opcodes and the semantics of this group are specified; the forms below name the roles, and the placement of the operands is open ([J.9.3](appendix-j-open.md#j93)).
 
 **Why it is here.** The fetch-and-and, or and xor atomics of `ATOM` (see `CAS`). No separate reason is recorded for them.
 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
-
-**Status** specified; **not yet implemented** in the reference executor.
 
 <a id="w-xand"></a>
 #### XAND
@@ -7133,13 +6889,11 @@ signed for XMAX and XMIN, unsigned for the U forms
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles.
+The sub-opcodes and the semantics of this group are specified; the forms below name the roles, and the placement of the operands is open ([J.9.3](appendix-j-open.md#j93)).
 
 **Why it is here.** The fetch-and-minimum and maximum atomics, borrowed from LoongArch's richer atomic set: each is a couple of hundred lookup tables and saves a compare-and-swap retry loop.
 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
-
-**Status** specified; **not yet implemented** in the reference executor.
 
 <a id="w-xmax"></a>
 #### XMAX
@@ -7291,13 +7045,11 @@ a write to the granule by any initiator, core or device, clears the reservation
 
 **Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
 
-A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). The sub-opcodes and the semantics of this group are specified; the placement of the operands of each form is unspecified, and the forms below name the roles. The result convention shown for `SC` is the usual one and is unspecified.
+A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). The sub-opcodes and the semantics of this group are specified; the forms below name the roles, and the placement of the operands is open ([J.9.3](appendix-j-open.md#j93)). The result convention of `SC` is part of the open placement ([J.9.3](appendix-j-open.md#j93)).
 
 **Why it is here.** Load-linked and store-conditional, with the reservation a monitor, because a monitor maps onto the exclusive access of AXI and of FPGA and modern memory systems, where the Unibus's locked read-modify-write (`DATIP`/`DATO`) does not scale as cores multiply. A short sequence must eventually succeed if no other initiator keeps writing the granule, the RISC-V rule.
 
 **Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
-
-**Status** specified; **not yet implemented** in the reference executor.
 
 <a id="w-ll"></a>
 #### LL
@@ -7379,11 +7131,9 @@ nothing
 
 `LPAD` marks a legal target of an indirect jump or call; no instruction enforces it in ABI version 1.
 
-**Why it is here.** `NOP` is common and has no story; `LPAD` is the landing pad. Landing pads mark the legal targets of indirect jumps and calls so that jump-oriented attacks can be stopped at the transfer, as Intel's indirect-branch tracking and ARM's branch target identification do and OpenBSD enforces. ABI version 1 leaves them off (an open item of the instruction set, 9.21), and the assembler provides `.lpad`; the kernel pain-points and mitigations reports record why deciding later is more expensive (appendix A, section A.1).
+**Why it is here.** `NOP` is common and has no story; `LPAD` is the landing pad. Landing pads mark the legal targets of indirect jumps and calls so that jump-oriented attacks can be stopped at the transfer, as Intel's indirect-branch tracking and ARM's branch target identification do and OpenBSD enforces. ABI version 1 leaves them off (open: when they become mandatory, [J.D.2](appendix-j-open.md#jd2)), and the assembler provides `.lpad`; the kernel pain-points and mitigations reports record why deciding later is more expensive (appendix A, section A.1).
 
 **Cf.** Appendix A, section A.1 (landing pads).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-nop"></a>
 #### NOP
@@ -7465,8 +7215,6 @@ RTT: and then set the trace bit T after the return
 
 **Cf.** 6.3 (exceptions and interrupts), 6.13.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 <a id="w-rti"></a>
 #### RTI
 
@@ -7547,8 +7295,6 @@ PC ← M[SP] ; SP ← SP + 8
 
 Not privileged, though it is in the system escape: it is the two-byte partner of `CALL`.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-halt"></a>
 ### HALT: Halt the processor
@@ -7590,8 +7336,6 @@ stop the processor
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
 **Cf.** 6.12.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-bpt"></a>
@@ -7639,8 +7383,6 @@ A trap like any other, but kept as its own two-byte instruction because a debugg
 
 **Cf.** 6.3.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-fence"></a>
 ### FENCE: Memory fence
@@ -7683,11 +7425,9 @@ order the memory accesses before it against those after it, for every initiator 
 
 Owed to devices (one `FENCE` separates writing a device's registers from setting its go bit) and to other cores.
 
-**Why it is here.** The memory model is sequentially consistent, so `FENCE` is needed only for what is outside the model: devices and the framebuffer (one `FENCE` between writing a device's registers and setting its go bit, section 3.15) and instruction streams. The `_DB` barrier forms of the atomics exist so that a `FENCE` is not needed in a lock acquire.
+**Why it is here.** The memory model is sequentially consistent, so `FENCE` is needed only for what is outside the model: devices and the framebuffer (one `FENCE` between writing a device's registers and setting its go bit, section 3.13) and instruction streams. The `_DB` barrier forms of the atomics exist so that a `FENCE` is not needed in a lock acquire.
 
 **Cf.** 7.2 (the memory model), 2.2 (what the processor owes the bus).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-wfe"></a>
@@ -7730,13 +7470,11 @@ sleep until an interrupt is pending or another core executes SEV
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
-`WAIT` is an assembler alias. Whether `WFE` wakes on a pending but masked interrupt (the idle-loop question) is open.
+`WAIT` is an assembler alias.
 
-**Why it is here.** `WAIT` was a PDP-11 instruction (sleep until an interrupt); `WFE` subsumes it: it sleeps until an interrupt or another core's `SEV`, and on a uniprocessor it behaves exactly as `WAIT` did. `WFE` and `SEV` belong to the multiprocessor operations (7.6). The wake rule (whether a pending but masked interrupt wakes it) is open item P1.
+**Why it is here.** `WAIT` was a PDP-11 instruction (sleep until an interrupt); `WFE` subsumes it: it sleeps until an interrupt or another core's `SEV`, and on a uniprocessor it behaves exactly as `WAIT` did. `WFE` and `SEV` belong to the multiprocessor operations (7.6).
 
 **Cf.** 7.6 (waiting and signalling).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-wait"></a>
 **`WAIT`** is an alias of `WFE`: the assembler writes it as that word.
@@ -7785,8 +7523,6 @@ wake every core waiting in WFE
 
 **Cf.** 7.6.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### TLBA: Invalidate all translations; wait for translation invalidations; invalidate the whole instruction cache
 
@@ -7824,13 +7560,11 @@ ICINVA  : invalidate the whole instruction cache
 
 **Flags** None written.
 
-**Exceptions** Privileged (`TLBIA`, `TLBSYNC`); the reference executor treats `ICINVA` as a no-op.
+**Exceptions** Privileged (`TLBIA`, `TLBSYNC`)
 
 **Why it is here.** `TLBI` and `TLBIA` broadcast, `TLBSYNC` waits for the other cores, and `ICINV` and `ICINVA` invalidate the instruction cache: a Lisp runtime that compiles a function cannot work without an instruction-cache invalidate.
 
 **Cf.** 7.5 (translation and instruction-cache coherence).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-tlbia"></a>
 #### TLBIA
@@ -7931,8 +7665,6 @@ Four bytes (the `SYSX` escape, sub-opcodes 0 and 1) and two bytes on page 2. For
 
 **Cf.** 6.3, 6.13.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 <a id="w-pushx"></a>
 #### PUSHX
 
@@ -8011,8 +7743,6 @@ The architecture promises the effect only after the next `ISYNC`; an in-order im
 
 **Cf.** 7.5, 6.5.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-hint"></a>
 ### HINT: Hint
@@ -8054,8 +7784,6 @@ no architectural effect
 Defined codes: 0 a plain no-op hint, 1 pause (spin-wait), 2 speculation barrier. Every other code is a reserved hint that executes as a no-op; software shall not use it. Not privileged.
 
 **Why it is here.** Defined with `ISYNC`: a no-op with a byte of code, defined for `0` (plain), `1` (pause, for spin-wait loops) and `2` (speculation barrier), every other code a reserved hint that executes as a no-op so that a later machine can give it a meaning without breaking an old binary.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 ### MFSR: Move from and to a system register
@@ -8114,8 +7842,6 @@ The register is chosen by name (a number in parcel 1); the instruction is four b
 **Why it is here.** A paging operating system must install a page table and learn why it was entered, which needs instructions to write `PTBR` and read `EPC`, `EVA` and `ECAUSE`. One general pair reaches all of the system registers by number. The user and supervisor stack pointers are in the set because any kernel must read and write the user stack pointer to build a signal frame, copy a process or switch context.
 
 **Cf.** 6.5 (system registers).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-mfsr"></a>
 #### MFSR
@@ -8188,8 +7914,6 @@ MFPS: Rd ← PSW
 **Exceptions** A `MTPS` value with the reserved mode 2 in a mode field aborts.
 
 **Cf.** 6.2 (modes and the status word).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-mtps"></a>
 #### MTPS
@@ -8275,8 +7999,6 @@ Kept despite `MTPS` writing the whole word because it sets the priority alone: a
 
 **Cf.** 6.3.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### TRAP: System call and trap
 
@@ -8317,8 +8039,6 @@ The replacement for the PDP-11 `IOT` and `EMT`. `TRAPL` reaches the vectors 0 to
 **Why it is here.** `TRAPL` exists so that the vector range of 256 and the two-byte common case can both be kept: `TRAP #n` for `n` below 16 is two bytes and the long form reaches 256. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.
 
 **Cf.** 6.3, 6.10 (system calls).
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-trap"></a>
 #### TRAP
@@ -8402,8 +8122,6 @@ invalidate the translation-buffer entry for the page containing the address in R
 
 **Cf.** 7.5, 6.8.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 ### MTASID: Move to and from the address-space identifier
 
@@ -8432,7 +8150,7 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 **Operation**
 
 ```
-MTASID: ASID ← Rs[15:0]          ; the translation buffer is flushed in the reference executor
+MTASID: ASID ← Rs[15:0]          
 MFASID: Rd ← ASID
 ```
 
@@ -8445,8 +8163,6 @@ The `ASID` tags translation-buffer entries so a context switch is one store.
 **Why it is here.** The `ASID` tags translation-buffer entries so a context switch is one store and no flush. No further reason is recorded.
 
 **Cf.** 6.8.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-mtasid"></a>
 #### MTASID
@@ -8528,8 +8244,6 @@ MFDP: Rd ← DP
 
 **Cf.** 7.4 (per-CPU state).
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 <a id="w-mtdp"></a>
 #### MTDP
 
@@ -8601,20 +8315,18 @@ The chart is the layout `r20-sys-0`, System, one parcel (`len = 00`): The `reg` 
 **Operation**
 
 ```
-DMW0 ← Rs          ; storage only: the operand names no window and the format of the windows is unspecified
+DMW0 ← Rs          ; stored; it has no effect on translation
 ```
 
 **Flags** None written.
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
-The direct-mapping windows have no defined format.
+The direct-mapping windows are stored and have no effect on translation.
 
-**Why it is here.** Taken from LoongArch's direct-mapping windows, which stop the kernel taking translation-buffer misses on its own text. The windows are deferred: the instruction is storage only.
+**Why it is here.** Taken from LoongArch's direct-mapping windows, which stop the kernel taking translation-buffer misses on its own text. The instruction is storage only: the windows have no effect on translation.
 
 **Cf.** 6.9.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 <a id="w-mfcpuid"></a>
@@ -8662,8 +8374,6 @@ The index of this core, for per-CPU data.
 
 **Cf.** 7.4, 7.8.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
-
 
 <a id="w-icinv"></a>
 ### ICINV: Invalidate the instruction cache for an address
@@ -8702,13 +8412,11 @@ invalidate the instruction-cache line containing the address in Rs
 
 **Flags** None written.
 
-**Exceptions** The reference executor treats it as a no-op; privilege as for the other cache-maintenance instructions.
+**Exceptions** Privileged, as for the other cache-maintenance instructions.
 
 **Why it is here.** Instruction-cache invalidation, by address (`ICINV`) and whole (`ICINVA`). The reason is the one given for `TLBA`: a runtime that compiles a function cannot work without it.
 
 **Cf.** 7.5.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
 ### PROBE: Probe an address for read or write access
@@ -8751,8 +8459,6 @@ Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address be
 **Why it is here.** Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address before using it, and it replaces the `nofault` global of the V7 kernel for the address-validation case.
 
 **Cf.** 6.10 (the user-memory guard), 6.6.
-
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-prober"></a>
 #### PROBER
@@ -8813,7 +8519,7 @@ Operation, flags and exceptions as for the entry PROBE above; 3 layout forms, ea
 
 **9.16.5** A branch at the middle length reaches 4 GB, so no linker veneers are needed for any binary smaller than that; the assembler's and the linker's branch relaxation both reduce to choosing a length. *(D)*
 
-**9.16.6** `R12` is the linker's scratch register. The ABI (appendix D) decides that imports are called without a PLT stub; lazy against eager binding is open. *(D for `R12` and no stub; open for binding)*
+**9.16.6** `R12` is the linker's scratch register. The ABI (appendix D) decides that imports are called without a PLT stub. *(D)* Open: lazy against eager binding ([J.D.2](appendix-j-open.md#jd2)).
 
 *Commentary.* **Precedent.** On i386 a position-independent executable reserved `%ebx` (one of eight registers) for the GOT base and set it in every prologue, which cost a few percent of size and speed; x86-64 fixed that with RIP-relative addressing, and AArch64 needs linker veneers because its branches reach only 128 MB. **Trade-offs.** The two-byte PC-relative form is the shortest, so position-independent data access is slightly smaller than absolute access; the price is a GOT load per imported call site where a PLT stub would cost a load per function. **Improvements.** Position-independence is a side effect of three decisions made for other reasons: PC-relative as an ordinary mode (adopted because the PC left the register file), variable-length encoding (for density) and `DP` (a 6502 zero-page descendant kept for density), which is exactly the thread pointer. **Benefits.** OpenBSD builds everything position-independent by default, and here that costs nothing. **Modern comparables.** x86-64 RIP-relative addressing; AArch64 `ADRP` with a GOT load and veneers for far calls. **Impact.** *Kernel:* a loader applies only relocations for data pointers, and write-xor-execute and randomisation come with no code penalty. *Compiler:* `-fPIE` is the default and emits the same instructions as `-fno-pic` for local data; no reserved register, no per-function setup. *Hardware:* nothing; the PC-relative mode is in the address adder already.
 
@@ -8843,7 +8549,7 @@ Operation, flags and exceptions as for the entry PROBE above; 3 layout forms, ea
 
 **9.18.5** Measurements decide what is included: the compiler uses `SET cc, rd` (about 0.4% of code), not integer `ABS`, `MIN` or `MAX` (under 0.1%), not the bit-field instructions (0.03%) and not the auto-increment modes (0.1%); the second opcode page is about 7% of the instructions emitted. *(D)*
 
-*Commentary.* **Precedent.** The PDP-11's `JSR Rn` put the return address in a register of the caller's choosing, which made coroutines a pair of `JSR`s and inline arguments free; the VAX replaced it with `CALLS` and a frame, which was slower than the code it replaced. **Trade-offs.** The most frequently felt loss in hand-written code is the byte-wide read-modify-write; the compiler never notices it. A bounds-checked `INDEX` for Pascal and Ada is a possible addition. **Improvements.** `SOB` branches either way, with four reaches; the block operations keep their progress in registers, which is what the VAX got wrong, so a fault restarts for free. **Benefits.** The code a compiler emits is the code the table above measures, and the extras are for the people who write assembler. **Modern comparables.** x86 keeps `LOOP` and the string instructions with `REP`; AArch64 has bit-field moves and no memory-to-memory forms; RISC-V has none of them in the base. **Impact.** *Kernel:* `PROBER` and `PROBEW` replace the `nofault` global in the user-copy routines. *Compiler:* idioms the compiler never emits are not built for it, so the compiler's instruction selection stays small. *Hardware:* each restored idiom is a few hundred gates of existing datapath, and each lost one is a decode that never existed.
+*Commentary.* **Precedent.** The PDP-11's `JSR Rn` put the return address in a register of the caller's choosing, which made coroutines a pair of `JSR`s and inline arguments free; the VAX replaced it with `CALLS` and a frame, which was slower than the code it replaced. **Trade-offs.** The most frequently felt loss in hand-written code is the byte-wide read-modify-write; the compiler never notices it. **Improvements.** `SOB` branches either way, with four reaches; the block operations keep their progress in registers, which is what the VAX got wrong, so a fault restarts for free. **Benefits.** The code a compiler emits is the code the table above measures, and the extras are for the people who write assembler. **Modern comparables.** x86 keeps `LOOP` and the string instructions with `REP`; AArch64 has bit-field moves and no memory-to-memory forms; RISC-V has none of them in the base. **Impact.** *Kernel:* `PROBER` and `PROBEW` replace the `nofault` global in the user-copy routines. *Compiler:* idioms the compiler never emits are not built for it, so the compiler's instruction selection stays small. *Hardware:* each restored idiom is a few hundred gates of existing datapath, and each lost one is a decode that never existed.
 
 ## 9.19 Side by side: the PDP-11, the VAX and the pdp64
 
@@ -8867,14 +8573,14 @@ Operation, flags and exceptions as for the entry PROBE above; 3 layout forms, ea
 
 **9.20.3** Declined, with reasons: `R0` hardwired to zero (a sixteenth of a 16-register file, and `CLR` and `NEG` are one parcel already); no condition codes (a third read port in the branch unit against a four-bit latch); `FCSR` rounding-mode bits (hidden state that changes other instructions); four PC-relative address-formation instructions (one `LEA` carries 32 bits); 32 registers (this encoding has no bit to spare for the field); and separate vector register files (chapter 8). *(D)*
 
-**9.20.4** Under consideration: separate floating-point condition flags, software-visible translation-buffer manipulation (to pin an entry for a real-time kernel), and a conditional select for constant-time code. *(P)*
+Open: whether a flag-reading conditional select is added ([J.9.1](appendix-j-open.md#j91)) and how floating-point comparisons set flags ([J.9.9](appendix-j-open.md#j99)).
 
-*Commentary.* **Precedent.** LoongArch has a fixed 32-bit encoding with room for two register fields and a displacement, so it can afford compare-and-branch and needs four instructions to form an address; this machine's variable length reverses both trade-offs. **Trade-offs.** The direct-mapping windows LoongArch uses to avoid translation-buffer misses on kernel text are deferred: `DMW0` and `DMW1` are stored without effect (6.9.2). **Improvements.** The same idea is right or wrong depending on the encoding around it, and each adoption is judged against this encoding. **Benefits.** Borrowing the tested parts saves design time and avoids their bugs. **Modern comparables.** LoongArch itself; the RISC-V bit-manipulation extensions (Zbb, Zbs) do much of the same. **Impact.** *Kernel:* atomics with barriers make a lock acquire one instruction. *Compiler:* bit operations in the base mean the compiler can use them without a feature test. *Hardware:* each adopted idea is a few hundred lookup tables and each declined one is a block not built.
+*Commentary.* **Precedent.** LoongArch has a fixed 32-bit encoding with room for two register fields and a displacement, so it can afford compare-and-branch and needs four instructions to form an address; this machine's variable length reverses both trade-offs. **Improvements.** The same idea is right or wrong depending on the encoding around it, and each adoption is judged against this encoding. **Benefits.** Borrowing the tested parts saves design time and avoids their bugs. **Modern comparables.** LoongArch itself; the RISC-V bit-manipulation extensions (Zbb, Zbs) do much of the same. **Impact.** *Kernel:* atomics with barriers make a lock acquire one instruction. *Compiler:* bit operations in the base mean the compiler can use them without a feature test. *Hardware:* each adopted idea is a few hundred lookup tables and each declined one is a block not built.
 
 ## 9.21 What is still open in the instruction set
 
-**9.21.1** Open, with the reasoning in appendix B or in the instruction-set text, section 12: the thin 6-bit displacement of the shortest scaled-index form; the landing-pad decision (optional first, mandatory later); atomics against the bus (the lock against the monitor; the monitor is chosen); worst-case instruction latency for the block operations (an interrupt-latency claim must state the block granularity); the floating-point condition flags (the signed branches do not treat unordered cleanly); the block operations and the cache (a streaming memory type or a non-temporal variant); directed rounding for arithmetic (a rounding field in the instruction); the leftovers of half precision (minimum, maximum, rounding, bfloat16); conditional select; lazy against eager binding in the ABI; the verification of the memory model against published litmus tests; and the coherence protocol beyond four cores (the design supports at least four and prefers sixteen or more, errata 92; the leanings are in `docs/smp-decisions.md`). *(P and open)*
+**9.21.1** Open, each with its discussion in appendix J: the displacement of the shortest scaled-index form and a store through `d(DP)` ([J.9.5](appendix-j-open.md#j95)); the page-bit mechanisms and the reserved system words ([J.9.6](appendix-j-open.md#j96)); the schedule of landing pads and lazy against eager binding in the ABI ([J.D.2](appendix-j-open.md#jd2)); the worst-case latency of the block operations ([J.9.7](appendix-j-open.md#j97)); the block operations and the cache ([J.9.8](appendix-j-open.md#j98)); the floating-point condition flags ([J.9.9](appendix-j-open.md#j99)); directed rounding and the remaining half-precision operations ([J.9.10](appendix-j-open.md#j910)); the conditional select and the expansion of `ABS`, `MIN` and `MAX` ([J.9.1](appendix-j-open.md#j91)); constant-time execution ([J.9.2](appendix-j-open.md#j92)); the operand placement of the atomics and the size of `CAS` ([J.9.3](appendix-j-open.md#j93)); and the coherence protocol beyond four cores with the verification of the memory model ([J.9.11](appendix-j-open.md#j911)).
 
 **9.21.2** Settled: the reserved-opcode discipline (a top-level opcode is for an operation whose common case is register to register), the fourth parcel (absent; the code `11` is a second page of 64 one-parcel opcodes), UTF-8 scope (`MVAL` is committed), and the measured length distribution (2, 4, 6 and 8 bytes at 46.5, 42.8, 10.6 and 0.1 percent, before the second page). *(D)*
 
-*Commentary.* **Trade-offs.** None of the open items blocks the first implementation; the three that must be settled before silicon, the memory model verification, the coherence choice and the worst-case latency figure, are verification tasks, not design changes. **Impact.** *Kernel:* the open items touching the kernel are the user-memory guard, the floating-point state and the block-operation granularity. *Compiler:* conditional select and directed rounding would change instruction selection. *Hardware:* the coherence protocol must be chosen before the cache is built, not after.
+*Commentary.* **Trade-offs.** None of the open items blocks the first implementation; the three that must be settled before silicon, the memory model verification, the coherence choice and the worst-case latency figure, are verification tasks, not design changes. **Impact.** *Kernel:* the open items touching the kernel are the page-bit mechanisms, the floating-point flags and the block-operation granularity. *Compiler:* the conditional select and directed rounding are the two open items that change instruction selection. *Hardware:* the coherence protocol must be chosen before the cache is built, not after.

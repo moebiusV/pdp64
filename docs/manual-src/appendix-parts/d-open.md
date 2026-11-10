@@ -26,4 +26,31 @@
 
 **The assistant's leaning.** Option 1, keeping 8, and answering the author's question in the ABI text: 2 would be right only if a push were a 16-bit word, and every push here is a quad while a misaligned quad access aborts. Option 6 is reserved for the first type that needs more. This is the assistant's view, not a decision. It would change if a 128-bit type, a vector or a 128-bit `long double` enters the language ABI, or if unmodified third-party code that assumes 16 is to run.
 
-**Where the body refers to it.** D.1 (the Alignment row of the conventions table); D.2 (the variadic save area that sits against the stack arguments).
+**Where the body refers to it.** Sections D.1 and D.4.2.
+
+<a id="jd2"></a>
+### J.D.2 Binding, landing pads and the PLT stub after version 1
+
+**Issue.** Three matters of the ABI are version 1 decisions with a question behind them. *Landing pads:* `LPAD` marks a legal target of an indirect jump or call; version 1 leaves enforcement off and the assembler provides `.lpad`; the author approved a page bit that enforces them (errata 84, item 5). When enforcement is mandatory, and whether it is optional first, is not decided: a tagged function pointer reached by `JMP -k(Rn)` must still land on an `LPAD`, and `JTAG`, which jumps through a table, would need a pad at each entry. *Binding:* imports are called through `CALLI got_slot(PC)` with no PLT stub (decided, 9.16.2). Lazy binding (resolving a symbol on its first call) needs something that runs on the first call and knows which symbol it is; eager binding resolves every import when the program loads. Which one is open. *The PLT stub beyond version 1:* whether imports are always called without a stub.
+
+**Why it matters.** Every binary built before landing pads become mandatory lacks the pads, so the later the decision the more binaries break; a linker, a loader and a compiler must agree on the binding rule; the page-bit mechanism of J.9.6 enforces whatever is chosen.
+
+**Options** (landing pads).
+
+1. *Mandatory from version 1.* For: no binary ever lacks the pads. Against: two bytes at every address-taken function and indirect call target, now, before the hardware enforces anything.
+2. *Optional in version 1, mandatory in version 2, enforced per page by the page bit.* For: the ABI version number exists for this; a binary opts in. Against: binaries built in the meantime must be rebuilt.
+3. *Optional for ever, enforced only for the pages that carry the bit.* For: no flag day. Against: a binary that does not opt in is unprotected, and the attack surface is the part that does not.
+
+**Options** (binding).
+
+4. *Eager binding only.* All imports resolved at load, the table made read-only afterwards. For: no resolver in the program; the table is read-only after load. Against: the load time grows with the number of imports.
+5. *Lazy binding by a stub per import.* The table entry points at a stub that identifies the symbol and calls the resolver. For: fast start. Against: reintroduces the stub that the one-instruction call avoids, and a writable table.
+6. *Lazy binding through a resolver that finds the symbol from the return address.* For: no per-import stub. Against: the resolver must decode the call site; the table stays writable.
+
+**Precedents.** Intel's indirect-branch tracking and ARM's branch target identification are enforced by OpenBSD where the hardware has them (appendix A); `ld.so` with `LD_BIND_NOW` and `-z now` against lazy binding, and RELRO, which makes the table read-only after load *(unverified: general knowledge)*; the i386 position-independent executable that kept a register for the table base (9.16 commentary).
+
+**The author's referents.** Landing pads gated by a page bit, "with the fault attributed to the branch" (errata 84); "minimize recovery code".
+
+**The assistant's leaning.** Option 2 for landing pads, and eager binding with a read-only table (option 4), because the call is then one instruction with no stub and there is no writable table to attack. This is the assistant's view, not a decision.
+
+**Where the body refers to it.** Sections 9.16.6, 9.21.1, A.1.2, D.1 and D.4.2.

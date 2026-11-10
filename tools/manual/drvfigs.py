@@ -83,7 +83,7 @@ def fig_block_request():
              '3  it writes the queue\'s notification address (the doorbell; FENCE ordered)', '4  the device reads the chain, moves the sector into the buffer, writes the status byte',
              '5  it writes { id, len } in the used ring, then adds 1 to the used idx', '6  an interrupt (or the driver polling used.idx) lets the driver read the status, free the chain, iodone(bp)']
     lines(c, 20, 120, steps, 9.5, gap=15)
-    c.text(20, 408, 'Sizes and flags as in chapter 2 (2.7.5 to 2.7.7) and virtio_blk.h; the numbers 12 and 513 are an example.  The data is written before the used entry before the used idx (5.10.4).', 8, 'start', '#555')
+    c.text(20, 408, 'Sizes and flags as in chapter 2 (2.7.5 to 2.7.7) and virtio_blk.h; the numbers 12 and 513 are an example.  The data is written before the used entry before the used idx (5.10.3).', 8, 'start', '#555')
     return c.svg()
 
 
@@ -102,7 +102,7 @@ def fig_layers():
             c.box(x0, y, 310, 40, t, f, 10, sub=s)
             if i < 4:
                 c.line([(x0 + 155, y + 40), (x0 + 155, y + 58)])
-    c.text(20, 350, 'The raw interface skips the cache: rawrw -> physio -> strategy; on the pdp64 physio pins the pages and gives one descriptor per page (5.6, 5.10.3).', 9, 'start', '#444')
+    c.text(20, 350, 'The raw interface skips the cache: rawrw -> physio -> strategy; on the pdp64 physio pins the pages and gives one descriptor per page (5.6, 5.10.2).', 9, 'start', '#444')
     c.text(20, 364, 'Sources: V7 rk.c, 2.11BSD conf.c and vm_swp.c (read); OpenBSD vioblk.c, sd.c, conf.c (read).  Each layer of the right column is OpenBSD code; none is built for the pdp64.', 8, 'start', '#555')
     return c.svg()
 
@@ -138,8 +138,8 @@ def fig_console_timer():
     """The console, the timer and the entropy source as the options stand: all open (5.7.1)."""
     c = Canvas(380)
     c.text(20, 16, 'the console, timer and entropy source: the options (OPEN, 5.7.1; nothing decided)', 12, 'start', bold=True)
-    cols = [('console', [('fixed registers (KL11 shape)', 'exists: QEMU, tests/qemu', GREEN), ('virtio-console, queues 0 and 1', 'plus emerg_wr: one-character write', SOFT), ('16550-style UART', 'lean of F11 (decisions-pending)', SOFT)]),
-            ('timer', [('fixed counter + compare', 'exists: level 6, vector 32', GREEN), ('counter and compare in the core', 'system registers; lean of smp-decisions 4', SOFT), ('virtio clock / rtc', 'read and alarm requests; no tick', SOFT)]),
+    cols = [('console', [('fixed registers (KL11 shape)', 'a fixed device with a few registers', SOFT), ('virtio-console, queues 0 and 1', 'plus emerg_wr: one-character write', SOFT), ('16550-style UART', 'a common serial chip', SOFT)]),
+            ('timer', [('fixed counter + compare', 'a fixed device with a vector of its own', SOFT), ('counter and compare in the core', 'system registers', SOFT), ('virtio clock / rtc', 'read and alarm requests; no tick', SOFT)]),
             ('entropy', [('virtio-rng, one queue', 'the device fills a buffer', SOFT), ('absorb-and-squeeze pool', 'errata 85; a fixed device', SOFT), ('software and a boot seed only', 'no entropy hardware', SOFT)])]
     cw, gap = 210, 20
     for j, (title, items) in enumerate(cols):
@@ -149,10 +149,10 @@ def fig_console_timer():
             y = 70 + i * 62
             c.box(x, y, cw, 52, a, f, 10, sub=b, dash=(f == SOFT))
     c.box(20, 262, 650, 30, '', '#fff')
-    lines(c, 28, 276, ['The green boxes exist in the repository (a fixed device each, behind the withdrawn space bit of errata 60); dashed boxes are candidates only.'], 9)
+    lines(c, 28, 276, ['Every box is a candidate; none is chosen.'], 9)
     lines(c, 28, 288, ['Whether these three follow "virtio across the board" (errata 95) is part of what is open.'], 9)
     lines(c, 20, 314, ['A virtio-console needs the bus and a queue before it can print; its emergency write needs the bus and no queue.  A fixed console needs neither.',
-                       'Sources: spec/pdp64-system.hbnf, qemu/hw-pdp64, virtio_console.h, virtio_rtc.h, QEMU virtio-rng.c (read); the briefing B.md, Q6 (open material).'], 8, fill='#555', gap=14)
+                       'Sources: spec/pdp64-system.hbnf, qemu/hw-pdp64, virtio_console.h, virtio_rtc.h, QEMU virtio-rng.c (read)'], 8, fill='#555', gap=14)
     return c.svg()
 
 

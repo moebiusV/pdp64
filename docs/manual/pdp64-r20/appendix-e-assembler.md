@@ -4,8 +4,7 @@
 
 **The assembler's source layout is the V7 assembler's, `as`; its lexical rules are C's.** This appendix is the syntax of a source file: lines, labels, numbers, strings, operators, directives, registers, the operand modes, the mnemonic conventions and the object format. The grammar itself is `spec/pdp64-asm.hbnf`; the source of this appendix is [`../asm-syntax.md`](../../asm-syntax.md). The mnemonics are in the [instruction dictionary](dictionary/index.md).
 
-The grammar is `spec/pdp64-asm.hbnf` ([hbnf](https://github.com/moebiusV/hbnf) text rules); `tools/check-asmsyntax.sh` generates the parser and runs `tests/asmsyntax.c` over it,
-and `tools/check-as64.sh` assembles `tests/asm/*.s` and compares the bytes with hand-worked expectations.
+The grammar is `spec/pdp64-asm.hbnf` ([hbnf](https://github.com/moebiusV/hbnf) text rules).
 
 - **Lines.** One statement to a line. `;` starts a comment that runs to the end of the line.
 - **Labels.** `name:` defines a label; `1:` defines a numeric label, referenced as `1b` (the nearest one before) or `1f` (the nearest after).
@@ -36,7 +35,6 @@ and `tools/check-as64.sh` assembles `tests/asm/*.s` and compares the bytes with 
 
 - **Invocation.** `as64 -m pdp64/r20|pdp64/16|pdp64/32 [-o obj] file.s`: `-m` selects the encoding (the default is `pdp64/r20`; `r20`, `16`, `32` and `old` are accepted) and the object records it in its `e_flags`; `ld64 [-M] [-o out] objects...` refuses to link objects of different encodings.
 
-- **`llvm-mc`.** The LLVM back end's assembler (`llvm/`, ISA-checked against `as64` by `llvm/check.sh`) accepts this syntax with these exceptions: no literal pool (`=K` and `.pool`), no names that start with a digit, no non-ASCII names, and `.comm` needs its alignment written (`as64` implies 8). `(pc)` and `(dp)` without a displacement are accepted by `as64` (displacement 0) and by `llvm-mc`.
 - **Object format.** ELF64, little-endian, `e_machine` 0xF064 (`EM_PDP64`); relocations `R_PDP64_D64`, `R_PDP64_D32`, `R_PDP64_INSN_ABS`, `R_PDP64_INSN_PC`, `R_PDP64_INSN_BR` (`as64/relocs.h`; LLVM: `ELFRelocs/PDP64.def`).
 
 What it leaves out of V7 `as`: octal numbers by default, `<string>` and the `'\e` escape, `\/ \< \>` and `[ ]` in expressions, `.if`, `.stabs`,

@@ -60,7 +60,7 @@ def fig_c64_map():
     c.line([(ix + 160, 296), (ix + 228, 296)], arrow=True)
     c.text(ix + 195, 290, 'x 64', 9, fill='#555')
     c.text(ix, 328, 'The VIC-II reads screen, colour RAM, glyphs and sprites itself, while the processor runs.', 10, 'start', '#333')
-    c.text(ix, 344, 'Addresses: general knowledge of the C64 (unverified, 3.22); the glyph bits are an example.', 9, 'start', '#555')
+    c.text(ix, 344, 'Addresses: general knowledge of the C64 (unverified, 3.19); the glyph bits are an example.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -140,7 +140,7 @@ def fig_vga_cell():
     c.text(zx + 250, zy + 63, 'odd address: attribute. 4 bits a colour: 16 colours', 9, 'start', '#333')
     c.text(zx + 250, zy + 76, 'bit 7: blink, or a bright background (a mode bit chooses)', 9, 'start', '#333')
     c.text(zx, 244, 'The glyph shapes are in the display adapter, not in this memory; the cell says which, and in what colours.', 10, 'start', '#333')
-    c.text(zx, 260, 'Layout as in general knowledge of the IBM PC adapters (unverified here, 3.22).', 9, 'start', '#555')
+    c.text(zx, 260, 'Layout as in general knowledge of the IBM PC adapters (unverified here, 3.19).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -200,7 +200,7 @@ def fig_pipeline():
     c.line([(205, 190), (205, y + h + 34)], arrow=True)
     c.text(20, 270, 'Every vertex goes through the same program at the same time on different lanes; so does every pixel.', 10, 'start', '#333')
     c.text(20, 286, 'The programmer writes the two shaders (pink); the rasterizer between them is fixed.', 10, 'start', '#333')
-    c.text(20, 304, 'This is the model of general knowledge of current GPUs (unverified here, 3.22); stages such as geometry and tessellation are left out.', 9, 'start', '#555')
+    c.text(20, 304, 'This is the model of general knowledge of current GPUs (unverified here, 3.19); stages such as geometry and tessellation are left out.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -408,7 +408,7 @@ def fig_core_map():
     c.line([(cx + cw, 44 + 5 * 36 + 18), (560, 170)], arrow=True)
     c.text(20, 318, '1  the host places the image in its own memory; the device copies it into the core by DMA (over PCI Express).', 10, 'start', '#333')
     c.text(20, 334, '2  the program lands at the core\'s load address;  3  the core is let out of reset and runs it as the terminal.', 10, 'start', '#333')
-    c.text(20, 356, 'Which core, what the mailbox is, and how the image is checked are open (3.18); sizes and order are an example.', 9, 'start', '#555')
+    c.text(20, 356, 'Which core, what the mailbox is, and how the image is checked are open (3.16); sizes and order are an example.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -435,7 +435,7 @@ def fig_compositor_paths():
     row(286, '(e)', [('c128 core', GREEN, 74, False), ('host clients', SOFT, 74, False), ('no such virtio device', '#fff', 150, True), ('scanout', BLUE, 60, False)], 'a device type that does not exist')
     c.text(20, 372, 'Green: the on-die core. Blue: output. Grey: the arbiter. Dashed: a thing that would have to be invented.', 10, 'start', '#333')
     c.text(20, 388, 'In (a) the multiplexer is one enable bit; in (b) to (e) the core becomes a client of something else.', 10, 'start', '#333')
-    c.text(20, 408, 'The hand-over of any of these should happen in a vertical blank, with the audio muted by a short ramp (3.18).', 9, 'start', '#555')
+    c.text(20, 408, 'The hand-over of any of these should happen in a vertical blank, with the audio muted by a short ramp (3.16).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -460,7 +460,7 @@ def fig_audio_path():
     c.text(20, 206, 'A late frame tears; a late buffer underruns: a click. Both are cured by writing ahead of the reader and by', 10, 'start', '#333')
     c.text(20, 222, 'letting the device clock, not the program clock, decide when the combiner runs.', 10, 'start', '#333')
     c.text(20, 246, 'The SID is the C64\'s exception: it makes the sound itself from three voices, so it has no buffer and no mixer in memory.', 10, 'start', '#333')
-    c.text(20, 270, 'Stages after the model of general knowledge of sound servers (unverified, 3.22); virtio-snd streams as in virtio_snd.h.', 9, 'start', '#555')
+    c.text(20, 270, 'Stages after the model of general knowledge of sound servers (unverified, 3.19); virtio-snd streams as in virtio_snd.h.', 9, 'start', '#555')
     return c.svg()
 
 

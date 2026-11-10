@@ -14,25 +14,22 @@
 <text x="177.0" y="75.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">GPT partition</text>
 <text x="177.0" y="87.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">entries</text>
 <text x="138.0" y="44.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans Mono, monospace">LBA 2..</text>
-<rect x="218.0" y="48.0" width="108.0" height="56.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
-<text x="272.0" y="75.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">boot partition</text>
-<text x="272.0" y="87.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">(optional, 4.5.2)</text>
-<rect x="326.0" y="48.0" width="168.0" height="56.0" fill="#fbf2cf" stroke="#222" stroke-width="1.2"/>
-<text x="410.0" y="75.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">OpenBSD-type partition</text>
-<text x="410.0" y="87.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">holds the label</text>
-<rect x="494.0" y="48.0" width="104.0" height="56.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
-<text x="546.0" y="75.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">other partitions</text>
-<text x="546.0" y="87.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">(any system)</text>
-<rect x="598.0" y="48.0" width="62.0" height="56.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
-<text x="629.0" y="75.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">backup</text>
-<text x="629.0" y="87.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">GPT</text>
-<text x="600.0" y="44.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans Mono, monospace">end</text>
+<rect x="218.0" y="48.0" width="190.0" height="56.0" fill="#fbf2cf" stroke="#222" stroke-width="1.2"/>
+<text x="313.0" y="75.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">OpenBSD-type partition</text>
+<text x="313.0" y="87.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">holds the label</text>
+<rect x="408.0" y="48.0" width="130.0" height="56.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
+<text x="473.0" y="75.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">other partitions</text>
+<text x="473.0" y="87.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">(any system)</text>
+<rect x="538.0" y="48.0" width="62.0" height="56.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="569.0" y="75.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">backup</text>
+<text x="569.0" y="87.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">GPT</text>
+<text x="540.0" y="44.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans Mono, monospace">end</text>
 <text x="20.0" y="148.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">block 0, the protective MBR: 512 bytes</text>
 <path d="M30.0,104.0 L30.0,156.0" fill="none" stroke="#222" stroke-width="0.8" stroke-dasharray="5 3"/>
 <path d="M76.0,104.0 L670.0,156.0" fill="none" stroke="#222" stroke-width="0.8" stroke-dasharray="5 3"/>
 <rect x="20.0" y="158.0" width="566.2" height="40.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
 <text x="303.1" y="177.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">boot code: 446 bytes</text>
-<text x="303.1" y="189.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">the first stage: a short block list and a program that reads it</text>
+<text x="303.1" y="189.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">the boot code area of the MBR format</text>
 <rect x="586.2" y="158.0" width="81.2" height="40.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
 <text x="626.8" y="177.0" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">table</text>
 <text x="626.8" y="189.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">64 bytes</text>
@@ -60,5 +57,4 @@
 <text x="20.0" y="360.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">On the PDP-11 there was no such table: V7 compiled eight (size, first cylinder) pairs into each disk driver (hp_sizes[8] in hp.c).</text>
 <text x="20.0" y="374.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">In 2.11BSD block 0 held the 512-byte bootstrap and block 1 the disk label: the same two places as here.</text>
 <text x="20.0" y="396.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The MBR and GPT layouts are as the OpenBSD header disklabel.h has them (4.12); the 8 KB area and sector 1 are decided (4.5.3).</text>
-<text x="20.0" y="410.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Whether a separate boot partition is needed at all is open: the block list can point into the root file system (4.13).</text>
 </svg>

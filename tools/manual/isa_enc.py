@@ -2,9 +2,7 @@
 named here replaces the one in the entry (tools/mkmanual.py; the other fields of those entries are trimmed by memberprose.py).  The layouts themselves are the
 charts, generated from the grammars; what is written here is meaning only."""
 
-ATOMNOTE = ('The sub-opcodes and the semantics of this group are specified. The ISA text still does not fix where the operands go; the grammars of the prefix-coded encodings **assume** a placement '
-            '(errata 87, assumption 4: three registers, the address in a register, in the order written; four for `CAS` and `CASDB`), so the forms below name the roles and the placement is *(P)*. '
-            'The reference executor does not implement the group.')
+ATOMNOTE = ('The sub-opcodes and the semantics of this group are specified. The forms below name the roles; the placement of the operands (three registers with the address in a register, four for `CAS` and `CASDB`, in the order written) is open ([J.9.3](appendix-j-open.md#j93)).')
 
 NOTES = {
     'MOV': 'A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The register-to-register forms of the sized moves are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`.',
@@ -36,7 +34,7 @@ NOTES = {
 for _i in ('CAS', 'SWAP', 'XADD', 'XAND', 'XMAX'):
     NOTES[_i] = ATOMNOTE
 NOTES['LLSC'] = ('A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). ' + ATOMNOTE
-                 + ' The result convention shown for `SC` is the usual one and is unspecified.')
+                 + ' The result convention of `SC` is part of the open placement ([J.9.3](appendix-j-open.md#j93)).')
 EXC = {'LEA': 'The operand must name memory (a register or an immediate is not a form). No memory access is made, so the instruction takes no memory fault. A reserved encoding aborts with the illegal-instruction vector.'}
 
 # The "Why it is here" paragraphs rewritten for the prefix-coded CPUs where the paragraph of pdp64/r20 mixes a rationale with a statement about the original encoding;

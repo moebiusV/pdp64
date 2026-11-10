@@ -5,12 +5,9 @@
 <rect x="150.0" y="54.0" width="270.0" height="30.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
 <text x="285.0" y="68.0" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">device windows (memory type: device)</text>
 <text x="285.0" y="80.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">mapped by page entries, MT 2 or 3</text>
-<rect x="150.0" y="84.0" width="270.0" height="30.0" fill="#fbf2cf" stroke="#222" stroke-width="1.2"/>
-<text x="285.0" y="98.0" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">direct-mapping windows DMW0, DMW1</text>
-<text x="285.0" y="110.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">kernel only; format open (6.9.2)</text>
-<rect x="150.0" y="114.0" width="270.0" height="34.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
-<text x="285.0" y="130.0" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">kernel text and data</text>
-<text x="285.0" y="142.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">global pages, in every address space</text>
+<rect x="150.0" y="84.0" width="270.0" height="64.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="285.0" y="115.0" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">kernel text and data</text>
+<text x="285.0" y="127.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">global pages, in every address space</text>
 <text x="142.0" y="40.0" font-size="8" text-anchor="end" fill="#555" font-family="DejaVu Sans Mono, monospace">0xFFFFFFFFFFFFFFFF</text>
 <text x="142.0" y="158.0" font-size="8" text-anchor="end" fill="#555" font-family="DejaVu Sans Mono, monospace">0xFFFFFFC000000000</text>
 <text x="430.0" y="80.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">upper half: bit 38 set</text>
@@ -40,5 +37,5 @@
 <text x="430.0" y="293.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">process, and the ASID selects it</text>
 <text x="430.0" y="306.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">a user program never sees the upper half</text>
 <text x="20.0" y="384.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">The halves are decided; what goes in them is not specified.  Each half is 2^38 bytes = 256 GB with three levels, 128 TB with four, 64 PB with five.</text>
-<text x="20.0" y="398.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">The order, the sizes of the regions and the placement of the windows are the kernel's choice; nothing here is tested.</text>
+<text x="20.0" y="398.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">The order and the sizes of the regions are the kernel's choice; nothing here is tested.</text>
 </svg>

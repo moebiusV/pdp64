@@ -74,5 +74,5 @@
 <text x="492.0" y="313.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">a device type that does not exist</text>
 <text x="20.0" y="372.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">Green: the on-die core. Blue: output. Grey: the arbiter. Dashed: a thing that would have to be invented.</text>
 <text x="20.0" y="388.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">In (a) the multiplexer is one enable bit; in (b) to (e) the core becomes a client of something else.</text>
-<text x="20.0" y="408.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The hand-over of any of these should happen in a vertical blank, with the audio muted by a short ramp (3.18).</text>
+<text x="20.0" y="408.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The hand-over of any of these should happen in a vertical blank, with the audio muted by a short ramp (3.16).</text>
 </svg>

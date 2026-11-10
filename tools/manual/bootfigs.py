@@ -23,13 +23,13 @@ def fig_stages():
     c = Canvas(330)
     c.text(20, 16, 'the boot stages: each is small, knows one more thing than the one before, and hands on a little', 12, 'start', bold=True)
     cols = [('boot ROM', 'in the controller chip', GREY,
-             ['knows: the boot devices,', 'how to read one block', 'from a virtio-blk disk', '', 'does not know: partitions,', 'files, a label, a kernel']),
-            ('block 0', 'first stage: 446 bytes', PINK,
-             ['knows: a block list', '(start, count, load', 'address) written by', 'installboot', '', 'does not know: the GPT,', 'any file system']),
+             ['knows: a boot device,', 'how to read one block', 'from a virtio-blk disk', '', 'does not know: partitions,', 'files, a label, a kernel']),
+            ('block 0', 'first stage: one block', PINK,
+             ['knows: where the second', 'stage lies on the disk', 'and how to read it', '', 'does not know: a file', 'system, a kernel']),
             ('second stage', 'a C program, any size', YELLOW,
-             ['knows: the GPT, the label,', 'the root file system,', 'ELF files, the machine', '(memory, cores, console)', '', 'calls no firmware']),
+             ['knows: the disk, the file', 'system, how to find the', 'kernel by name', '', 'is an ordinary program']),
             ('kernel', '/bsd, an ELF file', GREEN,
-             ['knows: everything else:', 'enumerates the bus,', 'attaches the drivers,', 'starts the other cores', '', 'owns the machine'])]
+             ['knows: everything else:', 'enumerates the bus,', 'attaches the drivers', '', 'owns the machine'])]
     cw, gap, x0 = 140, 32, 20
     for i, (name, sub, fill, ss) in enumerate(cols):
         x = x0 + i * (cw + gap)
@@ -38,15 +38,15 @@ def fig_stages():
         lines(c, x + 8, 98, ss, 9)
         if i < 3:
             c.line([(x + cw, 58), (x + cw + gap, 58)], arrow=True)
-    hand = [('block 0 is read into', 'low memory; core 0', 'starts at it'), ('the block list names', 'the blocks of the', 'second stage'),
-            ('r0 and r1: the boot', 'device, and the', 'boot-information block')]
+    hand = [('block 0 is read into', 'low memory; core 0', 'starts at it'), ('the first stage loads', 'the second stage', ''),
+            ('the kernel gets a', 'boot-information', 'block')]
     for i, hs in enumerate(hand):
         cx = x0 + i * (cw + gap) + cw + gap / 2
         c.line([(cx, 200), (cx, 214)], arrow=False, dash=True, width=0.8)
         lines(c, cx, 226, hs, 9, 'middle', '#333')
     c.text(20, 284, 'Stage sizes are the reason for the stages: the ROM and the first block are the smallest code that can be made to find the next,', 9, 'start', '#444')
-    c.text(20, 297, 'and only the second stage is big enough to read a file system.  The ROM holds the monitor too (4.10), reached when no block 0 loads.', 9, 'start', '#444')
-    c.text(20, 316, 'The kernel is OpenBSD (errata 41 and 47).  Where block 0 lands (0x1000 in 4.4) is an address still to be chosen (4.13).', 9, 'start', '#555')
+    c.text(20, 297, 'and only the second stage is big enough to read a file system.', 9, 'start', '#444')
+    c.text(20, 316, 'The kernel is OpenBSD (errata 41 and 47).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -95,8 +95,8 @@ def fig_disk_layout():
     c.text(20, 32, 'the disk', 10, 'start', bold=True)
     c.text(84, 32, 'each cell is a run of 512-byte sectors, not to scale; sector counts are 64-bit (4.5.4)', 9, 'start', '#555')
     segs = [('LBA 0', 'protective', 'MBR', PINK, 66), ('LBA 1', 'GPT', 'header', GREY, 50), ('LBA 2..', 'GPT partition', 'entries', GREY, 82),
-            ('', 'boot partition', '(optional, 4.5.2)', SOFT, 108), ('', 'OpenBSD-type partition', 'holds the label', YELLOW, 168),
-            ('', 'other partitions', '(any system)', '#fff', 104), ('end', 'backup', 'GPT', GREY, 62)]
+            ('', 'OpenBSD-type partition', 'holds the label', YELLOW, 190),
+            ('', 'other partitions', '(any system)', '#fff', 130), ('end', 'backup', 'GPT', GREY, 62)]
     x = 20
     pos = []
     for lba, a, b, fill, w in segs:
@@ -110,7 +110,7 @@ def fig_disk_layout():
     c.line([(pos[0][0] + 10, 104), (30, 156)], arrow=False, dash=True, width=0.8)
     c.line([(pos[0][0] + 56, 104), (670, 156)], arrow=False, dash=True, width=0.8)
     bx, bw = 20, 650
-    c.box(bx, 158, bw * 446 / 512, 40, 'boot code: 446 bytes', PINK, 11, bold=True, sub='the first stage: a short block list and a program that reads it')
+    c.box(bx, 158, bw * 446 / 512, 40, 'boot code: 446 bytes', PINK, 11, bold=True, sub='the boot code area of the MBR format')
     c.box(bx + bw * 446 / 512, 158, bw * 64 / 512, 40, 'table', GREY, 10, bold=True, sub='64 bytes')
     c.box(bx + bw * 510 / 512, 158, bw * 2 / 512, 40, '', BLUE)
     c.text(bx + bw, 212, 'table: four entries; a GPT disk has one, of type 0xEE ("the whole disk is in use")', 8, 'end', '#333')
@@ -131,7 +131,6 @@ def fig_disk_layout():
     c.text(20, 360, 'On the PDP-11 there was no such table: V7 compiled eight (size, first cylinder) pairs into each disk driver (hp_sizes[8] in hp.c).', 9, 'start', '#444')
     c.text(20, 374, 'In 2.11BSD block 0 held the 512-byte bootstrap and block 1 the disk label: the same two places as here.', 9, 'start', '#444')
     c.text(20, 396, 'The MBR and GPT layouts are as the OpenBSD header disklabel.h has them (4.12); the 8 KB area and sector 1 are decided (4.5.3).', 9, 'start', '#555')
-    c.text(20, 410, 'Whether a separate boot partition is needed at all is open: the block list can point into the root file system (4.13).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -144,7 +143,7 @@ def fig_bootinfo():
     rows = [('version', 'which layout this is', GREY), ('size', 'bytes in the block', GREY), ('checksum', 'over the whole block', GREY),
             ('memory range count', 'n', SOFT), ('range[0]', 'base, length', SOFT), ('range[1]', 'base, length', SOFT), ('...', '', SOFT),
             ('core count', '', BLUE), ('root complex', 'physical address', BLUE), ('boot device', 'its identity', BLUE), ('console', 'its identity', BLUE),
-            ('video base, size', 'if set up: 4.6.4', GREEN), ('video pitch, format', '', GREEN), ('command line', 'a string: -s, root ...', PINK)]
+            ('video base, size', 'if set up: 4.6.3', GREEN), ('video pitch, format', '', GREEN), ('command line', 'a string: -s, root ...', PINK)]
     rh = 20
     for i, (n, d, fill) in enumerate(rows):
         y = 40 + i * rh
@@ -160,7 +159,7 @@ def fig_bootinfo():
         y0, y1 = 40 + a * rh + 2, 40 + b * rh - 2
         c.line([(bx, y0), (bx + 6, y0), (bx + 6, y1), (bx, y1)], arrow=False, width=1)
         lines(c, bx + 12, (y0 + y1) / 2 + 3 - 6 * (len(t) - 1), t, 9, fill='#222', gap=11)
-    c.text(20, 340, 'Each row is one 64-bit word in this drawing (the offsets are bytes).  The contents are statements 4.6.2 and 4.6.4;', 9, 'start', '#444')
+    c.text(20, 340, 'Each row is one 64-bit word in this drawing (the offsets are bytes).  The contents are statements 4.6.2 and 4.6.3;', 9, 'start', '#444')
     c.text(20, 353, 'the offsets, the widths and the order drawn are an example, not specified.', 9, 'start', '#444')
     c.text(20, 370, 'Defined once in a grammar from which the headers are generated, so the loader and the kernel cannot disagree (4.6.3).', 9, 'start', '#444')
     c.text(20, 383, 'The devices are found by enumerating the bus (2.4), so the block stays short.', 9, 'start', '#444')
@@ -226,8 +225,8 @@ def fig_pc_vs_pdp64():
     row(150, 'PC with UEFI (since about 2005)', [('firmware in flash', 'a firmware stack', GREY), ('boot services', 'files, memory, ...', SOFT),
                                                 ('GPT and FAT', 'firmware reads files', PINK), ('loader.efi', 'a PE/COFF program', YELLOW), ('kernel', 'ExitBootServices', GREEN)],
         'no boot sector: the firmware parses the GPT and the FAT file system, runs the loader file, which calls the services and then gives them up')
-    row(256, 'the pdp64', [('boot ROM', 'in the controller chip', GREY), ('block 0', 'the first stage', PINK), ('second stage', 'its own drivers; virtio', YELLOW), ('kernel', '/bsd', GREEN)],
-        'no services layer to call and nothing to give up: every stage after the ROM is an ordinary program built by the project\'s compiler')
+    row(256, 'the pdp64', [('boot ROM', 'in the controller chip', GREY), ('block 0', 'the first stage', PINK), ('second stage', 'an ordinary program', YELLOW), ('kernel', '/bsd', GREEN)],
+        'every stage after the ROM is an ordinary program built by the project\'s compiler')
     c.text(20, 358, 'The PDP-11 chain was the pdp64\'s: ROM or front panel, block 0, boot, unix (4.1).', 9, 'start', '#555')
     c.text(20, 371, 'Both PC chains are general knowledge, unverified (4.12), except where the OpenBSD loaders show it: the amd64 tree', 9, 'start', '#555')
     c.text(20, 384, 'on this machine has both, biosboot (862 lines) with boot (189), and efiboot (4,593 lines), measured (4.12).', 9, 'start', '#555')
@@ -283,7 +282,7 @@ def fig_five_boots():
         ('c  Commodore 64', [('reset vector', 'at 0xFFFC, in ROM', GREY), ('KERNAL init', 'chips, RAM, screen', SOFT), ('CBM80 at 0x8000?', 'yes: cartridge runs', PINK), ('BASIC, READY.', 'you LOAD and RUN', GREEN)]),
         ('d  x86, BIOS, MBR', [('firmware', 'POST, option ROMs', GREY), ('MBR', '446 B at 0x7C00', PINK), ('boot record', 'of the active part.', YELLOW), ('OS loader', 'calls INT 13h', BLUE), ('kernel', 'memory map', GREEN)]),
         ('e  GPT and UEFI', [('firmware', 'boot manager, NVRAM', GREY), ('GPT + FAT', 'ESP: files by name', PINK), ('loader.efi', 'PE/COFF program', YELLOW), ('exit services', 'map and tables', BLUE), ('kernel', 'ACPI or tree', GREEN)]),
-        ('f  pdp64', [('boot ROM', 'virtio-blk read', GREY), ('block 0', 'a block list', PINK), ('second stage', 'GPT, label, ELF', YELLOW), ('kernel /bsd', 'r0, r1, info block', GREEN)]),
+        ('f  pdp64', [('boot ROM', 'virtio-blk read', GREY), ('block 0', 'the first stage', PINK), ('second stage', 'finds the kernel', YELLOW), ('kernel /bsd', 'boot information', GREEN)]),
     ]
     for r, (tag, items) in enumerate(rows):
         y = 34 + r * 70

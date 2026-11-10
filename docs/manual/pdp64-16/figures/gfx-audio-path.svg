@@ -49,5 +49,5 @@
 <text x="20.0" y="206.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">A late frame tears; a late buffer underruns: a click. Both are cured by writing ahead of the reader and by</text>
 <text x="20.0" y="222.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">letting the device clock, not the program clock, decide when the combiner runs.</text>
 <text x="20.0" y="246.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">The SID is the C64's exception: it makes the sound itself from three voices, so it has no buffer and no mixer in memory.</text>
-<text x="20.0" y="270.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Stages after the model of general knowledge of sound servers (unverified, 3.22); virtio-snd streams as in virtio_snd.h.</text>
+<text x="20.0" y="270.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Stages after the model of general knowledge of sound servers (unverified, 3.19); virtio-snd streams as in virtio_snd.h.</text>
 </svg>

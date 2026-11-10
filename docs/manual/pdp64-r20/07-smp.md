@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**The pdp64 is built so that adding a second core needs seventeen operations, one per-core register, and nothing a kernel writer has to work around: memory is sequentially consistent, the atomics are one instruction each, the per-CPU pointer is a register that already exists, and the other cores' translation buffers are invalidated by a single broadcast.** The chapter collects everything the architecture adds for symmetric multiprocessing, what a kernel does with it, what is left out, and what the device side supplies. The instruction-set text is [`../pdp64-isa.md`](../../pdp64-isa.md), section 17. Tags: *(D)* decided; *(P)* proposed.
+**The pdp64 is built so that adding a second core needs seventeen operations, one per-core register, and nothing a kernel writer has to work around: memory is sequentially consistent, the atomics are one instruction each, the per-CPU pointer is a register that already exists, and the other cores' translation buffers are invalidated by a single broadcast.** The chapter collects everything the architecture adds for symmetric multiprocessing, what a kernel does with it, what is left out, and what the device side supplies. The instruction-set text is [`../pdp64-isa.md`](../../pdp64-isa.md), section 17.
 
 ## 7.1 The seventeen operations
 
@@ -35,7 +35,7 @@
 
 **7.2.6** Memory is sequentially consistent per byte: a load returns, for each byte, the value written by the last store to that byte in the single order, and an aligned access of N bytes is single-copy atomic. A load that overlaps a buffered store of a different size either waits for the buffer to drain or merges the buffer and memory in one step; it never returns a mixture that no order of the stores could produce. *(D)*
 
-*Commentary.* **Precedent.** The PDP-11 and VAX ran one processor at a time in the model that mattered, so the question did not arise; ARM's memory model took about a decade to formalise, and the C11 and C++11 models exist largely to paper over the differences between weak architectures. **Trade-offs.** Sequential consistency is the model with no cost to software and the highest cost to a large speculative core; software written against a weak model runs on a strong machine and not the reverse, so the choice is close to irreversible, which is why the choice is made once. If a large out-of-order core is ever built, total store order is the least painful retreat. **Benefits.** None of the barrier code that fills other kernels: the kernel survey found barrier vocabulary in 5,596 lines of Linux code and 3,016 lines of `memory-barriers.txt` documentation, and none of it arises here. **Modern comparables.** x86 and SPARC are total store order; ARM, POWER and RISC-V are weak. **Impact.** *Kernel:* None of the 5,596 lines of ordering code found in Linux, nor the barrier documentation, is needed. *Compiler:* The optimiser may move non-volatile accesses freely, and no fence is inserted for ordering. *Hardware:* In-order with a snooped store buffer; sequential consistency is nearly free on this core and the expensive part only appears on a speculative one.
+*Commentary.* **Precedent.** The PDP-11 and VAX ran one processor at a time in the model that mattered, so the question did not arise; ARM's memory model took about a decade to formalise, and the C11 and C++11 models exist largely to paper over the differences between weak architectures. **Trade-offs.** Sequential consistency is the model with no cost to software and the highest cost to a large speculative core; software written against a weak model runs on a strong machine and not the reverse, so the choice is close to irreversible, which is why the choice is made once. **Benefits.** None of the barrier code that fills other kernels: the kernel survey found barrier vocabulary in 5,596 lines of Linux code and 3,016 lines of `memory-barriers.txt` documentation, and none of it arises here. **Modern comparables.** x86 and SPARC are total store order; ARM, POWER and RISC-V are weak. **Impact.** *Kernel:* None of the 5,596 lines of ordering code found in Linux, nor the barrier documentation, is needed. *Compiler:* The optimiser may move non-volatile accesses freely, and no fence is inserted for ordering. *Hardware:* In-order with a snooped store buffer; sequential consistency is nearly free on this core and the expensive part only appears on a speculative one.
 
 ## 7.3 The atomics in detail
 
@@ -46,6 +46,8 @@
 **7.3.3** The read-modify-write atomics are single-copy atomic with respect to every initiator; the memory system may build them from an exclusive access with hardware retry. *(D)*
 
 **7.3.4** A device that writes memory shared with a core takes part by clearing reservations. *(D)*
+
+**7.3.5** Open: what an atomic does on uncached memory and on device memory ([J.7.3](appendix-j-open.md#j73)).
 
 *Commentary.* **Precedent.** A bus lock, the Unibus's `DATIP`/`DATO` pair, is simple and a bottleneck as cores multiply; a monitor maps onto the exclusive access of AXI and the memory systems of FPGAs and modern chips. **Trade-offs.** A monitor needs forward-progress rules and, under contention, can livelock if not specified; RISC-V's guarantee of eventual success for constrained sequences is the model. The pain-points report records that the kernels' simple lock does not scale (OpenBSD's ticket kernel lock measured 155% worse than an Anderson lock in one developer's test) and that Linux moved from test-and-set through ticket locks to queued locks; the instruction set provides the primitives and the lock design is the kernel's. **Benefits.** A kernel's lock needs one instruction; lock-free queues need compare-and-swap. **Modern comparables.** RISC-V `LR`/`SC` with its constrained-loop guarantee, AArch64 load-exclusive and `CAS`, x86 `LOCK CMPXCHG`. **Use.** `CAS` for lock-free structures and lock words; `XADD` for counters and ticket numbers; `LL`/`SC` for everything else. **Impact.** *Kernel:* A lock is one `_DB` instruction. *Compiler:* A `LL`/`SC` loop must be emitted in the constrained form, with no other memory access between the two. *Hardware:* A reservation granule tag in the cache controller and an exclusive-access path to memory.
 
@@ -75,7 +77,7 @@
 
 **7.6.1** `WFE` sleeps until another core executes `SEV` or an interrupt arrives, and `HINT #1` is the spin-wait pause. *(D)*
 
-**7.6.2** `WFE` ends its sleep when an interrupt is pending even if the priority masks it, so that the idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap. *(P)*
+**7.6.2** `WFE` ends its sleep when an interrupt is pending, even if the priority masks it, so that an idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap in which a wake-up can be lost. *(D)* Details pending ([J.7.1](appendix-j-open.md#j71)).
 
 **7.6.3** On one core `WFE` is the idle instruction, and `WAIT` is its assembler alias. *(D)*
 
@@ -89,39 +91,35 @@
 
 **7.7.3** The design supports at least four cores; sixteen or more is the preferred ceiling that no decision may preclude; the initial device has four cores, which it is hoped will fit the FPGA. *(D)*
 
-**7.7.4** The protocol for more than four coherent cores is open. The leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters, with dedicated cores as non-coherent partners that use uncached rings; the architecture promises only that memory is coherent and sequentially consistent. *(P)*
+**7.7.4** Open: the coherence protocol for more than four cores ([J.7.2](appendix-j-open.md#j72)).
 
-*Commentary.* **Trade-offs.** MESI would add an exclusive state to avoid a bus transaction when writing a clean line nobody else holds; at four cores the benefit is small and the state machine larger; a directory scales further and is not needed below about eight cores. Software-managed coherence is cheaper in hardware and is where concurrency bugs live, since every missing flush is a race that reproduces once a week. **Benefits.** The instruction set owes nothing to the coherence protocol, which keeps the two separate. **Modern comparables.** x86 snoops with MESIF or MOESI and directories across sockets; ARM's coherent interconnects use directories or snoop filters. **Impact.** *Kernel:* No coherence code, in either direction between cores. *Compiler:* None. *Hardware:* A snoop port on each data cache, about 500 lookup tables and a small state machine for three states, plus about 600 per core.
+*Commentary.* **Trade-offs.** Software-managed coherence is cheaper in hardware and is where concurrency bugs live, since every missing flush is a race that reproduces once a week. **Benefits.** The instruction set owes nothing to the coherence protocol, which keeps the two separate. **Modern comparables.** x86 snoops with MESIF or MOESI and directories across sockets; ARM's coherent interconnects use directories or snoop filters. **Impact.** *Kernel:* No coherence code, in either direction between cores. *Compiler:* None. *Hardware:* A snoop port on each data cache, about 500 lookup tables and a small state machine for three states, plus about 600 per core.
 
-## 7.8 Starting and signalling the other cores
+## 7.8 Core identification, core classes and the secure core
 
-**7.8.1** The controller holds every core but core 0 in reset; a write to a per-core start register gives a core an entry address and an argument and releases it into kernel mode at priority 7, with its number in `r0`. *(P)*
+**7.8.1** One core can interrupt another: an inter-processor interrupt. The secure core is stopped and preempted by one (7.8.5). *(D)* Details pending ([J.6.3](appendix-j-open.md#j63)).
 
-**7.8.2** An inter-processor interrupt is a write to a per-core register in the interrupt controller; no APIC-like machinery is needed. *(P)*
+**7.8.2** Open: how a device interrupt and an inter-processor interrupt reach a core ([J.6.3](appendix-j-open.md#j63)).
 
-**7.8.3** The routing of device interrupts to cores, and a shared second-level cache or a coherent interconnect, are device-side and unspecified. *(P)*
+**7.8.3** Each core has a read-only identification register giving its class and capacity, defined from the first system although every core is alike, and a stop-and-drain register that a kernel writes to take a core offline: the core finishes its outstanding bus transactions and stops. *(D)*
 
-**7.8.4** Each core has a read-only identification register giving its class and capacity, defined from the first system although every core is alike, and a stop-and-drain register that a kernel writes to take a core offline: the core finishes its outstanding bus transactions and stops. *(D)*
+**7.8.4** In-order and out-of-order cores may share a die if software can tell which is which, which the class register of 7.8.3 reports; the memory model and the semantics of every instruction are identical on every core, and a core class may differ in speed and never in what a program can observe. *(D)*
 
-**7.8.5** In-order and out-of-order cores may share a die if software can tell which is which, which the class register of 7.8.4 reports; the memory model and the semantics of every instruction are identical on every core, and a core class may differ in speed and never in what a program can observe. *(D)*
+**7.8.5** At least one core is a secure core: every timing channel is removed (every instruction and every cache fetch takes a time independent of its data), it has private cache lines and takes no periodic timer tick, and it is stopped and preempted by an inter-processor interrupt. It has constant-time AES and SHA instructions, or whichever opcodes would speed up and enable AES and SHA. *(D)* Details to be determined.
 
-**7.8.6** At least one core is a secure core: every timing channel is removed (every instruction and every cache fetch takes a time independent of its data), it has private cache lines and takes no periodic timer tick, and it is stopped and preempted by an inter-processor interrupt.  *(D)*
-
-**7.8.7** The author's recommendation is dedicated cores for graphics, for the network and for audio, then general-purpose cores. *(P)*
-
-*Commentary.* **Precedent.** An x86 core wakes in 16-bit real mode and has to be walked through three modes by a trampoline (1,528 lines of start-up code and 1,258 of real-mode code in Linux); arm64 uses a firmware call in 124 lines or a spin table in 127; RISC-V 108 or 58; the VAX's console processor started the others. **Benefits.** A core can start in its normal mode at any address, so the whole protocol is one register write. **Modern comparables.** x86's INIT and START-UP interrupts, ARM's PSCI, RISC-V's hart-start call. **Impact.** *Kernel:* Starting a core is one register write, and a stuck core is reset by another. *Compiler:* None. *Hardware:* A start register and a reset-hold per core in the controller.
+**7.8.6** The machine has one core dedicated to the graphics device, one dedicated to the network interface and running the full TCP/IP stack, one dedicated to audio (MIDI, digital signal processing and the like), and a number of other cores for general processing. *(D)* Details pending ([J.7.4](appendix-j-open.md#j74)).
 
 ## 7.9 A kernel's view
 
-**7.9.1** The kernel starts a core by writing its start register, keeps its per-CPU structure at the address in `DP`, and takes a lock with one `_DB` atomic. *(P)*
+**7.9.1** The kernel keeps its per-CPU structure at the address in `DP` and takes a lock with one `_DB` atomic. *(D)*
 
 **7.9.2** It unmaps a page by changing the entry, issuing `TLBI`, and waiting with `TLBSYNC`. *(D)*
 
 **7.9.3** It makes new instructions visible by writing them, issuing `ICINV` and executing `ISYNC`. *(D)*
 
-**7.9.4** It idles a core with `WFE` and wakes it with `SEV` or an inter-processor interrupt. *(P)*
+**7.9.4** It idles a core with `WFE` and wakes it with `SEV`. *(D)*
 
-*Commentary.* Each item is one instruction or one register write, and each is a place where other architectures need a trampoline, a handshake or a fence.
+*Commentary.* Each item is one instruction, and each is a place where other architectures need a trampoline, a handshake or a fence.
 
 ## 7.10 What was avoided
 
@@ -137,7 +135,7 @@
 
 **7.11.3** Sequential consistency on a speculative core needs loads that are replayed when another core intervenes; the readiness review calls this awkward but defined, and names the flag rules, the reservation rules and the `ISYNC` and `HINT` instructions as what a speculative core needs. *(D)*
 
-*Commentary.* **Precedent.** One instruction set often spans small in-order and large out-of-order cores: ARM's small and large cores, RISC-V's Rocket and BOOM, the x86 Pentium and P6, Alpha's 21064 and 21264. **Trade-offs.** What the pdp64 gains by refusing speculation is a smaller design with fewer error cases and none of the speculative side channels; what it gives up is the performance of an aggressive core, which an FPGA or a small chip could not build anyway. The readiness document ([`../pdp64-ooo-readiness.md`](../../pdp64-ooo-readiness.md)) and the hardware-vulnerabilities report give the rules a future core would follow. **Benefits.** The decision is reversible in the direction that matters: total store order can be the retreat for a large core. **Impact.** *Kernel:* None. *Compiler:* None. *Hardware:* A speculative core would need loads that replay when another core intervenes, and the flag and reservation rules keep that path open.
+*Commentary.* **Precedent.** One instruction set often spans small in-order and large out-of-order cores: ARM's small and large cores, RISC-V's Rocket and BOOM, the x86 Pentium and P6, Alpha's 21064 and 21264. **Trade-offs.** What the pdp64 gains by refusing speculation is a smaller design with fewer error cases and none of the speculative side channels; what it gives up is the performance of an aggressive core, which an FPGA or a small chip could not build anyway. The readiness document ([`../pdp64-ooo-readiness.md`](../../pdp64-ooo-readiness.md)) and the hardware-vulnerabilities report give the rules a future core would follow. **Impact.** *Kernel:* None. *Compiler:* None. *Hardware:* A speculative core would need loads that replay when another core intervenes, and the flag and reservation rules keep that path open.
 
 ## 7.12 The atomic and ordering instructions
 
@@ -163,7 +161,3 @@
 | [Atomic fetch and minimum or maximum](09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) | `XMAX`, `XMAXDB`, `XMIN`, `XMINDB`, `XMAXU`, `XMAXUDB`, `XMINU`, `XMINUDB` |
 | [Load-linked and store-conditional](09-isa.md#llsc-load-linked-and-store-conditional) | `LL`, `SC` |
 <!-- /entries:7.12 -->
-
-## 7.13 Still open
-
-The mapping of the bus's atomics onto PCI Express (the transport of decision R4 is settled by errata 80), the interrupt controller and routing (R1), starting the other cores (R2, B2), how coherence scales beyond four cores (R3), the wake rule of `WFE` (P1), and lock scaling above a few cores, which is a kernel design question the instruction set does not settle.

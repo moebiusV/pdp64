@@ -750,15 +750,6 @@ Fields: `sub=p0[4]` `op1.r=p0[3:0]`
 
 Fields: `op1.r=p0[3:0]`
 
-<a id="16-SYS0-2"></a>
-#### 16-SYS0-2: SYS0, prefix `11110010010110`
-
-![Layout 16-SYS0-2](../figures/16-SYS0-2.svg)
-
-`sub` (2 bits) selects the mnemonic: `syspg2` 00, `syspg3` 01, `syspg4` 10, `syspg5` 11.
-
-Fields: `sub=p0[1:0]`
-
 ### Instructions of 2 parcels (4 bytes)
 
 <a id="16-LDU-B12-1"></a>
@@ -977,19 +968,6 @@ Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:10]` `o
 
 Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:12]` `op3.pcrel=p1[11:0]`
 
-<a id="16-LDU-B12-2"></a>
-#### 16-LDU-B12-2: LDU.B12, prefix `1110011000`
-
-![Layout 16-LDU-B12-2](../figures/16-LDU-B12-2.svg)
-
-`op1` is `b4d12s-x1`: memory at base register, 4 bits + signed 12-bit displacement times 1, -2048 to 2047 bytes.
-
-`op2` is `reg4`: register, 4 bits.
-
-`sub` (2 bits) selects the mnemonic: `movw.ud` 00, `movb.ud` 01, `movzl.ud` 10, `movzw.ud` 11.
-
-Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
-
 <a id="16-STU-B12-1"></a>
 #### 16-STU-B12-1: STU.B12, prefix `1110011001`
 
@@ -1002,19 +980,6 @@ Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 `sub` (2 bits) selects the mnemonic: `movq.u` 00, `movl.u` 01, `movw.u` 10, `movb.u` 11.
 
 Fields: `sub=p0[5:4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
-
-<a id="16-LDU-X6-2"></a>
-#### 16-LDU-X6-2: LDU.X6, prefix `1110011010`
-
-![Layout 16-LDU-X6-2](../figures/16-LDU-X6-2.svg)
-
-`op1` is `x4-4d6s`: memory at base + (index << scale) + signed 6-bit displacement; base register, 4 bits, index register, 4 bits.
-
-`op2` is `reg4`: register, 4 bits.
-
-`sub` (2 bits) selects the mnemonic: `movw.ud` 00, `movb.ud` 01, `movzl.ud` 10, `movzw.ud` 11.
-
-Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.base=p1[15:12]` `op1.index=p1[11:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="16-STU-X6-1"></a>
 #### 16-STU-X6-1: STU.X6, prefix `1110011011`
@@ -1434,28 +1399,6 @@ Fields: `op4.r=p0[3:0]` `xsub=p1[15:12]` `op1.r=p1[11:8]` `op2.r=p1[7:4]` `op3.r
 `xsub` selects the mnemonic.
 
 Fields: `op3.r=p0[3:0]` `xsub=p1[15:10]` `op1.r=p1[9:6]` `op2.imm=p1[5:0]`
-
-<a id="16-LDU-B12-3"></a>
-#### 16-LDU-B12-3: LDU.B12, prefix `111011111101`
-
-![Layout 16-LDU-B12-3](../figures/16-LDU-B12-3.svg)
-
-`op1` is `b4d12s-x1`: memory at base register, 4 bits + signed 12-bit displacement times 1, -2048 to 2047 bytes.
-
-`op2` is `reg4`: register, 4 bits.
-
-Fields: `op2.r=p0[3:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
-
-<a id="16-LDU-X6-3"></a>
-#### 16-LDU-X6-3: LDU.X6, prefix `111011111110`
-
-![Layout 16-LDU-X6-3](../figures/16-LDU-X6-3.svg)
-
-`op1` is `x4-4d6s`: memory at base + (index << scale) + signed 6-bit displacement; base register, 4 bits, index register, 4 bits.
-
-`op2` is `reg4`: register, 4 bits.
-
-Fields: `op2.r=p0[3:0]` `op1.base=p1[15:12]` `op1.index=p1[11:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="16-LDF-PI12-4"></a>
 #### 16-LDF-PI12-4: LDF.PI12, prefix `111100000001`
@@ -2873,19 +2816,6 @@ Fields: `op1.r-1=p0[5:4]` `op4.r=p0[3:0]` `op1.r-2=p1[15:14]` `op2.r=p1[13:10]` 
 
 Fields: `op1.r-1=p0[5:4]` `op4.r=p0[3:0]` `op1.r-2=p1[15:14]` `op2.imm=p1[13:8]` `op3.imm=p1[7:2]` `xsub=p1[1:0]+p2[15:0]`
 
-<a id="16-LDU-B28-2"></a>
-#### 16-LDU-B28-2: LDU.B28, prefix `1110010110`
-
-![Layout 16-LDU-B28-2](../figures/16-LDU-B28-2.svg)
-
-`op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
-
-`op2` is `reg4`: register, 4 bits.
-
-`sub` (2 bits) selects the mnemonic: `movw.ud` 00, `movb.ud` 01, `movzl.ud` 10, `movzw.ud` 11.
-
-Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
-
 <a id="16-STU-B28-1"></a>
 #### 16-STU-B28-1: STU.B28, prefix `1110010111`
 
@@ -3093,17 +3023,6 @@ Fields: `sub=p0[4]` `op1.r=p0[3:0]` `op2.abs=p1[15:0]+p2[15:0]`
 `sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
 
 Fields: `sub=p0[4]` `op1.r=p0[3:0]` `op2.imm=p1[15:0]+p2[15:0]`
-
-<a id="16-LDU-B28-3"></a>
-#### 16-LDU-B28-3: LDU.B28, prefix `111011111100`
-
-![Layout 16-LDU-B28-3](../figures/16-LDU-B28-3.svg)
-
-`op1` is `b4d28s-x1`: memory at base register, 4 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
-
-`op2` is `reg4`: register, 4 bits.
-
-Fields: `op2.r=p0[3:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="16-LDF-B28-4"></a>
 #### 16-LDF-B28-4: LDF.B28, prefix `111011111111`
@@ -3638,7 +3557,6 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-lea"></a>`LEA`: [16-LDF-B28-2](#16-LDF-B28-2), [16-LDF-X22-2](#16-LDF-X22-2), [16-LDF-PI12-2](#16-LDF-PI12-2), [16-LDF-PD12-2](#16-LDF-PD12-2), [16-LDF-PC32-2](#16-LDF-PC32-2), [16-LDF-A32-2](#16-LDF-A32-2), [16-DPF-D28-2](#16-DPF-D28-2), [16-LEASx12-a-1](#16-LEASx12-a-1), [16-LDPC12-a-1](#16-LDPC12-a-1), [16-LDBs8-a-1](#16-LDBs8-a-1), [16-LDPC14-a-1](#16-LDPC14-a-1), [16-LDPC16-a-1](#16-LDPC16-a-1), [16-LDBu10-a-1](#16-LDBu10-a-1), [16-LDHHH1-a-1](#16-LDHHH1-a-1), [16-LEASP4-a-1](#16-LEASP4-a-1), [16-LDSP4-a-1](#16-LDSP4-a-1), [16-LDBu12-a-1](#16-LDBu12-a-1), [16-LDHHH3-a-1](#16-LDHHH3-a-1), [16-LDX6-a-1](#16-LDX6-a-1), [16-LDBs10-a-1](#16-LDBs10-a-1), [16-LDSP5-a-1](#16-LDSP5-a-1), [16-LEAS12-a-1](#16-LEAS12-a-1), [16-LD0-a-1](#16-LD0-a-1), [16-LEASP6-a-1](#16-LEASP6-a-1), [16-LDBs14-a-1](#16-LDBs14-a-1), [16-LDHRH2-a-1](#16-LDHRH2-a-1), [16-LDSP7-a-1](#16-LDSP7-a-1), [16-LDX8-a-1](#16-LDX8-a-1), [16-LDHHR2-a-1](#16-LDHHR2-a-1), [16-LEAS14-a-1](#16-LEAS14-a-1)
 * <a id="mn-ll"></a>`LL`: [16-R3-1](#16-R3-1)
 * <a id="mn-lpad"></a>`LPAD`: [16-SYS0-1](#16-SYS0-1)
-* <a id="mn-maesctr"></a>`MAESCTR`: [16-R4-1](#16-R4-1)
 * <a id="mn-maskeqz"></a>`MASKEQZ`: [16-R3-1](#16-R3-1)
 * <a id="mn-masknez"></a>`MASKNEZ`: [16-R3-1](#16-R3-1)
 * <a id="mn-max"></a>`MAX`: [16-R3-1](#16-R3-1)
@@ -3659,16 +3577,13 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-movb"></a>`MOVB`: [16-LDF-B28-1](#16-LDF-B28-1), [16-LDF-X22-1](#16-LDF-X22-1), [16-LDF-PI12-1](#16-LDF-PI12-1), [16-LDF-PD12-1](#16-LDF-PD12-1), [16-LDF-PC32-1](#16-LDF-PC32-1), [16-LDF-A32-1](#16-LDF-A32-1), [16-LDFI-I32-2](#16-LDFI-I32-2), [16-STF-B28-1](#16-STF-B28-1), [16-STF-X22-1](#16-STF-X22-1), [16-STF-PI12-1](#16-STF-PI12-1), [16-STF-PD12-1](#16-STF-PD12-1), [16-STF-PC32-1](#16-STF-PC32-1), [16-STF-A32-1](#16-STF-A32-1), [16-DPF-D28-1](#16-DPF-D28-1), [16-RRF-1](#16-RRF-1), [16-STBu8-b-1](#16-STBu8-b-1), [16-LDI12-d-2](#16-LDI12-d-2), [16-LDBu8-b-1](#16-LDBu8-b-1), [16-STX2-b-1](#16-STX2-b-1), [16-LDX2-b-1](#16-LDX2-b-1), [16-STBs8-b-1](#16-STBs8-b-1), [16-STBu10-b-1](#16-STBu10-b-1), [16-STHHH1-b-1](#16-STHHH1-b-1), [16-STBu12-b-1](#16-STBu12-b-1), [16-LDBu10-b-1](#16-LDBu10-b-1), [16-LDHHH1-b-1](#16-LDHHH1-b-1), [16-LDBu12-b-1](#16-LDBu12-b-1), [16-STX6-b-1](#16-STX6-b-1), [16-LDPC12-b-1](#16-LDPC12-b-1), [16-LDBs8-b-1](#16-LDBs8-b-1), [16-LDX4-b-1](#16-LDX4-b-1), [16-LDPC14-b-1](#16-LDPC14-b-1), [16-STSP4-b-1](#16-STSP4-b-1), [16-STHHH2-b-1](#16-STHHH2-b-1), [16-STBs10-b-1](#16-STBs10-b-1)
 * <a id="mn-movb-d"></a>`MOVB.D`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
 * <a id="mn-movb-u"></a>`MOVB.U`: [16-LDU-B28-1](#16-LDU-B28-1), [16-STU-B28-1](#16-STU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-STU-B12-1](#16-STU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1), [16-STU-X6-1](#16-STU-X6-1)
-* <a id="mn-movb-ud"></a>`MOVB.UD`: [16-LDU-B28-2](#16-LDU-B28-2), [16-LDU-B12-2](#16-LDU-B12-2), [16-LDU-X6-2](#16-LDU-X6-2)
 * <a id="mn-movcall"></a>`MOVCALL`: [16-FX-MOVCALL3-1](#16-FX-MOVCALL3-1), [16-FX-MOVCALL2-1](#16-FX-MOVCALL2-1)
 * <a id="mn-movl"></a>`MOVL`: [16-LDF-B28-1](#16-LDF-B28-1), [16-LDF-X22-1](#16-LDF-X22-1), [16-LDF-PI12-1](#16-LDF-PI12-1), [16-LDF-PD12-1](#16-LDF-PD12-1), [16-LDF-PC32-1](#16-LDF-PC32-1), [16-LDF-A32-1](#16-LDF-A32-1), [16-LDFI-I32-2](#16-LDFI-I32-2), [16-STF-B28-1](#16-STF-B28-1), [16-STF-X22-1](#16-STF-X22-1), [16-STF-PI12-1](#16-STF-PI12-1), [16-STF-PD12-1](#16-STF-PD12-1), [16-STF-PC32-1](#16-STF-PC32-1), [16-STF-A32-1](#16-STF-A32-1), [16-DPF-D28-1](#16-DPF-D28-1), [16-RRF-1](#16-RRF-1), [16-STBs8-a-1](#16-STBs8-a-1), [16-LDPC12-a-1](#16-LDPC12-a-1), [16-LDBs8-a-1](#16-LDBs8-a-1), [16-LDPC14-a-1](#16-LDPC14-a-1), [16-STX2-a-1](#16-STX2-a-1), [16-LDPC16-a-1](#16-LDPC16-a-1), [16-LDBu10-a-1](#16-LDBu10-a-1), [16-LDHHH1-a-1](#16-LDHHH1-a-1), [16-STHHH1-a-1](#16-STHHH1-a-1), [16-STBu10-a-1](#16-STBu10-a-1), [16-LDSP4-a-1](#16-LDSP4-a-1), [16-STSP4-a-1](#16-STSP4-a-1), [16-LDBu12-a-1](#16-LDBu12-a-1), [16-LDHHH3-a-1](#16-LDHHH3-a-1), [16-LDX6-a-1](#16-LDX6-a-1), [16-STBu12-a-1](#16-STBu12-a-1), [16-STX6-a-1](#16-STX6-a-1), [16-LDBs10-a-1](#16-LDBs10-a-1), [16-LDSP5-a-1](#16-LDSP5-a-1), [16-STHHH3-a-1](#16-STHHH3-a-1), [16-LD0-a-1](#16-LD0-a-1), [16-STSP5-a-1](#16-STSP5-a-1), [16-ST0-a-1](#16-ST0-a-1), [16-LDBs14-a-1](#16-LDBs14-a-1), [16-STBs10-a-1](#16-STBs10-a-1), [16-LDHRH2-a-1](#16-LDHRH2-a-1), [16-LDSP7-a-1](#16-LDSP7-a-1), [16-LDX8-a-1](#16-LDX8-a-1), [16-LDHHR2-a-1](#16-LDHHR2-a-1)
 * <a id="mn-movl-d"></a>`MOVL.D`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
 * <a id="mn-movl-u"></a>`MOVL.U`: [16-LDU-B28-1](#16-LDU-B28-1), [16-STU-B28-1](#16-STU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-STU-B12-1](#16-STU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1), [16-STU-X6-1](#16-STU-X6-1)
-* <a id="mn-movl-ud"></a>`MOVL.UD`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
 * <a id="mn-movq"></a>`MOVQ`: [16-LDF-B28-1](#16-LDF-B28-1), [16-LDF-X22-1](#16-LDF-X22-1), [16-LDF-PI12-1](#16-LDF-PI12-1), [16-LDF-PD12-1](#16-LDF-PD12-1), [16-LDF-PC32-1](#16-LDF-PC32-1), [16-LDF-A32-1](#16-LDF-A32-1), [16-LDFI-I32-1](#16-LDFI-I32-1), [16-STF-B28-1](#16-STF-B28-1), [16-STF-X22-1](#16-STF-X22-1), [16-STF-PI12-1](#16-STF-PI12-1), [16-STF-PD12-1](#16-STF-PD12-1), [16-STF-PC32-1](#16-STF-PC32-1), [16-STF-A32-1](#16-STF-A32-1), [16-DPF-D28-1](#16-DPF-D28-1), [16-RRF-1](#16-RRF-1), [16-LDI12-a-1](#16-LDI12-a-1), [16-STBs8-a-1](#16-STBs8-a-1), [16-LDPC12-a-1](#16-LDPC12-a-1), [16-LDBs8-a-1](#16-LDBs8-a-1), [16-LDPC14-a-1](#16-LDPC14-a-1), [16-LDI14-a-1](#16-LDI14-a-1), [16-STX2-a-1](#16-STX2-a-1), [16-LDI16-a-1](#16-LDI16-a-1), [16-IMM3-a-1](#16-IMM3-a-1), [16-LDPC16-a-1](#16-LDPC16-a-1), [16-LDBu10-a-1](#16-LDBu10-a-1), [16-LDHHH1-a-1](#16-LDHHH1-a-1), [16-STHHH1-a-1](#16-STHHH1-a-1), [16-STBu10-a-1](#16-STBu10-a-1), [16-LDSP4-a-1](#16-LDSP4-a-1), [16-STSP4-a-1](#16-STSP4-a-1), [16-LDBu12-a-1](#16-LDBu12-a-1), [16-IMM5-a-1](#16-IMM5-a-1), [16-LDHHH3-a-1](#16-LDHHH3-a-1), [16-LDX6-a-1](#16-LDX6-a-1), [16-IMM7-a-1](#16-IMM7-a-1), [16-STBu12-a-1](#16-STBu12-a-1), [16-STX6-a-1](#16-STX6-a-1), [16-LDBs10-a-1](#16-LDBs10-a-1), [16-LDSP5-a-1](#16-LDSP5-a-1), [16-STHHH3-a-1](#16-STHHH3-a-1), [16-LD0-a-1](#16-LD0-a-1), [16-STSP5-a-1](#16-STSP5-a-1), [16-LDI18-a-1](#16-LDI18-a-1), [16-ST0-a-1](#16-ST0-a-1), [16-LDBs14-a-1](#16-LDBs14-a-1), [16-STBs10-a-1](#16-STBs10-a-1), [16-LDHRH2-a-1](#16-LDHRH2-a-1), [16-LDSP7-a-1](#16-LDSP7-a-1), [16-LDX8-a-1](#16-LDX8-a-1), [16-LDHHR2-a-1](#16-LDHHR2-a-1)
 * <a id="mn-movq-d"></a>`MOVQ.D`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
 * <a id="mn-movq-u"></a>`MOVQ.U`: [16-LDU-B28-1](#16-LDU-B28-1), [16-STU-B28-1](#16-STU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-STU-B12-1](#16-STU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1), [16-STU-X6-1](#16-STU-X6-1)
-* <a id="mn-movq-ud"></a>`MOVQ.UD`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
 * <a id="mn-movql"></a>`MOVQL`: [16-MOVQL-1](#16-MOVQL-1)
 * <a id="mn-movub"></a>`MOVUB`: [16-LDF-B28-2](#16-LDF-B28-2), [16-LDF-X22-2](#16-LDF-X22-2), [16-LDF-PI12-2](#16-LDF-PI12-2), [16-LDF-PD12-2](#16-LDF-PD12-2), [16-LDF-PC32-2](#16-LDF-PC32-2), [16-LDF-A32-2](#16-LDF-A32-2), [16-STF-B28-1](#16-STF-B28-1), [16-STF-X22-1](#16-STF-X22-1), [16-STF-PI12-1](#16-STF-PI12-1), [16-STF-PD12-1](#16-STF-PD12-1), [16-STF-PC32-1](#16-STF-PC32-1), [16-STF-A32-1](#16-STF-A32-1), [16-DPF-D28-2](#16-DPF-D28-2)
 * <a id="mn-movul"></a>`MOVUL`: [16-LDF-B28-3](#16-LDF-B28-3), [16-LDF-X22-3](#16-LDF-X22-3), [16-LDF-PI12-3](#16-LDF-PI12-3), [16-LDF-PD12-3](#16-LDF-PD12-3), [16-LDF-PC32-3](#16-LDF-PC32-3), [16-LDF-A32-3](#16-LDF-A32-3), [16-STF-B28-1](#16-STF-B28-1), [16-STF-X22-1](#16-STF-X22-1), [16-STF-PI12-1](#16-STF-PI12-1), [16-STF-PD12-1](#16-STF-PD12-1), [16-STF-PC32-1](#16-STF-PC32-1), [16-STF-A32-1](#16-STF-A32-1), [16-DPF-D28-3](#16-DPF-D28-3)
@@ -3677,24 +3592,18 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-movw"></a>`MOVW`: [16-LDF-B28-1](#16-LDF-B28-1), [16-LDF-X22-1](#16-LDF-X22-1), [16-LDF-PI12-1](#16-LDF-PI12-1), [16-LDF-PD12-1](#16-LDF-PD12-1), [16-LDF-PC32-1](#16-LDF-PC32-1), [16-LDF-A32-1](#16-LDF-A32-1), [16-LDFI-I32-2](#16-LDFI-I32-2), [16-STF-B28-1](#16-STF-B28-1), [16-STF-X22-1](#16-STF-X22-1), [16-STF-PI12-1](#16-STF-PI12-1), [16-STF-PD12-1](#16-STF-PD12-1), [16-STF-PC32-1](#16-STF-PC32-1), [16-STF-A32-1](#16-STF-A32-1), [16-DPF-D28-1](#16-DPF-D28-1), [16-RRF-1](#16-RRF-1), [16-STBu8-b-1](#16-STBu8-b-1), [16-LDBu8-b-1](#16-LDBu8-b-1), [16-STX2-b-1](#16-STX2-b-1), [16-LDX2-b-1](#16-LDX2-b-1), [16-STBs8-b-1](#16-STBs8-b-1), [16-STBu10-b-1](#16-STBu10-b-1), [16-STHHH1-b-1](#16-STHHH1-b-1), [16-STBu12-b-1](#16-STBu12-b-1), [16-LDBu10-b-1](#16-LDBu10-b-1), [16-LDHHH1-b-1](#16-LDHHH1-b-1), [16-LDBu12-b-1](#16-LDBu12-b-1), [16-STX6-b-1](#16-STX6-b-1), [16-LDPC12-b-1](#16-LDPC12-b-1), [16-LDBs8-b-1](#16-LDBs8-b-1), [16-LDX4-b-1](#16-LDX4-b-1), [16-LDPC14-b-1](#16-LDPC14-b-1), [16-STSP4-b-1](#16-STSP4-b-1), [16-STHHH2-b-1](#16-STHHH2-b-1), [16-STBs10-b-1](#16-STBs10-b-1)
 * <a id="mn-movw-d"></a>`MOVW.D`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
 * <a id="mn-movw-u"></a>`MOVW.U`: [16-LDU-B28-1](#16-LDU-B28-1), [16-STU-B28-1](#16-STU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-STU-B12-1](#16-STU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1), [16-STU-X6-1](#16-STU-X6-1)
-* <a id="mn-movw-ud"></a>`MOVW.UD`: [16-LDU-B28-2](#16-LDU-B28-2), [16-LDU-B12-2](#16-LDU-B12-2), [16-LDU-X6-2](#16-LDU-X6-2)
 * <a id="mn-movzb"></a>`MOVZB`: [16-LDF-B28-1](#16-LDF-B28-1), [16-LDF-X22-1](#16-LDF-X22-1), [16-LDF-PI12-1](#16-LDF-PI12-1), [16-LDF-PD12-1](#16-LDF-PD12-1), [16-LDF-PC32-1](#16-LDF-PC32-1), [16-LDF-A32-1](#16-LDF-A32-1), [16-LDFI-I32-3](#16-LDFI-I32-3), [16-DPF-D28-1](#16-DPF-D28-1), [16-RRF-1](#16-RRF-1), [16-LDPC12-a-1](#16-LDPC12-a-1), [16-LDBs8-a-1](#16-LDBs8-a-1), [16-LDPC14-a-1](#16-LDPC14-a-1), [16-LDPC16-a-1](#16-LDPC16-a-1), [16-LDBu10-a-1](#16-LDBu10-a-1), [16-LDHHH1-a-1](#16-LDHHH1-a-1), [16-LDSP4-a-1](#16-LDSP4-a-1), [16-LDBu12-a-1](#16-LDBu12-a-1), [16-LDHHH3-a-1](#16-LDHHH3-a-1), [16-LDX6-a-1](#16-LDX6-a-1), [16-LDBs10-a-1](#16-LDBs10-a-1), [16-LDSP5-a-1](#16-LDSP5-a-1), [16-LD0-a-1](#16-LD0-a-1), [16-LDBs14-a-1](#16-LDBs14-a-1), [16-LDHRH2-a-1](#16-LDHRH2-a-1), [16-LDSP7-a-1](#16-LDSP7-a-1), [16-LDX8-a-1](#16-LDX8-a-1), [16-LDHHR2-a-1](#16-LDHHR2-a-1)
 * <a id="mn-movzb-d"></a>`MOVZB.D`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
 * <a id="mn-movzb-u"></a>`MOVZB.U`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
-* <a id="mn-movzb-ud"></a>`MOVZB.UD`: [16-LDU-B28-3](#16-LDU-B28-3), [16-LDU-B12-3](#16-LDU-B12-3), [16-LDU-X6-3](#16-LDU-X6-3)
 * <a id="mn-movzl"></a>`MOVZL`: [16-LDF-B28-1](#16-LDF-B28-1), [16-LDF-X22-1](#16-LDF-X22-1), [16-LDF-PI12-1](#16-LDF-PI12-1), [16-LDF-PD12-1](#16-LDF-PD12-1), [16-LDF-PC32-1](#16-LDF-PC32-1), [16-LDF-A32-1](#16-LDF-A32-1), [16-LDFI-I32-2](#16-LDFI-I32-2), [16-DPF-D28-1](#16-DPF-D28-1), [16-RRF-1](#16-RRF-1), [16-LDBu8-b-1](#16-LDBu8-b-1), [16-LDX2-b-1](#16-LDX2-b-1), [16-LDBu10-b-1](#16-LDBu10-b-1), [16-LDHHH1-b-1](#16-LDHHH1-b-1), [16-LDBu12-b-1](#16-LDBu12-b-1), [16-LDPC12-b-1](#16-LDPC12-b-1), [16-LDBs8-b-1](#16-LDBs8-b-1), [16-LDX4-b-1](#16-LDX4-b-1), [16-LDPC14-b-1](#16-LDPC14-b-1)
 * <a id="mn-movzl-d"></a>`MOVZL.D`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
 * <a id="mn-movzl-u"></a>`MOVZL.U`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
-* <a id="mn-movzl-ud"></a>`MOVZL.UD`: [16-LDU-B28-2](#16-LDU-B28-2), [16-LDU-B12-2](#16-LDU-B12-2), [16-LDU-X6-2](#16-LDU-X6-2)
 * <a id="mn-movzw"></a>`MOVZW`: [16-LDF-B28-1](#16-LDF-B28-1), [16-LDF-X22-1](#16-LDF-X22-1), [16-LDF-PI12-1](#16-LDF-PI12-1), [16-LDF-PD12-1](#16-LDF-PD12-1), [16-LDF-PC32-1](#16-LDF-PC32-1), [16-LDF-A32-1](#16-LDF-A32-1), [16-LDFI-I32-3](#16-LDFI-I32-3), [16-DPF-D28-1](#16-DPF-D28-1), [16-RRF-1](#16-RRF-1), [16-LDBu8-b-1](#16-LDBu8-b-1), [16-LDX2-b-1](#16-LDX2-b-1), [16-LDBu10-b-1](#16-LDBu10-b-1), [16-LDHHH1-b-1](#16-LDHHH1-b-1), [16-LDBu12-b-1](#16-LDBu12-b-1), [16-LDPC12-b-1](#16-LDPC12-b-1), [16-LDBs8-b-1](#16-LDBs8-b-1), [16-LDX4-b-1](#16-LDX4-b-1), [16-LDPC14-b-1](#16-LDPC14-b-1)
 * <a id="mn-movzw-d"></a>`MOVZW.D`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
 * <a id="mn-movzw-u"></a>`MOVZW.U`: [16-LDU-B28-1](#16-LDU-B28-1), [16-LDU-B12-1](#16-LDU-B12-1), [16-LDU-X6-1](#16-LDU-X6-1)
-* <a id="mn-movzw-ud"></a>`MOVZW.UD`: [16-LDU-B28-2](#16-LDU-B28-2), [16-LDU-B12-2](#16-LDU-B12-2), [16-LDU-X6-2](#16-LDU-X6-2)
 * <a id="mn-mscn"></a>`MSCN`: [16-R3-1](#16-R3-1)
 * <a id="mn-mscnn"></a>`MSCNN`: [16-R3-1](#16-R3-1)
 * <a id="mn-mset"></a>`MSET`: [16-R3-1](#16-R3-1)
-* <a id="mn-msha256"></a>`MSHA256`: [16-R3-1](#16-R3-1)
-* <a id="mn-msha512"></a>`MSHA512`: [16-R3-1](#16-R3-1)
 * <a id="mn-mtasid"></a>`MTASID`: [16-SYSR-1](#16-SYSR-1)
 * <a id="mn-mtdmw"></a>`MTDMW`: [16-SYSR-1](#16-SYSR-1)
 * <a id="mn-mtdp"></a>`MTDP`: [16-SYSR-1](#16-SYSR-1)
@@ -3746,12 +3655,6 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-subv"></a>`SUBV`: [16-R2-1](#16-R2-1)
 * <a id="mn-swap"></a>`SWAP`: [16-R3-1](#16-R3-1)
 * <a id="mn-swapdb"></a>`SWAPDB`: [16-R3-1](#16-R3-1)
-* <a id="mn-syspg0"></a>`SYSPG0`: [16-SYS0-1](#16-SYS0-1)
-* <a id="mn-syspg1"></a>`SYSPG1`: [16-SYS0-1](#16-SYS0-1)
-* <a id="mn-syspg2"></a>`SYSPG2`: [16-SYS0-2](#16-SYS0-2)
-* <a id="mn-syspg3"></a>`SYSPG3`: [16-SYS0-2](#16-SYS0-2)
-* <a id="mn-syspg4"></a>`SYSPG4`: [16-SYS0-2](#16-SYS0-2)
-* <a id="mn-syspg5"></a>`SYSPG5`: [16-SYS0-2](#16-SYS0-2)
 * <a id="mn-tlbi"></a>`TLBI`: [16-SYSR-1](#16-SYSR-1)
 * <a id="mn-tlbia"></a>`TLBIA`: [16-SYS0-1](#16-SYS0-1)
 * <a id="mn-tlbsync"></a>`TLBSYNC`: [16-SYS0-1](#16-SYS0-1)

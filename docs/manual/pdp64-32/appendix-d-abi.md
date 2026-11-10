@@ -10,8 +10,8 @@
 | | |
 |---|---|
 | Data model | LP64: `char` 8, `short` 16, `int` 32, `long` 64, `long long` 64, pointers 64. Little-endian. `char` is signed. `long double` is `double`. |
-| Alignment | natural; the stack pointer is a multiple of **8** at all times (data alignment is architectural, ISA 7.4: a quad access to an address not a multiple of 8 aborts; the 2-byte parcel alignment is for instructions only). No 16-byte alignment: no type or register is wider than a quad. |
-| Registers | `R0`-`R5` arguments, `R0` (and `R1`) results, `R0`-`R7` and `R12` caller-saved; `R8`-`R11`, `R15` callee-saved (and `R16`-`R23` caller-saved, `R24`-`R31` callee-saved, a draft: D.4); `R12` linker scratch; `R13` frame pointer (callee-saved, optional); `R14` stack pointer. |
+| Alignment | natural; the stack pointer is a multiple of **8** at all times (data alignment is architectural, ISA 7.4: a quad access to an address not a multiple of 8 aborts; the 2-byte parcel alignment is for instructions only). No 16-byte alignment: no type or register is wider than a quad. Open: whether 8 stays ([J.D.1](appendix-j-open.md#jd1)). |
+| Registers | `R0`-`R5` arguments, `R0` (and `R1`) results, `R0`-`R7` and `R12` caller-saved; `R8`-`R11`, `R15` callee-saved; `R12` linker scratch; `R13` frame pointer (callee-saved, optional); `R14` stack pointer. |
 | Floating point | `binary64` in a general register, `binary32` in the low 32 bits sign-extended (ISA 2.3); passed and returned exactly like integers. |
 | Arguments | in order in `R0`-`R5` (a struct of up to 16 bytes takes one or two consecutive, as many as needed); the rest pushed right to left, each in an 8-byte slot (a larger struct in as many slots as it needs, by value). |
 | Results | `R0`; `R0:R1` for a 128-bit pair or a struct up to 16 bytes; a larger struct through a hidden pointer passed in `R0` (the arguments then start at `R1`), and returned in `R0`. |
@@ -19,7 +19,7 @@
 | Varargs | the callee stores `R0`-`R5` in a save area directly below the stack arguments; `va_list` is a pointer into the area, then on into the stack arguments. One area suffices because floats use the same registers. |
 | Red zone | none (version 1). |
 | Symbols | no leading underscore. |
-| Landing pads | off in version 1; the assembler provides `.lpad`. |
+| Landing pads | off in version 1; the assembler provides `.lpad`. Open: when they become mandatory ([J.D.2](appendix-j-open.md#jd2)). |
 | PIC | globals through `d(PC)`; imported symbols through `MOVQ got(PC),Rd`; calls to imports through `CALLI got(PC)`; TLS local-exec `MOVQ off(DP),Rd`. |
 
 
@@ -46,7 +46,8 @@ return address, pushes `r5`..`r0` and pushes the return address again, so the re
 ## D.4 The register-save masks and the registers above R15
 
 **D.4.1** `PUSHM`, `POPM` and `POPMRET` name registers by bit: bit n is `R`n. The mask is 32 bits, carried in 8, 16, 24 or 32 bits by the length of the form. The 8-bit mask of `POPMRET` is scaled by 256 and names `R8` to `R15`, so a save of `R24` to `R31` is not fused with its return. *(D)*
-**D.4.2** `R16` to `R31` are ordinary registers to the hardware. The compiler treats `R16` to `R23` as clobbered by a call and `R24` to `R31` as saved by the callee, and the stand-in runtime of the six large programs saves `R24` to `R31` in `setjmp` and `longjmp`; `R24`, `R25` and `R26` are among the sixteen hot registers. `docs/abi.md` calls this split a draft. *(P)*
+**D.4.2** `R16` to `R31` are ordinary registers to the hardware; `R24`, `R25` and `R26` are among the sixteen hot registers. *(D)*
+
 ## D.5 What the ABI leaves open
 
-Lazy against eager binding, mandatory landing pads and whether imports are always called without a PLT stub beyond version 1 are open (section 9.16, decisions in appendix B).
+Open: the stack alignment, 8 or 16 ([J.D.1](appendix-j-open.md#jd1)); and mandatory landing pads, lazy against eager binding and whether imports are always called without a PLT stub beyond version 1 ([J.D.2](appendix-j-open.md#jd2)).

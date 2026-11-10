@@ -37,10 +37,6 @@
 | **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section 6.2; not otherwise used in this manual) |
 | **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of 9.9 make it effective) |
 | **`FPSR`** | the sticky floating-point exception flag register, read and written by `FSFLAGS` (9.12) |
-| **ulp** | unit in the last place: the spacing between adjacent floating-point numbers, the unit of rounding error |
-| **Payne–Hanek** | the argument-reduction algorithm that computes x mod π/2 to full precision for large x; what hardware transcendentals cannot do (instruction-set text, section 9.7.1; the manual's account of floating point is 9.12) |
-| **Table Maker's Dilemma** | that correct rounding of a transcendental may need unboundedly many bits to resolve a near-tie, so no fixed-time circuit can guarantee it (instruction-set text, section 9.7.1) |
-| **block floating point** | integer mantissas sharing one exponent, used by the LB64 accelerator so fixed-point accumulation is exact (8.3) |
 
 ## C.2 Memory, protection and the kernel
 
@@ -66,7 +62,6 @@
 | **walker** | the hardware that reads page-table entries on a translation-buffer miss (6.6) |
 | **`STUA` / `CLUA`** | set and clear the user-access guard bit, which lets kernel code touch user memory only inside the copy routines (6.10) |
 | **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (6.10, 6.13) |
-| **W^X** | write xor execute: no page is both writable and executable; OpenBSD enforces it (appendix A) |
 | **PIE** | position-independent executable: loadable at any address; costs nothing here (9.16) |
 | **GOT, PLT** | global offset table and procedure linkage table: the indirection that lets position-independent code reach imported symbols (9.16) |
 | **ABI** | application binary interface: calling convention, register use, data layout; version 1 is given in appendix D |
@@ -77,9 +72,9 @@
 | **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.8, 7.2) |
 | **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (7.3) |
 | **SMP** | symmetric multiprocessing: several identical cores sharing memory (chapter 7) |
-| **core class** | the read-only register of each core that gives its class and capacity, so that software can tell an in-order core from an out-of-order one (7.8.4) |
-| **secure core** | a core with every timing channel removed (every instruction and cache fetch takes a time independent of its data), private cache lines and no periodic tick (7.8.6) |
-| **dedicated core** | a core given to one job, graphics, network or audio; proposed (7.8.7) |
+| **core class** | the read-only register of each core that gives its class and capacity, so that software can tell an in-order core from an out-of-order one (7.8.3) |
+| **secure core** | a core with every timing channel removed (every instruction and cache fetch takes a time independent of its data), private cache lines and no periodic tick (7.8.5) |
+| **dedicated core** | a core given to one job, graphics, network or audio; decided, with its details pending (7.8.6) |
 | **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.7) |
 | **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.2) |
 
@@ -102,13 +97,13 @@
 | **driver, strategy routine, device switch, probe, attach** | the kernel code for one kind of device; the routine that queues one block transfer; the table of such routines indexed by the major device number (`bdevsw`, `cdevsw`); the routines that test whether a device is present and set it up (5.1, 5.5) |
 | **`INIT` and `READY`** | the PDP-11 CSR's reset command and done bit; on the pdp64 the `device_status` handshake (5.5) |
 | **softc, `cfattach`** | OpenBSD's per-device structure and the table of a driver's `match` and `attach` functions (5.13) |
-| **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.12) |
+| **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.10) |
 | **Blit** | Rob Pike's bit-mapped windowing terminal: an 8 MHz Motorola 68000 machine that received downloaded code, characters and editing messages from its host over a serial line and drew every pixel itself (its description as a precursor of the X11 protocol and of NeWS is stated by no source read *(S)*; the lineage the sources confirm runs from its `mux` to 8½ and `rio`); a framebuffer in the address space and a bit-block-transfer operation, done in software, that moves rectangles of pixels; with the C64, one of the two machines the pdp64's terminal is based on (3.1) |
 | **blitter, raster operation** | a device that copies and combines rectangles of pixels; the raster operation says how source and destination combine (3.8) |
-| **scanout, tearing, double buffering** | the display reading the picture out of memory row by row at a fixed rate; the seam where a picture changed during the reading shows old above and new below; drawing the next frame in a hidden second picture and swapping at the vertical blank (3.17) |
+| **scanout, tearing, double buffering** | the display reading the picture out of memory row by row at a fixed rate; the seam where a picture changed during the reading shows old above and new below; drawing the next frame in a hidden second picture and swapping at the vertical blank (3.15) |
 | **glyph map, glyph atlas** | a table of slots each holding the picture of one glyph, filled by a TrueType engine (3.9); the GPU form is one texture holding every glyph the screen uses (3.7) |
-| **rio, NeWS** | Plan 9's window system, in which each window is a private screen served as files, a descendant of the Blit's `mux` through 8½; and Sun's window server that programs downloaded from the host could extend (3.20) |
-| **mixer, ring buffer, underrun** | the program that sums the sample streams of several programs into one after converting their rates and formats; the circular buffer the sound device reads at the converter's clock; the reader reaching samples not yet written, audio's tear (3.19) |
+| **rio, NeWS** | Plan 9's window system, in which each window is a private screen served as files, a descendant of the Blit's `mux` through 8½; and Sun's window server that programs downloaded from the host could extend (3.18) |
+| **mixer, ring buffer, underrun** | the program that sums the sample streams of several programs into one after converting their rates and formats; the circular buffer the sound device reads at the converter's clock; the reader reaching samples not yet written, audio's tear (3.17) |
 | **GPU, shader** | a graphics processing unit, thousands of simple lanes; a shader is a small program it runs for every vertex or every pixel (3.6) |
 | **bootstrap, boot ROM, block 0** | the program that loads programs; the ROM in the controller chip that reads the first block of the boot device into memory and jumps to it; that first 512-byte block (4.1, 4.4) |
 | **BIOS** | the PC's firmware: bring-up and self-test, the first sector, a library of services called by software interrupt, and setup; the pdp64's "BIOS" is its boot ROM and monitor, with no resident services; open source (4.2, 4.3) |
@@ -117,9 +112,8 @@
 | **GPT, disk label** | the GUID partition table wrapped around the disk's own label so other systems see the disk is in use; the BSD label that names the root, swap and other partitions inside one partition (4.2, 4.5) |
 | **boot-information block** | the structure whose address the second stage passes in `r1`: memory ranges, cores, the root complex, the boot device, the console, the screen, the command line (4.6) |
 | **UEFI, PE/COFF, shim** | the PC's later firmware standard, which runs a loader file of the PE/COFF format and offers it boot services; not used by the pdp64; a shim is the small program that would offer those services over virtio to an existing loader (4.2, 4.9) |
-| **`ODT`, monitor, watchdog** | the PDP-11's console debugger; the ROM's console program for examine, deposit, load and start; a timer that restarts the machine if the kernel stops writing to it (4.1, 4.10) |
+| **`ODT`, monitor** | the PDP-11's console debugger; the ROM's console program for examine, deposit, load and start (4.1) |
 | **INIT, START-UP, spin table, hart** | x86's signals that start another core; ARM's table the waiting cores poll; RISC-V's word for a core; the pdp64 writes a start register instead (4.7) |
-| **LB64, MX64, VEC64** | the inference accelerator and its companions: sign-flip-accumulate layers, floating-point multiply-accumulate for attention, and element-wise vector work (8.3) |
 | **APL, K** | array languages whose primitives work on whole arrays; one primitive maps to one descriptor (8.4) |
 
 ## C.4 Process and sources
@@ -130,5 +124,9 @@
 | **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.5) |
 | **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.5) |
 | **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.5, 10.4; not otherwise described in this manual) |
-| **(D), (P), (S)** | the tags on a numbered statement: decided, proposed, stub (index) |
+| **(D)** | the tag on a statement that the author decided (index) |
+| **details pending** | the mark on a decided statement whose details are not yet worked out; it names the open item that discusses them (appendix J), or says that the details are to be determined (index) |
+| **deferred** | a matter that the author has decided to put off; it is listed in appendix I and is not open (index) |
+| **open item** | a question that the architecture must answer and has not; each has an entry in appendix J with the issue, the options and what each costs, and the body points to it in a few words (index) |
+| **proposed** | an idea or design that nobody has decided; it is listed in appendix H and is not part of the architecture (index) |
 | **Impact** | the line ending each decision's commentary: effect on the kernel, on the compiler and on the hardware layout (index) |

@@ -314,7 +314,7 @@ def fig_hierarchy():
     c.box(20, 196, 150, 44, 'virtio-blk', BLUE, 12, mono=True, sub='bus 1, endpoint')
     c.box(200, 196, 150, 44, 'virtio-net', BLUE, 12, mono=True, sub='bus 2, endpoint')
     c.box(420, 160, 150, 34, 'bridge / switch', GREY, 11, bold=True, sub=None)
-    c.box(370, 224, 130, 44, 'xHCI (USB)', BLUE, 11, mono=True, sub='bus 3, endpoint')
+    c.box(370, 224, 130, 44, 'USB', BLUE, 11, mono=True, sub='host controller, bus 3')
     c.box(530, 224, 130, 44, 'any other card', '#fff', 11, sub='bus 3, endpoint')
     c.line([(290, 144), (290, 170), (95, 170), (95, 196)], arrow=False)
     c.line([(290, 170), (275, 170), (275, 196)], arrow=False)

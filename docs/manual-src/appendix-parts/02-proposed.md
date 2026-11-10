@@ -1,0 +1,1 @@
+*Alternative noted in the commentary on 2.5 (moved).* A cache-maintenance instruction would remove the cost of reading received data from uncached memory for a non-coherent device that may come later.

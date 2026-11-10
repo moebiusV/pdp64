@@ -124,7 +124,7 @@ def fig_pte():
          ('G', 'global: the entry ignores the address-space number'),
          ('A  D', 'accessed, dirty: set by the kernel, never by the hardware; a clear bit is a page fault'),
          ('MT', 'memory type: 0 normal cached, 1 normal uncached, 2 device strongly ordered, 3 device weakly ordered'),
-         ('rsvd', 'bits 10-11 and 40-63 must be zero; a set bit is a page fault (for 40-bit physical addresses; wider ones are open, 6.7.1)')]
+         ('rsvd', 'bits 10-11 and 40-63 must be zero; a set bit is a page fault (for a 40-bit physical address)')]
     for i, (k, v) in enumerate(d):
         c.text(24, 132 + i * 22, k, 11, 'start', bold=True, mono=True)
         c.text(90, 132 + i * 22, v, 10, 'start', '#222')
@@ -252,7 +252,7 @@ def fig_ctxswitch():
 
 
 def fig_layout():
-    """An example address-space layout: the user half, the kernel half, windows, devices.  Arrangement not specified."""
+    """An example address-space layout: the user half, the kernel half, devices.  Arrangement not specified."""
     c = Canvas(410)
     c.text(20, 16, 'the 39-bit virtual space of three levels: one example arrangement', 12, 'start', bold=True)
     x, w = 150, 270
@@ -260,8 +260,7 @@ def fig_layout():
     # kernel half
     c.box(x, y, w, 24, 'kernel stacks, per-CPU data', GREY, 10)
     c.box(x, y + 24, w, 30, 'device windows (memory type: device)', BLUE, 10, sub='mapped by page entries, MT 2 or 3')
-    c.box(x, y + 54, w, 30, 'direct-mapping windows DMW0, DMW1', YELLOW, 10, sub='kernel only; format open (6.9.2)')
-    c.box(x, y + 84, w, 34, 'kernel text and data', GREY, 10, sub='global pages, in every address space')
+    c.box(x, y + 54, w, 64, 'kernel text and data', GREY, 10, sub='global pages, in every address space')
     c.text(x - 8, y + 10, '0xFFFFFFFFFFFFFFFF', 8, 'end', '#555', True)
     c.text(x - 8, y + 128, '0xFFFFFFC000000000', 8, 'end', '#555', True)
     c.text(x + w + 10, y + 50, 'upper half: bit 38 set', 10, 'start', bold=True)
@@ -285,7 +284,7 @@ def fig_layout():
     c.text(x + w + 10, uy + 97, 'process, and the ASID selects it', 9, 'start', '#222')
     c.text(x + w + 10, uy + 110, 'a user program never sees the upper half', 9, 'start', '#222')
     c.text(20, 384, 'The halves are decided; what goes in them is not specified.  Each half is 2^38 bytes = 256 GB with three levels, 128 TB with four, 64 PB with five.', 9, 'start', '#444')
-    c.text(20, 398, 'The order, the sizes of the regions and the placement of the windows are the kernel\'s choice; nothing here is tested.', 9, 'start', '#444')
+    c.text(20, 398, 'The order and the sizes of the regions are the kernel\'s choice; nothing here is tested.', 9, 'start', '#444')
     return c.svg()
 
 

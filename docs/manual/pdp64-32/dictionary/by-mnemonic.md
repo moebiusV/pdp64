@@ -187,7 +187,6 @@
 | `LEA` | [LEA](../09-isa.md#lea-load-effective-address) (section 9.6) | [26](by-encoding.md#mn-lea), [entry](../09-isa.md#w-lea) | Moves, address formation and the ALU |
 | `LL` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | [1](by-encoding.md#mn-ll), [entry](../09-isa.md#w-ll) | Atomics (ATOM) |
 | `LPAD` | [NOP](../09-isa.md#nop-no-operation-and-landing-pad) (section 9.14) | [1](by-encoding.md#mn-lpad), [entry](../09-isa.md#w-lpad) | System (SYS) |
-| `MAESCTR` | [MAESCTR](../09-isa.md#maesctr-aes-in-counter-mode-over-a-buffer) (section 9.11) | [1](by-encoding.md#mn-maesctr), [entry](../09-isa.md#w-maesctr) | New in the prefix-coded CPUs |
 | `MASKEQZ` | [MASK](../09-isa.md#mask-mask-by-a-condition-register) (section 9.7) | [1](by-encoding.md#mn-maskeqz), [entry](../09-isa.md#w-maskeqz) | New in the prefix-coded CPUs |
 | `MASKNEZ` | [MASK](../09-isa.md#mask-mask-by-a-condition-register) (section 9.7) | [1](by-encoding.md#mn-masknez), [entry](../09-isa.md#w-masknez) | New in the prefix-coded CPUs |
 | `MAX` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-max), [entry](../09-isa.md#w-max) | Arithmetic (AESC) |
@@ -208,16 +207,13 @@
 | `MOVB` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [33](by-encoding.md#mn-movb), [entry](../09-isa.md#w-movb) | Moves, address formation and the ALU |
 | `MOVB.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movb-d), [entry](../09-isa.md#w-movb-d) | New in the prefix-coded CPUs |
 | `MOVB.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movb-u), [entry](../09-isa.md#w-movb-u) | New in the prefix-coded CPUs |
-| `MOVB.UD` | [MOVUSERD](../09-isa.md#movuserd-user-qualified-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movb-ud), [entry](../09-isa.md#w-movb-ud) | New in the prefix-coded CPUs |
 | `MOVCALL` | [MOVCALL](../09-isa.md#movcall-move-a-register-and-call) (section 9.10) | [2](by-encoding.md#mn-movcall), [entry](../09-isa.md#w-movcall) | New in the prefix-coded CPUs |
 | `MOVL` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [42](by-encoding.md#mn-movl), [entry](../09-isa.md#w-movl) | Moves, address formation and the ALU |
 | `MOVL.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movl-d), [entry](../09-isa.md#w-movl-d) | New in the prefix-coded CPUs |
 | `MOVL.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movl-u), [entry](../09-isa.md#w-movl-u) | New in the prefix-coded CPUs |
-| `MOVL.UD` | [MOVUSERD](../09-isa.md#movuserd-user-qualified-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movl-ud), [entry](../09-isa.md#w-movl-ud) | New in the prefix-coded CPUs |
 | `MOVQ` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [48](by-encoding.md#mn-movq), [entry](../09-isa.md#w-movq) | Moves, address formation and the ALU |
 | `MOVQ.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movq-d), [entry](../09-isa.md#w-movq-d) | New in the prefix-coded CPUs |
 | `MOVQ.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movq-u), [entry](../09-isa.md#w-movq-u) | New in the prefix-coded CPUs |
-| `MOVQ.UD` | [MOVUSERD](../09-isa.md#movuserd-user-qualified-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movq-ud), [entry](../09-isa.md#w-movq-ud) | New in the prefix-coded CPUs |
 | `MOVQL` | [MOVQL](../09-isa.md#movql-move-a-64-bit-literal) (section 9.6) | [1](by-encoding.md#mn-movql), [entry](../09-isa.md#w-movql) | New in the prefix-coded CPUs |
 | `MOVUB` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | [13](by-encoding.md#mn-movub), [entry](../09-isa.md#w-movub) | Memory escape (MESC) |
 | `MOVUL` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | [13](by-encoding.md#mn-movul), [entry](../09-isa.md#w-movul) | Memory escape (MESC) |
@@ -226,24 +222,18 @@
 | `MOVW` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [32](by-encoding.md#mn-movw), [entry](../09-isa.md#w-movw) | Moves, address formation and the ALU |
 | `MOVW.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movw-d), [entry](../09-isa.md#w-movw-d) | New in the prefix-coded CPUs |
 | `MOVW.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movw-u), [entry](../09-isa.md#w-movw-u) | New in the prefix-coded CPUs |
-| `MOVW.UD` | [MOVUSERD](../09-isa.md#movuserd-user-qualified-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movw-ud), [entry](../09-isa.md#w-movw-ud) | New in the prefix-coded CPUs |
 | `MOVZB` | [MOVZ](../09-isa.md#movz-move-zero-extended-32-16-and-8-bits) (section 9.6) | [25](by-encoding.md#mn-movzb), [entry](../09-isa.md#w-movzb) | Moves, address formation and the ALU |
 | `MOVZB.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movzb-d), [entry](../09-isa.md#w-movzb-d) | New in the prefix-coded CPUs |
 | `MOVZB.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [3](by-encoding.md#mn-movzb-u), [entry](../09-isa.md#w-movzb-u) | New in the prefix-coded CPUs |
-| `MOVZB.UD` | [MOVUSERD](../09-isa.md#movuserd-user-qualified-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movzb-ud), [entry](../09-isa.md#w-movzb-ud) | New in the prefix-coded CPUs |
 | `MOVZL` | [MOVZ](../09-isa.md#movz-move-zero-extended-32-16-and-8-bits) (section 9.6) | [17](by-encoding.md#mn-movzl), [entry](../09-isa.md#w-movzl) | Moves, address formation and the ALU |
 | `MOVZL.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movzl-d), [entry](../09-isa.md#w-movzl-d) | New in the prefix-coded CPUs |
 | `MOVZL.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [3](by-encoding.md#mn-movzl-u), [entry](../09-isa.md#w-movzl-u) | New in the prefix-coded CPUs |
-| `MOVZL.UD` | [MOVUSERD](../09-isa.md#movuserd-user-qualified-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movzl-ud), [entry](../09-isa.md#w-movzl-ud) | New in the prefix-coded CPUs |
 | `MOVZW` | [MOVZ](../09-isa.md#movz-move-zero-extended-32-16-and-8-bits) (section 9.6) | [17](by-encoding.md#mn-movzw), [entry](../09-isa.md#w-movzw) | Moves, address formation and the ALU |
 | `MOVZW.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movzw-d), [entry](../09-isa.md#w-movzw-d) | New in the prefix-coded CPUs |
 | `MOVZW.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [3](by-encoding.md#mn-movzw-u), [entry](../09-isa.md#w-movzw-u) | New in the prefix-coded CPUs |
-| `MOVZW.UD` | [MOVUSERD](../09-isa.md#movuserd-user-qualified-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movzw-ud), [entry](../09-isa.md#w-movzw-ud) | New in the prefix-coded CPUs |
 | `MSCN` | [MSCN](../09-isa.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) (section 9.11) | [1](by-encoding.md#mn-mscn), [entry](../09-isa.md#w-mscn) | Block memory (MBLK) |
 | `MSCNN` | [MSCN](../09-isa.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) (section 9.11) | [1](by-encoding.md#mn-mscnn), [entry](../09-isa.md#w-mscnn) | Block memory (MBLK) |
 | `MSET` | [MSET](../09-isa.md#mset-fill-a-block-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mset), [entry](../09-isa.md#w-mset) | Block memory (MBLK) |
-| `MSHA256` | [MSHA](../09-isa.md#msha-hash-whole-blocks-of-memory) (section 9.11) | [1](by-encoding.md#mn-msha256), [entry](../09-isa.md#w-msha256) | New in the prefix-coded CPUs |
-| `MSHA512` | [MSHA](../09-isa.md#msha-hash-whole-blocks-of-memory) (section 9.11) | [1](by-encoding.md#mn-msha512), [entry](../09-isa.md#w-msha512) | New in the prefix-coded CPUs |
 | `MTASID` | [MTASID](../09-isa.md#mtasid-move-to-and-from-the-address-space-identifier) (section 9.14) | [1](by-encoding.md#mn-mtasid), [entry](../09-isa.md#w-mtasid) | System (SYS) |
 | `MTDMW` | [MTDMW](../09-isa.md#mtdmw-move-to-a-direct-mapping-window) (section 9.14) | [1](by-encoding.md#mn-mtdmw), [entry](../09-isa.md#w-mtdmw) | System (SYS) |
 | `MTDP` | [MTDP](../09-isa.md#mtdp-move-to-and-from-the-direct-pointer) (section 9.14) | [1](by-encoding.md#mn-mtdp), [entry](../09-isa.md#w-mtdp) | System (SYS) |
@@ -297,12 +287,6 @@
 | `SUBV` | [OVF](../09-isa.md#ovf-add-subtract-and-multiply-trapping-on-signed-overflow) (section 9.7) | [1](by-encoding.md#mn-subv), [entry](../09-isa.md#w-subv) | New in the prefix-coded CPUs |
 | `SWAP` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swap), [entry](../09-isa.md#w-swap) | Atomics (ATOM) |
 | `SWAPDB` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swapdb), [entry](../09-isa.md#w-swapdb) | Atomics (ATOM) |
-| `SYSPG0` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg0), [entry](../09-isa.md#w-syspg0) | New in the prefix-coded CPUs |
-| `SYSPG1` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg1), [entry](../09-isa.md#w-syspg1) | New in the prefix-coded CPUs |
-| `SYSPG2` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg2), [entry](../09-isa.md#w-syspg2) | New in the prefix-coded CPUs |
-| `SYSPG3` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg3), [entry](../09-isa.md#w-syspg3) | New in the prefix-coded CPUs |
-| `SYSPG4` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg4), [entry](../09-isa.md#w-syspg4) | New in the prefix-coded CPUs |
-| `SYSPG5` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg5), [entry](../09-isa.md#w-syspg5) | New in the prefix-coded CPUs |
 | `TLBI` | [TLBI](../09-isa.md#tlbi-invalidate-a-translation) (section 9.14) | [1](by-encoding.md#mn-tlbi), [entry](../09-isa.md#w-tlbi) | System (SYS) |
 | `TLBIA` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | [1](by-encoding.md#mn-tlbia), [entry](../09-isa.md#w-tlbia) | System (SYS) |
 | `TLBSYNC` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | [1](by-encoding.md#mn-tlbsync), [entry](../09-isa.md#w-tlbsync) | System (SYS) |

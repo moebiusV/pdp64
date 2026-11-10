@@ -58,5 +58,5 @@
 <polygon points="560.0,170.0 560.8,178.7 554.0,176.4" fill="#222"/>
 <text x="20.0" y="318.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">1  the host places the image in its own memory; the device copies it into the core by DMA (over PCI Express).</text>
 <text x="20.0" y="334.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">2  the program lands at the core's load address;  3  the core is let out of reset and runs it as the terminal.</text>
-<text x="20.0" y="356.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Which core, what the mailbox is, and how the image is checked are open (3.18); sizes and order are an example.</text>
+<text x="20.0" y="356.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Which core, what the mailbox is, and how the image is checked are open (3.16); sizes and order are an example.</text>
 </svg>

@@ -40,5 +40,5 @@
 <polygon points="205.0,144.0 208.6,152.0 201.4,152.0" fill="#222"/>
 <text x="20.0" y="270.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">Every vertex goes through the same program at the same time on different lanes; so does every pixel.</text>
 <text x="20.0" y="286.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">The programmer writes the two shaders (pink); the rasterizer between them is fixed.</text>
-<text x="20.0" y="304.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">This is the model of general knowledge of current GPUs (unverified here, 3.22); stages such as geometry and tessellation are left out.</text>
+<text x="20.0" y="304.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">This is the model of general knowledge of current GPUs (unverified here, 3.19); stages such as geometry and tessellation are left out.</text>
 </svg>
