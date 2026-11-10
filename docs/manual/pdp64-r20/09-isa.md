@@ -688,9 +688,11 @@ Operation, flags and exceptions as for the entry MOVU above; 2 layout forms, eac
 
 **9.7.4** `ADC` and `SBC` add and subtract the carry; `INC`, `DEC`, `NEG`, `CLR` and `TST` are single-operand forms that work on a register or memory. *(opcode group `SOP`)*
 
-**9.7.5** `ABS`, `MIN`, `MAX`, `MINU` and `MAXU`, and `SET cc, Rd` (write 1 if the condition holds, else 0), are in the arithmetic escape. *(D)*
+**9.7.5** `SET cc, Rd` (write 1 if the condition holds, else 0) is in the arithmetic escape. *(D)*
 
-*Commentary.* **Precedent.** `ADD`, `SUB`, `CMP`, `BIT`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning except for the order of `CMP`'s operands. **Trade-offs.** The PDP-11 wrote `CMP a, b` to compute `a - b`; since the destination of an ALU operation here must be a register, a literal `src, dst` reading would force every comparison against an immediate or memory to be reversed, so the register comes first. Divide is in the escape group, at four bytes, because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs is present; a second unsigned multiply is the same instruction as the first and is not provided. **Benefits.** `SET` replaces a branch around a move for the very common "store the truth value of a comparison", and absolute value, minimum and maximum remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULHU` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; AArch64's conditional select and set instructions are the nearest to `SET`. **Use.** `MULH` and `MULHU` are for multi-precision arithmetic and for division by constants; `ADC` and `SBC` carry a multi-word add or subtract; `MIN`, `MAX` and `ABS` appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `ADC` and `SBC` carry multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SET` materialises a comparison without a branch; `CMP` takes the register first, as the compiler orders its operands. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
+**9.7.6** `ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions: `ABS` is the absolute value, and the others the smaller or the larger of two registers, signed or unsigned, with `N` and `Z` from the result, `C` unchanged, and `V` cleared (set by `ABS` on the most negative number). *(D)* Their expansion is open *(P)*: the flag-driven conditional select has no form yet, and a candidate over the branch-free `MASKEQZ` and `MASKNEZ` (a comparison, `SET` into a scratch register, the two masks and `BIS`) needs a scratch register and changes `C`. The present assembler still encodes the five words as sub-opcodes of the arithmetic escape; their dictionary entries show that encoding as the build's, not the design's. *(D)*
+
+*Commentary.* **Precedent.** `ADD`, `SUB`, `CMP`, `BIT`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning except for the order of `CMP`'s operands. **Trade-offs.** The PDP-11 wrote `CMP a, b` to compute `a - b`; since the destination of an ALU operation here must be a register, a literal `src, dst` reading would force every comparison against an immediate or memory to be reversed, so the register comes first. Divide is in the escape group, at four bytes, because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs is present; a second unsigned multiply is the same instruction as the first and is not provided. **Benefits.** `SET` replaces a branch around a move for the very common "store the truth value of a comparison", and absolute value, minimum and maximum (as aliases) remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULHU` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; AArch64's conditional select and set instructions are the nearest to `SET`. **Use.** `MULH` and `MULHU` are for multi-precision arithmetic and for division by constants; `ADC` and `SBC` carry a multi-word add or subtract; `MIN`, `MAX` and `ABS` (aliases) appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `ADC` and `SBC` carry multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SET` materialises a comparison without a branch; `CMP` takes the register first, as the compiler orders its operands. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
 
 <!-- entries:9.7 -->
 <a id="w-add"></a>
@@ -1529,7 +1531,7 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 
 
 <a id="w-abs"></a>
-### ABS: Absolute value
+### ABS: Absolute value (assembler alias)
 
 ![ABS, opcode 001110, three parcels, sub-opcode 00001000 (6 bytes)](figures/w/abs/02.svg)
 
@@ -1537,13 +1539,15 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 
 **Mnemonics:** `ABS`
 
+**Alias** *(D)* `ABS` is an assembler alias, not a native instruction (the author's decision, errata 98). Meaning: `Rd <- |Rs|`, with the flags below, which the alias must keep or the decision that defines it must change. Expansion: open *(P)*; the flag-driven conditional select (`CMOV`, `CSEL`) is on hold and has no form in the records (ISA section 12 item 15); the only select the records define is the branch-free `MASKEQZ`/`MASKNEZ` (errata 85), which reads a register and no flag. A candidate over it, not decided: compare the operands, `SET` the condition into a scratch register, then `MASKEQZ`, `MASKNEZ` and `BIS` (the constant-time select `d = c ? a : b` of the `MASKEQZ` entry) for the minimum and maximum, and the same around the negated value for `ABS`; it needs a scratch register and leaves `C` as the comparison set it, which the native word does not do, so the flags would change. Which expansion, and whether the select the author meant is this one, is the author's question. The present assembler still encodes the word as the arithmetic-escape sub-opcode of the chart below.
+
 **Syntax**
 
 ```
 ABS Rs, Rd
 ```
 
-**Encoding**
+**Encoding** (the present encoding of the build, as the grammar gives it; not the design)
 
 ![Encoding of ABS](figures/r20-aesc-1.svg)
 
@@ -1565,14 +1569,16 @@ Rd ← |Rs|
 
 **Exceptions** None.
 
-**Why it is here.** Integer absolute value is the counterpart of `FABS`. Its cost is about 150 to 250 lookup tables, no new operation by the folding rule (integer against float and signed against unsigned are qualifiers), and the compiler's work of recognising `x < 0 ? -x : x`, which is the real cost. The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.
+**Why it is here.** Integer absolute value is the counterpart of `FABS`. It was added as a native sub-opcode and the author then decided (2026-11-10) that it is an assembler alias over the conditional select, which is not yet defined. The cost of the native word was about 150 to 250 lookup tables, no new operation by the folding rule (integer against float and signed against unsigned are qualifiers), and the compiler's work of recognising `x < 0 ? -x : x`, which is the real cost. The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** by decision an assembler alias (errata 98); the present assembler, simulator, QEMU and LLVM still encode and execute the word as the arithmetic-escape sub-opcode shown above, so the word is implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 
-### MINMAX: Minimum and maximum, signed and unsigned
+### MINMAX: Minimum and maximum, signed and unsigned (assembler aliases)
 
 **Mnemonics:** `MIN`, `MINU`, `MAX`, `MAXU`
+
+**Alias** *(D)* `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions (the author's decision, errata 98). Meaning: the smaller or the larger of `Ra` and `Rb`, signed for `MIN` and `MAX` and unsigned for `MINU` and `MAXU`, with the flags below, which an alias must keep or the decision that defines it must change. Expansion: open *(P)*; the flag-driven conditional select (`CMOV`, `CSEL`) is on hold and has no form in the records (ISA section 12 item 15); the only select the records define is the branch-free `MASKEQZ`/`MASKNEZ` (errata 85), which reads a register and no flag. A candidate over it, not decided: compare the operands, `SET` the condition into a scratch register, then `MASKEQZ`, `MASKNEZ` and `BIS` (the constant-time select `d = c ? a : b` of the `MASKEQZ` entry) for the minimum and maximum, and the same around the negated value for `ABS`; it needs a scratch register and leaves `C` as the comparison set it, which the native word does not do, so the flags would change. Which expansion, and whether the select the author meant is this one, is the author's question. The present assembler still encodes each word as an arithmetic-escape sub-opcode, as the chart below shows.
 
 **Syntax**
 
@@ -1583,7 +1589,7 @@ MAX Ra, Rb, Rd
 MAXU Ra, Rb, Rd
 ```
 
-**Encoding**
+**Encoding** (the present encoding of the build, as the grammar gives it; not the design)
 
 ![Encoding of MINMAX](figures/r20-aesc-1.svg)
 
@@ -1609,9 +1615,9 @@ MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 
 **Exceptions** None.
 
-**Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`. By the folding rule they add no operation, and the hardware reuses the subtract-and-compare that `CMP` already does plus a 64-bit select. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all. A general conditional select is the alternative; it is open (9.21) for want of a speed model.
+**Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; the author decided (2026-11-10) that they are assembler aliases over the conditional select, which is not yet defined. By the folding rule they add no operation, and the native hardware reused the subtract-and-compare that `CMP` already does plus a 64-bit select. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all. A general conditional select is the alternative; it is open (9.21) for want of a speed model.
 
-**Status** implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
+**Status** by decision an assembler alias (errata 98); the present assembler, simulator, QEMU and LLVM still encode and execute the word as the arithmetic-escape sub-opcode shown above, so the word is implemented in the reference executor (`common/pdp64exec.c`, shared by `sim64` and QEMU).
 
 <a id="w-min"></a>
 #### MIN

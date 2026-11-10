@@ -6,7 +6,7 @@
 
 | Mnemonic | Entry | Opcode | Sub | Layouts | Group |
 |---|---|---|---|---|---|
-| `ABS` | [ABS](../09-isa.md#abs-absolute-value) (section 9.7) | `001110 (0x0E)` | `00001000 (0x08)` | [2](by-encoding.md#mn-abs), [entry](../09-isa.md#w-abs) | Arithmetic (AESC) |
+| `ABS` | [ABS](../09-isa.md#abs-absolute-value-assembler-alias) (section 9.7) | `001110 (0x0E)` | `00001000 (0x08)` | [2](by-encoding.md#mn-abs), [entry](../09-isa.md#w-abs) | Arithmetic (AESC) |
 | `ADC` | [ADC](../09-isa.md#adc-add-carry) (section 9.7) | `010011 (0x13)` | `0110 (0x6)` | [9](by-encoding.md#mn-adc), [entry](../09-isa.md#w-adc) | Single operand (SOP) |
 | `ADD` | [ADD](../09-isa.md#add-add) (section 9.7) | `010110 (0x16)` |  | [9](by-encoding.md#mn-add), [entry](../09-isa.md#w-add) | Moves, address formation and the ALU |
 | `ADDM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | `001111 (0x0F)` | `00001000 (0x08)` | [2](by-encoding.md#mn-addm), [entry](../09-isa.md#w-addm) | Memory escape (MESC) |
@@ -178,8 +178,8 @@
 | `LEA` | [LEA](../09-isa.md#lea-load-effective-address) (section 9.6) | `001011 (0x0B)` |  | [9](by-encoding.md#mn-lea), [entry](../09-isa.md#w-lea) | Moves, address formation and the ALU |
 | `LL` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | `010001 (0x11)` | `00100000 (0x20)` | [2](by-encoding.md#mn-ll), [entry](../09-isa.md#w-ll) | Atomics (ATOM) |
 | `LPAD` | [NOP](../09-isa.md#nop-no-operation-and-landing-pad) (section 9.14) | `010100 (0x14)` | `1001 (0x9)` | [3](by-encoding.md#mn-lpad), [entry](../09-isa.md#w-lpad) | System (SYS) |
-| `MAX` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `001110 (0x0E)` | `00010010 (0x12)` | [2](by-encoding.md#mn-max), [entry](../09-isa.md#w-max) | Arithmetic (AESC) |
-| `MAXU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `001110 (0x0E)` | `00010011 (0x13)` | [2](by-encoding.md#mn-maxu), [entry](../09-isa.md#w-maxu) | Arithmetic (AESC) |
+| `MAX` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | `001110 (0x0E)` | `00010010 (0x12)` | [2](by-encoding.md#mn-max), [entry](../09-isa.md#w-max) | Arithmetic (AESC) |
+| `MAXU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | `001110 (0x0E)` | `00010011 (0x13)` | [2](by-encoding.md#mn-maxu), [entry](../09-isa.md#w-maxu) | Arithmetic (AESC) |
 | `MCMP` | [MCMP](../09-isa.md#mcmp-compare-two-blocks-of-bytes) (section 9.11) | `001101 (0x0D)` | `00000011 (0x03)` | [2](by-encoding.md#mn-mcmp), [entry](../09-isa.md#w-mcmp) | Block memory (MBLK) |
 | `MCPY` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | `001101 (0x0D)` | `00000000 (0x00)` | [2](by-encoding.md#mn-mcpy), [entry](../09-isa.md#w-mcpy) | Block memory (MBLK) |
 | `MFASID` | [MTASID](../09-isa.md#mtasid-move-to-and-from-the-address-space-identifier) (section 9.14) | `010100 (0x14)` | `0111 (0x7)` | [3](by-encoding.md#mn-mfasid), [entry](../09-isa.md#w-mfasid) | System (SYS) |
@@ -187,8 +187,8 @@
 | `MFDP` | [MTDP](../09-isa.md#mtdp-move-to-and-from-the-direct-pointer) (section 9.14) | `010100 (0x14)` | `1001 (0x9)` | [3](by-encoding.md#mn-mfdp), [entry](../09-isa.md#w-mfdp) | System (SYS) |
 | `MFPS` | [MTPS](../09-isa.md#mtps-move-to-and-from-the-processor-status-word) (section 9.14) | `010100 (0x14)` | `0010 (0x2)` | [3](by-encoding.md#mn-mfps), [entry](../09-isa.md#w-mfps) | System (SYS) |
 | `MFSR` | [MFSR](../09-isa.md#mfsr-move-from-and-to-a-system-register) (section 9.14) | `010100 (0x14)` | `1101 (0xD)` | [2](by-encoding.md#mn-mfsr), [entry](../09-isa.md#w-mfsr) | System (SYS) |
-| `MIN` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `001110 (0x0E)` | `00010000 (0x10)` | [2](by-encoding.md#mn-min), [entry](../09-isa.md#w-min) | Arithmetic (AESC) |
-| `MINU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | `001110 (0x0E)` | `00010001 (0x11)` | [2](by-encoding.md#mn-minu), [entry](../09-isa.md#w-minu) | Arithmetic (AESC) |
+| `MIN` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | `001110 (0x0E)` | `00010000 (0x10)` | [2](by-encoding.md#mn-min), [entry](../09-isa.md#w-min) | Arithmetic (AESC) |
+| `MINU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | `001110 (0x0E)` | `00010001 (0x11)` | [2](by-encoding.md#mn-minu), [entry](../09-isa.md#w-minu) | Arithmetic (AESC) |
 | `MMOV` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | `001101 (0x0D)` | `00000001 (0x01)` | [2](by-encoding.md#mn-mmov), [entry](../09-isa.md#w-mmov) | Block memory (MBLK) |
 | `MOD` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | `001110 (0x0E)` | `00000010 (0x02)` | [2](by-encoding.md#mn-mod), [entry](../09-isa.md#w-mod) | Arithmetic (AESC) |
 | `MODU` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | `001110 (0x0E)` | `00000011 (0x03)` | [2](by-encoding.md#mn-modu), [entry](../09-isa.md#w-modu) | Arithmetic (AESC) |

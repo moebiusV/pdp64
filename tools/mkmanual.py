@@ -326,10 +326,13 @@ def render_entry(e):
         out += forms_block(real[0])
     out.append('**Mnemonics:** ' + heads + (('  (aliases: ' + ', '.join('`%s`' % n.upper() for n in names if MN[n]['alias_of']) + ')') if any(MN[n]['alias_of'] for n in names) else ''))
     out.append('')
+    if e.get('alias'):
+        out.append('**Alias** *(D)* ' + e['alias'])
+        out.append('')
     out.append('**Syntax**\n')
     out.append('```\n' + uni('\n'.join(e['syntax'])) + '\n```')
     out.append('')
-    out.append('**Encoding**\n')
+    out.append('**Encoding**' + (' (the present encoding of the build, as the grammar gives it; not the design)' if e.get('alias') else '') + '\n')
     out.append(encoding(e))
     out.append('')
     out.append('**Operation**\n')
@@ -356,6 +359,8 @@ def render_entry(e):
     if e.get('cf'):
         out.append('**Cf.** ' + e['cf'])
         out.append('')
+    if e.get('alias'):
+        st = 'by decision an assembler alias (errata 98); the present assembler, simulator, QEMU and LLVM still encode and execute the word as the arithmetic-escape sub-opcode shown above, so the word is ' + st.replace('implemented', 'implemented', 1)
     out.append('**Status** ' + st + '.')
     out.append('')
     out += words_section(e, real)

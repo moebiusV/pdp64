@@ -13,6 +13,6 @@ NZ0 = '`N` and `Z` from the result, `V` cleared, `C` unchanged.'
 NOFLAGS = 'None written.'
 
 
-def E(id, page, names, title, syntax, op, flags, exc, sect, notes='', cf='', xnote=''):
+def E(id, page, names, title, syntax, op, flags, exc, sect, notes='', cf='', xnote='', alias=''):
     return dict(id=id, page=page, names=names, title=title, syntax=syntax, op=op, flags=flags, exc=exc, sect=sect,
-                notes=notes, cf=cf, xnote=xnote)
+                notes=notes, cf=cf, xnote=xnote, alias=alias)

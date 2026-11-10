@@ -6,7 +6,7 @@
 
 | Mnemonic | Entry | Layouts | Group |
 |---|---|---|---|
-| `ABS` | [ABS](../09-isa.md#abs-absolute-value) (section 9.7) | [1](by-encoding.md#mn-abs), [entry](../09-isa.md#w-abs) | Arithmetic (AESC) |
+| `ABS` | [ABS](../09-isa.md#abs-absolute-value-assembler-alias) (section 9.7) | [1](by-encoding.md#mn-abs), [entry](../09-isa.md#w-abs) | Arithmetic (AESC) |
 | `ADC` | [ADC](../09-isa.md#adc-add-carry) (section 9.7) | [7](by-encoding.md#mn-adc), [entry](../09-isa.md#w-adc) | Single operand (SOP) |
 | `ADD` | [ADD](../09-isa.md#add-add) (section 9.7) | [22](by-encoding.md#mn-add), [entry](../09-isa.md#w-add) | Moves, address formation and the ALU |
 | `ADDM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | [6](by-encoding.md#mn-addm), [entry](../09-isa.md#w-addm) | Memory escape (MESC) |
@@ -190,8 +190,8 @@
 | `MAESCTR` | [MAESCTR](../09-isa.md#maesctr-aes-in-counter-mode-over-a-buffer) (section 9.11) | [1](by-encoding.md#mn-maesctr), [entry](../09-isa.md#w-maesctr) | New in the prefix-coded CPUs |
 | `MASKEQZ` | [MASK](../09-isa.md#mask-mask-by-a-condition-register) (section 9.7) | [1](by-encoding.md#mn-maskeqz), [entry](../09-isa.md#w-maskeqz) | New in the prefix-coded CPUs |
 | `MASKNEZ` | [MASK](../09-isa.md#mask-mask-by-a-condition-register) (section 9.7) | [1](by-encoding.md#mn-masknez), [entry](../09-isa.md#w-masknez) | New in the prefix-coded CPUs |
-| `MAX` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-max), [entry](../09-isa.md#w-max) | Arithmetic (AESC) |
-| `MAXU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-maxu), [entry](../09-isa.md#w-maxu) | Arithmetic (AESC) |
+| `MAX` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-max), [entry](../09-isa.md#w-max) | Arithmetic (AESC) |
+| `MAXU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-maxu), [entry](../09-isa.md#w-maxu) | Arithmetic (AESC) |
 | `MCMP` | [MCMP](../09-isa.md#mcmp-compare-two-blocks-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mcmp), [entry](../09-isa.md#w-mcmp) | Block memory (MBLK) |
 | `MCPY` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mcpy), [entry](../09-isa.md#w-mcpy) | Block memory (MBLK) |
 | `MFASID` | [MTASID](../09-isa.md#mtasid-move-to-and-from-the-address-space-identifier) (section 9.14) | [1](by-encoding.md#mn-mfasid), [entry](../09-isa.md#w-mfasid) | System (SYS) |
@@ -199,8 +199,8 @@
 | `MFDP` | [MTDP](../09-isa.md#mtdp-move-to-and-from-the-direct-pointer) (section 9.14) | [1](by-encoding.md#mn-mfdp), [entry](../09-isa.md#w-mfdp) | System (SYS) |
 | `MFPS` | [MTPS](../09-isa.md#mtps-move-to-and-from-the-processor-status-word) (section 9.14) | [1](by-encoding.md#mn-mfps), [entry](../09-isa.md#w-mfps) | System (SYS) |
 | `MFSR` | [MFSR](../09-isa.md#mfsr-move-from-and-to-a-system-register) (section 9.14) | [1](by-encoding.md#mn-mfsr), [entry](../09-isa.md#w-mfsr) | System (SYS) |
-| `MIN` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-min), [entry](../09-isa.md#w-min) | Arithmetic (AESC) |
-| `MINU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-minu), [entry](../09-isa.md#w-minu) | Arithmetic (AESC) |
+| `MIN` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-min), [entry](../09-isa.md#w-min) | Arithmetic (AESC) |
+| `MINU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-minu), [entry](../09-isa.md#w-minu) | Arithmetic (AESC) |
 | `MMOV` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mmov), [entry](../09-isa.md#w-mmov) | Block memory (MBLK) |
 | `MOD` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-mod), [entry](../09-isa.md#w-mod) | Arithmetic (AESC) |
 | `MODU` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-modu), [entry](../09-isa.md#w-modu) | Arithmetic (AESC) |
