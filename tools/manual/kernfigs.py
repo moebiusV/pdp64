@@ -169,7 +169,7 @@ def fig_tlb():
     c.box(20, 252, 150, 34, 'page fault', PINK, 11, bold=True, sub='no valid entry, or A/D clear')
     c.line([(210, 269), (170, 269)], arrow=True, dash=True)
     c.text(20, 312, 'TLBI rN drops the entry for one page (this ASID and the global ones); TLBIA drops all; both reach every core; TLBSYNC waits until all have finished.', 9, 'start', '#444')
-    c.text(20, 326, 'The size and organisation are the implementation\'s: the FPGA plan assumes 4-way, 64 entries (section 6.14).', 9, 'start', '#444')
+    c.text(20, 326, 'The size and organisation are the implementation\'s choice (section 6.8).', 9, 'start', '#444')
     return c.svg()
 
 

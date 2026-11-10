@@ -83,7 +83,7 @@ def fig_block_request():
              '3  it writes the queue\'s notification address (the doorbell; FENCE ordered)', '4  the device reads the chain, moves the sector into the buffer, writes the status byte',
              '5  it writes { id, len } in the used ring, then adds 1 to the used idx', '6  an interrupt (or the driver polling used.idx) lets the driver read the status, free the chain, iodone(bp)']
     lines(c, 20, 120, steps, 9.5, gap=15)
-    c.text(20, 408, 'Sizes and flags as in chapter 2 (2.6.5 to 2.6.7) and virtio_blk.h; the numbers 12 and 513 are an example.  The data is written before the used entry before the used idx (5.10.4).', 8, 'start', '#555')
+    c.text(20, 408, 'Sizes and flags as in chapter 2 (2.7.5 to 2.7.7) and virtio_blk.h; the numbers 12 and 513 are an example.  The data is written before the used entry before the used idx (5.10.4).', 8, 'start', '#555')
     return c.svg()
 
 
@@ -128,8 +128,8 @@ def fig_interrupt_path():
             c.line([(x + bw, 164), (x + bw + gap, 164)])
     lines(c, 20, 218, ['PDP-11: a wire and a level shared by every device on it; the vector was set by switches on the card; the handler asks the CSR what happened.',
                        'pdp64: a memory write that cannot pass the data written before it (5.9.4); one vector for each queue; the handler asks the used ring.',
-                       'The dashed box is open: which unit receives the write, how a core is chosen and how the vector number is made are decision R1 (appendix B, 2.7.3).'], 9, gap=15)
-    c.text(20, 290, 'Sources: 2.11BSD pdp/scb.s (DEVTRAP(220, rkintr, br5)); chapter 6 (6.3.1 to 6.3.6) for the entry; chapter 2 (2.7) for MSI-X.', 8, 'start', '#555')
+                       'The dashed box is open: which unit receives the write, how a core is chosen and how the vector number is made are decision R1 (appendix B, 2.6.3).'], 9, gap=15)
+    c.text(20, 290, 'Sources: 2.11BSD pdp/scb.s (DEVTRAP(220, rkintr, br5)); chapter 6 (6.3.1 to 6.3.6) for the entry; chapter 2 (2.6) for MSI-X.', 8, 'start', '#555')
     c.text(20, 304, 'The priority of 7 on entry is the PDP-11\'s own habit (errata 40); the handler lowers it with SPL.', 8, 'start', '#555')
     return c.svg()
 

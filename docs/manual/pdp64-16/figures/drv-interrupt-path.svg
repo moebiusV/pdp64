@@ -50,7 +50,7 @@
 <text x="594.0" y="175.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">EPC, EPSW back</text>
 <text x="20.0" y="218.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">PDP-11: a wire and a level shared by every device on it; the vector was set by switches on the card; the handler asks the CSR what happened.</text>
 <text x="20.0" y="233.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">pdp64: a memory write that cannot pass the data written before it (5.9.4); one vector for each queue; the handler asks the used ring.</text>
-<text x="20.0" y="248.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">The dashed box is open: which unit receives the write, how a core is chosen and how the vector number is made are decision R1 (appendix B, 2.7.3).</text>
-<text x="20.0" y="290.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Sources: 2.11BSD pdp/scb.s (DEVTRAP(220, rkintr, br5)); chapter 6 (6.3.1 to 6.3.6) for the entry; chapter 2 (2.7) for MSI-X.</text>
+<text x="20.0" y="248.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">The dashed box is open: which unit receives the write, how a core is chosen and how the vector number is made are decision R1 (appendix B, 2.6.3).</text>
+<text x="20.0" y="290.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Sources: 2.11BSD pdp/scb.s (DEVTRAP(220, rkintr, br5)); chapter 6 (6.3.1 to 6.3.6) for the entry; chapter 2 (2.6) for MSI-X.</text>
 <text x="20.0" y="304.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The priority of 7 on entry is the PDP-11's own habit (errata 40); the handler lowers it with SPL.</text>
 </svg>

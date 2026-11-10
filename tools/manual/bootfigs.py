@@ -268,7 +268,7 @@ def fig_shim():
     lines(c, rx + 110, 252, ['the boot-information block (4.6), or', 'a device tree or tables made from it,', 'and the memory map in the form', 'the loader expects'], 9, 'middle', '#222', gap=12)
     c.text(20, 332, 'The loader needs the services table, a PE/COFF image of its own and a machine-type number for the pdp64 that the owners of the UEFI', 9, 'start', '#444')
     c.text(20, 345, 'specification would have to assign (unverified, 4.12).  The shim is a few services over drivers that already exist; it is not a firmware', 9, 'start', '#444')
-    c.text(20, 358, 'stack: no PEI, DXE or driver model, no variable store, no setup screen.  Nothing is built; this illustrates the size of the job (4.9).', 9, 'start', '#444')
+    c.text(20, 358, 'stack: no PEI, DXE or driver model, no variable store, no setup screen.  This illustrates the size of the job (4.9).', 9, 'start', '#444')
     c.text(20, 380, 'The services named are those OpenBSD\'s efiboot loaders call (measured, 4.12): 17 (amd64) or 18 (arm64, riscv64) boot and runtime services, counted.', 9, 'start', '#555')
     c.text(20, 393, 'Which of them a given loader needs is for the person who writes the shim to find by reading that loader.', 9, 'start', '#555')
     return c.svg()

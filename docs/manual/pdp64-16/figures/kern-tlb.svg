@@ -101,5 +101,5 @@
 <path d="M210.0,269.0 L170.0,269.0" fill="none" stroke="#222" stroke-width="1.4" stroke-dasharray="5 3"/>
 <polygon points="170.0,269.0 178.0,265.4 178.0,272.6" fill="#222"/>
 <text x="20.0" y="312.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">TLBI rN drops the entry for one page (this ASID and the global ones); TLBIA drops all; both reach every core; TLBSYNC waits until all have finished.</text>
-<text x="20.0" y="326.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">The size and organisation are the implementation's: the FPGA plan assumes 4-way, 64 entries (section 6.14).</text>
+<text x="20.0" y="326.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">The size and organisation are the implementation's choice (section 6.8).</text>
 </svg>
