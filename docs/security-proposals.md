@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-03. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the author's replies are in errata 85 and the ledger; what was accepted is in the manual, what was deferred is in Appendix I, open points in Appendix J. Mentions of eight-register devices, Q64 transaction details and encodings are obsolete: there is one CPU (the 32-register prefix-coded encoding; r20 and pdp64/16 are gone, errata 122 and 123), the bus is virtio and PCI Express (errata 95, 101), section numbers of the manual are those of the manual at the time (it was renumbered, errata 121: find a part by its title)
+
 # Security proposals: random numbers, constant time, execute-only code, IOMMU
 
 [← pdp64 index](../README.md)

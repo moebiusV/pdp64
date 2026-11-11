@@ -1,3 +1,5 @@
+Status: history. Superseded by docs/errata.md, docs/decisions-and-status.md and the single manual. Kept for the record; do not use it to learn the current design. Out of date: it records changes since ISA revision 20 arrived; r20 is gone (errata 122, 123; tags pre-single-cpu and pre-code-removal hold the old state). Use docs/errata.md for the decisions and docs/decisions-and-status.md for the state; the encodings, tools and file names it lists have changed
+
 # pdp64: everything decided or changed since ISA revision 20 arrived
 
 [← pdp64 index](../README.md)

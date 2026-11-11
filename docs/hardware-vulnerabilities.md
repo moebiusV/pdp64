@@ -1,3 +1,5 @@
+Status: record, dated 2026-10-22 and 2026-10-23. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: it is research on other systems, still valid as evidence; the rules it derives (N1 to N11) are adopted or deferred in the manual (see the ledger), and its statements about pdp64 are those of that time: there is one CPU (the 32-register prefix-coded encoding; r20 and pdp64/16 are gone, errata 122 and 123), the bus is virtio and PCI Express (errata 95, 101), section numbers of the manual are those of the manual at the time (it was renumbered, errata 121: find a part by its title)
+
 # Hardware vulnerabilities that needed mitigations, and the rules that keep pdp64 from repeating them
 
 [← pdp64 index](../README.md)

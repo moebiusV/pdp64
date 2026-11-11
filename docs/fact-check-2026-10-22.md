@@ -1,3 +1,5 @@
+Status: record, dated 2026-10-22. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: it checks statements about other machines and systems; the claims about pdp64 it quotes are those of 2026-10-22. The sources it names (the QEMU source, the kernel trees) were local checkouts outside the repository.
+
 # Fact-check of statements about the outside world, 2026-10-22
 
 [← pdp64 index](../README.md)

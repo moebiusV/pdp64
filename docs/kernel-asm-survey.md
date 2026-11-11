@@ -1,3 +1,5 @@
+Status: record, dated 2026-10-22. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: it is research on other kernels, still valid as evidence; the pdp64 design it was written against is that of errata 40 (three encodings, r20 numbers, eight-register devices): there is one CPU (the 32-register prefix-coded encoding; r20 and pdp64/16 are gone, errata 122 and 123), the bus is virtio and PCI Express (errata 95, 101), section numbers of the manual are those of the manual at the time (it was renumbered, errata 121: find a part by its title). Counts of instructions in other kernels are not affected.
+
 # What real kernels write in assembly: a survey of Linux, FreeBSD, NetBSD and OpenBSD, and what pdp64 can learn from it
 
 [← pdp64 index](../README.md)

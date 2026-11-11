@@ -1,6 +1,8 @@
+Status: record, dated 2026-11-03. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the lists are the author's priority statements as collected before errata 83; the definitive list is final and is at the end of this file and in errata 83. The ISA section and manual numbers cited are old.
+
 # The priority lists, with commentary
 
-For the author's annotations. Each list gives its source, whose words it is, and a short commentary. The last section is empty, for the definitive list.
+For the author's annotations. Each list gives its source, whose words it is, and a short commentary. The last section is the definitive list, as the author decided it (errata 83).
 
 The lists are collected from `README.md`, `docs/decisions-pending.md` (Part 0), `docs/manual/01-introduction.md` (1.4), `docs/pdp64-isa.md` (section 1), `docs/errata.md` (42 and 68) and the device-chat export `c64stuff.txt`.
 
@@ -117,10 +119,19 @@ The open choices for the definitive list:
 
 ## The definitive list
 
-*(For you to write. When it is final I will replace the ranking in `pdp64-isa.md` section 1 with it and make the README, the manual's 1.4 and Part 0 of `decisions-pending.md` say the same.)*
+**Final. Decided by the author on 2026-11-03 (errata 83); this is the list that governs the design.** The open choices above were answered as follows: "no strange side effects" sits above code size; gate count sits below speed (the author: speed and power are served by a low gate count, which is why the two are one item); "pleasant in assembler" and "good compiler target" never went away, they are lower priorities; out-of-order readiness and the soft-rule test are standing constraints beside the list, not priorities.
 
-out of order safety and soft rule test are stanading constraints beside, no priorities.
-no strange side effects is above code size.
-gate count is lower than speed
-pleasant in assembler and good compiler target never went away. htey are lower priorities.
-&nbsp;
+In order:
+
+1. **Security and safety.** An error that can never arise; failing that, one that is easy to detect; failing that, one that is cheap to recover from; restart and recovery go together; no strange side effects ("as if we were the NSA").
+2. **Opcode choice.** Fewer instructions executed, so fewer memory fetches, the slowest part of a modern processor; coalescing opcodes is good; this is not fewer opcodes.
+3. **Opcode encoding.** Dense; rare instructions longer.
+4. **Speed and power**, which a low gate count serves (the author: "4 and 5 are essentially the same thing").
+5. **Good compiler target.**
+6. **Pleasant in assembler.**
+
+Standing constraints, not priorities: out-of-order readiness (authoritative; it supersedes the original in-order design); the soft-rule test (errata 42); hot-loop weight; Occam's razor.
+
+Dropped: the rule "compatibility is conversion instructions, never mode bits" (the author: mode bits are case by case, but in general should be visible, not hidden state).
+
+The manual's introduction and the ledger state the same list; if they ever differ, errata 83 wins.

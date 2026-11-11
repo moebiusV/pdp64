@@ -1,3 +1,5 @@
+Status: record, dated 2026-10-22. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: this is the old list of questions to the author; the decisions and open items are now kept in docs/decisions-and-status.md and in Appendix J of the manual (open items), Appendix H (proposed) and Appendix I (deferred). Every 'current state' line below describes the repository of 2026-10-22, not today. Decided later by erratum: P2 (errata 43), P10 (44), P11 (45), P9 (85), P13 (46), P17 (85), S1 to S6 (59), Q3 (96, 102: page-table levels and physical address width), Q10 and R5 (79, 95, 101: virtio, not eight-register devices), R4 (75, 80: Q64 is PCI Express), the priority list and the no-mode-bits rule (42, 83), the dropped bit-39 device selection P19 (97), R7 as an ordinary register (100), the boot route (109), the core counts (92); Parts E and F (conflicts with the chats, the PCI Express pivot) were taken up in errata 72 to 81. Where an item is decided, its section carries a note.
+
 # Decisions waiting for the author
 
 [← pdp64 index](../README.md)
@@ -42,6 +44,8 @@ Context for all of them: the operating system order is now OpenBSD first through
 * [What I need from you](#what-i-need-from-you)
 
 ## Part 0. Your principles, the rule change, and how the options are judged
+
+**Note (2026-11-10): The priority list and the no-mode-bits rule were decided: errata 42 (soft rule) and 83 (the definitive priority list; the author's final list is in docs/priority-lists.md and errata 83). The text below is the record of the earlier ranking.**
 
 **The rule change (errata 42).** All the design rules are soft. Several arguments earlier in this document leaned on "the ISA has a rule against that"; under errata 42 they count as costs and benefits like any others. P10 was the clearest case (decided: `MMUCTL` stays). Q9 option 4 is revised below.
 
@@ -166,6 +170,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 ---
 
 ## P2. The kernel's access to user memory (a guard)
+
+**Note (2026-11-10): Decided: errata 43 (a user-memory guard, `UA`). The text below is the record.**
 
 > **DECIDED (errata 43): option 1**, a `PSW` bit `UA` with `stua` and `clua`, following the author's picks of 2026-10-22. The rest of this section is kept as the record of the options.
 
@@ -363,6 +369,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 
 ## P9. A source of random numbers
 
+**Note (2026-11-10): Decided: errata 85 (one shared pool device, an assistant to the operating system's generator). The text below is the record.**
+
 **The need.** A kernel needs unpredictable bits at boot (for address randomization, key generation, network sequence numbers). A hardware source is the most reliable. Without one, the system gathers jitter from interrupt timing and device events, which is slow to produce enough early in boot. (That OpenBSD wants randomness very early: not confirmed in the sources read.)
 
 **Options.**
@@ -386,6 +394,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 ---
 
 ## P10. The direct-mapping windows and `MMUCTL`
+
+**Note (2026-11-10): Decided: errata 44 (`MMUCTL`); the physical-address layout was later changed by errata 97 and 102 (no address bit selects device space; the physical address is 40 to 64 bits). The text below is the record.**
 
 > **DECIDED (errata 44, with errata 42): `MMUCTL` stays** (option 2) and the `DMW` format is deferred (option 5 for the format). The author's clarification that the no-mode-bits rule is soft withdrew my recommendation to remove it: `MMUCTL` is machine-wide and set once at boot, so the benefits the rule protected are kept. The rest of this section is kept as the record of the options.
 
@@ -416,6 +426,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 ---
 
 ## P11. Atomics on the bus: a lock or a monitor
+
+**Note (2026-11-10): Decided: errata 45 (atomics are defined on a monitor). The text below is the record.**
 
 > **DECIDED (errata 45): option 1**, a monitor (reservation); `DATIP`/`DATO` are no longer architectural. The rest of this section is kept as the record of the options.
 
@@ -474,6 +486,8 @@ The options are listed best-first by my judgement, not by cost. "Cost to build" 
 ---
 
 ## P13. `long double`
+
+**Note (2026-11-10): Decided: errata 46 (`long double` stays the same as `double`). The text below is the record.**
 
 > **DECIDED (errata 46): option 5**, `long double` stays `double` and the ABI version is the door (version 2 for binary128). The rest of this section is kept as the record of the options.
 
@@ -721,6 +735,8 @@ These were decided earlier (the errata cited). They are set out in the same form
 
 ## Q3. Three-level page tables, 39-bit virtual, 40-bit physical, 4 KB pages
 
+**Note (2026-11-10): Decided otherwise later: errata 96 (page tables of 3, 4 or 5 levels, discoverable) and 102 (physical address 40 to 64 bits); the 39-bit virtual address and 40-bit physical address below are the old state.**
+
 **The need.** The page-table shape fixes how much memory a process can address, how many memory reads a translation costs, and how large a table is.
 
 **The explanation.** Each level multiplies reach by 512. Three levels of 9 bits over a 12-bit page offset give 39 bits, 512 GB. The ISA calls this "one bit of headroom" over the physical window and lets the direct-mapping windows reach physical memory with no translation. More levels mean a larger address space and a longer walk on a TLB miss.
@@ -906,6 +922,8 @@ These were decided earlier (the errata cited). They are set out in the same form
 ---
 
 ## Q10. Devices are eight memory-mapped registers plus DMA
+
+**Note (2026-11-10): Superseded: errata 79 and 95 (virtio across the board) and 101 (the disk is virtio-blk); devices are not eight registers plus DMA any more.**
 
 **The need.** How a driver talks to a device decides how much code every device costs and how fast it can go.
 
@@ -1164,6 +1182,8 @@ The boot decisions (the first code, starting the other cores, the hand-off, devi
 
 ## R4. The bus protocol itself (Q64)
 
+**Note (2026-11-10): Decided: errata 75 and 80 (Q64 is built on PCI Express) and 95 (virtio); see the ledger.**
+
 **The need.** The bus connects cores, memory and devices. `Q64` is the name given in the ISA, "defined in 11/64 revision 5", but that revision is not among the documents, so its transactions (widths, bursts, arbitration, timing) are not written anywhere. Something has to be the real protocol.
 
 **The explanation.** An FPGA implementation talks AXI, the standard on-chip bus of Xilinx and other tools; a bridge from Q64 to AXI is estimated at 600 lookup tables (an estimate, not measured). Rather than keep two protocols, one could make AXI the architecture's transport and treat Q64 as the name of the programming model on top of it.
@@ -1189,6 +1209,8 @@ The boot decisions (the first code, starting the other cores, the hand-off, devi
 ---
 
 ## R5. The device register layout and DMA descriptors
+
+**Note (2026-11-10): Superseded: errata 95 (virtio across the board; the native eight-register layout is gone) and 101.**
 
 **The need.** Q10 chose eight registers plus DMA but never wrote the layout. Without it no driver can be written, and the QEMU devices (timer and console aside) have nothing to follow.
 
@@ -1295,6 +1317,8 @@ The boot decisions (the first code, starting the other cores, the hand-off, devi
 ---
 
 ## Part D. Vector and SIMD math
+
+**Note (2026-11-10): Decided: errata 59 (vector, graphics and AI work goes the memory-mapped device route) and 78 (the named devices are deferred); the sections S1 to S6 below are the record.**
 
 > **DECIDED (errata 59, the author, 2026-10-22): the memory-mapped device route.** The processor has no vector register file and no SIMD instruction set; wide work is done by devices driven by descriptors, for graphics, AI and large-language-model inference, and the array languages APL and K. This closes S1 (option 1), S2 (no vector registers), S3 (no vector length in the processor), S4 (no vector state to save) and S6 (no vector ABI). S5 (the number formats and operations of the devices) and the open items listed in errata 59 remain. The options below are kept as the record. See [`manual/08-vectors.md`](manual/08-vectors.md).
 

@@ -1,3 +1,5 @@
+Status: record, dated 2026-10-24. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the devices are deferred and are not named in the manual (errata 78, 120: the names VIC-64X, SID-64X and BLT64 are not used, Q64 is held until the additions to PCI Express are decided); the standard interface for network, graphics and audio is virtio (errata 79, 95). The line numbers cite c64stuff.txt, an export of the author's chats that is not part of the documents.
+
 # The C64 devices as the author's chats decided them
 
 [← pdp64 index](../README.md)
