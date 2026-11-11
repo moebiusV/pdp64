@@ -1,0 +1,2 @@
+encopt 1.0 (2026-11-10)
+* First release: the exact optimiser of the pdp64 prefix encoding, replacing the greedy selection of docs/codegen-data/encoding/solve.py.

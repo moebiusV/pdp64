@@ -1,0 +1,16 @@
+encopt -- the optimal prefix encoding of the pdp64
+==================================================
+
+encopt chooses, among the candidate instruction forms of the pdp64 encoding, the set that makes the corpus smallest within the code space of the 16-bit first
+parcel, and assigns the prefixes.  It replaces the greedy selection of docs/codegen-data/encoding/solve.py with an exact search and says whether the result is proved
+optimal.  The model, the algorithms and the measurements are in docs/encoding-work/optimizer.md (in the pdp64 repository); the formats are encopt.5, the program encopt.1.
+
+Build and test:        ./configure && make && make check && make install
+Run:                   encopt tests/current.encopt            (the statistics of the corpus of 2026-11-10: proved optimum in a few seconds)
+                       encopt -C tests/current.encopt         (the committed selection, with the prefixes of spec/pdp64/pdp64.hbnf)
+Write an input file:   python3 export.py --corpus DIR --out FILE
+                       (export.py stays Python: it reads the corpus with the study's reader and operand model, docs/codegen-data/encoding; DIR is the compiled assembly of
+                       the corpus, one .s per source file, `ccom -m pdp64/32`; see optimizer.md, "Re-running it")
+
+Files:  encopt.c encopt.h (library: model, reductions, bounds, search, prefix assignment), main.c (command line), export.py, check.sh, tests/.
+C99, libc and libm only.  Licence: see COPYING.

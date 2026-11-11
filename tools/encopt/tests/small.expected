@@ -1,0 +1,20 @@
+encopt-output 1
+status optimal
+objective-credit 800
+lower-bound-credit 800
+gap-credit 0
+objective-bytes 800
+unencodable-weight 0
+patterns 33344 40000
+compare committed credit 1040 bytes 1040 unencodable 0 patterns 24640 vs-committed +0
+compare greedy credit 840 bytes 840 unencodable 0 patterns 25152 vs-committed -200
+compare greedy-refined credit 800 bytes 800 unencodable 0 patterns 33344 vs-committed -240
+compare encopt credit 800 bytes 800 unencodable 0 patterns 33344 vs-committed -240
+chosen B
+chosen C
+chosen D
+kraft 33344 65536
+leaf F 1 2 00 2 f1 f2
+leaf B 1 2 01 1 b1
+leaf C 1 10 1000001000 1 c1
+leaf D 1 7 1000000 2 d1 d2

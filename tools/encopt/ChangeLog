@@ -1,0 +1,4 @@
+2026-11-10  encopt 1.0
+	* encopt.c, main.c, encopt.h: model, reductions, dual-ascent bound, branch and bound, frontier dynamic programme, canonical prefix assignment.
+	* export.py: writes the input file from the Python study's data.
+	* check.sh, tests/: brute-force comparison and the whole-pipeline test.

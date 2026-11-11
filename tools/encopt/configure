@@ -1,0 +1,27 @@
+#!/bin/sh
+# configure -- a small hand-written configure for encopt: ./configure [--prefix=DIR] [--bindir=DIR] [--mandir=DIR] [CC=cc] [CFLAGS=...]
+prefix=/usr/local
+CC=${CC:-cc}
+CFLAGS=${CFLAGS:--O2}
+for a in "$@"; do
+	case $a in
+	--prefix=*) prefix=${a#*=} ;;
+	--bindir=*) bindir=${a#*=} ;;
+	--mandir=*) mandir=${a#*=} ;;
+	--datadir=*|--libdir=*|--sysconfdir=*|--localstatedir=*|--build=*|--host=*|--target=*|--disable-*|--enable-*) ;;
+	CC=*) CC=${a#*=} ;;
+	CFLAGS=*) CFLAGS=${a#*=} ;;
+	--help|-h) sed -n 2p "$0"; exit 0 ;;
+	*) echo "configure: unknown option $a" >&2; exit 1 ;;
+	esac
+done
+: "${bindir:=$prefix/bin}" "${mandir:=$prefix/share/man}"
+cat > config.mk <<EOT
+prefix = $prefix
+bindir = $bindir
+mandir = $mandir
+CC = $CC
+CFLAGS = $CFLAGS
+EOT
+echo "configure: prefix=$prefix bindir=$bindir mandir=$mandir CC=$CC"
+echo "configure: now run make"

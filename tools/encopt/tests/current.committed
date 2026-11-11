@@ -1,0 +1,412 @@
+encopt-output 1
+status committed-selection
+compare committed credit 996750 bytes 962892 unencodable 342 patterns 62258
+chosen BR2_16/a
+chosen CBI4_8H/a
+chosen STBu6/a
+chosen CALL2_16/c
+chosen CB3I16_12H/b
+chosen LEASx12H/a
+chosen LDI12H/b
+chosen CBR8H/a
+chosen LDX0/a
+chosen STBu8H/b
+chosen PUSHM16b/a
+chosen BR2_16/b
+chosen LDPC12H/a
+chosen CBR8H/c
+chosen CB3I16_12H/c
+chosen LDBu6/b
+chosen CALL2_18/c
+chosen CALL2_16/j
+chosen CMBu8H/a
+chosen CBZ2_12H/a
+chosen BR1_6/a
+chosen CBR8H/b
+chosen CBI5_8H/a
+chosen LDI14H/a
+chosen LDPC14H/a
+chosen SOBu12H/a
+chosen LDBu6/c
+chosen STBs8H/a
+chosen SOBu12H/x
+chosen STX0/b
+chosen LDBu8H/a
+chosen LDI16H/a
+chosen CBI3_8/a
+chosen CBI8_8H/b
+chosen CBI6_8H/a
+chosen STX0/a
+chosen LDI12H/c
+chosen IMMh43/a
+chosen LDI12/a
+chosen CBI10_8H/a
+chosen CB3I8_20H/a
+chosen BR2_16/c
+chosen STBs6/b
+chosen LDPC16H/a
+chosen CBI4_8H/c
+chosen LDX0/b
+chosen STBu10H/a
+chosen SPADJ6/a
+chosen CBR8/c
+chosen CMI12H/a
+chosen LDBu10H/a
+chosen LDHHH1/a
+chosen LDBu8H/c
+chosen STHHH1/a
+chosen CB3R24H/a
+chosen CBZ2_12H/b
+chosen LEASPh4/a
+chosen LDBs6/a
+chosen BR1_7/a
+chosen CB3R24H/c
+chosen CBI6_8H/c
+chosen CBI5_10H/a
+chosen CBR8/a
+chosen CB3I16_12/a
+chosen LDI14H/b
+chosen BR1_6/b
+chosen LDI12/d
+chosen CMBu10H/a
+chosen STBu10H/b
+chosen CMBu6/a
+chosen LEAS12H/a
+chosen SHIh43/a
+chosen CB3I8_20/b
+chosen LDSPh4/a
+chosen IMMh45/a
+chosen CBR8/b
+chosen BR1_8/a
+chosen STSPh4/a
+chosen CBZ1_4/a
+chosen PUSHM8/a
+chosen CB3I12_16/c
+chosen LDBu12H/a
+chosen LDS12H/c
+chosen CMBu8/a
+chosen CBR10H/c
+chosen IMMh43/b
+chosen LDBu8H/b
+chosen STHHH1/b
+chosen STBu12H/a
+chosen CBI6_10H/a
+chosen LDI18H/b
+chosen LDI12/b
+chosen LDX0/c
+chosen STBu12H/b
+chosen LDHHH3/a
+chosen PUSHM24/a
+chosen LDPC12/a
+chosen CBR10H/a
+chosen CBI8_8H/c
+chosen IMMh47/a
+chosen LDBu8/a
+chosen LDPC16H/c
+chosen STBs6/a
+chosen BR1_9/a
+chosen LDPC12H/b
+chosen CBI8_10H/a
+chosen CBI3_12H/a
+chosen CBI3_8/b
+chosen LDX6H/a
+chosen SOX4/a
+chosen SHIh44/a
+chosen STBs8H/b
+chosen CBI3_10/a
+chosen LDS12H/b
+chosen CMPC16H/a
+chosen STX6H/a
+chosen LDBs10/a
+chosen SOBs12/a
+chosen CBI4_10H/c
+chosen CMI18H/a
+chosen LDBu8/c
+chosen CBZ2_14H/a
+chosen CBI4_10H/b
+chosen STX4H/b
+chosen CMS12H/a
+chosen LDBu12H/b
+chosen CBI4_8/a
+chosen CB3R24H/b
+chosen CMX0/a
+chosen SOBs12/x
+chosen LDPC12H/d
+chosen LDBs6/b
+chosen STBs8/a
+chosen STBu6/b
+chosen CMI12/a
+chosen CBI3_8/c
+chosen SOX4/x
+chosen LEAS14H/a
+chosen CBI4_8/b
+chosen CBI5_8/a
+kraft 62258 65536
+leaf SYS0 1 11 11101110010 32 nop rti rtt ret halt bpt fence wfe sev lpad tlbia tlbsync icinva pushx popx isync trapcc.ne trapcc.eq trapcc.pl trapcc.mi trapcc.vc trapcc.vs trapcc.cc trapcc.cs trapcc.ge trapcc.lt trapcc.gt trapcc.le trapcc.hi trapcc.los syspg0 syspg1
+leaf SYS0 2 14 11110010001100 4 syspg2 syspg3 syspg4 syspg5
+leaf SYSR 1 8 11000100 8 mtps mfps tlbi mtasid mfasid mtdp mfdp mtdmw
+leaf SYSR 2 10 1110100000 2 mfcpuid icinv
+leaf SETF 0 11 11101110011 1 set
+leaf SYSI 1 6 011010 4 spl trap trapl hint
+leaf MFSR 1 15 111100101110000 1 mfsr
+leaf MTSR 1 15 111100101110001 1 mtsr
+leaf R2 0 12 111100000010 67 clz ctz clo cto popcnt bswap bswapw bswapl bitrev utf8len utf8dec utf8enc mval abs prober probew fdiv fsqrt fadd32 fsub32 fmul32 fdiv32 fsqrt32 fcmp32 fneg fabs fclass fclass32 frint frintz frintm frintp frinta fcvtdq fcvtqd fcvtds fcvtsd fcvtsl fcvtls fcvtdqu fcvtqud fsflags fadd16 fsub16 fmul16 fdiv16 fsqrt16 fcmp16 fclass16 fcvtsh fcvths fcvtdh fcvthd fcvthl fcvtlh aesim sha256sig0 sha256sig1 sha256sum0 sha256sum1 sha512sig0 sha512sig1 sha512sum0 sha512sum1 addv subv mulv
+leaf R3 0 10 1110100001 51 ror xnorpop clmull clmulh mcpy mmov mset mcmp mscn mscnn div divu mod modu mulhu min minu max maxu fcopysign fmin fmax maskeqz masknez aeses aesesm aesds aesdsm aesks2 xadd xadddb swap swapdb xand xanddb xor_ xor_db xxor xxordb xmax xmaxdb xmin xmindb xmaxu xmaxudb xminu xminudb ll sc msha256 msha512
+leaf R4 0 8 11000101 16 fmadd fmsub fnmadd fnmsub fmadd32 fmsub32 fnmadd32 fnmsub32 fmadd16 fmsub16 fnmadd16 fnmsub16 bsel cas casdb maesctr
+leaf RRI 0 12 111100000011 4 rori rori32 rol aesks1
+leaf BFx 0 7 1001110 1 dshr
+leaf BFy 0 8 11000110 3 extb extzb insb
+leaf MOVQL 1 11 11101110100 1 movql
+leaf LDU.B28 1 6 011011 16 movq.u movl.u movw.u movb.u movzl.u movzw.u movzb.u movq.d movl.d movw.d movb.d movzl.d movzw.d movzb.d movq.ud movl.ud
+leaf LDU.B28 2 8 11000111 4 movw.ud movb.ud movzl.ud movzw.ud
+leaf LDU.B28 3 10 1110100010 1 movzb.ud
+leaf STU.B28 1 8 11001000 4 movq.u movl.u movw.u movb.u
+leaf LDU.B12 1 6 011100 16 movq.u movl.u movw.u movb.u movzl.u movzw.u movzb.u movq.d movl.d movw.d movb.d movzl.d movzw.d movzb.d movq.ud movl.ud
+leaf LDU.B12 2 8 11001001 4 movw.ud movb.ud movzl.ud movzw.ud
+leaf LDU.B12 3 10 1110100011 1 movzb.ud
+leaf STU.B12 1 8 11001010 4 movq.u movl.u movw.u movb.u
+leaf LDU.X6 1 5 01000 16 movq.u movl.u movw.u movb.u movzl.u movzw.u movzb.u movq.d movl.d movw.d movb.d movzl.d movzw.d movzb.d movq.ud movl.ud
+leaf LDU.X6 2 7 1001111 4 movw.ud movb.ud movzl.ud movzw.ud
+leaf LDU.X6 3 9 110111000 1 movzb.ud
+leaf STU.X6 1 7 1010000 4 movq.u movl.u movw.u movb.u
+leaf LDF.B28 1 6 011101 16 movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl
+leaf LDF.B28 2 7 1010001 8 shr sar fadd fsub fmul bit lea movub
+leaf LDF.B28 3 9 110111001 2 movuw movul
+leaf LDF.B28 4 10 1110100100 1 movuq
+leaf LDF.X22 1 5 01001 16 movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl
+leaf LDF.X22 2 6 011110 8 shr sar fadd fsub fmul bit lea movub
+leaf LDF.X22 3 8 11001011 2 movuw movul
+leaf LDF.X22 4 9 110111010 1 movuq
+leaf LDF.PI12 1 6 011111 16 movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl
+leaf LDF.PI12 2 7 1010010 8 shr sar fadd fsub fmul bit lea movub
+leaf LDF.PI12 3 9 110111011 2 movuw movul
+leaf LDF.PI12 4 10 1110100101 1 movuq
+leaf LDF.PD12 1 6 100000 16 movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl
+leaf LDF.PD12 2 7 1010011 8 shr sar fadd fsub fmul bit lea movub
+leaf LDF.PD12 3 9 110111100 2 movuw movul
+leaf LDF.PD12 4 10 1110100110 1 movuq
+leaf LDF.PC32 1 7 1010100 16 movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl
+leaf LDF.PC32 2 8 11001100 8 shr sar fadd fsub fmul bit lea movub
+leaf LDF.PC32 3 10 1110100111 2 movuw movul
+leaf LDF.PC32 4 11 11101110101 1 movuq
+leaf LDF.A32 1 7 1010101 16 movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl
+leaf LDF.A32 2 8 11001101 8 shr sar fadd fsub fmul bit lea movub
+leaf LDF.A32 3 10 1110101000 2 movuw movul
+leaf LDF.A32 4 11 11101110110 1 movuq
+leaf LDFI.I32 1 7 1010110 16 add sub bic bis xor and mul mulh shl shr sar fadd fsub fmul bit movq
+leaf LDFI.I32 2 9 110111101 4 movl movw movb movzl
+leaf LDFI.I32 3 10 1110101001 2 movzw movzb
+leaf STF.B28 1 7 1010111 8 movq movl movw movb movub movuw movul movuq
+leaf STF.B28 2 8 11001110 4 addm subm bicm bism
+leaf STF.X22 1 6 100001 8 movq movl movw movb movub movuw movul movuq
+leaf STF.X22 2 7 1011000 4 addm subm bicm bism
+leaf STF.PI12 1 7 1011001 8 movq movl movw movb movub movuw movul movuq
+leaf STF.PI12 2 8 11001111 4 addm subm bicm bism
+leaf STF.PD12 1 7 1011010 8 movq movl movw movb movub movuw movul movuq
+leaf STF.PD12 2 8 11010000 4 addm subm bicm bism
+leaf STF.PC32 1 8 11010001 8 movq movl movw movb movub movuw movul movuq
+leaf STF.PC32 2 9 110111110 4 addm subm bicm bism
+leaf STF.A32 1 8 11010010 8 movq movl movw movb movub movuw movul movuq
+leaf STF.A32 2 9 110111111 4 addm subm bicm bism
+leaf CMF.B28 1 9 111000000 2 cmp fcmp
+leaf CMF.X22 1 8 11010011 2 cmp fcmp
+leaf CMF.PI12 1 9 111000001 2 cmp fcmp
+leaf CMF.PD12 1 9 111000010 2 cmp fcmp
+leaf CMF.PC32 1 10 1110101010 2 cmp fcmp
+leaf CMF.A32 1 10 1110101011 2 cmp fcmp
+leaf CMF.I32 1 10 1110101100 2 cmp fcmp
+leaf SOF.B28 1 11 11101110111 16 clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli
+leaf SOF.X22 1 10 1110101101 16 clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli
+leaf SOF.PI12 1 11 11101111000 16 clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli
+leaf SOF.PD12 1 11 11101111001 16 clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli
+leaf SOF.PC32 1 12 111100000100 16 clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli
+leaf SOF.A32 1 12 111100000101 16 clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli
+leaf DPF.D28 1 11 11101111010 16 movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl
+leaf DPF.D28 2 12 111100000110 8 shr sar fadd fsub fmul bit lea movub
+leaf DPF.D28 3 14 11110010001101 2 movuw movul
+leaf DPF.D28 4 15 111100101110010 1 movuq
+leaf BRF 1 13 1111000101100 8 br bne beq bpl bmi bvc bvs bcc
+leaf BRF 2 14 11110010001110 4 bcs bge blt bgt
+leaf BRF 3 15 111100101110011 2 ble bhi
+leaf BRF 4 16 1111001100100010 1 blos
+leaf CALLF 1 15 111100101110100 2 call jmp
+leaf PUSHMF 1 15 111100101110101 2 pushm popm
+leaf SOPR 1 8 11010100 8 clr com inc dec neg tst adc sbc
+leaf SOPR 2 9 111000011 4 asl asr push pop
+leaf SOPR 3 10 1110101110 2 jmp call
+leaf PUSHI3 1 16 1111001100100011 1 push
+leaf PUSHI2 1 16 1111001100100100 1 push
+leaf JTAG3 1 14 11110010001111 1 jtag
+leaf JTAG2 1 14 11110010010000 1 jtag
+leaf RRF 1 4 0010 16 movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl
+leaf RRF 2 5 01010 8 shr sar fadd fsub fmul bit cmp fcmp
+leaf RRF5 0 16 1111001100100101 24 movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl shr sar fadd fsub fmul bit cmp fcmp
+leaf CBDI 1 9 111000100 4 cbpl cbmi cbvc cbvs
+leaf CBDR 1 8 11010101 4 cbpl cbmi cbvc cbvs
+leaf SOB 1 11 11101111011 1 sob
+leaf TAG 1 10 1110101111 2 btag bntag
+leaf SPADJF 1 15 111100101110110 2 add sub
+leaf FX.MOVCALL3 1 6 100010 1 movcall
+leaf FX.MOVCALL2 1 6 100011 1 movcall
+leaf FX.POPMRET 1 8 11010110 1 popmret
+leaf FX.POPRET 1 11 11101111100 1 popret
+leaf FX.MOV2 1 4 0011 1 mov2
+leaf RR5 1 3 000 8 movq movl add sub xor and bis shl
+leaf BR2_16/a 1 16 1111001100100110 1 br
+leaf CBI4_8H/a 1 15 111100101110111 2 cbeq cbne
+leaf STBu6/a 1 15 111100101111000 2 movq movl
+leaf CALL2_16/c 1 16 1111001100100111 1 call
+leaf CB3I16_12H/b 1 14 11110010010001 4 cblt cbge cbgt cble
+leaf LEASx12H/a 1 16 1111001100101000 1 lea
+leaf LDI12H/b 1 15 111100101111001 2 add sub
+leaf LDI12H/b 2 16 1111001100101001 1 and
+leaf CBR8H/a 1 15 111100101111010 2 cbeq cbne
+leaf LDX0/a 1 13 1111000101101 4 movq movl movzb lea
+leaf STBu8H/b 1 15 111100101111011 2 movw movb
+leaf PUSHM16b/a 1 15 111100101111100 2 pushm popm
+leaf BR2_16/b 1 15 111100101111101 2 beq bne
+leaf LDPC12H/a 1 14 11110010010010 4 movq movl movzb lea
+leaf CBR8H/c 1 14 11110010010011 4 cbcs cbcc cbhi cblos
+leaf CB3I16_12H/c 1 14 11110010010100 4 cbcs cbcc cbhi cblos
+leaf LDBu6/b 1 14 11110010010101 4 movw movb movzl movzw
+leaf CALL2_18/c 1 14 11110010010110 1 call
+leaf CALL2_16/j 1 16 1111001100101010 1 jmp
+leaf CMBu8H/a 1 16 1111001100101011 1 cmp
+leaf CBZ2_12H/a 1 15 111100101111110 2 cbeq cbne
+leaf BR1_6/a 1 10 1110110000 1 br
+leaf CBR8H/b 1 14 11110010010111 4 cblt cbge cbgt cble
+leaf CBI5_8H/a 1 14 11110010011000 2 cbeq cbne
+leaf LDI14H/a 1 14 11110010011001 1 movq
+leaf LDPC14H/a 1 12 111100000111 4 movq movl movzb lea
+leaf SOBu12H/a 1 14 11110010011010 4 clr inc dec tst
+leaf SOBu12H/a 2 15 111100101111111 2 push pop
+leaf LDBu6/c 1 14 11110010011011 4 add sub and bis
+leaf LDBu6/c 2 16 1111001100101100 1 xor
+leaf STBs8H/a 1 15 111100110000000 2 movq movl
+leaf SOBu12H/x 1 14 11110010011100 4 jmp call jmpi calli
+leaf STX0/b 1 14 11110010011101 2 movw movb
+leaf LDBu8H/a 1 13 1111000101110 4 movq movl movzb lea
+leaf LDI16H/a 1 12 111100001000 1 movq
+leaf CBI3_8/a 1 15 111100110000001 2 cbeq cbne
+leaf CBI8_8H/b 1 10 1110110001 4 cblt cbge cbgt cble
+leaf CBI6_8H/a 1 13 1111000101111 2 cbeq cbne
+leaf STX0/a 1 14 11110010011110 2 movq movl
+leaf LDI12H/c 1 14 11110010011111 4 bis xor mul bic
+leaf IMMh43/a 1 9 111000101 1 movq
+leaf LDI12/a 1 15 111100110000010 1 movq
+leaf CBI10_8H/a 1 9 111000110 2 cbeq cbne
+leaf CB3I8_20H/a 1 15 111100110000011 2 cbeq cbne
+leaf BR2_16/c 1 13 1111000110000 8 bpl bmi bvc bvs bcc bcs bge blt
+leaf BR2_16/c 2 14 11110010100000 4 bgt ble bhi blos
+leaf STBs6/b 1 15 111100110000100 2 movw movb
+leaf LDPC16H/a 1 10 1110110010 4 movq movl movzb lea
+leaf CBI4_8H/c 1 14 11110010100001 4 cbcs cbcc cbhi cblos
+leaf LDX0/b 1 13 1111000110001 4 movw movb movzl movzw
+leaf STBu10H/a 1 13 1111000110010 2 movq movl
+leaf SPADJ6/a 1 9 111000111 2 add sub
+leaf CBR8/c 1 12 111100001001 4 cbcs cbcc cbhi cblos
+leaf CMI12H/a 1 16 1111001100101101 1 cmp
+leaf LDBu10H/a 1 11 11101111101 4 movq movl movzb lea
+leaf LDHHH1/a 1 7 1011011 4 movq movl movzb lea
+leaf LDBu8H/c 1 13 1111000110011 4 add sub and bis
+leaf LDBu8H/c 2 15 111100110000101 1 xor
+leaf STHHH1/a 1 8 11010111 2 movq movl
+leaf CB3R24H/a 1 15 111100110000110 2 cbeq cbne
+leaf CBZ2_12H/b 1 14 11110010100010 4 cblt cbge cbgt cble
+leaf LEASPh4/a 1 8 11011000 1 lea
+leaf LDBs6/a 1 14 11110010100011 4 movq movl movzb lea
+leaf BR1_7/a 1 9 111001000 1 br
+leaf CB3R24H/c 1 14 11110010100100 4 cbcs cbcc cbhi cblos
+leaf CBI6_8H/c 1 12 111100001010 4 cbcs cbcc cbhi cblos
+leaf CBI5_10H/a 1 12 111100001011 2 cbeq cbne
+leaf CBR8/a 1 13 1111000110100 2 cbeq cbne
+leaf CB3I16_12/a 1 14 11110010100101 2 cbeq cbne
+leaf LDI14H/b 1 13 1111000110101 2 add sub
+leaf LDI14H/b 2 14 11110010100110 1 and
+leaf BR1_6/b 1 9 111001001 2 beq bne
+leaf LDI12/d 1 13 1111000110110 4 shl shr sar mul
+leaf LDI12/d 2 14 11110010100111 2 bic movb
+leaf LDI12/d 3 15 111100110000111 1 bit
+leaf CMBu10H/a 1 14 11110010101000 1 cmp
+leaf STBu10H/b 1 13 1111000110111 2 movw movb
+leaf CMBu6/a 1 16 1111001100101110 1 cmp
+leaf LEAS12H/a 1 16 1111001100101111 1 lea
+leaf SHIh43/a 1 7 1011100 4 shl shr sar rol
+leaf CB3I8_20/b 1 13 1111000111000 4 cblt cbge cbgt cble
+leaf LDSPh4/a 1 6 100100 4 movq movl movzb lea
+leaf IMMh45/a 1 7 1011101 1 movq
+leaf CBR8/b 1 12 111100001100 4 cblt cbge cbgt cble
+leaf BR1_8/a 1 8 11011001 1 br
+leaf STSPh4/a 1 7 1011110 2 movq movl
+leaf CBZ1_4/a 1 6 100101 2 cbeq cbne
+leaf PUSHM8/a 1 7 1011111 2 pushm popm
+leaf CB3I12_16/c 1 13 1111000111001 4 cbcs cbcc cbhi cblos
+leaf LDBu12H/a 1 9 111001010 4 movq movl movzb lea
+leaf LDS12H/c 1 14 11110010101001 4 add sub and bis
+leaf LDS12H/c 2 16 1111001100110000 1 xor
+leaf CMBu8/a 1 14 11110010101010 1 cmp
+leaf CBR10H/c 1 12 111100001101 4 cbcs cbcc cbhi cblos
+leaf IMMh43/b 1 8 11011010 2 add sub
+leaf IMMh43/b 2 9 111001011 1 and
+leaf LDBu8H/b 1 13 1111000111010 4 movw movb movzl movzw
+leaf STHHH1/b 1 8 11011011 2 movw movb
+leaf STBu12H/a 1 11 11101111110 2 movq movl
+leaf CBI6_10H/a 1 11 11101111111 2 cbeq cbne
+leaf LDI18H/b 1 9 111001100 2 add sub
+leaf LDI18H/b 2 10 1110110011 1 and
+leaf LDI12/b 1 14 11110010101011 2 add sub
+leaf LDI12/b 2 15 111100110001000 1 and
+leaf LDX0/c 1 13 1111000111011 4 add sub and bis
+leaf LDX0/c 2 15 111100110001001 1 xor
+leaf STBu12H/b 1 11 11110000000 2 movw movb
+leaf LDHHH3/a 1 5 01011 4 movq movl movzb lea
+leaf PUSHM24/a 1 7 1100000 2 pushm popm
+leaf LDPC12/a 1 13 1111000111100 4 movq movl movzb lea
+leaf CBR10H/a 1 13 1111000111101 2 cbeq cbne
+leaf CBI8_8H/c 1 10 1110110100 4 cbcs cbcc cbhi cblos
+leaf IMMh47/a 1 5 01100 1 movq
+leaf LDBu8/a 1 12 111100001110 4 movq movl movzb lea
+leaf LDPC16H/c 1 10 1110110101 4 add sub and bis
+leaf LDPC16H/c 2 12 111100001111 1 xor
+leaf STBs6/a 1 15 111100110001010 2 movq movl
+leaf BR1_9/a 1 7 1100001 1 br
+leaf LDPC12H/b 1 14 11110010101100 4 movw movb movzl movzw
+leaf CBI8_10H/a 1 9 111001101 2 cbeq cbne
+leaf CBI3_12H/a 1 12 111100010000 2 cbeq cbne
+leaf CBI3_8/b 1 14 11110010101101 4 cblt cbge cbgt cble
+leaf LDX6H/a 1 9 111001110 4 movq movl movzb lea
+leaf SOX4/a 1 14 11110010101110 4 clr inc dec tst
+leaf SOX4/a 2 15 111100110001011 2 push pop
+leaf SHIh44/a 1 6 100110 4 shl shr sar rol
+leaf STBs8H/b 1 15 111100110001100 2 movw movb
+leaf CBI3_10/a 1 13 1111000111110 2 cbeq cbne
+leaf LDS12H/b 1 14 11110010101111 4 movw movb movzl movzw
+leaf CMPC16H/a 1 12 111100010001 1 cmp
+leaf STX6H/a 1 10 1110110110 2 movq movl
+leaf LDBs10/a 1 10 1110110111 4 movq movl movzb lea
+leaf SOBs12/a 1 13 1111000111111 4 clr inc dec tst
+leaf SOBs12/a 2 14 11110010110000 2 push pop
+leaf CBI4_10H/c 1 12 111100010010 4 cbcs cbcc cbhi cblos
+leaf CMI18H/a 1 10 1110111000 1 cmp
+leaf LDBu8/c 1 12 111100010011 4 add sub and bis
+leaf LDBu8/c 2 14 11110010110001 1 xor
+leaf CBZ2_14H/a 1 13 1111001000000 2 cbeq cbne
+leaf CBI4_10H/b 1 12 111100010100 4 cblt cbge cbgt cble
+leaf STX4H/b 1 12 111100010101 2 movw movb
+leaf CMS12H/a 1 16 1111001100110001 1 cmp
+leaf LDBu12H/b 1 9 111001111 4 movw movb movzl movzw
+leaf CBI4_8/a 1 14 11110010110010 2 cbeq cbne
+leaf CB3R24H/b 1 14 11110010110011 4 cblt cbge cbgt cble
+leaf CMX0/a 1 15 111100110001101 1 cmp
+leaf SOBs12/x 1 13 1111001000001 4 jmp call jmpi calli
+leaf LDPC12H/d 1 13 1111001000010 8 bic mul mulh shl shr sar fadd fsub
+leaf LDPC12H/d 2 15 111100110001110 2 fmul bit
+leaf LDBs6/b 1 14 11110010110100 4 movw movb movzl movzw
+leaf STBs8/a 1 13 1111001000011 2 movq movl
+leaf STBu6/b 1 15 111100110001111 2 movw movb
+leaf CMI12/a 1 15 111100110010000 1 cmp
+leaf CBI3_8/c 1 14 11110010110101 4 cbcs cbcc cbhi cblos
+leaf SOX4/x 1 14 11110010110110 4 jmp call jmpi calli
+leaf LEAS14H/a 1 14 11110010110111 1 lea
+leaf CBI4_8/b 1 13 1111001000100 4 cblt cbge cbgt cble
+leaf CBI5_8/a 1 13 1111001000101 2 cbeq cbne

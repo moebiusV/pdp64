@@ -1,0 +1,6 @@
+/encopt
+/encopt2
+/config.mk
+/tests/test_random
+/encopt-*.tar.gz
+__pycache__/

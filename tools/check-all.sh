@@ -14,6 +14,7 @@ tools/check-ld64.sh
 tools/check-sim64.sh
 tools/check-timing.sh
 tools/check-exec-enc.sh
+tools/encopt/check.sh > /dev/null; echo "encopt: random instances against brute force, small case, current statistics: ok"
 tools/check-relax.sh | tail -n 1
 tools/check-relax.sh --mutate | tail -n 1
 tools/check-flaginv.sh | tail -n 1

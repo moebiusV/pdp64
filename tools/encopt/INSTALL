@@ -1,0 +1,5 @@
+./configure [--prefix=/usr/local] && make && make check && make install
+
+Needs a C99 compiler and libc (and libm); nothing else.  `make check` needs sh; the part of check.sh that compares with the grammar spec/pdp64/pdp64.hbnf also
+needs python3 and runs only inside the pdp64 repository.  DESTDIR is honoured by install and uninstall.  export.py (the exporter of the input file) is not
+installed: it reads the Python study in docs/codegen-data/encoding and belongs to the repository.

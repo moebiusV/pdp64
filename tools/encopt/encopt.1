@@ -1,0 +1,85 @@
+.TH ENCOPT 1 "2026-11-10" "encopt 1.0" "pdp64 tools"
+.SH NAME
+encopt \- optimal choice of the instruction forms of a prefix-coded encoding
+.SH SYNOPSIS
+.B encopt
+[\fB\-o\fR \fIoutput\fR] [\fB\-t\fR \fIseconds\fR] [\fB\-n\fR \fInodes\fR] [\fB\-r\fR \fIname\fR] [\fB\-x\fR \fIname\fR] [\fB\-C\fR] [\fB\-q\fR] [\fB\-v\fR] \fIinput\fR
+.br
+.B encopt \-\-version | \-\-help
+.SH DESCRIPTION
+The pdp64 encodes an instruction as a variable number of 16-bit parcels; the length and the form of the instruction are given by a prefix of the first parcel
+(a prefix code).  A form whose operands need \fIb\fR bits in an instruction of \fIn\fR parcels takes the prefix length 16n \- b and with it 2^(16\-L) of the 65,536
+first-parcel patterns.  By Kraft's inequality a prefix-free assignment exists exactly when the shares add up to at most all of the patterns.
+The forms the instruction set cannot do without (the \fIforced\fR forms) are always present; the \fIcandidate\fR forms each shorten some instructions of the corpus and
+each costs code space.
+.B encopt
+chooses the candidates that minimise the bytes of the corpus within the code space that the forced forms leave (the budget is a policy: the study keeps 5% free),
+and assigns the prefixes (the canonical assignment: shortest prefix first, each aligned to its size).
+.PP
+The search is exact (see ALGORITHM) and is reported with its proof status.  The result is deterministic: the same input gives the same bytes of output.
+.PP
+\fIinput\fR is a file in the format of
+.BR encopt (5)
+(\fB\-\fR reads standard input), written by
+.B export.py
+from the data of the Python study in the pdp64 repository, and later by the compiler's corpus tool.  The result is written in the output format of
+.BR encopt (5).
+.SH OPTIONS
+.TP
+.BI \-o " file"
+Write the result to \fIfile\fR (default standard output).
+.TP
+.BI \-t " seconds"
+Time limit of the exact search, default 600, 0 for none.  When the limit stops the search the status is \fBbest-found\fR.
+.TP
+.BI \-n " nodes"
+Limit of the branch-and-bound nodes of the search (default none).
+.TP
+.BI \-r " name"
+The candidate \fIname\fR must be chosen (a constraint, repeatable).  The status of a proved result is then \fBoptimal-within-constraint-set\fR.
+.TP
+.BI \-x " name"
+The candidate \fIname\fR may not be chosen (repeatable).
+.TP
+.B \-C
+Do not search: evaluate the \fBcommitted\fR selection of the input (the forms of the grammar in force) and write its prefix assignment, in the order of the
+committed lines.  Used to check the assignment against the grammar.
+.TP
+.B \-q
+Nothing on standard error.
+.TP
+.B \-v
+More progress on standard error (twice: every component).
+.SH ALGORITHM
+The unit of choice is a candidate: one form with one aligned group of mnemonics.  An instruction class of the corpus (a \fIdemand\fR: weight, the bytes the forced forms give
+it, the candidates that would give it fewer) is served by the shortest chosen candidate that covers it.  Minimising the weighted bytes under the code-space budget is a
+budgeted facility-location problem (NP-hard).  \fBencopt\fR solves it exactly:
+.IP 1. 3
+Reductions that cannot lose the optimum: candidates dearer than the whole budget are dropped; a candidate that covers a subset of the demands of another that is not
+longer and not dearer is dropped (bit-set comparison); the candidates and demands fall apart into independent components (union-find).
+.IP 2.
+Per component, branch and bound for a given budget with a Lagrangian bound: the budget row is dualised with a multiplier and the remaining unconstrained problem
+is bounded by Erlenkotter's dual ascent; the multiplier is searched for each node.
+.IP 3.
+Per component, the efficient frontier (cost, value) is computed exactly by solving for the largest budget, then for one less than the cost found, and so on, stopping
+as soon as the incumbent meets the previous value (a known lower bound).
+.IP 4.
+Across components, an exact multiple-choice knapsack (dynamic programme over the budget in units of one pattern).
+.IP 5.
+Only the part of each frontier that can belong to a solution not worse than a threshold is computed: the hulls of the dual-ascent bounds give, for each component and
+budget, a lower bound on the best total; the threshold starts at the root bound and grows until the dynamic programme finds a solution below it, which is then optimal.
+.PP
+The prefix assignment itself is exact and constructive (Kraft); unconstrained Huffman, Hu\-Tucker or package-merge do not apply, because the prefix length of a form
+is fixed by its operand bits, not chosen from frequencies.
+.SH EXIT STATUS
+0 on success (including \fBbest-found\fR), 1 when the forced forms alone exceed the budget or the constraints are infeasible, 2 for usage and input errors.
+.SH FILES
+.I tools/encopt/export.py
+writes the input from the Python study;
+.I tools/encopt/check.sh
+tests.
+.SH SEE ALSO
+.BR encopt (5),
+.I docs/encoding-work/optimizer.md
+.SH AUTHORS
+David Walther; the program was written with Claude (Anthropic).
