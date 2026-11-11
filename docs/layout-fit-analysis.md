@@ -1,8 +1,10 @@
+Status: record, dated 2026-11-03. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the study of a 32-register layout on top of the r20 encoding (len opcode reg low), the 234-instruction count, the opcode-layouts.html chart (history); the decided encoding is the prefix-coded pdp64 grammar, spec/pdp64/pdp64.hbnf
+
 # The 32-register layout: does every instruction fit?
 
 [← pdp64 index](../README.md)
 
-For the author's annotation. This is the allocation check requested after [`register-file-options.md`](register-file-options.md). The generated chart of the current forms is [`opcode-layouts.html`](opcode-layouts.html).
+For the author's annotation. This is the allocation check requested after [`register-file-options.md`](register-file-options.md). The chart of the forms of that date is [`opcode-layouts.html`](opcode-layouts.html) (history).
 
 ## Does every instruction fit the 32-register layout?
 

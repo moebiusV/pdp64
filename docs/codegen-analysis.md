@@ -1,3 +1,5 @@
+Status: record, dated 2026-10-22. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: instruction-length statistics (before the second page and the removal of the fourth parcel), the r20 encoding, all sizes (the compiler and the encoding changed since); the commands refer to measurement scripts that are not all in the repository
+
 # Code generation and instruction use: what compiled C says about the ISA
 
 [← pdp64 index](../README.md)
@@ -27,7 +29,7 @@ The machine-readable data behind the tables is in [`codegen-data/`](codegen-data
 | Lengths | pdp64: the `len` bits (15..14) of each instruction's first parcel, walking `.text`; x86: `objdump -d`, bytes between instruction starts (alignment no-ops that gcc and clang insert are included and some assembler lines are not instructions, so the totals differ from the line counts by under 3%). |
 | Caveats | The corpus is not representative everywhere. `memcpy-a2.c` alone is 96% of the pdp64 image of gcc-torture (503 KB, against gcc's 390 KB for the file); the c-testsuite and gcc-torture files are small test programs that gcc folds to almost nothing; a few sources repeat the same compare-and-abort test thousands of times, which inflates the call and compare counts. Section 2 therefore also gives the totals without `memcpy-a2.c` and for the seven libraries alone. |
 
-Tools: `tools/pdp64size.sh` is the measurement (`tools/pdp64size.sh --set fair --arch pdp64,amd64,gcc-Os,clang-Os --out DIR --keep DIR/s`); the scripts in `tools/codegen/` turn its `results.json` and the kept `.s` files into the tables below (`analyze.py`, `candidates.py`, `never.py`, `mdtables.py`, `fill.py` with `doc_template.md`; they read and write under `/tmp/p64opt`).
+Tools: `tools/pdp64size.sh` is the measurement (`tools/pdp64size.sh --set fair --arch pdp64,amd64,gcc-Os,clang-Os --out DIR --keep DIR/s`); the scripts in `tools/codegen/` turn its `results.json` and the kept `.s` files into the tables below (`analyze.py`, `candidates.py`, `never.py`, `mdtables.py`, `fill.py` with `doc_template.md`; they read and write under a scratch directory).
 
 ## 2. Code size against gcc and clang
 

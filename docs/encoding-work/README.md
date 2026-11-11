@@ -5,9 +5,29 @@ from their working notes (apart from the file names), plus the report of the int
 statement, the earlier file is not edited; the table at the end of this page lists what was overturned, and dated notes stand in the documents that are
 still read (`spec/README.md`, `docs/relaxation.md`, `docs/encoding-proposal.md`, `docs/errata.md`).
 
-The architecture is **pdp64**. It has three members: **pdp64/r20** (the original encoding, revision 20: `len opcode reg low`),
-**pdp64/16** (prefix-coded, 16 registers) and **pdp64/32** (prefix-coded, 32 registers). One toolchain handles all three, selected by `-m`
-(`as64 -m pdp64/16`), recorded in the object's `e_flags`.
+**Status: record. The encoding story ends with errata 94, 122 and 123: the single pdp64.** The work below compared three encodings (pdp64/r20, pdp64/16, pdp64/32) and
+built the toolchain for all of them. The author then decided (errata 94, 122) that the 32-register prefix-coded encoding, formerly called pdp64/32, is the pdp64, and that
+r20 and pdp64/16 are previous iterations; errata 123 removed their code, data and tests. There is one CPU, one manual (`docs/manual-src`, `docs/manual`), one grammar
+(`spec/pdp64/pdp64.hbnf`). Names such as pdp64/16, pdp64/32, `-m pdp64/16` and paths such as `spec/pdp64-16/`, `spec/pdp64-NN/forms.json` and `docs/manual/pdp64-*` in these
+reports are those of the time; they exist only in the git tags `pre-single-cpu` and `pre-code-removal`. These files are kept as the **evidence** for why pdp64/32 was chosen
+(the sizes, the executed instructions and bytes, the cost of far `cbCC`, the relaxation gains, the timing results), not as a description of the design. The current design is
+in `docs/manual` and `docs/decisions-and-status.md`; where a report disagrees, those win. A reader who wants only the conclusion reads `integration.md` (the final table) and
+`arch-comparison.md` (the size against other architectures).
+
+The architecture at the time of the work had three members: **pdp64/r20** (the original encoding, revision 20: `len opcode reg low`), **pdp64/16** (prefix-coded, 16 registers)
+and **pdp64/32** (prefix-coded, 32 registers), selected by `-m` in one toolchain.
+
+## What each file is
+
+| File | Class | What it is |
+|---|---|---|
+| `README.md` | current | this page |
+| `phase1.md`, `phase2.md`, `phase3-pcc.md`, `pcc2.md`, `hbnf.md`, `ldrelax.md`, `cbreach.md`, `timing.md` | record | the reports of the agents, in the order of the table below |
+| `integration.md` | record | the merge and the final measurements of the three encodings on the real toolchain: the main evidence for the choice |
+| `arch-comparison.md` | record | the static size of the 841-file corpus for pdp64/32 against amd64, i386, RISC-V, AArch64, Arm, MIPS64 (measured 2026-11-10) |
+| `arch-data/` | record (data) | the raw results of `arch-comparison.md`: `static-wide.csv` (per file and configuration), `pdp64-32-static.csv`, `static-summary.md` (the table), `pcc-riscv64-status-*.tsv` (which files the RISC-V port of pcc compiled, stock and with `va_list`), `diag-output.txt` (the diagnostic of one run) |
+| `optimizer.md` | record | the encoding optimizer (written by another agent; see its own banner) |
+| `manual-generated.md`, `manual-handwritten.md`, `manual-dropped-sentences.md` | history | the notes on the three per-encoding manuals made in this period; superseded by the single manual |
 
 ## Who decided what
 

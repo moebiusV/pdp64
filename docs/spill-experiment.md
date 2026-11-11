@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-03. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the 16-register baseline of the static experiment and its code (the 32-register code of the experiment was not assembled; the real compiler for 32 registers exists now)
+
 # Register-spill measurement: what would 32 registers remove on the pcc/pdp64 corpus
 
 [← pdp64 index](../README.md)
@@ -6,7 +8,7 @@ Static counts over the 841-file corpus compiled by pcc, with the 16-register bac
 
 
 ## Method (same as the project's)
-- Corpus: the 841 files from `fair_files()` of tools/pdp64size.py (RESULTS=/tmp/co-final/results.jsonl, sources in <work>/corpora), each preprocessed once with `gcc -E` against the aarch64 musl headers, exactly as pdp64size.py does (`tools/pdp64size.py` imported unmodified for preprocess/parse/shape).
+- Corpus: the 841 files from `fair_files()` of tools/pdp64size.py (RESULTS=the results file of that run, sources in <work>/corpora), each preprocessed once with `gcc -E` against the aarch64 musl headers, exactly as pdp64size.py does (`tools/pdp64size.py` imported unmodified for preprocess/parse/shape).
 - Compiler: pcc `ccom` built from a copy of <work>/pcc HEAD (d44d98a4), flags `-xdmr -xtemps -xdeljumps -xinline -xdce` (the project's `ccomflags('pdp64')`). Static counts: the project's rule (text-section lines that are not directives, labels or comments). Static, not executed counts.
 - Baseline sanity: 16-register copy compiles 841/841 files; all 841 assemble with build/as64. Total 338,313 instructions (all 841 files). docs/codegen-data/pdp64-after-errata39.csv last row: 335,877 for the 827-file set; the extra 14 files and the small gap explain the difference. The 370,115 figure of docs/codegen-analysis.md is an older compiler. Consistent.
 

@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-04. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the trailing-literal 32-register layout variants compared with 16 registers (a size model, not an assembler); the decided encoding is spec/pdp64/pdp64.hbnf, the measurements of the real tools are in docs/encoding-work/
+
 # The 32-register layout with trailing literals: sizes
 
 [← pdp64 index](../README.md)

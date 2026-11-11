@@ -1,3 +1,5 @@
+Status: history. Superseded by the single manual (docs/manual-src, docs/manual). Kept for the record; do not use it to learn the current design. Out of date: the review list refers to entries of the former per-encoding manuals; the sentences kept or dropped there are not a decision list: see the Appendices H to J of the manual
+
 <!-- {% raw %} -->
 # The sentences of the instruction entries that were changed for pdp64/16 and pdp64/32
 

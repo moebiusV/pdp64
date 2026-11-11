@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-03. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the 16-register baseline machine (pdp64 has 32 registers now), the estimate itself (later measured by the real compiler: docs/encoding-work/integration.md)
+
 # Dynamic effect of 32 registers on pdp64: executed instructions and frame traffic
 
 [← pdp64 index](../README.md)

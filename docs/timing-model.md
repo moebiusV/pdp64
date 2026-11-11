@@ -30,9 +30,8 @@ tm name=LABEL prog=image.x enc=pdp64 insns=... bytes=... cycles=... ipc=... bpc=
 ```
 
 `--timing-pc=FILE` writes, for every model, the per-pc cycles to `FILE.NAME` (`pc count cycles fe_idle ex_idle`, one line per pc that ran; cycles are the issue-gap cycles charged to the instruction), for finding tight loops.
-`tools/timing.py` runs the models over images and prints a table (columns `image enc name insns bytes cycles cpi bpc fe% ex% misp%`, others with
-`--cols`); `-p` names presets (`--presets`), `-s W=2,4,8,16` sweeps a parameter, `--base` adds parameters to every set. The encoding is the one in the
-ELF `e_flags` (or `-m`). Not usable with `-K`.
+`tools/timing.py` runs the models over images and prints a table (default columns `image name insns bytes cycles cpi bpc fe% ex% misp%`, others with
+`--cols`); `-p` names presets (`--presets`), `-s W=2,4,8,16` sweeps a parameter, `--base` adds parameters to every set. There is one encoding (the pdp64 grammar, `spec/pdp64/pdp64.hbnf`); the former `-m` option and the `enc` column of `timing.py` went with the other encodings (errata 122). Not usable with `-K`.
 
 ## 2. The machine
 
@@ -123,5 +122,5 @@ issue width 2 with and without a BTB (one iteration per cycle). (44 checks). Wha
    instructions are exact.
 6. The L2/memory system is a single penalty; no TLB; no interrupts; `trap` is a flat cost; system calls are free (the stand-in OS runs on the host).
 7. **Out-of-order is not modelled.** With out-of-order issue the back end tolerates load latency and operand waits, so the execute-wait share falls and the program becomes limited by fetch/decode width and by
-   mispredictions: the denser encodings' advantage (bytes) and their length-decode penalty (refill) both matter more, and the benefit of fusing (fewer slots) shows less on latency chains, more on width. The numbers here
+   mispredictions: the advantage of a dense encoding (bytes) and its length-decode penalty (refill) both matter more, and the benefit of fusing (fewer slots) shows less on latency chains, more on width. The numbers here
    for fetch-bound versus execute-bound should be read as the in-order case.

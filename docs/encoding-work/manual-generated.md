@@ -1,3 +1,5 @@
+Status: history. Superseded by the single manual (docs/manual-src, docs/manual). Kept for the record; do not use it to learn the current design. Out of date: the three manuals pdp64-r20, pdp64/16, pdp64/32 and the generator layout that produced them
+
 # The generated parts of the three manuals
 
 [← encoding work](README.md)

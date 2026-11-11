@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-04. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the two-grammar naming (pdp64/16 and pdp64/32 as two machines, the r20 member), encoding-selecting `-m` options, paths that no longer exist (spec/pdp64-16, spec/pdp64-32, forms.json, docs/manual/pdp64-*, -m options) are in the git tags pre-single-cpu and pre-code-removal; the measurements stand as evidence for the choice of pdp64/32; the timing model itself is described in docs/timing-model.md
+
 # frag-timing: sim64 timing model (STEP 3 support) -- PARTIAL, stopped after validation and first sweeps
 
 Worktree <worktree>, branch enc-tm, 3 commits on enc-prefix (2a7b55a model, eb6cb8e docs+tools/timing.py, then fused-instruction test). tools/check-all.sh green at the first two (the third only ran check-timing). Nothing pushed.

@@ -1,3 +1,5 @@
+Status: history. Superseded by docs/manual (the manual) and docs/decisions-and-status.md (the decisions). Kept for the record; do not use it to learn the current design. Out of date: everything: these are the original 11/64W documents of 2026-10-21 (ISA revision 20, 16 registers, Unibus-like slots, eight-register devices, bit 39, Q64 as named there)
+
 # 11/64W — a 64-bit PDP-11
 
 Three documents, consistent as of 2026-10-21. All cross-references between

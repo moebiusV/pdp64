@@ -1,3 +1,5 @@
+Status: history. Superseded by the single manual (docs/manual-src, docs/manual). Kept for the record; do not use it to learn the current design. Out of date: the three manuals and their per-encoding hand-written text
+
 # The hand-written text of the manuals of pdp64/16 and pdp64/32
 
 [← encoding work](README.md)

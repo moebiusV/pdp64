@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-04. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the two-grammar naming (pdp64/16 and pdp64/32 as two machines, the r20 member), encoding-selecting `-m` options, paths that no longer exist (spec/pdp64-16, spec/pdp64-32, forms.json, docs/manual/pdp64-*, -m options) are in the git tags pre-single-cpu and pre-code-removal; the measurements stand as evidence for the choice of pdp64/32; the linker relaxation itself is current (errata 91)
+
 # Step 1: linker relaxation (ld64, with the as64 object support)
 
 Worktree <worktree>, branch enc-ld (from enc-prefix). Commits on top of 2ece7fe: 00cd96b (relaxation), 3e10ac9 (checks), 9955813 + 68e8078 (docs), cda047f, the last one (relaxcheck strictness). Nothing pushed, no other tree touched (pcc-enc was only *read*: its build-ccom.sh was run into the scratchpad, `scratchpad/ld/pcc/ccom` and `ccom32`). `tools/check-all.sh` is green at the commits (last full run before the final small relaxcheck commit: rc 0; the final run is noted at the end of this file).

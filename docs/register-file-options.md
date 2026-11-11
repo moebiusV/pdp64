@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-03 to 2026-11-04. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the question of 16 or 32 registers (answered: 32, errata 122), the r20 layout drawn in section 1, the proposed layouts of sections 3.3 to 3.5, the 128-bit register discussion (not decided; see Appendix H and J of the manual); the priorities are those of errata 83
+
 # Register file options: 32 registers, and 128-bit registers
 
 [← pdp64 index](../README.md)

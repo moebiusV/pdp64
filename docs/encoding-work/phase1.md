@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-03 to 2026-11-04. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the two-grammar naming (pdp64/16 and pdp64/32 as two machines, the r20 member), encoding-selecting `-m` options, paths that no longer exist (spec/pdp64-16, spec/pdp64-32, forms.json, docs/manual/pdp64-*, -m options) are in the git tags pre-single-cpu and pre-code-removal; the measurements stand as evidence for the choice of pdp64/32
+
 # Phase 1 report: pdp64/16 and pdp64/32 encodings, shared codec, as64, ld64
 
 Worktree <worktree>, branch enc-prefix (seven commits on top of 96b4180, none pushed, no history rewritten; main checkouts untouched; pcc-enc not needed).

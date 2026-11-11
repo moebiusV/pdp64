@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-04. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the two-grammar naming (pdp64/16 and pdp64/32 as two machines, the r20 member), encoding-selecting `-m` options, paths that no longer exist (spec/pdp64-16, spec/pdp64-32, forms.json, docs/manual/pdp64-*, -m options) are in the git tags pre-single-cpu and pre-code-removal; the measurements stand as evidence for the choice of pdp64/32
+
 # Integration report: the encoding work merged, the compiler combined, the final table
 
 Branch `enc-int` of `<worktree>` (from `enc-hb`). Nothing was merged into `main`, nothing was pushed. pcc: `<work>/pcc-enc`, branch `enc-prefix` of pcc, **one small commit was made there** (see 3.2).
@@ -199,7 +201,7 @@ With the old compiler on pdp64/r20 as the baseline, the new compiler with the pr
 * The 3-parcel `cbCC` and the other form choices were trained on the corpus only (not on the six programs): the one-parcel `cbCC` shrank in /32 (cbreach.md) which costs lz4 about 1.2% in fetched bytes; a profile-tuned variant was not tried.
 * The compiler does not use `movuw/movul/movuq` (the unaligned-access idiom: 10% of lz4's instructions), `mulh`-based 64-bit division by constants, loop-invariant motion or live-range splitting (`pcc2.md`).
 * The commit-msg hook of the author strips the `Co-Authored-By` trailer from commit messages; it was left.
-* `tools/build-hbnf.sh` needs network access (upstream hbnf, Alpine rootfs); the clean-checkout verification below used the already built hbnf of `/tmp/hbnf-latest` unless stated.
+* `tools/build-hbnf.sh` needs network access (upstream hbnf, Alpine rootfs); the clean-checkout verification below used the already built hbnf of a scratch build of hbnf unless stated.
 
 ## 6. Verification from a clean checkout
 
