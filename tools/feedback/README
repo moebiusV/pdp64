@@ -4,7 +4,7 @@ tools/feedback: the feedback form
 mkfeedback.py builds docs/feedback/decisions-feedback.txt, a plain-text form (at most 100
 columns, no Markdown) for reading and answering in a pager with an editor.  Its entries come
 from the open items of Appendix J, the proposals of Appendix H, the confirmation list
-(docs/decision-log/data/shared/veto-list.txt), the status ledger (docs/decisions-and-status.md:
+(tools/feedback/confirmations.txt), the status ledger (docs/decisions-and-status.md:
 subjects in the air, and to-do subjects whose details are pending) and two standing decisions (W.1 the first FPGA board, W.3 the merge of the pcc branch); the codes V.M, V.H, V.I, V.P and V.N of the confirmation list are in the file named above, and a question that has a place elsewhere in the form is asked only there.
 Each entry has a stable ID (J.n.k, H.<statement>, V.<code>, S.<subject>, W.n), an order number,
 a line AFFECTS OPCODES: yes|maybe|no (the items that may change opcodes, mnemonics or the

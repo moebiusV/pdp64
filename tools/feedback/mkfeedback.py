@@ -477,7 +477,7 @@ def parse_h(root):
 # ---- confirmation list
 
 def parse_veto(root):
-    path = os.path.join(root, "docs/decision-log/data/shared/veto-list.txt")
+    path = os.path.join(root, "tools/feedback/confirmations.txt")
     entries = []
     for ln in open(path, encoding="utf-8").read().split("\n"):
         m = re.match(r"^([MHIPN]\d+) \| (.*)$", ln)
