@@ -38,9 +38,9 @@ Assembly, linking and running: `as64 x.s; ld64 -o x.out x.o; sim64 x.out`. There
 ## 4. The order of work (the author, 2026-11-10; errata 125)
 
 1. **Resolve the open items**, starting with those that affect the opcodes (appendix J of the manual; the ledger lists them). The status and decisions document is to get a form in which the author can choose options and type questions, for a quick feedback loop (`tools/feedback`, `docs/feedback`).
-2. **Re-run the encoding optimiser** once the decisions that affect the opcodes are made and the mnemonics are settled. The optimiser (`tools/encopt`) is to be translated from its Python original to C, using optimal algorithms.
+2. **Re-run the encoding optimiser** once the decisions that affect the opcodes are made and the mnemonics are settled. The optimiser (`tools/encopt`, version 1.1, in C) has no code-space reserve and three objectives, static, fetch and exec (errata 136); the choice of objective for the real run is the author's.
 3. **Update the grammar** (`spec/pdp64/pdp64.hbnf`, and the mnemonic vocabulary), because it generates the assembler, the tables for chapter 9 of the manual and the compiler's headers.
-4. **Regenerate** the assembler tables, the manual and the pcc headers.
+4. **Regenerate** the assembler tables, the manual, the pcc headers and the tables of the LLVM back end (errata 137).
 5. **Port to the new encoding**: the LLVM back end, QEMU, `as64`, pcc and `sim64`. Until then `sim64` and pcc are kept current with the present encoding, and they, and the LLVM sources, will change when the opcodes do.
 
 The pcc RISC-V back end is **a separate project**, not any part of this one (the author, 2026-11-10).

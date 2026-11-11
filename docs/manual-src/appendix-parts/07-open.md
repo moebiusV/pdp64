@@ -24,7 +24,7 @@
 <a id="j72"></a>
 ### J.7.2 Coherence beyond four cores
 
-**Issue.** The first device has four cores that snoop (every cache watches the others' writes) with three states, modified, shared and invalid (7.6.1), and the architecture supports at least four cores, with sixteen or more as the preferred ceiling (7.6.3, errata 92). The protocol that serves more than four coherent cores has not been chosen. The architecture promises that memory is coherent and sequentially consistent (7.5.1) and says nothing of the protocol. The statement as first written: the protocol for more than four coherent cores is open; the leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters, with dedicated cores as non-coherent partners that use uncached rings. *(P)*
+**Issue.** The first device has four cores that snoop (every cache watches the others' writes) with three states, modified, shared and invalid (7.6.1), and the architecture supports at least four cores, with sixteen or more as the preferred ceiling (7.6.3, errata 92). The protocol that serves more than four coherent cores has not been chosen. The architecture promises that memory is coherent and sequentially consistent (7.5.1) and says nothing of the protocol. The statement as first written: the protocol for more than four coherent cores is open; the leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters. *(P)*
 
 **Why it matters.** The number of general cores sets the size of the cache controller, the FPGA that can hold the design (about 16,000 look-up tables for a core before coherence, by a paper estimate at plus or minus 40 percent; four cores fit a Kria-class board and none of the planned boards holds sixteen), and what the kernel's scheduler sees as a group. Also the line size (64 bytes), the reservation granule and the invalidate granularity hang from it.
 
@@ -34,7 +34,6 @@
 2. *MESI within clusters of up to four cores, a snoop filter at a shared second-level cache, and a directory between clusters.* MESI adds an exclusive state, so a write to a clean line that nobody else holds needs no bus transaction. For: four cores are one cluster and nothing is wasted; the ceiling is reached by adding the inter-cluster layer. Against: two protocols; the directory is where protocol deadlocks hide.
 3. *A flat directory.* One home place per line and a bit-vector of sharers. For: simplest to reason about; scales to 64. Against: two hops for the common case, which is more than a four-core machine needs.
 4. *No coherence between clusters; explicit cache operations.* For: cheapest to scale. Against: every missing flush is a race that reproduces once a week; it weakens sequential consistency to "within a cluster".
-5. *Dedicated cores as non-coherent partners of coherent general cores.* The graphics, network and audio cores use uncached rings and `FENCE`, as a DMA device does. For: the coherent count stays at the general cores. Against: the data of a partner is not coherent with the kernel's buffers without a copy or a flush; it depends on the dedicated cores of 7.11.6, whose details are pending (J.7.5).
 
 **Precedents.** PDP-11/70 caches were kept coherent by write-through and invalidation on DMA writes *(unverified: from memory)*. Bus-snooping multiprocessors (Sequent, Sun Enterprise) stopped near 16 to 64 processors *(unverified)*; directory machines (Stanford DASH, SGI Origin) scale by messaging the sharers *(unverified)*; x86 uses snoop filters inside a die and directories across sockets; ARM's coherent interconnects use filters or directories *(unverified)*.
 
@@ -72,7 +71,7 @@
 
 **Issue.** The read-modify-write atomics are atomic with respect to every initiator, cores and devices alike (7.4.3). That is easy on cached memory, where the cache line is held exclusively. On a page of uncached memory or a device page the access goes to the bus, and a PCI Express transaction has atomic operations (`AtomicOp`) only on devices that choose to implement them. The mapping of the machine's atomics onto the bus is therefore not stated.
 
-**Why it matters.** The rings of every virtio device and the locks of dedicated cores sit in memory that may be uncached; a program that issues `CAS` on such a word needs either a defined result or a defined fault. The software cannot be silent about it, and a silent non-atomic update is the worst outcome.
+**Why it matters.** The rings of every virtio device sit in memory that may be uncached; a program that issues `CAS` on such a word needs either a defined result or a defined fault. The software cannot be silent about it, and a silent non-atomic update is the worst outcome.
 
 **Options.**
 
@@ -90,30 +89,7 @@
 **Where the body refers to it.** Section 7.4.5.
 
 <a id="j75"></a>
-### J.7.5 What remains of the dedicated cores
-
-**Issue.** On 2026-11-04 the author recommended (errata 76: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing", and "one core for audio processing, doing midi, dsp, etc.") dedicated cores for graphics, network and audio. On 2026-11-10 he wrote, of the decision on the secure mode (J.7.8): "the idea of dedicated roles now shrinks" (errata 132). The statements that named the roles are in Appendix H (7.11 and 3.8.2). What remains of the idea, if anything, is not decided; the earlier open questions (how a dedicated core shares memory with the others, what runs the TCP/IP stack, the IOMMU domain of each) apply only to the options that keep a dedicated core. The first device has four cores in all (7.6.3).
-
-**Why it matters.** With four cores, each core given a role leaves fewer for general work; the coherence of J.7.2, the interrupt delivery of J.6.3 (a dedicated core can poll its virtio queues instead) and the secure mode of J.7.8 depend on the answer, and so does chapter 3's account of who drives the terminal.
-
-**Options.**
-
-1. *None: roles are a software matter.* The kernel may pin a driver to a core; the architecture names no role. For: nothing to build; the four cores stay general. Against: no core class marks a core as suited to a device; the Blit's model survives only as a driver structure.
-2. *The graphics core only.* One core for the terminal, as the Blit had a processor of its own. For: the Blit is the model the author named for the terminal (chapter 3), and a polled terminal needs no interrupt. Against: a quarter of the first device; the terminal's devices are virtio devices that a general core can serve.
-3. *The network core only.* One core runs the TCP/IP stack and drives a standard PCI Express card. For: the network is the heaviest interrupt source; smart network cards run the stack on an on-card core. Against: a quarter of the first device; the kernel's network stack is built for several cores.
-4. *Roles as scheduling policy on ordinary cores.* The kernel dedicates a core to a role while the load asks for it and gives it back. For: nothing is lost when a device is idle. Against: no isolation, since the core is an ordinary one.
-5. *One core class per role, as before.* Dedicated cores as non-coherent partners with uncached rings and `FENCE`, each in its own IOMMU domain, or coherent like the others. For: a fault in one does not reach the others (non-coherent form); shared buffers need no flushes (coherent form). Against: a copy or flush for data shared with the kernel's buffers, or a coherence protocol (J.7.2) that must reach them; the cores in all must exceed four to leave general work.
-
-**Precedents.** The Blit's terminal had a processor of its own (Pike, Locanthi and Reiser); the VAX console processor was a second processor; smart network cards run the stack on an on-card core. All three are from general knowledge and *unverified* here (the Blit and the VAX console processor are as 3 and 7.11 state them).
-
-**The author's referents.** The Blit model; a standard PCI Express network card (errata 75); errata 76; the words of 2026-11-10 above.
-
-**The assistant's leaning.** Option 1 for the first device, with option 2 or 5 reconsidered when the machine has sixteen cores; the secure mode, not the roles, now carries the question of unlike cores. This is the assistant's view, not a decision.
-
-**Where the body refers to it.** Section 7.11 (the last paragraph) and Appendix H (3.8.2 and 7.11.6).
-
-<a id="j76"></a>
-### J.7.6 The reservation granule and how software learns its size
+### J.7.5 The reservation granule and how software learns its size
 
 **Issue.** `LL` reserves a granule: a naturally aligned piece of memory of a size the implementation chooses, not smaller than 8 bytes (errata 45; 7.4.1). The text leaves the size to the implementation and says that a feature register is to report it (errata 45 lists "granule discovery in the feature registers" as still to write). Nothing says which register, nor what software may assume before it reads it. The size matters to software because two lock words in one granule make an `SC` fail whenever the neighbour is written (false sharing of the reservation), and because a constrained `LL`/`SC` sequence (7.4.2) must not touch the granule between the two instructions.
 
@@ -134,8 +110,8 @@
 
 **Where the body refers to it.** Section 7.4.6.
 
-<a id="j77"></a>
-### J.7.7 How block operations order their accesses
+<a id="j76"></a>
+### J.7.6 How block operations order their accesses
 
 **Issue.** The block operations are `MCPY`, `MMOV` and `MSET`, which write memory, and `MCMP`, `MSCN`, `MSCNN` and `MVAL`, which only read it (9.11.3). Each keeps its progress in its registers (9.11.4) and an implementation may move more than a byte per step (9.11.5). One part of the ordering is decided: the accesses inside one block operation are unordered with respect to one another, and only the final contents of memory and the register progress are defined (7.5.8, errata 39 item 7; the text was never written into the instruction-set document, and the decision list of the ledger does not carry it). Nothing is decided about the rest: (1) the order of the elements, and the meaning of overlap for `MMOV`; (2) how far an access may tear, per byte, per aligned word or per cache line; (3) whether another core may observe an intermediate state, and which; (4) what a program must execute to publish the result, given that `FENCE` orders only device accesses (7.5.7); (5) what a fault or an interrupt leaves in memory beyond the progress in the registers (the progress category of 6.4); (6) the effect on a reservation (7.4.1 clears it on any write) and on atomics that touch the same granule; (7) uncached and device memory, where the number and size of accesses are visible. The ledger lists the block instructions themselves as in the air (no standing decision beyond the progress in registers, R362: "good" to a single move with no resume opcode).
 
@@ -158,8 +134,8 @@
 
 **Where the body refers to it.** Sections 7.5.8, 7.5.9 and 9.11.
 
-<a id="j78"></a>
-### J.7.8 Secure mode on every core, or one secure core
+<a id="j77"></a>
+### J.7.7 Secure mode on every core, or one secure core
 
 **Issue.** The author decided on 2026-11-10 (errata 132): "at least one core that can be in 'secure' mode; if it doesn't take too many gates, let that be a mode for all the cores, but if it slows things down too much then return to a single secure core" (7.11.3). Two things are not decided: what counts as "too many gates" and "too much slowdown", and how the two are measured. Secure mode here is the whole of 7.11.3 to 7.11.5: constant-time instructions and cache fetches, private cache lines, no periodic tick, stop and preemption by an inter-processor interrupt, constant-time AES and SHA instructions, the private fixed-latency window, the locked translation buffer, no speculation, a fixed clock, and the clear at a domain switch. The status-word bit `DIT` (9.3.7) is already decided for every core; it makes the data-dependent timing of instructions, of the clock and of prefetch disappear while set, and leaves out the private window, the locked buffer, the absence of speculation and the clear.
 

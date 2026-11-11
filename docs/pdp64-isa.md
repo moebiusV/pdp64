@@ -401,7 +401,7 @@ This is the same design ARM reached in 2022 with `FEAT_MOPS`, whose specificatio
 
 **Implementations may move more than a byte per step.** The architectural requirement is only that at every point where an exception can be taken, the register state is *consistent with* byte-at-a-time progress. A 64-byte-per-cycle engine satisfies this by only becoming interruptible at block boundaries and updating all three registers atomically with each block. Nothing in the architecture reveals the block size.
 
-What another core may observe: the accesses inside one block operation are unordered with respect to one another and only the final memory and the register progress are defined (errata 39 item 7; manual 7.5.8). The rest of the ordering, the tearing, the publishing fence and the behaviour on faults are open (manual J.7.7).
+What another core may observe: the accesses inside one block operation are unordered with respect to one another and only the final memory and the register progress are defined (errata 39 item 7; manual 7.5.8). The rest of the ordering, the tearing, the publishing fence and the behaviour on faults are open (manual J.7.6).
 
 **`MSET` with `Rv = 0` is the range-zeroing instruction**, so `bzero` and `calloc`'s clear are one instruction. It needs no separate opcode.
 
@@ -502,7 +502,7 @@ The system group holds the privileged and system instructions (manual 9.14): `RT
 
 **`IOT` and `EMT` are `TRAP #n` under other names.** On the PDP-11 they were separate one-word opcodes because the frequently-used trap vectors deserved short encodings — `EMT` was RT-11's system-call entry, `IOT` some monitors'. `TRAP #n` and `TRAPL #n` here reach 256 vectors (two bytes for the first sixteen), so a dedicated opcode for two particular values of *n* buys nothing. The vectors themselves remain; only the aliases are absent.
 
-**`WAIT` is subsumed by `WFE`.** `WAIT` sleeps until an interrupt; `WFE` sleeps until an interrupt *or* another core's `SEV`. On a uniprocessor there is no `SEV`, so `WFE` behaves exactly as `WAIT` did. The assembler accepts `WAIT` as an alias for `WFE` (section 4.13).
+**`WAIT` is subsumed by `WFE`.** `WAIT` sleeps until an interrupt; `WFE` sleeps until an interrupt *or* another core's `SEV`. When no other core sends `SEV`, `WFE` behaves exactly as `WAIT` did. The assembler accepts `WAIT` as an alias for `WFE` (section 4.13).
 
 **`RESET` asserted the Unibus `INIT` line.** Resetting the bus is a device operation and belongs in a register of the root complex, not in the instruction set (manual 2.9.4) — section 16 says the architecture owes devices a memory type, an ordering instruction and atomics, and nothing else. A privileged instruction whose entire semantics are "poke the interconnect" is bus policy smuggled into the ISA.
 
@@ -1301,7 +1301,7 @@ What `CALL`/`RET` gain here: no register burned, no push-and-shuffle of the old 
 - **`ASH`/`ASHC`** shifted by a variable count. `SHL`/`SHR`/`SAR` take the count from the second operand, which includes a register.
 - **`MFPI`/`MTPI`/`MFPD`/`MTPD`** moved data between address spaces for the kernel. `PROBER`/`PROBEW` plus ordinary loads under the previous-mode bits (and, in the current design, the user-memory guard and the `.U` moves) is the better arrangement, and it is VAX's.
 - **`MULU`** was never distinct from `MUL`; section 4.2.1 explains why, and `MULH` occupies the slot. The mnemonic is accepted as an alias.
-- **`IOT` and `EMT`** are `TRAP #n` at two particular vectors. **`WAIT`** is `WFE` on a machine with one core. **`RESET`** is a root-complex register write. All four are dropped (section 4.10.1).
+- **`IOT` and `EMT`** are `TRAP #n` at two particular vectors. **`WAIT`** is `WFE` when no `SEV` is sent. **`RESET`** is a root-complex register write. All four are dropped (section 4.10.1).
 - **`ROL`** survives as an assembler alias rather than an instruction (section 4.13), which is the form the operation deserves.
 
 ### 14.4 What the measurements say about the instructions added and not added
@@ -1368,7 +1368,7 @@ Everything else — blitters, raster engines, command FIFOs, whether there is a 
 
 ## 17. Symmetric multiprocessing
 
-Multiple bus initiators exist — an accelerator is one — but a DMA master and a second CPU are different problems with different answers, and conflating them is the usual way this goes wrong. The manual's chapter 7 is the decided account; this section keeps the reasoning.
+Multiple bus initiators exist — an accelerator is one — but a DMA master and a second CPU are different problems with different answers, and conflating them is the usual way this goes wrong. The manual's chapter 7 is the decided account; this section keeps the reasoning. Decided since: a system has at least four cores (errata 92); at least one core can run in secure mode, and every core if that is cheap (errata 132, J.7.7); apart from a possible single secure core, no core is dedicated to a role (errata 133).
 
 ### 17.1 The memory model is the whole question
 
@@ -1404,7 +1404,7 @@ The atomics are already sufficient — `CAS`, `LL`/`SC`, the fetch-and-op family
 
 ### 17.3 Cache coherence is a cache question, not an ISA question
 
-For two to four cores on one FPGA: **snooping MSI.** Three states, a snoop port on each D-cache, perhaps 500 LUTs and a state machine. MESI adds an Exclusive state to avoid a bus transaction when writing a clean line held by nobody else; at this core count the benefit is small and the state machine is meaningfully larger. Directory-based coherence scales further and is not needed below about eight cores. The design supports at least four cores and sixteen or more is the preferred ceiling that no decision may preclude (manual 7.6.3; the protocol beyond four cores is open, J.7.2 and J.9.11).
+For the four cores of the first device on one FPGA: **snooping MSI.** Three states, a snoop port on each D-cache, perhaps 500 LUTs and a state machine. MESI adds an Exclusive state to avoid a bus transaction when writing a clean line held by nobody else; at this core count the benefit is small and the state machine is meaningfully larger. Directory-based coherence scales further and is not needed below about eight cores. The design supports at least four cores and sixteen or more is the preferred ceiling that no decision may preclude (manual 7.6.3; the protocol beyond four cores is open, J.7.2 and J.9.11).
 
 The important property is that **coherence is transparent to software**. Software-managed coherence — explicit flush and invalidate around every shared access — is cheaper in hardware and is where concurrency bugs go to live, because every missing flush is a race that reproduces once a week. The ISA owes nothing to a transparent coherence protocol, which is the correct division.
 
@@ -1418,7 +1418,7 @@ Already present without having been designed for it:
 - **`ASID`** (section 8.1) already makes the context switch constant-time, which matters more with more cores competing for the TLB.
 - **`G`-bit entries and the direct-mapping windows** (section 8.3) keep the kernel's own mappings out of the shootdown path entirely, since a global or window-mapped page is never invalidated by an address-space change.
 
-To be built, device-side rather than in the ISA: an inter-processor interrupt path (decided as a need; how an interrupt reaches a core is open, J.6.3), a boot protocol for releasing secondary cores from reset (J.4.6; [`boot.md`](boot.md)), and a shared L2 or at minimum a coherent interconnect.
+To be built, device-side rather than in the ISA: an inter-processor interrupt path (decided as a need; how an interrupt reaches a core is open, J.6.3), a boot protocol for releasing secondary cores from reset (always used, since a system has at least four cores, errata 92; the mechanism is open, J.4.6; [`boot.md`](boot.md)), and a shared L2 or at minimum a coherent interconnect.
 
 ### 17.5 Explicitly avoided
 

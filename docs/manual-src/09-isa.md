@@ -236,7 +236,7 @@ Open: the displacement of the shortest scaled-index form, and a store through `d
 
 ## 9.11 The stack and block operations
 
-*Cf. section 6.4 for restarting a block operation after a fault (progress is held in registers) and section 6.6 for the page faults it can take; section 7.5.8 for how block operations order their accesses (decided in part; the rest is open, [J.7.7](appendix-j-open.md#j77)).*
+*Cf. section 6.4 for restarting a block operation after a fault (progress is held in registers) and section 6.6 for the page faults it can take; section 7.5.8 for how block operations order their accesses (decided in part; the rest is open, [J.7.6](appendix-j-open.md#j76)).*
 
 **9.11.1** `PUSH` and `POP` move one register; `PUSHM` and `POPM` move a set named by a mask (a mask of 8 bits is two bytes). A mask containing `R14` is reserved. *(D)*
 
@@ -248,7 +248,7 @@ Open: the displacement of the shortest scaled-index form, and a store through `d
 
 **9.11.5** An implementation may move more than a byte per step, provided the registers are consistent with byte-at-a-time progress wherever an exception can be taken. *(D)*
 
-Open: what another core may see of a block operation in progress ([J.7.7](appendix-j-open.md#j77)), the worst-case latency of a block operation ([J.9.7](appendix-j-open.md#j97)) and whether the block operations have a form that does not fill the data cache ([J.9.8](appendix-j-open.md#j98)).
+Open: what another core may see of a block operation in progress ([J.7.6](appendix-j-open.md#j76)), the worst-case latency of a block operation ([J.9.7](appendix-j-open.md#j97)) and whether the block operations have a form that does not fill the data cache ([J.9.8](appendix-j-open.md#j98)).
 
 *Commentary.* **Precedent.** The VAX's `MOVC5` is the canonical argument against such instructions: its operands could be memory, its architectural definition needed the original values to survive, and so it required hidden state and a first-part-done bit in the status word to resume. The PDP-10 had a block transfer, and x86's `REP MOVS` keeps its progress in registers as the pdp64's do. **Trade-offs.** This is the one admitted exception to the one-memory-operand rule, accepted because its mechanism, hidden state, is absent: the state is the registers, which are already architectural. **Improvements.** ARM reached the same design in 2022 with `FEAT_MOPS`, whose specification says the registers are updated so that progress is not lost. **Benefits.** The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors. **Modern comparables.** x86 `REP MOVSB` and `REP STOSB` with fast-string microcode; AArch64 `CPYP`/`CPYM`/`CPYE` and `SETP`/`SETM`/`SETE`; s390 `MVC`. **Use.** `memcpy`, `memmove`, `memset`, `memcmp` and `memchr` in the C library; `MVAL` in parsers and kernels. **Impact.** *Kernel:* `PUSHM`, `POPM`, `PUSHX` and `POPX` shorten entry, exit and the context switch, and the block operations are `copyin`, `copyout`, page clearing and `memcpy`. *Compiler:* A prologue and an epilogue are one instruction each, and `memcpy` and `memset` lower to the block operations. *Hardware:* The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors, with no hidden state.
 

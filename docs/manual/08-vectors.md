@@ -91,7 +91,7 @@ The PDP-11 treated its floating-point unit as an option: a model could lack the 
 
 **8.4.3** The engine is a device on the bus and an architectural component at once: the processor reaches it as it reaches every device (a memory-mapped interface, descriptors, DMA, `FENCE`), and the manual defines what it does. *(D)*
 
-The definition behind the device route is the author's, 2026-10-20 (register row R136, thread 533 message 51): "when i say gpu i just mean a helper/accelerator that uses the same ram, does dma, etc, and can do the same or similar helps that a gpu would. and the simd/avax stuff."
+The definition behind the device route is the author's, 2026-10-20 (register row R136): "when i say gpu i just mean a helper/accelerator that uses the same ram, does dma, etc, and can do the same or similar helps that a gpu would. and the simd/avax stuff."
 
 **8.4.4** Wide work is described to the engine by descriptors in memory: an operation, the addresses of the arrays and their length. *(D)*
 

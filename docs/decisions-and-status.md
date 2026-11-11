@@ -9,17 +9,17 @@
 - Checked, not guessed: a status of DONE needs evidence; what could not be checked is IN THE AIR and says why.
 - `Rationale` is why he chose it, in his own words; `Precedent` is a system, language, standard or design named as a referent, with whether his choice follows it (chosen), he turned it down (rejected) or it was only compared (considered), and who named it (the author, or the assistant and he accepted it or did not take it up). Only what the messages say: nothing is added from outside. The precedents are indexed by name near the end.
 - The chains behind it are in the decision log of the same project; the evidence is as of the repositories read on 2026-11-10.
-- pdp64/32 is the decided pdp64 (author, 2026-11-10); r20 and pdp64/16 are previous iterations, gone as CPUs with manuals and removed as code (tags pre-single-cpu and pre-code-removal keep them). Checked against the working tree of this repository at commit 135475a (2026-11-10), the pcc clone (master 41e5c36, 2026-11-07; branch single-pdp64 2dbf4f7, pushed and not merged) and the toolchain repository.
+- pdp64/32 is the decided pdp64 (author, 2026-11-10); r20 and pdp64/16 are previous iterations, gone as CPUs with manuals and removed as code (tags pre-single-cpu and pre-code-removal keep them). Checked against the working tree of this repository at commit 7c1fe03 and the working tree (2026-11-10), the pcc clone (master 41e5c36, 2026-11-07; branch single-pdp64 2dbf4f7, pushed and not merged) and the toolchain repository.
 
 ## Contents
 
 - [Summary](#summary)
 - [Left to do (43)](#left-to-do-43)
-- [Left in the air (25)](#left-in-the-air-25)
-- [Rejected or replaced (10)](#rejected-or-replaced-10)
-- [Done (171)](#done-171)
+- [Left in the air (28)](#left-in-the-air-28)
+- [Rejected or replaced (11)](#rejected-or-replaced-11)
+- [Done (177)](#done-177)
 - [Precedents, by name](#precedents-by-name)
-- [Where the current docs or code differ from the decisions (24)](#where-the-current-docs-or-code-differ-from-the-decisions-24)
+- [Where the current docs or code differ from the decisions (26)](#where-the-current-docs-or-code-differ-from-the-decisions-26)
 - [Decision briefing: open questions and decisions under review](#decision-briefing-open-questions-and-decisions-under-review)
 - [Decisions recorded after this ledger was built (2026-11-09 and 2026-11-10)](#decisions-recorded-after-this-ledger-was-built-2026-11-09-and-2026-11-10)
 - [Briefing A: the physical address, the page table and how software learns them](#briefing-a-the-physical-address-the-page-table-and-how-software-learns-them)
@@ -53,10 +53,10 @@
 
 # Summary
 
-- Left to do: 43 of 249 subjects
-- Left in the air: 25 of 249 subjects
-- Rejected or replaced: 10 of 249 subjects
-- Done: 171 of 249 subjects
+- Left to do: 43 of 259 subjects
+- Left in the air: 28 of 259 subjects
+- Rejected or replaced: 11 of 259 subjects
+- Done: 177 of 259 subjects
 
 # Left to do (43)
 
@@ -159,18 +159,12 @@
 
 ## 07 Multiple processors
 
-### Dedicated core classes
-- Status: TO DO — decided as the author's recommendation, details pending (latest decision 2026-11-04 \[R313\])
-- Decided: 2026-11-04 decided: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing."; "and also one core for audio processing, doing midi, dsp, etc." \[R313\]
-- Rationale and precedent: none stated in the sources
-- Evidence: docs/manual-src/07-smp.md:314 "\*\*7.11.6\*\* The machine has one core dedicated to the graphics device, one dedicated to the network interface ..., one dedicated to audio ... \*(D)\* Details pending (J.7.5)"; docs/manual-src/03-graphics.md:175 "\*\*3.8.2\*\* One core is dedicated to the graphics device"; docs/errata.md:226 entry 76
-- Left: how many dedicated cores, how they share memory with the others, what they run (J.7.5; decisions-pending.md F16 to F21)
-
-### Secure core class
-- Status: TO DO — decided: at least one secure core with every timing channel removed and constant-time AES and SHA; details pending: the instruction words, which ordinary instructions are constant-time, the window size and latencies, the clear engine and slot period (latest decision 2026-11-03, errata 86)
-- Decided: 2026-11-03 decided: the design of docs/crypto-secure-core.md section 1 is approved ("i like your design. approved.") \[errata 86\]; the ticks rule: if an instruction can take a time independent of its operands without ticks, timing interrupts or hertz, none are introduced, so the secure core takes no periodic tick and is stopped and preempted by an inter-processor interrupt \[errata 86\]
-- Evidence: docs/errata.md item 86; docs/manual-src/07-smp.md:308 "\*\*7.11.3\*\* At least one core is a secure core ... \*(D)\* Details to be determined", :310 "\*\*7.11.4\*\*" and :312 "\*\*7.11.5\*\*" (the private window, the locked translation buffer, the clear at a domain switch and the reserved bus slot, from section 1 of the secure-core document); docs/crypto-secure-core.md section 1 (a record of 2026-11-03)
-- Left: J.9.12 (the instruction words), J.9.2 (which instructions are constant-time), the window size and latencies, the class register fields; whether 7.11.4 and 7.11.5 go beyond what the approval covers is a question in the decision form
+### Secure mode (formerly the secure core class)
+- Status: TO DO — decided: at least one core can run in secure mode, on every core if that costs few gates and does not slow them too much, otherwise one secure core; details pending: the thresholds and their measurement (J.7.7), the instruction words (J.9.12), which ordinary instructions are constant-time (J.9.2), the window size and latencies, the clear engine and slot period (latest decision 2026-11-10 \[R412, R415\], errata 86, 132, 134)
+- Decided: 2026-11-03 decided: the design of docs/crypto-secure-core.md section 1 is approved ("i like your design. approved.") \[errata 86\]; the ticks rule: if an instruction can take a time independent of its operands without ticks, timing interrupts or hertz, none are introduced, so a core in secure mode takes no periodic tick and is stopped and preempted by an inter-processor interrupt \[errata 86\]; 2026-11-10 decided: "new decision, at least one core that can be in \\"secure\\" mode; if it doesn't take too many gates, let that be a mode for all the cores, but if it slows things down too much then return to a single secure core." \[R412\]; on moving the private window and the locked translation buffer (7.11.4, 7.11.5) to the proposed appendix: "show me what both would look like, although I lean toward keeping them in the body." \[R415\] (his lean; they stay in the body, with details to be determined); "other than potentially one core dedicated as secure, no more dedicated cores." \[R414\]
+- Evidence: docs/errata.md items 86, 132, 133 and 134; docs/manual-src/07-smp.md:340 "\*\*7.11.3\*\* At least one core can run in secure mode", :342 "\*\*7.11.4\*\*" and :344 "\*\*7.11.5\*\*" (the private window, the locked translation buffer, the clear at a domain switch and the reserved bus slot, from section 1 of the secure-core document); docs/manual-src/appendix-parts/07-open.md J.7.7 (the measurement plan and six options); docs/crypto-secure-core.md section 1 (a record of 2026-11-03, banner updated)
+- Doc differs: docs/crypto-secure-core.md, docs/smp-decisions.md and docs/security-round2.md still speak of a secure core class (records; the banners name errata 132 to 134)
+- Left: the thresholds and measurement of J.7.7 (nothing is synthesised: no core has been built, 10.1.8); J.9.12 (the instruction words), J.9.2, the window size and latencies, the class register fields; whether the mode and \`DIT\` (9.3.7) are worded rightly in 7.11 is a question in the decision form
 
 ## 12 Documentation and process
 
@@ -237,10 +231,10 @@
 - Left: add the "to fix" mark on the v7 side (the decision defers all documentation to the end)
 
 ### Order of work after the single-CPU decision
-- Status: TO DO — decided: resolve the open items first, then run the optimiser, update the grammar, regenerate, then port; none of the steps after the first is done (latest decision 2026-11-10 \[R396\], errata 125)
+- Status: TO DO — decided: resolve the open items first, then run the optimiser, update the grammar, regenerate, then port; none of the steps after the first is done (latest decision 2026-11-10 \[R396\], errata 125, 137)
 - Decided: 2026-11-10 decided: "once we've decided on any issue that might affect our opcodes etc, then we'll port llvm to the new encoding and the pcc and as64 as well. which means updating the hbnf grammar, because it generates the assembler, the tables for chapter 9 of the manual etc."; "we'll also keep sim64 and pcc current too; but it came to my attention there may be some opcode changes once we're done resolving all the open items"; "i want to get this thing in shape so you can then implement the llvm and qemu backends" \[R396\]
 - Evidence: docs/errata.md item 125 (the order: 1 resolve the open items, starting with those that affect the opcodes; 2 re-run the encoding optimiser; 3 update the hbnf grammar; 4 regenerate the assembler tables, the manual and the pcc headers; 5 port LLVM, QEMU, as64, pcc and sim64); docs/roadmap.md:10 "## The order of work now"; handoff.md:38 "## 4. The order of work"; README.md:90 "Order of work"; docs/README.md ("The opcodes may still change when the open items are decided and the encoding optimiser is run again")
-- Left: step 1 is in progress (the open items are in appendix J and in the decision form docs/feedback/decisions-feedback.txt); steps 2 to 5 wait for it; sim64 and pcc are kept current on the present encoding until then
+- Left: step 4 also regenerates the tables of the LLVM back end from the grammar (errata 137, see "LLVM tables generated from the hbnf grammar"); step 1 is in progress (the open items are in appendix J and in the decision form docs/feedback/decisions-feedback.txt); steps 2 to 5 wait for it; sim64 and pcc are kept current on the present encoding until then
 
 ### PCC contributors
 - Status: TO DO — a contributor file exists elsewhere but the pcc repo README does not name contributors (latest decision 2026-10-13 \[R48\])
@@ -285,12 +279,6 @@
 - Left: details pending: the number of pages kept for the boot code (J.4.1); the register or field that reports the physical width (J.6.1); the page-table entry layout for a page number of 52 bits (J.6.2); devices' placement in the simulator and QEMU
 
 ## Instruction set: encoding
-
-### Encoding optimiser in C (tools/encopt)
-- Status: TO DO — translated to C with exact algorithms and tested; the run that matters is to be repeated once the opcode-affecting decisions are made and the mnemonics are settled (latest decision 2026-11-10 \[R397\], errata 125)
-- Decided: 2026-11-10 decided: "that python script that went over all the mnemonics and figured out the optimal prefix encoding for pdp64 to fit the most used opcodes into the smallest number of 16 bit packets? that's the one I want translated to C ... use optimal algorithms, we'll be re-running it once the decisions are made and the mnemonics are settled" \[R397\]
-- Evidence: tools/encopt/ (encopt.c, main.c, export.py, check.sh, tests/, man pages encopt.1 and encopt.5; commit fa92f82), tools/check-all.sh:17 runs its checks; docs/encoding-work/optimizer.md section 5: on the corpus statistics of 2026-11-10 the proved optimum is 955,956 bytes against 965,602 for the committed grammar (1.00% smaller, 81 chosen candidates against 140, 203 leaves against 268), in 3.4 seconds; section 6: 150 random instances against brute force with no disagreement
-- Left: the re-run on the decided instruction set (docs/encoding-work/optimizer.md section 7); the choices that move the optimum are open: whether to weight by executed counts as well as static counts, the 5% of code space kept free (budget 95%), and the corpus reader that misreads \`set cc, rd\` (342 instructions counted as unencodable) (questions in docs/feedback/decisions-feedback.txt); the wiring of the optimum into the grammar writer was not done ("spec/ must not change yet")
 
 ### Opcode map grouping
 - Status: TO DO — the present grammar groups the rare instructions in wide groups with sub-opcodes and the mnemonics by theme; the opcodes are to be regrouped by the encoding optimiser when the open items that affect them are decided (latest decision 2026-10-21 \[R146\]; order of work, errata 125)
@@ -358,12 +346,24 @@
 - Evidence: pcc:doc/SIZE-REPORT.md:91 "pdp11 ... +8.0%" against gcc; commit 285188d "PDP-11 gap to gcc 16.6%"
 - Left: the worst-10% loop to reach 5%
 
+### Keep sim64 and pcc current
+- Status: TO DO — a standing rule of the order of work: both follow the present encoding and are ported again when the opcodes change (latest decision 2026-11-10 \[R396\], errata 125, 137)
+- Decided: 2026-11-10 decided: "we'll also keep sim64 and pcc current too; but it came to my attention there may be some opcode changes once we're done resolving all the open items" \[R396\]; the order "pcc backend, as64 ld64 and sim64 and the hbnf are updated" before the LLVM port \[R420\]
+- Evidence: docs/roadmap.md "The order of work now" (step 5); docs/implementation-status.md (the state after the removal of the earlier iterations; the branch single-pdp64 of pcc, not merged into master); handoff.md section 4
+- Left: the port of sim64, pcc, as64 and ld64 to the final encoding after the optimiser run; the merge of the branch single-pdp64 is the question W.3 of the decision form
+
 ### LLVM back end: frozen until the port
-- Status: TO DO — frozen on the original encoding; to be ported to the new encoding after the opcode-affecting decisions, then a code generator (latest decision 2026-11-10 \[R396\], errata 125)
-- Decided: 2026-11-10 decided: "once we've decided on any issue that might affect our opcodes etc, then we'll port llvm to the new encoding and the pcc and as64 as well"; "i want to get this thing in shape so you can then implement the llvm and qemu backends" \[R396\]
+- Status: TO DO — frozen on the original encoding; to be ported to the new encoding after the opcode-affecting decisions, then a code generator (latest decision 2026-11-10 \[R396, R420\], errata 125, 137)
+- Decided: 2026-11-10 decided: "once we've decided on any issue that might affect our opcodes etc, then we'll port llvm to the new encoding and the pcc and as64 as well"; "i want to get this thing in shape so you can then implement the llvm and qemu backends" \[R396\]; 2026-11-10 decided: "of course we do llvm port, once ops are settled and pcc backend, as64 ld64 and sim64 and the hbnf are updated." \[R420\]
 - Evidence: llvm/README.md:3 "Status (errata 122)" (the machine-code layer encodes the original encoding: parcel 0 = len:2 opc:6 reg:4 low:4, sixteen registers, page 2; as64 produces the prefix-coded encoding only; the oracle checks were removed, errata 123); docs/implementation-status.md "LLVM is frozen"; README.md:89 "LLVM back end"; docs/roadmap.md:10 (step 5)
 - Doc differs: the body of llvm/README.md still describes milestone M1 and an oracle (llvm/check.sh, tools/gen-llvm-td.py) that no longer exists
-- Left: the port of the machine-code layer, the new oracle against as64, a code generator (llc, clang), the larger machine for the build (R217); the question whether the assembler of LLVM keeps the syntax exceptions of implementation-status (no literal pool, no names that start with a digit) is in the decision form
+- Left: the tables of the back end generated from the grammar (see the next block); the port of the machine-code layer, the new oracle against as64, a code generator (llc, clang), the larger machine for the build (R217); the question whether the assembler of LLVM keeps the syntax exceptions of implementation-status (no literal pool, no names that start with a digit) is in the decision form
+
+### LLVM tables generated from the hbnf grammar
+- Status: TO DO — decided; details pending: the form of the generated tables and the generator are not designed (latest decision 2026-11-10 \[R420\], errata 137)
+- Decided: 2026-11-10 decided: "the hbnf should also be used to emit tables and such that the llvm backend will also use. two birds, one stone." \[R420\]
+- Evidence: docs/errata.md item 137; docs/roadmap.md "The order of work now" (step 4: regenerate the tables of the LLVM back end from the grammars; step 5: the port); the assembler's tables are already generated (tools/mkenc.py into build/pdp64-tab.c) and the manual's tables are generated from the same grammar; llvm/ has no generator now (its table generator was removed with the original encoding, errata 123)
+- Left: design the emitter (the instruction tables of the machine-code layer and the assembler of LLVM), after the operations are settled and the grammar is updated; the dates are not set
 
 ### QEMU and LLVM targets
 - Status: TO DO — QEMU is built and decodes with the table codec of the single encoding; the LLVM back end is only at milestone M1 and frozen on the original encoding; both are to be ported to the new encoding after the opcode-affecting decisions (latest decision 2026-11-10 \[R396\], errata 125; 2026-10-22 \[R217\])
@@ -414,7 +414,7 @@
 - Evidence: common/pdp64enc.c and common/pdp64enc.h:27 \`struct einsn\` (the decoded instruction), tables generated by tools/mkenc.py from the grammar into build/pdp64-tab.c; the executor semantics are hand-written in common/pdp64exec.c and common/pdp64exec\_enc.inc (a table of handlers by mnemonic, for example \`H\_MASK\`); docs/errata.md item 129
 - Left: a specialised decoder generated from the grammar that fills the decoded structures directly (the grammar says where the fields are, not what the instruction does); to follow after the opcode decisions and the optimiser run, so that it is generated once for the final encoding
 
-# Left in the air (25)
+# Left in the air (28)
 
 - Only ideas, open questions, conflicting decisions, or points the record and the repository do not settle.
 
@@ -528,12 +528,26 @@
 
 ## 07 Multiple processors
 
+### Block operations: ordering of the accesses
+- Status: IN THE AIR — one part is decided (the accesses inside a block operation are unordered with respect to one another, 7.5.8); the rest is open as J.7.6 (latest decision 2026-10-22, errata 39 item 7; the author asked on 2026-11-10 to verify that nothing else was decided \[R406\])
+- Decided: 2026-10-22 decided (errata 39 item 7): the accesses inside \`MCPY\`, \`MMOV\` and \`MSET\` and the other block words are unordered with respect to one another; only the final contents of memory and the register progress are defined; 2026-11-10: "probably, its probably something we didn't make any decisions on yet, verify that." \[R406\] (the check found only errata 39 item 7: it had been written nowhere, and the old 7.5 said the opposite by inference)
+- Evidence: docs/errata.md items 39 (item 7) and 130 (item 3, which stands); docs/manual-src/07-smp.md:200 "\*\*7.5.8\*\*" (decided) and :202 "\*\*7.5.9\*\* Open"; docs/manual-src/appendix-parts/07-open.md J.7.6 (seven open points, six options, the leaning to option 4 with option 6); docs/pdp64-isa.md:404 (what another core may observe)
+- Left: J.7.6: the order of the elements and overlap for \`MMOV\`, how far an access may tear, what another core may see of an operation in progress, what publishes the result (\`FENCE\` orders only device accesses, 7.5.7), what a fault leaves, the effect on a reservation, device and uncached memory; the question of the form: whether errata 39 item 7 is the author's decision
+
 ### CPU in DRAM
 - Status: IN THE AIR — only a question (latest 2026-10-20 \[R140\])
 - Decided: no standing decision (only potential decisions)
 - Rationale and precedent: none stated in the sources
 - Evidence: not found: searched docs/\*.md for a CPU-in-DRAM design; only passing mentions in docs/kernel-pain-points.md
 - Left: author has not decided
+
+## 08 Vector work and accelerators
+
+### SIMD: how it works, how many instructions, operations on regions of memory
+- Status: IN THE AIR — the author's questions are answered in J.8.5 with options and precedents; he has not chosen (latest decision 2026-11-10 \[R409\], errata 131)
+- Decided: no standing decision (questions: "how does simd work, how many instructions are there, is simd just normal ops fused with a \\"simd\\" bit or something like that? would it make sense to have simd ops that work on regions of memory instead of register files, since we'd be load/storing register files anyways?" \[R409\])
+- Evidence: docs/manual-src/appendix-parts/08-open.md J.8.5 (options a to e) and J.8.3 (packed lanes, option 6 a lane prefix); docs/errata.md item 131; errata 59 (no SIMD instruction set in the processor, the standing decision)
+- Left: J.8.3 and J.8.5
 
 ## 11 Toolchain
 
@@ -600,6 +614,12 @@
 - Evidence: spec/pdp64/pdp64.hbnf catalogue still has separate leaf-SYS0, leaf-SYSR, leaf-SYSI, leaf-SOPR forms; docs/encoding-proposal.md:87 lists SYS0 (36) and others as separate groups
 - Left: no record of a decision to merge sop and sys; nothing implemented
 
+### Encoding optimiser: the objective for the real run
+- Status: IN THE AIR — the three priorities are shown and the choice is the author's; the assistant's finding is that the static optimum also cuts fetched bytes and that the fetch and exec optima overfit the profile (latest decision 2026-11-10 \[R417\], errata 136)
+- Decided: no standing decision (the author asked for the options: "just show the options for static, fetch, and live priorities, static byte size, bytes fetched, and actual operations executed" \[R417\])
+- Evidence: docs/encoding-work/optimizer.md section 11, on a five-program profile of 135 million executed instructions: committed grammar 956,242 static bytes, 402.5 million bytes fetched; static optimum 939,688 (-1.73%) static, 389.4 million fetched (-3.26%), 89 candidates; fetch optimum 1,007,216 (+5.33%) static, 385.4 million fetched (-4.27%), 58 candidates; exec optimum (k = 4096) 1,006,762 static, 385.4 million fetched, operations executed unchanged; the leave-one-out check trains the fetch optimum on four programs and measures the fifth: it fetches 0.12% to 8.45% more than the committed grammar on a program it has not seen
+- Left: which objective the real run uses (options: static; fetch with a larger profile; static for the prefix structure and fetch only as the tie-break; static and fetch weighed equally); whether Lua and a real C library are wanted for a better profile; operations executed do not distinguish the encodings (42 executions apart)
+
 ### Opcode field and parcel layout (6-bit opcode)
 - Status: IN THE AIR — only potential ideas; the decided pdp64/32 uses a variable prefix, not a fixed 6-bit opcode (latest decision 2026-11-04 \[R325\])
 - Decided: no standing decision (only potential decisions)
@@ -610,11 +630,11 @@
 ## Instruction set: instruction groups
 
 ### Memory-to-memory moves and block operations
-- Status: IN THE AIR — only potential ideas in the chain, but the ISA already has MCPY, MMOV and MSET (latest decision 2026-10-20 \[R135\])
-- Decided: no standing decision (only potential decisions)
+- Status: IN THE AIR — the instructions MCPY, MMOV, MSET and the read-only MCMP, MSCN, MSCNN, MVAL exist in the ISA and the manual (9.11), with their progress in registers; the chain records no decision for them as a group, and the ordering of their accesses is decided only in one part (see "Block operations: ordering of the accesses"; latest decision 2026-10-20 \[R135\])
+- Decided: no standing decision for the instructions themselves (only potential decisions); the ordering inside one operation is decided by errata 39 item 7
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/pdp64-isa.md:386 "MCPY Rd, Rs, Rn"; MMOV in the same paragraph; :404 "\*\*\`MSET\` with Rv = 0 is the range-zeroing instruction"
-- Left: no decision records the block-move instructions; plain memory-to-memory mov (the first idea) is not in the ISA
+- Evidence: docs/pdp64-isa.md:386 "MCPY Rd, Rs, Rn"; MMOV in the same paragraph; :406 "\*\*\`MSET\` with \`Rv = 0\` is the range-zeroing instruction\*\*" and :404 (what another core may observe); docs/manual-src/07-smp.md:200 "\*\*7.5.8\*\* The accesses inside one block operation ... are unordered with respect to one another" and :202 "\*\*7.5.9\*\* Open"; docs/manual-src/09-isa.md:239 and :251 (9.11, the open items)
+- Left: no decision records the block-move instructions; plain memory-to-memory mov (the first idea) is not in the ISA; the rest of the ordering is J.7.6
 
 ### UTF-8 operations
 - Status: IN THE AIR — only a potential idea in the chain, but the ISA already has UTF8LEN/DEC/ENC and MVAL (latest decision 2026-10-20 \[R137\])
@@ -631,7 +651,7 @@
 - Evidence: docs/errata.md item 91 (assumed: the object flag EF\_PDP64\_RELAX, the relocation R\_PDP64\_ALIGN (type 6) on every padding of .text so that paddings are recomputed, growth from the shortest form with lengths that only grow, EF\_PDP64\_NOADJ\_TEXT (0x20) for a .text that holds a distance that is not a relocation, a label before an .align moved behind the padding, an expanded cbCC stays expanded, the reach of the 4-byte call); docs/relaxation.md:21 (\`EF\_PDP64\_NOADJ\_TEXT\`), :35 (\`R\_PDP64\_ALIGN\`), :48 (an object is adjustable if it has RELAX and not NOADJ\_TEXT); tests/relax/noadj.s; docs/relaxation.md sections 6 and 7 (the measurements)
 - Left: the author's confirmation of the rules; the reach of the 4-byte call (errata 91 says +-1 MiB, errata 87 and the encoding proposal say +-2 MB, the manual's text says +-256 KiB: to settle); in the decision form
 
-# Rejected or replaced (10)
+# Rejected or replaced (11)
 
 - Rejected, reversed, or replaced by a later decision (the later one has precedence).
 
@@ -644,6 +664,15 @@
 - Precedent: Commodore 64 (rejected; named by author): "shitty keyboard" \[R15\]
 - Precedent: RPi 500 keyboard (chosen; named by author): "the rpi500 keyboard is adequate" \[R15\]
 - Evidence: not found: searched pdp64 docs for the C64 keyboard as a requirement; the repository does not carry it (not stale)
+
+## 07 Multiple processors
+
+### Dedicated core classes
+- Status: REJECTED — the author turned it down on 2026-11-10: no core is dedicated to graphics, network or audio; the only core that may be dedicated is a single secure core (latest decision 2026-11-10 \[R414\], errata 133)
+- Decided: not in force (2026-11-10): "other than potentially one core dedicated as secure, no more dedicated cores." \[R414\], which supersedes the recommendation of 2026-11-04 "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing."; "and also one core for audio processing, doing midi, dsp, etc." \[R313\] (errata 76), and the intermediate "the idea of dedicated roles now shrinks" \[R411\] (errata 132)
+- Rationale and precedent: none stated in the sources
+- Evidence: docs/manual-src/07-smp.md:334 "Apart from the possible single secure core, no core is dedicated to a role"; the statements 7.11.6 and 3.8.2 and open item J.7.5 are deleted from the manual (Appendix H and J), and the options that needed dedicated cores are removed from J.7.2, J.6.3, J.7.4 and J.8.4; docs/errata.md items 76, 132 and 133; the records docs/smp-decisions.md and docs/decisions-pending.md Part F keep the old text under banners that name errata 132 and 133
+- Left: nothing for the roles; the exception, one secure core instead of a mode on every core, is decided only as a fallback (see "Secure mode"; J.7.7)
 
 ## Documentation and process
 
@@ -718,7 +747,7 @@
 - Evidence: docs/roadmap.md:19 "The pcc RISC-V back end is a separate project and is not on this path"; handoff.md:46 "The pcc RISC-V back end is \*\*a separate project\*\*, not any part of this one (the author, 2026-11-10)"; docs/implementation-status.md:11 (the pcc line); docs/errata.md item 125
 - Left: nothing here; the work, if done, belongs to the pcc repository's own plan
 
-# Done (171)
+# Done (177)
 
 - Implemented in the current code or stated in the current docs, with the evidence.
 
@@ -785,7 +814,7 @@
 - Decided: 2026-08-30 decided: "fp and mmu would be included by default" \[R26\]
 - Precedent: M8502 and x86 (chosen; named by author): adopt what is needed from them, low transistor count \[R26\]
 - Precedent: Strecker VAX-11/780 paper (considered; named by assistant, not taken up): DEC considered extending the PDP-11 and gave reasons against \[R26\]
-- Evidence: docs/manual-src/06-kernel.md:196 "\`MMUCTL\` ... memory-management control (bit 0 enables translation)"; docs/manual-src/01-introduction.md:149 "\*\*1.5.7\*\* There are no transcendental instructions, no separate floating-point register file and no rounding-mode bits" (FP shares the general registers); docs/manual-src/08-vectors.md:146 "\*\*8.6.1\*\* The processor handles \`binary64\`, \`binary32\` and \`binary16\` as scalar floating point"
+- Evidence: docs/manual-src/06-kernel.md:196 "\`MMUCTL\` ... memory-management control (bit 0 enables translation)"; docs/manual-src/01-introduction.md:149 "\*\*1.5.7\*\* There are no transcendental instructions, no separate floating-point register file and no rounding-mode bits" (FP shares the general registers); docs/manual-src/08-vectors.md:160 "\*\*8.6.1\*\* The processor handles \`binary64\`, \`binary32\` and \`binary16\` as scalar floating point"
 
 ### Mashup of PDP-11 with C64 / M8502
 - Status: DONE — the pdp64 is the PDP-11 widened, with the C64 as a device and an 8502 island, not two chips side by side (latest decision 2026-08-29 \[R23\])
@@ -1092,7 +1121,7 @@
 - Status: DONE — (latest decision 2026-10-22 \[R231\])
 - Decided: 2026-10-22 approved-proposal: WFE idle wait wakes on pending interrupt even if masked="Yes, wake on pending (Recommended)" \[R231\]
 - Rationale: accepted from the assistant: lower-then-sleep misses an interrupt landing between the two instructions, and sleeping at priority 7 never wakes. \[R231\]
-- Evidence: docs/manual-src/07-smp.md:274 "\*\*7.10.2\*\* \`WFE\` ends its sleep when an interrupt is pending, even if the priority masks it"
+- Evidence: docs/manual-src/07-smp.md:304 "\*\*7.10.2\*\* \`WFE\` ends its sleep when an interrupt is pending, even if the priority masks it"
 - Left: the wake rule and the idle loop have a J entry, J.7.1
 
 ## 07 Multiple processors
@@ -1101,20 +1130,20 @@
 - Status: DONE — (latest decision 2026-10-22 \[R240\])
 - Decided: 2026-10-22 approved-proposal: "write the errata for ... P11" (atomics). \[R240\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/errata.md:195 entry 45 "atomics are defined on a monitor (reservation), not a bus lock"; docs/manual-src/07-smp.md:95 "\*\*7.4.1\*\* \`LL\` takes a reservation on a naturally aligned granule of memory", docs/manual-src/02-bus.md:470 "\*\*2.10.1\*\*"
+- Evidence: docs/errata.md:195 entry 45 "atomics are defined on a monitor (reservation), not a bus lock"; docs/manual-src/07-smp.md:121 "\*\*7.4.1\*\* \`LL\` takes a reservation on a naturally aligned granule of memory", docs/manual-src/02-bus.md:470 "\*\*2.10.1\*\*"
 - Left: the operands of the atomic instructions (J.7.3); atomics on uncached and device memory (J.7.4)
 
 ### Core counts
-- Status: DONE — (latest decision 2026-11-04 \[R338\])
-- Decided: 2026-11-04 decided: "for initial device 4 cores is enough hopefully that fits on the fpga". \[R338\]
+- Status: DONE — at least four cores, sixteen or more as the preferred ceiling, four in the first device; the minimum of two proposed on 2026-11-10 was cancelled (latest decision 2026-11-10 \[R410\], errata 92, 132)
+- Decided: 2026-11-04 decided: "for initial device 4 cores is enough hopefully that fits on the fpga". \[R338\]; 2026-11-10 decided: "decision: minimum 2 cpus, so smp always gets some exercise." \[R405\], then, after the conflict with errata 92 was reported, "if we already decided minimum 4, then we'll stick to that, cancel minimum 2." \[R410\] (supersedes R405; errata 130 withdrawn by errata 132)
 - Rationale: "for initial device 4 cores is enough hopefully that fits on the fpga" \[R338\]
-- Evidence: docs/manual-src/07-smp.md:192 "\*\*7.6.3\*\* The design supports at least four cores; sixteen or more is the preferred ceiling ...; the initial device has four cores"; docs/smp-decisions.md:9-10; docs/errata.md:242 entry 92
+- Evidence: docs/manual-src/07-smp.md:222 "\*\*7.6.3\*\* The design supports at least four cores; sixteen or more is the preferred ceiling ...; the initial device has four cores"; docs/smp-decisions.md:9-10; docs/errata.md entries 92, 130 (withdrawn) and 132; docs/pdp64-isa.md section 17 (the four cores of the first device)
 
 ### Mixed in-order and out-of-order cores
 - Status: DONE — (latest decision 2026-11-04 \[R337\])
 - Decided: 2026-11-04 decided: "its ok to have in order and out of order cores on the same die as long as we can tell which is which". \[R337\]
 - Rationale: accepted condition: in-order and out-of-order cores are fine "as long as we can tell which is which". \[R337\]
-- Evidence: docs/manual-src/07-smp.md:306 "\*\*7.11.2\*\* In-order and out-of-order cores may share a die if software can tell which is which"; docs/smp-decisions.md:11
+- Evidence: docs/manual-src/07-smp.md:338 "\*\*7.11.2\*\* In-order and out-of-order cores may share a die if software can tell which is which"; docs/smp-decisions.md:11
 
 ### SMP and its decisions document
 - Status: DONE — written, with Part C in decisions-pending.md (latest decision 2026-10-22 \[R235\])
@@ -1122,6 +1151,12 @@
 - Precedent: VAX/PDP (considered; named by author): survey "what all major modern os and cpu do, plus vax/pdp" \[R235\]
 - Evidence: docs/decisions-pending.md:1084 "## Part C. The gaps: several cores, DMA devices and virtualization"; docs/smp-decisions.md Parts A and B
 - Left: the SMP requirements question (potential R137) is answered by smp-decisions.md
+
+### The seventeen multiprocessor operations and the numbers 10, 22, 12 and 17
+- Status: DONE — the count was verified against the grammar and the dictionary and is true: seventeen folded operations, ten atomics (22 words, 12 with the signed and unsigned variants counted apart) and seven others, and twelve system operations that are not multiprocessor; the four numbers are shown together in 7.3 (latest decision 2026-11-10 \[R413\], errata 130, 132, 135)
+- Decided: 2026-11-10 decided: "btw, the 10 22 and 12 are also mystical numbers, glad they somehow connect with the number 17! you don't have to discuss it, but make sure those numbers are visible in proximity to each other." \[R413\]; the check was his order: "do the full count and verify. 17 is a mystical number so cool to keep it, but if it isn't true, nix it." \[R416\] and "i think the number 17 was in a particular context, if you find the thread where it came up, you should be able to find nearby not only the 10 referenced instructions, but figure out what the other 7 were i was talking about." \[R407\]
+- Evidence: docs/errata.md items 130 (item 1: the thread of 2026-10-21, R163, and the recount), 132 (the numbers of 7.3) and 135; docs/manual-src/07-smp.md:92 "\*\*7.3.1\*\* The instructions that exist for multiple processors fall under one umbrella of seventeen operations: ten atomics and seven others" and the table of 7.3 above it; the ten atomics are 22 words (twenty with a plain and a \`\_DB\` form, and \`LL\` and \`SC\`), the seven others nine words (\`FENCE\`, \`WFE\`, \`SEV\`, \`TLBI\` and \`TLBIA\`, \`TLBSYNC\`, \`ICINV\` and \`ICINVA\`, \`MFCPUID\`)
+- Left: nothing for the count; the classification questions are in the form: whether \`RET\`, which the grammar places in the system group, belongs to the twelve, and whether \`HINT #1\` belongs under the seventeen (\`MFSR\`, \`MTSR\`, \`PUSHX\`, \`POPX\`, \`ISYNC\` and \`HINT\` came after the count)
 
 ## 08 Vector work and accelerators
 
@@ -1131,14 +1166,14 @@
 - Precedent: GPU (considered; named by author): meant as "a helper/accelerator that uses the same ram, does dma" \[R136\]
 - Precedent: SIMD/AVX (considered; named by author): helps like a GPU's, "the simd/avax stuff" \[R136\]
 - Precedent: Samsung LittleBit-2 (considered; named by author): a GPU optimized purely for its encoding \[R136\]
-- Evidence: docs/manual-src/08-vectors.md:5 "goes to accelerators: devices on the bus that use the same RAM as the processor", :84 "\*\*8.4.2\*\* Such a device is a helper or accelerator that uses the same RAM as the processor and does DMA; this is what \\"GPU\\" means in this manual"; docs/pdp64-lb64-accelerator.md
+- Evidence: docs/manual-src/08-vectors.md:5 "The pdp64 has a vector and accelerator engine as a standard part of the architecture", :98 "\*\*8.4.5\*\* Such a device is a helper or accelerator that uses the same RAM as the processor and does DMA; this is what \\"GPU\\" means in this manual"; docs/pdp64-lb64-accelerator.md
 - Left: the littlebit-2 GPU and the utf8 helper chip are potentials only; the operations, number formats and descriptors of the vector device are open (J.8.1, J.8.2)
 
 ### LLM training and inference focus
 - Status: DONE — inference is the target (latest decision 2026-10-20 \[R139\])
 - Decided: 2026-10-20 decided: "just optimize inference whether in cpu or gpu whatever makes most sense" \[R139\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/manual-src/08-vectors.md:118 "## 8.5 Inference, array languages and the bit instructions"; docs/pdp64-lb64-accelerator.md
+- Evidence: docs/manual-src/08-vectors.md:132 "## 8.5 Inference, array languages and the bit instructions"; docs/pdp64-lb64-accelerator.md
 
 ### SIMD and vector work
 - Status: DONE — memory-mapped device route, no SIMD in the CPU, APL/K noted (latest decision 2026-10-23 \[R277\])
@@ -1148,7 +1183,13 @@
 - Precedent: AVX2 (considered; named by author): the SIMD work the chapter covers \[R277\]
 - Precedent: APL/K (chosen; named by author): mention as making vector languages easier to support \[R277\]
 - Evidence: docs/manual-src/08-vectors.md:68 "\*\*8.3.1\*\* The processor has no vector register file and no SIMD instruction set"; :134 "\*\*8.5.3\*\* The primitives of an array language map one to one onto descriptors"; docs/errata.md:209 entry 59
-- Left: packed integer lanes in the ordinary registers are open (J.8.3)
+- Left: packed integer lanes in the ordinary registers are open (J.8.3), and so are operations on regions of memory with an invisible register file (J.8.5, new: the author's questions of 2026-11-10 about SIMD; a hidden vector register file would have to square with errata 59, which declined one)
+
+### The vector and accelerator engine is a standard part of the architecture
+- Status: DONE — the principle is decided and written (8.4.1 to 8.4.3); the operations, formats, descriptor and the first engine are details pending (J.8.1 to J.8.5), all TO DO in the form of open items with five or six options and precedents each (latest decision 2026-11-10 \[R408\], errata 131)
+- Decided: 2026-11-10 decided: "fill me in on that, I want all the best options with rationale and precedents for each of those items. even if it doesn't involve specific opcodes \\"in the cpu\\" still it must be built in as a standard part of the architecture, just as the fpu mmu and iommu are." \[R408\]; the principle does not supersede errata 59 (no vector register file and no SIMD instruction set in the processor), errata 78 or 95
+- Evidence: docs/errata.md item 131; docs/manual-src/08-vectors.md:88 "\*\*8.4.1\*\* The vector and accelerator engine is a standard part of the architecture, as the FPU, the MMU and the IOMMU are. \*(D)\* Details pending", :90 "\*\*8.4.2\*\*" (the five consequences of "standard") and :92 "\*\*8.4.3\*\*" (a device on the bus and an architectural component at once); the figures vec-engine and vec-region; docs/manual-src/appendix-parts/08-open.md (J.8.1 the operations and number formats, J.8.2 the descriptor and the virtio descriptor, J.8.3 packed integer lanes, J.8.4 which engine is built first, J.8.5 operations on regions of memory)
+- Left: J.8.1 to J.8.5, which the author decides; the questions of the form: whether the engine must exist in silicon in every system or a software implementation behind the same descriptors satisfies "standard" (J.8.4 option 5), whether a standard PCI Express GPU or NPU card implementing the architecture's descriptor is acceptable, whether a lane prefix over the ALU operations (J.8.3 option 6) counts as "normal ops with a SIMD bit", and whether a hidden vector register file (J.8.5 options a and c) counts as the vector register file that errata 59 declined
 
 ## 12 Documentation and process
 
@@ -1361,7 +1402,7 @@
 - Rationale: "let's make it very easy and pleasant for him" (the cpu designer reader) \[R268\]
 - Precedent: PDP-10, PDP-11 and VAX-11 (chosen; named by author): manual to cover what was so great about programming them \[R268\]
 - Evidence: docs/manual-src/00-index.md contents: 1 introduction, 2 bus, 3 graphics, 4 boot, 5 drivers, 6 kernel, 7 smp, 8 vectors, 9 isa, 10 conclusion, 11 reference tables, appendices A (improvements), B (decisions pending), C to G and H Proposed, I Deferred, J Open items; atomics on the bus in 2.10 and in chapter 7, system instructions in 6.13
-- Doc differs: order bus, graphics, boot, drivers (index) differs from the 'boot, device driver, graphics' of R279 and 'bus, blitter, boot' of R280; the later j79473 is the one followed
+- Doc differs: order bus, graphics, boot, drivers (index) differs from the 'boot, device driver, graphics' of R279 and 'bus, blitter, boot' of R280; the later of the author's two orders is the one followed
 
 ### Names kept out of the manual: Q64 and the three native device names
 - Status: DONE — none of the four names is in the manual or the README (latest decision 2026-11-10 \[errata 120\])
@@ -1374,6 +1415,12 @@
 - Decided: 2026-11-10 decided: "also all references to the local user names and other local unix users and local pathnames must go" \[R404\]
 - Evidence: \`git grep\` of home-directory paths, the other machine's name, session names and the assistant's name over the documents, the manual source, README.md and handoff.md finds none (the local tools under tools/declog and the feedback generator are not documents); docs/decisions-and-status.md and docs/decision-register.md are produced by a publish step that rewrites paths and scrubs names and has no message ids (R numbers only)
 - Left: the check is repeated at every publish of the status document and of the form
+
+### Opcode-affecting items first (the order of the open items)
+- Status: DONE — the order is written in the roadmap and the hand-over: the open items that affect opcodes are decided first, then the optimiser, the grammar, the regeneration and the port (latest decision 2026-11-10 \[R396\], errata 125)
+- Decided: 2026-11-10 decided: "once we've decided on any issue that might affect our opcodes etc, then we'll port llvm to the new encoding and the pcc and as64 as well" \[R396\]; the decision form puts the entries with "AFFECTS OPCODES: yes" first
+- Evidence: docs/roadmap.md "The order of work now" (steps 1 to 6); handoff.md section 4; tools/feedback/mkfeedback.py (the ordering by AFFECTS OPCODES)
+- Left: nothing for the order; its steps are the blocks "Order of work after the single-CPU decision" and the ones that follow it
 
 ### Optimization tricks document and optimization docs
 - Status: DONE — tricks doc is comprehensive and pdp64 optimization doc is current (latest decision 2026-10-18 \[R83\])
@@ -1560,6 +1607,25 @@
 - Precedent: x86 (chosen; named by author): adopt what is needed from it to keep transistor count down \[R26\]
 - Precedent: Strecker VAX-11/780 paper (considered; named by assistant, not taken up): DEC considered extending PDP-11; opcode-space exhaustion was the reason \[R26\]
 - Evidence: docs/pdp64-isa.md:24 "A PDP-11 programmer should recognize the language" (priority 6); the encoding is not PDP-11 (docs/pdp64-isa.md:145 parcels of 16 bits, new opcodes); docs/pdp64-isa.md:437 SOB restored with the PDP-11 name
+
+### Encoding optimiser in C (tools/encopt)
+- Status: DONE — the tool is delivered (version 1.1: exact algorithms, no reserve, three objectives, the corrected reader, the profile collector, tests and man pages); the run that matters is made once the opcode-affecting decisions are settled (latest decision 2026-11-10 \[R417, R418, R419, R397\], errata 125, 136)
+- Decided: 2026-11-10 decided: "that python script that went over all the mnemonics and figured out the optimal prefix encoding for pdp64 to fit the most used opcodes into the smallest number of 16 bit packets? that's the one I want translated to C ... use optimal algorithms, we'll be re-running it once the decisions are made and the mnemonics are settled" \[R397\]; then "just show the options for static, fetch, and live priorities, static byte size, bytes fetched, and actual operations executed" \[R417\], "no reserve." \[R418\], "good." \[R419\]
+- Evidence: tools/encopt/ (encopt.c, main.c, export.py, corpusfix.py, weightsfile.py, profile.py, leave-one-out.py, programs/, tests/, check.sh, man pages encopt.1, encopt.5, encopt-tools.1; ChangeLog "encopt 1.1"), tools/encdis.c \`-k PROFILE\`, tools/check-all.sh runs its checks; docs/encoding-work/optimizer.md sections 9 (no reserve), 10 (the objectives) and 11 (the table of the three priorities); on the corpus of the day the static optimum is 939,688 bytes against 956,242 for the committed grammar (-1.73%), proved optimal in seconds
+- Doc differs: the grammar writer that turns the optimum into spec/pdp64/pdp64.hbnf is not wired ("spec/ must not change yet"), which docs/encoding-work/optimizer.md section 7 point 6 says
+- Left: the choice of objective for the real run (see "Encoding optimiser: the objective for the real run"); the re-run on the decided instruction set; the candidate forms and the mnemonic classes are defined by hand in cat.py, which limits what the optimum can be
+
+### Encoding optimiser: no code-space reserve
+- Status: DONE — the optimiser's budget is the whole first-parcel space less the forced forms; the 5% free space of the first study is withdrawn (latest decision 2026-11-10 \[R418\], errata 136)
+- Decided: 2026-11-10 decided: "no reserve." \[R418\]
+- Evidence: tools/encopt/export.py (\`--budget\` defaults to 1.0; the input line \`budget 65536 65536\`); docs/encoding-work/optimizer.md section 9 (the candidates get 65,536 - 47,454 = 18,082 patterns, +22%; the reserve had been worth 0.78% of the corpus; the optimum on the old budget 947,084 bytes); the 5% appears only in earlier text of the same document as the policy it replaces
+- Left: nothing; should the author later want one pattern (all zeros or all ones) kept illegal, it is a forced form, not a reserve
+
+### Encoding optimiser: the corpus reader corrected
+- Status: DONE — \`set cc, rd\`, \`mfsr\` and \`mtsr\` are read as numbers, not labels, so the 342 \`set\` instructions that counted as unencodable in every earlier figure now encode (latest decision 2026-11-10 \[R419\], errata 136)
+- Decided: 2026-11-10 decided: "good." \[R419\] (on the proposal to correct the reader)
+- Evidence: tools/encopt/corpusfix.py and tests/test\_reader.py; tools/encopt/ChangeLog "encopt 1.1"; docs/encoding-work/optimizer.md section 9 (the 342 \`set\` instructions)
+- Left: nothing
 
 ### Grammar as source of truth (hbnf)
 - Status: DONE — the repository is built on hbnf grammars as the source of truth; the chain's "skip hbnf for now" was overridden by the author's correction of 2026-11-04 (latest decision 2026-11-04 \[R335\])
@@ -1972,7 +2038,7 @@
 - Precedent: yacc (chosen; named by author): use it for the old-yacc grammar \[R103\]
 - Precedent: v7as / v7cc prefix naming (rejected; named by author): change policy to asv7, ccv7, cppv7 suffixes \[R104\]
 - Evidence: toolchain commit 7c56942 "v7-prefixed command names become -v7 suffixes (ccv7, asv7, ldv7)"; Makefile.am:38 as32v
-- Left: use of v7yacc (j41256) not checked
+- Left: use of v7yacc not checked
 
 ### c2 pass and IR optimizer (optim2)
 - Status: DONE — tree-form passes and c2 inside ccom exist (latest decision 2026-10-17 \[R65\])
@@ -2302,7 +2368,7 @@
 - xterm-256color subset shim: chosen in C64 console font and 9p interface
 - yacc: chosen in as32v in the v7unix-toolchain repo and tool naming
 
-# Where the current docs or code differ from the decisions (24)
+# Where the current docs or code differ from the decisions (26)
 
 - Stack alignment: docs/abi.md:10 and appendix D (D.1) say multiple of 8, not 2
 - Physical address width and device windows: the simulator, QEMU and spec/pdp64-system.hbnf map 40 bits and put the devices from 0x8000000000 (docs/implementation-status.md, chapter 6, 6.6.2 and 6.7.1); the 40-bit width is the minimum, so the rule is met
@@ -2318,7 +2384,7 @@
 - Other: The chain has no Now line for this group; the latest line (2026-10-21) is the abs/min/max one
 - Git history, merging and pushing: git status: untracked c64stuff.txt, chat02.txt and tools/declog/ are not pushed; docs/decision-log/ is deliberately local (.gitignore, commit 8cb79b7)
 - README: README.md:8 appendix list (see Left)
-- Manual: deliverable and chapter order: order bus, graphics, boot, drivers (index) differs from the 'boot, device driver, graphics' of R279 and 'bus, blitter, boot' of R280; the later j79473 is the one followed
+- Manual: deliverable and chapter order: order bus, graphics, boot, drivers (index) differs from the 'boot, device driver, graphics' of R279 and 'bus, blitter, boot' of R280; the later of the author's two orders is the one followed
 - Manual purpose, style and notation: docs/manual-src/09-isa.md:73 (9.3.8) "the mask is 32 bits" and :241 (9.11.1) give no binary form
 - Velinsky link: manual 1.1 commentary no longer carries it: errata 120 moved it to appendix H, since the manual body holds decided material only
 - Manual body and the appendices Proposed, Deferred and Open items: docs/manual-src/appendix-j-open.md holds only "There are no open items" (the entries are assembled from appendix-parts/\*-open.md into docs/manual/\*/appendix-j-open.md)
@@ -2327,7 +2393,9 @@
 - Device initialization protocol: docs/manual-src/04-boot.md:264 states the register write in the words of the eight-register devices that errata 95 withdrew
 - Crypto and random-number devices: errata 85 records decisions that the chain shows only as the "we'll go along those lines" approval of OpenBSD's recommendations, not each item
 - Page-table levels: the QEMU walker, the simulator and the emulator implement three levels only (docs/implementation-status.md), against errata 96 (three, four or five levels)
+- Encoding optimiser in C (tools/encopt): the grammar writer that turns the optimum into spec/pdp64/pdp64.hbnf is not wired ("spec/ must not change yet"), which docs/encoding-work/optimizer.md section 7 point 6 says
 - LLVM back end: frozen until the port: the body of llvm/README.md still describes milestone M1 and an oracle (llvm/check.sh, tools/gen-llvm-td.py) that no longer exists
+- Secure mode (formerly the secure core class): docs/crypto-secure-core.md, docs/smp-decisions.md and docs/security-round2.md still speak of a secure core class (records; the banners name errata 132 to 134)
 
 # Decision briefing: open questions and decisions under review
 
@@ -2948,7 +3016,7 @@ Facts the four items share, read once here:
 
 ### Q10 Stack alignment (QUESTION)
 - What it is: the stack pointer (R14) must be kept at some multiple, so that pushes and locals land at addresses a quad (8-byte) load can use; docs/abi.md:10 says "the stack pointer is a multiple of 8 at all times".
-- What it is: on 2026-10-21 the author asked "accept the abi, skip hbnf for now, keep going but stack aligbnent why not 2 bytes instead of 8?" (thread 1889, message 1712); no answer or ruling is recorded (docs/decision-log/pdp64-status.md:432, "Left: ... no answer or ruling is recorded"). The decision-log Decided line says "no standing decision".
+- What it is: on 2026-10-21 the author asked "accept the abi, skip hbnf for now, keep going but stack aligbnent why not 2 bytes instead of 8?"; no answer or ruling is recorded (docs/decision-log/pdp64-status.md:432, "Left: ... no answer or ruling is recorded"). The decision-log Decided line says "no standing decision".
 - What it is: the short answer to his question: 2 is the right number only when the machine pushes 16-bit words, as the PDP-11 does. In pdp64 a push, a return address and an argument slot are each 8 bytes (abi.md:12, 8-byte slots; `CALL` pushes the return address), and a quad access to an address not a multiple of 8 aborts with `ALIGN` (pdp64-isa.md:1233, "this rule may not be relaxed"); so an SP of 2 mod 8 would make the first push abort. 2 would be possible only if quads were pushed with the explicit unaligned `MOVU*` forms, which cost two accesses.
 - Why it matters (hardware): the rule is checked by the existing `ALIGN` abort (no new gates); a stricter rule (16) can be checked at the write of SP or left to the first access.
 - Why it matters (compiler): frame layout, `alloca`, variable-length arrays and spill slots must keep the alignment; the compiler can assume it or must re-align the stack in a prologue for types that need more.

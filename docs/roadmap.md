@@ -10,10 +10,10 @@ Priority: the manual for the architecture is the primary deliverable; the assemb
 ## The order of work now
 
 1. **Decide the open items**, starting with those that affect opcodes (Appendix J of the manual; the ledger). Nothing downstream is final before these, because opcode numbers and encodings may still change.
-2. **Run the encoding optimizer** (the encoding optimizer, `tools/encopt`, being written by another work stream) on the decided instruction set and compiler output to fix the prefix-coded encoding.
+2. **Run the encoding optimizer** (`tools/encopt` 1.1, in C: no code-space reserve, three objectives, static, fetch and exec, errata 136; which objective the real run uses is the author's choice, `docs/encoding-work/optimizer.md` section 11) on the decided instruction set and compiler output to fix the prefix-coded encoding.
 3. **Update the hbnf grammar** (`spec/pdp64/pdp64.hbnf`, `spec/pdp64-mnemonics.hbnf`): the grammars are the source of truth for the encodings.
-4. **Regenerate** from the grammars: the assembler tables, the manual (dictionary and tables) and the pcc headers.
-5. **Port** LLVM, pcc, as64, QEMU and sim64 to the new encoding and run their tests.
+4. **Regenerate** from the grammars: the assembler tables, the manual (dictionary and tables), the pcc headers and the tables of the LLVM back end (the author, 2026-11-10: the hbnf also emits what the LLVM back end uses, "two birds, one stone"; errata 137).
+5. **Port** LLVM (of course, once the operations are settled and the pcc back end, as64, ld64, sim64 and the hbnf are updated: errata 137), pcc, as64, QEMU and sim64 to the new encoding and run their tests.
 6. Then the OpenBSD port as laid out below (machine model, kernel, userland, network and ssh).
 
 The pcc RISC-V back end is a separate project and is not on this path.

@@ -167,7 +167,7 @@ Each phase ends with a demonstrable artifact and a regression suite that later p
 | **5. Floating point** | binary32, binary64, FMA | Berkeley TestFloat clean, including `mulAdd` |
 | **6. Software** | a kernel that boots | a V7-descended system reaches a shell |
 | **7. Peripherals** | the virtio devices on the system bus (the disk is virtio-blk; virtio-gpu, virtio-net, virtio-snd are the standard set), a blit engine if wanted (§12), the C64 devices only if they are un-deferred | the device definitions of manual chapters 3 and 5, plus §12 below |
-| **8. SMP, optional** | second core, snooping MSI, broadcast `TLBI`, IPI path | two cores pass the litmus tests of §7 item 7; a kernel schedules on both |
+| **8. SMP** | second core and on to the four of the first device (a system has at least four, errata 92), snooping MSI, broadcast `TLBI`, IPI path; secure mode on at least one core (errata 132) | two cores pass the litmus tests of §7 item 7, then four; a kernel schedules on all |
 
 **`MBLK` belongs to phase 2, not phase 1.** The block move instructions are trivial to implement and impossible to get right without the exception model, because their entire specification is about what state is visible when an exception arrives. Building them in phase 1 means building them twice.
 

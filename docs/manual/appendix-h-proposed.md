@@ -17,8 +17,6 @@
 
 ### 3.8 The pdp64 terminal: the blitter (moved from chapter 3)
 
-**3.8.2** (the graphics core, moved from chapter 3; the number is that of the statement in the chapter before the move, and is not the 3.8.2 that this fragment cites for the pixel format) One core is dedicated to the graphics device, the Blit's model of a terminal with a processor of its own (errata 76, the author's recommendation; the core classes are in chapter 7, 7.11). *(P)* Decided on 2026-11-04 and shrunk by the decision of 2026-11-10 (errata 132): what remains of dedicated roles is open ([J.7.5](appendix-j-open.md#j75)).
-
 **3.8.4** (moved from chapter 3) The blitter, the Blit's bit-block-transfer operation as a device, copies and combines rectangles of pixels with raster operations: registers for the source and destination base addresses, the strides, the width and height, a raster operation (the sixteen binary operations of source against destination and the common ternary ones), a mask or transparent colour, and a control register with direction, go, busy and interrupt on done. The device chat chose a three-operand `draw` instead (`decisions-pending.md` E3). The register list is the assistant's sketch from the ISA chat; the author has not discussed it. *(P)*
 
 **3.8.5** (moved from chapter 3) Each of the three is a device in a slot: it is enumerated by the bus, mapped into its own 4 KB page, and found by its identification register like any other (chapters 2 and 5). The device chat put the C64 devices in one 8 KB window per process (`decisions-pending.md` E5). The slot and the page rest on the eight-register convention that errata 95 withdrew for the standard devices. *(P)*
@@ -672,10 +670,6 @@ The numbers in this fragment are labels: they are those of chapter 7 before its 
 ### 7.2 and 7.11 Commentary (moved from chapter 7)
 
 *Total store order as the retreat.* If a large out-of-order core is ever built, total store order is the least painful retreat from sequential consistency (from the commentary of 7.2). The decision is reversible in the direction that matters: total store order can be the retreat for a large core (from the commentary of 7.11). *(P)* The smp-decisions record leans to writing the retreat down now as a one-way, announced switch for the whole machine, with no per-core or per-page weaker mode.
-
-### 7.11 The dedicated cores (moved from chapter 7)
-
-**7.11.6** (moved from chapter 7) The machine has one core dedicated to the graphics device, one dedicated to the network interface and running the full TCP/IP stack, one dedicated to audio (MIDI, digital signal processing and the like), and a number of other cores for general processing. *(P)* Decided on 2026-11-04 (errata 76: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing"; "one core for audio processing, doing midi, dsp, etc."); shrunk by the decision of 2026-11-10 (errata 132): what remains of dedicated roles is open ([J.7.5](appendix-j-open.md#j75)). The graphics core was the Blit's model (chapter 3); the network core drives a standard PCI Express card, so no network hardware beyond that is implied.
 
 ## H.8 Chapter 8: Vector work, AI and array languages: the device route
 

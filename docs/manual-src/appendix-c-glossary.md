@@ -73,7 +73,7 @@
 | **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (7.4) |
 | **SMP** | symmetric multiprocessing: several identical cores sharing memory (chapter 7) |
 | **core class** | the read-only register of each core that gives its class and capacity, so that software can tell an in-order core from an out-of-order one (7.11.1) |
-| **secure mode** | the mode of a core in which every timing channel is removed (every instruction and cache fetch takes a time independent of its data), with private cache lines and no periodic tick; on every core or on one secure core, by the rule of 7.11.3 (J.7.8) |
+| **secure mode** | the mode of a core in which every timing channel is removed (every instruction and cache fetch takes a time independent of its data), with private cache lines and no periodic tick; on every core or on one secure core, by the rule of 7.11.3 (J.7.7) |
 | **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.6) |
 | **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.5) |
 
