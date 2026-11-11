@@ -76,6 +76,6 @@
 <text x="340.0" y="268.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">no register file in the processor; the length is a field,</text>
 <text x="340.0" y="282.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">so one descriptor serves any size (8.5.4)</text>
 <text x="340.0" y="296.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">the price: a descriptor to build and a status to wait for</text>
-<text x="20.0" y="340.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The descriptor drawn is an illustration; its format is open (8.4.4).</text>
+<text x="20.0" y="340.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The descriptor drawn is an illustration; its format is open (8.4.7).</text>
 <text x="20.0" y="354.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Machines 1 and 2 as described in 8.1 and 8.2: the V7 sources and the Linux headers were read, the rest is unverified.</text>
 </svg>

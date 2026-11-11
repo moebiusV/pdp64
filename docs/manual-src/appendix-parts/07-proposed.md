@@ -19,3 +19,7 @@ The numbers in this fragment are labels: they are those of chapter 7 before its 
 ### 7.2 and 7.11 Commentary (moved from chapter 7)
 
 *Total store order as the retreat.* If a large out-of-order core is ever built, total store order is the least painful retreat from sequential consistency (from the commentary of 7.2). The decision is reversible in the direction that matters: total store order can be the retreat for a large core (from the commentary of 7.11). *(P)* The smp-decisions record leans to writing the retreat down now as a one-way, announced switch for the whole machine, with no per-core or per-page weaker mode.
+
+### 7.11 The dedicated cores (moved from chapter 7)
+
+**7.11.6** (moved from chapter 7) The machine has one core dedicated to the graphics device, one dedicated to the network interface and running the full TCP/IP stack, one dedicated to audio (MIDI, digital signal processing and the like), and a number of other cores for general processing. *(P)* Decided on 2026-11-04 (errata 76: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing"; "one core for audio processing, doing midi, dsp, etc."); shrunk by the decision of 2026-11-10 (errata 132): what remains of dedicated roles is open ([J.7.5](appendix-j-open.md#j75)). The graphics core was the Blit's model (chapter 3); the network core drives a standard PCI Express card, so no network hardware beyond that is implied.

@@ -50,7 +50,7 @@ The chapters, and what a PDP-11 programmer brings to each:
 | 5 Drivers | the virtio transport, class drivers, interrupts and DMA | `rk.c` and the `bdevsw` table |
 | 6 The kernel | modes, exceptions, page tables, system calls | the V7 kernel: `trap()`, the KT11, `mfpi` |
 | 7 Multiple processors | memory model, atomics, per-core state, translation coherence | one processor and `spl()` |
-| 8 Vector work | accelerators on the bus for neural networks and array languages | no vector unit; the FP11 for floating point |
+| 8 Vector work | a standard vector and accelerator engine on the bus, a standard part like the FPU and the MMU, for neural networks and array languages | no vector unit; the FP11 for floating point |
 | 9 The instruction set | formats, modes, every instruction | the PDP-11 instruction set |
 | 10 Conclusion | the finish line, the security aims, what remains | |
 

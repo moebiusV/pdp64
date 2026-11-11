@@ -265,7 +265,7 @@ The raw interface changes with paging. `physio` of 5.1 translated one address an
 
 ## 5.7 The console, the timer and the entropy source
 
-**5.7.1** The secure core takes no periodic timer tick, and the main cores are tickless (errata 86; the author's words, R323). *(D)* Details pending ([J.5.1](appendix-j-open.md#j51)): the form of the timer that serves them.
+**5.7.1** A core in secure mode takes no periodic timer tick, and the main cores are tickless (errata 86; the author's words, R323). *(D)* Details pending ([J.5.1](appendix-j-open.md#j51)): the form of the timer that serves them.
 
 **5.7.2** The entropy source is one pool shared by all cores, with no per-process pool, no version register and no updatable firmware; it assists the operating system's own generator, which absorbs into the pool and squeezes from it, and a read with a known and wanted effect is not a strange side effect (errata 85, random numbers). *(D)* Details pending ([J.5.1](appendix-j-open.md#j51)): whether a physical source stands behind the pool, and how the pool is reached.
 

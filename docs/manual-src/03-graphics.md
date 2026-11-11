@@ -172,8 +172,6 @@ The chain so far: the PDP-11 sent characters down a wire (3.1); the VT52 and VT1
 
 **3.8.1** The graphics terminal is based on two machines, not one: the **Commodore 64**, for text, graphics, sprites and sound together under simple stores to memory, and the **Blit terminal** (Rob Pike's bit-mapped windowing terminal), for its framebuffer in the address space and the bit-block-transfer operation that moves rectangles of pixels. The pdp64 modernises and extends both (errata 66). *(D)*
 
-**3.8.2** One core is dedicated to the graphics device, the Blit's model of a terminal with a processor of its own (errata 76, the author's recommendation; the core classes are in chapter 7, 7.11.6). *(D)* Details pending ([J.7.5](appendix-j-open.md#j75)).
-
 ## 3.9 The form of the terminal
 
 The author, 2026-11-10: "our virtio-console device is an attempt to bring the nice properties of the blit terminal and c64 for doing simple and easy peek poke style display of text and also doing graphics, but with modern color depths and screen sizes, and with glyph maps we can even have a ttf engine generate glyphs and they will go into their memory slots for use."

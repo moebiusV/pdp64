@@ -38,7 +38,7 @@
 <text x="20.0" y="241.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">   fills it, starts the device, and learns by the RDY bit or an interrupt.</text>
 <text x="20.0" y="256.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">pdp64: the record is in memory and can chain; the device reads it and the arrays by DMA (direct memory access:</text>
 <text x="20.0" y="271.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">   the device moves data without the processor) and writes the result and a status.</text>
-<text x="20.0" y="286.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">The processor owes the device two things: memory the device sees in order, and FENCE (8.4.3).</text>
-<text x="20.0" y="301.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">The instruction set is unchanged. Whether the record is a virtio descriptor, or one that points at it, is open (8.4.4).</text>
+<text x="20.0" y="286.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">The processor owes the device two things: memory the device sees in order, and FENCE (8.4.6).</text>
+<text x="20.0" y="301.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">The instruction set is unchanged. Whether the record is a virtio descriptor, or one that points at it, is open (8.4.7).</text>
 <text x="20.0" y="342.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Sources: V7 rk.c (read), chapter 5 (5.4, 5.10), chapter 2 (2.5).</text>
 </svg>

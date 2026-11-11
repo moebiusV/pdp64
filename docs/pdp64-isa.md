@@ -401,6 +401,8 @@ This is the same design ARM reached in 2022 with `FEAT_MOPS`, whose specificatio
 
 **Implementations may move more than a byte per step.** The architectural requirement is only that at every point where an exception can be taken, the register state is *consistent with* byte-at-a-time progress. A 64-byte-per-cycle engine satisfies this by only becoming interruptible at block boundaries and updating all three registers atomically with each block. Nothing in the architecture reveals the block size.
 
+What another core may observe: the accesses inside one block operation are unordered with respect to one another and only the final memory and the register progress are defined (errata 39 item 7; manual 7.5.8). The rest of the ordering, the tearing, the publishing fence and the behaviour on faults are open (manual J.7.7).
+
 **`MSET` with `Rv = 0` is the range-zeroing instruction**, so `bzero` and `calloc`'s clear are one instruction. It needs no separate opcode.
 
 #### 4.7.1 `MVAL` — whole-buffer UTF-8 validation
@@ -1382,7 +1384,7 @@ Instructions are the easy part. The hard part is what a program is promised abou
 
 On this machine sequential consistency is nearly free. A weak memory model is a tax paid by every piece of concurrent software ever written for the architecture, levied so that an aggressively speculative out-of-order core can reorder memory operations. **The first pdp64 implementations are in order and non-speculative,** so they have no reordering to permit and nothing to buy with the weakness. The architecture is ready for out-of-order execution from the start (section 1, errata 68): an out-of-order implementation keeps sequential consistency by letting loads execute early and re-checking them against other cores' writes before retirement, with stores buffered and drained in program order (`decisions-pending.md` Q5, [`pdp64-ooo-readiness.md`](pdp64-ooo-readiness.md), manual 7.7).
 
-A store buffer is still allowed, and wanted, for write latency hiding: SC survives it provided loads snoop the buffer and stores drain in program order. The cost is that a store miss stalls later stores, which on two to four cores behind a shared L2 is acceptable.
+A store buffer is still allowed, and wanted, for write latency hiding: SC survives it provided loads snoop the buffer, stores drain in program order, and a load does not complete ahead of an older store to another address that is still in the buffer (or is replayed if it did). Without the last condition two cores that each store to one location and then load the other can both read the old values, the store-buffering outcome of total store order, which sequential consistency forbids (manual 7.5.2). The cost is that a store miss stalls later stores, which on two to four cores behind a shared L2 is acceptable.
 
 The industry learned the hard way why this is not a close call. ARM's memory model took roughly a decade to formalize, academic papers are still finding corners in vendor implementations, and the C11/C++11 memory model exists in large part to paper over the differences between weak architectures. None of that complexity buys anything on a machine whose first implementations do not speculate, and a sequentially consistent out-of-order core pays for it in the load re-check rather than in a weaker contract. Being small is the advantage here.
 

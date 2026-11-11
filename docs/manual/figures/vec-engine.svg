@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="372" viewBox="0 0 690 372" font-family="DejaVu Sans, sans-serif">
+<text x="20.0" y="16.0" font-size="12" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">where the engine sits: the standard parts of the machine (8.4)</text>
+<rect x="20.0" y="34.0" width="240.0" height="156.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="140.0" y="50.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">processor</text>
+<rect x="32.0" y="58.0" width="216.0" height="34.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="140.0" y="78.2" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">integer registers and instructions</text>
+<rect x="32.0" y="100.0" width="102.0" height="38.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="83.0" y="118.0" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">FPU</text>
+<text x="83.0" y="130.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">9.12</text>
+<rect x="146.0" y="100.0" width="102.0" height="38.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="197.0" y="118.0" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">MMU</text>
+<text x="197.0" y="130.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">chapter 6</text>
+<text x="140.0" y="160.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">no vector registers, no SIMD (8.3)</text>
+<text x="140.0" y="176.0" font-size="8" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">the FPU and the MMU are reached by instructions</text>
+<rect x="340.0" y="34.0" width="170.0" height="156.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="425.0" y="50.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">RAM</text>
+<rect x="352.0" y="58.0" width="146.0" height="34.0" fill="#fbf2cf" stroke="#222" stroke-width="1.2"/>
+<text x="425.0" y="78.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">descriptors</text>
+<rect x="352.0" y="100.0" width="146.0" height="34.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="425.0" y="120.5" font-size="10" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">arrays</text>
+<text x="425.0" y="160.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">uncached for devices (5.10.1)</text>
+<path d="M260.0,110.0 L340.0,110.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="340.0,110.0 332.0,113.6 332.0,106.4" fill="#222"/>
+<text x="300.0" y="104.0" font-size="9" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">loads, stores</text>
+<path d="M20.0,238.0 L670.0,238.0" fill="none" stroke="#222" stroke-width="2.6"/>
+<text x="24.0" y="230.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">the bus: PCI Express with virtio (chapters 2 and 5)</text>
+<path d="M140.0,190.0 L140.0,238.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<path d="M425.0,190.0 L425.0,238.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<rect x="20.0" y="262.0" width="150.0" height="50.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="95.0" y="286.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">IOMMU</text>
+<text x="95.0" y="298.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">2.11: a page table per device</text>
+<rect x="190.0" y="262.0" width="220.0" height="50.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="300.0" y="286.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">vector and accelerator engine</text>
+<text x="300.0" y="298.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">8.4: descriptors in, DMA, status out</text>
+<rect x="430.0" y="262.0" width="240.0" height="50.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="550.0" y="286.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">disk, network, graphics, audio</text>
+<text x="550.0" y="298.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">virtio devices (chapter 5)</text>
+<path d="M95.0,262.0 L95.0,238.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<path d="M300.0,262.0 L300.0,238.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<path d="M550.0,262.0 L550.0,238.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<rect x="20.0" y="336.0" width="14.0" height="12.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="40.0" y="346.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">a standard part: specified by the manual, present in every system (8.4.1, 8.4.2)</text>
+<text x="20.0" y="362.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The engine is a bus device and an architectural component at once; every access it makes goes through the IOMMU.</text>
+</svg>
