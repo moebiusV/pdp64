@@ -23,14 +23,22 @@ typedef struct {
 } eo_form;
 
 typedef struct {
-	eo_i64 w;            /* weight: executions or static count of the instruction class */
-	int base;            /* bytes the forced forms give it (99: no form at all, the credit of the byte model) */
+	eo_i64 w;            /* the weight in force (set by eo_set_objective): the static count, or the execution count */
+	int base;            /* the cost in force of the instruction when no chosen candidate shortens it: bytes the forced forms give it (99: no form at all, the credit of the byte model),
+	                        for the objective `exec` operations * opcost + bytes */
+	eo_i64 ws, wd;       /* the static count and the dynamic (executed) count of the class (input file version 1: both the one weight) */
+	int base0;           /* bytes the forced forms give it (99: no form at all) */
+	int ops0;            /* operations it takes under the forced forms: 1; 2 for a compare-and-branch that no form reaches (cmp + bCC); 99: no form at all */
 	int nat;
 	int *at;             /* candidate numbers (0-based, order of the cand forms of the file) that could shorten it */
 } eo_demand;
 
 typedef struct {
 	eo_i64 budget, total;        /* patterns usable (of total = 65536) */
+	int version;                 /* of the input file: 1 or 2 */
+	int obj;                     /* EO_STATIC, EO_FETCH or EO_EXEC: what the weights and the costs of the demands mean (eo_set_objective) */
+	int opcost;                  /* EO_EXEC: the bytes an executed operation counts for; 0 in the other objectives */
+	int unenc;                   /* the cost in force of a demand that no form encodes (99, or 99 * opcost + 99) */
 	double lam;
 	int nform, nforced, ncand;
 	eo_form *form;               /* all forms, file order */
@@ -43,6 +51,13 @@ typedef struct {
 	char **require, **forbid;
 	int nrequire, nforbid;
 } eo_model;
+
+enum { EO_STATIC, EO_FETCH, EO_EXEC };
+#define EO_OPCOST_DEFAULT 4096
+typedef struct {
+	eo_i64 static_bytes, fetch_bytes, ops;       /* the three measures of a selection: bytes of the corpus (static counts), bytes fetched, operations executed (dynamic counts) */
+	eo_i64 unenc_static, unenc_dynamic;          /* weight of the classes that no form encodes (left out of the three measures) */
+} eo_metrics;
 
 typedef struct {
 	int proved;                  /* 1: the search finished: the selection is optimal for the model (and the constraints) */
@@ -65,6 +80,11 @@ int  eo_read(FILE *f, const char *fname, eo_model *m, char *err, size_t errlen);
 void eo_free(eo_model *m);
 int  eo_cand_by_name(const eo_model *m, const char *name);
 eo_i64 eo_forced_patterns(const eo_model *m);
+/* choose the objective: static (weights = static counts, cost = bytes), fetch (weights = dynamic counts, cost = bytes), exec (weights = dynamic counts, cost = opcost * operations + bytes;
+   with opcost >= the largest instruction, operations come first and the bytes fetched break ties).  Call it once, after eo_read and before any search.  Returns 0, or -1 for an unknown objective. */
+int  eo_set_objective(eo_model *m, int obj, int opcost);
+/* the three measures of a selection, whatever the objective in force */
+void eo_measure(const eo_model *m, const char *sel, eo_metrics *out);
 /* the objective of a selection: sum of weight * min(base, bytes of the chosen candidates that cover the demand) */
 eo_i64 eo_value(const eo_model *m, const char *sel, eo_i64 *unenc_weight, eo_i64 *bytes_excl);
 eo_i64 eo_cost(const eo_model *m, const char *sel);

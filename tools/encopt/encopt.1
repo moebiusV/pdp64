@@ -1,9 +1,9 @@
-.TH ENCOPT 1 "2026-11-10" "encopt 1.0" "pdp64 tools"
+.TH ENCOPT 1 "2026-11-10" "encopt 1.1" "pdp64 tools"
 .SH NAME
 encopt \- optimal choice of the instruction forms of a prefix-coded encoding
 .SH SYNOPSIS
 .B encopt
-[\fB\-o\fR \fIoutput\fR] [\fB\-t\fR \fIseconds\fR] [\fB\-n\fR \fInodes\fR] [\fB\-r\fR \fIname\fR] [\fB\-x\fR \fIname\fR] [\fB\-C\fR] [\fB\-q\fR] [\fB\-v\fR] \fIinput\fR
+[\fB\-O\fR \fIobjective\fR] [\fB\-k\fR \fIbytes\fR] [\fB\-o\fR \fIoutput\fR] [\fB\-t\fR \fIseconds\fR] [\fB\-n\fR \fInodes\fR] [\fB\-r\fR \fIname\fR] [\fB\-x\fR \fIname\fR] [\fB\-C\fR] [\fB\-q\fR] [\fB\-v\fR] \fIinput\fR
 .br
 .B encopt \-\-version | \-\-help
 .SH DESCRIPTION
@@ -13,8 +13,27 @@ first-parcel patterns.  By Kraft's inequality a prefix-free assignment exists ex
 The forms the instruction set cannot do without (the \fIforced\fR forms) are always present; the \fIcandidate\fR forms each shorten some instructions of the corpus and
 each costs code space.
 .B encopt
-chooses the candidates that minimise the bytes of the corpus within the code space that the forced forms leave (the budget is a policy: the study keeps 5% free),
-and assigns the prefixes (the canonical assignment: shortest prefix first, each aligned to its size).
+chooses the candidates that minimise the objective within the code space that the forced forms leave, and assigns the prefixes (the canonical assignment: shortest prefix first,
+each aligned to its size).
+.PP
+The code space is a parameter of the input (the \fBbudget\fR line).  \fBexport.py\fR writes 65,536, all of the first-parcel patterns: \fIno reserve\fR, the free-space policy is zero.
+The candidates may then use what the forced forms leave (65,536 minus the patterns of the forced forms; the patterns of the sub-opcodes that a form leaves unassigned stay inside
+its leaf and are illegal instructions).  The study kept 5% free (62,259); \fBexport.py --budget 0.95\fR writes that.
+.PP
+Three objectives (what is minimised; the weights are the static counts of the corpus, or the dynamic counts of a profile, see \fBencopt\fR(5)):
+.TP
+.B static
+the bytes of the corpus: the sum over the instruction classes of count times the size of the shortest form that encodes it (the default).
+.TP
+.B fetch
+the bytes fetched when the programs run: the same sum with the dynamic (executed) counts.  An instruction that the profile never executes weighs nothing.
+.TP
+.B exec
+the operations executed: each executed instruction costs \fIk\fR bytes-equivalents per operation (an instruction is one operation; a compare-and-branch that no form reaches is two,
+\fBcmp\fR and \fBbCC\fR; an instruction that no form encodes counts 99) plus its bytes: cost = executions * (k * operations + bytes), with \fIk\fR = 4096 by default.
+The operations come first and the bytes fetched break ties (k is above the size of any instruction, so one operation saved outweighs any change in size of the same execution).
+Which forms exist changes the number of operations only through those two cases, so this objective is the operations executed as far as the encoding can influence them
+and otherwise the bytes fetched.
 .PP
 The search is exact (see ALGORITHM) and is reported with its proof status.  The result is deterministic: the same input gives the same bytes of output.
 .PP
@@ -22,9 +41,17 @@ The search is exact (see ALGORITHM) and is reported with its proof status.  The 
 .BR encopt (5)
 (\fB\-\fR reads standard input), written by
 .B export.py
-from the data of the Python study in the pdp64 repository, and later by the compiler's corpus tool.  The result is written in the output format of
+from the data of the Python study in the pdp64 repository (see
+.BR encopt-tools (1)),
+and later by the compiler's corpus tool.  The result is written in the output format of
 .BR encopt (5).
 .SH OPTIONS
+.TP
+.BI \-O " objective" ", \-\-objective " objective
+\fBstatic\fR (default), \fBfetch\fR or \fBexec\fR.  The last two need the dynamic counts of a profile in the input (\fBexport.py \-\-weights\fR); without them the program refuses.
+.TP
+.BI \-k " bytes" ", \-\-opcost " bytes
+\fBexec\fR: the bytes that one executed operation counts for (16 to 1,000,000; default 4096).
 .TP
 .BI \-o " file"
 Write the result to \fIfile\fR (default standard output).
@@ -75,11 +102,16 @@ is fixed by its operand bits, not chosen from frequencies.
 0 on success (including \fBbest-found\fR), 1 when the forced forms alone exceed the budget or the constraints are infeasible, 2 for usage and input errors.
 .SH FILES
 .I tools/encopt/export.py
-writes the input from the Python study;
+writes the input from the Python study, with the corrected reader of the corpus
+.RI ( corpusfix.py )
+and the weights of a profile;
+.I tools/encopt/profile.py
+collects the profile;
 .I tools/encopt/check.sh
 tests.
 .SH SEE ALSO
 .BR encopt (5),
+.BR encopt-tools (1),
 .I docs/encoding-work/optimizer.md
 .SH AUTHORS
 David Walther; the program was written with Claude (Anthropic).

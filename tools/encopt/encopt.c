@@ -7,7 +7,7 @@
 #include <time.h>
 #include <ctype.h>
 
-#define BYTES(m, k) (2 * (m)->form[(m)->cand[k]].parcels)
+#define BYTES(m, k) ((m)->opcost + 2 * (m)->form[(m)->cand[k]].parcels)
 
 static void *xmalloc(size_t n) { void *p = malloc(n ? n : 1); if (!p) { fputs("encopt: out of memory\n", stderr); exit(2); } return p; }
 static void *xcalloc(size_t n, size_t s) { void *p = calloc(n ? n : 1, s ? s : 1); if (!p) { fputs("encopt: out of memory\n", stderr); exit(2); } return p; }
@@ -47,7 +47,7 @@ eo_i64 eo_forced_patterns(const eo_model *m) {
 int eo_read(FILE *f, const char *fname, eo_model *m, char *err, size_t errlen) {
 	char *line = NULL; size_t cap = 0; ssize_t len; int ln = 0, seen = 0, capf = 0, capd = 0;
 	memset(m, 0, sizeof *m);
-	m->total = 65536;
+	m->total = 65536; m->unenc = 99;
 	while ((len = getline(&line, &cap, f)) >= 0) {
 		char *save, *t; char *tok[1]; (void)tok;
 		ln++;
@@ -55,9 +55,10 @@ int eo_read(FILE *f, const char *fname, eo_model *m, char *err, size_t errlen) {
 		t = strtok_r(line, " \t\r\n", &save);
 		if (!t) continue;
 		if (!seen) {
-			if (strcmp(t, "encopt-input")) { free(line); FAIL("%s:%d: not an encopt input file (first line must be `encopt-input 1`)", fname, ln); }
+			if (strcmp(t, "encopt-input")) { free(line); FAIL("%s:%d: not an encopt input file (first line must be `encopt-input 1` or `encopt-input 2`)", fname, ln); }
 			t = strtok_r(NULL, " \t\r\n", &save);
-			if (!t || strcmp(t, "1")) { free(line); FAIL("%s:%d: unknown format version", fname, ln); }
+			if (!t || (strcmp(t, "1") && strcmp(t, "2"))) { free(line); FAIL("%s:%d: unknown format version", fname, ln); }
+			m->version = atoi(t);
 			seen = 1; continue;
 		}
 		if (!strcmp(t, "budget")) {
@@ -84,11 +85,18 @@ int eo_read(FILE *f, const char *fname, eo_model *m, char *err, size_t errlen) {
 			fm->pat = fm->xbits ? ((eo_i64)1 << (16 - fm->L)) : fm->nmn * ((eo_i64)1 << (16 - fm->L));
 			if (!fm->forced) { m->cand = xrealloc(m->cand, (m->ncand + 1) * sizeof *m->cand); m->cand[m->ncand++] = m->nform - 1; } else m->nforced++;
 		} else if (!strcmp(t, "demand")) {
-			char *w = strtok_r(NULL, " \t\r\n", &save), *b = strtok_r(NULL, " \t\r\n", &save), *k = strtok_r(NULL, " \t\r\n", &save);
+			char *w = strtok_r(NULL, " \t\r\n", &save), *wd = NULL, *b, *ops = NULL, *k;
 			eo_demand *d; int i;
-			if (!k) { free(line); FAIL("%s:%d: demand WEIGHT BASE K ATOM...", fname, ln); }
+			if (m->version == 2) { wd = strtok_r(NULL, " \t\r\n", &save); }
+			b = strtok_r(NULL, " \t\r\n", &save);
+			if (m->version == 2) { ops = strtok_r(NULL, " \t\r\n", &save); }
+			k = strtok_r(NULL, " \t\r\n", &save);
+			if (!k) { free(line); FAIL(m->version == 2 ? "%s:%d: demand STATIC DYNAMIC BASE OPS K ATOM..." : "%s:%d: demand WEIGHT BASE K ATOM...", fname, ln); }
 			if (m->ndem == capd) { capd = capd ? 2 * capd : 256; m->dem = xrealloc(m->dem, capd * sizeof *m->dem); }
-			d = &m->dem[m->ndem++]; d->w = atoll(w); d->base = atoi(b); d->nat = atoi(k); d->at = xmalloc(d->nat * sizeof(int));
+			d = &m->dem[m->ndem++]; memset(d, 0, sizeof *d);
+			d->ws = atoll(w); d->wd = wd ? atoll(wd) : d->ws; d->base0 = atoi(b); d->ops0 = ops ? atoi(ops) : (d->base0 >= 99 ? 99 : 1);
+			d->w = d->ws; d->base = d->base0;
+			d->nat = atoi(k); d->at = xmalloc(d->nat * sizeof(int));
 			for (i = 0; i < d->nat; i++) {
 				t = strtok_r(NULL, " \t\r\n", &save);
 				if (!t) { free(line); FAIL("%s:%d: demand lists fewer atoms than it says", fname, ln); }
@@ -120,17 +128,43 @@ eo_i64 eo_cost(const eo_model *m, const char *sel) {
 	return s;
 }
 
+int eo_set_objective(eo_model *m, int obj, int opcost) {
+	int i;
+	if (obj != EO_STATIC && obj != EO_FETCH && obj != EO_EXEC) return -1;
+	if (obj == EO_EXEC && (opcost < 16 || opcost > 1000000)) return -1;
+	m->obj = obj; m->opcost = obj == EO_EXEC ? opcost : 0; m->unenc = 99 * m->opcost + 99;
+	for (i = 0; i < m->ndem; i++) {
+		eo_demand *d = &m->dem[i];
+		d->w = obj == EO_STATIC ? d->ws : d->wd;
+		d->base = d->base0 >= 99 ? m->unenc : (obj == EO_EXEC ? d->ops0 * m->opcost : 0) + d->base0;
+	}
+	return 0;
+}
+
+/* value in force; excl: the weighted real bytes of the demands that something encodes; unenc: their weight in force */
 eo_i64 eo_value(const eo_model *m, const char *sel, eo_i64 *unenc, eo_i64 *excl) {
 	eo_i64 tot = 0, un = 0, ex = 0; int i, j;
 	for (i = 0; i < m->ndem; i++) {
-		const eo_demand *d = &m->dem[i]; int b = d->base;
-		for (j = 0; j < d->nat; j++) { int k = d->at[j]; if (sel[k] && BYTES(m, k) < b) b = BYTES(m, k); }
+		const eo_demand *d = &m->dem[i]; int b = d->base, real = d->base0;
+		for (j = 0; j < d->nat; j++) { int k = d->at[j]; if (sel[k] && BYTES(m, k) < b) { b = BYTES(m, k); real = 2 * m->form[m->cand[k]].parcels; } }
 		tot += d->w * b;
-		if (b >= 99) un += d->w; else ex += d->w * b;
+		if (b >= m->unenc) un += d->w; else ex += d->w * real;
 	}
 	if (unenc) *unenc = un;
 	if (excl) *excl = ex;
 	return tot;
+}
+
+void eo_measure(const eo_model *m, const char *sel, eo_metrics *o) {
+	int i, j;
+	memset(o, 0, sizeof *o);
+	for (i = 0; i < m->ndem; i++) {
+		const eo_demand *d = &m->dem[i]; int real = d->base0, cov = 0;
+		for (j = 0; j < d->nat; j++) { int k = d->at[j]; if (sel[k]) { int by = 2 * m->form[m->cand[k]].parcels; cov = 1; if (by < real) real = by; } }
+		if (d->base0 >= 99 && !cov) { o->unenc_static += d->ws; o->unenc_dynamic += d->wd; continue; }
+		o->static_bytes += d->ws * real; o->fetch_bytes += d->wd * real;
+		o->ops += d->wd * (cov ? 1 : d->ops0);
+	}
 }
 
 /* ------------------------------------------------------------------------------------------------ the study's greedy */

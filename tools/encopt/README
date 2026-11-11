@@ -1,16 +1,26 @@
 encopt -- the optimal prefix encoding of the pdp64
 ==================================================
 
-encopt chooses, among the candidate instruction forms of the pdp64 encoding, the set that makes the corpus smallest within the code space of the 16-bit first
-parcel, and assigns the prefixes.  It replaces the greedy selection of docs/codegen-data/encoding/solve.py with an exact search and says whether the result is proved
-optimal.  The model, the algorithms and the measurements are in docs/encoding-work/optimizer.md (in the pdp64 repository); the formats are encopt.5, the program encopt.1.
+encopt chooses, among the candidate instruction forms of the pdp64 encoding, the set that is best for an objective within the code space of the 16-bit first parcel, and assigns
+the prefixes.  It replaces the greedy selection of docs/codegen-data/encoding/solve.py with an exact search and says whether the result is proved optimal.  The model, the
+algorithms and the measurements are in docs/encoding-work/optimizer.md (in the pdp64 repository); the formats are encopt.5, the program encopt.1, the helpers encopt-tools.1.
+
+The code space is all of it: no reserve.  The budget of the input is 65,536 first-parcel patterns (export.py --budget 0.95 writes the study's 62,259).
+Three objectives:  encopt -O static   the bytes of the corpus (default)
+                   encopt -O fetch    the bytes fetched when the programs run (the dynamic counts of a profile)
+                   encopt -O exec     the operations executed (bytes fetched break ties)
+Every result lists the three measures of every selection (metrics lines), so the priorities can be compared.
 
 Build and test:        ./configure && make && make check && make install
-Run:                   encopt tests/current.encopt            (the statistics of the corpus of 2026-11-10: proved optimum in a few seconds)
+Run:                   encopt tests/current.encopt            (the statistics of the corpus of 2026-11-10 and the profile of five programs: proved optimum in a few seconds)
+                       encopt -O fetch tests/current.encopt   (the optimum for bytes fetched)
                        encopt -C tests/current.encopt         (the committed selection, with the prefixes of spec/pdp64/pdp64.hbnf)
-Write an input file:   python3 export.py --corpus DIR --out FILE
-                       (export.py stays Python: it reads the corpus with the study's reader and operand model, docs/codegen-data/encoding; DIR is the compiled assembly of
-                       the corpus, one .s per source file, `ccom -m pdp64/32`; see optimizer.md, "Re-running it")
+Write an input file:   python3 export.py --corpus DIR [--weights PROFILE]... --out FILE
+                       (export.py stays Python: it reads the corpus with the study's operand model, docs/codegen-data/encoding, and the corrected reader corpusfix.py; DIR is the
+                       compiled assembly of the corpus, one .s per source file, `ccom` over the preprocessed corpus; see optimizer.md, "Re-running it")
+Collect a profile:     python3 profile.py -o PROFILE --tests ../../tests/c ...      (sim64 -P, decoded; programs/make-profile.sh: the five programs)
+Check overfitting:     python3 leave-one-out.py --corpus DIR --weights-dir DIR
 
-Files:  encopt.c encopt.h (library: model, reductions, bounds, search, prefix assignment), main.c (command line), export.py, check.sh, tests/.
-C99, libc and libm only.  Licence: see COPYING.
+Files:  encopt.c encopt.h (library: model, objectives, reductions, bounds, search, prefix assignment), main.c (command line), export.py corpusfix.py weightsfile.py (exporter, corrected
+reader, weights file), profile.py programs/ leave-one-out.py (profile), check.sh, tests/.
+C99, libc and libm only (the helpers: Python 3).  Licence: see COPYING.

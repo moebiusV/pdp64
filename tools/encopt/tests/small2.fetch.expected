@@ -1,0 +1,21 @@
+encopt-output 2
+objective fetch
+status optimal
+objective-credit 264
+lower-bound-credit 264
+gap-credit 0
+objective-bytes 264
+unencodable-weight 0
+patterns 16384 16384
+compare committed credit 462 bytes 462 unencodable 0 patterns 16384 vs-committed +0
+compare greedy credit 264 bytes 264 unencodable 0 patterns 16384 vs-committed -198
+compare greedy-refined credit 264 bytes 264 unencodable 0 patterns 16384 vs-committed -198
+compare encopt credit 264 bytes 264 unencodable 0 patterns 16384 vs-committed -198
+metrics committed static-bytes 264 fetch-bytes 462 operations 121 unencodable-static 0 unencodable-dynamic 0
+metrics greedy static-bytes 462 fetch-bytes 264 operations 121 unencodable-static 0 unencodable-dynamic 0
+metrics greedy-refined static-bytes 462 fetch-bytes 264 operations 121 unencodable-static 0 unencodable-dynamic 0
+metrics encopt static-bytes 462 fetch-bytes 264 operations 121 unencodable-static 0 unencodable-dynamic 0
+chosen B
+kraft 16384 65536
+leaf F 1 3 000 1 f1
+leaf B 1 3 001 1 b1

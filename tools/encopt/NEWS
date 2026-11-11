@@ -1,2 +1,10 @@
+encopt 1.1 (2026-11-10)
+* No reserve: export.py writes the budget 65,536 (all first-parcel patterns) by default; the study's 95% is --budget 0.95.
+* Three objectives, encopt -O static|fetch|exec: bytes of the corpus, bytes fetched, operations executed (bytes fetched breaking ties).  Input format 2 carries the static and the
+  dynamic count of every instruction class; output format 2 adds the objective and, for every selection, the three measures (metrics lines).
+* export.py --weights reads the dynamic counts of a profile (weights file, encopt(5)); profile.py collects one from sim64 -P; programs/ holds the five programs of the repository's profile.
+* The corpus reader is corrected (corpusfix.py): set cc,rd and mfsr/mtsr read their word operand as a number, not a label (337 instructions counted as unencodable before).
+* leave-one-out.py measures how much a profile-trained optimum overfits.
+
 encopt 1.0 (2026-11-10)
 * First release: the exact optimiser of the pdp64 prefix encoding, replacing the greedy selection of docs/codegen-data/encoding/solve.py.

@@ -1,6 +1,8 @@
-encopt-output 1
+encopt-output 2
+objective static
 status committed-selection
-compare committed credit 996750 bytes 962892 unencodable 342 patterns 62258
+compare committed credit 956242 bytes 956242 unencodable 0 patterns 62258
+metrics committed static-bytes 956242 fetch-bytes 402546512 operations 135177729 unencodable-static 0 unencodable-dynamic 0
 chosen BR2_16/a
 chosen CBI4_8H/a
 chosen STBu6/a

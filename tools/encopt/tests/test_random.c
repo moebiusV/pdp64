@@ -35,10 +35,12 @@ static void random_model(eo_model *m, int ncand) {
 	nd = 3 + rr(25); m->ndem = nd; m->dem = calloc(nd, sizeof *m->dem);
 	for (i = 0; i < nd; i++) {
 		eo_demand *d = &m->dem[i]; int k = 0, a[64];
-		d->w = 1 + rr(1000); d->base = (rr(8) == 0) ? 99 : 2 * (1 + rr(3)) + 2 * rr(2);
+		d->ws = 1 + rr(1000); d->wd = rr(3) == 0 ? 0 : 1 + rr(1000); d->base0 = (rr(8) == 0) ? 99 : 2 * (1 + rr(3)) + 2 * rr(2);
+		d->ops0 = d->base0 >= 99 ? 99 : 1 + (d->base0 >= 6 && rr(3) == 0);
 		for (j = 0; j < ncand; j++) if (rr(100) < 35) a[k++] = j;
 		d->nat = k; d->at = malloc((k + 1) * sizeof(int)); memcpy(d->at, a, k * sizeof(int));
 	}
+	{ static int turn; int obj = turn++ % 3; eo_set_objective(m, obj, 16 + rr(200)); }     /* the three objectives in turn */
 	if (rr(4) == 0) { m->nrequire = 1; m->require = malloc(sizeof(char *)); snprintf(nm, sizeof nm, "C%d", rr(ncand)); m->require[0] = strdup(nm); }
 	if (rr(4) == 0) { m->nforbid = 1; m->forbid = malloc(sizeof(char *)); snprintf(nm, sizeof nm, "C%d", rr(ncand)); if (m->nrequire && !strcmp(nm, m->require[0])) { m->nforbid = 0; free(m->forbid); m->forbid = NULL; } else m->forbid[0] = strdup(nm); }
 }
@@ -63,6 +65,11 @@ int main(int argc, char **argv) {
 			if (v != r.value || v != bv || eo_cost(&m, r.sel) + eo_forced_patterns(&m) > m.budget) {
 				printf("instance %d: solver %lld (selection value %lld cost %lld budget %lld) brute force %lld\n", it, (long long)r.value, (long long)v, (long long)(eo_cost(&m, r.sel) + eo_forced_patterns(&m)), (long long)m.budget, (long long)bv);
 				bad++;
+			}
+			{ /* the measures of the selection agree with the value in force: the real bytes (static or fetch counts, by the objective) */
+				eo_metrics x; eo_i64 un, ex; eo_value(&m, r.sel, &un, &ex); eo_measure(&m, r.sel, &x);
+				if (ex != (m.obj == EO_STATIC ? x.static_bytes : x.fetch_bytes)) { printf("instance %d: bytes %lld differ from the measure %lld %lld\n", it, (long long)ex, (long long)x.static_bytes, (long long)x.fetch_bytes); bad++; }
+				if (m.obj == EO_EXEC) { /* the operations come first: a selection with fewer operations is never worse */ if (v < x.ops * m.opcost) { printf("instance %d: value below the operations\n", it); bad++; } }
 			}
 			{ /* the required and forbidden constraints hold */
 				int q; for (q = 0; q < m.nrequire; q++) if (!r.sel[eo_cand_by_name(&m, m.require[q])]) { printf("instance %d: required candidate missing\n", it); bad++; }

@@ -1,0 +1,70 @@
+.TH ENCOPT-TOOLS 1 "2026-11-10" "encopt 1.1" "pdp64 tools"
+.SH NAME
+export.py, profile.py, leave-one-out.py \- the exporter, the profile collector and the overfitting check of encopt(1)
+.SH SYNOPSIS
+.B export.py
+.BI \-\-corpus " dir"
+[\fB\-\-out\fR \fIfile\fR] [\fB\-\-weights\fR \fIfile\fR]... [\fB\-\-budget\fR \fIfraction\fR] [\fB\-\-lam\fR \fIbytes\fR] [\fB\-\-no\-cb3\fR] [\fB\-\-prev\fR \fIresult\fR]
+.br
+.B export.py \-\-corpus
+.I dir
+.BI \-\-verify " result"
+.br
+.B profile.py \-o
+.I weights
+[\fB\-\-tests\fR \fIdir\fR]... [\fB\-\-program\fR \fIname\fR=\fIfile\fR,... [\fB\-\-cppflags\fR \fIname\fR=\fIflags\fR]]... [\fB\-\-keep\fR \fIdir\fR]
+.br
+.B leave-one-out.py \-\-corpus
+.I dir
+.B \-\-weights\-dir
+.I dir
+[\fB\-\-objective\fR \fIobjective\fR] [\fB\-\-budget\fR \fIfraction\fR]
+.SH DESCRIPTION
+.B export.py
+writes the input file of
+.BR encopt (1)
+(format in
+.BR encopt (5))
+from the compiled assembly of the corpus (\fIdir\fR: one \fI.s\fR per source file, \fBccom\fR over the preprocessed corpus of tools/arch-compare), using the operand model and the
+candidate forms of the Python study in docs/codegen-data/encoding.  It reads the corpus with the corrected reader
+.I corpusfix.py
+(see CORPUS READER).
+.TP
+.BI \-\-budget " fraction"
+The share of the 65,536 first-parcel patterns that the forced and the chosen forms may use.  The default is 1.0: \fIno reserve\fR, the free-space policy is zero, and the candidates may use all that
+the forced forms leave (65,536 minus the forced forms).  The study kept 0.95 (62,259 patterns).
+.TP
+.BI \-\-weights " file"
+A weights file (\fBencopt\fR(5), WEIGHTS FILE), repeatable.  Its dynamic counts become the dynamic weights of the demands, which the objectives \fBfetch\fR and \fBexec\fR of encopt need.
+.TP
+.BI \-\-lam " bytes"
+Bytes charged for the extra instruction of a compare followed by a branch where no compare-and-branch form reaches (default 2).
+.TP
+.BI \-\-prev " result"
+Take the distances of the corpus from the layout of the selection in an earlier result (the next round of the design loop).
+.TP
+.BI \-\-verify " result"
+Size the corpus with the forms chosen in \fIresult\fR with the real layout, branch relaxation and a round trip of every instruction.
+.SH CORPUS READER
+The study's reader (m2.py) takes a word that is neither register, number nor memory form for a label.  \fBset cc,rd\fR (a condition code and a register) and the system-register moves
+\fBmfsr rd,sreg\fR and \fBmtsr sreg,rs\fR take a word of their own (spec/pdp64-asm.hbnf: \fIcondinsn\fR, \fIsrinsn\fR), so they were read as having a label operand and no form fitted
+them: 337 to 342 instructions of the corpus counted as unencodable in every figure.  \fIcorpusfix.py\fR wraps the reader: the word becomes its number (the \fBcc\fR and \fBsysreg\fR tables of
+spec/pdp64-mnemonics.hbnf) as an immediate.  The condition codes of \fBtrapcc\fR and \fBcb\fR are in the mnemonic, a \fBcb\fR has a label as its last operand and no condition word: nothing else
+takes a word.  The history scripts are not edited.  tests/test_reader.py is the test.
+.SH PROFILE COLLECTOR
+.B profile.py
+compiles, links and runs programs under \fBsim64 \-P\fR and writes the dynamic count of each distinct instruction as a weights file.  \fB\-\-tests\fR takes directories of the
+test programs of tools/pdp64test.sh (a failing test is left out); \fB\-\-program\fR a program of its own files (C, or preprocessed \fI.i\fR) with its own \fBmain\fR, linked with the start code
+of the tests;
+\fB\-\-cppflags\fR gives the preprocessor flags of the C files of one program.  The decoding is \fBencdis \-k\fR (tools/encdis.c), which reads the existing \fB\-P\fR profile and
+the executable; sim64 is not changed.  The counts add up to the instructions that sim64 reports (checked).
+.I programs/make-profile.sh
+runs the five programs of the repository's profile (lz4, zlib and three BearSSL programs; the main of each and a small stand-in C library are in programs/).
+.SH OVERFITTING
+.B leave-one-out.py
+trains the optimum on all profiled programs but one and measures that one, under the committed grammar, under the optimum trained on all (seen) and under the optimum trained
+on the others (unseen), one line per program.  It needs one weights file per program (\fIname\fB.weights\fR in the directory).
+.SH SEE ALSO
+.BR encopt (1),
+.BR encopt (5),
+.I docs/encoding-work/optimizer.md

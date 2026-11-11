@@ -1,14 +1,16 @@
-.TH ENCOPT 5 "2026-11-10" "encopt 1.0" "pdp64 file formats"
+.TH ENCOPT 5 "2026-11-10" "encopt 1.1" "pdp64 file formats"
 .SH NAME
-encopt \- input and output files of encopt(1)
+encopt \- input, weights and output files of encopt(1)
 .SH DESCRIPTION
 Both files are plain text, one record per line, fields separated by white space.  \fB#\fR starts a comment that runs to the end of the line.  Names and mnemonics
 contain no white space.
 .SH INPUT FILE
-The first record is \fBencopt-input 1\fR.  The others, in any order but each \fBdemand\fR after the \fBform\fR lines it names:
+The first record is \fBencopt-input 2\fR (or \fBencopt-input 1\fR, the older form of the \fBdemand\fR line, below).  The others, in any order but each \fBdemand\fR after the \fBform\fR lines it names:
 .TP
 .BI "budget " B " [" N ]
-Code space the forms may use, in first-parcel patterns of \fIN\fR (default 65536 = 2^16).  The study uses 95%: 62259.
+Code space the forms may use, in first-parcel patterns of \fIN\fR (default 65536 = 2^16).  The forced forms count against it, the candidates get what they leave.
+\fBexport.py\fR writes 65536: no reserve, the free-space policy is zero.  The study kept 5% free: 62259.  Nothing but the budget keeps a pattern out: a pattern that no leaf takes
+is an illegal instruction, and the unassigned sub-opcodes of a leaf are illegal inside the leaf.
 .TP
 .BI lam " x"
 Informational: the bytes charged for the extra instruction of a compare followed by a branch where no compare-and-branch form reaches (already part of the \fBbase\fR of the demands).
@@ -23,23 +25,52 @@ the bits of an extended sub-opcode), \fIxbits\fR the bits of the extended sub-op
 binary-aligned groups (the largest power of two first), each its own leaf with the prefix length L minus the group's exponent, and the form takes
 (number of mnemonics) * 2^(16\-L) patterns; with one the whole list is a single leaf of prefix length L taking 2^(16\-L) patterns.
 .TP
-.BI "demand " weight " " base " " k " " c1 " ... " ck
-One class of instructions of the corpus.
-.I weight
-is how often it occurs (static count, or an execution count: the objective is the sum of weight times bytes),
+.BI "demand " static " " dynamic " " base " " ops " " k " " c1 " ... " ck
+One class of instructions of the corpus (format 2).
+.I static
+is how often it occurs in the corpus and
+.I dynamic
+how often a profile executes it (0 without a profile): the two weights of the objectives, see \fBencopt\fR(1).
 .I base
-the bytes the forced forms give it (99 for no form at all: the credit of the byte model), and
+is the bytes the forced forms give it (99 for no form at all: the credit of the byte model; the price of an unreachable compare-and-branch, cmp + bCC + lam, when a fallback exists),
+.I ops
+the operations it takes under the forced forms (1; 2 for a compare-and-branch that no form reaches; 99 for no form at all: used by the objective \fBexec\fR), and
 .IR c1 " ... " ck
-the candidates (their numbers) that cover it.  A candidate that is not shorter than \fIbase\fR is ignored for the demand.  Demands with the same \fIbase\fR and the same candidates
-should be added up into one line (export.py does that: 50,399 instructions classes become 820 lines).
+the candidates (their numbers) that cover it.  A candidate that is not cheaper than \fIbase\fR is ignored for the demand (in \fBexec\fR the cost of a candidate is k plus its bytes,
+that of the base k times \fIops\fR plus \fIbase\fR).  Demands with the same \fIbase\fR, \fIops\fR and candidates are added up into one line (export.py does that: 50,000 distinct
+instructions become about 830 lines).
+.TP
+.BI "demand " weight " " base " " k " " c1 " ... " ck
+Format 1: one weight (static count or execution count: the objective is the sum of weight times bytes), no \fIops\fR; read as static = dynamic = \fIweight\fR and
+\fIops\fR 1 (99 when \fIbase\fR is 99).
 .TP
 .BI committed " name"
 A candidate that the grammar in force contains, in the order of its catalogue (the order fixes the prefixes).  Used by \fB\-C\fR and for the comparison in the result.
 .TP
 .BI require " name" "\fR, \fPforbid " name
 Constraints on the choice, as the options \fB\-r\fR and \fB\-x\fR.
+.SH WEIGHTS FILE
+A file of the counts of single instructions, read by \fBexport.py \-\-weights\fR (and written by \fBprofile.py\fR); not read by \fBencopt\fR itself.  The first record is \fBencopt-weights 1\fR;
+a line that starts with \fB#\fR is a comment (an immediate operand has a # inside the line); the others:
+.TP
+.BI "weight " kind " " count " " mnemonic " " operands
+.I kind
+is \fBdynamic\fR (how often the instruction was executed: becomes the dynamic weight of its demand class) or \fBstatic\fR (how often it occurs: added to the static weight; the corpus
+itself needs no such lines).  An instruction that is not in the corpus gets the static weight 0 and takes part in the model all the same.
+The instruction is a distinct instruction of the corpus: the mnemonic and the operands in assembly notation, separated by commas without a space between them, with the values that decide whether a form
+fits: \fBr5\fR, \fBsp\fR, \fBfp\fR; \fB#\fIN\fR an immediate; \fB@\fIN\fR an absolute address; \fIN\fB(r\fIb\fB)\fR with a base register (\fB(dp)\fR for the DP-relative form);
+\fIN\fB(r\fIb\fB)(r\fIx\fB*\fIs\fB)\fR indexed; \fB(r\fIb\fB)+\fIN\fR and \fB(r\fIb\fB)-\fIN\fR with a stride; \fBpc+\fIN\fR or \fBpc\-\fIN\fR a pc-relative operand (the bytes from the first parcel of the
+instruction to its target).  A condition or a system register of \fBset\fR, \fBmfsr\fR and \fBmtsr\fR is written as its number, \fB#2\fR for \fBset eq,r0\fR (the numbers of
+\fIspec/pdp64-mnemonics.hbnf\fR).  The same instruction on several lines is added up.  Counts are those of whole programs, so a pc-relative distance or an absolute address
+is the linker's; \fBencdis \-k\fR (tools/encdis.c) writes this notation from a \fBsim64 \-P\fR profile.
 .SH OUTPUT FILE
-The first record is \fBencopt-output 1\fR.  Then:
+The first record is \fBencopt-output 2\fR (format 1, written by encopt 1.1, had no \fBobjective\fR, \fBoperation-cost\fR and \fBmetrics\fR records).  Then:
+.TP
+.BI objective " name"
+\fBstatic\fR, \fBfetch\fR or \fBexec\fR.
+.TP
+.BI operation-cost " k"
+\fBexec\fR only: the bytes that one operation counts for.
 .TP
 .BI status " s"
 \fBoptimal\fR: the search finished; the selection is optimal for the model of the input (the candidates offered, the budget, the demands).
@@ -48,13 +79,13 @@ The first record is \fBencopt-output 1\fR.  Then:
 \fBcommitted-selection\fR: written by \fB\-C\fR.  \fBinfeasible\fR: the constraints cannot be met.
 .TP
 .BI objective-credit " v"
-The value minimised: sum of weight times bytes, a demand that no chosen form shortens counting its base (99 for none).
+The value minimised, in the objective in force: the sum of weight times cost (bytes; for exec k times operations plus bytes), a demand that no chosen form shortens counting its base (99 for none).
 .TP
 .B lower-bound-credit, gap-credit
 Proved lower bound and the difference (0 when optimal).
 .TP
 .BI objective-bytes " v" ", unencodable-weight " w
-The same without the demands whose base is 99, and the weight of those.
+The weighted bytes (weights of the objective in force) without the demands that nothing encodes, and the weight of those.
 .TP
 .BI patterns " used budget"
 First-parcel patterns taken by forced and chosen forms, and the budget.
@@ -62,6 +93,10 @@ First-parcel patterns taken by forced and chosen forms, and the budget.
 .BI compare " name " credit " c " bytes " b " unencodable " u " patterns " p " vs-committed " d
 For \fBcommitted\fR (the selection of the input), \fBgreedy\fR (the study's greedy rule: whole candidates by bytes saved per pattern^alpha, five exponents),
 \fBgreedy-refined\fR (that with a local search) and \fBencopt\fR; \fId\fR is the change of the byte objective against the committed selection.
+.TP
+.BI metrics " name " static-bytes " s " fetch-bytes " f " operations " o " unencodable-static " us " unencodable-dynamic " ud
+After each \fBcompare\fR record, the three measures of that selection whatever the objective: the bytes of the corpus (static counts times size), the bytes fetched (dynamic counts times size),
+the operations executed (dynamic counts; a compare-and-branch that no chosen or forced form reaches is two), and the static and dynamic weight of the instructions that nothing encodes (left out of the three).
 .TP
 .BI chosen " name"
 A chosen candidate, in the order of the file.

@@ -1,3 +1,10 @@
+2026-11-10  encopt 1.1
+	* encopt.c, encopt.h, main.c: the objectives static, fetch and exec (eo_set_objective, eo_measure; -O, -k); input format 2 (demand STATIC DYNAMIC BASE OPS K ...), output format 2 (objective, metrics).
+	* export.py: budget default 1.0 (no reserve); --weights; the demand classes carry static and dynamic counts and the operations under the forced forms.
+	* corpusfix.py: the corrected reader (set cc,rd, mfsr, mtsr).  weightsfile.py: the weights file.  profile.py, programs/: the profile collector and the five programs.  leave-one-out.py.
+	* check.sh, tests/: the three objectives (small2, current.fetch, current.exec), the reader (test_reader.py), the collector; test_random.c runs the three objectives.
+	* ../encdis.c: -k PROFILE writes a weights file from a sim64 -P profile.
+
 2026-11-10  encopt 1.0
 	* encopt.c, main.c, encopt.h: model, reductions, dual-ascent bound, branch and bound, frontier dynamic programme, canonical prefix assignment.
 	* export.py: writes the input file from the Python study's data.

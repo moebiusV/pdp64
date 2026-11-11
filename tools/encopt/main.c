@@ -5,12 +5,15 @@
 #include <string.h>
 
 #ifndef ENCOPT_VERSION
-#define ENCOPT_VERSION "1.0"
+#define ENCOPT_VERSION "1.1"
 #endif
 
 static void usage(FILE *f) {
-	fputs("usage: encopt [-o OUTPUT] [-t SECONDS] [-n NODES] [-r NAME] [-x NAME] [-C] [-q] INPUT\n"
+	fputs("usage: encopt [-O OBJECTIVE] [-k BYTES] [-o OUTPUT] [-t SECONDS] [-n NODES] [-r NAME] [-x NAME] [-C] [-q] INPUT\n"
 	      "       encopt --version | --help\n"
+	      "  -O OBJ      the objective (also --objective OBJ): static (bytes of the corpus; the default), fetch (bytes fetched when the programs run) or\n"
+	      "              exec (operations executed, bytes fetched breaking ties)\n"
+	      "  -k BYTES    exec: the bytes one executed operation counts for (also --opcost; default 4096)\n"
 	      "  -o FILE     write the result to FILE (default: standard output)\n"
 	      "  -t SECONDS  time limit of the exact search (default 600; 0 = none)\n"
 	      "  -n NODES    node limit of the exact search (default none)\n"
@@ -27,6 +30,12 @@ static void line_cmp(FILE *f, const eo_model *m, const char *name, const char *s
 	fprintf(f, "compare %s credit %lld bytes %lld unencodable %lld patterns %lld", name, (long long)v, (long long)ex, (long long)un, (long long)(eo_forced_patterns(m) + eo_cost(m, sel)));
 	if (base > 0) fprintf(f, " vs-committed %+lld", (long long)(ex - base));
 	fputc('\n', f);
+}
+
+static void line_metrics(FILE *f, const eo_model *m, const char *name, const char *sel) {
+	eo_metrics x; eo_measure(m, sel, &x);
+	fprintf(f, "metrics %s static-bytes %lld fetch-bytes %lld operations %lld unencodable-static %lld unencodable-dynamic %lld\n", name, (long long)x.static_bytes, (long long)x.fetch_bytes, (long long)x.ops,
+	    (long long)x.unenc_static, (long long)x.unenc_dynamic);
 }
 
 static void write_leaves(FILE *f, const eo_model *m, const char *sel, const char *const *order, int norder) {
@@ -49,12 +58,18 @@ static void write_leaves(FILE *f, const eo_model *m, const char *sel, const char
 }
 
 int main(int argc, char **argv) {
-	eo_model m; eo_opts o; eo_result r; char err[400], *outname = NULL, *in = NULL; FILE *fi, *fo = stdout; int i, quiet = 0, conly = 0, vflag = 0;
+	eo_model m; eo_opts o; eo_result r; char err[400], *outname = NULL, *in = NULL; FILE *fi, *fo = stdout; int i, quiet = 0, conly = 0, vflag = 0, obj = EO_STATIC, opcost = EO_OPCOST_DEFAULT;
 	char **req = NULL, **forb = NULL; int nreq = 0, nforb = 0;
 	memset(&o, 0, sizeof o); o.time_limit = 600;
 	for (i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) { usage(stdout); return 0; }
 		else if (!strcmp(argv[i], "--version")) { puts("encopt " ENCOPT_VERSION); return 0; }
+		else if ((!strcmp(argv[i], "-O") || !strcmp(argv[i], "--objective")) && i + 1 < argc) {
+			const char *v = argv[++i];
+			if (!strcmp(v, "static")) obj = EO_STATIC; else if (!strcmp(v, "fetch")) obj = EO_FETCH; else if (!strcmp(v, "exec")) obj = EO_EXEC;
+			else { fprintf(stderr, "encopt: unknown objective %s (static, fetch or exec)\n", v); return 2; }
+		}
+		else if ((!strcmp(argv[i], "-k") || !strcmp(argv[i], "--opcost")) && i + 1 < argc) opcost = atoi(argv[++i]);
 		else if (!strcmp(argv[i], "-o") && i + 1 < argc) outname = argv[++i];
 		else if (!strcmp(argv[i], "-t") && i + 1 < argc) o.time_limit = atof(argv[++i]);
 		else if (!strcmp(argv[i], "-n") && i + 1 < argc) o.node_limit = atoll(argv[++i]);
@@ -71,6 +86,11 @@ int main(int argc, char **argv) {
 	if (!fi) { perror(in); return 2; }
 	if (eo_read(fi, in, &m, err, sizeof err) < 0) { fprintf(stderr, "encopt: %s\n", err); return 2; }
 	if (fi != stdin) fclose(fi);
+	if (eo_set_objective(&m, obj, opcost) < 0) { fprintf(stderr, "encopt: the operation cost must be between 16 and 1000000\n"); return 2; }
+	if (obj != EO_STATIC) {
+		eo_i64 dyn = 0; for (i = 0; i < m.ndem; i++) dyn += m.dem[i].wd;
+		if (!dyn) { fprintf(stderr, "encopt: the objective %s needs the dynamic counts of a profile, and the input has none (export.py --weights)\n", obj == EO_FETCH ? "fetch" : "exec"); return 2; }
+	}
 	for (i = 0; i < nreq; i++) { m.require = realloc(m.require, (m.nrequire + 1) * sizeof *m.require); m.require[m.nrequire++] = req[i]; }
 	for (i = 0; i < nforb; i++) { m.forbid = realloc(m.forbid, (m.nforbid + 1) * sizeof *m.forbid); m.forbid[m.nforbid++] = forb[i]; }
 	for (i = 0; i < m.nrequire; i++) if (eo_cand_by_name(&m, m.require[i]) < 0) { fprintf(stderr, "encopt: no candidate named %s\n", m.require[i]); return 2; }
@@ -83,10 +103,13 @@ int main(int argc, char **argv) {
 		int have_c = 0;
 		for (i = 0; i < m.ncommitted; i++) { int c = eo_cand_by_name(&m, m.committed[i]); if (c >= 0) { csel[c] = 1; have_c = 1; } }
 		if (have_c) eo_value(&m, csel, &un, &cbytes);
-		fprintf(fo, "encopt-output 1\n");
+		fprintf(fo, "encopt-output 2\n");
+		fprintf(fo, "objective %s\n", obj == EO_STATIC ? "static" : obj == EO_FETCH ? "fetch" : "exec");
+		if (obj == EO_EXEC) fprintf(fo, "operation-cost %d\n", opcost);
 		if (conly) {
 			fprintf(fo, "status committed-selection\n");
 			line_cmp(fo, &m, "committed", csel, 0);
+			line_metrics(fo, &m, "committed", csel);
 			for (i = 0; i < m.ncommitted; i++) if (eo_cand_by_name(&m, m.committed[i]) >= 0) fprintf(fo, "chosen %s\n", m.committed[i]);
 			write_leaves(fo, &m, csel, (const char *const *)m.committed, m.ncommitted);
 			return 0;
@@ -106,6 +129,8 @@ int main(int argc, char **argv) {
 			line_cmp(fo, &m, "greedy", g, have_c ? cbytes : 0);
 			line_cmp(fo, &m, "greedy-refined", g2, have_c ? cbytes : 0);
 			line_cmp(fo, &m, "encopt", msel, have_c ? cbytes : 0);
+			if (have_c) line_metrics(fo, &m, "committed", csel);
+			line_metrics(fo, &m, "greedy", g); line_metrics(fo, &m, "greedy-refined", g2); line_metrics(fo, &m, "encopt", msel);
 			for (i = 0; i < m.ncand; i++) if (msel[i]) fprintf(fo, "chosen %s\n", m.form[m.cand[i]].name);
 			write_leaves(fo, &m, msel, NULL, 0);
 			if (!quiet) fprintf(stderr, "encopt: %s, credit objective %lld, %lld search nodes, %.2fs\n", r.proved ? "optimal" : "best found", (long long)r.value, (long long)r.nodes, r.secs);
