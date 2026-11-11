@@ -22,3 +22,5 @@ The selection of the optional forms (`solve.py`, `solve()`: greedy by bytes save
 programme) and assigns the prefixes, with a proof status; its input is exported from these scripts' data by `tools/encopt/export.py` (which imports `load.py`, `cat.py`, `enc.py`, `variants.py`, `export_forms.py`
 from here). The scripts in this directory stay as the history, as the model (`enc.py`, `scheme.py`: `export.py --verify` measures an `encopt` result with it) and as the source of the candidate forms (`cat.py`).
 See `docs/encoding-work/optimizer.md`.
+
+**Reader bug, found by `encopt`.** `m2.py` reads `set cc,rd` (and the system-register moves `mfsr`/`mtsr`) with their word operand as a label, so those instructions (337 to 342 in the corpus) were counted as unencodable in every figure of the scripts here. The scripts are history and are not edited; `tools/encopt/corpusfix.py` is the corrected reader used by `tools/encopt/export.py` (see `docs/encoding-work/optimizer.md`, section 10).
