@@ -227,14 +227,27 @@ OVERRIDE = {
     "V.M2": ("no", "interrupt mechanism of devices"),
     "V.M14": ("no", "device initialization"),
     "V.M22": ("maybe", "register file size estimate for 32 registers"),
-    "V.M20": ("no", "board choice"),
     "V.M21": ("no", "order of work"),
-    "V.P1": ("yes", "the port waits on the opcode decisions"),
-    "V.P2": ("no", "branch merge"),
-    "V.P3": ("no", "other project"),
     "V.P4": ("maybe", "tests rewritten with new encodings"),
+    "V.N1": ("maybe", "system-call vector numbering"),
+    "V.N2": ("no", "a count in a sentence"),
+    "V.N6": ("no", "a device, not processor opcodes"),
+    "V.N8": ("no", "which file is the source"),
+    "V.N9": ("no", "where a record lives"),
+    "V.N14": ("no", "tags of a plan"),
+    "V.N18": ("no", "core class, not instructions"),
+    "V.N24": ("no", "a device"),
+    "V.N30": ("no", "a document"),
+    "V.N3": ("yes", "the field width of the call is part of the encoding"),
+    "V.N11": ("yes", "the placeholder leaves are part of the encoding"),
+    "V.N12": ("yes", "the longest instruction is part of the encoding"),
+    "V.N13": ("yes", "the meaning of a register"),
+    "V.N20": ("maybe", "ordering rule of block operations"),
+    "V.N22": ("yes", "POPCNT and XNORPOP as instructions"),
+    "V.N25": ("yes", "the weights move the optimum"),
+    "V.N26": ("yes", "the free code space changes the encoding"),
+    "V.N27": ("yes", "the corpus read by the optimiser"),
     "W.1": ("no", "board choice"),
-    "W.2": ("yes", "the llvm port follows the opcode decisions"),
     "W.3": ("no", "branch merge"),
 }
 
@@ -467,7 +480,7 @@ def parse_veto(root):
     path = os.path.join(root, "docs/decision-log/data/shared/veto-list.txt")
     entries = []
     for ln in open(path, encoding="utf-8").read().split("\n"):
-        m = re.match(r"^([MHIP]\d+) \| (.*)$", ln)
+        m = re.match(r"^([MHIPN]\d+) \| (.*)$", ln)
         if not m:
             continue
         code = m.group(1)
@@ -476,7 +489,7 @@ def parse_veto(root):
             parts.append("")
         item, treat, evid, quest = parts[:4]
         e = Entry("V." + code, "confirmation", "C", plain(item))
-        e.seq = ("MHIP".index(code[0]), int(code[1:]))
+        e.seq = ("MHIPN".index(code[0]), int(code[1:]))
         if treat:
             e.sections.append(("Current treatment", plain(treat)))
         if evid:
@@ -492,6 +505,18 @@ def parse_veto(root):
 
 
 # ---- status ledger
+
+# ledger subjects that are asked once elsewhere in the form (an open item J.n.k, a proposal H.n or a
+# confirmation V.Nn): the status ledger keeps them, the form does not repeat the question
+COVERED = {
+    "boot-how-the-first-stage-finds": "H.4.5.2b",
+    "boot-the-order-in-which-the-rom": "J.4.7",
+    "boot-the-rom-monitor-and-its-commands": "J.4.10",
+    "linker-relaxation-rules": "V.N3",
+    "fpga-plan-hardfloat-bought": "V.N7",
+    "secure-core-class": "V.N5",
+}
+
 
 def parse_ledger(root):
     text = open(os.path.join(root, "docs/decisions-and-status.md"), encoding="utf-8").read().split("\n")
@@ -536,6 +561,8 @@ def parse_ledger(root):
         if s["kind"] == "to do" and not re.search(r"details|to be determined", st):
             continue
         slug = re.sub(r"[^a-z0-9]+", "-", s["title"].lower()).strip("-")[:44].strip("-")
+        if any(slug.startswith(k) for k in COVERED):
+            continue
         eid = "S." + slug
         n = 2
         while eid in used:
@@ -577,18 +604,13 @@ def standing():
         ("W.1", "Which first FPGA board",
          "No board is named in the author's words. The manual proposes the DE10-Nano first and the Zybo Z7-20 or the Kria KV260 when timing "
          "limits; on paper estimates four cores with the floating-point unit fit only a Kria-class board, and no core has been synthesised. "
-         "See also V.M20.",
+         "(The other choices of the FPGA plan are V.N7.)",
          ["DE10-Nano (Cyclone V SE, hard Cortex-A9, HDMI, MiSTer ecosystem). For: cheap, popular, a hard processor for the harness. Against: smallest logic budget; may not hold the float unit with more than one core.",
           "Zybo Z7-20 (Zynq 7020). For: moderate size, hard Cortex-A9. Against: no hard PCI Express root complex.",
           "Kria KV260 (Zynq UltraScale+). For: largest budget of the three, has a hard root complex. Against: dearest.",
           "ULX3S (open toolchain). For: open tools. Against: loses the hard-core harness."]),
-        ("W.2", "Port llvm/ to the new encoding",
-         "Decided by the author: yes, after the items that change opcodes, mnemonics or the encoding are resolved. llvm/ is frozen and "
-         "its machine-code layer encodes the old r20 encoding. See also V.P1.",
-         ["Confirm: port after the opcode-affecting items are decided. For: avoids porting twice. Against: llvm waits.",
-          "Port now to the current encoding, redo later. For: llvm moves. Against: likely double work."]),
         ("W.3", "pcc: merge the single-pdp64 branch into master",
-         "The branch is pushed; master of pcc is unchanged. See also V.P2.",
+         "The branch is pushed; master of pcc is unchanged.",
          ["Merge now. For: master matches the decided machine. Against: other users of master lose the old targets.",
           "Merge after the opcode-affecting items. For: one merge for the final encoding. Against: master lags.",
           "Do not merge; keep the branch. For: nothing disturbed. Against: two lines to maintain."]),
