@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="340" viewBox="0 0 690 340" font-family="DejaVu Sans, sans-serif">
+<text x="345.0" y="16.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">the finish line: what builds what, and the test</text>
+<rect x="20.0" y="40.0" width="150.0" height="46.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="95.0" y="62.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">assembler</text>
+<text x="95.0" y="74.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">source to object</text>
+<rect x="200.0" y="40.0" width="150.0" height="46.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="275.0" y="62.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">linker</text>
+<text x="275.0" y="74.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">objects to a program</text>
+<rect x="380.0" y="40.0" width="290.0" height="46.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="525.0" y="62.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">LLVM back end and clang</text>
+<text x="525.0" y="74.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">OpenBSD builds with clang (unverified)</text>
+<path d="M170.0,63.0 L200.0,63.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="200.0,63.0 192.0,66.6 192.0,59.4" fill="#222"/>
+<path d="M350.0,63.0 L380.0,63.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="380.0,63.0 372.0,66.6 372.0,59.4" fill="#222"/>
+<rect x="20.0" y="140.0" width="220.0" height="56.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="130.0" y="167.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">emulator: a machine model</text>
+<text x="130.0" y="179.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">with virtio devices: disk and network</text>
+<rect x="380.0" y="140.0" width="290.0" height="56.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<text x="525.0" y="167.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">OpenBSD: kernel and userland</text>
+<text x="525.0" y="179.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">built by the tools above, with sshd</text>
+<path d="M525.0,86.0 L525.0,140.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="525.0,140.0 521.4,132.0 528.6,132.0" fill="#222"/>
+<path d="M240.0,168.0 L380.0,168.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="380.0,168.0 372.0,171.6 372.0,164.4" fill="#222"/>
+<text x="310.0" y="160.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">runs it</text>
+<rect x="380.0" y="250.0" width="290.0" height="46.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="525.0" y="272.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">ssh to the machine gives a login shell</text>
+<text x="525.0" y="284.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">the test of the finish line</text>
+<path d="M525.0,196.0 L525.0,250.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="525.0,250.0 521.4,242.0 528.6,242.0" fill="#222"/>
+<rect x="20.0" y="250.0" width="220.0" height="46.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="130.0" y="272.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">then the same system on the FPGA</text>
+<text x="130.0" y="284.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">and after it, silicon</text>
+<path d="M380.0,273.0 L240.0,273.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="240.0,273.0 248.0,269.4 248.0,276.6" fill="#222"/>
+<text x="20.0" y="322.0" font-size="9.5" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">If OpenBSD proves too hard, a port of Unix/32V is the fallback; it would give a shell on the emulator and no ssh (10.5.3).</text>
+</svg>

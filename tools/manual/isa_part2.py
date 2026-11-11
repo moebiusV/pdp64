@@ -40,7 +40,7 @@ Rd <- (t >> n)[63:0]          ; n = 0..63''', 'None written.', NONE, '9.9',
 Rd <- (Rd AND NOT mask) OR ((Rs << pos) AND mask)''', 'None written.', NONE, '9.9', notes='Six bytes. `Rd` is both source and destination.'),
     E('XNORPOP', 'bits', ['xnorpop'], 'Population count of the equality of two words', ['XNORPOP Ra, Rb, Rd'],
       'Rd <- popcount(NOT (Ra XOR Rb))', 'None written.', NONE, '9.9',
-      notes='For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (section 8.3).'),
+      notes='For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (section 8.5).'),
     E('CLMUL', 'bits', ['clmull', 'clmulh'], 'Carry-less multiply', ['CLMULL Ra, Rb, Rd', 'CLMULH Ra, Rb, Rd'],
       '''p <- carry-less (polynomial over GF(2)) product of Ra and Rb      ; 128 bits
 CLMULL: Rd <- p[63:0]
@@ -65,7 +65,7 @@ V  <- 1 if Rs is not a Unicode scalar value''', '`V` set if `Rs` is not a Unicod
 MMOV: as MCPY, but the direction is chosen from the pointers so that an overlapping copy is correct''',
       NOFLAGS, MEMX + ' The three registers are updated as work completes, so a fault leaves a consistent state and the instruction restarts from its registers.', '9.11',
       notes='The one granted exception to the one-memory-operand rule. All three registers are architectural state: on completion `Rn` is 0 and `Rd` and `Rs` point one past the end. An implementation may move more than a byte per step, so long as the register state at every point where an exception can be taken is consistent with a byte-at-a-time copy. The accesses made inside one block operation are unordered with respect to each other.',
-      cf='6.4 (restart, progress faults); 7.2 (ordering of the accesses).'),
+      cf='6.4 (restart, progress faults); 7.5 (ordering of the accesses).'),
     E('MSET', 'block', ['mset'], 'Fill a block of bytes', ['MSET Rd, Rv, Rn'],
       'while Rn != 0:  M8[Rd] <- Rv[7:0] ; Rd <- Rd + 1 ; Rn <- Rn - 1', NOFLAGS, MEMX, '9.11',
       notes='`MSET` with `Rv = 0` is the range-zeroing instruction: `bzero` and the clear of `calloc` are one instruction.', cf='6.4.'),

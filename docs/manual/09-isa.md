@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**The instruction set is built around one idea: the first parcel of an instruction says both what the instruction is and how long it is, so the commonest instructions are two bytes and nothing is longer than six, one literal excepted.** The chapter covers how the opcode space is divided into prefix-coded leaves, the properties and principles that hold throughout, the registers, the format and the addressing modes, each group of instructions, faults, restart and memory management, position-independent code, what is rejected, the idioms of the PDP-11 and VAX that are restored, lost or replaced and the idioms of the compiler, the comparison with the PDP-11 and VAX, what is taken from LoongArch, and what is open. Every instruction has its entry (syntax, bit-layout chart, operation, flags, exceptions) in the section of its group below; the atomic instructions are in section 7.12 and the system instructions in section 6.13; the [reference tables](dictionary/index.md) hold the aliases, the constants, the lists of mnemonics and the chart of every leaf. The grammars the tools are generated from are described in [`../../spec/README.md`](../../spec/README.md); every number here comes from them or from the measurements cited.
+**The instruction set is built around one idea: the first parcel of an instruction says both what the instruction is and how long it is, so the commonest instructions are two bytes and nothing is longer than six, one literal excepted.** The chapter covers how the opcode space is divided into prefix-coded leaves, the properties and principles that hold throughout, the registers, the format and the addressing modes, each group of instructions, faults, restart and memory management, position-independent code, what is rejected, the idioms of the PDP-11 and VAX that are restored, lost or replaced and the idioms of the compiler, the comparison with the PDP-11 and VAX, what is taken from LoongArch, and what is open. Every instruction has its entry (syntax, bit-layout chart, operation, flags, exceptions) in the section of its group below; the atomic instructions are in section 9.13 and the system instructions in section 9.14; the [reference tables](dictionary/index.md) hold the aliases, the constants, the lists of mnemonics and the chart of every leaf. The grammars the tools are generated from are described in [`../../spec/README.md`](../../spec/README.md); every number here comes from them or from the measurements cited.
 
 ## 9.1 How the opcode space is divided
 
@@ -3626,7 +3626,7 @@ Rd ← popcount(NOT (Ra XOR Rb))
 
 **Exceptions** None.
 
-For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (section 8.3).
+For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (section 8.5).
 
 **Why it is here.** It serves binary-activation networks, Hamming distance, bitset intersection counts and counting a collector's mark bitmap. It does not serve sub-1-bit language models: their activations (in the LittleBit work) are FP16 and the inner loop is a conditional add, not a popcount. The sub-1-bit kernel is bandwidth-bound and belongs to a bus-mastering accelerator, not an opcode (chapter 8).
 
@@ -5231,7 +5231,7 @@ PC ← M[SP] ; SP ← SP + 8
 
 ## 9.11 The stack and block operations
 
-*Cf. section 6.4 for restarting a block operation after a fault (progress is held in registers) and section 6.6 for the page faults it can take; section 7.2 for how block operations order their accesses.*
+*Cf. section 6.4 for restarting a block operation after a fault (progress is held in registers) and section 6.6 for the page faults it can take; section 7.5 for how block operations order their accesses.*
 
 **9.11.1** `PUSH` and `POP` move one register; `PUSHM` and `POPM` move a set named by a mask (a mask of 8 bits is two bytes). A mask containing `R14` is reserved. *(D)*
 
@@ -5473,7 +5473,7 @@ The one granted exception to the one-memory-operand rule. All three registers ar
 
 **Why it is here.** The block operations are the one granted exception to the one-memory-operand rule (an exception to a principle is allowed where there is a clear benefit), made safe by keeping the progress in architectural registers: the VAX `MOVC5` kept it in hidden microstate, which is why it is rejected, and ARM reached the same design in 2022 with `FEAT_MOPS`. The names `MCPY`, `MMOV` and `MSET` follow the memory operations of IBM System z; `MCMP` and `MSCN` complete the set. `MCPY` replaces the PDP-11 `MOV (R1)+,(R2)+` loop, and the `rep movsb` of x86, with one restartable instruction.
 
-**Cf.** 6.4 (restart, progress faults); 7.2 (ordering of the accesses).
+**Cf.** 6.4 (restart, progress faults); 7.5 (ordering of the accesses).
 
 <a id="w-mcpy"></a>
 #### MCPY
@@ -7040,7 +7040,7 @@ Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, eac
 
 ## 9.13 Atomics and ordering
 
-*Cf. chapter 7, section 7.12 (the atomic and ordering instructions), section 7.3 (the atomics in detail) and section 7.2 (the memory model).*
+*Cf. chapter 7, section 7.4 (atomic operations), section 7.3 (the multiprocessor instructions at a glance) and section 7.5 (the memory model).*
 
 **9.13.1** The atomic group `ATOM` holds `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in chapter 7.
 
@@ -7082,9 +7082,9 @@ result ← old          ; the program compares result with expected to learn whe
 
 The sub-opcodes and the semantics of this group are specified. The forms below name the roles; the placement of the operands (three registers with the address in a register, four for `CAS` and `CASDB`, in the order written) is open ([J.9.3](appendix-j-open.md#j93)).
 
-**Why it is here.** The barrier-fused variants are taken from LoongArch's pragmatism: a lock acquire is one instruction rather than an atomic followed by a `FENCE`, and that pair is in every critical section of the system. With the other multiprocessor operations the atomics make the seventeen-operation SMP umbrella (7.1). They are defined on a reservation monitor and not on a bus lock (2.5).
+**Why it is here.** The barrier-fused variants are taken from LoongArch's pragmatism: a lock acquire is one instruction rather than an atomic followed by a `FENCE`, and that pair is in every critical section of the system. With the other multiprocessor operations the atomics make the seventeen-operation SMP umbrella (7.3). They are defined on a reservation monitor and not on a bus lock (2.5).
 
-**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+**Cf.** 7.4 (atomic operations: the reservation monitor), 7.3 (the multiprocessor instructions at a glance), 7.5 (the memory model).
 
 <a id="w-cas"></a>
 #### CAS
@@ -7142,7 +7142,7 @@ The sub-opcodes and the semantics of this group are specified. The forms below n
 
 **Why it is here.** One of the read-modify-write atomics (see `CAS`). No separate reason is recorded for it.
 
-**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+**Cf.** 7.4 (atomic operations: the reservation monitor), 7.3 (the multiprocessor instructions at a glance), 7.5 (the memory model).
 
 <a id="w-swap"></a>
 #### SWAP
@@ -7200,7 +7200,7 @@ The sub-opcodes and the semantics of this group are specified. The forms below n
 
 **Why it is here.** One of the fetch-and-operate atomics (see `CAS`), in the place of the PDP-11's read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair (7.1).
 
-**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+**Cf.** 7.4 (atomic operations: the reservation monitor), 7.3 (the multiprocessor instructions at a glance), 7.5 (the memory model).
 
 <a id="w-xadd"></a>
 #### XADD
@@ -7264,7 +7264,7 @@ The sub-opcodes and the semantics of this group are specified. The forms below n
 
 **Why it is here.** The fetch-and-and, or and xor atomics (see `CAS`). No separate reason is recorded for them.
 
-**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+**Cf.** 7.4 (atomic operations: the reservation monitor), 7.3 (the multiprocessor instructions at a glance), 7.5 (the memory model).
 
 <a id="w-xand"></a>
 #### XAND
@@ -7356,7 +7356,7 @@ The sub-opcodes and the semantics of this group are specified. The forms below n
 
 **Why it is here.** The fetch-and-minimum and maximum atomics, borrowed from LoongArch's richer atomic set: each is a couple of hundred lookup tables and saves a compare-and-swap retry loop.
 
-**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+**Cf.** 7.4 (atomic operations: the reservation monitor), 7.3 (the multiprocessor instructions at a glance), 7.5 (the memory model).
 
 <a id="w-xmax"></a>
 #### XMAX
@@ -7459,7 +7459,7 @@ A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps w
 
 **Why it is here.** Load-linked and store-conditional, with the reservation a monitor, because a monitor maps onto the exclusive access of AXI and of FPGA and modern memory systems, where the Unibus's locked read-modify-write (`DATIP`/`DATO`) does not scale as cores multiply. A short sequence must eventually succeed if no other initiator keeps writing the granule, the RISC-V rule.
 
-**Cf.** 7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).
+**Cf.** 7.4 (atomic operations: the reservation monitor), 7.3 (the multiprocessor instructions at a glance), 7.5 (the memory model).
 
 <a id="w-ll"></a>
 #### LL
@@ -7751,7 +7751,7 @@ Owed to devices (one `FENCE` separates writing a device's registers from setting
 
 **Why it is here.** The memory model is sequentially consistent, so `FENCE` is needed only for what is outside the model: devices and the framebuffer (one `FENCE` between writing a device's registers and setting its go bit, section 3.13) and instruction streams. The `_DB` barrier forms of the atomics exist so that a `FENCE` is not needed in a lock acquire.
 
-**Cf.** 7.2 (the memory model), 2.2 (what the processor owes the bus).
+**Cf.** 7.5 (the memory model), 2.2 (what the processor owes the bus).
 
 
 <a id="w-wfe"></a>
@@ -7788,9 +7788,9 @@ sleep until an interrupt is pending or another core executes SEV
 
 `WAIT` is an assembler alias.
 
-**Why it is here.** `WAIT` was a PDP-11 instruction (sleep until an interrupt); `WFE` subsumes it: it sleeps until an interrupt or another core's `SEV`, and on a uniprocessor it behaves exactly as `WAIT` did. `WFE` and `SEV` belong to the multiprocessor operations (7.6).
+**Why it is here.** `WAIT` was a PDP-11 instruction (sleep until an interrupt); `WFE` subsumes it: it sleeps until an interrupt or another core's `SEV`, and on a uniprocessor it behaves exactly as `WAIT` did. `WFE` and `SEV` belong to the multiprocessor operations (7.10).
 
-**Cf.** 7.6 (waiting and signalling).
+**Cf.** 7.10 (waiting and signalling).
 
 <a id="w-wait"></a>
 **`WAIT`** is an alias of `WFE`: the assembler writes it as that word.
@@ -7866,7 +7866,7 @@ ICINVA  : invalidate the whole instruction cache
 
 **Why it is here.** `TLBI` and `TLBIA` broadcast, `TLBSYNC` waits for the other cores, and `ICINV` and `ICINVA` invalidate the instruction cache: a Lisp runtime that compiles a function cannot work without an instruction-cache invalidate.
 
-**Cf.** 7.5 (translation and instruction-cache coherence).
+**Cf.** 7.9 (translation and instruction-cache coherence).
 
 <a id="w-tlbia"></a>
 #### TLBIA
@@ -8388,9 +8388,9 @@ MFDP: Rd ← DP
 
 `DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.
 
-**Why it is here.** `DP` descends from the 6502's zero page and is kept for code density (a short displacement from `DP`); it is also the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants (7.4). `MTDP` and `MFDP` read and write the current mode's copy.
+**Why it is here.** `DP` descends from the 6502's zero page and is kept for code density (a short displacement from `DP`); it is also the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants (7.8). `MTDP` and `MFDP` read and write the current mode's copy.
 
-**Cf.** 7.4 (per-CPU state).
+**Cf.** 7.8 (per-CPU state).
 
 <a id="w-mtdp"></a>
 #### MTDP
@@ -8488,7 +8488,7 @@ The index of this core, for per-CPU data.
 
 **Why it is here.** Part of the multiprocessor operations, because per-CPU data needs each core to know which one it is.
 
-**Cf.** 7.4, 7.8.
+**Cf.** 7.8, 7.11.
 
 
 <a id="w-icinv"></a>

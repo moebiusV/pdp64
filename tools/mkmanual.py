@@ -103,6 +103,9 @@ import gfxfigs as GFXFIGS
 import kernfigs as KERNFIGS
 import bootfigs as BOOTFIGS
 import drvfigs as DRVFIGS
+import introfigs as INTROFIGS
+import vecfigs as VECFIGS
+import smpfigs as SMPFIGS
 
 
 def fig(name, alt, rows):
@@ -555,7 +558,7 @@ def build():
         texts[fn] = embed(texts[fn], 'entries:' + sec, '\n\n'.join(p.strip('\n') + '\n' for p in parts))
     texts['09-isa.md'] = embed(texts['09-isa.md'], 'notation', notation(), after_heading=True)
     # the official entries live in the instruction chapter; the chapters that give the rationale list them and link to them
-    for fn, sec, home in (('06-kernel.md', '6.13', '9.14'), ('07-smp.md', '7.12', '9.13')):
+    for fn, sec, home in (('06-kernel.md', '6.13', '9.14'), ('07-smp.md', '7.4', '9.13')):
         rows = ['**The instruction entries for this section are in chapter 9, section %s:** each entry there is complete (syntax, encoding diagram, operation, flags, exceptions, status); the commentary above gives the reasons and the use.' % home, '',
                 '| Entry | Mnemonics |', '|---|---|']
         for e in ents:
@@ -631,7 +634,7 @@ def build():
     used = '\n'.join(texts.values())
     if 'figures/psw.svg' in used:
         fig('psw', 'The processor status word', LAY.psw_chart(SYS))
-    for fname, (_alt, draw) in list(BUSFIGS.FIGURES.items()) + list(GFXFIGS.FIGURES.items()) + list(KERNFIGS.FIGURES.items()) + list(BOOTFIGS.FIGURES.items()) + list(DRVFIGS.FIGURES.items()):     # the box-and-arrow figures of chapters 2 to 6 (tools/manual/busfigs.py, gfxfigs.py, bootfigs.py, drvfigs.py, kernfigs.py); not instruction encodings
+    for fname, (_alt, draw) in list(BUSFIGS.FIGURES.items()) + list(GFXFIGS.FIGURES.items()) + list(KERNFIGS.FIGURES.items()) + list(BOOTFIGS.FIGURES.items()) + list(DRVFIGS.FIGURES.items()) + list(INTROFIGS.FIGURES.items()) + list(VECFIGS.FIGURES.items()) + list(SMPFIGS.FIGURES.items()):     # the box-and-arrow figures of chapters 2 to 6 (tools/manual/busfigs.py, gfxfigs.py, bootfigs.py, drvfigs.py, kernfigs.py, vecfigs.py, smpfigs.py); not instruction encodings
         if 'figures/%s.svg' % fname in used:
             FIGS[fname + '.svg'] = draw()
     return files, chapters

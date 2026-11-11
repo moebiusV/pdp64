@@ -4,13 +4,13 @@ Status: record, dated 2026-11-03. It describes the state and the thinking of tha
 
 For the author's annotations. Each list gives its source, whose words it is, and a short commentary. The last section is the definitive list, as the author decided it (errata 83).
 
-The lists are collected from `README.md`, `docs/decisions-pending.md` (Part 0), `docs/manual/01-introduction.md` (1.4), `docs/pdp64-isa.md` (section 1), `docs/errata.md` (42 and 68) and the device-chat export `c64stuff.txt`.
+The lists are collected from `README.md`, `docs/decisions-pending.md` (Part 0), `docs/manual/01-introduction.md` (1.6), `docs/pdp64-isa.md` (section 1), `docs/errata.md` (42 and 68) and the device-chat export `c64stuff.txt`.
 
 ---
 
 ## List 1. The principles (2026-10-22)
 
-*Source:* README "Design principles", `decisions-pending.md` Part 0, manual 1.4.1. *Whose:* the author's. The repository records the list but not the author's own words.
+*Source:* README "Design principles", `decisions-pending.md` Part 0, manual 1.6.1. *Whose:* the author's. The repository records the list but not the author's own words.
 
 1. **Code size.** Bytes of kernel and user code, including hot-path length and the code spent on error handling.
 2. **Easy recoverability, meaning less recovery code.** Fewer possible errors, and an easier recovery path.
@@ -28,7 +28,7 @@ what I mean is, less code means less memory access, and that is the slowest part
 
 ## List 2. The tie-break order between two designs that both work
 
-*Source:* `pdp64-isa.md` section 1.2, manual 1.4.3. *Whose:* the author's, from the first ISA chat. The chat message (c64stuff.txt, line 6999) reads: "just make it efficient in this order: no wierd side effects, no bumping other opcodes in a way that makes code size increase.... and don't increase transistor count too much ockam. don't multiply entities without benefit."
+*Source:* `pdp64-isa.md` section 1.2, manual 1.6.3. *Whose:* the author's, from the first ISA chat. The chat message (c64stuff.txt, line 6999) reads: "just make it efficient in this order: no wierd side effects, no bumping other opcodes in a way that makes code size increase.... and don't increase transistor count too much ockam. don't multiply entities without benefit."
 
 1. **No strange side effects.** An instruction does what its name says and nothing else.
 2. **Do not displace an instruction into a longer encoding** (weighted by frequency: moving something common from two bytes to four is a regression; moving something rare is noise).
@@ -46,7 +46,7 @@ longer encodings for instructions that are used more rarely is a way of reducing
 
 ## List 3. Two further principles (2026-10-23)
 
-*Source:* errata 68, manual 1.4.4 and 1.4.5. *Whose:* the author's, quoted: "although the first implementations will be in-order, we have to make the decision safe for out of order implementations"; "a rarely used instruction can still pull its weight if its used inside a critical tight hot loop".
+*Source:* errata 68, manual 1.6.4 and 1.6.5. *Whose:* the author's, quoted: "although the first implementations will be in-order, we have to make the decision safe for out of order implementations"; "a rarely used instruction can still pull its weight if its used inside a critical tight hot loop".
 
 - **Safe for in-order and out-of-order.** Nothing is specified that is safe only because the core does not speculate or reorder.
 - **Hot-loop weight.** An instruction is judged by executions multiplied by what it saves, not by how rarely it appears.
@@ -62,7 +62,7 @@ so, the value of an instruction is not only about it reducing code size, but it 
 
 ## List 4. How rules may be broken (2026-10-22)
 
-*Source:* errata 42, `pdp64-isa.md` section 1.1, manual 1.4.2. *Whose:* the author's, quoted: "all the rules are soft rules."
+*Source:* errata 42, `pdp64-isa.md` section 1.1, manual 1.6.2. *Whose:* the author's, quoted: "all the rules are soft rules."
 
 A rule gives way when (a) the benefit is named and concrete, (b) the cost is bounded and written down, and (c) the mechanism that made the rule necessary is absent from the exception.
 

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="300" viewBox="0 0 690 300" font-family="DejaVu Sans, sans-serif">
+<text x="20.0" y="16.0" font-size="12" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">floating-point and vector state that a context switch has to save, to one scale</text>
+<text x="162.0" y="55.0" font-size="10" text-anchor="end" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">PDP-11, V7 (FP11)</text>
+<rect x="170.0" y="40.0" width="2.4" height="22.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="178.4" y="55.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">50</text>
+<text x="170.0" y="76.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">status word + six 8-byte accumulators: 50 bytes (user.h, mch.s)</text>
+<text x="162.0" y="99.0" font-size="10" text-anchor="end" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">pdp64</text>
+<rect x="170.0" y="84.0" width="2.0" height="22.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="178.0" y="99.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">0 extra</text>
+<text x="170.0" y="120.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">no register file of its own; the flags in FPSR (9.12.3)</text>
+<text x="162.0" y="143.0" font-size="10" text-anchor="end" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">x86, SSE</text>
+<rect x="170.0" y="128.0" width="12.5" height="22.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="188.5" y="143.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">256</text>
+<text x="170.0" y="164.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">16 registers of 16 bytes = 256 bytes (Linux processor.h: xmm_space)</text>
+<text x="162.0" y="187.0" font-size="10" text-anchor="end" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">PowerPC, AltiVec</text>
+<rect x="170.0" y="172.0" width="25.0" height="22.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="201.0" y="187.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">512</text>
+<text x="170.0" y="208.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">32 registers of 16 bytes = 512 bytes, and two more (Linux processor.h)</text>
+<text x="162.0" y="231.0" font-size="10" text-anchor="end" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">VAX 6000, vector facility</text>
+<rect x="170.0" y="216.0" width="400.0" height="22.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<text x="576.0" y="231.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">8192</text>
+<text x="170.0" y="252.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">16 registers of 64 elements of 8 bytes = 8192 bytes (unverified)</text>
+<text x="20.0" y="276.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">A bar is the number of bytes that the kernel must save at a switch and restore when the process runs again.</text>
+<text x="20.0" y="288.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Sizes of the VAX facility and of the SSE and AltiVec register counts as the notes in 8.2 say; the V7 and Linux figures were read.</text>
+</svg>

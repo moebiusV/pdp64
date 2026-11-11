@@ -64,5 +64,5 @@ STORY = {
     'XADD': 'One of the fetch-and-operate atomics (see `CAS`), in the place of the PDP-11\'s read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair (7.1).',
     'XAND': 'The fetch-and-and, or and xor atomics (see `CAS`). No separate reason is recorded for them.',
     'TRAP': 'In the original encoding `TRAPL` existed so that the vector range of 256 and the two-byte common case could both be kept (`TRAP #n` for `n` below 16 is two bytes, and the long form reaches 256); here one word carries an 8-bit vector number. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.',
-    'MTDP': '`DP` descends from the 6502\'s zero page and is kept for code density (a short displacement from `DP`); it is also the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants (7.4). `MTDP` and `MFDP` read and write the current mode\'s copy.',
+    'MTDP': '`DP` descends from the 6502\'s zero page and is kept for code density (a short displacement from `DP`); it is also the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants (7.8). `MTDP` and `MFDP` read and write the current mode\'s copy.',
 }

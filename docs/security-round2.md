@@ -46,7 +46,7 @@ This is the hardware behind the virtio-rng device of the P9 lean: the same four 
 
 **Assessment.**
 
-* *It fits what is already decided.* The core-class register of manual 7.8.4 identifies a core's class, and errata 76 already has dedicated cores for graphics, network and audio. A secure core is a fourth. Scheduling is by affinity.
+* *It fits what is already decided.* The core-class register of manual 7.11.1 identifies a core's class, and errata 76 already has dedicated cores for graphics, network and audio. A secure core is a fourth. Scheduling is by affinity.
 * *It answers OpenBSD's objection.* The strongest evidence against crypto devices was OpenBSD removing its PCI crypto drivers because "scheduling crypto tasks via PCI is probably slower than the CPU" (commit 0a828ff4, 2021, `security-proposals.md` section 2). Work that stays on a CPU in the same memory has no bus crossing, no DMA exposure and no small-message penalty.
 * *"Per core" is cheapest as two kinds of core.* Switching a large out-of-order core into a faithful in-order mode is a second design to verify. A small in-order core of the same ISA is simpler, and the class register tells software which is which. In iteration one every core is in order anyway, so the class exists from the start.
 * *Constant time needs more than in-order.* Multiply and divide must have no early exit. The data cache must not leak: a secure core's lines must not be observable by other cores (private L1 or way partitioning, candidate 13). Software must still avoid secret-dependent addresses, because a table lookup is a timing channel on any cache.

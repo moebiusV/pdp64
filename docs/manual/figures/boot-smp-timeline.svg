@@ -55,5 +55,5 @@
 <text x="20.0" y="306.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">x86, for comparison (general knowledge and Linux smpboot.c, 4.7): the boot core sends INIT and START-UP signals through the interrupt controller;</text>
 <text x="20.0" y="317.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">the other core wakes in 16-bit real mode at an address below 1 MB, and a trampoline must walk it through protected mode into 64-bit mode.</text>
 <text x="20.0" y="340.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The pdp64 has no such ladder: a core starts in its normal mode at any address.  What the start registers look like is proposed, not decided (4.7.1);</text>
-<text x="20.0" y="353.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">the register block's address is open (4.13); the SMP chapter (7.8.1) names r0 only, where 4.7.1 loads r1 too.</text>
+<text x="20.0" y="353.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">the register block's address is open (4.13); the SMP proposal (H.7, 7.8.1) names r0 only, where 4.7.1 loads r1 too.</text>
 </svg>

@@ -200,7 +200,7 @@ def fig_smp_timeline():
     c.text(20, 306, 'x86, for comparison (general knowledge and Linux smpboot.c, 4.7): the boot core sends INIT and START-UP signals through the interrupt controller;', 9, 'start', '#444')
     c.text(20, 317, 'the other core wakes in 16-bit real mode at an address below 1 MB, and a trampoline must walk it through protected mode into 64-bit mode.', 9, 'start', '#444')
     c.text(20, 340, 'The pdp64 has no such ladder: a core starts in its normal mode at any address.  What the start registers look like is proposed, not decided (4.7.1);', 9, 'start', '#555')
-    c.text(20, 353, 'the register block\'s address is open (4.13); the SMP chapter (7.8.1) names r0 only, where 4.7.1 loads r1 too.', 9, 'start', '#555')
+    c.text(20, 353, 'the register block\'s address is open (4.13); the SMP proposal (H.7, 7.8.1) names r0 only, where 4.7.1 loads r1 too.', 9, 'start', '#555')
     return c.svg()
 
 

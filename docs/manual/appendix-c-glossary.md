@@ -28,7 +28,7 @@
 | **`JTAG`, `TAGOP`** | multiway dispatch on a pointer's low tag bits, and the tag-branch group (9.10) |
 | **`LPAD`** | marks a legal target of an indirect jump or call; optional in ABI version 1 (appendix A.1) |
 | **`CLMUL`** | carry-less multiply, the primitive under every CRC and Galois-field operation (9.9) |
-| **`XNORPOP`, `POPCNT`** | bit-population instructions used by binary operations and bitsets (8.3) |
+| **`XNORPOP`, `POPCNT`** | bit-population instructions used by binary operations and bitsets (8.5) |
 | **`SET cc, rd`** | set a register to 0 or 1 from a condition (9.7) |
 | **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page (9.3, 9.16) |
 | **`PSW`** | the processor status word: flags, mode, priority and the guard bit (6.2) |
@@ -45,7 +45,7 @@
 | **`MT`** | memory type, a two-bit page attribute: normal cached, normal uncached, device strongly ordered (2.3, 6.7) |
 | **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.8) |
 | **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.8) |
-| **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores (7.5) |
+| **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores (7.9) |
 | **`DMW`** | direct mapping window: a region translated by a fixed offset with no page table; stored without effect, the format is open (6.9) |
 | **`MMUCTL`** | the register that enables translation and sets the table base (6.5, 6.8) |
 | **virtual address, physical address** | the number a program uses, and the number the memory answers to; the page tables translate one into the other (6.6) |
@@ -68,15 +68,15 @@
 | **trap, exception, interrupt** | a deliberate entry (`TRAP #n`), a fault raised by an instruction, and a signal from a device; all enter through the vector table (6.3) |
 | **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (6.4) |
 | **`SPL`** | set the interrupt priority level (6.3) |
-| **`WFE`, `SEV`** | wait for an event and send an event: the idle and wake-up pair (7.6) |
-| **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.8, 7.2) |
-| **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (7.3) |
+| **`WFE`, `SEV`** | wait for an event and send an event: the idle and wake-up pair (7.10) |
+| **`FENCE`** | orders memory accesses; owed to devices and to other cores (2.8, 7.5) |
+| **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (7.4) |
 | **SMP** | symmetric multiprocessing: several identical cores sharing memory (chapter 7) |
-| **core class** | the read-only register of each core that gives its class and capacity, so that software can tell an in-order core from an out-of-order one (7.8.3) |
-| **secure core** | a core with every timing channel removed (every instruction and cache fetch takes a time independent of its data), private cache lines and no periodic tick (7.8.5) |
-| **dedicated core** | a core given to one job, graphics, network or audio; decided, with its details pending (7.8.6) |
-| **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.7) |
-| **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.2) |
+| **core class** | the read-only register of each core that gives its class and capacity, so that software can tell an in-order core from an out-of-order one (7.11.1) |
+| **secure core** | a core with every timing channel removed (every instruction and cache fetch takes a time independent of its data), private cache lines and no periodic tick (7.11.3) |
+| **dedicated core** | a core given to one job, graphics, network or audio; decided, with its details pending (7.11.6) |
+| **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.6) |
+| **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.5) |
 
 ## C.3 The bus, devices and boot
 
@@ -114,16 +114,16 @@
 | **UEFI, PE/COFF, shim** | the PC's later firmware standard, which runs a loader file of the PE/COFF format and offers it boot services; not used by the pdp64; a shim is the small program that would offer those services over virtio to an existing loader (4.2, 4.9) |
 | **`ODT`, monitor** | the PDP-11's console debugger; the ROM's console program for examine, deposit, load and start (4.1) |
 | **INIT, START-UP, spin table, hart** | x86's signals that start another core; ARM's table the waiting cores poll; RISC-V's word for a core; the pdp64 writes a start register instead (4.7) |
-| **APL, K** | array languages whose primitives work on whole arrays; one primitive maps to one descriptor (8.4) |
+| **APL, K** | array languages whose primitives work on whole arrays; one primitive maps to one descriptor (8.5) |
 
 ## C.4 Process and sources
 
 | Term | Meaning |
 |---|---|
 | **errata** | the numbered decision log of the project (`../errata.md`, appendix F) |
-| **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.5) |
-| **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.5) |
-| **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.5, 10.4; not otherwise described in this manual) |
+| **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.7) |
+| **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.7) |
+| **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.8, 10.5; not otherwise described in this manual) |
 | **(D)** | the tag on a statement that the author decided (index) |
 | **details pending** | the mark on a decided statement whose details are not yet worked out; it names the open item that discusses them (appendix J), or says that the details are to be determined (index) |
 | **deferred** | a matter that the author has decided to put off; it is listed in appendix I and is not open (index) |

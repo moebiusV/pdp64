@@ -4,34 +4,34 @@ from isa_common import *
 ATNOTE = ('The sub-opcodes and the semantics of this group are specified; the forms below name the roles, and the placement of the operands is open ([J.9.3](appendix-j-open.md#j93)).')
 ATFLAG = 'Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.'
 ATEXC = 'Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.'
-ATCF = '7.12 (the atomic instructions), 7.3 (the atomics in detail: the reservation monitor), 7.2 (the memory model).'
+ATCF = '7.4 (atomic operations: the reservation monitor), 7.3 (the multiprocessor instructions at a glance), 7.5 (the memory model).'
 
 ENTRIES = [
     E('CAS', 'atomics', ['cas', 'casdb'], 'Compare and swap',
       ['CAS expected, new, (address)        ; size is 4 or 8 bytes; operand placement open (J.9.3)', 'CASDB ...                            ; with a full barrier'],
       '''old <- M[address]                         ; 4 or 8 bytes, naturally aligned
 if old == expected then M[address] <- new
-result <- old          ; the program compares result with expected to learn whether the swap happened''', ATFLAG, ATEXC, '9.13, 7.12', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+result <- old          ; the program compares result with expected to learn whether the swap happened''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('SWAP', 'atomics', ['swap', 'swapdb'], 'Atomic exchange', ['SWAP value, (address)', 'SWAPDB ...'],
-      '''old <- M[address] ; M[address] <- value ; result <- old''', ATFLAG, ATEXC, '9.13, 7.12', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+      '''old <- M[address] ; M[address] <- value ; result <- old''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('XADD', 'atomics', ['xadd', 'xadddb'], 'Atomic fetch and add', ['XADD value, (address)', 'XADDDB ...'],
-      '''old <- M[address] ; M[address] <- old + value ; result <- old''', ATFLAG, ATEXC, '9.13, 7.12', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+      '''old <- M[address] ; M[address] <- old + value ; result <- old''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('XAND', 'atomics', ['xand', 'xanddb', 'xor_', 'xor_db', 'xxor', 'xxordb'], 'Atomic fetch and and, or, xor',
       ['XAND value, (address)', 'XOR_ value, (address)        ; the trailing underscore keeps the mnemonic distinct from XOR', 'XXOR value, (address)', 'each with a DB form'],
       '''old <- M[address]
 XAND: M[address] <- old AND value
 XOR_: M[address] <- old OR value
 XXOR: M[address] <- old XOR value
-result <- old''', ATFLAG, ATEXC, '9.13, 7.12', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+result <- old''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('XMAX', 'atomics', ['xmax', 'xmaxdb', 'xmin', 'xmindb', 'xmaxu', 'xmaxudb', 'xminu', 'xminudb'], 'Atomic fetch and minimum or maximum',
       ['XMAX value, (address)', 'XMIN ..., XMAXU ..., XMINU ...', 'each with a DB form'],
       '''old <- M[address] ; M[address] <- max(old, value) (XMAX, XMAXU) or min (XMIN, XMINU) ; result <- old
-signed for XMAX and XMIN, unsigned for the U forms''', ATFLAG, ATEXC, '9.13, 7.12', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+signed for XMAX and XMIN, unsigned for the U forms''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('LLSC', 'atomics', ['ll', 'sc'], 'Load-linked and store-conditional', ['LL (address), Rd', 'SC value, (address), result'],
       '''LL: Rd <- M[address] ; take a reservation on the granule containing address
 SC: if the reservation is intact then M[address] <- value ; result <- 0 (success)
     else nothing is written ; result <- 1 (failure)
-a write to the granule by any initiator, core or device, clears the reservation''', ATFLAG, ATEXC, '9.13, 7.12',
+a write to the granule by any initiator, core or device, clears the reservation''', ATFLAG, ATEXC, '9.13, 7.4',
       notes='A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). ' + ATNOTE + ' The result convention of `SC` is part of the open placement ([J.9.3](appendix-j-open.md#j93)).', cf=ATCF, xnote=ATNOTE),
 
     # ---- SYS, class 0 ----
@@ -46,16 +46,16 @@ RTT: and then set the trace bit T after the return''', 'Replaced by `EPSW`, incl
     E('BPT', 'system', ['bpt'], 'Breakpoint', ['BPT'], 'take the breakpoint vector with EPC = the address of the next instruction', NOFLAGS, 'Enters the kernel by the `BPT` vector.', '9.14',
       notes='A trap like any other, but kept as its own two-byte instruction because a debugger patches it over an existing instruction, so it must be the shortest instruction the machine has.', cf='6.3.'),
     E('FENCE', 'system', ['fence'], 'Memory fence', ['FENCE'], 'order the memory accesses before it against those after it, for every initiator that observes them', NOFLAGS, NONE, '9.14',
-      notes='Owed to devices (one `FENCE` separates writing a device\'s registers from setting its go bit) and to other cores.', cf='7.2 (the memory model), 2.2 (what the processor owes the bus).'),
+      notes='Owed to devices (one `FENCE` separates writing a device\'s registers from setting its go bit) and to other cores.', cf='7.5 (the memory model), 2.2 (what the processor owes the bus).'),
     E('WFE', 'system', ['wfe', 'wait'], 'Wait for an event', ['WFE'], 'sleep until an interrupt is pending or another core executes SEV', NOFLAGS, PRIV, '9.14',
-      notes='`WAIT` is an assembler alias.', cf='7.6 (waiting and signalling).'),
+      notes='`WAIT` is an assembler alias.', cf='7.10 (waiting and signalling).'),
     E('SEV', 'system', ['sev'], 'Send an event', ['SEV'], 'wake every core waiting in WFE', NOFLAGS, NONE, '9.14', cf='7.6.'),
     E('TLBA', 'system', ['tlbia', 'tlbsync', 'icinva'], 'Invalidate all translations; wait for translation invalidations; invalidate the whole instruction cache',
       ['TLBIA', 'TLBSYNC', 'ICINVA'],
       '''TLBIA   : invalidate every translation-buffer entry on this core and, by broadcast, on the others
 TLBSYNC : wait until the invalidations this core started have completed on every core
 ICINVA  : invalidate the whole instruction cache''', NOFLAGS, 'Privileged (`TLBIA`, `TLBSYNC`)', '9.14',
-      cf='7.5 (translation and instruction-cache coherence).'),
+      cf='7.9 (translation and instruction-cache coherence).'),
     # ---- SYSX ----
     E('PUSHX', 'system', ['pushx', 'popx'], 'Push and pop the exception state', ['PUSHX', 'POPX'],
       '''PUSHX: SP <- SP - 16 ; M[SP] <- EPSW ; M[SP + 8] <- EPC
@@ -87,11 +87,11 @@ MFPS: Rd <- PSW''', '`MTPS` writes the flags from `Rs`; `MFPS` writes none.', 'A
 MFASID: Rd <- ASID''', NOFLAGS, PRIV, '9.14', notes='The `ASID` tags translation-buffer entries so a context switch is one store.', cf='6.8.'),
     E('MTDP', 'system', ['mtdp', 'mfdp'], 'Move to and from the direct pointer', ['MTDP Rs', 'MFDP Rd'], '''MTDP: DP <- Rs
 MFDP: Rd <- DP''', NOFLAGS, NONE, '9.14',
-      notes='`DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.', cf='7.4 (per-CPU state).'),
+      notes='`DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.', cf='7.8 (per-CPU state).'),
     E('MTDMW', 'system', ['mtdmw'], 'Move to a direct-mapping window', ['MTDMW Rs'], 'DMW0 <- Rs          ; stored; it has no effect on translation', NOFLAGS, PRIV, '9.14',
       notes='The direct-mapping windows are stored and have no effect on translation.', cf='6.9.'),
     E('MFCPUID', 'system', ['mfcpuid'], 'Read the processor identifier', ['MFCPUID Rd'], 'Rd <- CPUID', NOFLAGS, NONE, '9.14',
-      notes='The index of this core, for per-CPU data.', cf='7.4, 7.8.'),
+      notes='The index of this core, for per-CPU data.', cf='7.8, 7.11.'),
     E('ICINV', 'system', ['icinv'], 'Invalidate the instruction cache for an address', ['ICINV Rs'], 'invalidate the instruction-cache line containing the address in Rs', NOFLAGS,
       'Privileged, as for the other cache-maintenance instructions.', '9.14', cf='7.5.'),
     E('PROBE', 'system', ['prober', 'probew'], 'Probe an address for read or write access', ['PROBER Rd, Rs', 'PROBEW Rd, Rs'],

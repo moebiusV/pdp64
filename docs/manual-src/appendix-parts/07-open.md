@@ -1,14 +1,14 @@
 <a id="j71"></a>
 ### J.7.1 The wake rule of WFE and the idle loop
 
-**Issue.** `WFE` (wait for event) puts a core to sleep until another core executes `SEV` (send event) or an interrupt arrives (7.6.1). The idle loop of a kernel checks the run queue and then sleeps; if an interrupt arrives between the check and the sleep, it queues work, returns, and the core sleeps with work waiting (a *lost wake-up*, an event that arrives in the gap between the test and the sleep and is never seen). The PDP-11's V7 kernel had the same gap and a clock tick repaired it within one tick. A core that takes no periodic tick has no repair. The question is what ends a `WFE` sleep, and (the decided answer for a masked interrupt is in the statement below). The author decided (2026-10-22: "Yes, wake on pending") that `WFE` ends its sleep when an interrupt is pending even if the priority masks it, so that the idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap (7.6.2). What is open is the rest of the wake rule: whether `SEV` is sticky for one wait, and whether other events also end the sleep (options 2 to 5).
+**Issue.** `WFE` (wait for event) puts a core to sleep until another core executes `SEV` (send event) or an interrupt arrives (7.10.1). The idle loop of a kernel checks the run queue and then sleeps; if an interrupt arrives between the check and the sleep, it queues work, returns, and the core sleeps with work waiting (a *lost wake-up*, an event that arrives in the gap between the test and the sleep and is never seen). The PDP-11's V7 kernel had the same gap and a clock tick repaired it within one tick. A core that takes no periodic tick has no repair. The question is what ends a `WFE` sleep. The author decided (2026-10-22: "Yes, wake on pending") that `WFE` ends its sleep when an interrupt is pending even if the priority masks it, so that the idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap (7.10.2). What is open is the rest of the wake rule: whether `SEV` is sticky for one wait, and whether other events also end the sleep (options 2 to 5).
 
 **Why it matters.** The idle loop of every kernel, and the port's `cpu_idle_cycle`, depend on it. A lock waiter that could sleep instead of spinning would save memory bandwidth on 16 cores, and the answer decides whether an unlock must execute `SEV`. A wrong rule is a hang that occurs once a week.
 
 **Options.**
 
 1. *The decided rule alone, with `SEV` sticky for one wait.* The loop is `SPL #7`, test, `WFE`, `SPL #0`. For: closes the gap with no new instruction; two rules in the core. Against: none beyond the decided rule: a core wakes for an interrupt it will not take until the level drops (it then takes it, as intended).
-2. *Option 1, and `WFE` also ends when the reservation of a preceding `LL` is lost.* A spin wait becomes `LL r, lock; test; WFE`; the holder's ordinary release store wakes the waiter, and the unlocker executes no `SEV`. For: unlock stays one store; a waiter costs no bus bandwidth. Against: the reservation must stay armed while the core sleeps; a spurious wake is allowed, so the loop re-reads; the reservation rules (7.3.1) must say that the reservation survives the sleep.
+2. *Option 1, and `WFE` also ends when the reservation of a preceding `LL` is lost.* A spin wait becomes `LL r, lock; test; WFE`; the holder's ordinary release store wakes the waiter, and the unlocker executes no `SEV`. For: unlock stays one store; a waiter costs no bus bandwidth. Against: the reservation must stay armed while the core sleeps; a spurious wake is allowed, so the loop re-reads; the reservation rules (7.4.1) must say that the reservation survives the sleep.
 3. *`WFE` takes a priority operand.* One instruction lowers the level and sleeps. For: no `SPL` around it. Against: a new operand form to encode; no gain where the loop is already two instructions.
 4. *A timeout form with a deadline.* For: a waiter cannot sleep forever if the wake source breaks; the secure core's bounded waits. Against: an operand; a deadline needs the timer.
 5. *No `WFE`; poll with the `HINT` pause.* For: nothing to specify. Against: burns power and bandwidth, and on an FPGA a spinning core takes the memory bandwidth the other cores want.
@@ -19,12 +19,12 @@
 
 **The assistant's leaning.** Option 2, which contains option 1: a lock waiter sleeps without an `SEV`.
 
-**Where the body refers to it.** Sections 6.11 and 7.6.2.
+**Where the body refers to it.** Sections 6.11 and 7.10.2.
 
 <a id="j72"></a>
 ### J.7.2 Coherence beyond four cores
 
-**Issue.** The first device has four cores that snoop (every cache watches the others' writes) with three states, modified, shared and invalid (7.7.1), and the architecture supports at least four cores, with sixteen or more as the preferred ceiling (7.7.3, errata 92). The protocol that serves more than four coherent cores has not been chosen. The architecture promises that memory is coherent and sequentially consistent (7.2.1) and says nothing of the protocol. The statement as first written: the protocol for more than four coherent cores is open; the leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters, with dedicated cores as non-coherent partners that use uncached rings. *(P)*
+**Issue.** The first device has four cores that snoop (every cache watches the others' writes) with three states, modified, shared and invalid (7.6.1), and the architecture supports at least four cores, with sixteen or more as the preferred ceiling (7.6.3, errata 92). The protocol that serves more than four coherent cores has not been chosen. The architecture promises that memory is coherent and sequentially consistent (7.5.1) and says nothing of the protocol. The statement as first written: the protocol for more than four coherent cores is open; the leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters, with dedicated cores as non-coherent partners that use uncached rings. *(P)*
 
 **Why it matters.** The number of general cores sets the size of the cache controller, the FPGA that can hold the design (about 16,000 look-up tables for a core before coherence, by a paper estimate at plus or minus 40 percent; four cores fit a Kria-class board and none of the planned boards holds sixteen), and what the kernel's scheduler sees as a group. Also the line size (64 bytes), the reservation granule and the invalidate granularity hang from it.
 
@@ -34,7 +34,7 @@
 2. *MESI within clusters of up to four cores, a snoop filter at a shared second-level cache, and a directory between clusters.* MESI adds an exclusive state, so a write to a clean line that nobody else holds needs no bus transaction. For: four cores are one cluster and nothing is wasted; the ceiling is reached by adding the inter-cluster layer. Against: two protocols; the directory is where protocol deadlocks hide.
 3. *A flat directory.* One home place per line and a bit-vector of sharers. For: simplest to reason about; scales to 64. Against: two hops for the common case, which is more than a four-core machine needs.
 4. *No coherence between clusters; explicit cache operations.* For: cheapest to scale. Against: every missing flush is a race that reproduces once a week; it weakens sequential consistency to "within a cluster".
-5. *Dedicated cores as non-coherent partners of coherent general cores.* The graphics, network and audio cores use uncached rings and `FENCE`, as a DMA device does. For: the coherent count stays at the general cores. Against: the data of a partner is not coherent with the kernel's buffers without a copy or a flush; it depends on the dedicated cores of 7.8.6, whose details are pending (J.7.5).
+5. *Dedicated cores as non-coherent partners of coherent general cores.* The graphics, network and audio cores use uncached rings and `FENCE`, as a DMA device does. For: the coherent count stays at the general cores. Against: the data of a partner is not coherent with the kernel's buffers without a copy or a flush; it depends on the dedicated cores of 7.11.6, whose details are pending (J.7.5).
 
 **Precedents.** PDP-11/70 caches were kept coherent by write-through and invalidation on DMA writes *(unverified: from memory)*. Bus-snooping multiprocessors (Sequent, Sun Enterprise) stopped near 16 to 64 processors *(unverified)*; directory machines (Stanford DASH, SGI Origin) scale by messaging the sharers *(unverified)*; x86 uses snoop filters inside a die and directories across sockets; ARM's coherent interconnects use filters or directories *(unverified)*.
 
@@ -42,12 +42,12 @@
 
 **The assistant's leaning.** Option 2 as the direction, built in two steps: one cluster of four cores first, with the shared cache designed so a directory can be added; the architecture text says "coherent, sequentially consistent, line size 64 bytes" and nothing of the protocol, so more cores are an implementation and not a change.
 
-**Where the body refers to it.** Section 7.7.4.
+**Where the body refers to it.** Section 7.6.4.
 
 <a id="j73"></a>
 ### J.7.3 The operands of the atomic instructions
 
-**Issue.** The atomic words (7.12.1) take three register fields in the grammar (four for `CAS`), with the address in a register and the size in the sub-opcode. The roles of the registers, the size encoding of `CAS` and any displacement are not fixed in the text, and the reference executor does not implement the group. The statement as first written: the operands of the atomic words sit in three register fields (four for `CAS`), the roles are not fixed, and the study leans to fixing three register fields now, with the fourth reserved zero. *(P)*
+**Issue.** The atomic words (7.3.1) take three register fields in the grammar (four for `CAS`), with the address in a register and the size in the sub-opcode. The roles of the registers, the size encoding of `CAS` and any displacement are not fixed in the text. The statement as first written: the operands of the atomic words sit in three register fields (four for `CAS`), the roles are not fixed, and the study leans to fixing three register fields now, with the fourth reserved zero. *(P)*
 
 **Why it matters.** The placement decides how many instructions an atomic costs, how many bytes it takes, and what the lock and reference-count code of the kernel compiles to. `CAS` in the four-field form fills the last four-register slots of the encoding.
 
@@ -65,12 +65,12 @@
 
 **The assistant's leaning.** Option 1 now, with the spare field reserved, and a displacement taken only when the OpenBSD port is compiled and the `LEA` count in front of atomics is measured.
 
-**Where the body refers to it.** Section 7.12.5.
+**Where the body refers to it.** Section 7.4.6.
 
 <a id="j74"></a>
 ### J.7.4 Atomics on uncached memory and on device memory
 
-**Issue.** The read-modify-write atomics are atomic with respect to every initiator, cores and devices alike (7.3.3, 7.12.3). That is easy on cached memory, where the cache line is held exclusively. On a page of uncached memory or a device page the access goes to the bus, and a PCI Express transaction has atomic operations (`AtomicOp`) only on devices that choose to implement them. The mapping of the machine's atomics onto the bus is therefore not stated.
+**Issue.** The read-modify-write atomics are atomic with respect to every initiator, cores and devices alike (7.4.3). That is easy on cached memory, where the cache line is held exclusively. On a page of uncached memory or a device page the access goes to the bus, and a PCI Express transaction has atomic operations (`AtomicOp`) only on devices that choose to implement them. The mapping of the machine's atomics onto the bus is therefore not stated.
 
 **Why it matters.** The rings of every virtio device and the locks of dedicated cores sit in memory that may be uncached; a program that issues `CAS` on such a word needs either a defined result or a defined fault. The software cannot be silent about it, and a silent non-atomic update is the worst outcome.
 
@@ -87,12 +87,12 @@
 
 **The assistant's leaning.** Option 1 for device pages and option 2 or an abort for uncached normal memory, decided with the transport of the bus (errata 80); a fault that is easy to detect is better than a silent non-atomic update.
 
-**Where the body refers to it.** Section 7.3.5.
+**Where the body refers to it.** Section 7.4.5.
 
 <a id="j75"></a>
 ### J.7.5 The dedicated cores: how many, how they share memory, what they run
 
-**Issue.** The author decided (errata 76: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing", and "one core for audio processing, doing midi, dsp, etc.") that the machine has dedicated cores for graphics, network and audio besides the general cores (7.8.6). Not worked out: whether the first device has them or only the general cores (it has four cores in all, 7.7.3), how a dedicated core shares memory with the others, what runs the TCP/IP stack, how many cores in total, and the IOMMU domain of each.
+**Issue.** The author decided (errata 76: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing", and "one core for audio processing, doing midi, dsp, etc.") that the machine has dedicated cores for graphics, network and audio besides the general cores (7.11.6). Not worked out: whether the first device has them or only the general cores (it has four cores in all, 7.6.3), how a dedicated core shares memory with the others, what runs the TCP/IP stack, how many cores in total, and the IOMMU domain of each.
 
 **Why it matters.** Four cores in all leave one general core if three are dedicated; the coherence of J.7.2, the interrupt delivery of J.6.3 (a dedicated core can poll its virtio queues instead) and the secure core's isolation all depend on the answer.
 
@@ -109,4 +109,26 @@
 
 **The assistant's leaning.** Option 3, with option 2 for the first device if the FPGA cannot hold more than four cores.
 
-**Where the body refers to it.** Sections 3.8.2 and 7.8.6.
+**Where the body refers to it.** Sections 3.8.2 and 7.11.6.
+
+<a id="j76"></a>
+### J.7.6 The reservation granule and how software learns its size
+
+**Issue.** `LL` reserves a granule: a naturally aligned piece of memory of a size the implementation chooses, not smaller than 8 bytes (errata 45; 7.4.1). The text leaves the size to the implementation and says that a feature register is to report it (errata 45 lists "granule discovery in the feature registers" as still to write). Nothing says which register, nor what software may assume before it reads it. The size matters to software because two lock words in one granule make an `SC` fail whenever the neighbour is written (false sharing of the reservation), and because a constrained `LL`/`SC` sequence (7.4.2) must not touch the granule between the two instructions.
+
+**Why it matters.** The kernel lays out its lock words and per-CPU structures with the granule in mind (padding a hot lock to a granule costs memory and saves failed `SC`s). The compiler's `LL`/`SC` loops and the C library's allocator need a safe assumption before any feature register is read. The cache controller's reservation tag, one per core, is sized by it.
+
+**Options.**
+
+1. *The granule is the cache line, fixed by the architecture.* One number for every implementation (the line size is itself open, J.7.2). For: software needs no discovery; one rule for locks and for padding. Against: an implementation with another line size cannot conform; it fixes the line size as a side effect.
+2. *An implementation choice, reported in a feature register, with a stated minimum of 8 bytes.* This is the text as it stands. For: the implementation is free. Against: portable code must read the register or assume 8 bytes, the worst case for padding.
+3. *An implementation choice between 8 bytes and a stated maximum, for example 128 bytes, reported in a register.* For: software can pad to the maximum with no register read; the implementation keeps a range. Against: a maximum is another number to commit to.
+4. *A reservation on the exact word, held in a monitor at the memory controller.* For: no false sharing, whatever the lines are. Against: a monitor with an address comparator for every core, and a rule for cached lines that move between cores while a reservation is held.
+
+**Precedents.** RISC-V lets the implementation choose the size of the reservation set and requires no minimum beyond the word *(unverified: from memory of the specification)*. Arm exposes the exclusives reservation granule size in a system register and gives a range of 8 bytes to 2 KB *(unverified)*. x86's `lock` prefix works on a cache line and has no granule to report *(unverified)*.
+
+**The author's referents.** None named; the spec is the author's (errata 45: "a naturally aligned granule of the implementation's choice (not smaller than 8 bytes)").
+
+**The assistant's leaning.** Option 3, with the maximum equal to the line size once J.7.2 fixes it.
+
+**Where the body refers to it.** Section 7.4.6.

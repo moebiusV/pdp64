@@ -114,9 +114,9 @@ start_secondary_cores():                      # core 0, in the kernel, after its
 
 secondary_entry():                            # core c: kernel mode, priority 7; r0 = c, r1 = percpu[c]
     set VBR and the page-table base to the kernel's, turn translation on, ISYNC    # chapter 6 (6.12)
-    set the per-CPU pointer DP from r1; set R14 = percpu.stack top                 # chapter 7 (7.4.2)
+    set the per-CPU pointer DP from r1; set R14 = percpu.stack top                 # chapter 7 (7.8.2)
     percpu.online = 1                         # core 0 is polling this word
-    enable the clock; enter the scheduler's idle loop (WFE until there is work)    # chapter 6, 7.6
+    enable the clock; enter the scheduler's idle loop (WFE until there is work)    # chapter 6, 7.10
 ```
 
 ![Starting the other cores](figures/boot-smp-timeline.svg)
@@ -127,7 +127,7 @@ The cost is one register block in the controller, with a start register and a re
 
 **4.7.2** (moved from chapter 4) A stuck core is reset by a write to a core-reset register. *(P)*
 
-*Other chapters.* This is option 1 of boot decision B2 and of R2 in `decisions-pending.md`, which recommend it and leave it proposed (the other options were the x86 signals, a firmware call, a spin table and a table that all cores start from). Chapter 7 states the same rule as 7.8.1 and loads `r0` only, where 4.7.1 loads `r1` too; the difference is to settle (4.13). Waiting uses `WFE` and `SEV` (7.6); an **inter-processor interrupt**, a signal from one core to another, is a write to a per-core register of the interrupt controller (7.8.2).
+*Other chapters.* This is option 1 of boot decision B2 and of R2 in `decisions-pending.md`, which recommend it and leave it proposed (the other options were the x86 signals, a firmware call, a spin table and a table that all cores start from). Chapter 7 stated the same rule (H.7, 7.8.1) and loaded `r0` only, where 4.7.1 loads `r1` too; the difference is to settle (4.13). Waiting uses `WFE` and `SEV` (7.10); an **inter-processor interrupt**, a signal from one core to another, is a write to a per-core register of the interrupt controller (H.7, 7.8.2).
 
 *Commentary.* **Chain.** PDP-11: one processor, nothing to start. VAX: the console processor started the others (unverified). x86: INIT and START-UP signals and a trampoline through three modes. arm64 and RISC-V: a firmware call or a spin loop. pdp64: a register write. **Trade-offs.** With no mode ladder the whole protocol is one write, at the cost of a small register block in the controller. **Benefits.** No trampoline, no firmware call, fewer lines than any system counted, and one recovery path, a core reset. **Impact.** *Kernel:* starting a core is a register write. *Compiler:* none. *Hardware:* a start register and a reset hold per core.
 

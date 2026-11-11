@@ -877,7 +877,7 @@
 
 **Issue.** How does a device's interrupt reach one of the cores, how many vectors are there, how are they numbered and prioritised, and how is an interrupt moved from one core to another? The old bus made this trivial: each slot had a number and the vector came from it. PCI Express devices have no slot in that sense, and the author retired slot-derived vectors (errata 29, 49 and 75). The PCI Express answer is **MSI-X** (message-signalled interrupts: the device performs an ordinary memory write whose address and data say which core and which vector, and the write itself is the interrupt, with no wire). Every virtio device carries one MSI-X vector for a change of its configuration and one for each queue (2.6 and 2.7.4). What is missing is the unit on the processor side that receives the write and turns it into "core N takes vector V at level L". A second fact bounds the answer: the vector table has 512 entries, entries 32 to 255 are available to interrupts, 256 to 511 are `TRAP #n`, so only 224 vector numbers (32 to 255) can be used by interrupts.
 
-**Why it matters.** OpenBSD needs an interrupt-controller driver and a number of vectors. Linux's complaint, on x86, is that 256 vectors per core are shared by every device class; a device with many queues (a network card, an NVMe disk) wants one vector per queue per core. In hardware, the controller needs per-core pending state, a path to receive writes and perhaps a remapping table; the rule that an interrupt entry sets priority 7 (errata 40) and the wake-up of `WFE` (7.6.2) must agree with it. The interrupt write must not overtake the data writes before it, and a moved target must be masked and read back or changed atomically (errata 71). Statements 2.6.3, 5.9, 7.8.2 and 7.8.3 and the vector table of 6.3.6 wait on the answer; the eight priority levels (6.3.7) are decided.
+**Why it matters.** OpenBSD needs an interrupt-controller driver and a number of vectors. Linux's complaint, on x86, is that 256 vectors per core are shared by every device class; a device with many queues (a network card, an NVMe disk) wants one vector per queue per core. In hardware, the controller needs per-core pending state, a path to receive writes and perhaps a remapping table; the rule that an interrupt entry sets priority 7 (errata 40) and the wake-up of `WFE` (7.10.2) must agree with it. The interrupt write must not overtake the data writes before it, and a moved target must be masked and read back or changed atomically (errata 71). Statements 2.6.3, 5.9, 7.10.4 and 7.10.5 and the vector table of 6.3.6 wait on the answer; the eight priority levels (6.3.7) are decided.
 
 **Options.**
 
@@ -894,7 +894,7 @@
 
 **The assistant's leaning.** Option 2 as the end state, in two steps: option 1 in the first iteration, since a four-core machine with virtio devices gains little from remapping, and the remapping table before sixteen cores or untrusted devices. For the numbering, the file's vector number is 8 bits and is delivered in `ECAUSE` at a fixed offset (entry 32 + *n* for *n* from 0 to 223, entries 224 to 255 of the file unused), or the `TRAP` range moves; the author has not yet been shown the 224-entry fact and should decide this. The fixed devices (timer and UART, J.5.1) enter through a small wired-to-message converter, as RISC-V's APLIC does. A first iteration that never exceeds a dozen vectors would favour option 6 as a stand-in; a wish for ARM-compatible software favours option 3; a finding by the OpenBSD port that a per-core threshold register is needed would add an IMSIC-style threshold to option 1.
 
-**Where the body refers to it.** Sections 2.6.1, 5.9.1, 5.9.4, 6.3.7, 7.8.1 and 7.8.2.
+**Where the body refers to it.** Sections 2.6.1, 5.9.1, 5.9.4, 6.3.7, 7.10.4 and 7.10.5.
 
 
 <a id="j64"></a>
@@ -1123,14 +1123,14 @@
 <a id="j71"></a>
 ### J.7.1 The wake rule of WFE and the idle loop
 
-**Issue.** `WFE` (wait for event) puts a core to sleep until another core executes `SEV` (send event) or an interrupt arrives (7.6.1). The idle loop of a kernel checks the run queue and then sleeps; if an interrupt arrives between the check and the sleep, it queues work, returns, and the core sleeps with work waiting (a *lost wake-up*, an event that arrives in the gap between the test and the sleep and is never seen). The PDP-11's V7 kernel had the same gap and a clock tick repaired it within one tick. A core that takes no periodic tick has no repair. The question is what ends a `WFE` sleep, and (the decided answer for a masked interrupt is in the statement below). The author decided (2026-10-22: "Yes, wake on pending") that `WFE` ends its sleep when an interrupt is pending even if the priority masks it, so that the idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap (7.6.2). What is open is the rest of the wake rule: whether `SEV` is sticky for one wait, and whether other events also end the sleep (options 2 to 5).
+**Issue.** `WFE` (wait for event) puts a core to sleep until another core executes `SEV` (send event) or an interrupt arrives (7.10.1). The idle loop of a kernel checks the run queue and then sleeps; if an interrupt arrives between the check and the sleep, it queues work, returns, and the core sleeps with work waiting (a *lost wake-up*, an event that arrives in the gap between the test and the sleep and is never seen). The PDP-11's V7 kernel had the same gap and a clock tick repaired it within one tick. A core that takes no periodic tick has no repair. The question is what ends a `WFE` sleep. The author decided (2026-10-22: "Yes, wake on pending") that `WFE` ends its sleep when an interrupt is pending even if the priority masks it, so that the idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap (7.10.2). What is open is the rest of the wake rule: whether `SEV` is sticky for one wait, and whether other events also end the sleep (options 2 to 5).
 
 **Why it matters.** The idle loop of every kernel, and the port's `cpu_idle_cycle`, depend on it. A lock waiter that could sleep instead of spinning would save memory bandwidth on 16 cores, and the answer decides whether an unlock must execute `SEV`. A wrong rule is a hang that occurs once a week.
 
 **Options.**
 
 1. *The decided rule alone, with `SEV` sticky for one wait.* The loop is `SPL #7`, test, `WFE`, `SPL #0`. For: closes the gap with no new instruction; two rules in the core. Against: none beyond the decided rule: a core wakes for an interrupt it will not take until the level drops (it then takes it, as intended).
-2. *Option 1, and `WFE` also ends when the reservation of a preceding `LL` is lost.* A spin wait becomes `LL r, lock; test; WFE`; the holder's ordinary release store wakes the waiter, and the unlocker executes no `SEV`. For: unlock stays one store; a waiter costs no bus bandwidth. Against: the reservation must stay armed while the core sleeps; a spurious wake is allowed, so the loop re-reads; the reservation rules (7.3.1) must say that the reservation survives the sleep.
+2. *Option 1, and `WFE` also ends when the reservation of a preceding `LL` is lost.* A spin wait becomes `LL r, lock; test; WFE`; the holder's ordinary release store wakes the waiter, and the unlocker executes no `SEV`. For: unlock stays one store; a waiter costs no bus bandwidth. Against: the reservation must stay armed while the core sleeps; a spurious wake is allowed, so the loop re-reads; the reservation rules (7.4.1) must say that the reservation survives the sleep.
 3. *`WFE` takes a priority operand.* One instruction lowers the level and sleeps. For: no `SPL` around it. Against: a new operand form to encode; no gain where the loop is already two instructions.
 4. *A timeout form with a deadline.* For: a waiter cannot sleep forever if the wake source breaks; the secure core's bounded waits. Against: an operand; a deadline needs the timer.
 5. *No `WFE`; poll with the `HINT` pause.* For: nothing to specify. Against: burns power and bandwidth, and on an FPGA a spinning core takes the memory bandwidth the other cores want.
@@ -1141,12 +1141,12 @@
 
 **The assistant's leaning.** Option 2, which contains option 1: a lock waiter sleeps without an `SEV`.
 
-**Where the body refers to it.** Sections 6.11 and 7.6.2.
+**Where the body refers to it.** Sections 6.11 and 7.10.2.
 
 <a id="j72"></a>
 ### J.7.2 Coherence beyond four cores
 
-**Issue.** The first device has four cores that snoop (every cache watches the others' writes) with three states, modified, shared and invalid (7.7.1), and the architecture supports at least four cores, with sixteen or more as the preferred ceiling (7.7.3, errata 92). The protocol that serves more than four coherent cores has not been chosen. The architecture promises that memory is coherent and sequentially consistent (7.2.1) and says nothing of the protocol. The statement as first written: the protocol for more than four coherent cores is open; the leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters, with dedicated cores as non-coherent partners that use uncached rings. *(P)*
+**Issue.** The first device has four cores that snoop (every cache watches the others' writes) with three states, modified, shared and invalid (7.6.1), and the architecture supports at least four cores, with sixteen or more as the preferred ceiling (7.6.3, errata 92). The protocol that serves more than four coherent cores has not been chosen. The architecture promises that memory is coherent and sequentially consistent (7.5.1) and says nothing of the protocol. The statement as first written: the protocol for more than four coherent cores is open; the leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters, with dedicated cores as non-coherent partners that use uncached rings. *(P)*
 
 **Why it matters.** The number of general cores sets the size of the cache controller, the FPGA that can hold the design (about 16,000 look-up tables for a core before coherence, by a paper estimate at plus or minus 40 percent; four cores fit a Kria-class board and none of the planned boards holds sixteen), and what the kernel's scheduler sees as a group. Also the line size (64 bytes), the reservation granule and the invalidate granularity hang from it.
 
@@ -1156,7 +1156,7 @@
 2. *MESI within clusters of up to four cores, a snoop filter at a shared second-level cache, and a directory between clusters.* MESI adds an exclusive state, so a write to a clean line that nobody else holds needs no bus transaction. For: four cores are one cluster and nothing is wasted; the ceiling is reached by adding the inter-cluster layer. Against: two protocols; the directory is where protocol deadlocks hide.
 3. *A flat directory.* One home place per line and a bit-vector of sharers. For: simplest to reason about; scales to 64. Against: two hops for the common case, which is more than a four-core machine needs.
 4. *No coherence between clusters; explicit cache operations.* For: cheapest to scale. Against: every missing flush is a race that reproduces once a week; it weakens sequential consistency to "within a cluster".
-5. *Dedicated cores as non-coherent partners of coherent general cores.* The graphics, network and audio cores use uncached rings and `FENCE`, as a DMA device does. For: the coherent count stays at the general cores. Against: the data of a partner is not coherent with the kernel's buffers without a copy or a flush; it depends on the dedicated cores of 7.8.6, whose details are pending (J.7.5).
+5. *Dedicated cores as non-coherent partners of coherent general cores.* The graphics, network and audio cores use uncached rings and `FENCE`, as a DMA device does. For: the coherent count stays at the general cores. Against: the data of a partner is not coherent with the kernel's buffers without a copy or a flush; it depends on the dedicated cores of 7.11.6, whose details are pending (J.7.5).
 
 **Precedents.** PDP-11/70 caches were kept coherent by write-through and invalidation on DMA writes *(unverified: from memory)*. Bus-snooping multiprocessors (Sequent, Sun Enterprise) stopped near 16 to 64 processors *(unverified)*; directory machines (Stanford DASH, SGI Origin) scale by messaging the sharers *(unverified)*; x86 uses snoop filters inside a die and directories across sockets; ARM's coherent interconnects use filters or directories *(unverified)*.
 
@@ -1164,12 +1164,12 @@
 
 **The assistant's leaning.** Option 2 as the direction, built in two steps: one cluster of four cores first, with the shared cache designed so a directory can be added; the architecture text says "coherent, sequentially consistent, line size 64 bytes" and nothing of the protocol, so more cores are an implementation and not a change.
 
-**Where the body refers to it.** Section 7.7.4.
+**Where the body refers to it.** Section 7.6.4.
 
 <a id="j73"></a>
 ### J.7.3 The operands of the atomic instructions
 
-**Issue.** The atomic words (7.12.1) take three register fields in the grammar (four for `CAS`), with the address in a register and the size in the sub-opcode. The roles of the registers, the size encoding of `CAS` and any displacement are not fixed in the text, and the reference executor does not implement the group. The statement as first written: the operands of the atomic words sit in three register fields (four for `CAS`), the roles are not fixed, and the study leans to fixing three register fields now, with the fourth reserved zero. *(P)*
+**Issue.** The atomic words (7.3.1) take three register fields in the grammar (four for `CAS`), with the address in a register and the size in the sub-opcode. The roles of the registers, the size encoding of `CAS` and any displacement are not fixed in the text. The statement as first written: the operands of the atomic words sit in three register fields (four for `CAS`), the roles are not fixed, and the study leans to fixing three register fields now, with the fourth reserved zero. *(P)*
 
 **Why it matters.** The placement decides how many instructions an atomic costs, how many bytes it takes, and what the lock and reference-count code of the kernel compiles to. `CAS` in the four-field form fills the last four-register slots of the encoding.
 
@@ -1187,12 +1187,12 @@
 
 **The assistant's leaning.** Option 1 now, with the spare field reserved, and a displacement taken only when the OpenBSD port is compiled and the `LEA` count in front of atomics is measured.
 
-**Where the body refers to it.** Section 7.12.5.
+**Where the body refers to it.** Section 7.4.6.
 
 <a id="j74"></a>
 ### J.7.4 Atomics on uncached memory and on device memory
 
-**Issue.** The read-modify-write atomics are atomic with respect to every initiator, cores and devices alike (7.3.3, 7.12.3). That is easy on cached memory, where the cache line is held exclusively. On a page of uncached memory or a device page the access goes to the bus, and a PCI Express transaction has atomic operations (`AtomicOp`) only on devices that choose to implement them. The mapping of the machine's atomics onto the bus is therefore not stated.
+**Issue.** The read-modify-write atomics are atomic with respect to every initiator, cores and devices alike (7.4.3). That is easy on cached memory, where the cache line is held exclusively. On a page of uncached memory or a device page the access goes to the bus, and a PCI Express transaction has atomic operations (`AtomicOp`) only on devices that choose to implement them. The mapping of the machine's atomics onto the bus is therefore not stated.
 
 **Why it matters.** The rings of every virtio device and the locks of dedicated cores sit in memory that may be uncached; a program that issues `CAS` on such a word needs either a defined result or a defined fault. The software cannot be silent about it, and a silent non-atomic update is the worst outcome.
 
@@ -1209,12 +1209,12 @@
 
 **The assistant's leaning.** Option 1 for device pages and option 2 or an abort for uncached normal memory, decided with the transport of the bus (errata 80); a fault that is easy to detect is better than a silent non-atomic update.
 
-**Where the body refers to it.** Section 7.3.5.
+**Where the body refers to it.** Section 7.4.5.
 
 <a id="j75"></a>
 ### J.7.5 The dedicated cores: how many, how they share memory, what they run
 
-**Issue.** The author decided (errata 76: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing", and "one core for audio processing, doing midi, dsp, etc.") that the machine has dedicated cores for graphics, network and audio besides the general cores (7.8.6). Not worked out: whether the first device has them or only the general cores (it has four cores in all, 7.7.3), how a dedicated core shares memory with the others, what runs the TCP/IP stack, how many cores in total, and the IOMMU domain of each.
+**Issue.** The author decided (errata 76: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing", and "one core for audio processing, doing midi, dsp, etc.") that the machine has dedicated cores for graphics, network and audio besides the general cores (7.11.6). Not worked out: whether the first device has them or only the general cores (it has four cores in all, 7.6.3), how a dedicated core shares memory with the others, what runs the TCP/IP stack, how many cores in total, and the IOMMU domain of each.
 
 **Why it matters.** Four cores in all leave one general core if three are dedicated; the coherence of J.7.2, the interrupt delivery of J.6.3 (a dedicated core can poll its virtio queues instead) and the secure core's isolation all depend on the answer.
 
@@ -1231,14 +1231,36 @@
 
 **The assistant's leaning.** Option 3, with option 2 for the first device if the FPGA cannot hold more than four cores.
 
-**Where the body refers to it.** Sections 3.8.2 and 7.8.6.
+**Where the body refers to it.** Sections 3.8.2 and 7.11.6.
+
+<a id="j76"></a>
+### J.7.6 The reservation granule and how software learns its size
+
+**Issue.** `LL` reserves a granule: a naturally aligned piece of memory of a size the implementation chooses, not smaller than 8 bytes (errata 45; 7.4.1). The text leaves the size to the implementation and says that a feature register is to report it (errata 45 lists "granule discovery in the feature registers" as still to write). Nothing says which register, nor what software may assume before it reads it. The size matters to software because two lock words in one granule make an `SC` fail whenever the neighbour is written (false sharing of the reservation), and because a constrained `LL`/`SC` sequence (7.4.2) must not touch the granule between the two instructions.
+
+**Why it matters.** The kernel lays out its lock words and per-CPU structures with the granule in mind (padding a hot lock to a granule costs memory and saves failed `SC`s). The compiler's `LL`/`SC` loops and the C library's allocator need a safe assumption before any feature register is read. The cache controller's reservation tag, one per core, is sized by it.
+
+**Options.**
+
+1. *The granule is the cache line, fixed by the architecture.* One number for every implementation (the line size is itself open, J.7.2). For: software needs no discovery; one rule for locks and for padding. Against: an implementation with another line size cannot conform; it fixes the line size as a side effect.
+2. *An implementation choice, reported in a feature register, with a stated minimum of 8 bytes.* This is the text as it stands. For: the implementation is free. Against: portable code must read the register or assume 8 bytes, the worst case for padding.
+3. *An implementation choice between 8 bytes and a stated maximum, for example 128 bytes, reported in a register.* For: software can pad to the maximum with no register read; the implementation keeps a range. Against: a maximum is another number to commit to.
+4. *A reservation on the exact word, held in a monitor at the memory controller.* For: no false sharing, whatever the lines are. Against: a monitor with an address comparator for every core, and a rule for cached lines that move between cores while a reservation is held.
+
+**Precedents.** RISC-V lets the implementation choose the size of the reservation set and requires no minimum beyond the word *(unverified: from memory of the specification)*. Arm exposes the exclusives reservation granule size in a system register and gives a range of 8 bytes to 2 KB *(unverified)*. x86's `lock` prefix works on a cache line and has no granule to report *(unverified)*.
+
+**The author's referents.** None named; the spec is the author's (errata 45: "a naturally aligned granule of the implementation's choice (not smaller than 8 bytes)").
+
+**The assistant's leaning.** Option 3, with the maximum equal to the line size once J.7.2 fixes it.
+
+**Where the body refers to it.** Section 7.4.6.
 
 ## J.8 Chapter 8: Vector work, AI and array languages: the device route
 
 <a id="j81"></a>
 ### J.8.1 The operations and the number formats of the vector device
 
-**Issue.** The decision (errata 59) is that wide data-parallel work goes to memory-mapped devices driven by descriptors, and that the array languages APL and K map their whole-array primitives onto them. What has not been chosen is the operation set of such a device and the number formats it handles, and how a program finds out. The processor itself has only `binary64`, `binary32` and `binary16` (8.5.1). A neural-network layer wants bfloat16 (a 16-bit format with the exponent range of the 32-bit one), 8-bit integers accumulated in 32 bits, binary weights and 8-bit floating point; an array language wants element-wise arithmetic and comparison, selection, reductions, scans, gather and scatter, compress (`where`) and index generation over integer, floating-point and bit-array types.
+**Issue.** The decision (errata 59; chapter 8, 8.3 and 8.4) is that wide data-parallel work goes to memory-mapped devices driven by descriptors, and that the array languages APL and K map their whole-array primitives onto them. What has not been chosen is the operation set of such a device and the number formats it handles, and how a program finds out. The processor itself has only `binary64`, `binary32` and `binary16` (8.6.1). A neural-network layer wants bfloat16 (a 16-bit format with the exponent range of the 32-bit one), 8-bit integers accumulated in 32 bits, binary weights and 8-bit floating point; an array language wants element-wise arithmetic and comparison, selection, reductions, scans, gather and scatter, compress (`where`) and index generation over integer, floating-point and bit-array types.
 
 **Why it matters.** The operation set decides what an array-language interpreter can hand to the device and what stays on the processor, and so whether the device repays its setup at all. The formats decide whether a model that is published in one of them runs. A library has to choose among devices, so the device must say what it can do.
 
@@ -1256,12 +1278,12 @@
 
 **The assistant's leaning.** Option 3: the formats are descriptor fields and the device names what it does, so the processor's instruction set does not have to change when a format does.
 
-**Where the body refers to it.** Sections 8.4.4 and 8.5.2.
+**Where the body refers to it.** Statements 8.5.5 and 8.6.2.
 
 <a id="j82"></a>
 ### J.8.2 The descriptor of a vector device and the virtio descriptor
 
-**Issue.** Chapter 5 uses virtio queues for the standard devices; a virtio descriptor is 16 bytes and names one buffer (address, length, direction), and descriptors chain. The descriptor that a vector device needs (an operation, several array addresses with lengths and strides, formats, a chain) is larger. The two must be reconciled, or the vector device uses a form of its own.
+**Issue.** Chapter 5 uses virtio queues for the standard devices (5.4.2); a virtio descriptor is 16 bytes and names one buffer (a 64-bit address, a 32-bit length, flags), and descriptors chain with the `NEXT` flag. The descriptor that a vector device needs (an operation, several array addresses with lengths and strides, formats, a chain) is larger. The two must be reconciled, or the vector device uses a form of its own.
 
 **Why it matters.** If a vector device does not fit the virtio queue, it needs a ring engine, a driver skeleton and a protection story of its own, which is the cost that the ring was meant to avoid. Chains (one descriptor following another with no processor in between) are how a layer of a network or a sequence of array primitives is expressed.
 
@@ -1272,18 +1294,18 @@
 3. *Extension descriptors chained after the virtio one.* For: the common case stays 16 bytes. Against: a device must walk the chain to find its operands.
 4. *A ring of its own for vector devices.* For: fits the workload. Against: a second ring engine and a second driver skeleton.
 
-**Precedents.** A chain of descriptors is how DMA engines since the PDP-11's RK11 work *(unverified)*; virtio's indirect descriptors point to a table of further descriptors *(verified in the repository's sources)*; NVMe commands point to lists of data pages *(unverified)*.
+**Precedents.** Rings of descriptors with ownership bits are how the DEUNA Ethernet controller of 4.3BSD worked (`if_de.c`, chapter 5) and how virtio works *(verified in chapter 5)*; the PDP-11's RK11 had no chain, one transfer in the registers at a time (chapter 5, 5.1); virtio's indirect descriptors point to a table of further descriptors *(verified in the repository's sources)*; NVMe commands point to lists of data pages *(unverified)*.
 
 **The author's referents.** None named beyond "descriptors".
 
 **The assistant's leaning.** Option 1, which keeps the one ring.
 
-**Where the body refers to it.** Section 8.1.6.
+**Where the body refers to it.** Statement 8.4.4.
 
 <a id="j83"></a>
 ### J.8.3 Packed integer lanes in the ordinary registers
 
-**Issue.** The processor has no vector register file (8.1.1). A smaller question remains: whether a handful of instructions should treat a 64-bit integer register as packed bytes, halves or words (add, compare, minimum, and select per lane), so that string, memory and hash routines run several lanes at a time without a vector register. The statement as first written: packed-lane operations in the ordinary integer registers are not part of the decision; they remain a possibility to be settled by measurement. *(P)*
+**Issue.** The processor has no vector register file (8.3.1). A smaller question remains: whether a handful of instructions should treat a 64-bit integer register as packed bytes, halves or words (add, compare, minimum, and select per lane), so that string, memory and hash routines run several lanes at a time without a vector register. The statement as first written: packed-lane operations in the ordinary integer registers are not part of the decision; they remain a possibility to be settled by measurement. *(P)*
 
 **Why it matters.** The opcode map has room for few new words; the compiler would need to recognise the loops; and the answer is a measurement that nobody has made. Library routines such as `memchr` and `strlen` gain most from it.
 
@@ -1300,7 +1322,28 @@
 
 **The assistant's leaning.** Decide by measurement: compile the corpus at higher optimisation and count the loops that would be vectorised, measure the share of time in memory and string routines, and estimate the block-RAM cost, before any opcode is spent.
 
-**Where the body refers to it.** Section 8.1.5.
+**Where the body refers to it.** Statement 8.3.4.
+
+<a id="j84"></a>
+### J.8.4 The first accelerator
+
+**Issue.** The decision (8.4) says that wide work goes to accelerator devices and not what the first one is. The author's words give two pointers that do not agree. On 2026-10-20 (R136) he asked what "a gpu ... optimized purely for samsung's littlebit-2 encoding" would look like, which points to a device for one family of binary-weight language models. On 2026-10-23 (R278) he wrote that "if we can plug a regular card into the bus, why not", and on 2026-11-04 (R315) that "for now we will have a standard pcie set of audio/video devices", which points to the standard devices of chapter 5 and no accelerator of the pdp64's own. A first accelerator needs a transport (J.8.2), a set of operations and formats (J.8.1) and a driver.
+
+**Why it matters.** The first accelerator sets the first descriptor format, which every later one will copy. A device that is built for one model family is fast on it and idle on the rest. Until one is chosen, "inference on the device" (8.5.1) has no device.
+
+**Options.**
+
+1. *An inference engine for binary-weight models.* A device that evaluates the layers of one family of models with adders and sign flips and no multipliers, driven by chains of descriptors (H.8, the LB64 design). For: the strongest fit to the workload the author named; small in logic, set by memory bandwidth. Against: one model family, so a change in the field strands it; no help to the array languages.
+2. *A general vector engine.* Element-wise arithmetic, reductions, scans and gather over the integer and floating-point formats (J.8.1, options 1 and 2), driven by descriptors. For: serves the array languages, graphics work and inference. Against: not specialised, so slower than option 1 on the one model; a larger design.
+3. *Both, in that order or the other.* For: each answers one of the author's two uses. Against: two descriptor formats unless J.8.2 settles one.
+4. *A standard PCI Express card, and nothing of the pdp64's own.* The accelerator is whatever card a driver exists for (a GPU or a neural-network engine of the field), reached through the bus of chapter 2. For: no hardware to design; matches "if we can plug a regular card into the bus, why not". Against: such cards have their own command formats, not virtio, so the driver skeleton of chapter 5 does not serve them; the machine's own inference story is a library for someone else's device.
+5. *None until the transport is settled.* For: nothing built on an unsettled descriptor. Against: no accelerator to measure the decision against.
+
+**Precedents.** Attached array processors on PDP-11 hosts (8.1) took library calls and a fixed function list *(unverified here)*; ARM systems attach Ethos and Mali engines as memory-mapped devices *(unverified)*; Google's TPU is a PCI Express card *(unverified)*.
+
+**The author's referents.** "what would a gpu look like that is optimized purely for samsung's littlebit-2 encoding" (R136, thread 533 message 51); "if we can plug a regular card into the bus, why not?" (R278); "for now we will have a standard pcie set of audio/video devices" (R315); "just optimize inference whether in cpu or gpu whatever makes most sense" (R139).
+
+**Where the body refers to it.** Statement 8.4.5.
 
 ## J.9 Chapter 9: The instruction set
 
@@ -1610,7 +1653,7 @@
 <a id="j101"></a>
 ### J.10.1 Which rules keep a faster core from the speculative and timing flaws
 
-**Issue.** The author decided (errata 85; 2026-10-22: "no hammer-row, no spectre, no timing channel attacks") that the architecture does not repeat the flaws of the last decade, and that a secure core has every timing channel removed (10.3.3a). What is not yet chosen is the exact rule set for a future out-of-order core, and the mechanism that makes execution time independent of data.
+**Issue.** The author decided (errata 85; 2026-10-22: "no hammer-row, no spectre, no timing channel attacks") that the architecture does not repeat the flaws of the last decade, and that a secure core has every timing channel removed (10.4.1, 10.4.3). What is not yet chosen is the exact rule set for a future out-of-order core, and the mechanism that makes execution time independent of data.
 
 **Why it matters.** A rule fixed while the specification is being written costs little; one retrofitted after silicon costs a respin.
 
@@ -1619,7 +1662,7 @@
 1. *Rules in the report only.* The rules (for example: no speculation across protection domains; no predictor state shared across a privilege boundary without a flush) stay advice in the hardware-vulnerabilities report. For: nothing to implement now. Against: nothing makes an implementer follow them.
 2. *Rules in the architecture text.* They are stated as requirements of the specification, with a declared set of instructions whose timing is independent of operand values. For: testable. Against: the declared set and a data-independent-timing control (a mode bit or a core class) are not chosen (proposal P17).
 
-**Where the body refers to it.** Section 10.3.3.
+**Where the body refers to it.** Section 10.4.1.
 
 ## J.A Appendix A: Improvements beyond the PDP-11
 

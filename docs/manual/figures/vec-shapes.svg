@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="440" viewBox="0 0 690 440" font-family="DejaVu Sans, sans-serif">
+<text x="20.0" y="16.0" font-size="12" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">c = a + b over 64 numbers: four shapes</text>
+<text x="20.0" y="40.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">1. scalar loop (PDP-11 with the FP11)</text>
+<rect x="20.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="34.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="48.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="62.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="76.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="90.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="104.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="118.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="132.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="146.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="160.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="174.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="188.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="202.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="216.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<rect x="230.0" y="48.0" width="14.0" height="18.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="250.0" y="61.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">... 64 passes: load, add, store, count down; one number each</text>
+<text x="20.0" y="92.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">2. SIMD (MMX, SSE, AltiVec, NEON): one instruction, a fixed number of lanes</text>
+<rect x="20.0" y="100.0" width="112.0" height="22.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="76.0" y="113.8" font-size="8" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif">register of 4 lanes (128 bits)</text>
+<rect x="24.0" y="124.0" width="25.0" height="14.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<rect x="51.0" y="124.0" width="25.0" height="14.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<rect x="78.0" y="124.0" width="25.0" height="14.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<rect x="105.0" y="124.0" width="25.0" height="14.0" fill="#dce9f7" stroke="#222" stroke-width="1.2"/>
+<text x="150.0" y="118.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">64 numbers need 16 such adds, and a different instruction for 8 lanes (AVX) or 16 (AVX-512)</text>
+<text x="150.0" y="132.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">the width is in the instruction, so a wider generation is a new instruction set</text>
+<text x="20.0" y="172.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">3. vector machine (Cray-1, VAX vector facility): one instruction, a length in a register</text>
+<rect x="20.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="28.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="36.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="44.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="52.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="60.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="68.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="76.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="84.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="92.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="100.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="108.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="116.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="124.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="132.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="140.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="148.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="156.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="164.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="172.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="180.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="188.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="196.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="204.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="212.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="220.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="228.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="236.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="244.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="252.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="260.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<rect x="268.0" y="180.0" width="8.0" height="18.0" fill="#f7e3dc" stroke="#222" stroke-width="1.2"/>
+<text x="290.0" y="190.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">a register holds 64 numbers; VL says how many to use</text>
+<text x="290.0" y="203.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">vadd v2, v0, v1 does all 64; a longer array is cut into pieces of 64</text>
+<text x="20.0" y="240.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">4. device: a descriptor in memory names the operation, the arrays and the length</text>
+<rect x="20.0" y="250.0" width="150.0" height="56.0" fill="#fbf2cf" stroke="#222" stroke-width="1.2"/>
+<text x="28.0" y="266.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">op: add</text>
+<text x="28.0" y="278.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">a, b, c: addresses</text>
+<text x="28.0" y="290.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">n = 64 (or 64 million)</text>
+<text x="28.0" y="302.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">status: 0</text>
+<rect x="210.0" y="250.0" width="110.0" height="56.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="265.0" y="277.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">device</text>
+<text x="265.0" y="289.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">reads a and b, writes c</text>
+<path d="M170.0,278.0 L210.0,278.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="210.0,278.0 202.0,281.6 202.0,274.4" fill="#222"/>
+<text x="340.0" y="268.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">no register file in the processor; the length is a field,</text>
+<text x="340.0" y="282.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">so one descriptor serves any size (8.5.4)</text>
+<text x="340.0" y="296.0" font-size="9" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif">the price: a descriptor to build and a status to wait for</text>
+<text x="20.0" y="340.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The descriptor drawn is an illustration; its format is open (8.4.4).</text>
+<text x="20.0" y="354.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Machines 1 and 2 as described in 8.1 and 8.2: the V7 sources and the Linux headers were read, the rest is unverified.</text>
+</svg>

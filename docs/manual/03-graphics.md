@@ -172,7 +172,7 @@ The chain so far: the PDP-11 sent characters down a wire (3.1); the VT52 and VT1
 
 **3.8.1** The graphics terminal is based on two machines, not one: the **Commodore 64**, for text, graphics, sprites and sound together under simple stores to memory, and the **Blit terminal** (Rob Pike's bit-mapped windowing terminal), for its framebuffer in the address space and the bit-block-transfer operation that moves rectangles of pixels. The pdp64 modernises and extends both (errata 66). *(D)*
 
-**3.8.2** One core is dedicated to the graphics device, the Blit's model of a terminal with a processor of its own (errata 76, the author's recommendation; the core classes are in chapter 7, 7.8.6). *(D)* Details pending ([J.7.5](appendix-j-open.md#j75)).
+**3.8.2** One core is dedicated to the graphics device, the Blit's model of a terminal with a processor of its own (errata 76, the author's recommendation; the core classes are in chapter 7, 7.11.6). *(D)* Details pending ([J.7.5](appendix-j-open.md#j75)).
 
 ## 3.9 The form of the terminal
 

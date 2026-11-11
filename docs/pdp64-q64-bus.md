@@ -61,7 +61,7 @@ The processor is an initiator. A device is a target (its registers) and, if it m
 
 ## 8. Atomics: settled
 
-The Unibus `DATIP`/`DATO` locked read-modify-write is a lock; the exclusive access of the FPGA memory fabric is a monitor. The question of which the architecture uses was settled: the atomics are defined on a **monitor** (a reservation that a write by any initiator clears), and the locked pair is not architectural (errata 45; manual 2.10 and 7.3). A device that writes memory shared with a core takes part by clearing reservations. What remains is the behaviour on uncached and device memory (J.7.4).
+The Unibus `DATIP`/`DATO` locked read-modify-write is a lock; the exclusive access of the FPGA memory fabric is a monitor. The question of which the architecture uses was settled: the atomics are defined on a **monitor** (a reservation that a write by any initiator clears), and the locked pair is not architectural (errata 45; manual 2.10 and 7.4). A device that writes memory shared with a core takes part by clearing reservations. What remains is the behaviour on uncached and device memory (J.7.4).
 
 ## 9. The device convention
 
@@ -71,7 +71,7 @@ The Unibus `DATIP`/`DATO` locked read-modify-write is a lock; the exclusive acce
 
 ## 10. Interrupts and the other cores
 
-*Decided* (manual 2.6): a device interrupts by a message-signalled write (MSI-X); the details (delivery to a core, vector count and numbering, moving an interrupt between cores) are pending (J.6.3). An inter-processor interrupt exists as a need (manual 7.8.1). *Open*: how a device interrupt and an inter-processor interrupt reach a core, the per-core registers and the boot protocol for secondary cores (J.6.3, J.4.6).
+*Decided* (manual 2.6): a device interrupts by a message-signalled write (MSI-X); the details (delivery to a core, vector count and numbering, moving an interrupt between cores) are pending (J.6.3). An inter-processor interrupt exists as a need (manual 7.10.4). *Open*: how a device interrupt and an inter-processor interrupt reach a core, the per-core registers and the boot protocol for secondary cores (J.6.3, J.4.6).
 
 ## 11. What it costs
 

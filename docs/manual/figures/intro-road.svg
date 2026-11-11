@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="380" viewBox="0 0 690 380" font-family="DejaVu Sans, sans-serif">
+<text x="345.0" y="16.0" font-size="12" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">the road from the PDP-11: each step and what it gave</text>
+<text x="20.0" y="38.0" font-size="10.5" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">the processor</text>
+<rect x="20.0" y="44.0" width="150.0" height="56.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="95.0" y="71.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">PDP-11</text>
+<text x="95.0" y="83.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">orthogonal modes, PC, SP</text>
+<path d="M170.0,72.0 L193.0,72.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="193.0,72.0 185.0,75.6 185.0,68.4" fill="#222"/>
+<rect x="193.0" y="44.0" width="150.0" height="56.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="268.0" y="71.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">VAX-11</text>
+<text x="268.0" y="83.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">32 bits, virtual memory</text>
+<path d="M343.0,72.0 L366.0,72.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="366.0,72.0 358.0,75.6 358.0,68.4" fill="#222"/>
+<rect x="366.0" y="44.0" width="150.0" height="56.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="441.0" y="71.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">68000, x86, RISC</text>
+<text x="441.0" y="83.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">restart and encoding lessons</text>
+<path d="M516.0,72.0 L539.0,72.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="539.0,72.0 531.0,75.6 531.0,68.4" fill="#222"/>
+<rect x="539.0" y="44.0" width="150.0" height="56.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="614.0" y="71.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">pdp64</text>
+<text x="614.0" y="83.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">64 bits, 32 registers, restartable</text>
+<text x="20.0" y="150.0" font-size="10.5" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">the bus</text>
+<rect x="20.0" y="156.0" width="150.0" height="56.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="95.0" y="183.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">Unibus</text>
+<text x="95.0" y="195.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">devices are memory, CSR, DMA</text>
+<path d="M170.0,184.0 L193.0,184.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="193.0,184.0 185.0,187.6 185.0,180.4" fill="#222"/>
+<rect x="193.0" y="156.0" width="150.0" height="56.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="268.0" y="183.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">VAX nexus</text>
+<text x="268.0" y="195.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">devices found by scanning</text>
+<path d="M343.0,184.0 L366.0,184.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="366.0,184.0 358.0,187.6 358.0,180.4" fill="#222"/>
+<rect x="366.0" y="156.0" width="150.0" height="56.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="441.0" y="183.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">PCI</text>
+<text x="441.0" y="195.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">devices describe themselves</text>
+<path d="M516.0,184.0 L539.0,184.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="539.0,184.0 531.0,187.6 531.0,180.4" fill="#222"/>
+<rect x="539.0" y="156.0" width="150.0" height="56.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="614.0" y="183.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">PCI Express + virtio</text>
+<text x="614.0" y="195.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">one transport for every device</text>
+<text x="20.0" y="262.0" font-size="10.5" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">the terminal</text>
+<rect x="20.0" y="268.0" width="150.0" height="56.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>
+<text x="95.0" y="295.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">teletype</text>
+<text x="95.0" y="307.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">a stream of characters</text>
+<path d="M170.0,296.0 L193.0,296.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="193.0,296.0 185.0,299.6 185.0,292.4" fill="#222"/>
+<rect x="193.0" y="268.0" width="150.0" height="56.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="268.0" y="295.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">VT52</text>
+<text x="268.0" y="307.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">a screen addressed by position</text>
+<path d="M343.0,296.0 L366.0,296.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="366.0,296.0 358.0,299.6 358.0,292.4" fill="#222"/>
+<rect x="366.0" y="268.0" width="150.0" height="56.0" fill="#f4f4f4" stroke="#222" stroke-width="1.2"/>
+<text x="441.0" y="295.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">Blit, C64</text>
+<text x="441.0" y="307.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">text, sprites, sound by stores</text>
+<path d="M516.0,296.0 L539.0,296.0" fill="none" stroke="#222" stroke-width="1.4"/>
+<polygon points="539.0,296.0 531.0,299.6 531.0,292.4" fill="#222"/>
+<rect x="539.0" y="268.0" width="150.0" height="56.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
+<text x="614.0" y="295.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">virtio-gpu + HDMI</text>
+<text x="614.0" y="307.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">the same, modern depth</text>
+<text x="20.0" y="364.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Chapters: processor 9 and 6; bus 2 and 5; terminal 3.  Steps between are named in the chapters; the author's dated record is appendix G.</text>
+</svg>

@@ -1572,7 +1572,7 @@ Found 2026-10-24 by reading `c64stuff.txt` (the author's exported chats) against
 
 ### E9. The ranking of principles in ISA section 1 (decided 2026-11-03)
 
-**Decided (the author, errata 83).** The definitive priority list replaces the r20 ranking in ISA section 1, the README, manual 1.4 and Part 0.
+**Decided (the author, errata 83).** The definitive priority list replaces the r20 ranking in ISA section 1, the README, manual 1.6 and Part 0.
 
 ### E10. The three compare-and-branch opcodes against the "rare ones are bigger" rule
 
@@ -1626,9 +1626,9 @@ Errata 75 (2026-11-03) moves Q64 onto PCI Express, NVMe and USB and makes the C6
 
 **The dedicated-core proposal (errata 76).** One core for graphics, one for the network running the full TCP/IP stack, one for audio (MIDI, DSP), the rest general. Questions it raises:
 
-* **F16. Iteration one or two?** Lean: reserve it in iteration one (the core-class register exists, 7.8.3) and use it as a *policy*: pin the network card's MSI-X queue and the graphics driver to a core by affinity. The separate stack and the separate address space come in iteration two.
+* **F16. Iteration one or two?** Lean: reserve it in iteration one (the core-class register exists, 7.11.1) and use it as a *policy*: pin the network card's MSI-X queue and the graphics driver to a core by affinity. The separate stack and the separate address space come in iteration two.
 * **F17. What runs the stack?** Lean: OpenBSD's own stack as a service on the network core, reached through shared rings, rather than writing a stack. OpenBSD keeps its stack in the kernel, so splitting it out is a port task of its own; affinity (F16) captures most of the benefit without it.
-* **F18. How do the dedicated cores share memory?** The coherence ceiling is two to four snooping cores (7.7.1, ISA open item 12). Lean: the general cores stay coherent with each other; the graphics, network and audio cores are message-passing partners using uncached rings and `FENCE`, the same rule as a DMA device (7.7.2). That keeps "a bunch of general cores" below the ceiling or lets them grow past it separately.
+* **F18. How do the dedicated cores share memory?** The coherence ceiling is two to four snooping cores (7.6.1, ISA open item 12). Lean: the general cores stay coherent with each other; the graphics, network and audio cores are message-passing partners using uncached rings and `FENCE`, the same rule as a DMA device (7.6.2). That keeps "a bunch of general cores" below the ceiling or lets them grow past it separately.
 * **F19. How many cores in iteration one?** A complete core is about 16,000 lookup tables (10.1.2, ±40%); the DE10-Nano fits a few. Lean: two or three general cores plus the three dedicated ones on a larger part; one general plus affinity on the DE10-Nano.
 * **F21. What does the audio core need?** MIDI arrives over USB (the USB MIDI class) and DSP wants a multiply-accumulate loop with a hard deadline per sample block. Lean: the same ISA, no new instructions at first; measure the loop on the 64-bit multiplier and the fused multiply-add before adding a DSP instruction. It is also the natural home for mixing SID-style voices into the 48-bit path in iteration two.
 * **F20. Isolation.** Lean: each dedicated core is its own IOMMU domain and address space, so a network-stack compromise cannot reach the kernel's memory; this is the security argument for the split.

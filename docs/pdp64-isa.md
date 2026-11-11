@@ -492,7 +492,7 @@ The system group holds the privileged and system instructions (manual 9.14): `RT
 
 **`PUSHX` and `POPX`** save and restore the exception state with one instruction each: `PUSHX` pushes `EPSW` and `EPC` on the stack of the current mode and `POPX` pops them. Both words are checked before either is accessed, so an abort leaves nothing changed even when the sixteen bytes straddle a page. A handler that may be interrupted begins with `PUSHX` and ends with `POPX; RTI`. Hardware pushes nothing on exception entry; entry writes only registers and cannot itself fault.
 
-**`ISYNC` and `HINT #n`.** `ISYNC` (privileged, no flags) makes earlier writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` and earlier `ICINV`/`ICINVA` take effect for the instructions that follow it: the architecture promises the effect only after the next `ISYNC` (a small in-order implementation may apply it at once, and software must not rely on that). `HINT #n` (not privileged, no flags) has no architectural effect for any `n`: `0` is a plain no-op hint, `1` a pause for spin-wait loops, `2` a speculation barrier, and every other value is a reserved hint that also executes as a no-op, so software may not use it yet and a later definition may give it a meaning (manual 7.12.4).
+**`ISYNC` and `HINT #n`.** `ISYNC` (privileged, no flags) makes earlier writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` and earlier `ICINV`/`ICINVA` take effect for the instructions that follow it: the architecture promises the effect only after the next `ISYNC` (a small in-order implementation may apply it at once, and software must not rely on that). `HINT #n` (not privileged, no flags) has no architectural effect for any `n`: `0` is a plain no-op hint, `1` a pause for spin-wait loops, `2` a speculation barrier, and every other value is a reserved hint that also executes as a no-op, so software may not use it yet and a later definition may give it a meaning (manual 7.10.1).
 
 #### 4.10.1 Four PDP-11 instructions dropped
 
@@ -514,7 +514,7 @@ And `SPL` stays despite `MTPS` writing the whole status word: it sets the priori
 
 #### 4.10.2 Atomics
 
-The atomic group has, for each of compare-and-swap, swap, fetch-and-add, fetch-and-and/or/xor and fetch-and-min/max (signed and unsigned), a plain form and a `_DB` form that folds a full barrier in; `LL` and `SC` are the load-linked and store-conditional pair (manual 7.12 and 9.13). The barrier-fused variants are LoongArch's pragmatism (section 15): a lock acquire is one instruction rather than an atomic followed by a `FENCE`, which matters because that pair is in every critical section in the system. The `LL`/`SC` pair is kept for the operations `CAS` cannot express — multi-word updates and the ABA-sensitive cases. The atomics are defined on a monitor: a reservation that any initiator's write clears (manual 2.10, 7.3). The placement of the operands and the size field of `CAS` are open (J.9.3).
+The atomic group has, for each of compare-and-swap, swap, fetch-and-add, fetch-and-and/or/xor and fetch-and-min/max (signed and unsigned), a plain form and a `_DB` form that folds a full barrier in; `LL` and `SC` are the load-linked and store-conditional pair (manual 7.4 and 9.13). The barrier-fused variants are LoongArch's pragmatism (section 15): a lock acquire is one instruction rather than an atomic followed by a `FENCE`, which matters because that pair is in every critical section in the system. The `LL`/`SC` pair is kept for the operations `CAS` cannot express — multi-word updates and the ABA-sensitive cases. The atomics are defined on a monitor: a reservation that any initiator's write clears (manual 2.10, 7.4). The placement of the operands and the size field of `CAS` are open (J.9.3).
 
 ### 4.11 The decided additions to the base set
 
@@ -743,7 +743,7 @@ Two adjacent points, both load-bearing elsewhere:
 - This is **data** alignment only. Instructions are parcel-aligned and unconstrained beyond that (section 3.3). The two rules are independent and neither implies the other.
 - The quad-alignment requirement is what makes section 6.2 work, and the `ALIGN` abort is the specified tag-mismatch signal. **This rule may not be relaxed to permit unaligned quad accesses** (section 1.1). Doing so would silently break every tagged runtime built on the architecture, which is a far larger cost than the rotator and dual-access sequencer it would save.
 
-Byte accesses are unconstrained, so the block operations have no alignment requirement at all. The same rule makes every aligned access atomic within its own size (manual 7.2.3, 7.2.6).
+Byte accesses are unconstrained, so the block operations have no alignment requirement at all. The same rule makes every aligned access atomic within its own size (manual 7.5.3, 7.5.6).
 
 ### 7.5 Progress-restartable instructions
 
@@ -1378,9 +1378,9 @@ Instructions are the easy part. The hard part is what a program is promised abou
 | TSO | x86, SPARC | store buffer with load forwarding | modest — store-load reordering only |
 | Weak / relaxed | ARM, POWER, RISC-V RVWMO | cheapest in hardware | **high, and permanent** |
 
-> **The pdp64 is sequentially consistent.** Stated here, once, and not revisited (manual 7.2.1).
+> **The pdp64 is sequentially consistent.** Stated here, once, and not revisited (manual 7.5.1).
 
-On this machine sequential consistency is nearly free. A weak memory model is a tax paid by every piece of concurrent software ever written for the architecture, levied so that an aggressively speculative out-of-order core can reorder memory operations. **The first pdp64 implementations are in order and non-speculative,** so they have no reordering to permit and nothing to buy with the weakness. The architecture is ready for out-of-order execution from the start (section 1, errata 68): an out-of-order implementation keeps sequential consistency by letting loads execute early and re-checking them against other cores' writes before retirement, with stores buffered and drained in program order (`decisions-pending.md` Q5, [`pdp64-ooo-readiness.md`](pdp64-ooo-readiness.md), manual 7.11).
+On this machine sequential consistency is nearly free. A weak memory model is a tax paid by every piece of concurrent software ever written for the architecture, levied so that an aggressively speculative out-of-order core can reorder memory operations. **The first pdp64 implementations are in order and non-speculative,** so they have no reordering to permit and nothing to buy with the weakness. The architecture is ready for out-of-order execution from the start (section 1, errata 68): an out-of-order implementation keeps sequential consistency by letting loads execute early and re-checking them against other cores' writes before retirement, with stores buffered and drained in program order (`decisions-pending.md` Q5, [`pdp64-ooo-readiness.md`](pdp64-ooo-readiness.md), manual 7.7).
 
 A store buffer is still allowed, and wanted, for write latency hiding: SC survives it provided loads snoop the buffer and stores drain in program order. The cost is that a store miss stalls later stores, which on two to four cores behind a shared L2 is acceptable.
 
@@ -1390,7 +1390,7 @@ The industry learned the hard way why this is not a close call. ARM's memory mod
 
 ### 17.2 What the ISA needs
 
-The instructions the multiprocessor needs are few and are in manual 7.1 and 7.12: `MFCPUID Rd` (which core am I; required for per-CPU data structures; there is no way to synthesize it), `ICINV`/`ICINVA` (invalidate an instruction-cache line, or all of it), `TLBSYNC` (wait for a broadcast `TLBI` to complete everywhere), `WFE`/`SEV` (sleep until another core signals, and the signal), and `TLBI`/`TLBIA` that **broadcast** to all cores. Short notes on the three non-obvious ones.
+The instructions the multiprocessor needs are few and are in manual 7.3 and 7.4: `MFCPUID Rd` (which core am I; required for per-CPU data structures; there is no way to synthesize it), `ICINV`/`ICINVA` (invalidate an instruction-cache line, or all of it), `TLBSYNC` (wait for a broadcast `TLBI` to complete everywhere), `WFE`/`SEV` (sleep until another core signals, and the signal), and `TLBI`/`TLBIA` that **broadcast** to all cores. Short notes on the three non-obvious ones.
 
 **`ICINV` exists because instruction caches are not coherent with data caches**, on this machine or on ARM or POWER. Making them coherent costs a snoop port on the I-cache for a case that almost never happens. But "almost never" is not never: a JIT, a trampoline, a loaded module, and a Lisp runtime compiling a function all write instructions as data and then execute them. Without `ICINV` they are unimplementable, which would be a hole on a machine whose section 6.3 goes out of its way to support Lisp runtimes. It is not privileged, for that reason (manual 6.2.6).
 
@@ -1402,7 +1402,7 @@ The atomics are already sufficient — `CAS`, `LL`/`SC`, the fetch-and-op family
 
 ### 17.3 Cache coherence is a cache question, not an ISA question
 
-For two to four cores on one FPGA: **snooping MSI.** Three states, a snoop port on each D-cache, perhaps 500 LUTs and a state machine. MESI adds an Exclusive state to avoid a bus transaction when writing a clean line held by nobody else; at this core count the benefit is small and the state machine is meaningfully larger. Directory-based coherence scales further and is not needed below about eight cores. The design supports at least four cores and sixteen or more is the preferred ceiling that no decision may preclude (manual 7.7.3; the protocol beyond four cores is open, J.7.2 and J.9.11).
+For two to four cores on one FPGA: **snooping MSI.** Three states, a snoop port on each D-cache, perhaps 500 LUTs and a state machine. MESI adds an Exclusive state to avoid a bus transaction when writing a clean line held by nobody else; at this core count the benefit is small and the state machine is meaningfully larger. Directory-based coherence scales further and is not needed below about eight cores. The design supports at least four cores and sixteen or more is the preferred ceiling that no decision may preclude (manual 7.6.3; the protocol beyond four cores is open, J.7.2 and J.9.11).
 
 The important property is that **coherence is transparent to software**. Software-managed coherence — explicit flush and invalidate around every shared access — is cheaper in hardware and is where concurrency bugs go to live, because every missing flush is a race that reproduces once a week. The ISA owes nothing to a transparent coherence protocol, which is the correct division.
 
@@ -1432,7 +1432,7 @@ To be built, device-side rather than in the ISA: an inter-processor interrupt pa
 
 ### 17.6 The atomics against the bus: settled
 
-The question this section used to leave open — the Unibus `DATIP`/`DATO` locked read-modify-write is a *lock*, while the exclusive access of the FPGA's memory fabric is a *monitor*, and the two are not the same primitive — was decided: the atomics are defined on a **monitor** (a reservation that a write by any initiator clears), and the locked pair is not an architectural primitive (errata 45; manual 2.10 and 7.3). What remains is what an atomic does on uncached and device memory (J.7.4).
+The question this section used to leave open — the Unibus `DATIP`/`DATO` locked read-modify-write is a *lock*, while the exclusive access of the FPGA's memory fabric is a *monitor*, and the two are not the same primitive — was decided: the atomics are defined on a **monitor** (a reservation that a write by any initiator clears), and the locked pair is not an architectural primitive (errata 45; manual 2.10 and 7.4). What remains is what an atomic does on uncached and device memory (J.7.4).
 
 ---
 

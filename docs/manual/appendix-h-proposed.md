@@ -430,9 +430,9 @@ start_secondary_cores():                      # core 0, in the kernel, after its
 
 secondary_entry():                            # core c: kernel mode, priority 7; r0 = c, r1 = percpu[c]
     set VBR and the page-table base to the kernel's, turn translation on, ISYNC    # chapter 6 (6.12)
-    set the per-CPU pointer DP from r1; set R14 = percpu.stack top                 # chapter 7 (7.4.2)
+    set the per-CPU pointer DP from r1; set R14 = percpu.stack top                 # chapter 7 (7.8.2)
     percpu.online = 1                         # core 0 is polling this word
-    enable the clock; enter the scheduler's idle loop (WFE until there is work)    # chapter 6, 7.6
+    enable the clock; enter the scheduler's idle loop (WFE until there is work)    # chapter 6, 7.10
 ```
 
 ![Starting the other cores](figures/boot-smp-timeline.svg)
@@ -443,7 +443,7 @@ The cost is one register block in the controller, with a start register and a re
 
 **4.7.2** (moved from chapter 4) A stuck core is reset by a write to a core-reset register. *(P)*
 
-*Other chapters.* This is option 1 of boot decision B2 and of R2 in `decisions-pending.md`, which recommend it and leave it proposed (the other options were the x86 signals, a firmware call, a spin table and a table that all cores start from). Chapter 7 states the same rule as 7.8.1 and loads `r0` only, where 4.7.1 loads `r1` too; the difference is to settle (4.13). Waiting uses `WFE` and `SEV` (7.6); an **inter-processor interrupt**, a signal from one core to another, is a write to a per-core register of the interrupt controller (7.8.2).
+*Other chapters.* This is option 1 of boot decision B2 and of R2 in `decisions-pending.md`, which recommend it and leave it proposed (the other options were the x86 signals, a firmware call, a spin table and a table that all cores start from). Chapter 7 stated the same rule (H.7, 7.8.1) and loaded `r0` only, where 4.7.1 loads `r1` too; the difference is to settle (4.13). Waiting uses `WFE` and `SEV` (7.10); an **inter-processor interrupt**, a signal from one core to another, is a write to a per-core register of the interrupt controller (H.7, 7.8.2).
 
 *Commentary.* **Chain.** PDP-11: one processor, nothing to start. VAX: the console processor started the others (unverified). x86: INIT and START-UP signals and a trampoline through three modes. arm64 and RISC-V: a firmware call or a spin loop. pdp64: a register write. **Trade-offs.** With no mode ladder the whole protocol is one write, at the cost of a small register block in the controller. **Benefits.** No trampoline, no firmware call, fewer lines than any system counted, and one recovery path, a core reset. **Impact.** *Kernel:* starting a core is a register write. *Compiler:* none. *Hardware:* a start register and a reset hold per core.
 
@@ -649,11 +649,13 @@ The vector table is at address 0 because `VBR` is zero at reset. The pdp64's blo
 
 ## H.7 Chapter 7: Multiple processors
 
+The numbers in this fragment are labels: they are those of chapter 7 before its rewrite (errata 127 gives the map), not those of the body, and a citation of one of them reads "H.7, 7.8.1".
+
 ### 7.8 Starting and signalling the other cores (moved from chapter 7)
 
 **7.8.1** (moved from chapter 7) The controller holds every core but core 0 in reset; a write to a per-core start register gives a core an entry address and an argument and releases it into kernel mode at priority 7, with its number in `r0`. *(P)* The same proposal is statement 4.7.1 of the boot chapter (its fragment is the one to read for the start protocol, the pseudocode and the figure); it is entered here as well because chapter 7 stated it independently.
 
-**7.8.2** (the mechanism, moved from chapter 7) An inter-processor interrupt is a write to a per-core register in the interrupt controller; no APIC-like machinery is needed. *(P)* (That one core can interrupt another is decided, 7.8.2 of the body; how interrupts reach a core is open: [J.6.3](appendix-j-open.md#j63).)
+**7.8.2** (the mechanism, moved from chapter 7) An inter-processor interrupt is a write to a per-core register in the interrupt controller; no APIC-like machinery is needed. *(P)* (That one core can interrupt another is decided, 7.10.4 of the body; how interrupts reach a core is open: [J.6.3](appendix-j-open.md#j63).)
 
 **7.8.3** (moved from chapter 7) The routing of device interrupts to cores, and a shared second-level cache or a coherent interconnect, are device-side and unspecified. *(P)* (The routing of interrupts is the open item [J.6.3](appendix-j-open.md#j63); the cache and the interconnect are implementation choices that the architecture does not fix.)
 
@@ -671,17 +673,25 @@ The vector table is at address 0 because `VBR` is zero at reset. The pdp64's blo
 
 ## H.8 Chapter 8: Vector work, AI and array languages: the device route
 
+This fragment holds what the assistant proposed for the vector and accelerator work and the author has not accepted. The reader is the same as the chapter's: a PDP-11 programmer or a first-year student, who knows from 8.1 to 8.4 what a vector unit, a SIMD unit, a descriptor and a device on the memory bus are. The numbers are labels: a statement keeps the number it had in chapter 8 before the rewrite, and the pointer to its new place in the chapter is given where it has one.
+
 ### 8.2 Why not SIMD in the processor (moved from chapter 8)
 
-**8.2.3** (moved from chapter 8) A scalable design (ARM SVE, RISC-V V) avoids the fixed-width problem and is the most complex to specify and to implement; it is the only in-processor form that would suit this project's range from a small FPGA core to a possible large one. *(P)*
+The decision of the chapter (8.3.1) says that the processor has no vector register file and no SIMD instructions. Two further statements were attached to it as reasons, and they are the assistant's.
+
+**8.2.3** (moved from chapter 8) A scalable design (ARM SVE, RISC-V V) avoids the fixed-width problem of 8.3.3, and is the most complex to specify and to implement; it is the only in-processor form that would suit this project's range, from a small FPGA core to a possible large one. *(P)*
+
+A **scalable** vector design is a vector machine (8.2) in which the register width is not part of the architecture: the hardware has registers of whatever length it can build, and a program asks it how many elements it can handle at a time and loops until the array is done (strip mining, with the length chosen by the machine and not by the programmer). The same binary runs on a small and a large implementation, which a fixed-width SIMD set cannot do. The cost is the largest specification in the architecture and a compiler model that must handle a length it does not know.
 
 **8.2.4** (moved from chapter 8) The compiled corpus shows little vectorisable code at the size-optimising setting; whether it shows more at higher optimisation is a measurement to make before any in-processor form is reconsidered. *(P)*
 
-*Commentary (moved from chapter 8).* **Trade-offs.** A scalable vector extension would let one binary run on a small and a large implementation, at the price of the largest specification in the architecture and a compiler model that must handle an unknown vector length. **Modern comparables.** SVE and the RISC-V vector extension. (Packed lanes in the integer registers, the other in-processor form, are the open item [J.8.3](appendix-j-open.md#j83).)
+*Commentary (moved from chapter 8).* **Chain.** PDP-11: no vector unit. VAX: a fixed 64-element vector length with a length register for partial vectors *(unverified here: from the repository's notes on the VAX 6000 guide)*. ARM and RISC-V: a scalable form after fixed-width NEON and the x86 history. **Trade-offs.** A scalable vector extension would let one binary run on a small and a large implementation, at the price named above. **Modern comparables.** SVE and the RISC-V vector extension. (Packed lanes in the integer registers, the other in-processor form, are the open item [J.8.3](appendix-j-open.md#j83).)
 
 ### 8.3 AI and large-language-model inference: the LB64 accelerator (moved from chapter 8)
 
-The author decided that inference is the target and that it runs on memory-mapped devices (errata 59; kept in the body as 8.3.1). The design of one such device, LB64, is the assistant's, written in `docs/pdp64-lb64-accelerator.md`, and no decision of the author names it; it was written on the register model of the first device family, which errata 95 later set aside for virtio. It is kept here as a proposal, and the statements below, which the chapter had tagged decided, are entered as proposed for that reason.
+The author decided that inference is the target (8.5.1 of the chapter). The design of one accelerator for it, LB64, is the assistant's, written in `docs/pdp64-lb64-accelerator.md` after the author asked "what would a gpu look like that is optimized purely for samsung's littlebit-2 encoding" (register row R136). No decision of the author names the design, and it was written for the register model of the first device family, which errata 95 later set aside for virtio. It is kept here as a proposal; the statements below, which the chapter had tagged decided, are entered as proposed for that reason.
+
+LB64 is for one kind of model, in which the weights are stored as one sign bit each, with a few 16-bit scale factors per row and column. With weights of plus or minus one, a multiplication of an activation by a weight is the activation itself or its negative, so a layer needs adders and a sign flip and no multipliers: the accumulator adds or subtracts each activation according to its weight bit (**sign-flip accumulation**). The device streams the weights from RAM at the memory's speed.
 
 **8.3.1** (moved from chapter 8) The inference accelerator, LB64, evaluates the layers of a binary-weight language model as sign-flip accumulates with no multipliers, taking a chain of descriptors and writing a status back on completion. *(D in the chapter; judged proposed because no decision of the author names the device)*
 
@@ -691,27 +701,29 @@ The author decided that inference is the target and that it runs on memory-mappe
 
 **8.3.4** (moved from chapter 8) The accelerator has no instruction set: its computation has exactly one shape, so a programmable sequencer would spend its area on flexibility the work does not use. *(D in the chapter; judged proposed, as 8.3.1)*
 
-**8.3.5** (the last clause, moved from chapter 8) `POPCNT` and `XNORPOP` are not what the accelerator uses.
+**8.3.5** (the last clause of the old statement, moved from chapter 8) `POPCNT` and `XNORPOP` are not what the accelerator uses: its activations are 16-bit floating-point numbers, and the processor's bit instructions (8.5.2 of the chapter) serve the binary-activation case.
 
-*Commentary (moved from chapter 8).* **Precedent.** A descriptor chain is how every competent DMA engine since the PDP-11's RK11 has worked, and the partition into small single-purpose engines fed by chains is the idea of the 144-processor GA144 chip applied to a workload that suits it. **Trade-offs.** The accelerator is fast at what it does and does nothing else: attention is not helped, the element-wise work needs another engine, and a training accelerator is a different design again. The accelerator's descriptor is larger than the 32-byte descriptor of chapter 5, so the two must be reconciled: the proposal is that the standard descriptor's address points at a device-defined work block, which can chain, and the ring carries pointers to work blocks (the question is [J.8.2](appendix-j-open.md#j82)). **Benefits.** The lane count is set by the memory bandwidth and not by the amount of logic, so a small board can run a model the processor alone could not. **Modern comparables.** ARM's Ethos engines, Google's TPU, and the many inference accelerators on small boards. **Impact.** *Kernel:* a driver builds a chain and starts it; the kernel owns no model state and the only scheduling is of the device. *Compiler:* none; inference frameworks emit descriptors. *Hardware:* adders and sign-flip logic and no multipliers in LB64; the multiply-accumulate engine needs multiplier blocks; the memory interface sets the size.
+*Commentary (moved from chapter 8).* **Chain.** PDP-11: heavy numerical work went to an attached array processor (8.1). Neural-network engines of today: a ring of commands and data by DMA (8.2). A ring of descriptors in memory, each with an ownership bit, is how the DEUNA Ethernet controller of 4.3BSD worked (`if_de.c`, chapter 5), and the partition into small single-purpose engines fed by chains is the idea of the 144-processor GA144 chip applied to a workload that suits it *(unverified)*. **Trade-offs.** The accelerator is fast at what it does and does nothing else: attention is not helped, the element-wise work needs another engine, and a training accelerator is a different design again. The accelerator's descriptor is larger than the 16-byte virtio descriptor of chapter 5 (5.4.2), so the two must be reconciled; the proposal is that the standard descriptor's address points at a device-defined work block, which can chain, and the ring carries pointers to work blocks (the question is [J.8.2](appendix-j-open.md#j82)). **Benefits.** The lane count is set by the memory bandwidth and not by the amount of logic, so a small board can run a model the processor alone could not. **Modern comparables.** ARM's Ethos engines, Google's TPU, and the inference accelerators on small boards *(unverified)*. **Impact.** *Kernel:* a driver builds a chain and starts it; the kernel owns no model state and the only scheduling is of the device. *Compiler:* none; inference frameworks emit descriptors. *Hardware:* adders and sign-flip logic and no multipliers in LB64; the multiply-accumulate engine needs multiplier blocks; the memory interface sets the size.
 
 ### 8.4 Array languages: APL and K (moved from chapter 8)
 
-**8.4.3** (moved from chapter 8) The interpreter stays on the processor and sends a primitive to the device when the array is long enough to repay the setup; short arrays run on the processor. *(P)*
+**8.4.3** (moved from chapter 8; the length-in-the-descriptor part stayed as 8.5.4 of the chapter) The interpreter stays on the processor and sends a primitive to the device when the array is long enough to repay the setup; short arrays run on the processor. *(P)*
 
-**8.4.5** (moved from chapter 8) A vector engine for such primitives would provide element-wise arithmetic and comparison, selection, reductions, scans, gather and scatter, compress (`where`) and index generation, on integer, floating-point and bit-array types. *(P)* (The question of the operation set is [J.8.1](appendix-j-open.md#j81).)
+**8.4.5** (moved from chapter 8) A vector engine for such primitives would provide element-wise arithmetic and comparison, selection, reductions, scans, gather and scatter (read or write through an array of indices), compress (`where`: keep the elements for which a condition holds) and index generation, on integer, floating-point and bit-array types. *(P)* (The question of the operation set is [J.8.1](appendix-j-open.md#j81).)
 
-*Commentary (moved from chapter 8).* **Trade-offs.** Offloading a primitive has a fixed cost, so the benefit is for arrays above a size threshold; reductions and scans carry a dependence along the array that the device must support directly; sorting and gather are bandwidth-limited. **Benefits.** The same device that serves the array languages serves the elementwise work of inference and the lane-wise work of graphics. **Impact.** *Hardware:* a streaming engine with a small set of element-wise, reduce, scan and gather units behind the ring engine, sized to the memory bandwidth.
+*Commentary (moved from chapter 8).* **Trade-offs.** Offloading a primitive has a fixed cost, so the benefit is for arrays above a size threshold that has not been measured; reductions and scans carry a dependence along the array that the device must support directly; sorting and gather are limited by memory bandwidth. **Benefits.** The same device that serves the array languages serves the element-wise work of inference and the lane-wise work of graphics. **Impact.** *Hardware:* a streaming engine with a small set of element-wise, reduce, scan and gather units behind the ring engine, sized to the memory bandwidth.
 
 ### 8.5 Number formats (moved from chapter 8)
 
-**8.5.1** (the second clause, moved from chapter 8) Formats other than `binary64`, `binary32` and `binary16` (bfloat16, 8-bit integers with 32-bit accumulation, binary weights, 8-bit floating point) are the device's. *(P)*
+**8.5.1** (the second clause of the old statement, moved from chapter 8) Formats other than `binary64`, `binary32` and `binary16` (bfloat16, 8-bit integers with 32-bit accumulation, binary weights, 8-bit floating point) are the device's. *(P)*
 
 **8.5.2** (moved from chapter 8) Each vector device names its operations and formats in its identification block and feature bits, so a library can choose by asking. *(P)*
 
-*Commentary (moved from chapter 8).* **Trade-offs.** A format fixed in the processor's instruction set is a format that cannot change when the machine-learning field changes it, as it has several times; a format in a device is replaced by replacing the device. **Modern comparables.** x86 has half precision, bfloat16 and `VNNI` dot products in the instruction set; ARM has `BF16`, `SDOT` and matrix extensions; accelerators handle the rest. **Impact.** *Kernel:* none. *Compiler:* only the scalar formats; the machine-learning formats are descriptor fields. *Hardware:* the devices' multiply-accumulate units, not the processor's, are built for the formats in use.
+*Commentary (moved from chapter 8).* **Chain.** PDP-11: single and double. VAX: four formats, F, D, G and H. x86 added half precision, bfloat16 and `VNNI` dot products (8-bit multiply and 32-bit accumulate) to the instruction set; ARM has `BF16`, `SDOT` and matrix extensions *(unverified)*. **Trade-offs.** A format fixed in the processor's instruction set cannot change when the machine-learning field changes it, as it has several times; a format in a device is replaced by replacing the device. **Impact.** *Kernel:* none. *Compiler:* only the scalar formats; the machine-learning formats are descriptor fields. *Hardware:* the devices' multiply-accumulate units, not the processor's, are built for the formats in use.
 
 ### 8.6 Driving a vector device (moved from chapter 8)
+
+The chapter (8.4) shows the driver of an accelerator in pseudocode as an illustration. The statements below were its prose form, and the order of events they fix is a proposal until the descriptor is settled.
 
 **8.6.1** (moved from chapter 8) A program fills a descriptor naming the operation and the arrays, executes `FENCE`, and writes the doorbell; the device processes the descriptor, writes the results and a status, and clears the ownership bit; the program polls or takes the interrupt. *(P)*
 
@@ -823,6 +835,22 @@ progress is held in the registers and the parameter block; an interrupt or a fau
 
 
 **10.3.4** (moved from chapter 10) Sequential consistency is nearly free on a small in-order core and is the most expensive memory model for a large speculative one; if a large core is built it may be necessary to move to total store order, which is the least painful retreat. *(P)*
+
+**10.1.1** (moved from chapter 10) The first implementation is a soft core on a system-on-chip FPGA whose hard ARM cores serve as the bring-up harness: they load programs, run the tests and provide the console while the pdp64 core is still being debugged, and run an instruction-set simulator beside the core to compare the architectural state after every instruction (`pdp64-fpga-plan.md`, section 6). The text of the chapter tagged this *(D)*; no decision of the author was found for the harness (the register's R24, "since the soc will have hdmi", assumes a system-on-chip and nothing more), so it is proposed. *(P)*
+
+**10.1.4** (moved from chapter 10) The estimated clock a simple single-issue core reaches is 50 to 80 MHz on the Cyclone V, 90 to 130 MHz on a Zynq 7020 and 180 to 250 MHz on an UltraScale+; every one of those estimates is below the 200 to 300 MHz target except the upper part of the UltraScale+ range, and reaching the target means pipeline stages in the datapath. A correct machine at a lower clock comes before a fast broken one. *(E)*
+
+**10.1.5** (moved from chapter 10) The work is staged in phases, each ending in a demonstration and a regression suite: specification and tools; an integer core; exceptions; the memory-management unit; the memory system; floating point; a booting kernel; peripherals; and, last, the other cores. The text of the chapter tagged this *(D)*; the phase plan is the assistant's (`pdp64-fpga-plan.md`, section 5) and the author has not spoken to it (`decisions-pending.md`, E6: "No erratum backs either"), so it is proposed. The decided part, the number of cores, stays in the chapter (10.1.3). *(P)*
+
+**10.1.6** (moved from chapter 10) The second phase, the fault model, is not optional and does not move; the block operations are built with it, because their whole specification is about what state is visible when an exception arrives. *(P)*
+
+**10.1.7** (moved from chapter 10, from 10.1.3) On the first board the block RAM is about 5.5 megabits, and the caches, the translation buffer, the framebuffer and the blitter's scratch memory compete for it. *(E)*
+
+**10.1.9** (moved from the commentary of 10.1) A single engineer working part-time can reach a booting system with floating point in roughly 10 to 19 months, by the plan's wide-error-bar estimate (phase by phase: 5 to 9 weeks for specification and tools, 9 to 14 for the integer core, 6 to 11 for exceptions, 7 to 11 for the memory-management unit, 4 to 8 for the memory system, 4 to 7 for floating point, 8 to 16 for the kernel), with phases 2 and 3 the ones that historically double. *(E)*
+
+**10.1.10** (moved from the commentary of 10.1) The register-transfer description is kept vendor-neutral, with every vendor primitive in one thin directory that holds the register file, block RAM and DSP wrappers and should stay under 500 lines, so that moving between boards costs that directory and nothing else; the datapath is written in SystemVerilog and the floating-point unit is bought, not written (Berkeley HardFloat). *(P)*
+
+**10.1.11** (moved from the commentary of 10.1) A multiplier built from two to four multiplier blocks over four to eight cycles closes timing where a full combinational one will not. *(E)*
 
 ## H.A Appendix A: Improvements beyond the PDP-11
 
@@ -938,7 +966,7 @@ progress is held in the registers and the parameter block; an interrupt or a fau
 
 #### B.2.6 How coherence scales (R3)
 
-**B.2.6.1** The proposal is to keep snooping for the four cores of the first device; the ceiling is now sixteen or more (errata 92), and the protocol for that many is open (7.7.4). *(P)*
+**B.2.6.1** The proposal is to keep snooping for the four cores of the first device; the ceiling is now sixteen or more (errata 92), and the protocol for that many is open (7.6.4). *(P)*
 
 *Commentary.* **Trade-offs.** Directory protocols scale and are large; software coherence is cheap and fragile. **Modern comparables.** x86's snoop filters and directories across sockets, ARM's coherent interconnects. **Impact.** *Kernel:* Cache coherence is invisible to the kernel. *Compiler:* None. *Hardware:* Snooping on two to four cores.
 
