@@ -60,7 +60,7 @@ ICINVA  : invalidate the whole instruction cache''', NOFLAGS, 'Privileged (`TLBI
     E('PUSHX', 'system', ['pushx', 'popx'], 'Push and pop the exception state', ['PUSHX', 'POPX'],
       '''PUSHX: SP <- SP - 16 ; M[SP] <- EPSW ; M[SP + 8] <- EPC
 POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16''', NOFLAGS, PRIV + ' `SP` must be 8-byte aligned (a misaligned-access abort); both words are checked before either is touched.', '9.14',
-      notes='Four bytes (the `SYSX` escape, sub-opcodes 0 and 1) and two bytes on page 2. For a handler that wants to be interrupted: it can save the exception state and lower the priority.', cf='6.3, 6.13.'),
+      notes='For a handler that wants to be interrupted: it can save the exception state and lower the priority.', cf='6.3, 6.13.'),
     E('ISYNC', 'system', ['isync'], 'Instruction synchronisation', ['ISYNC'],
       'make earlier writes to PTBR, ASID, MMUCTL and VBR, and earlier ICINVs, take effect for the instructions that follow', NOFLAGS, PRIV + ' A non-zero pad byte is an illegal instruction.', '9.14',
       notes='The architecture promises the effect only after the next `ISYNC`; an in-order implementation may make it immediate, and software must not rely on that.', cf='7.5, 6.5.'),

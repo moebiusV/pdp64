@@ -8,7 +8,7 @@ ENTRIES = [
 load :  Rd <- sext(M[EA(rm)], size)          ; len = 00: Rd <- sext(Rs[8*size-1:0])
 store:  M[EA(rm)] <- Rs[8*size-1:0]          ; len = 00: Rd <- sext(Rs[8*size-1:0])''',
       NOFLAGS, MEMX, '9.6',
-      notes='A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`. Page 2 abbreviates the loads and stores through `(rn)`, at small offsets from `SP` and from a register, and `MOVQ #imm, rd` with a 4-bit immediate (see the page-2 table).',
+      notes='A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`.',
       cf='6.7 for the memory type that decides whether the access is cached; 6.4 for what a faulting access leaves behind.'),
     E('MOVZ', 'moves', ['movzl', 'movzw', 'movzb'], 'Move zero-extended (32, 16 and 8 bits)',
       ['MOVZL rm, Rd', 'MOVZW rm, Rd', 'MOVZB rm, Rd'],
@@ -29,9 +29,9 @@ store:  M[EA(rm)] <- Rs[8*size-1:0]''',
       cf='6.6, 6.4.'),
 
     E('ADD', 'alu', ['add'], 'Add', ['ADD rm, Rd'], 'Rd <- Rd + rm', NZVC_ADD, MEMX, '9.7',
-      notes='All ALU operations are 64 bits, with no size field. Page 2 has `ADD #imm, rd` with a 4-bit immediate and `ADD #(8*n), SP`.'),
+      notes='All ALU operations are 64 bits, with no size field.'),
     E('SUB', 'alu', ['sub'], 'Subtract', ['SUB rm, Rd'], 'Rd <- Rd - rm', NZVC_SUB, MEMX, '9.7',
-      notes='Page 2 has `SUB #(8*n), SP`.'),
+      notes=''),
     E('CMP', 'alu', ['cmp'], 'Compare', ['CMP Rd, rm        ; register first'], 'tmp <- Rd - rm         ; the result is discarded', NZVC_SUB, MEMX, '9.7',
       notes='**The operands are in the order register, then the other operand**, the reverse of the PDP-11 `CMP src,dst`: `CMP Rd, rm` computes `Rd - rm`, so a compare of a register against an immediate or memory operand does not reverse its branch condition. After `CMP`, `BHIS`/`BCC` mean unsigned `>=` (no borrow) and `BLO`/`BCS` mean a borrow occurred.'),
     E('BIC', 'alu', ['bic'], 'Bit clear', ['BIC rm, Rd'], 'Rd <- Rd AND NOT rm', NZ0, MEMX, '9.8', notes='The assembler also accepts `BIC #imm, rm` as `AND #~imm, rm`.'),
@@ -49,7 +49,7 @@ SHL: Rd <- (n >= 64) ? 0 : Rd << n
 SHR: Rd <- (n >= 64) ? 0 : Rd >>u n
 SAR: Rd <- (n >= 64) ? (Rd < 0 ? -1 : 0) : Rd >>s n''',
       '`N` and `Z` from the result, `V` cleared, `C` the last bit shifted out (bit 63 for `SHL`, bit 0 for `SHR` and `SAR`). **The same flags are written for every count**: a count of zero gives `N` and `Z` from the unchanged operand, `V` = 0 and `C` = 0.', MEMX, '9.8',
-      notes='The count is read as an unsigned 64-bit value, so a count of 64 or more shifts the value entirely away. Page 2 has the three shifts by an immediate 0 to 15. `ASL` and `ASR` (in `SOP`) are the by-one forms in two bytes; rotates are in `BESC`.'),
+      notes='The count is read as an unsigned 64-bit value, so a count of 64 or more shifts the value entirely away. `ASL` and `ASR` (in `SOP`) are the by-one forms in two bytes; rotates are in `BESC`.'),
     E('FADD', 'fp', ['fadd', 'fsub', 'fmul'], 'Floating add, subtract and multiply, binary64',
       ['FADD rm, Rd', 'FSUB rm, Rd', 'FMUL rm, Rd'], '''Rd <- Rd + rm   (FADD)
 Rd <- Rd - rm   (FSUB)
@@ -106,11 +106,11 @@ BNTAG: if (Rn & 111₂) != tag then PC <- address of this instruction + 2 * disp
       '''for n = 0 to 15, if mask bit n:
     SP <- SP - 8 ; M[SP] <- Rn''',
       NOFLAGS, MEMX + ' A mask that includes `R14` (`SP`) is reserved.', '9.11',
-      notes='Four bytes (mode `0100`, immediate). The registers are pushed in ascending order, so `POPM` with the same mask restores them. Page 2 has an 8-bit mask for `R8` to `R15`.', cf='6.4 for the restart rule.'),
+      notes='Four bytes (mode `0100`, immediate). The registers are pushed in ascending order, so `POPM` with the same mask restores them.', cf='6.4 for the restart rule.'),
     E('POPM', 'single', ['popm'], 'Pop registers by mask', ['POPM #mask'],
       '''for n = 15 down to 0, if mask bit n:
     Rn <- M[SP] ; SP <- SP + 8''',
-      NOFLAGS, MEMX, '9.11', notes='The mirror of `PUSHM`; four bytes, with an 8-bit-mask form on page 2.'),
+      NOFLAGS, MEMX, '9.11', notes='The mirror of `PUSHM`.'),
     E('JMP', 'single', ['jmp'], 'Jump', ['JMP rm        ; a register, or an address by any memory mode'],
       'PC <- (register operand) ? Rm : EA(rm)', NOFLAGS, 'A jump to an unmapped or non-executable address faults on the fetch of the target.', '9.10',
       notes='A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` through a scaled index.'),
