@@ -1,0 +1,40 @@
+.TH MKFEEDBACK 1 "2026-11-10" "pdp64" "User Commands"
+.SH NAME
+mkfeedback \- build the plain-text feedback form of the pdp64 decisions
+.SH SYNOPSIS
+.B mkfeedback.py
+[\fB\-\-root\fR \fIDIR\fR] [\fB\-\-output\fR \fIFILE\fR] [\fB\-\-check\fR] [\fB\-\-summary\fR]
+.SH DESCRIPTION
+Reads the open items of Appendix J and the proposals of Appendix H
+(\fIdocs/manual\-src/appendix\-parts/\fR), the confirmation list
+(\fIdocs/decision\-log/data/shared/veto\-list.txt\fR) and the status ledger
+(\fIdocs/decisions\-and\-status.md\fR) and writes \fIdocs/feedback/decisions\-feedback.txt\fR:
+plain text, at most 100 columns, deterministic.
+.PP
+Each entry begins with a rule of equals signs and a line \fBENTRY\fR \fIID\fR.  The IDs are
+\fBJ.\fIn\fB.\fIk\fR (open items), \fBH.\fIstatement\fR (proposals), \fBV.\fIcode\fR
+(confirmations), \fBS.\fIslug\fR (ledger subjects) and \fBW.\fIn\fR (standing decisions).
+An entry has an order number, a title, \fBAFFECTS OPCODES: yes|maybe|no\fR with a short reason,
+the issue, lettered options with For and Against, the assistant's leaning when there is one,
+and the answer lines \fBDECISION:\fR and \fBNOTE:\fR.  Entries are ordered so that those that may
+change opcodes, mnemonics or the encoding come first.  The last section is for free text.
+.SH OPTIONS
+.TP
+.BR \-\-root " " \fIDIR\fR
+The repository root (default: two levels above the script).
+.TP
+.BR \-\-output " " \fIFILE\fR
+Where to write (default \fIdocs/feedback/decisions\-feedback.txt\fR).
+.TP
+.B \-\-check
+Do not write; exit with status 1 if the output file differs from what would be generated.
+.TP
+.B \-\-summary
+Print the number of entries by kind and by effect on opcodes.
+.SH NOTES
+The judgement AFFECTS OPCODES is made from keywords in the item and from a table of reviewed
+overrides in the script; it is a guide to the order of work, not a decision.
+Re-run the generator after any edit of the chapters.
+.SH SEE ALSO
+.BR ingest.py (1),
+.BR winless (1)

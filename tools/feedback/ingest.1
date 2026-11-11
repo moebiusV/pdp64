@@ -1,0 +1,46 @@
+.TH INGEST 1 "2026-11-10" "pdp64" "User Commands"
+.SH NAME
+ingest \- read back the answers typed into the pdp64 feedback form
+.SH SYNOPSIS
+.B ingest.py
+[\fIFILE\fR] [\fB\-\-db\fR \fIPATH\fR] [\fB\-\-annot\-file\fR \fIPATH\fR] [\fB\-\-no\-annotations\fR]
+[\fB\-\-json\fR \fIPATH\fR | \fB\-\-no\-json\fR] [\fB\-\-all\fR] [\fB\-\-include\-deleted\fR] [\fB\-\-status\fR]
+.SH DESCRIPTION
+Reads the edited form (default \fIdocs/feedback/decisions\-feedback.txt\fR; a copy at any path will
+do) and prints a Markdown report on standard output.  For each entry that has an answer, a note
+or an annotation it shows the parsed DECISION line (letters, "other", "defer" or empty), the
+NOTE text (the text after "NOTE:" up to the next entry), and the annotations that fall on its
+line range.  It then lists the entries still open and the free text of the section "New
+questions and decisions".  It writes \fIanswers.json\fR beside the form and changes no other file.
+.PP
+A DECISION may be letters separated by commas or spaces ("A, C"), "other: text", "defer", or a
+combination; free text that is not a letter list is taken as "other".  A letter the entry did
+not offer is reported as not offered.
+.PP
+Annotations are read from the SQLite database of the pager
+(\fI~/.local/share/winless/winless.db\fR, table \fIannotations\fR) for the rows whose file is the
+form's absolute path (add names with \fB\-\-annot\-file\fR when the notes were made on another path),
+excluding hidden ones.  A selection is matched by its rows (lines).  The output of the pager's
+\fBannotations\fR command is not parsed.  A missing or unreadable database is reported, not fatal.
+.SH OPTIONS
+.TP
+.B \-\-status
+Print only the counts: entries answered, deferred and open, in total and by AFFECTS OPCODES.
+Nothing is written.
+.TP
+.B \-\-all
+List every entry in the report, answered or not.
+.TP
+.BR \-\-json " " \fIPATH\fR
+Write the machine-readable answers there (default: \fIanswers.json\fR beside the form).
+.TP
+.B \-\-no\-json
+Do not write answers.json.
+.TP
+.B \-\-no\-annotations
+Do not read the annotation database.
+.SH FILES
+.I docs/feedback/answers.json
+.SH SEE ALSO
+.BR mkfeedback.py (1),
+.BR winless (1)

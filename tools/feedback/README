@@ -1,0 +1,31 @@
+tools/feedback: the feedback form
+=================================
+
+mkfeedback.py builds docs/feedback/decisions-feedback.txt, a plain-text form (at most 100
+columns, no Markdown) for reading and answering in a pager with an editor.  Its entries come
+from the open items of Appendix J, the proposals of Appendix H, the confirmation list
+(docs/decision-log/data/shared/veto-list.txt), the status ledger (docs/decisions-and-status.md:
+subjects in the air, and to-do subjects whose details are pending) and three standing decisions.
+Each entry has a stable ID (J.n.k, H.<statement>, V.<code>, S.<subject>, W.n), an order number,
+a line AFFECTS OPCODES: yes|maybe|no (the items that may change opcodes, mnemonics or the
+encoding come first), the issue, lettered options, and the answer lines DECISION: and NOTE:.
+
+The entries are generated from the manual fragments, so the generator must be re-run after
+chapter edits (the form is a tracked file; "mkfeedback.py --check" tells whether it is stale).
+The ID of an entry does not change between runs; the text of the options does when the
+fragment changes, so answers should be ingested before the form is regenerated.
+
+Use:
+  python3 tools/feedback/mkfeedback.py            write docs/feedback/decisions-feedback.txt
+  winless open docs/feedback/decisions-feedback.txt
+        edit: on each DECISION: line type a letter, several letters, "other: text" or "defer";
+        put reasons on NOTE: (continuation lines indented); make annotations as usual; write.
+  python3 tools/feedback/ingest.py                print the Markdown report, write answers.json
+  python3 tools/feedback/ingest.py --status       counts: answered, deferred, open, by opcode effect
+  tools/feedback/test-feedback.sh                 generate, simulate an edit, ingest, check
+
+ingest.py reads the annotations of the form from the pager's SQLite database
+(~/.local/share/winless/winless.db, or --db) and attaches each to the entry whose line range
+contains it.  It writes only answers.json (beside the form, or --json), never another file.
+
+Manual pages: mkfeedback.1, ingest.1.  License: see COPYING at the root of the repository.
