@@ -1,136 +1,70 @@
-# Handoff: moving the pdp64 work to a larger machine
+# Handoff: current working notes
 
 [← pdp64 index](README.md)
 
-Written 2026-10-22, brought up to date after errata 63 (the manual, the instruction entries in the chapters, and the device and bus decisions of the day). It says what exists, where it lives, what is not in git, how to rebuild everything and in what order, what is half-done, and what is
-waiting on a decision. The small machine this was built on has 3.9 GB of RAM and 2 cores; that was the main limit, and the build commands below give the
-larger-machine settings.
+Brought up to date 2026-11-10 for the single-CPU state. It says what exists, where it lives, how to rebuild it, the order of the work that is next, and what the working rules are. The source of truth for decisions is [`docs/decisions-and-status.md`](docs/decisions-and-status.md) (the ledger), with the author's words in [`docs/decision-register.md`](docs/decision-register.md) and the numbered decisions in [`docs/errata.md`](docs/errata.md); the map of all documents is [`docs/README.md`](docs/README.md). Where this file disagrees with them, they win.
 
-## 1. The repositories
+## 1. What the project is now
 
-| repository | path | remote | branch | holds |
-|---|---|---|---|---|
-| pdp64 | `.` (the repository root) | `origin` git@github.com:moebiusV/pdp64.git | `main` | the architecture: grammars (`spec/*.hbnf`), `as64`, `ld64`, `sim64`, shared core `common/`, QEMU target sources (`qemu/`), LLVM target sources (`llvm/`), tests, tools, all documents |
-| pcc | `../pcc` | `mine` git@github.com:moebiusV/pcc.git (and `origin`, the upstream https://github.com/PortableCC/pcc.git) | `master` | the portable C compiler with the pdp64 back end in `arch/pdp64` |
-| v7unix-toolchain | `../facetlang/pdp11/v7unix-toolchain` | `origin` git@github.com:moebiusV/v7unix-toolchain.git | `main` | the corpus tooling (`tools/corpus.py`, `corpus-build.sh`) the size measurements use; nothing pdp64-specific is pending in it |
+One CPU, the **pdp64**: thirty-two registers, prefix-coded encoding. Two earlier iterations (the original encoding r20 with sixteen registers, and a prefix-coded encoding with sixteen registers, pdp64/16) were measured against it and superseded; they are no longer CPUs and their manuals, code and tests were removed (errata 122, 123). The git tags `pre-single-cpu` (last commit with their manuals and tools) and `pre-code-removal` (last commit with their code) keep them. The comparison by which the 32-register encoding was chosen is in `docs/encoding-work/`.
 
-Push rules the author set: `pdp64` goes to `origin main`, `pcc` to `mine master`; never rewrite pushed history; one commit per feature; commit as
-`git -c user.name="David Walther" -c user.email=tederific@gmail.com`; message ends with the co-author trailer used throughout the history (see `git log`).
+There is one manual, [`docs/manual/`](docs/manual/00-index.md), generated from `docs/manual-src/`: the body holds decided material, appendix H proposed, I deferred, J the open items. The manual describes the architecture as it is to be; the state of the implementations is in [`docs/implementation-status.md`](docs/implementation-status.md).
 
-**State when this was last updated:** everything verified was pushed (`pdp64` `origin/main`, `pcc` `mine/master`), checked by a clean-clone `tools/check-all.sh` of the committed HEAD; the head commits are listed in section 9. **Before leaving the old machine:** run `git status` and `git log --oneline origin/main..HEAD` in `pdp64`, and `git log --oneline mine/master..HEAD` in `pcc`; push what
-is committed and verified (the rule is a clean-clone `tools/check-all.sh` of the committed HEAD first). Uncommitted files at the time of writing: see section 6.
+## 2. The repositories
 
-## 2. What is NOT in git (copy it, or rebuild it)
+Sibling directories of this repository; paths are relative to its root and every script takes them from environment variables.
 
-| what | where | size | how to get it on the new machine |
-|---|---|---|---|
-| benchmark corpora (sources and `.dl` downloads) | `../corpora` | 3.6 GB | rebuildable: `corpora/*/ *.dl` are downloads; `v7unix-toolchain/tools/corpus-build.sh amd64 aarch64 i386` builds the references; or `rsync` the directory |
-| gcc cross compilers (vax-netbsdelf, pdp11-aout) | `../corpora/gcc-cross/prefix` | part of the above | rsync (slow to rebuild) |
-| QEMU source (v11.1.2) | `../qemu-src` | 217 MB | `git clone --depth 1 --branch v11.1.2 https://gitlab.com/qemu-project/qemu.git ../qemu-src` |
-| LLVM source (llvmorg-21.1.8) | `../llvm-project` | 2.5 GB | `git clone --depth 1 --branch llvmorg-21.1.8 https://github.com/llvm/llvm-project.git ../llvm-project` (the target is installed into it by `llvm/install.sh`; the tree itself is never committed) |
-| build trees | `../qemu-build`, `../llvm-build` | 172 MB, 70 MB | rebuild |
-| size reference numbers (gcc and clang `-Os`, our amd64 pcc) | `/tmp/p64opt/refs-gcc-clang-amd64.json` and `docs/codegen-data/refs-gcc-clang-amd64.csv` | small | the CSV is in git; the JSON is a scratch file that `tools/pdp64size.py` can regenerate with `TOOLCHAIN=` set |
-| scratch results of the compiler runs | `/tmp/p64opt/*` | | disposable; lost on reboot; every number in the documents says how it was measured |
-| kernel sources for the survey | `../kernel-src` (sparse, 328 MB), `../kernel-history` (2.9 GB, partial blobless clones, **incomplete: the clones were killed**) | | re-clone with `tools/kernelasm.py` and `tools/kernelpain.py` (they print the clone commands); never committed |
-| the full TUHS Unix source archive (V7, 32V, 3BSD, 4.xBSD, 2.11BSD, Ultrix, old NetBSD/OpenBSD/FreeBSD, Linux 0.96 and 2.6.33) | `../facetlang/unixtree` | 2.2 GB | rsync it, or fetch from tuhs.org; used as the source for claims about the PDP-11 and VAX Unix kernels |
-| browser data | `../browse-output` (28 GB: scraped data and `facebook.db`, the browse queue) | 28 GB | **the author's own data, not part of this project**; only the browser skill is needed on the new machine (`the browser skill`, `../browse-output/browsectl`) |
+| repository | path | holds |
+|---|---|---|
+| pdp64 | `.` | the grammars (`spec/`), `as64`, `ld64`, `sim64`, the shared core `common/`, the QEMU target sources (`qemu/`), the LLVM target sources (`llvm/`, frozen), tests, tools, all documents |
+| pcc | `../pcc` | the portable C compiler with the pdp64 back end in `arch/pdp64`; the branch `single-pdp64` builds only the 32-register target (not yet merged into pcc's master) |
+| v7unix-toolchain | `../facetlang/pdp11/v7unix-toolchain` | corpus tooling for the size measurements and the C test programs |
+| QEMU source | `../qemu-src` | `git clone --depth 1 --branch v11.1.2 https://gitlab.com/qemu-project/qemu.git ../qemu-src`; the target is installed into it by `qemu/build.sh` |
+| LLVM source | `../llvm-project` | `llvmorg-21.1.8`; never committed |
+
+Rules the author set: `pdp64` goes to `origin main`, pcc to its own remote; never rewrite pushed history; one commit per feature; the commit message ends with the co-author trailer used throughout the history (see `git log`). Not in git, and rebuildable or re-fetchable: the corpora, the cross compilers, the QEMU and LLVM trees and their build trees, and the kernel source trees used by the surveys.
 
 ## 3. Rebuilding, in order
 
-1. Clone the three repositories (section 1) and the corpora; install the host tools: a C compiler, `make`, `python3`, `ninja`, `cmake`, `clang` 21 (the LLVM work
-   needs a recent clang or gcc and, for speed, `lld`), `git`, `pkg-config`, `libglib2.0-dev`, `libpixman-1-dev` for QEMU.
-2. `tools/build-hbnf.sh` (the grammar tool), then `tools/check-all.sh`. This builds `as64`, `ld64`, `sim64`, regenerates the headers, runs the
-   format, syntax, drift, link, simulator and (if present) QEMU tests, and the generated-file freshness checks. **It must pass before anything else is trusted.**
-3. The C compiler: `PCC=../pcc tools/build-pcc.sh` (the compiler of the pdp64 is on the pcc branch `single-pdp64` of moebiusV/pcc, one target; the master of pcc still has the three targets and the `PDP64_REGS32` switch, and `tools/build-pcc.sh` refuses it; output `build/pcc/ccom`), then the C tests: `tools/pdp64test-all.sh` (107 programs under nine flag sets, 963 runs; they use `build/pcc/ccom` and this tree's `build/as64`, `ld64`, `sim64`; `PDP64RUN=qemu` runs the programs under QEMU).
+1. Host tools: a C compiler, `make`, `python3`, `ninja`, `cmake`, `git`, `pkg-config`, and for QEMU the glib and pixman development packages.
+2. `tools/build-hbnf.sh` (the grammar compiler, in a rootless container), then `tools/check-all.sh`: builds `as64`, `ld64`, `sim64`, regenerates the generated files and runs the syntax, assembly, link, codec, drift, simulator, timing, relaxation and QEMU checks. It must pass before anything else is trusted.
+3. The compiler: `PCC=../pcc tools/build-pcc.sh` (needs the pcc branch `single-pdp64`; it refuses a tree that still has the `PDP64_REGS32` switch), then `tools/pdp64test-all.sh` (107 programs under nine flag sets, 963 runs; `PDP64RUN=qemu` runs them under QEMU).
+4. QEMU: `qemu/build.sh`, then `tools/check-qemu.sh`.
+5. The manual: `python3 tools/mkmanual.py` writes `docs/manual/` from `docs/manual-src/`; `python3 tools/mkmanual.py --check` and `tools/check-manual-src.py` check it. Never edit a generated page.
+6. LLVM: the sources in `llvm/` are frozen for the original encoding and do not build against the current assembler's output; see `llvm/README.md`.
 
-   **The architecture (decided 2026-11-10).** The pdp64 is the 32-register, prefix-coded CPU (before the decision it was called pdp64/32). The original encoding (r20) and the 16-register prefix-coded variant (pdp64/16) were built and measured against it, the 32-register one was chosen for performance, and they are previous iterations, no longer CPUs (the author, 2026-11-10, errata 122; the last commit with their manuals and tools is the git tag `pre-single-cpu`, the last with their code `pre-code-removal`); the history stays in `docs/encoding-work/`. The manual, the book, the manual tools and the code (`as64`, `ld64`, `sim64`, QEMU) are single-CPU now; no tool has an option that selects an encoding (`-m pdp64` is accepted by `as64`, `sim64` and `ccom` for the driver convention and nothing else is). The
-   encoding is the hbnf grammar `spec/pdp64/pdp64.hbnf`: **the grammar is the source of truth**; everything else (the C tables of the codec, the assembler's syntax,
-   `tables.md`) is generated by `tools/mkenc.py` (`tools/encgram.py` reads the grammar), and `tools/check-grammar-enc.sh` fails if a generated file or hbnf's own decoder disagrees. To change the encoding follow
-   `spec/README.md` ("Changing an encoding"). Linker relaxation is on by default (`as64 --no-relax`, `ld64 --no-relax`). `sim64 --timing=SPEC` is the timing model (`docs/timing-model.md`).
-   The reports of the work, who decided what, and the measured comparison: `docs/encoding-work/`. What is left: the pcc branch `single-pdp64` is not merged into pcc's master, the atomics and a few
-   cryptographic words are not implemented in the executor (errata 88), and the compiler's use of the new instructions beyond the four fused pairs is not done (`docs/encoding-work/pcc2.md`). The LLVM back end (`llvm/`) still encodes the original encoding and is frozen (`llvm/README.md`); its port to the encoding of the pdp64 is open.
-4. QEMU: `qemu/build.sh -j 8` (installs the target into `../qemu-src`, configures, builds `../qemu-build/qemu-system-pdp64`). Then `tools/check-qemu.sh`.
-5. LLVM: `LLVM_USE_LINKER=lld TARGETS="llvm-tblgen llvm-mc llvm-objdump llvm-readobj llvm-objcopy" llvm/build.sh -j 16`, then `llvm/check.sh`. On the small machine this took
-   about 12 minutes for the first two tools and needed 440 MB; `llvm-objdump` and `llvm-readobj` (389 more steps) were never built and are untested. Details: `docs/pdp64-system-architecture.md`
-   section 14.
-6. Sizes: `tools/pdp64size.sh` (needs `TOOLCHAIN=../facetlang/pdp11/v7unix-toolchain` and the corpus builds). The last verified result is in section 5.
+Assembly, linking and running: `as64 x.s; ld64 -o x.out x.o; sim64 x.out`. There is no option that selects an encoding (`-m pdp64` is accepted and the only value). The grammar `spec/pdp64/pdp64.hbnf` is the source of truth for the encoding; the tables, the assembler's syntax tables and the manual's dictionary are generated from it (`spec/README.md` says how to change it).
 
-## 4. The state of the work
+## 4. The order of work (the author, 2026-11-10; errata 125)
+
+1. **Resolve the open items**, starting with those that affect the opcodes (appendix J of the manual; the ledger lists them). The status and decisions document is to get a form in which the author can choose options and type questions, for a quick feedback loop (`tools/feedback`, `docs/feedback`).
+2. **Re-run the encoding optimiser** once the decisions that affect the opcodes are made and the mnemonics are settled. The optimiser (`tools/encopt`) is to be translated from its Python original to C, using optimal algorithms.
+3. **Update the grammar** (`spec/pdp64/pdp64.hbnf`, and the mnemonic vocabulary), because it generates the assembler, the tables for chapter 9 of the manual and the compiler's headers.
+4. **Regenerate** the assembler tables, the manual and the pcc headers.
+5. **Port to the new encoding**: the LLVM back end, QEMU, `as64`, pcc and `sim64`. Until then `sim64` and pcc are kept current with the present encoding, and they, and the LLVM sources, will change when the opcodes do.
+
+The pcc RISC-V back end is **a separate project**, not any part of this one (the author, 2026-11-10).
+
+After that: an LLVM code generator, then OpenBSD reachable over ssh (the roadmap is [`docs/roadmap.md`](docs/roadmap.md); the first operating system is OpenBSD, Unix/32V the fallback).
+
+## 5. State of the pieces
 
 | piece | state |
 |---|---|
-| ISA, grammars, `as64`, `ld64`, `sim64` | working; the numbers (opcodes, fields, page-2 table) come from `spec/*.hbnf`; semantics once in `common/pdp64exec.c` |
-| pcc back end | working for the pdp64 (963 C test runs pass under `sim64`, on the pcc branch `single-pdp64`; the sizes in section 5 are of the first iteration, r20; the measured comparison is `docs/encoding-work/integration.md`) |
-| the pdp64 | working end to end: grammar, codec, `as64`, `ld64` with relaxation, `sim64` (and `--timing`), QEMU, compiler |
-| QEMU machines | working: the user-mode machine and the kernel-mode machine of System v1 (exceptions, interrupts with priority 7 on entry, MMU walker, timer, console); 43 sim64 programs and 52 QEMU tests pass; the mini-kernel test and the dynamic `pushx`/`popx` measurement exist or are queued (section 6) |
-| LLVM back end | milestone 1 (assembler, disassembler, ELF object writer) was done for the original encoding (r20), checked against the assembler of that time; the assembler no longer produces it, so the sources are frozen (`llvm/README.md`); the port to the encoding of the pdp64 is open; no code generator yet |
-| System v1 specification | accepted (`pdp64-system-architecture.md` section 15) |
-| Errata 39 (flag cleanup, `ISYNC`, `HINT`) | done, verified and pushed (compiler, core, grammar, tests, invariant checker `tools/check-flaginv.sh`) |
-| Errata 40 (priority 7 on every exception and interrupt entry) | decided; documentation committed; core, QEMU and tests committed (`06e4a05`); see section 9 for whether it is pushed |
-| the manual | the manual of the pdp64 `docs/manual/`, generated from the hand-written text of `docs/manual-src/` (README there) (ten chapters, five appendices; renamed from `docs/streamlined/` by errata 70) with every generated instruction entry inside chapter 9, the reference tables `docs/manual/dictionary/` and the SVG figures `docs/manual/figures/` are written and published at https://moebiusv.github.io/pdp64/ ; see section 10 |
-| bus and devices (errata 49 to 51, 58 to 61) | decided on paper only: the bus is a device (registers ID, CONTROL, STATUS, SLOT, INFO, MAPADDR, MAPCTL, EVENT), the common device registers and 32-byte descriptor with an ownership bit, storage interfaces (SCSI, ATA, SATA, NVMe) on the same pattern, a device window of at least eight registers, the GPT wrapper, boot offsets; bit 39 of the physical address selects device space (P19, errata 60: **implemented**: `spec/pdp64-system.hbnf` `map`, the QEMU memory map (timer at 0x8000000000, console at 0x8000001000) and, as the proposal of errata 65 (not yet confirmed by the author), the walker's rule that a leaf's memory type must agree with the space bit) |
-| vector, graphics and AI work (errata 59) | decided: no SIMD register file; memory-mapped devices (graphics terminal, LB64 and companions, array languages); the register-level C64 devices are a stub; the author's earlier chat decided much of them (`docs/c64-devices-from-chat.md`, conflicts in `decisions-pending.md` Part E) |
-| operating system | decided (errata 41): OpenBSD first, through the LLVM back end (the critical path: selection, calling convention, clang; needs the bigger machine); Unix/32V with pcc is the fallback if OpenBSD proves too hard; 3BSD dropped; nothing written |
+| grammar, `as64`, `ld64` (with relaxation), `sim64` (with the timing model) | working for the pdp64; the atomics and some cryptographic words are not implemented in the executor; the five words `ABS`, `MIN`, `MINU`, `MAX`, `MAXU` are still native in the tools though the decision makes them aliases |
+| pcc back end | working on the branch `single-pdp64`; uses the four fused pairs, not yet the other new instructions |
+| QEMU | executes the pdp64 encoding; machine tests and the C programs pass; target is to reach parity with `sim64` |
+| LLVM | machine-code layer for the original encoding, frozen; port open; no code generator |
+| the manual | complete in structure; chapters 1, 7, 8 and 10 are being rewritten for the PDP-11 reader |
+| tests | after the removal, some simulator tests that wrote r20 words are gone and their cases are not yet rewritten (the list is in errata 123) |
 
-**The goal before silicon (errata 52):** assembler, linker, LLVM compiler back end, emulator, and an OpenBSD port that can be logged into with ssh; the roadmap with the order of work is [`docs/roadmap.md`](docs/roadmap.md).
+The detailed account, by chapter and statement, is [`docs/implementation-status.md`](docs/implementation-status.md).
 
-## 5. Numbers (827 fair-corpus files, bytes = text + rodata + data)
+## 6. Working rules
 
-| point | instructions | bytes | against `gcc -Os` | against `clang -Os` |
-|---|---|---|---|---|
-| before errata 39 | 334,056 | 1,499,530 | 0.998 | 0.931 |
-| after the compiler half of errata 39 | 335,877 | 1,505,382 | 1.002 | 0.935 |
-
-Measured by `tools/pdp64size.sh`; references in `docs/codegen-data/`. The flag-reliance checker `tools/flagreliance.py` reports 0 sites on the new output, 2,908 on the old.
-
-## 6. What is half-done
-
-* **Uncommitted changes** in `.` (the repository root) (partial work on the survey and comparison, deliberately not committed): `tools/archcmp.py`, `tools/kernelasm.py`, `tools/kernelpain.py`, and CSVs under `docs/codegen-data/archcmp/` and `docs/codegen-data/kernelasm/`. They are
-  work in progress: finish or discard them; do not commit them unchecked. In `../pcc`: only an untracked `pdp64-docs-2026-10-21.tar`.
-* **Unfinished work:** the cross-architecture comparison (`docs/arch-comparison.md` is not written; `tools/archcmp.py` is partial and the totals file from a 13-file trial must not be quoted) and the kernel-assembly survey tooling (`tools/kernelasm.py`). **The LLVM re-check** (section 4) is queued first.
-* **Copy-edit in progress (paused 2026-10-23):** the author's rule is that every document reads as complete and timeless, with no AI slop, no self-reference, no announced corrections, no history of the document itself (precedent discussions of other machines stay; stubs, a plain status section and per-entry status lines are allowed; no absolute paths, no mention of the tool, no process failures). Done: `README.md`, `docs/manual/` and its generator sources, `docs/pdp64-isa.md`, `docs/pdp64-fpga-plan.md`, `docs/pdp64-lb64-accelerator.md`, `docs/pdp64-system-architecture.md`, `docs/pdp64-system-design.md`, `docs/pdp64-in-order-and-out-of-order.md`, `docs/pdp64-q64-bus.md`, `docs/boot.md`, `docs/roadmap.md`, `docs/abi.md`, `docs/asm-syntax.md`, `docs/sim64.md`, `docs/fact-check-2026-10-22.md`, `llvm/README.md`, `qemu/README.md`, `book/README.md`. Still to do, in this order: `docs/pdp64-ooo-readiness.md` (untouched); the research reports (`kernel-pain-points.md`, `hardware-vulnerabilities.md`, `openbsd-mitigations.md`, `kernel-asm-survey.md`, `architecture-recommendations.md`, `codegen-analysis.md` with its template `tools/codegen/doc_template.md`): reorganise by topic instead of by research round and remove the corrections tables, keeping the corrected facts; then the record documents (`docs/errata.md`, `docs/CHANGES-SINCE-R20.md`, `docs/decisions-pending.md`, this file) for slop only, since they are history by nature; `docs/orig/` is never edited. The stub `docs/streamlined/00-index.md` (a pointer to the renamed manual) may be deleted. The grep and number-diff gates were not run on the second batch of documents; run them over all edited files after the last one.
-* **Accepted in the manual (errata 71, 2026-10-23) but not yet implemented:** split translation (`KTBR`, 6.9.1: needs a system-register number, the level-2 table layout, the walker in `common/pdp64exec.c` and QEMU `mmu.c`, and a change to the tests and the mini-kernel, which map the kernel in the lower half); the `DIT` bit (9.3.7: a position in the status word); `CAS` sizes (9.13.2: encoding); the video device's `ARM` and status registers (3.1.9); the per-core class and stop-and-drain registers (7.8.4); the interrupt-ordering and target rules (2.4.4, 5.9.4) and the bus-reset rule (2.6.9) in the bus model. The research documents carry the evidence (`docs/kernel-pain-points.md` 14M.8, `docs/architecture-recommendations.md` section 6). Not yet decided by the author: the other recommendations in that document, and errata 65 (the consistency fault).
-* **Known open spec items:** the `DMW` format and `MMUCTL`; bus atomics; `pushm`/`popm`/`pushx`/`popx` aborts can leave earlier stores; block copy more than one byte per step against the sequential-consistency promise; the architecture-text items of the readiness review still to be written into the ISA.
-* **Web research** (the kernel mailing lists, the handbooks listed in `docs/fact-check-2026-10-22.md` section 12) uses the browser skill, not `WebFetch`. The author wants to be told before the browser is started because it opens a visible window; shut it down only with `./browsectl quit`. lwn.net coverage was limited.
-
-## 7. Decisions taken, and decisions open
-
-Decided (all in `docs/errata.md`, items 1 to 96; items 41 to 62 are summarised after this paragraph; errata 94 to 96 are the decisions of 2026-11-09 and 2026-11-10: the 32-register encoding is the pdp64, devices are virtio, 3, 4 or 5 page-table levels): the ISA (three parcels, page 2, `cbCC` forms, `rori32`, `=K` literal pool, `pushx`/`popx`, FP16), the ABI (`docs/abi.md`), System v1 (register-based exception entry,
-vector table at `VBR + 8*vector`, software accessed/dirty bits, page tables (3 levels in System v1; errata 96 allows 3, 4 or 5), MMUCTL, eight priority levels), devices (eight memory-mapped registers plus DMA until errata 95: virtio across the board), the OS order (errata 41), and the
-flag cleanup of errata 39: flags are two groups (`C` and `{N,Z,V}`), `cbCC` and moves, loads and stores write no flags, shifts write the same flags for every count, `mscn` writes all four, rotates and `dshr`
-write no flags, `asl` keeps `V = N xor C`; new `ISYNC` and `HINT`; errata 41: the OS order is OpenBSD first, 32V fallback, 3BSD dropped; and errata 40: every exception and interrupt enters at priority 7 (a PDP-11 throwback, unverified against the handbook).
-
-Errata 41 to 62 in one line each: 41 OpenBSD first; 42 all rules soft; 43 the user-memory guard bit `UA` (`STUA`, `CLUA`; PSW bit 12); 44 `MMUCTL` stays, `DMW` deferred; 45 atomics are a monitor; 46 `long double` is `double` and the ABI is versioned; 47 boot software open source; 48 BSD 2-clause licence for everything; 49 the bus is a device; 50 a GPT wrapper around the BSD label; 51 majority offsets (label in sector 1, 8 KB boot area, superblock at 8192); 52 the goal before silicon; 53 the manual is the primary deliverable; 54 the manual is primary; 55 its published form; 56 aphorism then commentary; 57 the reference layout; 58 every decision states its impact on the kernel, the compiler and the hardware; 59 vector, graphics and AI work go to memory-mapped devices (APL and K); 60 bit 39 selects device space, and the book order; 61 storage interfaces share the device pattern and eight registers is a minimum; 62 the instruction dictionary, generated, with atomics in the SMP chapter and system instructions and faults in the kernel chapter. The decisions still open are in [`docs/decisions-pending.md`](docs/decisions-pending.md) and appendix B of the manual.
-
-Open: the operand placement of the atomic instructions (the ISA text fixes only their sub-opcodes); the register-level definition of the C64- and Blit-derived devices; the `DMW` register format (deferred); the Q64 bus transactions and the atomics question (`pdp64-q64-bus.md`); the LLVM milestones
-(selection, calling convention, tied operands, clang); the architecture-text items of the readiness review (`pdp64-ooo-readiness.md` section 2) still to be written into the ISA; out-of-order readiness is a design
-aim while the FPGA and ASIC stay in order.
-
-## 8. Rules of the house
-
-* **Agents:** one agent at a time on this machine (3.9 GB); stop an agent that eats memory. "Push everything when the agent reports", after a clean-clone `tools/check-all.sh`. Web access only through the browser skill with the politeness rules below.
-* **Politeness:** at least 10 seconds between page loads on any host (more on lwn.net and archive.org), one directive at a time, stop on a captcha until the author has passed it; after any 429, 503 or block page back off and retry on a timer with a growing delay (at least 5 minutes, doubled each time). `../browse-output/politewait.py HOST SECONDS` enforces a minimum gap per host. To stop an agent use TaskStop and `./browsectl quit` at once.
-* **Statements of the author supersede mine** unless they later agreed with me; the recent beats the old. Record each decision as an erratum with the author's words.
-
-* **The author's principles, in order:** (1) code size; (2) easy recoverability, meaning fewer possible errors and an easier recovery path, so less recovery code; (3) speed and efficiency through fewer gates and tighter hot loops, by careful instruction choice. All rules are soft (errata 42). The README states them and gives the examples. Judge every option against them.
-
-* The grammars are the single source of truth; every number is stated once in an enum rule and generated downstream; semantics once in `common/pdp64exec.c`.
-* The README is the only index of documents; originals in `docs/orig/` are never edited; never edit another agent's files without telling it.
-* Do not `kill` `browse.py`; do not unset `VAX780`; do not delete the author's files without asking; `tools/check-all.sh` stays green.
-* On a small machine: one heavy job at a time, `nice -n 10`, `ninja -j1`; an exit 137 is the system killing a process, not a test failure.
-
-## 9. Commits at the time of writing
-
-On 2026-10-22 (later): `pdp64` `main` = `c3c794f` (documentation only since the last clean-clone `tools/check-all.sh`, which was at the commit that added the licence; the documentation commits since touch no code except `tools/mkmanual.py`, `tools/manual/` and one line of `tools/check-all.sh`, and `python3 tools/mkmanual.py --check` passes), `pcc` `master` = `d44d98a4`. Uncommitted and not mine to commit unchecked: `tools/archcmp.py` and the files under `docs/codegen-data/archcmp/` (the stopped comparison agent), `chat02.txt` (the author's). The earlier line:
-
-On 2026-10-22, after a clean-clone `tools/check-all.sh` of the committed HEAD (exit 0; sim64 43 of 43, QEMU 52 run, 0 failed, 3 skipped; C suite 516 of 516 under sim64 and QEMU): `pdp64` `main` = `06e4a05` plus the commit that adds this line (see `git log -1`), `pcc` `master` = `d44d98a4`. Both pushed.
-
-## 10. The manual
-
-The manual of the pdp64 is [`docs/manual/`](docs/manual/00-index.md) (one manual: r20 and pdp64/16 are previous iterations, no longer CPUs, the author's decision of 2026-11-10, errata 122; their manuals and tools are in the git tag `pre-single-cpu`, their code in `pre-code-removal`), published at https://moebiusv.github.io/pdp64/docs/manual/00-index.html (the legacy GitHub Pages build; `.md` is served as `.html`; a push shows after one or two minutes). Order of the chapters (set by the author): introduction, bus, graphics, boot, device drivers, kernel (modes, exceptions, memory management, system instructions, faults), multiple processors (including the atomic instructions), vectors and AI, the instruction set, conclusion; then the instruction reference tables, then appendices A (improvements), B (decisions pending), C (glossary), D (ABI), E (assembly language), F (the evidence documents).
-
-* **Form of a section:** numbered statements (*(D)* decided, *(P)* proposed, *(S)* stub, no tag as built), then a *Commentary* with the *Precedent*, *Trade-offs*, *Improvements*, *Benefits*, *Modern comparables*, *Use* where useful, and an **Impact** line (*Kernel*, *Compiler*, *Hardware*; errata 58).
-* **The stories** (*Why it is here*, errata 64) are `tools/manual/isa_stories.py`, keyed by entry id; they are written from the record only (the author's messages in the session transcript, `chat01.txt`, the revision changelogs, the errata, the measurements), and a new instruction that is not common needs one.
-* **The instruction entries** are generated *into the chapters*, between `<!-- entries:N.N -->` markers at the end of sections 9.6 to 9.12, 7.12 and 6.13 (never edit between the markers), in the source text `docs/manual-src/` and in the generated manual; `tools/mkmanual.py` writes the manual `docs/manual/` from `docs/manual-src/` (never edit a file there), with the reference tables `dictionary/` and the bit-layout figures `figures/*.svg` from `spec/pdp64-mnemonics.hbnf` and `spec/pdp64-system.hbnf` (the numbers) and `tools/manual/isa_*.py` (the words); never edit the generated pages; `python3 tools/mkmanual.py --check` is part of `tools/check-all.sh`. Entries are marked implemented or not by reading `common/pdp64exec.c`.
-* **Known gaps:** the C64- and Blit-derived devices (stub, section 3.13 of the graphics chapter); the atomic instructions, the memory escape (`MESC`), the UTF-8 instructions, `MVAL` and `FCLASS32` are specified but not implemented in the executor; `STUA` and `CLUA` are not in the grammar; the book form is one PDF, `book/pdp64.pdf`, tracked in git, built by `tools/mkbook.sh` (buildabook, from its repository `../buildabook`, builds without hbnf since 2026-10-23, plus Typst and `cmarker` 0.1.8; `book/README.md`); the copy in git can be older than the manual; the README and the manual's index link to them. (An earlier note here said that a working session must not rebuild the PDF; the author never gave that instruction.)
-* **Checks to run after editing the manual:** every relative link resolves; chapter and section references match the headings (the glossary and the introduction's evidence table cite sections by number); `python3 tools/mkmanual.py --check`.
+* **The author's decisions win**; the more recent beats the older. Each decision is recorded with his words (the register) and, if it changes a document, an erratum. When he says "looks good" or "I like it" that is a decision in favour. A decision is a decision with details pending; do not drop it because the details are not written.
+* **Documents follow the ledger.** Every document is current, a dated record (with a banner) or history (with a banner); the map is `docs/README.md`. No local user names, host names, absolute paths or tool or session ids in documents. No opcode numbers or bit layouts in prose: point to the generated tables.
+* The grammars are the single source of truth; every number is stated once and generated downstream; semantics once in `common/pdp64exec.c`.
+* The manual describes the architecture as it is to be, not as it is.
+* Web research uses the browser skill. Politeness: wait at least ten seconds between page loads on any host, more on some; stop on a captcha; after a block back off with a growing delay.
+* Do not delete the author's files without asking; keep `tools/check-all.sh` green.

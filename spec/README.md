@@ -2,6 +2,8 @@
 
 The pdp64 has one CPU: 32 registers (`r0`-`r31`) and a prefix-coded instruction encoding (the author, 2026-11-10, errata 122). Two earlier iterations of the design, an encoding with sixteen registers in which parcel 0 is `len:2 opc:6 reg:4 low:4` (pdp64/r20) and a prefix-coded one with sixteen registers (pdp64/16), were built and measured against it and superseded; their grammars, tools and tests are in the git tags `pre-single-cpu` and `pre-code-removal`, and the measured comparison is in `docs/encoding-work/`.
 
+The opcodes, prefixes and field positions may still change once the open items are decided and the encoding optimiser is run again; the grammars are then updated, and everything generated from them (the assembler tables, the tables of chapter 9 of the manual, the headers of the compiler) is regenerated. No document states these numbers in prose: they point to the generated tables.
+
 | file | what it is |
 |---|---|
 | `pdp64/pdp64.hbnf` | the encoding: registers, the hot-register tables, the catalogue of 207 forms and 268 leaves (the source of truth of every bit position) |
@@ -59,15 +61,7 @@ code, that each leaf covers its 16n bits exactly once and that no first parcel d
 ## Changing an encoding (the workflow)
 
 1. Edit the grammar: by hand (`spec/pdp64/pdp64.hbnf`: a new leaf is a `leaf-FORM-K` rule with its prefix, fields and `sub-FORM-K` list, added to `insn`; a new form is a `form-` rule, a
-   number in the catalogue and its leaves; the shapes are in `spec/pdp64-enc.hbnf`), or with the optimiser, on the output of the compiler (a directory of the `.s` files of the 841-file corpus; the optimiser's scripts are history from the two-grammar period and run from the git tag `pre-code-removal`, `docs/codegen-data/encoding/README.md`):
-
-       PDP64_CORPUS_DIR_NEW16=DIR16 PDP64_CORPUS_DIR_NEW32=DIR32 python3 docs/codegen-data/encoding/export_forms.py OUTDIR \
-           --tag16 new16 --tag32 new32 --rounds 2 --lam 2 --keep-hot --refine 6 --cb3
-
-   writes complete grammars to OUTDIR (`--rounds`: the distances are those of the previous round's layout; `--lam`: what a `cmp` + `bCC` costs beyond its bytes, in bytes; `--keep-hot`: the hot-register tables of the
-   grammars in `spec/` are kept, they are the ABI; `--cb3`: offer three-parcel `cbCC`); compare with `diff -ru spec OUTDIR` and copy what is wanted (the three `.hbnf` files; `pdp64-enc.hbnf` changes with the shapes the forms use).
-   Without options it reproduces the original study's grammars from its corpus. `cbreach.py`, `cbforms.py` and `distances.py` (same directory) report how many `cbCC` need the pair and why, the `cbCC` forms and the
-   distances of the pc-relative operands; `reopt.py` runs one configuration for an ablation.
+   number in the catalogue and its leaves; the shapes are in `spec/pdp64-enc.hbnf`), or with the encoding optimiser, which reads the compiler's assembly for the 841-file corpus and writes complete grammars (`tools/encopt`; its translation from the Python original to C, with optimal algorithms, is a work item, and it is to be run again once the decisions that affect the opcodes are made and the mnemonics are settled; see `handoff.md`, the order of work). The Python scripts of the two-grammar period in `docs/codegen-data/encoding/` are the original and are history: those that read two grammars by tag run from the git tag `pre-code-removal` (`docs/codegen-data/encoding/README.md`). Compare a new grammar with `diff -ru spec OUTDIR` and copy what is wanted (the grammar `pdp64/pdp64.hbnf`; `pdp64-enc.hbnf` changes with the shapes the forms use). The hot-register tables of the grammar are the ABI and are kept unless the author decides otherwise.
 2. `tools/mkenc.py --md` rewrites the tables of `spec/pdp64/tables.md`.
 3. `tools/check-grammar-enc.sh` fails, naming the generated files that changed; after reading the differences, `tools/check-grammar-enc.sh --update` records them in `tests/enc/generated.sha256`.
    The same script runs hbnf on the grammar (syntax, references, widths), compares hbnf's decoder with the codec built from the new tables on 262,144 parcel sequences,
@@ -88,8 +82,7 @@ movql trapcc.<cc> syspg0-5`, the user-qualified moves `movq.u movq.d movq.ud ...
 An instruction is one to five 16-bit parcels (little-endian in memory); its length is a function of parcel 0 alone. The top bits of parcel 0 are a prefix of 1 to 16 bits
 that selects a *leaf*: a group of mnemonics with one form (operand shapes and field widths); a sub-opcode field inside the leaf (binary-aligned) selects the mnemonic.
 Register fields start at bit 0 of parcel 0 and go up (the last register operand lowest), displacements and immediates fill the rest, the widest field last, so in the later parcels.
-No bit is padding: an unused sub-opcode, or a hot-register index beyond the table, decodes as an illegal instruction. 5.0% of the first-parcel patterns (3,278 of 65,536) are unassigned
-and illegal.
+No bit is padding: an unused sub-opcode, or a hot-register index beyond the table, decodes as an illegal instruction. The first-parcel patterns that match no prefix are illegal instructions (the count is in `tables.md` and manual 9.1.5).
 
 The assembler picks, for each instruction, the first form in the table's order (shorter first, then the order of the catalogue `forms`) whose fields can hold the operands, and relaxes
 (lengths only grow; every distance is measured on the layout of the previous pass, which is the iteration of the model). A branch, call or `d(PC)` operand is measured in bytes
@@ -116,7 +109,7 @@ of 32 bits or more and a relocation; the relocation types are those of `as64/rel
 ## The hot-register tables (part of the ABI, docs/abi.md)
 
 A 3-bit register field in a one-parcel form is an index, not a register number: `r0 r1 r8 r2 sp r3 r9 r10`.
-There are also 4-bit fields: `r0 r1 r8 r2 sp r3 r9 r10 r11 r4 r15 r5 r24 r25 r26 r6` (`r24`-`r26` are the callee-saved registers of the 32-register compile);
+There are also 4-bit fields: `r0 r1 r8 r2 sp r3 r9 r10 r11 r4 r15 r5 r24 r25 r26 r6` (`r24`-`r26` are hot registers; their roles are in the ABI, appendix D);
 A different register allocation changes the sizes, not the correctness. `mov2` needs all four registers in the 3-bit table.
 
 ## Commands
@@ -127,20 +120,15 @@ A different register allocation changes the sizes, not the correctness. `mov2` n
     ld64 [--no-relax] [--stats] [--dump-map file] [-M] [-o out] objects...       (relaxation objects are relaxed; docs/relaxation.md)
     tools/check-relax.sh [--mutate]      relaxation: generated program relaxed and not, decoder-based check of every relaxed image, mutants of ld64
     tools/check-enc.sh                   mkenc --check, codec against the model, drift test of every mnemonic (and check-grammar-enc.sh)
-    python3 docs/codegen-data/encoding/export_forms.py OUTDIR     rerun the optimiser: writes the grammars (needs the corpus)
-    python3 docs/codegen-data/encoding/asm_vs_model.py 16|32 outdir          real assembler against the model on the corpus (needs the corpus)
+    tools/encopt                        the encoding optimiser (see its README; to be run again after the open items are decided)
 
 ## Linker relaxation
 
 `as64` marks an object (by default; `--no-relax` gives the plain object) (`e_flags` 0x10, `EF_PDP64_RELAX`; 0x20, `EF_PDP64_NOADJ_TEXT`, if its `.text` holds a distance that is not a relocation) and gives every
 instruction that holds the address of a symbol a relocation, local symbols too, and every padding of `.text` an `R_PDP64_ALIGN` (type 6; addend = padding bytes << 32 | alignment).
 `ld64` then picks, for each such instruction, the shortest form of the codec that reaches, after laying the sections out, and moves everything behind it (the lengths
-only grow from the shortest form, so the iteration ends; paddings are recomputed from the positions).  The reach of the forms is in the tables (`call`: 4 bytes up to
-+-1 MiB, `lea` and pc-relative loads: 4 bytes up to +-32 KiB, branches 2 bytes up to 64 to 512 bytes, 4 bytes +-64 KiB; the proposal's "+-2 MB" for `call` was twice the
-reach of the 20-bit field counted in parcels).  Objects made with `--no-relax` are linked as before; `ld64 --no-relax` links relaxation objects exactly as the assembler
+only grow from the shortest form, so the iteration ends; paddings are recomputed from the positions).  The reach of the forms is in the tables (the reach of each form is in `spec/pdp64/tables.md` and the manual's dictionary; manual 9.5.5 states the reach of the four-byte `call`, `lea` and branch forms).  Objects made with `--no-relax` are linked as before; `ld64 --no-relax` links relaxation objects exactly as the assembler
 laid them out.  Details, the argument that it ends and is right, what it cannot do, the checks and the measurements: `docs/relaxation.md`.
-
-Not part of this phase: the simulator.
 
 
 ## The manual's charts

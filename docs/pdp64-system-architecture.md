@@ -1,3 +1,5 @@
+Status: record, dated 2026-10-22 (System v1, the design for the first implementation; the sections on the operating-system plan and the LLVM back end date from the same weeks). It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date in one line: the ISA section numbers it cites (§2.1, §4.11, §7, §17 and so on) are those of the old handwritten ISA text, which was rewritten with different numbering (cite chapter 9 of the manual); the context is sixteen registers and the original encoding where it says so (the pdp64 has thirty-two registers and a prefix-coded encoding, one CPU); the page table is three levels where the manual allows three, four or five (errata 96); the physical address is 40 to 64 bits with no device-selecting bit (errata 97, 102); devices are virtio, the disk virtio-blk (errata 95, 101); the name Q64 is not used until additions to PCI Express are decided (errata 120); section 14 describes an LLVM machine-code layer that is frozen for the original encoding and awaits a port to the pdp64 encoding (`llvm/README.md`; its checks `oracle.py`, `forms.py`, `negative.py`, `runsim.py`, `check.sh` and `tools/gen-llvm-td.py` were removed with the original encoding and are in the tag `pre-code-removal`); the `DMW0` covering physical memory at reset is not the current reset (translation is off and every address is physical, manual 6.8.2).
+
 # pdp64 system architecture: privilege, exceptions, interrupts, memory management and boot
 
 [← pdp64 index](../README.md)
@@ -126,7 +128,7 @@ This is enough for demand paging, copy-on-write, `fork`, `mmap` and `mprotect`, 
 
 ## 8. Context switch
 
-*Established*: a thread's context is the sixteen registers (the stack pointer of the mode), the `PC`, the `PSW` and `FPSR`; there is no separate floating-point register file because floating
+*Established*: a thread's context is the thirty-two registers (the stack pointer of the mode), the `PC`, the `PSW` and `FPSR`; there is no separate floating-point register file because floating
 point lives in the general registers (ISA §2.3). The address space is selected with `MTASID` (and `PTBR`), one store and no flush (§8.1). The kernel's `DP` is the per-CPU pointer
 (§17.4), the user's `DP` the thread pointer (§19.3).
 
@@ -217,6 +219,8 @@ Each decision is written once, as the instruction numbers are, in a grammar from
 are generated.
 
 ## 14. The LLVM back end, and OpenBSD
+
+*Update, 2026-11-10: the sub-sections below record milestone M1 for the original encoding. The `llvm/` sources are frozen at that stage; the back end needs a port to the pdp64 encoding, to follow the decisions that affect the opcodes (see `handoff.md`). The test and generator commands named below no longer exist in the working tree.*
 
 The next operating system is an OpenBSD port if an LLVM back end proves easy enough. This section assesses that condition. The estimates below are
 the least certain statements in this document; milestone 1 (section 14.2) turned part of the picture into measurements.

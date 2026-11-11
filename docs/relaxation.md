@@ -3,24 +3,24 @@
 The assembler cannot know how far a symbol of another file is, so an external `call f` is assembled in its longest form (6 bytes) and so is `lea sym, rd` of a
 data symbol.  The encodings have shorter forms (a `call` of 4 bytes reaches +-1 MiB; `lea` and the pc-relative loads of 4 bytes reach +-32 KiB).  Once the
 linker has put the sections at their addresses the distance is known, so the linker chooses the form.  This document describes the object format that
-makes it possible, the algorithm of `ld64`, what it cannot do, how it is checked and what it saves.  The decision (errata 91): the author asked for the
-relaxation of external `call` and `lea`; the rest of what is described here is how the implementer made that correct.
+makes it possible, the algorithm of `ld64`, what it cannot do, how it is checked and what it saves.  The decision (errata 91, ledger entry "ld64 relaxation"): the author asked for the
+relaxation of external `call` and `lea`; the rest of what is described here is how the implementer made that correct. The manual states the rule in chapter 9 (linker relaxation) and appendix E.
 
-The measurements below (sections 4 to 6) were taken in the period of the earlier iterations of the design, pdp64/16 and pdp64/32; pdp64/32 is the pdp64 (the author, 2026-11-10, errata 122) and the pdp64/16 columns are history (the tools that produced them are in the git tag `pre-single-cpu`).
+Which parts are history: sections 1 to 3 and 5 describe the current tools (`as64`, `ld64`) and the design rationale. The reach table of section 4 is superseded by the generated tables (the exact reaches change with the encoding; they are not repeated here). Section 6 and 7 are a record of the checks and measurements made in the period of the earlier iterations of the design (r20, pdp64/16 and the 32-register encoding; the 32-register one is the pdp64, the author, 2026-11-10, errata 122); the pdp64/16 columns are history, and the tools that produced them are in the git tag `pre-single-cpu`.
 
 ## 1. The object format
 
 `as64` makes a **relaxation object** **by default** (the author's decision, errata 91).  `as64 --no-relax` makes the plain object, byte for byte the object of
 the phase-1 assembler, which links as before; `--relax` is the explicit spelling of the default.  A relaxation object differs in three ways.
 
-**e_flags.**  The low four bits are the encoding (1 or 2) as before.  Two new bits (`as64/relocs.h`):
+**e_flags.**  The low four bits hold the instruction set, `EF_PDP64_ISA` (2), as in every object.  Two more bits (`as64/relocs.h`):
 
 | flag | value | meaning |
 |---|---|---|
 | `EF_PDP64_RELAX` | 0x10 | the object follows the rules below; `ld64` may change the length of its instructions |
 | `EF_PDP64_NOADJ_TEXT` | 0x20 | (with RELAX) `.text` holds something that depends on a distance and is not a relocation; the linker leaves this object's `.text` exactly as it is |
 
-The executable carries only the encoding.  `ld64` refuses the flags in an object of the original encoding.
+The executable carries only the instruction set.  `ld64` refuses an object whose low four bits are not `EF_PDP64_ISA`.
 
 **A relocation on every instruction that holds the address of a symbol.**  Without `--relax`, `as64` resolves a reference to a label of the same section
 itself and records a relocation only for an external symbol or one of another section.  With `--relax` it records the relocation for the local
@@ -96,11 +96,11 @@ it too short.  The assembler's own relaxation (growth from the shortest, one pas
 prints the sites by category and the bytes they gained; `--dump-map` writes, per input `.text`, where it went and the length change of every site, which is what
 `tools/check-relax.py` needs to find every instruction of the linked image.
 
-## 4. The reaches (from the grammar `spec/pdp64/pdp64.hbnf`)
+## 4. The reaches
 
-> **Note (2026-11-04, integration).** The numbers of this section were taken from the grammars before the `cbCC` re-optimisation (`docs/encoding-work/cbreach.md`): the `cbCC` rows (4-byte forms 256 B to 16 KiB, no 6-byte form) are superseded, the re-optimised grammars have three-parcel `cbCC` (16-bit immediate with a 12-bit pc field, 8-bit immediate with a 20-bit pc field, two registers with a 24-bit pc field; `docs/encoding-proposal.md` 12.3). The call, `jmp`, `movcall` and `lea` rows are unchanged. Measurements in section 7 were made with the old grammars and the compiler of that time; the integrated numbers are in `docs/encoding-work/integration.md`.
+The reach of each form is the signed field of its leaf in the grammar `spec/pdp64/pdp64.hbnf` times the unit; the generated tables (`spec/pdp64/tables.md`, the manual dictionary) list every form and its field, and this note does not repeat them, because the encoding may still change. A pc-relative field counts parcels (2 bytes) for calls and branches and bytes for memory operands.  The shape of the answer, which is what the linker relies on: `call`, `jmp`, `movcall`, `br`, `bCC`, `cbCC` and `sob` have 2-byte (some), 4-byte and 6-byte forms with growing reach, the 6-byte forms reaching +-2 GB; `lea sym`, `movq sym, rd` and the ALU `sym, rd` forms have 4-byte forms of short reach and a 6-byte form with a 32-bit pc-relative or absolute field; `cbCC` has no 2-byte external form.
 
-A pc-relative field counts parcels (2 bytes) for calls and branches and bytes for memory operands.  Range is the value of the signed field times the unit.
+Historical table (2026-11-04, taken from the grammars of the r20 / pdp64/16 / pdp64/32 period, before the `cbCC` re-optimisation of `docs/encoding-work/cbreach.md`; superseded, kept for the arithmetic of section 7):
 
 | instruction | forms (bytes: field bits, reach each way) pdp64/16 | pdp64/32 |
 |---|---|---|
@@ -112,7 +112,7 @@ A pc-relative field counts parcels (2 bytes) for calls and branches and bytes fo
 | `sob` | 4: 64 KiB | same |
 | `lea sym`, `movq sym, rd`, ALU `sym, rd` | 4: PC12 2 KiB, PC14 8 KiB, PC16 32 KiB; 6: PC32 or absolute A32 | same |
 
-The reach of the 4-byte `call` is +-1 MiB, not the +-2 MB of the encoding proposal (field 20 bits, unit 2 bytes).
+(In that period the reach of the 4-byte `call` was +-1 MiB, not the +-2 MB of the encoding proposal. Manual 9.5.5 gives +-256 KiB for the current grammar: the manual and the tables win.)
 
 ## 5. What relaxation does not reach
 
@@ -121,7 +121,7 @@ The reach of the 4-byte `call` is +-1 MiB, not the +-2 MB of the encoding propos
 * There is no 2-byte `call`, `jmp`, `lea` or pc-relative load.  The shortest external call is 4 bytes.
 * Indirect calls (`calli`, `jmpi` through a pointer, a call through a register) are one parcel plus a pointer in memory and are not touched; there is no PLT, no GOT and no shared object.
 * The absolute forms (`@sym`, `#sym`) are relaxed when their value fits a shorter signed field (they do not, at `.text` 0x10000, below 2 KiB).
-* A `cbCC` that the assembler had to expand (`cmp` + `bCC`, because the target was external, far, or the immediate wide) stays expanded: the linker does not turn two
+* (Unverified for the current encoding, where `cbCC` has a long form of its own; true of the earlier iterations.) A `cbCC` that the assembler had to expand (`cmp` + `bCC`, because the target was external, far, or the immediate wide) stays expanded: the linker does not turn two
   instructions back into one.
 * An object with `NOADJ_TEXT` is not adjusted.  Only `.text` is adjusted; `.data` and `.bss` do not hold instructions.
 * A label that is immediately before an `.align` that happened to need 0 bytes of padding is placed *after* the padding if the padding becomes longer (the
@@ -130,24 +130,26 @@ The reach of the 4-byte `call` is +-1 MiB, not the +-2 MB of the encoding propos
 
 ## 6. Checks (`tools/check-relax.sh`, part of `tools/check-all.sh`)
 
-* A program of 126,913 instructions generated by `tests/relax/gen_relax.py` for pdp64/16 and /32, in two objects: 5 kinds of forward branch and 3 of backward loop over
+* A program of 126,913 instructions generated by `tests/relax/gen_relax.py` (for pdp64/16 and /32 in that period), in two objects: 5 kinds of forward branch and 3 of backward loop over
   0 to 150 external calls (the 6-byte calls of the assembler's layout against the 4-byte ones of the linker's, so the form of the branch differs between the two), branches near
   the 64 KiB reach, a call beyond the reach (700 KB), `lea` of external, local and `.comm` data, literal-pool loads, `.pool` in the middle, `.align 4/8/16/32`, `.even`
   after odd data, tables of code addresses in `.data` (`.quad f`, `.long f`), `calli` through them, `movcall`, a global that the other object calls, defined behind relaxed code.
   Its exit status is computed by the generator.  It runs relaxed and with `--no-relax`: same result, the relaxed image 17.3% smaller (1,215,936 against 1,469,888 bytes; 2 rounds).
-* The result of every program of `tests/sim` and `tests/sim-enc` is the same relaxed (`check-sim64.sh` runs them as `16r` and `32r`, with `.same` tests: the log of 1551 cases is identical).
+* The result of every program of `tests/sim` and `tests/sim-enc` is the same relaxed (`check-sim64.sh` runs every program plain and relaxed; the log of 1551 cases, in the period of the three encodings, was identical).
 * **The self-consistency check** (`tools/relaxcheck.c`): the instruction offsets the assembler lists (`--dump-lens`) are moved by `--dump-map` to their addresses in the linked
   image; each is decoded by the C decoder; its length is the decoder's and ends at or before the next instruction; every `br`, `bCC`, `cbCC`, `sob`, `call`, `jmp`, `movcall`
   lands on one of those starts; any other pc-relative operand lands in the data segments or in `.text` outside every instruction; a load from `.text` (a literal pool) is at
   a multiple of its size; every global symbol in `.text` is an instruction start (for the programs that keep tables in `.text`: or data between instructions, never inside an instruction).  It is run on the relaxed and on the unrelaxed images of the generated program and on every relaxed `tests/sim` program.
 * `tools/check-relax.sh --mutate`: seven mutants of `ld64` (an unmapped offset, paddings not recomputed, no growth, three symbol-address paths left unmapped, a padding of the wrong length)
   are each caught by the generated program.
-* `NOADJ_TEXT` (`tests/relax/noadj.s`: a `.word L1 - L0` table in `.text`): the text is as assembled and the program runs; the 2 GB limit is still reported with the symbol named; `as64 --relax` for pdp64/r20 is refused.
+* `NOADJ_TEXT` (`tests/relax/noadj.s`: a `.word L1 - L0` table in `.text`): the text is as assembled and the program runs; the 2 GB limit is still reported with the symbol named; 
 
-## 7. Measurements
+## 7. Measurements (record of the earlier iterations)
 
-Exact numbers from `ld64`, `sim64 -P` and the pcc-enc compiler of the tree `pcc-enc` (branch enc-prefix, `ccom -m pdp64/16` and `-m pdp64/32`, default flags), assembled
-with `as64 --relax`, linked once with relaxation and once with `--no-relax` (which is the plain link).  Scripts: `scratchpad/ld/run6r.py`, `corpus.py`, `runsmall2.py` of the session.
+The numbers below were measured with the compiler and the encodings of the period named above, and are not re-measured on the single CPU; the 32-register columns are the nearest to the current design. The scripts named were in a session scratch directory that is not in the repository (the raw runs are not reproducible from it); the checks of section 6 are.
+
+Exact numbers from `ld64`, `sim64 -P` and the pcc-enc compiler of that time (`ccom -m pdp64/16` and `-m pdp64/32`, default flags; now `ccom -m pdp64`), assembled
+with `as64 --relax`, linked once with relaxation and once with `--no-relax` (which is the plain link). 
 
 ### 7.1 The six programs (lz4, zlib, Lua 5.4.7, BearSSL hash, symmetric, elliptic-curve kernels; with the stand-in libc and crt)
 
@@ -235,6 +237,6 @@ left long in these programs (7 and 3 indirect calls are not sites).  Beyond 1 Mi
 
 ### 7.5 Relaxation is the default
 
-`as64` makes relaxation objects unless `--no-relax`; `ld64` relaxes every object that carries `RELAX` unless `--no-relax`; pdp64/r20 is untouched.  Consequences in this tree: the bytes of the `.text` of an object are the same with and without the flag (the relaxation object only adds relocations; paddings keep their length), so the assembler tests of `tests/asm-pdp64-NN` and `check-drift-enc` pass unchanged against the model's expectations; the unrelaxed link of `tests/ld-pdp64-NN` (words and map from the model) is made from `--no-relax` objects; the relaxed link of
+`as64` makes relaxation objects unless `--no-relax`; `ld64` relaxes every object that carries `RELAX` unless `--no-relax`.  Consequences in the tree of that period (the test directory names `asm-pdp64-NN`, `ld-pdp64-NN` and the tool `check-drift-enc` belong to it; today the tests are `tests/asm`, `tests/ld` and `tools/check-as64.sh`, `check-ld64.sh`, `check-relax.sh`): the bytes of the `.text` of an object are the same with and without the flag (the relaxation object only adds relocations; paddings keep their length), so the assembler tests of `tests/asm-pdp64-NN` and `check-drift-enc` pass unchanged against the model's expectations; the unrelaxed link of `tests/ld-pdp64-NN` (words and map from the model) is made from `--no-relax` objects; the relaxed link of
 `tests/ld-pdp64-NN` is checked against the model relaxing the same program by itself (`tools/check-ld-relax.py`); `asm_vs_model.py` compares unrelaxed assembler sizes (`as64 --no-relax --dump-lens`).  A tool that assembles and links
-needs no flag (`tools/pdp64test*.sh` and `pdp64size.py`, which call `ccom`, `as64` and `ld64` themselves, work unchanged; the pcc driver `cc` is not built for pdp64); it must pass `--no-relax` only to get the long forms.
+needs no flag (`tools/pdp64test*.sh` and `pdp64size.py` call `ccom`, `as64` and `ld64` themselves; the pcc driver `cc` is not built for pdp64); it must pass `--no-relax` only to get the long forms.

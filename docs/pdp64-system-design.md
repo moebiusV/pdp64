@@ -1,3 +1,5 @@
+Status: record, dated 2026-10-22 (the System v1 options study). It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: D6 and D7 (a fixed three-level, 39-bit tree; the page-number field to bit 39: the manual has 3, 4 or 5 levels, errata 96, and a physical address of 40 to 64 bits, errata 102), the opcode and register names of the System v1 era and the section numbers of the ISA and system-architecture documents (the manual was renumbered), and the 16-register machine behind some of the cost estimates (the pdp64 has 32 registers).
+
 # System v1: the options, how others do it, and how the choices serve the goals
 
 [← pdp64 index](../README.md)
@@ -86,14 +88,14 @@ Chosen: the PDP-11's, in the processor: three bits in the PSW, eight levels, `SP
 | MIPS | no hardware walk: a software-refilled TLB |
 | pdp64 System v1 | three-level tree, 4 KB pages, 39-bit virtual (Sv39-like), one table base `PTBR`; 2 MB and 1 GB leaves |
 
-Chosen: the three-level tree. Why: three memory fetches per TLB miss against four on x86-64 or AArch64's 48-bit mode (G3); the same shape as the RISC-V Sv39 and AArch64's 39-bit mode, which Linux already runs on, so the kernel-side machinery is well understood;
+Chosen at the time: the three-level tree (superseded: 3, 4 or 5 levels, errata 96). Why: three memory fetches per TLB miss against four on x86-64 or AArch64's 48-bit mode (G3); the same shape as the RISC-V Sv39 and AArch64's 39-bit mode, which Linux already runs on, so the kernel-side machinery is well understood;
 a software-refilled TLB would remove the walker (a few thousand transistors) but make every miss a trap. *Cost:* 39 bits is 512 GB of address space, less than 48 bits (ASLR entropy is lower, very large mappings do not fit); a single table base for both halves means the kernel is mapped in every address space
 (global pages), with no separate-tables defence against speculative side channels (the machine has no speculation, ISA §17.5).
 
 ### D7. The page-table entry
 
 x86-64: flags in the low bits, physical address in place at bits 12 to 51, no-execute at bit 63. AArch64: physical address in place, attributes through an index into a memory-attribute register. RISC-V: flags V, R, W, X, U, G, A, D in bits 0 to 7, the physical page number from bit 10.
-Chosen: the flags in bits 0 to 7 in the RISC-V order (V R W X U G A D), the 2-bit memory type at 8 and 9, the physical page number in place at bits 12 to 39 (as x86-64 and AArch64). Why: familiar to anyone who has read Sv39, and the walker needs no shift or mask to form an address (a gate-count and latency saving). The
+Chosen at the time (the physical page-number field is superseded by errata 102, physical addresses of 40 to 64 bits): the flags in bits 0 to 7 in the RISC-V order (V R W X U G A D), the 2-bit memory type at 8 and 9, the physical page number in place at bits 12 to 39 (as x86-64 and AArch64). Why: familiar to anyone who has read Sv39, and the walker needs no shift or mask to form an address (a gate-count and latency saving). The
 memory type is two bits in the entry, as RISC-V's Svpbmt does, not an indirection through a register, so there is nothing to program.
 
 ### D8. Accessed and dirty bits

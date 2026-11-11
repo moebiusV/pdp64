@@ -2,6 +2,8 @@
 
 [← pdp64 index](../README.md)
 
+Status: record, dated 2026-10-22. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: the "ISA §" numbers are those of the old `pdp64-isa.md` (now rewritten for the single encoding; use manual chapter 9); the encoding facts (page 2, escape groups such as `BESC`/`MBLK`, "length in the first two bits", the byte-size mix, 16-register LUT figures) belong to the earlier encoding (r20) that errata 122 and 123 removed; the shift-by-zero flag point of section 4 item 1 was settled by errata 39 (flags are two groups, shifts write the same flags for every count); the claims that the ISA has no barrier or hint opcodes and that mode bits are forbidden were changed by errata 39 (`HINT`, `ISYNC`) and errata 83 (the no-mode-bits rule is dropped); the design point is now "efficient with in-order and out-of-order implementations" (errata 68), with in-order and out-of-order cores allowed on one die (errata 92); "Q64" is the system bus, now PCI Express (errata 120).
+
 Nothing here is measured on a pdp64 implementation (there is none yet in hardware; the only implementations are the emulators). Performance figures for other machines are from general
 knowledge, were not found in a publication ([`fact-check-2026-10-22.md`](fact-check-2026-10-22.md)), and are marked "(not verified)". Statements about the pdp64 are from the ISA and the other documents and are cited.
 

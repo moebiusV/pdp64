@@ -1,12 +1,14 @@
-# LB64 — A Q64 Accelerator for LittleBit Inference
+# LB64 — An Accelerator on the System Bus for LittleBit Inference
 
 [← pdp64 index](../README.md)
+
+Status: proposed, not decided. This is the assistant's design for one workload. No decision of the author names the device LB64 or fixes its design, and the ledger (`docs/decisions-and-status.md`) does not list it as decided; the manual keeps it as a proposal (appendix H, section 8.3, "AI and large-language-model inference: the LB64 accelerator"). Out of date: it was written for the register model of the first device family, which errata 95 set aside for virtio across the board, so the descriptor, doorbell and register details need reconciling with the virtio queue model and with the descriptor question of appendix J (J.8.2); the name Q64 was used before errata 120 (the bus is PCI Express, the name is held until the additions are decided); the "ISA §" numbers are those of the old `pdp64-isa.md` (now rewritten for the single encoding; use manual chapter 9); the `BESC` group, the 92,000-transistor figure and the other encoding facts belong to the earlier encoding (r20, removed by errata 122 and 123); the Unibus-derived lock against AXI monitor question is replaced by PCI Express's own transactions (manual chapter 2, 2.3.4). The model-side material (sections 1 to 4, the kernel, sizes and bandwidth) does not depend on the processor and is unaffected.
 
 **DEC PDP-64: Digital Equity Collective's Pragmatic Digital Processor, 64 bit.**
 
 **Companion to the ISA ([`pdp64-isa.md`](pdp64-isa.md)) and the implementation plan ([`pdp64-fpga-plan.md`](pdp64-fpga-plan.md)).** Device-side design; touches the ISA only through ISA §16.
 
-The Q64 coprocessor referred to in ISA §4.6.2 and ISA §15.2, the three-class memory topology of the design, and "a GPU" in the sense of a bus-mastering accelerator sharing the CPU's DRAM are the same thing. This document specifies it for one workload.
+The coprocessor on the system bus (PCI Express) referred to in ISA §4.6.2 and ISA §15.2, the three-class memory topology of the design, and "a GPU" in the sense of a bus-mastering accelerator sharing the CPU's DRAM are the same thing. This document specifies it for one workload.
 
 ---
 
@@ -253,9 +255,9 @@ Three small engines fed by descriptor chains, each doing one thing with its own 
 
 ## 7. Bus integration
 
-LB64 is a Q64 **initiator**, not merely a target. It DMAs sign-bit blocks, scale vectors and activations from the same DRAM the CPU uses, and writes results back.
+LB64 is a bus **initiator** (a bus master) on the system bus, not merely a target. It DMAs sign-bit blocks, scale vectors and activations from the same DRAM the CPU uses, and writes results back.
 
-**A bus-mastering accelerator forces ISA open item 4 to be resolved.** The Unibus-derived `DATIP`/`DATO` locked read-modify-write carried into Q64 is a lock; AXI exclusive access is a monitor; and the moment there are two initiators contending for a descriptor's `status` word, the difference matters. It is settled in the bus document before LB64 is built.
+**A bus-mastering accelerator forces ISA open item 4 to be resolved.** The Unibus-derived `DATIP`/`DATO` locked read-modify-write carried into the bus was a lock; AXI exclusive access is a monitor; and the moment there are two initiators contending for a descriptor's `status` word, the difference matters. It is settled in the bus document before LB64 is built.
 
 Coherence, in its simplest correct form:
 
@@ -271,9 +273,9 @@ No cache coherence protocol, no snooping, no shared-cache complexity. This is th
 
 ## 8. What this means for the ISA
 
-**Nothing**, which is the point of ISA §16. LB64 needs exactly the three things the ISA already owes devices: a memory type per page, a `FENCE` with defined meaning against Q64, and atomics that reach device memory.
+**Nothing**, which is the point of ISA §16. LB64 needs exactly the three things the ISA already owes devices: a memory type per page, a `FENCE` with defined meaning against the system bus, and atomics that reach device memory.
 
-`XNORPOP` (ISA §4.6.2) serves binary-activation workloads, not this one (§2.1 above); it and `ROR` live in the `BESC` bit-manipulation group.
+`XNORPOP` (ISA §4.6.2) serves binary-activation workloads, not this one (§2.1 above); it and the rotates are bit-manipulation instructions.
 
 The claim in ISA §15.2, that wide data-parallel work belongs off the scalar core rather than in an AVX-style extension, holds here for a sharper reason than the one given there. SIMD in the CPU would have cost a second wide register file (the thing ISA §2.3 specifically avoided), wide load/store paths entangled with the alignment rules of ISA §7.4, and a large opcode space from a map allocated by frequency. LB64 needs **no ISA opcodes at all**, runs concurrently with the CPU rather than blocking it, and can be sized independently of the CPU's clock. For a machine this size the choice is not close.
 
@@ -283,7 +285,7 @@ The claim in ISA §15.2, that wide data-parallel work belongs off the scalar cor
 
 1. **Lane count as architecture.** §3.3 proposes fixing the packed-word width at 256 bits and letting implementations vary cycles-per-word. That makes the offline packing portable but commits a number before any measurement exists. Check it against the DE10-Nano's DDR burst length first.
 
-2. **Where the scales live.** At 0.1 bpw the FP16 scales are 16% of a layer (§2.2) and are read in a completely different pattern from the sign bits — sequential and short, against long streaming reads. They may want their own DMA channel rather than sharing one, which is a decision about the Q64 interface rather than about LB64.
+2. **Where the scales live.** At 0.1 bpw the FP16 scales are 16% of a layer (§2.2) and are read in a completely different pattern from the sign bits — sequential and short, against long streaming reads. They may want their own DMA channel rather than sharing one, which is a decision about the bus interface rather than about LB64.
 
 3. **`MX64` versus widening LB64.** §6.1 says attention dominates at useful context lengths, and §10.3 says the same FP array serves gradient GEMM, so `MX64` is the next engine on two independent grounds. Its size is open. Before committing DSPs, profile a real model at a real sequence length — the quantized layers are probably not the hard part.
 
@@ -661,7 +663,7 @@ Against a 33 ms token (§12.2), even the ring is tolerable at small N, but it de
 The design is:
 
 - **A dedicated reduction tree**, log₂(N) deep, with an adder in each node so the sum accumulates as the message climbs. This is in-network reduction, as InfiniBand switches do with SHARP; here it is a few hundred gates per node because the payload is 496 bytes.
-- **Q64 for control and descriptors only** (§5), plus the one-time bulk weight load.
+- **The system bus for control and descriptors only** (§5), plus the one-time bulk weight load.
 - **No cache coherence between units.** Each unit owns its memory privately and communication is explicit. This is ISA §17.3's distinction applied here: transparent coherence between CPUs that share memory, explicit messaging for accelerators. Making 128 near-memory units coherent would be both enormous and pointless, since they never touch each other's data.
 
 The programming model is message passing, which the descriptor chain of §5 already is.

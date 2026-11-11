@@ -6,6 +6,8 @@
 
 **Companion to the ISA, [`pdp64-isa.md`](pdp64-isa.md).** Kept separate from the ISA because the ISA is meant to outlive any particular FPGA and this document is expected to churn.
 
+**Status: current, as a plan.** The architecture it targets is the single pdp64: 32 registers and the prefix-coded encoding (`spec/pdp64/pdp64.hbnf`); the earlier 16-register iterations (r20, pdp64/16) were removed (errata 122, 123). This plan was first written for those iterations. Corrected here: the register count, the clock target (200 to 300 MHz, errata 99), the devices (virtio across the board, errata 95; the disk is virtio-blk, errata 101; the system bus is PCI Express, errata 120), and the memory model (no physical-address bit selects device space, errata 97). Instruction-group names such as `MBLK`, `TAGOP` and `JTAG` are those of `spec/pdp64-mnemonics.hbnf` and may not survive as group names in the single encoding (unverified). Not re-derived and marked as such where they occur: the LUT, DSP and BRAM estimates (made for the earlier encoding, "unverified" for the present one). The "ISA §" numbers are those of the old `pdp64-isa.md`, now being rewritten for the single encoding: the manual (chapter 9 for the instruction set, chapter 6 for the kernel and memory) is the reference. What the implementations do today is in [`implementation-status.md`](implementation-status.md); no core has been synthesised.
+
 ---
 
 ## 1. Target selection
@@ -21,7 +23,7 @@ Verify current availability and pricing before ordering; the Cyclone V generatio
 | AMD Kria KV260 | Zynq UltraScale+ ZU5EV | ~117K LUT | quad A53 | much faster fabric; DisplayPort 1.2a and HDMI 1.4 outputs (the board's product page lists both, so no adapter is needed for HDMI) |
 | ULX3S | Lattice ECP5-85F | 84K LUT | none | fully open toolchain, no hard CPU — loses §6 entirely |
 
-**Start on the DE10-Nano.** It is the slowest of the four, but the MiSTer ecosystem has already solved the problems that are not the CPU's: HDMI output and scaling, USB input, SD card, SDRAM daughterboard, and a body of working C64 core work that the VIC-64X and SID-64X can be measured against. Every hour spent writing an HDMI transmitter is an hour not spent on the CPU.
+**Start on the DE10-Nano.** It is the slowest of the four, but the MiSTer ecosystem has already solved the problems that are not the CPU's: HDMI output and scaling, USB input, SD card, SDRAM daughterboard, and a body of working C64 core work that any C64 device of the pdp64 can be measured against (the C64 devices are deferred, errata 78). Every hour spent writing an HDMI transmitter is an hour not spent on the CPU.
 
 **Move to the Zybo Z7-20 or a KV260 when timing closure becomes the limiting factor** (§3). Keep the RTL vendor-neutral from day one — no vendor primitives outside a thin `tech/` directory holding the register file, block RAM and DSP wrappers. That directory is the entire porting cost, and it should stay under 500 lines.
 
@@ -35,14 +37,14 @@ Estimates, not measurements, at roughly ±40%. Given in 6-input LUTs; Cyclone V 
 
 | Block | LUTs | DSP | BRAM | Notes |
 |---|---|---|---|---|
-| register file, 16 × 64, 2R1W | ~250 | — | — | LUTRAM, duplicated for the second read port. **Not BRAM** — BRAM adds a cycle of latency on the critical path |
+| register file, 32 × 64, 2R1W | ~500 | — | — | LUTRAM, duplicated for the second read port; the earlier estimate of ~250 was for 16 registers and is doubled here (unverified). **Not BRAM** — BRAM adds a cycle of latency on the critical path |
 | ALU, 64-bit, with flags | ~600 | — | — | adder on the carry chain |
 | barrel shifter, 64-bit | ~450 | — | — | 6 stages of 64 muxes; second-largest combinational block |
 | address generation | ~150 | — | — | shared with the §5.1 stride adder |
 | multiplier, iterative | ~200 | 2–4 | — | see below |
 | divider, radix-4 non-restoring | ~400 | — | — | 32 cycles, sequential |
 | decode and sequencer | ~400 | — | — | mostly wires, by ISA §9.5 |
-| escape sub-decode | ~200 | — | — | parcel 1 of `BESC`/`MBLK`/`FESC`/`ATOM`/`SYS` |
+| second-parcel sub-decode | ~200 | — | — | estimate for the earlier encoding's escape groups; unverified for the prefix-coded one |
 | popcount tree, 64-bit | ~300 | — | — | serves `POPCNT`, `XNORPOP`, GC mark counting |
 | CLZ / CTZ / CLO / CTO | ~250 | — | — | priority encoders, shared |
 | bitfield extract / insert | ~350 | — | — | two shifters and a mask generator |
@@ -58,12 +60,12 @@ Estimates, not measurements, at roughly ±40%. Given in 6-input LUTs; Cyclone V 
 | page table walker | ~250 | — | — | small FSM |
 | direct mapping window compare | ~100 | — | — | two range comparators and an adder; ISA §8.3 |
 | control, PSW, exception, undo buffer | ~450 | — | — | |
-| **integer core, MMU, no FPU** | **~7,620** | 2–4 | 2 | |
+| **integer core, MMU, no FPU** | **~7,870** | 2–4 | 2 | rows as above; only the register file row was recomputed |
 | FPU, binary32 + binary64, with FMA | ~7,000 | 8–12 | — | **do not write this** — see §9. The estimate does not include the FP exception flags (`FPSR`), `FRINTDA` or the unsigned conversions (see "Resource notes for later additions") |
 | L1 I-cache, 8 KB | ~300 | — | 4 | |
 | L1 D-cache, 8 KB | ~500 | — | 4 | |
-| Q64 bridge to AXI | ~600 | — | 1 | |
-| **complete core** | **~16,020** | 10–16 | 11 | |
+| system bus (PCI Express) bridge to AXI | ~600 | — | 1 | estimate for the earlier bridge; unverified |
+| **complete core** | **~16,270** | 10–16 | 11 | |
 | snooping MSI coherence, per core | ~600 | — | 1 | ISA §17.3; multi-core builds only |
 
 The total is comfortable on every board in §1: about 16,000 LUTs is near 15% of a DE10-Nano's logic, so a coherent pair fits with room for the peripherals. `CLMUL`'s AND-XOR tree is the largest of the bit-manipulation blocks.
@@ -76,7 +78,7 @@ Three notes on the bit-manipulation, UTF-8 and block-move blocks:
 
 **The block move sequencer is small because the architecture keeps it small.** It is three down/up counters and a byte-lane selector, with no hidden state register, because ISA §7.5 puts the progress in the architectural registers. A design following VAX's `MOVC5` would need about 1,500 LUTs plus a microstate save path plus a resume FSM.
 
-The CPU fits everywhere on the list with room to spare. **BRAM, not LUTs, is the scarce resource**, and it will be consumed by the VIC-64X framebuffer and the caches, not by the processor.
+The CPU fits everywhere on the list with room to spare. **BRAM, not LUTs, is the scarce resource**, and it will be consumed by the framebuffer of the graphics device and the caches, not by the processor.
 
 Three places where the FPGA target differs from the transistor-level design of the ISA:
 
@@ -143,18 +145,9 @@ The failure mode this prevents is the one every hand-built ISA project hits: the
 
 Not yet derived from the grammars: the roles of the fields for each mnemonic, the default stride of post-increment/pre-decrement, and which shapes the escape groups take. These live in C and are shared with the emulator; the drift test guards the numbers but not these conventions. Moving an operand-role table into the mnemonic file is the recommended next step. RTL constants and a constrained random generator are not yet produced from the grammars; they remain plan items.
 
-The pdp64 encoding suits this approach. Length comes from `len` alone with no cases, the opcode sits at bits 13..8 in every form, and the register fields are at fixed positions. The generator is a few hundred lines, not a few thousand, and a decode that is easy to generate is a decode that is easy to synthesize flat, which is the point of ISA §9.5's "decode as wires" discipline.
+The pdp64 encoding suits this approach: it is prefix-coded (parcel 0 starts with a variable-length prefix that fixes the instruction's length and form; instructions are 2, 4 or 6 bytes, `MOVQL` 10), so a generator emits the decode from the grammar without hand-written cases. A decode that is easy to generate is a decode that is easy to synthesize flat, which is the point of the "decode as wires" discipline. The generated decode tables are in `spec/pdp64/tables.md` and the manual's dictionary (`docs/manual/dictionary`).
 
-An excerpt of the source (the literal's number is its encoding; `fadd` is binary64, `fadd32` binary32, and `faddd` an alias numbered 0x100 above):
-
-```
-mn-alu = "add"@0b010110
-       | "sub"@0b010111
-       ...
-       | "fadd"@0b100100
-       | "fcmp"@0b100111
-        | "faddd"@0x124
-```
+An excerpt of the source is not repeated here: the numbers live in `spec/pdp64-mnemonics.hbnf` and nowhere else, and they may still change after the open items are decided. Read the grammar, or the generated tables, not this document.
 
 Generate the RTL constants, not the RTL. Hand-write the datapath.
 
@@ -166,14 +159,14 @@ Each phase ends with a demonstrable artifact and a regression suite that later p
 
 | Phase | Deliverable | Gate |
 |---|---|---|
-| **0. Spec and tools** | machine-readable encoding (the hbnf grammars, §4), assembler, disassembler, ISS with trace output | assembler and disassembler round-trip every encodable instruction. Status: the grammars, `as64`, `ld64` and `sim64` (user mode, `-t` trace) exist; the disassembler and the lockstep trace comparison do not |
-| **1. Integer core** | non-pipelined core, BRAM memory, no MMU, no FP, no cache. Includes the `BESC` bit unit and the `TAGOP`/`JTAG` paths — both are pure combinational logic and belong with the ALU | 10⁶ random instruction sequences trace-match the ISS |
+| **0. Spec and tools** | machine-readable encoding (the hbnf grammars, §4), assembler, disassembler, ISS with trace output | assembler and disassembler round-trip every encodable instruction. Status: see [`implementation-status.md`](implementation-status.md); `sim64` has a `-t` trace option |
+| **1. Integer core** | non-pipelined core, BRAM memory, no MMU, no FP, no cache. Includes the bit-manipulation unit and the `TAGOP`/`JTAG` paths — both are pure combinational logic and belong with the ALU | 10⁶ random instruction sequences trace-match the ISS |
 | **2. Exceptions** | the full ISA §7 fault model, including the §7.5 progress category and the `MBLK` group | every row of the §7.3 fault matrix, injected at every instruction form, restarts exactly; every `MBLK` operation interrupted at every byte offset resumes correctly |
 | **3. MMU** | TLB, walker, ASID, `G` bit, `MT` attribute, `DMW` windows | a page-fault handler demand-pages a running program; an uncached mapping bypasses the D-cache |
-| **4. Memory system** | I- and D-cache, Q64-to-AXI bridge, HPS DDR | phase 1–3 regressions pass against real memory; `MCPY` sustains the expected bandwidth |
+| **4. Memory system** | I- and D-cache, system-bus (PCI Express) bridge to AXI, HPS DDR | phase 1–3 regressions pass against real memory; `MCPY` sustains the expected bandwidth |
 | **5. Floating point** | binary32, binary64, FMA | Berkeley TestFloat clean, including `mulAdd` |
 | **6. Software** | a kernel that boots | a V7-descended system reaches a shell |
-| **7. Peripherals** | Q64 devices, `BLT64`, VIC-64X, SID-64X | the VIC-64X and SID-64X specifications, plus §12 below |
+| **7. Peripherals** | the virtio devices on the system bus (the disk is virtio-blk; virtio-gpu, virtio-net, virtio-snd are the standard set), a blit engine if wanted (§12), the C64 devices only if they are un-deferred | the device definitions of manual chapters 3 and 5, plus §12 below |
 | **8. SMP, optional** | second core, snooping MSI, broadcast `TLBI`, IPI path | two cores pass the litmus tests of §7 item 7; a kernel schedules on both |
 
 **`MBLK` belongs to phase 2, not phase 1.** The block move instructions are trivial to implement and impossible to get right without the exception model, because their entire specification is about what state is visible when an exception arrives. Building them in phase 1 means building them twice.
@@ -212,14 +205,13 @@ The last item is the main argument for the SoC part: it converts verification fr
 Ranked by value per hour:
 
 1. **Trace comparison against the ISS.** Every architectural state change, every instruction. This finds nearly everything.
-2. **Constrained random generation from the spec.** Because §4 gives a machine-readable encoding, the generator is nearly free: emit random valid instructions, weighted toward the boundaries — displacement extremes, mode 7 forms, `len` transitions, `R6` and `R14` as ordinary registers.
+2. **Constrained random generation from the spec.** Because §4 gives a machine-readable encoding, the generator is nearly free: emit random valid instructions, weighted toward the boundaries — displacement extremes, every addressing form, the length transitions (2, 4, 6 bytes; `MOVQL` 10), and `R7` as an ordinary register (it is not the PC).
 3. **Directed fault tests.** Enumerate the ISA §7.3 matrix. For every instruction form, fault the first fetch parcel, the second, the operand read at both page halves, and the RMW permission check. Assert exact restart. This is the suite that justifies the design and it is worth writing by hand.
 
    **The `MBLK` suite is separate and larger.** For each of `MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`: interrupt the operation at every byte offset from 0 to twice the implementation's block size, and after each interrupt assert that the three registers describe exactly the remaining work and that resumption completes correctly. Then do the same with a page fault rather than an interrupt, at each page boundary the operation crosses. Then do `MMOV` with every overlap relationship — source below destination, above, exactly equal, partially overlapping by one byte and by one block. This is where the §7.5 exception will break if it breaks.
-4. **Formal, on the load-bearing invariants.** Four properties are small, combinational, and provable with SymbiYosys:
-   - **no escape sub-opcode consumes more extension parcels than `len` declares** (ISA §4.14). This is the one that has a real failure mode: `BESC`, `MBLK`, `AESC`, `MESC`, `FESC` and `ATOM` each define their own parcel-1 layout, so a sub-opcode that wants two extension parcels at `len = 01` would leave the fetch unit and the decoder disagreeing about where the instruction ends, with no fault raised. `BESC`'s bitfield operations are in this position legitimately: they exist only at `len = 10`. Prove it over the generated encoding table in §4, and re-run it on every spec change. "Length is `len + 1`" is not this property and is not worth proving, because it is true by construction;
-   - **whether parcel 0's low nibble is a mode or a register is fixed per escape opcode**, not per sub-opcode (ISA §4.14). `MESC` reads it as a mode; `BESC`, `MBLK` and `AESC` read it as a register. ISA §4.3.1 keeps the six parcel-1 escapes contiguous at `0x0C`–`0x11` so the distinction is a range compare. If that ever became sub-opcode-dependent, operand decode would depend on parcel 1, which defeats fixed-position decode;
-   - **no ordinary instruction produces more than one register side effect.** The `MBLK` group is the stated exception and must be excluded from the property by opcode, not by accident;
+4. **Formal, on the load-bearing invariants.** Properties that are small, combinational, and provable with SymbiYosys. The list written for the earlier encoding (no escape sub-opcode consumes more extension parcels than the length declares; whether parcel 0's low nibble is a mode or a register is fixed per escape opcode) is **not carried over**: the prefix-coded grammar has no such escape groups, and the corresponding property is to be restated against `spec/pdp64/pdp64.hbnf` (unverified: not yet written). The properties that do not depend on the encoding stand:
+   - **the length of every instruction is fixed by its prefix alone**, so the fetch unit and the decoder cannot disagree about where an instruction ends; prove it over the generated encoding table in §4, and re-run it on every spec change;
+   - **no ordinary instruction produces more than one register side effect.** The block-operation group is the stated exception and must be excluded from the property by opcode, not by accident;
    - the write of a read-modify-write cannot fault given that the read succeeded.
 
    These are the assumptions the whole restart argument rests on. Proving them is a day's work.
@@ -232,7 +224,7 @@ Ranked by value per hour:
 
 ## 8. Where the ISA helps and where it hurts on FPGA
 
-**Helps.** One AGU. Single-pass address generation. Length known from parcel 0, so the fetch buffer is a two-deep shift register with no feedback. No unaligned data path, the single largest block of logic that is absent. No partial-register writes, so no byte-enable muxing on the register file write port. Decode is `casez` on six fixed-position bits, which synthesizes flat. `BESC`'s bit functions are wiring and mux trees, which is what fabric is made of. The `MBLK` group needs no microstate register (ISA §7.5), so it adds counters rather than a save/restore path.
+**Helps.** One AGU. Single-pass address generation. Length known from the prefix of parcel 0, so the fetch buffer is a shallow shift register with no feedback (unverified for the prefix-coded encoding). No unaligned data path, the single largest block of logic that is absent. No partial-register writes, so no byte-enable muxing on the register file write port. Decode is generated from the grammar and is meant to synthesize flat (unverified: no RTL exists). The bit-manipulation functions are wiring and mux trees, which is what fabric is made of. The `MBLK` group needs no microstate register (ISA §7.5), so it adds counters rather than a save/restore path.
 
 **Hurts.** The 64-bit carry chain is slow on Cyclone V and gates `Fmax` more than it would in silicon. The barrel shifter is a large mux tree that does not map to anything special. Flags serialize branch resolution behind the ALU (§3), and `FCMP` serializes against them too; ISA §12.7 records this as open. The strided autoincrement of ISA §5.1 puts a second wide adder on the register writeback path, though it can share the AGU adder if the writeback is one cycle behind. And `MBLK` writes three registers per step, which either needs a second write port or forces the step to take as many cycles as it has registers to update — take the latter in phase 2 and revisit only if measurement demands it.
 
@@ -279,8 +271,8 @@ Phase 6 is the widest because it is not really a hardware phase. It is a compile
 
 1. **The compiler backend.** A pcc back end for pdp64 exists and compiled C runs under `sim64`. On the 841-file fair corpus it produces 1.03 times amd64 and 1.04 times aarch64 in instructions and 0.97 and 0.89 times in bytes, with instruction lengths 2/4/6/8 bytes at 46.5/42.8/10.6/0.1 % (measured before errata 31 removed the 8-byte form; the maximum is now 6 bytes). That answers the measured-length-distribution question; the scaled-index displacement width (ISA open item 1) is still open. Phase 6 needs a production compiler. Nothing in phases 0–5 produces one, and no schedule line above covers writing it. The target (LLVM, a Facet backend, or a small self-hosted generator) changes the ISA's ABI document and bears on ISA open items 1 and 6, the scaled-index displacement width and the measured length distribution, which only a code generator can answer.
 2. **Timing closure on Cyclone V.** The target is 200 to 300 MHz (errata 99) and the estimate for this board is 50 to 80 MHz, so the target is not met here even on the estimate. If the design lands at 35 MHz rather than 60, the fix is architectural — pipeline stages — and pipelining a machine with memory operands and precise faults is not a small change. Mitigate by leaving pipeline register boundaries in the RTL from phase 1, even when unused.
-3. **Q64 exclusive access over AXI.** Open item 4 of the spec. The Unibus-derived `DATIP`/`DATO` locked read-modify-write is a *lock*; AXI exclusive access is a *monitor*. They are not the same primitive and the mapping is not clean. This needs settling before phase 4, not during it. The `_DB` barrier-fused atomics raise the stakes, because they assert an ordering guarantee that has to mean something on the actual interconnect.
-4. **BRAM exhaustion at phase 7.** The caches, the TLB, the VIC-64X framebuffer, the `BLT64` scratch and the SID-64X voice state all want BRAM, and the DE10-Nano has about 5.5 Mb. Budget it before building the VIC, not after. §12 has the framebuffer numbers.
+3. **Atomics on the system bus.** The bus is PCI Express (errata 120), whose own transactions replace the earlier bus design; how `CAS`, `LL`/`SC` and the `_DB` forms map onto PCI Express and AXI on the FPGA (a lock against a monitor, the earlier open item 4) is not decided in the ledger (unverified whether it is covered by J.2.5, the additions to PCI Express). It needs settling before phase 4, not during it. The `_DB` barrier-fused atomics raise the stakes, because they assert an ordering guarantee that has to mean something on the actual interconnect.
+4. **BRAM exhaustion at phase 7.** The caches, the TLB, the framebuffer, any blit-engine scratch and any audio voice state all want BRAM, and the DE10-Nano has about 5.5 Mb. Budget it before building the VIC, not after. §12 has the framebuffer numbers.
 5. **`MBLK` cache pollution.** ISA open item 8. A large `MCPY` will evict the entire D-cache for data that is never read again. On an 8 KB cache this shows up immediately. The architectural fix is a non-temporal variant or a streaming `MT` value; the non-fix is deciding by length in the implementation, which is a performance cliff with no architectural visibility. Decide in phase 4, when the cache exists and the effect is measurable.
 6. **Scope.** The specification covers a considerable amount of machine, including five instruction groups beyond the base set. The gate for phase 7 is that phase 6 boots, and that gate should be defended.
 
@@ -288,21 +280,23 @@ Phase 6 is the widest because it is not really a hardware phase. It is a compile
 
 ## 12. Graphics: the Blit terminal, and the GPU question
 
-ISA §16 states the separation: graphics is Q64 device work and touches the processor only through the memory-type attribute, `FENCE`, and atomics. What follows is the device side.
+ISA §16 states the separation: graphics is device work on the system bus and touches the processor only through the memory-type attribute, `FENCE`, and atomics. What follows is the device side.
 
 ### 12.1 The answer about a standard GPU
 
-**Electrically possible, practically hopeless.** A Zynq UltraScale+ has a hard PCIe root complex, so a Q64-to-PCIe bridge would let an off-the-shelf card enumerate. Everything after enumeration is the obstacle. A modern discrete GPU needs PCIe configuration space, BAR mapping, MSI-X interrupt delivery, an IOMMU or at minimum scatter-gather DMA with pinned pages, a firmware blob loaded at init, power and clock sequencing, and a command submission model that none of the vendors document in a form that can be implemented against. The Linux driver for one of these is six figures of lines, and most of its knowledge is not in any specification.
+**Electrically possible, practically hopeless.** A Zynq UltraScale+ has a hard PCIe root complex, so a bridge from the system bus (itself PCI Express) to that root complex would let an off-the-shelf card enumerate. The manual allows a PCI Express graphics card to be attached (manual 3.13.1); the standard graphics device is virtio-gpu in 2D mode (3.12.1). Everything after enumeration is the obstacle. A modern discrete GPU needs PCIe configuration space, BAR mapping, MSI-X interrupt delivery, an IOMMU or at minimum scatter-gather DMA with pinned pages, a firmware blob loaded at init, power and clock sequencing, and a command submission model that none of the vendors document in a form that can be implemented against. The Linux driver for one of these is six figures of lines, and most of its knowledge is not in any specification.
 
 The project's entire remaining budget would go into a driver for hardware whose programming model has to be reverse-engineered, in order to run a graphics stack that does not exist on this machine. The answer is no, and it should be given early.
 
 The Cyclone V and Zynq 7020 do not have the hard PCIe to make even the electrical part straightforward, so on the phase 1 board the question does not arise.
 
-### 12.2 What is right instead: `BLT64`
+### 12.2 What is right instead: a blit engine
+
+This section is a sketch of the assistant's. The standard graphics device is virtio-gpu (errata 78) and the author's terminal device is described in errata 105 and manual chapter 3; the name `BLT64` and the register set below belong to the earlier register-model device family that errata 95 set aside, and are kept only as the shape of the idea. Whether the pdp64 has a blit engine at all is not decided (unverified: not in the ledger).
 
 Pike's Blit has the right architecture for this machine: a framebuffer in the address space, plus a bitblt engine that does rectangle copies with raster operations. That pairing made the Blit, the Amiga and every 1980s windowing system fast enough to be pleasant.
 
-`BLT64` as a Q64 device:
+The engine as a device:
 
 | Register | Purpose |
 |---|---|
@@ -318,7 +312,7 @@ Rough cost: 1,500 LUTs plus a line buffer, and it is almost entirely address ari
 Two notes on how it meets the processor:
 
 - **Map the framebuffer with `MT = 01`** (normal uncached) or the CPU's writes will sit in the D-cache while the raster engine scans out stale memory. The `MT` field of the ISA exists to prevent this bug.
-- **A `FENCE` between writing the `BLT64` registers and setting the go bit**, and the device's done-interrupt on the other side. The ordering guarantee ISA §16 owes devices is exactly this one.
+- **A `FENCE` between writing the engine's registers and setting the go bit**, and the device's done-interrupt on the other side. The ordering guarantee ISA §16 owes devices is exactly this one.
 
 `MCPY` is not a substitute. It is a one-dimensional byte move; a blit is two-dimensional with a stride and a raster op, and it runs concurrently with the processor rather than occupying it.
 
@@ -332,17 +326,17 @@ The BRAM question from §11 risk 4, concretely. On the DE10-Nano's ~5.5 Mb:
 | 640×480, 8-bit colour | 300 KB | no — 2.4 Mb, about half the device |
 | 1280×720, 8-bit | 900 KB | no |
 | 1920×1080, 32-bit | 8.3 MB | no |
-| 1920×1080, 48-bit (the VIC-64X pixel, errata 73) | 12.4 MB | no |
+| 1920×1080, 48-bit (the 48-bit pixel of errata 73) | 12.4 MB | no |
 
 So anything above a text console or a small bitmap lives in HPS DDR, reached through the FPGA-to-SDRAM ports, with BRAM used as a scanout line buffer of a few KB. The MiSTer cores do the same, so the pattern is proven on this board. Budget BRAM for caches, the TLB and line buffers; budget DDR for pixels.
 
 ### 12.4 If 3D or compute is wanted later
 
-Not a GPU. A small array of fabric cores with local memory, fed by a command FIFO from Q64 — which is the dedicated-hardware-per-function model taken from Chuck Moore's GA144 and MuP21. Each core does one thing with its own memory and is fed work rather than sharing an address space.
+Not a GPU. A small array of fabric cores with local memory, fed by a command FIFO from the system bus — which is the dedicated-hardware-per-function model taken from Chuck Moore's GA144 and MuP21. Each core does one thing with its own memory and is fed work rather than sharing an address space.
 
 That model also absorbs the other coprocessor the ISA defers to it: ISA §4.6.2 declines the ternary 2-bit dot product on the grounds that wide data-parallel work belongs off the scalar core. The same FIFO-fed array serves both, and building it for one workload provides the other.
 
-The sequence is: `BLT64` in phase 7, because it makes the machine usable; the array later, if there is a workload that needs it. A 2D blitter is a known quantity with a forty-year track record. A home-grown shader array is a research project.
+The sequence is: the blit engine in phase 7, because it makes the machine usable; the array later, if there is a workload that needs it. A 2D blitter is a known quantity with a forty-year track record. A home-grown shader array is a research project.
 
 ---
 
@@ -353,10 +347,10 @@ The estimates in §2 do not include the items below. All figures are estimates; 
 - **FP exception flags** (`FPSR`, `FSFLAGS`): a five-bit sticky register that is part of the thread context and is OR-ed by every FP operation. It adds state to the FPU and the context switch path and a read/write port. No LUT figure.
 - **`FRINTDA`, `FCVTDQU`, `FCVTQUD`**: extra rounding and conversion cases in the FPU. No LUT figure.
 - **Canonical NaN results**: small extra logic on FP result paths. No LUT figure.
-- **`ABS`, `MIN`, `MINU`, `MAX`, `MAXU`**: 150-250 LUTs, reusing the negate path and the compare of `SUB`/`CMP` with a 64-bit select. Not in the §2 table.
-- **`SET cc, rd`**: one `AESC` sub-opcode that turns the branch-condition logic into a register write. Not in §2; no LUT figure.
-- **`SOP`, `SYS` and `BESC` decode** (`PUSHM`/`POPM` in `SOP`, the `TRAP`/`TRAPL` split, `SYS` classes, `RORI`): the decoder structure of §2 ("mostly wires") is the thing to re-check; no figure.
+- **`abs`, `min`, `max`**: assembler aliases (errata 98), not hardware instructions of their own; the earlier estimate of 150-250 LUTs no longer applies as a separate block.
+- **`set cc, rd`**: an instruction that turns the branch-condition logic into a register write. Not in §2; no LUT figure.
+- **Decode of the later additions**: the decoder structure of §2 ("mostly wires") is the thing to re-check against the prefix-coded grammar; no figure.
 - **Half precision (`binary16`)**: proposed, not decided. Conversion only is about 500-1,000 LUTs and full arithmetic about 2,000-3,500 LUTs. Neither is in the §2 table.
 - **Directed rounding for FP arithmetic**: undecided. Depending on the option chosen (a static rounding field, a mode register, or more opcodes) the FPU decode or the opcode map changes. No figure.
-- **Opcode map**: page 1 has 58 assigned opcodes, with `0x23` the spare ALU slot and `0x2B`-`0x2F` reserved (`0x28`-`0x2A` are the `CBCC` forms), plus the second page of ISA §4.18 (45 of 64 defined). The decoder gains a page select after `len`. No LUT figure; the counts matter for spare-slot arithmetic.
+- **Opcode map**: the counts of assigned and spare opcodes are in the generated tables (`spec/pdp64/tables.md`, `docs/manual/dictionary`), not here; they may change after the open items are decided. No LUT figure.
 - **Measured instruction lengths**: the compiler-side findings in risk 1 feed the fetch-buffer and cache assumptions of §3 and §8; no hardware figure.

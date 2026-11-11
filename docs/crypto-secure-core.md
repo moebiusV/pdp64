@@ -1,3 +1,5 @@
+Status: record, dated 2026-11-03. It describes the state and the thinking of that time. The current state is in docs/manual and docs/decisions-and-status.md; where this document disagrees, those win. Out of date: every sub-opcode number, group name (`AESC`, `BESC`, `FESC`, `MBLK`) and instruction length in the tables was written against the earlier encoding and the opcode map is generated and may change (the numbers live in docs/manual dictionary and spec/pdp64/tables.md, not here); `MIN`, `MAX` and `ABS` are assembler aliases (errata 98), not native instructions; "13 usable registers" and the 16-register questions in the annotations belong to the 16-register machine, which is gone (the pdp64 has 32 registers); the secure-core class and the constant-time questions are open items in the ledger (Q11 constant-time execution, J.9.2), and the crypto and entropy devices are not settled (ledger: Crypto and random-number devices).
+
 # The secure core class and the cryptographic instructions
 
 [← pdp64 index](../README.md)

@@ -2,17 +2,17 @@
 
 [← pdp64 index](../README.md)
 
-The choices below are fixed for version 1 (the ISA, §19.5, leaves the ABI open).
+The choices below are fixed for version 1 of the ABI of the pdp64 (one CPU, 32 registers `R0`-`R31`; the instruction set of chapter 9 of the manual leaves the ABI open). The manual states the same choices as [appendix D](manual/appendix-d-abi.md) and records what the ABI still leaves open (appendix J: the stack alignment, 8 or 16; mandatory landing pads; lazy against eager binding). This file is the source text of appendix D.
 
 | | |
 |---|---|
 | Data model | LP64: `char` 8, `short` 16, `int` 32, `long` 64, `long long` 64, pointers 64. Little-endian. `char` is signed. `long double` is `double`. |
-| Alignment | natural; the stack pointer is a multiple of 8 at all times (data alignment is architectural, ISA 7.4: a quad access to an address not a multiple of 8 aborts; the 2-byte parcel alignment is for instructions only). No 16-byte alignment: no type or register is wider than a quad. |
+| Alignment | natural; the stack pointer is a multiple of 8 at all times (data alignment is architectural, chapter 9 of the manual, memory access and alignment: a quad access to an address not a multiple of 8 aborts; the 2-byte parcel alignment is for instructions only). No 16-byte alignment: no type or register is wider than a quad. |
 | Registers | `R0`-`R5` arguments, `R0` (and `R1`) results, `R0`-`R7` and `R12` caller-saved; `R8`-`R11`, `R15` callee-saved; `R12` linker scratch; `R13` frame pointer (callee-saved, optional); `R14` stack pointer. |
-| Floating point | `binary64` in a general register, `binary32` in the low 32 bits sign-extended (ISA 2.3); passed and returned exactly like integers. |
+| Floating point | `binary64` in a general register, `binary32` in the low 32 bits sign-extended (chapter 9, floating-point formats); passed and returned exactly like integers. |
 | Arguments | in order in `R0`-`R5` (a struct of up to 16 bytes takes one or two consecutive, as many as needed); the rest pushed right to left, each in an 8-byte slot (a larger struct in as many slots as it needs, by value). |
 | Results | `R0`; `R0:R1` for a 128-bit pair or a struct up to 16 bytes; a larger struct through a hidden pointer passed in `R0` (the arguments then start at `R1`), and returned in `R0`. |
-| Calls | `CALL`/`CALLI` push the return address; `RET` pops it. The caller removes stack arguments. |
+| Calls | `CALL`/`CALLI` push the return address on the stack; `RET` pops it (`R7` is an ordinary register, not the program counter). The caller removes stack arguments. |
 | Varargs | the callee stores `R0`-`R5` in a save area directly below the stack arguments; `va_list` is a pointer into the area, then on into the stack arguments. One area suffices because floats use the same registers. |
 | Red zone | none (version 1). |
 | Symbols | no leading underscore. |
@@ -21,7 +21,7 @@ The choices below are fixed for version 1 (the ISA, §19.5, leaves the ABI open)
 
 ## Register tables of the instruction encoding (draft)
 
-The encoding of the pdp64 (`spec/README.md`) gives one-parcel forms to a few registers: a 3-bit register field is an index into a table of the eight hottest registers,
+The encoding of the pdp64 (grammar `spec/pdp64/pdp64.hbnf`, tables in `spec/pdp64/tables.md`; manual appendix D.3) gives one-parcel forms to a few registers: a 3-bit register field is an index into a table of the eight hottest registers,
 a 4-bit field into the sixteen hottest. The tables are measured on the compiled corpus with the registers assigned as above, and they are part of the ABI: the compiler's
 allocation should prefer them, and `mov2` (two register moves in one parcel) takes only registers of the 3-bit table.
 
@@ -29,7 +29,7 @@ allocation should prefer them, and `mov2` (two register moves in one parcel) tak
 |---|---|
 | `r0 r1 r8 r2 sp r3 r9 r10` | `r0 r1 r8 r2 sp r3 r9 r10 r11 r4 r15 r5 r24 r25 r26 r6` |
 
-`r16`-`r31` are the added registers; the draft convention is `r24`-`r26` callee-saved (the 32-register compile of the corpus used them so); the rest of `r16`-`r31` is not yet assigned.
+`r16`-`r31` are ordinary registers to the hardware; `r24`-`r26` are among the sixteen hot registers (appendix D.4.2). Draft convention (unverified against the ledger and the manual: appendix D does not state it): `r24`-`r26` callee-saved, the rest of `r16`-`r31` not yet assigned.
 
 ## Variadic calls
 
