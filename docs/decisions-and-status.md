@@ -9,17 +9,17 @@
 - Checked, not guessed: a status of DONE needs evidence; what could not be checked is IN THE AIR and says why.
 - `Rationale` is why he chose it, in his own words; `Precedent` is a system, language, standard or design named as a referent, with whether his choice follows it (chosen), he turned it down (rejected) or it was only compared (considered), and who named it (the author, or the assistant and he accepted it or did not take it up). Only what the messages say: nothing is added from outside. The precedents are indexed by name near the end.
 - The chains behind it are in the decision log of the same project; the evidence is as of the repositories read on 2026-11-10.
-- pdp64/32 is the decided pdp64 (author, 2026-11-10); r20 and pdp64/16 are previous iterations, gone as CPUs with manuals and removed as code (tags pre-single-cpu and pre-code-removal keep them). Checked against the working tree of this repository at commit b10f52b, a fresh pcc clone (commit 41e5c36, 2026-11-07) and the toolchain repository.
+- pdp64/32 is the decided pdp64 (author, 2026-11-10); r20 and pdp64/16 are previous iterations, gone as CPUs with manuals and removed as code (tags pre-single-cpu and pre-code-removal keep them). Checked against the working tree of this repository at commit 135475a (2026-11-10), the pcc clone (master 41e5c36, 2026-11-07; branch single-pdp64 2dbf4f7, pushed and not merged) and the toolchain repository.
 
 ## Contents
 
 - [Summary](#summary)
-- [Left to do (38)](#left-to-do-38)
-- [Left in the air (20)](#left-in-the-air-20)
-- [Rejected or replaced (8)](#rejected-or-replaced-8)
-- [Done (164)](#done-164)
+- [Left to do (43)](#left-to-do-43)
+- [Left in the air (25)](#left-in-the-air-25)
+- [Rejected or replaced (10)](#rejected-or-replaced-10)
+- [Done (171)](#done-171)
 - [Precedents, by name](#precedents-by-name)
-- [Where the current docs or code differ from the decisions (41)](#where-the-current-docs-or-code-differ-from-the-decisions-41)
+- [Where the current docs or code differ from the decisions (24)](#where-the-current-docs-or-code-differ-from-the-decisions-24)
 - [Decision briefing: open questions and decisions under review](#decision-briefing-open-questions-and-decisions-under-review)
 - [Decisions recorded after this ledger was built (2026-11-09 and 2026-11-10)](#decisions-recorded-after-this-ledger-was-built-2026-11-09-and-2026-11-10)
 - [Briefing A: the physical address, the page table and how software learns them](#briefing-a-the-physical-address-the-page-table-and-how-software-learns-them)
@@ -53,12 +53,12 @@
 
 # Summary
 
-- Left to do: 38 of 230 subjects
-- Left in the air: 20 of 230 subjects
-- Rejected or replaced: 8 of 230 subjects
-- Done: 164 of 230 subjects
+- Left to do: 43 of 249 subjects
+- Left in the air: 25 of 249 subjects
+- Rejected or replaced: 10 of 249 subjects
+- Done: 171 of 249 subjects
 
-# Left to do (38)
+# Left to do (43)
 
 - Decided, and not yet in the current code or docs (or only partly).
 
@@ -153,8 +153,8 @@
 - Decided: 2026-11-09 decided: "i'm ok with allowing 3 level tlb, 3 4 and 5 is good, as long as this info is discoverable easily at runtime. so, 39, 48, 57 bit is all fine. good thing we already had dmw in the design!" \[R361\]; and "why does it say that 3 level tlb isn't supported?" \[R364\]; "how about we allow 4 levels" \[R360\]
 - Rationale: "3 4 and 5 is good, as long as this info is discoverable easily at runtime." \[R361\]
 - Precedent: Loongson 5-level TLB (considered; named by author): asked what is affected "if we have 5 level tlb like loongson" \[R360\]
-- Evidence: docs/manual-src/06-kernel.md:246 "\*\*6.6.1\*\* Virtual addresses are translated by three, four or five levels of nine bits over 4 KB pages, which gives virtual addresses of 39, 48 or 57 bits ... \*(D)\*", :248 "The number of levels is readable by software at runtime ... Details pending: the register or field that reports them (J.6.1)", :250 "\*\*6.6.2\*\*"; docs/errata.md:246 entry 96
-- Doc differs: docs/decisions-pending.md:734 "3 levels, 39-bit (current)" and its listing of four levels as a rejected-by-default option (errata 96: the question stays there as the record of the options); the QEMU walker, the simulator and the emulator implement three levels only (docs/implementation-status.md)
+- Evidence: docs/manual-src/06-kernel.md:244 "\*\*6.6.1\*\* Virtual addresses are translated by three, four or five levels of nine bits over 4 KB pages, which gives virtual addresses of 39, 48 or 57 bits ... \*(D)\*", :248 "The number of levels is readable by software at runtime ... Details pending: the register or field that reports them (J.6.1)", :250 "\*\*6.6.2\*\*"; docs/errata.md:246 entry 96
+- Doc differs: the QEMU walker, the simulator and the emulator implement three levels only (docs/implementation-status.md), against errata 96 (three, four or five levels)
 - Left: the register or field that reports the level count and the physical width (J.6.1); the page-table entry for wide physical addresses (J.6.2)
 
 ## 07 Multiple processors
@@ -163,9 +163,14 @@
 - Status: TO DO — decided as the author's recommendation, details pending (latest decision 2026-11-04 \[R313\])
 - Decided: 2026-11-04 decided: "we recommend one core dedicated to the gpu/graphics device, one core dedicated to the nic, running the full tcp/ip stack, then a bunch of other cores for general processing."; "and also one core for audio processing, doing midi, dsp, etc." \[R313\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/manual-src/07-smp.md:110 "\*\*7.8.6\*\* The machine has one core dedicated to the graphics device, one dedicated to the network interface ..., one dedicated to audio ... \*(D)\* Details pending (J.7.5)"; docs/manual-src/03-graphics.md:175 "\*\*3.8.2\*\* One core is dedicated to the graphics device"; docs/errata.md:226 entry 76
-- Doc differs: docs/errata.md:226 entry 76 is still headed "PROPOSAL (the author's recommendation" and records it as a proposal; docs/smp-decisions.md:12 "The dedicated-core proposal (graphics, network, audio) is a proposal"; the manual now tags it (D) under the approval rule of errata 121
+- Evidence: docs/manual-src/07-smp.md:314 "\*\*7.11.6\*\* The machine has one core dedicated to the graphics device, one dedicated to the network interface ..., one dedicated to audio ... \*(D)\* Details pending (J.7.5)"; docs/manual-src/03-graphics.md:175 "\*\*3.8.2\*\* One core is dedicated to the graphics device"; docs/errata.md:226 entry 76
 - Left: how many dedicated cores, how they share memory with the others, what they run (J.7.5; decisions-pending.md F16 to F21)
+
+### Secure core class
+- Status: TO DO — decided: at least one secure core with every timing channel removed and constant-time AES and SHA; details pending: the instruction words, which ordinary instructions are constant-time, the window size and latencies, the clear engine and slot period (latest decision 2026-11-03, errata 86)
+- Decided: 2026-11-03 decided: the design of docs/crypto-secure-core.md section 1 is approved ("i like your design. approved.") \[errata 86\]; the ticks rule: if an instruction can take a time independent of its operands without ticks, timing interrupts or hertz, none are introduced, so the secure core takes no periodic tick and is stopped and preempted by an inter-processor interrupt \[errata 86\]
+- Evidence: docs/errata.md item 86; docs/manual-src/07-smp.md:308 "\*\*7.11.3\*\* At least one core is a secure core ... \*(D)\* Details to be determined", :310 "\*\*7.11.4\*\*" and :312 "\*\*7.11.5\*\*" (the private window, the locked translation buffer, the clear at a domain switch and the reserved bus slot, from section 1 of the secure-core document); docs/crypto-secure-core.md section 1 (a record of 2026-11-03)
+- Left: J.9.12 (the instruction words), J.9.2 (which instructions are constant-time), the window size and latencies, the class register fields; whether 7.11.4 and 7.11.5 go beyond what the approval covers is a question in the decision form
 
 ## 12 Documentation and process
 
@@ -194,14 +199,6 @@
 - Evidence: docs/CHANGES-SINCE-R20.md ('every decision, correction, clarification and dropped or changed opcode made since'); not found: a test-harness doc (grep 'test harness' in README, handoff, docs/encoding-work) or a pdp64-docs tar.gz in the repo
 - Left: test-harness doc and tarball; CHANGES-SINCE-R20.md is r20-centred and stops before the pdp64/32-only decision
 
-### Documentation style rules
-- Status: TO DO — the style rules are not met: the rewritten chapters, README and other documents carry absolute paths (latest decision 2026-10-24 \[R308\])
-- Decided: 2026-10-24 approved-proposal: "good": proceed with batch 2 rewrite of listed documents under the rules (no absolute paths, no tool mentions, no process-failure narratives). \[R308\]
-- Rationale: "i don't want the docs to record any of \[assistant\]'s fuckups like the lwn.net blockages"; "lwn.net coverage was limited" is enough \[R306\]
-- Evidence: grep for home-directory paths: docs/manual-src/02-bus.md (2 lines: :493, :494), 03-graphics.md (2: :462, :463), 04-boot.md (4: :279, :333 and two more), 05-drivers.md (2: :350, :363), 06-kernel.md (2), appendix-parts/04-proposed.md (1), README.md:74, docs/smp-decisions.md:24, :60-63, :71 and about ten more, docs/retire-stage-candidates.md:482, docs/spill-experiment.md:9-10; the assistant's name appears in c64-devices-from-chat.md, decisions-pending.md, retire-stage-candidates.md, security-proposals.md, spill-experiment.md, study-proposals.md
-- Doc differs: the "What was checked" sections of manual chapters 2 to 6 cite ... source trees (qemu-src, facetlang/unixtree, kernel-src), added by errata 111 to 119 after this rule
-- Left: replace the absolute paths by the name of the source tree (e.g. "the 2.11BSD sources") in the chapters, README.md, smp-decisions.md and the six other documents
-
 ### Instruction dictionary and entries
 - Status: TO DO — dictionary generated from grammar with charts; page-break rule not found in tools (latest decision 2026-11-05 \[R349\])
 - Decided: 2026-11-05 decided: Rule: "a new entry must have a couple lines of text underneath its title and layout charts, otherwise it should start at the top of the next page." \[R349\]
@@ -220,14 +217,14 @@
 - Precedent: Mishnah and Gemara (chosen; named by author): same aphorism-then-commentary structure \[R269\]
 - Precedent: PowerPC 601 (chosen; named by author): "an excellent example of a cpu manual" \[R270\]
 - Evidence: docs/manual-src/00-index.md:35 'Each section is a few numbered aphorisms followed by a commentary'; pseudocode in docs/manual/09-isa.md uses ← (169 uses) and still 2 '\<-' (line 2174 and 2359); not found: a binary mask with its hex in brackets in 09-isa.md (instruction figures show prefixes in binary, e.g. "prefix 11010001")
-- Doc differs: docs/manual-src/09-isa.md:104 (9.3.8) "the mask is 32 bits" and :340 (9.11.1) give no binary form
+- Doc differs: docs/manual-src/09-isa.md:73 (9.3.8) "the mask is 32 bits" and :241 (9.11.1) give no binary form
 - Left: values and masks in binary with hex in brackets (R302, R303); the two remaining '\<-'
 
 ### Manual readers and the rewrite of the chapters
-- Status: TO DO — details pending: chapters 2 to 6 are rewritten for the two readers; chapters 1, 7, 8, 9, 10 and the appendices are not yet (latest decision 2026-11-10 \[errata 103\])
+- Status: TO DO — details pending: chapters 1 to 8 and 10 are rewritten for the two readers; chapter 9 (the instruction set) and the appendices are not (latest decision 2026-11-10 \[R394, errata 103\])
 - Decided: 2026-11-10 decided: "the manual should be written as if a first year compsci student OR an experienced pdp11 assembly programmer were reading it; both don't know about anything that happened in computer architecture since the 1970's" \[errata 103\]; then chapter by chapter: "now do the graphics chapter from the same point of view" \[errata 105\], "do the kernel chapter next from the same point of view" \[errata 107\], "do the boot chapter next from the same point of view" \[errata 108\], "do the drivers chapter next" \[errata 115\]
-- Evidence: docs/manual-src/02-bus.md:11 (2.1 "What you already know: the Unibus"), 03-graphics.md:21 (3.1 "The teletype"), 04-boot.md:9 (4.1 "starting a PDP-11"), 05-drivers.md:11 (5.1 "a PDP-11 driver"), 06-kernel.md:9 (6.1 "the kernel of a PDP-11"); commits adde39b (bus), 4b5a058 (graphics), 6ab2253 (kernel), ade1a6d (boot), 5abf284 (drivers)
-- Left: chapters 1, 7 (smp), 8 (vectors), 9 (instruction set), 10 (conclusion) and the appendices are "to follow" (errata 107, 108, 115 say nothing yet on whether, how or in what order); the manual-src files of 07 and 08 last changed 2026-11-04
+- Evidence: docs/manual-src/02-bus.md:11 (2.1 "What you already know: the Unibus"), 03-graphics.md:21 (3.1 "The teletype"), 04-boot.md:9 (4.1 "starting a PDP-11"), 05-drivers.md:11 (5.1 "a PDP-11 driver"), 06-kernel.md:9 (6.1 "the kernel of a PDP-11"); commits adde39b (bus), 4b5a058 (graphics), 6ab2253 (kernel), ade1a6d (boot), 5abf284 (drivers), 7dedf5c (chapters 1, 7, 8 and 10)
+- Left: chapter 9 (generated from the grammar with hand-written text) and the appendices; the author named chapters 1, 7, 8 and 10 only, and they are done (errata 124, 126, 127; see "Chapters 1, 7, 8 and 10 rewritten for the PDP-11 reader")
 
 ### Old forms and long long libc documentation
 - Status: TO DO — OLD-K&R-FORMS.md exists but the "to fix" mark for the long long libc on the v7 side is not in the toolchain docs (latest decision 2026-10-17 \[R77\])
@@ -238,6 +235,12 @@
 - Precedent: C99 (considered; named by author): regressions from C99 if old forms were supported \[R76\]
 - Evidence: v7unix-toolchain:OLD-K&R-FORMS.md exists; not found: a "to fix" mark for long long in README.md, TODO, UPSTREAM-PLAN.md, PORTING.md or OPTIMIZATION-TRICKS.md of facetlang/pdp11/v7unix-toolchain (HEAD 2bbff8c, 2026-10-21); README.md:118 states only that the VAX has long long helpers "which 32V's libc lacks"; status-check/pcc (HEAD 41e5c36) doc/SIZE-NOTES.md:38 describes the 64-bit long long without a mark
 - Left: add the "to fix" mark on the v7 side (the decision defers all documentation to the end)
+
+### Order of work after the single-CPU decision
+- Status: TO DO — decided: resolve the open items first, then run the optimiser, update the grammar, regenerate, then port; none of the steps after the first is done (latest decision 2026-11-10 \[R396\], errata 125)
+- Decided: 2026-11-10 decided: "once we've decided on any issue that might affect our opcodes etc, then we'll port llvm to the new encoding and the pcc and as64 as well. which means updating the hbnf grammar, because it generates the assembler, the tables for chapter 9 of the manual etc."; "we'll also keep sim64 and pcc current too; but it came to my attention there may be some opcode changes once we're done resolving all the open items"; "i want to get this thing in shape so you can then implement the llvm and qemu backends" \[R396\]
+- Evidence: docs/errata.md item 125 (the order: 1 resolve the open items, starting with those that affect the opcodes; 2 re-run the encoding optimiser; 3 update the hbnf grammar; 4 regenerate the assembler tables, the manual and the pcc headers; 5 port LLVM, QEMU, as64, pcc and sim64); docs/roadmap.md:10 "## The order of work now"; handoff.md:38 "## 4. The order of work"; README.md:90 "Order of work"; docs/README.md ("The opcodes may still change when the open items are decided and the encoding optimiser is run again")
+- Left: step 1 is in progress (the open items are in appendix J and in the decision form docs/feedback/decisions-feedback.txt); steps 2 to 5 wait for it; sim64 and pcc are kept current on the present encoding until then
 
 ### PCC contributors
 - Status: TO DO — a contributor file exists elsewhere but the pcc repo README does not name contributors (latest decision 2026-10-13 \[R48\])
@@ -260,10 +263,10 @@
 - Left: README.md:8 lists the appendices as "improvements, pending decisions, a glossary, the ABI and the assembly language" and omits the evidence, evolution, proposed, deferred and open-items appendices (the manual has A to J)
 
 ### Rules for editing the chapters
-- Status: TO DO — details pending: applied to chapters 2 to 6 (errata 111 to 119); not yet to the other chapters (latest decision 2026-11-10 \[errata 115\])
+- Status: TO DO — details pending: applied to chapters 1 to 8 and 10 (errata 111 to 119, 124, 126, 127); not to chapter 9 or the appendices (latest decision 2026-11-10 \[R401, errata 115\])
 - Decided: 2026-11-10 decided: "remove all ai slop, verify everything, and structure it nicely with good flow"; "make sure each chapter flows from pdp11 to pdp64 with relevant precedents in between"; "where the structure and flow is already good, keep it of course"; "not everything needs a source, just they are nice to have"; "just because you don't have a source, search for sources before removing things" \[errata 115, 111, 113\]
 - Evidence: docs/errata.md:268-283 (errata 111 to 119: the edit passes, claims restored with sources); 06-kernel.md has one Lineage paragraph per section (9 uses); 02-bus.md 2.1 route table (PDP-11, VAX, PCI, PCI Express, virtio) and a Chain in each commentary; each of chapters 2 to 6 ends with "What was checked, and what was not"
-- Left: the same pass for chapters 1, 7 to 10 and the appendices; the author has not said when
+- Left: the same pass for chapter 9 and the appendices; the author has not said when
 
 ### Standing optimization rules
 - Status: TO DO — the rule is decided and followed in the pcc work, but no document states it as a standing rule (latest decision 2026-10-21 \[R143\])
@@ -272,21 +275,35 @@
 - Evidence: practised: pcc-enc:doc/SIZE-NOTES.md:115 and :140 ("each is an -xdce change in the shared front end, so every target gets it"; "on every target"), :186; not found: the rule or "worst 10" stated as a rule in docs/\*.md, README.md, handoff.md or the pcc-enc docs
 - Left: state the rule in the pcc docs (PDP64-OPT.md or SIZE-NOTES.md) and in handoff.md
 
-### Status document as the source of truth
-- Status: TO DO — the status document exists and is linked; the docs and manuals do not yet all follow it (latest decision 2026-11-10 \[errata 115\])
-- Decided: 2026-11-10 decided: "the whole point of doing the status and decisions document is so we have a source of truth, all docs and manuals must follow it as authoritative" \[errata 115\]
-- Evidence: docs/decisions-and-status.md (README.md:50 item 7 links it); docs/decision-log/pdp64-status.md is the rebuilt version; docs/decision-log/docfix-reports/ holds the per-document corrections
-- Doc differs: every Doc differs line of the ledger files lists a document that does not yet follow it
-- Left: reconcile the docs and manual chapters with the rebuilt status document; publish the rebuilt docs/decisions-and-status.md
-
 ## Instruction set: alignment and memory model
 
 ### Physical address width and device windows
 - Status: TO DO — decided and stated in the manual and the ISA; details pending: how many pages "the first few" are, how software discovers the width, the page-table entry for a 64-bit physical address (latest decision 2026-11-10, errata 102)
 - Decided: 2026-11-10 decided: "physical address: minimum 24 bit, up to full 64 bit. mapping can be anywhere except the first few pages where the boot stuff is loaded." then "fine, minimum 40 bits." (errata 102; the 24 of the first message was replaced by 40 the same day); completes 2026-11-09 errata 97, "if we are going to mmap petabytes, we need those bits"
-- Evidence: docs/errata.md items 97 and 102; docs/manual-src/02-bus.md:124 "2.3.5 No bit of the physical address selects device space ... the physical address is at least 40 bits and at most 64"; docs/pdp64-isa.md:1127 "The physical address is 40 to 64 bits (errata 102, (D)"; open items J.4.1 (the first few pages), J.6.1 (discovering the implemented widths), J.6.2 (the page-table entry for wide physical addresses) in docs/manual-src/appendix-parts/
+- Evidence: docs/errata.md items 97 and 102; docs/manual-src/02-bus.md:124 "2.3.5 No bit of the physical address selects device space ... the physical address is at least 40 bits and at most 64"; docs/pdp64-isa.md:623 "The physical address is 40 to 64 bits"; open items J.4.1 (the first few pages), J.6.1 (discovering the implemented widths), J.6.2 (the page-table entry for wide physical addresses) in docs/manual-src/appendix-parts/
 - Doc differs: the simulator, QEMU and spec/pdp64-system.hbnf map 40 bits and put the devices from 0x8000000000 (docs/implementation-status.md, chapter 6, 6.6.2 and 6.7.1); the 40-bit width is the minimum, so the rule is met
 - Left: details pending: the number of pages kept for the boot code (J.4.1); the register or field that reports the physical width (J.6.1); the page-table entry layout for a page number of 52 bits (J.6.2); devices' placement in the simulator and QEMU
+
+## Instruction set: encoding
+
+### Encoding optimiser in C (tools/encopt)
+- Status: TO DO — translated to C with exact algorithms and tested; the run that matters is to be repeated once the opcode-affecting decisions are made and the mnemonics are settled (latest decision 2026-11-10 \[R397\], errata 125)
+- Decided: 2026-11-10 decided: "that python script that went over all the mnemonics and figured out the optimal prefix encoding for pdp64 to fit the most used opcodes into the smallest number of 16 bit packets? that's the one I want translated to C ... use optimal algorithms, we'll be re-running it once the decisions are made and the mnemonics are settled" \[R397\]
+- Evidence: tools/encopt/ (encopt.c, main.c, export.py, check.sh, tests/, man pages encopt.1 and encopt.5; commit fa92f82), tools/check-all.sh:17 runs its checks; docs/encoding-work/optimizer.md section 5: on the corpus statistics of 2026-11-10 the proved optimum is 955,956 bytes against 965,602 for the committed grammar (1.00% smaller, 81 chosen candidates against 140, 203 leaves against 268), in 3.4 seconds; section 6: 150 random instances against brute force with no disagreement
+- Left: the re-run on the decided instruction set (docs/encoding-work/optimizer.md section 7); the choices that move the optimum are open: whether to weight by executed counts as well as static counts, the 5% of code space kept free (budget 95%), and the corpus reader that misreads \`set cc, rd\` (342 instructions counted as unencodable) (questions in docs/feedback/decisions-feedback.txt); the wiring of the optimum into the grammar writer was not done ("spec/ must not change yet")
+
+### Opcode map grouping
+- Status: TO DO — the present grammar groups the rare instructions in wide groups with sub-opcodes and the mnemonics by theme; the opcodes are to be regrouped by the encoding optimiser when the open items that affect them are decided (latest decision 2026-10-21 \[R146\]; order of work, errata 125)
+- Decided: 2026-10-21 decided: "regroup the opcodes, rare ones are bigger ones", and "keep them grouped by theme" \[R146\]
+- Rationale and precedent: none stated in the sources
+- Evidence: spec/pdp64-mnemonics.hbnf (the vocabulary: groups, sub-opcodes, conditions) and spec/pdp64/pdp64.hbnf (the leaves with their prefixes); docs/encoding-proposal.md:32 "Rare instructions share a few wide groups with a sub-opcode field" (a record); docs/pdp64-isa.md no longer states opcode numbers or layouts (docs/README.md); tools/encopt (errata 125: the optimiser in C, run again once the mnemonics are settled)
+- Left: re-run tools/encopt after the opcode-affecting decisions and regenerate the grammar; whether the theme grouping is a constraint of that run is not decided (the optimiser assigns prefixes by code space and corpus weight)
+
+### Update the hbnf grammar from the optimiser's result
+- Status: TO DO — decided in the order of work (step 3 and 4); the grammar is not changed until the optimiser has run (latest decision 2026-11-10 \[R396\], errata 125)
+- Decided: 2026-11-10 decided: "updating the hbnf grammar, because it generates the assembler, the tables for chapter 9 of the manual etc." \[R396\]
+- Evidence: spec/pdp64/pdp64.hbnf (the encoding: 207 forms, 268 leaves) and spec/pdp64-mnemonics.hbnf (the vocabulary: groups, sub-opcodes; the numbering of the original encoding stays, errata 123, 128); errata 128 cut the dead rules lencode, p2op and amode and the build/pdp64-tab.c is byte-identical; docs/encoding-work/optimizer.md section 7 point 6 (the output stage that turns the optimiser's result into the grammar is not wired)
+- Left: after the decisions and the optimiser run: write the grammar, regenerate the assembler tables, the manual's tables and the pcc headers (tools/export-pcc-headers.sh), run tools/check-all.sh
 
 ## Instruction set: instruction groups
 
@@ -297,8 +314,7 @@
 - Rationale: only that add and div need not match: "only they are timing independent of their data" \[R324\]
 - Precedent: Spectre (rejected; named by author): design must not repeat it \[R253\]
 - Precedent: Rowhammer (rejected; named by author): written as "hammer-row"; design must not repeat it \[R253\]
-- Evidence: docs/manual-src/09-isa.md:101 "9.3.7 A bit DIT in the status word promises data-independent timing" (D), with "Open: the position of the bit ... and which instructions take constant time while it is clear (J.9.2)"; docs/manual-src/appendix-parts/09-open.md J.9.2; not found in docs/pdp64-isa.md, sim64/ or common/ (a search for DIT finds only EDITPC); docs/decisions-pending.md:584 "P17 ... PROPOSED, not decided"
-- Doc differs: docs/decisions-pending.md:124 says "proposed: option 3 (a core set always constant-time plus a DIT bit"; docs/pdp64-isa.md has no DIT
+- Evidence: docs/manual-src/09-isa.md:71 "9.3.7 A bit DIT in the status word promises data-independent timing" (D), with "Open: the position of the bit ... and which instructions take constant time while it is clear (J.9.2)"; docs/manual-src/appendix-parts/09-open.md J.9.2; docs/pdp64-isa.md:1101 lists it only as open item J.9.2; not found in sim64/ or common/ (a search for DIT finds only EDITPC); docs/decisions-pending.md:598 "P17" (a record, banner of 2026-11-10: "proposed: option 3")
 - Left: details pending: the core set that is always constant-time (J.9.2 option 2 to 4), the position of DIT (bit 13 proposed), the DIT bit and the fast-path disable in the ISA text, the grammars and the simulator
 
 ### Integer abs/min/max and conditional select
@@ -307,7 +323,7 @@
 - Rationale: "surely other cpus have these opcodes and could benefit from them? who knows how much of an optimization this might bring us" \[R176\]
 - Precedent: cmov/csel/fsel (considered; named by author): wants to know more; abs/min/max as assembler aliases on top \[R177\]
 - Precedent: ARM csel family (considered; named by assistant, not taken up): select variants nearly free once the first exists \[R178\]
-- Evidence: docs/errata.md item 98; docs/pdp64-isa.md:860 "assembler aliases, not native instructions" and :982 AESC sub-opcodes ABS 0x08, MIN 0x10.. ("the present build"); docs/manual-src/09-isa.md:253 "9.7.6 ABS, MIN, MINU, MAX and MAXU are assembler aliases"; spec/pdp64/pdp64.hbnf:153,164 "abs" "min" "max" still sub-opcodes; open item J.9.1 (docs/manual-src/appendix-parts/09-open.md); docs/implementation-status.md "Chapter 9, ABS, MIN, MINU, MAX, MAXU (errata 98)"
+- Evidence: docs/errata.md item 98; docs/pdp64-isa.md:531 "assembler aliases, not native instructions" (the author's decision of 2026-11-10, errata 98) and :985 "Integer \`ABS\`, \`MIN\`, \`MAX\`, \`MINU\`, \`MAXU\` and \`SET cc, rd\`"; docs/manual-src/09-isa.md:165 "9.7.6 ABS, MIN, MINU, MAX and MAXU are assembler aliases"; spec/pdp64/pdp64.hbnf:153,164 "abs" "min" "max" still sub-opcodes; open item J.9.1 (docs/manual-src/appendix-parts/09-open.md); docs/implementation-status.md "Chapter 9, ABS, MIN, MINU, MAX, MAXU (errata 98)"
 - Doc differs: docs/errata.md item 23 says AESC sub-opcodes 0x08 and 0x10-0x13 (native; marked superseded by errata 98); the grammars (spec/pdp64-mnemonics.hbnf, the encoding grammars), as64, sim64, pcc, QEMU and LLVM still treat the five words as native until the expansion is decided
 - Left: details pending: define the conditional select (ISA section 12 item 15 keeps it on hold) or choose the expansion over SET, MASKEQZ, MASKNEZ (J.9.1); then change the grammars and tools; the flags of the native words are the behaviour the alias must keep
 
@@ -342,20 +358,26 @@
 - Evidence: pcc:doc/SIZE-REPORT.md:91 "pdp11 ... +8.0%" against gcc; commit 285188d "PDP-11 gap to gcc 16.6%"
 - Left: the worst-10% loop to reach 5%
 
+### LLVM back end: frozen until the port
+- Status: TO DO — frozen on the original encoding; to be ported to the new encoding after the opcode-affecting decisions, then a code generator (latest decision 2026-11-10 \[R396\], errata 125)
+- Decided: 2026-11-10 decided: "once we've decided on any issue that might affect our opcodes etc, then we'll port llvm to the new encoding and the pcc and as64 as well"; "i want to get this thing in shape so you can then implement the llvm and qemu backends" \[R396\]
+- Evidence: llvm/README.md:3 "Status (errata 122)" (the machine-code layer encodes the original encoding: parcel 0 = len:2 opc:6 reg:4 low:4, sixteen registers, page 2; as64 produces the prefix-coded encoding only; the oracle checks were removed, errata 123); docs/implementation-status.md "LLVM is frozen"; README.md:89 "LLVM back end"; docs/roadmap.md:10 (step 5)
+- Doc differs: the body of llvm/README.md still describes milestone M1 and an oracle (llvm/check.sh, tools/gen-llvm-td.py) that no longer exists
+- Left: the port of the machine-code layer, the new oracle against as64, a code generator (llc, clang), the larger machine for the build (R217); the question whether the assembler of LLVM keeps the syntax exceptions of implementation-status (no literal pool, no names that start with a digit) is in the decision form
+
 ### QEMU and LLVM targets
-- Status: TO DO — QEMU is built (it decodes with the table codec of the single encoding); the LLVM back end is only at milestone M1 and frozen on the old encoding, its port or deletion not decided (details pending) (latest decision 2026-10-22 \[R217\])
-- Decided: 2026-10-22 decided: "if we build llvm, we'll move over to a machine with more memory". \[R217\]
+- Status: TO DO — QEMU is built and decodes with the table codec of the single encoding; the LLVM back end is only at milestone M1 and frozen on the original encoding; both are to be ported to the new encoding after the opcode-affecting decisions (latest decision 2026-11-10 \[R396\], errata 125; 2026-10-22 \[R217\])
+- Decided: 2026-11-10 decided: "once we've decided on any issue that might affect our opcodes etc, then we'll port llvm to the new encoding and the pcc and as64 as well"; "i want to get this thing in shape so you can then implement the llvm and qemu backends" \[R396\]; 2026-10-22 decided: "if we build llvm, we'll move over to a machine with more memory". \[R217\]
 - Rationale: "if we build llvm, we'll move over to a machine with more memory" \[R217\]
 - Precedent: OpenBSD (considered; named by author): "how does openbsd bring up a new architecture?" vs going straight to 3bsd \[R216\]
 - Precedent: 3BSD (considered; named by author): premise of his question: going straight to 3bsd \[R216\]
 - Precedent: LLVM target sources under llvm/ in pdp64 repo (considered; named by assistant, not taken up): assistant proposal, not a GitHub fork; he answered only about machine \[R217\]
 - Precedent: QEMU (chosen; named by author): wants a plan for a qemu backend for the pdp64 \[R151\]
-- Evidence: llvm/README.md "Milestone M1 ... There is no code generator yet (llc and clang are later milestones)"; qemu/README.md:3 "qemu-system-pdp64 -M pdp64-virt -kernel prog"; docs/implementation-status.md (1.5.3 QEMU does not yet execute the pdp64/16 and pdp64/32 encodings; chapter 10.4.3 llvm-mc checked against as64 on 62 programs and 6,304 instruction forms)
-- Doc differs: handoff.md:6 and :113: the build machine has 3.9 GB RAM, the move to a bigger machine is not recorded
+- Evidence: llvm/README.md:3 "Status (errata 122)" and the body "Milestone M1 ... There is no code generator yet (llc and clang are later milestones)"; qemu/README.md:3 "qemu-system-pdp64 -M pdp64-virt -kernel prog"; docs/implementation-status.md ("QEMU": the target decodes with the table codec of the pdp64 encoding, 54 machine tests run, the C programs pass under it; "LLVM is frozen"); docs/roadmap.md:10 (step 5: port LLVM, pcc, as64, QEMU and sim64)
 - Doc differs: qemu/README.md:41-51 memory map still has device space behind bit 39 of the physical address (timer 0x8000000000, console 0x8000001000), against errata 97 (no address bit selects device space) and errata 102 (40 to 64 bits); the QEMU walker has three levels only, against errata 96
 - Doc differs: the QEMU machine has no virtio device and no PCI Express root complex (docs/implementation-status.md, chapter 5.14), against errata 95 (virtio across the board)
 - Doc differs: llvm/README.md (a status note, errata 122): the LLVM back end is frozen; its machine-code layer (about 5,000 lines) encodes the original r20 encoding (parcel 0 = len:2 opc:6 reg:4 low:4, sixteen registers, page 2) throughout, while as64 now produces only the prefix-coded encoding of spec/pdp64/pdp64.hbnf, so llvm-mc and as64 no longer agree, and the checks that compared them (llvm/check.sh, oracle.py, forms.py, negative.py, runsim.py, tools/gen-llvm-td.py) were removed (errata 123 \[R375\]); the body of the README still describes milestone M1 and an oracle that is gone
-- Left: LLVM code generator, the larger machine; what becomes of llvm/ (a port to the prefix-coded encoding, or deletion) is not decided (errata 123)
+- Left: the port of both to the new encoding after the opcode decisions (errata 125; see "LLVM back end: frozen until the port"); then the LLVM code generator and the larger machine (R217); QEMU to reach parity with sim64 (errata 84), a virtio device and a PCI Express root complex, the wide physical address and the page-table levels of errata 95, 96, 97 and 102
 
 ### The four open items
 - Status: TO DO — details pending: the four items are not named in the chain (latest decision 2026-10-13 \[R60\])
@@ -383,10 +405,16 @@
 ### pcc: the single-pdp64 branch
 - Status: TO DO — the branch \`single-pdp64\` of pcc builds only the pdp64 and is pushed (commit 2dbf4f7); pcc master is unchanged (41e5c36, still three targets and \`ccom32\`), so the merge into master is open (details pending; the author decides)
 - Decided: 2026-11-10 decided: "remove the code too, tag first" \[R375\]; the pcc side of it is the branch \`single-pdp64\` (errata 123)
-- Evidence: pcc origin heads: \`single-pdp64\` 2dbf4f7 "pdp64: drop pdp64-limits.h, which nothing uses", \`master\` 41e5c36; handoff.md:44 and :50 ("the pcc branch \`single-pdp64\` is not merged into pcc's master"); README.md:74 "the pcc branch single-pdp64; -m pdp64"; tools/build-pcc.sh of this repository needs that branch
+- Evidence: pcc origin heads: \`single-pdp64\` 2dbf4f7 "pdp64: drop pdp64-limits.h, which nothing uses", \`master\` 41e5c36; handoff.md:20, :31 and :55 (the branch \`single-pdp64\` builds only the 32-register target; "not yet merged into pcc's master"); git ls-remote of pcc: \`single-pdp64\` 2dbf4f7 and \`master\` 41e5c36; README.md:76 "the pcc branch single-pdp64; -m pdp64"; tools/build-pcc.sh of this repository needs that branch
 - Left: details pending: merging \`single-pdp64\` into pcc's master, or keeping it as the pdp64 branch (not decided)
 
-# Left in the air (20)
+### sim64 decoder from the grammar's output
+- Status: TO DO — decided in principle; details pending: sim64 decodes through the generic table codec and its executor is written by hand; a decoder generated from the grammar is to follow the opcode decisions (latest decision 2026-11-10 \[R403\], errata 129)
+- Decided: 2026-11-10 decided: "i want sim64 to also use hbnf output for opcode generation, but implementation of course can be by hand, since hbnf isn't expected to know what the opcodes actually DO, just that it should be able to parse the binary opcodes into the proper structs etc so the sim can simulate them efficiently" \[R403\]
+- Evidence: common/pdp64enc.c and common/pdp64enc.h:27 \`struct einsn\` (the decoded instruction), tables generated by tools/mkenc.py from the grammar into build/pdp64-tab.c; the executor semantics are hand-written in common/pdp64exec.c and common/pdp64exec\_enc.inc (a table of handlers by mnemonic, for example \`H\_MASK\`); docs/errata.md item 129
+- Left: a specialised decoder generated from the grammar that fills the decoded structures directly (the grammar says where the fields are, not what the instruction does); to follow after the opcode decisions and the optimiser run, so that it is generated once for the final encoding
+
+# Left in the air (25)
 
 - Only ideas, open questions, conflicting decisions, or points the record and the repository do not settle.
 
@@ -406,7 +434,7 @@
 - Decided: no standing decision (only potential decisions)
 - Precedent: LoongArch64 (considered; named by author): asked how it handles the PC \[R135\]
 - Precedent: AArch64 (considered; named by author): asked if LoongArch handles PC the same \[R135\]
-- Evidence: docs/manual-update-plan.md:27 lists a planned "9.20 LoongArch" section; no errata entry; the direct-mapping windows (\`DMW0\`, \`DMW1\`, docs/manual-src/06-kernel.md:326 "\*\*6.9.2\*\*", errata 44) are LoongArch's idea and the author said "good thing we already had dmw" (errata 96, \[R361\]), which records that one feature was already in, not a decision to adopt more
+- Evidence: docs/manual-update-plan.md:27 lists a planned "9.20 LoongArch" section; no errata entry; the direct-mapping windows (\`DMW0\`, \`DMW1\`, docs/manual-src/06-kernel.md:324 "\*\*6.9.2\*\*", errata 44) are LoongArch's idea and the author said "good thing we already had dmw" (errata 96, \[R361\]), which records that one feature was already in, not a decision to adopt more
 - Left: decide what else to adopt from LoongArch, or drop; the author's words are a question ("what can we learn from them and adopt")
 
 ## 03 Graphics and the C64 devices
@@ -424,7 +452,7 @@
 - Precedent: Commodore 64 (chosen; named by author): "as sweet and usable as the C64" \[R11\]
 - Precedent: newLISP (chosen; named by author): as driver of the console \[R11\]
 - Precedent: MS-DOS console font (considered; named by author): font "reminiscent of the old Commodore 64 font, or the old MSDOS console font" \[R1\]
-- Evidence: docs/c64-devices-from-chat.md:123 "## 6. The c64x terminal chat (2026-06-18)" records the chat as history (per-cell colours, peek and poke, the newLISP-style cell) and no pdp64 document makes it a requirement; the records are 2025-07-23 \[R1\], 2025-09-22 \[R2, R3\], 2026-05-13 \[R6\], 2026-06-18 \[R7, R8, R9, R10\]
+- Evidence: docs/c64-devices-from-chat.md:125 "## 6. The c64x terminal chat (2026-06-18)" records the chat as history (per-cell colours, peek and poke, the newLISP-style cell) and no pdp64 document makes it a requirement; the records are 2025-07-23 \[R1\], 2025-09-22 \[R2, R3\], 2026-05-13 \[R6\], 2026-06-18 \[R7, R8, R9, R10\]
 - Left: lives in another repository; if it is meant to be the terminal for pdp64, say so
 
 ### C64 console font and 9p interface
@@ -435,7 +463,7 @@
 - Precedent: kitty (considered; named by author): c64x is much the same "but with peek/poke instead of byte stream" \[R8\]
 - Precedent: xterm-256color subset shim (chosen; named by author): "we'll have a shim that implements xterm-256color subset" \[R8\]
 - Precedent: vsock (considered; named by assistant, not taken up): he "didn't understand" the vsock question \[R9\]
-- Evidence: docs/c64-devices-from-chat.md:128 "the 9p tree is \\"JUST a representation of underlying newlisp reality\\"" and :51 (the c64x 9p interface) record it as chat history; not found: a 9p or font-query decision in the manual or errata; related potentials \[R8\] and \[R5\]
+- Evidence: docs/c64-devices-from-chat.md:130 "the 9p tree is \\"JUST a representation of underlying newlisp reality\\"" and :51 (the c64x 9p interface) record it as chat history; not found: a 9p or font-query decision in the manual or errata; related potentials \[R8\] and \[R5\]
 - Left: same repository question as the C64 console
 
 ### SID chip variants
@@ -460,6 +488,26 @@
 - Precedent: C64 and PDP-11 similarities (considered; named by author): commonalities found, cited as evidence \[R356\]
 - Evidence: commits c85387f and 5b2837c "Velinsky link recorded as prediction, confirmation and the author's hypothesis (P) with the evidence still wanted"; docs/c64-devices-from-chat.md:146 section 8; docs/manual-src/appendix-parts/01-proposed.md:1 "\*\*1.1.5\*\* (moved from chapter 1, from the commentary of 1.1) \*(P)\* A thread between the two lineages"
 - Left: the evidence still wanted, as the docs themselves say
+
+## 04 Boot
+
+### Boot: how the first stage finds the second stage (decision B8)
+- Status: IN THE AIR — a proposal of the assistant (a block list in the protective MBR's 446 bytes, no GPT parsing before the second stage); the author's words decide the block-0 route and the GPT wrapper, not this option (latest decision 2026-11-10 \[errata 109, 110\])
+- Decided: no standing decision on the option: the author decided that block 0 is read and run (R256 "can't we do what pdp11 used to do, load 512 byte block 0 then jmp 0?"), the GPT wrapper (errata 50) and "block 0 with a shim possible" (errata 109); how block 0 finds the next stage was not answered
+- Evidence: docs/boot.md:272 "Decision B8: how the first stage finds the second stage on a GPT disk" (five options, recommendation option 1, a record); docs/manual-src/appendix-parts/04-proposed.md:56 "\*\*4.5.2b\*\* (moved from chapter 4) The first stage carries a short block list ... \*(P)\* (Decision B8, a proposal"
+- Left: the author's choice among the five options (block list, GPT parse in the ROM, fixed gap, FAT boot partition, bootable flag); in the decision form
+
+### Boot: the ROM monitor and its commands
+- Status: IN THE AIR — that the ROM carries a monitor is stated in the manual as decided (4.3.1, 4.10.1) on the strength of "the boot loader/bios is open source" and the ODT precedent; its command set and how it is reached are open (latest decision 2026-10-22 \[errata 47\])
+- Decided: 2026-10-22 decided: the boot software, "the boot loader/bios", is open source and part of the specification \[errata 47\]; no words of the author on the monitor's commands
+- Evidence: docs/manual-src/04-boot.md:140 "\*\*4.3.1\*\* The pdp64's \\"BIOS\\" is the controller chip's boot ROM and its monitor. \*(D)\*", :290 "\*\*4.10.1\*\* The controller's ROM includes a monitor ... \*(D)\*"; docs/manual-src/appendix-parts/04-open.md:205 (the command set, how it is reached, its console and speed); docs/boot.md ("Recovery: when boot fails": examine and deposit memory and registers, load over the serial line, start at an address, reset a core, reset the machine: the assistant's list)
+- Left: the command set (the assistant's list is a proposal), the way in (nothing boots, a key at power-up, or both), console and speed; in the decision form
+
+### Boot: the order in which the ROM looks for a boot device
+- Status: IN THE AIR — a fixed order (disk or flash, then SD card, then the serial line) is a proposal; no decision (latest decision: none)
+- Decided: no standing decision
+- Evidence: docs/manual-src/appendix-parts/04-proposed.md:30 "\*\*4.4.1\*\* (moved from chapter 4) At reset the controller ... looks for a boot device in a fixed order: disk or flash, then SD card, then the serial line. \*(P)\*"; docs/manual-src/appendix-parts/04-open.md:142 (the issue and the options, J.4); docs/boot.md ("a fixed order")
+- Left: whether a fixed order is wired in, whether a key at power-up changes it, how the chosen device is named in a register; in the decision form
 
 ## 06 Kernel, modes and memory management
 
@@ -525,6 +573,14 @@
 - Evidence: not checked: the text to be placed is not visible in the record
 - Left: unclear record R298 cannot be placed
 
+## FPGA and silicon
+
+### FPGA plan: HardFloat bought, the DE10-Nano first, SystemVerilog
+- Status: IN THE AIR — recommendations of the assistant in the plan; the author asked for the plan and decided the clock, not these choices (latest decision 2026-11-10 \[errata 99\])
+- Decided: no standing decision on the choices; the author asked "write a section on the logistics and planning to put this design on a SoC fpga" (2026-08-30) and decided the clock (errata 99, 200 to 300 MHz)
+- Evidence: docs/pdp64-fpga-plan.md:26 "Start on the DE10-Nano", :237 "Buy the FPU. Use Berkeley HardFloat", :245 "Language: SystemVerilog for the datapath, with decode tables generated"; :293 "12.2 What is right instead: a blit engine" ("a sketch of the assistant's"); the plan's own banner says its estimates for 32 registers are unverified (docs/README.md)
+- Left: whether the first board, the bought floating-point unit and the language are decisions; whether the blit-engine sketch stays in the plan; in the decision form
+
 ## Instruction set: alignment and memory model
 
 ### Stack alignment
@@ -548,8 +604,7 @@
 - Status: IN THE AIR — only potential ideas; the decided pdp64/32 uses a variable prefix, not a fixed 6-bit opcode (latest decision 2026-11-04 \[R325\])
 - Decided: no standing decision (only potential decisions)
 - Rationale and precedent: none stated in the sources
-- Evidence: spec/pdp64/pdp64.hbnf:1 "207 forms, 268 leaves" (prefix-coded leaves); docs/encoding-proposal.md:27 "Prefix at the top of parcel 0 (1 to 16 bits)"; the 6-bit opcode field (opc:6) is the r20 layout only (spec/README.md:9)
-- Doc differs: docs/encoding-proposal.md:27 prefix of 1 to 16 bits, not opcode(6)
+- Evidence: spec/pdp64/pdp64.hbnf:1 "207 forms, 268 leaves" (prefix-coded leaves); docs/encoding-proposal.md:29 "Prefix at the top of parcel 0 (1 to 16 bits)"; the 6-bit opcode field (opc:6) is the r20 layout only (spec/README.md:9)
 - Left: the chain records no ruling on the 6-bit opcode design (only potential ideas); pdp64/32, the decided architecture, uses a prefix code instead (errata 94), so the idea is moot unless the author says otherwise
 
 ## Instruction set: instruction groups
@@ -558,17 +613,25 @@
 - Status: IN THE AIR — only potential ideas in the chain, but the ISA already has MCPY, MMOV and MSET (latest decision 2026-10-20 \[R135\])
 - Decided: no standing decision (only potential decisions)
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/pdp64-isa.md:631 "MCPY Rd, Rs, Rn"; :632 MMOV; :633 "MSET"; :657 "MSET with Rv = 0 is the range-zeroing instruction"
+- Evidence: docs/pdp64-isa.md:386 "MCPY Rd, Rs, Rn"; MMOV in the same paragraph; :404 "\*\*\`MSET\` with Rv = 0 is the range-zeroing instruction"
 - Left: no decision records the block-move instructions; plain memory-to-memory mov (the first idea) is not in the ISA
 
 ### UTF-8 operations
 - Status: IN THE AIR — only a potential idea in the chain, but the ISA already has UTF8LEN/DEC/ENC and MVAL (latest decision 2026-10-20 \[R137\])
 - Decided: no standing decision (only potential decisions)
 - Rationale: "if utf8 is already 3 or 4 parcels, it's ok"; "validating an entire utf8 string sounds nice" \[R137\]
-- Evidence: docs/pdp64-isa.md:552 "4.6.1 UTF-8" (UTF8LEN, UTF8DEC, UTF8ENC); :659 "4.7.1 MVAL" (MVAL Rd, Rn validate Rn bytes as UTF-8); handoff.md:137 lists UTF-8 instructions and MVAL as known gaps (not in the executor)
-- Left: no recorded decision; whole-string validation exists in the spec (MVAL) but handoff.md:137 says it is not implemented in the tools
+- Evidence: docs/pdp64-isa.md:334 "4.6.1 UTF-8" (UTF8LEN, UTF8DEC, UTF8ENC); :406 "4.7.1 \`MVAL\`" (MVAL Rd, Rn validate Rn bytes as UTF-8); README.md "Status" lists the UTF-8 instructions and MVAL among those the executor does not yet implement
+- Left: no recorded decision; whole-string validation exists in the spec (MVAL) but README.md (Status) lists it among the words the executor does not yet implement
 
-# Rejected or replaced (8)
+## toolchain
+
+### Linker relaxation rules (NOADJ\_TEXT, R\_PDP64\_ALIGN, the alignment rule)
+- Status: IN THE AIR — implemented and verified, but the rules were assumed by the implementer "to be confirmed"; the author decided only that the linker relaxes an external call and a data-symbol lea, by default (latest decision 2026-11-04 \[R336\], errata 91)
+- Decided: 2026-11-04 approved-proposal: "yes do relax by default" \[R336\]; the rules below are not in the author's words
+- Evidence: docs/errata.md item 91 (assumed: the object flag EF\_PDP64\_RELAX, the relocation R\_PDP64\_ALIGN (type 6) on every padding of .text so that paddings are recomputed, growth from the shortest form with lengths that only grow, EF\_PDP64\_NOADJ\_TEXT (0x20) for a .text that holds a distance that is not a relocation, a label before an .align moved behind the padding, an expanded cbCC stays expanded, the reach of the 4-byte call); docs/relaxation.md:21 (\`EF\_PDP64\_NOADJ\_TEXT\`), :35 (\`R\_PDP64\_ALIGN\`), :48 (an object is adjustable if it has RELAX and not NOADJ\_TEXT); tests/relax/noadj.s; docs/relaxation.md sections 6 and 7 (the measurements)
+- Left: the author's confirmation of the rules; the reach of the 4-byte call (errata 91 says +-1 MiB, errata 87 and the encoding proposal say +-2 MB, the manual's text says +-256 KiB: to settle); in the decision form
+
+# Rejected or replaced (10)
 
 - Rejected, reversed, or replaced by a later decision (the later one has precedence).
 
@@ -597,9 +660,15 @@
 - Decided: not in force (rejected 2026-11-10): "r7 is not a view of the pc" (errata 100, answering the open question about R7)
 - Precedent: PDP-11 (considered; named by author): asked whether R7 was the PC on PDP-11 and about a read-only view \[R135\]
 - Precedent: LoongArch64 / AArch64 (considered; named by author): asked how they handle the PC \[R135\]
-- Evidence: docs/errata.md item 100; docs/pdp64-isa.md:1333 "9.3 The PC is not a register, and R7 is not a read-only view of it"; docs/manual-src/09-isa.md:87 "9.3.2 The program counter is not a general register, and R7 is an ordinary general register"; repository not stale
+- Evidence: docs/errata.md item 100; docs/pdp64-isa.md:831 "9.3 The PC is not a register, and R7 is not a read-only view of it"; docs/manual-src/09-isa.md:57 "9.3.2 The program counter is not a general register, and R7 is an ordinary general register"; repository not stale
 
 ## Instruction set: encoding
+
+### COM stays in a short form (the old ISA rule)
+- Status: REJECTED — obsolete: the rule belonged to the fixed-slot opcode map of the original encoding; with the prefix code the optimiser gives each instruction the length its frequency earns
+- Decided: not in force: the old ISA text (revision 20, section 4.5) kept \`COM\` in slot 1 of \`SOP\` because the principle "do not push an existing instruction into a longer encoding" forbade evicting it to make room for \`JMPI\`; the opcode map it protected is gone (errata 123, 125)
+- Evidence: the principle itself stands: docs/manual-src/01-introduction.md:163 "\*\*1.6.3\*\* ... the one that does not push an existing instruction into a longer encoding"; the old text is not in docs/pdp64-isa.md as it is now (no opcode map in prose, docs/README.md); the lengths are chosen by tools/encopt (docs/encoding-work/optimizer.md section 2, objective: bytes of the corpus)
+- Left: nothing; whether a theme grouping or a rule against lengthening an old instruction is a constraint of the optimiser run is part of the open question of the opcode map grouping
 
 ### Prefix-coded encodings, 16-register and 32-register grammars
 - Status: REJECTED — the two-grammar split was cancelled by the 32-register-only decision, and the 16-register grammar and its tests were removed (latest decision 2026-11-09 \[R365\]; done 2026-11-10, errata 123 \[R375\])
@@ -615,7 +684,7 @@
 - Decided: not in force (rejected 2026-10-21): "we have carryless mul no need for either crc". \[R175\]
 - Rationale: "we have carryless mul no need for either crc" \[R175\]
 - Precedent: carry-less multiply (chosen; named by author): replaces both CRC variants \[R175\]
-- Evidence: docs/pdp64-isa.md:600 "There are no CRC32 or CRC32C instructions"; docs/errata.md item 20; repository not stale
+- Evidence: docs/pdp64-isa.md:366 "This is deliberately chosen over a \`CRC\` instruction" (a "There are no CRC32 or CRC32C instructions"; docs/errata.md item 20; repository not stale
 
 ### Opcode usage, instruction count and pruning
 - Status: REJECTED — cutting to about 70 instructions was rejected; the repository does not cut (latest decision 2026-10-21 \[R172\])
@@ -631,7 +700,7 @@
 - Decided: not in force (rejected 2026-11-09): "good" to keeping the single move instruction with progress in registers and no resume opcode. \[R362\]
 - Rationale: accepted from the assistant ("good"): a separate resummov would multiply entities without benefit and need a different instruction after a fault \[R362\]
 - Precedent: virtio (considered; named by assistant, accepted): progress lives in memory rings; same principle as progress in registers \[R362\]
-- Evidence: docs/pdp64-isa.md:1250 "An MBLK instruction is interruptible. At every point ... Rd, Rs/Rv and Rn hold state consistent with byte-at-a-time progress"; repository not stale
+- Evidence: docs/pdp64-isa.md:752 "A block instruction is interruptible. At every point ... Rd, Rs/Rv and Rn hold state consistent with byte-at-a-time progress"; repository not stale
 
 ## Instruction set: registers
 
@@ -639,10 +708,17 @@
 - Status: REJECTED — replaced by the 32-register pdp64 where r16-r31 are defined (latest decision 2026-11-09 \[R365\]; one CPU since 2026-11-10, errata 122 \[R374\])
 - Decided: 2026-10-21 decided: "r16 should be an assembler error. only r0 .. r15 are defined, plus aliases" \[R170\]
 - Rationale and precedent: none stated in the sources
-- Evidence: spec/pdp64/pdp64.hbnf regs list r0..r31; later decision 2026-11-09 \[R365\]; docs/errata.md item 94 (r0-r31); stale: docs/pdp64-isa.md:80 "Sixteen registers, R0-R15" (the r20 text, declared at :7)
-- Doc differs: docs/pdp64-isa.md:80 says "Sixteen registers"; its header (:7) says the register file below is that of pdp64/r20
+- Evidence: spec/pdp64/pdp64.hbnf regs list r0..r31; later decision 2026-11-09 \[R365\]; docs/errata.md item 94 (r0-r31); docs/pdp64-isa.md:7 "thirty-two 64-bit registers" and :823 "Why thirty-two and not sixteen" (the ISA text was rewritten for 32 registers)
 
-# Done (164)
+## toolchain
+
+### pcc RISC-V back end: a separate project
+- Status: REJECTED — not part of this project: it is a separate project (latest decision 2026-11-10 \[R395\], errata 125)
+- Decided: not in force as part of this project (2026-11-10): "no, don't write the pcc riscv backend. that will be a separate project, not any part of this one" \[R395\]
+- Evidence: docs/roadmap.md:19 "The pcc RISC-V back end is a separate project and is not on this path"; handoff.md:46 "The pcc RISC-V back end is \*\*a separate project\*\*, not any part of this one (the author, 2026-11-10)"; docs/implementation-status.md:11 (the pcc line); docs/errata.md item 125
+- Left: nothing here; the work, if done, belongs to the pcc repository's own plan
+
+# Done (171)
 
 - Implemented in the current code or stated in the current docs, with the evidence.
 
@@ -672,7 +748,7 @@
 - Rationale: "fewer possible errors means less recovery code. easier recovery path means less recovery code." \[R244\]
 - Precedent: PDP-11 and VAX-11 (chosen; named by author): famous for being pleasant and fun to program in assembly; project updates them \[R197\]
 - Precedent: VAX and PDP-11 (minimality) (considered; named by author): pdp64 is "even more minimal" in hindsight \[R272\]
-- Evidence: docs/manual-src/01-introduction.md:39 "\*\*1.3.1\*\* In several ways the pdp64 is more minimal than the PDP-11 and the VAX-11: it gives up theoretical completeness where fifty years of use showed the completeness was never exercised"; :55 commentary on the PDP-11/VAX completeness; :59 section 1.4 priorities; :67 "\*\*1.4.5\*\* An instruction is judged by its weight in the loops where it is used"
+- Evidence: docs/manual-src/01-introduction.md:137 "\*\*1.5.1\*\* In several ways the pdp64 is more minimal than the PDP-11 and the VAX-11: it gives up theoretical completeness where fifty years of use showed the completeness was never exercised"; :153 commentary on the PDP-11/VAX completeness; :155 section 1.6 (the principles); :167 "\*\*1.6.5\*\* An instruction is judged by its weight in the loops where it is used"
 - Left: the 2026-11-04 potential on -xssa (a larger instruction in a tight loop) is open, not recorded as a decision
 
 ### Design priority list
@@ -680,8 +756,7 @@
 - Decided: 2026-11-04 decided: "recovery and restart go together". \[R323\]
 - Rationale: "my top priorities are code size, easy recoverability, and speed/efficiency through fewer gates and tighter hot loops" \[R243\]
 - Rationale: "4 and 5 are essentially the same thing. recovery and restart go together." \[R323\]
-- Evidence: docs/manual-src/01-introduction.md:59 "\*\*1.4.1\*\* ... restart and recovery go together"; docs/errata.md:233 entry 83; docs/priority-lists.md:118 "The definitive list"
-- Doc differs: docs/priority-lists.md:120 still says "(For you to write. ...)" above the author's annotations
+- Evidence: docs/manual-src/01-introduction.md:159 "\*\*1.6.1\*\* ... restart and recovery go together"; docs/errata.md:233 entry 83; docs/priority-lists.md:120 "The definitive list"
 
 ### Efficiency order for PIE
 - Status: DONE — the order and the entity rule are in the manual (latest decision 2026-10-21 \[R145\])
@@ -689,13 +764,13 @@
 - Rationale: efficient in this order: "no wierd side effects, no bumping other opcodes in a way that makes code size increase" \[R145\]
 - Rationale: "don't increase transistor count too much ockam. don't multiply entities without benefit" \[R145\]
 - Precedent: Ockham ("ockam") (chosen; named by author): entity-multiplication rule \[R145\]
-- Evidence: docs/manual-src/01-introduction.md:63 "\*\*1.4.3\*\* ... Beside the ranking, at every level, do not multiply entities without benefit"
+- Evidence: docs/manual-src/01-introduction.md:163 "\*\*1.6.3\*\* ... Beside the ranking, at every level, do not multiply entities without benefit"
 
 ### In-order and out-of-order design
 - Status: DONE — stated in the manual and errata (latest decision 2026-10-23 \[R297\])
 - Decided: 2026-10-23 decided: The official docs must also say "designed to be efficient with in-order and out-of-order execution implementations". \[R297\]
 - Rationale: "although the first implementations will be in-order, we have to make the decision safe for out of order implementations" \[R295\]
-- Evidence: docs/manual-src/01-introduction.md:65 "\*\*1.4.4\*\* The architecture is designed to be efficient with in-order and out-of-order implementations"; README.md:13 "designed to be efficient with in-order and out-of-order implementations"; docs/errata.md:174,218 entries 38, 68
+- Evidence: docs/manual-src/01-introduction.md:165 "\*\*1.6.4\*\* The architecture is designed to be efficient with in-order and out-of-order implementations"; README.md:13 "designed to be efficient with in-order and out-of-order implementations"; docs/errata.md:174,218 entries 38, 68
 
 ### Keeping only part of the PDP-11 instruction set
 - Status: DONE — instructions have been dropped (latest decision 2026-10-20 \[R138\])
@@ -710,7 +785,7 @@
 - Decided: 2026-08-30 decided: "fp and mmu would be included by default" \[R26\]
 - Precedent: M8502 and x86 (chosen; named by author): adopt what is needed from them, low transistor count \[R26\]
 - Precedent: Strecker VAX-11/780 paper (considered; named by assistant, not taken up): DEC considered extending the PDP-11 and gave reasons against \[R26\]
-- Evidence: docs/manual-src/06-kernel.md:198 "\`MMUCTL\` ... memory-management control (bit 0 enables translation)"; docs/manual-src/01-introduction.md:51 "\*\*1.3.7\*\* ... no separate floating-point register file" (FP shares the general registers); docs/manual-src/08-vectors.md:51 "\*\*8.5.1\*\* The processor handles \`binary64\`, \`binary32\` and \`binary16\` as scalar floating point"
+- Evidence: docs/manual-src/06-kernel.md:196 "\`MMUCTL\` ... memory-management control (bit 0 enables translation)"; docs/manual-src/01-introduction.md:149 "\*\*1.5.7\*\* There are no transcendental instructions, no separate floating-point register file and no rounding-mode bits" (FP shares the general registers); docs/manual-src/08-vectors.md:146 "\*\*8.6.1\*\* The processor handles \`binary64\`, \`binary32\` and \`binary16\` as scalar floating point"
 
 ### Mashup of PDP-11 with C64 / M8502
 - Status: DONE — the pdp64 is the PDP-11 widened, with the C64 as a device and an 8502 island, not two chips side by side (latest decision 2026-08-29 \[R23\])
@@ -723,8 +798,7 @@
 - Precedent: SID (chosen; named by author): fold in the good parts of the C64 \[R20\]
 - Precedent: Blit (considered; named by author): C64 judged superior; could the Blit be made C64-adjacent \[R20\]
 - Precedent: QNX/QUNIX (considered; named by author): fold design decisions into V7 for realtime guarantees \[R21\]
-- Evidence: README.md:6 "A 64-bit successor to the PDP-11 instruction set and architecture."; docs/c64-devices-from-chat.md:109 "A soft 8502 (not a socketed 6510)"; docs/manual-src/03-graphics.md:173 "\*\*3.8.1\*\* The graphics terminal is based on two machines, not one"; :402 "\*\*3.16.4\*\* The Commodore 128 is another device on the PCI Express bus"
-- Doc differs: none found
+- Evidence: README.md:6 "A 64-bit successor to the PDP-11 instruction set and architecture."; docs/c64-devices-from-chat.md:111 "A soft 8502 (not a socketed 6510)"; docs/manual-src/03-graphics.md:173 "\*\*3.8.1\*\* The graphics terminal is based on two machines, not one"; :402 "\*\*3.16.4\*\* The Commodore 128 is another device on the PCI Express bus"
 
 ### Mode bits and the "no mode bits" rule
 - Status: DONE — the rule is dropped and the freebie is stated (latest decision 2026-11-04 \[R323\])
@@ -732,7 +806,7 @@
 - Rationale: mode bits in bits saved anyway: "a freebie. no brainer."; modes "should be visible, not hidden state" \[R323\]
 - Rationale: "the no mode bits rule is a very soft rule"; "where mode bits outweigh the costs, we take them" \[R241\]
 - Precedent: PDP-11 SR0 / VAX MAPEN (considered; named by assistant, not taken up): translation on/off switch, called the heritage choice by the assistant \[R241\]
-- Evidence: docs/manual-src/01-introduction.md:63 "\*\*1.4.3\*\* ... Mode bits are decided case by case: by default a mode is visible state, and a bit in a register that is saved anyway costs nothing extra"; docs/errata.md:233 entry 83 "the 'no mode bits' rule is dropped"
+- Evidence: docs/manual-src/01-introduction.md:163 "\*\*1.6.3\*\* ... Mode bits are decided case by case: by default a mode is visible state, and a bit in a register that is saved anyway costs nothing extra"; docs/errata.md:233 entry 83 "the 'no mode bits' rule is dropped"
 
 ### Optimizer placement (optim2.c)
 - Status: DONE — machine-independent optimizations live in mip/optim2.c and serve every back end (latest decision 2026-10-17 \[R66\])
@@ -753,13 +827,13 @@
 - Status: DONE — stated as a principle and recorded (latest decision 2026-10-22 \[R242\])
 - Decided: 2026-10-22 decided: "all the rules are soft rules." \[R242\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/manual-src/01-introduction.md:61 "\*\*1.4.2\*\* All the rules are soft rules: a rule gives way when breaking it is worth more than it costs"; docs/errata.md:191 entry 42
+- Evidence: docs/manual-src/01-introduction.md:161 "\*\*1.6.2\*\* All the rules are soft rules: a rule gives way when breaking it is worth more than it costs"; docs/errata.md:191 entry 42
 
 ### The pdp64 family
 - Status: DONE — there is no family: pdp64/32 is the pdp64, the only CPU; r20 and pdp64/16 are previous iterations, gone as CPUs with manuals and as code (latest decision 2026-11-10 \[R374, R375\])
 - Decided: 2026-11-10 changed: "r20 and pdp64/16 are gone, there is no family"; "pdp64/32 is the decided upon pdp64" \[R370\]; earlier, 2026-11-09: "only the 32 register pdp64 is official, the other two are cancelled." \[R365\]; then "r20 and 64/16 are gone as cpus with manuals etc; they are previous iterations that were superseded by 64/32 which is now the official pdp64" \[R374\]; "remove the code too, tag first" \[R375\]
 - Rationale and precedent: none stated in the sources
-- Evidence: README.md:15 "There is one CPU, and the tools call it \`pdp64\`"; spec/README.md:3 "The pdp64 has one CPU"; docs/manual-src/01-introduction.md:119 "\*\*1.8.1\*\* The pdp64 has thirty-two registers ...", :121 "\*\*1.8.2\*\* Two earlier iterations were built and measured against it and were superseded"; docs/errata.md items 122 and 123 (items 87, 93 and 94 are marked superseded); the manual is docs/manual/ (one manual) and the book is book/pdp64.pdf
+- Evidence: README.md:15 "There is one CPU, and the tools call it \`pdp64\`"; spec/README.md:3 "The pdp64 has one CPU"; docs/manual-src/01-introduction.md:221 "\*\*1.8.1\*\* The pdp64 has thirty-two registers ...", :223 "\*\*1.8.2\*\* Two earlier iterations were built and measured against it and were superseded"; docs/errata.md items 122 and 123 (items 87, 93 and 94 are marked superseded); the manual is docs/manual/ (one manual) and the book is book/pdp64.pdf
 - Left: nothing
 
 ### Widening the PDP-11 to 64 bits
@@ -768,13 +842,13 @@
 - Rationale: keeping "some of its nice properties" while adopting from m8502 and x86 "to keep transistor count down while still being reasonably nice to program in assembler" \[R26\]
 - Precedent: VAX-11 (considered; named by assistant, not taken up): widened PDP-11 pleasant to write and target \[R26\]
 - Precedent: M8502 and x86 (chosen; named by author): sources for what the widened PDP-11 needs \[R26\]
-- Evidence: docs/manual-src/01-introduction.md:5 "The pdp64 is a 64-bit successor to the PDP-11"; docs/manual-src/01-introduction.md:33 "\*\*1.2.7\*\* The VAX-11 widened the PDP-11 to 32 bits"
+- Evidence: docs/manual-src/01-introduction.md:5 "The pdp64 is a 64-bit computer architecture in the PDP-11 line"; docs/manual-src/01-introduction.md:129 "\*\*1.4.7\*\* The VAX-11 widened the PDP-11 to 32 bits"
 
 ### Work-order priorities (what to do next)
 - Status: DONE — the back end is started (the LLVM machine-code layer; no code generator yet), and the instruction counts are measured on the pcc compiler's output (latest decision 2026-10-21 \[R169\])
 - Decided: 2026-10-21 decided: "before we do the emulator i want the backend started so i can start looking at instruction counts." \[R169\]
 - Rationale: "so i can start looking at instruction counts" \[R169\]
-- Evidence: llvm/README.md "Milestone M1 (this directory): the machine-code layer ... There is no code generator yet"; README.md:86 "the six large programs execute 19% and 24% fewer instructions" (the compiler is pcc); README.md:87 "LLVM back end: the machine-code layer ...; no code generator yet"; qemu/ and sim64/ exist
+- Evidence: llvm/README.md "Milestone M1 (this directory): the machine-code layer ... There is no code generator yet"; README.md:88 "the six large programs execute 24% fewer instructions" (the compiler is pcc); README.md:89 "LLVM back end: a machine-code layer ... frozen until it is ported to the encoding of the pdp64; no code generator yet"; qemu/ and sim64/ exist
 - Left: the LLVM code generator (\`llc\`, \`clang\`) is a later milestone; the "once the bugs on powerpc are fixed" line is an unclear referent and needs no action here
 
 ## 02 Bus
@@ -799,7 +873,6 @@
 - Precedent: virtio (chosen; named by author): "virtio across the board" \[R360\]
 - Precedent: native 8-register devices (rejected; named by author): "gone" \[R360\]
 - Evidence: docs/manual-src/02-bus.md:5 "every standard device is a virtio device (the disk is virtio-blk) or a USB controller"; :206 "\*\*2.4.2\*\* A function is a virtio device when its configuration space says so"; docs/errata.md:245 entry 95, :254 entry 103 (the rewrite); docs/errata.md:107 entry 29, :199 entry 49 and :211 entry 61 marked superseded by 95
-- Doc differs: docs/decisions-pending.md:659 row Q10 and :908 "Q10. Devices are eight memory-mapped registers plus DMA" are not marked superseded; docs/c64-devices-from-chat.md:62 and docs/CHANGES-SINCE-R20.md:754 still say eight registers
 - Left: the open items of the rewritten chapter are J.2.1 to J.2.5
 
 ### Physical address bit that selects device space
@@ -809,8 +882,8 @@
 - Precedent: Loongson 5-level TLB (considered; named by author): asked what else is affected if pdp64 had it \[R360\]
 - Precedent: VAX I/O space (considered; named by assistant, not taken up): VAX kept moving its I/O base; single fixed bit avoids that \[R282\]
 - Precedent: SCSI/ATA/SATA/NVMe (considered; named by author): all follow the same device pattern, not limited to 8-register mmio \[R282\]
-- Evidence: docs/manual-src/02-bus.md:124 "\*\*2.3.5\*\* No bit of the physical address selects device space: a device window is an ordinary range of physical addresses, found by enumeration"; docs/errata.md:248 entry 97, :210 entry 60 marked "superseded by errata 97"; docs/pdp64-system-architecture.md:108 "Decided (errata 97 and 102): no physical-address bit selects device space"
-- Doc differs: docs/decisions-pending.md:123 P19 row still reads "\*\*DECIDED\*\* (the author, 2026-10-22: \\"bit 39 is right\\", errata 60)" with no superseded mark; qemu/README.md:7, :51 and :75 and the QEMU memory map (qemu/hw-pdp64/virt.c) still use bit 39 (listed in docs/implementation-status.md:9)
+- Evidence: docs/manual-src/02-bus.md:124 "\*\*2.3.5\*\* No bit of the physical address selects device space: a device window is an ordinary range of physical addresses, found by enumeration"; docs/errata.md:248 entry 97, :210 entry 60 marked "superseded by errata 97"; docs/pdp64-system-architecture.md:110 "Decided (errata 97 and 102): no physical-address bit selects device space"
+- Doc differs: qemu/README.md:7, :51 and :75 and the QEMU memory map (qemu/hw-pdp64/virt.c) still use bit 39 (listed in docs/implementation-status.md:9)
 - Left: the QEMU and simulator memory map still uses the bit (an implementation gap, docs/implementation-status.md); the width of the physical address and the window placement (errata 102) are in ledger A, "Physical address width and device windows"
 
 ### Q64 bus: DMA design, document and PCI Express base
@@ -825,8 +898,7 @@
 - Precedent: virtio (chosen; named by author): "virtio across the board" \[R360\]
 - Precedent: native 8-register devices (rejected; named by author): "forget the native 8 register devices. gone." \[R360\]
 - Precedent: IOMMU mapping of C64/C128 (considered; named by author): "i think we should, but that is extraneous" \[R311\]
-- Evidence: docs/errata.md:225,230,231 entries 75, 80, 81; docs/decisions-pending.md:1595 "F29 ... Decided (errata 81)"; docs/manual-src/02-bus.md:5 "The processor reaches the world through one bus, PCI Express", :114 "\*\*2.3.1\*\*", :120 "\*\*2.3.4\*\* ... An extension is announced to a card, through a PCI Express extended capability, only if the card must take part in it"
-- Doc differs: docs/pdp64-q64-bus.md:25 "the transaction definitions (widths, bursts, arbitration, timing) are not written anywhere in this repository" while the manual body now defers to PCI Express's own transactions (2.3.4)
+- Evidence: docs/errata.md:225,230,231 entries 75, 80, 81; docs/decisions-pending.md:1619 "F29 ... Decided (errata 81)"; docs/manual-src/02-bus.md:5 "The processor reaches the world through one bus, PCI Express", :114 "\*\*2.3.1\*\*", :120 "\*\*2.3.4\*\* ... An extension is announced to a card, through a PCI Express extended capability, only if the card must take part in it"
 - Left: the detail of the pdp64's additions to PCI Express is open, J.2.5 (the root complex's own registers and the additions); the name Q64 is kept out of the manual until they are decided (ledger C: "Names kept out of the manual")
 
 ### Read of an absent configuration position
@@ -860,7 +932,7 @@
 - Decided: 2026-08-29 decided: "we can make all registers readable from outside. writeable too. just hold the rdy pin." \[R24\]
 - Rationale: "if we're implementing the 8502 in fpga we can make all registers readable from outside. writeable too. just hold the rdy pin." \[R24\]
 - Precedent: 8502 RDY pin hold (chosen; named by author): freeze the CPU to read and write registers \[R24\]
-- Evidence: docs/c64-devices-from-chat.md:38 "Island access"; :109 "In fabric, A, X, Y, S, P and PC are readable at any cycle"
+- Evidence: docs/c64-devices-from-chat.md:40 "Island access"; :109 "In fabric, A, X, Y, S, P and PC are readable at any cycle"
 - Doc differs: the C128 with its 8502 and compatibility island is an optional device on the bus (docs/manual-src/03-graphics.md:402 "\*\*3.16.4\*\*"), so the island's register access is not in the manual body
 
 ### C64-derived devices (VIC, SID, BLT, 12-register devices)
@@ -894,7 +966,7 @@
 - Rationale: "since the soc will have hdmi, pal/ntsc isn't too relevant except for backwards compat" \[R24\]
 - Precedent: HDMI (chosen; named by author): drive it however we want \[R25\]
 - Precedent: PAL/NTSC (considered; named by author): 50 fps only for legacy code, backwards compat \[R25\]
-- Evidence: docs/manual-src/03-graphics.md:191 "\*\*3.10.1\*\* The display connector is standard kit: HDMI ...", :193 "\*\*3.10.2\*\* The output is HDMI or some other standard graphics output ... (errata 105 ...)"; docs/c64-devices-from-chat.md:37 "i prefer to drive the hdmi at 50 fps", :100 "\`ROWS\`, \`COLS\`, \`CELLW\`, \`CELLH\` are 16-bit registers"
+- Evidence: docs/manual-src/03-graphics.md:191 "\*\*3.10.1\*\* The display connector is standard kit: HDMI ...", :193 "\*\*3.10.2\*\* The output is HDMI or some other standard graphics output ... (errata 105 ...)"; docs/c64-devices-from-chat.md:39 "i prefer to drive the hdmi at 50 fps", :100 "\`ROWS\`, \`COLS\`, \`CELLW\`, \`CELLH\` are 16-bit registers"
 - Left: the 50 fps and cell-size registers belong to the deferred native device (appendix I), not to virtio-gpu
 
 ## 04 Boot
@@ -935,7 +1007,6 @@
 - Precedent: PCIe/NVMe/USB (chosen; named by author): standardizing on the latest buses \[R359\]
 - Precedent: 12 register + dma (considered; named by author): compared with virtio devices \[R359\]
 - Evidence: docs/manual-src/05-drivers.md:117 "\*\*5.3.1\*\* Every standard device is a virtio device or a USB controller"; docs/manual-src/02-bus.md:5; docs/errata.md:245 entry 95, :107 entry 29 and :211 entry 61 marked "superseded by errata 95", :199 entry 49 "the eight registers superseded by errata 95"
-- Doc differs: docs/decisions-pending.md:659 row Q10 and :908 "Q10. Devices are eight memory-mapped registers plus DMA" are not marked superseded; docs/CHANGES-SINCE-R20.md:754 and docs/c64-devices-from-chat.md:62 still say eight registers
 - Left: the syntactic sugar over devices (potential R359) is open, J.5.6
 
 ### Modern I/O hardware (USB, NVMe)
@@ -960,7 +1031,6 @@
 - Decided: 2026-10-22 decided: "go with priority 7 on entry and document its throwback to pdp-11 design." \[R229\]
 - Precedent: PDP-11 (chosen; named by author): priority loaded on trap; "document its throwback to pdp-11 design" \[R229\]
 - Evidence: docs/manual-src/06-kernel.md:111 "\*\*6.3.2\*\* The new status word has the current mode kernel, the previous mode the old current mode, priority 7", :529 "\*\*6.13.4\*\* Entry sets the priority to 7 for every exception and every interrupt"; docs/errata.md:159,185 entries 36, 40
-- Doc differs: docs/decisions-pending.md:508 says "I extended it to interrupts, which you did not explicitly say" (flagged for the author to confirm)
 
 ### First operating system port
 - Status: DONE — OpenBSD first, 32V fallback, 3BSD dropped (latest decision 2026-10-22 \[R230\])
@@ -971,8 +1041,7 @@
 - Precedent: Unix/32V (chosen; named by author): fallback "if openbsd proves too hard"; has demand paging \[R230\]
 - Precedent: 3BSD (rejected; named by author): "forget 3bsd"; earlier considered as first with virtual memory \[R230\]
 - Precedent: V7 Unix (considered; named by author): "initially we port v7 unix"; replaced by 32V \[R204\]
-- Evidence: docs/manual-src/06-kernel.md:496 "\*\*6.12.2\*\* The first operating system is OpenBSD, with Unix/32V as the fallback if OpenBSD proves too hard. \*(D)\*"; docs/errata.md:188 entry 41
-- Doc differs: docs/errata.md:114 entry 30 and :165 entry 30a keep the older text as history (marked superseded by 41)
+- Evidence: docs/manual-src/06-kernel.md:492 "\*\*6.12.2\*\* The first operating system is OpenBSD, with Unix/32V as the fallback if OpenBSD proves too hard. \*(D)\*"; docs/errata.md:188 entry 41
 
 ### MMUCTL
 - Status: DONE — (latest decision 2026-10-22 \[R240\])
@@ -991,20 +1060,20 @@
 - Status: DONE — software-managed (latest decision 2026-10-22 \[R215\])
 - Decided: 2026-10-22 approved-proposal: Page-table accessed (A) and dirty (D) bits set by="Software (Recommended)" \[R215\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/errata.md:159 entry 36 "software-managed accessed and dirty bits"; docs/manual-src/06-kernel.md:288 "\*\*6.8.1\*\* The accessed and dirty bits are managed by software"
+- Evidence: docs/errata.md:159 entry 36 "software-managed accessed and dirty bits"; docs/manual-src/06-kernel.md:286 "\*\*6.8.1\*\* The accessed and dirty bits are managed by software"
 
 ### Paging support work
 - Status: DONE — MFSR/MTSR and the paging instructions are in the docs and QEMU has the MMU (latest decision 2026-10-22 \[R214\])
 - Decided: 2026-10-22 decided: "start on the qemu mmu and privileged mode". \[R214\]
 - Rationale: "didn't you notice some missing instructions that a paging os needs?" \[R210\]
-- Evidence: docs/errata.md:129 entry 32 "system-register moves \`MFSR\` and \`MTSR\`"; docs/manual-src/06-kernel.md:186 "\*\*6.5.1\*\* The system registers are reached by \`MFSR\` and \`MTSR\`"; qemu/README.md:76 "QEMU's TLB is per MMU index"
+- Evidence: docs/errata.md:129 entry 32 "system-register moves \`MFSR\` and \`MTSR\`"; docs/manual-src/06-kernel.md:184 "\*\*6.5.1\*\* The system registers are reached by \`MFSR\` and \`MTSR\`"; qemu/README.md:76 "QEMU's TLB is per MMU index"
 - Left: the QEMU walker implements three levels only (docs/implementation-status.md)
 
 ### Precise exceptions
 - Status: DONE — the candidate list was written and annotated (latest decision 2026-11-04 \[R323\])
 - Decided: 2026-11-04 approved-proposal: "precise exceptions.... yes, write the list of candidates." \[R323\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/retire-stage-candidates.md:1 "Candidate features that precise exceptions and out-of-order execution make cheap"; docs/errata.md:234 entry 84 "the nineteen retire-stage candidates"; docs/manual-src/06-kernel.md:146 "## 6.4 Faults and restart: what \\"precise\\" means"
+- Evidence: docs/retire-stage-candidates.md:3 "Candidate features that precise exceptions and out-of-order execution make cheap"; docs/errata.md:234 entry 84 "the nineteen retire-stage candidates"; docs/manual-src/06-kernel.md:146 "## 6.4 Faults and restart: what \\"precise\\" means"
 
 ### System architecture section
 - Status: DONE — drafted (latest decision 2026-10-22 \[R203\])
@@ -1016,14 +1085,14 @@
 - Status: DONE — (latest decision 2026-10-22 \[R240\])
 - Decided: 2026-10-22 approved-proposal: "write the errata for P2" (user-memory guard). \[R240\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/errata.md:192 entry 43 "a user-memory guard, \`UA\`"; docs/manual-src/06-kernel.md:344 "\*\*6.10.1\*\* With the guard bit \`UA\` clear, a kernel-mode data access to a user page faults", :355 "\*\*6.10.4\*\* A move with the qualifier \`.U\`"
+- Evidence: docs/errata.md:192 entry 43 "a user-memory guard, \`UA\`"; docs/manual-src/06-kernel.md:342 "\*\*6.10.1\*\* With the guard bit \`UA\` clear, a kernel-mode data access to a user page faults", :355 "\*\*6.10.4\*\* A move with the qualifier \`.U\`"
 - Left: the simulator's status word has no \`UA\` bit yet (docs/implementation-status.md); recovering from a failed user copy is open (J.6.12)
 
 ### WFE wake on pending interrupt
 - Status: DONE — (latest decision 2026-10-22 \[R231\])
 - Decided: 2026-10-22 approved-proposal: WFE idle wait wakes on pending interrupt even if masked="Yes, wake on pending (Recommended)" \[R231\]
 - Rationale: accepted from the assistant: lower-then-sleep misses an interrupt landing between the two instructions, and sleeping at priority 7 never wakes. \[R231\]
-- Evidence: docs/manual-src/07-smp.md:80 "\*\*7.6.2\*\* \`WFE\` ends its sleep when an interrupt is pending, even if the priority masks it"
+- Evidence: docs/manual-src/07-smp.md:274 "\*\*7.10.2\*\* \`WFE\` ends its sleep when an interrupt is pending, even if the priority masks it"
 - Left: the wake rule and the idle loop have a J entry, J.7.1
 
 ## 07 Multiple processors
@@ -1032,26 +1101,26 @@
 - Status: DONE — (latest decision 2026-10-22 \[R240\])
 - Decided: 2026-10-22 approved-proposal: "write the errata for ... P11" (atomics). \[R240\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/errata.md:195 entry 45 "atomics are defined on a monitor (reservation), not a bus lock"; docs/manual-src/07-smp.md:42 "\*\*7.3.1\*\* \`LL\` takes a reservation on a granule of memory", docs/manual-src/02-bus.md:470 "\*\*2.10.1\*\*"
+- Evidence: docs/errata.md:195 entry 45 "atomics are defined on a monitor (reservation), not a bus lock"; docs/manual-src/07-smp.md:95 "\*\*7.4.1\*\* \`LL\` takes a reservation on a naturally aligned granule of memory", docs/manual-src/02-bus.md:470 "\*\*2.10.1\*\*"
 - Left: the operands of the atomic instructions (J.7.3); atomics on uncached and device memory (J.7.4)
 
 ### Core counts
 - Status: DONE — (latest decision 2026-11-04 \[R338\])
 - Decided: 2026-11-04 decided: "for initial device 4 cores is enough hopefully that fits on the fpga". \[R338\]
 - Rationale: "for initial device 4 cores is enough hopefully that fits on the fpga" \[R338\]
-- Evidence: docs/manual-src/07-smp.md:92 "\*\*7.7.3\*\* The design supports at least four cores; sixteen or more is the preferred ceiling ...; the initial device has four cores"; docs/smp-decisions.md:9-10; docs/errata.md:242 entry 92
+- Evidence: docs/manual-src/07-smp.md:192 "\*\*7.6.3\*\* The design supports at least four cores; sixteen or more is the preferred ceiling ...; the initial device has four cores"; docs/smp-decisions.md:9-10; docs/errata.md:242 entry 92
 
 ### Mixed in-order and out-of-order cores
 - Status: DONE — (latest decision 2026-11-04 \[R337\])
 - Decided: 2026-11-04 decided: "its ok to have in order and out of order cores on the same die as long as we can tell which is which". \[R337\]
 - Rationale: accepted condition: in-order and out-of-order cores are fine "as long as we can tell which is which". \[R337\]
-- Evidence: docs/manual-src/07-smp.md:106 "\*\*7.8.4\*\* In-order and out-of-order cores may share a die if software can tell which is which"; docs/smp-decisions.md:11
+- Evidence: docs/manual-src/07-smp.md:306 "\*\*7.11.2\*\* In-order and out-of-order cores may share a die if software can tell which is which"; docs/smp-decisions.md:11
 
 ### SMP and its decisions document
 - Status: DONE — written, with Part C in decisions-pending.md (latest decision 2026-10-22 \[R235\])
 - Decided: 2026-10-22 approved-proposal: Add Part C covering smp, dma and virtualization gaps: "same style, 5 options, survey of what all major modern os and cpu do, plus vax/pdp". \[R235\]
 - Precedent: VAX/PDP (considered; named by author): survey "what all major modern os and cpu do, plus vax/pdp" \[R235\]
-- Evidence: docs/decisions-pending.md:1066 "## Part C. The gaps: several cores, DMA devices and virtualization"; docs/smp-decisions.md Parts A and B
+- Evidence: docs/decisions-pending.md:1084 "## Part C. The gaps: several cores, DMA devices and virtualization"; docs/smp-decisions.md Parts A and B
 - Left: the SMP requirements question (potential R137) is answered by smp-decisions.md
 
 ## 08 Vector work and accelerators
@@ -1062,14 +1131,14 @@
 - Precedent: GPU (considered; named by author): meant as "a helper/accelerator that uses the same ram, does dma" \[R136\]
 - Precedent: SIMD/AVX (considered; named by author): helps like a GPU's, "the simd/avax stuff" \[R136\]
 - Precedent: Samsung LittleBit-2 (considered; named by author): a GPU optimized purely for its encoding \[R136\]
-- Evidence: docs/manual-src/08-vectors.md:5 "done by memory-mapped devices with their own memory", :15 "\*\*8.1.4\*\* Such a device is a helper or accelerator that uses the same RAM as the processor and does DMA; this is what \\"GPU\\" means in this manual"; docs/pdp64-lb64-accelerator.md
+- Evidence: docs/manual-src/08-vectors.md:5 "goes to accelerators: devices on the bus that use the same RAM as the processor", :84 "\*\*8.4.2\*\* Such a device is a helper or accelerator that uses the same RAM as the processor and does DMA; this is what \\"GPU\\" means in this manual"; docs/pdp64-lb64-accelerator.md
 - Left: the littlebit-2 GPU and the utf8 helper chip are potentials only; the operations, number formats and descriptors of the vector device are open (J.8.1, J.8.2)
 
 ### LLM training and inference focus
 - Status: DONE — inference is the target (latest decision 2026-10-20 \[R139\])
 - Decided: 2026-10-20 decided: "just optimize inference whether in cpu or gpu whatever makes most sense" \[R139\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/manual-src/08-vectors.md:31 "## 8.3 AI and large-language-model inference"; docs/pdp64-lb64-accelerator.md
+- Evidence: docs/manual-src/08-vectors.md:118 "## 8.5 Inference, array languages and the bit instructions"; docs/pdp64-lb64-accelerator.md
 
 ### SIMD and vector work
 - Status: DONE — memory-mapped device route, no SIMD in the CPU, APL/K noted (latest decision 2026-10-23 \[R277\])
@@ -1078,7 +1147,7 @@
 - Precedent: ARM-style memory-mapped device (chosen; named by author): "mmap device arm style route" for SIMD/AVX2 vector work \[R277\]
 - Precedent: AVX2 (considered; named by author): the SIMD work the chapter covers \[R277\]
 - Precedent: APL/K (chosen; named by author): mention as making vector languages easier to support \[R277\]
-- Evidence: docs/manual-src/08-vectors.md:9 "\*\*8.1.1\*\* The processor has no vector register file and no SIMD instruction set"; :37 "## 8.4 Array languages: APL and K"; docs/errata.md:209 entry 59
+- Evidence: docs/manual-src/08-vectors.md:68 "\*\*8.3.1\*\* The processor has no vector register file and no SIMD instruction set"; :134 "\*\*8.5.3\*\* The primitives of an array language map one to one onto descriptors"; docs/errata.md:209 entry 59
 - Left: packed integer lanes in the ordinary registers are open (J.8.3)
 
 ## 12 Documentation and process
@@ -1095,7 +1164,7 @@
 - Status: DONE — the rule is written in the handoff (latest decision 2026-10-22 \[R227\])
 - Decided: 2026-10-22 decided: "only run one agent at a time, stop eating up memory". \[R227\]
 - Rationale: "only run one agent at a time, stop eating up memory" \[R227\]
-- Evidence: handoff.md:113 'Agents: one agent at a time on this machine (3.9 GB); stop an agent that eats memory'
+- Evidence: handoff.md (rewritten 2026-11-10) no longer carries the line about one agent at a time on a 3.9 GB machine; its working rules are section 6
 
 ### Approval words are decisions
 - Status: DONE — the rule is written in errata 121 and in the project instructions (latest decision 2026-11-10 \[errata 121\])
@@ -1146,7 +1215,7 @@
 - Rationale: "next time tell me first, i closed it." \[R221\]
 - Precedent: lwn.net (rejected; named by author): avoided after it triggered spammer code; later ban removed \[R290\] \[R250\]
 - Precedent: lwn.net (considered; named by author): use archives elsewhere if they exist \[R251\]
-- Evidence: handoff.md:114 'Politeness: at least 10 seconds between page loads on any host (more on lwn.net and archive.org) ... back off and retry on a timer with a growing delay'; handoff.md:96 web research only through the browser skill; no ban on lwn.net or archive.org is stated in the repository
+- Evidence: handoff.md:69 'Web research uses the browser skill. Politeness: wait at least ten seconds between page loads on any host, more on some; stop on a captcha; after a block back off with a growing delay'; no ban on lwn.net or archive.org is stated in the repository
 - Left: whether the browser skill outside the repository (the browser skill file) enforces the 10-second gap: not checked beyond a grep finding no lwn or archive ban there
 
 ### Bus chapter
@@ -1154,6 +1223,18 @@
 - Decided: 2026-11-09 decided: Update bus chapter with all recent discussion; "remove all reference to previous versions and things being removed ... just document what it is currently." \[R364\]
 - Rationale: "why does it say that 3 level tlb isn't supported?"; wants it to "just document what it is currently" \[R364\]
 - Evidence: docs/manual-src/02-bus.md (commits adde39b, 804c980, 8325603, 0e6542d, f5bba67): 2.3.5 "No bit of the physical address selects device space" (errata 97, 102), virtio throughout (errata 95), 2.6 MSI and MSI-X before 2.7 virtio (errata 118); grep "previous version\|was removed\|no longer\|formerly" finds no history wording
+
+### Chapters 1, 7, 8 and 10 rewritten for the PDP-11 reader
+- Status: DONE — the four chapters run from the PDP-11 way to the pdp64 way with precedents between, and carry the numbers and tags of errata 124, 126 and 127 (latest decision 2026-11-10 \[R394, R400, R401\], errata 124, 126, 127)
+- Decided: 2026-11-10 decided: "rewrite chapters 1, 7, 8 and 10 for the PDP-11 reader" \[R394\]; "make sure each chapter flows from pdp11 to pdp64 with relevant precedents in between"; "where the structure and flow is already good, keep it of course" \[R400\]; "remove all ai slop, verify everything, and structure it nicely with good flow" \[R401\]
+- Evidence: docs/errata.md items 124 (chapter 8), 126 (chapters 1 and 10) and 127 (chapter 7) with the old-to-new maps of sections and statements; docs/manual-src/01-introduction.md:9 "## 1.1 What the pdp64 is", :59 "## 1.3 The road from the PDP-11"; docs/manual-src/07-smp.md:9 "## 7.1 What you already know: a kernel for one processor"; docs/manual-src/08-vectors.md:11 "## 8.1 What you already know: the PDP-11 and its floating-point unit"; docs/manual-src/10-conclusion.md; commit 7dedf5c
+- Left: chapter 9 (the instruction set, generated from the grammar with hand-written text) and the appendices were not part of the request; the questions raised by the rewrite (tags of the phase plan and harness, the estimates, the secure core's private window, the store-buffer correction of 7.5.2) are in the decision form
+
+### Dead rules are cut
+- Status: DONE — the rules of the grammar vocabulary and the generator definitions that nothing reads are removed (latest decision 2026-11-10 \[R402\], errata 128)
+- Decided: 2026-11-10 decided: "of course in general cut dead rules" \[R402\]
+- Evidence: docs/errata.md item 128 (3 rules, 57 words, 67 lines cut from spec/pdp64-mnemonics.hbnf; the manual generator's dead definitions; build/pdp64-tab.c byte-identical); commits b118a4c, 6b03ea6, 79e4647
+- Left: kept on purpose (errata 128): \`syspg0\` to \`syspg5\` (placeholders of the page-bit mechanisms, leaves of the grammar), \`opgroup\`, \`movstore\`, \`sys-minor\`, \`subop\`, the numbers of every mnemonic group; the old constants of the frozen llvm/ stay
 
 ### Decisions document
 - Status: DONE — decisions document exists with errata inside and P15 (latest decision 2026-10-22 \[R243\])
@@ -1165,7 +1246,13 @@
 - Precedent: AArch64 ldtr/sttr and m68k moves (considered; named by assistant, not taken up): option B: separate access-as-user load and store forms \[R232\]
 - Precedent: x86, ARM and RISC-V kernels (incl. OpenBSD) (considered; named by assistant, not taken up): assistant's reason for recommending option A \[R232\]
 - Evidence: docs/decisions-pending.md (P1 to P15, 'Part 0 ... the rule change', 'Already decided'); docs/errata.md numbers decisions
-- Doc differs: docs/errata.md is a separate file, not inside decisions-pending.md; decisions-pending.md is not linked from README text of rule 'don't link it' (README does link it at the principles section)
+
+### Documentation style rules
+- Status: DONE — no tracked document carries an absolute path, a local user name or a tool name any more (latest decision 2026-10-24 \[R308\]; see "No local names or paths in documents and registers")
+- Decided: 2026-10-24 approved-proposal: "good": proceed with batch 2 rewrite of listed documents under the rules (no absolute paths, no tool mentions, no process-failure narratives). \[R308\]
+- Rationale: "i don't want the docs to record any of \[assistant\]'s fuckups like the lwn.net blockages"; "lwn.net coverage was limited" is enough \[R306\]
+- Evidence: \`git grep\` of home-directory paths, the other machine's name, session names and the assistant's name over docs/\*.md, docs/manual-src, README.md and handoff.md (2026-11-10) finds none, where on 2026-11-04 it found them in the chapters 2 to 6, appendix-parts/04-proposed.md, README.md, smp-decisions.md, retire-stage-candidates.md, spill-experiment.md and six documents that named the assistant; the docs sweep (commit e3e0515) and errata 125 removed them
+- Left: nothing; docs/encoding-work/hbnf.md:69 (a record of the hbnf work) still names the assistant's commit trailer in a sentence about a commit hook
 
 ### Documenting bugs and defects
 - Status: DONE — defects chapter exists in the tricks doc (latest decision 2026-10-18 \[R84\])
@@ -1195,7 +1282,7 @@
 - Decided: 2026-10-22 decided: "push everything when the agent reports" \[R263\]
 - Rationale: "unless the md file commits are merged to main, htey don't show up on github" \[R109\]
 - Rationale: accepted from the assistant: do not rewrite the pushed branch; build a squashed copy, one commit per feature, after long long lands. \[R86\]
-- Evidence: handoff.md:17 (section 1) 'Push rules the author set: pdp64 goes to origin main ... one commit per feature'; git branch: feature branches enc-\*/man-\* merged into main (commit 39ea17b); HEAD 155b851 (2026-11-10) on main
+- Evidence: handoff.md:25 'Rules the author set: \`pdp64\` goes to \`origin main\`, pcc to its own remote; never rewrite pushed history; one commit per feature'; git branch: feature branches enc-\*/man-\* merged into main (commit 39ea17b); HEAD 155b851 (2026-11-10) on main
 - Doc differs: git status: untracked c64stuff.txt, chat02.txt and tools/declog/ are not pushed; docs/decision-log/ is deliberately local (.gitignore, commit 8cb79b7)
 
 ### Graphics chapter as a history
@@ -1210,7 +1297,13 @@
 - Precedent: PDP-11 (considered; named by author): asks whether R7 was the PC and about a read-only view \[R135\]
 - Precedent: LoongArch64 (considered; named by author): asked how they handle the PC \[R135\]
 - Precedent: PDP-11 (considered; named by author): asked how call/ret differs from it \[R135\]
-- Evidence: docs/pdp64-isa.md:1663 '## 13. Side by side: PDP-11, VAX, pdp64' with 13.2 encodings
+- Evidence: docs/pdp64-isa.md:1118 '## 13. Side by side: PDP-11, VAX, pdp64' with 13.2 encodings at :1141
+
+### Keep all documents current with the decisions
+- Status: DONE — the documents are classified current, record or history; the map is docs/README.md; the current documents were brought to the single-CPU decisions (latest decision 2026-11-10 \[R399\], errata 125)
+- Decided: 2026-11-10 decided: "keep all docs up to date with the current decisions, I want no confusion" \[R399\]
+- Evidence: docs/README.md ("Current", "Record", "History" tables; "The source of truth is the ledger"); commit e3e0515 "docs: current documents brought to the single-CPU decisions; ISA text rewritten for the 32-register prefix-coded pdp64; records bannered; docs/README.md map"; docs/pdp64-isa.md:7 (one CPU, thirty-two registers); docs/decisions-pending.md:1 (banner: record, dated 2026-10-22); handoff.md:5 ("Brought up to date 2026-11-10 for the single-CPU state")
+- Left: a standing rule: after each decision the documents of the map are checked again; the lines "Doc differs" of this ledger list what is known to differ
 
 ### Kernel assembly survey document
 - Status: DONE — own document with narrative and tables, linked in README (latest decision 2026-10-22 \[R225\])
@@ -1226,7 +1319,7 @@
 - Decided: 2026-10-22 decided: "the llvm rebuild was to expand and update the original doc, not to make a second doc" \[R226\]
 - Rationale: "since the isa has changed since the last llvm check was done." \[R226\]
 - Precedent: LLVM (considered; named by author): expand and update the original LLVM doc, not a second one \[R226\]
-- Evidence: commit 94ce20e "docs: one LLVM document: section 14 of the system architecture document now holds the design, results, awkward spots, next steps"; docs/pdp64-system-architecture.md:219 "## 14. The LLVM back end, and OpenBSD" (14.1 to 14.3); llvm/README.md is the build note; no llvm-named doc in docs/
+- Evidence: commit 94ce20e "docs: one LLVM document: section 14 of the system architecture document now holds the design, results, awkward spots, next steps"; docs/pdp64-system-architecture.md:221 "## 14. The LLVM back end, and OpenBSD" (14.1 to 14.3); llvm/README.md is the build note; no llvm-named doc in docs/
 
 ### License
 - Status: DONE — BSD 2-clause COPYING in place (latest decision 2026-10-22 \[R259\])
@@ -1274,8 +1367,13 @@
 - Status: DONE — none of the four names is in the manual or the README (latest decision 2026-11-10 \[errata 120\])
 - Decided: 2026-11-10 decided: "instead of retagging, blt64 vic-64x and sid-64x they shouldn't be mentioned at all until I decide on them"; on Q64: "until we have some substantive improvements or sugar over pcie, maybe best to just remove mention of it", and later "well if we DO add things to pcie, then that is q64 bus." \[errata 120\]
 - Evidence: grep 'Q64\|BLT64\|VIC-64X\|SID-64X' in docs/manual-src, docs/manual/0\*.md and README.md: no hits (commits 8325603, 0e6542d)
-- Doc differs: docs/pdp64-q64-bus.md and docs/c64-devices-from-chat.md still use the names Q64 and BLT64, VIC-64X, SID-64X; the decision names the manual only
 - Left: the name Q64 returns for the bus if and when the author decides additions to PCI Express
+
+### No local names or paths in documents and registers
+- Status: DONE — no tracked document names a local user, host, session or absolute path; the registers carry R numbers only (latest decision 2026-11-10 \[R404\], errata 129)
+- Decided: 2026-11-10 decided: "also all references to the local user names and other local unix users and local pathnames must go" \[R404\]
+- Evidence: \`git grep\` of home-directory paths, the other machine's name, session names and the assistant's name over the documents, the manual source, README.md and handoff.md finds none (the local tools under tools/declog and the feedback generator are not documents); docs/decisions-and-status.md and docs/decision-register.md are produced by a publish step that rewrites paths and scrubs names and has no message ids (R numbers only)
+- Left: the check is repeated at every publish of the status document and of the form
 
 ### Optimization tricks document and optimization docs
 - Status: DONE — tricks doc is comprehensive and pdp64 optimization doc is current (latest decision 2026-10-18 \[R83\])
@@ -1338,6 +1436,12 @@
 - Precedent: AArch64 (considered; named by assistant, not taken up): holds both rules at once; cited for partial writes \[R32\]
 - Evidence: spec/pdp64/pdp64.hbnf; docs/pdp64-isa.md; docs/errata.md (rev 6/r10 offers superseded by the prefix-coded grammars, commit a71f491 Merge enc-int)
 
+### Status document as the source of truth
+- Status: DONE — the status document is the source of truth and is linked; the documents were brought to it and classified, and the manual follows it (latest decision 2026-11-10 \[errata 115\])
+- Decided: 2026-11-10 decided: "the whole point of doing the status and decisions document is so we have a source of truth, all docs and manuals must follow it as authoritative" \[errata 115\]
+- Evidence: docs/decisions-and-status.md (linked from README.md and docs/README.md, "The source of truth is the ledger"); docs/decision-log/pdp64-status.md is the rebuilt version; docs/README.md classifies every document as current, record or history; handoff.md:5 and :67
+- Left: the lines "Doc differs" below are the known remaining differences; every new decision is entered here first
+
 ### System doc
 - Status: DONE — system doc exists with the caveat, linked from README (latest decision 2026-10-22 \[R219\])
 - Decided: 2026-10-22 decided: Add the caveat to the system doc: a simple memory model does not make an atomic implementation simple by itself; coherence, ordering, interrupts still need design. \[R219\]
@@ -1370,6 +1474,12 @@
 - Rationale and precedent: none stated in the sources
 - Evidence: commit c3eceb6 'Velinsky link recorded as prediction, confirmation and the author's hypothesis (P)'; docs/c64-devices-from-chat.md:150 'Confirmation. Ira Velinsky ...' and table row 7 (:170); docs/manual-src/appendix-parts/01-proposed.md:1 (1.1.5, tag (P), "A thread between the two lineages"); docs/manual-src/appendix-g-evolution.md:33
 - Doc differs: manual 1.1 commentary no longer carries it: errata 120 moved it to appendix H, since the manual body holds decided material only
+
+### Winless decision form
+- Status: DONE — a plain-text form of the open items and proposals with lettered options and answer lines is generated, with a tool that reads the answers back (latest decision 2026-11-10 \[R398\], errata 125)
+- Decided: 2026-11-10 decided: "prepare a winless version of the status and decisions document such that I can choose options or type in questions and other decisions, so we can quickly do a feedback loop" \[R398\]
+- Evidence: docs/feedback/decisions-feedback.txt (generated); tools/feedback/mkfeedback.py (generator; \`--check\` says whether the form is stale), tools/feedback/ingest.py (reads the annotations from the pager's database, writes answers.json), tools/feedback/test-feedback.sh, tools/feedback/README and the man pages mkfeedback.1 and ingest.1; commit 2e2ac6f "feedback: a plain-text decision form"; docs/README.md lists it as current (generated)
+- Left: nothing for the form; each round is: the author answers, \`ingest.py\` reports, the ledger and the manual are updated, the form is regenerated (the entries that are still open stay)
 
 ## FPGA and silicon
 
@@ -1415,7 +1525,7 @@
 - Decided: 2026-11-04 decided: "as long as we have circuitry to access individual bytes i'm ok with loading in 64 bits (or more) at a time". \[R321\]
 - Rationale: "as long as we have circuitry to access individual bytes i'm ok with loading in 64 bits (or more) at a time" \[R321\]
 - Rationale: "don't put 8 byte memory alignment constraints that would be horrible" \[R32\]
-- Evidence: docs/errata.md item 82; docs/pdp64-isa.md:56 "Natural alignment for quad accesses (§7.4)"; docs/abi.md:10 "natural"; instructions stay 2-byte aligned (docs/pdp64-isa.md:206)
+- Evidence: docs/errata.md item 82; docs/pdp64-isa.md:56 "Natural alignment for quad accesses (section 7.4)"; :735 "Natural alignment is \*\*required\*\* for word, long and quad \*data\* accesses"; docs/abi.md:10 "natural"; instructions stay 2-byte aligned (docs/pdp64-isa.md section 3.3, :184)
 
 ### Endianness
 - Status: DONE — little-endian for data and instructions (latest decision 2026-08-29 \[R22\])
@@ -1423,13 +1533,13 @@
 - Rationale: "6502 was 8bit so word order didn't matter; we go full little endian, none of this middle endian stuff" \[R22\]
 - Precedent: middle-endian longword order (rejected; named by author): "none of this middle endian stuff, that gets fixed right now" \[R22\]
 - Precedent: 6502 (considered; named by author): 8-bit, so word order did not matter there \[R22\]
-- Evidence: docs/pdp64-isa.md:208 "Byte order is little-endian, for data and for instructions"
+- Evidence: docs/pdp64-isa.md:188 "Byte order is little-endian, for data and for instructions"
 
 ### Instruction alignment after odd data in .text
 - Status: DONE — as64 errors on an instruction at an odd address (latest decision 2026-10-22 \[R184\])
 - Decided: 2026-10-22 approved-proposal: Instruction after odd data bytes in .text, what as64 should do="Error (Recommended)" \[R184\]
 - Rationale and precedent: none stated in the sources
-- Evidence: as64/as64.c:1148 "an instruction at an odd address (%lld): put .even before it"
+- Evidence: as64/asmenc.c:317 "an instruction at an odd address (%lld): put .even before it"
 
 ### Tagged pointers
 - Status: DONE — low pointer bits reserved to software, alignment abort as the tag check (latest decision 2026-08-30 \[R34\])
@@ -1437,8 +1547,7 @@
 - Rationale: "since we address at 2 byte boundaries, we can use the bottom bit as a tag for tagged pointers" \[R33\]
 - Rationale: accepted from the assistant: the alignment abort is the tag check, which section 7.4 already gives "approximately for free" \[R34\]
 - Precedent: Lisp machine (chosen; named by author): tagged pointers; hardware tag checking on dereference not added \[R33\]
-- Evidence: docs/pdp64-isa.md:1129 "6.2 Low pointer bits are reserved to software"; :1149 "The alignment abort is the tag check"
-- Doc differs: docs/pdp64-isa.md:1137 says the three bits come from data alignment, not instruction alignment (the "bottom bit" idea was replaced)
+- Evidence: docs/pdp64-isa.md:629 "6.2 Low pointer bits are reserved to software"; :649 "The alignment abort is the tag check"
 
 ## Instruction set: encoding
 
@@ -1456,7 +1565,7 @@
 - Status: DONE — the repository is built on hbnf grammars as the source of truth; the chain's "skip hbnf for now" was overridden by the author's correction of 2026-11-04 (latest decision 2026-11-04 \[R335\])
 - Decided: 2026-11-04 decided: "i said grammar is the source of truth; undo your pivot to python. use latest hbnf" \[R335\]; supersedes 2026-10-21 "skip hbnf for now" \[R154\]
 - Rationale: accepted from the assistant: the bit-level hbnf grammar cannot be tested until GNAT 15 is available (he answered "skip hbnf for now") \[R154\]
-- Evidence: spec/pdp64/pdp64.hbnf and spec/README.md:20 "toolchain is written from one source of truth, a set of hbnf grammars"; README.md:17 same sentence; docs/errata.md item 89; handoff.md:49 "the grammars are the source of truth"
+- Evidence: spec/pdp64/pdp64.hbnf and spec/README.md:22 "toolchain is written from one source of truth, a set of hbnf grammars"; README.md:17 same sentence; docs/errata.md item 89; handoff.md:67 "The grammars are the single source of truth"
 - Left: none; the three open questions of the old chain (hbnf for opcode layout, json spec, 0b enums) were overtaken by the 2026-11-04 instruction
 
 ### ISA revision r12
@@ -1469,38 +1578,32 @@
 - Status: DONE — maximum is three parcels, stated and implemented (latest decision 2026-10-22 \[R206\])
 - Decided: 2026-10-22 approved-proposal: "yes, write it up as an open design item" (3-parcel maximum length). \[R206\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/pdp64-isa.md:145 "Instructions are 1 to 3 16-bit parcels"; docs/errata.md item 31 (fourth parcel removed); docs/pdp64-isa.md:187 six-byte longest
+- Evidence: docs/pdp64-isa.md:150 "Instructions are 1 to 3 16-bit parcels"; docs/errata.md item 31 (fourth parcel removed); docs/pdp64-isa.md:187 six-byte longest
 
 ### One-parcel forms
-- Status: DONE — page 2 (len=11) of one-parcel abbreviations is in the ISA (latest decision 2026-10-22 \[R208\])
+- Status: DONE — the one-parcel forms are leaves of the prefix-coded grammar; page 2 of the original encoding is gone (latest decision 2026-10-22 \[R208\]; errata 123)
 - Decided: 2026-10-22 decided: Go ahead and "update the isa with all those new 1 parcel forms". \[R208\]
 - Rationale: accepted from the assistant: the (rN) and sp-offset candidates are together "about 3% of code", worth folding into the open one-parcel item \[R207\]
 - Precedent: gcc -Os x86-64 / clang -Os (considered; named by assistant, not taken up): pdp64 averages 3.36 bytes per instruction against 3.66 and 3.78 \[R207\]
-- Evidence: docs/pdp64-isa.md:202 "its own 64-entry opcode map (45 defined), given in §4.18"; docs/errata.md item 31; docs/errata.md item 37 page-2 pushx/popx
-
-### Opcode map grouping
-- Status: DONE — rare opcodes sit in wide groups with sub-opcodes, thematic runs (latest decision 2026-10-21 \[R146\])
-- Decided: 2026-10-21 decided: "regroup the opcodes, rare ones are bigger ones", and "keep them grouped by theme" \[R146\]
-- Rationale and precedent: none stated in the sources
-- Evidence: docs/pdp64-isa.md:406 "Everything else is a contiguous run of one kind"; docs/encoding-proposal.md:30 "Rare instructions share a few wide groups with a sub-opcode field"
+- Evidence: spec/pdp64/pdp64.hbnf (one-parcel leaves, 12,672 of the 65,536 first-parcel patterns of the optimum: docs/encoding-work/optimizer.md section 5, the committed grammar 12,224); docs/errata.md item 123 (page 2, \`common/p2.\*\` and the p2 checks removed); docs/errata.md item 31 and item 37 (history of page 2)
 
 ### Single target: the pdp64
 - Status: DONE — the repository states one target, \`pdp64\`: one grammar, one manual, one set of tools with no \`-m\` choice (latest decision 2026-11-10 \[R374, R375\])
 - Decided: 2026-11-10 decided: "r20 and 64/16 are gone as cpus with manuals etc; they are previous iterations that were superseded by 64/32 which is now the official pdp64" \[R374\]; "remove the code too, tag first" \[R375\]
-- Evidence: docs/errata.md item 123 (the grammar is spec/pdp64/pdp64.hbnf, the tables build/pdp64-tab.c and spec/pdp64/tables.md, the encoding name "pdp64"; as64, sim64 and ccom accept \`-m pdp64\` and no other value; the low four bits of e\_flags hold EF\_PDP64\_ISA, and ld64 and sim64 refuse an object that names another instruction set; the tags \`pre-single-cpu\` and \`pre-code-removal\` were pushed); README.md:15; spec/README.md:3; handoff.md:46; the counts of tools/check-all.sh before and after in errata 123 (only r20 and pdp64/16 tests are gone)
+- Evidence: docs/errata.md item 123 (the grammar is spec/pdp64/pdp64.hbnf, the tables build/pdp64-tab.c and spec/pdp64/tables.md, the encoding name "pdp64"; as64, sim64 and ccom accept \`-m pdp64\` and no other value; the low four bits of e\_flags hold EF\_PDP64\_ISA, and ld64 and sim64 refuse an object that names another instruction set; the tags \`pre-single-cpu\` and \`pre-code-removal\` were pushed); README.md:15; spec/README.md:3; handoff.md section 1 ("What the project is now"); the counts of tools/check-all.sh before and after in errata 123 (only r20 and pdp64/16 tests are gone)
 - Left: nothing; what becomes of the frozen llvm/ is under "QEMU and LLVM targets"
 
 ### Trailing literals
 - Status: DONE — the allocation model was rerun with trailing literals and the result recorded; not adopted (latest decision 2026-11-04 \[R326\])
 - Decided: 2026-11-04 approved-proposal: "yes, and do the compilation too": rerun the allocation model with trailing literals. \[R326\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/layout-size-variants.md:1 "The 32-register layout with trailing literals: sizes"; docs/encoding-proposal.md:225 "trailing literals (earlier fragments: worse than inline immediates plus dedicated forms...)"
+- Evidence: docs/layout-size-variants.md:3 "The 32-register layout with trailing literals: sizes"; docs/encoding-proposal.md:227 "trailing literals (earlier fragments: worse than inline immediates plus dedicated forms...)"
 
 ### Why pdp64/32 (r20 and pdp64/16 tested against it)
 - Status: DONE — decided and stated: pdp64/32 is the pdp64, chosen for performance by testing against the two earlier iterations; r20 and pdp64/16 are gone as CPUs with manuals and as code, and the testing is documented (latest decision 2026-11-10 \[R374, R375\])
 - Decided: 2026-11-10 decided: "pdp64/32 is the decided upon pdp64", "r20 and pdp64/16 are gone, there is no family"; "it is good to document the testing against the original r20 and pdp64/16 variants, /32 chosen for performance reasons. follows our principles of check, don't guess." \[R370\]; then (errata 122) "r20 and 64/16 are gone as cpus with manuals etc; they are previous iterations that were superseded by 64/32 which is now the official pdp64" \[R374\]; and (errata 123) "remove the code too, tag first" \[R375\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/errata.md items 122 (the decision, the manuals) and 123 (the code, data and tests removed; tags \`pre-single-cpu\` and \`pre-code-removal\` pushed); README.md:15 "There is one CPU, and the tools call it \`pdp64\`. Two earlier iterations of the design ... were built and measured against it and superseded"; spec/README.md:3 "The pdp64 has one CPU: 32 registers (\`r0\`-\`r31\`) and a prefix-coded instruction encoding"; handoff.md:46 "The architecture (decided 2026-11-10)"; docs/manual-src/01-introduction.md:117 "## 1.8 How the encoding was chosen" (1.8.2 the two earlier iterations, superseded; 1.8.5 the performance case); docs/encoding-work/integration.md section 4 (the measured r20 / /16 / /32 comparison, kept as history); spec/pdp64-16/ and docs/manual/pdp64-r20, docs/manual/pdp64-16 no longer exist in the tree
+- Evidence: docs/errata.md items 122 (the decision, the manuals) and 123 (the code, data and tests removed; tags \`pre-single-cpu\` and \`pre-code-removal\` pushed); README.md:15 "There is one CPU, and the tools call it \`pdp64\`. Two earlier iterations of the design ... were built and measured against it and superseded"; spec/README.md:3 "The pdp64 has one CPU: 32 registers (\`r0\`-\`r31\`) and a prefix-coded instruction encoding"; handoff.md section 1 "What the project is now" (one CPU, the pdp64) and section 4 (the order of work); docs/manual-src/01-introduction.md:198 "## 1.8 How the encoding was chosen" (1.8.2 the two earlier iterations, superseded; 1.8.3 the performance case); docs/encoding-work/integration.md section 4 (the measured r20 / /16 / /32 comparison, kept as history); spec/pdp64-16/ and docs/manual/pdp64-r20, docs/manual/pdp64-16 no longer exist in the tree
 - Left: nothing for this decision; the history of the choice stays in docs/encoding-work/ and in the two tags
 
 ### Word size
@@ -1509,7 +1612,7 @@
 - Rationale: "16bit is enough and utf8 showed the way encoding can be done" \[R29\]
 - Precedent: UTF-8 (chosen; named by author): showed how the length-first encoding can be done \[R29\]
 - Precedent: ARM32 LDRD / MIPS32 FP pairs (considered; named by assistant, not taken up): register-pair cost of 32-bit FP, in the case against a 32-bit version \[R29\]
-- Evidence: docs/pdp64-isa.md:9 "Words are 16 bits. Longs are 32. Quads are 64."; docs/pdp64-isa.md:147 UTF-8 as the model for the length-first encoding
+- Evidence: docs/pdp64-isa.md:7 "Words are 16 bits, longs are 32, quads are 64"; docs/pdp64-isa.md:188 the parcel as a 16-bit little-endian unit; docs/manual-src/01-introduction.md:221 (1.8.1) the first parcel fixes the length
 
 ## Instruction set: fused pairs and compiler idioms
 
@@ -1517,7 +1620,7 @@
 - Status: DONE — register-register and wide cbCC exist (latest decision 2026-10-22 \[R213\])
 - Decided: 2026-10-22 decided: "do the register-register compare-and-branch". \[R213\]
 - Rationale and precedent: none stated in the sources
-- Evidence: docs/errata.md items 34 and 35; docs/pdp64-isa.md:445 "4.4.1 CBCC"; spec/pdp64/pdp64.hbnf leaves CBR8, CBDR, CB3R24H, CB3I16
+- Evidence: docs/errata.md items 34 and 35; docs/pdp64-isa.md:302 "\`CBCC\` — compare and branch"; spec/pdp64/pdp64.hbnf leaves CBR8, CBDR, CB3R24H, CB3I16
 
 ### Comparison with other architectures
 - Status: DONE — the fair corpus was compared across architectures (latest decision 2026-10-22 \[R222\])
@@ -1527,7 +1630,7 @@
 - Precedent: each clang backend that we have (chosen; named by author): compile the fair corpus with each to find instructions to adopt \[R222\]
 - Precedent: Linux and BSD kernel assembly (chosen; named by author): review for instructions like popx/pushx that compilers never emit \[R222\]
 - Precedent: major operating systems and architectures (considered; named by author): asked how the options compared against them \[R218\]
-- Evidence: tools/archcmp.py, tools/archcmp-gccx.sh; docs/codegen-data/archcmp/archcmp-classes.csv; docs/CHANGES-SINCE-R20.md:418 "841-file fair corpus"; docs/encoding-work/arch-comparison.md and tools/arch-compare/ (static size of the 841-file corpus for pdp64/32 against pcc amd64 and i386 and clang for RISC-V, AArch64, x86, Arm, MIPS64; commits f075669, 155b851)
+- Evidence: tools/archcmp.py, tools/archcmp-gccx.sh; docs/codegen-data/archcmp/archcmp-classes.csv; docs/CHANGES-SINCE-R20.md:420 "841-file fair corpus"; docs/encoding-work/arch-comparison.md and tools/arch-compare/ (static size of the 841-file corpus for pdp64/32 against pcc amd64 and i386 and clang for RISC-V, AArch64, x86, Arm, MIPS64; commits f075669, 155b851)
 
 ### Fused pairs
 - Status: DONE — the assembler never fuses; the compiler emits movcall, popret, popmret, mov2 (latest decision 2026-11-04 \[R332\])
@@ -1541,7 +1644,7 @@
 - Decided: 2026-10-22 decided: "make rori32 sign-extend like the rest". \[R212\]
 - Rationale: "make rori32 sign-extend like the rest" \[R212\]
 - Rationale: accepted from the assistant: it zero-extends "while the compiler keeps unsigned values sign-extended" \[R212\]
-- Evidence: docs/pdp64-isa.md:543 "rd ← sign-extend(ror32(rs\[31:0\], n mod 32))"; docs/errata.md item 34
+- Evidence: docs/pdp64-isa.md:322 "\`RORI32\` rotates the low 32 bits and sign-extends the result like every other 32-bit result"; docs/errata.md item 34
 
 ## Instruction set: instruction groups
 
@@ -1551,18 +1654,24 @@
 - Rationale: "if things are 0 extended, then i can see how your arithmetic is 64bit only. and that is fine" \[R194\]
 - Evidence: docs/errata.md item 28 "integer arithmetic stays 64-bit; there are no sized ALU operations"; docs/pdp64-isa.md:543 RORI32 sign-extends
 
+### Branch-free select: MASKEQZ, MASKNEZ and BSEL
+- Status: DONE — the select instructions are in the grammar, the executor and the manual (latest decision 2026-11-03, errata 86)
+- Decided: 2026-11-03 decided: the select instructions of docs/crypto-secure-core.md section 2 are approved ("looks good"), which by the author's rule of errata 121 is a decision in favour \[errata 86\]
+- Evidence: docs/errata.md item 86 ("the select instructions of section 2 ('looks good')"); spec/pdp64/pdp64.hbnf:164 "maskeqz" "masknez", :172 "bsel"; common/pdp64exec\_enc.inc:298 \`H\_MASK\`, :299 \`H\_BSEL\`; docs/manual-src/09-isa.md:391 "\*\*9.20.4\*\* A branch-free conditional select for constant-time code, \`MASKEQZ\` and \`MASKNEZ\`, is adopted, and so is the bit select \`BSEL\` (9.9.6). \*(D)\*"; docs/crypto-secure-core.md:171
+- Left: the conditional select that the aliases ABS, MIN and MAX would expand over is a separate open item (J.9.1, block "Integer abs/min/max and conditional select"); the opcodes of the three words change if the encoding is re-optimised
+
 ### FP exception flags
 - Status: DONE — sticky five-bit FPSR with FSFLAGS (latest decision 2026-10-21 \[R174\])
 - Decided: 2026-10-21 approved-proposal: "yes, fix the missing exception flags, we have to be able to implement ieee floating point" \[R174\]
 - Rationale: "we have to be able to implement ieee floating point" \[R174\]
 - Precedent: IEEE 754 floating point (chosen; named by author): needs the five exception flags \[R174\]
-- Evidence: docs/pdp64-isa.md:768 "a sticky five-bit re..."; docs/errata.md item 17 "FSFLAGS rs, rd (FESC sub-opcode 0x40)"
+- Evidence: docs/pdp64-isa.md:475 "a sticky five-bit register"; docs/errata.md item 17 "FSFLAGS rs, rd (FESC sub-opcode 0x40)"
 
 ### FP reciprocal estimates
 - Status: DONE — frecped and frsqrted removed (latest decision 2026-10-21 \[R164\])
 - Decided: 2026-10-21 approved-proposal: "yes, drop them": the two FP reciprocal-estimate words (frecped, frsqrted) removed from the spec. \[R164\]
 - Rationale: accepted from the assistant: no named customer, and two implementations would give different bits; "yes, drop them" \[R164\]
-- Evidence: docs/pdp64-isa.md:764 "There are no reciprocal or reciprocal-square-root estimate instructions"; docs/errata.md item 16
+- Evidence: docs/pdp64-isa.md:471 "There are no reciprocal or reciprocal-square-root estimate instructions"; docs/errata.md item 16
 
 ### FP rounding variants
 - Status: DONE — frint family kept (latest decision 2026-10-21 \[R173\])
@@ -1575,7 +1684,7 @@
 - Status: DONE — seventeen binary16 words in FESC (latest decision 2026-10-22 \[R190\])
 - Decided: 2026-10-22 decided: "add fp16 conversions and arithmetic". \[R190\]
 - Rationale: "would be a shame if a descendant of the pdp-11 didn't have native 16 bit support" \[R192\]
-- Evidence: docs/pdp64-isa.md:761 "binary16 (half precision): seventeen FESC words in the block 0x50-0x65: FADD16 ..."
+- Evidence: docs/pdp64-isa.md:469 "\`binary16\` (half precision): arithmetic, fused multiply-add, classify and conversions" (the text no longer gives the opcode block)
 
 ### Floating-point format
 - Status: DONE — IEEE 754 binary32/64/16 with flags and canonical NaN (latest decision 2026-08-29 \[R22\])
@@ -1583,7 +1692,7 @@
 - Rationale: "assume a new refreshed redesigned fp unit, probably compatible with modern ieee floating point representation" \[R22\]
 - Precedent: IEEE 754 floating point (chosen; named by author): new FP unit compatible with the modern representation \[R22\]
 - Precedent: PDP-11 (rejected; named by author): cited as "done horribly" \[R22\]
-- Evidence: docs/pdp64-isa.md:768 "IEEE 754 requires five status flags ... The machine has a sticky five-bit"; :782 canonical quiet NaN for binary64/32/16
+- Evidence: docs/pdp64-isa.md:475 "IEEE 754 requires five status flags ... The machine has a sticky five-bit register"; :479 canonical quiet NaN for binary64/32/16
 
 ### Kernel assembly survey
 - Status: DONE — the survey of the kernels' hand-written assembly exists, including PUSHX and POPX (latest decision 2026-10-22 \[R222\])
@@ -1591,7 +1700,7 @@
 - Rationale: compile the corpus with each clang backend "to check and see if there are any instructions we should adopt, or sequences we should coalesce" \[R222\]
 - Precedent: Linux and BSD kernel assembly (considered; named by author): survey for instructions like popx/pushx that compilers never emit \[R222\]
 - Precedent: clang backends (considered; named by author): compile the corpus with each to find instructions to adopt \[R222\]
-- Evidence: docs/kernel-asm-survey.md:28 "the hand-written assembly of a kernel a precise inventory of what an instruction set must offer"; docs/kernel-asm-survey.md:2181 pdp64 row; docs/codegen-data/kernelasm/
+- Evidence: docs/kernel-asm-survey.md:30 "the hand-written assembly of a kernel a precise inventory of what an instruction set must offer"; docs/kernel-asm-survey.md:2181 pdp64 row; docs/codegen-data/kernelasm/
 
 ### PUSHX and POPX
 - Status: DONE — instructions added and the null-system-call measurement exists (latest decision 2026-10-22 \[R220\])
@@ -1599,21 +1708,21 @@
 - Rationale: accepted from the assistant: nested entry and exit is "roughly 11 fewer instructions and 28 fewer bytes", so fewer instruction fetches \[R220\]
 - Rationale: wants "to be ready for the out of order large scale design" \[R220\]
 - Precedent: ARM32 SRS/RFE (considered; named by assistant, not taken up): same idea; assistant said from memory, unchecked \[R220\]
-- Evidence: docs/pdp64-isa.md:811 "PUSHX and POPX save and restore the exception state"; tests/sim/sys-roundtrip.S:1 "a null system call round trip, two ways"; docs/errata.md item 37
+- Evidence: docs/pdp64-isa.md:493 "\`PUSHX\` and \`POPX\` save and restore the exception state"; tests/sim/sys-roundtrip.S:1 "a null system call round trip, two ways"; docs/errata.md item 37
 
 ### Rotates and ASL flags
 - Status: DONE — rotates write no flags, ASL V = N xor C (latest decision 2026-10-22 \[R227\])
 - Decided: 2026-10-22 approved-proposal: "go with your recommendation on rotates and ASL": rotates flag-free, ASL keeps V = N xor C, ISA text corrected. \[R227\]
 - Rationale: "we aren't slavishly keeping the whole pdp-11 instruction set, we can drop unneeded ones. you made a good case for ror over rol" \[R138\]
 - Precedent: PDP-11 (considered; named by author): not kept slavishly; ror over rol, assembler may map rol to ror \[R138\]
-- Evidence: docs/pdp64-isa.md:356 "ASL ... N xor C (the PDP-11 rule: set if the sign changed)"; :358 ROR, RORI, RORI32 "(no flags are written)"; docs/errata.md item 10
+- Evidence: docs/pdp64-isa.md:276 the shift table, ASL: N xor C (the PDP-11 rule: set if the sign changed); :278 ROR, RORI, RORI32 "(no flags are written)"; docs/errata.md item 10
 
 ### Set on condition
 - Status: DONE — SET cc, Rd with the condition as an operand (latest decision 2026-10-21 \[R179\])
 - Decided: 2026-10-21 changed: "set eq intead of seteq": condition as an operand, not a suffix mnemonic. \[R179\]
 - Precedent: PDP-11 (rejected; named by assistant, not taken up): assistant proposed suffix spelling; he wanted the condition as an operand \[R179\]
 - Precedent: ARM csel family (considered; named by assistant, not taken up): extra variants almost free once the first exists \[R178\]
-- Evidence: docs/pdp64-isa.md:858 "SET cc, Rd"; :862 "SET EQ, R1"; docs/errata.md item 25
+- Evidence: docs/pdp64-isa.md:525 "\`SET cc, Rd\` writes 1 or 0 from a condition, with no flag written"; docs/errata.md item 25
 
 ### Three added instructions (unclear)
 - Status: DONE — the three floating-point additions were made the same day: exception flags, unsigned conversions, round half away (latest decision 2026-10-21 \[R173\])
@@ -1628,9 +1737,8 @@
 - Status: DONE — 32 registers is the pdp64 and the only CPU: README.md, spec/README.md, the manual 1.8, the grammar and the tools state it (latest decision 2026-11-09 \[R365\]; one CPU since 2026-11-10, errata 122 and 123 \[R374, R375\])
 - Decided: 2026-11-09 decided: "only the 32 register pdp64 is official, the other two are cancelled." \[R365\]; 2026-11-10 "pdp64/32 is the decided upon pdp64" \[R370\]; "r20 and 64/16 are gone as cpus with manuals etc" \[R374\]; errata 94, 122
 - Precedent: RISC-V (considered; named by author): compared with pdp64 as a 32-register design; only the 32-register pdp64 official \[R365\]
-- Evidence: spec/pdp64/pdp64.hbnf (32 registers); docs/encoding-work/integration.md section 4 (the measured case for 32); README.md:15 "The pdp64 has 32 registers (\`r0\`-\`r31\`)"; spec/README.md:3; docs/manual-src/01-introduction.md:119 (1.8.1); the \`-m\` option now accepts only \`pdp64\` (as64/as64.c usage "\[-m pdp64\]")
-- Doc differs: docs/pdp64-isa.md:80 "Sixteen registers" (the instruction-set text of the original encoding r20, declared at :7 as such, one of the two earlier iterations; not rewritten for 32 registers)
-- Left: whether docs/pdp64-isa.md is rewritten for the 32-register pdp64 or kept as the record of the r20 text is not decided
+- Evidence: spec/pdp64/pdp64.hbnf (32 registers); docs/encoding-work/integration.md section 4 (the measured case for 32); README.md:15 "The pdp64 has 32 registers (\`r0\`-\`r31\`)"; spec/README.md:3; docs/manual-src/01-introduction.md:221 (1.8.1); the \`-m\` option now accepts only \`pdp64\` (as64/as64.c usage "\[-m pdp64\]")
+- Left: nothing (docs/pdp64-isa.md was rewritten for the 32-register pdp64 in the docs sweep, errata 125)
 
 ### Register width
 - Status: DONE — registers are 64 bits, no 32-bit version (latest decision 2026-08-30 \[R29\])
@@ -1638,7 +1746,7 @@
 - Rationale: "no need to horn 32 bit support in there" \[R29\]
 - Precedent: x86 ah/al (considered; named by author): asked for 64-bit registers addressable as two 32-bit halves, sort of like ah/al \[R28\]
 - Precedent: ARM32 LDRD / MIPS32 FP pairs (considered; named by assistant, not taken up): pair-register cost of a 32-bit FP version \[R29\]
-- Evidence: docs/pdp64-isa.md:80 "64 bits each"; docs/pdp64-isa.md:9 quads are 64 bits; no 32-bit mode in spec/pdp64/pdp64.hbnf
+- Evidence: docs/pdp64-isa.md:78 "64 bits each"; docs/pdp64-isa.md:9 quads are 64 bits; no 32-bit mode in spec/pdp64/pdp64.hbnf
 
 ### SP and FP registers
 - Status: DONE — sp and fp are aliases of r14 and r13 in the grammar and docs (latest decision 2026-10-21 \[R168\])
@@ -1646,7 +1754,7 @@
 - Rationale: "make sp r14 and fp r13 to match the vax" \[R137\]
 - Rationale: sp and fp as aliases: "you don't need a third header for that" \[R168\]
 - Precedent: VAX-11 (chosen; named by author): SP is R14 and FP is R13 to match it \[R137\]
-- Evidence: docs/pdp64-isa.md:89 "SP is R14 and FP is R13, matching VAX"; spec/pdp64/pdp64.hbnf hot3/hot4 name "sp"
+- Evidence: docs/pdp64-isa.md:86 "SP is R14 and FP is R13, matching VAX"; spec/pdp64/pdp64.hbnf hot3/hot4 name "sp"
 
 ## toolchain
 
@@ -2194,19 +2302,13 @@
 - xterm-256color subset shim: chosen in C64 console font and 9p interface
 - yacc: chosen in as32v in the v7unix-toolchain repo and tool naming
 
-# Where the current docs or code differ from the decisions (41)
+# Where the current docs or code differ from the decisions (24)
 
-- Opcode field and parcel layout (6-bit opcode): docs/encoding-proposal.md:27 prefix of 1 to 16 bits, not opcode(6)
-- Register names (r16): docs/pdp64-isa.md:80 says "Sixteen registers"; its header (:7) says the register file below is that of pdp64/r20
-- Register count (16 or 32): docs/pdp64-isa.md:80 "Sixteen registers" (the instruction-set text of the original encoding r20, declared at :7 as such, one of the two earlier iterations; not rewritten for 32 registers)
-- Tagged pointers: docs/pdp64-isa.md:1137 says the three bits come from data alignment, not instruction alignment (the "bottom bit" idea was replaced)
 - Stack alignment: docs/abi.md:10 and appendix D (D.1) say multiple of 8, not 2
 - Physical address width and device windows: the simulator, QEMU and spec/pdp64-system.hbnf map 40 bits and put the devices from 0x8000000000 (docs/implementation-status.md, chapter 6, 6.6.2 and 6.7.1); the 40-bit width is the minimum, so the rule is met
 - Integer abs/min/max and conditional select: docs/errata.md item 23 says AESC sub-opcodes 0x08 and 0x10-0x13 (native; marked superseded by errata 98); the grammars (spec/pdp64-mnemonics.hbnf, the encoding grammars), as64, sim64, pcc, QEMU and LLVM still treat the five words as native until the expansion is decided
-- Constant-time execution: docs/decisions-pending.md:124 says "proposed: option 3 (a core set always constant-time plus a DIT bit"; docs/pdp64-isa.md has no DIT
 - Root-cause fixes, no workarounds: Toolchain commit 6f22473 and others add regression tests; the open question of synthesizing a register afterward is a potential only
 - \-xdmr flag and default PDP-11 output: README.md:168 says "Without -xdmr the generated code differs from stock only through the bug fixes below"
-- QEMU and LLVM targets: handoff.md:6 and :113: the build machine has 3.9 GB RAM, the move to a bigger machine is not recorded
 - QEMU and LLVM targets: qemu/README.md:41-51 memory map still has device space behind bit 39 of the physical address (timer 0x8000000000, console 0x8000001000), against errata 97 (no address bit selects device space) and errata 102 (40 to 64 bits); the QEMU walker has three levels only, against errata 96
 - QEMU and LLVM targets: the QEMU machine has no virtio device and no PCI Express root complex (docs/implementation-status.md, chapter 5.14), against errata 95 (virtio across the board)
 - QEMU and LLVM targets: llvm/README.md (a status note, errata 122): the LLVM back end is frozen; its machine-code layer (about 5,000 lines) encodes the original r20 encoding (parcel 0 = len:2 opc:6 reg:4 low:4, sixteen registers, page 2) throughout, while as64 now produces only the prefix-coded encoding of spec/pdp64/pdp64.hbnf, so llvm-mc and as64 no longer agree, and the checks that compared them (llvm/check.sh, oracle.py, forms.py, negative.py, runsim.py, tools/gen-llvm-td.py) were removed (errata 123 \[R375\]); the body of the README still describes milestone M1 and an oracle that is gone
@@ -2216,27 +2318,16 @@
 - Other: The chain has no Now line for this group; the latest line (2026-10-21) is the abs/min/max one
 - Git history, merging and pushing: git status: untracked c64stuff.txt, chat02.txt and tools/declog/ are not pushed; docs/decision-log/ is deliberately local (.gitignore, commit 8cb79b7)
 - README: README.md:8 appendix list (see Left)
-- Decisions document: docs/errata.md is a separate file, not inside decisions-pending.md; decisions-pending.md is not linked from README text of rule 'don't link it' (README does link it at the principles section)
 - Manual: deliverable and chapter order: order bus, graphics, boot, drivers (index) differs from the 'boot, device driver, graphics' of R279 and 'bus, blitter, boot' of R280; the later j79473 is the one followed
-- Manual purpose, style and notation: docs/manual-src/09-isa.md:104 (9.3.8) "the mask is 32 bits" and :340 (9.11.1) give no binary form
-- Documentation style rules: the "What was checked" sections of manual chapters 2 to 6 cite ... source trees (qemu-src, facetlang/unixtree, kernel-src), added by errata 111 to 119 after this rule
+- Manual purpose, style and notation: docs/manual-src/09-isa.md:73 (9.3.8) "the mask is 32 bits" and :241 (9.11.1) give no binary form
 - Velinsky link: manual 1.1 commentary no longer carries it: errata 120 moved it to appendix H, since the manual body holds decided material only
 - Manual body and the appendices Proposed, Deferred and Open items: docs/manual-src/appendix-j-open.md holds only "There are no open items" (the entries are assembled from appendix-parts/\*-open.md into docs/manual/\*/appendix-j-open.md)
-- Names kept out of the manual: Q64 and the three native device names: docs/pdp64-q64-bus.md and docs/c64-devices-from-chat.md still use the names Q64 and BLT64, VIC-64X, SID-64X; the decision names the manual only
-- Status document as the source of truth: every Doc differs line of the ledger files lists a document that does not yet follow it
-- Mashup of PDP-11 with C64 / M8502: none found
-- Design priority list: docs/priority-lists.md:120 still says "(For you to write. ...)" above the author's annotations
-- Q64 bus: DMA design, document and PCI Express base: docs/pdp64-q64-bus.md:25 "the transaction definitions (widths, bursts, arbitration, timing) are not written anywhere in this repository" while the manual body now defers to PCI Express's own transactions (2.3.4)
-- Physical address bit that selects device space: docs/decisions-pending.md:123 P19 row still reads "\*\*DECIDED\*\* (the author, 2026-10-22: \\"bit 39 is right\\", errata 60)" with no superseded mark; qemu/README.md:7, :51 and :75 and the QEMU memory map (qemu/hw-pdp64/virt.c) still use bit 39 (listed in docs/implementation-status.md:9)
-- Bus update to virtio-only: docs/decisions-pending.md:659 row Q10 and :908 "Q10. Devices are eight memory-mapped registers plus DMA" are not marked superseded; docs/c64-devices-from-chat.md:62 and docs/CHANGES-SINCE-R20.md:754 still say eight registers
+- Physical address bit that selects device space: qemu/README.md:7, :51 and :75 and the QEMU memory map (qemu/hw-pdp64/virt.c) still use bit 39 (listed in docs/implementation-status.md:9)
 - C64 island: 8502 registers readable from outside: the C128 with its 8502 and compatibility island is an optional device on the bus (docs/manual-src/03-graphics.md:402 "\*\*3.16.4\*\*"), so the island's register access is not in the manual body
 - Device initialization protocol: docs/manual-src/04-boot.md:264 states the register write in the words of the eight-register devices that errata 95 withdrew
-- Device register model: native 8-register devices to virtio: docs/decisions-pending.md:659 row Q10 and :908 "Q10. Devices are eight memory-mapped registers plus DMA" are not marked superseded; docs/CHANGES-SINCE-R20.md:754 and docs/c64-devices-from-chat.md:62 still say eight registers
 - Crypto and random-number devices: errata 85 records decisions that the chain shows only as the "we'll go along those lines" approval of OpenBSD's recommendations, not each item
-- First operating system port: docs/errata.md:114 entry 30 and :165 entry 30a keep the older text as history (marked superseded by 41)
-- Exception and interrupt entry: docs/decisions-pending.md:508 says "I extended it to interrupts, which you did not explicitly say" (flagged for the author to confirm)
-- Page-table levels: docs/decisions-pending.md:734 "3 levels, 39-bit (current)" and its listing of four levels as a rejected-by-default option (errata 96: the question stays there as the record of the options); the QEMU walker, the simulator and the emulator implement three levels only (docs/implementation-status.md)
-- Dedicated core classes: docs/errata.md:226 entry 76 is still headed "PROPOSAL (the author's recommendation" and records it as a proposal; docs/smp-decisions.md:12 "The dedicated-core proposal (graphics, network, audio) is a proposal"; the manual now tags it (D) under the approval rule of errata 121
+- Page-table levels: the QEMU walker, the simulator and the emulator implement three levels only (docs/implementation-status.md), against errata 96 (three, four or five levels)
+- LLVM back end: frozen until the port: the body of llvm/README.md still describes milestone M1 and an oracle (llvm/check.sh, tools/gen-llvm-td.py) that no longer exists
 
 # Decision briefing: open questions and decisions under review
 
