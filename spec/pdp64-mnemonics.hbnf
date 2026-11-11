@@ -60,7 +60,7 @@ mn-branch = "br"@0b110000
           | "bhis"@0x137
           | "blo"@0x138
 
-; compare a register with a 5-bit immediate and branch (page 1, opcode 0x28): the number is the condition, as in `set` (cc below); the two
+; compare a register with a 5-bit immediate and branch (opcode 0x28): the number is the condition, as in `set` (cc below); the two
 ; aliases are numbered above, as in the branch group
 mn-cbranch = "cbne"@0b0001
            | "cbeq"@0b0010
@@ -288,7 +288,7 @@ mn-sys-none = "nop"@0b0000
             | "wait"@0x107
 
 ; SYS class 0 minor 15, SYSX: an escape to a parcel-1 sub-opcode (four bytes: `sub:8 pad:8`).  The minor has no word of its own; the two instructions are the words of mn-sysx,
-; numbered by their sub-opcode.  pushx: SP <- SP - 16; M[SP] <- EPSW; M[SP + 8] <- EPC.  popx: the reverse (errata 37).  Page 2 abbreviates both (p2op below).
+; numbered by their sub-opcode.  pushx: SP <- SP - 16; M[SP] <- EPSW; M[SP + 8] <- EPC.  popx: the reverse (errata 37). 
 sys-minor = "sysx"@0b1111
 
 mn-sysx = "pushx"@0
@@ -359,71 +359,6 @@ opgroup = "lea"@0b001011
         | "cbrr"@0b101010     ; cbCC ra,rb,label: compare two registers and branch (4 or 6 bytes)
         | "cbw"@0b101001      ; cbCC with a 16-bit immediate and a 16-bit displacement (six bytes only)
         | "sob"@0b111111
-
-; The length code of parcel 0 (`len`): 0, 1 and 2 are page-1 instructions of 1, 2 and 3 parcels; 3 is a one-parcel instruction of page 2.
-lencode = "parcels1"@0b00
-        | "parcels2"@0b01
-        | "parcels3"@0b10
-        | "page2"@0b11
-
-; Page 2: the opcodes of the one-parcel page (`len` = 3, parcel 0 is `11 opc:6 reg:4 low:4`).  The names are internal: they are encodings, not
-; assembler mnemonics (the assembler chooses a page-2 form by itself when the operands fit, and the instruction means exactly what the page-1
-; form means).  Page 2 belongs to the original encoding of the earlier iterations; no tool reads this table any more.  A number not listed is reserved and is an illegal instruction.
-p2op = "ld.q"@0x00       ; movq (rn),rd
-     | "st.q"@0x01       ; movq rs,(rn)
-     | "ld.l"@0x02
-     | "st.l"@0x03
-     | "ld.w"@0x04
-     | "st.w"@0x05
-     | "ld.b"@0x06
-     | "st.b"@0x07
-     | "ldz.l"@0x08      ; movzl (rn),rd
-     | "ldz.w"@0x09
-     | "ldz.b"@0x0A
-     | "lea.sp"@0x0B     ; lea 8*d(sp),rd
-     | "ldq.sp0"@0x0C    ; movq d(sp),rd, d = 8 * (0 + low)
-     | "ldq.sp1"@0x0D    ;                d = 8 * (16 + low)
-     | "stq.sp"@0x0E     ; movq rs,d(sp), d = 8 * low
-     | "ldl.sp0"@0x10    ; movl d(sp),rd, d = 4 * (0 + low)
-     | "ldl.sp1"@0x11    ;                d = 4 * (16 + low)
-     | "stl.sp0"@0x12    ; movl rs,d(sp)
-     | "stl.sp1"@0x13
-     | "ldq.d1"@0x14     ; movq d(rn),rd, d = 8 * 1
-     | "ldq.d2"@0x15
-     | "ldq.d3"@0x16
-     | "ldq.d4"@0x17
-     | "stq.d1"@0x18     ; movq rs,d(rn), d = 8 * 1
-     | "stq.d2"@0x19
-     | "ldl.d1"@0x1A     ; movl d(rn),rd, d = 4 * 1
-     | "ldl.d2"@0x1B
-     | "ldl.d3"@0x1C
-     | "ldl.d4"@0x1D
-     | "pushm8"@0x1E     ; pushm #(mask << 8), mask = reg:low
-     | "popm8"@0x1F
-     | "sub.sp"@0x20     ; sub #(8*n),sp, n = reg:low
-     | "add.sp"@0x21
-     | "movq.i"@0x22     ; movq #imm4,rd
-     | "shl.i"@0x23      ; shl #count,rd, count = low (0 to 15)
-     | "shr.i"@0x24
-     | "sar.i"@0x25
-     | "and.i"@0x26      ; and #imm4,rd
-     | "bis.i"@0x27
-     | "xor.i"@0x28
-     | "add.i"@0x29
-     | "pushx"@0x2A      ; pushx (SYSX sub 0), reg and low zero
-     | "popx"@0x2B       ; popx (SYSX sub 1)
-     | "isync"@0x2C      ; isync (SYSX sub 2), reg and low zero
-     | "hint"@0x2D       ; hint #n (SYSX sub 3), n = reg:low
-
-; The addressing modes, the `low` nibble of an instruction with a memory operand (ISA section 5).
-amode = "base"@0b0000
-      | "index"@0b0001
-      | "pcrel"@0b0010
-      | "dp"@0b0011
-      | "imm"@0b0100
-      | "abs"@0b0101
-      | "postinc"@0b0110
-      | "predec"@0b0111
 
 ; The store forms of the moves: the same mnemonics, the opcode after the load's (ISA section 4.1).
 movstore = "movq"@0b000001 | "movl"@0b000011 | "movw"@0b000101 | "movb"@0b000111

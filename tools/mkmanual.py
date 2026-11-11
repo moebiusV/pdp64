@@ -354,9 +354,6 @@ def constants_page():
     L += ['', '## The memory types (`MT`)', '', '| Type | Value |', '|---|---|'] + ['| %s | %d |' % (n.replace('-', ' '), v) for n, v in SYS['mt']]
     L += ['', '## The translation geometry', '', '| Quantity | Value |', '|---|---|'] + ['| %s | %d |' % (n.replace('-', ' '), v) for n, v in SYS['mmu']]
     L += ['', '## The system registers (`MFSR`, `MTSR`)', '', sysreg_table()]
-    L += ['', '## The addressing modes', '', '| Mode | Value |', '|---|---|'] + ['| %s | `%s` |' % (n, bits(v, 4)) for n, v in SPEC['amode']]
-    L.append('')
-    L.append('Modes `1000` to `1111` are reserved. The syntax and the parcel layout of each mode are in section 9.5.')
     L += ['', '## The condition codes', '', '| Name | Number | Aliases |', '|---|---|---|']
     al = {}
     for n, v in SPEC['ccalias']:
@@ -514,7 +511,7 @@ def build():
     if nochart:
         raise SystemExit('mnemonics with no bit layout in the grammar: ' + ' '.join(sorted(nochart)))
     used = {cid for v in CH.byname.values() for cid, _ in v}
-    orphan = [c['id'] for c in CH.charts if c['id'] not in used and c['kind'] != 'p2']
+    orphan = [c['id'] for c in CH.charts if c['id'] not in used]
     if orphan:
         raise SystemExit('charts for no mnemonic: ' + ' '.join(orphan))
     if CH.enc and len(CH.charts) != len(CH.enc.d['leaves']):

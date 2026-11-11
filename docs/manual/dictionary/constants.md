@@ -104,21 +104,6 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 | `ASID` | 11 | read and write |
 | `CPUID` | 12 | read only |
 
-## The addressing modes
-
-| Mode | Value |
-|---|---|
-| base | `0000` |
-| index | `0001` |
-| pcrel | `0010` |
-| dp | `0011` |
-| imm | `0100` |
-| abs | `0101` |
-| postinc | `0110` |
-| predec | `0111` |
-
-Modes `1000` to `1111` are reserved. The syntax and the parcel layout of each mode are in section 9.5.
-
 ## The condition codes
 
 | Name | Number | Aliases |
