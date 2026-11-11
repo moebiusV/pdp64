@@ -8,7 +8,7 @@ The opcodes, prefixes and field positions may still change once the open items a
 |---|---|
 | `pdp64/pdp64.hbnf` | the encoding: registers, the hot-register tables, the catalogue of 207 forms and 268 leaves (the source of truth of every bit position) |
 | `pdp64-enc.hbnf` | its vocabulary: the operand shapes, the sizes of the moves' access, the numbered words of group `mn-ext` |
-| `pdp64-mnemonics.hbnf` | every number: the words of the instructions, their numbering by group and sub-opcode (the numbers the executor and the manual use), the registers, conditions and system registers |
+| `pdp64-mnemonics.hbnf` | every number: the words of the instructions, their numbering by group and sub-opcode (the numbers the executor and the manual use), the registers, conditions and system registers; the rules of the earlier encodings that nothing used (the length code, the page-2 opcodes, the addressing-mode nibble) were cut, the numbers of the others are unchanged (errata 128) |
 | `pdp64-asm.hbnf` | the syntax of the assembly language |
 | `pdp64-system.hbnf` | System v1: the status word, the vectors, the page-table entry, the devices |
 | `elf.hbnf` | the records of the ELF object file |
