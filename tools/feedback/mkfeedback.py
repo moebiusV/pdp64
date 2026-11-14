@@ -185,6 +185,8 @@ OVERRIDE = {
     "J.9.7": ("maybe", "latency bound of block operations"),
     "J.9.8": ("yes", "block operations and the cache"),
     "J.9.11": ("yes", "memory model beyond four cores"),
+    "J.9.13": ("yes", "range-check instructions (compare-and-trap, two-bound check, sticky range flag, clamp)"),
+    "J.9.14": ("yes", "taint lane, tag instructions and a tag bit per word of memory"),
     "J.3.7": ("no", "virtio feature subset"),
     "J.5.7": ("no", "USB controller interface"),
     "J.4.10": ("no", "monitor commands"),
@@ -261,6 +263,9 @@ OVERRIDE = {
     "W.3": ("no", "branch merge"),
 }
 
+
+# Entries the author asked for most recently that change opcodes: they come first of all (errata 138).
+PRIORITY = ("J.9.13", "J.9.14")
 
 ISA_CHAPTERS = ("6", "7", "9", "A", "B", "D")
 
@@ -765,7 +770,7 @@ def build(root):
                 best = max(rel, key=lambda x: rank[x.affects])
                 e.affects, e.reason = best.affects, "as %s: %s" % (best.id, best.reason)
     tier = {"yes": 0, "maybe": 1, "no": 2}
-    entries.sort(key=lambda e: (tier[e.affects], e.krank, e.seq[0] if isinstance(e.seq[0], int) else 0,
+    entries.sort(key=lambda e: (tier[e.affects], PRIORITY.index(e.id) if e.id in PRIORITY else len(PRIORITY), e.krank, e.seq[0] if isinstance(e.seq[0], int) else 0,
                                 e.seq[1], e.id))
     groups = [(c, CHAPTERS[c]) for c in CHAPTER_ORDER]
     groups += [("C", "Confirmation list"), ("W", "Standing decisions"), ("L", "Status ledger (by its own chapter)")]
