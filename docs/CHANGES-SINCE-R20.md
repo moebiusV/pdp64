@@ -385,7 +385,7 @@ Recorded because the point of the exercise was to find where designs and tools d
 
 ## 11. Environment decisions
 
-* **No sudo and no docker daemon here** (the machine is WSL2 with Docker Desktop's pipe as the default context). `hbnf` needs GNAT 15 (Ada 2022
+* **No sudo and no docker daemon here** (the build host reaches docker only through a desktop pipe set as the default context). `hbnf` needs GNAT 15 (Ada 2022
   container aggregates); the host has GNAT 14. `tools/build-hbnf.sh` therefore builds `hbnf` inside an **Alpine edge rootfs run under `bwrap` with user
   namespaces and `apk --usermode`**, no daemon and no root, using `gprbuild` and `mustache-ada` from the user's `ada-on-alpine` package files. The result
   is a static binary that runs on the host.

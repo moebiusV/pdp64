@@ -66,7 +66,7 @@ Worktree <worktree>, branch enc-hb, 6 commits on top of 2ece7fe (nothing pushed,
 
 ## Things to know / not done
 
-* The user's commit-msg hook deletes every line that mentions "claude", so the `Co-Authored-By: Claude ...` trailers (and any subject containing the word) are stripped from all six commits; not worked around.
+* A commit-msg hook deletes every line that names the assistant, so the `Co-Authored-By` trailers (and any subject containing the name) are stripped from all six commits; not worked around.
 * Merge notes for the parallel branches (ld64 relaxation, timing, pcc-enc): anything that reads `spec/pdp64-NN/forms.json` must call `encgram.load(tag, ROOT)` instead (same dict); `mk_ld_tests.py` is already switched here and will
   conflict textually. They need the new hbnf (`tools/build-hbnf.sh`) and the `--no-compact --no-overlay` flags from commit 1.
 * `export_forms.py` needs the corpus under the scratchpad (it ran here); other machines cannot rerun it.

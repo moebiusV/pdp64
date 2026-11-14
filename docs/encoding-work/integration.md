@@ -200,7 +200,7 @@ With the old compiler on pdp64/r20 as the baseline, the new compiler with the pr
 * QEMU does not execute pdp64/16 or /32 (its executor copy is built without `PDP64_ENC`); the atomics, a number of crypto words and `mval`/`utf8dec`/`utf8enc` are not implemented in the executor (errata 88).
 * The 3-parcel `cbCC` and the other form choices were trained on the corpus only (not on the six programs): the one-parcel `cbCC` shrank in /32 (cbreach.md) which costs lz4 about 1.2% in fetched bytes; a profile-tuned variant was not tried.
 * The compiler does not use `movuw/movul/movuq` (the unaligned-access idiom: 10% of lz4's instructions), `mulh`-based 64-bit division by constants, loop-invariant motion or live-range splitting (`pcc2.md`).
-* The commit-msg hook of the author strips the `Co-Authored-By` trailer from commit messages; it was left.
+* A commit-msg hook strips the assistant's `Co-Authored-By` trailer from commit messages; it was left.
 * `tools/build-hbnf.sh` needs network access (upstream hbnf, Alpine rootfs); the clean-checkout verification below used the already built hbnf of a scratch build of hbnf unless stated.
 
 ## 6. Verification from a clean checkout
