@@ -12,3 +12,5 @@ with:    345,444 instructions, 1,147,316 instruction bytes: +49,362 instructions
 one instruction of 4 bytes for each remaining check: +6,980 instructions (+2.4%), about +28 KB (+2.9%)
 
 after guard tracking too (errata 148): 6,968 checks; 345,369 instructions, 1,147,042 instruction bytes (+16.7%, +19.0%)
+
+after the remaining rules (one-armed exits, loops left by the condition, relations between variables, decreasing loops; errata 148): 6,929 checks (29% of 9,782 dropped); 345,131 instructions, 1,146,166 instruction bytes (+16.6%, +18.9%)
