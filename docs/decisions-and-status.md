@@ -14,7 +14,7 @@
 ## Contents
 
 - [Summary](#summary)
-- [Left to do (48)](#left-to-do-48)
+- [Left to do (50)](#left-to-do-50)
 - [Left in the air (25)](#left-in-the-air-25)
 - [Rejected or replaced (11)](#rejected-or-replaced-11)
 - [Done (177)](#done-177)
@@ -53,12 +53,12 @@
 
 # Summary
 
-- Left to do: 48 of 261 subjects
-- Left in the air: 25 of 261 subjects
-- Rejected or replaced: 11 of 261 subjects
-- Done: 177 of 261 subjects
+- Left to do: 50 of 263 subjects
+- Left in the air: 25 of 263 subjects
+- Rejected or replaced: 11 of 263 subjects
+- Done: 177 of 263 subjects
 
-# Left to do (48)
+# Left to do (50)
 
 - Decided, and not yet in the current code or docs (or only partly).
 
@@ -199,6 +199,16 @@
 - Decided: 2026-10-22 decided (errata 39 item 7): the accesses inside \`MCPY\`, \`MMOV\` and \`MSET\` and the other block words are unordered with respect to one another; only the final contents of memory and the register progress are defined; 2026-11-10: "probably, its probably something we didn't make any decisions on yet, verify that." \[R406\] (the check found only errata 39 item 7: it had been written nowhere, and the old 7.5 said the opposite by inference)
 - Evidence: docs/errata.md items 39 (item 7) and 130 (item 3, which stands); docs/manual-src/07-smp.md:200 "\*\*7.5.8\*\*" (decided) and :202 "\*\*7.5.9\*\* Open"; docs/manual-src/appendix-parts/07-open.md J.7.6 (seven open points, six options, the leaning to option 4 with option 6); docs/pdp64-isa.md:404 (what another core may observe)
 - Left: J.7.6: the order of the elements and overlap for \`MMOV\`, how far an access may tear, what another core may see of an operation in progress, what publishes the result (\`FENCE\` orders only device accesses, 7.5.7), what a fault leaves, the effect on a reservation, device and uncached memory; the question of the form: whether errata 39 item 7 is the author's decision
+
+## 08 Vector work and accelerators
+
+### SIMD: how it works, how many instructions, operations on regions of memory
+- Status: TO DO — decided, details to be determined: the `vec` prefix over a region of memory, J.8.5 option 1 (latest decision 2026-11-16 \[R430\], errata 139)
+- Decided: 2026-11-16 decided: "how about a single 2 byte instruction that says \\"the next instruction is simd/vector, and here are the two registers that mark the start and end of the memory region\\"? add that to the pdp64 design" \[R430\]; "yes, \\"vec\\" as prefix is good." \[R431\]; "well if we're doing gemm and vec anyways, then we don't need to specify 2 or 6 byte encodings, the prefix coding optimizer will figure out what goes where." \[R434\]; "nothing stops pdp64 from having hidden registers that the vector operations use." \[R435\]; "if we need to turn lb64 into a special unit with its own instruction set we will, no need to put it on the pcie bus it must always be present at a certain memory page." \[R432\]; the earlier questions \[R409\] (errata 131)
+- Rationale: "if we can do it with one extra instruction, then no need to have an external separate bus device" \[R430\]
+- Precedent: ARM SVE and the RISC-V vector extension (considered; named by author): "arm-sve-style or risc-v vector style support" \[R430\]
+- Evidence: docs/errata.md items 139 and 141; docs/encoding-work/vector-study.md (the measurement on dav1d: a `vec` on one instruction serves 21% of the codec's map loops; chaining, a sliding-window multiply-accumulate, widening, min/max/clamp, select and reductions are what the loops need); docs/manual-src/appendix-parts/08-open.md J.8.5 (the decision paragraph, the measurement, and options a to e), J.8.3 (packed lanes, option 6 a lane prefix); errata 59 (no vector register file and no SIMD instruction set in the processor, the standing decision, which the prefix and hidden registers keep); not found: a `vec` prefix in spec/pdp64/pdp64.hbnf, docs/manual-src/09-isa.md or 08-vectors.md (searched)
+- Left: the instructions `vec` may precede; predication and gather/scatter; the GEMM operations and their number; whether the vector operations use double-word register pairs \[R436\]; the fault and restart rules of each and the effect on context switching; the script that finds where `vec` wins in compiled code \[R433\] (tools/arch-compare/vecwin.py is it, and the first numbers are in vector-study.md); the encodings, which the optimiser assigns; `lb64`, if it becomes a unit with its own instruction set; the chapter and the grammar, after the open items settle
 
 ## 12 Documentation and process
 
@@ -454,6 +464,14 @@
 - Evidence: docs/errata.md item 91 (assumed: the object flag EF\_PDP64\_RELAX, the relocation R\_PDP64\_ALIGN (type 6) on every padding of .text so that paddings are recomputed, growth from the shortest form with lengths that only grow, EF\_PDP64\_NOADJ\_TEXT (0x20) for a .text that holds a distance that is not a relocation, a label before an .align moved behind the padding, an expanded cbCC stays expanded, the reach of the 4-byte call); docs/relaxation.md:21 (\`EF\_PDP64\_NOADJ\_TEXT\`), :35 (\`R\_PDP64\_ALIGN\`), :48 (an object is adjustable if it has RELAX and not NOADJ\_TEXT); tests/relax/noadj.s; docs/relaxation.md sections 6 and 7 (the measurements)
 - Left: the author's confirmation of the rules; the reach of the 4-byte call (errata 91 says +-1 MiB, errata 87 and the encoding proposal say +-2 MB, the manual's text says +-256 KiB: to settle); in the decision form
 
+### Assembler syntax: AT&T and the classic spellings
+- Status: TO DO — decided and mostly done; some spellings are details to be determined (latest decision 2026-11-16 \[R424\] to \[R429\], errata 139)
+- Decided: 2026-11-16 decided: "decided, as64 will be extended to support att syntax as well as current syntax, where they don't conflict" \[R424\]; "let's make as64 more like microsoft style and the old its pdp-10 style, let's make it really sweet and readable I hate seeing % sprinkled everywhere" \[R425\]; "i accept your recommendations. decided." \[R426\]; "we accept $ and # ... and / comments become //" \[R427\]; "decided: accept the recommendations in that last paragraph" \[R428\]; "i accept all those things you listed as medium effort or less, and we are to skip all those things you recommended skipping" \[R429\]; the recommendations are the assistant's lists of the same conversation, taken by the author
+- Rationale: "I hate seeing % sprinkled everywhere" \[R425\]; readability for ITS/PDP-10, Turbo Pascal and C64 programmers
+- Precedent: AT&T syntax of GNU as (chosen; named by author): "att syntax as well as current syntax, where they don't conflict" \[R424\]; ITS/PDP-10 and Microsoft MASM styles (chosen; named by author) \[R425\]; Turbo Pascal and the 6502 assemblers (ca65) (chosen; named by author) \[R425\] \[R427\]; the early Unix assemblers V1 to V7 (considered; named by author) \[R426\]
+- Evidence: spec/pdp64-asm.hbnf (the grammar: `//` comments, `$` immediates, `%` before registers, `base+disp`, AT&T indexed, `equ`, `db`/`dw`, `proc`/`endp`, `[ ]`, binary `!`, unary `<` `>`, `.if`/`.else`/`.endif`); as64/asmp.c; as64/asmpre.c (`.macro`/`.endm` and `.rept`/`.endr`, expanded before the parser reads the text, outside the grammar); tests/asm-equiv (each new spelling assembles to the object of the V7 spelling), tests/asm-err, tests/asmsyntax.c, run by tools/check-as64.sh and tools/check-asmsyntax.sh; docs/asm-syntax.md and manual appendix E ("Other spellings"); docs/errata.md item 139
+- Left: not taken, for the author to decide: `.name` and `@name` scoped local labels (`.name` is already a name and `@name` the absolute mode; `@@name` is free), case-insensitive mnemonics under an option, the short aliases `mov`, `ld` and `st`, the `<...>` and `'...'` string forms, juxtaposition as addition, `r5` for register-indirect (it is register-direct), `^` as the type-carrying operator (it is exclusive-or), the early Unix `\/ \< \>`, the ABI aliases `a0` to `a7` and `s0` to `s7`; `r5-8` needs a space (hbnf reads a register name followed directly by `-` as one word); the macro layer is outside the grammar (hbnf has no macros), which the author may want to reach into hbnf or decline; the same syntax for llvm-mc and the GNU toolchain ports
+
 # Left in the air (25)
 
 - Only ideas, open questions, conflicting decisions, or points the record and the repository do not settle.
@@ -557,21 +575,13 @@
 - Evidence: not found: searched docs/\*.md for a CPU-in-DRAM design; only passing mentions in docs/kernel-pain-points.md
 - Left: author has not decided
 
-## 08 Vector work and accelerators
-
-### SIMD: how it works, how many instructions, operations on regions of memory
-- Status: IN THE AIR — the author's questions are answered in J.8.5 with options and precedents; he has not chosen (latest decision 2026-11-10 \[R409\], errata 131)
-- Decided: no standing decision (questions: "how does simd work, how many instructions are there, is simd just normal ops fused with a \\"simd\\" bit or something like that? would it make sense to have simd ops that work on regions of memory instead of register files, since we'd be load/storing register files anyways?" \[R409\])
-- Evidence: docs/manual-src/appendix-parts/08-open.md J.8.5 (options a to e) and J.8.3 (packed lanes, option 6 a lane prefix); docs/errata.md item 131; errata 59 (no SIMD instruction set in the processor, the standing decision)
-- Left: J.8.3 and J.8.5
-
 ## 09 The instruction set
 
 ### Range checks on a register value
 - Status: IN THE AIR — the author's request, no decision; the discussion is J.9.13 (latest request 2026-11-13, errata 138 \[R421\])
 - Decided: nothing new: 2026-11-13 requested: "new design features from another linux kernel developer: make some instructions or easy way to do range checks on a register value, a trap on out of range, similar to overflow, or set a bit in a sticky register, exception register, etc. same thing as on floating point math when you have nan/inf etc, you don't trap you set bits in a status register. figure out what is most efficient from a coding point of view. would this be more efficient than using the cse select min/max functions?" \[R421\]; what stands from before: \`TRAPCC\` is a trap with the fused \`ADDV\`, \`SUBV\` and \`MULV\` and "no compare-and-trap form" (errata 85), \`CBCC\` compares and branches without flags (9.10.4), \`MIN\` and \`MAX\` are aliases (errata 98)
-- Evidence: docs/errata.md items 85 and 138; docs/manual-src/appendix-parts/09-open.md J.9.13 (six options with the instruction and byte counts, the opcode price of each, and the answer to the comparison with the select instructions); docs/manual-src/09-isa.md 9.7.7 and 9.21.1
-- Left: J.9.13: trap, sticky flag, clamp, mask or nothing; whether the compare-and-trap of errata 85 is reopened; whether a sticky range flag is added beside the floating-point flags; the effect on the proposed \`INDEX\`
+- Evidence: docs/errata.md items 85, 138 and 140; docs/manual-src/appendix-parts/09-open.md J.9.13 (seven options with the instruction and byte counts, the opcode price of each, the answer to the comparison with the select instructions, and the 2026-11-17 measurement against LoongArch); docs/encoding-work/loongarch.md (the corpus for LoongArch64, the census of 834 bounds checks, the price of each form: a compare-and-trap ties `CBHIS`, a two-bound check saves 176 instructions of the corpus, LoongArch's `ASRT` and `LDLE`/`LDGT` forms are one-sided and emitted by no compiler); docs/manual-src/09-isa.md 9.7.7 and 9.21.1
+- Left: J.9.13: trap, sticky flag, clamp, mask or nothing; whether the compare-and-trap of errata 85 is reopened (the measurement says it ties `CBHIS`; the two-bound form is the only one that pays, a small win); whether to take LoongArch's forms (option 7: the measurement says they are not the best shape); whether a sticky range flag is added beside the floating-point flags; the effect on the proposed \`INDEX\`
 
 ## 11 Toolchain
 
@@ -601,6 +611,12 @@
 - Rationale and precedent: none stated in the sources
 - Evidence: the referent is the Jekyll and Liquid wrapping of Markdown for GitHub Pages in the same session (\[R353\] is followed by "the md files that buildabook processes are NOT meant to be processed by liquid" \[R354\]); docs/roadmap.md:1 and :117 carry a \`{% raw %}\` wrapper; the author's words about pdp64 and papers are an expectation ("I'd expect not much"), not a decision
 - Left: whether pdp64 needs more wrapping than the raw comment of docs/roadmap.md, in the author's words
+
+### A test suite that conforming implementations must pass
+- Status: IN THE AIR — the author's proposal in a question, no decision (latest request 2026-11-16 \[R437\], errata 139)
+- Decided: nothing: "so pdp64 could come with a test suite that all conforming implementations must pass to show it fulfills all guarantees." \[R437\]
+- Evidence: tests/ holds the project's own tests (tests/asm, tests/sim, tests/enc, tests/timing, run by tools/check-all.sh); not found: a statement of conformance or a conformance suite of the architecture in docs/manual-src or docs (searched for "conformance" and "conforming")
+- Left: whether to have one; which guarantees it covers (the memory model, precise exceptions, the restart of block and vector operations, the seventeen operations, secure mode); who runs it and how an implementation reports a pass
 
 ## Documentation and process
 
@@ -2433,6 +2449,7 @@
 - Errata 122 [R374]: r20 and pdp64/16 are previous iterations, no longer CPUs with manuals; pdp64/32 is the pdp64; there is one manual (2026-11-10)
 - Errata 123 [R375]: the code, data and tests of r20 and pdp64/16 are removed after the tags pre-single-cpu and pre-code-removal; there is one target, pdp64 (2026-11-10)
 - Errata 102: physical address of at least 40 and up to 64 bits, devices anywhere except the first few pages; open: how many pages, width discovery, the page-table entry
+- Errata 139 \[R424\] to \[R437\]: as64 accepts AT&T syntax and the classic spellings beside the present ones; `vec` is a prefix for operations over a region of memory (J.8.5 option 1); details to be determined (2026-11-16)
 
 ## Briefing A: the physical address, the page table and how software learns them
 
