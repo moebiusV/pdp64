@@ -116,8 +116,8 @@ if os.path.isdir(B):
     for name, f, macs in [('1. dot product for each output (`vec` over K)', 'k_sgemm_nt.dot.s', 8), ('2. register-blocked micro-kernel (8 accumulators, broadcast multiply-add)', 'k_sgemm_nt.ukr.s', 64), ('3. micro-kernel with a hidden tile and an outer-product instruction', 'k_sgemm_nt.tile.s', 64)]:
         n, b = vecform(B + '/' + f)
         G.append('| %s | %d | %d | %d | %.3f |' % (name, n, b, macs, b / macs))
-    n, b = vecform(B + '/k_sgemm_nt.lb64.s')
-    G.append('| 4. the whole GEMM as one `lb64` instruction | %d | (the unit) | all | 0 (a fixed %d instructions of set-up for any size) |' % (n, n))
+    n, b = vecform(B + '/k_sgemm_nt.unit.s')
+    G.append('| 4. the whole GEMM as one instruction of a GEMM unit, progress in registers | %d | (the unit) | all | 0 (a fixed %d instructions of set-up for any size) |' % (n, n))
     G += ['', '### Compiled by clang (the BLAS loops, -Ofast)', '']
     G += compiled(list(csv.DictReader(open(B + '/vecbench-blas.csv'))), KB + ['k_sgemm_nt'], set(KB + ['k_sgemm_nt']))
     G += ['', '### OpenBLAS: the main loop of its single-precision GEMM kernel, per instruction set', '', '| ISA | loop |', '|---|---|']
