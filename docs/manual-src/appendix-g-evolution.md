@@ -4,6 +4,14 @@
 
 **The design began as a small question and grew by steps.** In the author's words of 2026-11-10: "we started off as a pdp16 modernized a tiny bit, then got more and more ambitious", and "the initial idea was, could a pdp16 run effectively today with a blit terminal and off-loaded 8-register nic", with "the blit being a mashup with the c64 for audio". This appendix lists, in point form, how it grew and which influences, inspirations and precedents entered, each with the date and time (UTC) of the message in which it first appeared.
 
+**In one sentence (the author, 2026-11-17):** the pdp64 "started as a mashup of the pdp11 and c64 with secure extensions, then grew to a 64 bit smp cpu with even more security and convenience."
+
+**The three stages of it**, each shown by the dated messages of G.1:
+
+1. *The mashup.* A PDP-11, with its Blit terminal and an offloaded network card, joined to the Commodore 64: the C64's graphics and its SID audio on the terminal, an 8502 as the C64's partner, little-endian, a modern bus (R20, R22, R278), with the secure extensions the author names as part of the idea from the start.
+2. *The 64-bit CPU.* The 32-bit step skipped and the PDP-11 taken "straight to 64 bit", with no 8-byte alignment constraint at first (R29, R30, R32), then one instruction set for the one CPU, the pdp64/32 (R370).
+3. *The multiprocessor with more security and convenience.* Symmetric multiprocessing (R137) and a first device of four cores (R338); security written down as a goal and a priority (a constant-time flag, R253; the priority list, R243, errata 83); and convenience: devices as standard parts of the architecture on a bus of virtio and PCI Express (R135, R360), a prefix code that makes the common instructions short (R328), the vector and accelerator engine as a standard part (errata 131), and an assembler that reads like the ones programmers already know (errata 139).
+
 ## G.1 How it grew
 
 - 2026-08-23 05:50 — the founding question, in his first message about it: an Ethernet card "that held the entire tcp ip udp icmp stack inside itself ... so that a pdp11 could plug it in and use it", and whether the PDP-11 could use the Blit terminal (R376)

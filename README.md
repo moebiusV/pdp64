@@ -5,6 +5,8 @@ Parent: [All Projects](https://moebiusv.github.io/) | Git Repo: [github.com/moeb
 **Digital Equity Collective's Pragmatic Digital Processor, 64 bit.**
 *A 64-bit successor to the PDP-11 instruction set and architecture.*
 
+*It began as a mashup of the PDP-11 and the Commodore 64 with secure extensions, and grew into a 64-bit symmetric-multiprocessing CPU with more security and more convenience: the history is [appendix G of the manual](docs/manual/appendix-g-evolution.md).*
+
 **The manual: [read it online](https://moebiusv.github.io/pdp64/docs/manual/00-index.html)**, [`docs/manual/`](docs/manual/00-index.md); it is also a book (`book/pdp64.pdf`; hand-written source: [`docs/manual-src/`](docs/manual-src/README.md)). Ten chapters (introduction, bus, graphics, boot, device drivers, kernel, multiple processors, vectors and AI, the instruction set, the path to silicon), every instruction with its own entry in chapter 9 (syntax, encoding drawing, operation, flags, exceptions), the [reference tables](docs/manual/dictionary/index.md) ([online](https://moebiusv.github.io/pdp64/docs/manual/dictionary/index.html)), and appendices on improvements, pending decisions, a glossary, the ABI and the assembly language.
 
 
