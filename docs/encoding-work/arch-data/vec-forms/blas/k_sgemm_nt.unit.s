@@ -1,14 +1,16 @@
-; k_sgemm_nt, form 4: the whole GEMM as one instruction of a GEMM unit, with its progress in ordinary registers (rewritten 2026-11-17; the first version kept the progress in the
-; descriptor, which the decision of errata 139 does not say).
+; k_sgemm_nt, form 4: the whole GEMM as one instruction of a GEMM unit, restarting from the start of a tile (rewritten 2026-11-17, third version: the first kept the
+; progress in the descriptor, the second a K offset in a register; see gemm-forms.md section 5a for why neither).
 ;
-; The constants of the operation are in a descriptor in memory (twelve fields: too many for registers).  The progress is in three ordinary registers, the row, column and K offset
-; of the piece the unit is working on, as a block move keeps its address and count in registers: the program sets them to zero, the unit advances them as it commits work, and
-; when the instruction finishes they say so (r8 = N).  After a fault or an interrupt the instruction is run again and goes on from the registers; the operating system saves
-; and restores them like any others, and nothing else of the unit's state need be saved.
+; The constants of the operation are in a descriptor in memory (twelve fields: too many for registers).  The progress is two ordinary registers, the row and the column
+; (in elements) of the next output tile to compute, as a block move keeps its address and count in registers.  The program sets them to zero; the unit advances them
+; past each tile it has finished; when the instruction is finished r8 = N.
 ;
-; The rule that makes the restart exact: the unit adds a K-block of a tile into C only when the whole K-block is computed, with the pages of the C tile checked for writing
-; first, and the write-back of a tile is not interrupted; then r9 (the K offset) advances.  So C in memory always holds the sum of the K-blocks before r9, and a restart at
-; r9 repeats at most one K-block.  Beta is applied by the unit when r9 = 0 and not otherwise.
+; The unit of restart is one output tile: C[tile] = alpha * (A rows . B rows over ALL of K) + beta * C[tile], computed in the unit's own registers and written ONCE.
+; Before the tile is computed the pages of the C tile are checked for writing; the write-back of the tile and the advance of r7 and r8 are one step that is not
+; interrupted.  So an interrupt or a fault before that step discards the tile (the accumulators are only a cache) and the instruction, run again, redoes that tile from
+; the start; an interrupt after it leaves the registers at the next tile.  C in memory never holds a half-finished tile, so beta = 1 (accumulating in place, as the
+; backward pass of cngpt does) is correct.  The work lost to an interrupt is at most one tile (about 2 microseconds at K = 768).  Nothing is saved at a context switch
+; beyond the ordinary registers; the unit's internal state may be dropped at any time.  The translation buffer must hold the pages of one tile (about 48 at K = 768).
 ;
 ; r0 = X, r1 = W, r2 = Y, r3 = M, r4 = K, r5 = N.  Y = 1.0 * X . W^T + 0.0 * Y.
 k_sgemm_nt:
@@ -26,9 +28,8 @@ k_sgemm_nt:
 	clrl	52(sp)			; beta = 0.0
 	movl	#0x02,56(sp)		; flags: A not transposed, B transposed, float
 	movq	sp,r6			; the descriptor
-	clr	r7			; progress: row of the tile
-	clr	r8			; progress: column of the tile
-	clr	r9			; progress: K offset
-	gemm.f	r6,r7,r8,r9		; runs until r8 = N; may stop at a fault or an interrupt and be run again as it stands
+	clr	r7			; progress: row of the next tile
+	clr	r8			; progress: column of the next tile
+	gemm.f	r6,r7,r8		; runs until r8 = N; may be cut off by a fault or an interrupt and be run again as it stands
 	add	#64,sp
 	ret

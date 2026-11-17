@@ -17,7 +17,7 @@
 | 1. dot product for each output (`vec` over K) | 20 | 4 | 8 | 0.500 |
 | 2. register-blocked micro-kernel (8 accumulators, broadcast multiply-add) | 48 | 9 | 64 | 0.141 |
 | 3. micro-kernel with a hidden tile and an outer-product instruction | 14 | 3 | 64 | 0.047 |
-| 4. the whole GEMM as one instruction of a GEMM unit, progress in registers | 20 | (the unit) | all | 0 (a fixed 20 instructions of set-up for any size) |
+| 4. the whole GEMM as one instruction of a GEMM unit, progress in registers | 19 | (the unit) | all | 0 (a fixed 19 instructions of set-up for any size) |
 
 ### Compiled by clang (the BLAS loops, -Ofast)
 
