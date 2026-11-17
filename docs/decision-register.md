@@ -449,3 +449,5 @@
 - R442 | 2026-11-17 | question | "for compare and trap with table of call sites, explain it. i don't understand it." | subjects: Range checks on a register value | current
 - R443 | 2026-11-17 | decision | "compare trap with table is approved, add it." | subjects: Range checks on a register value | current
 - R444 | 2026-11-17 | question | "how to make linux kernel use it, since its already doing something similar." | subjects: Range checks on a register value | current
+- R445 | 2026-11-17 | decision | "accept all six, expand in as64 now" | subjects: Range checks on a register value | current
+- R446 | 2026-11-17 | decision | "but our prefix optimizer will decide the encodings anyways" | subjects: Range checks on a register value | current
