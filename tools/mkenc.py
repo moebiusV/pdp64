@@ -358,7 +358,7 @@ def gen_grammar(allmn, outdir, ext_decl, regnames):
     assert not extra or '"%s"@%s' % (extra[-1], extra[-1][1:]) in head
     open(os.path.join(outdir, 'pdp64-mnemonics.hbnf'), 'w').write(head + body + '\nmnemonic = ' + alts)
     a = open(os.path.join(ROOT, 'spec', 'pdp64-asm.hbnf')).read()
-    a = a.replace('reg      = rnum | ralias', 'reg      = rnum | ralias\n; (as64: r16-r31 are added by tools/mkenc.py)')
+    a = a.replace('reg      = rnum | ralias | pctnum | pctalias', 'reg      = rnum | ralias | pctnum | pctalias\n; (as64: r16-r31 are added by tools/mkenc.py)')
     open(os.path.join(outdir, 'pdp64-asm.hbnf'), 'w').write(a)
     return ext, en
 

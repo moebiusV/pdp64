@@ -53,4 +53,20 @@ int main(void){
   bad+=try("r16 is no label",   "r16: ret\n", 0);
   bad+=try("r2d2 is a name",    "r2d2: ret\nbne r2d2\n", 1);
   bad+=try("r15 and sp work",   "add r15, sp\nmovq (fp)+, r0\n", 1);
+  /* the spellings added by errata 139 */
+  bad+=try("// comment",       "clr r1 // and a comment\n// nothing here\n", 1);
+  bad+=try("// in a string",   ".ascii \"a//b\"\n", 1);
+  bad+=try("$ immediate",      "movq $5, r1\nadd $[1+2], r2\n", 1);
+  bad+=try("% before a register","movq %r1, %sp\nmovq (%r1), r2\n", 1);
+  bad+=try("r16 with %",       "add %r16, r2\n", 0);
+  bad+=try("AT&T indexed",     "movq (%r1,%r2,4), r3\nmovq 8(%r1,%r2), r3\n", 1);
+  bad+=try("AT&T bad scale",   "movq (%r1,%r2,3), r3\n", 0);
+  bad+=try("base plus disp",   "movq r5+8, r1\nmovq r5 - 8, r1\nmovq sp+x, r1\n", 1);
+  bad+=try("equ",              "N equ 4\nM = N*2\n", 1);
+  bad+=try("db and dw",        "db 1, 2, \"ab\"\ndw 1000\nlab: db 0\n", 1);
+  bad+=try("proc and endp",    "f proc\nret\nf endp\nendp\n", 1);
+  bad+=try("[ ] and ! operators","N = [1+2]*3\nM = 5 ! 1\n", 1);
+  bad+=try("< > byte operators","movq #<0x1234, r1\nmovq #>0x1234, r2\n", 1);
+  bad+=try(".if .else .endif", ".if 1\n.else\n.endif\n", 1);
+  bad+=try("registers keep names","r5: ret\n", 0);
   return bad!=0;}

@@ -47,10 +47,12 @@ static int relax_set;		/* --relax or --no-relax given */
 static int relax_on;		/* --relax: a RELAX object (relocs.h): every address of a symbol in .text instructions has a relocation, paddings are R_PDP64_ALIGN */
 static int text_poison;		/* something in .text depends on a distance and is not a relocation: the object is marked NOADJ_TEXT */
 static int errors, final_pass;
+static int *pre_map, pre_n;			/* asmpre.c: the source line of each line of the expanded text */
 static void err(int line, const char *fmt, ...)
 {
 	va_list ap;
 	if (!final_pass) return;			/* the earlier passes only measure; the last one reports */
+	if (pre_map && line >= 1 && line <= pre_n) line = pre_map[line - 1];	/* a line of a macro expansion is reported as the line of the call */
 	fprintf(stderr, "%s:%d: ", srcname, line);
 	va_start(ap, fmt);
 	vfprintf(stderr, fmt, ap);
@@ -58,6 +60,8 @@ static void err(int line, const char *fmt, ...)
 	fputc('\n', stderr);
 	errors++;
 }
+
+#include "asmpre.c"
 
 /* a numeric local label is a name of digits only */
 static int all_digits(const char *p, int n)
@@ -191,11 +195,12 @@ static struct val eval_primary(struct ex *x)
 	skipws(x);
 	if (x->p >= x->e) { x->bad = 1; return vconst(0); }
 	char c = *x->p;
-	if (c == '(') {
+	if (c == '(' || c == '[') {				/* [ ] groups like ( ) (the early Unix assembler's way) */
+		char close = c == '(' ? ')' : ']';
 		x->p++;
 		struct val v = eval_expr(x);
 		skipws(x);
-		if (x->p < x->e && *x->p == ')') x->p++; else x->bad = 1;
+		if (x->p < x->e && *x->p == close) x->p++; else x->bad = 1;
 		return v;
 	}
 	if (c == '\'') {					/* 'c' */
@@ -276,7 +281,7 @@ static struct val deref(struct val v)
 static struct val eval_unary(struct ex *x)
 {
 	skipws(x);
-	if (x->p < x->e && (*x->p == '-' || *x->p == '~' || *x->p == '!')) {
+	if (x->p < x->e && (*x->p == '-' || *x->p == '~' || *x->p == '!' || *x->p == '<' || *x->p == '>')) {
 		char op = *x->p++;
 		struct val v = deref(eval_unary(x));
 		if (!CONST(v)) {
@@ -285,7 +290,8 @@ static struct val eval_unary(struct ex *x)
 			x->bad = 1;
 			return vconst(0);
 		}
-		return vconst(op == '-' ? -v.c : op == '~' ? ~v.c : !v.c);
+		/* `<x` is the low byte of x and `>x` the high byte: the 6502 assemblers' operators */
+		return vconst(op == '-' ? -v.c : op == '~' ? ~v.c : op == '<' ? (v.c & 0xff) : op == '>' ? ((v.c >> 8) & 0xff) : !v.c);
 	}
 	return eval_primary(x);
 }
@@ -321,7 +327,7 @@ static struct val eval_expr(struct ex *x)
 		skipws(x);
 		if (x->p >= x->e) break;
 		char op = *x->p;
-		if (op != '+' && op != '-' && op != '|' && op != '^') break;
+		if (op != '+' && op != '-' && op != '|' && op != '^' && op != '!') break;
 		x->p++;
 		struct val b = eval_term(x);
 		a = deref(a); b = deref(b);
@@ -338,7 +344,7 @@ static struct val eval_expr(struct ex *x)
 			if (b.m >= 0) { if (a.p >= 0) { x->bad = 1; return vconst(0); } a.p = b.m; }
 		} else {
 			if (!CONST(a) || !CONST(b)) { x->bad = 1; return vconst(0); }
-			a.c = op == '|' ? (a.c | b.c) : (a.c ^ b.c);
+			a.c = op == '|' ? (a.c | b.c) : op == '!' ? (a.c | ~b.c) : (a.c ^ b.c);		/* a ! b: or-not, the early Unix assembler's */
 		}
 		a = deref(a);
 	}
@@ -492,6 +498,7 @@ static void directive(const struct stmt *st)
 		flush_pool(final_pass);
 		return;
 	}
+	if (dir_is(st, "endp")) return;				/* `name endp`: the end of a procedure, nothing to do */
 	if (dir_is(st, "text")) { cur_sec = SEC_TEXT; return; }
 	if (dir_is(st, "data")) { cur_sec = SEC_DATA; return; }
 	if (dir_is(st, "bss")) { cur_sec = SEC_BSS; return; }
@@ -577,9 +584,33 @@ static int run_pass(int final)
 	if (final) for (int i = 0; i < NSEC; i++) sec[i].n = 0;
 	nrelocs = final ? 0 : nrelocs;
 
+	int cdepth = 0, active[64], taken[64], on = 1;	/* .if / .else / .endif: nesting, whether this level is assembled, whether one arm was */
 	for (int i = 0; i < nprog; i++) {
 		struct stmt *st = &prog[i];
 		cur_stmt = i;
+		if (st->kind == S_DIR && (dir_is(st, "if") || dir_is(st, "else") || dir_is(st, "endif"))) {
+			if (dir_is(st, "if")) {
+				int c = 0;
+				if (cdepth == 64) { if (final) err(st->line, ".if nested too deep"); continue; }
+				if (on) {
+					struct val v = st->nargs == 1 ? eval(st->args[0].s, st->line) : vconst(0);
+					if (st->nargs != 1 || !CONST(v)) { if (final) err(st->line, ".if takes one constant expression"); }
+					else c = v.c != 0;
+				}
+				active[cdepth] = on; taken[cdepth] = c; cdepth++;
+				on = on && c;
+			} else if (dir_is(st, "else")) {
+				if (!cdepth) { if (final) err(st->line, ".else without .if"); continue; }
+				on = active[cdepth - 1] && !taken[cdepth - 1];
+				taken[cdepth - 1] = 1;
+			} else {
+				if (!cdepth) { if (final) err(st->line, ".endif without .if"); continue; }
+				cdepth--;
+				on = active[cdepth];
+			}
+			continue;
+		}
+		if (!on) continue;						/* in the arm of an .if that is not assembled */
 		int64_t pos = (cur_sec == SEC_BSS || !final) ? offs[cur_sec] : (int64_t)sec[cur_sec].n;
 		syms[dot_sym].sect = cur_sec; syms[dot_sym].val = pos;
 		switch (st->kind) {
@@ -610,6 +641,7 @@ static int run_pass(int final)
 		}
 		}
 	}
+	if (cdepth && final) err(nprog ? prog[nprog - 1].line : 0, ".if without .endif");
 	cur_sec = SEC_TEXT;
 	flush_pool(final);							/* the literal pool at the end of .text */
 	commit_syms();
@@ -799,7 +831,10 @@ int main(int argc, char **argv)
 	char *text = slurp(in, &flen);
 	if (strlen(text) != flen) { fprintf(stderr, "%s: %s: contains a NUL byte\n", progname, in); return 1; }
 	char em[300]; int el;
+	text = pre_expand(text);
+	if (pre_errors) return 1;
 	if (asm_parse(text, &prog, &nprog, em, sizeof em, &el)) {
+		if (pre_map && el >= 1 && el <= pre_n) el = pre_map[el - 1];
 		fprintf(stderr, "%s:%d: %s\n", in, el, em);
 		return 1;
 	}

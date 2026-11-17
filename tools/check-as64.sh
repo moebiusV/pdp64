@@ -44,4 +44,12 @@ for s in $E/*.s; do
 	elif grep -q "$(cat $E/$n.err)" "$B/err_$set$n.msg"; then echo "ok   $set$n (refused)"
 	else echo "FAIL $set$n: wrong message: $(head -1 $B/err_$set$n.msg)"; fail=1; fi
 done
+# the spellings the assembler accepts besides the V7 ones (errata 139): tests/asm-equiv/NAME.new.s must assemble to the same object as
+# NAME.ref.s, which is written the V7 way
+for s in tests/asm-equiv/*.new.s; do
+	[ -e "$s" ] || continue
+	n=$(basename "$s" .new.s)
+	"$B/as64" -o "$B/eq_$n.new.o" "$s" && "$B/as64" -o "$B/eq_$n.ref.o" "tests/asm-equiv/$n.ref.s" || { echo "FAIL equiv $n: refused"; fail=1; continue; }
+	if cmp -s "$B/eq_$n.new.o" "$B/eq_$n.ref.o"; then echo "ok   equiv $n"; else echo "FAIL equiv $n: the objects differ"; fail=1; fi
+done
 exit $fail

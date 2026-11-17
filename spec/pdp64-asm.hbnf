@@ -1,4 +1,4 @@
-; pdp64 assembly language.  One statement to a line; `;` starts a comment; `name:` defines a label, and the numeric labels
+; pdp64 assembly language.  One statement to a line; `;` or `//` starts a comment; `name:` defines a label, and the numeric labels
 ; `1:` are referenced as `1b` (back) and `1f` (forward); `sym = expr` assigns.  Numbers, characters and strings are C's:
 ; decimal by default, `0x`, `0b` and `0o` when asked for; `'a'`; `"text\n"`.  Operators are C's (`/` is division).  The
 ; operand modes are those of ISA section 5.  See docs/asm-syntax.md.
@@ -19,17 +19,25 @@ keywords-on = word          ; names the word token (this is what turns whole-wor
 
 
 ws = SP | HTAB | comment
-comment = ";" *( 0x01..0x09 | 0x0B..0xD7FF | 0xE000..0x10FFFF )
+comment = ( ";" | "//" ) *( 0x01..0x09 | 0x0B..0xD7FF | 0xE000..0x10FFFF )
 line = *label [ stmt ]
 
 label = symbol ":"
 ; (the instruction before the assignment: `movq =5, r1` starts like the assignment `movq = 5`, and a mnemonic is never a symbol to assign)
-stmt = directive | instruction | condinsn | srinsn | assign
+stmt = directive | instruction | condinsn | srinsn | assign | dbdir | procdir | endpdir
 
-assign = symbol "=" expr
+; `sym = expr` or, MASM's way, `sym equ expr`
+assign = symbol eqw expr
+eqw = "=" | "equ"
+; MASM and Turbo Pascal spellings of `.byte` and `.word`: `db 1, 2, "text"`, `dw 1000`
+dbdir = dbname [ dargs ]
+dbname = "db" | "dw"
+; `name proc` defines the label `name`; `name endp` (or `endp`) closes it and does nothing
+procdir = symbol "proc"
+endpdir = "endp" | symbol "endp"
 directive = "." dname [ dargs ]
 dname = "pool" | "text" | "data" | "bss" | "globl" | "comm" | "byte" | "word" | "long" | "quad"
-      | "even" | "align" | "space" | "ascii" | "lpad"
+      | "even" | "align" | "space" | "ascii" | "lpad" | "if" | "else" | "endif"
 dargs = darg *( "," darg )
 darg = string | expr
 
@@ -43,8 +51,11 @@ sysregw = sysreg
 ; `mnemonic` (the groups of pdp64-mnemonics.hbnf, in an order that keeps a word from being taken for the front of a longer one) is written by tools/mkgrammar.py
 
 ; --- operands (ISA section 5) -----------------------------------------------------------------------------------
-operand = immop | absop | postinc | predec | predec2 | indexed | based | regop | bare | poolop
-immop   = "#" expr
+; the order matters (the first that matches is taken, and the C that reads the tree numbers the alternatives, as64/asmir.h):
+; based2 (`r5+8`, `r5-8`, a synonym of `8(r5)`) and atindexed (AT&T's `(r1,r2,4)` and `8(r1,r2,4)`) come before regop and bare
+operand = immop | absop | postinc | predec | predec2 | indexed | based | atindexed | based2 | regop | bare | poolop
+; `#expr`, or `$expr` as AT&T and the Microsoft assemblers write it
+immop   = ( "#" | "$" ) expr
 absop   = "@" expr
 regop   = reg
 postinc = "(" reg ")" "+" [ expr ]
@@ -54,23 +65,29 @@ predec2 = "(" reg ")" "-" expr
 ; the form without a displacement is tried first: an optional expr would take "(sp)" as a parenthesized symbol
 indexed = "(" reg ")" "(" reg [ "*" scale ] ")" | expr "(" reg ")" "(" reg [ "*" scale ] ")"
 based   = "(" basereg ")" | expr "(" basereg ")"
+atindexed = "(" reg "," reg [ "," scale ] ")" | expr "(" reg "," reg [ "," scale ] ")"
+based2  = basereg ( "+" | "-" ) expr
 bare    = expr
 ; a literal-pool load (`movq =0x123456789ABC, r1`): the constant goes to the literal pool, the operand is the pool entry, a pc-relative memory operand.  Written last: nothing else starts with "="
 poolop  = "=" expr
 
 ; R0..R15; SP is R14 and FP is R13 (ISA 2.1); PC and DP only as a base register
-reg      = rnum | ralias
+reg      = rnum | ralias | pctnum | pctalias
+; AT&T's `%r1`: the percent sign is accepted before a register name and means nothing
+pctnum   = "%" rnum
+pctalias = "%" ralias
 basereg  = reg | basespec
 scale    = "1" | "2" | "4" | "8"
 
 ; --- expressions ----------------------------------------------------------------------------------------------------
 expr    = term *( addop term )
-addop   = "+" | "-" | "|" | "^"
+addop   = "+" | "-" | "|" | "^" | "!"
 term    = unary *( mulop unary )
 mulop   = "*" | "/" | "%" | "&" | "<<" | ">>"
-unary   = *( "-" | "~" | "!" ) primary
+; `<x` is the low byte of x and `>x` its high byte (the 6502 assemblers' operators); `a ! b` is `a | ~b`, the V7 assembler's or-not
+unary   = *( "-" | "~" | "!" | "<" | ">" ) primary
 ; a number is a whole bareword: 3dfx is a name, 3 and 0x3d and 1f are not
-primary = prefixnum !idchar | localref !idchar | decnum !idchar | charlit | symbol | "." | "(" expr ")"
+primary = prefixnum !idchar | localref !idchar | decnum !idchar | charlit | symbol | "." | "(" expr ")" | "[" expr "]"
 
 prefixnum = hexnum | binnum | octnum
 hexnum   = "0" xch 1*HEXDIG

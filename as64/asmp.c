@@ -26,7 +26,7 @@ static struct slice sl(const char *text, size_t a, size_t b)
 			char c = s.p[i];
 			if (q) { if (c == '\\') i++; else if (c == q) q = 0; }
 			else if (c == '"' || c == '\'') q = c;
-			else if (c == ';') { s.n = i; break; }
+			else if (c == ';' || (c == '/' && i + 1 < s.n && s.p[i + 1] == '/')) { s.n = i; break; }
 		}
 	}
 	while (s.n > 0 && (s.p[0] == ' ' || s.p[0] == '\t')) { s.p++; s.n--; }
@@ -34,8 +34,29 @@ static struct slice sl(const char *text, size_t a, size_t b)
 	return s;
 }
 
+/* the length of the symbol that begins a slice: a quoted name to its closing quote, a plain one to a space, a tab or `=` */
+static int name_len(struct slice s)
+{
+	int i = 0;
+	if (s.n > 0 && s.p[0] == '"') {
+		for (i = 1; i < s.n && s.p[i] != '"'; i++)
+			;
+		return i < s.n ? i + 1 : s.n;
+	}
+	while (i < s.n && s.p[i] != ' ' && s.p[i] != '\t' && s.p[i] != '=') i++;
+	return i;
+}
+
 /* a register is its enumerator in the tree: the numbers (r10 is 10, sp is 14) are the grammar's */
-static int reg_of(const reg_t *r) { return r->_alt == 1 ? (int)r->rnum : (int)r->ralias; }
+static int reg_of(const reg_t *r)
+{
+	switch (r->_alt) {
+	case 1: return (int)r->rnum;
+	case 2: return (int)r->ralias;
+	case 3: return (int)r->pctnum.rnum;		/* %r1: the percent sign means nothing */
+	default: return (int)r->pctalias.ralias;
+	}
+}
 
 /* The expression text of an operand, and its registers, from the text the grammar matched as that operand. */
 static void operand(const char *text, const operand_t *o, struct oper *r)
@@ -66,6 +87,28 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 		const basereg_t *br = &o->based.basereg;
 		if (br->_alt == 1) r->reg = reg_of(&br->reg); else r->special = (int)br->basespec;
 		r->e.p = p; r->e.n = (int)(a - p);
+		break;
+	}
+	case OK_ATINDEXED: {						/* AT&T: [expr](base,index[,scale]) */
+		const char *a = p + n - 1, *cl;
+		while (a > p && *a != '(') a--;
+		cl = memchr(a, ')', p + n - a);
+		const char *c1 = memchr(a, ',', cl - a), *c2 = c1 ? memchr(c1 + 1, ',', cl - c1 - 1) : NULL;
+		r->kind = OK_INDEXED;
+		r->reg = reg_of(&o->atindexed.reg);
+		r->reg2 = reg_of(o->atindexed._alt == 1 ? (const reg_t *)&o->atindexed.reg_4 : (const reg_t *)&o->atindexed.reg_5);
+		r->scale = c2 ? atoi(c2 + 1) : 1;
+		r->e.p = p; r->e.n = (int)(a - p);
+		break;
+	}
+	case OK_BASED2: {						/* base+expr, base-expr: the same as expr(base) */
+		const basereg_t *br = &o->based2.basereg;
+		int k = 0;
+		while (k < n && p[k] != '+' && p[k] != '-') k++;
+		r->kind = OK_BASED;
+		if (br->_alt == 1) r->reg = reg_of(&br->reg); else r->special = (int)br->basespec;
+		r->e.p = p[k] == '+' ? p + k + 1 : p + k;
+		r->e.n = n - (int)(r->e.p - p);
 		break;
 	}
 	case OK_INDEXED: {						/* [expr](base)(index[*scale]) */
@@ -100,14 +143,40 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 	case 5:
 		st->kind = S_ASSIGN;
 		{
-			struct slice a = sl(text, s->assign._pos, s->assign._end);	/* name = expression */
-			const char *eq;
-			if (a.p[0] == '"') { eq = memchr(a.p + 1, '"', a.n - 1); eq = eq ? memchr(eq, '=', a.n - (eq - a.p)) : NULL; }
-			else eq = memchr(a.p, '=', a.n);
-			st->name.p = a.p; st->name.n = eq ? (int)(eq - a.p) : a.n;
-			while (st->name.n > 0 && (st->name.p[st->name.n - 1] == ' ' || st->name.p[st->name.n - 1] == '\t')) st->name.n--;
+			struct slice a = sl(text, s->assign._pos, s->assign._end);	/* name = expression, name equ expression */
+			st->name = a;
+			st->name.n = name_len(a);
 		}
 		st->expr = sl(text, s->assign.expr->_pos, s->assign.expr->_end);
+		break;
+	case 6: {							/* db, dw: .byte and .word under the other assemblers' names */
+		st->kind = S_DIR;
+		st->name.p = s->dbdir.dbname == DBNAME_DB ? "byte" : "word";
+		st->name.n = (int)strlen(st->name.p);
+		for (struct dbdir_1_s *d = s->dbdir.dbdir_1.head; d; d = d->_link) {
+			darg_t *a = &d->dargs.darg;
+			struct dargs_1_s *m = d->dargs.dargs_1.head;
+			for (;;) {
+				if ((st->nargs & (st->nargs - 1)) == 0 && (st->nargs == 0 || st->nargs >= 4)) st->args = realloc(st->args, (st->nargs ? 2 * st->nargs : 4) * sizeof *st->args);
+				st->args[st->nargs].s = sl(text, a->_pos, a->_end);
+				st->args[st->nargs].isstr = st->args[st->nargs].s.n > 0 && st->args[st->nargs].s.p[0] == '"';
+				st->nargs++;
+				if (!m) break;
+				a = &m->darg;
+				m = m->_link;
+			}
+		}
+		break;
+	}
+	case 7:								/* name proc: the label name */
+		st->kind = S_LABEL;
+		st->name = sl(text, s->procdir._pos, s->procdir._end);
+		st->name.n = name_len(st->name);
+		break;
+	case 8:								/* name endp: nothing */
+		st->kind = S_DIR;
+		st->name.p = "endp";
+		st->name.n = 4;
 		break;
 	case 1: {
 		st->kind = S_DIR;

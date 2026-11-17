@@ -1,0 +1,23 @@
+// comments of the second kind; ; still works
+N equ 4                 // MASM's equ
+M = 3                   ; the present assignment
+	.text
+start proc              // MASM's procedure label
+	movq r5+8, r1        // base plus displacement, the same as 8(r5)
+	movq r5 - 8, r1      // hbnf reads r5-8 as one word: the minus needs a space
+	movq $5, r2          // $ for an immediate
+	add $[N+1], r1       // [ ] groups
+	movq (%r1,%r2,4), r3 // AT&T indexed, with the % before registers
+	movq 4(%r1,%r2,8), r3
+	movq (%r1,%r2), r3
+	movq $[1+2]*3, r4
+	movq #M!N, r6        // a ! b is a | ~b
+	movq #>0x1234, r7    // the high byte
+	movq #<0x1234, r8    // the low byte
+	movq %r1, %r2
+	add %r3, %sp
+	.data
+	db 1, 2, 3           // db and dw
+	dw 1000
+	db "ab", 0
+start endp
