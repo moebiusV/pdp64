@@ -11,7 +11,7 @@ J        ?= 2
 all: summary
 
 prep:
-	for a in aarch64:a64 riscv64:rv amd64:amd64 i386:i386 arm:arm mips64:mips64; do \
+	for a in aarch64:a64 riscv64:rv amd64:amd64 i386:i386 arm:arm mips64:mips64 loongarch64:la64; do \
 	  python3 prep.py $${a%%:*} $(WORK)/i-$${a##*:} -j $(J); done
 
 # ccom builds from the pcc tree PCCENC (a scratch copy per target; the tree itself is not touched)

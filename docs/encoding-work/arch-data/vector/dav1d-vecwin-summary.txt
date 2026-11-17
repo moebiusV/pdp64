@@ -1,0 +1,9 @@
+files 15, instructions 30142, innermost loops 345 (static instructions in them: 11004, 36.5% of all)
+  map        131 loops,   2777 instructions (9.2% of all); body: median 14 instructions; element operations: median 6, max 39; loads 7.8, stores 1.4 on average
+  reduce      18 loops,    123 instructions (0.4% of all); body: median 6 instructions; element operations: median 2, max 7; loads 2.1, stores 0.0 on average
+  fill        14 loops,     44 instructions (0.1% of all); body: median 3 instructions; element operations: median 1, max 1; loads 0.0, stores 1.0 on average
+  branch      44 loops,   1181 instructions (3.9% of all); body: median 18 instructions; element operations: median 8, max 41; loads 7.3, stores 0.7 on average
+  call       138 loops,   6879 instructions (22.8% of all); body: median 26 instructions; element operations: median 6, max 208; loads 13.9, stores 3.4 on average
+  map loops a single prefixed instruction could be: one operation on at most two streams (loads <= 2, ops <= 2): 27 of 131 (21%); with at most 4 streams and 4 operations: 45 (34%); one store: 97
+  loops blocked by a call, by callee (a loop counts once for each): iclip 70, sample_lut 16, memcpy 12, sgr_box5_vert 12, rotate 10, get_random_number 8, abs 8, imin 8
+  of them, loops whose only calls are clip, min, max, abs or sign helpers: 56 of 138

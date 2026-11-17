@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """prep.py -- preprocess the fair corpus (fair.txt: "corpus<TAB>path relative to the corpora tree (ROOT of corpus.py, in the toolchain repository)") for an architecture.
 
-usage: prep.py ARCH OUTDIR [-j N]       ARCH = aarch64 (the text pdp64 gets) or riscv64
+usage: prep.py ARCH OUTDIR [-j N]       ARCH = aarch64 (the text pdp64 gets), riscv64 or loongarch64
+
+loongarch64 is not in corpus.py, so its defines are kept here; its musl headers are not in the corpora tree either: make them with
+`make install-headers` of musl (ARCH=loongarch64, prefix=<dir>/loongarch64) and name <dir> in SYSROOTS (default <corpora>/sysroot).
 
 Exactly the preprocessing of tools/pdp64size.py / corpus.py (gcc -E -P -undef -nostdinc -std=gnu99, the architecture's musl headers
 under <corpora>/sysroot/<arch>/include, the corpus's -I and -D); per architecture only the arch defines differ.
@@ -16,7 +19,9 @@ from corpus import ROOT, ARCH, CORPORA, run
 HERE = os.path.dirname(os.path.abspath(__file__))
 arch, out = sys.argv[1], sys.argv[2]
 jobs = int(sys.argv[4]) if len(sys.argv) > 4 else 8
-a = ARCH[arch]
+EXTRA = {'loongarch64': dict(musl='loongarch64', cpp=['-D__loongarch__', '-D__loongarch64', '-D__loongarch_grlen=64', '-D__loongarch_lp64', '-D__LP64__', '-D_LP64'])}
+SYSROOTS = os.environ.get('SYSROOTS', os.path.join(ROOT, 'sysroot'))
+a = ARCH[arch] if arch in ARCH else EXTRA[arch]
 
 def pre(item):
     n, corp, src = item
@@ -25,7 +30,7 @@ def pre(item):
     for i in c['inc']:
         incs += ['-I', os.path.join(ROOT, i)]
     incs += ['-I', os.path.dirname(src)]
-    sysinc = os.path.join(ROOT, 'sysroot', a['musl'], 'include')
+    sysinc = os.path.join(SYSROOTS, a['musl'], 'include')
     std = ['-std=gnu99', '-D__STDC_VERSION__=199901L', '-D__STDC_HOSTED__=1']
     r = run(['gcc', '-E', '-P', '-undef', '-nostdinc'] + std + a['cpp'] + c['defs'] + incs + ['-isystem', sysinc, src])
     if r.returncode:

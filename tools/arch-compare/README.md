@@ -28,6 +28,11 @@ for pdp64 (pcc), pcc amd64 and i386, and GCC and clang for RISC-V (rv64gc, rv64g
 | `summarize.py WORK OUT` | merge: `static-wide.csv`, `static-summary.md` (the tables of the report) |
 | `pcc-compile.py` | compile the preprocessed corpus with a given ccom and list the failures (used for the RISC-V back end diagnosis) |
 | `diag-riscv-backend.sh WORK` | the probes of the report's section on pcc's RISC-V back end |
+| `boundscan.py` | the census of bounds checks: `-fsanitize=bounds` IR of the corpus, each check classified (one unsigned compare against a constant or a variable bound, an index with an offset that may wrap, merged, signed), `bounds-price.py` prices the forms (cbhis, cmp+trapcc, CHK, CHK2, LoongArch's ASRT) on the sites; `docs/encoding-work/loongarch.md` |
+| `la-mnemonics.py`, `la-summary.py` | the instructions a compiler uses on the corpus by mnemonic; the LoongArch64 tables of `docs/encoding-work/loongarch.md` (LoongArch needs a musl sysroot made with `make install-headers`, and `SYSROOTS=` for `prep.py`) |
+| `vecscan.py` | dav1d's pixel kernels (the C of a meson build with `enable_asm=false`) compiled for AVX2, AArch64, RISC-V vector and LoongArch LASX with and without the vectorizer: sizes, the loops vectorized and why the others were not, and the shape of each vectorized loop body (map, reduce, shuffle, masked, gather) |
+| `handkernels.py` | dav1d's hand-written NEON and RISC-V vector assembly (`src/arm/64`, `src/riscv/64`) assembled and counted per exported function |
+| `vecwin.py` | the script that looks in pdp64 assembly for the loops where a `vec` prefix would win: innermost loops classified as map, reduce, fill, branch or call, with the shape of each |
 | `Makefile` | `make WORK=/scratch/dir` runs everything in order |
 
 ## Commands

@@ -23,6 +23,10 @@ for l in ('-O2', '-Os'):
     cfg.append(('clang', 'arm-a32', 'arm', ['clang', '--target=arm-linux-gnueabi', '-marm', '-fno-pic'] + CLANGW, l))
     cfg.append(('clang', 'arm-t32', 'arm', ['clang', '--target=arm-linux-gnueabi', '-mthumb', '-fno-pic'] + CLANGW, l))
     cfg.append(('clang', 'mips64', 'mips64', ['clang', '--target=mips64-linux-gnuabi64', '-fno-pic', '-mno-abicalls'] + CLANGW, l))
+for l in LV1:
+    cfg.append(('clang', 'loongarch64', 'la64', ['clang', '--target=loongarch64-linux-gnu', '-fno-pic'] + CLANGW, l))
+for l in ('-O2', '-Os'):   # the same files with the checks the sanitizer inserts, as traps (the bounds-check study)
+    cfg.append(('clang', 'loongarch64-ubsan', 'la64', ['clang', '--target=loongarch64-linux-gnu', '-fno-pic', '-fsanitize=bounds', '-fsanitize-trap=bounds'] + CLANGW, l))
 only = sys.argv[2:]
 for tool, arch, tag, cmd, l in cfg:
     name = '%s-%s%s' % (tool, arch, l)

@@ -24,6 +24,8 @@ and **pdp64/32** (prefix-coded, 32 registers), selected by `-m` in one toolchain
 | `README.md` | current | this page |
 | `phase1.md`, `phase2.md`, `phase3-pcc.md`, `pcc2.md`, `hbnf.md`, `ldrelax.md`, `cbreach.md`, `timing.md` | record | the reports of the agents, in the order of the table below |
 | `integration.md` | record | the merge and the final measurements of the three encodings on the real toolchain: the main evidence for the choice |
+| `loongarch.md` | record | LoongArch64 against pdp64: the static size of the 841-file corpus (clang at -O1 to -O3 and -Os), the census of bounds checks with and without a sanitizer, what LoongArch's `ASRT` and fused `LDLE`/`LDGT` forms are and that nothing emits them, and what a compare-and-trap and a two-bound check would save on pdp64 (J.9.13) (measured 2026-11-17) |
+| `vector-study.md` | record | dav1d's pixel kernels on pdp64, AVX2, NEON, RISC-V vector and LoongArch LASX: what the autovectorizers do to them, the shape of the vector loops, the hand-written NEON and RVV kernels, and where a `vec` prefix would win in pdp64 code (measured 2026-11-17) |
 | `arch-comparison.md` | record | the static size of the 841-file corpus for pdp64/32 against amd64, i386, RISC-V, AArch64, Arm, MIPS64 (measured 2026-11-10) |
 | `arch-data/` | record (data) | the raw results of `arch-comparison.md`: `static-wide.csv` (per file and configuration), `pdp64-32-static.csv`, `static-summary.md` (the table), `pcc-riscv64-status-*.tsv` (which files the RISC-V port of pcc compiled, stock and with `va_list`), `diag-output.txt` (the diagnostic of one run) |
 | `optimizer.md` | record | the encoding optimizer (written by another agent; see its own banner) |

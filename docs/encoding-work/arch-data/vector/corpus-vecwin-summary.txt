@@ -1,0 +1,10 @@
+files 841, instructions 296069, innermost loops 9880 (static instructions in them: 113794, 38.4% of all)
+  map        307 loops,   3522 instructions (1.2% of all); body: median 8 instructions; element operations: median 2, max 40; loads 3.4, stores 1.6 on average
+  reduce      65 loops,   1312 instructions (0.4% of all); body: median 6 instructions; element operations: median 2, max 45; loads 6.0, stores 0.0 on average
+  fill        97 loops,    387 instructions (0.1% of all); body: median 3 instructions; element operations: median 1, max 4; loads 0.0, stores 1.0 on average
+  branch    1142 loops,  17316 instructions (5.8% of all); body: median 9 instructions; element operations: median 1, max 280; loads 3.3, stores 1.0 on average
+  call      8251 loops,  91206 instructions (30.8% of all); body: median 7 instructions; element operations: median 0, max 129; loads 3.5, stores 0.3 on average
+  other       18 loops,     51 instructions (0.0% of all); body: median 2 instructions; element operations: median 0, max 3; loads 0.0, stores 0.0 on average
+  map loops a single prefixed instruction could be: one operation on at most two streams (loads <= 2, ops <= 2): 137 of 307 (45%); with at most 4 streams and 4 operations: 239 (78%); one store: 219
+  loops blocked by a call, by callee (a loop counts once for each): __builtin_abort 6152, mbedtls_debug_print_msg 200, memcpy 168, printf 88, memcmp 71, mbedtls_debug_print_ret 67, mbedtls_ssl_chk_buf_ptr 60, equal 56
+  of them, loops whose only calls are clip, min, max, abs or sign helpers: 181 of 8251
