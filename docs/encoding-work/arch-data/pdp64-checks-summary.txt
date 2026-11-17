@@ -10,3 +10,5 @@ after the pass that drops provable checks (errata 148, measured 2026-11-17):
 checks: 6,980 (2,802 of 9,782 dropped, 29%)
 with:    345,444 instructions, 1,147,316 instruction bytes: +49,362 instructions (+16.7%), +183,158 bytes (+19.0%)
 one instruction of 4 bytes for each remaining check: +6,980 instructions (+2.4%), about +28 KB (+2.9%)
+
+after guard tracking too (errata 148): 6,968 checks; 345,369 instructions, 1,147,042 instruction bytes (+16.7%, +19.0%)
