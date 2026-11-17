@@ -1,0 +1,10 @@
+checks 6923 in 142 files
+branches [('cbcs', 6923)]
+immediate bounds 6923, register bounds 0
+  0..31 (5 bits)          428  6.2%
+  0..255 (8 bits)        6805  98.3%
+  0..4095 (12 bits)      6923  100.0%
+  0..65535 (16 bits)     6923  100.0%
+smallest 2, median 88, largest 2484
+commonest bounds [(88, 6144), (16, 96), (64, 82), (80, 47), (20, 44), (2, 35), (573, 35), (13, 33)]
+distinct bounds 72

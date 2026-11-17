@@ -37,6 +37,7 @@ for pdp64 (pcc), pcc amd64 and i386, and GCC and clang for RISC-V (rv64gc, rv64g
 | `vecwin.py` | the script that looks in pdp64 assembly for the loops where a `vec` prefix would win: innermost loops classified as map, reduce, fill, branch or call, with the shape of each |
 | `vecbench.py`, `handasm.py`, `vecforms.py` | the kernels of `vec-forms.md`: clang's vectorized and scalar builds for AVX2, AVX-512, NEON, SVE, RISC-V V and LoongArch LASX (instructions, main loop, vectorization width); the instructions of hand-written assembly functions in object files (NASM x86, NEON, RVV); the tables joined with pcc's scalar code and the hand-written `vec` forms |
 | `gemmloops.py` | the main loop of OpenBLAS's single-precision GEMM kernels, assembled or compiled per instruction set: instructions, multiply-adds, loads, instructions per multiply-add (`gemm-forms.md`) |
+| `checksites.py` | the guard of each run-time check in the assembly of `ccom -xchecks`: the branch, immediate or register bound, the sizes of the immediates (`check-instructions.md`) |
 | `Makefile` | `make WORK=/scratch/dir` runs everything in order |
 
 ## Commands
