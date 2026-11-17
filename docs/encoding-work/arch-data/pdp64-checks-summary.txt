@@ -4,4 +4,9 @@ with:    364,745 instructions, 1,220,032 instruction bytes
 growth:  +68,663 instructions (+23.2%), +255,874 bytes (+26.5%), in 176 of 841 files
 checks inserted (call sites of __chk_fail): 9,782, so 7.0 instructions and 26.2 bytes for each check
 one instruction of 4 bytes for each check, as the compare-and-trap with a table of check sites would be: +9,782 instructions (+3.3%), about +39 KB (+4.1%)
-pcc has no range analysis: the checks are those of every subscript of an array of known size, none removed as provable
+this is the measurement before the pass that drops provable checks (errata 148); the checks are those of every subscript of an array of known size
+
+after the pass that drops provable checks (errata 148, measured 2026-11-17):
+checks: 6,980 (2,802 of 9,782 dropped, 29%)
+with:    345,444 instructions, 1,147,316 instruction bytes: +49,362 instructions (+16.7%), +183,158 bytes (+19.0%)
+one instruction of 4 bytes for each remaining check: +6,980 instructions (+2.4%), about +28 KB (+2.9%)
