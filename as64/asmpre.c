@@ -9,7 +9,19 @@
    expansion, to make labels of one's own.  Macros may use macros and .rept, to a depth of 32.  `.if`, `.else` and `.endif` are not
    here: the assembler does them in its passes, where the symbols are.  A line of the output keeps the number of the source line it
    came from (pre_map), so an error in an expansion names the line of the call.  Not done, on purpose: string processing,
-   default arguments, local label generation beyond \@ (the macro engines of MACRO-10 and MASM). */
+   default arguments, local label generation beyond \@ (the macro engines of MACRO-10 and MASM).
+
+   The layer also expands the check instructions of errata 152 until the encoding has them (the prefix optimiser decides their encodings):
+
+       ct<cc> rs, rb | #imm       trap if rs compared with the bound satisfies the condition (the conditions of cb<cc>; cthis = ctcc, ctlo = ctcs)
+       cteq rs, ctne rs           trap if rs is zero, if it is not zero (the trap-if-zero)
+       chk2 rs, rlo, rhi          trap unless rlo <= rs < rhi, signed
+       .chk KIND, "file", LINE    the place of the next check instruction, for the table (KIND 1 bounds, 2 null, 3 range, 4 assertion)
+
+   Each becomes the compare-and-branch of the opposite condition over a `bpt`, the label of the `bpt`, and a record of the table of check sites
+   (`.bugrec`, in the section __bug_table) naming the `bpt`, the file and line and the kind in bits 5 to 7 of the flags: for ctcc, `cbcs rs, bound, .Lok`,
+   `.Lbug: bpt`, `.Lok:`.  The flags are not touched.  chk2 is `cblt rs, rlo, .Lbug`, `cblt rs, rhi, .Lok`, `.Lbug: bpt`, `.Lok:`.  Without a `.chk` the
+   record has kind 0, the source file and the line of the assembly. */
 #include <ctype.h>
 
 static int pre_errors;
@@ -91,6 +103,111 @@ static int pargs(const char *s, char ***out)
 
 static void pexpand(char **ls, int *ln, int n, int depth, struct pbuf *o, int *uniq);
 
+/* ---- the check instructions: the opposite compare-and-branch of each condition ---- */
+static const struct { const char *ct, *neg; } pct[] = {
+	{ "ctcc", "cbcs" }, { "ctcs", "cbcc" }, { "cthis", "cblo" }, { "ctlo", "cbhis" }, { "cthi", "cblos" }, { "ctlos", "cbhi" },
+	{ "cteq", "cbne" }, { "ctne", "cbeq" }, { "ctge", "cblt" }, { "ctlt", "cbge" }, { "ctgt", "cble" }, { "ctle", "cbgt" },
+	{ "ctpl", "cbmi" }, { "ctmi", "cbpl" }, { "ctvc", "cbvs" }, { "ctvs", "cbvc" },
+};
+static struct { int have, kind, line; char *file; } pchk;			/* the .chk that waits for its instruction */
+static char **pfiles; static int npfiles, pchkn;				/* the file names that have a string in this object, and the count of checks */
+
+/* the check mnemonic at w (length n): its index in pct, 100 for chk2, else -1 */
+static int pcheck_mn(const char *w, size_t n)
+{
+	if (n == 4 && !strncmp(w, "chk2", 4)) return 100;
+	if (n < 4 || n > 5 || w[0] != 'c' || w[1] != 't') return -1;
+	for (size_t i = 0; i < sizeof pct / sizeof *pct; i++)
+		if (strlen(pct[i].ct) == n && !strncmp(pct[i].ct, w, n)) return (int)i;
+	return -1;
+}
+
+/* does the text hold a check instruction or a .chk?  (so that pre_expand does not copy a text that has none) */
+static int pre_has_check(const char *text)
+{
+	for (const char *l = text; l && *l; l = strchr(l, '\n') ? strchr(l, '\n') + 1 : NULL) {
+		const char *w = psp(l);
+		for (;;) {
+			const char *e = w;
+			while (pidc(*e)) e++;
+			if (e > w && *e == ':') { w = psp(e + 1); continue; }
+			break;
+		}
+		const char *e = w;
+		while (pidc(*e)) e++;
+		if (pcheck_mn(w, (size_t)(e - w)) >= 0) return 1;
+		if (pdir(w, "chk")) return 1;
+	}
+	return 0;
+}
+
+/* a string of this object that holds the name of a file: its label, made on first use, in .data */
+static void pfilelab(const char *name, struct pbuf *o, int srcline, char *lab, size_t labn)
+{
+	int k;
+	for (k = 0; k < npfiles; k++) if (!strcmp(pfiles[k], name)) break;
+	snprintf(lab, labn, ".Lchkf%d", k);
+	if (k < npfiles) return;
+	pfiles = realloc(pfiles, (npfiles + 1) * sizeof *pfiles);
+	pfiles[npfiles++] = pdup(name, strlen(name));
+	char esc[1024]; size_t n = 0;
+	for (const char *s = name; *s && n + 3 < sizeof esc; s++) { if (*s == '"' || *s == '\\') esc[n++] = '\\'; esc[n++] = *s; }
+	esc[n] = 0;
+	char b[1200];
+	snprintf(b, sizeof b, "\t.data"); pout(o, b, srcline);
+	snprintf(b, sizeof b, "%s:", lab); pout(o, b, srcline);
+	snprintf(b, sizeof b, "\t.byte \"%s\", 0", esc); pout(o, b, srcline);
+	snprintf(b, sizeof b, "\t.text"); pout(o, b, srcline);
+}
+
+/* expand the check instruction at w (kind: the index of pct, or 100 for chk2), operands from e */
+static void pcheck(const char *w, const char *e, int mn, int srcline, struct pbuf *o)
+{
+	char **av; int na = pargs(e, &av);
+	char b[1400], file[1024]; int line = srcline, kind = 0, id = ++pchkn;
+	if (mn == 100 ? na != 3 : (mn == 6 || mn == 7) ? (na != 1 && na != 2) : na != 2) {
+		pre_err(srcline, "%.*s takes %s", (int)(e - w), w, mn == 100 ? "rs, rlo, rhi" : (mn == 6 || mn == 7) ? "rs, or rs and a bound" : "rs and a bound");
+		for (int k = 0; k < na; k++) free(av[k]);
+		free(av);
+		return;
+	}
+	if (pchk.have) { kind = pchk.kind; line = pchk.line; snprintf(file, sizeof file, "%s", pchk.file); free(pchk.file); pchk.file = NULL; pchk.have = 0; }
+	else snprintf(file, sizeof file, "%s", srcname);
+	char lab[64]; pfilelab(file, o, srcline, lab, sizeof lab);
+	if (mn == 100) {
+		snprintf(b, sizeof b, "\tcblt %s, %s, .Lbug%d", av[0], av[1], id); pout(o, b, srcline);
+		snprintf(b, sizeof b, "\tcblt %s, %s, .Lok%d", av[0], av[2], id); pout(o, b, srcline);
+	} else if (na == 1) {
+		snprintf(b, sizeof b, "\t%s %s, #0, .Lok%d", pct[mn].neg, av[0], id); pout(o, b, srcline);
+	} else {
+		snprintf(b, sizeof b, "\t%s %s, %s, .Lok%d", pct[mn].neg, av[0], av[1], id); pout(o, b, srcline);
+	}
+	snprintf(b, sizeof b, ".Lbug%d:\tbpt", id); pout(o, b, srcline);
+	snprintf(b, sizeof b, ".Lok%d:", id); pout(o, b, srcline);
+	snprintf(b, sizeof b, "\t.bugrec .Lbug%d, %s, %d, %d", id, lab, line, kind << 5); pout(o, b, srcline);
+	for (int k = 0; k < na; k++) free(av[k]);
+	free(av);
+}
+
+/* `.chk KIND, "file", LINE` */
+static void pchkdir(const char *r, int srcline)
+{
+	char **av; int na = pargs(r, &av);
+	char *end;
+	if (na != 3 || av[1][0] != '"' || strlen(av[1]) < 2) pre_err(srcline, ".chk KIND, \"file\", LINE");
+	else {
+		long k = strtol(av[0], &end, 0), ln = strtol(av[2], &end, 0);
+		if (k < 0 || k > 7 || ln < 0 || ln > 65535) pre_err(srcline, ".chk: the kind is 0 to 7 and the line 0 to 65535");
+		else {
+			free(pchk.file);
+			pchk.have = 1; pchk.kind = (int)k; pchk.line = (int)ln;
+			pchk.file = pdup(av[1] + 1, strlen(av[1]) - 2);
+		}
+	}
+	for (int k = 0; k < na; k++) free(av[k]);
+	free(av);
+}
+
 /* one line of the source, or of an expansion: output it, or expand the macro it calls */
 static void pline(const char *l, int srcline, int depth, struct pbuf *o, int *uniq)
 {
@@ -101,9 +218,23 @@ static void pline(const char *l, int srcline, int depth, struct pbuf *o, int *un
 		if (e > w && *e == ':') { w = psp(e + 1); continue; }
 		break;
 	}
+	{
+		const char *cr = pdir(w, "chk");
+		if (cr) {						/* `label: .chk ...` */
+			if (w > t) { char *lab = pdup(t, (size_t)(w - t)); pout(o, lab, srcline); free(lab); }
+			pchkdir(cr, srcline);
+			return;
+		}
+	}
 	const char *e = w;
 	while (pidc(*e)) e++;
 	if (e > w) {
+		int cm = pcheck_mn(w, (size_t)(e - w));
+		if (cm >= 0) {
+			if (w > t) { char *lab = pdup(t, (size_t)(w - t)); pout(o, lab, srcline); free(lab); }		/* the labels first */
+			pcheck(w, e, cm, srcline, o);
+			return;
+		}
 		for (int m = 0; m < npmacs; m++) {
 			if (strlen(pmacs[m].name) != (size_t)(e - w) || strncmp(pmacs[m].name, w, (size_t)(e - w))) continue;
 			struct pmacro *mc = &pmacs[m];
@@ -202,6 +333,8 @@ defined:
 			for (long long c = 0; c < cnt && pre_n < 20000000; c++)
 				pexpand(ls + i + 1, ln + i + 1, e - i - 1, depth + 1, o, uniq);
 			i = e;
+		} else if ((r = pdir(ls[i], "chk"))) {
+			pchkdir(r, ln[i]);
 		} else if (pdir(ls[i], "endm")) {
 			pre_err(ln[i], ".endm without .macro");
 		} else if (pdir(ls[i], "endr")) {
@@ -215,7 +348,7 @@ defined:
 /* The source text after the macro layer.  The text is returned as it is when it holds no .macro or .rept (the usual case). */
 static char *pre_expand(char *text)
 {
-	if (!strstr(text, ".macro") && !strstr(text, ".rept")) return text;
+	if (!strstr(text, ".macro") && !strstr(text, ".rept") && !pre_has_check(text)) return text;
 	char **ls = NULL; int *ln = NULL, n = 0, uniq = 0;
 	struct pbuf o = { 0, 0, 0 };
 	for (char *p = text;;) {

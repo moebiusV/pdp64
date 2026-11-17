@@ -25,8 +25,8 @@
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* symbols and values                                                                                                  */
 
-enum { SEC_TEXT, SEC_DATA, SEC_BSS, NSEC };
-enum { SC_UNDEF = -1, SC_PENDING = -2, SC_ABS = 3, SC_COMMON = 4 };	/* sym.sect besides 0..NSEC-1 */
+enum { SEC_TEXT, SEC_DATA, SEC_BSS, SEC_BUG, NSEC };	/* SEC_BUG: the table of check sites, `__bug_table` (errata 152) */
+enum { SC_UNDEF = -1, SC_PENDING = -2, SC_ABS = 16, SC_COMMON = 17 };	/* sym.sect besides 0..NSEC-1 */
 
 struct sym {
 	char *name;
@@ -423,6 +423,11 @@ static int pool_get(int64_t v)
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* directives                                                                                                          */
 
+static int64_t secalign[NSEC];		/* the largest .align seen in each section; the linker places the section's contribution on it */
+static void put_le(int64_t v, int size);
+static void addreloc(int sect, int64_t off, int type, int sym, int64_t addend);
+static struct val eval(struct slice s, int line);
+static void dir_bugrec(const struct stmt *st);
 static int dir_is(const struct stmt *st, const char *n) { return st->name.n == (int)strlen(n) && memcmp(st->name.p, n, st->name.n) == 0; }
 
 /* the bytes of a "string" argument, C's escapes */
@@ -445,6 +450,34 @@ static void put_le(int64_t v, int size)
 	emit_bytes_n(b, size);
 }
 
+/* `.bugrec SITE, FILE, LINE, FLAGS`: one record of the table of check sites (errata 152), 12 bytes in the section `__bug_table`, whichever section the assembler
+   is in.  The layout is Linux's `struct bug_entry` with relative pointers (include/asm-generic/bug.h): the address of the instruction at SITE and of the string
+   at FILE, each as a 32-bit distance from its own field (a relocation R_PDP64_D32_PC: S + A - P), then the line and the flags, 16 bits each.  The assembler's
+   expansion of the check instructions writes it (asmpre.c); a hand-written program may too. */
+static void dir_bugrec(const struct stmt *st)
+{
+	int save = cur_sec;
+	if (st->nargs != 4) { if (final_pass) err(st->line, ".bugrec site, file, line, flags"); return; }
+	cur_sec = SEC_BUG;
+	if (secalign[SEC_BUG] < 4) secalign[SEC_BUG] = 4;
+	if (!final_pass) { offs[SEC_BUG] += 12; cur_sec = save; return; }
+	struct val site = eval(st->args[0].s, st->line), file = eval(st->args[1].s, st->line);
+	struct val line = eval(st->args[2].s, st->line), flags = eval(st->args[3].s, st->line);
+	if (site.p < 0 || site.m >= 0 || file.p < 0 || file.m >= 0 || !CONST(line) || !CONST(flags)) {
+		err(st->line, ".bugrec: the site and the file are symbols, the line and the flags constants");
+		cur_sec = save;
+		return;
+	}
+	int64_t at = (int64_t)sec[SEC_BUG].n;
+	addreloc(SEC_BUG, at, R_PDP64_D32_PC, site.p, site.c);
+	put_le(0, 4);
+	addreloc(SEC_BUG, at + 4, R_PDP64_D32_PC, file.p, file.c);
+	put_le(0, 4);
+	put_le(line.c & 0xffff, 2);
+	put_le(flags.c & 0xffff, 2);
+	cur_sec = save;
+}
+
 /* The size a statement adds to its section, and (in the final pass) its bytes.  `grow` is where the current length of each
    instruction lives between passes. */
 static uint8_t *grow;
@@ -455,7 +488,6 @@ static void emit_sys0(int minor)
 	enc_sys0(minor == MN_SYS_NONE_NOP ? "nop" : "lpad");
 }
 
-static int64_t secalign[3];		/* the largest .align seen in each section; the linker places the section's contribution on it */
 
 static void pad_to(int64_t align)
 {
@@ -499,6 +531,7 @@ static void directive(const struct stmt *st)
 		return;
 	}
 	if (dir_is(st, "endp")) return;				/* `name endp`: the end of a procedure, nothing to do */
+	if (dir_is(st, "bugrec")) { dir_bugrec(st); return; }
 	if (dir_is(st, "text")) { cur_sec = SEC_TEXT; return; }
 	if (dir_is(st, "data")) { cur_sec = SEC_DATA; return; }
 	if (dir_is(st, "bss")) { cur_sec = SEC_BSS; return; }
@@ -675,14 +708,15 @@ static size_t strtab_add(struct buf *t, const char *s)
 
 static int write_object(const char *path)
 {
-	struct buf file = { 0 }, strtab = { 0 }, symtab = { 0 }, rela[2] = { { 0 }, { 0 } }, shstr = { 0 };
+	struct buf file = { 0 }, strtab = { 0 }, symtab = { 0 }, rela[3] = { { 0 }, { 0 }, { 0 } }, shstr = { 0 };
 	elfrec_t r;
 	int nout;
 
 	bput(&strtab, "", 1);
 	bput(&shstr, "", 1);
-	/* symbols: null, three section symbols, then the locals, then the globals */
-	nout = 4;
+	/* symbols: null, a section symbol for each section (the table's only if it has records: an object without it is as it always was), then the locals, then the globals */
+	const int hasbug = sec[SEC_BUG].n > 0, nss = hasbug ? NSEC : NSEC - 1;
+	nout = 1 + nss;
 	for (int pass = 0; pass < 2; pass++)
 		for (int i = 0; i < nsyms; i++) {
 			struct sym *s = &syms[i];
@@ -692,20 +726,20 @@ static int write_object(const char *path)
 			if (!isglobal && !(s->sect >= 0 || s->sect == SC_ABS)) continue;
 			s->outidx = nout++;
 		}
-	int firstglobal = 4;
+	int firstglobal = 1 + nss;
 	for (int i = 0; i < nsyms; i++)
-		if (syms[i].outidx >= 4 && !(syms[i].global || syms[i].sect == SC_UNDEF || syms[i].sect == SC_COMMON) && syms[i].outidx + 1 > firstglobal)
+		if (syms[i].outidx >= 1 + nss && !(syms[i].global || syms[i].sect == SC_UNDEF || syms[i].sect == SC_COMMON) && syms[i].outidx + 1 > firstglobal)
 			firstglobal = syms[i].outidx + 1;
 	/* emit in index order */
 	{
 		memset(&r, 0, sizeof r); r.kind = 3; r.body.kind = 3;
 		rec(&r, &symtab);						/* null symbol */
-		for (int k = 1; k <= 3; k++) {
+		for (int k = 1; k <= nss; k++) {
 			memset(&r, 0, sizeof r); r.kind = 3; r.body.kind = 3;
 			r.body.u.a3.y.info = 3; r.body.u.a3.y.shndx = k;
 			rec(&r, &symtab);
 		}
-		for (int idx = 4; idx < nout; idx++)
+		for (int idx = 1 + nss; idx < nout; idx++)
 			for (int i = 0; i < nsyms; i++) {
 				struct sym *s = &syms[i];
 				if (s->outidx != idx) continue;
@@ -731,38 +765,45 @@ static int write_object(const char *path)
 		else { fprintf(stderr, "%s: internal error: relocation against %s\n", progname, s->name); return -1; }
 		memset(&r, 0, sizeof r); r.kind = 4; r.body.kind = 4;
 		r.body.u.a4.r.offset = (uint64_t)rl->off; r.body.u.a4.r.type = rl->type; r.body.u.a4.r.symidx = idx; r.body.u.a4.r.addend = add;
-		rec(&r, &rela[rl->sect == SEC_TEXT ? 0 : 1]);
+		rec(&r, &rela[rl->sect == SEC_TEXT ? 0 : rl->sect == SEC_DATA ? 1 : 2]);
 	}
 
 	/* section name table */
 	size_t nm_text = strtab_add(&shstr, ".text"), nm_data = strtab_add(&shstr, ".data"), nm_bss = strtab_add(&shstr, ".bss"),
+	    nm_bug = hasbug ? strtab_add(&shstr, "__bug_table") : 0, nm_rb = hasbug ? strtab_add(&shstr, ".rela__bug_table") : 0,
 	    nm_sym = strtab_add(&shstr, ".symtab"), nm_str = strtab_add(&shstr, ".strtab"), nm_rt = strtab_add(&shstr, ".rela.text"),
 	    nm_rd = strtab_add(&shstr, ".rela.data"), nm_shs = strtab_add(&shstr, ".shstrtab");
 
-	/* layout: ehdr, text, data, symtab, strtab, rela.text, rela.data, shstrtab, section headers */
+	/* layout: ehdr, text, data, the table, symtab, strtab, rela.text, rela.data, rela of the table, shstrtab, section headers */
 	uint8_t zero[64] = { 0 };
 	bput(&file, zero, 64);
 	size_t off_text = file.n; bput(&file, sec[SEC_TEXT].p, sec[SEC_TEXT].n); balign(&file, 8);
 	size_t off_data = file.n; bput(&file, sec[SEC_DATA].p, sec[SEC_DATA].n); balign(&file, 8);
+	size_t off_bug = file.n; bput(&file, sec[SEC_BUG].p, sec[SEC_BUG].n); balign(&file, 8);
 	size_t off_sym = file.n; bput(&file, symtab.p, symtab.n);
 	size_t off_str = file.n; bput(&file, strtab.p, strtab.n); balign(&file, 8);
 	size_t off_rt = file.n; bput(&file, rela[0].p, rela[0].n);
 	size_t off_rd = file.n; bput(&file, rela[1].p, rela[1].n);
+	size_t off_rb = file.n; bput(&file, rela[2].p, rela[2].n);
 	size_t off_shs = file.n; bput(&file, shstr.p, shstr.n); balign(&file, 8);
 	size_t off_sh = file.n;
 
-	struct { uint32_t name, type; uint64_t flags, addr, off, size; uint32_t link, info; uint64_t align, entsize; } sh[9] = {
-		{ 0 },
-		{ (uint32_t)nm_text, 1, 6, 0, off_text, sec[SEC_TEXT].n, 0, 0, secalign[SEC_TEXT] > 2 ? (uint64_t)secalign[SEC_TEXT] : 2, 0 },
-		{ (uint32_t)nm_data, 1, 3, 0, off_data, sec[SEC_DATA].n, 0, 0, secalign[SEC_DATA] > 8 ? (uint64_t)secalign[SEC_DATA] : 8, 0 },
-		{ (uint32_t)nm_bss, 8, 3, 0, off_data, (uint64_t)offs[SEC_BSS], 0, 0, 8, 0 },
-		{ (uint32_t)nm_sym, 2, 0, 0, off_sym, symtab.n, 5, (uint32_t)firstglobal, 8, 24 },
-		{ (uint32_t)nm_str, 3, 0, 0, off_str, strtab.n, 0, 0, 1, 0 },
-		{ (uint32_t)nm_rt, 4, 0x40, 0, off_rt, rela[0].n, 4, 1, 8, 24 },
-		{ (uint32_t)nm_rd, 4, 0x40, 0, off_rd, rela[1].n, 4, 2, 8, 24 },
-		{ (uint32_t)nm_shs, 3, 0, 0, off_shs, shstr.n, 0, 0, 1, 0 },
-	};
-	for (int i = 0; i < 9; i++) {
+	/* the section headers: null, .text, .data, .bss, [__bug_table], .symtab, .strtab, .rela.text, .rela.data, [.rela__bug_table], .shstrtab */
+	typedef struct { uint32_t name, type; uint64_t flags, addr, off, size; uint32_t link, info; uint64_t align, entsize; } shent;
+	const int ix_sym = hasbug ? 5 : 4, ix_str = ix_sym + 1;
+	shent sh[11]; int nsh = 0;
+	sh[nsh++] = (shent){ 0 };
+	sh[nsh++] = (shent){ (uint32_t)nm_text, 1, 6, 0, off_text, sec[SEC_TEXT].n, 0, 0, secalign[SEC_TEXT] > 2 ? (uint64_t)secalign[SEC_TEXT] : 2, 0 };
+	sh[nsh++] = (shent){ (uint32_t)nm_data, 1, 3, 0, off_data, sec[SEC_DATA].n, 0, 0, secalign[SEC_DATA] > 8 ? (uint64_t)secalign[SEC_DATA] : 8, 0 };
+	sh[nsh++] = (shent){ (uint32_t)nm_bss, 8, 3, 0, off_data, (uint64_t)offs[SEC_BSS], 0, 0, 8, 0 };
+	if (hasbug) sh[nsh++] = (shent){ (uint32_t)nm_bug, 1, 2, 0, off_bug, sec[SEC_BUG].n, 0, 0, 4, 0 };		/* PROGBITS, ALLOC, read only */
+	sh[nsh++] = (shent){ (uint32_t)nm_sym, 2, 0, 0, off_sym, symtab.n, (uint32_t)ix_str, (uint32_t)firstglobal, 8, 24 };
+	sh[nsh++] = (shent){ (uint32_t)nm_str, 3, 0, 0, off_str, strtab.n, 0, 0, 1, 0 };
+	sh[nsh++] = (shent){ (uint32_t)nm_rt, 4, 0x40, 0, off_rt, rela[0].n, (uint32_t)ix_sym, 1, 8, 24 };
+	sh[nsh++] = (shent){ (uint32_t)nm_rd, 4, 0x40, 0, off_rd, rela[1].n, (uint32_t)ix_sym, 2, 8, 24 };
+	if (hasbug) sh[nsh++] = (shent){ (uint32_t)nm_rb, 4, 0x40, 0, off_rb, rela[2].n, (uint32_t)ix_sym, 4, 8, 24 };
+	sh[nsh++] = (shent){ (uint32_t)nm_shs, 3, 0, 0, off_shs, shstr.n, 0, 0, 1, 0 };
+	for (int i = 0; i < nsh; i++) {
 		memset(&r, 0, sizeof r); r.kind = 2; r.body.kind = 2;
 		shdr_t *h = &r.body.u.a2.s;
 		h->name = sh[i].name; h->type = sh[i].type; h->flags = sh[i].flags; h->addr = sh[i].addr; h->offset = sh[i].off;
@@ -775,7 +816,7 @@ static int write_object(const char *path)
 		memset(&r, 0, sizeof r); r.kind = 1; r.body.kind = 1;
 		ehdr_t *e = &r.body.u.a1.e;
 		e->ident.ptr = ident; e->ident.len = 16;
-		e->type = 1; e->machine = EM_PDP64; e->version = 1; e->flags = EF_PDP64_ISA | (uint32_t)(relax_on ? EF_PDP64_RELAX : 0) | (relax_on && text_poison ? EF_PDP64_NOADJ_TEXT : 0); e->shoff = off_sh; e->ehsize = 64; e->shentsize = 64; e->shnum = 9; e->shstrndx = 8;
+		e->type = 1; e->machine = EM_PDP64; e->version = 1; e->flags = EF_PDP64_ISA | (uint32_t)(relax_on ? EF_PDP64_RELAX : 0) | (relax_on && text_poison ? EF_PDP64_NOADJ_TEXT : 0); e->shoff = off_sh; e->ehsize = 64; e->shentsize = 64; e->shnum = (uint16_t)nsh; e->shstrndx = (uint16_t)(nsh - 1);
 		rec(&r, &head);
 		memcpy(file.p, head.p, head.n);
 	}

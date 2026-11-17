@@ -43,4 +43,34 @@ PY
 if "$B/ld64" -o "$B/ldold.out" "$B/ldold.o" "$B/ldlib.o" 2> "$B/ldold.err"; then echo "DIFF an object of another instruction set: linked"; fail=1
 elif grep -q "not the pdp64" "$B/ldold.err"; then echo "ok   an object of another instruction set (refused)"
 else echo "DIFF an object of another instruction set: wrong message"; fail=1; fi
+# the table of check sites (errata 152): the records of two objects, concatenated in the order of the objects, each naming the `bpt` of its check, a file and a line and
+# the kind; __start___bug_table and __stop___bug_table bound them; the same linked with and without relaxation
+for mode in "--no-relax" ""; do
+	"$B/as64" $mode -o "$B/ldchk1.o" $T/chk1.s && "$B/as64" $mode -o "$B/ldchk2.o" $T/chk2.s
+	"$B/ld64" $mode -M -o "$B/ldchk.out" "$B/ldchk1.o" "$B/ldchk2.o" > "$B/ldchk.map" || { echo "DIFF check table: link failed"; fail=1; continue; }
+	python3 - "$B/ldchk.out" "$B/ldchk.map" "$mode" <<'PY' || fail=1
+import struct, sys
+d = open(sys.argv[1], 'rb').read()
+sym = {l.split()[1]: int(l.split()[0], 16) for l in open(sys.argv[2]) if l.startswith('0x')}
+a, b = sym['__start___bug_table'], sym['__stop___bug_table']
+phdrs = [struct.unpack_from('<IIQQQQQQ', d, 64 + 56 * i) for i in range(2)]
+def at(addr):
+    for t, f, off, va, pa, fs, ms, al in phdrs:
+        if va <= addr < va + fs: return off + addr - va
+    raise SystemExit('address %#x is in no segment' % addr)
+want = [(1, 'one.c', 7), (2, 'one.c', 9), (3, 'two.c', 31)]
+got = []
+ok = (b - a) == 12 * len(want)
+for i in range((b - a) // 12):
+    P = a + 12 * i
+    s, f, line, flags = struct.unpack_from('<iiHH', d, at(P))
+    site, fl = P + s, P + 4 + f
+    o = at(fl); name = d[o:d.index(b'\0', o)].decode()
+    got.append((flags >> 5, name, line))
+    if d[at(site):at(site) + 2].hex() != '45ee': ok = False; print('  record %d: the site %#x is not a bpt' % (i, site))
+print(('ok   ' if ok and got == want else 'DIFF ') + 'table of check sites (%s)' % (sys.argv[3] or 'relaxed'))
+if got != want: print('  got ', got); print('  want', want)
+sys.exit(0 if ok and got == want else 1)
+PY
+done
 exit $fail

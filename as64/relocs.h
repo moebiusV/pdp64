@@ -11,6 +11,7 @@
 #define R_PDP64_INSN_ABS  3		/* immediate or absolute operand: S + A, signed, in the instruction's wide field */
 #define R_PDP64_INSN_PC   4		/* d(PC) operand: S + A - P, in bytes */
 #define R_PDP64_INSN_BR   5		/* branch: (S + A - P) / 2, in parcels */
+#define R_PDP64_D32_PC    7		/* 32-bit data: S + A - P, a signed distance from the field itself (the table of check sites, `.bugrec`) */
 #define R_PDP64_ALIGN     6		/* padding the linker re-computes (relaxation objects only): r_offset the start of the padding, symbol 0,
 					   addend = (bytes of padding the assembler put there) << 32 | alignment (a power of two, in bytes) */
 

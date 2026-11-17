@@ -73,7 +73,7 @@ static void rec_put(elfrec_t *r, struct buf *out)
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* objects and symbols                                                                                                 */
 
-enum { C_TEXT, C_DATA, C_BSS, NCLASS };		/* output classes */
+enum { C_TEXT, C_DATA, C_BSS, C_BUG, NCLASS };	/* output classes; C_BUG, the table of check sites (`__bug_table`, errata 152), is read only and follows .text in its segment */
 
 struct site;
 struct isec {		/* an input section that is loaded */
@@ -170,6 +170,14 @@ static int load_object(const char *path)
 		o.cls[i] = -1;
 		if ((o.sh[i].type == 1 || o.sh[i].type == 8) && (o.sh[i].flags & 2)) {	/* PROGBITS or NOBITS, SHF_ALLOC */
 			o.cls[i] = o.sh[i].type == 8 ? C_BSS : (o.sh[i].flags & 4) ? C_TEXT : C_DATA;
+			if (o.sh[i].type == 1 && !(o.sh[i].flags & 5) && eh.shstrndx < eh.shnum) {		/* read only, not code: the table of check sites, by name */
+				shdr_t ss;
+				if (!rec_get(REC_SHDR, o.file + eh.shoff + (size_t)eh.shstrndx * 64, o.flen - eh.shoff, &r)) {
+					ss = r.body.u.a2.s;
+					if (ss.offset + o.sh[i].name < o.flen && !strcmp((const char *)o.file + ss.offset + o.sh[i].name, "__bug_table")) o.cls[i] = C_BUG;
+				}
+				rec_get(REC_SHDR, o.file + eh.shoff + (size_t)i * 64, o.flen - eh.shoff, &r);
+			}
 			o.is[i].cls = o.cls[i];
 			o.is[i].data = o.sh[i].type == 8 ? NULL : o.file + o.sh[i].offset;
 			o.is[i].size = o.sh[i].size;
@@ -321,7 +329,16 @@ static void layout(void)
 			csize[C_BSS] += gs[g].csize;
 		}
 	cbase[C_TEXT] = text_base;
-	cbase[C_DATA] = alignup(cbase[C_TEXT] + csize[C_TEXT], PAGE);
+	{							/* the table of check sites follows .text in the text segment */
+		uint64_t tend = cbase[C_TEXT] + csize[C_TEXT];
+		if (csize[C_BUG]) { cbase[C_BUG] = alignup(tend, 8); tend = cbase[C_BUG] + csize[C_BUG]; }
+		else cbase[C_BUG] = tend;
+		cbase[C_DATA] = alignup(tend, PAGE);
+		for (int g = 0; g < ngs; g++) {		/* the boundaries that Linux's linker script gives its table, for a program that asked for them */
+			if (!strcmp(gs[g].name, "__start___bug_table")) { gs[g].defined = 1; gs[g].abs = 1; gs[g].value = cbase[C_BUG]; }
+			if (!strcmp(gs[g].name, "__stop___bug_table")) { gs[g].defined = 1; gs[g].abs = 1; gs[g].value = cbase[C_BUG] + csize[C_BUG]; }
+		}
+	}
 	cbase[C_BSS] = alignup(cbase[C_DATA] + csize[C_DATA], 8);
 	for (int g = 0; g < ngs; g++) {
 		struct gsym *s = &gs[g];
@@ -434,6 +451,11 @@ static void relocate(uint8_t *image[NCLASS])
 			case R_PDP64_D64:
 				for (int b = 0; b < 8; b++) where[b] = (uint64_t)V >> (8 * b);
 				break;
+			case R_PDP64_D32_PC:
+				V -= (int64_t)P;
+				if (!fits_signed(V, 32)) { fail("%s: %s: the distance %lld does not fit 32 bits", o->name, sname, (long long)V); break; }
+				for (int b = 0; b < 4; b++) where[b] = (uint64_t)V >> (8 * b);
+				break;
 			case R_PDP64_D32:
 				if (!fits_signed(V, 32) && (uint64_t)V > 0xFFFFFFFFu) { fail("%s: %s: value %#llx does not fit 32 bits", o->name, sname, (unsigned long long)V); break; }
 				for (int b = 0; b < 4; b++) where[b] = (uint64_t)V >> (8 * b);
@@ -464,6 +486,10 @@ static int write_exec(const char *path, uint64_t entry, uint8_t *image[NCLASS])
 	while (f.n < PAGE) bput(&f, zero, 1);
 	size_t off_text = f.n;
 	bput(&f, image[C_TEXT], csize[C_TEXT]);
+	if (csize[C_BUG]) {						/* the table of check sites, read only, after the code */
+		while (f.n - off_text < cbase[C_BUG] - cbase[C_TEXT]) bput(&f, zero, 1);
+		bput(&f, image[C_BUG], csize[C_BUG]);
+	}
 	while (f.n % PAGE) bput(&f, zero, 1);
 	size_t off_data = f.n;
 	bput(&f, image[C_DATA], csize[C_DATA]);
@@ -488,22 +514,26 @@ static int write_exec(const char *path, uint64_t entry, uint8_t *image[NCLASS])
 	size_t nm_text = shstr.n; bput(&shstr, ".text", 6);
 	size_t nm_data = shstr.n; bput(&shstr, ".data", 6);
 	size_t nm_bss = shstr.n; bput(&shstr, ".bss", 5);
+	size_t nm_bug = shstr.n; if (csize[C_BUG]) bput(&shstr, "__bug_table", 12);
 	size_t nm_sym = shstr.n; bput(&shstr, ".symtab", 8);
 	size_t nm_str = shstr.n; bput(&shstr, ".strtab", 8);
 	size_t nm_shs = shstr.n; bput(&shstr, ".shstrtab", 10);
 	size_t off_shs = f.n; bput(&f, shstr.p, shstr.n);
 	balign(&f, 8);
 	size_t off_sh = f.n;
-	struct { uint32_t name, type; uint64_t flags, addr, off, size; uint32_t link, info; uint64_t align, entsize; } sh[7] = {
-		{ 0 },
-		{ (uint32_t)nm_text, 1, 6, cbase[C_TEXT], off_text, csize[C_TEXT], 0, 0, 2, 0 },
-		{ (uint32_t)nm_data, 1, 3, cbase[C_DATA], off_data, csize[C_DATA], 0, 0, 8, 0 },
-		{ (uint32_t)nm_bss, 8, 3, cbase[C_BSS], off_data + csize[C_DATA], csize[C_BSS], 0, 0, 8, 0 },
-		{ (uint32_t)nm_sym, 2, 0, 0, off_sym, symtab.n, 5, (uint32_t)nsym, 8, 24 },
-		{ (uint32_t)nm_str, 3, 0, 0, off_str, strtab.n, 0, 0, 1, 0 },
-		{ (uint32_t)nm_shs, 3, 0, 0, off_shs, shstr.n, 0, 0, 1, 0 },
-	};
-	for (int i = 0; i < 7; i++) {
+	typedef struct { uint32_t name, type; uint64_t flags, addr, off, size; uint32_t link, info; uint64_t align, entsize; } shent;
+	const int hasbug = csize[C_BUG] > 0;
+	shent sh[8]; int nsh = 0;
+	sh[nsh++] = (shent){ 0 };
+	sh[nsh++] = (shent){ (uint32_t)nm_text, 1, 6, cbase[C_TEXT], off_text, csize[C_TEXT], 0, 0, 2, 0 };
+	sh[nsh++] = (shent){ (uint32_t)nm_data, 1, 3, cbase[C_DATA], off_data, csize[C_DATA], 0, 0, 8, 0 };
+	sh[nsh++] = (shent){ (uint32_t)nm_bss, 8, 3, cbase[C_BSS], off_data + csize[C_DATA], csize[C_BSS], 0, 0, 8, 0 };
+	if (hasbug) sh[nsh++] = (shent){ (uint32_t)nm_bug, 1, 2, cbase[C_BUG], off_text + (cbase[C_BUG] - cbase[C_TEXT]), csize[C_BUG], 0, 0, 4, 0 };
+	const int ix_str = nsh + 1;
+	sh[nsh++] = (shent){ (uint32_t)nm_sym, 2, 0, 0, off_sym, symtab.n, (uint32_t)ix_str, (uint32_t)nsym, 8, 24 };
+	sh[nsh++] = (shent){ (uint32_t)nm_str, 3, 0, 0, off_str, strtab.n, 0, 0, 1, 0 };
+	sh[nsh++] = (shent){ (uint32_t)nm_shs, 3, 0, 0, off_shs, shstr.n, 0, 0, 1, 0 };
+	for (int i = 0; i < nsh; i++) {
 		memset(&r, 0, sizeof r); r.kind = REC_SHDR; r.body.kind = REC_SHDR;
 		shdr_t *h = &r.body.u.a2.s;
 		h->name = sh[i].name; h->type = sh[i].type; h->flags = sh[i].flags; h->addr = sh[i].addr; h->offset = sh[i].off; h->size = sh[i].size;
@@ -518,11 +548,11 @@ static int write_exec(const char *path, uint64_t entry, uint8_t *image[NCLASS])
 		ehdr_t *e = &r.body.u.a1.e;
 		e->ident.ptr = ident; e->ident.len = 16;
 		e->type = 2; e->machine = EM_PDP64; e->version = 1; e->flags = EF_PDP64_ISA; e->entry = entry; e->phoff = 64; e->shoff = off_sh;
-		e->ehsize = 64; e->phentsize = 56; e->phnum = 2; e->shentsize = 64; e->shnum = 7; e->shstrndx = 6;
+		e->ehsize = 64; e->phentsize = 56; e->phnum = 2; e->shentsize = 64; e->shnum = (uint16_t)nsh; e->shstrndx = (uint16_t)(nsh - 1);
 		rec_put(&r, &head);
 		memset(&r, 0, sizeof r); r.kind = REC_PHDR; r.body.kind = REC_PHDR;
 		phdr_t *p = &r.body.u.a5.p;
-		p->type = 1; p->flags = 5; p->offset = off_text; p->vaddr = p->paddr = cbase[C_TEXT]; p->filesz = p->memsz = csize[C_TEXT]; p->align = PAGE;
+		p->type = 1; p->flags = 5; p->offset = off_text; p->vaddr = p->paddr = cbase[C_TEXT]; p->filesz = p->memsz = hasbug ? cbase[C_BUG] + csize[C_BUG] - cbase[C_TEXT] : csize[C_TEXT]; p->align = PAGE;
 		rec_put(&r, &head);
 		memset(&r, 0, sizeof r); r.kind = REC_PHDR; r.body.kind = REC_PHDR;
 		p = &r.body.u.a5.p;
@@ -560,6 +590,8 @@ int main(int argc, char **argv)
 	for (int i = 0; i < nfiles; i++) load_object(files[i]);
 	if (errors) return 1;
 	collect_globals();
+	for (int g = 0; g < ngs; g++)
+		if (!strcmp(gs[g].name, "__start___bug_table") || !strcmp(gs[g].name, "__stop___bug_table")) { gs[g].defined = 1; gs[g].abs = 1; }	/* the table's boundaries, made in layout */
 	/* undefined symbols: one report each */
 	for (int oi = 0; oi < nobjs; oi++)
 		for (int k = 1; k < objs[oi].nsyms; k++) {

@@ -37,7 +37,7 @@ procdir = symbol "proc"
 endpdir = "endp" | symbol "endp"
 directive = "." dname [ dargs ]
 dname = "pool" | "text" | "data" | "bss" | "globl" | "comm" | "byte" | "word" | "long" | "quad"
-      | "even" | "align" | "space" | "ascii" | "lpad" | "if" | "else" | "endif"
+      | "even" | "align" | "space" | "ascii" | "lpad" | "if" | "else" | "endif" | "bugrec"
 dargs = darg *( "," darg )
 darg = string | expr
 

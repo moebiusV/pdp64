@@ -43,3 +43,20 @@ The layout of a source file is the V7 assembler's, `as`; the lexical rules are C
 
 What it leaves out of V7 `as`: octal numbers by default, `<string>` and the `'\e` escape, `\/ \< \>`, `.stabs`,
 symbols cut to eight characters.
+
+## The check instructions and the table of check sites (errata 152)
+
+Until the prefix optimiser puts them in the encoding, the assembler (the macro layer, `as64/asmpre.c`) expands the check instructions into existing ones:
+
+| written | expands to |
+|---|---|
+| `ct<cc> rs, rb` or `ct<cc> rs, #imm` (`cthis` = `ctcc`, `ctlo` = `ctcs`) | `cb<opposite cc> rs, bound, .Lok` / `.Lbug: bpt` / `.Lok:` |
+| `cteq rs`, `ctne rs` (trap if zero, if not zero) | `cbne rs, #0, .Lok` (or `cbeq`) / `.Lbug: bpt` / `.Lok:` |
+| `chk2 rs, rlo, rhi` (trap unless `rlo <= rs < rhi`, signed) | `cblt rs, rlo, .Lbug` / `cblt rs, rhi, .Lok` / `.Lbug: bpt` / `.Lok:` |
+
+Each check also writes a 12-byte record into the section `__bug_table` with `.bugrec SITE, FILE, LINE, FLAGS` (a directive a program may use itself): the address of the `bpt`
+and of the file-name string, each as a distance from its own field (relocation `R_PDP64_D32_PC`), the line and the flags, 16 bits each; Linux's `struct bug_entry` with relative
+pointers. `.chk KIND, "file", LINE` before a check gives its place and kind (1 bounds, 2 null, 3 range, 4 assertion; kept in bits 5 to 7 of the flags); without it the record
+has kind 0, the assembly source's name and line. The file names are strings in `.data`. `ld64` puts the table read-only after `.text` and defines `__start___bug_table` and
+`__stop___bug_table` for a program that names them. Flags are not touched by any of these.
+
