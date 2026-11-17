@@ -451,3 +451,5 @@
 - R444 | 2026-11-17 | question | "how to make linux kernel use it, since its already doing something similar." | subjects: Range checks on a register value | current
 - R445 | 2026-11-17 | decision | "accept all six, expand in as64 now" | subjects: Range checks on a register value | current
 - R446 | 2026-11-17 | decision | "but our prefix optimizer will decide the encodings anyways" | subjects: Range checks on a register value | current
+- R447 | 2026-11-17 | question | "we aren't stepping into gpu territory are we? that's a different fish right? now wanting to add stuff that only makes sense on a gpu while rarely adding value on the cpu." | subjects: Vector prefix (vec) and the GEMM unit | current
+- R448 | 2026-11-17 | decision | "and i decide now, our gpu will do unified memory; perhaps some chunk of ram will be fast vram, not sure, that is tbd and our design doesn't depend on it but does allow it" | subjects: Vector prefix (vec) and the GEMM unit | current

@@ -12,6 +12,10 @@ The first version of this record called form 4 "a GEMM instruction of the `lb64`
 
 So form 4 below is a **GEMM unit** of the author's idea, not LB64 as proposed. Errata 139 and J.8.5 said "the GEMM unit `lb64`"; they now say "the accelerator `lb64`".
 
+## 0a. Scope (the author, 2026-11-17, errata 154)
+
+The author asked whether this is "stepping into gpu territory" and said that what only makes sense on a GPU while rarely adding value on the CPU does not belong in the CPU's instruction set; the GPU, when there is one, will use unified memory (a fast-VRAM region to be determined). Read against this record: **the `vec` block forms of sections 3 and the dot-product and register-blocked forms of section 4 are CPU work** (OpenBLAS, FFmpeg and dav1d run them on CPUs, with SIMD instructions); **the hidden tile with an outer-product instruction (form 3) and the whole-GEMM instruction (form 4) are accelerator operations**, as in matrix engines and GPU tensor cores, and are *not proposed for the CPU*: they are kept here as what an accelerator would take. The measurements of the forms do not change.
+
 ## 1. What the two programs ask of BLAS
 
 *A correction first.* `vec-forms.md` said that `cugpt.c` calls `cblas_sgemm` and `cblas_dgemm` at 27 sites. That was wrong: the figure came from a command whose output was misread. Counted from the sources:
