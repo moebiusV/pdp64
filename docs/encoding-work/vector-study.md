@@ -12,7 +12,9 @@ Scripts: `tools/arch-compare/vecscan.py`, `handkernels.py`, `vecwin.py`; data: `
 * **What the loops need besides that** (from the IR of 185 loop bodies that clang vectorizes for AVX2): elementwise maps 65%, **reductions 16%**, **masked or selected operations 14%**, shuffles 5%, **gathers 0%**. Clamping (`iclip`) is called in 70 of the loops and min, max, abs and sign helpers in more; widening from 8 to 16 bits is in the first loop of the list.
 * **Autovectorizers find the loops and make the code bigger.** clang vectorizes 42% of the loops it looks at (AVX2 and AArch64: 353 of 845) and the vectorized builds are **1.24 to 1.45 times** the instructions and bytes of the scalar builds of the same files (runtime checks, remainders, wide constants). pdp64's scalar code for the same files is 30,169 instructions and 87,070 bytes: 0.93 of AArch64's scalar instructions and 0.67 of its bytes, 0.64 and 0.46 of its autovectorized code. A region prefix with defined overlap and restart needs neither the checks nor the remainder.
 * **The hand-written kernels differ by ISA**: RISC-V vector, which does not name the width, is smaller than NEON in the transforms, the prediction and the motion compensation and larger in CDEF.
-* **Not measured:** dynamic counts (instructions executed), the hand-written AVX2 (NASM is not installed and building it from source was not permitted here), and any pdp64 `vec` code (there is no compiler for it).
+* **Not measured:** dynamic counts (instructions executed), the hand-written AVX2 (NASM is not installed and the first attempt to build it was stopped by the automatic permission check of the assistant's tool, not by the author; it was not retried until 2026-11-17, see vec-forms.md), and any pdp64 `vec` code (there is no compiler for it).
+
+*Later (2026-11-17): the corpus was extended to FFmpeg, LightGBM and mamba.c, the `vec` forms were written by hand for eight kernels and counted, and NASM was built so that dav1d's and FFmpeg's x86 assembly could be assembled: `vec-forms.md`.*
 
 ## 1. What was compiled
 
@@ -94,7 +96,7 @@ In the kernels the `call` loops are mostly the clip helper: 70 of the 138 call `
 ## 7. What was not measured
 
 * **Instructions executed.** All counts are static.
-* **x86 hand-written code.** The NASM sources were not assembled: NASM is not installed and building it from a downloaded source was not allowed in this session. The AVX2 data is clang's compiled output.
+* **x86 hand-written code.** The NASM sources were not assembled: NASM was not installed, and the first attempt to build it from a downloaded source was stopped by the automatic permission check of the assistant's tool (the author never refused it; an earlier wording of this paragraph said "not allowed", which was wrong); it was built later, on 2026-11-17, see `vec-forms.md`. The AVX2 data is clang's compiled output.
 * **The RISC-V vector builds** vectorize few loops with clang 21; the RISC-V figures of section 2 are of the scalar-heavy output.
 * **pcc and clang differ** in optimiser strength; pcc does not inline small static functions.
 * **libyuv, libjpeg-turbo, libaom and libvpx**, which have intrinsics for AVX2 and NEON in C, were not compiled.

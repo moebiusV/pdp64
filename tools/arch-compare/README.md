@@ -35,6 +35,7 @@ for pdp64 (pcc), pcc amd64 and i386, and GCC and clang for RISC-V (rv64gc, rv64g
 | `vecscan.py` | dav1d's pixel kernels (the C of a meson build with `enable_asm=false`) compiled for AVX2, AArch64, RISC-V vector and LoongArch LASX with and without the vectorizer: sizes, the loops vectorized and why the others were not, and the shape of each vectorized loop body (map, reduce, shuffle, masked, gather) |
 | `handkernels.py` | dav1d's hand-written NEON and RISC-V vector assembly (`src/arm/64`, `src/riscv/64`) assembled and counted per exported function |
 | `vecwin.py` | the script that looks in pdp64 assembly for the loops where a `vec` prefix would win: innermost loops classified as map, reduce, fill, branch or call, with the shape of each |
+| `vecbench.py`, `handasm.py`, `vecforms.py` | the kernels of `vec-forms.md`: clang's vectorized and scalar builds for AVX2, AVX-512, NEON, SVE, RISC-V V and LoongArch LASX (instructions, main loop, vectorization width); the instructions of hand-written assembly functions in object files (NASM x86, NEON, RVV); the tables joined with pcc's scalar code and the hand-written `vec` forms |
 | `Makefile` | `make WORK=/scratch/dir` runs everything in order |
 
 ## Commands
