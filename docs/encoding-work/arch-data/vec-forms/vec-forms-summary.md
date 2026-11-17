@@ -14,7 +14,7 @@
 
 ## Compiled by clang: the vectorized build and the scalar build, per instruction set
 
-Instructions of the whole function (every path), instructions of the main loop, the vectorization width x interleave count that the compiler reports ("scalable" where it does not print a number), and the main loop per element. The float kernels are at -Ofast, the others at -O3.
+Instructions of the whole function (every path), instructions of the main loop, the vectorization width x interleave count that the compiler reports, and the main loop per element. The float kernels are at -Ofast, the others at -O3.
 
 | kernel | target | function: vector build | function: scalar build | main loop | width x interleave | main loop instructions per element |
 |---|---|---:|---:|---:|---|---:|

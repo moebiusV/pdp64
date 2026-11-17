@@ -1,0 +1,5 @@
+haswell	loop 387 instructions, 192 FMA (50%), 128 loads; 1536 multiply-adds per iteration at 8 lanes; 0.252 instructions per multiply-add	vfmadd231ps 192, vbroadcastss 96, vmovups 32, addq 32, prefetcht0 16, decq 16
+neon	loop 114 instructions, 64 FMA (56%), 24 loads; 256 multiply-adds per iteration at 4 lanes; 0.445 instructions per multiply-add	fmla 64, ld1 24, add 24, subs 1, b.gt 1
+sve	loop 166 instructions, 64 FMA (39%), 72 loads; multiply-adds per iteration = 64 x VL; instructions per multiply-add = 2.594 / VL	fmla 64, ld1rw 64, add 16, prfm 12, ld1w 8, subs 1
+lasx	loop 243 instructions, 128 FMA (53%), 80 loads; 1024 multiply-adds per iteration at 8 lanes; 0.237 instructions per multiply-add	xvfmadd.s 128, xvldrepl.w 64, addi.d 17, xvld 16, preld 8, nop 7
+rvv	loop 69 instructions, 30 FMA (43%), 21 loads; 240 multiply-adds per iteration at 8 lanes; 0.287 instructions per multiply-add	vfmacc.vf 21, flw 18, fmadd.s 9, addi 8, add 5, vsetivli 4

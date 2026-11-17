@@ -7,6 +7,7 @@ is the vector loop when there is one).  Targets: x86-64 AVX2, x86-64 AVX-512, AA
 build of each (`-fno-vectorize -fno-slp-vectorize`).  Float kernels are built at -O3 and at -Ofast (the reductions need reassociation); the integer ones at -O3."""
 import re, subprocess, sys, os, collections, csv
 src, out = sys.argv[1:3]
+OPTS = dict(a.split('=', 1) for a in sys.argv[3:] if '=' in a)	# kernels=k_a,k_b  fast=k_b (the float ones, -Ofast too)
 os.makedirs(out, exist_ok=True)
 T = [('x86-avx2', ['--target=x86_64-linux-gnu', '-mavx2', '-mfma']),
      ('x86-avx512', ['--target=x86_64-linux-gnu', '-march=skylake-avx512', '-mprefer-vector-width=512']),
@@ -19,8 +20,8 @@ START = {}
 for i, l in enumerate(SRC, 1):
     m = re.match(r'(?:\w+\s+)+\**(k_\w+)\(', l)
     if m: START[m.group(1)] = i
-KERNELS = ['k_prep8', 'k_put8h', 'k_dctop_sum', 'k_dctop_fill', 'k_fmac', 'k_sad', 'k_hist', 'k_ssm']
-FLOAT = {'k_fmac', 'k_ssm'}
+KERNELS = OPTS['kernels'].split(',') if 'kernels' in OPTS else ['k_prep8', 'k_put8h', 'k_dctop_sum', 'k_dctop_fill', 'k_fmac', 'k_sad', 'k_hist', 'k_ssm']
+FLOAT = set(OPTS['fast'].split(',')) if 'fast' in OPTS else {'k_fmac', 'k_ssm'}
 def run(c): return subprocess.run(c, capture_output=True, text=True, errors='replace')
 rows = []
 for tn, tf in T:

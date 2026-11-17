@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""vecforms.py DIR -- the tables of docs/encoding-work/vec-forms.md from the files of docs/encoding-work/arch-data/vec-forms (DIR):
+"""vecforms.py DIR -- the tables of docs/encoding-work/vec-forms.md and gemm-forms.md from the files of docs/encoding-work/arch-data/vec-forms (DIR):
 
-  *.vec.s, *.vecfir.s   the vec forms written by hand (the pdp64 `vec` block, proposed notation of vec-forms.md)
-  pcc-scalar.s          the scalar code of pcc for kernels.c
-  vecbench.csv          clang's vectorized and scalar builds for six instruction sets (tools/arch-compare/vecbench.py)
-  handasm.tsv           hand-written assembly: instructions and bytes of functions (tools/arch-compare/handasm.py)
-Writes DIR/vec-forms-summary.md."""
-import re, sys, csv, os, glob
+  *.vec.s, *.vecfir.s                the vec forms written by hand (the pdp64 `vec` block, proposed notation of vec-forms.md)
+  pcc-scalar.s, vecbench.csv         the scalar code of pcc and clang's builds for the eight kernels of vec-forms.md (kernels.c)
+  handasm.tsv                        hand-written assembly: instructions and bytes of functions (tools/arch-compare/handasm.py)
+  blas/*.vec.s, blas/k_sgemm_nt.*.s  the forms for the BLAS calls of cugpt and cngpt (gemm-forms.md), blas/pcc-scalar-blas.s, blas/vecbench-blas.csv, blas/openblas-loops.tsv
+Writes DIR/vec-forms-summary.md and DIR/blas/gemm-forms-summary.md."""
+import re, sys, csv, os
 D = sys.argv[1]
-KS = ['k_prep8', 'k_put8h', 'k_dctop_sum', 'k_dctop_fill', 'k_fmac', 'k_sad', 'k_hist', 'k_ssm']
-LANES = {'k_prep8': 16, 'k_put8h': 8, 'k_dctop_sum': 32, 'k_dctop_fill': 32, 'k_fmac': 8, 'k_sad': 16, 'k_hist': 4, 'k_ssm': 8}	# lanes in a 256-bit strip, from the widest lane of the block
+TARGETS = ['x86-avx2', 'x86-avx512', 'aarch64-neon', 'aarch64-sve', 'riscv-v', 'loongarch-lasx']
 
 def vecform(path):
-    n = body = 0; inblk = False; hasend = 'vend' in open(path).read()
-    for ln in open(path):
+    txt = open(path).read()
+    n = body = 0; inblk = False; hasend = 'vend' in txt
+    for ln in txt.split('\n'):
         s = ln.split(';')[0].strip()
         if not s: continue
         s = re.sub(r'^[.\w$]+:\s*', '', s)
@@ -28,9 +28,9 @@ def vecform(path):
         if inblk: body += 1
     return n, body
 
-def scalar():
+def scalar(path):
     f = None; fn = {}
-    for ln in open(D + '/pcc-scalar.s'):
+    for ln in open(path):
         s = ln.split(';')[0].rstrip()
         if not s.strip(): continue
         m = re.match(r'^(\.?[A-Za-z_][\w.$]*):', s)
@@ -53,50 +53,77 @@ def scalar():
         out[k] = (n, sorted(sum(1 for it in items[a:b + 1] if it[0] == 'ins') for a, b in inner))
     return out
 
-L = []
-sc = scalar()
-L += ['## pdp64: pcc scalar code and the hand-written vec forms', '',
-      '| kernel | pcc scalar: function instructions | pcc scalar: inner loop instructions (per element) | vec form: instructions of the function | of them in the vec block | block operations per element (256-bit strip) |', '|---|---:|---|---:|---:|---:|']
+def compiled(rows, ks, fast):
+    L = ['| kernel | target | function: vector build | function: scalar build | main loop | width x interleave | main loop instructions per element |', '|---|---|---:|---:|---:|---|---:|']
+    for k in ks:
+        for t in TARGETS:
+            opt = '-Ofast' if k in fast else '-O3'
+            v = [r for r in rows if r['kernel'] == k and r['target'] == t and r['mode'] == 'vec' and r['opt'] == opt]
+            s = [r for r in rows if r['kernel'] == k and r['target'] == t and r['mode'] == 'scalar' and r['opt'] == opt]
+            if not v: continue
+            v, s = v[0], s[0]
+            m = re.match(r'(s?)(\d+)x(\d+)', v['vf_x_ic'])
+            scal = bool(m and m.group(1))
+            w = int(m.group(2)) * int(m.group(3)) if m and not scal else 0
+            ml = int(v['main_loop_instructions'])
+            if m and not scal and ml <= 2 and int(v['instructions']) > 20:
+                per = '(loop not found: it holds calls)'; vf = '%s x %s' % (m.group(2), m.group(3))
+            elif not m:
+                per = '%s (not vectorized)' % s['main_loop_instructions']; vf = '-'
+            elif scal:
+                per = 'scalable: %d per strip of VL elements (x%s)' % (ml, m.group(2)); vf = 'scalable x%s (interleave %s)' % (m.group(2), m.group(3))
+            else:
+                per = ('%.2f' % (ml / w)) if w and ml else '-'; vf = '%s x %s' % (m.group(2), m.group(3))
+            L.append('| %s | %s | %s | %s | %s | %s | %s |' % (k, t, v['instructions'], s['instructions'], v['main_loop_instructions'], vf, per))
+    return L
+
+# ---- the eight kernels
+KS = ['k_prep8', 'k_put8h', 'k_dctop_sum', 'k_dctop_fill', 'k_fmac', 'k_sad', 'k_hist', 'k_ssm']
+LANES = {'k_prep8': 16, 'k_put8h': 8, 'k_dctop_sum': 32, 'k_dctop_fill': 32, 'k_fmac': 8, 'k_sad': 16, 'k_hist': 4, 'k_ssm': 8}
+sc = scalar(D + '/pcc-scalar.s')
+L = ['## pdp64: pcc scalar code and the hand-written vec forms', '',
+     '| kernel | pcc scalar: function instructions | pcc scalar: inner loop instructions (per element) | vec form: instructions of the function | of them in the vec block | block operations per element (256-bit strip) |', '|---|---:|---|---:|---:|---:|']
 for k in KS:
-    p = D + '/%s.vec.s' % k
-    n, b = vecform(p)
+    n, b = vecform(D + '/%s.vec.s' % k)
     s = sc.get(k, (0, []))
     L.append('| %s | %d | %s | %d | %d | %.2f |' % (k, s[0], ', '.join(map(str, s[1])), n, b, b / LANES[k] if b else 0))
 n, b = vecform(D + '/k_put8h.vecfir.s')
 L.append('| k_put8h, form B (sliding window `vfir`) | %d | %s | %d | %d | %.2f |' % (sc['k_put8h'][0], ', '.join(map(str, sc['k_put8h'][1])), n, b, b / LANES['k_put8h']))
-L += ['']
+L += ['', '## Compiled by clang: the vectorized build and the scalar build, per instruction set', '',
+      'Instructions of the whole function (every path), instructions of the main loop, the vectorization width x interleave count that the compiler reports, and the main loop per element. The float kernels are at -Ofast, the others at -O3.', '']
 rows = list(csv.DictReader(open(D + '/vecbench.csv')))
-L += ['## Compiled by clang: the vectorized build and the scalar build, per instruction set', '',
-      'Instructions of the whole function (every path), instructions of the main loop, the vectorization width x interleave count that the compiler reports ("scalable" where it does not print a number), and the main loop per element. The float kernels are at -Ofast, the others at -O3.', '',
-      '| kernel | target | function: vector build | function: scalar build | main loop | width x interleave | main loop instructions per element |', '|---|---|---:|---:|---:|---|---:|']
-for k in KS:
-    for t in ['x86-avx2', 'x86-avx512', 'aarch64-neon', 'aarch64-sve', 'riscv-v', 'loongarch-lasx']:
-        opt = '-Ofast' if k in ('k_fmac', 'k_ssm') else '-O3'
-        v = [r for r in rows if r['kernel'] == k and r['target'] == t and r['mode'] == 'vec' and r['opt'] == opt]
-        s = [r for r in rows if r['kernel'] == k and r['target'] == t and r['mode'] == 'scalar' and r['opt'] == opt]
-        if not v: continue
-        v, s = v[0], s[0]
-        m = re.match(r'(s?)(\d+)x(\d+)', v['vf_x_ic'])
-        scal = bool(m and m.group(1))
-        w = int(m.group(2)) * int(m.group(3)) if m and not scal else 0
-        ml = int(v['main_loop_instructions'])
-        if m and not scal and ml <= 2 and int(v['instructions']) > 20:
-            per = '(loop not found: it holds calls)'
-            vf = '%s x %s' % (m.group(2), m.group(3))
-        elif not m:
-            per = '%s (not vectorized)' % s['main_loop_instructions']
-            vf = '-'
-        elif scal:
-            per = 'scalable: %d per strip of VL elements (x%s)' % (ml, m.group(2))
-            vf = 'scalable x%s (interleave %s)' % (m.group(2), m.group(3))
-        else:
-            per = ('%.2f' % (ml / w)) if w and ml else '-'
-            vf = '%s x %s' % (m.group(2), m.group(3))
-        L.append('| %s | %s | %s | %s | %s | %s | %s |' % (k, t, v['instructions'], s['instructions'], v['main_loop_instructions'], vf, per))
-L += ['']
-L += ['## Hand-written assembly, the same functions', '', '| ISA | function | instructions | bytes |', '|---|---|---:|---:|']
+L += compiled(rows, KS, {'k_fmac', 'k_ssm'})
+L += ['', '## Hand-written assembly, the same functions', '', '| ISA | function | instructions | bytes |', '|---|---|---:|---:|']
 for ln in open(D + '/handasm.tsv'):
-    a = ln.rstrip('\n').split('\t')
-    L.append('| %s | %s | %s | %s |' % tuple(a))
+    L.append('| %s | %s | %s | %s |' % tuple(ln.rstrip('\n').split('\t')))
 open(D + '/vec-forms-summary.md', 'w').write('\n'.join(L) + '\n')
-print('\n'.join(L))
+
+# ---- the BLAS kernels
+B = D + '/blas'
+if os.path.isdir(B):
+    KB = ['k_ddot', 'k_daxpy', 'k_dscal', 'k_dgemv_n', 'k_dgemv_t', 'k_dger']
+    sb = scalar(B + '/pcc-scalar-blas.s')
+    G = ['## pdp64: pcc scalar code and the hand-written vec forms (BLAS of cugpt and cngpt)', '',
+         '| kernel | pcc scalar: function instructions | pcc scalar: inner loop per multiply-add or element | vec form: function | in the block | block operations per element (256-bit strip: 4 doubles) |', '|---|---:|---|---:|---:|---:|']
+    for k in KB:
+        n, b = vecform(B + '/%s.vec.s' % k)
+        s = sb[k]
+        G.append('| %s | %d | %s | %d | %d | %.2f |' % (k, s[0], ', '.join(map(str, s[1])), n, b, b / 4.0))
+    G += ['', '### `sgemm`, the linear layer of cngpt (Y = X . W^T), four forms', '',
+          '| form | instructions of the function | in the block | multiply-adds per strip of the block (VL = 8 floats) | block operations per multiply-add |', '|---|---:|---:|---:|---:|']
+    ss = sb['k_sgemm_nt']
+    G.append('| pcc scalar (the triple loop) | %d | inner loop %s | 1 | %s per multiply-add |' % (ss[0], ', '.join(map(str, ss[1])), ss[1][0] if ss[1] else '-'))
+    for name, f, macs in [('1. dot product for each output (`vec` over K)', 'k_sgemm_nt.dot.s', 8), ('2. register-blocked micro-kernel (8 accumulators, broadcast multiply-add)', 'k_sgemm_nt.ukr.s', 64), ('3. micro-kernel with a hidden tile and an outer-product instruction', 'k_sgemm_nt.tile.s', 64)]:
+        n, b = vecform(B + '/' + f)
+        G.append('| %s | %d | %d | %d | %.3f |' % (name, n, b, macs, b / macs))
+    n, b = vecform(B + '/k_sgemm_nt.lb64.s')
+    G.append('| 4. the whole GEMM as one `lb64` instruction | %d | (the unit) | all | 0 (a fixed %d instructions of set-up for any size) |' % (n, n))
+    G += ['', '### Compiled by clang (the BLAS loops, -Ofast)', '']
+    G += compiled(list(csv.DictReader(open(B + '/vecbench-blas.csv'))), KB + ['k_sgemm_nt'], set(KB + ['k_sgemm_nt']))
+    G += ['', '### OpenBLAS: the main loop of its single-precision GEMM kernel, per instruction set', '', '| ISA | loop |', '|---|---|']
+    for ln in open(B + '/openblas-loops.tsv'):
+        a = ln.rstrip('\n').split('\t')
+        G.append('| %s | %s |' % (a[0], a[1]))
+    open(B + '/gemm-forms-summary.md', 'w').write('\n'.join(G) + '\n')
+print(open(D + '/vec-forms-summary.md').read()[:200])
+if os.path.isdir(B): print('\n'.join(G[:30]))
