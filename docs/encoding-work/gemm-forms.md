@@ -12,9 +12,9 @@ The first version of this record called form 4 "a GEMM instruction of the `lb64`
 
 So form 4 below is a **GEMM unit** of the author's idea, not LB64 as proposed. Errata 139 and J.8.5 said "the GEMM unit `lb64`"; they now say "the accelerator `lb64`".
 
-## 0a. Scope (the author, 2026-11-17, errata 154)
+## 0a. Scope (the author, 2026-11-17, errata 154 and 155)
 
-The author asked whether this is "stepping into gpu territory" and said that what only makes sense on a GPU while rarely adding value on the CPU does not belong in the CPU's instruction set; the GPU, when there is one, will use unified memory (a fast-VRAM region to be determined). Read against this record: **the `vec` block forms of sections 3 and the dot-product and register-blocked forms of section 4 are CPU work** (OpenBLAS, FFmpeg and dav1d run them on CPUs, with SIMD instructions); **the hidden tile with an outer-product instruction (form 3) and the whole-GEMM instruction (form 4) are accelerator operations**, as in matrix engines and GPU tensor cores, and are *not proposed for the CPU*: they are kept here as what an accelerator would take. The measurements of the forms do not change.
+The author asked whether this is "stepping into gpu territory" and then decided (errata 155): **none of the GEMM and vec work is dropped until a cost-benefit analysis**, and until a GPU exists, SIMD on the CPU is wanted for games and for language-model inference on machines without a large, power-hungry GPU, "like a gpu-lite". The GPU, when there is one, will use unified memory (errata 154). So **every form in this record stays open**: the dot-product and register-blocked forms (what CPUs run today), the hidden tile with an outer-product instruction (what matrix engines and GPU tensor cores have), and the whole-GEMM instruction. The analysis that decides among them (workloads, instructions saved, opcode and state cost, power, measured dynamic counts) is not done; this record has the static instruction counts only. (A first version of this section said that the tile and the GEMM instruction were accelerator operations "not proposed for the CPU"; the author corrected that.)
 
 ## 1. What the two programs ask of BLAS
 
