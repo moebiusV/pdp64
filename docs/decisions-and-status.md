@@ -14,8 +14,8 @@
 ## Contents
 
 - [Summary](#summary)
-- [Left to do (50)](#left-to-do-50)
-- [Left in the air (25)](#left-in-the-air-25)
+- [Left to do (51)](#left-to-do-51)
+- [Left in the air (24)](#left-in-the-air-24)
 - [Rejected or replaced (11)](#rejected-or-replaced-11)
 - [Done (177)](#done-177)
 - [Precedents, by name](#precedents-by-name)
@@ -53,12 +53,12 @@
 
 # Summary
 
-- Left to do: 50 of 263 subjects
-- Left in the air: 25 of 263 subjects
+- Left to do: 51 of 263 subjects
+- Left in the air: 24 of 263 subjects
 - Rejected or replaced: 11 of 263 subjects
 - Done: 177 of 263 subjects
 
-# Left to do (50)
+# Left to do (51)
 
 - Decided, and not yet in the current code or docs (or only partly).
 
@@ -209,6 +209,14 @@
 - Precedent: ARM SVE and the RISC-V vector extension (considered; named by author): "arm-sve-style or risc-v vector style support" \[R430\]
 - Evidence: docs/errata.md items 139 and 141; docs/encoding-work/vector-study.md (the measurement on dav1d: a `vec` on one instruction serves 21% of the codec's map loops; chaining, a sliding-window multiply-accumulate, widening, min/max/clamp, select and reductions are what the loops need); docs/manual-src/appendix-parts/08-open.md J.8.5 (the decision paragraph, the measurement, and options a to e), J.8.3 (packed lanes, option 6 a lane prefix); errata 59 (no vector register file and no SIMD instruction set in the processor, the standing decision, which the prefix and hidden registers keep); not found: a `vec` prefix in spec/pdp64/pdp64.hbnf, docs/manual-src/09-isa.md or 08-vectors.md (searched)
 - Left: the instructions `vec` may precede; predication and gather/scatter; the GEMM operations and their number; whether the vector operations use double-word register pairs \[R436\]; the fault and restart rules of each and the effect on context switching; the script that finds where `vec` wins in compiled code \[R433\] (tools/arch-compare/vecwin.py is it, and the first numbers are in vector-study.md); the encodings, which the optimiser assigns; `lb64`, if it becomes a unit with its own instruction set; the chapter and the grammar, after the open items settle
+
+## 09 The instruction set
+
+### Range checks on a register value
+- Status: TO DO — decided, details to be determined: a compare-and-trap with a table of check sites, a trap-if-zero, a two-bound check, and the pcc path first (latest decision 2026-11-17 \[R443\], errata 144 and 145)
+- Decided: 2026-11-17 decided: "i agree, decided. trap if zero, and two bound check, and pcc path first." \[R441\]; "compare trap with table is approved, add it." \[R443\] (after the explanation asked for: "for compare and trap with table of call sites, explain it. i don't understand it." \[R442\]); and "how to make linux kernel use it, since its already doing something similar." \[R444\]; the request of 2026-11-13: "new design features from another linux kernel developer: make some instructions or easy way to do range checks on a register value, a trap on out of range, similar to overflow, or set a bit in a sticky register, exception register, etc." \[R421\]; and 2026-11-17: "so how do we find out what type of bounds check instructions would be a net win? I want a detailed document of what loong and other arches have in this department, why they aren't emitted, how much savings they could theoretically give, and what we could beneficially add to pdp64." \[R440\]
+- Evidence: docs/errata.md items 85, 138, 140, 143 and 144; docs/manual-src/appendix-parts/09-open.md J.9.13 (the decision paragraph, seven options with the instruction and byte counts, the opcode price of each, the measurement against LoongArch); docs/encoding-work/bounds-check-isas.md (the catalogue of what the architectures have, why compilers do not emit it, the savings on Ada's run-time library and on C, the explanation of the table of check sites); docs/encoding-work/loongarch.md; not found: a trap-if-zero or a two-bound instruction in spec/pdp64/pdp64.hbnf or docs/manual-src/09-isa.md (searched), nor a check built-in in pcc
+- Left: the names, operand forms and encodings of the trap-if-zero and the two-bound check (opcode price: no pattern in the three-register group for the two-bound form); whether its bounds are registers or immediates; what the trap reports; the compare-and-trap and the table's format (J.9.13 option 2, decided; the assistant proposes Linux's `struct bug_entry` in `__bug_table`, docs/encoding-work/bounds-check-isas.md section 6), the trap frame (the length of the trapping instruction), where the kind of check is carried; the shape of the pcc path (a built-in or a fusion pass) and the front ends that reach it; whether a sticky range flag is added (option 4); the effect on the proposed `INDEX`
 
 ## 12 Documentation and process
 
@@ -472,7 +480,7 @@
 - Evidence: spec/pdp64-asm.hbnf (the grammar: `//` comments, `$` immediates, `%` before registers, `base+disp`, AT&T indexed, `equ`, `db`/`dw`, `proc`/`endp`, `[ ]`, binary `!`, unary `<` `>`, `.if`/`.else`/`.endif`); as64/asmp.c; as64/asmpre.c (`.macro`/`.endm` and `.rept`/`.endr`, expanded before the parser reads the text, outside the grammar); tests/asm-equiv (each new spelling assembles to the object of the V7 spelling), tests/asm-err, tests/asmsyntax.c, run by tools/check-as64.sh and tools/check-asmsyntax.sh; docs/asm-syntax.md and manual appendix E ("Other spellings"); docs/errata.md item 139
 - Left: not taken, for the author to decide: `.name` and `@name` scoped local labels (`.name` is already a name and `@name` the absolute mode; `@@name` is free), case-insensitive mnemonics under an option, the short aliases `mov`, `ld` and `st`, the `<...>` and `'...'` string forms, juxtaposition as addition, `r5` for register-indirect (it is register-direct), `^` as the type-carrying operator (it is exclusive-or), the early Unix `\/ \< \>`, the ABI aliases `a0` to `a7` and `s0` to `s7`; `r5-8` needs a space (hbnf reads a register name followed directly by `-` as one word); the macro layer is outside the grammar (hbnf has no macros), which the author may want to reach into hbnf or decline; the same syntax for llvm-mc and the GNU toolchain ports
 
-# Left in the air (25)
+# Left in the air (24)
 
 - Only ideas, open questions, conflicting decisions, or points the record and the repository do not settle.
 
@@ -574,14 +582,6 @@
 - Rationale and precedent: none stated in the sources
 - Evidence: not found: searched docs/\*.md for a CPU-in-DRAM design; only passing mentions in docs/kernel-pain-points.md
 - Left: author has not decided
-
-## 09 The instruction set
-
-### Range checks on a register value
-- Status: IN THE AIR — the author's request, no decision; the discussion is J.9.13 (latest request 2026-11-13, errata 138 \[R421\])
-- Decided: nothing new: 2026-11-13 requested: "new design features from another linux kernel developer: make some instructions or easy way to do range checks on a register value, a trap on out of range, similar to overflow, or set a bit in a sticky register, exception register, etc. same thing as on floating point math when you have nan/inf etc, you don't trap you set bits in a status register. figure out what is most efficient from a coding point of view. would this be more efficient than using the cse select min/max functions?" \[R421\]; what stands from before: \`TRAPCC\` is a trap with the fused \`ADDV\`, \`SUBV\` and \`MULV\` and "no compare-and-trap form" (errata 85), \`CBCC\` compares and branches without flags (9.10.4), \`MIN\` and \`MAX\` are aliases (errata 98)
-- Evidence: docs/errata.md items 85, 138 and 140; docs/manual-src/appendix-parts/09-open.md J.9.13 (seven options with the instruction and byte counts, the opcode price of each, the answer to the comparison with the select instructions, and the 2026-11-17 measurement against LoongArch); docs/encoding-work/loongarch.md (the corpus for LoongArch64, the census of 834 bounds checks, the price of each form: a compare-and-trap ties `CBHIS`, a two-bound check saves 176 instructions of the corpus, LoongArch's `ASRT` and `LDLE`/`LDGT` forms are one-sided and emitted by no compiler); docs/manual-src/09-isa.md 9.7.7 and 9.21.1
-- Left: J.9.13: trap, sticky flag, clamp, mask or nothing; whether the compare-and-trap of errata 85 is reopened (the measurement says it ties `CBHIS`; the two-bound form is the only one that pays, a small win); whether to take LoongArch's forms (option 7: the measurement says they are not the best shape); whether a sticky range flag is added beside the floating-point flags; the effect on the proposed \`INDEX\`
 
 ## 11 Toolchain
 
@@ -2450,6 +2450,7 @@
 - Errata 123 [R375]: the code, data and tests of r20 and pdp64/16 are removed after the tags pre-single-cpu and pre-code-removal; there is one target, pdp64 (2026-11-10)
 - Errata 102: physical address of at least 40 and up to 64 bits, devices anywhere except the first few pages; open: how many pages, width discovery, the page-table entry
 - Errata 139 \[R424\] to \[R437\]: as64 accepts AT&T syntax and the classic spellings beside the present ones; `vec` is a prefix for operations over a region of memory (J.8.5 option 1); details to be determined (2026-11-16)
+- Errata 144 \[R441\] and 145 \[R443\]: the instruction set gets a compare-and-trap with a table of check sites, a trap-if-zero and a two-bound check, and the pcc path comes first; details to be determined (2026-11-17)
 
 ## Briefing A: the physical address, the page table and how software learns them
 
