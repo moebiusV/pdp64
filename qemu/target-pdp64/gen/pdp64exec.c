@@ -765,6 +765,11 @@ void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector,
 {
 	uint64_t epc = c->pc;
 	C = c; E = e;
+	if (c->vhidden) {									/* a block with hidden accumulation: it restarts from its entry, the accumulators discarded (hidden state is not saved: R435) */
+		for (int v = 0; v < 16; v++) if (c->vacc >> v & 1) memset(c->vr[v], 0, sizeof c->vr[v]);
+		for (int t = 0; t < 8; t++) if (c->vtouch >> t & 1) memset(c->tr[t], 0, sizeof c->tr[t]);
+		c->vhidden = 0;
+	}
 	if (c->snap_valid) {
 		if (!c->progress) {							/* an abort leaves no trace: the registers (the (rN)+ and -(rN) updates among them) are as before */
 			memcpy(c->r, c->snap.r, sizeof c->r); c->dp = c->snap.dp; c->fpsr = c->snap.fpsr;
@@ -788,7 +793,7 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 {
 	int traced = c->psw >> PSW_T & 1;
 	C = c; E = e;
-	c->entered = 0; c->progress = 0; c->wait = 0; c->snap_valid = c->deliver;
+	c->entered = 0; c->progress = 0; c->wait = 0; c->vhidden = 0; c->snap_valid = c->deliver;
 	if (c->deliver) {									/* keep what an abort has to undo */
 		memcpy(c->snap.r, c->r, sizeof c->r); c->snap.pc = c->pc; c->snap.dp = c->dp; c->snap.fpsr = c->fpsr;
 		c->snap.fN = c->fN; c->snap.fZ = c->fZ; c->snap.fV = c->fV; c->snap.fC = c->fC;

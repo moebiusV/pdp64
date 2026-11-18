@@ -22,7 +22,8 @@ enum {
 	H_BESC, H_AESC, H_MBLK, H_FESC, H_SET,
 	H_MOVU, H_RMW,
 	H_MASK, H_BSEL, H_OVF, H_TRAPCC, H_MOVQL, H_UTF8LEN, H_CT, H_CHK2,
-	H_MOVCALL, H_POPMRET, H_POPRET, H_MOV2
+	H_MOVCALL, H_POPMRET, H_POPRET, H_MOV2,
+	H_VEC
 };
 struct hdef { const char *name; int kind, a; };
 #define VECTOR_CHECK 16				/* the overflow / bounds check trap (docs/study-proposals.md item 9) */
@@ -100,6 +101,7 @@ static const struct hdef hdefs[] = {
    mval, the deferred loads movX.d movX.ud, syspg0 to syspg5 */
 
 static struct hinfo { uint8_t kind; int a; } *HT;
+static void vec_init(void);
 
 static void enc_exec_init(void)
 {
@@ -110,6 +112,7 @@ static void enc_exec_init(void)
 		int m = enc_mn_find(t, hdefs[i].name);
 		if (m >= 0) { HT[m].kind = hdefs[i].kind; HT[m].a = hdefs[i].a; }
 	}
+	vec_init();
 }
 
 /* ---- the memory-side operand of the instruction being run ------------------------------------------------------------ */
@@ -135,6 +138,8 @@ static void eoperand(uint64_t start, struct opnd *o)
 }
 
 static int is_mem(const struct eop *e) { return e->k != EK_R && e->k != EK_I; }
+
+#include "pdp64exec_vec.inc"
 
 /* ---- one instruction ------------------------------------------------------------------------------------------------ */
 static void check_both(uint64_t a, int size, int write)
@@ -164,6 +169,7 @@ static int classify_enc(const struct hinfo *h, const struct einsn *in)
 	case H_SYS0: return h->a == MN_SYS_NONE_RET ? PDP64_CAT_CALL : PDP64_CAT_OTHER;
 	case H_MBLK: return PDP64_CAT_BLOCK;
 	case H_MOVCALL: case H_POPMRET: case H_POPRET: case H_MOV2: return PDP64_CAT_FUSED;
+	case H_VEC: return PDP64_CAT_BLOCK;
 	case H_MOVU: case H_RMW: return PDP64_CAT_MEMREF;
 	}
 	return PDP64_CAT_OTHER;
@@ -329,6 +335,7 @@ static void step_enc(void)
 			else E->fault(E->u, "check trap (trapcc)", start);
 		}
 		return;
+	case H_VEC: vec_step(&in, start, n); return;
 	case H_MOVQL: RG[op[1].r] = (uint64_t)op[0].v; return;
 	/* the fused instructions: the first half reads registers the second does not change, so a fault in the second half restarts the whole instruction
 	   (the state at its start is restored, errata 87) */
