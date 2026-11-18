@@ -1,525 +1,446 @@
-//===-- PDP64InstrInfo.td - Operands and instructions --------------*- tablegen -*-===//
+//===-- PDP64InstrInfo.td - Instruction definitions ---------*- tablegen -*-===//
 //
-// MC level only (milestone M1): the instructions are defined for the assembler, the disassembler and the object writer.
-// They have no selection patterns and no semantics yet (outs are empty): the code generator milestones add those.
+// Stage 1 prints assembly text, so an instruction here is an asm string and a
+// selection pattern; no encoding.  The mnemonics are the MN_* variables of
+// gen/PDP64GenMnemonics.td (a mnemonic the grammar lacks is an error), the
+// field widths are the variables of gen/PDP64GenLayout.td.
 //
-// Every instruction is a record per (mnemonic, form, length).  The length of an instruction is a property of its record
-// (Size); the assembler starts from the shortest record that matches the operands and the MC layer widens it
-// (PDP64AsmBackend::relaxInstruction) when a displacement does not fit.  The wider records are not matchable by the parser:
-// their operands have an asm operand class whose predicate is always false.  They exist for the encoder, the decoder and the printer.
+// Operand order is the assembler's: source first, destination last
+// ("add rs, rd" is rd += rs); "cmp rd, src" is the exception (not used: the
+// back end branches with cbCC, which carries the comparison).
 //
 //===----------------------------------------------------------------------===//
 
-// ---- asm operand classes (the parser builds the operand, the class says which kind it must be) ---------------------------
+//===----------------------------------------------------------------------===//
+// Operands and leaves
+//===----------------------------------------------------------------------===//
 
-class PDP64AsmOperand<string n, string pred, string render> : AsmOperandClass {
-  let Name = n;
-  let PredicateMethod = pred;
-  let RenderMethod = render;
-  let DiagnosticType = "Invalid" # n;
-}
-// the same operand, never matched by the parser: for the longer records
-class NeverOf<AsmOperandClass c> : AsmOperandClass {
-  let Name = c.Name # "W";
-  let PredicateMethod = "isNever";
-  let RenderMethod = c.RenderMethod;
-  let DiagnosticType = "Invalid" # c.Name;
-}
+def imm64  : Operand<i64>;                    // printed as a number
+def disp   : Operand<i64>;                    // d(rN): DispBits signed
+def scale  : Operand<i64>;                    // 1, 2, 4, 8
+def symop  : Operand<i64>;                    // a symbol (+ offset): printed as an expression
+def brtarget : Operand<OtherVT>;
+def ccop   : Operand<i64> { let PrintMethod = "printCondCode"; }
 
-def ImmOp     : PDP64AsmOperand<"HashImm", "isImmOp",    "addImmOperands">;       // #expr
-def AbsOp     : PDP64AsmOperand<"Abs",     "isAbsOp",    "addImmOperands">;       // @expr
-def BareOp    : PDP64AsmOperand<"Bare",    "isBareOp",   "addImmOperands">;       // label, expr(pc)
-def BaseOp    : PDP64AsmOperand<"Base",    "isBaseOp",   "addBaseOperands">;      // d(rN)
-def IndexOp   : PDP64AsmOperand<"Index",   "isIndexOp",  "addIndexOperands">;     // d(rN)(rX*s)
-def DPOp      : PDP64AsmOperand<"DP",      "isDPOp",     "addImmOperands">;       // d(dp)
-def PostIncOp : PDP64AsmOperand<"PostInc", "isPostIncOp","addStrideOperands">;    // (rN)+ (rN)+d
-def PreDecOp  : PDP64AsmOperand<"PreDec",  "isPreDecOp", "addStrideOperands">;    // -(rN) (rN)-d
-def ImmOpW     : NeverOf<ImmOp>;
-def AbsOpW     : NeverOf<AbsOp>;
-def BareOpW    : NeverOf<BareOp>;
-def BaseOpW    : NeverOf<BaseOp>;
-def IndexOpW   : NeverOf<IndexOp>;
-def DPOpW      : NeverOf<DPOp>;
-def PostIncOpW : NeverOf<PostIncOp>;
-def PreDecOpW  : NeverOf<PreDecOp>;
+class SImm<int n> : ImmLeaf<i64,
+    !strconcat("return isInt<", !cast<string>(n), ">(Imm);")>;
+def simm32 : SImm<AluImmBits>;                // the immediate of the ALU forms
+def simm28 : SImm<DispBits>;                  // a displacement
+def simm16 : SImm<CbImmBits>;                 // the immediate of cbCC
+def bigimm : ImmLeaf<i64,
+    !strconcat("return !isInt<", !cast<string>(MovImmBits), ">(Imm);")>;
+def uimm6  : ImmLeaf<i64, [{ return Imm >= 0 && Imm < 64; }]>;
+def scaleimm : ImmLeaf<i64, [{ return Imm == 1 || Imm == 2 || Imm == 4 || Imm == 8; }]>;
+def mask8  : ImmLeaf<i64, [{ return Imm == 0xff; }]>;
+def mask16 : ImmLeaf<i64, [{ return Imm == 0xffff; }]>;
+def mask32 : ImmLeaf<i64, [{ return Imm == 0xffffffff; }]>;
 
-class UImmOp<int n> : PDP64AsmOperand<"UImm" # n, "isUImm<" # n # ">", "addImmOperands">;
-class SImmOp<int n> : PDP64AsmOperand<"SImm" # n, "isSImm<" # n # ">", "addImmOperands">;
-def UImm3Op  : UImmOp<3>;
-def UImm4Op  : UImmOp<4>;
-def UImm5Op  : UImmOp<5>;
-def UImm6Op  : UImmOp<6>;
-def UImm8Op  : UImmOp<8>;                                                    // hint
-def UImm16Op : UImmOp<16>;                                                   // pushm, popm
-def SImm5Op  : SImmOp<5>;
-def SImm5OpW : NeverOf<SImm5Op>;
-// the wide cbCC takes what the short one cannot: a 16-bit immediate that is not a 5-bit one
-def SImm16WideOp : PDP64AsmOperand<"SImm16Wide", "isSImm16Wide", "addImmOperands">;
-def TrapLOp  : PDP64AsmOperand<"TrapL", "isTrapL", "addImmOperands">;        // trap #n for n = 16 .. 255
-def WidthOp  : PDP64AsmOperand<"Width", "isWidth", "addImmOperands">;        // 1 .. 64
-def CCOp     : PDP64AsmOperand<"CC", "isCC", "addImmOperands">;
-def SysRegOp : PDP64AsmOperand<"SysReg", "isSysReg", "addImmOperands">;
+// 64 - n for rol -> rori (the assembler takes both; used for rotr/rotl swaps)
+def NegShift : SDNodeXForm<imm, [{
+  return CurDAG->getTargetConstant((64 - N->getZExtValue()) & 63, SDLoc(N), MVT::i64);
+}]>;
+def to_tframeindex : SDNodeXForm<frameindex, [{
+  return CurDAG->getTargetFrameIndex(cast<FrameIndexSDNode>(N)->getIndex(), MVT::i64);
+}]>;
+// the bits of a floating-point constant as the integer the register holds
+def FPBits64 : SDNodeXForm<fpimm, [{
+  return CurDAG->getTargetConstant(N->getValueAPF().bitcastToAPInt().getSExtValue(), SDLoc(N), MVT::i64);
+}]>;
+def FPBits32 : SDNodeXForm<fpimm, [{
+  // a binary32 lives in the low 32 bits of the register, sign-extended
+  return CurDAG->getTargetConstant(
+      (int64_t)(int32_t)N->getValueAPF().bitcastToAPInt().getZExtValue(), SDLoc(N), MVT::i64);
+}]>;
 
-// ---- operands ----------------------------------------------------------------------------------------------------------
+// The address modes are matched in C++ (PDP64ISelDAGToDAG.cpp).
+def addrri : ComplexPattern<iPTR, 2, "SelectAddrRI", [], [], 3>;  // d(rN)
+def addrrx : ComplexPattern<iPTR, 4, "SelectAddrRX", [], [], 5>;  // d(rN)(rX*s)
+def leasr  : ComplexPattern<i64, 3, "SelectLeaRX", [add], [], 5>; // rN + (rX << s)
 
-class PDP64Imm<AsmOperandClass cls, string dec, string pr = "printImm"> : Operand<i64> {
-  let ParserMatchClass = cls;
-  let EncoderMethod = "getImmOpValue";
-  let DecoderMethod = dec;
-  let PrintMethod = pr;
-}
-def uimm3 : PDP64Imm<UImm3Op, "decodeUImm<3>">;
-def uimm4 : PDP64Imm<UImm4Op, "decodeUImm<4>">;
-def uimm5 : PDP64Imm<UImm5Op, "decodeUImm<5>">;
-def uimm6 : PDP64Imm<UImm6Op, "decodeUImm<6>">;
-def uimm8trap : PDP64Imm<TrapLOp, "decodeUImm<8>">;
-def uimm8 : PDP64Imm<UImm8Op, "decodeUImm<8>">;
-def maskop : PDP64Imm<UImm16Op, "decodeUImm<16>">;
-def simm5  : PDP64Imm<SImm5Op, "decodeSImm<5>">;
-def simm5w : PDP64Imm<SImm5OpW, "decodeSImm<5>">;
-def simm16w : PDP64Imm<SImm16WideOp, "decodeSImm<16>">;
-def bwidth : PDP64Imm<WidthOp, "decodeWidth">;
-def ccop   : PDP64Imm<CCOp, "decodeCC", "printCC">;
-def sysregop : PDP64Imm<SysRegOp, "decodeSysReg", "printSysReg">;
+//===----------------------------------------------------------------------===//
+// SelectionDAG nodes
+//===----------------------------------------------------------------------===//
 
-// a memory operand of a given form and length (1 or 2 extension... the length of the record)
-class MemOp<AsmOperandClass cls, dag mio, int form, int len, string pr> : Operand<i64> {
-  let ParserMatchClass = cls;
-  let MIOperandInfo = mio;
-  let EncoderMethod = "getMemOpValue<" # form # ", " # len # ">";
-  let DecoderMethod = "decodeMemOp<" # form # ", " # len # ">";
-  let PrintMethod = pr;
-}
-multiclass MemOperands<int len, AsmOperandClass b, AsmOperandClass x, AsmOperandClass d, AsmOperandClass pc,
-                       AsmOperandClass i, AsmOperandClass a, AsmOperandClass pi, AsmOperandClass pd> {
-  def _B  : MemOp<b,  (ops GPR, i64imm),             FORM_MEM_BASE,    len, "printMemBase">;
-  def _X  : MemOp<x,  (ops GPR, GPR, i32imm, i64imm), FORM_MEM_INDEX,   len, "printMemIndex">;
-  def _D  : MemOp<d,  (ops i64imm),                  FORM_MEM_DP,      len, "printMemDP">;
-  def _PC : MemOp<pc, (ops i64imm),                  FORM_MEM_PCREL,   len, "printMemPC">;
-  def _I  : MemOp<i,  (ops i64imm),                  FORM_MEM_IMM,     len, "printMemImm">;
-  def _A  : MemOp<a,  (ops i64imm),                  FORM_MEM_ABS,     len, "printMemAbs">;
-  def _PI : MemOp<pi, (ops GPR, i64imm),             FORM_MEM_POSTINC, len, "printMemPostInc">;
-  def _PD : MemOp<pd, (ops GPR, i64imm),             FORM_MEM_PREDEC,  len, "printMemPreDec">;
-}
-defm mop1 : MemOperands<1, BaseOp,  IndexOp,  DPOp,  BareOp,  ImmOp,  AbsOp,  PostIncOp,  PreDecOp>;
-defm mop2 : MemOperands<2, BaseOpW, IndexOpW, DPOpW, BareOpW, ImmOpW, AbsOpW, PostIncOpW, PreDecOpW>;
+def SDT_PDP64Call    : SDTypeProfile<0, -1, [SDTCisVT<0, iPTR>]>;
+def SDT_PDP64Wrapper : SDTypeProfile<1, 1, [SDTCisSameAs<0, 1>, SDTCisVT<0, i64>]>;
+def SDT_PDP64BrCC    : SDTypeProfile<0, 4, [SDTCisSameAs<0, 1>, SDTCisVT<2, i64>, SDTCisVT<3, OtherVT>]>;
+def SDT_PDP64SelCC   : SDTypeProfile<1, 5, [SDTCisSameAs<1, 2>, SDTCisVT<3, i64>, SDTCisSameAs<0, 4>, SDTCisSameAs<0, 5>]>;
+def SDT_PDP64CallSeqStart : SDCallSeqStart<[SDTCisVT<0, i64>, SDTCisVT<1, i64>]>;
+def SDT_PDP64CallSeqEnd   : SDCallSeqEnd<[SDTCisVT<0, i64>, SDTCisVT<1, i64>]>;
+def SDT_PDP64F32ToI64  : SDTypeProfile<1, 1, [SDTCisVT<0, i64>, SDTCisVT<1, f32>]>;
+def SDT_PDP64I64ToF32  : SDTypeProfile<1, 1, [SDTCisVT<0, f32>, SDTCisVT<1, i64>]>;
 
-// branch targets: the value in the MCInst is a byte displacement (an immediate) or an expression
-class BrTarget<AsmOperandClass cls, string fix, int nb> : Operand<OtherVT> {
-  let ParserMatchClass = cls;
-  let EncoderMethod = "getTargetOpValue<PDP64::fixup_pdp64_" # fix # ", " # nb # ">";
-  let DecoderMethod = "decodeTargetOp<" # nb # ">";
-  let PrintMethod = "printTarget";
-}
-def brt0   : BrTarget<BareOp,  "br8",  BRANCH_BITS_LEN0>;
-def brt1   : BrTarget<BareOpW, "br16", BRANCH_BITS_LEN1>;   // the long branches are reached by relaxation only
-def brt2   : BrTarget<BareOpW, "br32", BRANCH_BITS_LEN2>;
-def brt1m  : BrTarget<BareOp,  "br16", BRANCH_BITS_LEN1>;   // SOB and BTAG start at this length
-def cbt1   : BrTarget<BareOp,  "cb11", CB_BITS_LEN1>;
-def cbwt   : BrTarget<BareOp,  "cbw16", CBW_BITS>;
-def cbt2   : BrTarget<BareOpW, "cb27", CB_BITS_LEN2>;
-def cbrt1  : BrTarget<BareOp,  "cbr12", CBR_BITS_LEN1>;
-def cbrt2  : BrTarget<BareOpW, "cbr28", CBR_BITS_LEN2>;
+def pdp64call : SDNode<"PDP64ISD::CALL", SDT_PDP64Call,
+                       [SDNPHasChain, SDNPOutGlue, SDNPOptInGlue, SDNPVariadic]>;
+def pdp64ret  : SDNode<"PDP64ISD::RET_GLUE", SDTNone,
+                       [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
+def pdp64wrap : SDNode<"PDP64ISD::WRAPPER", SDT_PDP64Wrapper>;
+def pdp64brcc : SDNode<"PDP64ISD::BR_CC", SDT_PDP64BrCC, [SDNPHasChain]>;
+def pdp64selcc : SDNode<"PDP64ISD::SELECT_CC", SDT_PDP64SelCC>;
+def pdp64f32toi64 : SDNode<"PDP64ISD::F32_TO_I64", SDT_PDP64F32ToI64>;
+def pdp64i64tof32 : SDNode<"PDP64ISD::I64_TO_F32", SDT_PDP64I64ToF32>;
+def callseq_start : SDNode<"ISD::CALLSEQ_START", SDT_PDP64CallSeqStart,
+                           [SDNPHasChain, SDNPOutGlue]>;
+def callseq_end   : SDNode<"ISD::CALLSEQ_END", SDT_PDP64CallSeqEnd,
+                           [SDNPHasChain, SDNPOptInGlue, SDNPOutGlue]>;
 
-// ---- memory-class instructions: len:2 opc:6 reg:4 low:4, then the operand ----------------------------------------------
-//   len 0: low is a register.  Longer: low is the addressing mode and the operand follows in parcel 1 (and 2).
+//===----------------------------------------------------------------------===//
+// Instruction base class
+//===----------------------------------------------------------------------===//
 
-class MemI16<bits<6> opc, dag ins, string asm> : Inst16<(outs), ins, asm> {
-  bits<4> r;
-  bits<4> m;
-  let Inst{15-14} = LENCODE_PARCELS1;
-  let Inst{13-8} = opc;
-  let Inst{7-4} = r;
-  let Inst{3-0} = m;
-  let Form = FORM_REG;
-}
-class MemI32<bits<6> opc, int mode, dag ins, string asm> : Inst32<(outs), ins, asm> {
-  bits<4> r;
-  bits<16> m;
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = opc;
-  let Inst{7-4} = r;
-  let Inst{3-0} = mode;
-  let Inst{31-16} = m;
-  let Form = !add(mode, 2);
-}
-class MemI48<bits<6> opc, int mode, dag ins, string asm> : Inst48<(outs), ins, asm> {
-  bits<4> r;
-  bits<32> m;
-  let Inst{15-14} = LENCODE_PARCELS3;
-  let Inst{13-8} = opc;
-  let Inst{7-4} = r;
-  let Inst{3-0} = mode;
-  let Inst{31-16} = m{31-16};
-  let Inst{47-32} = m{15-0};
-  let Form = !add(mode, 2);
+class PI<dag outs, dag ins, string asmstr, list<dag> pattern = []> : Instruction {
+  let Namespace = "PDP64";
+  let OutOperandList = outs;
+  let InOperandList = ins;
+  let AsmString = asmstr;
+  let Pattern = pattern;
+  let hasSideEffects = 0;
 }
 
-// all the forms of one mnemonic: a register (if hasReg) and the eight modes (the immediate if hasImm), each in two lengths.
-// `pre` is the register operand that comes before the memory operand ((ins GPR:$r) or (ins)).
-multiclass MemModes<string mn, int opc, string ops, dag pre, bit hasReg, bit hasImm> {
-  if hasReg then
-    def _R : MemI16<opc, !con(pre, (ins GPR:$m)), mn # "\t" # ops>;
-  def _B1  : MemI32<opc, AMODE_BASE,    !con(pre, (ins mop1_B:$m)),  mn # "\t" # ops>;
-  def _B2  : MemI48<opc, AMODE_BASE,    !con(pre, (ins mop2_B:$m)),  mn # "\t" # ops>;
-  def _X1  : MemI32<opc, AMODE_INDEX,   !con(pre, (ins mop1_X:$m)),  mn # "\t" # ops>;
-  def _X2  : MemI48<opc, AMODE_INDEX,   !con(pre, (ins mop2_X:$m)),  mn # "\t" # ops>;
-  def _D1  : MemI32<opc, AMODE_DP,      !con(pre, (ins mop1_D:$m)),  mn # "\t" # ops>;
-  def _D2  : MemI48<opc, AMODE_DP,      !con(pre, (ins mop2_D:$m)),  mn # "\t" # ops>;
-  def _PC1 : MemI32<opc, AMODE_PCREL,   !con(pre, (ins mop1_PC:$m)), mn # "\t" # ops>;
-  def _PC2 : MemI48<opc, AMODE_PCREL,   !con(pre, (ins mop2_PC:$m)), mn # "\t" # ops>;
-  if hasImm then {
-    def _I1 : MemI32<opc, AMODE_IMM,    !con(pre, (ins mop1_I:$m)),  mn # "\t" # ops>;
-    def _I2 : MemI48<opc, AMODE_IMM,    !con(pre, (ins mop2_I:$m)),  mn # "\t" # ops>;
-  }
-  def _A1  : MemI32<opc, AMODE_ABS,     !con(pre, (ins mop1_A:$m)),  mn # "\t" # ops>;
-  def _A2  : MemI48<opc, AMODE_ABS,     !con(pre, (ins mop2_A:$m)),  mn # "\t" # ops>;
-  def _PI1 : MemI32<opc, AMODE_POSTINC, !con(pre, (ins mop1_PI:$m)), mn # "\t" # ops>;
-  def _PI2 : MemI48<opc, AMODE_POSTINC, !con(pre, (ins mop2_PI:$m)), mn # "\t" # ops>;
-  def _PD1 : MemI32<opc, AMODE_PREDEC,  !con(pre, (ins mop1_PD:$m)), mn # "\t" # ops>;
-  def _PD2 : MemI48<opc, AMODE_PREDEC,  !con(pre, (ins mop2_PD:$m)), mn # "\t" # ops>;
+//===----------------------------------------------------------------------===//
+// Register moves and constants
+//===----------------------------------------------------------------------===//
+
+let isMoveReg = 1 in {
+def MOVrr  : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(MN_movq, " $rs, $rd")>;
+def MOVrrA : PI<(outs GPRALL:$rd), (ins GPRALL:$rs), !strconcat(MN_movq, " $rs, $rd")>;
 }
 
-// a mnemonic with a register operand and a memory operand: moves, the ALU, lea.  stride: log2 of the default step of (rN)+.
-multiclass MemRM<string mn, int opc, string ops, bit hasReg, bit hasImm, bits<2> stride> {
-  let Stride = stride, MemFirst = 1 in
-    defm "" : MemModes<mn, opc, ops, (ins GPR:$r), hasReg, hasImm>;
+let isReMaterializable = 1, isAsCheapAsAMove = 1 in {
+def MOVI : PI<(outs GPR:$rd), (ins imm64:$i), !strconcat(MN_movq, " #$i, $rd"),
+              [(set i64:$rd, simm32:$i)]>;
+// a 64-bit constant from the literal pool (as64 makes the pool)
+def MOVK : PI<(outs GPR:$rd), (ins imm64:$i), !strconcat(MN_movq, " =$i, $rd"),
+              [(set i64:$rd, bigimm:$i)]>;
+def CLR  : PI<(outs GPR:$rd), (ins), !strconcat(MN_clr, " $rd"), [(set i64:$rd, 0)]>;
 }
-// a mnemonic with one operand; the reg field is the sub-opcode
-multiclass MemU<string mn, int opc, bits<4> sub, bit hasReg, bit hasImm> {
-  let r = sub in
-    defm "" : MemModes<mn, opc, "$m", (ins), hasReg, hasImm>;
-}
-// jtag d(rbase)(rtagged): the indexed mode only
-multiclass MemTag<string mn, int opc, bits<4> sub> {
-  let r = sub in {
-    def _X1 : MemI32<opc, AMODE_INDEX, (ins mop1_X:$m), mn # "\t$m">;
-    def _X2 : MemI48<opc, AMODE_INDEX, (ins mop2_X:$m), mn # "\t$m">;
+def fpsmall : PatLeaf<(fpimm), [{
+  return isInt<32>(N->getValueAPF().bitcastToAPInt().getSExtValue()); }]>;
+def fpbig   : PatLeaf<(fpimm), [{
+  return !isInt<32>(N->getValueAPF().bitcastToAPInt().getSExtValue()); }]>;
+def : Pat<(f64 fpsmall:$f), (f64 (MOVI (FPBits64 fpimm:$f)))>;
+def : Pat<(f64 fpbig:$f),   (f64 (MOVK (FPBits64 fpimm:$f)))>;
+def : Pat<(f32 fpimm:$f),   (f32 (MOVI (FPBits32 fpimm:$f)))>;
+
+// the same value, a different type: no instruction
+def : Pat<(f64 (bitconvert i64:$x)), (f64 (COPY_TO_REGCLASS $x, GPR))>;
+def : Pat<(i64 (bitconvert f64:$x)), (i64 (COPY_TO_REGCLASS $x, GPR))>;
+def : Pat<(i64 (pdp64f32toi64 f32:$x)), (i64 (COPY_TO_REGCLASS $x, GPR))>;
+def : Pat<(f32 (pdp64i64tof32 i64:$x)), (f32 (COPY_TO_REGCLASS $x, GPR))>;
+
+//===----------------------------------------------------------------------===//
+// Two-address ALU: "op rs, rd" is rd = rd op rs; the immediate form is a
+// signed AluImmBits-bit field.
+//===----------------------------------------------------------------------===//
+
+multiclass ALU<string mn, SDPatternOperator op, bit comm = 0> {
+  let Constraints = "$rd = $rs1" in {
+    def rr : PI<(outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2), !strconcat(mn, " $rs2, $rd"),
+                [(set i64:$rd, (op i64:$rs1, i64:$rs2))]> { let isCommutable = comm; }
+    def ri : PI<(outs GPR:$rd), (ins GPR:$rs1, imm64:$imm), !strconcat(mn, " #$imm, $rd"),
+                [(set i64:$rd, (op i64:$rs1, simm32:$imm))]>;
   }
 }
-// pushm #mask, popm #mask: a 16-bit unsigned mask in the wide field
-multiclass MemMask<string mn, bits<4> sub> {
-  let r = sub, UImm = 1 in
-    def _I1 : MemI32<OPGROUP_SOP, AMODE_IMM, (ins maskop:$m), mn # "\t$m">;
-}
+defm ADD : ALU<MN_add, add, 1>;
+defm SUB : ALU<MN_sub, sub>;
+defm AND : ALU<MN_and, and, 1>;
+defm OR  : ALU<MN_bis, or, 1>;
+defm XOR : ALU<MN_xor, xor, 1>;
+defm MUL : ALU<MN_mul, mul, 1>;
 
-// ---- branches ---------------------------------------------------------------------------------------------------------------
-
-class BrI16<bits<6> opc, dag ins, string asm> : Inst16<(outs), ins, asm> {
-  let Inst{15-14} = LENCODE_PARCELS1;
-  let Inst{13-8} = opc;
-  let Form = FORM_BR0;
-  let isBranch = 1;
-  let isTerminator = 1;
-}
-class BrI32<bits<6> opc, dag ins, string asm> : Inst32<(outs), ins, asm> {
-  bits<4> r;
-  bits<4> l;
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = opc;
-  let Inst{7-4} = r;
-  let Inst{3-0} = l;
-  let Form = FORM_BR;
-  let isBranch = 1;
-  let isTerminator = 1;
-}
-class BrI48<bits<6> opc, dag ins, string asm> : Inst48<(outs), ins, asm> {
-  bits<4> r;
-  bits<4> l;
-  let Inst{15-14} = LENCODE_PARCELS3;
-  let Inst{13-8} = opc;
-  let Inst{7-4} = r;
-  let Inst{3-0} = l;
-  let Form = FORM_BR;
-  let isBranch = 1;
-  let isTerminator = 1;
-}
-
-multiclass Branch<string mn, int opc, bit barrier> {
-  let isBarrier = barrier in {
-    def _0 : BrI16<opc, (ins brt0:$t), mn # "\t$t"> {
-      bits<8> t;
-      let Inst{7-0} = t;
-    }
-    def _1 : BrI32<opc, (ins brt1:$t), mn # "\t$t"> {
-      bits<16> t;
-      let r = 0;
-      let l = 0;
-      let Inst{31-16} = t;
-    }
-    def _2 : BrI48<opc, (ins brt2:$t), mn # "\t$t"> {
-      bits<32> t;
-      let r = 0;
-      let l = 0;
-      let Inst{31-16} = t{31-16};
-      let Inst{47-32} = t{15-0};
-    }
+// shifts: the count is a register or a constant 0..63
+multiclass SHIFT<string mn, SDPatternOperator op> {
+  let Constraints = "$rd = $rs1" in {
+    def rr : PI<(outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2), !strconcat(mn, " $rs2, $rd"),
+                [(set i64:$rd, (op i64:$rs1, i64:$rs2))]>;
+    def ri : PI<(outs GPR:$rd), (ins GPR:$rs1, imm64:$imm), !strconcat(mn, " #$imm, $rd"),
+                [(set i64:$rd, (op i64:$rs1, uimm6:$imm))]>;
   }
 }
+defm SHL : SHIFT<MN_shl, shl>;
+defm SHR : SHIFT<MN_shr, srl>;
+defm SAR : SHIFT<MN_sar, sra>;
 
-// sob rd, label
-multiclass SobForm<string mn> {
-  def _1 : BrI32<OPGROUP_SOB, (ins GPR:$rd, brt1m:$t), mn # "\t$rd, $t"> {
-    bits<4> rd;
-    bits<16> t;
-    let r = rd;
-    let l = 0;
-    let Inst{31-16} = t;
-    let Form = FORM_SOB;
+// rotates by a constant: rori rs, #n, rd ; rol is the assembler's spelling of 64-n
+def RORI : PI<(outs GPR:$rd), (ins GPR:$rs, imm64:$imm), !strconcat(MN_rori, " $rs, #$imm, $rd"),
+              [(set i64:$rd, (rotr i64:$rs, uimm6:$imm))]>;
+def ROLI : PI<(outs GPR:$rd), (ins GPR:$rs, imm64:$imm), !strconcat(MN_rol, " $rs, #$imm, $rd"),
+              [(set i64:$rd, (rotl i64:$rs, uimm6:$imm))]>;
+
+// one-register operations (in place)
+let Constraints = "$rd = $rs" in {
+def NEG : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(MN_neg, " $rd"),
+             [(set i64:$rd, (ineg i64:$rs))]>;
+def COM : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(MN_com, " $rd"),
+             [(set i64:$rd, (not i64:$rs))]>;
+}
+let Constraints = "$rd = $rs1" in {
+// bic rs, rd: rd &= ~rs
+def BIC : PI<(outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2), !strconcat(MN_bic, " $rs2, $rd"),
+             [(set i64:$rd, (and i64:$rs1, (not i64:$rs2)))]>;
+// mulh rs, rd: the high 64 bits of the signed product
+def MULH : PI<(outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2), !strconcat(MN_mulh, " $rs2, $rd"),
+              [(set i64:$rd, (mulhs i64:$rs1, i64:$rs2))]> { let isCommutable = 1; }
+}
+
+// extensions and the masks that are extensions
+def SEXTB : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(MN_movb, " $rs, $rd"),
+               [(set i64:$rd, (sext_inreg i64:$rs, i8))]>;
+def SEXTW : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(MN_movw, " $rs, $rd"),
+               [(set i64:$rd, (sext_inreg i64:$rs, i16))]>;
+def SEXTL : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(MN_movl, " $rs, $rd"),
+               [(set i64:$rd, (sext_inreg i64:$rs, i32))]>;
+let AddedComplexity = 10 in {
+def ZEXTB : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(MN_movzb, " $rs, $rd"),
+               [(set i64:$rd, (and i64:$rs, mask8))]>;
+def ZEXTW : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(MN_movzw, " $rs, $rd"),
+               [(set i64:$rd, (and i64:$rs, mask16))]>;
+def ZEXTL : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(MN_movzl, " $rs, $rd"),
+               [(set i64:$rd, (and i64:$rs, mask32))]>;
+}
+
+// three-register operations: "op ra, rb, rd" is rd = ra op rb
+multiclass RegR3<string mn, SDPatternOperator op, bit comm = 0> {
+  def NAME : PI<(outs GPR:$rd), (ins GPR:$ra, GPR:$rb), !strconcat(mn, " $ra, $rb, $rd"),
+                [(set i64:$rd, (op i64:$ra, i64:$rb))]> { let isCommutable = comm; }
+}
+defm DIV : RegR3<MN_div, sdiv>;
+defm DIVU : RegR3<MN_divu, udiv>;
+defm MOD : RegR3<MN_mod, srem>;
+defm MODU : RegR3<MN_modu, urem>;
+defm MULHU : RegR3<MN_mulhu, mulhu, 1>;
+defm MIN : RegR3<MN_min, smin, 1>;
+defm MINU : RegR3<MN_minu, umin, 1>;
+defm MAX : RegR3<MN_max, smax, 1>;
+defm MAXU : RegR3<MN_maxu, umax, 1>;
+
+// bit counting: "op rs, rd" (the count of zero is 64)
+multiclass RegR2<string mn, SDPatternOperator op> {
+  def NAME : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(mn, " $rs, $rd"),
+                [(set i64:$rd, (op i64:$rs))]>;
+}
+defm CLZ : RegR2<MN_clz, ctlz>;
+defm CTZ : RegR2<MN_ctz, cttz>;
+defm POPCNT : RegR2<MN_popcnt, ctpop>;
+defm BSWAP : RegR2<MN_bswap, bswap>;
+defm BITREV : RegR2<MN_bitrev, bitreverse>;
+
+//===----------------------------------------------------------------------===//
+// Loads and stores: d(rN), d(rN)(rX*s), symbol (pc-relative)
+//===----------------------------------------------------------------------===//
+
+multiclass LD<string mn, SDPatternOperator ld, ValueType vt> {
+  def _R : PI<(outs GPR:$rd), (ins GPR:$b, disp:$d), !strconcat(mn, " $d($b), $rd"),
+              [(set vt:$rd, (ld (addrri i64:$b, simm28:$d)))]> { let mayLoad = 1; }
+  def _X : PI<(outs GPR:$rd), (ins GPR:$b, disp:$d, GPR:$i, scale:$s),
+              !strconcat(mn, " $d($b)($i*$s), $rd"),
+              [(set vt:$rd, (ld (addrrx i64:$b, simm28:$d, i64:$i, scaleimm:$s)))]> { let mayLoad = 1; }
+  def _S : PI<(outs GPR:$rd), (ins symop:$g), !strconcat(mn, " $g, $rd"),
+              [(set vt:$rd, (ld (pdp64wrap tglobaladdr:$g)))]> { let mayLoad = 1; }
+}
+multiclass ST<string mn, SDPatternOperator st, ValueType vt> {
+  def _R : PI<(outs), (ins GPR:$rs, GPR:$b, disp:$d), !strconcat(mn, " $rs, $d($b)"),
+              [(st vt:$rs, (addrri i64:$b, simm28:$d))]> { let mayStore = 1; }
+  def _X : PI<(outs), (ins GPR:$rs, GPR:$b, disp:$d, GPR:$i, scale:$s),
+              !strconcat(mn, " $rs, $d($b)($i*$s)"),
+              [(st vt:$rs, (addrrx i64:$b, simm28:$d, i64:$i, scaleimm:$s))]> { let mayStore = 1; }
+  def _S : PI<(outs), (ins GPR:$rs, symop:$g), !strconcat(mn, " $rs, $g"),
+              [(st vt:$rs, (pdp64wrap tglobaladdr:$g))]> { let mayStore = 1; }
+}
+// a load with no extension pattern of its own: a sign-extending load serves the
+// any-extending one (a value narrower than 64 bits is kept extended in a register)
+defm LDQ  : LD<MN_movq,  load, i64>;
+defm LDFD : LD<MN_movq,  load, f64>;
+defm LDFS : LD<MN_movl,  load, f32>;       // movl: sign-extends, as a binary32 is kept
+defm LDL  : LD<MN_movl,  sextloadi32, i64>;
+defm LDLA : LD<MN_movl,  extloadi32, i64>;
+defm LDW  : LD<MN_movw,  sextloadi16, i64>;
+defm LDWA : LD<MN_movw,  extloadi16, i64>;
+defm LDB  : LD<MN_movb,  sextloadi8, i64>;
+defm LDBA : LD<MN_movb,  extloadi8, i64>;
+defm LDZL : LD<MN_movzl, zextloadi32, i64>;
+defm LDZW : LD<MN_movzw, zextloadi16, i64>;
+defm LDZB : LD<MN_movzb, zextloadi8, i64>;
+defm LDZ1 : LD<MN_movzb, zextloadi1, i64>;
+defm LDA1 : LD<MN_movzb, extloadi1, i64>;
+defm STQ  : ST<MN_movq,  store, i64>;
+defm STFD : ST<MN_movq,  store, f64>;
+defm STFS : ST<MN_movl,  store, f32>;
+defm STL  : ST<MN_movl,  truncstorei32, i64>;
+defm STW  : ST<MN_movw,  truncstorei16, i64>;
+defm STB  : ST<MN_movb,  truncstorei8, i64>;
+
+// post-increment and pre-decrement: "mn (rN)+, rd" loads and then adds the size
+// of the access to rN, "mn -(rN), rd" subtracts it first.  Selected in C++
+// (tryIndexed in PDP64ISelDAGToDAG.cpp): the size is the size of the access.
+multiclass IDXLD<string mn> {
+  let Constraints = "$wb = $base", mayLoad = 1 in {
+    def _PI : PI<(outs GPR:$rd, GPR:$wb), (ins GPR:$base), !strconcat(mn, " ($base)+, $rd")>;
+    def _PD : PI<(outs GPR:$rd, GPR:$wb), (ins GPR:$base), !strconcat(mn, " -($base), $rd")>;
   }
-  def _2 : BrI48<OPGROUP_SOB, (ins GPR:$rd, brt2:$t), mn # "\t$rd, $t"> {
-    bits<4> rd;
-    bits<32> t;
-    let r = rd;
-    let l = 0;
-    let Inst{31-16} = t{31-16};
-    let Inst{47-32} = t{15-0};
-    let Form = FORM_SOB;
+}
+multiclass IDXST<string mn> {
+  let Constraints = "$wb = $base", mayStore = 1 in {
+    def _PI : PI<(outs GPR:$wb), (ins GPR:$rs, GPR:$base), !strconcat(mn, " $rs, ($base)+")>;
+    def _PD : PI<(outs GPR:$wb), (ins GPR:$rs, GPR:$base), !strconcat(mn, " $rs, -($base)")>;
   }
 }
-// btag rd, #tag, label   (low = sense:1 tag:3)
-multiclass TagForm<string mn, bit sense> {
-  def _1 : BrI32<OPGROUP_TAG, (ins GPR:$rd, uimm3:$tag, brt1m:$t), mn # "\t$rd, $tag, $t"> {
-    bits<4> rd;
-    bits<3> tag;
-    bits<16> t;
-    let r = rd;
-    let l = {sense, tag{2}, tag{1}, tag{0}};
-    let Inst{31-16} = t;
-    let Form = FORM_TAG;
-  }
-  def _2 : BrI48<OPGROUP_TAG, (ins GPR:$rd, uimm3:$tag, brt2:$t), mn # "\t$rd, $tag, $t"> {
-    bits<4> rd;
-    bits<3> tag;
-    bits<32> t;
-    let r = rd;
-    let l = {sense, tag{2}, tag{1}, tag{0}};
-    let Inst{31-16} = t{31-16};
-    let Inst{47-32} = t{15-0};
-    let Form = FORM_TAG;
-  }
-}
+defm LDQX  : IDXLD<MN_movq>;
+defm LDLX  : IDXLD<MN_movl>;
+defm LDWX  : IDXLD<MN_movw>;
+defm LDBX  : IDXLD<MN_movb>;
+defm LDZLX : IDXLD<MN_movzl>;
+defm LDZWX : IDXLD<MN_movzw>;
+defm LDZBX : IDXLD<MN_movzb>;
+defm STQX  : IDXST<MN_movq>;
+defm STLX  : IDXST<MN_movl>;
+defm STWX  : IDXST<MN_movw>;
+defm STBX  : IDXST<MN_movb>;
 
-// cbCC: compare and branch.  Three flavours of encoding for the immediate form (opcode 0x28 short, 0x29 wide, 0x28 long), and
-// the register form (0x2A, two lengths).  The condition is the number of the mnemonic.
-multiclass CBranch<string mn, bits<4> cond> {
-  let isBranch = 1, isTerminator = 1 in {
-    def NAME : Inst32<(outs), (ins GPR:$rd, simm5:$imm, cbt1:$t), mn # "\t$rd, $imm, $t"> {
-      bits<4> rd; bits<5> imm; bits<11> t;
-      let Inst{15-14} = LENCODE_PARCELS2;
-      let Inst{13-8} = OPGROUP_CBR;
-      let Inst{7-4} = rd;
-      let Inst{3-0} = cond;
-      let Inst{31-27} = imm;
-      let Inst{26-16} = t;
-      let Form = FORM_CB;
-    }
-    def NAME # "_W" : Inst48<(outs), (ins GPR:$rd, simm16w:$imm, cbwt:$t), mn # "\t$rd, $imm, $t"> {
-      bits<4> rd; bits<16> imm; bits<16> t;
-      let Inst{15-14} = LENCODE_PARCELS3;
-      let Inst{13-8} = OPGROUP_CBW;
-      let Inst{7-4} = rd;
-      let Inst{3-0} = cond;
-      let Inst{31-16} = imm;
-      let Inst{47-32} = t;
-      let Form = FORM_CBW;
-    }
-    def NAME # "_L" : Inst48<(outs), (ins GPR:$rd, simm5w:$imm, cbt2:$t), mn # "\t$rd, $imm, $t"> {
-      bits<4> rd; bits<5> imm; bits<27> t;
-      let Inst{15-14} = LENCODE_PARCELS3;
-      let Inst{13-8} = OPGROUP_CBR;
-      let Inst{7-4} = rd;
-      let Inst{3-0} = cond;
-      let Inst{31-27} = imm;
-      let Inst{26-16} = t{26-16};
-      let Inst{47-32} = t{15-0};
-      let Form = FORM_CB;
-    }
-    def NAME # "_RR1" : Inst32<(outs), (ins GPR:$ra, GPR:$rb, cbrt1:$t), mn # "\t$ra, $rb, $t"> {
-      bits<4> ra; bits<4> rb; bits<12> t;
-      let Inst{15-14} = LENCODE_PARCELS2;
-      let Inst{13-8} = OPGROUP_CBRR;
-      let Inst{7-4} = ra;
-      let Inst{3-0} = rb;
-      let Inst{31-28} = cond;
-      let Inst{27-16} = t;
-      let Form = FORM_CBR;
-    }
-    def NAME # "_RR2" : Inst48<(outs), (ins GPR:$ra, GPR:$rb, cbrt2:$t), mn # "\t$ra, $rb, $t"> {
-      bits<4> ra; bits<4> rb; bits<28> t;
-      let Inst{15-14} = LENCODE_PARCELS3;
-      let Inst{13-8} = OPGROUP_CBRR;
-      let Inst{7-4} = ra;
-      let Inst{3-0} = rb;
-      let Inst{31-28} = cond;
-      let Inst{27-16} = t{27-16};
-      let Inst{47-32} = t{15-0};
-      let Form = FORM_CBR;
-    }
-  }
-}
+// lea: three-address add of a displacement, a scaled index, a symbol
+def LEA_R : PI<(outs GPR:$rd), (ins GPR:$b, disp:$d), !strconcat(MN_lea, " $d($b), $rd")>;
+def LEA_X : PI<(outs GPR:$rd), (ins GPR:$b, disp:$d, GPR:$i, scale:$s),
+               !strconcat(MN_lea, " $d($b)($i*$s), $rd")>;
+def LEA_S : PI<(outs GPR:$rd), (ins symop:$g), !strconcat(MN_lea, " $g, $rd")>;
 
-// ---- SYS ---------------------------------------------------------------------------------------------------------------------
+let AddedComplexity = 5 in {
+def : Pat<(i64 (add i64:$b, simm28:$d)), (LEA_R $b, simm28:$d)>;
+def : Pat<(i64 (leasr i64:$b, i64:$i, scaleimm:$s)), (LEA_X $b, 0, $i, $s)>;
+}
+def : Pat<(i64 frameindex:$fi), (LEA_R (i64 (to_tframeindex $fi)), 0)>;
+def : Pat<(i64 (pdp64wrap tglobaladdr:$g)), (LEA_S tglobaladdr:$g)>;
+def : Pat<(i64 (pdp64wrap texternalsym:$g)), (LEA_S texternalsym:$g)>;
+def : Pat<(i64 (pdp64wrap tjumptable:$g)), (LEA_S tjumptable:$g)>;
+def : Pat<(i64 (pdp64wrap tblockaddress:$g)), (LEA_S tblockaddress:$g)>;
+def : Pat<(i64 (pdp64wrap tconstpool:$g)), (LEA_S tconstpool:$g)>;
 
-class Sys0<string mn, bits<4> minor> : Inst16<(outs), (ins), mn> {
-  let Inst{15-14} = LENCODE_PARCELS1;
-  let Inst{13-8} = OPGROUP_SYS;
-  let Inst{7-4} = 0;
-  let Inst{3-0} = minor;
-  let Form = FORM_SYS;
+// the stack pointer and the frame pointer (prologue, epilogue, dynamic alloca)
+let Defs = [R14], Uses = [R14] in {
+def ADDSP : PI<(outs), (ins imm64:$i), !strconcat(MN_add, " #$i, sp")>;
+def SUBSP : PI<(outs), (ins imm64:$i), !strconcat(MN_sub, " #$i, sp")>;
 }
-class SysReg1<string mn, bits<4> cls> : Inst16<(outs), (ins GPR:$a), mn # "\t$a"> {
-  bits<4> a;
-  let Inst{15-14} = LENCODE_PARCELS1;
-  let Inst{13-8} = OPGROUP_SYS;
-  let Inst{7-4} = cls;
-  let Inst{3-0} = a;
-  let Form = FORM_SYS;
-}
-class SysImm4<string mn, bits<4> cls> : Inst16<(outs), (ins uimm4:$n), mn # "\t$n"> {
-  bits<4> n;
-  let Inst{15-14} = LENCODE_PARCELS1;
-  let Inst{13-8} = OPGROUP_SYS;
-  let Inst{7-4} = cls;
-  let Inst{3-0} = n;
-  let Form = FORM_SYS;
-}
-// trap #n for n >= 16: the number is in parcel 1
-class SysTrapL<string mn, bits<4> cls> : Inst32<(outs), (ins uimm8trap:$n), mn # "\t$n"> {
-  bits<8> n;
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = OPGROUP_SYS;
-  let Inst{7-4} = cls;
-  let Inst{3-0} = 0;
-  let Inst{31-24} = n;
-  let Inst{23-16} = 0;
-  let Form = FORM_SYS;
-}
-class SysProbe<string mn, bits<4> cls> : Inst32<(outs), (ins GPR:$rd, GPR:$rs), mn # "\t$rd, $rs"> {
-  bits<4> rd; bits<4> rs;
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = OPGROUP_SYS;
-  let Inst{7-4} = cls;
-  let Inst{3-0} = rs;
-  let Inst{31-28} = rd;
-  let Inst{27-16} = 0;
-  let Form = FORM_SYS;
-}
-// pushx, popx: SYS class 0, minor 15 (SYSX), the sub-opcode in parcel 1
-class SysX<string mn, bits<8> sub> : Inst32<(outs), (ins), mn> {
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = OPGROUP_SYS;
-  let Inst{7-4} = 0;
-  let Inst{3-0} = SYS_MINOR_SYSX;
-  let Inst{31-24} = sub;
-  let Inst{23-16} = 0;
-  let Form = FORM_SYS;
-}
-// hint #n: the code in the pad byte
-class SysXHint<string mn, bits<8> sub> : Inst32<(outs), (ins uimm8:$n), mn # "\t$n"> {
-  bits<8> n;
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = OPGROUP_SYS;
-  let Inst{7-4} = 0;
-  let Inst{3-0} = SYS_MINOR_SYSX;
-  let Inst{31-24} = sub;
-  let Inst{23-16} = n;
-  let Form = FORM_SYS;
-}
-// mfsr rd, name / mtsr name, rs: SYS class 0, minors 13 and 14, the system register in parcel 1
-class SysRegMove<string mn, bits<4> minor, bit isMf> :
-    Inst32<(outs), (ins GPR:$r, sysregop:$sr), !if(isMf, mn # "\t$r, $sr", mn # "\t$sr, $r")> {
-  bits<4> r; bits<8> sr;
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = OPGROUP_SYS;
-  let Inst{7-4} = 0;
-  let Inst{3-0} = minor;
-  let Inst{31-24} = sr;
-  let Inst{23-20} = r;
-  let Inst{19-16} = 0;
-  let Form = FORM_SYS;
-}
-// set cc, rd: AESC, sub-opcode `set`, the condition in the x field
-class SetCond<string mn> : Inst32<(outs), (ins ccop:$cc, GPR:$rd), mn # "\t$cc, $rd"> {
-  bits<4> cc; bits<4> rd;
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = OPGROUP_AESC;
-  let Inst{7-4} = rd;
-  let Inst{3-0} = 0;
-  let Inst{31-24} = SUBOP_SET;
-  let Inst{23-20} = 0;
-  let Inst{19-16} = cc;
-  let Form = FORM_NONE;
-}
+let Defs = [R14], Uses = [R14, R13] in
+def FPTOSP : PI<(outs), (ins), !strconcat(MN_movq, " fp, sp")>;
+let Defs = [R13], Uses = [R14] in
+def SPTOFP : PI<(outs), (ins), !strconcat(MN_movq, " sp, fp")>;
+let Defs = [R14], Uses = [R14], mayStore = 1 in
+def PUSHFP : PI<(outs), (ins), !strconcat(MN_push, " fp")>;
+let Defs = [R14, R13], Uses = [R14], mayLoad = 1 in
+def POPFP : PI<(outs), (ins), !strconcat(MN_pop, " fp")>;
 
-// ---- BESC, MBLK, AESC, FESC: parcel 1 is sub:8 t:4 x:4 ---------------------------------------------------------------------
+//===----------------------------------------------------------------------===//
+// Control flow
+//===----------------------------------------------------------------------===//
 
-class EscBase<int grp, bits<8> sub, dag ins, string asm> : Inst32<(outs), ins, asm> {
-  bits<4> rd;      // the reg field
-  bits<4> ra;      // the low field
-  bits<4> rb;      // t
-  bits<4> rc;      // x
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = grp;
-  let Inst{7-4} = rd;
-  let Inst{3-0} = ra;
-  let Inst{31-24} = sub;
-  let Inst{23-20} = rb;
-  let Inst{19-16} = rc;
+let isBranch = 1, isTerminator = 1, isBarrier = 1 in {
+def BR : PI<(outs), (ins brtarget:$dst), !strconcat(MN_br, " $dst"), [(br bb:$dst)]>;
 }
-class Esc2<int grp, string mn, bits<8> sub> : EscBase<grp, sub, (ins GPR:$ra, GPR:$rd), mn # "\t$ra, $rd"> {
-  let rb = 0; let rc = 0;
-}
-class Esc3<int grp, string mn, bits<8> sub> : EscBase<grp, sub, (ins GPR:$ra, GPR:$rb, GPR:$rd), mn # "\t$ra, $rb, $rd"> {
-  let rc = 0;
-}
-// the memory block instructions name their registers in the order of the fields: mcpy rd, rs, rn
-class Esc3Blk<int grp, string mn, bits<8> sub> : EscBase<grp, sub, (ins GPR:$rd, GPR:$ra, GPR:$rb), mn # "\t$rd, $ra, $rb"> {
-  let rc = 0;
-}
-class EscMval<int grp, string mn, bits<8> sub> : EscBase<grp, sub, (ins GPR:$rd, GPR:$rb), mn # "\t$rd, $rb"> {
-  let ra = 0; let rc = 0;
-}
-class Esc4<int grp, string mn, bits<8> sub> : EscBase<grp, sub, (ins GPR:$ra, GPR:$rb, GPR:$rc, GPR:$rd), mn # "\t$ra, $rb, $rc, $rd"> {
-}
-// fcmp32 rd, rs: register first, as cmp
-class EscCmp<int grp, string mn, bits<8> sub> : EscBase<grp, sub, (ins GPR:$rd, GPR:$ra), mn # "\t$rd, $ra"> {
-  let rb = 0; let rc = 0;
-}
-// rori rs, #n, rd: parcel 1 is sub:8 count:8
-class EscCount<int grp, string mn, bits<8> sub, Operand cnt> : Inst32<(outs), (ins GPR:$ra, cnt:$n, GPR:$rd), mn # "\t$ra, $n, $rd"> {
-  bits<4> rd; bits<4> ra; bits<6> n;
-  let Inst{15-14} = LENCODE_PARCELS2;
-  let Inst{13-8} = grp;
-  let Inst{7-4} = rd;
-  let Inst{3-0} = ra;
-  let Inst{31-24} = sub;
-  let Inst{23-16} = {0, 0, n};
-}
-// dshr ra, rb, #n, rd: three parcels, the position in parcel 2
-class EscDshr<int grp, string mn, bits<8> sub> : Inst48<(outs), (ins GPR:$ra, GPR:$rb, uimm6:$n, GPR:$rd), mn # "\t$ra, $rb, $n, $rd"> {
-  bits<4> rd; bits<4> ra; bits<4> rb; bits<6> n;
-  let Inst{15-14} = LENCODE_PARCELS3;
-  let Inst{13-8} = grp;
-  let Inst{7-4} = rd;
-  let Inst{3-0} = ra;
-  let Inst{31-24} = sub;
-  let Inst{23-20} = rb;
-  let Inst{19-16} = 0;
-  let Inst{47-40} = {0, 0, n};
-  let Inst{39-32} = 0;
-}
-// extb rs, #pos, #width, rd
-class EscField<int grp, string mn, bits<8> sub> : Inst48<(outs), (ins GPR:$ra, uimm6:$pos, bwidth:$w, GPR:$rd), mn # "\t$ra, $pos, $w, $rd"> {
-  bits<4> rd; bits<4> ra; bits<6> pos; bits<8> w;
-  let Inst{15-14} = LENCODE_PARCELS3;
-  let Inst{13-8} = grp;
-  let Inst{7-4} = rd;
-  let Inst{3-0} = ra;
-  let Inst{31-24} = sub;
-  let Inst{23-16} = 0;
-  let Inst{47-40} = {0, 0, pos};
-  let Inst{39-32} = w;
-}
+let isBranch = 1, isTerminator = 1, isBarrier = 1, isIndirectBranch = 1 in
+def JMPR : PI<(outs), (ins GPR:$rs), !strconcat(MN_jmp, " ($rs)"), [(brind i64:$rs)]>;
 
-include "gen/PDP64InstrDefs.td"
+// compare and branch: cbCC ra, rb|#imm, label (the assembler picks the length)
+let isBranch = 1, isTerminator = 1 in {
+def CB_rr : PI<(outs), (ins GPR:$a, GPR:$b, ccop:$cc, brtarget:$dst),
+               "cb${cc} $a, $b, $dst",
+               [(pdp64brcc i64:$a, i64:$b, (i64 timm:$cc), bb:$dst)]>;
+def CB_ri : PI<(outs), (ins GPR:$a, imm64:$i, ccop:$cc, brtarget:$dst),
+               "cb${cc} $a, #$i, $dst",
+               [(pdp64brcc i64:$a, simm16:$i, (i64 timm:$cc), bb:$dst)]>;
+// a branch on the flags (after a floating-point compare)
+def BFLAG : PI<(outs), (ins ccop:$cc, brtarget:$dst), "b${cc} $dst">;  // only in the printer
+// the floating-point compare-and-branch: one instruction here, printed as
+// fcmp + b<cc> by the AsmPrinter (PDP64::fpSequence), so that nothing can be
+// scheduled between the compare and the branch (the flags are not modelled)
+let isCodeGenOnly = 1 in {
+def FBR_D : PI<(outs), (ins GPR:$a, GPR:$b, ccop:$cc, brtarget:$dst), "# FBR_D",
+               [(pdp64brcc f64:$a, f64:$b, (i64 timm:$cc), bb:$dst)]>;
+def FBR_S : PI<(outs), (ins GPR:$a, GPR:$b, ccop:$cc, brtarget:$dst), "# FBR_S",
+               [(pdp64brcc f32:$a, f32:$b, (i64 timm:$cc), bb:$dst)]>;
+}
+}
+def FCMP_D : PI<(outs), (ins GPR:$a, GPR:$b), !strconcat(MN_fcmp, " $a, $b")>;
+def FCMP_S : PI<(outs), (ins GPR:$a, GPR:$b), !strconcat(MN_fcmp32, " $a, $b")>;
+
+// select: a diamond made by the custom inserter
+let usesCustomInserter = 1 in {
+def SEL_RR : PI<(outs GPR:$rd), (ins GPR:$a, GPR:$b, ccop:$cc, GPR:$t, GPR:$f), "# SEL_RR">;
+def SEL_RI : PI<(outs GPR:$rd), (ins GPR:$a, imm64:$i, ccop:$cc, GPR:$t, GPR:$f), "# SEL_RI">;
+def SEL_FD : PI<(outs GPR:$rd), (ins GPR:$a, GPR:$b, ccop:$cc, GPR:$t, GPR:$f), "# SEL_FD">;
+def SEL_FS : PI<(outs GPR:$rd), (ins GPR:$a, GPR:$b, ccop:$cc, GPR:$t, GPR:$f), "# SEL_FS">;
+}
+multiclass SelPats<ValueType vt> {
+  def : Pat<(vt (pdp64selcc i64:$a, i64:$b, (i64 timm:$cc), vt:$t, vt:$f)),
+            (SEL_RR $a, $b, timm:$cc, $t, $f)>;
+  def : Pat<(vt (pdp64selcc i64:$a, simm16:$i, (i64 timm:$cc), vt:$t, vt:$f)),
+            (SEL_RI $a, simm16:$i, timm:$cc, $t, $f)>;
+  def : Pat<(vt (pdp64selcc f64:$a, f64:$b, (i64 timm:$cc), vt:$t, vt:$f)),
+            (SEL_FD $a, $b, timm:$cc, $t, $f)>;
+  def : Pat<(vt (pdp64selcc f32:$a, f32:$b, (i64 timm:$cc), vt:$t, vt:$f)),
+            (SEL_FS $a, $b, timm:$cc, $t, $f)>;
+}
+defm : SelPats<i64>;
+defm : SelPats<f64>;
+defm : SelPats<f32>;
+
+// calls: call sym / call (rN); the result is in r0 (r1)
+let isCall = 1, Uses = [R14] in {
+def CALL  : PI<(outs), (ins symop:$f), !strconcat(MN_call, " $f"), [(pdp64call tglobaladdr:$f)]>;
+def CALLX : PI<(outs), (ins symop:$f), !strconcat(MN_call, " $f"), [(pdp64call texternalsym:$f)]>;
+def CALLR : PI<(outs), (ins GPR:$r), !strconcat(MN_call, " ($r)"), [(pdp64call i64:$r)]>;
+}
+let isReturn = 1, isTerminator = 1, isBarrier = 1 in
+def RET : PI<(outs), (ins), MN_ret, [(pdp64ret)]>;
+
+let Defs = [R14], Uses = [R14] in {
+def ADJCALLSTACKDOWN : PI<(outs), (ins imm64:$a1, imm64:$a2), "# ADJCALLSTACKDOWN $a1, $a2",
+                          [(callseq_start timm:$a1, timm:$a2)]>;
+def ADJCALLSTACKUP   : PI<(outs), (ins imm64:$a1, imm64:$a2), "# ADJCALLSTACKUP $a1, $a2",
+                          [(callseq_end timm:$a1, timm:$a2)]>;
+}
+let isBarrier = 1, isTerminator = 1, hasSideEffects = 1 in
+def BPT : PI<(outs), (ins), MN_bpt, [(trap)]>;
+def NOP : PI<(outs), (ins), MN_nop>;
+
+//===----------------------------------------------------------------------===//
+// Floating point: binary64 in a register, binary32 in the low 32 bits
+// sign-extended.  "op rs, rd" is rd = rd op rs.
+//===----------------------------------------------------------------------===//
+
+multiclass FALU<string mn, ValueType vt, SDPatternOperator op, bit comm = 0> {
+  let Constraints = "$rd = $rs1" in
+  def NAME : PI<(outs GPR:$rd), (ins GPR:$rs1, GPR:$rs2), !strconcat(mn, " $rs2, $rd"),
+                [(set vt:$rd, (op vt:$rs1, vt:$rs2))]> { let isCommutable = comm; }
+}
+defm FADD_D : FALU<MN_fadd, f64, fadd, 1>;
+defm FSUB_D : FALU<MN_fsub, f64, fsub>;
+defm FMUL_D : FALU<MN_fmul, f64, fmul, 1>;
+defm FDIV_D : FALU<MN_fdiv, f64, fdiv>;
+defm FADD_S : FALU<MN_fadd32, f32, fadd, 1>;
+defm FSUB_S : FALU<MN_fsub32, f32, fsub>;
+defm FMUL_S : FALU<MN_fmul32, f32, fmul, 1>;
+defm FDIV_S : FALU<MN_fdiv32, f32, fdiv>;
+
+multiclass FUN<string mn, ValueType dt, ValueType st, SDPatternOperator op> {
+  def NAME : PI<(outs GPR:$rd), (ins GPR:$rs), !strconcat(mn, " $rs, $rd"),
+                [(set dt:$rd, (op st:$rs))]>;
+}
+defm FSQRT_D : FUN<MN_fsqrt, f64, f64, fsqrt>;
+defm FSQRT_S : FUN<MN_fsqrt32, f32, f32, fsqrt>;
+defm FNEG_D  : FUN<MN_fneg, f64, f64, fneg>;
+defm FABS_D  : FUN<MN_fabs, f64, f64, fabs>;
+defm FCVT_SD : FUN<MN_fcvtsd, f64, f32, fpextend>;
+defm FCVT_DS : FUN<MN_fcvtds, f32, f64, fpround>;
+defm FCVT_QD : FUN<MN_fcvtqd, f64, i64, sint_to_fp>;
+defm FCVT_DQ : FUN<MN_fcvtdq, i64, f64, fp_to_sint>;
+defm FCVT_QUD : FUN<MN_fcvtqud, f64, i64, uint_to_fp>;
+defm FCVT_DQU : FUN<MN_fcvtdqu, i64, f64, fp_to_uint>;
+
+// binary32 negate and absolute value on the sign-extended bits
+def : Pat<(f32 (fneg f32:$a)), (f32 (XORri $a, -2147483648))>;
+def : Pat<(f32 (fabs f32:$a)), (f32 (ANDri $a, 2147483647))>;
+// conversions of a binary32 through the binary64 (the double rounding of an
+// i64 -> f32 is the price of having no direct instruction)
+def : Pat<(f32 (sint_to_fp i64:$x)), (f32 (FCVT_DS (f64 (FCVT_QD $x))))>;
+def : Pat<(f32 (uint_to_fp i64:$x)), (f32 (FCVT_DS (f64 (FCVT_QUD $x))))>;
+def : Pat<(i64 (fp_to_sint f32:$x)), (i64 (FCVT_DQ (f64 (FCVT_SD $x))))>;
+def : Pat<(i64 (fp_to_uint f32:$x)), (i64 (FCVT_DQU (f64 (FCVT_SD $x))))>;

@@ -1,39 +1,57 @@
 # pdp64 on LLVM
 
-> **Status (errata 122).** The machine-code layer in this directory encodes the original encoding of the earlier iterations (parcel 0 = `len:2 opc:6 reg:4 low:4`, sixteen registers, page 2), which is no longer a CPU of the project: `as64` produces only the encoding of `spec/pdp64/pdp64.hbnf`. The tests that compared `llvm-mc` with `as64` (`check.sh`, `oracle.py`, `forms.py`, `negative.py`, `runsim.py`) and the generator of the tables (`tools/gen-llvm-td.py`) depended on that encoding and were removed with it (they are in the git tag `pre-code-removal`). The sources here are frozen at that stage; the back end needs a port to the prefix-coded encoding (its instruction records come from `spec/pdp64/pdp64.hbnf`, not from the numbering in `spec/pdp64-mnemonics.hbnf`) before it can be built and checked again.
+> **Status: stage 1, the scalar code generator.** `llc -mtriple=pdp64-unknown-elf` turns LLVM IR into assembly text that `as64` assembles; `llvm/check.sh` compiles, assembles, links and runs the test programs under `sim64`. Not done: the vector, tile and GEMM instructions (stage 2, list at the end), an integrated assembler (`llc -filetype=obj`, `llvm-mc`), varargs, position-independent code. The machine-code layer of the earlier milestone (an assembler, disassembler and object writer for the old encoding) is not built any more; its sources are kept, frozen, in `target/frozen-M1/` (design notes: `docs/pdp64-system-architecture.md` section 14).
 
-The LLVM back end of the pdp64.  This directory holds everything written for it; `../llvm-project` (a checkout of
-`llvmorg-21.1.8`) and `../llvm-build` are scratch places where it is built, never committed here.  The arrangement is the
-QEMU one (`qemu/README.md`): the sources live in this repository, an install script copies them into the LLVM tree and applies a
-small patch for the edits to LLVM's own files, a build script configures and builds, and the numbers are generated from the
-architecture's grammars so that nothing is typed twice.
+The back end is for two things: to try different ways of vectorising and tiling with LLVM's own vectorisers (the vector instructions come in stage 2), and to compile code with LLVM so that the prefix optimiser can be run again on instruction statistics that are not pcc's.
 
-**Milestone M1 (this directory): the machine-code layer.**  An assembler, a disassembler and an ELF object writer, checked
-byte for byte against the project's assembler `as64`.  There is no code generator yet (`llc` and `clang` are later milestones).
+## Build and test
 
-    llvm/build.sh [-j N]        # install.sh + configure + ninja llvm-mc llvm-objdump llvm-readobj llvm-objcopy
-    llvm/install.sh [llvm-src]  # only put the target into an LLVM tree (idempotent)
-    llvm/check.sh               # the oracle: llvm-mc against as64, and the generated tables are fresh
-    tools/gen-llvm-td.py [--check]   # write / verify llvm/target/PDP64/gen
+    llvm/build.sh [-j N]    # install.sh + configure (PDP64 as an experimental target) + ninja llc llvm-tblgen llvm-mc ...
+    llvm/install.sh         # only copy the target into ../llvm-project (applies patch/llvm-core.patch; idempotent)
+    llvm/check.sh           # the tests (below); -v shows why one failed; --host checks the expected values with the host's x86 clang
+    tools/gen-llvm-td.py [--check]   # write / verify llvm/target/PDP64/gen from spec/pdp64/pdp64.hbnf
 
-    ../llvm-build/bin/llvm-mc -triple=pdp64-unknown-elf -filetype=obj -o t.o t.s
-    build/ld64 -o t.x t.o && build/sim64 t.x          # the linker takes the object
-    echo '0x40 0x80 0x00 0x08' | llvm-mc -triple=pdp64-unknown-elf -disassemble
+    ../llvm-build/bin/llc -mtriple=pdp64-unknown-elf -O2 x.ll -o x.s      # llc --version lists pdp64
 
-## Layout
+`llvm/build.sh` needs LLVM 21.1.8 in `../llvm-project` and builds in `../llvm-build` (`LLVM_SRC`, `LLVM_BUILD`); on 12 cores `llc` takes about ten minutes with `-j 10`.
 
-| path | what |
+**`llvm/check.sh`** compiles every `llvm/tests/*.ll` (`; expect: N` on the first line, `i32 @test()`), assembles with `as64`, links with `ld64` against the crt of `tools/pdp64test.sh` and `llvm/tests/lib/main.ll` (the driver that prints `test()`), runs `sim64` and compares. Then it takes the C programs of `tests/c/*.c` (and `tests/c-new/*.c`) through the host's `clang -S -emit-llvm -O1 -m64 -fno-builtin -ffreestanding -fno-stack-protector -mlong-double-64 -mno-sse -fno-vectorize` (triple, data layout and the x86 target attributes are dropped; `llc -mtriple=pdp64-unknown-elf` supplies its own) and `llc`, the same way. `LLC_OPT` (default `-O2`) and `COPT` (clang, default `-O1`) choose the levels; the C results are reported and do not decide the exit status.
+
+The expected values of the `.ll` tests were produced by compiling the same IR for the host (`check.sh --host` repeats that), so the tests do not rest on the author's arithmetic.
+
+## What is in `target/PDP64/`
+
+| file | what |
 |---|---|
-| `patch/llvm-core.patch` | the edits to LLVM's own files: `Triple::pdp64`, `EM_PDP64 = 0xF064` and `ELFRelocs/PDP64.def` (the five relocation types), the ELF file-format name, `llvm-readobj`'s machine name, the experimental-target list in `llvm/CMakeLists.txt` |
-| `target/PDP64/` | becomes `llvm/lib/Target/PDP64/` |
-| `target/PDP64/gen/` | generated by `tools/gen-llvm-td.py`, never edited: `PDP64Consts.td`, `PDP64RegisterInfo.td`, `PDP64InstrDefs.td` (one `defm`/`def` per mnemonic), `PDP64Layout.h` (the same constants for C++ and the field widths), `PDP64Tables.inc` (conditions, system registers, register aliases, page 2, the relaxation chain), `PDP64Fixups.def` |
-| `target/PDP64/PDP64.td`, `PDP64InstrFormats.td`, `PDP64InstrInfo.td` | the structure: the operand kinds, the instruction formats (`len:2 opc:6 reg:4 low:4`, then parcel 1 and 2), one multiclass per family of instruction |
-| `target/PDP64/MCTargetDesc/` | `PDP64AsmBackend` (fixups, relaxation, nops), `PDP64ELFObjectWriter`, `PDP64MCCodeEmitter`, `PDP64InstPrinter`, `PDP64MCAsmInfo`, `PDP64P2` (page 2) |
-| `target/PDP64/AsmParser/`, `Disassembler/`, `TargetInfo/` | the parser, the decoder, the target registration |
-| `target/PDP64/PDP64TargetStub.cpp` | `LLVMInitializePDP64Target()`, empty: the TargetMachine is milestone M2 |
-| `oracle.py`, `forms.py`, `negative.py`, `check.sh` | the tests (below) |
+| `PDP64.td`, `PDP64RegisterInfo.td`, `PDP64CallingConv.td`, `PDP64InstrInfo.td` | the target: registers and the one register class, the calling convention, the instructions (an assembly string and a selection pattern each; no encoding, no opcode number) |
+| `gen/` | generated by `tools/gen-llvm-td.py` from the grammar, never edited: `PDP64GenMnemonics.td` (every mnemonic as `MN_<name>`, so a mnemonic the grammar lacks is a tablegen error), `PDP64GenRegs.td` (r0-r31, the hot tables), `PDP64GenLayout.td/.h` (the widths of the operand fields: 32-bit ALU immediates, 28-bit displacements, 22-bit indexed displacements, 16-bit `cbCC` immediates; the `cbCC` condition names) |
+| `PDP64ISelLowering.cpp/.h` | legalisation, calling convention, custom lowering (symbols, compare-and-branch, select, rotates, f32 bit casts), the custom inserter for select, the `(rN)+` / `-(rN)` hooks |
+| `PDP64ISelDAGToDAG.cpp` | the address modes `d(rN)`, `d(rN)(rX*s)`, the scaled `lea`, post-increment / pre-decrement loads and stores |
+| `PDP64InstrInfo`, `PDP64RegisterInfo`, `PDP64FrameLowering`, `PDP64Subtarget`, `PDP64TargetMachine` | the rest of the code generator (branch analysis, spills, frame, the target object file that maps every section to `.text`, `.data` or `.bss`) |
+| `PDP64AsmPrinter.cpp`, `MCTargetDesc/` (`PDP64InstPrinter`, `PDP64MCAsmInfo`, ...), `TargetInfo/` | the text output in as64's syntax, the target registration |
 
-## Where the rest is
+`patch/llvm-core.patch` is still the one place for edits to LLVM's own files. Besides the triple, `EM_PDP64` and the relocation numbers of the earlier milestone it has one stage-1 change: `MCAsmStreamer::emitAlignmentDirective` prints `.align <bytes>` for pdp64 (LLVM 21 hard-codes `.p2align`, which as64 does not have).
 
-The design notes (how each feature maps to LLVM, where the numbers come from, how it is tested), the results of milestone M1, the awkward spots found in the ISA, what the next milestones need, the cost on a small machine and the way to build it on a bigger one are in
-[`docs/pdp64-system-architecture.md`](../docs/pdp64-system-architecture.md) section 14, so that one document covers the LLVM back end.
+## Design choices
+
+**Data layout** `e-m:e-p:64:64-i8:8-i16:16-i32:32-i64:64-i128:64-f32:32-f64:64-n64-S64`: little-endian, no symbol prefix (appendix D), 64-bit pointers, natural alignment (data alignment is architectural, ISA 7.4: a quad access that is not a multiple of 8 aborts, and `sim64` does abort), `i128` aligned to 8 (no register or type is wider than a quad), native width 64, the stack a multiple of 8. A load or store LLVM cannot prove aligned is split into byte accesses. The stack is not realigned (`StackRealignable = false`): an alloca with `align 16` is clamped to 8, which is all the machine needs.
+
+**Registers** (appendix D, and pcc where the appendix is silent): one class holds integers, pointers and floating point (`i64`, `f64`, `f32`); a binary32 is the low 32 bits of a register, sign-extended, so `movl` loads and stores it and `fadd32` and friends are two-register instructions. `r12` (linker scratch), `r13` (fp) and `r14` (sp) are not allocatable. Caller-saved: `r0`-`r7`, `r16`-`r23`; callee-saved: `r8`-`r11`, `r15` (the appendix), `r24`-`r31` (pcc's choice; the appendix leaves them open) and fp. The allocation order is the caller-saved registers first.
+
+**Types.** `i1`, `i8`, `i16`, `i32` are promoted to `i64`: a value carries garbage in the high bits and is extended where the bits matter (`movb`/`movw`/`movl` sign-extend a register, `movzb`/`movzw`/`movzl` or an `and` with a mask zero-extend, a load extends as it loads). That is `llc`'s ordinary any-extension scheme, not pcc's "always extended" one; the difference is only visible at an ABI boundary, where a narrow argument or result is passed **sign-extended unless it is marked `zeroext`** (`i1` zero-extended), which is what pcc's registers hold for `int`, `short`, `char` and the unsigned types after their own extension. A front end must therefore put `zeroext` on `unsigned char`, `unsigned short` and `_Bool` parameters and results to call pcc code. The callee never assumes more than the attributes say.
+
+**Calling convention.** Arguments in `r0`-`r5`, then 8-byte stack slots at `0(sp)`, `8(sp)` ... in the caller's outgoing area (the callee sees them at `16(fp)`); results in `r0` (`r0:r1` for an `i128`); a `byval` aggregate is copied into as many slots as it needs; `sret` is the first argument. The frame is pcc's: `push fp; movq sp,fp; sub #n,sp`, the callee-saved registers just below fp (stored with `movq`, not `pushm`), the locals, the outgoing area at the bottom (a reserved call frame; a function with dynamic allocas adjusts `sp` around each call); the epilogue is `movq fp,sp; pop fp; ret`. A function with nothing in its frame has none. Varargs are not implemented.
+
+**Instruction selection.** All integer comparisons are `cbCC ra, rb|#imm, label` (a 16-bit signed immediate, else the constant goes into a register); the assembler chooses the length and relaxes (checked with a 15 KB branch). No flags are modelled, so `cmp`-style compares appear only for floating point, as one pseudo that prints `fcmp x,y` and one `b<cc>` (`PDP64CC::fpSequence`: the flags after `fcmp` are N a<b, Z a==b, V unordered, so `bgt`/`bge`/`blt`/`ble` with the operands swapped cover ten predicates and `bvc`/`bvs` the other two; `one` and `ueq` are expanded by LLVM into two compares). A comparison used as a value, and `select`, are a branch diamond. Constants: `clr`, `movq #imm32`, `movq =K` (the literal pool of as64) for anything wider. Addresses: `d(rN)` (28-bit), `d(rN)(rX*s)` (index shifted by 1, 2 or 3), globals `sym` / `lea sym` (pc-relative, so no absolute addressing `@expr`), `lea` as the three-address add (`lea d(rN),rd`, `lea (rN)(rX*s),rd`), `(rN)+` and `-(rN)` when the pointer moves by the size of the access (found by the DAG combiner), `bic`, `rori`/`rol`, `min`/`max`/`minu`/`maxu`, `mulh`/`mulhu`, `div`/`divu`/`mod`/`modu`, `clz`/`ctz`/`popcnt`/`bswap`/`bitrev`. An `i64` to `float` conversion goes through `double` (one extra rounding). Switches: LLVM's jump tables (a `.quad` table in `.data`, `lea table,r; movq 0(r)(i*8),r; jmp (r)`) and compare trees. Atomics are library calls (`__atomic_*`, which the crt does not have).
+
+**Output.** Only `.text`, `.data`, `.bss` (as64 knows no others): read-only data, constant pools, jump tables and internal zero-initialised objects go to `.data` (`.local`/`.comm` do not exist in as64). A symbol that as64 would read as something else (`r0`..`r31`, `sp`, `fp`, and `ch`, found by trying) is written in double quotes. `.align n` is in bytes, `.space` for zeros, no `.type`/`.size`/`.file`/`.note.GNU-stack`.
+
+## What stage 2 needs
+
+* **Vector instructions** (`docs/encoding-work/vec-isa.md`): the hidden registers `v0`-`v15` as a register class that is not general (`VR`, behind the `vector` subtarget feature, `FeatureVector` is already declared), their instructions as `.td` records the same way (mnemonics through `MN_*`; `vec`, `vend` and the suffixed `vld.*`, `vadd.*` ... are in `spec/pdp64/pdp64.hbnf` now, mangled with `_` for the dots), selection patterns on `v*i8/i16/i32/i64`, `v*f32/f64`, the block structure (`vec Rs,Re` ... `vend` is a loop-shaped region over one stream, which LLVM's loop vectoriser does not model; the options are a custom pass that turns an innermost counted loop into a block, or fixed-`vlen` vectors with masked tails in IR), and a **`TargetTransformInfo`** (stage 1 has none, so no vectoriser would do anything useful: register width, per-operation costs, `isLegalMaskedLoad`, gather and scatter, the reduction and dot-product forms `vacc`, `vdot`, `vfmab`).
+* **Tile and GEMM** (`vt*`, `gemm.f`): a tile register class and `llvm.pdp64.*` intrinsics (the generic IR has `llvm.matrix.multiply` only); the accumulators that live across strips need `vclr`.
+* **Bounds checks** `ctCC rs, rb|#imm`, `cteq`, `ctne`, `chk2 rs,rlo,rhi` (leaves `CTM12`, `CT1`, `R2`, `R3`; today the assembler expands them to a `cbCC` and a `bpt` and writes the table of check sites): a pass that turns a bounds-check idiom (`icmp ult` + `br` to a trap block, or an intrinsic) into them, selected with the same pattern machinery.
+* **Integrated assembler and objects**: `MCCodeEmitter` + `MCAsmBackend` + `MCELFObjectWriter` that call `common/pdp64enc.c` (the table codec), then `llc -filetype=obj`, `llvm-mc`, `llvm-objdump`; `target/frozen-M1/` shows the fixup and relocation arrangement (`ELFRelocs/PDP64.def` is still in the patch). Branch relaxation would then be LLVM's, not as64's.
+* **Smaller things**: varargs (`va_start` with the register save area of appendix D.2), `pushm`/`popmret`/`movcall`/`mov2` in the frame code, tail calls, `cbz`/`sob` forms, ALU forms with a memory operand (`add mem,r`, `addm`), `maskeqz`/`masknez`/`bsel` for branch-free `select`, a hot-register preference in the allocation order (the tables are in `gen/PDP64GenLayout.h`), absolute addressing `@expr`, `fma`/`fmin`/`fmax`/`frint*` once their semantics are checked against `sim64`, PIC (`d(pc)` globals, `got(PC)` imports), TLS, debug information and unwind tables, GlobalISel.
+
+Where the rest is: the design notes of the first milestone, the awkward spots of the ISA and the cost on a small machine are in [`docs/pdp64-system-architecture.md`](../docs/pdp64-system-architecture.md) section 14.

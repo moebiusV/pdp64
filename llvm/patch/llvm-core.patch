@@ -116,6 +116,24 @@ index 0ad1a0942..36086b902 100644
    default:
      return "None";
    }
+diff --git a/llvm/lib/MC/MCAsmStreamer.cpp b/llvm/lib/MC/MCAsmStreamer.cpp
+index 28b6f28a2..a786404c4 100644
+--- a/llvm/lib/MC/MCAsmStreamer.cpp
++++ b/llvm/lib/MC/MCAsmStreamer.cpp
+@@ -1472,6 +1472,13 @@ void MCAsmStreamer::emitAlignmentDirective(uint64_t ByteAlignment,
+     return;
+   }
+ 
++  // pdp64: the assembler (as64) knows only ".align <bytes>"
++  if (getContext().getTargetTriple().getArch() == Triple::pdp64) {
++    OS << "\t.align\t" << ByteAlignment;
++    EmitEOL();
++    return;
++  }
++
+   // Some assemblers don't support non-power of two alignments, so we always
+   // emit alignments as a power of two if possible.
+   if (isPowerOf2_64(ByteAlignment)) {
 diff --git a/llvm/lib/Object/ELF.cpp b/llvm/lib/Object/ELF.cpp
 index ff99dc25a..200c778d9 100644
 --- a/llvm/lib/Object/ELF.cpp

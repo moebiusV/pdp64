@@ -7,7 +7,7 @@ here=$(CDPATH= cd -- "$(dirname "$0")" && pwd -P)
 SIB=$(dirname "$(dirname "$here")")
 L=${1:-${LLVM_SRC:-$SIB/llvm-project}}
 [ -f "$L/llvm/lib/Target/CMakeLists.txt" ] || { echo "$L is not an LLVM source tree" >&2; exit 1; }
-"$here/../tools/gen-llvm-td.py" --check > /dev/null || { echo "llvm/target/PDP64/gen is stale: run tools/gen-llvm-td.py" >&2; exit 1; }
+"$here/../tools/gen-llvm-td.py" --check || { echo "llvm/target/PDP64/gen is stale: run tools/gen-llvm-td.py" >&2; exit 1; }
 cd "$L"
 if git apply --reverse --check "$here/patch/llvm-core.patch" 2> /dev/null; then
 	echo "llvm-core.patch already applied"

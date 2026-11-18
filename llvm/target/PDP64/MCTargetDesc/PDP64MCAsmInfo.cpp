@@ -1,27 +1,47 @@
-//===-- PDP64MCAsmInfo.cpp - PDP64 asm properties -------------------------===//
 #include "PDP64MCAsmInfo.h"
 #include "llvm/TargetParser/Triple.h"
 
 using namespace llvm;
 
-void PDP64MCAsmInfo::anchor() {}
-
+// The syntax of as64 (docs/asm-syntax.md): ';' comments, .byte/.word(16)/.long/.quad,
+// .space, .ascii, .align n (bytes), .globl, labels with a colon; no .type/.size/.file.
 PDP64MCAsmInfo::PDP64MCAsmInfo(const Triple &TT) {
+  WeakRefDirective = "\t.weak\t";
   CodePointerSize = 8;
   CalleeSaveStackSlotSize = 8;
-  MinInstAlignment = 2;      // an instruction at an odd address is an assembler error
   IsLittleEndian = true;
-
-  // docs/asm-syntax.md: `;` starts a comment.  As in MSP430, the statement separator is a character that does not otherwise occur.
   CommentString = ";";
-  SeparatorString = "{";
-
   PrivateGlobalPrefix = ".L";
-  AlignmentIsInBytes = true;
-  UsesELFSectionDirectiveForBSS = true;
-
-  // .short is 16 bits, .long 32, .quad 64 (the generic spellings of .word, .long, .quad)
-  Data16bitsDirective = "\t.short\t";
+  PrivateLabelPrefix = ".L";
+  Data8bitsDirective = "\t.byte\t";
+  Data16bitsDirective = "\t.word\t";
   Data32bitsDirective = "\t.long\t";
   Data64bitsDirective = "\t.quad\t";
+  ZeroDirective = "\t.space\t";
+  AsciiDirective = "\t.ascii\t";
+  AscizDirective = nullptr;
+  GlobalDirective = "\t.globl\t";
+  AlignmentIsInBytes = true;
+  HasDotTypeDotSizeDirective = false;
+  HasIdentDirective = false;
+  HasSingleParameterDotFile = false;
+  SupportsDebugInformation = false;
+  ExceptionsType = ExceptionHandling::None;
+  UsesELFSectionDirectiveForBSS = false;
+  MinInstAlignment = 2;
+  UseIntegratedAssembler = false;
+}
+
+// as64 refuses r0..r31 (and r<digits>), sp and fp, and also "ch" (found by
+// trying: the assembler's grammar has it as a word), as the name of a symbol; in
+// double quotes any name is taken (docs/asm-syntax.md).
+bool PDP64MCAsmInfo::isValidUnquotedName(StringRef Name) const {
+  if (!MCAsmInfo::isValidUnquotedName(Name))
+    return false;
+  if (Name == "sp" || Name == "fp" || Name == "ch")
+    return false;
+  if (Name.size() > 1 && Name[0] == 'r' &&
+      Name.drop_front().find_first_not_of("0123456789") == StringRef::npos)
+    return false;
+  return true;
 }

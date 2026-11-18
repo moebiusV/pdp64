@@ -1,7 +1,7 @@
 #!/bin/sh
-# Build what milestone M1 (the machine-code layer) needs: llvm-tblgen, the MC libraries, llvm-mc, llvm-objdump, llvm-readobj, llvm-objcopy.
+# Build the pdp64 back end (stage 1: the scalar code generator, llc) and the LLVM tools that go with it: llc, llvm-tblgen, llvm-mc, llvm-objdump, llvm-readobj, llvm-objcopy.
 #
-#   llvm/build.sh [-j N]       install.sh + configure + ninja; the result is $LLVM_BUILD/bin/llvm-mc
+#   llvm/build.sh [-j N]       install.sh + configure + ninja; the result is $LLVM_BUILD/bin/llc (llc --version lists pdp64)
 #
 # LLVM_SRC (default ../llvm-project next to this repository, tag llvmorg-21.1.8) and LLVM_BUILD (default ../llvm-build) name the two trees.
 # The defaults are for a small machine (3 GB, 2 cores): one compile job, one link job, the BFD linker with --no-keep-memory,
@@ -17,7 +17,7 @@ J=1
 [ -d "$L/.git" ] || git clone --depth 1 --branch llvmorg-21.1.8 https://github.com/llvm/llvm-project.git "$L"
 "$here/install.sh" "$L"
 LINKER=${LLVM_USE_LINKER:-bfd}
-TARGETS=${TARGETS:-"llvm-tblgen llvm-mc llvm-objdump llvm-readobj llvm-objcopy"}
+TARGETS=${TARGETS:-"llc llvm-tblgen llvm-mc llvm-objdump llvm-readobj llvm-objcopy"}
 if [ ! -f "$B/build.ninja" ]; then
 	cmake -G Ninja -S "$L/llvm" -B "$B" -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON \
 		-DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS:-}" -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=PDP64 \
@@ -27,5 +27,6 @@ if [ ! -f "$B/build.ninja" ]; then
 		-DLLVM_ENABLE_ZLIB=OFF -DLLVM_ENABLE_ZSTD=OFF -DLLVM_ENABLE_LIBXML2=OFF -DLLVM_ENABLE_TERMINFO=OFF \
 		${LLVM_USE_LINKER_FLAGS:--DCMAKE_EXE_LINKER_FLAGS=-Wl,--no-keep-memory}
 fi
+grep -q "^LLVM_EXPERIMENTAL_TARGETS_TO_BUILD:STRING=.*PDP64" "$B/CMakeCache.txt" || cmake -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=PDP64 "$B"
 ninja -C "$B" -j "$J" $TARGETS
-echo "built $B/bin/llvm-mc"
+echo "built $B/bin/llc"
