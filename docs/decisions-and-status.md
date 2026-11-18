@@ -494,7 +494,7 @@
 
 
 ### Assembler syntax: NASM's small spellings
-- Status: IN PROGRESS — the small spellings are done, in the grammar; the operand order, the memory brackets, the size words and the macro language are not (latest decision 2026-11-17 \[R461, R463\], errata 162)
+- Status: IN PROGRESS — the small spellings are done, in the grammar; a valid number is never a name; the operand order, the memory brackets, the size words and the macro language are not (latest decision 2026-11-17 \[R461, R463, R464\], errata 162, 163)
 - Decided: 2026-11-17 decided: "for as64/nasm, do the small changes. and add the h and b suffixes for numbers. if that is a conflict explain." \[R461\]; "i want all the language in the grammar, not in a preprocessor" \[R463\]
 - Evidence: spec/pdp64-asm.hbnf (the statements, the strings, the suffix numbers); as64/asmp.c, as64/as64.c (the meaning, `.fill`); docs/asm-syntax.md "NASM's spellings"; tests/asm-equiv/nasm.new.s and nasm-numbers.new.s against their native references; docs/errata.md item 162
 - Left: the destination-first operand order (needs an explicit syntax switch and the roles of the operands of every instruction), `[ ]` memory operands, `byte`/`word`/`dword`/`qword`, `%define` and the other `%` directives; whether NASM is on the list of errata 139 at all (it names ITS/PDP-10, MASM, Turbo Pascal, ca65 and early Unix)

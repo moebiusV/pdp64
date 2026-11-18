@@ -468,3 +468,4 @@
 - R461 | 2026-11-17 | decision | "for as64/nasm, do the small changes. and add the h and b suffixes for numbers. if that is a conflict explain." | subjects: Assembler syntax | current
 - R462 | 2026-11-17 | question | "I mean, A6h means 0xA6 and 1001b means 0b1001 what is the conflict?" | subjects: Assembler syntax | current
 - R463 | 2026-11-17 | decision | "i want all the language in the grammar, not in a preprocessor" | subjects: Assembler syntax | current
+- R464 | 2026-11-17 | decision | "wait for the llvm agent to finish; i think a valid number should never be a label.  So A6h or a6h just shouldn't be allowed as a label." | subjects: Assembler syntax | current
