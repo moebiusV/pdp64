@@ -3,20 +3,24 @@
  *
  *   - A block is `vec Rs, Re`, instructions, `vend`.  It is run whole by the `vec` instruction (an interrupt waits for the end of the block in this executor).  The
  *     instructions up to `vend` are decoded once; with no `vend` before something that is not a vector instruction, the block is the one instruction after `vec`.
- *   - A strip is VL elements.  This implementation's strip is VBYTES bytes, so VL is VBYTES over the widest lane type that the block uses; the last strip is
- *     shorter.  The elements of the stream are those of the first instruction whose memory operand is (Rs)+, in its access size, and `Re` is the end.
+ *   - A strip is VL elements.  This implementation's strip is VSTRIP bytes (32 unless the host sets cpu->vstrip: 8, 16, 32 or 64; sim64 -S), so VL is VSTRIP over the widest
+ *     lane type that the block uses; the last strip is shorter.  The strip is the implementation's choice, not the program's: a program must not depend on it (docs/encoding-work/vec-strip.md).  The elements of the stream are those of the first instruction whose memory operand is (Rs)+, in its access size, and `Re` is the end.
  *   - The hidden registers v0..v15 are in struct pdp64_cpu.  The registers that are not accumulators (vclr) are zero at the start of each strip.
  *   - The integer registers a strip changes (the (Ra)+ pointers, the reduction targets) are changed in a copy and committed when the strip ends; the stores of a strip
  *     are held and made when it ends, after their addresses have been checked: a fault in a strip leaves the registers as they were at its start, and a block
  *     without accumulators restarts where it stopped (an abort keeps the progress); a block with accumulators restarts from its entry.
- *   - Statistics (struct pdp64_cpu: vblocks, vstrips, vops, velems) count what the benchmarks need.
+ *   - Statistics (struct pdp64_cpu: vblocks, vstrips, vops, velems) count what the benchmarks need, and vcycles, vcyc_comp, vcyc_mem, vmemstrips the cycle MODEL of docs/sim64.md
+ *     (one cycle for each vector instruction in a strip, a commit cost for each strip, the memory port; a model with stated parameters, not a measurement of hardware).
  *
  * Choices the documents leave open: the sliding window's centre is (taps-1)/2 (the hand-written kernel reads 3 before and 4 after for 8 taps); the elements of a
  * floating-point register in an integer register are binary32 in the low 32 bits (f) or binary64 (d).
  * Nothing of wave 1 keeps state from one strip to the next: vdacc and vsad add to a register that is committed at the end of the strip like vacc; vtbl reads its table
  * (a register of the strip, or exactly 16 bytes of memory) and its index within the strip; the rounding of vavg, vmulhr, vsarr, vshrr and vsts is arithmetic of the lane.
  */
-#define VBYTES 32
+#define VBYTES 64			/* the storage of a vector register: the largest strip; the strip in use is VSTRIP */
+#define VSTRIP (C->vstrip ? C->vstrip : 32)	/* the strip in bytes (the host sets cpu->vstrip; 0 is the default, 32) */
+#define VPORT (C->vport ? C->vport : 16)		/* the model's memory port, bytes a cycle */
+#define VCOMMIT (C->vcommit_set ? C->vcommit : 1)	/* the model's cost of committing a strip, cycles */
 #define VMAXBODY 64
 #define VSQMAX 1024
 
@@ -165,6 +169,8 @@ struct vctx {
 	uint64_t lr[32];		/* the integer registers as the strip sees them */
 	int nact, vl, first, inblock;
 	int nsq;
+	uint64_t cyc_c, cyc_m;		/* the model: this strip's compute cycles and memory-port cycles */
+	uint64_t mb;			/* the second model: the bytes the instruction just run moved over the memory port */
 	struct { uint64_t a; uint64_t v; uint8_t sz; } sq[VSQMAX];
 	struct vsrc src[16];
 };
@@ -196,6 +202,9 @@ static void vmem_of(struct vctx *x, const struct eop *e, struct vmem *m)
 	}
 	die("vector memory operand form", 0);
 }
+
+/* the cycle model: a memory instruction of a strip occupies the port for bytes / VPORT cycles (rounded up) */
+static void vmodel_mem(struct vctx *x, uint64_t bytes) { if (x->inblock) { x->cyc_m += (bytes + (uint64_t)VPORT - 1) / (uint64_t)VPORT; x->mb += bytes; } }
 
 /* the value of an element loaded from memory: sign or zero extended to 64 bits, floats converted to the lane's type */
 static void vload_elem(uint8_t *dst, uint64_t a, const struct vinfo *vi)
@@ -239,7 +248,7 @@ static void vsrc_b(const struct vctx *x, const struct eop *e, const struct vinfo
 	if (e->k == EK_V) { *B = VR(e->r); return; }
 	double fv = 0;
 	uint64_t raw = vreg_scalar_lane(x, e, vi->lsz, vi->lfl, &fv);
-	for (int i = 0; i < VBYTES / vi->lsz; i++) { if (vi->lfl) lput_f(tmp + i * vi->lsz, vi->lsz, fv); else lput(tmp + i * vi->lsz, vi->lsz, raw); }
+	for (int i = 0; i < VSTRIP / vi->lsz; i++) { if (vi->lfl) lput_f(tmp + i * vi->lsz, vi->lsz, fv); else lput(tmp + i * vi->lsz, vi->lsz, raw); }
 	*B = tmp;
 }
 
@@ -431,7 +440,7 @@ static void vop_tbl(struct vctx *x, const struct vinfo *vi, const struct einsn *
 	uint8_t tab[16], out[VBYTES];
 	const uint8_t *T = NULL, *I = VR(op[2].r);
 	if (op[1].k == EK_V) T = VR(op[1].r);
-	else { struct vmem m; vmem_of(x, &op[1], &m); for (int i = 0; i < 16; i++) tab[i] = (uint8_t)ld(m.addr + (uint64_t)i, 1); }
+	else { struct vmem m; vmem_of(x, &op[1], &m); for (int i = 0; i < 16; i++) tab[i] = (uint8_t)ld(m.addr + (uint64_t)i, 1); vmodel_mem(x, 16); }
 	memset(out, 0, sizeof out);
 	for (int i = 0; i < x->nact; i++) {
 		unsigned ix = I[i];
@@ -501,6 +510,7 @@ static void vop_mem(struct vctx *x, const struct vinfo *vi, const struct einsn *
 	struct vmem m;
 	vmem_of(x, &op[1], &m);
 	int esz = vi->msz;
+	vmodel_mem(x, (op_ == VO_LDT || op_ == VO_STT) ? (uint64_t)n * (uint64_t)esz : (uint64_t)n * (uint64_t)nf * (uint64_t)esz);
 	switch (op_) {
 	case VO_LD: case VO_LSEG:
 		for (int f = 0; f < nf; f++) {
@@ -537,8 +547,9 @@ static void vop(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
 {
 	const struct eop *op = in->op;
 	C->vops++;
+	if (x->inblock) x->cyc_c += vi->op == VO_FIR ? (uint64_t)op[3].v : vi->op == VO_CLR && !x->first ? 0 : 1;	/* the model: one cycle an instruction in a strip, a vfir one a tap; a vclr only in the first strip */
 	switch (vi->op) {
-	case VO_VLEN: x->lr[op[0].r] = (uint64_t)(x->inblock ? x->vl : VBYTES / vi->lsz); return;
+	case VO_VLEN: x->lr[op[0].r] = (uint64_t)(x->inblock ? x->vl : VSTRIP / vi->lsz); return;
 	case VO_ADD: case VO_SUB: case VO_SUBR: case VO_MUL: case VO_MIN: case VO_MAX: case VO_MINU: case VO_MAXU: case VO_ABD: case VO_ABDU:
 	case VO_AND: case VO_OR: case VO_XOR: case VO_SHL: case VO_SHR: case VO_SAR: case VO_ADDS: case VO_SUBS: case VO_ADDSU: case VO_SUBSU:
 	case VO_MOV: case VO_NEG: case VO_MLA: case VO_FMA: case VO_FNMA: case VO_AVG: case VO_AVGU: case VO_MULH: case VO_MULHU: case VO_MULHR: case VO_SARR: case VO_SHRR:
@@ -568,6 +579,147 @@ static void vec_commit(struct vctx *x)
 {
 	vflush(x);
 	for (int i = 0; i < 32; i++) RG[i] = x->lr[i];
+}
+
+/* ---- the second cycle model (docs/sim64.md, docs/encoding-work/vec-latency.md) ----------------------------------------------------------------
+ * A latency model: the host sets, for each instruction class (enum VC_*), a latency and an interval in cycles (from logic depth: a table that is an ASSUMPTION), the memory's load-to-use latency
+ * (vmemlat) and the strips in flight (vpipe).  Per block, from the cycle 0 of the block: vector instructions issue in order, one a cycle (a vfir one for each tap); an instruction issues when its
+ * source registers are ready (a scoreboard on v0..v15: a result is ready `latency` cycles after issue, no forwarding between stages beyond that), the unit of its class has accepted the last
+ * instruction of the class `interval` cycles ago, the destination has no older pending write (a younger write completes later), and, for a memory instruction, the one memory port is free (it holds
+ * the port bytes / port cycles, rounded up, as the first model).  A load's data is ready vmemlat + the class latency of the alignment after the last beat; a store reads its register at issue and
+ * is done after the merge.  A reduction (vacc vdacc vsad vmaxacc vminacc) adds into its scalar register once its tree is done, the next strip's add one cycle after.  A strip ends when its last
+ * result and store are done, plus the commit cost.  Strip k + vpipe may start issuing only when strip k has ended (vpipe 1: strips do not overlap); a block that reads a scalar register that one
+ * of its reductions writes, waits for the previous strip to end whatever vpipe says; the registers that vclr named accumulators keep their ready times from strip to strip (a loop-carried
+ * dependency through them), the others are taken as renamed for each strip (for vpipe > 1 that is a register file for each strip in flight, which the area figures do not contain).
+ * A counter only: nothing here changes what the program computes. */
+static const char *const vclass_names[VC_N] = { "alu", "cmp", "bsl", "shift", "narrow", "mul8", "mul16", "mulh16", "mul32", "mul64", "dot", "dacc", "sad", "acc", "mmacc", "fir", "tbl", "lseg", "sseg", "cvt",
+	"fma", "fma64", "ld", "st", "misc" };
+const char *pdp64_vclass_name(int c) { return c >= 0 && c < VC_N ? vclass_names[c] : NULL; }
+
+struct vm2d {
+	uint8_t cls, taps, isld, isst;		/* the class; a vfir's taps; a load; a store */
+	uint8_t nar, seg;			/* vsts narrows (adds the narrowing class); a segment load or store (adds that class to the load or store) */
+	uint8_t mtab;			/* vtbl with its table in memory */
+	int8_t red;			/* the integer register that a reduction adds into, else -1 */
+	uint16_t src, dst;		/* the v registers read, written */
+	uint32_t sread;			/* the integer registers read (not counting a reduction's own accumulation) */
+};
+struct vm2 {
+	uint64_t slot, port, end, ready[16], sready[32], unit[VC_N], comp[16];	/* the next issue cycle; the cycle the port is free; the end of the last strip; ready times; strip ends in a ring */
+	int sdep;
+};
+static struct vm2 VM2;
+
+static void vm2_decode(const struct vinfo *vi, const struct einsn *in, struct vm2d *d)
+{
+	const struct eop *op = in->op;
+	memset(d, 0, sizeof *d); d->red = -1;
+	int lsz = vi->lsz, o = vi->op, nf = vi->nseg ? vi->nseg : 1;
+	int fp = vi->lfl;
+#define VSRC(i) do { if ((i) < in->nops && op[i].k == EK_V) d->src |= (uint16_t)(1u << (op[i].r & 15)); } while (0)
+#define VDST(i) do { d->dst |= (uint16_t)(1u << (op[i].r & 15)); } while (0)
+	switch (o) {
+	case VO_ADD: case VO_SUB: case VO_SUBR: case VO_MIN: case VO_MAX: case VO_MINU: case VO_MAXU: case VO_ABD: case VO_ABDU: case VO_AND: case VO_OR: case VO_XOR: case VO_MOV: case VO_NEG:
+	case VO_ADDS: case VO_SUBS: case VO_ADDSU: case VO_SUBSU: case VO_AVG: case VO_AVGU:
+		d->cls = fp && o != VO_MIN && o != VO_MAX && o != VO_MOV && o != VO_NEG ? (lsz == 8 ? VC_FMA64 : VC_FMA) : VC_ALU; break;
+	case VO_SHL: case VO_SHR: case VO_SAR: case VO_SARR: case VO_SHRR: d->cls = VC_SHIFT; break;
+	case VO_MUL: case VO_MULH: case VO_MULHU: case VO_MULHR: case VO_MLA:
+		if (fp) d->cls = lsz == 8 ? VC_FMA64 : VC_FMA;
+		else d->cls = lsz == 1 ? VC_MUL8 : lsz == 2 ? (o == VO_MUL ? VC_MUL16 : VC_MULH16) : lsz == 4 ? VC_MUL32 : VC_MUL64;
+		break;
+	case VO_FMA: case VO_FNMA: case VO_FMAB: d->cls = lsz == 8 ? VC_FMA64 : VC_FMA; break;
+	case VO_DOT: case VO_DOTU: case VO_DOTSU: d->cls = VC_DOT; break;
+	case VO_CEQ: case VO_CGT: case VO_CGTU: d->cls = VC_CMP; break;
+	case VO_BSL: d->cls = VC_BSL; break;
+	case VO_CVT: d->cls = VC_CVT; break;
+	case VO_TBL: d->cls = VC_TBL; break;
+	case VO_DACC: d->cls = VC_DACC; break;
+	case VO_SAD: d->cls = VC_SAD; break;
+	case VO_ACC: d->cls = VC_ACC; break;
+	case VO_MAXACC: case VO_MINACC: d->cls = VC_MMACC; break;
+	case VO_FIR: d->cls = VC_FIR; d->taps = (uint8_t)op[3].v; break;
+	case VO_LD: case VO_LDT: d->cls = VC_LD; d->isld = 1; break;
+	case VO_LSEG: d->cls = VC_LD; d->isld = 1; d->seg = VC_LSEG; break;
+	case VO_ST: case VO_STT: d->cls = VC_ST; d->isst = 1; break;
+	case VO_STS: d->cls = VC_ST; d->isst = 1; d->nar = 1; break;
+	case VO_SSEG: d->cls = VC_ST; d->isst = 1; d->seg = VC_SSEG; break;
+	default: d->cls = VC_MISC; break;
+	}
+	switch (o) {
+	case VO_ST: case VO_STS: case VO_STT: d->src |= (uint16_t)(1u << (op[0].r & 15)); break;
+	case VO_SSEG: for (int f = 0; f < nf; f++) d->src |= (uint16_t)(1u << ((op[0].r + f) & 15)); break;
+	case VO_LD: case VO_LDT: VDST(0); break;
+	case VO_LSEG: for (int f = 0; f < nf; f++) d->dst |= (uint16_t)(1u << ((op[0].r + f) & 15)); break;
+	case VO_DACC: case VO_SAD: VSRC(1); VSRC(2); d->red = (int8_t)op[0].r; break;
+	case VO_ACC: case VO_MAXACC: case VO_MINACC: VSRC(1); d->red = (int8_t)op[0].r; break;
+	case VO_FIR: VDST(0); VSRC(1); break;
+	case VO_CLR: for (int i = 0; i < (int)op[1].v && ((op[0].r + i) & 15) == op[0].r + i; i++) d->dst |= (uint16_t)(1u << (op[0].r + i)); break;
+	case VO_VLEN: break;
+	default:
+		VDST(0); VSRC(1); VSRC(2); VSRC(3);
+		if (o == VO_MLA || o == VO_FMA || o == VO_FNMA || o == VO_FMAB || o == VO_DOT || o == VO_DOTU || o == VO_DOTSU) d->src |= d->dst;	/* the destination is also an accumulator input */
+		if (o == VO_TBL && op[1].k != EK_V) d->mtab = 1;
+		break;
+	}
+	/* the integer registers the instruction reads */
+	for (int i = 0; i < in->nops; i++) {
+		if (d->red >= 0 && i == 0) continue;
+		if (op[i].k == EK_R) d->sread |= 1u << (op[i].r & 31);
+		else if ((op[i].k == EK_B || op[i].k == EK_PI || op[i].k == EK_PD || op[i].k == EK_X) && op[i].r != EBASE_DP) d->sread |= 1u << (op[i].r & 31);
+		if (op[i].k == EK_X) d->sread |= 1u << (op[i].x & 31);
+	}
+	if (o == VO_FIR && op[2].k == EK_R) for (int k = 0; k < d->taps; k++) d->sread |= 1u << ((op[2].r + k) & 31);
+}
+
+/* a new block: no strips yet, the ready times zero; does a reduction's register get read by the block (a dependency from strip to strip through the scalar register)? */
+static void vm2_begin(const struct vm2d *d, int nb)
+{
+	struct vm2 *m = &VM2;
+	memset(m, 0, sizeof *m);
+	uint32_t rd = 0, rr = 0;
+	for (int i = 0; i < nb; i++) { rd |= d[i].sread; if (d[i].red >= 0) rr |= 1u << (d[i].red & 31); }
+	m->sdep = (rd & rr) != 0;
+	C->v2sdep += m->sdep;
+}
+
+/* one strip: schedule its instructions (d[0..nb-1]), the bytes each moved over the port in mbytes[]; returns the cycles this strip added to the block's timeline */
+static uint64_t vm2_strip(const struct vm2d *d, const uint64_t *mbytes, int nb, long strip, int first)
+{
+	struct vm2 *m = &VM2;
+	int N = C->vpipe < 1 ? 1 : C->vpipe > 16 ? 16 : C->vpipe;
+	uint64_t t0 = m->slot, done = 0;
+	if (strip >= N && m->comp[(strip - N) & 15] > t0) t0 = m->comp[(strip - N) & 15];
+	if (strip >= 1 && m->sdep && m->comp[(strip - 1) & 15] > t0) t0 = m->comp[(strip - 1) & 15];
+	m->slot = t0;
+	for (int v = 0; v < 16; v++) if (!(C->vacc >> v & 1)) m->ready[v] = 0;		/* not an accumulator: zero at the start of the strip, renamed */
+	for (int i = 0; i < nb; i++) {
+		const struct vm2d *e = &d[i];
+		if (e->cls == VC_MISC && e->dst && !first) continue;						/* a vclr inside a block runs in the first strip only */
+		uint64_t occ = mbytes[i] ? (mbytes[i] + (uint64_t)VPORT - 1) / (uint64_t)VPORT : 0;
+		uint64_t lat = (uint64_t)C->vlat[e->cls], t = m->slot;
+		if (e->isld) lat = (occ ? occ - 1 : 0) + (uint64_t)C->vmemlat + (uint64_t)C->vlat[VC_LD] + (e->seg ? (uint64_t)C->vlat[e->seg] : 0);
+		else if (e->mtab) lat += (occ ? occ - 1 : 0) + (uint64_t)C->vmemlat;
+		else if (e->isst) lat = (occ ? occ - 1 : 0) + (uint64_t)C->vlat[VC_ST] + (e->nar ? (uint64_t)C->vlat[VC_NARROW] : 0) + (e->seg ? (uint64_t)C->vlat[e->seg] : 0);
+		else if (e->cls == VC_FIR) lat += (uint64_t)(e->taps ? e->taps - 1 : 0);
+		for (int v = 0; v < 16; v++) if (e->src >> v & 1 && m->ready[v] > t) t = m->ready[v];
+		if (occ && m->port > t) t = m->port;
+		if (m->unit[e->cls] > t) t = m->unit[e->cls];
+		if (!e->isst) for (int v = 0; v < 16; v++) if (e->dst >> v & 1 && m->ready[v] > t + lat) t = m->ready[v] - lat;	/* a write completes after the older pending one */
+		uint64_t res = t + lat;
+		C->v2n[(e->isld || e->isst) && e->seg ? e->seg : e->cls]++;
+		if (e->red >= 0) { if (m->sready[e->red & 31] + 1 > res) res = m->sready[e->red & 31] + 1; m->sready[e->red & 31] = res; }
+		if (!e->isst) for (int v = 0; v < 16; v++) if (e->dst >> v & 1) m->ready[v] = res;
+		m->slot = t + (e->cls == VC_FIR && e->taps ? e->taps : 1);
+		if (occ) m->port = t + occ;
+		m->unit[e->cls] = t + (uint64_t)(C->vint[e->cls] < 1 ? 1 : C->vint[e->cls]);
+		if (res > done) done = res;
+	}
+	uint64_t end = (done > m->slot ? done : m->slot) + (uint64_t)VCOMMIT;
+	if (end < m->end) end = m->end;
+	m->comp[strip & 15] = end;
+	uint64_t add = end - m->end;
+	m->end = end;
+	return add;
 }
 
 /* ---- the block ----------------------------------------------------------------------------------------------------- */
@@ -624,8 +776,9 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		}
 	}
 	if (!esz) die("vec: no instruction of the block moves the pointer register by (Rs)+", 0);
-	int vl = VBYTES / lanemax;
+	int vl = VSTRIP / lanemax;
 	C->vblocks++;
+	if (found_end) C->vcycles++;						/* the model: the vend (the vec is one of the scalar instructions) */
 	/* hidden accumulation (a vclr in the block, an accumulator named before it): hidden state is not saved at a context switch (R435), so an abort
 	   restarts the block from its entry and discards the accumulators (vec-isa.md 4.1, the second option).  Otherwise the pointers are the progress and the block
 	   goes on from the strip it stopped at. */
@@ -639,6 +792,13 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 	}
 	int hidden = C->vacc != 0;
 	for (int i = 0; i < nb; i++) if (body[i].vi->op == VO_CLR) hidden = 1;
+	struct vm2d m2d[VMAXBODY]; uint64_t m2mb[VMAXBODY];
+	if (C->vm2) {									/* the second model: classify the block once */
+		for (int i = 0; i < nb; i++) vm2_decode(body[i].vi, &body[i].in, &m2d[i]);
+		vm2_begin(m2d, nb);
+		C->v2hidden += hidden;
+		C->v2cycles += found_end;						/* the vend */
+	}
 	if (hidden) { vrun_valid = 1; vrun_pc = start; vrun_acc = C->vacc; }		/* stays valid if a fault leaves this function; a block that ends clears it */
 	C->progress = !hidden; C->vhidden = hidden;
 	x->vl = vl; x->inblock = 1; x->nsq = 0;
@@ -653,8 +813,13 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		for (int i = 0; i < 32; i++) x->lr[i] = RG[i];
 		for (int v = 0; v < 16; v++) if (!(C->vacc >> v & 1)) memset(VR(v), 0, VBYTES);
 		for (int i = 0; i < 16; i++) x->src[i].valid = 0;
-		for (int i = 0; i < nb; i++) vop(x, body[i].vi, &body[i].in);
+		x->cyc_c = x->cyc_m = 0;
+		for (int i = 0; i < nb; i++) { x->mb = 0; vop(x, body[i].vi, &body[i].in); m2mb[i] = x->mb; }
+		if (C->vm2) C->v2cycles += vm2_strip(m2d, m2mb, nb, strip, x->first);
 		C->vstrips++;
+		C->vcyc_comp += x->cyc_c; C->vcyc_mem += x->cyc_m;			/* the model: a strip takes the greater of the instructions it issues and the time its memory instructions hold the port, and a commit */
+		C->vcycles += (x->cyc_c > x->cyc_m ? x->cyc_c : x->cyc_m) + (uint64_t)VCOMMIT;
+		if (x->cyc_m > x->cyc_c) C->vmemstrips++;
 		vec_commit(x);
 		if (RG[rs] == cur) die("vec: the pointer register does not move", 0);
 		if (strip > (1L << 26)) die("vec: runaway block", 0);
@@ -674,7 +839,7 @@ static void vec_step(const struct einsn *in, uint64_t start, int n)
 	if (!vec_is_standalone(vi->op)) die("vector instruction outside a vec block", 0);
 	struct vctx *x = &VXS;
 	for (int i = 0; i < 32; i++) x->lr[i] = RG[i];
-	x->inblock = 0; x->first = 1; x->nsq = 0; x->nact = VBYTES;
+	x->inblock = 0; x->first = 1; x->nsq = 0; x->nact = VSTRIP;
 	for (int i = 0; i < 16; i++) x->src[i].valid = 0;
 	C->progress = 0;
 	vop(x, vi, in);

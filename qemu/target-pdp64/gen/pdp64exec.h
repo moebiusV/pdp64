@@ -9,6 +9,11 @@
 #define PSW_FIELD(name, v)	(((unsigned)(v) & ((1u << PSW_WIDTH_##name) - 1)) << PSW_##name)
 #define PSW_VALID	(PSW_FLAGS | (1u << PSW_T) | PSW_FIELD(PRI, ~0u) | PSW_FIELD(MODE, ~0u) | PSW_FIELD(PREV, ~0u))
 
+/* the instruction classes of the second cycle model of the vec blocks: each has a latency and an interval (cycles) that the host sets (sim64 --latency) */
+enum { VC_ALU, VC_CMP, VC_BSL, VC_SHIFT, VC_NARROW, VC_MUL8, VC_MUL16, VC_MULH16, VC_MUL32, VC_MUL64, VC_DOT, VC_DACC, VC_SAD, VC_ACC, VC_MMACC, VC_FIR, VC_TBL, VC_LSEG, VC_SSEG, VC_CVT,
+       VC_FMA, VC_FMA64, VC_LD, VC_ST, VC_MISC, VC_N };
+const char *pdp64_vclass_name(int c);		/* "alu", "cmp", ... (docs/encoding-work/vec-latency.md) */
+
 struct pdp64_cpu {
 	uint64_t r[32], pc, dp, fpsr;
 	int fN, fZ, fV, fC;				/* the flag bits of the PSW; the other bits are in `psw` */
@@ -27,10 +32,17 @@ struct pdp64_cpu {
 	int progress;				/* the instruction in progress is a block operation: an abort keeps its register progress */
 	int snap_valid;				/* an instruction is in progress (snap is its starting state); 0 for a fault before any instruction ran, e.g. in the translation of the fetch: EPC is then pc */
 	/* the vec block (pdp64exec_vec.inc): hidden registers (not saved at a context switch), and the statistics the benchmarks read */
-	uint8_t vr[16][32];			/* the vector registers v0..v15 (a strip is 32 bytes in this executor) */
+	uint8_t vr[16][64];			/* the vector registers v0..v15: storage for a strip of up to 64 bytes (the strip in use is vstrip, default 32) */
 	uint16_t vacc;				/* the vector registers that vclr named accumulators: they keep their values from strip to strip */
 	int vhidden;				/* the running block holds hidden accumulation: an abort discards it and restarts the block from its entry */
 	uint64_t vblocks, vstrips, vops, velems;	/* blocks run, strips run, vector instructions executed (one for each strip), elements they worked on */
+	int vstrip, vport, vcommit, vcommit_set;	/* set by the host (sim64 -S, -C): the strip in bytes (0: 32), the model's memory port in bytes a cycle (0: 16), the commit cost of a strip (used if vcommit_set; default 1) */
+	uint64_t vcycles, vcyc_comp, vcyc_mem, vmemstrips;	/* the cycle model of the vec blocks (docs/sim64.md): cycles of the blocks (strips and vends), the strips' compute and memory-port cycles summed, strips bound by memory */
+	/* the second cycle model (latencies from logic depth, docs/sim64.md and docs/encoding-work/vec-latency.md); off (vm2 = 0) unless the host sets it, then a counter only */
+	int vm2, vpipe, vmemlat;			/* vm2: the model is on; strips in flight (1 to 16); the load-to-use latency of the memory system, cycles */
+	int vlat[VC_N], vint[VC_N];			/* latency and initiation interval, cycles, of each instruction class (enum VC_*): set by the host */
+	uint64_t v2cycles, v2hidden, v2sdep;		/* the model's cycles of the blocks (the vends included), blocks with a hidden accumulator, blocks whose strips depend through a scalar register */
+	uint64_t v2n[VC_N];				/* the vector instructions run, by class */
 	struct { uint64_t r[32], pc, dp, fpsr; int fN, fZ, fV, fC; } snap;	/* the state at the start of the instruction, for precise aborts (kept only when deliver is on) */
 };
 
