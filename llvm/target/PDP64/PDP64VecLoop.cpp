@@ -99,10 +99,12 @@ struct Opnd {
   static Opnd i(int64_t X) { Opnd O; O.Kind = I; O.Imm = X; return O; }
 };
 struct VOp {
-  enum K { Load, Store, Lane, Mov, Fma, Reduce, LoadSeg, StoreSeg } Kind;
+  enum K { Load, Store, Lane, Mov, Fma, Reduce, LoadSeg, StoreSeg, Bsl } Kind;
   std::string Mn;     // mnemonic up to and including the dots (vadd.l, vld.bu.l, vst.l.b, vacc.l ...)
   int Dst = -1;       // virtual vector register written (Load, Lane, Mov, Fma)
-  Opnd A, B;          // sources: A is a virtual register (Lane, Fma, Store, Reduce), B any operand
+  Opnd A, B;          // sources: A is a virtual register (Lane, Fma, Store, Reduce), B any operand (Reduce: a second register for vdacc / vsad)
+  Opnd C;             // Bsl: the mask (vbsl vD, C, A, B: where the mask is 1 the bit comes from A)
+  int Sh = -1;        // Store: the rounding shift of vsts (#sh), -1 none
   int Stream = -1;    // memory operations
   int Acc = -1;       // Reduce: index in Accs
   int64_t Stride = 0; // strided memory operations (vldt, vstt): the bytes between elements
@@ -279,10 +281,314 @@ public:
     return S;
   }
 
+  // ---- wave 1 and 2 words: the idioms that select them (found before the body is emitted)
+  struct Pat {                       // avg, the high half of a widening multiply, a rounding shift: one lane operation on the NARROW lanes
+    enum K { Avg, Mulh, MulhR, SRound } Kind;
+    Value *A = nullptr, *B = nullptr;   // the ext instructions (or the value) whose operand is the lane
+    bool BImm = false; int64_t Imm = 0; // B is a constant: an immediate
+    bool Uns = false;
+    int Sh = 0;
+    Type *Narrow = nullptr;             // the lane type of the result register
+  };
+  struct DotSt { Instruction *E0, *E1; const char *Mn; };   // a widening product feeding a reduction: vdacc.*
+  struct SadSt { Instruction *E0, *E1; };                  // abs(zext a - zext b) feeding a reduction: vsad.bu
+  DenseMap<Instruction *, Pat> Pats;                       // the root instruction -> its idiom
+  DenseMap<Instruction *, DotSt> DotOf;                    // the reduction step -> its dot product
+  DenseMap<Instruction *, SadSt> SadOf;
+  SmallPtrSet<Instruction *, 16> PatExt;                   // extensions that an idiom reads through (their operand is the lane)
+  DenseMap<Value *, bool> MaskInv;                         // the mask register of a compare holds its negation (the arms of a select are swapped instead)
+  DenseMap<LoadInst *, bool> LazyLoad;                     // a load only converted to float (sitofp / uitofp of bytes or halfwords): the wide load is made at the conversion
+  LLVMContext &ctx() { return L->getHeader()->getContext(); }
+
   bool run();
   bool matchReduction(PHINode *Phi, Instruction *&Next, Acc &A);
   bool emitReduce(Instruction *I);
+  bool plainLoad(LoadInst *Ld, Type *LaneTy, bool Zext, bool SetMap = true, int *RegOut = nullptr);   // a load into a register, extended to the lane type if it is wider
+  bool asVector(Value *V, Opnd &O, Type *LaneTy, bool AllowImm = true);   // a vector register: a scalar or constant operand is splatted by vmov
+  bool narrowOperand(Value *V, Opnd &O, Type *Want = nullptr);                    // the operand of an extension that an idiom reads through, as a vector register of the narrow lanes
+  int emitLane(StringRef Base, char C, Opnd A, Opnd B, Type *ResTy, Value *IR = nullptr);
+  bool emitPat(Instruction *Root, Pat &P);
+  bool emitCmp(CmpInst *Cmp);
+  bool emitSelect(SelectInst *Sel);
+  bool emitConv(CastInst *C);
+  bool maskOperand(Value *Cond, bool WantInv, Opnd &O);
 };
+
+int Analyzer::emitLane(StringRef Base, char C, Opnd A, Opnd B, Type *ResTy, Value *IR) {
+  VOp Op;
+  Op.Kind = VOp::Lane;
+  Op.Mn = (Twine(Base) + "." + Twine(C) + " ").str();
+  Op.A = A; Op.B = B;
+  Op.Dst = newV(IR, ResTy);
+  Prog.push_back(Op);
+  return Op.Dst;
+}
+
+bool Analyzer::asVector(Value *V, Opnd &O, Type *LaneTy, bool AllowImm) {
+  if (!operandOf(V, O, AllowImm)) return fail("an operand that is neither a vector nor an invariant scalar");
+  if (O.Kind == Opnd::V) return true;
+  char C = laneChar(LaneTy);
+  if (!C) return fail("splat type");
+  VOp M;
+  M.Kind = VOp::Mov;
+  M.Mn = (Twine("vmov.") + Twine(C) + " ").str();
+  M.Dst = newV(nullptr, LaneTy);
+  M.B = O;
+  Prog.push_back(M);
+  O = Opnd::v(M.Dst);
+  return true;
+}
+
+// a load that is not extended (or is, by the lane type): the stream, the memory access, the operation
+bool Analyzer::plainLoad(LoadInst *Ld, Type *LaneTy, bool Zext, bool SetMap, int *RegOut) {
+  if (!Ld->isSimple()) return fail("a volatile or atomic load");
+  Type *MT = Ld->getType();
+  if (!laneOK(MT)) return fail("load type");
+  int S;
+  int64_t Stride;
+  if (!memAccess(Ld, Ld->getPointerOperand(), MT, false, S, Stride)) return false;
+  VOp Op;
+  Op.Kind = VOp::Load;
+  Op.Stride = Stride;
+  Type *MS = MT->getScalarType();
+  bool Ext = LaneTy && LaneTy != MS;
+  Op.Mn = (Twine(Stride ? "vldt." : "vld.") + memSuffix(MS, Ext && Zext) + (Ext ? "." + std::string(1, laneChar(LaneTy)) : std::string()) + " ").str();
+  Op.Dst = newV(SetMap ? Ld : nullptr, Ext ? LaneTy : MS);
+  if (RegOut) *RegOut = Op.Dst;
+  Op.Stream = S;
+  Prog.push_back(Op);
+  noteUse(S);
+  return true;
+}
+
+// the operand of an extension that an idiom reads through: the lane itself (V is the extension, or the narrow value)
+bool Analyzer::narrowOperand(Value *V, Opnd &O, Type *Want) {
+  Value *X = V;
+  if (auto *E = dyn_cast<Instruction>(V)) if (isa<ZExtInst>(E) || isa<SExtInst>(E)) X = E->getOperand(0);
+  Type *NT = X->getType()->getScalarType();
+  if (VMap.count(X)) {
+    if (Want && VLane.count(X) && laneChar(VLane[X]) != laneChar(Want)) return fail("the lane of an idiom's operand is not the narrow lane");
+    O = Opnd::v(VMap[X]);
+    return true;
+  }
+  if (auto *Ld = dyn_cast<LoadInst>(X))
+    if (L->contains(Ld) && !InvSet.count(Ld)) {
+      if (SE.isSCEVable(Ld->getPointerOperand()->getType()) && SE.isLoopInvariant(SE.getSCEV(Ld->getPointerOperand()), L)) return fail("an invariant load as the lane of an idiom");
+      if (!plainLoad(Ld, NT, false)) return false;
+      O = Opnd::v(VMap[Ld]);
+      return true;
+    }
+  return asVector(X, O, NT, true);
+}
+
+
+bool Analyzer::emitPat(Instruction *Root, Pat &P) {
+  Type *NT = P.Narrow;
+  char C = laneChar(NT);
+  Opnd OA, OB;
+  switch (P.Kind) {
+  case Pat::Avg:
+    if (C != 'b' && C != 'w') return fail("avg lanes");
+    if (!narrowOperand(P.A, OA, NT) || !narrowOperand(P.B, OB, NT)) return false;
+    emitLane(P.Uns ? "vavgu" : "vavg", C, OA, OB, NT, Root);
+    return true;
+  case Pat::Mulh: case Pat::MulhR:
+    if (C != 'w') return fail("mulh lanes");
+    if (!narrowOperand(P.A, OA, NT)) return false;
+    if (P.BImm) OB = Opnd::i(P.Imm);
+    else if (!narrowOperand(P.B, OB, NT)) return false;
+    emitLane(P.Kind == Pat::MulhR ? "vmulhr" : P.Uns ? "vmulhu" : "vmulh", C, OA, OB, NT, Root);
+    return true;
+  case Pat::SRound:
+    if (C != 'w' && C != 'l') return fail("rounding shift lanes");
+    if (!narrowOperand(P.A, OA, NT)) return false;
+    if (OA.Kind != Opnd::V) return fail("a rounding shift of a scalar");
+    emitLane(P.Uns ? "vshrr" : "vsarr", C, OA, Opnd::i(P.Sh), NT, Root);
+    return true;
+  }
+  return false;
+}
+
+// a compare makes a mask: integer lanes of the size compared (the compare is bits: also for .f).  Greater-than is the one ordering word; less-than swaps the
+// operands, and what the word cannot say (<=, !=, the unordered predicates) is the negation of one that it can, kept as a flag on the mask: the arms of the
+// select that uses it are swapped, so that no instruction is spent.  NaN: the compares are ordered, so a predicate that is true for NaN is the negation of an ordered one.
+bool Analyzer::emitCmp(CmpInst *Cmp) {
+  Value *X = Cmp->getOperand(0), *Y = Cmp->getOperand(1);
+  Type *OT = X->getType()->getScalarType();
+  char C = laneChar(OT);
+  bool FP = OT->isFloatingPointTy();
+  if (!C || (FP && C != 'f') || (!FP && C != 'b' && C != 'w' && C != 'l')) return fail("a compare of lanes that vceq / vcgt do not read");
+  enum { EQ, GT, GTU } K = EQ;
+  bool Swap = false, Inv = false;
+  int Comb = 0;   // 1: or the equal mask; 2: or the greater mask with the operands swapped
+  bool NN = FP && Cmp->hasNoNaNs();
+  switch (Cmp->getPredicate()) {
+  case CmpInst::ICMP_EQ: K = EQ; break;
+  case CmpInst::ICMP_NE: K = EQ; Inv = true; break;
+  case CmpInst::ICMP_SGT: K = GT; break;
+  case CmpInst::ICMP_SLE: K = GT; Inv = true; break;
+  case CmpInst::ICMP_SLT: K = GT; Swap = true; break;
+  case CmpInst::ICMP_SGE: K = GT; Swap = true; Inv = true; break;
+  case CmpInst::ICMP_UGT: K = GTU; break;
+  case CmpInst::ICMP_ULE: K = GTU; Inv = true; break;
+  case CmpInst::ICMP_ULT: K = GTU; Swap = true; break;
+  case CmpInst::ICMP_UGE: K = GTU; Swap = true; Inv = true; break;
+  case CmpInst::FCMP_OEQ: K = EQ; break;
+  case CmpInst::FCMP_UNE: K = EQ; Inv = true; break;
+  case CmpInst::FCMP_OGT: K = GT; break;
+  case CmpInst::FCMP_ULE: K = GT; Inv = true; break;
+  case CmpInst::FCMP_OLT: K = GT; Swap = true; break;
+  case CmpInst::FCMP_UGE: K = GT; Swap = true; Inv = true; break;
+  case CmpInst::FCMP_OGE: K = GT; if (NN) { Swap = true; Inv = true; } else Comb = 1; break;
+  case CmpInst::FCMP_ULT: K = GT; if (NN) { Swap = true; } else { Comb = 1; Inv = true; } break;   // ult = not oge
+  case CmpInst::FCMP_OLE: K = GT; Swap = true; if (NN) { Swap = false; Inv = true; } else Comb = 1; break;
+  case CmpInst::FCMP_UGT: K = GT; if (NN) { } else { Swap = true; Comb = 1; Inv = true; } break;   // ugt = not ole
+  case CmpInst::FCMP_ONE: if (NN) { K = EQ; Inv = true; } else { K = GT; Comb = 2; } break;
+  case CmpInst::FCMP_UEQ: if (NN) { K = EQ; } else { K = GT; Comb = 2; Inv = true; } break;
+  case CmpInst::FCMP_ORD: case CmpInst::FCMP_UNO: {   // ord(x, y) = (x == x) & (y == y): a NaN is not equal to itself; no second compare for a constant that is not a NaN or the same value
+    bool Un = Cmp->getPredicate() == CmpInst::FCMP_UNO;
+    Value *CY = Y;
+    if (auto *CC = dyn_cast<Constant>(Y)) if (CC->getType()->isVectorTy()) if (Constant *Sp = CC->getSplatValue()) CY = Sp;
+    bool YFree = X == Y || (isa<ConstantFP>(CY) && !cast<ConstantFP>(CY)->isNaN());
+    Type *MT0 = IntegerType::get(ctx(), 32);
+    Opnd P1, P2;
+    if (!asVector(X, P1, OT, false)) return false;
+    int D = emitLane("vceq", 'f', P1, P1, MT0, YFree ? Cmp : nullptr);
+    if (!YFree) {
+      if (!asVector(Y, P2, OT, false)) return false;
+      int D2 = emitLane("vceq", 'f', P2, P2, MT0);
+      D = emitLane("vand", 'l', Opnd::v(D), Opnd::v(D2), MT0, Cmp);
+    }
+    VLane[Cmp] = MT0;
+    MaskInv[Cmp] = Un;
+    return true;
+  }
+  default: return fail("a compare predicate with no vector form (constant)");
+  }
+  const char *Base = K == EQ ? "vceq" : K == GT ? "vcgt" : "vcgtu";
+  Value *First = Swap ? Y : X, *Second = Swap ? X : Y;
+  Opnd O1, O2;
+  if (!asVector(First, O1, OT, !FP)) return false;
+  if (!operandOf(Second, O2, !FP)) return fail("a compare operand");
+  Type *MT = IntegerType::get(ctx(), 8 * (C == 'b' ? 1 : C == 'w' ? 2 : 4));
+  char MC = C == 'f' ? 'l' : C;
+  int D = emitLane(Base, C, O1, O2, MT, Cmp);
+  if (Comb) {
+    Opnd P1, P2;
+    const char *B2 = Comb == 1 ? "vceq" : "vcgt";
+    Value *F2 = Comb == 1 ? X : Y, *S2 = Comb == 1 ? Y : X;
+    if (!asVector(F2, P1, OT, !FP) || !operandOf(S2, P2, !FP)) return fail("a compare operand");
+    int D2 = emitLane(B2, C, P1, P2, MT);
+    D = emitLane("vor", MC, Opnd::v(D), Opnd::v(D2), MT, Cmp);
+  }
+  VLane[Cmp] = MT;
+  MaskInv[Cmp] = Inv;
+  return true;
+}
+
+// the mask register of a compare, as it is or negated (vxor with all ones)
+bool Analyzer::maskOperand(Value *Cond, bool WantInv, Opnd &O) {
+  auto It = VMap.find(Cond);
+  if (It == VMap.end() || !VLane.count(Cond)) return fail("a mask that is not the result of a compare in the loop");
+  bool Inv = MaskInv.lookup(Cond);
+  O = Opnd::v(It->second);
+  if (Inv != WantInv) {
+    char MC = laneChar(VLane[Cond]);
+    int D = emitLane("vxor", MC, O, Opnd::i(-1), VLane[Cond]);
+    O = Opnd::v(D);
+  }
+  return true;
+}
+
+// select(mask, a, b): vbsl takes the bits of a where the mask is 1
+bool Analyzer::emitSelect(SelectInst *Sel) {
+  Value *Cd = Sel->getCondition();
+  Type *T = Sel->getType()->getScalarType();
+  char DC = laneChar(T);
+  if (!DC) return fail("the lane type of a select");
+  auto It = VMap.find(Cd);
+  if (It == VMap.end() || !VLane.count(Cd)) return fail("a select whose condition is not a compare of the loop");
+  unsigned MBytes = VLane[Cd]->getScalarSizeInBits() / 8;
+  bool Inv = MaskInv.lookup(Cd);
+  Value *TV = Sel->getTrueValue(), *FV = Sel->getFalseValue();
+  if (Inv) std::swap(TV, FV);
+  Opnd OT, OF;
+  if (T->getScalarSizeInBits() / 8 > MBytes) return fail("a select whose arms are wider than its mask");
+  if (T->getScalarSizeInBits() / 8 < MBytes) {
+    // narrow arms, wider mask (a halfword or byte compared with an int): the arms are loaded as wide lanes (vld.w.l) or splatted wide, the select is made in the wide lanes and
+    // only the low bits are kept by the narrowing store, so the select must be only stored
+    for (User *U : Sel->users()) {
+      auto *St = dyn_cast<StoreInst>(U);
+      if (!St || St->getValueOperand() != Sel) return fail("a select whose arms are narrower than its mask and whose result is not stored");
+    }
+    Type *WT = IntegerType::get(ctx(), 8 * MBytes);
+    auto Wide = [&](Value *V, Opnd &O) -> bool {
+      if (auto *Ld = dyn_cast<LoadInst>(V)) if (L->contains(Ld) && !InvSet.count(Ld)) {
+        int R;
+        if (!plainLoad(Ld, WT, false, false, &R)) return false;
+        O = Opnd::v(R);
+        return true;
+      }
+      if (inLoop(V) && !InvSet.count(V)) return fail("a select arm that is a computed narrow value, with a wider mask");
+      Opnd Q;
+      if (!operandOf(V, Q, true)) return fail("a select arm");
+      if (Q.Kind == Opnd::V) return fail("a select arm that is a computed narrow value, with a wider mask");
+      VOp M;
+      M.Kind = VOp::Mov;
+      M.Mn = (Twine("vmov.") + Twine(laneChar(WT)) + " ").str();
+      M.Dst = newV(nullptr, WT);
+      M.B = Q;
+      Prog.push_back(M);
+      O = Opnd::v(M.Dst);
+      return true;
+    };
+    if (!Wide(TV, OT) || !Wide(FV, OF)) return false;
+    VOp Op;
+    Op.Kind = VOp::Bsl;
+    Op.Mn = "vbsl ";
+    Op.C = Opnd::v(It->second); Op.A = OT; Op.B = OF;
+    Op.Dst = newV(Sel, WT);   // the lane type of the register: the store narrows it
+    Prog.push_back(Op);
+    return true;
+  }
+  if (!asVector(TV, OT, T, true) || !asVector(FV, OF, T, true)) return false;
+  VOp Op;
+  Op.Kind = VOp::Bsl;
+  Op.Mn = "vbsl ";
+  Op.C = Opnd::v(It->second); Op.A = OT; Op.B = OF;
+  Op.Dst = newV(Sel, T);
+  Prog.push_back(Op);
+  return true;
+}
+
+// int <-> float of 32-bit lanes: vcvt.l.f (sitofp), vcvt.lu.f (uitofp), vcvt.f.l (fptosi), vcvt.f.lu (fptoui)
+bool Analyzer::emitConv(CastInst *Cv) {
+  Type *ST = Cv->getOperand(0)->getType()->getScalarType(), *DT = Cv->getType()->getScalarType();
+  bool ToF = isa<SIToFPInst>(Cv) || isa<UIToFPInst>(Cv);
+  bool Uns = isa<UIToFPInst>(Cv) || isa<FPToUIInst>(Cv);
+  Opnd OA;
+  if (ToF) {
+    if (!DT->isFloatTy() || !ST->isIntegerTy()) return fail("a conversion that is not between 32-bit integer and binary32");
+    unsigned SB = ST->getIntegerBitWidth();
+    Value *X = Cv->getOperand(0);
+    if (SB == 8 || SB == 16) {   // the byte or halfword is loaded as a 32-bit lane
+      auto *Ld = dyn_cast<LoadInst>(X);
+      if (!Ld || !LazyLoad.count(Ld)) return fail("a conversion of a byte or halfword that is not a loaded value");
+      if (!VMap.count(Ld) && !plainLoad(Ld, Type::getInt32Ty(ctx()), Uns)) return false;
+    } else if (SB != 32) return fail("a conversion of a 64-bit integer");
+    if (!operandOf(X, OA, false) || OA.Kind != Opnd::V) return fail("a conversion of a scalar");
+  } else {
+    if (!ST->isFloatTy() || !DT->isIntegerTy(32)) return fail("a conversion that is not between binary32 and 32-bit integer");
+    if (!operandOf(Cv->getOperand(0), OA, false) || OA.Kind != Opnd::V) return fail("a conversion of a scalar");
+  }
+  VOp Op;
+  Op.Kind = VOp::Lane;
+  Op.Mn = ToF ? ((Uns && Cv->getOperand(0)->getType()->getScalarSizeInBits() == 32) ? "vcvt.lu.f " : "vcvt.l.f ") : (Uns ? "vcvt.f.lu " : "vcvt.f.l ");
+  Op.A = OA; Op.B = Opnd::v(OA.Id);
+  Op.Dst = newV(Cv, DT);
+  Prog.push_back(Op);
+  return true;
+}
 
 bool Analyzer::matchReduction(PHINode *Phi, Instruction *&Next, Acc &A) {
   if (Phi->getNumIncomingValues() != 2) return fail("a phi with more than two inputs");
@@ -357,6 +663,24 @@ bool Analyzer::emitReduce(Instruction *I) {
   RedStep RS = RedStepOf[I];
   Acc &A = Accs[RS.Acc];
   Value *Src = RS.X;
+  {   // vdacc / vsad: the products or the absolute differences of a whole strip go into the scalar register as one instruction
+    VOp Op;
+    Op.Kind = VOp::Reduce;
+    Op.Acc = RS.Acc;
+    auto DI = DotOf.find(I);
+    auto SI = SadOf.find(I);
+    if (DI != DotOf.end() || SI != SadOf.end()) {
+      Instruction *E0 = DI != DotOf.end() ? DI->second.E0 : SI->second.E0, *E1 = DI != DotOf.end() ? DI->second.E1 : SI->second.E1;
+      Type *NT = E0->getOperand(0)->getType()->getScalarType();
+      Opnd OA, OB;
+      if (!narrowOperand(E0, OA, NT) || !narrowOperand(E1, OB, NT)) return false;
+      if (OA.Kind != Opnd::V || OB.Kind != Opnd::V) return fail("a dot product operand that is not a vector");
+      Op.Mn = DI != DotOf.end() ? DI->second.Mn : "vsad.bu ";
+      Op.A = OA; Op.B = OB;
+      Prog.push_back(Op);
+      return true;
+    }
+  }
   bool Uns = false;
   if (A.Base == StringRef("vacc") && !A.IsFP) {  // an extension of a narrower lane is the same reduction: vacc.<src>.<acc> extends, signed or unsigned as <src> says (errata 168)
     if (auto *C = dyn_cast<SExtInst>(Src)) {
@@ -418,14 +742,248 @@ bool Analyzer::run() {
     for (Value *Op : I->operands()) Mark(Op);
   }
 
-  // the fused forms: a load only extended, a trunc only stored, a clamp only truncated and stored
+
+  // ---- the reductions are matched first: the dot-product and SAD idioms of a reduction step claim their operands
+  for (PHINode &Phi : H->phis()) {
+    if (Scaf.count(&Phi)) continue;
+    Instruction *N; Acc A;
+    if (!matchReduction(&Phi, N, A)) return false;
+  }
+
+  // ---- the idioms of the new words (waves 1 and 2).  Claimed: the instructions an idiom absorbs (they are not emitted)
+  SmallPtrSet<Instruction *, 32> Claimed;
   SmallPtrSet<Instruction *, 16> Skip;
+  auto InLoopI = [&](Value *V) -> Instruction * { auto *I = dyn_cast<Instruction>(V); return I && L->contains(I) ? I : nullptr; };
+  auto OneUseI = [&](Value *V) -> Instruction * { Instruction *I = InLoopI(V); return I && I->hasOneUse() ? I : nullptr; };
+  auto IsExt = [&](Value *V, bool &Z, Type *&Src) -> Instruction * {
+    Instruction *E = InLoopI(V);
+    if (!E || !(isa<ZExtInst>(E) || isa<SExtInst>(E))) return nullptr;
+    Src = E->getOperand(0)->getType()->getScalarType();
+    if (!Src->isIntegerTy() || !laneOK(Src)) return nullptr;
+    Z = isa<ZExtInst>(E);
+    return E;
+  };
+  auto UsersTruncTo = [&](Instruction *R, unsigned Bits) {
+    if (R->use_empty()) return false;
+    for (User *U : R->users()) {
+      auto *T = dyn_cast<TruncInst>(U);
+      if (!T || !L->contains(T) || T->getType()->getScalarSizeInBits() != Bits) return false;
+    }
+    return true;
+  };
+  auto FreeOf = [&](std::initializer_list<Instruction *> Is) {
+    for (Instruction *I : Is) if (I && Claimed.count(I)) return false;
+    return true;
+  };
+  // the products' operands of a high multiply: an extension of a halfword, or a constant that fits the 16 bits the word reads
+  auto Mul16 = [&](BinaryOperator *M, bool WantSigned, Pat &P) -> bool {
+    bool Z0 = false, Z1 = false; Type *S0 = nullptr, *S1 = nullptr;
+    Value *P0 = M->getOperand(0), *P1 = M->getOperand(1);
+    Instruction *E0 = IsExt(P0, Z0, S0), *E1 = IsExt(P1, Z1, S1);
+    if (!E0) { std::swap(P0, P1); std::swap(E0, E1); std::swap(Z0, Z1); std::swap(S0, S1); }
+    if (!E0 || S0->getIntegerBitWidth() != 16) return false;
+    if (Z0 == WantSigned) return false;
+    P.A = E0; P.Uns = Z0;
+    if (E1) {
+      if (S1 != S0 || Z1 != Z0) return false;
+      P.B = E1;
+    } else if (auto *C = constInt(P1)) {
+      APInt V = C->getValue();
+      if (Z0 ? (V.isNegative() || V.getActiveBits() > 16) : V.getSignificantBits() > 16) return false;
+      P.BImm = true; P.Imm = (int16_t)V.getZExtValue();
+    } else return false;
+    if (M->getType()->getScalarSizeInBits() < 32) return false;
+    return true;
+  };
+  auto Absorb = [&](Pat &P, std::initializer_list<Instruction *> Is) {
+    for (Instruction *I : Is) if (I) Claimed.insert(I);
+    if (auto *E = dyn_cast_or_null<Instruction>(P.A)) PatExt.insert(E);
+    if (auto *E = dyn_cast_or_null<Instruction>(P.B)) PatExt.insert(E);
+  };
+  // the Q15 rounding multiply is found first (its shift would otherwise be taken as a rounding shift)
+  for (Instruction &I : *H) {
+    auto *II = dyn_cast<IntrinsicInst>(&I);
+    if (Scaf.count(&I) || Claimed.count(&I)) continue;
+    // the Q15 rounding multiply with its saturation: trunc(smin((x * y + 2^14) >> 15, 32767))
+    if (II && II->getIntrinsicID() == Intrinsic::smin) {
+      auto *C = constInt(II->getArgOperand(1));
+      auto *Sr = OneUseI(II->getArgOperand(0));
+      if (C && C->getValue() == 32767 && Sr && Sr->getOpcode() == Instruction::AShr && UsersTruncTo(II, 16)) {
+        auto *C15 = constInt(Sr->getOperand(1));
+        Instruction *Ad = OneUseI(Sr->getOperand(0));
+        if (C15 && C15->getZExtValue() == 15 && Ad && Ad->getOpcode() == Instruction::Add) {
+          auto *CA = constInt(Ad->getOperand(1));
+          Instruction *Mu = OneUseI(Ad->getOperand(0));
+          if (!CA) { CA = constInt(Ad->getOperand(0)); Mu = OneUseI(Ad->getOperand(1)); }
+          if (CA && Mu && Mu->getOpcode() == Instruction::Mul && CA->getValue() == 16384 && FreeOf({Sr, Ad, Mu})) {
+            Pat P; P.Kind = Pat::MulhR;
+            if (Mul16(cast<BinaryOperator>(Mu), true, P)) {
+              P.Narrow = Type::getIntNTy(ctx(), 16);
+              Pats[&I] = P; Absorb(Pats[&I], {Sr, Ad, Mu});
+              continue;
+            }
+          }
+        }
+      }
+    }
+  }
+  for (Instruction &I : *H) {
+    auto *Bo = dyn_cast<BinaryOperator>(&I);
+    if (Scaf.count(&I) || Claimed.count(&I)) continue;
+    if (Bo && (Bo->getOpcode() == Instruction::LShr || Bo->getOpcode() == Instruction::AShr)) {
+      auto *Cs = constInt(Bo->getOperand(1));
+      if (!Cs) continue;
+      bool IsA = Bo->getOpcode() == Instruction::AShr;
+      uint64_t Sh = Cs->getZExtValue();
+      Instruction *X = OneUseI(Bo->getOperand(0));
+      if (!X) continue;
+      // avg: (a + b + 1) >> 1 in a wider type, both extended the same way from bytes or halfwords
+      if (Sh == 1 && X->getOpcode() == Instruction::Add) {
+        SmallVector<Value *, 4> T;
+        SmallVector<Instruction *, 3> Adds{X};
+        for (Value *Op : X->operands()) {
+          Instruction *Ad = OneUseI(Op);
+          if (Ad && Ad->getOpcode() == Instruction::Add && !Ad->hasNUsesOrMore(2) && Ad != X) {
+            Adds.push_back(Ad);
+            for (Value *O2 : Ad->operands()) T.push_back(O2);
+          } else T.push_back(Op);
+        }
+        if (T.size() == 3) {
+          int One = -1;
+          for (int k = 0; k < 3; ++k) if (auto *C = constInt(T[k])) if (C->isOne()) One = k;
+          if (One >= 0) {
+            Value *V[2]; int n = 0;
+            for (int k = 0; k < 3; ++k) if (k != One) V[n++] = T[k];
+            bool Z0, Z1; Type *S0, *S1;
+            Instruction *E0 = IsExt(V[0], Z0, S0), *E1 = IsExt(V[1], Z1, S1);
+            unsigned Bits = E0 ? S0->getIntegerBitWidth() : 0;
+            if (E0 && E1 && S0 == S1 && Z0 == Z1 && (Bits == 8 || Bits == 16) && Bo->getType()->getScalarSizeInBits() >= Bits + 2 && UsersTruncTo(&I, Bits) &&
+                FreeOf({X, Adds.size() > 1 ? Adds[1] : nullptr, Adds.size() > 2 ? Adds[2] : nullptr})) {
+              Pat P; P.Kind = Pat::Avg; P.A = E0; P.B = E1; P.Uns = Z0; P.Narrow = S0;
+              Pats[&I] = P;
+              Absorb(Pats[&I], {X, Adds.size() > 1 ? Adds[1] : nullptr, Adds.size() > 2 ? Adds[2] : nullptr});
+              continue;
+            }
+          }
+        }
+      }
+      // the high half of a 16 x 16 product: trunc(x * y >> 16); both extended the same way (the shift, arithmetic or logical, does not matter: the low 16 bits only)
+      if (Sh == 16 && X->getOpcode() == Instruction::Mul && UsersTruncTo(&I, 16)) {
+        Pat P; P.Kind = Pat::Mulh;
+        bool Sg = false;
+        auto *M = cast<BinaryOperator>(X);
+        bool Ok = Mul16(M, true, P);   // signed
+        if (!Ok) { Pat P2; P2.Kind = Pat::Mulh; Ok = Mul16(M, false, P2); if (Ok) P = P2; }
+        (void)Sg;
+        if (Ok && FreeOf({X})) {
+          P.Narrow = Type::getIntNTy(ctx(), 16);
+          Pats[&I] = P;
+          Absorb(Pats[&I], {X});
+          continue;
+        }
+      }
+      // a rounding shift: (x + 2^(s-1)) >> s
+      if (Sh >= 1 && X->getOpcode() == Instruction::Add) {
+        auto *CA = constInt(X->getOperand(1));
+        Value *Y = X->getOperand(0);
+        if (!CA) { CA = constInt(X->getOperand(0)); Y = X->getOperand(1); }
+        unsigned W = Bo->getType()->getScalarSizeInBits();
+        if (CA && Sh < W && CA->getValue() == APInt::getOneBitSet(CA->getBitWidth(), Sh - 1) && FreeOf({X})) {
+          bool Z; Type *S;
+          Instruction *E = IsExt(Y, Z, S);
+          unsigned SB = E ? S->getIntegerBitWidth() : 0;
+          Pat P; P.Kind = Pat::SRound; P.Sh = Sh; P.Uns = !IsA;
+          // the narrow lanes: the sum in the wide type cannot wrap, and the narrow result is the same bits whichever way the wide shift fills (the users keep the low SB bits)
+          if (E && (SB == 16 || SB == 32) && SB < W && Sh < SB && Sh + SB <= W && UsersTruncTo(&I, SB)) {
+            P.A = E; P.Narrow = S; P.Uns = Z;
+            Pats[&I] = P; Absorb(Pats[&I], {X});
+            continue;
+          }
+          bool NoWrap = IsA ? X->hasNoSignedWrap() : X->hasNoUnsignedWrap();
+          if (!E && NoWrap && (W == 16 || W == 32) && Sh < W) {   // the same width: the sum is exact only if the IR says it does not wrap
+            P.A = Y; P.Narrow = Bo->getType()->getScalarType();
+            Pats[&I] = P; Absorb(Pats[&I], {X});
+            continue;
+          }
+        }
+      }
+    }
+  }
+  // a widening product or an absolute difference that is a step of a sum into an accumulator: vdacc, vsad
+  for (auto &KV : RedStepOf) {
+    Instruction *Step = KV.first;
+    Acc &A = Accs[KV.second.Acc];
+    if (A.Base != StringRef("vacc") || A.IsFP) continue;
+    Instruction *X = OneUseI(KV.second.X);
+    if (!X || Claimed.count(X)) continue;
+    if (X->getOpcode() == Instruction::Mul) {
+      bool Z0, Z1; Type *S0, *S1;
+      Instruction *E0 = IsExt(X->getOperand(0), Z0, S0), *E1 = IsExt(X->getOperand(1), Z1, S1);
+      if (!E0 || !E1 || S0 != S1) continue;
+      unsigned Bits = S0->getIntegerBitWidth();
+      if ((Bits != 8 && Bits != 16) || X->getType()->getScalarSizeInBits() < 2 * Bits) continue;
+      const char *Mn = nullptr;
+      if (Bits == 16) { if (!Z0 && !Z1) Mn = "vdacc.w "; }
+      else if (!Z0 && !Z1) Mn = "vdacc.b ";
+      else if (Z0 && Z1) Mn = "vdacc.bu ";
+      else { if (Z1) Mn = "vdacc.bsu "; else { Mn = "vdacc.bsu "; std::swap(E0, E1); } }
+      if (!Mn) continue;
+      DotOf[Step] = {E0, E1, Mn};
+      Claimed.insert(X); PatExt.insert(E0); PatExt.insert(E1);
+    } else if (auto *Ab = dyn_cast<IntrinsicInst>(X)) {
+      if (Ab->getIntrinsicID() != Intrinsic::abs) continue;
+      Instruction *Sb = OneUseI(Ab->getArgOperand(0));
+      if (!Sb || Sb->getOpcode() != Instruction::Sub || Claimed.count(Sb)) continue;
+      bool Z0, Z1; Type *S0, *S1;
+      Instruction *E0 = IsExt(Sb->getOperand(0), Z0, S0), *E1 = IsExt(Sb->getOperand(1), Z1, S1);
+      if (!E0 || !E1 || !Z0 || !Z1 || S0 != S1 || S0->getIntegerBitWidth() != 8 || Sb->getType()->getScalarSizeInBits() < 9) continue;
+      SadOf[Step] = {E0, E1};
+      Claimed.insert(X); Claimed.insert(Sb); PatExt.insert(E0); PatExt.insert(E1);
+    }
+  }
+  // an extension whose every user is claimed is not emitted
+  for (Instruction *E : PatExt) {
+    bool All = true;
+    for (User *U : E->users()) if (!Claimed.count(cast<Instruction>(U)) && !Pats.count(cast<Instruction>(U))) All = false;
+    if (All) Claimed.insert(E);
+  }
+  for (Instruction *C : Claimed) Skip.insert(C);
+
+  // the arms of a select that are narrower than its compare (a halfword or byte value against an int) are loaded wide at the select: the narrow load is not made
+  for (Instruction &I : *H) {
+    auto *Sl = dyn_cast<SelectInst>(&I);
+    if (!Sl || Scaf.count(Sl) || RedStepOf.count(Sl)) continue;
+    auto *Cm = dyn_cast<CmpInst>(Sl->getCondition());
+    if (!Cm || (!Cm->getOperand(0)->getType()->getScalarType()->isIntegerTy() && !Cm->getOperand(0)->getType()->getScalarType()->isFloatTy())) continue;
+    if (Sl->getType()->getScalarSizeInBits() >= Cm->getOperand(0)->getType()->getScalarSizeInBits()) continue;
+    for (Value *Arm : {Sl->getTrueValue(), Sl->getFalseValue()})
+      if (auto *Ld = dyn_cast<LoadInst>(Arm))
+        if (L->contains(Ld) && Ld->hasOneUse() && !Scaf.count(Ld) && SE.isSCEVable(Ld->getPointerOperand()->getType()) && !SE.isLoopInvariant(SE.getSCEV(Ld->getPointerOperand()), L))
+          LazyLoad[Ld] = false;
+  }
+
+  // the fused forms: a load only extended, a trunc only stored, a clamp only truncated and stored
   DenseMap<Instruction *, std::pair<Instruction *, bool>> ExtOf;  // load -> (its single extension, zext?)
   for (Instruction &I : *H) {
     auto *Ld = dyn_cast<LoadInst>(&I);
     if (!Ld || Scaf.count(Ld)) continue;
     if (Ld->use_empty()) continue;
     if (SE.isSCEVable(Ld->getPointerOperand()->getType()) && SE.isLoopInvariant(SE.getSCEV(Ld->getPointerOperand()), L)) continue;  // an invariant load is hoisted, with its extension
+    {   // read only through the idioms of the new words: the narrow lanes are what they want (the load is made as it is)
+      bool AllPat = true;
+      for (User *U : Ld->users()) if (!PatExt.count(cast<Instruction>(U))) AllPat = false;
+      if (AllPat) continue;
+      // only converted to float (a byte or halfword to float: the load widens it to 32-bit lanes, vld.bu.l, and vcvt.l.f converts)
+      bool AllCvt = true, ZC = false;
+      for (User *U : Ld->users()) {
+        auto *C = dyn_cast<CastInst>(U);
+        if (!C || !L->contains(C) || !(isa<SIToFPInst>(C) || isa<UIToFPInst>(C)) || !C->getType()->getScalarType()->isFloatTy() ||
+            !(C->getOperand(0)->getType()->getScalarSizeInBits() == 8 || C->getOperand(0)->getType()->getScalarSizeInBits() == 16) ||
+            (U != *Ld->user_begin() && ZC != isa<UIToFPInst>(C))) { AllCvt = false; break; }
+        ZC = isa<UIToFPInst>(C);
+      }
+      if (AllCvt) { LazyLoad[Ld] = ZC; continue; }
+    }
     Instruction *E = nullptr;
     bool Z = false, Ok = true;
     for (User *U : Ld->users()) {
@@ -448,13 +1006,13 @@ bool Analyzer::run() {
       for (User *U : Ld->users()) Skip.insert(cast<Instruction>(U));
     }
   }
-  struct SatSt { Value *Src; Type *MemTy; int Mode; };  // Mode 0: truncate, 1: signed clamp, 2: unsigned clamp
+  struct SatSt { Value *Src; Type *MemTy; int Mode; int RSh; };  // Mode 0: truncate, 1: signed clamp, 2: unsigned clamp
   DenseMap<StoreInst *, SatSt> StoreForm;
   for (Instruction &I : *H) {
     auto *St = dyn_cast<StoreInst>(&I);
     if (!St || Scaf.count(St)) continue;
     if (auto *FT = dyn_cast<FPTruncInst>(St->getValueOperand()))   // a double stored as a float: vst.d.f
-      if (FT->hasOneUse() && L->contains(FT)) { Skip.insert(FT); StoreForm[St] = {FT->getOperand(0), FT->getType(), 0}; continue; }
+      if (FT->hasOneUse() && L->contains(FT)) { Skip.insert(FT); StoreForm[St] = {FT->getOperand(0), FT->getType(), 0, -1}; continue; }
     auto *Tr = dyn_cast<TruncInst>(St->getValueOperand());
     if (!Tr || !Tr->hasOneUse() || !L->contains(Tr)) continue;
     Type *MemTy = Tr->getType();
@@ -473,23 +1031,47 @@ bool Analyzer::run() {
       auto *D = constInt(In->getArgOperand(1));
       if (!D) return false;
       Y2 = In->getArgOperand(0);
-      if (Outer == Intrinsic::smin) { Hi = C->getValue(); Lo = D->getValue(); }
+      if (Outer == Intrinsic::smin || Outer == Intrinsic::umin) { Hi = C->getValue(); Lo = D->getValue(); }
       else { Lo = C->getValue(); Hi = D->getValue(); }
       C1 = O; C2 = In;
       return true;
     };
     Value *Y2 = nullptr;
     APInt Lo, Hi;
-    if (Clamp(Y, Intrinsic::smin, Intrinsic::smax, Y2, Lo, Hi) || Clamp(Y, Intrinsic::smax, Intrinsic::smin, Y2, Lo, Hi)) {
+    // (InstCombine writes the clamp to 0..255 as smax(y, 0) then umin(.., 255): the same unsigned clamp)
+    bool UMinOuter = false;
+    if (Clamp(Y, Intrinsic::smin, Intrinsic::smax, Y2, Lo, Hi) || Clamp(Y, Intrinsic::smax, Intrinsic::smin, Y2, Lo, Hi) ||
+        (UMinOuter = Clamp(Y, Intrinsic::umin, Intrinsic::smax, Y2, Lo, Hi))) {
       unsigned W = Lo.getBitWidth();
       if (W > NB) {
-        if (Lo == APInt::getSignedMinValue(NB).sext(W) && Hi == APInt::getSignedMaxValue(NB).sext(W)) Mode = 1;
+        if (!UMinOuter && Lo == APInt::getSignedMinValue(NB).sext(W) && Hi == APInt::getSignedMaxValue(NB).sext(W)) Mode = 1;
         else if (Lo.isZero() && Hi == APInt::getMaxValue(NB).zext(W)) Mode = 2;
       }
       if (Mode) { Y = Y2; Skip.insert(C1); Skip.insert(C2); }
     }
+    // the rounding shift in front of the clamp: vsts.<lane>.<m> #sh does (x + 2^(sh-1)) >> sh exactly and then clamps
+    int RSh = -1;
+    if (Mode) {
+      Instruction *Sr = OneUseI(Y);
+      if (Sr && Sr->getOpcode() == Instruction::AShr) {
+        auto *Cs = constInt(Sr->getOperand(1));
+        Instruction *Ad = OneUseI(Sr->getOperand(0));
+        if (Cs && Ad && Ad->getOpcode() == Instruction::Add && Ad->hasNoSignedWrap() && (!Claimed.count(Ad) || Pats.count(Sr))) {
+          auto *CA = constInt(Ad->getOperand(1));
+          Value *X = Ad->getOperand(0);
+          if (!CA) { CA = constInt(Ad->getOperand(0)); X = Ad->getOperand(1); }
+          unsigned W = X->getType()->getScalarSizeInBits();
+          uint64_t S0 = Cs->getZExtValue();
+          if (CA && (W == 16 || W == 32 || W == 64) && S0 >= 1 && S0 < W && CA->getValue() == APInt::getOneBitSet(CA->getBitWidth(), S0 - 1) &&
+              (!Pats.count(Sr) || Pats[Sr].Kind == Pat::SRound)) {
+            if (Pats.count(Sr)) { Pats.erase(Sr); Claimed.erase(Ad); Skip.erase(Ad); }
+            RSh = S0; Y = X; Skip.insert(Sr); Skip.insert(Ad);
+          }
+        }
+      }
+    }
     Skip.insert(Tr);
-    StoreForm[St] = {Y, MemTy, Mode};
+    StoreForm[St] = {Y, MemTy, Mode, RSh};
   }
 
 
@@ -596,13 +1178,19 @@ bool Analyzer::run() {
   // a multiply with the contract flag whose only user is an add (or the subtrahend of a subtract) with it: a multiply-add (vfma / vfnma)
   DenseMap<Instruction *, Instruction *> MulOf;   // the fadd/fsub -> its fmul
   for (Instruction &I : *H) {
-    if (I.getOpcode() != Instruction::FMul || !isa<FPMathOperator>(I) || !I.hasAllowContract() || !I.hasOneUse() || Scaf.count(&I)) continue;
+    bool IsFM = I.getOpcode() == Instruction::FMul && isa<FPMathOperator>(I) && I.hasAllowContract();
+    unsigned MB = I.getType()->getScalarSizeInBits();
+    bool IsIM = I.getOpcode() == Instruction::Mul && (MB == 16 || MB == 32) && !Claimed.count(&I);   // vmla.w / vmla.l: vD += vA * vB (the low half, wrapping)
+    if ((!IsFM && !IsIM) || !I.hasOneUse() || Scaf.count(&I)) continue;
     auto *U = dyn_cast<Instruction>(*I.user_begin());
-    if (!U || !L->contains(U) || !isa<FPMathOperator>(U) || !U->hasAllowContract() || MulOf.count(U)) continue;
+    if (!U || !L->contains(U) || MulOf.count(U) || RedStepOf.count(U) || Claimed.count(U)) continue;
+    if (IsFM && (!isa<FPMathOperator>(U) || !U->hasAllowContract())) continue;
+    if (IsIM && U->getOpcode() != Instruction::Add) continue;
     bool IntoPhi = false;   // the sum of products: a reduction of a product, not a multiply-add
     for (Value *Op : U->operands()) if (auto *Ph = dyn_cast<PHINode>(Op)) if (Ph->getParent() == H) IntoPhi = true;
     if (IntoPhi) continue;
-    if (U->getOpcode() == Instruction::FAdd || (U->getOpcode() == Instruction::FSub && U->getOperand(1) == &I)) {
+    if (IsIM && !(isa<LoadInst>(I.getOperand(0)) || isa<LoadInst>(I.getOperand(1)) || (InLoopI(I.getOperand(0)) && InLoopI(I.getOperand(1))))) continue;
+    if (U->getOpcode() == Instruction::FAdd || U->getOpcode() == Instruction::Add || (U->getOpcode() == Instruction::FSub && U->getOperand(1) == &I)) {
       MulOf[U] = &I;
       Skip.insert(&I);
     }
@@ -612,6 +1200,11 @@ bool Analyzer::run() {
   for (Instruction &I : *H) {
     if (Scaf.count(&I) || I.isTerminator() || (Skip.count(&I) && !isa<LoadInst>(&I))) continue;
     if (auto *AI = dyn_cast<IntrinsicInst>(&I)) if (AI->isAssumeLikeIntrinsic()) continue;
+    {
+      auto PI = Pats.find(&I);
+      if (PI != Pats.end()) { if (!emitPat(&I, PI->second)) return false; continue; }
+      if (auto *LdL = dyn_cast<LoadInst>(&I)) if (LazyLoad.count(LdL)) continue;
+    }
     if (RedStepOf.count(&I)) {
       if (!emitReduce(&I)) return false;
       continue;
@@ -749,8 +1342,8 @@ bool Analyzer::run() {
       Value *V = St->getValueOperand();
       Type *MT = V->getType();
       auto F = StoreForm.find(St);
-      int Mode = 0;
-      if (F != StoreForm.end()) { V = F->second.Src; MT = F->second.MemTy; Mode = F->second.Mode; }
+      int Mode = 0, RSh = -1;
+      if (F != StoreForm.end()) { V = F->second.Src; MT = F->second.MemTy; Mode = F->second.Mode; RSh = F->second.RSh; }
       if (!laneOK(MT)) return fail("store type");
       int S;
       int64_t Stride;
@@ -781,16 +1374,67 @@ bool Analyzer::run() {
       else Op.Mn = (Twine(StB) + M + " ").str();
       Op.Stride = Stride;
       Op.A = O;
+      Op.Sh = RSh;
       Op.Stream = S;
       Prog.push_back(Op);
       noteUse(S);
       continue;
     }
-    if (auto *Phi = dyn_cast<PHINode>(&I)) {
-      // a reduction: its steps are found now and become Reduce operations where they appear in the body
-      Instruction *N; Acc A;
-      if (!matchReduction(Phi, N, A)) return false;
+    if (isa<PHINode>(&I)) continue;   // a reduction: matched before the body (its steps become Reduce operations where they appear in the body)
+    // compare, select, mask, conversion (wave 2)
+    if (auto *Cmp = dyn_cast<CmpInst>(&I)) {
+      if (Cmp->hasOneUse())   // the condition of a reduction's select: handled with the select
+        if (auto *Sl = dyn_cast<SelectInst>(*Cmp->user_begin())) if (RedStepOf.count(Sl)) continue;
+      if (!emitCmp(Cmp)) return false;
       continue;
+    }
+    if (auto *Sl = dyn_cast<SelectInst>(&I)) {
+      if (!emitSelect(Sl)) return false;
+      continue;
+    }
+    if (isa<SIToFPInst>(&I) || isa<UIToFPInst>(&I) || isa<FPToSIInst>(&I) || isa<FPToUIInst>(&I)) {
+      if (!emitConv(cast<CastInst>(&I))) return false;
+      continue;
+    }
+    if (isa<ZExtInst>(&I) || isa<SExtInst>(&I)) {
+      if (I.getOperand(0)->getType()->getScalarType()->isIntegerTy(1)) {   // a mask as a value: sext is the mask, zext is the mask and 1
+        Opnd M;
+        bool Z = isa<ZExtInst>(&I);
+        if (!maskOperand(I.getOperand(0), false, M)) return false;
+        Type *MT = VLane[I.getOperand(0)];
+        if (Z) {
+          int D = emitLane("vand", laneChar(MT), M, Opnd::i(1), MT, &I);
+          (void)D;
+        } else { VMap[&I] = M.Id; VLane[&I] = MT; }
+        continue;
+      }
+    }
+    if (auto *Tr = dyn_cast<TruncInst>(&I)) {   // a value that the idiom of a narrow lane made: already of the narrow lane type
+      auto It = VMap.find(Tr->getOperand(0));
+      if (It != VMap.end() && VLane.count(Tr->getOperand(0)) && laneChar(VLane[Tr->getOperand(0)]) == laneChar(Tr->getType())) {
+        VMap[Tr] = It->second; VLane[Tr] = VLane[Tr->getOperand(0)];
+        continue;
+      }
+      return fail("a truncation of a computed value");
+    }
+    if (auto *Bi = dyn_cast<BinaryOperator>(&I)) {   // and, or, xor of masks
+      if (Bi->getType()->getScalarType()->isIntegerTy(1)) {
+        unsigned Opc = Bi->getOpcode();
+        if (Opc != Instruction::And && Opc != Instruction::Or && Opc != Instruction::Xor) return fail("an operation on masks");
+        Value *A0 = Bi->getOperand(0), *B0 = Bi->getOperand(1);
+        auto *CB = constInt(B0);
+        if (Opc == Instruction::Xor && CB && CB->isOne() && VMap.count(A0) && VLane.count(A0)) {   // the negation of a mask: a flag, no instruction
+          VMap[Bi] = VMap[A0]; VLane[Bi] = VLane[A0]; MaskInv[Bi] = !MaskInv.lookup(A0);
+          continue;
+        }
+        Opnd MA, MB;
+        if (!maskOperand(A0, false, MA) || !maskOperand(B0, false, MB)) return false;
+        if (VLane[A0] != VLane[B0]) return fail("masks of different lane sizes");
+        Type *MT = VLane[A0];
+        emitLane(Opc == Instruction::And ? "vand" : Opc == Instruction::Or ? "vor" : "vxor", laneChar(MT), MA, MB, MT, Bi);
+        MaskInv[Bi] = false;
+        continue;
+      }
     }
     // lane operations
     if (auto *Bin = dyn_cast<BinaryOperator>(&I)) {
@@ -825,7 +1469,7 @@ bool Analyzer::run() {
         }
         VOp Op;
         Op.Kind = VOp::Fma;
-        Op.Mn = (Twine(Bin->getOpcode() == Instruction::FSub ? "vfnma." : "vfma.") + Twine(laneChar(T)) + " ").str();
+        Op.Mn = (Twine(Bin->getOpcode() == Instruction::FSub ? "vfnma." : T->isFloatingPointTy() ? "vfma." : "vmla.") + Twine(laneChar(T)) + " ").str();
         Op.A = OA; Op.B = OB;
         Op.Dst = newV(Bin, T);
         Op.Acc = OC.Id;
@@ -1029,15 +1673,6 @@ bool Analyzer::run() {
       if (It != SplatInfo.end() && SV->isZeroEltSplat()) { SplatInfo[SV] = It->second; continue; }
       return fail("a shuffle that is not the splat of an invariant (no instruction permutes lanes)");
     }
-    if (auto *Sel = dyn_cast<SelectInst>(&I)) {
-      return fail("a select");
-    }
-    if (isa<FCmpInst>(&I)) {
-      // only as the condition of a reduction select (handled with the select)
-      bool Ok = I.hasOneUse() && isa<SelectInst>(*I.user_begin());
-      if (!Ok) return fail("a compare");
-      continue;
-    }
     if (isa<ZExtInst>(&I) || isa<SExtInst>(&I)) {
       // the operand of a reduction (vacc widens)
       bool Ok = I.hasOneUse() && isa<BinaryOperator>(*I.user_begin());
@@ -1183,21 +1818,34 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Dominat
     if (MB->getSinglePredecessor() != H) { Say("not a vec block: the vector loop's exit has other predecessors"); return false; }
     auto *MBBr = dyn_cast<BranchInst>(MB->getTerminator());
     if (!MBBr) { Say("not a vec block: the exit of the vector loop does not end in a branch"); return false; }
+    // a constant trip count: the vector loop covers it exactly (or leaves a remainder to the loop that follows, which stays as it is), and the exit of the loop
+    // need not be LoopVectorize's middle.block (with a constant count that is a multiple of VF the vector loop is followed directly by whatever came after the
+    // original loop, e.g. the latch of an outer loop: no cmp.n at all)
+    bool ConstTC = isa<SCEVConstant>(BTC);
+    bool CmpN = false;
     if (MBBr->isConditional()) {
-      XB = MBBr->getSuccessor(0); ScalarPh = MBBr->getSuccessor(1);
+      BasicBlock *X0 = MBBr->getSuccessor(0), *S0 = MBBr->getSuccessor(1);
       auto *Cmp = dyn_cast<ICmpInst>(MBBr->getCondition());
       auto *LBr = cast<BranchInst>(H->getTerminator());
       auto *LC = LBr->isConditional() ? dyn_cast<ICmpInst>(LBr->getCondition()) : nullptr;
-      if (!Cmp || Cmp->getPredicate() != ICmpInst::ICMP_EQ || !LC) { Say("not a vec block: middle.block does not compare the trip count"); return false; }
-      Value *NVec = inLoopVal(L, LC->getOperand(0)) ? LC->getOperand(1) : LC->getOperand(0);
-      if (Cmp->getOperand(0) == NVec) TCV = Cmp->getOperand(1);
-      else if (Cmp->getOperand(1) == NVec) TCV = Cmp->getOperand(0);
-      else { Say("not a vec block: middle.block compares something other than n.vec"); return false; }
-      if (!TCV->getType()->isIntegerTy()) { Say("not a vec block: trip count type"); return false; }
-      if (auto *TI = dyn_cast<Instruction>(TCV))
-        if (!DT.dominates(TI, P->getTerminator())) { Say("not a vec block: the trip count is not available before the vector loop"); return false; }
-    } else {
-      XB = MBBr->getSuccessor(0);   // no remainder: the trip count is a multiple of VF, known
+      std::string Bad;
+      if (!Cmp || Cmp->getPredicate() != ICmpInst::ICMP_EQ || !LC) Bad = "middle.block does not compare the trip count";
+      else {
+        Value *NVec = inLoopVal(L, LC->getOperand(0)) ? LC->getOperand(1) : LC->getOperand(0);
+        if (Cmp->getOperand(0) == NVec) TCV = Cmp->getOperand(1);
+        else if (Cmp->getOperand(1) == NVec) TCV = Cmp->getOperand(0);
+        else Bad = "middle.block compares something other than n.vec";
+        if (Bad.empty() && !TCV->getType()->isIntegerTy()) Bad = "trip count type";
+        if (Bad.empty())
+          if (auto *TI = dyn_cast<Instruction>(TCV))
+            if (!DT.dominates(TI, P->getTerminator())) Bad = "the trip count is not available before the vector loop";
+      }
+      if (Bad.empty()) { XB = X0; ScalarPh = S0; CmpN = true; }
+      else if (!ConstTC) { Say("not a vec block: " + Bad); return false; }
+      else TCV = nullptr;
+    }
+    if (!CmpN) {
+      if (!MBBr->isConditional()) XB = MBBr->getSuccessor(0);   // no remainder: the trip count is a multiple of VF, known
       if (isa<SCEVCouldNotCompute>(BTC)) { Say("not a vec block: trip count"); return false; }
     }
     // the reductions' results: lcssa phis in middle.block whose only users are the llvm.vector.reduce calls of the same kind
@@ -1352,6 +2000,7 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Dominat
     if (Op.Kind == VOp::StoreSeg) for (int R : Op.Regs) LastUse[R] = i;
     if (Op.A.Kind == Opnd::V) LastUse[Op.A.Id] = i;
     if (Op.B.Kind == Opnd::V) LastUse[Op.B.Id] = i;
+    if (Op.C.Kind == Opnd::V) LastUse[Op.C.Id] = i;
     if (Op.Kind == VOp::Fma) LastUse[Op.Acc] = i;
   }
   SmallVector<int, 32> Reg(NV, -1);
@@ -1386,7 +2035,8 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Dominat
     }
     case VOp::Store: {
       Stream &S = A.Streams[Op.Stream];
-      T = Op.Mn + Rn(Op.A.Id) + ", " + (S.LastUse == (int)i ? "(" + PtrOp(Op.Stream) + ")+" : "0(" + PtrOp(Op.Stream) + ")") + (Op.Stride ? ", #" + std::to_string(Op.Stride) : "");
+      T = Op.Mn + Rn(Op.A.Id) + ", " + (S.LastUse == (int)i ? "(" + PtrOp(Op.Stream) + ")+" : "0(" + PtrOp(Op.Stream) + ")") + (Op.Stride ? ", #" + std::to_string(Op.Stride) : "") +
+          (Op.Sh >= 0 ? ", #" + std::to_string(Op.Sh) : "");
       ReleaseDead(i, Op.A.Id);
       break;
     }
@@ -1447,7 +2097,7 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Dominat
       int D = Alloc();
       if (D < 0) { Say("not a vec block: more than 16 vector registers"); return false; }
       Reg[Op.Dst] = D;
-      bool Unary = Op.Mn.rfind("vneg", 0) == 0;
+      bool Unary = Op.Mn.rfind("vneg", 0) == 0 || Op.Mn.rfind("vcvt", 0) == 0;
       T = Op.Mn + Rn(Op.Dst) + ", " + Sa + (Unary ? "" : ", " + Sb);
       break;
     }
@@ -1471,8 +2121,20 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Dominat
       break;
     }
     case VOp::Reduce: {
-      T = Op.Mn + AccOp(Op.Acc) + ", " + Rn(Op.A.Id);
+      T = Op.Mn + AccOp(Op.Acc) + ", " + Rn(Op.A.Id) + (Op.B.Kind == Opnd::V ? ", " + Rn(Op.B.Id) : "");
       ReleaseDead(i, Op.A.Id);
+      if (Op.B.Kind == Opnd::V && Op.B.Id != Op.A.Id) ReleaseDead(i, Op.B.Id);
+      break;
+    }
+    case VOp::Bsl: {   // vbsl vD, vM, vA, vB: the destination may be any of the three (all are read first)
+      std::string Sm = Src(Op.C), Sa = Src(Op.A), Sb = Src(Op.B);
+      ReleaseDead(i, Op.C.Id);
+      if (Op.A.Kind == Opnd::V && Op.A.Id != Op.C.Id) ReleaseDead(i, Op.A.Id);
+      if (Op.B.Kind == Opnd::V && Op.B.Id != Op.C.Id && Op.B.Id != Op.A.Id) ReleaseDead(i, Op.B.Id);
+      int D = Alloc();
+      if (D < 0) { Say("not a vec block: more than 16 vector registers"); return false; }
+      Reg[Op.Dst] = D;
+      T = Op.Mn + Rn(Op.Dst) + ", " + Sm + ", " + Sa + ", " + Sb;
       break;
     }
     }

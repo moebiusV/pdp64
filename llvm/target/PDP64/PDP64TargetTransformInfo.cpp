@@ -22,10 +22,35 @@ static bool legalLane(Type *T) {
   return false;
 }
 static bool isFP(Type *T) { return T->isFloatTy() || T->isDoubleTy(); }
+// a multiply of two extended bytes or halfwords whose only use is a step of a sum into a phi: vdacc.b / .bu / .bsu / .w (the lowering, PDP64VecLoop, takes it as one word)
+static bool isDotStep(const Instruction *I) {
+  if (!I || I->getOpcode() != Instruction::Mul || !I->hasOneUse()) return false;
+  for (const Value *Op : I->operands()) {
+    auto *E = dyn_cast<Instruction>(Op);
+    if (!E || !(isa<ZExtInst>(E) || isa<SExtInst>(E))) return false;
+    unsigned B = E->getOperand(0)->getType()->getScalarSizeInBits();
+    if (B != 8 && B != 16) return false;
+  }
+  auto *U = dyn_cast<Instruction>(*I->user_begin());
+  if (!U || U->getOpcode() != Instruction::Add) return false;
+  for (const Value *Op : U->operands()) if (isa<PHINode>(Op)) return true;
+  return false;
+}
 // a vector of legal lanes
 static bool legalVec(Type *T) {
   auto *VT = dyn_cast<FixedVectorType>(T);
   return VT && VT->getNumElements() >= 2 && legalLane(VT->getElementType());
+}
+// a vector of i1: the mask that a compare makes (vceq / vcgt / vcgtu write integer lanes of the size compared, all ones or zero)
+static bool isMaskVec(Type *T) {
+  auto *VT = dyn_cast<FixedVectorType>(T);
+  return VT && VT->getNumElements() >= 2 && VT->getElementType()->isIntegerTy(1);
+}
+// a lane the compare and select words read: bytes, halfwords, words, binary32 (no 64-bit lane: there is no vcgt.q, and vbsl needs the mask of the lane's size)
+static bool cmpLane(Type *T) {
+  if (T->isFloatTy()) return true;
+  auto *IT = dyn_cast<IntegerType>(T);
+  return IT && (IT->getBitWidth() == 8 || IT->getBitWidth() == 16 || IT->getBitWidth() == 32);
 }
 // vector instructions needed for the whole vector: one for each strip of 256 bits
 static InstructionCost rawStrips(Type *T) {
@@ -75,10 +100,19 @@ InstructionCost PDP64TTIImpl::getArithmeticInstrCost(unsigned Opcode, Type *Ty, 
                                                      ArrayRef<const Value *> Args, const Instruction *CxtI) const {
   if (!Ty->isVectorTy())
     return BaseT::getArithmeticInstrCost(Opcode, Ty, CostKind, O1, O2, Args, CxtI);
+  if (Opcode == Instruction::FNeg) return (legalVec(Ty) && isFP(cast<VectorType>(Ty)->getElementType())) ? strips(Ty) : InstructionCost::getInvalid();   // vneg.f
+  // and, or, xor of masks (the results of vceq / vcgt): vand, vor, vxor of the mask registers (a negation is a flag on the mask or a vxor)
+  if (isMaskVec(Ty)) {
+    if (Opcode == Instruction::And || Opcode == Instruction::Or || Opcode == Instruction::Xor) return 1;
+    return InstructionCost::getInvalid();
+  }
   if (!legalVec(Ty)) return InstructionCost::getInvalid();
   bool F = isFP(cast<VectorType>(Ty)->getElementType());
   switch (Opcode) {
-  case Instruction::Add: case Instruction::Sub: case Instruction::Mul:
+  case Instruction::Mul:   // vmul.b .w .l (and .f .d): wave 1 removed vmul.q; a 64-bit product of two extended bytes or halfwords that is a step of a sum is vdacc (no multiply)
+    if (!F && cast<VectorType>(Ty)->getElementType()->getScalarSizeInBits() == 64 && !isDotStep(CxtI)) return InstructionCost::getInvalid();
+    return F ? InstructionCost::getInvalid() : strips(Ty);
+  case Instruction::Add: case Instruction::Sub:
   case Instruction::And: case Instruction::Or: case Instruction::Xor:
   case Instruction::Shl: case Instruction::LShr: case Instruction::AShr:
     return F ? InstructionCost::getInvalid() : strips(Ty);
@@ -105,7 +139,20 @@ InstructionCost PDP64TTIImpl::getCastInstrCost(unsigned Opcode, Type *Dst, Type 
                                                TTI::TargetCostKind CostKind, const Instruction *I) const {
   if (!Dst->isVectorTy() && !Src->isVectorTy())
     return BaseT::getCastInstrCost(Opcode, Dst, Src, CCH, CostKind, I);
+  // a mask as a value: sext is the mask itself (free), zext is the mask and 1 (vand)
+  if (isMaskVec(Src) && (Opcode == Instruction::ZExt || Opcode == Instruction::SExt)) {
+    if (!legalVec(Dst) || isFP(cast<VectorType>(Dst)->getElementType())) return InstructionCost::getInvalid();
+    return Opcode == Instruction::SExt ? InstructionCost(0) : strips(Dst);
+  }
   if (!legalVec(Dst) || !legalVec(Src)) return InstructionCost::getInvalid();
+  // int <-> binary32 of 32-bit lanes (vcvt.l.f, vcvt.lu.f, vcvt.f.l, vcvt.f.lu); a byte or halfword source is converted after the load widens it (vld.bu.l)
+  {
+    Type *SE = cast<VectorType>(Src)->getElementType(), *DE = cast<VectorType>(Dst)->getElementType();
+    if (Opcode == Instruction::SIToFP || Opcode == Instruction::UIToFP)
+      return (DE->isFloatTy() && SE->isIntegerTy() && SE->getScalarSizeInBits() <= 32) ? strips(Dst) : InstructionCost::getInvalid();
+    if (Opcode == Instruction::FPToSI || Opcode == Instruction::FPToUI)
+      return (SE->isFloatTy() && DE->isIntegerTy(32)) ? strips(Dst) : InstructionCost::getInvalid();
+  }
   switch (Opcode) {
   case Instruction::ZExt: case Instruction::SExt: case Instruction::FPExt:
   case Instruction::Trunc: case Instruction::FPTrunc:
@@ -129,10 +176,18 @@ InstructionCost PDP64TTIImpl::getCastInstrCost(unsigned Opcode, Type *Dst, Type 
 InstructionCost PDP64TTIImpl::getCmpSelInstrCost(unsigned Opcode, Type *ValTy, Type *CondTy, CmpInst::Predicate Pred,
                                                  TTI::TargetCostKind CostKind, TTI::OperandValueInfo O1,
                                                  TTI::OperandValueInfo O2, const Instruction *I) const {
-  // no compare that makes a mask, no select: a vector compare or select is Invalid (scalar: the branch diamond the back end makes)
+  // a vector compare is one vceq / vcgt / vcgtu (a mask of integer lanes), a select one vbsl; a predicate the word cannot say is the negation of one it can
+  // (the arms are swapped: free), or two compares and a vor (<=, >= of floating point without nnan).  Lanes b w l f only: no 64-bit compare.
   // (a <1 x i1> condition is what LoopVectorize builds for the scalar loop's own select: scalar)
   auto Wide = [](Type *T) { auto *V = dyn_cast_or_null<FixedVectorType>(T); return V && V->getNumElements() > 1; };
-  if (Wide(ValTy) || Wide(CondTy)) return InstructionCost::getInvalid();
+  if (Wide(ValTy) || Wide(CondTy)) {
+    if (!ValTy || !Wide(ValTy) || !cmpLane(cast<VectorType>(ValTy)->getElementType())) return InstructionCost::getInvalid();
+    InstructionCost C = strips(ValTy);
+    if (Opcode == Instruction::FCmp && Pred != CmpInst::BAD_FCMP_PREDICATE && (Pred == CmpInst::FCMP_OGE || Pred == CmpInst::FCMP_OLE || Pred == CmpInst::FCMP_UGT ||
+        Pred == CmpInst::FCMP_ULT || Pred == CmpInst::FCMP_ONE || Pred == CmpInst::FCMP_UEQ)) C = C * 3;
+    if (Opcode == Instruction::FCmp && (Pred == CmpInst::FCMP_ORD || Pred == CmpInst::FCMP_UNO)) C = C * 3;   // vceq x,x ; vceq y,y ; vand
+    return C;
+  }
   // scalar: a compare is a cbCC fused with its branch (1); a select is a branch diamond (an extra compare, two moves and a join)
   return Opcode == Instruction::Select ? 3 : 1;
 }
@@ -171,10 +226,10 @@ InstructionCost PDP64TTIImpl::getIntrinsicInstrCost(const IntrinsicCostAttribute
   Type *ET = cast<VectorType>(RT)->getElementType();
   unsigned W = ET->getScalarSizeInBits();
   switch (ICA.getID()) {
-  case Intrinsic::smin: case Intrinsic::smax: case Intrinsic::umin: case Intrinsic::umax:
-    return isFP(ET) ? InstructionCost::getInvalid() : strips(RT);
-  case Intrinsic::abs:   // vabd of a difference; alone it is a sub and a max
-    return isFP(ET) ? InstructionCost::getInvalid() : strips(RT) * 2;
+  case Intrinsic::smin: case Intrinsic::smax: case Intrinsic::umin: case Intrinsic::umax:   // vmin / vmax / vminu / vmaxu .b .w .l (wave 1 removed the .q forms)
+    return (isFP(ET) || W == 64) ? InstructionCost::getInvalid() : strips(RT);
+  case Intrinsic::abs:   // vabd of a difference (.b .w .l); alone it is a sub and a max
+    return (isFP(ET) || W == 64) ? InstructionCost::getInvalid() : strips(RT) * 2;
   case Intrinsic::fshl: case Intrinsic::fshr:   // a rotate (both inputs the same value) is vshl, vshr and vor; a true funnel shift is not supported
     if (ICA.getArgs().size() == 3 && ICA.getArgs()[0] == ICA.getArgs()[1] && !isFP(ET)) return strips(RT) * 3;
     return InstructionCost::getInvalid();
