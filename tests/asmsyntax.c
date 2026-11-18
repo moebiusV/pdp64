@@ -49,8 +49,9 @@ int main(void){
   bad+=try("space in a number", "movq #1 2, r1\n", 0);
   bad+=try("escapes",          "besc_bad r1\n", 0);
   bad+=try("unknown mnemonic", "frobnicate r1, r2\n", 0);
-  bad+=try("r16 is no register","add r16, r2\n", 0);
-  bad+=try("r16 is no label",   "r16: ret\n", 0);
+  bad+=try("r32 is no register","add r32, r2\n", 0);
+  bad+=try("r31 is a register", "add r31, r16\n", 1);
+  bad+=try("r32 is no label",   "r32: ret\n", 0);
   bad+=try("r2d2 is a name",    "r2d2: ret\nbne r2d2\n", 1);
   bad+=try("r15 and sp work",   "add r15, sp\nmovq (fp)+, r0\n", 1);
   /* the spellings added by errata 139 */
@@ -58,7 +59,7 @@ int main(void){
   bad+=try("// in a string",   ".ascii \"a//b\"\n", 1);
   bad+=try("$ immediate",      "movq $5, r1\nadd $[1+2], r2\n", 1);
   bad+=try("% before a register","movq %r1, %sp\nmovq (%r1), r2\n", 1);
-  bad+=try("r16 with %",       "add %r16, r2\n", 0);
+  bad+=try("r32 with %",       "add %r32, r2\n", 0);
   bad+=try("AT&T indexed",     "movq (%r1,%r2,4), r3\nmovq 8(%r1,%r2), r3\n", 1);
   bad+=try("AT&T bad scale",   "movq (%r1,%r2,3), r3\n", 0);
   bad+=try("base plus disp",   "movq r5+8, r1\nmovq r5 - 8, r1\nmovq sp+x, r1\n", 1);
