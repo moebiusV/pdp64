@@ -98,9 +98,9 @@ def generate():
     ctz = [c for c in ('eq', 'ne') if any(('ct' + c) in f['mns'] and len(f['specs']) == 1 for f in forms)]
     assert 'chk2' in mns and ctcs and ctz
 
-    vecmns = [m for m in mns if m in ('vec', 'vend') or re.match(r'^(v[a-z0-9]+|gemm)(\.[a-z]+)*$', m) and m not in ('vclr_',)]
+    vecmns = [m for m in mns if m in ('vec', 'vend') or re.match(r'^(v[a-z0-9]+)(\.[a-z]+)*$', m) and m not in ('vclr_',)]
     # only the words of the vector family: the ones that start with v and are not scalar words (checked against a list of the base names in the executor's table by the user of this list)
-    vecmns = [m for m in vecmns if re.match(r'^(vec|vend|vlen|vadd|vsub|vsubr|vmul|vmin|vmax|vminu|vmaxu|vabd|vabdu|vand|vor|vxor|vshl|vshr|vsar|vadds|vsubs|vaddsu|vsubsu|vmov|vneg|vmla|vfma|vfnma|vfmab|vdot|vdotu|vdotsu|vacc|vmaxacc|vminacc|vfir|vclr|vld|vst|vsts|vldt|vstt|vldx|vlseg[234]|vsseg[234]|vtclr|vtfmopa|vtld|vtst|vtadd|gemm)(\.|$)', m)]
+    vecmns = [m for m in vecmns if re.match(r'^(vec|vend|vlen|vadd|vsub|vsubr|vmul|vmin|vmax|vminu|vmaxu|vabd|vabdu|vand|vor|vxor|vshl|vshr|vsar|vadds|vsubs|vaddsu|vsubsu|vmov|vneg|vmla|vfma|vfnma|vfmab|vdot|vdotu|vdotsu|vavg|vavgu|vmulh|vmulhu|vmulhr|vsarr|vshrr|vtbl|vdacc|vsad|vacc|vmaxacc|vminacc|vfir|vclr|vld|vst|vsts|vldt|vstt|vlseg[234]|vsseg[234])(\.|$)', m)]
 
     regs = d['regnames']
     nreg = d['registers']

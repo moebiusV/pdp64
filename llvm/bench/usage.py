@@ -25,15 +25,14 @@ GROUPS = [
     ('saturating narrow', ['vsts']),
     ('strided', ['vldt', 'vstt']),
     ('segment', ['vlseg2', 'vlseg3', 'vlseg4', 'vsseg2', 'vsseg3', 'vsseg4']),
-    ('gather', ['vldx']),
-    ('lane operations', ['vadd', 'vsub', 'vsubr', 'vmul', 'vand', 'vor', 'vxor', 'vshl', 'vshr', 'vsar', 'vabd', 'vabdu', 'vmin', 'vmax', 'vminu', 'vmaxu', 'vmov', 'vneg']),
+    ('lane operations', ['vadd', 'vsub', 'vsubr', 'vmul', 'vand', 'vor', 'vxor', 'vshl', 'vshr', 'vsar', 'vabd', 'vabdu', 'vmin', 'vmax', 'vminu', 'vmaxu', 'vmov', 'vneg', 'vavg', 'vavgu', 'vmulh', 'vmulhu', 'vmulhr', 'vsarr', 'vshrr']),
     ('saturating', ['vadds', 'vsubs', 'vaddsu', 'vsubsu']),
     ('multiply-add', ['vmla', 'vfma', 'vfnma', 'vfmab']),
-    ('int8 dot', ['vdot', 'vdotu', 'vdotsu']),
+    ('dot', ['vdot', 'vdotu', 'vdotsu', 'vdacc', 'vsad']),
+    ('table lookup', ['vtbl']),
     ('reductions', ['vacc', 'vmaxacc', 'vminacc']),
     ('sliding window', ['vfir']),
     ('accumulators', ['vclr']),
-    ('tile and GEMM', ['vtclr', 'vtfmopa', 'vtld', 'vtst', 'vtadd', 'gemm']),
 ]
 
 OPT = os.path.join(os.path.dirname(R), 'llvm-build', 'bin', 'opt')
@@ -145,13 +144,13 @@ def main():
         'vfir': 'a window of consecutive loads times invariant taps (put8h): LoopVectorize does not vectorise it (too many live vectors), the scalar recogniser makes eight shifted streams; neither makes `vfir`',
         'vlseg2': 'LoopVectorize\'s interleaved groups with every field used ARE these (see the `lv` column); `vlseg2` is used by k_split and k_cmul', 'vlseg3': 'a three-field load group (rgb to planes): no kernel of the set has one', 'vlseg4': 'the 4-field groups of k_vtxaos (used when the build has it)',
         'vsseg2': 'as `vlseg2` (stores)', 'vsseg3': 'rgb interleave (tests/vec/lv_seg.c)', 'vsseg4': 'as `vlseg4` (stores)',
-        'vldx': 'a gather (k_hist, k_ssm): LoopVectorize cannot vectorise them (memory conflicts, a call), and the cost model says gathers are not legal (isLegalMaskedGather is false: the lowering does not recognise llvm.masked.gather)',
         'vdot': 'int8 dot products (k_q8dot, k_q4dot): LoopVectorize widens the bytes to 32 bits and the lowering matches vacc on widened lanes; the vdot pattern (a sum of four byte products into a 32-bit lane) is not recognised',
         'vdotu': 'same', 'vdotsu': 'same',
-        'vmla': 'integer multiply-add by a scalar: the lowering emits `vmul` then `vadd` for integers; not fused',
+        'vmla': 'integer multiply-add (wave 1: by a vector too): the lowering emits `vmul` then `vadd` for integers; not fused',
         'vfmab': 'the broadcast multiply-add of a GEMM micro-kernel: needs a loop nest, not an innermost loop',
         'vabdu': 'the kernels take `abs(a - b)` of widened bytes: the signed `vabd` serves',
-        'vtclr': 'tile and GEMM: no loop nest is turned into tiles (`k_sgemm_nt` is vectorised on its inner dot product)', 'vtfmopa': 'same', 'vtld': 'same', 'vtst': 'same', 'vtadd': 'same', 'gemm': 'same: a call of the GEMM unit would be recognised from `llvm.matrix.multiply` or the triple loop; not done',
+        'vavg': 'wave 1 (errata 170): the (a + b + 1) >> 1 idiom would be a combine; not done', 'vavgu': 'same', 'vmulh': 'wave 1: the high half of a widening multiply: a combine; not done', 'vmulhu': 'same', 'vmulhr': 'wave 1: the Q15 rounding multiply, no canonical IR: assembly or an intrinsic',
+        'vsarr': 'wave 1: add, shift: a combine; not done', 'vshrr': 'same', 'vtbl': 'wave 1: a table lookup of bytes: an intrinsic or assembly', 'vdacc': 'wave 1: a partial reduction of a widening multiply: a combine; not done', 'vsad': 'wave 1: abdu and a sum: a combine; not done',
     }
     supported = {'vsub', 'vor', 'vmax', 'vminu', 'vmaxu', 'vneg', 'vsubs', 'vaddsu', 'vsubsu', 'vminacc', 'vsubr', 'vand', 'vxor'}
     for g, b, nw in duds:

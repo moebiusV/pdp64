@@ -82,7 +82,7 @@ public:
   void getUnrollingPreferences(Loop *L, ScalarEvolution &SE, TTI::UnrollingPreferences &UP,
                                OptimizationRemarkEmitter *ORE) const override;
 
-  // ---- legality of memory operations: no masks, no gather, no scatter (vldx exists but is not recognised yet)
+  // ---- legality of memory operations: no masks, no gather, no scatter (the gather vldx was removed in wave 1, errata 170)
   bool isLegalMaskedLoad(Type *, Align, unsigned) const override { return false; }
   bool isLegalMaskedStore(Type *, Align, unsigned) const override { return false; }
   bool isLegalMaskedGather(Type *, Align) const override { return false; }

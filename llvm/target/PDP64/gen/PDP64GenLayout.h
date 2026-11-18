@@ -83,16 +83,10 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
 
 // the mnemonics of the vector, tile and GEMM family (vec-isa.md): vec, vend, vlen.t, vadd.w, vld.bu.w ...; X("mnemonic")
 #define PDP64_VEC_MNEMONICS(X) \
-  X("gemm.f") \
   X("vabd.b") \
-  X("vabd.d") \
-  X("vabd.f") \
   X("vabd.l") \
-  X("vabd.q") \
   X("vabd.w") \
   X("vabdu.b") \
-  X("vabdu.l") \
-  X("vabdu.q") \
   X("vabdu.w") \
   X("vacc.b.l") \
   X("vacc.bu.l") \
@@ -122,22 +116,25 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vand.l") \
   X("vand.q") \
   X("vand.w") \
-  X("vclr.b") \
+  X("vavg.b") \
+  X("vavg.w") \
+  X("vavgu.b") \
+  X("vavgu.w") \
   X("vclr.d") \
   X("vclr.f") \
   X("vclr.l") \
-  X("vclr.q") \
-  X("vclr.w") \
+  X("vdacc.b") \
+  X("vdacc.bsu") \
+  X("vdacc.bu") \
+  X("vdacc.w") \
   X("vdot.b") \
+  X("vdot.w") \
   X("vdotsu.b") \
   X("vdotu.b") \
   X("vec") \
   X("vend") \
-  X("vfir.b") \
-  X("vfir.d") \
   X("vfir.f") \
   X("vfir.l") \
-  X("vfir.q") \
   X("vfir.w") \
   X("vfma.d") \
   X("vfma.f") \
@@ -189,34 +186,7 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vldt.wu") \
   X("vldt.wu.l") \
   X("vldt.wu.q") \
-  X("vldx.b") \
-  X("vldx.b.l") \
-  X("vldx.b.q") \
-  X("vldx.b.w") \
-  X("vldx.bu") \
-  X("vldx.bu.l") \
-  X("vldx.bu.q") \
-  X("vldx.bu.w") \
-  X("vldx.d") \
-  X("vldx.f") \
-  X("vldx.f.d") \
-  X("vldx.l") \
-  X("vldx.l.q") \
-  X("vldx.lu") \
-  X("vldx.lu.q") \
-  X("vldx.q") \
-  X("vldx.w") \
-  X("vldx.w.l") \
-  X("vldx.w.q") \
-  X("vldx.wu") \
-  X("vldx.wu.l") \
-  X("vldx.wu.q") \
   X("vlen.b") \
-  X("vlen.d") \
-  X("vlen.f") \
-  X("vlen.l") \
-  X("vlen.q") \
-  X("vlen.w") \
   X("vlseg2.b") \
   X("vlseg2.b.l") \
   X("vlseg2.b.q") \
@@ -287,7 +257,6 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vmax.d") \
   X("vmax.f") \
   X("vmax.l") \
-  X("vmax.q") \
   X("vmax.w") \
   X("vmaxacc.b") \
   X("vmaxacc.bu") \
@@ -300,13 +269,11 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vmaxacc.wu") \
   X("vmaxu.b") \
   X("vmaxu.l") \
-  X("vmaxu.q") \
   X("vmaxu.w") \
   X("vmin.b") \
   X("vmin.d") \
   X("vmin.f") \
   X("vmin.l") \
-  X("vmin.q") \
   X("vmin.w") \
   X("vminacc.b") \
   X("vminacc.bu") \
@@ -319,11 +286,8 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vminacc.wu") \
   X("vminu.b") \
   X("vminu.l") \
-  X("vminu.q") \
   X("vminu.w") \
-  X("vmla.b") \
   X("vmla.l") \
-  X("vmla.q") \
   X("vmla.w") \
   X("vmov.b") \
   X("vmov.d") \
@@ -335,8 +299,10 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vmul.d") \
   X("vmul.f") \
   X("vmul.l") \
-  X("vmul.q") \
   X("vmul.w") \
+  X("vmulh.w") \
+  X("vmulhr.w") \
+  X("vmulhu.w") \
   X("vneg.b") \
   X("vneg.d") \
   X("vneg.f") \
@@ -347,10 +313,13 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vor.l") \
   X("vor.q") \
   X("vor.w") \
+  X("vsad.bu") \
   X("vsar.b") \
   X("vsar.l") \
   X("vsar.q") \
   X("vsar.w") \
+  X("vsarr.l") \
+  X("vsarr.w") \
   X("vshl.b") \
   X("vshl.l") \
   X("vshl.q") \
@@ -359,6 +328,8 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vshr.l") \
   X("vshr.q") \
   X("vshr.w") \
+  X("vshrr.l") \
+  X("vshrr.w") \
   X("vsseg2.b") \
   X("vsseg2.d") \
   X("vsseg2.d.f") \
@@ -454,15 +425,7 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vsubsu.b") \
   X("vsubsu.l") \
   X("vsubsu.w") \
-  X("vtadd.d") \
-  X("vtadd.f") \
-  X("vtclr") \
-  X("vtfmopa.d") \
-  X("vtfmopa.f") \
-  X("vtld.d") \
-  X("vtld.f") \
-  X("vtst.d") \
-  X("vtst.f") \
+  X("vtbl.b") \
   X("vxor.b") \
   X("vxor.l") \
   X("vxor.q") \
