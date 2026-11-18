@@ -1,0 +1,37 @@
+# sim64 latency table "fpga-hi": one line a class: name latency interval (cycles).  The line `name@8` or `name@16` is for that strip in bytes only; a line without @ is the default (the strip of 32; 64 uses it too).
+# ASSUMED latencies (pessimistic): 1.2 ns per LUT4 level, 10 ns clock, 1.0 ns register overhead, 3 cycles a DSP stage.
+# Depth is measured (tools/gates/depth-synth.sh); every latency here follows from assumed delays (tools/gates/lat-table.py).  The interval is 1: every class is pipelined.
+# ld, st: the cycles of load alignment and store merge on top of --vmemlat (the cache)
+alu 5 1
+cmp 1 1
+bsl 1 1
+shift 3 1
+narrow 2 1
+mul8 5 1
+mul16 4 1
+mulh16 4 1
+mul32 4 1
+mul64 5 1
+dot 5 1
+dacc 7 1
+dacc@16 6 1
+dacc@8 6 1
+sad 3 1
+sad@8 2 1
+acc 3 1
+acc@8 2 1
+mmacc 24 1
+mmacc@16 12 1
+mmacc@8 7 1
+fir 4 1
+tbl 1 1
+lseg 1 1
+sseg 1 1
+cvt 4 1
+fma 13 1
+fma64 9 1
+ld 1 1
+ld@8 0 1
+st 1 1
+st@8 0 1
+misc 1 1

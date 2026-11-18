@@ -1,0 +1,41 @@
+# sim64 latency table "asic-hi": one line a class: name latency interval (cycles).  The line `name@8` or `name@16` is for that strip in bytes only; a line without @ is the default (the strip of 32; 64 uses it too).
+# ASSUMED latencies (pessimistic): 0.1 ns per gate level, 0.5 ns clock (2 GHz), 0.1 ns register overhead.
+# Depth is measured (tools/gates/depth-synth.sh); every latency here follows from assumed delays (tools/gates/lat-table.py).  The interval is 1: every class is pipelined.
+# ld, st: the cycles of load alignment and store merge on top of --vmemlat (the cache)
+alu 79 1
+cmp 7 1
+bsl 1 1
+shift 42 1
+narrow 12 1
+mul8 31 1
+mul16 14 1
+mulh16 23 1
+mul32 37 1
+mul64 56 1
+dot 31 1
+dacc 67 1
+dacc@16 68 1
+dacc@8 63 1
+sad 48 1
+sad@16 46 1
+sad@8 43 1
+acc 44 1
+acc@16 42 1
+acc@8 38 1
+mmacc 133 1
+mmacc@16 69 1
+mmacc@8 37 1
+fir 31 1
+tbl 4 1
+tbl@8 3 1
+lseg 4 1
+sseg 5 1
+cvt 46 1
+fma 134 1
+fma64 116 1
+ld 5 1
+ld@8 4 1
+st 7 1
+st@16 4 1
+st@8 2 1
+misc 1 1
