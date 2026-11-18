@@ -81,7 +81,7 @@ levels of the xc7 flow for `w_vcmp_mw` are an artefact of the study's own form o
 | fma64 | binary64 add sub mul fma (ESTIMATE: the sum of the four blocks of core.v; not a synthesised block) | mul53 (fixed), shr106 (fixed), add106 (fixed), norm106 (fixed) | 462 | 40.6 | 1 | 35.6 | 4 | **6** | 9 | 26 | **54** | 116 | 6 / 54 | 6 / 54 |
 | ld | load alignment and widening, after the memory's own latency (vmemlat) | w_vmem_ld (wide) | 24 / 21 / 19 | 9 / 8 / 6.5 | 0 | 6 | 0 | **0** | 1 | 1 | **2** | 5 | 0 / 2 | 0 / 2 |
 | st | store merge | w_vmem_st (wide) | 32 / 18 / 10 | 10.9 / 8 / 6.3 | 0 | 6.2 | 0 | **1** | 1 | 1 | **3** | 7 | 0 / 2 | 0 / 1 |
-| misc | vclr, vlen: a register write | - | 0 | 0 | 0 | 0 | 1 | **1** | 1 | 1 | **1** | 1 | 1 / 1 | 1 / 1 |
+| misc | vclr: a register write | - | 0 | 0 | 0 | 0 | 1 | **1** | 1 | 1 | **1** | 1 | 1 / 1 | 1 / 1 |
 
 Parameters (ASSUMED): fpga-lo: ecp5 levels, 0.6 ns a level, clock 10 ns, 0.5 ns register overhead a stage, 1 cycles a multiplier primitive; fpga: ecp5 levels, 0.9 ns a level, clock 10 ns, 0.75 ns register overhead a stage, 2 cycles a multiplier primitive; fpga-hi: ecp5 levels, 1.2 ns a level, clock 10 ns, 1 ns register overhead a stage, 3 cycles a multiplier primitive; asic-lo: nand levels, 0.05 ns a level, clock 1 ns, 0.1 ns register overhead a stage, 0 cycles a multiplier primitive; asic: nand levels, 0.075 ns a level, clock 0.75 ns, 0.1 ns register overhead a stage, 0 cycles a multiplier primitive; asic-hi: nand levels, 0.1 ns a level, clock 0.5 ns, 0.1 ns register overhead a stage, 0 cycles a multiplier primitive.
 

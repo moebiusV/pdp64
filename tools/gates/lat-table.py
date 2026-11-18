@@ -52,7 +52,7 @@ CLASSES = [
     ('fma64',  'sum', [('mul53', 'fixed'), ('shr106', 'fixed'), ('add106', 'fixed'), ('norm106', 'fixed')], 'binary64 add sub mul fma (ESTIMATE: the sum of the four blocks of core.v; not a synthesised block)'),
     ('ld',     'max', [('w_vmem_ld', 'wide')], 'load alignment and widening, after the memory\'s own latency (vmemlat)'),
     ('st',     'max', [('w_vmem_st', 'wide')], 'store merge'),
-    ('misc',   'zero', [], 'vclr, vlen: a register write'),
+    ('misc',   'zero', [], 'vclr: a register write'),
 ]
 SCALAR = [('alu64', 'alu64', 'scalar ALU'), ('shift64', 'shift64', 'scalar shifts'), ('bitops64', 'bitops64', 'bit counts and reversal'), ('mul64', 'mul64', 'scalar 64 x 64 multiplier'),
           ('div64', 'div64', 'one iteration of the divider (64 iterations, 1 quotient bit each: 64 cycles when one iteration fits a cycle)'), ('tlb32', 'tlb32', 'translation buffer match and read'),

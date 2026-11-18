@@ -1,31 +1,26 @@
-52 programs of tests/sim, each run at 4 strips (the 3 tests that look at the strip are run a second time with those checks switched off); 52 runs gave the same exit status and standard output at all four strips, 3 runs differ; the programs that are not in the table below gave the expected exit status and the same output at all four.
+53 programs of tests/sim, each run unmodified at the strips 16, 32 and 64 bytes (no check switched off, no test patched): **53 gave the expected exit status and the same standard output at all three, 0 did not**.  At the strip of 8 bytes, which is outside the architecture, 2 of them differ from the strip-32 run.  The table lists the vec tests and any that failed.
 
-Patched copy of vec-basic switches off: check 4: vlen.b is 32 (1).
+| test | expected exit | exit at strip 16, 32, 64 | stdout identical | verdict | strip 8 (outside the architecture) |
+|---|---:|---|---|---|---|
+| vec-basic | 0 | 0 0 0 | yes | same | exit 0, same output |
+| vec-restart | 0 | 0 0 0 | yes | same | exit 10, same output |
+| vec-strip | 0 | 0 0 0 | yes | same | exit 1, same output |
+| vec-wave1 | 0 | 0 0 0 | yes | same | exit 0, same output |
+| vec-wave2 | 0 | 0 0 0 | yes | same | exit 0, same output |
 
-Patched copy of vec-restart switches off: every check of the rows of the kernels kern17 kern48 kern49 kern51, the blocks of which store lanes that depend on the strip (a register-form vtbl.b, or a vclr accumulator stored or reduced inside the block; the expected states are the strip-32 ones; the rows of all other kernels run all checks); checks 5 to 11: the registers and the memory the handler sees at a fault (the progress at the strip it stopped in) (7).
+The probe: a floating-point sum over 1000 values (seeded, mixed sign, 10^-8 to 10^8, with exact cancellations: the order of the additions changes the result), the register as bits by strip, and the model of the canonical order:
 
-Patched copy of vec-wave1 switches off: check 63: vtbl.b with a table register, the result of lanes 16 and above depends on the strip (1).
-
-| test | patched | expected exit | exit at strip 8, 16, 32, 64 | stdout identical at all four | verdict |
-|---|---|---:|---|---|---|
-| vec-basic | no | 0 | 4 4 0 4 | yes | DIFFERS |
-| vec-basic | yes | 0 | 0 0 0 0 | yes | same |
-| vec-restart | no | 0 | 5 5 0 5 | yes | DIFFERS |
-| vec-restart | yes | 0 | 0 0 0 0 | yes | same |
-| vec-wave1 | no | 0 | 63 63 0 63 | yes | DIFFERS |
-| vec-wave1 | yes | 0 | 0 0 0 0 | yes | same |
-
-vacc.f of 1000 binary32 values (seeded random, mixed sign, 10^-3 to 10^3), the result as binary32 bits by strip: 8: 0xc602a2a3, 16: 0xc602a2a0, 32: 0xc602a2a1, 64: 0xc602a2a1 (they differ: a floating-point sum depends on the strip)
+| word | model | strip 16 | strip 32 | strip 64 | strip 8 | verdict |
+|---|---|---|---|---|---|---|
+| vacc.f | 0x4df180fd | 0x4df180fd | 0x4df180fd | 0x4df180fd | 0x4df180fb | same, equal to the model |
+| vacc.d | 0x41be301fcd7e4243 | 0x41be301fcd7e4243 | 0x41be301fcd7e4243 | 0x41be301fcd7e4243 | 0x41be301fcd7e4244 | same, equal to the model |
+| vacc.f.d | 0x41be301fcd7e240f | 0x41be301fcd7e240f | 0x41be301fcd7e240f | 0x41be301fcd7e240f | 0x41be301fcd7e2413 | same, equal to the model |
 
 llvm/check.sh (rc and the lines "ok"/"FAIL", the .ll tests, the C programs through two pipelines and the vector kernels, four variants each):
 
-* strip 8: 197 ok, 0 FAIL; llvm tests: 61 passed, 0 failed (a test with several `; llc:` variants counts once for each) | C programs (tests/c) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new) through clang + llc: 21 passed, 0 failed | C programs (tests/c, lv pipeline) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new, lv pipeline) through clang + llc: 21 passed, 0 failed | vector kernels (tests/vec) scalar, -pdp64-vecloop, -pdp64-vecloop-strip and lv (LoopVectorize): 84 passed, 0 failed
-* strip 16: 197 ok, 0 FAIL; llvm tests: 61 passed, 0 failed (a test with several `; llc:` variants counts once for each) | C programs (tests/c) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new) through clang + llc: 21 passed, 0 failed | C programs (tests/c, lv pipeline) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new, lv pipeline) through clang + llc: 21 passed, 0 failed | vector kernels (tests/vec) scalar, -pdp64-vecloop, -pdp64-vecloop-strip and lv (LoopVectorize): 84 passed, 0 failed
-* strip 32: 197 ok, 0 FAIL; llvm tests: 61 passed, 0 failed (a test with several `; llc:` variants counts once for each) | C programs (tests/c) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new) through clang + llc: 21 passed, 0 failed | C programs (tests/c, lv pipeline) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new, lv pipeline) through clang + llc: 21 passed, 0 failed | vector kernels (tests/vec) scalar, -pdp64-vecloop, -pdp64-vecloop-strip and lv (LoopVectorize): 84 passed, 0 failed
-* strip 64: 197 ok, 0 FAIL; llvm tests: 61 passed, 0 failed (a test with several `; llc:` variants counts once for each) | C programs (tests/c) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new) through clang + llc: 21 passed, 0 failed | C programs (tests/c, lv pipeline) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new, lv pipeline) through clang + llc: 21 passed, 0 failed | vector kernels (tests/vec) scalar, -pdp64-vecloop, -pdp64-vecloop-strip and lv (LoopVectorize): 84 passed, 0 failed
-
-Lines that differ between strip 32 and strip 8 (0):
-    none
+* strip 16: 201 ok, 0 FAIL; llvm tests: 61 passed, 0 failed (a test with several `; llc:` variants counts once for each) | C programs (tests/c) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new) through clang + llc: 21 passed, 0 failed | C programs (tests/c, lv pipeline) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new, lv pipeline) through clang + llc: 21 passed, 0 failed | vector kernels (tests/vec) scalar, -pdp64-vecloop, -pdp64-vecloop-strip and lv (LoopVectorize): 88 passed, 0 failed
+* strip 32: 201 ok, 0 FAIL; llvm tests: 61 passed, 0 failed (a test with several `; llc:` variants counts once for each) | C programs (tests/c) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new) through clang + llc: 21 passed, 0 failed | C programs (tests/c, lv pipeline) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new, lv pipeline) through clang + llc: 21 passed, 0 failed | vector kernels (tests/vec) scalar, -pdp64-vecloop, -pdp64-vecloop-strip and lv (LoopVectorize): 88 passed, 0 failed
+* strip 64: 201 ok, 0 FAIL; llvm tests: 61 passed, 0 failed (a test with several `; llc:` variants counts once for each) | C programs (tests/c) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new) through clang + llc: 21 passed, 0 failed | C programs (tests/c, lv pipeline) through clang + llc: 5 passed, 0 failed | C programs (tests/c-new, lv pipeline) through clang + llc: 21 passed, 0 failed | vector kernels (tests/vec) scalar, -pdp64-vecloop, -pdp64-vecloop-strip and lv (LoopVectorize): 88 passed, 0 failed
 
 Lines that differ between strip 32 and strip 16 (0):
     none
