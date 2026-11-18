@@ -1,0 +1,19 @@
+
+6. Printing statistics.
+
+=== w_vfir_added ===
+
+   Number of wires:               5421
+   Number of wire bits:           7347
+   Number of public wires:          15
+   Number of public wire bits:    1941
+   Number of ports:                 10
+   Number of port bits:           1029
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               6062
+     $_DFF_P_                      256
+     $_NAND_                      4320
+     $_NOT_                       1486
+

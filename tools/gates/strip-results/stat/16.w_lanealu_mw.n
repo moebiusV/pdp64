@@ -1,0 +1,19 @@
+
+6. Printing statistics.
+
+=== w_lanealu_mw ===
+
+   Number of wires:              11273
+   Number of wire bits:          12325
+   Number of public wires:          19
+   Number of public wire bits:    1071
+   Number of ports:                  5
+   Number of port bits:            391
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              11383
+     $_NAND_                      8465
+     $_NOT_                       2917
+     $scopeinfo                      1
+

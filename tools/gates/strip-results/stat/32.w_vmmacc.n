@@ -1,0 +1,18 @@
+
+6. Printing statistics.
+
+=== w_vmmacc ===
+
+   Number of wires:              11837
+   Number of wire bits:          12219
+   Number of public wires:           6
+   Number of public wire bits:     388
+   Number of ports:                  6
+   Number of port bits:            388
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              11895
+     $_NAND_                      9509
+     $_NOT_                       2386
+

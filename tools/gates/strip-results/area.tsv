@@ -1,0 +1,10 @@
+configuration	strip_bits	nand2	ecp5_lut4	ecp5_ff	ecp5_mult18	xc7_lut6	xc7_ff	xc7_dsp48
+wave 1, 16 integer lanes at 256 bits (8 at 64)	256	278959	70316	624	64	34914	624	64
+wave 1, 16 integer lanes at 256 bits (8 at 64)	128	139302	33172	368	32	16378	368	32
+wave 1, 16 integer lanes at 256 bits (8 at 64)	64	68333	14766	240	16	7647	240	16
+wave 1 and 2	256	298779	77574	624	64	39674	624	64
+wave 1 and 2	128	149251	37052	368	32	18597	368	32
+wave 1 and 2	64	73254	16626	240	16	8829	240	16
+wave 1 and 2 with floating-point lanes	256	384313	102936	624	96	48673	624	80
+wave 1 and 2 with floating-point lanes	128	191922	50270	368	48	23134	368	40
+wave 1 and 2 with floating-point lanes	64	94559	23189	240	24	10919	240	20

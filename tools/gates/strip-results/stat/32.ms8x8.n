@@ -1,0 +1,18 @@
+
+8. Printing statistics.
+
+=== ms8x8 ===
+
+   Number of wires:             103480
+   Number of wire bits:         105300
+   Number of public wires:          44
+   Number of public wire bits:    1864
+   Number of ports:                  9
+   Number of port bits:           1158
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:             103756
+     $_NAND_                     71564
+     $_NOT_                      32192
+

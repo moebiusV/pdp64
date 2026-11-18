@@ -1,0 +1,19 @@
+
+6. Printing statistics.
+
+=== w_vregs16_r3 ===
+
+   Number of wires:              38673
+   Number of wire bits:          43785
+   Number of public wires:          26
+   Number of public wire bits:    5138
+   Number of ports:                 10
+   Number of port bits:           1042
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              43511
+     $_DFFE_PP_                   4096
+     $_NAND_                     34589
+     $_NOT_                       4826
+

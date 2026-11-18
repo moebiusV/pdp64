@@ -1,0 +1,19 @@
+
+6. Printing statistics.
+
+=== w_fma32xn ===
+
+   Number of wires:             100481
+   Number of wire bits:         104789
+   Number of public wires:         156
+   Number of public wire bits:    4464
+   Number of ports:                  4
+   Number of port bits:           1024
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:             100589
+     $_NAND_                     70487
+     $_NOT_                      30094
+     $scopeinfo                      8
+

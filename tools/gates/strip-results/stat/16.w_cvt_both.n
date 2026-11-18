@@ -1,0 +1,19 @@
+
+6. Printing statistics.
+
+=== w_cvt_both ===
+
+   Number of wires:               9264
+   Number of wire bits:          10777
+   Number of public wires:          55
+   Number of public wire bits:    1568
+   Number of ports:                  3
+   Number of port bits:            384
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               9465
+     $_NAND_                      6649
+     $_NOT_                       2808
+     $scopeinfo                      8
+
