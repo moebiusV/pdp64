@@ -976,6 +976,8 @@ progress is held in the registers and the parameter block; an interrupt or a fau
 
 **B.2.11.1** The proposal is to declare it out of scope for System v1 and fix five constraints: privileged state stays privileged or controllable, the page-table walker could be wrapped by a second level, interrupts are injectable, system-register access can trap, and the translation-enable bit and software accessed and dirty bits are reviewed for what a hypervisor would need. *(P)*
 
+**B.2.11.2** Whatever resets the translation state of a core or of a guest (a machine reset, or an INIT-like reset of a guest) must discard the cached translations of that core or guest in the same step, so that no stale translation survives a guest that comes back with translation off; this is the rule of 6.8.5 for the case that the machine does not yet have. The prompt was CVE-2026-99312, a hypervisor that did not reset the memory-management context when it emulated INIT for a nested guest with paging disabled, which left stale translations (errata 178). *(P)*
+
 *Commentary.* **Precedent.** The PDP-11 was not designed for virtualisation and has sensitive instructions that do not trap in user mode; the VAX was not cleanly virtualisable either, and a 1991 paper described the changes needed. **Trade-offs.** Adding virtualisation late cost the VAX instruction changes; settling the constraints early costs a paragraph. **Modern comparables.** x86 VMX with nested paging, ARM exception level 2, the RISC-V hypervisor extension, IBM's trap-and-emulate machines. **Impact.** *Kernel:* A hypervisor could be added without changing a guest. *Compiler:* None. *Hardware:* Constraints on privileged state, the walker and interrupt injection.
 
 #### B.2.12 Enumeration and hot-plug (N1 to N3)

@@ -70,7 +70,7 @@ POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16''', NOFLAGS, PRIV + ' `S
     E('MFSR', 'system', ['mfsr', 'mtsr'], 'Move from and to a system register', ['MFSR Rd, name', 'MTSR name, Rs'],
       '''MFSR: Rd <- system register `name`
 MTSR: system register `name` <- Rs         ; read-only registers are an illegal instruction''', NOFLAGS, PRIV + ' An unassigned system register is an illegal instruction.', '9.14',
-      notes='The register is chosen by name (a number in parcel 1); the instruction is four bytes. A write to `PTBR`, `ASID` or `MMUCTL` flushes the translation buffer.\n\n{{SYSREGS}}', cf='6.5 (system registers).'),
+      notes='The register is chosen by name (a number in parcel 1); the instruction is four bytes. A write to `MMUCTL` that changes bit 0 discards every cached translation, and a write to `PTBR` that is not accompanied by a new `ASID` discards the entries of the current `ASID`; a write to `ASID` discards nothing that is promised (6.8.4); each takes effect at the next `ISYNC` (6.5.2).\n\n{{SYSREGS}}', cf='6.5 (system registers).'),
     # ---- SYS classes with operands ----
     E('MTPS', 'system', ['mtps', 'mfps'], 'Move to and from the processor status word', ['MTPS Rs', 'MFPS Rd'],
       '''MTPS: PSW <- Rs          ; in user mode only the flags N Z V C are written

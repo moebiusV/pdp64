@@ -7823,7 +7823,7 @@ MTSR: system register `name` ← Rs         ; read-only registers are an illegal
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. An unassigned system register is an illegal instruction.
 
-The register is chosen by name. A write to `PTBR`, `ASID` or `MMUCTL` flushes the translation buffer.
+The register is chosen by name. A write to `MMUCTL` that changes bit 0 discards every cached translation, and a write to `PTBR` that is not accompanied by a new `ASID` discards the entries of the current `ASID`; a write to `ASID` discards nothing that is promised (6.8.4); each takes effect at the next `ISYNC` (6.5.2).
 
 | Name | Number | Access |
 |---|---|---|

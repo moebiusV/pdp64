@@ -23,7 +23,7 @@ NOTES = {
     'PUSH': '',
     'TRAP': 'The replacement for the PDP-11 `IOT` and `EMT`. In these encodings `TRAP` and `TRAPL` are one word with an 8-bit vector number (`docs/encoding-proposal.md`).',
     'PUSHX': 'For a handler that wants to be interrupted: it can save the exception state and lower the priority.',
-    'MFSR': 'The register is chosen by name. A write to `PTBR`, `ASID` or `MMUCTL` flushes the translation buffer.\n\n{{SYSREGS}}',
+    'MFSR': 'The register is chosen by name. A write to `MMUCTL` that changes bit 0 discards every cached translation, and a write to `PTBR` that is not accompanied by a new `ASID` discards the entries of the current `ASID`; a write to `ASID` discards nothing that is promised (6.8.4); each takes effect at the next `ISYNC` (6.5.2).\n\n{{SYSREGS}}',
     'COUNT': '`CTZ` is the VAX `FFS`. Bit manipulation is core on a machine that does filesystem and bignum work, not an extension.',
     'RORI': '', 'DSHR': 'x86 `SHRD`, ARM `EXTR`. A 128-bit left shift by k is `DSHR hi, hi, lo, #(64-k)` then `SHL #k, lo`.',
     'EXTB': 'Position and width are immediate operands; a width of 64 cannot be encoded (errata 87, assumption 8).',
