@@ -24,6 +24,16 @@ runtest() {	# src name mode dir
 	[ -f "$dir/$t.errgrep" ] && ! grep -q -F -- "$(cat "$dir/$t.errgrep")" "$B/sim_$t$sfx.stderr" && ok=0
 	n=$((n+1))
 	if [ $ok = 1 ]; then echo "ok   $t ($enc)"; else echo "FAIL $t ($enc): exit $rc, wanted $want $(head -c 200 "$B/sim_$t$sfx.stderr" | head -2 | tr '\n' ' ')"; fail=$((fail+1)); fi
+	# NAME.strips: the strips (sim64 -S, bytes) at which the same program, with the same expectations, runs again: a test of the strip being invisible (errata 173, vec-isa.md section 8)
+	if [ -f "$dir/$t.strips" ] && [ "$enc" = plain ]; then
+		for sp in $(cat "$dir/$t.strips"); do
+			"$B/sim64" -S $sp $flags "$B/sim_$t$sfx.x" > "$B/sim_$t$sfx.s$sp.stdout" 2> "$B/sim_$t$sfx.s$sp.stderr"; rc=$?
+			ok=1; [ "$rc" = "$want" ] || ok=0
+			[ -f "$dir/$t.out" ] && ! cmp -s "$B/sim_$t$sfx.s$sp.stdout" "$dir/$t.out" && ok=0
+			n=$((n+1))
+			if [ $ok = 1 ]; then echo "ok   $t (strip $sp)"; else echo "FAIL $t (strip $sp): exit $rc, wanted $want"; fail=$((fail+1)); fi
+		done
+	fi
 }
 for dir in tests/sim; do
 for s in $dir/*.s $dir/*.S; do
