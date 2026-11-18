@@ -1,5 +1,7 @@
 # The strip width of the vec block: what 256, 128 and 64 bits cost in speed and save in logic
 
+**Update (errata 173 to 175, 2026-11-18): the strip is now invisible to programs, and the least strip is 16 bytes.** The owner chose to close the places listed in 5.1 ("yes do 2, close the 5 places"): `vlen` and the register form of `vtbl.b` are removed, a floating-point sum has a canonical order, a block with accumulators has a strip of 16 bytes (and a `vfin` epilogue), and EVA, EPC and ECAUSE are exact while the registers a handler sees are opaque; `vec-isa.md` section 8 is the statement, 5.1 below is the study that found the places (kept as it was, with a note at each) and `tools/strip-equiv.py` now runs the whole suite at 16, 32 and 64 bytes with nothing switched off. **A strip of 8 bytes is not an allowed implementation** (it cannot hold a 4-field segment of 4-byte elements in a beat, the 16 entries of the table of `vtbl.b` or the 16-byte chunk of the floating-point sum); the 8-byte rows of the tables below stay as measurements for the cycle study, `sim64 -S 8` runs with a warning, and 128 bits is the least strip, not a recommendation among options.
+
 **Status: a measurement, 2026-11-18, the assistant's work, for the owner to read; it changes no grammar, manual or encoding.** The question was: "128 bit strip, 16 lanes ... compare to what? would we lose any speed? when dealing at that amount of data processing, a couple extra bytes of instructions is nothing. Measure it with yosys and a sim64 strip option." The strip is the implementation's choice, not the program's: VL, the elements of a strip, is the strip's bytes over the widest lane type that the block names (`common/pdp64exec_vec.inc`). **The binary is the same at every strip; the hardware goes round the block more times** (so, as the owner says, the code size is not an argument). The baseline is the strip that `vec-silicon.md` and sim64 had: 32 bytes = 256 bits. This document measures a strip of 16 bytes (128 bits) and one of 8 bytes (64 bits) against it, in logic (yosys) and in time (a cycle model in sim64).
 
 **Limits, first.**
@@ -25,7 +27,7 @@
 
 * **Code size does not change.** A `vec Rs, Re` block with its instructions and `vend` is the same bytes; the number of strips is the region over VL x element size, rounded up: for the kernels the strips at 32, 16 and 8 bytes are in the proportion 1 : 2 : 4 up to the last, short strip (section 5.2, the "strips" column).
 * **Lane counts** follow the strip: 256 bits has 32 byte, 16 halfword, 8 word and 4 doubleword lanes; 128 bits 16, 8, 4, 2; 64 bits 8, 4, 2, 1. The floating-point lanes (`fma32`) are 8, 4, 2. The vector registers are 16 x strip bits.
-* **What a program can see of the strip** is listed in 5.1 with the test that found it: `vlen.b` (by design), the register form of `vtbl.b`, a `vclr` accumulator that the block itself reads or stores, a floating-point reduction (a sum is order dependent), and what a fault handler sees of the registers (the progress is a whole number of strips). Everything else that the test suite runs gives the same results at 8, 16, 32 and 64 bytes.
+* **What a program can see of the strip** was listed in 5.1 with the test that found it: `vlen.b` (by design), the register form of `vtbl.b`, a `vclr` accumulator that the block itself reads or stores, a floating-point reduction (a sum is order dependent), and what a fault handler sees of the registers (the progress is a whole number of strips). **All five are closed (errata 173 to 175, `vec-isa.md` section 8).** Everything else that the test suite runs gave the same results at 8, 16, 32 and 64 bytes, and now every test, unmodified, gives the same results at 16, 32 and 64.
 
 ## 2. Method
 
@@ -178,6 +180,8 @@ The extrapolated core could be wrong by a factor of two either way (the vector u
 ## 5. Speed by strip
 
 ### 5.1 Results do not depend on the strip, except where listed
+
+**This is the study of 2026-11-18 that found the five places; they are closed (errata 173 to 175, `vec-isa.md` section 8). Below, the table and the list are as measured then; the checks marked "switched off" are no longer switched off: `vec-basic` (check 4 is now a block with an accumulator and a `vfin`), `vec-wave1` (the register-form test is gone) and `vec-restart` (the state a handler saw is checked as a relation) pass unmodified at 16, 32 and 64 bytes, and `tools/strip-equiv.py` has no patches.**
 
 The programs of `tests/sim` (assembled and linked as `tools/check-sim64.sh` does) and `llvm/check.sh` were run at strips of 8, 16, 32 and 64 bytes (`tools/strip-equiv.py`). Results:
 
@@ -430,7 +434,7 @@ so for a chip whose time is all in vector kernels the 256-bit strip is the bette
 
 **ASIC.** Keep the strip a parameter of the generated design (`vecw.v` is that parameter in the Verilog). The model says the strip pays only up to what the memory port feeds: at an 8-byte port 256 bits is only 1.14 times faster than 128, at 16 bytes 1.53 times, at 32 bytes 1.77 times. By the owner's priorities (minimal silicon with reasonable performance) the choice is **128 bits for a 16-byte port**: the chip (with the study's core) is 27% smaller and the vector kernels take 1.53 times as long (the area-time product above, for an all-vector workload, is 1.12 against 1.00; it is below 1 only at an 8-byte port). **256 bits** is the choice only where vector throughput is the purpose of the chip and the first-level data cache delivers 32 bytes a cycle (then the product is the better one: 1.30 for 128 bits). A 64-byte strip would gain only 12% at a 16-byte port (and 32% at 32) for about twice the logic, and was not synthesised.
 
-**Two changes of definition that make the strip invisible to programs**, both small: (a) `vtbl.b` in the register form takes its table from bytes 0 to 15 of `vT` for every lane (5.1 item 2); (b) the document that says programs must not depend on the strip (`vec-isa.md`) should list `vlen.b`, a `vclr` accumulator read inside the block, and floating-point reductions as the places where they can.
+**Two changes of definition that make the strip invisible to programs**, both small: (a) `vtbl.b` in the register form takes its table from bytes 0 to 15 of `vT` for every lane (5.1 item 2); (b) the document that says programs must not depend on the strip (`vec-isa.md`) should list `vlen.b`, a `vclr` accumulator read inside the block, and floating-point reductions as the places where they can. **Done differently and more completely (errata 173 to 175): the register form was removed (one form, the memory one), the strip is invisible in all five places and the least strip is 16 bytes; the recommendation of 128 bits above is therefore the least strip an implementation may have. The measured cost of the canonical floating-point sum is in `vec-isa.md` 8.5: none at 128 bits.**
 
 ## 8. How to run it
 
@@ -441,7 +445,7 @@ From `tools/gates`: `./run-strip.sh [OUTDIR]` runs the four stages in order (`sy
 * `equiv`: `tools/strip-equiv.py OUTDIR` runs `tests/sim` and `llvm/check.sh` at each strip: `equiv.md`.
 * `bench`: `tools/strip-bench.py OUTDIR` builds the kernels (needs `build/sim64`, the LLVM tools of `../llvm-build`, `clang`) and runs `sim64 -V -S s --vport=p --vcommit=c` for the strips, ports and commits: `bench.tsv`, `bench.md`.
 
-Single commands: `sim64 -V -S 16 --vport=16 prog` (the model, one run); `PDP64_VSTRIP=16 tools/check-sim64.sh` (the `tests/sim` suite at a strip: the three tests listed in 5.1 fail by design, `vec-basic`, `vec-wave1`, `vec-restart`); `PDP64_VSTRIP=16 llvm/check.sh`; `JOBS=10 tools/gates/strip-synth.sh 16 "vecw.v fp2.v" w_lanealu_mw w_vtbl_g16` (some blocks at a width).
+Single commands: `sim64 -V -S 16 --vport=16 prog` (the model, one run); `PDP64_VSTRIP=16 tools/check-sim64.sh` (the `tests/sim` suite at a strip: all pass; `tools/check-sim64.sh` itself also runs the five vec tests at 16, 32 and 64); `PDP64_VSTRIP=16 llvm/check.sh`; `JOBS=10 tools/gates/strip-synth.sh 16 "vecw.v fp2.v" w_lanealu_mw w_vtbl_g16` (some blocks at a width).
 
 Files: `tools/gates/vecw.v`, `strip-synth.sh`, `strip-total.py`, `run-strip.sh`, `tools/strip-equiv.py`, `tools/strip-bench.py`; changed: `common/pdp64exec_vec.inc`, `common/pdp64exec.h` (and their QEMU copies), `sim64/sim64.c`, `docs/sim64.md`.
 
