@@ -81,7 +81,7 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X(eq) \
   X(ne)
 
-// the mnemonics of the vector, tile and GEMM family (vec-isa.md): vec, vend, vlen.t, vadd.w, vld.bu.w ...; X("mnemonic")
+// the mnemonics of the vector, tile and GEMM family (vec-isa.md): vec, vend, vfin, vadd.w, vld.bu.w ...; X("mnemonic")
 #define PDP64_VEC_MNEMONICS(X) \
   X("vabd.b") \
   X("vabd.l") \
@@ -149,6 +149,7 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vdotu.b") \
   X("vec") \
   X("vend") \
+  X("vfin") \
   X("vfir.f") \
   X("vfir.l") \
   X("vfir.w") \
@@ -202,7 +203,6 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vldt.wu") \
   X("vldt.wu.l") \
   X("vldt.wu.q") \
-  X("vlen.b") \
   X("vlseg2.b") \
   X("vlseg2.b.l") \
   X("vlseg2.b.q") \

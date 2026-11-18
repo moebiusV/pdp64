@@ -100,7 +100,7 @@ def generate():
 
     vecmns = [m for m in mns if m in ('vec', 'vend') or re.match(r'^(v[a-z0-9]+)(\.[a-z]+)*$', m) and m not in ('vclr_',)]
     # only the words of the vector family: the ones that start with v and are not scalar words (checked against a list of the base names in the executor's table by the user of this list)
-    vecmns = [m for m in vecmns if re.match(r'^(vec|vend|vlen|vadd|vsub|vsubr|vmul|vmin|vmax|vminu|vmaxu|vabd|vabdu|vand|vor|vxor|vshl|vshr|vsar|vadds|vsubs|vaddsu|vsubsu|vmov|vneg|vmla|vfma|vfnma|vfmab|vdot|vdotu|vdotsu|vavg|vavgu|vmulh|vmulhu|vmulhr|vsarr|vshrr|vceq|vcgt|vcgtu|vbsl|vcvt|vtbl|vdacc|vsad|vacc|vmaxacc|vminacc|vfir|vclr|vld|vst|vsts|vldt|vstt|vlseg[234]|vsseg[234])(\.|$)', m)]
+    vecmns = [m for m in vecmns if re.match(r'^(vec|vend|vfin|vadd|vsub|vsubr|vmul|vmin|vmax|vminu|vmaxu|vabd|vabdu|vand|vor|vxor|vshl|vshr|vsar|vadds|vsubs|vaddsu|vsubsu|vmov|vneg|vmla|vfma|vfnma|vfmab|vdot|vdotu|vdotsu|vavg|vavgu|vmulh|vmulhu|vmulhr|vsarr|vshrr|vceq|vcgt|vcgtu|vbsl|vcvt|vtbl|vdacc|vsad|vacc|vmaxacc|vminacc|vfir|vclr|vld|vst|vsts|vldt|vstt|vlseg[234]|vsseg[234])(\.|$)', m)]
 
     regs = d['regnames']
     nreg = d['registers']
@@ -146,7 +146,7 @@ def generate():
                           ('PDP64_CT_ZERO_CONDS', ctz, 'the ones with a one-register form (cteq rs: trap if zero, ctne rs)')):
         t.append('// %s\n#define %s(X) \\\n' % (what, nm))
         t.append(' \\\n'.join('  X(%s)' % c for c in lst) + '\n\n')
-    t.append('// the mnemonics of the vector, tile and GEMM family (vec-isa.md): vec, vend, vlen.t, vadd.w, vld.bu.w ...; X("mnemonic")\n#define PDP64_VEC_MNEMONICS(X) \\\n')
+    t.append('// the mnemonics of the vector, tile and GEMM family (vec-isa.md): vec, vend, vfin, vadd.w, vld.bu.w ...; X("mnemonic")\n#define PDP64_VEC_MNEMONICS(X) \\\n')
     t.append(' \\\n'.join('  X("%s")' % m for m in vecmns) + '\n\n')
     t.append('#endif\n')
     layout_h = ''.join(t)

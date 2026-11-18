@@ -31,8 +31,11 @@
 //    both committed when a strip ends; after a fault the block resumes at the
 //    strip it stopped in with the registers as they were.  The output
 //    operands are early-clobber, so no input register is one of them.
-//  * floating-point reductions are reassociated (the lanes are summed in a
-//    different order): only with the `reassoc` flag, as LLVM's own vectoriser.
+//  * floating-point reductions are reassociated (the lanes are summed in the
+//    canonical order of vec-isa.md section 8, chunks of 16 bytes of source lanes,
+//    which does not depend on the strip): only with the `reassoc` flag, as LLVM's
+//    own vectoriser; a block with lanes wider than the source of a floating-point
+//    sum is not made (as64 refuses it).
 //  * element alignment is checked per element by the hardware, as for the
 //    scalar loop.
 //===----------------------------------------------------------------------===//
@@ -2139,6 +2142,26 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Dominat
     }
     }
     Lines.push_back(T);
+  }
+  {  // a floating-point sum has the canonical order of vec-isa.md section 8 (chunks of 16 bytes of its source lanes, whatever the strip) only if no lane of the block is wider than its source:
+     // as64 refuses the other blocks (errata 173), so they are not made
+    unsigned Widest = 1, FpSrc = 8;
+    bool HasFp = false;
+    for (const std::string &Ln : Lines) {
+      SmallVector<StringRef, 4> Tk;
+      StringRef(Ln).split(' ').first.split(Tk, '.');
+      StringRef B0 = Tk[0];
+      if (B0 == "vbsl" || B0 == "vend" || B0 == "vec") continue;
+      char C;
+      if (B0 == "vcvt") C = 'l';
+      else if ((B0.starts_with("vld") || B0.starts_with("vlseg")) && Tk.size() > 2) C = Tk[2][0];
+      else if (Tk.size() > 1) C = Tk[1][0];
+      else continue;
+      unsigned LB = C == 'b' ? 1 : C == 'w' ? 2 : (C == 'l' || C == 'f') ? 4 : 8;
+      if (LB > Widest) Widest = LB;
+      if (B0 == "vacc" && Tk.size() > 1 && (Tk[1] == "f" || Tk[1] == "d")) { HasFp = true; FpSrc = std::min(FpSrc, Tk[1] == "f" ? 4u : 8u); }
+    }
+    if (HasFp && Widest > FpSrc) { Say("not a vec block: a floating-point sum in a block with lanes wider than its source lane (the order of the sum is fixed by chunks of 16 bytes of source lanes)"); return false; }
   }
   // the first stream: the one whose (Ra)+ is first in the body (the executor takes the element size of the first such instruction)
   std::string Asm;

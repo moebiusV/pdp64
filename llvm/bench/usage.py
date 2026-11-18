@@ -20,7 +20,7 @@ CFLAGS = ['-O2', '-m64', '-fno-builtin-memset', '-fno-builtin-memcpy', '-fno-sta
 
 # the groups of vec-isa.md section 2, for the table
 GROUPS = [
-    ('block', ['vec', 'vend', 'vlen']),
+    ('block', ['vec', 'vend', 'vfin']),
     ('load, store', ['vld', 'vst']),
     ('saturating narrow', ['vsts']),
     ('strided', ['vldt', 'vstt']),
@@ -140,7 +140,7 @@ def main():
     out.append(', '.join('`%s` %d/%d' % (b, v[0], v[1]) for b, v in sorted(ub.items())) + '\n')
     out.append('\n## Instructions no kernel used, and why (what a compiler would need)\n')
     why = {
-        'vlen': 'only needed by a program that must know VL (explicit tail folding, VP intrinsics, approach (c)); the block has hardware strip mining and the lowering never asks',
+        'vfin': 'the epilogue of a block with accumulators (errata 173): only a block that names accumulators (vclr) or uses vfmab has one, and the pass makes no accumulators',
         'vclr': 'hidden accumulation across strips: nothing reads an accumulator after the block ends (there is no vector-to-scalar move outside a block), so a block that needs one reduces inside it (`vacc` each strip), which is what both compilers do',
         'vfir': 'a window of consecutive loads times invariant taps (put8h): LoopVectorize does not vectorise it (too many live vectors), the scalar recogniser makes eight shifted streams; neither makes `vfir`',
         'vlseg2': 'LoopVectorize\'s interleaved groups with every field used ARE these (see the `lv` column); `vlseg2` is used by k_split and k_cmul', 'vlseg3': 'a three-field load group (rgb to planes): no kernel of the set has one', 'vlseg4': 'the 4-field groups of k_vtxaos (used when the build has it)',
