@@ -1,4 +1,4 @@
-/* expect: 10793  vec: 2 */
+/* expect: 10793  vec: 2   lv: 2 */
 /* an alpha blend of 8-bit channels (three byte streams widened to 32-bit lanes, multiplies, a division by 255 as shifts, a narrowing store) and the saturating audio mix of two 16-bit streams (a clamp that is one vsts) */
 unsigned char d[300], s[300], al[300];
 short o[300], p[300], q[300];

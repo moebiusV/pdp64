@@ -1,4 +1,4 @@
-/* expect: 2780  vec: 6 */
+/* expect: 2780  vec: 6   lv: 6 */
 /* maps over bytes and words: dav1d prep_c (u8 << 4 into int16), 255 - x, an unsigned saturating add (clamped in C), a fill (dc_fill), a copy */
 unsigned char src[300], dst[300];
 short tmp[300];

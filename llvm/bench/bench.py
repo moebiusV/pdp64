@@ -24,16 +24,45 @@ LLC = os.path.join(os.path.dirname(R), 'llvm-build', 'bin', 'llc')
 VF = os.path.join(R, 'docs', 'encoding-work', 'arch-data', 'vec-forms')
 SRCS = [os.path.join(VF, 'kernels.c'), os.path.join(VF, 'games', 'games.c'), os.path.join(VF, 'blas', 'blas.c'),
         os.path.join(VF, 'seg', 'seg.c'), os.path.join(HERE, 'simple.c')]
+OPT = os.path.join(os.path.dirname(R), 'llvm-build', 'bin', 'opt')
+# a variant is the flags of llc; 'lv' is a different middle end: clang without any LLVM pass, opt -O2 with the pdp64 target (LoopVectorize with its cost
+# model), then llc (PDP64VecLoop lowers the vector loops to vec blocks); 'lv0' is the same with the lowering off (-pdp64-vecblock=0: what the vectoriser
+# made, legalised to scalar code, as the correctness fallback); 'lvpf' is lv with SLP and the loop vectoriser's report written to <kernel file>.remarks
+OPT_VARIANTS = {'lv': [], 'lv0': ['-pdp64-vecblock=0']}
 VARIANTS = {
     'scalar': [],
     'vecloop': ['-pdp64-vecloop'],                           # approach (b): one vec block for the whole loop
     'strip': ['-pdp64-vecloop', '-pdp64-vecloop-strip'],     # approach (a): a vec block for each strip in a scalar loop, one for the remainder
+    'lv': [], 'lv0': ['-pdp64-vecblock=0'],
 }
 CFLAGS = ['-O2', '-m64', '-fno-builtin-memset', '-fno-builtin-memcpy', '-fno-stack-protector', '-mlong-double-64', '-mno-sse', '-mno-mmx',
           '-fno-vectorize', '-fno-slp-vectorize', '-fno-unroll-loops', '-ffp-contract=fast', '-ffast-math', '-w', '-S', '-emit-llvm']
 
 def run(cmd, **kw):
     return subprocess.run(cmd, capture_output=True, text=True, **kw)
+
+
+def ll_of_lv(src, out, remarks=None):
+    """clang -O2 -Xclang -disable-llvm-passes (opt gives the pdp64 data layout), then opt -passes='default<O2>' -mtriple=pdp64.  With `remarks`: the same
+    with line tables, the loop vectoriser's remarks (what it did and why it did not) written to that file (the measured build is the one without them)."""
+    fl = [f for f in CFLAGS if f not in ('-fno-vectorize', '-fno-slp-vectorize', '-fno-unroll-loops', '-O2')]
+    def build(dst, extra_c, extra_opt, stderr_to=None):
+        r = run(['clang', '-O2', '-Xclang', '-disable-llvm-passes', '-fno-unroll-loops'] + extra_c + fl + ['-o', dst + '.0', src])
+        if r.returncode:
+            sys.exit('clang failed on %s: %s' % (src, r.stderr))
+        txt = open(dst + '.0').read()
+        txt = re.sub(r'^target (datalayout|triple).*\n', '', txt, flags=re.M)
+        txt = re.sub(r'"(target-cpu|target-features|tune-cpu)"="[^"]*"', '', txt)
+        open(dst + '.1', 'w').write(txt)
+        r = run([OPT, '-mtriple=pdp64-unknown-elf', "-passes=default<O2>", '-S', dst + '.1', '-o', dst] + extra_opt)
+        if r.returncode:
+            sys.exit('opt failed on %s: %s' % (src, r.stderr[:500]))
+        return r.stderr
+    build(out, [], [])
+    if remarks:
+        err = build(out + '.g', ['-gline-tables-only'], ['-pass-remarks-missed=loop-vectorize', '-pass-remarks-analysis=loop-vectorize',
+                                                          '-pass-remarks=loop-vectorize', '-pass-remarks-missed=slp-vectorizer', '-pass-remarks=slp-vectorizer'])
+        open(remarks, 'w').write(err)
 
 def ll_of(src, out):
     r = run(['clang'] + CFLAGS + ['-o', out + '.0', src])
@@ -46,7 +75,7 @@ def ll_of(src, out):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('-k'); ap.add_argument('-v'); ap.add_argument('--csv'); ap.add_argument('--keep')
+    ap.add_argument('-k'); ap.add_argument('-v'); ap.add_argument('--csv'); ap.add_argument('--keep'); ap.add_argument('--remarks', help='directory for the loop vectoriser remarks of the lv build')
     a = ap.parse_args()
     tmp = tempfile.mkdtemp()
     bdir = os.path.join(tmp, 'bin'); os.mkdir(bdir)
@@ -83,7 +112,8 @@ memset:	movq	r0, r3
     if a.k:
         want = a.k.split(',')
         kernels = [k for k in kernels if k[0] in want]
-    variants = a.v.split(',') if a.v else list(VARIANTS)
+    variants = a.v.split(',') if a.v else ['scalar', 'vecloop', 'strip', 'lv']
+    if a.remarks: os.makedirs(a.remarks, exist_ok=True)
     # the driver, once (scalar llc)
     def llc(ll, flags, out):
         r = run([LLC, '-mtriple=pdp64-unknown-elf', '-O2'] + flags + [ll, '-o', out])
@@ -109,10 +139,14 @@ memset:	movq	r0, r3
         return (r.returncode, int(m.group(1)) if m else None, [int(g) for g in v.groups()] if v else [0, 0, 0, 0])
     rows = []
     kll = {}
+    kll_lv = {}
     for s in SRCS:
         o = os.path.join(tmp, os.path.basename(s)[:-2] + '.ll')
         ll_of(s, o)
         kll[s] = o
+        o2 = os.path.join(tmp, os.path.basename(s)[:-2] + '.lv.ll')
+        ll_of_lv(s, o2, remarks=os.path.join(a.remarks, os.path.basename(s)[:-2] + '.remarks') if a.remarks else None)
+        kll_lv[s] = o2
     # main: one .ll per kernel (the macro), the scalar llc
     results = {}
     def build_run(k, src, vname):
@@ -121,7 +155,7 @@ memset:	movq	r0, r3
         # the kernel file
         ksn = os.path.join(tmp, '%s.%s.s' % (os.path.basename(src)[:-2], vname))
         if not os.path.exists(ksn):
-            e = llc(kll[src], flags, ksn)
+            e = llc((kll_lv if vname in OPT_VARIANTS else kll)[src], flags, ksn)
             if e: return None, e
         # the driver
         mll = os.path.join(tmp, 'main.%s.ll' % k)

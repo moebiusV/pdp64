@@ -1,4 +1,4 @@
-/* expect: 94738  vec: 2  flags: -ffp-contract=fast -ffast-math */
+/* expect: 94738  vec: 2  lv: 2  flags: -ffp-contract=fast -ffast-math */
 /* OpenBLAS daxpy and ddot: a multiply-add map on doubles, and a reduction (reassociated: -ffast-math) */
 double x[70], y[70];
 __attribute__((noinline)) void k_daxpy(int n, double a, const double *x, double *y)

@@ -1,5 +1,6 @@
 #include "PDP64TargetMachine.h"
 #include "PDP64.h"
+#include "PDP64TargetTransformInfo.h"
 #include "TargetInfo/PDP64TargetInfo.h"
 #include "llvm/CodeGen/Passes.h"
 #include "llvm/CodeGen/TargetLoweringObjectFileImpl.h"
@@ -96,4 +97,8 @@ public:
 
 TargetPassConfig *PDP64TargetMachine::createPassConfig(PassManagerBase &PM) {
   return new PDP64PassConfig(*this, PM);
+}
+
+TargetTransformInfo PDP64TargetMachine::getTargetTransformInfo(const Function &F) const {
+  return TargetTransformInfo(std::make_unique<PDP64TTIImpl>(this, F));
 }

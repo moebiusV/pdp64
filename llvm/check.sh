@@ -11,12 +11,14 @@
 #   --host    also check the expected values against the host's x86 compiler (tests the tests, not the back end)
 # environment: LLC (default ../llvm-build/bin/llc), LLC_OPT (default -O2), CLANG (default clang), KEEP=dir to keep the .s files there,
 #   COPT (default -O1) the optimisation level of clang for the C programs, CDIRS="a.c b.c" more C programs; tests/c-new/*.c are run too when that directory exists
+#   OPT (default ../llvm-build/bin/opt): the middle end of the `lv` variant of the vector kernels (below)
 #
 set -u
 here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 R=$(dirname "$here")
 B=$R/build
 LLC=${LLC:-$(dirname "$R")/llvm-build/bin/llc}
+OPT=${OPT:-$(dirname "$R")/llvm-build/bin/opt}
 LLC_OPT=${LLC_OPT:--O2}
 CLANG=${CLANG:-clang}
 verbose=0; doll=1; doc=1; host=0; files=
@@ -123,8 +125,11 @@ if [ $doll = 1 ]; then
 fi
 
 
-# the vector kernels: tests/vec/*.c, first line `/* expect: N  vec: K  flags: CLANGFLAGS */`.  Each is compiled by clang (-O2, no vectoriser) and run twice: with
-# llc as it is (scalar) and with -pdp64-vecloop (the loops become vec blocks); both must print N, and the vec build must contain K blocks (`vec rS, rE` lines).
+# the vector kernels: tests/vec/*.c, first line `/* expect: N  vec: K  flags: CLANGFLAGS  lv: M */`.  Each is compiled by clang (-O2, no vectoriser) and run
+# four times: with llc as it is (scalar), with -pdp64-vecloop (the loops become vec blocks: stage 2's recogniser of scalar loops), with -pdp64-vecloop-strip (a block
+# for each strip), and `lv`: clang's unoptimised IR (-Xclang -disable-llvm-passes) through opt -O2 -mtriple=pdp64 (the real middle end with the pdp64 cost model:
+# LoopVectorize) and llc (PDP64VecLoop turns the vector loops into blocks).  All must print N; the vec build must contain K blocks (`vec rS, rE` lines), and
+# the lv build M blocks when `lv: M` is given (else only the result is checked).
 vsection() {
 	cpass=0; cfail=0
 	for f in "$@"; do
@@ -145,25 +150,39 @@ vsection() {
 		fi
 		sed -e '/^target datalayout/d' -e '/^target triple/d' -e 's/"target-cpu"="[^"]*"//g' -e 's/"target-features"="[^"]*"//g' \
 		    -e 's/"tune-cpu"="[^"]*"//g' "$tmp/$kn.ll0" > "$tmp/$kn.ll"
-		for v in scalar vec strip; do
+		wantlv=$(sed -n '1s/.*lv: *\([0-9][0-9]*\).*/\1/p' "$f")
+		# the lv variant: the IR of clang without any LLVM pass, through opt -O2 (pdp64 triple, so its TargetTransformInfo) and llc
+		if ! $CLANG -S -emit-llvm -O2 -Xclang -disable-llvm-passes -m64 -fno-builtin -ffreestanding -fno-stack-protector -mlong-double-64 -mno-sse -mno-mmx \
+		    -fno-unroll-loops -fno-discard-value-names -w $cflags -o "$tmp/$kn.lv0" "$f" 2> "$tmp/$kn.err"; then
+			cfail=$((cfail+1)); echo "FAIL $kn: clang failed (lv)"; continue
+		fi
+		sed -e '/^target datalayout/d' -e '/^target triple/d' -e 's/"target-cpu"="[^"]*"//g' -e 's/"target-features"="[^"]*"//g' \
+		    -e 's/"tune-cpu"="[^"]*"//g' "$tmp/$kn.lv0" > "$tmp/$kn.lv1.ll"
+		lvok=1
+		$OPT -mtriple=pdp64-unknown-elf -passes='default<O2>' -S "$tmp/$kn.lv1.ll" -o "$tmp/$kn.lv.ll" 2> "$tmp/$kn.opterr" || lvok=0
+		for v in scalar vec strip lv; do
 			XFLAGS=; [ $v = vec ] && XFLAGS=-pdp64-vecloop; [ $v = strip ] && XFLAGS="-pdp64-vecloop -pdp64-vecloop-strip"
 			why=; ok=0
-			if run_one "$kn.$v" "$tmp/$kn.ll" "$want"; then
+			src=$tmp/$kn.ll; [ $v = lv ] && src=$tmp/$kn.lv.ll
+			if [ $v = lv ] && [ $lvok = 0 ]; then why="opt failed: $(head -2 "$tmp/$kn.opterr")"
+			elif run_one "$kn.$v" "$src" "$want"; then
 				ok=1
 				if [ $v != scalar ]; then
 					nb=$(grep -c '^[[:space:]]*vec[[:space:]]' "$tmp/$kn.$v.s")
 					wv=$wantvec; [ $v = strip ] && wv=$((wantvec * 2))   # the strip form has the block twice: in the loop and for the remainder
-					if [ -n "$wantvec" ] && [ "$nb" != "$wv" ]; then why="$nb vec blocks, wanted $wv"; ok=0; fi
+					[ $v = lv ] && wv=$wantlv
+					if [ -n "$wv" ] && [ "$nb" != "$wv" ]; then why="$nb vec blocks, wanted $wv"; ok=0; fi
 				fi
 			fi
 			if [ $ok = 1 ]; then cpass=$((cpass+1)); echo "ok   $kn [$v]"
 			else cfail=$((cfail+1)); echo "FAIL $kn [$v]: $why"; fi
 		done
 	done
-	echo "vector kernels (tests/vec) scalar, with -pdp64-vecloop and with -pdp64-vecloop-strip: $cpass passed, $cfail failed"
+	echo "vector kernels (tests/vec) scalar, -pdp64-vecloop, -pdp64-vecloop-strip and lv (LoopVectorize): $cpass passed, $cfail failed"
 }
 
 # the C programs: tests/c/*.c, and tests/c-new/*.c if that directory exists (CDIRS= adds more files)
+# CPIPE=lv: the C programs go through clang (no LLVM pass), opt -O2 -mtriple=pdp64 (LoopVectorize with the pdp64 cost model, everything else of the real middle end) and llc
 csection() {
 	label=$1; shift
 	cpass=0; cfail=0
@@ -173,10 +192,16 @@ csection() {
 		want=$(sed -n '1s/^\/\* *expect: *\(-\{0,1\}[0-9][0-9]*\).*/\1/p' "$f")
 		[ -n "$want" ] || continue
 		why=
-		if $CLANG -S -emit-llvm ${COPT:--O1} -m64 -fno-builtin -ffreestanding -fno-stack-protector -mlong-double-64 -mno-sse -mno-mmx \
-		    -fno-vectorize -fno-slp-vectorize -fno-unroll-loops -fno-discard-value-names -w -o "$tmp/$n.ll0" "$f" 2> "$tmp/$n.err" &&
+		if [ "${CPIPE:-}" = lv ]; then
+			cc="$CLANG -S -emit-llvm -O2 -Xclang -disable-llvm-passes -fno-unroll-loops"
+		else
+			cc="$CLANG -S -emit-llvm ${COPT:--O1} -fno-vectorize -fno-slp-vectorize -fno-unroll-loops"
+		fi
+		if $cc -m64 -fno-builtin -ffreestanding -fno-stack-protector -mlong-double-64 -mno-sse -mno-mmx \
+		    -fno-discard-value-names -w -o "$tmp/$n.ll0" "$f" 2> "$tmp/$n.err" &&
 		   sed -e '/^target datalayout/d' -e '/^target triple/d' -e 's/"target-cpu"="[^"]*"//g' -e 's/"target-features"="[^"]*"//g' \
-		       -e 's/"tune-cpu"="[^"]*"//g' "$tmp/$n.ll0" > "$tmp/$n.ll"; then
+		       -e 's/"tune-cpu"="[^"]*"//g' "$tmp/$n.ll0" > "$tmp/$n.ll" &&
+		   { [ "${CPIPE:-}" != lv ] || { $OPT -mtriple=pdp64-unknown-elf -passes='default<O2>' -S "$tmp/$n.ll" -o "$tmp/$n.ll2" 2> "$tmp/$n.err" && mv "$tmp/$n.ll2" "$tmp/$n.ll"; }; }; then
 			if run_one "$n" "$tmp/$n.ll" "$want"; then cpass=$((cpass+1)); echo "ok   $n"
 			else cfail=$((cfail+1)); echo "FAIL $n: $why"; [ $verbose = 1 ] && head -5 "$tmp/$n.err"; fi
 		else cfail=$((cfail+1)); echo "FAIL $n: clang failed"; fi
@@ -187,6 +212,11 @@ if [ $doc = 1 ] && [ -z "$explicit" ]; then
 	csection tests/c "$R"/tests/c/*.c
 	[ -d "$R/tests/c-new" ] && csection tests/c-new "$R"/tests/c-new/*.c
 	[ -n "${CDIRS:-}" ] && csection CDIRS $CDIRS
+	# the same programs through the real middle end (opt -O2 with the pdp64 cost model: LoopVectorize) -- the vector loops it makes are lowered to blocks or legalised to scalar code
+	if [ -x "$OPT" ] && [ -z "${NOLV:-}" ]; then
+		CPIPE=lv csection "tests/c, lv pipeline" "$R"/tests/c/*.c
+		[ -d "$R/tests/c-new" ] && CPIPE=lv csection "tests/c-new, lv pipeline" "$R"/tests/c-new/*.c
+	fi
 fi
 if [ $doc = 1 ] && [ -z "$explicit" ] && [ -d "$here/tests/vec" ]; then
 	vsection "$here"/tests/vec/*.c

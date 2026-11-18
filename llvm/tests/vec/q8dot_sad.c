@@ -1,4 +1,4 @@
-/* expect: -7998  vec: 2 */
+/* expect: -7998  vec: 2   lv: 2 */
 /* llama.cpp q8_0 dot (int8 x int8 into int32: sign-extending loads, multiply, reduction) and FFmpeg pixel_sad_c (the row is a block with a reduction, the rows stay scalar) */
 signed char w[300], x[300];
 unsigned char a[400], b[400];

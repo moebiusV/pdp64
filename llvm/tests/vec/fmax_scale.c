@@ -1,4 +1,4 @@
-/* expect: 53718  vec: 3  flags: -ffast-math -ffp-contract=fast */
+/* expect: 53718  vec: 3  lv: 2  flags: -ffast-math -ffp-contract=fast */
 /* the maximum of floats (softmax's first loop: vmaxacc, the same rule as the select), a scale by a scalar, and the rmsnorm sum of squares and map */
 float x[300], o[300], wt[300];
 __attribute__((noinline)) float k_max(const float *x, int n) { float m = x[0]; for (int i = 1; i < n; i++) if (x[i] > m) m = x[i]; return m; }

@@ -22,6 +22,7 @@ add_llvm_target(PDP64CodeGen
   PDP64RegisterInfo.cpp
   PDP64Subtarget.cpp
   PDP64TargetMachine.cpp
+  PDP64TargetTransformInfo.cpp
 
   LINK_COMPONENTS
   Analysis

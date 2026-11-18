@@ -38,6 +38,7 @@
 //===----------------------------------------------------------------------===//
 #include "PDP64.h"
 #include "llvm/ADT/STLExtras.h"
+#include <functional>
 #include "llvm/ADT/SmallPtrSet.h"
 #include "llvm/ADT/Statistic.h"
 #include "llvm/ADT/StringSet.h"
@@ -46,6 +47,7 @@
 #include "llvm/Analysis/ScalarEvolution.h"
 #include "llvm/Analysis/ScalarEvolutionExpressions.h"
 #include "llvm/Analysis/ValueTracking.h"
+#include "llvm/Analysis/VectorUtils.h"
 #include "llvm/IR/Dominators.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/IRBuilder.h"
@@ -69,6 +71,9 @@ using namespace llvm::PatternMatch;
 static cl::opt<bool> EnableVecLoop("pdp64-vecloop",
     cl::desc("pdp64: turn innermost counted loops into one vec block (hardware strip mining)"),
     cl::init(false));
+static cl::opt<bool> EnableVecBlock("pdp64-vecblock",
+    cl::desc("pdp64: lower the vector loops that LoopVectorize made (fixed-width <N x iM> bodies) to one vec block over the whole range"),
+    cl::init(true));
 static cl::opt<bool> VecLoopVerbose("pdp64-vecloop-verbose",
     cl::desc("pdp64: say why each innermost loop was or was not turned into a vec block"),
     cl::init(false));
@@ -94,13 +99,15 @@ struct Opnd {
   static Opnd i(int64_t X) { Opnd O; O.Kind = I; O.Imm = X; return O; }
 };
 struct VOp {
-  enum K { Load, Store, Lane, Mov, Fma, Reduce } Kind;
+  enum K { Load, Store, Lane, Mov, Fma, Reduce, LoadSeg, StoreSeg } Kind;
   std::string Mn;     // mnemonic up to and including the dots (vadd.l, vld.bu.l, vst.l.b, vacc.l ...)
   int Dst = -1;       // virtual vector register written (Load, Lane, Mov, Fma)
   Opnd A, B;          // sources: A is a virtual register (Lane, Fma, Store, Reduce), B any operand
   int Stream = -1;    // memory operations
   int Acc = -1;       // Reduce: index in Accs
   int64_t Stride = 0; // strided memory operations (vldt, vstt): the bytes between elements
+  SmallVector<int, 4> Regs;   // LoadSeg: the virtual registers of the fields (made consecutive); StoreSeg: those stored
+  char LaneC = 0;     // StoreSeg: the lane type character (for the copies into consecutive registers)
 };
 struct Stream {
   const SCEV *Start;
@@ -109,7 +116,15 @@ struct Stream {
   int LastUse = -1;   // index of the VOp that moves the pointer ((Ra)+)
   int FirstUse = -1;
 };
+static ConstantInt *constInt(Value *V) {   // a constant integer, or a splat of one
+  if (auto *C = dyn_cast<ConstantInt>(V)) return C;
+  if (V->getType()->isVectorTy())
+    if (auto *C = dyn_cast<Constant>(V)) return dyn_cast_or_null<ConstantInt>(C->getSplatValue());
+  return nullptr;
+}
+
 struct Acc {
+  bool Uns = false;   // an unsigned maximum / minimum (vmaxacc.bu ...)
   PHINode *Phi;
   Instruction *Next;
   Type *Ty;
@@ -119,6 +134,7 @@ struct Acc {
 };
 
 static char laneChar(Type *T) {
+  T = T->getScalarType();   // a vector value is held lane by lane: its lane type
   if (T->isFloatTy()) return 'f';
   if (T->isDoubleTy()) return 'd';
   if (auto *IT = dyn_cast<IntegerType>(T)) {
@@ -158,9 +174,12 @@ public:
   DenseMap<Value *, int> VMap;           // IR value -> virtual vector register
   DenseMap<Value *, Type *> VLane;       // its lane type
   int NextV = 0;
-  struct MemAcc { const SCEV *P; int64_t Size; bool Store; int Pos; Value *Ptr; bool Inv; int64_t ElSize = 0; };
+  bool Vec = false;      // the loop is one that LoopVectorize made: <N x iM> values, N lanes in each iteration
+  unsigned Lanes = 1;    // N
+  struct MemAcc { const SCEV *P; int64_t Size; bool Store; int Pos; Value *Ptr; bool Inv; int64_t ElSize = 0; int64_t ElemStep = 0; };
   SmallVector<Instruction *, 16> Hoist;   // loop-invariant instructions (loads of invariant addresses, pure operations of invariants), in order: made in the preheader
   SmallPtrSet<Value *, 16> InvSet;
+  DenseMap<Value *, Value *> SplatInfo;   // a vector made in the loop by insertelement(+shufflevector) of one loop-invariant scalar -> that scalar
   struct RedStep { int Acc; Value *X; };
   DenseMap<Instruction *, RedStep> RedStepOf;
   SmallVector<MemAcc, 8> Mem;
@@ -176,7 +195,7 @@ public:
     Scalars.push_back(V);
     return Scalars.size() - 1;
   }
-  int streamIdx(const SCEVAddRecExpr *AR, int64_t Step) {
+  int streamIdx(const SCEVAddRecExpr *AR, int64_t Step) {   // Step: the bytes between elements
     for (unsigned i = 0; i < Streams.size(); ++i)
       if (Streams[i].Start == AR->getStart() && Streams[i].Step == Step) return i;
     Stream S;
@@ -187,6 +206,14 @@ public:
   }
   // a loop-invariant operand: a small constant is an immediate, anything else a register
   bool invariantOperand(Value *V, Opnd &O, bool AllowImm) {
+    if (V->getType()->isVectorTy()) {   // a splat of a loop-invariant scalar is the scalar operand of the lane operation
+      auto SI = SplatInfo.find(V);
+      Value *S = nullptr;
+      if (SI != SplatInfo.end()) S = SI->second;
+      else if (!inLoop(V)) S = getSplatValue(V);
+      if (!S) return false;
+      V = S;
+    }
     if (inLoop(V) && !InvSet.count(V)) return false;
     if (!V->getType()->isIntegerTy() && !V->getType()->isFloatingPointTy())
       return false;
@@ -202,7 +229,7 @@ public:
   bool operandOf(Value *V, Opnd &O, bool AllowImm = true) {
     auto It = VMap.find(V);
     if (It != VMap.end()) { O = Opnd::v(It->second); return true; }
-    return invariantOperand(V, O, AllowImm && V->getType()->isIntegerTy());
+    return invariantOperand(V, O, AllowImm && V->getType()->getScalarType()->isIntegerTy());
   }
   int newV(Value *IR, Type *Lane) {
     int Id = NextV++;
@@ -211,7 +238,15 @@ public:
   }
 
   // a consecutive access (step = size), or a strided one (step a multiple of the size, at most 1000 bytes: vldt / vstt)
-  bool memAccess(Instruction *I, Value *Ptr, Type *Ty, bool Store, int &S, int64_t &Stride) {
+  bool memAccess(Instruction *I, Value *Ptr, Type *Ty, bool Store, int &S, int64_t &Stride, unsigned Recs = 0) {
+    unsigned N = 1;
+    if (auto *VT = dyn_cast<FixedVectorType>(Ty)) {
+      N = Recs ? Recs : VT->getNumElements();   // Recs: the records of an interleaved group (the wide vector has Recs * fields lanes)
+      if (!Vec) return fail("a vector access in a scalar loop");
+      if (Lanes != 1 && Lanes != N) return fail("vector accesses of different lane counts");
+      Lanes = N;
+    } else if (Vec)
+      return fail("a scalar access in a vector loop");
     const SCEV *P = SE.getSCEV(Ptr);
     auto *AR = dyn_cast<SCEVAddRecExpr>(P);
     if (!AR || AR->getLoop() != L || !AR->isAffine())
@@ -223,9 +258,11 @@ public:
       return fail("an access that is not consecutive or strided forwards");
     if (DL.getTypeStoreSize(Ty) != DL.getTypeSizeInBits(Ty) / 8)
       return fail("odd access size");
-    S = streamIdx(AR, St);
-    Stride = St == Sz ? 0 : St;
-    Mem.push_back({P, St, Store, (int)Prog.size(), Ptr, false, Sz});
+    if (N > 1 && St != Sz) return fail("a strided vector access");
+    if (St % N) return fail("a step that is not a multiple of the lane count");
+    S = streamIdx(AR, St / N);
+    Stride = (N > 1 || St == Sz) ? 0 : St;
+    Mem.push_back({P, St, Store, (int)Prog.size(), Ptr, false, Sz, St / N});
     return true;
   }
   void noteUse(int S) {
@@ -253,7 +290,8 @@ bool Analyzer::matchReduction(PHINode *Phi, Instruction *&Next, Acc &A) {
   Value *N = Phi->getIncomingValueForBlock(Latch);
   Next = dyn_cast<Instruction>(N);
   if (!Next || !L->contains(Next)) return fail("a phi that is not a reduction");
-  Type *Ty = Phi->getType();
+  Type *Ty = Phi->getType()->getScalarType();
+  if (Phi->getType()->isVectorTy() != Vec) return fail("a reduction phi of the wrong kind");
   A.Phi = Phi; A.Next = Next; A.Ty = Ty;
   A.IsFP = Ty->isFloatingPointTy();
   if (!laneOK(Ty)) return fail("reduction type");
@@ -288,8 +326,11 @@ bool Analyzer::matchReduction(PHINode *Phi, Instruction *&Next, Acc &A) {
     A.Base = "vacc";
     RedStepOf[Next] = {Ai, O0 == R ? O1 : O0};
   } else if (auto *II = dyn_cast<IntrinsicInst>(Next)) {
-    if (II->getIntrinsicID() == Intrinsic::smax) A.Base = "vmaxacc";
-    else if (II->getIntrinsicID() == Intrinsic::smin) A.Base = "vminacc";
+    Intrinsic::ID ID = II->getIntrinsicID();
+    if (ID == Intrinsic::smax) A.Base = "vmaxacc";
+    else if (ID == Intrinsic::smin) A.Base = "vminacc";
+    else if ((ID == Intrinsic::umax || ID == Intrinsic::umin) && Ty->getIntegerBitWidth() <= 32) { A.Base = ID == Intrinsic::umax ? "vmaxacc" : "vminacc"; A.Uns = true; }
+    else if ((ID == Intrinsic::maxnum || ID == Intrinsic::minnum) && II->hasNoNaNs()) A.Base = ID == Intrinsic::maxnum ? "vmaxacc" : "vminacc";
     else return fail("reduction intrinsic");
     Value *O0 = II->getArgOperand(0), *O1 = II->getArgOperand(1);
     if (O0 != R && O1 != R) return fail("reduction operand");
@@ -338,6 +379,7 @@ bool Analyzer::emitReduce(Instruction *I) {
       bool Q = C == 'q' || (C == 'l' && A.Ty->getIntegerBitWidth() == 64);
       Op.Mn = "vacc." + SrcS + (Q ? ".q " : ".l ");
     } else {
+      if (A.Uns) SrcS += 'u';
       Op.Mn = (Twine(A.Base) + "." + SrcS + " ").str();
     }
   }
@@ -349,6 +391,10 @@ bool Analyzer::emitReduce(Instruction *I) {
 
 bool Analyzer::run() {
   BasicBlock *H = L->getHeader();
+  for (Instruction &I : *H) {   // (a store of a vector has no vector type of its own)
+    if (I.getType()->isVectorTy()) Vec = true;
+    if (auto *St = dyn_cast<StoreInst>(&I)) if (St->getValueOperand()->getType()->isVectorTy()) Vec = true;
+  }
   // the scalar scaffolding: what the addresses and the exit test are made of
   SmallPtrSet<Instruction *, 16> Scaf;
   SmallVector<Instruction *, 16> Work;
@@ -384,10 +430,17 @@ bool Analyzer::run() {
     bool Z = false, Ok = true;
     for (User *U : Ld->users()) {
       auto *UI = dyn_cast<Instruction>(U);
-      if (UI && (isa<ZExtInst>(UI) || isa<SExtInst>(UI)) && L->contains(UI)) {
+      if (UI && (isa<ZExtInst>(UI) || isa<SExtInst>(UI) || isa<FPExtInst>(UI)) && L->contains(UI)) {   // (a float loaded as a double: vld.f.d)
         if (E && (E->getType() != UI->getType() || isa<ZExtInst>(E) != isa<ZExtInst>(UI))) { Ok = false; break; }
         E = UI; Z = isa<ZExtInst>(UI);
       } else { Ok = false; break; }
+    }
+    if (Ok && E && E->hasOneUse()) {   // a zero or sign extension that is only the addend of a sum into a phi of the loop: vacc extends, from the narrow lanes
+      auto *U = dyn_cast<BinaryOperator>(*E->user_begin());
+      if (U && U->getOpcode() == Instruction::Add && L->contains(U))
+        for (Value *Op : U->operands())
+          if (auto *Ph = dyn_cast<PHINode>(Op))
+            if (Ph->getParent() == H && Ph->getIncomingValueForBlock(L->getLoopLatch()) == U) Ok = false;
     }
     if (Ok && E) {
       // every extension of the same type and kind is the same value: map them all
@@ -400,10 +453,13 @@ bool Analyzer::run() {
   for (Instruction &I : *H) {
     auto *St = dyn_cast<StoreInst>(&I);
     if (!St || Scaf.count(St)) continue;
+    if (auto *FT = dyn_cast<FPTruncInst>(St->getValueOperand()))   // a double stored as a float: vst.d.f
+      if (FT->hasOneUse() && L->contains(FT)) { Skip.insert(FT); StoreForm[St] = {FT->getOperand(0), FT->getType(), 0}; continue; }
     auto *Tr = dyn_cast<TruncInst>(St->getValueOperand());
     if (!Tr || !Tr->hasOneUse() || !L->contains(Tr)) continue;
     Type *MemTy = Tr->getType();
-    unsigned NB = MemTy->getIntegerBitWidth();
+    if (!MemTy->getScalarType()->isIntegerTy()) continue;
+    unsigned NB = MemTy->getScalarSizeInBits();
     Value *Y = Tr->getOperand(0);
     int Mode = 0;
     Instruction *C1 = nullptr, *C2 = nullptr;
@@ -412,9 +468,9 @@ bool Analyzer::run() {
       auto *O = dyn_cast<IntrinsicInst>(V);
       if (!O || O->getIntrinsicID() != Outer || !O->hasOneUse()) return false;
       auto *In = dyn_cast<IntrinsicInst>(O->getArgOperand(0));
-      auto *C = dyn_cast<ConstantInt>(O->getArgOperand(1));
+      auto *C = constInt(O->getArgOperand(1));
       if (!In || In->getIntrinsicID() != Inner || !In->hasOneUse() || !C) return false;
-      auto *D = dyn_cast<ConstantInt>(In->getArgOperand(1));
+      auto *D = constInt(In->getArgOperand(1));
       if (!D) return false;
       Y2 = In->getArgOperand(0);
       if (Outer == Intrinsic::smin) { Hi = C->getValue(); Lo = D->getValue(); }
@@ -434,6 +490,107 @@ bool Analyzer::run() {
     }
     Skip.insert(Tr);
     StoreForm[St] = {Y, MemTy, Mode};
+  }
+
+
+  // LoopVectorize's interleaved access groups: ONE wide load whose users are the deinterleaving shuffles <k, k+F, k+2F, ...> (vlseg<F>), and ONE wide store
+  // of the interleaving shuffles of F vectors (vsseg<F>).  Only groups with every field used: the block reads and writes whole records, a gap would touch
+  // memory the program does not.
+  struct SegLd { unsigned F; unsigned N; SmallVector<SmallVector<ShuffleVectorInst *, 2>, 4> Fld; };
+  struct SegSt { unsigned F; unsigned N; SmallVector<Value *, 4> Src; Type *MemTy; };
+  DenseMap<LoadInst *, SegLd> SegLoads;
+  DenseMap<StoreInst *, SegSt> SegStores;
+  if (Vec) {
+    for (Instruction &I : *H) {
+      auto *Ld = dyn_cast<LoadInst>(&I);
+      if (!Ld || Scaf.count(Ld) || Ld->use_empty()) continue;
+      auto *VT = dyn_cast<FixedVectorType>(Ld->getType());
+      if (!VT) continue;
+      bool AllSh = true;
+      for (User *U : Ld->users()) {
+        auto *SV = dyn_cast<ShuffleVectorInst>(U);
+        if (!SV || SV->getOperand(0) != Ld || !isa<PoisonValue>(SV->getOperand(1)) || !L->contains(SV)) AllSh = false;
+      }
+      if (!AllSh) continue;
+      auto *S0 = cast<ShuffleVectorInst>(*Ld->user_begin());
+      unsigned W = VT->getNumElements(), N = cast<FixedVectorType>(S0->getType())->getNumElements();
+      if (N == 0 || W % N || W / N < 2 || W / N > 4) continue;
+      unsigned F = W / N;
+      SegLd G; G.F = F; G.N = N; G.Fld.resize(F);
+      bool Ok = true;
+      for (User *U : Ld->users()) {
+        auto *SV = cast<ShuffleVectorInst>(U);
+        if (cast<FixedVectorType>(SV->getType())->getNumElements() != N) { Ok = false; break; }
+        int K = SV->getMaskValue(0);
+        if (K < 0 || (unsigned)K >= F) { Ok = false; break; }
+        for (unsigned i = 0; i < N; ++i) if (SV->getMaskValue(i) != (int)(K + F * i)) Ok = false;
+        if (!Ok) break;
+        G.Fld[K].push_back(SV);
+      }
+      for (auto &Fk : G.Fld) if (Fk.empty()) Ok = false;   // a field that nobody uses
+      if (!Ok) continue;
+      for (auto &Fk : G.Fld) for (auto *SV : Fk) Skip.insert(SV);
+      SegLoads[Ld] = G;
+    }
+    // where does lane `Lane` of V come from, looking through shuffles (concatenations and interleavings)?
+    std::function<bool(Value *, unsigned, Value *&, unsigned &, SmallVectorImpl<ShuffleVectorInst *> &)> LaneSrc =
+        [&](Value *V, unsigned Lane, Value *&Src, unsigned &SL, SmallVectorImpl<ShuffleVectorInst *> &Used) -> bool {
+      if (auto *SV = dyn_cast<ShuffleVectorInst>(V)) {
+        auto *FL = dyn_cast<LoadInst>(SV->getOperand(0));
+        if (!L->contains(SV) || !SV->hasOneUse() || (FL && SegLoads.count(FL))) { Src = V; SL = Lane; return true; }   // (a field of a segment load is a value, not a shuffle to look through)
+        int M = SV->getMaskValue(Lane);
+        if (M < 0) return false;
+        unsigned N0 = cast<FixedVectorType>(SV->getOperand(0)->getType())->getNumElements();
+        if (!is_contained(Used, SV)) Used.push_back(SV);
+        return LaneSrc(M < (int)N0 ? SV->getOperand(0) : SV->getOperand(1), M < (int)N0 ? M : M - N0, Src, SL, Used);
+      }
+      if (isa<PoisonValue>(V) || isa<UndefValue>(V)) return false;
+      Src = V; SL = Lane;
+      return true;
+    };
+    for (Instruction &I : *H) {
+      auto *St = dyn_cast<StoreInst>(&I);
+      if (!St || Scaf.count(St)) continue;
+      auto *VT = dyn_cast<FixedVectorType>(St->getValueOperand()->getType());
+      if (!VT || !isa<ShuffleVectorInst>(St->getValueOperand()) || !St->getValueOperand()->hasOneUse()) continue;
+      unsigned W = VT->getNumElements();
+      for (unsigned F = 2; F <= 4; ++F) {
+        if (W % F) continue;
+        unsigned N = W / F;
+        SmallVector<Value *, 4> Srcs(F, nullptr);
+        SmallVector<ShuffleVectorInst *, 8> Used;
+        bool Ok = true;
+        for (unsigned i = 0; i < N && Ok; ++i)
+          for (unsigned k = 0; k < F && Ok; ++k) {
+            Value *Sv; unsigned Sl;
+            if (!LaneSrc(St->getValueOperand(), i * F + k, Sv, Sl, Used) || Sl != i || !Sv->getType()->isVectorTy() ||
+                cast<FixedVectorType>(Sv->getType())->getNumElements() != N) { Ok = false; break; }
+            if (!Srcs[k]) Srcs[k] = Sv; else if (Srcs[k] != Sv) Ok = false;
+          }
+        if (!Ok) continue;
+        // a field that is only truncated to the memory type: the store narrows (vsseg.<lane>.<m>)
+        Type *MemTy = nullptr;
+        bool AllTr = true, NoTr = true;
+        for (Value *Sv : Srcs) { if (auto *Tr = dyn_cast<TruncInst>(Sv)) { if (!Tr->hasOneUse() || !L->contains(Tr)) AllTr = false; NoTr = false; } else AllTr = false; }
+        SegSt G; G.F = F; G.N = N;
+        if (AllTr) {
+          bool Same = true;
+          for (Value *Sv : Srcs) if (Sv->getType() != Srcs[0]->getType()) Same = false;
+          if (!Same) continue;
+          MemTy = Srcs[0]->getType();
+          for (unsigned k = 0; k < F; ++k) { auto *Tr = cast<TruncInst>(Srcs[k]); Skip.insert(Tr); G.Src.push_back(Tr->getOperand(0)); }
+        } else if (NoTr) {
+          MemTy = Srcs[0]->getType();
+          for (Value *Sv : Srcs) if (Sv->getType() != MemTy) Ok = false;
+          if (!Ok) continue;
+          for (Value *Sv : Srcs) G.Src.push_back(Sv);
+        } else continue;
+        G.MemTy = MemTy;
+        for (auto *SV : Used) Skip.insert(SV);
+        SegStores[St] = G;
+        break;
+      }
+    }
   }
 
   // a multiply with the contract flag whose only user is an add (or the subtrahend of a subtract) with it: a multiply-add (vfma / vfnma)
@@ -458,6 +615,84 @@ bool Analyzer::run() {
     if (RedStepOf.count(&I)) {
       if (!emitReduce(&I)) return false;
       continue;
+    }
+    if (auto *Ld = dyn_cast<LoadInst>(&I)) {
+      auto SL = SegLoads.find(Ld);
+      if (SL != SegLoads.end()) {
+        SegLd &G = SL->second;
+        if (!Ld->isSimple()) return fail("a volatile or atomic load");
+        Type *MT = Ld->getType();
+        if (!laneOK(MT)) return fail("load type");
+        int S;
+        int64_t Stride;
+        if (!memAccess(Ld, Ld->getPointerOperand(), MT, false, S, Stride, G.N)) return false;
+        // the extension of every field, if there is one and it is the same for all: vlseg<F>.<m>.<lane>
+        Instruction *E0 = nullptr;
+        bool Z = false, ExtOk = true;
+        for (auto &Fk : G.Fld) for (auto *SV : Fk) for (User *U : SV->users()) {
+          auto *UI = dyn_cast<Instruction>(U);
+          if (UI && (isa<ZExtInst>(UI) || isa<SExtInst>(UI)) && L->contains(UI) && (!E0 || (E0->getType() == UI->getType() && isa<ZExtInst>(E0) == isa<ZExtInst>(UI)))) { E0 = UI; Z = isa<ZExtInst>(UI); }
+          else ExtOk = false;
+        }
+        Type *LT = MT;
+        if (ExtOk && E0) LT = E0->getType();
+        else E0 = nullptr;
+        if (!laneOK(LT)) return fail("extended load type");
+        VOp Op;
+        Op.Kind = VOp::LoadSeg;
+        Op.Mn = (Twine("vlseg") + Twine(G.F) + "." + memSuffix(MT, E0 && Z) + (E0 ? "." + std::string(1, laneChar(LT)) : std::string()) + " ").str();
+        for (unsigned k = 0; k < G.F; ++k) {
+          int V = newV(nullptr, LT);
+          Op.Regs.push_back(V);
+          for (auto *SV : G.Fld[k]) {
+            VMap[SV] = V; VLane[SV] = LT;
+            if (E0) for (User *U : SV->users()) { VMap[U] = V; VLane[U] = LT; Skip.insert(cast<Instruction>(U)); }
+          }
+        }
+        Op.Stream = S;
+        Prog.push_back(Op);
+        noteUse(S);
+        continue;
+      }
+    }
+    if (auto *St = dyn_cast<StoreInst>(&I)) {
+      auto SS = SegStores.find(St);
+      if (SS != SegStores.end()) {
+        SegSt &G = SS->second;
+        if (!St->isSimple()) return fail("a volatile or atomic store");
+        if (!laneOK(G.MemTy)) return fail("store type");
+        int S;
+        int64_t Stride;
+        if (!memAccess(St, St->getPointerOperand(), St->getValueOperand()->getType(), true, S, Stride, G.N)) return false;
+        VOp Op;
+        Op.Kind = VOp::StoreSeg;
+        Type *LT = nullptr;
+        for (unsigned k = 0; k < G.F; ++k) {
+          Opnd O;
+          if (!operandOf(G.Src[k], O, false)) return fail("a stored field that is not a vector or an invariant scalar");
+          Type *FT = (VMap.count(G.Src[k]) && VLane.count(G.Src[k]) ? VLane[G.Src[k]] : G.Src[k]->getType())->getScalarType();
+          if (O.Kind == Opnd::S) {   // an invariant field: splat it into a register
+            VOp M;
+            M.Kind = VOp::Mov;
+            M.Mn = (Twine("vmov.") + Twine(laneChar(FT)) + " ").str();
+            M.Dst = newV(nullptr, FT);
+            M.B = O;
+            Prog.push_back(M);
+            O = Opnd::v(M.Dst);
+          }
+          if (O.Kind != Opnd::V) return fail("a stored field that is an immediate");
+          if (LT && LT != FT) return fail("the fields of a segment store have different lane types");
+          LT = FT;
+          Op.Regs.push_back(O.Id);
+        }
+        Type *MTs = G.MemTy->getScalarType();
+        Op.LaneC = laneChar(LT);
+        Op.Mn = (Twine("vsseg") + Twine(G.F) + "." + Twine(laneChar(LT)) + (LT != MTs ? "." + std::string(1, laneChar(MTs)) : std::string()) + " ").str();
+        Op.Stream = S;
+        Prog.push_back(Op);
+        noteUse(S);
+        continue;
+      }
     }
     // loop-invariant: a load of an address that does not change (made once, before the block, and tested against the stores), and pure
     // operations of invariants (a sext of such a load)
@@ -535,7 +770,8 @@ bool Analyzer::run() {
         O = Opnd::v(M.Dst);
         VLane[V] = LT;
       }
-      Type *LT = VLane.count(V) ? VLane[V] : V->getType();
+      Type *LT = (VLane.count(V) ? VLane[V] : V->getType())->getScalarType();
+      MT = MT->getScalarType();
       VOp Op;
       Op.Kind = VOp::Store;
       std::string M(1, laneChar(LT));
@@ -558,7 +794,7 @@ bool Analyzer::run() {
     }
     // lane operations
     if (auto *Bin = dyn_cast<BinaryOperator>(&I)) {
-      Type *T = Bin->getType();
+      Type *T = Bin->getType()->getScalarType();
       if (!laneOK(T)) return fail("lane type");
       auto MO = MulOf.find(Bin);
       if (MO != MulOf.end()) {
@@ -657,7 +893,7 @@ bool Analyzer::run() {
       continue;
     }
     if (auto *II = dyn_cast<IntrinsicInst>(&I)) {
-      Type *T = II->getType();
+      Type *T = II->getType()->getScalarType();
       switch (II->getIntrinsicID()) {
       case Intrinsic::smin: case Intrinsic::smax: case Intrinsic::umin: case Intrinsic::umax: {
         if (!laneOK(T) || T->isFloatingPointTy()) return fail("lane type");
@@ -666,6 +902,39 @@ bool Analyzer::run() {
         if (!VMap.count(A0)) std::swap(A0, B0);
         Opnd OA, OB;
         if (!operandOf(A0, OA, false) || OA.Kind != Opnd::V || !operandOf(B0, OB, true)) return fail("operand");
+        VOp Op;
+        Op.Kind = VOp::Lane;
+        Op.Mn = (Twine(Base) + "." + Twine(laneChar(T)) + " ").str();
+        Op.A = OA; Op.B = OB;
+        Op.Dst = newV(II, T);
+        Prog.push_back(Op);
+        break;
+      }
+      case Intrinsic::fshl: case Intrinsic::fshr: {   // a rotate by a constant (both inputs the same value): vshl, vshr, vor
+        if (II->getArgOperand(0) != II->getArgOperand(1) || T->isFloatingPointTy() || !laneOK(T)) return fail("a funnel shift that is not a rotate");
+        auto *C = constInt(II->getArgOperand(2));
+        unsigned W = T->getScalarSizeInBits();
+        if (!C) return fail("a rotate by a variable amount");
+        unsigned Sh = C->getZExtValue() % W;
+        if (II->getIntrinsicID() == Intrinsic::fshr) Sh = (W - Sh) % W;   // a rotate right by c is a rotate left by W - c
+        Opnd OA;
+        if (!operandOf(II->getArgOperand(0), OA, false) || OA.Kind != Opnd::V) return fail("operand");
+        VOp A1, A2, A3;
+        A1.Kind = A2.Kind = A3.Kind = VOp::Lane;
+        A1.Mn = (Twine("vshl.") + Twine(laneChar(T)) + " ").str(); A1.A = OA; A1.B = Opnd::i(Sh); A1.Dst = newV(nullptr, T);
+        A2.Mn = (Twine("vshr.") + Twine(laneChar(T)) + " ").str(); A2.A = OA; A2.B = Opnd::i(W - Sh); A2.Dst = newV(nullptr, T);
+        A3.Mn = (Twine("vor.") + Twine(laneChar(T)) + " ").str(); A3.A = Opnd::v(A1.Dst); A3.B = Opnd::v(A2.Dst); A3.Dst = newV(II, T);
+        if (Sh == 0) return fail("a rotate by zero");
+        Prog.push_back(A1); Prog.push_back(A2); Prog.push_back(A3);
+        break;
+      }
+      case Intrinsic::maxnum: case Intrinsic::minnum: {   // vmax.f / vmin.f: with nnan only (the reduction patterns of fast-math code)
+        if (!T->isFloatingPointTy() || !II->hasNoNaNs()) return fail("fmax/fmin without nnan");
+        const char *Base = II->getIntrinsicID() == Intrinsic::maxnum ? "vmax" : "vmin";
+        Value *A0 = II->getArgOperand(0), *B0 = II->getArgOperand(1);
+        if (!VMap.count(A0)) std::swap(A0, B0);
+        Opnd OA, OB;
+        if (!operandOf(A0, OA, false) || OA.Kind != Opnd::V || !operandOf(B0, OB, false)) return fail("operand");
         VOp Op;
         Op.Kind = VOp::Lane;
         Op.Mn = (Twine(Base) + "." + Twine(laneChar(T)) + " ").str();
@@ -746,6 +1015,20 @@ bool Analyzer::run() {
       }
       continue;
     }
+    if (auto *IE = dyn_cast<InsertElementInst>(&I)) {   // the first half of a splat of a loop-invariant scalar (LoopVectorize makes them in the loop when it hoists nothing)
+      auto *Idx = dyn_cast<ConstantInt>(IE->getOperand(2));
+      Value *Sc = IE->getOperand(1);
+      if (Idx && Idx->isZero() && (isa<PoisonValue>(IE->getOperand(0)) || isa<UndefValue>(IE->getOperand(0))) && (!inLoop(Sc) || InvSet.count(Sc))) {
+        SplatInfo[IE] = Sc;
+        continue;
+      }
+      return fail("an insertelement that is not a splat of an invariant");
+    }
+    if (auto *SV = dyn_cast<ShuffleVectorInst>(&I)) {
+      auto It = SplatInfo.find(SV->getOperand(0));
+      if (It != SplatInfo.end() && SV->isZeroEltSplat()) { SplatInfo[SV] = It->second; continue; }
+      return fail("a shuffle that is not the splat of an invariant (no instruction permutes lanes)");
+    }
     if (auto *Sel = dyn_cast<SelectInst>(&I)) {
       return fail("a select");
     }
@@ -801,6 +1084,8 @@ bool Analyzer::run() {
   return true;
 }
 
+static bool inLoopVal(Loop *L, Value *V) { auto *I = dyn_cast<Instruction>(V); return I && L->contains(I); }
+
 // ---- the pass -----------------------------------------------------------------------------------------------
 class PDP64VecLoop : public FunctionPass {
 public:
@@ -810,28 +1095,31 @@ public:
   void getAnalysisUsage(AnalysisUsage &AU) const override {
     AU.addRequired<LoopInfoWrapperPass>();
     AU.addRequired<ScalarEvolutionWrapperPass>();
+    AU.addRequired<DominatorTreeWrapperPass>();
     AU.addRequiredID(LoopSimplifyID);
     AU.addRequiredID(LCSSAID);
   }
   bool runOnFunction(Function &F) override;
 
 private:
-  bool transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Function &F);
+  bool transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, DominatorTree &DT, Function &F);
 };
 } // namespace
 
 char PDP64VecLoop::ID = 0;
-INITIALIZE_PASS_BEGIN(PDP64VecLoop, DEBUG_TYPE, "PDP64 loop to vec block", false, false)
+INITIALIZE_PASS_BEGIN(PDP64VecLoop, "pdp64-vecloop-pass", "PDP64 loop to vec block", false, false)
 INITIALIZE_PASS_DEPENDENCY(LoopInfoWrapperPass)
 INITIALIZE_PASS_DEPENDENCY(ScalarEvolutionWrapperPass)
+INITIALIZE_PASS_DEPENDENCY(DominatorTreeWrapperPass)
 INITIALIZE_PASS_DEPENDENCY(LoopSimplify)
 INITIALIZE_PASS_DEPENDENCY(LCSSAWrapperPass)
-INITIALIZE_PASS_END(PDP64VecLoop, DEBUG_TYPE, "PDP64 loop to vec block", false, false)
+INITIALIZE_PASS_END(PDP64VecLoop, "pdp64-vecloop-pass", "PDP64 loop to vec block", false, false)
 FunctionPass *llvm::createPDP64VecLoop() { return new PDP64VecLoop(); }
 
 bool PDP64VecLoop::runOnFunction(Function &F) {
-  if (!EnableVecLoop || skipFunction(F))
+  if ((!EnableVecLoop && !EnableVecBlock) || skipFunction(F))
     return false;
+  DominatorTree &DT = getAnalysis<DominatorTreeWrapperPass>().getDomTree();
   LoopInfo &LI = getAnalysis<LoopInfoWrapperPass>().getLoopInfo();
   ScalarEvolution &SE = getAnalysis<ScalarEvolutionWrapperPass>().getSE();
   SmallVector<Loop *, 8> Inner;
@@ -840,18 +1128,19 @@ bool PDP64VecLoop::runOnFunction(Function &F) {
       Inner.push_back(L);
   bool Changed = false;
   for (Loop *L : Inner)
-    Changed |= transform(L, SE, LI, F);
+    Changed |= transform(L, SE, LI, DT, F);
   if (Changed)
     removeUnreachableBlocks(F);
   return Changed;
 }
 
-bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Function &F) {
+bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, DominatorTree &DT, Function &F) {
   const DataLayout &DL = F.getDataLayout();
   auto Say = [&](const Twine &W) {
     if (VecLoopVerbose)
       errs() << "pdp64-vecloop: " << F.getName() << ": loop at " << L->getHeader()->getName() << ": " << W << "\n";
   };
+  Say("considering");
   if (L->getBlocks().size() != 1 || !L->getLoopPreheader() || !L->getExitBlock() || !L->getLoopLatch() || L->getLoopLatch() != L->getHeader()) {
     Say("not a single-block loop with a preheader and one exit");
     return false;
@@ -861,8 +1150,14 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
     Say("the preheader does not end in a plain branch");
     return false;
   }
+  bool IsVec = false;   // a loop that LoopVectorize made: its body has vector values
+  for (Instruction &I : *H) {
+    if (I.getType()->isVectorTy()) IsVec = true;
+    if (auto *St = dyn_cast<StoreInst>(&I)) if (St->getValueOperand()->getType()->isVectorTy()) IsVec = true;
+  }
+  if (IsVec ? !EnableVecBlock : !EnableVecLoop) return false;
   const SCEV *BTC = SE.getBackedgeTakenCount(L);
-  if (isa<SCEVCouldNotCompute>(BTC)) {
+  if (!IsVec && isa<SCEVCouldNotCompute>(BTC)) {
     Say("the trip count is not computable");
     return false;
   }
@@ -871,8 +1166,91 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
     Say("not a vec block: " + A.Why);
     return false;
   }
+
+  // ---- a vector loop: the shape LoopVectorize leaves around it (vector.ph, middle.block, scalar.ph) and what becomes of it
+  //   pred -> vector.ph -> vector.body -> middle.block --(n.vec == TC)--> exit
+  //     \_______________________________________\--------> scalar.ph -> epilogue loop -> exit
+  // The block covers all TC elements, so middle.block always goes to the exit and the epilogue is reached only when a test fails.
+  BasicBlock *MB = nullptr, *XB = nullptr, *ScalarPh = nullptr, *PredB = nullptr;
+  Value *TCV = nullptr;
+  struct RedResT { PHINode *Lcssa; int Acc; SmallVector<IntrinsicInst *, 2> Calls; };
+  SmallVector<RedResT, 2> RedRes;
+  SmallVector<BasicBlock *, 4> MinIters;
+  SmallVector<Value *, 4> Mirror;
+  bool FallbackOK = false;
+  if (A.Vec) {
+    MB = Exit;
+    if (MB->getSinglePredecessor() != H) { Say("not a vec block: the vector loop's exit has other predecessors"); return false; }
+    auto *MBBr = dyn_cast<BranchInst>(MB->getTerminator());
+    if (!MBBr) { Say("not a vec block: the exit of the vector loop does not end in a branch"); return false; }
+    if (MBBr->isConditional()) {
+      XB = MBBr->getSuccessor(0); ScalarPh = MBBr->getSuccessor(1);
+      auto *Cmp = dyn_cast<ICmpInst>(MBBr->getCondition());
+      auto *LBr = cast<BranchInst>(H->getTerminator());
+      auto *LC = LBr->isConditional() ? dyn_cast<ICmpInst>(LBr->getCondition()) : nullptr;
+      if (!Cmp || Cmp->getPredicate() != ICmpInst::ICMP_EQ || !LC) { Say("not a vec block: middle.block does not compare the trip count"); return false; }
+      Value *NVec = inLoopVal(L, LC->getOperand(0)) ? LC->getOperand(1) : LC->getOperand(0);
+      if (Cmp->getOperand(0) == NVec) TCV = Cmp->getOperand(1);
+      else if (Cmp->getOperand(1) == NVec) TCV = Cmp->getOperand(0);
+      else { Say("not a vec block: middle.block compares something other than n.vec"); return false; }
+      if (!TCV->getType()->isIntegerTy()) { Say("not a vec block: trip count type"); return false; }
+      if (auto *TI = dyn_cast<Instruction>(TCV))
+        if (!DT.dominates(TI, P->getTerminator())) { Say("not a vec block: the trip count is not available before the vector loop"); return false; }
+    } else {
+      XB = MBBr->getSuccessor(0);   // no remainder: the trip count is a multiple of VF, known
+      if (isa<SCEVCouldNotCompute>(BTC)) { Say("not a vec block: trip count"); return false; }
+    }
+    // the reductions' results: lcssa phis in middle.block whose only users are the llvm.vector.reduce calls of the same kind
+    for (PHINode &Ph : MB->phis()) {
+      Value *V = Ph.getIncomingValueForBlock(H);
+      auto *VI = dyn_cast<Instruction>(V);
+      if (!VI || !L->contains(VI)) continue;
+      int Ai = -1;
+      for (unsigned a = 0; a < A.Accs.size(); ++a) if (A.Accs[a].Next == VI) Ai = a;
+      if (Ai < 0) { Say("not a vec block: a value of the vector loop is used after it (not a reduction)"); return false; }
+      Acc &Ac = A.Accs[Ai];
+      RedResT R; R.Lcssa = &Ph; R.Acc = Ai;
+      for (User *U : Ph.users()) {
+        auto *C = dyn_cast<IntrinsicInst>(U);
+        bool Ok = false;
+        if (C) switch (C->getIntrinsicID()) {
+          case Intrinsic::vector_reduce_add: Ok = !Ac.IsFP && Ac.Base == StringRef("vacc"); break;
+          case Intrinsic::vector_reduce_fadd: Ok = Ac.IsFP && Ac.Base == StringRef("vacc") && C->hasAllowReassoc(); break;
+          case Intrinsic::vector_reduce_smax: Ok = !Ac.IsFP && !Ac.Uns && Ac.Base == StringRef("vmaxacc"); break;
+          case Intrinsic::vector_reduce_smin: Ok = !Ac.IsFP && !Ac.Uns && Ac.Base == StringRef("vminacc"); break;
+          case Intrinsic::vector_reduce_umax: Ok = !Ac.IsFP && Ac.Uns && Ac.Base == StringRef("vmaxacc"); break;
+          case Intrinsic::vector_reduce_umin: Ok = !Ac.IsFP && Ac.Uns && Ac.Base == StringRef("vminacc"); break;
+          case Intrinsic::vector_reduce_fmax: Ok = Ac.IsFP && Ac.Base == StringRef("vmaxacc") && C->hasNoNaNs(); break;
+          case Intrinsic::vector_reduce_fmin: Ok = Ac.IsFP && Ac.Base == StringRef("vminacc") && C->hasNoNaNs(); break;
+          default: break;
+        }
+        if (!Ok) { Say("not a vec block: a reduction result is used by something other than the matching llvm.vector.reduce"); return false; }
+        R.Calls.push_back(C);
+      }
+      RedRes.push_back(R);
+    }
+    for (unsigned a = 0; a < A.Accs.size(); ++a) {   // every reduction must have its result
+      bool Has = false;
+      for (auto &R : RedRes) if (R.Acc == (int)a) Has = true;
+      if (!Has && !A.Accs[a].Next->use_empty()) { Say("not a vec block: a reduction whose result is not reduced"); return false; }
+    }
+    // the way into the scalar loop for the case that a test fails: the predecessor of vector.ph, which branches to both
+    PredB = P->getSinglePredecessor();
+    if (ScalarPh && PredB)
+      if (auto *PBr = dyn_cast<BranchInst>(PredB->getTerminator()))
+        if (PBr->isConditional() && is_contained(successors(PredB), ScalarPh) && is_contained(successors(PredB), P)) FallbackOK = true;
+    if (ScalarPh) {
+      // the minimum-iterations test(s) of LoopVectorize: the block takes any count, so they are not needed
+      for (BasicBlock *B = PredB; B && MinIters.size() < 4; B = B->getSinglePredecessor()) {
+        auto *Br = dyn_cast<BranchInst>(B->getTerminator());
+        if (!Br || !Br->isConditional() || !is_contained(successors(B), ScalarPh)) break;
+        if (Br->getCondition()->getName().starts_with("min.iters.check")) MinIters.push_back(B);
+      }
+    }
+  }
+
   // the exit block's phis: what each incoming value from the loop becomes
-  for (PHINode &Ph : Exit->phis()) {
+  if (!A.Vec) for (PHINode &Ph : Exit->phis()) {
     Value *V = Ph.getIncomingValueForBlock(H);
     if (auto *I = dyn_cast<Instruction>(V))
       if (L->contains(I)) {
@@ -929,6 +1307,12 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
         auto *Dc = dyn_cast<SCEVConstant>(SE.getMinusSCEV(AX->getStart(), AY->getStart()));
         if (Dc && AX->getStepRecurrence(SE) == AY->getStepRecurrence(SE)) {
           int64_t Step = X.Size, D = Dc->getAPInt().getSExtValue();   // Mem.Size of a non-invariant access is its step
+          // a load AHEAD of a store (its address is higher by a whole number of elements): a write-after-read dependence, which "every load of a strip before its
+          // stores, strips in order" keeps (a[i] = a[i + 1] + 1); a load behind the store would be a read-after-write inside one strip
+          if (X.Store != Y.Store && X.ElemStep > 0) {
+            int64_t Dist = X.Store ? -D : D;   // load - store
+            if (Dist > 0 && Dist % X.ElemStep == 0) continue;
+          }
           int64_t R = ((D % Step) + Step) % Step;
           // the bytes of the elements: X occupies [0, EX), Y occupies [R, R + EY) within a period (R + EY <= Step: no wrap)
           if (R >= X.ElSize && R + Y.ElSize <= Step) continue;
@@ -940,9 +1324,22 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
       if (OX != OY && isIdentifiedObject(OX) && isIdentifiedObject(OY)) continue;
       bool Dup = false;
       for (Pair &C : Checks) if ((C.S0 == X.P && C.S1 == Y.P) || (C.S0 == Y.P && C.S1 == X.P)) Dup = true;
-      if (!Dup) Checks.push_back({X.P, X.Size, X.Inv, Y.P, Y.Size, Y.Inv});
+      if (!Dup) Checks.push_back({X.P, X.Inv ? X.Size : X.ElemStep, X.Inv, Y.P, Y.Inv ? Y.Size : Y.ElemStep, Y.Inv});
     }
   if (Checks.size() > VecLoopMaxChecks) { Say("not a vec block: too many overlap tests"); return false; }
+  if (A.Vec && !Checks.empty()) {
+    // LoopVectorize's own run-time check (vector.memcheck) compares the ranges of the whole trip count, remainder included: the same test
+    for (BasicBlock *B = PredB; B; B = B->getSinglePredecessor())
+      if (B->getName().starts_with("vector.memcheck")) { Checks.clear(); break; }
+  }
+  if (A.Vec && !Checks.empty() && !FallbackOK) { Say("not a vec block: an overlap test is needed and there is no way to the scalar loop"); return false; }
+
+  // as64 has no `vldt.<t> vD, d(Ra), #stride` / `vstt` without the move: a strided stream can only be one instruction with (Ra)+ (llvm/README.md: assembler limit)
+  for (unsigned i = 0; i < A.Prog.size(); ++i)
+    if ((A.Prog[i].Kind == VOp::Load || A.Prog[i].Kind == VOp::Store) && A.Prog[i].Stride && A.Streams[A.Prog[i].Stream].LastUse != (int)i) {
+      Say("not a vec block: a strided stream used by more than one instruction (as64 has no vldt/vstt with an offset and no move)");
+      return false;
+    }
 
   // ---- the vector registers: a linear scan over the body
   int NV = A.NextV;
@@ -951,6 +1348,8 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
   for (unsigned i = 0; i < A.Prog.size(); ++i) {
     VOp &Op = A.Prog[i];
     if (Op.Dst >= 0) Def[Op.Dst] = i;
+    if (Op.Kind == VOp::LoadSeg) for (int R : Op.Regs) Def[R] = i;
+    if (Op.Kind == VOp::StoreSeg) for (int R : Op.Regs) LastUse[R] = i;
     if (Op.A.Kind == Opnd::V) LastUse[Op.A.Id] = i;
     if (Op.B.Kind == Opnd::V) LastUse[Op.B.Id] = i;
     if (Op.Kind == VOp::Fma) LastUse[Op.Acc] = i;
@@ -989,6 +1388,48 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
       Stream &S = A.Streams[Op.Stream];
       T = Op.Mn + Rn(Op.A.Id) + ", " + (S.LastUse == (int)i ? "(" + PtrOp(Op.Stream) + ")+" : "0(" + PtrOp(Op.Stream) + ")") + (Op.Stride ? ", #" + std::to_string(Op.Stride) : "");
       ReleaseDead(i, Op.A.Id);
+      break;
+    }
+    case VOp::LoadSeg: {   // F consecutive registers for the fields
+      int F = Op.Regs.size(), Base = -1;
+      for (int r = 0; r + F <= 16 && Base < 0; ++r) {
+        bool Ok = true;
+        for (int k = 0; k < F; ++k) if (!Free[r + k]) Ok = false;
+        if (Ok) Base = r;
+      }
+      if (Base < 0) { Say("not a vec block: no consecutive vector registers for a segment load"); return false; }
+      for (int k = 0; k < F; ++k) { Free[Base + k] = false; Reg[Op.Regs[k]] = Base + k; }
+      Stream &S = A.Streams[Op.Stream];
+      T = Op.Mn + Rn(Op.Regs[0]) + ", " + (S.LastUse == (int)i ? "(" + PtrOp(Op.Stream) + ")+" : "0(" + PtrOp(Op.Stream) + ")");
+      break;
+    }
+    case VOp::StoreSeg: {   // the fields are already in consecutive registers, or are copied into F that are
+      int F = Op.Regs.size();
+      bool Direct = true;
+      for (int k = 0; k < F; ++k) {
+        if (Reg[Op.Regs[k]] != Reg[Op.Regs[0]] + k) Direct = false;
+        for (int j = 0; j < k; ++j) if (Op.Regs[j] == Op.Regs[k]) Direct = false;   // the same register twice
+      }
+      std::string First;
+      int Tmp = -1;
+      if (Direct) First = Rn(Op.Regs[0]);
+      else {
+        for (int r = 0; r + F <= 16 && Tmp < 0; ++r) {
+          bool Ok = true;
+          for (int k = 0; k < F; ++k) if (!Free[r + k]) Ok = false;
+          if (Ok) Tmp = r;
+        }
+        if (Tmp < 0) { Say("not a vec block: no consecutive vector registers for a segment store"); return false; }
+        for (int k = 0; k < F; ++k) {
+          Free[Tmp + k] = false;
+          Lines.push_back(std::string("vmov.") + Op.LaneC + " v" + std::to_string(Tmp + k) + ", " + Rn(Op.Regs[k]));
+        }
+        First = "v" + std::to_string(Tmp);
+      }
+      Stream &S = A.Streams[Op.Stream];
+      T = Op.Mn + First + ", " + (S.LastUse == (int)i ? "(" + PtrOp(Op.Stream) + ")+" : "0(" + PtrOp(Op.Stream) + ")");
+      if (Tmp >= 0) for (int k = 0; k < F; ++k) Free[Tmp + k] = true;
+      for (int k = 0; k < F; ++k) ReleaseDead(i, Op.Regs[k]);
       break;
     }
     case VOp::Mov: {
@@ -1052,9 +1493,15 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
   SCEVExpander Exp(SE, DL, "vecloop");
   Type *I64 = Type::getInt64Ty(F.getContext());
   Instruction *IP = P->getTerminator();
-  const SCEV *Trip = SE.getAddExpr(SE.getTruncateOrZeroExtend(BTC, I64), SE.getOne(I64));
-  if (!Exp.isSafeToExpandAt(Trip, IP)) { Say("cannot expand the trip count"); return false; }
-  Value *TripV = Exp.expandCodeFor(Trip, I64, IP);
+  Value *TripV;
+  if (A.Vec && TCV) {
+    TripV = B.CreateZExtOrTrunc(TCV, I64);   // elements: the whole count of the original loop, remainder included
+  } else {
+    const SCEV *Trip = SE.getAddExpr(SE.getTruncateOrZeroExtend(BTC, I64), SE.getOne(I64));
+    if (A.Vec) Trip = SE.getMulExpr(Trip, SE.getConstant(I64, A.Lanes));   // vector iterations times lanes
+    if (!Exp.isSafeToExpandAt(Trip, IP)) { Say("cannot expand the trip count"); return false; }
+    TripV = Exp.expandCodeFor(Trip, I64, IP);
+  }
   SmallVector<Value *, 8> Start(NStr), StartI(NStr);
   for (int s = 0; s < NStr; ++s) {
     if (!Exp.isSafeToExpandAt(A.Streams[s].Start, IP)) { Say("cannot expand a stream's start"); return false; }
@@ -1123,7 +1570,37 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
   for (int a = 0; a < NAcc; ++a) {
     Acc &Ac = A.Accs[a];
     Value *Init = Ac.Phi->getIncomingValueForBlock(P);
-    Value *V = Ac.IsFP ? Init : B.CreateSExtOrTrunc(Init, I64);
+    if (A.Vec) {
+      // the start of the vector accumulator is a vector (the start value in one lane, the identity in the others, or a splat): the scalar start is its reduction
+      Value *Sp = getSplatValue(Init);
+      bool IsAdd = Ac.Base == StringRef("vacc");
+      Value *Sc = nullptr;
+      if (Sp && !IsAdd) Sc = Sp;
+      else if (Sp && (match(Sp, m_Zero()) || match(Sp, m_AnyZeroFP()))) Sc = Ac.IsFP ? (Value *)ConstantFP::getZero(Ac.Ty, true) : ConstantInt::get(Ac.Ty, 0);
+      else if (auto *IE = dyn_cast<InsertElementInst>(Init)) {
+        Value *BaseV = IE->getOperand(0);
+        auto *Idx = dyn_cast<ConstantInt>(IE->getOperand(2));
+        Value *BS = getSplatValue(BaseV);
+        if (Idx && Idx->isZero() && BS && IsAdd && (match(BS, m_Zero()) || match(BS, m_AnyZeroFP()))) Sc = IE->getOperand(1);
+        else if (Idx && Idx->isZero() && !IsAdd && BS && BS == IE->getOperand(1)) Sc = BS;
+      }
+      if (!Sc) {
+        Intrinsic::ID RID;
+        if (IsAdd) RID = Ac.IsFP ? Intrinsic::vector_reduce_fadd : Intrinsic::vector_reduce_add;
+        else if (Ac.Base == StringRef("vmaxacc")) RID = Ac.IsFP ? Intrinsic::vector_reduce_fmax : Ac.Uns ? Intrinsic::vector_reduce_umax : Intrinsic::vector_reduce_smax;
+        else RID = Ac.IsFP ? Intrinsic::vector_reduce_fmin : Ac.Uns ? Intrinsic::vector_reduce_umin : Intrinsic::vector_reduce_smin;
+        if (RID == Intrinsic::vector_reduce_fadd) {
+          FastMathFlags FMF; FMF.setFast();
+          IRBuilder<>::FastMathFlagGuard G(B); B.setFastMathFlags(FMF);
+          Sc = B.CreateIntrinsic(RID, {Init->getType()}, {ConstantFP::getZero(Ac.Ty, true), Init});
+        } else {
+          Sc = B.CreateIntrinsic(RID, {Init->getType()}, {Init});
+          if (Ac.IsFP) cast<Instruction>(Sc)->setFastMathFlags([] { FastMathFlags F; F.setNoNaNs(); return F; }());
+        }
+      }
+      Init = Sc;
+    }
+    Value *V = Ac.IsFP ? Init : (Ac.Uns ? B.CreateZExtOrTrunc(Init, I64) : B.CreateSExtOrTrunc(Init, I64));
     AccInit.push_back(V);
     Args.push_back(V); ArgTys.push_back(V->getType()); OutTys.push_back(V->getType());
     Cons += std::to_string(NStr + a) + ",";
@@ -1156,7 +1633,7 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
       AccRes.push_back(R);
     }
   };
-  if (!VecLoopStrip) {
+  if (!VecLoopStrip || A.Vec) {
     IRBuilder<> VBB(VB);
     SmallVector<Value *, 8> Outs;
     CallBlock(VBB, EndV, PtrIn, AccInit, Outs);
@@ -1231,7 +1708,7 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
     (void)Pos;
   }
   // the exit block's phis get the result of the block
-  for (PHINode &Ph : Exit->phis()) {
+  if (!A.Vec) for (PHINode &Ph : Exit->phis()) {
     Value *V = Ph.getIncomingValueForBlock(H);
     Value *N = V;
     if (auto *I = dyn_cast<Instruction>(V))
@@ -1239,9 +1716,56 @@ bool PDP64VecLoop::transform(Loop *L, ScalarEvolution &SE, LoopInfo &LI, Functio
         if (A.Accs[a].Next == I) N = AccRes[a];
     Ph.addIncoming(N, VJoin);
   }
+  if (A.Vec) {
+    // middle.block: the llvm.vector.reduce of each accumulator is the block's scalar result; the other phis (values from before the loop) come from the block
+    SmallVector<PHINode *, 2> Dead;
+    for (PHINode &Ph : MB->phis()) {
+      RedResT *RR = nullptr;
+      for (auto &R : RedRes) if (R.Lcssa == &Ph) RR = &R;
+      if (!RR) { Ph.addIncoming(Ph.getIncomingValueForBlock(H), VJoin); continue; }
+      Value *Res = AccRes[RR->Acc];
+      for (IntrinsicInst *C : RR->Calls) {
+        Value *R = Res;
+        if (C->getIntrinsicID() == Intrinsic::vector_reduce_fadd) {
+          Value *Start = C->getArgOperand(0);
+          if (!match(Start, m_AnyZeroFP())) {
+            IRBuilder<> CB(C);
+            CB.setFastMathFlags(C->getFastMathFlags());
+            R = CB.CreateFAdd(Start, Res);
+          }
+        }
+        C->replaceAllUsesWith(R);
+        C->eraseFromParent();
+      }
+      Dead.push_back(&Ph);
+    }
+    for (PHINode *Ph : Dead) { Ph->replaceAllUsesWith(PoisonValue::get(Ph->getType())); Ph->eraseFromParent(); }
+    // middle.block no longer goes to the scalar loop: the whole range is done
+    if (ScalarPh && FallbackOK)
+      for (PHINode &Ph : ScalarPh->phis()) Mirror.push_back(Ph.getIncomingValueForBlock(PredB));
+    if (ScalarPh) {
+      auto *MBBr = cast<BranchInst>(MB->getTerminator());
+      BranchInst::Create(XB, MBBr->getIterator());
+      ScalarPh->removePredecessor(MB);
+      MBBr->eraseFromParent();
+      for (BasicBlock *MI : MinIters) {   // no minimum count: the block takes 0 elements and up
+        auto *Br = cast<BranchInst>(MI->getTerminator());
+        BasicBlock *Next = Br->getSuccessor(0) == ScalarPh ? Br->getSuccessor(1) : Br->getSuccessor(0);
+        BranchInst::Create(Next, Br->getIterator());
+        ScalarPh->removePredecessor(MI);
+        Br->eraseFromParent();
+      }
+    }
+  }
   // the test: the block if the streams do not overlap (always, if no test is needed), else the scalar loop
   B.SetInsertPoint(P->getTerminator());
-  if (Ok) {
+  if (Ok && A.Vec) {
+    // the overlap test failed: the scalar loop, with the values the other bypasses of LoopVectorize give it
+    unsigned MI = 0;
+    for (PHINode &Ph : ScalarPh->phis()) Ph.addIncoming(Mirror[MI++], P);
+    B.CreateCondBr(Ok, VB, ScalarPh);
+    ++NumVersioned;
+  } else if (Ok) {
     B.CreateCondBr(Ok, VB, H);
     ++NumVersioned;
   } else {

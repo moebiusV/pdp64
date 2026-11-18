@@ -1,4 +1,4 @@
-/* expect: 26326  vec: 1  flags: -ffp-contract=fast */
+/* expect: 26326  vec: 1  lv: 1  flags: -ffp-contract=fast */
 /* FFmpeg vector_fmac_scalar_c: dst[i] += src[i] * mul.  Trip counts 0, 1, ... 33 (not multiples of the strip, 8 floats), dst at an offset, and one overlapping call (the run-time test sends it to the scalar loop). */
 float dst[80], src[80];
 __attribute__((noinline)) void k_fmac(float *dst, const float *src, float mul, int len)

@@ -32,7 +32,7 @@ PDP64MCAsmInfo::PDP64MCAsmInfo(const Triple &TT) {
   UseIntegratedAssembler = false;
 }
 
-// as64 refuses r0..r31 (and r<digits>), sp and fp, and also "ch" (found by
+// as64 refuses r0..r31 (and r<digits>), sp and fp, v0-v15, t0-t7, db dw dd dq, and also "ch" (found by
 // trying: the assembler's grammar has it as a word), as the name of a symbol; in
 // double quotes any name is taken (docs/asm-syntax.md).
 bool PDP64MCAsmInfo::isValidUnquotedName(StringRef Name) const {
@@ -40,6 +40,16 @@ bool PDP64MCAsmInfo::isValidUnquotedName(StringRef Name) const {
     return false;
   if (Name == "sp" || Name == "fp" || Name == "ch")
     return false;
+  // the data words (db dw dd dq: a C global named dd made `lea dd, r10` fail), and the hidden vector and tile registers v0-v15, t0-t7 (reserved words of as64
+  // since errata 161): found by trying every name of the grammar
+  if (Name == "db" || Name == "dw" || Name == "dd" || Name == "dq")
+    return false;
+  if (Name.size() >= 2 && (Name[0] == 'v' || Name[0] == 't') &&
+      Name.drop_front().find_first_not_of("0123456789") == StringRef::npos) {
+    unsigned N;
+    if (!Name.drop_front().getAsInteger(10, N) && N < (Name[0] == 'v' ? 16u : 8u))
+      return false;
+  }
   if (Name.size() > 1 && Name[0] == 'r' &&
       Name.drop_front().find_first_not_of("0123456789") == StringRef::npos)
     return false;

@@ -1,4 +1,4 @@
-/* expect: 73994  vec: 10 */
+/* expect: 73994  vec: 10   lv: 9 */
 /* the lane operations that the other kernels do not reach: sub, or, signed and unsigned min and max, saturating subtract and unsigned saturating add and subtract, negate, the minimum reduction, a shift by a scalar, a scalar minus a vector */
 short a[300], b[300], r[300];
 unsigned char u[300], v[300], w[300];

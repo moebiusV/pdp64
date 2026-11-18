@@ -1,4 +1,4 @@
-/* expect: 3344  vec: 5  flags: -ffp-contract=fast */
+/* expect: 3344  vec: 5  lv: 3  flags: -ffp-contract=fast */
 /* the vertex transform (structure of arrays: six float streams and twelve matrix scalars in registers) and the horizontal 8-tap filter of dav1d (eight shifted byte streams, int8 taps, round, shift, clamp to 0..255) */
 float ox[100], oy[100], oz[100], X[100], Y[100], Z[100];
 unsigned char dst[300], src[320];

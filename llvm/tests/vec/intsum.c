@@ -1,4 +1,4 @@
-/* expect: -1211  vec: 4 */
+/* expect: -1211  vec: 4   lv: 4 */
 /* integer reductions: the sum of bytes (dav1d dc_gen_top, zero-extended load), of int32 and of int16 (sign-extended into 64 bits), the maximum and minimum of int32 */
 unsigned char b[300];
 int a[300];
