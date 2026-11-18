@@ -1,5 +1,5 @@
 ; the vec block (docs/encoding-work/vec-isa.md): a float multiply-add over a region that is not a multiple of the strip (the last strip is short), a widening integer
-; map with a saturating narrow, a reduction into a register, and vlen.b.  Every check is a scalar computation of the same thing; a failed check n exits with n.
+; map with a saturating narrow, a reduction into a register, and a block with an accumulator and its epilogue (vfin).  Every check is a scalar computation of the same thing; a failed check n exits with n.
 	.text
 	.globl	_start
 _start:
@@ -68,10 +68,21 @@ _start:
 4:	sob	r2, 3b
 	cbne	r10, r5, fail
 	cbne	r11, r6, fail
-	; ---- 4. vlen.b: the bytes of a strip (the elements of a type are that over its size); the other widths of vlen were removed in wave 1 (errata 170)
+	; ---- 4. a block with an accumulator and a vfin (errata 173): the lanes of vl add up the 21 words by lane (strips of 16 bytes: 4 lanes), the epilogue sums the lanes once after the last strip
 	movq	#4, r9
-	vlen.b	r5
-	cbne	r5, #32, fail
+	movq	r10, r6				; the sum of test 3, from the registers
+	lea	wsrc, r1
+	movq	#21, r2
+	lea	(r1)(r2*2), r4
+	movq	#0, r12
+	vec	r1, r4
+	vclr.l	v4, #1
+	vld.w.l	v0, (r1)+
+	vadd.l	v4, v4, v0
+	vfin
+	vacc.l.q r12, v4
+	vend
+	cbne	r12, r6, fail
 	; ---- 5. a strided load: every 3rd byte of 60 bytes (20 elements, strips of 16 and 4) widened and summed
 	movq	#5, r9
 	lea	bsrc, r1

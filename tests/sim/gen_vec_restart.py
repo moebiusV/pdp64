@@ -3,9 +3,13 @@
 
 What it proves (docs/encoding-work/vec-isa.md section 4.4 and 4.1, errata 172): a block `vec Rs,Re ... vend` runs strip by strip; a fault in a strip annuls the strip:
   (a) the stores of the faulting strip are not in memory when the handler runs (the stores of the strips before it are),
-  (b) the pointer registers and the scalar result (r10) seen by the handler are those at the start of the strip (a block with hidden accumulation, vclr: those at
-      the entry of the block: it restarts from its entry),
-  (c) EPC is the address of the `vec` instruction, EVA the first address that faulted, ECAUSE the load or store page fault (or the misaligned access),
+  (b) the pointer registers and the scalar result (r10) seen by the handler are at an element boundary chosen by the implementation, no later than the faulting element
+      (errata 173: the program and the OS treat them as opaque).  The test therefore accepts ANY element boundary e' with e' <= the faulting element, and then requires every
+      pointer to be its entry value plus e' elements (a stream that does not move: unchanged), r10 to be the value of the model after exactly e' elements, and the memory the
+      handler sees to hold the model's stores of the elements before e', the initial bytes from the faulting element on, and either in between.  A block with hidden
+      accumulation (vclr, vfin) restarts from its entry: e' must be 0.  It is the same program at every strip width (sim64 -S 16, 32, 64),
+  (c) EPC is the address of the `vec` instruction, EVA the first address that faulted in the order of the architecture (the least element, then the first instruction: the same
+      at every strip), ECAUSE the load or store page fault (or the misaligned access),
   (d) after the handler has made the page present and returned (rti: the vec instruction is executed again) the final memory, the final pointers and the final scalar are
       those of a run with no fault (a reference run of the same kernel on pages that are all present, in the same program) and of the model written here in Python.
 Each kernel is run (1) with no fault (the reference, also compared with the Python model), then with a fault on a load stream (A, B, C or the table T), on the store stream
@@ -13,6 +17,8 @@ Each kernel is run (1) with no fault (the reference, also compared with the Pyth
 put in the middle of the strip (half of the strip's elements before it, half after it), so the strip has loaded or computed part of its elements and part of its stores
 would be in the pages that are present when the fault is found.  The handler may run garbage vec blocks (clob 1: all of v0..v15 overwritten; clob 2: also a block with vclr
 accumulators), which stands for the context switch that does not save the hidden registers.
+clob 3: the handler reads EPC, EVA and ECAUSE only (no pointer, no scalar register, no memory of the block, no vector code), maps the page and returns: what an operating system may rely on (errata 173);
+the restart must still give the result of a run with no fault, at every strip.  kind 3: two streams fault in one block (B at its element 1, A later): the first EVA must be B's whatever the strip.
 The window of the test pages (WIN..WIN+16 MiB) is made of pages that are not present: on QEMU they are not mapped in the page table (the test builds identity tables and enables
 the MMU; the handler maps the page) and on sim64 `-x LO:HI` makes the first access to each page fault (the facility added for this test).  Each scenario uses fresh pages.
 usage: gen_vec_restart.py OUT.S"""
@@ -68,14 +74,14 @@ class Kern:
 kerns = []
 
 
-def kern(name, lanemax, body, A, eo=0, B=None, C=None, T=None, model=None, init=0, hidden=False, r8=0, inplace=False, pre=()):
+def kern(name, lanemax, body, A, eo=0, B=None, C=None, T=None, model=None, init=0, hidden=False, r8=0, inplace=False, pre=(), nom=None):
     k = Kern()
     k.name = name; k.lanemax = lanemax; k.body = body; k.vl = VB // lanemax
     k.A = A; k.B = B; k.C = C; k.T = T      # (element size, list of unsigned patterns) ; T: (bytes, 'reg'|'mem')
     k.inplace = inplace; k.pre = list(pre)
     k.eo = eo; k.model = model; k.init = init; k.hidden = hidden; k.r8 = r8
     k.idx = len(kerns)
-    k.nom = 3 * k.vl + k.vl // 2
+    k.nom = nom or 3 * k.vl + k.vl // 2
     k.res = {N: model(N) for N in (k.nom, 1)}      # evaluated now: the models refer to the module variables a, b that the next kernel replaces
     kerns.append(k)
     return k
@@ -90,18 +96,16 @@ def mapk(f):
     return lambda N: ([f(i, N) for i in range(N)], None)
 
 
-def redk(init, step, vl):
-    """a reduction model: step(acc, lo, hi, N) -> acc, per strip; the scalar after k strips for k = 0..nstrips"""
+def redk(init, step, vl=None):
+    """a reduction model: step(acc, lo, hi, N) -> acc (additive over ranges of elements); the table of the scalar after e elements for e = 0..N (the implementation stops where it likes:
+    the handler's r10 is the entry value plus the first e' elements: errata 173)"""
     def m(N):
-        acc = init; sc = [acc]
-        for lo, hi in strips(N, vl):
-            acc = step(acc, lo, hi, N)
-            sc.append(acc)
-        return [], sc
+        return [], [step(init, 0, e, N) for e in range(N + 1)]
     return m
 
 
 S64 = lambda v: sx(v, 64)
+LOG = {1: 0, 2: 1, 4: 2, 8: 3}
 
 # ---------------------------------------------------------------- wave 1
 # vavg, vavgu
@@ -178,21 +182,12 @@ for mn, sa, sb, lane, ma, mb in (('vdacc.b', 1, 1, 'b', 'b', 'b'), ('vdacc.bu', 
     fb = (lambda v, bits=bits: sx(v, bits)) if sb else (lambda v, bits=bits: ux(v, bits))
     kern(mn, LB[lane], ['vld.%s v0, (r1)+' % ma, 'vld.%s v1, (r2)+' % mb, '%s r10, v0, v1' % mn], (LB[lane], a), B=(LB[lane], b), init=-5,
          model=redk(-5, lambda acc, lo, hi, N, a=a, b=b, fa=fa, fb=fb: acc + sum(fa(a[i]) * fb(b[i]) for i in range(lo, hi)), VB // LB[lane]))
-# vtbl.b register and memory forms
+# vtbl.b, the memory form (the register form was removed: errata 173)
 idx = [rng.getrandbits(5) for _ in range(NMAX * 2)]
 idx[3] = 0x85; idx[40] = 0xff; idx[41] = 16; idx[42] = 15; idx[43] = 0; idx[70] = 12; idx[71] = 13
 tab = rnd(8, 32)
 
 
-def tbl_reg(i, N):
-    nact = min(32, N - (i & ~31))
-    lane = i & 31; g = lane & ~15; ix = idx[i]
-    t = g + ix
-    # the table register holds the first nact bytes of the 32 loaded at (r6) in every strip (the same bytes each strip)
-    return tab[t] if ix < 16 and t < nact else 0
-
-
-kern('vtbl.b (register table)', 1, ['vld.bu v0, (r1)+', 'vld.bu v1, (r6)', 'vtbl.b v2, v1, v0', 'vst.b v2, (r3)+'], (1, idx), eo=1, T=(bytes(tab), 'reg'), model=mapk(tbl_reg))
 kern('vtbl.b (memory table)', 1, ['vld.bu v0, (r1)+', 'vtbl.b v2, (r6), v0', 'vst.b v2, (r3)+'], (1, idx), eo=1, T=(bytes(tab[:16]), 'mem'),
      model=mapk(lambda i, N: tab[idx[i]] if idx[i] < 16 else 0))
 # vsts with a rounding shift
@@ -306,7 +301,7 @@ a = rnd(32, NMAX); b = rnd(32, NMAX)
 
 def h1(N):
     acc = [0] * 8; out = []
-    for lo, hi in strips(N, 8):
+    for lo, hi in strips(N, 4):
         for j in range(lo, hi):
             acc[j - lo] = ux(acc[j - lo] + a[j], 32)
             out.append(acc[j - lo])
@@ -318,20 +313,81 @@ a = rnd(16, NMAX); b = rnd(16, NMAX)
 
 
 def h2(N):
-    acc = [0] * 8; r = 0; sc = [0]
-    for lo, hi in strips(N, 8):
+    acc = [0] * 8; r = 0
+    for lo, hi in strips(N, 4):
         ps = [sx(a[i], 16) * sx(b[i], 16) for i in range(lo, hi)]
         for j in range(0, len(ps), 2):
             acc[j // 2] = sx(acc[j // 2] + ps[j] + (ps[j + 1] if j + 1 < len(ps) else 0), 32)
         r += sum(acc[:hi - lo])
-        sc.append(r)
-    return [], sc
+    return [], [0] * N + [r]
 
 
 kern('hidden: vclr.l + vdot.w + vacc.l.q', 4, ['vclr.l v4, #1', 'vld.w v0, (r1)+', 'vld.w v1, (r2)+', 'vdot.w v4, v0, v1', 'vacc.l.q r10, v4'], (2, a), B=(2, b), hidden=True, init=0, model=h2)
 
 
 
+
+# the canonical order of a floating-point sum (errata 173, vec-isa.md section 8): chunks of 16 bytes of the source lanes, each summed by the fixed tree ((l0 + l1) + (l2 + l3)) in the
+# accumulate precision and added to the register one chunk after the other; a short last chunk has the lanes it has.  The adversarial data: huge and tiny mixed, exact cancellations.
+def f32(x):
+    return struct.unpack('<f', struct.pack('<f', x))[0]
+
+
+def d2b(x):
+    return struct.unpack('<Q', struct.pack('<d', x))[0]
+
+
+def b2d(b):
+    return struct.unpack('<d', struct.pack('<Q', b & (2 ** 64 - 1)))[0]
+
+
+def fchunks(vals, init, prec, ch):
+    rd = f32 if prec == 32 else (lambda v: v)
+    acc = rd(init)
+    for c in range(0, len(vals), ch):
+        l = vals[c:c + ch]
+        m = len(l)
+        t = l[0] if m == 1 else rd(l[0] + l[1]) if m == 2 else rd(rd(l[0] + l[1]) + l[2]) if m == 3 else rd(rd(l[0] + l[1]) + rd(l[2] + l[3]))
+        acc = rd(acc + t)
+    return acc
+
+
+def adversarial(n, seed):
+    r = random.Random(seed)
+    v = []
+    while len(v) < n:
+        big = 10.0 ** r.uniform(5, 8) * r.choice((-1, 1))
+        v += [big, r.uniform(-3, 3), -big, r.uniform(-1e-3, 1e-3), r.uniform(0.5, 1.5) * 10.0 ** r.randint(-8, 8) * r.choice((-1, 1))]
+    return [f32(x) for x in v[:n]]
+
+
+fv = adversarial(NMAX, 7)
+fb = [f2b(x) for x in fv]
+kern('vacc.f (canonical order, 27 elements: a short last chunk)', 4, ['vld.f v0, (r1)+', 'vacc.f r10, v0'], (4, fb), init=f2b(1.0), nom=27,
+     model=redk(f2b(1.0), lambda acc, lo, hi, N: f2b(fchunks(fv[lo:hi], b2f(acc), 32, 4))))
+kern('vacc.f then vst (a float sum and a store in one strip)', 4, ['vld.f v0, (r1)+', 'vacc.f r10, v0', 'vst.f v0, (r3)+'], (4, fb), eo=4, init=f2b(-1.5), nom=28,
+     model=both(lambda i, N: fb[i], redk(f2b(-1.5), lambda acc, lo, hi, N: f2b(fchunks(fv[lo:hi], b2f(acc), 32, 4)))))
+dv = [x * (1 + 2.0 ** -40) for x in adversarial(NMAX, 8)]
+db = [d2b(x) for x in dv]
+kern('vacc.d (canonical order, 2-lane chunks)', 8, ['vld.d v0, (r1)+', 'vacc.d r10, v0'], (8, db), init=d2b(1.0), nom=15,
+     model=redk(d2b(1.0), lambda acc, lo, hi, N: d2b(fchunks(dv[lo:hi], b2d(acc), 64, 2))))
+kern('vacc.f.d (binary32 lanes summed in binary64)', 4, ['vld.f v0, (r1)+', 'vacc.f.d r10, v0'], (4, fb), init=d2b(0.25), nom=27,
+     model=redk(d2b(0.25), lambda acc, lo, hi, N: d2b(fchunks(fv[lo:hi], b2d(acc), 64, 4))))
+# a block with accumulators and an epilogue: the strip is 16 bytes on every implementation, the epilogue reads the final lanes (and loads a table: a fault there restarts the block)
+a = rnd(32, NMAX); tw = rnd(32, 4)
+
+
+def hepi(N):
+    acc = [0] * 4
+    for lo, hi in strips(N, 4):
+        for j in range(lo, hi):
+            acc[j - lo] = ux(acc[j - lo] + a[j], 32)
+    fin = sum(sx(ux(acc[l] + tw[l], 32), 32) for l in range(4))
+    return [], [0] * N + [fin]
+
+
+kern('hidden: vclr.l + vadd.l, vfin, a table load and vacc.l.q', 4, ['vclr.l v4, #1', 'vld.l v0, (r1)+', 'vadd.l v4, v4, v0', 'vfin', 'vld.l v5, (r6)', 'vadd.l v4, v4, v5', 'vacc.l.q r10, v4'],
+     (4, a), T=(pack(tw, 4), 'mem'), hidden=True, init=0, model=hepi)
 
 # an in-place kernel (the stream is read and written: a restart that repeats the strips before the fault would add 1 twice) and a block whose accumulator is named
 # before the block (the hand-written micro-kernels do this: vclr, then vec)
@@ -406,7 +462,15 @@ def build_row(k, N, kind, fs=None, s=0, clob=0):
     ln = {nm: (N * es[nm] if nm != 'T' else (len(k.T[0]) if k.T else 0)) for nm in pres}
     base = {nm: NB[nm] for nm in pres}
     win = {nm: 0 for nm in STREAMS}
-    pretouch = 0; pageB = 0; e0 = 0
+    pretouch = 0; pretouch2 = 0; pageB = 0; e0 = 0
+    if kind == 3:
+        # two streams fault: B at its element 1 and A at a later element; the first fault of the strip in the order of the architecture (the least element) is B's, at every strip
+        pageA = new_slot(); pageB = new_slot()
+        win['A'] = 1; win['B'] = 1
+        eb = 1; ea = min(N - 1, vl // 2 + 2)
+        base['A'] = pageA - ea * es['A']; base['B'] = pageB - eb * es['B']
+        pretouch = pageB - PAGE; pretouch2 = pageA - PAGE
+        e0 = ea
     if kind == 1:
         pageB = new_slot()
         win[fs] = 1
@@ -427,33 +491,32 @@ def build_row(k, N, kind, fs=None, s=0, clob=0):
     if k.inplace:
         base['O'] = base['A']
     init = {nm: E(base[nm], 1 if (kind == 2 and nm == fs) else 0) for nm in pres}
-    ss = s if (kind == 1 and not k.hidden) else 0
-    expat = {nm: E(base[nm], (ss * vl * es[nm] if nm != 'T' else 0) + (1 if (kind == 2 and nm == fs) else 0)) for nm in pres}
     fin = {nm: E(base[nm], N * es[nm] if nm != 'T' else 0) for nm in pres}
-    if kind == 1:
+    if kind == 3:
+        cause = 'VECTOR_LFAULT'; eva = str(pageB)
+    elif kind == 1:
         cause = 'VECTOR_SFAULT' if fs == 'O' else 'VECTOR_LFAULT'
         eva = str(pageB)
     elif kind == 2:
         cause = 'VECTOR_MISALIGNED'; eva = init[fs]
     else:
         cause = '0'; eva = '0'
-    done = s * vl if kind == 1 else 0       # the strips before the faulting one are in memory even when the pointers are those of the entry (a hidden block)
+    # the memory the handler sees (errata 173): the model's stores of the elements before the progress element e' (whatever the implementation chose), the initial bytes from the
+    # faulting element e0 on, and either in between (the strips the implementation had committed, or the ones a hidden block repeats)
     if k.eo:
         if kind == 1 and fs == 'O':
             snaplen = e0 * k.eo
         else:
             snaplen = N * k.eo
-        if kind == 2:
-            done = 0
         if k.inplace:
             snaplen = e0 * k.eo if kind == 1 else 0
-            esnap = pack(ob[:done], k.eo) + pack(k.A[1][done:e0], k.eo)
+            esnap = pack(k.A[1][:snaplen // k.eo], k.eo)
         else:
-            esnap = pack(ob[:done], k.eo) + bytes([0xa5]) * (snaplen - done * k.eo)
-        assert snaplen >= done * k.eo
+            esnap = bytes([0xa5]) * snaplen
     else:
         snaplen = 0; esnap = b''
-    r10_at = k.init if (scal is None or k.hidden) else scal[ss]
+    e0 = e0 if kind in (1, 3) else 0
+    table = [k.init] * (N + 1) if (scal is None or k.hidden) else list(scal)
     r10_fin = scal[-1] if scal is not None else k.init
     q = []
     z = lambda nm: init[nm] if nm in pres else '0'
@@ -473,8 +536,8 @@ def build_row(k, N, kind, fs=None, s=0, clob=0):
     if kind:
         q += [cause, eva, k.vlabel]
         for nm in ('A', 'B', 'C', 'O', 'T'):
-            q.append(expat[nm] if nm in pres else '0')
-        q.append('%d' % r10_at)
+            q.append('%d' % ({'A': LOG[es['A']], 'B': LOG.get(es['B'], 0), 'C': LOG.get(es['C'], 0), 'O': LOG.get(es['O'], 0)}[nm] if nm in pres and nm != 'T' else -1))
+        q.append(blob(pack(table, 8)))
         q += [E(base['O']) if snaplen else '0', '%d' % snaplen, blob(esnap) if snaplen else '0']
     else:
         q += ['0'] * 3 + ['0'] * 5 + ['0'] + ['0', '0', '0']
@@ -485,6 +548,7 @@ def build_row(k, N, kind, fs=None, s=0, clob=0):
     for nm in ('A', 'B', 'C', 'O', 'T'):
         q.append(E(base[nm]) if nm in pres else '0')
     q += ['0'] * (64 - len(q))
+    q[59] = '%d' % e0; q[60] = '%d' % (1 if k.hidden else 0); q[61] = '%d' % (2 if kind == 3 else 1); q[62] = '%d' % (e0 * k.eo); q[63] = '%d' % pretouch2
     assert len(q) == 64
     desc.append('%s N=%d kind=%d fs=%s s=%d clob=%d' % (k.name, N, kind, fs, s, clob))
     return q
@@ -500,6 +564,9 @@ for k in kerns:
         rows.append(build_row(k, k.nom, 1, 'A', s))
     rows.append(build_row(k, k.nom, 1, 'A', 1, clob=1))
     rows.append(build_row(k, k.nom, 1, 'A', 1, clob=2))
+    rows.append(build_row(k, k.nom, 1, 'A', 1, clob=3))
+    if k.B and not k.inplace:
+        rows.append(build_row(k, k.nom, 3))
     for nm in ('B', 'C', 'T'):
         if nm in pres:
             rows.append(build_row(k, k.nom, 1, nm, 1 if nm != 'T' else 0))
@@ -569,6 +636,10 @@ prepdone:
 	cbeq	r1, #0, nopre
 	movzb	(r1), r2
 nopre:
+	movq	504(r12), r1
+	cbeq	r1, #0, nopre2
+	movzb	(r1), r2
+nopre2:
 	movq	#0, r1
 	movq	r1, hcount
 	movq	r1, hr_epc
@@ -612,19 +683,85 @@ def cmpq(n, mem, off):
 w('\tmovq\t16(r12), r1')
 w('\tcbeq\tr1, #0, noflt')
 # a faulting row: exactly one fault, and its state
-for l in chk(1, ['\tmovq\thcount, r1', '\tmovq\t#1, r2']):
+for l in chk(1, ['\tmovq\thcount, r1', '\tmovq\t488(r12), r2']):
     w(l)
-for n, (mem, off) in enumerate([('hr_cause', 264), ('hr_eva', 272), ('hr_epc', 280), ('hr_r1', 288), ('hr_r2', 296), ('hr_r7', 304), ('hr_r3', 312), ('hr_r6', 320), ('hr_r10', 328)]):
+for n, (mem, off) in enumerate([('hr_cause', 264), ('hr_eva1', 272), ('hr_epc', 280)]):
     for l in cmpq(2 + n, mem, off):
         w(l)
-w('\tlea\thsnap, r1')
-w('\tmovq\t352(r12), r2')
-w('\tmovq\t344(r12), r3')
-w('\tcall\tmemeq')
-w('\tcbeq\tr0, #0, 1f')
-w('\tmovq\t#11, r0')
+w('\tmovq\t24(r12), r1')
+w('\tcbeq\tr1, #3, snapdone')             # clob 3: the handler read EVA, EPC and ECAUSE only and returned; it has no registers to check
+# the state the handler saw (errata 173): the implementation's progress is an element boundary e' no later than the faulting element e0.  e' from the pointer of stream A.
+w('\tmovq\thr_r1, r1')
+w('\tmovq\t40(r12), r2')
+w('\tsub\tr2, r1')                    # bytes of progress of stream A
+w('\tmovq\t288(r12), r3')              # log2 of its element size
+w('\tmovq\tr1, r4')
+w('\tshr\tr3, r4')                     # e'
+w('\tmovq\tr4, r5')
+w('\tshl\tr3, r5')
+w('\tcbeq\tr5, r1, pg1')
+w('\tmovq\t#5, r0')
 w('\thalt')
-w('1:')
+w('pg1:\tmovq\t472(r12), r2')          # e0, the faulting element
+w('\tcblos\tr4, r2, pg2')              # e' <= e0
+w('\tmovq\t#5, r0')
+w('\thalt')
+w('pg2:\tmovq\t480(r12), r2')          # a block with hidden accumulation restarts from its entry
+w('\tcbeq\tr2, #0, pg3')
+w('\tcbeq\tr4, #0, pg3')
+w('\tmovq\t#5, r0')
+w('\thalt')
+w('pg3:')
+for n, (hr, ini, shoff) in enumerate([('hr_r1', 40, 288), ('hr_r2', 48, 296), ('hr_r7', 56, 304), ('hr_r3', 64, 312), ('hr_r6', 72, 320)]):
+    w('\tmovq\t%d(r12), r3' % shoff)
+    w('\tmovq\t%d(r12), r2' % ini)
+    w('\tcbeq\tr3, #-1, pq%d' % n)
+    w('\tmovq\tr4, r5')
+    w('\tshl\tr3, r5')
+    w('\tadd\tr5, r2')
+    w('pq%d:\tmovq\t%s, r1' % (n, hr))
+    w('\tcbeq\tr1, r2, pr%d' % n)
+    w('\tmovq\t#%d, r0' % (5 + n))
+    w('\thalt')
+    w('pr%d:' % n)
+# r10: the model's scalar after exactly e' elements
+w('\tmovq\t328(r12), r3')
+w('\tmovq\tr4, r5')
+w('\tshl\t#3, r5')
+w('\tadd\tr5, r3')
+w('\tmovq\t(r3), r2')
+w('\tmovq\thr_r10, r1')
+w('\tcbeq\tr1, r2, ps1')
+w('\tmovq\t#10, r0')
+w('\thalt')
+w('ps1:')
+# the memory: the model before e', the initial bytes from e0, either in between
+w('\tmovq\t344(r12), r3')
+w('\tcbeq\tr3, #0, snapdone')
+w('\tmovq\t312(r12), r5')
+w('\tmovq\tr4, r8')
+w('\tshl\tr5, r8')                     # lo: the bytes of the elements before e\'
+w('\tmovq\t496(r12), r9')              # hi: the bytes of the elements before e0
+w('\tlea\thsnap, r1')
+w('\tmovq\t376(r12), r2')
+w('\tmovq\t352(r12), r6')
+w('\tmovq\t#0, r7')
+w('snl:\tmovzb\t(r1)+, r4')
+w('\tmovzb\t(r2)+, r5')
+w('\tmovzb\t(r6)+, r0')
+w('\tcbhis\tr7, r8, sn2')
+w('\tcbeq\tr4, r5, snn')
+w('\tbr\tsnbad')
+w('sn2:\tcbhis\tr7, r9, sn3')
+w('\tcbeq\tr4, r5, snn')
+w('\tcbeq\tr4, r0, snn')
+w('\tbr\tsnbad')
+w('sn3:\tcbeq\tr4, r0, snn')
+w('snbad:\tmovq\t#11, r0')
+w('\thalt')
+w('snn:\tadd\t#1, r7')
+w('\tcbne\tr7, r3, snl')
+w('snapdone:')
 w('\tbr\tfltdone')
 w('noflt:')
 for l in chk(12, ['\tmovq\thcount, r1', '\tmovq\t#0, r2']):
@@ -675,8 +812,8 @@ w('\tmovq\t#21, r0')
 w('\thalt')
 w('1:')
 w('\tmovq\t16(r12), r1')
-w('\tcmp\tr1, #1')
-w('\tbne\trownext')
+w('\tcmp\tr1, #2')
+w('\tbeq\trownext')
 for nm, (src, ini) in enumerate([('fin_r1', 40), ('fin_r2', 48), ('fin_r7', 56), ('fin_r3', 64), ('fin_r6', 72)]):
     w('\tmovq\t%s, r1' % src)
     w('\tmovq\t%d(r12), r2' % ini)
@@ -707,12 +844,16 @@ h_bad:	movq	#99, r0
 	halt
 h_fault:
 	pushm	#0x3fff
+	movq	24(r12), r0
+	cmp	r0, #3
+	beq	h_min
 	movq	r1, hr_r1
 	movq	r2, hr_r2
 	movq	r7, hr_r7
 	movq	r3, hr_r3
 	movq	r6, hr_r6
 	movq	r10, hr_r10
+h_min:
 	mfsr	r1, epc
 	movq	r1, hr_epc
 	mfsr	r1, ecause
@@ -722,7 +863,9 @@ h_fault:
 	movq	expect, r2
 	cbeq	r2, #0, h_page
 	movq	hcount, r2
-	add	#1, r2
+	cbne	r2, #0, h_nf
+	movq	r1, hr_eva1
+h_nf:	add	#1, r2
 	movq	r2, hcount
 	movq	344(r12), r3
 	cbeq	r3, #0, h_nosnap
@@ -790,6 +933,7 @@ h_pdone:
 	cbeq	r2, #0, h_ret
 	movq	24(r12), r2
 	cbeq	r2, #0, h_ret
+	cbeq	r2, #3, h_ret
 ; the context switch that does not save the hidden registers: other blocks overwrite v0..v15 (and name accumulators)
 	lea	gdata, r1
 	lea	gdata+512, r5
@@ -866,7 +1010,7 @@ for v in range(2, 16):
     w('\t.quad\t%s' % ('h_fault' if v in (4, 7, 8, 13) else 'h_bad'))
 w('\t.quad\th_bad')
 w('\t.align\t8')
-for nm in ('expect', 'hcount', 'hr_epc', 'hr_cause', 'hr_eva', 'hr_r1', 'hr_r2', 'hr_r7', 'hr_r3', 'hr_r6', 'hr_r10', 'fin_r1', 'fin_r2', 'fin_r7', 'fin_r3', 'fin_r6', 'fin_r10',
+for nm in ('expect', 'hcount', 'hr_epc', 'hr_cause', 'hr_eva', 'hr_eva1', 'hr_r1', 'hr_r2', 'hr_r7', 'hr_r3', 'hr_r6', 'hr_r10', 'fin_r1', 'fin_r2', 'fin_r7', 'fin_r3', 'fin_r6', 'fin_r10',
            'refd0', 'refd1', 'refd2', 'refd3', 'refd4', 'refd5'):
     w('%s:\t.quad\t0' % nm)
 w('gdata:')

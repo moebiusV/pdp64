@@ -25,7 +25,7 @@
 #define VSQMAX 1024
 
 enum {
-	VO_NONE = 0, VO_VEC, VO_VEND, VO_VLEN,
+	VO_NONE = 0, VO_VEC, VO_VEND, VO_FIN,
 	VO_ADD, VO_SUB, VO_SUBR, VO_MUL, VO_MIN, VO_MAX, VO_MINU, VO_MAXU, VO_ABD, VO_ABDU, VO_AND, VO_OR, VO_XOR, VO_SHL, VO_SHR, VO_SAR,
 	VO_ADDS, VO_SUBS, VO_ADDSU, VO_SUBSU, VO_MOV, VO_NEG, VO_MLA, VO_FMA, VO_FNMA, VO_FMAB, VO_DOT, VO_DOTU, VO_DOTSU,
 	VO_AVG, VO_AVGU, VO_MULH, VO_MULHU, VO_MULHR, VO_SARR, VO_SHRR, VO_TBL, VO_DACC, VO_SAD,
@@ -42,7 +42,7 @@ struct vinfo {
 static struct vinfo *VI;
 
 static const struct { const char *base; int op; } vbases[] = {
-	{ "vec", VO_VEC }, { "vend", VO_VEND }, { "vlen", VO_VLEN },
+	{ "vec", VO_VEC }, { "vend", VO_VEND }, { "vfin", VO_FIN },
 	{ "vadd", VO_ADD }, { "vsub", VO_SUB }, { "vsubr", VO_SUBR }, { "vmul", VO_MUL }, { "vmin", VO_MIN }, { "vmax", VO_MAX }, { "vminu", VO_MINU },
 	{ "vmaxu", VO_MAXU }, { "vabd", VO_ABD }, { "vabdu", VO_ABDU }, { "vand", VO_AND }, { "vor", VO_OR }, { "vxor", VO_XOR }, { "vshl", VO_SHL },
 	{ "vshr", VO_SHR }, { "vsar", VO_SAR }, { "vadds", VO_ADDS }, { "vsubs", VO_SUBS }, { "vaddsu", VO_ADDSU }, { "vsubsu", VO_SUBSU },
@@ -100,7 +100,7 @@ static int vec_classify(const char *name, struct vinfo *vi)
 	vi->op = (uint8_t)op;
 	if (op == VO_LSEG || op == VO_SSEG) vi->nseg = (uint8_t)(buf[5] - '0');
 	switch (op) {
-	case VO_VEC: case VO_VEND: case VO_BSL: return nt == 0;			/* vbsl has no lane suffix: it selects bits */
+	case VO_VEC: case VO_VEND: case VO_FIN: case VO_BSL: return nt == 0;			/* vbsl has no lane suffix: it selects bits */
 	case VO_CVT: {							/* vcvt.<from>.<to>: l, lu <-> f (32-bit lanes); lsz 4, lfl: the source is float, msign: the integer side is signed, mfl: the result is float */
 		if (nt != 2) return 0;
 		int fr_f = !strcmp(tok[0], "f"), to_f = !strcmp(tok[1], "f");
@@ -183,10 +183,9 @@ static void vput_store(struct vctx *x, uint64_t a, int sz, uint64_t v)
 	if (x->nsq >= VSQMAX) die("vector strip stores too much", 0);
 	x->sq[x->nsq].a = a; x->sq[x->nsq].sz = (uint8_t)sz; x->sq[x->nsq].v = v; x->nsq++;
 }
-/* the stores of a strip, after their addresses have been checked */
+/* the stores of a strip (their addresses were checked, in the order of the elements, by vprecheck before the strip began) */
 static void vflush(struct vctx *x)
 {
-	for (int i = 0; i < x->nsq; i++) E->check(E->u, x->sq[i].a, x->sq[i].sz, 1);
 	for (int i = 0; i < x->nsq; i++) st(x->sq[i].a, x->sq[i].sz, x->sq[i].v);
 	x->nsq = 0;
 }
@@ -248,7 +247,7 @@ static void vsrc_b(const struct vctx *x, const struct eop *e, const struct vinfo
 	if (e->k == EK_V) { *B = VR(e->r); return; }
 	double fv = 0;
 	uint64_t raw = vreg_scalar_lane(x, e, vi->lsz, vi->lfl, &fv);
-	for (int i = 0; i < VSTRIP / vi->lsz; i++) { if (vi->lfl) lput_f(tmp + i * vi->lsz, vi->lsz, fv); else lput(tmp + i * vi->lsz, vi->lsz, raw); }
+	for (int i = 0; i < VBYTES / vi->lsz; i++) { if (vi->lfl) lput_f(tmp + i * vi->lsz, vi->lsz, fv); else lput(tmp + i * vi->lsz, vi->lsz, raw); }
 	*B = tmp;
 }
 
@@ -430,21 +429,21 @@ static void vop_dacc(struct vctx *x, const struct vinfo *vi, const struct einsn 
 	x->lr[op[0].r] += (uint64_t)sum;
 }
 
-/* vtbl.b vD, vT, vI or vtbl.b vD, (Ra), vI: lane i of vD is the byte of the table that the index lane i names, and 0 if the index is 16 or more (unsigned).  The table of the
-   register form is the 16 bytes of vT of the group of 16 lanes that lane i is in (lanes 16 to 31 look in bytes 16 to 31); a lane of vT that is not in the strip is 0.  The table
-   of the memory form is exactly 16 bytes at (Ra), whatever the strip's length: the same table for every lane. */
+/* vtbl.b vD, (Ra), vI: lane i of vD is the byte of the table that the index lane i names, and 0 if the index is 16 or more (unsigned).  The table is exactly 16 bytes at (Ra), read
+   once for each strip, the same for every lane whatever the strip's length (errata 173: there is no register form, whose table was the lanes of a register and so the strip). */
 static void vop_tbl(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
 {
 	(void)vi;
 	const struct eop *op = in->op;
 	uint8_t tab[16], out[VBYTES];
-	const uint8_t *T = NULL, *I = VR(op[2].r);
-	if (op[1].k == EK_V) T = VR(op[1].r);
-	else { struct vmem m; vmem_of(x, &op[1], &m); for (int i = 0; i < 16; i++) tab[i] = (uint8_t)ld(m.addr + (uint64_t)i, 1); vmodel_mem(x, 16); }
+	const uint8_t *I = VR(op[2].r);
+	struct vmem m; vmem_of(x, &op[1], &m);
+	for (int i = 0; i < 16; i++) tab[i] = (uint8_t)ld(m.addr + (uint64_t)i, 1);
+	vmodel_mem(x, 16);
 	memset(out, 0, sizeof out);
 	for (int i = 0; i < x->nact; i++) {
 		unsigned ix = I[i];
-		if (ix < 16) out[i] = T ? T[(i & ~15) + ix] : tab[ix];
+		if (ix < 16) out[i] = tab[ix];
 	}
 	memcpy(VR(op[0].r), out, VBYTES);
 }
@@ -455,11 +454,37 @@ static void vop_reduce(struct vctx *x, const struct vinfo *vi, const struct eins
 	const uint8_t *S = VR(op[1].r);
 	int sz = vi->lsz, asz = vi->op == VO_ACC ? vi->msz : sz;		/* the lanes' size; the accumulate width of vacc (the strip's VL does not count it) */
 	uint64_t *Rd = &x->lr[op[0].r];
-	if (vi->lfl) {
+	if (vi->lfl && vi->op == VO_ACC) {					/* the canonical order of a floating-point sum (errata 173, vec-isa.md section 8): the lanes of the stream are taken in chunks of 16 bytes
+									   of the source type (4 binary32, 2 binary64: the least strip); each chunk is summed by the fixed tree ((l0 + l1) + (l2 + l3)) and added to the register in the accumulate
+									   precision, the chunks one after the other in element order; a chunk the end of the region cuts short has the lanes it has.  A strip is a whole number of
+									   chunks (the assembler sees to it), so the strip does not change the order. */
+		int ch = 16 / sz, n = x->nact;
+		if (asz == 4) {
+			float acc = (float)rget_f(*Rd, 4);
+			for (int c0 = 0; c0 < n; c0 += ch) {
+				int m = n - c0 < ch ? n - c0 : ch;
+				float l[4], t;
+				for (int k = 0; k < m; k++) l[k] = (float)lget_f(S + (c0 + k) * sz, sz);
+				t = m == 1 ? l[0] : m == 2 ? l[0] + l[1] : m == 3 ? (l[0] + l[1]) + l[2] : (l[0] + l[1]) + (l[2] + l[3]);
+				acc = acc + t;
+			}
+			*Rd = rput_f((double)acc, 4);
+		} else {
+			double acc = rget_f(*Rd, 8);
+			for (int c0 = 0; c0 < n; c0 += ch) {
+				int m = n - c0 < ch ? n - c0 : ch;
+				double l[4], t;
+				for (int k = 0; k < m; k++) l[k] = lget_f(S + (c0 + k) * sz, sz);
+				t = m == 1 ? l[0] : m == 2 ? l[0] + l[1] : m == 3 ? (l[0] + l[1]) + l[2] : (l[0] + l[1]) + (l[2] + l[3]);
+				acc = acc + t;
+			}
+			*Rd = rput_f(acc, 8);
+		}
+	} else if (vi->lfl) {							/* vmaxacc.f / vminacc.f: in element order (a comparison is exact, so the order is only visible in the sign of a zero and a NaN, and it is the stream's) */
 		double acc = rget_f(*Rd, asz);
 		for (int i = 0; i < x->nact; i++) {
 			double v = lget_f(S + i * sz, sz);
-			if (vi->op == VO_ACC) acc += v; else if (vi->op == VO_MAXACC) { if (v > acc) acc = v; } else if (v < acc) acc = v;
+			if (vi->op == VO_MAXACC) { if (v > acc) acc = v; } else if (v < acc) acc = v;
 		}
 		*Rd = rput_f(acc, asz);
 	} else if (vi->op == VO_ACC) {						/* the sum of the lanes, signed or unsigned as the source type says, wrapped to the accumulate width, added to the register */
@@ -547,9 +572,8 @@ static void vop(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
 {
 	const struct eop *op = in->op;
 	C->vops++;
-	if (x->inblock) x->cyc_c += vi->op == VO_FIR ? (uint64_t)op[3].v : vi->op == VO_CLR && !x->first ? 0 : 1;	/* the model: one cycle an instruction in a strip, a vfir one a tap; a vclr only in the first strip */
+	if (x->inblock) x->cyc_c += vi->op == VO_FIR ? (uint64_t)op[3].v : vi->op == VO_CLR && !x->first ? 0 : vi->op == VO_ACC && vi->lfl ? (uint64_t)((x->nact * vi->lsz + 15) / 16) : 1;	/* the model: one cycle an instruction in a strip, a vfir one a tap, a floating-point sum one for each 16-byte chunk (the chunks are added to the register one after the other: errata 173); a vclr only in the first strip */
 	switch (vi->op) {
-	case VO_VLEN: x->lr[op[0].r] = (uint64_t)(x->inblock ? x->vl : VSTRIP / vi->lsz); return;
 	case VO_ADD: case VO_SUB: case VO_SUBR: case VO_MUL: case VO_MIN: case VO_MAX: case VO_MINU: case VO_MAXU: case VO_ABD: case VO_ABDU:
 	case VO_AND: case VO_OR: case VO_XOR: case VO_SHL: case VO_SHR: case VO_SAR: case VO_ADDS: case VO_SUBS: case VO_ADDSU: case VO_SUBSU:
 	case VO_MOV: case VO_NEG: case VO_MLA: case VO_FMA: case VO_FNMA: case VO_AVG: case VO_AVGU: case VO_MULH: case VO_MULHU: case VO_MULHR: case VO_SARR: case VO_SHRR:
@@ -573,7 +597,7 @@ static void vop(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
 	die("vector instruction not defined", vi->op);
 }
 
-static int vec_is_standalone(int op) { return op == VO_VLEN || op == VO_CLR; }
+static int vec_is_standalone(int op) { return op == VO_CLR; }
 
 static void vec_commit(struct vctx *x)
 {
@@ -601,6 +625,7 @@ struct vm2d {
 	uint8_t nar, seg;			/* vsts narrows (adds the narrowing class); a segment load or store (adds that class to the load or store) */
 	uint8_t mtab;			/* vtbl with its table in memory */
 	int8_t red;			/* the integer register that a reduction adds into, else -1 */
+	uint8_t fpacc, chunks;		/* a floating-point sum (vacc.f, .f.d, .d): the 16-byte chunks of a strip, added to the register one after the other (errata 173) */
 	uint16_t src, dst;		/* the v registers read, written */
 	uint32_t sread;			/* the integer registers read (not counting a reduction's own accumulation) */
 };
@@ -635,7 +660,7 @@ static void vm2_decode(const struct vinfo *vi, const struct einsn *in, struct vm
 	case VO_TBL: d->cls = VC_TBL; break;
 	case VO_DACC: d->cls = VC_DACC; break;
 	case VO_SAD: d->cls = VC_SAD; break;
-	case VO_ACC: d->cls = VC_ACC; break;
+	case VO_ACC: d->cls = VC_ACC; d->fpacc = (uint8_t)fp; break;
 	case VO_MAXACC: case VO_MINACC: d->cls = VC_MMACC; break;
 	case VO_FIR: d->cls = VC_FIR; d->taps = (uint8_t)op[3].v; break;
 	case VO_LD: case VO_LDT: d->cls = VC_LD; d->isld = 1; break;
@@ -654,7 +679,6 @@ static void vm2_decode(const struct vinfo *vi, const struct einsn *in, struct vm
 	case VO_ACC: case VO_MAXACC: case VO_MINACC: VSRC(1); d->red = (int8_t)op[0].r; break;
 	case VO_FIR: VDST(0); VSRC(1); break;
 	case VO_CLR: for (int i = 0; i < (int)op[1].v && ((op[0].r + i) & 15) == op[0].r + i; i++) d->dst |= (uint16_t)(1u << (op[0].r + i)); break;
-	case VO_VLEN: break;
 	default:
 		VDST(0); VSRC(1); VSRC(2); VSRC(3);
 		if (o == VO_MLA || o == VO_FMA || o == VO_FNMA || o == VO_FMAB || o == VO_DOT || o == VO_DOTU || o == VO_DOTSU) d->src |= d->dst;	/* the destination is also an accumulator input */
@@ -701,13 +725,14 @@ static uint64_t vm2_strip(const struct vm2d *d, const uint64_t *mbytes, int nb, 
 		else if (e->mtab) lat += (occ ? occ - 1 : 0) + (uint64_t)C->vmemlat;
 		else if (e->isst) lat = (occ ? occ - 1 : 0) + (uint64_t)C->vlat[VC_ST] + (e->nar ? (uint64_t)C->vlat[VC_NARROW] : 0) + (e->seg ? (uint64_t)C->vlat[e->seg] : 0);
 		else if (e->cls == VC_FIR) lat += (uint64_t)(e->taps ? e->taps - 1 : 0);
+		else if (e->fpacc && e->chunks > 1) lat += (uint64_t)(e->chunks - 1) * (uint64_t)C->vlat[VC_FMA];	/* the chain of chunk adds through the register: each a floating-point add */
 		for (int v = 0; v < 16; v++) if (e->src >> v & 1 && m->ready[v] > t) t = m->ready[v];
 		if (occ && m->port > t) t = m->port;
 		if (m->unit[e->cls] > t) t = m->unit[e->cls];
 		if (!e->isst) for (int v = 0; v < 16; v++) if (e->dst >> v & 1 && m->ready[v] > t + lat) t = m->ready[v] - lat;	/* a write completes after the older pending one */
 		uint64_t res = t + lat;
 		C->v2n[(e->isld || e->isst) && e->seg ? e->seg : e->cls]++;
-		if (e->red >= 0) { if (m->sready[e->red & 31] + 1 > res) res = m->sready[e->red & 31] + 1; m->sready[e->red & 31] = res; }
+		if (e->red >= 0) { uint64_t step = e->fpacc ? (uint64_t)(e->chunks ? e->chunks : 1) * (uint64_t)C->vlat[VC_FMA] : 1; if (m->sready[e->red & 31] + step > res) res = m->sready[e->red & 31] + step; m->sready[e->red & 31] = res; }	/* a floating-point sum: the register's recurrence is the chain of its chunks */
 		if (!e->isst) for (int v = 0; v < 16; v++) if (e->dst >> v & 1) m->ready[v] = res;
 		m->slot = t + (e->cls == VC_FIR && e->taps ? e->taps : 1);
 		if (occ) m->port = t + occ;
@@ -722,8 +747,83 @@ static uint64_t vm2_strip(const struct vm2d *d, const uint64_t *mbytes, int nb, 
 	return add;
 }
 
-/* ---- the block ----------------------------------------------------------------------------------------------------- */
+/* ---- the first fault of a strip (errata 173, vec-isa.md section 8): EVA is strip independent ----------------------------------------------------------------
+ * Before a strip runs, every memory access it will make is listed with the element of the stream it belongs to (the elements of the strip are e0 + lane; the table of vtbl, the scalar of vfmab and
+ * an epilogue are the strip's first element, e0) and the instruction, and the checks (alignment, mapping, permission: E->check, which raises the abort) are made in the order (element, instruction,
+ * field), not in the order of the strip.  The abort is therefore that of the access with the least element, the first instruction among equals, whatever the strip: EVA and the cause are the same at
+ * every strip width.  Nothing has been done when it is raised (no register changed, no store made, no load), so the strip is annulled whole.  The accesses the strip then makes cannot fault. */
+struct vacs { int64_t e; int ord; uint64_t a; int sz; int wr; };
+static int vacs_cmp(const void *p, const void *q)
+{
+	const struct vacs *a = p, *b = q;
+	if (a->e != b->e) return a->e < b->e ? -1 : 1;
+	return a->ord - b->ord;
+}
 struct vdec { struct einsn in; const struct vinfo *vi; };
+static struct vacs VACS[VSQMAX * 4];
+static void vprecheck(struct vctx *x, const struct vdec *body, int nb, int64_t e0)
+{
+	uint64_t lr[32];
+	struct vsrc src[16];
+	int na = 0, n = x->nact;
+	memcpy(lr, x->lr, sizeof lr);
+	memcpy(src, x->src, sizeof src);
+#define VADD(E_, ORD, A, SZ, WR) do { if (na < (int)(sizeof VACS / sizeof *VACS)) { VACS[na].e = (E_); VACS[na].ord = (ORD); VACS[na].a = (A); VACS[na].sz = (SZ); VACS[na].wr = (WR); na++; } } while (0)
+	for (int ii = 0; ii < nb; ii++) {
+		const struct vinfo *vi = body[ii].vi;
+		const struct eop *op = body[ii].in.op;
+		int o = vi->op, nf = vi->nseg ? vi->nseg : 1, esz = vi->msz;
+		uint64_t base = 0; int adj = -1;
+		if (o == VO_LD || o == VO_ST || o == VO_STS || o == VO_LDT || o == VO_STT || o == VO_LSEG || o == VO_SSEG || (o == VO_TBL)) {
+			const struct eop *e = o == VO_TBL ? &op[1] : &op[1];
+			if (e->k == EK_B) base = (e->r == EBASE_DP ? dp : lr[e->r]) + e->v;
+			else if (e->k == EK_PI) { base = lr[e->r]; adj = e->r; }
+			else continue;
+		}
+		switch (o) {
+		case VO_LD: case VO_LSEG: case VO_ST: case VO_STS: case VO_SSEG: {
+			int wr = o == VO_ST || o == VO_STS || o == VO_SSEG;
+			for (int i = 0; i < n; i++) for (int f = 0; f < nf; f++) VADD(e0 + i, ii * 16 + f, base + ((uint64_t)i * nf + f) * esz, esz, wr);
+			if (!wr) for (int f = 0; f < nf; f++) src[(op[0].r + f) & 15] = (struct vsrc){ 1, base + (uint64_t)f * esz, (int64_t)esz * nf, esz, vi->msign, vi->mfl, vi->lsz, vi->lfl };
+			if (adj >= 0) lr[adj] += (uint64_t)n * nf * esz;
+			break;
+		}
+		case VO_LDT: case VO_STT: {
+			int64_t stride = op[2].v;
+			for (int i = 0; i < n; i++) VADD(e0 + i, ii * 16, base + (uint64_t)((int64_t)i * stride), esz, o == VO_STT);
+			if (o == VO_LDT) src[op[0].r & 15].valid = 0;
+			if (adj >= 0) lr[adj] += (uint64_t)((int64_t)n * stride);
+			break;
+		}
+		case VO_TBL:
+			for (int i = 0; i < 16; i++) VADD(e0, ii * 16 + i, base + (uint64_t)i, 1, 0);
+			src[op[0].r & 15].valid = 0;
+			break;
+		case VO_FMAB:
+			VADD(e0, ii * 16, lr[op[2].r], vi->lsz, 0);
+			lr[op[2].r] += vi->lsz;
+			break;
+		case VO_FIR: {
+			int taps = (int)op[3].v, c = (taps - 1) / 2;
+			const struct vsrc *sv = &src[op[1].r & 15];
+			if (sv->valid) for (int j = -c; j < n + taps - 1 - c; j++) if (j < 0 || j >= n) VADD(e0 + j, ii * 16, sv->addr + (uint64_t)((int64_t)j * sv->stride), sv->msz, 0);
+			src[op[0].r & 15].valid = 0;
+			break;
+		}
+		case VO_ADD: case VO_SUB: case VO_SUBR: case VO_MUL: case VO_MIN: case VO_MAX: case VO_MINU: case VO_MAXU: case VO_ABD: case VO_ABDU:
+		case VO_AND: case VO_OR: case VO_XOR: case VO_SHL: case VO_SHR: case VO_SAR: case VO_ADDS: case VO_SUBS: case VO_ADDSU: case VO_SUBSU:
+		case VO_MOV: case VO_NEG: case VO_MLA: case VO_FMA: case VO_FNMA: case VO_AVG: case VO_AVGU: case VO_MULH: case VO_MULHU: case VO_MULHR: case VO_SARR: case VO_SHRR:
+		case VO_CEQ: case VO_CGT: case VO_CGTU: case VO_CVT: case VO_BSL:
+			src[op[0].r & 15].valid = 0;
+			break;
+		}
+	}
+#undef VADD
+	if (na > 1) qsort(VACS, (size_t)na, sizeof *VACS, vacs_cmp);
+	for (int i = 0; i < na; i++) E->check(E->u, VACS[i].a, VACS[i].sz, VACS[i].wr);
+}
+
+/* ---- the block ----------------------------------------------------------------------------------------------------- */
 static struct vctx VXS;
 /* the hardware's hidden copy made at a vec that has hidden accumulation (the address of the vec, the accumulators it names): vrun is the block running, valid from its entry until it
    ends; one that is still valid at the next vec was aborted, and becomes vrst, the copy a restart at the same address uses (a handler's own blocks do not touch it) */
@@ -731,13 +831,23 @@ static uint64_t vrun_pc, vrst_pc;
 static uint16_t vrun_acc, vrst_acc;
 static int vrun_valid, vrst_valid;
 
+/* one strip of the instructions body[0..nb): its registers as the strip sees them, the checks of its accesses, the instructions, the model; the commit is the caller's */
+static void vstrip_run(struct vctx *x, const struct vdec *body, int nb, int64_t e0)
+{
+	for (int i = 0; i < 32; i++) x->lr[i] = RG[i];
+	for (int v = 0; v < 16; v++) if (!(C->vacc >> v & 1)) memset(VR(v), 0, VBYTES);
+	for (int i = 0; i < 16; i++) x->src[i].valid = 0;
+	x->nsq = 0;
+	vprecheck(x, body, nb, e0);
+}
+
 static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 {
 	struct vdec body[VMAXBODY];
-	int nb = 0, found_end = 0, firstlen = 0;
+	int nb = 0, found_end = 0, firstlen = 0, fin = -1;
 	uint64_t addr = start + 2 * (uint64_t)nvec, endpc;
 	struct vctx *x = &VXS;
-	/* the body: vector instructions up to vend; with no vend before something else, the one instruction after vec */
+	/* the body: vector instructions up to vend (a vfin splits it into the instructions of every strip and the epilogue); with no vend before something else, the one instruction after vec */
 	for (;;) {
 		uint16_t par[5];
 		par[0] = (uint16_t)E->fetch(E->u, addr);
@@ -753,21 +863,24 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		}
 		addr += 2 * (uint64_t)n;
 		if (vi->op == VO_VEND) { found_end = 1; break; }
+		if (vi->op == VO_FIN) { if (fin >= 0) die("vec: two vfin in a block", 0); fin = nb; continue; }
 		if (nb == VMAXBODY) die("vec: block too long", 0);
 		if (nb == 0) firstlen = n;
 		body[nb].in = in; body[nb].vi = vi; nb++;
 	}
 	if (found_end) endpc = addr;
-	else { nb = 1; endpc = start + 2 * (uint64_t)nvec + 2 * (uint64_t)firstlen; }	/* the one-instruction prefix */
+	else { nb = 1; fin = -1; endpc = start + 2 * (uint64_t)nvec + 2 * (uint64_t)firstlen; }	/* the one-instruction prefix */
 	if (nb == 0) { pc = endpc; return; }
+	int nmain = fin >= 0 ? fin : nb;
 	/* the strip: the widest lane of the block, and the element size and the pointer of the first stream */
-	int lanemax = 1, esz = 0, nfst = 1;
+	int lanemax = 1, esz = 0, nfst = 1, hasfmab = 0;
 	int rs = vin->op[0].r, re = vin->op[1].r;
 	for (int i = 0; i < nb; i++) {
 		const struct vinfo *vi = body[i].vi;
 		if (vi->lsz > lanemax) lanemax = vi->lsz;
+		if (vi->op == VO_FMAB) hasfmab = 1;
 	}
-	for (int i = 0; i < nb && !esz; i++) {
+	for (int i = 0; i < nmain && !esz; i++) {
 		const struct vinfo *vi = body[i].vi;
 		const struct eop *m = &body[i].in.op[1];
 		if (vi->op >= VO_LD && vi->op <= VO_SSEG && m->k == EK_PI && m->r == rs) {
@@ -776,10 +889,9 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		}
 	}
 	if (!esz) die("vec: no instruction of the block moves the pointer register by (Rs)+", 0);
-	int vl = VSTRIP / lanemax;
 	C->vblocks++;
 	if (found_end) C->vcycles++;						/* the model: the vend (the vec is one of the scalar instructions) */
-	/* hidden accumulation (a vclr in the block, an accumulator named before it): hidden state is not saved at a context switch (R435), so an abort
+	/* hidden accumulation (a vclr in the block, an accumulator named before it, a vfin): hidden state is not saved at a context switch (R435), so an abort
 	   restarts the block from its entry and discards the accumulators (vec-isa.md 4.1, the second option).  Otherwise the pointers are the progress and the block
 	   goes on from the strip it stopped at. */
 	if (vrun_valid) { vrst_pc = vrun_pc; vrst_acc = vrun_acc; vrst_valid = 1; }	/* a hidden block that did not end was aborted by a fault: its hidden copy is kept for the restart */
@@ -790,39 +902,54 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		for (int v = 0; v < 16; v++) if (C->vacc >> v & 1) memset(VR(v), 0, VBYTES);
 		vrst_valid = 0;
 	}
-	int hidden = C->vacc != 0;
+	int hidden = C->vacc != 0 || fin >= 0;
 	for (int i = 0; i < nb; i++) if (body[i].vi->op == VO_CLR) hidden = 1;
+	/* the strip of a block with accumulators or a vfmab is 16 bytes on every implementation (errata 173, vec-isa.md section 8): an accumulator's lanes, and the number of strips a (Ra)+ of vfmab moves
+	   its pointer for, are then the program's, not the hardware's; the other blocks take the implementation's strip */
+	int vl = (hidden || hasfmab ? 16 : VSTRIP) / lanemax;
+	if (vl < 1) vl = 1;
 	struct vm2d m2d[VMAXBODY]; uint64_t m2mb[VMAXBODY];
 	if (C->vm2) {									/* the second model: classify the block once */
-		for (int i = 0; i < nb; i++) vm2_decode(body[i].vi, &body[i].in, &m2d[i]);
-		vm2_begin(m2d, nb);
+		for (int i = 0; i < nb; i++) { vm2_decode(body[i].vi, &body[i].in, &m2d[i]); if (m2d[i].fpacc) m2d[i].chunks = (uint8_t)((vl * body[i].vi->lsz + 15) / 16); }
+		vm2_begin(m2d, nmain);
 		C->v2hidden += hidden;
 		C->v2cycles += found_end;						/* the vend */
 	}
 	if (hidden) { vrun_valid = 1; vrun_pc = start; vrun_acc = C->vacc; }		/* stays valid if a fault leaves this function; a block that ends clears it */
 	C->progress = !hidden; C->vhidden = hidden;
 	x->vl = vl; x->inblock = 1; x->nsq = 0;
-	for (long strip = 0; ; strip++) {
+	int64_t e0 = 0; long strip;
+	for (strip = 0; ; strip++) {
 		uint64_t cur = RG[rs], end = RG[re];
 		if (end <= cur) break;
 		uint64_t rem = (end - cur) / ((uint64_t)esz * nfst);
 		if (rem == 0) break;
 		x->nact = rem < (uint64_t)vl ? (int)rem : vl;
 		x->first = strip == 0;
-		x->nsq = 0;
-		for (int i = 0; i < 32; i++) x->lr[i] = RG[i];
-		for (int v = 0; v < 16; v++) if (!(C->vacc >> v & 1)) memset(VR(v), 0, VBYTES);
-		for (int i = 0; i < 16; i++) x->src[i].valid = 0;
+		vstrip_run(x, body, nmain, e0);
 		x->cyc_c = x->cyc_m = 0;
-		for (int i = 0; i < nb; i++) { x->mb = 0; vop(x, body[i].vi, &body[i].in); m2mb[i] = x->mb; }
-		if (C->vm2) C->v2cycles += vm2_strip(m2d, m2mb, nb, strip, x->first);
+		for (int i = 0; i < nmain; i++) { x->mb = 0; vop(x, body[i].vi, &body[i].in); m2mb[i] = x->mb; }
+		if (C->vm2) C->v2cycles += vm2_strip(m2d, m2mb, nmain, strip, x->first);
 		C->vstrips++;
 		C->vcyc_comp += x->cyc_c; C->vcyc_mem += x->cyc_m;			/* the model: a strip takes the greater of the instructions it issues and the time its memory instructions hold the port, and a commit */
 		C->vcycles += (x->cyc_c > x->cyc_m ? x->cyc_c : x->cyc_m) + (uint64_t)VCOMMIT;
 		if (x->cyc_m > x->cyc_c) C->vmemstrips++;
+		e0 += x->nact;
 		vec_commit(x);
 		if (RG[rs] == cur) die("vec: the pointer register does not move", 0);
 		if (strip > (1L << 26)) die("vec: runaway block", 0);
+	}
+	if (fin >= 0) {									/* the epilogue: one more strip of the block's lanes, after the last, that the accumulators' final values are read in (vec-isa.md section 8) */
+		x->nact = vl; x->first = 0;
+		vstrip_run(x, body + fin, nb - fin, e0);
+		x->cyc_c = x->cyc_m = 0;
+		for (int i = fin; i < nb; i++) { x->mb = 0; vop(x, body[i].vi, &body[i].in); m2mb[i] = x->mb; }
+		if (C->vm2) C->v2cycles += vm2_strip(m2d + fin, m2mb + fin, nb - fin, strip, 0);
+		C->vstrips++;
+		C->vcyc_comp += x->cyc_c; C->vcyc_mem += x->cyc_m;
+		C->vcycles += (x->cyc_c > x->cyc_m ? x->cyc_c : x->cyc_m) + (uint64_t)VCOMMIT;
+		if (x->cyc_m > x->cyc_c) C->vmemstrips++;
+		vec_commit(x);
 	}
 	C->vhidden = 0;
 	vrun_valid = 0;

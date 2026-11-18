@@ -204,20 +204,10 @@ for mn, sa, sb, lane, ma, mb in (('vdacc.b', 1, 1, 'b', 'b', 'b'), ('vdacc.bu', 
     add([';; test %d: %s over 77 elements, added to a register that starts at -5' % (k, mn)] +
         block(k, N * LB[lane], ['vld.%s v0, (r1)+' % ma, 'vld.%s v1, (r2)+' % mb, '%s r10, v0, v1' % mn], [('A', 'r1'), ('B', 'r2')], ('O', 'r3'), ['movq\t#-5, r10']) + cmpreg('r10', want))
 
-# ---- vtbl.b: the register form (the table is the group of 16 lanes of the strip; a table lane that is not in the strip is 0) and the memory form (16 bytes at (Ra))
+# ---- vtbl.b: the memory form (16 bytes at (Ra)); the register form was removed in errata 173 (its table was the lanes of a register, so the strip)
 idx = [rng.getrandbits(5) for _ in range(N)]
 idx[3] = 0x85; idx[40] = 0xff; idx[41] = 16; idx[42] = 15; idx[43] = 0; idx[70] = 12; idx[71] = 13
 tab = rnd(8, 32)
-k = newtest('vtbl.b (register)')
-want = []
-for i in range(N):
-    nact = min(32, N - (i & ~31))
-    lane = i & 31; g = lane & ~15; ix = idx[i]
-    t = g + ix
-    want.append(tab[t] if ix < 16 and t < nact else 0)
-buf('A%d' % k, pack(idx, 1)); buf('T%d' % k, pack(tab, 1)); buf('E%d' % k, pack(want, 1)); buf('O%d' % k, bytes(N))
-add([';; test %d: vtbl.b vD, vT, vI: lane i takes byte 16*(i/16) + index of the table register; an index of 16 or more, or a table lane beyond the strip (the strip of 13 bytes), gives 0' % k] +
-    block(k, N, ['vld.bu v0, (r1)+', 'vld.bu v1, (r6)', 'vtbl.b v2, v1, v0', 'vst.b v2, (r3)+'], [('A', 'r1'), ('T', 'r6')], ('O', 'r3')) + compare(k, N))
 k = newtest('vtbl.b (memory)')
 want = [tab[i] if i < 16 else 0 for i in idx]
 buf('A%d' % k, pack(idx, 1)); buf('T%d' % k, pack(tab[:16], 1)); buf('E%d' % k, pack(want, 1)); buf('O%d' % k, bytes(N))

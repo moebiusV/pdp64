@@ -687,6 +687,8 @@ static void directive(const struct stmt *st)
    floating point) that the last instruction wrote into each of v0..v15, and refuses an instruction that reads the register as another.  A register not yet
    written in the block (an accumulator from before it) is not checked; signedness is not checked. */
 static int vlane[16];
+static int vwide, vpend_sz, vpend_line;		/* the widest lane (bytes) of the block so far; a floating-point sum waiting for the end of the block (the size of its source lane, the line), errata 173 */
+static char vpend_name[40];
 static int vlane_code(const char *t)				/* the lane of a suffix: size, +0x100 for floating point; -1 if it is none */
 {
 	if (!t || !t[0]) return -1;
@@ -710,7 +712,25 @@ static void vec_typecheck(const struct stmt *st)
 	strcpy(b, w);
 	char *dot = strchr(b, '.');
 	if (dot) { *dot++ = 0; for (char *p = dot; p && nt < 3; ) { tok[nt++] = p; p = strchr(p, '.'); if (p) *p++ = 0; } }
-	if (!strcmp(b, "vec") || !strcmp(b, "vend")) { for (int i = 0; i < 16; i++) vlane[i] = -1; return; }
+	if (!strcmp(b, "vec") || !strcmp(b, "vend")) {
+		/* a floating-point sum is in the canonical order (chunks of 16 bytes of its source lanes: vec-isa.md section 8) only if a strip is a whole number of chunks, that is, if no lane of the block is wider than its source */
+		if (vpend_line && vwide > vpend_sz && final_pass)
+			err(vpend_line, "%s: the block has %d-byte lanes, so its strip (a whole number of %d-byte lanes) would not be a whole number of the 16-byte chunks that fix the order of a floating-point sum; keep every lane of the block at most %d bytes", vpend_name, vwide, vpend_sz, vpend_sz);
+		for (int i = 0; i < 16; i++) vlane[i] = -1;
+		vwide = 0; vpend_line = 0;
+		return;
+	}
+	if (!strcmp(b, "vfin")) return;
+	{							/* the widest lane of the block (the executor's lanemax): the lane of each instruction */
+		int lw = -1;
+		if (!strcmp(b, "vld") || !strcmp(b, "vldt") || !strncmp(b, "vlseg", 5)) lw = vlane_code(nt > 1 ? tok[1] : tok[0]);
+		else if (!strcmp(b, "vcvt")) lw = 4;
+		else if (strcmp(b, "vbsl")) lw = vlane_code(tok[0]);
+		if (lw > 0 && (lw & 0xff) > vwide) vwide = lw & 0xff;
+		if (!strcmp(b, "vacc") && tok[0] && (tok[0][0] == 'f' || tok[0][0] == 'd') && !tok[0][1] && (!vpend_line || (tok[0][0] == 'f' ? 4 : 8) < vpend_sz)) {
+			vpend_line = st->line; vpend_sz = tok[0][0] == 'f' ? 4 : 8; snprintf(vpend_name, sizeof vpend_name, "%s", w);
+		}
+	}
 	const struct oper *o = st->ops;
 	int dst = -1, nseg = 1, wlane = -1, rlane = -1, rd[3] = { -1, -1, -1 }, nrd = 0;
 	int firstv = st->nops > 0 && o[0].kind == OK_VREG;
@@ -747,8 +767,8 @@ static void vec_typecheck(const struct stmt *st)
 		if (firstv && rdl >= 0) vlane[o[0].reg & 15] = rdl;
 		else if (firstv && sz >= 0) vlane[o[0].reg & 15] = sz;
 		return;
-	} else if (!strcmp(b, "vtbl")) {						/* vtbl.b vD, vT, vI | vtbl.b vD, (Ra), vI: bytes in (the table, if it is a register, and the index), bytes out */
-		rlane = wlane = 1; RD(1); RD(2); dst = firstv ? o[0].reg : -1;
+	} else if (!strcmp(b, "vtbl")) {						/* vtbl.b vD, (Ra), vI: bytes in (the index), bytes out (there is no register form: errata 173) */
+		rlane = wlane = 1; RD(2); dst = firstv ? o[0].reg : -1;
 	} else if (!strcmp(b, "vacc") || !strcmp(b, "vmaxacc") || !strcmp(b, "vminacc")) {	/* .src[.acc]: the register is read as the source lanes */
 		rlane = vlane_code(tok[0]); RD(1);
 	} else if (!strcmp(b, "vclr")) {
@@ -784,6 +804,7 @@ static int run_pass(int final)
 	cur_sec = SEC_TEXT;
 	chk_pend.have = 0; nbugsite = 0;
 	for (int i = 0; i < 16; i++) vlane[i] = -1;
+	vwide = 0; vpend_line = 0;
 	for (int k = 0; k < nchkfile; k++) free(chkfiles[k]);
 	nchkfile = 0;
 	for (int i = 0; i < NSEC; i++) offs[i] = 0;

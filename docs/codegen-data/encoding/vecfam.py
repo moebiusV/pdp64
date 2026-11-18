@@ -133,9 +133,9 @@ def vec_forms(R):
     # the block
     vf('VBEG', ['vec'], [R, R])
     vf('VEND', ['vend'], [])
-    vf('VLEN', ['vlen.b'], [R])
+    vf('VFIN', ['vfin'], [])						# errata 173: the end-of-block part of a block with accumulators (vec-isa.md section 8); vlen is gone (the strip is invisible)
     # lane operations
-    vf('VOP.VVV', ALL3 + sfx(['vfma', 'vfnma'], FL) + sfx(['vmla'], ['w', 'l']) + DOTS + ['vtbl.b'], [V, V, V])
+    vf('VOP.VVV', ALL3 + sfx(['vfma', 'vfnma'], FL) + sfx(['vmla'], ['w', 'l']) + DOTS, [V, V, V])	# (no register form of vtbl.b: errata 173)
     vf('VOP.VVR', LANEOPS + sfx(['vmla'], ['w', 'l']) + FMA, [V, V, R])
     vf('VOP.VVI', LANEOPS, [V, V, I16])
     vf('VDACC', DACC, [R, V, V])

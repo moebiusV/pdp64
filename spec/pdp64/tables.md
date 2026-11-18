@@ -42,8 +42,7 @@ table below, not a register number.
 | 1 | SOPR | 10 | 1111010011 | jmp call | op1.r=p0[4:0] subop=p0[5] |
 | 1 | SYS0 | 11 | 11110111110 | nop rti rtt ret halt bpt fence wfe sev lpad tlbia tlbsync icinva pushx popx isync trapcc.ne trapcc.eq trapcc.pl trapcc.mi trapcc.vc trapcc.vs trapcc.cc trapcc.cs trapcc.ge trapcc.lt trapcc.gt trapcc.le trapcc.hi trapcc.los syspg0 syspg1 | subop=p0[4:0] |
 | 1 | FX.POPRET | 11 | 11111001000 | popret | op1.r=p0[4:0] |
-| 1 | VLEN | 11 | 11111001110 | vlen.b | op1.r=p0[4:0] |
-| 1 | SYS0 | 14 | 11111011110110 | syspg2 syspg3 syspg4 syspg5 | subop=p0[1:0] |
+| 1 | SYS0 | 14 | 11111011101110 | syspg2 syspg3 syspg4 syspg5 | subop=p0[1:0] |
 | 2 | LDU.X6 | 5 | 01000 | movq.u movl.u movw.u movb.u movzl.u movzw.u movzb.u movq.d movl.d movw.d movb.d movzl.d movzw.d movzb.d movq.ud movl.ud | op1.base=p0[6:5]+p1[15:13] op1.index=p1[12:8] op1.scale=p1[7:6] op1.d=p1[5:0] op2.r=p0[4:0] subop=p0[10:7] |
 | 2 | LDU.B12 | 6 | 100000 | movq.u movl.u movw.u movb.u movzl.u movzw.u movzb.u movq.d movl.d movw.d movb.d movzl.d movzw.d movzb.d movq.ud movl.ud | op1.base=p0[5]+p1[15:12] op1.d=p1[11:0] op2.r=p0[4:0] subop=p0[9:6] |
 | 2 | LDF.PI12 | 6 | 100011 | movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl | op1.base=p0[5]+p1[15:12] op1.stride=p1[11:0] op2.r=p0[4:0] subop=p0[9:6] |
@@ -98,88 +97,89 @@ table below, not a register number.
 | 2 | STBu12H/a | 11 | 11111001011 | movq movl | op1.r=p1[15:12] op2.d=p1[11:0] op2.base=p0[3:0] subop=p0[4] |
 | 2 | STBu12H/b | 11 | 11111001100 | movw movb | op1.r=p1[15:12] op2.d=p1[11:0] op2.base=p0[3:0] subop=p0[4] |
 | 2 | LDX4H/b | 11 | 11111001101 | movw movb movzl movzw | op1.base=p0[2:0]+p1[15] op1.index=p1[14:11] op1.scale=p1[10:9] op1.d=p1[8:5] op2.r=p1[4:0] subop=p0[4:3] |
-| 2 | VFIR | 11 | 11111001111 | vfir.w vfir.l vfir.f | subop=p1[15:14] op1.v=p1[13:10] op2.v=p1[9:6] op4.imm=p1[5:0] op3.r=p0[4:0] |
-| 2 | R2 | 12 | 111110100000 | clz ctz clo cto popcnt bswap bswapw bswapl bitrev utf8len utf8dec utf8enc ctcc ctcs cthi ctlos cteq ctne ctge ctlt ctgt ctle ctpl ctmi ctvc ctvs mval abs prober probew fdiv fsqrt fadd32 fsub32 fmul32 fdiv32 fsqrt32 fcmp32 fneg fabs fclass fclass32 frint frintz frintm frintp frinta fcvtdq fcvtqd fcvtds fcvtsd fcvtsl fcvtls fcvtdqu fcvtqud fsflags fadd16 fsub16 fmul16 fdiv16 fsqrt16 fcmp16 fclass16 fcvtsh fcvths fcvtdh fcvthd fcvthl fcvtlh aesim sha256sig0 sha256sig1 sha256sum0 sha256sum1 sha512sig0 sha512sig1 sha512sum0 sha512sum1 addv subv mulv | op1.r=p0[3:0]+p1[15] op2.r=p1[14:10] subop=p1[9:0] |
-| 2 | RRI | 12 | 111110100001 | rori rori32 rol aesks1 | op1.r=p1[15:11] op2.imm=p1[10:5] op3.r=p1[4:0] subop=p0[3:0] |
-| 2 | LDBu8/c | 12 | 111110100101 | add sub and bis | op1.base=p0[1:0]+p1[15:13] op2.r=p1[12:8] op1.d=p1[7:0] subop=p0[3:2] |
-| 2 | CALL2_20/c | 12 | 111110100110 | call | op1.pcrel=p0[3:0]+p1[15:0] |
-| 2 | CBR8/b | 12 | 111110100111 | cblt cbge cbgt cble | op1.r=p0[1:0]+p1[15:13] op2.r=p1[12:8] op3.pcrel=p1[7:0] subop=p0[3:2] |
-| 2 | CBR8/c | 12 | 111110101000 | cbcs cbcc cbhi cblos | op1.r=p0[1:0]+p1[15:13] op2.r=p1[12:8] op3.pcrel=p1[7:0] subop=p0[3:2] |
-| 2 | CMBu12H/a | 12 | 111110101001 | cmp | op1.r=p1[15:12] op2.d=p1[11:0] op2.base=p0[3:0] |
-| 2 | LDPC14H/b | 12 | 111110101010 | movw movb movzl movzw | op2.r=p0[1:0]+p1[15:14] op1.pcrel=p1[13:0] subop=p0[3:2] |
-| 2 | LDPC16H/c | 12 | 111110101011 | xor | op1.pcrel=p1[15:0] op2.r=p0[3:0] |
-| 2 | CMPC16H/a | 12 | 111110101100 | cmp | op2.pcrel=p1[15:0] op1.r=p0[3:0] |
-| 2 | LDI14H/c | 12 | 111110101101 | bis xor mul bic | op2.r=p0[1:0]+p1[15:14] op1.imm=p1[13:0] subop=p0[3:2] |
-| 2 | CBR10H/c | 12 | 111110101110 | cbcs cbcc cbhi cblos | op1.r=p0[1:0]+p1[15:14] op2.r=p1[13:10] op3.pcrel=p1[9:0] subop=p0[3:2] |
-| 2 | CBI3_12H/a | 12 | 111110101111 | cbeq cbne | op1.r=p0[2:0]+p1[15] op2.imm=p1[14:12] op3.pcrel=p1[11:0] subop=p0[3] |
-| 2 | VOP.VVR | 12 | 111110110000 | vceq.b vceq.w vceq.l vceq.f vcgt.b vcgt.w vcgt.l vcgt.f vcgtu.b vcgtu.w vcgtu.l vadd.b vadd.w vadd.l vadd.q vadd.f vadd.d vsub.b vsub.w vsub.l vsub.q vsub.f vsub.d vsubr.b vsubr.w vsubr.l vsubr.q vsubr.f vsubr.d vmul.b vmul.w vmul.l vmul.f vmul.d vmin.b vmin.w vmin.l vmin.f vmin.d vmax.b vmax.w vmax.l vmax.f vmax.d vand.b vand.w vand.l vand.q vor.b vor.w vor.l vor.q vxor.b vxor.w vxor.l vxor.q vshl.b vshl.w vshl.l vshl.q vshr.b vshr.w vshr.l vshr.q vsar.b vsar.w vsar.l vsar.q vminu.b vminu.w vminu.l vmaxu.b vmaxu.w vmaxu.l vabd.b vabd.w vabd.l vabdu.b vabdu.w vsarr.w vsarr.l vshrr.w vshrr.l vmulh.w vmulhu.w vmulhr.w vadds.b vadds.w vadds.l vsubs.b vsubs.w vsubs.l vaddsu.b vaddsu.w vaddsu.l vsubsu.b vsubsu.w vsubsu.l vmla.w vmla.l vfma.f vfma.d | subop=p0[3:0]+p1[15:13] op1.v=p1[12:9] op2.v=p1[8:5] op3.r=p1[4:0] |
-| 2 | STBs8/a | 13 | 1111101100011 | movq movl | op1.r=p0[1:0]+p1[15:13] op2.base=p1[12:8] op2.d=p1[7:0] subop=p0[2] |
-| 2 | SOBs12/a | 13 | 1111101100100 | clr inc dec tst | op1.base=p0[0]+p1[15:12] op1.d=p1[11:0] subop=p0[2:1] |
-| 2 | SOBu12/x | 13 | 1111101100101 | jmp call jmpi calli | op1.base=p0[0]+p1[15:12] op1.d=p1[11:0] subop=p0[2:1] |
-| 2 | LDX0/a | 13 | 1111101100110 | movq movl movzb lea | op1.base=p0[0]+p1[15:12] op1.index=p1[11:7] op1.scale=p1[6:5] op2.r=p1[4:0] subop=p0[2:1] |
-| 2 | LDX0/b | 13 | 1111101100111 | movw movb movzl movzw | op1.base=p0[0]+p1[15:12] op1.index=p1[11:7] op1.scale=p1[6:5] op2.r=p1[4:0] subop=p0[2:1] |
-| 2 | LDX0/c | 13 | 1111101101000 | add sub and bis | op1.base=p0[0]+p1[15:12] op1.index=p1[11:7] op1.scale=p1[6:5] op2.r=p1[4:0] subop=p0[2:1] |
-| 2 | LDI12/d | 13 | 1111101101001 | shl shr sar mul | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] subop=p0[2:1] |
-| 2 | CTM12/a | 13 | 1111101101010 | ctcc cthi cteq ctne | op1.r=p0[0]+p1[15:12] op2.imm=p1[11:0] subop=p0[2:1] |
-| 2 | BR2_16/c | 13 | 1111101101011 | bpl bmi bvc bvs bcc bcs bge blt | op1.pcrel=p1[15:0] subop=p0[2:0] |
-| 2 | CBR8/a | 13 | 1111101101100 | cbeq cbne | op1.r=p0[1:0]+p1[15:13] op2.r=p1[12:8] op3.pcrel=p1[7:0] subop=p0[2] |
-| 2 | CBI3_10/a | 13 | 1111101110000 | cbeq cbne | op1.r=p0[1:0]+p1[15:13] op2.imm=p1[12:10] op3.pcrel=p1[9:0] subop=p0[2] |
-| 2 | CBI4_8/b | 13 | 1111101110001 | cblt cbge cbgt cble | op1.r=p0[0]+p1[15:12] op2.imm=p1[11:8] op3.pcrel=p1[7:0] subop=p0[2:1] |
-| 2 | CBI5_8/a | 13 | 1111101110010 | cbeq cbne | op1.r=p0[1:0]+p1[15:13] op2.imm=p1[12:8] op3.pcrel=p1[7:0] subop=p0[2] |
-| 2 | LDBu10H/c | 13 | 1111101110011 | xor | op1.base=p0[2:0]+p1[15] op2.r=p1[14:10] op1.d=p1[9:0] |
-| 2 | LDPC12H/d | 13 | 1111101110100 | bic mul mulh shl shr sar fadd fsub | op2.r=p1[15:12] op1.pcrel=p1[11:0] subop=p0[2:0] |
-| 2 | CBR10H/a | 13 | 1111101110101 | cbeq cbne | op1.r=p0[1:0]+p1[15:14] op2.r=p1[13:10] op3.pcrel=p1[9:0] subop=p0[2] |
-| 2 | CBZ2_14H/a | 13 | 1111101110110 | cbeq cbne | op1.r=p0[1:0]+p1[15:14] op3.pcrel=p1[13:0] subop=p0[2] |
-| 2 | CBI3_10H/b | 13 | 1111101110111 | cblt cbge cbgt cble | op1.r=p0[0]+p1[15:13] op2.imm=p1[12:10] op3.pcrel=p1[9:0] subop=p0[2:1] |
-| 2 | CBI3_10H/c | 13 | 1111101111000 | cbcs cbcc cbhi cblos | op1.r=p0[0]+p1[15:13] op2.imm=p1[12:10] op3.pcrel=p1[9:0] subop=p0[2:1] |
-| 2 | VOP.VVV | 13 | 1111101111001 | vceq.b vceq.w vceq.l vceq.f vcgt.b vcgt.w vcgt.l vcgt.f vcgtu.b vcgtu.w vcgtu.l vadd.b vadd.w vadd.l vadd.q vadd.f vadd.d vsub.b vsub.w vsub.l vsub.q vsub.f vsub.d vsubr.b vsubr.w vsubr.l vsubr.q vsubr.f vsubr.d vmul.b vmul.w vmul.l vmul.f vmul.d vmin.b vmin.w vmin.l vmin.f vmin.d vmax.b vmax.w vmax.l vmax.f vmax.d vand.b vand.w vand.l vand.q vor.b vor.w vor.l vor.q vxor.b vxor.w vxor.l vxor.q vshl.b vshl.w vshl.l vshl.q vshr.b vshr.w vshr.l vshr.q vsar.b vsar.w vsar.l vsar.q vminu.b vminu.w vminu.l vmaxu.b vmaxu.w vmaxu.l vabd.b vabd.w vabd.l vabdu.b vabdu.w vsarr.w vsarr.l vshrr.w vshrr.l vmulh.w vmulhu.w vmulhr.w vadds.b vadds.w vadds.l vsubs.b vsubs.w vsubs.l vaddsu.b vaddsu.w vaddsu.l vsubsu.b vsubsu.w vsubsu.l vavg.b vavg.w vavgu.b vavgu.w vfma.f vfma.d vfnma.f vfnma.d vmla.w vmla.l vdot.b vdotu.b vdotsu.b vdot.w vtbl.b | subop=p0[2:0]+p1[15:12] op1.v=p1[11:8] op2.v=p1[7:4] op3.v=p1[3:0] |
-| 2 | VSTS.R | 13 | 1111101111010 | vsts.w.b vsts.w.bu vsts.l.b vsts.l.bu vsts.l.w vsts.l.wu vsts.q.b vsts.q.bu vsts.q.w vsts.q.wu vsts.q.l vsts.q.lu | subop=p0[2:0]+p1[15] op1.v=p1[14:11] op2.base=p1[10:6] op3.imm=p1[5:0] |
-| 2 | JTAG2 | 14 | 11111011111010 | jtag | op1.base=p0[1:0]+p1[15:13] op1.index=p1[12:8] op1.scale=p1[7:6] op1.d=p1[5:0] |
-| 2 | LDBs6/b | 14 | 11111011111011 | movw movb movzl movzw | op1.base=p1[15:11] op1.d=p1[10:5] op2.r=p1[4:0] subop=p0[1:0] |
-| 2 | LDBu6/b | 14 | 11111011111100 | movw movb movzl movzw | op1.base=p1[15:11] op1.d=p1[10:5] op2.r=p1[4:0] subop=p0[1:0] |
-| 2 | LDBu8/c | 14 | 11111011111101 | xor | op1.base=p0[1:0]+p1[15:13] op2.r=p1[12:8] op1.d=p1[7:0] |
-| 2 | CMBu8/a | 14 | 11111011111110 | cmp | op1.r=p0[1:0]+p1[15:13] op2.base=p1[12:8] op2.d=p1[7:0] |
-| 2 | SOBs12/a | 14 | 11111011111111 | push pop | op1.base=p0[0]+p1[15:12] op1.d=p1[11:0] subop=p0[1] |
-| 2 | STX0/a | 14 | 11111100000000 | movq movl | op1.r=p0[0]+p1[15:12] op2.base=p1[11:7] op2.index=p1[6:2] op2.scale=p1[1:0] subop=p0[1] |
-| 2 | STX0/b | 14 | 11111100000001 | movw movb | op1.r=p0[0]+p1[15:12] op2.base=p1[11:7] op2.index=p1[6:2] op2.scale=p1[1:0] subop=p0[1] |
-| 2 | SOX4/a | 14 | 11111100000010 | clr inc dec tst | op1.base=p1[15:11] op1.index=p1[10:6] op1.scale=p1[5:4] op1.d=p1[3:0] subop=p0[1:0] |
-| 2 | SOX4/x | 14 | 11111100000011 | jmp call jmpi calli | op1.base=p1[15:11] op1.index=p1[10:6] op1.scale=p1[5:4] op1.d=p1[3:0] subop=p0[1:0] |
-| 2 | LDI12/b | 14 | 11111100000100 | add sub | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] subop=p0[1] |
-| 2 | LDI12/d | 14 | 11111100000101 | bic movb | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] subop=p0[1] |
-| 2 | BR2_16/c | 14 | 11111100000110 | bgt ble bhi blos | op1.pcrel=p1[15:0] subop=p0[1:0] |
-| 2 | SOBu12H/a | 14 | 11111100001000 | clr inc dec tst | op1.base=p1[15:12] op1.d=p1[11:0] subop=p0[1:0] |
-| 2 | CBZ2_12H/b | 14 | 11111100001001 | cblt cbge cbgt cble | op1.r=p1[15:12] op3.pcrel=p1[11:0] subop=p0[1:0] |
-| 2 | MFSR | 15 | 111111000011000 | mfsr | op1.r=p0[0]+p1[15:12] op2.imm=p1[11:0] |
-| 2 | MTSR | 15 | 111111000011001 | mtsr | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] |
-| 2 | STBs6/b | 15 | 111111000011111 | movw movb | op1.r=p1[15:11] op2.base=p1[10:6] op2.d=p1[5:0] subop=p0[0] |
-| 2 | LDX0/c | 15 | 111111000100000 | xor | op1.base=p0[0]+p1[15:12] op1.index=p1[11:7] op1.scale=p1[6:5] op2.r=p1[4:0] |
-| 2 | CMX0/a | 15 | 111111000100001 | cmp | op1.r=p0[0]+p1[15:12] op2.base=p1[11:7] op2.index=p1[6:2] op2.scale=p1[1:0] |
-| 2 | SOX4/a | 15 | 111111000100010 | push pop | op1.base=p1[15:11] op1.index=p1[10:6] op1.scale=p1[5:4] op1.d=p1[3:0] subop=p0[0] |
-| 2 | LDI12/a | 15 | 111111000100011 | movq | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] |
-| 2 | LDI12/b | 15 | 111111000100100 | and | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] |
-| 2 | LDI12/d | 15 | 111111000100101 | bit | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] |
-| 2 | CMI12/a | 15 | 111111000100110 | cmp | op1.r=p0[0]+p1[15:12] op2.imm=p1[11:0] |
-| 2 | BR2_16/b | 15 | 111111000100111 | beq bne | op1.pcrel=p1[15:0] subop=p0[0] |
-| 2 | STBs8H/b | 15 | 111111000101000 | movw movb | op1.r=p1[15:12] op2.base=p1[11:8] op2.d=p1[7:0] subop=p0[0] |
-| 2 | SOBu12H/a | 15 | 111111000101001 | push pop | op1.base=p1[15:12] op1.d=p1[11:0] subop=p0[0] |
-| 2 | LDPC12H/d | 15 | 111111000101010 | fmul bit | op2.r=p1[15:12] op1.pcrel=p1[11:0] subop=p0[0] |
-| 2 | PUSHI2 | 16 | 1111110001011010 | push | op1.imm=p1[15:0] |
-| 2 | RRF5 | 16 | 1111110001011011 | movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl shr sar fadd fsub fmul bit cmp fcmp | subop=p1[15:10] op1.r=p1[9:5] op2.r=p1[4:0] |
-| 2 | BR2_16/a | 16 | 1111110001011100 | br | op1.pcrel=p1[15:0] |
-| 2 | CALL2_16/j | 16 | 1111110001011101 | jmp | op1.pcrel=p1[15:0] |
-| 2 | LEAS12H/a | 16 | 1111110001011110 | lea | op2.r=p1[15:12] op1.d=p1[11:0] |
-| 2 | VBEG | 16 | 1111110001011111 | vec | subop=p1[15:10] op1.r=p1[9:5] op2.r=p1[4:0] |
-| 2 | VEND | 16 | 1111110001100000 | vend | subop=p1[15:0] |
-| 2 | VDACC | 16 | 1111110001100010 | vdacc.b vdacc.bu vdacc.bsu vdacc.w vsad.bu | subop=p1[15:13] op1.r=p1[12:8] op2.v=p1[7:4] op3.v=p1[3:0] |
-| 2 | VTBLM | 16 | 1111110001100011 | vtbl.b | subop=p1[15:13] op1.v=p1[12:9] op2.base=p1[8:4] op3.v=p1[3:0] |
-| 2 | VOP.VV | 16 | 1111110001100100 | vmov.b vmov.w vmov.l vmov.q vmov.f vmov.d vneg.b vneg.w vneg.l vneg.q vneg.f vneg.d vcvt.l.f vcvt.lu.f vcvt.f.l vcvt.f.lu | op1.v=p1[15:12] op2.v=p1[11:8] subop=p1[7:0] |
-| 2 | VBSL | 16 | 1111110001100101 | vbsl | op1.v=p1[15:12] op2.v=p1[11:8] op3.v=p1[7:4] op4.v=p1[3:0] |
-| 2 | VOP.VR | 16 | 1111110001100110 | vmov.b vmov.w vmov.l vmov.q vmov.f vmov.d | subop=p1[15:9] op1.v=p1[8:5] op2.r=p1[4:0] |
-| 2 | VFMAB | 16 | 1111110001101000 | vfmab.f vfmab.d | subop=p1[15:13] op1.v=p1[12:9] op2.v=p1[8:5] op3.base=p1[4:0] |
-| 2 | VACC | 16 | 1111110001101001 | vacc.b.l vacc.bu.l vacc.w.l vacc.wu.l vacc.l.l vacc.l.q vacc.lu.l vacc.lu.q vacc.q.q vacc.f vacc.f.d vacc.d vmaxacc.b vmaxacc.bu vmaxacc.w vmaxacc.wu vmaxacc.l vmaxacc.lu vmaxacc.q vmaxacc.f vmaxacc.d vminacc.b vminacc.bu vminacc.w vminacc.wu vminacc.l vminacc.lu vminacc.q vminacc.f vminacc.d | subop=p1[15:9] op1.r=p1[8:4] op2.v=p1[3:0] |
-| 2 | VCLR | 16 | 1111110001101010 | vclr.l vclr.f vclr.d | op1.v=p1[15:12] op2.imm=p1[11:8] subop=p1[7:0] |
-| 2 | VLD.PI | 16 | 1111110001101011 | vld.b vld.b.w vld.b.l vld.b.q vld.bu vld.bu.w vld.bu.l vld.bu.q vld.w vld.w.l vld.w.q vld.wu vld.wu.l vld.wu.q vld.l vld.l.q vld.lu vld.lu.q vld.q vld.f vld.f.d vld.d vlseg2.b vlseg2.b.w vlseg2.b.l vlseg2.b.q vlseg2.bu vlseg2.bu.w vlseg2.bu.l vlseg2.bu.q vlseg2.w vlseg2.w.l vlseg2.w.q vlseg2.wu vlseg2.wu.l vlseg2.wu.q vlseg2.l vlseg2.l.q vlseg2.lu vlseg2.lu.q vlseg2.q vlseg2.f vlseg2.f.d vlseg2.d vlseg3.b vlseg3.b.w vlseg3.b.l vlseg3.b.q vlseg3.bu vlseg3.bu.w vlseg3.bu.l vlseg3.bu.q vlseg3.w vlseg3.w.l vlseg3.w.q vlseg3.wu vlseg3.wu.l vlseg3.wu.q vlseg3.l vlseg3.l.q vlseg3.lu vlseg3.lu.q vlseg3.q vlseg3.f vlseg3.f.d vlseg3.d vlseg4.b vlseg4.b.w vlseg4.b.l vlseg4.b.q vlseg4.bu vlseg4.bu.w vlseg4.bu.l vlseg4.bu.q vlseg4.w vlseg4.w.l vlseg4.w.q vlseg4.wu vlseg4.wu.l vlseg4.wu.q vlseg4.l vlseg4.l.q vlseg4.lu vlseg4.lu.q vlseg4.q vlseg4.f vlseg4.f.d vlseg4.d | subop=p1[15:9] op1.v=p1[8:5] op2.base=p1[4:0] |
-| 2 | VST.PI | 16 | 1111110001101101 | vst.b vst.w vst.w.b vst.l vst.l.b vst.l.w vst.q vst.q.b vst.q.w vst.q.l vst.f vst.d vst.d.f vsts.w.b vsts.w.bu vsts.l.b vsts.l.bu vsts.l.w vsts.l.wu vsts.q.b vsts.q.bu vsts.q.w vsts.q.wu vsts.q.l vsts.q.lu vsseg2.b vsseg2.w vsseg2.w.b vsseg2.l vsseg2.l.b vsseg2.l.w vsseg2.q vsseg2.q.b vsseg2.q.w vsseg2.q.l vsseg2.f vsseg2.d vsseg2.d.f vsseg3.b vsseg3.w vsseg3.w.b vsseg3.l vsseg3.l.b vsseg3.l.w vsseg3.q vsseg3.q.b vsseg3.q.w vsseg3.q.l vsseg3.f vsseg3.d vsseg3.d.f vsseg4.b vsseg4.w vsseg4.w.b vsseg4.l vsseg4.l.b vsseg4.l.w vsseg4.q vsseg4.q.b vsseg4.q.w vsseg4.q.l vsseg4.f vsseg4.d vsseg4.d.f | subop=p1[15:9] op1.v=p1[8:5] op2.base=p1[4:0] |
+| 2 | VFIR | 11 | 11111001110 | vfir.w vfir.l vfir.f | subop=p1[15:14] op1.v=p1[13:10] op2.v=p1[9:6] op4.imm=p1[5:0] op3.r=p0[4:0] |
+| 2 | R2 | 12 | 111110011110 | clz ctz clo cto popcnt bswap bswapw bswapl bitrev utf8len utf8dec utf8enc ctcc ctcs cthi ctlos cteq ctne ctge ctlt ctgt ctle ctpl ctmi ctvc ctvs mval abs prober probew fdiv fsqrt fadd32 fsub32 fmul32 fdiv32 fsqrt32 fcmp32 fneg fabs fclass fclass32 frint frintz frintm frintp frinta fcvtdq fcvtqd fcvtds fcvtsd fcvtsl fcvtls fcvtdqu fcvtqud fsflags fadd16 fsub16 fmul16 fdiv16 fsqrt16 fcmp16 fclass16 fcvtsh fcvths fcvtdh fcvthd fcvthl fcvtlh aesim sha256sig0 sha256sig1 sha256sum0 sha256sum1 sha512sig0 sha512sig1 sha512sum0 sha512sum1 addv subv mulv | op1.r=p0[3:0]+p1[15] op2.r=p1[14:10] subop=p1[9:0] |
+| 2 | RRI | 12 | 111110011111 | rori rori32 rol aesks1 | op1.r=p1[15:11] op2.imm=p1[10:5] op3.r=p1[4:0] subop=p0[3:0] |
+| 2 | LDBu8/c | 12 | 111110100011 | add sub and bis | op1.base=p0[1:0]+p1[15:13] op2.r=p1[12:8] op1.d=p1[7:0] subop=p0[3:2] |
+| 2 | CALL2_20/c | 12 | 111110100100 | call | op1.pcrel=p0[3:0]+p1[15:0] |
+| 2 | CBR8/b | 12 | 111110100101 | cblt cbge cbgt cble | op1.r=p0[1:0]+p1[15:13] op2.r=p1[12:8] op3.pcrel=p1[7:0] subop=p0[3:2] |
+| 2 | CBR8/c | 12 | 111110100110 | cbcs cbcc cbhi cblos | op1.r=p0[1:0]+p1[15:13] op2.r=p1[12:8] op3.pcrel=p1[7:0] subop=p0[3:2] |
+| 2 | CMBu12H/a | 12 | 111110100111 | cmp | op1.r=p1[15:12] op2.d=p1[11:0] op2.base=p0[3:0] |
+| 2 | LDPC14H/b | 12 | 111110101000 | movw movb movzl movzw | op2.r=p0[1:0]+p1[15:14] op1.pcrel=p1[13:0] subop=p0[3:2] |
+| 2 | LDPC16H/c | 12 | 111110101001 | xor | op1.pcrel=p1[15:0] op2.r=p0[3:0] |
+| 2 | CMPC16H/a | 12 | 111110101010 | cmp | op2.pcrel=p1[15:0] op1.r=p0[3:0] |
+| 2 | LDI14H/c | 12 | 111110101011 | bis xor mul bic | op2.r=p0[1:0]+p1[15:14] op1.imm=p1[13:0] subop=p0[3:2] |
+| 2 | CBR10H/c | 12 | 111110101100 | cbcs cbcc cbhi cblos | op1.r=p0[1:0]+p1[15:14] op2.r=p1[13:10] op3.pcrel=p1[9:0] subop=p0[3:2] |
+| 2 | CBI3_12H/a | 12 | 111110101101 | cbeq cbne | op1.r=p0[2:0]+p1[15] op2.imm=p1[14:12] op3.pcrel=p1[11:0] subop=p0[3] |
+| 2 | VOP.VVR | 12 | 111110101110 | vceq.b vceq.w vceq.l vceq.f vcgt.b vcgt.w vcgt.l vcgt.f vcgtu.b vcgtu.w vcgtu.l vadd.b vadd.w vadd.l vadd.q vadd.f vadd.d vsub.b vsub.w vsub.l vsub.q vsub.f vsub.d vsubr.b vsubr.w vsubr.l vsubr.q vsubr.f vsubr.d vmul.b vmul.w vmul.l vmul.f vmul.d vmin.b vmin.w vmin.l vmin.f vmin.d vmax.b vmax.w vmax.l vmax.f vmax.d vand.b vand.w vand.l vand.q vor.b vor.w vor.l vor.q vxor.b vxor.w vxor.l vxor.q vshl.b vshl.w vshl.l vshl.q vshr.b vshr.w vshr.l vshr.q vsar.b vsar.w vsar.l vsar.q vminu.b vminu.w vminu.l vmaxu.b vmaxu.w vmaxu.l vabd.b vabd.w vabd.l vabdu.b vabdu.w vsarr.w vsarr.l vshrr.w vshrr.l vmulh.w vmulhu.w vmulhr.w vadds.b vadds.w vadds.l vsubs.b vsubs.w vsubs.l vaddsu.b vaddsu.w vaddsu.l vsubsu.b vsubsu.w vsubsu.l vmla.w vmla.l vfma.f vfma.d | subop=p0[3:0]+p1[15:13] op1.v=p1[12:9] op2.v=p1[8:5] op3.r=p1[4:0] |
+| 2 | STBs8/a | 13 | 1111101011111 | movq movl | op1.r=p0[1:0]+p1[15:13] op2.base=p1[12:8] op2.d=p1[7:0] subop=p0[2] |
+| 2 | SOBs12/a | 13 | 1111101100000 | clr inc dec tst | op1.base=p0[0]+p1[15:12] op1.d=p1[11:0] subop=p0[2:1] |
+| 2 | SOBu12/x | 13 | 1111101100001 | jmp call jmpi calli | op1.base=p0[0]+p1[15:12] op1.d=p1[11:0] subop=p0[2:1] |
+| 2 | LDX0/a | 13 | 1111101100010 | movq movl movzb lea | op1.base=p0[0]+p1[15:12] op1.index=p1[11:7] op1.scale=p1[6:5] op2.r=p1[4:0] subop=p0[2:1] |
+| 2 | LDX0/b | 13 | 1111101100011 | movw movb movzl movzw | op1.base=p0[0]+p1[15:12] op1.index=p1[11:7] op1.scale=p1[6:5] op2.r=p1[4:0] subop=p0[2:1] |
+| 2 | LDX0/c | 13 | 1111101100100 | add sub and bis | op1.base=p0[0]+p1[15:12] op1.index=p1[11:7] op1.scale=p1[6:5] op2.r=p1[4:0] subop=p0[2:1] |
+| 2 | LDI12/d | 13 | 1111101100101 | shl shr sar mul | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] subop=p0[2:1] |
+| 2 | CTM12/a | 13 | 1111101100110 | ctcc cthi cteq ctne | op1.r=p0[0]+p1[15:12] op2.imm=p1[11:0] subop=p0[2:1] |
+| 2 | BR2_16/c | 13 | 1111101100111 | bpl bmi bvc bvs bcc bcs bge blt | op1.pcrel=p1[15:0] subop=p0[2:0] |
+| 2 | CBR8/a | 13 | 1111101101000 | cbeq cbne | op1.r=p0[1:0]+p1[15:13] op2.r=p1[12:8] op3.pcrel=p1[7:0] subop=p0[2] |
+| 2 | CBI3_10/a | 13 | 1111101101100 | cbeq cbne | op1.r=p0[1:0]+p1[15:13] op2.imm=p1[12:10] op3.pcrel=p1[9:0] subop=p0[2] |
+| 2 | CBI4_8/b | 13 | 1111101101101 | cblt cbge cbgt cble | op1.r=p0[0]+p1[15:12] op2.imm=p1[11:8] op3.pcrel=p1[7:0] subop=p0[2:1] |
+| 2 | CBI5_8/a | 13 | 1111101101110 | cbeq cbne | op1.r=p0[1:0]+p1[15:13] op2.imm=p1[12:8] op3.pcrel=p1[7:0] subop=p0[2] |
+| 2 | LDBu10H/c | 13 | 1111101101111 | xor | op1.base=p0[2:0]+p1[15] op2.r=p1[14:10] op1.d=p1[9:0] |
+| 2 | LDPC12H/d | 13 | 1111101110000 | bic mul mulh shl shr sar fadd fsub | op2.r=p1[15:12] op1.pcrel=p1[11:0] subop=p0[2:0] |
+| 2 | CBR10H/a | 13 | 1111101110001 | cbeq cbne | op1.r=p0[1:0]+p1[15:14] op2.r=p1[13:10] op3.pcrel=p1[9:0] subop=p0[2] |
+| 2 | CBZ2_14H/a | 13 | 1111101110010 | cbeq cbne | op1.r=p0[1:0]+p1[15:14] op3.pcrel=p1[13:0] subop=p0[2] |
+| 2 | CBI3_10H/b | 13 | 1111101110011 | cblt cbge cbgt cble | op1.r=p0[0]+p1[15:13] op2.imm=p1[12:10] op3.pcrel=p1[9:0] subop=p0[2:1] |
+| 2 | CBI3_10H/c | 13 | 1111101110100 | cbcs cbcc cbhi cblos | op1.r=p0[0]+p1[15:13] op2.imm=p1[12:10] op3.pcrel=p1[9:0] subop=p0[2:1] |
+| 2 | VOP.VVV | 13 | 1111101110101 | vceq.b vceq.w vceq.l vceq.f vcgt.b vcgt.w vcgt.l vcgt.f vcgtu.b vcgtu.w vcgtu.l vadd.b vadd.w vadd.l vadd.q vadd.f vadd.d vsub.b vsub.w vsub.l vsub.q vsub.f vsub.d vsubr.b vsubr.w vsubr.l vsubr.q vsubr.f vsubr.d vmul.b vmul.w vmul.l vmul.f vmul.d vmin.b vmin.w vmin.l vmin.f vmin.d vmax.b vmax.w vmax.l vmax.f vmax.d vand.b vand.w vand.l vand.q vor.b vor.w vor.l vor.q vxor.b vxor.w vxor.l vxor.q vshl.b vshl.w vshl.l vshl.q vshr.b vshr.w vshr.l vshr.q vsar.b vsar.w vsar.l vsar.q vminu.b vminu.w vminu.l vmaxu.b vmaxu.w vmaxu.l vabd.b vabd.w vabd.l vabdu.b vabdu.w vsarr.w vsarr.l vshrr.w vshrr.l vmulh.w vmulhu.w vmulhr.w vadds.b vadds.w vadds.l vsubs.b vsubs.w vsubs.l vaddsu.b vaddsu.w vaddsu.l vsubsu.b vsubsu.w vsubsu.l vavg.b vavg.w vavgu.b vavgu.w vfma.f vfma.d vfnma.f vfnma.d vmla.w vmla.l vdot.b vdotu.b vdotsu.b vdot.w | subop=p0[2:0]+p1[15:12] op1.v=p1[11:8] op2.v=p1[7:4] op3.v=p1[3:0] |
+| 2 | VSTS.R | 13 | 1111101110110 | vsts.w.b vsts.w.bu vsts.l.b vsts.l.bu vsts.l.w vsts.l.wu vsts.q.b vsts.q.bu vsts.q.w vsts.q.wu vsts.q.l vsts.q.lu | subop=p0[2:0]+p1[15] op1.v=p1[14:11] op2.base=p1[10:6] op3.imm=p1[5:0] |
+| 2 | JTAG2 | 14 | 11111011110010 | jtag | op1.base=p0[1:0]+p1[15:13] op1.index=p1[12:8] op1.scale=p1[7:6] op1.d=p1[5:0] |
+| 2 | LDBs6/b | 14 | 11111011110011 | movw movb movzl movzw | op1.base=p1[15:11] op1.d=p1[10:5] op2.r=p1[4:0] subop=p0[1:0] |
+| 2 | LDBu6/b | 14 | 11111011110100 | movw movb movzl movzw | op1.base=p1[15:11] op1.d=p1[10:5] op2.r=p1[4:0] subop=p0[1:0] |
+| 2 | LDBu8/c | 14 | 11111011110101 | xor | op1.base=p0[1:0]+p1[15:13] op2.r=p1[12:8] op1.d=p1[7:0] |
+| 2 | CMBu8/a | 14 | 11111011110110 | cmp | op1.r=p0[1:0]+p1[15:13] op2.base=p1[12:8] op2.d=p1[7:0] |
+| 2 | SOBs12/a | 14 | 11111011110111 | push pop | op1.base=p0[0]+p1[15:12] op1.d=p1[11:0] subop=p0[1] |
+| 2 | STX0/a | 14 | 11111011111000 | movq movl | op1.r=p0[0]+p1[15:12] op2.base=p1[11:7] op2.index=p1[6:2] op2.scale=p1[1:0] subop=p0[1] |
+| 2 | STX0/b | 14 | 11111011111001 | movw movb | op1.r=p0[0]+p1[15:12] op2.base=p1[11:7] op2.index=p1[6:2] op2.scale=p1[1:0] subop=p0[1] |
+| 2 | SOX4/a | 14 | 11111011111010 | clr inc dec tst | op1.base=p1[15:11] op1.index=p1[10:6] op1.scale=p1[5:4] op1.d=p1[3:0] subop=p0[1:0] |
+| 2 | SOX4/x | 14 | 11111011111011 | jmp call jmpi calli | op1.base=p1[15:11] op1.index=p1[10:6] op1.scale=p1[5:4] op1.d=p1[3:0] subop=p0[1:0] |
+| 2 | LDI12/b | 14 | 11111011111100 | add sub | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] subop=p0[1] |
+| 2 | LDI12/d | 14 | 11111011111101 | bic movb | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] subop=p0[1] |
+| 2 | BR2_16/c | 14 | 11111011111110 | bgt ble bhi blos | op1.pcrel=p1[15:0] subop=p0[1:0] |
+| 2 | SOBu12H/a | 14 | 11111100000000 | clr inc dec tst | op1.base=p1[15:12] op1.d=p1[11:0] subop=p0[1:0] |
+| 2 | CBZ2_12H/b | 14 | 11111100000001 | cblt cbge cbgt cble | op1.r=p1[15:12] op3.pcrel=p1[11:0] subop=p0[1:0] |
+| 2 | MFSR | 15 | 111111000001000 | mfsr | op1.r=p0[0]+p1[15:12] op2.imm=p1[11:0] |
+| 2 | MTSR | 15 | 111111000001001 | mtsr | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] |
+| 2 | STBs6/b | 15 | 111111000001111 | movw movb | op1.r=p1[15:11] op2.base=p1[10:6] op2.d=p1[5:0] subop=p0[0] |
+| 2 | LDX0/c | 15 | 111111000010000 | xor | op1.base=p0[0]+p1[15:12] op1.index=p1[11:7] op1.scale=p1[6:5] op2.r=p1[4:0] |
+| 2 | CMX0/a | 15 | 111111000010001 | cmp | op1.r=p0[0]+p1[15:12] op2.base=p1[11:7] op2.index=p1[6:2] op2.scale=p1[1:0] |
+| 2 | SOX4/a | 15 | 111111000010010 | push pop | op1.base=p1[15:11] op1.index=p1[10:6] op1.scale=p1[5:4] op1.d=p1[3:0] subop=p0[0] |
+| 2 | LDI12/a | 15 | 111111000010011 | movq | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] |
+| 2 | LDI12/b | 15 | 111111000010100 | and | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] |
+| 2 | LDI12/d | 15 | 111111000010101 | bit | op2.r=p0[0]+p1[15:12] op1.imm=p1[11:0] |
+| 2 | CMI12/a | 15 | 111111000010110 | cmp | op1.r=p0[0]+p1[15:12] op2.imm=p1[11:0] |
+| 2 | BR2_16/b | 15 | 111111000010111 | beq bne | op1.pcrel=p1[15:0] subop=p0[0] |
+| 2 | STBs8H/b | 15 | 111111000011000 | movw movb | op1.r=p1[15:12] op2.base=p1[11:8] op2.d=p1[7:0] subop=p0[0] |
+| 2 | SOBu12H/a | 15 | 111111000011001 | push pop | op1.base=p1[15:12] op1.d=p1[11:0] subop=p0[0] |
+| 2 | LDPC12H/d | 15 | 111111000011010 | fmul bit | op2.r=p1[15:12] op1.pcrel=p1[11:0] subop=p0[0] |
+| 2 | PUSHI2 | 16 | 1111110000111010 | push | op1.imm=p1[15:0] |
+| 2 | RRF5 | 16 | 1111110000111011 | movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl shr sar fadd fsub fmul bit cmp fcmp | subop=p1[15:10] op1.r=p1[9:5] op2.r=p1[4:0] |
+| 2 | BR2_16/a | 16 | 1111110000111100 | br | op1.pcrel=p1[15:0] |
+| 2 | CALL2_16/j | 16 | 1111110000111101 | jmp | op1.pcrel=p1[15:0] |
+| 2 | LEAS12H/a | 16 | 1111110000111110 | lea | op2.r=p1[15:12] op1.d=p1[11:0] |
+| 2 | VBEG | 16 | 1111110000111111 | vec | subop=p1[15:10] op1.r=p1[9:5] op2.r=p1[4:0] |
+| 2 | VEND | 16 | 1111110001000000 | vend | subop=p1[15:0] |
+| 2 | VFIN | 16 | 1111110001000001 | vfin | subop=p1[15:0] |
+| 2 | VDACC | 16 | 1111110001000011 | vdacc.b vdacc.bu vdacc.bsu vdacc.w vsad.bu | subop=p1[15:13] op1.r=p1[12:8] op2.v=p1[7:4] op3.v=p1[3:0] |
+| 2 | VTBLM | 16 | 1111110001000100 | vtbl.b | subop=p1[15:13] op1.v=p1[12:9] op2.base=p1[8:4] op3.v=p1[3:0] |
+| 2 | VOP.VV | 16 | 1111110001000101 | vmov.b vmov.w vmov.l vmov.q vmov.f vmov.d vneg.b vneg.w vneg.l vneg.q vneg.f vneg.d vcvt.l.f vcvt.lu.f vcvt.f.l vcvt.f.lu | op1.v=p1[15:12] op2.v=p1[11:8] subop=p1[7:0] |
+| 2 | VBSL | 16 | 1111110001000110 | vbsl | op1.v=p1[15:12] op2.v=p1[11:8] op3.v=p1[7:4] op4.v=p1[3:0] |
+| 2 | VOP.VR | 16 | 1111110001000111 | vmov.b vmov.w vmov.l vmov.q vmov.f vmov.d | subop=p1[15:9] op1.v=p1[8:5] op2.r=p1[4:0] |
+| 2 | VFMAB | 16 | 1111110001001001 | vfmab.f vfmab.d | subop=p1[15:13] op1.v=p1[12:9] op2.v=p1[8:5] op3.base=p1[4:0] |
+| 2 | VACC | 16 | 1111110001001010 | vacc.b.l vacc.bu.l vacc.w.l vacc.wu.l vacc.l.l vacc.l.q vacc.lu.l vacc.lu.q vacc.q.q vacc.f vacc.f.d vacc.d vmaxacc.b vmaxacc.bu vmaxacc.w vmaxacc.wu vmaxacc.l vmaxacc.lu vmaxacc.q vmaxacc.f vmaxacc.d vminacc.b vminacc.bu vminacc.w vminacc.wu vminacc.l vminacc.lu vminacc.q vminacc.f vminacc.d | subop=p1[15:9] op1.r=p1[8:4] op2.v=p1[3:0] |
+| 2 | VCLR | 16 | 1111110001001011 | vclr.l vclr.f vclr.d | op1.v=p1[15:12] op2.imm=p1[11:8] subop=p1[7:0] |
+| 2 | VLD.PI | 16 | 1111110001001100 | vld.b vld.b.w vld.b.l vld.b.q vld.bu vld.bu.w vld.bu.l vld.bu.q vld.w vld.w.l vld.w.q vld.wu vld.wu.l vld.wu.q vld.l vld.l.q vld.lu vld.lu.q vld.q vld.f vld.f.d vld.d vlseg2.b vlseg2.b.w vlseg2.b.l vlseg2.b.q vlseg2.bu vlseg2.bu.w vlseg2.bu.l vlseg2.bu.q vlseg2.w vlseg2.w.l vlseg2.w.q vlseg2.wu vlseg2.wu.l vlseg2.wu.q vlseg2.l vlseg2.l.q vlseg2.lu vlseg2.lu.q vlseg2.q vlseg2.f vlseg2.f.d vlseg2.d vlseg3.b vlseg3.b.w vlseg3.b.l vlseg3.b.q vlseg3.bu vlseg3.bu.w vlseg3.bu.l vlseg3.bu.q vlseg3.w vlseg3.w.l vlseg3.w.q vlseg3.wu vlseg3.wu.l vlseg3.wu.q vlseg3.l vlseg3.l.q vlseg3.lu vlseg3.lu.q vlseg3.q vlseg3.f vlseg3.f.d vlseg3.d vlseg4.b vlseg4.b.w vlseg4.b.l vlseg4.b.q vlseg4.bu vlseg4.bu.w vlseg4.bu.l vlseg4.bu.q vlseg4.w vlseg4.w.l vlseg4.w.q vlseg4.wu vlseg4.wu.l vlseg4.wu.q vlseg4.l vlseg4.l.q vlseg4.lu vlseg4.lu.q vlseg4.q vlseg4.f vlseg4.f.d vlseg4.d | subop=p1[15:9] op1.v=p1[8:5] op2.base=p1[4:0] |
+| 2 | VST.PI | 16 | 1111110001001110 | vst.b vst.w vst.w.b vst.l vst.l.b vst.l.w vst.q vst.q.b vst.q.w vst.q.l vst.f vst.d vst.d.f vsts.w.b vsts.w.bu vsts.l.b vsts.l.bu vsts.l.w vsts.l.wu vsts.q.b vsts.q.bu vsts.q.w vsts.q.wu vsts.q.l vsts.q.lu vsseg2.b vsseg2.w vsseg2.w.b vsseg2.l vsseg2.l.b vsseg2.l.w vsseg2.q vsseg2.q.b vsseg2.q.w vsseg2.q.l vsseg2.f vsseg2.d vsseg2.d.f vsseg3.b vsseg3.w vsseg3.w.b vsseg3.l vsseg3.l.b vsseg3.l.w vsseg3.q vsseg3.q.b vsseg3.q.w vsseg3.q.l vsseg3.f vsseg3.d vsseg3.d.f vsseg4.b vsseg4.w vsseg4.w.b vsseg4.l vsseg4.l.b vsseg4.l.w vsseg4.q vsseg4.q.b vsseg4.q.w vsseg4.q.l vsseg4.f vsseg4.d vsseg4.d.f | subop=p1[15:9] op1.v=p1[8:5] op2.base=p1[4:0] |
 | 3 | LDF.X22 | 5 | 01001 | movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl | op1.d=p1[5:0]+p2[15:0] op1.base=p0[6:5]+p1[15:13] op1.index=p1[12:8] op1.scale=p1[7:6] op2.r=p0[4:0] subop=p0[10:7] |
 | 3 | LDU.B28 | 6 | 011111 | movq.u movl.u movw.u movb.u movzl.u movzw.u movzb.u movq.d movl.d movw.d movb.d movzl.d movzw.d movzb.d movq.ud movl.ud | op1.d=p1[11:0]+p2[15:0] op1.base=p0[5]+p1[15:12] op2.r=p0[4:0] subop=p0[9:6] |
 | 3 | LDF.B28 | 6 | 100001 | movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl | op1.d=p1[11:0]+p2[15:0] op1.base=p0[5]+p1[15:12] op2.r=p0[4:0] subop=p0[9:6] |
@@ -222,31 +222,31 @@ table below, not a register number.
 | 3 | LDF.A32 | 11 | 11111000010 | movuq | op1.abs=p1[15:0]+p2[15:0] op2.r=p0[4:0] |
 | 3 | SOF.B28 | 11 | 11111000011 | clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli | op1.d=p1[11:0]+p2[15:0] op1.base=p0[0]+p1[15:12] subop=p0[4:1] |
 | 3 | DPF.D28 | 11 | 11111000110 | movq movl movw movb movzl movzw movzb add sub bic bis xor and mul mulh shl | op1.d=p1[11:0]+p2[15:0] op2.r=p0[0]+p1[15:12] subop=p0[4:1] |
-| 3 | SOF.PC32 | 12 | 111110100010 | clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[3:0] |
-| 3 | SOF.A32 | 12 | 111110100011 | clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli | op1.abs=p1[15:0]+p2[15:0] subop=p0[3:0] |
-| 3 | DPF.D28 | 12 | 111110100100 | shr sar fadd fsub fmul bit lea movub | op1.d=p1[11:0]+p2[15:0] op2.r=p0[0]+p1[15:12] subop=p0[3:1] |
-| 3 | BRF | 13 | 1111101100010 | br bne beq bpl bmi bvc bvs bcc | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[2:0] |
-| 3 | CB3I12_16/b | 13 | 1111101101101 | cblt cbge cbgt cble | op3.pcrel=p2[15:0] op1.r=p0[0]+p1[15:12] op2.imm=p1[11:0] subop=p0[2:1] |
-| 3 | CB3I16_12/c | 13 | 1111101101110 | cbcs cbcc cbhi cblos | op2.imm=p1[11:0]+p2[15:12] op3.pcrel=p2[11:0] op1.r=p0[0]+p1[15:12] subop=p0[2:1] |
-| 3 | CB3R24/a | 13 | 1111101101111 | cbeq cbne | op3.pcrel=p1[7:0]+p2[15:0] op1.r=p0[1:0]+p1[15:13] op2.r=p1[12:8] subop=p0[2] |
-| 3 | DPF.D28 | 14 | 11111011110111 | movuw movul | op1.d=p1[11:0]+p2[15:0] op2.r=p0[0]+p1[15:12] subop=p0[1] |
-| 3 | BRF | 14 | 11111011111000 | bcs bge blt bgt | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[1:0] |
-| 3 | JTAG3 | 14 | 11111011111001 | jtag | op1.d=p1[5:0]+p2[15:0] op1.base=p0[1:0]+p1[15:13] op1.index=p1[12:8] op1.scale=p1[7:6] |
-| 3 | CB3I16_12/a | 14 | 11111100000111 | cbeq cbne | op2.imm=p1[11:0]+p2[15:12] op3.pcrel=p2[11:0] op1.r=p0[0]+p1[15:12] subop=p0[1] |
-| 3 | CB3I16_12H/b | 14 | 11111100001010 | cblt cbge cbgt cble | op2.imm=p1[11:0]+p2[15:12] op3.pcrel=p2[11:0] op1.r=p1[15:12] subop=p0[1:0] |
-| 3 | CB3R24H/b | 14 | 11111100001011 | cblt cbge cbgt cble | op3.pcrel=p1[7:0]+p2[15:0] op1.r=p1[15:12] op2.r=p1[11:8] subop=p0[1:0] |
-| 3 | DPF.D28 | 15 | 111111000011010 | movuq | op1.d=p1[11:0]+p2[15:0] op2.r=p0[0]+p1[15:12] |
-| 3 | BRF | 15 | 111111000011011 | ble bhi | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[0] |
-| 3 | CALLF | 15 | 111111000011100 | call jmp | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[0] |
-| 3 | PUSHMF | 15 | 111111000011101 | pushm popm | op1.imm=p1[15:0]+p2[15:0] subop=p0[0] |
-| 3 | SPADJF | 15 | 111111000011110 | add sub | op1.imm=p1[15:0]+p2[15:0] subop=p0[0] |
-| 3 | CB3I12_16H/a | 15 | 111111000101011 | cbeq cbne | op3.pcrel=p2[15:0] op1.r=p1[15:12] op2.imm=p1[11:0] subop=p0[0] |
-| 3 | BRF | 16 | 1111110001011000 | blos | op1.pcrel=p1[15:0]+p2[15:0] |
-| 3 | PUSHI3 | 16 | 1111110001011001 | push | op1.imm=p1[15:0]+p2[15:0] |
-| 3 | VOP.VVI | 16 | 1111110001100001 | vceq.b vceq.w vceq.l vceq.f vcgt.b vcgt.w vcgt.l vcgt.f vcgtu.b vcgtu.w vcgtu.l vadd.b vadd.w vadd.l vadd.q vadd.f vadd.d vsub.b vsub.w vsub.l vsub.q vsub.f vsub.d vsubr.b vsubr.w vsubr.l vsubr.q vsubr.f vsubr.d vmul.b vmul.w vmul.l vmul.f vmul.d vmin.b vmin.w vmin.l vmin.f vmin.d vmax.b vmax.w vmax.l vmax.f vmax.d vand.b vand.w vand.l vand.q vor.b vor.w vor.l vor.q vxor.b vxor.w vxor.l vxor.q vshl.b vshl.w vshl.l vshl.q vshr.b vshr.w vshr.l vshr.q vsar.b vsar.w vsar.l vsar.q vminu.b vminu.w vminu.l vmaxu.b vmaxu.w vmaxu.l vabd.b vabd.w vabd.l vabdu.b vabdu.w vsarr.w vsarr.l vshrr.w vshrr.l vmulh.w vmulhu.w vmulhr.w vadds.b vadds.w vadds.l vsubs.b vsubs.w vsubs.l vaddsu.b vaddsu.w vaddsu.l vsubsu.b vsubsu.w vsubsu.l | op3.imm=p2[15:0] op1.v=p1[15:12] op2.v=p1[11:8] subop=p1[7:0] |
-| 3 | VOP.VI | 16 | 1111110001100111 | vmov.b vmov.w vmov.l vmov.q vmov.f vmov.d | op2.imm=p2[15:0] op1.v=p1[15:12] subop=p1[11:0] |
-| 3 | VLD.B | 16 | 1111110001101100 | vld.b vld.b.w vld.b.l vld.b.q vld.bu vld.bu.w vld.bu.l vld.bu.q vld.w vld.w.l vld.w.q vld.wu vld.wu.l vld.wu.q vld.l vld.l.q vld.lu vld.lu.q vld.q vld.f vld.f.d vld.d vlseg2.b vlseg2.b.w vlseg2.b.l vlseg2.b.q vlseg2.bu vlseg2.bu.w vlseg2.bu.l vlseg2.bu.q vlseg2.w vlseg2.w.l vlseg2.w.q vlseg2.wu vlseg2.wu.l vlseg2.wu.q vlseg2.l vlseg2.l.q vlseg2.lu vlseg2.lu.q vlseg2.q vlseg2.f vlseg2.f.d vlseg2.d vlseg3.b vlseg3.b.w vlseg3.b.l vlseg3.b.q vlseg3.bu vlseg3.bu.w vlseg3.bu.l vlseg3.bu.q vlseg3.w vlseg3.w.l vlseg3.w.q vlseg3.wu vlseg3.wu.l vlseg3.wu.q vlseg3.l vlseg3.l.q vlseg3.lu vlseg3.lu.q vlseg3.q vlseg3.f vlseg3.f.d vlseg3.d vlseg4.b vlseg4.b.w vlseg4.b.l vlseg4.b.q vlseg4.bu vlseg4.bu.w vlseg4.bu.l vlseg4.bu.q vlseg4.w vlseg4.w.l vlseg4.w.q vlseg4.wu vlseg4.wu.l vlseg4.wu.q vlseg4.l vlseg4.l.q vlseg4.lu vlseg4.lu.q vlseg4.q vlseg4.f vlseg4.f.d vlseg4.d | subop=p1[6:0]+p2[15:12] op2.d=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
-| 3 | VST.B | 16 | 1111110001101110 | vst.b vst.w vst.w.b vst.l vst.l.b vst.l.w vst.q vst.q.b vst.q.w vst.q.l vst.f vst.d vst.d.f vsts.w.b vsts.w.bu vsts.l.b vsts.l.bu vsts.l.w vsts.l.wu vsts.q.b vsts.q.bu vsts.q.w vsts.q.wu vsts.q.l vsts.q.lu vsseg2.b vsseg2.w vsseg2.w.b vsseg2.l vsseg2.l.b vsseg2.l.w vsseg2.q vsseg2.q.b vsseg2.q.w vsseg2.q.l vsseg2.f vsseg2.d vsseg2.d.f vsseg3.b vsseg3.w vsseg3.w.b vsseg3.l vsseg3.l.b vsseg3.l.w vsseg3.q vsseg3.q.b vsseg3.q.w vsseg3.q.l vsseg3.f vsseg3.d vsseg3.d.f vsseg4.b vsseg4.w vsseg4.w.b vsseg4.l vsseg4.l.b vsseg4.l.w vsseg4.q vsseg4.q.b vsseg4.q.w vsseg4.q.l vsseg4.f vsseg4.d vsseg4.d.f | subop=p1[6:0]+p2[15:12] op2.d=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
-| 3 | VLDT | 16 | 1111110001101111 | vldt.b vldt.b.w vldt.b.l vldt.b.q vldt.bu vldt.bu.w vldt.bu.l vldt.bu.q vldt.w vldt.w.l vldt.w.q vldt.wu vldt.wu.l vldt.wu.q vldt.l vldt.l.q vldt.lu vldt.lu.q vldt.q vldt.f vldt.f.d vldt.d | subop=p1[6:0]+p2[15:12] op3.imm=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
-| 3 | VSTT | 16 | 1111110001110000 | vstt.b vstt.w vstt.w.b vstt.l vstt.l.b vstt.l.w vstt.q vstt.q.b vstt.q.w vstt.q.l vstt.f vstt.d vstt.d.f | subop=p1[6:0]+p2[15:12] op3.imm=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
+| 3 | SOF.PC32 | 12 | 111110100000 | clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[3:0] |
+| 3 | SOF.A32 | 12 | 111110100001 | clr com inc dec neg tst adc sbc asl asr push pop jmp call jmpi calli | op1.abs=p1[15:0]+p2[15:0] subop=p0[3:0] |
+| 3 | DPF.D28 | 12 | 111110100010 | shr sar fadd fsub fmul bit lea movub | op1.d=p1[11:0]+p2[15:0] op2.r=p0[0]+p1[15:12] subop=p0[3:1] |
+| 3 | BRF | 13 | 1111101011110 | br bne beq bpl bmi bvc bvs bcc | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[2:0] |
+| 3 | CB3I12_16/b | 13 | 1111101101001 | cblt cbge cbgt cble | op3.pcrel=p2[15:0] op1.r=p0[0]+p1[15:12] op2.imm=p1[11:0] subop=p0[2:1] |
+| 3 | CB3I16_12/c | 13 | 1111101101010 | cbcs cbcc cbhi cblos | op2.imm=p1[11:0]+p2[15:12] op3.pcrel=p2[11:0] op1.r=p0[0]+p1[15:12] subop=p0[2:1] |
+| 3 | CB3R24/a | 13 | 1111101101011 | cbeq cbne | op3.pcrel=p1[7:0]+p2[15:0] op1.r=p0[1:0]+p1[15:13] op2.r=p1[12:8] subop=p0[2] |
+| 3 | DPF.D28 | 14 | 11111011101111 | movuw movul | op1.d=p1[11:0]+p2[15:0] op2.r=p0[0]+p1[15:12] subop=p0[1] |
+| 3 | BRF | 14 | 11111011110000 | bcs bge blt bgt | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[1:0] |
+| 3 | JTAG3 | 14 | 11111011110001 | jtag | op1.d=p1[5:0]+p2[15:0] op1.base=p0[1:0]+p1[15:13] op1.index=p1[12:8] op1.scale=p1[7:6] |
+| 3 | CB3I16_12/a | 14 | 11111011111111 | cbeq cbne | op2.imm=p1[11:0]+p2[15:12] op3.pcrel=p2[11:0] op1.r=p0[0]+p1[15:12] subop=p0[1] |
+| 3 | CB3I16_12H/b | 14 | 11111100000010 | cblt cbge cbgt cble | op2.imm=p1[11:0]+p2[15:12] op3.pcrel=p2[11:0] op1.r=p1[15:12] subop=p0[1:0] |
+| 3 | CB3R24H/b | 14 | 11111100000011 | cblt cbge cbgt cble | op3.pcrel=p1[7:0]+p2[15:0] op1.r=p1[15:12] op2.r=p1[11:8] subop=p0[1:0] |
+| 3 | DPF.D28 | 15 | 111111000001010 | movuq | op1.d=p1[11:0]+p2[15:0] op2.r=p0[0]+p1[15:12] |
+| 3 | BRF | 15 | 111111000001011 | ble bhi | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[0] |
+| 3 | CALLF | 15 | 111111000001100 | call jmp | op1.pcrel=p1[15:0]+p2[15:0] subop=p0[0] |
+| 3 | PUSHMF | 15 | 111111000001101 | pushm popm | op1.imm=p1[15:0]+p2[15:0] subop=p0[0] |
+| 3 | SPADJF | 15 | 111111000001110 | add sub | op1.imm=p1[15:0]+p2[15:0] subop=p0[0] |
+| 3 | CB3I12_16H/a | 15 | 111111000011011 | cbeq cbne | op3.pcrel=p2[15:0] op1.r=p1[15:12] op2.imm=p1[11:0] subop=p0[0] |
+| 3 | BRF | 16 | 1111110000111000 | blos | op1.pcrel=p1[15:0]+p2[15:0] |
+| 3 | PUSHI3 | 16 | 1111110000111001 | push | op1.imm=p1[15:0]+p2[15:0] |
+| 3 | VOP.VVI | 16 | 1111110001000010 | vceq.b vceq.w vceq.l vceq.f vcgt.b vcgt.w vcgt.l vcgt.f vcgtu.b vcgtu.w vcgtu.l vadd.b vadd.w vadd.l vadd.q vadd.f vadd.d vsub.b vsub.w vsub.l vsub.q vsub.f vsub.d vsubr.b vsubr.w vsubr.l vsubr.q vsubr.f vsubr.d vmul.b vmul.w vmul.l vmul.f vmul.d vmin.b vmin.w vmin.l vmin.f vmin.d vmax.b vmax.w vmax.l vmax.f vmax.d vand.b vand.w vand.l vand.q vor.b vor.w vor.l vor.q vxor.b vxor.w vxor.l vxor.q vshl.b vshl.w vshl.l vshl.q vshr.b vshr.w vshr.l vshr.q vsar.b vsar.w vsar.l vsar.q vminu.b vminu.w vminu.l vmaxu.b vmaxu.w vmaxu.l vabd.b vabd.w vabd.l vabdu.b vabdu.w vsarr.w vsarr.l vshrr.w vshrr.l vmulh.w vmulhu.w vmulhr.w vadds.b vadds.w vadds.l vsubs.b vsubs.w vsubs.l vaddsu.b vaddsu.w vaddsu.l vsubsu.b vsubsu.w vsubsu.l | op3.imm=p2[15:0] op1.v=p1[15:12] op2.v=p1[11:8] subop=p1[7:0] |
+| 3 | VOP.VI | 16 | 1111110001001000 | vmov.b vmov.w vmov.l vmov.q vmov.f vmov.d | op2.imm=p2[15:0] op1.v=p1[15:12] subop=p1[11:0] |
+| 3 | VLD.B | 16 | 1111110001001101 | vld.b vld.b.w vld.b.l vld.b.q vld.bu vld.bu.w vld.bu.l vld.bu.q vld.w vld.w.l vld.w.q vld.wu vld.wu.l vld.wu.q vld.l vld.l.q vld.lu vld.lu.q vld.q vld.f vld.f.d vld.d vlseg2.b vlseg2.b.w vlseg2.b.l vlseg2.b.q vlseg2.bu vlseg2.bu.w vlseg2.bu.l vlseg2.bu.q vlseg2.w vlseg2.w.l vlseg2.w.q vlseg2.wu vlseg2.wu.l vlseg2.wu.q vlseg2.l vlseg2.l.q vlseg2.lu vlseg2.lu.q vlseg2.q vlseg2.f vlseg2.f.d vlseg2.d vlseg3.b vlseg3.b.w vlseg3.b.l vlseg3.b.q vlseg3.bu vlseg3.bu.w vlseg3.bu.l vlseg3.bu.q vlseg3.w vlseg3.w.l vlseg3.w.q vlseg3.wu vlseg3.wu.l vlseg3.wu.q vlseg3.l vlseg3.l.q vlseg3.lu vlseg3.lu.q vlseg3.q vlseg3.f vlseg3.f.d vlseg3.d vlseg4.b vlseg4.b.w vlseg4.b.l vlseg4.b.q vlseg4.bu vlseg4.bu.w vlseg4.bu.l vlseg4.bu.q vlseg4.w vlseg4.w.l vlseg4.w.q vlseg4.wu vlseg4.wu.l vlseg4.wu.q vlseg4.l vlseg4.l.q vlseg4.lu vlseg4.lu.q vlseg4.q vlseg4.f vlseg4.f.d vlseg4.d | subop=p1[6:0]+p2[15:12] op2.d=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
+| 3 | VST.B | 16 | 1111110001001111 | vst.b vst.w vst.w.b vst.l vst.l.b vst.l.w vst.q vst.q.b vst.q.w vst.q.l vst.f vst.d vst.d.f vsts.w.b vsts.w.bu vsts.l.b vsts.l.bu vsts.l.w vsts.l.wu vsts.q.b vsts.q.bu vsts.q.w vsts.q.wu vsts.q.l vsts.q.lu vsseg2.b vsseg2.w vsseg2.w.b vsseg2.l vsseg2.l.b vsseg2.l.w vsseg2.q vsseg2.q.b vsseg2.q.w vsseg2.q.l vsseg2.f vsseg2.d vsseg2.d.f vsseg3.b vsseg3.w vsseg3.w.b vsseg3.l vsseg3.l.b vsseg3.l.w vsseg3.q vsseg3.q.b vsseg3.q.w vsseg3.q.l vsseg3.f vsseg3.d vsseg3.d.f vsseg4.b vsseg4.w vsseg4.w.b vsseg4.l vsseg4.l.b vsseg4.l.w vsseg4.q vsseg4.q.b vsseg4.q.w vsseg4.q.l vsseg4.f vsseg4.d vsseg4.d.f | subop=p1[6:0]+p2[15:12] op2.d=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
+| 3 | VLDT | 16 | 1111110001010000 | vldt.b vldt.b.w vldt.b.l vldt.b.q vldt.bu vldt.bu.w vldt.bu.l vldt.bu.q vldt.w vldt.w.l vldt.w.q vldt.wu vldt.wu.l vldt.wu.q vldt.l vldt.l.q vldt.lu vldt.lu.q vldt.q vldt.f vldt.f.d vldt.d | subop=p1[6:0]+p2[15:12] op3.imm=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
+| 3 | VSTT | 16 | 1111110001010001 | vstt.b vstt.w vstt.w.b vstt.l vstt.l.b vstt.l.w vstt.q vstt.q.b vstt.q.w vstt.q.l vstt.f vstt.d vstt.d.f | subop=p1[6:0]+p2[15:12] op3.imm=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
 | 5 | MOVQL | 11 | 11111000000 | movql | op1.imm=p1[15:0]+p2[15:0]+p3[15:0]+p4[15:0] op2.r=p0[4:0] |
