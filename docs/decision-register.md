@@ -464,3 +464,7 @@
 - R457 | 2026-11-17 | decision | "llvm lets us test different approaches to vector/gemm type ops, and gcc let's us test bounds checking methods" | subjects: LLVM back end: frozen until the port | current
 - R458 | 2026-11-17 | decision | "gcc will be third backend." | subjects: LLVM back end: frozen until the port | current
 - R459 | 2026-11-17 | decision | "go ahead with those choices" | subjects: Vector prefix (vec) and the GEMM unit | current
+- R460 | 2026-11-17 | question | "also in an agent what would be needed to let as64 be nasm compatible too" | subjects: Assembler syntax | current
+- R461 | 2026-11-17 | decision | "for as64/nasm, do the small changes. and add the h and b suffixes for numbers. if that is a conflict explain." | subjects: Assembler syntax | current
+- R462 | 2026-11-17 | question | "I mean, A6h means 0xA6 and 1001b means 0b1001 what is the conflict?" | subjects: Assembler syntax | current
+- R463 | 2026-11-17 | decision | "i want all the language in the grammar, not in a preprocessor" | subjects: Assembler syntax | current
