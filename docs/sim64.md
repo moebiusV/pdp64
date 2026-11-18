@@ -2,7 +2,7 @@
 
 [← pdp64 index](../README.md)
 
-`sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] [-P file] [--timing=SPEC]... program` loads an ELF executable written by `ld64`, decodes each instruction with the decoder generated from
+`sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-x LO:HI] [-n steps] [-P file] [--timing=SPEC]... program` loads an ELF executable written by `ld64`, decodes each instruction with the decoder generated from
 the table codec (`common/pdp64enc.c`, with the tables generated from `spec/pdp64/pdp64.hbnf`) and runs it in user mode. It is the executable statement of what each instruction does (of the reference implementation: what it does not implement yet is listed below and in [implementation-status.md](implementation-status.md)), and the instruction numbers are the generated names in `build/pdp64-consts.h`, so nothing is typed twice.
 
 | option | meaning |
@@ -14,6 +14,7 @@ the table codec (`common/pdp64enc.c`, with the tables generated from `spec/pdp64
 | `-m pdp64` | accepted, for the driver convention of the C compiler: there is one target and no other value is accepted; a program whose `e_flags` do not hold `EF_PDP64_ISA` (2) is refused |
 | `-K` | kernel mode with exceptions delivered through the vectors (an unimplemented word raises the illegal-instruction exception) |
 | `-i N:LEVEL:VECTOR` | raise interrupt LEVEL (1 to 7) at VECTOR after N instructions |
+| `-x LO:HI` | (a test facility, with `-K`) the pages of `[LO, HI)` (page aligned) are mapped and zero filled, but the first access to each page faults once, a load fault (vector 7) or a store fault (vector 8), and then succeeds: the stand-in for "the handler maps the page" in a machine without an MMU; `tests/sim/vec-restart.S` uses it (on QEMU the same program uses real page tables) |
 | `-V` | print the vector counters to standard error at exit: blocks run, strips run, vector instructions executed (one for each strip), elements they worked on; `-P` also writes them as a `#vec` line |
 | `-P file` | profile: count the executed instructions per pc and write them at exit (see below) |
 | `--timing=SPEC` | a cycle estimate from a trace-driven in-order timing model (repeatable); `--timing-out=FILE`, `--timing-pc=FILE`, `--timing-help`: [timing-model.md](timing-model.md) |

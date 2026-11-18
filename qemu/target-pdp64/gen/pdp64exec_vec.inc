@@ -573,6 +573,11 @@ static void vec_commit(struct vctx *x)
 /* ---- the block ----------------------------------------------------------------------------------------------------- */
 struct vdec { struct einsn in; const struct vinfo *vi; };
 static struct vctx VXS;
+/* the hardware's hidden copy made at a vec that has hidden accumulation (the address of the vec, the accumulators it names): vrun is the block running, valid from its entry until it
+   ends; one that is still valid at the next vec was aborted, and becomes vrst, the copy a restart at the same address uses (a handler's own blocks do not touch it) */
+static uint64_t vrun_pc, vrst_pc;
+static uint16_t vrun_acc, vrst_acc;
+static int vrun_valid, vrst_valid;
 
 static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 {
@@ -624,8 +629,17 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 	/* hidden accumulation (a vclr in the block, an accumulator named before it): hidden state is not saved at a context switch (R435), so an abort
 	   restarts the block from its entry and discards the accumulators (vec-isa.md 4.1, the second option).  Otherwise the pointers are the progress and the block
 	   goes on from the strip it stopped at. */
+	if (vrun_valid) { vrst_pc = vrun_pc; vrst_acc = vrun_acc; vrst_valid = 1; }	/* a hidden block that did not end was aborted by a fault: its hidden copy is kept for the restart */
+	vrun_valid = 0;
+	if (vrst_valid && vrst_pc == start) {			/* the restart of an aborted hidden block: the naming of its accumulators is part of the hardware's copy made at the vec, so a handler that ran vector code of its own
+								   (which names and clears accumulators too) does not change it; the accumulators themselves are discarded (zero) */
+		C->vacc = vrst_acc;
+		for (int v = 0; v < 16; v++) if (C->vacc >> v & 1) memset(VR(v), 0, VBYTES);
+		vrst_valid = 0;
+	}
 	int hidden = C->vacc != 0;
 	for (int i = 0; i < nb; i++) if (body[i].vi->op == VO_CLR) hidden = 1;
+	if (hidden) { vrun_valid = 1; vrun_pc = start; vrun_acc = C->vacc; }		/* stays valid if a fault leaves this function; a block that ends clears it */
 	C->progress = !hidden; C->vhidden = hidden;
 	x->vl = vl; x->inblock = 1; x->nsq = 0;
 	for (long strip = 0; ; strip++) {
@@ -646,6 +660,9 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		if (strip > (1L << 26)) die("vec: runaway block", 0);
 	}
 	C->vhidden = 0;
+	vrun_valid = 0;
+	C->vacc = 0;			/* the accumulators are named for this block only: the registers keep their values (a vclr before the block, then the results read after vend), but the next block starts with no
+				   accumulators (without this every block after a vclr was "hidden" for good, restarted from its entry and kept the registers across strips: tests/sim/vec-restart.S) */
 	pc = endpc;
 }
 

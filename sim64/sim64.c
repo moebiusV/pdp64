@@ -9,6 +9,7 @@
  *   -P file  profile: count the executed instructions per pc and write them at exit: "#" lines (the target, the totals, the instructions per category)
  *       and one line "pc count bytes category" (pc in hex, category as the #category lines in order) for each pc that ran.  A block instruction (mcpy...) is one executed instruction.
  *
+ *   -x LO:HI  (a test facility, with -K) the first access to each page of [LO, HI) faults once (a load or a store fault), then succeeds: "the handler maps the page" without an MMU
  *   -V  print the vector counters (blocks, strips, vector instructions, elements) to standard error at exit; -P also writes them as a "#vec" line
  *   -t  trace: one line per instruction, to standard error     -r  print the registers and flags when the program stops
  *   -n  stop after that many instructions (default 200 million)
@@ -108,11 +109,15 @@ static void addregion(uint64_t lo, uint64_t hi)
 	regions[nregions].hi = (hi + PG - 1) & ~(uint64_t)(PG - 1);
 	nregions++;
 }
+/* -x LO:HI (a test facility, with -K): the pages of [LO, HI) are mapped (zero filled) but the first access to each, a load or a store, faults (a load fault,
+   VECTOR_LFAULT, or a store fault, VECTOR_SFAULT) and then succeeds: the stand-in for "the handler maps the page" in a machine without an MMU.  One shot per page. */
+static uint64_t xlo, xhi;
+static uint8_t *xarmed;
 static uint8_t *bp(uint64_t a, int write)
 {
 	uint8_t *p = pgget(a);
-	(void)write;
 	if (!p) memfault(VECTOR_BUSFAULT, "access to unmapped memory", a);
+	if (xarmed && a >= xlo && a < xhi && xarmed[(a - xlo) / PG]) { xarmed[(a - xlo) / PG] = 0; memfault(write ? VECTOR_SFAULT : VECTOR_LFAULT, "first access to a -x page", a); }
 	return p + (a & (PG - 1));
 }
 static uint64_t ld(uint64_t a, int size)
@@ -201,7 +206,7 @@ static int h_vecread(void *u, uint64_t pa, uint64_t *v)
 	for (int i = 0; i < 8; i++) *v |= (uint64_t)*bp(pa + i, 0) << (8 * i);
 	return 0;
 }
-static void h_check(void *u, uint64_t a, int size, int write) { (void)u; (void)write; if (a & (size - 1)) memfault(VECTOR_MISALIGNED, "misaligned data access", a); bp(a, 0); bp(a + size - 1, 0); }
+static void h_check(void *u, uint64_t a, int size, int write) { (void)u; if (a & (size - 1)) memfault(VECTOR_MISALIGNED, "misaligned data access", a); bp(a, write); bp(a + size - 1, write); }
 static void h_tlb(void *u, int op, uint64_t a) { (void)u; (void)op; (void)a; }
 static void h_raise(void *u, int vector, uint64_t eva) { (void)u; jvec = vector; jeva = eva; longjmp(jb, 1); }
 static struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL, NULL };
@@ -303,6 +308,11 @@ int main(int argc, char **argv)
 			struct irq *q = &irqs[nirqs++];
 			if (sscanf(argv[++i], "%ld:%d:%d", &q->count, &q->level, &q->vector) != 3 || q->level < 1 || q->level > 7 || q->vector < 0 || q->vector >= VECTOR_COUNT) { fprintf(stderr, "sim64: -i N:LEVEL:VECTOR\n"); return 2; }
 		}
+		else if (!strcmp(argv[i], "-x") && i + 1 < argc) {
+			unsigned long long lo, hi;
+			if (sscanf(argv[++i], "%lli:%lli", (long long *)&lo, (long long *)&hi) != 2 || lo % PG || hi % PG || hi <= lo) { fprintf(stderr, "sim64: -x LO:HI (page aligned)\n"); return 2; }
+			xlo = lo; xhi = hi; xarmed = malloc((xhi - xlo) / PG); memset(xarmed, 1, (xhi - xlo) / PG); addregion(xlo, xhi);
+		}
 		else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxsteps = atol(argv[++i]);
 		else if (!strcmp(argv[i], "-P") && i + 1 < argc) profile_path = argv[++i];
 		else if (!strcmp(argv[i], "-m") && i + 1 < argc) { if (strcmp(argv[++i], "pdp64")) { fprintf(stderr, "sim64: -m %s: the only target is pdp64\n", argv[i]); return 2; } }
@@ -310,10 +320,10 @@ int main(int argc, char **argv)
 		else if (!strncmp(argv[i], "--timing-out=", 13)) timing_out = argv[i] + 13;
 		else if (!strncmp(argv[i], "--timing-pc=", 12)) timing_pc = argv[i] + 12;
 		else if (!strcmp(argv[i], "--timing-help")) { tm_help(stdout); return 0; }
-		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-V] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
+		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 		else prog = argv[i];
 	}
-	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-V] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
+	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 	pdp64_init();
 	pdp64_set_psw(&cpu, mode << PSW_MODE | mode << PSW_PREV | (sys ? 7 << PSW_PRI : 0));
 	cpu.deliver = sys; cpu.standin = !sys;
