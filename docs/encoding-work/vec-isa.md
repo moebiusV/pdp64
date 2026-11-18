@@ -1,0 +1,51 @@
+# The vector instructions that were added to the design (names, operand forms, rules; details to be determined)
+
+**Status: the assistant's detailing of the decision of the author (errata 157, 2026-11-17: "add all the yes and likely leans"), for the author to accept or change.** The operations are those of the cost-benefit table (`vec-cost-benefit.md`) with their measurements (`vec-forms.md`, `gemm-forms.md`, `arch-data/vec-forms/`) and gates (`vec-gates.md`). Everything here is written in the notation of the hand-written forms; none of it is in the grammar, the assembler, the simulator or the compiler, and **the encodings are the prefix optimiser's** (R434, R446): what this page fixes is the mnemonic, the operands, the semantics and the rules.
+
+## 1. The model
+
+* The **block** is `vec Rs, Re` ... `vend`: the instructions between them run once for each **strip** of the **first stream** (the region `[Rs, Re)` of the pointer register `Rs`) until it is exhausted. A strip is `VL` elements of that stream, `1 <= VL <= the elements left`; the implementation chooses `VL` for each strip, and the program never names the width (`vlen.<t> Rd` tells the program `VL` where it must know it, as `cntw` does in SVE). The decided one-instruction prefix (R430) is the case of a block of one instruction without `vend`.
+* **Hidden vector registers** `v0` to `v15` (the micro-kernel of the likely rows needs ten; the cost of 16 is in `vec-gates.md`), each as wide as the strip. They are **not ordinary registers**: they cannot be read or written by the scalar instructions, they are not saved at a context switch (R435), and **their contents do not survive from one strip to the next**, except for the accumulators that `vclr` names (section 4).
+* **Memory operands** are `(Ra)+` (the pointer moves past the strip: by `VL` elements of the access size, or by `VL` times the number of fields for a segment), `d(Ra)` (an offset, no move) and `d(Ra)+` (an offset, and the move). One memory operand for each instruction, as everywhere in the pdp64 (9.2).
+* **Element suffixes**, the same as the scalar moves: `b w l q` for 8, 16, 32 and 64-bit integers, a following `u` for a load that zero-extends (`bu`, `wu`, `lu`), `f` and `d` for 32- and 64-bit floating point. A load or store may carry a second suffix, the **lane type** the strip is held in (`vld.bu.w` loads bytes into 16-bit lanes); a lane operation carries the lane type (`vadd.w`).
+* **Order within a strip:** every load of a strip is done before any store of it becomes visible; strips happen one after the other, so a block means what the same loop written one element at a time means, for elements in different strips, and means "read, then write" for elements in the same strip.
+
+## 2. The instructions
+
+| group | mnemonics and operands | meaning |
+|---|---|---|
+| block | `vec Rs, Re`; `vend`; `vlen.<t> Rd` | begin and end a block; `Rd = VL` for the type |
+| load, store | `vld.<m>[.<lane>] vD, (Ra)+ \| d(Ra)[+]`; `vst.<lane>[.<m>] vS, (Ra)+ \| d(Ra)[+]` | a strip from memory (widening on the way in, as the second suffix says); a strip to memory (narrowing on the way out, truncating) |
+| saturating narrow | `vsts.<lane>.<m> vS, (Ra)+` | narrow with clamping to the range of `<m>` (`vsts.l.bu` clamps to 0..255) |
+| strided | `vldt.<m>[.<lane>] vD, d(Ra)[+], #stride`; `vstt.<lane>[.<m>] vS, d(Ra)[+], #stride` | every `stride` bytes (one field of an array of structures, with no segment instruction) |
+| **segment** (row 11) | `vlseg<n>.<m>[.<lane>] vD, (Ra)+`; `vsseg<n>.<lane>[.<m>] vS, (Ra)+`, `n` = 2, 3 or 4 | load `n` interleaved fields into `vD`, `vD+1`, ... , `vD+n-1`; store `n` registers interleaved |
+| **gather** (row 10) | `vldx.<m>[.<lane>] vD, (Rb)[vI]` | lane `i` loaded from `Rb` plus lane `i` of `vI` (a byte offset; scaled by the access size if the second form `[vI*n]` is used) |
+| lane operations | `vadd vsub vsubr vmul vand vor vxor vshl vshr vsar vabd vmin vmax vmov vneg` `.<lane> vD, vA, vB \| Rs \| #imm` | one result in each lane; `vsubr` is `operand - vA` (the reverse subtract: `vsubr.w v2,v2,#255` is `255 - v2`); a scalar register or an immediate is the same value in every lane |
+| saturating | `vadds vsubs` `.<lane>` | signed saturating add and subtract (a clamp, not a wrap); `vaddsu vsubsu` unsigned |
+| multiply-add | `vmla.<l> vD, vA, Rs`; `vfma.<f> vD, vA, vB \| Rs`; `vfnma.<f> vD, vA, vB`; **`vfmab.<f> vD, vA, (Ra)+`** | `vD += vA * x`; `vD -= vA * vB`; `vD += vA * broadcast(*Ra)` with `Ra` moved by one element (the broadcast multiply-add of the micro-kernel, row 6) |
+| **int8 dot** (row 7) | `vdot.b vD, vA, vB` | each 32-bit lane of `vD` gets, added, the four byte products of the same lane of `vA` and `vB` (signed; `vdotu.b` unsigned, `vdotsu.b` signed by unsigned: the shapes of dp4a, SDOT and VNNI) |
+| **reductions** (row 3) | `vacc.<t> Rd, vS`; `vmaxacc.<t> Rd, vS`; `vminacc.<t> Rd, vS` | `Rd` (an ordinary register) `+=` the sum of the lanes (widening to the register), or `Rd = max(Rd, the largest lane)`; the register is updated when the strip commits |
+| **sliding window** (row 5) | `vfir.<t> vD, vS, Rt, #taps` | lane `i` of `vD` is the sum for `k` = 0 to `taps-1` of `R(t+k)` times lane `i+k-c` of `vS` (`c` the centre, `taps/2` rounded down); the neighbours across the edge of the strip are the last and the first elements of the previous and next strip, so the region is read once; reads `c` elements before and `taps-1-c` after the region, as the scalar code does |
+| accumulators | `vclr.<t> vN, #count` | zero `count` registers from `vN` and name them **accumulators**: they, and only they, keep their values from one strip to the next within a block |
+
+**Under study (kept out of this page, R450): `vexp`, `vdiv` and the other special functions, `vaddx` (scatter-add), predication (a mask on the lane operations), the fp16, bf16 and int4 conversions, `vtclr vtld vtst vtadd vtfmopa` (the tile) and `gemm.f`.** They are in `gemm-forms.md` and the cost-benefit table.
+
+## 3. How much encoding it needs (estimate; the optimiser decides)
+
+About **40 base operations and 65 spellings** appear in the hand-written forms; with the five or six lane types of each, the **words are on the order of 200 to 300**. With three 4-bit vector-register fields (`v0` to `v15`) in a four-byte form, a leaf of 12 operand bits and a sub-opcode of 8 bits has a **prefix of 12 bits and costs 16 first-parcel patterns** (a 25th of 1%); a one-parcel hot form for the few most used (a load, a store, an add) would cost patterns in proportion to its frequency, which the compiled corpus does not yet show because **no compiler emits them** (the optimiser weighs a form by the instructions that use it). So the likely cost of the vector operations in first-parcel space is **tens of patterns, not thousands**, until the loops exist to be counted.
+
+## 4. The rules that are not decided (the questions of section 5 of `gemm-forms.md`)
+
+1. **The interrupt and the accumulators.** A block without `vclr` keeps nothing across strips beyond ordinary registers (the pointers, which move when a strip commits, and the reduction registers): an interrupt or a fault at a strip boundary needs no more than the registers, and the strip is **restartable**. A block with accumulators has partial sums in hidden state. Three options (the second is the assistant's leaning): the accumulators are saved at a context switch (against R435); the block **restarts from its entry**, the hardware keeping a hidden copy of the pointers and registers at `vec` and discarding the accumulators (correct; the work lost is the block so far, bounded if the block is bounded); or the program writes the partial sums out every so many strips. To be determined.
+2. **The most strips of one block.** To bound the work an interrupt can lose and the latency it can add, a block may be limited (the hardware stops the block at a strip boundary after N strips, with the pointers advanced, and the program runs `vec` again: a loop of blocks). To be determined with the first.
+3. **What `VL` may be.** Any size from 1 up, chosen for each strip (so the last strip may be short) and different on different implementations; a program that reads `VL` (`vlen`) must not depend on its value.
+4. **Faults:** precise at the strip: the strip is annulled, the pointers are those at its start, `EPC` is the address of the faulting instruction of the block; the operating system restarts at `vec`'s block with the registers as they are (a block is a single instruction for the purpose of restart, like `MCPY`: 9.15).
+5. **Overlap of the streams:** the loads of a strip before its stores (section 1); the result of overlapping streams in different strips is the sequential one; no other guarantee.
+6. **Numbers:** lane arithmetic wraps unless the mnemonic says saturating; floating-point lanes follow the scalar rules (IEEE 754, flags accumulated in `FPSR`, no traps: 9.12.3); `vdot` accumulates in 32-bit integers with wraparound.
+7. **The assembler:** `vec`, `vend` and the mnemonics are words of the grammar; a vector register is written `v0` to `v15`; the lane and element suffixes follow the mnemonic with dots.
+
+## 5. What this needs from the compiler and the tools
+
+* **pcc** has no vectorizer. `tools/arch-compare/vecwin.py` finds the loops (map, reduce, fill, branch, call) in pcc's assembly; nothing rewrites them. Options, in the order of cost: (a) **built-ins** that name a block (`__builtin_vec_*`), for the hand-written kernels of a library; (b) a **vectorizer for the innermost counted loops** of the shapes the study measured (a map over arrays, a reduction, a fill, a filter with constant taps, a loop over interleaved data), emitting a block; (c) **auto-vectorization of the general case**, which clang took years to get. The corpus for the optimiser needs (b) or (a) to contain these instructions at all.
+* **as64 and the grammar**: the mnemonics, the vector-register operand shape (4 bits), the suffix scheme, the block pairing (`vec` ... `vend`, nested blocks refused).
+* **sim64** (and QEMU): the semantics above, so that dynamic counts and the tests exist.
