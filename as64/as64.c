@@ -289,13 +289,13 @@ static struct val eval_primary(struct ex *x)
 		if (c == '"') { x->p++; while (x->p < x->e && *x->p != '"') x->p++; if (x->p < x->e) x->p++; }
 		else while (x->p < x->e && (isalnum((unsigned char)*x->p) || *x->p == '_' || *x->p == '.' || *x->p == '$' || (unsigned char)*x->p >= 0x80)) x->p++;
 		int n = (int)(x->p - s);
-		if (c != '"' && n >= 2 && tolower((unsigned char)s[n - 1]) == 'h') {	/* NASM's A6h: a hex number that begins with a letter, unless a symbol has that name */
+		if (c != '"' && n >= 2 && tolower((unsigned char)s[n - 1]) == 'h') {	/* NASM's A6h: a hexadecimal number that begins with a letter; it is never a name (errata 163) */
 			uint64_t nv = 0; int good = 1;
 			for (int i = 0; i < n - 1 && good; i++) {
 				int dv = isdigit((unsigned char)s[i]) ? s[i] - '0' : isxdigit((unsigned char)s[i]) ? tolower((unsigned char)s[i]) - 'a' + 10 : 99;
 				if (dv >= 16) good = 0; else nv = nv * 16 + dv;
 			}
-			if (good && symfind(s, n) < 0) return vconst((int64_t)nv);
+			if (good) return vconst((int64_t)nv);
 		}
 		if (n == 1 && s[0] == '.') {
 			struct val v = { 0, dot_sym, -1 };
@@ -973,7 +973,7 @@ int main(int argc, char **argv)
 		syms[sect_sym[i]].islocal = 1; syms[sect_sym[i]].sect = i; syms[sect_sym[i]].val = 0;
 	}
 	/* every label is known before the first pass, so a forward reference to it is not taken for an external symbol; so are the names an assignment or a
-	   .globl, global, extern or .comm gives, which is what makes the answer to "is there a symbol A6h?" the same in every pass */
+	   .globl, global, extern or .comm gives (an extern name is in the object whether or not it is used) */
 	for (int i = 0; i < nprog; i++) {
 		struct stmt *st = &prog[i];
 		if (st->kind == S_ASSIGN && st->name.n > 0 && st->name.p[0] != '"') symget(st->name.p, st->name.n);

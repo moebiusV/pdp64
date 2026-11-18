@@ -11,7 +11,3 @@
 	movq	#0xa6, r7
 	movq	#9, r8
 10:	br	10b
-beadh:	nop
-	br	beadh
-	br	fadeh
-fadeh:	nop

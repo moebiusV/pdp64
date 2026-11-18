@@ -133,7 +133,10 @@ localref = 1*DIGIT fbch
 fbch     = 0x66 | 0x62
 ; a name cannot be `r` followed only by digits: r0..r15 are registers (pdp64-mnemonics.hbnf) and anything else of that shape (r16, r99) is an error,
 ; not a name.  So a name either starts with something other than `r`, or is `r` followed by digits and then something that is not a digit.
-symbol   = ( oidstart | DIGIT ) *idchar | rname | qname
+; a name is never a valid number (the author, errata 163): `A6h`, `1001b`, `0x1f`, `17q` are numbers and cannot be labels, assigned or declared; `3dfx` is a name.  The one thing that
+; looks like a number and is a label is the numeric local label, digits only (`1:`, referenced as `1b` and `1f`).  A name that must have such a spelling is written in double quotes.
+symbol   = !numtok ( ( oidstart | DIGIT ) *idchar | rname | qname )
+numtok   = ( prefixnum | suffnum ) !idchar
 oidstart = 0x41..0x5A | 0x61..0x71 | 0x73..0x7A | 0x5F | 0x2E | uni
 rname    = 0x72 *DIGIT nodig *idchar | 0x72
 nodig    = ALPHA | 0x5F | 0x2E | 0x24 | uni
