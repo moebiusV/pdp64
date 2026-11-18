@@ -10,8 +10,7 @@ k_sad:
 	vec	r0,r7
 	vld.bu	v0,(r0)+		; byte lanes: a strip of 32 bytes (errata 168: the reduction widens, the load need not)
 	vld.bu	v1,(r2)+
-	vabdu.b	v0,v0,v1		; absolute difference of unsigned bytes
-	vacc.bu.l r6,v0			; r6 += the sum of the byte lanes of the strip as unsigned, in 32 bits; kept in r6 after each strip, so a fault restarts cleanly
+	vsad.bu	r6,v0,v1		; r6 += the sum of the absolute differences of the 32 unsigned bytes (wave 1, errata 170: vabdu and vacc fused); kept in r6 after each strip, so a fault restarts cleanly
 	vend
 	add	r10,r0
 	add	r11,r2

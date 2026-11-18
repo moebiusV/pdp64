@@ -1,9 +1,10 @@
 ; k_sgemm_nt, form 2: the micro-kernel of a register-blocked GEMM, 8 rows x VL columns of C in eight hidden accumulators, over packed panels (what OpenBLAS's
 ; copy routines make: A packed 8 floats for each k, B packed VL floats for each k).  C[8 x VL] += A_panel . B_panel.
 ; r0 = packed A, r1 = packed B, r2 = C tile, r3 = K, r4 = ldc in bytes.
-; vlen.f gives VL, the floats of a strip (what `cntw` is in SVE and `vsetvli` in RISC-V vector): the packing of B depends on it.
+; vlen.b gives the bytes of a strip, so VL, the floats of a strip, is that shifted right by 2 (what `cntw` is in SVE and `vsetvli` in RISC-V vector): the packing of B depends on it.
 k_ukr:
-	vlen.f	r5
+	vlen.b	r5
+	shr	#2,r5			; VL = floats of a strip
 	movq	r3,r6
 	mul	r5,r6
 	lea	(r1)(r6*4),r6		; end of the B panel: K strips of VL floats

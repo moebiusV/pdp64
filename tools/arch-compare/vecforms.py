@@ -78,8 +78,8 @@ def compiled(rows, ks, fast):
     return L
 
 # ---- the eight kernels
-KS = ['k_prep8', 'k_put8h', 'k_dctop_sum', 'k_dctop_fill', 'k_fmac', 'k_sad', 'k_hist', 'k_ssm']
-LANES = {'k_prep8': 16, 'k_put8h': 8, 'k_dctop_sum': 32, 'k_dctop_fill': 32, 'k_fmac': 8, 'k_sad': 16, 'k_hist': 4, 'k_ssm': 8}
+KS = ['k_prep8', 'k_put8h', 'k_dctop_sum', 'k_dctop_fill', 'k_fmac', 'k_sad', 'k_ssm']
+LANES = {'k_prep8': 16, 'k_put8h': 8, 'k_dctop_sum': 32, 'k_dctop_fill': 32, 'k_fmac': 8, 'k_sad': 16, 'k_ssm': 8}
 sc = scalar(D + '/pcc-scalar.s')
 L = ['## pdp64: pcc scalar code and the hand-written vec forms', '',
      '| kernel | pcc scalar: function instructions | pcc scalar: inner loop instructions (per element) | vec form: instructions of the function | of them in the vec block | block operations per element (256-bit strip) |', '|---|---:|---|---:|---:|---:|']
@@ -109,15 +109,13 @@ if os.path.isdir(B):
         n, b = vecform(B + '/%s.vec.s' % k)
         s = sb[k]
         G.append('| %s | %d | %s | %d | %d | %.2f |' % (k, s[0], ', '.join(map(str, s[1])), n, b, b / 4.0))
-    G += ['', '### `sgemm`, the linear layer of cngpt (Y = X . W^T), four forms', '',
+    G += ['', '### `sgemm`, the linear layer of cngpt (Y = X . W^T), two forms (the tile and the GEMM unit were removed, errata 170)', '',
           '| form | instructions of the function | in the block | multiply-adds per strip of the block (VL = 8 floats) | block operations per multiply-add |', '|---|---:|---:|---:|---:|']
     ss = sb['k_sgemm_nt']
     G.append('| pcc scalar (the triple loop) | %d | inner loop %s | 1 | %s per multiply-add |' % (ss[0], ', '.join(map(str, ss[1])), ss[1][0] if ss[1] else '-'))
-    for name, f, macs in [('1. dot product for each output (`vec` over K)', 'k_sgemm_nt.dot.s', 8), ('2. register-blocked micro-kernel (8 accumulators, broadcast multiply-add)', 'k_sgemm_nt.ukr.s', 64), ('3. micro-kernel with a hidden tile and an outer-product instruction', 'k_sgemm_nt.tile.s', 64)]:
+    for name, f, macs in [('1. dot product for each output (`vec` over K)', 'k_sgemm_nt.dot.s', 8), ('2. register-blocked micro-kernel (8 accumulators, broadcast multiply-add)', 'k_sgemm_nt.ukr.s', 64)]:		# (forms 3 and 4, the tile and the GEMM unit, were removed from the ISA in wave 1, errata 170; their files are gone)
         n, b = vecform(B + '/' + f)
         G.append('| %s | %d | %d | %d | %.3f |' % (name, n, b, macs, b / macs))
-    n, b = vecform(B + '/k_sgemm_nt.unit.s')
-    G.append('| 4. the whole GEMM as one instruction of a GEMM unit, progress in registers | %d | (the unit) | all | 0 (a fixed %d instructions of set-up for any size) |' % (n, n))
     G += ['', '### Compiled by clang (the BLAS loops, -Ofast)', '']
     G += compiled(list(csv.DictReader(open(B + '/vecbench-blas.csv'))), KB + ['k_sgemm_nt'], set(KB + ['k_sgemm_nt']))
     G += ['', '### OpenBLAS: the main loop of its single-precision GEMM kernel, per instruction set', '', '| ISA | loop |', '|---|---|']
