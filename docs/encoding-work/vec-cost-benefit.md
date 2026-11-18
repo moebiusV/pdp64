@@ -96,3 +96,5 @@ Rows 6, 14 and 15 keep partial sums that last across many strips (an accumulator
 * The missing studies: segment loads (11), predication (12), number formats (13), a table of vector exponential and reciprocal accuracy against what a language model tolerates (9).
 * Power: a first estimate of the datapath area for the rows 7, 14 and 15 from published designs (U) and a comparison with a small GPU's energy for a token; none is on this machine.
 * A **minimum viable gpu-lite**, stated as a set of rows: for example rows 1 to 5, 7, 8, 10 (gather) and 11, and the resume rule, as the first revision; 6, 9, 12 and 13 after their studies; 14 and 15 after the model of the CPU-only user.
+* **An FFmpeg (and dav1d) backend for the pdp64**, probably with the OpenBSD port (the author, 2026-11-17): the portable-C path first, a capability bit for the vector unit, then hand-written `vec` versions of the hot functions (`vec-isa.md` section 5). It is also the real test of the table: a game's or a player's frame in FFmpeg's and dav1d's own functions, run in a simulator that has the operations.
+
