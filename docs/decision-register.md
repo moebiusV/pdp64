@@ -474,3 +474,6 @@
 - R467 | 2026-11-17 | question | "however, if we wanted to do macros, -> and => in hbnf should allow it, right?" | subjects: Assembler syntax | current
 - R468 | 2026-11-17 | question | "hbnd implements cpp as a grammar.... so why couldn't it implement asm macros?" | subjects: Assembler syntax | current
 - R469 | 2026-11-17 | question | "good... when done, we shouldn't need as64pre.c at all, right?" | subjects: Assembler syntax | current
+- R470 | 2026-11-17 | decision | "push the pdp64 commits; option 3 and 4. why were these even questions, why didn't you do this by default?" | subjects: Vector prefix (vec) and the GEMM unit | current
+- R471 | 2026-11-17 | question | "and what is this limitation of 8 or 32? I thought vec ops operated over unlimited regions of memory, if the process has the permissions?" | subjects: Vector prefix (vec) and the GEMM unit | current
+- R472 | 2026-11-17 | decision | "also, I want reasonable performance while minimizing silicon footprint" | subjects: Vector prefix (vec) and the GEMM unit | current

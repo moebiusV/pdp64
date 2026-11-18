@@ -219,12 +219,14 @@
 - Left: the encodings (the prefix optimiser decides them, \[R446\]); as64's expansion of the mnemonics into `cb..` and `bpt` with the table in `__bug_table` (being made, errata 152) and the linker's class and boundary symbols for the table; the kernel's handler of vector 16 and of the table; the rest of the pcc path (the built-ins and -xchecks exist: the lowering to the instructions and the table, a pass that removes the provable checks, pointer dereferences, the LLVM pattern) and the front ends that reach it; whether a sticky range flag is added (option 4); the effect on the proposed `INDEX`
 
 ### The vec, tile and GEMM family: added to be benchmarked and pruned
-- Status: IN PROGRESS — the family is in the grammar, `as64`, `sim64` and the QEMU target, with provisional encodings; the benchmarks and the optimiser run on LLVM output are to do (latest decision 2026-11-17 \[R454, R455, R456, R459\], errata 161)
+- Status: IN PROGRESS — the family is in the grammar, `as64`, `sim64` and the QEMU target, with provisional encodings; the benchmarks and the optimiser run on LLVM output are to do (latest decision 2026-11-17 \[R454, R455, R456, R459, R470, R472\], errata 161, 168)
 - Decided: 2026-11-17 decided: "the point of adding them now is so we can benchmark and the remmove any that are duds" \[R454\]; "basically we want the vector/gemm/simd ops that compress our code the most, the most work for the least instuctions, but of course taking into account our priority on safety, securit, restarts, precise exception, etc" \[R455\]; "oh right..... llvm has the vector optimizer, so really we'll have to run the prefix optimizer again based on llvm output" \[R456\]; "llvm lets us test different approaches to vector/gemm type ops, and gcc let's us test bounds checking methods" \[R457\]; "gcc will be third backend." \[R458\]
 - Evidence: docs/errata.md item 161; docs/codegen-data/encoding/vecfam.py (the words, one list); common/pdp64exec_vec.inc (the semantics); tests/sim/vec-basic.s; docs/encoding-work/vec-isa.md and gemm-forms.md (the proposal)
 - Left: the benchmarks (the counters are in the processor structure; no report yet); the optimiser run on LLVM output; the open rules of vec-isa.md 4 (the most strips of a block, the interrupt inside a block: the executor runs a block whole); the choices listed in errata 161 (6); the manual prose
 
 ## 12 Documentation and process
+- Decided: 2026-11-17 decided: "option 3 and 4" (the reductions name the source lane type and the accumulate width, `vacc.<src>.<acc>`; the assembler checks the lane types of the vector registers in a block) \[R470\]; "also, I want reasonable performance while minimizing silicon footprint" \[R472\]
+- Left: the rule that the strip's VL is that of the widest lane of the block; a limit on the strips of one block (vec-isa.md 4.2)
 
 ### History import from the other machine
 - Status: TO DO — the the other machine prompts are imported into the imp72 and hbnf decision-log inputs but not into the pdp64 inputs (latest decision 2026-11-10 \[R373\])
