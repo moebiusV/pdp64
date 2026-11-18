@@ -22,10 +22,12 @@
 #define VPORT (C->vport ? C->vport : 16)		/* the model's memory port, bytes a cycle */
 #define VCOMMIT (C->vcommit_set ? C->vcommit : 1)	/* the model's cost of committing a strip, cycles */
 #define VMAXBODY 64
+#define VROW (C->vrow_set ? C->vrow : 1)		/* the model's cost of the row advance of a vec2 block, cycles a row */
+#define VMAXSKIP 4		/* the streams a vec2 block can advance by a pitch (vskip): four adders */
 #define VSQMAX 1024
 
 enum {
-	VO_NONE = 0, VO_VEC, VO_VEND, VO_FIN,
+	VO_NONE = 0, VO_VEC, VO_VEND, VO_FIN, VO_VEC2, VO_SKIP,
 	VO_ADD, VO_SUB, VO_SUBR, VO_MUL, VO_MIN, VO_MAX, VO_MINU, VO_MAXU, VO_ABD, VO_ABDU, VO_AND, VO_OR, VO_XOR, VO_SHL, VO_SHR, VO_SAR,
 	VO_ADDS, VO_SUBS, VO_ADDSU, VO_SUBSU, VO_MOV, VO_NEG, VO_MLA, VO_FMA, VO_FNMA, VO_FMAB, VO_DOT, VO_DOTU, VO_DOTSU,
 	VO_AVG, VO_AVGU, VO_MULH, VO_MULHU, VO_MULHR, VO_SARR, VO_SHRR, VO_TBL, VO_DACC, VO_SAD,
@@ -42,7 +44,7 @@ struct vinfo {
 static struct vinfo *VI;
 
 static const struct { const char *base; int op; } vbases[] = {
-	{ "vec", VO_VEC }, { "vend", VO_VEND }, { "vfin", VO_FIN },
+	{ "vec", VO_VEC }, { "vend", VO_VEND }, { "vfin", VO_FIN }, { "vec2", VO_VEC2 }, { "vskip", VO_SKIP },
 	{ "vadd", VO_ADD }, { "vsub", VO_SUB }, { "vsubr", VO_SUBR }, { "vmul", VO_MUL }, { "vmin", VO_MIN }, { "vmax", VO_MAX }, { "vminu", VO_MINU },
 	{ "vmaxu", VO_MAXU }, { "vabd", VO_ABD }, { "vabdu", VO_ABDU }, { "vand", VO_AND }, { "vor", VO_OR }, { "vxor", VO_XOR }, { "vshl", VO_SHL },
 	{ "vshr", VO_SHR }, { "vsar", VO_SAR }, { "vadds", VO_ADDS }, { "vsubs", VO_SUBS }, { "vaddsu", VO_ADDSU }, { "vsubsu", VO_SUBSU },
@@ -100,7 +102,7 @@ static int vec_classify(const char *name, struct vinfo *vi)
 	vi->op = (uint8_t)op;
 	if (op == VO_LSEG || op == VO_SSEG) vi->nseg = (uint8_t)(buf[5] - '0');
 	switch (op) {
-	case VO_VEC: case VO_VEND: case VO_FIN: case VO_BSL: return nt == 0;			/* vbsl has no lane suffix: it selects bits */
+	case VO_VEC: case VO_VEC2: case VO_SKIP: case VO_VEND: case VO_FIN: case VO_BSL: return nt == 0;			/* vbsl has no lane suffix: it selects bits */
 	case VO_CVT: {							/* vcvt.<from>.<to>: l, lu <-> f (32-bit lanes); lsz 4, lfl: the source is float, msign: the integer side is signed, mfl: the result is float */
 		if (nt != 2) return 0;
 		int fr_f = !strcmp(tok[0], "f"), to_f = !strcmp(tok[1], "f");
@@ -841,10 +843,23 @@ static void vstrip_run(struct vctx *x, const struct vdec *body, int nb, int64_t 
 	vprecheck(x, body, nb, e0);
 }
 
+/* the row advance of a 2D block (errata 176), on the registers L (the strip's copy, committed with the strip that ends the row, or the registers themselves for an empty row): every vskip pointer moves by its
+   gap register, Re moves by the row width and the gap of the first stream's pointer, the row count falls by one.  Gap and width registers are read only in the block, so the order does not matter */
+static void vrow_advance(uint64_t *L, int rs, int re, int rn, int rw, int nskip, const int *sp, const int *sg)
+{
+	uint64_t g1 = 0;
+	for (int k = 0; k < nskip; k++) if (sp[k] == rs) g1 = L[sg[k]];
+	for (int k = 0; k < nskip; k++) L[sp[k]] += L[sg[k]];
+	L[re] += L[rw] + g1;
+	L[rn] -= 1;
+	C->vrows++;
+}
+
 static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 {
 	struct vdec body[VMAXBODY];
 	int nb = 0, found_end = 0, firstlen = 0, fin = -1;
+	int two = VI[vin->mn].op == VO_VEC2, nskip = 0, sp[VMAXSKIP], sg[VMAXSKIP];			/* the 2D block (errata 176): vec2 Rs, Re, Rn, Rw and the vskip declarations that follow it */
 	uint64_t addr = start + 2 * (uint64_t)nvec, endpc;
 	struct vctx *x = &VXS;
 	/* the body: vector instructions up to vend (a vfin splits it into the instructions of every strip and the epilogue); with no vend before something else, the one instruction after vec */
@@ -857,17 +872,24 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		struct einsn in;
 		if (enc_decode(&enc_tab, par, n, &in, NULL) != n) die("vec: illegal instruction in the block", 0);
 		const struct vinfo *vi = &VI[in.mn];
-		if (HT[in.mn].kind != H_VEC || vi->op == VO_VEC) {
+		if (HT[in.mn].kind != H_VEC || vi->op == VO_VEC || vi->op == VO_VEC2) {
 			if (nb == 0) die("vec: a vector instruction must follow", 0);
 			break;
 		}
 		addr += 2 * (uint64_t)n;
+		if (vi->op == VO_SKIP) {						/* vskip Ra, Rg: only between vec2 and the body, at most VMAXSKIP of them, each pointer once */
+			if (!two || nb || fin >= 0 || nskip == VMAXSKIP) die("vskip: only after vec2, before the body, at most four", 0);
+			for (int k = 0; k < nskip; k++) if (sp[k] == in.op[0].r) die("vskip: the register is declared twice", 0);
+			sp[nskip] = in.op[0].r; sg[nskip] = in.op[1].r; nskip++;
+			continue;
+		}
 		if (vi->op == VO_VEND) { found_end = 1; break; }
 		if (vi->op == VO_FIN) { if (fin >= 0) die("vec: two vfin in a block", 0); fin = nb; continue; }
 		if (nb == VMAXBODY) die("vec: block too long", 0);
 		if (nb == 0) firstlen = n;
 		body[nb].in = in; body[nb].vi = vi; nb++;
 	}
+	if (two && !found_end) die("vec2: a 2D block ends with vend", 0);
 	if (found_end) endpc = addr;
 	else { nb = 1; fin = -1; endpc = start + 2 * (uint64_t)nvec + 2 * (uint64_t)firstlen; }	/* the one-instruction prefix */
 	if (nb == 0) { pc = endpc; return; }
@@ -889,8 +911,30 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		}
 	}
 	if (!esz) die("vec: no instruction of the block moves the pointer register by (Rs)+", 0);
+	int rn = vin->op[2].r, rw = vin->op[3].r;
+	uint64_t unit = (uint64_t)esz * nfst;
+	if (two) {
+		/* the registers the block writes (the (Ra)+ pointers, the skipped pointers, Re, Rn, the targets of reductions) are not the registers it only reads (Rw, the skips), and Rs, Re, Rn, Rw are four different registers:
+		   what a block computes must not depend on the order in which the hardware updates them (vec-2d.md) */
+		uint32_t wr = 1u << (re & 31) | 1u << (rn & 31), rd = 1u << (rw & 31);
+		if (rs == re || rs == rn || rs == rw || re == rn || re == rw || rn == rw) die("vec2: Rs, Re, Rn and Rw must be four different registers", 0);
+		for (int i = 0; i < nb; i++) {
+			const struct vinfo *vi = body[i].vi;
+			for (int k = 0; k < 4; k++) if (body[i].in.op[k].k == EK_PI) wr |= 1u << (body[i].in.op[k].r & 31);
+			if (vi->op == VO_ACC || vi->op == VO_MAXACC || vi->op == VO_MINACC || vi->op == VO_DACC || vi->op == VO_SAD) wr |= 1u << (body[i].in.op[0].r & 31);
+			if (vi->op == VO_CLR || vi->op == VO_FMAB) die("vec2: a block with accumulators (vclr, vfmab) is not a 2D block", 0);
+		}
+		if (fin >= 0) die("vec2: a block with an epilogue (vfin) is not a 2D block", 0);
+		for (int k = 0; k < nskip; k++) {
+			if (sp[k] == re || sp[k] == rn || sp[k] == rw) die("vec2: a vskip names Re, Rn or Rw", 0);
+			wr |= 1u << (sp[k] & 31); rd |= 1u << (sg[k] & 31);
+		}
+		if (wr & rd) die("vec2: Rw and the registers of the vskip declarations are read only: the block writes one of them", 0);
+		if (C->vacc) die("vec2: accumulators are named before the block", 0);
+	}
 	C->vblocks++;
 	if (found_end) C->vcycles++;						/* the model: the vend (the vec is one of the scalar instructions) */
+	if (two) { C->v2blocks++; C->vskips += (uint64_t)nskip; C->vcycles += (uint64_t)nskip; }	/* and each vskip, a decode slot like the vend (an assumption: vec-2d.md) */
 	/* hidden accumulation (a vclr in the block, an accumulator named before it, a vfin): hidden state is not saved at a context switch (R435), so an abort
 	   restarts the block from its entry and discards the accumulators (vec-isa.md 4.1, the second option).  Otherwise the pointers are the progress and the block
 	   goes on from the strip it stopped at. */
@@ -913,16 +957,28 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		for (int i = 0; i < nb; i++) { vm2_decode(body[i].vi, &body[i].in, &m2d[i]); if (m2d[i].fpacc) m2d[i].chunks = (uint8_t)((vl * body[i].vi->lsz + 15) / 16); }
 		vm2_begin(m2d, nmain);
 		C->v2hidden += hidden;
-		C->v2cycles += found_end;						/* the vend */
+		C->v2cycles += found_end + (two ? (uint64_t)nskip : 0);			/* the vend, the vskips */
 	}
 	if (hidden) { vrun_valid = 1; vrun_pc = start; vrun_acc = C->vacc; }		/* stays valid if a fault leaves this function; a block that ends clears it */
 	C->progress = !hidden; C->vhidden = hidden;
 	x->vl = vl; x->inblock = 1; x->nsq = 0;
 	int64_t e0 = 0; long strip;
+	if (two && RG[rw] == 0) { C->vhidden = 0; pc = endpc; return; }			/* a row of no width: nothing to do, nothing changes */
+	if (two && RG[rw] % unit) die("vec2: the row width is not a whole number of elements of the first stream", 0);
 	for (strip = 0; ; strip++) {
 		uint64_t cur = RG[rs], end = RG[re];
-		if (end <= cur) break;
-		uint64_t rem = (end - cur) / ((uint64_t)esz * nfst);
+		if (two) {
+			if (RG[rn] == 0) break;
+			if (end <= cur) {							/* an empty row (the end is not above the pointer): the advance only */
+				vrow_advance(RG, rs, re, rn, rw, nskip, sp, sg);
+				C->vcycles += (uint64_t)VROW;
+				if (C->vm2) { VM2.slot += (uint64_t)VROW; VM2.end += (uint64_t)VROW; VM2.comp[(strip - 1) & 15] += (uint64_t)VROW; C->v2cycles += (uint64_t)VROW; }
+				if (strip > (1L << 26)) die("vec2: runaway block", 0);
+				continue;
+			}
+			if ((end - cur) % unit) die("vec2: Re - Rs is not a whole number of elements of the first stream", 0);
+		} else if (end <= cur) break;
+		uint64_t rem = (end - cur) / unit;
 		if (rem == 0) break;
 		x->nact = rem < (uint64_t)vl ? (int)rem : vl;
 		x->first = strip == 0;
@@ -935,8 +991,13 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 		C->vcycles += (x->cyc_c > x->cyc_m ? x->cyc_c : x->cyc_m) + (uint64_t)VCOMMIT;
 		if (x->cyc_m > x->cyc_c) C->vmemstrips++;
 		e0 += x->nact;
+		if (two && x->lr[re] <= x->lr[rs]) {					/* the strip ended its row: the row advance is committed with it, so that a fault in the next row finds a consistent state */
+			vrow_advance(x->lr, rs, re, rn, rw, nskip, sp, sg);
+			C->vcycles += (uint64_t)VROW;
+			if (C->vm2) { VM2.slot += (uint64_t)VROW; VM2.end += (uint64_t)VROW; VM2.comp[strip & 15] += (uint64_t)VROW; C->v2cycles += (uint64_t)VROW; }
+		}
 		vec_commit(x);
-		if (RG[rs] == cur) die("vec: the pointer register does not move", 0);
+		if (!two && RG[rs] == cur) die("vec: the pointer register does not move", 0);
 		if (strip > (1L << 26)) die("vec: runaway block", 0);
 	}
 	if (fin >= 0) {									/* the epilogue: one more strip of the block's lanes, after the last, that the accumulators' final values are read in (vec-isa.md section 8) */
@@ -962,7 +1023,7 @@ static void vec_step(const struct einsn *in, uint64_t start, int n)
 {
 	const struct vinfo *vi = &VI[in->mn];
 	if (vi->op == VO_VEND) return;							/* a stray vend does nothing */
-	if (vi->op == VO_VEC) { vec_run(in, start, n); return; }
+	if (vi->op == VO_VEC || vi->op == VO_VEC2) { vec_run(in, start, n); return; }
 	if (!vec_is_standalone(vi->op)) die("vector instruction outside a vec block", 0);
 	struct vctx *x = &VXS;
 	for (int i = 0; i < 32; i++) x->lr[i] = RG[i];

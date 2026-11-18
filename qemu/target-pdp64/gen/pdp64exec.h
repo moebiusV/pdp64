@@ -43,6 +43,8 @@ struct pdp64_cpu {
 	int vlat[VC_N], vint[VC_N];			/* latency and initiation interval, cycles, of each instruction class (enum VC_*): set by the host */
 	uint64_t v2cycles, v2hidden, v2sdep;		/* the model's cycles of the blocks (the vends included), blocks with a hidden accumulator, blocks whose strips depend through a scalar register */
 	uint64_t v2n[VC_N];				/* the vector instructions run, by class */
+	int vrow, vrow_set;				/* the 2D block (vec2, errata 176): the model's cost of the row advance, cycles a row (used if vrow_set; default 1: an ASSUMPTION, vec-2d.md) */
+	uint64_t vrows, vskips, v2blocks;		/* rows run, vskip words decoded, vec2 blocks run */
 	struct { uint64_t r[32], pc, dp, fpsr; int fN, fZ, fV, fC; } snap;	/* the state at the start of the instruction, for precise aborts (kept only when deliver is on) */
 };
 

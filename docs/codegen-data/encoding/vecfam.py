@@ -133,7 +133,8 @@ def vec_forms(R):
         out.append(Form(name, n, mns, specs, xbits=16 * n - ob - L))
 
     # the block
-    vf('VBEG', ['vec'], [R, R])
+    vf('VBEG', ['vec', 'vskip'], [R, R])				# vskip Ra, Rg: the 2D block's row advance of one stream (errata 176, vec-2d.md); it takes the free sub-opcode of vec
+    vf('VBEG2', ['vec2'], [R, R, R, R])					# vec2 Rs, Re, Rn, Rw: a block of Rn rows, repeated with the streams advanced at the end of each row (errata 176, vec-2d.md)
     vf('VEND', ['vend'], [])
     vf('VFIN', ['vfin'], [])						# errata 173: the end-of-block part of a block with accumulators (vec-isa.md section 8); vlen is gone (the strip is invisible)
     # lane operations

@@ -105,10 +105,11 @@ def main():
             f = d['forms'][first[mn]]
             src = g.line(f, mn)
             if any(s['k'] == 'PC' for s in f['specs']): src += '\nlbl:'
+            if mn == 'vskip': src = 'vec2 r1, r2, r3, r4\n\t' + src			# a vskip is only legal directly after a vec2 (errata 176): the second instruction is the one decoded
             words, err = assemble('\t' + src.replace('\n', '\n'))
             got = None
             if words is not None:
-                m = re.match(r'(\d+) (\S+)', decode(words[:5]))
+                m = re.match(r'(\d+) (\S+)', decode(words[2:7] if mn == 'vskip' else words[:5]))
                 got = m.group(2) if m else None
             n += 1
             if got != mn:

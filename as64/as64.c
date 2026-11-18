@@ -702,6 +702,8 @@ static int vlane_code(const char *t)				/* the lane of a suffix: size, +0x100 fo
 	}
 	return -1;
 }
+static int v2in, v2hdr, v2nskip;		/* a 2D block (vec2, errata 176) is open; its header (the vskip words that may follow vec2) is still open; the vskip words so far */
+static int v2regs[8];
 static void vec_typecheck(const struct stmt *st)
 {
 	const char *w = stmt_canon(st);
@@ -712,7 +714,40 @@ static void vec_typecheck(const struct stmt *st)
 	strcpy(b, w);
 	char *dot = strchr(b, '.');
 	if (dot) { *dot++ = 0; for (char *p = dot; p && nt < 3; ) { tok[nt++] = p; p = strchr(p, '.'); if (p) *p++ = 0; } }
+	if (!strcmp(b, "vskip")) {					/* vskip Ra, Rg: directly after vec2 or another vskip; at most four; Ra not Re, Rn, Rw; Rg is read only (the executor refuses what it cannot order) */
+		if (final_pass) {
+			if (!v2hdr) err(st->line, "vskip: only directly after vec2 or another vskip (the row advance of a stream of a 2D block)");
+			else if (++v2nskip > 4) err(st->line, "vskip: a 2D block advances at most four streams by a pitch");
+			else if (st->nops == 2 && st->ops[0].kind == OK_REG && st->ops[1].kind == OK_REG) {
+				int p = st->ops[0].reg, g = st->ops[1].reg;
+				if (p == v2regs[1] || p == v2regs[2] || p == v2regs[3]) err(st->line, "vskip: r%d is the end, the row count or the row width of the block, which the block writes or reads in its own way", p);
+				if (g == v2regs[1] || g == v2regs[2] || g == p) err(st->line, "vskip: the gap register r%d is written by the block (it is Re, Rn or the pointer itself)", g);
+				for (int k = 4; k < 4 + v2nskip - 1; k++) if (v2regs[k] == p) err(st->line, "vskip: r%d is declared twice", p);
+				if (v2nskip <= 4) { v2regs[3 + v2nskip] = p; }
+			}
+		}
+		return;
+	}
+	if (!strcmp(b, "vec2")) {
+		for (int i = 0; i < 16; i++) vlane[i] = -1;
+		vwide = 0; vpend_line = 0; v2in = 1; v2hdr = 1; v2nskip = 0;
+		for (int k = 0; k < 8; k++) v2regs[k] = -1;
+		if (final_pass && st->nops == 4) {
+			int ok = 1;
+			for (int k = 0; k < 4; k++) if (st->ops[k].kind != OK_REG) ok = 0;
+			if (ok) {
+				for (int k = 0; k < 4; k++) v2regs[k] = st->ops[k].reg;
+				for (int a = 0; a < 4; a++) for (int c = a + 1; c < 4; c++)
+					if (v2regs[a] == v2regs[c]) err(st->line, "vec2: Rs, Re, Rn and Rw must be four different registers (r%d is named twice)", v2regs[a]);
+			}
+		}
+		return;
+	}
+	v2hdr = 0;
+	if (v2in && (!strcmp(b, "vclr") || !strcmp(b, "vfmab") || !strcmp(b, "vfin")) && final_pass)
+		err(st->line, "%s: a 2D block (vec2) has no accumulators and no epilogue: its rows are not restarted from the entry of the block", w);
 	if (!strcmp(b, "vec") || !strcmp(b, "vend")) {
+		v2in = 0;
 		/* a floating-point sum is in the canonical order (chunks of 16 bytes of its source lanes: vec-isa.md section 8) only if a strip is a whole number of chunks, that is, if no lane of the block is wider than its source */
 		if (vpend_line && vwide > vpend_sz && final_pass)
 			err(vpend_line, "%s: the block has %d-byte lanes, so its strip (a whole number of %d-byte lanes) would not be a whole number of the 16-byte chunks that fix the order of a floating-point sum; keep every lane of the block at most %d bytes", vpend_name, vwide, vpend_sz, vpend_sz);

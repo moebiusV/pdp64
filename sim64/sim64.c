@@ -288,6 +288,7 @@ static void vec_write(void)
 	fprintf(stderr, "sim64: vec model2 latency %s strip %d port %d commit %d vpipe %d vmemlat %d: scalar %llu vector %llu (blocks with a hidden accumulator %llu, with a scalar dependence %llu) total %llu\n",
 	    lat_arg, cpu.vstrip ? cpu.vstrip : 32, cpu.vport ? cpu.vport : 16, cpu.vcommit_set ? cpu.vcommit : 1, cpu.vpipe, cpu.vmemlat, scalar, (unsigned long long)cpu.v2cycles,
 	    (unsigned long long)cpu.v2hidden, (unsigned long long)cpu.v2sdep, scalar + (unsigned long long)cpu.v2cycles);
+	if (cpu.v2blocks) fprintf(stderr, "sim64: vec2 blocks %llu rows %llu vskips %llu row-cost %d\n", (unsigned long long)cpu.v2blocks, (unsigned long long)cpu.vrows, (unsigned long long)cpu.vskips, cpu.vrow_set ? cpu.vrow : 1);
 	if (vmix) { fprintf(stderr, "sim64: vec mix"); for (int c = 0; c < VC_N; c++) fprintf(stderr, " %s %llu", pdp64_vclass_name(c), (unsigned long long)cpu.v2n[c]); fprintf(stderr, "\n"); }
 }
 
@@ -356,6 +357,7 @@ int main(int argc, char **argv)
 		else if (!strncmp(argv[i], "--vmemlat=", 10)) { int v = atoi(argv[i] + 10); if (v < 0 || v > 1000) { fprintf(stderr, "sim64: --vmemlat=CYCLES (0 to 1000)\n"); return 2; } cpu.vmemlat = v; vml_set = 1; }
 		else if (!strcmp(argv[i], "-S") && i + 1 < argc) { int v = atoi(argv[++i]); if (v != 8 && v != 16 && v != 32 && v != 64) { fprintf(stderr, "sim64: -S 8, 16, 32 or 64\n"); return 2; } cpu.vstrip = v; strip_set = 1; }
 		else if (!strncmp(argv[i], "--vport=", 8)) { int v = atoi(argv[i] + 8); if (v < 1 || v > 1024) { fprintf(stderr, "sim64: --vport=BYTES (1 to 1024)\n"); return 2; } cpu.vport = v; }
+		else if (!strncmp(argv[i], "--vrow=", 7)) { int v = atoi(argv[i] + 7); if (v < 0 || v > 1024) { fprintf(stderr, "sim64: --vrow=CYCLES (0 to 1024)\n"); return 2; } cpu.vrow = v; cpu.vrow_set = 1; }
 		else if (!strncmp(argv[i], "--vcommit=", 10)) { int v = atoi(argv[i] + 10); if (v < 0 || v > 1024) { fprintf(stderr, "sim64: --vcommit=CYCLES (0 to 1024)\n"); return 2; } cpu.vcommit = v; cpu.vcommit_set = 1; }
 		else if (!strcmp(argv[i], "-k")) mode = MODE_KERNEL;
 		else if (!strcmp(argv[i], "-K")) mode = MODE_KERNEL, sys = 1;
@@ -375,10 +377,10 @@ int main(int argc, char **argv)
 		else if (!strncmp(argv[i], "--timing-out=", 13)) timing_out = argv[i] + 13;
 		else if (!strncmp(argv[i], "--timing-pc=", 12)) timing_pc = argv[i] + 12;
 		else if (!strcmp(argv[i], "--timing-help")) { tm_help(stdout); return 0; }
-		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-S bytes] [--vport=n] [--vcommit=n] [--latency=fpga|asic|file] [--vpipe=n] [--vmemlat=n] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
+		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-S bytes] [--vport=n] [--vcommit=n] [--vrow=n] [--latency=fpga|asic|file] [--vpipe=n] [--vmemlat=n] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 		else prog = argv[i];
 	}
-	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-S bytes] [--vport=n] [--vcommit=n] [--latency=fpga|asic|file] [--vpipe=n] [--vmemlat=n] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
+	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-S bytes] [--vport=n] [--vcommit=n] [--vrow=n] [--latency=fpga|asic|file] [--vpipe=n] [--vmemlat=n] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 	pdp64_init();
 	if (!cpu.vpipe) cpu.vpipe = 1;
 	if (!vml_set) cpu.vmemlat = 4;
