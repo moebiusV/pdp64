@@ -1,11 +1,11 @@
 """The words of the instruction dictionary: the introductions and the entries
 (isa_part1.py to isa_part4.py).  The numbers are not here; tools/mkmanual.py reads them from spec/pdp64-mnemonics.hbnf."""
-import isa_part1, isa_part2, isa_part3, isa_part4
+import isa_part1, isa_part2, isa_part3, isa_part4, isa_vec
 from isa_stories import STORY
 import isa_stories_ext
 STORY = dict(STORY, **isa_stories_ext.STORY)
 
-ENTRIES = isa_part1.ENTRIES + isa_part2.ENTRIES + isa_part3.ENTRIES + isa_part4.ENTRIES
+ENTRIES = isa_part1.ENTRIES + isa_part2.ENTRIES + isa_part3.ENTRIES + isa_part4.ENTRIES + isa_vec.ENTRIES	# isa_vec: the vec, tile and GEMM family, all held (P) until benchmarked (errata 161)
 
 # The manual is about the architecture as it is to be (errata 120).  An entry whose notes open with the tag (P), a proposal the author has not
 # accepted, or (S), a stub, is not emitted into the body or the reference tables; its text lives in docs/manual-src/appendix-parts/09-proposed.md

@@ -77,7 +77,7 @@
 | `CLO` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clo), [entry](../09-isa.md#w-clo) | Bits and fields (BESC) |
 | `CLR` | [CLR](../09-isa.md#clr-clear) (section 9.8) | [10](by-encoding.md#mn-clr), [entry](../09-isa.md#w-clr) | Single operand (SOP) |
 | `CLZ` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clz), [entry](../09-isa.md#w-clz) | Bits and fields (BESC) |
-| `CMP` | [CMP](../09-isa.md#cmp-compare) (section 9.7) | [16](by-encoding.md#mn-cmp), [entry](../09-isa.md#w-cmp) | Moves, address formation and the ALU |
+| `CMP` | [CMP](../09-isa.md#cmp-compare) (section 9.7) | [15](by-encoding.md#mn-cmp), [entry](../09-isa.md#w-cmp) | Moves, address formation and the ALU |
 | `COM` | [COM](../09-isa.md#com-complement) (section 9.8) | [7](by-encoding.md#mn-com), [entry](../09-isa.md#w-com) | Single operand (SOP) |
 | `CTCC` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [2](by-encoding.md#mn-ctcc), [entry](../09-isa.md#w-ctcc) | Added by the prefix-coded encoding |
 | `CTCS` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctcs), [entry](../09-isa.md#w-ctcs) | Added by the prefix-coded encoding |
