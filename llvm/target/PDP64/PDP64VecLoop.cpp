@@ -316,14 +316,31 @@ bool Analyzer::emitReduce(Instruction *I) {
   RedStep RS = RedStepOf[I];
   Acc &A = Accs[RS.Acc];
   Value *Src = RS.X;
-  if (A.Base == StringRef("vacc") && !A.IsFP)  // a sext of a narrower lane is the same reduction: vacc widens
-    if (auto *C = dyn_cast<SExtInst>(Src))
+  bool Uns = false;
+  if (A.Base == StringRef("vacc") && !A.IsFP) {  // an extension of a narrower lane is the same reduction: vacc.<src>.<acc> extends, signed or unsigned as <src> says (errata 168)
+    if (auto *C = dyn_cast<SExtInst>(Src)) {
       if (VMap.count(C->getOperand(0)) && laneOK(C->getOperand(0)->getType())) Src = C->getOperand(0);
+    } else if (auto *Z = dyn_cast<ZExtInst>(Src)) {
+      if (VMap.count(Z->getOperand(0)) && laneOK(Z->getOperand(0)->getType())) { Src = Z->getOperand(0); Uns = true; }
+    }
+  }
   auto It = VMap.find(Src);
   if (It == VMap.end()) return fail("the reduced value is not a vector value");
   VOp Op;
   Op.Kind = VOp::Reduce;
-  Op.Mn = (Twine(A.Base) + "." + Twine(laneChar(VLane[Src])) + " ").str();
+  {
+    // the spelling: vacc.<src>.<acc> (the source lane type, with u for unsigned, then the width the strip's sum is made in: l for byte and halfword lanes, whose sum of a strip
+    // cannot pass 32 bits; q for 64-bit lanes; l or q for 32-bit lanes by the width of the accumulator), vmaxacc.<src>, vminacc.<src>; floating point: vacc.f, vacc.d
+    char C = laneChar(VLane[Src]);
+    std::string SrcS(1, C);
+    if (Uns && !A.IsFP) SrcS += 'u';
+    if (A.Base == StringRef("vacc") && !A.IsFP) {
+      bool Q = C == 'q' || (C == 'l' && A.Ty->getIntegerBitWidth() == 64);
+      Op.Mn = "vacc." + SrcS + (Q ? ".q " : ".l ");
+    } else {
+      Op.Mn = (Twine(A.Base) + "." + SrcS + " ").str();
+    }
+  }
   Op.A = Opnd::v(It->second);
   Op.Acc = RS.Acc;
   Prog.push_back(Op);
@@ -741,7 +758,7 @@ bool Analyzer::run() {
     if (isa<ZExtInst>(&I) || isa<SExtInst>(&I)) {
       // the operand of a reduction (vacc widens)
       bool Ok = I.hasOneUse() && isa<BinaryOperator>(*I.user_begin());
-      if (isa<SExtInst>(&I) && Ok && VMap.count(I.getOperand(0))) continue;
+      if ((isa<SExtInst>(&I) || isa<ZExtInst>(&I)) && Ok && VMap.count(I.getOperand(0))) continue;
       return fail("an extension of a computed value");
     }
     return fail("an instruction without a vector form (" + Twine(I.getOpcodeName()) + ")");

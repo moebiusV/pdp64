@@ -94,12 +94,18 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vabdu.l") \
   X("vabdu.q") \
   X("vabdu.w") \
-  X("vacc.b") \
+  X("vacc.b.l") \
+  X("vacc.bu.l") \
   X("vacc.d") \
   X("vacc.f") \
-  X("vacc.l") \
-  X("vacc.q") \
-  X("vacc.w") \
+  X("vacc.f.d") \
+  X("vacc.l.l") \
+  X("vacc.l.q") \
+  X("vacc.lu.l") \
+  X("vacc.lu.q") \
+  X("vacc.q.q") \
+  X("vacc.w.l") \
+  X("vacc.wu.l") \
   X("vadd.b") \
   X("vadd.d") \
   X("vadd.f") \
@@ -284,11 +290,14 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vmax.q") \
   X("vmax.w") \
   X("vmaxacc.b") \
+  X("vmaxacc.bu") \
   X("vmaxacc.d") \
   X("vmaxacc.f") \
   X("vmaxacc.l") \
+  X("vmaxacc.lu") \
   X("vmaxacc.q") \
   X("vmaxacc.w") \
+  X("vmaxacc.wu") \
   X("vmaxu.b") \
   X("vmaxu.l") \
   X("vmaxu.q") \
@@ -300,11 +309,14 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vmin.q") \
   X("vmin.w") \
   X("vminacc.b") \
+  X("vminacc.bu") \
   X("vminacc.d") \
   X("vminacc.f") \
   X("vminacc.l") \
+  X("vminacc.lu") \
   X("vminacc.q") \
   X("vminacc.w") \
+  X("vminacc.wu") \
   X("vminu.b") \
   X("vminu.l") \
   X("vminu.q") \
