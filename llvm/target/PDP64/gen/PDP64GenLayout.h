@@ -148,6 +148,7 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vdotsu.b") \
   X("vdotu.b") \
   X("vec") \
+  X("vec2") \
   X("vend") \
   X("vfin") \
   X("vfir.f") \
@@ -346,6 +347,7 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vshr.w") \
   X("vshrr.l") \
   X("vshrr.w") \
+  X("vskip") \
   X("vsseg2.b") \
   X("vsseg2.d") \
   X("vsseg2.d.f") \

@@ -20,7 +20,7 @@ CFLAGS = ['-O2', '-m64', '-fno-builtin-memset', '-fno-builtin-memcpy', '-fno-sta
 
 # the groups of vec-isa.md section 2, for the table
 GROUPS = [
-    ('block', ['vec', 'vend', 'vfin']),
+    ('block', ['vec', 'vec2', 'vskip', 'vend', 'vfin']),
     ('load, store', ['vld', 'vst']),
     ('saturating narrow', ['vsts']),
     ('strided', ['vldt', 'vstt']),
@@ -140,6 +140,8 @@ def main():
     out.append(', '.join('`%s` %d/%d' % (b, v[0], v[1]) for b, v in sorted(ub.items())) + '\n')
     out.append('\n## Instructions no kernel used, and why (what a compiler would need)\n')
     why = {
+        'vec2': 'the 2D (tile) block (errata 176, vec-2d.md): the compiler does not emit it; a pass would take the countable outer loop around a vectorised inner loop of a nest (the `.preheader` loop of `vector.body` in the IR of tiles.c: 18 of the loops of the benchmark sources contain a loop, all with a countable trip count, 15 with a vectorised loop inside), the strides of the pointers of the nest as invariants, a disjointness proof of the streams across rows, and at most four streams advanced by a gap',
+        'vskip': 'the row advance of a stream of a 2D block: emitted with `vec2` only (see `vec2`)',
         'vfin': 'the epilogue of a block with accumulators (errata 173): only a block that names accumulators (vclr) or uses vfmab has one, and the pass makes no accumulators',
         'vclr': 'hidden accumulation across strips: nothing reads an accumulator after the block ends (there is no vector-to-scalar move outside a block), so a block that needs one reduces inside it (`vacc` each strip), which is what both compilers do',
         'vfir': 'a window of consecutive loads times invariant taps (put8h): LoopVectorize does not vectorise it (too many live vectors), the scalar recogniser makes eight shifted streams; neither makes `vfir`',
