@@ -1,4 +1,4 @@
-/* The vec block (docs/encoding-work/vec-isa.md; wave 1: errata 170; the tile, the GEMM unit and the gather were removed there), for the shared executor.  Included by pdp64exec_enc.inc, which
+/* The vec block (docs/encoding-work/vec-isa.md; wave 1: errata 170, wave 2: errata 171; the tile, the GEMM unit and the gather were removed there), for the shared executor.  Included by pdp64exec_enc.inc, which
  * shares its statics (C, E, RG, ld, st, die, step).  The family was added to be benchmarked and pruned (errata 161); the semantics here are vec-isa.md's (section "wave 1" for the words of errata 170):
  *
  *   - A block is `vec Rs, Re`, instructions, `vend`.  It is run whole by the `vec` instruction (an interrupt waits for the end of the block in this executor).  The
@@ -25,6 +25,7 @@ enum {
 	VO_ADD, VO_SUB, VO_SUBR, VO_MUL, VO_MIN, VO_MAX, VO_MINU, VO_MAXU, VO_ABD, VO_ABDU, VO_AND, VO_OR, VO_XOR, VO_SHL, VO_SHR, VO_SAR,
 	VO_ADDS, VO_SUBS, VO_ADDSU, VO_SUBSU, VO_MOV, VO_NEG, VO_MLA, VO_FMA, VO_FNMA, VO_FMAB, VO_DOT, VO_DOTU, VO_DOTSU,
 	VO_AVG, VO_AVGU, VO_MULH, VO_MULHU, VO_MULHR, VO_SARR, VO_SHRR, VO_TBL, VO_DACC, VO_SAD,
+	VO_CEQ, VO_CGT, VO_CGTU, VO_BSL, VO_CVT,
 	VO_ACC, VO_MAXACC, VO_MINACC, VO_FIR, VO_CLR,
 	VO_LD, VO_ST, VO_STS, VO_LDT, VO_STT, VO_LSEG, VO_SSEG
 };
@@ -44,6 +45,7 @@ static const struct { const char *base; int op; } vbases[] = {
 	{ "vmov", VO_MOV }, { "vneg", VO_NEG }, { "vmla", VO_MLA }, { "vfma", VO_FMA }, { "vfnma", VO_FNMA }, { "vfmab", VO_FMAB },
 	{ "vdot", VO_DOT }, { "vdotu", VO_DOTU }, { "vdotsu", VO_DOTSU },
 	{ "vavg", VO_AVG }, { "vavgu", VO_AVGU }, { "vmulh", VO_MULH }, { "vmulhu", VO_MULHU }, { "vmulhr", VO_MULHR }, { "vsarr", VO_SARR }, { "vshrr", VO_SHRR },
+	{ "vceq", VO_CEQ }, { "vcgt", VO_CGT }, { "vcgtu", VO_CGTU }, { "vbsl", VO_BSL }, { "vcvt", VO_CVT },
 	{ "vtbl", VO_TBL }, { "vdacc", VO_DACC }, { "vsad", VO_SAD }, { "vacc", VO_ACC }, { "vmaxacc", VO_MAXACC }, { "vminacc", VO_MINACC },
 	{ "vfir", VO_FIR }, { "vclr", VO_CLR },
 	{ "vld", VO_LD }, { "vst", VO_ST }, { "vsts", VO_STS }, { "vldt", VO_LDT }, { "vstt", VO_STT },
@@ -94,7 +96,15 @@ static int vec_classify(const char *name, struct vinfo *vi)
 	vi->op = (uint8_t)op;
 	if (op == VO_LSEG || op == VO_SSEG) vi->nseg = (uint8_t)(buf[5] - '0');
 	switch (op) {
-	case VO_VEC: case VO_VEND: return nt == 0;
+	case VO_VEC: case VO_VEND: case VO_BSL: return nt == 0;			/* vbsl has no lane suffix: it selects bits */
+	case VO_CVT: {							/* vcvt.<from>.<to>: l, lu <-> f (32-bit lanes); lsz 4, lfl: the source is float, msign: the integer side is signed, mfl: the result is float */
+		if (nt != 2) return 0;
+		int fr_f = !strcmp(tok[0], "f"), to_f = !strcmp(tok[1], "f");
+		const char *in = fr_f ? tok[1] : tok[0];
+		if (fr_f == to_f || (strcmp(in, "l") && strcmp(in, "lu"))) return 0;
+		vi->lsz = 4; vi->lfl = (uint8_t)fr_f; vi->mfl = (uint8_t)to_f; vi->msign = !strcmp(in, "l");
+		return 1;
+	}
 	case VO_LD: case VO_LDT: case VO_LSEG:			/* .m[.lane] */
 		if (nt < 1 || nt > 2 || !v_mem(tok[0], &vi->msz, &vi->msign, &vi->mfl)) return 0;
 		if (nt == 2) return v_lane(tok[1], &vi->lsz, &vi->lfl);
@@ -250,6 +260,17 @@ static void vop_lane(struct vctx *x, const struct vinfo *vi, const struct einsn 
 		memcpy(D, out, VBYTES); return;
 	}
 	vsrc_b(x, &op[2], vi, tmp, &B);
+	if (vi->op == VO_CEQ || vi->op == VO_CGT || vi->op == VO_CGTU) {			/* the lane mask: all ones or zero, an integer lane of the size compared; a NaN compares false, -0.0 equals +0.0 */
+		for (int i = 0; i < n; i++) {
+			const uint8_t *a = A + i * sz, *b = B + i * sz;
+			int t;
+			if (vi->lfl) { double p = lget_f(a, sz), q = lget_f(b, sz); t = vi->op == VO_CEQ ? p == q : p > q; }
+			else if (vi->op == VO_CGTU) t = lget_u(a, sz) > lget_u(b, sz);
+			else t = vi->op == VO_CEQ ? lget_u(a, sz) == lget_u(b, sz) : lget_s(a, sz) > lget_s(b, sz);
+			lput(out + i * sz, sz, t ? ~(uint64_t)0 : 0);
+		}
+		memcpy(D, out, VBYTES); return;
+	}
 	for (int i = 0; i < n; i++) {
 		const uint8_t *a = A + i * sz, *b = B + i * sz;
 		if (vi->lfl) {
@@ -309,6 +330,42 @@ static void vop_lane(struct vctx *x, const struct vinfo *vi, const struct einsn 
 		}
 	}
 	memcpy(D, out, VBYTES);
+}
+
+/* vcvt.<from>.<to>: the 32-bit lanes of the strip, int32 (signed l, unsigned lu) to binary32 (round to nearest even, as FCVTLS) and binary32 to int32 as the scalar FCVTSL
+   does it: truncate toward zero, then saturate; a NaN gives the largest value.  The unsigned form: a negative value or -0 gives 0, a NaN or a value of 2^32 or more gives
+   0xffffffff (as FCVTDQU does for 64 bits).  No flag is set (the lane operations never touch FPSR). */
+static void vop_cvt(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
+{
+	const struct eop *op = in->op;
+	uint8_t out[VBYTES];
+	const uint8_t *A = VR(op[1].r);
+	memcpy(out, VR(op[0].r), VBYTES);
+	for (int i = 0; i < x->nact; i++) {
+		uint32_t r;
+		if (vi->mfl) {							/* integer to float */
+			float f = vi->msign ? (float)(int32_t)lget_u(A + 4 * i, 4) : (float)(uint32_t)lget_u(A + 4 * i, 4);
+			memcpy(&r, &f, 4);
+		} else {
+			float f; uint32_t b = (uint32_t)lget_u(A + 4 * i, 4);
+			memcpy(&f, &b, 4);
+			if (vi->msign) r = (uint32_t)(isnan(f) ? INT32_MAX : f >= 2147483648.0f ? INT32_MAX : f < -2147483648.0f ? INT32_MIN : (int32_t)f);
+			else r = isnan(f) ? 0xffffffffu : f >= 4294967296.0f ? 0xffffffffu : f <= -1.0f ? 0 : (uint32_t)f;
+		}
+		lput(out + 4 * i, 4, r);
+	}
+	memcpy(VR(op[0].r), out, VBYTES);
+}
+
+/* vbsl vD, vM, vA, vB: vD = (vM & vA) | (~vM & vB), bitwise over the whole register; vD may be any of the sources (all are read before vD is written) */
+static void vop_bsl(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
+{
+	(void)x; (void)vi;
+	const struct eop *op = in->op;
+	uint8_t out[VBYTES];
+	const uint8_t *M = VR(op[1].r), *A = VR(op[2].r), *B = VR(op[3].r);
+	for (int i = 0; i < VBYTES; i++) out[i] = (uint8_t)((M[i] & A[i]) | (~M[i] & B[i]));
+	memcpy(VR(op[0].r), out, VBYTES);
 }
 
 static void vop_fmab(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
@@ -486,6 +543,9 @@ static void vop(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
 	case VO_AND: case VO_OR: case VO_XOR: case VO_SHL: case VO_SHR: case VO_SAR: case VO_ADDS: case VO_SUBS: case VO_ADDSU: case VO_SUBSU:
 	case VO_MOV: case VO_NEG: case VO_MLA: case VO_FMA: case VO_FNMA: case VO_AVG: case VO_AVGU: case VO_MULH: case VO_MULHU: case VO_MULHR: case VO_SARR: case VO_SHRR:
 		vop_lane(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
+	case VO_CEQ: case VO_CGT: case VO_CGTU: vop_lane(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
+	case VO_CVT: vop_cvt(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
+	case VO_BSL: vop_bsl(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
 	case VO_FMAB: vop_fmab(x, vi, in); C->velems += x->nact; return;
 	case VO_DOT: case VO_DOTU: case VO_DOTSU: vop_dot(x, vi, in); C->velems += x->nact; return;
 	case VO_ACC: case VO_MAXACC: case VO_MINACC: vop_reduce(x, vi, in); C->velems += x->nact; return;

@@ -41,7 +41,14 @@ SAT = ['vadds', 'vsubs', 'vaddsu', 'vsubsu']					# saturating; lanes b, w, l
 UN = ['vmov', 'vneg']								# vD, vA | rS | #imm
 FMA = ['vfma.f', 'vfma.d']
 AVG = sfx(['vavg', 'vavgu'], ['b', 'w'])						# the rounding average (vD, vA, vB only)
-LANEOPS = (sfx(BIN_ANY, LANES) + sfx(BIN_ANY5, ['b', 'w', 'l', 'f', 'd']) + sfx(BIN_INT, IL) + sfx(BIN_INT3, ['b', 'w', 'l']) + sfx(['vabd'], ['b', 'w', 'l']) +
+# Wave 2 (errata 171; vec-survey.md 5.1 items 10 and 11).  Two groups, separable: drop one by emptying its list (CMP, CVT) and regenerating.
+# CMP: the lane compare, a mask (all ones or zero) in an ordinary vector register; the lane operand forms are those of the lane operations (vD, vA, vB | rS | #imm).
+# CVT: the conversions int32 <-> binary32 (about 15,800 NAND2 equivalents: vec-silicon.md says to build them only with the floating-point lanes); the name is vcvt.<from>.<to>.
+# BSL: the bitwise select vbsl vD, vM, vA, vB (four vectors; no lane suffix).
+CMP = sfx(['vceq', 'vcgt'], ['b', 'w', 'l', 'f']) + sfx(['vcgtu'], ['b', 'w', 'l'])
+CVT = ['vcvt.l.f', 'vcvt.lu.f', 'vcvt.f.l', 'vcvt.f.lu']
+BSL = ['vbsl']
+LANEOPS = (CMP + sfx(BIN_ANY, LANES) + sfx(BIN_ANY5, ['b', 'w', 'l', 'f', 'd']) + sfx(BIN_INT, IL) + sfx(BIN_INT3, ['b', 'w', 'l']) + sfx(['vabd'], ['b', 'w', 'l']) +
            sfx(['vabdu'], ['b', 'w']) + sfx(BIN_WL, ['w', 'l']) + sfx(BIN_W, ['w']) + sfx(SAT, ['b', 'w', 'l']))
 DOTS = ['vdot.b', 'vdotu.b', 'vdotsu.b', 'vdot.w']
 DACC = ['vdacc.b', 'vdacc.bu', 'vdacc.bsu', 'vdacc.w', 'vsad.bu']			# a dot product or a sum of absolute differences reduced into a scalar register
@@ -133,7 +140,9 @@ def vec_forms(R):
     vf('VOP.VVI', LANEOPS, [V, V, I16])
     vf('VDACC', DACC, [R, V, V])
     vf('VTBLM', ['vtbl.b'], [V, B0, V])
-    vf('VOP.VV', sfx(['vmov', 'vneg'], LANES), [V, V])
+    vf('VOP.VV', sfx(['vmov', 'vneg'], LANES) + CVT, [V, V])
+    if BSL:
+        vf('VBSL', BSL, [V, V, V, V])
     vf('VOP.VR', sfx(['vmov'], LANES), [V, R])
     vf('VOP.VI', sfx(['vmov'], LANES), [V, I16])
     # multiply-add with the broadcast element (the micro-kernel), reductions, the sliding window, accumulators

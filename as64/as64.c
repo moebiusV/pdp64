@@ -728,6 +728,25 @@ static void vec_typecheck(const struct stmt *st)
 		wlane = 4; dst = firstv ? o[0].reg : -1;
 	} else if (!strcmp(b, "vdacc") || !strcmp(b, "vsad")) {			/* vdacc.<b|bu|bsu|w> Rd, vA, vB; vsad.bu Rd, vA, vB: both registers are read as the source lanes, the result is a scalar */
 		rlane = vlane_code(tok[0]); RD(1); RD(2);
+	} else if (!strcmp(b, "vceq") || !strcmp(b, "vcgt") || !strcmp(b, "vcgtu")) {		/* wave 2: the operands are read as lanes of the suffix; the mask is an integer lane of the same size (also for .f) */
+		rlane = vlane_code(tok[0]); RD(1); RD(2);
+		wlane = rlane >= 0 ? (rlane & 0xff) : -1; dst = firstv ? o[0].reg : -1;
+	} else if (!strcmp(b, "vcvt")) {							/* vcvt.<from>.<to>: 32-bit lanes of the source kind in, of the other kind out */
+		int ff = tok[0] && !strcmp(tok[0], "f");
+		rlane = ff ? (4 | 0x100) : 4; wlane = ff ? 4 : (4 | 0x100); RD(1); dst = firstv ? o[0].reg : -1;
+	} else if (!strcmp(b, "vbsl")) {							/* vbsl vD, vM, vA, vB: the mask and both operands have the same lane size (the kind is not checked: it is bitwise) */
+		int sz = -1, rdl = -1;
+		for (int k = 1; k <= 3 && k < st->nops; k++) {
+			if (o[k].kind != OK_VREG || vlane[o[k].reg & 15] < 0) continue;
+			int l = vlane[o[k].reg & 15];
+			if (sz >= 0 && (l & 0xff) != sz && final_pass)
+				err(st->line, "vbsl: the mask and the operands must have the same lane size (v%d holds %d-byte lanes, but another operand holds %d-byte lanes)", o[k].reg, l & 0xff, sz);
+			if (sz < 0) sz = l & 0xff;
+			if (k >= 2 && rdl < 0) rdl = l;
+		}
+		if (firstv && rdl >= 0) vlane[o[0].reg & 15] = rdl;
+		else if (firstv && sz >= 0) vlane[o[0].reg & 15] = sz;
+		return;
 	} else if (!strcmp(b, "vtbl")) {						/* vtbl.b vD, vT, vI | vtbl.b vD, (Ra), vI: bytes in (the table, if it is a register, and the index), bytes out */
 		rlane = wlane = 1; RD(1); RD(2); dst = firstv ? o[0].reg : -1;
 	} else if (!strcmp(b, "vacc") || !strcmp(b, "vmaxacc") || !strcmp(b, "vminacc")) {	/* .src[.acc]: the register is read as the source lanes */

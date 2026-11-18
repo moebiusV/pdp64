@@ -164,43 +164,44 @@ mn-ext = "addv"@0 | "aesds"@1 | "aesdsm"@2 | "aeses"@3 | "aesesm"@4 | "aesim"@5 
        | "vacc.f.d"@94 | "vacc.l.l"@95 | "vacc.l.q"@96 | "vacc.lu.l"@97 | "vacc.lu.q"@98 | "vacc.q.q"@99 | "vacc.w.l"@100 | "vacc.wu.l"@101
        | "vadd.b"@102 | "vadd.d"@103 | "vadd.f"@104 | "vadd.l"@105 | "vadd.q"@106 | "vadd.w"@107 | "vadds.b"@108 | "vadds.l"@109 | "vadds.w"@110
        | "vaddsu.b"@111 | "vaddsu.l"@112 | "vaddsu.w"@113 | "vand.b"@114 | "vand.l"@115 | "vand.q"@116 | "vand.w"@117 | "vavg.b"@118 | "vavg.w"@119
-       | "vavgu.b"@120 | "vavgu.w"@121 | "vclr.d"@122 | "vclr.f"@123 | "vclr.l"@124 | "vdacc.b"@125 | "vdacc.bsu"@126 | "vdacc.bu"@127 | "vdacc.w"@128
-       | "vdot.b"@129 | "vdot.w"@130 | "vdotsu.b"@131 | "vdotu.b"@132 | "vec"@133 | "vend"@134 | "vfir.f"@135 | "vfir.l"@136 | "vfir.w"@137
-       | "vfma.d"@138 | "vfma.f"@139 | "vfmab.d"@140 | "vfmab.f"@141 | "vfnma.d"@142 | "vfnma.f"@143 | "vld.b"@144 | "vld.b.l"@145 | "vld.b.q"@146
-       | "vld.b.w"@147 | "vld.bu"@148 | "vld.bu.l"@149 | "vld.bu.q"@150 | "vld.bu.w"@151 | "vld.d"@152 | "vld.f"@153 | "vld.f.d"@154 | "vld.l"@155
-       | "vld.l.q"@156 | "vld.lu"@157 | "vld.lu.q"@158 | "vld.q"@159 | "vld.w"@160 | "vld.w.l"@161 | "vld.w.q"@162 | "vld.wu"@163 | "vld.wu.l"@164
-       | "vld.wu.q"@165 | "vldt.b"@166 | "vldt.b.l"@167 | "vldt.b.q"@168 | "vldt.b.w"@169 | "vldt.bu"@170 | "vldt.bu.l"@171 | "vldt.bu.q"@172
-       | "vldt.bu.w"@173 | "vldt.d"@174 | "vldt.f"@175 | "vldt.f.d"@176 | "vldt.l"@177 | "vldt.l.q"@178 | "vldt.lu"@179 | "vldt.lu.q"@180
-       | "vldt.q"@181 | "vldt.w"@182 | "vldt.w.l"@183 | "vldt.w.q"@184 | "vldt.wu"@185 | "vldt.wu.l"@186 | "vldt.wu.q"@187 | "vlen.b"@188
-       | "vlseg2.b"@189 | "vlseg2.b.l"@190 | "vlseg2.b.q"@191 | "vlseg2.b.w"@192 | "vlseg2.bu"@193 | "vlseg2.bu.l"@194 | "vlseg2.bu.q"@195
-       | "vlseg2.bu.w"@196 | "vlseg2.d"@197 | "vlseg2.f"@198 | "vlseg2.f.d"@199 | "vlseg2.l"@200 | "vlseg2.l.q"@201 | "vlseg2.lu"@202
-       | "vlseg2.lu.q"@203 | "vlseg2.q"@204 | "vlseg2.w"@205 | "vlseg2.w.l"@206 | "vlseg2.w.q"@207 | "vlseg2.wu"@208 | "vlseg2.wu.l"@209
-       | "vlseg2.wu.q"@210 | "vlseg3.b"@211 | "vlseg3.b.l"@212 | "vlseg3.b.q"@213 | "vlseg3.b.w"@214 | "vlseg3.bu"@215 | "vlseg3.bu.l"@216
-       | "vlseg3.bu.q"@217 | "vlseg3.bu.w"@218 | "vlseg3.d"@219 | "vlseg3.f"@220 | "vlseg3.f.d"@221 | "vlseg3.l"@222 | "vlseg3.l.q"@223
-       | "vlseg3.lu"@224 | "vlseg3.lu.q"@225 | "vlseg3.q"@226 | "vlseg3.w"@227 | "vlseg3.w.l"@228 | "vlseg3.w.q"@229 | "vlseg3.wu"@230
-       | "vlseg3.wu.l"@231 | "vlseg3.wu.q"@232 | "vlseg4.b"@233 | "vlseg4.b.l"@234 | "vlseg4.b.q"@235 | "vlseg4.b.w"@236 | "vlseg4.bu"@237
-       | "vlseg4.bu.l"@238 | "vlseg4.bu.q"@239 | "vlseg4.bu.w"@240 | "vlseg4.d"@241 | "vlseg4.f"@242 | "vlseg4.f.d"@243 | "vlseg4.l"@244
-       | "vlseg4.l.q"@245 | "vlseg4.lu"@246 | "vlseg4.lu.q"@247 | "vlseg4.q"@248 | "vlseg4.w"@249 | "vlseg4.w.l"@250 | "vlseg4.w.q"@251
-       | "vlseg4.wu"@252 | "vlseg4.wu.l"@253 | "vlseg4.wu.q"@254 | "vmax.b"@255 | "vmax.d"@256 | "vmax.f"@257 | "vmax.l"@258 | "vmax.w"@259
-       | "vmaxacc.b"@260 | "vmaxacc.bu"@261 | "vmaxacc.d"@262 | "vmaxacc.f"@263 | "vmaxacc.l"@264 | "vmaxacc.lu"@265 | "vmaxacc.q"@266
-       | "vmaxacc.w"@267 | "vmaxacc.wu"@268 | "vmaxu.b"@269 | "vmaxu.l"@270 | "vmaxu.w"@271 | "vmin.b"@272 | "vmin.d"@273 | "vmin.f"@274
-       | "vmin.l"@275 | "vmin.w"@276 | "vminacc.b"@277 | "vminacc.bu"@278 | "vminacc.d"@279 | "vminacc.f"@280 | "vminacc.l"@281 | "vminacc.lu"@282
-       | "vminacc.q"@283 | "vminacc.w"@284 | "vminacc.wu"@285 | "vminu.b"@286 | "vminu.l"@287 | "vminu.w"@288 | "vmla.l"@289 | "vmla.w"@290
-       | "vmov.b"@291 | "vmov.d"@292 | "vmov.f"@293 | "vmov.l"@294 | "vmov.q"@295 | "vmov.w"@296 | "vmul.b"@297 | "vmul.d"@298 | "vmul.f"@299
-       | "vmul.l"@300 | "vmul.w"@301 | "vmulh.w"@302 | "vmulhr.w"@303 | "vmulhu.w"@304 | "vneg.b"@305 | "vneg.d"@306 | "vneg.f"@307 | "vneg.l"@308
-       | "vneg.q"@309 | "vneg.w"@310 | "vor.b"@311 | "vor.l"@312 | "vor.q"@313 | "vor.w"@314 | "vsad.bu"@315 | "vsar.b"@316 | "vsar.l"@317
-       | "vsar.q"@318 | "vsar.w"@319 | "vsarr.l"@320 | "vsarr.w"@321 | "vshl.b"@322 | "vshl.l"@323 | "vshl.q"@324 | "vshl.w"@325 | "vshr.b"@326
-       | "vshr.l"@327 | "vshr.q"@328 | "vshr.w"@329 | "vshrr.l"@330 | "vshrr.w"@331 | "vsseg2.b"@332 | "vsseg2.d"@333 | "vsseg2.d.f"@334
-       | "vsseg2.f"@335 | "vsseg2.l"@336 | "vsseg2.l.b"@337 | "vsseg2.l.w"@338 | "vsseg2.q"@339 | "vsseg2.q.b"@340 | "vsseg2.q.l"@341
-       | "vsseg2.q.w"@342 | "vsseg2.w"@343 | "vsseg2.w.b"@344 | "vsseg3.b"@345 | "vsseg3.d"@346 | "vsseg3.d.f"@347 | "vsseg3.f"@348 | "vsseg3.l"@349
-       | "vsseg3.l.b"@350 | "vsseg3.l.w"@351 | "vsseg3.q"@352 | "vsseg3.q.b"@353 | "vsseg3.q.l"@354 | "vsseg3.q.w"@355 | "vsseg3.w"@356
-       | "vsseg3.w.b"@357 | "vsseg4.b"@358 | "vsseg4.d"@359 | "vsseg4.d.f"@360 | "vsseg4.f"@361 | "vsseg4.l"@362 | "vsseg4.l.b"@363 | "vsseg4.l.w"@364
-       | "vsseg4.q"@365 | "vsseg4.q.b"@366 | "vsseg4.q.l"@367 | "vsseg4.q.w"@368 | "vsseg4.w"@369 | "vsseg4.w.b"@370 | "vst.b"@371 | "vst.d"@372
-       | "vst.d.f"@373 | "vst.f"@374 | "vst.l"@375 | "vst.l.b"@376 | "vst.l.w"@377 | "vst.q"@378 | "vst.q.b"@379 | "vst.q.l"@380 | "vst.q.w"@381
-       | "vst.w"@382 | "vst.w.b"@383 | "vsts.l.b"@384 | "vsts.l.bu"@385 | "vsts.l.w"@386 | "vsts.l.wu"@387 | "vsts.q.b"@388 | "vsts.q.bu"@389
-       | "vsts.q.l"@390 | "vsts.q.lu"@391 | "vsts.q.w"@392 | "vsts.q.wu"@393 | "vsts.w.b"@394 | "vsts.w.bu"@395 | "vstt.b"@396 | "vstt.d"@397
-       | "vstt.d.f"@398 | "vstt.f"@399 | "vstt.l"@400 | "vstt.l.b"@401 | "vstt.l.w"@402 | "vstt.q"@403 | "vstt.q.b"@404 | "vstt.q.l"@405
-       | "vstt.q.w"@406 | "vstt.w"@407 | "vstt.w.b"@408 | "vsub.b"@409 | "vsub.d"@410 | "vsub.f"@411 | "vsub.l"@412 | "vsub.q"@413 | "vsub.w"@414
-       | "vsubr.b"@415 | "vsubr.d"@416 | "vsubr.f"@417 | "vsubr.l"@418 | "vsubr.q"@419 | "vsubr.w"@420 | "vsubs.b"@421 | "vsubs.l"@422 | "vsubs.w"@423
-       | "vsubsu.b"@424 | "vsubsu.l"@425 | "vsubsu.w"@426 | "vtbl.b"@427 | "vxor.b"@428 | "vxor.l"@429 | "vxor.q"@430 | "vxor.w"@431 | "cthis"@4106
-       | "ctlo"@4107
+       | "vavgu.b"@120 | "vavgu.w"@121 | "vbsl"@122 | "vceq.b"@123 | "vceq.f"@124 | "vceq.l"@125 | "vceq.w"@126 | "vcgt.b"@127 | "vcgt.f"@128
+       | "vcgt.l"@129 | "vcgt.w"@130 | "vcgtu.b"@131 | "vcgtu.l"@132 | "vcgtu.w"@133 | "vclr.d"@134 | "vclr.f"@135 | "vclr.l"@136 | "vcvt.f.l"@137
+       | "vcvt.f.lu"@138 | "vcvt.l.f"@139 | "vcvt.lu.f"@140 | "vdacc.b"@141 | "vdacc.bsu"@142 | "vdacc.bu"@143 | "vdacc.w"@144 | "vdot.b"@145
+       | "vdot.w"@146 | "vdotsu.b"@147 | "vdotu.b"@148 | "vec"@149 | "vend"@150 | "vfir.f"@151 | "vfir.l"@152 | "vfir.w"@153 | "vfma.d"@154
+       | "vfma.f"@155 | "vfmab.d"@156 | "vfmab.f"@157 | "vfnma.d"@158 | "vfnma.f"@159 | "vld.b"@160 | "vld.b.l"@161 | "vld.b.q"@162 | "vld.b.w"@163
+       | "vld.bu"@164 | "vld.bu.l"@165 | "vld.bu.q"@166 | "vld.bu.w"@167 | "vld.d"@168 | "vld.f"@169 | "vld.f.d"@170 | "vld.l"@171 | "vld.l.q"@172
+       | "vld.lu"@173 | "vld.lu.q"@174 | "vld.q"@175 | "vld.w"@176 | "vld.w.l"@177 | "vld.w.q"@178 | "vld.wu"@179 | "vld.wu.l"@180 | "vld.wu.q"@181
+       | "vldt.b"@182 | "vldt.b.l"@183 | "vldt.b.q"@184 | "vldt.b.w"@185 | "vldt.bu"@186 | "vldt.bu.l"@187 | "vldt.bu.q"@188 | "vldt.bu.w"@189
+       | "vldt.d"@190 | "vldt.f"@191 | "vldt.f.d"@192 | "vldt.l"@193 | "vldt.l.q"@194 | "vldt.lu"@195 | "vldt.lu.q"@196 | "vldt.q"@197 | "vldt.w"@198
+       | "vldt.w.l"@199 | "vldt.w.q"@200 | "vldt.wu"@201 | "vldt.wu.l"@202 | "vldt.wu.q"@203 | "vlen.b"@204 | "vlseg2.b"@205 | "vlseg2.b.l"@206
+       | "vlseg2.b.q"@207 | "vlseg2.b.w"@208 | "vlseg2.bu"@209 | "vlseg2.bu.l"@210 | "vlseg2.bu.q"@211 | "vlseg2.bu.w"@212 | "vlseg2.d"@213
+       | "vlseg2.f"@214 | "vlseg2.f.d"@215 | "vlseg2.l"@216 | "vlseg2.l.q"@217 | "vlseg2.lu"@218 | "vlseg2.lu.q"@219 | "vlseg2.q"@220 | "vlseg2.w"@221
+       | "vlseg2.w.l"@222 | "vlseg2.w.q"@223 | "vlseg2.wu"@224 | "vlseg2.wu.l"@225 | "vlseg2.wu.q"@226 | "vlseg3.b"@227 | "vlseg3.b.l"@228
+       | "vlseg3.b.q"@229 | "vlseg3.b.w"@230 | "vlseg3.bu"@231 | "vlseg3.bu.l"@232 | "vlseg3.bu.q"@233 | "vlseg3.bu.w"@234 | "vlseg3.d"@235
+       | "vlseg3.f"@236 | "vlseg3.f.d"@237 | "vlseg3.l"@238 | "vlseg3.l.q"@239 | "vlseg3.lu"@240 | "vlseg3.lu.q"@241 | "vlseg3.q"@242 | "vlseg3.w"@243
+       | "vlseg3.w.l"@244 | "vlseg3.w.q"@245 | "vlseg3.wu"@246 | "vlseg3.wu.l"@247 | "vlseg3.wu.q"@248 | "vlseg4.b"@249 | "vlseg4.b.l"@250
+       | "vlseg4.b.q"@251 | "vlseg4.b.w"@252 | "vlseg4.bu"@253 | "vlseg4.bu.l"@254 | "vlseg4.bu.q"@255 | "vlseg4.bu.w"@256 | "vlseg4.d"@257
+       | "vlseg4.f"@258 | "vlseg4.f.d"@259 | "vlseg4.l"@260 | "vlseg4.l.q"@261 | "vlseg4.lu"@262 | "vlseg4.lu.q"@263 | "vlseg4.q"@264 | "vlseg4.w"@265
+       | "vlseg4.w.l"@266 | "vlseg4.w.q"@267 | "vlseg4.wu"@268 | "vlseg4.wu.l"@269 | "vlseg4.wu.q"@270 | "vmax.b"@271 | "vmax.d"@272 | "vmax.f"@273
+       | "vmax.l"@274 | "vmax.w"@275 | "vmaxacc.b"@276 | "vmaxacc.bu"@277 | "vmaxacc.d"@278 | "vmaxacc.f"@279 | "vmaxacc.l"@280 | "vmaxacc.lu"@281
+       | "vmaxacc.q"@282 | "vmaxacc.w"@283 | "vmaxacc.wu"@284 | "vmaxu.b"@285 | "vmaxu.l"@286 | "vmaxu.w"@287 | "vmin.b"@288 | "vmin.d"@289
+       | "vmin.f"@290 | "vmin.l"@291 | "vmin.w"@292 | "vminacc.b"@293 | "vminacc.bu"@294 | "vminacc.d"@295 | "vminacc.f"@296 | "vminacc.l"@297
+       | "vminacc.lu"@298 | "vminacc.q"@299 | "vminacc.w"@300 | "vminacc.wu"@301 | "vminu.b"@302 | "vminu.l"@303 | "vminu.w"@304 | "vmla.l"@305
+       | "vmla.w"@306 | "vmov.b"@307 | "vmov.d"@308 | "vmov.f"@309 | "vmov.l"@310 | "vmov.q"@311 | "vmov.w"@312 | "vmul.b"@313 | "vmul.d"@314
+       | "vmul.f"@315 | "vmul.l"@316 | "vmul.w"@317 | "vmulh.w"@318 | "vmulhr.w"@319 | "vmulhu.w"@320 | "vneg.b"@321 | "vneg.d"@322 | "vneg.f"@323
+       | "vneg.l"@324 | "vneg.q"@325 | "vneg.w"@326 | "vor.b"@327 | "vor.l"@328 | "vor.q"@329 | "vor.w"@330 | "vsad.bu"@331 | "vsar.b"@332
+       | "vsar.l"@333 | "vsar.q"@334 | "vsar.w"@335 | "vsarr.l"@336 | "vsarr.w"@337 | "vshl.b"@338 | "vshl.l"@339 | "vshl.q"@340 | "vshl.w"@341
+       | "vshr.b"@342 | "vshr.l"@343 | "vshr.q"@344 | "vshr.w"@345 | "vshrr.l"@346 | "vshrr.w"@347 | "vsseg2.b"@348 | "vsseg2.d"@349
+       | "vsseg2.d.f"@350 | "vsseg2.f"@351 | "vsseg2.l"@352 | "vsseg2.l.b"@353 | "vsseg2.l.w"@354 | "vsseg2.q"@355 | "vsseg2.q.b"@356
+       | "vsseg2.q.l"@357 | "vsseg2.q.w"@358 | "vsseg2.w"@359 | "vsseg2.w.b"@360 | "vsseg3.b"@361 | "vsseg3.d"@362 | "vsseg3.d.f"@363 | "vsseg3.f"@364
+       | "vsseg3.l"@365 | "vsseg3.l.b"@366 | "vsseg3.l.w"@367 | "vsseg3.q"@368 | "vsseg3.q.b"@369 | "vsseg3.q.l"@370 | "vsseg3.q.w"@371
+       | "vsseg3.w"@372 | "vsseg3.w.b"@373 | "vsseg4.b"@374 | "vsseg4.d"@375 | "vsseg4.d.f"@376 | "vsseg4.f"@377 | "vsseg4.l"@378 | "vsseg4.l.b"@379
+       | "vsseg4.l.w"@380 | "vsseg4.q"@381 | "vsseg4.q.b"@382 | "vsseg4.q.l"@383 | "vsseg4.q.w"@384 | "vsseg4.w"@385 | "vsseg4.w.b"@386 | "vst.b"@387
+       | "vst.d"@388 | "vst.d.f"@389 | "vst.f"@390 | "vst.l"@391 | "vst.l.b"@392 | "vst.l.w"@393 | "vst.q"@394 | "vst.q.b"@395 | "vst.q.l"@396
+       | "vst.q.w"@397 | "vst.w"@398 | "vst.w.b"@399 | "vsts.l.b"@400 | "vsts.l.bu"@401 | "vsts.l.w"@402 | "vsts.l.wu"@403 | "vsts.q.b"@404
+       | "vsts.q.bu"@405 | "vsts.q.l"@406 | "vsts.q.lu"@407 | "vsts.q.w"@408 | "vsts.q.wu"@409 | "vsts.w.b"@410 | "vsts.w.bu"@411 | "vstt.b"@412
+       | "vstt.d"@413 | "vstt.d.f"@414 | "vstt.f"@415 | "vstt.l"@416 | "vstt.l.b"@417 | "vstt.l.w"@418 | "vstt.q"@419 | "vstt.q.b"@420
+       | "vstt.q.l"@421 | "vstt.q.w"@422 | "vstt.w"@423 | "vstt.w.b"@424 | "vsub.b"@425 | "vsub.d"@426 | "vsub.f"@427 | "vsub.l"@428 | "vsub.q"@429
+       | "vsub.w"@430 | "vsubr.b"@431 | "vsubr.d"@432 | "vsubr.f"@433 | "vsubr.l"@434 | "vsubr.q"@435 | "vsubr.w"@436 | "vsubs.b"@437 | "vsubs.l"@438
+       | "vsubs.w"@439 | "vsubsu.b"@440 | "vsubsu.l"@441 | "vsubsu.w"@442 | "vtbl.b"@443 | "vxor.b"@444 | "vxor.l"@445 | "vxor.q"@446 | "vxor.w"@447
+       | "cthis"@4106 | "ctlo"@4107
