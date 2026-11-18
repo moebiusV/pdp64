@@ -9,6 +9,7 @@
  *   -P file  profile: count the executed instructions per pc and write them at exit: "#" lines (the target, the totals, the instructions per category)
  *       and one line "pc count bytes category" (pc in hex, category as the #category lines in order) for each pc that ran.  A block instruction (mcpy...) is one executed instruction.
  *
+ *   -V  print the vector counters (blocks, strips, vector instructions, elements) to standard error at exit; -P also writes them as a "#vec" line
  *   -t  trace: one line per instruction, to standard error     -r  print the registers and flags when the program stops
  *   -n  stop after that many instructions (default 200 million)
  *   -k  start in kernel mode (privileged instructions allowed); the system-call stand-in stays
@@ -227,7 +228,14 @@ static void profile_write(void)
 	for (int i = 0; i < PDP64_NCAT; i++) fprintf(o, "#category %s %llu\n", names[i], (unsigned long long)prof.cat[i]);
 	for (uint64_t i = 0; i < ((prof.hi - prof.lo) >> 1); i++)
 		if (prof.count[i]) fprintf(o, "%llx %u %u %u\n", (unsigned long long)(prof.lo + 2 * i), prof.count[i], prof.len[i], prof.cat_of[i]);
+	fprintf(o, "#vec blocks %llu strips %llu ops %llu elems %llu\n", (unsigned long long)cpu.vblocks, (unsigned long long)cpu.vstrips, (unsigned long long)cpu.vops, (unsigned long long)cpu.velems);
 	fclose(o);
+}
+
+/* -V: the counters of the vector blocks, to standard error at exit */
+static void vec_write(void)
+{
+	fprintf(stderr, "sim64: vec blocks %llu strips %llu ops %llu elems %llu\n", (unsigned long long)cpu.vblocks, (unsigned long long)cpu.vstrips, (unsigned long long)cpu.vops, (unsigned long long)cpu.velems);
 }
 
 /* -K: the pending interrupt requests; the highest level above the priority is taken */
@@ -288,6 +296,7 @@ int main(int argc, char **argv)
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "-t")) trace = 1;
 		else if (!strcmp(argv[i], "-r")) regs = 1;
+		else if (!strcmp(argv[i], "-V")) atexit(vec_write);
 		else if (!strcmp(argv[i], "-k")) mode = MODE_KERNEL;
 		else if (!strcmp(argv[i], "-K")) mode = MODE_KERNEL, sys = 1;
 		else if (!strcmp(argv[i], "-i") && i + 1 < argc && nirqs < 64) {
@@ -301,10 +310,10 @@ int main(int argc, char **argv)
 		else if (!strncmp(argv[i], "--timing-out=", 13)) timing_out = argv[i] + 13;
 		else if (!strncmp(argv[i], "--timing-pc=", 12)) timing_pc = argv[i] + 12;
 		else if (!strcmp(argv[i], "--timing-help")) { tm_help(stdout); return 0; }
-		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
+		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-V] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 		else prog = argv[i];
 	}
-	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
+	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-V] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 	pdp64_init();
 	pdp64_set_psw(&cpu, mode << PSW_MODE | mode << PSW_PREV | (sys ? 7 << PSW_PRI : 0));
 	cpu.deliver = sys; cpu.standin = !sys;
