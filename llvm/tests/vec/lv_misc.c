@@ -1,4 +1,4 @@
-/* expect: 42221  vec: 7  lv: 6  flags: -ffast-math -ffp-contract=fast */
+/* expect: 42221  vec: 7  lv: 7  flags: -ffast-math -ffp-contract=fast */
 /* LoopVectorize's output for: a rotate by a constant (fshl: vshl, vshr, vor), a float widened to a double and a double narrowed to a float (vld.f.d, vst.d.f), a read ahead in the same
    array (a[i] = a[i + 1] + 1: a write-after-read dependence that the strip order keeps), a loop that must NOT be a block (a prefix sum: LoopVectorize refuses it), and a fill of a 2-D array
    (a block for each row).  Trip counts 0, 1 and not multiples of the strip. */
