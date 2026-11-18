@@ -1,12 +1,16 @@
 # Cost and benefit of the vector, GEMM and accelerator operations (a start)
 
-**Status: the assistant's analysis, begun 2026-11-17, not a decision.** The author decided (errata 155) that nothing of the GEMM and `vec` work is dropped before a cost-benefit analysis, and that, until there is a GPU, SIMD on the CPU is wanted for games and for language-model inference on machines without a large, power-hungry GPU: "like a gpu-lite". The GPU, when there is one, will use unified memory (errata 154). This record is the table that decides among the operations, with what is **measured** and what is only **estimated** marked. It is a start: the benefit columns have static instruction counts, the workload section has arithmetic from stated assumptions, the cost columns are mostly estimates, and the measurement that would settle it (dynamic counts on a simulator that has the operations) does not exist yet.
+**Status (as of 2026-11-18, commit 044a7195): the assistant's analysis of 2026-11-17, an input to decisions that have since been made; superseded as a verdict table, kept as the record of what was weighed.** The "provisional lean" column below is **not** the current state: the owner decided that the family is added to be benchmarked and pruned (errata 161), then accepted the survey's proposal (`vec-survey.md`, R474), and the result is in the grammar. **Outcome by row** (section 3a below gives the table): rows 1 to 5, 7, 8 and 11 are implemented; row 6 (`vfmab`, `vclr`) is kept and ranked last, with a 16-byte strip and `vfin` (errata 172 to 175) and the resume rule decided as "restart from the entry"; row 9 (`vexp`), the scatter-add of row 10, predication proper (row 12) and fp16/bf16/int4 (row 13) remain open and are not in the family; **the gather (row 10), the tile (row 14) and the whole-GEMM unit (row 15) were removed in wave 1** (errata 170); a compare-and-select (part of row 12) and the int32/binary32 conversions (part of row 13) were added in wave 2 (errata 171). The family has **363 words and 63 base mnemonics** (`vec-isa.md`). The statements in the future or the conditional (what "would settle it", section 6; "no simulator runs the operations"; "pcc cannot emit") are answered in section 6 with a bracketed note. **Still current:** the workloads and the arithmetic of section 1 (the estimates are the assistant's, evidence grades E and U as marked), the evidence of rows 1 to 8 and 11, the sections' reasoning.
+
+**Related:** `vec-isa.md` (what is implemented, with a table of every word); `vec-survey.md` (the proposal that decided among these rows, against other ISAs and real code); `vec-gates.md` and `vec-silicon.md` (the gates of the rows: estimated, then measured); `vec-forms.md`, `gemm-forms.md` and `vector-study.md` (the measurements of the benefit columns); `docs/errata.md` 155, 157, 161, 170, 171; `docs/decision-register.md` R450 to R482.
+
+**Original status (2026-11-17): the assistant's analysis, begun 2026-11-17, not a decision.** The author decided (errata 155) that nothing of the GEMM and `vec` work is dropped before a cost-benefit analysis, and that, until there is a GPU, SIMD on the CPU is wanted for games and for language-model inference on machines without a large, power-hungry GPU: "like a gpu-lite". The GPU, when there is one, will use unified memory (errata 154). This record is the table that decides among the operations, with what is **measured** and what is only **estimated** marked. It is a start: the benefit columns have static instruction counts, the workload section has arithmetic from stated assumptions, the cost columns are mostly estimates, and the measurement that would settle it (dynamic counts on a simulator that has the operations) does not exist yet.
 
 Evidence grades used below: **M** measured here (static instruction counts of hand-written forms and of compiled code, `vec-forms.md`, `gemm-forms.md`, `arch-data/vec-forms/`); **E** estimated by the assistant from numbers measured here, with the assumption stated; **U** general knowledge not checked on this machine; **N** not studied.
 
 ## 1. The workloads (what "gpu-lite" has to run)
 
-Seven kernels of games and of inference were added to the eight of `vec-forms.md` and the BLAS calls of `gemm-forms.md` (`arch-data/vec-forms/games/`; `tools/arch-compare/costbenefit.py`). pcc's scalar code, the hand-written `vec` form (the proposed block notation, unassembled), and what clang's vectorizers did:
+Seven kernels of games and of inference were added to the eight of `vec-forms.md` and the BLAS calls of `gemm-forms.md` (`arch-data/vec-forms/games/`; `tools/arch-compare/costbenefit.py`). pcc's scalar code, the hand-written `vec` form (the block notation as proposed then, unassembled; it is now assembled and run, `vec-isa.md`), and what clang's vectorizers did:
 
 | kernel | use | pcc scalar: loop for each element | vec form: block operations for each element (256-bit strip) |
 |---|---|---|---:|
@@ -53,7 +57,7 @@ So for a language model on a CPU the **compute, not the memory, is the limit** b
 
 * **Opcode space** (E from `J.9.13` and `tables.md`): the register-register group `R2` has 957 free sub-opcodes of 1,024 and `R3` 77 of 128; a vector operation with two or three vector-register operands fits one of them if the optimiser gives the vector registers a field shape, at no first-parcel pattern; the first-parcel patterns are spent only by a one-parcel hot form or by a shape the groups cannot hold. The prefix optimiser decides (R434, R446): its input is the corpus, so the cost is counted when the instructions are in the forms, not here.
 * **State**: the `vec` block has hidden vector registers (decided as allowed, R435). Hidden registers that never hold anything across an interrupt (they are refilled from memory by a restarted strip) cost nothing at a context switch. Accumulators that persist across strips do (section 4).
-* **Compiler**: an operation that pcc cannot emit is a hand-written-library feature only; what pcc can emit is used by every program. The check instructions needed a tree operator and two templates; a vector loop needs a vectorizer pcc does not have (`vecwin.py` finds the loops; nothing rewrites them).
+* **Compiler**: an operation that pcc cannot emit is a hand-written-library feature only; what pcc can emit is used by every program. The check instructions needed a tree operator and two templates; a vector loop needs a vectorizer pcc does not have (`vecwin.py` finds the loops; nothing rewrites them). [now: pcc still has none; the LLVM back end, the standard compiler (R453), lowers loops to `vec` blocks: `vec-isa.md` section 5, `llvm/vector-usage.md`.]
 
 ## 3. The table
 
@@ -77,9 +81,29 @@ Verdicts are the assistant's provisional leans (L), for the author to take or le
 | 14 | the **tile with an outer-product** instruction (`vtfmopa`) | 0.047 block operations for each multiply-add, 3 operations for 64 (M) | dense matrix products; the prefill; batched decode | 256 bytes of tile at 256-bit strips (1 KiB for four, E): more state than the hidden vector registers, the resume rule, a datapath of VL x VL multipliers; **gates: 260,000 (int8) to 665,000 (fp32) (M for the multipliers)** | **open; the largest benefit and the largest state** |
 | 15 | the **whole-GEMM instruction** (`gemm.f`: a descriptor, two progress registers, one-tile restart) | 19 set-up instructions for any size (M); no instructions in the loop | prompt processing, batched decode, convolutions, attention products (small matrices are a weak case, E) | a matrix unit (a start-up cost, DMA of its own, caches); a descriptor format; the unit may be a device (`lb64`) or part of the core; **gates: 1.2 to 1.7 million, most of it the multipliers and 64 KB of buffers (E)** | **open; the decision between a CPU instruction and an accelerator** |
 
+### 3a. Outcome of each row (added 2026-11-18)
+
+| # | operation | outcome | where |
+|---|---|---|---|
+| 1 | the `vec` block | **implemented** (`vec`, `vend`; the strip is invisible, the least strip 16 bytes) | `vec-isa.md` 1, 8 |
+| 2 | the single-instruction prefix | kept (a block of one instruction without `vend`) | `vec-isa.md` 1 |
+| 3 | reductions into a register | **implemented**: `vacc.<src>.<acc>`, `vmaxacc`, `vminacc` (errata 168); floating-point sums in a canonical order (errata 174); `vdacc`, `vsad` in wave 1 | `vec-isa.md` 2, 6, 8.5 |
+| 4 | widening, narrowing, saturating | **implemented**: `vld.<m>.<lane>`, `vst.<lane>.<m>`, `vsts` (with a rounding shift in wave 1), `vadds` ... | `vec-isa.md` 2, 6 |
+| 5 | `vfir` | kept, ranked last (`vfir.w .l .f`); no compiler path selects it | `vec-isa.md` 2 |
+| 6 | `vfmab`, the micro-kernel | kept, ranked last; **the resume rule is decided: the block restarts from its entry** (errata 172); a block with accumulators or `vfmab` has a 16-byte strip and `vfin` (errata 175); `vlen` is gone, the kernel has a fixed 8 by 4 tile | `vec-isa.md` 4.1, 8.4 |
+| 7 | int8 dot | **implemented**: `vdot.b .bu .bsu`, plus `vdot.w` and the reduced `vdacc` (wave 1); the compiler selects `vdacc` | `vec-isa.md` 2, 6 |
+| 8 | bit-field and nibble operations | ordinary lane operations (row 1) | |
+| 9 | `vexp` and special functions | **open, not in the family** | `vec-isa.md` 2 |
+| 10 | gather, scatter | **gather removed** in wave 1 (errata 170), replaced by the 16-byte table lookup `vtbl.b`; scatter-add not added | `vec-isa.md` 6 |
+| 11 | strided and segment loads | **implemented**: `vldt`, `vstt`, `vlseg2..4`, `vsseg2..4` | `vec-isa.md` 2 |
+| 12 | predication and masks | **partly**: lane compares and the bitwise select `vbsl` (wave 2, errata 171); predication proper (masked loads and stores) open | `vec-isa.md` 7 |
+| 13 | number formats | **partly**: `vcvt` int32 <-> binary32 (wave 2); fp16, bf16, int4, fp8 open | `vec-isa.md` 7 |
+| 14 | the tile with `vtfmopa` | **removed** in wave 1 (errata 170): 705,636 NAND2 measured | `vec-silicon.md` |
+| 15 | the whole-GEMM instruction `gemm.f` | **removed** in wave 1 (errata 170): 1.5 to 1.8 million NAND2 measured; a whole GEMM livelocks against the timer | `vec-silicon.md`, `gemm-forms.md` 5a |
+
 ## 4. The one design question that the table shares
 
-Rows 6, 14 and 15 keep partial sums that last across many strips (an accumulator), and the decision says nothing is saved at a context switch beyond the ordinary registers (R435, errata 139). Three ways out (`gemm-forms.md` §5a): save the accumulators at a context switch (state and time); restart a piece from its start (correct for a bounded piece: a tile, about 2 microseconds at K = 768; a whole GEMM livelocks against the timer tick); or write the partial sums to memory every so many strips. Rows 1 to 5, 7 to 10 keep nothing across strips beyond ordinary registers and need none of this.
+[now: decided: rows 14 and 15 were removed (errata 170) and row 6 restarts from the entry of the block (errata 172, 175).] Rows 6, 14 and 15 keep partial sums that last across many strips (an accumulator), and the decision says nothing is saved at a context switch beyond the ordinary registers (R435, errata 139). Three ways out (`gemm-forms.md` §5a): save the accumulators at a context switch (state and time); restart a piece from its start (correct for a bounded piece: a tile, about 2 microseconds at K = 768; a whole GEMM livelocks against the timer tick); or write the partial sums to memory every so many strips. Rows 1 to 5, 7 to 10 keep nothing across strips beyond ordinary registers and need none of this.
 
 ## 5. A first reading (the assistant's, for the author to change)
 
@@ -91,6 +115,8 @@ Rows 6, 14 and 15 keep partial sums that last across many strips (an accumulator
 **Gates** (`vec-gates.md`; the author asked for them): the block alone is about 100,000 NAND2 equivalents with 16 integer lanes and about 180,000 with floating-point lanes; the yes and likely rows together are about 195,000 to 280,000, about 1.6 to 2.3 times the logic of the scalar core, which was counted the same way at 220,000 to 310,000 (the same section of `vec-gates.md`); the tile is 260,000 to 665,000 and the whole-GEMM unit 1.2 to 1.7 million. The blocks that decide most of it were synthesised (M); the rest are estimates (E).
 
 ## 6. What would settle it (to do)
+
+[now, 2026-11-18: the first bullet is done (`sim64 -V` counts the vector instructions executed and has two cycle models; the 46 kernels of `llvm/bench` run on it, `llvm/README.md`); the missing studies were partly made (segment loads: row 11, `arch-data/vec-forms/seg/`; number formats and predication: waves 1 and 2, in part); the minimum viable gpu-lite became the survey's proposal and then waves 1 and 2; the FFmpeg backend is not done.]
 
 * A model of the block in `sim64` (or a separate simulator) so that dynamic instruction and operation counts can be taken on whole kernels and then on a real loop nest (a transformer layer from `cngpt`'s forward pass at its test size; a software-rendered frame of a small game).
 * The missing studies: segment loads (11), predication (12), number formats (13), a table of vector exponential and reciprocal accuracy against what a language model tolerates (9).
