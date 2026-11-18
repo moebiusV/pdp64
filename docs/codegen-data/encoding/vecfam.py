@@ -1,15 +1,17 @@
-"""vecfam.py -- the vec block, the tile and the GEMM family, as forced forms for the catalogue (cat.py).
+"""vecfam.py -- the vec block family, as forced forms for the catalogue (cat.py).
 
-The instructions are those of docs/encoding-work/vec-isa.md (section 2) and docs/encoding-work/gemm-forms.md (the tile and the whole-GEMM unit).  They are here to be
-**benchmarked and pruned**: nothing in the corpus emits them yet (pcc has no vectorizer), their encodings are provisional (forced forms, no usage weights: the
-prefix optimiser is to be run again on the corpus compiled by the LLVM back end, which has the vectorizer), and an instruction that the benchmarks show to be a dud is removed by
-deleting its name from a list below and regenerating (docs/encoding-work/vec-family.md says how).
+The instructions are those of docs/encoding-work/vec-isa.md (the semantics reference, with the family at a glance).  They were added to be **benchmarked and pruned** (errata 161),
+and were: the tile, the whole-GEMM unit, the gather and 23 lane variants were removed in wave 1 (errata 170), wave 2 added the compares, the select and the conversions
+(errata 171), the strip was made invisible (errata 173 to 175: vlen and the register form of vtbl removed, vfin added).  pcc has no vectorizer; the LLVM back end selects
+some of them (llvm/vector-usage.md).  Their encodings are provisional (forced forms, no usage weights: the prefix optimiser is to be run again on the corpus compiled by
+the LLVM back end), and a word that the benchmarks show to be a dud is removed by deleting its name from a list below and regenerating (errata 170, "generator workflow":
+addforms.py with --drop for each removed form, mkenc.py --md, check-grammar-enc.sh --update, mk_vectors.py).
 
 A form is a list of mnemonics that share operand shapes; the leaf of a form has the shortest prefix that the operand bits and the sub-opcode bits leave (as many
 first-parcel patterns as 2^(16-L)), so the whole family takes only some tens of patterns.
 
-Operand shapes (the notation of the manual): vN a vector register (4 bits, v0..v15), tN a tile register (3 bits, t0..t7), rN an integer register, (rA)+ a post-increment
-memory operand that moves by the strip, d(rA) a base and a 12-bit displacement in bytes (the strided forms take (rA)+ and a stride), (rA)[vI] the base of a gather, #n an immediate.
+Operand shapes (the notation of the manual): vN a vector register (4 bits, v0..v15), rN an integer register, (rA)+ a post-increment
+memory operand that moves by the strip, d(rA) a base and a 12-bit displacement in bytes (the strided forms take (rA)+ and a stride), #n an immediate.
 
 Deliberately not here (vec-isa.md, "under study"): vexp and the other special functions, the scatter-add, predication, the fp16, bf16 and int4 conversions; and the
 operand form d(rA)+ of the strip memory operations (an offset and the move), which is d(rA) followed by an add of the strip.
