@@ -55,7 +55,7 @@ Four constraints stand beside the ranking. The design is ready for out-of-order 
 
 ## The toolchain
 
-    spec/       the grammars: the encoding (pdp64/pdp64.hbnf, pdp64-enc.hbnf), syntax (pdp64-asm.hbnf), the numbers (pdp64-mnemonics.hbnf, pdp64-system.hbnf), ELF records (elf.hbnf)
+    spec/       the grammars: the drop-in directory grammars.d/ of numbered parts (the numbers, the syntax, the encoding), its masters pdp64/pdp64.hbnf and pdp64-asm.hbnf, ELF records (elf.hbnf)
     tools/      mkgrammar.py and mkenc.py (the generators), mkmanual.py (the instruction entries of the manual), build-hbnf.sh, build-as64.sh,
                 build-sim64.sh, build-pcc.sh, encopt/ (the encoding optimiser), feedback/ (the decision form), the checks (check-all.sh runs them all), pdp64test.sh and pdp64test-all.sh (C programs
                 under sim64), pdp64size.sh (code size against other targets), check-drift-enc.py
@@ -113,7 +113,7 @@ BSD 2-clause, for everything in this repository: see [`COPYING`](COPYING).
 : the manual in `manual/`; the architecture in [`pdp64-isa.md`](docs/pdp64-isa.md), [`pdp64-fpga-plan.md`](docs/pdp64-fpga-plan.md), [`pdp64-lb64-accelerator.md`](docs/pdp64-lb64-accelerator.md), [`pdp64-system-architecture.md`](docs/pdp64-system-architecture.md), [`pdp64-system-design.md`](docs/pdp64-system-design.md), [`pdp64-in-order-and-out-of-order.md`](docs/pdp64-in-order-and-out-of-order.md), [`pdp64-ooo-readiness.md`](docs/pdp64-ooo-readiness.md), [`boot.md`](docs/boot.md), [`roadmap.md`](docs/roadmap.md); conventions in [`abi.md`](docs/abi.md), [`asm-syntax.md`](docs/asm-syntax.md), [`sim64.md`](docs/sim64.md); research in [`kernel-asm-survey.md`](docs/kernel-asm-survey.md), [`kernel-pain-points.md`](docs/kernel-pain-points.md), [`hardware-vulnerabilities.md`](docs/hardware-vulnerabilities.md), [`openbsd-mitigations.md`](docs/openbsd-mitigations.md), [`architecture-recommendations.md`](docs/architecture-recommendations.md), [`codegen-analysis.md`](docs/codegen-analysis.md); decisions in [`decisions-and-status.md`](docs/decisions-and-status.md), [`decision-register.md`](docs/decision-register.md), [`errata.md`](docs/errata.md); records in [`decisions-pending.md`](docs/decisions-pending.md) and [`CHANGES-SINCE-R20.md`](docs/CHANGES-SINCE-R20.md); the map of all documents [`docs/README.md`](docs/README.md); the founding documents in [`orig/`](docs/orig/).
 
 **Grammars, the single source of truth** (in `spec/`)
-: [`pdp64-mnemonics.hbnf`](spec/pdp64-mnemonics.hbnf) (every number), [`pdp64/pdp64.hbnf`](spec/pdp64/pdp64.hbnf) (the encoding), [`pdp64-asm.hbnf`](spec/pdp64-asm.hbnf) (assembly syntax), [`elf.hbnf`](spec/elf.hbnf) (object records).
+: [`grammars.d/`](spec/grammars.d) (every number, the parts), [`pdp64/pdp64.hbnf`](spec/pdp64/pdp64.hbnf) (the encoding), [`pdp64-asm.hbnf`](spec/pdp64-asm.hbnf) (assembly syntax), [`elf.hbnf`](spec/elf.hbnf) (object records).
 
 **Programs**
 : [`as64/`](as64/) assembler, [`ld64/`](ld64/) linker, [`sim64/`](sim64/) emulator, [`qemu/`](qemu/) and [`llvm/`](llvm/) targets, [`tools/`](tools/) generator, builds and checks (`check-all.sh`), [`tests/`](tests/).

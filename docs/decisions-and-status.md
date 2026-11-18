@@ -394,6 +394,20 @@
 - Evidence: docs/errata.md item 177; tools/encopt/addforms.py (`keep_hand_text`); tools/check-grammar-enc.sh
 - Left: a change inside the vec family has to be made in `vecfam.py`, not by hand in the grammar
 
+### Generated hbnf is an include of the hand-edited master
+- Status: DONE — the generated part of the encoding grammar is three whole files in `spec/generated/` that `tools/encopt/addforms.py` writes and nothing else; `spec/pdp64/pdp64.hbnf` and `spec/pdp64-enc.hbnf` are hand edited and include them; `tools/check-grammar-enc.sh` fails when a generated file differs from what the generator writes, lacks its GENERATED line, or a master defines a generated rule (latest decision 2026-11-18 \[R492\], errata 179)
+- Decided: 2026-11-18 the owner's rule: "any generated hbnf should be an include into the master hbnf file that is hand edited."; the details (which files, which rules are hand text, `%start insn`) the assistant's \[R492\]
+- Rationale: the grammar is the source of truth, so a regeneration must not overwrite hand-written text in it (errata 177 had to keep it with `keep_hand_text()`, now deleted)
+- Evidence: docs/errata.md item 179; spec/README.md ("Hand-edited and generated files", the inventory of the grammar files and the workflow); spec/generated/; tools/encopt/addforms.py; docs/codegen-data/encoding/write_hbnf.py; tools/encgram.py (follows `include`); tools/check-grammar-enc.sh
+- Left: nothing of this; the copies in `build/` were removed by errata 180 (R493)
+
+### The grammar is a drop-in directory of parts
+- Status: DONE — `spec/grammars.d/` holds the grammar as numbered parts (a file `NN-name.hbnf` or a directory `NN-name/{prologue,grammar,epilogue}.hbnf`, read in three passes); the masters hold directives and include the generated indexes; every tool reads the directory, so a new family, system registers or a new group is a new file (demonstrated; `98-example-words.hbnf.disabled`, `99-example-enc.hbnf.disabled`); check-all, llvm/check.sh, QEMU checks green (latest decision 2026-11-18 \[R493\], errata 180)
+- Decided: 2026-11-18 the owner: "grammars.d/NN-gram1.hbnf etc." and "grammars.d/NN-name/{prologue,grammar,epilogue}.hbnf so they can be assembled in their proper order"; later hbnf is to merge the sections itself; the details the assistant's \[R493\]
+- Rationale: new parts of the architecture must not need a change in any other file or tool; the byte-identical requirement was lifted for this change (it happened to hold for the tables)
+- Evidence: docs/errata.md item 180; spec/README.md ("The drop-in directory": the contract, how a part is added); tools/grammars_d.py; tools/mkparts.py; tools/check-grammar-enc.sh
+- Left: hbnf does not read a directory (the two scripts are the stopgap; the request is in spec/README.md); the optimiser does not see a hand-written family's forms; the pcc sibling repository holds a re-exported `arch/pdp64/pdp64-names.h` (uncommitted)
+
 ## Instruction set: instruction groups
 
 ### Constant-time execution
