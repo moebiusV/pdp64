@@ -469,3 +469,8 @@
 - R462 | 2026-11-17 | question | "I mean, A6h means 0xA6 and 1001b means 0b1001 what is the conflict?" | subjects: Assembler syntax | current
 - R463 | 2026-11-17 | decision | "i want all the language in the grammar, not in a preprocessor" | subjects: Assembler syntax | current
 - R464 | 2026-11-17 | decision | "wait for the llvm agent to finish; i think a valid number should never be a label.  So A6h or a6h just shouldn't be allowed as a label." | subjects: Assembler syntax | current
+- R465 | 2026-11-17 | decision | "do 1 and 2, then drop the macros" | subjects: Assembler syntax | current
+- R466 | 2026-11-17 | question | "i mean.... llvm and gcc never emit asm macros anyway right? nor does pcc" | subjects: Assembler syntax | current
+- R467 | 2026-11-17 | question | "however, if we wanted to do macros, -> and => in hbnf should allow it, right?" | subjects: Assembler syntax | current
+- R468 | 2026-11-17 | question | "hbnd implements cpp as a grammar.... so why couldn't it implement asm macros?" | subjects: Assembler syntax | current
+- R469 | 2026-11-17 | question | "good... when done, we shouldn't need as64pre.c at all, right?" | subjects: Assembler syntax | current
