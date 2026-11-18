@@ -23,10 +23,12 @@ comment = ( ";" | "//" ) *( 0x01..0x09 | 0x0B..0xD7FF | 0xE000..0x10FFFF )
 line = *label [ stmt ]
 
 ; NASM also lets a datum's name stand without the colon: `msg db 'hi', 0`
-label = symbol ":" | symbol &dkword
+; (not an instruction word and not a directive: `lea dd, r10` is an instruction whose operand is the symbol dd, not the label `lea` before a datum, and `.quad resb` is the directive)
+label = symbol ":" | !insnword !( "." dname ) symbol &dkword
+insnword = mnemonic | mn-cond | mn-sysreg
 dkword = "db" | "dw" | "dd" | "dq" | "resb" | "resw" | "resd" | "resq" | "DB" | "DW" | "DD" | "DQ" | "RESB" | "RESW" | "RESD" | "RESQ"
 ; (the instruction before the assignment: `movq =5, r1` starts like the assignment `movq = 5`, and a mnemonic is never a symbol to assign)
-stmt = directive | instruction | condinsn | srinsn | assign | dbdir | procdir | endpdir | nasmdir | secdir | timesdir
+stmt = directive | vecinsn | instruction | condinsn | srinsn | assign | dbdir | procdir | endpdir | nasmdir | secdir | timesdir
 
 ; `sym = expr` or, MASM's way, `sym equ expr`
 assign = symbol eqw expr
@@ -57,6 +59,11 @@ secopt   = symbol [ "=" expr ]
 timesdir = ( "times" | "TIMES" ) expr tdata darg
 tdata    = "db" | "dw" | "dd" | "dq" | "DB" | "DW" | "DD" | "DQ"
 
+; the vector words (v..., and nothing else starts with v) are the only instructions that name the vector registers v0..v15, the tile registers t0..t7 and the gather's index vector:
+; for every other instruction v0 and t7 are names like any other (`lea v0, r10`), so a C global may be called v0.  Written before `instruction`: that would take `v0` as a symbol
+vecinsn = &vchar mnemonic [ voperand *( "," voperand ) ]
+vchar = 0x76
+voperand = vregop | tregop | gatherop | operand
 instruction = mnemonic [ operand *( "," operand ) ]
 ; an instruction that takes a condition: the condition is a word of its own, then the operands (`set eq, r1`)
 condinsn = mn-cond ccw "," operand *( "," operand )
@@ -69,12 +76,12 @@ sysregw = sysreg
 ; --- operands (ISA section 5) -----------------------------------------------------------------------------------
 ; the order matters (the first that matches is taken, and the C that reads the tree numbers the alternatives, as64/asmir.h):
 ; based2 (`r5+8`, `r5-8`, a synonym of `8(r5)`) and atindexed (AT&T's `(r1,r2,4)` and `8(r1,r2,4)`) come before regop and bare
-operand = immop | absop | postinc | predec | predec2 | indexed | gatherop | based | atindexed | based2 | regop | vregop | tregop | bare | poolop
+operand = immop | absop | postinc | predec | predec2 | indexed | based | atindexed | based2 | regop | bare | poolop
 ; `#expr`, or `$expr` as AT&T and the Microsoft assemblers write it
 immop   = ( "#" | "$" ) expr
 absop   = "@" expr
 regop   = reg
-; a vector register v0..v15 and a tile register t0..t7 (the vec block); gatherop is the gather's base and index vector, `(r2)[v3]`, tried before `(r2)` is taken as based
+; a vector register v0..v15 and a tile register t0..t7 (the vec block), only in `voperand`; gatherop is the gather's base and index vector, `(r2)[v3]`, tried before `(r2)` is taken as based
 vregop  = vnum
 tregop  = tnum
 gatherop = "(" reg ")" "[" vnum "]"

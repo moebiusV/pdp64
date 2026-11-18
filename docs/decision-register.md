@@ -477,3 +477,4 @@
 - R470 | 2026-11-17 | decision | "push the pdp64 commits; option 3 and 4. why were these even questions, why didn't you do this by default?" | subjects: Vector prefix (vec) and the GEMM unit | current
 - R471 | 2026-11-17 | question | "and what is this limitation of 8 or 32? I thought vec ops operated over unlimited regions of memory, if the process has the permissions?" | subjects: Vector prefix (vec) and the GEMM unit | current
 - R472 | 2026-11-17 | decision | "also, I want reasonable performance while minimizing silicon footprint" | subjects: Vector prefix (vec) and the GEMM unit | current
+- R473 | 2026-11-18 | decision | "do option 2, and check pcc too" (the words of the assembler are special only where the grammar expects them; a C global may be called dd, v0 or resb) | subjects: as64 grammar, symbols, vector registers | current | errata 169

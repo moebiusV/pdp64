@@ -32,26 +32,19 @@ PDP64MCAsmInfo::PDP64MCAsmInfo(const Triple &TT) {
   UseIntegratedAssembler = false;
 }
 
-// as64 refuses r0..r31 (and r<digits>), sp and fp, v0-v15, t0-t7, db dw dd dq, and also "ch" (found by
-// trying: the assembler's grammar has it as a word), as the name of a symbol; in
-// double quotes any name is taken (docs/asm-syntax.md).
+// as64 reads a register name (r<digits>, sp, fp) and a valid number (a name made only of hexadecimal digits and ending in h or H: ch, ah, deadh; the NASM
+// suffix form, "a valid number is never a name", errata 163) as what it is, not as the name of a symbol; in double quotes any name is taken (docs/asm-syntax.md).
+// The words that only start a statement or only name a vector register (dd, db, resb, section, v0, t7, ...) are plain symbols where a symbol is expected (errata 169).
 bool PDP64MCAsmInfo::isValidUnquotedName(StringRef Name) const {
   if (!MCAsmInfo::isValidUnquotedName(Name))
     return false;
-  if (Name == "sp" || Name == "fp" || Name == "ch")
+  if (Name == "sp" || Name == "fp")
     return false;
-  // the data words (db dw dd dq: a C global named dd made `lea dd, r10` fail), and the hidden vector and tile registers v0-v15, t0-t7 (reserved words of as64
-  // since errata 161): found by trying every name of the grammar
-  if (Name == "db" || Name == "dw" || Name == "dd" || Name == "dq")
-    return false;
-  if (Name.size() >= 2 && (Name[0] == 'v' || Name[0] == 't') &&
-      Name.drop_front().find_first_not_of("0123456789") == StringRef::npos) {
-    unsigned N;
-    if (!Name.drop_front().getAsInteger(10, N) && N < (Name[0] == 'v' ? 16u : 8u))
-      return false;
-  }
   if (Name.size() > 1 && Name[0] == 'r' &&
       Name.drop_front().find_first_not_of("0123456789") == StringRef::npos)
+    return false;
+  if (Name.size() > 1 && (Name.back() == 'h' || Name.back() == 'H') &&
+      Name.drop_back().find_first_not_of("0123456789abcdefABCDEF") == StringRef::npos)
     return false;
   return true;
 }

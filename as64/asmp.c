@@ -228,16 +228,6 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 	case OK_REG:
 		r->reg = reg_of(&o->regop);
 		break;
-	case OK_VREG:							/* v0..v15 */
-		r->reg = (int)o->vregop;
-		break;
-	case OK_TREG:							/* t0..t7 */
-		r->reg = (int)o->tregop;
-		break;
-	case OK_GATHER:						/* (base)[vI]: the base register, and the index vector in reg2 */
-		r->reg = reg_of(&o->gatherop.reg);
-		r->reg2 = (int)o->gatherop.vnum;
-		break;
 	case OK_BARE:
 		r->x = expr_x(text, o->bare);
 		break;
@@ -288,6 +278,18 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 	}
 }
 
+/* An operand of a vector instruction: a vector register, a tile register, the gather's `(base)[vI]`, or any operand there is */
+static void voperand(const char *text, const voperand_t *o, struct oper *r)
+{
+	switch (o->_alt) {
+	case 1: memset(r, 0, sizeof *r); r->kind = OK_VREG; r->reg = (int)o->vregop; break;			/* v0..v15 */
+	case 2: memset(r, 0, sizeof *r); r->kind = OK_TREG; r->reg = (int)o->tregop; break;			/* t0..t7 */
+	case 3: memset(r, 0, sizeof *r); r->kind = OK_GATHER;							/* (base)[vI]: the base register, and the index vector in reg2 */
+		r->reg = reg_of(&o->gatherop.reg); r->reg2 = (int)o->gatherop.vnum; break;
+	default: operand(text, &o->operand, r);
+	}
+}
+
 #define NEWSTMT() (st = grow(&v, &cnt, &cap))
 
 static struct stmt *grow(struct stmt **v, int *cnt, int *cap)
@@ -304,7 +306,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 {
 	st->line = line_of(text, s->_pos);
 	switch (s->_alt) {
-	case 5:
+	case 6:
 		st->kind = S_ASSIGN;
 		{
 			struct slice a = sl(text, s->assign._pos, s->assign._end);	/* name = expression, name equ expression */
@@ -314,7 +316,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		st->expr = sl(text, s->assign.expr->_pos, s->assign.expr->_end);
 		st->x = expr_x(text, s->assign.expr);
 		break;
-	case 6: {							/* db, dw: .byte and .word under the other assemblers' names */
+	case 7: {							/* db, dw: .byte and .word under the other assemblers' names */
 		st->kind = S_DIR;
 		st->name.p = ((int)s->dbdir.dbname % 4) == 0 ? "byte" : ((int)s->dbdir.dbname % 4) == 1 ? "word" : ((int)s->dbdir.dbname % 4) == 2 ? "long" : "quad";	/* db dw dd dq, in either case */
 		st->name.n = (int)strlen(st->name.p);
@@ -330,12 +332,12 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
-	case 7:								/* name proc: the label name */
+	case 8:								/* name proc: the label name */
 		st->kind = S_LABEL;
 		st->name = sl(text, s->procdir._pos, s->procdir._end);
 		st->name.n = name_len(st->name);
 		break;
-	case 8:								/* name endp: nothing */
+	case 9:								/* name endp: nothing */
 		st->kind = S_DIR;
 		st->name.p = "endp";
 		st->name.n = 4;
@@ -361,7 +363,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
-	case 9: {							/* NASM's global, extern, bits, default, cpu, align, alignb, resb..resq: the directive without the dot */
+	case 10: {							/* NASM's global, extern, bits, default, cpu, align, alignb, resb..resq: the directive without the dot */
 		st->kind = S_DIR;
 		{
 			static const char *const nn[] = { "global", "extern", "bits", "default", "cpu", "align", "alignb", "resb", "resw", "resd", "resq" };
@@ -380,7 +382,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
-	case 10: {							/* section .text | segment .data: the section's name is the one argument (options after it are ignored) */
+	case 11: {							/* section .text | segment .data: the section's name is the one argument (options after it are ignored) */
 		struct slice d = sl(text, s->secdir._pos, s->secdir._end);
 		int k = 0;
 		while (k < d.n && d.p[k] != ' ' && d.p[k] != '\t') k++;
@@ -394,7 +396,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		st->nargs = 1;
 		break;
 	}
-	case 11: {							/* times n db|dw|dd|dq v: .fill n, size, v */
+	case 12: {							/* times n db|dw|dd|dq v: .fill n, size, v */
 		static const char *const sz[] = { "1", "2", "4", "8" };
 		st->kind = S_DIR;
 		st->name.p = "fill"; st->name.n = 4;
@@ -408,7 +410,19 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		st->nargs = 3;
 		break;
 	}
-	case 3: {							/* an instruction that takes a condition: `set eq, r1` */
+	case 2: {							/* a vector instruction: it may name v0..v15, t0..t7 and `(base)[vI]` */
+		st->kind = S_INSN;
+		mnemonic_t *m = &s->vecinsn.mnemonic;
+		st->mg = m->_alt;
+		MNEMONIC_NUMBER(m, st->mnum);
+		for (struct vecinsn_1_s *i = s->vecinsn.vecinsn_1.head; i; i = i->_link) {
+			voperand(text, &i->voperand, &st->ops[st->nops++]);
+			for (struct vecinsn_1_1_s *j = i->vecinsn_1_1.head; j && st->nops < MAXOPS; j = j->_link)
+				voperand(text, &j->voperand, &st->ops[st->nops++]);
+		}
+		break;
+	}
+	case 4: {							/* an instruction that takes a condition: `set eq, r1` */
 		condinsn_t *ci = &s->condinsn;
 		st->kind = S_INSN;
 		st->mg = MG_COND;
@@ -418,7 +432,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			operand(text, &j->operand, &st->ops[st->nops++]);
 		break;
 	}
-	case 4: {							/* mfsr rd, name; mtsr name, rs */
+	case 5: {							/* mfsr rd, name; mtsr name, rs */
 		srinsn_t *si = &s->srinsn;
 		st->kind = S_INSN;
 		st->mg = MG_SYSREG;
@@ -439,7 +453,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
-	default: {
+	case 3: {							/* an ordinary instruction */
 		st->kind = S_INSN;
 		mnemonic_t *m = &s->instruction.mnemonic;
 		st->mg = m->_alt;
