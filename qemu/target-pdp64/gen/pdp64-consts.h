@@ -404,6 +404,14 @@
 #define TIMER_REG_COMPARE            8
 #define TIMER_REG_CONTROL            16
 #define TIMER_CLOCK_HZ               10000000
+#define TNUM_T0                      0
+#define TNUM_T1                      1
+#define TNUM_T2                      2
+#define TNUM_T3                      3
+#define TNUM_T4                      4
+#define TNUM_T5                      5
+#define TNUM_T6                      6
+#define TNUM_T7                      7
 #define VECTOR_RESET                 0
 #define VECTOR_MACHINE_CHECK         1
 #define VECTOR_ILLEGAL               2
@@ -427,6 +435,22 @@
 #define VECTOR_CONSOLE_OUT           34
 #define VECTOR_TRAP_BASE             256
 #define VECTOR_COUNT                 512
+#define VNUM_V0                      0
+#define VNUM_V1                      1
+#define VNUM_V2                      2
+#define VNUM_V3                      3
+#define VNUM_V4                      4
+#define VNUM_V5                      5
+#define VNUM_V6                      6
+#define VNUM_V7                      7
+#define VNUM_V8                      8
+#define VNUM_V9                      9
+#define VNUM_V10                     10
+#define VNUM_V11                     11
+#define VNUM_V12                     12
+#define VNUM_V13                     13
+#define VNUM_V14                     14
+#define VNUM_V15                     15
 /* the read-only system registers (rule sysreg-ro of pdp64-mnemonics.hbnf) */
 #define SYSREG_READONLY(n) ((n) == 2 || (n) == 3 || (n) == 12)
 #endif
