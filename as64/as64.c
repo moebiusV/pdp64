@@ -187,6 +187,7 @@ static void skipws(struct ex *x) { while (x->p < x->e && (*x->p == ' ' || *x->p 
 static struct val eval_expr(struct ex *x);
 
 static int dot_sym = -1;
+static int sect_sym[8];			/* NASM's $$: a symbol at the start of each section */
 
 static struct val vconst(int64_t c) { struct val v = { c, -1, -1 }; return v; }
 
@@ -203,12 +204,26 @@ static struct val eval_primary(struct ex *x)
 		if (x->p < x->e && *x->p == close) x->p++; else x->bad = 1;
 		return v;
 	}
-	if (c == '\'') {					/* 'c' */
+	if (c == '$') {						/* NASM: $ is the location counter, $$ the start of the section (errata 162); $name is an immediate, the parser's business */
+		const char *a = x->p + 1;
+		int dd = a < x->e && *a == '$';
+		const char *z = a + dd;
+		if (z >= x->e || !(isalnum((unsigned char)*z) || *z == '_' || *z == '.' || *z == '$' || (unsigned char)*z >= 0x80)) {
+			x->p = z;
+			struct val v = { 0, dd ? sect_sym[cur_sec] : dot_sym, -1 };
+			return v;
+		}
+	}
+	if (c == '\'') {					/* 'c', and (NASM) 'abcd': up to eight characters, the first the lowest byte */
 		x->p++;
-		int64_t v = 0; int iscp;
-		if (x->p < x->e) v = (unsigned char)*x->p >= 0x80 ? utf8_decode(&x->p, x->e) : c_char(&x->p, x->e, &iscp);
+		uint64_t v = 0; int iscp, k = 0;
+		while (x->p < x->e && *x->p != '\'' && k < 8) {
+			int64_t ch = (unsigned char)*x->p >= 0x80 ? utf8_decode(&x->p, x->e) : c_char(&x->p, x->e, &iscp);
+			v |= (uint64_t)ch << (8 * k);
+			k++;
+		}
 		if (x->p < x->e && *x->p == '\'') x->p++;
-		return vconst(v);
+		return vconst((int64_t)v);
 	}
 	if (isdigit((unsigned char)c)) {
 		const char *s = x->p, *q = s;
@@ -226,6 +241,30 @@ static struct val eval_primary(struct ex *x)
 		if (ok) {					/* a whole bareword that is a number */
 			x->p = q;
 			return vconst((int64_t)num);
+		}
+		if (n >= 2) {					/* NASM's suffixes (errata 162): 0FFh, 17q or 17o, 101b, 10d or 10t */
+			int sb = 0;
+			switch (tolower((unsigned char)q[-1])) {
+			case 'h': sb = 16; break;
+			case 'q': case 'o': sb = 8; break;
+			case 'b': sb = 2; break;
+			case 'd': case 't': sb = 10; break;
+			}
+			if (sb == 2 && q[-1] == 'b' && all_digits(s, n - 1)) {
+				/* `1b` is also the nearest local label 1 before this statement: a label that is there wins, so a program that uses
+				   local labels reads as it always did; with none, the digits are a binary number */
+				int ln = 0;
+				for (const char *d = s; d < q - 1 && ln < 100000000; d++) ln = ln * 10 + (*d - '0');
+				for (int i = 0; i < nlloc; i++) if (lloc[i].num == ln && lloc[i].stmt <= cur_stmt) sb = 0;
+			}
+			if (sb) {
+				uint64_t nv = 0; int good = 1;
+				for (int i = 0; i < n - 1 && good; i++) {
+					int dv = isdigit((unsigned char)s[i]) ? s[i] - '0' : isalpha((unsigned char)s[i]) ? tolower((unsigned char)s[i]) - 'a' + 10 : 99;
+					if (dv >= sb) good = 0; else nv = nv * sb + dv;
+				}
+				if (good) { x->p = q; return vconst((int64_t)nv); }
+			}
 		}
 		if (n >= 2 && (q[-1] == 'f' || q[-1] == 'b') && all_digits(s, n - 1)) {		/* 1f, 1b: a local label */
 			int num = 0;
@@ -250,6 +289,14 @@ static struct val eval_primary(struct ex *x)
 		if (c == '"') { x->p++; while (x->p < x->e && *x->p != '"') x->p++; if (x->p < x->e) x->p++; }
 		else while (x->p < x->e && (isalnum((unsigned char)*x->p) || *x->p == '_' || *x->p == '.' || *x->p == '$' || (unsigned char)*x->p >= 0x80)) x->p++;
 		int n = (int)(x->p - s);
+		if (c != '"' && n >= 2 && tolower((unsigned char)s[n - 1]) == 'h') {	/* NASM's A6h: a hex number that begins with a letter, unless a symbol has that name */
+			uint64_t nv = 0; int good = 1;
+			for (int i = 0; i < n - 1 && good; i++) {
+				int dv = isdigit((unsigned char)s[i]) ? s[i] - '0' : isxdigit((unsigned char)s[i]) ? tolower((unsigned char)s[i]) - 'a' + 10 : 99;
+				if (dv >= 16) good = 0; else nv = nv * 16 + dv;
+			}
+			if (good && symfind(s, n) < 0) return vconst((int64_t)nv);
+		}
 		if (n == 1 && s[0] == '.') {
 			struct val v = { 0, dot_sym, -1 };
 			return v;
@@ -435,6 +482,7 @@ static int unescape(struct slice s, uint8_t *out)
 {
 	int n = 0;
 	const char *p = s.p + 1, *e = s.p + s.n - 1;
+	if (s.p[0] == '\'') { memcpy(out, p, (size_t)(e - p)); return (int)(e - p); }		/* NASM's 'text': no escapes */
 	while (p < e) {
 		int iscp, v = c_char(&p, e, &iscp);
 		if (iscp) n += utf8_put(v, out + n);
@@ -535,7 +583,31 @@ static void directive(const struct stmt *st)
 	if (dir_is(st, "text")) { cur_sec = SEC_TEXT; return; }
 	if (dir_is(st, "data")) { cur_sec = SEC_DATA; return; }
 	if (dir_is(st, "bss")) { cur_sec = SEC_BSS; return; }
-	if (dir_is(st, "globl")) {
+	if (dir_is(st, "section")) {					/* NASM's section .text|.data|.bss (.rodata and .rdata are .data: there is no read-only section yet) */
+		struct slice n = st->args[0].s;
+		if (n.n == 5 && !memcmp(n.p, ".text", 5)) cur_sec = SEC_TEXT;
+		else if (n.n == 5 && !memcmp(n.p, ".code", 5)) cur_sec = SEC_TEXT;
+		else if (n.n == 5 && !memcmp(n.p, ".data", 5)) cur_sec = SEC_DATA;
+		else if ((n.n == 7 && !memcmp(n.p, ".rodata", 7)) || (n.n == 6 && !memcmp(n.p, ".rdata", 6))) cur_sec = SEC_DATA;
+		else if (n.n == 4 && !memcmp(n.p, ".bss", 4)) cur_sec = SEC_BSS;
+		else if (final_pass) err(st->line, "section %.*s: as64 has .text, .data and .bss (.rodata and .rdata are .data)", n.n, n.p);
+		return;
+	}
+	if (dir_is(st, "extern") || dir_is(st, "default") || dir_is(st, "cpu")) return;		/* NASM: a symbol that is not defined is external anyway; the others are for x86 */
+	if (dir_is(st, "bits")) {
+		struct val v = st->nargs ? eval(st->args[0].s, st->line) : vconst(0);
+		if (final_pass && (!CONST(v) || v.c != 64)) err(st->line, "bits: the pdp64 has 64 bits");
+		return;
+	}
+	if (dir_is(st, "resb") || dir_is(st, "resw") || dir_is(st, "resd") || dir_is(st, "resq")) {	/* NASM: reserve n bytes, words, doublewords, quadwords */
+		int unit = st->name.p[3] == 'b' ? 1 : st->name.p[3] == 'w' ? 2 : st->name.p[3] == 'd' ? 4 : 8;
+		struct val v = st->nargs ? eval(st->args[0].s, st->line) : vconst(-1);
+		if (!CONST(v) || v.c < 0) { if (final_pass) err(st->line, "%.*s takes a constant count", st->name.n, st->name.p); return; }
+		if (cur_sec == SEC_BSS || !final_pass) offs[cur_sec] += v.c * unit;
+		else { uint8_t z = 0; for (int64_t i = 0; i < v.c * unit; i++) emit_bytes_n(&z, 1); }
+		return;
+	}
+	if (dir_is(st, "globl") || dir_is(st, "global")) {
 		for (int i = 0; i < st->nargs; i++) syms[symget(st->args[i].s.p, st->args[i].s.n)].global = 1;
 		return;
 	}
@@ -581,7 +653,7 @@ static void directive(const struct stmt *st)
 		return;
 	}
 	if (dir_is(st, "even")) { pad_to(2); return; }
-	if (dir_is(st, "align")) {
+	if (dir_is(st, "align") || dir_is(st, "alignb")) {
 		struct val v = st->nargs ? eval(st->args[0].s, st->line) : vconst(2);
 		if (!CONST(v) || v.c < 1 || (v.c & (v.c - 1))) { if (final_pass) err(st->line, ".align takes a power of two"); return; }
 		pad_to(v.c);
@@ -592,6 +664,19 @@ static void directive(const struct stmt *st)
 		if (!CONST(v) || v.c < 0) { if (final_pass) err(st->line, ".space takes a constant"); return; }
 		if (cur_sec == SEC_BSS || !final_pass) offs[cur_sec] += v.c;
 		else { uint8_t z = 0; for (int64_t i = 0; i < v.c; i++) emit_bytes_n(&z, 1); }
+		return;
+	}
+	if (dir_is(st, "fill")) {					/* .fill count [, size [, value]]: count units of size bytes (1, 2, 4 or 8) holding value (NASM's times n db v) */
+		struct val c = st->nargs >= 1 ? eval(st->args[0].s, st->line) : vconst(-1);
+		struct val z = st->nargs >= 2 ? eval(st->args[1].s, st->line) : vconst(1);
+		if (st->nargs < 1 || st->nargs > 3 || !CONST(c) || c.c < 0 || !CONST(z) || (z.c != 1 && z.c != 2 && z.c != 4 && z.c != 8)) {
+			if (final_pass) err(st->line, ".fill count [, size [, value]]: a constant count, size 1, 2, 4 or 8");
+			return;
+		}
+		if (cur_sec == SEC_BSS || !final_pass) { offs[cur_sec] += c.c * z.c; return; }
+		struct val v = st->nargs == 3 ? eval(st->args[2].s, st->line) : vconst(0);
+		if (!CONST(v)) { err(st->line, ".fill takes a constant value"); return; }
+		for (int64_t i = 0; i < c.c; i++) put_le(v.c, (int)z.c);
 		return;
 	}
 	if (dir_is(st, "lpad")) {
@@ -881,9 +966,20 @@ int main(int argc, char **argv)
 	}
 	dot_sym = symadd(".", 1);
 	syms[dot_sym].islocal = 1;
-	/* every label is known before the first pass, so a forward reference to it is not taken for an external symbol */
+	for (int i = 0; i < NSEC && i < 8; i++) {
+		char nm[16];
+		snprintf(nm, sizeof nm, ".$$%d", i);
+		sect_sym[i] = symadd(nm, (int)strlen(nm));
+		syms[sect_sym[i]].islocal = 1; syms[sect_sym[i]].sect = i; syms[sect_sym[i]].val = 0;
+	}
+	/* every label is known before the first pass, so a forward reference to it is not taken for an external symbol; so are the names an assignment or a
+	   .globl, global, extern or .comm gives, which is what makes the answer to "is there a symbol A6h?" the same in every pass */
 	for (int i = 0; i < nprog; i++) {
 		struct stmt *st = &prog[i];
+		if (st->kind == S_ASSIGN && st->name.n > 0 && st->name.p[0] != '"') symget(st->name.p, st->name.n);
+		if (st->kind == S_DIR && (dir_is(st, "globl") || dir_is(st, "global") || dir_is(st, "extern") || dir_is(st, "comm")))
+			for (int k = 0; k < st->nargs && (k == 0 || !dir_is(st, "comm")); k++)
+				if (st->args[k].s.n > 0 && st->args[k].s.p[0] != '"' && !st->args[k].isstr) symget(st->args[k].s.p, st->args[k].s.n);
 		if (st->kind != S_LABEL) continue;
 		if (all_digits(st->name.p, st->name.n)) {
 			if (nlloc == caplloc) { caplloc = caplloc ? caplloc * 2 : 64; lloc = realloc(lloc, caplloc * sizeof *lloc); }

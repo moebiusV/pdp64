@@ -1,0 +1,2 @@
+	.text
+	section .foo

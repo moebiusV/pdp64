@@ -161,7 +161,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		break;
 	case 6: {							/* db, dw: .byte and .word under the other assemblers' names */
 		st->kind = S_DIR;
-		st->name.p = s->dbdir.dbname == DBNAME_DB ? "byte" : "word";
+		st->name.p = ((int)s->dbdir.dbname % 4) == 0 ? "byte" : ((int)s->dbdir.dbname % 4) == 1 ? "word" : ((int)s->dbdir.dbname % 4) == 2 ? "long" : "quad";	/* db dw dd dq, in either case */
 		st->name.n = (int)strlen(st->name.p);
 		for (struct dbdir_1_s *d = s->dbdir.dbdir_1.head; d; d = d->_link) {
 			darg_t *a = &d->dargs.darg;
@@ -169,7 +169,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			for (;;) {
 				if ((st->nargs & (st->nargs - 1)) == 0 && (st->nargs == 0 || st->nargs >= 4)) st->args = realloc(st->args, (st->nargs ? 2 * st->nargs : 4) * sizeof *st->args);
 				st->args[st->nargs].s = sl(text, a->_pos, a->_end);
-				st->args[st->nargs].isstr = st->args[st->nargs].s.n > 0 && st->args[st->nargs].s.p[0] == '"';
+				st->args[st->nargs].isstr = a->_alt >= 1 && a->_alt <= 3;		/* "text", `text` and 'text' (two or more characters) are strings */
 				st->nargs++;
 				if (!m) break;
 				a = &m->darg;
@@ -203,13 +203,60 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			for (;;) {
 				if ((st->nargs & (st->nargs - 1)) == 0 && (st->nargs == 0 || st->nargs >= 4)) st->args = realloc(st->args, (st->nargs ? 2 * st->nargs : 4) * sizeof *st->args);	/* room for 4, then doubling */
 				st->args[st->nargs].s = sl(text, a->_pos, a->_end);
-				st->args[st->nargs].isstr = st->args[st->nargs].s.n > 0 && st->args[st->nargs].s.p[0] == '"';
+				st->args[st->nargs].isstr = a->_alt >= 1 && a->_alt <= 3;		/* "text", `text` and 'text' (two or more characters) are strings */
 				st->nargs++;
 				if (!m) break;
 				a = &m->darg;
 				m = m->_link;
 			}
 		}
+		break;
+	}
+	case 9: {							/* NASM's global, extern, bits, default, cpu, align, alignb, resb..resq: the directive without the dot */
+		st->kind = S_DIR;
+		{
+			static const char *const nn[] = { "global", "extern", "bits", "default", "cpu", "align", "alignb", "resb", "resw", "resd", "resq" };
+			st->name.p = nn[(int)s->nasmdir.nname % 11];			/* the word in either case (the upper-case spellings are the second half of the enumeration) */
+			st->name.n = (int)strlen(st->name.p);
+		}
+		for (struct nasmdir_1_s *d = s->nasmdir.nasmdir_1.head; d; d = d->_link) {
+			darg_t *a = &d->dargs.darg;
+			struct dargs_1_s *m = d->dargs.dargs_1.head;
+			for (;;) {
+				if ((st->nargs & (st->nargs - 1)) == 0 && (st->nargs == 0 || st->nargs >= 4)) st->args = realloc(st->args, (st->nargs ? 2 * st->nargs : 4) * sizeof *st->args);
+				st->args[st->nargs].s = sl(text, a->_pos, a->_end);
+				st->args[st->nargs].isstr = a->_alt >= 1 && a->_alt <= 3;
+				st->nargs++;
+				if (!m) break;
+				a = &m->darg;
+				m = m->_link;
+			}
+		}
+		break;
+	}
+	case 10: {							/* section .text | segment .data: the section's name is the one argument (options after it are ignored) */
+		struct slice d = sl(text, s->secdir._pos, s->secdir._end);
+		int k = 0;
+		while (k < d.n && d.p[k] != ' ' && d.p[k] != '\t') k++;
+		while (k < d.n && (d.p[k] == ' ' || d.p[k] == '\t')) k++;
+		int e = k;
+		while (e < d.n && d.p[e] != ' ' && d.p[e] != '\t') e++;
+		st->kind = S_DIR;
+		st->name.p = "section"; st->name.n = 7;
+		st->args = malloc(4 * sizeof *st->args);
+		st->args[0].s.p = d.p + k; st->args[0].s.n = e - k; st->args[0].isstr = 0;
+		st->nargs = 1;
+		break;
+	}
+	case 11: {							/* times n db|dw|dd|dq v: .fill n, size, v */
+		static const char *const sz[] = { "1", "2", "4", "8" };
+		st->kind = S_DIR;
+		st->name.p = "fill"; st->name.n = 4;
+		st->args = malloc(4 * sizeof *st->args);
+		st->args[0].s = sl(text, s->timesdir.expr->_pos, s->timesdir.expr->_end); st->args[0].isstr = 0;
+		st->args[1].s.p = sz[(int)s->timesdir.tdata % 4]; st->args[1].s.n = 1; st->args[1].isstr = 0;
+		st->args[2].s = sl(text, s->timesdir.darg._pos, s->timesdir.darg._end); st->args[2].isstr = 0;
+		st->nargs = 3;
 		break;
 	}
 	case 3: {							/* an instruction that takes a condition: `set eq, r1` */
