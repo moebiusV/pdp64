@@ -501,10 +501,10 @@
 
 
 ### Assembler: the check-site table in the core, no macros, no preprocessor layer
-- Status: IN PROGRESS — the check table and the aliases are in the assembler and the grammar, the macros and asmpre.c are gone; the expressions are still lexed twice (latest decision 2026-11-17 \[R465\], errata 164)
+- Status: DONE — the check table and the aliases are in the assembler and the grammar, the macros and asmpre.c are gone, and the expressions are evaluated from the parse tree; one grammar whitespace workaround is left (latest decision 2026-11-17 \[R465\], errata 164, 166)
 - Decided: 2026-11-17 decided: "do 1 and 2, then drop the macros" \[R465\]
 - Evidence: as64/as64.c (`chk_site`, `bugrec_emit`, `dir_chk`); spec/pdp64-asm.hbnf (`.chk`); spec/pdp64-enc.hbnf (`cthis`, `ctlo` in mn-ext); docs/asm-syntax.md; docs/errata.md item 164
-- Left: evaluating expressions from the parse tree (one definition of numbers); macros, if they are wanted again, as an hbnf grammar like corpus/c/cpp.hbnf
+- Left: the lookahead after a number skips blanks (an hbnf matter: a way to say two tokens are adjacent), which the assembler works around in asmp.c; macros, if they are wanted again, as an hbnf grammar like corpus/c/cpp.hbnf
 
 ### Learning from LoongArch
 - Status: IN THE AIR — only a potential; nothing adopted by decision (latest 2026-10-20 \[R135\])
