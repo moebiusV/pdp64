@@ -5,6 +5,9 @@
 #   2. everything is generated again from the grammars, into a scratch directory: a checked-in generated file that differs (spec/pdp64/tables.md) fails,
 #      and so does a generated table that is not the one recorded in tests/enc/generated.sha256 (the C tables of the codec, the field accessors, the assembly
 #      grammar of as64 and its name tables).  After a deliberate change of a grammar: tools/check-grammar-enc.sh --update, and review the diff;
+#      Before that, the generator of the vec family (tools/encopt/addforms.py, no --drop, on the committed grammars) must write the committed grammars byte for byte:
+#      it keeps the hand-edited header and name and replaces only what vecfam.py decides (errata 177); a difference means vecfam.py changed (run the generator
+#      workflow of errata 170 and copy the output) or the grammar was edited inside the vec family by hand;
 #   3. hbnf's decoder against the codec built from the generated tables, on every first parcel and four tails each: the same legal and illegal patterns, the
 #      same length, the same leaf, the same raw value in every field (tests/enc/hbdec.c).
 #
@@ -18,6 +21,16 @@ trap 'rm -rf "$T"' EXIT
 GOLD=tests/enc/generated.sha256
 FILES="pdp64-tab.c pdp64-hbfields.h x/pdp64-mnemonics.hbnf x/pdp64-asm.hbnf x/pdp64-groups.h x/pdp64-extnames.h x/pdp64-mnnames.h"
 export BUILD=$T
+python3 tools/encopt/addforms.py --grammar-out "$T/af" > "$T/af.log" || { cat "$T/af.log"; exit 1; }
+for pair in "pdp64-enc.hbnf spec/pdp64-enc.hbnf" "pdp64-32/pdp64-32.hbnf spec/pdp64/pdp64.hbnf"; do
+	gen=${pair% *}
+	com=${pair#* }
+	if ! diff "$T/af/$gen" "$com" > "$T/af.diff"; then
+		head -40 "$T/af.diff"
+		echo "check-grammar-enc: tools/encopt/addforms.py does not write $com (vecfam.py changed without the generator workflow, or the vec family was edited by hand)"
+		exit 1
+	fi
+done
 python3 tools/mkgrammar.py
 python3 tools/mkenc.py --check
 sum=$(cd "$T" && sha256sum $FILES)

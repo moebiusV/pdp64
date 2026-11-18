@@ -10,8 +10,13 @@ the corpus compiled by the LLVM back end.
   addforms.py --grammar-out DIR [--drop NAME]... [--drop-file FILE]
 
   then  cp DIR/pdp64-enc.hbnf spec/ ; cp DIR/pdp64-32/pdp64-32.hbnf spec/pdp64/pdp64.hbnf   (as export.py --write-grammar says)
+
+The writer (write_hbnf.py) has the text of the first generation of the grammars: the header comments, the name of the member (pdp64/32) and the title of an operand
+shape.  The grammars are edited by hand from then on, so this keeps what is in the committed files (spec/pdp64-enc.hbnf, spec/pdp64/pdp64.hbnf) and replaces
+only what the forms decide: the forms, leaves, mnemonics, counts and the comments that carry them.  Run on the committed grammar with no change to vecfam.py it
+writes the same bytes (tools/check-grammar-enc.sh checks that).  See errata 177.
 """
-import sys, os, json, argparse
+import sys, os, json, argparse, re, difflib
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, '..', '..'))
 ENC = os.path.join(ROOT, 'docs', 'codegen-data', 'encoding')
@@ -52,4 +57,32 @@ print('addforms: %d forms (%d dropped, %d added), %d leaves, kraft %.5f (%d of 6
 hot = d['hot16']
 dd = json.loads(json.dumps(export_forms.export('32', sc, 'r32', hot), default=str))
 write_hbnf.write_all(a.grammar_out, [('32', dd)])
+
+
+def keep_hand_text(new_path, old_path, member):
+    """Rewrite the generated file new_path so that the text the generator should not decide is the committed text of old_path."""
+    new = open(new_path).read().split('\n')
+    old = open(old_path).read().split('\n')
+    if member:
+        # the header (up to the first `prefix none`) and the name are the committed ones; the counts of the first line are the new ones
+        h = old.index('prefix none')
+        m = re.search(r'-- (\d+ registers \(r0-r\d+\), \d+ forms, \d+ leaves)', new[0])
+        out = [re.sub(r'\d+ registers \(r0-r\d+\), \d+ forms, \d+ leaves', m.group(1), old[0])] + old[1:h] + new[new.index('prefix none'):]
+        nm = [i for i, l in enumerate(out) if l.startswith('encoding-name = ')]
+        on = [l for l in old if l.startswith('encoding-name = ')]
+        assert len(nm) == 1 and len(on) == 1
+        out[nm[0]] = on[0]
+    else:
+        # a block of comment lines that the generator words differently is the committed one
+        out = []
+        for op, i1, i2, j1, j2 in difflib.SequenceMatcher(None, old, new, autojunk=False).get_opcodes():
+            if op == 'replace' and all(l.startswith(';') for l in old[i1:i2] + new[j1:j2]):
+                out += old[i1:i2]
+            else:
+                out += new[j1:j2]
+    open(new_path, 'w').write('\n'.join(out))
+
+
+keep_hand_text(os.path.join(a.grammar_out, 'pdp64-enc.hbnf'), os.path.join(ROOT, 'spec', 'pdp64-enc.hbnf'), False)
+keep_hand_text(os.path.join(a.grammar_out, 'pdp64-32', 'pdp64-32.hbnf'), os.path.join(ROOT, 'spec', 'pdp64', 'pdp64.hbnf'), True)
 print('addforms: written to %s' % a.grammar_out)
