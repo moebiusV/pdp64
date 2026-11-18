@@ -1,6 +1,10 @@
 # The OpenBLAS calls of cugpt and cngpt as `vec` forms, and a GEMM unit
 
-**Status:** a study record, 2026-11-17, a sequel to `vec-forms.md` and with the same limits: the notation is the assistant's **proposal** (errata 139 decided the `vec` prefix and recorded the author's idea of a unit with its own instruction set, and left the details to be determined); the forms are **not assembled or run**; counts are of lines written by hand. Data: `arch-data/vec-forms/blas/` (the forms `*.vec.s` and `k_sgemm_nt.*.s`, `blas.c`, `pcc-scalar-blas.s`, `vecbench-blas.csv`, `openblas-loops.tsv`, `gemm-forms-summary.md`); scripts `tools/arch-compare/vecbench.py`, `gemmloops.py`, `vecforms.py`.
+**Status (as of 2026-11-18, commit 044a7195): a study record of 2026-11-17, partly historical.** What is **current**: the corpus and the BLAS calls of cugpt and cngpt (sections 1 and 3), the level 1 and 2 forms, forms 1 and 2 of section 4 (the dot product for each output and the register-blocked micro-kernel with `vfmab`) and the comparison with OpenBLAS's hand kernels, and findings 1 to 3. What is **superseded and removed**: **the hidden tile with `vtfmopa` (form 3) and the whole-GEMM instruction `gemm.f` (form 4), with the words `vtclr vtfmopa vtld vtst vtadd` and `gemm.f`, were removed in wave 1 (errata 170, R474)**; they were the largest part of the family's silicon (705,636 NAND2 for the tile and 1.5 to 1.8 million for the GEMM unit, `vec-silicon.md`) and used by no compiled kernel (`vec-survey.md` 4.3). Those parts are kept under headings "Historical: removed in wave 1 (errata 170)" below. **`vlen` is also removed** (errata 173: the strip is invisible); the micro-kernel `k_sgemm_nt.ukr.s` has a fixed 8 by 4 tile and no `vlen` (49 instructions against 51, errata 175; `vec-isa.md` 8.4), and the accumulator question of finding 5 is decided: a block with accumulators or `vfmab` restarts from its entry and has a 16-byte strip (errata 172, 175). The scope of section 0a ("every form in this record stays open") was decided by the survey and wave 1. The family has **363 words and 63 base mnemonics** (`vec-isa.md`). The notation of section 2 is now the grammar's; the files `k_sgemm_nt.tile.s` and `k_sgemm_nt.unit.s` and their kernels were deleted (commit 9451eed3).
+
+**Related:** `vec-isa.md` (the family as implemented; 8.4 is the micro-kernel); `vec-forms.md` (the first eight kernels and the notation); `vec-cost-benefit.md` (rows 6, 14 and 15 are the forms of this record, with their outcome); `vec-survey.md` (why the tile and the GEMM unit were removed); `vec-silicon.md` (their measured gates); `docs/errata.md` 139, 154, 155, 170, 172, 175.
+
+**Original status (2026-11-17):** a study record, a sequel to `vec-forms.md` and with the same limits: the notation is the assistant's **proposal** (errata 139 decided the `vec` prefix and recorded the author's idea of a unit with its own instruction set, and left the details to be determined); the forms are **not assembled or run**; counts are of lines written by hand. Data: `arch-data/vec-forms/blas/` (the forms `*.vec.s` and `k_sgemm_nt.*.s`, `blas.c`, `pcc-scalar-blas.s`, `vecbench-blas.csv`, `openblas-loops.tsv`, `gemm-forms-summary.md`); scripts `tools/arch-compare/vecbench.py`, `gemmloops.py`, `vecforms.py`.
 
 ## 0. What "lb64" is (a correction of this record's first version)
 
@@ -14,7 +18,7 @@ So form 4 below is a **GEMM unit** of the author's idea, not LB64 as proposed. E
 
 ## 0a. Scope (the author, 2026-11-17, errata 154 and 155)
 
-The author asked whether this is "stepping into gpu territory" and then decided (errata 155): **none of the GEMM and vec work is dropped until a cost-benefit analysis**, and until a GPU exists, SIMD on the CPU is wanted for games and for language-model inference on machines without a large, power-hungry GPU, "like a gpu-lite". The GPU, when there is one, will use unified memory (errata 154). So **every form in this record stays open**: the dot-product and register-blocked forms (what CPUs run today), the hidden tile with an outer-product instruction (what matrix engines and GPU tensor cores have), and the whole-GEMM instruction. The analysis that decides among them (workloads, instructions saved, opcode and state cost, power, measured dynamic counts) is not done; this record has the static instruction counts only. (A first version of this section said that the tile and the GEMM instruction were accelerator operations "not proposed for the CPU"; the author corrected that.)
+The author asked whether this is "stepping into gpu territory" and then decided (errata 155): **none of the GEMM and vec work is dropped until a cost-benefit analysis**, and until a GPU exists, SIMD on the CPU is wanted for games and for language-model inference on machines without a large, power-hungry GPU, "like a gpu-lite". The GPU, when there is one, will use unified memory (errata 154). [now: superseded: the tile and the whole-GEMM instruction were removed in wave 1, errata 170; the dot-product and register-blocked forms are in the family.] So **every form in this record stays open** (as it stood on 2026-11-17): the dot-product and register-blocked forms (what CPUs run today), the hidden tile with an outer-product instruction (what matrix engines and GPU tensor cores have), and the whole-GEMM instruction. The analysis that decides among them (workloads, instructions saved, opcode and state cost, power, measured dynamic counts) is not done; this record has the static instruction counts only. (A first version of this section said that the tile and the GEMM instruction were accelerator operations "not proposed for the CPU"; the author corrected that.)
 
 ## 1. What the two programs ask of BLAS
 
@@ -27,7 +31,9 @@ The author asked whether this is "stepping into gpu territory" and then decided 
 
 cngpt also has hand-written AVX2 intrinsics for its scalar helpers (`ops.c`); not examined here.
 
-## 2. Additions to the notation (proposed)
+## 2. Additions to the notation (proposed; `vlen`, the tile and `gemm.f` are historical)
+
+**[Now: `vlen.f` was removed in errata 173; `vclr.f` and `vfmab.f` are in the family (`vec-isa.md`); the tile words `vtclr vtfmopa vtld vtst vtadd` and `gemm.f` were removed in wave 1, errata 170. The paragraph is kept as written.]**
 
 On top of `vec-forms.md`: `vlen.f rD` (removed in errata 173: the strip is invisible; the micro-kernel has a fixed tile of 4 columns, vec-isa.md 8.4) (the floats in a strip, the `cntw` of SVE and the `vsetvli` of RISC-V: a packed panel depends on it); `vclr.f v0,#8` (zero eight hidden registers); `vfmab.f vD,vS,(rA)+` (`vD += vS * broadcast(*rA)`, `rA` moved by one element: the multiply-add with a broadcast memory operand, one memory operand as the rule requires); `clrq (r)+` as the single-instruction fill of zeros; for the tile form a hidden tile `t0`..`t3` (VL x VL floats) with `vtclr`, `vtfmopa.f t0,v9,v8` (`t0[i][j] += v9[i]*v8[j]`, the outer-product accumulate of ARM SME's FMOPA, Intel AMX and POWER MMA), `vtld`, `vtadd`, `vtst` (tile load and store with a row stride); for the unit, `gemm.f rD,rI,rJ`, one 3-parcel instruction: `rD` is the address of a descriptor of the constants, `rI` and `rJ` are the progress (the row and the column, in elements, of the next output tile), advanced by the unit past each tile it finishes.
 
@@ -46,7 +52,7 @@ On top of `vec-forms.md`: `vlen.f rD` (removed in errata 173: the strip is invis
 
 For clang the same loops cost, at the width of each target, 1.25 (AVX2) and 0.6 (AVX-512) to 2.5 (NEON) instructions for each element of `ddot`, and 1.75 to 4.0 for `dger` (summary file). **The finding for cugpt is about size, not width:** its vectors are 4 to 16 doubles, one or four strips, so the cost is the call into the library and the loop set-up, not the throughput; a block of 4 to 7 inline instructions is a smaller bill than a `cblas_ddot` call, which was not measured here.
 
-## 4. The `sgemm` of cngpt: four forms
+## 4. The `sgemm` of cngpt: four forms (forms 1 and 2 current; 3 and 4 historical: removed in wave 1, errata 170)
 
 `linear_fwd` is `Y[M,N] = X[M,K] . W[N,K]^T` (`cblas_sgemm`, NoTrans and Trans). The reference is the triple loop (`k_sgemm_nt` in `blas.c`); pcc compiles its inner loop to 12 instructions for each multiply-add (it recomputes `i*K+k` and `j*K+k` each time).
 
@@ -55,8 +61,8 @@ For clang the same loops cost, at the width of each target, 1.25 (AVX2) and 0.6 
 | pcc scalar | 28 | 12 (loop) | 1 | 12 |
 | 1. a dot product for each output, `vec` over K (`k_sgemm_nt.dot.s`) | 20 | 4 | 8 | 0.500 |
 | 2. register-blocked micro-kernel: 8 hidden accumulators, a strip of B and eight broadcast multiply-adds from packed A (`k_sgemm_nt.ukr.s`) | 48 | 9 | 64 | 0.141 |
-| 3. the same with a hidden tile and one outer-product instruction (`k_sgemm_nt.tile.s`) | 14 | 3 | 64 | 0.047 |
-| 4. the whole GEMM as one `gemm.f` of a GEMM unit: constants in a descriptor, progress in two ordinary registers, restart from the start of a tile (`k_sgemm_nt.unit.s`) | 19 | the unit | all | none: 19 set-up instructions for any size |
+| 3. **[historical: removed in wave 1, errata 170]** the same with a hidden tile and one outer-product instruction (`k_sgemm_nt.tile.s`, deleted) | 14 | 3 | 64 | 0.047 |
+| 4. **[historical: removed in wave 1, errata 170]** the whole GEMM as one `gemm.f` of a GEMM unit: constants in a descriptor, progress in two ordinary registers, restart from the start of a tile (`k_sgemm_nt.unit.s`, deleted) | 19 | the unit | all | none: 19 set-up instructions for any size |
 
 Strip of 8 floats (256 bits) throughout. Forms 2 and 3 take the packed panels that a GEMM driver makes (OpenBLAS's copy routines; a vec block with a strided load could do the packing and was not written); the function count of form 2 is mostly its write-back of eight rows (32 instructions).
 
@@ -74,7 +80,9 @@ Strip of 8 floats (256 bits) throughout. Forms 2 and 3 take the packed panels th
 
 Half of OpenBLAS's loop is multiply-adds; the rest is what a block form does not carry: Haswell's 96 broadcasts (`vbroadcastss`), 32 pointer increments, 16 prefetches and 16 loop counters of 387; NEON's 24 address adds of 114; LASX's 64 broadcasts of 243.
 
-## 5. Findings (the assistant's analysis, not decisions)
+## 5. Findings (the assistant's analysis, not decisions; findings 4 and 6 are historical)
+
+[Now: findings 4 and 6 describe the tile and the GEMM unit, removed in wave 1 (errata 170). Finding 3 mentions `vlen`, removed in errata 173 (the micro-kernel has a fixed tile). Finding 5, the accumulator question, is decided: errata 172 and 175, `vec-isa.md` 4.1 and 8.4.]
 
 1. **The level 1 and 2 calls need nothing the vec study did not have**, and for cugpt's 4-to-16-element vectors the saving is the call, not the loop.
 2. **A plain `vec` dot product is the naive loop, vectorized**: 0.5 operations for each multiply-add, because every multiply-add reads two operands from memory. It beats clang's autovectorized naive loops (1.1 to 3.5) and is **two to three times worse than OpenBLAS's hand kernels** (0.24 to 0.45). That gap is the whole reason GEMM is written by hand elsewhere.
@@ -84,7 +92,9 @@ Half of OpenBLAS's loop is multiply-adds; the rest is what a block form does not
 6. **A GEMM unit takes the question out of the program; its progress is two registers and it restarts from the start of a tile.** Form 4 keeps the constants (twelve fields: three addresses, three sizes, three strides, alpha, beta, flags) in a descriptor in memory and the progress in two ordinary registers, the row and column of the next output tile, as a block move keeps its address and count. The unit computes a tile over all of K in its own registers and writes it once, after checking that the pages of the C tile can be written, and the write-back and the advance of the registers are one uninterruptible step; an interrupt or fault before that step discards the tile and the instruction redoes it from the start, so C never holds a half-finished tile, beta = 1 in place is correct, at most one tile (about 2 microseconds at K = 768) is lost, and nothing beyond the ordinary registers is saved at a context switch. The translation buffer must hold the pages of one tile (about 48). This is the third version of the form: the first kept the progress in the descriptor, the second a K offset in a third register with a K-block commit (section 5a gives the reasons for the change). cngpt's 11 `sgemm` sites become 11 set-ups of 19 instructions and one `gemm.f` each. The cost is the hardware, and the unit's start-up on the small matrices of attention (a batch of 64 x 64 at the test size).
 7. **Not shown:** speed, packing, edge tiles (M, N and K that are not multiples of the tile), alpha and beta other than 1 and 0, transposes other than NT, and the memory behaviour that OpenBLAS's prefetches serve.
 
-## 5a. Resuming a GEMM: start over, a page of memory, or state inside the unit (the assistant's analysis, asked by the author, 2026-11-17)
+## 5a. Historical: removed in wave 1 (errata 170). Resuming a GEMM: start over, a page of memory, or state inside the unit (the assistant's analysis, asked by the author, 2026-11-17)
+
+[Now: the whole-GEMM unit and the tile this section designs were removed (errata 170); the analysis is kept because its reasoning (what an interrupt asks of an instruction; start over only if idempotent, bounded and able to make progress under faults; state that cannot be dropped must be visible) was used for the restart rules that remain: a block restarts from its entry or at the strip, `vec-isa.md` 4.1 and 8.6.]
 
 The questions: would starting over from zero be simpler than resuming; could the resume state live in a page of memory like the C64's zero page; could it stay inside the unit; does anything outside ever need to see it?
 
