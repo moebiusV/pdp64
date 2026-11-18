@@ -53,11 +53,15 @@ sysregw = sysreg
 ; --- operands (ISA section 5) -----------------------------------------------------------------------------------
 ; the order matters (the first that matches is taken, and the C that reads the tree numbers the alternatives, as64/asmir.h):
 ; based2 (`r5+8`, `r5-8`, a synonym of `8(r5)`) and atindexed (AT&T's `(r1,r2,4)` and `8(r1,r2,4)`) come before regop and bare
-operand = immop | absop | postinc | predec | predec2 | indexed | based | atindexed | based2 | regop | bare | poolop
+operand = immop | absop | postinc | predec | predec2 | indexed | gatherop | based | atindexed | based2 | regop | vregop | tregop | bare | poolop
 ; `#expr`, or `$expr` as AT&T and the Microsoft assemblers write it
 immop   = ( "#" | "$" ) expr
 absop   = "@" expr
 regop   = reg
+; a vector register v0..v15 and a tile register t0..t7 (the vec block); gatherop is the gather's base and index vector, `(r2)[v3]`, tried before `(r2)` is taken as based
+vregop  = vnum
+tregop  = tnum
+gatherop = "(" reg ")" "[" vnum "]"
 postinc = "(" reg ")" "+" [ expr ]
 predec  = "-" "(" reg ")"
 predec2 = "(" reg ")" "-" expr

@@ -7,7 +7,7 @@
 enum stmt_kind { S_LABEL = 1, S_ASSIGN, S_DIR, S_INSN };
 
 /* operand classes, in the order of the alternatives of `operand` in spec/pdp64-asm.hbnf */
-enum oper_kind { OK_IMM = 1, OK_ABS, OK_POSTINC, OK_PREDEC, OK_PREDEC2, OK_INDEXED, OK_BASED, OK_ATINDEXED, OK_BASED2, OK_REG, OK_BARE, OK_POOL };
+enum oper_kind { OK_IMM = 1, OK_ABS, OK_POSTINC, OK_PREDEC, OK_PREDEC2, OK_INDEXED, OK_GATHER, OK_BASED, OK_ATINDEXED, OK_BASED2, OK_REG, OK_VREG, OK_TREG, OK_BARE, OK_POOL };
 
 #include "pdp64-groups.h"	/* enum mn_group: the mnemonic groups, in the order the generator puts them in `mnemonic` */
 

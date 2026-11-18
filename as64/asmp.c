@@ -73,6 +73,16 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 	case OK_REG:
 		r->reg = reg_of(&o->regop);
 		break;
+	case OK_VREG:							/* v0..v15 */
+		r->reg = (int)o->vregop;
+		break;
+	case OK_TREG:							/* t0..t7 */
+		r->reg = (int)o->tregop;
+		break;
+	case OK_GATHER:						/* (base)[vI]: the base register, and the index vector in reg2 */
+		r->reg = reg_of(&o->gatherop.reg);
+		r->reg2 = (int)o->gatherop.vnum;
+		break;
 	case OK_BARE:
 		r->e = t;
 		break;

@@ -368,6 +368,12 @@ movstore = "movq"@0b000001 | "movl"@0b000011 | "movw"@0b000101 | "movb"@0b000111
 rnum = "r0"@0 | "r1"@1 | "r2"@2 | "r3"@3 | "r4"@4 | "r5"@5 | "r6"@6 | "r7"@7
      | "r8"@8 | "r9"@9 | "r10"@10 | "r11"@11 | "r12"@12 | "r13"@13 | "r14"@14 | "r15"@15
 ralias = "sp"@14 | "fp"@13
+
+; The registers of the vec block (docs/encoding-work/vec-isa.md): the vector registers v0-v15 and the tile registers t0-t7 are hidden registers of their own, not the
+; integer registers; the scalar instructions cannot name them.
+vnum = "v0"@0 | "v1"@1 | "v2"@2 | "v3"@3 | "v4"@4 | "v5"@5 | "v6"@6 | "v7"@7
+     | "v8"@8 | "v9"@9 | "v10"@10 | "v11"@11 | "v12"@12 | "v13"@13 | "v14"@14 | "v15"@15
+tnum = "t0"@0 | "t1"@1 | "t2"@2 | "t3"@3 | "t4"@4 | "t5"@5 | "t6"@6 | "t7"@7
 basespec = "pc"@1 | "dp"@2
 
 ; The conditions (ISA 4.4), for the instructions that take one: the number is the low nibble of the corresponding branch opcode (`bne` is 0x31, so ne is 1),

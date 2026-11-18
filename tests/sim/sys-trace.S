@@ -18,23 +18,23 @@ _start:
 	rti
 tgt:
 	add	#1, r2
-t2:
+tr2:
 	add	#1, r2
-t3:
+tr3:
 	add	#1, r2
-t4:
+tr4:
 	add	#1, r2
 	cmp	r10, #(3)
 	bne	F1	; check 1
 	cmp	r2, #(4)
 	bne	F2	; check 2
-	lea	t2, r11
+	lea	tr2, r11
 	cmp	r8, r11
 	bne	F3	; check 3
-	lea	t3, r11
+	lea	tr3, r11
 	cmp	r7, r11
 	bne	F4	; check 4
-	lea	t4, r11
+	lea	tr4, r11
 	cmp	r6, r11
 	bne	F5	; check 5
 	mfps	r1
