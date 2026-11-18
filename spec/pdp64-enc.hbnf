@@ -151,7 +151,7 @@ acc-2 = "movw" | "movzw"
 acc-1 = "movb" | "movzb"
 
 
-; ---- the mnemonics that only the prefix-coded encodings have (group mn-ext of the assembly grammar of as64): the number is the position in the list
+; ---- the mnemonics that only the prefix-coded encodings have (group mn-ext of the assembly grammar of as64): the number is the position in the list; an alias is 0x1000 plus the number of its word
 mn-ext = "addv"@0 | "aesds"@1 | "aesdsm"@2 | "aeses"@3 | "aesesm"@4 | "aesim"@5 | "aesks1"@6 | "aesks2"@7 | "bsel"@8 | "chk2"@9 | "ctcc"@10
        | "ctcs"@11 | "cteq"@12 | "ctge"@13 | "ctgt"@14 | "cthi"@15 | "ctle"@16 | "ctlos"@17 | "ctlt"@18 | "ctmi"@19 | "ctne"@20 | "ctpl"@21
        | "ctvc"@22 | "ctvs"@23 | "gemm.f"@24 | "maesctr"@25 | "maskeqz"@26 | "masknez"@27 | "mov2"@28 | "movb.d"@29 | "movb.u"@30 | "movb.ud"@31
@@ -205,4 +205,5 @@ mn-ext = "addv"@0 | "aesds"@1 | "aesdsm"@2 | "aeses"@3 | "aesesm"@4 | "aesim"@5 
        | "vstt.q.w"@423 | "vstt.w"@424 | "vstt.w.b"@425 | "vsub.b"@426 | "vsub.d"@427 | "vsub.f"@428 | "vsub.l"@429 | "vsub.q"@430 | "vsub.w"@431
        | "vsubr.b"@432 | "vsubr.d"@433 | "vsubr.f"@434 | "vsubr.l"@435 | "vsubr.q"@436 | "vsubr.w"@437 | "vsubs.b"@438 | "vsubs.l"@439 | "vsubs.w"@440
        | "vsubsu.b"@441 | "vsubsu.l"@442 | "vsubsu.w"@443 | "vtadd.d"@444 | "vtadd.f"@445 | "vtclr"@446 | "vtfmopa.d"@447 | "vtfmopa.f"@448
-       | "vtld.d"@449 | "vtld.f"@450 | "vtst.d"@451 | "vtst.f"@452 | "vxor.b"@453 | "vxor.l"@454 | "vxor.q"@455 | "vxor.w"@456
+       | "vtld.d"@449 | "vtld.f"@450 | "vtst.d"@451 | "vtst.f"@452 | "vxor.b"@453 | "vxor.l"@454 | "vxor.q"@455 | "vxor.w"@456 | "cthis"@4106
+       | "ctlo"@4107

@@ -18,8 +18,8 @@ static const char *enc_lens_path;
 static FILE *enc_lens;
 static long enc_ninsn, enc_nbytes, enc_nexpanded;
 
-static const char *mn_canon[32][512];
-static const char *mn_word[32][512];
+static const char *mn_canon[32][8192];			/* (group, number): the numbers of mn-ext go to 0x1000 + the word for an alias */
+static const char *mn_word[32][8192];
 
 static void enc_setup(void)
 {
@@ -30,6 +30,7 @@ static void enc_setup(void)
 		mn_word[mnnames[i].mg][mnnames[i].num] = mnnames[i].name;
 	}
 	for (int i = 0; i < N_EXT_NAMES; i++) mn_canon[MG_EXT][i] = mn_word[MG_EXT][i] = ext_names[i];
+	for (int i = 0; ext_alias[i].name; i++) { mn_word[MG_EXT][0x1000 + ext_alias[i].target] = ext_alias[i].name; mn_canon[MG_EXT][0x1000 + ext_alias[i].target] = ext_names[ext_alias[i].target]; }
 }
 
 static const char *stmt_canon(const struct stmt *st)
@@ -37,6 +38,14 @@ static const char *stmt_canon(const struct stmt *st)
 	if (st->mg == MG_COND) return "set";
 	if (st->mg == MG_SYSREG) return st->mnum == MN_SYSREG_MFSR ? "mfsr" : "mtsr";
 	return mn_canon[st->mg][st->mnum];
+}
+
+/* a check instruction: ct<cc>, cteq, ctne, chk2 (errata 152): each gets a record in the table of check sites */
+static int is_check(const struct stmt *st)
+{
+	if (st->kind != S_INSN || st->mg != MG_EXT) return 0;
+	const char *c = stmt_canon(st);
+	return c && (!strcmp(c, "chk2") || (c[0] == 'c' && c[1] == 't' && c[2] != 0));
 }
 
 /* one instruction of the codec with what its relocation, if it has one, needs */

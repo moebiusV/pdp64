@@ -47,12 +47,10 @@ static int relax_set;		/* --relax or --no-relax given */
 static int relax_on;		/* --relax: a RELAX object (relocs.h): every address of a symbol in .text instructions has a relocation, paddings are R_PDP64_ALIGN */
 static int text_poison;		/* something in .text depends on a distance and is not a relocation: the object is marked NOADJ_TEXT */
 static int errors, final_pass;
-static int *pre_map, pre_n;			/* asmpre.c: the source line of each line of the expanded text */
 static void err(int line, const char *fmt, ...)
 {
 	va_list ap;
 	if (!final_pass) return;			/* the earlier passes only measure; the last one reports */
-	if (pre_map && line >= 1 && line <= pre_n) line = pre_map[line - 1];	/* a line of a macro expansion is reported as the line of the call */
 	fprintf(stderr, "%s:%d: ", srcname, line);
 	va_start(ap, fmt);
 	vfprintf(stderr, fmt, ap);
@@ -60,8 +58,6 @@ static void err(int line, const char *fmt, ...)
 	fputc('\n', stderr);
 	errors++;
 }
-
-#include "asmpre.c"
 
 /* a numeric local label is a name of digits only */
 static int all_digits(const char *p, int n)
@@ -500,30 +496,82 @@ static void put_le(int64_t v, int size)
 
 /* `.bugrec SITE, FILE, LINE, FLAGS`: one record of the table of check sites (errata 152), 12 bytes in the section `__bug_table`, whichever section the assembler
    is in.  The layout is Linux's `struct bug_entry` with relative pointers (include/asm-generic/bug.h): the address of the instruction at SITE and of the string
-   at FILE, each as a 32-bit distance from its own field (a relocation R_PDP64_D32_PC: S + A - P), then the line and the flags, 16 bits each.  The assembler's
-   expansion of the check instructions writes it (asmpre.c); a hand-written program may too. */
-static void dir_bugrec(const struct stmt *st)
+   at FILE, each as a 32-bit distance from its own field (a relocation R_PDP64_D32_PC: S + A - P), then the line and the flags, 16 bits each.  The
+   assembler writes it itself for every check instruction (chk_site); a hand-written program may write one too. */
+static void bugrec_emit(int site, int64_t sitec, int file, int64_t filec, int64_t line, int64_t flags)
 {
 	int save = cur_sec;
-	if (st->nargs != 4) { if (final_pass) err(st->line, ".bugrec site, file, line, flags"); return; }
 	cur_sec = SEC_BUG;
 	if (secalign[SEC_BUG] < 4) secalign[SEC_BUG] = 4;
 	if (!final_pass) { offs[SEC_BUG] += 12; cur_sec = save; return; }
+	int64_t at = (int64_t)sec[SEC_BUG].n;
+	addreloc(SEC_BUG, at, R_PDP64_D32_PC, site, sitec);
+	put_le(0, 4);
+	addreloc(SEC_BUG, at + 4, R_PDP64_D32_PC, file, filec);
+	put_le(0, 4);
+	put_le(line & 0xffff, 2);
+	put_le(flags & 0xffff, 2);
+	cur_sec = save;
+}
+
+static void dir_bugrec(const struct stmt *st)
+{
+	if (st->nargs != 4) { if (final_pass) err(st->line, ".bugrec site, file, line, flags"); return; }
+	if (!final_pass) { bugrec_emit(0, 0, 0, 0, 0, 0); return; }
 	struct val site = eval(st->args[0].s, st->line), file = eval(st->args[1].s, st->line);
 	struct val line = eval(st->args[2].s, st->line), flags = eval(st->args[3].s, st->line);
 	if (site.p < 0 || site.m >= 0 || file.p < 0 || file.m >= 0 || !CONST(line) || !CONST(flags)) {
 		err(st->line, ".bugrec: the site and the file are symbols, the line and the flags constants");
-		cur_sec = save;
 		return;
 	}
-	int64_t at = (int64_t)sec[SEC_BUG].n;
-	addreloc(SEC_BUG, at, R_PDP64_D32_PC, site.p, site.c);
-	put_le(0, 4);
-	addreloc(SEC_BUG, at + 4, R_PDP64_D32_PC, file.p, file.c);
-	put_le(0, 4);
-	put_le(line.c & 0xffff, 2);
-	put_le(flags.c & 0xffff, 2);
-	cur_sec = save;
+	bugrec_emit(site.p, site.c, file.p, file.c, line.c, flags.c);
+}
+
+/* `.chk KIND, "file", LINE` names the place of the next check instruction (ct<cc>, cteq, ctne, chk2) for the table of check sites; KIND 1 bounds, 2 null,
+   3 range, 4 assertion.  Every check instruction then makes its record itself (chk_site): a label at the instruction, the file name in .data (once for each
+   name), and the 12 bytes of .bugrec.  Without a .chk the record has kind 0, the source file and the line of the instruction. */
+static struct { int have, kind, line; char file[1024]; } chk_pend;
+static int nbugsite, nchkfile;
+static char *chkfiles[256];
+
+static void dir_chk(const struct stmt *st)
+{
+	if (st->nargs != 3 || !st->args[1].isstr) { if (final_pass) err(st->line, ".chk KIND, \"file\", LINE"); return; }
+	struct val k = eval(st->args[0].s, st->line), l = eval(st->args[2].s, st->line);
+	if (!CONST(k) || !CONST(l) || k.c < 0 || k.c > 7 || l.c < 0 || l.c > 65535) { if (final_pass) err(st->line, ".chk: the kind is 0 to 7 and the line 0 to 65535"); return; }
+	uint8_t buf[512];
+	int n = unescape(st->args[1].s, buf);
+	if (n >= (int)sizeof chk_pend.file) n = (int)sizeof chk_pend.file - 1;
+	memcpy(chk_pend.file, buf, (size_t)n); chk_pend.file[n] = 0;
+	chk_pend.have = 1; chk_pend.kind = (int)k.c; chk_pend.line = (int)l.c;
+}
+
+static int is_check(const struct stmt *st);
+static void chk_site(const struct stmt *st, int64_t pos)
+{
+	char nm[40];
+	const char *file = chk_pend.have ? chk_pend.file : srcname;
+	int kind = chk_pend.have ? chk_pend.kind : 0, line = chk_pend.have ? chk_pend.line : st->line;
+	chk_pend.have = 0;
+	snprintf(nm, sizeof nm, ".Lbug%d", ++nbugsite);
+	int site = symget(nm, (int)strlen(nm));
+	set_sym_val(site, cur_sec, pos);
+	int k;
+	for (k = 0; k < nchkfile; k++) if (!strcmp(chkfiles[k], file)) break;
+	snprintf(nm, sizeof nm, ".Lchkf%d", k);
+	int fsym = symget(nm, (int)strlen(nm));
+	if (k == nchkfile) {							/* the first check of this file name in this pass: its string, in .data */
+		if (nchkfile == 256) { if (final_pass) err(st->line, "more than 256 file names in the table of check sites"); return; }
+		chkfiles[nchkfile++] = strdup(file);
+		int save = cur_sec;
+		cur_sec = SEC_DATA;
+		int64_t at = final_pass ? (int64_t)sec[SEC_DATA].n : offs[SEC_DATA];
+		set_sym_val(fsym, SEC_DATA, at);
+		size_t n = strlen(file) + 1;
+		if (final_pass) emit_bytes_n((const uint8_t *)file, (int)n); else offs[SEC_DATA] += (int64_t)n;
+		cur_sec = save;
+	}
+	bugrec_emit(site, 0, fsym, 0, line, (int64_t)kind << 5);
 }
 
 /* The size a statement adds to its section, and (in the final pass) its bytes.  `grow` is where the current length of each
@@ -580,6 +628,7 @@ static void directive(const struct stmt *st)
 	}
 	if (dir_is(st, "endp")) return;				/* `name endp`: the end of a procedure, nothing to do */
 	if (dir_is(st, "bugrec")) { dir_bugrec(st); return; }
+	if (dir_is(st, "chk")) { dir_chk(st); return; }
 	if (dir_is(st, "text")) { cur_sec = SEC_TEXT; return; }
 	if (dir_is(st, "data")) { cur_sec = SEC_DATA; return; }
 	if (dir_is(st, "bss")) { cur_sec = SEC_BSS; return; }
@@ -698,6 +747,9 @@ static int run_pass(int final)
 	final_pass = final;
 	pool_seg = 0;
 	cur_sec = SEC_TEXT;
+	chk_pend.have = 0; nbugsite = 0;
+	for (int k = 0; k < nchkfile; k++) free(chkfiles[k]);
+	nchkfile = 0;
 	for (int i = 0; i < NSEC; i++) offs[i] = 0;
 	if (final) for (int i = 0; i < NSEC; i++) sec[i].n = 0;
 	nrelocs = final ? 0 : nrelocs;
@@ -752,6 +804,7 @@ static int run_pass(int final)
 			directive(st);
 			break;
 		case S_INSN: {
+			if (is_check(st)) chk_site(st, pos);					/* the table of check sites: a record for each check instruction */
 			int ch = 0, sz = enc_insn(i, pos, final, &ch);
 			if (ch) changed = 1;
 			if (!final) offs[cur_sec] += sz;
@@ -957,10 +1010,7 @@ int main(int argc, char **argv)
 	char *text = slurp(in, &flen);
 	if (strlen(text) != flen) { fprintf(stderr, "%s: %s: contains a NUL byte\n", progname, in); return 1; }
 	char em[300]; int el;
-	text = pre_expand(text);
-	if (pre_errors) return 1;
 	if (asm_parse(text, &prog, &nprog, em, sizeof em, &el)) {
-		if (pre_map && el >= 1 && el <= pre_n) el = pre_map[el - 1];
 		fprintf(stderr, "%s:%d: %s\n", in, el, em);
 		return 1;
 	}

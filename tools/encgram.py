@@ -302,11 +302,13 @@ def load(root=None):
     for sz in (8, 4, 2, 1):
         for lit, _ in literals(rules['acc-%d' % sz][0]):
             acc[lit] = sz
-    ext = [(l, v) for l, v in numbered(rules['mn-ext'][0])]
-    if [v for _, v in ext] != list(range(len(ext))):
-        raise GrammarError('the numbers of mn-ext must be 0, 1, 2 ... in order')
+    ext_all = [(l, v) for l, v in numbered(rules['mn-ext'][0])]
+    ext = [(l, v) for l, v in ext_all if v < 0x1000]
+    ext_alias = [(l, v - 0x1000) for l, v in ext_all if v >= 0x1000]		# a word whose number is 0x1000 plus another's stands for that word (cthis = ctcc, ctlo = ctcs)
+    if [v for _, v in ext] != list(range(len(ext))) or any(not 0 <= t < len(ext) for _, t in ext_alias):
+        raise GrammarError('the numbers of mn-ext must be 0, 1, 2 ... in order, then aliases at 0x1000 plus the number of their word')
     return dict(name=name, registers=nreg, hot8=hot.get(3), hot16=hot.get(4), fused=fused, forms=forms, leaves=leaves,
-                ext=[l for l, _ in ext], acc=acc, regnames=[l for l, _ in regs], source=files)
+                ext=[l for l, _ in ext], ext_alias=ext_alias, acc=acc, regnames=[l for l, _ in regs], source=files)
 
 
 def parse_leaf(rn, rules, mname, k, specs, fi, off, form):

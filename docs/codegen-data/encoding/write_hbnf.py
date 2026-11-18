@@ -173,10 +173,14 @@ def write_shared(ds):
     return '\n'.join(out) + '\n'
 
 
+EXT_ALIASES = [('cthis', 'ctcc'), ('ctlo', 'ctcs')]	# the compare-and-trap's spellings, as bhis and blo are the branches' (errata 152): the number is 0x1000 plus that of the word (the words of mn-ext go past 256)
+
+
 def write_ext(words):
-    """mn-ext: the words of the prefix-coded encodings that the original mnemonic grammar does not have; the number is the position (the C table ext_names)."""
-    return '; ---- the mnemonics that only the prefix-coded encodings have (group mn-ext of the assembly grammar of as64): the number is the position in the list\n' + \
-           wrap('mn-ext = ', ['"%s"@%d' % (w, i) for i, w in enumerate(words)], cont='       | ') + '\n'
+    """mn-ext: the words of the prefix-coded encodings that the original mnemonic grammar does not have; the number is the position (the C table ext_names); an alias is 0x1000 plus the number of its word."""
+    items = ['"%s"@%d' % (w, i) for i, w in enumerate(words)] + ['"%s"@%d' % (a, 0x1000 + words.index(t)) for a, t in EXT_ALIASES if t in words]
+    return '; ---- the mnemonics that only the prefix-coded encodings have (group mn-ext of the assembly grammar of as64): the number is the position in the list; an alias is 0x1000 plus the number of its word\n' + \
+           wrap('mn-ext = ', items, cont='       | ') + '\n'
 
 
 # ---------------------------------------------------------------- a member
