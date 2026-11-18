@@ -1,4 +1,5 @@
 # fpga.sh output (yosys 0.52 synth_ecp5 and synth_xilinx -family xc7): file, module, ecp5 LUT4 (carry cells as 2), ecp5 FF, ecp5 MULT18X18D, ecp5 RAM cells, xc7 LUT, xc7 FF, xc7 DSP48E1, xc7 RAMB (LUTRAM not counted)
+# WARNING: the xc7 columns (LUT, FF, DSP, RAMB) were made without -flatten and count wrapper modules twice (narrow_both: 5168 here, 2586 flattened); fpga.sh now flattens.  Use strip-results/ (docs/encoding-work/vec-strip.md) for Xilinx numbers; the ECP5 columns are unaffected.
 blocks.v	lanealu16	5109	0	0	0	2838	0	0	0
 blocks.v	lanealu16plain	1491	0	0	0	1024	0	0	0
 blocks.v	mul8s	0	0	1	0	0	0	1	0

@@ -8,7 +8,7 @@ MODS=${*:-$(grep -o '^module [A-Za-z0-9_]*' "$here/$F" | awk '{print $2}')}
 one() {
 	m=$1
 	"$Y" -q -p "read_verilog $here/$F; synth_ecp5 -top $m; tee -q -o $tmp/$m.e stat" >/dev/null 2>$tmp/$m.ee
-	"$Y" -q -p "read_verilog $here/$F; synth_xilinx -family xc7 -top $m; tee -q -o $tmp/$m.x stat" >/dev/null 2>$tmp/$m.xe
+	"$Y" -q -p "read_verilog $here/$F; synth_xilinx -family xc7 -flatten -top $m; tee -q -o $tmp/$m.x stat" >/dev/null 2>$tmp/$m.xe
 	{
 	printf '%s' "$m"
 	awk '/CCU2C/ {c+=$2} /LUT4/ {l+=$2} /L6MUX21|PFUMX/ {mx+=$2} /TRELLIS_FF/ {f+=$2} /MULT18X18D/ {mu+=$2} /DP16KD|TRELLIS_DPR16X4/ {r+=$2} END {printf "\t%d\t%d\t%d\t%d", l+2*c, f+0, mu+0, r+0}' $tmp/$m.e 2>/dev/null || printf '\t-\t-\t-\t-'
