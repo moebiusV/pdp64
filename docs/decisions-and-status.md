@@ -411,7 +411,7 @@
 - Left: the port of sim64, pcc, as64 and ld64 to the final encoding after the optimiser run; the merge of the branch single-pdp64 is the question W.3 of the decision form
 
 ### LLVM back end: frozen until the port
-- Status: IN PROGRESS — stage 1 (a scalar code generator that writes assembly for as64) is done and verified; stage 2 (vector, tile, GEMM, the check instructions, TargetTransformInfo) and the integrated assembler are not (latest decision 2026-11-17 \\[R453, R457\\], errata 159, 165)
+- Status: IN PROGRESS — stage 1 (a scalar code generator that writes assembly for as64) is done and verified; stage 2 (vector, tile, GEMM, the check instructions, TargetTransformInfo) and the integrated assembler are not (latest decision 2026-11-17 \[R453, R457\], errata 159, 165)
 - Decided: 2026-11-10 decided: "once we've decided on any issue that might affect our opcodes etc, then we'll port llvm to the new encoding and the pcc and as64 as well"; "i want to get this thing in shape so you can then implement the llvm and qemu backends" \[R396\]; 2026-11-10 decided: "of course we do llvm port, once ops are settled and pcc backend, as64 ld64 and sim64 and the hbnf are updated." \[R420\]
 - Evidence: llvm/README.md:3 "Status (errata 122)" (the machine-code layer encodes the original encoding: parcel 0 = len:2 opc:6 reg:4 low:4, sixteen registers, page 2; as64 produces the prefix-coded encoding only; the oracle checks were removed, errata 123); docs/implementation-status.md "LLVM is frozen"; README.md:89 "LLVM back end"; docs/roadmap.md:16 (step 5)
 - Doc differs: the body of llvm/README.md still describes milestone M1 and an oracle (llvm/check.sh, tools/gen-llvm-td.py) that no longer exists
@@ -501,8 +501,8 @@
 
 
 ### Assembler: the check-site table in the core, no macros, no preprocessor layer
-- Status: IN PROGRESS — the check table and the aliases are in the assembler and the grammar, the macros and asmpre.c are gone; the expressions are still lexed twice (latest decision 2026-11-17 \\[R465\\], errata 164)
-- Decided: 2026-11-17 decided: "do 1 and 2, then drop the macros" \\[R465\\]
+- Status: IN PROGRESS — the check table and the aliases are in the assembler and the grammar, the macros and asmpre.c are gone; the expressions are still lexed twice (latest decision 2026-11-17 \[R465\], errata 164)
+- Decided: 2026-11-17 decided: "do 1 and 2, then drop the macros" \[R465\]
 - Evidence: as64/as64.c (`chk_site`, `bugrec_emit`, `dir_chk`); spec/pdp64-asm.hbnf (`.chk`); spec/pdp64-enc.hbnf (`cthis`, `ctlo` in mn-ext); docs/asm-syntax.md; docs/errata.md item 164
 - Left: evaluating expressions from the parse tree (one definition of numbers); macros, if they are wanted again, as an hbnf grammar like corpus/c/cpp.hbnf
 
