@@ -18,13 +18,15 @@ USAGE = os.path.join(ROOT, 'llvm', 'vector-usage.md')
 KERNELS = os.path.join(ROOT, 'docs', 'encoding-work', 'arch-data', 'vec-forms')
 BEGIN, END = '<!-- vec-glance:begin -->', '<!-- vec-glance:end -->'
 
-VEC_FAMILIES = {'VBEG', 'VEND', 'VFIN', 'VOP.VVV', 'VOP.VVR', 'VOP.VVI', 'VDACC', 'VTBLM', 'VOP.VV', 'VBSL', 'VOP.VR', 'VOP.VI', 'VFMAB', 'VACC', 'VFIR', 'VCLR',
+VEC_FAMILIES = {'VBEG', 'VBEG2', 'VEND', 'VFIN', 'VOP.VVV', 'VOP.VVR', 'VOP.VVI', 'VDACC', 'VTBLM', 'VOP.VV', 'VBSL', 'VOP.VR', 'VOP.VI', 'VFMAB', 'VACC', 'VFIR', 'VCLR',
                 'VLD.PI', 'VLD.B', 'VST.PI', 'VST.B', 'VLDT', 'VSTT', 'VSTS.R'}
 
-O, W1, W2, ST = 'original', 'wave 1', 'wave 2', 'errata 173'
+O, W1, W2, ST, T2 = 'original', 'wave 1', 'wave 2', 'errata 173', 'errata 176'
 # base mnemonic -> (wave of origin, meaning).  "original": in the family as added by errata 161 and kept; a word of such a base may have been added or removed later (vec-isa.md 6, 8).
 META = {
     'vec': (O, 'begin a block over the region `[Rs, Re)`'),
+    'vec2': (T2, 'begin a 2D block: `Rn` rows of the region `[Rs, Re)`, the streams advanced by a pitch at the end of each row (`vec2 Rs, Re, Rn, Rw`)'),
+    'vskip': (T2, 'after `vec2`: at the end of each row, add the gap register `Rg` to the pointer `Ra` (`vskip Ra, Rg`: the pitch minus the bytes the row used)'),
     'vend': (O, 'end a block'),
     'vfin': (ST, 'split a block: what follows runs once after the last strip (the epilogue), on the final accumulators'),
     'vld': (O, 'load a strip, widening on the way in (`vld.<m>[.<lane>]`)'),

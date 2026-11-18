@@ -220,19 +220,19 @@ A register is always written in full: a narrow load sign-extends to 64 bits and 
 
 ![MOVQ: STF.PD12, prefix 1100000, sub-opcode 000; operands reg5, pd5-s12; 4 bytes](figures/w/movq/11.svg)
 
-![MOVQ: RRF5, prefix 1111110000111011, sub-opcode 000000; operands reg5, reg5; 4 bytes](figures/w/movq/16.svg)
+![MOVQ: RRF5, prefix 1111110001001011, sub-opcode 000000; operands reg5, reg5; 4 bytes](figures/w/movq/16.svg)
 
-![MOVQ: STBs8/a, prefix 1111101011111, sub-opcode 0; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movq/23.svg)
+![MOVQ: STBs8/a, prefix 1111101100001, sub-opcode 0; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movq/23.svg)
 
 ![MOVQ: LDBs10/a, prefix 1111010101, sub-opcode 00; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movq/24.svg)
 
-![MOVQ: LDX0/a, prefix 1111101100010, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movq/25.svg)
+![MOVQ: LDX0/a, prefix 1111101100100, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movq/25.svg)
 
-![MOVQ: STX0/a, prefix 11111011111000, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movq/26.svg)
+![MOVQ: STX0/a, prefix 11111011111100, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movq/26.svg)
 
 ![MOVQ: LDPC14/a, prefix 11111001001, sub-opcode 00; operands pc14-u1, reg5; 4 bytes](figures/w/movq/27.svg)
 
-![MOVQ: LDI12/a, prefix 111111000010011; operands imm12s, reg5; 4 bytes](figures/w/movq/28.svg)
+![MOVQ: LDI12/a, prefix 111111000011011; operands imm12s, reg5; 4 bytes](figures/w/movq/28.svg)
 
 ![MOVQ: LDBu12H/a, prefix 111011100, sub-opcode 00; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movq/29.svg)
 
@@ -298,15 +298,15 @@ Operation, flags and exceptions as for the entry MOV above; 34 layout forms, eac
 
 ![MOVL: STF.PD12, prefix 1100000, sub-opcode 001; operands reg5, pd5-s12; 4 bytes](figures/w/movl/11.svg)
 
-![MOVL: RRF5, prefix 1111110000111011, sub-opcode 000001; operands reg5, reg5; 4 bytes](figures/w/movl/16.svg)
+![MOVL: RRF5, prefix 1111110001001011, sub-opcode 000001; operands reg5, reg5; 4 bytes](figures/w/movl/16.svg)
 
-![MOVL: STBs8/a, prefix 1111101011111, sub-opcode 1; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movl/22.svg)
+![MOVL: STBs8/a, prefix 1111101100001, sub-opcode 1; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movl/22.svg)
 
 ![MOVL: LDBs10/a, prefix 1111010101, sub-opcode 01; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movl/23.svg)
 
-![MOVL: LDX0/a, prefix 1111101100010, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/movl/24.svg)
+![MOVL: LDX0/a, prefix 1111101100100, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/movl/24.svg)
 
-![MOVL: STX0/a, prefix 11111011111000, sub-opcode 1; operands reg5, x5-5d0s; 4 bytes](figures/w/movl/25.svg)
+![MOVL: STX0/a, prefix 11111011111100, sub-opcode 1; operands reg5, x5-5d0s; 4 bytes](figures/w/movl/25.svg)
 
 ![MOVL: LDPC14/a, prefix 11111001001, sub-opcode 01; operands pc14-u1, reg5; 4 bytes](figures/w/movl/26.svg)
 
@@ -369,19 +369,19 @@ Operation, flags and exceptions as for the entry MOV above; 31 layout forms, eac
 
 ![MOVW: STF.PD12, prefix 1100000, sub-opcode 010; operands reg5, pd5-s12; 4 bytes](figures/w/movw/11.svg)
 
-![MOVW: RRF5, prefix 1111110000111011, sub-opcode 000010; operands reg5, reg5; 4 bytes](figures/w/movw/16.svg)
+![MOVW: RRF5, prefix 1111110001001011, sub-opcode 000010; operands reg5, reg5; 4 bytes](figures/w/movw/16.svg)
 
-![MOVW: LDBs6/b, prefix 11111011110011, sub-opcode 00; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movw/18.svg)
+![MOVW: LDBs6/b, prefix 11111011110111, sub-opcode 00; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movw/18.svg)
 
-![MOVW: STBs6/b, prefix 111111000001111, sub-opcode 0; operands reg5, b5d6s-xsz; 4 bytes](figures/w/movw/19.svg)
+![MOVW: STBs6/b, prefix 111111000010111, sub-opcode 0; operands reg5, b5d6s-xsz; 4 bytes](figures/w/movw/19.svg)
 
-![MOVW: LDBu6/b, prefix 11111011110100, sub-opcode 00; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movw/20.svg)
+![MOVW: LDBu6/b, prefix 11111011111000, sub-opcode 00; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movw/20.svg)
 
-![MOVW: LDX0/b, prefix 1111101100011, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movw/21.svg)
+![MOVW: LDX0/b, prefix 1111101100101, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movw/21.svg)
 
-![MOVW: STX0/b, prefix 11111011111001, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movw/22.svg)
+![MOVW: STX0/b, prefix 11111011111101, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movw/22.svg)
 
-![MOVW: STBs8H/b, prefix 111111000011000, sub-opcode 0; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movw/23.svg)
+![MOVW: STBs8H/b, prefix 111111000100000, sub-opcode 0; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movw/23.svg)
 
 ![MOVW: LDBu12H/b, prefix 111011101, sub-opcode 00; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movw/24.svg)
 
@@ -430,21 +430,21 @@ Operation, flags and exceptions as for the entry MOV above; 28 layout forms, eac
 
 ![MOVB: STF.PD12, prefix 1100000, sub-opcode 011; operands reg5, pd5-s12; 4 bytes](figures/w/movb/11.svg)
 
-![MOVB: RRF5, prefix 1111110000111011, sub-opcode 000011; operands reg5, reg5; 4 bytes](figures/w/movb/16.svg)
+![MOVB: RRF5, prefix 1111110001001011, sub-opcode 000011; operands reg5, reg5; 4 bytes](figures/w/movb/16.svg)
 
-![MOVB: LDBs6/b, prefix 11111011110011, sub-opcode 01; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movb/18.svg)
+![MOVB: LDBs6/b, prefix 11111011110111, sub-opcode 01; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movb/18.svg)
 
-![MOVB: STBs6/b, prefix 111111000001111, sub-opcode 1; operands reg5, b5d6s-xsz; 4 bytes](figures/w/movb/19.svg)
+![MOVB: STBs6/b, prefix 111111000010111, sub-opcode 1; operands reg5, b5d6s-xsz; 4 bytes](figures/w/movb/19.svg)
 
-![MOVB: LDBu6/b, prefix 11111011110100, sub-opcode 01; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movb/20.svg)
+![MOVB: LDBu6/b, prefix 11111011111000, sub-opcode 01; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movb/20.svg)
 
-![MOVB: LDX0/b, prefix 1111101100011, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/movb/21.svg)
+![MOVB: LDX0/b, prefix 1111101100101, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/movb/21.svg)
 
-![MOVB: STX0/b, prefix 11111011111001, sub-opcode 1; operands reg5, x5-5d0s; 4 bytes](figures/w/movb/22.svg)
+![MOVB: STX0/b, prefix 11111011111101, sub-opcode 1; operands reg5, x5-5d0s; 4 bytes](figures/w/movb/22.svg)
 
-![MOVB: LDI12/d, prefix 11111011111101, sub-opcode 1; operands imm12s, reg5; 4 bytes](figures/w/movb/23.svg)
+![MOVB: LDI12/d, prefix 11111100000001, sub-opcode 1; operands imm12s, reg5; 4 bytes](figures/w/movb/23.svg)
 
-![MOVB: STBs8H/b, prefix 111111000011000, sub-opcode 1; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movb/24.svg)
+![MOVB: STBs8H/b, prefix 111111000100000, sub-opcode 1; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movb/24.svg)
 
 ![MOVB: LDBu12H/b, prefix 111011101, sub-opcode 01; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movb/25.svg)
 
@@ -514,13 +514,13 @@ There is no zero-extending 64-bit move (it would be `MOVQ`). The register-to-reg
 
 ![MOVZL: LDF.PD12, prefix 100100, sub-opcode 0100; operands pd5-s12, reg5; 4 bytes](figures/w/movzl/04.svg)
 
-![MOVZL: RRF5, prefix 1111110000111011, sub-opcode 000100; operands reg5, reg5; 4 bytes](figures/w/movzl/10.svg)
+![MOVZL: RRF5, prefix 1111110001001011, sub-opcode 000100; operands reg5, reg5; 4 bytes](figures/w/movzl/10.svg)
 
-![MOVZL: LDBs6/b, prefix 11111011110011, sub-opcode 10; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movzl/11.svg)
+![MOVZL: LDBs6/b, prefix 11111011110111, sub-opcode 10; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movzl/11.svg)
 
-![MOVZL: LDBu6/b, prefix 11111011110100, sub-opcode 10; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movzl/12.svg)
+![MOVZL: LDBu6/b, prefix 11111011111000, sub-opcode 10; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movzl/12.svg)
 
-![MOVZL: LDX0/b, prefix 1111101100011, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/movzl/13.svg)
+![MOVZL: LDX0/b, prefix 1111101100101, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/movzl/13.svg)
 
 ![MOVZL: LDBu12H/b, prefix 111011101, sub-opcode 10; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movzl/14.svg)
 
@@ -555,13 +555,13 @@ Operation, flags and exceptions as for the entry MOVZ above; 16 layout forms, ea
 
 ![MOVZW: LDF.PD12, prefix 100100, sub-opcode 0101; operands pd5-s12, reg5; 4 bytes](figures/w/movzw/04.svg)
 
-![MOVZW: RRF5, prefix 1111110000111011, sub-opcode 000101; operands reg5, reg5; 4 bytes](figures/w/movzw/10.svg)
+![MOVZW: RRF5, prefix 1111110001001011, sub-opcode 000101; operands reg5, reg5; 4 bytes](figures/w/movzw/10.svg)
 
-![MOVZW: LDBs6/b, prefix 11111011110011, sub-opcode 11; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movzw/11.svg)
+![MOVZW: LDBs6/b, prefix 11111011110111, sub-opcode 11; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movzw/11.svg)
 
-![MOVZW: LDBu6/b, prefix 11111011110100, sub-opcode 11; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movzw/12.svg)
+![MOVZW: LDBu6/b, prefix 11111011111000, sub-opcode 11; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movzw/12.svg)
 
-![MOVZW: LDX0/b, prefix 1111101100011, sub-opcode 11; operands x5-5d0s, reg5; 4 bytes](figures/w/movzw/13.svg)
+![MOVZW: LDX0/b, prefix 1111101100101, sub-opcode 11; operands x5-5d0s, reg5; 4 bytes](figures/w/movzw/13.svg)
 
 ![MOVZW: LDBu12H/b, prefix 111011101, sub-opcode 11; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movzw/14.svg)
 
@@ -596,11 +596,11 @@ Operation, flags and exceptions as for the entry MOVZ above; 16 layout forms, ea
 
 ![MOVZB: LDF.PD12, prefix 100100, sub-opcode 0110; operands pd5-s12, reg5; 4 bytes](figures/w/movzb/04.svg)
 
-![MOVZB: RRF5, prefix 1111110000111011, sub-opcode 000110; operands reg5, reg5; 4 bytes](figures/w/movzb/10.svg)
+![MOVZB: RRF5, prefix 1111110001001011, sub-opcode 000110; operands reg5, reg5; 4 bytes](figures/w/movzb/10.svg)
 
 ![MOVZB: LDBs10/a, prefix 1111010101, sub-opcode 10; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movzb/13.svg)
 
-![MOVZB: LDX0/a, prefix 1111101100010, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/movzb/14.svg)
+![MOVZB: LDX0/a, prefix 1111101100100, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/movzb/14.svg)
 
 ![MOVZB: LDPC14/a, prefix 11111001001, sub-opcode 10; operands pc14-u1, reg5; 4 bytes](figures/w/movzb/15.svg)
 
@@ -642,13 +642,13 @@ Operation, flags and exceptions as for the entry MOVZ above; 18 layout forms, ea
 
 ![LEA: LDBs10/a, prefix 1111010101, sub-opcode 11; operands b5d10s-xsz, reg5; 4 bytes](figures/w/lea/11.svg)
 
-![LEA: LDX0/a, prefix 1111101100010, sub-opcode 11; operands x5-5d0s, reg5; 4 bytes](figures/w/lea/12.svg)
+![LEA: LDX0/a, prefix 1111101100100, sub-opcode 11; operands x5-5d0s, reg5; 4 bytes](figures/w/lea/12.svg)
 
 ![LEA: LDPC14/a, prefix 11111001001, sub-opcode 11; operands pc14-u1, reg5; 4 bytes](figures/w/lea/13.svg)
 
 ![LEA: LDBu12H/a, prefix 111011100, sub-opcode 11; operands b4d12u-xsz, reg5; 4 bytes](figures/w/lea/14.svg)
 
-![LEA: LEAS12H/a, prefix 1111110000111110; operands spd12u-x8, reg4; 4 bytes](figures/w/lea/15.svg)
+![LEA: LEAS12H/a, prefix 1111110001001110; operands spd12u-x8, reg4; 4 bytes](figures/w/lea/15.svg)
 
 ![LEA: LDX6H/a, prefix 111011110, sub-opcode 11; operands x4-4d6s, reg5; 4 bytes](figures/w/lea/16.svg)
 
@@ -781,7 +781,7 @@ Operation, flags and exceptions as for the entry MOVU above; 13 layout forms, ea
 
 ![MOVUW: STF.A32, prefix 11011110, sub-opcode 101; operands reg5, abs32; 6 bytes](figures/w/movuw/12.svg)
 
-![MOVUW: DPF.D28, prefix 11111011101111, sub-opcode 0; operands dpd28s-x1, reg5; 6 bytes](figures/w/movuw/13.svg)
+![MOVUW: DPF.D28, prefix 11111011110011, sub-opcode 0; operands dpd28s-x1, reg5; 6 bytes](figures/w/movuw/13.svg)
 
 ![MOVUW: LDF.PI12, prefix 111010001, sub-opcode 0; operands pi5-s12, reg5; 4 bytes](figures/w/movuw/03.svg)
 
@@ -816,7 +816,7 @@ Operation, flags and exceptions as for the entry MOVU above; 13 layout forms, ea
 
 ![MOVUL: STF.A32, prefix 11011110, sub-opcode 110; operands reg5, abs32; 6 bytes](figures/w/movul/12.svg)
 
-![MOVUL: DPF.D28, prefix 11111011101111, sub-opcode 1; operands dpd28s-x1, reg5; 6 bytes](figures/w/movul/13.svg)
+![MOVUL: DPF.D28, prefix 11111011110011, sub-opcode 1; operands dpd28s-x1, reg5; 6 bytes](figures/w/movul/13.svg)
 
 ![MOVUL: LDF.PI12, prefix 111010001, sub-opcode 1; operands pi5-s12, reg5; 4 bytes](figures/w/movul/03.svg)
 
@@ -847,7 +847,7 @@ Operation, flags and exceptions as for the entry MOVU above; 13 layout forms, ea
 
 ![MOVUQ: STF.A32, prefix 11011110, sub-opcode 111; operands reg5, abs32; 6 bytes](figures/w/movuq/12.svg)
 
-![MOVUQ: DPF.D28, prefix 111111000001010; operands dpd28s-x1, reg5; 6 bytes](figures/w/movuq/13.svg)
+![MOVUQ: DPF.D28, prefix 111111000010010; operands dpd28s-x1, reg5; 6 bytes](figures/w/movuq/13.svg)
 
 ![MOVUQ: LDF.PI12, prefix 1111001010; operands pi5-s12, reg5; 4 bytes](figures/w/movuq/03.svg)
 
@@ -1258,19 +1258,19 @@ Operation, flags and exceptions as for the entry MOVUSER above; 3 layout forms, 
 
 ![ADD: DPF.D28, prefix 11111000110, sub-opcode 0111; operands dpd28s-x1, reg5; 6 bytes](figures/w/add/08.svg)
 
-![ADD: SPADJF, prefix 111111000001110, sub-opcode 0; operands imm32s, k-sp; 6 bytes](figures/w/add/11.svg)
+![ADD: SPADJF, prefix 111111000010110, sub-opcode 0; operands imm32s, k-sp; 6 bytes](figures/w/add/11.svg)
 
 ![ADD: LDF.PI12, prefix 100011, sub-opcode 0111; operands pi5-s12, reg5; 4 bytes](figures/w/add/03.svg)
 
 ![ADD: LDF.PD12, prefix 100100, sub-opcode 0111; operands pd5-s12, reg5; 4 bytes](figures/w/add/04.svg)
 
-![ADD: RRF5, prefix 1111110000111011, sub-opcode 000111; operands reg5, reg5; 4 bytes](figures/w/add/10.svg)
+![ADD: RRF5, prefix 1111110001001011, sub-opcode 000111; operands reg5, reg5; 4 bytes](figures/w/add/10.svg)
 
 ![ADD: LDBu8/c, prefix 111110100011, sub-opcode 00; operands b5d8u-xsz, reg5; 4 bytes](figures/w/add/15.svg)
 
-![ADD: LDX0/c, prefix 1111101100100, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/add/16.svg)
+![ADD: LDX0/c, prefix 1111101100110, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/add/16.svg)
 
-![ADD: LDI12/b, prefix 11111011111100, sub-opcode 0; operands imm12s, reg5; 4 bytes](figures/w/add/17.svg)
+![ADD: LDI12/b, prefix 11111100000000, sub-opcode 0; operands imm12s, reg5; 4 bytes](figures/w/add/17.svg)
 
 ![ADD: LDBu10H/c, prefix 11111001010, sub-opcode 00; operands b4d10u-xsz, reg5; 4 bytes](figures/w/add/18.svg)
 
@@ -1330,19 +1330,19 @@ All ALU operations are 64 bits, with no size field.
 
 ![SUB: DPF.D28, prefix 11111000110, sub-opcode 1000; operands dpd28s-x1, reg5; 6 bytes](figures/w/sub/08.svg)
 
-![SUB: SPADJF, prefix 111111000001110, sub-opcode 1; operands imm32s, k-sp; 6 bytes](figures/w/sub/11.svg)
+![SUB: SPADJF, prefix 111111000010110, sub-opcode 1; operands imm32s, k-sp; 6 bytes](figures/w/sub/11.svg)
 
 ![SUB: LDF.PI12, prefix 100011, sub-opcode 1000; operands pi5-s12, reg5; 4 bytes](figures/w/sub/03.svg)
 
 ![SUB: LDF.PD12, prefix 100100, sub-opcode 1000; operands pd5-s12, reg5; 4 bytes](figures/w/sub/04.svg)
 
-![SUB: RRF5, prefix 1111110000111011, sub-opcode 001000; operands reg5, reg5; 4 bytes](figures/w/sub/10.svg)
+![SUB: RRF5, prefix 1111110001001011, sub-opcode 001000; operands reg5, reg5; 4 bytes](figures/w/sub/10.svg)
 
 ![SUB: LDBu8/c, prefix 111110100011, sub-opcode 01; operands b5d8u-xsz, reg5; 4 bytes](figures/w/sub/15.svg)
 
-![SUB: LDX0/c, prefix 1111101100100, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/sub/16.svg)
+![SUB: LDX0/c, prefix 1111101100110, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/sub/16.svg)
 
-![SUB: LDI12/b, prefix 11111011111100, sub-opcode 1; operands imm12s, reg5; 4 bytes](figures/w/sub/17.svg)
+![SUB: LDI12/b, prefix 11111100000000, sub-opcode 1; operands imm12s, reg5; 4 bytes](figures/w/sub/17.svg)
 
 ![SUB: LDBu10H/c, prefix 11111001010, sub-opcode 01; operands b4d10u-xsz, reg5; 4 bytes](figures/w/sub/18.svg)
 
@@ -1402,13 +1402,13 @@ Rd ← Rd - rm
 
 ![CMP: CMF.PD12, prefix 111011000, sub-opcode 0; operands reg5, pd5-s12; 4 bytes](figures/w/cmp/04.svg)
 
-![CMP: RRF5, prefix 1111110000111011, sub-opcode 010110; operands reg5, reg5; 4 bytes](figures/w/cmp/09.svg)
+![CMP: RRF5, prefix 1111110001001011, sub-opcode 010110; operands reg5, reg5; 4 bytes](figures/w/cmp/09.svg)
 
-![CMP: CMBu8/a, prefix 11111011110110; operands reg5, b5d8u-xsz; 4 bytes](figures/w/cmp/10.svg)
+![CMP: CMBu8/a, prefix 11111011111010; operands reg5, b5d8u-xsz; 4 bytes](figures/w/cmp/10.svg)
 
-![CMP: CMX0/a, prefix 111111000010001; operands reg5, x5-5d0s; 4 bytes](figures/w/cmp/11.svg)
+![CMP: CMX0/a, prefix 111111000011001; operands reg5, x5-5d0s; 4 bytes](figures/w/cmp/11.svg)
 
-![CMP: CMI12/a, prefix 111111000010110; operands reg5, imm12s; 4 bytes](figures/w/cmp/12.svg)
+![CMP: CMI12/a, prefix 111111000011110; operands reg5, imm12s; 4 bytes](figures/w/cmp/12.svg)
 
 ![CMP: CMBu12H/a, prefix 111110100111; operands reg4, b4d12u-xsz; 4 bytes](figures/w/cmp/13.svg)
 
@@ -1467,11 +1467,11 @@ tmp ← Rd - rm         ; the result is discarded
 
 ![MUL: LDF.PD12, prefix 100100, sub-opcode 1101; operands pd5-s12, reg5; 4 bytes](figures/w/mul/04.svg)
 
-![MUL: RRF5, prefix 1111110000111011, sub-opcode 001101; operands reg5, reg5; 4 bytes](figures/w/mul/10.svg)
+![MUL: RRF5, prefix 1111110001001011, sub-opcode 001101; operands reg5, reg5; 4 bytes](figures/w/mul/10.svg)
 
-![MUL: LDI12/d, prefix 1111101100101, sub-opcode 11; operands imm12s, reg5; 4 bytes](figures/w/mul/11.svg)
+![MUL: LDI12/d, prefix 1111101100111, sub-opcode 11; operands imm12s, reg5; 4 bytes](figures/w/mul/11.svg)
 
-![MUL: LDPC12H/d, prefix 1111101110000, sub-opcode 001; operands pc12-u1, reg4; 4 bytes](figures/w/mul/12.svg)
+![MUL: LDPC12H/d, prefix 1111101110010, sub-opcode 001; operands pc12-u1, reg4; 4 bytes](figures/w/mul/12.svg)
 
 ![MUL: LDI14H/c, prefix 111110101011, sub-opcode 10; operands imm14s, reg4; 4 bytes](figures/w/mul/13.svg)
 
@@ -1528,9 +1528,9 @@ The low 64 bits of a two's-complement product are the same whether the operands 
 
 ![MULH: LDF.PD12, prefix 100100, sub-opcode 1110; operands pd5-s12, reg5; 4 bytes](figures/w/mulh/04.svg)
 
-![MULH: RRF5, prefix 1111110000111011, sub-opcode 001110; operands reg5, reg5; 4 bytes](figures/w/mulh/10.svg)
+![MULH: RRF5, prefix 1111110001001011, sub-opcode 001110; operands reg5, reg5; 4 bytes](figures/w/mulh/10.svg)
 
-![MULH: LDPC12H/d, prefix 1111101110000, sub-opcode 010; operands pc12-u1, reg4; 4 bytes](figures/w/mulh/11.svg)
+![MULH: LDPC12H/d, prefix 1111101110010, sub-opcode 010; operands pc12-u1, reg4; 4 bytes](figures/w/mulh/11.svg)
 
 ![MULH: RRF, prefix 0010, sub-opcode 1110; operands reg4, reg4; 2 bytes](figures/w/mulh/09.svg)
 
@@ -1703,11 +1703,11 @@ Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, eac
 
 ![INC: SOF.PD12, prefix 11111000101, sub-opcode 0010; operands pd5-s12; 4 bytes](figures/w/inc/04.svg)
 
-![INC: SOBs12/a, prefix 1111101100000, sub-opcode 01; operands b5d12s-xsz; 4 bytes](figures/w/inc/08.svg)
+![INC: SOBs12/a, prefix 1111101100010, sub-opcode 01; operands b5d12s-xsz; 4 bytes](figures/w/inc/08.svg)
 
-![INC: SOX4/a, prefix 11111011111010, sub-opcode 01; operands x5-5d4s; 4 bytes](figures/w/inc/09.svg)
+![INC: SOX4/a, prefix 11111011111110, sub-opcode 01; operands x5-5d4s; 4 bytes](figures/w/inc/09.svg)
 
-![INC: SOBu12H/a, prefix 11111100000000, sub-opcode 01; operands b4d12u-xsz; 4 bytes](figures/w/inc/10.svg)
+![INC: SOBu12H/a, prefix 11111100000100, sub-opcode 01; operands b4d12u-xsz; 4 bytes](figures/w/inc/10.svg)
 
 ![INC: SOPR, prefix 11100000, sub-opcode 010; operands reg5; 2 bytes](figures/w/inc/07.svg)
 
@@ -1753,11 +1753,11 @@ rm ← rm + 1
 
 ![DEC: SOF.PD12, prefix 11111000101, sub-opcode 0011; operands pd5-s12; 4 bytes](figures/w/dec/04.svg)
 
-![DEC: SOBs12/a, prefix 1111101100000, sub-opcode 10; operands b5d12s-xsz; 4 bytes](figures/w/dec/08.svg)
+![DEC: SOBs12/a, prefix 1111101100010, sub-opcode 10; operands b5d12s-xsz; 4 bytes](figures/w/dec/08.svg)
 
-![DEC: SOX4/a, prefix 11111011111010, sub-opcode 10; operands x5-5d4s; 4 bytes](figures/w/dec/09.svg)
+![DEC: SOX4/a, prefix 11111011111110, sub-opcode 10; operands x5-5d4s; 4 bytes](figures/w/dec/09.svg)
 
-![DEC: SOBu12H/a, prefix 11111100000000, sub-opcode 10; operands b4d12u-xsz; 4 bytes](figures/w/dec/10.svg)
+![DEC: SOBu12H/a, prefix 11111100000100, sub-opcode 10; operands b4d12u-xsz; 4 bytes](figures/w/dec/10.svg)
 
 ![DEC: SOPR, prefix 11100000, sub-opcode 011; operands reg5; 2 bytes](figures/w/dec/07.svg)
 
@@ -2304,11 +2304,11 @@ Operation, flags and exceptions as for the entry OVF above; 1 layout form, each 
 
 ![BIC: LDF.PD12, prefix 100100, sub-opcode 1001; operands pd5-s12, reg5; 4 bytes](figures/w/bic/04.svg)
 
-![BIC: RRF5, prefix 1111110000111011, sub-opcode 001001; operands reg5, reg5; 4 bytes](figures/w/bic/10.svg)
+![BIC: RRF5, prefix 1111110001001011, sub-opcode 001001; operands reg5, reg5; 4 bytes](figures/w/bic/10.svg)
 
-![BIC: LDI12/d, prefix 11111011111101, sub-opcode 0; operands imm12s, reg5; 4 bytes](figures/w/bic/11.svg)
+![BIC: LDI12/d, prefix 11111100000001, sub-opcode 0; operands imm12s, reg5; 4 bytes](figures/w/bic/11.svg)
 
-![BIC: LDPC12H/d, prefix 1111101110000, sub-opcode 000; operands pc12-u1, reg4; 4 bytes](figures/w/bic/12.svg)
+![BIC: LDPC12H/d, prefix 1111101110010, sub-opcode 000; operands pc12-u1, reg4; 4 bytes](figures/w/bic/12.svg)
 
 ![BIC: LDI14H/c, prefix 111110101011, sub-opcode 11; operands imm14s, reg4; 4 bytes](figures/w/bic/13.svg)
 
@@ -2362,11 +2362,11 @@ The assembler also accepts `BIC #imm, rm` as `AND #~imm, rm`.
 
 ![BIS: LDF.PD12, prefix 100100, sub-opcode 1010; operands pd5-s12, reg5; 4 bytes](figures/w/bis/04.svg)
 
-![BIS: RRF5, prefix 1111110000111011, sub-opcode 001010; operands reg5, reg5; 4 bytes](figures/w/bis/10.svg)
+![BIS: RRF5, prefix 1111110001001011, sub-opcode 001010; operands reg5, reg5; 4 bytes](figures/w/bis/10.svg)
 
 ![BIS: LDBu8/c, prefix 111110100011, sub-opcode 11; operands b5d8u-xsz, reg5; 4 bytes](figures/w/bis/12.svg)
 
-![BIS: LDX0/c, prefix 1111101100100, sub-opcode 11; operands x5-5d0s, reg5; 4 bytes](figures/w/bis/13.svg)
+![BIS: LDX0/c, prefix 1111101100110, sub-opcode 11; operands x5-5d0s, reg5; 4 bytes](figures/w/bis/13.svg)
 
 ![BIS: LDBu10H/c, prefix 11111001010, sub-opcode 11; operands b4d10u-xsz, reg5; 4 bytes](figures/w/bis/14.svg)
 
@@ -2424,11 +2424,11 @@ Rd ← Rd OR rm
 
 ![BIT: LDF.PD12, prefix 1011001, sub-opcode 101; operands pd5-s12, reg5; 4 bytes](figures/w/bit/04.svg)
 
-![BIT: RRF5, prefix 1111110000111011, sub-opcode 010101; operands reg5, reg5; 4 bytes](figures/w/bit/10.svg)
+![BIT: RRF5, prefix 1111110001001011, sub-opcode 010101; operands reg5, reg5; 4 bytes](figures/w/bit/10.svg)
 
-![BIT: LDI12/d, prefix 111111000010101; operands imm12s, reg5; 4 bytes](figures/w/bit/11.svg)
+![BIT: LDI12/d, prefix 111111000011101; operands imm12s, reg5; 4 bytes](figures/w/bit/11.svg)
 
-![BIT: LDPC12H/d, prefix 111111000011010, sub-opcode 1; operands pc12-u1, reg4; 4 bytes](figures/w/bit/12.svg)
+![BIT: LDPC12H/d, prefix 111111000100010, sub-opcode 1; operands pc12-u1, reg4; 4 bytes](figures/w/bit/12.svg)
 
 ![BIT: RRF, prefix 01010, sub-opcode 101; operands reg4, reg4; 2 bytes](figures/w/bit/09.svg)
 
@@ -2478,13 +2478,13 @@ tmp ← Rd AND rm         ; the result is discarded
 
 ![XOR: LDF.PD12, prefix 100100, sub-opcode 1011; operands pd5-s12, reg5; 4 bytes](figures/w/xor/04.svg)
 
-![XOR: RRF5, prefix 1111110000111011, sub-opcode 001011; operands reg5, reg5; 4 bytes](figures/w/xor/10.svg)
+![XOR: RRF5, prefix 1111110001001011, sub-opcode 001011; operands reg5, reg5; 4 bytes](figures/w/xor/10.svg)
 
-![XOR: LDBu8/c, prefix 11111011110101; operands b5d8u-xsz, reg5; 4 bytes](figures/w/xor/12.svg)
+![XOR: LDBu8/c, prefix 11111011111001; operands b5d8u-xsz, reg5; 4 bytes](figures/w/xor/12.svg)
 
-![XOR: LDX0/c, prefix 111111000010000; operands x5-5d0s, reg5; 4 bytes](figures/w/xor/13.svg)
+![XOR: LDX0/c, prefix 111111000011000; operands x5-5d0s, reg5; 4 bytes](figures/w/xor/13.svg)
 
-![XOR: LDBu10H/c, prefix 1111101101111; operands b4d10u-xsz, reg5; 4 bytes](figures/w/xor/14.svg)
+![XOR: LDBu10H/c, prefix 1111101110001; operands b4d10u-xsz, reg5; 4 bytes](figures/w/xor/14.svg)
 
 ![XOR: LDPC16H/c, prefix 111110101001; operands pc16-u1, reg4; 4 bytes](figures/w/xor/15.svg)
 
@@ -2540,13 +2540,13 @@ Rd ← Rd XOR rm
 
 ![AND: LDF.PD12, prefix 100100, sub-opcode 1100; operands pd5-s12, reg5; 4 bytes](figures/w/and/04.svg)
 
-![AND: RRF5, prefix 1111110000111011, sub-opcode 001100; operands reg5, reg5; 4 bytes](figures/w/and/10.svg)
+![AND: RRF5, prefix 1111110001001011, sub-opcode 001100; operands reg5, reg5; 4 bytes](figures/w/and/10.svg)
 
 ![AND: LDBu8/c, prefix 111110100011, sub-opcode 10; operands b5d8u-xsz, reg5; 4 bytes](figures/w/and/13.svg)
 
-![AND: LDX0/c, prefix 1111101100100, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/and/14.svg)
+![AND: LDX0/c, prefix 1111101100110, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/and/14.svg)
 
-![AND: LDI12/b, prefix 111111000010100; operands imm12s, reg5; 4 bytes](figures/w/and/15.svg)
+![AND: LDI12/b, prefix 111111000011100; operands imm12s, reg5; 4 bytes](figures/w/and/15.svg)
 
 ![AND: LDBu10H/c, prefix 11111001010, sub-opcode 10; operands b4d10u-xsz, reg5; 4 bytes](figures/w/and/16.svg)
 
@@ -2641,11 +2641,11 @@ The count is read as an unsigned 64-bit value, so a count of 64 or more shifts t
 
 ![SHL: LDF.PD12, prefix 100100, sub-opcode 1111; operands pd5-s12, reg5; 4 bytes](figures/w/shl/04.svg)
 
-![SHL: RRF5, prefix 1111110000111011, sub-opcode 001111; operands reg5, reg5; 4 bytes](figures/w/shl/10.svg)
+![SHL: RRF5, prefix 1111110001001011, sub-opcode 001111; operands reg5, reg5; 4 bytes](figures/w/shl/10.svg)
 
-![SHL: LDI12/d, prefix 1111101100101, sub-opcode 00; operands imm12s, reg5; 4 bytes](figures/w/shl/13.svg)
+![SHL: LDI12/d, prefix 1111101100111, sub-opcode 00; operands imm12s, reg5; 4 bytes](figures/w/shl/13.svg)
 
-![SHL: LDPC12H/d, prefix 1111101110000, sub-opcode 011; operands pc12-u1, reg4; 4 bytes](figures/w/shl/14.svg)
+![SHL: LDPC12H/d, prefix 1111101110010, sub-opcode 011; operands pc12-u1, reg4; 4 bytes](figures/w/shl/14.svg)
 
 ![SHL: RRF, prefix 0010, sub-opcode 1111; operands reg4, reg4; 2 bytes](figures/w/shl/09.svg)
 
@@ -2678,11 +2678,11 @@ Operation, flags and exceptions as for the entry SHIFT above; 14 layout forms, e
 
 ![SHR: LDF.PD12, prefix 1011001, sub-opcode 000; operands pd5-s12, reg5; 4 bytes](figures/w/shr/04.svg)
 
-![SHR: RRF5, prefix 1111110000111011, sub-opcode 010000; operands reg5, reg5; 4 bytes](figures/w/shr/10.svg)
+![SHR: RRF5, prefix 1111110001001011, sub-opcode 010000; operands reg5, reg5; 4 bytes](figures/w/shr/10.svg)
 
-![SHR: LDI12/d, prefix 1111101100101, sub-opcode 01; operands imm12s, reg5; 4 bytes](figures/w/shr/12.svg)
+![SHR: LDI12/d, prefix 1111101100111, sub-opcode 01; operands imm12s, reg5; 4 bytes](figures/w/shr/12.svg)
 
-![SHR: LDPC12H/d, prefix 1111101110000, sub-opcode 100; operands pc12-u1, reg4; 4 bytes](figures/w/shr/13.svg)
+![SHR: LDPC12H/d, prefix 1111101110010, sub-opcode 100; operands pc12-u1, reg4; 4 bytes](figures/w/shr/13.svg)
 
 ![SHR: RRF, prefix 01010, sub-opcode 000; operands reg4, reg4; 2 bytes](figures/w/shr/09.svg)
 
@@ -2713,11 +2713,11 @@ Operation, flags and exceptions as for the entry SHIFT above; 13 layout forms, e
 
 ![SAR: LDF.PD12, prefix 1011001, sub-opcode 001; operands pd5-s12, reg5; 4 bytes](figures/w/sar/04.svg)
 
-![SAR: RRF5, prefix 1111110000111011, sub-opcode 010001; operands reg5, reg5; 4 bytes](figures/w/sar/10.svg)
+![SAR: RRF5, prefix 1111110001001011, sub-opcode 010001; operands reg5, reg5; 4 bytes](figures/w/sar/10.svg)
 
-![SAR: LDI12/d, prefix 1111101100101, sub-opcode 10; operands imm12s, reg5; 4 bytes](figures/w/sar/12.svg)
+![SAR: LDI12/d, prefix 1111101100111, sub-opcode 10; operands imm12s, reg5; 4 bytes](figures/w/sar/12.svg)
 
-![SAR: LDPC12H/d, prefix 1111101110000, sub-opcode 101; operands pc12-u1, reg4; 4 bytes](figures/w/sar/13.svg)
+![SAR: LDPC12H/d, prefix 1111101110010, sub-opcode 101; operands pc12-u1, reg4; 4 bytes](figures/w/sar/13.svg)
 
 ![SAR: RRF, prefix 01010, sub-opcode 001; operands reg4, reg4; 2 bytes](figures/w/sar/09.svg)
 
@@ -2745,11 +2745,11 @@ Operation, flags and exceptions as for the entry SHIFT above; 13 layout forms, e
 
 ![CLR: SOF.PD12, prefix 11111000101, sub-opcode 0000; operands pd5-s12; 4 bytes](figures/w/clr/04.svg)
 
-![CLR: SOBs12/a, prefix 1111101100000, sub-opcode 00; operands b5d12s-xsz; 4 bytes](figures/w/clr/08.svg)
+![CLR: SOBs12/a, prefix 1111101100010, sub-opcode 00; operands b5d12s-xsz; 4 bytes](figures/w/clr/08.svg)
 
-![CLR: SOX4/a, prefix 11111011111010, sub-opcode 00; operands x5-5d4s; 4 bytes](figures/w/clr/09.svg)
+![CLR: SOX4/a, prefix 11111011111110, sub-opcode 00; operands x5-5d4s; 4 bytes](figures/w/clr/09.svg)
 
-![CLR: SOBu12H/a, prefix 11111100000000, sub-opcode 00; operands b4d12u-xsz; 4 bytes](figures/w/clr/10.svg)
+![CLR: SOBu12H/a, prefix 11111100000100, sub-opcode 00; operands b4d12u-xsz; 4 bytes](figures/w/clr/10.svg)
 
 ![CLR: SOPR, prefix 11100000, sub-opcode 000; operands reg5; 2 bytes](figures/w/clr/07.svg)
 
@@ -2841,11 +2841,11 @@ A two-byte instruction for a register operand.
 
 ![TST: SOF.PD12, prefix 11111000101, sub-opcode 0101; operands pd5-s12; 4 bytes](figures/w/tst/04.svg)
 
-![TST: SOBs12/a, prefix 1111101100000, sub-opcode 11; operands b5d12s-xsz; 4 bytes](figures/w/tst/08.svg)
+![TST: SOBs12/a, prefix 1111101100010, sub-opcode 11; operands b5d12s-xsz; 4 bytes](figures/w/tst/08.svg)
 
-![TST: SOX4/a, prefix 11111011111010, sub-opcode 11; operands x5-5d4s; 4 bytes](figures/w/tst/09.svg)
+![TST: SOX4/a, prefix 11111011111110, sub-opcode 11; operands x5-5d4s; 4 bytes](figures/w/tst/09.svg)
 
-![TST: SOBu12H/a, prefix 11111100000000, sub-opcode 11; operands b4d12u-xsz; 4 bytes](figures/w/tst/10.svg)
+![TST: SOBu12H/a, prefix 11111100000100, sub-opcode 11; operands b4d12u-xsz; 4 bytes](figures/w/tst/10.svg)
 
 ![TST: SOPR, prefix 11100000, sub-opcode 101; operands reg5; 2 bytes](figures/w/tst/07.svg)
 
@@ -4050,7 +4050,7 @@ BEQ target ... and the rest
 
 ![Encoding of BCC](figures/BRF-1.svg)
 
-The chart is the leaf `BRF-1`, BRF, prefix `1111101011110`. `op1` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes). `sub` (3 bits) selects the mnemonic: `br` 000, `bne` 001, `beq` 010, `bpl` 011, `bmi` 100, `bvc` 101, `bvs` 110, `bcc` 111.
+The chart is the leaf `BRF-1`, BRF, prefix `1111101100000`. `op1` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes). `sub` (3 bits) selects the mnemonic: `br` 000, `bne` 001, `beq` 010, `bpl` 011, `bmi` 100, `bvc` 101, `bvs` 110, `bcc` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`BRF-1`](dictionary/by-encoding.md#BRF-1), [`BR1-9-a-1`](dictionary/by-encoding.md#BR1-9-a-1), [`BR2-16-a-1`](dictionary/by-encoding.md#BR2-16-a-1), [`BR1-7-b-1`](dictionary/by-encoding.md#BR1-7-b-1), [`BR2-16-b-1`](dictionary/by-encoding.md#BR2-16-b-1), [`BR1-6-c-1`](dictionary/by-encoding.md#BR1-6-c-1), [`BR2-16-c-1`](dictionary/by-encoding.md#BR2-16-c-1), [`BRF-2`](dictionary/by-encoding.md#BRF-2), [`BR1-6-c-2`](dictionary/by-encoding.md#BR1-6-c-2), [`BR2-16-c-2`](dictionary/by-encoding.md#BR2-16-c-2), [`BRF-3`](dictionary/by-encoding.md#BRF-3), [`BRF-4`](dictionary/by-encoding.md#BRF-4).
 
@@ -4071,9 +4071,9 @@ Condition numbers: `al` 0 (`BR`), `ne` 1, `eq` 2, `pl` 3, `mi` 4, `vc` 5, `vs` 6
 <a id="w-br"></a>
 #### BR
 
-![BR: BRF, prefix 1111101011110, sub-opcode 000; operands pc32-u2; 6 bytes](figures/w/br/01.svg)
+![BR: BRF, prefix 1111101100000, sub-opcode 000; operands pc32-u2; 6 bytes](figures/w/br/01.svg)
 
-![BR: BR2_16/a, prefix 1111110000111100; operands pc16-u2; 4 bytes](figures/w/br/03.svg)
+![BR: BR2_16/a, prefix 1111110001001100; operands pc16-u2; 4 bytes](figures/w/br/03.svg)
 
 ![BR: BR1_9/a, prefix 1100010; operands pc9-u2; 2 bytes](figures/w/br/02.svg)
 
@@ -4086,9 +4086,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bne"></a>
 #### BNE
 
-![BNE: BRF, prefix 1111101011110, sub-opcode 001; operands pc32-u2; 6 bytes](figures/w/bne/01.svg)
+![BNE: BRF, prefix 1111101100000, sub-opcode 001; operands pc32-u2; 6 bytes](figures/w/bne/01.svg)
 
-![BNE: BR2_16/b, prefix 111111000010111, sub-opcode 1; operands pc16-u2; 4 bytes](figures/w/bne/03.svg)
+![BNE: BR2_16/b, prefix 111111000011111, sub-opcode 1; operands pc16-u2; 4 bytes](figures/w/bne/03.svg)
 
 ![BNE: BR1_7/b, prefix 11100100, sub-opcode 1; operands pc7-u2; 2 bytes](figures/w/bne/02.svg)
 
@@ -4101,9 +4101,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-beq"></a>
 #### BEQ
 
-![BEQ: BRF, prefix 1111101011110, sub-opcode 010; operands pc32-u2; 6 bytes](figures/w/beq/01.svg)
+![BEQ: BRF, prefix 1111101100000, sub-opcode 010; operands pc32-u2; 6 bytes](figures/w/beq/01.svg)
 
-![BEQ: BR2_16/b, prefix 111111000010111, sub-opcode 0; operands pc16-u2; 4 bytes](figures/w/beq/03.svg)
+![BEQ: BR2_16/b, prefix 111111000011111, sub-opcode 0; operands pc16-u2; 4 bytes](figures/w/beq/03.svg)
 
 ![BEQ: BR1_7/b, prefix 11100100, sub-opcode 0; operands pc7-u2; 2 bytes](figures/w/beq/02.svg)
 
@@ -4116,9 +4116,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bpl"></a>
 #### BPL
 
-![BPL: BRF, prefix 1111101011110, sub-opcode 011; operands pc32-u2; 6 bytes](figures/w/bpl/01.svg)
+![BPL: BRF, prefix 1111101100000, sub-opcode 011; operands pc32-u2; 6 bytes](figures/w/bpl/01.svg)
 
-![BPL: BR2_16/c, prefix 1111101100111, sub-opcode 000; operands pc16-u2; 4 bytes](figures/w/bpl/03.svg)
+![BPL: BR2_16/c, prefix 1111101101001, sub-opcode 000; operands pc16-u2; 4 bytes](figures/w/bpl/03.svg)
 
 ![BPL: BR1_6/c, prefix 1100001, sub-opcode 000; operands pc6-u2; 2 bytes](figures/w/bpl/02.svg)
 
@@ -4127,9 +4127,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bmi"></a>
 #### BMI
 
-![BMI: BRF, prefix 1111101011110, sub-opcode 100; operands pc32-u2; 6 bytes](figures/w/bmi/01.svg)
+![BMI: BRF, prefix 1111101100000, sub-opcode 100; operands pc32-u2; 6 bytes](figures/w/bmi/01.svg)
 
-![BMI: BR2_16/c, prefix 1111101100111, sub-opcode 001; operands pc16-u2; 4 bytes](figures/w/bmi/03.svg)
+![BMI: BR2_16/c, prefix 1111101101001, sub-opcode 001; operands pc16-u2; 4 bytes](figures/w/bmi/03.svg)
 
 ![BMI: BR1_6/c, prefix 1100001, sub-opcode 001; operands pc6-u2; 2 bytes](figures/w/bmi/02.svg)
 
@@ -4138,9 +4138,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bvc"></a>
 #### BVC
 
-![BVC: BRF, prefix 1111101011110, sub-opcode 101; operands pc32-u2; 6 bytes](figures/w/bvc/01.svg)
+![BVC: BRF, prefix 1111101100000, sub-opcode 101; operands pc32-u2; 6 bytes](figures/w/bvc/01.svg)
 
-![BVC: BR2_16/c, prefix 1111101100111, sub-opcode 010; operands pc16-u2; 4 bytes](figures/w/bvc/03.svg)
+![BVC: BR2_16/c, prefix 1111101101001, sub-opcode 010; operands pc16-u2; 4 bytes](figures/w/bvc/03.svg)
 
 ![BVC: BR1_6/c, prefix 1100001, sub-opcode 010; operands pc6-u2; 2 bytes](figures/w/bvc/02.svg)
 
@@ -4149,9 +4149,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bvs"></a>
 #### BVS
 
-![BVS: BRF, prefix 1111101011110, sub-opcode 110; operands pc32-u2; 6 bytes](figures/w/bvs/01.svg)
+![BVS: BRF, prefix 1111101100000, sub-opcode 110; operands pc32-u2; 6 bytes](figures/w/bvs/01.svg)
 
-![BVS: BR2_16/c, prefix 1111101100111, sub-opcode 011; operands pc16-u2; 4 bytes](figures/w/bvs/03.svg)
+![BVS: BR2_16/c, prefix 1111101101001, sub-opcode 011; operands pc16-u2; 4 bytes](figures/w/bvs/03.svg)
 
 ![BVS: BR1_6/c, prefix 1100001, sub-opcode 011; operands pc6-u2; 2 bytes](figures/w/bvs/02.svg)
 
@@ -4160,9 +4160,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bcc"></a>
 #### BCC
 
-![BCC: BRF, prefix 1111101011110, sub-opcode 111; operands pc32-u2; 6 bytes](figures/w/bcc/01.svg)
+![BCC: BRF, prefix 1111101100000, sub-opcode 111; operands pc32-u2; 6 bytes](figures/w/bcc/01.svg)
 
-![BCC: BR2_16/c, prefix 1111101100111, sub-opcode 100; operands pc16-u2; 4 bytes](figures/w/bcc/03.svg)
+![BCC: BR2_16/c, prefix 1111101101001, sub-opcode 100; operands pc16-u2; 4 bytes](figures/w/bcc/03.svg)
 
 ![BCC: BR1_6/c, prefix 1100001, sub-opcode 100; operands pc6-u2; 2 bytes](figures/w/bcc/02.svg)
 
@@ -4171,9 +4171,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bcs"></a>
 #### BCS
 
-![BCS: BRF, prefix 11111011110000, sub-opcode 00; operands pc32-u2; 6 bytes](figures/w/bcs/01.svg)
+![BCS: BRF, prefix 11111011110100, sub-opcode 00; operands pc32-u2; 6 bytes](figures/w/bcs/01.svg)
 
-![BCS: BR2_16/c, prefix 1111101100111, sub-opcode 101; operands pc16-u2; 4 bytes](figures/w/bcs/03.svg)
+![BCS: BR2_16/c, prefix 1111101101001, sub-opcode 101; operands pc16-u2; 4 bytes](figures/w/bcs/03.svg)
 
 ![BCS: BR1_6/c, prefix 1100001, sub-opcode 101; operands pc6-u2; 2 bytes](figures/w/bcs/02.svg)
 
@@ -4182,9 +4182,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bge"></a>
 #### BGE
 
-![BGE: BRF, prefix 11111011110000, sub-opcode 01; operands pc32-u2; 6 bytes](figures/w/bge/01.svg)
+![BGE: BRF, prefix 11111011110100, sub-opcode 01; operands pc32-u2; 6 bytes](figures/w/bge/01.svg)
 
-![BGE: BR2_16/c, prefix 1111101100111, sub-opcode 110; operands pc16-u2; 4 bytes](figures/w/bge/03.svg)
+![BGE: BR2_16/c, prefix 1111101101001, sub-opcode 110; operands pc16-u2; 4 bytes](figures/w/bge/03.svg)
 
 ![BGE: BR1_6/c, prefix 1100001, sub-opcode 110; operands pc6-u2; 2 bytes](figures/w/bge/02.svg)
 
@@ -4193,9 +4193,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-blt"></a>
 #### BLT
 
-![BLT: BRF, prefix 11111011110000, sub-opcode 10; operands pc32-u2; 6 bytes](figures/w/blt/01.svg)
+![BLT: BRF, prefix 11111011110100, sub-opcode 10; operands pc32-u2; 6 bytes](figures/w/blt/01.svg)
 
-![BLT: BR2_16/c, prefix 1111101100111, sub-opcode 111; operands pc16-u2; 4 bytes](figures/w/blt/03.svg)
+![BLT: BR2_16/c, prefix 1111101101001, sub-opcode 111; operands pc16-u2; 4 bytes](figures/w/blt/03.svg)
 
 ![BLT: BR1_6/c, prefix 1100001, sub-opcode 111; operands pc6-u2; 2 bytes](figures/w/blt/02.svg)
 
@@ -4204,9 +4204,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bgt"></a>
 #### BGT
 
-![BGT: BRF, prefix 11111011110000, sub-opcode 11; operands pc32-u2; 6 bytes](figures/w/bgt/01.svg)
+![BGT: BRF, prefix 11111011110100, sub-opcode 11; operands pc32-u2; 6 bytes](figures/w/bgt/01.svg)
 
-![BGT: BR2_16/c, prefix 11111011111110, sub-opcode 00; operands pc16-u2; 4 bytes](figures/w/bgt/03.svg)
+![BGT: BR2_16/c, prefix 11111100000010, sub-opcode 00; operands pc16-u2; 4 bytes](figures/w/bgt/03.svg)
 
 ![BGT: BR1_6/c, prefix 11100011, sub-opcode 00; operands pc6-u2; 2 bytes](figures/w/bgt/02.svg)
 
@@ -4215,9 +4215,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-ble"></a>
 #### BLE
 
-![BLE: BRF, prefix 111111000001011, sub-opcode 0; operands pc32-u2; 6 bytes](figures/w/ble/01.svg)
+![BLE: BRF, prefix 111111000010011, sub-opcode 0; operands pc32-u2; 6 bytes](figures/w/ble/01.svg)
 
-![BLE: BR2_16/c, prefix 11111011111110, sub-opcode 01; operands pc16-u2; 4 bytes](figures/w/ble/03.svg)
+![BLE: BR2_16/c, prefix 11111100000010, sub-opcode 01; operands pc16-u2; 4 bytes](figures/w/ble/03.svg)
 
 ![BLE: BR1_6/c, prefix 11100011, sub-opcode 01; operands pc6-u2; 2 bytes](figures/w/ble/02.svg)
 
@@ -4226,9 +4226,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-bhi"></a>
 #### BHI
 
-![BHI: BRF, prefix 111111000001011, sub-opcode 1; operands pc32-u2; 6 bytes](figures/w/bhi/01.svg)
+![BHI: BRF, prefix 111111000010011, sub-opcode 1; operands pc32-u2; 6 bytes](figures/w/bhi/01.svg)
 
-![BHI: BR2_16/c, prefix 11111011111110, sub-opcode 10; operands pc16-u2; 4 bytes](figures/w/bhi/03.svg)
+![BHI: BR2_16/c, prefix 11111100000010, sub-opcode 10; operands pc16-u2; 4 bytes](figures/w/bhi/03.svg)
 
 ![BHI: BR1_6/c, prefix 11100011, sub-opcode 10; operands pc6-u2; 2 bytes](figures/w/bhi/02.svg)
 
@@ -4237,9 +4237,9 @@ Operation, flags and exceptions as for the entry BCC above; 3 layout forms, each
 <a id="w-blos"></a>
 #### BLOS
 
-![BLOS: BRF, prefix 1111110000111000; operands pc32-u2; 6 bytes](figures/w/blos/01.svg)
+![BLOS: BRF, prefix 1111110001001000; operands pc32-u2; 6 bytes](figures/w/blos/01.svg)
 
-![BLOS: BR2_16/c, prefix 11111011111110, sub-opcode 11; operands pc16-u2; 4 bytes](figures/w/blos/03.svg)
+![BLOS: BR2_16/c, prefix 11111100000010, sub-opcode 11; operands pc16-u2; 4 bytes](figures/w/blos/03.svg)
 
 ![BLOS: BR1_6/c, prefix 11100011, sub-opcode 11; operands pc6-u2; 2 bytes](figures/w/blos/02.svg)
 
@@ -4330,21 +4330,21 @@ The family has several forms for each condition (the layouts of this entry): the
 <a id="w-cbne"></a>
 #### CBNE
 
-![CBNE: CB3I16_12/a, prefix 11111011111111, sub-opcode 1; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbne/03.svg)
+![CBNE: CB3I16_12/a, prefix 11111100000011, sub-opcode 1; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbne/03.svg)
 
-![CBNE: CB3R24/a, prefix 1111101101011, sub-opcode 1; operands reg5, reg5, pc24-u2; 6 bytes](figures/w/cbne/04.svg)
+![CBNE: CB3R24/a, prefix 1111101101101, sub-opcode 1; operands reg5, reg5, pc24-u2; 6 bytes](figures/w/cbne/04.svg)
 
-![CBNE: CB3I12_16H/a, prefix 111111000011011, sub-opcode 1; operands reg4, imm12s, pc16-u2; 6 bytes](figures/w/cbne/09.svg)
+![CBNE: CB3I12_16H/a, prefix 111111000100011, sub-opcode 1; operands reg4, imm12s, pc16-u2; 6 bytes](figures/w/cbne/09.svg)
 
-![CBNE: CBR8/a, prefix 1111101101000, sub-opcode 1; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cbne/02.svg)
+![CBNE: CBR8/a, prefix 1111101101010, sub-opcode 1; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cbne/02.svg)
 
-![CBNE: CBI3_10/a, prefix 1111101101100, sub-opcode 1; operands reg5, imm3s, pc10-u2; 4 bytes](figures/w/cbne/05.svg)
+![CBNE: CBI3_10/a, prefix 1111101101110, sub-opcode 1; operands reg5, imm3s, pc10-u2; 4 bytes](figures/w/cbne/05.svg)
 
-![CBNE: CBI5_8/a, prefix 1111101101110, sub-opcode 1; operands reg5, imm5s, pc8-u2; 4 bytes](figures/w/cbne/06.svg)
+![CBNE: CBI5_8/a, prefix 1111101110000, sub-opcode 1; operands reg5, imm5s, pc8-u2; 4 bytes](figures/w/cbne/06.svg)
 
-![CBNE: CBR10H/a, prefix 1111101110001, sub-opcode 1; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbne/07.svg)
+![CBNE: CBR10H/a, prefix 1111101110011, sub-opcode 1; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbne/07.svg)
 
-![CBNE: CBZ2_14H/a, prefix 1111101110010, sub-opcode 1; operands reg4, k-imm0, pc14-u2; 4 bytes](figures/w/cbne/08.svg)
+![CBNE: CBZ2_14H/a, prefix 1111101110100, sub-opcode 1; operands reg4, k-imm0, pc14-u2; 4 bytes](figures/w/cbne/08.svg)
 
 ![CBNE: CBI3_12H/a, prefix 111110101101, sub-opcode 1; operands reg4, imm3s, pc12-u2; 4 bytes](figures/w/cbne/10.svg)
 
@@ -4363,21 +4363,21 @@ Operation, flags and exceptions as for the entry CBCC above; 12 layout forms, ea
 <a id="w-cbeq"></a>
 #### CBEQ
 
-![CBEQ: CB3I16_12/a, prefix 11111011111111, sub-opcode 0; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbeq/03.svg)
+![CBEQ: CB3I16_12/a, prefix 11111100000011, sub-opcode 0; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbeq/03.svg)
 
-![CBEQ: CB3R24/a, prefix 1111101101011, sub-opcode 0; operands reg5, reg5, pc24-u2; 6 bytes](figures/w/cbeq/04.svg)
+![CBEQ: CB3R24/a, prefix 1111101101101, sub-opcode 0; operands reg5, reg5, pc24-u2; 6 bytes](figures/w/cbeq/04.svg)
 
-![CBEQ: CB3I12_16H/a, prefix 111111000011011, sub-opcode 0; operands reg4, imm12s, pc16-u2; 6 bytes](figures/w/cbeq/09.svg)
+![CBEQ: CB3I12_16H/a, prefix 111111000100011, sub-opcode 0; operands reg4, imm12s, pc16-u2; 6 bytes](figures/w/cbeq/09.svg)
 
-![CBEQ: CBR8/a, prefix 1111101101000, sub-opcode 0; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cbeq/02.svg)
+![CBEQ: CBR8/a, prefix 1111101101010, sub-opcode 0; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cbeq/02.svg)
 
-![CBEQ: CBI3_10/a, prefix 1111101101100, sub-opcode 0; operands reg5, imm3s, pc10-u2; 4 bytes](figures/w/cbeq/05.svg)
+![CBEQ: CBI3_10/a, prefix 1111101101110, sub-opcode 0; operands reg5, imm3s, pc10-u2; 4 bytes](figures/w/cbeq/05.svg)
 
-![CBEQ: CBI5_8/a, prefix 1111101101110, sub-opcode 0; operands reg5, imm5s, pc8-u2; 4 bytes](figures/w/cbeq/06.svg)
+![CBEQ: CBI5_8/a, prefix 1111101110000, sub-opcode 0; operands reg5, imm5s, pc8-u2; 4 bytes](figures/w/cbeq/06.svg)
 
-![CBEQ: CBR10H/a, prefix 1111101110001, sub-opcode 0; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbeq/07.svg)
+![CBEQ: CBR10H/a, prefix 1111101110011, sub-opcode 0; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbeq/07.svg)
 
-![CBEQ: CBZ2_14H/a, prefix 1111101110010, sub-opcode 0; operands reg4, k-imm0, pc14-u2; 4 bytes](figures/w/cbeq/08.svg)
+![CBEQ: CBZ2_14H/a, prefix 1111101110100, sub-opcode 0; operands reg4, k-imm0, pc14-u2; 4 bytes](figures/w/cbeq/08.svg)
 
 ![CBEQ: CBI3_12H/a, prefix 111110101101, sub-opcode 0; operands reg4, imm3s, pc12-u2; 4 bytes](figures/w/cbeq/10.svg)
 
@@ -4432,13 +4432,13 @@ Operation, flags and exceptions as for the entry CBCC above; 2 layout forms, eac
 <a id="w-cbcc"></a>
 #### CBCC
 
-![CBCC: CB3I16_12/c, prefix 1111101101010, sub-opcode 01; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbcc/02.svg)
+![CBCC: CB3I16_12/c, prefix 1111101101100, sub-opcode 01; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbcc/02.svg)
 
 ![CBCC: CBR8/c, prefix 111110100110, sub-opcode 01; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cbcc/01.svg)
 
 ![CBCC: CBR10H/c, prefix 111110101100, sub-opcode 01; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbcc/03.svg)
 
-![CBCC: CBI3_10H/c, prefix 1111101110100, sub-opcode 01; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbcc/04.svg)
+![CBCC: CBI3_10H/c, prefix 1111101110110, sub-opcode 01; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbcc/04.svg)
 
 ![CBCC: CBI8_8H/c, prefix 1111011110, sub-opcode 01; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbcc/05.svg)
 
@@ -4447,13 +4447,13 @@ Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, eac
 <a id="w-cbcs"></a>
 #### CBCS
 
-![CBCS: CB3I16_12/c, prefix 1111101101010, sub-opcode 00; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbcs/02.svg)
+![CBCS: CB3I16_12/c, prefix 1111101101100, sub-opcode 00; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbcs/02.svg)
 
 ![CBCS: CBR8/c, prefix 111110100110, sub-opcode 00; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cbcs/01.svg)
 
 ![CBCS: CBR10H/c, prefix 111110101100, sub-opcode 00; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbcs/03.svg)
 
-![CBCS: CBI3_10H/c, prefix 1111101110100, sub-opcode 00; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbcs/04.svg)
+![CBCS: CBI3_10H/c, prefix 1111101110110, sub-opcode 00; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbcs/04.svg)
 
 ![CBCS: CBI8_8H/c, prefix 1111011110, sub-opcode 00; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbcs/05.svg)
 
@@ -4462,19 +4462,19 @@ Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, eac
 <a id="w-cbge"></a>
 #### CBGE
 
-![CBGE: CB3I12_16/b, prefix 1111101101001, sub-opcode 01; operands reg5, imm12s, pc16-u2; 6 bytes](figures/w/cbge/02.svg)
+![CBGE: CB3I12_16/b, prefix 1111101101011, sub-opcode 01; operands reg5, imm12s, pc16-u2; 6 bytes](figures/w/cbge/02.svg)
 
-![CBGE: CB3I16_12H/b, prefix 11111100000010, sub-opcode 01; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbge/05.svg)
+![CBGE: CB3I16_12H/b, prefix 11111100000110, sub-opcode 01; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbge/05.svg)
 
-![CBGE: CB3R24H/b, prefix 11111100000011, sub-opcode 01; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbge/06.svg)
+![CBGE: CB3R24H/b, prefix 11111100000111, sub-opcode 01; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbge/06.svg)
 
 ![CBGE: CBR8/b, prefix 111110100101, sub-opcode 01; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cbge/01.svg)
 
-![CBGE: CBI4_8/b, prefix 1111101101101, sub-opcode 01; operands reg5, imm4s, pc8-u2; 4 bytes](figures/w/cbge/03.svg)
+![CBGE: CBI4_8/b, prefix 1111101101111, sub-opcode 01; operands reg5, imm4s, pc8-u2; 4 bytes](figures/w/cbge/03.svg)
 
-![CBGE: CBZ2_12H/b, prefix 11111100000001, sub-opcode 01; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cbge/04.svg)
+![CBGE: CBZ2_12H/b, prefix 11111100000101, sub-opcode 01; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cbge/04.svg)
 
-![CBGE: CBI3_10H/b, prefix 1111101110011, sub-opcode 01; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbge/07.svg)
+![CBGE: CBI3_10H/b, prefix 1111101110101, sub-opcode 01; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbge/07.svg)
 
 ![CBGE: CBI8_8H/b, prefix 1111011101, sub-opcode 01; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbge/08.svg)
 
@@ -4483,19 +4483,19 @@ Operation, flags and exceptions as for the entry CBCC above; 8 layout forms, eac
 <a id="w-cblt"></a>
 #### CBLT
 
-![CBLT: CB3I12_16/b, prefix 1111101101001, sub-opcode 00; operands reg5, imm12s, pc16-u2; 6 bytes](figures/w/cblt/02.svg)
+![CBLT: CB3I12_16/b, prefix 1111101101011, sub-opcode 00; operands reg5, imm12s, pc16-u2; 6 bytes](figures/w/cblt/02.svg)
 
-![CBLT: CB3I16_12H/b, prefix 11111100000010, sub-opcode 00; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cblt/05.svg)
+![CBLT: CB3I16_12H/b, prefix 11111100000110, sub-opcode 00; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cblt/05.svg)
 
-![CBLT: CB3R24H/b, prefix 11111100000011, sub-opcode 00; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cblt/06.svg)
+![CBLT: CB3R24H/b, prefix 11111100000111, sub-opcode 00; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cblt/06.svg)
 
 ![CBLT: CBR8/b, prefix 111110100101, sub-opcode 00; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cblt/01.svg)
 
-![CBLT: CBI4_8/b, prefix 1111101101101, sub-opcode 00; operands reg5, imm4s, pc8-u2; 4 bytes](figures/w/cblt/03.svg)
+![CBLT: CBI4_8/b, prefix 1111101101111, sub-opcode 00; operands reg5, imm4s, pc8-u2; 4 bytes](figures/w/cblt/03.svg)
 
-![CBLT: CBZ2_12H/b, prefix 11111100000001, sub-opcode 00; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cblt/04.svg)
+![CBLT: CBZ2_12H/b, prefix 11111100000101, sub-opcode 00; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cblt/04.svg)
 
-![CBLT: CBI3_10H/b, prefix 1111101110011, sub-opcode 00; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cblt/07.svg)
+![CBLT: CBI3_10H/b, prefix 1111101110101, sub-opcode 00; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cblt/07.svg)
 
 ![CBLT: CBI8_8H/b, prefix 1111011101, sub-opcode 00; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cblt/08.svg)
 
@@ -4504,19 +4504,19 @@ Operation, flags and exceptions as for the entry CBCC above; 8 layout forms, eac
 <a id="w-cbgt"></a>
 #### CBGT
 
-![CBGT: CB3I12_16/b, prefix 1111101101001, sub-opcode 10; operands reg5, imm12s, pc16-u2; 6 bytes](figures/w/cbgt/02.svg)
+![CBGT: CB3I12_16/b, prefix 1111101101011, sub-opcode 10; operands reg5, imm12s, pc16-u2; 6 bytes](figures/w/cbgt/02.svg)
 
-![CBGT: CB3I16_12H/b, prefix 11111100000010, sub-opcode 10; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbgt/05.svg)
+![CBGT: CB3I16_12H/b, prefix 11111100000110, sub-opcode 10; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cbgt/05.svg)
 
-![CBGT: CB3R24H/b, prefix 11111100000011, sub-opcode 10; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbgt/06.svg)
+![CBGT: CB3R24H/b, prefix 11111100000111, sub-opcode 10; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cbgt/06.svg)
 
 ![CBGT: CBR8/b, prefix 111110100101, sub-opcode 10; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cbgt/01.svg)
 
-![CBGT: CBI4_8/b, prefix 1111101101101, sub-opcode 10; operands reg5, imm4s, pc8-u2; 4 bytes](figures/w/cbgt/03.svg)
+![CBGT: CBI4_8/b, prefix 1111101101111, sub-opcode 10; operands reg5, imm4s, pc8-u2; 4 bytes](figures/w/cbgt/03.svg)
 
-![CBGT: CBZ2_12H/b, prefix 11111100000001, sub-opcode 10; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cbgt/04.svg)
+![CBGT: CBZ2_12H/b, prefix 11111100000101, sub-opcode 10; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cbgt/04.svg)
 
-![CBGT: CBI3_10H/b, prefix 1111101110011, sub-opcode 10; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbgt/07.svg)
+![CBGT: CBI3_10H/b, prefix 1111101110101, sub-opcode 10; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbgt/07.svg)
 
 ![CBGT: CBI8_8H/b, prefix 1111011101, sub-opcode 10; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbgt/08.svg)
 
@@ -4525,19 +4525,19 @@ Operation, flags and exceptions as for the entry CBCC above; 8 layout forms, eac
 <a id="w-cble"></a>
 #### CBLE
 
-![CBLE: CB3I12_16/b, prefix 1111101101001, sub-opcode 11; operands reg5, imm12s, pc16-u2; 6 bytes](figures/w/cble/02.svg)
+![CBLE: CB3I12_16/b, prefix 1111101101011, sub-opcode 11; operands reg5, imm12s, pc16-u2; 6 bytes](figures/w/cble/02.svg)
 
-![CBLE: CB3I16_12H/b, prefix 11111100000010, sub-opcode 11; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cble/05.svg)
+![CBLE: CB3I16_12H/b, prefix 11111100000110, sub-opcode 11; operands reg4, imm16s, pc12-u2; 6 bytes](figures/w/cble/05.svg)
 
-![CBLE: CB3R24H/b, prefix 11111100000011, sub-opcode 11; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cble/06.svg)
+![CBLE: CB3R24H/b, prefix 11111100000111, sub-opcode 11; operands reg4, reg4, pc24-u2; 6 bytes](figures/w/cble/06.svg)
 
 ![CBLE: CBR8/b, prefix 111110100101, sub-opcode 11; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cble/01.svg)
 
-![CBLE: CBI4_8/b, prefix 1111101101101, sub-opcode 11; operands reg5, imm4s, pc8-u2; 4 bytes](figures/w/cble/03.svg)
+![CBLE: CBI4_8/b, prefix 1111101101111, sub-opcode 11; operands reg5, imm4s, pc8-u2; 4 bytes](figures/w/cble/03.svg)
 
-![CBLE: CBZ2_12H/b, prefix 11111100000001, sub-opcode 11; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cble/04.svg)
+![CBLE: CBZ2_12H/b, prefix 11111100000101, sub-opcode 11; operands reg4, k-imm0, pc12-u2; 4 bytes](figures/w/cble/04.svg)
 
-![CBLE: CBI3_10H/b, prefix 1111101110011, sub-opcode 11; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cble/07.svg)
+![CBLE: CBI3_10H/b, prefix 1111101110101, sub-opcode 11; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cble/07.svg)
 
 ![CBLE: CBI8_8H/b, prefix 1111011101, sub-opcode 11; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cble/08.svg)
 
@@ -4546,13 +4546,13 @@ Operation, flags and exceptions as for the entry CBCC above; 8 layout forms, eac
 <a id="w-cbhi"></a>
 #### CBHI
 
-![CBHI: CB3I16_12/c, prefix 1111101101010, sub-opcode 10; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbhi/02.svg)
+![CBHI: CB3I16_12/c, prefix 1111101101100, sub-opcode 10; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cbhi/02.svg)
 
 ![CBHI: CBR8/c, prefix 111110100110, sub-opcode 10; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cbhi/01.svg)
 
 ![CBHI: CBR10H/c, prefix 111110101100, sub-opcode 10; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cbhi/03.svg)
 
-![CBHI: CBI3_10H/c, prefix 1111101110100, sub-opcode 10; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbhi/04.svg)
+![CBHI: CBI3_10H/c, prefix 1111101110110, sub-opcode 10; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cbhi/04.svg)
 
 ![CBHI: CBI8_8H/c, prefix 1111011110, sub-opcode 10; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbhi/05.svg)
 
@@ -4561,13 +4561,13 @@ Operation, flags and exceptions as for the entry CBCC above; 5 layout forms, eac
 <a id="w-cblos"></a>
 #### CBLOS
 
-![CBLOS: CB3I16_12/c, prefix 1111101101010, sub-opcode 11; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cblos/02.svg)
+![CBLOS: CB3I16_12/c, prefix 1111101101100, sub-opcode 11; operands reg5, imm16s, pc12-u2; 6 bytes](figures/w/cblos/02.svg)
 
 ![CBLOS: CBR8/c, prefix 111110100110, sub-opcode 11; operands reg5, reg5, pc8-u2; 4 bytes](figures/w/cblos/01.svg)
 
 ![CBLOS: CBR10H/c, prefix 111110101100, sub-opcode 11; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/cblos/03.svg)
 
-![CBLOS: CBI3_10H/c, prefix 1111101110100, sub-opcode 11; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cblos/04.svg)
+![CBLOS: CBI3_10H/c, prefix 1111101110110, sub-opcode 11; operands reg4, imm3s, pc10-u2; 4 bytes](figures/w/cblos/04.svg)
 
 ![CBLOS: CBI8_8H/c, prefix 1111011110, sub-opcode 11; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cblos/05.svg)
 
@@ -4652,17 +4652,17 @@ Operation, flags and exceptions as for the entry BTAG above; 1 layout form, each
 
 ![JMP: SOF.A32, prefix 111110100001, sub-opcode 1100; operands abs32; 6 bytes](figures/w/jmp/06.svg)
 
-![JMP: CALLF, prefix 111111000001100, sub-opcode 1; operands pc32-u2; 6 bytes](figures/w/jmp/07.svg)
+![JMP: CALLF, prefix 111111000010100, sub-opcode 1; operands pc32-u2; 6 bytes](figures/w/jmp/07.svg)
 
 ![JMP: SOF.PI12, prefix 11111000100, sub-opcode 1100; operands pi5-s12; 4 bytes](figures/w/jmp/03.svg)
 
 ![JMP: SOF.PD12, prefix 11111000101, sub-opcode 1100; operands pd5-s12; 4 bytes](figures/w/jmp/04.svg)
 
-![JMP: SOBu12/x, prefix 1111101100001, sub-opcode 00; operands b5d12u-xsz; 4 bytes](figures/w/jmp/09.svg)
+![JMP: SOBu12/x, prefix 1111101100011, sub-opcode 00; operands b5d12u-xsz; 4 bytes](figures/w/jmp/09.svg)
 
-![JMP: SOX4/x, prefix 11111011111011, sub-opcode 00; operands x5-5d4s; 4 bytes](figures/w/jmp/10.svg)
+![JMP: SOX4/x, prefix 11111011111111, sub-opcode 00; operands x5-5d4s; 4 bytes](figures/w/jmp/10.svg)
 
-![JMP: CALL2_16/j, prefix 1111110000111101; operands pc16-u2; 4 bytes](figures/w/jmp/11.svg)
+![JMP: CALL2_16/j, prefix 1111110001001101; operands pc16-u2; 4 bytes](figures/w/jmp/11.svg)
 
 ![JMP: SOPR, prefix 1111010011, sub-opcode 0; operands reg5; 2 bytes](figures/w/jmp/08.svg)
 
@@ -4706,15 +4706,15 @@ A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` throu
 
 ![CALL: SOF.A32, prefix 111110100001, sub-opcode 1101; operands abs32; 6 bytes](figures/w/call/06.svg)
 
-![CALL: CALLF, prefix 111111000001100, sub-opcode 0; operands pc32-u2; 6 bytes](figures/w/call/07.svg)
+![CALL: CALLF, prefix 111111000010100, sub-opcode 0; operands pc32-u2; 6 bytes](figures/w/call/07.svg)
 
 ![CALL: SOF.PI12, prefix 11111000100, sub-opcode 1101; operands pi5-s12; 4 bytes](figures/w/call/03.svg)
 
 ![CALL: SOF.PD12, prefix 11111000101, sub-opcode 1101; operands pd5-s12; 4 bytes](figures/w/call/04.svg)
 
-![CALL: SOBu12/x, prefix 1111101100001, sub-opcode 01; operands b5d12u-xsz; 4 bytes](figures/w/call/09.svg)
+![CALL: SOBu12/x, prefix 1111101100011, sub-opcode 01; operands b5d12u-xsz; 4 bytes](figures/w/call/09.svg)
 
-![CALL: SOX4/x, prefix 11111011111011, sub-opcode 01; operands x5-5d4s; 4 bytes](figures/w/call/10.svg)
+![CALL: SOX4/x, prefix 11111011111111, sub-opcode 01; operands x5-5d4s; 4 bytes](figures/w/call/10.svg)
 
 ![CALL: CALL2_20/c, prefix 111110100100; operands pc20-u2; 4 bytes](figures/w/call/11.svg)
 
@@ -4800,9 +4800,9 @@ The one deferred reference the architecture admits, for control transfer only: t
 
 ![JMPI: SOF.PD12, prefix 11111000101, sub-opcode 1110; operands pd5-s12; 4 bytes](figures/w/jmpi/04.svg)
 
-![JMPI: SOBu12/x, prefix 1111101100001, sub-opcode 10; operands b5d12u-xsz; 4 bytes](figures/w/jmpi/07.svg)
+![JMPI: SOBu12/x, prefix 1111101100011, sub-opcode 10; operands b5d12u-xsz; 4 bytes](figures/w/jmpi/07.svg)
 
-![JMPI: SOX4/x, prefix 11111011111011, sub-opcode 10; operands x5-5d4s; 4 bytes](figures/w/jmpi/08.svg)
+![JMPI: SOX4/x, prefix 11111011111111, sub-opcode 10; operands x5-5d4s; 4 bytes](figures/w/jmpi/08.svg)
 
 ```
 JMPI rm
@@ -4825,9 +4825,9 @@ Operation, flags and exceptions as for the entry JMPI above; 8 layout forms, eac
 
 ![CALLI: SOF.PD12, prefix 11111000101, sub-opcode 1111; operands pd5-s12; 4 bytes](figures/w/calli/04.svg)
 
-![CALLI: SOBu12/x, prefix 1111101100001, sub-opcode 11; operands b5d12u-xsz; 4 bytes](figures/w/calli/07.svg)
+![CALLI: SOBu12/x, prefix 1111101100011, sub-opcode 11; operands b5d12u-xsz; 4 bytes](figures/w/calli/07.svg)
 
-![CALLI: SOX4/x, prefix 11111011111011, sub-opcode 11; operands x5-5d4s; 4 bytes](figures/w/calli/08.svg)
+![CALLI: SOX4/x, prefix 11111011111111, sub-opcode 11; operands x5-5d4s; 4 bytes](figures/w/calli/08.svg)
 
 ```
 CALLI rm
@@ -4839,9 +4839,9 @@ Operation, flags and exceptions as for the entry JMPI above; 8 layout forms, eac
 <a id="w-jtag"></a>
 ### JTAG: Jump through a tag table
 
-![JTAG: JTAG3, prefix 11111011110001; operands x5-5d22s; 6 bytes](figures/w/jtag/01.svg)
+![JTAG: JTAG3, prefix 11111011110101; operands x5-5d22s; 6 bytes](figures/w/jtag/01.svg)
 
-![JTAG: JTAG2, prefix 11111011110010; operands x5-5d6s; 4 bytes](figures/w/jtag/02.svg)
+![JTAG: JTAG2, prefix 11111011110110; operands x5-5d6s; 4 bytes](figures/w/jtag/02.svg)
 
 **Mnemonics:** `JTAG`
 
@@ -4855,7 +4855,7 @@ JTAG d(Rb)(Rx×s)
 
 ![Encoding of JTAG](figures/JTAG3-1.svg)
 
-The chart is the leaf `JTAG3-1`, JTAG3, prefix `11111011110001`. `op1` is `x5-5d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 5 bits, index register, 5 bits.
+The chart is the leaf `JTAG3-1`, JTAG3, prefix `11111011110101`. `op1` is `x5-5d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 5 bits, index register, 5 bits.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`JTAG3-1`](dictionary/by-encoding.md#JTAG3-1), [`JTAG2-1`](dictionary/by-encoding.md#JTAG2-1).
 
@@ -5013,7 +5013,7 @@ Open: what another core may see of a block operation in progress ([J.7.6](append
 <a id="w-pushm"></a>
 ### PUSHM: Push registers by mask
 
-![PUSHM: PUSHMF, prefix 111111000001101, sub-opcode 0; operands imm32u; 6 bytes](figures/w/pushm/01.svg)
+![PUSHM: PUSHMF, prefix 111111000010101, sub-opcode 0; operands imm32u; 6 bytes](figures/w/pushm/01.svg)
 
 ![PUSHM: PUSHM24/a, prefix 1100111, sub-opcode 0; operands imm24u-x256; 4 bytes](figures/w/pushm/03.svg)
 
@@ -5031,7 +5031,7 @@ PUSHM #mask        ; a 16-bit immediate, bit n is Rn
 
 ![Encoding of PUSHM](figures/PUSHMF-1.svg)
 
-The chart is the leaf `PUSHMF-1`, PUSHMF, prefix `111111000001101`. `op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295. `sub` (1 bit) selects the mnemonic: `pushm` 0, `popm` 1.
+The chart is the leaf `PUSHMF-1`, PUSHMF, prefix `111111000010101`. `op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295. `sub` (1 bit) selects the mnemonic: `pushm` 0, `popm` 1.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`PUSHMF-1`](dictionary/by-encoding.md#PUSHMF-1), [`PUSHM8-a-1`](dictionary/by-encoding.md#PUSHM8-a-1), [`PUSHM24-a-1`](dictionary/by-encoding.md#PUSHM24-a-1).
 
@@ -5056,7 +5056,7 @@ The registers are pushed in ascending order, so `POPM` with the same mask restor
 <a id="w-popm"></a>
 ### POPM: Pop registers by mask
 
-![POPM: PUSHMF, prefix 111111000001101, sub-opcode 1; operands imm32u; 6 bytes](figures/w/popm/01.svg)
+![POPM: PUSHMF, prefix 111111000010101, sub-opcode 1; operands imm32u; 6 bytes](figures/w/popm/01.svg)
 
 ![POPM: PUSHM24/a, prefix 1100111, sub-opcode 1; operands imm24u-x256; 4 bytes](figures/w/popm/03.svg)
 
@@ -5074,7 +5074,7 @@ POPM #mask
 
 ![Encoding of POPM](figures/PUSHMF-1.svg)
 
-The chart is the leaf `PUSHMF-1`, PUSHMF, prefix `111111000001101`. `op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295. `sub` (1 bit) selects the mnemonic: `pushm` 0, `popm` 1.
+The chart is the leaf `PUSHMF-1`, PUSHMF, prefix `111111000010101`. `op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295. `sub` (1 bit) selects the mnemonic: `pushm` 0, `popm` 1.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`PUSHMF-1`](dictionary/by-encoding.md#PUSHMF-1), [`PUSHM8-a-1`](dictionary/by-encoding.md#PUSHM8-a-1), [`PUSHM24-a-1`](dictionary/by-encoding.md#PUSHM24-a-1).
 
@@ -5103,19 +5103,19 @@ The mirror of `PUSHM`.
 
 ![PUSH: SOF.A32, prefix 111110100001, sub-opcode 1010; operands abs32; 6 bytes](figures/w/push/06.svg)
 
-![PUSH: PUSHI3, prefix 1111110000111001; operands imm32s; 6 bytes](figures/w/push/08.svg)
+![PUSH: PUSHI3, prefix 1111110001001001; operands imm32s; 6 bytes](figures/w/push/08.svg)
 
 ![PUSH: SOF.PI12, prefix 11111000100, sub-opcode 1010; operands pi5-s12; 4 bytes](figures/w/push/03.svg)
 
 ![PUSH: SOF.PD12, prefix 11111000101, sub-opcode 1010; operands pd5-s12; 4 bytes](figures/w/push/04.svg)
 
-![PUSH: PUSHI2, prefix 1111110000111010; operands imm16s; 4 bytes](figures/w/push/09.svg)
+![PUSH: PUSHI2, prefix 1111110001001010; operands imm16s; 4 bytes](figures/w/push/09.svg)
 
-![PUSH: SOBs12/a, prefix 11111011110111, sub-opcode 0; operands b5d12s-xsz; 4 bytes](figures/w/push/10.svg)
+![PUSH: SOBs12/a, prefix 11111011111011, sub-opcode 0; operands b5d12s-xsz; 4 bytes](figures/w/push/10.svg)
 
-![PUSH: SOX4/a, prefix 111111000010010, sub-opcode 0; operands x5-5d4s; 4 bytes](figures/w/push/11.svg)
+![PUSH: SOX4/a, prefix 111111000011010, sub-opcode 0; operands x5-5d4s; 4 bytes](figures/w/push/11.svg)
 
-![PUSH: SOBu12H/a, prefix 111111000011001, sub-opcode 0; operands b4d12u-xsz; 4 bytes](figures/w/push/12.svg)
+![PUSH: SOBu12H/a, prefix 111111000100001, sub-opcode 0; operands b4d12u-xsz; 4 bytes](figures/w/push/12.svg)
 
 ![PUSH: SOPR, prefix 111011001, sub-opcode 10; operands reg5; 2 bytes](figures/w/push/07.svg)
 
@@ -5161,11 +5161,11 @@ v ← rm ; SP ← SP - 8 ; M[SP] ← v
 
 ![POP: SOF.PD12, prefix 11111000101, sub-opcode 1011; operands pd5-s12; 4 bytes](figures/w/pop/04.svg)
 
-![POP: SOBs12/a, prefix 11111011110111, sub-opcode 1; operands b5d12s-xsz; 4 bytes](figures/w/pop/08.svg)
+![POP: SOBs12/a, prefix 11111011111011, sub-opcode 1; operands b5d12s-xsz; 4 bytes](figures/w/pop/08.svg)
 
-![POP: SOX4/a, prefix 111111000010010, sub-opcode 1; operands x5-5d4s; 4 bytes](figures/w/pop/09.svg)
+![POP: SOX4/a, prefix 111111000011010, sub-opcode 1; operands x5-5d4s; 4 bytes](figures/w/pop/09.svg)
 
-![POP: SOBu12H/a, prefix 111111000011001, sub-opcode 1; operands b4d12u-xsz; 4 bytes](figures/w/pop/10.svg)
+![POP: SOBu12H/a, prefix 111111000100001, sub-opcode 1; operands b4d12u-xsz; 4 bytes](figures/w/pop/10.svg)
 
 ![POP: SOPR, prefix 111011001, sub-opcode 11; operands reg5; 2 bytes](figures/w/pop/07.svg)
 
@@ -5508,9 +5508,9 @@ Floating-point values live in the general registers; there is no separate regist
 
 ![FADD: LDF.PD12, prefix 1011001, sub-opcode 010; operands pd5-s12, reg5; 4 bytes](figures/w/fadd/04.svg)
 
-![FADD: RRF5, prefix 1111110000111011, sub-opcode 010010; operands reg5, reg5; 4 bytes](figures/w/fadd/10.svg)
+![FADD: RRF5, prefix 1111110001001011, sub-opcode 010010; operands reg5, reg5; 4 bytes](figures/w/fadd/10.svg)
 
-![FADD: LDPC12H/d, prefix 1111101110000, sub-opcode 110; operands pc12-u1, reg4; 4 bytes](figures/w/fadd/11.svg)
+![FADD: LDPC12H/d, prefix 1111101110010, sub-opcode 110; operands pc12-u1, reg4; 4 bytes](figures/w/fadd/11.svg)
 
 ![FADD: RRF, prefix 01010, sub-opcode 010; operands reg4, reg4; 2 bytes](figures/w/fadd/09.svg)
 
@@ -5539,9 +5539,9 @@ Operation, flags and exceptions as for the entry FADD above; 11 layout forms, ea
 
 ![FSUB: LDF.PD12, prefix 1011001, sub-opcode 011; operands pd5-s12, reg5; 4 bytes](figures/w/fsub/04.svg)
 
-![FSUB: RRF5, prefix 1111110000111011, sub-opcode 010011; operands reg5, reg5; 4 bytes](figures/w/fsub/10.svg)
+![FSUB: RRF5, prefix 1111110001001011, sub-opcode 010011; operands reg5, reg5; 4 bytes](figures/w/fsub/10.svg)
 
-![FSUB: LDPC12H/d, prefix 1111101110000, sub-opcode 111; operands pc12-u1, reg4; 4 bytes](figures/w/fsub/11.svg)
+![FSUB: LDPC12H/d, prefix 1111101110010, sub-opcode 111; operands pc12-u1, reg4; 4 bytes](figures/w/fsub/11.svg)
 
 ![FSUB: RRF, prefix 01010, sub-opcode 011; operands reg4, reg4; 2 bytes](figures/w/fsub/09.svg)
 
@@ -5570,9 +5570,9 @@ Operation, flags and exceptions as for the entry FADD above; 11 layout forms, ea
 
 ![FMUL: LDF.PD12, prefix 1011001, sub-opcode 100; operands pd5-s12, reg5; 4 bytes](figures/w/fmul/04.svg)
 
-![FMUL: RRF5, prefix 1111110000111011, sub-opcode 010100; operands reg5, reg5; 4 bytes](figures/w/fmul/10.svg)
+![FMUL: RRF5, prefix 1111110001001011, sub-opcode 010100; operands reg5, reg5; 4 bytes](figures/w/fmul/10.svg)
 
-![FMUL: LDPC12H/d, prefix 111111000011010, sub-opcode 0; operands pc12-u1, reg4; 4 bytes](figures/w/fmul/11.svg)
+![FMUL: LDPC12H/d, prefix 111111000100010, sub-opcode 0; operands pc12-u1, reg4; 4 bytes](figures/w/fmul/11.svg)
 
 ![FMUL: RRF, prefix 01010, sub-opcode 100; operands reg4, reg4; 2 bytes](figures/w/fmul/09.svg)
 
@@ -5616,7 +5616,7 @@ An alias of [`FMUL`](#w-fmul): the assembler writes it as that word.
 
 ![FCMP: CMF.PD12, prefix 111011000, sub-opcode 1; operands reg5, pd5-s12; 4 bytes](figures/w/fcmp/04.svg)
 
-![FCMP: RRF5, prefix 1111110000111011, sub-opcode 010111; operands reg5, reg5; 4 bytes](figures/w/fcmp/09.svg)
+![FCMP: RRF5, prefix 1111110001001011, sub-opcode 010111; operands reg5, reg5; 4 bytes](figures/w/fcmp/09.svg)
 
 ![FCMP: RRF, prefix 01010, sub-opcode 111; operands reg4, reg4; 2 bytes](figures/w/fcmp/08.svg)
 
@@ -7808,7 +7808,7 @@ MTSR name, Rs
 
 ![Encoding of MFSR](figures/MFSR-1.svg)
 
-The chart is the leaf `MFSR-1`, MFSR, prefix `111111000001000`. `op1` is `reg5`: register, 5 bits. `op2` is `imm12u`: unsigned 12-bit immediate, 0 to 4095.
+The chart is the leaf `MFSR-1`, MFSR, prefix `111111000010000`. `op1` is `reg5`: register, 5 bits. `op2` is `imm12u`: unsigned 12-bit immediate, 0 to 4095.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`MFSR-1`](dictionary/by-encoding.md#MFSR-1), [`MTSR-1`](dictionary/by-encoding.md#MTSR-1).
 
@@ -7848,7 +7848,7 @@ The register is chosen by name. A write to `PTBR`, `ASID` or `MMUCTL` flushes th
 <a id="w-mfsr"></a>
 #### MFSR
 
-![MFSR: MFSR, prefix 111111000001000; operands reg5, imm12u; 4 bytes](figures/w/mfsr/01.svg)
+![MFSR: MFSR, prefix 111111000010000; operands reg5, imm12u; 4 bytes](figures/w/mfsr/01.svg)
 
 ```
 MFSR Rd, name
@@ -7859,7 +7859,7 @@ Operation, flags and exceptions as for the entry MFSR above; 1 layout form, each
 <a id="w-mtsr"></a>
 #### MTSR
 
-![MTSR: MTSR, prefix 111111000001001; operands imm12u, reg5; 4 bytes](figures/w/mtsr/01.svg)
+![MTSR: MTSR, prefix 111111000010001; operands imm12u, reg5; 4 bytes](figures/w/mtsr/01.svg)
 
 ```
 MTSR name, Rs
@@ -8386,7 +8386,7 @@ if Rs compared with the bound satisfies the condition cc then take the CHECK tra
 
 ![CTCC: R2, prefix 111110011110, sub-opcode 0000001100; operands reg5, reg5; 4 bytes](figures/w/ctcc/01.svg)
 
-![CTCC: CTM12/a, prefix 1111101100110, sub-opcode 00; operands reg5, imm12u; 4 bytes](figures/w/ctcc/02.svg)
+![CTCC: CTM12/a, prefix 1111101101000, sub-opcode 00; operands reg5, imm12u; 4 bytes](figures/w/ctcc/02.svg)
 
 Operation, flags and exceptions as for the entry CT above; 2 layout forms, each a chart of its own (above).
 
@@ -8402,7 +8402,7 @@ Operation, flags and exceptions as for the entry CT above; 1 layout form, each a
 
 ![CTHI: R2, prefix 111110011110, sub-opcode 0000001110; operands reg5, reg5; 4 bytes](figures/w/cthi/01.svg)
 
-![CTHI: CTM12/a, prefix 1111101100110, sub-opcode 01; operands reg5, imm12u; 4 bytes](figures/w/cthi/02.svg)
+![CTHI: CTM12/a, prefix 1111101101000, sub-opcode 01; operands reg5, imm12u; 4 bytes](figures/w/cthi/02.svg)
 
 Operation, flags and exceptions as for the entry CT above; 2 layout forms, each a chart of its own (above).
 
@@ -8418,7 +8418,7 @@ Operation, flags and exceptions as for the entry CT above; 1 layout form, each a
 
 ![CTEQ: R2, prefix 111110011110, sub-opcode 0000010000; operands reg5, reg5; 4 bytes](figures/w/cteq/02.svg)
 
-![CTEQ: CTM12/a, prefix 1111101100110, sub-opcode 10; operands reg5, imm12u; 4 bytes](figures/w/cteq/03.svg)
+![CTEQ: CTM12/a, prefix 1111101101000, sub-opcode 10; operands reg5, imm12u; 4 bytes](figures/w/cteq/03.svg)
 
 ![CTEQ: CT1, prefix 1111000101, sub-opcode 0; operands reg5; 2 bytes](figures/w/cteq/01.svg)
 
@@ -8433,7 +8433,7 @@ Operation, flags and exceptions as for the entry CT above; 3 layout forms, each 
 
 ![CTNE: R2, prefix 111110011110, sub-opcode 0000010001; operands reg5, reg5; 4 bytes](figures/w/ctne/02.svg)
 
-![CTNE: CTM12/a, prefix 1111101100110, sub-opcode 11; operands reg5, imm12u; 4 bytes](figures/w/ctne/03.svg)
+![CTNE: CTM12/a, prefix 1111101101000, sub-opcode 11; operands reg5, imm12u; 4 bytes](figures/w/ctne/03.svg)
 
 ![CTNE: CT1, prefix 1111000101, sub-opcode 1; operands reg5; 2 bytes](figures/w/ctne/01.svg)
 

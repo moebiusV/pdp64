@@ -36,6 +36,7 @@ and **pdp64/32** (prefix-coded, 32 registers), selected by `-m` in one toolchain
 | `vec-silicon.md` | record (measured) | the vector family measured in gates with yosys and the transistor count of the pdp64 |
 | `vec-gates.md` | record | the earlier gate counts of the vector, segment, gather and GEMM operations (the scalar-core tables are current) |
 | `vec-strip.md` | record (measured) | the strip width (256, 128, 64 bits) in gates and in cycles: 128 bits is the least strip |
+| `vec-2d.md` | record (design, measured) | the 2D (tile) form of the vec block, `vec2` and `vskip` (errata 176): the prior art, the design and its options, the bounds checks, the measurements on graphics tile kernels with and without it |
 | `vec-latency.md` | record (model) | the logic depth of each instruction class by yosys and the latency model of `sim64` derived from it |
 | `arch-comparison.md` | record | the static size of the 841-file corpus for pdp64/32 against amd64, i386, RISC-V, AArch64, Arm, MIPS64 (measured 2026-11-10) |
 | `arch-data/` | record (data) | the raw results of `arch-comparison.md`: `static-wide.csv` (per file and configuration), `pdp64-32-static.csv`, `static-summary.md` (the table), `pcc-riscv64-status-*.tsv` (which files the RISC-V port of pcc compiled, stock and with `va_list`), `diag-output.txt` (the diagnostic of one run) |
