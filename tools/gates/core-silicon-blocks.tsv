@@ -1,0 +1,17 @@
+rf3	19893	2048
+alu64	4058	0
+shift64	3334	0
+bitops64	1369	0
+mul64	41492	0
+div64	1100	328
+mul53	28392	0
+shr106	2934	0
+add106	1284	0
+norm106	3203	0
+clmul64	25671	0
+ldalign	590	0
+stmerge	672	0
+tlb32	7589	2048
+sbox	791	0
+aesround	16094	0
+decode	3396	0
