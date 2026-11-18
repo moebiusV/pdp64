@@ -67,6 +67,21 @@ def satwords():
     return out
 
 
+def accwords():
+    """the reductions into a register (errata 168): vacc.<src>.<acc> sums lanes of the source type (b w l q signed, bu wu lu unsigned, f d) into an accumulator of width acc (l or q;
+    f d for floating point) and adds it to the register; vmaxacc.<src> and vminacc.<src> take the largest or smallest lane, signed or unsigned as the source type says"""
+    out = []
+    # the accumulate widths are the fewest that the lanes need (the owner: reasonable performance, a small silicon footprint): a sum of 32 bytes or 16 words fits 32 bits, so b and w
+    # sources accumulate in l only; 32-bit lanes in l or q (the sum of eight needs 35 bits); 64-bit lanes in q.  A second accumulate width is a second adder tree and its wrap.
+    for s in ['b', 'bu', 'w', 'wu', 'l', 'lu', 'q']:
+        for a in (('l',) if s[0] in 'bw' else ('l', 'q') if s[0] == 'l' else ('q',)):
+            out.append('vacc.%s.%s' % (s, a))
+    out += ['vacc.f', 'vacc.f.d', 'vacc.d']
+    for b in ('vmaxacc', 'vminacc'):
+        out += ['%s.%s' % (b, s) for s in ['b', 'bu', 'w', 'wu', 'l', 'lu', 'q', 'f', 'd']]
+    return out
+
+
 LD = ldwords('vld')
 ST = stwords('vst') + satwords()
 SEGLD = [w for n in (2, 3, 4) for w in ldwords('vlseg%d' % n)]
@@ -110,7 +125,7 @@ def vec_forms(R):
     vf('VOP.VI', sfx(['vmov'], LANES), [V, I16])
     # multiply-add with the broadcast element (the micro-kernel), reductions, the sliding window, accumulators
     vf('VFMAB', sfx(['vfmab'], FL), [V, V, PI])
-    vf('VACC', sfx(['vacc', 'vmaxacc', 'vminacc'], LANES), [R, V])
+    vf('VACC', accwords(), [R, V])
     vf('VFIR', sfx(['vfir'], LANES), [V, V, R, SI(6, False)])
     vf('VCLR', sfx(['vclr'], LANES), [V, SI(4, False)])
     # memory: a strip from or to memory, the strided forms, segments, gather

@@ -6,7 +6,7 @@ k_q8dot:
 	vld.b.w	v0,(r0)+		; signed bytes widened to 16-bit lanes: an int8 product fits 16 bits
 	vld.b.w	v1,(r1)+
 	vmul.w	v0,v0,v1
-	vacc.l	r4,v0			; widening sum of the lanes into r4
+	vacc.w.l r4,v0			; the sum of the 16-bit lanes, in 32 bits, added to r4
 	vend
 	movq	r4,r0
 	ret

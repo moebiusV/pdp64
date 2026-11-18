@@ -1603,14 +1603,15 @@ leaf-VFMAB-1 = 0b1111110001101010 xsub:3 o1-v:4 o2-v:4 o3-base:5 ?(xsub < 2)
 sub-VFMAB-1 = "vfmab.f" | "vfmab.d"
 
 ; ======================================================================================================================================================
-; family VACC: 1 form, 1 leaves, 2 parcels; mnemonics vacc.b vacc.w vacc.l vacc.q vacc.f vacc.d ...
+; family VACC: 1 form, 1 leaves, 2 parcels; mnemonics vacc.b.l vacc.bu.l vacc.w.l vacc.wu.l vacc.l.l vacc.l.q ...
 ; ======================================================================================================================================================
 
 ; form VACC (index 168): 2 parcels
 form-VACC = o1:reg5 o2:vreg4
-leaf-VACC-1 = 0b1111110001101011 xsub:7 o1-r:5 o2-v:4 ?(xsub < 18)
-sub-VACC-1 = "vacc.b" | "vacc.w" | "vacc.l" | "vacc.q" | "vacc.f" | "vacc.d" | "vmaxacc.b" | "vmaxacc.w" | "vmaxacc.l" | "vmaxacc.q" | "vmaxacc.f"
-     | "vmaxacc.d" | "vminacc.b" | "vminacc.w" | "vminacc.l" | "vminacc.q" | "vminacc.f" | "vminacc.d"
+leaf-VACC-1 = 0b1111110001101011 xsub:7 o1-r:5 o2-v:4 ?(xsub < 30)
+sub-VACC-1 = "vacc.b.l" | "vacc.bu.l" | "vacc.w.l" | "vacc.wu.l" | "vacc.l.l" | "vacc.l.q" | "vacc.lu.l" | "vacc.lu.q" | "vacc.q.q" | "vacc.f"
+     | "vacc.f.d" | "vacc.d" | "vmaxacc.b" | "vmaxacc.bu" | "vmaxacc.w" | "vmaxacc.wu" | "vmaxacc.l" | "vmaxacc.lu" | "vmaxacc.q" | "vmaxacc.f"
+     | "vmaxacc.d" | "vminacc.b" | "vminacc.bu" | "vminacc.w" | "vminacc.wu" | "vminacc.l" | "vminacc.lu" | "vminacc.q" | "vminacc.f" | "vminacc.d"
 
 ; ======================================================================================================================================================
 ; family VFIR: 1 form, 1 leaves, 2 parcels; mnemonics vfir.b vfir.w vfir.l vfir.q vfir.f vfir.d

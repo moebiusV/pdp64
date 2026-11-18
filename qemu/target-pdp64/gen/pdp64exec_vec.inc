@@ -103,6 +103,14 @@ static int vec_classify(const char *name, struct vinfo *vi)
 		if (nt == 2) return v_mem(tok[1], &vi->msz, &vi->msign, &vi->mfl);
 		vi->msz = vi->lsz; vi->mfl = vi->lfl; vi->msign = 1;
 		return 1;
+	case VO_ACC: case VO_MAXACC: case VO_MINACC: {			/* vacc.<src>.<acc>, vmaxacc.<src>: the source lane type, with its signedness; the accumulate width in msz, mfl (the memory fields are not used) */
+		uint8_t ssz, ssg, sfl;
+		if (nt < 1 || nt > 2 || !v_mem(tok[0], &ssz, &ssg, &sfl)) return 0;
+		vi->lsz = ssz; vi->lfl = sfl; vi->msign = ssg;
+		if (nt == 2) return op == VO_ACC && v_lane(tok[1], &vi->msz, &vi->mfl);
+		vi->msz = sfl ? ssz : 8; vi->mfl = sfl;
+		return 1;
+	}
 	case VO_STS:								/* .lane.m */
 		return nt == 2 && v_lane(tok[0], &vi->lsz, &vi->lfl) && v_mem(tok[1], &vi->msz, &vi->msign, &vi->mfl);
 	default:								/* .lane */
@@ -320,20 +328,25 @@ static void vop_reduce(struct vctx *x, const struct vinfo *vi, const struct eins
 {
 	const struct eop *op = in->op;
 	const uint8_t *S = VR(op[1].r);
-	int sz = vi->lsz;
+	int sz = vi->lsz, asz = vi->op == VO_ACC ? vi->msz : sz;		/* the lanes' size; the accumulate width of vacc (the strip's VL does not count it) */
 	uint64_t *Rd = &x->lr[op[0].r];
 	if (vi->lfl) {
-		double acc = rget_f(*Rd, sz);
+		double acc = rget_f(*Rd, asz);
 		for (int i = 0; i < x->nact; i++) {
 			double v = lget_f(S + i * sz, sz);
 			if (vi->op == VO_ACC) acc += v; else if (vi->op == VO_MAXACC) { if (v > acc) acc = v; } else if (v < acc) acc = v;
 		}
-		*Rd = rput_f(acc, sz);
+		*Rd = rput_f(acc, asz);
+	} else if (vi->op == VO_ACC) {						/* the sum of the lanes, signed or unsigned as the source type says, wrapped to the accumulate width, added to the register */
+		int64_t part = 0;
+		for (int i = 0; i < x->nact; i++) part += vi->msign ? lget_s(S + i * sz, sz) : (int64_t)lget_u(S + i * sz, sz);
+		if (asz < 8) part = (int64_t)sext((uint64_t)part, asz * 8);
+		*Rd = (uint64_t)((int64_t)*Rd + part);
 	} else {
 		int64_t acc = (int64_t)*Rd;
 		for (int i = 0; i < x->nact; i++) {
-			int64_t v = lget_s(S + i * sz, sz);
-			if (vi->op == VO_ACC) acc += v; else if (vi->op == VO_MAXACC) { if (v > acc) acc = v; } else if (v < acc) acc = v;
+			int64_t v = vi->msign ? lget_s(S + i * sz, sz) : (int64_t)lget_u(S + i * sz, sz);
+			if (vi->op == VO_MAXACC) { if (v > acc) acc = v; } else if (v < acc) acc = v;
 		}
 		*Rd = (uint64_t)acc;
 	}

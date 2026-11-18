@@ -15,7 +15,7 @@ k_q4dot:
 	vmul.w	v1,v1,v3
 	vmul.w	v2,v2,v4
 	vadd.w	v1,v1,v2
-	vacc.l	r4,v1
+	vacc.w.l r4,v1
 	vend
 	movq	r4,r0
 	ret

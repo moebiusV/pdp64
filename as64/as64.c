@@ -680,6 +680,77 @@ static void directive(const struct stmt *st)
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* the passes                                                                                                          */
 
+
+/* ---- the types of the vector registers inside a block (errata 168) ------------------------------------------------------------------------------------
+   A vector register has no type in the machine, but a program that reads a register as other lanes than the ones it wrote (a vacc.l over the 16-bit lanes
+   that vld.bu.w made) sums the wrong thing without a word.  The assembler therefore follows, between `vec` and `vend`, the lane size and kind (integer or
+   floating point) that the last instruction wrote into each of v0..v15, and refuses an instruction that reads the register as another.  A register not yet
+   written in the block (an accumulator from before it) is not checked; signedness is not checked. */
+static int vlane[16];
+static int vlane_code(const char *t)				/* the lane of a suffix: size, +0x100 for floating point; -1 if it is none */
+{
+	if (!t || !t[0]) return -1;
+	switch (t[0]) {
+	case 'b': return 1;
+	case 'w': return 2;
+	case 'l': return 4;
+	case 'q': return 8;
+	case 'f': return 4 | 0x100;
+	case 'd': return 8 | 0x100;
+	}
+	return -1;
+}
+static void vec_typecheck(const struct stmt *st)
+{
+	const char *w = stmt_canon(st);
+	if (!w || w[0] != 'v') return;
+	char b[40], *tok[3] = { 0, 0, 0 };
+	int nt = 0;
+	if (strlen(w) >= sizeof b) return;
+	strcpy(b, w);
+	char *dot = strchr(b, '.');
+	if (dot) { *dot++ = 0; for (char *p = dot; p && nt < 3; ) { tok[nt++] = p; p = strchr(p, '.'); if (p) *p++ = 0; } }
+	if (!strcmp(b, "vec") || !strcmp(b, "vend")) { for (int i = 0; i < 16; i++) vlane[i] = -1; return; }
+	const struct oper *o = st->ops;
+	int dst = -1, nseg = 1, wlane = -1, rlane = -1, rd[3] = { -1, -1, -1 }, nrd = 0;
+	int firstv = st->nops > 0 && o[0].kind == OK_VREG;
+	#define RD(k) do { if ((k) < st->nops && o[k].kind == OK_VREG && nrd < 3) rd[nrd++] = o[k].reg; } while (0)
+	if (!strcmp(b, "vld") || !strcmp(b, "vldt") || !strcmp(b, "vldx") || !strncmp(b, "vlseg", 5)) {		/* .m[.lane]: the register gets the lane (the memory type's own when none) */
+		wlane = vlane_code(nt > 1 ? tok[1] : tok[0]);
+		dst = firstv ? o[0].reg : -1;
+		if (!strncmp(b, "vlseg", 5)) nseg = b[5] - '0';
+	} else if (!strcmp(b, "vst") || !strcmp(b, "vstt") || !strcmp(b, "vsts") || !strncmp(b, "vsseg", 5)) {	/* .lane[.m]: the register is read as the lane */
+		rlane = vlane_code(tok[0]);
+		if (!strncmp(b, "vsseg", 5)) nseg = b[5] - '0';
+		if (firstv) for (int k = 0; k < nseg && nrd < 3; k++) rd[nrd++] = (o[0].reg + k) & 15;
+	} else if (!strcmp(b, "vdot") || !strcmp(b, "vdotu") || !strcmp(b, "vdotsu")) {	/* bytes in, 32-bit lanes out */
+		rlane = 1; RD(1); RD(2);
+		wlane = 4; dst = firstv ? o[0].reg : -1;
+	} else if (!strcmp(b, "vacc") || !strcmp(b, "vmaxacc") || !strcmp(b, "vminacc")) {	/* .src[.acc]: the register is read as the source lanes */
+		rlane = vlane_code(tok[0]); RD(1);
+	} else if (!strcmp(b, "vclr")) {
+		int lane = vlane_code(tok[0]);
+		struct val n = st->nops > 1 && o[1].x ? eval(o[1].x, st->line) : vconst(0);
+		if (firstv && CONST(n) && lane >= 0) for (int k = 0; k < n.c && k < 16; k++) vlane[(o[0].reg + k) & 15] = lane;
+		return;
+	} else if (!strcmp(b, "vfmab") || !strcmp(b, "vfir")) {
+		rlane = wlane = vlane_code(tok[0]); RD(1); dst = firstv ? o[0].reg : -1;
+	} else if (!strcmp(b, "vmov") || !strcmp(b, "vneg")) {
+		rlane = wlane = vlane_code(tok[0]); RD(1); dst = firstv ? o[0].reg : -1;
+	} else if (!strcmp(b, "vadd") || !strcmp(b, "vsub") || !strcmp(b, "vsubr") || !strcmp(b, "vmul") || !strcmp(b, "vmin") || !strcmp(b, "vmax") ||
+	    !strcmp(b, "vminu") || !strcmp(b, "vmaxu") || !strcmp(b, "vabd") || !strcmp(b, "vabdu") || !strcmp(b, "vand") || !strcmp(b, "vor") || !strcmp(b, "vxor") ||
+	    !strcmp(b, "vshl") || !strcmp(b, "vshr") || !strcmp(b, "vsar") || !strcmp(b, "vadds") || !strcmp(b, "vsubs") || !strcmp(b, "vaddsu") || !strcmp(b, "vsubsu") ||
+	    !strcmp(b, "vmla") || !strcmp(b, "vfma") || !strcmp(b, "vfnma")) {
+		rlane = wlane = vlane_code(tok[0]); RD(1); RD(2); dst = firstv ? o[0].reg : -1;
+	} else return;
+	#undef RD
+	for (int k = 0; k < nrd; k++)
+		if (rlane >= 0 && vlane[rd[k] & 15] >= 0 && vlane[rd[k] & 15] != rlane && final_pass)
+			err(st->line, "%s reads v%d as %d-byte %s lanes, but the last write in this block made it %d-byte %s lanes", w, rd[k], rlane & 0xff, rlane & 0x100 ? "floating-point" : "integer",
+			    vlane[rd[k] & 15] & 0xff, vlane[rd[k] & 15] & 0x100 ? "floating-point" : "integer");
+	if (dst >= 0 && wlane >= 0) for (int k = 0; k < nseg; k++) vlane[(dst + k) & 15] = wlane;
+}
+
 static int run_pass(int final)
 {
 	int changed = 0;
@@ -688,6 +759,7 @@ static int run_pass(int final)
 	pool_seg = 0;
 	cur_sec = SEC_TEXT;
 	chk_pend.have = 0; nbugsite = 0;
+	for (int i = 0; i < 16; i++) vlane[i] = -1;
 	for (int k = 0; k < nchkfile; k++) free(chkfiles[k]);
 	nchkfile = 0;
 	for (int i = 0; i < NSEC; i++) offs[i] = 0;
@@ -745,6 +817,7 @@ static int run_pass(int final)
 			break;
 		case S_INSN: {
 			if (is_check(st)) chk_site(st, pos);					/* the table of check sites: a record for each check instruction */
+			vec_typecheck(st);							/* the lane types of the vector registers in a block */
 			int ch = 0, sz = enc_insn(i, pos, final, &ch);
 			if (ch) changed = 1;
 			if (!final) offs[cur_sec] += sz;

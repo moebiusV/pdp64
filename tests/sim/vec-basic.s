@@ -52,7 +52,7 @@ _start:
 	movq	#-32768, r11
 	vec	r1, r4
 	vld.w	v0, (r1)+
-	vacc.w	r10, v0
+	vacc.w.l r10, v0
 	vmaxacc.w r11, v0
 	vend
 	movq	#3, r9
@@ -84,10 +84,30 @@ _start:
 	movq	#0, r10
 	vec	r1, r4
 	vldt.bu.w v0, (r1)+, #3
-	vacc.w	r10, v0
+	vacc.w.l r10, v0
 	vend
 	movq	#570, r11			; 0 + 3 + 6 + ... + 57
 	cbne	r10, r11, fail
+	; ---- 6. sums of bytes straight from byte lanes, with no widening load (errata 168): unsigned (vacc.bu.l) and signed (vacc.b.l) over the 200 bytes 0..199, strips of 32
+	movq	#6, r9
+	lea	bsrc, r1
+	movq	#200, r2
+	lea	(r1)(r2*1), r4
+	movq	#0, r10
+	movq	#0, r12
+	vec	r1, r4
+	vld.bu	v0, (r1)+
+	vacc.bu.l r10, v0
+	vend
+	lea	bsrc, r1
+	vec	r1, r4
+	vld.b	v0, (r1)+
+	vacc.b.l r12, v0
+	vend
+	movq	#19900, r11			; 0 + 1 + ... + 199
+	cbne	r10, r11, fail
+	movq	#1468, r11			; the same with the 72 bytes from 128 on read as negative: 19900 - 72 * 256
+	cbne	r12, r11, fail
 	movq	#0, r0
 	trap	#0
 fail:	movq	r9, r0
