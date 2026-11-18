@@ -14,9 +14,10 @@ CBS=['cb'+c for c in CONDS]
 IMMS=['movq','add','sub','and','bis','xor','mul','bic']
 SHIFTS=['shl','shr','sar','rol']
 BESC2=['clz','ctz','clo','cto','popcnt','bswap','bswapw','bswapl','bitrev','utf8len','utf8dec','utf8enc']
-R2_RARE=BESC2+['mval','abs','prober','probew','fdiv','fsqrt','fadd32','fsub32','fmul32','fdiv32','fsqrt32','fcmp32','fneg','fabs','fclass','fclass32','frint','frintz','frintm','frintp','frinta','fcvtdq','fcvtqd','fcvtds','fcvtsd','fcvtsl','fcvtls','fcvtdqu','fcvtqud','fsflags','fadd16','fsub16','fmul16','fdiv16','fsqrt16','fcmp16','fclass16','fcvtsh','fcvths','fcvtdh','fcvthd','fcvthl','fcvtlh',
+CT_CC=['ctcc','ctcs','cthi','ctlos','cteq','ctne','ctge','ctlt','ctgt','ctle','ctpl','ctmi','ctvc','ctvs']		# the compare-and-trap (errata 152); cthis = ctcc, ctlo = ctcs
+R2_RARE=BESC2+CT_CC+['mval','abs','prober','probew','fdiv','fsqrt','fadd32','fsub32','fmul32','fdiv32','fsqrt32','fcmp32','fneg','fabs','fclass','fclass32','frint','frintz','frintm','frintp','frinta','fcvtdq','fcvtqd','fcvtds','fcvtsd','fcvtsl','fcvtls','fcvtdqu','fcvtqud','fsflags','fadd16','fsub16','fmul16','fdiv16','fsqrt16','fcmp16','fclass16','fcvtsh','fcvths','fcvtdh','fcvthd','fcvthl','fcvtlh',
    'aesim','sha256sig0','sha256sig1','sha256sum0','sha256sum1','sha512sig0','sha512sig1','sha512sum0','sha512sum1','addv','subv','mulv']
-R3_RARE=['ror','xnorpop','clmull','clmulh','mcpy','mmov','mset','mcmp','mscn','mscnn','div','divu','mod','modu','mulhu','min','minu','max','maxu','fcopysign','fmin','fmax',
+R3_RARE=['chk2','ror','xnorpop','clmull','clmulh','mcpy','mmov','mset','mcmp','mscn','mscnn','div','divu','mod','modu','mulhu','min','minu','max','maxu','fcopysign','fmin','fmax',
    'maskeqz','masknez','aeses','aesesm','aesds','aesdsm','aesks2','xadd','xadddb','swap','swapdb','xand','xanddb','xor_','xor_db','xxor','xxordb','xmax','xmaxdb','xmin','xmindb','xmaxu','xmaxudb','xminu','xminudb','ll','sc','msha256','msha512']
 R4_RARE=['fmadd','fmsub','fnmadd','fnmsub','fmadd32','fmsub32','fnmadd32','fnmsub32','fmadd16','fmsub16','fnmadd16','fnmsub16','bsel','cas','casdb','maesctr']
 RRI_RARE=['rori','rori32','rol','aesks1']
@@ -32,6 +33,8 @@ def mk(R,H3,H4=None,hot16=False):
     # ---------------- rare, generic (forced)
     F(forced,'SYS0',1,SYS0,[],xbits=0)
     F(forced,'SYSR',1,SYSR,[R]); 
+    F(forced,'CT1',1,['cteq','ctne'],[R])		# trap if zero, trap if not zero (errata 144, 152): one register, one parcel
+
     F(forced,'SETF',2,['set'],[SI(4,False),R],xbits=12)   # set cc,rd: the condition (as the branches' numbering) and the register
     F(forced,'SYSI',1,SYSI,[SI(8,False)])      # trap #0-255 in one parcel (merges TRAP/TRAPL)
     F(forced,'MFSR',2,['mfsr'],[R,SI(12,False)])
@@ -102,6 +105,7 @@ def mk(R,H3,H4=None,hot16=False):
 LD_A=['movq','movl','movzb','lea']; LD_B=['movw','movb','movzl','movzw']; LD_C=['add','sub','and','bis','xor']; LD_D=['bic','mul','mulh','shl','shr','sar','fadd','fsub','fmul','bit']
 ST_A=['movq','movl']; ST_B=['movw','movb']
 CM_A=['cmp']; CM_B=['fcmp']
+CT_I=['ctcc','cthi','cteq','ctne']		# the immediate forms of the compare-and-trap
 SO_A=['clr','inc','dec','tst','push','pop']; SO_B=['com','neg','adc','sbc','asl','asr']; SO_X=['jmp','call','jmpi','calli']
 CB_A=['cbeq','cbne']; CB_B=['cblt','cbge','cbgt','cble']; CB_C=['cbcs','cbcc','cbhi','cblos']; CB_D=['cbpl','cbmi','cbvc','cbvs']
 BR_A=['br']; BR_B=['beq','bne']; BR_C=[m for m in BRS if m not in ('br','beq','bne')]
@@ -151,6 +155,7 @@ def cands(R,H3,H4=None,opts=None):
             for tg,a,b in regv:
                 add('IMM%s%d'%(tg,w),1,IMC,[SI(w,True),b])
                 add('CMPI%s%d'%(tg,w),1,[('a',['cmp'])],[b,SI(w,True)])
+                add('CTI%s%d'%(tg,w),1,[('a',CT_I)],[b,SI(w,False)])
                 add('SHI%s%d'%(tg,w),1,[('a',SHIFTS)],[SI(w,False),b])
         for w in (6,8,10):
             add('SPADJ%d'%w,1,[('a',['add','sub'])],[SI(w,False,8),SPR])
@@ -203,6 +208,7 @@ def cands(R,H3,H4=None,opts=None):
         for dw in Fw((6,8,10,12,14,16,18,20,22,24,26,28)):
             add2('LDI%d'%dw,2,IMC+[('d',['shl','shr','sar','mul','bic','movb','bit'])],[SI(dw,True),Rv])
             add2('CMI%d'%dw,2,CMC,[Rv,SI(dw,True)])
+            add2('CTM%d'%dw,2,[('a',CT_I)],[Rv,SI(dw,False)])
             add2('BR2_%d'%dw,2,BRC,[SPC(dw,2)])
             add2('CALL2_%d'%dw,2,[('c',['call']),('j',['jmp'])],[SPC(dw,2)])
             add2('SPADJ2_%d'%dw,2,[('a',['add','sub'])],[SI(dw,True),SPR])
