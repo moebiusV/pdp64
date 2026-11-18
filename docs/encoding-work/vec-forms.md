@@ -25,8 +25,8 @@ The decision says one prefix instruction names a region and the next instruction
 | form | meaning |
 |---|---|
 | `vec Rs,Re` | the first stream is the region `[Rs, Re)`; run the block over it, a strip at a time |
-| `vld.bu.h v0,(r1)+` | load a strip from memory into `v0`: element type `b`/`bu`/`h`/`hu`/`w`/`l`/`f`/`d`, then (optional) the lane type it is widened to; `(r1)+` moves `r1` past the strip; `d(r1)` reads at an offset and does not move it |
-| `vst.h v0,(r0)+` | store a strip; `vsts.l.bu` narrows with saturation |
+| `vld.bu.w v0,(r1)+` | load a strip from memory into `v0`: element type `b`, `bu`, `w`, `wu`, `l`, `lu`, `q`, `f` or `d` (8, 16, 32, 64-bit integers, signed or zero-extended, and 32- and 64-bit floats; the suffixes of the scalar moves `movb`, `movw`, `movl`, `movq`; an earlier draft wrote `h` for `w`), then (optional) the lane type it is widened to; `(r1)+` moves `r1` past the strip; `d(r1)` reads at an offset and does not move it |
+| `vst.w v0,(r0)+` | store a strip; `vsts.l.bu` narrows with saturation |
 | `vadd`, `vsub`, `vmul`, `vmla` (`v += v*scalar`), `vfma`, `vshl`, `vsar`, `vor`, `vabd` | lane operations; the scalar operand is a general register |
 | `vfir.l v1,v0,r10` | sliding window: `v1[i] = sum k=0..7 of r(10+k) * v0[i+k-3]`, the hardware keeping the elements of the previous strip that the window needs |
 | `vacc.l r6,v1` | `r6 +=` the sum of the lanes of `v1`: a reduction into an ordinary register, kept up to date after each strip |
@@ -41,9 +41,9 @@ Example, the 8-bit `prep` of dav1d (`tmp[x] = src[x] << 4`, one row):
 k_prep8:
 	lea	(r1)(r2),r3		; end of the source region
 	vec	r1,r3
-	vld.bu.h v0,(r1)+		; bytes, zero-extended to 16-bit lanes
-	vshl.h	v0,#4
-	vst.h	v0,(r0)+
+	vld.bu.w v0,(r1)+		; bytes, zero-extended to 16-bit lanes
+	vshl.w	v0,#4
+	vst.w	v0,(r0)+
 	vend
 	ret
 ```

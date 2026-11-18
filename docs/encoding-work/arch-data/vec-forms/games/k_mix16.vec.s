@@ -2,9 +2,9 @@
 k_mix16:
 	lea	(r1)(r3*2),r4
 	vec	r1,r4
-	vld.h	v0,(r1)+
-	vld.h	v1,(r2)+
-	vadds.h	v0,v0,v1
-	vst.h	v0,(r0)+
+	vld.w	v0,(r1)+
+	vld.w	v1,(r2)+
+	vadds.w	v0,v0,v1
+	vst.w	v0,(r0)+
 	vend
 	ret

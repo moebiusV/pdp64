@@ -8,9 +8,9 @@ k_sad:
 	sub	r4,r11			; b stride - w
 .row:	lea	(r0)(r4),r7
 	vec	r0,r7
-	vld.bu.h v0,(r0)+
-	vld.bu.h v1,(r2)+
-	vabd.h	v0,v0,v1		; absolute difference
+	vld.bu.w v0,(r0)+
+	vld.bu.w v1,(r2)+
+	vabd.w	v0,v0,v1		; absolute difference
 	vacc.l	r6,v0			; r6 += the sum of the lanes of the strip (widening); kept in r6 after each strip, so a fault restarts cleanly
 	vend
 	add	r10,r0

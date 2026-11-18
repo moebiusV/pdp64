@@ -3,9 +3,9 @@ k_q8dot:
 	clr	r4
 	lea	(r0)(r2),r3
 	vec	r0,r3
-	vld.b.h	v0,(r0)+		; signed bytes widened to 16-bit lanes: an int8 product fits 16 bits
-	vld.b.h	v1,(r1)+
-	vmul.h	v0,v0,v1
+	vld.b.w	v0,(r0)+		; signed bytes widened to 16-bit lanes: an int8 product fits 16 bits
+	vld.b.w	v1,(r1)+
+	vmul.w	v0,v0,v1
 	vacc.l	r4,v0			; widening sum of the lanes into r4
 	vend
 	movq	r4,r0

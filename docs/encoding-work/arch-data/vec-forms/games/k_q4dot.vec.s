@@ -5,16 +5,16 @@ k_q4dot:
 	lea	(r0)(r2),r3
 	lea	(r1)(r2),r5		; x + n
 	vec	r0,r3
-	vld.bu.h v0,(r0)+		; the bytes of weights
-	vand.h	v1,v0,#15		; low nibbles
-	vsub.h	v1,v1,#8
-	vshr.h	v2,v0,#4		; high nibbles
-	vsub.h	v2,v2,#8
-	vld.b.h	v3,(r1)+		; x[i]
-	vld.b.h	v4,(r5)+		; x[i+n]
-	vmul.h	v1,v1,v3
-	vmul.h	v2,v2,v4
-	vadd.h	v1,v1,v2
+	vld.bu.w v0,(r0)+		; the bytes of weights
+	vand.w	v1,v0,#15		; low nibbles
+	vsub.w	v1,v1,#8
+	vshr.w	v2,v0,#4		; high nibbles
+	vsub.w	v2,v2,#8
+	vld.b.w	v3,(r1)+		; x[i]
+	vld.b.w	v4,(r5)+		; x[i+n]
+	vmul.w	v1,v1,v3
+	vmul.w	v2,v2,v4
+	vadd.w	v1,v1,v2
 	vacc.l	r4,v1
 	vend
 	movq	r4,r0
