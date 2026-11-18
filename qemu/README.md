@@ -53,7 +53,7 @@ maps them with a 1 GB leaf).  With translation off, physical addresses are used 
 addresses with the literal pool form, `movq =MAP_TIMER, r13`.
 
 An address that no RAM or device answers is a bus fault (vector 13); the default machine reports it as a fault and exits with 139.  `-kernel` loads an ELF
-executable (machine 0xF064, little-endian, as ld64 writes it; text at 0x10000) and starts at its entry point.  The numbers above are in spec/pdp64-system.hbnf
+executable (machine 0xF064, little-endian, as ld64 writes it; text at 0x10000) and starts at its entry point.  The numbers above are in spec/grammars.d/50-system-v1.hbnf
 (rule `map`), the registers below too.
 
 ### Timer

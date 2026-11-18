@@ -2,7 +2,7 @@
  * generated tables.
  *
  * An instruction is decoded by the table codec into an einsn (a mnemonic and operands as the assembly language writes them: sources first, destination
- * last, `cmp` register first).  An instruction of the groups of the mnemonic numbering (spec/pdp64-mnemonics.hbnf) is turned into the struct fmt (opcode
+ * last, `cmp` register first).  An instruction of the groups of the mnemonic numbering (spec/grammars.d) is turned into the struct fmt (opcode
  * group, sub-opcode, register fields) and run by exec_fmt, with its memory-side operand built by eoperand from the einsn, so that the semantics are one
  * piece of code.  What only the grammar of the encoding has (the fused instructions, the selects, the overflow-checked arithmetic, the checked trap, movql,
  * MESC) is written here.

@@ -8,7 +8,7 @@
  * D = 0, is a page fault), so a TLB entry is installed with exactly the
  * rights the PTE gives in the mode of the access, and a write to a clean
  * page misses again in the TLB and walks again.  All the numbers are the
- * generated constants of pdp64-consts.h (spec/pdp64-system.hbnf).
+ * generated constants of pdp64-consts.h (spec/grammars.d/50-system-v1.hbnf).
  * SPDX-License-Identifier: BSD-2-Clause
  */
 #include "qemu/osdep.h"

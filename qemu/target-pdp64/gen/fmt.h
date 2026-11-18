@@ -1,4 +1,4 @@
-/* The instruction as the executor runs it: an opcode group and sub-opcode of the numbering of spec/pdp64-mnemonics.hbnf, and the register and
+/* The instruction as the executor runs it: an opcode group and sub-opcode of the numbering of spec/grammars.d, and the register and
    immediate fields those groups use.  The executor builds one from the decoded instruction of the table codec (common/pdp64exec_enc.inc,
    step_enc) and runs it in exec_fmt (common/pdp64exec.c); the memory-side operand is not in it (eoperand builds it from the codec's instruction). */
 #ifndef FMT_H
