@@ -84,7 +84,7 @@ static int econv(const struct stmt *st, int k, int dst, int64_t addr, int poolab
 	memset(e, 0, sizeof *e);
 	if (o->kind == OK_REG) { e->k = EK_R; e->r = o->reg; return 0; }
 	if (o->kind == OK_VREG || o->kind == OK_TREG) { e->k = EK_V; e->s = o->kind == OK_TREG; e->r = o->reg; return 0; }
-	if (o->e.n) v = eval(o->e, st->line);
+	if (o->x) v = eval(o->x, st->line);
 	switch (o->kind) {
 	case OK_IMM: case OK_ABS:
 		e->k = o->kind == OK_IMM ? EK_I : EK_A;
@@ -110,7 +110,7 @@ static int econv(const struct stmt *st, int k, int dst, int64_t addr, int poolab
 			e->k = EK_B; e->r = EBASE_DP; e->v = v.c;
 			return 0;
 		}
-		if (o->kind == OK_BASED && o->e.n == 0) v = vconst(0);
+		if (o->kind == OK_BASED && !o->x) v = vconst(0);
 		e->k = EK_PC;
 		if (o->kind == OK_BARE || !CONST(v)) {
 			if (CONST(v)) { err(st->line, "a bare number is not an address; write @n or #n"); return -1; }
@@ -131,7 +131,7 @@ static int econv(const struct stmt *st, int k, int dst, int64_t addr, int poolab
 		return 0;
 	case OK_POSTINC: case OK_PREDEC: case OK_PREDEC2:
 		e->k = o->kind == OK_POSTINC ? EK_PI : EK_PD; e->r = o->reg;
-		if (o->e.n) {
+		if (o->x) {
 			if (!CONST(v)) { err(st->line, "a stride must be a constant"); return -1; }
 			e->v = v.c;		/* 0, no stride written, is the instruction's own size (8 outside the moves) */
 		}

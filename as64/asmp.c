@@ -58,6 +58,155 @@ static int reg_of(const reg_t *r)
 	}
 }
 
+
+/* ---- the expression tree: struct xnode from the grammar's expr, term, unary and primary ---- */
+
+static struct xnode *xn(int op, struct xnode *a, struct xnode *b)
+{
+	struct xnode *x = calloc(1, sizeof *x);
+	x->op = op; x->a = a; x->b = b;
+	return x;
+}
+
+static struct xnode *xtok(int op, int base, struct slice t)
+{
+	struct xnode *x = xn(op, NULL, NULL);
+	x->base = base; x->tok = t;
+	return x;
+}
+
+static struct xnode *xroot(struct xnode *a, struct slice src)
+{
+	struct xnode *x = xn(XN_EXPR, a, NULL);
+	x->tok = src;
+	return x;
+}
+
+static struct xnode *build_expr(const char *text, const expr_t *e, int neg);
+
+/* The grammar's `!idchar` after a number skips blanks first, so in `times 5 db 0` it sees the `d` of `db` and the 5 falls through to `symbol`.  (The
+   `5 h` the same skipping lets into a suffix is refused in build_primary.)  A name that is all digits for some base is that number: the one place
+   the tree is read twice, until the grammar can say "adjacent".  digits() is whether every character of s[a..b) is a digit of the base. */
+static int digits(const char *s, int a, int b, int base)
+{
+	if (a >= b) return 0;
+	for (int i = a; i < b; i++) {
+		int c = (unsigned char)s[i], d = c >= '0' && c <= '9' ? c - '0' : c >= 'a' && c <= 'f' ? c - 'a' + 10 : c >= 'A' && c <= 'F' ? c - 'A' + 10 : 99;
+		if (d >= base) return 0;
+	}
+	return 1;
+}
+
+static struct xnode *digit_name(struct slice t)
+{
+	int n = t.n;
+	char c = n > 0 ? t.p[n - 1] : 0, l = c | 0x20;
+	struct slice d = t, e = t;
+	d.p += 2; d.n -= 2; e.n--;
+	if (digits(t.p, 0, n, 10)) return xtok(XN_NUM, 10, t);
+	if (n > 2 && t.p[0] == '0') {
+		int b = (t.p[1] | 0x20) == 'x' ? 16 : (t.p[1] | 0x20) == 'b' ? 2 : (t.p[1] | 0x20) == 'o' ? 8 : 0;
+		if (b && digits(t.p, 2, n, b)) return xtok(XN_NUM, b, d);
+	}
+	if (n < 2) return NULL;
+	if (l == 'h' && digits(t.p, 0, n - 1, 16)) return xtok(XN_NUM, 16, e);
+	if (c == 'b' && digits(t.p, 0, n - 1, 2)) return xtok(XN_BINLBL, 2, e);
+	if (c == 'B' && digits(t.p, 0, n - 1, 2)) return xtok(XN_NUM, 2, e);
+	if ((l == 'q' || l == 'o') && digits(t.p, 0, n - 1, 8)) return xtok(XN_NUM, 8, e);
+	if ((l == 'd' || l == 't') && digits(t.p, 0, n - 1, 10)) return xtok(XN_NUM, 10, e);
+	if ((c == 'f' || c == 'b') && digits(t.p, 0, n - 1, 10)) return xtok(c == 'f' ? XN_LFWD : XN_LBACK, 10, e);
+	return NULL;
+}
+
+static struct xnode *build_primary(const char *text, const primary_t *p)
+{
+	struct slice t = sl(text, p->_pos, p->_end), d = t;
+	if (p->_alt <= 4 && (memchr(t.p, ' ', t.n) || memchr(t.p, '\t', t.n))) return xn(XN_BAD, NULL, NULL);	/* a number with a blank in it: `5 h` */
+	switch (p->_alt) {
+	case 1: {							/* 0x.. 0b.. 0o..: the digits after the prefix */
+		static const int pb[] = { 0, 16, 2, 8 };
+		d.p += 2; d.n -= 2;
+		return xtok(XN_NUM, pb[p->prefixnum._alt], d);
+	}
+	case 2: {							/* a number with a suffix: h b q o d t */
+		static const int sb[] = { 0, 16, 2, 8, 10 };
+		d.n--;
+		if (p->suffnum._alt == 2 && t.p[t.n - 1] == 'b') return xtok(XN_BINLBL, 2, d);
+		return xtok(XN_NUM, sb[p->suffnum._alt], d);
+	}
+	case 3:							/* 1f, 1b */
+		d.n--;
+		return xtok(t.p[t.n - 1] == 'f' ? XN_LFWD : XN_LBACK, 10, d);
+	case 4: return xtok(XN_NUM, 10, t);
+	case 5: case 6:						/* 'c', 'abcd': the text between the quotes */
+		d.p++; d.n -= 2;
+		return xtok(p->_alt == 5 ? XN_CHAR : XN_MCHAR, 0, d);
+	case 7: return xn(t.n == 2 ? XN_SECT : XN_DOT, NULL, NULL);
+	case 8:
+		if (t.n == 1 && t.p[0] == '.') return xn(XN_DOT, NULL, NULL);
+		if (t.p[0] >= '0' && t.p[0] <= '9') { struct xnode *x = digit_name(t); if (x) return x; }
+		return xtok(XN_NAME, 0, t);
+	case 9: return xn(XN_DOT, NULL, NULL);
+	default: return build_expr(text, &p->expr, 0);		/* ( expr ) and [ expr ] group */
+	}
+}
+
+/* neg: the expression is written after a minus the operand text carried (`sp-4`): it applies to the first unary operand, as `-4+x` reads */
+static struct xnode *build_unary(const char *text, const unary_t *u, int neg)
+{
+	static const int uop[] = { XN_NEG, XN_NOT, XN_LNOT, XN_LOW, XN_HIGH };
+	const struct unary_1_s *ops[64];
+	int n = 0;
+	for (const struct unary_1_s *o = u->unary_1.head; o && n < 64; o = o->_link) ops[n++] = o;
+	struct xnode *x = build_primary(text, &u->primary);
+	while (n > 0) x = xn(uop[(int)ops[--n]->kind - UNARY_1_OP1], x, NULL);
+	return neg ? xn(XN_NEG, x, NULL) : x;
+}
+
+static struct xnode *build_term(const char *text, const term_t *t, int neg)
+{
+	static const int mop[] = { XN_MUL, XN_DIV, XN_MOD, XN_AND, XN_SHL, XN_SHR };
+	struct xnode *x = build_unary(text, &t->unary, neg);
+	for (const struct term_1_s *i = t->term_1.head; i; i = i->_link)
+		x = xn(mop[(int)i->mulop - MULOP_OP1], x, build_unary(text, &i->unary, 0));
+	return x;
+}
+
+static struct xnode *build_expr(const char *text, const expr_t *e, int neg)
+{
+	static const int aop[] = { XN_ADD, XN_SUB, XN_OR, XN_XOR, XN_ORNOT };
+	struct xnode *x = build_term(text, e->term, neg);
+	for (const struct expr_1_s *i = e->expr_1.head; i; i = i->_link)
+		x = xn(aop[(int)i->addop - ADDOP_OP1], x, build_term(text, &i->term, 0));
+	return x;
+}
+
+static struct xnode *expr_x(const char *text, const expr_t *e)
+{
+	return xroot(build_expr(text, e, 0), sl(text, e->_pos, e->_end));
+}
+
+/* a directive's argument as an expression: where a string is written, a "quoted name" is a symbol, 'ab' a character constant and `ab` nothing */
+static struct xnode *darg_x(const char *text, const darg_t *a)
+{
+	struct slice t = sl(text, a->_pos, a->_end);
+	switch (a->_alt) {
+	case 1: return xroot(xtok(XN_NAME, 0, t), t);
+	case 2: return xroot(xn(XN_BAD, NULL, NULL), t);
+	case 3: { struct slice d = { t.p + 1, t.n - 2 }; return xroot(xtok(XN_MCHAR, 0, d), t); }
+	default: return expr_x(text, a->expr);
+	}
+}
+
+static void put_darg(const char *text, struct stmt *st, const darg_t *a)
+{
+	if ((st->nargs & (st->nargs - 1)) == 0 && (st->nargs == 0 || st->nargs >= 4)) st->args = realloc(st->args, (st->nargs ? 2 * st->nargs : 4) * sizeof *st->args);	/* room for 4, then doubling */
+	st->args[st->nargs].s = sl(text, a->_pos, a->_end);
+	st->args[st->nargs].isstr = a->_alt >= 1 && a->_alt <= 3;		/* "text", `text` and 'text' (two or more characters) are strings */
+	st->args[st->nargs].x = darg_x(text, a);
+	st->nargs++;
+}
+
 /* The expression text of an operand, and its registers, from the text the grammar matched as that operand. */
 static void operand(const char *text, const operand_t *o, struct oper *r)
 {
@@ -67,8 +216,14 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 	memset(r, 0, sizeof *r);
 	r->kind = o->_alt;
 	switch (o->_alt) {
-	case OK_IMM: case OK_ABS: case OK_POOL:
-		r->e.p = p + 1; r->e.n = n - 1;
+	case OK_IMM:
+		r->x = expr_x(text, o->immop.expr);
+		break;
+	case OK_ABS:
+		r->x = expr_x(text, o->absop.expr);
+		break;
+	case OK_POOL:
+		r->x = expr_x(text, o->poolop.expr);
 		break;
 	case OK_REG:
 		r->reg = reg_of(&o->regop);
@@ -84,19 +239,18 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 		r->reg2 = (int)o->gatherop.vnum;
 		break;
 	case OK_BARE:
-		r->e = t;
+		r->x = expr_x(text, o->bare);
 		break;
 	case OK_POSTINC: case OK_PREDEC: case OK_PREDEC2: {		/* (r)+[expr]   -(r)   (r)-expr */
-		const char *b = memchr(p, ')', n);
 		r->reg = reg_of(o->_alt == OK_POSTINC ? &o->postinc.reg : o->_alt == OK_PREDEC ? &o->predec.reg : &o->predec2.reg);
-		if (o->_alt != OK_PREDEC && (b + 1) < p + n) { r->e.p = b + 2; r->e.n = (int)(p + n - b - 2); }
+		if (o->_alt == OK_POSTINC && o->postinc.postinc_1.head) r->x = expr_x(text, &o->postinc.postinc_1.head->expr);
+		else if (o->_alt == OK_PREDEC2) r->x = expr_x(text, o->predec2.expr);
 		break;
 	}
 	case OK_BASED: {						/* [expr](base) */
-		const char *a = memchr(p, '(', n);
 		const basereg_t *br = &o->based.basereg;
 		if (br->_alt == 1) r->reg = reg_of(&br->reg); else r->special = (int)br->basespec;
-		r->e.p = p; r->e.n = (int)(a - p);
+		if (o->based._alt == 2) r->x = expr_x(text, o->based.expr);
 		break;
 	}
 	case OK_ATINDEXED: {						/* AT&T: [expr](base,index[,scale]) */
@@ -108,7 +262,7 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 		r->reg = reg_of(&o->atindexed.reg);
 		r->reg2 = reg_of(o->atindexed._alt == 1 ? (const reg_t *)&o->atindexed.reg_4 : (const reg_t *)&o->atindexed.reg_5);
 		r->scale = c2 ? atoi(c2 + 1) : 1;
-		r->e.p = p; r->e.n = (int)(a - p);
+		if (o->atindexed._alt == 2) r->x = expr_x(text, o->atindexed.expr);
 		break;
 	}
 	case OK_BASED2: {						/* base+expr, base-expr: the same as expr(base) */
@@ -117,8 +271,8 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 		while (k < n && p[k] != '+' && p[k] != '-') k++;
 		r->kind = OK_BASED;
 		if (br->_alt == 1) r->reg = reg_of(&br->reg); else r->special = (int)br->basespec;
-		r->e.p = p[k] == '+' ? p + k + 1 : p + k;
-		r->e.n = n - (int)(r->e.p - p);
+		/* `sp-4+x` is `-4+x` after the base: the minus belongs to the first operand (and to the text of an error message) */
+		r->x = xroot(build_expr(text, o->based2.expr, p[k] == '-'), (struct slice){ p[k] == '+' ? p + k + 1 : p + k, n - k - (p[k] == '+') });
 		break;
 	}
 	case OK_INDEXED: {						/* [expr](base)(index[*scale]) */
@@ -126,7 +280,7 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 		const char *c = memchr(b, '(', p + n - b), *d = memchr(c, ')', p + n - c);
 		const char *star = memchr(c, '*', d - c);
 		r->reg = reg_of(&o->indexed.reg);
-		r->e.p = p; r->e.n = (int)(a - p);
+		if (o->indexed._alt == 2) r->x = expr_x(text, o->indexed.expr);
 		r->reg2 = o->indexed._alt == 1 ? reg_of(&o->indexed.reg_2) : reg_of(&o->indexed.reg_3);	/* the two alternatives name their second register differently */
 		r->scale = star ? atoi(star + 1) : 1;
 		break;
@@ -158,6 +312,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			st->name.n = name_len(a);
 		}
 		st->expr = sl(text, s->assign.expr->_pos, s->assign.expr->_end);
+		st->x = expr_x(text, s->assign.expr);
 		break;
 	case 6: {							/* db, dw: .byte and .word under the other assemblers' names */
 		st->kind = S_DIR;
@@ -167,10 +322,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			darg_t *a = &d->dargs.darg;
 			struct dargs_1_s *m = d->dargs.dargs_1.head;
 			for (;;) {
-				if ((st->nargs & (st->nargs - 1)) == 0 && (st->nargs == 0 || st->nargs >= 4)) st->args = realloc(st->args, (st->nargs ? 2 * st->nargs : 4) * sizeof *st->args);
-				st->args[st->nargs].s = sl(text, a->_pos, a->_end);
-				st->args[st->nargs].isstr = a->_alt >= 1 && a->_alt <= 3;		/* "text", `text` and 'text' (two or more characters) are strings */
-				st->nargs++;
+				put_darg(text, st, a);
 				if (!m) break;
 				a = &m->darg;
 				m = m->_link;
@@ -201,10 +353,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			darg_t *a = &d->dargs.darg;
 			struct dargs_1_s *m = d->dargs.dargs_1.head;
 			for (;;) {
-				if ((st->nargs & (st->nargs - 1)) == 0 && (st->nargs == 0 || st->nargs >= 4)) st->args = realloc(st->args, (st->nargs ? 2 * st->nargs : 4) * sizeof *st->args);	/* room for 4, then doubling */
-				st->args[st->nargs].s = sl(text, a->_pos, a->_end);
-				st->args[st->nargs].isstr = a->_alt >= 1 && a->_alt <= 3;		/* "text", `text` and 'text' (two or more characters) are strings */
-				st->nargs++;
+				put_darg(text, st, a);
 				if (!m) break;
 				a = &m->darg;
 				m = m->_link;
@@ -223,10 +372,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			darg_t *a = &d->dargs.darg;
 			struct dargs_1_s *m = d->dargs.dargs_1.head;
 			for (;;) {
-				if ((st->nargs & (st->nargs - 1)) == 0 && (st->nargs == 0 || st->nargs >= 4)) st->args = realloc(st->args, (st->nargs ? 2 * st->nargs : 4) * sizeof *st->args);
-				st->args[st->nargs].s = sl(text, a->_pos, a->_end);
-				st->args[st->nargs].isstr = a->_alt >= 1 && a->_alt <= 3;
-				st->nargs++;
+				put_darg(text, st, a);
 				if (!m) break;
 				a = &m->darg;
 				m = m->_link;
@@ -244,7 +390,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		st->kind = S_DIR;
 		st->name.p = "section"; st->name.n = 7;
 		st->args = malloc(4 * sizeof *st->args);
-		st->args[0].s.p = d.p + k; st->args[0].s.n = e - k; st->args[0].isstr = 0;
+		st->args[0].s.p = d.p + k; st->args[0].s.n = e - k; st->args[0].isstr = 0; st->args[0].x = NULL;
 		st->nargs = 1;
 		break;
 	}
@@ -254,8 +400,11 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		st->name.p = "fill"; st->name.n = 4;
 		st->args = malloc(4 * sizeof *st->args);
 		st->args[0].s = sl(text, s->timesdir.expr->_pos, s->timesdir.expr->_end); st->args[0].isstr = 0;
+		st->args[0].x = expr_x(text, s->timesdir.expr);
 		st->args[1].s.p = sz[(int)s->timesdir.tdata % 4]; st->args[1].s.n = 1; st->args[1].isstr = 0;
+		st->args[1].x = xroot(xtok(XN_NUM, 10, st->args[1].s), st->args[1].s);
 		st->args[2].s = sl(text, s->timesdir.darg._pos, s->timesdir.darg._end); st->args[2].isstr = 0;
+		st->args[2].x = darg_x(text, &s->timesdir.darg);
 		st->nargs = 3;
 		break;
 	}

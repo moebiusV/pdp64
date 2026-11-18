@@ -177,131 +177,43 @@ static int c_char(const char **pp, const char *e, int *iscp)
 	return v;
 }
 
-struct ex { const char *p, *e; int line, bad; };
-
-static void skipws(struct ex *x) { while (x->p < x->e && (*x->p == ' ' || *x->p == '\t')) x->p++; }
-static struct val eval_expr(struct ex *x);
-
 static int dot_sym = -1;
 static int sect_sym[8];			/* NASM's $$: a symbol at the start of each section */
 
 static struct val vconst(int64_t c) { struct val v = { c, -1, -1 }; return v; }
 
-static struct val eval_primary(struct ex *x)
+/* The evaluator walks the tree asmp.c built from the grammar (struct xnode, asmir.h): the grammar has already said what is a number, a name, a
+   character, an operator.  What it cannot say, because it needs the symbol table, is settled here: `1b` is the nearest numeric label 1 when one is
+   defined before the use, else the binary number; `1f` is the forward label. */
+static int xbad, xline;
+
+static uint64_t xdigits(struct slice t, int base)
 {
-	skipws(x);
-	if (x->p >= x->e) { x->bad = 1; return vconst(0); }
-	char c = *x->p;
-	if (c == '(' || c == '[') {				/* [ ] groups like ( ) (the early Unix assembler's way) */
-		char close = c == '(' ? ')' : ']';
-		x->p++;
-		struct val v = eval_expr(x);
-		skipws(x);
-		if (x->p < x->e && *x->p == close) x->p++; else x->bad = 1;
-		return v;
+	uint64_t n = 0;
+	for (int i = 0; i < t.n; i++) {
+		int c = (unsigned char)t.p[i];
+		n = n * base + (isdigit(c) ? c - '0' : tolower(c) - 'a' + 10);
 	}
-	if (c == '$') {						/* NASM: $ is the location counter, $$ the start of the section (errata 162); $name is an immediate, the parser's business */
-		const char *a = x->p + 1;
-		int dd = a < x->e && *a == '$';
-		const char *z = a + dd;
-		if (z >= x->e || !(isalnum((unsigned char)*z) || *z == '_' || *z == '.' || *z == '$' || (unsigned char)*z >= 0x80)) {
-			x->p = z;
-			struct val v = { 0, dd ? sect_sym[cur_sec] : dot_sym, -1 };
-			return v;
-		}
+	return n;
+}
+
+/* the nearest numeric label for `N` before (back) or after (not back) the current statement, or -1 */
+static int lloc_find(int num, int back)
+{
+	int best = -1;
+	for (int i = 0; i < nlloc; i++) {
+		if (lloc[i].num != num) continue;
+		if (back ? lloc[i].stmt <= cur_stmt : lloc[i].stmt > cur_stmt)
+			if (best < 0 || (back ? lloc[i].stmt > lloc[best].stmt : lloc[i].stmt < lloc[best].stmt)) best = i;
 	}
-	if (c == '\'') {					/* 'c', and (NASM) 'abcd': up to eight characters, the first the lowest byte */
-		x->p++;
-		uint64_t v = 0; int iscp, k = 0;
-		while (x->p < x->e && *x->p != '\'' && k < 8) {
-			int64_t ch = (unsigned char)*x->p >= 0x80 ? utf8_decode(&x->p, x->e) : c_char(&x->p, x->e, &iscp);
-			v |= (uint64_t)ch << (8 * k);
-			k++;
-		}
-		if (x->p < x->e && *x->p == '\'') x->p++;
-		return vconst((int64_t)v);
-	}
-	if (isdigit((unsigned char)c)) {
-		const char *s = x->p, *q = s;
-		while (q < x->e && (isalnum((unsigned char)*q) || *q == '_' || *q == '.' || *q == '$' || (unsigned char)*q >= 0x80)) q++;
-		int n = (int)(q - s);
-		int base = 10, first = 0, ok = 1;
-		if (n > 2 && s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) { base = 16; first = 2; }
-		else if (n > 2 && s[0] == '0' && (s[1] == 'b' || s[1] == 'B')) { base = 2; first = 2; }
-		else if (n > 2 && s[0] == '0' && (s[1] == 'o' || s[1] == 'O')) { base = 8; first = 2; }
-		uint64_t num = 0;
-		for (int i = first; i < n && ok; i++) {
-			int dv = isdigit((unsigned char)s[i]) ? s[i] - '0' : isalpha((unsigned char)s[i]) ? tolower((unsigned char)s[i]) - 'a' + 10 : 99;
-			if (dv >= base) ok = 0; else num = num * base + dv;
-		}
-		if (ok) {					/* a whole bareword that is a number */
-			x->p = q;
-			return vconst((int64_t)num);
-		}
-		if (n >= 2) {					/* NASM's suffixes (errata 162): 0FFh, 17q or 17o, 101b, 10d or 10t */
-			int sb = 0;
-			switch (tolower((unsigned char)q[-1])) {
-			case 'h': sb = 16; break;
-			case 'q': case 'o': sb = 8; break;
-			case 'b': sb = 2; break;
-			case 'd': case 't': sb = 10; break;
-			}
-			if (sb == 2 && q[-1] == 'b' && all_digits(s, n - 1)) {
-				/* `1b` is also the nearest local label 1 before this statement: a label that is there wins, so a program that uses
-				   local labels reads as it always did; with none, the digits are a binary number */
-				int ln = 0;
-				for (const char *d = s; d < q - 1 && ln < 100000000; d++) ln = ln * 10 + (*d - '0');
-				for (int i = 0; i < nlloc; i++) if (lloc[i].num == ln && lloc[i].stmt <= cur_stmt) sb = 0;
-			}
-			if (sb) {
-				uint64_t nv = 0; int good = 1;
-				for (int i = 0; i < n - 1 && good; i++) {
-					int dv = isdigit((unsigned char)s[i]) ? s[i] - '0' : isalpha((unsigned char)s[i]) ? tolower((unsigned char)s[i]) - 'a' + 10 : 99;
-					if (dv >= sb) good = 0; else nv = nv * sb + dv;
-				}
-				if (good) { x->p = q; return vconst((int64_t)nv); }
-			}
-		}
-		if (n >= 2 && (q[-1] == 'f' || q[-1] == 'b') && all_digits(s, n - 1)) {		/* 1f, 1b: a local label */
-			int num = 0;
-			for (const char *d = s; d < q - 1; d++) num = num * 10 + (*d - '0');
-			int fwd = q[-1] == 'f', best = -1;
-			for (int i = 0; i < nlloc; i++) {
-				if (lloc[i].num != num) continue;
-				if (fwd ? lloc[i].stmt > cur_stmt : lloc[i].stmt <= cur_stmt)
-					if (best < 0 || (fwd ? lloc[i].stmt < lloc[best].stmt : lloc[i].stmt > lloc[best].stmt)) best = i;
-			}
-			x->p = q;
-			if (best < 0) { err(x->line, "undefined local label %.*s", n, s); x->bad = 1; return vconst(0); }
-			struct val v = { 0, lloc[best].sym, -1 };
-			return v;
-		}
-		x->p = q;					/* neither: a name that starts with a digit */
-		struct val v = { 0, symget(s, n), -1 };
-		return v;
-	}
-	if (isalpha((unsigned char)c) || c == '_' || c == '.' || (unsigned char)c >= 0x80 || c == '"') {
-		const char *s = x->p;
-		if (c == '"') { x->p++; while (x->p < x->e && *x->p != '"') x->p++; if (x->p < x->e) x->p++; }
-		else while (x->p < x->e && (isalnum((unsigned char)*x->p) || *x->p == '_' || *x->p == '.' || *x->p == '$' || (unsigned char)*x->p >= 0x80)) x->p++;
-		int n = (int)(x->p - s);
-		if (c != '"' && n >= 2 && tolower((unsigned char)s[n - 1]) == 'h') {	/* NASM's A6h: a hexadecimal number that begins with a letter; it is never a name (errata 163) */
-			uint64_t nv = 0; int good = 1;
-			for (int i = 0; i < n - 1 && good; i++) {
-				int dv = isdigit((unsigned char)s[i]) ? s[i] - '0' : isxdigit((unsigned char)s[i]) ? tolower((unsigned char)s[i]) - 'a' + 10 : 99;
-				if (dv >= 16) good = 0; else nv = nv * 16 + dv;
-			}
-			if (good) return vconst((int64_t)nv);
-		}
-		if (n == 1 && s[0] == '.') {
-			struct val v = { 0, dot_sym, -1 };
-			return v;
-		}
-		struct val v = { 0, symget(s, n), -1 };
-		return v;
-	}
-	x->bad = 1;
-	return vconst(0);
+	return best;
+}
+
+static int lloc_num(struct slice t)
+{
+	int n = 0;
+	for (int i = 0; i < t.n && n < 100000000; i++) n = n * 10 + (t.p[i] - '0');
+	return n;
 }
 
 /* resolve a symbol that is an assignment (an alias) or an absolute */
@@ -321,87 +233,115 @@ static struct val deref(struct val v)
 	return v;
 }
 
-static struct val eval_unary(struct ex *x)
+static struct val ev(const struct xnode *x);
+
+static struct val ev_lref(const struct xnode *x, int back)
 {
-	skipws(x);
-	if (x->p < x->e && (*x->p == '-' || *x->p == '~' || *x->p == '!' || *x->p == '<' || *x->p == '>')) {
-		char op = *x->p++;
-		struct val v = deref(eval_unary(x));
-		if (!CONST(v)) {
-			if (op == '-' && v.m < 0) { struct val r = { -v.c, -1, v.p }; return r; }
-			if (op == '-' && v.p < 0) { struct val r = { -v.c, v.m, -1 }; return r; }
-			x->bad = 1;
-			return vconst(0);
-		}
-		/* `<x` is the low byte of x and `>x` the high byte: the 6502 assemblers' operators */
-		return vconst(op == '-' ? -v.c : op == '~' ? ~v.c : op == '<' ? (v.c & 0xff) : op == '>' ? ((v.c >> 8) & 0xff) : !v.c);
-	}
-	return eval_primary(x);
+	int best = lloc_find(lloc_num(x->tok), back);
+	if (best < 0) { err(xline, "undefined local label %.*s%c", x->tok.n, x->tok.p, back ? 'b' : 'f'); xbad = 1; return vconst(0); }
+	struct val v = { 0, lloc[best].sym, -1 };
+	return v;
 }
 
-static struct val eval_term(struct ex *x)
+static struct val ev_unary(const struct xnode *x)
 {
-	struct val a = eval_unary(x);
-	for (;;) {
-		skipws(x);
-		if (x->p >= x->e) break;
-		char op = *x->p;
-		int two = x->p + 1 < x->e && x->p[1] == op;
-		if (!((op == '*' || op == '/' || op == '%' || op == '&') || ((op == '<' || op == '>') && two))) break;
-		x->p += (op == '<' || op == '>') ? 2 : 1;
-		struct val b = deref(eval_unary(x)); a = deref(a);
-		if (!CONST(a) || !CONST(b)) { x->bad = 1; return vconst(0); }
-		switch (op) {
-		case '*': a.c *= b.c; break;
-		case '/': if (b.c) a.c /= b.c; else { x->bad = 1; } break;
-		case '%': if (b.c) a.c %= b.c; else { x->bad = 1; } break;
-		case '&': a.c &= b.c; break;
-		case '<': a.c = (int64_t)((uint64_t)a.c << (b.c & 63)); break;
-		case '>': a.c = a.c >> (b.c & 63); break;
-		}
+	struct val v = deref(ev(x->a));
+	if (xbad) return vconst(0);
+	if (!CONST(v)) {
+		if (x->op == XN_NEG && v.m < 0) { struct val r = { -v.c, -1, v.p }; return r; }
+		if (x->op == XN_NEG && v.p < 0) { struct val r = { -v.c, v.m, -1 }; return r; }
+		xbad = 1;
+		return vconst(0);
 	}
-	return a;
+	/* `<x` is the low byte of x and `>x` the high byte: the 6502 assemblers' operators */
+	switch (x->op) {
+	case XN_NEG: return vconst(-v.c);
+	case XN_NOT: return vconst(~v.c);
+	case XN_LOW: return vconst(v.c & 0xff);
+	case XN_HIGH: return vconst((v.c >> 8) & 0xff);
+	}
+	return vconst(!v.c);
 }
 
-static struct val eval_expr(struct ex *x)
+static struct val ev_binary(const struct xnode *x)
 {
-	struct val a = eval_term(x);
-	for (;;) {
-		skipws(x);
-		if (x->p >= x->e) break;
-		char op = *x->p;
-		if (op != '+' && op != '-' && op != '|' && op != '^' && op != '!') break;
-		x->p++;
-		struct val b = eval_term(x);
-		a = deref(a); b = deref(b);
-		if (op == '+') {
-			if (a.p >= 0 && b.p >= 0) { x->bad = 1; return vconst(0); }
-			if (a.m >= 0 && b.m >= 0) { x->bad = 1; return vconst(0); }
-			a.c += b.c;
-			if (b.p >= 0) a.p = b.p;
-			if (b.m >= 0) a.m = b.m;
-		} else if (op == '-') {
-			if ((b.p >= 0 && a.m >= 0) || (b.m >= 0 && a.p >= 0 && 0)) { x->bad = 1; return vconst(0); }
-			a.c -= b.c;
-			if (b.p >= 0) { if (a.m >= 0) { x->bad = 1; return vconst(0); } a.m = b.p; }
-			if (b.m >= 0) { if (a.p >= 0) { x->bad = 1; return vconst(0); } a.p = b.m; }
-		} else {
-			if (!CONST(a) || !CONST(b)) { x->bad = 1; return vconst(0); }
-			a.c = op == '|' ? (a.c | b.c) : op == '!' ? (a.c | ~b.c) : (a.c ^ b.c);		/* a ! b: or-not, the early Unix assembler's */
-		}
-		a = deref(a);
+	struct val a = ev(x->a);
+	if (xbad) return vconst(0);
+	struct val b = ev(x->b);
+	if (xbad) return vconst(0);
+	a = deref(a); b = deref(b);
+	switch (x->op) {
+	case XN_ADD:
+		if (a.p >= 0 && b.p >= 0) { xbad = 1; return vconst(0); }
+		if (a.m >= 0 && b.m >= 0) { xbad = 1; return vconst(0); }
+		a.c += b.c;
+		if (b.p >= 0) a.p = b.p;
+		if (b.m >= 0) a.m = b.m;
+		return deref(a);
+	case XN_SUB:
+		if (b.p >= 0 && a.m >= 0) { xbad = 1; return vconst(0); }
+		a.c -= b.c;
+		if (b.p >= 0) a.m = b.p;
+		if (b.m >= 0) { if (a.p >= 0) { xbad = 1; return vconst(0); } a.p = b.m; }
+		return deref(a);
+	case XN_OR: case XN_XOR: case XN_ORNOT:
+		if (!CONST(a) || !CONST(b)) { xbad = 1; return vconst(0); }
+		a.c = x->op == XN_OR ? (a.c | b.c) : x->op == XN_ORNOT ? (a.c | ~b.c) : (a.c ^ b.c);		/* a ! b: or-not, the early Unix assembler's */
+		return deref(a);
+	}
+	if (!CONST(a) || !CONST(b)) { xbad = 1; return vconst(0); }
+	switch (x->op) {
+	case XN_MUL: a.c *= b.c; break;
+	case XN_DIV: if (b.c) a.c /= b.c; else xbad = 1; break;
+	case XN_MOD: if (b.c) a.c %= b.c; else xbad = 1; break;
+	case XN_AND: a.c &= b.c; break;
+	case XN_SHL: a.c = (int64_t)((uint64_t)a.c << (b.c & 63)); break;
+	case XN_SHR: a.c = a.c >> (b.c & 63); break;
 	}
 	return a;
 }
 
-/* evaluate a slice; a bad expression is reported once, only in the final pass */
-static struct val eval(struct slice s, int line)
+static struct val ev(const struct xnode *x)
 {
-	struct ex x = { s.p, s.p + s.n, line, 0 };
-	struct val v = eval_expr(&x);
-	skipws(&x);
-	if (x.bad || x.p != x.e) {
-		if (final_pass) err(line, "bad expression %.*s", s.n, s.p);
+	switch (x->op) {
+	case XN_NUM:
+		return vconst((int64_t)xdigits(x->tok, x->base));
+	case XN_BINLBL:						/* `Nb`: the label N if one is defined before this statement, else the binary number */
+		if (lloc_find(lloc_num(x->tok), 1) >= 0) return ev_lref(x, 1);
+		return vconst((int64_t)xdigits(x->tok, 2));
+	case XN_LBACK: return ev_lref(x, 1);
+	case XN_LFWD: return ev_lref(x, 0);
+	case XN_CHAR: case XN_MCHAR: {				/* 'c', and (NASM) 'abcd': up to eight characters, the first the lowest byte */
+		const char *p = x->tok.p, *e = p + x->tok.n;
+		uint64_t v = 0; int iscp, k = 0;
+		while (p < e && k < 8) {
+			int64_t ch = (unsigned char)*p >= 0x80 ? utf8_decode(&p, e) : c_char(&p, e, &iscp);
+			v |= (uint64_t)ch << (8 * k);
+			k++;
+		}
+		if (p < e) { xbad = 1; return vconst(0); }
+		return vconst((int64_t)v);
+	}
+	case XN_NAME: { struct val v = { 0, symget(x->tok.p, x->tok.n), -1 }; return v; }
+	case XN_DOT: { struct val v = { 0, dot_sym, -1 }; return v; }
+	case XN_SECT: { struct val v = { 0, sect_sym[cur_sec], -1 }; return v; }
+	case XN_NEG: case XN_NOT: case XN_LNOT: case XN_LOW: case XN_HIGH:
+		return ev_unary(x);
+	case XN_ADD: case XN_SUB: case XN_OR: case XN_XOR: case XN_ORNOT:
+	case XN_MUL: case XN_DIV: case XN_MOD: case XN_AND: case XN_SHL: case XN_SHR:
+		return ev_binary(x);
+	}
+	xbad = 1;						/* XN_BAD: not an expression */
+	return vconst(0);
+}
+
+/* evaluate an expression (the root XN_EXPR); a bad expression is reported once, only in the final pass */
+static struct val eval(const struct xnode *r, int line)
+{
+	xbad = 0; xline = line;
+	struct val v = ev(r->a);
+	if (xbad) {
+		if (final_pass) err(line, "bad expression %.*s", r->tok.n, r->tok.p);
 		return vconst(0);
 	}
 	return deref(v);
@@ -469,7 +409,7 @@ static int pool_get(int64_t v)
 static int64_t secalign[NSEC];		/* the largest .align seen in each section; the linker places the section's contribution on it */
 static void put_le(int64_t v, int size);
 static void addreloc(int sect, int64_t off, int type, int sym, int64_t addend);
-static struct val eval(struct slice s, int line);
+static struct val eval(const struct xnode *r, int line);
 static void dir_bugrec(const struct stmt *st);
 static int dir_is(const struct stmt *st, const char *n) { return st->name.n == (int)strlen(n) && memcmp(st->name.p, n, st->name.n) == 0; }
 
@@ -518,8 +458,8 @@ static void dir_bugrec(const struct stmt *st)
 {
 	if (st->nargs != 4) { if (final_pass) err(st->line, ".bugrec site, file, line, flags"); return; }
 	if (!final_pass) { bugrec_emit(0, 0, 0, 0, 0, 0); return; }
-	struct val site = eval(st->args[0].s, st->line), file = eval(st->args[1].s, st->line);
-	struct val line = eval(st->args[2].s, st->line), flags = eval(st->args[3].s, st->line);
+	struct val site = eval(st->args[0].x, st->line), file = eval(st->args[1].x, st->line);
+	struct val line = eval(st->args[2].x, st->line), flags = eval(st->args[3].x, st->line);
 	if (site.p < 0 || site.m >= 0 || file.p < 0 || file.m >= 0 || !CONST(line) || !CONST(flags)) {
 		err(st->line, ".bugrec: the site and the file are symbols, the line and the flags constants");
 		return;
@@ -537,7 +477,7 @@ static char *chkfiles[256];
 static void dir_chk(const struct stmt *st)
 {
 	if (st->nargs != 3 || !st->args[1].isstr) { if (final_pass) err(st->line, ".chk KIND, \"file\", LINE"); return; }
-	struct val k = eval(st->args[0].s, st->line), l = eval(st->args[2].s, st->line);
+	struct val k = eval(st->args[0].x, st->line), l = eval(st->args[2].x, st->line);
 	if (!CONST(k) || !CONST(l) || k.c < 0 || k.c > 7 || l.c < 0 || l.c > 65535) { if (final_pass) err(st->line, ".chk: the kind is 0 to 7 and the line 0 to 65535"); return; }
 	uint8_t buf[512];
 	int n = unescape(st->args[1].s, buf);
@@ -644,13 +584,13 @@ static void directive(const struct stmt *st)
 	}
 	if (dir_is(st, "extern") || dir_is(st, "default") || dir_is(st, "cpu")) return;		/* NASM: a symbol that is not defined is external anyway; the others are for x86 */
 	if (dir_is(st, "bits")) {
-		struct val v = st->nargs ? eval(st->args[0].s, st->line) : vconst(0);
+		struct val v = st->nargs ? eval(st->args[0].x, st->line) : vconst(0);
 		if (final_pass && (!CONST(v) || v.c != 64)) err(st->line, "bits: the pdp64 has 64 bits");
 		return;
 	}
 	if (dir_is(st, "resb") || dir_is(st, "resw") || dir_is(st, "resd") || dir_is(st, "resq")) {	/* NASM: reserve n bytes, words, doublewords, quadwords */
 		int unit = st->name.p[3] == 'b' ? 1 : st->name.p[3] == 'w' ? 2 : st->name.p[3] == 'd' ? 4 : 8;
-		struct val v = st->nargs ? eval(st->args[0].s, st->line) : vconst(-1);
+		struct val v = st->nargs ? eval(st->args[0].x, st->line) : vconst(-1);
 		if (!CONST(v) || v.c < 0) { if (final_pass) err(st->line, "%.*s takes a constant count", st->name.n, st->name.p); return; }
 		if (cur_sec == SEC_BSS || !final_pass) offs[cur_sec] += v.c * unit;
 		else { uint8_t z = 0; for (int64_t i = 0; i < v.c * unit; i++) emit_bytes_n(&z, 1); }
@@ -663,7 +603,7 @@ static void directive(const struct stmt *st)
 	if (dir_is(st, "comm")) {
 		if (st->nargs != 2) { if (final_pass) err(st->line, ".comm name, size"); return; }
 		int i = symget(st->args[0].s.p, st->args[0].s.n);
-		struct val v = eval(st->args[1].s, st->line);
+		struct val v = eval(st->args[1].x, st->line);
 		syms[i].global = 1; syms[i].sect = SC_COMMON; syms[i].val = v.c;
 		return;
 	}
@@ -679,7 +619,7 @@ static void directive(const struct stmt *st)
 			}
 			if (cur_sec == SEC_BSS) { offs[cur_sec] += unit; continue; }
 			if (!final_pass) { offs[cur_sec] += unit; continue; }
-			struct val v = eval(st->args[i].s, st->line);
+			struct val v = eval(st->args[i].x, st->line);
 			if (CONST(v)) {
 				if (unit < 8 && !fits(v.c, unit * 8) && !(v.c >= 0 && v.c < ((int64_t)1 << (unit * 8)))) err(st->line, "value %lld does not fit %d byte(s)", (long long)v.c, (int)unit);
 				put_le(v.c, (int)unit);
@@ -703,27 +643,27 @@ static void directive(const struct stmt *st)
 	}
 	if (dir_is(st, "even")) { pad_to(2); return; }
 	if (dir_is(st, "align") || dir_is(st, "alignb")) {
-		struct val v = st->nargs ? eval(st->args[0].s, st->line) : vconst(2);
+		struct val v = st->nargs ? eval(st->args[0].x, st->line) : vconst(2);
 		if (!CONST(v) || v.c < 1 || (v.c & (v.c - 1))) { if (final_pass) err(st->line, ".align takes a power of two"); return; }
 		pad_to(v.c);
 		return;
 	}
 	if (dir_is(st, "space")) {
-		struct val v = st->nargs ? eval(st->args[0].s, st->line) : vconst(0);
+		struct val v = st->nargs ? eval(st->args[0].x, st->line) : vconst(0);
 		if (!CONST(v) || v.c < 0) { if (final_pass) err(st->line, ".space takes a constant"); return; }
 		if (cur_sec == SEC_BSS || !final_pass) offs[cur_sec] += v.c;
 		else { uint8_t z = 0; for (int64_t i = 0; i < v.c; i++) emit_bytes_n(&z, 1); }
 		return;
 	}
 	if (dir_is(st, "fill")) {					/* .fill count [, size [, value]]: count units of size bytes (1, 2, 4 or 8) holding value (NASM's times n db v) */
-		struct val c = st->nargs >= 1 ? eval(st->args[0].s, st->line) : vconst(-1);
-		struct val z = st->nargs >= 2 ? eval(st->args[1].s, st->line) : vconst(1);
+		struct val c = st->nargs >= 1 ? eval(st->args[0].x, st->line) : vconst(-1);
+		struct val z = st->nargs >= 2 ? eval(st->args[1].x, st->line) : vconst(1);
 		if (st->nargs < 1 || st->nargs > 3 || !CONST(c) || c.c < 0 || !CONST(z) || (z.c != 1 && z.c != 2 && z.c != 4 && z.c != 8)) {
 			if (final_pass) err(st->line, ".fill count [, size [, value]]: a constant count, size 1, 2, 4 or 8");
 			return;
 		}
 		if (cur_sec == SEC_BSS || !final_pass) { offs[cur_sec] += c.c * z.c; return; }
-		struct val v = st->nargs == 3 ? eval(st->args[2].s, st->line) : vconst(0);
+		struct val v = st->nargs == 3 ? eval(st->args[2].x, st->line) : vconst(0);
 		if (!CONST(v)) { err(st->line, ".fill takes a constant value"); return; }
 		for (int64_t i = 0; i < c.c; i++) put_le(v.c, (int)z.c);
 		return;
@@ -763,7 +703,7 @@ static int run_pass(int final)
 				int c = 0;
 				if (cdepth == 64) { if (final) err(st->line, ".if nested too deep"); continue; }
 				if (on) {
-					struct val v = st->nargs == 1 ? eval(st->args[0].s, st->line) : vconst(0);
+					struct val v = st->nargs == 1 ? eval(st->args[0].x, st->line) : vconst(0);
 					if (st->nargs != 1 || !CONST(v)) { if (final) err(st->line, ".if takes one constant expression"); }
 					else c = v.c != 0;
 				}
@@ -794,7 +734,7 @@ static int run_pass(int final)
 		}
 		case S_ASSIGN: {
 			int k = symget(st->name.p, st->name.n);
-			struct val v = eval(st->expr, st->line);
+			struct val v = eval(st->x, st->line);
 			if (CONST(v)) { syms[k].sect = SC_ABS; syms[k].val = v.c; }
 			else if (v.p >= 0 && v.m < 0 && syms[v.p].sect >= 0) { syms[k].sect = syms[v.p].sect; syms[k].val = syms[v.p].val + v.c; }
 			else if (final) err(st->line, "assignment of a non-constant expression");
