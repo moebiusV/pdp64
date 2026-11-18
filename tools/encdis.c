@@ -14,6 +14,7 @@ static void put(const struct eop *o, uint64_t pc)
 	static const char *rn[] = { "r0","r1","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12","fp","sp","r15","r16","r17","r18","r19","r20","r21","r22","r23","r24","r25","r26","r27","r28","r29","r30","r31" };
 	switch (o->k) {
 	case EK_R: printf("%s", rn[o->r]); break;
+	case EK_V: printf("%c%d", o->s ? 't' : 'v', o->r); break;
 	case EK_I: printf("#%lld", (long long)o->v); break;
 	case EK_B: printf("%lld(%s)", (long long)o->v, o->r == EBASE_DP ? "dp" : rn[o->r]); break;
 	case EK_X: printf("%lld(%s)(%s*%d)", (long long)o->v, rn[o->r], rn[o->x], o->s); break;
@@ -33,6 +34,7 @@ static char *key(const struct einsn *in, char *out)
 		p += sprintf(p, k ? "," : " ");
 		switch (o->k) {
 		case EK_R: p += sprintf(p, "%s", rn[o->r]); break;
+		case EK_V: p += sprintf(p, "%c%d", o->s ? 't' : 'v', o->r); break;
 		case EK_I: p += sprintf(p, "#%lld", (long long)o->v); break;
 		case EK_B: p += sprintf(p, "%lld(%s)", (long long)o->v, b); break;
 		case EK_X: p += sprintf(p, "%lld(%s)(%s*%d)", (long long)o->v, b, rn[o->x], o->s); break;

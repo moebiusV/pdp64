@@ -139,6 +139,8 @@ def shape_describe(s):
     sc = lambda x: 'the size of the access' if x == 'sz' else str(x)
     if k == 'R':
         return reg(s)
+    if k == 'V':
+        return '%s register, %d bits (%s0 to %s%d)' % ('tile' if s['cls'] == 't' else 'vector', s['w'], s['cls'], s['cls'], (1 << s['w']) - 1)
     if k == 'K':
         op = s['op']
         return 'implicit %s' % ('register r%d' % op[1] if op[0] == 'R' else 'constant %d' % op[1])

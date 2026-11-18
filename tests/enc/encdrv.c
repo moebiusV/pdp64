@@ -11,6 +11,7 @@ static void put_op(char *o, const struct eop *p)
 {
 	switch (p->k) {
 	case EK_R: sprintf(o, "R:%d", p->r); break;
+	case EK_V: sprintf(o, "V:%d:%c", p->r, p->s ? 't' : 'v'); break;
 	case EK_I: sprintf(o, "I:%lld%s", (long long)p->v, p->ext ? ":E" : ""); break;
 	case EK_B: sprintf(o, "B:%lld:%d", (long long)p->v, p->r); break;
 	case EK_X: sprintf(o, "X:%lld:%d:%d:%d", (long long)p->v, p->r, p->x, p->s); break;
@@ -33,6 +34,7 @@ static int get_op(char *t, struct eop *p)
 	for (char *s = strtok(t, ":"); s && n < 6; s = strtok(NULL, ":")) f[n++] = s;
 	if (!n) return -1;
 	if (!strcmp(f[0], "R")) { p->k = EK_R; p->r = atoi(f[1]); }
+	else if (!strcmp(f[0], "V")) { p->k = EK_V; p->r = atoi(f[1]); p->s = n > 2 && f[2][0] == 't'; }
 	else if (!strcmp(f[0], "I")) { p->k = EK_I; p->v = strtoll(f[1], 0, 10); p->ext = n > 2; }
 	else if (!strcmp(f[0], "B")) { p->k = EK_B; p->v = strtoll(f[1], 0, 10); p->r = atoi(f[2]); }
 	else if (!strcmp(f[0], "X")) { p->k = EK_X; p->v = strtoll(f[1], 0, 10); p->r = atoi(f[2]); p->x = atoi(f[3]); p->s = atoi(f[4]); }

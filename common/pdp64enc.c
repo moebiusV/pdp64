@@ -53,6 +53,10 @@ static int fit_spec(const struct etab *t, int si, const struct eop *o, int msz, 
 	switch (s->kind) {
 	case ES_R:
 		return o->k == EK_R && fit_reg(t, s, o->r, pv, np);
+	case ES_V:
+		if (o->k != EK_V || o->s != s->kop || o->r >= (1u << s->w)) return 0;
+		pv[(*np)++] = o->r;
+		return 1;
 	case ES_K:
 		if (s->kop == EK_R) return o->k == EK_R && s->kval == o->r;
 		return o->k == EK_I && !o->ext && o->v == s->kval;
@@ -228,6 +232,7 @@ static int make_op(const struct etab *t, int si, const uint64_t *pv, int msz, st
 	memset(o, 0, sizeof *o);
 	switch (s->kind) {
 	case ES_R: if (!make_reg(t, si, pv, &u, &r)) return 0; o->k = EK_R; o->r = r; return 1;
+	case ES_V: o->k = EK_V; o->s = s->kop; o->r = (uint16_t)pv[0]; return 1;
 	case ES_K: if (s->kop == EK_R) { o->k = EK_R; o->r = s->kval; } else { o->k = EK_I; o->v = s->kval; } return 1;
 	case ES_I: {
 		int64_t q;

@@ -43,6 +43,7 @@ class Gen:
         k = s['k']
         self.n += 1
         if k == 'R': return self.reg(s)
+        if k == 'V': return '%s%d' % (s['cls'], self.n % (1 << s['w']))
         if k == 'K': return '#0'
         if k == 'I': return '#%d' % (s['scale'] if s['scale'] > 1 else 1)
         if k == 'B':

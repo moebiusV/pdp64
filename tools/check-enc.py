@@ -26,6 +26,7 @@ DPC = 255
 def mkspec(s):
     k = s['k']
     if k == 'R': return SR(s['w'], tuple(s['table']) if s['table'] is not None else None)
+    if k == 'V': return SV(s['w'], s['cls'])
     if k == 'K': return SK(tuple(s['op']))
     if k == 'I': return SI(s['w'], s['signed'], s['scale'], s['vals'])
     if k == 'B': return SB(mkspec(s['rn']), s['dw'], s['signed'], s['scale'])
@@ -37,6 +38,8 @@ def mkspec(s):
 
 
 def svals(sp, mn, rnd):
+    if isinstance(sp, SV):
+        return [('V', r, sp.cls) for r in sorted({0, (1 << sp.w) // 2, (1 << sp.w) - 1})]
     if isinstance(sp, SR):
         regs = sorted(sp.table) if sp.table else list(range(1 << sp.w))
         pick = {regs[0], regs[-1], regs[len(regs) // 2]}
@@ -77,6 +80,7 @@ def svals(sp, mn, rnd):
 def tok(o):
     k = o[0]
     if k == 'R': return 'R:%d' % o[1]
+    if k == 'V': return 'V:%d:%s' % (o[1], o[2])
     if k == 'I': return 'I:%d' % o[1]
     if k == 'B': return 'B:%d:%d' % (o[1], DPC if o[2] == 16 and False else o[2])
     if k == 'X': return 'X:%d:%d:%d:%d' % o[1:]
@@ -97,7 +101,8 @@ def run():
     assert len(code.leaves) == len(d['leaves'])
     for lf, jl in zip(code.leaves, d['leaves']):
         assert lf.prefix == jl['prefix'] and lf.L == jl['L'] and lf.off == jl['off'] and lf.mns == jl['mns'], (lf.form.name, jl)
-        assert [(oi, pi, bits) for (oi, pi), bits in sorted(lf.place.items())] == [tuple(x) for x in jl['place']], lf.form.name
+        # (a part of no width, the stride of (rA)+ with no stride field, has no bits and is not in the grammar)
+        assert [(oi, pi, bits) for (oi, pi), bits in sorted(lf.place.items()) if bits] == [tuple(x) for x in jl['place'] if x[2]], lf.form.name
         assert lf.subbits == jl['subbits']
     by_mn = collections.defaultdict(list)
     for i, f in enumerate(forms):

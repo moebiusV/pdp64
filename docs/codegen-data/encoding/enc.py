@@ -28,6 +28,15 @@ class SR(Spec):
     def make(s,v,mn):
         return ('R',s.table[v[0]] if s.table is not None and v[0]<len(s.table) else v[0]) if (s.table is None or v[0]<len(s.table)) else None
     def key(s): return ('R',s.w,s.table)
+class SV(Spec):  # a vector register v0..v15 of the vec block, or (cls 't') a tile register t0..t7: hidden registers, not the integer registers; w bits
+    kind='V'
+    def __init__(s,w=4,cls='v'):
+        s.w=w; s.cls=cls; s.table=None; s.inv=None; s.parts=[(cls,w)]
+    def fit(s,op,mn):
+        if op[0]!='V' or (len(op)>2 and op[2]!=s.cls): return None
+        return (op[1],) if 0<=op[1]<(1<<s.w) else None
+    def make(s,v,mn): return ('V',v[0],s.cls)
+    def key(s): return ('V',s.w,s.cls)
 class SK(Spec):  # constant operand, no bits
     @property
     def kind(s): return s.op[0]

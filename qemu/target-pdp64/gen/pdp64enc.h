@@ -11,7 +11,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-enum ek { EK_NONE = 0, EK_R, EK_I, EK_B, EK_X, EK_PI, EK_PD, EK_PC, EK_A };
+enum ek { EK_NONE = 0, EK_R, EK_I, EK_B, EK_X, EK_PI, EK_PD, EK_PC, EK_A, EK_V };	/* EK_V: a vector register v0..v15 (s == 0) or a tile register t0..t7 (s == 1), in r */
 
 #define EBASE_DP 255			/* the base register of d(DP), as `r` of an EK_B operand */
 
@@ -31,7 +31,7 @@ struct einsn {
 };
 
 /* ---- the generated tables: plain data, defined in build/pdp64-tab.c ---------------------------------------------- */
-enum { ES_R = 1, ES_K, ES_I, ES_B, ES_X, ES_PI, ES_PD, ES_PC, ES_A };
+enum { ES_R = 1, ES_K, ES_I, ES_B, ES_X, ES_PI, ES_PD, ES_PC, ES_A, ES_V };	/* ES_V: a vector register, w bits */
 
 struct espec {
 	uint8_t kind;			/* ES_* */

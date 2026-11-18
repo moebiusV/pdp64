@@ -15,6 +15,7 @@ import enc
 FZ=('movcall','popmret','popret','mov2')
 def spec_json(sp):
     if isinstance(sp,SR): return dict(k='R',w=sp.w,table=list(sp.table) if sp.table is not None else None)
+    if isinstance(sp,SV): return dict(k='V',w=sp.w,cls=sp.cls,table=None)
     if isinstance(sp,SK): return dict(k='K',op=list(sp.op))
     if isinstance(sp,SI): return dict(k='I',w=sp.w,signed=sp.signed,scale=sp.scale,vals=sp.vals)
     if isinstance(sp,SB): return dict(k='B',rn=spec_json(sp.rn),dw=sp.dw,signed=sp.signed,scale=sp.scale)
@@ -76,8 +77,11 @@ def export(which,sc,tag,hot=None):
     for lf in sc.code.leaves:
         place=[[oi,pi,bits] for (oi,pi),bits in sorted(lf.place.items())]
         leaves.append(dict(form=fidx[id(lf.form)],off=lf.off,j=lf.j,L=lf.L,prefix=lf.prefix,mns=lf.mns,subbits=lf.subbits,place=place))
-    c,keys,order,cnt=prep(tag)
-    if hot is not None: order=list(hot)+[r for r in order if r not in hot]
+    if hot is not None and os.environ.get('PDP64_NO_CORPUS'):
+        order=list(hot)		# the hot-register order is the committed one (tools/encopt/addforms.py runs without the corpus)
+    else:
+        c,keys,order,cnt=prep(tag)
+        if hot is not None: order=list(hot)+[r for r in order if r not in hot]
     out=dict(name=name,registers=regs,hot8=order[:8],hot16=order[:16] if which=='32' else None,
              fused=list(FZ),forms=forms,leaves=leaves,
              stats=dict(decod={k:v for k,v in dec.items()},boundary=[nb,len(bad),nf]))

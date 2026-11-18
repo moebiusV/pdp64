@@ -154,6 +154,9 @@ def shape_spec(name, body, nreg, hot):
     m = re.match(r'^reg(\d+)$', name)
     if m:
         w = int(m.group(1)); expect(('r', w, False)); return reg_spec(w, nreg, hot)
+    m = re.match(r'^([vt])reg(\d+)$', name)
+    if m:
+        w = int(m.group(2)); expect((m.group(1), w, False)); return {'k': 'V', 'w': w, 'table': None, 'cls': m.group(1)}
     if name == 'k-sp': return {'k': 'K', 'op': ['R', 14]}
     if name == 'k-dp': return {'k': 'K', 'op': ['R', 16]}
     m = re.match(r'^k-imm(\d+)$', name)
@@ -196,6 +199,7 @@ def part_list(spec):
     """(name, width) of the parts of an operand, in the order of the place indices"""
     k = spec['k']
     if k == 'R': return [('r', spec['w'])]
+    if k == 'V': return [(spec['cls'], spec['w'])]
     if k == 'K': return []
     if k == 'I': return [('imm', spec['w'])]
     if k == 'B': return ([('base', spec['rn']['w'])] if spec['rn']['k'] == 'R' else []) + ([('d', spec['dw'])] if spec['dw'] else [])
@@ -423,6 +427,8 @@ def leaf_pieces(lf, specs):
     for oi, pi, bits in lf['place']:
         if oi == -1:
             add('xsub', bits, ('xsub',))
+        elif not bits:
+            continue		# a part of no width (the stride of (rA)+ with no stride field)
         else:
             add('o%d-%s' % (oi + 1, part_list(specs[oi])[pi][0]), bits, (oi, pi))
     return sorted(items)

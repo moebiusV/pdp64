@@ -16,6 +16,7 @@ enc.RELOC = 'max'
 def mkspec(s):
     k = s['k']
     if k == 'R': return SR(s['w'], tuple(s['table']) if s['table'] is not None else None)
+    if k == 'V': return SV(s['w'], s['cls'])
     if k == 'K': return SK(tuple(s['op']))
     if k == 'I': return SI(s['w'], s['signed'], s['scale'], s['vals'])
     if k == 'B': return SB(mkspec(s['rn']), s['dw'], s['signed'], s['scale'])

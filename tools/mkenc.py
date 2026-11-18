@@ -107,6 +107,8 @@ def gen_c(d):
                     hottabs[t] = len(hot)
                     hot.extend(t)
                 z.update(ntab=len(t), tab=hottabs[t])
+        elif k == 'V':
+            z.update(kind='ES_V', w=s['w'], kop=1 if s['cls'] == 't' else 0)	# kop: the class, 0 vector register, 1 tile register
         elif k == 'K':
             kind, v = s['op']
             if kind == 'R':
@@ -224,6 +226,10 @@ def gen_fields(d):
         # hbnf spells the hyphens of the rule name as underscores (the mangled form name)
         lname = 'leaf_%s_%d' % (encgram.mangle(f['name']).replace('-', '_'), k)
         pcs = encgram.leaf_pieces(lf, f['specs'])
+        if not pcs:
+            # a leaf of no fields (vend): hbnf makes no record for it, and there is nothing to read
+            out.append('	case %d: break;' % (li + 1))
+            continue
         out.append('	case %d: { const %s_t *l = &o->leaf.u.a%d.%s;' % (li + 1, lname, li + 1, lname))
         keys = []
         for _, name, w, key in pcs:
@@ -266,6 +272,8 @@ def part_names(s):
     k = s['k']
     if k == 'R':
         return ['r']
+    if k == 'V':
+        return [s['cls']]
     if k == 'K':
         return []
     if k == 'I':

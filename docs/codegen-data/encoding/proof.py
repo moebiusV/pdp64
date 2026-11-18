@@ -11,6 +11,8 @@ def svals(sp,mn):
         if sp.table: pick|={sp.table[0],sp.table[-1]}
         return [('R',r) for r in sorted(pick)]
     if isinstance(sp,SK): return [sp.op]
+    if isinstance(sp,SV):
+        return [('V',r,sp.cls) for r in sorted({0,(1<<sp.w)//2,(1<<sp.w)-1})]
     if isinstance(sp,SI):
         if sp.vals is not None: return [('I',sp.vals[0]),('I',sp.vals[-1])]
         sc=sp.scale

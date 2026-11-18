@@ -43,6 +43,8 @@ def shape(s):
         return '%s:%d%s' % (name, w, 's' if signed and w else '') if w else None
     if k == 'R':
         return 'reg%d' % s['w'], 'r:%d' % s['w']
+    if k == 'V':
+        return '%sreg%d' % (s['cls'], s['w']), '%s:%d' % (s['cls'], s['w'])
     if k == 'K':
         kind, v = s['op']
         if kind == 'R':
@@ -117,8 +119,9 @@ HEADER_SHARED = r'''; pdp64-enc.hbnf -- what the prefix-coded encodings (pdp64/1
 ; The name of a shape holds what the fields cannot say:
 ;
 ;   regW                 a register, W bits.  W bits that cannot name every register of the member (hotW in the member's grammar) are an index into that table
+;   vregW, tregW         a vector register v0..v15 (vreg4), a tile register t0..t7 (treg3) of the vec block, W bits: hidden registers, not the integer registers
 ;   immW[s|u][-xS]       an immediate of W bits, signed or not, in units of S (1 if omitted)
-;   bRdD[s|u]-xS         base register of R bits and displacement of D bits (D = 0: none), in units of S bytes; S = sz is the size of the access
+;   bRdD[s|u]-xS        base register of R bits and displacement of D bits (D = 0: none), in units of S bytes; S = sz is the size of the access
 ;   spdD[s|u]-xS, dpdD   the same with (sp) or the direct page register (dp) as the base, which takes no bits
 ;   xR-RxdD[s|u]        indexed: base R bits, index Rx bits, scale 2 bits, displacement D bits
 ;   piR-sD, pdR-sD       (r)+ and -(r): base R bits and a stride field of D bits (0 stride means the size of the access)
@@ -142,6 +145,7 @@ def write_shared(ds):
                 assert shapes.setdefault(n, b) == b, (n, b, shapes[n])
     out = [HEADER_SHARED]
     kinds = [('R', 'a register', lambda n: n.startswith('reg')),
+             ('V', 'a vector register or a tile register (the hidden registers of the vec block)', lambda n: re.match(r'[vt]reg\d', n)),
              ('K', 'a constant operand (no bits)', lambda n: n.startswith('k-')),
              ('I', 'an immediate', lambda n: n.startswith('imm')),
              ('B', 'base register and displacement: d(rb)', lambda n: re.match(r'(b\d|sp|dp)', n)),
