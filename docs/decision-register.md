@@ -458,3 +458,9 @@
 - R451 | 2026-11-17 | question | "make sure to tell how many gates those will add" | subjects: Vector prefix (vec) and the GEMM unit | current
 - R452 | 2026-11-17 | decision | "so renumber every opcode duh, why run hte optimizer without using the output?" | subjects: Prefix encoding optimiser | current
 - R453 | 2026-11-17 | decision | "if pcc has no vectorizer, it is time to do that llvm backend and switch to it as our standard for development" | subjects: LLVM back end: frozen until the port | current
+- R454 | 2026-11-17 | decision | "the point of adding them now is so we can benchmark and the remmove any that are duds" | subjects: Vector prefix (vec) and the GEMM unit | current
+- R455 | 2026-11-17 | decision | "basically we want the vector/gemm/simd ops that compress our code the most, the most work for the least instuctions, but of course taking into account our priority on safety, securit, restarts, precise exception, etc" | subjects: Vector prefix (vec) and the GEMM unit | current
+- R456 | 2026-11-17 | decision | "oh right..... llvm has the vector optimizer, so really we'll have to run the prefix optimizer again based on llvm output" | subjects: Prefix encoding optimiser | current
+- R457 | 2026-11-17 | decision | "llvm lets us test different approaches to vector/gemm type ops, and gcc let's us test bounds checking methods" | subjects: LLVM back end: frozen until the port | current
+- R458 | 2026-11-17 | decision | "gcc will be third backend." | subjects: LLVM back end: frozen until the port | current
+- R459 | 2026-11-17 | decision | "go ahead with those choices" | subjects: Vector prefix (vec) and the GEMM unit | current
