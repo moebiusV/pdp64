@@ -15,6 +15,8 @@ extern "C" LLVM_ABI LLVM_EXTERNAL_VISIBILITY void LLVMInitializePDP64Target() {
   PassRegistry &PR = *PassRegistry::getPassRegistry();
   initializePDP64AsmPrinterPass(PR);
   initializePDP64DAGToDAGISelLegacyPass(PR);
+  initializePDP64CheckFoldPass(PR);
+  initializePDP64VecLoopPass(PR);
 }
 
 namespace {
@@ -81,12 +83,14 @@ public:
   }
   void addIRPasses() override {
     addPass(createAtomicExpandLegacyPass()); // atomics are library calls
+    addPass(createPDP64VecLoop());           // -pdp64-vecloop: innermost counted loops become one vec block
     TargetPassConfig::addIRPasses();
   }
   bool addInstSelector() override {
     addPass(createPDP64ISelDag(getPDP64TargetMachine(), getOptLevel()));
     return false;
   }
+  void addPreRegAlloc() override { addPass(createPDP64CheckFold()); }
 };
 } // namespace
 

@@ -11,10 +11,27 @@ class FunctionPass;
 class PDP64TargetMachine;
 class PassRegistry;
 
+FunctionPass *createPDP64CheckFold();
+FunctionPass *createPDP64VecLoop();
+void initializePDP64VecLoopPass(PassRegistry &);
+void initializePDP64CheckFoldPass(PassRegistry &);
 FunctionPass *createPDP64ISelDag(PDP64TargetMachine &TM,
                                  CodeGenOptLevel OptLevel);
 void initializePDP64DAGToDAGISelLegacyPass(PassRegistry &);
 void initializePDP64AsmPrinterPass(PassRegistry &);
+} // namespace llvm
+
+namespace llvm {
+// the kind of the table of check sites (1 bounds, 2 null, 3 range, 4 assertion) for the argument of llvm.ubsantrap
+// (clang's SanitizerHandler: 18 out-of-bounds, 14-17 and 22 null / nonnull, 20 shift out of bounds, 24 VLA bound; the rest are assertions)
+inline unsigned pdp64CheckKindOfUbsan(unsigned H) {
+  switch (H) {
+  case 18: return 1;
+  case 14: case 15: case 16: case 17: case 22: return 2;
+  case 20: case 24: return 3;
+  default: return 4;
+  }
+}
 } // namespace llvm
 
 // Condition codes.  The integer ones are the cbCC suffixes of the grammar

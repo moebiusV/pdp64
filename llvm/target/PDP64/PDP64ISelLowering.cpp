@@ -117,6 +117,8 @@ PDP64TargetLowering::PDP64TargetLowering(const TargetMachine &TM,
   setOperationAction(ISD::ConstantFP, MVT::f32, Legal);
   setOperationAction(ISD::ConstantFP, MVT::f64, Legal);
   setOperationAction(ISD::TRAP, MVT::Other, Legal);
+  setOperationAction(ISD::UBSANTRAP, MVT::Other, Legal);
+  setOperationAction(ISD::DEBUGTRAP, MVT::Other, Legal);
 }
 
 const char *PDP64TargetLowering::getTargetNodeName(unsigned Opcode) const {
@@ -670,4 +672,20 @@ PDP64TargetLowering::EmitInstrWithCustomInserter(MachineInstr &MI,
   default:
     llvm_unreachable("unexpected instruction for the custom inserter");
   }
+}
+
+TargetLowering::ConstraintType
+PDP64TargetLowering::getConstraintType(StringRef Constraint) const {
+  if (Constraint.size() == 1 && Constraint[0] == 'r')
+    return C_RegisterClass;
+  return TargetLowering::getConstraintType(Constraint);
+}
+
+std::pair<unsigned, const TargetRegisterClass *>
+PDP64TargetLowering::getRegForInlineAsmConstraint(const TargetRegisterInfo *TRI,
+                                                  StringRef Constraint,
+                                                  MVT VT) const {
+  if (Constraint.size() == 1 && Constraint[0] == 'r')
+    return std::make_pair(0U, &PDP64::GPRRegClass);
+  return TargetLowering::getRegForInlineAsmConstraint(TRI, Constraint, VT);
 }

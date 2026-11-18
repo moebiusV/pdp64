@@ -50,6 +50,11 @@ public:
   bool getPostIndexedAddressParts(SDNode *N, SDNode *Op, SDValue &Base,
                                   SDValue &Offset, ISD::MemIndexedMode &AM,
                                   SelectionDAG &DAG) const override;
+  // inline assembly ("r": a general register); the vector blocks of PDP64VecLoop are inline assembly
+  std::pair<unsigned, const TargetRegisterClass *>
+  getRegForInlineAsmConstraint(const TargetRegisterInfo *TRI, StringRef Constraint,
+                               MVT VT) const override;
+  ConstraintType getConstraintType(StringRef Constraint) const override;
   bool isOffsetFoldingLegal(const GlobalAddressSDNode *GA) const override {
     return true;
   }

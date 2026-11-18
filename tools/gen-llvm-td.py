@@ -76,6 +76,7 @@ def generate():
     lay['CbImmBits'] = widest_in(forms, [m for m in cbs if m in ('cbeq', 'cbne', 'cblt', 'cbge', 'cbgt', 'cble', 'cbcs', 'cbcc', 'cbhi', 'cblos')], 'I', 'w', True)
     lay['BranchReachBits'] = widest(forms, 'br', 'PC', 'w')                           # bits of the parcel distance of br: 32
     lay['PcDispBits'] = widest_in(forms, ['movq', 'lea'], 'PC', 'w')                  # d(pc) operand of a load: 32
+    lay['CtImmBits'] = widest_in(forms, ['ctcc', 'cthi', 'cteq', 'ctne'], 'I', 'w', False)   # the unsigned immediate of ctCC rs, #imm (12)
     lay['PushImmBits'] = widest(forms, 'push', 'I', 'w', True)
     lay['AccessBytes'] = d['acc']                                                      # movq 8, movl 4, ...
     # scale of the indexed forms: the assembler takes 1, 2, 4 or 8 (docs/asm-syntax.md); the grammar fixes it in the leaf, not as a field width
@@ -89,6 +90,17 @@ def generate():
             ccs.append(c)
     # mnemonic pairs: the branch group has b<cc> for these as well (bne ... blos), checked below
     bcc = [c for c in ccs if 'b' + c in mns]
+
+    # the check instructions ctCC (trap if the compare-and-branch condition CC holds): the conditions with a register form, and those with an
+    # immediate form (the grammar gives an unsigned immediate to few of them), and the two that test zero alone (cteq rs, ctne rs: forms of one operand)
+    ctcs = [c for c in ccs if 'ct' + c in mns]
+    ctimm = [c for c in ctcs if any(('ct' + c) in f['mns'] and any(sp['k'] == 'I' for sp in f['specs']) for f in forms)]
+    ctz = [c for c in ('eq', 'ne') if any(('ct' + c) in f['mns'] and len(f['specs']) == 1 for f in forms)]
+    assert 'chk2' in mns and ctcs and ctz
+
+    vecmns = [m for m in mns if m in ('vec', 'vend') or re.match(r'^(v[a-z0-9]+|gemm)(\.[a-z]+)*$', m) and m not in ('vclr_',)]
+    # only the words of the vector family: the ones that start with v and are not scalar words (checked against a list of the base names in the executor's table by the user of this list)
+    vecmns = [m for m in vecmns if re.match(r'^(vec|vend|vlen|vadd|vsub|vsubr|vmul|vmin|vmax|vminu|vmaxu|vabd|vabdu|vand|vor|vxor|vshl|vshr|vsar|vadds|vsubs|vaddsu|vsubsu|vmov|vneg|vmla|vfma|vfnma|vfmab|vdot|vdotu|vdotsu|vacc|vmaxacc|vminacc|vfir|vclr|vld|vst|vsts|vldt|vstt|vldx|vlseg[234]|vsseg[234]|vtclr|vtfmopa|vtld|vtst|vtadd|gemm)(\.|$)', m)]
 
     regs = d['regnames']
     nreg = d['registers']
@@ -129,6 +141,13 @@ def generate():
     t.append(' \\\n'.join('  X(%s)' % c for c in ccs) + '\n\n')
     t.append('// the ones that also exist as b<cc> (cmp + branch on the flags)\n#define PDP64_B_CONDS(X) \\\n')
     t.append(' \\\n'.join('  X(%s)' % c for c in bcc) + '\n\n')
+    for nm, lst, what in (('PDP64_CT_CONDS', ctcs, 'the conditions of ctCC rs, rb (trap if rs CC rb)'),
+                          ('PDP64_CT_IMM_CONDS', ctimm, 'the ones with an immediate form (ctCC rs, #imm: CtImmBits unsigned)'),
+                          ('PDP64_CT_ZERO_CONDS', ctz, 'the ones with a one-register form (cteq rs: trap if zero, ctne rs)')):
+        t.append('// %s\n#define %s(X) \\\n' % (what, nm))
+        t.append(' \\\n'.join('  X(%s)' % c for c in lst) + '\n\n')
+    t.append('// the mnemonics of the vector, tile and GEMM family (vec-isa.md): vec, vend, vlen.t, vadd.w, vld.bu.w ...; X("mnemonic")\n#define PDP64_VEC_MNEMONICS(X) \\\n')
+    t.append(' \\\n'.join('  X("%s")' % m for m in vecmns) + '\n\n')
     t.append('#endif\n')
     layout_h = ''.join(t)
 

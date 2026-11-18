@@ -397,8 +397,34 @@ def ADJCALLSTACKDOWN : PI<(outs), (ins imm64:$a1, imm64:$a2), "# ADJCALLSTACKDOW
 def ADJCALLSTACKUP   : PI<(outs), (ins imm64:$a1, imm64:$a2), "# ADJCALLSTACKUP $a1, $a2",
                           [(callseq_end timm:$a1, timm:$a2)]>;
 }
+// the breakpoint (vector 15): llvm.debugtrap
 let isBarrier = 1, isTerminator = 1, hasSideEffects = 1 in
-def BPT : PI<(outs), (ins), MN_bpt, [(trap)]>;
+def BPT : PI<(outs), (ins), MN_bpt, [(debugtrap)]>;
+
+//===----------------------------------------------------------------------===//
+// The check instructions (errata 144-153, 159, 160): a failed check is a fault on
+// vector 16 whose EPC is the instruction.  ctCC rs, rb|#imm traps when "rs CC rb"
+// is true (the condition of cbCC), cteq rs / ctne rs when rs is zero / not zero,
+// chk2 rs, rlo, rhi unless rlo <= rs < rhi (signed).  The last operand of each
+// is the KIND of the table of check sites (1 bounds, 2 null, 3 range, 4
+// assertion, 0 unknown); the AsmPrinter writes `.chk KIND, "file", LINE` before it
+// (and nothing when KIND is 0 and there is no debug location).  They come from
+// PDP64CheckFold, which turns "conditional branch to a block that only traps".
+//===----------------------------------------------------------------------===//
+def CheckKindXF : SDNodeXForm<timm, [{
+  return CurDAG->getTargetConstant(pdp64CheckKindOfUbsan(N->getZExtValue()), SDLoc(N), MVT::i64);
+}]>;
+let hasSideEffects = 1 in {
+// an unconditional trap: ctcc of anything against zero (every unsigned value is higher than or the same as 0)
+let isBarrier = 1, isTerminator = 1 in
+def TRAPCHK : PI<(outs), (ins imm64:$kind), !strconcat(MN_ctcc, " r0, #0")>;
+def CT_rr : PI<(outs), (ins GPR:$a, GPR:$b, ccop:$cc, imm64:$kind), "ct${cc} $a, $b">;
+def CT_ri : PI<(outs), (ins GPR:$a, imm64:$i, ccop:$cc, imm64:$kind), "ct${cc} $a, #$i">;
+def CT_z  : PI<(outs), (ins GPR:$a, ccop:$cc, imm64:$kind), "ct${cc} $a">;
+def CHK2  : PI<(outs), (ins GPR:$a, GPR:$lo, GPR:$hi, imm64:$kind), !strconcat(MN_chk2, " $a, $lo, $hi")>;
+}
+def : Pat<(trap), (TRAPCHK 0)>;
+def : Pat<(ubsantrap timm:$k), (TRAPCHK (CheckKindXF timm:$k))>;
 def NOP : PI<(outs), (ins), MN_nop>;
 
 //===----------------------------------------------------------------------===//

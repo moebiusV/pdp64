@@ -7,7 +7,10 @@
 #include "llvm/ADT/SmallString.h"
 #include "llvm/CodeGen/AsmPrinter.h"
 #include "llvm/CodeGen/MachineInstr.h"
+#include "llvm/CodeGen/MachineModuleInfo.h"
+#include "llvm/IR/DebugInfoMetadata.h"
 #include "llvm/IR/Mangler.h"
+#include "llvm/IR/Module.h"
 #include "llvm/MC/MCAsmInfo.h"
 #include "llvm/MC/MCContext.h"
 #include "llvm/MC/MCExpr.h"
@@ -29,6 +32,8 @@ public:
       : AsmPrinter(TM, std::move(Streamer), ID) {}
   StringRef getPassName() const override { return "PDP64 Assembly Printer"; }
   void emitInstruction(const MachineInstr *MI) override;
+  bool PrintAsmOperand(const MachineInstr *MI, unsigned OpNo, const char *ExtraCode,
+                       raw_ostream &OS) override;
 
 private:
   MCOperand lowerSymbol(const MachineOperand &MO) const;
@@ -120,9 +125,50 @@ void PDP64AsmPrinter::emitInstruction(const MachineInstr *MI) {
     EmitToStreamer(*OutStreamer, Br);
     return;
   }
+  switch (Opc) {
+  case PDP64::TRAPCHK: case PDP64::CT_rr: case PDP64::CT_ri: case PDP64::CT_z: case PDP64::CHK2: {
+    // `.chk KIND, "file", LINE` names the check for the table of check sites (kind 0 and no location: no directive)
+    unsigned Kind = MI->getOperand(MI->getNumOperands() - 1).getImm();
+    const DebugLoc &DL = MI->getDebugLoc();
+    if (Kind || DL) {
+      std::string File = MMI->getModule()->getSourceFileName();
+      unsigned Line = 0;
+      if (DL) {
+        Line = DL.getLine();
+        if (auto *Sc = dyn_cast_or_null<DIScope>(DL.getScope()))
+          if (DIFile *F = Sc->getFile())
+            File = F->getFilename().str();
+      }
+      std::string Esc;
+      for (char C : File)
+        Esc += (C == '"' || C == '\\') ? std::string("\\") + C : std::string(1, C);
+      OutStreamer->emitRawText("\t.chk\t" + Twine(Kind) + ", \"" + Esc + "\", " + Twine(Line));
+    }
+    break;
+  }
+  default:
+    break;
+  }
   MCInst Out;
   lower(MI, Out);
   EmitToStreamer(*OutStreamer, Out);
+}
+
+// an operand of inline assembly: a register by name (the (rN)+ and d(rN) forms are in the template), an immediate as a number
+bool PDP64AsmPrinter::PrintAsmOperand(const MachineInstr *MI, unsigned OpNo,
+                                      const char *ExtraCode, raw_ostream &OS) {
+  if (ExtraCode && ExtraCode[0])
+    return true;
+  const MachineOperand &MO = MI->getOperand(OpNo);
+  if (MO.isReg()) {
+    OS << PDP64InstPrinter::getRegisterName(MO.getReg());
+    return false;
+  }
+  if (MO.isImm()) {
+    OS << MO.getImm();
+    return false;
+  }
+  return true;
 }
 
 char PDP64AsmPrinter::ID = 0;

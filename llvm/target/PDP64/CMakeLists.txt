@@ -13,10 +13,12 @@ add_public_tablegen_target(PDP64CommonTableGen)
 
 add_llvm_target(PDP64CodeGen
   PDP64AsmPrinter.cpp
+  PDP64CheckFold.cpp
   PDP64FrameLowering.cpp
   PDP64InstrInfo.cpp
   PDP64ISelDAGToDAG.cpp
   PDP64ISelLowering.cpp
+  PDP64VecLoop.cpp
   PDP64RegisterInfo.cpp
   PDP64Subtarget.cpp
   PDP64TargetMachine.cpp
