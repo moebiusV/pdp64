@@ -1,0 +1,16 @@
+lanealu16	15487	0
+lanealu16plain	6881	0
+mul8s	698	0
+mul16s	3023	0
+mul24u	5751	0
+add32	322	0
+add48	494	0
+add64	660	0
+shr48	1052	0
+norm48	1091	0
+dot4	4620	0
+reduce16	2979	0
+vregs	16155	2048
+segload8	872	0
+gather1	1260	68
+firsum8	1021	0
