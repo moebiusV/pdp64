@@ -120,9 +120,25 @@ constexpr unsigned Hot4[16] = {0, 1, 8, 2, 14, 3, 9, 10, 11, 4, 15, 5, 24, 25, 2
   X("vavg.w") \
   X("vavgu.b") \
   X("vavgu.w") \
+  X("vbsl") \
+  X("vceq.b") \
+  X("vceq.f") \
+  X("vceq.l") \
+  X("vceq.w") \
+  X("vcgt.b") \
+  X("vcgt.f") \
+  X("vcgt.l") \
+  X("vcgt.w") \
+  X("vcgtu.b") \
+  X("vcgtu.l") \
+  X("vcgtu.w") \
   X("vclr.d") \
   X("vclr.f") \
   X("vclr.l") \
+  X("vcvt.f.l") \
+  X("vcvt.f.lu") \
+  X("vcvt.l.f") \
+  X("vcvt.lu.f") \
   X("vdacc.b") \
   X("vdacc.bsu") \
   X("vdacc.bu") \
