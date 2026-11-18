@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
 """
-encgram -- reads the hbnf grammars of the prefix-coded encodings (spec/pdp64-enc.hbnf, spec/pdp64/pdp64.hbnf) and returns the forms and the
-leaves of an encoding as a plain dict.  The grammars are the source of truth; this is how the generators and the checks read them.
+encgram -- reads the hbnf grammar of the prefix-coded encoding, which is the directory of parts spec/grammars.d/ (tools/grammars_d.py: errata 180), and returns the forms and the
+leaves of the encoding as a plain dict.  The grammars are the source of truth; this is how the generators and the checks read them.
 
     import encgram; d = encgram.load()
 
 The dict has the shape tools/mkenc.py and the checks have always worked on:
 
     name, registers, hot8 (the 3-bit hot-register table, register numbers), hot16 (the 4-bit one or None), fused,
-    forms  = [ { name, n (parcels), mns, xbits, specs } ],            specs: R K I B X PI PD PC A, see below
+    forms  = [ { name, n (parcels), mns, xbits, specs, file } ],      specs: R K I B X PI PD PC A, see below; file: the part that defines the rule `form-NAME`
     leaves = [ { form, off, j, L, prefix, mns, subbits, place } ],    place: [ [operand index (-1: the extended sub-opcode), part index, [bit, ...]], ... ]
-    plus   ext (the numbered words of group mn-ext), acc (size of access by mnemonic stem), regnames, source (the files read)
+    plus   ext (the numbered words of group mn-ext), acc (size of access by mnemonic stem), regnames, source (the parts read)
 
 A bit is 16*parcel + bit (15 the top of the parcel); the bits of a field are listed from its top bit down.  The vocabulary of the grammars (leaf-, sub-, form-,
-shape names, field names oI-PART[-N], sub, xsub) is documented in the header of spec/pdp64-enc.hbnf.  hbnf itself checks the syntax and the references
-(tools/check-encgram.sh generates a parser from each grammar); this reads the meaning, and checks everything that it can check on the way: every leaf covers its
-16*n bits once, every field has the width its shape says, the mnemonic counts fit the sub-opcode bits, the index of the catalogue is dense, `insn` lists the leaves.
+shape names, field names oI-PART[-N], sub, xsub) is documented in the header of spec/grammars.d/22-enc-vocabulary.hbnf.  hbnf itself checks the syntax and the references
+(tools/check-grammar-enc.sh runs it on spec/pdp64/pdp64.hbnf); this reads the meaning, and checks everything that it can check on the way: every leaf covers its
+16*n bits once, every field has the width its shape says, the mnemonic counts fit the sub-opcode bits, the index of the catalogue is dense.  Every part is read, whatever
+its targets line says; a form, a shape, a leaf or a word in a part of its own is seen like the others (the catalogue `forms` is extended by `forms =/ "NAME"`).  The leaves are
+numbered in the order of the catalogue and then of K; `insn` is that list (the part 10-enc-insn.hbnf, written by tools/grammars_d.py, which tools/check-grammar-enc.sh compares).
 
-It reads the subset of hbnf the grammars use: rules in column 1 (continuation lines indented), `;` comments, `include`, literals, `|`, bit fields.
+It reads the subset of hbnf the grammars use: rules in column 1 (continuation lines indented), `;` comments, `=/`, literals, `|`, bit fields.
 """
 import os, re, sys
 
@@ -55,36 +57,10 @@ def strip_comment(line):
     return ''.join(out).rstrip()
 
 
-def read_rules(path, rules=None, files=None):
-    """{rule name: (body text, file, line)}, following `include`."""
-    rules = {} if rules is None else rules
-    files = [] if files is None else files
-    path = os.path.normpath(path)
-    files.append(path)
-    cur = None
-    for ln, raw in enumerate(open(path).read().split('\n'), 1):
-        line = strip_comment(raw)
-        if not line.strip():
-            continue
-        m = re.match(r'^include\s+"([^"]+)"\s*$', line)
-        if m:
-            read_rules(os.path.join(os.path.dirname(path), m.group(1)), rules, files)
-            cur = None
-            continue
-        if re.match(r'^prefix\s', line):
-            cur = None
-            continue
-        m = re.match(r'^([A-Za-z][\w-]*)\s*=(?!/)\s*(.*)$', line)
-        if m and not line[0].isspace():
-            cur = m.group(1)
-            if cur in rules:
-                raise GrammarError('%s:%d: rule %s is defined twice' % (path, ln, cur))
-            rules[cur] = [m.group(2), path, ln]
-        elif line[0].isspace() and cur:
-            rules[cur][0] += ' ' + line.strip()
-        else:
-            raise GrammarError('%s:%d: cannot read this line: %s' % (path, ln, line))
-    return {k: tuple(v) for k, v in rules.items()}, files
+def read_rules(root=None):
+    """({rule name: (body text, file, line)}, [the parts read]): every part of spec/grammars.d/ in load order (tools/grammars_d.py: a rule twice is an error naming both files, `=/` extends)"""
+    import grammars_d
+    return grammars_d.read_rules(root)
 
 
 def literals(body):
@@ -145,7 +121,7 @@ def reg_spec(w, nreg, hot):
 
 
 def shape_spec(name, body, nreg, hot):
-    """the spec dict of the shape `name` (the meaning of the name is in the header of spec/pdp64-enc.hbnf), checked against the fields of `body`"""
+    """the spec dict of the shape `name` (the meaning of the name is in the header of spec/grammars.d/22-enc-vocabulary.hbnf), checked against the fields of `body`"""
     fl = parse_fields(body)
     def expect(*want):
         if [(n, w) for n, w, _ in fl] != [(n, w) for n, w, _ in want] or [s for _, _, s in fl] != [s for _, _, s in want]:
@@ -216,11 +192,11 @@ def spec_dir(root=None):
 
 
 def load(root=None):
-    import mkgrammar
+    sys.path.insert(0, HERE)
     sd = spec_dir(root)
-    path = os.path.join(sd, 'pdp64', 'pdp64.hbnf')
-    rules, files = read_rules(path)
-    aliases = {lit: v for lit, v in numbered(read_rules(os.path.join(sd, 'pdp64-mnemonics.hbnf'))[0]['ralias'][0])}
+    path = os.path.join(sd, 'grammars.d')
+    rules, files = read_rules(root)
+    aliases = {lit: v for lit, v in numbered(rules['ralias'][0])}
     g = lambda n: rules[n][0] if n in rules else (_ for _ in ()).throw(GrammarError('%s: no rule %s' % (path, n)))
     name = literals(g('encoding-name'))[0][0]
     regs = numbered(g('regs'))
@@ -280,7 +256,7 @@ def load(root=None):
         lrs = sorted(leafrules.get(fi, []))
         if [k for k, _ in lrs] != list(range(1, len(lrs) + 1)) or not lrs:
             raise GrammarError('%s: the leaves must be numbered 1, 2, ...' % fr)
-        form = dict(name=fnm, n=None, mns=[], xbits=0, specs=specs)
+        form = dict(name=fnm, n=None, mns=[], xbits=0, specs=specs, file=rules[fr][1])
         off = 0
         for k, lr in lrs:
             lf = parse_leaf(lr, rules, mangle(fnm), k, specs, fi, off, form)
@@ -289,15 +265,7 @@ def load(root=None):
             leaves.append(lf)
             insn_order.append(lr)
         forms.append(form)
-    mi = re.match(r'^leaf:\(\s*(.*?)\s*\)$', g('insn'))
-    if not mi:
-        raise GrammarError('`insn` must be  leaf:( leaf-A | leaf-B | ... )')
-    listed = [x.strip() for x in mi.group(1).split('|')]
-    if listed != insn_order:
-        raise GrammarError('`insn` must list every leaf, in the order of the catalogue and the numbers (%d listed, %d leaves); first difference: %s' % (
-            len(listed), len(insn_order), next(((a, b) for a, b in zip(listed, insn_order) if a != b), None)))
     # the shared grammar
-    shared = os.path.join(sd, 'pdp64-enc.hbnf')
     acc = {}
     for sz in (8, 4, 2, 1):
         for lit, _ in literals(rules['acc-%d' % sz][0]):

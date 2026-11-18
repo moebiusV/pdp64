@@ -4,7 +4,7 @@
 `set cc,rd` and the system-register moves take a word as an operand: the old reader took it for a label (a pc-relative operand), so no form fitted the instruction and it counted as
 unencodable (342 of the 296,069 instructions of the corpus of 2026-11-10, e.g. `set eq,r0`).  The test reads tests/corpus/words.s with both and checks: the old reader
 reads the words as labels (the bug is still there in the history script, which is not edited); the corrected one reads them as numbers of the grammar; the model finds a form for every one of them and the
-numbers are those of the grammar (spec/pdp64-mnemonics.hbnf); the condition in the numbering of the branches (`bne` and `set ne` take 1).
+numbers are those of the grammar (spec/grammars.d); the condition in the numbering of the branches (`bne` and `set ne` take 1).
 usage: test_reader.py              exit status 0 when all agree"""
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))

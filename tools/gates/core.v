@@ -109,7 +109,7 @@ module stmerge(input [63:0] old, input [63:0] v, input [2:0] off, input [1:0] sz
   assign y = (old & ~mask) | ((v << (8 * off)) & mask);
 endmodule
 
-// a translation buffer of 32 entries: a virtual page number of 28 bits, a physical page number of 28 bits, 8 flag bits (the page-table entry of spec/pdp64-system.hbnf), the match of all entries
+// a translation buffer of 32 entries: a virtual page number of 28 bits, a physical page number of 28 bits, 8 flag bits (the page-table entry of spec/grammars.d/50-system-v1.hbnf), the match of all entries
 module tlb32(input clk, input [27:0] vpn, input we, input [4:0] wi, input [63:0] wd, output [27:0] ppn, output [7:0] fl, output hit);
   reg [63:0] e [0:31];
   reg [31:0] m;

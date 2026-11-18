@@ -18,6 +18,9 @@ Run:                   encopt tests/current.encopt            (the statistics of
 Write an input file:   python3 export.py --corpus DIR [--weights PROFILE]... --out FILE
                        (export.py stays Python: it reads the corpus with the study's operand model, docs/codegen-data/encoding, and the corrected reader corpusfix.py; DIR is the
                        compiled assembly of the corpus, one .s per source file, `ccom` over the preprocessed corpus; see optimizer.md, "Re-running it")
+Write the grammar:     python3 export.py --write-grammar RESULT --grammar-out DIR  /  python3 tools/encopt/addforms.py --grammar-out spec/grammars.d   (the vec family of vecfam.py)
+                       Both write only the three generated parts of the encoding grammar (20-enc-forms.hbnf, 21-enc-shapes.hbnf, 80-mn-ext.hbnf), which are parts of the drop-in
+                       directory spec/grammars.d/; never a part a person edits (errata 179, 180; spec/README.md, "How a part is added"); then run python3 tools/grammars_d.py --write.
 Collect a profile:     python3 profile.py -o PROFILE --tests ../../tests/c ...      (sim64 -P, decoded; programs/make-profile.sh: the five programs)
 Check overfitting:     python3 leave-one-out.py --corpus DIR --weights-dir DIR
 

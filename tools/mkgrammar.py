@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """
-mkgrammar -- the numbers of the architecture are written once, as the enum rules of spec/pdp64-mnemonics.hbnf.  This reads them and writes
+mkgrammar -- the numbers of the architecture are written once, as the enum rules of the parts of spec/grammars.d/ (the words in 30-mn-core, 40-mn-system, the registers, the
+conditions, the system registers, System v1 in 50-system-v1: errata 180).  This reads them (tools/grammars_d.py: every hand-written part that names asm or spec) and writes
 
     build/pdp64-consts.h   one #define per enumerator, for the C that needs a number by name (as64, sim64, ld64)
+    build/pdp64-names.h    the assembly spelling of every word, for a compiler that writes assembly
+    build/x/pdp64-groups.h the mnemonic groups of the assembler (enum mn_group, MNEMONIC_NUMBER), in the order of the alternatives of `mnemonic`
 
-An enumerator "cmp"@0b011010 of the rule mn-alu is MN_ALU_CMP.  An enumerator without a number is the one before plus one, as in hbnf.
-spec/pdp64-system.hbnf (System v1: PSW, vectors, page-table entry, devices) is read the same way and its numbers go to the same header.
+An enumerator "cmp"@0b011010 of the rule mn-alu is MN_ALU_CMP.  An enumerator without a number is the one before plus one, as in hbnf.  A part that a generator owns (mn-ext, the forms)
+has no constants: its numbers are positions in the tables mkenc.py writes.  Before it reads anything it writes the generated parts and indexes of the directory again
+(`tools/mkparts.py`: `insn`, `mnemonic`; `tools/grammars_d.py --write`: the include lists), so a part dropped into spec/grammars.d/ is in every build with no other step.  There are no copies of the grammars in
+build/: hbnf reads spec/pdp64-asm.hbnf (the assembly language) and spec/pdp64/pdp64.hbnf (the encoding) as they are.
 """
 import os, re, sys
 
@@ -13,61 +18,50 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, '..')
 
 
-def enums(path):
-    text = open(path).read()
+def enums(root=None, generated=False, targets=('spec',)):
+    """{rule: [(literal, number)]} of the enum rules of the parts that name `spec` (the numbers: the words, the registers, the conditions, the system registers, System v1), the
+    hand-written ones unless told otherwise.  A rule with no literal is left out."""
+    import grammars_d
+    rules, _ = grammars_d.read_rules(root, generated=generated, targets=targets)
     out = {}
-    cur = None
-    nxt = 0
-    for line in text.split('\n'):
-        line = re.sub(r';.*$', '', line)           # no quote in these files holds a ;
-        m = re.match(r'^([A-Za-z][\w-]*)\s*=(?!/)\s*(.*)$', line)
-        if m:
-            cur, body = m.group(1), m.group(2)
-            out[cur] = []
-            nxt = 0
-        elif cur and re.match(r'^\s+\|', line):
-            body = line
-        else:
-            if line.strip() == '':
-                cur = None
-            continue
+    for rule, (body, _, _) in rules.items():
+        nxt = 0
         for lit, num in re.findall(r'"([^"]+)"(?:@(0[xbo][0-9A-Fa-f]+|\d+))?', body):
             if num:
                 nxt = int(num, 0)
-            out[cur].append((lit, nxt))
+            out.setdefault(rule, []).append((lit, nxt))
             nxt += 1
-    return {k: v for k, v in out.items() if v}
+    return out
 
 
-def group_order(en):
-    """The mn- groups, in the order they are written.  With whole-word keywords (see pdp64-asm.hbnf) the order does not matter."""
-    return [g for g in en if g.startswith('mn-') and g not in ('mn-cond', 'mn-sysreg')]
+def group_order(root=None):
+    """The mnemonic groups, in the order of the parts (the generated mn-ext included): the order of the alternatives of `mnemonic` (grammars_d.py).  With whole-word keywords (see
+    60-asm-syntax.hbnf) the order does not matter to the grammar."""
+    import mkparts
+    return mkparts.mn_groups(root)
 
 
 def main():
-    en = enums(os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf'))
+    import grammars_d, mkparts
+    mkparts.write()
+    grammars_d.write()
+    bad = grammars_d.validate()
+    if bad:
+        sys.exit('mkgrammar: ' + '\n'.join(bad))
+    en = enums()
     const = {}
-    syst = enums(os.path.join(ROOT, 'spec', 'pdp64-system.hbnf'))
-    for rule, items in list(en.items()) + list(syst.items()):
-        if rule in syst and items is syst[rule] and rule in en:
-            sys.exit('mkgrammar: rule %s is in both grammars' % rule)
+    for rule, items in en.items():
         for lit, v in items:
             k = re.sub(r'\W', '_', rule).upper() + '_' + re.sub(r'\W', '_', lit).upper()
             if k in const:
                 sys.exit('mkgrammar: %s is defined twice' % k)
             const[k] = v
-    # the grammars hbnf reads: enums longest-first, and the mnemonic rule in a safe order
     bd = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
-    os.makedirs(bd, exist_ok=True)
-    mn = open(os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf')).read()
-    mn += '\n; written by tools/mkgrammar.py: the groups of mnemonics\nmnemonic = ' + '\n         | '.join(group_order(en)) + '\n'
-    open(os.path.join(bd, 'pdp64-mnemonics.hbnf'), 'w').write(mn)
-    open(os.path.join(bd, 'pdp64-asm.hbnf'), 'w').write(open(os.path.join(ROOT, 'spec', 'pdp64-asm.hbnf')).read())
-    for name in ('common.hbnf', 'ascii.hbnf', 'elf.hbnf'):
-        open(os.path.join(bd, name), 'w').write(open(os.path.join(ROOT, 'spec', name)).read())
-    order = group_order(en)
+    os.makedirs(os.path.join(bd, 'x'), exist_ok=True)
+    full = enums(generated=True, targets=('asm',))
+    order = group_order()
     names = [g[3:].replace('-', '_').upper() for g in order]
-    with open(os.path.join(bd, 'pdp64-groups.h'), 'w') as f:
+    with open(os.path.join(bd, 'x', 'pdp64-groups.h'), 'w') as f:
         f.write('/* generated by tools/mkgrammar.py -- do not edit.  The groups of mnemonics in the order of the alternatives of `mnemonic`. */\n')
         f.write('enum mn_group {\n')
         for k, n in enumerate(names):
@@ -75,7 +69,7 @@ def main():
         f.write('};\n#define MG_COND 99\t/* instructions that take a condition word (`set eq, r1`): not in `mnemonic` */\n#define MG_SYSREG 98\t/* mfsr, mtsr: they take a system register name (`mfsr r1, ptbr`): not in `mnemonic` */\n/* the number of the mnemonic that the parser matched, from the member of that group (single-word groups have no member: their number is the opcode) */\n')
         f.write('#define MNEMONIC_NUMBER(m, out) do { switch ((m)->_alt) { \\\n')
         for k, g in enumerate(order):
-            if len(en[g]) == 1:
+            if len(full[g]) == 1:
                 key = 'OPGROUP_' + g[3:].replace('-', '_').upper()
                 val = 'OPGROUP_%s' % g[3:].replace('-', '_').upper() if key in const else '0'
                 f.write('\tcase %d: (out) = %s; break; \\\n' % (k + 1, val))
@@ -84,7 +78,7 @@ def main():
         f.write('\t} } while (0)\n')
     # the names, for a compiler that writes assembly: every word of the mnemonic groups as a string
     with open(os.path.join(bd, 'pdp64-names.h'), 'w') as f:
-        f.write('/* generated by tools/mkgrammar.py from spec/pdp64-mnemonics.hbnf -- do not edit.  The assembly spelling of every mnemonic, for templates:\n'
+        f.write('/* generated by tools/mkgrammar.py from the parts of spec/grammars.d/ -- do not edit.  The assembly spelling of every mnemonic, for templates:\n'
                 '   "\\t" M_ALU_ADD " AL,AR\\n". */\n#ifndef PDP64_NAMES_H\n#define PDP64_NAMES_H\n')
         for rule, items in en.items():
             if rule.startswith('mn-'):
@@ -96,14 +90,11 @@ def main():
         for lit, v in en['sysreg']:				# the system registers, for `mfsr r1, ptbr`
             f.write('#define S_SYSREG_%-12s "%s"\n' % (re.sub(r'\W', '_', lit).upper(), lit))
         f.write('#endif\n')
-    # the header
-    b = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
-    os.makedirs(b, exist_ok=True)
-    with open(os.path.join(b, 'pdp64-consts.h'), 'w') as f:
-        f.write('/* generated by tools/mkgrammar.py from spec/pdp64-mnemonics.hbnf -- do not edit */\n#ifndef PDP64_CONSTS_H\n#define PDP64_CONSTS_H\n')
+    with open(os.path.join(bd, 'pdp64-consts.h'), 'w') as f:
+        f.write('/* generated by tools/mkgrammar.py from the parts of spec/grammars.d/ -- do not edit */\n#ifndef PDP64_CONSTS_H\n#define PDP64_CONSTS_H\n')
         for k in sorted(const, key=lambda k: (k.split('_')[0], const[k], k)):
             f.write('#define %-28s %s\n' % (k, '%d' % const[k]))
-        f.write('/* the read-only system registers (rule sysreg-ro of pdp64-mnemonics.hbnf) */\n#define SYSREG_READONLY(n) (%s)\n' % ' || '.join('(n) == %d' % v for _, v in en['sysreg-ro']))
+        f.write('/* the read-only system registers (rule sysreg-ro) */\n#define SYSREG_READONLY(n) (%s)\n' % ' || '.join('(n) == %d' % v for _, v in en['sysreg-ro']))
         f.write('#endif\n')
 
 

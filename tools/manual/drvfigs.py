@@ -152,7 +152,7 @@ def fig_console_timer():
     lines(c, 28, 276, ['Every box is a candidate; none is chosen.'], 9)
     lines(c, 28, 288, ['Whether these three follow "virtio across the board" (errata 95) is part of what is open.'], 9)
     lines(c, 20, 314, ['A virtio-console needs the bus and a queue before it can print; its emergency write needs the bus and no queue.  A fixed console needs neither.',
-                       'Sources: spec/pdp64-system.hbnf, qemu/hw-pdp64, virtio_console.h, virtio_rtc.h, QEMU virtio-rng.c (read)'], 8, fill='#555', gap=14)
+                       'Sources: spec/grammars.d/50-system-v1.hbnf, qemu/hw-pdp64, virtio_console.h, virtio_rtc.h, QEMU virtio-rng.c (read)'], 8, fill='#555', gap=14)
     return c.svg()
 
 

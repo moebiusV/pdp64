@@ -1,5 +1,5 @@
-"""Build the schemes with the optimiser and write them as the hbnf grammars of the encodings (spec/pdp64-enc.hbnf, spec/pdp64-16/pdp64-16.hbnf,
-spec/pdp64-32/pdp64-32.hbnf), by write_hbnf.py.  The grammars are the source of truth of the encodings; this is the design tool that writes a new one, and the
+"""Build the schemes with the optimiser and write them as the generated parts of the encoding grammar (spec/grammars.d/{20-enc-forms,21-enc-shapes,80-mn-ext}.hbnf, parts of the
+drop-in directory that the masters spec/pdp64/pdp64.hbnf and spec/pdp64-asm.hbnf include through generated indexes; errata 179, 180), by write_hbnf.py (only the 32-register member is written: the 16-register study has no grammar any more).  The grammars are the source of truth of the encodings; this is the design tool that writes a new one, and the
 optimiser stays the independent oracle (check-enc.py lays the grammar's forms out again with the model enc.py and requires the same bits).  Needs the corpus
 (load.py paths).  Nothing builds from the optimiser's data: what it writes is a grammar to review, diff and commit (spec/README.md, "Changing an encoding").
 

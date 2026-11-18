@@ -5,7 +5,7 @@ pc-relative operand).  Two groups of instructions take a word of their own as an
 
   set CC, rd        the condition code (`ne eq pl mi vc vs cc cs ge lt gt le hi los`, aliases `hs lo`, and `al`), then a register
   mfsr rd, SREG     the system register by name (`ptbr epc eva ecause dmw0 dmw1 usp ssp epsw vbr mmuctl asid cpuid`), as the register of the instruction;
-  mtsr SREG, rs     the numbers are those of spec/pdp64-mnemonics.hbnf
+  mtsr SREG, rs     the numbers are those of spec/grammars.d
 
 The old reader took the word for a label, so `set eq,r0` had a label operand and no form fitted it: 342 instructions of the corpus counted as unencodable in every
 figure.  Here the word becomes its number as an immediate (`#2` for eq: the form SETF has the condition as a 4-bit unsigned field in the numbering of the
@@ -25,11 +25,11 @@ import m2
 STATS = collections.Counter()
 
 
-def _numbers(spec_file, rule):
+def _numbers(spec_text, rule):
     """name -> number of the alternatives `"name"@N` of a rule of the grammar (the first rule of that name)"""
     out = {}
     cur = None
-    for line in open(spec_file):
+    for line in spec_text.split('\n'):
         code = line.split(';')[0]
         mm = re.match(r'^([a-z][\w-]*)\s*=', code)
         if mm: cur = mm.group(1)
@@ -38,10 +38,12 @@ def _numbers(spec_file, rule):
     return out
 
 
-MN = os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf')
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+import grammars_d
+MN = grammars_d.text(ROOT, 'asm', generated=False)          # the hand-written parts of spec/grammars.d/ that the assembler reads
 CC = _numbers(MN, 'cc'); CC.update(_numbers(MN, 'ccalias'))
 SREG = _numbers(MN, 'sysreg')
-assert CC.get('eq') == 2 and CC.get('los') == 14 and SREG.get('ptbr') == 0, 'the grammar tables of spec/pdp64-mnemonics.hbnf were not read'
+assert CC.get('eq') == 2 and CC.get('los') == 14 and SREG.get('ptbr') == 0, 'the grammar tables of spec/grammars.d/ (42-conditions, 41-sysreg) were not read'
 
 _orig_parse = m2.parse
 

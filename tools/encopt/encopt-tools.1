@@ -49,7 +49,7 @@ Size the corpus with the forms chosen in \fIresult\fR with the real layout, bran
 The study's reader (m2.py) takes a word that is neither register, number nor memory form for a label.  \fBset cc,rd\fR (a condition code and a register) and the system-register moves
 \fBmfsr rd,sreg\fR and \fBmtsr sreg,rs\fR take a word of their own (spec/pdp64-asm.hbnf: \fIcondinsn\fR, \fIsrinsn\fR), so they were read as having a label operand and no form fitted
 them: 337 to 342 instructions of the corpus counted as unencodable in every figure.  \fIcorpusfix.py\fR wraps the reader: the word becomes its number (the \fBcc\fR and \fBsysreg\fR tables of
-spec/pdp64-mnemonics.hbnf) as an immediate.  The condition codes of \fBtrapcc\fR and \fBcb\fR are in the mnemonic, a \fBcb\fR has a label as its last operand and no condition word: nothing else
+spec/grammars.d) as an immediate.  The condition codes of \fBtrapcc\fR and \fBcb\fR are in the mnemonic, a \fBcb\fR has a label as its last operand and no condition word: nothing else
 takes a word.  The history scripts are not edited.  tests/test_reader.py is the test.
 .SH PROFILE COLLECTOR
 .B profile.py

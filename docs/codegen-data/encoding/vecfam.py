@@ -5,7 +5,9 @@ and were: the tile, the whole-GEMM unit, the gather and 23 lane variants were re
 (errata 171), the strip was made invisible (errata 173 to 175: vlen and the register form of vtbl removed, vfin added).  pcc has no vectorizer; the LLVM back end selects
 some of them (llvm/vector-usage.md).  Their encodings are provisional (forced forms, no usage weights: the prefix optimiser is to be run again on the corpus compiled by
 the LLVM back end), and a word that the benchmarks show to be a dud is removed by deleting its name from a list below and regenerating (errata 170, "generator workflow":
-addforms.py with --drop for each removed form, mkenc.py --md, check-grammar-enc.sh --update, mk_vectors.py).
+`addforms.py --grammar-out spec/grammars.d` with --drop for each removed form, tools/grammars_d.py --write, mkenc.py --md, check-grammar-enc.sh --update, mk_vectors.py).  The grammar the family lands in is
+generated (errata 179, 180): spec/grammars.d/20-enc-forms.hbnf, 21-enc-shapes.hbnf and 80-mn-ext.hbnf are whole parts that addforms.py writes and a person never edits (a family that is hand
+written is a part of its own: spec/README.md, "How a part is added").  Change this file, not the generated ones.
 
 A form is a list of mnemonics that share operand shapes; the leaf of a form has the shortest prefix that the operand bits and the sub-opcode bits leave (as many
 first-parcel patterns as 2^(16-L)), so the whole family takes only some tens of patterns.

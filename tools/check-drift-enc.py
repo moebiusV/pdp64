@@ -6,7 +6,7 @@ spec/pdp64-NN/pdp64-NN.hbnf is the one place the bit positions and the mnemonics
 writes one assembly instruction of a shape the table has for it (from the operand specs of its shortest form), assembles it with as64, decodes the
 parcels with the C codec (tests/enc/encdrv -d) and requires the same mnemonic back: every mnemonic of the encoding can be written in the assembly language and
 reaches its own opcode (the 22 ATOM words, the 8 MESC words, TRAPL, the SYSX words, the new instructions and the fused pairs included).  Then:
-  - every word of the original grammar (spec/pdp64-mnemonics.hbnf) that the table has under that name assembles, and an alias assembles to what the word it
+  - every word of the original grammar (spec/grammars.d) that the table has under that name assembles, and an alias assembles to what the word it
     stands for assembles to;
   - the opcode map: the prefixes are a prefix code (Kraft sum <= 1: no reserve, the author's answer of 2026-11-10, errata 159), the 65,536 first parcels decode to at most one leaf, and the number of free patterns,
     leaves, forms and hot-register tables are those recorded below (a change to a table must change them in the same commit).
@@ -88,7 +88,7 @@ def decode(words):
 def main():
     sys.path.insert(0, HERE)
     import mkgrammar
-    en = mkgrammar.enums(os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf'))
+    en = mkgrammar.enums(ROOT)
     names = {}                                 # word -> canonical word, from the generated header
     for w, c in re.findall(r'"([^"]+)", "([^"]+)" \}', open(os.path.join(B, 'x', 'pdp64-mnnames.h')).read()):
         names[w] = c

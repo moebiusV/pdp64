@@ -44,7 +44,7 @@ ap.add_argument('--no-cb3', action='store_true')
 ap.add_argument('--no-committed', action='store_true')
 ap.add_argument('--rounds', type=int, default=1)
 ap.add_argument('--verify')
-ap.add_argument('--write-grammar', metavar='RESULT', help='write the grammar of the selection in an encopt result (the forced forms and the `chosen` lines) as spec/pdp64-enc.hbnf and spec/pdp64/pdp64.hbnf would be: into --grammar-out')
+ap.add_argument('--write-grammar', metavar='RESULT', help='write the grammar of the selection in an encopt result (the forced forms and the `chosen` lines) as the generated parts spec/grammars.d/{20-enc-forms,21-enc-shapes,80-mn-ext}.hbnf would be (errata 179, 180): into --grammar-out')
 ap.add_argument('--grammar-out', metavar='DIR', default='grammar-out')
 ap.add_argument('--prev', metavar='RESULT', help='take the distances of the corpus (and the price of an unreachable cbCC) from the layout of the selection in an earlier encopt result instead of the committed grammar: the next round of the design loop')
 ap.add_argument('--python-solve', metavar='OUT', help='also run the study\'s own greedy selection (solve.solve, refine 6) on the same data and write its choice as `chosen` lines to OUT')
@@ -127,7 +127,7 @@ if not a.corpus: ap.error('--corpus is required')
 
 if a.write_grammar:
     # the output stage (errata 159): the selection becomes the grammar.  The forms are the forced ones and the chosen candidates; write_hbnf.py writes them
-    # (the same writer that wrote the committed grammar: re-writing the committed one reproduces it but for two comment lines); export_forms.export checks the decodability
+    # (the same writer as addforms.py: it writes only the generated parts of spec/grammars.d/, never a hand-written part; copy them there and run tools/grammars_d.py --write); export_forms.export checks the decodability
     # and the boundaries of the layout before anything is written.
     prev, d = committed_scheme()
     hot = d['hot16']

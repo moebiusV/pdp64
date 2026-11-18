@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
 """
-mkenc -- the generator of the prefix-coded encodings.  The single source of truth of an encoding is its hbnf grammar,
+mkenc -- the generator of the prefix-coded encodings.  The single source of truth of an encoding is its hbnf grammar, the parts of the drop-in directory
 
-    spec/pdp64-enc.hbnf                       the vocabulary: operand shapes, access sizes, the words of group mn-ext
-    spec/pdp64/pdp64.hbnf                     the pdp64: 32 registers, 5-bit fields, the forms and leaves
+    spec/grammars.d/NN-name.hbnf     the parts (tools/grammars_d.py; spec/README.md): the vocabulary, the registers and hot tables (hand edited), the forms and leaves, the
+                                     shapes, `insn` and the group mn-ext (GENERATED), and any part a person drops in for a family of instructions of their own
 
-(written by docs/codegen-data/encoding/write_hbnf.py from the optimiser's layout, and edited by hand; see spec/README.md).  tools/encgram.py reads them
-(hbnf has no generator for a table of leaves, so this is the small generator that reads the grammar; it reads nothing else).  This writes
+(errata 179, 180: a generator owns whole parts and never one a person edits).  tools/encgram.py reads the whole directory (hbnf has no generator for a table of leaves, so this is the
+small generator that reads the grammar; it reads nothing else).  This writes
 
     build/pdp64-tab.c, build/pdp64-hbfields.h    the C tables of the codec (common/pdp64enc.c): forms, leaves, bit runs, mnemonics
-    build/x/pdp64-mnemonics.hbnf, pdp64-asm.hbnf, pdp64-groups.h, pdp64-extnames.h
-                                                 the assembly grammar of as64: the grammar of spec/ plus the mnemonics the original
-                                                 numbering lacks (group mn-ext) and the registers r16-r31
+    build/x/pdp64-extnames.h, pdp64-mnnames.h    the name tables of as64: the words of group mn-ext by number, every word of the hand-written groups by (group, number)
     spec/pdp64/tables.md                         the leaf tables for people (with --md)
 
+(build/x/pdp64-groups.h is tools/mkgrammar.py's.  The assembly grammar of as64 is spec/pdp64-asm.hbnf over the parts; there is no copy of it to patch.)
 It verifies each table as it reads it, independently of the optimiser: the prefixes form a prefix code (Kraft), every leaf covers all of its
-16n bits exactly once, and the 65,536 first parcels decode to at most one leaf each.
+16n bits exactly once, the words the leaves use that no hand-written group numbers are exactly the group mn-ext, and the 65,536 first parcels decode to at most one leaf each.
 
     tools/mkenc.py            generate into $BUILD (default build)
     tools/mkenc.py --md       also rewrite spec/pdp64/tables.md
@@ -31,7 +30,7 @@ DP = 255
 
 
 def msize(mn, acc):
-    """the size of the access of a mnemonic: the rules acc-N of spec/pdp64-enc.hbnf; a suffix after a dot (.u .d .ud) does not change it; 1 for the others"""
+    """the size of the access of a mnemonic: the rules acc-N of 22-enc-vocabulary.hbnf; a suffix after a dot (.u .d .ud) does not change it; 1 for the others"""
     return acc.get(mn.split('.')[0], 1)
 
 
@@ -323,52 +322,19 @@ def regname(r):
     return {14: 'sp', 13: 'fp'}.get(r, 'r%d' % r)
 
 
-# ---------------------------------------------------------------- the grammar of as64 with the new words
-def mkgrammar_order(en):
+# ---------------------------------------------------------------- the words
+def check_ext(allmn, ext_decl):
+    """the group mn-ext (generated) must be the words the leaves use that no hand-written group numbers; returns the hand-written enums"""
     sys.path.insert(0, HERE)
     import mkgrammar
-    return mkgrammar.group_order(en)
-
-
-def old_words(path):
-    sys.path.insert(0, HERE)
-    import mkgrammar
-    en = mkgrammar.enums(path)
-    return en
-
-
-FUSED = ['movcall', 'popmret', 'popret', 'mov2']
-
-
-def gen_grammar(allmn, outdir, ext_decl, regnames, ext_alias=()):
-    en = old_words(os.path.join(ROOT, 'spec', 'pdp64-mnemonics.hbnf'))
-    old = set()
-    for g, items in en.items():
-        if g.startswith('mn-'):
-            for lit, v in items:
-                old.add(lit)
-    old |= {'rol'}
+    en = mkgrammar.enums(ROOT)
+    old = {lit for g, items in en.items() if g.startswith('mn-') for lit, v in items} | {'rol'}
     need = {m for m in allmn if m not in old}
     ext = list(ext_decl)
     if set(ext) != need or len(set(ext)) != len(ext):
-        sys.exit('mkenc: the rule mn-ext of spec/pdp64-enc.hbnf is not the set of words the leaves use that spec/pdp64-mnemonics.hbnf does not have:\n  missing from mn-ext: %s\n  not used by a leaf: %s' % (
+        sys.exit('mkenc: the rule mn-ext of spec/grammars.d/80-mn-ext.hbnf (run tools/encopt/addforms.py --grammar-out spec/grammars.d) is not the set of words the leaves use that no hand-written group mn-NAME numbers (a part that adds a form of its own has its words in its own group):\n  missing from mn-ext: %s\n  not used by a leaf: %s' % (
             ' '.join(sorted(need - set(ext))), ' '.join(sorted(set(ext) - need))))
-    os.makedirs(outdir, exist_ok=True)
-    mn = open(os.path.join(ROOT, os.environ.get('BUILD', 'build'), 'pdp64-mnemonics.hbnf')).read()
-    # the group: the number is the position in this list (the C table ext_names in pdp64-extnames.h)
-    body = '\n; written by tools/mkenc.py: the words the original numbering of spec/pdp64-mnemonics.hbnf lacks; the number is the position in the list (an alias: 0x1000 plus its word)\nmn-ext = ' + '\n       | '.join(['"%s"@%d' % (m, i) for i, m in enumerate(ext)] + ['"%s"@%d' % (a, 0x1000 + t) for a, t in ext_alias]) + '\n'
-    m = re.search(r'^mnemonic = (.*)\Z', mn, flags=re.M | re.S)
-    head = mn[:m.start()]
-    alts = m.group(1).rstrip() + '\n         | mn-ext\n'
-    oldregs = {lit for lit, v in en['rnum']}
-    extra = sorted({r for rs in regnames for r in rs} - oldregs, key=lambda r: int(r[1:]))
-    head = head.replace('"r15"@15', '"r15"@15 | ' + ' | '.join('"%s"@%s' % (r, r[1:]) for r in extra), 1)
-    assert not extra or '"%s"@%s' % (extra[-1], extra[-1][1:]) in head
-    open(os.path.join(outdir, 'pdp64-mnemonics.hbnf'), 'w').write(head + body + '\nmnemonic = ' + alts)
-    a = open(os.path.join(ROOT, 'spec', 'pdp64-asm.hbnf')).read()
-    a = a.replace('reg      = rnum | ralias | pctnum | pctalias', 'reg      = rnum | ralias | pctnum | pctalias\n; (as64: r16-r31 are added by tools/mkenc.py)')
-    open(os.path.join(outdir, 'pdp64-asm.hbnf'), 'w').write(a)
-    return ext, en
+    return en
 
 
 def main():
@@ -381,7 +347,6 @@ def main():
     if True:
         d = load()
         ext_decl = d['ext']
-        regnames = [d['regnames']]
         n = verify(d)
         c, mnames = gen_c(d)
         open(os.path.join(bd, 'pdp64-tab.c'), 'w').write(c)
@@ -394,7 +359,9 @@ def main():
         elif check:
             if not os.path.exists(p) or open(p).read() != text:
                 print('mkenc: %s is not what spec/pdp64/pdp64.hbnf says (run tools/mkenc.py --md)' % p); bad = 1
-    ext, en = gen_grammar(allmn, os.path.join(bd, 'x'), ext_decl, regnames, d['ext_alias'])
+    en = check_ext(allmn, ext_decl)
+    ext = list(ext_decl)
+    os.makedirs(os.path.join(bd, 'x'), exist_ok=True)
     with open(os.path.join(bd, 'x', 'pdp64-extnames.h'), 'w') as f:
         f.write('/* generated by tools/mkenc.py -- do not edit.  The words of group mn-ext, by number. */\nstatic const char *const ext_names[] = {\n')
         for m in ext:
@@ -405,7 +372,9 @@ def main():
             f.write('\t{ "%s", %d },\n' % (a, t))
         f.write('\t{ 0, 0 }\n};\n')
     # the names of the mnemonics by (group, number), with the word an alias stands for: for the assembler's canonical instruction
-    order = mkgrammar_order(en)
+    sys.path.insert(0, HERE)
+    import mkgrammar
+    order = mkgrammar.group_order(ROOT)
     with open(os.path.join(bd, 'x', 'pdp64-mnnames.h'), 'w') as f:
         f.write('/* generated by tools/mkenc.py -- do not edit.  Every word of the mnemonic groups: group (MG_*), number, the word, the word of the encoding it stands for. */\n'
                 'struct mnname { short mg, num; const char *name, *canon; };\nstatic const struct mnname mnnames[] = {\n')
@@ -414,6 +383,8 @@ def main():
             for lit, v in items:
                 consts[(rule, v)] = lit
         for gi, g in enumerate(order):
+            if g not in en:
+                continue                       # a generated group (mn-ext): its names are in pdp64-extnames.h
             items = en[g]
             for lit, v in items:
                 num = v
@@ -424,12 +395,6 @@ def main():
                     canon = consts[(g, v - 0x100)]
                 f.write('\t{ %d, %d, "%s", "%s" },\n' % (gi + 1, num, lit, canon))
         f.write('};\n')
-    # the groups header of as64: the one of mkgrammar plus MG_EXT, last
-    g = open(os.path.join(bd, 'pdp64-groups.h')).read()
-    k = len(re.findall(r'^\tMG_\w+ = \d+,', g, flags=re.M))
-    g = g.replace('};\n#define MG_COND', '\tMG_EXT = %d,\n};\n#define MG_COND' % (k + 1), 1)
-    g = g.replace('\t} } while (0)', '\tcase %d: (out) = (m)->mn_ext; break; \\\n\t} } while (0)' % (k + 1), 1)
-    open(os.path.join(bd, 'x', 'pdp64-groups.h'), 'w').write(g)
     sys.exit(bad)
 
 

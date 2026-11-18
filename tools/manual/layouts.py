@@ -1,7 +1,7 @@
 """The bit-layout charts of the manual, generated from the grammars.
 
-    the encoding   spec/pdp64/pdp64.hbnf and spec/pdp64-enc.hbnf, read by tools/encgram.py; spec/pdp64-mnemonics.hbnf (every number),
-                   spec/pdp64-system.hbnf (the status word)
+    the encoding   spec/pdp64/pdp64.hbnf and spec/grammars.d/22-enc-vocabulary.hbnf, read by tools/encgram.py; spec/grammars.d (every number),
+                   spec/grammars.d/50-system-v1.hbnf (the status word)
 
 No layout is written in this file: a chart is what the grammar says for that opcode, so changing a field in a grammar changes the chart.  The drawing
 (boxes, bit numbers, shading of the fixed fields) is the only thing here.  A chart is a dict
@@ -110,7 +110,7 @@ def b(v, w):
 
 # ---------------------------------------------------------------- the PSW and the common figures of chapter 9 (from the grammars)
 def psw_chart(SYS):
-    """the status word: the positions and the widths of spec/pdp64-system.hbnf (rules psw and psw-width); the gaps are reserved bits"""
+    """the status word: the positions and the widths of spec/grammars.d/50-system-v1.hbnf (rules psw and psw-width); the gaps are reserved bits"""
     pos = dict(SYS['psw'])
     wid = dict(SYS['psw-width'])
     flat, top = [], 15
@@ -176,8 +176,7 @@ class Enc:
     def __init__(self):
         self.d = encgram.load(ROOT)
         d = self.d
-        path = os.path.join(ROOT, 'spec', 'pdp64', 'pdp64.hbnf')
-        self.rules, _ = encgram.read_rules(path)
+        self.rules, _ = encgram.read_rules(ROOT)
         self.name = d['name']
         self.words = [m for f in d['forms'] for m in f['mns']]
         self.ext = set(d['ext'])

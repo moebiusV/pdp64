@@ -5,7 +5,7 @@ import os, struct, subprocess, sys, tempfile
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'tools'))
 import mkgrammar
 AS, OUT = sys.argv[1], sys.argv[2]
-en = mkgrammar.enums(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'spec', 'pdp64-mnemonics.hbnf'))
+en = mkgrammar.enums(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 ALIAS = dict(en['offset'])['alias']
 R2 = {'abs', 'clz', 'ctz', 'clo', 'cto', 'popcnt', 'bswap', 'bswapw', 'bswapl', 'bitrev', 'utf8len', 'utf8dec', 'utf8enc'}
 SHIFTS = {'shl', 'shr', 'sar'}

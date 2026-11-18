@@ -61,7 +61,7 @@ The instruction is a distinct instruction of the corpus: the mnemonic and the op
 fits: \fBr5\fR, \fBsp\fR, \fBfp\fR; \fB#\fIN\fR an immediate; \fB@\fIN\fR an absolute address; \fIN\fB(r\fIb\fB)\fR with a base register (\fB(dp)\fR for the DP-relative form);
 \fIN\fB(r\fIb\fB)(r\fIx\fB*\fIs\fB)\fR indexed; \fB(r\fIb\fB)+\fIN\fR and \fB(r\fIb\fB)-\fIN\fR with a stride; \fBpc+\fIN\fR or \fBpc\-\fIN\fR a pc-relative operand (the bytes from the first parcel of the
 instruction to its target).  A condition or a system register of \fBset\fR, \fBmfsr\fR and \fBmtsr\fR is written as its number, \fB#2\fR for \fBset eq,r0\fR (the numbers of
-\fIspec/pdp64-mnemonics.hbnf\fR).  The same instruction on several lines is added up.  Counts are those of whole programs, so a pc-relative distance or an absolute address
+\fIspec/grammars.d\fR).  The same instruction on several lines is added up.  Counts are those of whole programs, so a pc-relative distance or an absolute address
 is the linker's; \fBencdis \-k\fR (tools/encdis.c) writes this notation from a \fBsim64 \-P\fR profile.
 .SH OUTPUT FILE
 The first record is \fBencopt-output 2\fR (format 1, written by encopt 1.1, had no \fBobjective\fR, \fBoperation-cost\fR and \fBmetrics\fR records).  Then:

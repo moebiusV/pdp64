@@ -1,5 +1,5 @@
 """Dictionary entries, part 4: the instructions that only the prefix-coded encoding has, the 70 words of group mn-ext of
-spec/pdp64-enc.hbnf.  The encodings are not here: the entry shows the bit-layout charts that tools/mkmanual.py generates from the grammars.
+spec/grammars.d/22-enc-vocabulary.hbnf.  The encodings are not here: the entry shows the bit-layout charts that tools/mkmanual.py generates from the grammars.
 An entry whose notes open with (P), a proposal that the author has not accepted, or (S), a stub, is held back by isa_entries.HELD and is not printed in the manual (errata 120); the entries of decided instructions are tagged (D)."""
 from isa_common import *
 

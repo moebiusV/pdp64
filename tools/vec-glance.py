@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """vec-glance.py -- the "family at a glance" table of docs/encoding-work/vec-isa.md, generated from the grammar so that it cannot be wrong.
 
-The words, the base mnemonics and their suffixes are read from spec/pdp64/pdp64.hbnf (the quoted vector words of the families VBEG ... VSTS.R).  The compiler path is read
+The words, the base mnemonics and their suffixes are read from the parts of the encoding grammar, spec/grammars.d/ (the generated 20-enc-forms.hbnf: the quoted vector words of the families VBEG ... VSTS.R).  The compiler path is read
 from llvm/vector-usage.md (the table "By instruction": words used by the vecloop and the LoopVectorize builds) and, for a word that no compiled kernel uses, from the
 hand-written kernels of docs/encoding-work/arch-data/vec-forms (*.s).  The one-line meaning and the wave of origin are written below (META); the script stops if the
 grammar has a base mnemonic META lacks, or META has one the grammar no longer has.
@@ -13,7 +13,8 @@ grammar has a base mnemonic META lacks, or META has one the grammar no longer ha
 import os, re, sys, glob, collections
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GRAMMAR = os.path.join(ROOT, 'spec', 'pdp64', 'pdp64.hbnf')
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+import grammars_d
 USAGE = os.path.join(ROOT, 'llvm', 'vector-usage.md')
 KERNELS = os.path.join(ROOT, 'docs', 'encoding-work', 'arch-data', 'vec-forms')
 BEGIN, END = '<!-- vec-glance:begin -->', '<!-- vec-glance:end -->'
@@ -94,7 +95,7 @@ META = {
 
 def grammar_words():
     words, fam = [], None
-    for line in open(GRAMMAR):
+    for line in grammars_d.text(ROOT, 'enc').split('\n'):          # the parts of target enc: the families, forms and leaves
         m = re.match(r'; family (\S+):', line)
         if m:
             fam = m.group(1)
@@ -160,7 +161,7 @@ def build():
         else:
             path = 'never (no compiled or hand-written kernel uses it)'
         out.append('| `%s` | %s | %s | %s | %s |' % (b, s, meaning, wave, path))
-    tot = '%d words, %d base mnemonics (read from %s)' % (nwords, len(bases), os.path.relpath(GRAMMAR, ROOT))
+    tot = '%d words, %d base mnemonics (read from %s)' % (nwords, len(bases), 'spec/pdp64/pdp64.hbnf')		# the grammar by its master's name: the words are in the file it includes
     return out, tot
 
 

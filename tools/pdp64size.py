@@ -31,7 +31,9 @@ from corpus import ROOT, ARCH, CORPORA, BUILDS, run, ccomflags, cfiles
 TOOL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # pdp64 is measured with build/pcc/ccom (tools/build-pcc.sh) and build/as64 --stats, which counts the instruction bytes itself.
 RESULTS = os.environ.get('RESULTS', '/tmp/co-final/results.jsonl')
-MNEM = os.path.join(REPO, 'spec', 'pdp64-mnemonics.hbnf')
+sys.path.insert(0, os.path.join(REPO, 'tools'))
+import grammars_d
+MNEM = grammars_d.text(REPO, 'asm', generated=False).split('\n')          # the hand-written words of spec/grammars.d/
 
 CCOMFLAGS_NOSSA = '-xdmr -xtemps -xdeljumps -xinline -xdce'
 COMMENT = {'pdp64': ';', 'amd64': '#', 'i386': '#', 'aarch64': '//', 'gcc-Os': '#', 'clang-Os': '#'}
@@ -363,7 +365,7 @@ def all_mnemonics():
     """the instruction mnemonics of the grammar (the mn-* rules, not registers, modes or condition names), without
     the aliases that only spell another word"""
     names, rule = set(), None
-    for line in open(MNEM):
+    for line in MNEM:
         if line.startswith(';') or not line.strip():
             continue
         m = re.match(r'^([a-z0-9-]+)\s*=', line)
