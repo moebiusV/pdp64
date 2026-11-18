@@ -1,0 +1,10 @@
+; targets: asm spec
+; The conditions (ISA 4.4), for the instructions that take one: the number is the low nibble of the corresponding branch opcode (`bne` is 0x31, so ne is 1),
+; checked by tools/check-drift-enc.py.  `al` is "always" (`br`).  hs and lo are the usual other names of cc and cs.
+cc = "al"@0 | "ne"@1 | "eq"@2 | "pl"@3 | "mi"@4 | "vc"@5 | "vs"@6 | "cc"@7 | "cs"@8 | "ge"@9 | "lt"@10 | "gt"@11 | "le"@12 | "hi"@13 | "los"@14
+ccalias = "hs"@7 | "lo"@8
+
+; Instructions that take a condition as a word of their own (`set eq, r1`): the condition goes in the x field of parcel 1, the number below is the sub-opcode in AESC.
+subop = "set"@0b00100000
+mn-cond = "set"
+

@@ -1,0 +1,49 @@
+; targets: asm spec
+; SYS class 0: no operand, the number is the minor opcode in the rm field
+mn-sys-none = "nop"@0b0000
+            | "rti"@0b0001
+            | "rtt"@0b0010
+            | "ret"@0b0011
+            | "halt"@0b0100
+            | "bpt"@0b0101
+            | "fence"@0b0110
+            | "wfe"@0b0111
+            | "sev"@0b1000
+            | "lpad"@0b1001
+            | "tlbia"@0b1010
+            | "tlbsync"@0b1011
+            | "icinva"@0b1100
+            | "wait"@0x107
+
+; SYS class 0 minor 15, SYSX: an escape to a parcel-1 sub-opcode (four bytes: `sub:8 pad:8`).  The minor has no word of its own; the two instructions are the words of mn-sysx,
+; numbered by their sub-opcode.  pushx: SP <- SP - 16; M[SP] <- EPSW; M[SP + 8] <- EPC.  popx: the reverse (errata 37). 
+sys-minor = "sysx"@0b1111
+
+mn-sysx = "pushx"@0
+        | "popx"@1
+        | "isync"@2     ; privileged: earlier writes to PTBR, ASID, MMUCTL, VBR and earlier ICINVs take effect for what follows (errata 39); pad zero
+        | "hint"@3      ; hint #n: n (0 to 255) in the pad byte; no architectural effect; 0 nop, 1 pause, 2 speculation barrier, the rest reserved and no-ops
+
+; SYS class 0, the system-register moves (four bytes: the register in parcel 1): the number is the minor opcode in the low field.  Not in `mnemonic`: they
+; take the register's name as a word of its own, in the operand position that is the system register (`mfsr r1, ptbr`, `mtsr ptbr, r1`)
+mn-sysreg = "mfsr"@0b1101
+          | "mtsr"@0b1110
+
+; SYS classes with an operand: the number is the class in the reg field
+mn-sys = "mtps"@0b0001
+       | "mfps"@0b0010
+       | "spl"@0b0011
+       | "trap"@0b0100
+       | "tlbi"@0b0101
+       | "mtasid"@0b0110
+       | "mfasid"@0b0111
+       | "mtdp"@0b1000
+       | "mfdp"@0b1001
+       | "mtdmw"@0b1010
+       | "mfcpuid"@0b1011
+       | "icinv"@0b1100
+       | "prober"@0b1101
+       | "probew"@0b1110
+       | "trapl"@0b1111
+
+; (the assembler aliases of ISA 4.15 are in the groups they stand for, numbered above the encodings of the group: bhis, blo, mulu, wait, rol)

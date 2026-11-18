@@ -1,0 +1,25 @@
+; targets: asm spec
+; Opcodes of the groups whose own mnemonics name sub-operations (SOP, SYS, BESC...), and of LEA and SOB, which have a single mnemonic.
+opgroup = "lea"@0b001011
+        | "besc"@0b001100
+        | "mblk"@0b001101
+        | "aesc"@0b001110
+        | "mesc"@0b001111
+        | "fesc"@0b010000
+        | "atom"@0b010001
+        | "xfer"@0b010010
+        | "sop"@0b010011
+        | "sys"@0b010100
+        | "tag"@0b010101
+        | "cbr"@0b101000
+        | "cbrr"@0b101010     ; cbCC ra,rb,label: compare two registers and branch (4 or 6 bytes)
+        | "cbw"@0b101001      ; cbCC with a 16-bit immediate and a 16-bit displacement (six bytes only)
+        | "sob"@0b111111
+
+; The store forms of the moves: the same mnemonics, the opcode after the load's (ISA section 4.1).
+movstore = "movq"@0b000001 | "movl"@0b000011 | "movw"@0b000101 | "movb"@0b000111
+
+
+; A word whose number is the alias offset plus another word's number stands for that word: one mnemonic, one instruction (ISA 4.15).  The old
+; spellings of the floating-point words (faddd, fadds...) are aliases of the new ones (fadd, fadd32...).  The assembler subtracts the offset.
+offset = "alias"@0x100 | "none"@0

@@ -1,3 +1,4 @@
+; targets: asm
 ; common.hbnf — the character classes and core rules any grammar shares.
 ;
 ; The RFC 5234 Appendix B.1 character classes (DIGIT, ALPHA, HEXDIG, ...) and
@@ -5,7 +6,6 @@
 ; named ASCII characters, so a grammar that includes this one file gets the
 ; whole set.
 
-include "ascii.hbnf"
 
 ; --- RFC 5234 Appendix B.1 character classes (each matches one code point) ---
 DIGIT  = 0x30..0x39

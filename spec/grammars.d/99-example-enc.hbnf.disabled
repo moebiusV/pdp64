@@ -1,0 +1,10 @@
+; targets: enc
+; EXAMPLE PART 2 of 2 (disabled; see 98-example-words.hbnf.disabled).  The encoding of the two words: a form is the operand shapes (the shapes are in 21-enc-shapes.hbnf; a new shape
+; is a rule here), the catalogue `forms` gets it by `=/` (the assembler tries the forms in the order of the catalogue), the leaf is the prefix as a constant, the sub-opcode and the
+; fields of the operands, covering the 16 bits exactly (10 + 1 + 5).  The prefix 0b1111111100 is free (spec/pdp64/tables.md lists the unassigned first parcels; tools/mkenc.py fails,
+; naming the overlap, if a prefix is not).  `insn` (10-enc-insn.hbnf) is written again from every leaf by tools/grammars_d.py.  The words are numbered by the group mn-example of
+; the other part: tools/mkenc.py fails if a leaf uses a word that no group numbers.
+forms =/ "EXAMPLE"
+form-EXAMPLE = o1:reg5
+leaf-EXAMPLE-1 = 0b1111111100 sub:1 o1-r:5
+sub-EXAMPLE-1 = "demoa" | "demob"

@@ -1,3 +1,4 @@
+; targets: asm
 ; ascii.hbnf — the named ASCII characters.
 ;
 ; The C0 control characters (NUL .. US), DEL, the blanks SP and HT/HTAB, and

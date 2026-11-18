@@ -1,8 +1,9 @@
+; targets: spec
 ; pdp64 System v1 (docs/pdp64-system-architecture.md section 15): the numbers of privileged mode, exceptions, interrupts, the memory-management unit and
 ; the devices of the virt machine.  Written once, here, as enum rules; tools/mkgrammar.py generates a #define for each in build/pdp64-consts.h (the
 ; enumerator "pri" of the rule psw is PSW_PRI), and the assembler, the shared core (common/pdp64exec.c), sim64, the QEMU target and the tests use them
-; from there.  (The system-register numbers are in pdp64-mnemonics.hbnf, because the assembler's grammar names them.)
-; Rules of this file are not part of the instruction grammar; they follow the layout of pdp64-mnemonics.hbnf so that one reader serves both.
+; from there.  (The system-register numbers are in 41-sysreg.hbnf, because the assembler's grammar names them.)
+; Rules of this file are not part of the instruction grammar; they follow the layout of the other number parts (30-mn-core.hbnf) so that one reader serves all; target spec only, hbnf does not read this part (a 40-bit constant does not fit an enum constant).
 
 ; The processor status word, 16 bits: the value is the position of the field's lowest bit.  C V Z N are the PDP-11 order.
 psw = "c"@0

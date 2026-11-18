@@ -1,0 +1,15 @@
+; targets: asm spec
+; The registers (ISA section 2.1; the encoding has 32, errata 122): R0-R31; SP is R14 and FP is R13 (the stack and frame pointers are ordinary registers named by convention);
+; PC and DP appear only as the base of an operand (modes `pcrel` and `dp`).
+rnum = "r0"@0 | "r1"@1 | "r2"@2 | "r3"@3 | "r4"@4 | "r5"@5 | "r6"@6 | "r7"@7
+     | "r8"@8 | "r9"@9 | "r10"@10 | "r11"@11 | "r12"@12 | "r13"@13 | "r14"@14 | "r15"@15
+     | "r16"@16 | "r17"@17 | "r18"@18 | "r19"@19 | "r20"@20 | "r21"@21 | "r22"@22 | "r23"@23
+     | "r24"@24 | "r25"@25 | "r26"@26 | "r27"@27 | "r28"@28 | "r29"@29 | "r30"@30 | "r31"@31
+ralias = "sp"@14 | "fp"@13
+
+; The registers of the vec block (docs/encoding-work/vec-isa.md): the vector registers v0-v15 are hidden registers of their own, not the
+; integer registers; the scalar instructions cannot name them.
+vnum = "v0"@0 | "v1"@1 | "v2"@2 | "v3"@3 | "v4"@4 | "v5"@5 | "v6"@6 | "v7"@7
+     | "v8"@8 | "v9"@9 | "v10"@10 | "v11"@11 | "v12"@12 | "v13"@13 | "v14"@14 | "v15"@15
+basespec = "pc"@1 | "dp"@2
+

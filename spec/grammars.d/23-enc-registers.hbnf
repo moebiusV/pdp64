@@ -1,0 +1,16 @@
+; targets: enc
+; The pdp64 encoding: its name, the registers (r0-r31) and the hot-register tables.  HAND EDITED.  Everything the codec, the assembler, the linker, the simulator and the documentation
+; know of this encoding is generated from the encoding parts (spec/README.md).
+
+encoding-name = "pdp64"
+
+; ---- the registers
+regs = "r0"@0 | "r1"@1 | "r2"@2 | "r3"@3 | "r4"@4 | "r5"@5 | "r6"@6 | "r7"@7 | "r8"@8 | "r9"@9 | "r10"@10 | "r11"@11 | "r12"@12 | "r13"@13 | "r14"@14
+     | "r15"@15 | "r16"@16 | "r17"@17 | "r18"@18 | "r19"@19 | "r20"@20 | "r21"@21 | "r22"@22 | "r23"@23 | "r24"@24 | "r25"@25 | "r26"@26 | "r27"@27
+     | "r28"@28 | "r29"@29 | "r30"@30 | "r31"@31
+; A register field of W bits that cannot hold a register number is an index into the table hotW (the part of the ABI the encoding depends on, docs/abi.md).
+hot3 = "r0" | "r1" | "r8" | "r2" | "sp" | "r3" | "r9" | "r10"
+hot4 = "r0" | "r1" | "r8" | "r2" | "sp" | "r3" | "r9" | "r10" | "r11" | "r4" | "r15" | "r5" | "r24" | "r25" | "r26" | "r6"
+
+; ---- the fused instructions (the assembler never fuses: they are ordinary mnemonics with operands, chosen by the compiler)
+fused = "movcall" | "popmret" | "popret" | "mov2"

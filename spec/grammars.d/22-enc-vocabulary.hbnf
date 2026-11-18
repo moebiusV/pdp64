@@ -1,0 +1,45 @@
+; targets: enc
+; The vocabulary of the encoding of the pdp64 (the grammar spec/pdp64/pdp64.hbnf).  HAND EDITED.  The operand shapes, the forms and leaves, `insn`, the catalogue and the group mn-ext
+; are GENERATED parts (20-enc-forms, 21-enc-shapes, 10-enc-insn, 80-mn-ext); this part holds what a person writes: the header below, which is the reference for every name, and the sizes
+; of the access of the moves.  tools/encgram.py reads all the parts (tools/grammars_d.py); nothing else holds the encodings: see spec/README.md.
+;
+; HOW THE GRAMMARS DESCRIBE AN ENCODING
+;
+; The input is one instruction: a record of bit fields, read from the top bit of parcel 0, parcel after parcel, each parcel big-endian (the
+; each parcel is written big-endian here: in memory the parcels are little-endian and the reader swaps them).  hbnf numbers bits from the top, so the
+; first field of a record is bits 15... of parcel 0 and a field that runs on from parcel k to parcel k+1 is one field.
+;
+; A LEAF is one alternative of `insn`: the prefix (a constant, as wide as its binary digits: 1 to 16 bits), then the sub-opcode `sub` (or `xsub`),
+; then the pieces of the operands, in the order of the bits.  There is no padding: the fields cover the 16*n bits of the n parcels exactly (the
+; length of an instruction is a function of its prefix alone).  A leaf is named leaf-FORM-K (K = 1, 2, ... in the order of the sub-opcode ranges).
+;
+;   sub:J     J bits (binary-aligned) selecting one of the mnemonics of the leaf; the mnemonics are the enum rule sub-FORM-K, numbered 0, 1, 2...
+;             (`sub-FORM-K` is the leaf's `leaf-FORM-K` with the prefix `sub-`); a number the enum does not have is illegal (`?(sub < N)`)
+;   xsub:W    the same, for the forms that give the mnemonic index W bits of its own wherever they are (the leaf lists the whole mnemonic list)
+;   oI-PART   a field (or the first piece of a field) of operand I (1 is the first operand of the assembly syntax); PART is a field of the operand's shape;
+;   oI-PART-N the Nth piece (from the top) of a field that the layout splits in two or more places
+;
+; A FORM is the list of operand shapes of the leaves that share it, form-FORM = o1:shape o2:shape ...  A SHAPE is the operand as the assembly
+; language writes it and the fields it is made of (their widths, `s` for signed); the order of the fields of a shape is the order of its parts.
+; The name of a shape holds what the fields cannot say:
+;
+;   regW                 a register, W bits.  W bits that cannot name every register of the member (hotW in the member's grammar) are an index into that table
+;   vregW                a vector register v0..v15 (vreg4) of the vec block, W bits: a hidden register, not an integer register
+;   immW[s|u][-xS]       an immediate of W bits, signed or not, in units of S (1 if omitted)
+;   bRdD[s|u]-xS         base register of R bits and displacement of D bits (D = 0: none), in units of S bytes; S = sz is the size of the access
+;   spdD[s|u]-xS, dpdD   the same with (sp) or the direct page register (dp) as the base, which takes no bits
+;   xR-RxdD[s|u]        indexed: base R bits, index Rx bits, scale 2 bits, displacement D bits
+;   piR-sD, pdR-sD       (r)+ and -(r): base R bits and a stride field of D bits (0 stride means the size of the access)
+;   pcW-uU               pc-relative, W bits, U bytes to the unit (2: the field counts parcels)
+;   absW                 absolute address of W bits
+;   k-sp, k-dp, k-imm0   a constant operand that takes no bits: (sp), (dp) (direct page), #0
+;
+; The assembler tries the forms of a mnemonic in the order of the `forms` catalogue of the member's grammar (the number is the index of the form), the shorter
+; first; the order of the leaves of one form is the order of their numbers.  Everything else is generated from this: the C tables of the codec
+; (build/pdp64-tab.c), the tables of spec/pdp64/tables.md; the assembly grammar of as64 is spec/pdp64-asm.hbnf over the parts that name asm.
+
+; ---- the size of the access of the moves, in bytes: the words of each rule (a suffix after a dot, .u .d .ud, does not change it); every other mnemonic: 1
+acc-8 = "movq"
+acc-4 = "movl" | "movzl"
+acc-2 = "movw" | "movzw"
+acc-1 = "movb" | "movzb"

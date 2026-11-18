@@ -1,0 +1,11 @@
+; targets: asm spec
+; EXAMPLE PART 1 of 2 (disabled: a file whose name does not end in .hbnf is not read).  The words: a group of its own and a new system register.  To try the example: copy this file
+; and 99-example-enc.hbnf.disabled to spec/grammars.d/ without the `.disabled`, run tools/build-as64.sh (or `python3 tools/grammars_d.py --write`), assemble `demoa r5` and
+; `mfsr r1, exsr`; delete the copies afterwards (the numbers 98 and 99 are the load order; spec/README.md, "How a part is added").
+;
+; A part is valid in every grammar its targets line names, and hbnf reads each grammar on its own: the words (asm: the assembler takes the group by its name mn-*; spec: the
+; constants and the manual) are one part and the encoding (enc) another.
+mn-example = "demoa"@0
+           | "demob"@1
+; hbnf's `=/` adds alternatives to the rule of an earlier part: a new system register is the next free number of 41-sysreg.hbnf
+sysreg =/ "exsr"@13
