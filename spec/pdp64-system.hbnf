@@ -41,6 +41,7 @@ vector = "reset"@0
        | "busfault"@13
        | "lpad"@14
        | "bpt"@15
+       | "check"@16
        | "irq-base"@32
        | "timer"@32
        | "console-in"@33

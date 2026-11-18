@@ -44,6 +44,8 @@ ap.add_argument('--no-cb3', action='store_true')
 ap.add_argument('--no-committed', action='store_true')
 ap.add_argument('--rounds', type=int, default=1)
 ap.add_argument('--verify')
+ap.add_argument('--write-grammar', metavar='RESULT', help='write the grammar of the selection in an encopt result (the forced forms and the `chosen` lines) as spec/pdp64-enc.hbnf and spec/pdp64/pdp64.hbnf would be: into --grammar-out')
+ap.add_argument('--grammar-out', metavar='DIR', default='grammar-out')
 ap.add_argument('--prev', metavar='RESULT', help='take the distances of the corpus (and the price of an unreachable cbCC) from the layout of the selection in an earlier encopt result instead of the committed grammar: the next round of the design loop')
 ap.add_argument('--python-solve', metavar='OUT', help='also run the study\'s own greedy selection (solve.solve, refine 6) on the same data and write its choice as `chosen` lines to OUT')
 ap.add_argument('--compare-leaves', metavar='RESULT', help='compare the leaves of an encopt -C result with those of the grammar spec/pdp64/pdp64.hbnf (form, prefix length, prefix, mnemonics)')
@@ -122,6 +124,22 @@ if a.dump_leaves or a.compare_leaves:
 	sys.exit(0 if sg == se else 1)
 
 if not a.corpus: ap.error('--corpus is required')
+
+if a.write_grammar:
+    # the output stage (errata 159): the selection becomes the grammar.  The forms are the forced ones and the chosen candidates; write_hbnf.py writes them
+    # (the same writer that wrote the committed grammar: re-writing the committed one reproduces it but for two comment lines); export_forms.export checks the decodability
+    # and the boundaries of the layout before anything is written.
+    prev, d = committed_scheme()
+    hot = d['hot16']
+    keys, forced, cs = setup(prev, hot, prev.lenfun)
+    byname = {f.name: f for f in cs}
+    chosen = [l.split()[1] for l in open(a.write_grammar) if l.split()[:1] == ['chosen']]
+    sc = Scheme(forced + [byname[n] for n in chosen])
+    import export_forms, write_hbnf
+    dd = json.loads(json.dumps(export_forms.export('32', sc, TAG, hot), default=str))
+    write_hbnf.write_all(a.grammar_out, [('32', dd)])
+    print('write-grammar: %d forms, %d leaves, kraft %.4f, written to %s' % (len(sc.forms), len(sc.code.leaves), sc.code.kraft, a.grammar_out))
+    sys.exit(0)
 
 if a.verify:
     prev, d = committed_scheme()

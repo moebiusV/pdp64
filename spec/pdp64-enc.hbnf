@@ -55,7 +55,6 @@ imm3u          = imm:3
 imm4s          = imm:4s
 imm4u          = imm:4
 imm5s          = imm:5s
-imm5u          = imm:5
 imm6s          = imm:6s
 imm6u          = imm:6
 imm7s          = imm:7s
@@ -66,30 +65,20 @@ imm12s         = imm:12s
 imm12u         = imm:12
 imm14s         = imm:14s
 imm16s         = imm:16s
-imm16u         = imm:16
 imm18s         = imm:18s
 imm32s         = imm:32s
 imm32u         = imm:32
 imm64s         = imm:64s
 imm6u-x8       = imm:6
-imm8u-x8       = imm:8
 imm8u-x256     = imm:8
-imm16u-x256    = imm:16
 imm24u-x256    = imm:24
 
 ; ---- operand shapes: base register and displacement: d(rb)
 
-spd4u-x8       = d:4
-spd6u-x8       = d:6
+spd5u-x8       = d:5
 b3d1u-xsz      = base:3 d:1
-b3d2u-xsz      = base:3 d:2
 b3d3u-xsz      = base:3 d:3
-b4d0s-xsz      = base:4
-b4d12s-x1      = base:4 d:12s
-b4d28s-x1      = base:4 d:28s
-b4d2u-xsz      = base:4 d:2
 b4d8s-xsz      = base:4 d:8s
-b4d8u-xsz      = base:4 d:8
 b5d12s-x1      = base:5 d:12s
 b5d28s-x1      = base:5 d:28s
 b5d6s-xsz      = base:5 d:6s
@@ -97,43 +86,31 @@ b5d6u-xsz      = base:5 d:6
 b5d8s-xsz      = base:5 d:8s
 b5d8u-xsz      = base:5 d:8
 dpd28s-x1      = d:28s
-spd12s-x1      = d:12s
 spd12u-x8      = d:12
-spd14u-x8      = d:14
 spd4u-xsz      = d:4
 spd5u-xsz      = d:5
-spd7u-xsz      = d:7
-b4d10s-xsz     = base:4 d:10s
 b4d10u-xsz     = base:4 d:10
-b4d12s-xsz     = base:4 d:12s
 b4d12u-xsz     = base:4 d:12
-b4d14s-xsz     = base:4 d:14s
 b5d10s-xsz     = base:5 d:10s
 b5d12s-xsz     = base:5 d:12s
-spd12u-xsz     = d:12
+b5d12u-xsz     = base:5 d:12
 
 ; ---- operand shapes: indexed: d(rb,rx,scale)
 
-x4-4d2s        = base:4 index:4 scale:2 d:2s
 x4-4d4s        = base:4 index:4 scale:2 d:4s
 x4-4d6s        = base:4 index:4 scale:2 d:6s
-x4-4d8s        = base:4 index:4 scale:2 d:8s
 x5-5d0s        = base:5 index:5 scale:2
 x5-5d4s        = base:5 index:5 scale:2 d:4s
 x5-5d6s        = base:5 index:5 scale:2 d:6s
-x4-4d22s       = base:4 index:4 scale:2 d:22s
 x5-5d22s       = base:5 index:5 scale:2 d:22s
 
 ; ---- operand shapes: auto-increment (r)+ and auto-decrement -(r)
 
-pd4-s12        = base:4 stride:12
 pd5-s12        = base:5 stride:12
-pi4-s12        = base:4 stride:12
 pi5-s12        = base:5 stride:12
 
 ; ---- operand shapes: pc-relative
 
-pc4-u2         = pcrel:4
 pc5-u2         = pcrel:5
 pc6-u2         = pcrel:6
 pc7-u2         = pcrel:7
@@ -147,7 +124,6 @@ pc14-u1        = pcrel:14
 pc14-u2        = pcrel:14
 pc16-u1        = pcrel:16
 pc16-u2        = pcrel:16
-pc18-u2        = pcrel:18
 pc20-u2        = pcrel:20
 pc24-u2        = pcrel:24
 pc32-u1        = pcrel:32
@@ -168,11 +144,12 @@ acc-1 = "movb" | "movzb"
 
 
 ; ---- the mnemonics that only the prefix-coded encodings have (group mn-ext of the assembly grammar of as64): the number is the position in the list
-mn-ext = "addv"@0 | "aesds"@1 | "aesdsm"@2 | "aeses"@3 | "aesesm"@4 | "aesim"@5 | "aesks1"@6 | "aesks2"@7 | "bsel"@8 | "maesctr"@9 | "maskeqz"@10
-       | "masknez"@11 | "mov2"@12 | "movb.d"@13 | "movb.u"@14 | "movb.ud"@15 | "movcall"@16 | "movl.d"@17 | "movl.u"@18 | "movl.ud"@19 | "movq.d"@20
-       | "movq.u"@21 | "movq.ud"@22 | "movql"@23 | "movw.d"@24 | "movw.u"@25 | "movw.ud"@26 | "movzb.d"@27 | "movzb.u"@28 | "movzb.ud"@29
-       | "movzl.d"@30 | "movzl.u"@31 | "movzl.ud"@32 | "movzw.d"@33 | "movzw.u"@34 | "movzw.ud"@35 | "msha256"@36 | "msha512"@37 | "mulv"@38
-       | "popmret"@39 | "popret"@40 | "sha256sig0"@41 | "sha256sig1"@42 | "sha256sum0"@43 | "sha256sum1"@44 | "sha512sig0"@45 | "sha512sig1"@46
-       | "sha512sum0"@47 | "sha512sum1"@48 | "subv"@49 | "syspg0"@50 | "syspg1"@51 | "syspg2"@52 | "syspg3"@53 | "syspg4"@54 | "syspg5"@55
-       | "trapcc.cc"@56 | "trapcc.cs"@57 | "trapcc.eq"@58 | "trapcc.ge"@59 | "trapcc.gt"@60 | "trapcc.hi"@61 | "trapcc.le"@62 | "trapcc.los"@63
-       | "trapcc.lt"@64 | "trapcc.mi"@65 | "trapcc.ne"@66 | "trapcc.pl"@67 | "trapcc.vc"@68 | "trapcc.vs"@69
+mn-ext = "addv"@0 | "aesds"@1 | "aesdsm"@2 | "aeses"@3 | "aesesm"@4 | "aesim"@5 | "aesks1"@6 | "aesks2"@7 | "bsel"@8 | "chk2"@9 | "ctcc"@10
+       | "ctcs"@11 | "cteq"@12 | "ctge"@13 | "ctgt"@14 | "cthi"@15 | "ctle"@16 | "ctlos"@17 | "ctlt"@18 | "ctmi"@19 | "ctne"@20 | "ctpl"@21
+       | "ctvc"@22 | "ctvs"@23 | "maesctr"@24 | "maskeqz"@25 | "masknez"@26 | "mov2"@27 | "movb.d"@28 | "movb.u"@29 | "movb.ud"@30 | "movcall"@31
+       | "movl.d"@32 | "movl.u"@33 | "movl.ud"@34 | "movq.d"@35 | "movq.u"@36 | "movq.ud"@37 | "movql"@38 | "movw.d"@39 | "movw.u"@40 | "movw.ud"@41
+       | "movzb.d"@42 | "movzb.u"@43 | "movzb.ud"@44 | "movzl.d"@45 | "movzl.u"@46 | "movzl.ud"@47 | "movzw.d"@48 | "movzw.u"@49 | "movzw.ud"@50
+       | "msha256"@51 | "msha512"@52 | "mulv"@53 | "popmret"@54 | "popret"@55 | "sha256sig0"@56 | "sha256sig1"@57 | "sha256sum0"@58 | "sha256sum1"@59
+       | "sha512sig0"@60 | "sha512sig1"@61 | "sha512sum0"@62 | "sha512sum1"@63 | "subv"@64 | "syspg0"@65 | "syspg1"@66 | "syspg2"@67 | "syspg3"@68
+       | "syspg4"@69 | "syspg5"@70 | "trapcc.cc"@71 | "trapcc.cs"@72 | "trapcc.eq"@73 | "trapcc.ge"@74 | "trapcc.gt"@75 | "trapcc.hi"@76
+       | "trapcc.le"@77 | "trapcc.los"@78 | "trapcc.lt"@79 | "trapcc.mi"@80 | "trapcc.ne"@81 | "trapcc.pl"@82 | "trapcc.vc"@83 | "trapcc.vs"@84

@@ -158,7 +158,7 @@ against 268); 12,672 patterns go to one-parcel candidates (committed 12,224), 2,
 4. `encopt stats.encopt -o result.out` (`-O fetch` or `-O exec` with a profile); repeat 3-4 with `--prev result.out` until the selection stops changing (two rounds today).
 5. `python3 tools/encopt/export.py --corpus DIR --verify result.out`: real layout, relaxation and round trip of every instruction with the chosen forms.
 6. The result is a list of forms and `leaf` lines; turning it into the grammar is the job of `write_hbnf.py`'s output stage (it takes a scheme: `export_forms.py` builds one from `solve.solve`; to use `encopt`'s choice
-   replace that call by the forms named in the `chosen` lines, as `export.py --verify` does). That wiring was not done here: the task was the optimiser and the exporter, and `spec/` must not change yet.
+   replace that call by the forms named in the `chosen` lines, as `export.py --verify` does). That wiring was not done here: the task was the optimiser and the exporter, and `spec/` must not change yet. *(Done 2026-11-17, errata 160: `export.py --write-grammar RESULT --grammar-out DIR`, then copy the two files into `spec/`, regenerate the tables, the vectors and the expected words of the tests, and the generated manual; the order of errata 125.)*
 
 ## 8. Questions for the author (answered 2026-11-10)
 

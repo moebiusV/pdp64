@@ -21,7 +21,7 @@ enum {
 	H_SYS0, H_SYSX, H_SYSR, H_SPL, H_TRAP, H_PROBE, H_MFSR, H_MTSR,
 	H_BESC, H_AESC, H_MBLK, H_FESC, H_SET,
 	H_MOVU, H_RMW,
-	H_MASK, H_BSEL, H_OVF, H_TRAPCC, H_MOVQL, H_UTF8LEN,
+	H_MASK, H_BSEL, H_OVF, H_TRAPCC, H_MOVQL, H_UTF8LEN, H_CT, H_CHK2,
 	H_MOVCALL, H_POPMRET, H_POPRET, H_MOV2
 };
 struct hdef { const char *name; int kind, a; };
@@ -84,6 +84,9 @@ static const struct hdef hdefs[] = {
 	{ "fcvtlh", H_FESC, MN_FESC_FCVTLH },
 	{ "movub", H_MOVU, 1 }, { "movuw", H_MOVU, 2 }, { "movul", H_MOVU, 4 }, { "movuq", H_MOVU, 8 },
 	{ "addm", H_RMW, MN_ALU_ADD }, { "subm", H_RMW, MN_ALU_SUB }, { "bicm", H_RMW, MN_ALU_BIC }, { "bism", H_RMW, MN_ALU_BIS },
+	{ "ctne", H_CT, 1 }, { "cteq", H_CT, 2 }, { "ctpl", H_CT, 3 }, { "ctmi", H_CT, 4 }, { "ctvc", H_CT, 5 }, { "ctvs", H_CT, 6 }, { "ctcc", H_CT, 7 },
+	{ "ctcs", H_CT, 8 }, { "ctge", H_CT, 9 }, { "ctlt", H_CT, 10 }, { "ctgt", H_CT, 11 }, { "ctle", H_CT, 12 }, { "cthi", H_CT, 13 }, { "ctlos", H_CT, 14 },
+	{ "chk2", H_CHK2, 0 },
 	{ "maskeqz", H_MASK, 0 }, { "masknez", H_MASK, 1 }, { "bsel", H_BSEL, 0 },
 	{ "addv", H_OVF, 0 }, { "subv", H_OVF, 1 }, { "mulv", H_OVF, 2 },
 	{ "trapcc.ne", H_TRAPCC, 1 }, { "trapcc.eq", H_TRAPCC, 2 }, { "trapcc.pl", H_TRAPCC, 3 }, { "trapcc.mi", H_TRAPCC, 4 }, { "trapcc.vc", H_TRAPCC, 5 },
@@ -305,6 +308,19 @@ static void step_enc(void)
 		int ovf = h->a == 0 ? __builtin_add_overflow(a, b, &res) : h->a == 1 ? __builtin_sub_overflow(a, b, &res) : __builtin_mul_overflow(a, b, &res);
 		if (ovf) fault_v(VECTOR_CHECK, "arithmetic overflow (addv/subv/mulv)", 0);
 		RG[op[in.nops - 1].r] = (uint64_t)res;
+		return;
+	}
+	case H_CT: case H_CHK2: {							/* the check instructions (errata 152): a fault on vector 16, EPC and EVA the address of this instruction, no flag read or written */
+		int trap;
+		if (h->kind == H_CT) {							/* ctCC rs, rb | #imm | (nothing: rs against zero) */
+			uint64_t b = in.nops < 2 ? 0 : op[1].k == EK_R ? RG[op[1].r] : (uint64_t)op[1].v;
+			trap = cmp_taken(RG[op[0].r], b, h->a);
+		} else									/* chk2 rs, rlo, rhi: trap unless rlo <= rs < rhi, signed */
+			trap = !((int64_t)RG[op[0].r] >= (int64_t)RG[op[1].r] && (int64_t)RG[op[0].r] < (int64_t)RG[op[2].r]);
+		if (trap) {
+			if (C->deliver && !C->standin) enter(VECTOR_CHECK, start, start);
+			else E->fault(E->u, "check failed (ct, chk2)", start);
+		}
 		return;
 	}
 	case H_TRAPCC:									/* a trap, not an abort: EPC is the next instruction, EVA the address of this one */

@@ -48,7 +48,7 @@ COMMON = [
  ('trapcc, isync, hint, pushx', 'trapcc.eq'), ('', 'isync'), ('', 'hint I:165'), ('', 'pushx'),
  ('three and four registers: ATOM', 'xadd R:1 R:2 R:3'), ('', 'cas R:1 R:2 R:3 R:4'), ('', 'swapdb R:1 R:2 R:3'), ('', 'll R:1 R:2 R:3'), ('', 'sc R:1 R:2 R:3'),
  ('MESC', 'movub B:8:3 R:2'), ('', 'movul B:8:3 R:2'), ('', 'addm R:1 B:16:2'), ('', 'bism R:1 B:0:2'),
- ('new instructions', 'maskeqz R:1 R:2 R:3'), ('', 'masknez R:1 R:2 R:3'), ('', 'bsel R:1 R:2 R:3 R:4'), ('', 'aeses R:1 R:2 R:3'), ('', 'aesks1 R:1 I:3 R:2'),
+ ('new instructions', 'maskeqz R:1 R:2 R:3'), ('check instructions (errata 152)', 'ctcc R:1 R:2'), ('', 'ctne R:3 R:4'), ('', 'ctcc R:5 I:88'), ('', 'cthi R:6 I:4000'), ('', 'cteq R:7 I:0'), ('', 'cteq R:8'), ('', 'ctne R:9'), ('', 'chk2 R:10 R:11 R:12'), ('', 'masknez R:1 R:2 R:3'), ('', 'bsel R:1 R:2 R:3 R:4'), ('', 'aeses R:1 R:2 R:3'), ('', 'aesks1 R:1 I:3 R:2'),
  ('', 'sha256sum0 R:1 R:2'), ('', 'maesctr R:1 R:2 R:3 R:4'), ('', 'addv R:1 R:2'), ('', 'mulv R:1 R:2'),
  ('fused pairs', 'movcall R:1 R:2 PC:100'), ('', 'movcall R:1 R:2 PC:0:E'), ('', 'popmret I:36608'), ('', 'popret R:3'), ('', 'mov2 R:1 R:2 R:8 R:3'),
  ('user-qualified loads and stores', 'movq.u B:8:1 R:2'), ('', 'movb.ud B:8:1 R:2'),

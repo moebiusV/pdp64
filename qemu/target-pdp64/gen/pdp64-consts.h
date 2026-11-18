@@ -420,6 +420,7 @@
 #define VECTOR_BUSFAULT              13
 #define VECTOR_LPAD                  14
 #define VECTOR_BPT                   15
+#define VECTOR_CHECK                 16
 #define VECTOR_IRQ_BASE              32
 #define VECTOR_TIMER                 32
 #define VECTOR_CONSOLE_IN            33

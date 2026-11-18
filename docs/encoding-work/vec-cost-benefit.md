@@ -88,7 +88,7 @@ Rows 6, 14 and 15 keep partial sums that last across many strips (an accumulator
 3. **The tile and the whole-GEMM (14, 15) are the expensive operations, with real uncertainty about their value for the CPU-only user** (they are where a matrix unit or a GPU earns its area); the resume rule of section 4 is settled for a bounded piece, so the open part is whether the area and the power are worth it before the GPU exists.
 4. **What this table cannot yet say**: dynamic counts (no simulator runs the operations), the area and the power of any of them (U, not measured), the real workloads (a game's frame, a model's token: only kernels here), and rows 9, 11, 12, 13 (studied little or not at all).
 
-**Gates** (`vec-gates.md`; the author asked for them): the block alone is about 100,000 NAND2 equivalents with 16 integer lanes and about 180,000 with floating-point lanes; the yes and likely rows together are about 195,000 to 280,000, about the size of a small 64-bit scalar core again (U); the tile is 260,000 to 665,000 and the whole-GEMM unit 1.2 to 1.7 million. The blocks that decide most of it were synthesised (M); the rest are estimates (E).
+**Gates** (`vec-gates.md`; the author asked for them): the block alone is about 100,000 NAND2 equivalents with 16 integer lanes and about 180,000 with floating-point lanes; the yes and likely rows together are about 195,000 to 280,000, about 1.6 to 2.3 times the logic of the scalar core, which was counted the same way at 220,000 to 310,000 (the same section of `vec-gates.md`); the tile is 260,000 to 665,000 and the whole-GEMM unit 1.2 to 1.7 million. The blocks that decide most of it were synthesised (M); the rest are estimates (E).
 
 ## 6. What would settle it (to do)
 

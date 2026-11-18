@@ -55,6 +55,19 @@ if t does not fit in 64 bits then abort at this instruction (vector CHECK), Rd u
 else Rd <- t''', 'None written.', 'Aborts with the `CHECK` vector on signed overflow, with `EPC` at the instruction and the destination unwritten; a blind restart faults again unless the handler changed an operand.', '9.7',
       notes='*(D)* Errata 85: `TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` forms. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form. Open: whether the form has two registers or three ([J.9.4](appendix-j-open.md#j94)). ' + CHECKV,
       cf='9.14 (TRAPCC), docs/study-proposals.md item 9.'),
+    X('CT', 'system', ['ctcc', 'ctcs', 'cthi', 'ctlos', 'cteq', 'ctne', 'ctge', 'ctlt', 'ctgt', 'ctle', 'ctpl', 'ctmi', 'ctvc', 'ctvs'],
+      'Compare and trap', ['CT<cc> Rs, Rb', 'CT<cc> Rs, #imm12   ; CTCC, CTHI, CTEQ, CTNE only', 'CTEQ Rs  /  CTNE Rs   ; trap if zero, if not zero'],
+      '''if Rs compared with the bound satisfies the condition cc then take the CHECK trap
+    EPC <- address of this instruction''', NOFLAGS,
+      'The `CHECK` trap (vector 16), when the condition holds. A fault: the instruction is annulled and `EPC` is its own address, so that the handler finds the site in the table of check sites (`__bug_table`) by address.', '9.14',
+      notes='*(D)* Errata 144, 145, 152, 159: the compare-and-trap of the run-time checks. The condition names are those of `CB<cc>`; `CTHIS` is `CTCC` and `CTLO` is `CTCS` as assembler aliases. `CTCC Ri, #n` traps when `Ri >= n` as an unsigned number, which is the check of an array index of length `n` (a negative index is a large unsigned number). The immediate form has 12 bits, zero-extended, for `CTCC`, `CTHI`, `CTEQ` and `CTNE`; the register form has all fourteen. `CTEQ Rs` and `CTNE Rs` with no bound are the trap-if-zero of the null check and the trap-if-not-zero of `BUG_ON`, one parcel. No flag is read or written. For every one the assembler writes a record into the section `__bug_table` (the 12-byte `struct bug_entry` of Linux with relative pointers: the address of the instruction, the file, the line, the flags with the kind of check in bits 5 to 7) from the directive `.chk KIND, "file", LINE`. The encodings are the prefix optimiser\'s.',
+      cf='9.14 (TRAPCC), docs/encoding-work/check-instructions.md, J.9.13.'),
+    X('CHK2', 'system', ['chk2'], 'Two-bound check', ['CHK2 Rs, Rlo, Rhi'],
+      '''if not (Rlo <= Rs < Rhi), signed, then take the CHECK trap
+    EPC <- address of this instruction''', NOFLAGS,
+      'The `CHECK` trap (vector 16), unless the value is in the half-open range.', '9.14',
+      notes='*(D)* Errata 144, 152: the two-bound check, for an index whose lower bound is not zero (the Pascal and Ada subscript, a slice, `for i in lo..hi`). Signed, half-open (`Rlo <= Rs < Rhi`, as pcc\'s `__builtin_chk2` means); the bounds are registers. No flag is read or written; the record in `__bug_table` is as for `CT`.',
+      cf='J.9.13, docs/encoding-work/check-instructions.md.'),
     X('TRAPCC', 'system', ['trapcc.ne', 'trapcc.eq', 'trapcc.pl', 'trapcc.mi', 'trapcc.vc', 'trapcc.vs', 'trapcc.cc', 'trapcc.cs', 'trapcc.ge', 'trapcc.lt', 'trapcc.gt', 'trapcc.le', 'trapcc.hi', 'trapcc.los'],
       'Trap on condition', ['TRAPCC.cc          ; one word for each of the 14 conditions: TRAPCC.EQ, TRAPCC.VS, TRAPCC.HI ...'],
       '''if condition cc holds on the flags then take the CHECK trap

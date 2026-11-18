@@ -11,17 +11,16 @@
    came from (pre_map), so an error in an expansion names the line of the call.  Not done, on purpose: string processing,
    default arguments, local label generation beyond \@ (the macro engines of MACRO-10 and MASM).
 
-   The layer also expands the check instructions of errata 152 until the encoding has them (the prefix optimiser decides their encodings):
+   The layer also handles the check instructions of errata 152, which the encoding now has (errata 159):
 
        ct<cc> rs, rb | #imm       trap if rs compared with the bound satisfies the condition (the conditions of cb<cc>; cthis = ctcc, ctlo = ctcs)
        cteq rs, ctne rs           trap if rs is zero, if it is not zero (the trap-if-zero)
        chk2 rs, rlo, rhi          trap unless rlo <= rs < rhi, signed
        .chk KIND, "file", LINE    the place of the next check instruction, for the table (KIND 1 bounds, 2 null, 3 range, 4 assertion)
 
-   Each becomes the compare-and-branch of the opposite condition over a `bpt`, the label of the `bpt`, and a record of the table of check sites
-   (`.bugrec`, in the section __bug_table) naming the `bpt`, the file and line and the kind in bits 5 to 7 of the flags: for ctcc, `cbcs rs, bound, .Lok`,
-   `.Lbug: bpt`, `.Lok:`.  The flags are not touched.  chk2 is `cblt rs, rlo, .Lbug`, `cblt rs, rhi, .Lok`, `.Lbug: bpt`, `.Lok:`.  Without a `.chk` the
-   record has kind 0, the source file and the line of the assembly. */
+   The instruction is written as it is (the aliases by their names), with a label, and a record of the table of check sites (`.bugrec`, in the section
+   __bug_table) names the label, the file and line and the kind in bits 5 to 7 of the flags.  Without a `.chk` the record has kind 0, the source file and the
+   line of the assembly.  (Before the encoding had them, the layer wrote a compare-and-branch over a `bpt`: errata 152.) */
 #include <ctype.h>
 
 static int pre_errors;
@@ -104,10 +103,10 @@ static int pargs(const char *s, char ***out)
 static void pexpand(char **ls, int *ln, int n, int depth, struct pbuf *o, int *uniq);
 
 /* ---- the check instructions: the opposite compare-and-branch of each condition ---- */
-static const struct { const char *ct, *neg; } pct[] = {
-	{ "ctcc", "cbcs" }, { "ctcs", "cbcc" }, { "cthis", "cblo" }, { "ctlo", "cbhis" }, { "cthi", "cblos" }, { "ctlos", "cbhi" },
-	{ "cteq", "cbne" }, { "ctne", "cbeq" }, { "ctge", "cblt" }, { "ctlt", "cbge" }, { "ctgt", "cble" }, { "ctle", "cbgt" },
-	{ "ctpl", "cbmi" }, { "ctmi", "cbpl" }, { "ctvc", "cbvs" }, { "ctvs", "cbvc" },
+static const struct { const char *ct, *canon; } pct[] = {
+	{ "ctcc", "ctcc" }, { "ctcs", "ctcs" }, { "cthis", "ctcc" }, { "ctlo", "ctcs" }, { "cthi", "cthi" }, { "ctlos", "ctlos" },
+	{ "cteq", "cteq" }, { "ctne", "ctne" }, { "ctge", "ctge" }, { "ctlt", "ctlt" }, { "ctgt", "ctgt" }, { "ctle", "ctle" },
+	{ "ctpl", "ctpl" }, { "ctmi", "ctmi" }, { "ctvc", "ctvc" }, { "ctvs", "ctvs" },
 };
 static struct { int have, kind, line; char *file; } pchk;			/* the .chk that waits for its instruction */
 static char **pfiles; static int npfiles, pchkn;				/* the file names that have a string in this object, and the count of checks */
@@ -174,16 +173,12 @@ static void pcheck(const char *w, const char *e, int mn, int srcline, struct pbu
 	if (pchk.have) { kind = pchk.kind; line = pchk.line; snprintf(file, sizeof file, "%s", pchk.file); free(pchk.file); pchk.file = NULL; pchk.have = 0; }
 	else snprintf(file, sizeof file, "%s", srcname);
 	char lab[64]; pfilelab(file, o, srcline, lab, sizeof lab);
-	if (mn == 100) {
-		snprintf(b, sizeof b, "\tcblt %s, %s, .Lbug%d", av[0], av[1], id); pout(o, b, srcline);
-		snprintf(b, sizeof b, "\tcblt %s, %s, .Lok%d", av[0], av[2], id); pout(o, b, srcline);
-	} else if (na == 1) {
-		snprintf(b, sizeof b, "\t%s %s, #0, .Lok%d", pct[mn].neg, av[0], id); pout(o, b, srcline);
-	} else {
-		snprintf(b, sizeof b, "\t%s %s, %s, .Lok%d", pct[mn].neg, av[0], av[1], id); pout(o, b, srcline);
+	{
+		char ops[1000]; size_t n = 0;
+		ops[0] = 0;
+		for (int k = 0; k < na; k++) n += (size_t)snprintf(ops + n, sizeof ops - n, "%s%s", k ? ", " : "", av[k]);
+		snprintf(b, sizeof b, ".Lbug%d:\t%s %s", id, mn == 100 ? "chk2" : pct[mn].canon, ops); pout(o, b, srcline);
 	}
-	snprintf(b, sizeof b, ".Lbug%d:\tbpt", id); pout(o, b, srcline);
-	snprintf(b, sizeof b, ".Lok%d:", id); pout(o, b, srcline);
 	snprintf(b, sizeof b, "\t.bugrec .Lbug%d, %s, %d, %d", id, lab, line, kind << 5); pout(o, b, srcline);
 	for (int k = 0; k < na; k++) free(av[k]);
 	free(av);

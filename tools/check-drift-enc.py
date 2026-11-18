@@ -8,7 +8,7 @@ parcels with the C codec (tests/enc/encdrv -d) and requires the same mnemonic ba
 reaches its own opcode (the 22 ATOM words, the 8 MESC words, TRAPL, the SYSX words, the new instructions and the fused pairs included).  Then:
   - every word of the original grammar (spec/pdp64-mnemonics.hbnf) that the table has under that name assembles, and an alias assembles to what the word it
     stands for assembles to;
-  - the opcode map: the prefixes are a prefix code (Kraft sum <= 0.95), the 65,536 first parcels decode to at most one leaf, and the number of free patterns,
+  - the opcode map: the prefixes are a prefix code (Kraft sum <= 1: no reserve, the author's answer of 2026-11-10, errata 159), the 65,536 first parcels decode to at most one leaf, and the number of free patterns,
     leaves, forms and hot-register tables are those recorded below (a change to a table must change them in the same commit).
 """
 import json, os, re, struct, subprocess, sys, tempfile
@@ -140,8 +140,8 @@ def main():
         if free != want_free:
             bad += 1; print('MAP pdp64: the decoder leaves %d first parcels unassigned, the leaves of the grammar leave %d' % (free, want_free))
         kraft = sum(2.0 ** -lf['L'] for lf in d['leaves'])
-        if kraft > 0.95 + 1e-9:
-            bad += 1; print('MAP pdp64: Kraft sum %.6f above 0.95 (5%% of the code space is kept free)' % kraft)
+        if kraft > 1.0 + 1e-9:
+            bad += 1; print('MAP pdp64: Kraft sum %.6f above 1 (not a prefix code)' % kraft)
         print('pdp64: %d mnemonics and %d aliases assemble to their own opcode; %d forms, %d leaves, %d of 65,536 first parcels illegal' % (n, na, len(d['forms']), len(d['leaves']), free))
     print('drift-enc: %d checked, %d differ' % (checked, bad))
     sys.exit(1 if bad else 0)

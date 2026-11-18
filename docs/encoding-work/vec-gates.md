@@ -62,7 +62,43 @@ Reference points the numbers can be checked against (U, from general knowledge o
 * **Yes and likely together: about 195,000 to 280,000 gates** (about 195,000 to 385,000 if the sliding window runs at one strip a cycle on 128 dedicated multipliers).
 * **The open rows**: the vector exponential 8,000 to 15,000 on the existing lanes; the conversions 15,000 to 30,000; predication 2,000 to 4,000; the **tile 260,000 (int8) to 665,000 (fp32)**, and the **whole-GEMM unit 1.2 to 1.7 million** (most of it the multipliers and the buffer SRAM).
 
-**Against a scalar core** (U: a small in-order 64-bit core without caches is on the order of 150,000 to 500,000 NAND2 equivalents; the 32-bit Ibex core is reported near 20,000 to 30,000 in published material; the pdp64's own core was not counted): the yes and likely rows together are **about the size of the scalar core again**, the tile is **one to four times** it, and the GEMM unit **two to eleven times**. That is the order of the cost of a gpu-lite on this machine, as gates.
+## The scalar core, counted the same way (the author asked for "a proper gate estimate")
+
+The first version of this record compared with a scalar core of 150,000 to 500,000 gates taken from general knowledge. The core was then counted the same way as the vector blocks: its blocks were written in Verilog and synthesised (`tools/gates/core.v`, `aes.v`, and the instruction decoder **generated from the grammar** by `gen_decode.py`: the 217 leaves of `spec/pdp64/pdp64.hbnf`, its prefix matches and the AND-OR planes that extract the fields), the rest estimated; `tools/gates/core-total.py` adds them (data: `arch-data/core-gates-blocks.tsv`). The core is single-issue and in order, 64 bits, with the integer, bit, floating-point (single, double, half), crypto and system instructions of the grammar; **no caches and no branch predictor** (their arrays and tags are memory and wiring, not counted for either side).
+
+| block | gates (NAND2 equivalents) | how |
+|---|---:|---|
+| register file, 32 x 64 bits, 3 read ports, 1 write | 32 k | synthesised |
+| integer ALU (add, subtract with carry, logic, select, min, max, abs, flags) | 4 k | synthesised |
+| shifter and rotator, 64 bits | 3 k | synthesised |
+| bit-manipulation words (count, bit reverse, byte swap) | 1 k to 4 k | synthesised (the low figure; the synthesiser simplified the counts) to an estimate of 4,000 |
+| multiplier, 64 x 64 to 128 bits | 8 k to 41 k | synthesised (the high figure); an iterative multiplier would be about 8,000 (estimated) |
+| divider, iterative | 3 k | synthesised |
+| instruction decoder of the 217 leaves (generated from the grammar) | 6 k | synthesised from the grammar + 3,000 estimated for the hot-register tables and the immediates |
+| instruction fetch: variable length of 1 to 5 parcels, the alignment and the buffer | 5 k to 8 k | estimated |
+| branch unit: comparator, pc adder, target adder | 2 k to 3 k | estimated from the synthesised adders |
+| load and store: the address adder (base + index x scale + displacement), alignment, merge, block-operation sequencer, atomics | 8 k to 10 k | synthesised alignment and merge + estimates |
+| translation: two buffers (16 and 32 entries), the page walker, permissions, the direct-mapped windows | 34 k to 38 k | the synthesised 32-entry buffer x 1.5 for two + estimates |
+| floating point (single, double, half): multiplier, aligners, adder, normaliser, rounding, divide and square root, conversions | 51 k to 59 k | synthesised pieces + 12,000 to 20,000 estimated |
+| crypto words: AES round, SHA-2 steps, carry-less multiply | 30 k to 48 k | synthesised AES round and 64-bit carry-less multiply (the low figure uses an iterative one, estimated) + 6,000 for SHA |
+| system registers, exceptions, interrupts, the vector fetch | 10 k to 16 k | estimated |
+| pipeline: control, hazards, bypass, stage registers | 18 k to 26 k | estimated |
+| debug, trace, performance counters | 3 k to 6 k | estimated |
+| **the scalar core, total (no caches, no branch predictor)** | **219 k to 308 k** | the sum of the rows |
+
+**The scalar core is about 220,000 to 310,000 gates** (rounded; the middle is about 265,000). The largest parts are the floating-point unit (about 55,000), the register file (32,000), the multiplier (8,000 to 41,000 by design), the translation (about 36,000) and the crypto words (30,000 to 48,000). The decoder of a 217-leaf prefix-coded encoding is small: about 3,400 gates for the matches and the field extraction, 6,000 with the tables around it.
+
+**What the vector operations add against it:**
+
+| addition | gates | against the scalar core (220,000 to 310,000) |
+|---|---:|---|
+| the block alone: 16 integer lanes | about 100,000 | +33% to +45% |
+| the block with 8 floating-point lanes | about 180,000 | +58% to +82% |
+| **yes and likely together** (rows 1 to 8, 10, 11) | **195,000 to 280,000** | **+63% to +128%: about 1.6 to 2.3 times the core's logic** |
+| the tile with an outer-product (8 x 8 fp32; 16 x 16 int8) | 665,000; 260,000 | +2.1 to 3.0 times; +0.8 to 1.2 times |
+| the whole-GEMM unit | 1.2 to 1.7 million | about 4 to 8 times |
+
+So **yes, the yes and likely operations roughly double the logic of the core** (1.6 to 2.3 times at the extremes of both ranges); the block with integer lanes alone adds a third to a half; the tile or a GEMM unit is several times the core. Two things soften it and one does not. *Softens:* the vector floating-point lanes (79,000) could share the multiplier and adder of the scalar floating-point unit if the vector unit were narrow (the figures assume a separate strip of 8 lanes); and the vector unit can be small (4 lanes, half the multipliers) at half the throughput. *Does not:* the register file of 16 vector registers, and the caches and load/store ports for a strip of 256 bits (memory, not counted on either side), which a vector unit needs to be fed.
 
 ## Reading it
 

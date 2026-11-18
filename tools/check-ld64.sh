@@ -48,7 +48,8 @@ else echo "DIFF an object of another instruction set: wrong message"; fail=1; fi
 for mode in "--no-relax" ""; do
 	"$B/as64" $mode -o "$B/ldchk1.o" $T/chk1.s && "$B/as64" $mode -o "$B/ldchk2.o" $T/chk2.s
 	"$B/ld64" $mode -M -o "$B/ldchk.out" "$B/ldchk1.o" "$B/ldchk2.o" > "$B/ldchk.map" || { echo "DIFF check table: link failed"; fail=1; continue; }
-	python3 - "$B/ldchk.out" "$B/ldchk.map" "$mode" <<'PY' || fail=1
+	for ins in "ctcc r1, #16" "cteq r2" "chk2 r6, r7, r8"; do n=$(echo "$ins" | tr -c 'a-z0-9\n' _); printf '\t.text\n\t%s\n' "$ins" > "$B/ldchk-$n.s"; "$B/as64" $mode -o "$B/ldchk-$n.o" "$B/ldchk-$n.s"; done
+	python3 - "$B/ldchk.out" "$B/ldchk.map" "$mode" "$B" <<'PY' || fail=1
 import struct, sys
 d = open(sys.argv[1], 'rb').read()
 sym = {l.split()[1]: int(l.split()[0], 16) for l in open(sys.argv[2]) if l.startswith('0x')}
@@ -67,7 +68,11 @@ for i in range((b - a) // 12):
     site, fl = P + s, P + 4 + f
     o = at(fl); name = d[o:d.index(b'\0', o)].decode()
     got.append((flags >> 5, name, line))
-    if d[at(site):at(site) + 2].hex() != '45ee': ok = False; print('  record %d: the site %#x is not a bpt' % (i, site))
+    ins = ['ctcc_r1___16', 'cteq_r2', 'chk2_r6__r7__r8'][i]
+    od = open('%s/ldchk-%s.o' % (sys.argv[4], ins), 'rb').read(); so = struct.unpack_from('<Q', od, 0x28)[0]
+    toff, tsz = struct.unpack_from('<QQ', od, so + 64 + 24)
+    wi = od[toff:toff + tsz]
+    if d[at(site):at(site) + len(wi)] != wi: ok = False; print('  record %d: the site %#x does not hold %s' % (i, site, ins))
 print(('ok   ' if ok and got == want else 'DIFF ') + 'table of check sites (%s)' % (sys.argv[3] or 'relaxed'))
 if got != want: print('  got ', got); print('  want', want)
 sys.exit(0 if ok and got == want else 1)

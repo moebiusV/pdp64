@@ -52,6 +52,7 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `BUSFAULT` | 13 | a read of non-existent memory (a precise abort) |
 | `LPAD` | 14 | an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1) |
 | `BPT` | 15 | the `BPT` instruction |
+| `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`; errata 152) |
 | `TIMER` | 32 | the timer interrupt (level 6) |
 | `COUNT` | 512 | the number of vectors; the table has this many eight-byte entries |
 
