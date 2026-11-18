@@ -411,7 +411,7 @@
 - Left: the port of sim64, pcc, as64 and ld64 to the final encoding after the optimiser run; the merge of the branch single-pdp64 is the question W.3 of the decision form
 
 ### LLVM back end: frozen until the port
-- Status: TO DO — frozen on the original encoding; to be ported to the new encoding after the opcode-affecting decisions, then a code generator (latest decision 2026-11-10 \[R396, R420\], errata 125, 137)
+- Status: IN PROGRESS — stage 1 (a scalar code generator that writes assembly for as64) is done and verified; stage 2 (vector, tile, GEMM, the check instructions, TargetTransformInfo) and the integrated assembler are not (latest decision 2026-11-17 \\[R453, R457\\], errata 159, 165)
 - Decided: 2026-11-10 decided: "once we've decided on any issue that might affect our opcodes etc, then we'll port llvm to the new encoding and the pcc and as64 as well"; "i want to get this thing in shape so you can then implement the llvm and qemu backends" \[R396\]; 2026-11-10 decided: "of course we do llvm port, once ops are settled and pcc backend, as64 ld64 and sim64 and the hbnf are updated." \[R420\]
 - Evidence: llvm/README.md:3 "Status (errata 122)" (the machine-code layer encodes the original encoding: parcel 0 = len:2 opc:6 reg:4 low:4, sixteen registers, page 2; as64 produces the prefix-coded encoding only; the oracle checks were removed, errata 123); docs/implementation-status.md "LLVM is frozen"; README.md:89 "LLVM back end"; docs/roadmap.md:16 (step 5)
 - Doc differs: the body of llvm/README.md still describes milestone M1 and an oracle (llvm/check.sh, tools/gen-llvm-td.py) that no longer exists
