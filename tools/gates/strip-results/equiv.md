@@ -1,7 +1,8 @@
-53 programs of tests/sim, each run unmodified at the strips 16, 32 and 64 bytes (no check switched off, no test patched): **53 gave the expected exit status and the same standard output at all three, 0 did not**.  At the strip of 8 bytes, which is outside the architecture, 2 of them differ from the strip-32 run.  The table lists the vec tests and any that failed.
+54 programs of tests/sim, each run unmodified at the strips 16, 32 and 64 bytes (no check switched off, no test patched): **54 gave the expected exit status and the same standard output at all three, 0 did not**.  At the strip of 8 bytes, which is outside the architecture, 2 of them differ from the strip-32 run.  The table lists the vec tests and any that failed.
 
 | test | expected exit | exit at strip 16, 32, 64 | stdout identical | verdict | strip 8 (outside the architecture) |
 |---|---:|---|---|---|---|
+| vec-2d | 0 | 0 0 0 | yes | same | exit 0, same output |
 | vec-basic | 0 | 0 0 0 | yes | same | exit 0, same output |
 | vec-restart | 0 | 0 0 0 | yes | same | exit 10, same output |
 | vec-strip | 0 | 0 0 0 | yes | same | exit 1, same output |
