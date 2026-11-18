@@ -68,3 +68,24 @@ struct node { struct node *next; int v; };
 N int g_list(const struct node *p) { int s = 0; for (; p; p = p->next) s += p->v; return s; }
 N void g_call(int *c, const int *a, int n) { for (int i = 0; i < n; i++) c[i] = (int)__builtin_ctz((unsigned)a[i] | 256); }
 N void g_inner3(float *c, const float *a, int n) { for (int i = 0; i < n; i++) { float s = 0; for (int k = 0; k < 3; k++) s += a[3 * i + k]; c[i] = s; } }
+/* ---- the words of waves 1 and 2 (errata 170, 171): the idioms that select them, and the forms that still do not */
+N void g_avg_u8(uint8_t *c, const uint8_t *a, const uint8_t *b, int n) { for (int i = 0; i < n; i++) c[i] = (a[i] + b[i] + 1) >> 1; }                      /* vavgu.b */
+N void g_mulh16(int16_t *c, const int16_t *a, const int16_t *b, int n) { for (int i = 0; i < n; i++) c[i] = (int16_t)((a[i] * b[i]) >> 16); }          /* vmulh.w */
+N void g_q15(int16_t *c, const int16_t *a, const int16_t *b, int n) { for (int i = 0; i < n; i++) { int t = (a[i] * b[i] + 16384) >> 15; c[i] = t > 32767 ? 32767 : t; } }   /* vmulhr.w */
+N int g_dot8(const int8_t *a, const int8_t *b, int n) { int s = 0; for (int i = 0; i < n; i++) s += a[i] * b[i]; return s; }                              /* vdacc.b */
+N int64_t g_dot16(const int16_t *a, const int16_t *b, int n) { int64_t s = 0; for (int i = 0; i < n; i++) s += (int64_t)a[i] * b[i]; return s; }       /* vdacc.w */
+N void g_rsh16(int16_t *c, const int16_t *a, int n) { for (int i = 0; i < n; i++) c[i] = (a[i] + 8) >> 4; }                                              /* vsarr.w */
+N void g_rsh32_u(uint32_t *c, const uint32_t *a, int n) { for (int i = 0; i < n; i++) c[i] = (a[i] + 128u) >> 8; }                                       /* no nuw: the sum wraps in C, vshrr.l would not */
+N void g_qround(int8_t *c, const int *a, int n) { for (int i = 0; i < n; i++) { int t = (a[i] + 128) >> 8; c[i] = t < -128 ? -128 : t > 127 ? 127 : t; } }   /* vsts.l.b #8 */
+N void g_mla(int *c, const int *a, const int *b, const int *d, int n) { for (int i = 0; i < n; i++) c[i] = a[i] * b[i] + d[i]; }                          /* vmla.l */
+N void g_thresh_arms(int16_t *c, const int16_t *x, const int16_t *a, const int16_t *b, int t, int n) { for (int i = 0; i < n; i++) { int16_t va = a[i], vb = b[i]; c[i] = x[i] > t ? va : vb; } }   /* int threshold: compare in 32-bit lanes, arms widened */
+N void g_thresh_cond(int16_t *c, const int16_t *x, const int16_t *a, const int16_t *b, int t, int n) { for (int i = 0; i < n; i++) c[i] = x[i] > t ? a[i] : b[i]; }   /* conditional loads: masked loads */
+N void g_lut16(uint8_t *c, const uint8_t *a, const uint8_t *tbl, int n) { for (int i = 0; i < n; i++) c[i] = tbl[a[i] & 15]; }                          /* a 16-byte table: vtbl.b, but this is a gather */
+N void g_fmaxnan(float *c, const float *a, const float *b, int n) { for (int i = 0; i < n; i++) c[i] = a[i] > b[i] ? a[i] : b[i]; }                      /* fcmp + select, NaN exact */
+N void g_f2u(unsigned *c, const float *a, int n) { for (int i = 0; i < n; i++) c[i] = (unsigned)a[i]; }                                                    /* vcvt.f.lu */
+N void g_u2f(float *c, const unsigned *a, int n) { for (int i = 0; i < n; i++) c[i] = (float)a[i]; }                                                       /* vcvt.lu.f */
+N void g_f2i64(int64_t *c, const float *a, int n) { for (int i = 0; i < n; i++) c[i] = (int64_t)a[i]; }                                                    /* 64-bit lanes: no vcvt */
+N void g_d2i(int *c, const double *a, int n) { for (int i = 0; i < n; i++) c[i] = (int)a[i]; }                                                             /* double: no vcvt.d */
+N void g_cmp64(int *c, const int64_t *a, int64_t t, int n) { for (int i = 0; i < n; i++) c[i] = a[i] > t ? 1 : 0; }                                       /* 64-bit lanes: no vcgt.q */
+N void g_cmp_wide_arms(int *c, const uint8_t *x, const int *a, const int *b, int t, int n) { for (int i = 0; i < n; i++) c[i] = x[i] > t ? a[i] : b[i]; }   /* mask narrower than the arms, and conditional loads */
+N void g_cmp_wide_arms2(int *c, const uint8_t *x, int t, int n) { for (int i = 0; i < n; i++) c[i] = x[i] > t ? 1000 : 7; }                               /* a byte compared with an int, int arms: the mask is in bytes only if t fits */

@@ -34,6 +34,21 @@ float k_sdot(const float *x, const float *y, int n);
 int k_isum(const int *x, int n);
 void k_bytemap(uint8_t *d, const uint8_t *s, int n);
 void k_copy16(int16_t *d, const int16_t *s, int n);
+void k_avg8(uint8_t *d, const uint8_t *a, const uint8_t *b, int n);
+void k_q15mul(int16_t *o, const int16_t *a, const int16_t *b, int n);
+float k_q8blk(const int8_t *w, const int8_t *x, const float *ws, const float *xs, int nb);
+int k_sadrow(const uint8_t *a, const uint8_t *b, int n);
+void k_thresh(int16_t *d, const int16_t *x, const int16_t *a, const int16_t *b, int t, int n);
+void k_maskblend(uint8_t *d, const uint8_t *m, const uint8_t *a, const uint8_t *b, int n);
+void k_clamp8(uint8_t *d, const int32_t *s, int n);
+void k_clampr(uint8_t *d, const int32_t *s, int n);
+void k_i2f(float *o, const int32_t *a, int n);
+void k_dequant(float *o, const uint8_t *a, int n);
+void k_quant(int8_t *y, const float *x, float id, int n);
+void k_relu(float *o, const float *x, int n);
+void k_mla32(int32_t *o, const int32_t *a, const int32_t *b, const int32_t *c, int n);
+void k_mulh16(int16_t *o, const int16_t *a, const int16_t *b, int n);
+int64_t k_dot16(const int16_t *a, const int16_t *b, int n);
 
 #define N 1000
 float g_fa[4096], g_fb[4096], g_fc[4096], g_fd[4096];
@@ -147,6 +162,51 @@ int main(void)
 #endif
 #ifdef K_k_copy16
     k_copy16(g_hc, g_ha, N);
+#endif
+#ifdef K_k_avg8
+    k_avg8(g_bc, g_ba, g_bb, N);
+#endif
+#ifdef K_k_q15mul
+    k_q15mul(g_hc, g_ha, g_hb, N);
+#endif
+#ifdef K_k_q8blk
+    r = (int)k_q8blk((const int8_t *)g_ba, (const int8_t *)g_bb, g_fa, g_fb, N / 32);
+#endif
+#ifdef K_k_sadrow
+    r = k_sadrow(g_ba, g_bb, N);
+#endif
+#ifdef K_k_thresh
+    k_thresh(g_hc, g_ha, g_hb, g_hc + 2048, 5, N);
+#endif
+#ifdef K_k_maskblend
+    k_maskblend(g_bc, g_ba, g_bb, g_bc + 4096, N);
+#endif
+#ifdef K_k_clamp8
+    k_clamp8(g_bc, g_ia, N);
+#endif
+#ifdef K_k_clampr
+    k_clampr(g_bc, g_ia, N);
+#endif
+#ifdef K_k_i2f
+    k_i2f(g_fc, g_ia, N);
+#endif
+#ifdef K_k_dequant
+    k_dequant(g_fc, g_ba, N);
+#endif
+#ifdef K_k_quant
+    k_quant((int8_t *)g_bc, g_fa, 0.75f, N);
+#endif
+#ifdef K_k_relu
+    k_relu(g_fc, g_fb, N);
+#endif
+#ifdef K_k_mla32
+    k_mla32(g_ia + 2048, g_ia, g_ib, g_ib + 1000, N);
+#endif
+#ifdef K_k_mulh16
+    k_mulh16(g_hc, g_ha, g_hb, N);
+#endif
+#ifdef K_k_dot16
+    r = (int)k_dot16(g_ha, g_hb, N);
 #endif
     return (r + (int)g_fc[7] + g_bc[5] + g_hc[3] + (int)g_dc[9]) & 127;
 }

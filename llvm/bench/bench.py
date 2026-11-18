@@ -23,7 +23,7 @@ B = os.path.join(R, 'build')
 LLC = os.path.join(os.path.dirname(R), 'llvm-build', 'bin', 'llc')
 VF = os.path.join(R, 'docs', 'encoding-work', 'arch-data', 'vec-forms')
 SRCS = [os.path.join(VF, 'kernels.c'), os.path.join(VF, 'games', 'games.c'), os.path.join(VF, 'blas', 'blas.c'),
-        os.path.join(VF, 'seg', 'seg.c'), os.path.join(HERE, 'simple.c')]
+        os.path.join(VF, 'seg', 'seg.c'), os.path.join(HERE, 'simple.c'), os.path.join(HERE, 'newk.c')]
 OPT = os.path.join(os.path.dirname(R), 'llvm-build', 'bin', 'opt')
 # a variant is the flags of llc; 'lv' is a different middle end: clang without any LLVM pass, opt -O2 with the pdp64 target (LoopVectorize with its cost
 # model), then llc (PDP64VecLoop lowers the vector loops to vec blocks); 'lv0' is the same with the lowering off (-pdp64-vecblock=0: what the vectoriser
