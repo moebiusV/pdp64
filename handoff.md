@@ -80,5 +80,4 @@ The detailed account, by chapter and statement, is [`docs/implementation-status.
 3. The cost-benefit analysis of the open operations (scatter-add, predication, number formats, the vector exponential, the tile, the whole-GEMM unit): dynamic counts need a simulator that runs them; the table says what is measured and what is estimated.
 4. About 17,000 instructions in the corpus compiled with checks that are not the checks (copies of the index and loaded bounds, errata 160): not analysed.
 5. The kernel's handler of vector 16 and the table of check sites; `docs/encoding-work/check-instructions.md` has the format and the trap.
-6. The state of the chronicle archive: `tools/chronicle-sync` of the ai-conversations project brings both machines' logs and databases in step (the last full merge into the second machine was interrupted by a dropped connection on 2026-11-18; run it again).
-
+6. The chronicle archive: `tools/chronicle-sync` of the ai-conversations project brings both machines' logs and databases in step; it was run in full on 2026-11-18 (both databases then held the same threads and social items) and is to be run again after more work.
