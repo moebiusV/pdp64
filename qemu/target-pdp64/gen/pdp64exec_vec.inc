@@ -15,7 +15,7 @@
  * Choices the documents leave open: the sliding window's centre is (taps-1)/2 (the hand-written kernel reads 3 before and 4 after for 8 taps); the elements of a
  * floating-point register in an integer register are binary32 in the low 32 bits (f) or binary64 (d).
  * Nothing of wave 1 keeps state from one strip to the next: vdacc and vsad add to a register that is committed at the end of the strip like vacc; vtbl reads its table
- * (a register of the strip, or exactly 16 bytes of memory) and its index within the strip; the rounding of vavg, vmulhr, vsarr, vshrr and vsts is arithmetic of the lane.
+ * (exactly 16 bytes of memory at (Ra): the register form was removed, errata 173) and its index within the strip; the rounding of vavg, vmulhr, vsarr, vshrr and vsts is arithmetic of the lane.
  */
 #define VBYTES 64			/* the storage of a vector register: the largest strip; the strip in use is VSTRIP */
 #define VSTRIP (C->vstrip ? C->vstrip : 32)	/* the strip in bytes (the host sets cpu->vstrip; 0 is the default, 32) */
