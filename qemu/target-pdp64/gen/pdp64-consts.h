@@ -404,14 +404,6 @@
 #define TIMER_REG_COMPARE            8
 #define TIMER_REG_CONTROL            16
 #define TIMER_CLOCK_HZ               10000000
-#define TNUM_T0                      0
-#define TNUM_T1                      1
-#define TNUM_T2                      2
-#define TNUM_T3                      3
-#define TNUM_T4                      4
-#define TNUM_T5                      5
-#define TNUM_T6                      6
-#define TNUM_T7                      7
 #define VECTOR_RESET                 0
 #define VECTOR_MACHINE_CHECK         1
 #define VECTOR_ILLEGAL               2

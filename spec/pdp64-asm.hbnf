@@ -59,11 +59,11 @@ secopt   = symbol [ "=" expr ]
 timesdir = ( "times" | "TIMES" ) expr tdata darg
 tdata    = "db" | "dw" | "dd" | "dq" | "DB" | "DW" | "DD" | "DQ"
 
-; the vector words (v..., and nothing else starts with v) are the only instructions that name the vector registers v0..v15, the tile registers t0..t7 and the gather's index vector:
-; for every other instruction v0 and t7 are names like any other (`lea v0, r10`), so a C global may be called v0.  Written before `instruction`: that would take `v0` as a symbol
+; the vector words (v..., and nothing else starts with v) are the only instructions that name the vector registers v0..v15:
+; for every other instruction v0 is a name like any other (`lea v0, r10`), so a C global may be called v0.  Written before `instruction`: that would take `v0` as a symbol
 vecinsn = &vchar mnemonic [ voperand *( "," voperand ) ]
 vchar = 0x76
-voperand = vregop | tregop | gatherop | operand
+voperand = vregop | operand
 instruction = mnemonic [ operand *( "," operand ) ]
 ; an instruction that takes a condition: the condition is a word of its own, then the operands (`set eq, r1`)
 condinsn = mn-cond ccw "," operand *( "," operand )
@@ -81,10 +81,8 @@ operand = immop | absop | postinc | predec | predec2 | indexed | based | atindex
 immop   = ( "#" | "$" ) expr
 absop   = "@" expr
 regop   = reg
-; a vector register v0..v15 and a tile register t0..t7 (the vec block), only in `voperand`; gatherop is the gather's base and index vector, `(r2)[v3]`, tried before `(r2)` is taken as based
+; a vector register v0..v15 (the vec block), only in `voperand`
 vregop  = vnum
-tregop  = tnum
-gatherop = "(" reg ")" "[" vnum "]"
 postinc = "(" reg ")" "+" [ expr ]
 predec  = "-" "(" reg ")"
 predec2 = "(" reg ")" "-" expr

@@ -28,12 +28,24 @@ def sfx(ms, ls):
 
 
 # ---- the lane operations (vD, vA, vB | rS | #imm)
-BIN_ANY = ['vadd', 'vsub', 'vsubr', 'vmul', 'vmin', 'vmax', 'vabd']		# integer and floating-point lanes
-BIN_INT = ['vand', 'vor', 'vxor', 'vshl', 'vshr', 'vsar', 'vminu', 'vmaxu', 'vabdu']	# integer lanes (vminu, vmaxu, vabdu: unsigned, for the bytes of pixels)
+# Wave 1 of the revised family (errata 170; docs/encoding-work/vec-survey.md 5.1): the lane variants that nothing uses are gone (the 64-bit lanes of the multiply, the
+# minimum, the maximum and the absolute difference; the floating-point absolute difference; the 32 and 64-bit unsigned absolute difference), and the words of the rounding
+# average, the high-half multiply, the rounding shifts, the 16-bit dot, the reductions of a dot and of a sum of absolute differences, and the table lookup are in.
+BIN_ANY = ['vadd', 'vsub', 'vsubr']						# integer and floating-point lanes, all six
+BIN_ANY5 = ['vmul', 'vmin', 'vmax']						# b w l f d (no 64-bit integer lanes)
+BIN_INT = ['vand', 'vor', 'vxor', 'vshl', 'vshr', 'vsar']			# integer lanes
+BIN_INT3 = ['vminu', 'vmaxu']							# b w l (unsigned, for the bytes of pixels)
+BIN_WL = ['vsarr', 'vshrr']							# w l: the shifts that round
+BIN_W = ['vmulh', 'vmulhu', 'vmulhr']						# w: the high half of the 16 x 16 product, and the Q15 rounding multiply
 SAT = ['vadds', 'vsubs', 'vaddsu', 'vsubsu']					# saturating; lanes b, w, l
 UN = ['vmov', 'vneg']								# vD, vA | rS | #imm
 FMA = ['vfma.f', 'vfma.d']
-ALL3 = sfx(BIN_ANY, LANES) + sfx(BIN_INT, IL) + sfx(SAT, ['b', 'w', 'l'])
+AVG = sfx(['vavg', 'vavgu'], ['b', 'w'])						# the rounding average (vD, vA, vB only)
+LANEOPS = (sfx(BIN_ANY, LANES) + sfx(BIN_ANY5, ['b', 'w', 'l', 'f', 'd']) + sfx(BIN_INT, IL) + sfx(BIN_INT3, ['b', 'w', 'l']) + sfx(['vabd'], ['b', 'w', 'l']) +
+           sfx(['vabdu'], ['b', 'w']) + sfx(BIN_WL, ['w', 'l']) + sfx(BIN_W, ['w']) + sfx(SAT, ['b', 'w', 'l']))
+DOTS = ['vdot.b', 'vdotu.b', 'vdotsu.b', 'vdot.w']
+DACC = ['vdacc.b', 'vdacc.bu', 'vdacc.bsu', 'vdacc.w', 'vsad.bu']			# a dot product or a sum of absolute differences reduced into a scalar register
+ALL3 = LANEOPS + AVG
 
 
 def ldwords(base):
@@ -58,7 +70,7 @@ def stwords(base):
 
 
 def satwords():
-    """vsts.<lane>.<m>: narrowing with clamping to the range of m"""
+    """vsts.<lane>.<m>: narrowing with clamping to the range of m (with an immediate, a rounding shift first: errata 170)"""
     out = []
     for lane in ['w', 'l', 'q']:
         for m in ['b', 'bu', 'w', 'wu', 'l', 'lu']:
@@ -88,7 +100,6 @@ SEGLD = [w for n in (2, 3, 4) for w in ldwords('vlseg%d' % n)]
 SEGST = [w for n in (2, 3, 4) for w in stwords('vsseg%d' % n)]
 LDT = ldwords('vldt')
 STT = stwords('vstt')
-LDX = ldwords('vldx')
 
 
 def vec_forms(R):
@@ -115,19 +126,21 @@ def vec_forms(R):
     # the block
     vf('VBEG', ['vec'], [R, R])
     vf('VEND', ['vend'], [])
-    vf('VLEN', sfx(['vlen'], LANES), [R])
+    vf('VLEN', ['vlen.b'], [R])
     # lane operations
-    vf('VOP.VVV', ALL3 + sfx(['vfma', 'vfnma'], FL) + ['vdot.b', 'vdotu.b', 'vdotsu.b'], [V, V, V])
-    vf('VOP.VVR', sfx(BIN_ANY, LANES) + sfx(BIN_INT, IL) + sfx(SAT, ['b', 'w', 'l']) + sfx(['vmla'], IL) + FMA, [V, V, R])
-    vf('VOP.VVI', sfx(BIN_ANY, LANES) + sfx(BIN_INT, IL) + sfx(SAT, ['b', 'w', 'l']), [V, V, I16])
+    vf('VOP.VVV', ALL3 + sfx(['vfma', 'vfnma'], FL) + sfx(['vmla'], ['w', 'l']) + DOTS + ['vtbl.b'], [V, V, V])
+    vf('VOP.VVR', LANEOPS + sfx(['vmla'], ['w', 'l']) + FMA, [V, V, R])
+    vf('VOP.VVI', LANEOPS, [V, V, I16])
+    vf('VDACC', DACC, [R, V, V])
+    vf('VTBLM', ['vtbl.b'], [V, B0, V])
     vf('VOP.VV', sfx(['vmov', 'vneg'], LANES), [V, V])
     vf('VOP.VR', sfx(['vmov'], LANES), [V, R])
     vf('VOP.VI', sfx(['vmov'], LANES), [V, I16])
     # multiply-add with the broadcast element (the micro-kernel), reductions, the sliding window, accumulators
     vf('VFMAB', sfx(['vfmab'], FL), [V, V, PI])
     vf('VACC', accwords(), [R, V])
-    vf('VFIR', sfx(['vfir'], LANES), [V, V, R, SI(6, False)])
-    vf('VCLR', sfx(['vclr'], LANES), [V, SI(4, False)])
+    vf('VFIR', sfx(['vfir'], ['w', 'l', 'f']), [V, V, R, SI(6, False)])
+    vf('VCLR', sfx(['vclr'], ['l', 'f', 'd']), [V, SI(4, False)])
     # memory: a strip from or to memory, the strided forms, segments, gather
     vf('VLD.PI', LD + SEGLD, [V, PI])
     vf('VLD.B', LD + SEGLD, [V, B])
@@ -135,11 +148,5 @@ def vec_forms(R):
     vf('VST.B', ST + SEGST, [V, B])
     vf('VLDT', LDT, [V, PI, SI(12, False)])
     vf('VSTT', STT, [V, PI, SI(12, False)])
-    vf('VLDX', LDX, [V, B0, V])
-    # the tile and the GEMM unit
-    vf('VT.CLR', ['vtclr'], [T])
-    vf('VT.MOPA', sfx(['vtfmopa'], FL), [T, V, V])
-    vf('VT.LS', sfx(['vtld', 'vtst'], FL), [T, B0, R])
-    vf('VT.ADD', sfx(['vtadd'], FL), [T, T, T])
-    vf('GEMM', ['gemm.f'], [R, R, R])
+    vf('VSTS.R', satwords(), [V, PI, SI(6, False)])			# the narrowing store with a rounding shift: vsts.<lane>.<m> vS, (Ra)+, #sh
     return out

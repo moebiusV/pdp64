@@ -1,19 +1,20 @@
-/* The vec block, the tile and the GEMM unit (docs/encoding-work/vec-isa.md, gemm-forms.md), for the shared executor.  Included by pdp64exec_enc.inc, which
- * shares its statics (C, E, RG, ld, st, die, step).  The family was added to be benchmarked and pruned (errata 161); the semantics here are vec-isa.md's:
+/* The vec block (docs/encoding-work/vec-isa.md; wave 1: errata 170; the tile, the GEMM unit and the gather were removed there), for the shared executor.  Included by pdp64exec_enc.inc, which
+ * shares its statics (C, E, RG, ld, st, die, step).  The family was added to be benchmarked and pruned (errata 161); the semantics here are vec-isa.md's (section "wave 1" for the words of errata 170):
  *
  *   - A block is `vec Rs, Re`, instructions, `vend`.  It is run whole by the `vec` instruction (an interrupt waits for the end of the block in this executor).  The
  *     instructions up to `vend` are decoded once; with no `vend` before something that is not a vector instruction, the block is the one instruction after `vec`.
  *   - A strip is VL elements.  This implementation's strip is VBYTES bytes, so VL is VBYTES over the widest lane type that the block uses; the last strip is
  *     shorter.  The elements of the stream are those of the first instruction whose memory operand is (Rs)+, in its access size, and `Re` is the end.
- *   - The hidden registers v0..v15, t0..t7 are in struct pdp64_cpu.  The registers that are not accumulators (vclr) are zero at the start of each strip.
+ *   - The hidden registers v0..v15 are in struct pdp64_cpu.  The registers that are not accumulators (vclr) are zero at the start of each strip.
  *   - The integer registers a strip changes (the (Ra)+ pointers, the reduction targets) are changed in a copy and committed when the strip ends; the stores of a strip
  *     are held and made when it ends, after their addresses have been checked: a fault in a strip leaves the registers as they were at its start, and a block
  *     without accumulators restarts where it stopped (an abort keeps the progress); a block with accumulators restarts from its entry.
  *   - Statistics (struct pdp64_cpu: vblocks, vstrips, vops, velems) count what the benchmarks need.
  *
  * Choices the documents leave open: the sliding window's centre is (taps-1)/2 (the hand-written kernel reads 3 before and 4 after for 8 taps); the elements of a
- * floating-point register in an integer register are binary32 in the low 32 bits (f) or binary64 (d); the gather index lanes are signed byte offsets in lanes of
- * the destination's width; the descriptor of gemm.f is described at vec_gemm.
+ * floating-point register in an integer register are binary32 in the low 32 bits (f) or binary64 (d).
+ * Nothing of wave 1 keeps state from one strip to the next: vdacc and vsad add to a register that is committed at the end of the strip like vacc; vtbl reads its table
+ * (a register of the strip, or exactly 16 bytes of memory) and its index within the strip; the rounding of vavg, vmulhr, vsarr, vshrr and vsts is arithmetic of the lane.
  */
 #define VBYTES 32
 #define VMAXBODY 64
@@ -23,9 +24,9 @@ enum {
 	VO_NONE = 0, VO_VEC, VO_VEND, VO_VLEN,
 	VO_ADD, VO_SUB, VO_SUBR, VO_MUL, VO_MIN, VO_MAX, VO_MINU, VO_MAXU, VO_ABD, VO_ABDU, VO_AND, VO_OR, VO_XOR, VO_SHL, VO_SHR, VO_SAR,
 	VO_ADDS, VO_SUBS, VO_ADDSU, VO_SUBSU, VO_MOV, VO_NEG, VO_MLA, VO_FMA, VO_FNMA, VO_FMAB, VO_DOT, VO_DOTU, VO_DOTSU,
+	VO_AVG, VO_AVGU, VO_MULH, VO_MULHU, VO_MULHR, VO_SARR, VO_SHRR, VO_TBL, VO_DACC, VO_SAD,
 	VO_ACC, VO_MAXACC, VO_MINACC, VO_FIR, VO_CLR,
-	VO_LD, VO_ST, VO_STS, VO_LDT, VO_STT, VO_LDX, VO_LSEG, VO_SSEG,
-	VO_TCLR, VO_TMOPA, VO_TLD, VO_TST, VO_TADD, VO_GEMM
+	VO_LD, VO_ST, VO_STS, VO_LDT, VO_STT, VO_LSEG, VO_SSEG
 };
 
 struct vinfo {
@@ -41,11 +42,12 @@ static const struct { const char *base; int op; } vbases[] = {
 	{ "vmaxu", VO_MAXU }, { "vabd", VO_ABD }, { "vabdu", VO_ABDU }, { "vand", VO_AND }, { "vor", VO_OR }, { "vxor", VO_XOR }, { "vshl", VO_SHL },
 	{ "vshr", VO_SHR }, { "vsar", VO_SAR }, { "vadds", VO_ADDS }, { "vsubs", VO_SUBS }, { "vaddsu", VO_ADDSU }, { "vsubsu", VO_SUBSU },
 	{ "vmov", VO_MOV }, { "vneg", VO_NEG }, { "vmla", VO_MLA }, { "vfma", VO_FMA }, { "vfnma", VO_FNMA }, { "vfmab", VO_FMAB },
-	{ "vdot", VO_DOT }, { "vdotu", VO_DOTU }, { "vdotsu", VO_DOTSU }, { "vacc", VO_ACC }, { "vmaxacc", VO_MAXACC }, { "vminacc", VO_MINACC },
+	{ "vdot", VO_DOT }, { "vdotu", VO_DOTU }, { "vdotsu", VO_DOTSU },
+	{ "vavg", VO_AVG }, { "vavgu", VO_AVGU }, { "vmulh", VO_MULH }, { "vmulhu", VO_MULHU }, { "vmulhr", VO_MULHR }, { "vsarr", VO_SARR }, { "vshrr", VO_SHRR },
+	{ "vtbl", VO_TBL }, { "vdacc", VO_DACC }, { "vsad", VO_SAD }, { "vacc", VO_ACC }, { "vmaxacc", VO_MAXACC }, { "vminacc", VO_MINACC },
 	{ "vfir", VO_FIR }, { "vclr", VO_CLR },
-	{ "vld", VO_LD }, { "vst", VO_ST }, { "vsts", VO_STS }, { "vldt", VO_LDT }, { "vstt", VO_STT }, { "vldx", VO_LDX },
+	{ "vld", VO_LD }, { "vst", VO_ST }, { "vsts", VO_STS }, { "vldt", VO_LDT }, { "vstt", VO_STT },
 	{ "vlseg2", VO_LSEG }, { "vlseg3", VO_LSEG }, { "vlseg4", VO_LSEG }, { "vsseg2", VO_SSEG }, { "vsseg3", VO_SSEG }, { "vsseg4", VO_SSEG },
-	{ "vtclr", VO_TCLR }, { "vtfmopa", VO_TMOPA }, { "vtld", VO_TLD }, { "vtst", VO_TST }, { "vtadd", VO_TADD }, { "gemm", VO_GEMM },
 };
 
 static int v_lane(const char *s, uint8_t *sz, uint8_t *fl)
@@ -92,8 +94,8 @@ static int vec_classify(const char *name, struct vinfo *vi)
 	vi->op = (uint8_t)op;
 	if (op == VO_LSEG || op == VO_SSEG) vi->nseg = (uint8_t)(buf[5] - '0');
 	switch (op) {
-	case VO_VEC: case VO_VEND: case VO_TCLR: return nt == 0;
-	case VO_LD: case VO_LDT: case VO_LDX: case VO_LSEG:			/* .m[.lane] */
+	case VO_VEC: case VO_VEND: return nt == 0;
+	case VO_LD: case VO_LDT: case VO_LSEG:			/* .m[.lane] */
 		if (nt < 1 || nt > 2 || !v_mem(tok[0], &vi->msz, &vi->msign, &vi->mfl)) return 0;
 		if (nt == 2) return v_lane(tok[1], &vi->lsz, &vi->lfl);
 		vi->lsz = vi->msz; vi->lfl = vi->mfl;
@@ -110,6 +112,15 @@ static int vec_classify(const char *name, struct vinfo *vi)
 		if (nt == 2) return op == VO_ACC && v_lane(tok[1], &vi->msz, &vi->mfl);
 		vi->msz = sfl ? ssz : 8; vi->mfl = sfl;
 		return 1;
+	}
+	case VO_DACC: case VO_SAD: {						/* vdacc.b .bu .bsu .w, vsad.bu: the source lane in lsz; the mode (0 signed x signed, 1 unsigned x unsigned, 2 signed x unsigned) in msz */
+		if (nt != 1) return 0;
+		if (op == VO_SAD) { if (strcmp(tok[0], "bu")) return 0; vi->lsz = 1; vi->msz = 1; return 1; }
+		if (!strcmp(tok[0], "b")) { vi->lsz = 1; vi->msz = 0; return 1; }
+		if (!strcmp(tok[0], "bu")) { vi->lsz = 1; vi->msz = 1; return 1; }
+		if (!strcmp(tok[0], "bsu")) { vi->lsz = 1; vi->msz = 2; return 1; }
+		if (!strcmp(tok[0], "w")) { vi->lsz = 2; vi->msz = 0; return 1; }
+		return 0;
 	}
 	case VO_STS:								/* .lane.m */
 		return nt == 2 && v_lane(tok[0], &vi->lsz, &vi->lfl) && v_mem(tok[1], &vi->msz, &vi->msign, &vi->mfl);
@@ -189,7 +200,7 @@ static void vload_elem(uint8_t *dst, uint64_t a, const struct vinfo *vi)
 	if (vi->lfl) lput_f(dst, vi->lsz, vi->msign ? (double)(int64_t)v : (double)v); else lput(dst, vi->lsz, v);
 }
 /* the value of a lane as memory holds it: narrowed (truncated), or saturated to the memory type */
-static uint64_t vstore_elem(const uint8_t *src, const struct vinfo *vi, int sat)
+static uint64_t vstore_elem(const uint8_t *src, const struct vinfo *vi, int sat, int sh)
 {
 	if (vi->lfl) {
 		double d = lget_f(src, vi->lsz);
@@ -200,6 +211,7 @@ static uint64_t vstore_elem(const uint8_t *src, const struct vinfo *vi, int sat)
 	if (!sat) return lget_u(src, vi->lsz);
 	int64_t x = lget_s(src, vi->lsz), lo, hi;
 	int bits = vi->msz * 8;
+	if (sh > 0) { __int128 y = ((__int128)x + ((__int128)1 << (sh - 1))) >> sh; x = y > INT64_MAX ? INT64_MAX : y < INT64_MIN ? INT64_MIN : (int64_t)y; }	/* the rounding shift of the narrowing store: round half up, exact */
 	if (vi->msign) { lo = -((int64_t)1 << (bits - 1)); hi = ((int64_t)1 << (bits - 1)) - 1; } else { lo = 0; hi = bits >= 64 ? INT64_MAX : ((int64_t)1 << bits) - 1; }
 	return (uint64_t)(x < lo ? lo : x > hi ? hi : x);
 }
@@ -284,6 +296,13 @@ static void vop_lane(struct vctx *x, const struct vinfo *vi, const struct einsn 
 			case VO_ADDSU: { uint64_t m = bits >= 64 ? ~(uint64_t)0 : ((uint64_t)1 << bits) - 1, w; uz = __builtin_add_overflow(up, uq, &w) || w > m ? m : w; break; }
 			case VO_SUBSU: uz = up < uq ? 0 : up - uq; break;
 			case VO_MLA: uz = (uint64_t)lget_s(D + i * sz, sz) + up * uq; break;
+			case VO_AVG: uz = (uint64_t)((p + q + 1) >> 1); break;				/* the sum in a wider type, rounded up: (a + b + 1) >> 1 */
+			case VO_AVGU: uz = (up + uq + 1) >> 1; break;
+			case VO_MULH: uz = (uint64_t)((p * q) >> 16); break;				/* .w: the high 16 bits of the 32-bit product */
+			case VO_MULHU: uz = (up * uq) >> 16; break;
+			case VO_MULHR: { int64_t r = (p * q + 0x4000) >> 15; uz = (uint64_t)(r > 32767 ? 32767 : r); break; }	/* Q15, round half up, saturating (only -32768 x -32768 saturates) */
+			case VO_SARR: uz = (uint64_t)(uq == 0 ? p : uq > (uint64_t)bits ? 0 : (p + ((int64_t)1 << (uq - 1))) >> uq); break;	/* exact: (x + 2^(s-1)) >> s, the sum not wrapped */
+			case VO_SHRR: uz = uq == 0 ? up : uq > (uint64_t)bits ? 0 : (up + ((uint64_t)1 << (uq - 1))) >> uq; break;
 			default: die("vector integer lane operation not defined", vi->op);
 			}
 			lput(out + i * sz, sz, uz);
@@ -311,17 +330,57 @@ static void vop_dot(struct vctx *x, const struct vinfo *vi, const struct einsn *
 {
 	const struct eop *op = in->op;
 	uint8_t *D = VR(op[0].r); const uint8_t *A = VR(op[1].r), *B = VR(op[2].r);
-	int nl = (x->nact + 3) / 4;
+	int k = vi->lsz == 2 ? 2 : 4;							/* vdot.w: two 16-bit products a 32-bit lane; vdot.b: four byte products */
+	int nl = (x->nact + k - 1) / k;
 	for (int i = 0; i < nl; i++) {
 		int64_t s = lget_s(D + 4 * i, 4);
-		for (int k = 0; k < 4; k++) {
-			int j = 4 * i + k;
+		for (int m = 0; m < k; m++) {
+			int j = k * i + m;
 			if (j >= x->nact) break;
-			int64_t p = vi->op == VO_DOTU ? (int64_t)A[j] : (int64_t)(int8_t)A[j], q = vi->op == VO_DOT ? (int64_t)(int8_t)B[j] : (int64_t)B[j];
-			s += p * q;
+			if (k == 2) s += lget_s(A + 2 * j, 2) * lget_s(B + 2 * j, 2);
+			else {
+				int64_t p = vi->op == VO_DOTU ? (int64_t)A[j] : (int64_t)(int8_t)A[j], q = vi->op == VO_DOT ? (int64_t)(int8_t)B[j] : (int64_t)B[j];
+				s += p * q;
+			}
 		}
 		lput(D + 4 * i, 4, (uint64_t)s);
 	}
+}
+
+/* vdacc.<b|bu|bsu|w> Rd, vA, vB: Rd += the exact sum of all the products of the strip (not wrapped to 32 bits: a vdot.w lane of two products can reach 2^31).
+   vsad.bu Rd, vA, vB: Rd += the sum of |a - b| over the byte lanes, unsigned.  The register is committed with the strip, as vacc. */
+static void vop_dacc(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
+{
+	const struct eop *op = in->op;
+	const uint8_t *A = VR(op[1].r), *B = VR(op[2].r);
+	int64_t sum = 0;
+	for (int i = 0; i < x->nact; i++) {
+		if (vi->op == VO_SAD) { int a = A[i], b = B[i]; sum += a > b ? a - b : b - a; continue; }
+		int64_t p, q;
+		if (vi->lsz == 2) { p = lget_s(A + 2 * i, 2); q = lget_s(B + 2 * i, 2); }
+		else { p = vi->msz == 1 ? (int64_t)A[i] : (int64_t)(int8_t)A[i]; q = vi->msz == 0 ? (int64_t)(int8_t)B[i] : (int64_t)B[i]; }
+		sum += p * q;
+	}
+	x->lr[op[0].r] += (uint64_t)sum;
+}
+
+/* vtbl.b vD, vT, vI or vtbl.b vD, (Ra), vI: lane i of vD is the byte of the table that the index lane i names, and 0 if the index is 16 or more (unsigned).  The table of the
+   register form is the 16 bytes of vT of the group of 16 lanes that lane i is in (lanes 16 to 31 look in bytes 16 to 31); a lane of vT that is not in the strip is 0.  The table
+   of the memory form is exactly 16 bytes at (Ra), whatever the strip's length: the same table for every lane. */
+static void vop_tbl(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
+{
+	(void)vi;
+	const struct eop *op = in->op;
+	uint8_t tab[16], out[VBYTES];
+	const uint8_t *T = NULL, *I = VR(op[2].r);
+	if (op[1].k == EK_V) T = VR(op[1].r);
+	else { struct vmem m; vmem_of(x, &op[1], &m); for (int i = 0; i < 16; i++) tab[i] = (uint8_t)ld(m.addr + (uint64_t)i, 1); }
+	memset(out, 0, sizeof out);
+	for (int i = 0; i < x->nact; i++) {
+		unsigned ix = I[i];
+		if (ix < 16) out[i] = T ? T[(i & ~15) + ix] : tab[ix];
+	}
+	memcpy(VR(op[0].r), out, VBYTES);
 }
 
 static void vop_reduce(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
@@ -398,7 +457,7 @@ static void vop_mem(struct vctx *x, const struct vinfo *vi, const struct einsn *
 	case VO_ST: case VO_STS: case VO_SSEG:
 		for (int f = 0; f < nf; f++) {
 			const uint8_t *S = VR(v + f);
-			for (int i = 0; i < n; i++) vput_store(x, m.addr + ((uint64_t)i * nf + f) * esz, esz, vstore_elem(S + i * vi->lsz, vi, op_ == VO_STS));
+			for (int i = 0; i < n; i++) vput_store(x, m.addr + ((uint64_t)i * nf + f) * esz, esz, vstore_elem(S + i * vi->lsz, vi, op_ == VO_STS, op_ == VO_STS && in->nops == 3 ? (int)op[2].v : 0));
 		}
 		if (m.adj_reg >= 0) x->lr[m.adj_reg] += (uint64_t)n * nf * esz;
 		return;
@@ -407,110 +466,12 @@ static void vop_mem(struct vctx *x, const struct vinfo *vi, const struct einsn *
 		for (int i = 0; i < n; i++) {
 			uint64_t a = m.addr + (uint64_t)((int64_t)i * stride);
 			if (op_ == VO_LDT) { if (!i) memset(VR(v), 0, VBYTES); vload_elem(VR(v) + i * vi->lsz, a, vi); }
-			else vput_store(x, a, esz, vstore_elem(VR(v) + i * vi->lsz, vi, 0));
+			else vput_store(x, a, esz, vstore_elem(VR(v) + i * vi->lsz, vi, 0, 0));
 		}
 		if (op_ == VO_LDT) x->src[v].valid = 0;
 		if (m.adj_reg >= 0) x->lr[m.adj_reg] += (uint64_t)((int64_t)n * stride);
 		return;
 	}
-	}
-}
-
-static void vop_gather(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
-{
-	const struct eop *op = in->op;			/* vldx vD, (Rb), vI: the codec has the base and the index vector as two operands */
-	uint8_t *D = VR(op[0].r);
-	const uint8_t *I = VR(op[2].r);
-	uint64_t base = x->lr[op[1].r];
-	uint8_t out[VBYTES];
-	memset(out, 0, sizeof out);
-	for (int i = 0; i < x->nact; i++) vload_elem(out + i * vi->lsz, base + (uint64_t)lget_s(I + i * vi->lsz, vi->lsz), vi);
-	memcpy(D, out, VBYTES);
-	x->src[op[0].r & 15].valid = 0;
-}
-
-/* ---- the tile ------------------------------------------------------------------------------------------------------ */
-static int vtile_n(const struct vinfo *vi) { return vi->lsz ? VBYTES / vi->lsz : VBYTES / 4; }		/* VLt: the tile is VLt x VLt elements */
-
-static void vop_tile(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
-{
-	const struct eop *op = in->op;
-	int sz = vi->lsz, n = vtile_n(vi);
-	uint8_t *T = C->tr[op[0].r & 7];
-	switch (vi->op) {
-	case VO_TCLR: memset(T, 0, 256); return;
-	case VO_TMOPA: {								/* tD[i][j] += vA[i] * vB[j] */
-		const uint8_t *A = VR(op[1].r), *B = VR(op[2].r);
-		for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) {
-			uint8_t *e = T + (i * n + j) * sz;
-			double z = sz == 4 ? (double)fmaf((float)lget_f(A + i * sz, sz), (float)lget_f(B + j * sz, sz), (float)lget_f(e, sz)) : fma(lget_f(A + i * sz, sz), lget_f(B + j * sz, sz), lget_f(e, sz));
-			lput_f(e, sz, z);
-		}
-		return;
-	}
-	case VO_TADD: {
-		const uint8_t *A = C->tr[op[1].r & 7], *B = C->tr[op[2].r & 7];
-		uint8_t out[256];
-		for (int i = 0; i < n * n; i++) lput_f(out + i * sz, sz, lget_f(A + i * sz, sz) + lget_f(B + i * sz, sz));
-		memcpy(T, out, 256);
-		return;
-	}
-	case VO_TLD: case VO_TST: {							/* vtld tN, (Ra), Rs: row i at Ra + i * Rs */
-		uint64_t base = x->lr[op[1].r], rowb = x->lr[op[2].r];
-		for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) {
-			uint64_t a = base + (uint64_t)i * rowb + (uint64_t)j * sz;
-			if (vi->op == VO_TLD) lput(T + (i * n + j) * sz, sz, ld(a, sz));
-			else vput_store(x, a, sz, lget_u(T + (i * n + j) * sz, sz));
-		}
-		return;
-	}
-	}
-}
-
-/* gemm.f Rd, Rr, Rc: C[M,N] = alpha * A[M,K] . B[N,K]^T + beta * C[M,N] (the NT product of cngpt's linear layer), in binary32, for the tiles from (Rr, Rc) on.  Rd is the
-   address of a descriptor of twelve 64-bit words:  0 A  1 B  2 C (addresses)  3 M  4 N  5 K (elements)  6 lda  7 ldb  8 ldc (bytes between rows)  9 alpha  10 beta
-   (binary32 in the low 32 bits)  11 flags (bit 0: B is [K,N] (not transposed)).  Rr and Rc are the row and column of the next output tile (element numbers, multiples of
-   the tile size VLt = VBYTES/4): the instruction does the tiles in the order rows first, then columns, each tile over all of K, and stops when Rc reaches N: a
-   restart from the registers goes on with the next tile.  (An interrupt waits for it in this executor.) */
-static void vop_gemm(struct vctx *x, const struct einsn *in)
-{
-	const struct eop *op = in->op;
-	uint64_t d = x->lr[op[0].r];
-	uint64_t A = ld(d, 8), B = ld(d + 8, 8), Cm = ld(d + 16, 8), M = ld(d + 24, 8), N = ld(d + 32, 8), K = ld(d + 40, 8);
-	uint64_t lda = ld(d + 48, 8), ldb = ld(d + 56, 8), ldc = ld(d + 64, 8), fl = ld(d + 88, 8);
-	float alpha = (float)rget_f(ld(d + 72, 8), 4), beta = (float)rget_f(ld(d + 80, 8), 4);
-	const int T = VBYTES / 4;
-	uint64_t *rr = &x->lr[op[1].r], *rc = &x->lr[op[2].r];
-	C->vops++;
-	C->progress = 1;								/* the registers are the progress: an abort keeps the tiles done */
-	while (*rc < N) {
-		uint64_t r0 = *rr, c0 = *rc;
-		if (r0 >= M) { *rr = 0; *rc += T; continue; }
-		uint64_t nr = M - r0 < (uint64_t)T ? M - r0 : T, nc = N - c0 < (uint64_t)T ? N - c0 : T;
-		float acc[8][8];
-		memset(acc, 0, sizeof acc);
-		for (uint64_t k = 0; k < K; k++)
-			for (uint64_t i = 0; i < nr; i++) {
-				uint32_t ab = (uint32_t)ld(A + (r0 + i) * lda + k * 4, 4); float a; memcpy(&a, &ab, 4);
-				for (uint64_t j = 0; j < nc; j++) {
-					uint64_t ba = (fl & 1) ? B + k * ldb + (c0 + j) * 4 : B + (c0 + j) * ldb + k * 4;
-					uint32_t bb = (uint32_t)ld(ba, 4); float b; memcpy(&b, &bb, 4);
-					acc[i][j] = fmaf(a, b, acc[i][j]);
-				}
-			}
-		for (uint64_t i = 0; i < nr; i++) for (uint64_t j = 0; j < nc; j++) E->check(E->u, Cm + (r0 + i) * ldc + (c0 + j) * 4, 4, 1);
-		for (uint64_t i = 0; i < nr; i++) for (uint64_t j = 0; j < nc; j++) {
-			uint64_t ca = Cm + (r0 + i) * ldc + (c0 + j) * 4;
-			float cv = 0; if (beta != 0) { uint32_t cb = (uint32_t)ld(ca, 4); memcpy(&cv, &cb, 4); }
-			float res = fmaf(alpha, acc[i][j], beta != 0 ? beta * cv : 0.0f);
-			uint32_t rb; memcpy(&rb, &res, 4);
-			st(ca, 4, rb);
-		}
-		C->velems += nr * nc * K;
-		*rr += T;
-		if (*rr >= M) { *rr = 0; *rc += T; }
-		/* the registers are the progress: committed after each tile */
-		RG[op[1].r] = *rr; RG[op[2].r] = *rc;
 	}
 }
 
@@ -523,11 +484,13 @@ static void vop(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
 	case VO_VLEN: x->lr[op[0].r] = (uint64_t)(x->inblock ? x->vl : VBYTES / vi->lsz); return;
 	case VO_ADD: case VO_SUB: case VO_SUBR: case VO_MUL: case VO_MIN: case VO_MAX: case VO_MINU: case VO_MAXU: case VO_ABD: case VO_ABDU:
 	case VO_AND: case VO_OR: case VO_XOR: case VO_SHL: case VO_SHR: case VO_SAR: case VO_ADDS: case VO_SUBS: case VO_ADDSU: case VO_SUBSU:
-	case VO_MOV: case VO_NEG: case VO_MLA: case VO_FMA: case VO_FNMA:
+	case VO_MOV: case VO_NEG: case VO_MLA: case VO_FMA: case VO_FNMA: case VO_AVG: case VO_AVGU: case VO_MULH: case VO_MULHU: case VO_MULHR: case VO_SARR: case VO_SHRR:
 		vop_lane(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
 	case VO_FMAB: vop_fmab(x, vi, in); C->velems += x->nact; return;
 	case VO_DOT: case VO_DOTU: case VO_DOTSU: vop_dot(x, vi, in); C->velems += x->nact; return;
 	case VO_ACC: case VO_MAXACC: case VO_MINACC: vop_reduce(x, vi, in); C->velems += x->nact; return;
+	case VO_DACC: case VO_SAD: vop_dacc(x, vi, in); C->velems += x->nact; return;
+	case VO_TBL: vop_tbl(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
 	case VO_FIR: vop_fir(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
 	case VO_CLR: {
 		if (x->inblock && !x->first) return;				/* a vclr inside a block is the block's preamble: the first strip only */
@@ -535,14 +498,11 @@ static void vop(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
 		return;
 	}
 	case VO_LD: case VO_ST: case VO_STS: case VO_LDT: case VO_STT: case VO_LSEG: case VO_SSEG: vop_mem(x, vi, in); C->velems += x->nact; return;
-	case VO_LDX: vop_gather(x, vi, in); C->velems += x->nact; return;
-	case VO_TCLR: case VO_TMOPA: case VO_TADD: case VO_TLD: case VO_TST: vop_tile(x, vi, in); C->velems += (uint64_t)vtile_n(vi) * vtile_n(vi); return;
-	case VO_GEMM: C->vops--; vop_gemm(x, in); return;
 	}
 	die("vector instruction not defined", vi->op);
 }
 
-static int vec_is_standalone(int op) { return op == VO_VLEN || op == VO_CLR || op == VO_TCLR || op == VO_TADD || op == VO_TLD || op == VO_TST || op == VO_GEMM; }
+static int vec_is_standalone(int op) { return op == VO_VLEN || op == VO_CLR; }
 
 static void vec_commit(struct vctx *x)
 {
@@ -588,12 +548,12 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 	int rs = vin->op[0].r, re = vin->op[1].r;
 	for (int i = 0; i < nb; i++) {
 		const struct vinfo *vi = body[i].vi;
-		if (vi->lsz > lanemax && vi->op != VO_TCLR) lanemax = vi->lsz;
+		if (vi->lsz > lanemax) lanemax = vi->lsz;
 	}
 	for (int i = 0; i < nb && !esz; i++) {
 		const struct vinfo *vi = body[i].vi;
 		const struct eop *m = &body[i].in.op[1];
-		if (vi->op >= VO_LD && vi->op <= VO_SSEG && vi->op != VO_LDX && m->k == EK_PI && m->r == rs) {
+		if (vi->op >= VO_LD && vi->op <= VO_SSEG && m->k == EK_PI && m->r == rs) {
 			esz = (vi->op == VO_LDT || vi->op == VO_STT) ? (int)body[i].in.op[2].v : vi->msz;	/* a strided stream moves by its stride */
 			nfst = vi->nseg ? vi->nseg : 1;
 		}
@@ -601,16 +561,12 @@ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
 	if (!esz) die("vec: no instruction of the block moves the pointer register by (Rs)+", 0);
 	int vl = VBYTES / lanemax;
 	C->vblocks++;
-	/* hidden accumulation (a vclr in the block, an accumulator named before it, a tile written): hidden state is not saved at a context switch (R435), so an abort
+	/* hidden accumulation (a vclr in the block, an accumulator named before it): hidden state is not saved at a context switch (R435), so an abort
 	   restarts the block from its entry and discards the accumulators (vec-isa.md 4.1, the second option).  Otherwise the pointers are the progress and the block
 	   goes on from the strip it stopped at. */
-	int hidden = C->vacc != 0, touch = 0;
-	for (int i = 0; i < nb; i++) {
-		int o = body[i].vi->op;
-		if (o == VO_CLR) hidden = 1;
-		if (o == VO_TMOPA || o == VO_TADD || o == VO_TLD) { hidden = 1; touch |= 1 << (body[i].in.op[0].r & 7); }
-	}
-	C->progress = !hidden; C->vhidden = hidden; C->vtouch = (uint8_t)touch;
+	int hidden = C->vacc != 0;
+	for (int i = 0; i < nb; i++) if (body[i].vi->op == VO_CLR) hidden = 1;
+	C->progress = !hidden; C->vhidden = hidden;
 	x->vl = vl; x->inblock = 1; x->nsq = 0;
 	for (long strip = 0; ; strip++) {
 		uint64_t cur = RG[rs], end = RG[re];
@@ -643,7 +599,7 @@ static void vec_step(const struct einsn *in, uint64_t start, int n)
 	for (int i = 0; i < 32; i++) x->lr[i] = RG[i];
 	x->inblock = 0; x->first = 1; x->nsq = 0; x->nact = VBYTES;
 	for (int i = 0; i < 16; i++) x->src[i].valid = 0;
-	C->progress = vi->op == VO_GEMM;
+	C->progress = 0;
 	vop(x, vi, in);
 	vec_commit(x);
 }

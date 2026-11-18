@@ -767,7 +767,6 @@ void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector,
 	C = c; E = e;
 	if (c->vhidden) {									/* a block with hidden accumulation: it restarts from its entry, the accumulators discarded (hidden state is not saved: R435) */
 		for (int v = 0; v < 16; v++) if (c->vacc >> v & 1) memset(c->vr[v], 0, sizeof c->vr[v]);
-		for (int t = 0; t < 8; t++) if (c->vtouch >> t & 1) memset(c->tr[t], 0, sizeof c->tr[t]);
 		c->vhidden = 0;
 	}
 	if (c->snap_valid) {

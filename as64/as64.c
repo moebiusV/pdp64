@@ -715,7 +715,7 @@ static void vec_typecheck(const struct stmt *st)
 	int dst = -1, nseg = 1, wlane = -1, rlane = -1, rd[3] = { -1, -1, -1 }, nrd = 0;
 	int firstv = st->nops > 0 && o[0].kind == OK_VREG;
 	#define RD(k) do { if ((k) < st->nops && o[k].kind == OK_VREG && nrd < 3) rd[nrd++] = o[k].reg; } while (0)
-	if (!strcmp(b, "vld") || !strcmp(b, "vldt") || !strcmp(b, "vldx") || !strncmp(b, "vlseg", 5)) {		/* .m[.lane]: the register gets the lane (the memory type's own when none) */
+	if (!strcmp(b, "vld") || !strcmp(b, "vldt") || !strncmp(b, "vlseg", 5)) {		/* .m[.lane]: the register gets the lane (the memory type's own when none) */
 		wlane = vlane_code(nt > 1 ? tok[1] : tok[0]);
 		dst = firstv ? o[0].reg : -1;
 		if (!strncmp(b, "vlseg", 5)) nseg = b[5] - '0';
@@ -723,9 +723,13 @@ static void vec_typecheck(const struct stmt *st)
 		rlane = vlane_code(tok[0]);
 		if (!strncmp(b, "vsseg", 5)) nseg = b[5] - '0';
 		if (firstv) for (int k = 0; k < nseg && nrd < 3; k++) rd[nrd++] = (o[0].reg + k) & 15;
-	} else if (!strcmp(b, "vdot") || !strcmp(b, "vdotu") || !strcmp(b, "vdotsu")) {	/* bytes in, 32-bit lanes out */
-		rlane = 1; RD(1); RD(2);
+	} else if (!strcmp(b, "vdot") || !strcmp(b, "vdotu") || !strcmp(b, "vdotsu")) {	/* bytes (vdot.w: 16-bit lanes) in, 32-bit lanes out */
+		rlane = vlane_code(tok[0]); RD(1); RD(2);
 		wlane = 4; dst = firstv ? o[0].reg : -1;
+	} else if (!strcmp(b, "vdacc") || !strcmp(b, "vsad")) {			/* vdacc.<b|bu|bsu|w> Rd, vA, vB; vsad.bu Rd, vA, vB: both registers are read as the source lanes, the result is a scalar */
+		rlane = vlane_code(tok[0]); RD(1); RD(2);
+	} else if (!strcmp(b, "vtbl")) {						/* vtbl.b vD, vT, vI | vtbl.b vD, (Ra), vI: bytes in (the table, if it is a register, and the index), bytes out */
+		rlane = wlane = 1; RD(1); RD(2); dst = firstv ? o[0].reg : -1;
 	} else if (!strcmp(b, "vacc") || !strcmp(b, "vmaxacc") || !strcmp(b, "vminacc")) {	/* .src[.acc]: the register is read as the source lanes */
 		rlane = vlane_code(tok[0]); RD(1);
 	} else if (!strcmp(b, "vclr")) {
@@ -740,7 +744,8 @@ static void vec_typecheck(const struct stmt *st)
 	} else if (!strcmp(b, "vadd") || !strcmp(b, "vsub") || !strcmp(b, "vsubr") || !strcmp(b, "vmul") || !strcmp(b, "vmin") || !strcmp(b, "vmax") ||
 	    !strcmp(b, "vminu") || !strcmp(b, "vmaxu") || !strcmp(b, "vabd") || !strcmp(b, "vabdu") || !strcmp(b, "vand") || !strcmp(b, "vor") || !strcmp(b, "vxor") ||
 	    !strcmp(b, "vshl") || !strcmp(b, "vshr") || !strcmp(b, "vsar") || !strcmp(b, "vadds") || !strcmp(b, "vsubs") || !strcmp(b, "vaddsu") || !strcmp(b, "vsubsu") ||
-	    !strcmp(b, "vmla") || !strcmp(b, "vfma") || !strcmp(b, "vfnma")) {
+	    !strcmp(b, "vmla") || !strcmp(b, "vfma") || !strcmp(b, "vfnma") || !strcmp(b, "vavg") || !strcmp(b, "vavgu") || !strcmp(b, "vmulh") || !strcmp(b, "vmulhu") ||
+	    !strcmp(b, "vmulhr") || !strcmp(b, "vsarr") || !strcmp(b, "vshrr")) {
 		rlane = wlane = vlane_code(tok[0]); RD(1); RD(2); dst = firstv ? o[0].reg : -1;
 	} else return;
 	#undef RD

@@ -278,14 +278,11 @@ static void operand(const char *text, const operand_t *o, struct oper *r)
 	}
 }
 
-/* An operand of a vector instruction: a vector register, a tile register, the gather's `(base)[vI]`, or any operand there is */
+/* An operand of a vector instruction: a vector register, or any operand there is */
 static void voperand(const char *text, const voperand_t *o, struct oper *r)
 {
 	switch (o->_alt) {
 	case 1: memset(r, 0, sizeof *r); r->kind = OK_VREG; r->reg = (int)o->vregop; break;			/* v0..v15 */
-	case 2: memset(r, 0, sizeof *r); r->kind = OK_TREG; r->reg = (int)o->tregop; break;			/* t0..t7 */
-	case 3: memset(r, 0, sizeof *r); r->kind = OK_GATHER;							/* (base)[vI]: the base register, and the index vector in reg2 */
-		r->reg = reg_of(&o->gatherop.reg); r->reg2 = (int)o->gatherop.vnum; break;
 	default: operand(text, &o->operand, r);
 	}
 }

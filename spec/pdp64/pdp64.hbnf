@@ -1,4 +1,4 @@
-; the pdp64: the grammar of the encoding -- 32 registers (r0-r31), 183 forms, 241 leaves.
+; the pdp64: the grammar of the encoding -- 32 registers (r0-r31), 180 forms, 238 leaves.
 ;
 ; Written by docs/codegen-data/encoding/write_hbnf.py and edited by hand from then on (the vocabulary is in pdp64-enc.hbnf, the workflow in spec/README.md).
 ; Everything the codec, the assembler, the linker, the simulator and the documentation know of this encoding is generated from this file.
@@ -6,7 +6,7 @@
 prefix none
 include "../pdp64-enc.hbnf"
 
-; The instruction: one leaf.  A first parcel that no leaf matches (905 of the 65,536) is an illegal instruction.
+; The instruction: one leaf.  A first parcel that no leaf matches (912 of the 65,536) is an illegal instruction.
 insn = leaf:( leaf-SYS0-1 | leaf-SYS0-2 | leaf-SYSR-1 | leaf-SYSR-2 | leaf-CT1-1 | leaf-SETF-1 | leaf-SYSI-1 | leaf-MFSR-1 | leaf-MTSR-1 | leaf-R2-1
        | leaf-R3-1 | leaf-R4-1 | leaf-RRI-1 | leaf-BFx-1 | leaf-BFy-1 | leaf-MOVQL-1 | leaf-LDU-B28-1 | leaf-LDU-B28-2 | leaf-LDU-B28-3
        | leaf-STU-B28-1 | leaf-LDU-B12-1 | leaf-LDU-B12-2 | leaf-LDU-B12-3 | leaf-STU-B12-1 | leaf-LDU-X6-1 | leaf-LDU-X6-2 | leaf-LDU-X6-3
@@ -34,9 +34,9 @@ insn = leaf:( leaf-SYS0-1 | leaf-SYS0-2 | leaf-SYSR-1 | leaf-SYSR-2 | leaf-CT1-1
        | leaf-LDPC16H-c-1 | leaf-LDPC16H-c-2 | leaf-CMPC16H-a-1 | leaf-LDI14H-c-1 | leaf-LDI18H-a-1 | leaf-LDI18H-b-1 | leaf-LDI18H-b-2
        | leaf-CMI18H-a-1 | leaf-CBR10H-a-1 | leaf-CBR10H-c-1 | leaf-CBZ2-12H-b-1 | leaf-CBZ2-14H-a-1 | leaf-CB3I12-16H-a-1 | leaf-CB3I16-12H-b-1
        | leaf-CB3R24H-b-1 | leaf-CBI3-10H-b-1 | leaf-CBI3-10H-c-1 | leaf-CBI3-12H-a-1 | leaf-CBI8-8H-b-1 | leaf-CBI8-8H-c-1 | leaf-CBI8-10H-a-1
-       | leaf-CBI10-8H-a-1 | leaf-VBEG-1 | leaf-VEND-1 | leaf-VLEN-1 | leaf-VOP-VVV-1 | leaf-VOP-VVR-1 | leaf-VOP-VVI-1 | leaf-VOP-VV-1
-       | leaf-VOP-VR-1 | leaf-VOP-VI-1 | leaf-VFMAB-1 | leaf-VACC-1 | leaf-VFIR-1 | leaf-VCLR-1 | leaf-VLD-PI-1 | leaf-VLD-B-1 | leaf-VST-PI-1
-       | leaf-VST-B-1 | leaf-VLDT-1 | leaf-VSTT-1 | leaf-VLDX-1 | leaf-VT-CLR-1 | leaf-VT-MOPA-1 | leaf-VT-LS-1 | leaf-VT-ADD-1 | leaf-GEMM-1 )
+       | leaf-CBI10-8H-a-1 | leaf-VBEG-1 | leaf-VEND-1 | leaf-VLEN-1 | leaf-VOP-VVV-1 | leaf-VOP-VVR-1 | leaf-VOP-VVI-1 | leaf-VDACC-1 | leaf-VTBLM-1
+       | leaf-VOP-VV-1 | leaf-VOP-VR-1 | leaf-VOP-VI-1 | leaf-VFMAB-1 | leaf-VACC-1 | leaf-VFIR-1 | leaf-VCLR-1 | leaf-VLD-PI-1 | leaf-VLD-B-1
+       | leaf-VST-PI-1 | leaf-VST-B-1 | leaf-VLDT-1 | leaf-VSTT-1 | leaf-VSTS-R-1 )
 
 encoding-name = "pdp64"
 
@@ -70,9 +70,9 @@ forms = "SYS0"@0 | "SYSR"@1 | "CT1"@2 | "SETF"@3 | "SYSI"@4 | "MFSR"@5 | "MTSR"@
       | "LDPC16H/a"@137 | "LDPC16H/c"@138 | "CMPC16H/a"@139 | "LDI14H/c"@140 | "LDI18H/a"@141 | "LDI18H/b"@142 | "CMI18H/a"@143 | "CBR10H/a"@144
       | "CBR10H/c"@145 | "CBZ2_12H/b"@146 | "CBZ2_14H/a"@147 | "CB3I12_16H/a"@148 | "CB3I16_12H/b"@149 | "CB3R24H/b"@150 | "CBI3_10H/b"@151
       | "CBI3_10H/c"@152 | "CBI3_12H/a"@153 | "CBI8_8H/b"@154 | "CBI8_8H/c"@155 | "CBI8_10H/a"@156 | "CBI10_8H/a"@157 | "VBEG"@158 | "VEND"@159
-      | "VLEN"@160 | "VOP.VVV"@161 | "VOP.VVR"@162 | "VOP.VVI"@163 | "VOP.VV"@164 | "VOP.VR"@165 | "VOP.VI"@166 | "VFMAB"@167 | "VACC"@168
-      | "VFIR"@169 | "VCLR"@170 | "VLD.PI"@171 | "VLD.B"@172 | "VST.PI"@173 | "VST.B"@174 | "VLDT"@175 | "VSTT"@176 | "VLDX"@177 | "VT.CLR"@178
-      | "VT.MOPA"@179 | "VT.LS"@180 | "VT.ADD"@181 | "GEMM"@182
+      | "VLEN"@160 | "VOP.VVV"@161 | "VOP.VVR"@162 | "VOP.VVI"@163 | "VDACC"@164 | "VTBLM"@165 | "VOP.VV"@166 | "VOP.VR"@167 | "VOP.VI"@168
+      | "VFMAB"@169 | "VACC"@170 | "VFIR"@171 | "VCLR"@172 | "VLD.PI"@173 | "VLD.B"@174 | "VST.PI"@175 | "VST.B"@176 | "VLDT"@177 | "VSTT"@178
+      | "VSTS.R"@179
 
 ; ======================================================================================================================================================
 ; family SYS: 1 form, 2 leaves, 1 parcel; mnemonics nop rti rtt ret halt bpt ...
@@ -80,7 +80,7 @@ forms = "SYS0"@0 | "SYSR"@1 | "CT1"@2 | "SETF"@3 | "SYSI"@4 | "MFSR"@5 | "MTSR"@
 
 ; form SYS0 (index 0): 1 parcel
 form-SYS0 = noop
-leaf-SYS0-1 = 0b11111000000 sub:5
+leaf-SYS0-1 = 0b11110111110 sub:5
 sub-SYS0-1 = "nop" | "rti" | "rtt" | "ret" | "halt" | "bpt" | "fence" | "wfe" | "sev" | "lpad" | "tlbia" | "tlbsync" | "icinva" | "pushx" | "popx"
      | "isync" | "trapcc.ne" | "trapcc.eq" | "trapcc.pl" | "trapcc.mi" | "trapcc.vc" | "trapcc.vs" | "trapcc.cc" | "trapcc.cs" | "trapcc.ge"
      | "trapcc.lt" | "trapcc.gt" | "trapcc.le" | "trapcc.hi" | "trapcc.los" | "syspg0" | "syspg1"
@@ -113,7 +113,7 @@ sub-CT1-1 = "cteq" | "ctne"
 
 ; form SETF (index 3): 2 parcels
 form-SETF = o1:imm4u o2:reg5
-leaf-SETF-1 = 0b11111000001 o2-r:5 o1-imm:4 xsub:12 ?(xsub < 1)
+leaf-SETF-1 = 0b11110111111 o2-r:5 o1-imm:4 xsub:12 ?(xsub < 1)
 sub-SETF-1 = "set"
 
 ; ======================================================================================================================================================
@@ -131,7 +131,7 @@ sub-SYSI-1 = "spl" | "trap" | "trapl" | "hint"
 
 ; form MFSR (index 5): 2 parcels
 form-MFSR = o1:reg5 o2:imm12u
-leaf-MFSR-1 = 0b111111000011010 o1-r:5 o2-imm:12
+leaf-MFSR-1 = 0b111111000011000 o1-r:5 o2-imm:12
 sub-MFSR-1 = "mfsr"
 
 ; ======================================================================================================================================================
@@ -140,7 +140,7 @@ sub-MFSR-1 = "mfsr"
 
 ; form MTSR (index 6): 2 parcels
 form-MTSR = o1:imm12u o2:reg5
-leaf-MTSR-1 = 0b111111000011011 o2-r:5 o1-imm:12
+leaf-MTSR-1 = 0b111111000011001 o2-r:5 o1-imm:12
 sub-MTSR-1 = "mtsr"
 
 ; ======================================================================================================================================================
@@ -205,7 +205,7 @@ sub-BFy-1 = "extb" | "extzb" | "insb"
 
 ; form MOVQL (index 13): 5 parcels
 form-MOVQL = o1:imm64s o2:reg5
-leaf-MOVQL-1 = 0b11111000010 o2-r:5 o1-imm:64
+leaf-MOVQL-1 = 0b11111000000 o2-r:5 o1-imm:64
 sub-MOVQL-1 = "movql"
 
 ; ======================================================================================================================================================
@@ -346,7 +346,7 @@ leaf-LDF-PC32-2 = 0b11011000 sub:3 o2-r:5 o1-pcrel:32
 sub-LDF-PC32-2 = "shr" | "sar" | "fadd" | "fsub" | "fmul" | "bit" | "lea" | "movub"
 leaf-LDF-PC32-3 = 0b1111001100 sub:1 o2-r:5 o1-pcrel:32
 sub-LDF-PC32-3 = "movuw" | "movul"
-leaf-LDF-PC32-4 = 0b11111000011 o2-r:5 o1-pcrel:32
+leaf-LDF-PC32-4 = 0b11111000001 o2-r:5 o1-pcrel:32
 sub-LDF-PC32-4 = "movuq"
 
 ; ======================================================================================================================================================
@@ -362,7 +362,7 @@ leaf-LDF-A32-2 = 0b11011001 sub:3 o2-r:5 o1-abs:32
 sub-LDF-A32-2 = "shr" | "sar" | "fadd" | "fsub" | "fmul" | "bit" | "lea" | "movub"
 leaf-LDF-A32-3 = 0b1111001101 sub:1 o2-r:5 o1-abs:32
 sub-LDF-A32-3 = "movuw" | "movul"
-leaf-LDF-A32-4 = 0b11111000100 o2-r:5 o1-abs:32
+leaf-LDF-A32-4 = 0b11111000010 o2-r:5 o1-abs:32
 sub-LDF-A32-4 = "movuq"
 
 ; ======================================================================================================================================================
@@ -513,7 +513,7 @@ sub-CMF-I32-1 = "cmp" | "fcmp"
 
 ; form SOF.B28 (index 40): 3 parcels
 form-SOF-B28 = o1:b5d28s-x1
-leaf-SOF-B28-1 = 0b11111000101 sub:4 o1-base:5 o1-d:28
+leaf-SOF-B28-1 = 0b11111000011 sub:4 o1-base:5 o1-d:28
 sub-SOF-B28-1 = "clr" | "com" | "inc" | "dec" | "neg" | "tst" | "adc" | "sbc" | "asl" | "asr" | "push" | "pop" | "jmp" | "call" | "jmpi" | "calli"
 
 ; ======================================================================================================================================================
@@ -531,7 +531,7 @@ sub-SOF-X22-1 = "clr" | "com" | "inc" | "dec" | "neg" | "tst" | "adc" | "sbc" | 
 
 ; form SOF.PI12 (index 42): 2 parcels
 form-SOF-PI12 = o1:pi5-s12
-leaf-SOF-PI12-1 = 0b11111000110 sub:4 o1-base:5 o1-stride:12
+leaf-SOF-PI12-1 = 0b11111000100 sub:4 o1-base:5 o1-stride:12
 sub-SOF-PI12-1 = "clr" | "com" | "inc" | "dec" | "neg" | "tst" | "adc" | "sbc" | "asl" | "asr" | "push" | "pop" | "jmp" | "call" | "jmpi" | "calli"
 
 ; ======================================================================================================================================================
@@ -540,7 +540,7 @@ sub-SOF-PI12-1 = "clr" | "com" | "inc" | "dec" | "neg" | "tst" | "adc" | "sbc" |
 
 ; form SOF.PD12 (index 43): 2 parcels
 form-SOF-PD12 = o1:pd5-s12
-leaf-SOF-PD12-1 = 0b11111000111 sub:4 o1-base:5 o1-stride:12
+leaf-SOF-PD12-1 = 0b11111000101 sub:4 o1-base:5 o1-stride:12
 sub-SOF-PD12-1 = "clr" | "com" | "inc" | "dec" | "neg" | "tst" | "adc" | "sbc" | "asl" | "asr" | "push" | "pop" | "jmp" | "call" | "jmpi" | "calli"
 
 ; ======================================================================================================================================================
@@ -567,14 +567,14 @@ sub-SOF-A32-1 = "clr" | "com" | "inc" | "dec" | "neg" | "tst" | "adc" | "sbc" | 
 
 ; form DPF.D28 (index 46): 3 parcels
 form-DPF-D28 = o1:dpd28s-x1 o2:reg5
-leaf-DPF-D28-1 = 0b11111001000 sub:4 o2-r:5 o1-d:28
+leaf-DPF-D28-1 = 0b11111000110 sub:4 o2-r:5 o1-d:28
 sub-DPF-D28-1 = "movq" | "movl" | "movw" | "movb" | "movzl" | "movzw" | "movzb" | "add" | "sub" | "bic" | "bis" | "xor" | "and" | "mul" | "mulh"
      | "shl"
 leaf-DPF-D28-2 = 0b111110100100 sub:3 o2-r:5 o1-d:28
 sub-DPF-D28-2 = "shr" | "sar" | "fadd" | "fsub" | "fmul" | "bit" | "lea" | "movub"
 leaf-DPF-D28-3 = 0b11111011110111 sub:1 o2-r:5 o1-d:28
 sub-DPF-D28-3 = "movuw" | "movul"
-leaf-DPF-D28-4 = 0b111111000011100 o2-r:5 o1-d:28
+leaf-DPF-D28-4 = 0b111111000011010 o2-r:5 o1-d:28
 sub-DPF-D28-4 = "movuq"
 
 ; ======================================================================================================================================================
@@ -587,9 +587,9 @@ leaf-BRF-1 = 0b1111101100010 sub:3 o1-pcrel:32
 sub-BRF-1 = "br" | "bne" | "beq" | "bpl" | "bmi" | "bvc" | "bvs" | "bcc"
 leaf-BRF-2 = 0b11111011111000 sub:2 o1-pcrel:32
 sub-BRF-2 = "bcs" | "bge" | "blt" | "bgt"
-leaf-BRF-3 = 0b111111000011101 sub:1 o1-pcrel:32
+leaf-BRF-3 = 0b111111000011011 sub:1 o1-pcrel:32
 sub-BRF-3 = "ble" | "bhi"
-leaf-BRF-4 = 0b1111110001011100 o1-pcrel:32
+leaf-BRF-4 = 0b1111110001011000 o1-pcrel:32
 sub-BRF-4 = "blos"
 
 ; ======================================================================================================================================================
@@ -598,7 +598,7 @@ sub-BRF-4 = "blos"
 
 ; form CALLF (index 48): 3 parcels
 form-CALLF = o1:pc32-u2
-leaf-CALLF-1 = 0b111111000011110 sub:1 o1-pcrel:32
+leaf-CALLF-1 = 0b111111000011100 sub:1 o1-pcrel:32
 sub-CALLF-1 = "call" | "jmp"
 
 ; ======================================================================================================================================================
@@ -607,7 +607,7 @@ sub-CALLF-1 = "call" | "jmp"
 
 ; form PUSHMF (index 49): 3 parcels
 form-PUSHMF = o1:imm32u
-leaf-PUSHMF-1 = 0b111111000011111 sub:1 o1-imm:32
+leaf-PUSHMF-1 = 0b111111000011101 sub:1 o1-imm:32
 sub-PUSHMF-1 = "pushm" | "popm"
 
 ; ======================================================================================================================================================
@@ -629,12 +629,12 @@ sub-SOPR-3 = "jmp" | "call"
 
 ; form PUSHI3 (index 51): 3 parcels
 form-PUSHI3 = o1:imm32s
-leaf-PUSHI3-1 = 0b1111110001011101 o1-imm:32
+leaf-PUSHI3-1 = 0b1111110001011001 o1-imm:32
 sub-PUSHI3-1 = "push"
 
 ; form PUSHI2 (index 52): 2 parcels
 form-PUSHI2 = o1:imm16s
-leaf-PUSHI2-1 = 0b1111110001011110 o1-imm:16
+leaf-PUSHI2-1 = 0b1111110001011010 o1-imm:16
 sub-PUSHI2-1 = "push"
 
 ; ======================================================================================================================================================
@@ -664,7 +664,7 @@ sub-RRF-2 = "shr" | "sar" | "fadd" | "fsub" | "fmul" | "bit" | "cmp" | "fcmp"
 
 ; form RRF5 (index 56): 2 parcels
 form-RRF5 = o1:reg5 o2:reg5
-leaf-RRF5-1 = 0b1111110001011111 xsub:6 o1-r:5 o2-r:5 ?(xsub < 24)
+leaf-RRF5-1 = 0b1111110001011011 xsub:6 o1-r:5 o2-r:5 ?(xsub < 24)
 sub-RRF5-1 = "movq" | "movl" | "movw" | "movb" | "movzl" | "movzw" | "movzb" | "add" | "sub" | "bic" | "bis" | "xor" | "and" | "mul" | "mulh" | "shl"
      | "shr" | "sar" | "fadd" | "fsub" | "fmul" | "bit" | "cmp" | "fcmp"
 
@@ -692,7 +692,7 @@ sub-CBDR-1 = "cbpl" | "cbmi" | "cbvc" | "cbvs"
 
 ; form SOB (index 59): 2 parcels
 form-SOB = o1:reg5 o2:pc16-u2
-leaf-SOB-1 = 0b11111001001 o1-r:5 o2-pcrel:16
+leaf-SOB-1 = 0b11111000111 o1-r:5 o2-pcrel:16
 sub-SOB-1 = "sob"
 
 ; ======================================================================================================================================================
@@ -710,7 +710,7 @@ sub-TAG-1 = "btag" | "bntag"
 
 ; form SPADJF (index 61): 3 parcels
 form-SPADJF = o1:imm32s o2:k-sp
-leaf-SPADJF-1 = 0b111111000100000 sub:1 o1-imm:32
+leaf-SPADJF-1 = 0b111111000011110 sub:1 o1-imm:32
 sub-SPADJF-1 = "add" | "sub"
 
 ; ======================================================================================================================================================
@@ -742,7 +742,7 @@ sub-FX-POPMRET-1 = "popmret"
 
 ; form FX.POPRET (index 65): 1 parcel
 form-FX-POPRET = o1:reg5
-leaf-FX-POPRET-1 = 0b11111001010 o1-r:5
+leaf-FX-POPRET-1 = 0b11111001000 o1-r:5
 sub-FX-POPRET-1 = "popret"
 
 ; ======================================================================================================================================================
@@ -911,7 +911,7 @@ sub-LDBs10-a-1 = "movq" | "movl" | "movzb" | "lea"
 
 ; form STBs6/b (index 85): 2 parcels
 form-STBs6-b = o1:reg5 o2:b5d6s-xsz
-leaf-STBs6-b-1 = 0b111111000100001 sub:1 o1-r:5 o2-base:5 o2-d:6
+leaf-STBs6-b-1 = 0b111111000011111 sub:1 o1-r:5 o2-base:5 o2-d:6
 sub-STBs6-b-1 = "movw" | "movb"
 
 ; form STBs8/a (index 87): 2 parcels
@@ -982,7 +982,7 @@ sub-LDX0-b-1 = "movw" | "movb" | "movzl" | "movzw"
 form-LDX0-c = o1:x5-5d0s o2:reg5
 leaf-LDX0-c-1 = 0b1111101101000 sub:2 o1-base:5 o1-index:5 o1-scale:2 o2-r:5
 sub-LDX0-c-1 = "add" | "sub" | "and" | "bis"
-leaf-LDX0-c-2 = 0b111111000100010 o1-base:5 o1-index:5 o1-scale:2 o2-r:5
+leaf-LDX0-c-2 = 0b111111000100000 o1-base:5 o1-index:5 o1-scale:2 o2-r:5
 sub-LDX0-c-2 = "xor"
 
 ; ======================================================================================================================================================
@@ -1005,7 +1005,7 @@ sub-STX0-b-1 = "movw" | "movb"
 
 ; form CMX0/a (index 98): 2 parcels
 form-CMX0-a = o1:reg5 o2:x5-5d0s
-leaf-CMX0-a-1 = 0b111111000100011 o1-r:5 o2-base:5 o2-index:5 o2-scale:2
+leaf-CMX0-a-1 = 0b111111000100001 o1-r:5 o2-base:5 o2-index:5 o2-scale:2
 sub-CMX0-a-1 = "cmp"
 
 ; ======================================================================================================================================================
@@ -1016,7 +1016,7 @@ sub-CMX0-a-1 = "cmp"
 form-SOX4-a = o1:x5-5d4s
 leaf-SOX4-a-1 = 0b11111100000010 sub:2 o1-base:5 o1-index:5 o1-scale:2 o1-d:4
 sub-SOX4-a-1 = "clr" | "inc" | "dec" | "tst"
-leaf-SOX4-a-2 = 0b111111000100100 sub:1 o1-base:5 o1-index:5 o1-scale:2 o1-d:4
+leaf-SOX4-a-2 = 0b111111000100010 sub:1 o1-base:5 o1-index:5 o1-scale:2 o1-d:4
 sub-SOX4-a-2 = "push" | "pop"
 
 ; form SOX4/x (index 100): 2 parcels
@@ -1030,7 +1030,7 @@ sub-SOX4-x-1 = "jmp" | "call" | "jmpi" | "calli"
 
 ; form LDPC14/a (index 101): 2 parcels
 form-LDPC14-a = o1:pc14-u1 o2:reg5
-leaf-LDPC14-a-1 = 0b11111001011 sub:2 o2-r:5 o1-pcrel:14
+leaf-LDPC14-a-1 = 0b11111001001 sub:2 o2-r:5 o1-pcrel:14
 sub-LDPC14-a-1 = "movq" | "movl" | "movzb" | "lea"
 
 ; ======================================================================================================================================================
@@ -1039,14 +1039,14 @@ sub-LDPC14-a-1 = "movq" | "movl" | "movzb" | "lea"
 
 ; form LDI12/a (index 102): 2 parcels
 form-LDI12-a = o1:imm12s o2:reg5
-leaf-LDI12-a-1 = 0b111111000100101 o2-r:5 o1-imm:12
+leaf-LDI12-a-1 = 0b111111000100011 o2-r:5 o1-imm:12
 sub-LDI12-a-1 = "movq"
 
 ; form LDI12/b (index 103): 2 parcels
 form-LDI12-b = o1:imm12s o2:reg5
 leaf-LDI12-b-1 = 0b11111100000100 sub:1 o2-r:5 o1-imm:12
 sub-LDI12-b-1 = "add" | "sub"
-leaf-LDI12-b-2 = 0b111111000100110 o2-r:5 o1-imm:12
+leaf-LDI12-b-2 = 0b111111000100100 o2-r:5 o1-imm:12
 sub-LDI12-b-2 = "and"
 
 ; form LDI12/d (index 104): 2 parcels
@@ -1055,7 +1055,7 @@ leaf-LDI12-d-1 = 0b1111101101001 sub:2 o2-r:5 o1-imm:12
 sub-LDI12-d-1 = "shl" | "shr" | "sar" | "mul"
 leaf-LDI12-d-2 = 0b11111100000101 sub:1 o2-r:5 o1-imm:12
 sub-LDI12-d-2 = "bic" | "movb"
-leaf-LDI12-d-3 = 0b111111000100111 o2-r:5 o1-imm:12
+leaf-LDI12-d-3 = 0b111111000100101 o2-r:5 o1-imm:12
 sub-LDI12-d-3 = "bit"
 
 ; ======================================================================================================================================================
@@ -1064,7 +1064,7 @@ sub-LDI12-d-3 = "bit"
 
 ; form CMI12/a (index 105): 2 parcels
 form-CMI12-a = o1:reg5 o2:imm12s
-leaf-CMI12-a-1 = 0b111111000101000 o1-r:5 o2-imm:12
+leaf-CMI12-a-1 = 0b111111000100110 o1-r:5 o2-imm:12
 sub-CMI12-a-1 = "cmp"
 
 ; ======================================================================================================================================================
@@ -1082,12 +1082,12 @@ sub-CTM12-a-1 = "ctcc" | "cthi" | "cteq" | "ctne"
 
 ; form BR2_16/a (index 107): 2 parcels
 form-BR2-16-a = o1:pc16-u2
-leaf-BR2-16-a-1 = 0b1111110001100000 o1-pcrel:16
+leaf-BR2-16-a-1 = 0b1111110001011100 o1-pcrel:16
 sub-BR2-16-a-1 = "br"
 
 ; form BR2_16/b (index 108): 2 parcels
 form-BR2-16-b = o1:pc16-u2
-leaf-BR2-16-b-1 = 0b111111000101001 sub:1 o1-pcrel:16
+leaf-BR2-16-b-1 = 0b111111000100111 sub:1 o1-pcrel:16
 sub-BR2-16-b-1 = "beq" | "bne"
 
 ; form BR2_16/c (index 109): 2 parcels
@@ -1103,7 +1103,7 @@ sub-BR2-16-c-2 = "bgt" | "ble" | "bhi" | "blos"
 
 ; form CALL2_16/j (index 110): 2 parcels
 form-CALL2-16-j = o1:pc16-u2
-leaf-CALL2-16-j-1 = 0b1111110001100001 o1-pcrel:16
+leaf-CALL2-16-j-1 = 0b1111110001011101 o1-pcrel:16
 sub-CALL2-16-j-1 = "jmp"
 
 ; form CALL2_20/c (index 111): 2 parcels
@@ -1195,7 +1195,7 @@ sub-CBI5-8-a-1 = "cbeq" | "cbne"
 
 ; form STBs8H/b (index 122): 2 parcels
 form-STBs8H-b = o1:reg4 o2:b4d8s-xsz
-leaf-STBs8H-b-1 = 0b111111000101010 sub:1 o1-r:4 o2-base:4 o2-d:8
+leaf-STBs8H-b-1 = 0b111111000101000 sub:1 o1-r:4 o2-base:4 o2-d:8
 sub-STBs8H-b-1 = "movw" | "movb"
 
 ; ======================================================================================================================================================
@@ -1204,7 +1204,7 @@ sub-STBs8H-b-1 = "movw" | "movb"
 
 ; form LDBu10H/c (index 123): 2 parcels
 form-LDBu10H-c = o1:b4d10u-xsz o2:reg5
-leaf-LDBu10H-c-1 = 0b11111001100 sub:2 o1-base:4 o2-r:5 o1-d:10
+leaf-LDBu10H-c-1 = 0b11111001010 sub:2 o1-base:4 o2-r:5 o1-d:10
 sub-LDBu10H-c-1 = "add" | "sub" | "and" | "bis"
 leaf-LDBu10H-c-2 = 0b1111101110011 o1-base:4 o2-r:5 o1-d:10
 sub-LDBu10H-c-2 = "xor"
@@ -1229,12 +1229,12 @@ sub-LDBu12H-b-1 = "movw" | "movb" | "movzl" | "movzw"
 
 ; form STBu12H/a (index 126): 2 parcels
 form-STBu12H-a = o1:reg4 o2:b4d12u-xsz
-leaf-STBu12H-a-1 = 0b11111001101 sub:1 o2-base:4 o1-r:4 o2-d:12
+leaf-STBu12H-a-1 = 0b11111001011 sub:1 o2-base:4 o1-r:4 o2-d:12
 sub-STBu12H-a-1 = "movq" | "movl"
 
 ; form STBu12H/b (index 127): 2 parcels
 form-STBu12H-b = o1:reg4 o2:b4d12u-xsz
-leaf-STBu12H-b-1 = 0b11111001110 sub:1 o2-base:4 o1-r:4 o2-d:12
+leaf-STBu12H-b-1 = 0b11111001100 sub:1 o2-base:4 o1-r:4 o2-d:12
 sub-STBu12H-b-1 = "movw" | "movb"
 
 ; ======================================================================================================================================================
@@ -1254,7 +1254,7 @@ sub-CMBu12H-a-1 = "cmp"
 form-SOBu12H-a = o1:b4d12u-xsz
 leaf-SOBu12H-a-1 = 0b11111100001000 sub:2 o1-base:4 o1-d:12
 sub-SOBu12H-a-1 = "clr" | "inc" | "dec" | "tst"
-leaf-SOBu12H-a-2 = 0b111111000101011 sub:1 o1-base:4 o1-d:12
+leaf-SOBu12H-a-2 = 0b111111000101001 sub:1 o1-base:4 o1-d:12
 sub-SOBu12H-a-2 = "push" | "pop"
 
 ; ======================================================================================================================================================
@@ -1263,7 +1263,7 @@ sub-SOBu12H-a-2 = "push" | "pop"
 
 ; form LEAS12H/a (index 130): 2 parcels
 form-LEAS12H-a = o1:spd12u-x8 o2:reg4
-leaf-LEAS12H-a-1 = 0b1111110001100010 o2-r:4 o1-d:12
+leaf-LEAS12H-a-1 = 0b1111110001011110 o2-r:4 o1-d:12
 sub-LEAS12H-a-1 = "lea"
 
 ; ======================================================================================================================================================
@@ -1272,7 +1272,7 @@ sub-LEAS12H-a-1 = "lea"
 
 ; form LDX4H/b (index 131): 2 parcels
 form-LDX4H-b = o1:x4-4d4s o2:reg5
-leaf-LDX4H-b-1 = 0b11111001111 sub:2 o1-base:4 o1-index:4 o1-scale:2 o1-d:4 o2-r:5
+leaf-LDX4H-b-1 = 0b11111001101 sub:2 o1-base:4 o1-index:4 o1-scale:2 o1-d:4 o2-r:5
 sub-LDX4H-b-1 = "movw" | "movb" | "movzl" | "movzw"
 
 ; ======================================================================================================================================================
@@ -1306,7 +1306,7 @@ sub-STX6H-b-1 = "movw" | "movb"
 form-LDPC12H-d = o1:pc12-u1 o2:reg4
 leaf-LDPC12H-d-1 = 0b1111101110100 sub:3 o2-r:4 o1-pcrel:12
 sub-LDPC12H-d-1 = "bic" | "mul" | "mulh" | "shl" | "shr" | "sar" | "fadd" | "fsub"
-leaf-LDPC12H-d-2 = 0b111111000101100 sub:1 o2-r:4 o1-pcrel:12
+leaf-LDPC12H-d-2 = 0b111111000101010 sub:1 o2-r:4 o1-pcrel:12
 sub-LDPC12H-d-2 = "fmul" | "bit"
 
 ; ======================================================================================================================================================
@@ -1415,7 +1415,7 @@ sub-CBZ2-14H-a-1 = "cbeq" | "cbne"
 
 ; form CB3I12_16H/a (index 148): 3 parcels
 form-CB3I12-16H-a = o1:reg4 o2:imm12s o3:pc16-u2
-leaf-CB3I12-16H-a-1 = 0b111111000101101 sub:1 o1-r:4 o2-imm:12 o3-pcrel:16
+leaf-CB3I12-16H-a-1 = 0b111111000101011 sub:1 o1-r:4 o2-imm:12 o3-pcrel:16
 sub-CB3I12-16H-a-1 = "cbeq" | "cbne"
 
 ; ======================================================================================================================================================
@@ -1497,7 +1497,7 @@ sub-CBI10-8H-a-1 = "cbeq" | "cbne"
 
 ; form VBEG (index 158): 2 parcels
 form-VBEG = o1:reg5 o2:reg5
-leaf-VBEG-1 = 0b1111110001100011 xsub:6 o1-r:5 o2-r:5 ?(xsub < 1)
+leaf-VBEG-1 = 0b1111110001011111 xsub:6 o1-r:5 o2-r:5 ?(xsub < 1)
 sub-VBEG-1 = "vec"
 
 ; ======================================================================================================================================================
@@ -1506,17 +1506,17 @@ sub-VBEG-1 = "vec"
 
 ; form VEND (index 159): 2 parcels
 form-VEND = noop
-leaf-VEND-1 = 0b1111110001100100 xsub:16 ?(xsub < 1)
+leaf-VEND-1 = 0b1111110001100000 xsub:16 ?(xsub < 1)
 sub-VEND-1 = "vend"
 
 ; ======================================================================================================================================================
-; family VLEN: 1 form, 1 leaves, 2 parcels; mnemonics vlen.b vlen.w vlen.l vlen.q vlen.f vlen.d
+; family VLEN: 1 form, 1 leaves, 1 parcel; mnemonics vlen.b
 ; ======================================================================================================================================================
 
-; form VLEN (index 160): 2 parcels
+; form VLEN (index 160): 1 parcel
 form-VLEN = o1:reg5
-leaf-VLEN-1 = 0b1111110001100101 o1-r:5 xsub:11 ?(xsub < 6)
-sub-VLEN-1 = "vlen.b" | "vlen.w" | "vlen.l" | "vlen.q" | "vlen.f" | "vlen.d"
+leaf-VLEN-1 = 0b11111001110 o1-r:5
+sub-VLEN-1 = "vlen.b"
 
 ; ======================================================================================================================================================
 ; family VOP.VVV: 1 form, 1 leaves, 2 parcels; mnemonics vadd.b vadd.w vadd.l vadd.q vadd.f vadd.d ...
@@ -1524,15 +1524,16 @@ sub-VLEN-1 = "vlen.b" | "vlen.w" | "vlen.l" | "vlen.q" | "vlen.f" | "vlen.d"
 
 ; form VOP.VVV (index 161): 2 parcels
 form-VOP-VVV = o1:vreg4 o2:vreg4 o3:vreg4
-leaf-VOP-VVV-1 = 0b1111101111001 xsub:7 o1-v:4 o2-v:4 o3-v:4 ?(xsub < 97)
+leaf-VOP-VVV-1 = 0b1111101111001 xsub:7 o1-v:4 o2-v:4 o3-v:4 ?(xsub < 102)
 sub-VOP-VVV-1 = "vadd.b" | "vadd.w" | "vadd.l" | "vadd.q" | "vadd.f" | "vadd.d" | "vsub.b" | "vsub.w" | "vsub.l" | "vsub.q" | "vsub.f" | "vsub.d"
-     | "vsubr.b" | "vsubr.w" | "vsubr.l" | "vsubr.q" | "vsubr.f" | "vsubr.d" | "vmul.b" | "vmul.w" | "vmul.l" | "vmul.q" | "vmul.f" | "vmul.d"
-     | "vmin.b" | "vmin.w" | "vmin.l" | "vmin.q" | "vmin.f" | "vmin.d" | "vmax.b" | "vmax.w" | "vmax.l" | "vmax.q" | "vmax.f" | "vmax.d" | "vabd.b"
-     | "vabd.w" | "vabd.l" | "vabd.q" | "vabd.f" | "vabd.d" | "vand.b" | "vand.w" | "vand.l" | "vand.q" | "vor.b" | "vor.w" | "vor.l" | "vor.q"
-     | "vxor.b" | "vxor.w" | "vxor.l" | "vxor.q" | "vshl.b" | "vshl.w" | "vshl.l" | "vshl.q" | "vshr.b" | "vshr.w" | "vshr.l" | "vshr.q" | "vsar.b"
-     | "vsar.w" | "vsar.l" | "vsar.q" | "vminu.b" | "vminu.w" | "vminu.l" | "vminu.q" | "vmaxu.b" | "vmaxu.w" | "vmaxu.l" | "vmaxu.q" | "vabdu.b"
-     | "vabdu.w" | "vabdu.l" | "vabdu.q" | "vadds.b" | "vadds.w" | "vadds.l" | "vsubs.b" | "vsubs.w" | "vsubs.l" | "vaddsu.b" | "vaddsu.w"
-     | "vaddsu.l" | "vsubsu.b" | "vsubsu.w" | "vsubsu.l" | "vfma.f" | "vfma.d" | "vfnma.f" | "vfnma.d" | "vdot.b" | "vdotu.b" | "vdotsu.b"
+     | "vsubr.b" | "vsubr.w" | "vsubr.l" | "vsubr.q" | "vsubr.f" | "vsubr.d" | "vmul.b" | "vmul.w" | "vmul.l" | "vmul.f" | "vmul.d" | "vmin.b"
+     | "vmin.w" | "vmin.l" | "vmin.f" | "vmin.d" | "vmax.b" | "vmax.w" | "vmax.l" | "vmax.f" | "vmax.d" | "vand.b" | "vand.w" | "vand.l" | "vand.q"
+     | "vor.b" | "vor.w" | "vor.l" | "vor.q" | "vxor.b" | "vxor.w" | "vxor.l" | "vxor.q" | "vshl.b" | "vshl.w" | "vshl.l" | "vshl.q" | "vshr.b"
+     | "vshr.w" | "vshr.l" | "vshr.q" | "vsar.b" | "vsar.w" | "vsar.l" | "vsar.q" | "vminu.b" | "vminu.w" | "vminu.l" | "vmaxu.b" | "vmaxu.w"
+     | "vmaxu.l" | "vabd.b" | "vabd.w" | "vabd.l" | "vabdu.b" | "vabdu.w" | "vsarr.w" | "vsarr.l" | "vshrr.w" | "vshrr.l" | "vmulh.w" | "vmulhu.w"
+     | "vmulhr.w" | "vadds.b" | "vadds.w" | "vadds.l" | "vsubs.b" | "vsubs.w" | "vsubs.l" | "vaddsu.b" | "vaddsu.w" | "vaddsu.l" | "vsubsu.b"
+     | "vsubsu.w" | "vsubsu.l" | "vavg.b" | "vavg.w" | "vavgu.b" | "vavgu.w" | "vfma.f" | "vfma.d" | "vfnma.f" | "vfnma.d" | "vmla.w" | "vmla.l"
+     | "vdot.b" | "vdotu.b" | "vdotsu.b" | "vdot.w" | "vtbl.b"
 
 ; ======================================================================================================================================================
 ; family VOP.VVR: 1 form, 1 leaves, 2 parcels; mnemonics vadd.b vadd.w vadd.l vadd.q vadd.f vadd.d ...
@@ -1540,15 +1541,15 @@ sub-VOP-VVV-1 = "vadd.b" | "vadd.w" | "vadd.l" | "vadd.q" | "vadd.f" | "vadd.d" 
 
 ; form VOP.VVR (index 162): 2 parcels
 form-VOP-VVR = o1:vreg4 o2:vreg4 o3:reg5
-leaf-VOP-VVR-1 = 0b111110110000 xsub:7 o1-v:4 o2-v:4 o3-r:5 ?(xsub < 96)
+leaf-VOP-VVR-1 = 0b111110110000 xsub:7 o1-v:4 o2-v:4 o3-r:5 ?(xsub < 91)
 sub-VOP-VVR-1 = "vadd.b" | "vadd.w" | "vadd.l" | "vadd.q" | "vadd.f" | "vadd.d" | "vsub.b" | "vsub.w" | "vsub.l" | "vsub.q" | "vsub.f" | "vsub.d"
-     | "vsubr.b" | "vsubr.w" | "vsubr.l" | "vsubr.q" | "vsubr.f" | "vsubr.d" | "vmul.b" | "vmul.w" | "vmul.l" | "vmul.q" | "vmul.f" | "vmul.d"
-     | "vmin.b" | "vmin.w" | "vmin.l" | "vmin.q" | "vmin.f" | "vmin.d" | "vmax.b" | "vmax.w" | "vmax.l" | "vmax.q" | "vmax.f" | "vmax.d" | "vabd.b"
-     | "vabd.w" | "vabd.l" | "vabd.q" | "vabd.f" | "vabd.d" | "vand.b" | "vand.w" | "vand.l" | "vand.q" | "vor.b" | "vor.w" | "vor.l" | "vor.q"
-     | "vxor.b" | "vxor.w" | "vxor.l" | "vxor.q" | "vshl.b" | "vshl.w" | "vshl.l" | "vshl.q" | "vshr.b" | "vshr.w" | "vshr.l" | "vshr.q" | "vsar.b"
-     | "vsar.w" | "vsar.l" | "vsar.q" | "vminu.b" | "vminu.w" | "vminu.l" | "vminu.q" | "vmaxu.b" | "vmaxu.w" | "vmaxu.l" | "vmaxu.q" | "vabdu.b"
-     | "vabdu.w" | "vabdu.l" | "vabdu.q" | "vadds.b" | "vadds.w" | "vadds.l" | "vsubs.b" | "vsubs.w" | "vsubs.l" | "vaddsu.b" | "vaddsu.w"
-     | "vaddsu.l" | "vsubsu.b" | "vsubsu.w" | "vsubsu.l" | "vmla.b" | "vmla.w" | "vmla.l" | "vmla.q" | "vfma.f" | "vfma.d"
+     | "vsubr.b" | "vsubr.w" | "vsubr.l" | "vsubr.q" | "vsubr.f" | "vsubr.d" | "vmul.b" | "vmul.w" | "vmul.l" | "vmul.f" | "vmul.d" | "vmin.b"
+     | "vmin.w" | "vmin.l" | "vmin.f" | "vmin.d" | "vmax.b" | "vmax.w" | "vmax.l" | "vmax.f" | "vmax.d" | "vand.b" | "vand.w" | "vand.l" | "vand.q"
+     | "vor.b" | "vor.w" | "vor.l" | "vor.q" | "vxor.b" | "vxor.w" | "vxor.l" | "vxor.q" | "vshl.b" | "vshl.w" | "vshl.l" | "vshl.q" | "vshr.b"
+     | "vshr.w" | "vshr.l" | "vshr.q" | "vsar.b" | "vsar.w" | "vsar.l" | "vsar.q" | "vminu.b" | "vminu.w" | "vminu.l" | "vmaxu.b" | "vmaxu.w"
+     | "vmaxu.l" | "vabd.b" | "vabd.w" | "vabd.l" | "vabdu.b" | "vabdu.w" | "vsarr.w" | "vsarr.l" | "vshrr.w" | "vshrr.l" | "vmulh.w" | "vmulhu.w"
+     | "vmulhr.w" | "vadds.b" | "vadds.w" | "vadds.l" | "vsubs.b" | "vsubs.w" | "vsubs.l" | "vaddsu.b" | "vaddsu.w" | "vaddsu.l" | "vsubsu.b"
+     | "vsubsu.w" | "vsubsu.l" | "vmla.w" | "vmla.l" | "vfma.f" | "vfma.d"
 
 ; ======================================================================================================================================================
 ; family VOP.VVI: 1 form, 1 leaves, 3 parcels; mnemonics vadd.b vadd.w vadd.l vadd.q vadd.f vadd.d ...
@@ -1556,88 +1557,106 @@ sub-VOP-VVR-1 = "vadd.b" | "vadd.w" | "vadd.l" | "vadd.q" | "vadd.f" | "vadd.d" 
 
 ; form VOP.VVI (index 163): 3 parcels
 form-VOP-VVI = o1:vreg4 o2:vreg4 o3:imm16s
-leaf-VOP-VVI-1 = 0b1111110001100110 o1-v:4 o2-v:4 xsub:8 o3-imm:16 ?(xsub < 90)
+leaf-VOP-VVI-1 = 0b1111110001100001 o1-v:4 o2-v:4 xsub:8 o3-imm:16 ?(xsub < 87)
 sub-VOP-VVI-1 = "vadd.b" | "vadd.w" | "vadd.l" | "vadd.q" | "vadd.f" | "vadd.d" | "vsub.b" | "vsub.w" | "vsub.l" | "vsub.q" | "vsub.f" | "vsub.d"
-     | "vsubr.b" | "vsubr.w" | "vsubr.l" | "vsubr.q" | "vsubr.f" | "vsubr.d" | "vmul.b" | "vmul.w" | "vmul.l" | "vmul.q" | "vmul.f" | "vmul.d"
-     | "vmin.b" | "vmin.w" | "vmin.l" | "vmin.q" | "vmin.f" | "vmin.d" | "vmax.b" | "vmax.w" | "vmax.l" | "vmax.q" | "vmax.f" | "vmax.d" | "vabd.b"
-     | "vabd.w" | "vabd.l" | "vabd.q" | "vabd.f" | "vabd.d" | "vand.b" | "vand.w" | "vand.l" | "vand.q" | "vor.b" | "vor.w" | "vor.l" | "vor.q"
-     | "vxor.b" | "vxor.w" | "vxor.l" | "vxor.q" | "vshl.b" | "vshl.w" | "vshl.l" | "vshl.q" | "vshr.b" | "vshr.w" | "vshr.l" | "vshr.q" | "vsar.b"
-     | "vsar.w" | "vsar.l" | "vsar.q" | "vminu.b" | "vminu.w" | "vminu.l" | "vminu.q" | "vmaxu.b" | "vmaxu.w" | "vmaxu.l" | "vmaxu.q" | "vabdu.b"
-     | "vabdu.w" | "vabdu.l" | "vabdu.q" | "vadds.b" | "vadds.w" | "vadds.l" | "vsubs.b" | "vsubs.w" | "vsubs.l" | "vaddsu.b" | "vaddsu.w"
-     | "vaddsu.l" | "vsubsu.b" | "vsubsu.w" | "vsubsu.l"
+     | "vsubr.b" | "vsubr.w" | "vsubr.l" | "vsubr.q" | "vsubr.f" | "vsubr.d" | "vmul.b" | "vmul.w" | "vmul.l" | "vmul.f" | "vmul.d" | "vmin.b"
+     | "vmin.w" | "vmin.l" | "vmin.f" | "vmin.d" | "vmax.b" | "vmax.w" | "vmax.l" | "vmax.f" | "vmax.d" | "vand.b" | "vand.w" | "vand.l" | "vand.q"
+     | "vor.b" | "vor.w" | "vor.l" | "vor.q" | "vxor.b" | "vxor.w" | "vxor.l" | "vxor.q" | "vshl.b" | "vshl.w" | "vshl.l" | "vshl.q" | "vshr.b"
+     | "vshr.w" | "vshr.l" | "vshr.q" | "vsar.b" | "vsar.w" | "vsar.l" | "vsar.q" | "vminu.b" | "vminu.w" | "vminu.l" | "vmaxu.b" | "vmaxu.w"
+     | "vmaxu.l" | "vabd.b" | "vabd.w" | "vabd.l" | "vabdu.b" | "vabdu.w" | "vsarr.w" | "vsarr.l" | "vshrr.w" | "vshrr.l" | "vmulh.w" | "vmulhu.w"
+     | "vmulhr.w" | "vadds.b" | "vadds.w" | "vadds.l" | "vsubs.b" | "vsubs.w" | "vsubs.l" | "vaddsu.b" | "vaddsu.w" | "vaddsu.l" | "vsubsu.b"
+     | "vsubsu.w" | "vsubsu.l"
+
+; ======================================================================================================================================================
+; family VDACC: 1 form, 1 leaves, 2 parcels; mnemonics vdacc.b vdacc.bu vdacc.bsu vdacc.w vsad.bu
+; ======================================================================================================================================================
+
+; form VDACC (index 164): 2 parcels
+form-VDACC = o1:reg5 o2:vreg4 o3:vreg4
+leaf-VDACC-1 = 0b1111110001100010 xsub:3 o1-r:5 o2-v:4 o3-v:4 ?(xsub < 5)
+sub-VDACC-1 = "vdacc.b" | "vdacc.bu" | "vdacc.bsu" | "vdacc.w" | "vsad.bu"
+
+; ======================================================================================================================================================
+; family VTBLM: 1 form, 1 leaves, 2 parcels; mnemonics vtbl.b
+; ======================================================================================================================================================
+
+; form VTBLM (index 165): 2 parcels
+form-VTBLM = o1:vreg4 o2:b5d0s-x1 o3:vreg4
+leaf-VTBLM-1 = 0b1111110001100011 xsub:3 o1-v:4 o2-base:5 o3-v:4 ?(xsub < 1)
+sub-VTBLM-1 = "vtbl.b"
 
 ; ======================================================================================================================================================
 ; family VOP.VV: 1 form, 1 leaves, 2 parcels; mnemonics vmov.b vmov.w vmov.l vmov.q vmov.f vmov.d ...
 ; ======================================================================================================================================================
 
-; form VOP.VV (index 164): 2 parcels
+; form VOP.VV (index 166): 2 parcels
 form-VOP-VV = o1:vreg4 o2:vreg4
-leaf-VOP-VV-1 = 0b1111110001100111 o1-v:4 o2-v:4 xsub:8 ?(xsub < 12)
+leaf-VOP-VV-1 = 0b1111110001100100 o1-v:4 o2-v:4 xsub:8 ?(xsub < 12)
 sub-VOP-VV-1 = "vmov.b" | "vmov.w" | "vmov.l" | "vmov.q" | "vmov.f" | "vmov.d" | "vneg.b" | "vneg.w" | "vneg.l" | "vneg.q" | "vneg.f" | "vneg.d"
 
 ; ======================================================================================================================================================
 ; family VOP.VR: 1 form, 1 leaves, 2 parcels; mnemonics vmov.b vmov.w vmov.l vmov.q vmov.f vmov.d
 ; ======================================================================================================================================================
 
-; form VOP.VR (index 165): 2 parcels
+; form VOP.VR (index 167): 2 parcels
 form-VOP-VR = o1:vreg4 o2:reg5
-leaf-VOP-VR-1 = 0b1111110001101000 xsub:7 o1-v:4 o2-r:5 ?(xsub < 6)
+leaf-VOP-VR-1 = 0b1111110001100101 xsub:7 o1-v:4 o2-r:5 ?(xsub < 6)
 sub-VOP-VR-1 = "vmov.b" | "vmov.w" | "vmov.l" | "vmov.q" | "vmov.f" | "vmov.d"
 
 ; ======================================================================================================================================================
 ; family VOP.VI: 1 form, 1 leaves, 3 parcels; mnemonics vmov.b vmov.w vmov.l vmov.q vmov.f vmov.d
 ; ======================================================================================================================================================
 
-; form VOP.VI (index 166): 3 parcels
+; form VOP.VI (index 168): 3 parcels
 form-VOP-VI = o1:vreg4 o2:imm16s
-leaf-VOP-VI-1 = 0b1111110001101001 o1-v:4 xsub:12 o2-imm:16 ?(xsub < 6)
+leaf-VOP-VI-1 = 0b1111110001100110 o1-v:4 xsub:12 o2-imm:16 ?(xsub < 6)
 sub-VOP-VI-1 = "vmov.b" | "vmov.w" | "vmov.l" | "vmov.q" | "vmov.f" | "vmov.d"
 
 ; ======================================================================================================================================================
 ; family VFMAB: 1 form, 1 leaves, 2 parcels; mnemonics vfmab.f vfmab.d
 ; ======================================================================================================================================================
 
-; form VFMAB (index 167): 2 parcels
+; form VFMAB (index 169): 2 parcels
 form-VFMAB = o1:vreg4 o2:vreg4 o3:pi5-s0
-leaf-VFMAB-1 = 0b1111110001101010 xsub:3 o1-v:4 o2-v:4 o3-base:5 ?(xsub < 2)
+leaf-VFMAB-1 = 0b1111110001100111 xsub:3 o1-v:4 o2-v:4 o3-base:5 ?(xsub < 2)
 sub-VFMAB-1 = "vfmab.f" | "vfmab.d"
 
 ; ======================================================================================================================================================
 ; family VACC: 1 form, 1 leaves, 2 parcels; mnemonics vacc.b.l vacc.bu.l vacc.w.l vacc.wu.l vacc.l.l vacc.l.q ...
 ; ======================================================================================================================================================
 
-; form VACC (index 168): 2 parcels
+; form VACC (index 170): 2 parcels
 form-VACC = o1:reg5 o2:vreg4
-leaf-VACC-1 = 0b1111110001101011 xsub:7 o1-r:5 o2-v:4 ?(xsub < 30)
+leaf-VACC-1 = 0b1111110001101000 xsub:7 o1-r:5 o2-v:4 ?(xsub < 30)
 sub-VACC-1 = "vacc.b.l" | "vacc.bu.l" | "vacc.w.l" | "vacc.wu.l" | "vacc.l.l" | "vacc.l.q" | "vacc.lu.l" | "vacc.lu.q" | "vacc.q.q" | "vacc.f"
      | "vacc.f.d" | "vacc.d" | "vmaxacc.b" | "vmaxacc.bu" | "vmaxacc.w" | "vmaxacc.wu" | "vmaxacc.l" | "vmaxacc.lu" | "vmaxacc.q" | "vmaxacc.f"
      | "vmaxacc.d" | "vminacc.b" | "vminacc.bu" | "vminacc.w" | "vminacc.wu" | "vminacc.l" | "vminacc.lu" | "vminacc.q" | "vminacc.f" | "vminacc.d"
 
 ; ======================================================================================================================================================
-; family VFIR: 1 form, 1 leaves, 2 parcels; mnemonics vfir.b vfir.w vfir.l vfir.q vfir.f vfir.d
+; family VFIR: 1 form, 1 leaves, 2 parcels; mnemonics vfir.w vfir.l vfir.f
 ; ======================================================================================================================================================
 
-; form VFIR (index 169): 2 parcels
+; form VFIR (index 171): 2 parcels
 form-VFIR = o1:vreg4 o2:vreg4 o3:reg5 o4:imm6u
-leaf-VFIR-1 = 0b1111011111 xsub-1:1 o3-r:5 xsub-2:2 o1-v:4 o2-v:4 o4-imm:6 ?(((xsub_1 << 2) | xsub_2) < 6)
-sub-VFIR-1 = "vfir.b" | "vfir.w" | "vfir.l" | "vfir.q" | "vfir.f" | "vfir.d"
+leaf-VFIR-1 = 0b11111001111 o3-r:5 xsub:2 o1-v:4 o2-v:4 o4-imm:6 ?(xsub < 3)
+sub-VFIR-1 = "vfir.w" | "vfir.l" | "vfir.f"
 
 ; ======================================================================================================================================================
-; family VCLR: 1 form, 1 leaves, 2 parcels; mnemonics vclr.b vclr.w vclr.l vclr.q vclr.f vclr.d
+; family VCLR: 1 form, 1 leaves, 2 parcels; mnemonics vclr.l vclr.f vclr.d
 ; ======================================================================================================================================================
 
-; form VCLR (index 170): 2 parcels
+; form VCLR (index 172): 2 parcels
 form-VCLR = o1:vreg4 o2:imm4u
-leaf-VCLR-1 = 0b1111110001101100 o1-v:4 o2-imm:4 xsub:8 ?(xsub < 6)
-sub-VCLR-1 = "vclr.b" | "vclr.w" | "vclr.l" | "vclr.q" | "vclr.f" | "vclr.d"
+leaf-VCLR-1 = 0b1111110001101001 o1-v:4 o2-imm:4 xsub:8 ?(xsub < 3)
+sub-VCLR-1 = "vclr.l" | "vclr.f" | "vclr.d"
 
 ; ======================================================================================================================================================
 ; family VLD.PI: 1 form, 1 leaves, 2 parcels; mnemonics vld.b vld.b.w vld.b.l vld.b.q vld.bu vld.bu.w ...
 ; ======================================================================================================================================================
 
-; form VLD.PI (index 171): 2 parcels
+; form VLD.PI (index 173): 2 parcels
 form-VLD-PI = o1:vreg4 o2:pi5-s0
-leaf-VLD-PI-1 = 0b1111110001101101 xsub:7 o1-v:4 o2-base:5 ?(xsub < 88)
+leaf-VLD-PI-1 = 0b1111110001101010 xsub:7 o1-v:4 o2-base:5 ?(xsub < 88)
 sub-VLD-PI-1 = "vld.b" | "vld.b.w" | "vld.b.l" | "vld.b.q" | "vld.bu" | "vld.bu.w" | "vld.bu.l" | "vld.bu.q" | "vld.w" | "vld.w.l" | "vld.w.q"
      | "vld.wu" | "vld.wu.l" | "vld.wu.q" | "vld.l" | "vld.l.q" | "vld.lu" | "vld.lu.q" | "vld.q" | "vld.f" | "vld.f.d" | "vld.d" | "vlseg2.b"
      | "vlseg2.b.w" | "vlseg2.b.l" | "vlseg2.b.q" | "vlseg2.bu" | "vlseg2.bu.w" | "vlseg2.bu.l" | "vlseg2.bu.q" | "vlseg2.w" | "vlseg2.w.l"
@@ -1652,9 +1671,9 @@ sub-VLD-PI-1 = "vld.b" | "vld.b.w" | "vld.b.l" | "vld.b.q" | "vld.bu" | "vld.bu.
 ; family VLD.B: 1 form, 1 leaves, 3 parcels; mnemonics vld.b vld.b.w vld.b.l vld.b.q vld.bu vld.bu.w ...
 ; ======================================================================================================================================================
 
-; form VLD.B (index 172): 3 parcels
+; form VLD.B (index 174): 3 parcels
 form-VLD-B = o1:vreg4 o2:b5d12s-x1
-leaf-VLD-B-1 = 0b1111110001101110 o1-v:4 o2-base:5 xsub:11 o2-d:12 ?(xsub < 88)
+leaf-VLD-B-1 = 0b1111110001101011 o1-v:4 o2-base:5 xsub:11 o2-d:12 ?(xsub < 88)
 sub-VLD-B-1 = "vld.b" | "vld.b.w" | "vld.b.l" | "vld.b.q" | "vld.bu" | "vld.bu.w" | "vld.bu.l" | "vld.bu.q" | "vld.w" | "vld.w.l" | "vld.w.q"
      | "vld.wu" | "vld.wu.l" | "vld.wu.q" | "vld.l" | "vld.l.q" | "vld.lu" | "vld.lu.q" | "vld.q" | "vld.f" | "vld.f.d" | "vld.d" | "vlseg2.b"
      | "vlseg2.b.w" | "vlseg2.b.l" | "vlseg2.b.q" | "vlseg2.bu" | "vlseg2.bu.w" | "vlseg2.bu.l" | "vlseg2.bu.q" | "vlseg2.w" | "vlseg2.w.l"
@@ -1669,9 +1688,9 @@ sub-VLD-B-1 = "vld.b" | "vld.b.w" | "vld.b.l" | "vld.b.q" | "vld.bu" | "vld.bu.w
 ; family VST.PI: 1 form, 1 leaves, 2 parcels; mnemonics vst.b vst.w vst.w.b vst.l vst.l.b vst.l.w ...
 ; ======================================================================================================================================================
 
-; form VST.PI (index 173): 2 parcels
+; form VST.PI (index 175): 2 parcels
 form-VST-PI = o1:vreg4 o2:pi5-s0
-leaf-VST-PI-1 = 0b1111110001101111 xsub:7 o1-v:4 o2-base:5 ?(xsub < 64)
+leaf-VST-PI-1 = 0b1111110001101100 xsub:7 o1-v:4 o2-base:5 ?(xsub < 64)
 sub-VST-PI-1 = "vst.b" | "vst.w" | "vst.w.b" | "vst.l" | "vst.l.b" | "vst.l.w" | "vst.q" | "vst.q.b" | "vst.q.w" | "vst.q.l" | "vst.f" | "vst.d"
      | "vst.d.f" | "vsts.w.b" | "vsts.w.bu" | "vsts.l.b" | "vsts.l.bu" | "vsts.l.w" | "vsts.l.wu" | "vsts.q.b" | "vsts.q.bu" | "vsts.q.w"
      | "vsts.q.wu" | "vsts.q.l" | "vsts.q.lu" | "vsseg2.b" | "vsseg2.w" | "vsseg2.w.b" | "vsseg2.l" | "vsseg2.l.b" | "vsseg2.l.w" | "vsseg2.q"
@@ -1684,9 +1703,9 @@ sub-VST-PI-1 = "vst.b" | "vst.w" | "vst.w.b" | "vst.l" | "vst.l.b" | "vst.l.w" |
 ; family VST.B: 1 form, 1 leaves, 3 parcels; mnemonics vst.b vst.w vst.w.b vst.l vst.l.b vst.l.w ...
 ; ======================================================================================================================================================
 
-; form VST.B (index 174): 3 parcels
+; form VST.B (index 176): 3 parcels
 form-VST-B = o1:vreg4 o2:b5d12s-x1
-leaf-VST-B-1 = 0b1111110001110000 o1-v:4 o2-base:5 xsub:11 o2-d:12 ?(xsub < 64)
+leaf-VST-B-1 = 0b1111110001101101 o1-v:4 o2-base:5 xsub:11 o2-d:12 ?(xsub < 64)
 sub-VST-B-1 = "vst.b" | "vst.w" | "vst.w.b" | "vst.l" | "vst.l.b" | "vst.l.w" | "vst.q" | "vst.q.b" | "vst.q.w" | "vst.q.l" | "vst.f" | "vst.d"
      | "vst.d.f" | "vsts.w.b" | "vsts.w.bu" | "vsts.l.b" | "vsts.l.bu" | "vsts.l.w" | "vsts.l.wu" | "vsts.q.b" | "vsts.q.bu" | "vsts.q.w"
      | "vsts.q.wu" | "vsts.q.l" | "vsts.q.lu" | "vsseg2.b" | "vsseg2.w" | "vsseg2.w.b" | "vsseg2.l" | "vsseg2.l.b" | "vsseg2.l.w" | "vsseg2.q"
@@ -1699,9 +1718,9 @@ sub-VST-B-1 = "vst.b" | "vst.w" | "vst.w.b" | "vst.l" | "vst.l.b" | "vst.l.w" | 
 ; family VLDT: 1 form, 1 leaves, 3 parcels; mnemonics vldt.b vldt.b.w vldt.b.l vldt.b.q vldt.bu vldt.bu.w ...
 ; ======================================================================================================================================================
 
-; form VLDT (index 175): 3 parcels
+; form VLDT (index 177): 3 parcels
 form-VLDT = o1:vreg4 o2:pi5-s0 o3:imm12u
-leaf-VLDT-1 = 0b1111110001110001 o1-v:4 o2-base:5 xsub:11 o3-imm:12 ?(xsub < 22)
+leaf-VLDT-1 = 0b1111110001101110 o1-v:4 o2-base:5 xsub:11 o3-imm:12 ?(xsub < 22)
 sub-VLDT-1 = "vldt.b" | "vldt.b.w" | "vldt.b.l" | "vldt.b.q" | "vldt.bu" | "vldt.bu.w" | "vldt.bu.l" | "vldt.bu.q" | "vldt.w" | "vldt.w.l"
      | "vldt.w.q" | "vldt.wu" | "vldt.wu.l" | "vldt.wu.q" | "vldt.l" | "vldt.l.q" | "vldt.lu" | "vldt.lu.q" | "vldt.q" | "vldt.f" | "vldt.f.d"
      | "vldt.d"
@@ -1710,65 +1729,19 @@ sub-VLDT-1 = "vldt.b" | "vldt.b.w" | "vldt.b.l" | "vldt.b.q" | "vldt.bu" | "vldt
 ; family VSTT: 1 form, 1 leaves, 3 parcels; mnemonics vstt.b vstt.w vstt.w.b vstt.l vstt.l.b vstt.l.w ...
 ; ======================================================================================================================================================
 
-; form VSTT (index 176): 3 parcels
+; form VSTT (index 178): 3 parcels
 form-VSTT = o1:vreg4 o2:pi5-s0 o3:imm12u
-leaf-VSTT-1 = 0b1111110001110010 o1-v:4 o2-base:5 xsub:11 o3-imm:12 ?(xsub < 13)
+leaf-VSTT-1 = 0b1111110001101111 o1-v:4 o2-base:5 xsub:11 o3-imm:12 ?(xsub < 13)
 sub-VSTT-1 = "vstt.b" | "vstt.w" | "vstt.w.b" | "vstt.l" | "vstt.l.b" | "vstt.l.w" | "vstt.q" | "vstt.q.b" | "vstt.q.w" | "vstt.q.l" | "vstt.f"
      | "vstt.d" | "vstt.d.f"
 
 ; ======================================================================================================================================================
-; family VLDX: 1 form, 1 leaves, 2 parcels; mnemonics vldx.b vldx.b.w vldx.b.l vldx.b.q vldx.bu vldx.bu.w ...
+; family VSTS.R: 1 form, 1 leaves, 2 parcels; mnemonics vsts.w.b vsts.w.bu vsts.l.b vsts.l.bu vsts.l.w vsts.l.wu ...
 ; ======================================================================================================================================================
 
-; form VLDX (index 177): 2 parcels
-form-VLDX = o1:vreg4 o2:b5d0s-x1 o3:vreg4
-leaf-VLDX-1 = 0b11111100001100 xsub:5 o1-v:4 o2-base:5 o3-v:4 ?(xsub < 22)
-sub-VLDX-1 = "vldx.b" | "vldx.b.w" | "vldx.b.l" | "vldx.b.q" | "vldx.bu" | "vldx.bu.w" | "vldx.bu.l" | "vldx.bu.q" | "vldx.w" | "vldx.w.l"
-     | "vldx.w.q" | "vldx.wu" | "vldx.wu.l" | "vldx.wu.q" | "vldx.l" | "vldx.l.q" | "vldx.lu" | "vldx.lu.q" | "vldx.q" | "vldx.f" | "vldx.f.d"
-     | "vldx.d"
-
-; ======================================================================================================================================================
-; family VT.CLR: 1 form, 1 leaves, 1 parcel; mnemonics vtclr
-; ======================================================================================================================================================
-
-; form VT.CLR (index 178): 1 parcel
-form-VT-CLR = o1:treg3
-leaf-VT-CLR-1 = 0b1111101111010 o1-t:3
-sub-VT-CLR-1 = "vtclr"
-
-; ======================================================================================================================================================
-; family VT.MOPA: 1 form, 1 leaves, 2 parcels; mnemonics vtfmopa.f vtfmopa.d
-; ======================================================================================================================================================
-
-; form VT.MOPA (index 179): 2 parcels
-form-VT-MOPA = o1:treg3 o2:vreg4 o3:vreg4
-leaf-VT-MOPA-1 = 0b1111110001110011 xsub:5 o1-t:3 o2-v:4 o3-v:4 ?(xsub < 2)
-sub-VT-MOPA-1 = "vtfmopa.f" | "vtfmopa.d"
-
-; ======================================================================================================================================================
-; family VT.LS: 1 form, 1 leaves, 2 parcels; mnemonics vtld.f vtld.d vtst.f vtst.d
-; ======================================================================================================================================================
-
-; form VT.LS (index 180): 2 parcels
-form-VT-LS = o1:treg3 o2:b5d0s-x1 o3:reg5
-leaf-VT-LS-1 = 0b1111110001110100 xsub:3 o1-t:3 o2-base:5 o3-r:5 ?(xsub < 4)
-sub-VT-LS-1 = "vtld.f" | "vtld.d" | "vtst.f" | "vtst.d"
-
-; ======================================================================================================================================================
-; family VT.ADD: 1 form, 1 leaves, 2 parcels; mnemonics vtadd.f vtadd.d
-; ======================================================================================================================================================
-
-; form VT.ADD (index 181): 2 parcels
-form-VT-ADD = o1:treg3 o2:treg3 o3:treg3
-leaf-VT-ADD-1 = 0b1111110001110101 xsub:7 o1-t:3 o2-t:3 o3-t:3 ?(xsub < 2)
-sub-VT-ADD-1 = "vtadd.f" | "vtadd.d"
-
-; ======================================================================================================================================================
-; family GEMM: 1 form, 1 leaves, 2 parcels; mnemonics gemm.f
-; ======================================================================================================================================================
-
-; form GEMM (index 182): 2 parcels
-form-GEMM = o1:reg5 o2:reg5 o3:reg5
-leaf-GEMM-1 = 0b1111110001110110 xsub:1 o1-r:5 o2-r:5 o3-r:5 ?(xsub < 1)
-sub-GEMM-1 = "gemm.f"
+; form VSTS.R (index 179): 2 parcels
+form-VSTS-R = o1:vreg4 o2:pi5-s0 o3:imm6u
+leaf-VSTS-R-1 = 0b1111101111010 xsub:4 o1-v:4 o2-base:5 o3-imm:6 ?(xsub < 12)
+sub-VSTS-R-1 = "vsts.w.b" | "vsts.w.bu" | "vsts.l.b" | "vsts.l.bu" | "vsts.l.w" | "vsts.l.wu" | "vsts.q.b" | "vsts.q.bu" | "vsts.q.w" | "vsts.q.wu"
+     | "vsts.q.l" | "vsts.q.lu"
 

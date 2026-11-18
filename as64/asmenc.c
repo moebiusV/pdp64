@@ -83,7 +83,7 @@ static int econv(const struct stmt *st, int k, int dst, int64_t addr, int poolab
 
 	memset(e, 0, sizeof *e);
 	if (o->kind == OK_REG) { e->k = EK_R; e->r = o->reg; return 0; }
-	if (o->kind == OK_VREG || o->kind == OK_TREG) { e->k = EK_V; e->s = o->kind == OK_TREG; e->r = o->reg; return 0; }
+	if (o->kind == OK_VREG) { e->k = EK_V; e->s = 0; e->r = o->reg; return 0; }
 	if (o->x) v = eval(o->x, st->line);
 	switch (o->kind) {
 	case OK_IMM: case OK_ABS:
@@ -220,14 +220,7 @@ static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct h
 	{
 		int dst = 0;
 		for (int k = 0; k < n; k++) {
-			if (st->ops[k].kind == OK_GATHER) {			/* (rb)[vI]: the codec has the base, then the index vector, as two operands */
-				const struct oper *g = &st->ops[k];
-				if (dst + 2 > 4) { err(st->line, "too many operands"); return -1; }
-				memset(&hw[0].in.op[dst], 0, 2 * sizeof hw[0].in.op[0]);
-				hw[0].in.op[dst].k = EK_B; hw[0].in.op[dst].r = g->reg;
-				hw[0].in.op[dst + 1].k = EK_V; hw[0].in.op[dst + 1].r = g->reg2;
-				dst += 2;
-			} else if (econv(st, k, dst++, pos, poolable, isbranch, &hw[0]) < 0)
+			if (econv(st, k, dst++, pos, poolable, isbranch, &hw[0]) < 0)
 				return -1;
 		}
 		hw[0].in.nops = dst;
@@ -265,7 +258,7 @@ static void enc_nofit(const struct stmt *st, const struct hw *h)
 	char shape[200] = "";
 	static const char *kn[] = { "", "register", "immediate", "d(Rn)", "d(Rn)(Rx*s)", "(Rn)+", "-(Rn)", "pc-relative", "absolute", "vector register" };
 	for (int k = 0; k < h->in.nops; k++) {
-		const char *s = h->in.op[k].k == EK_V && h->in.op[k].s ? "tile register" : h->in.op[k].k < sizeof kn / sizeof *kn ? kn[h->in.op[k].k] : "operand";
+		const char *s = h->in.op[k].k < sizeof kn / sizeof *kn ? kn[h->in.op[k].k] : "operand";
 		strcat(shape, k ? ", " : ""); strcat(shape, s);
 	}
 	err(st->line, "%s: no form of this instruction in %s takes %s%s (a meaningless combination, or a value out of range)", enc_mn_name(etab, h->in.mn), etab->name,

@@ -26,11 +26,9 @@ struct pdp64_cpu {
 	int entered;				/* an exception was entered by this instruction */
 	int progress;				/* the instruction in progress is a block operation: an abort keeps its register progress */
 	int snap_valid;				/* an instruction is in progress (snap is its starting state); 0 for a fault before any instruction ran, e.g. in the translation of the fetch: EPC is then pc */
-	/* the vec block, the tile and the GEMM unit (pdp64exec_vec.inc): hidden registers (not saved at a context switch), and the statistics the benchmarks read */
+	/* the vec block (pdp64exec_vec.inc): hidden registers (not saved at a context switch), and the statistics the benchmarks read */
 	uint8_t vr[16][32];			/* the vector registers v0..v15 (a strip is 32 bytes in this executor) */
-	uint8_t tr[8][256];			/* the tile registers t0..t7 */
 	uint16_t vacc;				/* the vector registers that vclr named accumulators: they keep their values from strip to strip */
-	uint8_t vtouch;				/* the tiles the running block writes */
 	int vhidden;				/* the running block holds hidden accumulation: an abort discards it and restarts the block from its entry */
 	uint64_t vblocks, vstrips, vops, velems;	/* blocks run, strips run, vector instructions executed (one for each strip), elements they worked on */
 	struct { uint64_t r[32], pc, dp, fpsr; int fN, fZ, fV, fC; } snap;	/* the state at the start of the instruction, for precise aborts (kept only when deliver is on) */
