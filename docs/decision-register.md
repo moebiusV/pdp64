@@ -456,3 +456,5 @@
 - R449 | 2026-11-17 | decision | "don't get rid of gemm or other vec stuff until we properly analyse cost benefit; until we get a gpu, basic simd type stuff could be very beneficial for games and llm stuff for people who don't have a huge power guzzling gpu available. like a gpu-lite." | subjects: Vector prefix (vec) and the GEMM unit | current
 - R450 | 2026-11-17 | decision | "add the segment loads study; add all the yes and likely leans, keep studying the open ones. update pcc and the prefix optimizer" | subjects: Vector prefix (vec) and the GEMM unit | current
 - R451 | 2026-11-17 | question | "make sure to tell how many gates those will add" | subjects: Vector prefix (vec) and the GEMM unit | current
+- R452 | 2026-11-17 | decision | "so renumber every opcode duh, why run hte optimizer without using the output?" | subjects: Prefix encoding optimiser | current
+- R453 | 2026-11-17 | decision | "if pcc has no vectorizer, it is time to do that llvm backend and switch to it as our standard for development" | subjects: LLVM back end: frozen until the port | current
