@@ -292,37 +292,3 @@
 **The assistant's leaning.** Option 3 is decided for the `.U` moves; option 1 for the first kernel's other copies, which is what the OpenBSD port will expect (`pcb_onfault`).
 
 **Where the body refers to it.** Sections 6.10 and 6.10.4.
-
-<a id="j613"></a>
-### J.6.13 Does the user guard exist: `UA`, `STUA` and `CLUA`
-
-**Issue.** The manual describes a status bit `UA` that guards user memory, and the instructions `STUA` and `CLUA` that set and clear it (6.2.2, 6.2.5, 6.10.1). The grammar and the reference executor have none of them: the status word has no such bit, and `stua` and `clua` do not assemble.
-
-**Why it matters.** The audit of sensitive instructions (errata 186, decision 12) asks that this be decided before the hypervisor is designed, because the status word and the privileged list are what a guest's kernel sees.
-
-**Options.**
-
-1. *Implement them.* Add the bit and the two instructions to the grammar, the executor and the tests. For: the guard of 6.10 exists, as the chapter says. Against: opcodes and a status bit.
-2. *Remove them from the manual.* For: the manual then says what the machine has. Against: the kernel loses a guard that 6.10 argues for.
-
-**The assistant's leaning.** Option 1, since 6.10.1 is a decided statement.
-
-**Where the body refers to it.** Sections 6.2.2, 6.2.5 and 6.10.1.
-
-<a id="j614"></a>
-### J.6.14 `ICINV` takes effect only after `ISYNC`, which is privileged
-
-**Issue.** An instruction-cache invalidation by `ICINV` or `ICINVA` takes effect for the instructions that follow only after an `ISYNC`, but `ISYNC` is privileged and `ICINV` and `ICINVA` are not (6.2.5, 6.2.6, 6.14.13).
-
-**Why it matters.** A program that generates code (a just-in-time compiler) cannot synchronise its own instruction cache. The audit of sensitive instructions asks that this be resolved (errata 186, decision 7).
-
-**Options.**
-
-1. *An unprivileged form of the synchronisation.* For: a program that generates code works. Against: another instruction or a new rule for `ISYNC`.
-2. *`ICINV` and `ICINVA` synchronise by themselves.* For: no other instruction. Against: the cost on every invalidation.
-3. *A system call does it.* For: no change to the architecture. Against: a trap for every block of generated code.
-
-**The assistant's leaning.** Option 2, the simplest for a program.
-
-**Where the body refers to it.** Sections 6.2.6 and 6.14.13.
-

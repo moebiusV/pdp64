@@ -22,7 +22,7 @@ The architecture is the processor, the bus and the devices together. The instruc
 
 Lineage: Unibus, Q-bus, PCI Express with additions. **The name Q64 is for the last step and is held** (errata 120). The Unibus `DATIP`/`DATO` locked pair is not an architectural primitive (errata 45; section 8).
 
-*Open* (J.2.5): the detail of the additions to PCI Express, and the root complex's own registers. Earlier text that said the transaction definitions (widths, bursts, arbitration, timing) were "not written anywhere" is superseded: the transactions are PCI Express's own.
+*Open* (J.2.4): the detail of the additions to PCI Express, and the root complex's own registers. Earlier text that said the transaction definitions (widths, bursts, arbitration, timing) were "not written anywhere" is superseded: the transactions are PCI Express's own.
 
 ## 3. Addressing
 
@@ -57,7 +57,7 @@ The processor is an initiator. A device is a target (its registers) and, if it m
 * Resetting the bus is a write to a register of the root complex, not an instruction (manual 2.9.4).
 * A read of a configuration position that never held a function returns all ones, not a bus fault, and the root complex records the miss in a sticky status bit (manual 2.4.7, 2.4.8).
 
-*Open* (J.2.5): the error-reporting registers of the root complex, and which of these a device can raise itself.
+*Open* (J.2.4): the error-reporting registers of the root complex, and which of these a device can raise itself.
 
 ## 8. Atomics: settled
 
@@ -67,7 +67,7 @@ The Unibus `DATIP`/`DATO` locked read-modify-write is a lock; the exclusive acce
 
 *Decided* (errata 75, 79, 95, 101; manual 2.7 and chapter 5): every standard device is a virtio device or a USB controller; the disk is virtio-blk (an NVMe disk may be attached as any PCI Express device may), and the network, graphics and audio devices are virtio-net, virtio-gpu and virtio-snd, over the virtio PCI Express transport. The device moves its own data by DMA, so the processor only sets up a transfer. A driver finds the virtio structures through the capabilities in the function's configuration space, negotiates features, sets up its queues (a table of descriptors, an available ring the driver writes and a used ring the device writes) and notifies the device by a write to the queue's notification address. The earlier convention of eight memory-mapped registers per device was withdrawn. The pdp64 supports in silicon the virtio devices that it makes sense to support, and it standardises on the latest USB, NVMe and PCI Express (decision register R359; details pending, J.5.6).
 
-*Open*: the feature subset of each virtio device (J.2.4, J.5.2); the form of the console, the timer and the entropy source under this interface (J.5.1); USB's controller interface (J.5.7).
+*Open*: the feature subset of each virtio device (J.2.3, J.5.2); the form of the console, the timer and the entropy source under this interface (J.5.1); USB's controller interface (J.5.7).
 
 ## 10. Interrupts and the other cores
 
@@ -97,7 +97,7 @@ What it costs: one used-ring write per chain (devices already write a completion
 | Item | State |
 |---|---|
 | The bus is PCI Express, with convenience and security additions | decided (2.3.1, 2.3.4) |
-| The additions themselves (root complex registers, overlays, helper registers) | open (J.2.5); the name Q64 returns with them |
+| The additions themselves (root complex registers, overlays, helper registers) | open (J.2.4); the name Q64 returns with them |
 | Physical address 40 to 64 bits; no selecting bit; windows anywhere but the first pages | decided (errata 97, 102); details open (J.2.1, J.4.1, J.6.1, J.6.2) |
 | Windows start on page boundaries | decided, details to be determined (2.3.6) |
 | Memory type per page; `FENCE`; atomics reach devices | decided (2.8.1); atomics on device memory open (J.7.4) |
@@ -108,10 +108,10 @@ What it costs: one used-ring write per chain (devices already write a completion
 | Departed device: windows fault, work stays in memory | decided, details to be determined (2.4.5, 2.4.9) |
 | MSI-X | decided, details pending (2.6; J.6.3) |
 | virtio devices, USB, disk virtio-blk, no eight-register devices | decided (errata 95, 101; register R359) |
-| IOMMU | part of the design; format, place and faults open (J.2.3) |
-| Which virtio features; console, timer, entropy | open (J.2.4, J.5.1, J.5.2) |
+| IOMMU | part of the design; the table, the place, the reports of a refusal, the guest's level and the registers are decided, the details to be determined (2.11 of the manual) |
+| Which virtio features; console, timer, entropy | open (J.2.3, J.5.1, J.5.2) |
 | The bus controller of errata 49 | open (J.2.2) |
-| The root complex error registers | open (J.2.5) |
+| The root complex error registers | open (J.2.4) |
 | Interrupt controller, inter-processor interrupt, boot of secondary cores | open (J.6.3, J.4.6) |
 
 ## Sources

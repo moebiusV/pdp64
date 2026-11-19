@@ -62,8 +62,8 @@ ICINVA  : invalidate the whole instruction cache''', NOFLAGS, 'Privileged (`TLBI
 POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16''', NOFLAGS, PRIV + ' `SP` must be 8-byte aligned (a misaligned-access abort); both words are checked before either is touched.', '9.14',
       notes='For a handler that wants to be interrupted: it can save the exception state and lower the priority.', cf='6.3, 6.13.'),
     E('ISYNC', 'system', ['isync'], 'Instruction synchronisation', ['ISYNC'],
-      'make earlier writes to PTBR, ASID, MMUCTL and VBR, and earlier ICINVs, take effect for the instructions that follow', NOFLAGS, PRIV + ' A non-zero pad byte is an illegal instruction.', '9.14',
-      notes='The architecture promises the effect only after the next `ISYNC`; an in-order implementation may make it immediate, and software must not rely on that.', cf='7.5, 6.5.'),
+      'make earlier writes to PTBR, ASID, MMUCTL and VBR, and earlier ICINVs, take effect for the instructions that follow', NOFLAGS, 'Not privileged (6.2.6). A non-zero pad byte is an illegal instruction.', '9.14',
+      notes='The architecture promises the effect only after the next `ISYNC`; an in-order implementation may make it immediate, and software must not rely on that. It is not privileged, so that a program that writes instructions can issue `ICINV` and then `ISYNC` (7.12.3); the writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` that it also covers are themselves privileged.', cf='7.5, 6.5.'),
     E('HINT', 'system', ['hint'], 'Hint', ['HINT #n        ; n = 0 to 255'], 'no architectural effect', NOFLAGS, NONE, '9.14',
       notes='Defined codes: 0 a plain no-op hint, 1 pause (spin-wait), 2 speculation barrier. Every other code is a reserved hint that executes as a no-op; software shall not use it. Not privileged.'),
     # ---- SYSREG ----

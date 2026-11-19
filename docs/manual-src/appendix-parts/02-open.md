@@ -46,33 +46,7 @@
 **Where the body refers to it.** Section 2.4.4.
 
 <a id="j23"></a>
-### J.2.3 The IOMMU: the guest-visible second level and translation requests
-
-**Issue.** The pdp64 has an IOMMU (a unit that translates the addresses a device uses, with a page table of its own for each device), and most of its design is decided and in 2.11: the device table, the leaf entry, the place, the reports of a refusal, the registers and the unit's interrupt (errata 85, 187). Two questions are open. The first is what "a second level that the guest can see" means (6.14.6, errata 181). The second is whether the unit offers translation requests (ATS and page requests: a device asks the unit for a translation and keeps it).
-
-**Accepted, subject to the first question.** The owner accepted these as recommended (errata 187), but they assume that the guest writes a level of its own, so they stay here until the first question is answered. *The entry of a device* is 32 bytes: a valid bit V, a mute bit MUTE, the stages (A, B, or A then B), the levels of each stage, a domain tag and a guest tag, two root words, and one word reserved for the interrupt table (J.6.3); reserved bits must be zero or the device is refused; there is no bypass mode. *The cached translations* are keyed by the requester identity, the guest tag, the domain tag, the page and the level; the commands are invalidate device, domain, guest and all, and sync; the hardware discards every cached translation on a change of the device-table pointer, on the reset bit and on reset; invalidate device does not complete until the device's requests in flight are finished or refused; a guard blocks a device whose guest is being invalidated; an implementation may discard more. *The guest tag* has the same number space and width as the processor's (6.14.4), and 0 is the host; resetting a guest is the hypervisor's duty: block its devices, invalidate its translations, then reset. *In version 1 a guest's unit is virtual and trapped* (6.14.6).
-
-**A requirement that holds whatever is decided (6.8.5, errata 178).** Any event that resets the translation state of a guest (a guest reset, an INIT-like event) must discard the cached translations of that guest, and the same holds for the cached translations of a device when its domain is reset or changed: the tables and the cache are reset together or not at all.
-
-**Why it matters.** Whether a guest has an IOMMU of its own decides the entry of a device, the walks that every device access makes, the guest tag in the unit and the invalidation commands. Translation requests decide whether a device may hold translations that the unit does not know about, which must then be invalidated in the device too.
-
-**Options.**
-
-1. *The guest writes a level of its own (level A).* The unit translates in two levels: the guest's (a device address to a guest-physical address), then the hypervisor's (level B, guest-physical to physical). The real device table stays the host's, and the guest sees a virtual unit with the same registers. For: a guest has an IOMMU of its own, with which its kernel can protect itself from its devices; it matches the second stage of the processor (6.14.4). Against: two walks for every device access, and a larger unit.
-2. *The guest sees only the hypervisor's level.* A single level, which the hypervisor writes for the devices of the guest. For: one walk and a smaller unit. Against: the guest has no IOMMU of its own to protect its kernel from its devices.
-3. *Translation requests are not offered in version 1.* The unit answers a translation request with an error. For: a device holds no translation that the unit cannot take back; a smaller unit. Against: devices that need them for speed cannot be used well.
-4. *Translation requests are offered.* For: the speed of devices that cache translations. Against: invalidation must reach the device, and a device that does not obey leaves a stale translation.
-
-**Precedents.** x86 and ARM offer an IOMMU with two stages of translation, the first for a guest and the second for the hypervisor, and PCI Express has ATS *(unverified: general knowledge)*. The VAX Unibus adapter's map registers were per adapter, not per device *(verified: 4.3BSD `ubareg.h`)*.
-
-**The author's referents.** "iommu will allow us to map in c64/c128" (errata 75, a later use); the five accepted recommendations (errata 85); the form answers of errata 187.
-
-**The assistant's leaning.** Option 1, which is the reading the accepted statements assume, and Option 3, as the proposals recommended.
-
-**Where the body refers to it.** Sections 2.11 and 6.14.6.
-
-<a id="j24"></a>
-### J.2.4 Which optional virtio features the pdp64 uses
+### J.2.3 Which optional virtio features the pdp64 uses
 
 **Issue.** virtio lets each side agree optional features by bit. Three concern the machine and not one device. `VIRTIO_RING_F_EVENT_IDX` (bit 29) replaces the two on-off flags with an index at which a side wants to be woken. `VIRTIO_F_ACCESS_PLATFORM` (bit 33) says that a device's addresses go through the platform's translation (the IOMMU). `VIRTIO_F_ORDER_PLATFORM` (bit 36) says that the device obeys the platform's ordering rules and not weaker ones. The exact feature subset of each standard device is a fourth, per-device item, set when each device is written.
 
@@ -94,8 +68,8 @@
 
 **Where the body refers to it.** Section 2.7.
 
-<a id="j25"></a>
-### J.2.5 The root complex's own registers and the pdp64's additions
+<a id="j24"></a>
+### J.2.4 The root complex's own registers and the pdp64's additions
 
 **Issue.** Three decided rules name a register of the root complex and give no place for it: a bus reset is a write to a register (2.9.4), a read of an empty configuration position is recorded in a sticky, write-one-to-clear bit of its status register (2.4.8, errata 104), and the circuitry that the pdp64 adds to PCI Express for convenience and security is mentioned without detail (2.3.4). A fourth, where the root complex itself sits, is J.2.1. The author asked that the miss be recorded in a status register and mode flags that already exist and not in new state, and agreed to the root complex's own bit; the processor status word was ruled out because it belongs to the running thread.
 

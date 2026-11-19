@@ -150,9 +150,8 @@ WEAK = [
 OVERRIDE = {
     "J.2.1": ("no", "addresses and boot data only"),
     "J.2.2": ("no", "bus side; no instruction"),
-    "J.2.3": ("no", "device translation, not the processor's"),
-    "J.2.4": ("no", "virtio features"),
-    "J.2.5": ("no", "root complex registers"),
+    "J.2.3": ("no", "virtio features"),
+    "J.2.4": ("no", "root complex registers"),
     "J.4.6": ("maybe", "start register or an instruction to start cores"),
     "J.4.9": ("maybe", "initial processor state at reset"),
     "J.5.5": ("yes", "FENCE spelling in C: memory ordering instruction"),

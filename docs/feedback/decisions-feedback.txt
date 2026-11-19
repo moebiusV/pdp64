@@ -24,7 +24,7 @@ HOW TO ANSWER (read in the pager, edit, write the file)
 INDEX BY AFFECTS OPCODES
 ================================================================================================
 
-AFFECTS OPCODES: yes  (82 entries)
+AFFECTS OPCODES: yes  (80 entries)
      1  J.9.13                         Range checks on a register value: trap, sticky flag, ...
      2  J.9.14                         Provenance and taint tags: input taint of the Perl ki...
      3  J.5.5                          The fence in C
@@ -79,135 +79,135 @@ AFFECTS OPCODES: yes  (82 entries)
     52  H.B.2.1.1                      B.2.1.1 The proposal is to reserve nothing:...
     53  H.B.2.3.1                      B.2.3.1 The proposal is to add no double-width compar...
     54  H.B.2.5.1                      B.2.5.1 The proposal is a per-core doorbell register ...
-    55  H.B.2.11.1                     B.2.11.1 The proposal is to declare it out of scope f...
-    56  H.D.1                          D.1 R16 to R23 are caller-saved and R24 to R31 callee...
-    57  H.D.4.2                        D.4.2 The compiler treats R16 to R23 as clobbered by ...
-    58  V.M6                           Drivers 5.2.1: syntactic sugar (not new opcodes) ease...
-    59  V.M17                          Chapter 9: BSEL
-    60  V.M23                          Kernel: priority 7 on interrupt entry
-    61  V.M24                          Kernel: WFE wakes for a masked pending interrupt
-    62  V.M25                          Kernel: vector 16 for TRAPCC and ADDV/SUBV/MULV; ADDV...
-    63  V.M26                          Kernel: poison bit, deferred load, the .U qualifier a...
-    64  V.M28                          Kernel: is supervisor mode kept?
-    65  V.N3                           Reach of the 4-byte call: errata 91 says plus or minu...
-    66  V.N11                          The simulator leaves placeholders syspg0 to syspg5 (l...
-    67  V.N12                          MOVQL (a 64-bit literal, ten bytes) is the one except...
-    68  V.N13                          R0 hardwired to zero: declined in 9.20.3 and 9.17.4
-    69  V.N22                          POPCNT and XNORPOP are tagged decided in 8.5.2
-    70  V.N43                          Which objective the real encoding run uses: static by...
-    71  V.N44                          A better profile for the fetch objective needs more p...
-    72  V.N45                          The candidate forms and the mnemonic classes that enc...
-    73  S.secure-mode-formerly-the-sec Secure mode (formerly the secure core class)
+    55  H.D.1                          D.1 R16 to R23 are caller-saved and R24 to R31 callee...
+    56  H.D.4.2                        D.4.2 The compiler treats R16 to R23 as clobbered by ...
+    57  V.M6                           Drivers 5.2.1: syntactic sugar (not new opcodes) ease...
+    58  V.M17                          Chapter 9: BSEL
+    59  V.M23                          Kernel: priority 7 on interrupt entry
+    60  V.M24                          Kernel: WFE wakes for a masked pending interrupt
+    61  V.M25                          Kernel: vector 16 for TRAPCC and ADDV/SUBV/MULV; ADDV...
+    62  V.M26                          Kernel: poison bit, deferred load, the .U qualifier a...
+    63  V.M28                          Kernel: is supervisor mode kept?
+    64  V.N3                           Reach of the 4-byte call: errata 91 says plus or minu...
+    65  V.N11                          The simulator leaves placeholders syspg0 to syspg5 (l...
+    66  V.N12                          MOVQL (a 64-bit literal, ten bytes) is the one except...
+    67  V.N13                          R0 hardwired to zero: declined in 9.20.3 and 9.17.4
+    68  V.N22                          POPCNT and XNORPOP are tagged decided in 8.5.2
+    69  V.N43                          Which objective the real encoding run uses: static by...
+    70  V.N44                          A better profile for the fetch objective needs more p...
+    71  V.N45                          The candidate forms and the mnemonic classes that enc...
+    72  S.secure-mode-formerly-the-sec Secure mode (formerly the secure core class)
+    73  S.simd-how-it-works-how-many-i SIMD: how it works, how many instructions, operations...
     74  S.constant-time-execution      Constant-time execution
     75  S.integer-abs-min-max-and-cond Integer abs/min/max and conditional select
     76  S.sim64-decoder-from-the-gramm sim64 decoder from the grammar's output
     77  S.provenance-and-taint-tags    Provenance and taint tags
-    78  S.simd-how-it-works-how-many-i SIMD: how it works, how many instructions, operations...
-    79  S.range-checks-on-a-register-v Range checks on a register value
-    80  S.combining-group-opcodes      Combining group opcodes
-    81  S.opcode-field-and-parcel-layo Opcode field and parcel layout (6-bit opcode)
-    82  S.utf-8-operations             UTF-8 operations
+    78  S.combining-group-opcodes      Combining group opcodes
+    79  S.opcode-field-and-parcel-layo Opcode field and parcel layout (6-bit opcode)
+    80  S.utf-8-operations             UTF-8 operations
 
-AFFECTS OPCODES: maybe  (92 entries)
-    83  J.3.2                          The form of the terminal device and its name
-    84  J.3.3                          The mashup: how the display composes text, pixels and...
-    85  J.3.5                          Sprites and the hardware cursor
-    86  J.3.8                          Anti-tearing conveniences
-    87  J.3.9                          The graphics boilerplate sugar
-    88  J.3.10                         A write-combining memory type for the framebuffer
-    89  J.3.11                         The C128 core and the c64 mode
-    90  J.3.12                         The compositor path
-    91  J.3.13                         Audio mixing
-    92  J.4.1                          The first few pages
-    93  J.4.2                          How the first stage reads blocks
-    94  J.4.3                          How the ROM finds and maps the boot device
-    95  J.4.4                          The boot-information block: fields, who fills them, l...
-    96  J.4.6                          Starting the other cores
-    97  J.4.8                          Where the second stage lies, and a dedicated boot par...
-    98  J.4.9                          The state core 0 starts in
-    99  J.5.6                          Which virtio devices are built in silicon, and syntac...
-   100  J.6.1                          Discovering the implemented widths
-   101  J.6.2                          The page-table entry for wide physical addresses
-   102  J.6.3                          Interrupt delivery and vector numbers
-   103  J.6.11                         Hardware breakpoints and watchdogs, performance count...
-   104  J.7.6                          How block operations order their accesses
-   105  J.7.7                          Secure mode on every core, or one secure core
-   106  J.9.7                          The worst-case latency of the block operations
-   107  J.10.1                         Which rules keep a faster core from the speculative a...
-   108  J.D.1                          Stack alignment
-   109  J.D.2                          Binding, landing pads and the PLT stub after version 1
-   110  H.3.8.5                        3.8.5 Each of the three is a device in a slot:...
-   111  H.3.16                         3.16 What made graphics programming annoying: the pdp...
-   112  H.3.17                         3.17 Anti-tearing sugar
-   113  H.3.21.3                       3.21.3 A device whose main interface is a ring of com...
-   114  H.3.s-the-four-main-sketches-s The four main sketches side by side (sketch 5 is a va...
-   115  H.4.4                          4.4 The reset state and the first block
-   116  H.4.4.3                        4.4.3 Core 0 starts in kernel mode at priority 7 with...
-   117  H.4.7                          4.7 Starting the other cores
-   118  H.4.7.1b                       4.7.1b (4.7.1 of the body says only that the controll...
-   119  H.4.7.2                        4.7.2 A stuck core is reset by a write to a core-rese...
-   120  H.5.7                          5.7 Illustrations of a console and a timer
-   121  H.6.8                          6.8 Hardware-managed accessed and dirty bits, adverti...
-   122  H.7.8.1                        7.8.1 The controller holds every core but core 0 in r...
-   123  H.7.8.2                        7.8.2 An inter-processor interrupt is a write to a pe...
-   124  H.7.8.3                        7.8.3 The routing of device interrupts to cores, and ...
-   125  H.7.9.1                        7.9.1 The kernel starts a core by writing its start r...
-   126  H.7.9.4                        7.9.4 It wakes an idle core with an inter-processor i...
-   127  H.8.2                          8.2 Why not SIMD in the processor
-   128  H.8.3                          8.3 AI and large-language-model inference: the LB64 a...
-   129  H.8.3.3                        8.3.3 The work is partitioned between small engines, ...
-   130  H.8.6.1                        8.6.1 A program fills a descriptor naming the operati...
-   131  H.10.3.4                       10.3.4 Sequential consistency is nearly free on a sma...
-   132  H.10.1.1                       10.1.1 The first implementation is a soft core on a s...
-   133  H.10.1.6                       10.1.6 The second phase, the fault model, is not opti...
-   134  H.10.1.10                      10.1.10 The register-transfer description is kept ven...
-   135  H.A.4.1                        A.4.1 There are four ways to protect the return addre...
-   136  H.B.1.8.1                      B.1.8.1 The proposal is two free-running counters, cy...
-   137  H.B.1.10.1                     B.1.10.1 The proposal is an ABI rule:...
-   138  H.B.2.2.1                      B.2.2.1 The proposal is none:...
-   139  H.B.2.4.1                      B.2.4.1 The proposal is wired interrupt lines to core...
-   140  H.B.2.6.1                      B.2.6.1 The proposal is to keep snooping for the four...
-   141  H.B.2.8.1                      B.2.8.1 The feature subset of each device is open. (S)
-   142  H.B.2.10.1                     B.2.10.1 The proposal is the precise and imprecise pa...
-   143  H.B.2.12.1                     B.2.12.1 Enumeration by PCI Express configuration spa...
-   144  H.B.2.13.1                     B.2.13.1 The boot ROM that reads block 0 (B1) is deci...
-   145  H.B.2.14.1                     B.2.14.1 Whether USB is a conventional ring-based hos...
-   146  V.M1                           Bus 2.4.6: the queued work of a departed device stays...
-   147  V.M4                           Drivers 5.7.1: the main cores are tickless
-   148  V.M13                          Chapter 4 4.7.1 / R2: the other cores are started by ...
-   149  V.M15                          Chapter 4 4.10: the monitor in the boot ROM
-   150  V.M18                          Appendix A.12.3: the sealed page bit and the pledge m...
-   151  V.M19                          docs/study-round2.md: approved items taint (11), reti...
-   152  V.M22                          Chapter 10: the transistor table says 16 x 64 registe...
-   153  V.M27                          Kernel: VBR is zero at reset
-   154  V.M30                          Q-bus facts checked against DEC handbooks; the name t...
-   155  V.H4                           hbnf: core rules shipped with the spec
-   156  V.P4                           12 simulator tests lost with r20 (hint, isync, sys-pu...
-   157  V.N1                           Kernel 6.10.2 sends TRAP #n through vector 256 + n; 6...
-   158  V.N5                           Secure mode (at least one core can run in secure mode...
-   159  V.N39                          Does a lane prefix over the ordinary ALU operations (...
-   160  V.N41                          Errata 39 item 7: the accesses inside a block operati...
-   161  S.interrupts-as-memory-writes- Interrupts as memory writes (MSI-X)
-   162  S.anti-tearing-conveniences    Anti-tearing conveniences
-   163  S.c64-mode-a-c128-on-the-die   C64 mode (a C128 on the die)
-   164  S.compositor-path              Compositor path
-   165  S.graphics-programming-made-si Graphics programming made simple
-   166  S.virtio-devices-supported-in- Virtio devices supported in silicon
-   167  S.page-table-levels            Page-table levels
+AFFECTS OPCODES: maybe  (95 entries)
+    81  J.3.2                          The form of the terminal device and its name
+    82  J.3.3                          The mashup: how the display composes text, pixels and...
+    83  J.3.5                          Sprites and the hardware cursor
+    84  J.3.8                          Anti-tearing conveniences
+    85  J.3.9                          The graphics boilerplate sugar
+    86  J.3.10                         A write-combining memory type for the framebuffer
+    87  J.3.11                         The C128 core and the c64 mode
+    88  J.3.12                         The compositor path
+    89  J.3.13                         Audio mixing
+    90  J.4.1                          The first few pages
+    91  J.4.2                          How the first stage reads blocks
+    92  J.4.3                          How the ROM finds and maps the boot device
+    93  J.4.4                          The boot-information block: fields, who fills them, l...
+    94  J.4.6                          Starting the other cores
+    95  J.4.8                          Where the second stage lies, and a dedicated boot par...
+    96  J.4.9                          The state core 0 starts in
+    97  J.5.6                          Which virtio devices are built in silicon, and syntac...
+    98  J.6.1                          Discovering the implemented widths
+    99  J.6.2                          The page-table entry for wide physical addresses
+   100  J.6.3                          Interrupt delivery and vector numbers
+   101  J.6.11                         Hardware breakpoints and watchdogs, performance count...
+   102  J.7.6                          How block operations order their accesses
+   103  J.7.7                          Secure mode on every core, or one secure core
+   104  J.9.7                          The worst-case latency of the block operations
+   105  J.10.1                         Which rules keep a faster core from the speculative a...
+   106  J.D.1                          Stack alignment
+   107  J.D.2                          Binding, landing pads and the PLT stub after version 1
+   108  H.3.8.5                        3.8.5 Each of the three is a device in a slot:...
+   109  H.3.16                         3.16 What made graphics programming annoying: the pdp...
+   110  H.3.17                         3.17 Anti-tearing sugar
+   111  H.3.21.3                       3.21.3 A device whose main interface is a ring of com...
+   112  H.3.s-the-four-main-sketches-s The four main sketches side by side (sketch 5 is a va...
+   113  H.4.4                          4.4 The reset state and the first block
+   114  H.4.4.3                        4.4.3 Core 0 starts in kernel mode at priority 7 with...
+   115  H.4.7                          4.7 Starting the other cores
+   116  H.4.7.1b                       4.7.1b (4.7.1 of the body says only that the controll...
+   117  H.4.7.2                        4.7.2 A stuck core is reset by a write to a core-rese...
+   118  H.5.7                          5.7 Illustrations of a console and a timer
+   119  H.6.8                          6.8 Hardware-managed accessed and dirty bits, adverti...
+   120  H.7.8.1                        7.8.1 The controller holds every core but core 0 in r...
+   121  H.7.8.2                        7.8.2 An inter-processor interrupt is a write to a pe...
+   122  H.7.8.3                        7.8.3 The routing of device interrupts to cores, and ...
+   123  H.7.9.1                        7.9.1 The kernel starts a core by writing its start r...
+   124  H.7.9.4                        7.9.4 It wakes an idle core with an inter-processor i...
+   125  H.8.2                          8.2 Why not SIMD in the processor
+   126  H.8.3                          8.3 AI and large-language-model inference: the LB64 a...
+   127  H.8.3.3                        8.3.3 The work is partitioned between small engines, ...
+   128  H.8.6.1                        8.6.1 A program fills a descriptor naming the operati...
+   129  H.10.3.4                       10.3.4 Sequential consistency is nearly free on a sma...
+   130  H.10.1.1                       10.1.1 The first implementation is a soft core on a s...
+   131  H.10.1.6                       10.1.6 The second phase, the fault model, is not opti...
+   132  H.10.1.10                      10.1.10 The register-transfer description is kept ven...
+   133  H.A.4.1                        A.4.1 There are four ways to protect the return addre...
+   134  H.B.1.8.1                      B.1.8.1 The proposal is two free-running counters, cy...
+   135  H.B.1.10.1                     B.1.10.1 The proposal is an ABI rule:...
+   136  H.B.2.2.1                      B.2.2.1 The proposal is none:...
+   137  H.B.2.4.1                      B.2.4.1 The proposal is wired interrupt lines to core...
+   138  H.B.2.6.1                      B.2.6.1 The proposal is to keep snooping for the four...
+   139  H.B.2.8.1                      B.2.8.1 The feature subset of each device is open. (S)
+   140  H.B.2.10.1                     B.2.10.1 The proposal is the precise and imprecise pa...
+   141  H.B.2.11.1                     B.2.11.1 Decided: see section 6.14 (errata 181, 186, ...
+   142  H.B.2.12.1                     B.2.12.1 Enumeration by PCI Express configuration spa...
+   143  H.B.2.13.1                     B.2.13.1 The boot ROM that reads block 0 (B1) is deci...
+   144  H.B.2.14.1                     B.2.14.1 Whether USB is a conventional ring-based hos...
+   145  V.M1                           Bus 2.4.6: the queued work of a departed device stays...
+   146  V.M4                           Drivers 5.7.1: the main cores are tickless
+   147  V.M13                          Chapter 4 4.7.1 / R2: the other cores are started by ...
+   148  V.M15                          Chapter 4 4.10: the monitor in the boot ROM
+   149  V.M18                          Appendix A.12.3: the sealed page bit and the pledge m...
+   150  V.M19                          docs/study-round2.md: approved items taint (11), reti...
+   151  V.M22                          Chapter 10: the transistor table says 16 x 64 registe...
+   152  V.M27                          Kernel: VBR is zero at reset
+   153  V.M30                          Q-bus facts checked against DEC handbooks; the name t...
+   154  V.H4                           hbnf: core rules shipped with the spec
+   155  V.P4                           12 simulator tests lost with r20 (hint, isync, sys-pu...
+   156  V.N1                           Kernel 6.10.2 sends TRAP #n through vector 256 + n; 6...
+   157  V.N5                           Secure mode (at least one core can run in secure mode...
+   158  V.N39                          Does a lane prefix over the ordinary ALU operations (...
+   159  V.N41                          Errata 39 item 7: the accesses inside a block operati...
+   160  S.interrupts-as-memory-writes- Interrupts as memory writes (MSI-X)
+   161  S.anti-tearing-conveniences    Anti-tearing conveniences
+   162  S.c64-mode-a-c128-on-the-die   C64 mode (a C128 on the die)
+   163  S.compositor-path              Compositor path
+   164  S.graphics-programming-made-si Graphics programming made simple
+   165  S.virtio-devices-supported-in- Virtio devices supported in silicon
+   166  S.page-table-levels            Page-table levels
+   167  S.block-operations-ordering-of Block operations: ordering of the accesses
    168  S.physical-address-width-and-d Physical address width and device windows
-   169  S.learning-from-loongarch      Learning from LoongArch
-   170  S.audio-mixing                 Audio mixing
-   171  S.the-mashup-of-gpu-video-memo The mashup of GPU, video memory, C64 and Blit
-   172  S.block-operations-ordering-of Block operations: ordering of the accesses
-   173  S.stack-alignment              Stack alignment
-   174  S.memory-to-memory-moves-and-b Memory-to-memory moves and block operations
+   169  S.assembler-syntax-at-t-and-th Assembler syntax: AT&T and the classic spellings
+   170  S.learning-from-loongarch      Learning from LoongArch
+   171  S.audio-mixing                 Audio mixing
+   172  S.the-mashup-of-gpu-video-memo The mashup of GPU, video memory, C64 and Blit
+   173  S.a-test-suite-that-conforming A test suite that conforming implementations must pass
+   174  S.stack-alignment              Stack alignment
+   175  S.memory-to-memory-moves-and-b Memory-to-memory moves and block operations
 
-AFFECTS OPCODES: no  (155 entries)
-   175  J.2.1                          Locating devices without a selecting bit
-   176  J.2.2                          The bus controller
-   177  J.2.3                          The IOMMU: table format, place, faults and virtualiza...
-   178  J.2.4                          Which optional virtio features the pdp64 uses
-   179  J.2.5                          The root complex's own registers and the pdp64's addi...
+AFFECTS OPCODES: no  (157 entries)
+   176  J.2.1                          Locating devices without a selecting bit
+   177  J.2.2                          The bus controller
+   178  J.2.3                          Which optional virtio features the pdp64 uses
+   179  J.2.4                          The root complex's own registers and the pdp64's addi...
    180  J.3.1                          The deferred native devices
    181  J.3.4                          Glyph slots against character codes
    182  J.3.6                          The 48-bit pixel against the formats of virtio-gpu
@@ -332,32 +332,35 @@ AFFECTS OPCODES: no  (155 entries)
    301  V.N42                          7.11 says DIT (9.3.7) covers the latency of instructi...
    302  W.1                            Which first FPGA board
    303  W.3                            pcc: merge the single-pdp64 branch into master
-   304  S.access-to-a-departed-device- Access to a departed device's windows
-   305  S.device-windows-on-page-bound Device windows on page boundaries
-   306  S.simplicity-of-rio-and-news   Simplicity of rio and NeWS
-   307  S.device-initialization-protoc Device initialization protocol
-   308  S.crypto-and-random-number-dev Crypto and random-number devices
-   309  S.manual-readers-and-the-rewri Manual readers and the rewrite of the chapters
-   310  S.rules-for-editing-the-chapte Rules for editing the chapters
-   311  S.xdmr-flag-and-default-pdp-11 \-xdmr flag and default PDP-11 output
-   312  S.book-toolchain-build-image-a Book toolchain, build image and aports
-   313  S.llvm-tables-generated-from-t LLVM tables generated from the hbnf grammar
-   314  S.the-four-open-items          The four open items
-   315  S.hbnf-fixes-and-upstreaming   hbnf fixes and upstreaming
-   316  S.pcc-the-single-pdp64-branch  pcc: the single-pdp64 branch
-   317  S.c64-in-spirit-not-the-hardwa C64 in spirit, not the hardware
-   318  S.c64-console-c64x-the-earlier C64 console (c64x), the earlier SDL console
-   319  S.c64-console-font-and-9p-inte C64 console font and 9p interface
-   320  S.sid-chip-variants            SID chip variants
-   321  S.velinsky-link-between-c64-an Velinsky link between C64 and DEC
-   322  S.realtime-v7-with-qnx-ideas   Realtime V7 with QNX ideas
-   323  S.mmap-devices-multics-idea    mmap devices (Multics idea)
-   324  S.cpu-in-dram                  CPU in DRAM
-   325  S.newlisp-environment          newlisp environment
-   326  S.grant-evaluation             Grant evaluation
-   327  S.wrapping-for-pdp64-and-paper Wrapping for pdp64 and papers
-   328  S.other                        Other
-   329  S.encoding-optimiser-the-objec Encoding optimiser: the objective for the real run
+   304  S.c64-in-spirit-not-the-hardwa C64 in spirit, not the hardware
+   305  S.access-to-a-departed-device- Access to a departed device's windows
+   306  S.device-windows-on-page-bound Device windows on page boundaries
+   307  S.simplicity-of-rio-and-news   Simplicity of rio and NeWS
+   308  S.c64-console-font-and-9p-inte C64 console font and 9p interface
+   309  S.device-initialization-protoc Device initialization protocol
+   310  S.crypto-and-random-number-dev Crypto and random-number devices
+   311  S.virtualisation-the-hyperviso Virtualisation: the hypervisor mode, two-stage transl...
+   312  S.manual-readers-and-the-rewri Manual readers and the rewrite of the chapters
+   313  S.rules-for-editing-the-chapte Rules for editing the chapters
+   314  S.xdmr-flag-and-default-pdp-11 \-xdmr flag and default PDP-11 output
+   315  S.book-toolchain-build-image-a Book toolchain, build image and aports
+   316  S.llvm-tables-generated-from-t LLVM tables generated from the hbnf grammar
+   317  S.the-four-open-items          The four open items
+   318  S.hbnf-fixes-and-upstreaming   hbnf fixes and upstreaming
+   319  S.pcc-the-single-pdp64-branch  pcc: the single-pdp64 branch
+   320  S.assembler-syntax-nasm-s-smal Assembler syntax: NASM's small spellings
+   321  S.assembler-the-check-site-tab Assembler: the check-site table in the core, no macro...
+   322  S.c64-console-c64x-the-earlier C64 console (c64x), the earlier SDL console
+   323  S.sid-chip-variants            SID chip variants
+   324  S.velinsky-link-between-c64-an Velinsky link between C64 and DEC
+   325  S.realtime-v7-with-qnx-ideas   Realtime V7 with QNX ideas
+   326  S.mmap-devices-multics-idea    mmap devices (Multics idea)
+   327  S.cpu-in-dram                  CPU in DRAM
+   328  S.newlisp-environment          newlisp environment
+   329  S.grant-evaluation             Grant evaluation
+   330  S.wrapping-for-pdp64-and-paper Wrapping for pdp64 and papers
+   331  S.other                        Other
+   332  S.encoding-optimiser-the-objec Encoding optimiser: the objective for the real run
 
 ================================================================================================
 INDEX BY CHAPTER
@@ -366,29 +369,28 @@ INDEX BY CHAPTER
 1 Introduction  (1 entries)
    197  H.1.1.5                        1.1.5 A thread between the two lineages....
 
-2 Bus  (5 entries)
-   175  J.2.1                          Locating devices without a selecting bit
-   176  J.2.2                          The bus controller
-   177  J.2.3                          The IOMMU: table format, place, faults and virtualiza...
-   178  J.2.4                          Which optional virtio features the pdp64 uses
-   179  J.2.5                          The root complex's own registers and the pdp64's addi...
+2 Bus  (4 entries)
+   176  J.2.1                          Locating devices without a selecting bit
+   177  J.2.2                          The bus controller
+   178  J.2.3                          Which optional virtio features the pdp64 uses
+   179  J.2.4                          The root complex's own registers and the pdp64's addi...
 
 3 Graphics and the C64 devices  (38 entries)
     30  H.3.s-the-pain-points-with-the The pain points with the sugar
-    83  J.3.2                          The form of the terminal device and its name
-    84  J.3.3                          The mashup: how the display composes text, pixels and...
-    85  J.3.5                          Sprites and the hardware cursor
-    86  J.3.8                          Anti-tearing conveniences
-    87  J.3.9                          The graphics boilerplate sugar
-    88  J.3.10                         A write-combining memory type for the framebuffer
-    89  J.3.11                         The C128 core and the c64 mode
-    90  J.3.12                         The compositor path
-    91  J.3.13                         Audio mixing
-   110  H.3.8.5                        3.8.5 Each of the three is a device in a slot:...
-   111  H.3.16                         3.16 What made graphics programming annoying: the pdp...
-   112  H.3.17                         3.17 Anti-tearing sugar
-   113  H.3.21.3                       3.21.3 A device whose main interface is a ring of com...
-   114  H.3.s-the-four-main-sketches-s The four main sketches side by side (sketch 5 is a va...
+    81  J.3.2                          The form of the terminal device and its name
+    82  J.3.3                          The mashup: how the display composes text, pixels and...
+    83  J.3.5                          Sprites and the hardware cursor
+    84  J.3.8                          Anti-tearing conveniences
+    85  J.3.9                          The graphics boilerplate sugar
+    86  J.3.10                         A write-combining memory type for the framebuffer
+    87  J.3.11                         The C128 core and the c64 mode
+    88  J.3.12                         The compositor path
+    89  J.3.13                         Audio mixing
+   108  H.3.8.5                        3.8.5 Each of the three is a device in a slot:...
+   109  H.3.16                         3.16 What made graphics programming annoying: the pdp...
+   110  H.3.17                         3.17 Anti-tearing sugar
+   111  H.3.21.3                       3.21.3 A device whose main interface is a ring of com...
+   112  H.3.s-the-four-main-sketches-s The four main sketches side by side (sketch 5 is a va...
    180  J.3.1                          The deferred native devices
    181  J.3.4                          Glyph slots against character codes
    182  J.3.6                          The 48-bit pixel against the formats of virtio-gpu
@@ -414,18 +416,18 @@ INDEX BY CHAPTER
    215  H.3.21.5                       3.21.5 A small core with the C64 family's chips, into...
 
 4 Boot  (32 entries)
-    92  J.4.1                          The first few pages
-    93  J.4.2                          How the first stage reads blocks
-    94  J.4.3                          How the ROM finds and maps the boot device
-    95  J.4.4                          The boot-information block: fields, who fills them, l...
-    96  J.4.6                          Starting the other cores
-    97  J.4.8                          Where the second stage lies, and a dedicated boot par...
-    98  J.4.9                          The state core 0 starts in
-   115  H.4.4                          4.4 The reset state and the first block
-   116  H.4.4.3                        4.4.3 Core 0 starts in kernel mode at priority 7 with...
-   117  H.4.7                          4.7 Starting the other cores
-   118  H.4.7.1b                       4.7.1b (4.7.1 of the body says only that the controll...
-   119  H.4.7.2                        4.7.2 A stuck core is reset by a write to a core-rese...
+    90  J.4.1                          The first few pages
+    91  J.4.2                          How the first stage reads blocks
+    92  J.4.3                          How the ROM finds and maps the boot device
+    93  J.4.4                          The boot-information block: fields, who fills them, l...
+    94  J.4.6                          Starting the other cores
+    95  J.4.8                          Where the second stage lies, and a dedicated boot par...
+    96  J.4.9                          The state core 0 starts in
+   113  H.4.4                          4.4 The reset state and the first block
+   114  H.4.4.3                        4.4.3 Core 0 starts in kernel mode at priority 7 with...
+   115  H.4.7                          4.7 Starting the other cores
+   116  H.4.7.1b                       4.7.1b (4.7.1 of the body says only that the controll...
+   117  H.4.7.2                        4.7.2 A stuck core is reset by a write to a core-rese...
    185  J.4.5                          Firmware for a virtio device
    186  J.4.7                          The order of the boot media
    187  J.4.10                         The monitor: commands, how it is reached, its console
@@ -449,8 +451,8 @@ INDEX BY CHAPTER
 
 5 Drivers and devices  (16 entries)
      3  J.5.5                          The fence in C
-    99  J.5.6                          Which virtio devices are built in silicon, and syntac...
-   120  H.5.7                          5.7 Illustrations of a console and a timer
+    97  J.5.6                          Which virtio devices are built in silicon, and syntac...
+   118  H.5.7                          5.7 Illustrations of a console and a timer
    188  J.5.1                          The console, the timer and the entropy source
    189  J.5.2                          The features that the pdp64 accepts
    190  J.5.3                          Firmware for a virtio device
@@ -475,24 +477,24 @@ INDEX BY CHAPTER
     10  J.6.10                         The vector of TRAPCC
     11  J.6.12                         Recovering from a failed user copy
     31  H.6.12                         6.12 There is no kernel yet at power-on....
-   100  J.6.1                          Discovering the implemented widths
-   101  J.6.2                          The page-table entry for wide physical addresses
-   102  J.6.3                          Interrupt delivery and vector numbers
-   103  J.6.11                         Hardware breakpoints and watchdogs, performance count...
-   121  H.6.8                          6.8 Hardware-managed accessed and dirty bits, adverti...
+    98  J.6.1                          Discovering the implemented widths
+    99  J.6.2                          The page-table entry for wide physical addresses
+   100  J.6.3                          Interrupt delivery and vector numbers
+   101  J.6.11                         Hardware breakpoints and watchdogs, performance count...
+   119  H.6.8                          6.8 Hardware-managed accessed and dirty bits, adverti...
 
 7 Multiple processors  (13 entries)
     12  J.7.1                          The wake rule of WFE and the idle loop
     13  J.7.3                          The operands of the atomic instructions
     14  J.7.4                          Atomics on uncached memory and on device memory
     32  H.7.2                          7.2 and 7.11 Commentary
-   104  J.7.6                          How block operations order their accesses
-   105  J.7.7                          Secure mode on every core, or one secure core
-   122  H.7.8.1                        7.8.1 The controller holds every core but core 0 in r...
-   123  H.7.8.2                        7.8.2 An inter-processor interrupt is a write to a pe...
-   124  H.7.8.3                        7.8.3 The routing of device interrupts to cores, and ...
-   125  H.7.9.1                        7.9.1 The kernel starts a core by writing its start r...
-   126  H.7.9.4                        7.9.4 It wakes an idle core with an inter-processor i...
+   102  J.7.6                          How block operations order their accesses
+   103  J.7.7                          Secure mode on every core, or one secure core
+   120  H.7.8.1                        7.8.1 The controller holds every core but core 0 in r...
+   121  H.7.8.2                        7.8.2 An inter-processor interrupt is a write to a pe...
+   122  H.7.8.3                        7.8.3 The routing of device interrupts to cores, and ...
+   123  H.7.9.1                        7.9.1 The kernel starts a core by writing its start r...
+   124  H.7.9.4                        7.9.4 It wakes an idle core with an inter-processor i...
    193  J.7.2                          Coherence beyond four cores
    194  J.7.5                          The reservation granule and how software learns its size
 
@@ -501,10 +503,10 @@ INDEX BY CHAPTER
     16  J.8.4                          Which engine is built first
     17  J.8.5                          Operations on regions of memory in the instruction set
     33  H.8.3.5                        8.3.5 POPCNT and XNORPOP are not what the accelerator...
-   127  H.8.2                          8.2 Why not SIMD in the processor
-   128  H.8.3                          8.3 AI and large-language-model inference: the LB64 a...
-   129  H.8.3.3                        8.3.3 The work is partitioned between small engines, ...
-   130  H.8.6.1                        8.6.1 A program fills a descriptor naming the operati...
+   125  H.8.2                          8.2 Why not SIMD in the processor
+   126  H.8.3                          8.3 AI and large-language-model inference: the LB64 a...
+   127  H.8.3.3                        8.3.3 The work is partitioned between small engines, ...
+   128  H.8.6.1                        8.6.1 A program fills a descriptor naming the operati...
    195  J.8.1                          The operations and the number formats of the engine
    196  J.8.2                          The descriptor of the engine and the virtio descriptor
    241  H.8.2.3                        8.2.3 A scalable design (ARM SVE, RISC-V V) avoids th...
@@ -540,14 +542,14 @@ INDEX BY CHAPTER
     40  H.9.s-movuserd-user-qualified- MOVUSERD: User-qualified deferred-fault load
     41  H.9.s-msha-hash-whole-blocks-o MSHA: Hash whole blocks of memory
     42  H.9.s-maesctr-aes-in-counter-m MAESCTR: AES in counter mode over a buffer
-   106  J.9.7                          The worst-case latency of the block operations
+   104  J.9.7                          The worst-case latency of the block operations
 
 10 Conclusion: FPGA to silicon  (7 entries)
-   107  J.10.1                         Which rules keep a faster core from the speculative a...
-   131  H.10.3.4                       10.3.4 Sequential consistency is nearly free on a sma...
-   132  H.10.1.1                       10.1.1 The first implementation is a soft core on a s...
-   133  H.10.1.6                       10.1.6 The second phase, the fault model, is not opti...
-   134  H.10.1.10                      10.1.10 The register-transfer description is kept ven...
+   105  J.10.1                         Which rules keep a faster core from the speculative a...
+   129  H.10.3.4                       10.3.4 Sequential consistency is nearly free on a sma...
+   130  H.10.1.1                       10.1.1 The first implementation is a soft core on a s...
+   131  H.10.1.6                       10.1.6 The second phase, the fault model, is not opti...
+   132  H.10.1.10                      10.1.10 The register-transfer description is kept ven...
    250  H.10.1.2                       10.1.2 The first board is the Terasic DE10-Nano (Cycl...
    251  H.10.1.5                       10.1.5 The work is staged in phases, each ending in a...
 
@@ -556,7 +558,7 @@ Appendix A  (5 entries)
     43  H.A.9.1                        A.9.1 If the extension instructions the compiler emit...
     44  H.A.10.1                       A.10.1 A small set of lane operations (add, subtract,...
     45  H.A.12                         A.12 Smaller possibilities
-   135  H.A.4.1                        A.4.1 There are four ways to protect the return addre...
+   133  H.A.4.1                        A.4.1 There are four ways to protect the return addre...
 
 Appendix B  (20 entries)
     46  H.B.1.2.1                      B.1.2.1 The proposal is RDTIME rd, an unprivileged re...
@@ -568,55 +570,55 @@ Appendix B  (20 entries)
     52  H.B.2.1.1                      B.2.1.1 The proposal is to reserve nothing:...
     53  H.B.2.3.1                      B.2.3.1 The proposal is to add no double-width compar...
     54  H.B.2.5.1                      B.2.5.1 The proposal is a per-core doorbell register ...
-    55  H.B.2.11.1                     B.2.11.1 The proposal is to declare it out of scope f...
-   136  H.B.1.8.1                      B.1.8.1 The proposal is two free-running counters, cy...
-   137  H.B.1.10.1                     B.1.10.1 The proposal is an ABI rule:...
-   138  H.B.2.2.1                      B.2.2.1 The proposal is none:...
-   139  H.B.2.4.1                      B.2.4.1 The proposal is wired interrupt lines to core...
-   140  H.B.2.6.1                      B.2.6.1 The proposal is to keep snooping for the four...
-   141  H.B.2.8.1                      B.2.8.1 The feature subset of each device is open. (S)
-   142  H.B.2.10.1                     B.2.10.1 The proposal is the precise and imprecise pa...
-   143  H.B.2.12.1                     B.2.12.1 Enumeration by PCI Express configuration spa...
-   144  H.B.2.13.1                     B.2.13.1 The boot ROM that reads block 0 (B1) is deci...
-   145  H.B.2.14.1                     B.2.14.1 Whether USB is a conventional ring-based hos...
+   134  H.B.1.8.1                      B.1.8.1 The proposal is two free-running counters, cy...
+   135  H.B.1.10.1                     B.1.10.1 The proposal is an ABI rule:...
+   136  H.B.2.2.1                      B.2.2.1 The proposal is none:...
+   137  H.B.2.4.1                      B.2.4.1 The proposal is wired interrupt lines to core...
+   138  H.B.2.6.1                      B.2.6.1 The proposal is to keep snooping for the four...
+   139  H.B.2.8.1                      B.2.8.1 The feature subset of each device is open. (S)
+   140  H.B.2.10.1                     B.2.10.1 The proposal is the precise and imprecise pa...
+   141  H.B.2.11.1                     B.2.11.1 Decided: see section 6.14 (errata 181, 186, ...
+   142  H.B.2.12.1                     B.2.12.1 Enumeration by PCI Express configuration spa...
+   143  H.B.2.13.1                     B.2.13.1 The boot ROM that reads block 0 (B1) is deci...
+   144  H.B.2.14.1                     B.2.14.1 Whether USB is a conventional ring-based hos...
 
 Appendix D, the ABI  (4 entries)
-    56  H.D.1                          D.1 R16 to R23 are caller-saved and R24 to R31 callee...
-    57  H.D.4.2                        D.4.2 The compiler treats R16 to R23 as clobbered by ...
-   108  J.D.1                          Stack alignment
-   109  J.D.2                          Binding, landing pads and the PLT stub after version 1
+    55  H.D.1                          D.1 R16 to R23 are caller-saved and R24 to R31 callee...
+    56  H.D.4.2                        D.4.2 The compiler treats R16 to R23 as clobbered by ...
+   106  J.D.1                          Stack alignment
+   107  J.D.2                          Binding, landing pads and the PLT stub after version 1
 
 Confirmation list  (80 entries)
-    58  V.M6                           Drivers 5.2.1: syntactic sugar (not new opcodes) ease...
-    59  V.M17                          Chapter 9: BSEL
-    60  V.M23                          Kernel: priority 7 on interrupt entry
-    61  V.M24                          Kernel: WFE wakes for a masked pending interrupt
-    62  V.M25                          Kernel: vector 16 for TRAPCC and ADDV/SUBV/MULV; ADDV...
-    63  V.M26                          Kernel: poison bit, deferred load, the .U qualifier a...
-    64  V.M28                          Kernel: is supervisor mode kept?
-    65  V.N3                           Reach of the 4-byte call: errata 91 says plus or minu...
-    66  V.N11                          The simulator leaves placeholders syspg0 to syspg5 (l...
-    67  V.N12                          MOVQL (a 64-bit literal, ten bytes) is the one except...
-    68  V.N13                          R0 hardwired to zero: declined in 9.20.3 and 9.17.4
-    69  V.N22                          POPCNT and XNORPOP are tagged decided in 8.5.2
-    70  V.N43                          Which objective the real encoding run uses: static by...
-    71  V.N44                          A better profile for the fetch objective needs more p...
-    72  V.N45                          The candidate forms and the mnemonic classes that enc...
-   146  V.M1                           Bus 2.4.6: the queued work of a departed device stays...
-   147  V.M4                           Drivers 5.7.1: the main cores are tickless
-   148  V.M13                          Chapter 4 4.7.1 / R2: the other cores are started by ...
-   149  V.M15                          Chapter 4 4.10: the monitor in the boot ROM
-   150  V.M18                          Appendix A.12.3: the sealed page bit and the pledge m...
-   151  V.M19                          docs/study-round2.md: approved items taint (11), reti...
-   152  V.M22                          Chapter 10: the transistor table says 16 x 64 registe...
-   153  V.M27                          Kernel: VBR is zero at reset
-   154  V.M30                          Q-bus facts checked against DEC handbooks; the name t...
-   155  V.H4                           hbnf: core rules shipped with the spec
-   156  V.P4                           12 simulator tests lost with r20 (hint, isync, sys-pu...
-   157  V.N1                           Kernel 6.10.2 sends TRAP #n through vector 256 + n; 6...
-   158  V.N5                           Secure mode (at least one core can run in secure mode...
-   159  V.N39                          Does a lane prefix over the ordinary ALU operations (...
-   160  V.N41                          Errata 39 item 7: the accesses inside a block operati...
+    57  V.M6                           Drivers 5.2.1: syntactic sugar (not new opcodes) ease...
+    58  V.M17                          Chapter 9: BSEL
+    59  V.M23                          Kernel: priority 7 on interrupt entry
+    60  V.M24                          Kernel: WFE wakes for a masked pending interrupt
+    61  V.M25                          Kernel: vector 16 for TRAPCC and ADDV/SUBV/MULV; ADDV...
+    62  V.M26                          Kernel: poison bit, deferred load, the .U qualifier a...
+    63  V.M28                          Kernel: is supervisor mode kept?
+    64  V.N3                           Reach of the 4-byte call: errata 91 says plus or minu...
+    65  V.N11                          The simulator leaves placeholders syspg0 to syspg5 (l...
+    66  V.N12                          MOVQL (a 64-bit literal, ten bytes) is the one except...
+    67  V.N13                          R0 hardwired to zero: declined in 9.20.3 and 9.17.4
+    68  V.N22                          POPCNT and XNORPOP are tagged decided in 8.5.2
+    69  V.N43                          Which objective the real encoding run uses: static by...
+    70  V.N44                          A better profile for the fetch objective needs more p...
+    71  V.N45                          The candidate forms and the mnemonic classes that enc...
+   145  V.M1                           Bus 2.4.6: the queued work of a departed device stays...
+   146  V.M4                           Drivers 5.7.1: the main cores are tickless
+   147  V.M13                          Chapter 4 4.7.1 / R2: the other cores are started by ...
+   148  V.M15                          Chapter 4 4.10: the monitor in the boot ROM
+   149  V.M18                          Appendix A.12.3: the sealed page bit and the pledge m...
+   150  V.M19                          docs/study-round2.md: approved items taint (11), reti...
+   151  V.M22                          Chapter 10: the transistor table says 16 x 64 registe...
+   152  V.M27                          Kernel: VBR is zero at reset
+   153  V.M30                          Q-bus facts checked against DEC handbooks; the name t...
+   154  V.H4                           hbnf: core rules shipped with the spec
+   155  V.P4                           12 simulator tests lost with r20 (hint, isync, sys-pu...
+   156  V.N1                           Kernel 6.10.2 sends TRAP #n through vector 256 + n; 6...
+   157  V.N5                           Secure mode (at least one core can run in secure mode...
+   158  V.N39                          Does a lane prefix over the ordinary ALU operations (...
+   159  V.N41                          Errata 39 item 7: the accesses inside a block operati...
    252  V.M2                           Bus 2.6.1 / drivers 5.9.1: MSI-X is how every virtio ...
    253  V.M3                           Drivers: USB host controller interface xHCI
    254  V.M5                           Drivers 5.7.2: one shared entropy pool, no per-proces...
@@ -672,57 +674,61 @@ Standing decisions  (2 entries)
    302  W.1                            Which first FPGA board
    303  W.3                            pcc: merge the single-pdp64 branch into master
 
-Status ledger (by its own chapter)  (50 entries)
-    73  S.secure-mode-formerly-the-sec Secure mode (formerly the secure core class)
+Status ledger (by its own chapter)  (54 entries)
+    72  S.secure-mode-formerly-the-sec Secure mode (formerly the secure core class)
+    73  S.simd-how-it-works-how-many-i SIMD: how it works, how many instructions, operations...
     74  S.constant-time-execution      Constant-time execution
     75  S.integer-abs-min-max-and-cond Integer abs/min/max and conditional select
     76  S.sim64-decoder-from-the-gramm sim64 decoder from the grammar's output
     77  S.provenance-and-taint-tags    Provenance and taint tags
-    78  S.simd-how-it-works-how-many-i SIMD: how it works, how many instructions, operations...
-    79  S.range-checks-on-a-register-v Range checks on a register value
-    80  S.combining-group-opcodes      Combining group opcodes
-    81  S.opcode-field-and-parcel-layo Opcode field and parcel layout (6-bit opcode)
-    82  S.utf-8-operations             UTF-8 operations
-   161  S.interrupts-as-memory-writes- Interrupts as memory writes (MSI-X)
-   162  S.anti-tearing-conveniences    Anti-tearing conveniences
-   163  S.c64-mode-a-c128-on-the-die   C64 mode (a C128 on the die)
-   164  S.compositor-path              Compositor path
-   165  S.graphics-programming-made-si Graphics programming made simple
-   166  S.virtio-devices-supported-in- Virtio devices supported in silicon
-   167  S.page-table-levels            Page-table levels
+    78  S.combining-group-opcodes      Combining group opcodes
+    79  S.opcode-field-and-parcel-layo Opcode field and parcel layout (6-bit opcode)
+    80  S.utf-8-operations             UTF-8 operations
+   160  S.interrupts-as-memory-writes- Interrupts as memory writes (MSI-X)
+   161  S.anti-tearing-conveniences    Anti-tearing conveniences
+   162  S.c64-mode-a-c128-on-the-die   C64 mode (a C128 on the die)
+   163  S.compositor-path              Compositor path
+   164  S.graphics-programming-made-si Graphics programming made simple
+   165  S.virtio-devices-supported-in- Virtio devices supported in silicon
+   166  S.page-table-levels            Page-table levels
+   167  S.block-operations-ordering-of Block operations: ordering of the accesses
    168  S.physical-address-width-and-d Physical address width and device windows
-   169  S.learning-from-loongarch      Learning from LoongArch
-   170  S.audio-mixing                 Audio mixing
-   171  S.the-mashup-of-gpu-video-memo The mashup of GPU, video memory, C64 and Blit
-   172  S.block-operations-ordering-of Block operations: ordering of the accesses
-   173  S.stack-alignment              Stack alignment
-   174  S.memory-to-memory-moves-and-b Memory-to-memory moves and block operations
-   304  S.access-to-a-departed-device- Access to a departed device's windows
-   305  S.device-windows-on-page-bound Device windows on page boundaries
-   306  S.simplicity-of-rio-and-news   Simplicity of rio and NeWS
-   307  S.device-initialization-protoc Device initialization protocol
-   308  S.crypto-and-random-number-dev Crypto and random-number devices
-   309  S.manual-readers-and-the-rewri Manual readers and the rewrite of the chapters
-   310  S.rules-for-editing-the-chapte Rules for editing the chapters
-   311  S.xdmr-flag-and-default-pdp-11 \-xdmr flag and default PDP-11 output
-   312  S.book-toolchain-build-image-a Book toolchain, build image and aports
-   313  S.llvm-tables-generated-from-t LLVM tables generated from the hbnf grammar
-   314  S.the-four-open-items          The four open items
-   315  S.hbnf-fixes-and-upstreaming   hbnf fixes and upstreaming
-   316  S.pcc-the-single-pdp64-branch  pcc: the single-pdp64 branch
-   317  S.c64-in-spirit-not-the-hardwa C64 in spirit, not the hardware
-   318  S.c64-console-c64x-the-earlier C64 console (c64x), the earlier SDL console
-   319  S.c64-console-font-and-9p-inte C64 console font and 9p interface
-   320  S.sid-chip-variants            SID chip variants
-   321  S.velinsky-link-between-c64-an Velinsky link between C64 and DEC
-   322  S.realtime-v7-with-qnx-ideas   Realtime V7 with QNX ideas
-   323  S.mmap-devices-multics-idea    mmap devices (Multics idea)
-   324  S.cpu-in-dram                  CPU in DRAM
-   325  S.newlisp-environment          newlisp environment
-   326  S.grant-evaluation             Grant evaluation
-   327  S.wrapping-for-pdp64-and-paper Wrapping for pdp64 and papers
-   328  S.other                        Other
-   329  S.encoding-optimiser-the-objec Encoding optimiser: the objective for the real run
+   169  S.assembler-syntax-at-t-and-th Assembler syntax: AT&T and the classic spellings
+   170  S.learning-from-loongarch      Learning from LoongArch
+   171  S.audio-mixing                 Audio mixing
+   172  S.the-mashup-of-gpu-video-memo The mashup of GPU, video memory, C64 and Blit
+   173  S.a-test-suite-that-conforming A test suite that conforming implementations must pass
+   174  S.stack-alignment              Stack alignment
+   175  S.memory-to-memory-moves-and-b Memory-to-memory moves and block operations
+   304  S.c64-in-spirit-not-the-hardwa C64 in spirit, not the hardware
+   305  S.access-to-a-departed-device- Access to a departed device's windows
+   306  S.device-windows-on-page-bound Device windows on page boundaries
+   307  S.simplicity-of-rio-and-news   Simplicity of rio and NeWS
+   308  S.c64-console-font-and-9p-inte C64 console font and 9p interface
+   309  S.device-initialization-protoc Device initialization protocol
+   310  S.crypto-and-random-number-dev Crypto and random-number devices
+   311  S.virtualisation-the-hyperviso Virtualisation: the hypervisor mode, two-stage transl...
+   312  S.manual-readers-and-the-rewri Manual readers and the rewrite of the chapters
+   313  S.rules-for-editing-the-chapte Rules for editing the chapters
+   314  S.xdmr-flag-and-default-pdp-11 \-xdmr flag and default PDP-11 output
+   315  S.book-toolchain-build-image-a Book toolchain, build image and aports
+   316  S.llvm-tables-generated-from-t LLVM tables generated from the hbnf grammar
+   317  S.the-four-open-items          The four open items
+   318  S.hbnf-fixes-and-upstreaming   hbnf fixes and upstreaming
+   319  S.pcc-the-single-pdp64-branch  pcc: the single-pdp64 branch
+   320  S.assembler-syntax-nasm-s-smal Assembler syntax: NASM's small spellings
+   321  S.assembler-the-check-site-tab Assembler: the check-site table in the core, no macro...
+   322  S.c64-console-c64x-the-earlier C64 console (c64x), the earlier SDL console
+   323  S.sid-chip-variants            SID chip variants
+   324  S.velinsky-link-between-c64-an Velinsky link between C64 and DEC
+   325  S.realtime-v7-with-qnx-ideas   Realtime V7 with QNX ideas
+   326  S.mmap-devices-multics-idea    mmap devices (Multics idea)
+   327  S.cpu-in-dram                  CPU in DRAM
+   328  S.newlisp-environment          newlisp environment
+   329  S.grant-evaluation             Grant evaluation
+   330  S.wrapping-for-pdp64-and-paper Wrapping for pdp64 and papers
+   331  S.other                        Other
+   332  S.encoding-optimiser-the-objec Encoding optimiser: the objective for the real run
 
 ================================================================================================
 ENTRY J.9.13
@@ -747,6 +753,9 @@ ORDER: 1   KIND: open item   CHAPTER: 9 The instruction set
    CBEQ and CBNE; two parcels against an immediate or a second register. The unsigned test i >=
    n is CBHIS i, n, fail, and because a negative index is a huge unsigned number, one unsigned
    compare checks 0 <= i < n. - TRAPCC.cc (9.14): [...]
+   FURTHER: Decided (the author, 2026-11-17, errata 144 and 145): a compare-and-trap with a
+   table of check sites, a trap-if-zero, a two-bound check, and the pcc path first; the details
+   are to be determined. The author: "i agree, decided. [...]
    FURTHER: The analysis (the assistant's reasoning, not a decision). - Guard. The bad index
    must not reach the load, so execution must stop or divert before it. A trap or a branch does
    that. A sticky bit does not: execution continues with the bad index, and the load that
@@ -757,6 +766,11 @@ ORDER: 1   KIND: open item   CHAPTER: 9 The instruction set
    and is not counted). Added per checked access: - cbhis r1, r2, fail: 1 instruction, 4 bytes;
    flags untouched; 4 bytes for r17, r18; with an immediate bound of 100, 4 bytes for r1 and 6
    bytes for r17. [...]
+   FURTHER: LoongArch's forms, and a measurement (2026-11-17, docs/encoding-work/loongarch.md).
+   LoongArch has ASRTLE.D rj, rk and ASRTGT.D rj, rk (trap if rj > rk, trap if rj <= rk; an
+   unsigned compare of two registers, no immediate) and the fused LDGT, LDLE, STGT, STLE in four
+   sizes with floating-point forms (the access at the address in rj, trapped unless rj is above,
+   or at or below, the bound register rk: [...]
    FURTHER: Opcode cost. A leaf with prefix length L takes 2^(16-L) of the 65,536 first-parcel
    patterns (docs/encoding-work/optimizer.md; the lengths are in spec/pdp64/tables.md). Existing
    leaves of the same shape give the prices. CBCC register-register, the leaf CBR8/c: prefix 12,
@@ -818,10 +832,31 @@ OPTIONS:
       a register instead of the sub-opcode would be state that changes what the instruction
       does, which is the strange side effect the author has refused (J.9.12); the same flag and
       trap questions as options B and 4.
+   G) LoongArch's two forms: ASRTLE/ASRTGT (an index or address register against a bound
+      register, trap) and the fused LDLE/LDGT/STLE/STGT (the same check of the address, then the
+      access). 0 patterns in the R2 shape for the first pair; the fused forms need a new
+      load-store group (16 integer words, 8 floating-point). For: one instruction for a
+      one-sided check; the fused form saves the compare when a pointer is checked against a
+      limit (access_ok of a user pointer). Against: no immediate form, so a constant bound (60%
+      of the census) costs a load, and the whole check costs more than CBHIS rs, #imm (1,862
+      against 1,096 instructions on the census); no band form; the fused forms check an address,
+      not an index, and no compiler (clang, gcc) or kernel uses them: none in the corpus, none
+      in Linux for LoongArch. Precedent: LoongArch (verified, above); an earlier relative is the
+      68000 CHK (option B).
    Leaning (assistant, not a decision): Options A and 4 together: keep CBHIS and TRAPCC for
-   guards, and add the sticky RANGE only for accumulation, if a compiler wants it; do not add
-   the compare-and-trap of options B and 3 without a measurement of sanitiser-built code, since
-   they save an instruction and no bytes. This is the assistant's view, not a decision.
+   guards, and add the sticky RANGE only for accumulation, if a compiler wants it. The
+   measurement of sanitiser-built code that this paragraph asked for now exists (above,
+   docs/encoding-work/loongarch.md): the compare-and-trap of option B ties CBHIS in the
+   instructions and bytes of the check and is not a net win by itself; with a table of check
+   sites it removes the failure stubs (about 500 instructions of the C corpus, 0.17%; 9.5% of
+   the code of Ada's run-time library, where the checks add 21.3% to the instructions), which is
+   the case for a compare-and-trap, a trap-if-zero for null checks (45% of Ada's checks) and the
+   two-bound form (docs/encoding-work/bounds-check-isas.md); the two-bound form of option C is
+   the only new guard that pays, a small win (176 instructions and 704 bytes of 296,059 and
+   964,086 in this corpus, a few thousand instructions if every subscript is checked), worth
+   taking if a language that checks every subscript (Ada, Rust, Go) is a goal and not otherwise;
+   LoongArch's own forms (option G) are not the best shape (no immediate, no band, the fused
+   forms check an address and nothing emits them). This is the assistant's view, not a decision.
    AUTHOR'S REFERENTS: "new design features from another linux kernel developer: make some
    instructions or easy way to do range checks on a register value, a trap on out of range,
    similar to overflow, or set a bit in a sticky register, exception register, etc. same thing
@@ -1212,6 +1247,10 @@ ORDER: 8   KIND: open item   CHAPTER: 6 Kernel, modes and memory management
    Appendix J, J.6.8.)
    WHY IT MATTERS: If a write flushes, tags save nothing and every context switch pays a refill
    of the buffer, which is what the tags were added to avoid. [...]
+   FURTHER: Decided (the assistant's, by the owner's priorities of safety and security first and
+   no new hardware; errata 178, 6.8.4). A write to MMUCTL that changes bit 0 flushes everything;
+   a write to PTBR flushes the global entries and those of the current ASID unless the ASID
+   changes too before the next ISYNC; [...]
 OPTIONS:
   Options:
    A) A write to PTBR, ASID or MMUCTL flushes nothing; the kernel invalidates when it reuses a
@@ -1773,6 +1812,16 @@ ORDER: 17   KIND: open item   CHAPTER: 8 Vector work and the accelerator
    FURTHER: So the answer to the author's question is: partly, in x86, where a prefix reuses the
    opcode map; elsewhere the vector operations are a separate group with their own opcodes. A
    lane prefix is possible in the pdp64's prefix code (J.8.3, option 6).
+   FURTHER: Decided (the author, 2026-11-16, errata 139): option 1, in the form of a prefix; the
+   details are to be determined. The author: "how about a single 2 byte instruction that says
+   "the next instruction is simd/vector, and here are the two registers that mark the start and
+   end of the memory region"? add that to the pdp64 design"; "yes, "vec" as prefix is good";
+   [...]
+   FURTHER: A measurement on a codec (2026-11-17, docs/encoding-work/vector-study.md). The pixel
+   kernels of dav1d (the AV1 decoder; 15 C files, the portable path), compiled for pdp64 with
+   pcc and for AVX2, AArch64, RISC-V vector and LoongArch LASX with clang: in pdp64's code the
+   innermost loops are 36.5% of the static instructions, and the loops a vec would serve (map,
+   reduce, fill) are 9.7%; [...]
 OPTIONS:
   Options The five options of the author's brief, with what user code sees and what each costs.
      "Opcodes" counts mnemonics in the pdp64's terms: a leaf with a sub-opcode field of n bits
@@ -3157,36 +3206,8 @@ DECISION:
 NOTE: 
 
 ================================================================================================
-ENTRY H.B.2.11.1
-ORDER: 55   KIND: proposal   CHAPTER: Appendix B
-   TITLE: B.2.11.1 The proposal is to declare it out of scope for System v1 and fix five...
-   AFFECTS OPCODES: yes (privileged or system registers)
-------------------------------------------------------------------------------------------------
-   PROPOSAL AND EXPLANATION: B.2.11.1 The proposal is to declare it out of scope for System v1
-   and fix five constraints: privileged state stays privileged or controllable, the page-table
-   walker could be wrapped by a second level, interrupts are injectable, system-register access
-   can trap, and the translation-enable bit and software accessed and dirty bits are reviewed
-   for what a hypervisor would need. Commentary. Precedent. The PDP-11 was not designed for
-   virtualisation and has sensitive instructions that do not trap in user mode; the VAX was not
-   cleanly virtualisable either, and a 1991 paper described the changes needed. Trade-offs.
-   Adding virtualisation late cost the VAX instruction changes; settling the constraints early
-   costs a paragraph. Modern comparables. x86 VMX with nested paging, ARM exception level 2, the
-   RISC-V hypervisor extension, IBM's trap-and-emulate machines. Impact. Kernel: A hypervisor
-   could be added without changing a guest. Compiler: None. Hardware: Constraints on privileged
-   state, the walker and interrupt injection.
-OPTIONS:
-   A) Accept as proposed. For: it settles the statement. Against: the proposal is the
-      assistant's, not yet the author's.
-   B) Reject it. For: removes an unwanted statement. Against: the manual then needs the gap
-      filled another way.
-   C) Accept with changes (type the changes in NOTE).
-
-DECISION: 
-NOTE: 
-
-================================================================================================
 ENTRY H.D.1
-ORDER: 56   KIND: proposal   CHAPTER: Appendix D, the ABI
+ORDER: 55   KIND: proposal   CHAPTER: Appendix D, the ABI
    TITLE: D.1 R16 to R23 are caller-saved and R24 to R31 callee-saved.
    AFFECTS OPCODES: yes (registers)
 ------------------------------------------------------------------------------------------------
@@ -3203,7 +3224,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.D.4.2
-ORDER: 57   KIND: proposal   CHAPTER: Appendix D, the ABI
+ORDER: 56   KIND: proposal   CHAPTER: Appendix D, the ABI
    TITLE: D.4.2 The compiler treats R16 to R23 as clobbered by a call and R24 to R31 as...
    AFFECTS OPCODES: yes (registers)
 ------------------------------------------------------------------------------------------------
@@ -3222,7 +3243,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M6
-ORDER: 58   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 57   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Drivers 5.2.1: syntactic sugar (not new opcodes) eases device use
    AFFECTS OPCODES: yes (opcodes)
 ------------------------------------------------------------------------------------------------
@@ -3238,7 +3259,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M17
-ORDER: 59   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 58   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Chapter 9: BSEL
    AFFECTS OPCODES: yes (BSEL, MSHA, MAESCTR, MOVUSERD: instructions)
 ------------------------------------------------------------------------------------------------
@@ -3254,7 +3275,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M23
-ORDER: 60   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 59   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Kernel: priority 7 on interrupt entry
    AFFECTS OPCODES: yes (priority on interrupt entry: status word)
 ------------------------------------------------------------------------------------------------
@@ -3269,7 +3290,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M24
-ORDER: 61   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 60   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Kernel: WFE wakes for a masked pending interrupt
    AFFECTS OPCODES: yes (WFE wake rule)
 ------------------------------------------------------------------------------------------------
@@ -3285,7 +3306,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M25
-ORDER: 62   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 61   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Kernel: vector 16 for TRAPCC and ADDV/SUBV/MULV; ADDV is an abort that writes nothing
    AFFECTS OPCODES: yes (TRAPCC and ADDV vector; abort semantics)
 ------------------------------------------------------------------------------------------------
@@ -3300,7 +3321,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M26
-ORDER: 63   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 62   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Kernel: poison bit, deferred load, the .U qualifier and fixup table
    AFFECTS OPCODES: yes (poison bit, .U qualifier, fixup table)
 ------------------------------------------------------------------------------------------------
@@ -3315,7 +3336,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M28
-ORDER: 64   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 63   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Kernel: is supervisor mode kept?
    AFFECTS OPCODES: yes (supervisor mode in the status word)
 ------------------------------------------------------------------------------------------------
@@ -3330,7 +3351,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N3
-ORDER: 65   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 64   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Reach of the 4-byte call: errata 91 says plus or minus 1 MiB, the manual 9.5.4 and
    9.5.5 say plus or minus 256 KiB, the encoding proposal says plus or minus 2 MB; and the other
    rules of the linker's relaxation were assumed by the implementer
@@ -3350,7 +3371,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N11
-ORDER: 66   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 65   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: The simulator leaves placeholders syspg0 to syspg5 (leaves of the grammar for the
    page-bit mechanisms)
    AFFECTS OPCODES: yes (the placeholder leaves are part of the encoding)
@@ -3367,7 +3388,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N12
-ORDER: 67   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 66   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: MOVQL (a 64-bit literal, ten bytes) is the one exception to the three-parcel limit
    AFFECTS OPCODES: yes (the longest instruction is part of the encoding)
 ------------------------------------------------------------------------------------------------
@@ -3383,7 +3404,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N13
-ORDER: 68   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 67   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: R0 hardwired to zero: declined in 9.20.3 and 9.17.4
    AFFECTS OPCODES: yes (the meaning of a register)
 ------------------------------------------------------------------------------------------------
@@ -3400,7 +3421,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N22
-ORDER: 69   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 68   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: POPCNT and XNORPOP are tagged decided in 8.5.2
    AFFECTS OPCODES: yes (POPCNT and XNORPOP as instructions)
 ------------------------------------------------------------------------------------------------
@@ -3416,7 +3437,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N43
-ORDER: 70   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 69   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Which objective the real encoding run uses: static byte size, bytes fetched or
    operations executed (tools/encopt 1.1). On the five-program profile (135 million executed
    instructions): committed grammar 956,242 static bytes, 402.5 million fetched; static optimum
@@ -3441,7 +3462,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N44
-ORDER: 71   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 70   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: A better profile for the fetch objective needs more programs: Lua and a real C library
    do not exist for the pdp64 yet (the five programs use a stand-in library)
    AFFECTS OPCODES: yes (the profile moves the optimum)
@@ -3458,7 +3479,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N45
-ORDER: 72   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 71   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: The candidate forms and the mnemonic classes that encopt may choose among are defined
    by hand in cat.py, so the optimum is the best among what was offered
    AFFECTS OPCODES: yes (the candidate forms bound the optimum)
@@ -3475,7 +3496,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.secure-mode-formerly-the-secure-core-class
-ORDER: 73   KIND: ledger: to do   CHAPTER: 07 Multiple processors
+ORDER: 72   KIND: ledger: to do   CHAPTER: 07 Multiple processors
    TITLE: Secure mode (formerly the secure core class)
    AFFECTS OPCODES: yes (as J.9.12: opcodes, select and min/max words)
 ------------------------------------------------------------------------------------------------
@@ -3495,6 +3516,38 @@ ORDER: 73   KIND: ledger: to do   CHAPTER: 07 Multiple processors
    the class register fields; whether the mode and \DIT\ (9.3.7) are worded rightly in 7.11 is a
    question in the decision form
    Related open items: J.7.7, J.9.12, J.9.2
+OPTIONS:
+   A) Decide the details now (type them in NOTE). For: the item can then be built. Against: may
+      be early.
+   B) Keep waiting for the stated condition. For: no premature detail. Against: stays open.
+   C) Drop the item. For: less to do. Against: the earlier decision then has no follow-up.
+
+DECISION: 
+NOTE: 
+
+================================================================================================
+ENTRY S.simd-how-it-works-how-many-instructions-oper
+ORDER: 73   KIND: ledger: to do   CHAPTER: 08 Vector work and accelerators
+   TITLE: SIMD: how it works, how many instructions, operations on regions of memory
+   AFFECTS OPCODES: yes (as J.8.5: registers)
+------------------------------------------------------------------------------------------------
+   STATUS: decided, details to be determined: the vec prefix over a region of memory, J.8.5
+   option 1 (latest decision 2026-11-16 [R430], errata 139)
+   WHAT THE AUTHOR SAID: 2026-11-16 decided: "how about a single 2 byte instruction that says
+   \"the next instruction is simd/vector, and here are the two registers that mark the start and
+   end of the memory region\"? add that to the pdp64 design" [R430]; "yes, \"vec\" as prefix is
+   good." [R431]; "well if we're doing gemm and vec anyways, then we don't need to specify 2 or
+   6 byte encodings, the prefix coding optimizer will figure out what goes where." [R434];
+   "nothing stops pdp64 from having hidden registers that the vector operations use." [R435];
+   [...]
+   WHAT IS MISSING: the instructions vec may precede; predication and gather/scatter; the GEMM
+   operations and their number; whether the vector operations use double-word register pairs
+   [R436]; the fault and restart rules of each and the effect on context switching; the script
+   that finds where vec wins in compiled code [R433] (tools/arch-compare/vecwin.py is it, and
+   the first numbers are in vector-study.md); the encodings, which the optimiser assigns; lb64,
+   if it becomes a unit with its own instruction set; the chapter and the grammar, after the
+   open items settle
+   Related open items: J.8.5
 OPTIONS:
    A) Decide the details now (type them in NOTE). For: the item can then be built. Against: may
       be early.
@@ -3606,58 +3659,8 @@ DECISION:
 NOTE: 
 
 ================================================================================================
-ENTRY S.simd-how-it-works-how-many-instructions-oper
-ORDER: 78   KIND: ledger: in the air   CHAPTER: 08 Vector work and accelerators
-   TITLE: SIMD: how it works, how many instructions, operations on regions of memory
-   AFFECTS OPCODES: yes (as J.8.3: packed lanes in ordinary registers: new instructions)
-------------------------------------------------------------------------------------------------
-   STATUS: the author's questions are answered in J.8.5 with options and precedents; he has not
-   chosen (latest decision 2026-11-10 [R409], errata 131)
-   WHAT THE AUTHOR SAID: no standing decision (questions: "how does simd work, how many
-   instructions are there, is simd just normal ops fused with a \"simd\" bit or something like
-   that? would it make sense to have simd ops that work on regions of memory instead of register
-   files, since we'd be load/storing register files anyways?" [R409])
-   WHAT IS MISSING: J.8.3 and J.8.5
-   Related open items: J.8.3, J.8.5
-OPTIONS:
-   A) Decide it (type the decision in NOTE). For: closes a loose end. Against: may be early.
-   B) Drop it (not wanted). For: removes noise. Against: the idea is lost.
-   C) Keep it as an idea; no decision now. For: nothing is lost. Against: stays in the air.
-
-DECISION: 
-NOTE: 
-
-================================================================================================
-ENTRY S.range-checks-on-a-register-value
-ORDER: 79   KIND: ledger: in the air   CHAPTER: 09 The instruction set
-   TITLE: Range checks on a register value
-   AFFECTS OPCODES: yes (as J.9.13: range-check instructions (compare-and-trap, two-bound check,
-   sticky range flag, clamp))
-------------------------------------------------------------------------------------------------
-   STATUS: the author's request, no decision; the discussion is J.9.13 (latest request
-   2026-11-13, errata 138 [R421])
-   WHAT THE AUTHOR SAID: nothing new: 2026-11-13 requested: "new design features from another
-   linux kernel developer: make some instructions or easy way to do range checks on a register
-   value, a trap on out of range, similar to overflow, or set a bit in a sticky register,
-   exception register, etc. same thing as on floating point math when you have nan/inf etc, you
-   don't trap you set bits in a status register. figure out what is most efficient from a coding
-   point of view. would this be more efficient than using the cse select min/max functions?"
-   [R421]; what stands from before: [...]
-   WHAT IS MISSING: J.9.13: trap, sticky flag, clamp, mask or nothing; whether the
-   compare-and-trap of errata 85 is reopened; whether a sticky range flag is added beside the
-   floating-point flags; the effect on the proposed \INDEX\
-   Related open items: J.9.13
-OPTIONS:
-   A) Decide it (type the decision in NOTE). For: closes a loose end. Against: may be early.
-   B) Drop it (not wanted). For: removes noise. Against: the idea is lost.
-   C) Keep it as an idea; no decision now. For: nothing is lost. Against: stays in the air.
-
-DECISION: 
-NOTE: 
-
-================================================================================================
 ENTRY S.combining-group-opcodes
-ORDER: 80   KIND: ledger: in the air   CHAPTER: Instruction set: encoding
+ORDER: 78   KIND: ledger: in the air   CHAPTER: Instruction set: encoding
    TITLE: Combining group opcodes
    AFFECTS OPCODES: yes (opcode groups and encoding)
 ------------------------------------------------------------------------------------------------
@@ -3675,7 +3678,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.opcode-field-and-parcel-layout-6-bit-opcode
-ORDER: 81   KIND: ledger: in the air   CHAPTER: Instruction set: encoding
+ORDER: 79   KIND: ledger: in the air   CHAPTER: Instruction set: encoding
    TITLE: Opcode field and parcel layout (6-bit opcode)
    AFFECTS OPCODES: yes (opcodes, encoding)
 ------------------------------------------------------------------------------------------------
@@ -3695,7 +3698,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.utf-8-operations
-ORDER: 82   KIND: ledger: in the air   CHAPTER: Instruction set: instruction groups
+ORDER: 80   KIND: ledger: in the air   CHAPTER: Instruction set: instruction groups
    TITLE: UTF-8 operations
    AFFECTS OPCODES: yes (new operations on UTF-8 text)
 ------------------------------------------------------------------------------------------------
@@ -3714,7 +3717,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.3.2
-ORDER: 83   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 81   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
    TITLE: The form of the terminal device and its name
    AFFECTS OPCODES: maybe (device interface)
 ------------------------------------------------------------------------------------------------
@@ -3769,7 +3772,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.3.3
-ORDER: 84   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 82   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
    TITLE: The mashup: how the display composes text, pixels and sprites
    AFFECTS OPCODES: maybe (device interface, multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -3828,7 +3831,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.3.5
-ORDER: 85   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 83   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
    TITLE: Sprites and the hardware cursor
    AFFECTS OPCODES: maybe (device interface)
 ------------------------------------------------------------------------------------------------
@@ -3862,7 +3865,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.3.8
-ORDER: 86   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 84   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
    TITLE: Anti-tearing conveniences
    AFFECTS OPCODES: maybe (tear-free flip: maybe a barrier or a register)
 ------------------------------------------------------------------------------------------------
@@ -3907,7 +3910,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.3.9
-ORDER: 87   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 85   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
    TITLE: The graphics boilerplate sugar
    AFFECTS OPCODES: maybe (sugar may be new instructions)
 ------------------------------------------------------------------------------------------------
@@ -3944,7 +3947,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.3.10
-ORDER: 88   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 86   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
    TITLE: A write-combining memory type for the framebuffer
    AFFECTS OPCODES: maybe (a memory type for the framebuffer: page attribute)
 ------------------------------------------------------------------------------------------------
@@ -3972,7 +3975,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.3.11
-ORDER: 89   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 87   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
    TITLE: The C128 core and the c64 mode
    AFFECTS OPCODES: maybe (multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -4015,7 +4018,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.3.12
-ORDER: 90   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 88   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
    TITLE: The compositor path
    AFFECTS OPCODES: maybe (multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -4054,7 +4057,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.3.13
-ORDER: 91   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 89   KIND: open item   CHAPTER: 3 Graphics and the C64 devices
    TITLE: Audio mixing
    AFFECTS OPCODES: maybe (multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -4092,7 +4095,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.4.1
-ORDER: 92   KIND: open item   CHAPTER: 4 Boot
+ORDER: 90   KIND: open item   CHAPTER: 4 Boot
    TITLE: The first few pages
    AFFECTS OPCODES: maybe (interrupt vectors, start-up state)
 ------------------------------------------------------------------------------------------------
@@ -4165,7 +4168,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.4.2
-ORDER: 93   KIND: open item   CHAPTER: 4 Boot
+ORDER: 91   KIND: open item   CHAPTER: 4 Boot
    TITLE: How the first stage reads blocks
    AFFECTS OPCODES: maybe (start-up state, device interface)
 ------------------------------------------------------------------------------------------------
@@ -4217,7 +4220,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.4.3
-ORDER: 94   KIND: open item   CHAPTER: 4 Boot
+ORDER: 92   KIND: open item   CHAPTER: 4 Boot
    TITLE: How the ROM finds and maps the boot device
    AFFECTS OPCODES: maybe (device interface)
 ------------------------------------------------------------------------------------------------
@@ -4259,7 +4262,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.4.4
-ORDER: 95   KIND: open item   CHAPTER: 4 Boot
+ORDER: 93   KIND: open item   CHAPTER: 4 Boot
    TITLE: The boot-information block: fields, who fills them, layout
    AFFECTS OPCODES: maybe (start-up state, multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -4310,7 +4313,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.4.6
-ORDER: 96   KIND: open item   CHAPTER: 4 Boot
+ORDER: 94   KIND: open item   CHAPTER: 4 Boot
    TITLE: Starting the other cores
    AFFECTS OPCODES: maybe (start register or an instruction to start cores)
 ------------------------------------------------------------------------------------------------
@@ -4357,7 +4360,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.4.8
-ORDER: 97   KIND: open item   CHAPTER: 4 Boot
+ORDER: 95   KIND: open item   CHAPTER: 4 Boot
    TITLE: Where the second stage lies, and a dedicated boot partition
    AFFECTS OPCODES: maybe (start-up state)
 ------------------------------------------------------------------------------------------------
@@ -4400,7 +4403,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.4.9
-ORDER: 98   KIND: open item   CHAPTER: 4 Boot
+ORDER: 96   KIND: open item   CHAPTER: 4 Boot
    TITLE: The state core 0 starts in
    AFFECTS OPCODES: maybe (initial processor state at reset)
 ------------------------------------------------------------------------------------------------
@@ -4431,7 +4434,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.5.6
-ORDER: 99   KIND: open item   CHAPTER: 5 Drivers and devices
+ORDER: 97   KIND: open item   CHAPTER: 5 Drivers and devices
    TITLE: Which virtio devices are built in silicon, and syntactic sugar for devices
    AFFECTS OPCODES: maybe (syntactic sugar for devices: maybe new instructions)
 ------------------------------------------------------------------------------------------------
@@ -4478,7 +4481,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.6.1
-ORDER: 100   KIND: open item   CHAPTER: 6 Kernel, modes and memory management
+ORDER: 98   KIND: open item   CHAPTER: 6 Kernel, modes and memory management
    TITLE: Discovering the implemented widths
    AFFECTS OPCODES: maybe (feature or width register: system registers)
 ------------------------------------------------------------------------------------------------
@@ -4562,7 +4565,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.6.2
-ORDER: 101   KIND: open item   CHAPTER: 6 Kernel, modes and memory management
+ORDER: 99   KIND: open item   CHAPTER: 6 Kernel, modes and memory management
    TITLE: The page-table entry for wide physical addresses
    AFFECTS OPCODES: maybe (page-table entry format: virtual memory)
 ------------------------------------------------------------------------------------------------
@@ -4643,7 +4646,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.6.3
-ORDER: 102   KIND: open item   CHAPTER: 6 Kernel, modes and memory management
+ORDER: 100   KIND: open item   CHAPTER: 6 Kernel, modes and memory management
    TITLE: Interrupt delivery and vector numbers
    AFFECTS OPCODES: maybe (vector numbers, system registers)
 ------------------------------------------------------------------------------------------------
@@ -4739,7 +4742,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.6.11
-ORDER: 103   KIND: open item   CHAPTER: 6 Kernel, modes and memory management
+ORDER: 101   KIND: open item   CHAPTER: 6 Kernel, modes and memory management
    TITLE: Hardware breakpoints and watchdogs, performance counters, machine-check reporting
    AFFECTS OPCODES: maybe (system registers for debug, counters)
 ------------------------------------------------------------------------------------------------
@@ -4777,7 +4780,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.7.6
-ORDER: 104   KIND: open item   CHAPTER: 7 Multiple processors
+ORDER: 102   KIND: open item   CHAPTER: 7 Multiple processors
    TITLE: How block operations order their accesses
    AFFECTS OPCODES: maybe (ordering rule of existing block instructions; a publish instruction
    is possible)
@@ -4846,7 +4849,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.7.7
-ORDER: 105   KIND: open item   CHAPTER: 7 Multiple processors
+ORDER: 103   KIND: open item   CHAPTER: 7 Multiple processors
    TITLE: Secure mode on every core, or one secure core
    AFFECTS OPCODES: maybe (secure mode: mode bits and the instruction words of J.9.12)
 ------------------------------------------------------------------------------------------------
@@ -4916,7 +4919,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.9.7
-ORDER: 106   KIND: open item   CHAPTER: 9 The instruction set
+ORDER: 104   KIND: open item   CHAPTER: 9 The instruction set
    TITLE: The worst-case latency of the block operations
    AFFECTS OPCODES: maybe (latency bound of block operations)
 ------------------------------------------------------------------------------------------------
@@ -4953,7 +4956,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.10.1
-ORDER: 107   KIND: open item   CHAPTER: 10 Conclusion: FPGA to silicon
+ORDER: 105   KIND: open item   CHAPTER: 10 Conclusion: FPGA to silicon
    TITLE: Which rules keep a faster core from the speculative and timing flaws
    AFFECTS OPCODES: maybe (data-independent timing mode)
 ------------------------------------------------------------------------------------------------
@@ -4981,7 +4984,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.D.1
-ORDER: 108   KIND: open item   CHAPTER: Appendix D, the ABI
+ORDER: 106   KIND: open item   CHAPTER: Appendix D, the ABI
    TITLE: Stack alignment
    AFFECTS OPCODES: maybe (stack pointer rule; ABI)
 ------------------------------------------------------------------------------------------------
@@ -5057,7 +5060,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.D.2
-ORDER: 109   KIND: open item   CHAPTER: Appendix D, the ABI
+ORDER: 107   KIND: open item   CHAPTER: Appendix D, the ABI
    TITLE: Binding, landing pads and the PLT stub after version 1
    AFFECTS OPCODES: maybe (ABI and PLT stub code)
 ------------------------------------------------------------------------------------------------
@@ -5109,7 +5112,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.3.8.5
-ORDER: 110   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 108   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
    TITLE: 3.8.5 Each of the three is a device in a slot:...
    AFFECTS OPCODES: maybe (registers)
 ------------------------------------------------------------------------------------------------
@@ -5130,7 +5133,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.3.16
-ORDER: 111   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 109   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
    TITLE: 3.16 What made graphics programming annoying: the pdp64 side
    AFFECTS OPCODES: maybe (virtual memory control)
 ------------------------------------------------------------------------------------------------
@@ -5164,7 +5167,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.3.17
-ORDER: 112   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 110   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
    TITLE: 3.17 Anti-tearing sugar
    AFFECTS OPCODES: maybe (atomics)
 ------------------------------------------------------------------------------------------------
@@ -5196,7 +5199,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.3.21.3
-ORDER: 113   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 111   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
    TITLE: 3.21.3 A device whose main interface is a ring of commands in the manner of...
    AFFECTS OPCODES: maybe (atomics)
 ------------------------------------------------------------------------------------------------
@@ -5229,7 +5232,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.3.s-the-four-main-sketches-side-by-s
-ORDER: 114   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
+ORDER: 112   KIND: proposal   CHAPTER: 3 Graphics and the C64 devices
    TITLE: The four main sketches side by side (sketch 5 is a variant of any of them)
    AFFECTS OPCODES: maybe (atomics)
 ------------------------------------------------------------------------------------------------
@@ -5260,7 +5263,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.4.4
-ORDER: 115   KIND: proposal   CHAPTER: 4 Boot
+ORDER: 113   KIND: proposal   CHAPTER: 4 Boot
    TITLE: 4.4 The reset state and the first block
    AFFECTS OPCODES: maybe (memory ordering)
 ------------------------------------------------------------------------------------------------
@@ -5293,7 +5296,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.4.4.3
-ORDER: 116   KIND: proposal   CHAPTER: 4 Boot
+ORDER: 114   KIND: proposal   CHAPTER: 4 Boot
    TITLE: 4.4.3 Core 0 starts in kernel mode at priority 7 with translation off (every...
    AFFECTS OPCODES: maybe (privileged or system registers)
 ------------------------------------------------------------------------------------------------
@@ -5315,7 +5318,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.4.7
-ORDER: 117   KIND: proposal   CHAPTER: 4 Boot
+ORDER: 115   KIND: proposal   CHAPTER: 4 Boot
    TITLE: 4.7 Starting the other cores
    AFFECTS OPCODES: maybe (start register for the other cores)
 ------------------------------------------------------------------------------------------------
@@ -5343,7 +5346,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.4.7.1b
-ORDER: 118   KIND: proposal   CHAPTER: 4 Boot
+ORDER: 116   KIND: proposal   CHAPTER: 4 Boot
    TITLE: 4.7.1b (4.7.1 of the body says only that the controller chip provides the way...
    AFFECTS OPCODES: maybe (start register for the other cores)
 ------------------------------------------------------------------------------------------------
@@ -5364,7 +5367,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.4.7.2
-ORDER: 119   KIND: proposal   CHAPTER: 4 Boot
+ORDER: 117   KIND: proposal   CHAPTER: 4 Boot
    TITLE: 4.7.2 A stuck core is reset by a write to a core-reset register.
    AFFECTS OPCODES: maybe (memory ordering)
 ------------------------------------------------------------------------------------------------
@@ -5394,7 +5397,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.5.7
-ORDER: 120   KIND: proposal   CHAPTER: 5 Drivers and devices
+ORDER: 118   KIND: proposal   CHAPTER: 5 Drivers and devices
    TITLE: 5.7 Illustrations of a console and a timer
    AFFECTS OPCODES: maybe (privileged or system registers)
 ------------------------------------------------------------------------------------------------
@@ -5427,7 +5430,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.6.8
-ORDER: 121   KIND: proposal   CHAPTER: 6 Kernel, modes and memory management
+ORDER: 119   KIND: proposal   CHAPTER: 6 Kernel, modes and memory management
    TITLE: 6.8 Hardware-managed accessed and dirty bits, advertised in a feature register,...
    AFFECTS OPCODES: maybe (virtual memory structure)
 ------------------------------------------------------------------------------------------------
@@ -5450,7 +5453,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.7.8.1
-ORDER: 122   KIND: proposal   CHAPTER: 7 Multiple processors
+ORDER: 120   KIND: proposal   CHAPTER: 7 Multiple processors
    TITLE: 7.8.1 The controller holds every core but core 0 in reset;...
    AFFECTS OPCODES: maybe (start-up state, multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -5471,7 +5474,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.7.8.2
-ORDER: 123   KIND: proposal   CHAPTER: 7 Multiple processors
+ORDER: 121   KIND: proposal   CHAPTER: 7 Multiple processors
    TITLE: 7.8.2 An inter-processor interrupt is a write to a per-core register in the...
    AFFECTS OPCODES: maybe (interrupt vectors, multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -5491,7 +5494,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.7.8.3
-ORDER: 124   KIND: proposal   CHAPTER: 7 Multiple processors
+ORDER: 122   KIND: proposal   CHAPTER: 7 Multiple processors
    TITLE: 7.8.3 The routing of device interrupts to cores, and a shared second-level...
    AFFECTS OPCODES: maybe (interrupt vectors, start-up state)
 ------------------------------------------------------------------------------------------------
@@ -5519,7 +5522,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.7.9.1
-ORDER: 125   KIND: proposal   CHAPTER: 7 Multiple processors
+ORDER: 123   KIND: proposal   CHAPTER: 7 Multiple processors
    TITLE: 7.9.1 The kernel starts a core by writing its start register.
    AFFECTS OPCODES: maybe (start-up state, multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -5536,7 +5539,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.7.9.4
-ORDER: 126   KIND: proposal   CHAPTER: 7 Multiple processors
+ORDER: 124   KIND: proposal   CHAPTER: 7 Multiple processors
    TITLE: 7.9.4 It wakes an idle core with an inter-processor interrupt.
    AFFECTS OPCODES: maybe (interrupt vectors, multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -5553,7 +5556,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.8.2
-ORDER: 127   KIND: proposal   CHAPTER: 8 Vector work and the accelerator
+ORDER: 125   KIND: proposal   CHAPTER: 8 Vector work and the accelerator
    TITLE: 8.2 Why not SIMD in the processor
    AFFECTS OPCODES: maybe (registers)
 ------------------------------------------------------------------------------------------------
@@ -5572,7 +5575,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.8.3
-ORDER: 128   KIND: proposal   CHAPTER: 8 Vector work and the accelerator
+ORDER: 126   KIND: proposal   CHAPTER: 8 Vector work and the accelerator
    TITLE: 8.3 AI and large-language-model inference: the LB64 accelerator
    AFFECTS OPCODES: maybe (encoding)
 ------------------------------------------------------------------------------------------------
@@ -5603,7 +5606,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.8.3.3
-ORDER: 129   KIND: proposal   CHAPTER: 8 Vector work and the accelerator
+ORDER: 127   KIND: proposal   CHAPTER: 8 Vector work and the accelerator
    TITLE: 8.3.3 The work is partitioned between small engines, each doing one thing with...
    AFFECTS OPCODES: maybe (encoding)
 ------------------------------------------------------------------------------------------------
@@ -5624,7 +5627,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.8.6.1
-ORDER: 130   KIND: proposal   CHAPTER: 8 Vector work and the accelerator
+ORDER: 128   KIND: proposal   CHAPTER: 8 Vector work and the accelerator
    TITLE: 8.6.1 A program fills a descriptor naming the operation and the arrays,...
    AFFECTS OPCODES: maybe (memory ordering)
 ------------------------------------------------------------------------------------------------
@@ -5644,7 +5647,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.10.3.4
-ORDER: 131   KIND: proposal   CHAPTER: 10 Conclusion: FPGA to silicon
+ORDER: 129   KIND: proposal   CHAPTER: 10 Conclusion: FPGA to silicon
    TITLE: 10.3.4 Sequential consistency is nearly free on a small in-order core and is...
    AFFECTS OPCODES: maybe (memory ordering)
 ------------------------------------------------------------------------------------------------
@@ -5663,7 +5666,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.10.1.1
-ORDER: 132   KIND: proposal   CHAPTER: 10 Conclusion: FPGA to silicon
+ORDER: 130   KIND: proposal   CHAPTER: 10 Conclusion: FPGA to silicon
    TITLE: 10.1.1 The first implementation is a soft core on a system-on-chip FPGA whose...
    AFFECTS OPCODES: maybe (registers)
 ------------------------------------------------------------------------------------------------
@@ -5686,7 +5689,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.10.1.6
-ORDER: 133   KIND: proposal   CHAPTER: 10 Conclusion: FPGA to silicon
+ORDER: 131   KIND: proposal   CHAPTER: 10 Conclusion: FPGA to silicon
    TITLE: 10.1.6 The second phase, the fault model, is not optional and does not move;...
    AFFECTS OPCODES: maybe (named instructions)
 ------------------------------------------------------------------------------------------------
@@ -5705,7 +5708,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.10.1.10
-ORDER: 134   KIND: proposal   CHAPTER: 10 Conclusion: FPGA to silicon
+ORDER: 132   KIND: proposal   CHAPTER: 10 Conclusion: FPGA to silicon
    TITLE: 10.1.10 The register-transfer description is kept vendor-neutral, with every...
    AFFECTS OPCODES: maybe (registers)
 ------------------------------------------------------------------------------------------------
@@ -5726,7 +5729,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.A.4.1
-ORDER: 135   KIND: proposal   CHAPTER: Appendix A
+ORDER: 133   KIND: proposal   CHAPTER: Appendix A
    TITLE: A.4.1 There are four ways to protect the return address:...
    AFFECTS OPCODES: maybe (return-address protection: new instructions or checks)
 ------------------------------------------------------------------------------------------------
@@ -5753,7 +5756,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.B.1.8.1
-ORDER: 136   KIND: proposal   CHAPTER: Appendix B
+ORDER: 134   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.1.8.1 The proposal is two free-running counters, cycles and instructions...
    AFFECTS OPCODES: maybe (instruction-set chapter)
 ------------------------------------------------------------------------------------------------
@@ -5776,7 +5779,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.B.1.10.1
-ORDER: 137   KIND: proposal   CHAPTER: Appendix B
+ORDER: 135   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.1.10.1 The proposal is an ABI rule:...
    AFFECTS OPCODES: maybe (an ABI rule)
 ------------------------------------------------------------------------------------------------
@@ -5802,7 +5805,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.B.2.2.1
-ORDER: 138   KIND: proposal   CHAPTER: Appendix B
+ORDER: 136   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.2.2.1 The proposal is none:...
    AFFECTS OPCODES: maybe (instruction-set chapter)
 ------------------------------------------------------------------------------------------------
@@ -5828,7 +5831,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.B.2.4.1
-ORDER: 139   KIND: proposal   CHAPTER: Appendix B
+ORDER: 137   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.2.4.1 The proposal is wired interrupt lines to core 0 with a per-line target...
    AFFECTS OPCODES: maybe (instruction-set chapter)
 ------------------------------------------------------------------------------------------------
@@ -5851,7 +5854,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.B.2.6.1
-ORDER: 140   KIND: proposal   CHAPTER: Appendix B
+ORDER: 138   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.2.6.1 The proposal is to keep snooping for the four cores of the first...
    AFFECTS OPCODES: maybe (instruction-set chapter)
 ------------------------------------------------------------------------------------------------
@@ -5873,7 +5876,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.B.2.8.1
-ORDER: 141   KIND: proposal   CHAPTER: Appendix B
+ORDER: 139   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.2.8.1 The feature subset of each device is open. (S)
    AFFECTS OPCODES: maybe (instruction-set chapter)
 ------------------------------------------------------------------------------------------------
@@ -5895,7 +5898,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.B.2.10.1
-ORDER: 142   KIND: proposal   CHAPTER: Appendix B
+ORDER: 140   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.2.10.1 The proposal is the precise and imprecise paths the ISA already has...
    AFFECTS OPCODES: maybe (instruction-set chapter)
 ------------------------------------------------------------------------------------------------
@@ -5916,8 +5919,27 @@ DECISION:
 NOTE: 
 
 ================================================================================================
+ENTRY H.B.2.11.1
+ORDER: 141   KIND: proposal   CHAPTER: Appendix B
+   TITLE: B.2.11.1 Decided: see section 6.14 (errata 181, 186, 187)....
+   AFFECTS OPCODES: maybe (instruction-set chapter)
+------------------------------------------------------------------------------------------------
+   PROPOSAL AND EXPLANATION: B.2.11.1 Decided: see section 6.14 (errata 181, 186, 187). The
+   details that are still to be determined are those named in the statements of 6.14 and in
+   J.2.3.
+OPTIONS:
+   A) Accept as proposed. For: it settles the statement. Against: the proposal is the
+      assistant's, not yet the author's.
+   B) Reject it. For: removes an unwanted statement. Against: the manual then needs the gap
+      filled another way.
+   C) Accept with changes (type the changes in NOTE).
+
+DECISION: 
+NOTE: 
+
+================================================================================================
 ENTRY H.B.2.12.1
-ORDER: 143   KIND: proposal   CHAPTER: Appendix B
+ORDER: 142   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.2.12.1 Enumeration by PCI Express configuration space is decided (N1, errata...
    AFFECTS OPCODES: maybe (instruction-set chapter)
 ------------------------------------------------------------------------------------------------
@@ -5941,7 +5963,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.B.2.13.1
-ORDER: 144   KIND: proposal   CHAPTER: Appendix B
+ORDER: 143   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.2.13.1 The boot ROM that reads block 0 (B1) is decided (errata 109, 4.4)....
    AFFECTS OPCODES: maybe (instruction-set chapter)
 ------------------------------------------------------------------------------------------------
@@ -5966,7 +5988,7 @@ NOTE:
 
 ================================================================================================
 ENTRY H.B.2.14.1
-ORDER: 145   KIND: proposal   CHAPTER: Appendix B
+ORDER: 144   KIND: proposal   CHAPTER: Appendix B
    TITLE: B.2.14.1 Whether USB is a conventional ring-based host controller driven by an...
    AFFECTS OPCODES: maybe (instruction-set chapter)
 ------------------------------------------------------------------------------------------------
@@ -5991,7 +6013,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M1
-ORDER: 146   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 145   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Bus 2.4.6: the queued work of a departed device stays in memory
    AFFECTS OPCODES: maybe (device interface)
 ------------------------------------------------------------------------------------------------
@@ -6009,7 +6031,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M4
-ORDER: 147   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 146   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Drivers 5.7.1: the main cores are tickless
    AFFECTS OPCODES: maybe (multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -6026,7 +6048,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M13
-ORDER: 148   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 147   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Chapter 4 4.7.1 / R2: the other cores are started by a single register write
    AFFECTS OPCODES: maybe (start register for other cores)
 ------------------------------------------------------------------------------------------------
@@ -6042,7 +6064,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M15
-ORDER: 149   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 148   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Chapter 4 4.10: the monitor in the boot ROM
    AFFECTS OPCODES: maybe (start-up state)
 ------------------------------------------------------------------------------------------------
@@ -6058,7 +6080,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M18
-ORDER: 150   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 149   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Appendix A.12.3: the sealed page bit and the pledge mask are rejected
    AFFECTS OPCODES: maybe (sealed page bit, pledge mask: page bits)
 ------------------------------------------------------------------------------------------------
@@ -6074,7 +6096,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M19
-ORDER: 151   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 150   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: docs/study-round2.md: approved items taint (11), retire-gated visibility (12),
    compressed-choice items 10 and 18 are in no chapter
    AFFECTS OPCODES: maybe (taint, retire-gated visibility: new semantics)
@@ -6089,7 +6111,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M22
-ORDER: 152   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 151   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Chapter 10: the transistor table says 16 x 64 register file
    AFFECTS OPCODES: maybe (register file size estimate for 32 registers)
 ------------------------------------------------------------------------------------------------
@@ -6104,7 +6126,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M27
-ORDER: 153   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 152   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Kernel: VBR is zero at reset
    AFFECTS OPCODES: maybe (VBR reset value)
 ------------------------------------------------------------------------------------------------
@@ -6119,7 +6141,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.M30
-ORDER: 154   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 153   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Q-bus facts checked against DEC handbooks; the name the bus name held back held until
    additions are decided
    AFFECTS OPCODES: maybe (interrupt vectors, device interface)
@@ -6137,7 +6159,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.H4
-ORDER: 155   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 154   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: hbnf: core rules shipped with the spec
    AFFECTS OPCODES: maybe (multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -6153,7 +6175,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.P4
-ORDER: 156   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 155   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: 12 simulator tests lost with r20 (hint, isync, sys-pushx, sysreg-write-* ...)
    AFFECTS OPCODES: maybe (tests rewritten with new encodings)
 ------------------------------------------------------------------------------------------------
@@ -6167,7 +6189,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N1
-ORDER: 157   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 156   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Kernel 6.10.2 sends TRAP #n through vector 256 + n; 6.13.2 says TRAP #n enters vectors
    0 to 255
    AFFECTS OPCODES: maybe (system-call vector numbering)
@@ -6185,7 +6207,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N5
-ORDER: 158   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 157   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Secure mode (at least one core can run in secure mode, on every core if that is cheap,
    otherwise one secure core; every timing channel removed, constant-time AES and SHA) is tagged
    decided in 7.11.3
@@ -6207,7 +6229,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N39
-ORDER: 159   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 158   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Does a lane prefix over the ordinary ALU operations (J.8.3 option 6) count as 'normal
    ops fused with a SIMD bit', the form you asked about?
    AFFECTS OPCODES: maybe (a lane prefix would be an instruction form)
@@ -6225,7 +6247,7 @@ NOTE:
 
 ================================================================================================
 ENTRY V.N41
-ORDER: 160   KIND: confirmation   CHAPTER: Confirmation list
+ORDER: 159   KIND: confirmation   CHAPTER: Confirmation list
    TITLE: Errata 39 item 7: the accesses inside a block operation are unordered with respect to
    one another (7.5.8, tagged decided)
    AFFECTS OPCODES: maybe (ordering rule of block operations)
@@ -6243,7 +6265,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.interrupts-as-memory-writes-msi-x
-ORDER: 161   KIND: ledger: to do   CHAPTER: 02 Bus
+ORDER: 160   KIND: ledger: to do   CHAPTER: 02 Bus
    TITLE: Interrupts as memory writes (MSI-X)
    AFFECTS OPCODES: maybe (as J.6.3: vector numbers, system registers)
 ------------------------------------------------------------------------------------------------
@@ -6266,7 +6288,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.anti-tearing-conveniences
-ORDER: 162   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 161   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
    TITLE: Anti-tearing conveniences
    AFFECTS OPCODES: maybe (as J.3.10: a memory type for the framebuffer: page attribute)
 ------------------------------------------------------------------------------------------------
@@ -6289,7 +6311,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.c64-mode-a-c128-on-the-die
-ORDER: 163   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 162   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
    TITLE: C64 mode (a C128 on the die)
    AFFECTS OPCODES: maybe (as J.3.11: multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -6315,7 +6337,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.compositor-path
-ORDER: 164   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 163   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
    TITLE: Compositor path
    AFFECTS OPCODES: maybe (as J.3.12: multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -6336,7 +6358,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.graphics-programming-made-simple
-ORDER: 165   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 164   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
    TITLE: Graphics programming made simple
    AFFECTS OPCODES: maybe (as J.3.9: sugar may be new instructions)
 ------------------------------------------------------------------------------------------------
@@ -6359,7 +6381,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.virtio-devices-supported-in-silicon
-ORDER: 166   KIND: ledger: to do   CHAPTER: 05 Drivers and devices
+ORDER: 165   KIND: ledger: to do   CHAPTER: 05 Drivers and devices
    TITLE: Virtio devices supported in silicon
    AFFECTS OPCODES: maybe (as J.5.6: syntactic sugar for devices: maybe new instructions)
 ------------------------------------------------------------------------------------------------
@@ -6381,7 +6403,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.page-table-levels
-ORDER: 167   KIND: ledger: to do   CHAPTER: 06 Kernel, modes and memory management
+ORDER: 166   KIND: ledger: to do   CHAPTER: 06 Kernel, modes and memory management
    TITLE: Page-table levels
    AFFECTS OPCODES: maybe (as J.6.1: feature or width register: system registers)
 ------------------------------------------------------------------------------------------------
@@ -6394,6 +6416,38 @@ ORDER: 167   KIND: ledger: to do   CHAPTER: 06 Kernel, modes and memory manageme
    WHAT IS MISSING: the register or field that reports the level count and the physical width
    (J.6.1); the page-table entry for wide physical addresses (J.6.2)
    Related open items: J.6.1, J.6.2
+OPTIONS:
+   A) Decide the details now (type them in NOTE). For: the item can then be built. Against: may
+      be early.
+   B) Keep waiting for the stated condition. For: no premature detail. Against: stays open.
+   C) Drop the item. For: less to do. Against: the earlier decision then has no follow-up.
+
+DECISION: 
+NOTE: 
+
+================================================================================================
+ENTRY S.block-operations-ordering-of-the-accesses
+ORDER: 167   KIND: ledger: to do   CHAPTER: 07 Multiple processors
+   TITLE: Block operations: ordering of the accesses
+   AFFECTS OPCODES: maybe (as J.7.6: ordering rule of existing block instructions; a publish
+   instruction is possible)
+------------------------------------------------------------------------------------------------
+   STATUS: decided in part, details to be determined: one part is decided (the accesses inside a
+   block operation are unordered with respect to one another, 7.5.8); the rest is open as J.7.6
+   (latest decision 2026-10-22, errata 39 item 7; the author asked on 2026-11-10 to verify that
+   nothing else was decided [R406])
+   WHAT THE AUTHOR SAID: 2026-10-22 decided (errata 39 item 7): the accesses inside \MCPY\,
+   \MMOV\ and \MSET\ and the other block words are unordered with respect to one another; only
+   the final contents of memory and the register progress are defined; 2026-11-10: "probably,
+   its probably something we didn't make any decisions on yet, verify that." [R406] (the check
+   found only errata 39 item 7: it had been written nowhere, and the old 7.5 said the opposite
+   by inference)
+   WHAT IS MISSING: J.7.6: the order of the elements and overlap for \MMOV\, how far an access
+   may tear, what another core may see of an operation in progress, what publishes the result
+   (\FENCE\ orders only device accesses, 7.5.7), what a fault leaves, the effect on a
+   reservation, device and uncached memory; the question of the form: whether errata 39 item 7
+   is the author's decision
+   Related open items: J.7.6
 OPTIONS:
    A) Decide the details now (type them in NOTE). For: the item can then be built. Against: may
       be early.
@@ -6430,8 +6484,38 @@ DECISION:
 NOTE: 
 
 ================================================================================================
+ENTRY S.assembler-syntax-at-t-and-the-classic-spelli
+ORDER: 169   KIND: ledger: to do   CHAPTER: toolchain
+   TITLE: Assembler syntax: AT&T and the classic spellings
+   AFFECTS OPCODES: maybe (mnemonics)
+------------------------------------------------------------------------------------------------
+   STATUS: decided and mostly done; some spellings are details to be determined (latest decision
+   2026-11-16 [R424] to [R429], errata 139)
+   WHAT THE AUTHOR SAID: 2026-11-16 decided: "decided, as64 will be extended to support att
+   syntax as well as current syntax, where they don't conflict" [R424]; "let's make as64 more
+   like microsoft style and the old its pdp-10 style, let's make it really sweet and readable I
+   hate seeing % sprinkled everywhere" [R425]; "i accept your recommendations. decided." [R426];
+   "we accept $ and # ... and / comments become //" [R427]; "decided: accept the recommendations
+   in that last paragraph" [R428]; [...]
+   WHAT IS MISSING: not taken, for the author to decide: .name and @name scoped local labels
+   (.name is already a name and @name the absolute mode; @@name is free), case-insensitive
+   mnemonics under an option, the short aliases mov, ld and st, the <...> and '...' string
+   forms, juxtaposition as addition, r5 for register-indirect (it is register-direct), ^ as the
+   type-carrying operator (it is exclusive-or), the early Unix \/ \< \>, the ABI aliases a0 to
+   a7 and s0 to s7; r5-8 needs a space (hbnf reads a register name followed directly by - as one
+   word); [...]
+OPTIONS:
+   A) Decide the details now (type them in NOTE). For: the item can then be built. Against: may
+      be early.
+   B) Keep waiting for the stated condition. For: no premature detail. Against: stays open.
+   C) Drop the item. For: less to do. Against: the earlier decision then has no follow-up.
+
+DECISION: 
+NOTE: 
+
+================================================================================================
 ENTRY S.learning-from-loongarch
-ORDER: 169   KIND: ledger: in the air   CHAPTER: 01 Principles and priorities
+ORDER: 170   KIND: ledger: in the air   CHAPTER: 01 Principles and priorities
    TITLE: Learning from LoongArch
    AFFECTS OPCODES: maybe (may adopt more instruction-set ideas)
 ------------------------------------------------------------------------------------------------
@@ -6449,7 +6533,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.audio-mixing
-ORDER: 170   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 171   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
    TITLE: Audio mixing
    AFFECTS OPCODES: maybe (as J.3.13: multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -6469,7 +6553,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.the-mashup-of-gpu-video-memory-c64-and-blit
-ORDER: 171   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 172   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
    TITLE: The mashup of GPU, video memory, C64 and Blit
    AFFECTS OPCODES: maybe (as J.3.3: device interface, multiprocessor behaviour)
 ------------------------------------------------------------------------------------------------
@@ -6487,27 +6571,18 @@ DECISION:
 NOTE: 
 
 ================================================================================================
-ENTRY S.block-operations-ordering-of-the-accesses
-ORDER: 172   KIND: ledger: in the air   CHAPTER: 07 Multiple processors
-   TITLE: Block operations: ordering of the accesses
-   AFFECTS OPCODES: maybe (as J.7.6: ordering rule of existing block instructions; a publish
-   instruction is possible)
+ENTRY S.a-test-suite-that-conforming-implementations
+ORDER: 173   KIND: ledger: in the air   CHAPTER: 12 Documentation and process
+   TITLE: A test suite that conforming implementations must pass
+   AFFECTS OPCODES: maybe (memory ordering)
 ------------------------------------------------------------------------------------------------
-   STATUS: one part is decided (the accesses inside a block operation are unordered with respect
-   to one another, 7.5.8); the rest is open as J.7.6 (latest decision 2026-10-22, errata 39 item
-   7; the author asked on 2026-11-10 to verify that nothing else was decided [R406])
-   WHAT THE AUTHOR SAID: 2026-10-22 decided (errata 39 item 7): the accesses inside \MCPY\,
-   \MMOV\ and \MSET\ and the other block words are unordered with respect to one another; only
-   the final contents of memory and the register progress are defined; 2026-11-10: "probably,
-   its probably something we didn't make any decisions on yet, verify that." [R406] (the check
-   found only errata 39 item 7: it had been written nowhere, and the old 7.5 said the opposite
-   by inference)
-   WHAT IS MISSING: J.7.6: the order of the elements and overlap for \MMOV\, how far an access
-   may tear, what another core may see of an operation in progress, what publishes the result
-   (\FENCE\ orders only device accesses, 7.5.7), what a fault leaves, the effect on a
-   reservation, device and uncached memory; the question of the form: whether errata 39 item 7
-   is the author's decision
-   Related open items: J.7.6
+   STATUS: the author's proposal in a question, no decision (latest request 2026-11-16 [R437],
+   errata 139)
+   WHAT THE AUTHOR SAID: nothing: "so pdp64 could come with a test suite that all conforming
+   implementations must pass to show it fulfills all guarantees." [R437]
+   WHAT IS MISSING: whether to have one; which guarantees it covers (the memory model, precise
+   exceptions, the restart of block and vector operations, the seventeen operations, secure
+   mode); who runs it and how an implementation reports a pass
 OPTIONS:
    A) Decide it (type the decision in NOTE). For: closes a loose end. Against: may be early.
    B) Drop it (not wanted). For: removes noise. Against: the idea is lost.
@@ -6518,7 +6593,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.stack-alignment
-ORDER: 173   KIND: ledger: in the air   CHAPTER: Instruction set: alignment and memory model
+ORDER: 174   KIND: ledger: in the air   CHAPTER: Instruction set: alignment and memory model
    TITLE: Stack alignment
    AFFECTS OPCODES: maybe (as J.D.1: stack pointer rule; ABI)
 ------------------------------------------------------------------------------------------------
@@ -6538,7 +6613,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.memory-to-memory-moves-and-block-operations
-ORDER: 174   KIND: ledger: in the air   CHAPTER: Instruction set: instruction groups
+ORDER: 175   KIND: ledger: in the air   CHAPTER: Instruction set: instruction groups
    TITLE: Memory-to-memory moves and block operations
    AFFECTS OPCODES: maybe (as J.7.6: ordering rule of existing block instructions; a publish
    instruction is possible)
@@ -6562,7 +6637,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.2.1
-ORDER: 175   KIND: open item   CHAPTER: 2 Bus
+ORDER: 176   KIND: open item   CHAPTER: 2 Bus
    TITLE: Locating devices without a selecting bit
    AFFECTS OPCODES: no (addresses and boot data only)
 ------------------------------------------------------------------------------------------------
@@ -6638,7 +6713,7 @@ NOTE:
 
 ================================================================================================
 ENTRY J.2.2
-ORDER: 176   KIND: open item   CHAPTER: 2 Bus
+ORDER: 177   KIND: open item   CHAPTER: 2 Bus
    TITLE: The bus controller
    AFFECTS OPCODES: no (bus side; no instruction)
 ------------------------------------------------------------------------------------------------
@@ -6727,54 +6802,6 @@ NOTE:
 
 ================================================================================================
 ENTRY J.2.3
-ORDER: 177   KIND: open item   CHAPTER: 2 Bus
-   TITLE: The IOMMU: table format, place, faults and virtualization
-   AFFECTS OPCODES: no (device translation, not the processor's)
-------------------------------------------------------------------------------------------------
-   ISSUE: The author has decided that the pdp64 has an IOMMU (a unit that translates the
-   addresses a device uses, with a page table of its own for each device) and accepted five
-   rules for it (errata 75, 85): translation on by default, one domain for each device, no
-   kernel pointers in descriptors, permanent mappings for the rings, bounce buffers for small
-   data. The leaf entry shares bits 0 to 39 with the processor's page-table entry and bits 40 to
-   63 are free (errata 85). Four things are not decided: [...]  (Full text: Appendix J, J.2.3.)
-   WHY IT MATTERS: The kernel's mapping routines, the driver interface (a descriptor holds a
-   device address, not a physical address) and the interrupt controller (J.6.3, which may use
-   the same unit to check where a device's interrupt write goes) all depend on it. [...]
-OPTIONS:
-  Options:
-   A) A device table indexed by the bus-device-function number, one page table for each entry.
-      For: the shape PCI Express already identifies devices with; each device its own domain
-      falls out. Against: a large sparse table unless it is indexed in levels; functions behind
-      a bridge may share one identity.
-   B) A small table of domains, with the device-to-domain map in a register file in the root
-      complex. For: cheap in hardware; fits the first FPGA boards. Against: a fixed number of
-      devices; a hot-plugged device may find the table full.
-   C) Same, with a second-level table, so a guest's mapping is composed with the host's (nested
-      translation). For: virtualization costs no emulation. Against: two walks for every access;
-      a larger unit.
-   D) Report a fault only to the kernel, as an interrupt with a log entry (device, address,
-      kind), the device's access being refused or dropped. For: one path. Against: a device
-      waiting for a read completion hangs unless the unit completes it with an error.
-   E) Report a fault to the device as a failed completion and also log it. For: the device's
-      driver sees an error at once. Against: not every device handles it; the log can overflow
-      under attack.
-   Leaning (assistant, not a decision): Option A with a two-level device table, and Option E (an
-   error completion and a log entry), because both keep the same code for boot and for a
-   hot-added device. It would change if virtualization is wanted early (then Option C).
-   PRECEDENTS: x86 has the IOMMU of Intel (VT-d) and of AMD, indexed by bus, device and
-   function, with a fault-recording ring and an interrupt (unverified: general knowledge). ARM
-   has the SMMU with stream identifiers and stage 1 and stage 2 translation (unverified). The
-   VAX Unibus adapter's map registers were per adapter, not per device (verified: 4.3BSD
-   ubareg.h).
-   AUTHOR'S REFERENTS: "iommu will allow us to map in c64/c128" (errata 75, a later use); the
-   five accepted recommendations (errata 85).
-   BODY: Section 2.11.
-
-DECISION: 
-NOTE: 
-
-================================================================================================
-ENTRY J.2.4
 ORDER: 178   KIND: open item   CHAPTER: 2 Bus
    TITLE: Which optional virtio features the pdp64 uses
    AFFECTS OPCODES: no (virtio features)
@@ -6817,7 +6844,7 @@ DECISION:
 NOTE: 
 
 ================================================================================================
-ENTRY J.2.5
+ENTRY J.2.4
 ORDER: 179   KIND: open item   CHAPTER: 2 Bus
    TITLE: The root complex's own registers and the pdp64's additions
    AFFECTS OPCODES: no (root complex registers)
@@ -6829,7 +6856,7 @@ ORDER: 179   KIND: open item   CHAPTER: 2 Bus
    without detail (2.3.4). A fourth, where the root complex itself sits, is J.2.1. The author
    asked that the miss be recorded in a status register and mode flags that already exist and
    not in new state, and agreed to the root complex's own bit; [...]  (Full text: Appendix J,
-   J.2.5.)
+   J.2.4.)
    WHY IT MATTERS: The kernel cannot reset the bus, or tell a dead link from an empty slot,
    without an address; and a block of registers is the natural home for the later additions.
 OPTIONS:
@@ -10058,8 +10085,29 @@ DECISION:
 NOTE: 
 
 ================================================================================================
+ENTRY S.c64-in-spirit-not-the-hardware
+ORDER: 304   KIND: ledger: to do   CHAPTER: 01 Principles and priorities
+   TITLE: C64 in spirit, not the hardware
+   AFFECTS OPCODES: no (a principle)
+------------------------------------------------------------------------------------------------
+   STATUS: decided, details to be determined: a principle of the separate newlisp C64-spirit
+   machine; the pdp64 docs neither state nor contradict it (latest decision 2026-06-25 [R15])
+   WHAT THE AUTHOR SAID: 2026-06-25 decided: "the c64 hardware itself isn't the point"; rejects
+   the C64 keyboard as "shitty"; "the rpi500 keyboard is adequate". [R15]
+   WHAT IS MISSING: confirm whether this applies to pdp64; other 2026-06-25 records [R13, R14]
+   concern the newlisp C64-spirit machine, not pdp64
+OPTIONS:
+   A) Decide the details now (type them in NOTE). For: the item can then be built. Against: may
+      be early.
+   B) Keep waiting for the stated condition. For: no premature detail. Against: stays open.
+   C) Drop the item. For: less to do. Against: the earlier decision then has no follow-up.
+
+DECISION: 
+NOTE: 
+
+================================================================================================
 ENTRY S.access-to-a-departed-device-s-windows
-ORDER: 304   KIND: ledger: to do   CHAPTER: 02 Bus
+ORDER: 305   KIND: ledger: to do   CHAPTER: 02 Bus
    TITLE: Access to a departed device's windows
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10081,7 +10129,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.device-windows-on-page-boundaries
-ORDER: 305   KIND: ledger: to do   CHAPTER: 02 Bus
+ORDER: 306   KIND: ledger: to do   CHAPTER: 02 Bus
    TITLE: Device windows on page boundaries
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10100,7 +10148,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.simplicity-of-rio-and-news
-ORDER: 306   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 307   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
    TITLE: Simplicity of rio and NeWS
    AFFECTS OPCODES: no (as J.3.14: not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10120,8 +10168,28 @@ DECISION:
 NOTE: 
 
 ================================================================================================
+ENTRY S.c64-console-font-and-9p-interface
+ORDER: 308   KIND: ledger: to do   CHAPTER: 03 Graphics and the C64 devices
+   TITLE: C64 console font and 9p interface
+   AFFECTS OPCODES: no (not instruction semantics)
+------------------------------------------------------------------------------------------------
+   STATUS: decided, details to be determined: "9p all the way" is decided for the console; the
+   "9p server" and font-query protocol are potentials, all outside this repository (latest
+   decision 2026-06-18 [R9])
+   WHAT THE AUTHOR SAID: 2026-06-18 decided: "9p means 9p all the way. no mix and match." [R9]
+   WHAT IS MISSING: same repository question as the C64 console
+OPTIONS:
+   A) Decide the details now (type them in NOTE). For: the item can then be built. Against: may
+      be early.
+   B) Keep waiting for the stated condition. For: no premature detail. Against: stays open.
+   C) Drop the item. For: less to do. Against: the earlier decision then has no follow-up.
+
+DECISION: 
+NOTE: 
+
+================================================================================================
 ENTRY S.device-initialization-protocol
-ORDER: 307   KIND: ledger: to do   CHAPTER: 04 Boot
+ORDER: 309   KIND: ledger: to do   CHAPTER: 04 Boot
    TITLE: Device initialization protocol
    AFFECTS OPCODES: no (as J.4.5: device firmware)
 ------------------------------------------------------------------------------------------------
@@ -10143,7 +10211,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.crypto-and-random-number-devices
-ORDER: 308   KIND: ledger: to do   CHAPTER: 05 Drivers and devices
+ORDER: 310   KIND: ledger: to do   CHAPTER: 05 Drivers and devices
    TITLE: Crypto and random-number devices
    AFFECTS OPCODES: no (as J.5.1: console, timer, entropy devices)
 ------------------------------------------------------------------------------------------------
@@ -10166,8 +10234,40 @@ DECISION:
 NOTE: 
 
 ================================================================================================
+ENTRY S.virtualisation-the-hypervisor-mode-two-stage
+ORDER: 311   KIND: ledger: to do   CHAPTER: 06 Kernel, modes and memory management
+   TITLE: Virtualisation: the hypervisor mode, two-stage translation, virtual interrupts and the
+   IOMMU
+   AFFECTS OPCODES: no (not instruction semantics)
+------------------------------------------------------------------------------------------------
+   STATUS: decided, details to be determined: virtualisation is part of the design (latest
+   decision 2026-11-19 [R494] to [R504], errata 181)
+   WHAT THE AUTHOR SAID: 2026-11-19 the owner answered the eleven questions of the
+   virtualisation form: every sensitive instruction traps (after an audit); a third, hypervisor
+   mode with trap-control and exit-reason registers; two-stage translation in hardware; hardware
+   virtual interrupt lines and a virtual timer offset; assigned devices through the IOMMU with a
+   guest-visible second level; no nesting in version 1; hidden vector state relies on
+   restart-from-entry and zeroing; a full table of the state after a guest reset; a small
+   in-house hypervisor on the QEMU target first; [...]
+   WHAT IS MISSING: no design of the hypervisor mode, the second stage, the virtual interrupt
+   lines or the IOMMU; the audit's and the IOMMU decisions are in the manual (6.14, 2.11; errata
+   189, 190) but not in the grammar, as64, sim64 or QEMU; the hypervisor's registers, the
+   exit-reason codes and the entry and exit sequence (6.14.3); the table of the state after a
+   guest reset; the placement of the DMA text near the IOMMU [R503] (the explanation of
+   virtualization is section 6.14 of the kernel chapter, not a chapter of its own: errata 182
+   [R505]); [...]
+OPTIONS:
+   A) Decide the details now (type them in NOTE). For: the item can then be built. Against: may
+      be early.
+   B) Keep waiting for the stated condition. For: no premature detail. Against: stays open.
+   C) Drop the item. For: less to do. Against: the earlier decision then has no follow-up.
+
+DECISION: 
+NOTE: 
+
+================================================================================================
 ENTRY S.manual-readers-and-the-rewrite-of-the-chapte
-ORDER: 309   KIND: ledger: to do   CHAPTER: Documentation and process
+ORDER: 312   KIND: ledger: to do   CHAPTER: Documentation and process
    TITLE: Manual readers and the rewrite of the chapters
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10194,7 +10294,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.rules-for-editing-the-chapters
-ORDER: 310   KIND: ledger: to do   CHAPTER: Documentation and process
+ORDER: 313   KIND: ledger: to do   CHAPTER: Documentation and process
    TITLE: Rules for editing the chapters
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10217,7 +10317,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.xdmr-flag-and-default-pdp-11-output
-ORDER: 311   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 314   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: \-xdmr flag and default PDP-11 output
    AFFECTS OPCODES: no (a compiler flag)
 ------------------------------------------------------------------------------------------------
@@ -10239,7 +10339,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.book-toolchain-build-image-and-aports
-ORDER: 312   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 315   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: Book toolchain, build image and aports
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10259,7 +10359,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.llvm-tables-generated-from-the-hbnf-grammar
-ORDER: 313   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 316   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: LLVM tables generated from the hbnf grammar
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10281,7 +10381,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.the-four-open-items
-ORDER: 314   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 317   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: The four open items
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10301,7 +10401,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.hbnf-fixes-and-upstreaming
-ORDER: 315   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 318   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: hbnf fixes and upstreaming
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10322,7 +10422,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.pcc-the-single-pdp64-branch
-ORDER: 316   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 319   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: pcc: the single-pdp64 branch
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10343,17 +10443,42 @@ DECISION:
 NOTE: 
 
 ================================================================================================
-ENTRY S.c64-in-spirit-not-the-hardware
-ORDER: 317   KIND: ledger: in the air   CHAPTER: 01 Principles and priorities
-   TITLE: C64 in spirit, not the hardware
-   AFFECTS OPCODES: no (a principle)
+ENTRY S.assembler-syntax-nasm-s-small-spellings
+ORDER: 320   KIND: ledger: in the air   CHAPTER: 01 Principles and priorities
+   TITLE: Assembler syntax: NASM's small spellings
+   AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
-   STATUS: a principle of the separate newlisp C64-spirit machine; the pdp64 docs neither state
-   nor contradict it (latest decision 2026-06-25 [R15])
-   WHAT THE AUTHOR SAID: 2026-06-25 decided: "the c64 hardware itself isn't the point"; rejects
-   the C64 keyboard as "shitty"; "the rpi500 keyboard is adequate". [R15]
-   WHAT IS MISSING: confirm whether this applies to pdp64; other 2026-06-25 records [R13, R14]
-   concern the newlisp C64-spirit machine, not pdp64
+   STATUS: IN PROGRESS — the small spellings are done, in the grammar; a valid number is never a
+   name; the operand order, the memory brackets, the size words and the macro language are not
+   (latest decision 2026-11-17 [R461, R463, R464], errata 162, 163)
+   WHAT THE AUTHOR SAID: 2026-11-17 decided: "for as64/nasm, do the small changes. and add the h
+   and b suffixes for numbers. if that is a conflict explain." [R461]; "i want all the language
+   in the grammar, not in a preprocessor" [R463]
+   WHAT IS MISSING: the destination-first operand order (needs an explicit syntax switch and the
+   roles of the operands of every instruction), [ ] memory operands, byte/word/dword/qword,
+   %define and the other % directives; whether NASM is on the list of errata 139 at all (it
+   names ITS/PDP-10, MASM, Turbo Pascal, ca65 and early Unix)
+OPTIONS:
+   A) Decide it (type the decision in NOTE). For: closes a loose end. Against: may be early.
+   B) Drop it (not wanted). For: removes noise. Against: the idea is lost.
+   C) Keep it as an idea; no decision now. For: nothing is lost. Against: stays in the air.
+
+DECISION: 
+NOTE: 
+
+================================================================================================
+ENTRY S.assembler-the-check-site-table-in-the-core-n
+ORDER: 321   KIND: ledger: in the air   CHAPTER: 01 Principles and priorities
+   TITLE: Assembler: the check-site table in the core, no macros, no preprocessor layer
+   AFFECTS OPCODES: no (not instruction semantics)
+------------------------------------------------------------------------------------------------
+   STATUS: DONE — the check table and the aliases are in the assembler and the grammar, the
+   macros and asmpre.c are gone, and the expressions are evaluated from the parse tree; one
+   grammar whitespace workaround is left (latest decision 2026-11-17 [R465], errata 164, 166)
+   WHAT THE AUTHOR SAID: 2026-11-17 decided: "do 1 and 2, then drop the macros" [R465]
+   WHAT IS MISSING: the lookahead after a number skips blanks (an hbnf matter: a way to say two
+   tokens are adjacent), which the assembler works around in asmp.c; macros, if they are wanted
+   again, as an hbnf grammar like corpus/c/cpp.hbnf
 OPTIONS:
    A) Decide it (type the decision in NOTE). For: closes a loose end. Against: may be early.
    B) Drop it (not wanted). For: removes noise. Against: the idea is lost.
@@ -10364,7 +10489,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.c64-console-c64x-the-earlier-sdl-console
-ORDER: 318   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 322   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
    TITLE: C64 console (c64x), the earlier SDL console
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10384,26 +10509,8 @@ DECISION:
 NOTE: 
 
 ================================================================================================
-ENTRY S.c64-console-font-and-9p-interface
-ORDER: 319   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
-   TITLE: C64 console font and 9p interface
-   AFFECTS OPCODES: no (not instruction semantics)
-------------------------------------------------------------------------------------------------
-   STATUS: "9p all the way" decided for the console, "9p server" and font-query protocol are
-   potentials, all outside this repository (latest decision 2026-06-18 [R9])
-   WHAT THE AUTHOR SAID: 2026-06-18 decided: "9p means 9p all the way. no mix and match." [R9]
-   WHAT IS MISSING: same repository question as the C64 console
-OPTIONS:
-   A) Decide it (type the decision in NOTE). For: closes a loose end. Against: may be early.
-   B) Drop it (not wanted). For: removes noise. Against: the idea is lost.
-   C) Keep it as an idea; no decision now. For: nothing is lost. Against: stays in the air.
-
-DECISION: 
-NOTE: 
-
-================================================================================================
 ENTRY S.sid-chip-variants
-ORDER: 320   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 323   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
    TITLE: SID chip variants
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10420,7 +10527,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.velinsky-link-between-c64-and-dec
-ORDER: 321   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 324   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
    TITLE: Velinsky link between C64 and DEC
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10437,7 +10544,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.realtime-v7-with-qnx-ideas
-ORDER: 322   KIND: ledger: in the air   CHAPTER: 06 Kernel, modes and memory management
+ORDER: 325   KIND: ledger: in the air   CHAPTER: 06 Kernel, modes and memory management
    TITLE: Realtime V7 with QNX ideas
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10454,7 +10561,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.mmap-devices-multics-idea
-ORDER: 323   KIND: ledger: in the air   CHAPTER: 06 Kernel, modes and memory management
+ORDER: 326   KIND: ledger: in the air   CHAPTER: 06 Kernel, modes and memory management
    TITLE: mmap devices (Multics idea)
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10471,7 +10578,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.cpu-in-dram
-ORDER: 324   KIND: ledger: in the air   CHAPTER: 07 Multiple processors
+ORDER: 327   KIND: ledger: in the air   CHAPTER: 07 Multiple processors
    TITLE: CPU in DRAM
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10488,7 +10595,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.newlisp-environment
-ORDER: 325   KIND: ledger: in the air   CHAPTER: 11 Toolchain
+ORDER: 328   KIND: ledger: in the air   CHAPTER: 11 Toolchain
    TITLE: newlisp environment
    AFFECTS OPCODES: no (a software environment)
 ------------------------------------------------------------------------------------------------
@@ -10508,7 +10615,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.grant-evaluation
-ORDER: 326   KIND: ledger: in the air   CHAPTER: 12 Documentation and process
+ORDER: 329   KIND: ledger: in the air   CHAPTER: 12 Documentation and process
    TITLE: Grant evaluation
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10525,7 +10632,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.wrapping-for-pdp64-and-papers
-ORDER: 327   KIND: ledger: in the air   CHAPTER: 12 Documentation and process
+ORDER: 330   KIND: ledger: in the air   CHAPTER: 12 Documentation and process
    TITLE: Wrapping for pdp64 and papers
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10544,7 +10651,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.other
-ORDER: 328   KIND: ledger: in the air   CHAPTER: Documentation and process
+ORDER: 331   KIND: ledger: in the air   CHAPTER: Documentation and process
    TITLE: Other
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10561,7 +10668,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.encoding-optimiser-the-objective-for-the-rea
-ORDER: 329   KIND: ledger: in the air   CHAPTER: Instruction set: encoding
+ORDER: 332   KIND: ledger: in the air   CHAPTER: Instruction set: encoding
    TITLE: Encoding optimiser: the objective for the real run
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------

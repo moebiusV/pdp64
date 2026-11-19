@@ -7748,9 +7748,9 @@ make earlier writes to PTBR, ASID, MMUCTL and VBR, and earlier ICINVs, take effe
 
 **Flags** None written.
 
-**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. A non-zero pad byte is an illegal instruction.
+**Exceptions** Not privileged (6.2.6). A non-zero pad byte is an illegal instruction.
 
-The architecture promises the effect only after the next `ISYNC`; an in-order implementation may make it immediate, and software must not rely on that.
+The architecture promises the effect only after the next `ISYNC`; an in-order implementation may make it immediate, and software must not rely on that. It is not privileged, so that a program that writes instructions can issue `ICINV` and then `ISYNC` (7.12.3); the writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` that it also covers are themselves privileged.
 
 **Why it is here.** Taken from the out-of-order readiness review: it makes earlier writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` take effect for what follows, so an in-order machine may make them immediate and a speculative one has a place to serialise. It serves the aim that the architecture is efficient on both in-order and out-of-order cores (1.4.4).
 

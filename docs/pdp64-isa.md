@@ -1352,7 +1352,7 @@ LoongArch64 is worth studying here because it is the most recent clean-room ISA 
 
 ## 16. What the architecture owes devices
 
-Graphics, networking, storage and the C64-derived devices are all devices on the system bus (PCI Express, with the additions that appendix J.2.5 and [`pdp64-q64-bus.md`](pdp64-q64-bus.md) discuss), and **none of them touches the ISA**. The separation lets the device side churn without respecifying the processor.
+Graphics, networking, storage and the C64-derived devices are all devices on the system bus (PCI Express, with the additions that appendix J.2.4 and [`pdp64-q64-bus.md`](pdp64-q64-bus.md) discuss), and **none of them touches the ISA**. The separation lets the device side churn without respecifying the processor.
 
 What the ISA owes them is exactly three things (manual 2.8):
 
