@@ -560,7 +560,7 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		}
 		case MN_SYS_MTDP: dp = r[f.low]; return;
 		case MN_SYS_MFDP: r[f.low] = dp; return;
-		case MN_SYS_MFCPUID: r[f.low] = C->cpuid; return;
+		case MN_SYS_MFCPUID: priv(); r[f.low] = C->cpuid; return;			/* privileged (errata 186 decision 2; 6.2.5, 6.14.11): MFSR CPUID already is */
 		case MN_SYS_PROBER: case MN_SYS_PROBEW:
 			priv();
 			r[f.rd] = E->probe(E->u, r[f.low], cls == MN_SYS_PROBEW, (int)(C->psw >> PSW_PREV & 3));

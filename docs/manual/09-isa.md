@@ -8240,9 +8240,9 @@ Rd ← CPUID
 
 **Flags** None written.
 
-**Exceptions** None.
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
-The index of this core, for per-CPU data.
+The index of this core, for per-CPU data. It is privileged (6.2.5, 6.14.11): the kernel reads it once and keeps it in the per-CPU structure.
 
 **Why it is here.** Part of the multiprocessor operations, because per-CPU data needs each core to know which one it is.
 
@@ -8278,7 +8278,7 @@ invalidate the instruction-cache line containing the address in Rs
 
 **Flags** None written.
 
-**Exceptions** Privileged, as for the other cache-maintenance instructions.
+**Exceptions** Not privileged (6.2.6): a program that generates code needs it.
 
 **Why it is here.** Instruction-cache invalidation, by address (`ICINV`) and whole (`ICINVA`). The reason is the one given for `TLBA`: a runtime that compiles a function cannot work without it.
 
