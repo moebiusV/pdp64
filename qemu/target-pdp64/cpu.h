@@ -12,6 +12,8 @@
 #include "exec/cpu-interrupt.h"
 #include "gen/pdp64exec.h"
 
+#define PDP64_ACACHE_N 256
+
 #ifdef CONFIG_USER_ONLY
 #error "pdp64 does not support user mode emulation"
 #endif
@@ -37,6 +39,17 @@ typedef struct CPUArchState {
     int ex_vector;              /* the abort being delivered */
     uint64_t ex_eva;
     uint32_t irq_lines;         /* bit n: the device line of vector 32 + n is asserted */
+    /* the architectural cache of translations of a guest (errata 195, 196; design 1.7, decision 23), keyed by (guest tag, address-space number, mode index, page) and flushed only
+       as the architecture says (rules G-a to G-d), beside QEMU's own TLB (which has no tags and is flushed more): a missing invalidate is observable.  Cleared at reset. */
+    struct PDP64ACache {
+        bool valid, global;
+        uint16_t tag, asid;
+        uint8_t idx;
+        uint64_t vpn, pa;
+        int prot;
+        uint64_t size;
+    } acache[PDP64_ACACHE_N];
+    unsigned acache_next;
 } CPUPDP64State;
 
 struct ArchCPU {
@@ -68,29 +81,44 @@ static inline bool pdp64_mapped(const CPUPDP64State *env, uint64_t a, int size)
  * the index so that STUA and CLUA flush nothing.
  */
 enum { PDP64_MMU_PHYS = 0, PDP64_MMU_KERNEL = 1, PDP64_MMU_USER = 2,
-       PDP64_MMU_KERNEL_GUARD = 3 };
+       PDP64_MMU_KERNEL_GUARD = 3,
+       /* a guest with stage 2 on (GTBR.S2EN, at H = 0): the same four, 4 plus
+          the index: translation off (guest-physical = guest-virtual, stage 2
+          only) and the three of stage 1 with stage 2 under them */
+       PDP64_MMU_GUEST_PHYS = 4, PDP64_MMU_GUEST = 4 };
+
+static inline bool pdp64_s2_on(const CPUPDP64State *env)
+{
+    return env->c.hve && !env->c.h && (env->c.gtbr & 1);
+}
 
 static inline int pdp64_mmu_idx_mode(const CPUPDP64State *env, unsigned mode)
 {
-    if (!env->c.deliver || env->c.h
-        || !(env->c.mmuctl & (1u << MMUCTL_ENABLE))) {
+    int s2 = pdp64_s2_on(env) ? PDP64_MMU_GUEST : 0;
+
+    if (!env->c.deliver || env->c.h) {
         /* the hypervisor runs untranslated in version 1 (design 1.2 rule 1) */
         return PDP64_MMU_PHYS;
     }
-    if (mode != MODE_KERNEL) {
-        return PDP64_MMU_USER;
+    if (!(env->c.mmuctl & (1u << MMUCTL_ENABLE))) {
+        return s2 ? PDP64_MMU_GUEST_PHYS : PDP64_MMU_PHYS;
     }
-    return (env->c.psw >> PSW_UA & 1) ? PDP64_MMU_KERNEL
-                                      : PDP64_MMU_KERNEL_GUARD;
+    if (mode != MODE_KERNEL) {
+        return PDP64_MMU_USER + s2;
+    }
+    return ((env->c.psw >> PSW_UA & 1) ? PDP64_MMU_KERNEL
+                                       : PDP64_MMU_KERNEL_GUARD) + s2;
 }
 
 /* the index of a data access: a `.U` move (movq.u and the others) is made
    with the privilege of user mode (6.10.4) */
 static inline int pdp64_mmu_idx_data(const CPUPDP64State *env)
 {
+    int k = pdp64_mmu_idx_mode(env, MODE_KERNEL);
+
     if (env->c.uacc && pdp64_mode(&env->c) == MODE_KERNEL
-        && pdp64_mmu_idx_mode(env, MODE_KERNEL) != PDP64_MMU_PHYS) {
-        return PDP64_MMU_USER;
+        && k != PDP64_MMU_PHYS && k != PDP64_MMU_GUEST_PHYS) {
+        return pdp64_mmu_idx_mode(env, MODE_USER);
     }
     return pdp64_mmu_idx_mode(env, pdp64_mode(&env->c));
 }
@@ -118,5 +146,10 @@ int pdp64_irq_level(int vector);
 bool pdp64_mmu_translate(CPUPDP64State *env, vaddr addr, MMUAccessType type,
                          int mmu_idx, hwaddr *pa, int *prot, vaddr *size,
                          int *fault_vector);
+/* stage 2 alone: a guest-physical address of a guest to the physical address; false with env->c.s2_* set (the exit of design 2.5) */
+bool pdp64_s2_translate(CPUPDP64State *env, uint64_t gpa, MMUAccessType type,
+                        unsigned flags, hwaddr *pa);
+/* the host's side of the invalidates (the ops of the executor's tlb hook), on the architectural cache of the tag in GTBR */
+void pdp64_acache_flush(CPUPDP64State *env, int op, uint64_t addr);
 
 #endif

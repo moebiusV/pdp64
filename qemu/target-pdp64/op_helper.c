@@ -147,8 +147,8 @@ static int h_probe(void *u, uint64_t a, int write, int mode)
         return pdp64_mapped(h->env, a, 1);
     }
     idx = pdp64_mmu_idx_mode(h->env, mode);
-    if (idx == PDP64_MMU_KERNEL_GUARD) {
-        idx = PDP64_MMU_KERNEL;             /* PROBER and PROBEW are not affected by UA (errata 43) */
+    if ((idx & 3) == PDP64_MMU_KERNEL_GUARD && idx != PDP64_MMU_PHYS) {
+        idx = (idx & ~3) | PDP64_MMU_KERNEL; /* PROBER and PROBEW are not affected by UA (errata 43) */
     }
     return !(probe_access_flags(h->env, a, 1,
                                 write ? MMU_DATA_STORE : MMU_DATA_LOAD, idx,
@@ -175,7 +175,18 @@ static uint64_t h_fetch(void *u, uint64_t a)
 /* the vector table is read at a physical address */
 static int h_vecread(void *u, uint64_t pa, uint64_t *v)
 {
+    struct hostctx *h = u;
     MemTxResult res;
+
+    if (pdp64_s2_on(h->env) && !h->env->c.vec_phys) {
+        /* a guest's vector table is at a guest-physical address: stage 2 first; a refusal is an exit with VEC set (2.4) */
+        hwaddr real;
+
+        if (!pdp64_s2_translate(h->env, pa, MMU_DATA_LOAD, 1u << XFLAG_VEC, &real)) {
+            return 2;
+        }
+        pa = real;
+    }
 
     *v = address_space_ldq_le(&address_space_memory, pa,
                               MEMTXATTRS_UNSPECIFIED, &res);
@@ -195,10 +206,13 @@ static void h_tlb(void *u, int op, uint64_t a)
 {
     struct hostctx *h = u;
 
+    if (h->env->c.hve && op != PDP64_TLB_SYNC) {
+        pdp64_acache_flush(h->env, op, a);  /* the architectural cache: only what the rule says (the tag in GTBR) */
+    }
     if (op == PDP64_TLB_PAGE) {
         tlb_flush_page(env_cpu(h->env), a);
     } else {
-        tlb_flush(env_cpu(h->env));
+        tlb_flush(env_cpu(h->env));         /* QEMU's own buffer has no tags: it is flushed more than the rule asks, which is allowed */
     }
 }
 

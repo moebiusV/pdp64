@@ -94,6 +94,16 @@ commands, a change of the device-table pointer, the reset bit and reset, so a mi
 gets the error completion, a write is dropped), and is logged once; the commands run synchronously, so a request of a device is never in flight while one runs.  The tests are
 `tests/qemu/iommu-*.S` and `pcie-*.S` (the routines they share are `iommu-lib.inc`, the macros `iommu-lib.h`).
 
+## Stage 2 (hypervisor=on; errata 195, 196)
+
+A guest with `GTBR.S2EN` set has every address of stage 1 and every page-table entry it reads translated by a second walk of the same entry format (U and G zero, three levels, a root of two pages
+for the 40-bit guest-physical space, software accessed and dirty bits: a clear A, or a clear D on a store, refuses).  A failure is an exit (code `XCODE_S2_INVALID` or `XCODE_S2_REFUSED`, vector 18, 19 or 20)
+with `HEPC` the instruction, `HEVA` the guest-virtual address, `HGPA` the failing guest-physical address (the entry's address with the flag WALK, the vector fetch with VEC) and `HINSN`.  QEMU's MMU indexes 4 to 7 are
+the guest's (translation off, kernel, user, kernel with UA clear, each with stage 2 under it).  The translations of a guest are also kept in an architectural cache keyed by (guest tag, address-space number, mode index,
+page), beside QEMU's own TLB (which has no tags and is flushed more than the rules ask): it is discarded only as the rules G-a to G-d say (a guest's TLBI and TLBIA, a write to PTBR, ASID or MMUCTL and TLBIA at H = 1 act
+on the tag in GTBR; a write to GTBR that changes the root or the enable bit discards the tag written; GENTER, ISYNC and a change of the tag alone discard nothing), so a missing invalidate is observable
+(tests/qemu/hv-stage2.S).  The model does not count the two-stage reads, and a bus error on a stage-2 table is reported as an invalid entry.
+
 ## The MMU (kernel-mode machine, MMUCTL.enable = 1)
 
 `tlb_fill` walks the three-level table of section 15 for every access of every mode: canonical check (vector 5), V and reserved bits (page fault 6/7/8

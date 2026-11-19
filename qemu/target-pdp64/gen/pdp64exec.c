@@ -353,7 +353,9 @@ static void hexit(unsigned code, unsigned flags, int vector, uint64_t epc, uint6
 {
 	uint64_t target, at = C->hvbr + 8 * (uint64_t)vector;
 	unsigned old;
+	C->vec_phys = 1;
 	if (E->vecread(E->u, at, &target)) E->fault(E->u, "machine check: the vector fetch of an exit failed", at);
+	C->vec_phys = 0;
 	old = pdp64_psw(C);
 	C->hepc = epc; C->hepsw = old; C->heva = eva; C->hgpa = gpa; C->hinsn = insn; C->hexitr = code | flags; C->hcause = (uint64_t)vector;
 	C->uacc = 0;
@@ -397,8 +399,16 @@ static void enter(int vector, uint64_t epc, uint64_t eva)
 	uint64_t target, at = C->vbr + 8 * (uint64_t)vector;
 	unsigned old;
 	if (C->h) { enter_h(vector, epc, eva); return; }
-	if (E->vecread(E->u, at, &target)) {
-		if (GUEST()) { hexit(XCODE_MACHINE_CHECK, 0, VECTOR_MACHINE_CHECK, epc, eva, at, 0); return; }	/* a machine check in a guest always exits (design 1.6 code 21) */
+	int rc = E->vecread(E->u, at, &target);
+	if (rc) {
+		/* an exit does not run the instruction again: the exit's EPC is the instruction itself if this entry is made by an instruction (a TRAP, BPT or check trap: nothing of it has an effect), the next instruction for an interrupt */
+		uint64_t xpc = C->snap_valid ? cur_pc : epc;
+		if (rc == 2 && GUEST()) {					/* stage 2 refused the vector fetch: an exit with nothing changed, VEC set (design 2.4, 2.5); the hypervisor fills stage 2 and the guest retries */
+			int code = C->s2_code; C->s2_code = 0;
+			hexit(code, C->s2_flags, VECTOR_GLFAULT, xpc, eva, C->s2_gpa, C->snap_valid ? C->cur_insn : 0);
+			return;
+		}
+		if (GUEST()) { hexit(XCODE_MACHINE_CHECK, 0, VECTOR_MACHINE_CHECK, xpc, eva, at, 0); return; }	/* a machine check in a guest always exits (design 1.6 code 21) */
 		E->fault(E->u, "machine check: the vector fetch failed", at);
 	}
 	old = pdp64_psw(C);
@@ -418,7 +428,7 @@ static void genter(void)
 	priv();
 	if (!C->h) { hexit(XCODE_HVREG, 0, VECTOR_HEXIT, pc, 0, 0, C->cur_insn); return; }
 	if (psw_bad(C->hepsw)) die("genter: reserved mode in hepsw", 0);
-	E->tlb(E->u, PDP64_TLB_ALL, 0);
+	E->tlb(E->u, PDP64_TLB_SYNC, 0);
 	pdp64_set_h(C, 0);
 	pdp64_set_psw(C, (unsigned)C->hepsw);
 	pc = C->hepc;
@@ -460,7 +470,13 @@ static void hv_sysreg(int write, unsigned num, int rd)
 	v = r[rd];
 	if (num == SYSREG_HTRAP && (v & ~(uint64_t)HTRAP_VALID)) die("illegal instruction", 0);	/* a one in a reserved bit: the software probes, an old version never ignores a request to trap */
 	v &= mask;
-	if (num == SYSREG_GTBR && ((v ^ C->gtbr) & (GTBR_VALID & ~((((uint64_t)1 << GTBR_WIDTH_TAG) - 1) << GTBR_TAG)))) { *sr = v; E->tlb(E->u, PDP64_TLB_ALL, 0); return; }	/* a new root or enable discards (rule G-c; this model discards everything) */
+	if (num == SYSREG_GTBR) {
+		uint64_t old = C->gtbr;
+		*sr = v;
+		if ((v ^ old) & (GTBR_VALID & ~((((uint64_t)1 << GTBR_WIDTH_TAG) - 1) << GTBR_TAG))) E->tlb(E->u, PDP64_TLB_GTBR, v);	/* a new root or enable discards every translation of the tag written (rule G-c) */
+		else if (v != old) E->tlb(E->u, PDP64_TLB_SYNC, 0);									/* only the tag changed: nothing is discarded, the host's own buffer must not serve the old tag */
+		return;
+	}
 	*sr = v;
 	if (num == SYSREG_VTOFF && E->hv_event) E->hv_event(E->u, PDP64_HV_VTOFF);
 }
@@ -611,7 +627,7 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 											   the effect only after the next ISYNC; this emulator applies them at once and keeps the translation state
 											   coherent here, so only a kernel-mode ISYNC discards the translation buffer (a user-mode one has nothing to publish) */
 					if (f.n != 0) die("illegal instruction", 0);
-					if (MODE == MODE_KERNEL) E->tlb(E->u, PDP64_TLB_ALL, 0);
+					if (MODE == MODE_KERNEL) E->tlb(E->u, PDP64_TLB_SYNC, 0);
 					return;
 				}
 				priv();
@@ -927,6 +943,7 @@ void pdp64_set_psw(struct pdp64_cpu *c, unsigned v)
 void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector, uint64_t eva)
 {
 	uint64_t epc = c->pc;
+	uint32_t insn = c->snap_valid ? c->cur_insn : 0;				/* a fault in the translation of the fetch (before the instruction began) has no instruction to show */
 	C = c; E = e;
 	if (c->vhidden) {									/* a block with hidden accumulation: it restarts from its entry, the accumulators discarded (hidden state is not saved: R435) */
 		for (int v = 0; v < 16; v++) if (c->vacc >> v & 1) memset(c->vr[v], 0, sizeof c->vr[v]);
@@ -940,6 +957,13 @@ void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector,
 		epc = c->cur_pc;
 		c->snap_valid = 0;
 	}
+	if (c->s2_code && c->hve && !c->h) {						/* a stage-2 fault: the abort is an exit (design 2.5): HEPC the instruction, HEVA the guest-virtual address, HGPA the guest-physical address, HINSN the instruction */
+		int code = c->s2_code;
+		c->s2_code = 0;
+		hexit(code, c->s2_flags, vector, epc, eva, c->s2_gpa, insn);
+		return;
+	}
+	c->s2_code = 0;
 	enter(vector, epc, eva);
 }
 /* the highest pending virtual line that has a deliverable vector (VIVEC field of 8 bits, 32 to 255); 0 if none */
@@ -980,6 +1004,8 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 	int traced = c->psw >> PSW_T & 1, guest = c->hve && !c->h;
 	C = c; E = e;
 	c->entered = 0; c->progress = 0; c->wait = 0; c->vhidden = 0; c->uacc = 0; c->snap_valid = c->deliver;
+	c->cur_insn = 0;									/* an exit during the fetch has no instruction to show */
+	c->s2_code = 0;
 	if (c->deliver) {									/* keep what an abort has to undo */
 		memcpy(c->snap.r, c->r, sizeof c->r); c->snap.pc = c->pc; c->snap.dp = c->dp; c->snap.fpsr = c->fpsr;
 		c->snap.fN = c->fN; c->snap.fZ = c->fZ; c->snap.fV = c->fV; c->snap.fC = c->fC;

@@ -197,15 +197,18 @@ static bool pdp64_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
                         : "access to unmapped memory", retaddr);
         }
     } else if (mmu_idx != PDP64_MMU_PHYS) {
-        if (!pdp64_mmu_translate(env, page, access_type, mmu_idx, &pa, &prot,
+        if (!pdp64_mmu_translate(env, addr, access_type, mmu_idx, &pa, &prot,
                                  &tsize, &vector)) {
+            if (env->c.s2_code) {
+                /* a stage-2 fault of a guest is an exit, even for a probe (PROBER, PROBEW: the hypervisor fills stage 2 and the probe runs again) */
+                pdp64_raise(env, vector, addr, "stage-2 fault", retaddr);
+            }
             if (probe) {
                 return false;
             }
             pdp64_raise(env, vector, addr, "page fault", retaddr);
         }
-        /* the entry is for the 4 KB page; tsize only tells QEMU how much a flush must cover */
-        pa += page & (tsize - 1);
+        /* pa is the physical address of the 4 KB page; tsize only tells QEMU how much a flush must cover */
     }
     if (env->c.deliver && access_type == MMU_INST_FETCH
         && !pdp64_mapped(env, pa, 1)) {

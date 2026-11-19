@@ -26,6 +26,11 @@ struct pdp64_cpu {
 	   and none of the rest exists.  h: the internal state bit H, 1 while the hypervisor runs (reset value with hve set), 0 for a guest.  Not in the status word.  The registers are the system registers 128 to 147. */
 	int hve, h;
 	uint64_t htrap, hexitr, hepc, hepsw, heva, hcause, hgpa, hinsn, hvbr, gtbr, virq, vivec, vtoff, vcpuid;
+	/* a stage-2 fault (set by the host before it raises the abort, or when its vecread returns 2; design 1.6, 2.5): the exit code (XCODE_S2_INVALID or XCODE_S2_REFUSED; 0: no stage-2 fault), the flag bits of HEXITR (XFLAG_WALK, XFLAG_VEC) shifted in place, and the guest-physical address that failed */
+	int vec_phys;				/* set while the executor reads the hypervisor's vector word (HVBR + 8 * HCAUSE): a physical address, not a guest-physical one */
+	int s2_code;
+	unsigned s2_flags;
+	uint64_t s2_gpa;
 	uint32_t cur_insn;			/* the first two parcels of the instruction being executed (parcel 0 in the high half; zero if it has one parcel): HINSN of an exit that it causes */
 	/* the system registers that mfsr and mtsr reach (privileged: kernel mode).  eva, ecause and cpuid are read only for software; the exception entry writes eva and ecause. */
 	uint64_t ptbr, epc, eva, ecause, dmw[2], epsw, vbr, mmuctl, asid, cpuid;
@@ -64,7 +69,7 @@ struct pdp64_env {
 	void (*halt)(void *u);			/* halt */
 	int (*probe)(void *u, uint64_t addr, int write, int mode);	/* prober, probew: may the code running in this mode (a MODE_ number) read (write) this address? 1 or 0, no fault */
 	uint64_t (*fetch)(void *u, uint64_t addr);	/* one two-byte parcel of an instruction (an instruction fetch is not a data load for the page faults) */
-	int (*vecread)(void *u, uint64_t paddr, uint64_t *value);	/* the 64-bit word at a physical address, for the vector table; nonzero if the bus refuses (a machine check) */
+	int (*vecread)(void *u, uint64_t paddr, uint64_t *value);	/* the 64-bit word at a physical address (of a guest: a guest-physical address, through stage 2), for the vector table; 1 if the bus refuses (a machine check), 2 if stage 2 refuses a guest (the host has set s2_code, s2_flags, s2_gpa) */
 	void (*check)(void *u, uint64_t addr, int size, int write);	/* the checks of an access (alignment, mapping, permission) without the transfer: the same abort, or nothing; pushx and popx use it so that an abort has no effect */
 	void (*tlb)(void *u, int op, uint64_t addr);	/* PDP64_TLB_*: tlbi (one page), tlbia, or a write to ptbr / asid / mmuctl */
 	void (*raise)(void *u, int vector, uint64_t eva) __attribute__((noreturn));	/* deliver mode: the core has an abort; unwind to the main loop, which calls pdp64_exception(vector, eva) */
@@ -78,7 +83,9 @@ enum { PDP64_CAT_OTHER, PDP64_CAT_FRAME_LD, PDP64_CAT_FRAME_ST, PDP64_CAT_REGMOV
        PDP64_CAT_BLOCK, PDP64_CAT_FUSED, PDP64_CAT_LEA, PDP64_NCAT };
 #define PDP64_CAT_NAMES { "other", "frame_load", "frame_store", "regmove", "pushpop", "memref", "branch", "call_ret_jmp", "block", "fused", "lea" }
 #define PDP64_TLB_PAGE 0	/* tlbi: the page that contains addr, for the current ASID and the global entries */
-#define PDP64_TLB_ALL 1		/* tlbia, or a write to ptbr, asid or mmuctl */
+#define PDP64_TLB_ALL 1		/* tlbia, or a write to ptbr, asid or mmuctl: discards the translations of the tag in GTBR (the guest's own at H = 0), design rules G-a, G-b, G-d */
+#define PDP64_TLB_SYNC 2	/* isync and genter: the effect of the earlier writes is published; no cached translation of any tag is discarded (a host that keeps no cache of its own may flush) */
+#define PDP64_TLB_GTBR 3	/* a write to GTBR that changes the root or the enable bit (rule G-c): discard every translation of the tag in the new value, passed as addr */
 
 /* The space bit (errata 60): bit 39 of a 40-bit physical address is set for device space, clear for memory.  PROPOSED (errata 65): a leaf page-table entry must agree with
    it: a page in device space has memory type device or device-weak, a page of memory has cached or uncached; the walker makes any other combination a protection fault. */
