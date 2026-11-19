@@ -1,0 +1,6 @@
+guest kernel up
+demand page ok
+virtual timer ok
+hello from user
+guest stops
+hypervisor: guest halted
