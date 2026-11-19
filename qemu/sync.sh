@@ -10,7 +10,7 @@ D=qemu/target-pdp64/gen
 tools/build-as64.sh > /dev/null
 mkdir -p "$D"
 # source -> name in gen/
-LIST="common/pdp64exec.c common/pdp64exec.h common/pdp64exec_enc.inc common/pdp64exec_vec.inc common/pdp64exec_vecbases.inc common/fmt.h common/pdp64enc.c common/pdp64enc.h $B/pdp64-tab.c $B/pdp64-consts.h"
+LIST="common/pdp64exec.c common/pdp64exec.h common/pdp64exec_enc.inc common/pdp64exec_corehdefs.inc common/pdp64exec_vec.inc common/pdp64exec_vecbases.inc common/fmt.h common/pdp64enc.c common/pdp64enc.h $B/pdp64-tab.c $B/pdp64-consts.h"
 stale=0
 for f in $LIST; do
 	g="$D/$(basename "$f")"

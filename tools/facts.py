@@ -17,7 +17,8 @@ import grammars_d
 FACTS = os.path.join(ROOT, 'spec', 'facts')
 # the groups: file name -> the families of the encoding grammar ("; family NAME:" lines of the generated forms part) whose words belong to it
 GROUPS = {'vec': {'VBEG', 'VBEG2', 'VEND', 'VFIN', 'VOP.VVV', 'VOP.VVR', 'VOP.VVI', 'VDACC', 'VTBLM', 'VOP.VV', 'VBSL', 'VOP.VR', 'VOP.VI', 'VFMAB', 'VACC', 'VFIR', 'VCLR',
-                'VLD.PI', 'VLD.B', 'VST.PI', 'VST.B', 'VLDT', 'VSTT', 'VSTS.R'}}
+                'VLD.PI', 'VLD.B', 'VST.PI', 'VST.B', 'VLDT', 'VSTT', 'VSTS.R'},
+          'core': None}		# core: every word of the grammar's leaves whose base is not a base of vec
 
 
 def load(group):
@@ -28,6 +29,10 @@ def load(group):
 
 def grammar_words(group):
     """the quoted words of the families of the group in the grammar, each once (sorted)"""
+    if group == 'core':
+        import encgram
+        vec = set(grammar_bases('vec'))
+        return sorted({w for lf in encgram.load()['leaves'] for m in lf['mns'] for w in [m if isinstance(m, str) else m[0]] if w.split('.')[0] not in vec})
     words, fam = set(), None
     for line in grammars_d.text(ROOT, 'enc').split('\n'):
         m = re.match(r'; family (\S+):', line)
@@ -44,7 +49,7 @@ def grammar_bases(group):
 
 
 # the fields every table of a group has
-REQUIRED = {'vec': ('wave', 'meaning', 'llvm', 'exec', 'asm', 'group', 'entry')}
+REQUIRED = {'vec': ('wave', 'meaning', 'llvm', 'exec', 'asm', 'group', 'entry'), 'core': ('exec',)}
 # where a test that runs a word lives (a word is run by a test if it is a mnemonic of a source there: tests/asm and tests/enc only assemble and encode it)
 TESTS = {'vec': ['tests/sim/*.s', 'tests/sim/*.S', 'tests/qemu/*.S', 'tests/qemu/*.s']}
 COMPILER_DIR = os.path.join('llvm', 'target', 'PDP64')
@@ -52,6 +57,13 @@ COMPILER_DIR = os.path.join('llvm', 'target', 'PDP64')
 
 def _gen_vec_names():
     spec = importlib.util.spec_from_file_location('gen_vec_names', os.path.join(ROOT, 'tools', 'gen-vec-names.py'))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+def _gen_core_names():
+    spec = importlib.util.spec_from_file_location('gen_core_names', os.path.join(ROOT, 'tools', 'gen-core-names.py'))
     m = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(m)
     return m
@@ -99,6 +111,9 @@ def problems(group):
         for f in REQUIRED[group]:
             if f not in t:
                 out.append('%s: the table of %s has no field %s' % (group, b, f))
+    if group == 'core':
+        out += ['core: ' + p for p in _gen_core_names().problems()]
+        return out
     # the manual: every base names an entry, and the entry is defined once (its first base carries the text)
     leads = {}
     for b, t in F.items():
