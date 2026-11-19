@@ -349,8 +349,10 @@ static void enter(int vector, uint64_t epc, uint64_t eva)
 	unsigned old;
 	if (E->vecread(E->u, at, &target)) E->fault(E->u, "machine check: the vector fetch failed", at);
 	old = pdp64_psw(C);
-	C->epc = epc; C->epsw = old; C->eva = eva; C->ecause = (uint64_t)vector;
-	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));
+	C->epc = epc; C->epsw = old; C->eva = eva; C->ecause = (uint64_t)vector | (C->uacc ? 1u << 15 : 0);	/* bit 15: the fault was on the operand of a .u move (6.10.4) */
+	C->uacc = 0;
+	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));	/* UA is clear in the new status word; EPSW keeps the old value (6.10.1) */
+	C->vacc = 0;									/* every exception entry clears the naming of the vector accumulators (errata 186 decision 13, 6.14.9); the hardware's copy of a hidden block, vrun_* and vrst_*, is not touched.  There is no LL reservation in this executor (the atomics are not implemented) */
 	pc = target;
 	C->entered = 1;
 }
@@ -485,6 +487,7 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 				priv();
 				if (psw_bad(C->epsw)) die("rti: reserved mode in epsw", 0);
 				pc = C->epc; pdp64_set_psw(C, (unsigned)C->epsw);
+				C->vacc = 0;								/* the return clears the naming too: what a handler named with a vclr outside a block is not left for the interrupted program (errata 172) */
 				if (f.low == MN_SYS_NONE_RTT) C->psw |= 1u << PSW_T;
 				return;
 			case SYS_MINOR_SYSX: {								/* the SYSX escape: pushx, popx, isync, hint */
