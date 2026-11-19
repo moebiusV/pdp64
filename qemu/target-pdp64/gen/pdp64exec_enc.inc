@@ -9,7 +9,7 @@
  *
  * What is not implemented traps as an illegal instruction with a message that names the mnemonic (list: H_UNIMPL below): the atomic group (the operand
  * placement and the size encoding are not fixed by the ISA text), the AES and SHA instructions, UTF8DEC, UTF8ENC, MVAL, the deferred loads (.d, .ud),
- * the placeholders syspg0 to syspg5.
+ * the placeholders syspg2 to syspg5.
  */
 /* the register file is r in pdp64exec.c, a macro that would also take the field `r` of an eop: use RG here */
 #undef r
@@ -26,13 +26,14 @@ enum {
 	H_VEC
 };
 struct hdef { const char *name; int kind, a; };
+#define H_USER 0x4000				/* or-ed into the argument of the user-qualified moves (movq.u ...): the memory operand is accessed with the privilege of user mode (6.10.4) */
 #define VECTOR_CHECK 16				/* the overflow / bounds check trap (docs/study-proposals.md item 9) */
 #include "pdp64exec_corehdefs.inc"	/* hdefs[]: word -> handler kind and argument, generated from spec/facts/core.toml (tools/gen-core-names.py) */
 /* every other mnemonic of the tables is H_UNIMPL: ATOM (cas casdb swap swapdb xadd xadddb xand xanddb xor_ xor_db xxor xxordb xmax xmaxdb xmin xmindb xmaxu xmaxudb
    xminu xminudb ll sc), aeses aesesm aesds aesdsm aesks1 aesks2 aesim, sha256sig0/1 sha256sum0/1 sha512sig0/1 sha512sum0/1, msha256 msha512 maesctr, utf8dec utf8enc
-   mval, the deferred loads movX.d movX.ud, syspg0 to syspg5 */
+   mval, the deferred loads movX.d movX.ud, syspg2 to syspg5 */
 
-static struct hinfo { uint8_t kind; int a; } *HT;
+static struct hinfo { uint8_t kind; uint8_t user; int a; } *HT;
 static void vec_init(void);
 
 static void enc_exec_init(void)
@@ -42,7 +43,7 @@ static void enc_exec_init(void)
 	HT = calloc(t->nmn, sizeof *HT);
 	for (size_t i = 0; i < sizeof hdefs / sizeof *hdefs; i++) {
 		int m = enc_mn_find(t, hdefs[i].name);
-		if (m >= 0) { HT[m].kind = hdefs[i].kind; HT[m].a = hdefs[i].a; }
+		if (m >= 0) { HT[m].kind = hdefs[i].kind; HT[m].user = (hdefs[i].a & H_USER) != 0; HT[m].a = hdefs[i].a & ~H_USER; }
 	}
 	vec_init();
 }
@@ -138,7 +139,10 @@ static void step_enc(void)
 			f.opc = opc == MN_MOV_MOVQ ? MOVSTORE_MOVQ : opc == MN_MOV_MOVL ? MOVSTORE_MOVL : opc == MN_MOV_MOVW ? MOVSTORE_MOVW : MOVSTORE_MOVB;
 			f.reg = op[0].r; EO = &op[1];
 		} else { f.opc = opc; f.reg = op[1].r; EO = &op[0]; }
-		exec_fmt(f, start, 0); return;
+		C->uacc = h->user;								/* a .u move: its memory operand is accessed with user privilege (the host looks at uacc); an exception marks ECAUSE (enter) */
+		exec_fmt(f, start, 0);
+		C->uacc = 0;
+		return;
 	}
 	case H_LEA: f.opc = OPGROUP_LEA; f.reg = op[1].r; EO = &op[0]; exec_fmt(f, start, 0); return;
 	case H_ALU:

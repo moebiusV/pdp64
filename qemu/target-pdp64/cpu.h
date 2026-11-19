@@ -58,17 +58,36 @@ static inline bool pdp64_mapped(const CPUPDP64State *env, uint64_t a, int size)
 }
 
 /*
- * The QEMU MMU indexes: 0 physical (translation off), 1 kernel, 2 the other
- * modes (user, and supervisor, which is treated as user).
+ * The QEMU MMU indexes: 0 physical (translation off), 1 kernel with UA set
+ * (a data access reaches user pages), 2 the other modes (user, and
+ * supervisor, which is treated as user), 3 kernel with UA clear (a data
+ * access to a user page is a protection fault: errata 43, 190).  UA is in
+ * the index so that STUA and CLUA flush nothing.
  */
-enum { PDP64_MMU_PHYS = 0, PDP64_MMU_KERNEL = 1, PDP64_MMU_USER = 2 };
+enum { PDP64_MMU_PHYS = 0, PDP64_MMU_KERNEL = 1, PDP64_MMU_USER = 2,
+       PDP64_MMU_KERNEL_GUARD = 3 };
 
 static inline int pdp64_mmu_idx_mode(const CPUPDP64State *env, unsigned mode)
 {
     if (!env->c.deliver || !(env->c.mmuctl & (1u << MMUCTL_ENABLE))) {
         return PDP64_MMU_PHYS;
     }
-    return mode == MODE_KERNEL ? PDP64_MMU_KERNEL : PDP64_MMU_USER;
+    if (mode != MODE_KERNEL) {
+        return PDP64_MMU_USER;
+    }
+    return (env->c.psw >> PSW_UA & 1) ? PDP64_MMU_KERNEL
+                                      : PDP64_MMU_KERNEL_GUARD;
+}
+
+/* the index of a data access: a `.U` move (movq.u and the others) is made
+   with the privilege of user mode (6.10.4) */
+static inline int pdp64_mmu_idx_data(const CPUPDP64State *env)
+{
+    if (env->c.uacc && pdp64_mode(&env->c) == MODE_KERNEL
+        && pdp64_mmu_idx_mode(env, MODE_KERNEL) != PDP64_MMU_PHYS) {
+        return PDP64_MMU_USER;
+    }
+    return pdp64_mmu_idx_mode(env, pdp64_mode(&env->c));
 }
 
 void pdp64_translate_init(void);

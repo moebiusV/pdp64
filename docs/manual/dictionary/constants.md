@@ -18,6 +18,7 @@ The numbers of the processor status word, the modes, the exception vectors, the 
 | `PRI` | 5 | 3 | interrupt priority level, 0 to 7 |
 | `MODE` | 8 | 2 | current mode |
 | `PREV` | 10 | 2 | previous mode (the mode before the last exception) |
+| `UA` | 12 | 1 | user-access guard: with it clear a kernel-mode data access to a user page faults (6.10.1) |
 
 Bits 12 to 15 are reserved and read as zero. Bit 12 is the user-memory guard `UA`.
 

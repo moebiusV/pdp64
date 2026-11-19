@@ -126,7 +126,7 @@ code, that each leaf covers its 16n bits exactly once and that no first parcel d
 
 The mnemonics are those of the original grammar (aliases included) plus the words only the new encodings have, which the rule `mn-ext` of `grammars.d/80-mn-ext.hbnf` lists (`mkenc.py` checks the list against the words the leaves use) as the group `mn-ext`
 of the grammar as64 reads (`spec/pdp64-asm.hbnf` over the parts that name `asm`): `maskeqz masknez bsel aeses aesesm aesds aesdsm aesks1 aesks2 aesim sha256* sha512* msha256 msha512 maesctr addv subv mulv
-movql trapcc.<cc> syspg0-5`, the user-qualified moves `movq.u movq.d movq.ud ...`, and the fused `movcall popmret popret mov2`. They have no number in the original numbering of `pdp64-mnemonics.hbnf`.
+movql trapcc.<cc> syspg2-5`, the user-qualified moves `movq.u movq.d movq.ud ...`, and the fused `movcall popmret popret mov2`. They have no number in the original numbering of `pdp64-mnemonics.hbnf`.
 
 ## The model in two paragraphs
 

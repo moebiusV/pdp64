@@ -389,6 +389,14 @@ arg = "MN_SYSX_ISYNC"
 exec = "H_SYSX"
 arg = "MN_SYSX_HINT"
 
+[stua]
+exec = "H_SYSX"
+arg = "MN_SYSX_STUA"
+
+[clua]
+exec = "H_SYSX"
+arg = "MN_SYSX_CLUA"
+
 [mtps]
 exec = "H_SYSR"
 arg = "MN_SYS_MTPS"
@@ -964,12 +972,6 @@ arg = "0"
 [mov2]
 exec = "H_MOV2"
 arg = "0"
-
-[syspg0]
-exec = "H_UNIMPL"
-
-[syspg1]
-exec = "H_UNIMPL"
 
 [syspg2]
 exec = "H_UNIMPL"

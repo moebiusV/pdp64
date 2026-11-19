@@ -107,7 +107,8 @@ static int pdp64_cpu_mmu_index(CPUState *cs, bool ifetch)
 {
     CPUPDP64State *env = cpu_env(cs);
 
-    return pdp64_mmu_idx_mode(env, pdp64_mode(&env->c));
+    return ifetch ? pdp64_mmu_idx_mode(env, pdp64_mode(&env->c))
+                  : pdp64_mmu_idx_data(env);
 }
 
 static void pdp64_cpu_reset_hold(Object *obj, ResetType type)

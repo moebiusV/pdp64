@@ -95,6 +95,7 @@
 #define MN_MESC_MOVUL                4
 #define MN_MOV_MOVW                  4
 #define MN_SOP_NEG                   4
+#define MN_SYSX_STUA                 4
 #define MN_SYS_NONE_HALT             4
 #define MN_SYS_TRAP                  4
 #define MN_ATOM_XADDDB               5
@@ -102,6 +103,7 @@
 #define MN_CBRANCH_CBVC              5
 #define MN_MBLK_MSCNN                5
 #define MN_SOP_TST                   5
+#define MN_SYSX_CLUA                 5
 #define MN_SYS_NONE_BPT              5
 #define MN_SYS_TLBI                  5
 #define MN_ATOM_XAND                 6
@@ -350,6 +352,7 @@
 #define PSW_PRI                      5
 #define PSW_MODE                     8
 #define PSW_PREV                     10
+#define PSW_UA                       12
 #define PTE_V                        0
 #define PTE_R                        1
 #define PTE_W                        2

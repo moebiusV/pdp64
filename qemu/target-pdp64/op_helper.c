@@ -146,6 +146,9 @@ static int h_probe(void *u, uint64_t a, int write, int mode)
         return pdp64_mapped(h->env, a, 1);
     }
     idx = pdp64_mmu_idx_mode(h->env, mode);
+    if (idx == PDP64_MMU_KERNEL_GUARD) {
+        idx = PDP64_MMU_KERNEL;             /* PROBER and PROBEW are not affected by UA (errata 43) */
+    }
     return !(probe_access_flags(h->env, a, 1,
                                 write ? MMU_DATA_STORE : MMU_DATA_LOAD, idx,
                                 true, &host, 0) & TLB_INVALID_MASK);
@@ -184,7 +187,7 @@ static void h_check(void *u, uint64_t a, int size, int write)
 
     check(h, a, size);
     probe_access(h->env, a, size, write ? MMU_DATA_STORE : MMU_DATA_LOAD,
-                 pdp64_mmu_idx_mode(h->env, pdp64_mode(&h->env->c)), h->ra);
+                 pdp64_mmu_idx_data(h->env), h->ra);
 }
 
 static void h_tlb(void *u, int op, uint64_t a)

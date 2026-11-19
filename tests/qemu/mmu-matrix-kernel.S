@@ -8,6 +8,7 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
+	stua			; the guard open: the kernel's data accesses to a U page are part of the matrix (UA clear is tests/qemu/mmu-ua.S)
 	movq	#1, r1
 	mtsr	mmuctl, r1
 	movq	#0, r4

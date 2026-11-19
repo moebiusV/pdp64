@@ -27,7 +27,7 @@ def rows():
             out += [('%s.%s' % (b, c), t['exec'], str(i + 1)) for i, c in enumerate(CC)]
             continue
         out.append((b, t['exec'], t['arg']))
-        out += [('%s.%s' % (b, s), t['exec'], t['arg']) for s in t.get('exec_dotted', [])]
+        out += [('%s.%s' % (b, s), t['exec'], t['arg'] + (' | H_USER' if s == 'u' else '')) for s in t.get('exec_dotted', [])]
     return out
 
 

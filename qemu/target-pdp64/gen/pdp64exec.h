@@ -4,10 +4,10 @@
 #include <stdint.h>
 #include "pdp64-consts.h"
 
-/* The valid bits of the PSW (System v1: docs/pdp64-system-architecture.md section 15): the flags, T, the priority and the two modes; the rest is reserved, zero. */
+/* The valid bits of the PSW (System v1: docs/pdp64-system-architecture.md section 15): the flags, T, the priority, the two modes and the user-access guard UA (bit 12); the rest is reserved, zero. */
 #define PSW_FLAGS	((1u << PSW_C) | (1u << PSW_V) | (1u << PSW_Z) | (1u << PSW_N))
 #define PSW_FIELD(name, v)	(((unsigned)(v) & ((1u << PSW_WIDTH_##name) - 1)) << PSW_##name)
-#define PSW_VALID	(PSW_FLAGS | (1u << PSW_T) | PSW_FIELD(PRI, ~0u) | PSW_FIELD(MODE, ~0u) | PSW_FIELD(PREV, ~0u))
+#define PSW_VALID	(PSW_FLAGS | (1u << PSW_T) | PSW_FIELD(PRI, ~0u) | PSW_FIELD(MODE, ~0u) | PSW_FIELD(PREV, ~0u) | (1u << PSW_UA))
 
 /* the instruction classes of the second cycle model of the vec blocks: each has a latency and an interval (cycles) that the host sets (sim64 --latency) */
 enum { VC_ALU, VC_CMP, VC_BSL, VC_SHIFT, VC_NARROW, VC_MUL8, VC_MUL16, VC_MULH16, VC_MUL32, VC_MUL64, VC_DOT, VC_DACC, VC_SAD, VC_ACC, VC_MMACC, VC_FIR, VC_TBL, VC_LSEG, VC_SSEG, VC_CVT,
@@ -34,6 +34,7 @@ struct pdp64_cpu {
 	/* the vec block (pdp64exec_vec.inc): hidden registers (not saved at a context switch), and the statistics the benchmarks read */
 	uint8_t vr[16][64];			/* the vector registers v0..v15: storage for a strip of up to 64 bytes (the strip in use is vstrip, default 32) */
 	uint16_t vacc;				/* the vector registers that vclr named accumulators: they keep their values from strip to strip */
+	int uacc;				/* the memory operand of the move being run is accessed with user privilege (a .u move, 6.10.4): the host's memory functions read it; an exception entry sets bit 15 of ECAUSE and clears it */
 	int vhidden;				/* the running block holds hidden accumulation: an abort discards it and restarts the block from its entry */
 	uint64_t vblocks, vstrips, vops, velems;	/* blocks run, strips run, vector instructions executed (one for each strip), elements they worked on */
 	int vstrip, vport, vcommit, vcommit_set;	/* set by the host (sim64 -S, -C): the strip in bytes (0: 32), the model's memory port in bytes a cycle (0: 16), the commit cost of a strip (used if vcommit_set; default 1) */

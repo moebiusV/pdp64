@@ -8,7 +8,7 @@
 
 **A.1.1** The `LPAD` instruction marks a legal target of an indirect jump or call; a page bit makes the hardware fault when an indirect transfer lands anywhere else, with the fault attributed to the branch.
 
-**A.1.2** A page bit that gates landing pads is approved, to be specified (errata 84, item 5). *(D)* Open: how the bit is specified and what the six reserved system words become ([J.9.6](appendix-j-open.md#j96)), and when enforcement is turned on in the ABI ([J.D.2](appendix-j-open.md#jd2)).
+**A.1.2** A page bit that gates landing pads is approved, to be specified (errata 84, item 5). *(D)* Open: how the bit is specified and what the four reserved system words become ([J.9.6](appendix-j-open.md#j96)), and when enforcement is turned on in the ABI ([J.D.2](appendix-j-open.md#jd2)).
 
 *Commentary.* **Precedent.** `LPAD` already exists, and the ABI leaves landing pads off in version 1, with no switch to enforce them. **Trade-offs.** The bit costs one comparator and two bytes per address-taken function. **Benefits.** It blocks jump-oriented attacks at the transfer, with no recovery code beyond the fault handler that already exists. **Modern comparables.** Intel's indirect-branch tracking and ARM's branch target identification, both of which OpenBSD enforces by default where the hardware has them. **Impact.** *Kernel:* A landing-pad violation is a fault the handler already handles; the kernel sets the page bit at exec time. *Compiler:* The compiler emits `LPAD` at every address-taken function, two bytes each. *Hardware:* One page bit and one comparator on an indirect-transfer target.
 

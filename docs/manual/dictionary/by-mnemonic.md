@@ -76,6 +76,7 @@
 | `CLMULL` | [CLMUL](../09-isa.md#clmul-carry-less-multiply) (section 9.9) | [1](by-encoding.md#mn-clmull), [entry](../09-isa.md#w-clmull) | Bits and fields (BESC) |
 | `CLO` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clo), [entry](../09-isa.md#w-clo) | Bits and fields (BESC) |
 | `CLR` | [CLR](../09-isa.md#clr-clear) (section 9.8) | [10](by-encoding.md#mn-clr), [entry](../09-isa.md#w-clr) | Single operand (SOP) |
+| `CLUA` | [STUA](../09-isa.md#stua-set-and-clear-the-user-access-guard) (section 9.14) | [1](by-encoding.md#mn-clua), [entry](../09-isa.md#w-clua) | System (SYS) |
 | `CLZ` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clz), [entry](../09-isa.md#w-clz) | Bits and fields (BESC) |
 | `CMP` | [CMP](../09-isa.md#cmp-compare) (section 9.7) | [15](by-encoding.md#mn-cmp), [entry](../09-isa.md#w-cmp) | Moves, address formation and the ALU |
 | `COM` | [COM](../09-isa.md#com-complement) (section 9.8) | [7](by-encoding.md#mn-com), [entry](../09-isa.md#w-com) | Single operand (SOP) |
@@ -297,6 +298,7 @@
 | `SHR` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | [13](by-encoding.md#mn-shr), [entry](../09-isa.md#w-shr) | Moves, address formation and the ALU |
 | `SOB` | [SOB](../09-isa.md#sob-subtract-one-and-branch) (section 9.10) | [1](by-encoding.md#mn-sob), [entry](../09-isa.md#w-sob) | Branches |
 | `SPL` | [SPL](../09-isa.md#spl-set-the-interrupt-priority-level) (section 9.14) | [1](by-encoding.md#mn-spl), [entry](../09-isa.md#w-spl) | System (SYS) |
+| `STUA` | [STUA](../09-isa.md#stua-set-and-clear-the-user-access-guard) (section 9.14) | [1](by-encoding.md#mn-stua), [entry](../09-isa.md#w-stua) | System (SYS) |
 | `SUB` | [SUB](../09-isa.md#sub-subtract) (section 9.7) | [20](by-encoding.md#mn-sub), [entry](../09-isa.md#w-sub) | Moves, address formation and the ALU |
 | `SUBM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | [6](by-encoding.md#mn-subm), [entry](../09-isa.md#w-subm) | Memory escape (MESC) |
 | `SUBV` | [OVF](../09-isa.md#ovf-add-subtract-and-multiply-trapping-on-signed-overflow) (section 9.7) | [1](by-encoding.md#mn-subv), [entry](../09-isa.md#w-subv) | Added by the prefix-coded encoding |

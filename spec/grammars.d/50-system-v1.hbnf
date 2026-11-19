@@ -14,8 +14,9 @@ psw = "c"@0
     | "pri"@5
     | "mode"@8
     | "prev"@10
+    | "ua"@12
 
-; The widths of the multi-bit fields (the others are one bit); bits 12 to 15 are reserved and read as zero.
+; The widths of the multi-bit fields (the others are one bit); bit 12 is UA, the user-access guard (errata 43, 190); bits 13 to 15 are reserved and read as zero.
 psw-width = "pri"@3
           | "mode"@2
           | "prev"@2

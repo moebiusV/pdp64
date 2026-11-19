@@ -503,6 +503,11 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 					return;
 				}
 				priv();
+				if (f.sub == MN_SYSX_STUA || f.sub == MN_SYSX_CLUA) {				/* stua, clua: set and clear UA, the user-access guard (errata 43, 190; 6.10.1): no flags, pad zero */
+					if (f.n != 0) die("illegal instruction", 0);
+					if (f.sub == MN_SYSX_STUA) C->psw |= 1u << PSW_UA; else C->psw &= ~(1u << PSW_UA);
+					return;
+				}
 				if (f.n != 0 || (f.sub != MN_SYSX_PUSHX && f.sub != MN_SYSX_POPX)) die("illegal instruction", 0);
 				a = f.sub == MN_SYSX_PUSHX ? r[14] - 16 : r[14];
 				if (a & 7) fault_v(VECTOR_MISALIGNED, "misaligned data access", a);
@@ -797,7 +802,7 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 {
 	int traced = c->psw >> PSW_T & 1;
 	C = c; E = e;
-	c->entered = 0; c->progress = 0; c->wait = 0; c->vhidden = 0; c->snap_valid = c->deliver;
+	c->entered = 0; c->progress = 0; c->wait = 0; c->vhidden = 0; c->uacc = 0; c->snap_valid = c->deliver;
 	if (c->deliver) {									/* keep what an abort has to undo */
 		memcpy(c->snap.r, c->r, sizeof c->r); c->snap.pc = c->pc; c->snap.dp = c->dp; c->snap.fpsr = c->fpsr;
 		c->snap.fN = c->fN; c->snap.fZ = c->fZ; c->snap.fV = c->fV; c->snap.fC = c->fC;

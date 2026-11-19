@@ -40,7 +40,7 @@ table below, not a register number.
 | 1 | SYSR | 10 | 1111000100 | mfcpuid icinv | op1.r=p0[4:0] subop=p0[5] |
 | 1 | CT1 | 10 | 1111000101 | cteq ctne | op1.r=p0[4:0] subop=p0[5] |
 | 1 | SOPR | 10 | 1111010011 | jmp call | op1.r=p0[4:0] subop=p0[5] |
-| 1 | SYS0 | 11 | 11110111110 | nop rti rtt ret halt bpt fence wfe sev lpad tlbia tlbsync icinva pushx popx isync trapcc.ne trapcc.eq trapcc.pl trapcc.mi trapcc.vc trapcc.vs trapcc.cc trapcc.cs trapcc.ge trapcc.lt trapcc.gt trapcc.le trapcc.hi trapcc.los syspg0 syspg1 | subop=p0[4:0] |
+| 1 | SYS0 | 11 | 11110111110 | nop rti rtt ret halt bpt fence wfe sev lpad tlbia tlbsync icinva pushx popx isync trapcc.ne trapcc.eq trapcc.pl trapcc.mi trapcc.vc trapcc.vs trapcc.cc trapcc.cs trapcc.ge trapcc.lt trapcc.gt trapcc.le trapcc.hi trapcc.los stua clua | subop=p0[4:0] |
 | 1 | FX.POPRET | 11 | 11111001000 | popret | op1.r=p0[4:0] |
 | 1 | SYS0 | 14 | 11111011110010 | syspg2 syspg3 syspg4 syspg5 | subop=p0[1:0] |
 | 2 | LDU.X6 | 5 | 01000 | movq.u movl.u movw.u movb.u movzl.u movzw.u movzb.u movq.d movl.d movw.d movb.d movzl.d movzw.d movzb.d movq.ud movl.ud | op1.base=p0[6:5]+p1[15:13] op1.index=p1[12:8] op1.scale=p1[7:6] op1.d=p1[5:0] op2.r=p0[4:0] subop=p0[10:7] |

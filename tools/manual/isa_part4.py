@@ -131,7 +131,7 @@ progress is held in Rd, Rs and Rn; an interrupt or a fault restarts the instruct
       '''AES counter mode over the Rn bytes at (Rs), written at (Rd); the key, the counter and the number of rounds are in the parameter block at (Rp)
 progress is held in the registers and the parameter block; an interrupt or a fault restarts the instruction where it stopped''', NOFLAGS, MEMX, '9.11',
       notes='*(P)* Stage 2, as `MSHA`; the layout of the parameter block is not specified. **Not implemented** in the reference executor.'),
-    X('SYSPG', 'system', ['syspg0', 'syspg1', 'syspg2', 'syspg3', 'syspg4', 'syspg5'], 'Reserved system words', ['SYSPG0 ... SYSPG5'],
-      '''none: the six words are reserved''', NOFLAGS, 'Not specified. The reference executor traps them as unimplemented instructions.', '9.14',
-      notes='*(S)* Placeholders. The grammars reserve six system words for the page-bit mechanisms that the author approved to be specified (errata 84: landing pads gated by a page bit, the `SYS` page bit), which `docs/retire-stage-candidates.md` describes as needing no opcode; no text of the repository gives these words a meaning, and software must not use them.'),
+    X('SYSPG', 'system', ['syspg2', 'syspg3', 'syspg4', 'syspg5'], 'Reserved system words', ['SYSPG2 ... SYSPG5'],
+      '''none: the four words are reserved''', NOFLAGS, 'Not specified. The reference executor traps them as unimplemented instructions.', '9.14',
+      notes='*(S)* Placeholders. The grammars reserve four system words (there were six; the first two became `STUA` and `CLUA`) for the page-bit mechanisms that the author approved to be specified (errata 84: landing pads gated by a page bit, the `SYS` page bit), which `docs/retire-stage-candidates.md` describes as needing no opcode; no text of the repository gives these words a meaning, and software must not use them.'),
 ]

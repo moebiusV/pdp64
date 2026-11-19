@@ -9,6 +9,6 @@ _start:
 	cmp	r1, #5
 	bne	F1
 	movq	#0, r0
-	trap	#0
+	halt
 F1:	movq	#1, r0
-	trap	#0
+	halt

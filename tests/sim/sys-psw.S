@@ -40,7 +40,7 @@ _start:
 	movq	#0xF000, r1
 	mtps	r1
 	mfps	r5
-	cmp	r5, #(0)
+	cmp	r5, #(1<<PSW_UA)	; bits 13 to 15 are reserved and read zero; bit 12 is UA
 	bne	F9	; check 9
 	movq	#0, r4
 	movq	#0, r10

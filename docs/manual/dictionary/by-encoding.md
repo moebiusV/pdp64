@@ -446,7 +446,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 ![Layout SYS0-1](../figures/SYS0-1.svg)
 
-`sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `syspg0` 11110, `syspg1` 11111.
+`sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 Fields: `sub=p0[4:0]`
 
@@ -2787,6 +2787,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-clmull"></a>`CLMULL`: [R3-1](#R3-1)
 * <a id="mn-clo"></a>`CLO`: [R2-1](#R2-1)
 * <a id="mn-clr"></a>`CLR`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1), [SOBs12-a-1](#SOBs12-a-1), [SOX4-a-1](#SOX4-a-1), [SOBu12H-a-1](#SOBu12H-a-1)
+* <a id="mn-clua"></a>`CLUA`: [SYS0-1](#SYS0-1)
 * <a id="mn-clz"></a>`CLZ`: [R2-1](#R2-1)
 * <a id="mn-cmp"></a>`CMP`: [CMF-B28-1](#CMF-B28-1), [CMF-X22-1](#CMF-X22-1), [CMF-PI12-1](#CMF-PI12-1), [CMF-PD12-1](#CMF-PD12-1), [CMF-PC32-1](#CMF-PC32-1), [CMF-A32-1](#CMF-A32-1), [CMF-I32-1](#CMF-I32-1), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [CMBu8-a-1](#CMBu8-a-1), [CMX0-a-1](#CMX0-a-1), [CMI12-a-1](#CMI12-a-1), [CMBu12H-a-1](#CMBu12H-a-1), [CMPC16H-a-1](#CMPC16H-a-1), [CMI18H-a-1](#CMI18H-a-1)
 * <a id="mn-com"></a>`COM`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
@@ -2977,6 +2978,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-shr"></a>`SHR`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [SHIh44-a-1](#SHIh44-a-1), [LDI12-d-1](#LDI12-d-1), [LDPC12H-d-1](#LDPC12H-d-1)
 * <a id="mn-sob"></a>`SOB`: [SOB-1](#SOB-1)
 * <a id="mn-spl"></a>`SPL`: [SYSI-1](#SYSI-1)
+* <a id="mn-stua"></a>`STUA`: [SYS0-1](#SYS0-1)
 * <a id="mn-sub"></a>`SUB`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [SPADJF-1](#SPADJF-1), [RR5-1](#RR5-1), [IMMh44-b-1](#IMMh44-b-1), [SPADJ6-a-1](#SPADJ6-a-1), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDI12-b-1](#LDI12-b-1), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI18H-b-1](#LDI18H-b-1)
 * <a id="mn-subm"></a>`SUBM`: [STF-B28-2](#STF-B28-2), [STF-X22-2](#STF-X22-2), [STF-PI12-2](#STF-PI12-2), [STF-PD12-2](#STF-PD12-2), [STF-PC32-2](#STF-PC32-2), [STF-A32-2](#STF-A32-2)
 * <a id="mn-subv"></a>`SUBV`: [R2-1](#R2-1)

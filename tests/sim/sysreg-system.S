@@ -6,7 +6,7 @@ _start:
 	movq	#0xFFFF, r1
 	mtsr	epsw, r1
 	mfsr	r2, epsw
-	cmp	r2, #((1<<PSW_C|1<<PSW_V|1<<PSW_Z|1<<PSW_N)|1<<PSW_T|7<<PSW_PRI|3<<PSW_MODE|3<<PSW_PREV)
+	cmp	r2, #((1<<PSW_C|1<<PSW_V|1<<PSW_Z|1<<PSW_N)|1<<PSW_T|7<<PSW_PRI|3<<PSW_MODE|3<<PSW_PREV|1<<PSW_UA)
 	bne	F1	; check 1
 	movq	#-1, r1
 	shl	#9, r1

@@ -23,6 +23,8 @@ mn-sysx = "pushx"@0
         | "popx"@1
         | "isync"@2     ; not privileged (errata 190): earlier writes to PTBR, ASID, MMUCTL, VBR (privileged themselves) and earlier ICINVs take effect for what follows (errata 39); pad zero
         | "hint"@3      ; hint #n: n (0 to 255) in the pad byte; no architectural effect; 0 nop, 1 pause, 2 speculation barrier, the rest reserved and no-ops
+        | "stua"@4      ; privileged: set the user-access guard bit UA of the status word (errata 43, 190); pad zero
+        | "clua"@5      ; privileged: clear UA (errata 43, 190); pad zero
 
 ; SYS class 0, the system-register moves (four bytes: the register in parcel 1): the number is the minor opcode in the low field.  Not in `mnemonic`: they
 ; take the register's name as a word of its own, in the operand position that is the system register (`mfsr r1, ptbr`, `mtsr ptbr, r1`)

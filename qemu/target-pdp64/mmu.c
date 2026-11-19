@@ -43,7 +43,9 @@ bool pdp64_mmu_translate(CPUPDP64State *env, vaddr addr, MMUAccessType type,
                          int mmu_idx, hwaddr *pa, int *prot, vaddr *size,
                          int *fault_vector)
 {
-    bool kernel = mmu_idx == PDP64_MMU_KERNEL;
+    bool kernel = mmu_idx == PDP64_MMU_KERNEL
+                  || mmu_idx == PDP64_MMU_KERNEL_GUARD;
+    bool guard = mmu_idx == PDP64_MMU_KERNEL_GUARD;
     uint64_t table = env->c.ptbr & PA_MASK & ~((1ULL << MMU_PAGE_BITS) - 1);
     uint64_t pte = 0;
     int level, shift = 0, rights;
@@ -93,9 +95,14 @@ bool pdp64_mmu_translate(CPUPDP64State *env, vaddr addr, MMUAccessType type,
     }
 
     /* the rights in this mode: user needs U; the kernel may read and write
-       U pages but never execute them */
+       U pages but never execute them, and with UA clear (guard) it may not
+       touch them with a data access either (errata 43, 190: the protection
+       fault of the load or the store; an instruction fetch is the same as
+       with UA set) */
     rights = 0;
-    if (kernel || (pte & PTE_BIT(U))) {
+    if (guard && type != MMU_INST_FETCH && (pte & PTE_BIT(U))) {
+        /* no rights */
+    } else if (kernel || (pte & PTE_BIT(U))) {
         if (pte & PTE_BIT(R)) {
             rights |= PAGE_READ;
         }
