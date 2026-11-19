@@ -68,7 +68,7 @@
 
 **The assistant's leaning.** Option 1 with a two-level device table, and Option 5 (an error completion and a log entry), because both keep the same code for boot and for a hot-added device. It would change if virtualization is wanted early (then Option 3).
 
-**The owner's answers (errata 181, 2026-11-19).** The IOMMU design is to be finished now: proposals for all four open points, for the owner's review, and then built into the QEMU model. Devices are to be assignable to a guest through the IOMMU with a guest-visible second level, which is Option 3 and so is no longer a leaning to defer. The owner asked how many new mnemonics the IOMMU needs: none that the assistant can see, since it is a bus unit programmed through memory-mapped registers (device table base, fault and command rings, an invalidate register); this is an estimate and no design exists. The text on DMA (2.5, 5.10) is to be placed close to this section so that they read as related concepts. Not done: the proposals.
+**The owner's answers (errata 181, 2026-11-19).** The IOMMU design is to be finished now: proposals for all four open points, for the owner's review, and then built into the QEMU model. Devices are to be assignable to a guest through the IOMMU with a guest-visible second level, which is Option 3 and so is no longer a leaning to defer. The text on DMA (2.5, 5.10) is to be placed close to this section so that they read as related concepts. Not done: the proposals.
 
 **Where the body refers to it.** Section 2.11.
 
