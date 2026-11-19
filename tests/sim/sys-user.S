@@ -539,7 +539,7 @@ pr16:
 	sev
 	icinva
 	icinv	r1
-	mfcpuid	r1
+	isync
 	movq	#7, r1
 	mtdp	r1
 	mfdp	r5

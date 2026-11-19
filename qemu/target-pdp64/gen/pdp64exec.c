@@ -491,13 +491,15 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 				uint64_t a;
 				if (f.shape != FS_SYSX) die("illegal instruction", 0);
 				if (f.sub == MN_SYSX_HINT) return;						/* hint #n: not privileged, no flags, no effect, whatever n is (0 nop, 1 pause, 2 speculation barrier, the rest reserved) */
-				priv();
-				if (f.sub == MN_SYSX_ISYNC) {							/* isync: earlier writes to PTBR, ASID, MMUCTL, VBR and earlier ICINVs take effect for what follows.  The architecture
-											   promises that only after the next ISYNC; this emulator applies them at once and keeps the translation state coherent here */
+				if (f.sub == MN_SYSX_ISYNC) {							/* isync: earlier writes to PTBR, ASID, MMUCTL, VBR and earlier ICINVs take effect for what follows.  Not privileged
+											   (errata 190): those writes are privileged themselves, so it gives a program no power.  The architecture promises
+											   the effect only after the next ISYNC; this emulator applies them at once and keeps the translation state
+											   coherent here, so only a kernel-mode ISYNC discards the translation buffer (a user-mode one has nothing to publish) */
 					if (f.n != 0) die("illegal instruction", 0);
-					E->tlb(E->u, PDP64_TLB_ALL, 0);
+					if (MODE == MODE_KERNEL) E->tlb(E->u, PDP64_TLB_ALL, 0);
 					return;
 				}
+				priv();
 				if (f.n != 0 || (f.sub != MN_SYSX_PUSHX && f.sub != MN_SYSX_POPX)) die("illegal instruction", 0);
 				a = f.sub == MN_SYSX_PUSHX ? r[14] - 16 : r[14];
 				if (a & 7) fault_v(VECTOR_MISALIGNED, "misaligned data access", a);

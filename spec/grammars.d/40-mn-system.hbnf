@@ -21,7 +21,7 @@ sys-minor = "sysx"@0b1111
 
 mn-sysx = "pushx"@0
         | "popx"@1
-        | "isync"@2     ; privileged: earlier writes to PTBR, ASID, MMUCTL, VBR and earlier ICINVs take effect for what follows (errata 39); pad zero
+        | "isync"@2     ; not privileged (errata 190): earlier writes to PTBR, ASID, MMUCTL, VBR (privileged themselves) and earlier ICINVs take effect for what follows (errata 39); pad zero
         | "hint"@3      ; hint #n: n (0 to 255) in the pad byte; no architectural effect; 0 nop, 1 pause, 2 speculation barrier, the rest reserved and no-ops
 
 ; SYS class 0, the system-register moves (four bytes: the register in parcel 1): the number is the minor opcode in the low field.  Not in `mnemonic`: they
