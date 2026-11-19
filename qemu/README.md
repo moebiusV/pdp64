@@ -46,6 +46,9 @@ all of tests/qemu, with this option.
 | 0x8000000000 (4 KB)         | timer (kernel-mode only)    `MAP_TIMER`               |
 | 0x8000001000 (4 KB)         | console (kernel-mode only)  `MAP_CONSOLE`             |
 | 0x8000000000 .. 0x800fffffff | device space, reserved for devices (`MAP_DEV` .. `MAP_DEV_END`) |
+| 0x8100000000 (16 MiB)       | PCI Express configuration space (ECAM, buses 0 to 15), kernel-mode only  `MAP_PCIE_ECAM` (PROVISIONAL) |
+| 0x8200000000 (256 MiB)      | PCI Express memory window (a base address register holds this physical address)  `MAP_PCIE_MMIO` (PROVISIONAL) |
+| 0x8300000000 (64 KiB)       | PCI Express I/O window  `MAP_PCIE_PIO` (PROVISIONAL) |
 
 Bit 39 of the 40-bit physical address is the space bit: clear is memory, set is device space.  A virtual address of device space is not
 canonical in a 39-bit virtual space, so a kernel maps devices through a leaf whose physical page has bit 39 set, with memory type device (tests/qemu/mini-kernel.S

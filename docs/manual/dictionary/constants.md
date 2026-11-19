@@ -55,6 +55,7 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `BPT` | 15 | the `BPT` instruction |
 | `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`; errata 152) |
 | `TIMER` | 32 | the timer interrupt (level 6) |
+| `IOMMU` | 39 | the IOMMU unit's own interrupt, a wired line (level 5; 2.11.11) |
 | `COUNT` | 512 | the number of vectors; the table has this many eight-byte entries |
 
 ## The page-table entry (64 bits)

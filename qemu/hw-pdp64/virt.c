@@ -4,7 +4,11 @@
  *   0x00000000 .. ram_size    RAM (default 128 MiB, -m; at most 256 MiB)
  *   0x8000000000              timer   (kernel-mode machine only; MAP_TIMER)
  *   0x8000001000              console (kernel-mode machine only; MAP_CONSOLE)
- *   (bit 39 of the physical address is the space bit: set is device space, clear is memory; errata 60)
+ *   0x8100000000              PCI Express configuration space (ECAM), kernel-mode machine only; MAP_PCIE_ECAM
+ *   0x8200000000              PCI Express memory window; MAP_PCIE_MMIO
+ *   0x8300000000              PCI Express I/O window; MAP_PCIE_PIO
+ *   (bit 39 of the physical address is the space bit: set is device space, clear is memory; errata 60.  The addresses of the PCI Express windows are
+ *   provisional, errata 194, J.2.1; every address is taken from the grammar, spec/grammars.d/50-system-v1.hbnf, rule map.)
  *
  * Without kernel-mode there is no MMU: addresses are physical.  -kernel loads an ELF executable (as made
  * by ld64) and starts at its entry point; r14 (sp) is the top of RAM minus
@@ -22,6 +26,9 @@
 #include "elf.h"
 #include "hw/core/sysbus.h"
 #include "hw/core/qdev-properties-system.h"
+#include "hw/pci-host/gpex.h"
+#include "hw/pci/pci.h"
+#include "hw/pci/pci_bus.h"
 #include "target/pdp64/cpu.h"
 
 #define TYPE_PDP64_VIRT_MACHINE MACHINE_TYPE_NAME("pdp64-virt")
@@ -36,6 +43,41 @@ DECLARE_INSTANCE_CHECKER(PDP64VirtState, PDP64_VIRT_MACHINE,
                          TYPE_PDP64_VIRT_MACHINE)
 
 #define PDP64_RAM_MAX MAP_RAM_MAX
+
+/* The generic PCI Express host bridge of QEMU (hw/pci-host/gpex.c), placed as the RISC-V virt machine places it: the configuration window, the memory
+   window (the PCI memory address space is the system address space, so a base address register holds the physical address) and the I/O window.  The four
+   interrupt pins go to four lines of the processor.  Returns the root bus. */
+static PCIBus *pdp64_virt_pcie_init(MemoryRegion *sysmem, DeviceState *cpu)
+{
+    DeviceState *dev = qdev_new(TYPE_GPEX_HOST);
+    MemoryRegion *ecam_alias = g_new0(MemoryRegion, 1);
+    MemoryRegion *mmio_alias = g_new0(MemoryRegion, 1);
+    MemoryRegion *reg;
+    int i;
+
+    object_property_set_uint(OBJECT(dev), PCI_HOST_ECAM_BASE, MAP_PCIE_ECAM, &error_fatal);
+    object_property_set_int(OBJECT(dev), PCI_HOST_ECAM_SIZE, MAP_PCIE_ECAM_SIZE, &error_fatal);
+    object_property_set_uint(OBJECT(dev), PCI_HOST_BELOW_4G_MMIO_BASE, MAP_PCIE_MMIO, &error_fatal);
+    object_property_set_int(OBJECT(dev), PCI_HOST_BELOW_4G_MMIO_SIZE, MAP_PCIE_MMIO_SIZE, &error_fatal);
+    object_property_set_uint(OBJECT(dev), PCI_HOST_PIO_BASE, MAP_PCIE_PIO, &error_fatal);
+    object_property_set_int(OBJECT(dev), PCI_HOST_PIO_SIZE, MAP_PCIE_PIO_SIZE, &error_fatal);
+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+
+    reg = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
+    memory_region_init_alias(ecam_alias, OBJECT(dev), "pcie-ecam", reg, 0, MAP_PCIE_ECAM_SIZE);
+    memory_region_add_subregion(sysmem, MAP_PCIE_ECAM, ecam_alias);
+    reg = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 1);
+    memory_region_init_alias(mmio_alias, OBJECT(dev), "pcie-mmio", reg, MAP_PCIE_MMIO, MAP_PCIE_MMIO_SIZE);
+    memory_region_add_subregion(sysmem, MAP_PCIE_MMIO, mmio_alias);
+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 2, MAP_PCIE_PIO);
+
+    for (i = 0; i < PCI_NUM_PINS; i++) {
+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
+            qdev_get_gpio_in(cpu, VECTOR_PCIE_INTA + i - VECTOR_IRQ_BASE));
+        gpex_set_irq_num(GPEX_HOST(dev), i, i);
+    }
+    return PCI_HOST_BRIDGE(dev)->bus;
+}
 
 static void pdp64_virt_init(MachineState *machine)
 {
@@ -72,6 +114,8 @@ static void pdp64_virt_init(MachineState *machine)
             qdev_get_gpio_in(DEVICE(cpu), VECTOR_CONSOLE_IN - VECTOR_IRQ_BASE));
         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 1,
             qdev_get_gpio_in(DEVICE(cpu), VECTOR_CONSOLE_OUT - VECTOR_IRQ_BASE));
+        /* the PCI Express host bridge (errata 194) */
+        pdp64_virt_pcie_init(sysmem, DEVICE(cpu));
     }
 
     if (machine->kernel_filename) {

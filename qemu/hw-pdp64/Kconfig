@@ -2,3 +2,4 @@ config PDP64_VIRT
     bool
     default y
     depends on PDP64
+    select PCI_EXPRESS_GENERIC_BRIDGE

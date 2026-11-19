@@ -48,6 +48,11 @@ vector = "reset"@0
        | "timer"@32
        | "console-in"@33
        | "console-out"@34
+       | "pcie-inta"@35
+       | "pcie-intb"@36
+       | "pcie-intc"@37
+       | "pcie-intd"@38
+       | "iommu"@39
        | "trap-base"@256
        | "count"@512
 
@@ -86,9 +91,14 @@ mmuctl = "enable"@0
 ; The interrupt priority levels of the devices.
 irq-level = "timer"@6
           | "console"@4
+          | "pcie"@5
+          | "iommu"@5
 
 ; The physical memory map of the pdp64-virt machine.  Bit 39 of the 40-bit physical address is the space bit (errata 60): clear is memory, set is device space.  RAM starts
-; at 0 (at most `ram-max` bytes); each device has a 4 KB page in the upper half.
+; at 0 (at most `ram-max` bytes); each device has a 4 KB page in the upper half.  The IOMMU's register block (`iommu`, in the root complex's own block) and the PCI Express host bridge
+; (the configuration window `pcie-ecam`, one megabyte for each bus, the memory window `pcie-mmio` and the I/O window `pcie-pio`, each with its size) are PROVISIONAL (errata 194):
+; the placement of the configuration space and the windows is J.2.1, still open, and no address bit selects device space (errata 97).  The IOMMU block is the next page after the console; the PCI Express windows lie above `dev-end` (nothing answers
+; at `dev-end` itself: tests/sim/sys-exc.S); none clashes with anything.  The model's machine file takes every one of these from here.
 map = "ram"@0
     | "ram-max"@0x10000000
     | "space-bit"@39
@@ -96,6 +106,13 @@ map = "ram"@0
     | "timer"@0x8000000000
     | "console"@0x8000001000
     | "dev-end"@0x8010000000
+    | "iommu"@0x8000002000
+    | "pcie-ecam"@0x8100000000
+    | "pcie-ecam-size"@0x1000000
+    | "pcie-mmio"@0x8200000000
+    | "pcie-mmio-size"@0x10000000
+    | "pcie-pio"@0x8300000000
+    | "pcie-pio-size"@0x10000
 
 ; The timer: a 64-bit free-running counter that counts at `hz` ticks a second of QEMU's virtual clock, a 64-bit compare, and a control/status register.
 ; The interrupt (level irq-level timer, vector vector timer) is asserted while counter >= compare and CTL enable is 1.  PENDING reads counter >= compare.

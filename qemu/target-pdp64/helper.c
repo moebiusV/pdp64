@@ -71,6 +71,13 @@ int pdp64_irq_level(int vector)
     case VECTOR_CONSOLE_IN:
     case VECTOR_CONSOLE_OUT:
         return IRQ_LEVEL_CONSOLE;
+    case VECTOR_PCIE_INTA:
+    case VECTOR_PCIE_INTB:
+    case VECTOR_PCIE_INTC:
+    case VECTOR_PCIE_INTD:
+        return IRQ_LEVEL_PCIE;
+    case VECTOR_IOMMU:
+        return IRQ_LEVEL_IOMMU;
     default:
         return 1;
     }
