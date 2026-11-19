@@ -73,6 +73,13 @@
 - Evidence: docs/manual-src/03-graphics.md:5 "its standard video device is virtio-gpu" and the C64 devices are deferred (errata 78); README.md:6 successor of the PDP-11, not of the C64; docs/manual-src/03-graphics.md:394 "\*\*3.16.1\*\*" keeps a C128 core as a c64 mode
 - Left: confirm whether this applies to pdp64; other 2026-06-25 records \[R13, R14\] concern the newlisp C64-spirit machine, not pdp64
 
+### Best of breed first, amended so that the hole closes by construction
+- Status: DONE — a standing principle for every proposal (latest decision 2026-11-19 \[R521\], errata 198)
+- Decided: 2026-11-19 the owner: start from what other architectures do, or something close to it, except where it contradicts our principles; then a minimal change of semantics or instruction set so that the hole closes by construction, not after the fact, as the OpenBSD principles do; a bold change where it would be a big win \[R521\]
+- Precedent: OpenBSD (named by author): "just like the openbsd principles" \[R521\]
+- Evidence: docs/errata.md item 198
+- Left: the reviews that apply it to the vector block, the MMU, the IOMMU, the interrupt controller, the atomics and virtualization (docs/encoding-work/best-of-breed-*.md) are not yet written; decisions made before it are not reopened by it
+
 ## 02 Bus
 
 ### Access to a departed device's windows
