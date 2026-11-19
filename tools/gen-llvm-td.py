@@ -25,6 +25,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import encgram  # noqa: E402
+import facts  # noqa: E402
 
 OUT = os.path.normpath(os.path.join(HERE, '..', 'llvm', 'target', 'PDP64', 'gen'))
 
@@ -100,7 +101,8 @@ def generate():
 
     vecmns = [m for m in mns if m in ('vec', 'vend', 'vec2', 'vskip') or re.match(r'^(v[a-z0-9]+)(\.[a-z]+)*$', m) and m not in ('vclr_',)]
     # only the words of the vector family: the ones that start with v and are not scalar words (checked against a list of the base names in the executor's table by the user of this list)
-    vecmns = [m for m in vecmns if re.match(r'^(vec|vec2|vskip|vend|vfin|vadd|vsub|vsubr|vmul|vmin|vmax|vminu|vmaxu|vabd|vabdu|vand|vor|vxor|vshl|vshr|vsar|vadds|vsubs|vaddsu|vsubsu|vmov|vneg|vmla|vfma|vfnma|vfmab|vdot|vdotu|vdotsu|vavg|vavgu|vmulh|vmulhu|vmulhr|vsarr|vshrr|vceq|vcgt|vcgtu|vbsl|vcvt|vtbl|vdacc|vsad|vacc|vmaxacc|vminacc|vfir|vclr|vld|vst|vsts|vldt|vstt|vlseg[234]|vsseg[234])(\.|$)', m)]
+    vecbases = [b for b, f in facts.load('vec').items() if f.get('llvm')]		# the bases of spec/facts/vec.toml whose words LLVM carries
+    vecmns = [m for m in vecmns if m.split('.')[0] in vecbases]
 
     regs = d['regnames']
     nreg = d['registers']

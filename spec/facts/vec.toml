@@ -1,0 +1,336 @@
+# The facts about the base mnemonics of the vec block family (errata 183).
+#
+# The grammar (spec/grammars.d/) is the source of truth for the names, the encodings and the operand shapes. This file holds what a grammar cannot:
+# one table for each base mnemonic, which is the key (the part of a word before the first dot: vdacc for vdacc.b, vdacc.bu ...). tools/facts.py reads it;
+# `tools/facts.py --check` fails when the grammar has a base mnemonic of the family with no table here, or a table here names a base the grammar no longer has.
+#
+# Fields: wave    where the base came from (the label of the "family at a glance" table of docs/encoding-work/vec-isa.md)
+#         meaning one line, markdown
+#         llvm    true when the LLVM back end's name tables carry the words of the base (tools/gen-llvm-td.py)
+#
+# The order of the tables is the order of the groups in vec-isa.md section 2 and of the table that tools/vec-glance.py writes.
+
+[vec]
+wave = "original"
+meaning = "begin a block over the region `[Rs, Re)`"
+llvm = true
+
+[vec2]
+wave = "errata 176"
+meaning = "begin a 2D block: `Rn` rows of the region `[Rs, Re)`, the streams advanced by a pitch at the end of each row (`vec2 Rs, Re, Rn, Rw`)"
+llvm = true
+
+[vskip]
+wave = "errata 176"
+meaning = "after `vec2`: at the end of each row, add the gap register `Rg` to the pointer `Ra` (`vskip Ra, Rg`: the pitch minus the bytes the row used)"
+llvm = true
+
+[vend]
+wave = "original"
+meaning = "end a block"
+llvm = true
+
+[vfin]
+wave = "errata 173"
+meaning = "split a block: what follows runs once after the last strip (the epilogue), on the final accumulators"
+llvm = true
+
+[vld]
+wave = "original"
+meaning = "load a strip, widening on the way in (`vld.<m>[.<lane>]`)"
+llvm = true
+
+[vst]
+wave = "original"
+meaning = "store a strip, truncating on the way out (`vst.<lane>[.<m>]`)"
+llvm = true
+
+[vsts]
+wave = "original"
+meaning = "narrowing store with clamping; with `#sh` a rounding shift first (the `#sh` form: wave 1)"
+llvm = true
+
+[vldt]
+wave = "original"
+meaning = "strided load (one field of an array of structures)"
+llvm = true
+
+[vstt]
+wave = "original"
+meaning = "strided store"
+llvm = true
+
+[vlseg2]
+wave = "original"
+meaning = "load 2 interleaved fields into `vD`, `vD+1`"
+llvm = true
+
+[vlseg3]
+wave = "original"
+meaning = "load 3 interleaved fields"
+llvm = true
+
+[vlseg4]
+wave = "original"
+meaning = "load 4 interleaved fields"
+llvm = true
+
+[vsseg2]
+wave = "original"
+meaning = "store 2 registers interleaved"
+llvm = true
+
+[vsseg3]
+wave = "original"
+meaning = "store 3 registers interleaved"
+llvm = true
+
+[vsseg4]
+wave = "original"
+meaning = "store 4 registers interleaved"
+llvm = true
+
+[vadd]
+wave = "original"
+meaning = "lane add (wrapping)"
+llvm = true
+
+[vsub]
+wave = "original"
+meaning = "lane subtract"
+llvm = true
+
+[vsubr]
+wave = "original"
+meaning = "reverse subtract: operand minus `vA`"
+llvm = true
+
+[vmul]
+wave = "original"
+meaning = "lane multiply, low half"
+llvm = true
+
+[vand]
+wave = "original"
+meaning = "bitwise and"
+llvm = true
+
+[vor]
+wave = "original"
+meaning = "bitwise or"
+llvm = true
+
+[vxor]
+wave = "original"
+meaning = "bitwise exclusive or"
+llvm = true
+
+[vshl]
+wave = "original"
+meaning = "shift left"
+llvm = true
+
+[vshr]
+wave = "original"
+meaning = "logical shift right"
+llvm = true
+
+[vsar]
+wave = "original"
+meaning = "arithmetic shift right"
+llvm = true
+
+[vabd]
+wave = "original"
+meaning = "signed absolute difference"
+llvm = true
+
+[vabdu]
+wave = "original"
+meaning = "unsigned absolute difference"
+llvm = true
+
+[vmin]
+wave = "original"
+meaning = "signed minimum"
+llvm = true
+
+[vmax]
+wave = "original"
+meaning = "signed maximum"
+llvm = true
+
+[vminu]
+wave = "original"
+meaning = "unsigned minimum"
+llvm = true
+
+[vmaxu]
+wave = "original"
+meaning = "unsigned maximum"
+llvm = true
+
+[vmov]
+wave = "original"
+meaning = "move a vector, a scalar register or an immediate to every lane"
+llvm = true
+
+[vneg]
+wave = "original"
+meaning = "negate"
+llvm = true
+
+[vadds]
+wave = "original"
+meaning = "signed saturating add"
+llvm = true
+
+[vsubs]
+wave = "original"
+meaning = "signed saturating subtract"
+llvm = true
+
+[vaddsu]
+wave = "original"
+meaning = "unsigned saturating add"
+llvm = true
+
+[vsubsu]
+wave = "original"
+meaning = "unsigned saturating subtract"
+llvm = true
+
+[vavg]
+wave = "wave 1"
+meaning = "rounding average `(a + b + 1) >> 1`, signed"
+llvm = true
+
+[vavgu]
+wave = "wave 1"
+meaning = "rounding average, unsigned"
+llvm = true
+
+[vmulh]
+wave = "wave 1"
+meaning = "high 16 bits of the 16 x 16 product, signed"
+llvm = true
+
+[vmulhu]
+wave = "wave 1"
+meaning = "high 16 bits of the 16 x 16 product, unsigned"
+llvm = true
+
+[vmulhr]
+wave = "wave 1"
+meaning = "Q15 rounding multiply, saturating"
+llvm = true
+
+[vsarr]
+wave = "wave 1"
+meaning = "arithmetic shift right that rounds"
+llvm = true
+
+[vshrr]
+wave = "wave 1"
+meaning = "logical shift right that rounds"
+llvm = true
+
+[vmla]
+wave = "original"
+meaning = "`vD += vA * x` (x a scalar register: original; x a vector: wave 1)"
+llvm = true
+
+[vfma]
+wave = "original"
+meaning = "floating-point `vD += vA * x`"
+llvm = true
+
+[vfnma]
+wave = "original"
+meaning = "floating-point `vD -= vA * vB`"
+llvm = true
+
+[vfmab]
+wave = "original"
+meaning = "`vD += vA * broadcast(*Ra)`, `Ra` moved by one element a strip (the micro-kernel; 16-byte strip)"
+llvm = true
+
+[vdot]
+wave = "original"
+meaning = "each 32-bit lane += the products of 4 bytes (`.b`) or 2 halfwords (`.w`, wave 1)"
+llvm = true
+
+[vdotu]
+wave = "original"
+meaning = "the same, unsigned bytes"
+llvm = true
+
+[vdotsu]
+wave = "original"
+meaning = "the same, signed by unsigned bytes"
+llvm = true
+
+[vdacc]
+wave = "wave 1"
+meaning = "`Rd +=` the exact sum of the products of all lanes (a dot product reduced to a register)"
+llvm = true
+
+[vsad]
+wave = "wave 1"
+meaning = "`Rd +=` the sum of absolute differences of unsigned bytes"
+llvm = true
+
+[vtbl]
+wave = "wave 1"
+meaning = "byte lookup in a 16-byte table in memory; 0 for an index of 16 or more (memory form only)"
+llvm = true
+
+[vceq]
+wave = "wave 2"
+meaning = "lane compare equal: a mask (all ones or zero)"
+llvm = true
+
+[vcgt]
+wave = "wave 2"
+meaning = "lane compare signed greater: a mask"
+llvm = true
+
+[vcgtu]
+wave = "wave 2"
+meaning = "lane compare unsigned greater: a mask"
+llvm = true
+
+[vbsl]
+wave = "wave 2"
+meaning = "bitwise select `(vM & vA) \\| (~vM & vB)`"
+llvm = true
+
+[vcvt]
+wave = "wave 2"
+meaning = "int32 <-> binary32 conversion (`vcvt.<from>.<to>`)"
+llvm = true
+
+[vacc]
+wave = "original"
+meaning = "`Rd +=` the sum of the lanes, `vacc.<src>.<acc>` (the form: errata 168); floating point in the canonical order (errata 174)"
+llvm = true
+
+[vmaxacc]
+wave = "original"
+meaning = "`Rd = max(Rd, the largest lane)`"
+llvm = true
+
+[vminacc]
+wave = "original"
+meaning = "`Rd = min(Rd, the smallest lane)`"
+llvm = true
+
+[vfir]
+wave = "original"
+meaning = "sliding-window multiply-accumulate over `taps` scalar registers"
+llvm = true
+
+[vclr]
+wave = "original"
+meaning = "zero `count` registers and name them accumulators (16-byte strip)"
+llvm = true

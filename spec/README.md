@@ -89,6 +89,15 @@ A hand-written leaf takes a first-parcel prefix that is free: `tools/mkenc.py` c
 
 `tools/grammars_d.py` and `tools/mkparts.py` are deliberately thin, text-level stopgaps. The owner's intent is that hbnf parses each part itself and merges prologues, grammars and epilogues into the sections of one grammar; then the two scripts and the indexes go away and no part changes. The request: a directive `include dir "grammars.d"` (or `--parts=DIR`), which reads the directory by the contract above (layout, three passes, `NN` order); the error cases name the part and the file (`grammars.d/22-x/epilogue.hbnf:7: rule foo is defined twice, first in grammars.d/20-y.hbnf:3`; `grammars.d/NN-x/: a part directory holds at least one of prologue.hbnf, grammar.hbnf, epilogue.hbnf`; `a directive after a rule in prologue.hbnf`; `=/ of a rule no earlier section defines`); and a way to read the `; targets:` line (or `include dir "grammars.d" for enc`) so that one directory serves several grammars. The collecting rules (`insn`, `mnemonic`) would then be an epilogue rule that names "every rule matching `leaf-*`" or "every rule matching `mn-*`", which hbnf has no notation for; until it has one, `tools/mkparts.py` writes them.
 
+## The facts about the words (errata 183)
+
+The grammar is the source of truth for the names, the encodings and the operand shapes. What a grammar cannot hold (the meaning, the wave a word came from, whether the LLVM back end carries it, and later the other facts that other tools keep by hand) is in `spec/facts/`: git-controlled TOML, one file for each group of words (`vec.toml` for the vec family), one table for each base mnemonic. **The base mnemonic is the key**: the part of a word before the first dot (`vdacc` for `vdacc.b`, `vdacc.bu`), so a grammar word needs no annotation to find its table.
+
+* `tools/facts.py` reads the files (`facts.load('vec')`) and `tools/facts.py --check` (in `check-all.sh`) fails if the grammar has a base with no table, or a table names a base the grammar no longer has.
+* Today `tools/vec-glance.py` (the meaning and the wave) and `tools/gen-llvm-td.py` (the `llvm` flag: which words the LLVM tables carry) read them; their outputs are byte-identical to what the hand lists wrote. The other places that keep a fact by hand (the manual's entries, the executor's name table, the assembler's lane rules, the test and gate scripts) are to follow one at a time.
+* To add a base word: add it to the vec family (`docs/codegen-data/encoding/vecfam.py`, the workflow above), then add its table to `spec/facts/vec.toml`; the check says if either is missing.
+* If a record is ever to cover words of several bases, or a word is to name a table other than its base, the grammar rule can carry a comment `; fact: NAME`, which a tool reads (hbnf ignores comments); no rule needs it yet.
+
 ## The generator workflow
 
 1. Change what decides the forms: `docs/codegen-data/encoding/vecfam.py` (the vec, tile and GEMM family), or, for a change in the hand-written part, a hand-written part of `grammars.d/`.

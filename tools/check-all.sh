@@ -6,6 +6,7 @@ tools/check-asmsyntax.sh | grep -c '^ok' | sed 's/$/ syntax tests ok/'
 tools/check-as64.sh
 tools/check-enc.sh
 tools/check-grammar-enc.sh
+python3 tools/facts.py --check
 python3 tools/vec-glance.py --check docs/encoding-work/vec-isa.md
 python3 tools/check-manual-src.py
 python3 tools/mkmanual.py --check
