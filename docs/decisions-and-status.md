@@ -192,6 +192,13 @@
 - Evidence: docs/errata.md item 178; docs/manual-src/06-kernel.md 6.8.4 and 6.8.5; tests/qemu/mmu-flush.S (non-vacuous: it fails when the flushes of the executor are removed); QEMU v11.1.2 `tcg_cpu_reset_hold` flushes the soft TLB at reset
 - Left: reset is not tested (the harness cannot reset the machine); an invalidate by ASID (J.6.8 option 4); the rule for guests and device translations when virtualisation and the IOMMU are decided (B.2.11, J.2.3)
 
+### Virtualisation: the hypervisor mode, two-stage translation, virtual interrupts and the IOMMU
+- Status: TO DO — decided, details to be determined: virtualisation is part of the design (latest decision 2026-11-19 \[R494\] to \[R504\], errata 181)
+- Decided: 2026-11-19 the owner answered the eleven questions of the virtualisation form: every sensitive instruction traps (after an audit); a third, hypervisor mode with trap-control and exit-reason registers; two-stage translation in hardware; hardware virtual interrupt lines and a virtual timer offset; assigned devices through the IOMMU with a guest-visible second level; no nesting in version 1; hidden vector state relies on restart-from-entry and zeroing; a full table of the state after a guest reset; a small in-house hypervisor on the QEMU target first; the IOMMU designed now as proposals for review \[R494\] \[R495\] \[R496\] \[R497\] \[R498\] \[R499\] \[R500\] \[R501\] \[R502\] \[R504\]
+- Rationale: the owner chose the hardware forms (questions 2 to 5) over the staged and software forms the assistant recommended; safety and security first (R491)
+- Evidence: docs/errata.md item 181; docs/manual-src/appendix-parts/b-proposed.md (B.2.11); docs/manual-src/appendix-parts/02-open.md (J.2.3); tests/qemu/mmu-flush.S (the translation rule of errata 178, which the guest tag will extend)
+- Left: no design of the hypervisor mode, the second stage, the virtual interrupt lines or the IOMMU; the audit of sensitive instructions; the table of the state after a guest reset; the new chapter on virtualisation and the placement of the DMA text near the IOMMU \[R503\]; the proof that the naming hole of errata 175 is closed, or a rule that closes it (the owner chose to rely on restart-from-entry, which does not close it); the hypervisor, hypercall and guest-return mnemonics (about two or three, a new grammar part, and a new run of the encoding optimiser)
+
 ## 07 Multiple processors
 
 ### Secure mode (formerly the secure core class)
