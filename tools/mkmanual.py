@@ -36,7 +36,7 @@ def parse_spec(target='asm'):
     groups = {}
     for g, body in re.findall(r'(?m)^([a-z0-9-]+)\s*=(.*?)(?=^\S|\Z)', t, re.S):
         body = re.sub(r';[^\n]*', '', body)
-        groups[g] = [(m, num(n)) for m, n in re.findall(r'"([A-Za-z0-9_.#]+)"@(\S+)', body)]
+        groups[g] = [(m, num(n)) for m, n in re.findall(r'"([A-Za-z0-9_.#-]+)"@(\S+)' if target == 'spec' else r'"([A-Za-z0-9_.#]+)"@(\S+)', body)]
     return groups
 
 
@@ -334,6 +334,36 @@ PSWD = {'c': 'carry (borrow after a subtract)', 'v': 'signed overflow', 'z': 'ze
 PTED = {'v': 'valid', 'r': 'readable', 'w': 'writable', 'x': 'executable', 'u': 'accessible from user mode', 'g': 'global: ignores the ASID', 'a': 'accessed (managed by software)', 'd': 'dirty (managed by software)', 'mt': 'memory type', 'ppn': 'physical page number: physical address bits 12 to 39, in place'}
 
 
+IOMMU_MEANING = {
+    'reg': 'the registers of the unit, a byte offset each (2.11.10); the first eight are the common device pattern',
+    'id': 'the value of the unit type and of the version in the ID register', 'id-field': 'the fields of the ID register',
+    'control': 'the bits of CONTROL', 'status': 'the bits of STATUS (cmd-error, overflow and table-error are sticky: write one to clear)',
+    'device': 'the fields of DEVICE, the device-table pointer', 'device-width': 'the width of the mode field', 'caps-width': 'the widths of the fields of CAPS that are wider than one bit', 'mode': 'the values of the mode field of DEVICE (blocked at reset)',
+    'caps': 'the fields of CAPS', 'caps-value': 'the values the model reports in CAPS',
+    'dir': 'the field of a directory entry (the rest: the page number of the leaf, `pte` field `ppn`)', 'table': 'the geometry of the device table (2.11.1)', 'dte-word': 'the byte offsets of the four words of a device entry (2.11.3)',
+    'dte': 'the fields of word 0 of the device entry', 'dte-width': 'the widths of the fields of word 0 that are wider than one bit', 'stages': 'the values of the stages field',
+    'cmd': 'the fields of word 0 of a command (2.11.7)', 'cmd-width': 'the widths of those fields', 'cmd-bytes': 'the size of a command and the value that sync writes',
+    'op': 'the operations of a command', 'fault': 'the fields of word 0 of a fault record (2.11.6)', 'fault-width': 'the widths of those fields',
+    'fault-word': 'the byte offsets of the words of a fault record', 'fault-who': 'the fields of word 1 of a fault record', 'fault-bytes': 'the size of a fault record',
+    'stage': 'the values of the stage field of a fault record', 'cause': 'the values of the cause field of a fault record'}
+DMATEST_MEANING = {'reg': 'the registers of the test function, a byte offset each', 'ctl': 'the bits of CONTROL', 'status': 'the bits of STATUS (write one to clear)', 'irq': 'the bit of IRQ',
+                   'map': 'the layout of its base address register window', 'id': 'its PCI identification'}
+
+
+def iommu_section():
+    L = ['', '## The IOMMU (2.11) and the DMA test function of the model', '',
+         'The registers, bit numbers, command codes and fault codes of the unit, from `spec/grammars.d/51-iommu-v1.hbnf` (errata 194). A number is a position, a width, a byte offset or a value, as the description of its rule says. The page-table entry of a device is the processor\'s (`pte` above).', '',
+         '| Rule | Name | Number | What the rule is |', '|---|---|---|---|']
+    for rule, items in SYS.items():
+        if not (rule.startswith('iommu-') or rule.startswith('dmatest-')):
+            continue
+        kind, key = rule.split('-', 1)
+        text = (IOMMU_MEANING if kind == 'iommu' else DMATEST_MEANING)[key]
+        for k, (n, v) in enumerate(items):
+            L.append('| `%s` | `%s` | %s | %s |' % (rule, n, '0x%x' % v if v > 9999 else v, text if k == 0 else ''))
+    return L
+
+
 def constants_page():
     w = dict(SYS['psw-width'])
     L = ['# Appendix: the architectural constants', '', '[← dictionary index](index.md)', '',
@@ -364,6 +394,7 @@ def constants_page():
         al.setdefault(v, []).append(n)
     for n, v in SPEC['cc']:
         L.append('| `%s` | %d | %s |' % (n, v, ', '.join('`%s`' % a for a in al.get(v, [])) or ''))
+    L += iommu_section()
     L.append('')
     return '\n'.join(L)
 

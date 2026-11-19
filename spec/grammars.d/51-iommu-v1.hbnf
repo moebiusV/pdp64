@@ -1,0 +1,191 @@
+; targets: spec
+; The IOMMU of the pdp64 (manual 2.11.1 to 2.11.11; docs/encoding-work/iommu-proposals.md sections 2 to 8; errata 187, 190, 194) and the DMA test function of the model: the numbers, written once, here, as
+; enum rules; tools/mkgrammar.py generates a #define for each in build/pdp64-consts.h (the rule iommu-reg and the enumerator "control" give IOMMU_REG_CONTROL), and the QEMU
+; model (qemu/hw-pdp64/iommu.c, dmatest.c), the tests (tests/qemu/iommu-*.S) and the manual's dictionary use them from there.  The physical addresses of the unit's register block
+; and of the PCI Express windows are in the rule `map` of 50-system-v1.hbnf; its interrupt vector is `vector` "iommu" and its level `irq-level` "iommu" there.
+; Not part of the instruction grammar; target spec only, hbnf does not read this part.  Where a rule gives positions, the value is the position of the field's lowest bit; where it gives
+; values, the number is the value.  Details that the manual leaves "to be determined" take the recommendation of the proposals (errata 194 lists them).
+
+; The unit's register block: 64-bit registers at 8-byte spacing (2.11.10).  The first eight are the common device pattern (ID, CONTROL, STATUS, RING_BASE, RING_SIZE, DOORBELL, IRQ, DEVICE) with
+; the command ring; then CAPS, the command ring's head, the fault ring's registers and the invalidate register (INV0, INV1); the last two count what was refused (2.11.6).
+iommu-reg = "id"@0
+          | "control"@8
+          | "status"@16
+          | "ring-base"@24
+          | "ring-size"@32
+          | "doorbell"@40
+          | "irq"@48
+          | "device"@56
+          | "caps"@64
+          | "cmd-head"@72
+          | "fault-base"@80
+          | "fault-size"@88
+          | "fault-head"@96
+          | "fault-tail"@104
+          | "fault-dropped"@112
+          | "inv0"@120
+          | "inv1"@128
+          | "refused-reads"@136
+          | "dropped-writes"@144
+
+; ID: the unit-type code in bits 0 to 15 (the value `type` below) and the version in bits 16 to 31 (the value `version`).
+iommu-id = "type"@0x1011
+         | "version"@1
+iommu-id-field = "type"@0
+               | "version"@16
+
+; CONTROL (read and write; `reset` is a command bit and reads as zero): enable the command ring, enable the logging of refusals, enable the unit's interrupt, and reset the unit (discard every
+; cached translation, set the device-table mode to blocked: 2.11.7).
+iommu-control = "cmd-enable"@0
+              | "fault-enable"@1
+              | "fault-irq"@2
+              | "reset"@3
+
+; STATUS: `cmd-busy` (a command is executing), `fault-pending` (the fault ring is not empty) are read only; `cmd-error` (a command the unit could not decode), `overflow` (the fault ring was full and a
+; record was lost) and `table-error` (a table could not be read, or the device-table pointer is bad) are sticky: a write of one to the bit clears it.
+iommu-status = "cmd-busy"@0
+             | "cmd-error"@1
+             | "fault-pending"@2
+             | "overflow"@3
+             | "table-error"@4
+
+; DEVICE, the device-table pointer: the mode in bits 0 and 1, the page number of the directory (or, in the one-level mode, of the one leaf page) in bits 12 to 39 in place, as in the
+; page-table entry (the field `ppn` of `pte`).  A write that changes the register discards every cached translation (2.11.7).  Blocked is the reset value: the unit refuses every access.
+iommu-device = "mode"@0
+             | "ppn"@12
+iommu-device-width = "mode"@2
+iommu-mode = "blocked"@0
+           | "one-level"@1
+           | "two-level"@2
+
+; CAPS, read only: the largest number of levels of a stage, the physical address width, the width of the guest tag (the same as the processor's, 2.11.8: 16 bits), and the features.
+iommu-caps = "max-levels"@0
+           | "pa-bits"@8
+           | "tag-bits"@16
+           | "stage-b"@24
+           | "nested"@25
+iommu-caps-width = "max-levels"@8
+                 | "pa-bits"@8
+                 | "tag-bits"@8
+iommu-caps-value = "max-levels"@5
+                 | "pa-bits"@40
+                 | "tag-bits"@16
+
+; The device table (2.11.1): a directory of 512 entries of 8 bytes, each pointing to a leaf page of 128 device entries of 32 bytes (the identity's top 9 bits pick the directory entry, its low 7
+; bits the device entry).  The directory entry: V in bit 0 and the page number of the leaf in bits 12 to 39 (`pte` field `ppn`); every other bit must be zero.
+iommu-table = "dir-entries"@512
+            | "dir-entry-bytes"@8
+            | "leaf-entries"@128
+            | "leaf-entry-bytes"@32
+            | "leaf-bits"@7
+            | "page-bits"@12
+            | "min-levels"@3
+            | "max-levels"@5
+iommu-dir = "v"@0
+
+; The device entry (2.11.3), four 64-bit words at these byte offsets.  Word 0 holds the fields below (positions); the widths follow.  `stages` is 1 (level A only), 2 (level B only) or 3 (A then B);
+; 0 is reserved.  A level count is 3, 4 or 5 and is looked at only for a stage that is used.  The domain tag and the guest tag are 16 bits (the guest tag 0 is the host).  Words 1 and 2 are the
+; physical addresses of the top table of each stage (page aligned, below 2^40; for stage A under A then B, a guest-physical address); word 3 is reserved for the interrupt table (J.6.3) and must be
+; zero.  A bit of word 0 that is not named must be zero, or the device is refused.
+iommu-dte-word = "flags"@0
+               | "root-a"@8
+               | "root-b"@16
+               | "reserved"@24
+iommu-dte = "v"@0
+          | "mute"@1
+          | "stages"@2
+          | "levels-a"@4
+          | "levels-b"@7
+          | "domain"@16
+          | "guest"@32
+iommu-dte-width = "stages"@2
+                | "levels-a"@3
+                | "levels-b"@3
+                | "domain"@16
+                | "guest"@16
+iommu-stages = "a"@1
+             | "b"@2
+             | "a-then-b"@3
+
+; The leaf entry of a device's page table (2.11.4) is the processor's page-table entry (`pte`): V, R, W and the page number are used; W requires R; X, U, G and the memory type must be zero; A and
+; D are ignored; bits 10, 11 and 40 to 63 are not allocated and must be zero.  A level 1 or 2 leaf maps 2 MB or 1 GB, aligned.
+
+; The command ring and the invalidate register (2.11.7).  A command is 16 bytes, two 64-bit words.  Word 0: the operation in bits 0 to 7, the requester identity in bits 16 to 31, the domain tag in
+; bits 32 to 47, the guest tag in bits 48 to 63.  Word 1: for sync, the physical address (8-byte aligned) of the word that the unit writes with the value `sync-value` when every earlier command has taken effect.
+; The invalidate register is the same command in INV0 (word 0) and INV1 (word 1); the write of INV1 starts it.  The unit consumes the ring from CMD_HEAD to the tail written to DOORBELL.
+iommu-cmd = "op"@0
+          | "rid"@16
+          | "domain"@32
+          | "guest"@48
+iommu-cmd-width = "op"@8
+                | "rid"@16
+                | "domain"@16
+                | "guest"@16
+iommu-cmd-bytes = "size"@16
+                | "sync-value"@1
+iommu-op = "nop"@0
+         | "inv-device"@1
+         | "inv-domain"@2
+         | "inv-guest"@3
+         | "inv-all"@4
+         | "sync"@5
+
+; The fault ring (2.11.6): FAULT_BASE is the physical address of the ring (page aligned), FAULT_SIZE the number of records (a power of two), FAULT_HEAD the kernel's index of the next record to read,
+; FAULT_TAIL the unit's index of the next record to write.  The ring is full when advancing the tail would reach the head: the unit then writes nothing, sets the sticky overflow bit and counts the lost
+; record in FAULT_DROPPED (a write of any value clears the count).  A record is 32 bytes, four words.  Word 0: the cause, the stage that failed, whether the access was a write, a valid bit and an
+; overflow bit (records were lost before this one).  Word 1: the requester identity and the guest tag.  Word 2: the device address.  Word 3: for a level B failure the guest-physical address, else zero.
+; The unit writes the record, then advances FAULT_TAIL, then raises the interrupt (5.10.3).  The interrupt line is asserted while the ring is not empty, or overflow or table-error is set, and
+; `fault-irq` is set.
+iommu-fault = "cause"@0
+            | "stage"@8
+            | "write"@10
+            | "valid"@62
+            | "overflow"@63
+iommu-fault-width = "cause"@8
+                  | "stage"@2
+iommu-fault-word = "info"@0
+                 | "who"@8
+                 | "iova"@16
+                 | "gpa"@24
+iommu-fault-who = "rid"@0
+                | "guest"@16
+iommu-fault-bytes = "size"@32
+iommu-stage = "table"@0
+            | "a"@1
+            | "b"@2
+iommu-cause = "blocked"@1
+            | "no-entry"@2
+            | "bad-entry"@3
+            | "table-read"@4
+            | "no-mapping"@5
+            | "bad-pte"@6
+            | "no-read"@7
+            | "no-write"@8
+            | "range"@9
+            | "guard"@10
+            | "ats"@11
+
+; The DMA test function of the model (qemu/hw-pdp64/dmatest.c, `-device pdp64-dmatest`): a PCI function with one memory base address register of `bar-size` bytes.  The registers (64 bits) are at the
+; start of the window; the 4096 bytes at `buffer` are the function's own buffer, which the processor reads and writes.  Writing `control` with `start` runs one transfer at once, through the PCI
+; address space (so the IOMMU is in the path): a read of `len` bytes from the device address in `src` into the buffer, or, with `write`, a write of `len` bytes from the buffer to the device address in
+; `dst`.  A read that fails (an error completion) leaves the buffer unchanged and sets `error` and `result` (the status the memory system returned, nonzero); a posted write has no answer, so the function sees
+; no error (the unit counts it).  `done` is set at the end of every transfer.  Both status bits are cleared by a write of one; the interrupt (PCI pin A) is asserted while `done` or `error` is set and `enable` is set in `irq`.
+dmatest-reg = "id"@0
+            | "src"@8
+            | "dst"@16
+            | "len"@24
+            | "control"@32
+            | "status"@40
+            | "result"@48
+            | "irq"@56
+dmatest-ctl = "start"@0
+            | "write"@1
+dmatest-status = "done"@0
+               | "error"@1
+dmatest-irq = "enable"@0
+dmatest-map = "bar-size"@0x2000
+            | "buffer"@0x1000
+            | "buffer-size"@0x1000
+dmatest-id = "magic"@0x64d00001
+           | "vendor"@0x1234
+           | "device"@0x64d0

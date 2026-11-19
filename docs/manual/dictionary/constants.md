@@ -39,6 +39,7 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | Vector | Number | Cause |
 |---|---|---|
 | `RESET` | 0 | processor reset: the first instruction fetch |
+| `MACHINE_CHECK` | 1 | an unrecoverable error (a posted write that timed out, an uncorrectable memory error, a failed vector fetch); not restartable |
 | `ILLEGAL` | 2 | a reserved or undefined opcode, a reserved encoding or an unassigned system register |
 | `PRIVILEGED` | 3 | a system instruction executed outside kernel mode |
 | `MISALIGNED` | 4 | a data access whose address is not a multiple of its size (the `MOVU` forms excepted) |
@@ -54,8 +55,16 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `LPAD` | 14 | an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1) |
 | `BPT` | 15 | the `BPT` instruction |
 | `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`; errata 152) |
+| `IRQ_BASE` | 32 | the first interrupt vector |
 | `TIMER` | 32 | the timer interrupt (level 6) |
+| `CONSOLE_IN` | 33 | console receive interrupt (level 4) |
+| `CONSOLE_OUT` | 34 | console transmit interrupt (level 4) |
+| `PCIE_INTA` | 35 | PCI Express interrupt pin A of the model host bridge (level 5) |
+| `PCIE_INTB` | 36 | PCI Express interrupt pin B (level 5) |
+| `PCIE_INTC` | 37 | PCI Express interrupt pin C (level 5) |
+| `PCIE_INTD` | 38 | PCI Express interrupt pin D (level 5) |
 | `IOMMU` | 39 | the IOMMU unit's own interrupt, a wired line (level 5; 2.11.11) |
+| `TRAP_BASE` | 256 | `TRAP #n` and `TRAPL #n` enter vector 256 + n |
 | `COUNT` | 512 | the number of vectors; the table has this many eight-byte entries |
 
 ## The page-table entry (64 bits)
@@ -82,12 +91,17 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 | cached | 0 |
 | uncached | 1 |
 | device | 2 |
+| device weak | 3 |
 
 ## The translation geometry
 
 | Quantity | Value |
 |---|---|
+| page bits | 12 |
+| level bits | 9 |
 | levels | 3 |
+| va bits | 39 |
+| pa bits | 40 |
 
 ## The system registers (`MFSR`, `MTSR`)
 
@@ -126,3 +140,150 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 | `le` | 12 |  |
 | `hi` | 13 |  |
 | `los` | 14 |  |
+
+## The IOMMU (2.11) and the DMA test function of the model
+
+The registers, bit numbers, command codes and fault codes of the unit, from `spec/grammars.d/51-iommu-v1.hbnf` (errata 194). A number is a position, a width, a byte offset or a value, as the description of its rule says. The page-table entry of a device is the processor's (`pte` above).
+
+| Rule | Name | Number | What the rule is |
+|---|---|---|---|
+| `iommu-reg` | `id` | 0 | the registers of the unit, a byte offset each (2.11.10); the first eight are the common device pattern |
+| `iommu-reg` | `control` | 8 |  |
+| `iommu-reg` | `status` | 16 |  |
+| `iommu-reg` | `ring-base` | 24 |  |
+| `iommu-reg` | `ring-size` | 32 |  |
+| `iommu-reg` | `doorbell` | 40 |  |
+| `iommu-reg` | `irq` | 48 |  |
+| `iommu-reg` | `device` | 56 |  |
+| `iommu-reg` | `caps` | 64 |  |
+| `iommu-reg` | `cmd-head` | 72 |  |
+| `iommu-reg` | `fault-base` | 80 |  |
+| `iommu-reg` | `fault-size` | 88 |  |
+| `iommu-reg` | `fault-head` | 96 |  |
+| `iommu-reg` | `fault-tail` | 104 |  |
+| `iommu-reg` | `fault-dropped` | 112 |  |
+| `iommu-reg` | `inv0` | 120 |  |
+| `iommu-reg` | `inv1` | 128 |  |
+| `iommu-reg` | `refused-reads` | 136 |  |
+| `iommu-reg` | `dropped-writes` | 144 |  |
+| `iommu-id` | `type` | 4113 | the value of the unit type and of the version in the ID register |
+| `iommu-id` | `version` | 1 |  |
+| `iommu-id-field` | `type` | 0 | the fields of the ID register |
+| `iommu-id-field` | `version` | 16 |  |
+| `iommu-control` | `cmd-enable` | 0 | the bits of CONTROL |
+| `iommu-control` | `fault-enable` | 1 |  |
+| `iommu-control` | `fault-irq` | 2 |  |
+| `iommu-control` | `reset` | 3 |  |
+| `iommu-status` | `cmd-busy` | 0 | the bits of STATUS (cmd-error, overflow and table-error are sticky: write one to clear) |
+| `iommu-status` | `cmd-error` | 1 |  |
+| `iommu-status` | `fault-pending` | 2 |  |
+| `iommu-status` | `overflow` | 3 |  |
+| `iommu-status` | `table-error` | 4 |  |
+| `iommu-device` | `mode` | 0 | the fields of DEVICE, the device-table pointer |
+| `iommu-device` | `ppn` | 12 |  |
+| `iommu-device-width` | `mode` | 2 | the width of the mode field |
+| `iommu-mode` | `blocked` | 0 | the values of the mode field of DEVICE (blocked at reset) |
+| `iommu-mode` | `one-level` | 1 |  |
+| `iommu-mode` | `two-level` | 2 |  |
+| `iommu-caps` | `max-levels` | 0 | the fields of CAPS |
+| `iommu-caps` | `pa-bits` | 8 |  |
+| `iommu-caps` | `tag-bits` | 16 |  |
+| `iommu-caps` | `stage-b` | 24 |  |
+| `iommu-caps` | `nested` | 25 |  |
+| `iommu-caps-width` | `max-levels` | 8 | the widths of the fields of CAPS that are wider than one bit |
+| `iommu-caps-width` | `pa-bits` | 8 |  |
+| `iommu-caps-width` | `tag-bits` | 8 |  |
+| `iommu-caps-value` | `max-levels` | 5 | the values the model reports in CAPS |
+| `iommu-caps-value` | `pa-bits` | 40 |  |
+| `iommu-caps-value` | `tag-bits` | 16 |  |
+| `iommu-table` | `dir-entries` | 512 | the geometry of the device table (2.11.1) |
+| `iommu-table` | `dir-entry-bytes` | 8 |  |
+| `iommu-table` | `leaf-entries` | 128 |  |
+| `iommu-table` | `leaf-entry-bytes` | 32 |  |
+| `iommu-table` | `leaf-bits` | 7 |  |
+| `iommu-table` | `page-bits` | 12 |  |
+| `iommu-table` | `min-levels` | 3 |  |
+| `iommu-table` | `max-levels` | 5 |  |
+| `iommu-dir` | `v` | 0 | the field of a directory entry (the rest: the page number of the leaf, `pte` field `ppn`) |
+| `iommu-dte-word` | `flags` | 0 | the byte offsets of the four words of a device entry (2.11.3) |
+| `iommu-dte-word` | `root-a` | 8 |  |
+| `iommu-dte-word` | `root-b` | 16 |  |
+| `iommu-dte-word` | `reserved` | 24 |  |
+| `iommu-dte` | `v` | 0 | the fields of word 0 of the device entry |
+| `iommu-dte` | `mute` | 1 |  |
+| `iommu-dte` | `stages` | 2 |  |
+| `iommu-dte` | `levels-a` | 4 |  |
+| `iommu-dte` | `levels-b` | 7 |  |
+| `iommu-dte` | `domain` | 16 |  |
+| `iommu-dte` | `guest` | 32 |  |
+| `iommu-dte-width` | `stages` | 2 | the widths of the fields of word 0 that are wider than one bit |
+| `iommu-dte-width` | `levels-a` | 3 |  |
+| `iommu-dte-width` | `levels-b` | 3 |  |
+| `iommu-dte-width` | `domain` | 16 |  |
+| `iommu-dte-width` | `guest` | 16 |  |
+| `iommu-stages` | `a` | 1 | the values of the stages field |
+| `iommu-stages` | `b` | 2 |  |
+| `iommu-stages` | `a-then-b` | 3 |  |
+| `iommu-cmd` | `op` | 0 | the fields of word 0 of a command (2.11.7) |
+| `iommu-cmd` | `rid` | 16 |  |
+| `iommu-cmd` | `domain` | 32 |  |
+| `iommu-cmd` | `guest` | 48 |  |
+| `iommu-cmd-width` | `op` | 8 | the widths of those fields |
+| `iommu-cmd-width` | `rid` | 16 |  |
+| `iommu-cmd-width` | `domain` | 16 |  |
+| `iommu-cmd-width` | `guest` | 16 |  |
+| `iommu-cmd-bytes` | `size` | 16 | the size of a command and the value that sync writes |
+| `iommu-cmd-bytes` | `sync-value` | 1 |  |
+| `iommu-op` | `nop` | 0 | the operations of a command |
+| `iommu-op` | `inv-device` | 1 |  |
+| `iommu-op` | `inv-domain` | 2 |  |
+| `iommu-op` | `inv-guest` | 3 |  |
+| `iommu-op` | `inv-all` | 4 |  |
+| `iommu-op` | `sync` | 5 |  |
+| `iommu-fault` | `cause` | 0 | the fields of word 0 of a fault record (2.11.6) |
+| `iommu-fault` | `stage` | 8 |  |
+| `iommu-fault` | `write` | 10 |  |
+| `iommu-fault` | `valid` | 62 |  |
+| `iommu-fault` | `overflow` | 63 |  |
+| `iommu-fault-width` | `cause` | 8 | the widths of those fields |
+| `iommu-fault-width` | `stage` | 2 |  |
+| `iommu-fault-word` | `info` | 0 | the byte offsets of the words of a fault record |
+| `iommu-fault-word` | `who` | 8 |  |
+| `iommu-fault-word` | `iova` | 16 |  |
+| `iommu-fault-word` | `gpa` | 24 |  |
+| `iommu-fault-who` | `rid` | 0 | the fields of word 1 of a fault record |
+| `iommu-fault-who` | `guest` | 16 |  |
+| `iommu-fault-bytes` | `size` | 32 | the size of a fault record |
+| `iommu-stage` | `table` | 0 | the values of the stage field of a fault record |
+| `iommu-stage` | `a` | 1 |  |
+| `iommu-stage` | `b` | 2 |  |
+| `iommu-cause` | `blocked` | 1 | the values of the cause field of a fault record |
+| `iommu-cause` | `no-entry` | 2 |  |
+| `iommu-cause` | `bad-entry` | 3 |  |
+| `iommu-cause` | `table-read` | 4 |  |
+| `iommu-cause` | `no-mapping` | 5 |  |
+| `iommu-cause` | `bad-pte` | 6 |  |
+| `iommu-cause` | `no-read` | 7 |  |
+| `iommu-cause` | `no-write` | 8 |  |
+| `iommu-cause` | `range` | 9 |  |
+| `iommu-cause` | `guard` | 10 |  |
+| `iommu-cause` | `ats` | 11 |  |
+| `dmatest-reg` | `id` | 0 | the registers of the test function, a byte offset each |
+| `dmatest-reg` | `src` | 8 |  |
+| `dmatest-reg` | `dst` | 16 |  |
+| `dmatest-reg` | `len` | 24 |  |
+| `dmatest-reg` | `control` | 32 |  |
+| `dmatest-reg` | `status` | 40 |  |
+| `dmatest-reg` | `result` | 48 |  |
+| `dmatest-reg` | `irq` | 56 |  |
+| `dmatest-ctl` | `start` | 0 | the bits of CONTROL |
+| `dmatest-ctl` | `write` | 1 |  |
+| `dmatest-status` | `done` | 0 | the bits of STATUS (write one to clear) |
+| `dmatest-status` | `error` | 1 |  |
+| `dmatest-irq` | `enable` | 0 | the bit of IRQ |
+| `dmatest-map` | `bar-size` | 8192 | the layout of its base address register window |
+| `dmatest-map` | `buffer` | 4096 |  |
+| `dmatest-map` | `buffer-size` | 4096 |  |
+| `dmatest-id` | `magic` | 0x64d00001 | its PCI identification |
+| `dmatest-id` | `vendor` | 4660 |  |
+| `dmatest-id` | `device` | 0x64d0 |  |
