@@ -18,23 +18,14 @@ SRCS = [os.path.join(VF, 'kernels.c'), os.path.join(VF, 'games', 'games.c'), os.
 CFLAGS = ['-O2', '-m64', '-fno-builtin-memset', '-fno-builtin-memcpy', '-fno-stack-protector', '-mlong-double-64', '-mno-sse', '-mno-mmx', '-fno-vectorize', '-fno-slp-vectorize',
           '-fno-unroll-loops', '-ffp-contract=fast', '-ffast-math', '-w', '-S', '-emit-llvm']
 
-# the groups of vec-isa.md section 2, for the table
-GROUPS = [
-    ('block', ['vec', 'vec2', 'vskip', 'vend', 'vfin']),
-    ('load, store', ['vld', 'vst']),
-    ('saturating narrow', ['vsts']),
-    ('strided', ['vldt', 'vstt']),
-    ('segment', ['vlseg2', 'vlseg3', 'vlseg4', 'vsseg2', 'vsseg3', 'vsseg4']),
-    ('lane operations', ['vadd', 'vsub', 'vsubr', 'vmul', 'vand', 'vor', 'vxor', 'vshl', 'vshr', 'vsar', 'vabd', 'vabdu', 'vmin', 'vmax', 'vminu', 'vmaxu', 'vmov', 'vneg', 'vavg', 'vavgu', 'vmulh', 'vmulhu', 'vmulhr', 'vsarr', 'vshrr']),
-    ('saturating', ['vadds', 'vsubs', 'vaddsu', 'vsubsu']),
-    ('multiply-add', ['vmla', 'vfma', 'vfnma', 'vfmab']),
-    ('dot', ['vdot', 'vdotu', 'vdotsu', 'vdacc', 'vsad']),
-    ('table lookup', ['vtbl']),
-    ('compare, select, conversion (wave 2)', ['vceq', 'vcgt', 'vcgtu', 'vbsl', 'vcvt']),
-    ('reductions', ['vacc', 'vmaxacc', 'vminacc']),
-    ('sliding window', ['vfir']),
-    ('accumulators', ['vclr']),
-]
+# the groups of vec-isa.md section 2, for the table: spec/facts/vec.toml (the field group of each base; the groups come in the order of their first base in the file, the bases in the order of the file)
+sys.path.insert(0, os.path.join(R, 'tools'))
+import facts
+FACTS = facts.load('vec')
+_g = {}
+for _b, _t in FACTS.items():
+    _g.setdefault(_t['group'], []).append(_b)
+GROUPS = list(_g.items())
 
 OPT = os.path.join(os.path.dirname(R), 'llvm-build', 'bin', 'opt')
 
@@ -139,21 +130,8 @@ def main():
         if m not in use_all: ub[base(m)][0] += 1
     out.append(', '.join('`%s` %d/%d' % (b, v[0], v[1]) for b, v in sorted(ub.items())) + '\n')
     out.append('\n## Instructions no kernel used, and why (what a compiler would need)\n')
-    why = {
-        'vec2': 'the 2D (tile) block (errata 176, vec-2d.md): the compiler does not emit it; a pass would take the countable outer loop around a vectorised inner loop of a nest (the `.preheader` loop of `vector.body` in the IR of tiles.c: 18 of the loops of the benchmark sources contain a loop, all with a countable trip count, 15 with a vectorised loop inside), the strides of the pointers of the nest as invariants, a disjointness proof of the streams across rows, and at most four streams advanced by a gap',
-        'vskip': 'the row advance of a stream of a 2D block: emitted with `vec2` only (see `vec2`)',
-        'vfin': 'the epilogue of a block with accumulators (errata 173): only a block that names accumulators (vclr) or uses vfmab has one, and the pass makes no accumulators',
-        'vclr': 'hidden accumulation across strips: nothing reads an accumulator after the block ends (there is no vector-to-scalar move outside a block), so a block that needs one reduces inside it (`vacc` each strip), which is what both compilers do',
-        'vfir': 'a window of consecutive loads times invariant taps (put8h): LoopVectorize does not vectorise it (too many live vectors), the scalar recogniser makes eight shifted streams; neither makes `vfir`',
-        'vlseg2': 'LoopVectorize\'s interleaved groups with every field used ARE these (see the `lv` column); `vlseg2` is used by k_split and k_cmul', 'vlseg3': 'a three-field load group (rgb to planes): no kernel of the set has one', 'vlseg4': 'the 4-field groups of k_vtxaos (used when the build has it)',
-        'vsseg2': 'as `vlseg2` (stores)', 'vsseg3': 'rgb interleave (tests/vec/lv_seg.c)', 'vsseg4': 'as `vlseg4` (stores)',
-        'vdot': 'subsumed: a dot product (k_q8dot) is a reduction, and `vdacc.b` / `vdacc.w` sum a whole strip into the scalar register in ONE instruction, which `vdot` followed by `vacc` cannot beat; `vdot` writes 32-bit lanes of a vector and so keeps the strip at 8 lanes; LLVM would reach it only as a partial reduction (`llvm.vector.partial.reduce.add`, a vector accumulator that lives across strips: the block model has none)',
-        'vdotu': 'same', 'vdotsu': 'same',
-        'vfmab': 'the broadcast multiply-add of a GEMM micro-kernel: needs a loop nest, not an innermost loop',
-        'vabdu': 'the kernels take `abs(a - b)` of widened bytes: the signed `vabd` serves (and `vsad.bu` for a sum of them)',
-        'vmulhr': 'used only with the saturation written out (`min(x, 32767)`): not used if no kernel has the Q15 idiom', 'vtbl': 'a 16-byte table lookup is a gather (`c[i] = tbl[a[i] & 15]`) in IR and LoopVectorize refuses it (memory conflicts, no masked gather); there is no intrinsic: assembly only',
-    }
-    supported = {'vsub', 'vor', 'vmax', 'vminu', 'vmaxu', 'vneg', 'vsubs', 'vaddsu', 'vsubsu', 'vminacc', 'vsubr', 'vand', 'vxor'}
+    why = {b: f['usage_why'] for b, f in FACTS.items() if 'usage_why' in f}	# spec/facts/vec.toml
+    supported = {b for b, f in FACTS.items() if f.get('usage_supported')}
     for g, b, nw in duds:
         out.append('* `%s` (%s, %d words): %s' % (b, g, nw, why.get(b, 'the pass emits it, but no kernel of this set has the operation' if b in supported else '')))
     txt = '\n'.join(out) + '\n'
