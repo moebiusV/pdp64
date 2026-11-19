@@ -9,7 +9,7 @@
  *
  * What is not implemented traps as an illegal instruction with a message that names the mnemonic (list: H_UNIMPL below): the atomic group (the operand
  * placement and the size encoding are not fixed by the ISA text), the AES and SHA instructions, UTF8DEC, UTF8ENC, MVAL, the deferred loads (.d, .ud),
- * the placeholders syspg2 to syspg5.
+ * the placeholders syspg3 to syspg5.
  */
 /* the register file is r in pdp64exec.c, a macro that would also take the field `r` of an eop: use RG here */
 #undef r
@@ -31,7 +31,7 @@ struct hdef { const char *name; int kind, a; };
 #include "pdp64exec_corehdefs.inc"	/* hdefs[]: word -> handler kind and argument, generated from spec/facts/core.toml (tools/gen-core-names.py) */
 /* every other mnemonic of the tables is H_UNIMPL: ATOM (cas casdb swap swapdb xadd xadddb xand xanddb xor_ xor_db xxor xxordb xmax xmaxdb xmin xmindb xmaxu xmaxudb
    xminu xminudb ll sc), aeses aesesm aesds aesdsm aesks1 aesks2 aesim, sha256sig0/1 sha256sum0/1 sha512sig0/1 sha512sum0/1, msha256 msha512 maesctr, utf8dec utf8enc
-   mval, the deferred loads movX.d movX.ud, syspg2 to syspg5 */
+   mval, the deferred loads movX.d movX.ud, syspg3 to syspg5 */
 
 static struct hinfo { uint8_t kind; uint8_t user; int a; } *HT;
 static void vec_init(void);
@@ -120,6 +120,7 @@ static void step_enc(void)
 	for (int i = 1; i < n; i++) par[i] = (uint16_t)E->fetch(E->u, pc + 2 * i);
 	if (enc_decode(t, par, n, &in, NULL) != n) die("illegal instruction", 0);
 	pc += 2 * n;
+	C->cur_insn = (uint32_t)par[0] << 16 | (n > 1 ? par[1] : 0);			/* HINSN of an exit that this instruction causes */
 
 	const struct hinfo *h = &HT[in.mn];
 	const struct eop *op = in.op;

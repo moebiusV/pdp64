@@ -1,0 +1,71 @@
+; targets: spec
+; The hypervisor mode of the pdp64 (manual 6.14; docs/encoding-work/hypervisor-design.md, accepted in errata 195; implemented in errata 196): the numbers, written once, here, as enum rules;
+; tools/mkgrammar.py generates a #define for each in build/pdp64-consts.h (the rule htrap and the enumerator "wfe" give HTRAP_WFE), and the shared core (common/pdp64exec.c), sim64, the
+; QEMU model and the tests use them from there.  The names and numbers of the hypervisor's system registers are in 41-sysreg.hbnf (the assembler names them); the new vector numbers 17 to 20
+; are in the rule `vector` of 50-system-v1.hbnf.  Not part of the instruction grammar; target spec only, hbnf does not read this part.  Where a rule gives positions, the value is the position
+; of the field's lowest bit; where it gives values, the number is the value.
+
+; HTRAP, the trap-control register (design 1.5): a set bit sends the event to the hypervisor as an exit.  Bit 15 and bits 24 to 63 are reserved: they read as zero and a write of a one to one of
+; them is an illegal instruction.  Bits 16 to 23 are the hypercall mask: bit k routes TRAP #n for n from 32k to 32k + 31 (design 1.5, "The hypercall").
+htrap = "wfe"@0
+      | "sev"@1
+      | "pause"@2
+      | "prio"@3
+      | "tlbi"@4
+      | "tlbia"@5
+      | "tlbsync"@6
+      | "asid"@7
+      | "ptbr"@8
+      | "mmuctl"@9
+      | "vbr"@10
+      | "cpuid"@11
+      | "icinv"@12
+      | "bpt"@13
+      | "step"@14
+      | "mask"@16
+
+htrap-width = "mask"@8
+
+; The value of HTRAP at a machine reset (WFE and SEV set, design 1.5), the number of trap numbers that one bit of the hypercall mask covers (as a shift: 32 = 1 << 5).
+htrap-reset = "value"@3
+
+hcall = "block-shift"@5
+
+; The exit-reason register HEXITR: the code in bits 7 to 0, and the two flag bits (design 1.6).
+xcode = "taken-at-h"@0
+      | "irq"@1
+      | "halt"@2
+      | "wfe"@3
+      | "sev"@4
+      | "pause"@5
+      | "prio"@6
+      | "tlb"@7
+      | "asid"@8
+      | "ptbr"@9
+      | "mmuctl"@10
+      | "vbr"@11
+      | "dmw"@12
+      | "cpuid"@13
+      | "icinv"@14
+      | "bpt"@15
+      | "step"@16
+      | "hypercall"@17
+      | "hvreg"@18
+      | "s2-invalid"@19
+      | "s2-refused"@20
+      | "machine-check"@21
+
+xflag = "walk"@8
+      | "vec"@9
+
+; GTBR, the stage-2 root, enable and guest tag (design 1.7): S2EN in bit 0, the physical page number of the root in bits 39 to 12 (28 bits), the guest tag in bits 63 to 48 (16 bits); the rest zero.
+gtbr = "s2en"@0
+     | "root"@12
+     | "tag"@48
+
+gtbr-width = "root"@28
+           | "tag"@16
+
+; The virtual interrupt lines (design 1.8): seven, one for each priority level 1 to 7; VIRQ bit L is line L; VIVEC has a field of this many bits for each line (line 1 in bits 7 to 0).
+virq = "lines"@7
+     | "vec-width"@8

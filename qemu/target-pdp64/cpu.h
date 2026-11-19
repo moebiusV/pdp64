@@ -29,6 +29,7 @@ typedef struct CPUArchState {
     uint64_t initial_sp;
     uint64_t ram_size;          /* physical RAM is [0, ram_size) */
     bool kernel_mode;           /* machine option kernel-mode: System v1 */
+    bool hve;                   /* machine option hypervisor: the strap HVE (errata 195, 196); needs kernel-mode.  The core starts as the hypervisor (H = 1) */
     const char *fault_what;     /* the fault being reported (legacy machine) */
     uint64_t fault_addr;
     int ex_vector;              /* the abort being delivered */
@@ -69,7 +70,9 @@ enum { PDP64_MMU_PHYS = 0, PDP64_MMU_KERNEL = 1, PDP64_MMU_USER = 2,
 
 static inline int pdp64_mmu_idx_mode(const CPUPDP64State *env, unsigned mode)
 {
-    if (!env->c.deliver || !(env->c.mmuctl & (1u << MMUCTL_ENABLE))) {
+    if (!env->c.deliver || env->c.h
+        || !(env->c.mmuctl & (1u << MMUCTL_ENABLE))) {
+        /* the hypervisor runs untranslated in version 1 (design 1.2 rule 1) */
         return PDP64_MMU_PHYS;
     }
     if (mode != MODE_KERNEL) {

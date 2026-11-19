@@ -459,6 +459,15 @@ Fields: `sub=p0[4:0]`
 
 Fields: `op1.r=p0[4:0]`
 
+<a id="SYS0-2"></a>
+#### SYS0-2: SYS0, prefix `11111011110010`
+
+![Layout SYS0-2](../figures/SYS0-2.svg)
+
+`sub` (2 bits) selects the mnemonic: `genter` 00, `syspg3` 01, `syspg4` 10, `syspg5` 11.
+
+Fields: `sub=p0[1:0]`
+
 ### Instructions of 2 parcels (4 bytes)
 
 <a id="LDU-X6-1"></a>
@@ -2872,6 +2881,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-fsub"></a>`FSUB`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [LDPC12H-d-1](#LDPC12H-d-1)
 * <a id="mn-fsub16"></a>`FSUB16`: [R2-1](#R2-1)
 * <a id="mn-fsub32"></a>`FSUB32`: [R2-1](#R2-1)
+* <a id="mn-genter"></a>`GENTER`: [SYS0-2](#SYS0-2)
 * <a id="mn-halt"></a>`HALT`: [SYS0-1](#SYS0-1)
 * <a id="mn-hint"></a>`HINT`: [SYSI-1](#SYSI-1)
 * <a id="mn-icinv"></a>`ICINV`: [SYSR-2](#SYSR-2)

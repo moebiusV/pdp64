@@ -331,6 +331,8 @@ static int half_op(int sub, const struct fmt *f, uint64_t *rd)
 /* the processor status word, the banked registers, exception entry                                                    */
 
 static int bank(int mode) { return mode == MODE_USER ? 2 : mode; }
+#define HYP_BANK 3
+#define GUEST() (C->hve && !C->h)							/* a guest is running (the hypervisor mode exists and H is clear) */
 unsigned pdp64_psw(const struct pdp64_cpu *c);
 static int psw_bad(uint64_t v)								/* a PSW with the reserved mode 2 in either mode field */
 {
@@ -338,16 +340,67 @@ static int psw_bad(uint64_t v)								/* a PSW with the reserved mode 2 in eithe
 }
 static void priv(void)
 {
+	if (C->h) return;								/* the hypervisor is privileged whatever the mode field says */
 	if (MODE != MODE_KERNEL) fault_v(VECTOR_PRIVILEGED, "privileged instruction in user mode", 0);
 }
 
 /* Exception entry (docs/pdp64-system-architecture.md section 15): registers only, then the new PC from the table at the physical address vbr + 8 * vector.
    The new priority is the highest (7) for every exception and interrupt (errata 40), so nothing nests until the handler lowers it; the old one is in EPSW. */
+/* An exit (errata 195, 196; design 2.1): a guest event goes to the hypervisor.  The vector word at HVBR + 8 * vector is read first (a failed read changes nothing and is a machine check of the hypervisor); then
+   the exit registers are written, H is set (the banks switch), the status word is kernel mode with the guest's mode as the previous mode, priority 7, flags, trace and UA clear, and the PC is the word read.
+   The guest's EPC, EPSW, EVA, ECAUSE, its system registers and its general registers are not touched. */
+static void hexit(unsigned code, unsigned flags, int vector, uint64_t epc, uint64_t eva, uint64_t gpa, uint64_t insn)
+{
+	uint64_t target, at = C->hvbr + 8 * (uint64_t)vector;
+	unsigned old;
+	if (E->vecread(E->u, at, &target)) E->fault(E->u, "machine check: the vector fetch of an exit failed", at);
+	old = pdp64_psw(C);
+	C->hepc = epc; C->hepsw = old; C->heva = eva; C->hgpa = gpa; C->hinsn = insn; C->hexitr = code | flags; C->hcause = (uint64_t)vector;
+	C->uacc = 0;
+	pdp64_set_h(C, 1);
+	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));
+	C->vacc = 0;									/* the world switch clears the naming of the vector accumulators (errata 186 decision 13); there is no LL reservation in this executor */
+	C->wait = 0;
+	pc = target;
+	C->entered = 1;
+}
+/* the exit of an instruction: a trap (EPC is the next instruction; the instruction is not run, the hypervisor emulates it) if the bit of HTRAP is set.  1 if it exited.  Only a guest. */
+static int gtrap(int bit, unsigned code)
+{
+	if (!GUEST() || !(C->htrap >> bit & 1)) return 0;
+	hexit(code, 0, VECTOR_HEXIT, pc, 0, 0, C->cur_insn);
+	return 1;
+}
+/* an event that always exits (no bit of HTRAP): 1 if it exited */
+static int gexit(unsigned code)
+{
+	if (!GUEST()) return 0;
+	hexit(code, 0, VECTOR_HEXIT, pc, 0, 0, C->cur_insn);
+	return 1;
+}
+/* An exception or interrupt taken while H = 1 (the hypervisor's own: design 1.2 rule 2): the hypervisor's registers and vector base, exit code 0.  The guest's registers are not touched. */
+static void enter_h(int vector, uint64_t epc, uint64_t eva)
+{
+	uint64_t target, at = C->hvbr + 8 * (uint64_t)vector;
+	unsigned old;
+	if (E->vecread(E->u, at, &target)) E->fault(E->u, "machine check: the vector fetch failed", at);
+	old = pdp64_psw(C);
+	C->hepc = epc; C->hepsw = old; C->heva = eva; C->hgpa = 0; C->hinsn = 0; C->hexitr = XCODE_TAKEN_AT_H; C->hcause = (uint64_t)vector;
+	C->uacc = 0;
+	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));
+	C->vacc = 0;
+	pc = target;
+	C->entered = 1;
+}
 static void enter(int vector, uint64_t epc, uint64_t eva)
 {
 	uint64_t target, at = C->vbr + 8 * (uint64_t)vector;
 	unsigned old;
-	if (E->vecread(E->u, at, &target)) E->fault(E->u, "machine check: the vector fetch failed", at);
+	if (C->h) { enter_h(vector, epc, eva); return; }
+	if (E->vecread(E->u, at, &target)) {
+		if (GUEST()) { hexit(XCODE_MACHINE_CHECK, 0, VECTOR_MACHINE_CHECK, epc, eva, at, 0); return; }	/* a machine check in a guest always exits (design 1.6 code 21) */
+		E->fault(E->u, "machine check: the vector fetch failed", at);
+	}
 	old = pdp64_psw(C);
 	C->epc = epc; C->epsw = old; C->eva = eva; C->ecause = (uint64_t)vector | (C->uacc ? 1u << 15 : 0);	/* bit 15: the fault was on the operand of a .u move (6.10.4) */
 	C->uacc = 0;
@@ -356,6 +409,61 @@ static void enter(int vector, uint64_t epc, uint64_t eva)
 	pc = target;
 	C->entered = 1;
 }
+/* The entry into a guest: GENTER (design 2.2).  Legal at H = 1 only; at H = 0 (a guest used it) an exit, code 18; with no hypervisor an illegal instruction.  A reserved mode in HEPSW is an illegal instruction
+   and nothing changes.  It includes an ISYNC (the earlier writes to PTBR, MMUCTL, ASID, VBR, GTBR and HTRAP take effect for what follows); then PSW := HEPSW, the hypervisor's bank is put away and the guest's
+   loaded, PC := HEPC, H := 0, and the naming of the vector accumulators is cleared (the world switch, errata 186 decision 13). */
+static void genter(void)
+{
+	if (!C->hve) die("illegal instruction", 0);
+	priv();
+	if (!C->h) { hexit(XCODE_HVREG, 0, VECTOR_HEXIT, pc, 0, 0, C->cur_insn); return; }
+	if (psw_bad(C->hepsw)) die("genter: reserved mode in hepsw", 0);
+	E->tlb(E->u, PDP64_TLB_ALL, 0);
+	pdp64_set_h(C, 0);
+	pdp64_set_psw(C, (unsigned)C->hepsw);
+	pc = C->hepc;
+	C->vacc = 0;
+	C->wait = 0;
+	C->entered = 1;									/* the trace trap of the hypervisor's own T is not taken after it */
+}
+
+/* MFSR and MTSR of a hypervisor register (numbers 128 to 147) at H = 1.  HTRAP takes only its defined bits (a one in a reserved bit is an illegal instruction); the read-only registers refuse a write; GEVA and
+   GECAUSE are the write aliases of the guest's EVA and ECAUSE, GKSP/GKDP/GSDP/GUDP the guest's banked R14 and DP (all three of the guest's banks are in their slots while H = 1). */
+static void hv_sysreg(int write, unsigned num, int rd)
+{
+	uint64_t *sr, mask = ~(uint64_t)0, v;
+	switch (num) {
+	case SYSREG_HTRAP: sr = &C->htrap; break;
+	case SYSREG_HEXITR: sr = &C->hexitr; break;
+	case SYSREG_HEPC: sr = &C->hepc; break;
+	case SYSREG_HEPSW: sr = &C->hepsw; mask = PSW_VALID; break;
+	case SYSREG_HEVA: sr = &C->heva; break;
+	case SYSREG_HCAUSE: sr = &C->hcause; break;
+	case SYSREG_HGPA: sr = &C->hgpa; break;
+	case SYSREG_HINSN: sr = &C->hinsn; break;
+	case SYSREG_HVBR: sr = &C->hvbr; break;
+	case SYSREG_GTBR: sr = &C->gtbr; mask = GTBR_VALID; break;
+	case SYSREG_VIRQ: sr = &C->virq; mask = (((uint64_t)1 << (VIRQ_LINES + 1)) - 1) & ~(uint64_t)1; break;	/* bit L is line L, 1 to 7; bit 0 reads as zero */
+	case SYSREG_VIVEC: sr = &C->vivec; mask = ((uint64_t)1 << (VIRQ_LINES * VIRQ_VEC_WIDTH)) - 1; break;
+	case SYSREG_VTOFF: sr = &C->vtoff; break;
+	case SYSREG_VCPUID: sr = &C->vcpuid; mask = 0xffff; break;
+	case SYSREG_GEVA: sr = &C->eva; break;
+	case SYSREG_GECAUSE: sr = &C->ecause; break;
+	case SYSREG_GKSP: sr = &C->spbank[bank(MODE_KERNEL)]; break;
+	case SYSREG_GKDP: sr = &C->dpbank[bank(MODE_KERNEL)]; break;
+	case SYSREG_GSDP: sr = &C->dpbank[bank(MODE_SUPERVISOR)]; break;
+	case SYSREG_GUDP: sr = &C->dpbank[bank(MODE_USER)]; break;
+	default: die("illegal instruction", 0);
+	}
+	if (!write) { r[rd] = *sr; return; }
+	if (SYSREG_READONLY(num) && num != SYSREG_CPUID) die("illegal instruction", 0);
+	v = r[rd];
+	if (num == SYSREG_HTRAP && (v & ~(uint64_t)HTRAP_VALID)) die("illegal instruction", 0);	/* a one in a reserved bit: the software probes, an old version never ignores a request to trap */
+	v &= mask;
+	if (num == SYSREG_GTBR && ((v ^ C->gtbr) & (GTBR_VALID & ~((((uint64_t)1 << GTBR_WIDTH_TAG) - 1) << GTBR_TAG)))) { *sr = v; E->tlb(E->u, PDP64_TLB_ALL, 0); return; }	/* a new root or enable discards (rule G-c; this model discards everything) */
+	*sr = v;
+}
+
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* one instruction                                                                                                     */
 
@@ -479,21 +587,24 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		if (cls == 0) {
 			switch (f.low) {
 			case MN_SYS_NONE_RET: pc = pop(); return;
-			case MN_SYS_NONE_HALT: if (!C->standin) priv(); E->halt(E->u); return;
+			case MN_SYS_NONE_HALT: if (!C->standin) priv(); if (gexit(XCODE_HALT)) return; E->halt(E->u); return;	/* HALT in a guest always exits (errata 186 decision 4) */
 			case MN_SYS_NONE_BPT:
-				if (C->deliver && !C->standin) { enter(VECTOR_BPT, pc, 0); return; }
+				if (C->deliver && !C->standin) { if (gtrap(HTRAP_BPT, XCODE_BPT)) return; enter(VECTOR_BPT, pc, 0); return; }
 				die("breakpoint", 0);
-			case MN_SYS_NONE_RTI: case MN_SYS_NONE_RTT:					/* PC from EPC, PSW from EPSW (rtt: and T set after the return) */
+			case MN_SYS_NONE_RTI: case MN_SYS_NONE_RTT: {					/* PC from EPC, PSW from EPSW (rtt: and T set after the return); at H = 1 from HEPC and HEPSW (design 1.2 rule 3) */
+				uint64_t xpc = C->h ? C->hepc : C->epc, xpsw = C->h ? C->hepsw : C->epsw;
 				priv();
-				if (psw_bad(C->epsw)) die("rti: reserved mode in epsw", 0);
-				pc = C->epc; pdp64_set_psw(C, (unsigned)C->epsw);
+				if (psw_bad(xpsw)) die("rti: reserved mode in epsw", 0);
+				pc = xpc; pdp64_set_psw(C, (unsigned)xpsw);
 				C->vacc = 0;								/* the return clears the naming too: what a handler named with a vclr outside a block is not left for the interrupted program (errata 172) */
 				if (f.low == MN_SYS_NONE_RTT) C->psw |= 1u << PSW_T;
 				return;
+			}
 			case SYS_MINOR_SYSX: {								/* the SYSX escape: pushx, popx, isync, hint */
 				uint64_t a;
 				if (f.shape != FS_SYSX) die("illegal instruction", 0);
-				if (f.sub == MN_SYSX_HINT) return;						/* hint #n: not privileged, no flags, no effect, whatever n is (0 nop, 1 pause, 2 speculation barrier, the rest reserved) */
+				if (f.sub == MN_SYSX_GENTER) { genter(); return; }				/* the entry into a guest (errata 195, 196; design 2.2) */
+				if (f.sub == MN_SYSX_HINT) { if (f.n == 1 && gtrap(HTRAP_PAUSE, XCODE_PAUSE)) return; return; }	/* hint #n: not privileged, no flags, no effect, whatever n is (0 nop, 1 pause, 2 speculation barrier, the rest reserved) */
 				if (f.sub == MN_SYSX_ISYNC) {							/* isync: earlier writes to PTBR, ASID, MMUCTL, VBR and earlier ICINVs take effect for what follows.  Not privileged
 											   (errata 190): those writes are privileged themselves, so it gives a program no power.  The architecture promises
 											   the effect only after the next ISYNC; this emulator applies them at once and keeps the translation state
@@ -512,16 +623,36 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 				a = f.sub == MN_SYSX_PUSHX ? r[14] - 16 : r[14];
 				if (a & 7) fault_v(VECTOR_MISALIGNED, "misaligned data access", a);
 				E->check(E->u, a, 8, f.sub == MN_SYSX_PUSHX); E->check(E->u, a + 8, 8, f.sub == MN_SYSX_PUSHX);	/* both words, before either is touched */
-				if (f.sub == MN_SYSX_PUSHX) { st(a, 8, C->epsw); st(a + 8, 8, C->epc); r[14] = a; }
-				else { uint64_t w0 = ld(a, 8), w1 = ld(a + 8, 8); C->epsw = w0 & PSW_VALID; C->epc = w1; r[14] = a + 16; }
+				{								/* at H = 1 these are HEPC and HEPSW (design 1.2 rule 3) */
+					uint64_t *xpc = C->h ? &C->hepc : &C->epc, *xpsw = C->h ? &C->hepsw : &C->epsw;
+					if (f.sub == MN_SYSX_PUSHX) { st(a, 8, *xpsw); st(a + 8, 8, *xpc); r[14] = a; }
+					else { uint64_t w0 = ld(a, 8), w1 = ld(a + 8, 8); *xpsw = w0 & PSW_VALID; *xpc = w1; r[14] = a + 16; }
+				}
 				return;
 			}
-			case MN_SYS_NONE_WFE: priv(); C->wait = 1; return;
-			case MN_SYS_NONE_TLBIA: priv(); E->tlb(E->u, PDP64_TLB_ALL, 0); return;
-			case MN_SYS_NONE_TLBSYNC: priv(); return;				/* one core: nothing to wait for */
+			case MN_SYS_NONE_WFE: priv(); if (gtrap(HTRAP_WFE, XCODE_WFE)) return; C->wait = 1; return;	/* the privilege check first, then the trap-control bit (design decision 10) */
+			case MN_SYS_NONE_SEV: if (gtrap(HTRAP_SEV, XCODE_SEV)) return; return;
+			case MN_SYS_NONE_ICINVA: if (gtrap(HTRAP_ICINV, XCODE_ICINV)) return; return;
+			case MN_SYS_NONE_TLBIA: priv(); if (gtrap(HTRAP_TLBIA, XCODE_TLB)) return; E->tlb(E->u, PDP64_TLB_ALL, 0); return;
+			case MN_SYS_NONE_TLBSYNC: priv(); if (gtrap(HTRAP_TLBSYNC, XCODE_TLB)) return; return;	/* one core: nothing to wait for */
 			case MN_SYSREG_MFSR: case MN_SYSREG_MTSR: {					/* mfsr rd,name / mtsr name,rs: privileged */
 				uint64_t *sr, mask = ~(uint64_t)0, tmp;
+				int write = f.low == MN_SYSREG_MTSR;
 				priv();
+				if (f.sub >= SYSREG_HTRAP && f.sub <= SYSREG_GUDP) {			/* the hypervisor block: illegal with no hypervisor, an exit from a guest (6.14.7), the register at H = 1 */
+					if (!C->hve) die("illegal instruction", 0);
+					if (!C->h) { hexit(XCODE_HVREG, 0, VECTOR_HEXIT, pc, 0, 0, C->cur_insn); return; }
+					hv_sysreg(write, f.sub, f.rd);
+					return;
+				}
+				if (GUEST()) switch (f.sub) {						/* the trapped moves of a guest (design 1.5, 1.6); an unassigned number is not caught here: it is illegal below, in the guest */
+				case SYSREG_DMW0: case SYSREG_DMW1: if (gexit(XCODE_DMW)) return; break;
+				case SYSREG_PTBR: if (write && gtrap(HTRAP_PTBR, XCODE_PTBR)) return; break;
+				case SYSREG_MMUCTL: if (write && gtrap(HTRAP_MMUCTL, XCODE_MMUCTL)) return; break;
+				case SYSREG_VBR: if (write && gtrap(HTRAP_VBR, XCODE_VBR)) return; break;
+				case SYSREG_ASID: if (gtrap(HTRAP_ASID, XCODE_ASID)) return; break;
+				case SYSREG_CPUID: if (!write) { if (gtrap(HTRAP_CPUID, XCODE_CPUID)) return; r[f.rd] = C->vcpuid; return; } break;	/* the guest reads the virtual core number */
+				}
 				switch (f.sub) {
 				case SYSREG_PTBR: sr = &C->ptbr; break;
 				case SYSREG_EPC: sr = &C->epc; break;
@@ -538,7 +669,7 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 				case SYSREG_CPUID: sr = &C->cpuid; break;
 				default: die("illegal instruction", 0);					/* an unassigned system register */
 				}
-				if (f.low == MN_SYSREG_MFSR) r[f.rd] = *sr;
+				if (!write) r[f.rd] = *sr;
 				else if (SYSREG_READONLY(f.sub)) die("illegal instruction", 0);	/* read only */
 				else {
 					tmp = r[f.rd] & mask;
@@ -555,29 +686,36 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 			unsigned v = (unsigned)r[f.low];
 			if (MODE != MODE_KERNEL) { v = (v & PSW_FLAGS) | (pdp64_psw(C) & ~PSW_FLAGS); }	/* user mode writes only the flags */
 			else if (psw_bad(v)) die("mtps: reserved mode", 0);
+			else if (GUEST() && (v >> PSW_PRI & 7) != pdp64_priority(C) && gtrap(HTRAP_PRIO, XCODE_PRIO)) return;	/* a change of priority exits only if the hypervisor asks (design 1.5; the guest's priority masks virtual interrupts only) */
 			pdp64_set_psw(C, v);
 			return;
 		}
 		case MN_SYS_MFPS: r[f.low] = pdp64_psw(C); return;
-		case MN_SYS_SPL: priv(); if (f.low > 7) die("spl: the priority is 0 to 7", 0); C->psw = (C->psw & ~PSW_FIELD(PRI, ~0u)) | PSW_FIELD(PRI, f.low); return;
+		case MN_SYS_SPL: priv(); if (f.low > 7) die("spl: the priority is 0 to 7", 0); if (gtrap(HTRAP_PRIO, XCODE_PRIO)) return; C->psw = (C->psw & ~PSW_FIELD(PRI, ~0u)) | PSW_FIELD(PRI, f.low); return;
 		case MN_SYS_TRAP: case MN_SYS_TRAPL: {
 			int n = cls == MN_SYS_TRAP ? f.low : (int)f.n;			/* trapl: the vector number is in parcel 1 */
-			if (C->deliver && !C->standin) enter(VECTOR_TRAP_BASE + n, pc, 0);
+			if (C->deliver && !C->standin) {
+				if (GUEST() && n < 256 && (C->htrap >> (HTRAP_MASK + (n >> HCALL_BLOCK_SHIFT)) & 1)) {	/* a routed TRAP #n is the hypercall: a trap exit, the vector 256 + n, at any guest mode (design 1.5) */
+					hexit(XCODE_HYPERCALL, 0, VECTOR_TRAP_BASE + n, pc, 0, 0, C->cur_insn);
+					return;
+				}
+				enter(VECTOR_TRAP_BASE + n, pc, 0);
+			}
 			else E->trap(E->u, n);
 			return;
 		}
 		case MN_SYS_MTDP: dp = r[f.low]; return;
 		case MN_SYS_MFDP: r[f.low] = dp; return;
-		case MN_SYS_MFCPUID: priv(); r[f.low] = C->cpuid; return;			/* privileged (errata 186 decision 2; 6.2.5, 6.14.11): MFSR CPUID already is */
+		case MN_SYS_MFCPUID: priv(); if (gtrap(HTRAP_CPUID, XCODE_CPUID)) return; r[f.low] = GUEST() ? C->vcpuid : C->cpuid; return;			/* privileged (errata 186 decision 2; 6.2.5, 6.14.11): MFSR CPUID already is */
 		case MN_SYS_PROBER: case MN_SYS_PROBEW:
 			priv();
 			r[f.rd] = E->probe(E->u, r[f.low], cls == MN_SYS_PROBEW, (int)(C->psw >> PSW_PREV & 3));
 			return;
-		case MN_SYS_TLBI: priv(); E->tlb(E->u, PDP64_TLB_PAGE, r[f.low]); return;
-		case MN_SYS_MTASID: priv(); C->asid = r[f.low] & 0xffff; E->tlb(E->u, PDP64_TLB_ALL, 0); return;
-		case MN_SYS_MFASID: priv(); r[f.low] = C->asid; return;
-		case MN_SYS_MTDMW: priv(); C->dmw[0] = r[f.low]; return;			/* v1: storage only; the operand names no window, so it is DMW0 */
-		case MN_SYS_ICINV: return;
+		case MN_SYS_TLBI: priv(); if (gtrap(HTRAP_TLBI, XCODE_TLB)) return; E->tlb(E->u, PDP64_TLB_PAGE, r[f.low]); return;
+		case MN_SYS_MTASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; C->asid = r[f.low] & 0xffff; E->tlb(E->u, PDP64_TLB_ALL, 0); return;
+		case MN_SYS_MFASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; r[f.low] = C->asid; return;
+		case MN_SYS_MTDMW: priv(); if (gexit(XCODE_DMW)) return; C->dmw[0] = r[f.low]; return;			/* v1: storage only; the operand names no window, so it is DMW0 */
+		case MN_SYS_ICINV: if (gtrap(HTRAP_ICINV, XCODE_ICINV)) return; return;
 		}
 		die("unimplemented system instruction", cls);
 	}
@@ -758,13 +896,27 @@ unsigned pdp64_psw(const struct pdp64_cpu *c)
 {
 	return (c->psw & ~PSW_FLAGS) | (unsigned)c->fC << PSW_C | (unsigned)c->fV << PSW_V | (unsigned)c->fZ << PSW_Z | (unsigned)c->fN << PSW_N;
 }
+void pdp64_set_h(struct pdp64_cpu *c, int h)
+{
+	int mode = pdp64_mode(c), ob = c->h ? HYP_BANK : bank(mode), nb = h ? HYP_BANK : bank(mode);
+	c->h = h != 0;
+	if (ob != nb) {									/* r14 and DP name the new bank's copies */
+		c->spbank[ob] = c->r[14]; c->dpbank[ob] = c->dp;
+		c->r[14] = c->spbank[nb]; c->dp = c->dpbank[nb];
+	}
+}
+void pdp64_set_hve(struct pdp64_cpu *c, int hve)
+{
+	c->hve = hve != 0;
+	if (hve) { c->htrap = HTRAP_RESET_VALUE; pdp64_set_h(c, 1); }			/* the core starts as the hypervisor, with WFE and SEV trapped */
+}
 void pdp64_set_psw(struct pdp64_cpu *c, unsigned v)
 {
 	int old = pdp64_mode(c), nw;
 	v &= PSW_VALID;
 	nw = v >> PSW_MODE & ((1u << PSW_WIDTH_MODE) - 1);
 	c->fC = v >> PSW_C & 1; c->fV = v >> PSW_V & 1; c->fZ = v >> PSW_Z & 1; c->fN = v >> PSW_N & 1;
-	if (nw != old) {								/* r14 and DP name the new mode's copies */
+	if (nw != old && !c->h) {							/* r14 and DP name the new mode's copies (at H = 1 the bank is the hypervisor's whatever the mode) */
 		c->spbank[bank(old)] = c->r[14]; c->dpbank[bank(old)] = c->dp;
 		c->r[14] = c->spbank[bank(nw)]; c->dp = c->dpbank[bank(nw)];
 	}
@@ -791,8 +943,9 @@ void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector,
 }
 int pdp64_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e, int level, int vector)
 {
-	if (level <= (int)pdp64_priority(c)) return 0;
 	C = c; E = e;
+	if (GUEST()) { hexit(XCODE_IRQ, 0, vector, c->pc, 0, 0, 0); return 1; }	/* a physical interrupt always exits, whatever the guest's priority (errata 186 decision 1) */
+	if (level <= (int)pdp64_priority(c)) return 0;
 	enter(vector, c->pc, 0);
 	c->wait = 0;
 	return 1;
@@ -800,7 +953,7 @@ int pdp64_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e, int level, i
 
 void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 {
-	int traced = c->psw >> PSW_T & 1;
+	int traced = c->psw >> PSW_T & 1, guest = c->hve && !c->h;
 	C = c; E = e;
 	c->entered = 0; c->progress = 0; c->wait = 0; c->vhidden = 0; c->uacc = 0; c->snap_valid = c->deliver;
 	if (c->deliver) {									/* keep what an abort has to undo */
@@ -810,4 +963,5 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 	step();
 	c->snap_valid = 0;
 	if (traced && c->deliver && !c->entered) enter(VECTOR_BPT, c->pc, 0);		/* T was set when the instruction began: the trace trap (vector 15, as bpt) */
+	if (guest && !c->h && (c->htrap >> HTRAP_STEP & 1) && !c->entered) hexit(XCODE_STEP, 0, VECTOR_HEXIT, c->pc, 0, 0, c->cur_insn);	/* single step: an exit after each guest instruction (design 1.5 bit STEP) */
 }

@@ -90,6 +90,7 @@ int main(int argc, char **argv)
 			for (int rep = 0; rep < (n ? 3 : 1); rep++) {
 				memset(M, 0, sizeof *M);
 				M->c.standin = 1;
+				M->c.hve = 1;				/* the machine has the hypervisor strap (a guest runs: H is clear): GENTER and the hypervisor registers are instructions, not illegal ones (errata 196) */
 				pdp64_set_psw(&M->c, MODE_USER << PSW_MODE | MODE_USER << PSW_PREV);
 				for (int i = 0; i < DSIZE; i++) M->mem[i] = (uint8_t)rnd();
 				for (int i = 0; i < 32; i++) M->c.r[i] = DBASE + 8 * (rnd() % 1024);

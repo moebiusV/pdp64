@@ -190,6 +190,7 @@
 | `FSUB32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fsub32), [entry](../09-isa.md#w-fsub32) | Floating point (FESC) |
 | `FSUBD` (alias of `FSUB`) | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fsub), [entry](../09-isa.md#w-fsub) | Moves, address formation and the ALU |
 | `FSUBS` (alias of `FSUB32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fsub32), [entry](../09-isa.md#w-fsub32) | Floating point (FESC) |
+| `GENTER` | [GENTER](../09-isa.md#genter-enter-a-guest) (section 9.14) | [1](by-encoding.md#mn-genter), [entry](../09-isa.md#w-genter) | System (SYS) |
 | `HALT` | [HALT](../09-isa.md#halt-halt-the-processor) (section 9.14) | [1](by-encoding.md#mn-halt), [entry](../09-isa.md#w-halt) | System (SYS) |
 | `HINT` | [HINT](../09-isa.md#hint-hint) (section 9.14) | [1](by-encoding.md#mn-hint), [entry](../09-isa.md#w-hint) | System (SYS) |
 | `ICINV` | [ICINV](../09-isa.md#icinv-invalidate-the-instruction-cache-for-an-address) (section 9.14) | [1](by-encoding.md#mn-icinv), [entry](../09-isa.md#w-icinv) | System (SYS) |

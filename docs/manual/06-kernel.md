@@ -558,6 +558,7 @@ The modes and exceptions are 6.2 to 6.4 and the multiprocessor instructions are 
 | [Instruction synchronisation](09-isa.md#isync-instruction-synchronisation) | `ISYNC` |
 | [Hint](09-isa.md#hint-hint) | `HINT` |
 | [Set and clear the user-access guard](09-isa.md#stua-set-and-clear-the-user-access-guard) | `STUA`, `CLUA` |
+| [Enter a guest](09-isa.md#genter-enter-a-guest) | `GENTER` |
 | [Move from and to a system register](09-isa.md#mfsr-move-from-and-to-a-system-register) | `MFSR`, `MTSR` |
 | [Move to and from the processor status word](09-isa.md#mtps-move-to-and-from-the-processor-status-word) | `MTPS`, `MFPS` |
 | [Set the interrupt priority level](09-isa.md#spl-set-the-interrupt-priority-level) | `SPL` |

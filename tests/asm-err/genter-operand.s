@@ -1,0 +1,2 @@
+	.text
+	genter #1

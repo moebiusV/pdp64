@@ -397,6 +397,10 @@ arg = "MN_SYSX_STUA"
 exec = "H_SYSX"
 arg = "MN_SYSX_CLUA"
 
+[genter]
+exec = "H_SYSX"
+arg = "MN_SYSX_GENTER"
+
 [mtps]
 exec = "H_SYSR"
 arg = "MN_SYS_MTPS"
@@ -972,9 +976,6 @@ arg = "0"
 [mov2]
 exec = "H_MOV2"
 arg = "0"
-
-[syspg2]
-exec = "H_UNIMPL"
 
 [syspg3]
 exec = "H_UNIMPL"

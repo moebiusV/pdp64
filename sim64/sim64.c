@@ -3,7 +3,7 @@
  * It loads an ELF executable written by ld64, decodes each instruction with the table codec (common/pdp64enc.c, the tables generated from
  * spec/pdp64/pdp64.hbnf) and executes it with the shared core (common/pdp64exec.c).
  *
- *   sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-n steps] [-P file] program
+ *   sim64 [-t] [-r] [-k | -K | -H] [-i N:LEVEL:VECTOR] [-n steps] [-P file] program
  *
  *   (-m pdp64 is accepted and ignored, for the driver convention of pcc: there is one target.)
  *   -P file  profile: count the executed instructions per pc and write them at exit: "#" lines (the target, the totals, the instructions per category)
@@ -23,6 +23,8 @@
  *   -k  start in kernel mode (privileged instructions allowed); the system-call stand-in stays
  *   -K  System v1 kernel mode: start in kernel mode at priority 7, flat physical memory, no MMU; faults, traps and interrupts are exceptions
  *       delivered through the vector table at the physical address in VBR (the stand-in is off: trap #n is vector 256 + n, halt exits with r0)
+ *   -H  (implies -K) the machine with the hypervisor mode (strap HVE; errata 195, 196): the core starts as the hypervisor (H = 1) with the hypervisor registers, GENTER and the exits of
+ *       docs/encoding-work/hypervisor-design.md.  Without -H those registers and GENTER are illegal instructions.  There is no MMU: stage 2 and the guest tag are not modelled (QEMU only).
  *   -i N:LEVEL:VECTOR  (with -K, repeatable) an interrupt request of that level and vector, raised once N instructions have been started; it stays pending
  *       until it is taken.  wfe jumps to the next pending request (and stops with status 125 if none can be taken).
  *
@@ -345,7 +347,7 @@ static void step_k(void)
 
 int main(int argc, char **argv)
 {
-	int regs = 0, mode = MODE_USER, sys = 0, ntms_spec = 0, strip_set = 0, vml_set = 0;
+	int regs = 0, mode = MODE_USER, sys = 0, hve = 0, ntms_spec = 0, strip_set = 0, vml_set = 0;
 	const char *prog = NULL, *timing_specs[32];
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "-t")) trace = 1;
@@ -361,6 +363,7 @@ int main(int argc, char **argv)
 		else if (!strncmp(argv[i], "--vcommit=", 10)) { int v = atoi(argv[i] + 10); if (v < 0 || v > 1024) { fprintf(stderr, "sim64: --vcommit=CYCLES (0 to 1024)\n"); return 2; } cpu.vcommit = v; cpu.vcommit_set = 1; }
 		else if (!strcmp(argv[i], "-k")) mode = MODE_KERNEL;
 		else if (!strcmp(argv[i], "-K")) mode = MODE_KERNEL, sys = 1;
+		else if (!strcmp(argv[i], "-H")) mode = MODE_KERNEL, sys = 1, hve = 1;
 		else if (!strcmp(argv[i], "-i") && i + 1 < argc && nirqs < 64) {
 			struct irq *q = &irqs[nirqs++];
 			if (sscanf(argv[++i], "%ld:%d:%d", &q->count, &q->level, &q->vector) != 3 || q->level < 1 || q->level > 7 || q->vector < 0 || q->vector >= VECTOR_COUNT) { fprintf(stderr, "sim64: -i N:LEVEL:VECTOR\n"); return 2; }
@@ -377,10 +380,10 @@ int main(int argc, char **argv)
 		else if (!strncmp(argv[i], "--timing-out=", 13)) timing_out = argv[i] + 13;
 		else if (!strncmp(argv[i], "--timing-pc=", 12)) timing_pc = argv[i] + 12;
 		else if (!strcmp(argv[i], "--timing-help")) { tm_help(stdout); return 0; }
-		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-S bytes] [--vport=n] [--vcommit=n] [--vrow=n] [--latency=fpga|asic|file] [--vpipe=n] [--vmemlat=n] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
+		else if (argv[i][0] == '-') { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K | -H] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-S bytes] [--vport=n] [--vcommit=n] [--vrow=n] [--latency=fpga|asic|file] [--vpipe=n] [--vmemlat=n] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 		else prog = argv[i];
 	}
-	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-S bytes] [--vport=n] [--vcommit=n] [--vrow=n] [--latency=fpga|asic|file] [--vpipe=n] [--vmemlat=n] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
+	if (!prog) { fprintf(stderr, "usage: sim64 [-t] [-r] [-k | -K | -H] [-i N:LEVEL:VECTOR] [-x LO:HI] [-V] [-S bytes] [--vport=n] [--vcommit=n] [--vrow=n] [--latency=fpga|asic|file] [--vpipe=n] [--vmemlat=n] [-n steps] [-P file] [--timing=SPEC]... [--timing-out=FILE] [--timing-pc=FILE] program\n"); return 2; }
 	pdp64_init();
 	if (!cpu.vpipe) cpu.vpipe = 1;
 	if (!vml_set) cpu.vmemlat = 4;
@@ -389,6 +392,7 @@ int main(int argc, char **argv)
 	if (cpu.vstrip == 8) fprintf(stderr, "sim64: warning: a strip of 8 bytes is outside the architecture (the least strip is 16 bytes, docs/encoding-work/vec-isa.md section 8): kept for the cycle study; a floating-point sum, a vtbl or a vdot may give other results\n");
 	pdp64_set_psw(&cpu, mode << PSW_MODE | mode << PSW_PREV | (sys ? 7 << PSW_PRI : 0));
 	cpu.deliver = sys; cpu.standin = !sys;
+	if (hve) pdp64_set_hve(&cpu, 1);
 	cpu.pc = load_elf(prog);
 	if (elf_isa != EF_PDP64_ISA) { fprintf(stderr, "sim64: %s: e_flags names the instruction set %d, not the pdp64 (%d)\n", prog, elf_isa, EF_PDP64_ISA); return 1; }
 	if (ntms_spec) {

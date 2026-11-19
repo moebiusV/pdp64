@@ -329,6 +329,8 @@ VEC = {'reset': 'processor reset: the first instruction fetch', 'machine-check':
        'bpt': 'the `BPT` instruction', 'check': 'a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`; errata 152)', 'irq-base': 'the first interrupt vector', 'timer': 'the timer interrupt (level 6)', 'console-in': 'console receive interrupt (level 4)',
        'console-out': 'console transmit interrupt (level 4)',
        'pcie-inta': 'PCI Express interrupt pin A of the model host bridge (level 5)', 'pcie-intb': 'PCI Express interrupt pin B (level 5)', 'pcie-intc': 'PCI Express interrupt pin C (level 5)', 'pcie-intd': 'PCI Express interrupt pin D (level 5)',
+       'hexit': 'the instruction exit of a guest, in the hypervisor\'s vector table only (6.14, errata 195, 196)', 'gifault': 'a guest-physical instruction fault (stage 2), in the hypervisor\'s table only',
+       'glfault': 'a guest-physical load fault (stage 2), in the hypervisor\'s table only', 'gsfault': 'a guest-physical store fault (stage 2), in the hypervisor\'s table only',
        'iommu': 'the IOMMU unit\'s own interrupt, a wired line (level 5; 2.11.11)', 'trap-base': '`TRAP #n` and `TRAPL #n` enter vector 256 + n', 'count': 'the number of vectors; the table has this many eight-byte entries'}
 PSWD = {'c': 'carry (borrow after a subtract)', 'v': 'signed overflow', 'z': 'zero', 'n': 'negative', 't': 'trace: take a trace trap after the next instruction', 'pri': 'interrupt priority level, 0 to 7', 'mode': 'current mode', 'prev': 'previous mode (the mode before the last exception)', 'ua': 'user-access guard: with it clear a kernel-mode data access to a user page faults (6.10.1)'}
 PTED = {'v': 'valid', 'r': 'readable', 'w': 'writable', 'x': 'executable', 'u': 'accessible from user mode', 'g': 'global: ignores the ASID', 'a': 'accessed (managed by software)', 'd': 'dirty (managed by software)', 'mt': 'memory type', 'ppn': 'physical page number: physical address bits 12 to 39, in place'}
@@ -348,6 +350,26 @@ IOMMU_MEANING = {
     'stage': 'the values of the stage field of a fault record', 'cause': 'the values of the cause field of a fault record'}
 DMATEST_MEANING = {'reg': 'the registers of the test function, a byte offset each', 'ctl': 'the bits of CONTROL', 'status': 'the bits of STATUS (write one to clear)', 'irq': 'the bit of IRQ',
                    'map': 'the layout of its base address register window', 'id': 'its PCI identification'}
+
+
+HV_MEANING = {
+    'htrap': 'the bits of HTRAP, the trap-control register: a set bit sends the event to the hypervisor as an exit; `mask` is the position of the 8-bit hypercall mask, bit k routing `TRAP #n` for n from 32k to 32k + 31',
+    'htrap-width': 'the width of the hypercall mask', 'htrap-reset': 'the value of HTRAP after a machine reset (`WFE` and `SEV` set)', 'hcall': 'the hypercall mask: one bit covers 32 trap numbers, as a shift',
+    'xcode': 'the exit-reason codes (bits 7 to 0 of HEXITR)', 'xflag': 'the flag bits of HEXITR (a stage-2 fault on a page-table read; on the vector fetch)',
+    'gtbr': 'the fields of GTBR: stage-2 enable, root page number, guest tag', 'gtbr-width': 'the widths of the root and the tag',
+    'virq': 'the virtual interrupt lines: the number of lines, and the width of the vector field of each line in VIVEC'}
+
+
+def hypervisor_section():
+    L = ['', '## The hypervisor mode (6.14)', '',
+         'The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf` (errata 195, 196); the registers themselves (numbers 128 to 147) are in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.', '',
+         '| Rule | Name | Number | What the rule is |', '|---|---|---|---|']
+    for rule, items in SYS.items():
+        if rule not in HV_MEANING:
+            continue
+        for k, (n, v) in enumerate(items):
+            L.append('| `%s` | `%s` | %s | %s |' % (rule, n, '0x%x' % v if v > 9999 else v, HV_MEANING[rule] if k == 0 else ''))
+    return L
 
 
 def iommu_section():
@@ -394,6 +416,7 @@ def constants_page():
         al.setdefault(v, []).append(n)
     for n, v in SPEC['cc']:
         L.append('| `%s` | %d | %s |' % (n, v, ', '.join('`%s`' % a for a in al.get(v, [])) or ''))
+    L += hypervisor_section()
     L += iommu_section()
     L.append('')
     return '\n'.join(L)
@@ -408,7 +431,7 @@ for _i in 'BCC SOB CBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md
 for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', '9.11')
 for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FHALF FCVTH'.split(): HOME[_i] = ('09-isa.md', '9.12')
 for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', '9.13')
-for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT STUA MFSR MTPS SPL TRAP TLBI MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', '9.14')
+for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT STUA GENTER MFSR MTPS SPL TRAP TLBI MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', '9.14')
 
 
 for _i in 'MOV2 MOVQL MOVD MOVUSER MOVUSERD'.split(): HOME[_i] = ('09-isa.md', '9.6')

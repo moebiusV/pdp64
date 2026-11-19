@@ -3,4 +3,5 @@
 	isync
 	stua
 	clua
-	syspg2
+	genter
+	syspg3

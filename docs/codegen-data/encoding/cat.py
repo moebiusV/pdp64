@@ -22,7 +22,7 @@ R3_RARE=['chk2','ror','xnorpop','clmull','clmulh','mcpy','mmov','mset','mcmp','m
 R4_RARE=['fmadd','fmsub','fnmadd','fnmsub','fmadd32','fmsub32','fnmadd32','fnmsub32','fmadd16','fmsub16','fnmadd16','fnmsub16','bsel','cas','casdb','maesctr']
 RRI_RARE=['rori','rori32','rol','aesks1']
 BF=['dshr','extb','extzb','insb']
-SYS0=['nop','rti','rtt','ret','halt','bpt','fence','wfe','sev','lpad','tlbia','tlbsync','icinva','pushx','popx','isync']+['trapcc.%s'%c for c in CONDS]+['stua','clua']+['syspg%d'%i for i in range(2,6)]
+SYS0=['nop','rti','rtt','ret','halt','bpt','fence','wfe','sev','lpad','tlbia','tlbsync','icinva','pushx','popx','isync']+['trapcc.%s'%c for c in CONDS]+['stua','clua']+['genter']+['syspg%d'%i for i in range(3,6)]
 SYSR=['mtps','mfps','tlbi','mtasid','mfasid','mtdp','mfdp','mtdmw','mfcpuid','icinv']
 SYSI=['spl','trap','trapl','hint']
 def mk(R,H3,H4=None,hot16=False):

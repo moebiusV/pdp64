@@ -25,6 +25,7 @@ mn-sysx = "pushx"@0
         | "hint"@3      ; hint #n: n (0 to 255) in the pad byte; no architectural effect; 0 nop, 1 pause, 2 speculation barrier, the rest reserved and no-ops
         | "stua"@4      ; privileged: set the user-access guard bit UA of the status word (errata 43, 190); pad zero
         | "clua"@5      ; privileged: clear UA (errata 43, 190); pad zero
+        | "genter"@6    ; the hypervisor's entry into a guest (errata 195, 196): legal at H=1 only; at H=0 an exit (code 18); with no hypervisor (HVE clear) an illegal instruction; includes an ISYNC.  It has no pad: the word is the leaf SYS0-2 (the reserved word syspg2)
 
 ; SYS class 0, the system-register moves (four bytes: the register in parcel 1): the number is the minor opcode in the low field.  Not in `mnemonic`: they
 ; take the register's name as a word of its own, in the operand position that is the system register (`mfsr r1, ptbr`, `mtsr ptbr, r1`)

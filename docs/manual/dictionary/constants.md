@@ -55,6 +55,10 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `LPAD` | 14 | an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1) |
 | `BPT` | 15 | the `BPT` instruction |
 | `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`; errata 152) |
+| `HEXIT` | 17 | the instruction exit of a guest, in the hypervisor's vector table only (6.14, errata 195, 196) |
+| `GIFAULT` | 18 | a guest-physical instruction fault (stage 2), in the hypervisor's table only |
+| `GLFAULT` | 19 | a guest-physical load fault (stage 2), in the hypervisor's table only |
+| `GSFAULT` | 20 | a guest-physical store fault (stage 2), in the hypervisor's table only |
 | `IRQ_BASE` | 32 | the first interrupt vector |
 | `TIMER` | 32 | the timer interrupt (level 6) |
 | `CONSOLE_IN` | 33 | console receive interrupt (level 4) |
@@ -120,6 +124,26 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 | `MMUCTL` | 10 | read and write |
 | `ASID` | 11 | read and write |
 | `CPUID` | 12 | read only |
+| `HTRAP` | 128 | read and write |
+| `HEXITR` | 129 | read only |
+| `HEPC` | 130 | read and write |
+| `HEPSW` | 131 | read and write |
+| `HEVA` | 132 | read only |
+| `HCAUSE` | 133 | read only |
+| `HGPA` | 134 | read only |
+| `HINSN` | 135 | read only |
+| `HVBR` | 136 | read and write |
+| `GTBR` | 137 | read and write |
+| `VIRQ` | 138 | read and write |
+| `VIVEC` | 139 | read and write |
+| `VTOFF` | 140 | read and write |
+| `VCPUID` | 141 | read and write |
+| `GEVA` | 142 | read and write |
+| `GECAUSE` | 143 | read and write |
+| `GKSP` | 144 | read and write |
+| `GKDP` | 145 | read and write |
+| `GSDP` | 146 | read and write |
+| `GUDP` | 147 | read and write |
 
 ## The condition codes
 
@@ -140,6 +164,63 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 | `le` | 12 |  |
 | `hi` | 13 |  |
 | `los` | 14 |  |
+
+## The hypervisor mode (6.14)
+
+The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf` (errata 195, 196); the registers themselves (numbers 128 to 147) are in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.
+
+| Rule | Name | Number | What the rule is |
+|---|---|---|---|
+| `htrap` | `wfe` | 0 | the bits of HTRAP, the trap-control register: a set bit sends the event to the hypervisor as an exit; `mask` is the position of the 8-bit hypercall mask, bit k routing `TRAP #n` for n from 32k to 32k + 31 |
+| `htrap` | `sev` | 1 |  |
+| `htrap` | `pause` | 2 |  |
+| `htrap` | `prio` | 3 |  |
+| `htrap` | `tlbi` | 4 |  |
+| `htrap` | `tlbia` | 5 |  |
+| `htrap` | `tlbsync` | 6 |  |
+| `htrap` | `asid` | 7 |  |
+| `htrap` | `ptbr` | 8 |  |
+| `htrap` | `mmuctl` | 9 |  |
+| `htrap` | `vbr` | 10 |  |
+| `htrap` | `cpuid` | 11 |  |
+| `htrap` | `icinv` | 12 |  |
+| `htrap` | `bpt` | 13 |  |
+| `htrap` | `step` | 14 |  |
+| `htrap` | `mask` | 16 |  |
+| `htrap-width` | `mask` | 8 | the width of the hypercall mask |
+| `htrap-reset` | `value` | 3 | the value of HTRAP after a machine reset (`WFE` and `SEV` set) |
+| `hcall` | `block-shift` | 5 | the hypercall mask: one bit covers 32 trap numbers, as a shift |
+| `xcode` | `taken-at-h` | 0 | the exit-reason codes (bits 7 to 0 of HEXITR) |
+| `xcode` | `irq` | 1 |  |
+| `xcode` | `halt` | 2 |  |
+| `xcode` | `wfe` | 3 |  |
+| `xcode` | `sev` | 4 |  |
+| `xcode` | `pause` | 5 |  |
+| `xcode` | `prio` | 6 |  |
+| `xcode` | `tlb` | 7 |  |
+| `xcode` | `asid` | 8 |  |
+| `xcode` | `ptbr` | 9 |  |
+| `xcode` | `mmuctl` | 10 |  |
+| `xcode` | `vbr` | 11 |  |
+| `xcode` | `dmw` | 12 |  |
+| `xcode` | `cpuid` | 13 |  |
+| `xcode` | `icinv` | 14 |  |
+| `xcode` | `bpt` | 15 |  |
+| `xcode` | `step` | 16 |  |
+| `xcode` | `hypercall` | 17 |  |
+| `xcode` | `hvreg` | 18 |  |
+| `xcode` | `s2-invalid` | 19 |  |
+| `xcode` | `s2-refused` | 20 |  |
+| `xcode` | `machine-check` | 21 |  |
+| `xflag` | `walk` | 8 | the flag bits of HEXITR (a stage-2 fault on a page-table read; on the vector fetch) |
+| `xflag` | `vec` | 9 |  |
+| `gtbr` | `s2en` | 0 | the fields of GTBR: stage-2 enable, root page number, guest tag |
+| `gtbr` | `root` | 12 |  |
+| `gtbr` | `tag` | 48 |  |
+| `gtbr-width` | `root` | 28 | the widths of the root and the tag |
+| `gtbr-width` | `tag` | 16 |  |
+| `virq` | `lines` | 7 | the virtual interrupt lines: the number of lines, and the width of the vector field of each line in VIVEC |
+| `virq` | `vec-width` | 8 |  |
 
 ## The IOMMU (2.11) and the DMA test function of the model
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Assemble, link and run the tests under qemu-system-pdp64 -M pdp64-virt, with the same expectations as check-sim64.sh (NAME.exit, NAME.out).
 #   tests/sim/NAME.s|.S    the sim64 tests.  Without NAME.flags they run on the default machine (user mode, the system-call stand-in); with -k or -K in
-#                          NAME.flags they run on the kernel-mode machine (-M pdp64-virt,kernel-mode=on).  A flag QEMU cannot give (-i, the instruction-
+#                          NAME.flags they run on the kernel-mode machine (-M pdp64-virt,kernel-mode=on), with -H on the machine with the hypervisor strap (kernel-mode=on,hypervisor=on).  A flag QEMU cannot give (-i, the instruction-
 #                          count interrupt injection of sim64) skips the test: tests/qemu has the QEMU versions.
 #   tests/qemu/NAME.s|.S   System v1 tests that need the QEMU machine (MMU, devices); always kernel-mode=on.  NAME.in is the standard input of the run
 #                          (the console), NAME.qargs extra qemu arguments.
@@ -23,7 +23,7 @@ for s in tests/sim/*.s tests/sim/*.S tests/qemu/*.s tests/qemu/*.S; do
 	if [ -f "$dir/$t.flags" ]; then
 		skip=
 		for f in $(cat "$dir/$t.flags"); do
-			case "$f" in -k|-K) machine=pdp64-virt,kernel-mode=on; serial=stdio;; -i|[0-9]*:[0-9]*:[0-9]*) skip="needs sim64 -i (injected interrupts)";; *) ;; esac
+			case "$f" in -k|-K) machine=pdp64-virt,kernel-mode=on; serial=stdio;; -H) machine=pdp64-virt,kernel-mode=on,hypervisor=on; serial=stdio;; -i|[0-9]*:[0-9]*:[0-9]*) skip="needs sim64 -i (injected interrupts)";; *) ;; esac
 		done
 		if [ -n "$skip" ]; then echo "skip $t ($skip)"; skipped=$((skipped+1)); continue; fi
 	fi

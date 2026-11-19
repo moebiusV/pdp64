@@ -44,6 +44,10 @@ vector = "reset"@0
        | "lpad"@14
        | "bpt"@15
        | "check"@16
+       | "hexit"@17         ; the hypervisor's table only (errata 195, 196; the design 1.6): the instruction exit; 18, 19, 20 the guest-physical instruction, load and store faults.  No guest table is indexed by them
+       | "gifault"@18
+       | "glfault"@19
+       | "gsfault"@20
        | "irq-base"@32
        | "timer"@32
        | "console-in"@33

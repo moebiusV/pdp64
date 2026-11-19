@@ -1,4 +1,4 @@
-; syspg2: not in the reference executor, so it traps as an unimplemented instruction (exit 139, the message names it)
+; syspg3: not in the reference executor, so it traps as an unimplemented instruction (exit 139, the message names it)
 	.text
 	.globl _start
 _start:
@@ -7,7 +7,7 @@ _start:
 	movq #2, r2
 	movq #3, r3
 	movq #4, r4
-	syspg2
+	syspg3
 	clr r0
 	halt
 	.data

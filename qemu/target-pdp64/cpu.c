@@ -54,8 +54,10 @@ static void pdp64_restore_state_to_opc(CPUState *cs,
 /* an asserted device line above the priority of the PSW (the core's rule) */
 static bool pdp64_irq_deliverable(CPUPDP64State *env, int *level, int *vector)
 {
+    /* a guest's physical interrupt always exits, whatever its priority (errata 186 decision 1) */
     return env->c.deliver && pdp64_irq_best(env, level, vector)
-           && *level > (int)pdp64_priority(&env->c);
+           && (*level > (int)pdp64_priority(&env->c)
+               || (env->c.hve && !env->c.h));
 }
 
 static bool pdp64_cpu_has_work(CPUState *cs)
@@ -130,6 +132,7 @@ static void pdp64_cpu_reset_hold(Object *obj, ResetType type)
         pdp64_set_psw(&env->c, MODE_USER << PSW_MODE | MODE_USER << PSW_PREV);
         env->c.standin = 1;
     }
+    pdp64_set_hve(&env->c, env->kernel_mode && env->hve);
     env->c.pc = env->entry;
     env->c.r[14] = env->initial_sp;
 }

@@ -38,7 +38,7 @@ sub-SYS0-1 = "nop" | "rti" | "rtt" | "ret" | "halt" | "bpt" | "fence" | "wfe" | 
      | "isync" | "trapcc.ne" | "trapcc.eq" | "trapcc.pl" | "trapcc.mi" | "trapcc.vc" | "trapcc.vs" | "trapcc.cc" | "trapcc.cs" | "trapcc.ge"
      | "trapcc.lt" | "trapcc.gt" | "trapcc.le" | "trapcc.hi" | "trapcc.los" | "stua" | "clua"
 leaf-SYS0-2 = 0b11111011110010 sub:2
-sub-SYS0-2 = "syspg2" | "syspg3" | "syspg4" | "syspg5"
+sub-SYS0-2 = "genter" | "syspg3" | "syspg4" | "syspg5"
 
 ; ======================================================================================================================================================
 ; family SYSR: 1 form, 2 leaves, 1 parcel; mnemonics mtps mfps tlbi mtasid mfasid mtdp ...

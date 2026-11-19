@@ -70,6 +70,11 @@ POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16''', NOFLAGS, PRIV + ' `S
       '''STUA: PSW.UA <- 1
 CLUA: PSW.UA <- 0''', NOFLAGS, PRIV + ' A non-zero pad byte is an illegal instruction.', '9.14',
       notes='`UA` is bit 12 of the status word. With `UA` clear, a kernel-mode data access (a load, a store or an operand of a block instruction) to a page whose `U` bit is set takes the load or store protection fault; `PROBER`, `PROBEW` and an instruction fetch are not affected. Exception entry clears `UA` and `EPSW` keeps the old value; `RTI` restores it, and `MTPS` writes it from kernel mode. Outside kernel mode the bit has no effect.', cf='6.10, 6.13.7.'),
+    E('GENTER', 'system', ['genter'], 'Enter a guest', ['GENTER'],
+      '''if H = 0: exit to the hypervisor (code 18)
+else: ISYNC ; PSW <- HEPSW ; PC <- HEPC ; H <- 0''', NOFLAGS,
+      'Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 18; in a guest\'s user mode it is the guest\'s privileged-instruction exception (the guest\'s own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.', '9.14',
+      notes='The one new instruction of the hypervisor mode (6.14). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, switches `R14` and `DP` from the hypervisor\'s bank to the bank of the guest\'s mode, clears `H`, and clears the naming of the vector accumulators and any `LL` reservation (the world switch). Nothing else is done: no translation-buffer entry is removed, and no register of the guest is written. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).', cf='6.14, 6.13.'),
     # ---- SYSREG ----
     E('MFSR', 'system', ['mfsr', 'mtsr'], 'Move from and to a system register', ['MFSR Rd, name', 'MTSR name, Rs'],
       '''MFSR: Rd <- system register `name`

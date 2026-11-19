@@ -38,6 +38,7 @@ typedef struct PDP64VirtState {
     MachineState parent;
 
     bool kernel_mode;
+    bool hypervisor;
 } PDP64VirtState;
 
 DECLARE_INSTANCE_CHECKER(PDP64VirtState, PDP64_VIRT_MACHINE,
@@ -93,9 +94,15 @@ static void pdp64_virt_init(MachineState *machine)
     }
     memory_region_add_subregion(sysmem, 0, machine->ram);
 
+    if (vs->hypervisor && !vs->kernel_mode) {
+        error_report("pdp64-virt: hypervisor=on needs kernel-mode=on");
+        exit(1);
+    }
+
     cpu = PDP64_CPU(cpu_create(machine->cpu_type));
     cpu->env.ram_size = machine->ram_size;
     cpu->env.kernel_mode = vs->kernel_mode;
+    cpu->env.hve = vs->hypervisor;
 
     if (vs->kernel_mode) {
         DeviceState *dev;
@@ -156,6 +163,16 @@ static void pdp64_virt_set_kernel_mode(Object *obj, bool value, Error **errp)
     PDP64_VIRT_MACHINE(obj)->kernel_mode = value;
 }
 
+static bool pdp64_virt_get_hypervisor(Object *obj, Error **errp)
+{
+    return PDP64_VIRT_MACHINE(obj)->hypervisor;
+}
+
+static void pdp64_virt_set_hypervisor(Object *obj, bool value, Error **errp)
+{
+    PDP64_VIRT_MACHINE(obj)->hypervisor = value;
+}
+
 static void pdp64_virt_class_init(ObjectClass *oc, const void *data)
 {
     MachineClass *mc = MACHINE_CLASS(oc);
@@ -167,6 +184,14 @@ static void pdp64_virt_class_init(ObjectClass *oc, const void *data)
     object_class_property_set_description(oc, "kernel-mode",
         "System v1: start in kernel mode at priority 7 with exceptions "
         "delivered through the vector table and no system-call stand-in");
+
+    object_class_property_add_bool(oc, "hypervisor",
+                                   pdp64_virt_get_hypervisor,
+                                   pdp64_virt_set_hypervisor);
+    object_class_property_set_description(oc, "hypervisor",
+        "the hypervisor strap HVE (needs kernel-mode): the core starts as "
+        "the hypervisor (H = 1) and the hypervisor registers, GENTER and the "
+        "exits exist; off, the machine has no hypervisor mode");
 
     mc->desc = "pdp64 virtual machine (RAM at 0, no MMU)";
     mc->init = pdp64_virt_init;

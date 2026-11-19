@@ -7850,6 +7850,43 @@ CLUA
 Operation, flags and exceptions as for the entry STUA above; 1 layout form, each a chart of its own (above).
 
 
+<a id="w-genter"></a>
+### GENTER: Enter a guest
+
+![GENTER: SYS0, prefix 11111011110010, sub-opcode 00; operands no operand; 2 bytes](figures/w/genter/01.svg)
+
+**Mnemonics:** `GENTER`
+
+**Syntax**
+
+```
+GENTER
+```
+
+**Encoding**
+
+![Encoding of GENTER](figures/SYS0-2.svg)
+
+The chart is the leaf `SYS0-2`, SYS0, prefix `11111011110010`. `sub` (2 bits) selects the mnemonic: `genter` 00, `syspg3` 01, `syspg4` 10, `syspg5` 11.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-2`](dictionary/by-encoding.md#SYS0-2).
+
+**Operation**
+
+```
+if H = 0: exit to the hypervisor (code 18)
+else: ISYNC ; PSW ← HEPSW ; PC ← HEPC ; H ← 0
+```
+
+**Flags** None written.
+
+**Exceptions** Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 18; in a guest's user mode it is the guest's privileged-instruction exception (the guest's own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.
+
+The one new instruction of the hypervisor mode (6.14). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, switches `R14` and `DP` from the hypervisor's bank to the bank of the guest's mode, clears `H`, and clears the naming of the vector accumulators and any `LL` reservation (the world switch). Nothing else is done: no translation-buffer entry is removed, and no register of the guest is written. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).
+
+**Cf.** 6.14, 6.13.
+
+
 ### MFSR: Move from and to a system register
 
 **Mnemonics:** `MFSR`, `MTSR`
@@ -7897,6 +7934,26 @@ The register is chosen by name. A write to `MMUCTL` that changes bit 0 discards 
 | `MMUCTL` | 10 | read and write |
 | `ASID` | 11 | read and write |
 | `CPUID` | 12 | read only |
+| `HTRAP` | 128 | read and write |
+| `HEXITR` | 129 | read only |
+| `HEPC` | 130 | read and write |
+| `HEPSW` | 131 | read and write |
+| `HEVA` | 132 | read only |
+| `HCAUSE` | 133 | read only |
+| `HGPA` | 134 | read only |
+| `HINSN` | 135 | read only |
+| `HVBR` | 136 | read and write |
+| `GTBR` | 137 | read and write |
+| `VIRQ` | 138 | read and write |
+| `VIVEC` | 139 | read and write |
+| `VTOFF` | 140 | read and write |
+| `VCPUID` | 141 | read and write |
+| `GEVA` | 142 | read and write |
+| `GECAUSE` | 143 | read and write |
+| `GKSP` | 144 | read and write |
+| `GKDP` | 145 | read and write |
+| `GSDP` | 146 | read and write |
+| `GUDP` | 147 | read and write |
 
 **Why it is here.** A paging operating system must install a page table and learn why it was entered, which needs instructions to write `PTBR` and read `EPC`, `EVA` and `ECAUSE`. One general pair reaches all of the system registers by number. The user and supervisor stack pointers are in the set because any kernel must read and write the user stack pointer to build a signal frame, copy a process or switch context.
 

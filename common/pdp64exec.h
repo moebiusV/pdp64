@@ -19,8 +19,14 @@ struct pdp64_cpu {
 	int fN, fZ, fV, fC;				/* the flag bits of the PSW; the other bits are in `psw` */
 	uint64_t cur_pc;			/* the instruction being executed (set by pdp64_step) */
 	unsigned psw;				/* the PSW without the flags (bits 0 to 3 are always zero here): T, priority, current and previous mode.  Read and write it through pdp64_psw / pdp64_set_psw. */
-	/* r[14] and dp are the current mode's copies; the other modes' are here, by mode index (kernel 0, supervisor 1, user 2).  The current mode's slot is stale. */
-	uint64_t spbank[3], dpbank[3];
+	/* r[14] and dp are the current bank's copies; the other banks' are here, by bank index (kernel 0, supervisor 1, user 2, the hypervisor 3: errata 195, 196).  The current bank's slot is stale.
+	   While H = 1 the current bank is 3 whatever the mode field of the status word says; the guest's three banks are then all in their slots. */
+	uint64_t spbank[4], dpbank[4];
+	/* the hypervisor mode (errata 195, 196; docs/encoding-work/hypervisor-design.md).  hve: the machine strap, set by the host (pdp64_set_hve); with it clear the machine is the machine without a hypervisor
+	   and none of the rest exists.  h: the internal state bit H, 1 while the hypervisor runs (reset value with hve set), 0 for a guest.  Not in the status word.  The registers are the system registers 128 to 147. */
+	int hve, h;
+	uint64_t htrap, hexitr, hepc, hepsw, heva, hcause, hgpa, hinsn, hvbr, gtbr, virq, vivec, vtoff, vcpuid;
+	uint32_t cur_insn;			/* the first two parcels of the instruction being executed (parcel 0 in the high half; zero if it has one parcel): HINSN of an exit that it causes */
 	/* the system registers that mfsr and mtsr reach (privileged: kernel mode).  eva, ecause and cpuid are read only for software; the exception entry writes eva and ecause. */
 	uint64_t ptbr, epc, eva, ecause, dmw[2], epsw, vbr, mmuctl, asid, cpuid;
 	/* what the host chooses */
@@ -89,6 +95,10 @@ void pdp64_init(void);				/* once, before the first step */
 void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e);
 
 unsigned pdp64_psw(const struct pdp64_cpu *c);	/* the whole PSW: flags and the rest */
+void pdp64_set_hve(struct pdp64_cpu *c, int hve);	/* the strap: with hve set the core starts at H = 1 with HTRAP at its reset value; call after the status word and before r[14] and dp are set */
+void pdp64_set_h(struct pdp64_cpu *c, int h);	/* change H, switching the r14 and DP banks (the hypervisor's bank is 3) */
+#define HTRAP_VALID	((((unsigned)1 << (HTRAP_STEP + 1)) - 1) | ((((unsigned)1 << HTRAP_WIDTH_MASK) - 1) << HTRAP_MASK))	/* the defined bits of HTRAP; the others read as zero and a write of a one is an illegal instruction */
+#define GTBR_VALID	(((uint64_t)1 << GTBR_S2EN) | ((((uint64_t)1 << GTBR_WIDTH_ROOT) - 1) << GTBR_ROOT) | ((((uint64_t)1 << GTBR_WIDTH_TAG) - 1) << GTBR_TAG))
 void pdp64_set_psw(struct pdp64_cpu *c, unsigned psw);	/* load a PSW (valid bits only), switching the r14 and DP banks if the mode changes; the mode must not be the reserved 2 */
 /* an abort (the host unwound with raise, or a fault in a hook): undo the partial effects of the instruction in progress (if any) and enter the exception.  eva: the faulting address */
 void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector, uint64_t eva);
