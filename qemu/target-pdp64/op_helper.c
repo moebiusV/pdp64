@@ -7,6 +7,7 @@
  * SPDX-License-Identifier: BSD-2-Clause
  */
 #include "qemu/osdep.h"
+#include "qemu/main-loop.h"
 #include "cpu.h"
 #include "exec/helper-proto.h"
 #include "exec/cputlb.h"
@@ -208,10 +209,21 @@ static G_NORETURN void h_raise(void *u, int vector, uint64_t eva)
     pdp64_raise(h->env, vector, eva, "exception", h->ra);
 }
 
+/* the hypervisor wrote a register that a device depends on */
+static void h_hv_event(void *u, int what)
+{
+    struct hostctx *h = u;
+
+    if (what == PDP64_HV_VTOFF && h->env->hv_vtimer_update) {
+        h->env->hv_vtimer_update(h->env->hv_vtimer);
+    }
+}
+
 static void make_env(struct pdp64_env *e, struct hostctx *h)
 {
     *e = (struct pdp64_env){ h_ld, h_st, h_fault, h_trap, h_halt, h_probe,
-                             h_fetch, h_vecread, h_check, h_tlb, h_raise, h };
+                             h_fetch, h_vecread, h_check, h_tlb, h_raise, h,
+                             NULL, h_hv_event };
 }
 
 static void init_core(void)
@@ -230,6 +242,7 @@ void helper_exec(CPUPDP64State *env)
     struct pdp64_env e;
     CPUState *cs = env_cpu(env);
     unsigned pri = pdp64_priority(&env->c);
+    bool guest = env->c.hve && !env->c.h;
 
     init_core();
     make_env(&e, &h);
@@ -237,6 +250,21 @@ void helper_exec(CPUPDP64State *env)
     if (pdp64_priority(&env->c) < pri && env->irq_lines) {
         /* the priority fell (spl, mtps, rti, popx...) with a request asserted: leave the chain of translation blocks so that cpu_exec_interrupt looks at it */
         cpu_exit(cs);
+    }
+    if (!guest && env->c.hve && !env->c.h && env->irq_lines) {
+        cpu_exit(cs);           /* GENTER: a physical request that was asserted exits the guest at once */
+    }
+    if (pdp64_virq_deliverable(&env->c)) {
+        /* a virtual line of the guest is above its priority (VIRQ written, GENTER, SPL, RTI...): leave the chain so that cpu_exec_interrupt takes it */
+        bool locked = bql_locked();
+
+        if (!locked) {
+            bql_lock();
+        }
+        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+        if (!locked) {
+            bql_unlock();
+        }
     }
     if (env->c.wait) {          /* wfe: sleep until an interrupt is taken */
         cs->halted = 1;
@@ -264,4 +292,14 @@ bool pdp64_take_interrupt(CPUPDP64State *env, int level, int vector)
     init_core();
     make_env(&e, &h);
     return pdp64_interrupt(&env->c, &e, level, vector);
+}
+
+bool pdp64_take_virtual(CPUPDP64State *env)
+{
+    struct hostctx h = { env, 0 };
+    struct pdp64_env e;
+
+    init_core();
+    make_env(&e, &h);
+    return pdp64_virtual_interrupt(&env->c, &e);
 }

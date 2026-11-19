@@ -334,7 +334,9 @@ static void step_k(void)
 {
 	if (setjmp(jb)) { pdp64_exception(&cpu, &env, jvec, jeva); return; }
 	take_interrupt();
+	if (cpu.hve) pdp64_virtual_interrupt(&cpu, &env);					/* a guest: a virtual line above its priority (after the physical requests, which exit first) */
 	while (cpu.wait) {								/* wfe: nothing runs until a request arrives */
+		if (pdp64_virq_pending(&cpu)) { cpu.wait = 0; break; }				/* a pending virtual line ends a WFE, even a masked one (7.10.2); it is taken when the guest's priority allows */
 		long next = -1;
 		for (int i = 0; i < nirqs; i++) if (!irqs[i].done && (next < 0 || irqs[i].count < next)) next = irqs[i].count;
 		if (next < 0 || (steps < next && (steps = next, 0)) || !take_interrupt()) {

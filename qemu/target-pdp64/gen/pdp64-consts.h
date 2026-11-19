@@ -204,6 +204,7 @@
 #define MAP_TIMER                    549755813888
 #define MAP_CONSOLE                  549755817984
 #define MAP_IOMMU                    549755822080
+#define MAP_VTIMER                   549755826176
 #define MAP_DEV_END                  550024249344
 #define MAP_PCIE_ECAM                554050781184
 #define MAP_PCIE_MMIO                558345748480

@@ -70,7 +70,9 @@ struct pdp64_env {
 	void (*raise)(void *u, int vector, uint64_t eva) __attribute__((noreturn));	/* deliver mode: the core has an abort; unwind to the main loop, which calls pdp64_exception(vector, eva) */
 	void *u;
 	void (*profile)(void *u, uint64_t pc, int nparcels, int cat);	/* optional (NULL: none): called for every instruction at decode, before it runs; cat is a PDP64_CAT_ number.  A block instruction is one. */
+	void (*hv_event)(void *u, int what);	/* optional (NULL: none): the hypervisor wrote a register that a device of the host depends on (PDP64_HV_*) */
 };
+#define PDP64_HV_VTOFF 0	/* a write to VTOFF: the virtual timer's deadline moves (design 1.9) */
 /* the categories of the profile (the same for all encodings): what an instruction is, by its operation and operand */
 enum { PDP64_CAT_OTHER, PDP64_CAT_FRAME_LD, PDP64_CAT_FRAME_ST, PDP64_CAT_REGMOVE, PDP64_CAT_PUSHPOP, PDP64_CAT_MEMREF, PDP64_CAT_BRANCH, PDP64_CAT_CALL,
        PDP64_CAT_BLOCK, PDP64_CAT_FUSED, PDP64_CAT_LEA, PDP64_NCAT };
@@ -104,4 +106,9 @@ void pdp64_set_psw(struct pdp64_cpu *c, unsigned psw);	/* load a PSW (valid bits
 void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector, uint64_t eva);
 /* an interrupt request of this level and vector, between two instructions: taken (1) if the level is above the priority, else not (0) */
 int pdp64_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e, int level, int vector);
+/* the virtual interrupt lines (design 1.8).  A guest (hve set, H clear) takes the highest pending line above its priority between two instructions: the guest's own exception entry with the vector of the line,
+   and the hardware clears the line.  A physical interrupt is looked at first (the host calls pdp64_interrupt before these).  A line whose vector field is below 32 is not deliverable (the model's rule). */
+int pdp64_virq_pending(const struct pdp64_cpu *c);		/* 1: a guest is running and a line with a deliverable vector is pending, whatever the priority: what ends a WFE */
+int pdp64_virq_deliverable(const struct pdp64_cpu *c);		/* 1: ... and its level is above the guest's priority */
+int pdp64_virtual_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e);	/* take it if deliverable (1) */
 #endif

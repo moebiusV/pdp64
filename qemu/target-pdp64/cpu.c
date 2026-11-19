@@ -65,8 +65,10 @@ static bool pdp64_cpu_has_work(CPUState *cs)
     CPUPDP64State *env = cpu_env(cs);
     int level, vector;
 
-    return (cs->interrupt_request & CPU_INTERRUPT_HARD)
-           && pdp64_irq_deliverable(env, &level, &vector);
+    /* a pending virtual line ends a WFE of a guest even if its priority masks it (7.10.2) */
+    return ((cs->interrupt_request & CPU_INTERRUPT_HARD)
+            && pdp64_irq_deliverable(env, &level, &vector))
+           || pdp64_virq_pending(&env->c);
 }
 
 static bool pdp64_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
@@ -77,6 +79,11 @@ static bool pdp64_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
     if ((interrupt_request & CPU_INTERRUPT_HARD)
         && pdp64_irq_deliverable(env, &level, &vector)) {
         return pdp64_take_interrupt(env, level, vector);
+    }
+    /* the physical requests exit first; then the guest's virtual lines */
+    if ((interrupt_request & CPU_INTERRUPT_HARD)
+        && pdp64_virq_deliverable(&env->c)) {
+        return pdp64_take_virtual(env);
     }
     return false;
 }
@@ -93,7 +100,7 @@ static void pdp64_cpu_set_irq(void *opaque, int n, int level)
     } else {
         env->irq_lines &= ~(1u << n);
     }
-    if (env->irq_lines) {
+    if (env->irq_lines || pdp64_virq_pending(&env->c)) {
         cpu_interrupt(cs, CPU_INTERRUPT_HARD);
     } else {
         cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);

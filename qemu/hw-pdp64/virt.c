@@ -135,6 +135,15 @@ static void pdp64_virt_init(MachineState *machine)
         }
     }
 
+    if (vs->hypervisor) {
+        /* the core's virtual timer page (errata 195, 196; design 1.9): its expiry is VIRQ line 6 */
+        DeviceState *dev = qdev_new("pdp64-vtimer");
+
+        object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_fatal);
+        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, MAP_VTIMER);
+    }
+
     if (machine->kernel_filename) {
         uint64_t low, high;
         ssize_t n = load_elf(machine->kernel_filename, NULL, NULL, NULL,

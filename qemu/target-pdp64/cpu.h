@@ -29,6 +29,8 @@ typedef struct CPUArchState {
     uint64_t initial_sp;
     uint64_t ram_size;          /* physical RAM is [0, ram_size) */
     bool kernel_mode;           /* machine option kernel-mode: System v1 */
+    void (*hv_vtimer_update)(void *opaque);  /* the virtual timer's deadline moves: a write to VTOFF (set by the device pdp64-vtimer) */
+    void *hv_vtimer;
     bool hve;                   /* machine option hypervisor: the strap HVE (errata 195, 196); needs kernel-mode.  The core starts as the hypervisor (H = 1) */
     const char *fault_what;     /* the fault being reported (legacy machine) */
     uint64_t fault_addr;
@@ -107,6 +109,8 @@ G_NORETURN void pdp64_raise(CPUPDP64State *env, int vector, uint64_t eva,
 /* op_helper.c: the core's entry points with the host's hooks */
 void pdp64_enter_abort(CPUPDP64State *env);
 bool pdp64_take_interrupt(CPUPDP64State *env, int level, int vector);
+/* a virtual interrupt line of the guest above its priority (errata 195, 196; design 1.8) */
+bool pdp64_take_virtual(CPUPDP64State *env);
 /* interrupt lines: the best asserted line, by level then lowest vector */
 bool pdp64_irq_best(const CPUPDP64State *env, int *level, int *vector);
 int pdp64_irq_level(int vector);

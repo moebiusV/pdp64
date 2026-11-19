@@ -30,6 +30,8 @@ runs the C tests (PDP64CCOM needed).  `tools/check-all.sh` includes check-qemu w
 
     -M pdp64-virt                     the default machine: user mode, no MMU, no devices, the system-call stand-in (trap #0..#2, halt)
     -M pdp64-virt,kernel-mode=on      System v1 (docs/pdp64-system-architecture.md section 15)
+    -M pdp64-virt,kernel-mode=on,hypervisor=on   the hypervisor strap HVE (errata 195, 196): the core starts as the hypervisor (H = 1) and has the hypervisor registers, GENTER, the exits,
+                                      the virtual interrupt lines and the virtual timer page (the tests with `-H` in NAME.flags run on it, and on sim64 -H)
 
 (The property is `kernel-mode` because `kernel` is QEMU's own name for the `-kernel` file of every machine.)  With `kernel-mode=on` the machine starts
 in kernel mode at the ELF entry point with priority 7 and `MMUCTL` 0; the kernel stack pointer (r14 of the kernel bank) is the top of RAM; exceptions
@@ -46,6 +48,7 @@ all of tests/qemu, with this option.
 | 0x8000000000 (4 KB)         | timer (kernel-mode only)    `MAP_TIMER`               |
 | 0x8000001000 (4 KB)         | console (kernel-mode only)  `MAP_CONSOLE`             |
 | 0x8000002000 (4 KB)         | IOMMU register block (kernel-mode only)  `MAP_IOMMU` (errata 194; PROVISIONAL) |
+| 0x8000003000 (4 KB)         | virtual timer (hypervisor=on only)  `MAP_VTIMER` (errata 196; PROVISIONAL): the core's own page, the registers of the timer, counter = real counter minus VTOFF, expiry sets VIRQ bit 6.  One core, so one device of the bus; a machine with several cores would give each core its own through the CPU's `memory` link |
 | 0x8000000000 .. 0x800fffffff | device space, reserved for devices (`MAP_DEV` .. `MAP_DEV_END`) |
 | 0x8100000000 (16 MiB)       | PCI Express configuration space (ECAM, buses 0 to 15), kernel-mode only  `MAP_PCIE_ECAM` (PROVISIONAL) |
 | 0x8200000000 (256 MiB)      | PCI Express memory window (a base address register holds this physical address)  `MAP_PCIE_MMIO` (PROVISIONAL) |

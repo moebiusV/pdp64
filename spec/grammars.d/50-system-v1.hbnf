@@ -111,6 +111,7 @@ map = "ram"@0
     | "console"@0x8000001000
     | "dev-end"@0x8010000000
     | "iommu"@0x8000002000
+    | "vtimer"@0x8000003000
     | "pcie-ecam"@0x8100000000
     | "pcie-ecam-size"@0x1000000
     | "pcie-mmio"@0x8200000000
@@ -118,6 +119,8 @@ map = "ram"@0
     | "pcie-pio"@0x8300000000
     | "pcie-pio-size"@0x10000
 
+; The virtual timer page of the hypervisor mode (errata 195, 196; design 1.9): the core's own page, present only on a machine with the hypervisor strap; the next page after the IOMMU block.  It has the registers of
+; the timer below (the same offsets and bits) and a counter that reads the real counter minus VTOFF; its expiry sets bit 6 of VIRQ.  The address is PROVISIONAL like the rest of the map (J.2.1).
 ; The timer: a 64-bit free-running counter that counts at `hz` ticks a second of QEMU's virtual clock, a 64-bit compare, and a control/status register.
 ; The interrupt (level irq-level timer, vector vector timer) is asserted while counter >= compare and CTL enable is 1.  PENDING reads counter >= compare.
 timer-reg = "counter"@0

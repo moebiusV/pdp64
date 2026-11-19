@@ -462,6 +462,7 @@ static void hv_sysreg(int write, unsigned num, int rd)
 	v &= mask;
 	if (num == SYSREG_GTBR && ((v ^ C->gtbr) & (GTBR_VALID & ~((((uint64_t)1 << GTBR_WIDTH_TAG) - 1) << GTBR_TAG)))) { *sr = v; E->tlb(E->u, PDP64_TLB_ALL, 0); return; }	/* a new root or enable discards (rule G-c; this model discards everything) */
 	*sr = v;
+	if (num == SYSREG_VTOFF && E->hv_event) E->hv_event(E->u, PDP64_HV_VTOFF);
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -940,6 +941,29 @@ void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector,
 		c->snap_valid = 0;
 	}
 	enter(vector, epc, eva);
+}
+/* the highest pending virtual line that has a deliverable vector (VIVEC field of 8 bits, 32 to 255); 0 if none */
+static int virq_best(const struct pdp64_cpu *c, int *vector)
+{
+	for (int l = VIRQ_LINES; l >= 1; l--) {
+		int v = (int)(c->vivec >> (VIRQ_VEC_WIDTH * (l - 1)) & ((1u << VIRQ_VEC_WIDTH) - 1));
+		if ((c->virq >> l & 1) && v >= 32) { if (vector) *vector = v; return l; }
+	}
+	return 0;
+}
+int pdp64_virq_pending(const struct pdp64_cpu *c) { return c->hve && !c->h && virq_best(c, NULL) != 0; }
+int pdp64_virq_deliverable(const struct pdp64_cpu *c) { return c->hve && !c->h && virq_best(c, NULL) > (int)pdp64_priority(c); }
+int pdp64_virtual_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e)
+{
+	int v, l;
+	if (!c->hve || c->h) return 0;
+	l = virq_best(c, &v);
+	if (l <= (int)pdp64_priority(c)) return 0;
+	C = c; E = e;
+	enter(v, c->pc, 0);								/* the guest's exception entry: EPC the next instruction, EVA 0, ECAUSE the vector, kernel mode at priority 7 */
+	if (!c->h) c->virq &= ~((uint64_t)1 << l);					/* delivered: the hardware clears the line (an entry that exited, a failed vector fetch, changed nothing and leaves it pending) */
+	c->wait = 0;
+	return 1;
 }
 int pdp64_interrupt(struct pdp64_cpu *c, const struct pdp64_env *e, int level, int vector)
 {
