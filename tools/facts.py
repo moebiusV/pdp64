@@ -69,6 +69,27 @@ def tested_bases(group):
     return seen
 
 
+# words the gate tools name that are not a base of the family: ordinary words that start with v, and words removed from the family (the gather, errata 170), whose rows
+# of the gate tables are kept as the record of what was measured
+NOT_BASES = {'vector', 'vmemlat'}
+REMOVED = {'vldx'}
+
+
+def gate_words():
+    """(file, word) for each word that looks like a mnemonic in the labels of the rows of tools/gates/silicon-total.py and in the descriptions of the classes of tools/gates/lat-table.py"""
+    out = []
+    t = open(os.path.join(ROOT, 'tools', 'gates', 'silicon-total.py')).read()
+    for lab in re.findall(r"^row\('((?:[^'\\]|\\.)*)'", t, re.M):
+        out += [('tools/gates/silicon-total.py', w) for w in re.findall(r'\bv[a-z][a-z0-9]*\b', lab)]
+    t = open(os.path.join(ROOT, 'tools', 'gates', 'lat-table.py')).read()
+    a, b = t.index('CLASSES = ['), t.index(']\nSCALAR')
+    for line in t[a:b].split('\n'):
+        m = re.match(r"\s*\('(\w+)',\s*'\w+',\s*\[.*\],\s*'(.*)'\),?$", line)
+        if m:
+            out += [('tools/gates/lat-table.py', w) for w in re.findall(r'\bv[a-z][a-z0-9]*\b', m.group(2))]
+    return out
+
+
 def problems(group):
     F = load(group)
     have, want = set(F), set(grammar_bases(group))
@@ -109,6 +130,10 @@ def problems(group):
         name = re.sub(r'\d$', '', b) if re.match(r'v[ls]seg\d$', b) else b
         if not re.search(r'"%s[ ."]' % name, open(path).read()):
             out.append('%s: the base %s names the compiler file %s, which has no string that spells it' % (group, b, c))
+    # the gate tools: every word a row of the silicon and latency tables names is a base (or one of the words listed above)
+    if group == 'vec':
+        out += ['%s: %s names %s, which is not a base of the family (nor in NOT_BASES, REMOVED of tools/facts.py)' % (group, f, w)
+                for f, w in sorted(set(gate_words())) if w not in F and w not in NOT_BASES and w not in REMOVED]
     # and the other way: the compiler's measured use (llvm/vector-usage.md) of a base that has no record of it
     try:
         for line in open(os.path.join(ROOT, 'llvm', 'vector-usage.md')):
