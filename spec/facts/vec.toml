@@ -7,6 +7,9 @@
 # Fields: wave    where the base came from (the label of the "family at a glance" table of docs/encoding-work/vec-isa.md)
 #         meaning one line, markdown
 #         llvm    true when the LLVM back end's name tables carry the words of the base (tools/gen-llvm-td.py)
+#         entry   the id of the manual's dictionary entry the base belongs to (tools/manual/isa_vec.py); several bases may share one
+#         entry_seq, title, syntax, op, notes, exc, cf   the text of that entry and its position in the chapter, on the first base of the entry only
+#                 (exc and cf only where they are not the defaults of isa_vec.py)
 #
 # The order of the tables is the order of the groups in vec-isa.md section 2 and of the table that tools/vec-glance.py writes.
 
@@ -14,323 +17,540 @@
 wave = "original"
 meaning = "begin a block over the region `[Rs, Re)`"
 llvm = true
+entry = "VEC"
+entry_seq = 0
+title = "Begin a vector block"
+syntax = ["VEC Rs, Re"]
+op = "the instructions up to VEND run once for each strip of the region [Rs, Re) of the pointer register Rs, until it is exhausted"
+notes = "The block: the instructions between `VEC` and `VEND` run for each **strip** of the first stream, `VL` elements, `1 <= VL <= the elements left`, chosen by the implementation for each strip. The program never names the width and the hardware never tells it: there is no instruction that gives `VL` (errata 173), the least strip is 16 bytes, and everything a block computes is the same on every implementation (`vec-isa.md` section 8). A block of one instruction without `VEND` is the one-instruction prefix (R430). Hidden vector registers `v0` to `v15` are not ordinary registers: the scalar instructions cannot read or write them and a context switch does not save them (R435); their contents do not survive from one strip to the next except for the accumulators that `VCLR` names. A block that holds accumulators has a strip of exactly 16 bytes on every implementation and restarts from its entry after a fault (`vec-isa.md` 4.1 and 8)."
 
 [vec2]
 wave = "errata 176"
 meaning = "begin a 2D block: `Rn` rows of the region `[Rs, Re)`, the streams advanced by a pitch at the end of each row (`vec2 Rs, Re, Rn, Rw`)"
 llvm = true
+entry = "VEC2"
+entry_seq = 1
+title = "Begin a 2D (tile) vector block"
+syntax = ["VEC2 Rs, Re, Rn, Rw"]
+op = "repeat the block Rn times: each row is the region [Rs, Re) of the pointer register Rs; at the end of a row Re moves by Rw plus the gap of Rs, Rn falls by one and every stream named by a VSKIP moves by its gap register"
+notes = "The 2D block (errata 176, `docs/encoding-work/vec-2d.md`): the body is set up once and runs for each strip of each row; strips do not span rows, the last strip of a row is short. `Rw` is the bytes of a row of the first stream, constant; `Re` and `Rn` are ordinary registers that the block advances, so they are the progress: a fault in a strip annuls the strip, the registers are those at its start (the row advance is committed with the last strip of its row), and the same `VEC2` executed again continues at that strip of that row. The four registers must be different; a block with accumulators (`VCLR`, `VFMAB`, `VFIN`) is not a 2D block; a reduction register accumulates over the whole tile. A stream with no `VSKIP` is contiguous. Nested blocks are refused. The compiler does not emit it."
+exc = "Memory operand: page fault, protection fault, alignment fault or bus error; precise at the strip: the strip is annulled, the pointers are those at its start, `EPC` is the address of the faulting instruction of the block."
 
 [vskip]
 wave = "errata 176"
 meaning = "after `vec2`: at the end of each row, add the gap register `Rg` to the pointer `Ra` (`vskip Ra, Rg`: the pitch minus the bytes the row used)"
 llvm = true
+entry = "VSKIP"
+entry_seq = 2
+title = "Row advance of one stream of a 2D block"
+syntax = ["VSKIP Ra, Rg"]
+op = "at the end of each row of the block begun by VEC2: Ra <- Ra + Rg"
+notes = "Directly after `VEC2`, at most four, each pointer once. `Rg` is the gap: the pitch of the stream minus the bytes its row used (the pitch in bytes minus the row width in bytes of that stream, which differs between streams of different element sizes). `Rg` and `Rw` are read only in the block and may be shared by streams; `Ra` is not `Re`, `Rn` or `Rw`."
 
 [vend]
 wave = "original"
 meaning = "end a block"
 llvm = true
+entry = "VEND"
+entry_seq = 3
+title = "End a vector block"
+syntax = ["VEND"]
+op = "end of the block begun by VEC"
+notes = "Nested blocks are refused."
 
 [vfin]
 wave = "errata 173"
 meaning = "split a block: what follows runs once after the last strip (the epilogue), on the final accumulators"
 llvm = true
+entry = "VFIN"
+entry_seq = 4
+title = "End of the strips of a block with accumulators"
+syntax = ["VFIN"]
+op = "the instructions after VFIN run once, after the last strip, on the final lanes of the accumulators"
+notes = "The only strip-independent way to read an accumulator out (errata 173): the instructions between `VFIN` and `VEND` form the epilogue, one more strip of the block's lanes that runs once after the last strip, so a `VACC` of an accumulator or a store of it happens once, on its final value, whatever the implementation's strip. A block with `VFIN` is a block with accumulators: its strip is 16 bytes and a fault restarts it from its entry. A fault in the epilogue restarts the whole block."
+exc = "Memory operand: page fault, protection fault, alignment fault or bus error; precise at the strip: the strip is annulled, the pointers are those at its start, `EPC` is the address of the faulting instruction of the block."
 
 [vld]
 wave = "original"
 meaning = "load a strip, widening on the way in (`vld.<m>[.<lane>]`)"
 llvm = true
+entry = "VLD"
+entry_seq = 25
+title = "Load a strip"
+syntax = ["VLD.m[.lane] vD, (Ra)+ | d(Ra)"]
+op = "vD <- the next strip from memory, widened to the lane"
+notes = "`m` is the memory type (`b w l q`, a following `u` zero-extends, `f` and `d` floating point) and the optional second suffix the lane the strip is held in. `(Ra)+` moves the pointer past the strip. The `d(Ra)+` form (an offset and the move) is `d(Ra)` followed by an add."
+exc = "Memory operand: page fault, protection fault, alignment fault or bus error; precise at the strip: the strip is annulled, the pointers are those at its start, `EPC` is the address of the faulting instruction of the block."
 
 [vst]
 wave = "original"
 meaning = "store a strip, truncating on the way out (`vst.<lane>[.<m>]`)"
 llvm = true
+entry = "VST"
+entry_seq = 26
+title = "Store a strip"
+syntax = ["VST.lane[.m] vS, (Ra)+ | d(Ra)", "VSTS.lane.m vS, (Ra)+ | d(Ra)", "VSTS.lane.m vS, (Ra)+, #sh"]
+op = "the strip to memory, narrowed (truncating; VSTS: clamping to the range of m, after the rounding shift if there is one)"
+notes = "`VSTS.l.bu` clamps to 0..255. With `#sh` (0 to 63) each lane is first shifted right by `sh` with rounding, (x + 2^(sh-1)) >> sh, exact and arithmetic, then clamped: the shift-round-narrow-saturate-store of `sqrshrun`."
+exc = "Memory operand: page fault, protection fault, alignment fault or bus error; precise at the strip: the strip is annulled, the pointers are those at its start, `EPC` is the address of the faulting instruction of the block."
 
 [vsts]
 wave = "original"
 meaning = "narrowing store with clamping; with `#sh` a rounding shift first (the `#sh` form: wave 1)"
 llvm = true
+entry = "VST"
 
 [vldt]
 wave = "original"
 meaning = "strided load (one field of an array of structures)"
 llvm = true
+entry = "VLDT"
+entry_seq = 27
+title = "Strided load and store"
+syntax = ["VLDT.m[.lane] vD, (Ra)+, #stride", "VSTT.lane[.m] vS, (Ra)+, #stride"]
+op = "every `stride` bytes (one field of an array of structures)"
+notes = "The stride is a 12-bit unsigned byte count; `(Ra)+` moves the pointer by the elements of the strip times the stride."
+exc = "Memory operand: page fault, protection fault, alignment fault or bus error; precise at the strip: the strip is annulled, the pointers are those at its start, `EPC` is the address of the faulting instruction of the block."
 
 [vstt]
 wave = "original"
 meaning = "strided store"
 llvm = true
+entry = "VLDT"
 
 [vlseg2]
 wave = "original"
 meaning = "load 2 interleaved fields into `vD`, `vD+1`"
 llvm = true
+entry = "VSEG"
+entry_seq = 28
+title = "Segment load and store"
+syntax = ["VLSEGn.m[.lane] vD, (Ra)+ | d(Ra)", "VSSEGn.lane[.m] vS, (Ra)+ | d(Ra)"]
+op = "load n interleaved fields into vD .. v(D+n-1); store n registers interleaved"
+notes = "n = 2, 3 or 4. The pointer moves by `VL` times the number of fields."
+exc = "Memory operand: page fault, protection fault, alignment fault or bus error; precise at the strip: the strip is annulled, the pointers are those at its start, `EPC` is the address of the faulting instruction of the block."
 
 [vlseg3]
 wave = "original"
 meaning = "load 3 interleaved fields"
 llvm = true
+entry = "VSEG"
 
 [vlseg4]
 wave = "original"
 meaning = "load 4 interleaved fields"
 llvm = true
+entry = "VSEG"
 
 [vsseg2]
 wave = "original"
 meaning = "store 2 registers interleaved"
 llvm = true
+entry = "VSEG"
 
 [vsseg3]
 wave = "original"
 meaning = "store 3 registers interleaved"
 llvm = true
+entry = "VSEG"
 
 [vsseg4]
 wave = "original"
 meaning = "store 4 registers interleaved"
 llvm = true
+entry = "VSEG"
 
 [vadd]
 wave = "original"
 meaning = "lane add (wrapping)"
 llvm = true
+entry = "VADD"
+entry_seq = 5
+title = "Lane add"
+syntax = ["VADD.t vD, vA, vB | Rs | #imm", "VADDS.t, VADDSU.t (saturating)"]
+op = "vD[i] <- vA[i] + vB[i]  (a scalar register or an immediate is the same value in every lane)"
+notes = "Lane arithmetic wraps unless the mnemonic says saturating (`VADDS` signed, `VADDSU` unsigned). Floating-point lanes follow the scalar rules (IEEE 754, flags accumulated in `FPSR`, no traps)."
 
 [vsub]
 wave = "original"
 meaning = "lane subtract"
 llvm = true
+entry = "VSUB"
+entry_seq = 6
+title = "Lane subtract"
+syntax = ["VSUB.t vD, vA, vB | Rs | #imm", "VSUBR.t (reverse)"]
+op = "vD[i] <- vA[i] - vB[i]; VSUBR: vD[i] <- operand - vA[i]"
+notes = "`VSUBR` is the reverse subtract: `vsubr.w v2, v2, #255` is `255 - v2`. `VSUBS`, `VSUBSU` saturate."
 
 [vsubr]
 wave = "original"
 meaning = "reverse subtract: operand minus `vA`"
 llvm = true
+entry = "VSUB"
 
 [vmul]
 wave = "original"
 meaning = "lane multiply, low half"
 llvm = true
+entry = "VMUL"
+entry_seq = 7
+title = "Lane multiply"
+syntax = ["VMUL.t vD, vA, vB | Rs | #imm"]
+op = "vD[i] <- vA[i] x vB[i]"
+notes = "Low half of the product for integer lanes (`b w l`; the 64-bit integer lanes were removed, errata 170). The high half and the Q15 product are `VMULH`. Floating-point lanes follow the scalar rules (IEEE 754, flags accumulated in `FPSR`, no traps)."
 
 [vand]
 wave = "original"
 meaning = "bitwise and"
 llvm = true
+entry = "VLOGIC"
+entry_seq = 15
+title = "Lane logic and shifts"
+syntax = ["VAND.t, VOR.t, VXOR.t, VSHL.t, VSHR.t, VSAR.t vD, vA, vB | Rs | #imm"]
+op = "vD[i] <- vA[i] op vB[i]"
+notes = "Integer lanes only. `VSHR` is logical, `VSAR` arithmetic."
 
 [vor]
 wave = "original"
 meaning = "bitwise or"
 llvm = true
+entry = "VLOGIC"
 
 [vxor]
 wave = "original"
 meaning = "bitwise exclusive or"
 llvm = true
+entry = "VLOGIC"
 
 [vshl]
 wave = "original"
 meaning = "shift left"
 llvm = true
+entry = "VLOGIC"
 
 [vshr]
 wave = "original"
 meaning = "logical shift right"
 llvm = true
+entry = "VLOGIC"
 
 [vsar]
 wave = "original"
 meaning = "arithmetic shift right"
 llvm = true
+entry = "VLOGIC"
 
 [vabd]
 wave = "original"
 meaning = "signed absolute difference"
 llvm = true
+entry = "VMINMAX"
 
 [vabdu]
 wave = "original"
 meaning = "unsigned absolute difference"
 llvm = true
+entry = "VMINMAX"
 
 [vmin]
 wave = "original"
 meaning = "signed minimum"
 llvm = true
+entry = "VMINMAX"
+entry_seq = 14
+title = "Lane minimum, maximum and absolute difference"
+syntax = ["VMIN.t, VMAX.t, VABD.t vD, vA, vB | Rs | #imm", "VMINU.t, VMAXU.t, VABDU.t (unsigned)"]
+op = "vD[i] <- min | max | |vA[i] - vB[i]|"
+notes = "The unsigned forms (`VMINU`, `VMAXU`, `VABDU`) are the assistant's addition for the bytes of pixels (errata 161). Floating-point lanes follow the scalar rules (IEEE 754, flags accumulated in `FPSR`, no traps)."
 
 [vmax]
 wave = "original"
 meaning = "signed maximum"
 llvm = true
+entry = "VMINMAX"
 
 [vminu]
 wave = "original"
 meaning = "unsigned minimum"
 llvm = true
+entry = "VMINMAX"
 
 [vmaxu]
 wave = "original"
 meaning = "unsigned maximum"
 llvm = true
+entry = "VMINMAX"
 
 [vmov]
 wave = "original"
 meaning = "move a vector, a scalar register or an immediate to every lane"
 llvm = true
+entry = "VMOV"
+entry_seq = 16
+title = "Lane move and negate"
+syntax = ["VMOV.t vD, vA | Rs | #imm", "VNEG.t vD, vA"]
+op = "vD[i] <- operand | -vA[i]"
+notes = "A scalar register or an immediate is broadcast to every lane."
 
 [vneg]
 wave = "original"
 meaning = "negate"
 llvm = true
+entry = "VMOV"
 
 [vadds]
 wave = "original"
 meaning = "signed saturating add"
 llvm = true
+entry = "VADD"
 
 [vsubs]
 wave = "original"
 meaning = "signed saturating subtract"
 llvm = true
+entry = "VSUB"
 
 [vaddsu]
 wave = "original"
 meaning = "unsigned saturating add"
 llvm = true
+entry = "VADD"
 
 [vsubsu]
 wave = "original"
 meaning = "unsigned saturating subtract"
 llvm = true
+entry = "VSUB"
 
 [vavg]
 wave = "wave 1"
 meaning = "rounding average `(a + b + 1) >> 1`, signed"
 llvm = true
+entry = "VAVG"
+entry_seq = 8
+title = "Lane rounding average"
+syntax = ["VAVG.t, VAVGU.t vD, vA, vB"]
+op = "vD[i] <- (vA[i] + vB[i] + 1) >> 1"
+notes = "Lanes `b` and `w`; the sum is made in a wider type, so it cannot wrap, and rounds up (half toward plus infinity); `VAVG` signed, `VAVGU` unsigned. One word for the add, the add of one and the shift of the weighted prediction of video codecs (errata 170)."
 
 [vavgu]
 wave = "wave 1"
 meaning = "rounding average, unsigned"
 llvm = true
+entry = "VAVG"
 
 [vmulh]
 wave = "wave 1"
 meaning = "high 16 bits of the 16 x 16 product, signed"
 llvm = true
+entry = "VMULH"
+entry_seq = 9
+title = "High half and Q15 multiply"
+syntax = ["VMULH.w, VMULHU.w, VMULHR.w vD, vA, vB | Rs | #imm"]
+op = "vD[i] <- (vA[i] x vB[i]) >> 16 (signed, unsigned);  VMULHR: (vA[i] x vB[i] + 2^14) >> 15, saturated to 32767"
+notes = "16-bit lanes. `VMULHR` is the Q15 rounding multiply (`pmulhrsw`, `sqrdmulh`); the one product that does not fit, -32768 x -32768, gives 32767, not -32768 (the saturation of `sqrdmulh`). A scalar register or an immediate is the same value in every lane (the constants of a transform)."
 
 [vmulhu]
 wave = "wave 1"
 meaning = "high 16 bits of the 16 x 16 product, unsigned"
 llvm = true
+entry = "VMULH"
 
 [vmulhr]
 wave = "wave 1"
 meaning = "Q15 rounding multiply, saturating"
 llvm = true
+entry = "VMULH"
 
 [vsarr]
 wave = "wave 1"
 meaning = "arithmetic shift right that rounds"
 llvm = true
+entry = "VROUND"
+entry_seq = 10
+title = "Lane shifts that round"
+syntax = ["VSARR.t, VSHRR.t vD, vA, vB | Rs | #imm"]
+op = "vD[i] <- (vA[i] + 2^(s-1)) >> s, exact, round half up; s = 0 leaves the lane"
+notes = "Lanes `w` and `l`. `VSARR` arithmetic, `VSHRR` logical. The sum is not wrapped; a count above the width of the lane gives 0. The count is the unsigned value of the lane of the second operand."
 
 [vshrr]
 wave = "wave 1"
 meaning = "logical shift right that rounds"
 llvm = true
+entry = "VROUND"
 
 [vmla]
 wave = "original"
 meaning = "`vD += vA * x` (x a scalar register: original; x a vector: wave 1)"
 llvm = true
+entry = "VMLA"
+entry_seq = 17
+title = "Integer multiply-add"
+syntax = ["VMLA.t vD, vA, vB | Rs"]
+op = "vD[i] <- vD[i] + vA[i] x vB[i] | Rs"
+notes = "Lanes `w` and `l`. The vector by vector form is new in wave 1 (errata 170): it uses the multiplier of `VMUL` and costs no gates."
 
 [vfma]
 wave = "original"
 meaning = "floating-point `vD += vA * x`"
 llvm = true
+entry = "VFMA"
+entry_seq = 18
+title = "Floating-point multiply-add"
+syntax = ["VFMA.f vD, vA, vB | Rs", "VFNMA.f vD, vA, vB", "VFMAB.f vD, vA, (Ra)+"]
+op = "vD[i] <- vD[i] + vA[i] x vB[i];  VFNMA: vD - vA x vB;  VFMAB: vD + vA x broadcast(*Ra), Ra moved by one element"
+notes = "`VFMAB` is the broadcast multiply-add of the GEMM micro-kernel (the ten registers of the micro-kernel are why there are sixteen vector registers). A block with `VFMAB` has a strip of 16 bytes on every implementation (a strip is one step of the micro-kernel and the pointer `Ra` moves once for each strip: errata 173). Floating-point lanes follow the scalar rules (IEEE 754, flags accumulated in `FPSR`, no traps)."
+exc = "Memory operand: page fault, protection fault, alignment fault or bus error; precise at the strip: the strip is annulled, the pointers are those at its start, `EPC` is the address of the faulting instruction of the block."
 
 [vfnma]
 wave = "original"
 meaning = "floating-point `vD -= vA * vB`"
 llvm = true
+entry = "VFMA"
 
 [vfmab]
 wave = "original"
 meaning = "`vD += vA * broadcast(*Ra)`, `Ra` moved by one element a strip (the micro-kernel; 16-byte strip)"
 llvm = true
+entry = "VFMA"
 
 [vdot]
 wave = "original"
 meaning = "each 32-bit lane += the products of 4 bytes (`.b`) or 2 halfwords (`.w`, wave 1)"
 llvm = true
+entry = "VDOT"
+entry_seq = 19
+title = "Dot product"
+syntax = ["VDOT.b vD, vA, vB", "VDOT.w vD, vA, vB"]
+op = "each 32-bit lane of vD <- vD + the four byte products (`.b`) or the two 16-bit products (`.w`) of the same lane of vA and vB"
+notes = "Signed (`VDOT`), unsigned (`VDOTU`) and signed by unsigned (`VDOTSU`) bytes: the shapes of dp4a, SDOT and VNNI; `VDOT.w` is `pmaddwd` (signed halfwords only). Accumulates in 32-bit integers with wraparound."
 
 [vdotu]
 wave = "original"
 meaning = "the same, unsigned bytes"
 llvm = true
+entry = "VDOT"
 
 [vdotsu]
 wave = "original"
 meaning = "the same, signed by unsigned bytes"
 llvm = true
+entry = "VDOT"
 
 [vdacc]
 wave = "wave 1"
 meaning = "`Rd +=` the exact sum of the products of all lanes (a dot product reduced to a register)"
 llvm = true
+entry = "VDACC"
+entry_seq = 20
+title = "Dot product and sum of absolute differences into a register"
+syntax = ["VDACC.b, VDACC.bu, VDACC.bsu, VDACC.w Rd, vA, vB", "VSAD.bu Rd, vA, vB"]
+op = "Rd <- Rd + the exact sum of the products of all the lanes of the strip;  VSAD: Rd <- Rd + the sum of |vA[i] - vB[i]| over the unsigned byte lanes"
+notes = "`VDACC` is a `VDOT` and a `VACC` in one word: the strip stays 32 bytes of byte lanes, and no 32-bit lane is held. Signed (`b`), unsigned (`bu`), signed by unsigned (`bsu`) bytes, signed halfwords (`w`). The sum is exact (not wrapped to 32 bits) and added to the 64-bit register, which is committed when the strip commits, as `VACC`: no state crosses a strip."
 
 [vsad]
 wave = "wave 1"
 meaning = "`Rd +=` the sum of absolute differences of unsigned bytes"
 llvm = true
+entry = "VDACC"
 
 [vtbl]
 wave = "wave 1"
 meaning = "byte lookup in a 16-byte table in memory; 0 for an index of 16 or more (memory form only)"
 llvm = true
+entry = "VTBL"
+entry_seq = 21
+title = "Table lookup of bytes"
+syntax = ["VTBL.b vD, (Ra), vI"]
+op = "vD[i] <- the byte of a 16-byte table that the index lane vI[i] names; 0 if vI[i] >= 16 (unsigned)"
+notes = "The table is exactly 16 bytes at `(Ra)`, the same for every lane and every strip, whatever the length of the strip. Nothing is kept between strips. It replaces the gather for the dequantisation tables (errata 170). There is no register form (errata 173): a table taken from the lanes of a register would be truncated by a short strip, so the strip would be visible."
 
 [vceq]
 wave = "wave 2"
 meaning = "lane compare equal: a mask (all ones or zero)"
 llvm = true
+entry = "VCMP"
+entry_seq = 11
+title = "Lane compare into a mask"
+syntax = ["VCEQ.t, VCGT.t vD, vA, vB | Rs | #imm  (t = b w l f)", "VCGTU.t vD, vA, vB | Rs | #imm  (t = b w l)"]
+op = "vD[i] <- all ones if vA[i] == | > | >u operand, else 0"
+notes = "The mask is an ordinary vector register: an integer lane of the size compared (also for `f`), all ones or zero, so `VAND`, `VBSL` and the stores take it without a mask file (errata 171). `VCGT` is signed, `VCGTU` unsigned; the floating-point compares are ordered: a NaN compares false (also `VCEQ` of a NaN with itself), -0.0 equals +0.0, no flag is set. The second operand may be a scalar register or an immediate (the same value in every lane). There is no less-than: swap the operands, or the arms of the select."
 
 [vcgt]
 wave = "wave 2"
 meaning = "lane compare signed greater: a mask"
 llvm = true
+entry = "VCMP"
 
 [vcgtu]
 wave = "wave 2"
 meaning = "lane compare unsigned greater: a mask"
 llvm = true
+entry = "VCMP"
 
 [vbsl]
 wave = "wave 2"
 meaning = "bitwise select `(vM & vA) \\| (~vM & vB)`"
 llvm = true
+entry = "VBSL"
+entry_seq = 12
+title = "Bitwise select"
+syntax = ["VBSL vD, vM, vA, vB"]
+op = "vD <- (vM & vA) | (~vM & vB), bit by bit"
+notes = "No lane suffix: it selects bits. With a lane mask of `VCEQ`, `VCGT` or `VCGTU` in `vM` it is the select of a ternary operator. `vD` may be `vM`, `vA` or `vB` (all are read first). The assembler checks that the mask and both operands hold lanes of the same size (errata 171)."
 
 [vcvt]
 wave = "wave 2"
 meaning = "int32 <-> binary32 conversion (`vcvt.<from>.<to>`)"
 llvm = true
+entry = "VCVT"
+entry_seq = 13
+title = "Convert 32-bit lanes between integer and binary32"
+syntax = ["VCVT.l.f, VCVT.lu.f vD, vA  (int32 to binary32)", "VCVT.f.l, VCVT.f.lu vD, vA  (binary32 to int32)"]
+op = "int to float: vD[i] <- (float) vA[i], round to nearest even;  float to int: truncate toward zero, saturate, a NaN gives the largest value"
+notes = "The name is `VCVT.<from>.<to>`, `l` signed and `lu` unsigned 32-bit integer lanes. The rules are those of the scalar `FCVTLS` and `FCVTSL`: float to signed integer truncates and saturates (a NaN gives 2147483647); to unsigned a negative value gives 0 and a NaN or a value of 2^32 or more gives 4294967295 (as `FCVTDQU`). 2^24 + 1 rounds to 2^24. No flag is set in `FPSR` (the vector lanes never touch it). The lanes change type: the assembler checks it (errata 171)."
 
 [vacc]
 wave = "original"
 meaning = "`Rd +=` the sum of the lanes, `vacc.<src>.<acc>` (the form: errata 168); floating point in the canonical order (errata 174)"
 llvm = true
+entry = "VACC"
+entry_seq = 22
+title = "Reduce a vector into a register"
+syntax = ["VACC.src.acc Rd, vS", "VMAXACC.src Rd, vS", "VMINACC.src Rd, vS"]
+op = "Rd <- Rd + the sum of the lanes, made in the width acc | max(Rd, the largest lane) | min(Rd, the smallest lane)"
+notes = "The source type `src` is the lane type the register holds, with its signedness (`b w l q` signed, `bu wu lu` unsigned, `f d`): the lanes are extended as it says, so unsigned bytes sum without a widening load. The sum is made in `acc` and wraps there: `l` for byte and halfword sources, `l` or `q` for 32-bit lanes, `q` for 64-bit lanes, `f` or `d` for floating point (the fewest widths, to keep the adder tree small). The strip's `VL` counts the source lanes, not `acc`. The assembler refuses a `src` that is not the lane type the last instruction of the block wrote into the register (errata 168). The register is updated when the strip commits. **A floating-point sum (`VACC.f`, `VACC.f.d`, `VACC.d`) is in a canonical order that does not depend on the strip** (errata 174): the lanes of the stream are taken in chunks of 16 bytes of source lanes (4 binary32, 2 binary64), each chunk is summed by the fixed tree ((l0 + l1) + (l2 + l3)) in the width `acc`, and the chunks are added to the register one after the other in element order; a short last chunk has the lanes it has. The assembler refuses the sum in a block with a lane wider than its source lane. `VMAXACC` and `VMINACC` take the lanes in element order."
 
 [vmaxacc]
 wave = "original"
 meaning = "`Rd = max(Rd, the largest lane)`"
 llvm = true
+entry = "VACC"
 
 [vminacc]
 wave = "original"
 meaning = "`Rd = min(Rd, the smallest lane)`"
 llvm = true
+entry = "VACC"
 
 [vfir]
 wave = "original"
 meaning = "sliding-window multiply-accumulate over `taps` scalar registers"
 llvm = true
+entry = "VFIR"
+entry_seq = 23
+title = "Sliding-window multiply-accumulate"
+syntax = ["VFIR.t vD, vS, Rt, #taps"]
+op = "lane i of vD <- the sum over k = 0..taps-1 of R(t+k) x lane (i+k-c) of vS;  c = taps/2 rounded down"
+notes = "The neighbours across the edge of the strip are the last and first elements of the previous and next strip, so the region is read once; it reads `c` elements before the region and `taps-1-c` after, as the scalar code does."
 
 [vclr]
 wave = "original"
 meaning = "zero `count` registers and name them accumulators (16-byte strip)"
 llvm = true
+entry = "VCLR"
+entry_seq = 24
+title = "Zero and name accumulators"
+syntax = ["VCLR.t vN, #count"]
+op = "vN .. v(N+count-1) <- 0, and they keep their values from one strip to the next within the block"
+notes = "The accumulators are the only hidden state that survives a strip (`vec-isa.md` 4.1). A block that names accumulators has a strip of exactly 16 bytes on every implementation, so the lanes of an accumulator are the program's (errata 173); they are read out after the last strip by `VFIN`."
