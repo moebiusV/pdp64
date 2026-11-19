@@ -186,11 +186,11 @@
 - Left: the register or field that reports the level count and the physical width (J.6.1); the page-table entry for wide physical addresses (J.6.2)
 
 ### Translation buffer: writes to MMUCTL, PTBR and ASID, and reset
-- Status: DONE — the rule is in the manual (6.8.4, 6.8.5, 6.14.8, J.2.3, J.6.8 decided but for an invalidate by ASID); the executor and QEMU conform (they discard more than the rule needs) and `tests/qemu/mmu-flush.S` tests it in QEMU; sim64 has no MMU, so no sim64 test exists (latest decision 2026-11-18 \[R491\], errata 178)
+- Status: DONE — the rule is in the manual (6.8.4, 6.8.5, 6.14.8, 2.11.7, J.6.8 decided but for an invalidate by ASID); the executor and QEMU conform (they discard more than the rule needs) and `tests/qemu/mmu-flush.S` tests it in QEMU; sim64 has no MMU, so no sim64 test exists (latest decision 2026-11-18 \[R491\], errata 178)
 - Decided: 2026-11-18 the owner asked for the exposure assessment of CVE-2026-99312 (Linux KVM x86: the MMU context not reset when emulating INIT for a nested guest with paging disabled, stale translations); the details by the owner's priorities, the assistant's \[R491\]
 - Rationale: safety and security first, no new hardware: a change of translation on or off discards everything; a table change under the same ASID discards the entries of the old table; the ASID tags keep a switch free of flushes
 - Evidence: docs/errata.md item 178; docs/manual-src/06-kernel.md 6.8.4 and 6.8.5; tests/qemu/mmu-flush.S (non-vacuous: it fails when the flushes of the executor are removed); QEMU v11.1.2 `tcg_cpu_reset_hold` flushes the soft TLB at reset
-- Left: reset is not tested (the harness cannot reset the machine); an invalidate by ASID (J.6.8 option 4); the rule for guests and device translations when virtualisation and the IOMMU are decided (B.2.11, J.2.3)
+- Left: reset is not tested (the harness cannot reset the machine); an invalidate by ASID (J.6.8 option 4); the rule for guests and device translations when virtualisation and the IOMMU are decided (decided: 6.14.8, 2.11.7)
 
 ### Virtualisation: the hypervisor mode, two-stage translation, virtual interrupts and the IOMMU
 - Status: TO DO — decided, details to be determined: virtualisation is part of the design (latest decision 2026-11-19 \[R494\] to \[R504\], errata 181)
@@ -198,8 +198,8 @@
 - Rationale: the owner chose the hardware forms (questions 2 to 5) over the staged and software forms the assistant recommended; safety and security first (R491)
 - Decided: 2026-11-19 the owner accepted all 14 decisions of the audit of sensitive instructions as recommended: a physical interrupt always exits and a guest's priority masks only virtual interrupts; `MFCPUID` privileged with a virtual core number; the hypervisor mode outside the PSW; `HALT` always exits; hypercall by routed `TRAP` numbers; `SEV` scoped, `WFE` traps; `ICINV` untrapped; `MTDMW` traps; guest vector fetch and page walk through stage 2; separate hypervisor exception registers; `PROBER` and `PROBEW` test both stages; the `UA` and `MFCPUID` inconsistencies resolved; a world switch and every exception entry clear the vector accumulator naming and any `LL` reservation (in addition to the restart from entry of R500, which stays; it closes the open item of errata 172); no unprivileged clock \[R509\] (errata 186)
 - Decided: 2026-11-19 the owner accepted 11 of the 13 decisions of the IOMMU proposals as recommended (the device table and entry, the leaf, one unit at the root complex, fault reporting, cached translations and invalidation, the guest tag, a virtual and trapped unit for guests in version 1, the register block, the unit's interrupt, the model); decision 1 (the meaning of "a second level that the guest can see") and decision 10 (ATS and page requests) are not decided \[R510\] (errata 187)
-- Evidence: docs/errata.md item 181; docs/manual-src/appendix-parts/b-proposed.md (B.2.11); docs/manual-src/appendix-parts/02-open.md (J.2.3); tests/qemu/mmu-flush.S (the translation rule of errata 178, which the guest tag will extend)
-- Left: no design of the hypervisor mode, the second stage, the virtual interrupt lines or the IOMMU; the audit's and the IOMMU decisions are in the manual (6.14, 2.11, J.2.3, J.6.13, J.6.14; errata 189) but not in the grammar, `as64`, `sim64` or QEMU; the IOMMU's decisions 1 and 10 (J.2.3); the hypervisor's registers, the exit-reason codes and the entry and exit sequence (6.14.3); the table of the state after a guest reset; the placement of the DMA text near the IOMMU \[R503\] (the explanation of virtualization is section 6.14 of the kernel chapter, not a chapter of its own: errata 182 \[R505\]); the clear at a world switch and at exception entry of the vector accumulator naming (errata 186; the open item of errata 172)
+- Evidence: docs/errata.md item 181; docs/manual-src/appendix-parts/b-proposed.md (B.2.11); docs/manual-src/02-bus.md (2.11); tests/qemu/mmu-flush.S (the translation rule of errata 178, which the guest tag will extend)
+- Left: no design of the hypervisor mode, the second stage, the virtual interrupt lines or the IOMMU; the audit's and the IOMMU decisions are in the manual (6.14, 2.11; errata 189, 190) but not in the grammar, `as64`, `sim64` or QEMU; the hypervisor's registers, the exit-reason codes and the entry and exit sequence (6.14.3); the table of the state after a guest reset; the placement of the DMA text near the IOMMU \[R503\] (the explanation of virtualization is section 6.14 of the kernel chapter, not a chapter of its own: errata 182 \[R505\]); the clear at a world switch and at exception entry of the vector accumulator naming (errata 186; the open item of errata 172)
 
 ### The facts about each opcode: text files keyed by the mnemonic
 - Status: TO DO — decided, converted where the facts are data: `spec/facts/vec.toml` (65 vec bases) and `spec/facts/core.toml` (286 core bases); the manual's vec entries, the executor's name tables (vec and core), the assembler's lane-type classes and the benchmark groups read them; `tools/facts.py --check` and the two generators' `--check` are in `check-all` (latest decision 2026-11-19 \[R507\], errata 184; first step \[R506\], errata 183)
@@ -1027,7 +1027,7 @@
 - Precedent: virtio (chosen; named by author): "virtio across the board" \[R360\]
 - Precedent: native 8-register devices (rejected; named by author): "gone" \[R360\]
 - Evidence: docs/manual-src/02-bus.md:5 "every standard device is a virtio device (the disk is virtio-blk) or a USB controller"; :206 "\*\*2.4.2\*\* A function is a virtio device when its configuration space says so"; docs/errata.md:245 entry 95, :254 entry 103 (the rewrite); docs/errata.md:107 entry 29, :199 entry 49 and :211 entry 61 marked superseded by 95
-- Left: the open items of the rewritten chapter are J.2.1 to J.2.5
+- Left: the open items of the rewritten chapter are J.2.1 to J.2.4
 
 ### Physical address bit that selects device space
 - Status: DONE — no physical-address bit selects device space (latest decision 2026-11-09 \[R360\])
@@ -1053,13 +1053,13 @@
 - Precedent: native 8-register devices (rejected; named by author): "forget the native 8 register devices. gone." \[R360\]
 - Precedent: IOMMU mapping of C64/C128 (considered; named by author): "i think we should, but that is extraneous" \[R311\]
 - Evidence: docs/errata.md:225,230,231 entries 75, 80, 81; docs/decisions-pending.md:1619 "F29 ... Decided (errata 81)"; docs/manual-src/02-bus.md:5 "The processor reaches the world through one bus, PCI Express", :114 "\*\*2.3.1\*\*", :120 "\*\*2.3.4\*\* ... An extension is announced to a card, through a PCI Express extended capability, only if the card must take part in it"
-- Left: the detail of the pdp64's additions to PCI Express is open, J.2.5 (the root complex's own registers and the additions); the name Q64 is kept out of the manual until they are decided (ledger C: "Names kept out of the manual")
+- Left: the detail of the pdp64's additions to PCI Express is open, J.2.4 (the root complex's own registers and the additions); the name Q64 is kept out of the manual until they are decided (ledger C: "Names kept out of the manual")
 
 ### Read of an absent configuration position
 - Status: DONE — the read returns all ones and the root complex records the miss in a sticky bit (latest decision 2026-11-10 \[errata 104\])
 - Decided: 2026-11-10 decided: "i'd assume all ones, bus faults are spendy."; "yes, all ones; don't we already have a status register and mode flags, can't you use a bit in one of those or add a bit?"; "agree root complex bit" \[errata 104\]
 - Evidence: docs/manual-src/02-bus.md:220 "\*\*2.4.7\*\* A read of a configuration position that never held a function completes normally and returns all ones", :222 "\*\*2.4.8\*\* The root complex records such a miss in a sticky bit of its own status register"; docs/errata.md:255 entry 104
-- Left: where the root complex's status register sits is open (J.2.5)
+- Left: where the root complex's status register sits is open (J.2.4)
 
 ## 03 Graphics and the C64 devices
 
