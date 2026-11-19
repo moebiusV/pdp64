@@ -609,7 +609,7 @@ Not every machine needs it: a controller running one program, a single-user mach
 
 **6.14.8** The state of every system register after a reset of a guest is given by one table, kept in step as registers are added, and a guest reset discards that guest's cached translations (6.8.5). *(D)* Details to be determined: the table.
 
-**6.14.9** The hidden state of a vector block is not saved at a world switch; the rules of its restart (the block starts again from its entry after an interruption, and a strip starts with its registers zero, errata 173) are relied on. *(D)* Details pending: a handler that names accumulators with `VCLR` outside a block leaves the naming for the next block (errata 175), so a proof that this is closed, or a rule that closes it, is owed; until it exists nothing here says that no hidden state is observable across a world switch.
+**6.14.9** The hidden state of a vector block is not saved at a world switch; the rules of its restart (the block starts again from its entry after an interruption, and a strip starts with its registers zero, errata 173) are relied on. *(D)* Details pending: a handler that names accumulators with `VCLR` outside a block leaves the naming for the next block (the open item of errata 172), so a proof that this is closed, or a rule that closes it, is owed; until it exists nothing here says that no hidden state is observable across a world switch.
 
 **6.14.10** The first software to use all of this is a small hypervisor of our own, on the QEMU target, with one guest kernel; it is not Linux and not KVM. *(D)*
 
