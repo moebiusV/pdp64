@@ -1786,6 +1786,7 @@
 - Status: DONE — the allocation model was rerun with trailing literals and the result recorded; not adopted (latest decision 2026-11-04 \[R326\])
 - Decided: 2026-11-04 approved-proposal: "yes, and do the compilation too": rerun the allocation model with trailing literals. \[R326\]
 - Rationale and precedent: none stated in the sources
+- Decided: 2026-11-19 the owner: "i accept movql at 5 parcels": `MOVQL` stays five parcels with its 64-bit literal inside the instruction \[R508\] (errata 185)
 - Evidence: docs/layout-size-variants.md:3 "The 32-register layout with trailing literals: sizes"; docs/encoding-proposal.md:227 "trailing literals (earlier fragments: worse than inline immediates plus dedicated forms...)"
 
 ### Why pdp64/32 (r20 and pdp64/16 tested against it)
