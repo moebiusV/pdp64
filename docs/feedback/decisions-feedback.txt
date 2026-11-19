@@ -47,7 +47,7 @@ AFFECTS OPCODES: yes  (80 entries)
     20  J.9.3                          The atomic group: where the operands go, and the size...
     21  J.9.4                          The checked arithmetic: the number of the CHECK vecto...
     22  J.9.5                          Addressing-mode gaps: the scaled-index displacement a...
-    23  J.9.6                          The page-bit mechanisms and the six reserved system w...
+    23  J.9.6                          The page-bit mechanisms and the three reserved system...
     24  J.9.8                          The block operations and the data cache
     25  J.9.9                          The floating-point condition flags
     26  J.9.10                         Directed rounding and the remaining half-precision op...
@@ -89,7 +89,7 @@ AFFECTS OPCODES: yes  (80 entries)
     62  V.M26                          Kernel: poison bit, deferred load, the .U qualifier a...
     63  V.M28                          Kernel: is supervisor mode kept?
     64  V.N3                           Reach of the 4-byte call: errata 91 says plus or minu...
-    65  V.N11                          The simulator leaves placeholders syspg0 to syspg5 (l...
+    65  V.N11                          The simulator leaves placeholders syspg2 to syspg5 (l...
     66  V.N12                          MOVQL (a 64-bit literal, ten bytes) is the one except...
     67  V.N13                          R0 hardwired to zero: declined in 9.20.3 and 9.17.4
     68  V.N22                          POPCNT and XNORPOP are tagged decided in 8.5.2
@@ -203,7 +203,7 @@ AFFECTS OPCODES: maybe  (95 entries)
    174  S.stack-alignment              Stack alignment
    175  S.memory-to-memory-moves-and-b Memory-to-memory moves and block operations
 
-AFFECTS OPCODES: no  (157 entries)
+AFFECTS OPCODES: no  (156 entries)
    176  J.2.1                          Locating devices without a selecting bit
    177  J.2.2                          The bus controller
    178  J.2.3                          Which optional virtio features the pdp64 uses
@@ -339,28 +339,27 @@ AFFECTS OPCODES: no  (157 entries)
    308  S.c64-console-font-and-9p-inte C64 console font and 9p interface
    309  S.device-initialization-protoc Device initialization protocol
    310  S.crypto-and-random-number-dev Crypto and random-number devices
-   311  S.virtualisation-the-hyperviso Virtualisation: the hypervisor mode, two-stage transl...
-   312  S.manual-readers-and-the-rewri Manual readers and the rewrite of the chapters
-   313  S.rules-for-editing-the-chapte Rules for editing the chapters
-   314  S.xdmr-flag-and-default-pdp-11 \-xdmr flag and default PDP-11 output
-   315  S.book-toolchain-build-image-a Book toolchain, build image and aports
-   316  S.llvm-tables-generated-from-t LLVM tables generated from the hbnf grammar
-   317  S.the-four-open-items          The four open items
-   318  S.hbnf-fixes-and-upstreaming   hbnf fixes and upstreaming
-   319  S.pcc-the-single-pdp64-branch  pcc: the single-pdp64 branch
-   320  S.assembler-syntax-nasm-s-smal Assembler syntax: NASM's small spellings
-   321  S.assembler-the-check-site-tab Assembler: the check-site table in the core, no macro...
-   322  S.c64-console-c64x-the-earlier C64 console (c64x), the earlier SDL console
-   323  S.sid-chip-variants            SID chip variants
-   324  S.velinsky-link-between-c64-an Velinsky link between C64 and DEC
-   325  S.realtime-v7-with-qnx-ideas   Realtime V7 with QNX ideas
-   326  S.mmap-devices-multics-idea    mmap devices (Multics idea)
-   327  S.cpu-in-dram                  CPU in DRAM
-   328  S.newlisp-environment          newlisp environment
-   329  S.grant-evaluation             Grant evaluation
-   330  S.wrapping-for-pdp64-and-paper Wrapping for pdp64 and papers
-   331  S.other                        Other
-   332  S.encoding-optimiser-the-objec Encoding optimiser: the objective for the real run
+   311  S.manual-readers-and-the-rewri Manual readers and the rewrite of the chapters
+   312  S.rules-for-editing-the-chapte Rules for editing the chapters
+   313  S.xdmr-flag-and-default-pdp-11 \-xdmr flag and default PDP-11 output
+   314  S.book-toolchain-build-image-a Book toolchain, build image and aports
+   315  S.llvm-tables-generated-from-t LLVM tables generated from the hbnf grammar
+   316  S.the-four-open-items          The four open items
+   317  S.hbnf-fixes-and-upstreaming   hbnf fixes and upstreaming
+   318  S.pcc-the-single-pdp64-branch  pcc: the single-pdp64 branch
+   319  S.assembler-syntax-nasm-s-smal Assembler syntax: NASM's small spellings
+   320  S.assembler-the-check-site-tab Assembler: the check-site table in the core, no macro...
+   321  S.c64-console-c64x-the-earlier C64 console (c64x), the earlier SDL console
+   322  S.sid-chip-variants            SID chip variants
+   323  S.velinsky-link-between-c64-an Velinsky link between C64 and DEC
+   324  S.realtime-v7-with-qnx-ideas   Realtime V7 with QNX ideas
+   325  S.mmap-devices-multics-idea    mmap devices (Multics idea)
+   326  S.cpu-in-dram                  CPU in DRAM
+   327  S.newlisp-environment          newlisp environment
+   328  S.grant-evaluation             Grant evaluation
+   329  S.wrapping-for-pdp64-and-paper Wrapping for pdp64 and papers
+   330  S.other                        Other
+   331  S.encoding-optimiser-the-objec Encoding optimiser: the objective for the real run
 
 ================================================================================================
 INDEX BY CHAPTER
@@ -527,7 +526,7 @@ INDEX BY CHAPTER
     20  J.9.3                          The atomic group: where the operands go, and the size...
     21  J.9.4                          The checked arithmetic: the number of the CHECK vecto...
     22  J.9.5                          Addressing-mode gaps: the scaled-index displacement a...
-    23  J.9.6                          The page-bit mechanisms and the six reserved system w...
+    23  J.9.6                          The page-bit mechanisms and the three reserved system...
     24  J.9.8                          The block operations and the data cache
     25  J.9.9                          The floating-point condition flags
     26  J.9.10                         Directed rounding and the remaining half-precision op...
@@ -597,7 +596,7 @@ Confirmation list  (80 entries)
     62  V.M26                          Kernel: poison bit, deferred load, the .U qualifier a...
     63  V.M28                          Kernel: is supervisor mode kept?
     64  V.N3                           Reach of the 4-byte call: errata 91 says plus or minu...
-    65  V.N11                          The simulator leaves placeholders syspg0 to syspg5 (l...
+    65  V.N11                          The simulator leaves placeholders syspg2 to syspg5 (l...
     66  V.N12                          MOVQL (a 64-bit literal, ten bytes) is the one except...
     67  V.N13                          R0 hardwired to zero: declined in 9.20.3 and 9.17.4
     68  V.N22                          POPCNT and XNORPOP are tagged decided in 8.5.2
@@ -674,7 +673,7 @@ Standing decisions  (2 entries)
    302  W.1                            Which first FPGA board
    303  W.3                            pcc: merge the single-pdp64 branch into master
 
-Status ledger (by its own chapter)  (54 entries)
+Status ledger (by its own chapter)  (53 entries)
     72  S.secure-mode-formerly-the-sec Secure mode (formerly the secure core class)
     73  S.simd-how-it-works-how-many-i SIMD: how it works, how many instructions, operations...
     74  S.constant-time-execution      Constant-time execution
@@ -707,28 +706,27 @@ Status ledger (by its own chapter)  (54 entries)
    308  S.c64-console-font-and-9p-inte C64 console font and 9p interface
    309  S.device-initialization-protoc Device initialization protocol
    310  S.crypto-and-random-number-dev Crypto and random-number devices
-   311  S.virtualisation-the-hyperviso Virtualisation: the hypervisor mode, two-stage transl...
-   312  S.manual-readers-and-the-rewri Manual readers and the rewrite of the chapters
-   313  S.rules-for-editing-the-chapte Rules for editing the chapters
-   314  S.xdmr-flag-and-default-pdp-11 \-xdmr flag and default PDP-11 output
-   315  S.book-toolchain-build-image-a Book toolchain, build image and aports
-   316  S.llvm-tables-generated-from-t LLVM tables generated from the hbnf grammar
-   317  S.the-four-open-items          The four open items
-   318  S.hbnf-fixes-and-upstreaming   hbnf fixes and upstreaming
-   319  S.pcc-the-single-pdp64-branch  pcc: the single-pdp64 branch
-   320  S.assembler-syntax-nasm-s-smal Assembler syntax: NASM's small spellings
-   321  S.assembler-the-check-site-tab Assembler: the check-site table in the core, no macro...
-   322  S.c64-console-c64x-the-earlier C64 console (c64x), the earlier SDL console
-   323  S.sid-chip-variants            SID chip variants
-   324  S.velinsky-link-between-c64-an Velinsky link between C64 and DEC
-   325  S.realtime-v7-with-qnx-ideas   Realtime V7 with QNX ideas
-   326  S.mmap-devices-multics-idea    mmap devices (Multics idea)
-   327  S.cpu-in-dram                  CPU in DRAM
-   328  S.newlisp-environment          newlisp environment
-   329  S.grant-evaluation             Grant evaluation
-   330  S.wrapping-for-pdp64-and-paper Wrapping for pdp64 and papers
-   331  S.other                        Other
-   332  S.encoding-optimiser-the-objec Encoding optimiser: the objective for the real run
+   311  S.manual-readers-and-the-rewri Manual readers and the rewrite of the chapters
+   312  S.rules-for-editing-the-chapte Rules for editing the chapters
+   313  S.xdmr-flag-and-default-pdp-11 \-xdmr flag and default PDP-11 output
+   314  S.book-toolchain-build-image-a Book toolchain, build image and aports
+   315  S.llvm-tables-generated-from-t LLVM tables generated from the hbnf grammar
+   316  S.the-four-open-items          The four open items
+   317  S.hbnf-fixes-and-upstreaming   hbnf fixes and upstreaming
+   318  S.pcc-the-single-pdp64-branch  pcc: the single-pdp64 branch
+   319  S.assembler-syntax-nasm-s-smal Assembler syntax: NASM's small spellings
+   320  S.assembler-the-check-site-tab Assembler: the check-site table in the core, no macro...
+   321  S.c64-console-c64x-the-earlier C64 console (c64x), the earlier SDL console
+   322  S.sid-chip-variants            SID chip variants
+   323  S.velinsky-link-between-c64-an Velinsky link between C64 and DEC
+   324  S.realtime-v7-with-qnx-ideas   Realtime V7 with QNX ideas
+   325  S.mmap-devices-multics-idea    mmap devices (Multics idea)
+   326  S.cpu-in-dram                  CPU in DRAM
+   327  S.newlisp-environment          newlisp environment
+   328  S.grant-evaluation             Grant evaluation
+   329  S.wrapping-for-pdp64-and-paper Wrapping for pdp64 and papers
+   330  S.other                        Other
+   331  S.encoding-optimiser-the-objec Encoding optimiser: the objective for the real run
 
 ================================================================================================
 ENTRY J.9.13
@@ -2277,34 +2275,34 @@ NOTE:
 ================================================================================================
 ENTRY J.9.6
 ORDER: 23   KIND: open item   CHAPTER: 9 The instruction set
-   TITLE: The page-bit mechanisms and the six reserved system words
+   TITLE: The page-bit mechanisms and the three reserved system words
    AFFECTS OPCODES: yes (opcodes, encoding)
 ------------------------------------------------------------------------------------------------
    ISSUE: The author approved three mechanisms "to be specified" (errata 84): a page bit that
    gates landing pads, so that an indirect transfer that does not land on LPAD faults, with the
    fault attributed to the branch (item 5); a page bit that says a system call may be made from
    this page (item 8); and a stack-limit register checked when a system call or a fault is taken
-   (item 4). The grammar of the encoding reserves six system words, SYSPG0 to SYSPG5, for these
-   mechanisms, and the retire-stage study found that they need no opcode. What the words do, or
-   whether they are released, is not said; [...]  (Full text: Appendix J, J.9.6.)
+   (item 4). The grammar of the encoding reserves four system words, SYSPG2 to SYSPG5, for these
+   mechanisms (it reserved six; SYSPG0 and SYSPG1 are now STUA and CLUA), and the retire-stage
+   study found that they need no opcode. [...]  (Full text: Appendix J, J.9.6.)
    WHY IT MATTERS: The bits and registers must be in the page-table entry and the
    system-register list before the kernel and the linker are written, and software must be told
-   not to use the six words until they mean something.
+   not to use the three words until they mean something.
 OPTIONS:
   Options:
    A) No opcodes: enable bits in a system register and enforcement bits in the page-table entry.
       The words stay reserved and abort as illegal. For: nothing to execute; matches the
       retire-stage study. Against: needs two page-table bits, which compete with the
       wide-physical-address format.
-   B) One system word for each mechanism. SYSPG0 and the others set or clear the mechanism for
+   B) One system word for each mechanism. SYSPG3 and the others set or clear the mechanism for
       the current address space. For: explicit, and a privileged instruction is easy to trap.
       Against: a mode that an instruction changes (the rule of 9.2.5 is that modes are visible
       state).
    C) A page-attribute instruction that sets bits of the entry for an address. For: the kernel
       need not walk the table to change an attribute. Against: an instruction with a
       translation-buffer side effect, and the format of the entry must have room.
-   D) Release the six words. For: the opcode space is freed. Against: the mechanisms approved by
-      the author are still to be specified.
+   D) Release the three words. For: the opcode space is freed. Against: the mechanisms approved
+      by the author are still to be specified.
    Leaning (assistant, not a decision): Option A, since the study found no opcode is needed, and
    the words released only when the mechanisms are specified. This is the assistant's view, not
    a decision.
@@ -3372,12 +3370,12 @@ NOTE:
 ================================================================================================
 ENTRY V.N11
 ORDER: 65   KIND: confirmation   CHAPTER: Confirmation list
-   TITLE: The simulator leaves placeholders syspg0 to syspg5 (leaves of the grammar for the
+   TITLE: The simulator leaves placeholders syspg2 to syspg5 (leaves of the grammar for the
    page-bit mechanisms)
    AFFECTS OPCODES: yes (the placeholder leaves are part of the encoding)
 ------------------------------------------------------------------------------------------------
    CURRENT TREATMENT: kept on purpose in errata 128
-   EVIDENCE: docs/errata.md 128; tests/sim/unimpl-syspg0.s
+   EVIDENCE: docs/errata.md 128; tests/sim/unimpl-syspg3.s
    QUESTION: Keep the placeholders until the encoding is re-optimised, or cut them now?
 OPTIONS:
    A) Yes, it is right as stated. For: closes the item. Against: none stated.
@@ -10234,40 +10232,8 @@ DECISION:
 NOTE: 
 
 ================================================================================================
-ENTRY S.virtualisation-the-hypervisor-mode-two-stage
-ORDER: 311   KIND: ledger: to do   CHAPTER: 06 Kernel, modes and memory management
-   TITLE: Virtualisation: the hypervisor mode, two-stage translation, virtual interrupts and the
-   IOMMU
-   AFFECTS OPCODES: no (not instruction semantics)
-------------------------------------------------------------------------------------------------
-   STATUS: decided, details to be determined: virtualisation is part of the design (latest
-   decision 2026-11-19 [R494] to [R504], errata 181)
-   WHAT THE AUTHOR SAID: 2026-11-19 the owner answered the eleven questions of the
-   virtualisation form: every sensitive instruction traps (after an audit); a third, hypervisor
-   mode with trap-control and exit-reason registers; two-stage translation in hardware; hardware
-   virtual interrupt lines and a virtual timer offset; assigned devices through the IOMMU with a
-   guest-visible second level; no nesting in version 1; hidden vector state relies on
-   restart-from-entry and zeroing; a full table of the state after a guest reset; a small
-   in-house hypervisor on the QEMU target first; [...]
-   WHAT IS MISSING: no design of the hypervisor mode, the second stage, the virtual interrupt
-   lines or the IOMMU; the audit's and the IOMMU decisions are in the manual (6.14, 2.11; errata
-   189, 190) but not in the grammar, as64, sim64 or QEMU; the hypervisor's registers, the
-   exit-reason codes and the entry and exit sequence (6.14.3); the table of the state after a
-   guest reset; the placement of the DMA text near the IOMMU [R503] (the explanation of
-   virtualization is section 6.14 of the kernel chapter, not a chapter of its own: errata 182
-   [R505]); [...]
-OPTIONS:
-   A) Decide the details now (type them in NOTE). For: the item can then be built. Against: may
-      be early.
-   B) Keep waiting for the stated condition. For: no premature detail. Against: stays open.
-   C) Drop the item. For: less to do. Against: the earlier decision then has no follow-up.
-
-DECISION: 
-NOTE: 
-
-================================================================================================
 ENTRY S.manual-readers-and-the-rewrite-of-the-chapte
-ORDER: 312   KIND: ledger: to do   CHAPTER: Documentation and process
+ORDER: 311   KIND: ledger: to do   CHAPTER: Documentation and process
    TITLE: Manual readers and the rewrite of the chapters
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10294,7 +10260,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.rules-for-editing-the-chapters
-ORDER: 313   KIND: ledger: to do   CHAPTER: Documentation and process
+ORDER: 312   KIND: ledger: to do   CHAPTER: Documentation and process
    TITLE: Rules for editing the chapters
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10317,7 +10283,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.xdmr-flag-and-default-pdp-11-output
-ORDER: 314   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 313   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: \-xdmr flag and default PDP-11 output
    AFFECTS OPCODES: no (a compiler flag)
 ------------------------------------------------------------------------------------------------
@@ -10339,7 +10305,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.book-toolchain-build-image-and-aports
-ORDER: 315   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 314   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: Book toolchain, build image and aports
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10359,7 +10325,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.llvm-tables-generated-from-the-hbnf-grammar
-ORDER: 316   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 315   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: LLVM tables generated from the hbnf grammar
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10381,7 +10347,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.the-four-open-items
-ORDER: 317   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 316   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: The four open items
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10401,7 +10367,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.hbnf-fixes-and-upstreaming
-ORDER: 318   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 317   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: hbnf fixes and upstreaming
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10422,7 +10388,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.pcc-the-single-pdp64-branch
-ORDER: 319   KIND: ledger: to do   CHAPTER: toolchain
+ORDER: 318   KIND: ledger: to do   CHAPTER: toolchain
    TITLE: pcc: the single-pdp64 branch
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10444,7 +10410,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.assembler-syntax-nasm-s-small-spellings
-ORDER: 320   KIND: ledger: in the air   CHAPTER: 01 Principles and priorities
+ORDER: 319   KIND: ledger: in the air   CHAPTER: 01 Principles and priorities
    TITLE: Assembler syntax: NASM's small spellings
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10468,7 +10434,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.assembler-the-check-site-table-in-the-core-n
-ORDER: 321   KIND: ledger: in the air   CHAPTER: 01 Principles and priorities
+ORDER: 320   KIND: ledger: in the air   CHAPTER: 01 Principles and priorities
    TITLE: Assembler: the check-site table in the core, no macros, no preprocessor layer
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10489,7 +10455,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.c64-console-c64x-the-earlier-sdl-console
-ORDER: 322   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 321   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
    TITLE: C64 console (c64x), the earlier SDL console
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10510,7 +10476,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.sid-chip-variants
-ORDER: 323   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 322   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
    TITLE: SID chip variants
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10527,7 +10493,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.velinsky-link-between-c64-and-dec
-ORDER: 324   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
+ORDER: 323   KIND: ledger: in the air   CHAPTER: 03 Graphics and the C64 devices
    TITLE: Velinsky link between C64 and DEC
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10544,7 +10510,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.realtime-v7-with-qnx-ideas
-ORDER: 325   KIND: ledger: in the air   CHAPTER: 06 Kernel, modes and memory management
+ORDER: 324   KIND: ledger: in the air   CHAPTER: 06 Kernel, modes and memory management
    TITLE: Realtime V7 with QNX ideas
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10561,7 +10527,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.mmap-devices-multics-idea
-ORDER: 326   KIND: ledger: in the air   CHAPTER: 06 Kernel, modes and memory management
+ORDER: 325   KIND: ledger: in the air   CHAPTER: 06 Kernel, modes and memory management
    TITLE: mmap devices (Multics idea)
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10578,7 +10544,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.cpu-in-dram
-ORDER: 327   KIND: ledger: in the air   CHAPTER: 07 Multiple processors
+ORDER: 326   KIND: ledger: in the air   CHAPTER: 07 Multiple processors
    TITLE: CPU in DRAM
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10595,7 +10561,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.newlisp-environment
-ORDER: 328   KIND: ledger: in the air   CHAPTER: 11 Toolchain
+ORDER: 327   KIND: ledger: in the air   CHAPTER: 11 Toolchain
    TITLE: newlisp environment
    AFFECTS OPCODES: no (a software environment)
 ------------------------------------------------------------------------------------------------
@@ -10615,7 +10581,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.grant-evaluation
-ORDER: 329   KIND: ledger: in the air   CHAPTER: 12 Documentation and process
+ORDER: 328   KIND: ledger: in the air   CHAPTER: 12 Documentation and process
    TITLE: Grant evaluation
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10632,7 +10598,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.wrapping-for-pdp64-and-papers
-ORDER: 330   KIND: ledger: in the air   CHAPTER: 12 Documentation and process
+ORDER: 329   KIND: ledger: in the air   CHAPTER: 12 Documentation and process
    TITLE: Wrapping for pdp64 and papers
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10651,7 +10617,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.other
-ORDER: 331   KIND: ledger: in the air   CHAPTER: Documentation and process
+ORDER: 330   KIND: ledger: in the air   CHAPTER: Documentation and process
    TITLE: Other
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
@@ -10668,7 +10634,7 @@ NOTE:
 
 ================================================================================================
 ENTRY S.encoding-optimiser-the-objective-for-the-rea
-ORDER: 332   KIND: ledger: in the air   CHAPTER: Instruction set: encoding
+ORDER: 331   KIND: ledger: in the air   CHAPTER: Instruction set: encoding
    TITLE: Encoding optimiser: the objective for the real run
    AFFECTS OPCODES: no (not instruction semantics)
 ------------------------------------------------------------------------------------------------
