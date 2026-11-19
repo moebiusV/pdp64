@@ -481,7 +481,7 @@ An IOMMU is part of the design (errata 75). The five recommendations of the synt
 
 Without translation a device addresses all of memory, and a user-space driver can direct its device to write anywhere in memory.
 
-Open: the format of the device table, where the unit sits in the machine, how a fault is reported and virtualization ([J.2.3](appendix-j-open.md#j23)).
+Open: the format of the device table, where the unit sits in the machine, how a fault is reported and virtualization ([J.2.3](appendix-j-open.md#j23)). The driver's side, the buffers and the order of the writes, is in [5.10](05-drivers.md#510-dma-and-the-buffers-memory); the owner has asked that the text on DMA and this section be placed so that they read together (errata 181), which is not yet done.
 
 With no address bit that says "device" (errata 97), another device's window is an ordinary address, so the IOMMU also refuses a device's DMA into another device's window (2.3.5). In virtio the feature bit `VIRTIO_F_ACCESS_PLATFORM` (33) states that the addresses in a device's descriptors are subject to the platform's translation; (2.7.3).
 
