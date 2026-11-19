@@ -43,20 +43,7 @@ struct vinfo {
 };
 static struct vinfo *VI;
 
-static const struct { const char *base; int op; } vbases[] = {
-	{ "vec", VO_VEC }, { "vend", VO_VEND }, { "vfin", VO_FIN }, { "vec2", VO_VEC2 }, { "vskip", VO_SKIP },
-	{ "vadd", VO_ADD }, { "vsub", VO_SUB }, { "vsubr", VO_SUBR }, { "vmul", VO_MUL }, { "vmin", VO_MIN }, { "vmax", VO_MAX }, { "vminu", VO_MINU },
-	{ "vmaxu", VO_MAXU }, { "vabd", VO_ABD }, { "vabdu", VO_ABDU }, { "vand", VO_AND }, { "vor", VO_OR }, { "vxor", VO_XOR }, { "vshl", VO_SHL },
-	{ "vshr", VO_SHR }, { "vsar", VO_SAR }, { "vadds", VO_ADDS }, { "vsubs", VO_SUBS }, { "vaddsu", VO_ADDSU }, { "vsubsu", VO_SUBSU },
-	{ "vmov", VO_MOV }, { "vneg", VO_NEG }, { "vmla", VO_MLA }, { "vfma", VO_FMA }, { "vfnma", VO_FNMA }, { "vfmab", VO_FMAB },
-	{ "vdot", VO_DOT }, { "vdotu", VO_DOTU }, { "vdotsu", VO_DOTSU },
-	{ "vavg", VO_AVG }, { "vavgu", VO_AVGU }, { "vmulh", VO_MULH }, { "vmulhu", VO_MULHU }, { "vmulhr", VO_MULHR }, { "vsarr", VO_SARR }, { "vshrr", VO_SHRR },
-	{ "vceq", VO_CEQ }, { "vcgt", VO_CGT }, { "vcgtu", VO_CGTU }, { "vbsl", VO_BSL }, { "vcvt", VO_CVT },
-	{ "vtbl", VO_TBL }, { "vdacc", VO_DACC }, { "vsad", VO_SAD }, { "vacc", VO_ACC }, { "vmaxacc", VO_MAXACC }, { "vminacc", VO_MINACC },
-	{ "vfir", VO_FIR }, { "vclr", VO_CLR },
-	{ "vld", VO_LD }, { "vst", VO_ST }, { "vsts", VO_STS }, { "vldt", VO_LDT }, { "vstt", VO_STT },
-	{ "vlseg2", VO_LSEG }, { "vlseg3", VO_LSEG }, { "vlseg4", VO_LSEG }, { "vsseg2", VO_SSEG }, { "vsseg3", VO_SSEG }, { "vsseg4", VO_SSEG },
-};
+#include "pdp64exec_vecbases.inc"	/* vbases[]: base mnemonic -> VO_ operation, generated from spec/facts/vec.toml (tools/gen-vec-names.py) */
 
 static int v_lane(const char *s, uint8_t *sz, uint8_t *fl)
 {
