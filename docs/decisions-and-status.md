@@ -199,6 +199,13 @@
 - Evidence: docs/errata.md item 181; docs/manual-src/appendix-parts/b-proposed.md (B.2.11); docs/manual-src/appendix-parts/02-open.md (J.2.3); tests/qemu/mmu-flush.S (the translation rule of errata 178, which the guest tag will extend)
 - Left: no design of the hypervisor mode, the second stage, the virtual interrupt lines or the IOMMU; the audit of sensitive instructions; the table of the state after a guest reset; the placement of the DMA text near the IOMMU \[R503\] (the explanation of virtualization is section 6.14 of the kernel chapter, not a chapter of its own: errata 182 \[R505\]); the proof that the naming hole of errata 175 is closed, or a rule that closes it (the owner chose to rely on restart-from-entry, which does not close it)
 
+### The facts about each opcode: text files keyed by the mnemonic
+- Status: TO DO — decided, step 1 done: `spec/facts/vec.toml` holds the facts of the 65 base mnemonics of the vec family that a grammar cannot (wave, meaning, `llvm`); `tools/facts.py --check` is in `check-all` (latest decision 2026-11-19 \[R506\], errata 183)
+- Decided: 2026-11-19 the owner: git-controlled text files that hold the facts that do not apply in a grammar, the grammar staying the main source of truth, the mnemonic being the key \[R506\]
+- Rationale: the grammar carried only names, encodings and shapes, so the meaning, the executor table, the assembler's lane rules, the LLVM word list, the manual's entries and the test and gate scripts were eight or more hand-kept lists that fell behind
+- Evidence: docs/errata.md item 183; spec/facts/vec.toml; tools/facts.py; tools/vec-glance.py; tools/gen-llvm-td.py; spec/README.md ("The facts about the words")
+- Left: the manual's entries, the executor's name table, the assembler's lane rules, the benchmark groups, the gate tools and the test generators still keep their facts by hand; the core instruction groups have no facts file; the checks that every word has a handler, a manual entry and a test
+
 ## 07 Multiple processors
 
 ### Secure mode (formerly the secure core class)

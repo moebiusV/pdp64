@@ -76,7 +76,7 @@ The detailed account, by chapter and statement, is [`docs/implementation-status.
 ## 7. What is open, in the order it is needed
 
 1. **The virtualisation decisions** (nine items, the manual placement and the IOMMU, eleven in all): the questionnaire was served as a web page on 2026-11-18 but its answers never reached the store; ask again (`winless ask`, so the answers are filed in chronicle). Nothing in B.2.11 or J.2.3 is written until they are answered. The recommended options are marked in the form.
-2. The single-table refactor: one table of base words for the executor, assembler, LLVM filter and manual lists.
+2. **The facts files** (errata 183): `spec/facts/vec.toml` holds the facts of each base mnemonic that a grammar cannot, keyed by the mnemonic, checked against the grammar by `tools/facts.py --check`; `tools/vec-glance.py` and `tools/gen-llvm-td.py` read it. Next, one at a time and each with identical output: the manual's entries (`tools/manual/isa_vec.py`), the executor's name table, the assembler's lane-type rules (table-driven), the benchmark groups, the gate tools and test generators, then the core instruction groups.
 3. The `hbnf` feature request: a directory include, errors that name the part and the file, a collecting notation (the owner's to take up).
 4. LLVM: the machine and the time to build it, then an integrated assembler.
 5. The rule for a block that holds accumulators across an interrupt (`vec-isa.md` section 4; the hidden-state question is item 7 of the questionnaire); a vectorizer through LLVM.
