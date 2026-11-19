@@ -55,31 +55,30 @@
 **Where the body refers to it.** Section 2.4.4.
 
 <a id="j23"></a>
-### J.2.3 The IOMMU: table format, place, faults and virtualization
+### J.2.3 The IOMMU: the guest-visible second level and translation requests
 
-**Issue.** The author has decided that the pdp64 has an IOMMU (a unit that translates the addresses a device uses, with a page table of its own for each device) and accepted five rules for it (errata 75, 85): translation on by default, one domain for each device, no kernel pointers in descriptors, permanent mappings for the rings, bounce buffers for small data. The leaf entry shares bits 0 to 39 with the processor's page-table entry and bits 40 to 63 are free (errata 85). Four things are not decided: the format of the table above the leaf (how many levels, how a device is found from the identity the bus gives it), where the unit sits (in the root complex, in each bridge, or beside the memory controller), how a refused access is reported (to the device, to the kernel, or both), and what happens when a guest operating system runs its own devices (virtualization, R8 of appendix B).
+**Issue.** The pdp64 has an IOMMU (a unit that translates the addresses a device uses, with a page table of its own for each device), and most of its design is decided and in 2.11: the device table, the leaf entry, the place, the reports of a refusal, the registers and the unit's interrupt (errata 85, 187). Two questions are open. The first is what "a second level that the guest can see" means (6.14.6, errata 181). The second is whether the unit offers translation requests (ATS and page requests: a device asks the unit for a translation and keeps it).
+
+**Accepted, subject to the first question.** The owner accepted these as recommended (errata 187), but they assume that the guest writes a level of its own, so they stay here until the first question is answered. *The entry of a device* is 32 bytes: a valid bit V, a mute bit MUTE, the stages (A, B, or A then B), the levels of each stage, a domain tag and a guest tag, two root words, and one word reserved for the interrupt table (J.6.3); reserved bits must be zero or the device is refused; there is no bypass mode. *The cached translations* are keyed by the requester identity, the guest tag, the domain tag, the page and the level; the commands are invalidate device, domain, guest and all, and sync; the hardware discards every cached translation on a change of the device-table pointer, on the reset bit and on reset; invalidate device does not complete until the device's requests in flight are finished or refused; a guard blocks a device whose guest is being invalidated; an implementation may discard more. *The guest tag* has the same number space and width as the processor's (6.14.4), and 0 is the host; resetting a guest is the hypervisor's duty: block its devices, invalidate its translations, then reset. *In version 1 a guest's unit is virtual and trapped* (6.14.6).
 
 **A requirement that holds whatever is decided (6.8.5, errata 178).** Any event that resets the translation state of a guest (a guest reset, an INIT-like event) must discard the cached translations of that guest, and the same holds for the cached translations of a device when its domain is reset or changed: the tables and the cache are reset together or not at all.
 
-**Why it matters.** The kernel's mapping routines, the driver interface (a descriptor holds a device address, not a physical address) and the interrupt controller (J.6.3, which may use the same unit to check where a device's interrupt write goes) all depend on it. A unit placed at the root complex sees every device but cannot tell a device behind a bridge from the bridge; a refused write that is silently dropped is hard to debug, one that stops the machine is easy to attack.
+**Why it matters.** Whether a guest has an IOMMU of its own decides the entry of a device, the walks that every device access makes, the guest tag in the unit and the invalidation commands. Translation requests decide whether a device may hold translations that the unit does not know about, which must then be invalidated in the device too.
 
 **Options.**
 
-1. *A device table indexed by the bus-device-function number, one page table for each entry.* For: the shape PCI Express already identifies devices with; each device its own domain falls out. Against: a large sparse table unless it is indexed in levels; functions behind a bridge may share one identity.
-2. *A small table of domains, with the device-to-domain map in a register file in the root complex.* For: cheap in hardware; fits the first FPGA boards. Against: a fixed number of devices; a hot-plugged device may find the table full.
-3. *Same, with a second-level table, so a guest's mapping is composed with the host's* (nested translation). For: virtualization costs no emulation. Against: two walks for every access; a larger unit.
-4. *Report a fault only to the kernel, as an interrupt with a log entry* (device, address, kind), the device's access being refused or dropped. For: one path. Against: a device waiting for a read completion hangs unless the unit completes it with an error.
-5. *Report a fault to the device as a failed completion and also log it.* For: the device's driver sees an error at once. Against: not every device handles it; the log can overflow under attack.
+1. *The guest writes a level of its own (level A).* The unit translates in two levels: the guest's (a device address to a guest-physical address), then the hypervisor's (level B, guest-physical to physical). The real device table stays the host's, and the guest sees a virtual unit with the same registers. For: a guest has an IOMMU of its own, with which its kernel can protect itself from its devices; it matches the second stage of the processor (6.14.4). Against: two walks for every device access, and a larger unit.
+2. *The guest sees only the hypervisor's level.* A single level, which the hypervisor writes for the devices of the guest. For: one walk and a smaller unit. Against: the guest has no IOMMU of its own to protect its kernel from its devices.
+3. *Translation requests are not offered in version 1.* The unit answers a translation request with an error. For: a device holds no translation that the unit cannot take back; a smaller unit. Against: devices that need them for speed cannot be used well.
+4. *Translation requests are offered.* For: the speed of devices that cache translations. Against: invalidation must reach the device, and a device that does not obey leaves a stale translation.
 
-**Precedents.** x86 has the IOMMU of Intel (VT-d) and of AMD, indexed by bus, device and function, with a fault-recording ring and an interrupt *(unverified: general knowledge)*. ARM has the SMMU with stream identifiers and stage 1 and stage 2 translation *(unverified)*. The VAX Unibus adapter's map registers were per adapter, not per device *(verified: 4.3BSD `ubareg.h`)*.
+**Precedents.** x86 and ARM offer an IOMMU with two stages of translation, the first for a guest and the second for the hypervisor, and PCI Express has ATS *(unverified: general knowledge)*. The VAX Unibus adapter's map registers were per adapter, not per device *(verified: 4.3BSD `ubareg.h`)*.
 
-**The author's referents.** "iommu will allow us to map in c64/c128" (errata 75, a later use); the five accepted recommendations (errata 85).
+**The author's referents.** "iommu will allow us to map in c64/c128" (errata 75, a later use); the five accepted recommendations (errata 85); the form answers of errata 187.
 
-**The assistant's leaning.** Option 1 with a two-level device table, and Option 5 (an error completion and a log entry), because both keep the same code for boot and for a hot-added device. It would change if virtualization is wanted early (then Option 3).
+**The assistant's leaning.** Option 1, which is the reading the accepted statements assume, and Option 3, as the proposals recommended.
 
-**The owner's answers (errata 181, 2026-11-19).** The IOMMU design is to be finished now: proposals for all four open points, for the owner's review, and then built into the QEMU model. Devices are to be assignable to a guest through the IOMMU with a guest-visible second level, which is Option 3 and so is no longer a leaning to defer. The text on DMA (2.5, 5.10) is to be placed close to this section so that they read as related concepts. Not done: the proposals.
-
-**Where the body refers to it.** Section 2.11.
+**Where the body refers to it.** Sections 2.11 and 6.14.6.
 
 <a id="j24"></a>
 ### J.2.4 Which optional virtio features the pdp64 uses
@@ -1122,6 +1121,39 @@
 **The assistant's leaning.** Option 3 is decided for the `.U` moves; option 1 for the first kernel's other copies, which is what the OpenBSD port will expect (`pcb_onfault`).
 
 **Where the body refers to it.** Sections 6.10 and 6.10.4.
+
+<a id="j613"></a>
+### J.6.13 Does the user guard exist: `UA`, `STUA` and `CLUA`
+
+**Issue.** The manual describes a status bit `UA` that guards user memory, and the instructions `STUA` and `CLUA` that set and clear it (6.2.2, 6.2.5, 6.10.1). The grammar and the reference executor have none of them: the status word has no such bit, and `stua` and `clua` do not assemble.
+
+**Why it matters.** The audit of sensitive instructions (errata 186, decision 12) asks that this be decided before the hypervisor is designed, because the status word and the privileged list are what a guest's kernel sees.
+
+**Options.**
+
+1. *Implement them.* Add the bit and the two instructions to the grammar, the executor and the tests. For: the guard of 6.10 exists, as the chapter says. Against: opcodes and a status bit.
+2. *Remove them from the manual.* For: the manual then says what the machine has. Against: the kernel loses a guard that 6.10 argues for.
+
+**The assistant's leaning.** Option 1, since 6.10.1 is a decided statement.
+
+**Where the body refers to it.** Sections 6.2.2, 6.2.5 and 6.10.1.
+
+<a id="j614"></a>
+### J.6.14 `ICINV` takes effect only after `ISYNC`, which is privileged
+
+**Issue.** An instruction-cache invalidation by `ICINV` or `ICINVA` takes effect for the instructions that follow only after an `ISYNC`, but `ISYNC` is privileged and `ICINV` and `ICINVA` are not (6.2.5, 6.2.6, 6.14.13).
+
+**Why it matters.** A program that generates code (a just-in-time compiler) cannot synchronise its own instruction cache. The audit of sensitive instructions asks that this be resolved (errata 186, decision 7).
+
+**Options.**
+
+1. *An unprivileged form of the synchronisation.* For: a program that generates code works. Against: another instruction or a new rule for `ISYNC`.
+2. *`ICINV` and `ICINVA` synchronise by themselves.* For: no other instruction. Against: the cost on every invalidation.
+3. *A system call does it.* For: no change to the architecture. Against: a trap for every block of generated code.
+
+**The assistant's leaning.** Option 2, the simplest for a program.
+
+**Where the body refers to it.** Sections 6.2.6 and 6.14.13.
 
 ## J.7 Chapter 7: Multiple processors
 

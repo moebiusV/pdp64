@@ -309,7 +309,7 @@ idle():
 
 **Interrupting another core.** A core wakes another by `SEV`, or interrupts it: an **inter-processor interrupt** (IPI), an interrupt raised by one core on another. It reschedules a core that is running a low-priority process, stops a core, or runs a function on it; a core in secure mode is stopped and preempted by one (7.11). x86 writes to the other core's local APIC (`CALL_FUNCTION_VECTOR`, read), the NetBSD VAX port writes a processor register (`PR_IPIR`, read), and OpenBSD's riscv64 port needs two kinds of IPI, `IPI_NOP` and `IPI_DDB` (`intr.h`, read).
 
-**7.10.1** `WFE` sleeps until another core executes `SEV` or an interrupt arrives, and `HINT #1` is the spin-wait pause; `HINT #n` has no other architectural effect (2 is a speculation barrier, the rest are reserved). *(D)*
+**7.10.1** `WFE` sleeps until another core executes `SEV` or an interrupt arrives, and it may also return with no event at all (for example after an exit to a hypervisor), so software tests its condition again when it returns; `HINT #1` is the spin-wait pause; `HINT #n` has no other architectural effect (2 is a speculation barrier, the rest are reserved). *(D)*
 
 **7.10.2** `WFE` ends its sleep when an interrupt is pending, even if the priority masks it, so that an idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap in which a wake-up can be lost. *(D)* Details pending ([J.7.1](appendix-j-open.md#j71)).
 

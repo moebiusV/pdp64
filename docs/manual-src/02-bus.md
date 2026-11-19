@@ -481,7 +481,19 @@ An IOMMU is part of the design (errata 75). The five recommendations of the synt
 
 Without translation a device addresses all of memory, and a user-space driver can direct its device to write anywhere in memory.
 
-Open: the format of the device table, where the unit sits in the machine, how a fault is reported and virtualization ([J.2.3](appendix-j-open.md#j23)). The driver's side, the buffers and the order of the writes, is in [5.10](05-drivers.md#510-dma-and-the-buffers-memory); the owner has asked that the text on DMA and this section be placed so that they read together (errata 181), which is not yet done.
+**2.11.1** A device is identified by the 16-bit requester identity of PCI Express, in one identity space. The device table is a directory of 512 entries of 8 bytes, each pointing to a leaf page of 128 device entries of 32 bytes (a 9 and a 7 bit split, one page each). A mode field says blocked, one level or two levels; the unit is **blocked at reset**. *(D)* Details to be determined.
+
+**2.11.2** The leaf entry has V, R, W and the page number, and W requires R. The bits X, U, G and the memory type must be zero; A and D are ignored. Large pages are allowed, with 3, 4 or 5 levels for each device. Bits 40 to 63 are not allocated. *(D)*
+
+**2.11.3** There is one unit, at the root complex, and its registers are in the root complex's own block (J.2.5), not a PCI Express function, so that it exists from reset. A third-party switch that lets two devices reach each other directly is invisible to the unit; such devices form a **group** that is assigned together, which is the one exception to "each device its own domain". *(D)*
+
+**2.11.4** A refused read is answered with an error completion; a refused posted write is dropped and counted. Every refusal is logged in a ring in memory, with an interrupt, a sticky overflow bit and count, and a per-device mute bit. A bad table fails closed: never all ones, never a machine check. For a guest, the hypervisor forwards the faults of the guest's own level to the guest's virtual log (6.14.6). *(D)* Details to be determined.
+
+**2.11.5** The registers are 64 bits wide at 8-byte spacing. The first eight are those of the common device pattern, with the command ring: ID, CONTROL, STATUS, RING_BASE, RING_SIZE, DOORBELL, IRQ and DEVICE (the device-table pointer); then CAPS, the fault-ring registers and the invalidate register. Both a command ring and an invalidate register are on one executor. *(D)* Details to be determined.
+
+**2.11.6** The unit's own interrupt is a wired line to the processor like the timer's, to be replaced when J.6.3 is decided. *(D)*
+
+Open: the entry of a device and the cached translations of the unit, which depend on the meaning of a second level that the guest can see, and whether the unit offers translation requests ([J.2.3](appendix-j-open.md#j23)). The driver's side (the buffers, the uncached mappings and the order of the writes) is in [5.10](05-drivers.md#510-dma-and-the-buffers-memory).
 
 With no address bit that says "device" (errata 97), another device's window is an ordinary address, so the IOMMU also refuses a device's DMA into another device's window (2.3.5). In virtio the feature bit `VIRTIO_F_ACCESS_PLATFORM` (33) states that the addresses in a device's descriptors are subject to the platform's translation; (2.7.3).
 
