@@ -76,12 +76,11 @@ The detailed account, by chapter and statement, is [`docs/implementation-status.
 ## 7. What is open, in the order it is needed
 
 1. **The virtualisation decisions** (nine items, the manual placement and the IOMMU, eleven in all): the questionnaire was served as a web page on 2026-11-18 but its answers never reached the store; ask again (`winless ask`, so the answers are filed in chronicle). Nothing in B.2.11 or J.2.3 is written until they are answered. The recommended options are marked in the form.
-2. `NAMEfam.py`: a catalogue for hand-written families, so the encoding optimiser sees their forms (errata 180).
-3. The single-table refactor: one table of base words for the executor, assembler, LLVM filter and manual lists.
-4. The `hbnf` feature request: a directory include, errors that name the part and the file, a collecting notation (the owner's to take up).
-5. LLVM: the machine and the time to build it, then an integrated assembler.
-6. The rule for a block that holds accumulators across an interrupt (`vec-isa.md` section 4; the hidden-state question is item 7 of the questionnaire); a vectorizer through LLVM.
-7. About 17,000 instructions in the corpus compiled with checks that are not the checks (errata 160): not analysed.
-8. The kernel's handler of vector 16 and the table of check sites (`docs/encoding-work/check-instructions.md`).
-9. `sim64` has no MMU by design (the MMU is in the QEMU target only); `docs/implementation-status.md` still says "the simulator and the emulator" in places and is not brought to the new encoding.
-10. The chronicle archive: `tools/chronicle-sync` of the ai-conversations project; run in full on 2026-11-18, to be run again after more work.
+2. The single-table refactor: one table of base words for the executor, assembler, LLVM filter and manual lists.
+3. The `hbnf` feature request: a directory include, errors that name the part and the file, a collecting notation (the owner's to take up).
+4. LLVM: the machine and the time to build it, then an integrated assembler.
+5. The rule for a block that holds accumulators across an interrupt (`vec-isa.md` section 4; the hidden-state question is item 7 of the questionnaire); a vectorizer through LLVM.
+6. About 17,000 instructions in the corpus compiled with checks that are not the checks (errata 160): not analysed.
+7. The kernel's handler of vector 16 and the table of check sites (`docs/encoding-work/check-instructions.md`).
+8. `sim64` has no MMU by design (the MMU is in the QEMU target only); `docs/implementation-status.md` still says "the simulator and the emulator" in places and is not brought to the new encoding.
+9. The chronicle archive: `tools/chronicle-sync` of the ai-conversations project; run in full on 2026-11-18, to be run again after more work.
