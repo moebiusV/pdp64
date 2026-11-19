@@ -8,6 +8,10 @@
 #         meaning one line, markdown
 #         llvm    true when the LLVM back end's name tables carry the words of the base (tools/gen-llvm-td.py)
 #         exec    the executor's operation (VO_xxx of common/pdp64exec_vec.inc) that the base is decoded to: the name table is generated from it (tools/gen-vec-names.py)
+#         asm     the class of the assembler's lane-type check (as64/as64.c vec_typecheck, the table as64/asmvecclass.inc): block (vec, vend), block2 (vec2), skip, fin,
+#                 ld, st, dot, dacc, cmp, cvt, bsl, tbl, acc, clr, same (the register read and written as the lane of its suffix), bin (the same with two sources)
+#         asm_no2d    true: a 2D block (vec2) refuses the word (accumulators and the epilogue)
+#         asm_fsum    true: a floating-point sum of this base is the one whose order the block's widest lane must keep (errata 173)
 #         entry   the id of the manual's dictionary entry the base belongs to (tools/manual/isa_vec.py); several bases may share one
 #         entry_seq, title, syntax, op, notes, exc, cf   the text of that entry and its position in the chapter, on the first base of the entry only
 #                 (exc and cf only where they are not the defaults of isa_vec.py)
@@ -19,6 +23,7 @@ wave = "original"
 meaning = "begin a block over the region `[Rs, Re)`"
 llvm = true
 exec = "VO_VEC"
+asm = "block"
 entry = "VEC"
 entry_seq = 0
 title = "Begin a vector block"
@@ -31,6 +36,7 @@ wave = "errata 176"
 meaning = "begin a 2D block: `Rn` rows of the region `[Rs, Re)`, the streams advanced by a pitch at the end of each row (`vec2 Rs, Re, Rn, Rw`)"
 llvm = true
 exec = "VO_VEC2"
+asm = "block2"
 entry = "VEC2"
 entry_seq = 1
 title = "Begin a 2D (tile) vector block"
@@ -44,6 +50,7 @@ wave = "errata 176"
 meaning = "after `vec2`: at the end of each row, add the gap register `Rg` to the pointer `Ra` (`vskip Ra, Rg`: the pitch minus the bytes the row used)"
 llvm = true
 exec = "VO_SKIP"
+asm = "skip"
 entry = "VSKIP"
 entry_seq = 2
 title = "Row advance of one stream of a 2D block"
@@ -56,6 +63,7 @@ wave = "original"
 meaning = "end a block"
 llvm = true
 exec = "VO_VEND"
+asm = "block"
 entry = "VEND"
 entry_seq = 3
 title = "End a vector block"
@@ -68,6 +76,8 @@ wave = "errata 173"
 meaning = "split a block: what follows runs once after the last strip (the epilogue), on the final accumulators"
 llvm = true
 exec = "VO_FIN"
+asm = "fin"
+asm_no2d = true
 entry = "VFIN"
 entry_seq = 4
 title = "End of the strips of a block with accumulators"
@@ -81,6 +91,7 @@ wave = "original"
 meaning = "load a strip, widening on the way in (`vld.<m>[.<lane>]`)"
 llvm = true
 exec = "VO_LD"
+asm = "ld"
 entry = "VLD"
 entry_seq = 25
 title = "Load a strip"
@@ -94,6 +105,7 @@ wave = "original"
 meaning = "store a strip, truncating on the way out (`vst.<lane>[.<m>]`)"
 llvm = true
 exec = "VO_ST"
+asm = "st"
 entry = "VST"
 entry_seq = 26
 title = "Store a strip"
@@ -107,6 +119,7 @@ wave = "original"
 meaning = "narrowing store with clamping; with `#sh` a rounding shift first (the `#sh` form: wave 1)"
 llvm = true
 exec = "VO_STS"
+asm = "st"
 entry = "VST"
 
 [vldt]
@@ -114,6 +127,7 @@ wave = "original"
 meaning = "strided load (one field of an array of structures)"
 llvm = true
 exec = "VO_LDT"
+asm = "ld"
 entry = "VLDT"
 entry_seq = 27
 title = "Strided load and store"
@@ -127,6 +141,7 @@ wave = "original"
 meaning = "strided store"
 llvm = true
 exec = "VO_STT"
+asm = "st"
 entry = "VLDT"
 
 [vlseg2]
@@ -134,6 +149,7 @@ wave = "original"
 meaning = "load 2 interleaved fields into `vD`, `vD+1`"
 llvm = true
 exec = "VO_LSEG"
+asm = "ld"
 entry = "VSEG"
 entry_seq = 28
 title = "Segment load and store"
@@ -147,6 +163,7 @@ wave = "original"
 meaning = "load 3 interleaved fields"
 llvm = true
 exec = "VO_LSEG"
+asm = "ld"
 entry = "VSEG"
 
 [vlseg4]
@@ -154,6 +171,7 @@ wave = "original"
 meaning = "load 4 interleaved fields"
 llvm = true
 exec = "VO_LSEG"
+asm = "ld"
 entry = "VSEG"
 
 [vsseg2]
@@ -161,6 +179,7 @@ wave = "original"
 meaning = "store 2 registers interleaved"
 llvm = true
 exec = "VO_SSEG"
+asm = "st"
 entry = "VSEG"
 
 [vsseg3]
@@ -168,6 +187,7 @@ wave = "original"
 meaning = "store 3 registers interleaved"
 llvm = true
 exec = "VO_SSEG"
+asm = "st"
 entry = "VSEG"
 
 [vsseg4]
@@ -175,6 +195,7 @@ wave = "original"
 meaning = "store 4 registers interleaved"
 llvm = true
 exec = "VO_SSEG"
+asm = "st"
 entry = "VSEG"
 
 [vadd]
@@ -182,6 +203,7 @@ wave = "original"
 meaning = "lane add (wrapping)"
 llvm = true
 exec = "VO_ADD"
+asm = "bin"
 entry = "VADD"
 entry_seq = 5
 title = "Lane add"
@@ -194,6 +216,7 @@ wave = "original"
 meaning = "lane subtract"
 llvm = true
 exec = "VO_SUB"
+asm = "bin"
 entry = "VSUB"
 entry_seq = 6
 title = "Lane subtract"
@@ -206,6 +229,7 @@ wave = "original"
 meaning = "reverse subtract: operand minus `vA`"
 llvm = true
 exec = "VO_SUBR"
+asm = "bin"
 entry = "VSUB"
 
 [vmul]
@@ -213,6 +237,7 @@ wave = "original"
 meaning = "lane multiply, low half"
 llvm = true
 exec = "VO_MUL"
+asm = "bin"
 entry = "VMUL"
 entry_seq = 7
 title = "Lane multiply"
@@ -225,6 +250,7 @@ wave = "original"
 meaning = "bitwise and"
 llvm = true
 exec = "VO_AND"
+asm = "bin"
 entry = "VLOGIC"
 entry_seq = 15
 title = "Lane logic and shifts"
@@ -237,6 +263,7 @@ wave = "original"
 meaning = "bitwise or"
 llvm = true
 exec = "VO_OR"
+asm = "bin"
 entry = "VLOGIC"
 
 [vxor]
@@ -244,6 +271,7 @@ wave = "original"
 meaning = "bitwise exclusive or"
 llvm = true
 exec = "VO_XOR"
+asm = "bin"
 entry = "VLOGIC"
 
 [vshl]
@@ -251,6 +279,7 @@ wave = "original"
 meaning = "shift left"
 llvm = true
 exec = "VO_SHL"
+asm = "bin"
 entry = "VLOGIC"
 
 [vshr]
@@ -258,6 +287,7 @@ wave = "original"
 meaning = "logical shift right"
 llvm = true
 exec = "VO_SHR"
+asm = "bin"
 entry = "VLOGIC"
 
 [vsar]
@@ -265,6 +295,7 @@ wave = "original"
 meaning = "arithmetic shift right"
 llvm = true
 exec = "VO_SAR"
+asm = "bin"
 entry = "VLOGIC"
 
 [vabd]
@@ -272,6 +303,7 @@ wave = "original"
 meaning = "signed absolute difference"
 llvm = true
 exec = "VO_ABD"
+asm = "bin"
 entry = "VMINMAX"
 
 [vabdu]
@@ -279,6 +311,7 @@ wave = "original"
 meaning = "unsigned absolute difference"
 llvm = true
 exec = "VO_ABDU"
+asm = "bin"
 entry = "VMINMAX"
 
 [vmin]
@@ -286,6 +319,7 @@ wave = "original"
 meaning = "signed minimum"
 llvm = true
 exec = "VO_MIN"
+asm = "bin"
 entry = "VMINMAX"
 entry_seq = 14
 title = "Lane minimum, maximum and absolute difference"
@@ -298,6 +332,7 @@ wave = "original"
 meaning = "signed maximum"
 llvm = true
 exec = "VO_MAX"
+asm = "bin"
 entry = "VMINMAX"
 
 [vminu]
@@ -305,6 +340,7 @@ wave = "original"
 meaning = "unsigned minimum"
 llvm = true
 exec = "VO_MINU"
+asm = "bin"
 entry = "VMINMAX"
 
 [vmaxu]
@@ -312,6 +348,7 @@ wave = "original"
 meaning = "unsigned maximum"
 llvm = true
 exec = "VO_MAXU"
+asm = "bin"
 entry = "VMINMAX"
 
 [vmov]
@@ -319,6 +356,7 @@ wave = "original"
 meaning = "move a vector, a scalar register or an immediate to every lane"
 llvm = true
 exec = "VO_MOV"
+asm = "same"
 entry = "VMOV"
 entry_seq = 16
 title = "Lane move and negate"
@@ -331,6 +369,7 @@ wave = "original"
 meaning = "negate"
 llvm = true
 exec = "VO_NEG"
+asm = "same"
 entry = "VMOV"
 
 [vadds]
@@ -338,6 +377,7 @@ wave = "original"
 meaning = "signed saturating add"
 llvm = true
 exec = "VO_ADDS"
+asm = "bin"
 entry = "VADD"
 
 [vsubs]
@@ -345,6 +385,7 @@ wave = "original"
 meaning = "signed saturating subtract"
 llvm = true
 exec = "VO_SUBS"
+asm = "bin"
 entry = "VSUB"
 
 [vaddsu]
@@ -352,6 +393,7 @@ wave = "original"
 meaning = "unsigned saturating add"
 llvm = true
 exec = "VO_ADDSU"
+asm = "bin"
 entry = "VADD"
 
 [vsubsu]
@@ -359,6 +401,7 @@ wave = "original"
 meaning = "unsigned saturating subtract"
 llvm = true
 exec = "VO_SUBSU"
+asm = "bin"
 entry = "VSUB"
 
 [vavg]
@@ -366,6 +409,7 @@ wave = "wave 1"
 meaning = "rounding average `(a + b + 1) >> 1`, signed"
 llvm = true
 exec = "VO_AVG"
+asm = "bin"
 entry = "VAVG"
 entry_seq = 8
 title = "Lane rounding average"
@@ -378,6 +422,7 @@ wave = "wave 1"
 meaning = "rounding average, unsigned"
 llvm = true
 exec = "VO_AVGU"
+asm = "bin"
 entry = "VAVG"
 
 [vmulh]
@@ -385,6 +430,7 @@ wave = "wave 1"
 meaning = "high 16 bits of the 16 x 16 product, signed"
 llvm = true
 exec = "VO_MULH"
+asm = "bin"
 entry = "VMULH"
 entry_seq = 9
 title = "High half and Q15 multiply"
@@ -397,6 +443,7 @@ wave = "wave 1"
 meaning = "high 16 bits of the 16 x 16 product, unsigned"
 llvm = true
 exec = "VO_MULHU"
+asm = "bin"
 entry = "VMULH"
 
 [vmulhr]
@@ -404,6 +451,7 @@ wave = "wave 1"
 meaning = "Q15 rounding multiply, saturating"
 llvm = true
 exec = "VO_MULHR"
+asm = "bin"
 entry = "VMULH"
 
 [vsarr]
@@ -411,6 +459,7 @@ wave = "wave 1"
 meaning = "arithmetic shift right that rounds"
 llvm = true
 exec = "VO_SARR"
+asm = "bin"
 entry = "VROUND"
 entry_seq = 10
 title = "Lane shifts that round"
@@ -423,6 +472,7 @@ wave = "wave 1"
 meaning = "logical shift right that rounds"
 llvm = true
 exec = "VO_SHRR"
+asm = "bin"
 entry = "VROUND"
 
 [vmla]
@@ -430,6 +480,7 @@ wave = "original"
 meaning = "`vD += vA * x` (x a scalar register: original; x a vector: wave 1)"
 llvm = true
 exec = "VO_MLA"
+asm = "bin"
 entry = "VMLA"
 entry_seq = 17
 title = "Integer multiply-add"
@@ -442,6 +493,7 @@ wave = "original"
 meaning = "floating-point `vD += vA * x`"
 llvm = true
 exec = "VO_FMA"
+asm = "bin"
 entry = "VFMA"
 entry_seq = 18
 title = "Floating-point multiply-add"
@@ -455,6 +507,7 @@ wave = "original"
 meaning = "floating-point `vD -= vA * vB`"
 llvm = true
 exec = "VO_FNMA"
+asm = "bin"
 entry = "VFMA"
 
 [vfmab]
@@ -462,6 +515,8 @@ wave = "original"
 meaning = "`vD += vA * broadcast(*Ra)`, `Ra` moved by one element a strip (the micro-kernel; 16-byte strip)"
 llvm = true
 exec = "VO_FMAB"
+asm = "same"
+asm_no2d = true
 entry = "VFMA"
 
 [vdot]
@@ -469,6 +524,7 @@ wave = "original"
 meaning = "each 32-bit lane += the products of 4 bytes (`.b`) or 2 halfwords (`.w`, wave 1)"
 llvm = true
 exec = "VO_DOT"
+asm = "dot"
 entry = "VDOT"
 entry_seq = 19
 title = "Dot product"
@@ -481,6 +537,7 @@ wave = "original"
 meaning = "the same, unsigned bytes"
 llvm = true
 exec = "VO_DOTU"
+asm = "dot"
 entry = "VDOT"
 
 [vdotsu]
@@ -488,6 +545,7 @@ wave = "original"
 meaning = "the same, signed by unsigned bytes"
 llvm = true
 exec = "VO_DOTSU"
+asm = "dot"
 entry = "VDOT"
 
 [vdacc]
@@ -495,6 +553,7 @@ wave = "wave 1"
 meaning = "`Rd +=` the exact sum of the products of all lanes (a dot product reduced to a register)"
 llvm = true
 exec = "VO_DACC"
+asm = "dacc"
 entry = "VDACC"
 entry_seq = 20
 title = "Dot product and sum of absolute differences into a register"
@@ -507,6 +566,7 @@ wave = "wave 1"
 meaning = "`Rd +=` the sum of absolute differences of unsigned bytes"
 llvm = true
 exec = "VO_SAD"
+asm = "dacc"
 entry = "VDACC"
 
 [vtbl]
@@ -514,6 +574,7 @@ wave = "wave 1"
 meaning = "byte lookup in a 16-byte table in memory; 0 for an index of 16 or more (memory form only)"
 llvm = true
 exec = "VO_TBL"
+asm = "tbl"
 entry = "VTBL"
 entry_seq = 21
 title = "Table lookup of bytes"
@@ -526,6 +587,7 @@ wave = "wave 2"
 meaning = "lane compare equal: a mask (all ones or zero)"
 llvm = true
 exec = "VO_CEQ"
+asm = "cmp"
 entry = "VCMP"
 entry_seq = 11
 title = "Lane compare into a mask"
@@ -538,6 +600,7 @@ wave = "wave 2"
 meaning = "lane compare signed greater: a mask"
 llvm = true
 exec = "VO_CGT"
+asm = "cmp"
 entry = "VCMP"
 
 [vcgtu]
@@ -545,6 +608,7 @@ wave = "wave 2"
 meaning = "lane compare unsigned greater: a mask"
 llvm = true
 exec = "VO_CGTU"
+asm = "cmp"
 entry = "VCMP"
 
 [vbsl]
@@ -552,6 +616,7 @@ wave = "wave 2"
 meaning = "bitwise select `(vM & vA) \\| (~vM & vB)`"
 llvm = true
 exec = "VO_BSL"
+asm = "bsl"
 entry = "VBSL"
 entry_seq = 12
 title = "Bitwise select"
@@ -564,6 +629,7 @@ wave = "wave 2"
 meaning = "int32 <-> binary32 conversion (`vcvt.<from>.<to>`)"
 llvm = true
 exec = "VO_CVT"
+asm = "cvt"
 entry = "VCVT"
 entry_seq = 13
 title = "Convert 32-bit lanes between integer and binary32"
@@ -576,6 +642,8 @@ wave = "original"
 meaning = "`Rd +=` the sum of the lanes, `vacc.<src>.<acc>` (the form: errata 168); floating point in the canonical order (errata 174)"
 llvm = true
 exec = "VO_ACC"
+asm = "acc"
+asm_fsum = true
 entry = "VACC"
 entry_seq = 22
 title = "Reduce a vector into a register"
@@ -588,6 +656,7 @@ wave = "original"
 meaning = "`Rd = max(Rd, the largest lane)`"
 llvm = true
 exec = "VO_MAXACC"
+asm = "acc"
 entry = "VACC"
 
 [vminacc]
@@ -595,6 +664,7 @@ wave = "original"
 meaning = "`Rd = min(Rd, the smallest lane)`"
 llvm = true
 exec = "VO_MINACC"
+asm = "acc"
 entry = "VACC"
 
 [vfir]
@@ -602,6 +672,7 @@ wave = "original"
 meaning = "sliding-window multiply-accumulate over `taps` scalar registers"
 llvm = true
 exec = "VO_FIR"
+asm = "same"
 entry = "VFIR"
 entry_seq = 23
 title = "Sliding-window multiply-accumulate"
@@ -614,6 +685,8 @@ wave = "original"
 meaning = "zero `count` registers and name them accumulators (16-byte strip)"
 llvm = true
 exec = "VO_CLR"
+asm = "clr"
+asm_no2d = true
 entry = "VCLR"
 entry_seq = 24
 title = "Zero and name accumulators"

@@ -702,6 +702,7 @@ static int vlane_code(const char *t)				/* the lane of a suffix: size, +0x100 fo
 	}
 	return -1;
 }
+#include "asmvecclass.inc"	/* vclass[]: base mnemonic -> class of the lane-type check, generated from spec/facts/vec.toml (tools/gen-vec-names.py) */
 static int v2in, v2hdr, v2nskip;		/* a 2D block (vec2, errata 176) is open; its header (the vskip words that may follow vec2) is still open; the vskip words so far */
 static int v2regs[8];
 static void vec_typecheck(const struct stmt *st)
@@ -714,7 +715,10 @@ static void vec_typecheck(const struct stmt *st)
 	strcpy(b, w);
 	char *dot = strchr(b, '.');
 	if (dot) { *dot++ = 0; for (char *p = dot; p && nt < 3; ) { tok[nt++] = p; p = strchr(p, '.'); if (p) *p++ = 0; } }
-	if (!strcmp(b, "vskip")) {					/* vskip Ra, Rg: directly after vec2 or another vskip; at most four; Ra not Re, Rn, Rw; Rg is read only (the executor refuses what it cannot order) */
+	const struct vclass *vc = 0;
+	for (size_t i = 0; i < sizeof vclass / sizeof *vclass; i++) if (!strcmp(vclass[i].base, b)) { vc = &vclass[i]; break; }
+	int cls = vc ? vc->cls : VC_NONE;
+	if (cls == VC_SKIP) {					/* vskip Ra, Rg: directly after vec2 or another vskip; at most four; Ra not Re, Rn, Rw; Rg is read only (the executor refuses what it cannot order) */
 		if (final_pass) {
 			if (!v2hdr) err(st->line, "vskip: only directly after vec2 or another vskip (the row advance of a stream of a 2D block)");
 			else if (++v2nskip > 4) err(st->line, "vskip: a 2D block advances at most four streams by a pitch");
@@ -728,7 +732,7 @@ static void vec_typecheck(const struct stmt *st)
 		}
 		return;
 	}
-	if (!strcmp(b, "vec2")) {
+	if (cls == VC_BLOCK2) {
 		for (int i = 0; i < 16; i++) vlane[i] = -1;
 		vwide = 0; vpend_line = 0; v2in = 1; v2hdr = 1; v2nskip = 0;
 		for (int k = 0; k < 8; k++) v2regs[k] = -1;
@@ -744,9 +748,9 @@ static void vec_typecheck(const struct stmt *st)
 		return;
 	}
 	v2hdr = 0;
-	if (v2in && (!strcmp(b, "vclr") || !strcmp(b, "vfmab") || !strcmp(b, "vfin")) && final_pass)
+	if (v2in && vc && (vc->flags & VF_NO2D) && final_pass)
 		err(st->line, "%s: a 2D block (vec2) has no accumulators and no epilogue: its rows are not restarted from the entry of the block", w);
-	if (!strcmp(b, "vec") || !strcmp(b, "vend")) {
+	if (cls == VC_BLOCK) {
 		v2in = 0;
 		/* a floating-point sum is in the canonical order (chunks of 16 bytes of its source lanes: vec-isa.md section 8) only if a strip is a whole number of chunks, that is, if no lane of the block is wider than its source */
 		if (vpend_line && vwide > vpend_sz && final_pass)
@@ -755,14 +759,14 @@ static void vec_typecheck(const struct stmt *st)
 		vwide = 0; vpend_line = 0;
 		return;
 	}
-	if (!strcmp(b, "vfin")) return;
+	if (cls == VC_FIN) return;
 	{							/* the widest lane of the block (the executor's lanemax): the lane of each instruction */
 		int lw = -1;
-		if (!strcmp(b, "vld") || !strcmp(b, "vldt") || !strncmp(b, "vlseg", 5)) lw = vlane_code(nt > 1 ? tok[1] : tok[0]);
-		else if (!strcmp(b, "vcvt")) lw = 4;
-		else if (strcmp(b, "vbsl")) lw = vlane_code(tok[0]);
+		if (cls == VC_LD) lw = vlane_code(nt > 1 ? tok[1] : tok[0]);
+		else if (cls == VC_CVT) lw = 4;
+		else if (cls != VC_BSL) lw = vlane_code(tok[0]);
 		if (lw > 0 && (lw & 0xff) > vwide) vwide = lw & 0xff;
-		if (!strcmp(b, "vacc") && tok[0] && (tok[0][0] == 'f' || tok[0][0] == 'd') && !tok[0][1] && (!vpend_line || (tok[0][0] == 'f' ? 4 : 8) < vpend_sz)) {
+		if (vc && (vc->flags & VF_FSUM) && tok[0] && (tok[0][0] == 'f' || tok[0][0] == 'd') && !tok[0][1] && (!vpend_line || (tok[0][0] == 'f' ? 4 : 8) < vpend_sz)) {
 			vpend_line = st->line; vpend_sz = tok[0][0] == 'f' ? 4 : 8; snprintf(vpend_name, sizeof vpend_name, "%s", w);
 		}
 	}
@@ -770,26 +774,26 @@ static void vec_typecheck(const struct stmt *st)
 	int dst = -1, nseg = 1, wlane = -1, rlane = -1, rd[3] = { -1, -1, -1 }, nrd = 0;
 	int firstv = st->nops > 0 && o[0].kind == OK_VREG;
 	#define RD(k) do { if ((k) < st->nops && o[k].kind == OK_VREG && nrd < 3) rd[nrd++] = o[k].reg; } while (0)
-	if (!strcmp(b, "vld") || !strcmp(b, "vldt") || !strncmp(b, "vlseg", 5)) {		/* .m[.lane]: the register gets the lane (the memory type's own when none) */
+	if (cls == VC_LD) {		/* .m[.lane]: the register gets the lane (the memory type's own when none) */
 		wlane = vlane_code(nt > 1 ? tok[1] : tok[0]);
 		dst = firstv ? o[0].reg : -1;
 		if (!strncmp(b, "vlseg", 5)) nseg = b[5] - '0';
-	} else if (!strcmp(b, "vst") || !strcmp(b, "vstt") || !strcmp(b, "vsts") || !strncmp(b, "vsseg", 5)) {	/* .lane[.m]: the register is read as the lane */
+	} else if (cls == VC_ST) {	/* .lane[.m]: the register is read as the lane */
 		rlane = vlane_code(tok[0]);
 		if (!strncmp(b, "vsseg", 5)) nseg = b[5] - '0';
 		if (firstv) for (int k = 0; k < nseg && nrd < 3; k++) rd[nrd++] = (o[0].reg + k) & 15;
-	} else if (!strcmp(b, "vdot") || !strcmp(b, "vdotu") || !strcmp(b, "vdotsu")) {	/* bytes (vdot.w: 16-bit lanes) in, 32-bit lanes out */
+	} else if (cls == VC_DOT) {	/* bytes (vdot.w: 16-bit lanes) in, 32-bit lanes out */
 		rlane = vlane_code(tok[0]); RD(1); RD(2);
 		wlane = 4; dst = firstv ? o[0].reg : -1;
-	} else if (!strcmp(b, "vdacc") || !strcmp(b, "vsad")) {			/* vdacc.<b|bu|bsu|w> Rd, vA, vB; vsad.bu Rd, vA, vB: both registers are read as the source lanes, the result is a scalar */
+	} else if (cls == VC_DACC) {			/* vdacc.<b|bu|bsu|w> Rd, vA, vB; vsad.bu Rd, vA, vB: both registers are read as the source lanes, the result is a scalar */
 		rlane = vlane_code(tok[0]); RD(1); RD(2);
-	} else if (!strcmp(b, "vceq") || !strcmp(b, "vcgt") || !strcmp(b, "vcgtu")) {		/* wave 2: the operands are read as lanes of the suffix; the mask is an integer lane of the same size (also for .f) */
+	} else if (cls == VC_CMP) {		/* wave 2: the operands are read as lanes of the suffix; the mask is an integer lane of the same size (also for .f) */
 		rlane = vlane_code(tok[0]); RD(1); RD(2);
 		wlane = rlane >= 0 ? (rlane & 0xff) : -1; dst = firstv ? o[0].reg : -1;
-	} else if (!strcmp(b, "vcvt")) {							/* vcvt.<from>.<to>: 32-bit lanes of the source kind in, of the other kind out */
+	} else if (cls == VC_CVT) {							/* vcvt.<from>.<to>: 32-bit lanes of the source kind in, of the other kind out */
 		int ff = tok[0] && !strcmp(tok[0], "f");
 		rlane = ff ? (4 | 0x100) : 4; wlane = ff ? 4 : (4 | 0x100); RD(1); dst = firstv ? o[0].reg : -1;
-	} else if (!strcmp(b, "vbsl")) {							/* vbsl vD, vM, vA, vB: the mask and both operands have the same lane size (the kind is not checked: it is bitwise) */
+	} else if (cls == VC_BSL) {							/* vbsl vD, vM, vA, vB: the mask and both operands have the same lane size (the kind is not checked: it is bitwise) */
 		int sz = -1, rdl = -1;
 		for (int k = 1; k <= 3 && k < st->nops; k++) {
 			if (o[k].kind != OK_VREG || vlane[o[k].reg & 15] < 0) continue;
@@ -802,24 +806,18 @@ static void vec_typecheck(const struct stmt *st)
 		if (firstv && rdl >= 0) vlane[o[0].reg & 15] = rdl;
 		else if (firstv && sz >= 0) vlane[o[0].reg & 15] = sz;
 		return;
-	} else if (!strcmp(b, "vtbl")) {						/* vtbl.b vD, (Ra), vI: bytes in (the index), bytes out (there is no register form: errata 173) */
+	} else if (cls == VC_TBL) {						/* vtbl.b vD, (Ra), vI: bytes in (the index), bytes out (there is no register form: errata 173) */
 		rlane = wlane = 1; RD(2); dst = firstv ? o[0].reg : -1;
-	} else if (!strcmp(b, "vacc") || !strcmp(b, "vmaxacc") || !strcmp(b, "vminacc")) {	/* .src[.acc]: the register is read as the source lanes */
+	} else if (cls == VC_ACC) {	/* .src[.acc]: the register is read as the source lanes */
 		rlane = vlane_code(tok[0]); RD(1);
-	} else if (!strcmp(b, "vclr")) {
+	} else if (cls == VC_CLR) {
 		int lane = vlane_code(tok[0]);
 		struct val n = st->nops > 1 && o[1].x ? eval(o[1].x, st->line) : vconst(0);
 		if (firstv && CONST(n) && lane >= 0) for (int k = 0; k < n.c && k < 16; k++) vlane[(o[0].reg + k) & 15] = lane;
 		return;
-	} else if (!strcmp(b, "vfmab") || !strcmp(b, "vfir")) {
+	} else if (cls == VC_SAME) {			/* vfmab, vfir, vmov, vneg */
 		rlane = wlane = vlane_code(tok[0]); RD(1); dst = firstv ? o[0].reg : -1;
-	} else if (!strcmp(b, "vmov") || !strcmp(b, "vneg")) {
-		rlane = wlane = vlane_code(tok[0]); RD(1); dst = firstv ? o[0].reg : -1;
-	} else if (!strcmp(b, "vadd") || !strcmp(b, "vsub") || !strcmp(b, "vsubr") || !strcmp(b, "vmul") || !strcmp(b, "vmin") || !strcmp(b, "vmax") ||
-	    !strcmp(b, "vminu") || !strcmp(b, "vmaxu") || !strcmp(b, "vabd") || !strcmp(b, "vabdu") || !strcmp(b, "vand") || !strcmp(b, "vor") || !strcmp(b, "vxor") ||
-	    !strcmp(b, "vshl") || !strcmp(b, "vshr") || !strcmp(b, "vsar") || !strcmp(b, "vadds") || !strcmp(b, "vsubs") || !strcmp(b, "vaddsu") || !strcmp(b, "vsubsu") ||
-	    !strcmp(b, "vmla") || !strcmp(b, "vfma") || !strcmp(b, "vfnma") || !strcmp(b, "vavg") || !strcmp(b, "vavgu") || !strcmp(b, "vmulh") || !strcmp(b, "vmulhu") ||
-	    !strcmp(b, "vmulhr") || !strcmp(b, "vsarr") || !strcmp(b, "vshrr")) {
+	} else if (cls == VC_BIN) {
 		rlane = wlane = vlane_code(tok[0]); RD(1); RD(2); dst = firstv ? o[0].reg : -1;
 	} else return;
 	#undef RD
