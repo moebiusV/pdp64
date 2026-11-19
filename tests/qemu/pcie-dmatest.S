@@ -4,7 +4,8 @@
 ;   (3) reads its ID register, writes and reads back its own buffer through the window;
 ;   (4) runs a DMA write (buffer to RAM) and a DMA read (RAM to buffer) and sees the data;
 ;   (5) takes the function's interrupt: pin A of device 2 is routed to pin C (the swizzle, (pin + device) mod 4), vector VECTOR_PCIE_INTC, level IRQ_LEVEL_PCIE.
-; The unit of the IOMMU is not yet configured here: this test is the one of the function itself, so it runs before the unit exists in the machine (the IOMMU tests configure it).
+; The IOMMU of the root complex is blocked at reset (2.11.1): before the DMA the program gives the function an identity mapping of the first gigabyte, one level-A table
+; of three levels with a single 1 GB leaf (the tests iommu-*.S test the unit itself).
 ; Failure: halt with the number of the check in r0.
 #include "pdp64-consts.h"
 	.text
@@ -96,6 +97,23 @@ _start:
 	movq	#10, r0
 	halt
 1:
+	; the IOMMU: the device entry of requester identity 0x10 (bus 0, device 2): V, stage A, three levels, root idp; the directory entry points to the leaf page; two-level mode
+	movq	=MAP_IOMMU, r11
+	movq	#(1<<PTE_V|1<<PTE_R|1<<PTE_W), r1
+	lea	idp, r2
+	movq	r1, (r2)
+	movq	=((1<<IOMMU_DTE_V)|(IOMMU_STAGES_A<<IOMMU_DTE_STAGES)|(3<<IOMMU_DTE_LEVELS_A)), r1
+	lea	leafp, r2
+	movq	r1, 512(r2)		; the entry of index 0x10, 32 bytes each
+	lea	idp, r1
+	movq	r1, 520(r2)
+	lea	leafp, r1
+	bis	#(1<<IOMMU_DIR_V), r1
+	lea	dirp, r2
+	movq	r1, (r2)
+	lea	dirp, r1
+	bis	#IOMMU_MODE_TWO_LEVEL, r1
+	movq	r1, IOMMU_REG_DEVICE(r11)
 	; (4) a DMA write: eight quadwords of the buffer to RAM at `dest`; then a DMA read of `src` into the buffer
 	movq	=0x0101010101010101, r11
 	movq	#0, r10			; the interrupt count
@@ -221,5 +239,9 @@ vtab:
 	.quad	0			; 36: pin B
 	.quad	h_intc			; 37: pin C
 	.space	3792
+	.align	4096
+dirp:	.space	4096
+leafp:	.space	4096
+idp:	.space	4096
 dest:	.space	64
 src:	.quad	0xa0a1a2a3a4a5a6a7, 0xa8a9aaabacadaeaf, 0xb0b1b2b3b4b5b6b7, 0xb8b9babbbcbdbebf
