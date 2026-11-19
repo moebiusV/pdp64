@@ -577,7 +577,7 @@ The modes and exceptions are 6.2 to 6.4 and the multiprocessor instructions are 
 
 **6.14.8** The state of every system register after a reset of a guest is given by one table, kept in step as registers are added, and a guest reset discards that guest's cached translations (6.8.5). *(D)* Details to be determined: the table.
 
-**6.14.9** The hidden state of a vector block is not saved at a world switch. A block that is interrupted restarts from its entry, the hardware keeping a hidden copy of the naming of its accumulators made at the `VEC`, and a strip starts with its registers zero (errata 172, 173). A world switch, and every exception entry, clear the naming of the vector accumulators and any `LL` reservation. *(D)*
+**6.14.9** The hidden state of a vector block is not saved at a world switch. A block that is interrupted restarts from its entry, the hardware keeping a hidden copy of the naming of its accumulators made at the `VEC`, and a strip starts with its registers zero (errata 172, 173). A world switch, every exception entry and every exception return (`RTI`, `RTT`) clear the naming of the vector accumulators and any `LL` reservation, so that what a handler names with a `VCLR` outside a block is not left for the interrupted program. *(D)*
 
 **6.14.10** The first software to use all of this is a small hypervisor of our own, on the QEMU target, with one guest kernel; it is not Linux and not KVM. *(D)*
 

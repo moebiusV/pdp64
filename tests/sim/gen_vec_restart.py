@@ -17,6 +17,8 @@ Each kernel is run (1) with no fault (the reference, also compared with the Pyth
 put in the middle of the strip (half of the strip's elements before it, half after it), so the strip has loaded or computed part of its elements and part of its stores
 would be in the pages that are present when the fault is found.  The handler may run garbage vec blocks (clob 1: all of v0..v15 overwritten; clob 2: also a block with vclr
 accumulators), which stands for the context switch that does not save the hidden registers.
+clob 4: the handler runs `vclr` outside any block (it names accumulators) and returns: the exception return clears the naming, so the restarted block, which is not a block with accumulators,
+is not treated as one (errata 172's open item, errata 186 decision 13).
 clob 3: the handler reads EPC, EVA and ECAUSE only (no pointer, no scalar register, no memory of the block, no vector code), maps the page and returns: what an operating system may rely on (errata 173);
 the restart must still give the result of a run with no fault, at every strip.  kind 3: two streams fault in one block (B at its element 1, A later): the first EVA must be B's whatever the strip.
 The window of the test pages (WIN..WIN+16 MiB) is made of pages that are not present: on QEMU they are not mapped in the page table (the test builds identity tables and enables
@@ -565,6 +567,7 @@ for k in kerns:
     rows.append(build_row(k, k.nom, 1, 'A', 1, clob=1))
     rows.append(build_row(k, k.nom, 1, 'A', 1, clob=2))
     rows.append(build_row(k, k.nom, 1, 'A', 1, clob=3))
+    rows.append(build_row(k, k.nom, 1, 'A', 1, clob=4))
     if k.B and not k.inplace:
         rows.append(build_row(k, k.nom, 3))
     for nm in ('B', 'C', 'T'):
@@ -934,6 +937,14 @@ h_pdone:
 	movq	24(r12), r2
 	cbeq	r2, #0, h_ret
 	cbeq	r2, #3, h_ret
+	cmp	r2, #4
+	bne	h_garb
+; clob 4: the handler names accumulators with vclr OUTSIDE any block (all sixteen registers) and returns: the exception return clears the naming (errata 186 decision 13, 6.14.9;
+; the open item of errata 172), so the restarted block of the interrupted program finds nothing named and gives the result of a run with no fault
+	vclr.l	v0, #8
+	vclr.l	v8, #8
+	br	h_ret
+h_garb:
 ; the context switch that does not save the hidden registers: other blocks overwrite v0..v15 (and name accumulators)
 	lea	gdata, r1
 	lea	gdata+512, r5
