@@ -4,6 +4,7 @@
  *   0x00000000 .. ram_size    RAM (default 128 MiB, -m; at most 256 MiB)
  *   0x8000000000              timer   (kernel-mode machine only; MAP_TIMER)
  *   0x8000001000              console (kernel-mode machine only; MAP_CONSOLE)
+ *   0x8000002000              IOMMU register block (kernel-mode machine only; MAP_IOMMU)
  *   0x8100000000              PCI Express configuration space (ECAM), kernel-mode machine only; MAP_PCIE_ECAM
  *   0x8200000000              PCI Express memory window; MAP_PCIE_MMIO
  *   0x8300000000              PCI Express I/O window; MAP_PCIE_PIO
@@ -114,8 +115,17 @@ static void pdp64_virt_init(MachineState *machine)
             qdev_get_gpio_in(DEVICE(cpu), VECTOR_CONSOLE_IN - VECTOR_IRQ_BASE));
         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 1,
             qdev_get_gpio_in(DEVICE(cpu), VECTOR_CONSOLE_OUT - VECTOR_IRQ_BASE));
-        /* the PCI Express host bridge (errata 194) */
-        pdp64_virt_pcie_init(sysmem, DEVICE(cpu));
+        /* the PCI Express host bridge (errata 194) and the IOMMU at its root, blocked until the kernel sets it up (2.11.1, 2.11.5); its line is VECTOR_IOMMU */
+        {
+            PCIBus *bus = pdp64_virt_pcie_init(sysmem, DEVICE(cpu));
+
+            dev = qdev_new("pdp64-iommu");
+            object_property_set_link(OBJECT(dev), "pci-bus", OBJECT(bus), &error_fatal);
+            sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+            sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, MAP_IOMMU);
+            sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
+                qdev_get_gpio_in(DEVICE(cpu), VECTOR_IOMMU - VECTOR_IRQ_BASE));
+        }
     }
 
     if (machine->kernel_filename) {

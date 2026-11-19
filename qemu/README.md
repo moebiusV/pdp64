@@ -45,6 +45,7 @@ all of tests/qemu, with this option.
 | 0x00000000 .. ram_size      | RAM, default 128 MiB (`-m`, at most 256 MiB)          |
 | 0x8000000000 (4 KB)         | timer (kernel-mode only)    `MAP_TIMER`               |
 | 0x8000001000 (4 KB)         | console (kernel-mode only)  `MAP_CONSOLE`             |
+| 0x8000002000 (4 KB)         | IOMMU register block (kernel-mode only)  `MAP_IOMMU` (errata 194; PROVISIONAL) |
 | 0x8000000000 .. 0x800fffffff | device space, reserved for devices (`MAP_DEV` .. `MAP_DEV_END`) |
 | 0x8100000000 (16 MiB)       | PCI Express configuration space (ECAM, buses 0 to 15), kernel-mode only  `MAP_PCIE_ECAM` (PROVISIONAL) |
 | 0x8200000000 (256 MiB)      | PCI Express memory window (a base address register holds this physical address)  `MAP_PCIE_MMIO` (PROVISIONAL) |
@@ -70,6 +71,25 @@ asserted while counter >= compare and enable; it is level-sensitive, so the hand
 Registers (`CONSOLE_REG_*`): `rxcs` 0, `rxdb` 8, `txcs` 16, `txdb` 24.  `CONSOLE_CSR_READY` (bit 7) and `CONSOLE_CSR_IE` (bit 6) as in the KL11.  Reading `rxdb`
 clears receive READY (one character is buffered; the character device is held back until it is read).  Writing `txdb` sends the byte at once; transmit READY is
 always 1.  Input interrupt: level 4 vector 33 while receive READY and IE; output interrupt: level 4 vector 34 while transmit IE.
+
+## PCI Express, the DMA test function and the IOMMU (kernel-mode machine; errata 194)
+
+The kernel-mode machine has the generic PCI Express host bridge of QEMU (`gpex`, as the Arm and RISC-V virt machines use it) at the provisional addresses above: the configuration
+window (ECAM, one megabyte for each bus, buses 0 to 15; the bridge itself is bus 0, device 0; a 32-bit access reads a register, an empty position reads all ones), the memory window
+(the PCI memory space is the system address space, so a base address register holds the physical address) and the I/O window.  The four interrupt pins are the vectors
+`VECTOR_PCIE_INTA` to `INTD` at level `IRQ_LEVEL_PCIE` (a function in device d, pin A, uses pin (d mod 4)).  Every address is in the rule `map` of `spec/grammars.d/50-system-v1.hbnf`.
+
+`-device pdp64-dmatest` (`hw-pdp64/dmatest.c`) is a PCI function of our own that does DMA through the PCI address space and says what the memory system answered (QEMU's `edu` ignores
+it): registers for a source and a destination device address, a length, start, a status with done and error, the result, an interrupt enable, and a 4 KB buffer that the processor
+reads and writes.  A read that fails sets error and a nonzero result; a posted write has no answer.  Its numbers are the rules `dmatest-*` of `spec/grammars.d/51-iommu-v1.hbnf`.
+
+The IOMMU (`hw-pdp64/iommu.c`, device `pdp64-iommu`, always present in the kernel-mode machine) is one unit at the root complex, attached with `pci_setup_iommu`: QEMU asks it for an
+address space for each function and it answers with an IOMMU memory region whose translate method is the unit (manual 2.11.1 to 2.11.11, `docs/encoding-work/iommu-proposals.md`;
+the numbers are the rules `iommu-*` of the same part).  It is **blocked at reset**.  What the model does and does not do is in `docs/implementation-status.md` (the IOMMU row) and the
+errata 194; the points a reader needs here: the unit's cache (device entries and translations keyed by requester identity, guest tag, domain tag, page and level) is emptied only by the
+commands, a change of the device-table pointer, the reset bit and reset, so a missing invalidate is observable; a refused access goes on to a region that answers it with an error (a read
+gets the error completion, a write is dropped), and is logged once; the commands run synchronously, so a request of a device is never in flight while one runs.  The tests are
+`tests/qemu/iommu-*.S` and `pcie-*.S` (the routines they share are `iommu-lib.inc`, the macros `iommu-lib.h`).
 
 ## The MMU (kernel-mode machine, MMUCTL.enable = 1)
 
@@ -104,4 +124,4 @@ of `struct pdp64_env`:
 ## Deliberately not done
 
 No TCG fast paths (every instruction is a helper call: correctness over speed), no user-mode `qemu-pdp64`, no gdbstub, no disassembler, no migration state (vmstate), no multi-CPU,
-no DMW translation (stored only), no ASID/G, no reset vector (vector 0).
+no DMW translation (stored only), no ASID/G, no reset vector (vector 0), no hypervisor mode (the IOMMU's two levels are tested by a program that plays both roles).
