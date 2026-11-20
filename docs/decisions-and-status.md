@@ -76,8 +76,8 @@
 ### Every security hole and information bleed is prevented and has a test in the corpus
 - Status: TO DO — decided, details to be determined: a standing requirement (latest decision 2026-11-19 \[R523\], errata 200)
 - Decided: 2026-11-19 the owner: "all security holes, information bleeds must be dealt with and prevented, even if only to have it in the corpus of assembler to test that the implementation doesn't have these holes" \[R523\]
-- Evidence: docs/errata.md item 200; tests/sim and tests/qemu hold some of the probes (the audit's, the vector clear tests)
-- Left: the corpus as a body of tests with an index of the holes it covers; the holes of the reviews of errata 198; resume of vector blocks (the owner's choice, errata 200) is to be designed
+- Evidence: docs/errata.md items 200 and 201; docs/security-corpus.md (68 holes indexed: 42 pass, 7 FOUND, 19 N/A); tests/sim/sec-*, tests/qemu/sec-*, tests/sec-open (the probes that find a hole), tools/check-sec.sh \[R524\]
+- Left: the corpus exists and grows with each hole found; the holes it FOUND are not fixed (a guest reset that only rewrites stage 2 keeps cached translations; a device can write another device's registers by DMA; an interrupt between VCLR and VEC changes a result; an in-place accumulator block is wrong after a fault; the record of an aborted block is found by address not context; the kernel's scalar registers and the floating-point flags carry across a return, by design): the owner decides each fix; resume of vector blocks (the owner's choice, errata 200) is to be designed
 
 ### Best of breed first, amended so that the hole closes by construction
 - Status: DONE — a standing principle for every proposal (latest decision 2026-11-19 \[R521\], errata 198)

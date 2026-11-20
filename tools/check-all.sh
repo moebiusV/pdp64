@@ -28,3 +28,6 @@ if [ -x "${PDP64_QEMU:-$(dirname "$PWD")/qemu-build/qemu-system-pdp64}" ]; then
 else
 	echo "check-qemu: skipped (no qemu-system-pdp64; see qemu/README.md)"
 fi
+# the security corpus: the probes that find a hole are reported (not failed); the index must agree with what they find (docs/security-corpus.md)
+sec=$(tools/check-sec.sh --check) || { echo "$sec"; exit 1; }
+echo "$sec" | tail -n 2
