@@ -1,0 +1,618 @@
+#!/usr/bin/env python3
+"""Generate the probes of the security corpus that are programs of regular shape (docs/security-corpus.md; errata 201):
+
+   usage: gen_sec.py OUTDIR      writes every file below into OUTDIR (tests/sim, or tests/sec-open/sim, ...: the caller copies them where the index says)
+
+Every probe exits 0 when the implementation does NOT have the hole it looks for and with the number of the first failed check otherwise (the check list is in the program)."""
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from secgen import *
+
+SYSREGS = ['ptbr', 'epc', 'eva', 'ecause', 'dmw0', 'dmw1', 'usp', 'ssp', 'epsw', 'vbr', 'mmuctl', 'asid', 'cpuid']
+RO = ['eva', 'ecause', 'cpuid']
+OUT = {}
+
+
+def user_case(p, insn_lines, label, expect_vec, sentinel=None):
+    """a case of a user-mode program: the instruction (lines) is at `label`; the handler resumes after it (r13).  Checks: one exception, the vector, EPC, and the sentinel register unchanged"""
+    p.e('\tlea\tN%s, r13' % label)
+    p.e('\tmovq\t=(cnt_base%s), r11' % label if False else '\tmovq\tcnt, r10')
+    for l in insn_lines[:-1]:
+        p.e(l)
+    p.e('%s:' % label)
+    p.e(insn_lines[-1])
+    p.e('N%s:' % label)
+    p.e('\tmovq\tcnt, r11\n\tsub\tr10, r11')
+    p.eq('r11', '1', 'exactly one exception for ' + label)
+    p.e('\tmovq\tlast_cause, r11')
+    p.eq('r11', expect_vec, 'vector of ' + label)
+    p.e('\tlea\t%s, r11\n\tmovq\tlast_epc, r12' % label)
+    p.chk('r12', 'r11', 'EPC of ' + label)
+    if sentinel:
+        p.eq(sentinel, '0x5a5a5a5a5a5a', 'destination of %s unchanged' % label)
+
+
+def gen_user_sysregs():
+    """SEC-P03: every system register and every unassigned number from user mode: privileged (vector 3), the destination unchanged, no effect"""
+    p = Prog(user=True)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
+    for nm in SYSREGS:
+        user_case(p, ['\tmovq\t=0x5a5a5a5a5a5a, r2', '\tmfsr\tr2, %s' % nm], 'r_%s' % nm, 'VECTOR_PRIVILEGED', 'r2')
+    for nm in SYSREGS:
+        if nm in RO:
+            continue
+        user_case(p, ['\tmovq\t=0x5a5a5a5a5a5a, r2', '\tmtsr\t%s, r2' % nm], 'w_%s' % nm, 'VECTOR_PRIVILEGED')
+    # numbers the assembler will not name (read-only registers written, unassigned numbers): a patched copy of mfsr/mtsr in the buffer ubuf
+    for kind, tmpl in (('r', 'tmplr'), ('w', 'tmplw')):
+        for num in ([2, 3, 12] if kind == 'w' else []) + [13, 14, 63, 127, 128, 147, 148, 200, 255]:
+            lab = 'p%s%d' % (kind, num)
+            p.e('\tmovl\t%s, r2\n\tmovq\t=(%d<<16), r3\n\tbis\tr3, r2\n\tlea\tubuf, r4\n\tmovl\tr2, (r4)' % (tmpl, num))
+            p.e('\tlea\tN%s, r13\n\tmovq\tcnt, r10\n\tmovq\t=0x5a5a5a5a5a5a, r2\n\tjmp\tr4' % lab)
+            p.e('N%s:\tmovq\tcnt, r11\n\tsub\tr10, r11' % lab)
+            p.eq('r11', '1', 'one exception for the patched %s of number %d' % ('mfsr' if kind == 'r' else 'mtsr', num))
+            p.e('\tmovq\tlast_cause, r11')
+            p.eq('r11', 'VECTOR_PRIVILEGED', 'a user program gets vector 3 for number %d (it cannot learn which numbers are assigned)' % num)
+    p.done()
+    p.e('\t.align\t4\ntmplr:\tmfsr\tr1, ptbr\ntmplw:\tmtsr\tptbr, r1\n\t.align 4')
+    return ['every system register and every unassigned system-register number, read and written from USER mode (SEC-P03): the privileged-instruction exception (vector 3, EPC the',
+            'instruction, the destination unchanged), the same vector for a number no register has (the program learns nothing about which registers exist).  Failed check n: exit n.'], \
+        p.text() + KHANDLERS + KDATA
+
+
+def gen_user_mtps():
+    """SEC-P04: MTPS from user mode cannot raise the privilege, the priority, the trace bit or the user-access guard"""
+    p = Prog(user=True)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
+    vals = ['0', '0xf', '0x1f', '0xe0', '0x300', '0xc00', '0x1000', '0x1fff', '0xffff', '0xffffffffffffffff', '(7<<PSW_PRI)|(MODE_KERNEL<<PSW_MODE)', '(1<<PSW_UA)|(1<<PSW_T)']
+    for v in vals:
+        p.e('\tmovq\t=(%s), r1\n\tmtps\tr1\n\tmfps\tr5' % v)
+        p.e('\tbic\t#15, r5')
+        p.eq('r5', '(MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)', 'after mtps of %s the mode, previous mode, priority, T and UA are unchanged' % v)
+    # still user mode: a privileged instruction faults
+    p.e('\tlea\tNp, r13\n\tmovq\tcnt, r10')
+    p.e('\tspl\t#3')
+    p.e('Np:\tmovq\tcnt, r11\n\tsub\tr10, r11')
+    p.eq('r11', '1', 'spl #3 still faults after the mtps attempts (the mode was not changed)')
+    p.e('\tmovq\tlast_cause, r11')
+    p.eq('r11', 'VECTOR_PRIVILEGED')
+    # no trace trap came (T was not set): the count of exceptions is exactly the one above
+    p.done()
+    return ['MTPS from USER mode (SEC-P04, audit 3.1 and 3.3): a value with the kernel mode, the priority 7, the trace bit, UA or the reserved bits changes nothing but the four flags: the mode',
+            'is still user (MFPS), a privileged instruction still faults, and no trace exception comes.  Failed check n: exit n.'], p.text() + KHANDLERS + KDATA
+
+
+def gen_eva_stale():
+    """SEC-B02: after an exception that has no address, EVA and ECAUSE do not hold what an earlier exception (another context's) left"""
+    p = Prog(user=True)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
+    p.e('\tlea\tN0, r13\n\tlea\tubuf+1, r2\n\tmovq\t(r2), r3')           # a misaligned load: EVA is the address
+    p.e('N0:\tmovq\tlast_eva, r4')
+    p.e('\tlea\tubuf+1, r5')
+    p.chk('r4', 'r5', 'control: the misaligned load left its address in EVA')
+    p.e('\tmovq\tlast_cause, r4')
+    p.eq('r4', 'VECTOR_MISALIGNED', 'control: vector 4')
+    cases = [('priv', '\tmfcpuid\tr3', 'VECTOR_PRIVILEGED'), ('bpt', '\tbpt', 'VECTOR_BPT'), ('trap', '\ttrap\t#5', 'VECTOR_TRAP_BASE+5'), ('div', '\tmovq\t#0, r2\n\tmovq\t#7, r3\n\tdiv\tr1, r2, r3', 'VECTOR_DIVZERO'),
+             ('ill', '\t.word\t0xffff', 'VECTOR_ILLEGAL')]
+    for nm, ins, vec in cases:
+        p.e('\tlea\tN_%s, r13' % nm)
+        p.e(ins)
+        p.e('N_%s:\tmovq\tlast_eva, r4' % nm)
+        p.e('\tlea\tubuf+1, r5')
+        p.chkne('r4', 'r5', 'EVA after %s is not the stale address of the earlier fault' % nm)
+        p.e('\tmovq\tlast_cause, r4')
+        p.eq('r4', vec, 'ECAUSE after %s is exactly the vector (no stale bit)' % nm)
+        # and a fault of the user-access kind earlier would leave bit 15: not set here
+    p.done()
+    return ['EVA and ECAUSE after an exception that has no address (SEC-B02): a misaligned load leaves its address in EVA; the exceptions that follow (privileged, bpt, trap, divide by zero,',
+            'illegal) must not leave that address (it is another context\'s data) and ECAUSE is the vector exactly.  Failed check n: exit n.'], p.text() + KHANDLERS + KDATA
+
+
+def gen_regs_carry():
+    """SEC-B04 (by design): the kernel's scalar registers r0..r10 and the flags-free registers are visible to the user after RTI"""
+    p = Prog(user=True)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC)
+    for i in range(2, 11):
+        p.e('\tmovq\t=0x5ec0de0000%02x, r%d' % (i, i))
+    p.e(ENTER_USER.replace('\tmovq\t#0, r1\n', '') + 'user:')
+    for i in range(2, 11):
+        p.e('\tmovq\tr%d, r12' % i)
+        p.eq('r12', '0', 'r%d is zero in user mode after RTI (kernel data is not visible)' % i)
+    p.done()
+    return ['The scalar registers across RTI (SEC-B04): the kernel fills r2..r10 with a secret and returns to user mode; the user reads them.  The hardware does not clear or bank r0..r13 (only',
+            'R14 and DP are banked), so the kernel must clear them: this probe FINDS that by design (the same on every ISA); it passes when the hardware clears.  Failed check n: exit n.'], \
+        p.text().replace('\tmovq\t#0, r1\n\trti', '\trti') + KHANDLERS + KDATA.replace('ubuf:', 'ubuf:')
+
+
+def gen_fpsr_carry():
+    """SEC-B05 (by design): the sticky floating-point flags set by one context are visible to the next"""
+    p = Prog(user=True)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
+    p.e('\tmovq\t#0x1f, r1\n\tfsflags\tr1, r2')                        # context A sets all five flags
+    p.e('\ttrap\t#3')                                                    # the kernel "switches" to context B (below)
+    p.e('B:\tmovq\t#0, r1\n\tfsflags\tr1, r2')                           # context B reads and clears them
+    p.eq('r2', '0', 'context B finds the floating-point flags clear (not the flags context A left)')
+    p.done()
+    body = p.text() + KHANDLERS.replace('hgen:', 'h_sw:\tlea\tB, r12\n\tmtsr\tepc, r12\n\trti\nhgen:') + KDATA
+    body = body.replace('\tmovq\tr2, 2056(r1)', '\tmovq\tr2, 2056(r1)\n\tlea\th_sw, r2\n\tmovq\tr2, 2072(r1)')
+    return ['The sticky floating-point flags (fpsr) across a context switch (SEC-B05): user context A sets the five flags and traps; the kernel resumes context B at another address;',
+            'B reads and clears them with fsflags.  The hardware does not clear fpsr at exception entry or return (a swap by software: audit 3.4): this probe FINDS that by design.  Failed check n: exit n.'], body
+
+
+SRC = '\t.long\t1, 2, 3, 4, 10, 20, 30, 40\n\t.long\t100, 200, 300, 400, 1000, 2000, 3000, 4000\n'
+
+
+def zero_check(p, label, nq, what):
+    """fail unless nq quadwords at label are zero"""
+    p.e('\tlea\t%s, r4\n\tmovq\t#%d, r6' % (label, nq))
+    p.e('zc%d:\tmovq\t(r4)+, r5' % (p.n + 1))
+    p.e('\tcbeq\tr5, #0, 1f\n%s\n1:' % p.fail(p.n + 1))
+    p.n += 1
+    p.e('\tsob\tr6, zc%d' % p.n)
+    p.t[-3] = p.t[-3] + '\t; check %d %s' % (p.n, what)
+
+
+def gen_vec_bleed():
+    """SEC-B06: a vector register that the program did not write, and an accumulator named by vclr, hold nothing of another context"""
+    p = Prog(user=True)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC)
+    # the kernel runs a block that leaves values in v3, v5 (an accumulator: vclr then sums) and v9
+    p.e('\tlea\tsrc, r1\n\tlea\tsrc+32, r5\n\tlea\tdst, r3\n\tvec\tr1, r5\n\tvclr.l\tv5, #1\n\tvld.l\tv3, (r1)+\n\tvadd.l\tv5, v5, v3\n\tvadd.l\tv9, v3, v3\n\tvst.l\tv3, (r3)+\n\tvend')
+    p.e(ENTER_USER + 'user:')
+    # control: a block that loads v3 stores it (the block works, the registers are not simply dead)
+    p.e('\tlea\tsrc, r1\n\tlea\tsrc+32, r5\n\tlea\tdst, r3\n\tvec\tr1, r5\n\tvld.l\tv3, (r1)+\n\tvst.l\tv3, (r3)+\n\tvend')
+    p.e('\tlea\tdst, r4\n\tmovq\t(r4), r5\n\tmovq\tsrc_q, r6')
+    p.chk('r5', 'r6', 'control: a loaded register stores what was loaded')
+    for nm, reg in (('v3 (the kernel left data in it)', 'v3'), ('v5 (an accumulator of the kernel)', 'v5'), ('v9 (computed by the kernel)', 'v9')):
+        p.e('\tlea\tdst, r3\n\tmovq\t=0xa5a5a5a5a5a5a5a5, r2\n\tmovq\tr2, (r3)\n\tmovq\tr2, 8(r3)\n\tmovq\tr2, 16(r3)\n\tmovq\tr2, 24(r3)')
+        p.e('\tlea\tsrc, r1\n\tlea\tsrc+32, r5\n\tvec\tr1, r5\n\tvld.l\tv8, (r1)+\n\tvst.l\t%s, (r3)+\n\tvend' % reg)
+        zero_check(p, 'dst', 4, 'a user block stores %s that it never wrote: zero' % nm)
+    # an accumulator named outside a block is zero
+    p.e('\tvclr.l\tv5, #1\n\tlea\tdst, r3\n\tmovq\t=0xa5a5a5a5a5a5a5a5, r2\n\tmovq\tr2, (r3)\n\tmovq\tr2, 8(r3)\n\tmovq\tr2, 16(r3)\n\tmovq\tr2, 24(r3)')
+    p.e('\tlea\tsrc, r1\n\tlea\tsrc+32, r5\n\tvec\tr1, r5\n\tvld.l\tv8, (r1)+\n\tvst.l\tv5, (r3)+\n\tvend')
+    zero_check(p, 'dst', 4, 'an accumulator named by vclr starts at zero, not at the kernel\'s sums')
+    p.done()
+    data = KDATA.replace('ubuf:', 'ubuf:') + '\t.align 8\nsrc_q:\t.quad\t0x0000000200000001\nsrc:\n' + SRC + 'dst:\t.space\t32\n'
+    return ['Vector registers across contexts (SEC-B06; audit 3.4, vec-isa 1): the kernel runs a block that leaves data in v3, a vclr accumulator in v5 and a result in v9; the user, with no',
+            'load of its own, stores v3, v5 and v9 in a block and an accumulator named by vclr: all must be zero (the registers are hidden; none shows another context\'s data).  Failed check n: exit n.'], \
+        p.text() + KHANDLERS + data
+
+
+def vec_two(p):
+    pass
+
+
+def gen_vec_hole_a():
+    """SEC-V01 (FOUND): an interrupt between vclr and vec changes the result of the program"""
+    p = Prog(user=False)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC)
+    # run twice: without and with an exception between the vclr and the vec; the program's result must be the same
+    for k, trap in ((0, False), (1, True)):
+        p.e('\tlea\tdst%d, r3\n\tvclr.l\tv0, #1' % k)
+        if trap:
+            p.e('\tlea\tNx, r13\n\ttrap\t#7\nNx:')
+        p.e('\tlea\tsrc, r1\n\tlea\tsrc+32, r5\n\tvec\tr1, r5\n\tvld.l\tv8, (r1)+\n\tvadd.l\tv0, v0, v8\n\tvst.l\tv0, (r3)+\n\tvend')
+    p.e('\tlea\tdst0, r1\n\tlea\tdst1, r2\n\tmovq\t#4, r3')
+    p.e('cmpl:\tmovq\t(r1)+, r4\n\tmovq\t(r2)+, r5')
+    p.n += 1
+    p.e('\tcbeq\tr4, r5, 1f\n%s\n1:\tsob\tr3, cmpl\t; check %d: the result with an exception between vclr and vec equals the result without' % (p.fail(p.n), p.n))
+    p.e('\tmovq\t#0, r0\n\thalt')
+    # the handler of trap #7 (vector 263) only returns
+    body = p.text().replace('\tlea\tvtab, r1\n\tlea\th_ok, r2', '\tlea\tvtab, r1\n\tlea\th_ok, r2') + KHANDLERS
+    body = body.replace('hgen:', 'h_ret:\trti\nhgen:')
+    body = body.replace('\tmovq\tr2, 2056(r1)', '\tmovq\tr2, 2056(r1)\n\tlea\th_ret, r2\n\tmovq\tr2, 2104(r1)', 1)
+    data = KDATA + '\t.align 8\nsrc:\n' + SRC + 'dst0:\t.space\t32\ndst1:\t.space\t32\n'
+    return ['An exception between VCLR and VEC (SEC-V01; best-of-breed-vector, the accumulator naming across an exception): the same block is run once straight after the vclr and once with an',
+            'exception (a trap whose handler only returns: an interrupt is the same) between them.  A program cannot see an interrupt, so the two results must be equal.  The current rule clears the',
+            'naming at every exception entry and return, so the second run gives plain registers, not running sums: the probe FINDS that.  Failed check n: exit n.'], body + data
+
+
+def gen_vec_inplace(epilogue=False):
+    """SEC-V02 (FOUND): a block with accumulators that reads and writes the same stream repeats the stores of the strips already done when it is restarted after a fault"""
+    p = Prog(user=False)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + FSETUP)
+    # control: an ordinary in-place block across a page boundary (the second page faults): every lane is 1
+    for k, (addr, hidden) in enumerate((('0x800ff0', False), ('0x802ff0', True))):
+        p.e('\tmovq\t=(0x800000+%d), r6\n\tmovzb\t(r6), r7' % (0x2000 * k))          # touch the first page of the pair: it is mapped; the next one faults inside the block
+        p.e('\tmovq\t=(%s), r1\n\tmovq\tr1, r3\n\tadd\t#32, r3\n\tmovq\tcnt, r10' % addr)
+        p.e('\tvec\tr1, r3')
+        if hidden:
+            p.e('\tvclr.l\tv4, #1')
+        p.e('\tvld.l\tv0, 0(r1)\n\tvadd.l\tv1, v0, #1')
+        if hidden:
+            p.e('\tvadd.l\tv4, v4, v1')
+        p.e('\tvst.l\tv1, (r1)+\n\tvend')
+        p.e('\tmovq\tcnt, r11\n\tsub\tr10, r11')
+        p.chkne('r11', '#0', 'the page fault happened (the probe is not vacuous)')
+        p.e('\tmovq\t=(%s), r4\n\tmovq\t#8, r6\n\tmovq\t#0, r8' % addr)
+        p.e('lw%d:\tmovl\t(r4)+, r5\n\tcmp\tr5, #1\n\tbeq\t1f\n\tadd\t#1, r8\n1:\tsob\tr6, lw%d' % (k, k))
+        p.chk('r8', '#0', 'lanes that are not 1 after the %s block' % ('hidden (accumulator)' if hidden else 'ordinary'))
+    p.done()
+    body = p.text() + FHANDLERS + FDATA + ftables()
+    return ['An accumulator block that updates memory in place, restarted after a page fault (SEC-V02; best-of-breed-vector hole B): the block adds 1 to 8 lanes that straddle a page',
+            'boundary.  The ordinary block is the control (all lanes 1).  With a vclr the block restarts from its entry after the fault and adds 1 again to the lanes the first strip had stored:',
+            'half the lanes are 2, silently.  Check 2 numbers: control then accumulator block.  sim64 -K -x 0x800000:0xa00000; on QEMU the same program uses real page tables.'], body
+
+
+def gen_vec_stale_record():
+    """SEC-V03 (FOUND): the record of an aborted block is keyed by the address of the vec, not by the context"""
+    p = Prog(user=False)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + FSETUP)
+    p.e('\tlea\tustack_top, sp')
+    # control: context B alone: dst == src
+    p.e('\tmovq\t#0, r6\n\tlea\tsrcB, r1\n\tlea\tdstB, r3\n\tcall\tF')
+    cmp_ = lambda lab, what: None
+    p.e('\tlea\tsrcB, r1\n\tlea\tdstB, r2\n\tmovq\t#4, r3\n\tmovq\t#0, r8')
+    p.e('cB0:\tmovq\t(r1)+, r4\n\tmovq\t(r2)+, r5\n\tcbeq\tr4, r5, 1f\n\tadd\t#1, r8\n1:\tsob\tr3, cB0')
+    p.chk('r8', '#0', 'control: context B alone computes dst == src')
+    p.e('\tlea\tdstB, r1\n\tmovq\t=0xa5a5a5a5a5a5a5a5, r2\n\tmovq\tr2, (r1)\n\tmovq\tr2, 8(r1)\n\tmovq\tr2, 16(r1)\n\tmovq\tr2, 24(r1)')
+    # context A: the hidden block faults in its second strip (the data straddles the window page); the handler switches to B
+    p.e('\tmovq\t=0x800000, r6\n\tmovzb\t(r6), r7')
+    p.e('\tlea\tBstart, r6\n\tmovq\tr6, redirect')
+    p.e('\tmovq\t#1, r6\n\tmovq\t=0x800ff0, r1\n\tlea\tdstA, r3\n\tcall\tF')
+    p.e('\tmovq\t#97, r0\n\thalt')                                       # not reached: the fault switched away
+    p.e('Bstart:\tlea\tustack_top, sp\n\tmovq\t#0, r6\n\tlea\tsrcB, r1\n\tlea\tdstB, r3\n\tcall\tF')
+    p.e('\tlea\tsrcB, r1\n\tlea\tdstB, r2\n\tmovq\t#4, r3\n\tmovq\t#0, r8')
+    p.e('cB1:\tmovq\t(r1)+, r4\n\tmovq\t(r2)+, r5\n\tcbeq\tr4, r5, 1f\n\tadd\t#1, r8\n1:\tsob\tr3, cB1')
+    p.chk('r8', '#0', 'context B, running the very same vec address after A was aborted, computes dst == src (it inherits nothing of A)')
+    p.done()
+    p.e('\t.align\t2\nF:\tcbeq\tr6, #0, skipclr\n\tvclr.l\tv4, #1\nskipclr:')
+    p.e('\tlea\tsrcB+32, r5\n\tmovq\tr1, r2\n\tadd\t#32, r2\n\tcbeq\tr6, #0, 1f\n\tmovq\tr2, r5\n\tbr\t2f\n1:\tlea\tsrcB+32, r5\n2:')
+    p.e('\tvec\tr1, r5\n\tvld.l\tv8, (r1)+\n\tvadd.l\tv4, v4, v8\n\tvst.l\tv4, (r3)+\n\tvend\n\tret')
+    body = p.text() + FHANDLERS + FDATA + ftables()
+    body = body.replace('l1:\n', 'l1:\n', 1)
+    body += '\t.data\n\t.align\t8\nsrcB:\n' + SRC + 'dstB:\t.space\t32\ndstA:\t.space\t32\n'
+    return ['The hidden record of an aborted block (SEC-V03; best-of-breed-vector hole D): context A runs a block with an accumulator (vclr) at address F, faults in its second strip and is switched',
+            'away; context B then runs the same code at the same address with no vclr.  The record of the aborted block is found by the address of the vec, not by the context, so B\'s block is',
+            'given A\'s accumulator naming and gives running sums instead of a copy.  Check 1 is the control (B alone).  sim64 -K -x 0x800000:0xa00000; QEMU with its tables.'], body
+
+
+HVSETUP = r"""
+	lea	htab, r1
+	mtsr	hvbr, r1
+	lea	xh, r2
+	movq	#512, r3
+hfill:	movq	r2, (r1)+
+	sob	r3, hfill
+	lea	gvtab, r1
+	mtsr	vbr, r1
+	lea	gh, r2
+	movq	#512, r3
+gfill:	movq	r2, (r1)+
+	sob	r3, gfill
+	lea	hstk_top, r14
+"""
+HVTAIL = r"""
+xh:	jmp	r20
+gh:	halt
+	.data
+	.align	8
+htab:	.space	4096
+gvtab:	.space	4096
+hstk:	.space	512
+hstk_top:
+"""
+
+
+def gen_hv_flags():
+    """SEC-B07: the guest's condition flags are not visible to the hypervisor after an exit (its status word has clear flags), and not the other way"""
+    p = Prog(user=False)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + HVSETUP)
+    p.e('\tlea\tg1, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2\n\tlea\tback1, r20\n\tmovq\t#99, r0\n\tgenter')
+    p.e('g1:\tmovq\t#15, r1\n\tmtps\tr1\n\thalt')
+    p.e('back1:\tmfps\tr2\n\tmfsr\tr4, hepsw\n\tmovq\tr4, r5\n\tbic\t#15, r5\n\tsub\tr5, r4')
+    p.eq('r4', '15', 'control: the guest\'s flags (C V Z N set) are saved in HEPSW')
+    p.e('\tmovq\tr2, r3\n\tbic\t#15, r3')
+    p.chk('r2', 'r3', 'the hypervisor\'s own flags are clear after the exit (the guest\'s are not visible)')
+    # the hypervisor sets its flags and enters a guest with clear flags: the guest sees its own
+    p.e('\tmovq\t#15, r1\n\tmtps\tr1\n\tlea\tg2, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2\n\tlea\tback2, r20\n\tgenter')
+    p.e('g2:\tmfps\tr6\n\thalt')
+    p.e('back2:\tmovq\tr6, r7\n\tbic\t#15, r7')
+    p.chk('r6', 'r7', 'the guest starts with the flags of HEPSW (clear), not the hypervisor\'s')
+    p.done()
+    return ['The condition flags across GENTER and an exit (SEC-B07): the guest sets C V Z N and halts (an exit); the hypervisor\'s status word must have clear flags, and the guest\'s are in HEPSW.',
+            'Then the hypervisor sets its own flags and enters a guest whose HEPSW has none: the guest must not see them.  sim64 -H; QEMU hypervisor=on.  Failed check n: exit n.'], p.text() + HVTAIL
+
+
+def gen_restart_scalar():
+    """SEC-R01: a faulting scalar instruction (load or store with auto-increment or auto-decrement, push) leaves no architectural effect: registers, flags and memory as before, EPC the instruction"""
+    p = Prog(user=False)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + FSETUP)
+    p.e('\tlea\tustack_top, sp')
+    SENT = '0x5a5a5a5a5a5a5a5a'
+    cases = [('load (r1)+', 0x810000, '\tmovq\t(r1)+, r3', 0x810008, 0),
+             ('store -(r1)', 0x811008, '\tmovq\tr3, -(r1)', 0x811000, 0x1122334455667788),
+             ('push', 0x812008, '\tpush\tr3', 0x812000, 0x1122334455667788)]
+    for i, (nm, start, ins, final, val) in enumerate(cases):
+        p.e('\tmovq\t=(%s), r3\n\tmovq\t=(%s), r1' % (SENT if val == 0 else hex(val), hex(start)))
+        if nm == 'push':
+            p.e('\tmovq\tr14, r9\n\tmovq\tr1, r14')
+        p.e('\tmovq\t#0, r10\n\tmovq\tr10, cnt\n\tmovq\t#0, r12\n\tmovq\t=0x7777, r4')
+        p.e('\tcmp\tr4, r4')                                              # flags: Z set, C clear
+        p.e('p%d:%s' % (i, ins))
+        p.e('\tmovq\tcnt, r11')
+        p.eq('r11', '1', '%s: one fault' % nm)
+        p.e('\tlea\tp%d, r11\n\tmovq\tlast_epc, r12' % i)
+        p.chk('r12', 'r11', '%s: EPC is the instruction' % nm)
+        want_r1 = start
+        p.e('\tmovq\ths_r1, r12\n\tmovq\t=(%s), r11' % hex(want_r1))
+        p.chk('r12', 'r11', '%s: at the fault the pointer register is as before the instruction' % nm)
+        if nm == 'push':
+            p.e('\tmovq\tr9, r14')
+        p.e('\tmovq\ths_r3, r12\n\tmovq\t=(%s), r11' % (SENT if val == 0 else hex(val)))
+        p.chk('r12', 'r11', '%s: at the fault the other register is as before' % nm)
+        p.e('\tmovq\ths_psw, r12\n\tmovq\tr12, r11\n\tbic\t#15, r11\n\tsub\tr11, r12')
+        p.chk('r12', '#4', '%s: at the fault the flags (EPSW) are as before (only Z set)' % nm)
+        if nm == 'load (r1)+':
+            p.e('\tmovq\t=(%s), r11' % hex(final))
+            p.chk('r1', 'r11', 'load: after the restart the pointer moved once')
+            p.chk('r3', '#0', 'load: the register holds the (zero) memory')
+        elif nm == 'store -(r1)':
+            p.e('\tmovq\t=(%s), r11' % hex(final))
+            p.chk('r1', 'r11', 'store: after the restart the pointer moved once')
+            p.e('\tmovq\t(r1), r12')
+            p.chk('r12', 'r3', 'store: the value is in memory')
+        else:
+            p.e('\tmovq\t=(0x812000), r4\n\tmovq\t(r4), r12')
+            p.chk('r12', 'r3', 'push: the value is in memory once the page is mapped')
+    p.done()
+    body = p.text() + FHANDLERS.replace('h_fault:\n', 'h_fault:\n\tmovq\tr1, hs_r1\n\tmovq\tr3, hs_r3\n\tmfsr\tr12, epsw\n\tmovq\tr12, hs_psw\n', 1) \
+        + FDATA.replace('redirect:\t.quad\t0', 'redirect:\t.quad\t0\nhs_r1:\t.quad\t0\nhs_r3:\t.quad\t0\nhs_psw:\t.quad\t0') + ftables()
+    return ['Precise faults of scalar instructions (SEC-R01): a load with (r1)+, a store with -(r1) and a push whose page is not present (the first touch faults; the handler maps it and returns).  At',
+            'the fault the pointer, the other register and the flags are as before the instruction and EPC is the instruction; after the restart the effect happens once.  sim64 -K -x 0x810000:0x813000',
+            'style window; QEMU with its tables.  Failed check n: exit n.'], body
+
+
+def gen_tlb_mode():
+    """SEC-T01: a translation cached by one mode is not used by the other: a kernel-filled entry of a kernel page does not serve user mode; a user-filled entry of a user page does not serve the kernel with UA clear"""
+    p = Prog(user=False)
+    p.e(HEADER + '#define RWX (1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_A|1<<PTE_D)\n\t.text\n\t.globl\t_start\n_start:' + KVEC)
+    p.e('\tlea\tl2, r1\n\tmtsr\tptbr, r1\n\tmovq\t#1, r1\n\tmtsr\tmmuctl, r1\n\tisync')
+    # kernel touches the kernel-only page (low address): the translation is cached with kernel rights
+    p.e('\tmovq\tkdata, r5')
+    # to user mode at the alias of the code (0x80000000 + the address)
+    p.e('\tmovq\t=0x80000000, r6\n\tlea\tuser, r1\n\tadd\tr6, r1\n\tmtsr\tepc, r1')
+    p.e('\tlea\tustack_top, r1\n\tadd\tr6, r1\n\tmtsr\tusp, r1')
+    p.e('\tmovq\t#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1\n\tmtsr\tepsw, r1\n\trti')
+    p.user = True
+    p.e('user:\tmovq\t=0x80000000, r6')
+    p.e('\tlea\tkdata, r4\n\tsub\tr6, r4')                      # the low (kernel-only) address of kdata
+    p.e('\tlea\tNu1, r13\n\tmovq\tcnt, r10\n\tmovq\t=0x2222, r5')
+    p.e('\tmovq\t(r4), r5')
+    p.e('Nu1:\tmovq\tcnt, r11\n\tsub\tr10, r11')
+    p.eq('r11', '1', 'user mode: a load of a kernel page whose translation the kernel just cached faults')
+    p.e('\tmovq\tlast_cause, r11')
+    p.eq('r11', 'VECTOR_LPROT', 'user mode: it is a load protection fault')
+    p.eq('r5', '0x2222', 'user mode: the kernel page\'s data did not arrive in the register')
+    p.e('\tlea\tudata, r7\n\tmovq\t(r7), r5\n\ttrap\t#2')       # fills the user translation of the user page, then back to the kernel
+    p.user = False
+    p.e('kern2:\tmovq\t=0x80000000, r6\n\tlea\tudata, r7\n\tadd\tr6, r7')
+    p.e('\tlea\tNk, r13\n\tmovq\tcnt, r10\n\tmovq\t=0x2468, r5')
+    p.e('\tmovq\t(r7), r5')
+    p.e('Nk:\tmovq\tcnt, r11\n\tsub\tr10, r11')
+    p.eq('r11', '1', 'kernel mode, UA clear: a load of a user page whose translation user mode just cached faults')
+    p.e('\tmovq\tlast_cause, r11')
+    p.eq('r11', 'VECTOR_LPROT', 'kernel mode: it is a load protection fault')
+    p.eq('r5', '0x2468', 'kernel mode: the register is unchanged')
+    p.done()
+    body = p.text() + KHANDLERS.replace('hgen:', 'h_sw:\tlea\tkern2, r12\n\tmtsr\tepc, r12\n\tmovq\t#0, r12\n\tmtsr\tepsw, r12\n\trti\nhgen:')
+    body = body.replace('\tmtsr\tepc, r13\n\trti\nh_ok', '\tmtsr\tepc, r13\n\trti\nh_ok')
+    body = body.replace('\tlea\th_fail, r2\n\tmovq\tr2, 2056(r1)', '\tlea\th_fail, r2\n\tmovq\tr2, 2056(r1)')
+    data = KDATA + '\t.align\t4096\nl2:\n\t.quad\t0 + RWX\n\t.space\t8\n\t.quad\t0 + RWX|(1<<PTE_U)\n\t.space\t4072\n\t.align\t8\nkdata:\t.quad\t0x1357\nudata:\t.quad\t0x2469\n'
+    body = body.replace('\tmovq\tr2, 2056(r1)\n', '\tmovq\tr2, 2056(r1)\n', 1)
+    return ['A translation cached in one mode is not used in the other (SEC-T01; manual 6.8, 6.10): the kernel loads a kernel-only page, then user mode loads the same address (must fault, vector 10);',
+            'user mode loads a user page (at the alias 0x80000000 of memory), then the kernel with UA clear loads it (must fault).  Failed check n: exit n.'], body.replace('h_fail, r2\n\tmovq\tr2, 2056(r1)', 'h_fail, r2\n\tmovq\tr2, 2056(r1)\n\tlea\th_sw, r2\n\tmovq\tr2, 2064(r1)') + data
+
+
+def gen_hv_reset_inplace(write_mmuctl=False):
+    """SEC-H01 (FOUND): a guest reset in place (same stage-2 root, translation already off, the stage-2 contents rewritten) leaves the guest's cached translations"""
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'qemu', 'hv-stage2.S')).read().split('\n')
+    i = [k for k, l in enumerate(src) if l.startswith('#include')][0]
+    j = [k for k, l in enumerate(src) if '--- T1:' in l][0]
+    pre = '\n'.join(src[i:j]) + '\n'
+    k = [k for k, l in enumerate(src) if l.startswith('xh:')][0]
+    post = '\n'.join(src[k:]) + '\n'
+    p = Prog(user=False)
+    p.n = 200
+    L = []
+
+    def enter(back):
+        L.append('\tlea\tg9, r22\n\tmtsr\thepc, r22\n\tmovq\t#0, r22\n\tmtsr\thepsw, r22\n\tlea\t%s, r20\n\tmovq\t#99, r0\n\tgenter\n%s:' % (back, back))
+    p.e('\tmovq\t=(PHYS(0x40a000)), r25\n\tmovq\t=0xaaaa, r26\n\tmovq\tr26, (r25)')
+    p.e('\tmovq\t=(PHYS(0x40c000)), r25\n\tmovq\t=0xcccc, r26\n\tmovq\tr26, (r25)')
+    p.e('\tlea\ts2l0+80, r25\n\tmovq\t=(PHYS(0x40a000)|LEAF), r26\n\tmovq\tr26, (r25)\n\ttlbia')
+    enter('R1')
+    p.e('\n'.join(L)); L.clear()
+    p.eq('r1', '0xaaaa', 'control: the guest reads the first page')
+    # the hypervisor resets the guest IN PLACE: rewrites the stage-2 entry, writes the guest's MMUCTL as 0 (it is 0), writes GTBR with the same value
+    p.e('\tlea\ts2l0+80, r25\n\tmovq\t=(PHYS(0x40c000)|LEAF), r26\n\tmovq\tr26, (r25)')
+    if write_mmuctl:
+        p.e('\tmovq\t#0, r22\n\tmtsr\tmmuctl, r22')               # the one reset event the architecture has: MMUCTL written as 0 (it is 0: no change)
+    p.e('\tmovq\t#0, r1')
+    enter('R2')
+    p.e('\n'.join(L)); L.clear()
+    p.eq('r1', '0xcccc', 'after the reset in place the guest sees the new stage-2 page, not a cached translation of the old one')
+    p.done()
+    g9 = '\t.align\t8\ng9:\tmovq\t=0x40a000, r13\n\tmovq\t(r13), r1\n\thalt\n'
+    body = pre + '\t.text\n' + p.text() + g9 + post
+    if write_mmuctl:
+        return ['A guest reset in place that writes MMUCTL as 0 (SEC-H01; best-of-breed-mmu-virt hole H1, errata 178): the hypervisor rewrites a stage-2 entry of a guest whose translation is already',
+                'off, writes the guest\'s MMUCTL as 0 (no change of value) and enters the guest again: the guest must see the new page.  The rule of 6.8.4 only requires a discard when the bit changes;',
+                'the model discards on every write, so this passes (a stricter implementation than the rule).  QEMU hypervisor=on only.  Failed check n: exit n (200 and up).'], body
+    return ['A guest reset in place that does nothing but rewrite stage 2 and enter again (SEC-H02; best-of-breed-mmu-virt hole H1, errata 178): the hardware has no guest-reset event that',
+            'discards the guest\'s cached translations (only a change of MMUCTL, the stage-2 root or its enable, a TLBIA or TLBI does), so a hypervisor that forgets the TLBIA leaves the guest',
+            'a translation of the old page: the probe FINDS that.  QEMU hypervisor=on only.  Failed check n: exit n (200 and up).'], body
+
+
+IOMMU_UP = r"""#include "iommu-lib.h"
+	.text
+	.globl	_start
+_start:
+	lea	stk_top, sp
+	lea	vtab, r1
+	mtsr	vbr, r1
+	call	lib_pci_up
+	call	lib_unit_up
+	movq	#0, r30
+	lea	ts_a, r1
+	call	lib_tbl_clear
+	lea	ts_a, r1
+	lea	ts_a, r5
+	call	lib_tbl_init
+	movq	=DTE0(IOMMU_STAGES_A, 3, 0, 0, 0), r1
+	lea	ts_a, r2
+	movq	#0, r3
+	movq	#RID1, r4
+	call	lib_dte
+"""
+
+
+def gen_dma_devspace():
+    """SEC-D01: a device with a mapping onto another device's registers writes them (DMA into device space)"""
+    t = IOMMU_UP
+    t += r"""	; the kernel maps device address 0x1000 onto the page of the timer (a mistake, or a hostile guest's request through a virtual unit): the unit must not let the write reach the timer
+	lea	ts_a, r1
+	movq	#0x1000, r2
+	movq	=(MAP_TIMER|RWL), r3
+	call	lib_map
+	movq	=MAP_TIMER, r13
+	movq	#0, r6
+	movq	r6, TIMER_REG_COMPARE(r13)
+	movq	=DMATEST_MAP_BUFFER, r26
+	add	r12, r26
+	movq	=0x6b6c6d6e6f707172, r27
+	movq	r27, (r26)
+	movq	=(0x1000+TIMER_REG_COMPARE), r1
+	movq	#8, r2
+	call	lib_dma_w
+	movq	TIMER_REG_COMPARE(r13), r6
+	cbeq	r6, #0, 1f
+	movq	#1, r0			; check 1: the DMA write reached the timer's compare register
+	halt
+1:	movq	#0, r0
+	halt
+	.text
+#include "iommu-lib.inc"
+"""
+    return ['DMA into device space (SEC-D01; best-of-breed-iommu-irq-atomics hole H2 and the DMA class): a device whose table maps a device address onto the timer\'s page writes the timer\'s',
+            'compare register through the unit.  The unit translates addresses and checks only R and W; nothing says that a DMA may not reach another device\'s window.  Failed check n: exit n.'], t
+
+
+def gen_dma_nomap():
+    """SEC-D02: a device with no entry (blocked unit) and a device whose mapping was removed reach nothing; no register or memory changes"""
+    t = IOMMU_UP
+    t += r"""	lea	ts_a, r1
+	movq	#0x1000, r2
+	lea	pgd, r3
+	bis	#RWL, r3
+	call	lib_map
+	movq	#0x1010, r1
+	lea	pgd, r2
+	add	#0x10, r2
+	movq	#9, r3
+	call	lib_chk_ok_w		; control: the mapping works
+	; the mapping is removed and the unit told: a stale translation must not be used
+	lea	ts_a, r1
+	movq	#0x1000, r2
+	movq	#0, r3
+	call	lib_map
+	movq	=CMD(IOMMU_OP_INV_ALL, 0, 0, 0), r1
+	movq	#0, r2
+	call	lib_cmd
+	lea	pgd, r4
+	movq	#0, r6
+	movq	r6, 0x10(r4)
+	movq	=DMATEST_MAP_BUFFER, r26
+	add	r12, r26
+	movq	=0x6b6c6d6e6f707172, r27
+	movq	r27, (r26)
+	movq	#0x1010, r1
+	movq	#8, r2
+	call	lib_dma_w
+	lea	pgd, r4
+	movq	0x10(r4), r6
+	cbeq	r6, #0, 1f
+	movq	#1, r0			; check 1: the write reached the page after its mapping was removed and invalidated
+	halt
+1:	movq	#0, r0
+	halt
+	.data
+	.align	4096
+pgd:	.space	4096
+	.text
+#include "iommu-lib.inc"
+"""
+    return ['A device whose mapping was removed (SEC-D02; manual 2.11.7, errata 194): the mapping works (control, check 9 of the library); the entry is cleared, the unit is told (invalidate all),',
+            'and the device writes again: nothing may reach the page.  Failed check n: exit n.'], t
+
+
+def gen_kernel_sysregs():
+    """SEC-U01: system-register numbers no register has, and writes of the read-only registers, from KERNEL mode on a machine with no hypervisor: the illegal-instruction exception, nothing read or written"""
+    p = Prog(user=False)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC)
+    for kind, tmpl in (('r', 'tmplr'), ('w', 'tmplw')):
+        for num in ([2, 3, 12] if kind == 'w' else []) + [13, 14, 63, 127, 128, 129, 147, 148, 200, 255]:
+            lab = 'p%s%d' % (kind, num)
+            p.e('\tmovl\t%s, r2\n\tmovq\t=(%d<<16), r3\n\tbis\tr3, r2\n\tlea\tubuf, r4\n\tmovl\tr2, (r4)' % (tmpl, num))
+            p.e('\tlea\tN%s, r13\n\tmovq\tcnt, r10\n\tmovq\t=0x5a5a5a5a5a5a, r1\n\tjmp\tr4' % lab)
+            p.e('N%s:\tmovq\tcnt, r11\n\tsub\tr10, r11' % lab)
+            p.eq('r11', '1', 'one exception for the patched %s of number %d' % ('mfsr' if kind == 'r' else 'mtsr', num))
+            p.e('\tmovq\tlast_cause, r11')
+            p.eq('r11', 'VECTOR_ILLEGAL', 'number %d is an illegal instruction' % num)
+            p.e('\tlea\tubuf, r11\n\tmovq\tlast_epc, r12')
+            p.chk('r12', 'r11', 'EPC of number %d is the instruction' % num)
+            if kind == 'r':
+                p.eq('r1', '0x5a5a5a5a5a5a', 'the destination register of the read of number %d is unchanged' % num)
+    p.done()
+    p.e('\t.align\t4\ntmplr:\tmfsr\tr1, ptbr\ntmplw:\tmtsr\tptbr, r1\n\t.align 4')
+    return ['System-register numbers that no register has, and writes of the read-only registers (EVA, ECAUSE, CPUID), from KERNEL mode with no hypervisor strap (SEC-U01): each is the',
+            'illegal-instruction exception (vector 2, EPC the instruction), the destination of a read unchanged.  The hypervisor numbers 128 to 147 are unassigned here.  Failed check n: exit n.'], \
+        p.text() + KHANDLERS + KDATA
+
+
+# name, generator, flags (sim64 flags of tests/sim; QEMU ignores -x), where: sim = tests/sim (runs on sim64 and on QEMU), qemu = tests/qemu (QEMU only)
+TESTS = [
+    ('sec-user-sysregs', gen_user_sysregs, '-K', 'sim'),
+    ('sec-kernel-sysregs', gen_kernel_sysregs, '-K', 'sim'),
+    ('sec-user-mtps', gen_user_mtps, '-K', 'sim'),
+    ('sec-eva-stale', gen_eva_stale, '-K', 'sim'),
+    ('sec-regs-carry', gen_regs_carry, '-K', 'sim'),
+    ('sec-fpsr-carry', gen_fpsr_carry, '-K', 'sim'),
+    ('sec-vec-bleed', gen_vec_bleed, '-K', 'sim'),
+    ('sec-vec-clear-interrupt', gen_vec_hole_a, '-K', 'sim'),
+    ('sec-vec-inplace', gen_vec_inplace, '-K -x 0x800000:0xa00000', 'sim'),
+    ('sec-vec-stale-record', gen_vec_stale_record, '-K -x 0x800000:0xa00000', 'sim'),
+    ('sec-hv-flags', gen_hv_flags, '-H', 'sim'),
+    ('sec-restart-scalar', gen_restart_scalar, '-K -x 0x800000:0xa00000', 'sim'),
+    ('sec-tlb-mode', gen_tlb_mode, None, 'qemu'),
+    ('sec-dma-devspace', gen_dma_devspace, None, 'qemu'),
+    ('sec-dma-revoked', gen_dma_nomap, None, 'qemu'),
+    ('sec-hv-reset-mmuctl', lambda: gen_hv_reset_inplace(True), '-H', 'qemu'),
+    ('sec-hv-reset-inplace', gen_hv_reset_inplace, '-H', 'qemu'),
+]
+
+
+# the probes that FIND a hole on the current implementation live in tests/sec-open (run by tools/check-sec.sh, which reports them and exits 0); every other probe is in tests/sim or
+# tests/qemu and is run by tools/check-sim64.sh and tools/check-qemu.sh.  When an implementation stops having a hole its probe moves to tests/sim or tests/qemu (add it to FIXED below).
+OPEN = {'sec-regs-carry', 'sec-fpsr-carry', 'sec-vec-clear-interrupt', 'sec-vec-inplace', 'sec-vec-stale-record', 'sec-hv-reset-inplace', 'sec-dma-devspace'}
+
+
+def main():
+    root = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+    if len(sys.argv) > 1:
+        root = sys.argv[1]
+    for name, fn, flags, kind in TESTS:
+        hdr, body = fn()
+        d = os.path.join(root, 'sec-open' if name in OPEN else '', kind) if name in OPEN else os.path.join(root, kind)
+        os.makedirs(d, exist_ok=True)
+        write(os.path.join(d, name + '.S'), hdr, body)
+        if flags:
+            open(os.path.join(d, name + '.flags'), 'w').write(flags + '\n')
+        if name == 'sec-vec-bleed':
+            open(os.path.join(d, name + '.strips'), 'w').write('16 32 64\n')
+        if name.startswith('sec-dma'):
+            open(os.path.join(d, name + '.qargs'), 'w').write('-device pdp64-dmatest,addr=2\n')
+
+
+if __name__ == '__main__':
+    main()
