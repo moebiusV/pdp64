@@ -25,7 +25,7 @@ fill:	movq	r2, (r1)+
 	mtsr	hepsw, r2
 	lea	back1, r20
 	movq	#99, r0			; a HALT of the guest that stops the machine ends the run with a status that is not 0
-	genter
+	genter	#RTIMASK_ALL
 loop:	add	#1, r1
 loop2:	br	loop
 back1:
@@ -94,7 +94,7 @@ got:	spl	#7
 	mtsr	hepsw, r2
 	lea	back3, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g3:	wfe
 g3e:	halt
 back3:
@@ -117,7 +117,7 @@ xh:	jmp	r20
 hh:	mfsr	r6, hcause		; the hypervisor's own interrupt handler
 	mfsr	r7, hexitr
 	add	#1, r10
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 htab:	.space	4096

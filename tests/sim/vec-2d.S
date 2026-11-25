@@ -212,7 +212,7 @@ h_fl:	movq	r3, r5
 	movb	r5, (r3)+
 	sob	r4, h_fl
 	popm	#0x3fff
-	rti
+	rti	#RTIMASK_ALL
 
 	.align 2
 k_sad:

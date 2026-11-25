@@ -108,7 +108,7 @@ h_irq:	mfps	r12
 	add	#1, r10
 	mul	#100, r15
 	add	r8, r15
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

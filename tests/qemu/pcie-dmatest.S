@@ -227,7 +227,7 @@ h_intc:	movq	#VECTOR_PCIE_INTC, r8
 	movq	r9, DMATEST_REG_IRQ(r12)	; the handler turns the interrupt off (the line stays up while done is set and enable is set)
 	movq	#(1<<DMATEST_STATUS_DONE), r9
 	movq	r9, DMATEST_REG_STATUS(r12)
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

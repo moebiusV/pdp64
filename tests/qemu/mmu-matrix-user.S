@@ -18,7 +18,7 @@ _start:
 	mtsr	epc, r1
 	movq	#(MODE_USER<<PSW_MODE), r1
 	mtsr	epsw, r1
-	rti
+	rti	#RTIMASK_ALL
 user:
 	movq	#0, r4
 	movq	#0, r10
@@ -14771,7 +14771,7 @@ h_gen:	mfps	r12
 	add	#1, r10
 	cbeq	r4, #0, 1f
 	mtsr	epc, r4
-1:	rti
+1:	rti	#RTIMASK_ALL
 h_ok:	movq	#0, r0
 h_fail:	halt
 	.data

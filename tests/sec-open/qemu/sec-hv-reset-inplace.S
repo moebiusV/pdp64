@@ -156,7 +156,7 @@ fill2:	movq	r22, (r1)+
 	mtsr	hepsw, r22
 	lea	R1, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 R1:
 	movq	=(0xaaaa), r17
 	cbeq	r1, r17, 1f	; check 201 control: the guest reads the first page
@@ -173,7 +173,7 @@ R1:
 	mtsr	hepsw, r22
 	lea	R2, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 R2:
 	movq	=(0xcccc), r17
 	cbeq	r1, r17, 1f	; check 202 after the reset in place the guest sees the new stage-2 page, not a cached translation of the old one

@@ -39,7 +39,7 @@ h_irq:	mfps	r12
 	mfsr	r7, epsw
 	mfsr	r8, ecause
 	add	#1, r10
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

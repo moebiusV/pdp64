@@ -32,7 +32,7 @@ fill2:	movq	r2, (r1)+
 	movq	#0, r10
 	movq	#0, r11
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 guest:	nop
 	nop
 	halt
@@ -57,7 +57,7 @@ xh:	mfsr	r20, hexitr
 	cbeq	r21, #0, 2f
 	movq	#4, r0
 	halt
-2:	genter				; HEPC and HEPSW are as the exit left them
+2:	genter	#RTIMASK_ALL	; HEPC and HEPSW are as the exit left them
 1:	cbeq	r20, #XCODE_HALT, 1f
 	movq	#5, r0
 	halt
@@ -78,7 +78,7 @@ xh:	mfsr	r20, hexitr
 	halt
 gh:	add	#1, r11
 	mfsr	r12, ecause
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 htab:	.space	4096

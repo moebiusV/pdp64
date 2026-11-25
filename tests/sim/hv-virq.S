@@ -35,7 +35,7 @@ next:	movq	(r26)+, r1
 	mtsr	epc, r1
 	mtsr	gecause, r1
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 xh:	mfsr	r22, hexitr
 	mfsr	r20, virq
 	movq	#0x7e57, r21
@@ -54,7 +54,7 @@ gh:	mfsr	r20, ecause
 	movq	r21, (r28)+
 	movq	r22, (r28)+
 	movq	r23, (r28)+
-	rti
+	rti	#RTIMASK_ALL
 	.align	2
 c0:
 c0a0:
@@ -212,7 +212,7 @@ cases:
 	.quad	c12, 0xe0, 0x8, 0xfffac896644021, 0x0		; window/spl3-masks3
 	.quad	c13, 0xf00, 0x10, 0xfffac896644021, 0x2		; user
 	.quad	c14, 0xe0, 0x8, 0xfffac896644021, 0x0		; wfe/masked
-	.quad	c15, 0x0, 0x20, 0xfffa1096644021, 0x0		; badvec
+	.quad	c15, 0x0, 0x20, 0xfffa0096644021, 0x0		; badvec
 	.quad	c16, 0x0, 0x4, 0xfffac896644021, 0x0		; twice
 exp:
 	.quad	33, c0a0, 0x0, 0xe0

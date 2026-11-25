@@ -130,7 +130,7 @@ progress is held in Rd, Rs and Rn; an interrupt or a fault restarts the instruct
       '''AES counter mode over the Rn bytes at (Rs), written at (Rd); the key, the counter and the number of rounds are in the parameter block at (Rp)
 progress is held in the registers and the parameter block; an interrupt or a fault restarts the instruction where it stopped''', NOFLAGS, MEMX, '9.11',
       notes='*(P)* Stage 2, as `MSHA`; the layout of the parameter block is not specified. **Not implemented** in the reference executor.'),
-    X('SYSPG', 'system', ['syspg3', 'syspg4', 'syspg5'], 'Reserved system words', ['SYSPG3 ... SYSPG5'],
-      '''none: the three words are reserved''', NOFLAGS, 'Not specified. The reference executor traps them as unimplemented instructions.', '9.14',
-      notes='*(S)* Placeholders. The grammars reserve three system words (there were six; the first two became `STUA` and `CLUA`, and the third `GENTER`) for the page-bit mechanisms that I approved to be specified (landing pads gated by a page bit, the `SYS` page bit), which `docs/retire-stage-candidates.md` describes as needing no opcode; no text of the repository gives these words a meaning, and software must not use them.'),
+    X('SYSPG', 'system', ['syspg0', 'syspg1', 'syspg2', 'syspg3', 'syspg4', 'syspg5'], 'Reserved system words', ['SYSPG0 ... SYSPG5'],
+      '''none: the six words are reserved''', NOFLAGS, 'Not specified. The reference executor traps them as unimplemented instructions.', '9.14',
+      notes='Placeholders. `SYSPG0`, `SYSPG1` and `SYSPG2` are the two-byte words that `RTI`, `RTT` and `GENTER` had before they took a mask: those three are now six-byte instructions, and the old words are reserved so that no return to a lesser mode exists without a mask. The other three are reserved for the page-bit mechanisms that I approved to be specified (landing pads gated by a page bit, the `SYS` page bit), which `docs/retire-stage-candidates.md` describes as needing no opcode. No text of the repository gives these words a meaning, and software must not use them.'),
 ]

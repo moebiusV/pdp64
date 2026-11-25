@@ -15,7 +15,7 @@ _start:
 	mtsr	epc, r1
 	movq	#((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)|1<<PSW_T), r1
 	mtsr	epsw, r1
-	rti
+	rti	#RTIMASK_ALL
 tgt:
 	add	#1, r2
 tr2:
@@ -46,7 +46,7 @@ tr4:
 	mtsr	epc, r1
 	movq	#((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), r1
 	mtsr	epsw, r1
-	rtt
+	rtt	#RTIMASK_ALL
 tgt2:
 	add	#1, r3
 t22:
@@ -88,7 +88,7 @@ h_trace:	movq	r7, r8
 	mfsr	r9, epsw
 	bic	#(1<<PSW_T), r9
 	mtsr	epsw, r9
-1:	rti
+1:	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

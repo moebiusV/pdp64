@@ -3,5 +3,5 @@
 	isync
 	stua
 	clua
-	genter
+	genter #0
 	syspg3

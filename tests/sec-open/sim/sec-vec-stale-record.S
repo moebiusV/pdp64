@@ -134,8 +134,8 @@ h_fault:
 	mtsr	epc, r12
 	movq	#0, r12
 	movq	r12, redirect
-1:	rti
-h_trap:	rti
+1:	rti	#RTIMASK_ALL
+h_trap:	rti	#RTIMASK_ALL
 h_bad:	movq	#99, r0
 	halt
 h_ok:	movq	#0, r0

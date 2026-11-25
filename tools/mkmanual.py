@@ -53,14 +53,14 @@ OPGROUP = dict(SPEC['opgroup'])                    # lea 0x0B, besc 0x0C ... sob
 KIND = {'mn-ext': 'ext', 'mn-mov': 'mem', 'mn-movz': 'mem', 'mn-lea': 'mem', 'mn-alu': 'mem', 'mn-branch': 'br', 'mn-cbranch': 'cb',
         'mn-sob': 'sob', 'mn-tag': 'tag', 'mn-sop': 'sop', 'mn-xfer': 'xfer', 'mn-besc': 'besc', 'mn-mblk': 'mblk',
         'mn-aesc': 'aesc', 'mn-fesc': 'fesc', 'mn-atom': 'atom', 'mn-mesc': 'mesc', 'mn-sys-none': 'sysn',
-        'mn-sysx': 'sysx', 'mn-sysreg': 'sysreg', 'mn-sys': 'sys', 'subop': 'aesc'}
+        'mn-sysx': 'sysx', 'mn-tlbx': 'tlbx', 'mn-sysreg': 'sysreg', 'mn-sys': 'sys', 'subop': 'aesc'}
 GROUPNAME = {'ext': 'Added by the prefix-coded encoding', 'mem': 'Moves, address formation and the ALU', 'br': 'Branches', 'cb': 'Branches', 'sob': 'Branches',
              'tag': 'Branches', 'sop': 'Single operand (SOP)', 'xfer': 'Indirect transfers (XFER)', 'besc': 'Bits and fields (BESC)',
              'mblk': 'Block memory (MBLK)', 'aesc': 'Arithmetic (AESC)', 'fesc': 'Floating point (FESC)',
-             'atom': 'Atomics (ATOM)', 'mesc': 'Memory escape (MESC)', 'sysn': 'System (SYS)', 'sysx': 'System (SYS)',
+             'atom': 'Atomics (ATOM)', 'mesc': 'Memory escape (MESC)', 'sysn': 'System (SYS)', 'sysx': 'System (SYS)', 'tlbx': 'System (SYS)',
              'sysreg': 'System (SYS)', 'sys': 'System (SYS)'}
 ESC_OPC = {'besc': 'besc', 'mblk': 'mblk', 'aesc': 'aesc', 'mesc': 'mesc', 'fesc': 'fesc', 'atom': 'atom', 'xfer': 'xfer',
-           'sop': 'sop', 'sys': 'sys', 'sysn': 'sys', 'sysx': 'sys', 'sysreg': 'sys', 'tag': 'tag', 'sob': 'sob'}
+           'sop': 'sop', 'sys': 'sys', 'sysn': 'sys', 'sysx': 'sys', 'tlbx': 'sys', 'sysreg': 'sys', 'tag': 'tag', 'sob': 'sob'}
 
 
 def mnemonics():
@@ -437,7 +437,7 @@ for _i in 'BCC SOB CBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md
 for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', '9.11')
 for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FHALF FCVTH'.split(): HOME[_i] = ('09-isa.md', '9.12')
 for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', '9.13')
-for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT STUA GENTER MFSR MTPS SPL TRAP TLBI MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', '9.14')
+for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT STUA GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', '9.14')
 
 
 for _i in 'MOV2 MOVQL MOVD MOVUSER MOVUSERD'.split(): HOME[_i] = ('09-isa.md', '9.6')

@@ -1,2 +1,2 @@
 	.text
-	genter #1
+	genter

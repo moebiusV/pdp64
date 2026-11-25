@@ -54,7 +54,7 @@ _start:
 	mtsr	epc, r1
 	movq	#(MODE_USER<<PSW_MODE), r1		; priority 0: the timer can interrupt the user
 	mtsr	epsw, r1
-	rti
+	rti	#RTIMASK_ALL
 
 ; ---- the handlers ----
 h_exit:	halt					; exit(r0)
@@ -78,7 +78,7 @@ h_write:					; write(r1 = buffer, r2 = length); the entry has set the priority t
 	spl	#7
 	popm	#0x3E
 	popx
-	rti
+	rti	#RTIMASK_ALL
 h_pf:						; a page fault: the user's region maps a fresh page; anything else ends the machine
 	pushx
 	pushm	#0x0E				; r1..r3
@@ -103,7 +103,7 @@ h_pf:						; a page fault: the user's region maps a fresh page; anything else en
 	spl	#7
 	popm	#0x0E
 	popx
-	rti
+	rti	#RTIMASK_ALL
 kill:	movq	#99, r0
 	halt
 h_timer:					; level 6: counts a tick and sets the next compare.  EPC and EPSW are not touched by anything that can interrupt it (it runs at priority 6).
@@ -116,7 +116,7 @@ h_timer:					; level 6: counts a tick and sets the next compare.  EPC and EPSW a
 	add	#1, r2
 	movq	r2, ticks
 	popm	#0x06
-	rti
+	rti	#RTIMASK_ALL
 
 ; ---- the user program (at the alias address) ----
 user:

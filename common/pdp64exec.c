@@ -419,10 +419,23 @@ static void enter(int vector, uint64_t epc, uint64_t eva)
 	pc = target;
 	C->entered = 1;
 }
-/* The entry into a guest: GENTER (design 2.2).  Legal at H = 1 only; at H = 0 (a guest used it) an exit, code 18; with no hypervisor an illegal instruction.  A reserved mode in HEPSW is an illegal instruction
-   and nothing changes.  It includes an ISYNC (the earlier writes to PTBR, MMUCTL, ASID, VBR, GTBR and HTRAP take effect for what follows); then PSW := HEPSW, the hypervisor's bank is put away and the guest's
-   loaded, PC := HEPC, H := 0, and the naming of the vector accumulators is cleared (the world switch, errata 186 decision 13). */
-static void genter(void)
+/* The mask of a return to a lesser mode and of GENTER (manual 6.3.5, 6.14.9; docs/encoding-work/rejudge-holes-rti-resume-hv.md A8, A12): bit n of the mask keeps Rn, n = 0 to 31 except 14; every register
+   whose bit is zero is cleared in the same step as the return.  R14 is the stack pointer of the mode returned to and is never cleared, so bit 14 names the vector registers and the floating-point flags
+   instead: zero clears the sixteen vector registers, the naming of the accumulators and the flags in FPSR.  The caller has made every check that could refuse the instruction: nothing is cleared by an
+   instruction that does not return. */
+static void clear_unkept(uint32_t keep)
+{
+	for (int n = 0; n < 32; n++) if (n != 14 && !(keep >> n & 1)) r[n] = 0;
+	if (!(keep >> RTIMASK_VECTOR & 1)) { memset(C->vr, 0, sizeof C->vr); C->vacc = 0; fpsr = 0; }
+}
+/* the rank of a mode for "a lesser mode": kernel above supervisor above user (the field values are 0, 1 and 3) */
+static int mode_rank(int mode) { return mode == MODE_KERNEL ? 2 : mode == MODE_SUPERVISOR ? 1 : 0; }
+
+/* The entry into a guest: GENTER #mask (design 2.2).  Legal at H = 1 only; at H = 0 (a guest used it) an exit, code 18; with no hypervisor an illegal instruction.  A reserved mode in HEPSW is an illegal
+   instruction and nothing changes.  It includes an ISYNC (the earlier writes to PTBR, MMUCTL, ASID, VBR, GTBR and HTRAP take effect for what follows); then PSW := HEPSW, the hypervisor's bank is put away and
+   the guest's loaded, PC := HEPC, H := 0, the naming of the vector accumulators is cleared (the world switch, errata 186 decision 13), and the registers the mask does not keep are cleared: a guest is always
+   a lesser mode than the hypervisor. */
+static void genter(uint32_t keep)
 {
 	if (!C->hve) die("illegal instruction", 0);
 	priv();
@@ -433,8 +446,24 @@ static void genter(void)
 	pdp64_set_psw(C, (unsigned)C->hepsw);
 	pc = C->hepc;
 	C->vacc = 0;
+	clear_unkept(keep);
 	C->wait = 0;
 	C->entered = 1;									/* the trace trap of the hypervisor's own T is not taken after it */
+}
+
+/* TLBIAS rN and TLBIGP rN (manual 6.8.3, 6.16.22).  TLBIAS is privileged and exits to the hypervisor under the same bit of HTRAP as TLBI; TLBIGP is the hypervisor's: an exit (code 18) at H = 0, illegal with no hypervisor. */
+static void tlbx(int which, uint64_t v)
+{
+	if (which == MN_TLBX_TLBIGP) {
+		if (!C->hve) die("illegal instruction", 0);
+		priv();
+		if (!C->h) { hexit(XCODE_HVREG, 0, VECTOR_HEXIT, pc, 0, 0, C->cur_insn); return; }
+		E->tlb(E->u, PDP64_TLB_GPA, v);
+		return;
+	}
+	priv();
+	if (gtrap(HTRAP_TLBI, XCODE_TLB)) return;
+	E->tlb(E->u, PDP64_TLB_ASID, v & 0xffff);
 }
 
 /* MFSR and MTSR of a hypervisor register (numbers 128 to 147) at H = 1.  HTRAP takes only its defined bits (a one in a reserved bit is an illegal instruction); the read-only registers refuse a write; GEVA and
@@ -443,7 +472,7 @@ static void hv_sysreg(int write, unsigned num, int rd)
 {
 	uint64_t *sr, mask = ~(uint64_t)0, v;
 	switch (num) {
-	case SYSREG_HTRAP: sr = &C->htrap; break;
+	case SYSREG_HTRAP: sr = &C->htrap; mask = HTRAP_VALID; break;
 	case SYSREG_HEXITR: sr = &C->hexitr; break;
 	case SYSREG_HEPC: sr = &C->hepc; break;
 	case SYSREG_HEPSW: sr = &C->hepsw; mask = PSW_VALID; break;
@@ -468,11 +497,15 @@ static void hv_sysreg(int write, unsigned num, int rd)
 	if (!write) { r[rd] = *sr; return; }
 	if (SYSREG_READONLY(num) && num != SYSREG_CPUID) die("illegal instruction", 0);
 	v = r[rd];
-	if (num == SYSREG_HTRAP && (v & ~(uint64_t)HTRAP_VALID)) die("illegal instruction", 0);	/* a one in a reserved bit: the software probes, an old version never ignores a request to trap */
-	v &= mask;
+	if (v & ~mask) die("illegal instruction", 0);					/* a one in an unused bit is refused where it is made (the software probes; an old version never ignores a request to trap); such a bit reads zero */
+	if (num == SYSREG_VIVEC) for (int l = 0; l < VIRQ_LINES; l++) {			/* a vector below 32 is no interrupt vector (6.3.6): refused at once, not found when the line is raised; zero is "no vector" */
+		unsigned vec = (unsigned)(v >> (VIRQ_VEC_WIDTH * l) & ((1u << VIRQ_VEC_WIDTH) - 1));
+		if (vec != 0 && vec < 32) die("illegal instruction", 0);
+	}
 	if (num == SYSREG_GTBR) {
 		uint64_t old = C->gtbr;
 		*sr = v;
+		fpsr = 0;									/* the floating-point flags belong to the process: a write of the guest tag or root clears them (the kernel restores the incoming one's) */
 		if ((v ^ old) & (GTBR_VALID & ~((((uint64_t)1 << GTBR_WIDTH_TAG) - 1) << GTBR_TAG))) E->tlb(E->u, PDP64_TLB_GTBR, v);	/* a new root or enable discards every translation of the tag written (rule G-c) */
 		else if (v != old) E->tlb(E->u, PDP64_TLB_SYNC, 0);									/* only the tag changed: nothing is discarded, the host's own buffer must not serve the old tag */
 		return;
@@ -608,19 +641,23 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 			case MN_SYS_NONE_BPT:
 				if (C->deliver && !C->standin) { if (gtrap(HTRAP_BPT, XCODE_BPT)) return; enter(VECTOR_BPT, pc, 0); return; }
 				die("breakpoint", 0);
-			case MN_SYS_NONE_RTI: case MN_SYS_NONE_RTT: {					/* PC from EPC, PSW from EPSW (rtt: and T set after the return); at H = 1 from HEPC and HEPSW (design 1.2 rule 3) */
+			case MN_SYS_NONE_RTI: case MN_SYS_NONE_RTT: {					/* RTI #mask, RTT #mask: PC from EPC, PSW from EPSW (rtt: and T set after the return); at H = 1 from HEPC and HEPSW (design 1.2 rule 3).
+											   The mask names the registers that keep their values when the return is to a lesser mode (clear_unkept); to the same mode it is ignored; there is no form without it */
 				uint64_t xpc = C->h ? C->hepc : C->epc, xpsw = C->h ? C->hepsw : C->epsw;
+				int lesser;
 				priv();
 				if (psw_bad(xpsw)) die("rti: reserved mode in epsw", 0);
+				lesser = mode_rank((int)(xpsw >> PSW_MODE & 3)) < mode_rank(MODE);
 				pc = xpc; pdp64_set_psw(C, (unsigned)xpsw);
 				C->vacc = 0;								/* the return clears the naming too: what a handler named with a vclr outside a block is not left for the interrupted program (errata 172) */
+				if (lesser) clear_unkept(f.n);
 				if (f.low == MN_SYS_NONE_RTT) C->psw |= 1u << PSW_T;
 				return;
 			}
 			case SYS_MINOR_SYSX: {								/* the SYSX escape: pushx, popx, isync, hint */
 				uint64_t a;
 				if (f.shape != FS_SYSX) die("illegal instruction", 0);
-				if (f.sub == MN_SYSX_GENTER) { genter(); return; }				/* the entry into a guest (errata 195, 196; design 2.2) */
+				if (f.sub == MN_SYSX_GENTER) { genter(f.n); return; }				/* the entry into a guest (errata 195, 196; design 2.2), with its mask (f.n) */
 				if (f.sub == MN_SYSX_HINT) { if (f.n == 1 && gtrap(HTRAP_PAUSE, XCODE_PAUSE)) return; return; }	/* hint #n: not privileged, no flags, no effect, whatever n is (0 nop, 1 pause, 2 speculation barrier, the rest reserved) */
 				if (f.sub == MN_SYSX_ISYNC) {							/* isync: earlier writes to PTBR, ASID, MMUCTL, VBR and earlier ICINVs take effect for what follows.  Not privileged
 											   (errata 190): those writes are privileged themselves, so it gives a program no power.  The architecture promises
@@ -690,7 +727,10 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 				else if (SYSREG_READONLY(f.sub)) die("illegal instruction", 0);	/* read only */
 				else {
 					tmp = r[f.rd] & mask;
-					if (f.sub == SYSREG_ASID || f.sub == SYSREG_MMUCTL || f.sub == SYSREG_PTBR) { *sr = tmp; E->tlb(E->u, PDP64_TLB_ALL, 0); }
+					if (f.sub == SYSREG_ASID || f.sub == SYSREG_MMUCTL || f.sub == SYSREG_PTBR) {
+						*sr = tmp; E->tlb(E->u, PDP64_TLB_ALL, 0);
+						if (f.sub != SYSREG_MMUCTL) fpsr = 0;			/* the floating-point flags belong to the process: a write of the address-space number or the table base clears them (6.8.4) */
+					}
 					else *sr = tmp;
 				}
 				return;
@@ -729,7 +769,7 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 			r[f.rd] = E->probe(E->u, r[f.low], cls == MN_SYS_PROBEW, (int)(C->psw >> PSW_PREV & 3));
 			return;
 		case MN_SYS_TLBI: priv(); if (gtrap(HTRAP_TLBI, XCODE_TLB)) return; E->tlb(E->u, PDP64_TLB_PAGE, r[f.low]); return;
-		case MN_SYS_MTASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; C->asid = r[f.low] & 0xffff; E->tlb(E->u, PDP64_TLB_ALL, 0); return;
+		case MN_SYS_MTASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; C->asid = r[f.low] & 0xffff; E->tlb(E->u, PDP64_TLB_ALL, 0); fpsr = 0; return;
 		case MN_SYS_MFASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; r[f.low] = C->asid; return;
 		case MN_SYS_MTDMW: priv(); if (gexit(XCODE_DMW)) return; C->dmw[0] = r[f.low]; return;			/* v1: storage only; the operand names no window, so it is DMW0 */
 		case MN_SYS_ICINV: if (gtrap(HTRAP_ICINV, XCODE_ICINV)) return; return;

@@ -441,12 +441,23 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
+<a id="TLBX-1"></a>
+#### TLBX-1: TLBX, prefix `1111110010`
+
+![Layout TLBX-1](../figures/TLBX-1.svg)
+
+`op1` is `reg5`: register, 5 bits.
+
+`sub` (1 bit) selects the mnemonic: `tlbias` 0, `tlbigp` 1.
+
+Fields: `sub=p0[5]` `op1.r=p0[4:0]`
+
 <a id="SYS0-1"></a>
 #### SYS0-1: SYS0, prefix `11110111110`
 
 ![Layout SYS0-1](../figures/SYS0-1.svg)
 
-`sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+`sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 Fields: `sub=p0[4:0]`
 
@@ -464,7 +475,7 @@ Fields: `op1.r=p0[4:0]`
 
 ![Layout SYS0-2](../figures/SYS0-2.svg)
 
-`sub` (2 bits) selects the mnemonic: `genter` 00, `syspg3` 01, `syspg4` 10, `syspg5` 11.
+`sub` (2 bits) selects the mnemonic: `syspg2` 00, `syspg3` 01, `syspg4` 10, `syspg5` 11.
 
 Fields: `sub=p0[1:0]`
 
@@ -2623,6 +2634,17 @@ Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=
 
 Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.r=p1[11:8]` `op3.pcrel=p1[7:0]+p2[15:0]`
 
+<a id="RETM-1"></a>
+#### RETM-1: RETM, prefix `11111100011001`
+
+![Layout RETM-1](../figures/RETM-1.svg)
+
+`op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295.
+
+`xsub` selects the mnemonic.
+
+Fields: `xsub=p0[1:0]` `op1.imm=p1[15:0]+p2[15:0]`
+
 <a id="DPF-D28-4"></a>
 #### DPF-D28-4: DPF.D28, prefix `111111000010010`
 
@@ -2881,7 +2903,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-fsub"></a>`FSUB`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [LDPC12H-d-1](#LDPC12H-d-1)
 * <a id="mn-fsub16"></a>`FSUB16`: [R2-1](#R2-1)
 * <a id="mn-fsub32"></a>`FSUB32`: [R2-1](#R2-1)
-* <a id="mn-genter"></a>`GENTER`: [SYS0-2](#SYS0-2)
+* <a id="mn-genter"></a>`GENTER`: [RETM-1](#RETM-1)
 * <a id="mn-halt"></a>`HALT`: [SYS0-1](#SYS0-1)
 * <a id="mn-hint"></a>`HINT`: [SYSI-1](#SYSI-1)
 * <a id="mn-icinv"></a>`ICINV`: [SYSR-2](#SYSR-2)
@@ -2969,8 +2991,8 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-ror"></a>`ROR`: [R3-1](#R3-1)
 * <a id="mn-rori"></a>`RORI`: [RRI-1](#RRI-1)
 * <a id="mn-rori32"></a>`RORI32`: [RRI-1](#RRI-1)
-* <a id="mn-rti"></a>`RTI`: [SYS0-1](#SYS0-1)
-* <a id="mn-rtt"></a>`RTT`: [SYS0-1](#SYS0-1)
+* <a id="mn-rti"></a>`RTI`: [RETM-1](#RETM-1)
+* <a id="mn-rtt"></a>`RTT`: [RETM-1](#RETM-1)
 * <a id="mn-sar"></a>`SAR`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [SHIh44-a-1](#SHIh44-a-1), [LDI12-d-1](#LDI12-d-1), [LDPC12H-d-1](#LDPC12H-d-1)
 * <a id="mn-sbc"></a>`SBC`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-sc"></a>`SC`: [R3-1](#R3-1)
@@ -2994,8 +3016,16 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-subv"></a>`SUBV`: [R2-1](#R2-1)
 * <a id="mn-swap"></a>`SWAP`: [R3-1](#R3-1)
 * <a id="mn-swapdb"></a>`SWAPDB`: [R3-1](#R3-1)
+* <a id="mn-syspg0"></a>`SYSPG0`: [SYS0-1](#SYS0-1)
+* <a id="mn-syspg1"></a>`SYSPG1`: [SYS0-1](#SYS0-1)
+* <a id="mn-syspg2"></a>`SYSPG2`: [SYS0-2](#SYS0-2)
+* <a id="mn-syspg3"></a>`SYSPG3`: [SYS0-2](#SYS0-2)
+* <a id="mn-syspg4"></a>`SYSPG4`: [SYS0-2](#SYS0-2)
+* <a id="mn-syspg5"></a>`SYSPG5`: [SYS0-2](#SYS0-2)
 * <a id="mn-tlbi"></a>`TLBI`: [SYSR-1](#SYSR-1)
 * <a id="mn-tlbia"></a>`TLBIA`: [SYS0-1](#SYS0-1)
+* <a id="mn-tlbias"></a>`TLBIAS`: [TLBX-1](#TLBX-1)
+* <a id="mn-tlbigp"></a>`TLBIGP`: [TLBX-1](#TLBX-1)
 * <a id="mn-tlbsync"></a>`TLBSYNC`: [SYS0-1](#SYS0-1)
 * <a id="mn-trap"></a>`TRAP`: [SYSI-1](#SYSI-1)
 * <a id="mn-trapcc-cc"></a>`TRAPCC.CC`: [SYS0-1](#SYS0-1)

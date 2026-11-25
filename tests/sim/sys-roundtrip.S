@@ -14,7 +14,7 @@ _start:
 	mtsr	epc, r1
 	movq	#(MODE_USER<<PSW_MODE), r1
 	mtsr	epsw, r1
-	rti
+	rti	#RTIMASK_ALL
 user:
 	movq	#1001, r1
 	movq	#1002, r2
@@ -349,7 +349,7 @@ h_v1_null:
 	pop	r1
 	.globl	h_v1_null_end
 h_v1_null_end:
-	rti
+	rti	#RTIMASK_ALL
 	.globl	h_v1_copyin
 h_v1_copyin:
 	push	r1
@@ -366,7 +366,7 @@ h_v1_copyin:
 	pop	r1
 	mtsr	epc, r1
 	pop	r1
-	rti
+	rti	#RTIMASK_ALL
 ; V2: with pushx and popx: no scratch register is needed.
 	.globl	h_v2_null
 h_v2_null:
@@ -375,7 +375,7 @@ h_v2_null:
 	movq	#7, r0
 	spl	#7
 	popx
-	rti
+	rti	#RTIMASK_ALL
 	.globl	h_v2_copyin
 h_v2_copyin:
 	pushx
@@ -383,7 +383,7 @@ h_v2_copyin:
 	movq	(r1), r0
 	spl	#7
 	popx
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

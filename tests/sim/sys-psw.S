@@ -109,7 +109,7 @@ h_gen:	mfps	r12
 	add	#1, r10
 	cbeq	r4, #0, 1f
 	mtsr	epc, r4
-1:	rti
+1:	rti	#RTIMASK_ALL
 h_end:	movq	sp, r1
 	movq	ksp, r2
 	cmp	r1, r2

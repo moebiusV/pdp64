@@ -64,7 +64,7 @@ R32 = [
 ]
 for which in ('32',):
     d = encgram.load(ROOT)
-    forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
+    forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in encgram.generated_forms(d)]
     code = Code(forms)
     import collections
     by_mn = collections.defaultdict(list)

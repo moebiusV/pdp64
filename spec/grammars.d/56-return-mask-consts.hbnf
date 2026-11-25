@@ -1,0 +1,13 @@
+; targets: spec
+; The masks of the returns that clear (53-return-mask.hbnf; manual 6.3.5, 9.14, appendix C.5): bit n names Rn, n = 0 to 31, and the free bit 14 (R14, the stack pointer, is never cleared) names the vector
+; registers and the floating-point flags.  tools/mkgrammar.py writes a #define for each enumerator into build/pdp64-consts.h (RTIMASK_ALL and so on), the assembler's preprocessor and the tests use them.
+;   vector   the bit that keeps the vector registers and the floating-point flags
+;   all      every register kept: the return to the same mode, and the one spelling that leaks to a lesser mode
+;   none     nothing kept: every register cleared
+;   callee   the callee-saved registers of the ABI: R8 to R11, R13, R15 and R24 to R31
+;   syscall  the default of a system-call return: R0, the result, and the callee-saved registers (R1 is added by a call that returns two words)
+rtimask = "vector"@14
+        | "all"@0xffffffff
+        | "none"@0
+        | "callee"@0xff00af00
+        | "syscall"@0xff00af01

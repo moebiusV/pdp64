@@ -66,7 +66,7 @@ The **user-memory guard** (a status bit that says whether the kernel may touch u
 
 **6.2.4** The stack pointer `R14` and the direct-page register `DP` each have one copy per mode; the mode selects which one an instruction names.
 
-**6.2.5** These instructions abort with the privileged-instruction vector outside kernel mode: `RTI`, `RTT`, `HALT`, `SPL`, `MTASID`, `MFASID`, `TLBI`, `TLBIA`, `TLBSYNC`, `MTDMW`, `MFCPUID`, `MFSR`, `MTSR`, `PROBER`, `PROBEW`, `WFE`, `STUA`, `CLUA`, `PUSHX`, `POPX`.
+**6.2.5** These instructions abort with the privileged-instruction vector outside kernel mode: `RTI`, `RTT`, `HALT`, `SPL`, `MTASID`, `MFASID`, `TLBI`, `TLBIA`, `TLBSYNC`, `MTDMW`, `MFCPUID`, `MFSR`, `MTSR`, `PROBER`, `PROBEW`, `WFE`, `STUA`, `CLUA`, `PUSHX`, `POPX`, `TLBIAS`.
 
 **6.2.6** These are not privileged: `MTDP` and `MFDP` (in user mode, the thread pointer), `ICINV` and `ICINVA` (a JIT needs them), `FENCE`, `ISYNC` (a program that generates code needs it after `ICINV`), `SEV`, `HINT`, `TRAP`, `BPT`, `NOP`, and `MTPS` and `MFPS` with the restriction above.
 
@@ -114,7 +114,7 @@ Three differences from the PDP-11 matter to a kernel writer. Entry **cannot faul
 
 **6.3.4** The hardware pushes nothing. A handler that can be interrupted saves `EPC` and `EPSW` with `PUSHX`, lowers the priority with `SPL`, and before returning restores them with `POPX` and executes `RTI`.
 
-**6.3.5** `RTI` loads the program counter from `EPC` and the status word from `EPSW`; `RTT` does the same and sets the trace bit after the return.
+**6.3.5** `RTI #mask` loads the program counter from `EPC` and the status word from `EPSW`; `RTT #mask` does the same and sets the trace bit after the return. There is no `RTI` or `RTT` without the mask: each is one six-byte instruction whose last four bytes are the mask of 6.3.8.
 
 **6.3.6** The vector table has 512 entries and `ECAUSE` equals the vector number.
 
@@ -142,6 +142,31 @@ The two levels are the PDP-11's: V7 vectors the line clock at priority 6 and the
 *Lineage.* **PDP-11:** push PC and PS on the kernel stack, load a new pair from the vector; trap vectors conventionally held priority 7 (V7 `l.s`: every trap vector is `br7+code`). **Between:** the VAX pushed the program counter and the processor status longword, and raised the priority to the interrupt's level for an interrupt but not for an exception (*unverified*); x86 pushes five words on the stack (*unverified*); AArch64 and RISC-V latch the return address and status in registers (*unverified*); each of the three masks interrupts on entry (*unverified*). **pdp64:** the register form, so entry cannot fault and costs no memory write; priority 7 is fixed on entry so that no interrupt can overwrite the saved pair before the handler stores it. The kernel survey estimates a system-call entry at four or five instructions on paper, against 45 to 70 on the RISC kernels it examined; it is a paper estimate, not a measurement. Handlers written in C need a short assembler stub to save and restore registers.
 
 *Impact.* *Kernel:* priority 7 on entry removes the code that would otherwise guard the saved state, and `PUSHX` and `POPX` make the save and restore one instruction each. *Hardware:* entry writes registers only, so it cannot fault, and the vector fetch is one 64-bit read.
+
+**What `RTI` did not do.** On the PDP-11 `RTI` restored two things, the program counter and the status word, and nothing else. Whatever the kernel's code had last put in `R0` to `R5` was still there when the user program ran again, and the user program could read it. That is a small leak while the kernel holds nothing private. It is not small when the kernel holds a key, a pointer into its own memory or a piece of another process's data, and a kernel is written by many people, each of whom must remember, at every return, to wipe every register that holds something private. A single one forgotten is a silent hole that no test finds, because the program still runs correctly.
+
+I took the remembering out of the programmer's hands. On the pdp64 a return to a lesser mode **names the registers that may be seen**, and the hardware clears all the others in the same step as the return. The mask is part of the instruction, so it is a constant of the place in the kernel where the return is written, which is where the kernel knows what it is handing back:
+
+```
+    # system-call return: the result in R0 and the callee-saved registers belong to the user
+    POPX
+    RTI #RTIMASK_SYSCALL
+    # the return that starts a new process: nothing is kept
+    POPX
+    RTI #RTIMASK_NONE
+```
+
+A mask that names too little costs the user a value, and the first test shows it as a zero where a result should be. A mask that names too much is the one spelling that leaks (`RTI #RTIMASK_ALL`), and it is written in plain sight. That is why the mask is in the instruction and not in a register that the kernel sets and may forget to set again.
+
+**6.3.8** The mask is 32 bits. Bit n keeps `Rn` for n from 0 to 31 except 14: when the return is to a lesser mode, that is from kernel to supervisor or user, or from supervisor to user, every register whose bit is zero is cleared in the same step as the return. The instruction carries the mask in parcel 1 (the high half) and parcel 2 (the low half).
+
+**6.3.9** `R14` is the stack pointer of the mode returned to and is never cleared, so bit 14 of the mask names something else: it keeps the vector registers and the floating-point flags (`FPSR`). A zero in bit 14 clears the vector registers, the naming of the vector accumulators and `FPSR`. The vector registers are zero at the start of every strip in any case, so what a program can see of bit 14 is `FPSR`.
+
+**6.3.10** A return to the same mode ignores the mask: nothing is a lesser mode, and no register is cleared.
+
+**6.3.11** The generated constants `RTIMASK_ALL` (every register kept), `RTIMASK_NONE` (none kept), `RTIMASK_CALLEE` (`R8` to `R11`, `R13`, `R15`, `R24` to `R31`) and `RTIMASK_SYSCALL` (`R0` and the callee-saved registers; a call that returns two words adds `R1`) name the common masks, and `RTIMASK_VECTOR` is the number of the bit of 6.3.9. The default mask of a system-call return is `RTIMASK_SYSCALL` (appendix C).
+
+**6.3.12** `RTI` and `RTT` are six bytes where they were two. They run at the rate of interrupts and system calls, never in a hot loop, and a two-byte slot is worth more to a frequent instruction. The same mask on `GENTER` is in 6.14.
 
 ## 6.4 Faults and restart: what "precise" means
 
@@ -303,9 +328,9 @@ unmap_page(space, va):
 
 **6.8.2** Translation is off at reset (`MMUCTL` is zero and every address is physical) and is enabled by bit 0 of `MMUCTL`; the `ASID` selects non-global entries.
 
-**6.8.3** `TLBI rN` invalidates the translation of the page containing the address in `rN` for the current address space and the global entries; `TLBIA` invalidates all; both broadcast to every core and `TLBSYNC` waits for the broadcast to finish.
+**6.8.3** `TLBI rN` invalidates the translation of the page containing the address in `rN` for the current address space and the global entries; `TLBIA` invalidates all; both broadcast to every core and `TLBSYNC` waits for the broadcast to finish. `TLBIAS rN` invalidates the non-global translations of the address-space number in the low 16 bits of `rN`, for the tag in force, and broadcasts in the same way; an implementation may discard more. At the hypervisor level `TLBIGP rN` invalidates the translations of the guest tag in `GTBR` that used the guest-physical page named by `rN` (an implementation that keeps no guest-physical page discards the whole tag); it is the invalidate for a hypervisor that has changed one second-stage entry.
 
-**6.8.4** Writes to `MMUCTL`, `PTBR` and `ASID` and the cached translations. Each takes effect at the next `ISYNC` (6.5.2); an instruction between the write and the `ISYNC` may use the old translations or the new, and none after it uses a cached translation that the rule below discards. The rules are per core (a write to a system register is not broadcast). *(a)* A write to `MMUCTL` that changes bit 0, in either direction, discards every cached translation, global entries and those of every `ASID`: an entry made while translation was on cannot be used after it was turned off and on again, and an entry cannot be used after translation is turned on whatever the page tables hold by then. *(b)* A write to `PTBR` that changes its value discards the global entries and the entries tagged with the current `ASID`, unless the `ASID` is changed too before the next `ISYNC` (the switch of 6.11: an `ASID` is bound to one table by the kernel, and a number that is reused for another table is first invalidated with `TLBIA`, as the end of this section says): an entry walked from the old table is never used under the new one with the same `ASID`. *(c)* A write to `ASID` discards nothing that the architecture promises: an entry tagged with another number is never used (the tag), and whether it is kept for when that number returns is the implementation's choice, so a kernel that changes a page-table entry must `TLBI` it whether or not the `ASID` is the one that used it. *(d)* `TLBI` and `TLBIA` are as in 6.8.3. An implementation may discard more than these rules require (the reference executor and the QEMU model discard everything at each write and at each `ISYNC`); no program may depend on an entry surviving.
+**6.8.4** Writes to `MMUCTL`, `PTBR` and `ASID` and the cached translations. Each takes effect at the next `ISYNC` (6.5.2); an instruction between the write and the `ISYNC` may use the old translations or the new, and none after it uses a cached translation that the rule below discards. The rules are per core (a write to a system register is not broadcast). *(a)* A write to `MMUCTL` that changes bit 0, in either direction, discards every cached translation, global entries and those of every `ASID`: an entry made while translation was on cannot be used after it was turned off and on again, and an entry cannot be used after translation is turned on whatever the page tables hold by then. *(b)* A write to `PTBR` that changes its value discards the global entries and the entries tagged with the current `ASID`, unless the `ASID` is changed too before the next `ISYNC` (the switch of 6.11: an `ASID` is bound to one table by the kernel, and a number that is reused for another table is first invalidated with `TLBIA`, as the end of this section says): an entry walked from the old table is never used under the new one with the same `ASID`. *(c)* A write to `ASID` discards nothing that the architecture promises: an entry tagged with another number is never used (the tag), and whether it is kept for when that number returns is the implementation's choice, so a kernel that changes a page-table entry must `TLBI` it whether or not the `ASID` is the one that used it. *(d)* `TLBI`, `TLBIA`, `TLBIAS` and `TLBIGP` are as in 6.8.3. *(e)* A write to `ASID` or `PTBR`, or at the hypervisor level to `GTBR`, also clears the floating-point flags `FPSR` (not a write to `MMUCTL`): the flags belong to the process, and the kernel that switches to another process loads that process's flags. An implementation may discard more than these rules require (the reference executor and the QEMU model discard everything at each write and at each `ISYNC`); no program may depend on an entry surviving.
 
 **6.8.5** Reset leaves no cached translation: after a reset translation is off (6.8.2) and the buffer holds no entry, so no translation from before the reset can be used when translation is turned on. Any event that resets the translation state of a core, or of a guest if the machine ever runs guests, must discard the cached translations of that core or guest with it: the state registers and the cache are cleared together or not at all (for a guest see 6.14.8, and for the translations of a device 2.11.7).
 
@@ -390,7 +415,7 @@ vector 256+n  ->  syscall_entry:        # kernel mode, priority 7, R14 is the ke
     restore the registers
     SPL #7
     POPX                                # EPC and EPSW back
-    RTI                                 # PC = EPC (the instruction after TRAP); PSW = EPSW: user mode again
+    RTI #RTIMASK_SYSCALL                # PC = EPC (the instruction after TRAP); PSW = EPSW: user mode again
 ```
 
 **A page fault.** A load, store or instruction fetch whose translation is not valid, or whose `A` or `D` bit is clear, aborts with vector 7, 8 or 6 (6.3.6). `EVA` holds the address, `EPC` the faulting instruction, `ECAUSE` the kind. The handler below covers the page faults; vectors 9 to 11 (protection violations) are not handled in it.
@@ -421,7 +446,7 @@ leave:
     SPL #7
     restore the registers
     POPX
-    RTI                                                # EPC is the faulting instruction: it runs again
+    RTI #RTIMASK_ALL                                   # EPC is the faulting instruction: it runs again (the trap frame restored every register, so none is stale)
 ```
 
 The same handler serves first touch, first write and paging in; only the bits it sets differ. The faulting instruction restarts because the abort was precise (6.4).
@@ -440,7 +465,7 @@ timer_interrupt:                          # vector 32; entered at priority 7
     if need_resched and the interrupted mode (EPSW) was user:
         call switch()                     # V7: "runrun"; see below
     POPX
-    RTI
+    RTI #RTIMASK_ALL                      # every register was just restored from the interrupted program's own trap frame: none is the kernel's
 ```
 
 The V7 `call` routine does the same test (previous mode user, `_runrun` set) and makes an artificial trap number 12, "give up cpu", before it returns (`mch_i.s`, checked above).
@@ -467,7 +492,7 @@ return_to_user(p):
     MTSR USP, p.usp                       # the user's own stack pointer; R14 is the kernel's
     restore the user registers from p's trap frame
     POPX                                  # EPC and EPSW from p's trap frame
-    RTI                                   # user mode, user PC
+    RTI #RTIMASK_CALLEE                   # user mode, user PC (the frame restore wrote the registers the user keeps; the hardware clears the rest)
 ```
 
 No entry of either process need be touched (a write to `ASID` flushes nothing, and a write to `PTBR` that comes with a new `ASID` flushes nothing of the new one, 6.8.4): the entries of the process that stopped stay, tagged with its ASID, and are used again if it runs soon, and the kernel's own entries are global and serve both. 
@@ -522,7 +547,7 @@ This section collects, in the vocabulary of the kernel, the statements of 6.2 to
 
 **6.13.1** There are three modes (kernel, supervisor, user); supervisor is defined and unused. System instructions executed outside kernel mode abort with the privileged-instruction vector.
 
-**6.13.2** `TRAP #n` and `TRAPL #n` (vectors 0 to 255, two bytes each) enter the kernel; `RTI` returns, and `RTT` returns and sets the trace bit after.
+**6.13.2** `TRAP #n` and `TRAPL #n` (vectors 0 to 255, two bytes each) enter the kernel; `RTI #mask` returns, and `RTT #mask` returns and sets the trace bit after; the mask names the registers kept when the return is to a lesser mode (6.3.8).
 
 **6.13.3** An exception or interrupt writes only registers: `EPC` receives the address of the faulting instruction (or the next one, for a trap or interrupt), `EPSW` the old status word, `EVA` the faulting address and `ECAUSE` the vector number; the new program counter is the 64-bit word at `VBR + 8 × vector`.
 
@@ -530,7 +555,7 @@ This section collects, in the vocabulary of the kernel, the statements of 6.2 to
 
 **6.13.5** There are eight interrupt priority levels; `SPL #n` sets the priority without touching the flags.
 
-**6.13.6** `MFSR` and `MTSR` read and write the system registers by number; `TLBI`, `TLBIA` and `TLBSYNC` invalidate translations (broadcast to other cores); `MTASID` and `MFASID` set the address-space tag; `ICINV` and `ICINVA` invalidate the instruction cache; `PROBER` and `PROBEW` test an address; `MFCPUID` identifies the processor.
+**6.13.6** `MFSR` and `MTSR` read and write the system registers by number; `TLBI`, `TLBIA`, `TLBIAS` and `TLBSYNC` invalidate translations (broadcast to other cores); `MTASID` and `MFASID` set the address-space tag; `ICINV` and `ICINVA` invalidate the instruction cache; `PROBER` and `PROBEW` test an address; `MFCPUID` identifies the processor.
 
 **6.13.7** `UA` in the status word guards user memory: with it clear, a kernel-mode data access to a user page faults; `STUA` sets it and `CLUA` clears it; entry clears it.
 
@@ -577,7 +602,7 @@ The modes and exceptions are 6.2 to 6.4 and the multiprocessor instructions are 
 
 **6.14.8** The state of every system register after a reset of a guest is given by one table, kept in step as registers are added, and a guest reset discards that guest's cached translations (6.8.5).
 
-**6.14.9** The hidden state of a vector block is not saved at a world switch. A block that is interrupted restarts from its entry, the hardware keeping a hidden copy of the naming of its accumulators made at the `VEC`, and a strip starts with its registers zero. A world switch, every exception entry and every exception return (`RTI`, `RTT`) clear the naming of the vector accumulators and any `LL` reservation, so that what a handler names with a `VCLR` outside a block is not left for the interrupted program.
+**6.14.9** The hidden state of a vector block is not saved at a world switch. A block that is interrupted restarts from its entry, the hardware keeping a hidden copy of the naming of its accumulators made at the `VEC`, and a strip starts with its registers zero. A world switch, every exception entry and every exception return (`RTI`, `RTT`, whatever the mask) clear the naming of the vector accumulators and any `LL` reservation, so that what a handler names with a `VCLR` outside a block is not left for the interrupted program.
 
 **6.14.10** The first software to use all of this is a small hypervisor of our own, on the QEMU target, with one guest kernel; it is not Linux and not KVM.
 
@@ -588,6 +613,14 @@ The modes and exceptions are 6.2 to 6.4 and the multiprocessor instructions are 
 **6.14.13** `ICINV` and `ICINVA` stay unprivileged and untrapped: they do not touch data, and a program that generates code needs them. A trap-control bit that traps `ICINVA` is added only if timing between guests is a concern.
 
 **6.14.14** `MTDMW` and the direct-mapping windows `DMW0` and `DMW1` trap to the hypervisor, which emulates them, when a window takes effect.
+
+**6.14.15** `GENTER #mask` takes the mask of 6.3.8: a guest is always a lesser mode than the hypervisor, so every register whose bit is zero is cleared as the guest is entered, and a bit 14 of zero clears the vector registers and `FPSR`. The hypervisor keeps nothing in registers across a guest's run: it saves what it needs in its own memory before `GENTER` and loads it after the exit, and the guest never sees a value of the hypervisor's that the mask did not name.
+
+**6.14.16** A write of a one to an unused bit of a hypervisor register is an illegal instruction: nothing is written, and an unused bit reads zero. The used bits are those of `HTRAP` (6.14.3), the status-word bits of `HEPSW`, the enable, root and tag of `GTBR`, bits 1 to 7 of `VIRQ`, the 56 low bits of `VIVEC` and the 16 low bits of `VCPUID`.
+
+**6.14.17** A write to `VIVEC` that puts a vector below 32 in the field of a virtual line is refused at once, with the same illegal-instruction exception, and nothing is written; a field of zero means that the line has no vector and is accepted.
+
+**6.14.18** `TLBIGP rN` is legal only in the hypervisor mode: a guest that executes it exits to the hypervisor with exit code 18 (in a guest's user mode it is the guest's own privileged-instruction exception), and on a machine with no hypervisor it is an illegal instruction. `TLBIAS rN` in a guest exits under the same trap-control bit as `TLBI`.
 
 ## 6.15 What was checked, and what was not
 

@@ -73,7 +73,7 @@ _start:
 	movq	#0, r10
 	lea	ustack_top, r1
 	mtsr	usp, r1
-	rti
+	rti	#RTIMASK_ALL
 user:
 	lea	pr0, r4
 pi0:
@@ -144,11 +144,11 @@ h_priv:	mfsr	r6, epc
 	mfsr	r8, ecause
 	add	#1, r10
 	mtsr	epc, r4
-	rti
+	rti	#RTIMASK_ALL
 h_trap1: mfsr	r8, epsw
 	mfps	r9
 	bic	#15, r9
-	rti
+	rti	#RTIMASK_ALL
 h_ok:	movq	#0, r0
 h_fail:	halt
 	.data

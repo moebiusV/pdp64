@@ -18,7 +18,7 @@ enum {
 	H_UNIMPL = 0,
 	H_MOV, H_MOVZ, H_LEA, H_ALU, H_SOP, H_XFER, H_JTAG,
 	H_BR, H_CB, H_SOB, H_TAG,
-	H_SYS0, H_SYSX, H_SYSR, H_SPL, H_TRAP, H_PROBE, H_MFSR, H_MTSR,
+	H_SYS0, H_SYSX, H_SYSM, H_TLBX, H_SYSR, H_SPL, H_TRAP, H_PROBE, H_MFSR, H_MTSR,
 	H_BESC, H_AESC, H_MBLK, H_FESC, H_SET,
 	H_MOVU, H_RMW,
 	H_MASK, H_BSEL, H_OVF, H_TRAPCC, H_MOVQL, H_UTF8LEN, H_CT, H_CHK2,
@@ -173,6 +173,12 @@ static void step_enc(void)
 		f.opc = OPGROUP_SYS; f.reg = 0; f.low = SYS_MINOR_SYSX; f.shape = FS_SYSX; f.sub = h->a;
 		if (h->a == MN_SYSX_HINT) f.n = (unsigned)op[0].v;
 		exec_fmt(f, start, 0); return;
+	case H_SYSM:									/* rti #mask, rtt #mask, genter #mask: the mask is the operand (f.n) */
+		f.opc = OPGROUP_SYS; f.reg = 0; f.n = (unsigned)op[0].v;
+		if (h->a == MN_SYSX_GENTER && h->kind == H_SYSM) { f.low = SYS_MINOR_SYSX; f.shape = FS_SYSX; f.sub = MN_SYSX_GENTER; }
+		else f.low = h->a;
+		exec_fmt(f, start, 0); return;
+	case H_TLBX: tlbx(h->a, RG[op[0].r]); return;						/* tlbias rN, tlbigp rN */
 	case H_SYSR: f.opc = OPGROUP_SYS; f.reg = h->a; f.low = op[0].r; exec_fmt(f, start, 0); return;
 	case H_SPL: f.opc = OPGROUP_SYS; f.reg = MN_SYS_SPL; f.low = (int)op[0].v; exec_fmt(f, start, 0); return;
 	case H_TRAP: f.opc = OPGROUP_SYS; f.reg = MN_SYS_TRAPL; f.n = (unsigned)op[0].v; exec_fmt(f, start, 0); return;

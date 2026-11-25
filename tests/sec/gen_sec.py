@@ -60,6 +60,19 @@ def gen_user_sysregs():
         p.text() + KHANDLERS + KDATA
 
 
+def gen_user_return():
+    """SEC-P01: the returns that take a mask, and the two new invalidates, are privileged: from user mode vector 3, nothing changes (a user program cannot give itself a mode or kill a translation)"""
+    p = Prog(user=True)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
+    for nm, ins, vec in (('rti', 'rti\t#0', 'VECTOR_PRIVILEGED'), ('rti_all', 'rti\t#RTIMASK_ALL', 'VECTOR_PRIVILEGED'), ('rtt', 'rtt\t#0', 'VECTOR_PRIVILEGED'),
+                         ('tlbias', 'tlbias\tr3', 'VECTOR_PRIVILEGED'),
+                         ('genter', 'genter\t#0', 'VECTOR_ILLEGAL'), ('tlbigp', 'tlbigp\tr3', 'VECTOR_ILLEGAL')):      # no hypervisor strap: the hypervisor's instructions are illegal for everyone
+        user_case(p, ['\tmovq\t=0x5a5a5a5a5a5a, r2', '\tmovq\tr2, r3', ins, ], 'x_%s' % nm, vec, 'r2')
+    p.done()
+    return ['RTI #mask, RTT #mask, GENTER #mask, TLBIAS and TLBIGP from USER mode (SEC-P01): the privileged-instruction exception (vector 3, EPC the instruction) for RTI, RTT and TLBIAS, the illegal-instruction exception',
+            '(vector 2) for GENTER and TLBIGP, which the machine without the hypervisor strap does not have; no effect (a user program cannot return into another mode, enter a guest or invalidate translations).  Failed check n: exit n.'], p.text() + KHANDLERS + KDATA
+
+
 def gen_user_mtps():
     """SEC-P04: MTPS from user mode cannot raise the privilege, the priority, the trace bit or the user-access guard"""
     p = Prog(user=True)
@@ -108,35 +121,180 @@ def gen_eva_stale():
             'illegal) must not leave that address (it is another context\'s data) and ECAUSE is the vector exactly.  Failed check n: exit n.'], p.text() + KHANDLERS + KDATA
 
 
+SCALARS = [n for n in range(32) if n != 14]          # R14 is the stack pointer of the mode returned to: never cleared, and mask bit 14 is the vector registers and the floating-point flags
+
+
+def secret(n):
+    return '0x5ec0de0000%02x' % n
+
+
+def set_secrets(p, regs):
+    for n in regs:
+        p.e('\tmovq\t=%s, r%d' % (secret(n), n))
+
+
+def kept_mask(keep, vector=True):
+    return sum(1 << n for n in keep) | ((1 << 14) if vector else 0)
+
+
+def snap_offset(n):
+    """the offset from the stack pointer of the register n in the image PUSHM #0xffffbfff makes (R0 pushed first, so the highest register is on top)"""
+    return 8 * (len(SCALARS) - 1 - SCALARS.index(n))
+
+
+def check_snapshot(p, base, keep, what):
+    """the registers kept by the mask hold the kernel's value in the image at `base` (an address expression of r12's source), all the others are zero"""
+    p.e('\tlea\t%s, r12' % base)
+    for n in SCALARS:
+        if n in keep:
+            continue
+        p.e('\tmovq\t%d(r12), r13' % snap_offset(n))
+        p.chk('r13', '#0', 'r%d is zero after %s (not the %s it held before)' % (n, what, 'kernel value' if True else ''))
+    for n in SCALARS:
+        if n not in keep:
+            continue
+        p.e('\tmovq\t%d(r12), r13' % snap_offset(n))
+        p.eq('r13', secret(n), 'r%d, named by the mask, keeps its value across %s (the control)' % (n, what))
+
+
+KEEP = [0, 8, 13, 15, 24, 31]
+
+
 def gen_regs_carry():
-    """SEC-B04 (by design): the kernel's scalar registers r0..r10 and the flags-free registers are visible to the user after RTI"""
+    """SEC-B04: the kernel's registers are cleared by the return to user mode except those the mask of RTI names"""
     p = Prog(user=True)
     p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC)
-    for i in range(2, 11):
-        p.e('\tmovq\t=0x5ec0de0000%02x, r%d' % (i, i))
-    p.e(ENTER_USER.replace('\tmovq\t#0, r1\n', '') + 'user:')
-    for i in range(2, 11):
-        p.e('\tmovq\tr%d, r12' % i)
-        p.eq('r12', '0', 'r%d is zero in user mode after RTI (kernel data is not visible)' % i)
+    set_secrets(p, SCALARS)
+    p.e(enter_user('0x%x' % kept_mask(KEEP), clear_r1=False) + 'user:')
+    for n in SCALARS:
+        if n not in KEEP:
+            p.chk('r%d' % n, '#0', 'r%d is zero in user mode after RTI (kernel data is not visible)' % n)
+    for n in KEEP:
+        if n != 17:
+            p.eq('r%d' % n, secret(n), 'r%d, named by the mask, keeps its value (the control: the probe can see a register)' % n)
     p.done()
-    return ['The scalar registers across RTI (SEC-B04): the kernel fills r2..r10 with a secret and returns to user mode; the user reads them.  The hardware does not clear or bank r0..r13 (only',
-            'R14 and DP are banked), so the kernel must clear them: this probe FINDS that by design (the same on every ISA); it passes when the hardware clears.  Failed check n: exit n.'], \
-        p.text().replace('\tmovq\t#0, r1\n\trti', '\trti') + KHANDLERS + KDATA.replace('ubuf:', 'ubuf:')
+    return ['The scalar registers across RTI (SEC-B04): the kernel fills every scalar register with a secret and returns to user mode with RTI #mask, the mask naming r0, r8, r13, r15, r24, r31; the user',
+            'reads them.  The hardware clears every register whose bit of the mask is zero in the return itself, so the kernel cannot forget one; the named ones keep their value (the control).',
+            'Failed check n: exit n.'], p.text() + KHANDLERS + KDATA
+
+
+def gen_rtt_clear():
+    """SEC-B04: RTT (return and trace) clears like RTI"""
+    p = Prog(user=True)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC)
+    set_secrets(p, SCALARS)
+    p.e('\tlea\tNext, r13')                                      # the trace trap after the user's first instruction (the PUSHM) resumes at r13: the mask keeps it
+    p.e(enter_user('0x%x' % kept_mask([13]), clear_r1=False).replace('\trti\t#', '\trtt\t#') + 'user:')
+    p.e('\tpushm\t#0xffffbfff')
+    p.e('Next:\tmovq\tr14, r16')
+    p.e('\tadd\t#%d, r14\t\t\t; the image is on the stack: take it off' % (8 * len(SCALARS)))
+    for n in SCALARS:
+        if n in (12, 13, 16):
+            continue                                              # r12 and r11 are the handler's, r13 the resume address the mask keeps, r16 holds the image address
+        p.e('\tmovq\t%d(r16), r12' % snap_offset(n))
+        p.chk('r12', '#0', 'r%d is zero after RTT (kernel data is not visible)' % n)
+    p.e('\tmovq\t%d(r16), r12' % snap_offset(13))
+    p.e('\tlea\tNext, r17')
+    p.chk('r12', 'r17', 'control: r13, named by the mask, keeps its value (the resume address) across RTT')
+    p.e('\tmovq\tcnt, r12')
+    p.eq('r12', '1', 'control: the trace trap was taken once (RTT sets T), so the image was made by the first user instruction')
+    p.done()
+    return ['The registers across RTT (SEC-B04): the kernel fills every scalar register with a secret and returns to user mode with RTT #mask (the mask names only r13, the resume address of the',
+            'trace trap); the user\'s first instruction PUSHM makes an image of the registers before the trace trap is taken; all but r13 must be zero.  Failed check n: exit n.'], \
+        p.text() + KHANDLERS.replace('\tmtsr\tepc, r13\n', '\tmtsr\tepc, r13\n\tmfsr\tr12, epsw\n\tbic\t#(1<<PSW_T), r12\n\tmtsr\tepsw, r12\n') + KDATA
+
+
+def gen_rti_same_mode():
+    """SEC-B04: a return to the same mode keeps every register whatever the mask says"""
+    p = Prog(user=False)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC)
+    p.e('\tlea\tNext, r13')
+    keep = [n for n in SCALARS if n not in (11, 12, 13)]
+    set_secrets(p, keep)
+    p.e('\ttrap\t#4')
+    p.e('Next:')
+    for n in keep:
+        if n != 17:
+            p.eq('r%d' % n, secret(n), 'r%d keeps its value across a return to the same mode (the mask is ignored)' % n)
+    p.eq('r17', secret(17), 'r17 keeps its value across a return to the same mode (the mask is ignored)')
+    p.e('\tmovq\tcnt, r12')
+    p.eq('r12', '1', 'control: the exception was taken once, so there was a return')
+    p.done()
+    body = p.text() + KHANDLERS.replace('rti\t#RTIMASK_ALL', 'rti\t#RTIMASK_NONE') + KDATA
+    return ['A return to the same mode (SEC-B04): the kernel fills its registers with secrets, a TRAP enters the kernel handler and the handler returns with RTI #0 to the same mode: nothing is a',
+            'lesser mode, so no register is cleared (the mask is ignored).  Failed check n: exit n.'], body
 
 
 def gen_fpsr_carry():
-    """SEC-B05 (by design): the sticky floating-point flags set by one context are visible to the next"""
+    """SEC-B05: the sticky floating-point flags set by one context are not visible to the next"""
     p = Prog(user=True)
     p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
-    p.e('\tmovq\t#0x1f, r1\n\tfsflags\tr1, r2')                        # context A sets all five flags
-    p.e('\ttrap\t#3')                                                    # the kernel "switches" to context B (below)
-    p.e('B:\tmovq\t#0, r1\n\tfsflags\tr1, r2')                           # context B reads and clears them
-    p.eq('r2', '0', 'context B finds the floating-point flags clear (not the flags context A left)')
+    scen = [('RTI with the mask bit 14 clear', 0), ('a write of ASID', 0), ('MTASID', 0), ('a write of PTBR', 0), ('the control: a write of SSP, return with every register kept', 0x1f)]
+    for k, (what, want) in enumerate(scen):
+        p.e('\tmovq\t#0x1f, r1\n\tfsflags\tr1, r2')                    # context A sets all five flags
+        p.e('\ttrap\t#3')                                                # the kernel "switches" to context B by the way of scenario k
+        p.e('\tmovq\t#0, r1\n\tfsflags\tr1, r2')                         # context B reads and clears them
+        p.eq('r2', '0x%x' % want, 'context B finds the floating-point flags %s after %s' % ('as A left them' if want else 'clear', what))
     p.done()
-    body = p.text() + KHANDLERS.replace('hgen:', 'h_sw:\tlea\tB, r12\n\tmtsr\tepc, r12\n\trti\nhgen:') + KDATA
+    sw = r"""h_sw:	movq	scen, r12
+	add	#1, r12
+	movq	r12, scen
+	movq	#0, r11
+	cbeq	r12, #1, s1
+	cbeq	r12, #2, s2
+	cbeq	r12, #3, s3
+	cbeq	r12, #4, s4
+	mtsr	ssp, r11
+	rti	#RTIMASK_ALL
+s1:	rti	#(RTIMASK_ALL & ~(1<<RTIMASK_VECTOR))
+s2:	mtsr	asid, r11
+	rti	#RTIMASK_ALL
+s3:	mtasid	r11
+	rti	#RTIMASK_ALL
+s4:	mtsr	ptbr, r11
+	rti	#RTIMASK_ALL
+"""
+    body = p.text() + KHANDLERS.replace('hgen:', sw + 'hgen:') + KDATA.replace('cnt:', 'scen:\t\t.quad\t0\ncnt:')
     body = body.replace('\tmovq\tr2, 2056(r1)', '\tmovq\tr2, 2056(r1)\n\tlea\th_sw, r2\n\tmovq\tr2, 2072(r1)')
-    return ['The sticky floating-point flags (fpsr) across a context switch (SEC-B05): user context A sets the five flags and traps; the kernel resumes context B at another address;',
-            'B reads and clears them with fsflags.  The hardware does not clear fpsr at exception entry or return (a swap by software: audit 3.4): this probe FINDS that by design.  Failed check n: exit n.'], body
+    return ['The sticky floating-point flags (fpsr) across a context switch (SEC-B05): user context A sets the five flags and traps; the kernel switches to context B in five ways (a return whose',
+            'mask clears bit 14; a write of ASID; MTASID; a write of PTBR; and, as the control, a write of SSP with every register kept) and B reads the flags with fsflags.  The flags belong to',
+            'the process: in the first four B finds them clear, in the control it finds what A left.  Failed check n: exit n.'], body
+
+
+def gen_fpsr_gtbr():
+    """SEC-B05: a write of GTBR clears the floating-point flags (the hypervisor switches guests)"""
+    p = Prog(user=False)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:')
+    p.e('\tmovq\t#0x1f, r1\n\tfsflags\tr1, r2')
+    p.e('\tmovq\t#0, r1\n\tmtsr\tvtoff, r1')
+    p.e('\tmovq\t#0, r1\n\tfsflags\tr1, r2')
+    p.eq('r2', '0x1f', 'control: a write of VTOFF leaves the floating-point flags (the probe sees them)')
+    p.e('\tmovq\t#0x1f, r1\n\tfsflags\tr1, r2')
+    p.e('\tmovq\t#0, r1\n\tmtsr\tgtbr, r1')
+    p.e('\tmovq\t#0, r1\n\tfsflags\tr1, r2')
+    p.eq('r2', '0', 'the floating-point flags are clear after a write of GTBR')
+    p.done()
+    return ['The floating-point flags across a write of GTBR (SEC-B05): the hypervisor sets the flags, writes VTOFF (the control: they stay) and then GTBR (the guest tag): they are cleared.',
+            'sim64 -H; QEMU hypervisor=on.  Failed check n: exit n.'], p.text()
+
+
+def gen_genter_regs():
+    """SEC-B04: GENTER #mask clears the hypervisor's registers except those named"""
+    p = Prog(user=False)
+    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + HVSETUP.replace('\tlea\thstk_top, r14\n', '\tlea\thstk_top, r14\n'))
+    p.e('\tlea\tgstk_top, r2\n\tmtsr\tgksp, r2')
+    p.e('\tlea\tg1, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2')
+    keep = [3, 8, 15, 24]
+    set_secrets(p, SCALARS)
+    p.e('\tgenter\t#0x%x' % kept_mask(keep))
+    p.e('g1:\tpushm\t#0xffffbfff\n\thalt')
+    p.e('back1:')
+    check_snapshot(p, 'gstk_top-%d' % (8 * len(SCALARS)), keep, 'GENTER')
+    p.done()
+    tail = HVTAIL.replace('xh:\tjmp\tr20', 'xh:\tlea\tback1, r1\n\tjmp\tr1').replace('hstk_top:', 'hstk_top:\n\t.space\t512\ngstk_top:')
+    return ['The hypervisor\'s registers across GENTER (SEC-B04): the hypervisor fills every scalar register with a secret and enters a guest with GENTER #mask (the mask names r3, r8, r15, r24);',
+            'the guest\'s first instruction, PUSHM, makes an image of its registers; the hypervisor reads it after the exit: all but the named ones are zero.  sim64 -H; QEMU hypervisor=on.  Failed check n: exit n.'], \
+        p.text() + tail
 
 
 SRC = '\t.long\t1, 2, 3, 4, 10, 20, 30, 40\n\t.long\t100, 200, 300, 400, 1000, 2000, 3000, 4000\n'
@@ -199,7 +357,7 @@ def gen_vec_hole_a():
     p.e('\tmovq\t#0, r0\n\thalt')
     # the handler of trap #7 (vector 263) only returns
     body = p.text().replace('\tlea\tvtab, r1\n\tlea\th_ok, r2', '\tlea\tvtab, r1\n\tlea\th_ok, r2') + KHANDLERS
-    body = body.replace('hgen:', 'h_ret:\trti\nhgen:')
+    body = body.replace('hgen:', 'h_ret:\trti\t#RTIMASK_ALL\nhgen:')
     body = body.replace('\tmovq\tr2, 2056(r1)', '\tmovq\tr2, 2056(r1)\n\tlea\th_ret, r2\n\tmovq\tr2, 2104(r1)', 1)
     data = KDATA + '\t.align 8\nsrc:\n' + SRC + 'dst0:\t.space\t32\ndst1:\t.space\t32\n'
     return ['An exception between VCLR and VEC (SEC-V01; best-of-breed-vector, the accumulator naming across an exception): the same block is run once straight after the vclr and once with an',
@@ -298,14 +456,14 @@ def gen_hv_flags():
     """SEC-B07: the guest's condition flags are not visible to the hypervisor after an exit (its status word has clear flags), and not the other way"""
     p = Prog(user=False)
     p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + HVSETUP)
-    p.e('\tlea\tg1, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2\n\tlea\tback1, r20\n\tmovq\t#99, r0\n\tgenter')
+    p.e('\tlea\tg1, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2\n\tlea\tback1, r20\n\tmovq\t#99, r0\n\tgenter\t#RTIMASK_ALL')
     p.e('g1:\tmovq\t#15, r1\n\tmtps\tr1\n\thalt')
     p.e('back1:\tmfps\tr2\n\tmfsr\tr4, hepsw\n\tmovq\tr4, r5\n\tbic\t#15, r5\n\tsub\tr5, r4')
     p.eq('r4', '15', 'control: the guest\'s flags (C V Z N set) are saved in HEPSW')
     p.e('\tmovq\tr2, r3\n\tbic\t#15, r3')
     p.chk('r2', 'r3', 'the hypervisor\'s own flags are clear after the exit (the guest\'s are not visible)')
     # the hypervisor sets its flags and enters a guest with clear flags: the guest sees its own
-    p.e('\tmovq\t#15, r1\n\tmtps\tr1\n\tlea\tg2, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2\n\tlea\tback2, r20\n\tgenter')
+    p.e('\tmovq\t#15, r1\n\tmtps\tr1\n\tlea\tg2, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2\n\tlea\tback2, r20\n\tgenter\t#RTIMASK_ALL')
     p.e('g2:\tmfps\tr6\n\thalt')
     p.e('back2:\tmovq\tr6, r7\n\tbic\t#15, r7')
     p.chk('r6', 'r7', 'the guest starts with the flags of HEPSW (clear), not the hypervisor\'s')
@@ -373,7 +531,7 @@ def gen_tlb_mode():
     # to user mode at the alias of the code (0x80000000 + the address)
     p.e('\tmovq\t=0x80000000, r6\n\tlea\tuser, r1\n\tadd\tr6, r1\n\tmtsr\tepc, r1')
     p.e('\tlea\tustack_top, r1\n\tadd\tr6, r1\n\tmtsr\tusp, r1')
-    p.e('\tmovq\t#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1\n\tmtsr\tepsw, r1\n\trti')
+    p.e('\tmovq\t#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1\n\tmtsr\tepsw, r1\n\trti\t#RTIMASK_ALL')
     p.user = True
     p.e('user:\tmovq\t=0x80000000, r6')
     p.e('\tlea\tkdata, r4\n\tsub\tr6, r4')                      # the low (kernel-only) address of kdata
@@ -395,8 +553,8 @@ def gen_tlb_mode():
     p.eq('r11', 'VECTOR_LPROT', 'kernel mode: it is a load protection fault')
     p.eq('r5', '0x2468', 'kernel mode: the register is unchanged')
     p.done()
-    body = p.text() + KHANDLERS.replace('hgen:', 'h_sw:\tlea\tkern2, r12\n\tmtsr\tepc, r12\n\tmovq\t#0, r12\n\tmtsr\tepsw, r12\n\trti\nhgen:')
-    body = body.replace('\tmtsr\tepc, r13\n\trti\nh_ok', '\tmtsr\tepc, r13\n\trti\nh_ok')
+    body = p.text() + KHANDLERS.replace('hgen:', 'h_sw:\tlea\tkern2, r12\n\tmtsr\tepc, r12\n\tmovq\t#0, r12\n\tmtsr\tepsw, r12\n\trti\t#RTIMASK_ALL\nhgen:')
+    body = body.replace('\tmtsr\tepc, r13\n\trti\t#RTIMASK_ALL\nh_ok', '\tmtsr\tepc, r13\n\trti\t#RTIMASK_ALL\nh_ok')
     body = body.replace('\tlea\th_fail, r2\n\tmovq\tr2, 2056(r1)', '\tlea\th_fail, r2\n\tmovq\tr2, 2056(r1)')
     data = KDATA + '\t.align\t4096\nl2:\n\t.quad\t0 + RWX\n\t.space\t8\n\t.quad\t0 + RWX|(1<<PTE_U)\n\t.space\t4072\n\t.align\t8\nkdata:\t.quad\t0x1357\nudata:\t.quad\t0x2469\n'
     body = body.replace('\tmovq\tr2, 2056(r1)\n', '\tmovq\tr2, 2056(r1)\n', 1)
@@ -404,7 +562,7 @@ def gen_tlb_mode():
             'user mode loads a user page (at the alias 0x80000000 of memory), then the kernel with UA clear loads it (must fault).  Failed check n: exit n.'], body.replace('h_fail, r2\n\tmovq\tr2, 2056(r1)', 'h_fail, r2\n\tmovq\tr2, 2056(r1)\n\tlea\th_sw, r2\n\tmovq\tr2, 2064(r1)') + data
 
 
-def gen_hv_reset_inplace(write_mmuctl=False):
+def gen_hv_reset_inplace(write_mmuctl=False, tlbigp=False):
     """SEC-H01 (FOUND): a guest reset in place (same stage-2 root, translation already off, the stage-2 contents rewritten) leaves the guest's cached translations"""
     src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'qemu', 'hv-stage2.S')).read().split('\n')
     i = [k for k, l in enumerate(src) if l.startswith('#include')][0]
@@ -417,7 +575,7 @@ def gen_hv_reset_inplace(write_mmuctl=False):
     L = []
 
     def enter(back):
-        L.append('\tlea\tg9, r22\n\tmtsr\thepc, r22\n\tmovq\t#0, r22\n\tmtsr\thepsw, r22\n\tlea\t%s, r20\n\tmovq\t#99, r0\n\tgenter\n%s:' % (back, back))
+        L.append('\tlea\tg9, r22\n\tmtsr\thepc, r22\n\tmovq\t#0, r22\n\tmtsr\thepsw, r22\n\tlea\t%s, r20\n\tmovq\t#99, r0\n\tgenter\t#RTIMASK_ALL\n%s:' % (back, back))
     p.e('\tmovq\t=(PHYS(0x40a000)), r25\n\tmovq\t=0xaaaa, r26\n\tmovq\tr26, (r25)')
     p.e('\tmovq\t=(PHYS(0x40c000)), r25\n\tmovq\t=0xcccc, r26\n\tmovq\tr26, (r25)')
     p.e('\tlea\ts2l0+80, r25\n\tmovq\t=(PHYS(0x40a000)|LEAF), r26\n\tmovq\tr26, (r25)\n\ttlbia')
@@ -428,6 +586,8 @@ def gen_hv_reset_inplace(write_mmuctl=False):
     p.e('\tlea\ts2l0+80, r25\n\tmovq\t=(PHYS(0x40c000)|LEAF), r26\n\tmovq\tr26, (r25)')
     if write_mmuctl:
         p.e('\tmovq\t#0, r22\n\tmtsr\tmmuctl, r22')               # the one reset event the architecture has: MMUCTL written as 0 (it is 0: no change)
+    if tlbigp:
+        p.e('\tmovq\t=0x40a000, r22\n\ttlbigp\tr22')                # the invalidate by the guest-physical page of the entry that was rewritten
     p.e('\tmovq\t#0, r1')
     enter('R2')
     p.e('\n'.join(L)); L.clear()
@@ -435,6 +595,10 @@ def gen_hv_reset_inplace(write_mmuctl=False):
     p.done()
     g9 = '\t.align\t8\ng9:\tmovq\t=0x40a000, r13\n\tmovq\t(r13), r1\n\thalt\n'
     body = pre + '\t.text\n' + p.text() + g9 + post
+    if tlbigp:
+        return ['TLBIGP after a stage-2 entry is rewritten (SEC-B26; errata 178): the hypervisor rewrites a stage-2 entry of a guest whose translation is off, invalidates the guest-physical page',
+                'it changed with TLBIGP and enters the guest again: the guest must see the new page.  (The same program without the TLBIGP is SEC-B14: it finds the old page.)  QEMU hypervisor=on',
+                'only.  Failed check n: exit n (200 and up).'], body
     if write_mmuctl:
         return ['A guest reset in place that writes MMUCTL as 0 (SEC-H01; best-of-breed-mmu-virt hole H1, errata 178): the hypervisor rewrites a stage-2 entry of a guest whose translation is already',
                 'off, writes the guest\'s MMUCTL as 0 (no change of value) and enters the guest again: the guest must see the new page.  The rule of 6.8.4 only requires a discard when the bit changes;',
@@ -575,9 +739,14 @@ TESTS = [
     ('sec-user-sysregs', gen_user_sysregs, '-K', 'sim'),
     ('sec-kernel-sysregs', gen_kernel_sysregs, '-K', 'sim'),
     ('sec-user-mtps', gen_user_mtps, '-K', 'sim'),
+    ('sec-user-return', gen_user_return, '-K', 'sim'),
     ('sec-eva-stale', gen_eva_stale, '-K', 'sim'),
     ('sec-regs-carry', gen_regs_carry, '-K', 'sim'),
+    ('sec-rtt-clear', gen_rtt_clear, '-K', 'sim'),
+    ('sec-rti-same-mode', gen_rti_same_mode, '-K', 'sim'),
     ('sec-fpsr-carry', gen_fpsr_carry, '-K', 'sim'),
+    ('sec-fpsr-gtbr', gen_fpsr_gtbr, '-H', 'sim'),
+    ('sec-genter-regs', gen_genter_regs, '-H', 'sim'),
     ('sec-vec-bleed', gen_vec_bleed, '-K', 'sim'),
     ('sec-vec-clear-interrupt', gen_vec_hole_a, '-K', 'sim'),
     ('sec-vec-inplace', gen_vec_inplace, '-K -x 0x800000:0xa00000', 'sim'),
@@ -589,12 +758,13 @@ TESTS = [
     ('sec-dma-revoked', gen_dma_nomap, None, 'qemu'),
     ('sec-hv-reset-mmuctl', lambda: gen_hv_reset_inplace(True), '-H', 'qemu'),
     ('sec-hv-reset-inplace', gen_hv_reset_inplace, '-H', 'qemu'),
+    ('sec-hv-tlbigp', lambda: gen_hv_reset_inplace(False, True), '-H', 'qemu'),
 ]
 
 
 # the probes that FIND a hole on the current implementation live in tests/sec-open (run by tools/check-sec.sh, which reports them and exits 0); every other probe is in tests/sim or
 # tests/qemu and is run by tools/check-sim64.sh and tools/check-qemu.sh.  When an implementation stops having a hole its probe moves to tests/sim or tests/qemu (add it to FIXED below).
-OPEN = {'sec-regs-carry', 'sec-fpsr-carry', 'sec-vec-clear-interrupt', 'sec-vec-inplace', 'sec-vec-stale-record', 'sec-hv-reset-inplace', 'sec-dma-devspace'}
+OPEN = {'sec-vec-clear-interrupt', 'sec-vec-inplace', 'sec-vec-stale-record', 'sec-hv-reset-inplace', 'sec-dma-devspace'}
 
 
 def main():

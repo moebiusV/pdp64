@@ -37,10 +37,12 @@ a write to the granule by any initiator, core or device, clears the reservation'
     # ---- SYS, class 0 ----
     E('NOP', 'system', ['nop', 'lpad'], 'No operation and landing pad', ['NOP', 'LPAD'], 'nothing', NOFLAGS, NONE, '9.14',
       notes='`LPAD` marks a legal target of an indirect jump or call; no instruction enforces it in ABI version 1.', cf='Appendix A, section A.1 (landing pads).'),
-    E('RTI', 'system', ['rti', 'rtt'], 'Return from interrupt or exception', ['RTI', 'RTT'],
+    E('RTI', 'system', ['rti', 'rtt'], 'Return from interrupt or exception', ['RTI #mask', 'RTT #mask'],
       '''PC <- EPC ; PSW <- EPSW           ; a PSW with the reserved mode 2 in either mode field aborts
+if the mode returned to is lesser than the current mode: every Rn (n = 0 to 31, n != 14) whose bit n of mask is zero <- 0
+    and, if bit 14 of mask is zero, the vector registers and FPSR <- 0
 RTT: and then set the trace bit T after the return''', 'Replaced by `EPSW`, including the flags.', PRIV, '9.14',
-      notes='`RTT` sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler.', cf='6.3 (exceptions and interrupts), 6.13.'),
+      notes='The mask is 32 bits, carried in parcels 1 (high half) and 2 (low half), so the instruction is six bytes; there is no form without it. `R14` is the stack pointer of the mode returned to and is never cleared, so bit 14 names the vector registers and the floating-point flags. To the same mode the mask is ignored. `RTT` sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler. The constants `RTIMASK_ALL`, `RTIMASK_NONE`, `RTIMASK_CALLEE` and `RTIMASK_SYSCALL` name the usual masks; `RTIMASK_ALL` is the one spelling that leaves the kernel\'s registers visible.', cf='6.3 (exceptions and interrupts), 6.13.'),
     E('RET', 'system', ['ret'], 'Return from subroutine', ['RET'], 'PC <- M[SP] ; SP <- SP + 8', NOFLAGS, MEMX, '9.14', notes='Not privileged, though it is in the system escape: it is the two-byte partner of `CALL`.'),
     E('HALT', 'system', ['halt'], 'Halt the processor', ['HALT'], 'stop the processor', NOFLAGS, PRIV, '9.14', cf='6.12.'),
     E('BPT', 'system', ['bpt'], 'Breakpoint', ['BPT'], 'take the breakpoint vector with EPC = the address of the next instruction', NOFLAGS, 'Enters the kernel by the `BPT` vector.', '9.14',
@@ -70,11 +72,11 @@ POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16''', NOFLAGS, PRIV + ' `S
       '''STUA: PSW.UA <- 1
 CLUA: PSW.UA <- 0''', NOFLAGS, PRIV + ' A non-zero pad byte is an illegal instruction.', '9.14',
       notes='`UA` is bit 12 of the status word. With `UA` clear, a kernel-mode data access (a load, a store or an operand of a block instruction) to a page whose `U` bit is set takes the load or store protection fault; `PROBER`, `PROBEW` and an instruction fetch are not affected. Exception entry clears `UA` and `EPSW` keeps the old value; `RTI` restores it, and `MTPS` writes it from kernel mode. Outside kernel mode the bit has no effect.', cf='6.10, 6.13.7.'),
-    E('GENTER', 'system', ['genter'], 'Enter a guest', ['GENTER'],
+    E('GENTER', 'system', ['genter'], 'Enter a guest', ['GENTER #mask'],
       '''if H = 0: exit to the hypervisor (code 18)
-else: ISYNC ; PSW <- HEPSW ; PC <- HEPC ; H <- 0''', NOFLAGS,
+else: ISYNC ; PSW <- HEPSW ; PC <- HEPC ; H <- 0 ; every Rn (n != 14) whose bit n of mask is zero <- 0 ; if bit 14 of mask is zero, the vector registers and FPSR <- 0''', NOFLAGS,
       'Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 18; in a guest\'s user mode it is the guest\'s privileged-instruction exception (the guest\'s own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.', '9.14',
-      notes='The one new instruction of the hypervisor mode (6.14). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, switches `R14` and `DP` from the hypervisor\'s bank to the bank of the guest\'s mode, clears `H`, and clears the naming of the vector accumulators and any `LL` reservation (the world switch). Nothing else is done: no translation-buffer entry is removed, and no register of the guest is written. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).', cf='6.14, 6.13.'),
+      notes='The one new instruction of the hypervisor mode (6.14). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, switches `R14` and `DP` from the hypervisor\'s bank to the bank of the guest\'s mode, clears `H`, and clears the naming of the vector accumulators and any `LL` reservation (the world switch). The mask is that of `RTI` (6.3.8) and is always applied, a guest being a lesser mode; the instruction is six bytes. Nothing else is done: no translation-buffer entry is removed, and no general register is written but the ones the mask clears. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).', cf='6.14, 6.13.'),
     # ---- SYSREG ----
     E('MFSR', 'system', ['mfsr', 'mtsr'], 'Move from and to a system register', ['MFSR Rd, name', 'MTSR name, Rs'],
       '''MFSR: Rd <- system register `name`
@@ -91,6 +93,12 @@ MFPS: Rd <- PSW''', '`MTPS` writes the flags from `Rs`; `MFPS` writes none.', 'A
       notes='The replacement for the PDP-11 `IOT` and `EMT`. `TRAPL` reaches the vectors 0 to 255 with `n` in the high byte of parcel 1.', cf='6.3, 6.10 (system calls).'),
     E('TLBI', 'system', ['tlbi'], 'Invalidate a translation', ['TLBI Rs'], 'invalidate the translation-buffer entry for the page containing the address in Rs, on this core and by broadcast on the others', NOFLAGS, PRIV, '9.14',
       cf='7.5, 6.8.'),
+    E('TLBIAS', 'system', ['tlbias', 'tlbigp'], 'Invalidate by address-space number; invalidate by guest-physical page', ['TLBIAS Rs', 'TLBIGP Rs'],
+      '''TLBIAS: invalidate the non-global translations of address-space number Rs[15:0], of the tag in force, on this core and by broadcast on the others
+TLBIGP: (H = 1 only) invalidate the translations of the tag in GTBR that used the guest-physical page named by Rs''', NOFLAGS,
+      PRIV + ' `TLBIAS` in a guest exits under the same trap-control bit as `TLBI`. `TLBIGP` is legal only in the hypervisor mode: a guest in kernel mode exits with code 18, in user mode takes its own privileged-instruction exception, and with no hypervisor (HVE clear) it is an illegal instruction.', '9.14',
+      notes='An implementation may discard more than is asked: one that keeps no guest-physical page discards the whole tag for `TLBIGP`. `TLBIGP` is the invalidate of a hypervisor that has changed one second-stage entry.', cf='6.8.3, 6.14.')
+,
     E('MTASID', 'system', ['mtasid', 'mfasid'], 'Move to and from the address-space identifier', ['MTASID Rs', 'MFASID Rd'],
       '''MTASID: ASID <- Rs[15:0]          
 MFASID: Rd <- ASID''', NOFLAGS, PRIV, '9.14', notes='The `ASID` tags translation-buffer entries so a context switch is one store.', cf='6.8.'),

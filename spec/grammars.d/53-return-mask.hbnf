@@ -1,0 +1,9 @@
+; targets: enc
+; The returns that take a mask of the registers to keep (manual 6.3.5, 6.14.9; docs/encoding-work/bench-holes-1-and-6.md part B, rejudge-holes-rti-resume-hv.md A8, A12, B2):
+; `rti #mask`, `rtt #mask` and `genter #mask`, three parcels (the prefix, the sub-opcode and a 32-bit mask).  There is no two-byte RTI, RTT or GENTER: their old words in SYS0 are reserved
+; (syspg0, syspg1, syspg2), so a return to a lesser mode cannot skip the clear.  The prefix 0b11111100011001 is four first-parcel patterns that no leaf used (spec/pdp64/tables.md; found with
+; the free-pattern scan of the optimiser's own model, tools/mkenc.py fails, naming the overlap, if it is not free); the fourth word of the sub-opcode is reserved.
+forms =/ "RETM"
+form-RETM = o1:imm32u
+leaf-RETM-1 = 0b11111100011001 xsub:2 o1-imm:32 ?(xsub < 3)
+sub-RETM-1 = "rti" | "rtt" | "genter"

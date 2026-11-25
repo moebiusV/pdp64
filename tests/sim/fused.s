@@ -452,7 +452,7 @@ h_gen:
 	cbeq	r7, #0, 1f
 	mtsr	epc, r7
 1:
-	rti
+	rti	#0xffffffff
 	.data
 	.align 8
 cap:	.space 48

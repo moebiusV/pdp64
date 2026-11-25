@@ -1030,7 +1030,7 @@ _start:
 1:
 	movq	#0, r10
 	lea	R2, r4
-I1:	genter
+I1:	genter	#RTIMASK_ALL
 R2:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
@@ -1047,13 +1047,32 @@ R2:
 	movq	#142, r0
 	halt
 1:
+	movq	#0, r10
+	lea	R4, r4
+I3:	tlbigp	r2
+R4:
+	movq	=(1), r11
+	cbeq	r10, r11, 1f
+	movq	#143, r0
+	halt
+1:
+	movq	=(VECTOR_ILLEGAL), r11
+	cbeq	r6, r11, 1f
+	movq	#144, r0
+	halt
+1:
+	lea	I3, r11
+	cbeq	r8, r11, 1f
+	movq	#145, r0
+	halt
+1:
 	movq	#0, r0
 	halt
 h_ill:	mfsr	r6, ecause
 	mfsr	r8, epc
 	add	#1, r10
 	mtsr	epc, r4
-	rti
+	rti	#RTIMASK_ALL
 	.align	4
 tmplr:	mfsr	r1, ptbr
 tmplw:	mtsr	ptbr, r1

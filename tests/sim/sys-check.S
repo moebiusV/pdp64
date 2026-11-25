@@ -45,7 +45,7 @@ check_handler:
 	mfsr	r6, epc
 	mfsr	r8, ecause
 	mtsr	epc, r10
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.even
 vtab:

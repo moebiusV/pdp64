@@ -4009,7 +4009,7 @@ Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, ea
 
 ## 9.10 Branches and control flow
 
-*Cf. section 6.13 for `TRAP`, `RTI` and `RTT`, and section 6.3 for how a trap enters the kernel; section 9.16 for `CALLI` and `JMPI` in position-independent code.*
+*Cf. section 6.13 for `TRAP`, `RTI #mask` and `RTT #mask`, and section 6.3 for how a trap enters the kernel; section 9.16 for `CALLI` and `JMPI` in position-independent code.*
 
 **9.10.1** There is an unconditional branch `BR` and fourteen conditional branches, two bytes with a field of 6 to 9 bits, four with 16 bits, six with 32 bits, counting two-byte parcels from the first parcel of the branch: ±64 to ±512 bytes, ±64 KiB, ±4 GiB.
 
@@ -7240,7 +7240,7 @@ Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each
 
 *Cf. chapter 6, section 6.13 (system instructions, exceptions and interrupts), section 6.3 (exceptions and interrupts) and section 6.5 (system registers).*
 
-**9.14.1** The system group `SYS` holds the privileged and system instructions: `TRAP`, `TRAPL`, `RTI`, `RTT`, `RET`, `HALT`, `BPT`, `MTPS`, `MFPS`, `SPL`, `MFSR`, `MTSR`, `MTDP`, `MFDP`, `MFCPUID`, `PROBER`, `PROBEW`, `PUSHX`, `POPX`, and the translation and cache maintenance instructions (`TLBI`, `TLBIA`, `TLBSYNC`, `MTASID`, `MFASID`, `ICINV`, `ICINVA`). The user-memory guard instructions `STUA` and `CLUA` are described with them.
+**9.14.1** The system group `SYS` holds the privileged and system instructions: `TRAP`, `TRAPL`, `RTI #mask`, `RTT #mask`, `RET`, `HALT`, `BPT`, `MTPS`, `MFPS`, `SPL`, `MFSR`, `MTSR`, `MTDP`, `MFDP`, `MFCPUID`, `PROBER`, `PROBEW`, `PUSHX`, `POPX`, `GENTER #mask`, and the translation and cache maintenance instructions (`TLBI`, `TLBIA`, `TLBIAS`, `TLBIGP`, `TLBSYNC`, `MTASID`, `MFASID`, `ICINV`, `ICINVA`). The user-memory guard instructions `STUA` and `CLUA` are described with them.
 
 *Commentary.* The official entry of each instruction is below, in this section; the kernel chapter gives the modes, the entry sequence, the system registers and the reasons. **Impact.** *Kernel:* the entries below are the complete list of what the kernel may execute that user code may not, and of what both may; chapter 6 explains how they are used. *Compiler:* none, apart from `TRAP` in system-call stubs. *Hardware:* a class decode and one privilege check.
 
@@ -7260,7 +7260,7 @@ LPAD
 
 ![Encoding of NOP](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7310,22 +7310,24 @@ Operation, flags and exceptions as for the entry NOP above; 1 layout form, each 
 **Syntax**
 
 ```
-RTI
-RTT
+RTI #mask
+RTT #mask
 ```
 
 **Encoding**
 
-![Encoding of RTI](figures/SYS0-1.svg)
+![Encoding of RTI](figures/RETM-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `RETM-1`, RETM, prefix `11111100011001`. `op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295. `xsub` selects the mnemonic.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`RETM-1`](dictionary/by-encoding.md#RETM-1).
 
 **Operation**
 
 ```
 PC ← EPC ; PSW ← EPSW           ; a PSW with the reserved mode 2 in either mode field aborts
+if the mode returned to is lesser than the current mode: every Rn (n = 0 to 31, n ≠ 14) whose bit n of mask is zero ← 0
+    and, if bit 14 of mask is zero, the vector registers and FPSR ← 0
 RTT: and then set the trace bit T after the return
 ```
 
@@ -7333,7 +7335,7 @@ RTT: and then set the trace bit T after the return
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
-`RTT` sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler.
+`R14` is the stack pointer of the mode returned to and is never cleared, so bit 14 names the vector registers and the floating-point flags. To the same mode the mask is ignored. `RTT` sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler. The constants `RTIMASK_ALL`, `RTIMASK_NONE`, `RTIMASK_CALLEE` and `RTIMASK_SYSCALL` name the usual masks; `RTIMASK_ALL` is the one spelling that leaves the kernel's registers visible.
 
 **Why it is here.** `RTT` looks redundant against `RTI`, and stays: it sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler.
 
@@ -7342,10 +7344,10 @@ RTT: and then set the trace bit T after the return
 <a id="w-rti"></a>
 #### RTI
 
-![RTI: SYS0, prefix 11110111110, sub-opcode 00001; operands no operand; 2 bytes](figures/w/rti/01.svg)
+![RTI: RETM, prefix 11111100011001, sub-opcode 00; operands imm32u; 6 bytes](figures/w/rti/01.svg)
 
 ```
-RTI
+RTI #mask
 ```
 
 Operation, flags and exceptions as for the entry RTI above; 1 layout form, each a chart of its own (above).
@@ -7353,10 +7355,10 @@ Operation, flags and exceptions as for the entry RTI above; 1 layout form, each 
 <a id="w-rtt"></a>
 #### RTT
 
-![RTT: SYS0, prefix 11110111110, sub-opcode 00010; operands no operand; 2 bytes](figures/w/rtt/01.svg)
+![RTT: RETM, prefix 11111100011001, sub-opcode 01; operands imm32u; 6 bytes](figures/w/rtt/01.svg)
 
 ```
-RTT
+RTT #mask
 ```
 
 Operation, flags and exceptions as for the entry RTI above; 1 layout form, each a chart of its own (above).
@@ -7379,7 +7381,7 @@ RET
 
 ![Encoding of RET](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7413,7 +7415,7 @@ HALT
 
 ![Encoding of HALT](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7447,7 +7449,7 @@ BPT
 
 ![Encoding of BPT](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7485,7 +7487,7 @@ FENCE
 
 ![Encoding of FENCE](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7524,7 +7526,7 @@ WFE
 
 ![Encoding of WFE](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7565,7 +7567,7 @@ SEV
 
 ![Encoding of SEV](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7600,7 +7602,7 @@ ICINVA
 
 ![Encoding of TLBA](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7669,7 +7671,7 @@ POPX
 
 ![Encoding of PUSHX](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7730,7 +7732,7 @@ ISYNC
 
 ![Encoding of ISYNC](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7802,7 +7804,7 @@ CLUA
 
 ![Encoding of STUA](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -7847,36 +7849,36 @@ Operation, flags and exceptions as for the entry STUA above; 1 layout form, each
 <a id="w-genter"></a>
 ### GENTER: Enter a guest
 
-![GENTER: SYS0, prefix 11111011110010, sub-opcode 00; operands no operand; 2 bytes](figures/w/genter/01.svg)
+![GENTER: RETM, prefix 11111100011001, sub-opcode 10; operands imm32u; 6 bytes](figures/w/genter/01.svg)
 
 **Mnemonics:** `GENTER`
 
 **Syntax**
 
 ```
-GENTER
+GENTER #mask
 ```
 
 **Encoding**
 
-![Encoding of GENTER](figures/SYS0-2.svg)
+![Encoding of GENTER](figures/RETM-1.svg)
 
-The chart is the leaf `SYS0-2`, SYS0, prefix `11111011110010`. `sub` (2 bits) selects the mnemonic: `genter` 00, `syspg3` 01, `syspg4` 10, `syspg5` 11.
+The chart is the leaf `RETM-1`, RETM, prefix `11111100011001`. `op1` is `imm32u`: unsigned 32-bit immediate, 0 to 4294967295. `xsub` selects the mnemonic.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-2`](dictionary/by-encoding.md#SYS0-2).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`RETM-1`](dictionary/by-encoding.md#RETM-1).
 
 **Operation**
 
 ```
 if H = 0: exit to the hypervisor (code 18)
-else: ISYNC ; PSW ← HEPSW ; PC ← HEPC ; H ← 0
+else: ISYNC ; PSW ← HEPSW ; PC ← HEPC ; H ← 0 ; every Rn (n ≠ 14) whose bit n of mask is zero ← 0 ; if bit 14 of mask is zero, the vector registers and FPSR ← 0
 ```
 
 **Flags** None written.
 
 **Exceptions** Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 18; in a guest's user mode it is the guest's privileged-instruction exception (the guest's own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.
 
-The one new instruction of the hypervisor mode (6.14). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, switches `R14` and `DP` from the hypervisor's bank to the bank of the guest's mode, clears `H`, and clears the naming of the vector accumulators and any `LL` reservation (the world switch). Nothing else is done: no translation-buffer entry is removed, and no register of the guest is written. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).
+The one new instruction of the hypervisor mode (6.14). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, switches `R14` and `DP` from the hypervisor's bank to the bank of the guest's mode, clears `H`, and clears the naming of the vector accumulators and any `LL` reservation (the world switch). Nothing else is done: no translation-buffer entry is removed, and no general register is written but the ones the mask clears. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).
 
 **Cf.** 6.14, 6.13.
 
@@ -8161,6 +8163,65 @@ invalidate the translation-buffer entry for the page containing the address in R
 **Why it is here.** It broadcasts: a translation changed by one core must be invalidated on all of them, and `TLBSYNC` waits for it.
 
 **Cf.** 7.5, 6.8.
+
+
+### TLBIAS: Invalidate by address-space number; invalidate by guest-physical page
+
+**Mnemonics:** `TLBIAS`, `TLBIGP`
+
+**Syntax**
+
+```
+TLBIAS Rs
+TLBIGP Rs
+```
+
+**Encoding**
+
+![Encoding of TLBIAS](figures/TLBX-1.svg)
+
+The chart is the leaf `TLBX-1`, TLBX, prefix `1111110010`. `op1` is `reg5`: register, 5 bits. `sub` (1 bit) selects the mnemonic: `tlbias` 0, `tlbigp` 1.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`TLBX-1`](dictionary/by-encoding.md#TLBX-1).
+
+**Operation**
+
+```
+TLBIAS: invalidate the non-global translations of address-space number Rs[15:0], of the tag in force, on this core and by broadcast on the others
+TLBIGP: (H = 1 only) invalidate the translations of the tag in GTBR that used the guest-physical page named by Rs
+```
+
+**Flags** None written.
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. `TLBIAS` in a guest exits under the same trap-control bit as `TLBI`. `TLBIGP` is legal only in the hypervisor mode: a guest in kernel mode exits with code 18, in user mode takes its own privileged-instruction exception, and with no hypervisor (HVE clear) it is an illegal instruction.
+
+An implementation may discard more than is asked: one that keeps no guest-physical page discards the whole tag for `TLBIGP`. `TLBIGP` is the invalidate of a hypervisor that has changed one second-stage entry.
+
+**Why it is here.** A context switch that reuses an address-space number, or a process that ends, must remove every translation of that number, not one page at a time; `TLBIAS` does it in one instruction. `TLBIGP` is for the hypervisor, which changes a second-stage entry and knows only the guest-physical page.
+
+**Cf.** 6.8.3, 6.14.
+
+<a id="w-tlbias"></a>
+#### TLBIAS
+
+![TLBIAS: TLBX, prefix 1111110010, sub-opcode 0; operands reg5; 2 bytes](figures/w/tlbias/01.svg)
+
+```
+TLBIAS Rs
+```
+
+Operation, flags and exceptions as for the entry TLBIAS above; 1 layout form, each a chart of its own (above).
+
+<a id="w-tlbigp"></a>
+#### TLBIGP
+
+![TLBIGP: TLBX, prefix 1111110010, sub-opcode 1; operands reg5; 2 bytes](figures/w/tlbigp/01.svg)
+
+```
+TLBIGP Rs
+```
+
+Operation, flags and exceptions as for the entry TLBIAS above; 1 layout form, each a chart of its own (above).
 
 
 ### MTASID: Move to and from the address-space identifier
@@ -8657,7 +8718,7 @@ TRAPCC.cc          ; one word for each of the 14 conditions: TRAPCC.EQ, TRAPCC.V
 
 ![Encoding of TRAPCC](figures/SYS0-1.svg)
 
-The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `rti` 00001, `rtt` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1).
 
@@ -8775,6 +8836,85 @@ Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, ea
 ![TRAPCC.LOS: SYS0, prefix 11110111110, sub-opcode 11101; operands no operand; 2 bytes](figures/w/trapcc-los/01.svg)
 
 Operation, flags and exceptions as for the entry TRAPCC above; 1 layout form, each a chart of its own (above).
+
+
+### SYSPG: Reserved system words
+
+**Mnemonics:** `SYSPG0`, `SYSPG1`, `SYSPG2`, `SYSPG3`, `SYSPG4`, `SYSPG5`
+
+**Syntax**
+
+```
+SYSPG0 ... SYSPG5
+```
+
+**Encoding**
+
+![Encoding of SYSPG](figures/SYS0-1.svg)
+
+The chart is the leaf `SYS0-1`, SYS0, prefix `11110111110`. `sub` (5 bits) selects the mnemonic: `nop` 00000, `syspg0` 00001, `syspg1` 00010, `ret` 00011, `halt` 00100, `bpt` 00101, `fence` 00110, `wfe` 00111, `sev` 01000, `lpad` 01001, `tlbia` 01010, `tlbsync` 01011, `icinva` 01100, `pushx` 01101, `popx` 01110, `isync` 01111, `trapcc.ne` 10000, `trapcc.eq` 10001, `trapcc.pl` 10010, `trapcc.mi` 10011, `trapcc.vc` 10100, `trapcc.vs` 10101, `trapcc.cc` 10110, `trapcc.cs` 10111, `trapcc.ge` 11000, `trapcc.lt` 11001, `trapcc.gt` 11010, `trapcc.le` 11011, `trapcc.hi` 11100, `trapcc.los` 11101, `stua` 11110, `clua` 11111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYS0-1`](dictionary/by-encoding.md#SYS0-1), [`SYS0-2`](dictionary/by-encoding.md#SYS0-2).
+
+**Operation**
+
+```
+none: the six words are reserved
+```
+
+**Flags** None written.
+
+**Exceptions** Not specified. The reference executor traps them as unimplemented instructions.
+
+Placeholders. `SYSPG0`, `SYSPG1` and `SYSPG2` are the two-byte words that `RTI`, `RTT` and `GENTER` had before they took a mask: those three are now six-byte instructions, and the old words are reserved so that no return to a lesser mode exists without a mask. The other three are reserved for the page-bit mechanisms that I approved to be specified (landing pads gated by a page bit, the `SYS` page bit), which `docs/retire-stage-candidates.md` describes as needing no opcode. No text of the repository gives these words a meaning, and software must not use them.
+
+**Why it is here.** The grammars reserve six words next to `LPAD` and `TRAPCC`. Three are the two-byte words that `RTI`, `RTT` and `GENTER` had before a return to a lesser mode had to carry a mask, and they stay reserved so that no such return can skip the clear. The other three are for the page-bit mechanisms: I approved landing pads gated by a page bit and the `SYS` page bit "to be specified", and the retire-stage study found that these need no opcode. The placeholders keep the space; the record does not say what any of them will be.
+
+<a id="w-syspg0"></a>
+#### SYSPG0
+
+![SYSPG0: SYS0, prefix 11110111110, sub-opcode 00001; operands no operand; 2 bytes](figures/w/syspg0/01.svg)
+
+```
+SYSPG0 ... SYSPG5
+```
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg1"></a>
+#### SYSPG1
+
+![SYSPG1: SYS0, prefix 11110111110, sub-opcode 00010; operands no operand; 2 bytes](figures/w/syspg1/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg2"></a>
+#### SYSPG2
+
+![SYSPG2: SYS0, prefix 11111011110010, sub-opcode 00; operands no operand; 2 bytes](figures/w/syspg2/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg3"></a>
+#### SYSPG3
+
+![SYSPG3: SYS0, prefix 11111011110010, sub-opcode 01; operands no operand; 2 bytes](figures/w/syspg3/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg4"></a>
+#### SYSPG4
+
+![SYSPG4: SYS0, prefix 11111011110010, sub-opcode 10; operands no operand; 2 bytes](figures/w/syspg4/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
+
+<a id="w-syspg5"></a>
+#### SYSPG5
+
+![SYSPG5: SYS0, prefix 11111011110010, sub-opcode 11; operands no operand; 2 bytes](figures/w/syspg5/01.svg)
+
+Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.14 -->
 
 ## 9.15 Faults, restart and memory management

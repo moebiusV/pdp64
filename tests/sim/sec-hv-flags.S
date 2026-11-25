@@ -24,7 +24,7 @@ gfill:	movq	r2, (r1)+
 	mtsr	hepsw, r2
 	lea	back1, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g1:	movq	#15, r1
 	mtps	r1
 	halt
@@ -51,7 +51,7 @@ back1:	mfps	r2
 	movq	#0, r2
 	mtsr	hepsw, r2
 	lea	back2, r20
-	genter
+	genter	#RTIMASK_ALL
 g2:	mfps	r6
 	halt
 back2:	movq	r6, r7

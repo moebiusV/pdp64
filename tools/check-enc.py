@@ -14,6 +14,7 @@ import collections, json, os, random, subprocess, sys
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import encgram
+import grammars_d
 sys.path.insert(0, os.path.join(ROOT, 'docs', 'codegen-data', 'encoding'))
 sys.dont_write_bytecode = True
 import enc
@@ -94,9 +95,23 @@ def run():
     enc.RELOC = 'max'
     forms = []
     dpforms = set()
+    owned = {os.path.normpath(p['path']) for p in grammars_d.parts() if p['tool'] == 'tools/encopt/addforms.py'}
     for f in d['forms']:
         forms.append(Form(f['name'], f['n'], f['mns'], [mkspec(s) for s in f['specs']], xbits=f['xbits']))
-    code = Code(forms)
+    mine = [fm for fm, f in zip(forms, d['forms']) if os.path.normpath(f['file']) in owned]
+    hand = [fm for fm, f in zip(forms, d['forms']) if os.path.normpath(f['file']) not in owned]
+    code = Code(mine)
+    # the leaves of the forms of a hand-written part (spec/README.md, "How a part is added"; the generator does not lay them out) are at the prefixes the grammar gives them, which must be
+    # free in the model's space; the model gives each its width, its sub-opcode and the place of its fields as for any leaf
+    for hf in hand:
+        for lf in Code([hf]).leaves:
+            jl = next(x for x in d['leaves'] if d['forms'][x['form']]['name'] == hf.name and x['off'] == lf.off)
+            lf.prefix = jl['prefix']; lf.lo = lf.prefix << (16 - lf.L); lf.hi = lf.lo + (1 << (16 - lf.L)); lf.idx = len(code.leaves)
+            for q in range(lf.lo, lf.hi):
+                assert code.table[q] is None, ('the prefix of %s overlaps a leaf of the model: %s' % (hf.name, code.table[q] and (code.table[q].form.name, hex(q))))
+                code.table[q] = lf
+            code.leaves.append(lf)
+    code.forms = forms
     # 1. the table is what the model computes
     assert len(code.leaves) == len(d['leaves'])
     for lf, jl in zip(code.leaves, d['leaves']):

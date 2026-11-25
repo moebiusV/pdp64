@@ -85,6 +85,8 @@ enum { PDP64_CAT_OTHER, PDP64_CAT_FRAME_LD, PDP64_CAT_FRAME_ST, PDP64_CAT_REGMOV
 #define PDP64_TLB_PAGE 0	/* tlbi: the page that contains addr, for the current ASID and the global entries */
 #define PDP64_TLB_ALL 1		/* tlbia, or a write to ptbr, asid or mmuctl: discards the translations of the tag in GTBR (the guest's own at H = 0), design rules G-a, G-b, G-d */
 #define PDP64_TLB_SYNC 2	/* isync and genter: the effect of the earlier writes is published; no cached translation of any tag is discarded (a host that keeps no cache of its own may flush) */
+#define PDP64_TLB_ASID 4	/* tlbias: the non-global translations of the address-space number in addr (low 16 bits), of the tag in force (the guest's own at H = 0, the tag in GTBR at H = 1) */
+#define PDP64_TLB_GPA 5		/* tlbigp (H = 1): the translations of the tag in GTBR that used the guest-physical page of addr; a host that keeps no guest-physical field discards the whole tag */
 #define PDP64_TLB_GTBR 3	/* a write to GTBR that changes the root or the enable bit (rule G-c): discard every translation of the tag in the new value, passed as addr */
 
 /* The space bit (errata 60): bit 39 of a 40-bit physical address is set for device space, clear for memory.  PROPOSED (errata 65): a leaf page-table entry must agree with

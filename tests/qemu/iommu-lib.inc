@@ -405,7 +405,7 @@ h_iommu:
 	add	#1, r30
 	movq	#CTL_QUIET, r31
 	movq	r31, IOMMU_REG_CONTROL(r11)
-	rti
+	rti	#0xffffffff
 fail_mc:
 	movq	#50, r0			; a machine check: the unit must never cause one
 	halt

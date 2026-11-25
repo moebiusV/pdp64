@@ -1,0 +1,8 @@
+; targets: enc
+; The encoding of tlbias and tlbigp (54-mn-tlbx.hbnf): a form of its own, one register (the shape reg5 of 21-enc-shapes.hbnf), and one leaf.  It is not a leaf of the generated form SYSR: the
+; generator owns the leaves of its forms and would lay them all out again.  The prefix 0b1111110010 is 64 first-parcel patterns that no leaf used (a 10-bit prefix, one bit of sub-opcode and
+; the register: 16 bits); tools/mkenc.py fails, naming the overlap, if it is not free.  Two bytes each.
+forms =/ "TLBX"
+form-TLBX = o1:reg5
+leaf-TLBX-1 = 0b1111110010 sub:1 o1-r:5
+sub-TLBX-1 = "tlbias" | "tlbigp"

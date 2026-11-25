@@ -53,7 +53,7 @@ wait:	movq	(r13), r4
 	movq	#(5<<PSW_PRI), r2	; priority 5: line 6 can be taken ... after the SPL below the guest raises it to 6 first
 	mtsr	hepsw, r2
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 guest:	movq	=MAP_VTIMER, r13
 	movq	(r13), r1		; c0: the counter, about 100
 	movq	r1, r2
@@ -83,7 +83,7 @@ gh6:	add	#1, r10			; the guest's handler of vector 0x60
 	movq	(r13), r4		; the counter at the interrupt
 	mfsr	r7, ecause
 	mfsr	r8, epc
-	rti
+	rti	#RTIMASK_ALL
 gbad:	movq	#77, r11
 	halt
 xh:	mfsr	r20, hexitr

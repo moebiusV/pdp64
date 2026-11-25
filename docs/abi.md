@@ -8,7 +8,7 @@ The choices below are fixed for version 1 of the ABI of the pdp64 (one CPU, 32 r
 |---|---|
 | Data model | LP64: `char` 8, `short` 16, `int` 32, `long` 64, `long long` 64, pointers 64. Little-endian. `char` is signed. `long double` is `double`. |
 | Alignment | natural; the stack pointer is a multiple of 8 at all times (data alignment is architectural, chapter 9 of the manual, memory access and alignment: a quad access to an address not a multiple of 8 aborts; the 2-byte parcel alignment is for instructions only). No 16-byte alignment: no type or register is wider than a quad. |
-| Registers | `R0`-`R5` arguments, `R0` (and `R1`) results, `R0`-`R7` and `R12` caller-saved; `R8`-`R11`, `R15` callee-saved; `R12` linker scratch; `R13` frame pointer (callee-saved, optional); `R14` stack pointer. |
+| Registers | `R0`-`R5` arguments, `R0` (and `R1`) results, `R0`-`R7`, `R12` and `R16`-`R23` caller-saved; `R8`-`R11`, `R15` and `R24`-`R31` callee-saved; `R12` linker scratch; `R13` frame pointer (callee-saved, optional); `R14` stack pointer. |
 | Floating point | `binary64` in a general register, `binary32` in the low 32 bits sign-extended (chapter 9, floating-point formats); passed and returned exactly like integers. |
 | Arguments | in order in `R0`-`R5` (a struct of up to 16 bytes takes one or two consecutive, as many as needed); the rest pushed right to left, each in an 8-byte slot (a larger struct in as many slots as it needs, by value). |
 | Results | `R0`; `R0:R1` for a 128-bit pair or a struct up to 16 bytes; a larger struct through a hidden pointer passed in `R0` (the arguments then start at `R1`), and returned in `R0`. |
@@ -29,7 +29,7 @@ allocation should prefer them, and `mov2` (two register moves in one parcel) tak
 |---|---|
 | `r0 r1 r8 r2 sp r3 r9 r10` | `r0 r1 r8 r2 sp r3 r9 r10 r11 r4 r15 r5 r24 r25 r26 r6` |
 
-`r16`-`r31` are ordinary registers to the hardware; `r24`-`r26` are among the sixteen hot registers (appendix C.4.2). Draft convention (unverified against the ledger and the manual: appendix C does not state it): `r24`-`r26` callee-saved, the rest of `r16`-`r31` not yet assigned.
+`r16`-`r31` are ordinary registers to the hardware; `r24`-`r26` are among the sixteen hot registers (appendix C.4.2). `r16`-`r23` are caller-saved scratch and `r24`-`r31` are callee-saved (appendix C.4.2); the default mask of a system-call return (`RTI #RTIMASK_SYSCALL`) keeps `r0` and the callee-saved registers (appendix C.4.3).
 
 ## Variadic calls
 

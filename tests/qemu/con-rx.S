@@ -50,16 +50,16 @@ h_rx:	movq	CONSOLE_REG_RXDB(r13), r9
 	cmp	r9, #10
 	bne	1f
 	movq	#1, r8
-1:	rti
+1:	rti	#RTIMASK_ALL
 h_tx:	movb	(r10)+, r9
 	cmp	r9, #0
 	bne	1f
 	movq	#0, r9
 	movq	r9, CONSOLE_REG_TXCS(r13)
 	movq	#1, r7
-	rti
+	rti	#RTIMASK_ALL
 1:	movq	r9, CONSOLE_REG_TXDB(r13)
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

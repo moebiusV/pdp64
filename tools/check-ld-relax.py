@@ -24,7 +24,7 @@ def mkspec(s):
     if k in ('PI', 'PD'): return SP(k, mkspec(s['rn']), s['dw'])
     if k == 'PC': return SPC(s['w'], s['unit'])
     if k == 'A': return SA(s['w'])
-forms = [Form(f['name'], f['n'], f['mns'], [mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
+forms = [Form(f['name'], f['n'], f['mns'], [mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in encgram.generated_forms(d)]
 code = Code(forms)
 def choose(mn, ops, minn):
     c = [(f.n, i, f) for i, f in enumerate(forms) if mn in f.mns and f.n >= minn]

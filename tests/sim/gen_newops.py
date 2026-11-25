@@ -244,7 +244,7 @@ k.a('clr\tr0', 'halt')
 for i in range(1, k.n + 1): k.a('F%d:' % i, 'movq\t#%d, r0' % i, 'halt')
 k.a('FSP:', 'movq\t#98, r0', 'halt')
 k.a('h_gen:', 'mfsr\tr6, epc', 'mfsr\tr8, ecause', 'mfsr\tr9, eva', 'movq\tr2, cap', 'movq\tr3, cap+8', 'movq\tr13, cap+16', 'movq\tr15, cap+24', 'movq\tr14, cap+32', 'add\t#1, r10',
-    'cbeq\tr4, #0, 1f', 'movq\tr4, sp', '1:', 'cbeq\tr7, #0, 1f', 'mtsr\tepc, r7', '1:', 'rti')
+    'cbeq\tr4, #0, 1f', 'movq\tr4, sp', '1:', 'cbeq\tr7, #0, 1f', 'mtsr\tepc, r7', '1:', 'rti\t#0xffffffff')
 k.l += ['\t.data', '\t.align 8', 'cap:\t.space 48', 'popstk:\t.quad 0x5555, 0', 'popmstk:\t.quad 0xbb, 0xaa, 0', 'vtab:', '\t.space 16', '\t.quad h_gen', '\t.space 8', '\t.quad h_gen', '\t.space 64', '\t.quad h_gen',
         '\t.space 16', '\t.quad h_gen', '\t.space 3900', '\t.bss', '\t.align 16', '\t.space 256', 'stack_top:', '\t.space 64']
 open(out + '/fused.s', 'w').write('\n'.join(k.l).replace('movq\tr14, r12', 'movq\tsp, r12') + '\n')

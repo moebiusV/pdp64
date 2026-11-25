@@ -177,7 +177,7 @@ x:\tret
 
 def run(which):
     d = encgram.load(ROOT)
-    forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
+    forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in encgram.generated_forms(d)]
     sc = Scheme(forms)
     enc.RELOC = 'max'
     outdir = os.path.join(ROOT, 'tests', 'asm')

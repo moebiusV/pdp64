@@ -305,8 +305,16 @@
 | `SUBV` | [OVF](../09-isa.md#ovf-add-subtract-and-multiply-trapping-on-signed-overflow) (section 9.7) | [1](by-encoding.md#mn-subv), [entry](../09-isa.md#w-subv) | Added by the prefix-coded encoding |
 | `SWAP` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swap), [entry](../09-isa.md#w-swap) | Atomics (ATOM) |
 | `SWAPDB` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swapdb), [entry](../09-isa.md#w-swapdb) | Atomics (ATOM) |
+| `SYSPG0` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg0), [entry](../09-isa.md#w-syspg0) | Added by the prefix-coded encoding |
+| `SYSPG1` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg1), [entry](../09-isa.md#w-syspg1) | Added by the prefix-coded encoding |
+| `SYSPG2` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg2), [entry](../09-isa.md#w-syspg2) | Added by the prefix-coded encoding |
+| `SYSPG3` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg3), [entry](../09-isa.md#w-syspg3) | Added by the prefix-coded encoding |
+| `SYSPG4` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg4), [entry](../09-isa.md#w-syspg4) | Added by the prefix-coded encoding |
+| `SYSPG5` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg5), [entry](../09-isa.md#w-syspg5) | Added by the prefix-coded encoding |
 | `TLBI` | [TLBI](../09-isa.md#tlbi-invalidate-a-translation) (section 9.14) | [1](by-encoding.md#mn-tlbi), [entry](../09-isa.md#w-tlbi) | System (SYS) |
 | `TLBIA` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | [1](by-encoding.md#mn-tlbia), [entry](../09-isa.md#w-tlbia) | System (SYS) |
+| `TLBIAS` | [TLBIAS](../09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) (section 9.14) | [1](by-encoding.md#mn-tlbias), [entry](../09-isa.md#w-tlbias) | System (SYS) |
+| `TLBIGP` | [TLBIAS](../09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) (section 9.14) | [1](by-encoding.md#mn-tlbigp), [entry](../09-isa.md#w-tlbigp) | System (SYS) |
 | `TLBSYNC` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | [1](by-encoding.md#mn-tlbsync), [entry](../09-isa.md#w-tlbsync) | System (SYS) |
 | `TRAP` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | [1](by-encoding.md#mn-trap), [entry](../09-isa.md#w-trap) | System (SYS) |
 | `TRAPCC.CC` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-cc), [entry](../09-isa.md#w-trapcc-cc) | Added by the prefix-coded encoding |

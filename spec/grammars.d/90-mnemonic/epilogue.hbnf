@@ -20,4 +20,5 @@ mnemonic = mn-mov
          | mn-sys-none
          | mn-sysx
          | mn-sys
+         | mn-tlbx
          | mn-ext

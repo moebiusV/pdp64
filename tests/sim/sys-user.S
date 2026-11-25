@@ -15,7 +15,7 @@ _start:
 	mtsr	epc, r1
 	movq	#(MODE_USER<<PSW_MODE), r1
 	mtsr	epsw, r1
-	rti
+	rti	#RTIMASK_ALL
 user:
 	mfps	r1
 	cmp	r1, #(MODE_USER<<PSW_MODE)
@@ -162,7 +162,7 @@ pr3:
 	movq	#0, r13
 	lea	pr4, r4
 pi4:
-	rti
+	rti	#RTIMASK_ALL
 pr4:
 	cmp	r10, #(1)
 	bne	F32	; check 32
@@ -190,7 +190,7 @@ pr4:
 	movq	#0, r13
 	lea	pr5, r4
 pi5:
-	rtt
+	rtt	#RTIMASK_ALL
 pr5:
 	cmp	r10, #(1)
 	bne	F38	; check 38
@@ -921,19 +921,19 @@ h_gen:	mfps	r12
 	add	#1, r10
 	cbeq	r4, #0, 1f
 	mtsr	epc, r4
-1:	rti
+1:	rti	#RTIMASK_ALL
 h_ok:	movq	#0, r0
 h_fail:	halt
 h_k7:	lea	ustack_alt, r1
 	mtsr	usp, r1
-	rti
+	rti	#RTIMASK_ALL
 h_k8:	lea	sstack_top, r1
 	mtsr	ssp, r1
 	lea	sup, r1
 	mtsr	epc, r1
 	movq	#(MODE_SUPERVISOR<<PSW_MODE|MODE_USER<<PSW_PREV), r1
 	mtsr	epsw, r1
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

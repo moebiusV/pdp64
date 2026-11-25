@@ -309,7 +309,7 @@ res6:
 	lea	res7, r2
 	mtsr	epc, r2
 badrti:
-	rti
+	rti	#RTIMASK_ALL
 res7:
 	cmp	r10, #(1)
 	bne	F61	; check 61
@@ -478,7 +478,7 @@ h_gen:	mfps	r12
 	add	#1, r10
 	cbeq	r4, #0, 1f
 	mtsr	epc, r4
-1:	rti
+1:	rti	#RTIMASK_ALL
 
 h_nest:	cbne	r10, #0, nested
 	add	#1, r10
@@ -487,9 +487,9 @@ h_nest:	cbne	r10, #0, nested
 inner_after:
 	mfsr	r7, epc
 	mtsr	epc, r6
-	rti
+	rti	#RTIMASK_ALL
 nested:	mfsr	r9, epc
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

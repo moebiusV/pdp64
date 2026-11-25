@@ -514,13 +514,13 @@ h_garb:
 	vend
 h_ret:
 	popm	#0x3fff
-	rti
+	rti	#RTIMASK_ALL
 h_mis:
 	movq	24(r12), r2
 	lea	fixtramp, r1
 	mtsr	epc, r1
 	popm	#0x3fff
-	rti
+	rti	#RTIMASK_ALL
 fixtramp:
 	movq	432(r12), r1
 	movq	440(r12), r2

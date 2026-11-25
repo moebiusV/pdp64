@@ -76,7 +76,7 @@ hgen:	movq	cnt, r12
 	mfsr	r12, epsw
 	movq	r12, last_epsw
 	mtsr	epc, r13
-	rti
+	rti	#RTIMASK_ALL
 h_ok:	movq	#0, r0
 h_fail:	halt
 '''
@@ -96,17 +96,20 @@ ustack_top:
 ubuf:	.space	32
 '''
 
-# enter user mode at the label `user`, with the user stack
-ENTER_USER = r'''
+# enter user mode at the label `user`, with the user stack; the return keeps the registers of `mask` (an assembler expression; RTIMASK_ALL keeps them all: the old behaviour of a return) and
+# r1 is zero if `clear_r1` (what the earlier probes did)
+def enter_user(mask='RTIMASK_ALL', clear_r1=True):
+    return r'''
 	lea	ustack_top, r1
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
 	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	movq	#0, r1
-	rti
-'''
+''' + ('\tmovq\t#0, r1\n' if clear_r1 else '') + '\trti\t#%s\n' % mask
+
+
+ENTER_USER = enter_user()
 
 
 def write(path, header_lines, body):
@@ -174,8 +177,8 @@ h_fault:
 	mtsr	epc, r12
 	movq	#0, r12
 	movq	r12, redirect
-1:	rti
-h_trap:	rti
+1:	rti	#RTIMASK_ALL
+h_trap:	rti	#RTIMASK_ALL
 h_bad:	movq	#99, r0
 	halt
 h_ok:	movq	#0, r0

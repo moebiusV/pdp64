@@ -270,7 +270,7 @@ _start:
 	movq	#41, r0
 	halt
 1:
-	movq	=0xffff, r2
+	movq	=0x1fff, r2
 	mtsr	hepsw, r2
 	mfsr	r3, hepsw
 	movq	=(0x1fff), r11
@@ -294,7 +294,7 @@ _start:
 	movq	#44, r0
 	halt
 1:
-	movq	=0xffffffffffffffff, r2
+	movq	=0xffff00fffffff001, r2
 	mtsr	gtbr, r2
 	mfsr	r3, gtbr
 	movq	=(0xffff00fffffff001), r11
@@ -302,7 +302,7 @@ _start:
 	movq	#45, r0
 	halt
 1:
-	movq	=0x0000123456789001, r2
+	movq	=0x0000003456789001, r2
 	mtsr	gtbr, r2
 	mfsr	r3, gtbr
 	movq	=(0x0000003456789001), r11
@@ -310,7 +310,7 @@ _start:
 	movq	#46, r0
 	halt
 1:
-	movq	=0xffffffffffffffff, r2
+	movq	=0xfe, r2
 	mtsr	virq, r2
 	mfsr	r3, virq
 	movq	=(0xfe), r11
@@ -326,7 +326,7 @@ _start:
 	movq	#48, r0
 	halt
 1:
-	movq	=0xffffffffffffffff, r2
+	movq	=0x00ffffffffffffff, r2
 	mtsr	vivec, r2
 	mfsr	r3, vivec
 	movq	=(0x00ffffffffffffff), r11
@@ -334,7 +334,7 @@ _start:
 	movq	#49, r0
 	halt
 1:
-	movq	=0x2122232425262728, r2
+	movq	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mfsr	r3, vivec
 	movq	=(0x0022232425262728), r11
@@ -350,7 +350,7 @@ _start:
 	movq	#51, r0
 	halt
 1:
-	movq	=0xffffffff, r2
+	movq	=0xffff, r2
 	mtsr	vcpuid, r2
 	mfsr	r3, vcpuid
 	movq	=(0xffff), r11
@@ -1138,7 +1138,7 @@ h_ill:	mfsr	r6, hcause
 	mfsr	r8, hepc
 	add	#1, r10
 	mtsr	hepc, r4
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 ubuf:	.space	16

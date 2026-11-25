@@ -326,11 +326,11 @@ exec = "H_SYS0"
 arg = "MN_SYS_NONE_NOP"
 
 [rti]
-exec = "H_SYS0"
+exec = "H_SYSM"
 arg = "MN_SYS_NONE_RTI"
 
 [rtt]
-exec = "H_SYS0"
+exec = "H_SYSM"
 arg = "MN_SYS_NONE_RTT"
 
 [ret]
@@ -398,8 +398,16 @@ exec = "H_SYSX"
 arg = "MN_SYSX_CLUA"
 
 [genter]
-exec = "H_SYSX"
+exec = "H_SYSM"
 arg = "MN_SYSX_GENTER"
+
+[tlbias]
+exec = "H_TLBX"
+arg = "MN_TLBX_TLBIAS"
+
+[tlbigp]
+exec = "H_TLBX"
+arg = "MN_TLBX_TLBIGP"
 
 [mtps]
 exec = "H_SYSR"
@@ -976,6 +984,15 @@ arg = "0"
 [mov2]
 exec = "H_MOV2"
 arg = "0"
+
+[syspg0]
+exec = "H_UNIMPL"
+
+[syspg1]
+exec = "H_UNIMPL"
+
+[syspg2]
+exec = "H_UNIMPL"
 
 [syspg3]
 exec = "H_UNIMPL"

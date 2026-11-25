@@ -56,7 +56,7 @@ Test, then set, with no protection between: another process cannot run between t
 
 ## 7.3 The multiprocessor instructions at a glance
 
-Before the details, the whole list. The instructions that exist for several processors fall into two sets, ten atomics and seven others, and the umbrella is conceptual: they are not one group in the encoding. The count is of **folded operations**: variants of one operation count once. The plain and the `_DB` form of an atomic are one operation, so are the signed and the unsigned maximum, and so are `TLBI` with its "all" form `TLBIA` and `ICINV` with `ICINVA`. The seventeen are my umbrella of 2026-10-21 ("how many folded opcodes in system and smp? i thought atomics and smp would be in the same umbrella"), counted that day over the whole instruction set under this rule (93 operations in all, of which 17 are multiprocessor and 12 other system operations); the table gives the words of the grammar that implement each, the group and the section.
+Before the details, the whole list. The instructions that exist for several processors fall into two sets, ten atomics and seven others, and the umbrella is conceptual: they are not one group in the encoding. The count is of **folded operations**: variants of one operation count once. The plain and the `_DB` form of an atomic are one operation, so are the signed and the unsigned maximum, and so are `TLBI` with its "all" form `TLBIA` and its "by address-space number" form `TLBIAS`, and `ICINV` with `ICINVA`. The seventeen are my umbrella of 2026-10-21 ("how many folded opcodes in system and smp? i thought atomics and smp would be in the same umbrella"), counted that day over the whole instruction set under this rule (93 operations in all, of which 17 are multiprocessor and 12 other system operations); the table gives the words of the grammar that implement each, the group and the section.
 
 The counts of that day, side by side:
 
@@ -82,7 +82,7 @@ The counts of that day, side by side:
 | 11 | device-access fence | `FENCE` | system (`SYS`) | 7.5.7 |
 | 12 | wait for event | `WFE` (assembler alias `WAIT`) | system | 7.10 |
 | 13 | send event | `SEV` | system | 7.10 |
-| 14 | invalidate translations, broadcast | `TLBI`, `TLBIA` | system | 7.9 |
+| 14 | invalidate translations, broadcast | `TLBI`, `TLBIA`, `TLBIAS` | system | 7.9 |
 | 15 | wait for the broadcast to finish | `TLBSYNC` | system | 7.9 |
 | 16 | invalidate the instruction cache | `ICINV`, `ICINVA` | system | 7.9 |
 | 17 | read the core number | `MFCPUID` | system | 7.8.1 |
@@ -260,11 +260,11 @@ curcpu():       MFDP Rd                      # kernel mode: DP is the address of
 
 ![A shootdown beside the broadcast](figures/smp-shootdown.svg)
 
-**The pdp64's way.** `TLBI` and `TLBIA` (chapter 6, 6.8) are broadcast by the hardware, and `TLBSYNC` waits until every core has finished, so the kernel knows no core holds the old translation. A broadcast that cannot be waited for is no use, which is why the completion instruction exists. The kernel's own mappings are global or window-mapped (6.9) and are never part of a shootdown.
+**The pdp64's way.** `TLBI`, `TLBIA` and `TLBIAS` (chapter 6, 6.8) are broadcast by the hardware, and `TLBSYNC` waits until every core has finished, so the kernel knows no core holds the old translation. A broadcast that cannot be waited for is no use, which is why the completion instruction exists. The kernel's own mappings are global or window-mapped (6.9) and are never part of a shootdown.
 
 **Instruction caches.** The data cache is coherent between cores (7.6). The **instruction cache** (the cache that the instruction fetch reads) is not coherent with the data cache. A program that writes instructions as data (a loader, a **JIT** compiler that generates code as it runs, a trampoline, a Lisp runtime compiling a function) must make the instruction fetch see them. x86 keeps its instruction cache coherent (*unverified*). ARM requires cache maintenance and an `isb` (`arch/arm64/mm/cache.S`, read) and RISC-V a `fence.i`, which across cores Linux does by interrupt or firmware call (`arch/riscv/mm/cacheflush.c`, read). The pdp64 follows ARM: coherent instruction caches would cost a snoop port for a case that almost never happens.
 
-**7.9.1** `TLBI` and `TLBIA` broadcast to all cores; `TLBSYNC` waits until the broadcast has completed everywhere.
+**7.9.1** `TLBI`, `TLBIA` and `TLBIAS` broadcast to all cores; `TLBSYNC` waits until the broadcast has completed everywhere.
 
 **7.9.2** Instruction caches are not coherent with data caches; `ICINV` invalidates a line and `ICINVA` all of it, and neither is privileged, because a JIT needs them.
 

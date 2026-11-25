@@ -19,7 +19,7 @@ which, outdir = sys.argv[1], sys.argv[2]
 tag = sys.argv[3] if len(sys.argv) > 3 else ('base16' if which == '16' else 'r32')
 import encgram
 d = encgram.load(which)
-forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms']]
+forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in encgram.generated_forms(d)]
 sc = Scheme(forms)
 enc.RELOC = 'max'
 corp = corpus(tag)

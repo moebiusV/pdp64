@@ -25,7 +25,7 @@ fill2:	movq	r2, (r1)+
 	mtsr	hepsw, r2
 	lea	back1, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g1:	mfps	r1
 	halt
 g1e:
@@ -73,7 +73,7 @@ back1:
 	mtsr	hepsw, r2
 	lea	back2, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g2:	sev
 	halt
 back2:
@@ -103,7 +103,7 @@ back2:
 	mtsr	hepsw, r2
 	lea	back2b, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g2b:	trap	#0
 g2be:
 back2b:
@@ -153,7 +153,7 @@ back2b:
 	mtsr	hepsw, r2
 	lea	back3, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g3:	movq	r14, r1
 	mfdp	r2
 	movq	=0x1111, r3
@@ -224,7 +224,7 @@ back3:
 	mtsr	hepsw, r2
 	lea	back3u, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g3u:	movq	r14, r1
 	mfdp	r2
 	movq	=0x7777, r14
@@ -273,7 +273,7 @@ back3u:
 	mtsr	hepsw, r2
 	lea	back3s, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g3s:	movq	r14, r1
 	mfdp	r2
 	halt
@@ -298,7 +298,7 @@ back3s:
 	mtsr	hepc, r2
 	movq	#0, r10
 	lea	R2, r4
-I1:	genter
+I1:	genter	#RTIMASK_ALL
 R2:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
@@ -316,7 +316,7 @@ R2:
 	mtsr	hepc, r2
 	movq	#0, r10
 	lea	R4, r4
-I3:	genter
+I3:	genter	#RTIMASK_ALL
 R4:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
@@ -345,7 +345,7 @@ R4:
 	mtsr	hepsw, r2
 	lea	back5, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g5:	vclr.l	v0, #1
 	halt
 back5:	call	runs
@@ -365,7 +365,7 @@ back5:	call	runs
 	mtsr	hepsw, r2
 	lea	back6, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 g6:	call	runs
 	halt
 back6:	call	expect_copy
@@ -410,7 +410,7 @@ gh:	halt
 h_ill:	mfsr	r6, hcause
 	add	#1, r10
 	mtsr	hepc, r4
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 htab:	.space	4096

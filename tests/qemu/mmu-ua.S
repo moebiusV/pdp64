@@ -282,7 +282,7 @@ h_gen:	mfps	r12
 	mfsr	r9, eva
 	add	#1, r10
 	mtsr	epc, r13
-	rti
+	rti	#RTIMASK_ALL
 h_fail:	movq	#249, r0		; an unexpected exception
 	halt
 	.data

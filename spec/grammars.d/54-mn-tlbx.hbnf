@@ -1,0 +1,6 @@
+; targets: asm spec
+; The two invalidates that name what they remove by an operand register (manual 6.8.3, 6.16.22; docs/encoding-work/rejudge-accepted-recommendations.md, the invalidate by address-space number and the
+; invalidate by guest-physical page as a mnemonic of its own).  tlbias rN: every non-global translation of the address-space number in rN (its low 16 bits) of the tag in force; tlbigp rN: every
+; translation of the tag in GTBR that used the guest-physical page named by rN, at H = 1 only.  The numbers are the handler's argument (MN_TLBX_*).
+mn-tlbx = "tlbias"@0
+        | "tlbigp"@1

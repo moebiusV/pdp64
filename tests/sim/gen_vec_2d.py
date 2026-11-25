@@ -308,7 +308,7 @@ h_fl:	movq	r3, r5
 	movb	r5, (r3)+
 	sob	r4, h_fl
 	popm	#0x3fff
-	rti
+	rti	#RTIMASK_ALL
 '''
 w(HAND)
 # the kernels: r1 = pA, r2 = pB, r3 = pO, r4 = Re, r5 = rows, r6 = the row width, r7, r8, r9 = the gaps (pitch - the bytes of a row of the stream), r10 = the scalar

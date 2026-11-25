@@ -133,6 +133,7 @@ STORY = {
 'TRAP': "`TRAPL` exists so that the vector range of 256 and the two-byte common case can both be kept: `TRAP #n` for `n` below 16 is two bytes and the long form reaches 256. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.",
 
 'TLBI': "It broadcasts: a translation changed by one core must be invalidated on all of them, and `TLBSYNC` waits for it.",
+'TLBIAS': "A context switch that reuses an address-space number, or a process that ends, must remove every translation of that number, not one page at a time; `TLBIAS` does it in one instruction. `TLBIGP` is for the hypervisor, which changes a second-stage entry and knows only the guest-physical page.",
 
 'MTASID': "The `ASID` tags translation-buffer entries so a context switch is one store and no flush. No further reason is recorded.",
 

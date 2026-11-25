@@ -105,14 +105,14 @@ expect_sums:
 2:	movq	#1, r0
 	ret
 h_trap1:
-	rti
+	rti	#RTIMASK_ALL
 h_trap3:
 	call	runblock
-	rti
+	rti	#RTIMASK_ALL
 h_trap2:
 	vclr.l	v0, #8
 	vclr.l	v8, #8
-	rti
+	rti	#RTIMASK_ALL
 h_bad:	movq	#99, r0
 	halt
 	.data

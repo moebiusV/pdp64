@@ -191,6 +191,15 @@ def spec_dir(root=None):
     return os.path.join(root or os.environ.get('PDP64_SPEC_ROOT') or ROOT, 'spec')    # PDP64_SPEC_ROOT: another tree (an older grammar to compare with)
 
 
+def generated_forms(d, root=None):
+    """the forms of `d` (load()) that tools/encopt/addforms.py owns: the forms the Python model of docs/codegen-data/encoding lays out itself.  The forms of a hand-written part (a family dropped
+    into spec/grammars.d/; spec/README.md, "How a part is added") have prefixes of their own that the model does not choose: a tool that rebuilds the model from the forms takes these, and
+    tools/check-enc.py checks the others against the table."""
+    import grammars_d
+    owned = {os.path.normpath(p['path']) for p in grammars_d.parts(root) if p['tool'] == 'tools/encopt/addforms.py'}
+    return [f for f in d['forms'] if os.path.normpath(f['file']) in owned or os.path.normpath(os.path.join(os.getcwd(), f['file'])) in owned]
+
+
 def load(root=None):
     sys.path.insert(0, HERE)
     sd = spec_dir(root)

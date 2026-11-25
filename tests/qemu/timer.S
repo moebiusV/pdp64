@@ -135,7 +135,7 @@ h_timer:	mfps	r12
 	add	#1, r10
 	movq	#0, r9
 	movq	r9, TIMER_REG_CONTROL(r13)
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

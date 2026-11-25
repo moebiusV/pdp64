@@ -23,7 +23,7 @@ kfill:	movq	r2, (r1)+
 	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
 	movq	#0, r1
-	rti
+	rti	#RTIMASK_ALL
 user:
 	movq	=(0), r1
 	mtps	r1
@@ -164,7 +164,7 @@ hgen:	movq	cnt, r12
 	mfsr	r12, epsw
 	movq	r12, last_epsw
 	mtsr	epc, r13
-	rti
+	rti	#RTIMASK_ALL
 h_ok:	movq	#0, r0
 h_fail:	halt
 

@@ -150,7 +150,7 @@ fill2:	movq	r22, (r1)+
 	mtsr	hepsw, r22
 	lea	B1, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B1:
 	mfsr	r22, hexitr
 	movq	=((XCODE_HALT)|(0)), r11
@@ -215,7 +215,7 @@ B1:
 	mtsr	hepsw, r22
 	lea	B2, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B2:
 	mfsr	r22, hexitr
 	movq	=((XCODE_HALT)|(0)), r11
@@ -274,7 +274,7 @@ B2:
 	mtsr	hepsw, r22
 	lea	T3a, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T3a:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_INVALID)|(0)), r11
@@ -326,7 +326,7 @@ T3a:
 	tlbsync
 	lea	B3, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B3:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -349,7 +349,7 @@ B3:
 	mtsr	hepsw, r22
 	lea	T3b, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T3b:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_INVALID)|(0)), r11
@@ -394,7 +394,7 @@ T3b:
 	tlbia
 	lea	B4, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B4:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -419,7 +419,7 @@ B4:
 	mtsr	hepsw, r22
 	lea	T3c, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T3c:
 	mfsr	r22, hexitr
 	movq	=(XCODE_S2_INVALID), r11
@@ -465,7 +465,7 @@ T3c:
 	tlbia
 	lea	B5, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B5:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -492,7 +492,7 @@ B5:
 	mtsr	hepsw, r22
 	lea	T4a, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T4a:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_REFUSED)|(0)), r11
@@ -537,7 +537,7 @@ T4a:
 	tlbia
 	lea	B6, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B6:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -563,7 +563,7 @@ B6:
 	mtsr	hepsw, r22
 	lea	T4b, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T4b:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_REFUSED)|(0)), r11
@@ -613,7 +613,7 @@ T4b:
 	tlbia
 	lea	B7, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B7:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -638,7 +638,7 @@ B7:
 	mtsr	hepsw, r22
 	lea	T4c, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T4c:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_REFUSED)|(0)), r11
@@ -683,7 +683,7 @@ T4c:
 	tlbia
 	lea	B8, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B8:
 	mfsr	r22, hexitr
 	movq	=(XCODE_S2_REFUSED), r11
@@ -712,7 +712,7 @@ B8:
 	mtsr	hepsw, r22
 	lea	T5a, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T5a:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_INVALID)|(1<<XFLAG_WALK)), r11
@@ -757,7 +757,7 @@ T5a:
 	tlbia
 	lea	B9, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B9:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -789,7 +789,7 @@ B9:
 	mtsr	hepsw, r22
 	lea	T6a, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T6a:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_INVALID)|(1<<XFLAG_VEC)), r11
@@ -849,7 +849,7 @@ T6a:
 	tlbia
 	lea	B10, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B10:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -885,7 +885,7 @@ B10:
 	mtsr	hepsw, r22
 	lea	T6b, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T6b:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_INVALID)|(1<<XFLAG_VEC)), r11
@@ -943,7 +943,7 @@ T6b:
 	tlbia
 	lea	B11, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B11:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -978,7 +978,7 @@ B11:
 	mtsr	hepsw, r22
 	lea	T7a, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T7a:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_INVALID)|(0)), r11
@@ -1027,7 +1027,7 @@ T7a:
 	mtsr	hepsw, r22
 	lea	T7b, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T7b:
 	mfsr	r22, hexitr
 	movq	=((XCODE_S2_REFUSED)|(0)), r11
@@ -1072,7 +1072,7 @@ T7b:
 	tlbia
 	lea	B12, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 B12:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -1095,7 +1095,7 @@ B12:
 	mtsr	hepsw, r22
 	lea	T7c, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T7c:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -1136,7 +1136,7 @@ T7c:
 	mtsr	hepsw, r22
 	lea	T8a, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T8a:
 	mfsr	r22, hexitr
 	movq	=(XCODE_HALT), r11
@@ -1166,7 +1166,7 @@ T8a:
 	mtsr	hepsw, r22
 	lea	T8b, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T8b:
 	movq	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
@@ -1186,7 +1186,7 @@ T8b:
 	mtsr	hepsw, r22
 	lea	T8c, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T8c:
 	movq	=(0xcccc), r11
 	cbeq	r1, r11, 1f
@@ -1205,7 +1205,7 @@ T8c:
 	mtsr	hepsw, r22
 	lea	T8d, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T8d:
 	movq	=(0xcccc), r11
 	cbeq	r1, r11, 1f
@@ -1245,7 +1245,7 @@ T8d:
 	mtsr	hepsw, r22
 	lea	T9a, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9a:
 	movq	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
@@ -1268,7 +1268,7 @@ T9a:
 	mtsr	hepsw, r22
 	lea	T9b, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9b:
 	movq	=(0xeeee), r11
 	cbeq	r1, r11, 1f
@@ -1301,7 +1301,7 @@ T9b:
 	mtsr	hepsw, r22
 	lea	T9c, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9c:
 	movq	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
@@ -1323,7 +1323,7 @@ T9c:
 	mtsr	hepsw, r22
 	lea	T9d, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9d:
 	movq	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
@@ -1346,7 +1346,7 @@ T9d:
 	mtsr	hepsw, r22
 	lea	T9e, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9e:
 	movq	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
@@ -1369,7 +1369,7 @@ T9e:
 	mtsr	hepsw, r22
 	lea	T9f, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9f:
 	movq	=(0xcccc), r11
 	cbeq	r1, r11, 1f
@@ -1386,7 +1386,7 @@ T9f:
 	mtsr	hepsw, r22
 	lea	T9g, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9g:
 	movq	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
@@ -1406,7 +1406,7 @@ T9g:
 	mtsr	hepsw, r22
 	lea	T9h, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9h:
 	movq	=(0xcccc), r11
 	cbeq	r1, r11, 1f
@@ -1431,7 +1431,7 @@ T9h:
 	mtsr	hepsw, r22
 	lea	T9i, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9i:
 	movq	=(0xcccc), r11
 	cbeq	r1, r11, 1f
@@ -1454,7 +1454,7 @@ T9i:
 	mtsr	hepsw, r22
 	lea	T9j, r20
 	movq	#99, r0
-	genter
+	genter	#RTIMASK_ALL
 T9j:
 	movq	=(0xeeee), r11
 	cbeq	r1, r11, 1f

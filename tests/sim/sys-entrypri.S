@@ -147,12 +147,12 @@ h_trap:	mfps	r12
 	movq	r10, r4
 	mtsr	epc, r6
 	mtsr	epsw, r7
-	rti
+	rti	#RTIMASK_ALL
 h_irq:	add	#1, r10
 	mfsr	r2, ecause
 	mul	#100, r15
 	add	r2, r15
-	rti
+	rti	#RTIMASK_ALL
 h_41:	mfsr	r6, epc
 	mfsr	r7, epsw
 	mfps	r3
@@ -171,7 +171,7 @@ h_41:	mfsr	r6, epc
 	movq	r10, r9
 	mtsr	epc, r6
 	mtsr	epsw, r7
-	rti
+	rti	#RTIMASK_ALL
 	.data
 	.align	8
 vtab:

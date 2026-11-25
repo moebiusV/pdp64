@@ -1,0 +1,2 @@
+	.text
+	rti r1

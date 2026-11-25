@@ -74,7 +74,7 @@ fillc:	movq	r2, (r1)+
 	movq	#0, r1
 	mtsr	hepsw, r1
 	movq	#99, r0			; a HALT of the guest that stops the machine with this status would be a bug
-	genter
+	genter	#RTIMASK_ALL
 	; ---- the exits.  r10: hypercalls, r11: writes of PTBR, r12: stage-2 faults
 hx:	mfsr	r20, hexitr
 	cbeq	r20, #XCODE_HYPERCALL, hc
@@ -86,11 +86,11 @@ hc:	mfsr	r21, hcause		; TRAP #224: put the character in r0 on the console
 	movq	=MAP_CONSOLE, r22
 	movq	r0, CONSOLE_REG_TXDB(r22)
 	add	#1, r10
-	genter
+	genter	#RTIMASK_ALL
 hp:	mtsr	ptbr, r1		; the guest's MTSR PTBR, r1: emulated (at H = 1 PTBR is the guest's register)
 	tlbia
 	add	#1, r11
-	genter
+	genter	#RTIMASK_ALL
 hs:	mfsr	r20, hexitr		; a stage-2 fault: map the page of the demand region (physical = guest-physical + 32 MiB) and enter again
 	cbne	r20, #XCODE_S2_INVALID, hbad
 	mfsr	r21, hgpa
@@ -112,7 +112,7 @@ hs:	mfsr	r20, hexitr		; a stage-2 fault: map the page of the demand region (phys
 	movq	r22, (r23)
 	tlbia
 	add	#1, r12
-	genter
+	genter	#RTIMASK_ALL
 hh:	cbeq	r10, #0, hbad		; the guest halted: it printed, wrote PTBR once, faulted once, took its tick and made the system calls
 	cbeq	r11, #1, 1f
 	movq	#2, r0
@@ -203,7 +203,7 @@ fillg:	movq	r2, (r1)+
 	mtsr	usp, r1
 	movq	#(MODE_USER<<PSW_MODE|MODE_USER<<PSW_PREV), r1
 	mtsr	epsw, r1
-	rti
+	rti	#RTIMASK_ALL
 puts:	movzb	(r1)+, r0		; r1: the string, to the console by hypercall (a routed TRAP: no vector of the guest is taken)
 	cbeq	r0, #0, 3f
 	trap	#224
@@ -214,7 +214,7 @@ g_sys:	stua				; system call 1: write(r1 = user buffer, r2 = length); the user's
 	trap	#224
 	sob	r2, 1b
 	clua
-	rti
+	rti	#RTIMASK_ALL
 g_exit:	lea	msg5, r1
 	call	puts
 	movq	#0, r0
@@ -225,7 +225,7 @@ g_tick:	movq	=VTIMER_VA, r20		; the virtual timer's interrupt (vector 0x60): sto
 	movq	ticks, r21
 	add	#1, r21
 	movq	r21, ticks
-	rti
+	rti	#RTIMASK_ALL
 g_bad:	movq	#77, r0
 	halt
 user:	lea	msg4, r1		; the user program, at the alias address (lea is relative to the PC, so this is the alias address of the text): it writes a line and exits

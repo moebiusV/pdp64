@@ -34,7 +34,7 @@ kfill:	movq	r2, (r1)+
 	mtsr	usp, r1
 	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	rti
+	rti	#RTIMASK_ALL
 user:	movq	=0x80000000, r6
 	lea	kdata, r4
 	sub	r6, r4
@@ -95,7 +95,7 @@ h_sw:	lea	kern2, r12
 	mtsr	epc, r12
 	movq	#0, r12
 	mtsr	epsw, r12
-	rti
+	rti	#RTIMASK_ALL
 hgen:	movq	cnt, r12
 	add	#1, r12
 	movq	r12, cnt
@@ -108,7 +108,7 @@ hgen:	movq	cnt, r12
 	mfsr	r12, epsw
 	movq	r12, last_epsw
 	mtsr	epc, r13
-	rti
+	rti	#RTIMASK_ALL
 h_ok:	movq	#0, r0
 h_fail:	halt
 
