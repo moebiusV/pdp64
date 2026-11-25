@@ -3,7 +3,7 @@
  *     length to is run, with the following parcels random, at least 3 times,
  *   - an instruction the tables decode never runs as `illegal instruction` (the sub-opcode beyond the leaf's mnemonics is the one other illegal pattern: the
  *     decoder rejects it, and so does the executor),
- *   - an instruction is `unimplemented` only if it is one of the known words (atomics, AES, SHA, UTF8DEC/ENC, MVAL, deferred loads, syspg),
+ *   - an instruction is `unimplemented` only if it is one of the known words (AES, SHA, UTF8DEC/ENC, MVAL, deferred loads, syspg),
  *   - the registers of a decoded instruction are below the number of registers of the encoding,
  *   - no other message names an internal inconsistency ("unimplemented operand form").
  * usage: exectest-enc [ILLEGAL16 ILLEGAL32]   the number of first parcels the grammar leaves unassigned (tools/check-exec-enc.sh computes it from the leaves; without it only
@@ -51,11 +51,21 @@ static uint64_t h_fetch(void *u, uint64_t a) { return h_ld(u, a, 2); }
 static int h_vecread(void *u, uint64_t a, uint64_t *v) { return 1; }
 static void h_check(void *u, uint64_t a, int n, int w) { if (n > 1 && (a & (n - 1))) flt("misaligned"); if (!at(a, n)) flt("unmapped"); }
 static void h_tlb(void *u, int op, uint64_t a) { }
+static uint64_t h_atomic(void *u, uint64_t a, int n, int op, uint64_t x, uint64_t y)
+{
+	uint64_t old, nv;
+	if (a & (n - 1)) flt("misaligned");
+	if (!at(a, n)) flt("unmapped");
+	if (op == PDP64_AMO_CHECK) return 0;
+	old = h_ld(u, a, n);
+	if (pdp64_amo_result(op, n, old, x, y, &nv)) h_st(u, a, n, nv);
+	return old;
+}
 static void h_raise(void *u, int vector, uint64_t eva) { flt("exception"); __builtin_unreachable(); }
-static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL, NULL };
+static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL, NULL, NULL, h_atomic };
 static uint64_t seed = 99;
 static uint64_t rnd(void) { seed = seed * 6364136223846793005ULL + 1442695040888963407ULL; return seed >> 11 ^ seed << 20; }
-static const char *const known[] = { "cas", "swap", "xadd", "xand", "xor_", "xxor", "xmax", "xmin", "ll", "sc", "aes", "sha", "msha", "maesctr", "utf8dec", "utf8enc", "mval", ".d", ".ud", "syspg" };
+static const char *const known[] = { "aes", "sha", "msha", "maesctr", "utf8dec", "utf8enc", "mval", ".d", ".ud", "syspg" };
 static int is_known(const char *msg)
 {
 	const char *p = strstr(msg, "unimplemented instruction ");

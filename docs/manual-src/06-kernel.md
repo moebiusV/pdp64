@@ -887,7 +887,7 @@ Say G runs these three instructions, and after the first one its time slice ends
 The rules are few, and each exists so that an atomic can never be half done:
 
 * Every one of them has three register fields, as `XADD Rd, Rs, (Ra)`: the address is in `Ra`, with no offset (the parentheses hold a register and nothing else), the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rd, Rs, (Ra)` has the **expected** value in `Rd` and the new value in `Rs`, and it puts the old value into `Rd`: one register is used for the expected value going in and the old value coming out. If the old value is the expected one, the swap happened.
-* The size is 4 bytes or 8 bytes. The examples here use the 8-byte form.
+* The size is 4 bytes or 8 bytes. The bare name is the 8-byte form; the 4-byte form is the name with `L` after the operation and before `DB`: `XADD` and `XADDL`, `CASDB` and `CASLDB`, and for the load-linked pair `LL` and `LLL`, `SC` and `SCL`, as `MOVQ` and `MOVL` are the 8-byte and the 4-byte move. The examples here use the 8-byte form.
 * The word must be naturally aligned (an 8-byte word at an address that is a multiple of 8). An atomic on a word that is not aligned takes a **precise fault**: the fault happens before the instruction has changed anything, and the saved program counter is the instruction itself.
 * The memory must be ordinary cached memory. An atomic, or an `LL` or `SC`, on uncached memory or on a device's registers also takes a precise fault. The reason is that the machine can make an operation atomic only where it controls the whole path, in the cache; on a device register the choice is a fault, never an operation that is silently not atomic.
 

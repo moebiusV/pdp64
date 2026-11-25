@@ -58,8 +58,7 @@ The executor decodes with the table codec `common/pdp64enc.c` (the prefix-coded 
 overflow is an abort at the instruction, no register or flag written), the MESC words `movub movuw movul movuq` (unaligned, no alignment fault) and `addm subm bicm bism`
 (flags of the ALU operation), `utf8len`, `fclass32`, and the user-qualified moves `movX.u` (in a simulator without an MMU they are the ordinary moves). The register file has 32 registers; `pushm`/`popm`
 take a 32-bit mask; r16 to r31 exist. A word that is in the tables but not in the reference executor traps as
-`unimplemented instruction NAME` (exit 139, or the illegal-instruction exception with `-K`): the atomic group (`cas swap xadd xand xor_ xxor xmax xmin xmaxu xminu` and their `db` forms, `ll`, `sc`:
-the operand placement and the size encoding are not fixed), the AES and SHA words (`aeses aesesm aesds aesdsm aesks1 aesks2 aesim sha256* sha512* msha256 msha512 maesctr`),
+`unimplemented instruction NAME` (exit 139, or the illegal-instruction exception with `-K`): the AES and SHA words (`aeses aesesm aesds aesdsm aesks1 aesks2 aesim sha256* sha512* msha256 msha512 maesctr`),
 `utf8dec`, `utf8enc`, `mval`, the deferred loads `movX.d` and `movX.ud`, and the placeholders `syspg0` to `syspg5` (the list is the code's, `common/pdp64exec_enc.inc`; page 2 no longer exists, so these placeholder names may be stale: unverified).
 
 ## Profile

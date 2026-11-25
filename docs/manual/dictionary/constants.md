@@ -349,6 +349,7 @@ The registers, bit numbers, command codes and fault codes of the unit, from `spe
 | `iommu-cause` | `range` | 9 |  |
 | `iommu-cause` | `guard` | 10 |  |
 | `iommu-cause` | `ats` | 11 |  |
+| `iommu-cause` | `atomic` | 12 |  |
 | `dmatest-reg` | `id` | 0 | the registers of the test function, a byte offset each |
 | `dmatest-reg` | `src` | 8 |  |
 | `dmatest-reg` | `dst` | 16 |  |

@@ -120,8 +120,6 @@ d:\t.quad 1
 \tfmadd r1,r2,r3,r4
 \textb r1,#4,#8,r2
 \tdshr r1,r2,#3,r4
-\txadd r1,r2,r3
-\tcas r1,r2,r3,r4
 \tmaskeqz r1,r2,r3
 \tbsel r1,r2,r3,r4
 \taesks1 r1,#3,r2

@@ -7,9 +7,8 @@
  * piece of code.  What only the grammar of the encoding has (the fused instructions, the selects, the overflow-checked arithmetic, the checked trap, movql,
  * MESC) is written here.
  *
- * What is not implemented traps as an illegal instruction with a message that names the mnemonic (list: H_UNIMPL below): the atomic group (the operand
- * placement and the size encoding are not fixed by the ISA text), the AES and SHA instructions, UTF8DEC, UTF8ENC, MVAL, the deferred loads (.d, .ud),
- * the placeholders syspg3 to syspg5.
+ * What is not implemented traps as an illegal instruction with a message that names the mnemonic (list: H_UNIMPL below): the AES and SHA instructions,
+ * UTF8DEC, UTF8ENC, MVAL, the deferred loads (.d, .ud), the placeholders syspg3 to syspg5.
  */
 /* the register file is r in pdp64exec.c, a macro that would also take the field `r` of an eop: use RG here */
 #undef r
@@ -20,7 +19,7 @@ enum {
 	H_BR, H_CB, H_SOB, H_TAG,
 	H_SYS0, H_SYSX, H_SYSM, H_TLBX, H_SYSR, H_SPL, H_TRAP, H_PROBE, H_MFSR, H_MTSR,
 	H_BESC, H_AESC, H_MBLK, H_FESC, H_SET,
-	H_MOVU, H_RMW,
+	H_MOVU, H_RMW, H_ATOM,
 	H_MASK, H_BSEL, H_OVF, H_TRAPCC, H_MOVQL, H_UTF8LEN, H_CT, H_CHK2,
 	H_MOVCALL, H_POPMRET, H_POPRET, H_MOV2,
 	H_VEC
@@ -29,8 +28,7 @@ struct hdef { const char *name; int kind, a; };
 #define H_USER 0x4000				/* or-ed into the argument of the user-qualified moves (movq.u ...): the memory operand is accessed with the privilege of user mode (6.10.4) */
 #define VECTOR_CHECK 16				/* the overflow / bounds check trap (docs/study-proposals.md item 9) */
 #include "pdp64exec_corehdefs.inc"	/* hdefs[]: word -> handler kind and argument, generated from spec/facts/core.toml (tools/gen-core-names.py) */
-/* every other mnemonic of the tables is H_UNIMPL: ATOM (cas casdb swap swapdb xadd xadddb xand xanddb xor_ xor_db xxor xxordb xmax xmaxdb xmin xmindb xmaxu xmaxudb
-   xminu xminudb ll sc), aeses aesesm aesds aesdsm aesks1 aesks2 aesim, sha256sig0/1 sha256sum0/1 sha512sig0/1 sha512sum0/1, msha256 msha512 maesctr, utf8dec utf8enc
+/* every other mnemonic of the tables is H_UNIMPL: aeses aesesm aesds aesdsm aesks1 aesks2 aesim, sha256sig0/1 sha256sum0/1 sha512sig0/1 sha512sum0/1, msha256 msha512 maesctr, utf8dec utf8enc
    mval, the deferred loads movX.d movX.ud, syspg3 to syspg5 */
 
 static struct hinfo { uint8_t kind; uint8_t user; int a; } *HT;
@@ -103,9 +101,57 @@ static int classify_enc(const struct hinfo *h, const struct einsn *in)
 	case H_MBLK: return PDP64_CAT_BLOCK;
 	case H_MOVCALL: case H_POPMRET: case H_POPRET: case H_MOV2: return PDP64_CAT_FUSED;
 	case H_VEC: return PDP64_CAT_BLOCK;
-	case H_MOVU: case H_RMW: return PDP64_CAT_MEMREF;
+	case H_MOVU: case H_RMW: case H_ATOM: return PDP64_CAT_MEMREF;
 	}
 	return PDP64_CAT_OTHER;
+}
+
+/* ---- the atomic words (errata 211; manual 7.4, 9.13) ------------------------------------------------------------------ */
+/* The operation and the size are in the number of the word (MN_ATOM_*: bits 0 to 4 the operation, bit 5 the size, 1 for four bytes); the host does the access (struct pdp64_env, atomic).  Rd gets the old value, a
+   four-byte one sign-extended like the load of four bytes; the operand and the expected value are the low four bytes of their registers.  The sources are read before Rd is written (CAS: Rd is both). */
+static const uint8_t atom_amo[10] = { PDP64_AMO_CAS, PDP64_AMO_SWAP, PDP64_AMO_ADD, PDP64_AMO_AND, PDP64_AMO_OR, PDP64_AMO_XOR, PDP64_AMO_SMAX, PDP64_AMO_SMIN, PDP64_AMO_UMAX, PDP64_AMO_UMIN };
+static void atom_exec(int word, const struct eop *op)
+{
+	int size = word & 32 ? 4 : 8, o = word & 31, rd = op[0].r, rs = 0, ra = op[1].r;
+	uint64_t addr, m = size == 4 ? 0xffffffffu : ~(uint64_t)0, old;
+	if (o != MN_ATOM_LL) { rs = op[1].r; ra = op[2].r; }
+	addr = RG[ra];
+	if (!E->atomic) die("the host has no atomic access", addr);
+	if (addr & (size - 1)) fault_v(VECTOR_MISALIGNED, "misaligned atomic access", addr);	/* a split lock is a fault: nothing changed, EPC the instruction */
+	if (o == MN_ATOM_LL) {
+		old = E->atomic(E->u, addr, size, PDP64_AMO_LL, 0, 0);
+		RG[rd] = (uint64_t)sext(old, size * 8);
+		C->resv_on = 1; C->resv_addr = addr; C->resv_size = size; C->resv_val = old; C->resv_n = 0;
+	} else if (o == MN_ATOM_SC) {
+		uint64_t v = RG[rs] & m;
+		int ok = 0;
+		E->atomic(E->u, addr, size, PDP64_AMO_CHECK, 0, 0);				/* the faults come first, whether or not the reservation is held */
+		if (C->resv_on && C->resv_addr == addr && C->resv_size == size) ok = E->atomic(E->u, addr, size, PDP64_AMO_SC, v, C->resv_val) == C->resv_val;
+		C->resv_on = 0;									/* an SC ends the reservation, whether it wrote or not */
+		RG[rd] = ok ? 0 : 1;
+	} else {
+		int amo = atom_amo[o >> 1];
+		uint64_t a = amo == PDP64_AMO_CAS ? RG[rd] & m : RG[rs] & m, b = amo == PDP64_AMO_CAS ? RG[rs] & m : 0;
+		old = E->atomic(E->u, addr, size, amo, a, b);
+		RG[rd] = (uint64_t)sext(old, size * 8);						/* the _db forms are the same operation: the barrier orders accesses that this model keeps in order (FENCE is no work here either) */
+	}
+}
+/* The constrained loop (7.4): between an LL and its SC at most 16 instructions run, and they are instructions of registers only; a taken branch must go forward (pdp64_step).  Anything else, and the
+   reservation is lost, so the SC fails: a loop that breaks the rule fails, it does not hang. */
+static void resv_note(const struct hinfo *h, const struct einsn *in)
+{
+	const struct eop *op = in->op;
+	if (h->kind == H_ATOM && (h->a & 31) == MN_ATOM_SC) return;				/* the end of the loop */
+	if (++C->resv_n > 16) { C->resv_on = 0; return; }
+	switch (h->kind) {
+	case H_BR: case H_CB: case H_SOB: case H_TAG: return;						/* the target is a pc-relative operand, not memory; a backward branch is caught after the instruction */
+	}
+	for (int k = 0; k < in->nops; k++) if (is_mem(&op[k])) { C->resv_on = 0; return; }
+	switch (h->kind) {
+	case H_MOV: case H_MOVZ: case H_LEA: case H_ALU: case H_BESC: case H_FESC: case H_MASK: case H_BSEL: case H_OVF: case H_MOVQL: case H_UTF8LEN: case H_CT: case H_CHK2: case H_MOV2: case H_SET: return;
+	case H_SOP: if (h->a == MN_SOP_PUSHM || h->a == MN_SOP_POPM || h->a == MN_SOP_PUSH || h->a == MN_SOP_POP || h->a == MN_SOP_JMP || h->a == MN_SOP_CALL) break; return;
+	}
+	C->resv_on = 0;
 }
 
 static void step_enc(void)
@@ -125,9 +171,11 @@ static void step_enc(void)
 	const struct hinfo *h = &HT[in.mn];
 	const struct eop *op = in.op;
 	if (E->profile) E->profile(E->u, start, n, classify_enc(h, &in));
+	if (C->resv_on) resv_note(h, &in);
 	struct fmt f;
 	memset(&f, 0, sizeof f); EO = NULL; EO_size = 8;
 	switch (h->kind) {
+	case H_ATOM: atom_exec(h->a, op); return;
 	case H_UNIMPL: {
 		static char msg[96];
 		snprintf(msg, sizeof msg, "unimplemented instruction %s (not in the reference executor)", t->mn[in.mn].name);

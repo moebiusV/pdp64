@@ -29,4 +29,4 @@ insn = leaf:( leaf-SYS0-1 | leaf-SYS0-2 | leaf-SYSR-1 | leaf-SYSR-2 | leaf-CT1-1
        | leaf-CBI8-8H-b-1 | leaf-CBI8-8H-c-1 | leaf-CBI8-10H-a-1 | leaf-CBI10-8H-a-1 | leaf-VBEG-1 | leaf-VBEG2-1 | leaf-VEND-1 | leaf-VFIN-1 | leaf-VOP-VVV-1
        | leaf-VOP-VVR-1 | leaf-VOP-VVI-1 | leaf-VDACC-1 | leaf-VTBLM-1 | leaf-VOP-VV-1 | leaf-VBSL-1 | leaf-VOP-VR-1 | leaf-VOP-VI-1 | leaf-VFMAB-1
        | leaf-VACC-1 | leaf-VFIR-1 | leaf-VCLR-1 | leaf-VLD-PI-1 | leaf-VLD-B-1 | leaf-VST-PI-1 | leaf-VST-B-1 | leaf-VLDT-1 | leaf-VSTT-1 | leaf-VSTS-R-1
-       | leaf-RETM-1 | leaf-TLBX-1 )
+       | leaf-RETM-1 | leaf-TLBX-1 | leaf-ATOM-1 | leaf-ATOM4-1 | leaf-ATOML-1 )

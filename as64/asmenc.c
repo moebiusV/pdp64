@@ -261,6 +261,12 @@ static void enc_nofit(const struct stmt *st, const struct hw *h)
 		const char *s = h->in.op[k].k < sizeof kn / sizeof *kn ? kn[h->in.op[k].k] : "operand";
 		strcat(shape, k ? ", " : ""); strcat(shape, s);
 	}
+	if (st->mg == MG_ATOM) {
+		int ll = (st->mnum & 31) == MN_ATOM_LL;
+		err(st->line, "%s: an atomic is written `%s`: the address is a register in parentheses, with no offset, index or increment, and every other operand is a register (given: %s)",
+		    enc_mn_name(etab, h->in.mn), ll ? "ll Rd, (Ra)" : "OP Rd, Rs, (Ra)", h->in.nops ? shape : "no operands");
+		return;
+	}
 	err(st->line, "%s: no form of this instruction in %s takes %s%s (a meaningless combination, or a value out of range)", enc_mn_name(etab, h->in.mn), etab->name,
 	    h->in.nops ? "these operands: " : "no operands", shape);
 }

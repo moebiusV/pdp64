@@ -457,6 +457,8 @@ Doorbells and interrupts cost time on both sides, so each side can ask the other
 
 **{{#device-that-writes-memory-shared}}** A device that writes memory shared with a core takes part by clearing reservations.
 
+**{{#device-atomic-needs-write}}** An atomic that a device makes through the IOMMU needs write permission on the page, as a device's write does, and is refused with a fault cause of its own (`atomic`, beside `no-write`, in the fault record), so that a device atomic is never mistaken for a plain refusal; version 1 has no device atomics and the unit refuses every one. The memory that devices write, the DMA buffers, is uncached, where a core's atomic takes a fault ({{r:atomic-memory-must-be-ordinary}}), so no core and no device ever depends on an atomic that the machine did not keep whole.
+
 *Commentary.* **Chain.** PDP-11: the locked read-modify-write `DATIP`/`DATO` (*unverified* here; `decisions-pending.md` records it). VAX: interlocked instructions (`BBSSI`, `BBCCI`, `ADAWI`, `INSQHI`, checked in `decisions-pending.md` against the VAX-11 Architecture Reference Manual). Both lock; a lock is simple and a bottleneck as cores multiply. RISC-V `LR`/`SC` and AArch64 exclusive loads and stores use a monitor, which maps onto AXI exclusive access, at the cost of forward-progress rules; large systems also have atomics that perform the operation at the memory (all *unverified* here). The pdp64 chose the monitor. **Impact.** Lock words and lock-free structures use the atomics of chapter {{c:id01007|n}}; C11 atomics lower to them; the hardware needs a reservation monitor and an exclusive access, not a bus lock.
 
 ## {{#iommu-a-page-table-per-device}} The IOMMU: a page table for each device

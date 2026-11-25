@@ -7,8 +7,6 @@
 	fmadd r1,r2,r3,r4
 	extb r1,#4,#8,r2
 	dshr r1,r2,#3,r4
-	xadd r1,r2,r3
-	cas r1,r2,r3,r4
 	maskeqz r1,r2,r3
 	bsel r1,r2,r3,r4
 	aesks1 r1,#3,r2

@@ -1,38 +1,39 @@
 """Dictionary entries, part 3: atomics and system instructions."""
 from isa_common import *
 
-ATNOTE = ('The sub-opcodes and the semantics of this group are specified.')
-ATFLAG = 'None for the read-modify-write forms; `SC` reports success in `Rd`.'
-ATEXC = 'Page fault, protection fault, bus error, or a precise fault (nothing changed, `EPC` the instruction) on an address that is not naturally aligned and on memory that is not ordinary cached memory (uncached memory or a device register). The access is atomic with respect to every initiator, cores and devices alike.'
+ATNOTE = ('The size is in the spelling: the bare name is the 8-byte word, and the 4-byte word has `L` after the operation and before `DB` (as `MOVL` against `MOVQ`): `XADD` and `XADDL`, `CASDB` and `CASLDB`, `XOR_` and `XOR_L`, `LL` and `LLL`, `SC` and `SCL`. A 4-byte word reads the low four bytes of `Rs` (and of the expected value in `Rd`) and puts the old value into `Rd` sign-extended, as a 4-byte load does. There is no offset: the address is the register `Ra` and nothing else. The `DB` form is the same operation with a barrier folded in; under sequential consistency the barrier orders the accesses that `FENCE` orders, those to devices, and for ordinary memory it is a convenience.')
+ATFLAG = 'None. `SC` reports success in `Rd` (0 for success, 1 for failure).'
+ATEXC = 'All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device\'s registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.'
 ATCF = '{{r:atomic-operations}} (atomic operations: the reservation monitor), {{r:multiprocessor-instructions-at-a-glance}} (the multiprocessor instructions at a glance), {{r:memory-ordering-from-sequential-consistency}} (the memory model).'
 
 ENTRIES = [
-    E('CAS', 'atomics', ['cas', 'casdb'], 'Compare and swap',
-      ['CAS Rd, Rs, (Ra)        ; three registers: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); size is 4 or 8 bytes', 'CASDB ...               ; with a full barrier'],
-      '''old <- M[Ra]                              ; 4 or 8 bytes, naturally aligned, ordinary cached memory
-if old == Rd then M[Ra] <- Rs
+    E('CAS', 'atomics', ['cas', 'casdb', 'casl', 'casldb'], 'Compare and swap',
+      ['CAS Rd, Rs, (Ra)        ; three registers: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes', 'CASDB ...               ; with the barrier', 'CASL, CASLDB ...        ; the same on 4 bytes'],
+      '''old <- M[Ra]                              ; 8 bytes (4 for CASL), naturally aligned, ordinary cached memory
+if old == Rd then M[Ra] <- Rs                  ; CASL compares and writes the low 4 bytes of Rd and Rs
 Rd <- old              ; the program compares Rd with the value it expected to learn whether the swap happened''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('SWAP', 'atomics', ['swap', 'swapdb'], 'Atomic exchange', ['SWAP Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAPDB ...'],
-      '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('XADD', 'atomics', ['xadd', 'xadddb'], 'Atomic fetch and add', ['XADD Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the operand, Rd the old value; size 4 or 8 bytes', 'XADDDB ...'],
-      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('XAND', 'atomics', ['xand', 'xanddb', 'xor_', 'xor_db', 'xxor', 'xxordb'], 'Atomic fetch and and, or, xor',
-      ['XAND Rd, Rs, (Ra)', 'XOR_ Rd, Rs, (Ra)        ; the trailing underscore keeps the mnemonic distinct from XOR', 'XXOR Rd, Rs, (Ra)', 'each with a DB form'],
+    E('SWAP', 'atomics', ['swap', 'swapdb', 'swapl', 'swapldb'], 'Atomic exchange', ['SWAP Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAPDB, SWAPL, SWAPLDB ...'],
+      '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old       ; 8 bytes (4 for SWAPL)''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('XADD', 'atomics', ['xadd', 'xadddb', 'xaddl', 'xaddldb'], 'Atomic fetch and add', ['XADD Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes', 'XADDDB, XADDL, XADDLDB ...'],
+      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old     ; 8 bytes (4 for XADDL; the sum wraps in 4 bytes)''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('XAND', 'atomics', ['xand', 'xanddb', 'xandl', 'xandldb', 'xor_', 'xor_db', 'xor_l', 'xor_ldb', 'xxor', 'xxordb', 'xxorl', 'xxorldb'], 'Atomic fetch and and, or, xor',
+      ['XAND Rd, Rs, (Ra)', 'XOR_ Rd, Rs, (Ra)        ; the trailing underscore keeps the mnemonic distinct from XOR', 'XXOR Rd, Rs, (Ra)', 'each with a DB form and an L form (XANDL, XOR_L, XXORL: 4 bytes)'],
       '''old <- M[Ra]
 XAND: M[Ra] <- old AND Rs
 XOR_: M[Ra] <- old OR Rs
 XXOR: M[Ra] <- old XOR Rs
 Rd <- old''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('XMAX', 'atomics', ['xmax', 'xmaxdb', 'xmin', 'xmindb', 'xmaxu', 'xmaxudb', 'xminu', 'xminudb'], 'Atomic fetch and minimum or maximum',
-      ['XMAX Rd, Rs, (Ra)', 'XMIN ..., XMAXU ..., XMINU ...', 'each with a DB form'],
+    E('XMAX', 'atomics', ['xmax', 'xmaxdb', 'xmaxl', 'xmaxldb', 'xmin', 'xmindb', 'xminl', 'xminldb', 'xmaxu', 'xmaxudb', 'xmaxul', 'xmaxuldb', 'xminu', 'xminudb', 'xminul', 'xminuldb'], 'Atomic fetch and minimum or maximum',
+      ['XMAX Rd, Rs, (Ra)', 'XMIN ..., XMAXU ..., XMINU ...', 'each with a DB form and an L form (XMAXL, XMAXUL, XMINL, XMINUL: 4 bytes)'],
       '''old <- M[Ra] ; M[Ra] <- max(old, Rs) (XMAX, XMAXU) or min (XMIN, XMINU) ; Rd <- old
-signed for XMAX and XMIN, unsigned for the U forms''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('LLSC', 'atomics', ['ll', 'sc'], 'Load-linked and store-conditional', ['LL Rd, (Ra)', 'SC Rd, Rs, (Ra)'],
-      '''LL: Rd <- M[Ra] ; take a reservation on the granule containing the address
-SC: if the reservation is intact then M[Ra] <- Rs ; Rd <- 0 (success)
+signed for XMAX and XMIN, unsigned for the U forms; the 4-byte forms compare 4-byte numbers''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('LLSC', 'atomics', ['ll', 'lll', 'sc', 'scl'], 'Load-linked and store-conditional', ['LL Rd, (Ra)        ; 8 bytes', 'LLL Rd, (Ra)       ; 4 bytes', 'SC Rd, Rs, (Ra)    ; 8 bytes', 'SCL Rd, Rs, (Ra)   ; 4 bytes'],
+      '''LL: Rd <- M[Ra] ; take a reservation on the aligned 128-byte block that contains the address
+SC: if the reservation is intact and Ra is the address (and the size) of the LL
+    then M[Ra] <- Rs ; Rd <- 0 (success)
     else nothing is written ; Rd <- 1 (failure)
-a write to the granule by any initiator, core or device, clears the reservation''', ATFLAG, ATEXC,
-      notes='A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). ' + ATNOTE, cf=ATCF, xnote=ATNOTE),
+    and the reservation is over, whether the SC wrote or not''', ATFLAG, ATEXC,
+      notes='The reservation is the core\'s: it ends at every `SC`, at every exit to the hypervisor and at `GENTER`, at every exception entry and every return (`RTI`, `RTT`), when another core or a device writes the marked block, and when the sequence breaks the rule of a constrained loop: between the `LL` and the `SC` at most 16 instructions run, they are instructions of registers only (no load, no store, no other atomic, no system instruction), and a taken branch goes forward. Such a loop must eventually succeed if no other initiator keeps writing the block; a sequence that breaks the rule is not hung, its `SC` fails. The marked block is fixed at 128 bytes (an implementation may keep track of less, never of less than the word, so software that wants no failure from a neighbour\'s write keeps the word alone in its block). ' + ATNOTE, cf=ATCF, xnote=ATNOTE),
 
     # ---- SYS, class 0 ----
     E('NOP', 'system', ['nop', 'lpad'], 'No operation and landing pad', ['NOP', 'LPAD'], 'nothing', NOFLAGS, NONE,

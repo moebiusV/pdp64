@@ -164,6 +164,7 @@ iommu-cause = "blocked"@1
             | "range"@9
             | "guard"@10
             | "ats"@11
+            | "atomic"@12
 
 ; The DMA test function of the model (qemu/hw-pdp64/dmatest.c, `-device pdp64-dmatest`): a PCI function with one memory base address register of `bar-size` bytes.  The registers (64 bits) are at the
 ; start of the window; the 4096 bytes at `buffer` are the function's own buffer, which the processor reads and writes.  Writing `control` with `start` runs one transfer at once, through the PCI

@@ -83,7 +83,7 @@ The C compiler is the `pdp64` back end of [pcc](https://github.com/moebiusV/pcc)
 ## Status
 
 - **Specification:** the manual, the grammars and the research are described above.
-- **Assembler, linker, emulator:** the reference executor implements the integer core, bit and block operations, binary64 floating point with flags, and the system instructions; the atomics, the memory escape (`MESC`), the UTF-8 instructions, `MVAL` and `FCLASS32` are specified and not yet implemented.
+- **Assembler, linker, emulator:** the reference executor implements the integer core, bit and block operations, binary64 floating point with flags, and the system instructions; the 44 atomic words (two sizes) with the reservation of `LL` and `SC`; the memory escape (`MESC`), the UTF-8 instructions, `MVAL` and `FCLASS32` are specified and not yet implemented.
 - **QEMU target:** boots a kernel image and runs the machine tests (see `tools/check-qemu.sh`) and the C test programs (`PDP64RUN=qemu`).
 - **Compiler:** all 841 files of the benchmark corpus compile and assemble for the pdp64; the code is 11.0% smaller than the first iteration's on the corpus, and the six large programs execute 24% fewer instructions (`docs/encoding-work/integration.md`).
 - **LLVM back end** (now the repository [llvm-pdp64](https://github.com/moebiusV/llvm-pdp64)): a machine-code layer (assembler, disassembler, ELF object writer) for the original encoding of the earlier iterations; it is frozen until it is ported to the encoding of the pdp64 (`llvm-pdp64/README.md`); no code generator yet.

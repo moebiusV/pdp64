@@ -55,6 +55,8 @@
 | `CALLI` | [JMPI](../09-isa.md#jmpi-jump-and-call-through-memory) (section 9.10) | [8](by-encoding.md#mn-calli), [entry](../09-isa.md#w-calli) | Indirect transfers (XFER) |
 | `CAS` | [CAS](../09-isa.md#cas-compare-and-swap) (section 9.13) | [1](by-encoding.md#mn-cas), [entry](../09-isa.md#w-cas) | Atomics (ATOM) |
 | `CASDB` | [CAS](../09-isa.md#cas-compare-and-swap) (section 9.13) | [1](by-encoding.md#mn-casdb), [entry](../09-isa.md#w-casdb) | Atomics (ATOM) |
+| `CASL` | [CAS](../09-isa.md#cas-compare-and-swap) (section 9.13) | [1](by-encoding.md#mn-casl), [entry](../09-isa.md#w-casl) | Atomics (ATOM) |
+| `CASLDB` | [CAS](../09-isa.md#cas-compare-and-swap) (section 9.13) | [1](by-encoding.md#mn-casldb), [entry](../09-isa.md#w-casldb) | Atomics (ATOM) |
 | `CBCC` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cbcc), [entry](../09-isa.md#w-cbcc) | Branches |
 | `CBCS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cbcs), [entry](../09-isa.md#w-cbcs) | Branches |
 | `CBEQ` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [12](by-encoding.md#mn-cbeq), [entry](../09-isa.md#w-cbeq) | Branches |
@@ -203,6 +205,7 @@
 | `JTAG` | [JTAG](../09-isa.md#jtag-jump-through-a-tag-table) (section 9.10) | [2](by-encoding.md#mn-jtag), [entry](../09-isa.md#w-jtag) | Indirect transfers (XFER) |
 | `LEA` | [LEA](../09-isa.md#lea-load-effective-address) (section 9.6) | [17](by-encoding.md#mn-lea), [entry](../09-isa.md#w-lea) | Moves, address formation and the ALU |
 | `LL` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | [1](by-encoding.md#mn-ll), [entry](../09-isa.md#w-ll) | Atomics (ATOM) |
+| `LLL` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | [1](by-encoding.md#mn-lll), [entry](../09-isa.md#w-lll) | Atomics (ATOM) |
 | `LPAD` | [NOP](../09-isa.md#nop-no-operation-and-landing-pad) (section 9.14) | [1](by-encoding.md#mn-lpad), [entry](../09-isa.md#w-lpad) | System (SYS) |
 | `MASKEQZ` | [MASK](../09-isa.md#mask-mask-by-a-condition-register) (section 9.7) | [1](by-encoding.md#mn-maskeqz), [entry](../09-isa.md#w-maskeqz) | Added by the prefix-coded encoding |
 | `MASKNEZ` | [MASK](../09-isa.md#mask-mask-by-a-condition-register) (section 9.7) | [1](by-encoding.md#mn-masknez), [entry](../09-isa.md#w-masknez) | Added by the prefix-coded encoding |
@@ -285,6 +288,7 @@
 | `SAR` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | [13](by-encoding.md#mn-sar), [entry](../09-isa.md#w-sar) | Moves, address formation and the ALU |
 | `SBC` | [SBC](../09-isa.md#sbc-subtract-carry) (section 9.7) | [7](by-encoding.md#mn-sbc), [entry](../09-isa.md#w-sbc) | Single operand (SOP) |
 | `SC` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | [1](by-encoding.md#mn-sc), [entry](../09-isa.md#w-sc) | Atomics (ATOM) |
+| `SCL` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | [1](by-encoding.md#mn-scl), [entry](../09-isa.md#w-scl) | Atomics (ATOM) |
 | `SET` | [SET](../09-isa.md#set-set-a-register-from-a-condition) (section 9.7) | [1](by-encoding.md#mn-set), [entry](../09-isa.md#w-set) | Arithmetic (AESC) |
 | `SEV` | [SEV](../09-isa.md#sev-send-an-event) (section 9.14) | [1](by-encoding.md#mn-sev), [entry](../09-isa.md#w-sev) | System (SYS) |
 | `SHA256SIG0` | [SHA256](../09-isa.md#sha256-the-sha-256-functions) (section 9.9) | [1](by-encoding.md#mn-sha256sig0), [entry](../09-isa.md#w-sha256sig0) | Added by the prefix-coded encoding |
@@ -305,6 +309,8 @@
 | `SUBV` | [OVF](../09-isa.md#ovf-add-subtract-and-multiply-trapping-on-signed-overflow) (section 9.7) | [1](by-encoding.md#mn-subv), [entry](../09-isa.md#w-subv) | Added by the prefix-coded encoding |
 | `SWAP` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swap), [entry](../09-isa.md#w-swap) | Atomics (ATOM) |
 | `SWAPDB` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swapdb), [entry](../09-isa.md#w-swapdb) | Atomics (ATOM) |
+| `SWAPL` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swapl), [entry](../09-isa.md#w-swapl) | Atomics (ATOM) |
+| `SWAPLDB` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swapldb), [entry](../09-isa.md#w-swapldb) | Atomics (ATOM) |
 | `SYSPG0` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg0), [entry](../09-isa.md#w-syspg0) | Added by the prefix-coded encoding |
 | `SYSPG1` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg1), [entry](../09-isa.md#w-syspg1) | Added by the prefix-coded encoding |
 | `SYSPG2` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg2), [entry](../09-isa.md#w-syspg2) | Added by the prefix-coded encoding |
@@ -340,19 +346,35 @@
 | `WFE` | [WFE](../09-isa.md#wfe-wait-for-an-event) (section 9.14) | [1](by-encoding.md#mn-wfe), [entry](../09-isa.md#w-wfe) | System (SYS) |
 | `XADD` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-xadd), [entry](../09-isa.md#w-xadd) | Atomics (ATOM) |
 | `XADDDB` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-xadddb), [entry](../09-isa.md#w-xadddb) | Atomics (ATOM) |
+| `XADDL` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-xaddl), [entry](../09-isa.md#w-xaddl) | Atomics (ATOM) |
+| `XADDLDB` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-xaddldb), [entry](../09-isa.md#w-xaddldb) | Atomics (ATOM) |
 | `XAND` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xand), [entry](../09-isa.md#w-xand) | Atomics (ATOM) |
 | `XANDDB` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xanddb), [entry](../09-isa.md#w-xanddb) | Atomics (ATOM) |
+| `XANDL` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xandl), [entry](../09-isa.md#w-xandl) | Atomics (ATOM) |
+| `XANDLDB` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xandldb), [entry](../09-isa.md#w-xandldb) | Atomics (ATOM) |
 | `XMAX` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmax), [entry](../09-isa.md#w-xmax) | Atomics (ATOM) |
 | `XMAXDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxdb), [entry](../09-isa.md#w-xmaxdb) | Atomics (ATOM) |
+| `XMAXL` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxl), [entry](../09-isa.md#w-xmaxl) | Atomics (ATOM) |
+| `XMAXLDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxldb), [entry](../09-isa.md#w-xmaxldb) | Atomics (ATOM) |
 | `XMAXU` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxu), [entry](../09-isa.md#w-xmaxu) | Atomics (ATOM) |
 | `XMAXUDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxudb), [entry](../09-isa.md#w-xmaxudb) | Atomics (ATOM) |
+| `XMAXUL` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxul), [entry](../09-isa.md#w-xmaxul) | Atomics (ATOM) |
+| `XMAXULDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxuldb), [entry](../09-isa.md#w-xmaxuldb) | Atomics (ATOM) |
 | `XMIN` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmin), [entry](../09-isa.md#w-xmin) | Atomics (ATOM) |
 | `XMINDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmindb), [entry](../09-isa.md#w-xmindb) | Atomics (ATOM) |
+| `XMINL` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xminl), [entry](../09-isa.md#w-xminl) | Atomics (ATOM) |
+| `XMINLDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xminldb), [entry](../09-isa.md#w-xminldb) | Atomics (ATOM) |
 | `XMINU` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xminu), [entry](../09-isa.md#w-xminu) | Atomics (ATOM) |
 | `XMINUDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xminudb), [entry](../09-isa.md#w-xminudb) | Atomics (ATOM) |
+| `XMINUL` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xminul), [entry](../09-isa.md#w-xminul) | Atomics (ATOM) |
+| `XMINULDB` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xminuldb), [entry](../09-isa.md#w-xminuldb) | Atomics (ATOM) |
 | `XNORPOP` | [XNORPOP](../09-isa.md#xnorpop-population-count-of-the-equality-of-two-words) (section 9.9) | [1](by-encoding.md#mn-xnorpop), [entry](../09-isa.md#w-xnorpop) | Bits and fields (BESC) |
 | `XOR` | [XOR](../09-isa.md#xor-exclusive-or) (section 9.8) | [16](by-encoding.md#mn-xor), [entry](../09-isa.md#w-xor) | Moves, address formation and the ALU |
 | `XOR_` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xor-), [entry](../09-isa.md#w-xor-) | Atomics (ATOM) |
 | `XOR_DB` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xor-db), [entry](../09-isa.md#w-xor-db) | Atomics (ATOM) |
+| `XOR_L` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xor-l), [entry](../09-isa.md#w-xor-l) | Atomics (ATOM) |
+| `XOR_LDB` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xor-ldb), [entry](../09-isa.md#w-xor-ldb) | Atomics (ATOM) |
 | `XXOR` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xxor), [entry](../09-isa.md#w-xxor) | Atomics (ATOM) |
 | `XXORDB` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xxordb), [entry](../09-isa.md#w-xxordb) | Atomics (ATOM) |
+| `XXORL` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xxorl), [entry](../09-isa.md#w-xxorl) | Atomics (ATOM) |
+| `XXORLDB` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xxorldb), [entry](../09-isa.md#w-xxorldb) | Atomics (ATOM) |

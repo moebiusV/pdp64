@@ -217,9 +217,22 @@ static int h_vecread(void *u, uint64_t pa, uint64_t *v)
 	return 0;
 }
 static void h_check(void *u, uint64_t a, int size, int write) { (void)u; if (a & (size - 1)) memfault(VECTOR_MISALIGNED, "misaligned data access", a); bp(a, write); bp(a + size - 1, write); }
+/* the atomic words (errata 211): one core, so the access is one load and one store; the checks come first and change nothing (alignment, the mapping, and the -x page that faults at its first store) */
+static uint64_t h_atomic(void *u, uint64_t a, int size, int op, uint64_t x, uint64_t y)
+{
+	uint64_t old, nv;
+	(void)u;
+	if (a & (size - 1)) memfault(VECTOR_MISALIGNED, "misaligned atomic access", a);
+	bp(a, 1); bp(a + size - 1, 1);
+	if (op == PDP64_AMO_CHECK) return 0;
+	if (tm_on) tm_mem(1, a, size);
+	old = ld(a, size);
+	if (pdp64_amo_result(op, size, old, x, y, &nv)) st(a, size, nv);
+	return old;
+}
 static void h_tlb(void *u, int op, uint64_t a) { (void)u; (void)op; (void)a; }
 static void h_raise(void *u, int vector, uint64_t eva) { (void)u; jvec = vector; jeva = eva; longjmp(jb, 1); }
-static struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL, NULL };
+static struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL, NULL, NULL, h_atomic };
 
 /* the profile (-P) */
 static void h_profile(void *u, uint64_t pc, int nparcels, int cat)

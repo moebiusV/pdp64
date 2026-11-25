@@ -24,6 +24,10 @@ struct pdp64_cpu {
 	uint64_t spbank[4], dpbank[4];
 	/* the hypervisor mode (errata 195, 196; docs/encoding-work/hypervisor-design.md).  hve: the machine strap, set by the host (pdp64_set_hve); with it clear the machine is the machine without a hypervisor
 	   and none of the rest exists.  h: the internal state bit H, 1 while the hypervisor runs (reset value with hve set), 0 for a guest.  Not in the status word.  The registers are the system registers 128 to 147. */
+	/* the reservation of LL (errata 211; manual 7.4): resv_on while it is held, the address and size of the LL, the value it loaded (the host's SC compares the memory word with it), and the number of
+	   instructions run since the LL.  Cleared at every exit and GENTER, at every exception entry and return, by an SC, by a violation of the constrained loop, and by a host that sees another initiator write the marked block */
+	int resv_on, resv_size, resv_n;
+	uint64_t resv_addr, resv_val;
 	int hve, h;
 	uint64_t htrap, hexitr, hepc, hepsw, heva, hcause, hgpa, hinsn, hvbr, gtbr, virq, vivec, vtoff, vcpuid;
 	/* a stage-2 fault (set by the host before it raises the abort, or when its vecread returns 2; design 1.6, 2.5): the exit code (XCODE_S2_INVALID or XCODE_S2_REFUSED; 0: no stage-2 fault), the flag bits of HEXITR (XFLAG_WALK, XFLAG_VEC) shifted in place, and the guest-physical address that failed */
@@ -76,7 +80,17 @@ struct pdp64_env {
 	void *u;
 	void (*profile)(void *u, uint64_t pc, int nparcels, int cat);	/* optional (NULL: none): called for every instruction at decode, before it runs; cat is a PDP64_CAT_ number.  A block instruction is one. */
 	void (*hv_event)(void *u, int what);	/* optional (NULL: none): the hypervisor wrote a register that a device of the host depends on (PDP64_HV_*) */
+	/* the atomic words (errata 211).  One access to `size` (4 or 8) bytes at a naturally aligned address, atomic against every other initiator, of the kind PDP64_AMO_*: it checks the access as a store (a fault
+	   is precise and nothing has changed: the mapping, the write permission, and that the memory is ordinary cached memory, a store protection fault otherwise) and returns the value the word had, zero-extended.
+	   SWAP, ADD, AND, OR, XOR, SMAX, SMIN, UMAX, UMIN: the word becomes the result of the operation on the old value and `a` (pdp64_amo_result).  CAS: the word becomes `b` if it equals `a`.
+	   LL: only the read.  SC: the word becomes `a` if it still equals `b` (the value the LL read) and the value returned is then `b`.  CHECK: the checks only, returns 0. */
+	uint64_t (*atomic)(void *u, uint64_t addr, int size, int op, uint64_t a, uint64_t b);
 };
+enum { PDP64_AMO_CHECK, PDP64_AMO_SWAP, PDP64_AMO_ADD, PDP64_AMO_AND, PDP64_AMO_OR, PDP64_AMO_XOR, PDP64_AMO_SMAX, PDP64_AMO_SMIN, PDP64_AMO_UMAX, PDP64_AMO_UMIN,
+       PDP64_AMO_CAS, PDP64_AMO_LL, PDP64_AMO_SC };
+/* the value the word becomes after an atomic of kind `op` on `size` bytes found `old` there (the operand `a`, and `b` for CAS and SC, as the hook gets them); 1 if the word is written (the new value is in *nv), 0 if
+   it is not (LL, CHECK, a CAS or SC that finds another value).  The one place that knows what each operation does, for every host. */
+int pdp64_amo_result(int op, int size, uint64_t old, uint64_t a, uint64_t b, uint64_t *nv);
 #define PDP64_HV_VTOFF 0	/* a write to VTOFF: the virtual timer's deadline moves (design 1.9) */
 /* the categories of the profile (the same for all encodings): what an instruction is, by its operation and operand */
 enum { PDP64_CAT_OTHER, PDP64_CAT_FRAME_LD, PDP64_CAT_FRAME_ST, PDP64_CAT_REGMOVE, PDP64_CAT_PUSHPOP, PDP64_CAT_MEMREF, PDP64_CAT_BRANCH, PDP64_CAT_CALL,

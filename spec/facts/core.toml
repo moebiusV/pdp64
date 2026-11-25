@@ -1054,76 +1054,10 @@ exec = "H_UNIMPL"
 [aesks2]
 exec = "H_UNIMPL"
 
-[xadd]
-exec = "H_UNIMPL"
-
-[xadddb]
-exec = "H_UNIMPL"
-
-[swap]
-exec = "H_UNIMPL"
-
-[swapdb]
-exec = "H_UNIMPL"
-
-[xand]
-exec = "H_UNIMPL"
-
-[xanddb]
-exec = "H_UNIMPL"
-
-[xor_]
-exec = "H_UNIMPL"
-
-[xor_db]
-exec = "H_UNIMPL"
-
-[xxor]
-exec = "H_UNIMPL"
-
-[xxordb]
-exec = "H_UNIMPL"
-
-[xmax]
-exec = "H_UNIMPL"
-
-[xmaxdb]
-exec = "H_UNIMPL"
-
-[xmin]
-exec = "H_UNIMPL"
-
-[xmindb]
-exec = "H_UNIMPL"
-
-[xmaxu]
-exec = "H_UNIMPL"
-
-[xmaxudb]
-exec = "H_UNIMPL"
-
-[xminu]
-exec = "H_UNIMPL"
-
-[xminudb]
-exec = "H_UNIMPL"
-
-[ll]
-exec = "H_UNIMPL"
-
-[sc]
-exec = "H_UNIMPL"
-
 [msha256]
 exec = "H_UNIMPL"
 
 [msha512]
-exec = "H_UNIMPL"
-
-[cas]
-exec = "H_UNIMPL"
-
-[casdb]
 exec = "H_UNIMPL"
 
 [maesctr]
@@ -1131,3 +1065,181 @@ exec = "H_UNIMPL"
 
 [aesks1]
 exec = "H_UNIMPL"
+
+# The atomic words (errata 211; the executor: H_ATOM, the argument is the number of the word in the group mn-atom of 30-mn-core.hbnf: bits 0 to 4 the operation, bit 5 the size, 0 eight bytes, 1 four bytes)
+
+[cas]
+exec = "H_ATOM"
+arg = "MN_ATOM_CAS"
+
+[casdb]
+exec = "H_ATOM"
+arg = "MN_ATOM_CASDB"
+
+[swap]
+exec = "H_ATOM"
+arg = "MN_ATOM_SWAP"
+
+[swapdb]
+exec = "H_ATOM"
+arg = "MN_ATOM_SWAPDB"
+
+[xadd]
+exec = "H_ATOM"
+arg = "MN_ATOM_XADD"
+
+[xadddb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XADDDB"
+
+[xand]
+exec = "H_ATOM"
+arg = "MN_ATOM_XAND"
+
+[xanddb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XANDDB"
+
+[xor_]
+exec = "H_ATOM"
+arg = "MN_ATOM_XOR_"
+
+[xor_db]
+exec = "H_ATOM"
+arg = "MN_ATOM_XOR_DB"
+
+[xxor]
+exec = "H_ATOM"
+arg = "MN_ATOM_XXOR"
+
+[xxordb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XXORDB"
+
+[xmax]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMAX"
+
+[xmaxdb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMAXDB"
+
+[xmin]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMIN"
+
+[xmindb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMINDB"
+
+[xmaxu]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMAXU"
+
+[xmaxudb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMAXUDB"
+
+[xminu]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMINU"
+
+[xminudb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMINUDB"
+
+[sc]
+exec = "H_ATOM"
+arg = "MN_ATOM_SC"
+
+[casl]
+exec = "H_ATOM"
+arg = "MN_ATOM_CASL"
+
+[casldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_CASLDB"
+
+[swapl]
+exec = "H_ATOM"
+arg = "MN_ATOM_SWAPL"
+
+[swapldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_SWAPLDB"
+
+[xaddl]
+exec = "H_ATOM"
+arg = "MN_ATOM_XADDL"
+
+[xaddldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XADDLDB"
+
+[xandl]
+exec = "H_ATOM"
+arg = "MN_ATOM_XANDL"
+
+[xandldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XANDLDB"
+
+[xor_l]
+exec = "H_ATOM"
+arg = "MN_ATOM_XOR_L"
+
+[xor_ldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XOR_LDB"
+
+[xxorl]
+exec = "H_ATOM"
+arg = "MN_ATOM_XXORL"
+
+[xxorldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XXORLDB"
+
+[xmaxl]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMAXL"
+
+[xmaxldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMAXLDB"
+
+[xminl]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMINL"
+
+[xminldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMINLDB"
+
+[xmaxul]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMAXUL"
+
+[xmaxuldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMAXULDB"
+
+[xminul]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMINUL"
+
+[xminuldb]
+exec = "H_ATOM"
+arg = "MN_ATOM_XMINULDB"
+
+[scl]
+exec = "H_ATOM"
+arg = "MN_ATOM_SCL"
+
+[ll]
+exec = "H_ATOM"
+arg = "MN_ATOM_LL"
+
+[lll]
+exec = "H_ATOM"
+arg = "MN_ATOM_LLL"

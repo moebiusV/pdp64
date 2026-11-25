@@ -48,6 +48,15 @@ if a.drop_file:
 d = encgram.load()
 owned = {os.path.normpath(p['path']) for p in grammars_d.parts() if p['tool'] == 'tools/encopt/addforms.py'}
 forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in d['forms'] if os.path.normpath(f['file']) in owned]
+# a word of a group in HAND_GROUPS (a part with a form of its own, such as the atomics of 30-mn-core.hbnf and 57-enc-atomic.hbnf) is not a word of a generated form: when a family moves
+# to a part of its own the generated forms stop listing it, and the forms keep their prefixes (a form with xbits has a fixed prefix whatever the number of its words)
+import mkgrammar
+HAND_GROUPS = ('mn-atom',)
+hand = {lit for g, items in mkgrammar.enums().items() if g in HAND_GROUPS for lit, v in items}
+for f in forms:
+    if any(m in hand for m in f.mns):
+        f.mns = [m for m in f.mns if m not in hand]
+        f._ms = set(f.mns)
 known = {f.name for f in forms}
 # idempotent: a form already dropped is not an error, and the forms of the family that the grammar already has are replaced by the ones vecfam.py makes now
 for n in sorted(drops - known):

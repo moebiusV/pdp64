@@ -59,12 +59,6 @@ trapcc.eq | 1 f7d1
 isync | 1 f7cf
 hint I:165 | 1 7ba5
 pushx | 1 f7cd
-# three and four registers: ATOM
-xadd R:1 R:2 R:3 | 2 f183 7822
-cas R:1 R:2 R:3 R:4 | 2 d1c4 8443
-swapdb R:1 R:2 R:3 | 2 f183 8422
-ll R:1 R:2 R:3 | 2 f183 c022
-sc R:1 R:2 R:3 | 2 f183 c422
 # MESC
 movub B:8:3 R:2 | 3 afc2 3000 0008
 movul B:8:3 R:2 | 3 e7c2 3000 0008
@@ -86,7 +80,7 @@ bsel R:1 R:2 R:3 R:4 | 2 d1c4 0443
 aeses R:1 R:2 R:3 | 2 f183 6422
 aesks1 R:1 I:3 R:2 | 2 f9f3 0862
 sha256sum0 R:1 R:2 | 2 f9e0 8848
-maesctr R:1 R:2 R:3 R:4 | 2 d1e4 8443
+maesctr R:1 R:2 R:3 R:4 | 2 d1c4 8443
 addv R:1 R:2 | 2 f9e0 884e
 mulv R:1 R:2 | 2 f9e0 8850
 # fused pairs
@@ -125,6 +119,4 @@ cmp R:20 R:21 | 2 fc4b 5a95
 movq X:0:16:31:8 R:18 | 2 fb21 0ff2
 cbeq R:19 I:0 PC:8 | 1 7093
 cbne R:30 R:31 PC:16 | 2 fb57 df08
-xadd R:17 R:18 R:19 | 2 f193 7a32
-cas R:20 R:21 R:22 R:23 | 2 d1d7 d2b6
 bsel R:24 R:25 R:26 R:27 | 2 d1db 633a

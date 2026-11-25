@@ -41,6 +41,27 @@ static int64_t sext(uint64_t v, int bits) { return bits >= 64 ? (int64_t)v : (in
 static uint64_t zext(uint64_t v, int bits) { return bits >= 64 ? v : v & (((uint64_t)1 << bits) - 1); }
 static int64_t ldx(uint64_t a, int size) { return sext(ld(a, size), size * 8); }
 
+/* the atomic words: what each does to the word (errata 211; pdp64exec.h, struct pdp64_env atomic).  The signed forms compare the values as `size` bytes of a signed number. */
+int pdp64_amo_result(int op, int size, uint64_t old, uint64_t a, uint64_t b, uint64_t *nv)
+{
+	uint64_t m = size >= 8 ? ~(uint64_t)0 : ((uint64_t)1 << (size * 8)) - 1;
+	int64_t so = sext(old, size * 8), sa = sext(a, size * 8);
+	switch (op) {
+	case PDP64_AMO_SWAP: *nv = a & m; return 1;
+	case PDP64_AMO_ADD: *nv = (old + a) & m; return 1;
+	case PDP64_AMO_AND: *nv = old & a & m; return 1;
+	case PDP64_AMO_OR: *nv = (old | a) & m; return 1;
+	case PDP64_AMO_XOR: *nv = (old ^ a) & m; return 1;
+	case PDP64_AMO_SMAX: *nv = (so > sa ? old : a) & m; return 1;
+	case PDP64_AMO_SMIN: *nv = (so < sa ? old : a) & m; return 1;
+	case PDP64_AMO_UMAX: *nv = (old > (a & m) ? old : a) & m; return 1;
+	case PDP64_AMO_UMIN: *nv = (old < (a & m) ? old : a) & m; return 1;
+	case PDP64_AMO_CAS: if (old != (a & m)) return 0; *nv = b & m; return 1;
+	case PDP64_AMO_SC: if (old != (b & m)) return 0; *nv = a & m; return 1;
+	}
+	return 0;
+}
+
 enum { O_REG, O_MEM, O_IMM };
 struct opnd { int kind, reg; uint64_t addr; int64_t imm; int adjust_reg; int64_t adjust; };
 
@@ -359,9 +380,10 @@ static void hexit(unsigned code, unsigned flags, int vector, uint64_t epc, uint6
 	old = pdp64_psw(C);
 	C->hepc = epc; C->hepsw = old; C->heva = eva; C->hgpa = gpa; C->hinsn = insn; C->hexitr = code | flags; C->hcause = (uint64_t)vector;
 	C->uacc = 0;
+	C->resv_on = 0;									/* an exit clears any LL reservation: no mark of one level is found by another (errata 211) */
 	pdp64_set_h(C, 1);
 	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));
-	C->vacc = 0;									/* the world switch clears the naming of the vector accumulators (errata 186 decision 13); there is no LL reservation in this executor */
+	C->vacc = 0;									/* the world switch clears the naming of the vector accumulators (errata 186 decision 13)*/
 	C->wait = 0;
 	pc = target;
 	C->entered = 1;
@@ -388,7 +410,7 @@ static void enter_h(int vector, uint64_t epc, uint64_t eva)
 	if (E->vecread(E->u, at, &target)) E->fault(E->u, "machine check: the vector fetch failed", at);
 	old = pdp64_psw(C);
 	C->hepc = epc; C->hepsw = old; C->heva = eva; C->hgpa = 0; C->hinsn = 0; C->hexitr = XCODE_TAKEN_AT_H; C->hcause = (uint64_t)vector;
-	C->uacc = 0;
+	C->uacc = 0; C->resv_on = 0;
 	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));
 	C->vacc = 0;
 	pc = target;
@@ -413,9 +435,9 @@ static void enter(int vector, uint64_t epc, uint64_t eva)
 	}
 	old = pdp64_psw(C);
 	C->epc = epc; C->epsw = old; C->eva = eva; C->ecause = (uint64_t)vector | (C->uacc ? 1u << 15 : 0);	/* bit 15: the fault was on the operand of a .u move (6.10.4) */
-	C->uacc = 0;
+	C->uacc = 0; C->resv_on = 0;							/* every exception entry clears any LL reservation (errata 211) */
 	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));	/* UA is clear in the new status word; EPSW keeps the old value (6.10.1) */
-	C->vacc = 0;									/* every exception entry clears the naming of the vector accumulators (errata 186 decision 13, 6.14.9); the hardware's copy of a hidden block, vrun_* and vrst_*, is not touched.  There is no LL reservation in this executor (the atomics are not implemented) */
+	C->vacc = 0;									/* every exception entry clears the naming of the vector accumulators (errata 186 decision 13, 6.14.9); the hardware's copy of a hidden block, vrun_* and vrst_*, is not touched. */
 	pc = target;
 	C->entered = 1;
 }
@@ -442,6 +464,7 @@ static void genter(uint32_t keep)
 	if (!C->h) { hexit(XCODE_HVREG, 0, VECTOR_HEXIT, pc, 0, 0, C->cur_insn); return; }
 	if (psw_bad(C->hepsw)) die("genter: reserved mode in hepsw", 0);
 	E->tlb(E->u, PDP64_TLB_SYNC, 0);
+	C->resv_on = 0;									/* GENTER clears any LL reservation (errata 211) */
 	pdp64_set_h(C, 0);
 	pdp64_set_psw(C, (unsigned)C->hepsw);
 	pc = C->hepc;
@@ -649,6 +672,7 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 				if (psw_bad(xpsw)) die("rti: reserved mode in epsw", 0);
 				lesser = mode_rank((int)(xpsw >> PSW_MODE & 3)) < mode_rank(MODE);
 				pc = xpc; pdp64_set_psw(C, (unsigned)xpsw);
+				C->resv_on = 0;								/* every return clears any LL reservation (errata 211) */
 				C->vacc = 0;								/* the return clears the naming too: what a handler named with a vclr outside a block is not left for the interrupted program (errata 172) */
 				if (lesser) clear_unkept(f.n);
 				if (f.low == MN_SYS_NONE_RTT) C->psw |= 1u << PSW_T;
@@ -1050,7 +1074,12 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 		memcpy(c->snap.r, c->r, sizeof c->r); c->snap.pc = c->pc; c->snap.dp = c->dp; c->snap.fpsr = c->fpsr;
 		c->snap.fN = c->fN; c->snap.fZ = c->fZ; c->snap.fV = c->fV; c->snap.fC = c->fC;
 	}
-	step();
+	{
+		int watch = c->resv_on; uint64_t pc0 = c->pc;
+		step();
+		/* the constrained loop of LL and SC (manual 7.4): a taken branch that does not go forward breaks it: the reservation is lost and the SC will fail */
+		if (watch && c->resv_on && !c->entered && c->pc <= pc0) c->resv_on = 0;
+	}
 	c->snap_valid = 0;
 	if (traced && c->deliver && !c->entered) enter(VECTOR_BPT, c->pc, 0);		/* T was set when the instruction began: the trace trap (vector 15, as bpt) */
 	if (guest && !c->h && (c->htrap >> HTRAP_STEP & 1) && !c->entered) hexit(XCODE_STEP, 0, VECTOR_HEXIT, c->pc, 0, 0, c->cur_insn);	/* single step: an exit after each guest instruction (design 1.5 bit STEP) */
