@@ -6794,23 +6794,22 @@ Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, eac
 
 *Cf. chapter 7, section 7.4 (atomic operations), section 7.3 (the multiprocessor instructions at a glance) and section 7.5 (the memory model).*
 
-**9.13.1** The atomic group `ATOM` holds `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`, in two sizes: the bare name is the 8-byte word and the name with an `L` after the operation (before `DB`) the 4-byte word, 44 words in all, all four bytes long; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in chapter 7.
+**9.13.1** The atomic group `ATOM` holds `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, and `LL` and `SC`, in two sizes: the bare name is the 8-byte word and the name with an `L` after the operation the 4-byte word, 24 words in all, all four bytes long; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in chapter 7.
 
 **9.13.2** `CAS` operates on 4 bytes (`CASL`) or 8 bytes (`CAS`), and every atomic has the register fields of 7.4.6 and the address `(Ra)` with no offset, `CAS Rd, Rs, (Ra)` with the expected and the old value in `Rd` (`LL` has two operands, `LL Rd, (Ra)`); an aligned 8-byte compare-and-swap may cover two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members).
 
-*Commentary.* The official entry of each instruction is below, in this section; chapter 7 gives the reasons, the memory model and the use. **Impact.** *Kernel:* the entries below are all a kernel needs to write its locks; chapter 7 explains how they compose. *Compiler:* a lock acquire is one `_DB` instruction. *Hardware:* a reservation monitor beside the data cache.
+*Commentary.* The official entry of each instruction is below, in this section; chapter 7 gives the reasons, the memory model and the use. **Impact.** *Kernel:* the entries below are all a kernel needs to write its locks; chapter 7 explains how they compose. *Compiler:* a lock acquire is one instruction. *Hardware:* a reservation monitor beside the data cache.
 
 <!-- entries:9.13 -->
 ### CAS: Compare and swap
 
-**Mnemonics:** `CAS`, `CASDB`, `CASL`, `CASLDB`
+**Mnemonics:** `CAS`, `CASL`
 
 **Syntax**
 
 ```
 CAS Rd, Rs, (Ra)        ; three registers: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes
-CASDB ...               ; with the barrier
-CASL, CASLDB ...        ; the same on 4 bytes
+CASL ...                ; the same on 4 bytes
 ```
 
 **Encoding**
@@ -6819,7 +6818,7 @@ CASL, CASLDB ...        ; the same on 4 bytes
 
 The chart is the leaf `ATOM-1`, ATOM, prefix `111111100000`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `op3` is `b5d0s-x1`: memory at (base register, 5 bits). `xsub` selects the mnemonic.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1), [`ATOM4-1`](dictionary/by-encoding.md#ATOM4-1).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1).
 
 **Operation**
 
@@ -6850,45 +6849,27 @@ CAS Rd, Rs, (Ra)
 
 Operation, flags and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
 
-<a id="w-casdb"></a>
-#### CASDB
-
-![CASDB: ATOM, prefix 111111100000, sub-opcode 00001; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/casdb/01.svg)
-
-```
-CASDB ...
-```
-
-Operation, flags and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
-
 <a id="w-casl"></a>
 #### CASL
 
-![CASL: ATOM4, prefix 111111100001, sub-opcode 00000; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/casl/01.svg)
+![CASL: ATOM, prefix 111111100000, sub-opcode 00001; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/casl/01.svg)
 
 ```
-CASL, CASLDB ...
+CASL ...
 ```
-
-Operation, flags and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
-
-<a id="w-casldb"></a>
-#### CASLDB
-
-![CASLDB: ATOM4, prefix 111111100001, sub-opcode 00001; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/casldb/01.svg)
 
 Operation, flags and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
 
 
 ### SWAP: Atomic exchange
 
-**Mnemonics:** `SWAP`, `SWAPDB`, `SWAPL`, `SWAPLDB`
+**Mnemonics:** `SWAP`, `SWAPL`
 
 **Syntax**
 
 ```
 SWAP Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the value, Rd the old value
-SWAPDB, SWAPL, SWAPLDB ...
+SWAPL ...                ; 4 bytes
 ```
 
 **Encoding**
@@ -6897,7 +6878,7 @@ SWAPDB, SWAPL, SWAPLDB ...
 
 The chart is the leaf `ATOM-1`, ATOM, prefix `111111100000`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `op3` is `b5d0s-x1`: memory at (base register, 5 bits). `xsub` selects the mnemonic.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1), [`ATOM4-1`](dictionary/by-encoding.md#ATOM4-1).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1).
 
 **Operation**
 
@@ -6926,41 +6907,27 @@ SWAP Rd, Rs, (Ra)
 
 Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
 
-<a id="w-swapdb"></a>
-#### SWAPDB
-
-![SWAPDB: ATOM, prefix 111111100000, sub-opcode 00011; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/swapdb/01.svg)
-
-```
-SWAPDB, SWAPL, SWAPLDB ...
-```
-
-Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
-
 <a id="w-swapl"></a>
 #### SWAPL
 
-![SWAPL: ATOM4, prefix 111111100001, sub-opcode 00010; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/swapl/01.svg)
+![SWAPL: ATOM, prefix 111111100000, sub-opcode 00011; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/swapl/01.svg)
 
-Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
-
-<a id="w-swapldb"></a>
-#### SWAPLDB
-
-![SWAPLDB: ATOM4, prefix 111111100001, sub-opcode 00011; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/swapldb/01.svg)
+```
+SWAPL ...
+```
 
 Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
 
 
 ### XADD: Atomic fetch and add
 
-**Mnemonics:** `XADD`, `XADDDB`, `XADDL`, `XADDLDB`
+**Mnemonics:** `XADD`, `XADDL`
 
 **Syntax**
 
 ```
 XADD Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes
-XADDDB, XADDL, XADDLDB ...
+XADDL ...                ; 4 bytes
 ```
 
 **Encoding**
@@ -6969,7 +6936,7 @@ XADDDB, XADDL, XADDLDB ...
 
 The chart is the leaf `ATOM-1`, ATOM, prefix `111111100000`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `op3` is `b5d0s-x1`: memory at (base register, 5 bits). `xsub` selects the mnemonic.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1), [`ATOM4-1`](dictionary/by-encoding.md#ATOM4-1).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1).
 
 **Operation**
 
@@ -6998,35 +6965,21 @@ XADD Rd, Rs, (Ra)
 
 Operation, flags and exceptions as for the entry XADD above; 1 layout form, each a chart of its own (above).
 
-<a id="w-xadddb"></a>
-#### XADDDB
-
-![XADDDB: ATOM, prefix 111111100000, sub-opcode 00101; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xadddb/01.svg)
-
-```
-XADDDB, XADDL, XADDLDB ...
-```
-
-Operation, flags and exceptions as for the entry XADD above; 1 layout form, each a chart of its own (above).
-
 <a id="w-xaddl"></a>
 #### XADDL
 
-![XADDL: ATOM4, prefix 111111100001, sub-opcode 00100; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xaddl/01.svg)
+![XADDL: ATOM, prefix 111111100000, sub-opcode 00101; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xaddl/01.svg)
 
-Operation, flags and exceptions as for the entry XADD above; 1 layout form, each a chart of its own (above).
-
-<a id="w-xaddldb"></a>
-#### XADDLDB
-
-![XADDLDB: ATOM4, prefix 111111100001, sub-opcode 00101; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xaddldb/01.svg)
+```
+XADDL ...
+```
 
 Operation, flags and exceptions as for the entry XADD above; 1 layout form, each a chart of its own (above).
 
 
 ### XAND: Atomic fetch and and, or, xor
 
-**Mnemonics:** `XAND`, `XANDDB`, `XANDL`, `XANDLDB`, `XOR`, `XOR_DB`, `XOR_L`, `XOR_LDB`, `XXOR`, `XXORDB`, `XXORL`, `XXORLDB`
+**Mnemonics:** `XAND`, `XANDL`, `XOR`, `XOR_L`, `XXOR`, `XXORL`
 
 **Syntax**
 
@@ -7034,7 +6987,7 @@ Operation, flags and exceptions as for the entry XADD above; 1 layout form, each
 XAND Rd, Rs, (Ra)
 XOR_ Rd, Rs, (Ra)        ; the trailing underscore keeps the mnemonic distinct from XOR
 XXOR Rd, Rs, (Ra)
-each with a DB form and an L form (XANDL, XOR_L, XXORL: 4 bytes)
+each with an L form (XANDL, XOR_L, XXORL: 4 bytes)
 ```
 
 **Encoding**
@@ -7043,7 +6996,7 @@ each with a DB form and an L form (XANDL, XOR_L, XXORL: 4 bytes)
 
 The chart is the leaf `ATOM-1`, ATOM, prefix `111111100000`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `op3` is `b5d0s-x1`: memory at (base register, 5 bits). `xsub` selects the mnemonic.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1), [`ATOM4-1`](dictionary/by-encoding.md#ATOM4-1).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1).
 
 **Operation**
 
@@ -7076,24 +7029,10 @@ XAND Rd, Rs, (Ra)
 
 Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
 
-<a id="w-xanddb"></a>
-#### XANDDB
-
-![XANDDB: ATOM, prefix 111111100000, sub-opcode 00111; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xanddb/01.svg)
-
-Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
-
 <a id="w-xandl"></a>
 #### XANDL
 
-![XANDL: ATOM4, prefix 111111100001, sub-opcode 00110; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xandl/01.svg)
-
-Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
-
-<a id="w-xandldb"></a>
-#### XANDLDB
-
-![XANDLDB: ATOM4, prefix 111111100001, sub-opcode 00111; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xandldb/01.svg)
+![XANDL: ATOM, prefix 111111100000, sub-opcode 00111; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xandl/01.svg)
 
 Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
 
@@ -7108,24 +7047,10 @@ XOR_ Rd, Rs, (Ra)
 
 Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
 
-<a id="w-xor-db"></a>
-#### XOR_DB
-
-![XOR_DB: ATOM, prefix 111111100000, sub-opcode 01001; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xor-db/01.svg)
-
-Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
-
 <a id="w-xor-l"></a>
 #### XOR_L
 
-![XOR_L: ATOM4, prefix 111111100001, sub-opcode 01000; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xor-l/01.svg)
-
-Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
-
-<a id="w-xor-ldb"></a>
-#### XOR_LDB
-
-![XOR_LDB: ATOM4, prefix 111111100001, sub-opcode 01001; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xor-ldb/01.svg)
+![XOR_L: ATOM, prefix 111111100000, sub-opcode 01001; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xor-l/01.svg)
 
 Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
 
@@ -7140,38 +7065,24 @@ XXOR Rd, Rs, (Ra)
 
 Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
 
-<a id="w-xxordb"></a>
-#### XXORDB
-
-![XXORDB: ATOM, prefix 111111100000, sub-opcode 01011; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xxordb/01.svg)
-
-Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
-
 <a id="w-xxorl"></a>
 #### XXORL
 
-![XXORL: ATOM4, prefix 111111100001, sub-opcode 01010; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xxorl/01.svg)
-
-Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
-
-<a id="w-xxorldb"></a>
-#### XXORLDB
-
-![XXORLDB: ATOM4, prefix 111111100001, sub-opcode 01011; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xxorldb/01.svg)
+![XXORL: ATOM, prefix 111111100000, sub-opcode 01011; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xxorl/01.svg)
 
 Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
 
 
 ### XMAX: Atomic fetch and minimum or maximum
 
-**Mnemonics:** `XMAX`, `XMAXDB`, `XMAXL`, `XMAXLDB`, `XMIN`, `XMINDB`, `XMINL`, `XMINLDB`, `XMAXU`, `XMAXUDB`, `XMAXUL`, `XMAXULDB`, `XMINU`, `XMINUDB`, `XMINUL`, `XMINULDB`
+**Mnemonics:** `XMAX`, `XMAXL`, `XMIN`, `XMINL`, `XMAXU`, `XMAXUL`, `XMINU`, `XMINUL`
 
 **Syntax**
 
 ```
 XMAX Rd, Rs, (Ra)
 XMIN ..., XMAXU ..., XMINU ...
-each with a DB form and an L form (XMAXL, XMAXUL, XMINL, XMINUL: 4 bytes)
+each with an L form (XMAXL, XMAXUL, XMINL, XMINUL: 4 bytes)
 ```
 
 **Encoding**
@@ -7180,7 +7091,7 @@ each with a DB form and an L form (XMAXL, XMAXUL, XMINL, XMINUL: 4 bytes)
 
 The chart is the leaf `ATOM-1`, ATOM, prefix `111111100000`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `op3` is `b5d0s-x1`: memory at (base register, 5 bits). `xsub` selects the mnemonic.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1), [`ATOM4-1`](dictionary/by-encoding.md#ATOM4-1).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOM-1`](dictionary/by-encoding.md#ATOM-1).
 
 **Operation**
 
@@ -7210,24 +7121,10 @@ XMAX Rd, Rs, (Ra)
 
 Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
 
-<a id="w-xmaxdb"></a>
-#### XMAXDB
-
-![XMAXDB: ATOM, prefix 111111100000, sub-opcode 01101; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xmaxdb/01.svg)
-
-Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
-
 <a id="w-xmaxl"></a>
 #### XMAXL
 
-![XMAXL: ATOM4, prefix 111111100001, sub-opcode 01100; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xmaxl/01.svg)
-
-Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
-
-<a id="w-xmaxldb"></a>
-#### XMAXLDB
-
-![XMAXLDB: ATOM4, prefix 111111100001, sub-opcode 01101; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xmaxldb/01.svg)
+![XMAXL: ATOM, prefix 111111100000, sub-opcode 01101; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xmaxl/01.svg)
 
 Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
 
@@ -7242,24 +7139,10 @@ XMIN ..., XMAXU ..., XMINU ...
 
 Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
 
-<a id="w-xmindb"></a>
-#### XMINDB
-
-![XMINDB: ATOM, prefix 111111100000, sub-opcode 01111; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xmindb/01.svg)
-
-Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
-
 <a id="w-xminl"></a>
 #### XMINL
 
-![XMINL: ATOM4, prefix 111111100001, sub-opcode 01110; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xminl/01.svg)
-
-Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
-
-<a id="w-xminldb"></a>
-#### XMINLDB
-
-![XMINLDB: ATOM4, prefix 111111100001, sub-opcode 01111; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xminldb/01.svg)
+![XMINL: ATOM, prefix 111111100000, sub-opcode 01111; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xminl/01.svg)
 
 Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
 
@@ -7270,24 +7153,10 @@ Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each
 
 Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
 
-<a id="w-xmaxudb"></a>
-#### XMAXUDB
-
-![XMAXUDB: ATOM, prefix 111111100000, sub-opcode 10001; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xmaxudb/01.svg)
-
-Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
-
 <a id="w-xmaxul"></a>
 #### XMAXUL
 
-![XMAXUL: ATOM4, prefix 111111100001, sub-opcode 10000; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xmaxul/01.svg)
-
-Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
-
-<a id="w-xmaxuldb"></a>
-#### XMAXULDB
-
-![XMAXULDB: ATOM4, prefix 111111100001, sub-opcode 10001; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xmaxuldb/01.svg)
+![XMAXUL: ATOM, prefix 111111100000, sub-opcode 10001; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xmaxul/01.svg)
 
 Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
 
@@ -7298,24 +7167,10 @@ Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each
 
 Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
 
-<a id="w-xminudb"></a>
-#### XMINUDB
-
-![XMINUDB: ATOM, prefix 111111100000, sub-opcode 10011; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xminudb/01.svg)
-
-Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
-
 <a id="w-xminul"></a>
 #### XMINUL
 
-![XMINUL: ATOM4, prefix 111111100001, sub-opcode 10010; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xminul/01.svg)
-
-Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
-
-<a id="w-xminuldb"></a>
-#### XMINULDB
-
-![XMINULDB: ATOM4, prefix 111111100001, sub-opcode 10011; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xminuldb/01.svg)
+![XMINUL: ATOM, prefix 111111100000, sub-opcode 10011; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/xminul/01.svg)
 
 Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
 
@@ -7339,7 +7194,7 @@ SCL Rd, Rs, (Ra)   ; 4 bytes
 
 The chart is the leaf `ATOML-1`, ATOML, prefix `1111111000100000`. `op1` is `reg5`: register, 5 bits. `op2` is `b5d0s-x1`: memory at (base register, 5 bits). `xsub` selects the mnemonic.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOML-1`](dictionary/by-encoding.md#ATOML-1), [`ATOM-1`](dictionary/by-encoding.md#ATOM-1), [`ATOM4-1`](dictionary/by-encoding.md#ATOM4-1).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`ATOML-1`](dictionary/by-encoding.md#ATOML-1), [`ATOM-1`](dictionary/by-encoding.md#ATOM-1).
 
 **Operation**
 
@@ -7397,7 +7252,7 @@ Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each
 <a id="w-scl"></a>
 #### SCL
 
-![SCL: ATOM4, prefix 111111100001, sub-opcode 10100; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/scl/01.svg)
+![SCL: ATOM, prefix 111111100000, sub-opcode 10101; operands reg5, reg5, b5d0s-x1; 4 bytes](figures/w/scl/01.svg)
 
 ```
 SCL Rd, Rs, (Ra)
@@ -7673,7 +7528,7 @@ order the memory accesses before it against those after it, for every initiator 
 
 Owed to devices (one `FENCE` separates writing a device's registers from setting its go bit) and to other cores.
 
-**Why it is here.** The memory model is sequentially consistent, so `FENCE` is needed only for what is outside the model: devices and the framebuffer (one `FENCE` between writing a device's registers and setting its go bit, section 3.13) and instruction streams. The `_DB` barrier forms of the atomics exist so that a `FENCE` is not needed in a lock acquire.
+**Why it is here.** The memory model is sequentially consistent, so `FENCE` is needed only for what is outside the model: devices and the framebuffer (one `FENCE` between writing a device's registers and setting its go bit, section 3.13) and instruction streams.
 
 **Cf.** 7.5 (the memory model), 2.2 (what the processor owes the bus).
 
@@ -9170,7 +9025,7 @@ Operation, flags and exceptions as for the entry SYSPG above; 1 layout form, eac
 
 **9.20.1** LoongArch64 is the most recent clean-room instruction set designed without an ideological commitment: it borrowed from MIPS, RISC-V and ARM as each had the better answer, which is the posture of the pdp64.
 
-**9.20.2** Adopted from it: bit manipulation in the base (`CLO`, `CLZ`, `CTZ`, bit-field moves, byte reverse), atomics with the barrier folded in (the `_DB` variants), a richer atomic set (fetch-and-minimum and maximum), and memory type as a page attribute, and 32 registers, which the prefix-coded encoding has the bits for.
+**9.20.2** Adopted from it: bit manipulation in the base (`CLO`, `CLZ`, `CTZ`, bit-field moves, byte reverse), a richer atomic set (fetch-and-minimum and maximum), and memory type as a page attribute, and 32 registers, which the prefix-coded encoding has the bits for.
 
 **9.20.3** Declined, with reasons: `R0` hardwired to zero (a thirty-second of a 32-register file, and `CLR` and `NEG` are one parcel already); no condition codes (a third read port in the branch unit against a four-bit latch); `FCSR` rounding-mode bits (hidden state that changes other instructions); four PC-relative address-formation instructions (one `LEA` carries 32 bits); and separate vector register files (chapter 8).
 

@@ -237,54 +237,34 @@ mn-fesc = "fdiv"@0b00000000
         | "frintdp"@0x133
         | "frintda"@0x134
 
-; ATOM: the atomic words (errata 211; docs/encoding-work/rejudge-timer-iommu-irq-atomics.md F8 to F17).  The number is the handler's argument (MN_ATOM_*): bits 0 to 4 name the operation
-; (compare and swap 0, swap 2, add 4, and 6, or 8, exclusive or 10, signed maximum 12, signed minimum 14, unsigned maximum 16, unsigned minimum 18; the odd number is the same operation with the
-; `db` barrier; 20 the store-conditional, 21 the load-linked), bit 5 the size of the access: 0 eight bytes (the bare name), 1 four bytes (the name with the suffix `l` after the operation,
-; before `db`: xaddl, xaddldb; the 4-byte load-linked is lll).  The encoding is in 57-enc-atomic.hbnf.
+; ATOM: the atomic words (errata 211; docs/encoding-work/rejudge-timer-iommu-irq-atomics.md F8 to F17).  The number is the handler's argument (MN_ATOM_*): bits 0 to 3 name the operation
+; (compare and swap 0, swap 1, add 2, and 3, or 4, exclusive or 5, signed maximum 6, signed minimum 7, unsigned maximum 8, unsigned minimum 9, the store-conditional 10, the load-linked 11),
+; bit 5 the size of the access: 0 eight bytes (the bare name), 1 four bytes (the name with the suffix `l` after the operation: xaddl; the 4-byte load-linked is lll).  The encoding is in
+; 57-enc-atomic.hbnf.
 mn-atom = "cas"@0
-        | "casdb"@1
-        | "swap"@2
-        | "swapdb"@3
-        | "xadd"@4
-        | "xadddb"@5
-        | "xand"@6
-        | "xanddb"@7
-        | "xor_"@8
-        | "xor_db"@9
-        | "xxor"@10
-        | "xxordb"@11
-        | "xmax"@12
-        | "xmaxdb"@13
-        | "xmin"@14
-        | "xmindb"@15
-        | "xmaxu"@16
-        | "xmaxudb"@17
-        | "xminu"@18
-        | "xminudb"@19
-        | "sc"@20
-        | "ll"@21
+        | "swap"@1
+        | "xadd"@2
+        | "xand"@3
+        | "xor_"@4
+        | "xxor"@5
+        | "xmax"@6
+        | "xmin"@7
+        | "xmaxu"@8
+        | "xminu"@9
+        | "sc"@10
+        | "ll"@11
         | "casl"@32
-        | "casldb"@33
-        | "swapl"@34
-        | "swapldb"@35
-        | "xaddl"@36
-        | "xaddldb"@37
-        | "xandl"@38
-        | "xandldb"@39
-        | "xor_l"@40
-        | "xor_ldb"@41
-        | "xxorl"@42
-        | "xxorldb"@43
-        | "xmaxl"@44
-        | "xmaxldb"@45
-        | "xminl"@46
-        | "xminldb"@47
-        | "xmaxul"@48
-        | "xmaxuldb"@49
-        | "xminul"@50
-        | "xminuldb"@51
-        | "scl"@52
-        | "lll"@53
+        | "swapl"@33
+        | "xaddl"@34
+        | "xandl"@35
+        | "xor_l"@36
+        | "xxorl"@37
+        | "xmaxl"@38
+        | "xminl"@39
+        | "xmaxul"@40
+        | "xminul"@41
+        | "scl"@42
+        | "lll"@43
 
 ; MESC: sub-opcode in parcel 1 (4 bits); the MOVU* names appear twice in the table, ld = n and st = n+1: numbered by the load
 ; MESC

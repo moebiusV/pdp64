@@ -60,14 +60,13 @@ OPS = ['cas', 'swap', 'xadd', 'xand', 'xor_', 'xxor', 'xmax', 'xmin', 'xmaxu', '
 
 
 def words():
-    """every atomic word of the grammar: (mnemonic, base operation, size, db)"""
+    """every atomic word of the grammar: (mnemonic, base operation, size)"""
     out = []
     for size in (8, 4):
         for o in OPS:
-            for db in ('', 'db'):
-                out.append((o + ('l' if size == 4 else '') + db, o, size, db))
-        out.append(('sc' + ('l' if size == 4 else ''), 'sc', size, ''))
-        out.append(('lll' if size == 4 else 'll', 'll', size, ''))
+            out.append((o + ('l' if size == 4 else ''), o, size))
+        out.append(('sc' + ('l' if size == 4 else ''), 'sc', size))
+        out.append(('lll' if size == 4 else 'll', 'll', size))
     return out
 
 
@@ -91,7 +90,7 @@ def gen_rmw():
     GH = 0xC3C3C3C3
     cases = {8: [(0xFFFFFFFFFFFFFFF0, 0x10), (0x000000007FFFFFF0, 0x8000000000000020), (0x8000000000000000, 0xFFFFFFFFFFFFFFFF), (0x123456789ABCDEF0, 0x0F0F0F0F0F0F0F0F)],
              4: [(0x80000010, 0xDEADBEEF00000010), (0x7FFFFFF0, 0x1234567800000020), (0x80000000, 0xFFFFFFFFFFFFFFFF), (0x89ABCDEF, 0x0F0F0F0F)]}
-    for mn, op, size, db in words():
+    for mn, op, size in words():
         if op in ('sc', 'll', 'cas'):
             continue
         for k, (M, S) in enumerate(cases[size]):
@@ -136,7 +135,7 @@ def gen_rmw():
         load(p, 'r17', S if size == 8 else GH << 32 | (S & 0xffffffff))
         p.chk('r4', 'r17', 'swap%s Rd = Ra: the address was read first' % suf)
     p.done()
-    return ['The read-modify-write atomics, every word of the grammar except CAS (gen_atom.py gen_cas): swap, xadd, xand, xor_, xxor, xmax, xmin, xmaxu, xminu, each with its db form and in both sizes',
+    return ['The read-modify-write atomics, every word of the grammar except CAS (gen_atom.py gen_cas): swap, xadd, xand, xor_, xxor, xmax, xmin, xmaxu, xminu in both sizes',
             '(the bare name 8 bytes, the suffix l 4 bytes), four operand pairs each; the old value in Rd (a 4-byte one sign-extended), Rs and Ra unchanged, the word changed as the manual says and the words',
             'around it untouched; then Rd the same register as Rs and as Ra.  Failed check n: exit n.'], p.text() + '\t.data\n\t.align\t128\nbuf:\t.space\t128\n'
 
@@ -146,7 +145,7 @@ def gen_cas():
     head(p)
     G = 0xA5A5A5A5A5A5A5A5
     GH = 0xC3C3C3C3
-    for mn, op, size, db in words():
+    for mn, op, size in words():
         if op != 'cas':
             continue
         bits = size * 8
@@ -185,12 +184,12 @@ def gen_cas():
     p.case('a retry loop')
     # a retry loop, the way C11 writes it: the failed compare leaves the old value in the expected register
     p.e('\tlea\tbuf+16, r3\n\tmovq\t#5, r17\n\tmovq\tr17, (r3)\n\tmovq\t#0, r1\n\tmovq\t#9, r2\n\tmovq\t#0, r6')
-    p.e('retry:\tmovq\tr1, r7\n\tadd\t#1, r6\n\tcasdb\tr1, r2, (r3)\n\tcbne\tr1, r7, retry')
+    p.e('retry:\tmovq\tr1, r7\n\tadd\t#1, r6\n\tcas\tr1, r2, (r3)\n\tcbne\tr1, r7, retry')
     p.eq('r6', '2', 'a retry loop: the second try holds the old value in Rd and succeeds')
     p.e('\tmovq\t(r3), r4')
     p.eq('r4', '9', 'a retry loop: the word is the new value')
     p.done()
-    return ['Compare and swap in both sizes and with the db form: the swap happens only when the old value is the expected one in Rd; Rd always ends as the old value (a 4-byte one sign-extended); only the',
+    return ['Compare and swap in both sizes: the swap happens only when the old value is the expected one in Rd; Rd always ends as the old value (a 4-byte one sign-extended); only the',
             'low 4 bytes of Rd and Rs count in the 4-byte form; a failed compare writes nothing; the words around are untouched; Rd the same register as Rs; a retry loop.  Failed check n: exit n.'], \
         p.text() + '\t.data\n\t.align\t128\nbuf:\t.space\t128\n'
 
@@ -265,7 +264,7 @@ def gen_fault_align():
     head(p, KVEC)
     p.e('\tmovq\t=(0x1111111111111111), r1\n\tmovq\t=(0x2222222222222222), r2')
     lab = 0
-    for mn, op, size, db in words():
+    for mn, op, size in words():
         offs = (4, 1, 7) if size == 8 else (2, 1, 3)
         for off in offs:
             lab += 1
@@ -299,7 +298,7 @@ def gen_fault_align():
                 p.e('\tmovq\t%d(r7), r4' % (k - 16))
                 p.eq('r4', hx(0x0101010101010101 * (k // 8 + 1)), tag + ': the memory around is untouched (%d)' % (k - 16))
     p.done()
-    return ['A misaligned atomic is a precise fault, for every atomic word of the grammar (all 44) at three misaligned addresses each (the 8-byte words off by 4, 1 and 7; the 4-byte words by 2, 1 and 3): the',
+    return ['A misaligned atomic is a precise fault, for every atomic word of the grammar (all 24) at three misaligned addresses each (the 8-byte words off by 4, 1 and 7; the 4-byte words by 2, 1 and 3): the',
             'misalignment vector, EVA the address, EPC the instruction, Rd and Rs unchanged and every byte around the word as it was (a misaligned atomic never half-runs: no split lock).  -K.  Failed check n: exit n.'], \
         p.text() + KHANDLERS + KDATA + '\t.align\t128\nbuf:\t.space\t128\n'
 
@@ -309,7 +308,7 @@ def gen_fault_page():
     p = CProg(user=False)
     head(p, FSETUP)
     p.e('\tlea\tustack_top, sp')
-    cases = [('swap', 'swap', 8), ('xadd', 'xadd', 8), ('casdb', 'cas', 8), ('xmaxul', 'xmaxul', 4), ('ll', 'll', 8), ('lll', 'lll', 4), ('sc', 'sc', 8), ('xor_ldb', 'xor_l', 4)]
+    cases = [('swap', 'swap', 8), ('xadd', 'xadd', 8), ('cas', 'cas', 8), ('xmaxul', 'xmaxul', 4), ('ll', 'll', 8), ('lll', 'lll', 4), ('sc', 'sc', 8), ('xor_l', 'xor_l', 4)]
     page = 0x810000
     for i, (mn, base, size) in enumerate(cases):
         a = page + 0x1000 * i + 0x40
@@ -371,7 +370,7 @@ def gen_sec_split_lock():
     head(p, KVEC)
     ok = 0
     sites = [('across two 8-byte words', 4, 8, 'xadd'), ('across a 128-byte block', 124, 8, 'xadd'), ('across a page', 4092, 8, 'xadd'), ('4 bytes across a word', 6, 4, 'xaddl'),
-             ('4 bytes across a block', 126, 4, 'swapldb'), ('cas across a page', 4094, 8, 'casdb')]
+             ('4 bytes across a block', 126, 4, 'swapl'), ('cas across a page', 4094, 8, 'cas')]
     for i, (what, off, size, mn) in enumerate(sites):
         p.case(what)
         p.e('\tlea\tbig+%d, r3\n\tlea\tbig, r7' % off)
@@ -572,7 +571,7 @@ def gen_q_memtype():
     lab = 0
     pages = [(P1, 'a read-only page', 0, 0), (P2, 'an uncached page', 0x1111222233334444, 0), (P3, 'a device page', 0x5555666677778888, 8)]
     for base, what, val, off in pages:
-        for mn in ('xadd', 'swapdb', 'casl', 'xmaxul', 'll', 'lll', 'sc', 'scl'):
+        for mn in ('xadd', 'swap', 'casl', 'xmaxul', 'll', 'lll', 'sc', 'scl'):
             lab += 1
             p.case('%s on %s' % (mn, what))
             p.e('\tmovq\t=(%s), r3\n\tmovq\t=(0x1111111111111111), r1\n\tmovq\t#0, r4\n\tmovq\tr4, cnt\n\tmovq\t#9, r2' % hx(base + off))

@@ -56,29 +56,29 @@ Test, then set, with no protection between: another process cannot run between t
 
 ## {{#multiprocessor-instructions-at-a-glance}} The multiprocessor instructions at a glance
 
-Before the details, the whole list. The instructions that exist for several processors fall into two sets, ten atomics and seven others, and the umbrella is conceptual: they are not one group in the encoding. The count is of **folded operations**: variants of one operation count once. The plain and the `_DB` form of an atomic are one operation, so are the signed and the unsigned maximum, and so are `TLBI` with its "all" form `TLBIA` and its "by address-space number" form `TLBIAS`, and `ICINV` with `ICINVA`. The seventeen are my umbrella of 2026-10-21 ("how many folded opcodes in system and smp? i thought atomics and smp would be in the same umbrella"), counted that day over the whole instruction set under this rule (93 operations in all, of which 17 are multiprocessor and 12 other system operations); the table gives the words of the grammar that implement each, the group and the section.
+Before the details, the whole list. The instructions that exist for several processors fall into two sets, ten atomics and seven others, and the umbrella is conceptual: they are not one group in the encoding. The count is of **folded operations**: variants of one operation count once. The 8-byte and the 4-byte word of an atomic are one operation, so are the signed and the unsigned maximum, and so are `TLBI` with its "all" form `TLBIA` and its "by address-space number" form `TLBIAS`, and `ICINV` with `ICINVA`. The seventeen are my umbrella of 2026-10-21 ("how many folded opcodes in system and smp? i thought atomics and smp would be in the same umbrella"), counted that day over the whole instruction set under this rule (93 operations in all, of which 17 are multiprocessor and 12 other system operations); the table gives the words of the grammar that implement each, the group and the section.
 
 The counts of that day, side by side:
 
 | Set | Operations | Words in the grammar |
 |---|---|---|
-| atomics | 10 | 44 (22 in each of the two sizes); they are 12 operations when only the `_DB` forms are folded, before the signed and unsigned maximum and minimum are folded |
+| atomics | 10 | 24 (12 in each of the two sizes); they are 12 operations when only the two sizes are folded, before the signed and unsigned maximum and minimum are folded |
 | other multiprocessor operations | 7 | 9 |
-| **multiprocessor, in all** | **17** | 53 |
+| **multiprocessor, in all** | **17** | 33 |
 | system operations that are not multiprocessor | 12 | no-op (`NOP`); return from interrupt (`RTI`, `RTT`); halt (`HALT`); breakpoint (`BPT`); landing pad (`LPAD`); processor-status access (`MTPS`, `MFPS`); set priority (`SPL`); trap (`TRAP`, `TRAPL`); address-space-identifier access (`MTASID`, `MFASID`); direct-page access (`MTDP`, `MFDP`); direct-map-window write (`MTDMW`); address probe (`PROBER`, `PROBEW`) |
 
 | # | Operation | Words in the grammar | Group | Section |
 |---|---|---|---|---|
-| 1 | compare-and-swap | `CAS`, `CASDB` | atomic (`ATOM`) | {{r:atomic-operations}} |
-| 2 | swap | `SWAP`, `SWAPDB` | atomic | {{r:atomic-operations}} |
-| 3 | fetch-and-add | `XADD`, `XADDDB` | atomic | {{r:atomic-operations}} |
-| 4 | fetch-and-and | `XAND`, `XANDDB` | atomic | {{r:atomic-operations}} |
-| 5 | fetch-and-or | `XOR_`, `XOR_DB` | atomic | {{r:atomic-operations}} |
-| 6 | fetch-and-exclusive-or | `XXOR`, `XXORDB` | atomic | {{r:atomic-operations}} |
-| 7 | fetch-and-maximum, signed and unsigned | `XMAX`, `XMAXDB`, `XMAXU`, `XMAXUDB` | atomic | {{r:atomic-operations}} |
-| 8 | fetch-and-minimum, signed and unsigned | `XMIN`, `XMINDB`, `XMINU`, `XMINUDB` | atomic | {{r:atomic-operations}} |
-| 9 | load-linked | `LL` | atomic | {{r:atomic-operations}} |
-| 10 | store-conditional | `SC` | atomic | {{r:atomic-operations}} |
+| 1 | compare-and-swap | `CAS`, `CASL` | atomic (`ATOM`) | {{r:atomic-operations}} |
+| 2 | swap | `SWAP`, `SWAPL` | atomic | {{r:atomic-operations}} |
+| 3 | fetch-and-add | `XADD`, `XADDL` | atomic | {{r:atomic-operations}} |
+| 4 | fetch-and-and | `XAND`, `XANDL` | atomic | {{r:atomic-operations}} |
+| 5 | fetch-and-or | `XOR_`, `XOR_L` | atomic | {{r:atomic-operations}} |
+| 6 | fetch-and-exclusive-or | `XXOR`, `XXORL` | atomic | {{r:atomic-operations}} |
+| 7 | fetch-and-maximum, signed and unsigned | `XMAX`, `XMAXL`, `XMAXU`, `XMAXUL` | atomic | {{r:atomic-operations}} |
+| 8 | fetch-and-minimum, signed and unsigned | `XMIN`, `XMINL`, `XMINU`, `XMINUL` | atomic | {{r:atomic-operations}} |
+| 9 | load-linked | `LL`, `LLL` | atomic | {{r:atomic-operations}} |
+| 10 | store-conditional | `SC`, `SCL` | atomic | {{r:atomic-operations}} |
 | 11 | device-access fence | `FENCE` | system (`SYS`) | {{r:fence-orders-device-accesses}} |
 | 12 | wait for event | `WFE` (assembler alias `WAIT`) | system | {{r:waiting-signalling-and-interrupting-another}} |
 | 13 | send event | `SEV` | system | {{r:waiting-signalling-and-interrupting-another}} |
@@ -87,19 +87,15 @@ The counts of that day, side by side:
 | 16 | invalidate the instruction cache | `ICINV`, `ICINVA` | system | {{r:translation-and-instruction-cache-coherence}} |
 | 17 | read the core number | `MFCPUID` | system | {{r:mfcpuid-returns-the-number}} |
 
-The ten atomics are 44 words: 22 for the 8-byte size (twenty read-modify-write words, a plain and a `_DB` form each, and `LL` and `SC`, which have no `_DB` form) and the same 22 for the 4-byte size, written with an `L` after the operation (`XADDL`, `CASLDB`, `LLL`, `SCL`); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of {{r:write-to-the-page-table}} and {{r:wfe-sleeps-until-another-core}} uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, {{r:system-registers-mfsr-and-mtsr}}) also gives the core number and is not counted: `MFSR` is the general register move.
+The ten atomics are 24 words: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with an `L` after the operation (`XADDL`, `CASL`, `LLL`, `SCL`); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of {{r:write-to-the-page-table}} and {{r:wfe-sleeps-until-another-core}} uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, {{r:system-registers-mfsr-and-mtsr}}) also gives the core number and is not counted: `MFSR` is the general register move.
 
 **{{#instructions-that-exist-for-multiple}}** The instructions that exist for multiple processors fall under one umbrella of seventeen operations: ten atomics and seven others (the table above, folded operations).
-
-**{{#every-read-modify-write-atomic}}** Every read-modify-write atomic (every atomic except `LL` and `SC`) has a variant, `_DB`, that folds a barrier into the instruction, so that a lock acquire or release is one instruction. Under sequential consistency the barrier is a convenience.
-
-By inference (the text says no more), what the barrier still orders under sequential consistency is the accesses that `FENCE` orders, those to devices ({{r:fence-orders-device-accesses}}); for ordinary memory the model already does it.
 
 **{{#atomics-live-in-the-atomic}}** The atomics live in the atomic leaves and the other operations in the system leaves; the umbrella is conceptual, not an encoding.
 
 **{{#supporting-these-are-the-banked}}** Supporting these are the banked direct-page register, the address-space tag, the global-page bit and the banked stack pointer (section {{r:per-cpu-state-and-cheap-context}}).
 
-*Commentary.* **Chain.** PDP-11: read-modify-write instructions that the bus keeps whole, and nothing else. VAX: interlocked bit, word and queue instructions, added to a machine that BSD still ran with `spl`. The RISC architectures that followed: load-linked and store-conditional (MIPS, Alpha, POWER, ARM, RISC-V; `arch/arm64/include/asm/atomic_ll_sc.h` uses `ldxr` and `stxr`, `arch/riscv/include/asm/cmpxchg.h` uses `lr.w` and `sc.w`, both read). x86: the `lock` prefix on a read-modify-write instruction (`LOCK_PREFIX "addl"`, read). Later ARM and RISC-V added single-instruction forms, `cas` (`atomic_lse.h`) and `amoswap` (`cmpxchg.h`), both read. pdp64: all three designs, a compare-and-swap, a fetch-and-operate family and a load-linked pair. **Trade-offs.** The set is the union of the three designs, which the repository's survey counts as more atomic operations than any architecture it surveyed (repo, `docs/decisions-pending.md`), in exchange for nothing a kernel writer has to emulate; each fetch-and-operate is a couple of hundred lookup tables and saves a compare-and-swap retry loop (repo, `docs/pdp64-isa.md` section 15). **Improvements.** The `_DB` forms were taken from LoongArch: a lock acquire should be one instruction, with no separate fence. **Benefits.** The seven non-atomic operations are the minimum that a kernel cannot synthesise: which core am I, wait and signal, invalidate everywhere, and make the instruction fetch see what the data side wrote (and, a seventh, the device fence). **Impact.** *Kernel:* each of the seventeen operations is one instruction in the kernel's lock, idle, shootdown and per-CPU code. *Compiler:* C11 atomics and the kernel's intrinsics map to them directly. *Hardware:* the atomics live in one escape group and the other seven in the system group, so the decoder has two places to look.
+*Commentary.* **Chain.** PDP-11: read-modify-write instructions that the bus keeps whole, and nothing else. VAX: interlocked bit, word and queue instructions, added to a machine that BSD still ran with `spl`. The RISC architectures that followed: load-linked and store-conditional (MIPS, Alpha, POWER, ARM, RISC-V; `arch/arm64/include/asm/atomic_ll_sc.h` uses `ldxr` and `stxr`, `arch/riscv/include/asm/cmpxchg.h` uses `lr.w` and `sc.w`, both read). x86: the `lock` prefix on a read-modify-write instruction (`LOCK_PREFIX "addl"`, read). Later ARM and RISC-V added single-instruction forms, `cas` (`atomic_lse.h`) and `amoswap` (`cmpxchg.h`), both read. pdp64: all three designs, a compare-and-swap, a fetch-and-operate family and a load-linked pair. **Trade-offs.** The set is the union of the three designs, which the repository's survey counts as more atomic operations than any architecture it surveyed (repo, `docs/decisions-pending.md`), in exchange for nothing a kernel writer has to emulate; each fetch-and-operate is a couple of hundred lookup tables and saves a compare-and-swap retry loop (repo, `docs/pdp64-isa.md` section 15). **Improvements.** A lock acquire is one instruction, with no separate fence, because the memory is sequentially consistent. **Benefits.** The seven non-atomic operations are the minimum that a kernel cannot synthesise: which core am I, wait and signal, invalidate everywhere, and make the instruction fetch see what the data side wrote (and, a seventh, the device fence). **Impact.** *Kernel:* each of the seventeen operations is one instruction in the kernel's lock, idle, shootdown and per-CPU code. *Compiler:* C11 atomics and the kernel's intrinsics map to them directly. *Hardware:* the atomics live in one escape group and the other seven in the system group, so the decoder has two places to look.
 
 ## {{#atomic-operations}} Atomic operations
 
@@ -128,23 +124,23 @@ SC(a, v):        if the reservation is intact: *a = v ; return success   # store
 
 **{{#smp-device-that-writes-memory-shared}}** A device that writes memory shared with a core takes part by clearing reservations: a write by a device to a granule clears its reservation exactly as a core's write does. A device's own buffers are uncached memory, where `LL`, `SC` and every atomic take a precise fault ({{r:every-atomic-has-three-register}}), so no reservation is ever taken on a word that a device is writing as a buffer.
 
-**{{#every-atomic-has-three-register}}** Every atomic has three register fields, as `XADD Rd, Rs, (Ra)`: the address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rd, Rs, (Ra)` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`, so one register holds the expected value going in and the old value coming out. `LL Rd, (Ra)` takes no operand, and `SC Rd, Rs, (Ra)` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes for the bare name and 4 bytes for the name with an `L` after the operation and before `DB` (`XADDL`, `CASLDB`, `LLL`, `SCL`); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does.
+**{{#every-atomic-has-three-register}}** Every atomic has three register fields, as `XADD Rd, Rs, (Ra)`: the address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rd, Rs, (Ra)` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`, so one register holds the expected value going in and the old value coming out. `LL Rd, (Ra)` takes no operand, and `SC Rd, Rs, (Ra)` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes for the bare name and 4 bytes for the name with an `L` after the operation (`XADDL`, `CASL`, `LLL`, `SCL`); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does.
 
 **{{#atomic-word-must-be-naturally}}** The word must be naturally aligned for its size, and an atomic that is not takes the misalignment fault, with nothing changed and `EPC` at the instruction; no atomic is ever split over two words, two blocks or two pages, so none can take the bus for longer than one access.
 
 **{{#atomic-memory-must-be-ordinary}}** The memory must be ordinary cached memory: an atomic, an `LL` or an `SC` on uncached memory or on a device's registers (a page whose memory type, in any stage of translation, is not cached, or an address in the space of devices) takes the store protection fault, with nothing changed and `EPC` at the instruction. The memory type that the stricter of the two stages gives is the one that counts. Every atomic, `LL` and `SC` included, is checked as a store: a page that is not present or cannot be written takes the fault that a store to it would.
 
-**What a kernel does with them.** The lock of {{r:smp-what-you-already-know}} becomes one `CAS` with the barrier built in; the release is an ordinary store, because under sequential consistency ({{r:memory-ordering-from-sequential-consistency}}) nothing more is needed. A **ticket lock**, the lock V7's successors converged on, is one `XADD` to take a number and a plain store to call the next. A counter is one `XADD`; a lock-free structure uses `CAS`; the rest use `LL` and `SC`. Illustration, not architecture:
+**What a kernel does with them.** The lock of {{r:smp-what-you-already-know}} becomes one `CAS`; the release is an ordinary store, because under sequential consistency ({{r:memory-ordering-from-sequential-consistency}}) nothing more is needed. A **ticket lock**, the lock V7's successors converged on, is one `XADD` to take a number and a plain store to call the next. A counter is one `XADD`; a lock-free structure uses `CAS`; the rest use `LL` and `SC`. Illustration, not architecture:
 
 ```
 lock_acquire(l):                          # l holds 0 (free) or 1 (held)
-    while CAS_DB(l, 0, 1) != 0:           # one instruction, with the barrier folded in
+    while CAS(l, 0, 1) != 0:              # one instruction
         HINT #1                           # tell the core this is a spin (7.10)
 lock_release(l):
     *l = 0                                # an ordinary store
 
 ticket_acquire(t):                        # t has two counters: next, serving
-    mine = XADD_DB(&t->next, 1)           # take a number
+    mine = XADD(&t->next, 1)              # take a number
     while t->serving != mine: HINT #1
 ticket_release(t):
     t->serving = t->serving + 1           # serve the next number
@@ -155,7 +151,7 @@ atomic_or(a, bits):                       # any operation that is not in the fet
         if SC(a, old | bits) fails: goto loop     # nothing between LL and SC but register work
 ```
 
-*Commentary.* **Chain.** PDP-11: one processor, the lock of {{r:smp-what-you-already-know}} and the `spl` calls; atomic only against devices. VAX: `BBSSI`, `ADAWI` and `INSQHI` in the architecture and `spl` in 4.3BSD; in the NetBSD VAX port `bbssi` takes a spin lock and sets an inter-processor message bit (`vax/lock_stubs.S`, `multicpu.c`, read). x86: `lock cmpxchg` and `lock xadd`; Linux 2.6.33 builds its ticket lock on `lock; xaddw` (`arch/x86/include/asm/spinlock.h`, read). ARM and RISC-V: exclusive pairs and, later, single-instruction atomics. pdp64: a monitor, so that the bus and the memory controller need no lock cycle ({{r:atomics-on-the-bus}}), and the whole set so that the compiler's C11 atomics map one to one. **Trade-offs.** A monitor needs forward-progress rules and, under contention, can livelock if the rules are not specified; the guarantee for a constrained sequence is the model. The pain-points report records that the kernels' simple lock does not scale ({{r:smp-what-came-between}}: the Anderson lock) and that Linux moved from test-and-set through ticket locks to queued locks; the instruction set provides the primitives and the lock design is the kernel's. **Benefits.** A lock needs one instruction; lock-free queues need `CAS`. **Use.** `CAS` for lock-free structures and lock words; `XADD` for counters and ticket numbers; `LL`/`SC` for everything else. **Modern comparables.** RISC-V `LR`/`SC` with its constrained-loop guarantee, AArch64 load-exclusive and `CAS`, x86 `LOCK CMPXCHG`. **Impact.** *Kernel:* a lock is one `_DB` instruction. *Compiler:* a `LL`/`SC` loop must be emitted in the constrained form, with no other memory access between the two; C11 atomics map one to one, and under sequential consistency no ordering fence is emitted. *Hardware:* a reservation granule tag in the cache controller and an exclusive-access path to memory; the read-modify-write atomics use an exclusive access with hardware retry.
+*Commentary.* **Chain.** PDP-11: one processor, the lock of {{r:smp-what-you-already-know}} and the `spl` calls; atomic only against devices. VAX: `BBSSI`, `ADAWI` and `INSQHI` in the architecture and `spl` in 4.3BSD; in the NetBSD VAX port `bbssi` takes a spin lock and sets an inter-processor message bit (`vax/lock_stubs.S`, `multicpu.c`, read). x86: `lock cmpxchg` and `lock xadd`; Linux 2.6.33 builds its ticket lock on `lock; xaddw` (`arch/x86/include/asm/spinlock.h`, read). ARM and RISC-V: exclusive pairs and, later, single-instruction atomics. pdp64: a monitor, so that the bus and the memory controller need no lock cycle ({{r:atomics-on-the-bus}}), and the whole set so that the compiler's C11 atomics map one to one. **Trade-offs.** A monitor needs forward-progress rules and, under contention, can livelock if the rules are not specified; the guarantee for a constrained sequence is the model. The pain-points report records that the kernels' simple lock does not scale ({{r:smp-what-came-between}}: the Anderson lock) and that Linux moved from test-and-set through ticket locks to queued locks; the instruction set provides the primitives and the lock design is the kernel's. **Benefits.** A lock needs one instruction; lock-free queues need `CAS`. **Use.** `CAS` for lock-free structures and lock words; `XADD` for counters and ticket numbers; `LL`/`SC` for everything else. **Modern comparables.** RISC-V `LR`/`SC` with its constrained-loop guarantee, AArch64 load-exclusive and `CAS`, x86 `LOCK CMPXCHG`. **Impact.** *Kernel:* a lock is one instruction. *Compiler:* a `LL`/`SC` loop must be emitted in the constrained form, with no other memory access between the two; C11 atomics map one to one, and under sequential consistency no ordering fence is emitted. *Hardware:* a reservation granule tag in the cache controller and an exclusive-access path to memory; the read-modify-write atomics use an exclusive access with hardware retry.
 
 <!-- entries:{{r:atomic-operations}} -->
 <!-- /entries:{{r:atomic-operations}} -->
@@ -348,7 +344,7 @@ Apart from the possible single secure core, no core is dedicated to a role (I sa
 The idioms of {{r:multiprocessor-instructions-at-a-glance}} to {{r:cores-that-differ-classes}}, in the order a kernel meets them. Illustration, not architecture:
 
 ```
-lock       :  CAS_DB(l, 0, 1) until it returns 0                      # 7.4
+lock       :  CAS(l, 0, 1) until it returns 0                         # 7.4
 unmap page :  pte = 0 ; TLBI va ; TLBSYNC                             # 7.9, listing in 6.8
 new code   :  write the instructions ; ICINV line ; ISYNC             # 7.9
 idle       :  SPL #7 ; test ; WFE ; SPL #0                            # 7.10
@@ -356,7 +352,7 @@ wake a core:  SEV, or an inter-processor interrupt                    # 7.10
 my data    :  MOVQ d(DP), Rd                                          # 7.8
 ```
 
-**{{#kernel-keeps-its-per-cpu}}** The kernel keeps its per-CPU structure at the address in `DP` and takes a lock with one `_DB` atomic.
+**{{#kernel-keeps-its-per-cpu}}** The kernel keeps its per-CPU structure at the address in `DP` and takes a lock with one atomic.
 
 **{{#unmaps-a-page-by-changing}}** It unmaps a page by changing the entry, issuing `TLBI`, and waiting with `TLBSYNC`.
 

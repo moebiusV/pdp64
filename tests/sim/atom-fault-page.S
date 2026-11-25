@@ -124,7 +124,7 @@ p1:
 	movq	#2, r0
 	halt
 1:
-	; ---- case 3: casdb on a page that is not present
+	; ---- case 3: cas on a page that is not present
 	movq	=(0x812040), r3
 	movq	#0, r4
 	movq	r4, cnt
@@ -132,45 +132,45 @@ p1:
 	movq	#5, r2
 	movq	#0, r1
 p2:
-	casdb	r1, r2, (r3)
+	cas	r1, r2, (r3)
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 3: casdb: one fault
+	cbeq	r11, r17, 1f	; case 3: cas: one fault
 	movq	#3, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 3: casdb: an atomic faults as a store
+	cbeq	r11, r17, 1f	; case 3: cas: an atomic faults as a store
 	movq	#3, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x812040), r12
-	cbeq	r11, r12, 1f	; case 3: casdb: EVA is the address
+	cbeq	r11, r12, 1f	; case 3: cas: EVA is the address
 	movq	#3, r0
 	halt
 1:
 	lea	p2, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 3: casdb: EPC is the instruction
+	cbeq	r12, r11, 1f	; case 3: cas: EPC is the instruction
 	movq	#3, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0), r17
-	cbeq	r11, r17, 1f	; case 3: casdb: at the fault Rd is as before
+	cbeq	r11, r17, 1f	; case 3: cas: at the fault Rd is as before
 	movq	#3, r0
 	halt
 1:
 	movq	=(0), r17
-	cbeq	r1, r17, 1f	; case 3: casdb: after the restart the old value is 0
+	cbeq	r1, r17, 1f	; case 3: cas: after the restart the old value is 0
 	movq	#3, r0
 	halt
 1:
 	movq	(r3), r4
 	movq	=(5), r17
-	cbeq	r4, r17, 1f	; case 3: casdb: the swap happened once
+	cbeq	r4, r17, 1f	; case 3: cas: the swap happened once
 	movq	#3, r0
 	halt
 1:
@@ -351,52 +351,52 @@ p6:
 	movq	#7, r0
 	halt
 1:
-	; ---- case 8: xor_ldb on a page that is not present
+	; ---- case 8: xor_l on a page that is not present
 	movq	=(0x817040), r3
 	movq	#0, r4
 	movq	r4, cnt
 	movq	=(0x1111111111111111), r1
 	movq	#5, r2
 p7:
-	xor_ldb	r1, r2, (r3)
+	xor_l	r1, r2, (r3)
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 8: xor_ldb: one fault
+	cbeq	r11, r17, 1f	; case 8: xor_l: one fault
 	movq	#8, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 8: xor_ldb: an atomic faults as a store
+	cbeq	r11, r17, 1f	; case 8: xor_l: an atomic faults as a store
 	movq	#8, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x817040), r12
-	cbeq	r11, r12, 1f	; case 8: xor_ldb: EVA is the address
+	cbeq	r11, r12, 1f	; case 8: xor_l: EVA is the address
 	movq	#8, r0
 	halt
 1:
 	lea	p7, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 8: xor_ldb: EPC is the instruction
+	cbeq	r12, r11, 1f	; case 8: xor_l: EPC is the instruction
 	movq	#8, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0x1111111111111111), r17
-	cbeq	r11, r17, 1f	; case 8: xor_ldb: at the fault Rd is as before
+	cbeq	r11, r17, 1f	; case 8: xor_l: at the fault Rd is as before
 	movq	#8, r0
 	halt
 1:
 	movq	=(0), r17
-	cbeq	r1, r17, 1f	; case 8: xor_ldb: after the restart Rd is the old value, zero
+	cbeq	r1, r17, 1f	; case 8: xor_l: after the restart Rd is the old value, zero
 	movq	#8, r0
 	halt
 1:
 	movl	(r3), r4
 	movq	=(5), r17
-	cbeq	r4, r17, 1f	; case 8: xor_ldb: the word is changed once
+	cbeq	r4, r17, 1f	; case 8: xor_l: the word is changed once
 	movq	#8, r0
 	halt
 1:

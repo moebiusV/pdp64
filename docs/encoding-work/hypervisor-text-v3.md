@@ -323,12 +323,12 @@ Take the plain way to add one to a counter in memory:
 
 Say G runs these three instructions, and after the first one its time slice ends and the hypervisor takes an exit. The hypervisor, which shares the counter, adds one to it and later gives G the core again. G's `R1` still holds the old value, G adds one to that and writes it: the hypervisor's addition is lost, and nothing has gone wrong that anyone could see. A second core would do the same between any two of the three instructions. What is wanted is an **atomic** operation (from the Greek for "that cannot be cut"): one that every other core, every other guest and the hypervisor see either complete or not started, never half done. The PDP-11's `INC` on a memory word had this property against an interrupt, because an interrupt can only come between instructions; the pdp64 gives it to a whole family.
 
-**The family.** There are ten operations, each with a plain form and a form with `DB` at the end, and a pair that works together: `CAS` (compare and swap), `SWAP`, `XADD` (fetch and add), `XAND`, `XOR_`, `XXOR` (fetch and the bit operation), `XMAX`, `XMIN`, `XMAXU`, `XMINU` (fetch and the larger or the smaller, signed and unsigned), and `LL` and `SC` (load-linked and store-conditional, below). The `DB` form folds in a **barrier**: an instruction that makes the core finish its earlier memory accesses before it begins the later ones. Example 11 says why, on this machine, a barrier changes nothing between ordinary accesses; the `DB` form is there so that taking a lock is one instruction.
+**The family.** There are ten operations, and a pair that works together: `CAS` (compare and swap), `SWAP`, `XADD` (fetch and add), `XAND`, `XOR_`, `XXOR` (fetch and the bit operation), `XMAX`, `XMIN`, `XMAXU`, `XMINU` (fetch and the larger or the smaller, signed and unsigned), and `LL` and `SC` (load-linked and store-conditional, below). Each is one instruction, so that taking a lock is one instruction; example 11 says why nothing more is needed between ordinary accesses.
 
 The rules are few, and each exists so that an atomic can never be half done:
 
 * Every one of them has three register fields, as `XADD Rd, Rs, (Ra)`: the address is in `Ra`, with no offset (the parentheses hold a register and nothing else), the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rd, Rs, (Ra)` has the **expected** value in `Rd` and the new value in `Rs`, and it puts the old value into `Rd`: one register is used for the expected value going in and the old value coming out. If the old value is the expected one, the swap happened.
-* The size is 4 bytes or 8 bytes. The bare name is the 8-byte form; the 4-byte form is the name with `L` after the operation and before `DB`: `XADD` and `XADDL`, `CASDB` and `CASLDB`, and for the load-linked pair `LL` and `LLL`, `SC` and `SCL`, as `MOVQ` and `MOVL` are the 8-byte and the 4-byte move. The examples here use the 8-byte form.
+* The size is 4 bytes or 8 bytes. The bare name is the 8-byte form; the 4-byte form is the name with `L` after the operation: `XADD` and `XADDL`, `CAS` and `CASL`, and for the load-linked pair `LL` and `LLL`, `SC` and `SCL`, as `MOVQ` and `MOVL` are the 8-byte and the 4-byte move. The examples here use the 8-byte form.
 * The word must be naturally aligned (an 8-byte word at an address that is a multiple of 8). An atomic on a word that is not aligned takes a **precise fault**: the fault happens before the instruction has changed anything, and the saved program counter is the instruction itself.
 * The memory must be ordinary cached memory. An atomic, or an `LL` or `SC`, on uncached memory or on a device's registers also takes a precise fault. The reason is that the machine can make an operation atomic only where it controls the whole path, in the cache; on a device register the choice is a fault, never an operation that is silently not atomic.
 
@@ -337,7 +337,7 @@ The rules are few, and each exists so that an atomic can never be half done:
 ```
 take:   movq    #0, r1                  ; expected: the lock is free
         movq    #1, r2                  ; new: held
-        casdb   r1, r2, (r3)            ; one step; r3 holds the address of the lock; r1 is now the old value
+        cas     r1, r2, (r3)            ; one step; r3 holds the address of the lock; r1 is now the old value
         cbeq    r1, #0, held            ; the old value was 0: the lock is mine
         hint    #1                      ; it was 1: tell the core this is a wait ...
         br      take                    ; ... and try again
@@ -346,7 +346,7 @@ held:   ...                             ; the work on the shared data
         movq    r1, (r3)                ; the release is an ordinary store
 ```
 
-Taking the lock is one instruction, and the release is an ordinary store because, as example 11 shows, an ordinary store is seen by the other cores in order. The loop sets `R1` again on every try because `CASDB` has overwritten it with the old value, which was 1, and the expected value must be 0 once more.
+Taking the lock is one instruction, and the release is an ordinary store because, as example 11 shows, an ordinary store is seen by the other cores in order. The loop sets `R1` again on every try because `CAS` has overwritten it with the old value, which was 1, and the expected value must be 0 once more.
 
 **A counter.** With `XADD` the counter of the beginning is one instruction, and what it returns is the old value, which is useful: if two programs each add one to the same word, they get two different numbers back, so it also hands out ticket numbers.
 

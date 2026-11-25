@@ -1076,6 +1076,26 @@ static char *slurp(const char *path, size_t *len)
 
 #define USAGE "usage: %s [-m pdp64] [--no-relax] [-o object] file.s\n(the assembler makes relaxation objects by default, docs/relaxation.md: every address of a symbol in an instruction gets a relocation and every padding is re-computed by ld64, which then chooses the shortest form of each; --no-relax makes the plain object)\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text;\n -m pdp64 is accepted and ignored, for the driver convention of pcc: there is one target; the fused mnemonics movcall, popmret, popret and mov2 are ordinary instructions; nothing is ever fused by the assembler)\n"
 
+/* The atomic words have no barrier form: `xadddb`, `casldb` and the rest of that family are not words, so the parser sees a label with no colon.  Say what the word was. */
+static void removed_atomic_hint(const char *text, int line, const char *in)
+{
+	static const char *const base[] = { "cas", "swap", "xadd", "xand", "xor_", "xxor", "xmax", "xmin", "xmaxu", "xminu" };
+	const char *p = text;
+	for (int l = 1; l < line && *p; l++) { while (*p && *p != '\n') p++; if (*p) p++; }
+	while (*p == ' ' || *p == '\t') p++;
+	const char *w = p;
+	while (isalnum((unsigned char)*p) || *p == '_') p++;
+	size_t n = (size_t)(p - w);
+	if (n < 5 || w[n - 2] != 'd' || w[n - 1] != 'b') return;
+	for (size_t k = 0; k < sizeof base / sizeof *base; k++) {
+		size_t b = strlen(base[k]);
+		if ((n - 2 == b || (n - 2 == b + 1 && w[b] == 'l')) && !strncmp(w, base[k], b)) {
+			fprintf(stderr, "%s:%d: %.*s is not an instruction: the atomic words have no barrier (`db`) form; write %.*s\n", in, line, (int)n, w, (int)(n - 2), w);
+			return;
+		}
+	}
+}
+
 int main(int argc, char **argv)
 {
 	const char *out = "a.out", *in = NULL;
@@ -1103,6 +1123,7 @@ int main(int argc, char **argv)
 	char em[300]; int el;
 	if (asm_parse(text, &prog, &nprog, em, sizeof em, &el)) {
 		fprintf(stderr, "%s:%d: %s\n", in, el, em);
+		removed_atomic_hint(text, el, in);
 		return 1;
 	}
 	dot_sym = symadd(".", 1);

@@ -21,12 +21,12 @@ The command line of each, by hand (NAME.S is preprocessed so that it can use the
 | `ex08-return-mask.S` | 6.15 example 8 | `-K` | exit 0 | `RTI #(1<<8)` to user mode clears the kernel's `R5` and keeps `R8` |
 | `ex08-vector-sum.S` | 6.15 example 8 | none; `-S 32`; `-S 64` | exit 0 each | a `VEC` block with a `VCLR` accumulator and a `VFIN` epilogue gives the scalar sum with strips of 16, 32 and 64 bytes |
 
-| `ex10-spinlock.S` | 6.15 example 10 | none | exit 0 | `CASDB` takes a free lock word (0 to 1, the old value 0 comes back in `Rd`), the release is an ordinary store, and the lock can be taken again |
+| `ex10-spinlock.S` | 6.15 example 10 | none | exit 0 | `CAS` takes a free lock word (0 to 1, the old value 0 comes back in `Rd`), the release is an ordinary store, and the lock can be taken again |
 | `ex10-counter.S` | 6.15 example 10 | none | exit 0 | `XADD` hands out 0 then 1 and leaves the counter at 2 |
 | `ex10-llsc.S` | 6.15 example 10 | none | exit 0 | the `LL`/`SC` counter loop (a constrained loop of five instructions) counts from 98 to its limit 100 and stops |
 | `ex11-message-passing.S` | 6.15 example 11 | `-H` | exit 0 | G writes data then flag and makes a hypercall; the hypervisor reads the flag then the data and checks them; sim64 has one core, so the reader runs after the writer has stopped (an illustration of the order and the shared words, not a test of two cores) |
 
-The three atomic snippets are written in the final spelling (three registers, `(Ra)` with no offset, the 8-byte word with the bare name, the 4-byte word with the suffix `l` before `db`: `xaddl`, `casldb`, `lll`, `scl`); the lines marked `(check, not in the text)` are the only additions to the lines the text shows. The faults of an atomic (misaligned, a page that is not present, uncached memory, a device) are run by `tests/sim/atom-fault-align.S`, `atom-fault-page.S` and `tests/qemu/sec-atomic-memtype.S`.
+The three atomic snippets are written in the final spelling (three registers, `(Ra)` with no offset, the 8-byte word with the bare name, the 4-byte word with the suffix `l`: `xaddl`, `casl`, `lll`, `scl`); the lines marked `(check, not in the text)` are the only additions to the lines the text shows. The faults of an atomic (misaligned, a page that is not present, uncached memory, a device) are run by `tests/sim/atom-fault-align.S`, `atom-fault-page.S` and `tests/qemu/sec-atomic-memtype.S`.
 
 Each check was shown to be able to fail: in `ex10-spinlock.S` the expected word 1 changed to 2 exits 1, in `ex10-counter.S` the expected counter 2 changed to 3 exits 3; the `RTI` mask changed to also keep `R5` exits 1; the `VADD` line removed exits 1; the `SPL #0` of the virtual-line test replaced by `NOP` exits 2; in `ex11-message-passing.S` the data changed to 41 exits 1, the flag store removed exits 98, the expected value changed to 43 exits 1; the `PRIO` bit of the `SPL` test replaced by another bit exits 2.
 

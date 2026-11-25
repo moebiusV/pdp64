@@ -161,8 +161,8 @@ A probe that cannot fail proves nothing, so each passing probe was run against a
 | `sec-llsc-return` | `RTI` does not clear the reservation (case 1, to a lesser mode), the exception entry does not (case 3, the handler's own SC), and in both the constrained loop's rule lets every instruction between the LL and the event pass | fails at case 1 and case 3 |
 | `sec-llsc-guest` | `GENTER` does not clear the reservation (case 1); an exit does not (case 2); the same two together and the rule of the constrained loop switched off | fails at case 1, case 2 |
 | `atom-llsc` | the bound of 16 instructions is 32 (case 7); no rule of the constrained loop (case 3); a backward branch does not break it (case 8); an SC that always reports success (case 2) | fails at the case named |
-| `atom-cas` | a CAS that writes when the compare fails (case 2); the old value of a 4-byte atomic not sign-extended (case 9) | fails at the case named |
-| `atom-rmw` | the signed maximum compares unsigned (case 41); the old value of a 4-byte atomic not sign-extended (case 73); the size taken as 8 bytes whatever the word (case 73) | fails at the case named |
+| `atom-cas` | a CAS that writes when the compare fails (case 2); the old value of a 4-byte atomic not sign-extended (case 5) | fails at the case named |
+| `atom-rmw` | the signed maximum compares unsigned (case 21); the old value of a 4-byte atomic not sign-extended (case 37); the size taken as 8 bytes whatever the word (case 37) | fails at the case named |
 | `atom-fault-align`, `sec-atomic-split-lock` | the alignment check of the executor, of sim64's atomic access and of its loads and stores removed | fail at case 1 |
 | `atom-fault-page` | sim64: `LL` checks its page as a load (case 5); QEMU: no probe of the page as a store before the atomic (exit 99: the fault is a protection fault instead of the store fault) | fails at the case named |
 | `sec-atomic-memtype` | QEMU: the page table's memory type is not looked at (uncached, case 10); no memory type looked at (the device page: QEMU stops with an assertion in its own atomic helper, which is what an atomic on a device does without the check) | fails at case 10; stops |

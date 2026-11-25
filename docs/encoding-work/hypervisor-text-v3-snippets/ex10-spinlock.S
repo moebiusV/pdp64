@@ -7,7 +7,7 @@ _start:
 	lea	lock, r3
 take:	movq	#0, r1				; expected: free
 	movq	#1, r2				; new: held
-	casdb	r1, r2, (r3)			; one step, with the barrier; r1 is now the old value
+	cas	r1, r2, (r3)			; one step; r1 is now the old value
 	cbeq	r1, #0, held			; the old value was 0: the lock is mine
 	hint	#1				; it was 1: someone else holds it; tell the core this is a wait
 	br	take
@@ -24,7 +24,7 @@ held:	nop					; ... the work on the shared data ...
 	halt
 2:	movq	#0, r1
 	movq	#1, r2
-	casdb	r1, r2, (r3)
+	cas	r1, r2, (r3)
 	cbeq	r1, #0, 3f
 	movq	#3, r0
 	halt

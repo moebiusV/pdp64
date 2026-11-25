@@ -381,8 +381,7 @@ def all_mnemonics():
 INTRINSIC = {
     'clz', 'ctz', 'clo', 'cto', 'popcnt', 'bswap', 'bswapw', 'bswapl', 'bitrev', 'ror', 'rori', 'rol', 'dshr', 'extb', 'extzb', 'insb',
     'xnorpop', 'clmull', 'clmulh', 'utf8len', 'utf8dec', 'utf8enc',
-    'cas', 'casdb', 'swap', 'swapdb', 'xadd', 'xadddb', 'xand', 'xanddb', 'xor_', 'xor_db', 'xxor', 'xxordb', 'xmax', 'xmaxdb', 'xmin',
-    'xmindb', 'xmaxu', 'xmaxudb', 'xminu', 'xminudb', 'll', 'sc',
+    'cas', 'swap', 'xadd', 'xand', 'xor_', 'xxor', 'xmax', 'xmin', 'xmaxu', 'xminu', 'll', 'sc',
     'mmov', 'mset', 'mcmp', 'mscn', 'mscnn', 'mval', 'mcpy',
     'mulhu', 'btag', 'bntag', 'jtag',
     'mtps', 'mfps', 'spl', 'trap', 'tlbi', 'mtasid', 'mfasid', 'mtdp', 'mfdp', 'mtdmw', 'mfcpuid', 'icinv', 'prober', 'probew', 'trapl',

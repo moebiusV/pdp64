@@ -99,7 +99,7 @@ N1:	movq	cnt, r4
 	movq	#2, r0
 	halt
 1:
-	; ---- case 3: swapdb on a read-only page
+	; ---- case 3: swap on a read-only page
 	movq	=(0x801000), r3
 	movq	=(0x1111111111111111), r1
 	movq	#0, r4
@@ -107,7 +107,7 @@ N1:	movq	cnt, r4
 	movq	#9, r2
 	lea	N2, r13
 I2:
-	swapdb	r1, r2, (r3)
+	swap	r1, r2, (r3)
 N2:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 3: one exception
@@ -451,7 +451,7 @@ N9:	movq	cnt, r4
 	movq	#10, r0
 	halt
 1:
-	; ---- case 11: swapdb on an uncached page
+	; ---- case 11: swap on an uncached page
 	movq	=(0x802000), r3
 	movq	=(0x1111111111111111), r1
 	movq	#0, r4
@@ -459,7 +459,7 @@ N9:	movq	cnt, r4
 	movq	#9, r2
 	lea	N10, r13
 I10:
-	swapdb	r1, r2, (r3)
+	swap	r1, r2, (r3)
 N10:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 11: one exception
@@ -803,7 +803,7 @@ N17:	movq	cnt, r4
 	movq	#18, r0
 	halt
 1:
-	; ---- case 19: swapdb on a device page
+	; ---- case 19: swap on a device page
 	movq	=(0x803008), r3
 	movq	=(0x1111111111111111), r1
 	movq	#0, r4
@@ -811,7 +811,7 @@ N17:	movq	cnt, r4
 	movq	#9, r2
 	lea	N18, r13
 I18:
-	swapdb	r1, r2, (r3)
+	swap	r1, r2, (r3)
 N18:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 19: one exception

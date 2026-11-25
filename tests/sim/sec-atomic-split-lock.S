@@ -204,7 +204,7 @@ N3:	movq	cnt, r4
 	movq	#1, r2
 	movq	#0, r1
 	lea	N4, r13
-I4:	swapldb	r1, r2, (r3)
+I4:	swapl	r1, r2, (r3)
 N4:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 5: 4 bytes across a block: one fault, not a lock and a split access
@@ -249,7 +249,7 @@ N4:	movq	cnt, r4
 	movq	#1, r2
 	movq	#0, r1
 	lea	N5, r13
-I5:	casdb	r1, r2, (r3)
+I5:	cas	r1, r2, (r3)
 N5:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 6: cas across a page: one fault, not a lock and a split access
