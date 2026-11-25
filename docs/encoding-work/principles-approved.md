@@ -14,7 +14,8 @@ Each item says where it comes from: **[you]** is your own list or words, **[ten]
 
 **2. Speed, measured by actual run time, and power.** [you: 2026-11-19, corrected 2026-11-25] Low gate count serves speed and power ("4 and 5 are essentially the same thing", 2026-11-03): fewer gates make out-of-order and speculation cheaper, memory faster, and room for more cores. Transistor count is desirable but below error prevention, detection and recovery, and below the efficiency of the instruction set.
 
-**3. Fewer instructions executed, and fewer fetches.** [you: 2026-11-03 item 2; 2026-11-25] These are strong proxies for speed and only proxies: where the measured run time and a proxy disagree, run time wins. Not fewer opcodes: an opcode that coalesces several operations is good.
+**3. Fewer instructions executed, and fewer fetches.**
+ [you: 2026-11-25] Speed is operations per cycle. Reduce instruction counts first, then byte counts, but always in service of fewer clock cycles: fewer bytes mean less fetch, and fewer instructions (if they are constructed right) mean fewer cycles. Never put extra clock cycles into one instruction unless it saves a lot of fetch cycles; the disparity with fetch is so great that this is unlikely. [you: 2026-11-03 item 2; 2026-11-25] These are strong proxies for speed and only proxies: where the measured run time and a proxy disagree, run time wins. Not fewer opcodes: an opcode that coalesces several operations is good.
 
 **4. Dense encoding: common instructions short, rare ones longer.** [you: 2026-11-03 item 3] A rare instruction can still earn its place in a tight hot loop (hot-loop weight, below).
 
