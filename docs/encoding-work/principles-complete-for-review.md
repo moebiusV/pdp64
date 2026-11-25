@@ -18,10 +18,7 @@ Each item says where it comes from: **[you]** is your own list or words, **[ten]
 
 **5. A good compiler target.** [you: 2026-11-03 item 5] [mine: placement above coherence and pleasure, from your order of 2026-11-03.]
 
-**6. Pleasant in assembler: peek-and-poke simplicity and pleasure.** [you: 2026-11-03 item 6; the C64 and PDP-11 heritage] Memory-mapped everything, boilerplate sugared away, readable assembler.
-
-**7. A coherent set a programmer can keep in their head, like the PDP-11.** [you: 2026-11-19: "as the final principle after the others are met"]
- [mine: you called this the final principle, and on 2026-11-03 you ranked pleasant in assembler last. Which is last? I placed coherence after pleasure because of the 2026-11-19 sentence; correct me if wrong.]
+**6. Pleasant in assembler, which is the same thing as a coherent set a programmer can keep in their head, like the PDP-11.** [you: 2026-11-03 item 6; 2026-11-19 "as the final principle after the others are met"; 2026-11-25: "pleasant in assembler and coherent set are the same thing"] Memory-mapped everything, boilerplate sugared away, readable assembler, peek-and-poke simplicity and pleasure (the C64 and PDP-11 heritage); an instruction set small enough in its ideas to hold in the head. It is the last principle, met after the others.
 
 ## Part 2. The standing constraints and measures (they apply whatever the order; not goals)
 
@@ -44,9 +41,10 @@ Each item says where it comes from: **[you]** is your own list or words, **[ten]
 * Explain in plain words; the story first, then the mechanism, then the detail; one question at a time; each question says what it closes and what we lose.
 * The manual is first person, states what is, has no marks, no errata references, no leanings and no undecided matters in the chapters (open items are in the design notes); a few benchmark tables are rationale; detailed gate counts wait for real Verilog.
 * Do not overwrite before the replacement is verified; save every benchmark and every answer; push only when told.
+* The manual is built with buildabook, so that cross references stay proper: every change to it is followed by the three checks, and a check that is skipped counts as a failure.
 
 ## Where I need you
 
-1. Is the placement of items 5, 6 and 7 right (compiler target, pleasure, coherence)?
+1. Is the placement of items 5 and 6 right (compiler target, then pleasant-and-coherent last)?
 2. Anything missing or in the wrong part (goal, constraint or method)?
 3. Is "low transistor count" correctly folded into item 2, not a goal of its own?
