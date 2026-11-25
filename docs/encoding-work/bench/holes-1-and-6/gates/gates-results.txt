@@ -1,0 +1,43 @@
+== hole 1: references (reproduce the earlier study) ==
+tlb32	logic 7575	ff 2048	total 19863
+tlb32t	logic 13112	ff 2592	total 28664
+tlb32tall	logic 13213	ff 2592	total 28765
+arena	logic 1072	ff 0	total 1072
+u_base	logic 13337	ff 2592	total 28889
+u_a	logic 13341	ff 2592	total 28893
+u_d	logic 13343	ff 2592	total 28895
+d8s1	logic 3834	ff 366	total 6030
+d16s1	logic 7744	ff 728	total 12112
+snoopdir	logic 9989	ff 728	total 14357
+u_c3	logic 14469	ff 2592	total 30021
+== hole 1: the arena, whole proposal for one buffer, and the directory of table pages with a dependency bitmap in each buffer entry ==
+u_base_tag	logic 13115	ff 2592	total 28667
+u_arena_full	logic 14254	ff 2593	total 29812
+u_dir8_1	logic 17445	ff 3091	total 35991
+u_dir16_1	logic 21698	ff 3588	total 43226
+u_dir8_2	logic 18456	ff 3091	total 37002
+u_dir16_2	logic 23942	ff 3588	total 45470
+u_dir32_2	logic 34757	ff 4581	total 62243
+u_dir64_2	logic 56328	ff 6566	total 95724
+== hole 6: references ==
+rf_base2	logic 15305	ff 2048	total 27593
+rf_flash	logic 17417	ff 2048	total 29705
+rf_lazy2	logic 16260	ff 2080	total 28740
+rf_taint	logic 18291	ff 2080	total 30771
+rf_bank2	logic 42119	ff 4096	total 66695
+== hole 6: mask in a system register, one-shot mask register, stash of 31 registers (1, 2, 4 levels) and of 16 ==
+rf_flash_reg	logic 17417	ff 2080	total 29897
+rf_flash_reg1	logic 17442	ff 2080	total 29922
+rf_stash1	logic 21514	ff 4096	total 46090
+rf_stash2	logic 27684	ff 6145	total 64554
+rf_stash4	logic 37930	ff 10242	total 99382
+rf_stash16	logic 19473	ff 3072	total 37905
+== longest topological path in NAND and inverter levels (yosys ltp -noff after the same synthesis; behavioural depth, not timing) ==
+rf_base2	length=17
+rf_flash	length=17
+rf_lazy2	length=19
+rf_flash_reg	length=17
+rf_stash1	length=17
+u_base_tag	length=26
+u_arena_full	length=26
+u_dir16_2	length=38

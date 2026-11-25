@@ -1,0 +1,14 @@
+per system call: instructions executed (sim64 -K -t, whole loop: user code, TRAP, handler, RTI) and cycles of the same body run as a function under the timing model (no TRAP / RTI cost)
+comp  case         registers left         |     lazy +clear +frame   +reg | lazy cyc +clear +frame   +reg
+pcc   null         -                      |      6.0    0.0    0.0    2.0 |     16.0    0.0    0.0    3.0
+pcc   dup          -                      |     14.0    0.0    0.0    2.0 |     26.0    0.0    0.0    2.0
+pcc   checksum100  r1,r2                  |    416.0    2.0    2.0    2.0 |    535.0    2.0    2.0    3.0
+pcc   copyin64     r1                     |    282.0    1.0    2.0    2.0 |    433.0    1.0    4.0    2.0
+pcc   crc32-100    r2,r3,r4,r5            |   7913.0    4.0    2.0    2.0 |  10328.0    4.0    2.0    3.0
+pcc   chacha       r1                     |   3735.0    1.0    2.0    2.0 |   5750.0    1.0    4.0    2.0
+llvm  null         -                      |      6.0    0.0    0.0    2.0 |     16.0    0.0    0.0    3.0
+llvm  dup          r2                     |     18.0    1.0    2.0    2.0 |     28.0    1.0    4.0    2.0
+llvm  checksum100  r1,r2                  |    415.0    2.0    2.0    2.0 |    530.0    2.0    2.0    3.0
+llvm  copyin64     r3                     |    275.0    1.0    2.0    2.0 |    417.0    1.0    4.0    2.0
+llvm  crc32-100    r2,r3,r4,r5,r6         |   8613.0    5.0    2.0    2.0 |  10524.0    5.0    3.0    3.0
+llvm  chacha       r1,r2,r6,r7,r16,r17,r18,r19,r20,r21,r22,r23 |   2520.0   12.0    2.0    2.0 |   2620.0   12.0   17.0    2.0

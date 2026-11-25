@@ -1,0 +1,159 @@
+=== recorded traces; hardware buffer: unbounded (as the model's own cache) ===
+-- hv-first: entries 79, guest translation requests 114, walks in the model 15, stores 1184 (hypervisor 657), table pages walked: stage 1 1, stage 2 6, together 7; arena (21, 26) (6 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                     15    99     63    165       0      0      0      6      0
+   every entry              113     1    502   1431       0      0    105      5      0
+   arena                     15    99     63    165       0      0      0      6      0
+   directory unbounded       15    99     63    165       0      0      0      6      0
+   directory 32              15    99     63    165       0      0      0      6      0
+   directory 16              15    99     63    165       0      0      0      6      0
+   directory 8               15    99     63    165       0      0      0      6      0
+   directory 4               15    99     63    165       0      0      0      6      0
+   directory 4 + overflow flush    15    99     63    165       0      0      0      6      0
+   arena flag flushed at 3 of the entries (3 of them with nothing to discard)
+
+-- hv-stage2: entries 38, guest translation requests 86, walks in the model 72, stores 1124 (hypervisor 1120), table pages walked: stage 1 5, stage 2 6, together 11; arena (24, 31) (8 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                     72    14    215    312       8      0      0     55      0
+   every entry               86     0    251    354       0      5     17     50      0
+   arena                     84     2    246    348       0      5     15     50      0
+   directory unbounded       77     9    230    327       0      8      9     45      0
+   directory 32              77     9    230    327       0      8      9     45      0
+   directory 16              77     9    230    327       0      8      9     45      0
+   directory 8               77     9    230    327       0      8      9     45      0
+   directory 4               77     9    230    327       0      8     13     40      4
+   directory 4 + overflow flush    77     9    230    327       0      8     14     40      0
+   arena flag flushed at 35 of the entries (28 of them with nothing to discard)
+
+-- hv-timer: entries 1, guest translation requests 0, walks in the model 0, stores 518 (hypervisor 518), table pages walked: stage 1 0, stage 2 0, together 0; arena None (0 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                      0     0      0      0       0      0      0      0      0
+   every entry                0     0      0      0       0      0      0      0      0
+   arena                      0     0      0      0       0      0      0      0      0
+   directory unbounded        0     0      0      0       0      0      0      0      0
+   directory 32               0     0      0      0       0      0      0      0      0
+   directory 16               0     0      0      0       0      0      0      0      0
+   directory 8                0     0      0      0       0      0      0      0      0
+   directory 4                0     0      0      0       0      0      0      0      0
+   directory 4 + overflow flush     0     0      0      0       0      0      0      0      0
+   arena flag flushed at 1 of the entries (1 of them with nothing to discard)
+
+-- hv-vtimer: entries 1, guest translation requests 0, walks in the model 0, stores 1030 (hypervisor 1025), table pages walked: stage 1 0, stage 2 0, together 0; arena None (0 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                      0     0      0      0       0      0      0      0      0
+   every entry                0     0      0      0       0      0      0      0      0
+   arena                      0     0      0      0       0      0      0      0      0
+   directory unbounded        0     0      0      0       0      0      0      0      0
+   directory 32               0     0      0      0       0      0      0      0      0
+   directory 16               0     0      0      0       0      0      0      0      0
+   directory 8                0     0      0      0       0      0      0      0      0
+   directory 4                0     0      0      0       0      0      0      0      0
+   directory 4 + overflow flush     0     0      0      0       0      0      0      0      0
+   arena flag flushed at 1 of the entries (1 of them with nothing to discard)
+
+-- sec-hv-reset-inplace: entries 2, guest translation requests 4, walks in the model 2, stores 1076 (hypervisor 1076), table pages walked: stage 1 0, stage 2 3, together 3; arena (23, 29) (7 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                      2     2      5      6       1      0      0      0      0
+   every entry                4     0     10     12       0      1      1      0      0
+   arena                      4     0     10     12       0      1      1      0      0
+   directory unbounded        3     1      8      9       0      1      0      0      0
+   directory 32               3     1      8      9       0      1      0      0      0
+   directory 16               3     1      8      9       0      1      0      0      0
+   directory 8                3     1      8      9       0      1      0      0      0
+   directory 4                3     1      8      9       0      1      0      0      0
+   directory 4 + overflow flush     3     1      8      9       0      1      0      0      0
+   arena flag flushed at 2 of the entries (1 of them with nothing to discard)
+
+-- sec-hv-reset-mmuctl: entries 2, guest translation requests 4, walks in the model 4, stores 1076 (hypervisor 1076), table pages walked: stage 1 0, stage 2 3, together 3; arena (23, 29) (7 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                      4     0     10     12       0      0      0      2      0
+   every entry                4     0     10     12       0      0      0      2      0
+   arena                      4     0     10     12       0      0      0      2      0
+   directory unbounded        4     0     10     12       0      1      0      1      0
+   directory 32               4     0     10     12       0      1      0      1      0
+   directory 16               4     0     10     12       0      1      0      1      0
+   directory 8                4     0     10     12       0      1      0      1      0
+   directory 4                4     0     10     12       0      1      0      1      0
+   directory 4 + overflow flush     4     0     10     12       0      1      0      1      0
+   arena flag flushed at 2 of the entries (2 of them with nothing to discard)
+
+=== recorded traces; hardware buffer: 32 entries, least recently used out ===
+-- hv-first: entries 79, guest translation requests 114, walks in the model 15, stores 1184 (hypervisor 657), table pages walked: stage 1 1, stage 2 6, together 7; arena (21, 26) (6 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                     15    99     63    165       0      0      0      6      0
+   every entry              113     1    502   1431       0      0    105      5      0
+   arena                     15    99     63    165       0      0      0      6      0
+   directory unbounded       15    99     63    165       0      0      0      6      0
+   directory 32              15    99     63    165       0      0      0      6      0
+   directory 16              15    99     63    165       0      0      0      6      0
+   directory 8               15    99     63    165       0      0      0      6      0
+   directory 4               15    99     63    165       0      0      0      6      0
+   directory 4 + overflow flush    15    99     63    165       0      0      0      6      0
+   arena flag flushed at 3 of the entries (3 of them with nothing to discard)
+
+-- hv-stage2: entries 38, guest translation requests 86, walks in the model 72, stores 1124 (hypervisor 1120), table pages walked: stage 1 5, stage 2 6, together 11; arena (24, 31) (8 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                     72    14    215    312       8      0      0     55      0
+   every entry               86     0    251    354       0      5     17     50      0
+   arena                     84     2    246    348       0      5     15     50      0
+   directory unbounded       77     9    230    327       0      8      9     45      0
+   directory 32              77     9    230    327       0      8      9     45      0
+   directory 16              77     9    230    327       0      8      9     45      0
+   directory 8               77     9    230    327       0      8      9     45      0
+   directory 4               77     9    230    327       0      8     13     40      4
+   directory 4 + overflow flush    77     9    230    327       0      8     14     40      0
+   arena flag flushed at 35 of the entries (28 of them with nothing to discard)
+
+-- hv-timer: entries 1, guest translation requests 0, walks in the model 0, stores 518 (hypervisor 518), table pages walked: stage 1 0, stage 2 0, together 0; arena None (0 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                      0     0      0      0       0      0      0      0      0
+   every entry                0     0      0      0       0      0      0      0      0
+   arena                      0     0      0      0       0      0      0      0      0
+   directory unbounded        0     0      0      0       0      0      0      0      0
+   directory 32               0     0      0      0       0      0      0      0      0
+   directory 16               0     0      0      0       0      0      0      0      0
+   directory 8                0     0      0      0       0      0      0      0      0
+   directory 4                0     0      0      0       0      0      0      0      0
+   directory 4 + overflow flush     0     0      0      0       0      0      0      0      0
+   arena flag flushed at 1 of the entries (1 of them with nothing to discard)
+
+-- hv-vtimer: entries 1, guest translation requests 0, walks in the model 0, stores 1030 (hypervisor 1025), table pages walked: stage 1 0, stage 2 0, together 0; arena None (0 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                      0     0      0      0       0      0      0      0      0
+   every entry                0     0      0      0       0      0      0      0      0
+   arena                      0     0      0      0       0      0      0      0      0
+   directory unbounded        0     0      0      0       0      0      0      0      0
+   directory 32               0     0      0      0       0      0      0      0      0
+   directory 16               0     0      0      0       0      0      0      0      0
+   directory 8                0     0      0      0       0      0      0      0      0
+   directory 4                0     0      0      0       0      0      0      0      0
+   directory 4 + overflow flush     0     0      0      0       0      0      0      0      0
+   arena flag flushed at 1 of the entries (1 of them with nothing to discard)
+
+-- sec-hv-reset-inplace: entries 2, guest translation requests 4, walks in the model 2, stores 1076 (hypervisor 1076), table pages walked: stage 1 0, stage 2 3, together 3; arena (23, 29) (7 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                      2     2      5      6       1      0      0      0      0
+   every entry                4     0     10     12       0      1      1      0      0
+   arena                      4     0     10     12       0      1      1      0      0
+   directory unbounded        3     1      8      9       0      1      0      0      0
+   directory 32               3     1      8      9       0      1      0      0      0
+   directory 16               3     1      8      9       0      1      0      0      0
+   directory 8                3     1      8      9       0      1      0      0      0
+   directory 4                3     1      8      9       0      1      0      0      0
+   directory 4 + overflow flush     3     1      8      9       0      1      0      0      0
+   arena flag flushed at 2 of the entries (1 of them with nothing to discard)
+
+-- sec-hv-reset-mmuctl: entries 2, guest translation requests 4, walks in the model 4, stores 1076 (hypervisor 1076), table pages walked: stage 1 0, stage 2 3, together 3; arena (23, 29) (7 pages)
+   rule                   walks  hits  reads   rd15   stale  dTrue dFalse  dSoft dEvict
+   today                      4     0     10     12       0      0      0      2      0
+   every entry                4     0     10     12       0      0      0      2      0
+   arena                      4     0     10     12       0      0      0      2      0
+   directory unbounded        4     0     10     12       0      1      0      1      0
+   directory 32               4     0     10     12       0      1      0      1      0
+   directory 16               4     0     10     12       0      1      0      1      0
+   directory 8                4     0     10     12       0      1      0      1      0
+   directory 4                4     0     10     12       0      1      0      1      0
+   directory 4 + overflow flush     4     0     10     12       0      1      0      1      0
+   arena flag flushed at 2 of the entries (2 of them with nothing to discard)
+
+columns: walks = translation requests that missed and walked; reads = table entries read as logged (superpage leaves read fewer); rd15 = the same walks charged the full nested count of the manual (15 reads for three levels in each stage, 3 for stage 2 alone); stale = translations served after a table entry they were made from had been stored to; dTrue / dFalse = translations discarded by the rule because a table entry they read had / had not been stored to (dFalse: a store elsewhere in the same table page, or a flush of everything); dSoft = discarded by the program's own TLBI / TLBIA / register writes; dEvict = discarded because the directory had to drop a table page

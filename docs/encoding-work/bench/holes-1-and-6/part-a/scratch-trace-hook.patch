@@ -1,0 +1,188 @@
+--- a/target/pdp64/mmu.c
++++ b/target/pdp64/mmu.c
+@@ -18,11 +18,18 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
++#include <inttypes.h>
+ #include "exec/page-protection.h"
+ #include "exec/target_page.h"
+ #include "system/memory.h"
+ #include "system/address-spaces.h"
+ 
++FILE *pdp64_tlog;
++static uint64_t t_rpa[64]; static uint8_t t_rk[64]; static int t_nr; static bool t_inwalk;
++void pdp64_tlog_init(void){ static int done; if(!done){done=1; const char*p=getenv("PDP64_TLOG"); if(p) pdp64_tlog=fopen(p,"w");} }
++void pdp64_tlog_w(const char *what, uint64_t gtbr){ pdp64_tlog_init(); if(pdp64_tlog) fprintf(pdp64_tlog,"W %s %" PRIx64 "\n",what,gtbr); }
++void pdp64_tlog_h(int h, uint64_t gtbr){ pdp64_tlog_init(); if(pdp64_tlog) fprintf(pdp64_tlog,"H %d %" PRIx64 "\n",h,gtbr); }
++static void t_rec(uint64_t pa, int kind){ if(t_inwalk && t_nr<64){ t_rpa[t_nr]=pa; t_rk[t_nr]=kind; t_nr++; } }
+ #define PTE_BIT(n)      (1ULL << PTE_##n)
+ #define PTE_MASK(n)     (((1ULL << PTE_WIDTH_##n) - 1) << PTE_##n)
+ #define PTE_DEFINED     ((PTE_BIT(D) << 1) - 1) /* bits V..D, in order */
+@@ -81,6 +88,7 @@
+ 
+         sh = MMU_PAGE_BITS + MMU_LEVEL_BITS * level;
+         idx = (gpa >> sh) & ((level == MMU_LEVELS - 1 ? 2 * LEVEL_ENTRIES : LEVEL_ENTRIES) - 1);
++        t_rec(table + idx * 8, 2);
+         pte = address_space_ldq_le(&address_space_memory, table + idx * 8,
+                                    MEMTXATTRS_UNSPECIFIED, &res);
+         if (res != MEMTX_OK) {
+@@ -139,6 +147,7 @@
+     return (env->c.gtbr >> GTBR_TAG) & ((1u << GTBR_WIDTH_TAG) - 1);
+ }
+ 
++static struct PDP64ACache *t_hit;
+ static bool acache_lookup(CPUPDP64State *env, vaddr addr, MMUAccessType type,
+                           int mmu_idx, hwaddr *pa, int *prot, vaddr *size)
+ {
+@@ -156,6 +165,7 @@
+             *pa = e->pa;
+             *prot = e->prot;
+             *size = e->size;
++            t_hit = e;
+             return true;
+         }
+     }
+@@ -187,6 +197,8 @@
+     *slot = (struct PDP64ACache){ .valid = true, .global = global,
+         .tag = cur_tag(env), .asid = env->c.asid & 0xffff, .idx = mmu_idx,
+         .vpn = addr >> MMU_PAGE_BITS, .pa = pa, .prot = prot, .size = size };
++    slot->nr = t_nr > 24 ? 24 : t_nr;
++    for (i = 0; i < slot->nr; i++) { slot->rpa[i] = t_rpa[i]; slot->rk[i] = t_rk[i]; }
+ }
+ 
+ /* the ops of the executor's tlb hook on the cache: TLBI (a page of the current address space and the global entries of the tag in GTBR), TLBIA and the writes to PTBR,
+@@ -224,6 +236,7 @@
+         *fault_vector = s2_vector(type);
+         return false;
+     }
++    t_rec(pa, 1);
+     *pte = address_space_ldq_le(&address_space_memory, pa,
+                                 MEMTXATTRS_UNSPECIFIED, &res);
+     if (res != MEMTX_OK) {
+@@ -366,11 +379,29 @@
+ {
+     bool global;
+     bool cached = env->c.hve && !env->c.h;
+-
++    bool ok, hit = false;
++    int i;
++    pdp64_tlog_init();
++    t_nr = 0; t_hit = NULL;
+     if (cached && acache_lookup(env, addr, type, mmu_idx, pa, prot, size)) {
++        hit = true;
++        if (pdp64_tlog) {
++            fprintf(pdp64_tlog, "T %u %u %d %" PRIx64 " %d 1 %d %d", cur_tag(env), (unsigned)(env->c.asid & 0xffff), mmu_idx, (uint64_t)(addr >> MMU_PAGE_BITS), (int)type, t_hit->prot, t_hit->nr);
++            for (i = 0; i < t_hit->nr; i++) fprintf(pdp64_tlog, " %d:%" PRIx64, t_hit->rk[i], t_hit->rpa[i]);
++            fprintf(pdp64_tlog, "\n");
++        }
+         return true;
+     }
+-    if (!mmu_walk(env, addr, type, mmu_idx, pa, prot, size, fault_vector, &global)) {
++    t_inwalk = true;
++    ok = mmu_walk(env, addr, type, mmu_idx, pa, prot, size, fault_vector, &global);
++    t_inwalk = false;
++    if (pdp64_tlog) {
++        fprintf(pdp64_tlog, "%s %u %u %d %" PRIx64 " %d 0 %d %d", cached ? "T" : "TH", cur_tag(env), (unsigned)(env->c.asid & 0xffff), mmu_idx, (uint64_t)(addr >> MMU_PAGE_BITS), (int)type, ok ? *prot : -1, t_nr);
++        for (i = 0; i < t_nr; i++) fprintf(pdp64_tlog, " %d:%" PRIx64, t_rk[i], t_rpa[i]);
++        fprintf(pdp64_tlog, "\n");
++    }
++    (void)hit;
++    if (!ok) {
+         return false;
+     }
+     if (cached) {
+--- a/target/pdp64/op_helper.c
++++ b/target/pdp64/op_helper.c
+@@ -80,6 +80,14 @@
+     struct hostctx *h = u;
+ 
+     check(h, a, size);
++    pdp64_tlog_init();
++    if (pdp64_tlog && h->env->c.hve) {
++        void *host; CPUTLBEntryFull *full;
++        int fl = probe_access_full(h->env, a, size, MMU_DATA_STORE, pdp64_mmu_idx_data(h->env), true, &host, &full, h->ra);
++        if (!(fl & TLB_INVALID_MASK)) {
++            fprintf(pdp64_tlog, "S %" PRIx64 " %d %d\n", (uint64_t)(full->phys_addr | (a & 0xfffULL)), size, h->env->c.h);
++        }
++    }
+     switch (size) {
+     case 1: cpu_stb_data_ra(h->env, a, v, h->ra); break;
+     case 2: cpu_stw_le_data_ra(h->env, a, v, h->ra); break;
+@@ -206,6 +214,8 @@
+ {
+     struct hostctx *h = u;
+ 
++    pdp64_tlog_init();
++    if (pdp64_tlog && h->env->c.hve) fprintf(pdp64_tlog, "F %d %" PRIx64 " %" PRIx64 "\n", op, a, h->env->c.gtbr);
+     if (h->env->c.hve && op != PDP64_TLB_SYNC) {
+         pdp64_acache_flush(h->env, op, a);  /* the architectural cache: only what the rule says (the tag in GTBR) */
+     }
+--- a/target/pdp64/cpu.h
++++ b/target/pdp64/cpu.h
+@@ -48,6 +48,7 @@
+         uint64_t vpn, pa;
+         int prot;
+         uint64_t size;
++        uint64_t rpa[24]; uint8_t rk[24]; uint8_t nr;
+     } acache[PDP64_ACACHE_N];
+     unsigned acache_next;
+ } CPUPDP64State;
+@@ -151,5 +152,9 @@
+                         unsigned flags, hwaddr *pa);
+ /* the host's side of the invalidates (the ops of the executor's tlb hook), on the architectural cache of the tag in GTBR */
+ void pdp64_acache_flush(CPUPDP64State *env, int op, uint64_t addr);
++extern FILE *pdp64_tlog;
++void pdp64_tlog_init(void);
++void pdp64_tlog_w(const char *what, uint64_t gtbr);
++void pdp64_tlog_h(int h, uint64_t gtbr);
+ 
+ #endif
+--- a/target/pdp64/gen/pdp64exec.c
++++ b/target/pdp64/gen/pdp64exec.c
+@@ -3,6 +3,8 @@
+  * The decoder is the table codec (pdp64enc.c, with the tables generated from spec/pdp64/pdp64.hbnf); the numbers of the instructions are the names of pdp64-consts.h.  This file holds the meaning only.  Everything that touches the
+  * host (memory, faults, `trap`, `halt`) goes through the hooks of struct pdp64_env, so that an executor can map memory its own way.
+  */
++#include <stdint.h>
++extern void pdp64_tlog_h(int h, uint64_t gtbr); extern void pdp64_tlog_w(const char*, uint64_t);
+ #include <fenv.h>
+ #include <math.h>
+ #include <stdint.h>
+@@ -472,6 +474,7 @@
+ 	v &= mask;
+ 	if (num == SYSREG_GTBR) {
+ 		uint64_t old = C->gtbr;
++		if (C->hve && C->h) pdp64_tlog_w("GTBR", v);
+ 		*sr = v;
+ 		if ((v ^ old) & (GTBR_VALID & ~((((uint64_t)1 << GTBR_WIDTH_TAG) - 1) << GTBR_TAG))) E->tlb(E->u, PDP64_TLB_GTBR, v);	/* a new root or enable discards every translation of the tag written (rule G-c) */
+ 		else if (v != old) E->tlb(E->u, PDP64_TLB_SYNC, 0);									/* only the tag changed: nothing is discarded, the host's own buffer must not serve the old tag */
+@@ -690,7 +693,7 @@
+ 				else if (SYSREG_READONLY(f.sub)) die("illegal instruction", 0);	/* read only */
+ 				else {
+ 					tmp = r[f.rd] & mask;
+-					if (f.sub == SYSREG_ASID || f.sub == SYSREG_MMUCTL || f.sub == SYSREG_PTBR) { *sr = tmp; E->tlb(E->u, PDP64_TLB_ALL, 0); }
++					if (f.sub == SYSREG_ASID || f.sub == SYSREG_MMUCTL || f.sub == SYSREG_PTBR) { if (C->hve) pdp64_tlog_w(f.sub == SYSREG_ASID ? "ASID" : f.sub == SYSREG_MMUCTL ? "MMUCTL" : "PTBR", tmp); *sr = tmp; E->tlb(E->u, PDP64_TLB_ALL, 0); }
+ 					else *sr = tmp;
+ 				}
+ 				return;
+@@ -729,7 +732,7 @@
+ 			r[f.rd] = E->probe(E->u, r[f.low], cls == MN_SYS_PROBEW, (int)(C->psw >> PSW_PREV & 3));
+ 			return;
+ 		case MN_SYS_TLBI: priv(); if (gtrap(HTRAP_TLBI, XCODE_TLB)) return; E->tlb(E->u, PDP64_TLB_PAGE, r[f.low]); return;
+-		case MN_SYS_MTASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; C->asid = r[f.low] & 0xffff; E->tlb(E->u, PDP64_TLB_ALL, 0); return;
++		case MN_SYS_MTASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; if (C->hve) pdp64_tlog_w("ASID", r[f.low] & 0xffff); C->asid = r[f.low] & 0xffff; E->tlb(E->u, PDP64_TLB_ALL, 0); return;
+ 		case MN_SYS_MFASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; r[f.low] = C->asid; return;
+ 		case MN_SYS_MTDMW: priv(); if (gexit(XCODE_DMW)) return; C->dmw[0] = r[f.low]; return;			/* v1: storage only; the operand names no window, so it is DMW0 */
+ 		case MN_SYS_ICINV: if (gtrap(HTRAP_ICINV, XCODE_ICINV)) return; return;
+@@ -913,8 +916,10 @@
+ {
+ 	return (c->psw & ~PSW_FLAGS) | (unsigned)c->fC << PSW_C | (unsigned)c->fV << PSW_V | (unsigned)c->fZ << PSW_Z | (unsigned)c->fN << PSW_N;
+ }
++extern void pdp64_tlog_h(int h, uint64_t gtbr); extern void pdp64_tlog_w(const char*, uint64_t);
+ void pdp64_set_h(struct pdp64_cpu *c, int h)
+ {
++	if (c->hve && (c->h != (h != 0))) pdp64_tlog_h(h != 0, c->gtbr);
+ 	int mode = pdp64_mode(c), ob = c->h ? HYP_BANK : bank(mode), nb = h ? HYP_BANK : bank(mode);
+ 	c->h = h != 0;
+ 	if (ob != nb) {									/* r14 and DP name the new bank's copies */

@@ -1,0 +1,900 @@
+[
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "n_dirty": 5,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "autoinc"
+ },
+ {
+  "changed": [
+   2,
+   4,
+   5,
+   6,
+   7,
+   16,
+   17,
+   18
+  ],
+  "dirty": [
+   2,
+   4,
+   5,
+   6,
+   7,
+   16,
+   17,
+   18
+  ],
+  "n_dirty": 8,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "autoinc"
+ },
+ {
+  "changed": [
+   2,
+   3
+  ],
+  "dirty": [
+   2,
+   3
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "avail_chase"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3
+  ],
+  "dirty": [
+   1,
+   2,
+   3
+  ],
+  "n_dirty": 3,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "avail_chase"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "n_dirty": 5,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "avail_volatile"
+ },
+ {
+  "changed": [
+   1,
+   2
+  ],
+  "dirty": [
+   1,
+   2
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "avail_volatile"
+ },
+ {
+  "changed": [
+   0
+  ],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "pcc",
+  "label": "cbr"
+ },
+ {
+  "changed": [
+   0
+  ],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "llvm",
+  "label": "cbr"
+ },
+ {
+  "changed": [
+   2,
+   3,
+   4
+  ],
+  "dirty": [
+   2,
+   3,
+   4
+  ],
+  "n_dirty": 3,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "ccp"
+ },
+ {
+  "changed": [],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "ccp"
+ },
+ {
+  "changed": [],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "ccp_signedness"
+ },
+ {
+  "changed": [],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "ccp_signedness"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   4,
+   5,
+   6,
+   7
+  ],
+  "dirty": [
+   1,
+   2,
+   4,
+   5,
+   6,
+   7
+  ],
+  "n_dirty": 6,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "divmagic"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23
+  ],
+  "n_dirty": 15,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "divmagic"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "n_dirty": 5,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "divp2"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "n_dirty": 5,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "divp2"
+ },
+ {
+  "changed": [
+   0
+  ],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "pcc",
+  "label": "extend"
+ },
+ {
+  "changed": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "n_dirty": 4,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "llvm",
+  "label": "extend"
+ },
+ {
+  "changed": [
+   1,
+   2
+  ],
+  "dirty": [
+   1,
+   2
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "fields"
+ },
+ {
+  "changed": [],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "fields"
+ },
+ {
+  "changed": [
+   0,
+   1
+  ],
+  "dirty": [
+   1
+  ],
+  "n_dirty": 1,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "pcc",
+  "label": "flagfree"
+ },
+ {
+  "changed": [
+   0,
+   1,
+   2
+  ],
+  "dirty": [
+   1,
+   2
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "llvm",
+  "label": "flagfree"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "n_dirty": 6,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "fuse_calls"
+ },
+ {
+  "changed": [
+   1
+  ],
+  "dirty": [
+   1
+  ],
+  "n_dirty": 1,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "fuse_calls"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "n_dirty": 5,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "hoist"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "n_dirty": 6,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "hoist"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3
+  ],
+  "dirty": [
+   1,
+   2,
+   3
+  ],
+  "n_dirty": 3,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "index"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3
+  ],
+  "dirty": [
+   1,
+   2,
+   3
+  ],
+  "n_dirty": 3,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "index"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   12
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   12
+  ],
+  "n_dirty": 6,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "jtab"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "n_dirty": 7,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "jtab"
+ },
+ {
+  "changed": [
+   1,
+   2
+  ],
+  "dirty": [
+   1,
+   2
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "leaf_lea"
+ },
+ {
+  "changed": [
+   1,
+   2
+  ],
+  "dirty": [
+   1,
+   2
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "leaf_lea"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "n_dirty": 4,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "minmax"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   16,
+   17,
+   18
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   16,
+   17,
+   18
+  ],
+  "n_dirty": 10,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "minmax"
+ },
+ {
+  "changed": [
+   1,
+   3,
+   4
+  ],
+  "dirty": [
+   1,
+   3,
+   4
+  ],
+  "n_dirty": 3,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "modes"
+ },
+ {
+  "changed": [
+   2,
+   3,
+   5,
+   6,
+   7,
+   16
+  ],
+  "dirty": [
+   2,
+   3,
+   5,
+   6,
+   7,
+   16
+  ],
+  "n_dirty": 6,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "modes"
+ },
+ {
+  "changed": [],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "mullea"
+ },
+ {
+  "changed": [
+   1,
+   2
+  ],
+  "dirty": [
+   1,
+   2
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "mullea"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3
+  ],
+  "dirty": [
+   1,
+   2,
+   3
+  ],
+  "n_dirty": 3,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "regs32"
+ },
+ {
+  "changed": [],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "regs32"
+ },
+ {
+  "changed": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "dirty": [
+   1,
+   2,
+   3
+  ],
+  "n_dirty": 3,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "pcc",
+  "label": "rotate32"
+ },
+ {
+  "changed": [
+   0,
+   1
+  ],
+  "dirty": [
+   1
+  ],
+  "n_dirty": 1,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "llvm",
+  "label": "rotate32"
+ },
+ {
+  "changed": [
+   0,
+   1
+  ],
+  "dirty": [
+   1
+  ],
+  "n_dirty": 1,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "pcc",
+  "label": "rotate64"
+ },
+ {
+  "changed": [
+   0
+  ],
+  "dirty": [],
+  "n_dirty": 0,
+  "abi_violation": [],
+  "result": 1,
+  "comp": "llvm",
+  "label": "rotate64"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "n_dirty": 5,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "setcc"
+ },
+ {
+  "changed": [
+   1,
+   2
+  ],
+  "dirty": [
+   1,
+   2
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "setcc"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   12
+  ],
+  "dirty": [
+   1,
+   2,
+   12
+  ],
+  "n_dirty": 3,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "switch_tree"
+ },
+ {
+  "changed": [
+   1,
+   2
+  ],
+  "dirty": [
+   1,
+   2
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "switch_tree"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "n_dirty": 5,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "tailcall"
+ },
+ {
+  "changed": [
+   1,
+   3
+  ],
+  "dirty": [
+   1,
+   3
+  ],
+  "n_dirty": 2,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "tailcall"
+ },
+ {
+  "changed": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "dirty": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "n_dirty": 4,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "pcc",
+  "label": "thread_bool"
+ },
+ {
+  "changed": [
+   1
+  ],
+  "dirty": [
+   1
+  ],
+  "n_dirty": 1,
+  "abi_violation": [],
+  "result": 0,
+  "comp": "llvm",
+  "label": "thread_bool"
+ }
+]
