@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """nests2d.py -- 'why not' (c) of docs/encoding-work/vec-2d.md: how many loop nests of the benchmark kernels have a countable outer loop around a loop that LoopVectorize vectorised?
-Measured on the IR that opt -O2 (mtriple=pdp64, LoopVectorize with the cost model) leaves for each C source of llvm/bench's SRCS list, tiles.c and llvm/bench/gaps.c: opt -passes='print<loops>'
+Measured on the IR that opt -O2 (mtriple=pdp64, LoopVectorize with the cost model) leaves for each C source of llvm-pdp64/bench's SRCS list, tiles.c and llvm-pdp64/bench/gaps.c: opt -passes='print<loops>'
 gives the loop forest (a vectorised loop's header is the block `vector.body`), opt -passes='print<scalar-evolution>' gives each loop's backedge-taken count (`Unpredictable` when SCEV cannot
 count the loop).  A nest is a loop that contains a loop.  Writes a table to standard output.  Needs ../llvm-build/bin/opt and clang."""
 import os, re, sys, tempfile, subprocess, collections
 HERE = os.path.dirname(os.path.abspath(__file__)); R = os.path.dirname(os.path.dirname(HERE))
-src = open(os.path.join(R, 'llvm', 'bench', 'bench.py')).read()
-g = {'__file__': os.path.join(R, 'llvm', 'bench', 'bench.py'), '__name__': 'bench'}
+LLVM = os.environ.get('LLVM_PDP64') or os.path.join(os.path.dirname(R), 'llvm-pdp64')
+src = open(os.path.join(LLVM, 'bench', 'bench.py')).read()
+g = {'__file__': os.path.join(LLVM, 'bench', 'bench.py'), '__name__': 'bench'}
 exec(compile(src[:src.index('\ndef main():')], 'bench.py', 'exec'), g)
 OPT = g['OPT']; SRCS = list(g['SRCS']); ll_of_lv = g['ll_of_lv']; ll_of = g['ll_of']; run = g['run']
-SRCS += [os.path.join(R, 'llvm', 'bench', 'gaps.c'), os.path.join(R, 'docs', 'encoding-work', 'arch-data', 'vec-forms', 'tiles', 'tiles.c')]
+SRCS += [os.path.join(LLVM, 'bench', 'gaps.c'), os.path.join(R, 'docs', 'encoding-work', 'arch-data', 'vec-forms', 'tiles', 'tiles.c')]
 tmp = tempfile.mkdtemp()
 tot = collections.Counter(); rows = []
 for s in SRCS:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """lat-bench.py [OUTDIR] -- the two cycle models of docs/sim64.md on the benchmark kernels (docs/encoding-work/vec-latency.md).
 
-Builds the kernels exactly as tools/strip-bench.py does (it is run up to its `# the runs` line: the `lv` build of llvm/bench, 46 kernels, and the hand-written kernels that give the same result, the
+Builds the kernels exactly as tools/strip-bench.py does (it is run up to its `# the runs` line: the `lv` build of llvm-pdp64/bench, 46 kernels, and the hand-written kernels that give the same result, the
 driver's set-up subtracted) and runs sim64 -V --vmix over a grid of the model parameters; one run prints model 1 and model 2 both.  Grid (strip, port, latency table, strips in flight, memory latency):
   main:        strip 8 16 32, port 8 16 32, table fpga asic, vpipe 1 2 4, vmemlat 2 4 8                       (162 runs a kernel), and strip 64 at port 16
   tables:      the sensitivity tables OUTDIR/tables/{fpga-lo,fpga-hi,asic-lo,asic-hi,unit}.txt at strip 8 16 32, port 16, vpipe 1, vmemlat 4

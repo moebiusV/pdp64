@@ -3,8 +3,8 @@
 #   synth   the width-dependent blocks of vecw.v at strips of 32, 16 and 8 bytes (256, 128, 64 bits) and the original blocks of vec2.v, vec3.v, mem2.v, fp2.v at 256 bits (the check):
 #           OUTDIR/strip-32.tsv strip-16.tsv strip-8.tsv ref-32.tsv (strip-synth.sh: NAND2, ECP5, xc7).  About 20 minutes on 12 cores (JOBS, default 3 each of the four runs).
 #   total   strip-total.py: the tables of the gate study at the three widths (OUTDIR/area.md, OUTDIR/area.tsv)
-#   equiv   tools/strip-equiv.py: tests/sim and llvm/check.sh at the strips 8, 16, 32, 64 (sim64 -S, PDP64_VSTRIP): results must not depend on the strip (OUTDIR/equiv.md); a minute or two
-#   bench   tools/strip-bench.py: the 46 kernels of llvm/bench (variant lv) and the hand-written kernels at strips 8, 16, 32, 64 bytes and ports 8, 16, 32 bytes a cycle under sim64 -S --vport
+#   equiv   tools/strip-equiv.py: tests/sim and llvm-pdp64/check.sh at the strips 8, 16, 32, 64 (sim64 -S, PDP64_VSTRIP): results must not depend on the strip (OUTDIR/equiv.md); a minute or two
+#   bench   tools/strip-bench.py: the 46 kernels of llvm-pdp64/bench (variant lv) and the hand-written kernels at strips 8, 16, 32, 64 bytes and ports 8, 16, 32 bytes a cycle under sim64 -S --vport
 #           (OUTDIR/bench.tsv, OUTDIR/bench.md); needs build/sim64 (tools/build-sim64.sh) and the LLVM tools of ../llvm-build (under a minute)
 # Needs yosys on the path (or Y=...), HBNF as for the other tools.
 here=$(cd "$(dirname "$0")" && pwd); root=$(dirname "$(dirname "$here")")

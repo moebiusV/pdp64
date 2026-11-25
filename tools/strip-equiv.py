@@ -6,8 +6,8 @@ off and no test is patched (before errata 173 the three tests that look at the s
 A test passes if its exit status is the expected one (NAME.exit, default 0) at every strip and its standard output is the same.  The strip of 8 bytes is outside the architecture (the least is 16:
 vec-isa.md section 8) and is run for information only: a program that sums floating-point lanes may differ there.
 Then the probe: vacc.f over 1000 binary32 values of adversarial size, and the same with vacc.d and vacc.f.d, must give the same bits at every strip, and the bits of the model of the canonical order.
-Then llvm/check.sh (the .ll tests, the C programs and the vector kernels of llvm/tests/vec, four variants each) runs with PDP64_VSTRIP=16, 32 and 64 (sim64's default strip; check.sh takes no
-option) and the lines "ok" and "FAIL" are compared between the strips.  Writes OUTDIR/equiv.md (default tools/gates/strip-results).  NOLLVM=1 skips llvm/check.sh.
+Then llvm-pdp64/check.sh (the .ll tests, the C programs and the vector kernels of llvm-pdp64/tests/vec, four variants each) runs with PDP64_VSTRIP=16, 32 and 64 (sim64's default strip; check.sh takes no
+option) and the lines "ok" and "FAIL" are compared between the strips.  Writes OUTDIR/equiv.md (default tools/gates/strip-results).  NOLLVM=1 skips llvm-pdp64/check.sh.
 """
 import os, re, subprocess, sys, tempfile, shutil, struct, random
 from fractions import Fraction
@@ -104,11 +104,11 @@ for mn, ld, sz, enc, model in probes:
     ok = all(got[s] == want for s in STRIPS)
     txt += '| %s | 0x%x | %s | %s |\n' % (mn, want, ' | '.join('0x%x' % got[s] for s in STRIPS + INFO), 'same, equal to the model' if ok else 'DIFFERS')
     if not ok: ndiff.append('probe ' + mn)
-# llvm/check.sh at each strip
+# llvm-pdp64/check.sh at each strip
 chk = {}
 for s in (STRIPS if not os.environ.get('NOLLVM') else ()):
     env = dict(os.environ, PDP64_VSTRIP=str(s))
-    r = subprocess.run([os.path.join(R, 'llvm', 'check.sh')], capture_output=True, text=True, env=env, timeout=7200)
+    r = subprocess.run([os.path.join(os.environ.get('LLVM_PDP64') or os.path.join(os.path.dirname(R), 'llvm-pdp64'), 'check.sh')], capture_output=True, text=True, env=env, timeout=7200)
     chk[s] = [l for l in r.stdout.splitlines() if l.startswith(('ok ', 'FAIL'))]
     summ = [l for l in r.stdout.splitlines() if 'passed' in l]
     chk[s, 'sum'] = summ

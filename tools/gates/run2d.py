@@ -9,7 +9,7 @@ For each graphics-shaped kernel (docs/encoding-work/arch-data/vec-forms/tiles/: 
   rows.chk, 2d.chk   (sad, mblend) the same with a bounds check per row / per tile (chk2)
 with the driver tile-main.c (fills the planes, calls the kernel, writes the result and the destination plane to standard output), subtracts the driver with the call left out (NOCALL), checks that
 every form writes the same bytes as the scalar build, and runs sim64 -V at strips 16, 32, 64, ports 8, 16, 32 (vrow 1, vmemlat 4, fpga table, vpipe 1) and, at port 16 and strips 16 and 32, the
-sensitivities vrow 0 and 2 and vmemlat 2 and 8.  Writes OUTDIR/tiles.tsv (every run) and OUTDIR/summary.md.  Needs build/sim64, as64, ld64 and the LLVM tools of ../llvm-build (llvm/bench/bench.py).
+sensitivities vrow 0 and 2 and vmemlat 2 and 8.  Writes OUTDIR/tiles.tsv (every run) and OUTDIR/summary.md.  Needs build/sim64, as64, ld64 and the LLVM tools of ../llvm-build (llvm-pdp64/bench/bench.py).
 tile sizes: 8x8 16x16 32x32 64x64 256x256 and the widths 8 16 32 64 128 with 16 rows (W: bytes of the row of the first stream; for gray and quant W is the pixels or floats of a row).
 """
 import os, re, sys, subprocess, tempfile, shutil, hashlib
@@ -19,7 +19,8 @@ args = [a for a in sys.argv[1:] if not a.startswith('--')]
 QUICK = '--quick' in sys.argv
 OUT = args[0] if args else os.path.join(HERE, '2d-results')
 os.makedirs(OUT, exist_ok=True)
-BH = os.path.join(R, 'llvm', 'bench')
+LLVM = os.environ.get('LLVM_PDP64') or os.path.join(os.path.dirname(R), 'llvm-pdp64')
+BH = os.path.join(LLVM, 'bench')
 src = open(os.path.join(BH, 'bench.py')).read()
 g = {'__file__': os.path.join(BH, 'bench.py'), '__name__': 'bench'}
 exec(compile(src[:src.index('\ndef main():')], 'bench.py', 'exec'), g)

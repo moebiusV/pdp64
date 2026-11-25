@@ -3,7 +3,7 @@
 # 1D blocks, hand vec2 block, and the checked pairs, at strips 16, 32, 64, ports 8, 16, 32 and the row-cost and memory-latency sensitivities; every form must write the bytes of the scalar build),
 # the tables (sum2d.py -> OUTDIR/summary.md), the pages a tile touches (pages2d.py), the loop nests of the benchmark sources (nests2d.py, needs ../llvm-build) and the silicon of the row advance
 # (tile2d.v, yosys).  Default OUTDIR: tools/gates/2d-results.  Takes about 25 minutes (--quick: two tile sizes, a minute).  Needs build/sim64, as64, ld64 (tools/build-sim64.sh), clang and the LLVM tools
-# of ../llvm-build (llvm/bench/bench.py), yosys.
+# of ../llvm-build (llvm-pdp64/bench/bench.py), yosys.
 set -e
 cd "$(dirname "$0")/../.."
 Q=; if [ "$1" = "--quick" ]; then Q=--quick; shift; fi

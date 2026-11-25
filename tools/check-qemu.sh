@@ -5,13 +5,15 @@
 #                          count interrupt injection of sim64) skips the test: tests/qemu has the QEMU versions.
 #   tests/qemu/NAME.s|.S   System v1 tests that need the QEMU machine (MMU, devices); always kernel-mode=on.  NAME.in is the standard input of the run
 #                          (the console), NAME.qargs extra qemu arguments.
-# PDP64_ONLY="name name" runs just those tests.  NAME.S is run through the C preprocessor with build/pdp64-consts.h first (tools/pp-asm.sh).  qemu/build.sh builds the emulator; PDP64_QEMU overrides its path.
+# PDP64_ONLY="name name" runs just those tests.  NAME.S is run through the C preprocessor with build/pdp64-consts.h first (tools/pp-asm.sh).  qemu-pdp64/build.sh builds the emulator; PDP64_QEMU overrides its path.
 set -u
 cd "$(dirname "$0")/.."
 Q=${PDP64_QEMU:-$(dirname "$PWD")/qemu-build/qemu-system-pdp64}
-[ -x "$Q" ] || { echo "check-qemu: $Q not found (qemu/build.sh)"; exit 1; }
+QP=${QEMU_PDP64:-$(dirname "$PWD")/qemu-pdp64}        # the qemu-pdp64 checkout (the QEMU target sources)
+[ -x "$Q" ] || { echo "check-qemu: $Q not found (qemu-pdp64/build.sh)"; exit 1; }
 tools/build-sim64.sh > /dev/null
-qemu/sync.sh --check > /dev/null || { echo "check-qemu: qemu/target-pdp64/gen is stale (qemu/sync.sh)"; exit 1; }
+[ -x "$QP/sync.sh" ] || { echo "check-qemu: no qemu-pdp64 checkout at $QP (set QEMU_PDP64)"; exit 1; }
+"$QP/sync.sh" --check > /dev/null || { echo "check-qemu: target-pdp64/gen of qemu-pdp64 is stale (run sync.sh there)"; exit 1; }
 B=${BUILD:-build}; fail=0; n=0; skipped=0
 for s in tests/sim/*.s tests/sim/*.S tests/qemu/*.s tests/qemu/*.S; do
 	[ -f "$s" ] || continue

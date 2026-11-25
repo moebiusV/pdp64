@@ -2,7 +2,7 @@
 """vec-glance.py -- the "family at a glance" table of docs/encoding-work/vec-isa.md, generated from the grammar so that it cannot be wrong.
 
 The words, the base mnemonics and their suffixes are read from the parts of the encoding grammar, spec/grammars.d/ (the generated 20-enc-forms.hbnf: the quoted vector words of the families VBEG ... VSTS.R).  The compiler path is read
-from llvm/vector-usage.md (the table "By instruction": words used by the vecloop and the LoopVectorize builds) and, for a word that no compiled kernel uses, from the
+from llvm-pdp64/vector-usage.md (the table "By instruction": words used by the vecloop and the LoopVectorize builds) and, for a word that no compiled kernel uses, from the
 hand-written kernels of docs/encoding-work/arch-data/vec-forms (*.s).  The one-line meaning and the wave of origin are facts of spec/facts/vec.toml (tools/facts.py); the script
 stops if the grammar has a base mnemonic that file lacks, or the file has one the grammar no longer has.
 
@@ -15,7 +15,8 @@ import os, re, sys, glob, collections
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import facts
-USAGE = os.path.join(ROOT, 'llvm', 'vector-usage.md')
+LLVM = os.environ.get('LLVM_PDP64') or os.path.join(os.path.dirname(ROOT), 'llvm-pdp64')
+USAGE = os.path.join(LLVM, 'vector-usage.md')
 KERNELS = os.path.join(ROOT, 'docs', 'encoding-work', 'arch-data', 'vec-forms')
 BEGIN, END = '<!-- vec-glance:begin -->', '<!-- vec-glance:end -->'
 
@@ -27,7 +28,7 @@ def grammar_words():
 
 
 def usage_rows():
-    """base -> (words used, static uses vecloop, static uses lv), from the table By instruction of llvm/vector-usage.md"""
+    """base -> (words used, static uses vecloop, static uses lv), from the table By instruction of llvm-pdp64/vector-usage.md"""
     rows = {}
     for line in open(USAGE):
         m = re.match(r'\| [^|]+ \| `(v[a-z0-9]+)` \| (\d+) \| (\d+) \| (\d+) \| (\d+) \|', line)

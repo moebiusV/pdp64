@@ -11,6 +11,7 @@ base mnemonic being the key.  A tool that needs a fact calls load('vec'); the mo
 import glob, importlib.util, os, re, sys, tomllib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LLVM_PDP64 = os.environ.get('LLVM_PDP64') or os.path.join(os.path.dirname(ROOT), 'llvm-pdp64')      # the llvm-pdp64 checkout, next to this repository
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import grammars_d
 
@@ -52,7 +53,7 @@ def grammar_bases(group):
 REQUIRED = {'vec': ('wave', 'meaning', 'llvm', 'exec', 'asm', 'group', 'entry'), 'core': ('exec',)}
 # where a test that runs a word lives (a word is run by a test if it is a mnemonic of a source there: tests/asm and tests/enc only assemble and encode it)
 TESTS = {'vec': ['tests/sim/*.s', 'tests/sim/*.S', 'tests/qemu/*.S', 'tests/qemu/*.s']}
-COMPILER_DIR = os.path.join('llvm', 'target', 'PDP64')
+COMPILER_DIR = os.path.join(LLVM_PDP64, 'target', 'PDP64')
 
 
 def _gen_vec_names():
@@ -149,12 +150,12 @@ def problems(group):
     if group == 'vec':
         out += ['%s: %s names %s, which is not a base of the family (nor in NOT_BASES, REMOVED of tools/facts.py)' % (group, f, w)
                 for f, w in sorted(set(gate_words())) if w not in F and w not in NOT_BASES and w not in REMOVED]
-    # and the other way: the compiler's measured use (llvm/vector-usage.md) of a base that has no record of it
+    # and the other way: the compiler's measured use (llvm-pdp64/vector-usage.md) of a base that has no record of it
     try:
-        for line in open(os.path.join(ROOT, 'llvm', 'vector-usage.md')):
+        for line in open(os.path.join(LLVM_PDP64, 'vector-usage.md')):
             m = re.match(r'\| [^|]+ \| `(v[a-z0-9]+)` \| (\d+) \| (\d+) \|', line)
             if m and m.group(1) in F and int(m.group(3)) > 0 and 'compiler' not in F[m.group(1)]:
-                out.append('%s: llvm/vector-usage.md says the compiler emits %s and its table has no field compiler' % (group, m.group(1)))
+                out.append('%s: vector-usage.md of llvm-pdp64 says the compiler emits %s and its table has no field compiler' % (group, m.group(1)))
     except FileNotFoundError:
         pass
     return out

@@ -63,8 +63,6 @@ Four constraints stand beside the ranking. The design is ready for out-of-order 
     ld64/       the linker (ELF, e_machine 0xF064)
     sim64/      the reference emulator
     common/     the reference executor and the table codec of the encoding, shared by the assembler, the linker, the emulator and QEMU
-    qemu/       the QEMU target sources (the QEMU tree is kept outside this repository)
-    llvm/       the LLVM back end sources, frozen at the machine-code layer for the original encoding (llvm/README.md; the LLVM tree is kept outside this repository)
     tests/      format vectors, syntax cases, assembly and emulator programs with hand-worked expected results, QEMU machine tests
     book/       the sources of the PDF edition of the manual
     docs/       the documents above; docs/manual/ holds the manual of the pdp64 (generated from docs/manual-src/)
@@ -88,7 +86,7 @@ The C compiler is the `pdp64` back end of [pcc](https://github.com/moebiusV/pcc)
 - **Assembler, linker, emulator:** the reference executor implements the integer core, bit and block operations, binary64 floating point with flags, and the system instructions; the atomics, the memory escape (`MESC`), the UTF-8 instructions, `MVAL` and `FCLASS32` are specified and not yet implemented.
 - **QEMU target:** boots a kernel image and runs the machine tests (see `tools/check-qemu.sh`) and the C test programs (`PDP64RUN=qemu`).
 - **Compiler:** all 841 files of the benchmark corpus compile and assemble for the pdp64; the code is 11.0% smaller than the first iteration's on the corpus, and the six large programs execute 24% fewer instructions (`docs/encoding-work/integration.md`).
-- **LLVM back end:** a machine-code layer (assembler, disassembler, ELF object writer) for the original encoding of the earlier iterations; it is frozen until it is ported to the encoding of the pdp64 (`llvm/README.md`); no code generator yet.
+- **LLVM back end** (now the repository [llvm-pdp64](https://github.com/moebiusV/llvm-pdp64)): a machine-code layer (assembler, disassembler, ELF object writer) for the original encoding of the earlier iterations; it is frozen until it is ported to the encoding of the pdp64 (`llvm-pdp64/README.md`); no code generator yet.
 - **Order of work (the author, 2026-11-10):** resolve the open items, starting with those that affect the opcodes; re-run the encoding optimiser; update the grammar; regenerate the assembler tables, the manual and the pcc headers; port the LLVM back end, QEMU, `as64`, pcc and `sim64` to the new encoding (`handoff.md`). The opcodes may therefore still change. The pcc RISC-V back end is a separate project, not part of this one.
 - **Tags:** `pre-single-cpu` and `pre-code-removal` keep the manuals, tools and code of the two earlier iterations.
 - **Open:** the open items of appendix J of the manual, each with its options and their pros and cons (among them the C64- and Blit-derived devices, whose earlier chat is recorded in `docs/c64-devices-from-chat.md`); `docs/decisions-pending.md` is the record of the earlier question list.
@@ -116,7 +114,7 @@ BSD 2-clause, for everything in this repository: see [`COPYING`](COPYING).
 : [`grammars.d/`](spec/grammars.d) (every number, the parts), [`pdp64/pdp64.hbnf`](spec/pdp64/pdp64.hbnf) (the encoding), [`pdp64-asm.hbnf`](spec/pdp64-asm.hbnf) (assembly syntax), [`elf.hbnf`](spec/elf.hbnf) (object records).
 
 **Programs**
-: [`as64/`](as64/) assembler, [`ld64/`](ld64/) linker, [`sim64/`](sim64/) emulator, [`qemu/`](qemu/) and [`llvm/`](llvm/) targets, [`tools/`](tools/) generator, builds and checks (`check-all.sh`), [`tests/`](tests/).
+: [`as64/`](as64/) assembler, [`ld64/`](ld64/) linker, [`sim64/`](sim64/) emulator, [qemu-pdp64](https://github.com/moebiusV/qemu-pdp64) and [llvm-pdp64](https://github.com/moebiusV/llvm-pdp64) (the QEMU and LLVM targets, in repositories of their own), [`tools/`](tools/) generator, builds and checks (`check-all.sh`), [`tests/`](tests/).
 
 **Repositories**
 : [moebiusV/pdp64](https://github.com/moebiusV/pdp64) (this repository), [moebiusV/hbnf](https://github.com/moebiusV/hbnf) (grammar compiler), [moebiusV/pcc](https://github.com/moebiusV/pcc) (C compiler with the `pdp64` back end; upstream [PortableCC/pcc](https://github.com/PortableCC/pcc)), [moebiusV/v7unix-toolchain](https://github.com/moebiusV/v7unix-toolchain) (corpus tooling, C tests), [QEMU](https://gitlab.com/qemu-project/qemu) ([qemu.org](https://www.qemu.org/)).

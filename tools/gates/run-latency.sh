@@ -4,7 +4,7 @@
 #            (depth-synth.sh: `ltp` and lat-depth.py; resumable through OUTDIR/stat).  About 30 minutes on 12 cores (JOBS, default 10).
 #   table    lat-table.py: the depth table and the latency files from the depth and the assumed delays: OUTDIR/depth.md, OUTDIR/latency-{fpga,asic}.txt (copied to sim64/latency-*.txt by hand when changed)
 #   build    tools/build-sim64.sh (sim64 with the second model)
-#   bench    tools/lat-bench.py: the kernels of llvm/bench under model 1 and model 2 over the grid (OUTDIR/bench.tsv, OUTDIR/bench.md); needs the LLVM tools of ../llvm-build (a few minutes)
+#   bench    tools/lat-bench.py: the kernels of llvm-pdp64/bench under model 1 and model 2 over the grid (OUTDIR/bench.tsv, OUTDIR/bench.md); needs the LLVM tools of ../llvm-build (a few minutes)
 # Needs yosys on the path (or Y=...), HBNF as for the other tools (export HBNF=/home/matthew/claude/hbnf/hbnf HBNF_TEMPLATES=/home/matthew/claude/hbnf/templates PATH=$HOME/.local/bin:$PATH).
 here=$(cd "$(dirname "$0")" && pwd); root=$(dirname "$(dirname "$here")")
 case ${1:-} in depth|table|build|bench|'') out=$here/latency-results;; *) out=$1; shift;; esac

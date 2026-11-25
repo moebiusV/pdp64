@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """strip-bench.py [OUTDIR] -- the cycle model of docs/sim64.md on the benchmark kernels at several strips and memory ports (docs/encoding-work/vec-strip.md, section 6).
 
-Builds each kernel of llvm/bench (the `lv` variant of llvm/bench/bench.py: clang without passes, opt -O2 -mtriple=pdp64 with LoopVectorize, llc with PDP64VecLoop) with its driver
+Builds each kernel of llvm-pdp64/bench (the `lv` variant of llvm-pdp64/bench/bench.py: clang without passes, opt -O2 -mtriple=pdp64 with LoopVectorize, llc with PDP64VecLoop) with its driver
 bench_main.c, and the hand-written kernels of docs/encoding-work/arch-data/vec-forms (k_*.vec.s, k_put8h.vecfir.s) with the same driver; subtracts the set-up of the driver (run with no kernel); and
 runs sim64 -V -S STRIP --vport=PORT --vcommit=COMMIT for the strips 8, 16, 32, 64 bytes and ports 8, 16, 32 bytes a cycle (commit 1), and commit 0 and 2 at port 16.
 Writes OUTDIR/bench.tsv (every run) and OUTDIR/bench.md (the tables).  Needs build/sim64, as64, ld64, and the LLVM tools of ../llvm-build.
@@ -11,7 +11,8 @@ from concurrent.futures import ThreadPoolExecutor
 HERE = os.path.dirname(os.path.abspath(__file__)); R = os.path.dirname(HERE)
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, 'gates', 'strip-results')
 os.makedirs(OUT, exist_ok=True)
-BH = os.path.join(R, 'llvm', 'bench')
+LLVM = os.environ.get('LLVM_PDP64') or os.path.join(os.path.dirname(R), 'llvm-pdp64')
+BH = os.path.join(LLVM, 'bench')
 src = open(os.path.join(BH, 'bench.py')).read()
 g = {'__file__': os.path.join(BH, 'bench.py'), '__name__': 'bench'}
 exec(compile(src[:src.index('\ndef main():')], 'bench.py', 'exec'), g)		# the prefix of bench.py: paths, SRCS, CFLAGS, run, ll_of, ll_of_lv
