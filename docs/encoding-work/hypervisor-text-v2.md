@@ -156,7 +156,7 @@ A **physical** interrupt is different. An RK11 completing a transfer asserts its
 
 The translation buffer holds finished translations tagged with the guest's tag. If the hypervisor resets the guest and reuses its tag and its stage-2 root, while the buffer still holds translations made before, the new guest can read the old guest's memory through them. The Linux KVM bug of 2026 (CVE-2026-99312) is of this kind: when KVM emulated an INIT for a nested guest with paging off, it ran the outer guest "with a stale MMU context". The rule, stated in 6.8.5, is: **whatever resets the translation state of a core or a guest must discard its cached translations, in the same step**.
 
-On the pdp64 the hypervisor's reset sequence is therefore written down in order (6.16), and the first thing it does is stop the guest's cores and invalidate by tag; only after that may the tag be given to another guest. What is not yet decided is how to make the invalidate impossible to forget by construction (a "pool" of stage-2 tables that the hardware watches, or a directory of table pages the walker has read); both have been measured against each other and the choice is the owner's (6.16, "Still open").
+On the pdp64 the hypervisor's reset sequence is therefore written down in order (6.16), and the first thing it does is stop the guest's cores and invalidate by tag; only after that may the tag be given to another guest.
 
 **Example 7. What the hypervisor itself runs on.** The hypervisor is a program too: it has code, data, a stack, and it may have bugs, so it too needs protection from stray pointers. The hypervisor level follows the Arm VHE style from the start: it has a translation regime of its own, so that an ordinary kernel (with its usual page tables) can itself run at the hypervisor level, and a kernel does not have to be split in two halves, one that runs at the kernel level and one that runs above. ("VHE" is Arm's name for the same arrangement; Arm's guide says that without it "most of the Host OS is at EL1, with some stub code running in EL2", an arrangement it calls "inefficient, because it may involve additional context switching".) In the pdp64 the hypervisor level has a page-table base of its own (the design's name for it is `HPTBR`), with tag 0, which is the host's. What is left to define is which of the kernel's translation registers get a copy at the hypervisor level, how their names are redirected there, and what that does to the rules about registers while the hypervisor runs; 6.16 says exactly which statements wait for that definition. Until it is defined, a small hypervisor like the first one of the project may leave its translation off and run on physical addresses.
 
@@ -176,7 +176,7 @@ A vector block interrupted by an exit follows the resume rule: if the same guest
 
 ## 6.16 The hypervisor mode: the rules
 
-Everything of 6.14 and 6.15 is here as numbered statements and tables. A statement is *(D)*, decided; where a part is not yet decided it ends with *Details to be determined* and says what. The last list, "Still open", gathers what is not decided.
+Everything of 6.14 and 6.15 is here as numbered statements and tables. A statement is *(D)*, decided. The last list, "Still open", gathers what is not decided.
 
 ### State and registers
 
@@ -284,7 +284,7 @@ Details to be determined: a `TLBIAS` bit and the bit for the invalidate by guest
 | 20 | stage-2 fault: the entry refuses the access (permission, a reserved bit set, accessed or dirty clear) | 18, 19, 20 | the instruction |
 | 21 | machine check in a guest: a bus error on a guest's real access, **or a read of a stage-2 table that a device answered with an error** | 1 | the instruction |
 
-The split of a bus error on a stage-2 table read is by what the bus says: no device answered at the address, the entry points at nothing, which is an invalid entry (code 19, flag `NODEV`); a device answered with an error, which is a machine check (code 21). Flags: bit 8 `WALK`: the failing access was the read of a guest page-table entry, so `HGPA` is the guest-physical address of that entry and `HEVA` the address the guest was trying to reach; bit 9 `VEC`: it was the guest's vector fetch, so `HGPA` is the guest's `VBR + 8 * vector`; bit 10 `NODEV`: the failing stage-2 table read found no device. Details to be determined: the name and the position of the third flag are proposed; whether a bus error on a guest's own data access, where no device answered, also becomes code 19 (the decision covers the table read only).
+The split of a bus error on a stage-2 table read is by what the bus says: no device answered at the address, the entry points at nothing, which is an invalid entry (code 19, flag `NODEV`); a device answered with an error, which is a machine check (code 21). Flags: bit 8 `WALK`: the failing access was the read of a guest page-table entry, so `HGPA` is the guest-physical address of that entry and `HEVA` the address the guest was trying to reach; bit 9 `VEC`: it was the guest's vector fetch, so `HGPA` is the guest's `VBR + 8 * vector`; bit 10 `NODEV`: the failing stage-2 table read found no device.
 
 **6.16.15** An exit enters the hypervisor through a **vector table** of 8-byte entries at the physical address `HVBR + 8 * HCAUSE` (read through the hypervisor's own translation when it is on, 6.16.5), the same fetch as the kernel's (6.3.3). The vectors are: *(D)*
 
@@ -332,7 +332,7 @@ The split of a bus error on a stage-2 table read is by what the bus says: no dev
 
 **6.16.24** A guest sees seven **virtual interrupt lines**, one for each priority level 1 to 7. `VIRQ` bit L, for L from 1 to 7, says line L is pending; bit 0 reads zero. `VIVEC` has a field of 8 bits for each line (line 1 in bits 7 to 0, line 7 in bits 55 to 48) that holds the vector number the guest takes; **a write that puts a vector below 32 in a field is refused at once**. The hypervisor injects an interrupt by setting the bit of the line. Between two instructions of a guest, if no physical interrupt is asserted and the highest pending line L is above the priority in the guest's status word, the core makes the guest's own exception entry (6.3) with the vector of the line: the vector word is read at the guest's `VBR + 8 * vector` through stage 2, `EPC` is the next instruction, `EPSW` the old status word, `EVA` 0, `ECAUSE` the vector, the new status word is kernel mode with priority 7, and the hardware **clears the bit of the line**. No exit is made. A guest's `SPL` and `MTPS` never exit (unless `PRIO` of `HTRAP` is set). A physical interrupt at the same boundary exits first. `WFE` in a guest ends when a virtual line is pending, even if the priority masks it (7.10.2). *(D)*
 
-**6.16.25** The guest has a **virtual timer**: a counter that is the real counter minus the offset `VTOFF`, and an alarm that sets virtual line 6 when it expires; the alarm **fires once each time it is armed**. The hypervisor's own timer is the real one, at level 6 and vector 32 as in 6.3.6, and keeps running while a guest runs. No unprivileged instruction reads a clock (6.16.2). *(D)* **Open: the timer registers.** The design (`timer-design.md`) is a *proposal*, not a decision: the counter and the comparator become two system registers, `TIME` (16, read only, 64 bits, a fixed 10 MHz) and `TIMECMP` (17, an absolute deadline, one for each core, all ones meaning never, a level interrupt cleared by writing a later deadline); at the hypervisor level they reach the real counter and comparator, and in a guest the counter minus `VTOFF` and the guest's own comparator; a hypervisor register `GTIMECMP` (148) loads and saves the guest's deadline. This replaces the earlier "core-local virtual timer page" if accepted.
+**6.16.25** The guest has a **virtual timer**: a counter that is the real counter minus the offset `VTOFF`, and an alarm that sets virtual line 6 when it expires; the alarm **fires once each time it is armed**. The hypervisor's own timer is the real one, at level 6 and vector 32 as in 6.3.6, and keeps running while a guest runs. No unprivileged instruction reads a clock (6.16.2).
 
 **6.16.26** A device can be assigned to a guest through the IOMMU of 2.11. In version 1 the guest's unit is virtual and trapped: the hypervisor forwards the guest's commands and faults, and there is no guest-visible hardware ring. *(D)* Details to be determined (2.11).
 
@@ -372,15 +372,6 @@ The floating-point flags are cleared when the address-space number, the guest re
 
 **6.16.31** The first software to use all of this is a small hypervisor of our own, on the QEMU target, with one guest kernel; it is not Linux and not KVM. *(D)*
 
-### Still open
-
-1. **How a stale translation is made impossible to forget** after a change to a stage-2 table or a guest reset: the arena (the hypervisor keeps its stage-2 tables in one pool the walker enforces) or the directory of walked table pages, with the flush flag (`S2FL`) of the design as an alternative that guarantees nothing by itself. Benchmarked (`bench-holes-1-and-6.md`; the study recommends the arena at about 1,300 gates against 8,300 to 16,800 for the directory); it is not yet decided. The hypervisor-level text of 6.16.22 and 6.16.30 assumes an explicit invalidate until then.
-2. **The timer registers** (6.16.25): proposed, not decided.
-3. **The interrupt controller:** the smallest controller now and the remapping unit later is undecided; the message-signalled vector numbers (J.6.3) wait for it.
-4. **The atomics** (decided in principle; operand layout and litmus tests to come): the discard list of 6.16.28 depends on them.
-5. **The nested-guest question:** version 1 has none (6.16.27); what a later version does is open.
-6. **The hypervisor level's own registers** (6.16.5): the details of the VHE-style regime.
-7. **The names and encodings:** the third exit flag, `TLBIAS`, the invalidate by guest-physical page, the mask of `GENTER`.
 
 ## PASTE ENDS: section 6.16
 
