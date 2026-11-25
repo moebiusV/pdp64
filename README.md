@@ -7,6 +7,8 @@ Parent: [All Projects](https://moebiusv.github.io/) | Git Repo: [github.com/moeb
 
 *It began as a mashup of the PDP-11 and the Commodore 64 with secure extensions, and grew into a 64-bit symmetric-multiprocessing CPU with more security and more convenience: the history is [the evolution of the design](docs/design/evolution.md), a design note outside the manual.*
 
+**The principles every decision is judged by: [read them online](https://moebiusv.github.io/pdp64/docs/principles.html)**, [`docs/principles.md`](docs/principles.md): safety first, then speed measured as run time, then fewer instructions, dense encoding, a good compiler target, and an instruction set pleasant enough to keep in your head.
+
 **The manual: [read it online](https://moebiusv.github.io/pdp64/docs/manual/00-index.html)**, [`docs/manual/`](docs/manual/00-index.md); it is also a book (`book/pdp64.pdf`; hand-written source: [`docs/manual-src/`](docs/manual-src/README.md)). Ten chapters (introduction, bus, graphics, boot, device drivers, kernel, multiple processors, vectors and AI, the instruction set, the path to silicon), every instruction with its own entry in chapter 9 (syntax, encoding drawing, operation, flags, exceptions), the [reference tables](docs/manual/dictionary/index.md) ([online](https://moebiusv.github.io/pdp64/docs/manual/dictionary/index.html)), and appendices on improvements, pending decisions, a glossary, the ABI and the assembly language.
 
 
