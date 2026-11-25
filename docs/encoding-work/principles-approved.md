@@ -41,7 +41,7 @@ Each item says where it comes from: **[you]** is your own list or words, **[ten]
 
 ## Part 4. How we work together (not design principles; kept so they are not lost)
 
-* Explain everything to the old PDP-11 assembler and Unix programmer who has been asleep for fifty years, so that he can understand it. Explain in plain words; the story first, then the mechanism, then the detail; one question at a time; each question says what it closes and what we lose.
+* Write for an expert PDP-11 assembly and Unix programmer, steeped in the computer science of his day, who has been asleep for fifty years: assume what he knew (the PDP-11 and its handbook, V6 and V7 internals, memory management, the operating-systems and architecture literature up to the late 1970s), and explain what has happened since, and why, so that he can understand it. Explain in plain words; the story first, then the mechanism, then the detail; one question at a time; each question says what it closes and what we lose.
 * The manual is first person, states what is, has no marks, no errata references, no leanings and no undecided matters in the chapters (open items are in the design notes); a few benchmark tables are rationale; detailed gate counts wait for real Verilog.
 * Do not overwrite before the replacement is verified; save every benchmark and every answer; push only when told.
 * The manual is built with buildabook, so that cross references stay proper: every change to it is followed by the three checks, and a check that is skipped counts as a failure.
