@@ -265,7 +265,7 @@ The raw interface changes with paging. `physio` of 5.1 translated one address an
 
 ## 5.7 The console, the timer and the entropy source
 
-**5.7.1** A core in secure mode takes no periodic timer tick, and the main cores are tickless (my words).: the form of the timer that serves them.
+**5.7.1** A core in secure mode takes no periodic timer tick, and the main cores are tickless. The timer is two system registers, `TIME`, a counter that only counts up, and `TIMECMP`, a deadline: when the counter reaches a deadline that is not zero the core takes one interrupt at level 6, vector 32, and the handler writes the next deadline. There is no device page for the timer and no clock that a user program can read (6.16.28, 6.16.2).
 
 **5.7.2** The entropy source is one pool shared by all cores, with no per-process pool, no version register and no updatable firmware; it assists the operating system's own generator, which absorbs into the pool and squeezes from it, and a read with a known and wanted effect is not a strange side effect (my decision on random numbers).: whether a physical source stands behind the pool, and how the pool is reached.
 

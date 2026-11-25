@@ -332,10 +332,10 @@ VEC = {'reset': 'processor reset: the first instruction fetch', 'machine-check':
        'ifault': 'instruction fetch from a page that is not mapped', 'lfault': 'load from a page that is not mapped', 'sfault': 'store to a page that is not mapped',
        'iprot': 'instruction fetch denied by the page permissions', 'lprot': 'load denied by the page permissions', 'sprot': 'store denied by the page permissions',
        'divzero': 'division by zero (`DIV`, `DIVU`, `MOD`, `MODU`)', 'busfault': 'a read of non-existent memory (a precise abort)', 'lpad': 'an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1)',
-       'bpt': 'the `BPT` instruction', 'check': 'a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`; errata 152)', 'irq-base': 'the first interrupt vector', 'timer': 'the timer interrupt (level 6)', 'console-in': 'console receive interrupt (level 4)',
+       'bpt': 'the `BPT` instruction', 'check': 'a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`)', 'irq-base': 'the first interrupt vector', 'timer': 'the timer interrupt (level 6)', 'console-in': 'console receive interrupt (level 4)',
        'console-out': 'console transmit interrupt (level 4)',
        'pcie-inta': 'PCI Express interrupt pin A of the model host bridge (level 5)', 'pcie-intb': 'PCI Express interrupt pin B (level 5)', 'pcie-intc': 'PCI Express interrupt pin C (level 5)', 'pcie-intd': 'PCI Express interrupt pin D (level 5)',
-       'hexit': 'the instruction exit of a guest, in the hypervisor\'s vector table only (6.14, errata 195, 196)', 'gifault': 'a guest-physical instruction fault (stage 2), in the hypervisor\'s table only',
+       'hexit': 'the instruction exit of a guest, in the hypervisor\'s vector table only (6.16.16)', 'gifault': 'a guest-physical instruction fault (stage 2), in the hypervisor\'s table only',
        'glfault': 'a guest-physical load fault (stage 2), in the hypervisor\'s table only', 'gsfault': 'a guest-physical store fault (stage 2), in the hypervisor\'s table only',
        'iommu': 'the IOMMU unit\'s own interrupt, a wired line (level 5; 2.11.11)', 'trap-base': '`TRAP #n` and `TRAPL #n` enter vector 256 + n', 'count': 'the number of vectors; the table has this many eight-byte entries'}
 PSWD = {'c': 'carry (borrow after a subtract)', 'v': 'signed overflow', 'z': 'zero', 'n': 'negative', 't': 'trace: take a trace trap after the next instruction', 'pri': 'interrupt priority level, 0 to 7', 'mode': 'current mode', 'prev': 'previous mode (the mode before the last exception)', 'ua': 'user-access guard: with it clear a kernel-mode data access to a user page faults (6.10.1)'}
@@ -367,8 +367,8 @@ HV_MEANING = {
 
 
 def hypervisor_section():
-    L = ['', '## The hypervisor mode (6.14)', '',
-         'The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf` (errata 195, 196); the registers themselves (numbers 128 to 147) are in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.', '',
+    L = ['', '## The hypervisor mode (6.16)', '',
+         'The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf`; the registers themselves are in the table of 6.16.7 and in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.', '',
          '| Rule | Name | Number | What the rule is |', '|---|---|---|---|']
     for rule, items in SYS.items():
         if rule not in HV_MEANING:
@@ -380,7 +380,7 @@ def hypervisor_section():
 
 def iommu_section():
     L = ['', '## The IOMMU (2.11) and the DMA test function of the model', '',
-         'The registers, bit numbers, command codes and fault codes of the unit, from `spec/grammars.d/51-iommu-v1.hbnf` (errata 194). A number is a position, a width, a byte offset or a value, as the description of its rule says. The page-table entry of a device is the processor\'s (`pte` above).', '',
+         'The registers, bit numbers, command codes and fault codes of the unit, from `spec/grammars.d/51-iommu-v1.hbnf`. A number is a position, a width, a byte offset or a value, as the description of its rule says. The page-table entry of a device is the processor\'s (`pte` above).', '',
          '| Rule | Name | Number | What the rule is |', '|---|---|---|---|']
     for rule, items in SYS.items():
         if not (rule.startswith('iommu-') or rule.startswith('dmatest-')):
@@ -457,7 +457,7 @@ def notation():
           % (d['registers'], d['registers'] - 1,
              'the full number of bits (%d), or fewer where the field names one of the hot registers' % (d['registers'].bit_length() - 1),
              rn(d['hot8']), ('; the 4-bit fields hold, in order, ' + rn(d['hot16'])) if d['hot16'] else ''))
-    t += " `PUSHM` and `POPM` take a 32-bit mask (errata 87)."
+    t += " `PUSHM` and `POPM` take a 32-bit mask."
     return t
 
 

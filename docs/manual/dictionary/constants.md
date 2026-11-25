@@ -54,8 +54,8 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `BUSFAULT` | 13 | a read of non-existent memory (a precise abort) |
 | `LPAD` | 14 | an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1) |
 | `BPT` | 15 | the `BPT` instruction |
-| `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`; errata 152) |
-| `HEXIT` | 17 | the instruction exit of a guest, in the hypervisor's vector table only (6.14, errata 195, 196) |
+| `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`) |
+| `HEXIT` | 17 | the instruction exit of a guest, in the hypervisor's vector table only (6.16.16) |
 | `GIFAULT` | 18 | a guest-physical instruction fault (stage 2), in the hypervisor's table only |
 | `GLFAULT` | 19 | a guest-physical load fault (stage 2), in the hypervisor's table only |
 | `GSFAULT` | 20 | a guest-physical store fault (stage 2), in the hypervisor's table only |
@@ -165,9 +165,9 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 | `hi` | 13 |  |
 | `los` | 14 |  |
 
-## The hypervisor mode (6.14)
+## The hypervisor mode (6.16)
 
-The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf` (errata 195, 196); the registers themselves (numbers 128 to 147) are in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.
+The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf`; the registers themselves are in the table of 6.16.7 and in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.
 
 | Rule | Name | Number | What the rule is |
 |---|---|---|---|
@@ -224,7 +224,7 @@ The numbers of the exit-reason codes, the trap-control bits and the stage-2 regi
 
 ## The IOMMU (2.11) and the DMA test function of the model
 
-The registers, bit numbers, command codes and fault codes of the unit, from `spec/grammars.d/51-iommu-v1.hbnf` (errata 194). A number is a position, a width, a byte offset or a value, as the description of its rule says. The page-table entry of a device is the processor's (`pte` above).
+The registers, bit numbers, command codes and fault codes of the unit, from `spec/grammars.d/51-iommu-v1.hbnf`. A number is a position, a width, a byte offset or a value, as the description of its rule says. The page-table entry of a device is the processor's (`pte` above).
 
 | Rule | Name | Number | What the rule is |
 |---|---|---|---|

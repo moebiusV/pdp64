@@ -76,6 +76,18 @@
 | **secure mode** | the mode of a core in which every timing channel is removed (every instruction and cache fetch takes a time independent of its data), with private cache lines and no periodic tick; on every core or on one secure core, by the rule of 7.11.3 |
 | **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.6) |
 | **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.5) |
+| **hypervisor** | a small kernel whose programs are whole operating systems; it runs at the hypervisor level, `H` = 1 (6.14, 6.16.3) |
+| **guest, host** | a guest is an operating system that runs under a hypervisor as if it owned the machine; the host is the real machine (6.14) |
+| **`H`** | the state bit, outside the status word, that says the hypervisor is running (6.16.3) |
+| **`HVE`** | the strap, fixed by the machine, that says it has a hypervisor mode; with it clear `H` is always 0 (6.16.3) |
+| **exit** | the event by which a guest stops and the hypervisor starts: a trapped instruction, a hypercall, an interrupt or a fault in stage 2; `HEXITR` says which (6.16.15) |
+| **hypercall** | a `TRAP` or `TRAPL` number routed to the hypervisor by the trap-control register; the guest's system call to the hypervisor (6.16.11) |
+| **world switch** | the exit of one guest and the entry of the next, with the hypervisor saving and loading the guest's state between them (6.16.20) |
+| **`GENTER`** | `GENTER #mask` enters a guest from the hypervisor; the mask names the registers it keeps (6.16.17, 6.16.18) |
+| **stage 1, stage 2** | the guest's own page tables, and the hypervisor's tables that turn a guest-physical address into a real one (6.16.21) |
+| **guest tag** | the 16-bit number, allocated by the hardware, that marks the translation-buffer entries of one guest (6.16.22) |
+| **arena** | the one run of real pages in which the hypervisor keeps its stage-2 tables, so that the hardware knows when a table has changed (6.16.25) |
+| **epoch word** | the word in memory that a core adds one to when it has changed the arena, and that other cores read at entry to a guest (6.16.25) |
 
 ## B.3 The bus, devices and boot
 

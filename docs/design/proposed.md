@@ -973,7 +973,7 @@ Stage 2, as `MSHA`; the layout of the parameter block is not specified.
 
 #### B.2.11 Virtualisation (R8)
 
-**B.2.11.1** Decided: see section 6.14. The details that are still to be determined are those named in the statements of 6.14 and in J.2.3.
+**B.2.11.1** Decided: see sections 6.14 to 6.16; the statements are those of 6.16.
 
 #### B.2.12 Enumeration and hot-plug (N1 to N3)
 

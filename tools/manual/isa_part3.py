@@ -2,35 +2,35 @@
 from isa_common import *
 
 ATNOTE = ('The sub-opcodes and the semantics of this group are specified.')
-ATFLAG = 'Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.'
-ATEXC = 'Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.'
+ATFLAG = 'None for the read-modify-write forms; `SC` reports success in `Rd`.'
+ATEXC = 'Page fault, protection fault, bus error, or a precise fault (nothing changed, `EPC` the instruction) on an address that is not naturally aligned and on memory that is not ordinary cached memory (uncached memory or a device register). The access is atomic with respect to every initiator, cores and devices alike.'
 ATCF = '7.4 (atomic operations: the reservation monitor), 7.3 (the multiprocessor instructions at a glance), 7.5 (the memory model).'
 
 ENTRIES = [
     E('CAS', 'atomics', ['cas', 'casdb'], 'Compare and swap',
-      ['CAS expected, new, (address)        ; size is 4 or 8 bytes', 'CASDB ...                            ; with a full barrier'],
-      '''old <- M[address]                         ; 4 or 8 bytes, naturally aligned
-if old == expected then M[address] <- new
-result <- old          ; the program compares result with expected to learn whether the swap happened''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('SWAP', 'atomics', ['swap', 'swapdb'], 'Atomic exchange', ['SWAP value, (address)', 'SWAPDB ...'],
-      '''old <- M[address] ; M[address] <- value ; result <- old''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('XADD', 'atomics', ['xadd', 'xadddb'], 'Atomic fetch and add', ['XADD value, (address)', 'XADDDB ...'],
-      '''old <- M[address] ; M[address] <- old + value ; result <- old''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+      ['CAS Rd, Rs, (Ra)        ; three registers: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); size is 4 or 8 bytes', 'CASDB ...               ; with a full barrier'],
+      '''old <- M[Ra]                              ; 4 or 8 bytes, naturally aligned, ordinary cached memory
+if old == Rd then M[Ra] <- Rs
+Rd <- old              ; the program compares Rd with the value it expected to learn whether the swap happened''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('SWAP', 'atomics', ['swap', 'swapdb'], 'Atomic exchange', ['SWAP Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAPDB ...'],
+      '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('XADD', 'atomics', ['xadd', 'xadddb'], 'Atomic fetch and add', ['XADD Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the operand, Rd the old value; size 4 or 8 bytes', 'XADDDB ...'],
+      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('XAND', 'atomics', ['xand', 'xanddb', 'xor_', 'xor_db', 'xxor', 'xxordb'], 'Atomic fetch and and, or, xor',
-      ['XAND value, (address)', 'XOR_ value, (address)        ; the trailing underscore keeps the mnemonic distinct from XOR', 'XXOR value, (address)', 'each with a DB form'],
-      '''old <- M[address]
-XAND: M[address] <- old AND value
-XOR_: M[address] <- old OR value
-XXOR: M[address] <- old XOR value
-result <- old''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+      ['XAND Rd, Rs, (Ra)', 'XOR_ Rd, Rs, (Ra)        ; the trailing underscore keeps the mnemonic distinct from XOR', 'XXOR Rd, Rs, (Ra)', 'each with a DB form'],
+      '''old <- M[Ra]
+XAND: M[Ra] <- old AND Rs
+XOR_: M[Ra] <- old OR Rs
+XXOR: M[Ra] <- old XOR Rs
+Rd <- old''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('XMAX', 'atomics', ['xmax', 'xmaxdb', 'xmin', 'xmindb', 'xmaxu', 'xmaxudb', 'xminu', 'xminudb'], 'Atomic fetch and minimum or maximum',
-      ['XMAX value, (address)', 'XMIN ..., XMAXU ..., XMINU ...', 'each with a DB form'],
-      '''old <- M[address] ; M[address] <- max(old, value) (XMAX, XMAXU) or min (XMIN, XMINU) ; result <- old
+      ['XMAX Rd, Rs, (Ra)', 'XMIN ..., XMAXU ..., XMINU ...', 'each with a DB form'],
+      '''old <- M[Ra] ; M[Ra] <- max(old, Rs) (XMAX, XMAXU) or min (XMIN, XMINU) ; Rd <- old
 signed for XMAX and XMIN, unsigned for the U forms''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('LLSC', 'atomics', ['ll', 'sc'], 'Load-linked and store-conditional', ['LL (address), Rd', 'SC value, (address), result'],
-      '''LL: Rd <- M[address] ; take a reservation on the granule containing address
-SC: if the reservation is intact then M[address] <- value ; result <- 0 (success)
-    else nothing is written ; result <- 1 (failure)
+    E('LLSC', 'atomics', ['ll', 'sc'], 'Load-linked and store-conditional', ['LL Rd, (Ra)', 'SC Rd, Rs, (Ra)'],
+      '''LL: Rd <- M[Ra] ; take a reservation on the granule containing the address
+SC: if the reservation is intact then M[Ra] <- Rs ; Rd <- 0 (success)
+    else nothing is written ; Rd <- 1 (failure)
 a write to the granule by any initiator, core or device, clears the reservation''', ATFLAG, ATEXC, '9.13, 7.4',
       notes='A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). ' + ATNOTE, cf=ATCF, xnote=ATNOTE),
 
@@ -74,9 +74,10 @@ CLUA: PSW.UA <- 0''', NOFLAGS, PRIV + ' A non-zero pad byte is an illegal instru
       notes='`UA` is bit 12 of the status word. With `UA` clear, a kernel-mode data access (a load, a store or an operand of a block instruction) to a page whose `U` bit is set takes the load or store protection fault; `PROBER`, `PROBEW` and an instruction fetch are not affected. Exception entry clears `UA` and `EPSW` keeps the old value; `RTI` restores it, and `MTPS` writes it from kernel mode. Outside kernel mode the bit has no effect.', cf='6.10, 6.13.7.'),
     E('GENTER', 'system', ['genter'], 'Enter a guest', ['GENTER #mask'],
       '''if H = 0: exit to the hypervisor (code 18)
-else: ISYNC ; PSW <- HEPSW ; PC <- HEPC ; H <- 0 ; every Rn (n != 14) whose bit n of mask is zero <- 0 ; if bit 14 of mask is zero, the vector registers and FPSR <- 0''', NOFLAGS,
+else: ISYNC ; discard the guest's cached translations if the arena's flag or the epoch word says so ; PSW <- HEPSW ; make the guest's registers the live ones ; PC <- HEPC ; H <- 0
+      every Rn (n != 14) whose bit n of mask is zero <- 0 ; if bit 14 of mask is zero, the vector registers and FPSR <- 0 ; any LL reservation is cleared''', NOFLAGS,
       'Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 18; in a guest\'s user mode it is the guest\'s privileged-instruction exception (the guest\'s own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.', '9.14',
-      notes='The one new instruction of the hypervisor mode (6.14). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, switches `R14` and `DP` from the hypervisor\'s bank to the bank of the guest\'s mode, clears `H`, and clears the naming of the vector accumulators and any `LL` reservation (the world switch). The mask is that of `RTI` (6.3.8) and is always applied, a guest being a lesser mode; the instruction is six bytes. Nothing else is done: no translation-buffer entry is removed, and no general register is written but the ones the mask clears. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).', cf='6.14, 6.13.'),
+      notes='The one new instruction of the hypervisor mode (6.16). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest\'s registers the live ones (the ordinary register names mean the guest\'s own again), clears `H`, and clears every general register whose bit the mask does not name and, with bit 14 of the mask zero, the vector registers and the floating-point flags. There is only this form: the mask is in the instruction and no system register holds it, and the hypervisor keeps nothing in registers across the guest\'s run. Nothing else is done: no translation-buffer entry is removed unless the arena\'s flag or the epoch word says so (6.16.25), and no general register is written but the ones the mask clears. If a virtual interrupt line is pending and above the guest\'s priority, it is taken before the first guest instruction. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).', cf='6.16.17, 6.16.18, 6.13.'),
     # ---- SYSREG ----
     E('MFSR', 'system', ['mfsr', 'mtsr'], 'Move from and to a system register', ['MFSR Rd, name', 'MTSR name, Rs'],
       '''MFSR: Rd <- system register `name`
@@ -97,7 +98,7 @@ MFPS: Rd <- PSW''', '`MTPS` writes the flags from `Rs`; `MFPS` writes none.', 'A
       '''TLBIAS: invalidate the non-global translations of address-space number Rs[15:0], of the tag in force, on this core and by broadcast on the others
 TLBIGP: (H = 1 only) invalidate the translations of the tag in GTBR that used the guest-physical page named by Rs''', NOFLAGS,
       PRIV + ' `TLBIAS` in a guest exits under the same trap-control bit as `TLBI`. `TLBIGP` is legal only in the hypervisor mode: a guest in kernel mode exits with code 18, in user mode takes its own privileged-instruction exception, and with no hypervisor (HVE clear) it is an illegal instruction.', '9.14',
-      notes='An implementation may discard more than is asked: one that keeps no guest-physical page discards the whole tag for `TLBIGP`. `TLBIGP` is the invalidate of a hypervisor that has changed one second-stage entry.', cf='6.8.3, 6.14.')
+      notes='An implementation may discard more than is asked: one that keeps no guest-physical page discards the whole tag for `TLBIGP`. `TLBIGP` is the invalidate of a hypervisor that has changed one second-stage entry.', cf='6.8.3, 6.16.24.')
 ,
     E('MTASID', 'system', ['mtasid', 'mfasid'], 'Move to and from the address-space identifier', ['MTASID Rs', 'MFASID Rd'],
       '''MTASID: ASID <- Rs[15:0]          
@@ -108,7 +109,7 @@ MFDP: Rd <- DP''', NOFLAGS, NONE, '9.14',
     E('MTDMW', 'system', ['mtdmw'], 'Move to a direct-mapping window', ['MTDMW Rs'], 'DMW0 <- Rs          ; stored; it has no effect on translation', NOFLAGS, PRIV, '9.14',
       notes='The direct-mapping windows are stored and have no effect on translation.', cf='6.9.'),
     E('MFCPUID', 'system', ['mfcpuid'], 'Read the processor identifier', ['MFCPUID Rd'], 'Rd <- CPUID', NOFLAGS, PRIV, '9.14',
-      notes='The index of this core, for per-CPU data. It is privileged (6.2.5, 6.14.11): the kernel reads it once and keeps it in the per-CPU structure.', cf='7.8, 7.11.'),
+      notes='The index of this core, for per-CPU data. It is privileged (6.2.5, 6.16.14): the kernel reads it once and keeps it in the per-CPU structure.', cf='7.8, 7.11.'),
     E('ICINV', 'system', ['icinv'], 'Invalidate the instruction cache for an address', ['ICINV Rs'], 'invalidate the instruction-cache line containing the address in Rs', NOFLAGS,
       'Not privileged (6.2.6): a program that generates code needs it.', '9.14', cf='7.5.'),
     E('PROBE', 'system', ['prober', 'probew'], 'Probe an address for read or write access', ['PROBER Rd, Rs', 'PROBEW Rd, Rs'],

@@ -32,7 +32,7 @@
 
 **9.2.5** Anything that changes what an instruction means is, by default, visible state set by an instruction that names it, not hidden state; whether a mode bit is worth its cost is decided case by case. Compatibility is by conversion instructions where that is cheap.
 
-**9.2.6** Every instruction can be restarted after a fault, and exceptions are precise; the machine has no hidden instruction state, except the hidden state of a vector block, which restarts from the entry of the block (6.14.9).
+**9.2.6** Every instruction can be restarted after a fault, and exceptions are precise; the machine has no hidden instruction state that a program can see. The one exception is the hidden resume record of a vector block that an exception interrupted: a program sees nothing of it except its token and the time it saves, an implementation need not keep one, and it is discarded as 6.16.31 says, after which the block starts again from its first strip.
 
 **9.2.7** Floating point is done in the general registers; there is no separate floating-point register file.
 
@@ -278,7 +278,7 @@
 
 **9.13.1** The atomic group `ATOM` holds `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in chapter 7.
 
-**9.13.2** `CAS` operates on 4 or 8 bytes; an 8-byte compare-and-swap may span two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members).
+**9.13.2** `CAS` operates on 4 or 8 bytes, and every atomic has the three register fields of 7.4.5, `CAS Rd, Rs, (Ra)` with the expected and the old value in `Rd`; an aligned 8-byte compare-and-swap may cover two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members).
 
 *Commentary.* The official entry of each instruction is below, in this section; chapter 7 gives the reasons, the memory model and the use. **Impact.** *Kernel:* the entries below are all a kernel needs to write its locks; chapter 7 explains how they compose. *Compiler:* a lock acquire is one `_DB` instruction. *Hardware:* a reservation monitor beside the data cache.
 

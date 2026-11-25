@@ -32,7 +32,7 @@
 
 **9.2.5** Anything that changes what an instruction means is, by default, visible state set by an instruction that names it, not hidden state; whether a mode bit is worth its cost is decided case by case. Compatibility is by conversion instructions where that is cheap.
 
-**9.2.6** Every instruction can be restarted after a fault, and exceptions are precise; the machine has no hidden instruction state, except the hidden state of a vector block, which restarts from the entry of the block (6.14.9).
+**9.2.6** Every instruction can be restarted after a fault, and exceptions are precise; the machine has no hidden instruction state that a program can see. The one exception is the hidden resume record of a vector block that an exception interrupted: a program sees nothing of it except its token and the time it saves, an implementation need not keep one, and it is discarded as 6.16.31 says, after which the block starts again from its first strip.
 
 **9.2.7** Floating point is done in the general registers; there is no separate floating-point register file.
 
@@ -128,7 +128,7 @@
 
 **Notation.** `Rd` is the destination register, `Rs` the first source, `Rt` the second, `Ru` the third; the assembler writes the destination last, and the operands of a chart are numbered `op1`, `op2`, ... in the order of the assembly syntax. `rm` is a general operand: a register, or a memory operand, an immediate, a pc-relative or an absolute address, by the addressing forms that the layouts of the instruction give (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. `N Z V C` are the condition flags. In the charts the bits of a parcel are numbered from 15 at the left, a shaded box is a fixed value, and a white box is a field that varies.
 
-**Registers.** The pdp64 has 32 registers, `R0` to `R31`. A register field of an instruction is the full number of bits (5), or fewer where the field names one of the hot registers; the entries that name `R0` to `R15` apply to `R16` to `R31` too; the hot-register tables are part of the ABI: the 3-bit fields hold, in order, `R0` `R1` `R8` `R2` `SP` `R3` `R9` `R10`; the 4-bit fields hold, in order, `R0` `R1` `R8` `R2` `SP` `R3` `R9` `R10` `R11` `R4` `R15` `R5` `R24` `R25` `R26` `R6`. `PUSHM` and `POPM` take a 32-bit mask (errata 87).
+**Registers.** The pdp64 has 32 registers, `R0` to `R31`. A register field of an instruction is the full number of bits (5), or fewer where the field names one of the hot registers; the entries that name `R0` to `R15` apply to `R16` to `R31` too; the hot-register tables are part of the ABI: the 3-bit fields hold, in order, `R0` `R1` `R8` `R2` `SP` `R3` `R9` `R10`; the 4-bit fields hold, in order, `R0` `R1` `R8` `R2` `SP` `R3` `R9` `R10` `R11` `R4` `R15` `R5` `R24` `R25` `R26` `R6`. `PUSHM` and `POPM` take a 32-bit mask.
 <!-- /notation -->
 
 *Cf. section 6.7 for the memory types that decide whether an access is cached, and section 6.4 for what a faulting load leaves behind.*
@@ -6796,7 +6796,7 @@ Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, eac
 
 **9.13.1** The atomic group `ATOM` holds `CAS`, `SWAP`, `XADD`, `XAND`, `XOR_`, `XXOR`, `XMAX`, `XMIN`, `XMAXU` and `XMINU`, each with a `_DB` variant that adds a barrier, and `LL` and `SC`; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in chapter 7.
 
-**9.13.2** `CAS` operates on 4 or 8 bytes; an 8-byte compare-and-swap may span two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members).
+**9.13.2** `CAS` operates on 4 or 8 bytes, and every atomic has the three register fields of 7.4.5, `CAS Rd, Rs, (Ra)` with the expected and the old value in `Rd`; an aligned 8-byte compare-and-swap may cover two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members).
 
 *Commentary.* The official entry of each instruction is below, in this section; chapter 7 gives the reasons, the memory model and the use. **Impact.** *Kernel:* the entries below are all a kernel needs to write its locks; chapter 7 explains how they compose. *Compiler:* a lock acquire is one `_DB` instruction. *Hardware:* a reservation monitor beside the data cache.
 
@@ -6808,8 +6808,8 @@ Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, eac
 **Syntax**
 
 ```
-CAS expected, new, (address)        ; size is 4 or 8 bytes
-CASDB ...                            ; with a full barrier
+CAS Rd, Rs, (Ra)        ; three registers: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); size is 4 or 8 bytes
+CASDB ...               ; with a full barrier
 ```
 
 **Encoding**
@@ -6823,14 +6823,14 @@ The chart is the leaf `R4-1`, R4, prefix `11010001`. `op1` is `reg5`: register, 
 **Operation**
 
 ```
-old ← M[address]                         ; 4 or 8 bytes, naturally aligned
-if old = expected then M[address] ← new
-result ← old          ; the program compares result with expected to learn whether the swap happened
+old ← M[Ra]                              ; 4 or 8 bytes, naturally aligned, ordinary cached memory
+if old = Rd then M[Ra] ← Rs
+Rd ← old              ; the program compares Rd with the value it expected to learn whether the swap happened
 ```
 
-**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+**Flags** None for the read-modify-write forms; `SC` reports success in `Rd`.
 
-**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+**Exceptions** Page fault, protection fault, bus error, or a precise fault (nothing changed, `EPC` the instruction) on an address that is not naturally aligned and on memory that is not ordinary cached memory (uncached memory or a device register). The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
 
@@ -6844,7 +6844,7 @@ The sub-opcodes and the semantics of this group are specified.
 ![CAS: R4, prefix 11010001, sub-opcode 1101; operands reg5, reg5, reg5, reg5; 4 bytes](figures/w/cas/01.svg)
 
 ```
-CAS expected, new, (address)
+CAS Rd, Rs, (Ra)
 ```
 
 Operation, flags and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
@@ -6868,7 +6868,7 @@ Operation, flags and exceptions as for the entry CAS above; 1 layout form, each 
 **Syntax**
 
 ```
-SWAP value, (address)
+SWAP Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the value, Rd the old value
 SWAPDB ...
 ```
 
@@ -6883,12 +6883,12 @@ The chart is the leaf `R3-1`, R3, prefix `1111000110`. `op1` is `reg5`: register
 **Operation**
 
 ```
-old ← M[address] ; M[address] ← value ; result ← old
+old ← M[Ra] ; M[Ra] ← Rs ; Rd ← old
 ```
 
-**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+**Flags** None for the read-modify-write forms; `SC` reports success in `Rd`.
 
-**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+**Exceptions** Page fault, protection fault, bus error, or a precise fault (nothing changed, `EPC` the instruction) on an address that is not naturally aligned and on memory that is not ordinary cached memory (uncached memory or a device register). The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
 
@@ -6902,7 +6902,7 @@ The sub-opcodes and the semantics of this group are specified.
 ![SWAP: R3, prefix 1111000110, sub-opcode 0100000; operands reg5, reg5, reg5; 4 bytes](figures/w/swap/01.svg)
 
 ```
-SWAP value, (address)
+SWAP Rd, Rs, (Ra)
 ```
 
 Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
@@ -6926,7 +6926,7 @@ Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each
 **Syntax**
 
 ```
-XADD value, (address)
+XADD Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the operand, Rd the old value; size 4 or 8 bytes
 XADDDB ...
 ```
 
@@ -6941,12 +6941,12 @@ The chart is the leaf `R3-1`, R3, prefix `1111000110`. `op1` is `reg5`: register
 **Operation**
 
 ```
-old ← M[address] ; M[address] ← old + value ; result ← old
+old ← M[Ra] ; M[Ra] ← old + Rs ; Rd ← old
 ```
 
-**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+**Flags** None for the read-modify-write forms; `SC` reports success in `Rd`.
 
-**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+**Exceptions** Page fault, protection fault, bus error, or a precise fault (nothing changed, `EPC` the instruction) on an address that is not naturally aligned and on memory that is not ordinary cached memory (uncached memory or a device register). The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
 
@@ -6960,7 +6960,7 @@ The sub-opcodes and the semantics of this group are specified.
 ![XADD: R3, prefix 1111000110, sub-opcode 0011110; operands reg5, reg5, reg5; 4 bytes](figures/w/xadd/01.svg)
 
 ```
-XADD value, (address)
+XADD Rd, Rs, (Ra)
 ```
 
 Operation, flags and exceptions as for the entry XADD above; 1 layout form, each a chart of its own (above).
@@ -6984,9 +6984,9 @@ Operation, flags and exceptions as for the entry XADD above; 1 layout form, each
 **Syntax**
 
 ```
-XAND value, (address)
-XOR_ value, (address)        ; the trailing underscore keeps the mnemonic distinct from XOR
-XXOR value, (address)
+XAND Rd, Rs, (Ra)
+XOR_ Rd, Rs, (Ra)        ; the trailing underscore keeps the mnemonic distinct from XOR
+XXOR Rd, Rs, (Ra)
 each with a DB form
 ```
 
@@ -7001,16 +7001,16 @@ The chart is the leaf `R3-1`, R3, prefix `1111000110`. `op1` is `reg5`: register
 **Operation**
 
 ```
-old ← M[address]
-XAND: M[address] ← old AND value
-XOR_: M[address] ← old OR value
-XXOR: M[address] ← old XOR value
-result ← old
+old ← M[Ra]
+XAND: M[Ra] ← old AND Rs
+XOR_: M[Ra] ← old OR Rs
+XXOR: M[Ra] ← old XOR Rs
+Rd ← old
 ```
 
-**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+**Flags** None for the read-modify-write forms; `SC` reports success in `Rd`.
 
-**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+**Exceptions** Page fault, protection fault, bus error, or a precise fault (nothing changed, `EPC` the instruction) on an address that is not naturally aligned and on memory that is not ordinary cached memory (uncached memory or a device register). The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
 
@@ -7024,7 +7024,7 @@ The sub-opcodes and the semantics of this group are specified.
 ![XAND: R3, prefix 1111000110, sub-opcode 0100010; operands reg5, reg5, reg5; 4 bytes](figures/w/xand/01.svg)
 
 ```
-XAND value, (address)
+XAND Rd, Rs, (Ra)
 ```
 
 Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
@@ -7042,7 +7042,7 @@ Operation, flags and exceptions as for the entry XAND above; 1 layout form, each
 ![XOR_: R3, prefix 1111000110, sub-opcode 0100100; operands reg5, reg5, reg5; 4 bytes](figures/w/xor-/01.svg)
 
 ```
-XOR_ value, (address)
+XOR_ Rd, Rs, (Ra)
 ```
 
 Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
@@ -7060,7 +7060,7 @@ Operation, flags and exceptions as for the entry XAND above; 1 layout form, each
 ![XXOR: R3, prefix 1111000110, sub-opcode 0100110; operands reg5, reg5, reg5; 4 bytes](figures/w/xxor/01.svg)
 
 ```
-XXOR value, (address)
+XXOR Rd, Rs, (Ra)
 ```
 
 Operation, flags and exceptions as for the entry XAND above; 1 layout form, each a chart of its own (above).
@@ -7080,7 +7080,7 @@ Operation, flags and exceptions as for the entry XAND above; 1 layout form, each
 **Syntax**
 
 ```
-XMAX value, (address)
+XMAX Rd, Rs, (Ra)
 XMIN ..., XMAXU ..., XMINU ...
 each with a DB form
 ```
@@ -7096,13 +7096,13 @@ The chart is the leaf `R3-1`, R3, prefix `1111000110`. `op1` is `reg5`: register
 **Operation**
 
 ```
-old ← M[address] ; M[address] ← max(old, value) (XMAX, XMAXU) or min (XMIN, XMINU) ; result ← old
+old ← M[Ra] ; M[Ra] ← max(old, Rs) (XMAX, XMAXU) or min (XMIN, XMINU) ; Rd ← old
 signed for XMAX and XMIN, unsigned for the U forms
 ```
 
-**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+**Flags** None for the read-modify-write forms; `SC` reports success in `Rd`.
 
-**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+**Exceptions** Page fault, protection fault, bus error, or a precise fault (nothing changed, `EPC` the instruction) on an address that is not naturally aligned and on memory that is not ordinary cached memory (uncached memory or a device register). The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
 
@@ -7116,7 +7116,7 @@ The sub-opcodes and the semantics of this group are specified.
 ![XMAX: R3, prefix 1111000110, sub-opcode 0101000; operands reg5, reg5, reg5; 4 bytes](figures/w/xmax/01.svg)
 
 ```
-XMAX value, (address)
+XMAX Rd, Rs, (Ra)
 ```
 
 Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each a chart of its own (above).
@@ -7182,8 +7182,8 @@ Operation, flags and exceptions as for the entry XMAX above; 1 layout form, each
 **Syntax**
 
 ```
-LL (address), Rd
-SC value, (address), result
+LL Rd, (Ra)
+SC Rd, Rs, (Ra)
 ```
 
 **Encoding**
@@ -7197,15 +7197,15 @@ The chart is the leaf `R3-1`, R3, prefix `1111000110`. `op1` is `reg5`: register
 **Operation**
 
 ```
-LL: Rd ← M[address] ; take a reservation on the granule containing address
-SC: if the reservation is intact then M[address] ← value ; result ← 0 (success)
-    else nothing is written ; result ← 1 (failure)
+LL: Rd ← M[Ra] ; take a reservation on the granule containing the address
+SC: if the reservation is intact then M[Ra] ← Rs ; Rd ← 0 (success)
+    else nothing is written ; Rd ← 1 (failure)
 a write to the granule by any initiator, core or device, clears the reservation
 ```
 
-**Flags** Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.
+**Flags** None for the read-modify-write forms; `SC` reports success in `Rd`.
 
-**Exceptions** Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.
+**Exceptions** Page fault, protection fault, bus error, or a precise fault (nothing changed, `EPC` the instruction) on an address that is not naturally aligned and on memory that is not ordinary cached memory (uncached memory or a device register). The access is atomic with respect to every initiator, cores and devices alike.
 
 A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). The sub-opcodes and the semantics of this group are specified.
 
@@ -7219,7 +7219,7 @@ A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps w
 ![LL: R3, prefix 1111000110, sub-opcode 0110000; operands reg5, reg5, reg5; 4 bytes](figures/w/ll/01.svg)
 
 ```
-LL (address), Rd
+LL Rd, (Ra)
 ```
 
 Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
@@ -7230,7 +7230,7 @@ Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each
 ![SC: R3, prefix 1111000110, sub-opcode 0110001; operands reg5, reg5, reg5; 4 bytes](figures/w/sc/01.svg)
 
 ```
-SC value, (address), result
+SC Rd, Rs, (Ra)
 ```
 
 Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
@@ -7871,16 +7871,17 @@ The chart is the leaf `RETM-1`, RETM, prefix `11111100011001`. `op1` is `imm32u`
 
 ```
 if H = 0: exit to the hypervisor (code 18)
-else: ISYNC ; PSW ← HEPSW ; PC ← HEPC ; H ← 0 ; every Rn (n ≠ 14) whose bit n of mask is zero ← 0 ; if bit 14 of mask is zero, the vector registers and FPSR ← 0
+else: ISYNC ; discard the guest's cached translations if the arena's flag or the epoch word says so ; PSW ← HEPSW ; make the guest's registers the live ones ; PC ← HEPC ; H ← 0
+      every Rn (n ≠ 14) whose bit n of mask is zero ← 0 ; if bit 14 of mask is zero, the vector registers and FPSR ← 0 ; any LL reservation is cleared
 ```
 
 **Flags** None written.
 
 **Exceptions** Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 18; in a guest's user mode it is the guest's privileged-instruction exception (the guest's own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.
 
-The one new instruction of the hypervisor mode (6.14). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, switches `R14` and `DP` from the hypervisor's bank to the bank of the guest's mode, clears `H`, and clears the naming of the vector accumulators and any `LL` reservation (the world switch). Nothing else is done: no translation-buffer entry is removed, and no general register is written but the ones the mask clears. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).
+The one new instruction of the hypervisor mode (6.16). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest's registers the live ones (the ordinary register names mean the guest's own again), clears `H`, and clears every general register whose bit the mask does not name and, with bit 14 of the mask zero, the vector registers and the floating-point flags. There is only this form: the mask is in the instruction and no system register holds it, and the hypervisor keeps nothing in registers across the guest's run. Nothing else is done: no translation-buffer entry is removed unless the arena's flag or the epoch word says so (6.16.25), and no general register is written but the ones the mask clears. If a virtual interrupt line is pending and above the guest's priority, it is taken before the first guest instruction. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).
 
-**Cf.** 6.14, 6.13.
+**Cf.** 6.16.17, 6.16.18, 6.13.
 
 
 ### MFSR: Move from and to a system register
@@ -8199,7 +8200,7 @@ An implementation may discard more than is asked: one that keeps no guest-physic
 
 **Why it is here.** A context switch that reuses an address-space number, or a process that ends, must remove every translation of that number, not one page at a time; `TLBIAS` does it in one instruction. `TLBIGP` is for the hypervisor, which changes a second-stage entry and knows only the guest-physical page.
 
-**Cf.** 6.8.3, 6.14.
+**Cf.** 6.8.3, 6.16.24.
 
 <a id="w-tlbias"></a>
 #### TLBIAS
@@ -8411,7 +8412,7 @@ Rd ← CPUID
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
-The index of this core, for per-CPU data. It is privileged (6.2.5, 6.14.11): the kernel reads it once and keeps it in the per-CPU structure.
+The index of this core, for per-CPU data. It is privileged (6.2.5, 6.16.14): the kernel reads it once and keeps it in the per-CPU structure.
 
 **Why it is here.** Part of the multiprocessor operations, because per-CPU data needs each core to know which one it is.
 
