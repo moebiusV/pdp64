@@ -101,11 +101,11 @@ MODU: Rd <- Ra mod Rb (unsigned)''', NOFLAGS, 'Division by zero aborts with the 
       notes='Division by a constant is a `MULH` and a shift, so a real divide is rare; this is why divide has no two-byte form.', cf='6.3 (the divide-by-zero vector).'),
     E('MULHU', 'arith', ['mulhu'], 'Multiply, high 64 bits, unsigned', ['MULHU Ra, Rb, Rd'], 'Rd <- (Ra * Rb)[127:64]    ; unsigned', NOFLAGS, NONE, '9.7',
       ),
-    E('ABS', 'arith', ['abs'], 'Absolute value (assembler alias)', ['ABS Rs, Rd'], 'Rd <- |Rs|', 'Open with the expansion ([J.9.1](appendix-j-open.md#j91)).', NONE, '9.7', alias="`ABS` is an assembler alias, not a native instruction (the author's decision, errata 98). Meaning: `Rd <- |Rs|`. Open: its expansion, and with it the flags it leaves ([J.9.1](appendix-j-open.md#j91))."),
+    E('ABS', 'arith', ['abs'], 'Absolute value (assembler alias)', ['ABS Rs, Rd'], 'Rd <- |Rs|', 'Open with the expansion ([J.9.1](appendix-j-open.md#j91)).', NONE, '9.7', alias="`ABS` is an assembler alias, not a native instruction (my decision). Meaning: `Rd <- |Rs|`. Open: its expansion, and with it the flags it leaves ([J.9.1](appendix-j-open.md#j91))."),
     E('MINMAX', 'arith', ['min', 'minu', 'max', 'maxu'], 'Minimum and maximum, signed and unsigned (assembler aliases)',
       ['MIN Ra, Rb, Rd', 'MINU Ra, Rb, Rd', 'MAX Ra, Rb, Rd', 'MAXU Ra, Rb, Rd'],
       '''MIN : Rd <- smaller of Ra, Rb (signed)         MINU: unsigned
-MAX : Rd <- larger of Ra, Rb (signed)          MAXU: unsigned''', 'Open with the expansion ([J.9.1](appendix-j-open.md#j91)).', NONE, '9.7', alias="`MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions (the author's decision, errata 98). Meaning: the smaller or the larger of `Ra` and `Rb`, signed for `MIN` and `MAX` and unsigned for `MINU` and `MAXU`. Open: their expansion, and with it the flags they leave ([J.9.1](appendix-j-open.md#j91))."),
+MAX : Rd <- larger of Ra, Rb (signed)          MAXU: unsigned''', 'Open with the expansion ([J.9.1](appendix-j-open.md#j91)).', NONE, '9.7', alias="`MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions (my decision). Meaning: the smaller or the larger of `Ra` and `Rb`, signed for `MIN` and `MAX` and unsigned for `MINU` and `MAXU`. Open: their expansion, and with it the flags they leave ([J.9.1](appendix-j-open.md#j91))."),
     E('SET', 'arith', ['set'], 'Set a register from a condition', ['SET cc, Rd        ; for example SET EQ, R1'],
       'Rd <- 1 if condition cc holds on the current flags, else 0', NOFLAGS, NONE, '9.7',
       notes='The condition is the `x` field of parcel 1, numbered as the low nibble of the branch opcodes (`al` 0, `ne` 1, `eq` 2, ... `los` 14).'),

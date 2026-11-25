@@ -2,9 +2,9 @@
 
 [← manual index](00-index.md)
 
-**The machine starts the way the PDP-11 did: a small ROM in the controller chip loads one block from the boot device and jumps to it, and every later stage is an ordinary program, open source, compiled by the project's own compiler.** This chapter is written for a reader who has keyed a bootstrap in on a PDP-11 front panel, used a boot ROM, or typed `boot` at the `:` prompt of Unix Version 7 or 2.11BSD, or who is learning computing from the start, and who has not met anything invented after the 1970s: no BIOS, no UEFI, no partition table, no device tree, no start-up of a second processor, no firmware update. It follows the author's order: the PDP-11 boot (4.1), then the systems that came between, the VAX, the Commodore 64, the PC's BIOS with the MBR, and the GPT with UEFI (4.2), each with the one thing it added; then the pdp64's boot, stage by stage (4.3 to 4.9), with the numbered decisions where the reader meets them; then the five boots and the pdp64 side by side (4.11). The wider review of how other systems boot is [`boot.md`](../boot.md). A fact about an older or another machine that could not be checked on this computer is marked *unverified* and listed in 4.12.
+**The machine starts the way the PDP-11 did: a small ROM in the controller chip loads one block from the boot device and jumps to it, and every later stage is an ordinary program, open source, compiled by the project's own compiler.** I wrote this chapter for you if you have keyed a bootstrap in on a PDP-11 front panel, used a boot ROM, or typed `boot` at the `:` prompt of Unix Version 7 or 2.11BSD, or are learning computing from the start, and have not met anything invented after the 1970s: no BIOS, no UEFI, no partition table, no device tree, no start-up of a second processor, no firmware update. It follows my order: the PDP-11 boot (4.1), then the systems that came between, the VAX, the Commodore 64, the PC's BIOS with the MBR, and the GPT with UEFI (4.2), each with the one thing it added; then the pdp64's boot, stage by stage (4.3 to 4.9), with the numbered decisions where you meet them; then the five boots and the pdp64 side by side (4.11). The wider review of how other systems boot is [`boot.md`](../boot.md). A fact about an older or another machine that could not be checked on this computer is marked *unverified* and listed in 4.12.
 
-*How to read this chapter.* A term is defined where it first appears, as the technical word followed by a plain restatement. Boxes-and-arrows pictures are the kind a textbook draws for a linked list: a box is a piece of memory, a register or a program, an arrow says what is handed on. Code blocks are pseudocode (C-like, `#` starts a comment) unless the text says they are PDP-11 assembly; the PDP-11 code is quoted from the V7M sources on this machine. The decisions are the numbered statements. Where a statement is decided and its details are not yet worked out, the text says `Details pending` and points to appendix J.
+*How to read this chapter.* A term is defined where it first appears, as the technical word followed by a plain restatement. Boxes-and-arrows pictures are the kind a textbook draws for a linked list: a box is a piece of memory, a register or a program, an arrow says what is handed on. Code blocks are pseudocode (C-like, `#` starts a comment) unless the text says they are PDP-11 assembly; the PDP-11 code is quoted from the V7M sources on this machine. The decisions are the numbered statements.
 
 ## 4.1 What you already know: starting a PDP-11
 
@@ -57,7 +57,7 @@ The ROM put this program at address 0. It copies itself to the top of the first 
 
 ## 4.2 What came between: the VAX, the Commodore 64, the PC with a BIOS, the GPT with UEFI
 
-The author named four systems between the PDP-11 and the pdp64: "pdp11 boot, vax boot, c64 boot, the x86 bios boot with mbr, then finally the gpt/uefi". Each added or removed one thing from the PDP-11 chain, and each is told here as steps and with the one idea it contributed. The marks: **(read)** is read in the sources on this machine, **(repo)** is from the repository's documents, **(unverified)** is general knowledge, the handbooks and specifications not being here.
+I named four systems between the PDP-11 and the pdp64: "pdp11 boot, vax boot, c64 boot, the x86 bios boot with mbr, then finally the gpt/uefi". Each added or removed one thing from the PDP-11 chain, and each is told here as steps and with the one idea it contributed. The marks: **(read)** is read in the sources on this machine, **(repo)** is from the repository's documents, **(unverified)** is general knowledge, the handbooks and specifications not being here.
 
 ### The VAX: a console computer starts the machine
 
@@ -130,7 +130,7 @@ From the PDP-11 to the pdp64 the first code moved from the operator's keys, to a
 | Services for the loader | none: the bootstrap has its own driver | software interrupts | boot services | the loader has its own drivers |
 | Finding the kernel | a name typed at `:` | partition boot record, `/boot` | the loader on a FAT partition | the second stage finds the kernel by name |
 | Telling the kernel about the machine | registers | registers and the BIOS's memory map (unverified) | the memory map and ACPI or a device tree | the boot-information block |
-| Starting other processors | none | INIT and START-UP signals | the same | the controller chip starts them (details pending, [J.4.6](appendix-j-open.md#j46)) |
+| Starting other processors | none | INIT and START-UP signals | the same | the controller chip starts them (see [J.4.6](appendix-j-open.md#j46)) |
 
 ![The PC path beside the pdp64 path](figures/boot-pc-vs-pdp64.svg)
 
@@ -147,17 +147,17 @@ From the PDP-11 to the pdp64 the first code moved from the operator's keys, to a
 
 ![The boot stages as a chain](figures/boot-stages.svg)
 
-**Why open source, and why it is in the specification.** The author's words: "we'll have an open source boot sector boot loader as part of the spec; that is part of the spec that the boot loader/bios is open source." The firmware that ships on a PC is typically a vendor's build whose source the owner does not have (unverified), runs before anything the owner can inspect, and stays resident afterwards (4.2). In the pdp64 every stage after the controller's own sequencer is a published source file built by the project's compiler, and the ROM is in the same position, so no closed program sits at the root of the chain. The licence is that of the whole project (errata 48: "bsd license for everything"; the 2-clause variant is the assistant's choice of the common default, noted there). The UEFI specification itself is published (4.9), so what is closed on a PC is the shipped firmware and not the specification.
+**Why open source, and why it is in the specification.** My words: "we'll have an open source boot sector boot loader as part of the spec; that is part of the spec that the boot loader/bios is open source." The firmware that ships on a PC is typically a vendor's build whose source the owner does not have (unverified), runs before anything the owner can inspect, and stays resident afterwards (4.2). In the pdp64 every stage after the controller's own sequencer is a published source file built by the project's compiler, and the ROM is in the same position, so no closed program sits at the root of the chain. The licence is that of the whole project (I said: "bsd license for everything"; the 2-clause variant is my choice of the common default). The UEFI specification itself is published (4.9), so what is closed on a PC is the shipped firmware and not the specification.
 
 *Commentary.* **Chain.** The PDP-11's ROM and `ODT` did jobs 1, 2 and (as a monitor) 4 of the BIOS list; the PC added job 3, the services, so that a 512-byte sector could read a disk; UEFI turned job 2 into a loader file and job 3 into boot and runtime services. Other architectures fill the same roles under other names: Open Firmware on SPARC and PowerPC (OpenBSD's `sparc64/stand/ofwboot` is a loader for it, and QEMU carries `openbios-sparc64` and `openbios-ppc` images: read), U-Boot on ARM and PowerPC boards (QEMU carries `u-boot` images: read; its use on ARM is unverified), OpenSBI on RISC-V (QEMU carries `opensbi-riscv64-generic-fw_dynamic.bin`, and OpenBSD's riscv64 kernel calls it through `sbi_*` functions: read), the console of the Alpha (OpenBSD's `alpha/include/rpb.h` takes its restart block from DEC's system programmer's manual, 4.6; the name SRM is unverified) and the console processor of the VAX (4.2). x86 firmware also keeps resident system-management code that the operating system cannot see (unverified); arm64 and RISC-V servers need trusted firmware and usually UEFI beside it (unverified), though OpenBSD's arm64 and riscv64 ports do boot through `efiboot` (read). **Impact.** *Compiler:* builds the ROM, loader and tools.
 
 ## 4.4 The reset state and the first block
 
-As on the PDP-11, a ROM reads block 0 of the boot device into low memory and starts core 0 there. The ROM is in the **controller chip** (the chip that holds the boot ROM, `boot.md`), which brings up the memory and holds every other core in **reset** (a state in which a core executes nothing and keeps no state). On the PDP-11 the equivalent was the processor's own power-up and the ROM or the front panel. The author summarised the PDP-11 way (2026-10-22) as "load 512 byte block 0 then jmp 0", "not precisely true, but directionally true"; here the "jmp 0" becomes a jump to the address block 0 was loaded to, because the first page holds the vectors.
+As on the PDP-11, a ROM reads block 0 of the boot device into low memory and starts core 0 there. The ROM is in the **controller chip** (the chip that holds the boot ROM, `boot.md`), which brings up the memory and holds every other core in **reset** (a state in which a core executes nothing and keeps no state). On the PDP-11 the equivalent was the processor's own power-up and the ROM or the front panel. I summarised the PDP-11 way (2026-10-22) as "load 512 byte block 0 then jmp 0", "not precisely true, but directionally true"; here the "jmp 0" becomes a jump to the address block 0 was loaded to, because the first page holds the vectors.
 
 **4.4.1** At reset the ROM in the controller chip reads block 0 of the boot device into low memory and starts core 0 at it, as the PDP-11's ROM did.
 
-Details pending: the address block 0 is loaded to and how many pages "the first few" are ([J.4.1](appendix-j-open.md#j41)); how the ROM finds the boot device and maps its windows before any software has assigned them ([J.4.3](appendix-j-open.md#j43)); which boot media the ROM tries, and in what order ([J.4.7](appendix-j-open.md#j47)); the state core 0 starts in ([J.4.9](appendix-j-open.md#j49)).
+
 
 The ROM's job as pseudocode (an illustration of 4.4.1; the register state and the checks are pending):
 
@@ -174,7 +174,7 @@ rom_entry():                                  # core 0; every other core is held
     monitor()                                 # nothing booted: the monitor (4.10)
 ```
 
-**The first few pages of memory.** The **vector table** (the table of handlers that an exception or an interrupt jumps through, chapter 6) is **one whole page**, 512 entries of 8 bytes, at address 0, because the system register `VBR` (vector base register) is zero at reset (6.12). The PDP-11's was a fixed table of a few hundred bytes at 0 to 0377, and its boot programs lived elsewhere. Block 0 is therefore loaded above the table, so that the first stage runs without overwriting the vectors. The author's rule of errata 102 is that no device window is mapped in **the first few pages**, where "the boot stuff is loaded" (2.3.5).
+**The first few pages of memory.** The **vector table** (the table of handlers that an exception or an interrupt jumps through, chapter 6) is **one whole page**, 512 entries of 8 bytes, at address 0, because the system register `VBR` (vector base register) is zero at reset (6.12). The PDP-11's was a fixed table of a few hundred bytes at 0 to 0377, and its boot programs lived elsewhere. Block 0 is therefore loaded above the table, so that the first stage runs without overwriting the vectors. My rule is that no device window is mapped in **the first few pages**, where "the boot stuff is loaded" (2.3.5).
 
 *Commentary.* **Chain.** PDP-11: ROM or keys read block 0 and jump, the boot device in registers. VAX: a console or a boot ROM does the same with the boot block and registers `r1` to `r5` (4.2). PC: the BIOS reads one 512-byte sector to a fixed address (unverified: the address); the IBM mainframes' IPL record and the Alpha console's boot block are the same idea (unverified); ARM boards load a first-stage loader from the boot medium (unverified). UEFI: no block 0, a file run from a FAT partition. pdp64: the PDP-11 step again.
 
@@ -182,7 +182,7 @@ rom_entry():                                  # core 0; every other core is held
 
 **What a partition is, and why V7 had none on the disk.** A disk is one long run of blocks, and a computer wants several regions of it: a root file system, a swap area, a place for the users' files. A **partition** is such a region, and something has to record where each begins and ends. There are three places for the record, and the chain from the PDP-11 visits each. V7 put it **in the kernel**: the disk driver compiles in a table (`hp_sizes[8]` in V7's `hp.c`), so changing the layout means a new kernel; 4.3BSD's `vaxmba/hp.c` also compiles in its size tables (`rp06_sizes[8]`, `rm03_sizes[8]` and others). The 4.3BSD-Tahoe `disklabel.h` (1988: its header is dated 6/27/88) put it **on the disk**: a **disk label**, a structure in one of the first blocks holding the disk's geometry and a table of its partitions, "in block 0 or 1, possibly offset from the beginning to leave room for a bootstrap", marked by the magic number `0x82564557`. 2.11BSD's block 0 holds the bootstrap and its block 1 the label, the same two places as here. OpenBSD's label is its descendant: the same magic number, **16 partitions** (`MAXPARTITIONS16`, against Tahoe's 8) and sector counts beyond 32 bits (`d_secperunith` holds the high part). The third place is the PC's, a **table in the first sector** (the MBR table of 4.2, then the GPT).
 
-**Why the pdp64 has both a GPT and a label.** The author (errata 50, 2026-10-22, R260): "fine, we will have the gpt wrapper for the disk label." The disk carries a GPT with a protective MBR, so that other operating systems and partitioning tools recognise it, and the operating system's own partition (type `GPT_UUID_OPENBSD`) holds the BSD label, which says where the root file system, swap and the rest are. The label alone would be smaller and unreadable to everything else; the wrapper costs a GPT reader in the second stage and the kernel. The author added (errata 51, "follow the majority as far as boot block offset"): inside the OS partition the label is at **sector 1, offset 0**, the sector that most of OpenBSD's ports use, leaving sector 0 for a boot block.
+**Why the pdp64 has both a GPT and a label.** I said (2026-10-22): "fine, we will have the gpt wrapper for the disk label." The disk carries a GPT with a protective MBR, so that other operating systems and partitioning tools recognise it, and the operating system's own partition (type `GPT_UUID_OPENBSD`) holds the BSD label, which says where the root file system, swap and the rest are. The label alone would be smaller and unreadable to everything else; the wrapper costs a GPT reader in the second stage and the kernel. I added ("follow the majority as far as boot block offset"): inside the OS partition the label is at **sector 1, offset 0**, the sector that most of OpenBSD's ports use, leaving sector 0 for a boot block.
 
 **Block 0 is the protective MBR.** Because the disk uses the GPT wrapper, block 0 is the protective MBR of that wrapper: 446 bytes of boot code, a partition table (one entry, type `0xEE`) and the signature `0xAA55` (the bytes `0x55`, `0xAA`). The first stage is the code in those 446 bytes.
 
@@ -190,7 +190,7 @@ rom_entry():                                  # core 0; every other core is held
 
 **4.5.2** Block 0 is the protective MBR, so the first stage lives in its 446 boot-code bytes.
 
-Details pending: what the first stage carries to find the second stage ([J.4.8](appendix-j-open.md#j48)), and how the first stage, which is one block of code, reads blocks from the disk ([J.4.2](appendix-j-open.md#j42)).
+
 
 The first stage as pseudocode (an illustration of 4.5.2):
 
@@ -213,9 +213,9 @@ first_stage():                                # at LOAD: 446 bytes of code
 
 ![The protective MBR, the GPT and the disk label](figures/boot-disk-layout.svg)
 
-The **superblock** (the file system's first record: its size, its block size and where its tables are) sits at byte 8192 of the partition, after the 8 KB boot area that the BSD tradition reserves for the bootstraps (4.3BSD-Tahoe's `disklabel.h` comments the area as "primary (block 0) and secondary (block 1-15) bootstraps", read; errata 51: sector 0 the primary bootstrap, sectors 1 to 15 the label and a secondary bootstrap; the VAX's `raboot` of 4.2 loads sectors 1 to 15).
+The **superblock** (the file system's first record: its size, its block size and where its tables are) sits at byte 8192 of the partition, after the 8 KB boot area that the BSD tradition reserves for the bootstraps (4.3BSD-Tahoe's `disklabel.h` comments the area as "primary (block 0) and secondary (block 1-15) bootstraps", read; my layout puts the primary bootstrap in sector 0 and the label and a secondary bootstrap in sectors 1 to 15; the VAX's `raboot` of 4.2 loads sectors 1 to 15).
 
-Details pending: where the second stage lies on the disk, and whether a dedicated boot partition is needed ([J.4.8](appendix-j-open.md#j48)).
+
 
 *Commentary.* **Chain.** V7: sizes in the driver, nothing on the disk. 4.3BSD-Tahoe: the label on the disk. PC: an MBR table of four 32-bit entries, then the GPT with a protective MBR. pdp64: the GPT outside, the BSD label inside. OpenBSD's tree has seven architecture headers with the label at sector 1 offset 0 (amd64, i386, arm, arm64, riscv64, hppa, powerpc64) and Alpha and SPARC64 at sector 0 (offsets 64 and 128); the port adds one header of a dozen lines. **Trade-offs.** The label alone is the smallest design and unreadable to other systems' tools; the GPT wrapper costs a GPT reader in the second stage and the kernel (OpenBSD's kernel already has one) and gives a disk other systems recognise. **Benefits.** The label code, `disklabel`, `newfs` and `installboot` come with OpenBSD. BSDs on UEFI machines combine the same pieces, a GPT with the label inside an OpenBSD-type partition and a FAT partition for the loader (inference: OpenBSD's `disklabel.h` defines `GPT_UUID_OPENBSD` and `GPT_UUID_EFI_SYSTEM` and its `efiboot` reads the latter); Linux has no label of its own (unverified). **Impact.** *Kernel:* the label code and tools come with OpenBSD. *Compiler, hardware:* none.
 
@@ -225,11 +225,11 @@ The second stage does what the PDP-11's `boot` did: it finds the kernel by name,
 
 **The hand-off: how the kernel learns about the machine.** The PDP-11 had four registers and a kernel built for the machine. A kernel that is to run on any pdp64 has to be told about the machine it is on. The way to tell it is a **boot-information block**, a structure in memory. The chain: the PDP-11 passed registers, as did the VAX (`r10`, `r11` to `boot`, 4.2); UEFI passes a memory map and **ACPI tables** or a **device tree** through configuration tables (4.2), and an operating system for several architectures carries a parser for each. The VAX's restart parameter block is a crash-dump record, not a hand-off (4.2); the Alpha's hardware restart parameter block, in OpenBSD's `alpha/include/rpb.h` (read), is a larger record of the same kind: the magic "HWRPB", the page size, the primary CPU, and offsets to per-CPU, console-terminal and memory-data tables, taken from DEC's system programmer's manual. The VAX and Alpha blocks are fixed-layout records of the machine; x86 and ARM servers pass ACPI tables, arm64 and RISC-V a device tree (OpenBSD's loaders look for both, 4.2).
 
-**4.6.1** The second stage carries its own drivers, finds the kernel, loads it and enters it (errata 49: drivers are small, so the second stage carries them).
+**4.6.1** The second stage carries its own drivers, finds the kernel, loads it and enters it (drivers are small, so the second stage carries them).
 
 **4.6.2** The kernel is told about the machine through a boot-information block; because the bus describes its own devices, the kernel enumerates them and the block does not list them (2.4).
 
-Details pending: which fields the boot-information block has, who fills each, and its layout, widths, checksum and version ([J.4.4](appendix-j-open.md#j44)); how the second stage names the kernel and its file format.
+
 
 The second stage as pseudocode (an illustration of 4.6.1 and 4.6.2; the file system, the file name and the format are pending):
 
@@ -245,7 +245,7 @@ second_stage():                               # loaded by the first stage
 
 **4.6.3** The boot-information block carries the video device's base address, size, pitch and pixel format when the boot loader has set it up, and nothing about the device's clock or power state is changed behind the kernel: its pixel clock stays up until the kernel's driver owns the device.
 
-Statement 4.6.3 exists so that the loader can set up a picture for the boot messages and the kernel can keep drawing on it until its own driver takes over, without the screen flickering or going blank: the **framebuffer** the loader set up is described in the block, and the device is left as it is. (That the PC learned this the hard way is the assistant's earlier wording and is unverified.)
+Statement 4.6.3 exists so that the loader can set up a picture for the boot messages and the kernel can keep drawing on it until its own driver takes over, without the screen flickering or going blank: the **framebuffer** the loader set up is described in the block, and the device is left as it is. (That the PC learned this the hard way is my earlier wording and is unverified.)
 
 *Commentary.* **Chain.** PDP-11: a kernel configured at build time, three or four registers. VAX: registers again (`r10`, `r11`), and a restart block. Alpha: the hardware restart parameter block. UEFI-era systems: ACPI tables or a device tree. pdp64: a boot-information block.
 
@@ -255,7 +255,7 @@ Statement 4.6.3 exists so that the loader can set up a picture for the boot mess
 
 **4.7.1** At reset only core 0 runs; at least one other core exists, so a way to start it is always used, and the controller chip provides the way in which the other cores are started.
 
-Details pending: how a core other than core 0 is started, and what state it starts in ([J.4.6](appendix-j-open.md#j46)).
+
 
 ## 4.8 Starting the devices
 
@@ -263,7 +263,7 @@ Details pending: how a core other than core 0 is started, and what state it star
 
 **4.8.1** A device is initialised by a write to a register of the device that tells it to initialise itself, and the initialisation happens behind the bus; a device may also be given values, or a binary firmware image, that it loads.
 
-Details pending: how a virtio device is given firmware, and which devices need it ([J.4.5](appendix-j-open.md#j45)).
+
 
 ## 4.9 Why UEFI is not used
 
@@ -271,9 +271,9 @@ Details pending: how a virtio device is given firmware, and which devices need i
 
 **4.9.2** The hand-off and the second stage are kept simple enough that a UEFI shim could be written by someone who wanted one.
 
-Both statements are the author's decision of 2026-11-10. The record, in his words (the 2026-10-22 messages are rows R256 and R257 of the decision register; the 2026-11-10 ones are quoted from errata 109 and 110 and are not in that register). On 2026-10-22 he asked, of boot, "look into uefi; is it worth it at all? can't we do what pdp11 used to do, load 512 byte block 0 then jmp 0? (not precisely true, but directionally true)", and asked how UEFI plays into partitions and the GPT; the review (`boot.md`) answered that UEFI was not worth it as the machine's own boot, and the earlier text's proposals for the boot were never a decision. On 2026-11-10 he asked "i thought we did decide to allow uefi? check all the threads where we discussed it" (no decision to allow UEFI was found in any recorded message), then "or we kept the originnal simple pdp11 boot block method?", and, given three options, chose "option 2, block 0 with a shim possible".
+Both statements are my decision of 2026-11-10. The record, in my words: on 2026-10-22 I asked, of boot, "look into uefi; is it worth it at all? can't we do what pdp11 used to do, load 512 byte block 0 then jmp 0? (not precisely true, but directionally true)", and asked how UEFI plays into partitions and the GPT; the review (`boot.md`) answered that UEFI was not worth it as the machine's own boot, and the earlier text's proposals for the boot were never a decision. On 2026-11-10 I asked "i thought we did decide to allow uefi? check all the threads where we discussed it" (no decision to allow UEFI was found in any recorded message), then "or we kept the originnal simple pdp11 boot block method?", and, given three options, I chose "option 2, block 0 with a shim possible".
 
-**Is UEFI an open specification, and what does an open-source system do with it?** The author asked, after the decision (2026-11-10): "if uefi isn't an open spec how are all the open source os supporting it? it requires binary firmware blobs?" By what could be checked:
+**Is UEFI an open specification, and what does an open-source system do with it?** After the decision I asked (2026-11-10): "if uefi isn't an open spec how are all the open source os supporting it? it requires binary firmware blobs?" By what could be checked:
 
 * **The specification** is published by the UEFI Forum, the industry body that maintains it, and can be read without charge (general knowledge, unverified: it is not on this machine, and whether implementing it needs a membership, a licence or a compliance test is not known here). The closed part is elsewhere.
 * **An open-source implementation exists.** EDK II, the TianoCore project's reference implementation, is under BSD-2-Clause-Patent (read: `<work>/qemu-src/pc-bios/edk2-licenses.txt`, and `/usr/share/doc/ovmf/copyright`, "Upstream-Name: edk2"). Built images are on this machine (QEMU's `pc-bios/edk2-*.fd.bz2` and `/usr/share/OVMF`, including `OVMF_CODE_4M.secboot.fd`), so an emulated PC boots under open firmware. The source is not here (`roms/edk2` is empty), so nothing about its size or contents was read.
@@ -281,7 +281,7 @@ Both statements are the author's decision of 2026-11-10. The record, in his word
 * **The proprietary blobs are in the firmware shipped on real PCs:** the vendor's builds, and the CPU vendor's initialisation code that brings up memory and the chipset, which many boards include as a binary (unverified, not on this machine). That is a property of how PCs are made, not of the UEFI specification.
 * **Secure Boot** adds a chain of signed loaders and keys kept in the firmware's variable store (unverified; the `secboot` image names above are all that was seen).
 
-The author's conclusion (2026-11-10): "I guess leaving the door open to uefe support but having the classic mbr fallback, gpt wrapper is a good choice then." That **confirms option 2** of errata 109 and decides nothing new. The two routes share one disk: block 0 of the pdp64 disk already has the protective MBR and GPT layout (errata 50, 4.5), so the classic route (the ROM reads block 0) and a future UEFI route (a firmware, or the shim, reads the GPT and a FAT system partition) read the same disk without repartitioning it.
+My conclusion (2026-11-10): "I guess leaving the door open to uefe support but having the classic mbr fallback, gpt wrapper is a good choice then." That **confirms option 2** (block 0 with a shim possible) and decides nothing new. The two routes share one disk: block 0 of the pdp64 disk already has the protective MBR and GPT layout (4.5), so the classic route (the ROM reads block 0) and a future UEFI route (a firmware, or the shim, reads the GPT and a FAT system partition) read the same disk without repartitioning it.
 
 *Commentary.* **Chain.** PDP-11 and VAX: no firmware services. PC: the BIOS, then UEFI to give one installer a way to boot on any machine offering it. OpenBSD's arm64 and riscv64 ports use UEFI and a device tree, with loaders of 7,195 and 4,513 lines; for amd64 the loaders total 15,440 lines, a BIOS boot block of 862 lines and a second stage of 189 beside the UEFI loader of 4,593 (counted; the total includes `libsa`, 6,319). pdp64: block 0, with the door left open. **Trade-offs.** UEFI firmware would let existing generic loaders run unchanged and offer a standard memory map and a secure-boot chain; it costs a large firmware, adds failure modes (variable storage, drivers, boot-order state), enlarges the attack surface, and still needs a device tree or ACPI to describe the devices. **Benefits.** The pdp64 has one architecture and one platform description, the case UEFI was not built for. **Impact.** *Kernel:* no firmware interface, no memory-map translation in the machine itself. *Hardware:* no firmware stack.
 
@@ -289,7 +289,7 @@ The author's conclusion (2026-11-10): "I guess leaving the door open to uefe sup
 
 **4.10.1** The controller's ROM includes a monitor, a small program that takes over when nothing boots and offers a way in to examine and start the machine.
 
-A PDP-11 with a dead disk was not a dead machine: `ODT` let you examine memory and key a bootstrap in (4.1), and V7 shipped `/boot.bu`, a backup of the second stage. The monitor is the pdp64's form of the same idea, and the ROM that reads block 0 (4.4) also holds it. Details pending: its commands, how it is reached, its console and speed, and what is kept in non-volatile memory ([J.4.10](appendix-j-open.md#j410)). As pseudocode (an illustration; the command letters and the prompt are not decided):
+A PDP-11 with a dead disk was not a dead machine: `ODT` let you examine memory and key a bootstrap in (4.1), and V7 shipped `/boot.bu`, a backup of the second stage. The monitor is the pdp64's form of the same idea, and the ROM that reads block 0 (4.4) also holds it. As pseudocode (an illustration; the command letters and the prompt are not decided):
 
 ```
 monitor():                                    # the ROM's console program
@@ -306,7 +306,7 @@ monitor():                                    # the ROM's console program
 
 ## 4.11 Five boots side by side
 
-The five referents in the author's order, and the pdp64 as the sixth, as the chains of 4.1 and 4.2 and 4.3 to 4.9 give them. A dagger marks a cell that rests on general knowledge, unverified; the last column says which of the five the pdp64 resembles.
+The five referents in my order, and the pdp64 as the sixth, as the chains of 4.1 and 4.2 and 4.3 to 4.9 give them. A dagger marks a cell that rests on general knowledge, unverified; the last column says which of the five the pdp64 resembles.
 
 ![Five boots and the pdp64](figures/boot-five-boots.svg)
 
@@ -335,7 +335,7 @@ The rule of the project is: check, do not guess. The handbooks and specification
 * **Other trees:** OpenBSD `share/man/man9/loadfirmware.9`, `arch/alpha/include/rpb.h`, `arch/sparc64/stand/ofwboot`, the `sbi_*` calls in `arch/riscv64`; NetBSD `share/man/man9/firmload.9` and `sys/arch/i386/stand/efiboot`; QEMU `pc-bios` (the `openbios`, `u-boot` and `opensbi` image names); Linux `include/linux/firmware.h` and `Documentation/admin-guide/efi-stub.rst`.
 * **Linux** (`<work>/kernel-src/linux`, `7be4bc52`), re-counted: `smpboot.c` 1,528 lines, `arch/x86/realmode` 1,258 (`.c`, `.h`, `.S`), PSCI 124, spin table 127, RISC-V SBI start 108 and spin 58.
 * **EDK II:** the licence in `qemu-src/pc-bios/edk2-licenses.txt` and `/usr/share/doc/ovmf/copyright`; the x86-64 code image 3,653,632 bytes uncompressed; the `secboot` image names in `/usr/share/OVMF`; no source in `roms/edk2`.
-* **The repository:** the statements of this chapter against `docs/errata.md` (47, 48, 50, 51, 95, 101, 102, 103, 109, 110), `docs/boot.md`, chapters 2, 5 and 6 (2.3.5, 2.7.3, 5.1, 6.12), and the author's messages of 2026-10-22 in `docs/decision-register.md` (R256, R257, R260).
+* **The repository:** the statements of this chapter against `docs/boot.md`, chapters 2, 5 and 6 (2.3.5, 2.7.3, 5.1, 6.12), and my messages of 2026-10-22 in `docs/decision-register.md`.
 * **Unverified** (general knowledge): the front panel's switches and keys and the bootstrap loader of a few words; that a console switch or command chose the boot device; that `ODT` can examine, deposit and start; the date of the IBM PC and the 8086; the BIOS's four jobs and its other services; real mode and the 1 MB limit; the reset vector `0xFFFFFFF0`, the load address `0x7C00` and the boot-device order; the whole Commodore 64 boot (`0xFFFC`, KERNAL, `CBM80` at `0x8000`, BASIC, datasette, 1541); the VAX console processor, VMB and that the console started other processors; the name SRM for the Alpha console; the IBM mainframe IPL record; ARM first-stage loaders; resident system-management code in x86 firmware; the UEFI boot manager, NVRAM variables and Secure Boot; that the UEFI specification requires PE32+ images and FAT on the system partition; the publication terms of the UEFI specification; that the PC learned the video lesson of 4.6.3 "the hard way".
-* **Decided by the author and recorded in `errata.md`:** everything stated as a decision with a tag. The author's 2026-11-10 words are quoted from errata 109 and 110, which are not in the decision register.
+* **Decided:** everything stated as a decision.
 

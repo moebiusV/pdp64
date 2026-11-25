@@ -1,7 +1,7 @@
 <a id="j71"></a>
 ### J.7.1 The wake rule of WFE and the idle loop
 
-**Issue.** `WFE` (wait for event) puts a core to sleep until another core executes `SEV` (send event) or an interrupt arrives (7.10.1). The idle loop of a kernel checks the run queue and then sleeps; if an interrupt arrives between the check and the sleep, it queues work, returns, and the core sleeps with work waiting (a *lost wake-up*, an event that arrives in the gap between the test and the sleep and is never seen). The PDP-11's V7 kernel had the same gap and a clock tick repaired it within one tick. A core that takes no periodic tick has no repair. The question is what ends a `WFE` sleep. The author decided (2026-10-22: "Yes, wake on pending") that `WFE` ends its sleep when an interrupt is pending even if the priority masks it, so that the idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap (7.10.2). What is open is the rest of the wake rule: whether `SEV` is sticky for one wait, and whether other events also end the sleep (options 2 to 5).
+**Issue.** `WFE` (wait for event) puts a core to sleep until another core executes `SEV` (send event) or an interrupt arrives (7.10.1). The idle loop of a kernel checks the run queue and then sleeps; if an interrupt arrives between the check and the sleep, it queues work, returns, and the core sleeps with work waiting (a *lost wake-up*, an event that arrives in the gap between the test and the sleep and is never seen). The PDP-11's V7 kernel had the same gap and a clock tick repaired it within one tick. A core that takes no periodic tick has no repair. The question is what ends a `WFE` sleep. I decided (2026-10-22: "Yes, wake on pending") that `WFE` ends its sleep when an interrupt is pending even if the priority masks it, so that the idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap (7.10.2). What is open is the rest of the wake rule: whether `SEV` is sticky for one wait, and whether other events also end the sleep (options 2 to 5).
 
 **Why it matters.** The idle loop of every kernel, and the port's `cpu_idle_cycle`, depend on it. A lock waiter that could sleep instead of spinning would save memory bandwidth on 16 cores, and the answer decides whether an unlock must execute `SEV`. A wrong rule is a hang that occurs once a week.
 
@@ -15,9 +15,9 @@
 
 **Precedents.** ARM's `WFE` ends on `SEV`, on an interrupt and on the clearing of the exclusive monitor, which is how a lock waiter sleeps until the holder's store *(unverified: general knowledge)*. RISC-V's `wfi` ends when an interrupt is pending and enabled in its own register whatever the global enable says, and may be a no-op; `Zawrs` adds a wait on a reservation *(verified in the repository's notes)*. x86 has `HLT` after `STI` (the instruction after `STI` cannot be interrupted, which makes the pair safe) and `MONITOR`/`MWAIT` on a cache line *(unverified)*. V7's idle routine lowered the priority and executed `wait` in a loop *(verified in the repository's notes)*. OpenBSD's riscv64 idle is `intr_enable(); wfi` with a comment that doubts it *(verified)*.
 
-**The author's referents.** "main cores tickless"; no system named for the idle loop.
+**My referents.** "main cores tickless"; no system named for the idle loop.
 
-**The assistant's leaning.** Option 2, which contains option 1: a lock waiter sleeps without an `SEV`.
+**My leaning.** Option 2, which contains option 1: a lock waiter sleeps without an `SEV`.
 
 **Where the body refers to it.** Sections 6.11 and 7.10.2.
 
@@ -37,9 +37,9 @@
 
 **Precedents.** PDP-11/70 caches were kept coherent by write-through and invalidation on DMA writes *(unverified: from memory)*. Bus-snooping multiprocessors (Sequent, Sun Enterprise) stopped near 16 to 64 processors *(unverified)*; directory machines (Stanford DASH, SGI Origin) scale by messaging the sharers *(unverified)*; x86 uses snoop filters inside a die and directories across sockets; ARM's coherent interconnects use filters or directories *(unverified)*.
 
-**The author's referents.** "4 cores minimum, 16 or more preferred"; "for initial device 4 cores is enough hopefully that fits on the fpga".
+**My referents.** "4 cores minimum, 16 or more preferred"; "for initial device 4 cores is enough hopefully that fits on the fpga".
 
-**The assistant's leaning.** Option 2 as the direction, built in two steps: one cluster of four cores first, with the shared cache designed so a directory can be added; the architecture text says "coherent, sequentially consistent, line size 64 bytes" and nothing of the protocol, so more cores are an implementation and not a change.
+**My leaning.** Option 2 as the direction, built in two steps: one cluster of four cores first, with the shared cache designed so a directory can be added; the architecture text says "coherent, sequentially consistent, line size 64 bytes" and nothing of the protocol, so more cores are an implementation and not a change.
 
 **Where the body refers to it.** Section 7.6.4.
 
@@ -60,9 +60,9 @@
 
 **Precedents.** RISC-V's `AMO` words take three registers, address in `rs1` with no displacement *(unverified: from memory)*; ARM's large-system atomics take registers; x86 takes any memory operand with `LOCK` *(unverified)*. OpenBSD's mutex is one compare-and-swap on the owner word and its ticket lock one add *(verified in the local source)*.
 
-**The author's referents.** None named beyond the PDP-11 and VAX atomics (`DATIP`/`DATO`, interlocked queue instructions).
+**My referents.** None named beyond the PDP-11 and VAX atomics (`DATIP`/`DATO`, interlocked queue instructions).
 
-**The assistant's leaning.** Option 1 now, with the spare field reserved, and a displacement taken only when the OpenBSD port is compiled and the `LEA` count in front of atomics is measured.
+**My leaning.** Option 1 now, with the spare field reserved, and a displacement taken only when the OpenBSD port is compiled and the `LEA` count in front of atomics is measured.
 
 **Where the body refers to it.** Section 7.4.6.
 
@@ -82,16 +82,16 @@
 
 **Precedents.** PCI Express defines `AtomicOp` for fetch-and-add, swap and compare-and-swap *(unverified)*. AXI5 has atomic transactions performed near the memory *(unverified)*. The PDP-11's `DATIP`/`DATO` pair locked the Unibus for the read-modify-write *(verified in the repository's sources)*.
 
-**The author's referents.** None named.
+**My referents.** None named.
 
-**The assistant's leaning.** Option 1 for device pages and option 2 or an abort for uncached normal memory, decided with the transport of the bus; a fault that is easy to detect is better than a silent non-atomic update.
+**My leaning.** Option 1 for device pages and option 2 or an abort for uncached normal memory, decided with the transport of the bus; a fault that is easy to detect is better than a silent non-atomic update.
 
 **Where the body refers to it.** Section 7.4.5.
 
 <a id="j75"></a>
 ### J.7.5 The reservation granule and how software learns its size
 
-**Issue.** `LL` reserves a granule: a naturally aligned piece of memory of a size the implementation chooses, not smaller than 8 bytes (7.4.1). The text leaves the size to the implementation and says that a feature register is to report it (the author lists "granule discovery in the feature registers" as still to write). Nothing says which register, nor what software may assume before it reads it. The size matters to software because two lock words in one granule make an `SC` fail whenever the neighbour is written (false sharing of the reservation), and because a constrained `LL`/`SC` sequence (7.4.2) must not touch the granule between the two instructions.
+**Issue.** `LL` reserves a granule: a naturally aligned piece of memory of a size the implementation chooses, not smaller than 8 bytes (7.4.1). The text leaves the size to the implementation and says that a feature register is to report it (I list "granule discovery in the feature registers" as still to write). Nothing says which register, nor what software may assume before it reads it. The size matters to software because two lock words in one granule make an `SC` fail whenever the neighbour is written (false sharing of the reservation), and because a constrained `LL`/`SC` sequence (7.4.2) must not touch the granule between the two instructions.
 
 **Why it matters.** The kernel lays out its lock words and per-CPU structures with the granule in mind (padding a hot lock to a granule costs memory and saves failed `SC`s). The compiler's `LL`/`SC` loops and the C library's allocator need a safe assumption before any feature register is read. The cache controller's reservation tag, one per core, is sized by it.
 
@@ -104,9 +104,9 @@
 
 **Precedents.** RISC-V lets the implementation choose the size of the reservation set and requires no minimum beyond the word *(unverified: from memory of the specification)*. Arm exposes the exclusives reservation granule size in a system register and gives a range of 8 bytes to 2 KB *(unverified)*. x86's `lock` prefix works on a cache line and has no granule to report *(unverified)*.
 
-**The author's referents.** None named; the spec is the author's (the author: "a naturally aligned granule of the implementation's choice (not smaller than 8 bytes)").
+**My referents.** None named; the spec is mine (I said: "a naturally aligned granule of the implementation's choice (not smaller than 8 bytes)").
 
-**The assistant's leaning.** Option 3, with the maximum equal to the line size once J.7.2 fixes it.
+**My leaning.** Option 3, with the maximum equal to the line size once J.7.2 fixes it.
 
 **Where the body refers to it.** Section 7.4.6.
 
@@ -128,20 +128,20 @@
 
 **Precedents.** x86 `REP MOVS` keeps its progress in registers and, in the fast-string forms, is allowed to order its stores differently from ordinary ones; Linux's `memcpy` uses `rep movsb` where the processor has the fast form (`arch/x86/lib/memcpy_64.S`, read; the rules in the Intel manual are unverified). ARM64 `FEAT_MOPS` splits a copy and a set into prologue, main and epilogue instructions (`cpyp`, `setp` in Linux's `arch/arm64/lib/memcpy.S` and `memset.S`, read), updates the registers as it goes and leaves the order and size of the accesses to the implementation (the architectural wording is unverified). The VAX `MOVC3` and `MOVC5` were interruptible, with the registers as state and a first-part-done bit in the status word (9.11 and J.9.7; the NetBSD VAX copy routines use `movc3`, `subr.S`, read; the memory ordering is moot on a machine that was one processor in most models). The PDP-11 had no block move: a loop of `MOV (R0)+,(R1)+` makes every word its own access in program order (inference). RISC-V's Zicboz zeroes a whole aligned block with one instruction (`ZICBOZ` in Linux's `hwcap.h`, read; its ordering rule is unverified) and proposals for memcpy and memset instructions exist (unverified). A DMA engine, a virtio device, moves its data in any order and publishes it by writing the used ring last, with the driver's barrier between the two (the rule of the virtio specification, unverified here).
 
-**The author's referents.** "rep movsb r1,r2,10;" and "how about mmov mcpy mset ? like ibm system z?" (the author, 2026-10-20); "doesn't mcmp/mmov count?"; VAX `MOVC5` as the argument against hidden state (9.11).
+**My referents.** "rep movsb r1,r2,10;" and "how about mmov mcpy mset ? like ibm system z?" (I, 2026-10-20); "doesn't mcmp/mmov count?"; VAX `MOVC5` as the argument against hidden state (9.11).
 
-**The assistant's leaning.** Option 4 with option 6: ordered as a whole against the other accesses of the core, aligned quads atomic, and element order on device pages. The leaning keeps the flag idiom free of fences, which is what the decision for sequential consistency was bought for. This is the assistant's view, not a decision.
+**My leaning.** Option 4 with option 6: ordered as a whole against the other accesses of the core, aligned quads atomic, and element order on device pages. The leaning keeps the flag idiom free of fences, which is what the decision for sequential consistency was bought for. This is my view, not a decision.
 
 **Where the body refers to it.** Sections 7.5.8, 7.5.9 and 9.11.
 
 <a id="j77"></a>
 ### J.7.7 Secure mode on every core, or one secure core
 
-**Issue.** The author decided on 2026-11-10: "at least one core that can be in 'secure' mode; if it doesn't take too many gates, let that be a mode for all the cores, but if it slows things down too much then return to a single secure core" (7.11.3). Two things are not decided: what counts as "too many gates" and "too much slowdown", and how the two are measured. Secure mode here is the whole of 7.11.3 to 7.11.5: constant-time instructions and cache fetches, private cache lines, no periodic tick, stop and preemption by an inter-processor interrupt, constant-time AES and SHA instructions, the private fixed-latency window, the locked translation buffer, no speculation, a fixed clock, and the clear at a domain switch. The status-word bit `DIT` (9.3.7) is already decided for every core; it makes the data-dependent timing of instructions, of the clock and of prefetch disappear while set, and leaves out the private window, the locked buffer, the absence of speculation and the clear.
+**Issue.** I decided on 2026-11-10: "at least one core that can be in 'secure' mode; if it doesn't take too many gates, let that be a mode for all the cores, but if it slows things down too much then return to a single secure core" (7.11.3). Two things are not decided: what counts as "too many gates" and "too much slowdown", and how the two are measured. Secure mode here is the whole of 7.11.3 to 7.11.5: constant-time instructions and cache fetches, private cache lines, no periodic tick, stop and preemption by an inter-processor interrupt, constant-time AES and SHA instructions, the private fixed-latency window, the locked translation buffer, no speculation, a fixed clock, and the clear at a domain switch. The status-word bit `DIT` (9.3.7) is already decided for every core; it makes the data-dependent timing of instructions, of the clock and of prefetch disappear while set, and leaves out the private window, the locked buffer, the absence of speculation and the clear.
 
 **Why it matters.** A mode of every core means every core carries the extra logic and a kernel may place a secret-handling process anywhere; one secure core means a smaller, simpler design for the rest and a scheduling rule that sends secret work to one core. On four cores, one secure core is a quarter of the first device. The choice sets the class register's fields (7.11.1), the instruction set of 9.9.7 on every core or one, the kernel's affinity rule, and what the first device's FPGA must hold (10.1.3).
 
-**The measurement plan.** *Gates:* synthesise one core twice for the FPGA of the plan, with and without the mode, and compare the lookup-table counts (and block RAMs) of the logic the mode adds: the fixed-latency window, the locked translation buffer, the clear engine, the clock hold, the speculation disable and the AES and SHA datapaths. *Slowdown:* with the mode's circuitry present but unused, measure the instructions per cycle of ordinary mode on the benchmark set and the critical path (the clock the core reaches), the extra multiplexers in the memory path and the cache arrangement the private lines need; separately measure the performance while in secure mode, which is allowed to be slow. *Threshold:* a number for each, set by the author (for example a percentage of the core's lookup tables, a percentage of the clock); nothing is measured yet, and no core has been synthesised (10.1.8).
+**The measurement plan.** *Gates:* synthesise one core twice for the FPGA of the plan, with and without the mode, and compare the lookup-table counts (and block RAMs) of the logic the mode adds: the fixed-latency window, the locked translation buffer, the clear engine, the clock hold, the speculation disable and the AES and SHA datapaths. *Slowdown:* with the mode's circuitry present but unused, measure the instructions per cycle of ordinary mode on the benchmark set and the critical path (the clock the core reaches), the extra multiplexers in the memory path and the cache arrangement the private lines need; separately measure the performance while in secure mode, which is allowed to be slow. *Threshold:* a number for each, set by me (for example a percentage of the core's lookup tables, a percentage of the clock); nothing is measured yet, and no core has been synthesised (10.1.8).
 
 **Options.**
 
@@ -154,8 +154,8 @@
 
 **Precedents.** Arm TrustZone gives every core a secure state (*unverified*; Linux's `PSR_DIT_BIT` in `arch/arm64/include/uapi/asm/ptrace.h` and `PSTATE_DIT` in `sysreg.h` show the data-independent-timing bit on Arm, *read*). Intel SGX and TDX are modes of every core (*unverified* as designs; Linux has an SGX driver, `arch/x86/kernel/cpu/sgx`, and TDX configuration in `arch/x86/Kconfig`, *read*); the repository records that enclaves on a shared core suffer every microarchitectural channel (`hardware-vulnerabilities.md`, the SGX and TEE attacks row, and rule C15 against enclave claims without partitioned hardware, *read*). The RISC-V physical memory protection registers (Linux `arch/riscv/include/asm/csr.h`, `PMP_R`, *read*) and the security extensions are modes of every core (*unverified* beyond the register names). Arm CCA realms are a state of every core (*unverified*). Apple's Secure Enclave and AMD's platform security processor are separate cores (*unverified*); OpenTitan is a separate security chip (*unverified*). The repository's own design (`crypto-secure-core.md`) is a separate core class, and its section 1.4 makes `DIT` constant on it (*read*).
 
-**The author's referents.** "i like your design. approved."; "constant-time AES and SHA instructions"; the decision of 2026-11-10 above; `DIT` (9.3.7).
+**My referents.** "i like your design. approved."; "constant-time AES and SHA instructions"; the decision of 2026-11-10 above; `DIT` (9.3.7).
 
-**The assistant's leaning.** Option 4: build the mode as a class that a die parameter sets, measure the gates and the slowdown on the first device, and let the author's threshold decide between one and all. The gate figures should come before the leaning is trusted. This is the assistant's view, not a decision.
+**My leaning.** Option 4: build the mode as a class that a die parameter sets, measure the gates and the slowdown on the first device, and let my threshold decide between one and all. The gate figures should come before the leaning is trusted. This is my view, not a decision.
 
 **Where the body refers to it.** Sections 7.11 and 7.11.3, and 10.4.3.

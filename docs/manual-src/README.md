@@ -4,7 +4,7 @@
 
 This directory is the one place where the hand-written text of the manual of the pdp64 is written. `tools/mkmanual.py` assembles from it the manual and writes it, together with the generated parts (the instruction entries, the dictionary, the bit-layout charts, read from the grammar of the encoding), into `docs/manual/`. The generated manual is committed, and `tools/check-all.sh` (through `tools/mkmanual.py --check`) fails if a committed file differs from what the generator produces. **Never edit a file under `docs/manual/`: edit this directory (or the generators under `tools/manual/`) and run `tools/mkmanual.py`.**
 
-(Earlier the text of three manuals, for pdp64/r20, pdp64/16 and pdp64/32, was written here with member blocks; pdp64/r20 and pdp64/16 are previous iterations, no longer CPUs with manuals: errata 122.)
+(Earlier the text of three manuals, for pdp64/r20, pdp64/16 and pdp64/32, was written here with member blocks; pdp64/r20 and pdp64/16 are previous iterations, no longer CPUs with manuals.)
 
 ## What is here
 
@@ -23,14 +23,14 @@ The numbers of chapters, sections (`## 9.2`) and numbered statements (`**9.2.3**
 
 ## The body and the three appendices: proposed, deferred, open
 
-**The rule (the author's, 2026-11-10; errata entry 120).** "The manual is about the arch as it is to be, not as it is right now." The chapters describe the architecture as it is to be decided. They do not carry proposals, deferred matters or the discussion of open questions: "the main body of the manual shouldn't have a whiff of them". Those live in three appendices, which are written in fragments, one file for each chapter and kind, so that several people can edit them at the same time.
+**The rule (mine, 2026-11-10).** "The manual is about the arch as it is to be, not as it is right now." The chapters state only what is decided, as the architecture. Matters that are undecided are kept outside the manual: they do not appear in the chapters, no chapter carries proposals, deferred matters or the discussion of open questions, and the manual cites no errata and no decision-register rows. "The main body of the manual shouldn't have a whiff of them". Those matters live in three appendices, which are written in fragments, one file for each chapter and kind, so that several people can edit them at the same time.
 
-* **A decision is a decision, even with its details not yet worked out** (the author, 2026-11-10: "just because we don't have the details hammered out, doesn't mean they aren't full fledged decisions. just mark them with 'details tbd/pending'"). When the author has decided something (a Decided line of the ledger, an erratum headed DECISION, or his own words such as "we will", "we recommend", "i like", "yes", "agreed") it stays in the body as a decided statement, stated as the architecture. The part of it that is not yet worked out is marked in one short sentence in the body: `Details pending ([J.3.2](appendix-j-open.md#j32)).` (or `Details to be determined.` when there is nothing to discuss), and the discussion of that part goes in the open-items appendix. A decision is never moved to appendix H or called open or proposed because its details are missing.
-* **Proposed** (appendix H): an idea or design that the assistant suggested and the author has not accepted, or that the author has not spoken to: a statement tagged *(P)*, a sketch, a list of options for a mechanism.
-* **Deferred** (appendix I): a matter that the author has decided to put off, "later". It is not open (there is a decision, and it is to wait) and it is not proposed.
-* **Open** (appendix J): a question that the architecture must answer and has not; a statement tagged *(S)* (a stub) names one. An open item is not an idea to be considered; the machine cannot be built or its software finished without an answer.
-* **The tags.** *(D)* (decided by the author) stays in the body, unchanged: a decided statement keeps it, and a statement with no tag describes the architecture as it is built and tested. *(P)* and *(S)* are no longer used in the body; a statement moved to appendix H keeps *(P)* and one moved to appendix J keeps *(S)* until it is rewritten as an entry. The generators print tags from the grammar and from `tools/manual/isa_*.py` (the notes of chapter 9 carry `*(D)*`, `*(P)*`, `*(S)*`); the chapter 9 agent moves the *(P)* and *(S)* material out and the *(D)* tags stay as they are.
-* **A feature that is neither decided nor deferred is not mentioned in the body at all**, however much it was discussed (errata 120 names the cases: the three native graphics and sound devices, and the bus name that would mean PCI Express plus the pdp64's own additions, which the manual does not use until such additions are decided).
+* **A decision is a decision, even with its details not yet worked out** (I said on 2026-11-10: "just because we don't have the details hammered out, doesn't mean they aren't full fledged decisions"). When I have decided something (a Decided line of the ledger, or my own words such as "we will", "we recommend", "i like", "yes", "agreed") it stays in the body as a decided statement, stated as the architecture. The chapters carry no "Details pending" or "Details to be determined" note and no status mark; the part that is not yet worked out is kept outside the chapters, in the open-items appendix. A decision is never moved to appendix H or called open or proposed because its details are missing.
+* **Proposed** (appendix H): an idea or design that the assistant suggested and I have not accepted, or that I have not spoken to: a sketch, a list of options for a mechanism.
+* **Deferred** (appendix I): a matter that I have decided to put off, "later". It is not open (there is a decision, and it is to wait) and it is not proposed.
+* **Open** (appendix J): a question that the architecture must answer and has not. An open item is not an idea to be considered; the machine cannot be built or its software finished without an answer.
+* **No status marks.** The chapters carry no tag on a statement: a statement of the body describes the architecture as it is decided, and the manual does not mark a statement as decided, proposed or stub. Material that is not decided lives in the appendices, not in a tagged statement of a chapter. The generators print no such marks into the chapters.
+* **A feature that is neither decided nor deferred is not mentioned in the body at all**, however much it was discussed (the cases are the three native graphics and sound devices, and the bus name that would mean PCI Express plus the pdp64's own additions, which the manual does not use until such additions are decided).
 
 ### The fragment files
 
@@ -55,7 +55,7 @@ The pointer is an ordinary link to the anchor of the entry, rendered by the book
 
 ### An entry of the open-items appendix (fragment `NN-open.md`)
 
-Each entry is an anchor line, a level-3 heading numbered `J.<chapter>.<n>` (`J.D.<n>` for appendix D), and the parts below, in this order. The numbers run 1 to n in the fragment and are never reused once cited. Write the register of the manual: plain declarative prose for a first-year student and an experienced PDP-11 programmer (errata 103); define a term where it first occurs; no implementation remarks ("where things stand"); no recommendation except the labelled leaning.
+Each entry is an anchor line, a level-3 heading numbered `J.<chapter>.<n>` (`J.D.<n>` for appendix D), and the parts below, in this order. The numbers run 1 to n in the fragment and are never reused once cited. Write the register of the manual: plain declarative prose for a first-year student and an experienced PDP-11 programmer; define a term where it first occurs; no implementation remarks ("where things stand"); no recommendation except the labelled leaning.
 
     <a id="j32"></a>
     ### J.3.2 The first few pages
@@ -74,10 +74,10 @@ Each entry is an anchor line, a level-3 heading numbered `J.<chapter>.<n>` (`J.D
     **Precedents.** What other machines or systems did, one line each, marked *(verified)* or
     *(unverified)* as the source says.
 
-    **The author's referents.** The machines, systems or standards that the author named when
-    he spoke of it, in a short line, with his words where they are short.
+    **My referents.** The machines, systems or standards that I named when
+    I spoke of it, in a short line, with my words where they are short.
 
-    **The assistant's leaning.** (Optional.) One option and why, labelled as the assistant's, not a decision.
+    **My leaning.** (Optional.) One option and why, labelled as the assistant's, not a decision.
 
     **Where the body refers to it.** Section numbers (`2.4.3`) of the sentences that carry the pointer.
 

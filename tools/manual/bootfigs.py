@@ -273,7 +273,7 @@ def fig_shim():
     return c.svg()
 
 def fig_five_boots():
-    """The five boots the author named, and the pdp64's, as chains with what each stage knows."""
+    """The five boots I named, and the pdp64's, as chains with what each stage knows."""
     c = Canvas(470)
     c.text(20, 16, 'five boots and the pdp64: who runs, in what order, and what each stage knows', 12, 'start', bold=True)
     rows = [

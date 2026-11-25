@@ -1,4 +1,4 @@
-"""Dictionary entries, part 5: the vec block (docs/encoding-work/vec-isa.md; wave 1 of the revised family, errata 170, removed the tile, the GEMM unit and the gather).
+"""Dictionary entries, part 5: the vec block (docs/encoding-work/vec-isa.md; wave 1 of the revised family, removed the tile, the GEMM unit and the gather).
 
 The words come from the catalogue of the encoding, docs/codegen-data/encoding/vecfam.py, so removing an instruction there (a dud, after the benchmarks) removes its word
 here too; the text is by family.  The family was added to be benchmarked and pruned, the encodings are provisional, and every entry is tagged (P): held back

@@ -14,9 +14,9 @@ STORY = {
 
 'MULHU': "The unsigned partner of `MULH`, for the same reason (the high half of the product). It is in `AESC`, where arithmetic belongs. `MULHSU`, signed times unsigned for a bignum's top limb, is reserved because it can be built from `MULH` with one correction.",
 
-'ABS': "Integer absolute value is the counterpart of `FABS`. The author decided (2026-11-10) that it is an assembler alias, not a native instruction; the compiler's work of recognising `x < 0 ? -x : x` is the real cost, and the expansion is open ([J.9.1](appendix-j-open.md#j91)). The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.",
+'ABS': "Integer absolute value is the counterpart of `FABS`. I decided (2026-11-10) that it is an assembler alias, not a native instruction; the compiler's work of recognising `x < 0 ? -x : x` is the real cost, and the expansion is open ([J.9.1](appendix-j-open.md#j91)). The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.",
 
-'MINMAX': "The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; the author decided (2026-11-10) that they are assembler aliases, not native instructions. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all. Their expansion is open ([J.9.1](appendix-j-open.md#j91)).",
+'MINMAX': "The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; I decided (2026-11-10) that they are assembler aliases, not native instructions. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all. Their expansion is open ([J.9.1](appendix-j-open.md#j91)).",
 
 'SET': "The first instruction written with a condition word: one instruction, `SET cc, Rd`, rather than one opcode per condition, with the condition in a field numbered like the low nibble of the branch opcodes. It turns a comparison used as a value into 0 or 1 without a branch. gcc `-Os` for amd64 emits 673 `set<cc>` on the corpus, and `SET` would remove about six bytes per site, around 0.4% of code; the compiler's first pass turns such a comparison into branches before its second pass sees it, so the saving is not reached in compiled code.",
 

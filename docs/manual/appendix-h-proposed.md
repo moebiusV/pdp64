@@ -17,28 +17,28 @@
 
 ### 3.8 The pdp64 terminal: the blitter (moved from chapter 3)
 
-**3.8.4** (moved from chapter 3) The blitter, the Blit's bit-block-transfer operation as a device, copies and combines rectangles of pixels with raster operations: registers for the source and destination base addresses, the strides, the width and height, a raster operation (the sixteen binary operations of source against destination and the common ternary ones), a mask or transparent colour, and a control register with direction, go, busy and interrupt on done. The device chat chose a three-operand `draw` instead (`decisions-pending.md` E3). The register list is the assistant's sketch from the ISA chat; the author has not discussed it. 
+**3.8.4** (moved from chapter 3) The blitter, the Blit's bit-block-transfer operation as a device, copies and combines rectangles of pixels with raster operations: registers for the source and destination base addresses, the strides, the width and height, a raster operation (the sixteen binary operations of source against destination and the common ternary ones), a mask or transparent colour, and a control register with direction, go, busy and interrupt on done. The device chat chose a three-operand `draw` instead (`decisions-pending.md` E3). The register list is my sketch from the ISA chat; I have not discussed it. 
 
-**3.8.5** (moved from chapter 3) Each of the three is a device in a slot: it is enumerated by the bus, mapped into its own 4 KB page, and found by its identification register like any other (chapters 2 and 5). The device chat put the C64 devices in one 8 KB window per process (`decisions-pending.md` E5). The slot and the page rest on the eight-register convention that errata 95 withdrew for the standard devices. 
+**3.8.5** (moved from chapter 3) Each of the three is a device in a slot: it is enumerated by the bus, mapped into its own 4 KB page, and found by its identification register like any other (chapters 2 and 5). The device chat put the C64 devices in one 8 KB window per process (`decisions-pending.md` E5). The slot and the page rest on the eight-register convention that was withdrawn for the standard devices. 
 
 **3.8.6** (moved from chapter 3) The framebuffer stays plain memory, so that software can draw without the blitter; the blitter is an assist that can be bypassed, not the only way to draw (the Blit authors' advice in 1985 was "transparent, so it can be bypassed"). 
 
 **3.8.7** (moved from chapter 3) Four raster operations are required of the blitter: store, OR, clear and exclusive-OR (these four sufficed on the Blit, and exclusive-OR dominated its use); the other twelve binary operations and the ternary ones are optional. The requirement is the assistant's, from the Blit papers. 
 
-### 3.9 The terminal as the author describes it (moved from chapter 3)
+### 3.9 The terminal as I describe it (moved from chapter 3)
 
-The terminal and its glyph map are decided in principle (3.9.1 in the body). What follows is the assistant's elaboration of the cell and the slot.
+The terminal and its glyph map are decided in principle (3.9.1 in the body). What follows is my elaboration of the cell and the slot.
 
-**What the author's earlier terminal chat adds** (2026-06-18, `docs/c64-devices-from-chat.md` section 6; a separate project, not a pdp64 decision): a cell holds a 32-bit foreground colour, a 32-bit background colour, a UTF-8 character and about eight bits of attributes (bold, italic, underline, blink); "the number of cells take up so little memory, the 64 bits devoted to color is trivial"; "each cell holds its actual data, not a reference to the data"; sprites are a separate plane that composites over the cells; existing tty programs must run through a shim and native programs use the terminal fully, "peek and poke is the internal interface". That design fits the cell array of the figure below and differs from the author's new words in one place: **the chat-era cell holds the character code itself, while the glyph map of the new words implies a slot** (3.14, pair 3, candidate (a) against (b)).
+**What my earlier terminal chat adds** (2026-06-18, `docs/c64-devices-from-chat.md` section 6; a separate project, not a pdp64 decision): a cell holds a 32-bit foreground colour, a 32-bit background colour, a UTF-8 character and about eight bits of attributes (bold, italic, underline, blink); "the number of cells take up so little memory, the 64 bits devoted to color is trivial"; "each cell holds its actual data, not a reference to the data"; sprites are a separate plane that composites over the cells; existing tty programs must run through a shim and native programs use the terminal fully, "peek and poke is the internal interface". That design fits the cell array of the figure below and differs from my new words in one place: **the chat-era cell holds the character code itself, while the glyph map of the new words implies a slot** (3.14, pair 3, candidate (a) against (b)).
 
 ![A cell array and a glyph slot table](figures/gfx-cells-glyphs.svg)
 
 
-As an arithmetic example, with the chat-era cell (about 13 bytes: 4 + 4 + 4 for a character + 1 for attributes) and a 1920 by 1080 screen of 8 by 16 pixel cells, there are 240 columns and 67 rows, 16,080 cells and about 209 KB of cells; with slots of 16 by 32 coverage bytes (512 bytes) and 4,096 slots, the glyph map is 2 MB. Both are small against a 12.4 MB frame at 48 bits (3.11.2), which is the author's observation of 2026-06-18: the cells are small, and text is cheap to store. These are examples, not decisions.
+As an arithmetic example, with the chat-era cell (about 13 bytes: 4 + 4 + 4 for a character + 1 for attributes) and a 1920 by 1080 screen of 8 by 16 pixel cells, there are 240 columns and 67 rows, 16,080 cells and about 209 KB of cells; with slots of 16 by 32 coverage bytes (512 bytes) and 4,096 slots, the glyph map is 2 MB. Both are small against an 8.3 MB frame at 32 bits, which is my observation of 2026-06-18: the cells are small, and text is cheap to store. These are examples, not decisions.
 
 ### 3.10 A peek/poke program for the terminal (moved from chapter 3)
 
-This is what the author's description would let a program do. **No register of the terminal is specified** (3.11), so the capitalised names are placeholders and any number is an example.
+This is what my description would let a program do. **No register of the terminal is specified** (3.11), so the capitalised names are placeholders and any number is an example.
 
 ```
 # placeholders: SCREEN is the base of the cell array, COLS its width in cells,
@@ -64,7 +64,6 @@ Graphics beside text, in the C64 manner, are another array and one more register
 
 ```
 # the graphics plane: a framebuffer of FB_W by FB_H pixels; this sketch uses 32-bit pixels, as the standard device does
-# (the 48-bit pixel of 3.8.2 would be 6 bytes: a different multiplier and three 16-bit stores)
 put_pixel(x, y, colour):
     poke32(FB_BASE + y * FB_STRIDE + x * 4, colour)         # FB_STRIDE counts bytes, as in 3.5
 # sprites, if the design has them (3.9.4: not decided):
@@ -95,7 +94,7 @@ Each line is one store, so the program is as small as the C64's was. Everything 
 
 ### 3.16 What made graphics programming annoying: the pdp64 side (moved from chapter 3)
 
-The goal (3.14.1) and the measure (3.14.2) are the author's and are in the body. The sketches of the pdp64's side below are the assistant's candidates for the means.
+The goal (3.14.1) and the measure (3.14.2) are my and are in the body. The sketches of the pdp64's side below are my candidates for the means.
 
 **Pair 1: getting a picture on the screen at all** (the sketch of the pdp64 side).
 
@@ -109,7 +108,7 @@ w  = peek(DISPLAY_WIDTH); h = peek(DISPLAY_HEIGHT)
 poke(fb + (y * w + x) * 4, 0xFFFFFFFF)     # a white pixel: done
 ```
 
-Options, with trade-offs. (a) The device **reports its mode** (a register holds the width, height and refresh rate of the mode chosen at start-up from the monitor's data; virtio-gpu's `GET_DISPLAY_INFO` already returns the width and height of each output in a `virtio_gpu_resp_display_info`); nothing to set. *Cost:* the device reads the EDID itself (a small I2C engine, which 3.10.1 already puts at the transmitter chip) and applies a policy; a program that wants another mode still has the registers. (b) A **fixed canonical pixel format** with the device converting at scanout (the repository's 48-bit RGBA pixel, errata 73, would be that format on the native device; virtio-gpu offers only 32-bit formats with eight bits per channel: `VIRTIO_GPU_FORMAT_B8G8R8A8_UNORM` and its siblings, in `virtio_gpu.h`, so the 48-bit pixel does not exist on the standard device; 3.23 lists the inconsistency). *Cost:* a conversion stage in the scanout, and memory a program wastes if it wants fewer bits. (c) **Stride equal to width** unless the program asks for padding, and the framebuffer window **always mapped**: the program has no `mmap`, no bank register, no `map_physical`; the window is in its address space from the start, a decision of the page tables and the bus (2.3.3 and 3.13.4). *Cost:* a fixed place in the address space, and a rule for what a program does that wants two framebuffers.
+Options, with trade-offs. (a) The device **reports its mode** (a register holds the width, height and refresh rate of the mode chosen at start-up from the monitor's data; virtio-gpu's `GET_DISPLAY_INFO` already returns the width and height of each output in a `virtio_gpu_resp_display_info`); nothing to set. *Cost:* the device reads the EDID itself (a small I2C engine, which 3.10.1 already puts at the transmitter chip) and applies a policy; a program that wants another mode still has the registers. (b) A **fixed canonical pixel format** with the device converting at scanout (virtio-gpu offers only 32-bit formats with eight bits per channel: `VIRTIO_GPU_FORMAT_B8G8R8A8_UNORM` and its siblings, in `virtio_gpu.h`). *Cost:* a conversion stage in the scanout, and memory a program wastes if it wants fewer bits. (c) **Stride equal to width** unless the program asks for padding, and the framebuffer window **always mapped**: the program has no `mmap`, no bank register, no `map_physical`; the window is in its address space from the start, a decision of the page tables and the bus (2.3.3 and 3.13.4). *Cost:* a fixed place in the address space, and a rule for what a program does that wants two framebuffers.
 
 **Pair 2: the cache and the flush** (the open part).
 
@@ -127,7 +126,7 @@ poke(CELL(row, col).fg, RED)
 font_render_into_slot(font, 'λ', slot)       # rasterises the outline and writes the bitmap into the slot
 ```
 
-The author's glyph slots do the work of the atlas, and one library call replaces the first half of the boilerplate (3.9). Two candidates: (a) the cell holds the **character code**, and the device or a table maps the code to a slot, so the program never names slots (the author's c64x terminal of 2026-06-18, `c64stuff.txt`, line 5015: "each cell holds its actual data, not a reference to the data"); or (b) the cell holds the **slot number** directly, which is the simplest hardware and makes the program responsible for assigning slots. The choice is open (3.23): (a) is easier for the program and costs a lookup table in the scanout; (b) is nearly free and puts a small allocator in a library.
+My glyph slots do the work of the atlas, and one library call replaces the first half of the boilerplate (3.9). Two candidates: (a) the cell holds the **character code**, and the device or a table maps the code to a slot, so the program never names slots (my c64x terminal of 2026-06-18, `c64stuff.txt`, line 5015: "each cell holds its actual data, not a reference to the data"); or (b) the cell holds the **slot number** directly, which is the simplest hardware and makes the program responsible for assigning slots. The choice is open (3.23): (a) is easier for the program and costs a lookup table in the scanout; (b) is nearly free and puts a small allocator in a library.
 
 #### The pain points with the sugar
 
@@ -138,7 +137,7 @@ The table of 3.14 with its two further columns: the sugar that would remove each
 | Mode setting and discovering what the display supports (EDID, modes) | 15 lines (VESA) to 40 (DRM) | the device reads the monitor and starts in its preferred mode; a register reports it | S1 S2 S3 native; S4: `GET_DISPLAY_INFO` gives the size, a library the rest |
 | Pixel formats | one format code to get right, and conversion code when it is not | one canonical format, the device converts at scanout | S1 S2 S3; S4 has 32-bit formats only |
 | Stride and pitch | one multiply in every pixel address | stride equal to width unless asked; the address of pixel (x, y) is a register-reported formula | S1 S2 S3 |
-| Endianness and colour order (RGB or BGR, alpha first or last) | a swap or a table, in every program | one defined order, little-endian (decided for the machine, errata 72); the colour field order named once | all |
+| Endianness and colour order (RGB or BGR, alpha first or last) | a swap or a table, in every program | one defined order, little-endian (decided for the machine); the colour field order named once | all |
 | Bank switching and mapping the framebuffer | 5 to 20 lines | a window always mapped, no banks | all (3.13.4 is the rule for the type) |
 | Double buffering and tearing | 10 to 30 lines, plus a frame loop | a latching base register, a fence, per-layer flip, versioned buffers (3.15) | S1 S2 per layer; S3 queue; S4 flush |
 | Synchronising with the display | polling or a vblank interrupt handler | raster interrupt and a fence (3.15); decided: vblank interrupt at a fixed line (3.8.9) | all |
@@ -159,7 +158,7 @@ Every item costs gates or flexibility, and the sugar column is a list of things 
 
 ### 3.17 Anti-tearing sugar (moved from chapter 3)
 
-The sugar is wanted (3.15.1 in the body, the author's). "So that the common program needs no more than a store" is the assistant's aim. The candidates, with what each costs, are proposals:
+The sugar is wanted (3.15.1 in the body, my). "So that the common program needs no more than a store" is my aim. The candidates, with what each costs, are proposals:
 
 * **A scanout base register that latches at the vertical blank** (a page flip: the register holds the address of the picture to show and takes the new value only in the blank), with a completion **interrupt** or a **fence** (a counter that the device advances when the flip has happened, which the program can read or wait on, so it knows that the old picture is free). *Gives:* no tearing, no polling of the raster; the program writes one register and goes on. *Costs:* two pictures of memory for the program that uses it, and a rule for what the register shows if it is written twice in one frame (the first is dropped, or the second waits). *Already in 3.8.9, except the fence.*
 * **Per-layer latching**, in a design with layers (3.21, sketches 1 and 2): each layer has its own base register and flips independently, so a cursor or a sprite layer can move every frame while the text layer flips only when its text changes. *Gives:* the cheapest case for text, a moving cursor with no redraw. *Costs:* one set of registers per layer.
@@ -187,7 +186,7 @@ Section 3.21 says which sketch gives which of these cheaply: the layered sketche
 
 ### 3.18 A c64 mode: a small computer on the die that acts as the terminal (moved from chapter 3)
 
-The c64 mode is the author's (3.16.1 and 3.16.2 in the body). This section is the assistant's explanation of how it could work, for the two readers, and states the questions it leaves open.
+The c64 mode is my (3.16.1 and 3.16.2 in the body). This section is my explanation of how it could work, for the two readers, and states the questions it leaves open.
 
 **What the Blit did.** The Blit (3.3) was a terminal with a computer of its own, and the host sent it **programs** instead of escape codes to interpret. The records in `docs/kernel-pain-points.md` (section 14I, from the Blit papers) say that the terminal received downloaded code over its serial line, that `mpxterm`, the terminal's program, "is 1627 lines of C" plus "204 lines of assembler" and multiplexed several host programs over the one line, and that the authors held that "an intelligent terminal is not an idiot savant, it is one that can be educated". A **terminal with its own small computer** is therefore a display, keyboard and mouse driven by a processor on the terminal's side of the cable, running a program the host loaded; the host sends it messages and the program draws. How the download worked (the protocol, the program format) is not in the records and is *unverified*. The VT52 and VT100 were the opposite: a fixed circuit obeying a fixed set of codes (3.2).
 
@@ -212,11 +211,11 @@ load_terminal(image, length):                     # on the host, as a driver wou
 
 The core's address space is the C64's (3.4) with a mailbox added. Everything the loaded program needs is in one flat space, as in the 1982 machine: its own code, screen and colour memory, glyph slots, the video and sound registers, and a window the host also sees. Video goes to the display connector and audio to its audio channel (3.10); audio over HDMI brings the audio clock relation of 3.12.4 with it, which the core's program must honour or the transmitter's own calculation must supply.
 
-The questions that the author's words leave open, and the options for the core, are in J.3.11 (the statement 3.18.3, moved from chapter 3, is that list).
+The questions that my words leave open, and the options for the core, are in J.3.10 (the statement 3.18.3, moved from chapter 3, is that list).
 
 #### The compositor question
 
-The author asked, 2026-11-10: "not sure what that would look like. is there virtio-compositor?"
+I asked, 2026-11-10: "not sure what that would look like. is there virtio-compositor?"
 
 **What a compositor is, at more length.** A **compositor** (defined in 3.16.2) combines the pictures of several windows or sources into the one picture sent to the display, which is then scanned out as in 3.15. In a desktop window system each program draws into its own picture (its **surface**) and the compositor places the surfaces, one over another, into the frame the scanout reads. The PC's windowing systems did this in software (3.5); in the layered sketches of 3.21 the scanout hardware does it, as the C64's chip did with sprites. The PDP-11 has no antecedent; its terminal was a single stream.
 
@@ -227,9 +226,9 @@ The author asked, 2026-11-10: "not sure what that would look like. is there virt
 **What exists, checked.** No virtio device is called a compositor: no entry of `virtio_ids.h` on this machine names one. The display-related types are GPU (16), input (18), sound (25), video encoder and decoder (30, 31), DMA buffer (37) and audio policy (39). The nearest parts in `virtio_gpu.h` are up to 16 scanouts (`VIRTIO_GPU_MAX_SCANOUTS`); `SET_SCANOUT_BLOB`, which sets a scanout from a blob resource (a memory object shared with the host without copying); a **cursor queue** separate from the control queue (`UPDATE_CURSOR`, `MOVE_CURSOR`); and capability sets (`VIRTIO_GPU_CAPSET_VIRGL`, `VIRGL2`, `GFXSTREAM_VULKAN`, `VENUS`, `CROSS_DOMAIN`, `DRM`) selected with `context_init`, so that several rendering contexts, each with its own ordering (the "timelines" of the header comment), share the device. QEMU's `docs/system/devices/virtio/virtio-gpu.rst` describes `virtio-gpu-rutabaga`, which provides "gfxstream rendering and Wayland display passthrough", with a `cross-domain` capset for Linux guests and experimental `x-gfxstream-composer` for Android guests; it says no more about what the cross-domain path carries. That the crosvm project uses the same mechanism to show a guest's windows as windows of the host's Wayland compositor (Wayland is the Linux display protocol in which clients hand surfaces to a compositor) is general knowledge and *unverified*. **virtio-snd** and **virtio-input** exist for audio and for keyboard and mouse. Paths (b) and (c) can therefore be built from parts that exist, and path (e) is a new device type; how a type gets its number is *unverified* here.
 
 
-The five compositor paths, with their gains and costs, are in J.3.12.
+The five compositor paths, with their gains and costs, are in J.3.11.
 
-The author's path (c), 3.16.3 in the body, makes the core a client like any other, the way rio treats every window (3.18: a window is a buffer and a rectangle), and its parts exist (a virtio-gpu resource or blob as the surface, 3.12). The details under it are in J.3.12; the audio form of the same choice is in 3.17.
+My path (c), 3.16.3 in the body, makes the core a client like any other, the way rio treats every window (3.18: a window is a buffer and a rectangle), and its parts exist (a virtio-gpu resource or blob as the surface, 3.12). The details under it are in J.3.11; the audio form of the same choice is in 3.17.
 
 **How the switch avoids tearing and pops.** Enabling or disabling the mode changes who feeds the scanout and the audio path. A change in mid-frame tears the picture (3.15), and a sudden change of the waveform's value is heard as a pop. The remedy has the shape of 3.15: hand over at a **vertical blank**, as the latch of 3.8.9 does for registers (the enable bit is one more shadowed register that `ARM` latches), and **mute with a short ramp** (a fade of a few milliseconds down before and up after, not a cut). In path (a) the enable bit is the shadowed register and the mute belongs to the audio path; in (b) to (e) the compositor does the hand-over and the core only stops or starts its stream. The audio clock relation of 3.12.4 must stay unchanged across the switch, or the transmitter loses its lock and the sound drops.
 
@@ -237,23 +236,23 @@ The author's path (c), 3.16.3 in the body, makes the core a client like any othe
 
 ### 3.19 The audio of the c128 core (moved from chapter 3)
 
-The options for the audio form of the c64-mode core are in J.3.13.
+The options for the audio form of the c64-mode core are in J.3.12.
 
 ![The audio path beside the video path](figures/gfx-audio-path.svg)
 
 ### 3.20 Windows: the goal (moved from chapter 3)
 
-The author, 2026-11-10: "it should mention blit terminal was inspiration for the rio and NeWS windowing systems, and we'd like to bring over what we can of that simplicity also."
+I said, 2026-11-10: "it should mention blit terminal was inspiration for the rio and NeWS windowing systems, and we'd like to bring over what we can of that simplicity also."
 
-The goal (3.18.1) is in the body; the means are in J.3.14.
+The goal (3.18.1) is in the body; the means are in J.3.13.
 
 ### 3.21 A design still being worked out: what a mashup of GPU, video memory, C64 and Blit could look like (moved from chapter 3)
 
-The author, 2026-11-10: "conclude the graphics chapter: we're still figuring it out, what would a mashup of gpu, vram, c64 and blit look like." **Nothing in this section is decided.** Every statement is tagged or ; the sketches are shapes of ideas put side by side so that the questions at the end can be answered, and the repository recommends none. The chain behind them: the PDP-11 terminal was a character stream (3.1), the Blit and the C64 put memory-mapped bitmaps, text, sprites and sound behind a processor or a few chips (3.3, 3.4), the PC split them (3.5), and the GPU turned drawing into queued commands and shaders (3.6); the sketches mix those inheritances.
+I said, 2026-11-10: "conclude the graphics chapter: we're still figuring it out, what would a mashup of gpu, vram, c64 and blit look like." **Nothing in this section is decided.** Every statement is tagged or ; the sketches are shapes of ideas put side by side so that the questions at the end can be answered, and the repository recommends none. The chain behind them: the PDP-11 terminal was a character stream (3.1), the Blit and the C64 put memory-mapped bitmaps, text, sprites and sound behind a processor or a few chips (3.3, 3.4), the PC split them (3.5), and the GPU turned drawing into queued commands and shaders (3.6); the sketches mix those inheritances.
 
 **Two terms first.** **VRAM** (video memory) is memory that belongs to the display device: it sits on the device, behind a window on the bus, and the scanout reads it without crossing the bus; the processor reaches it through the window (slowly: every access is a bus transaction). The alternative is **system memory** that the device reads by DMA as a bus master, as the video device of 3.11.2 does; the framebuffer is then ordinary memory and the scanout competes with the processor for it. A GPU card has VRAM; the first board of the pdp64 has none to speak of (the block RAM is 5.5 megabits and a frame is 8.3 MB, 3.11.2), so on it every layer lives in system memory, and "VRAM" in the sketches below means "memory the device owns the use of", whichever kind it is. **Compositing** is combining several pictures into the one that is shown; the C64's sprites over text over a background were compositing in hardware, as the scanout read them out.
 
-The device in these sketches is not specified beyond the 48-bit pixel and sample formats. The properties the author has asked for, which each sketch is measured against: **(T)** simple peek/poke text and graphics at once; **(C)** modern colour depth and screen size; **(G)** glyph slots filled by a TrueType engine; ** sprites, colour and sound in the C64's spirit; **(B)** the Blit's bit-blit and windows; **(U)** the GPU's command queue, parallel lanes and shaders. And the other two wishes of the day: anti-tearing sugar (3.15) and the boilerplate goal (3.14).
+The device in these sketches is not specified. The properties I have asked for, which each sketch is measured against: **(T)** simple peek/poke text and graphics at once; **(C)** modern colour depth and screen size; **(G)** glyph slots filled by a TrueType engine; ** sprites, colour and sound in the C64's spirit; **(B)** the Blit's bit-blit and windows; **(U)** the GPU's command queue, parallel lanes and shaders. And the other two wishes of the day: anti-tearing sugar (3.15) and the boilerplate goal (3.14).
 
 ![Layers composed at scanout](figures/gfx-layers.svg)
 
@@ -294,7 +293,7 @@ poke(BLT_OP, STORE);  poke(BLT_GO, 1);  wait_until(peek(BLT_BUSY) == 0)
 
 **3.21.5** (moved from chapter 3) A small core with the C64 family's chips, into which the host loads the terminal program by DMA (3.16), as a variant or addition to any of the sketches above: it is the terminal, and the other sketches say what the display behind it does. 
 
-*What the programmer sees.* The host programmer sees a device that takes messages (the mailbox); the programmer of the small core sees the C64: peek, poke, a screen at a fixed place, colour RAM, glyph slots, sprites and the SID, which is the author's "as simple and pleasurable as the c64 was" at its most literal. *In video memory:* the core's screen memory, colour RAM, glyph slots, sprite shapes. *At scanout:* the VIC (or its extension) composes text, bitmap and sprites as sketch 1 does; the flip is a register of the core's own. *Costs:* a core, its memory, a DMA loader and the chips (3.16, question 7); a second program to write, load and keep secure. *Gives up:* a single, standard programming model on the host's side; the host cannot poke a cell, only send a message. *Properties kept:* T yes, for the core's programmer; C if the chips are widened as the native devices were (3.8); G yes; S yes, with sound; B only if the chip family has a blitter; U no. *Split:* healed, in the core. *A game:* a C64 game, or one written for the core. *A terminal emulator:* the core *is* the terminal; the host sends text. *Sugar:* the VIC's latches and raster interrupt, which the core's program uses; nothing is hidden from it. *With virtio:* the open tension of 3.16, question 6.
+*What the programmer sees.* The host programmer sees a device that takes messages (the mailbox); the programmer of the small core sees the C64: peek, poke, a screen at a fixed place, colour RAM, glyph slots, sprites and the SID, which is my "as simple and pleasurable as the c64 was" at its most literal. *In video memory:* the core's screen memory, colour RAM, glyph slots, sprite shapes. *At scanout:* the VIC (or its extension) composes text, bitmap and sprites as sketch 1 does; the flip is a register of the core's own. *Costs:* a core, its memory, a DMA loader and the chips (3.16, question 7); a second program to write, load and keep secure. *Gives up:* a single, standard programming model on the host's side; the host cannot poke a cell, only send a message. *Properties kept:* T yes, for the core's programmer; C if the chips are widened as the native devices were (3.8); G yes; S yes, with sound; B only if the chip family has a blitter; U no. *Split:* healed, in the core. *A game:* a C64 game, or one written for the core. *A terminal emulator:* the core *is* the terminal; the host sends text. *Sugar:* the VIC's latches and raster interrupt, which the core's program uses; nothing is hidden from it. *With virtio:* the open tension of 3.16, question 6.
 
 #### The four main sketches side by side (sketch 5 is a variant of any of them)
 
@@ -316,13 +315,13 @@ poke(BLT_OP, STORE);  poke(BLT_GO, 1);  wait_until(peek(BLT_BUSY) == 0)
 
 ### 4.3 What takes the place of a BIOS (moved from chapter 4)
 
-**4.3.1b** (moved from chapter 4) The ROM brings up the machine, loads the first block, and offers a console monitor when nothing boots. It has no resident services and nothing is called after boot. (The first sentence of 4.3.1 is in the body, decided by errata 47.)
+**4.3.1b** (moved from chapter 4) The ROM brings up the machine, loads the first block, and offers a console monitor when nothing boots. It has no resident services and nothing is called after boot. (The first sentence of 4.3.1 is in the body, decided.)
 
 *Commentary (moved).* **Trade-offs.** The pdp64 returns to the PDP-11 split and drops job 3: every device speaks virtio through one transport (chapter 2), so the loader and the kernel share one driver design and the loader needs no firmware to read a disk. The cost is a driver for the boot disk in the second stage, small because a virtio device is a handful of structures. **Benefits.** There is no firmware API to specify, no compatibility layer, no resident management code and no closed blob at the bottom of the trust chain (x86 firmware also keeps resident system-management code that the operating system cannot see, unverified; arm64 and RISC-V servers need trusted firmware and usually UEFI beside it, unverified, though OpenBSD's arm64 and riscv64 ports do boot through `efiboot`, read); the failure cases reduce to one, the first block did not load, and the monitor is the recovery. **Impact.** *Kernel:* no firmware services to call or to fix. *Compiler:* builds the ROM, loader and tools. *Hardware:* a boot ROM of a few hundred bytes to a few kilobytes, with a driver per boot device (not specified more closely).
 
 ### 4.4 The reset state and the first block (moved from chapter 4)
 
-**The ROM's details (moved; its job as pseudocode, and 4.4.1, are in the body).** The ROM does five things in order: find a boot device, read block 0 into low memory, check that it looks like a boot block (the `0x55AA` signature), set core 0's registers, and start core 0 at the block. The assistant's fuller pseudocode, with the register state:
+**The ROM's details (moved; its job as pseudocode, and 4.4.1, are in the body).** The ROM does five things in order: find a boot device, read block 0 into low memory, check that it looks like a boot block (the `0x55AA` signature), set core 0's registers, and start core 0 at the block. My fuller pseudocode, with the register state:
 
 ```
     quick_memory_check()                      # a short test of the first pages (repo: `boot.md`, job 1)
@@ -339,7 +338,7 @@ read_block (the standard disk: one virtio-blk request, 5.6.2): build a three-des
 
 The ROM polls (checks in a loop) rather than using interrupts. Inference, not stated: the ROM runs before any software has programmed the interrupt controller (2.6.3: how the interrupt controller is programmed is not specified), so there is nothing to interrupt it; polling needs no set-up, and 2.7.8 shows the polled form. It needs a driver for each kind of boot device; for the standard disk that is the virtio-blk reader of chapter 5: find the function in the bus's configuration space, set up one queue, read one block. Which device comes first, and how the ROM names a device in `r0`, are not specified (F10 of `decisions-pending.md` leaves the order after the disk open).
 
-**The reset state of core 0 and the load address (moved from the paragraph "The first few pages of memory").** Block 0 is loaded **above** the table, at 0x1000 in this chapter's example (the address is "to be chosen"; `docs/boot.md`), so that the first stage runs without overwriting the vectors. The stack pointer `r14` starts at the top of the first 64 KB, so the first stage has a stack before it has run an instruction. `r1` points at the **boot-information block** (4.6). The author's rule of errata 102 is that no device window is mapped in **the first few pages**, where "the boot stuff is loaded"; how many pages that is, is not decided.
+**The reset state of core 0 and the load address (moved from the paragraph "The first few pages of memory").** Block 0 is loaded **above** the table, at 0x1000 in this chapter's example (the address is "to be chosen"; `docs/boot.md`), so that the first stage runs without overwriting the vectors. The stack pointer `r14` starts at the top of the first 64 KB, so the first stage has a stack before it has run an instruction. `r1` points at the **boot-information block** (4.6). My rule is that no device window is mapped in **the first few pages**, where "the boot stuff is loaded"; how many pages that is, is not decided.
 
 ![Memory when block 0 is loaded](figures/boot-block0-memory.svg)
 
@@ -359,7 +358,7 @@ The ROM polls (checks in a loop) rather than using interrupts. Inference, not st
 **The first stage lives in the protective MBR.** Block 0 of a GPT disk is the protective MBR, 512 bytes: 446 bytes of code, the table (one entry, type `0xEE`), then `0xAA55` (the bytes `0x55`, `0xAA`: the `0x55AA` of 4.4.1). The first stage has 446 bytes. It cannot understand a GPT or a file system in that space and does not try: it carries a **block list**, three numbers per piece of the second stage (first block, number of blocks, load address), written into its code area by the **`installboot`** tool at installation; it reads those blocks and jumps to the first. The BSDs already do this. OpenBSD 4.6's `installboot(8)` page for the sparc says the first-stage program "loads the second stage program from a set of filesystem block numbers that have been hard-coded into it by the installboot program"; on the PC `installboot` patches `biosboot` with the location of `/boot`, and `biosboot(8)` says to re-run it whenever `boot(8)` is changed, "as its inode may change" (read). Because the boot-code bytes are the only place the pdp64 keeps block-list data, a damaged GPT cannot stop the machine reaching the second stage, which can repair it.
 
 ```
-first_stage() with the block list (the assistant's sketch; the body has the general form):   # at LOAD (0x1000): 446 bytes of code plus the block list
+first_stage() with the block list (my sketch; the body has the general form):   # at LOAD (0x1000): 446 bytes of code plus the block list
     # entering state: kernel mode, priority 7, r0 = boot device, r1 = boot-information block, r14 = a stack
     for entry in block_list:                  # entries written by installboot: (start, count, address)
         read_blocks(r0, entry.start, entry.count, entry.address)     # (see the open question below)
@@ -473,7 +472,7 @@ start_device(dev):                            # at boot or at attach
 
 Statements 4.9.1 and 4.9.2 stay in the chapter. The details of a shim are proposed.
 
-**What a shim is, and what it is not.** The author asked, "not sure why firmware and coff are needed for uefi, with virtio native that shuld be minimal, no?" and then, "yes, state the shim's real scope." Virtio removes most of the driver mass that a full firmware carries (it ships drivers for every disk, network card and screen it might meet; the pdp64 has one device interface), and the shim needs only the drivers the second stage has. Two things stay, and they are the shim's real scope:
+**What a shim is, and what it is not.** I asked, "not sure why firmware and coff are needed for uefi, with virtio native that shuld be minimal, no?" and then, "yes, state the shim's real scope." Virtio removes most of the driver mass that a full firmware carries (it ships drivers for every disk, network card and screen it might meet; the pdp64 has one device interface), and the shim needs only the drivers the second stage has. Two things stay, and they are the shim's real scope:
 
 1. **PE/COFF.** The UEFI specification requires a UEFI application to be a PE32+ image (unverified: the specification is not here); that is a property of the **loader programs**, not of the firmware. To run an existing loader such as OpenBSD's `efiboot` it must be built as a PE/COFF image *for the pdp64*, so the toolchain has to produce one, and a **machine-type code** (a 16-bit number in the image's header that names the processor; OpenBSD's arm64 loader uses `IMAGE_FILE_MACHINE_ARM64 0xaa64`, read) would have to be assigned by the owners of the specification (unverified). It need not be a linker feature: OpenBSD's arm64 loader is linked as an ordinary ELF file and wrapped as PE32+ by a header written by hand in assembler (`start.S`, 176 lines) plus a self-relocator (`self_reloc.c`, 124 lines), with `objcopy` doing the rest (read, counted). The loader is itself a program that must be compiled for the pdp64.
 2. **A small services layer.** The shim provides the few services loaders use: memory allocation and the **memory map**; reading a file from the boot partition; the console and the **graphics output protocol** (a framebuffer to draw on); **exit boot services**; a runtime clock and reset; all over virtio. It also hands the kernel a device description in the form such a loader expects, a device tree or tables.
@@ -484,7 +483,7 @@ Statements 4.9.1 and 4.9.2 stay in the chapter. The details of a shim are propos
 |---|---|---|
 | `HandleProtocol` 13, `AllocatePages` 7, `LocateHandle` 5, `LocateProtocol` 2, `LocateHandleBuffer` 2, `GetMemoryMap` 2, `FreePages` 2, `WaitForEvent`, `SetWatchdogTimer`, `FreePool`, `AllocatePool`, `Exit`, `ExitBootServices` (1 each); the arm64 and riscv64 loaders add `SetTimer`, `CreateEvent`, `CloseEvent` and lack the two pool calls | `ResetSystem` 3, `GetVariable` 3, `SetVariable` 2, `GetTime` 1 (called as `ST->RuntimeServices->GetTime`) | the text console (`OutputString`, `ReadKeyStroke`, `SetMode`, `QueryMode`, ...), the disk (`ReadBlocks`, `WriteBlocks`), files (`Open`, `Read`, `Write`, `Close`, `SetPosition`, `GetInfo`), the network (`Mtftp`, `Transmit`, `Receive`), the graphics output protocol, the random-number protocol |
 
-That is 17 distinct boot and runtime calls in the amd64 loader (13 and 4) and 18 in the arm64 and riscv64 ones (14 and 4); errata 109 and `boot.md` say "about fifteen to seventeen", which this count corrects. It counts what **one** loader uses and is not a specification of what a shim must offer: another loader uses others, and whoever writes the shim reads the loader.
+That is 17 distinct boot and runtime calls in the amd64 loader (13 and 4) and 18 in the arm64 and riscv64 ones (14 and 4); `boot.md` says "about fifteen to seventeen", which this count corrects. It counts what **one** loader uses and is not a specification of what a shim must offer: another loader uses others, and whoever writes the shim reads the loader.
 
 **A sketch of the shim (an illustration).** The shim is the second stage, loaded by block 0; it builds the services table, loads the loader's PE image, calls it, and answers its calls.
 
@@ -639,9 +638,9 @@ timer_intr():                                # vector 32, level 6
 
 ## H.6 Chapter 6: The kernel: modes, exceptions and memory management
 
-**6.8 (moved from chapter 6, the lineage and impact of the accessed and dirty bits)** Hardware-managed accessed and dirty bits, advertised in a feature register, are a possible extension of the software-managed bits that the body decides (6.8.1): an implementation would set the bits itself by writing the page-table entry, and a feature register would tell the kernel which form the machine has. The reasoning for the decided form, which is the assistant's and *unverified* (no document in the repository names a flaw in hardware-managed accessed and dirty updates): a walker that never writes cannot damage a table, and it stays a small read-only state machine. 
+**6.8 (moved from chapter 6, the lineage and impact of the accessed and dirty bits)** Hardware-managed accessed and dirty bits, advertised in a feature register, are a possible extension of the software-managed bits that the body decides (6.8.1): an implementation would set the bits itself by writing the page-table entry, and a feature register would tell the kernel which form the machine has. The reasoning for the decided form, which is my and *unverified* (no document in the repository names a flaw in hardware-managed accessed and dirty updates): a walker that never writes cannot damage a table, and it stays a small read-only state machine. 
 
-**6.12 (moved from chapter 6, the first pages of physical memory)** There is no kernel yet at power-on. A boot ROM (chapter 4) reads one block into low memory and starts core 0. The assistant's sketch of the first pages of physical memory (the body states only that they hold the boot code and boot data, with the vector table; errata 102) has the vector table, the block, the information block and the stack:
+**6.12 (moved from chapter 6, the first pages of physical memory)** There is no kernel yet at power-on. A boot ROM (chapter 4) reads one block into low memory and starts core 0. My sketch of the first pages of physical memory (the body states only that they hold the boot code and boot data, with the vector table) has the vector table, the block, the information block and the stack:
 
 ![The first pages of physical memory](figures/kern-firstpages.svg)
 
@@ -649,7 +648,7 @@ The vector table is at address 0 because `VBR` is zero at reset. The pdp64's blo
 
 ## H.7 Chapter 7: Multiple processors
 
-The numbers in this fragment are labels: they are those of chapter 7 before its rewrite (errata 127 gives the map), not those of the body, and a citation of one of them reads "H.7, 7.8.1".
+The numbers in this fragment are labels: they are those of chapter 7 before its rewrite (the chapter's own text keeps the map), not those of the body, and a citation of one of them reads "H.7, 7.8.1".
 
 ### 7.8 Starting and signalling the other cores (moved from chapter 7)
 
@@ -673,7 +672,7 @@ The numbers in this fragment are labels: they are those of chapter 7 before its 
 
 ## H.8 Chapter 8: Vector work, AI and array languages: the device route
 
-This fragment holds what the assistant proposed for the vector and accelerator work and the author has not accepted. The reader is the same as the chapter's: a PDP-11 programmer or a first-year student, who knows from 8.1 to 8.4 what a vector unit, a SIMD unit, a descriptor and a device on the memory bus are. The numbers are labels: a statement keeps the number it had in chapter 8 before the rewrite, and the pointer to its new place in the chapter is given where it has one. Since the author's decision that the vector and accelerator engine is a standard part of the architecture (8.4.1, errata 131), the proposals about the engine's operations, number formats and identification block are carried by the open items [J.8.1](appendix-j-open.md#j81) to [J.8.5](appendix-j-open.md#j85), and are no longer repeated here; what remains is the LB64 design, the scalable-vector remark, the interpreter threshold and the driver sequence.
+This fragment holds what the assistant proposed for the vector and accelerator work and I have not accepted. I write for the same reader as the chapter: a PDP-11 programmer or a first-year student, who knows from 8.1 to 8.4 what a vector unit, a SIMD unit, a descriptor and a device on the memory bus are. The numbers are labels: a statement keeps the number it had in chapter 8 before the rewrite, and the pointer to its new place in the chapter is given where it has one. Since my decision that the vector and accelerator engine is a standard part of the architecture (8.4.1), the proposals about the engine's operations, number formats and identification block are carried by the open items [J.8.1](appendix-j-open.md#j81) to [J.8.5](appendix-j-open.md#j85), and are no longer repeated here; what remains is the LB64 design, the scalable-vector remark, the interpreter threshold and the driver sequence.
 
 ### 8.2 Why not SIMD in the processor (moved from chapter 8)
 
@@ -689,11 +688,11 @@ A **scalable** vector design is a vector machine (8.2) in which the register wid
 
 ### 8.3 AI and large-language-model inference: the LB64 accelerator (moved from chapter 8)
 
-The author decided that inference is the target (8.5.1 of the chapter). The design of one accelerator for it, LB64, is the assistant's, written in `docs/pdp64-lb64-accelerator.md` after the author asked "what would a gpu look like that is optimized purely for samsung's littlebit-2 encoding" (register row R136). No decision of the author names the design, and it was written for the register model of the first device family, which errata 95 later set aside for virtio. It is kept here as a proposal; the statements below, which the chapter had tagged decided, are entered as proposed for that reason. LB64 is option 1 of [J.8.4](appendix-j-open.md#j84), and, if the engine is made standard with optional sets ([J.8.1](appendix-j-open.md#j81), option 6), it would be one of those sets; that reading is the assistant's, and no decision of the author's says it.
+I decided that inference is the target (8.5.1 of the chapter). The design of one accelerator for it, LB64, is the assistant's, written in `docs/pdp64-lb64-accelerator.md` after I asked "what would a gpu look like that is optimized purely for samsung's littlebit-2 encoding". No decision of mine names the design, and it was written for the register model of the first device family, which was later set aside for virtio. It is kept here as a proposal; the statements below, which the chapter had tagged decided, are entered as proposed for that reason. LB64 is option 1 of [J.8.4](appendix-j-open.md#j84), and, if the engine is made standard with optional sets ([J.8.1](appendix-j-open.md#j81), option 6), it would be one of those sets; that reading is the assistant's, and no decision of mine says it.
 
 LB64 is for one kind of model, in which the weights are stored as one sign bit each, with a few 16-bit scale factors per row and column. With weights of plus or minus one, a multiplication of an activation by a weight is the activation itself or its negative, so a layer needs adders and a sign flip and no multipliers: the accumulator adds or subtracts each activation according to its weight bit (**sign-flip accumulation**). The device streams the weights from RAM at the memory's speed.
 
-**8.3.1** (moved from chapter 8) The inference accelerator, LB64, evaluates the layers of a binary-weight language model as sign-flip accumulates with no multipliers, taking a chain of descriptors and writing a status back on completion. *(D in the chapter; judged proposed because no decision of the author names the device)*
+**8.3.1** (moved from chapter 8) The inference accelerator, LB64, evaluates the layers of a binary-weight language model as sign-flip accumulates with no multipliers, taking a chain of descriptors and writing a status back on completion. *(D in the chapter; judged proposed because no decision of mine names the device)*
 
 **8.3.2** (moved from chapter 8) A layer is two descriptors, the second accumulating into the first's result for the residual path, and a transformer block is a chain; the processor writes the chain once and is then idle. *(D in the chapter; judged proposed, as 8.3.1)*
 
@@ -738,7 +737,7 @@ The chapter (8.4) shows the driver of an accelerator in pseudocode as an illustr
 
 ### The instruction entries held back from chapter 9 (moved from the dictionary of chapter 9)
 
-The entries below were in the instruction chapter, in the section named at the end of each entry. They describe instructions that the grammar of the encoding carries and that the author has not decided: each is tagged . (The words the author did decide, with their details pending, are back in the chapter: `BSEL`, the deferred-fault and user-qualified moves, and the AES and SHA words.) The bit layouts are in the grammars `spec/pdp64-enc.hbnf` and `spec/pdp64-32/pdp64-32.hbnf`; the charts are not reproduced.
+The entries below were in the instruction chapter, in the section named at the end of each entry. They describe instructions that the grammar of the encoding carries and that I have not decided: each is tagged . (The words I did decide are back in the chapter: `BSEL`, the deferred-fault and user-qualified moves, and the AES and SHA words.) The bit layouts are in the grammars `spec/pdp64-enc.hbnf` and `spec/pdp64-32/pdp64-32.hbnf`; the charts are not reproduced.
 
 #### MOVUSERD: User-qualified deferred-fault load
 
@@ -790,7 +789,7 @@ progress is held in Rd, Rs and Rn; an interrupt or a fault restarts the instruct
 
 Stage 2 of the crypto proposal (`docs/crypto-secure-core.md` section 3.4): the whole-buffer form, in the manner of the s390 CPACF instructions, to be built "only after measurement"; the grammars reserve its encoding. The unit would need about 2,000 look-up tables and 1,000 flip-flops (the proposal's estimate).
 
-**Why it is here.** Stage 2 of the crypto proposal, in the manner of the s390 CPACF instructions (`KIMD` and kin): one instruction hashes a buffer, the padding and chaining are done in hardware and so cannot be got wrong, and progress is held in registers, so a fault or an interrupt restarts it, as for `MCPY`. The estimate is 64 cycles for a 64-byte SHA-256 block against about 1,200 instructions, roughly 18 times; the cost is gates in proportion to the algorithms frozen into opcodes. The proposal says to build `MSHA256` first and the others only after measurement, and the author has not decided it.
+**Why it is here.** Stage 2 of the crypto proposal, in the manner of the s390 CPACF instructions (`KIMD` and kin): one instruction hashes a buffer, the padding and chaining are done in hardware and so cannot be got wrong, and progress is held in registers, so a fault or an interrupt restarts it, as for `MCPY`. The estimate is 64 cycles for a 64-byte SHA-256 block against about 1,200 instructions, roughly 18 times; the cost is gates in proportion to the algorithms frozen into opcodes. The proposal says to build `MSHA256` first and the others only after measurement, and I have not decided it.
 
 #### MAESCTR: AES in counter mode over a buffer
 
@@ -826,11 +825,11 @@ Stage 2, as `MSHA`; the layout of the parameter block is not specified.
 
 **10.3.4** (moved from chapter 10) Sequential consistency is nearly free on a small in-order core and is the most expensive memory model for a large speculative one; if a large core is built it may be necessary to move to total store order, which is the least painful retreat. 
 
-**10.1.1** (moved from chapter 10) The first implementation is a soft core on a system-on-chip FPGA whose hard ARM cores serve as the bring-up harness: they load programs, run the tests and provide the console while the pdp64 core is still being debugged, and run an instruction-set simulator beside the core to compare the architectural state after every instruction (`pdp64-fpga-plan.md`, section 6). The text of the chapter tagged this; no decision of the author was found for the harness (the register's R24, "since the soc will have hdmi", assumes a system-on-chip and nothing more), so it is proposed. 
+**10.1.1** (moved from chapter 10) The first implementation is a soft core on a system-on-chip FPGA whose hard ARM cores serve as the bring-up harness: they load programs, run the tests and provide the console while the pdp64 core is still being debugged, and run an instruction-set simulator beside the core to compare the architectural state after every instruction (`pdp64-fpga-plan.md`, section 6). The text of the chapter tagged this; no decision of mine was found for the harness (my remark "since the soc will have hdmi" assumes a system-on-chip and nothing more), so it is proposed. 
 
 **10.1.4** (moved from chapter 10) The estimated clock a simple single-issue core reaches is 50 to 80 MHz on the Cyclone V, 90 to 130 MHz on a Zynq 7020 and 180 to 250 MHz on an UltraScale+; every one of those estimates is below the 200 to 300 MHz target except the upper part of the UltraScale+ range, and reaching the target means pipeline stages in the datapath. A correct machine at a lower clock comes before a fast broken one. (estimated)
 
-**10.1.5** (moved from chapter 10) The work is staged in phases, each ending in a demonstration and a regression suite: specification and tools; an integer core; exceptions; the memory-management unit; the memory system; floating point; a booting kernel; peripherals; and, last, the other cores. The text of the chapter tagged this; the phase plan is the assistant's (`pdp64-fpga-plan.md`, section 5) and the author has not spoken to it (`decisions-pending.md`, E6: "No erratum backs either"), so it is proposed. The decided part, the number of cores, stays in the chapter (10.1.3). 
+**10.1.5** (moved from chapter 10) The work is staged in phases, each ending in a demonstration and a regression suite: specification and tools; an integer core; exceptions; the memory-management unit; the memory system; floating point; a booting kernel; peripherals; and, last, the other cores. The text of the chapter tagged this; the phase plan is my (`pdp64-fpga-plan.md`, section 5) and I have not spoken to it (`decisions-pending.md`, E6: "No erratum backs either"), so it is proposed. The decided part, the number of cores, stays in the chapter (10.1.3). 
 
 **10.1.6** (moved from chapter 10) The second phase, the fault model, is not optional and does not move; the block operations are built with it, because their whole specification is about what state is visible when an exception arrives. 
 
@@ -846,7 +845,7 @@ Stage 2, as `MSHA`; the layout of the parameter block is not specified.
 
 ### A.4 Protecting the return address (moved from appendix A)
 
-**A.4.1** There are four ways to protect the return address: software canaries and OpenBSD's return-address protection in the compiler, a hardware return stack, a shadow stack, and nothing. The mirror shadow stack is approved (errata 85, study item 6); the others are the alternatives that were weighed.
+**A.4.1** There are four ways to protect the return address: software canaries and OpenBSD's return-address protection in the compiler, a hardware return stack, a shadow stack, and nothing. The mirror shadow stack is approved; the others are the alternatives that were weighed.
 
 *Commentary.* **Trade-offs.** A shadow stack is the strongest and brings the most recovery code (a second stack to overflow, switch and unwind), so the analysis did not recommend it by default; software detection costs a few instructions per function and no hardware. **Verdict** (the assistant's, before the decision). Start with the compiler; consider a hardware mechanism only if code size allows. **Benefits.** Detection with little or no recovery code. **Impact.** *Compiler:* The compiler adds a canary or a return-address check per function. *Hardware:* Software costs nothing; a hardware return stack costs a second stack structure and its control.
 
@@ -918,7 +917,7 @@ Stage 2, as `MSHA`; the layout of the parameter block is not specified.
 
 #### B.1.11 Vector and SIMD math (S1 to S6)
 
-**B.1.11.2** Decided (errata 59, chapter 8): data-parallel work lives in memory-mapped devices, and the processor has no vector register file and no SIMD instruction set. What remains is the number formats and operations of the devices (half precision, bfloat16, 8-bit integer dot products, 8-bit floating point), the reconciliation of the device descriptors with the standard descriptor, and whether packed integer lanes are added to the integer registers (A.10). 
+**B.1.11.2** Decided (chapter 8): data-parallel work lives in memory-mapped devices, and the processor has no vector register file and no SIMD instruction set. What remains is the number formats and operations of the devices (half precision, bfloat16, 8-bit integer dot products, 8-bit floating point), the reconciliation of the device descriptors with the standard descriptor, and whether packed integer lanes are added to the integer registers (A.10). 
 
 *Commentary.* **Precedent.** The PDP-11 sent heavy numerical work to attached array processors; the VAX had a vector extension on its 6000 series, with 16 vector registers of 64 elements, supported by VMS; neither Unix used it much. **Trade-offs.** A fixed-width vector file brings a second register file and its context-switch cost, opcodes, and a new width for every generation (the history of SSE, AVX and AVX-512); a scalable design runs one binary on a small and a large implementation at the price of the most complex specification. Lazy saving of vector state was a security hole on x86, and Linux went back to eager restore. **Benefits.** The coprocessor needs no opcodes and no processor state. **Modern comparables.** ARM SVE and RISC-V V (scalable), ARM NEON, x86 AVX, PowerPC VSX, Alpha MVI. **Use.** Neural-network inference (the LB64 accelerator), graphics, signal processing and the library's string and memory routines. The evidence needed first: compile the corpus at higher optimisation and count vectorised loops, measure the share of time in memory and string routines, and decide the target workloads. **Impact.** *Kernel:* No vector state to save. *Compiler:* No vectoriser for the processor; the runtime lowers array primitives to descriptors. *Hardware:* No register file; the devices carry the width.
 
@@ -938,7 +937,7 @@ Stage 2, as `MSHA`; the layout of the parameter block is not specified.
 
 #### B.2.3 Double-width compare-and-swap and a random-number instruction (P8, P9)
 
-**B.2.3.1** The proposal is to add no double-width compare-and-swap: the evidence for it is one Linux use (software can tag a pointer with the 25 spare bits instead). Random numbers come from an entropy device on the bus rather than an instruction: that is decided (errata 85, 5.7.2). 
+**B.2.3.1** The proposal is to add no double-width compare-and-swap: the evidence for it is one Linux use (software can tag a pointer with the 25 spare bits instead). Random numbers come from an entropy device on the bus rather than an instruction: that is decided (5.7.2). 
 
 *Commentary.* **Precedent.** The VAX solved the lock-free queue with whole-queue interlocked instructions; no machine of the period had a random-number instruction. **Modern comparables.** x86 `CMPXCHG16B`, AArch64 `CASP`, RISC-V `AMOCAS.Q`; x86 `RDRAND` and `RDSEED`, PowerPC `DARN`, s390 `PRNO`, AArch64 `RNDR`. **Impact.** *Kernel:* Entropy from a device at boot. *Compiler:* Tagged pointers in software if a double-width compare-and-swap is not wanted. *Hardware:* An entropy source device; no new opcode.
 
@@ -978,13 +977,13 @@ Stage 2, as `MSHA`; the layout of the parameter block is not specified.
 
 #### B.2.12 Enumeration and hot-plug (N1 to N3)
 
-**B.2.12.1** Enumeration by PCI Express configuration space is decided (N1, errata 80, 2.4), and so is the read of a function that is absent, which returns all ones (errata 104, 2.4.7). The proposals that remain are the placement of the windows in the physical address space, an interrupt and a rescan on a hot-plug event (N2), and the queued work left in memory when a device departs (N3). 
+**B.2.12.1** Enumeration by PCI Express configuration space is decided (N1, 2.4), and so is the read of a function that is absent, which returns all ones (2.4.7). The proposals that remain are the placement of the windows in the physical address space, an interrupt and a rescan on a hot-plug event (N2), and the queued work left in memory when a device departs (N3). 
 
 *Commentary.* See section 2.4 and its commentary: the VAX's nexus scan, PCI's configuration space and all-ones reads, USB's status-change endpoint. **Impact.** *Kernel:* Enumeration and hot-plug are one loop and one rescan. *Compiler:* None. *Hardware:* A standard root complex and the precise fault for an absent device.
 
 #### B.2.13 The boot decisions (B1, B3, B4, B5, B8)
 
-**B.2.13.1** The boot ROM that reads block 0 (B1) is decided (errata 109, 4.4). The proposals that remain are the contents of the boot-information block: memory, cores, the root complex's address and the boot device and console (B3), an `INIT` bit with an optional firmware descriptor (B4) and a block list in the protective MBR's boot code (B8). 
+**B.2.13.1** The boot ROM that reads block 0 (B1) is decided (4.4). The proposals that remain are the contents of the boot-information block: memory, cores, the root complex's address and the boot device and console (B3), an `INIT` bit with an optional firmware descriptor (B4) and a block list in the protective MBR's boot code (B8). 
 
 *Commentary.* See chapter 4 and [`boot.md`](../boot.md): the PDP-11's block 0 and `ODT`, the VAX's boot block and restart parameter block, the BIOS and UEFI (4.9 for the UEFI decision and the shim). **Impact.** *Kernel:* A boot-information struct and a core start register. *Compiler:* The loader and first block are built by the project's compiler. *Hardware:* A boot ROM, a block-0 reader and per-core start registers.
 

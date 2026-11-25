@@ -7,11 +7,11 @@ STORY = dict(STORY, **isa_stories_ext.STORY)
 
 ENTRIES = isa_part1.ENTRIES + isa_part2.ENTRIES + isa_part3.ENTRIES + isa_part4.ENTRIES + isa_vec.ENTRIES	# isa_vec: the vec, tile and GEMM family, all held (P) until benchmarked
 
-# The manual is about the architecture as it is to be.  An entry whose notes open with the tag (P), a proposal the author has not
+# The manual is about the architecture as it is to be.  An entry whose notes open with the tag (P), a proposal I have not
 # accepted, or (S), a stub, is not emitted into the body or the reference tables; its text lives in docs/manual-src/appendix-parts/09-proposed.md
-# (and 09-open.md for a stub).  An instruction the author asked for or accepted is decided even when its details are not worked out: its entry is
-# tagged (D) and says "Details pending", and it is not held.  Only the words he did not decide are held: MOVUSERD (a combination of two decided
-# qualifiers that no text of his or of the study defines), MSHA and MAESCTR (stage 2 of the crypto study, "only after measurement"), SYSPG0-5
+# (and 09-open.md for a stub).  An instruction I asked for or accepted is decided even when its details are not worked out: its entry is
+# tagged (D) and it is not held.  Only the words I did not decide are held: MOVUSERD (a combination of two decided
+# qualifiers that no text of mine or of the study defines), MSHA and MAESCTR (stage 2 of the crypto study, "only after measurement"), SYSPG0-5
 # (placeholders).  The entry stays in this file so that the grammar's words keep their descriptions.
 HELD = {}
 for _e in ENTRIES:

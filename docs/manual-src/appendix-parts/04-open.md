@@ -1,7 +1,7 @@
 <a id="j41"></a>
 ### J.4.1 The first few pages
 
-**Issue.** The author's rule is that device windows can go anywhere in physical space "except the first few pages where the boot stuff is loaded". How many pages are "the first few", and what exactly lives in them, is not fixed. The rule is a **reservation**: a range of physical addresses that no device window may overlap, so that the boot ROM and the first stage can assume plain memory there. What the documents already put in that range: the vector table (the table through which an exception or an interrupt finds its handler: 512 entries of 8 bytes, exactly one page of 4096 bytes at address 0, because the register `VBR` is zero at reset); block 0 (512 bytes), read to an address "to be chosen" (0x1000 is the example, which is why the load address is part of this entry); the boot-information block, whose size is not specified and which lists the memory ranges, boot device, console, core count, device table, command line, ABI version and a checksum; and the top of the first 64 KB, which register `r14` holds as the first stack.
+**Issue.** My rule is that device windows can go anywhere in physical space "except the first few pages where the boot stuff is loaded". How many pages are "the first few", and what exactly lives in them, is not fixed. The rule is a **reservation**: a range of physical addresses that no device window may overlap, so that the boot ROM and the first stage can assume plain memory there. What the documents already put in that range: the vector table (the table through which an exception or an interrupt finds its handler: 512 entries of 8 bytes, exactly one page of 4096 bytes at address 0, because the register `VBR` is zero at reset); block 0 (512 bytes), read to an address "to be chosen" (0x1000 is the example, which is why the load address is part of this entry); the boot-information block, whose size is not specified and which lists the memory ranges, boot device, console, core count, device table, command line, ABI version and a checksum; and the top of the first 64 KB, which register `r14` holds as the first stack.
 
 **Why it matters.** Before translation is on, the kernel needs a known place for the vector table, the boot-information block and the early stack. The root complex must refuse to decode a window below the limit, and the boot ROM's load address and the reset value of `VBR` are tied to it. Section 4.4 and the boot sequence cannot quote an address until it is chosen.
 
@@ -16,9 +16,9 @@
 
 **Precedents.** The PDP-11 kept its trap vectors in the first octal 0 to 0377 bytes of memory, with the boot ROMs elsewhere *(unverified: general knowledge)*. The RISC-V virt board of QEMU has a debug region at 0x0, the boot ROM at 0x1000 and devices from 0x2000000, and 0x1000 is the default reset vector *(verified: QEMU hw/riscv/virt.c and target/riscv/cpu_bits.h)*. The PC reserves the first megabyte of real mode for vectors, BIOS data and the boot sector loaded at 0x7C00 *(unverified: general knowledge)*. The VAX console passes a boot block and a restart parameter block that lives in low memory *(unverified: general knowledge)*. The PDP-11 I/O page sat at the very top of its address space *(verified in the project's chapter 2 commentary of the V7 drivers)*, and x86 resets at 0xFFFFFFF0, at the top of 4 GB *(unverified: general knowledge)*. The PC BIOS E820 map and the UEFI memory map type each range *(unverified: general knowledge)*.
 
-**The author's referents.** The PDP-11 boot ("load 512 byte block 0 then jmp 0"; "not precisely true, but directionally true"); "follow the majority as far as boot block offset"; the VAX's I/O space (memory low, I/O above; "it should be noted in the book how the vax does this io space idea"); UEFI ("is it worth it at all?", since decided against); the GPT as the disk label.
+**My referents.** The PDP-11 boot ("load 512 byte block 0 then jmp 0"; "not precisely true, but directionally true"); "follow the majority as far as boot block offset"; the VAX's I/O space (memory low, I/O above; "it should be noted in the book how the vax does this io space idea"); UEFI ("is it worth it at all?", since decided against); the GPT as the disk label.
 
-**The assistant's leaning.** Option 2, 64 KB, because the reset state already defines the first 64 KB through `r14`, so no new number is invented; the vector page and block 0 fit with room; and the cost is nothing at 40 bits. It would change if a board's RAM does not start at 0, or if the boot-information block grows beyond 8 KB (then Option 3 or 4). To decide it, the author's size for the boot-information block and for the second-stage loader would help, and whether the vector table stays at 0 after boot (`VBR` can be moved).
+**My leaning.** Option 2, 64 KB, because the reset state already defines the first 64 KB through `r14`, so no new number is invented; the vector page and block 0 fit with room; and the cost is nothing at 40 bits. It would change if a board's RAM does not start at 0, or if the boot-information block grows beyond 8 KB (then Option 3 or 4). To decide it, my size for the boot-information block and for the second-stage loader would help, and whether the vector table stays at 0 after boot (`VBR` can be moved).
 
 **Where the body refers to it.** Sections 2.3.5, 4.4.1 and 6.12.
 
@@ -40,16 +40,16 @@
 
 **Precedents.** The V7 primary bootstrap for the RM02/3 writes the disk's registers itself *(verified: `sys/mdec/hpuboot.s`)*. OpenBSD's PC first stage calls `INT 0x13` *(verified: `biosboot.S`)*. OpenBSD's `installboot` hard-codes the block numbers of the second stage into the first stage *(verified: `installboot(8)` for the sparc, and `biosboot(8)` for the PC)*. The 4.3BSD-Tahoe VAX `raboot` is documented as working with the 750's boot ROM and reading 7.5 KB *(verified for the header; how the ROM helps it is unverified)*.
 
-**The author's referents.** The PDP-11 boot ("load 512 byte block 0 then jmp 0"); "follow the majority as far as boot block offset"; the GPT wrapper.
+**My referents.** The PDP-11 boot ("load 512 byte block 0 then jmp 0"); "follow the majority as far as boot block offset"; the GPT wrapper.
 
-**The assistant's leaning.** Option 1 if a measured reader fits, because it needs nothing from the ROM; Option 3 if it does not. A measurement of a polled virtio-blk read in assembler for the pdp64 would decide it.
+**My leaning.** Option 1 if a measured reader fits, because it needs nothing from the ROM; Option 3 if it does not. A measurement of a polled virtio-blk read in assembler for the pdp64 would decide it.
 
 **Where the body refers to it.** Section 4.5.2.
 
 <a id="j43"></a>
 ### J.4.3 How the ROM finds and maps the boot device
 
-**Issue.** Section 2.4 says that the processor assigns the windows of the bus's devices. The ROM is the first software to run, and to read block 0 it must reach the boot device's registers and queues, which lie in a window that nobody has assigned yet. It is not stated whether the ROM assigns every window or only the boot device's, where it places them, and whether it leaves them for the kernel to keep or to change. The author's rule keeps windows out of the first few pages ([J.4.1](appendix-j-open.md#j41)).
+**Issue.** Section 2.4 says that the processor assigns the windows of the bus's devices. The ROM is the first software to run, and to read block 0 it must reach the boot device's registers and queues, which lie in a window that nobody has assigned yet. It is not stated whether the ROM assigns every window or only the boot device's, where it places them, and whether it leaves them for the kernel to keep or to change. My rule keeps windows out of the first few pages ([J.4.1](appendix-j-open.md#j41)).
 
 **Why it matters.** The kernel's own enumeration starts from the state the ROM leaves. The root complex's reset state, the ROM's size and the boot-information block's description of the root complex all depend on it.
 
@@ -63,7 +63,7 @@
 
 **Precedents.** PC firmware assigns the base address registers of the devices before boot *(unverified: general knowledge)*. QEMU's RISC-V virt board places its devices at fixed addresses, and 0x1000 is its reset vector *(verified: `hw/riscv/virt.c`)*. The PDP-11's I/O page was fixed by the hardware at the top of the address space *(verified in chapter 2's commentary of the V7 drivers)*.
 
-**The author's referents.** PCI Express enumeration (2.4); the PDP-11 and VAX I/O space.
+**My referents.** PCI Express enumeration (2.4); the PDP-11 and VAX I/O space.
 
 **Where the body refers to it.** Section 4.4.1.1.
 
@@ -85,16 +85,16 @@
 
 **Precedents.** The VAX restart parameter block and the Alpha hardware restart parameter block are fixed-layout records of the machine *(verified: 4.3BSD `vax/rpb.h`, OpenBSD `alpha/include/rpb.h`)*. UEFI passes a memory map and configuration tables for ACPI or a device tree, and OpenBSD's loaders look for both *(verified: `efiboot`)*. OpenBSD's arm64 and riscv64 kernels parse a device tree *(verified through `efiboot`'s `FDT_TABLE_GUID`)*.
 
-**The author's referents.** UEFI ("is it worth it at all?"), since decided against; "load 512 byte block 0 then jmp 0"; the hand-off "kept simple enough that a UEFI shim could be written".
+**My referents.** UEFI ("is it worth it at all?"), since decided against; "load 512 byte block 0 then jmp 0"; the hand-off "kept simple enough that a UEFI shim could be written".
 
-**The assistant's leaning.** Option 1, with a version field: the bus describes its own devices, so the block only has to carry what enumeration cannot (memory, cores, root complex, boot device, console, command line, screen). It changes if the OpenBSD device-tree drivers are to be reused, which would favour Option 4.
+**My leaning.** Option 1, with a version field: the bus describes its own devices, so the block only has to carry what enumeration cannot (memory, cores, root complex, boot device, console, command line, screen). It changes if the OpenBSD device-tree drivers are to be reused, which would favour Option 4.
 
 **Where the body refers to it.** Section 4.6.2.
 
 <a id="j45"></a>
 ### J.4.5 Firmware for a virtio device
 
-**Issue.** The author decided (4.8.1; R256) that device initialisation happens behind the bus, a register write telling the device to initialise itself, and that a device may also be given values or a binary firmware image to load. What is open is how. Some devices contain a small processor and need a program, **firmware**, loaded into them before they work; a network or wireless card is the usual case. The PDP-11 had no such device. Virtio has no firmware operation of its own. A device the boot depends on (the disk, the console, the interrupt controller) cannot wait for firmware that lies on the disk it controls, so it must work from built-in logic.
+**Issue.** I decided (4.8.1) that device initialisation happens behind the bus, a register write telling the device to initialise itself, and that a device may also be given values or a binary firmware image to load. What is open is how. Some devices contain a small processor and need a program, **firmware**, loaded into them before they work; a network or wireless card is the usual case. The PDP-11 had no such device. Virtio has no firmware operation of its own. A device the boot depends on (the disk, the console, the interrupt controller) cannot wait for firmware that lies on the disk it controls, so it must work from built-in logic.
 
 **Why it matters.** Without a mechanism, such a device cannot be used, or each vendor invents one.
 
@@ -108,14 +108,14 @@
 
 **Precedents.** Linux `request_firmware`, OpenBSD `loadfirmware(9)` (reads from `/etc/firmware`) and NetBSD `firmload(9)` load a blob from a file at attach time *(verified: read in the trees)*. NVMe has a firmware-download command *(unverified; not found in the QEMU headers read)*. The VAX console and some adapters loaded microcode from storage *(unverified)*.
 
-**The author's referents.** "the init protocol should mostly happen behind the bus, poke a register to tell the device 'initialize yourself' and possibly have another register populated with values or a binary firmware blob for the device to load"; the `INIT` and `READY` bits of the Unibus device; virtio's `device_status` handshake.
+**My referents.** "the init protocol should mostly happen behind the bus, poke a register to tell the device 'initialize yourself' and possibly have another register populated with values or a binary firmware blob for the device to load"; the `INIT` and `READY` bits of the Unibus device; virtio's `device_status` handshake.
 
 **Where the body refers to it.** Section 4.8.1.
 
 <a id="j46"></a>
 ### J.4.6 Starting the other cores
 
-**Issue.** At reset only core 0 runs, and the controller chip provides the way the others are started (4.7.1; the author: "we'll need a way for the controller chip to 'boot' the other chips"). The open part is the mechanism. The kernel must start the others, each with its own stack and its own identity. The mechanism is not decided: how a core is given its entry address and an argument, what registers and mode it starts with (and so whether it starts with translation off, and what `MMUCTL` it sees), which registers carry its core number and the argument (chapter 7 states one rule, `r0` only, and the first design of this chapter a second, `r0` and `r1`), and how a core that sticks is reset.
+**Issue.** At reset only core 0 runs, and the controller chip provides the way the others are started (4.7.1; I said: "we'll need a way for the controller chip to 'boot' the other chips"). The open part is the mechanism. The kernel must start the others, each with its own stack and its own identity. The mechanism is not decided: how a core is given its entry address and an argument, what registers and mode it starts with (and so whether it starts with translation off, and what `MMUCTL` it sees), which registers carry its core number and the argument (chapter 7 states one rule, `r0` only, and the first design of this chapter a second, `r0` and `r1`), and how a core that sticks is reset.
 
 **Why it matters.** The kernel's secondary-start code, the controller's register block and the boot-information block's core count are written against it.
 
@@ -130,9 +130,9 @@
 
 **Precedents.** Linux counted: `smpboot.c` 1,528 lines and `arch/x86/realmode` 1,258 for x86; PSCI 124 and the spin table 127 on arm64; the SBI start 108 and the spin wait 58 on RISC-V *(verified, re-counted in Linux `7be4bc52`)*. The VAX console processor started the other processors *(unverified)*.
 
-**The author's referents.** The PDP-11, which had one processor; "we'll need a way for the controller chip to 'boot' the other chips; do a thorough review of how all the main smp systems do it, which is best/easiest". He has not chosen among the options.
+**My referents.** The PDP-11, which had one processor; "we'll need a way for the controller chip to 'boot' the other chips; do a thorough review of how all the main smp systems do it, which is best/easiest". He has not chosen among the options.
 
-**The assistant's leaning.** Option 1: it removes the trampoline and the firmware call and recovers a stuck core by one write.
+**My leaning.** Option 1: it removes the trampoline and the firmware call and recovers a stuck core by one write.
 
 **Where the body refers to it.** Sections 4.2 and 4.7.1.
 
@@ -153,7 +153,7 @@
 
 **Precedents.** The PC BIOS keeps a boot-device order in its setup memory *(unverified)*. UEFI keeps boot variables in non-volatile memory, which its loaders read and write *(verified: `GetVariable` and `SetVariable` calls in `efiboot`)*. The DEC boot ROM cards chose the device by a console command or switch *(M9312 comment verified; the command unverified)*.
 
-**The author's referents.** The PDP-11 ROM; no statement of his on the order was found.
+**My referents.** The PDP-11 ROM; no statement of his on the order was found.
 
 **Where the body refers to it.** Section 4.4.
 
@@ -174,7 +174,7 @@
 
 **Precedents.** 4.3BSD-Tahoe and 2.11BSD reserve 15 sectors after block 0 for the bootstraps *(verified: `disklabel.h`)*. OpenBSD on the PC patches `biosboot` with the location of `/boot` *(verified: `biosboot(8)`)*. OpenBSD defines both the OpenBSD-type and the EFI-system partition GUIDs *(verified: `disklabel.h`)*. Other systems keep a "BIOS boot partition" for a loader *(unverified)*.
 
-**The author's referents.** The GPT wrapper; "follow the majority as far as boot block offset"; the 2026-11-10 choice of block 0 with a UEFI route kept possible.
+**My referents.** The GPT wrapper; "follow the majority as far as boot block offset"; the 2026-11-10 choice of block 0 with a UEFI route kept possible.
 
 **Where the body refers to it.** Sections 4.5.2 and 4.5.4.
 
@@ -193,16 +193,16 @@
 
 **Precedents.** 2.11BSD passes `r0`, `r1`, `r3` and a check word in `r2` *(verified: `pdpstand/srt0.s`, `boot.c`)*; the VAX boot passes `r1` to `r5` *(verified: `raboot.c`)*.
 
-**The author's referents.** "load 512 byte block 0 then jmp 0".
+**My referents.** "load 512 byte block 0 then jmp 0".
 
-**The assistant's leaning.** Option 1.
+**My leaning.** Option 1.
 
 **Where the body refers to it.** Section 4.4.1.
 
 <a id="j410"></a>
 ### J.4.10 The monitor: commands, how it is reached, its console
 
-**Issue.** The controller's ROM includes a monitor (4.10.1, decided). Open: its command set, how it is reached (when nothing boots, a key at power-up, or both), its console and speed, whether it loads a program over the serial line, and what is kept in non-volatile memory (boot order, serial speed). Whether a hardware watchdog, which restarts the machine when the kernel hangs, belongs beside it is the assistant's proposal and is in appendix H.
+**Issue.** The controller's ROM includes a monitor (4.10.1, decided). Open: its command set, how it is reached (when nothing boots, a key at power-up, or both), its console and speed, whether it loads a program over the serial line, and what is kept in non-volatile memory (boot order, serial speed). Whether a hardware watchdog, which restarts the machine when the kernel hangs, belongs beside it is my proposal and is in appendix H.
 
 **Why it matters.** The monitor is the way in when nothing boots, so its ROM size and its dependence on a serial port decide how a new board is brought up.
 
@@ -214,8 +214,8 @@
 
 **Precedents.** `ODT` on the PDP-11 *(2.11BSD `cons(4)` read; the commands unverified)*; U-Boot and OpenSBI consoles *(unverified)*.
 
-**The author's referents.** "the boot ROM and its monitor".
+**My referents.** "the boot ROM and its monitor".
 
-**The assistant's leaning.** Option 1.
+**My leaning.** Option 1.
 
 **Where the body refers to it.** Section 4.10.1.

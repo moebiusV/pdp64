@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**These are improvements that the author has approved, each with its benefit, its cost and what other machines do.** They come from the reports on kernel pain points, hardware vulnerabilities and OpenBSD's mitigations. Most are approved "to be specified": the decision is made and the specification is not written, and what is not yet specified is listed in [appendix J](appendix-j-open.md). The same ordering principle as the rest of the manual applies: code size, then easy recoverability, then speed and efficiency through fewer gates and tighter hot loops. Ideas that nobody has decided are in [appendix H](appendix-h-proposed.md), and what has been put off is in [appendix I](appendix-i-deferred.md).
+**These are improvements that I have approved, each with its benefit, its cost and what other machines do.** They come from the reports on kernel pain points, hardware vulnerabilities and OpenBSD's mitigations. Most are approved "to be specified": the decision is made and the specification is not written, and what is not yet specified is listed in [appendix J](appendix-j-open.md). The same ordering principle as the rest of the manual applies: code size, then easy recoverability, then speed and efficiency through fewer gates and tighter hot loops. Ideas that nobody has decided are in [appendix H](appendix-h-proposed.md), and what has been put off is in [appendix I](appendix-i-deferred.md).
 
 ## A.1 A page bit that enforces landing pads
 
@@ -46,19 +46,19 @@
 
 ## A.6 A physical address wider than 40 bits
 
-**A.6.1** The physical address is 40 to 64 bits (the author's decision), which lets petabytes of memory and device windows be mapped; the present page-table entry holds the physical page number in bits 12 to 39 and keeps bits 40 to 63 zero, so the entry format has to grow its page number into them or change. Open: the entry format ([J.6.2](appendix-j-open.md#j62)).
+**A.6.1** The physical address is 40 to 64 bits (my decision), which lets petabytes of memory and device windows be mapped; the present page-table entry holds the physical page number in bits 12 to 39 and keeps bits 40 to 63 zero, so the entry format has to grow its page number into them or change. Open: the entry format ([J.6.2](appendix-j-open.md#j62)).
 
-*Commentary.* **Trade-offs.** The author's reason is that mapping petabytes needs those bits. The cost is a wider page number in the entry, in every translation-buffer entry and in every bus address; the benefit is room for devices and memory in one address space without a decoding bit. **Modern comparables.** x86-64 and AArch64 define physical addresses of up to 52 bits and RISC-V up to 56 (stated from memory, not confirmed in the sources read). **Impact.** *Kernel:* a wider entry and a physical-address width to discover. *Compiler:* none. *Hardware:* more bits in the walker, the translation buffer and the bus.
+*Commentary.* **Trade-offs.** My reason is that mapping petabytes needs those bits. The cost is a wider page number in the entry, in every translation-buffer entry and in every bus address; the benefit is room for devices and memory in one address space without a decoding bit. **Modern comparables.** x86-64 and AArch64 define physical addresses of up to 52 bits and RISC-V up to 56 (stated from memory, not confirmed in the sources read). **Impact.** *Kernel:* a wider entry and a physical-address width to discover. *Compiler:* none. *Hardware:* more bits in the walker, the translation buffer and the bus.
 
 ## A.7 A second page-table base register
 
-**A.7.1** A second page-table base, `KTBR`, translates the upper half of the address space, so that a kernel and a user program run with different tables without flushing (6.9.1; the author accepted the split).
+**A.7.1** A second page-table base, `KTBR`, translates the upper half of the address space, so that a kernel and a user program run with different tables without flushing (6.9.1; I accepted the split).
 
 *Commentary.* **Precedent.** The cost of separating kernel and user page tables on x86 after Meltdown was about 5% typical and about 30% in the worst case in the developers' own estimates, and the tagged translation buffers (PCID) made it tolerable. **Benefits.** The isolation is in the hardware from the start. **Modern comparables.** AArch64 has two translation-table base registers, one for each half of the address space. **Impact.** *Kernel:* The kernel switches one base register at the privilege change instead of managing a shared table. *Compiler:* None. *Hardware:* A second base register and a rule choosing which half uses which.
 
 ## A.8 The user-memory guard instructions
 
-**A.8.1** `PSW.UA`, `STUA` and `CLUA` stay in the architecture until the OpenBSD port confirms the user-qualified moves (6.10.4, 9.6.7); the author accepted this with the five leanings of the study of user access.
+**A.8.1** `PSW.UA`, `STUA` and `CLUA` stay in the architecture until the OpenBSD port confirms the user-qualified moves (6.10.4, 9.6.7); I accepted this with the five leanings of the study of user access.
 
 ## A.9 Streaming block operations
 

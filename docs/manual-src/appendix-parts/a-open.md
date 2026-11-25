@@ -1,7 +1,7 @@
 <a id="ja1"></a>
 ### J.A.1 The canonical-address rule and the pointer bits that colours spend
 
-**Issue.** A virtual address is canonical when its bits above the translated width repeat the top translated bit (39, 48 or 57 bits of address, 9.2.10); a non-canonical address aborts. A 64-bit pointer therefore has 25 spare bits with three levels of page table, fewer with four or five, and the rule today refuses software any use of them. The author approved granule colouring and reserved colours for uninitialised and freed memory, and "to be specified": a colour travels in the pointer, so the hardware, not software, must define and check those bits.
+**Issue.** A virtual address is canonical when its bits above the translated width repeat the top translated bit (39, 48 or 57 bits of address, 9.2.10); a non-canonical address aborts. A 64-bit pointer therefore has 25 spare bits with three levels of page table, fewer with four or five, and the rule today refuses software any use of them. I approved granule colouring and reserved colours for uninitialised and freed memory, and "to be specified": a colour travels in the pointer, so the hardware, not software, must define and check those bits.
 
 **Why it matters.** The rule is stated in the architecture, in the kernel's address-space layout, in the compiler's pointer arithmetic and in the debugger; a colour that software may set changes all four. The tag trick of the instruction set (a pointer tag in the low three bits, checked by the quad alignment abort) is a separate use and is not affected.
 
@@ -14,8 +14,8 @@
 
 **Precedents.** ARM's top-byte-ignore, pointer authentication and the memory tagging extension *(unverified: general knowledge)*; SPARC's application data integrity colours the pointer and the memory *(unverified)*; the study of item 3 of the retire-stage candidates, which considered the same bits for a capability bit *(verified: docs/retire-stage-candidates.md)*.
 
-**The author's referents.** "Do it, no delay" for granule colouring; the capability bit "asked whether it can be done with 64-bit pointers and flags outside the 64 usable bits".
+**My referents.** "Do it, no delay" for granule colouring; the capability bit "asked whether it can be done with 64-bit pointers and flags outside the 64 usable bits".
 
-**The assistant's leaning.** Option 3, because the width is read anyway for the address space (J.6.1). This is the assistant's view, not a decision.
+**My leaning.** Option 3, because the width is read anyway for the address space (J.6.1). This is my view, not a decision.
 
 **Where the body refers to it.** Section A.5.2.

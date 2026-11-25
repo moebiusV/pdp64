@@ -34,9 +34,9 @@
 | [`hardware-vulnerabilities.md`](../hardware-vulnerabilities.md) | the processor, memory and system flaws of the last decade that needed mitigations, and the rules that keep pdp64 from repeating them, including the evidence on constant-time modes |
 | [`openbsd-mitigations.md`](../openbsd-mitigations.md) | OpenBSD's memory-safety and exploit mitigations, what pdp64 gives for free and what would make the rest soft and easy |
 | [`sim64.md`](../sim64.md) | the reference emulator |
-| [`smp-decisions.md`](../smp-decisions.md) | the open symmetric-multiprocessing decisions, proposals awaiting the author's annotations |
-| [`crypto-secure-core.md`](../crypto-secure-core.md), [`security-proposals.md`](../security-proposals.md), [`study-proposals.md`](../study-proposals.md), [`retire-stage-candidates.md`](../retire-stage-candidates.md) | the proposals on the secure core, the security mechanisms, the studied instructions and the retire-stage mechanisms, with the author's replies |
-| [`priority-lists.md`](../priority-lists.md) | the lists of priorities that the author settled |
+| [`smp-decisions.md`](../smp-decisions.md) | the open symmetric-multiprocessing decisions, proposals awaiting my annotations |
+| [`crypto-secure-core.md`](../crypto-secure-core.md), [`security-proposals.md`](../security-proposals.md), [`study-proposals.md`](../study-proposals.md), [`retire-stage-candidates.md`](../retire-stage-candidates.md) | the proposals on the secure core, the security mechanisms, the studied instructions and the retire-stage mechanisms, with my replies |
+| [`priority-lists.md`](../priority-lists.md) | the lists of priorities that I settled |
 
 The data behind the tables is in `docs/codegen-data/`, the generators are in `tools/`, and the sources of the design discussions are `chat01.txt` and the archive of the working session.
 

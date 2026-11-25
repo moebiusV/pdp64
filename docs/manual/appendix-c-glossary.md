@@ -119,13 +119,10 @@
 
 | Term | Meaning |
 |---|---|
-| **errata** | the numbered decision log of the project (`../errata.md`, appendix F) |
 | **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.7) |
 | **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.7) |
 | **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.8, 10.5; not otherwise described in this manual) |
-| ** | the tag on a statement that the author decided (index) |
-| **details pending** | the mark on a decided statement whose details are not yet worked out; it names the open item that discusses them (appendix J), or says that the details are to be determined (index) |
-| **deferred** | a matter that the author has decided to put off; it is listed in appendix I and is not open (index) |
+| **deferred** | a matter that I have decided to put off; it is listed in appendix I and is not open (index) |
 | **open item** | a question that the architecture must answer and has not; each has an entry in appendix J with the issue, the options and what each costs, and the body points to it in a few words (index) |
 | **proposed** | an idea or design that nobody has decided; it is listed in appendix H and is not part of the architecture (index) |
 | **Impact** | the line ending each decision's commentary: effect on the kernel, on the compiler and on the hardware layout (index) |

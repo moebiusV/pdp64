@@ -32,7 +32,7 @@
 
 **9.2.5** Anything that changes what an instruction means is, by default, visible state set by an instruction that names it, not hidden state; whether a mode bit is worth its cost is decided case by case. Compatibility is by conversion instructions where that is cheap.
 
-**9.2.6** Every instruction can be restarted after a fault, and exceptions are precise; the machine has no hidden instruction state, except the hidden state of a vector block, which restarts from the entry of the block (6.14.9, errata 172).
+**9.2.6** Every instruction can be restarted after a fault, and exceptions are precise; the machine has no hidden instruction state, except the hidden state of a vector block, which restarts from the entry of the block (6.14.9).
 
 **9.2.7** Floating point is done in the general registers; there is no separate floating-point register file.
 
@@ -899,7 +899,7 @@ Rd ← Rc           ; in this order
 
 `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd`, fused. The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the grammar gives it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.
 
-**Why it is here.** The author decided the four fused pairs in errata 87 (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd` occurs 6,742 times and saves 0.50%, the smallest gain of the four and the dearest in code space: four 3-bit register fields use one sixteenth of the first-parcel space and can name only the eight hot registers. The encoding study lists both as costs, and one instruction that writes two registers (the rename width of an out-of-order core).
+**Why it is here.** I decided the four fused pairs (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd` occurs 6,742 times and saves 0.50%, the smallest gain of the four and the dearest in code space: four 3-bit register fields use one sixteenth of the first-parcel space and can name only the eight hot registers. The encoding study lists both as costs, and one instruction that writes two registers (the rename width of an out-of-order core).
 
 **Cf.** Appendix D (the hot-register tables).
 
@@ -935,9 +935,9 @@ Rd ← imm64
 
 **Exceptions** None.
 
-Errata 85: `MOVQL #imm64, Rd` is accepted, and breaking the three-parcel rule for it is acceptable because a 64-bit literal is not counted as part of the instruction. The instruction is five parcels, ten bytes: the literal is inside the instruction, so the length is still known from parcel 0 and the fetch has no exception for a trailing literal (`docs/encoding-proposal.md` section 3). The assembler uses it for a `MOVQ #imm, Rd` that fits no `MOVQ` form (errata 87, assumption 6).
+`MOVQL #imm64, Rd` is accepted, and breaking the three-parcel rule for it is acceptable because a 64-bit literal is not counted as part of the instruction. The instruction is five parcels, ten bytes: the literal is inside the instruction, so the length is still known from parcel 0 and the fetch has no exception for a trailing literal (`docs/encoding-proposal.md` section 3). The assembler uses it for a `MOVQ #imm, Rd` that fits no `MOVQ` form.
 
-**Why it is here.** The author accepted it in the second round of security answers (errata 85, proposal P18). A 64-bit constant otherwise comes from the literal pool; the literal inside the instruction is one instruction, and it is not counted against the three-parcel rule because it is data, not instruction. The encoding work found no use of a trailing literal worth its exception to the fetch rule, so the literal is part of a five-parcel instruction (`docs/encoding-proposal.md` section 3).
+**Why it is here.** I accepted it in the second round of security answers (proposal P18). A 64-bit constant otherwise comes from the literal pool; the literal inside the instruction is one instruction, and it is not counted against the three-parcel rule because it is data, not instruction. The encoding work found no use of a trailing literal worth its exception to the fetch rule, so the literal is part of a five-parcel instruction (`docs/encoding-proposal.md` section 3).
 
 
 ### MOVD: Deferred-fault load
@@ -972,9 +972,9 @@ when the access faults: the fault is precise as always; the kernel's handler rep
 
 **Exceptions** The ordinary faults of a load (page fault, protection fault, alignment fault, bus error), precise; what the handler does with them is the difference.
 
-The deferred-fault load is item 10 of `docs/study-proposals.md` (the poison bit), whose three leanings the author accepted: the fault is taken at the instruction that writes the flags from a poisoned source; the kernel decides a deferred load's fault; the kernel dispatcher, not the hardware, tests the argument registers for poison. Base and indexed operands only (a mode that needs a base register needs `LEA` first).
+The deferred-fault load is item 10 of `docs/study-proposals.md` (the poison bit), whose three leanings I accepted: the fault is taken at the instruction that writes the flags from a poisoned source; the kernel decides a deferred load's fault; the kernel dispatcher, not the hardware, tests the argument registers for poison. Base and indexed operands only (a mode that needs a base register needs `LEA` first).
 
-**Why it is here.** The poison bit of item 10 of the study (`docs/study-proposals.md`) wants a load that can be hoisted above its guard: it either gives a value or a poisoned value, and a use of a poisoned value is the fault the guard would have prevented. That removes the recovery code of if-conversion and software pipelining, gives a deterministic Spectre version 1 form (a deferred, bounds-checked address computation yields poison, not a branch the predictor can train), and makes a chain of checks one fault. The author accepted the three leanings of the proposal.
+**Why it is here.** The poison bit of item 10 of the study (`docs/study-proposals.md`) wants a load that can be hoisted above its guard: it either gives a value or a poisoned value, and a use of a poisoned value is the fault the guard would have prevented. That removes the recovery code of if-conversion and software pipelining, gives a deterministic Spectre version 1 form (a deferred, bounds-checked address computation yields poison, not a branch the predictor can train), and makes a chain of checks one fault. I accepted the three leanings of the proposal.
 
 **Cf.** 6.4, docs/study-proposals.md item 10.
 
@@ -1101,9 +1101,9 @@ whatever PSW.UA says
 
 **Exceptions** The faults of the access, as a user-mode access. In user mode the encoding is a privileged-instruction abort.
 
-Item 18 of `docs/study-proposals.md`: user access is an attribute of one memory operand, so it cannot outlive the instruction, cannot leak across an interrupt, and `RTI` re-executes the instruction with the attribute. The author accepted the five leanings: a fixup table in place of `pcb_onfault`, the `.U` spelling, keeping `PSW.UA`, `STUA` and `CLUA` until the OpenBSD port confirms, `ECAUSE` bit 15 to say that the access was user-qualified, and the atomics taking the user form once the operand placement of `ATOM` is fixed. (Not to be confused with `MOVU`, the unaligned move.)
+Item 18 of `docs/study-proposals.md`: user access is an attribute of one memory operand, so it cannot outlive the instruction, cannot leak across an interrupt, and `RTI` re-executes the instruction with the attribute. I accepted the five leanings: a fixup table in place of `pcb_onfault`, the `.U` spelling, keeping `PSW.UA`, `STUA` and `CLUA` until the OpenBSD port confirms, `ECAUSE` bit 15 to say that the access was user-qualified, and the atomics taking the user form once the operand placement of `ATOM` is fixed. (Not to be confused with `MOVU`, the unaligned move.)
 
-**Why it is here.** Copying between the kernel and the user is where kernels pay for the user-memory guard. x86 opens a window with `STAC` and closes it with `CLAC` (35 and 53 sites in the kernel-assembly corpus), and a forgotten `CLAC` on an error path is the bug class; Arm's `LDTR` and `STTR` make the access itself unprivileged (52 sites), but only for plain loads and stores. Item 18 of the study makes user access an attribute of one operand, so that no window exists to leave open and the range check of the copy routines (`addr + len` against the top of the user half) disappears into the hardware: a kernel address faults at the first byte. The author accepted its five leanings and kept `PSW.UA`, `STUA` and `CLUA` until the OpenBSD port confirms.
+**Why it is here.** Copying between the kernel and the user is where kernels pay for the user-memory guard. x86 opens a window with `STAC` and closes it with `CLAC` (35 and 53 sites in the kernel-assembly corpus), and a forgotten `CLAC` on an error path is the bug class; Arm's `LDTR` and `STTR` make the access itself unprivileged (52 sites), but only for plain loads and stores. Item 18 of the study makes user access an attribute of one operand, so that no window exists to leave open and the range check of the copy routines (`addr + len` against the top of the user half) disappears into the hardware: a kernel address faults at the first byte. I accepted its five leanings and kept `PSW.UA`, `STUA` and `CLUA` until the OpenBSD port confirms.
 
 **Cf.** 6.10 (the user-memory guard), docs/study-proposals.md item 18.
 
@@ -2045,7 +2045,7 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 
 **Mnemonics:** `ABS`
 
-**Alias** *(D)* `ABS` is an assembler alias, not a native instruction (the author's decision, errata 98). Meaning: `Rd <- |Rs|`. Open: its expansion, and with it the flags it leaves ([J.9.1](appendix-j-open.md#j91)).
+**Alias** *(D)* `ABS` is an assembler alias, not a native instruction (my decision). Meaning: `Rd <- |Rs|`. Open: its expansion, and with it the flags it leaves ([J.9.1](appendix-j-open.md#j91)).
 
 **Syntax**
 
@@ -2065,7 +2065,7 @@ Rd ← |Rs|
 
 **Exceptions** None.
 
-**Why it is here.** Integer absolute value is the counterpart of `FABS`. The author decided (2026-11-10) that it is an assembler alias, not a native instruction; the compiler's work of recognising `x < 0 ? -x : x` is the real cost, and the expansion is open ([J.9.1](appendix-j-open.md#j91)). The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.
+**Why it is here.** Integer absolute value is the counterpart of `FABS`. I decided (2026-11-10) that it is an assembler alias, not a native instruction; the compiler's work of recognising `x < 0 ? -x : x` is the real cost, and the expansion is open ([J.9.1](appendix-j-open.md#j91)). The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.
 
 
 <a id="w-min"></a>
@@ -2076,7 +2076,7 @@ Rd ← |Rs|
 
 **Mnemonics:** `MIN`, `MINU`, `MAX`, `MAXU`
 
-**Alias** *(D)* `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions (the author's decision, errata 98). Meaning: the smaller or the larger of `Ra` and `Rb`, signed for `MIN` and `MAX` and unsigned for `MINU` and `MAXU`. Open: their expansion, and with it the flags they leave ([J.9.1](appendix-j-open.md#j91)).
+**Alias** *(D)* `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions (my decision). Meaning: the smaller or the larger of `Ra` and `Rb`, signed for `MIN` and `MAX` and unsigned for `MINU` and `MAXU`. Open: their expansion, and with it the flags they leave ([J.9.1](appendix-j-open.md#j91)).
 
 **Syntax**
 
@@ -2100,7 +2100,7 @@ MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 
 **Exceptions** None.
 
-**Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; the author decided (2026-11-10) that they are assembler aliases, not native instructions. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all. Their expansion is open ([J.9.1](appendix-j-open.md#j91)).
+**Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; I decided (2026-11-10) that they are assembler aliases, not native instructions. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all. Their expansion is open ([J.9.1](appendix-j-open.md#j91)).
 
 
 <a id="w-set"></a>
@@ -2169,9 +2169,9 @@ MASKNEZ: Rd ← (Rc ≠ 0) ? 0 : Ra
 
 **Exceptions** None.
 
-Errata 85: the branch-free select is adopted. `Rc` is tested whole, all 64 bits, so any non-zero value is true; no flag is read or written, and the latency is fixed. `Rd` may be `Ra` or `Rc`. A constant-time select `d = c ? a : b` is `MASKEQZ a, c, t`, `MASKNEZ b, c, d`, `BIS t, d`. The semantics are those of LoongArch `maskeqz` and `masknez` and of RISC-V Zicond (the crypto study states this from memory). Open: whether a flag-reading select is added ([J.9.1](appendix-j-open.md#j91)).
+The branch-free select is adopted. `Rc` is tested whole, all 64 bits, so any non-zero value is true; no flag is read or written, and the latency is fixed. `Rd` may be `Ra` or `Rc`. A constant-time select `d = c ? a : b` is `MASKEQZ a, c, t`, `MASKNEZ b, c, d`, `BIS t, d`. The semantics are those of LoongArch `maskeqz` and `masknez` and of RISC-V Zicond (the crypto study states this from memory). Open: whether a flag-reading select is added ([J.9.1](appendix-j-open.md#j91)).
 
-**Why it is here.** The author adopted the branch-free select when the crypto study asked for it: constant-time code must choose between two values without a branch, and a flag-reading conditional move would put a secret in a flag. `MASKEQZ` and `MASKNEZ` are the select of LoongArch and of RISC-V Zicond (stated from memory in the study, not checked against a manual); the pair and an `OR` make `c ? a : b` in three instructions, against two for `CMP` and a conditional move, but the conditional move would be used at 783 sites in 284,641 instructions (0.28%), and the case for the pair is the constant-time idiom, where the condition is already a register. The author confirmed the pair and wrote "looks good" on the section. About 100 look-up tables, one cycle (the study's estimate).
+**Why it is here.** I adopted the branch-free select when the crypto study asked for it: constant-time code must choose between two values without a branch, and a flag-reading conditional move would put a secret in a flag. `MASKEQZ` and `MASKNEZ` are the select of LoongArch and of RISC-V Zicond (stated from memory in the study, not checked against a manual); the pair and an `OR` make `c ? a : b` in three instructions, against two for `CMP` and a conditional move, but the conditional move would be used at 783 sites in 284,641 instructions (0.28%), and the case for the pair is the constant-time idiom, where the condition is already a register. I confirmed the pair and wrote "looks good" on the section. About 100 look-up tables, one cycle (the study's estimate).
 
 **Cf.** 9.7 (SET), docs/crypto-secure-core.md section 2.
 
@@ -2230,9 +2230,9 @@ else Rd ← t
 
 **Exceptions** Aborts with the `CHECK` vector on signed overflow, with `EPC` at the instruction and the destination unwritten; a blind restart faults again unless the handler changed an operand.
 
-Errata 85: `TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` forms. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form. Open: whether the form has two registers or three ([J.9.4](appendix-j-open.md#j94)). Open: the number of the `CHECK` vector ([J.9.4](appendix-j-open.md#j94)).
+`TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` forms. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form. Open: whether the form has two registers or three ([J.9.4](appendix-j-open.md#j94)). Open: the number of the `CHECK` vector ([J.9.4](appendix-j-open.md#j94)).
 
-**Why it is here.** Checked arithmetic is what clang `-ftrapv` and `__builtin_*_overflow`, Rust's debug overflow checks, Swift's default arithmetic and Ada's `Constraint_Error` need. The author decided `TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` and no compare-and-trap form, the fused forms as the case where one non-destructive instruction beats `ADD` and `TRAPCC`. The corpus cannot size the use: it contains no `BVS` or `BVC` at all, because the overflow builtins were not implemented in the compiler that produced it, and the study says that sanitiser builds are the target. The record gives the precedent only for the trap, not for the fused forms.
+**Why it is here.** Checked arithmetic is what clang `-ftrapv` and `__builtin_*_overflow`, Rust's debug overflow checks, Swift's default arithmetic and Ada's `Constraint_Error` need. I decided `TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` and no compare-and-trap form, the fused forms as the case where one non-destructive instruction beats `ADD` and `TRAPCC`. The corpus cannot size the use: it contains no `BVS` or `BVC` at all, because the overflow builtins were not implemented in the compiler that produced it, and the study says that sanitiser builds are the target. The record gives the precedent only for the trap, not for the fused forms.
 
 **Cf.** 9.14 (TRAPCC), docs/study-proposals.md item 9.
 
@@ -3385,7 +3385,7 @@ Rd ← ext((Rs >> pos)[width-1:0])          ; sext for EXTB, zext for EXTZB; wid
 
 **Exceptions** None.
 
-Position and width are immediate operands; a width of 64 cannot be encoded (errata 87, assumption 8).
+Position and width are immediate operands; a width of 64 cannot be encoded.
 
 **Why it is here.** Bit-field extract and insert are the VAX `EXTV`, `EXTZV` and `INSV` idiom. The compiler does not use them: the shift-pair extraction pattern occurs 151 times in 26 files of the corpus, about 600 bytes at best (0.03%), and there are four true bit-field extracts in all. They are for hand-written protocol and bit-stream code.
 
@@ -3679,7 +3679,7 @@ Rd ← (Rm AND Ra) OR (NOT Rm AND Rb)       ; bit by bit
 
 **Exceptions** None.
 
-One of the select instructions of the secure-core design, which the author approved (errata 85 and 86: the select instructions "looks good"); it is one of the stage 1 words of `docs/crypto-secure-core.md` section 3. `Ch(e, f, g)` of SHA-2 is `BSEL e, f, g`; `Maj(a, b, c)` is `BSEL (a XOR b), c, b`; a mask-controlled swap of two registers is two `BSEL`. Three sources and a destination: the four register fields of the three-operand group.
+One of the select instructions of the secure-core design, which I approved (the select instructions "looks good"); it is one of the stage 1 words of `docs/crypto-secure-core.md` section 3. `Ch(e, f, g)` of SHA-2 is `BSEL e, f, g`; `Maj(a, b, c)` is `BSEL (a XOR b), c, b`; a mask-controlled swap of two registers is two `BSEL`. Three sources and a destination: the four register fields of the three-operand group.
 
 **Why it is here.** A bit select takes three sources and a destination, the four register fields of the three-operand group. Its case in the crypto proposal is SHA-2 (`Ch` and `Maj` are one `BSEL` each) and the constant-time swap: the X25519 ladder swaps ten limbs per step, 50 instructions with the mask pair against about 25 with `BSEL`. It is the select of ARM (`BSL`) and of x86 ternary logic, and it serves MD5 and SHA-1 round functions, blends and bit insertion. It is one of the select instructions of the secure core.
 
@@ -3720,9 +3720,9 @@ Rd ← the 8 bytes of the new state that belong to columns 0 and 1; with Ra and 
 
 **Exceptions** None.
 
-The author asked for constant-time AES and SHA instructions "or whichever opcodes would speed up and enable aes and sha" for the secure core and approved its design; the words are those of `docs/crypto-secure-core.md` section 3.2. Any two registers hold a block (no even-odd pairing): a round on one block is `AESESM Ra, Rb, T` and `AESESM Rb, Ra, Rb`, with the round key XORed by `XOR` with a memory operand. The latency is fixed and the instruction reads and writes no memory, so it has no cache-timing channel. The definitions are those of FIPS 197.
+I asked for constant-time AES and SHA instructions "or whichever opcodes would speed up and enable aes and sha" for the secure core and approved its design; the words are those of `docs/crypto-secure-core.md` section 3.2. Any two registers hold a block (no even-odd pairing): a round on one block is `AESESM Ra, Rb, T` and `AESESM Rb, Ra, Rb`, with the round key XORed by `XOR` with a memory operand. The latency is fixed and the instruction reads and writes no memory, so it has no cache-timing channel. The definitions are those of FIPS 197.
 
-**Why it is here.** Constant-time software AES takes about 1,000 instructions a block (BearSSL's bitsliced code, scaled; the proposal's estimate), and table AES leaks through the cache. The author asked for constant-time AES and SHA instructions "or whichever opcodes would speed up and enable aes and sha" for the secure core. The design is RISC-V's scalar cryptography (`aes64es` and its kin): the state is in the general registers, so no vector register file is needed and, unlike the AES drivers of OpenBSD for x86 and ARM, no `fpu_kernel_enter()` bracket either: a kernel AES loop saves nothing and is preemptible with the ordinary register save. A block costs 42 instructions for AES-128, 20 to 25 times fewer than the software sequence (estimates). Precedent for the pair-in-registers shape: RISC-V; the other machines (x86 AES-NI, ARM `AESE`) use vector registers.
+**Why it is here.** Constant-time software AES takes about 1,000 instructions a block (BearSSL's bitsliced code, scaled; the proposal's estimate), and table AES leaks through the cache. I asked for constant-time AES and SHA instructions "or whichever opcodes would speed up and enable aes and sha" for the secure core. The design is RISC-V's scalar cryptography (`aes64es` and its kin): the state is in the general registers, so no vector register file is needed and, unlike the AES drivers of OpenBSD for x86 and ARM, no `fpu_kernel_enter()` bracket either: a kernel AES loop saves nothing and is preemptible with the ordinary register save. A block costs 42 instructions for AES-128, 20 to 25 times fewer than the software sequence (estimates). Precedent for the pair-in-registers shape: RISC-V; the other machines (x86 AES-NI, ARM `AESE`) use vector registers.
 
 **Cf.** docs/crypto-secure-core.md section 3.
 
@@ -3876,7 +3876,7 @@ SUM1: ror(x,6)  XOR ror(x,11) XOR ror(x,25)
 
 **Exceptions** None.
 
-As `AESR`. Rotations and three-input exclusive ors, one cycle in hardware, no data-dependent timing. Details pending: whether the 32-bit result is zero-extended, as the study has it, or sign-extended, as every other 32-bit result of the machine is (`RORI32`) ([J.9.12](appendix-j-open.md#j912)).
+As `AESR`. Rotations and three-input exclusive ors, one cycle in hardware, no data-dependent timing. Open: whether the 32-bit result is zero-extended, as the study has it, or sign-extended, as every other 32-bit result of the machine is (`RORI32`) ([J.9.12](appendix-j-open.md#j912)).
 
 **Why it is here.** The SHA-2 rounds are rotations and three-input exclusive ors, which the integer instructions do in several steps; the RISC-V scalar cryptography extension has the eight functions as instructions. The crypto proposal counts the gain honestly: the primitives remove half the work, not nineteen twentieths, because a round still needs the adds and the register traffic (about 1,200 against 2,500 instructions for a 64-byte block with `BSEL`, estimates).
 
@@ -4323,7 +4323,7 @@ if cond(c) on that comparison then PC ← address of this instruction + 2 × dis
 
 **Exceptions** None.
 
-The family has several forms for each condition (the layouts of this entry): the second operand is a register or an immediate of some width, and the reach differs. A `cbCC` that no form reaches is assembled by `as64` as `CMP` and `bCC`, which **writes the flags** (errata 87, assumption 6; the integration measured 17 such sites in 34,524, errata 90).
+The family has several forms for each condition (the layouts of this entry): the second operand is a register or an immediate of some width, and the reach differs. A `cbCC` that no form reaches is assembled by `as64` as `CMP` and `bCC`, which **writes the flags** (the integration measured 17 such sites in 34,524).
 
 **Why it is here.** A fused compare-and-branch, estimated with `RORI32` at 22 KB (1.3%) of the image of the original encoding. There the wide-immediate form removes 11,735 instructions (3.4%) and 1,828 bytes, and the register-register compare-and-branch removes 4,631 instructions (1.4%) and 142 bytes. It is not a replacement for flags: LoongArch and RISC-V chose fused compare-and-branch instead of flags, and this architecture declines that (9.20) because it needs a comparator in the branch unit and a third read port; here the fused form is added beside the flags. `CBCC` writes no flags.
 
@@ -4909,9 +4909,9 @@ PC ← target
 
 **Exceptions** The store of the return address can fault (the memory faults of `CALL`): the instruction restarts whole, because the first half reads a register that the second half does not change.
 
-One of the four fused pairs of errata 87: `MOVQ Rs, Rd` followed by `CALL target`, in one instruction. The target is a pc-relative field in parcels, measured from the first parcel of the fused instruction (errata 87, assumption 9); the instruction is two parcels (a 16-bit field) or three (a 32-bit field), and the linker grows it from its shortest form like a `CALL` (`docs/relaxation.md`). **The assembler never fuses**: the compiler writes `MOVCALL` where it wants it. An instruction that writes two registers (`Rd` and the stack pointer) and stores to memory is a two-micro-operation instruction for an out-of-order core.
+One of the four fused pairs: `MOVQ Rs, Rd` followed by `CALL target`, in one instruction. The target is a pc-relative field in parcels, measured from the first parcel of the fused instruction; the instruction is two parcels (a 16-bit field) or three (a 32-bit field), and the linker grows it from its shortest form like a `CALL` (`docs/relaxation.md`). **The assembler never fuses**: the compiler writes `MOVCALL` where it wants it. An instruction that writes two registers (`Rd` and the stack pointer) and stores to memory is a two-micro-operation instruction for an out-of-order core.
 
-**Why it is here.** The author decided the four fused pairs in errata 87 (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOVQ Rs, Rd` followed by `CALL` occurs 11,123 times, and fusing it alone shrinks the code by 2.39%, the largest of the four; all four together fuse 20,428 pairs and save 3.18% of the bytes and about 1.1% of the executed instructions. The call keeps its reach (four or six bytes). The cost, named in the encoding study: a new mnemonic, and one instruction that writes two registers (the destination and the stack pointer), which is two micro-operations for an out-of-order core. The record gives no earlier machine for this particular pair; the reasoning is the fourth priority of the definitive list, fewer instructions executed, where coalescing is good.
+**Why it is here.** I decided the four fused pairs (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOVQ Rs, Rd` followed by `CALL` occurs 11,123 times, and fusing it alone shrinks the code by 2.39%, the largest of the four; all four together fuse 20,428 pairs and save 3.18% of the bytes and about 1.1% of the executed instructions. The call keeps its reach (four or six bytes). The cost, named in the encoding study: a new mnemonic, and one instruction that writes two registers (the destination and the stack pointer), which is two micro-operations for an out-of-order core. The record gives no earlier machine for this particular pair; the reasoning is the fourth priority of the definitive list, fewer instructions executed, where coalescing is good.
 
 **Cf.** 9.5 (the pc-relative operand and the relaxation), 6.4 (restart after a fault).
 
@@ -4950,7 +4950,7 @@ PC ← M[SP] ; SP ← SP + 8
 
 `POP Rd` followed by `RET`, fused. The register is the one the function restores last, usually a callee-saved register or the frame pointer. One parcel of 16 bits, with the register in a 5-bit field.
 
-**Why it is here.** The author decided the four fused pairs in errata 87 (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `POP Rd` followed by `RET` and `POPM` followed by `RET` (`POPMRET`) occur 4,862 times together and save 1.00% of the bytes; this is the epilogue of nearly every function. The fault of the second half restarts the whole instruction, which is idempotent because the first half reads a register the second does not change and `POPM` is already specified restartable (decision 2 of the encoding study).
+**Why it is here.** I decided the four fused pairs (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `POP Rd` followed by `RET` and `POPM` followed by `RET` (`POPMRET`) occur 4,862 times together and save 1.00% of the bytes; this is the epilogue of nearly every function. The fault of the second half restarts the whole instruction, which is idempotent because the first half reads a register the second does not change and `POPM` is already specified restartable (decision 2 of the encoding study).
 
 
 <a id="w-popmret"></a>
@@ -5046,7 +5046,7 @@ for n = 0 to 15, if mask bit n:
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. A mask that includes `R14` (`SP`) is reserved.
 
-The registers are pushed in ascending order, so `POPM` with the same mask restores them. The mask is the low 32 bits of the number (errata 87, assumption 7); the one-parcel form takes an 8-bit mask scaled by 256, which names `R8` to `R15`.
+The registers are pushed in ascending order, so `POPM` with the same mask restores them. The mask is the low 32 bits of the number; the one-parcel form takes an 8-bit mask scaled by 256, which names `R8` to `R15`.
 
 **Why it is here.** The VAX procedure entry mask was the useful half of `CALLS`; `PUSHM` and `POPM` keep that half without the frame (hardware call frames ran slower than the sequence on later VAXes). The one-parcel forms take an 8-bit mask for `R8` to `R15`, because all 2,392 push sites and 2,392 pop sites in the measured corpus use a mask within `R8` to `R15`.
 
@@ -8489,9 +8489,9 @@ if Rs compared with the bound satisfies the condition cc then take the CHECK tra
 
 **Exceptions** The `CHECK` trap (vector 16), when the condition holds. A fault: the instruction is annulled and `EPC` is its own address, so that the handler finds the site in the table of check sites (`__bug_table`) by address.
 
-Errata 144, 145, 152, 159: the compare-and-trap of the run-time checks. The condition names are those of `CB<cc>`; `CTHIS` is `CTCC` and `CTLO` is `CTCS` as assembler aliases. `CTCC Ri, #n` traps when `Ri >= n` as an unsigned number, which is the check of an array index of length `n` (a negative index is a large unsigned number). The immediate form has 12 bits, zero-extended, for `CTCC`, `CTHI`, `CTEQ` and `CTNE`; the register form has all fourteen. `CTEQ Rs` and `CTNE Rs` with no bound are the trap-if-zero of the null check and the trap-if-not-zero of `BUG_ON`, one parcel. No flag is read or written. For every one the assembler writes a record into the section `__bug_table` (the 12-byte `struct bug_entry` of Linux with relative pointers: the address of the instruction, the file, the line, the flags with the kind of check in bits 5 to 7) from the directive `.chk KIND, "file", LINE`. The encodings are the prefix optimiser's.
+The compare-and-trap of the run-time checks. The condition names are those of `CB<cc>`; `CTHIS` is `CTCC` and `CTLO` is `CTCS` as assembler aliases. `CTCC Ri, #n` traps when `Ri >= n` as an unsigned number, which is the check of an array index of length `n` (a negative index is a large unsigned number). The immediate form has 12 bits, zero-extended, for `CTCC`, `CTHI`, `CTEQ` and `CTNE`; the register form has all fourteen. `CTEQ Rs` and `CTNE Rs` with no bound are the trap-if-zero of the null check and the trap-if-not-zero of `BUG_ON`, one parcel. No flag is read or written. For every one the assembler writes a record into the section `__bug_table` (the 12-byte `struct bug_entry` of Linux with relative pointers: the address of the instruction, the file, the line, the flags with the kind of check in bits 5 to 7) from the directive `.chk KIND, "file", LINE`. The encodings are the prefix optimiser's.
 
-**Why it is here.** The author asked for range checks on a register value and decided a trap-if-zero, a two-bound check and a compare-and-trap with a table of check sites; the names and forms were accepted on 2026-11-17 and the prefix optimiser placed them. The census of the corpus showed that every check of a subscript is an unsigned compare against an immediate that fits 12 bits, which is why the immediate form is 12 bits and why the table, not a stub, says which check failed.
+**Why it is here.** I asked for range checks on a register value and decided a trap-if-zero, a two-bound check and a compare-and-trap with a table of check sites; the names and forms were accepted on 2026-11-17 and the prefix optimiser placed them. The census of the corpus showed that every check of a subscript is an unsigned compare against an immediate that fits 12 bits, which is why the immediate form is 12 bits and why the table, not a stub, says which check failed.
 
 **Cf.** 9.14 (TRAPCC), docs/encoding-work/check-instructions.md, J.9.13.
 
@@ -8642,7 +8642,7 @@ if not (Rlo ≤ Rs < Rhi), signed, then take the CHECK trap
 
 **Exceptions** The `CHECK` trap (vector 16), unless the value is in the half-open range.
 
-Errata 144, 152: the two-bound check, for an index whose lower bound is not zero (the Pascal and Ada subscript, a slice, `for i in lo..hi`). Signed, half-open (`Rlo <= Rs < Rhi`, as pcc's `__builtin_chk2` means); the bounds are registers. No flag is read or written; the record in `__bug_table` is as for `CT`.
+The two-bound check, for an index whose lower bound is not zero (the Pascal and Ada subscript, a slice, `for i in lo..hi`). Signed, half-open (`Rlo <= Rs < Rhi`, as pcc's `__builtin_chk2` means); the bounds are registers. No flag is read or written; the record in `__bug_table` is as for `CT`.
 
 **Why it is here.** The two-bound check: an index with a lower bound other than zero is one instruction instead of a subtraction and a compare. It is signed and half-open, as pcc's built-in and a C range are.
 
@@ -8678,9 +8678,9 @@ if condition cc holds on the flags then take the CHECK trap
 
 **Exceptions** The `CHECK` trap, when the condition holds. A *trap*, not an abort: the instruction completes, `EPC` is the next instruction, and `RTI` resumes after the check.
 
-Errata 85 and 86: `TRAPCC` is a trap and not an abort, there is no compare-and-trap form, and the fused `ADDV`, `SUBV` and `MULV` carry the register-only cases. There is one word for each of the 14 conditions, in two bytes with no operand: the condition numbers are those of the branches (`ne` 1 ... `los` 14; `al` is not a word). After `ADD` the check for signed overflow is `TRAPCC.VS` (`docs/study-proposals.md` item 9 calls it `ADD; TRAPV`). `EVA` is the address of the `TRAPCC` itself, the one trap that defines it, so a handler need not decode backwards from `EPC`. Open: the number of the `CHECK` vector ([J.9.4](appendix-j-open.md#j94)).
+`TRAPCC` is a trap and not an abort, there is no compare-and-trap form, and the fused `ADDV`, `SUBV` and `MULV` carry the register-only cases. There is one word for each of the 14 conditions, in two bytes with no operand: the condition numbers are those of the branches (`ne` 1 ... `los` 14; `al` is not a word). After `ADD` the check for signed overflow is `TRAPCC.VS` (`docs/study-proposals.md` item 9 calls it `ADD; TRAPV`). `EVA` is the address of the `TRAPCC` itself, the one trap that defines it, so a handler need not decode backwards from `EPC`. Open: the number of the `CHECK` vector ([J.9.4](appendix-j-open.md#j94)).
 
-**Why it is here.** A check that costs two bytes and no branch. The comparison with the alternatives is in the study (`docs/study-proposals.md` item 9): `ADD #1, 8(R2)` and a check is four plus two bytes and the add keeps its immediate and memory forms, where `ADD` and a `BVS` to a shared stub is six bytes and two instructions; and the same instruction checks what is not overflow (a bounds check after `CMP`, unsigned overflow after `ADD`). The OpenBSD kernels of i386, hppa and sparc64 already deliver integer-overflow traps as `SIGFPE` (`FPE_INTOVF`), so the signal route exists. The author made it a trap and not an abort, so a handler that promotes a fixnum to a bignum can repair the register and resume; the one case where a trap defines `EVA`.
+**Why it is here.** A check that costs two bytes and no branch. The comparison with the alternatives is in the study (`docs/study-proposals.md` item 9): `ADD #1, 8(R2)` and a check is four plus two bytes and the add keeps its immediate and memory forms, where `ADD` and a `BVS` to a shared stub is six bytes and two instructions; and the same instruction checks what is not overflow (a bounds check after `CMP`, unsigned overflow after `ADD`). The OpenBSD kernels of i386, hppa and sparc64 already deliver integer-overflow traps as `SIGFPE` (`FPE_INTOVF`), so the signal route exists. I made it a trap and not an abort, so a handler that promotes a fixnum to a bignum can repair the register and resume; the one case where a trap defines `EVA`.
 
 **Cf.** 6.4 (traps and aborts), docs/study-proposals.md item 9.
 

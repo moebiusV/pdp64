@@ -140,7 +140,7 @@ def fig_console_timer():
     c.text(20, 16, 'the console, timer and entropy source: the options (OPEN, 5.7.1; nothing decided)', 12, 'start', bold=True)
     cols = [('console', [('fixed registers (KL11 shape)', 'a fixed device with a few registers', SOFT), ('virtio-console, queues 0 and 1', 'plus emerg_wr: one-character write', SOFT), ('16550-style UART', 'a common serial chip', SOFT)]),
             ('timer', [('fixed counter + compare', 'a fixed device with a vector of its own', SOFT), ('counter and compare in the core', 'system registers', SOFT), ('virtio clock / rtc', 'read and alarm requests; no tick', SOFT)]),
-            ('entropy', [('virtio-rng, one queue', 'the device fills a buffer', SOFT), ('absorb-and-squeeze pool', 'errata 85; a fixed device', SOFT), ('software and a boot seed only', 'no entropy hardware', SOFT)])]
+            ('entropy', [('virtio-rng, one queue', 'the device fills a buffer', SOFT), ('absorb-and-squeeze pool', 'a fixed device', SOFT), ('software and a boot seed only', 'no entropy hardware', SOFT)])]
     cw, gap = 210, 20
     for j, (title, items) in enumerate(cols):
         x = 20 + j * (cw + gap)

@@ -104,7 +104,7 @@ def fig_road():
             c.box(x, y + 10, bw, 56, a, fill, 11, bold=True, sub=b)
             if i < 3:
                 c.line([(x + bw, y + 38), (x + bw + gap, y + 38)])
-    c.text(20, 364, 'Chapters: processor 9 and 6; bus 2 and 5; terminal 3.  Steps between are named in the chapters; the author\'s dated record is appendix G.', 9, 'start', '#555')
+    c.text(20, 364, 'Chapters: processor 9 and 6; bus 2 and 5; terminal 3.  Steps between are named in the chapters; my dated record is appendix G.', 9, 'start', '#555')
     return c.svg()
 
 
