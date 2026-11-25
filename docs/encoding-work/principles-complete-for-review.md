@@ -32,9 +32,10 @@ Each item says where it comes from: **[you]** is your own list or words, **[ten]
 ## Part 3. The method
 
 **G. Best of breed first.** [you: 2026-11-19] Start from what other architectures do, verified in their own documents; amend minimally so that the hole closes by construction (the OpenBSD way); make a bold change only for a measured big win. A departure from the standard is welcome when it serves the principles above.
-**H. One source of truth, generated.** [ten] The grammar and the status and decisions document are authoritative; everything else is generated from or checked against them, so nothing drifts.
-**I. Standard at the edges.** [ten] PCIe, virtio, USB, HDMI and real operating systems; be the standard thing plus the sugar and security that cost the cards nothing; no invented peripherals. No wrapper without a justification.
-**J. Verify before you state.** [you: 2026-11-10 onward] A claim about another machine is checked in a primary source or left out.
+**H. Learn from the past's flaws and mistakes, in hardware and software, and design to dodge them all.** [you: 2026-11-25] Every known flaw is studied before we design the same thing: processor errata and vulnerabilities (speculation and side channels, translation-buffer and cache coherence bugs, privilege-escalation bugs, interrupt and DMA holes), operating-system and hypervisor bugs and their fixes (the OpenBSD mitigations, the kernel pain points, the Linux hypervisor bugs), and our own earlier mistakes. Each flaw found becomes a design rule and a test in the corpus. This is the other half of best of breed: the best designs to start from, and the worst failures to avoid. Where we have already collected them: `docs/hardware-vulnerabilities.md`, `docs/openbsd-mitigations.md`, `docs/kernel-pain-points.md`, `docs/security-corpus.md`.
+**I. One source of truth, generated.** [ten] The grammar and the status and decisions document are authoritative; everything else is generated from or checked against them, so nothing drifts.
+**J. Standard at the edges.** [ten] PCIe, virtio, USB, HDMI and real operating systems; be the standard thing plus the sugar and security that cost the cards nothing; no invented peripherals. No wrapper without a justification.
+**K. Verify before you state.** [you: 2026-11-10 onward] A claim about another machine is checked in a primary source or left out.
 
 ## Part 4. How we work together (not design principles; kept so they are not lost)
 
