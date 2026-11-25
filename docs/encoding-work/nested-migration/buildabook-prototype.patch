@@ -1,0 +1,84 @@
+diff -u bab/src/outline.adb bab2/src/outline.adb
+--- bab/src/outline.adb	2026-11-25 13:57:44.962461680 -0700
++++ bab2/src/outline.adb	2026-11-25 14:01:56.558243552 -0700
+@@ -379,6 +379,7 @@
+       Sec_Labeled : array (Depth_Range) of Boolean := [others => False];
+       Sec_Root    : array (Depth_Range) of Boolean := [others => False];   --  the root:chapter in force when the depth's section was made
+       Chap_N      : Natural := 0;       -- the number of the nearest chapter before the entry (0 = none, after a division)
++      Root_Txt    : Unbounded_String;    -- PROTOTYPE: the formatted number of the nearest chapter or appendix ("6", "C")
+       Layer       : Depth_Range := 1;
+       Next_Any    : Natural := 0;       -- s:count:N, no depth written: the number of the next section, whatever its depth (0 = none pending)
+       Last_Depth  : Natural := 0;
+@@ -527,6 +528,12 @@
+                            if Kid = Chapter then
+                               Current_Parent := E.Uuid;
+                               Chap_N := E.N;
++                              Root_Txt := To_Unbounded_String (Format_Number (E.Style, E.N));
++                              Reset_Sections;
++                           elsif Kid = Appendix then      -- PROTOTYPE: an appendix holds sections too
++                              Current_Parent := E.Uuid;
++                              Chap_N := E.N;
++                              Root_Txt := To_Unbounded_String (Format_Number (E.Style, E.N));
+                               Reset_Sections;
+                            end if;
+                         end;
+@@ -539,6 +546,7 @@
+                         end if;
+                         Current_Parent := E.Uuid;
+                         Chap_N := 0;
++                        Root_Txt := Null_Unbounded_String;
+                         Reset_Sections;
+                      when Section =>
+                         if Length (Current_Parent) = 0 then
+@@ -598,7 +606,7 @@
+                                  raise Outline_Error with
+                                    Path & ":" & Dec (I) & ": root:chapter needs a chapter before section " & To_String (E.Token);
+                               end if;
+-                              Append (P, Dec (Chap_N) & ".");
++                              Append (P, To_String (Root_Txt) & ".");
+                            end if;
+                            for K in Start .. Sec_D loop
+                               if K > Start then
+@@ -626,7 +634,8 @@
+ 
+    function Display
+      (E : Row; Number_Only : Boolean := False;
+-      Short_Form : Boolean := False) return String is
++      Short_Form : Boolean := False;
++      Path_Only  : Boolean := False) return String is
+    begin
+       case E.K is
+          when Division | Front_Matter | Unlisted =>
+@@ -648,6 +657,7 @@
+             elsif Number_Only then
+                return Format_Number (E.Style, E.N);
+             elsif Length (E.Path) > 0 then
++               if Path_Only then return To_String (E.Path); end if;     --  PROTOTYPE flag |p
+                return Section_Sign & To_String (E.Path);      --  "§3", "§3.2", "§3.2.1"
+             else
+                return Section_Sign & Dec (E.N);
+diff -u bab/src/outline.ads bab2/src/outline.ads
+--- bab/src/outline.ads	2026-11-25 13:57:44.962461680 -0700
++++ bab2/src/outline.ads	2026-11-25 14:01:56.558243552 -0700
+@@ -60,7 +60,8 @@
+    --  flags mirror render.py: Number_Only = 'n', Short_Form = 's'.
+    function Display
+      (E : Row; Number_Only : Boolean := False;
+-      Short_Form : Boolean := False) return String;
++      Short_Form : Boolean := False;
++      Path_Only  : Boolean := False) return String;
+ 
+    --  The two number formatters, exported for the token resolver's use in
+    --  number-only and list forms.
+diff -u bab/src/tokens.adb bab2/src/tokens.adb
+--- bab/src/tokens.adb	2026-11-25 13:57:44.962461680 -0700
++++ bab2/src/tokens.adb	2026-11-25 14:01:56.558243552 -0700
+@@ -352,7 +352,7 @@
+                return "<!--raw-typst #pageof(""" & To_String (Uuid) & """)-->";
+             end if;
+             return Outline.Display
+-              (E, Has_Flag (Flags, "n"), Has_Flag (Flags, "s"));
++              (E, Has_Flag (Flags, "n"), Has_Flag (Flags, "s"), Has_Flag (Flags, "p"));
+          end;
+       end;
+    end Resolve;
