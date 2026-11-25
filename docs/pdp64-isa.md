@@ -87,7 +87,7 @@ Thirty-two registers, `R0`–`R31`, 64 bits each (manual 9.3.1).
 
 Cost: `-(SP)` and `(SP)+` still assemble and still mean push and pop, because `SP` is a register *name* and the mode syntax is unchanged. What breaks is hand-written PDP-11 code that spells the stack pointer `R6`, which silently means an ordinary register. The assembler should warn on `-(R6)` and `(R6)+` for this reason. Binary compatibility with the PDP-11 is not a goal; the claim is mnemonic compatibility — instruction names and operand syntax, not register numbering — and the trade lines up with the architecture the pdp64 succeeds.
 
-**Roles the ABI assigns (version 1: [manual appendix D](manual/appendix-d-abi.md), source [`abi.md`](abi.md); the hardware knows none of them).** Arguments travel in the low registers and the result in `R0` (with `R1` for a 128-bit pair); some registers are caller-saved and the rest callee-saved; `R12` is the linker's scratch register; `R13` is the optional frame pointer and `R14` the stack pointer. The stack pointer is a multiple of 8 at all times, because quad data accesses must be naturally aligned (section 7.4); nothing is wider than a quad, so there is no 16-byte alignment. The data model is LP64 and little-endian.
+**Roles the ABI assigns (version 1: [manual appendix C](manual/appendix-c-abi.md), source [`abi.md`](abi.md); the hardware knows none of them).** Arguments travel in the low registers and the result in `R0` (with `R1` for a 128-bit pair); some registers are caller-saved and the rest callee-saved; `R12` is the linker's scratch register; `R13` is the optional frame pointer and `R14` the stack pointer. The stack pointer is a multiple of 8 at all times, because quad data accesses must be naturally aligned (section 7.4); nothing is wider than a quad, so there is no 16-byte alignment. The data model is LP64 and little-endian.
 
 **Hot registers.** In a one-parcel form a short register field is not a register number but an index into a table of the hottest registers (the table for a 3-bit field has eight entries, the table for a 4-bit field sixteen); the compiler's register allocator prefers them. The tables are part of the ABI and are generated with the encoding ([`spec/pdp64/tables.md`](../spec/pdp64/tables.md), manual 9.4.6); they are chosen by the encoding optimiser and may change when it is run again.
 
@@ -175,7 +175,7 @@ The density argument depends on this distribution. **Most instructions are not s
 | 3 | 6 | displacements to ±128 MiB; 32-bit immediates, absolute addresses and PC-relative offsets (±2 GiB); branches within ±4 GiB; bitfield operations that need a position and a width |
 | 5 | 10 | `MOVQL #imm64, Rd` |
 
-Compiled code sits overwhelmingly in the first two rows. The measured averages are in manual 9.2.13 and appendix F (about 3.3 bytes per instruction in the compiler's output; about 2.9 per executed instruction on the large programs). This is Thumb-2 territory, and better than a fixed 32-bit RISC encoding.
+Compiled code sits overwhelmingly in the first two rows. The measured averages are in manual 9.2.13 and appendix E (about 3.3 bytes per instruction in the compiler's output; about 2.9 per executed instruction on the large programs). This is Thumb-2 territory, and better than a fixed 32-bit RISC encoding.
 
 The bound is a claim about **carriers, not about the instruction stream**: the decode register holds any instruction of three parcels in one 64-bit word with room to spare, as do the assembler, the disassembler, the simulator and the compiler back end. It says nothing about what a sequence of instructions occupies in memory.
 
@@ -548,7 +548,7 @@ Some mnemonics assemble to another instruction rather than to one of their own. 
 
 *The disassembler never prints an alias.* `RORI rs, #57, rd` disassembles as `RORI rs, #57, rd`, not as `ROL rs, #7, rd`, so assembling and disassembling round-trips to the same encoding.
 
-**There is one explicit exception to "one mnemonic, one instruction" in the operand, not the mnemonic: the literal-pool load `=K`.** `movq =0x123456789ABC, r1` is one instruction, a PC-relative `MOVQ` from a pooled 8-byte literal; the pool entry is the addition, and the `=` marks it plainly as assembler sugar, as in ARM's `ldr r0, =value`. A bare immediate too wide for the field is an error, never silently pooled ([`asm-syntax.md`](asm-syntax.md), manual appendix E).
+**There is one explicit exception to "one mnemonic, one instruction" in the operand, not the mnemonic: the literal-pool load `=K`.** `movq =0x123456789ABC, r1` is one instruction, a PC-relative `MOVQ` from a pooled 8-byte literal; the pool entry is the addition, and the `=` marks it plainly as assembler sugar, as in ARM's `ldr r0, =value`. A bare immediate too wide for the field is an error, never silently pooled ([`asm-syntax.md`](asm-syntax.md), manual appendix D).
 
 ### 4.14 Encoding conventions
 
@@ -626,7 +626,7 @@ The page table has three, four or five levels of nine bits over 4 KB pages (manu
 
 **Canonical** means every virtual-address bit above the top implemented bit equals that bit: the 64-bit address must be the sign extension of a 39-, 48- or 57-bit value. Two regions are usable (the lower half and the upper half), and an address between them aborts with `ECAUSE = NONCANON`; the translation is split by the top bit, the lower half through `PTBR` and the upper half through `KTBR` (section 8.2). This is the same arrangement as AArch64 in its three-level 4 KB configuration — what Linux calls `VA_BITS=39` — and the same rule as x86-64 at 48 bits.
 
-Two benefits, one immediate and one deferred. Immediately, every address adder, TLB tag and comparator carries 39 bits instead of 64. Deferred: software cannot stash tags in the high bits, because an address with anything up there faults rather than working by accident, so the address space can be widened later; and it *has* been, by the allowance of four and five levels, without breaking a program. (This is the migration x86-64 cannot make cleanly, because its software stashed things in the high bits. Pointer colouring and tags in the pointer spend bits that this rule refuses to software, which is why they are open: manual appendix J.A.1.)
+Two benefits, one immediate and one deferred. Immediately, every address adder, TLB tag and comparator carries 39 bits instead of 64. Deferred: software cannot stash tags in the high bits, because an address with anything up there faults rather than working by accident, so the address space can be widened later; and it *has* been, by the allowance of four and five levels, without breaking a program. (This is the migration x86-64 cannot make cleanly, because its software stashed things in the high bits. Pointer colouring and tags in the pointer spend bits that this rule refuses to software, which is why they are open: open item J.A.1 of `design/open-items.md`.)
 
 ### 6.2 Low pointer bits are reserved to software
 
@@ -822,7 +822,7 @@ The 6502 has three architectural registers and compensates with zero page. Corre
 
 Not correct now. A 32 × 64-bit file with two read ports and one write port is a few thousand to a few tens of thousands of transistors — among the cheapest structures on the die, and far cheaper than the spill traffic fewer registers would generate. The register file was never where the transistors went. Control was.
 
-**Why thirty-two and not sixteen.** The first encoding had sixteen registers and a four-bit register field. The prefix-coded encoding has the bits for five-bit fields, and the author chose the 32-register encoding **for performance** (errata 94), after the three encodings were built and measured against each other on the same corpus and the same compiler (`encoding-work/`, above all `integration.md` section 4): on the 841-file corpus the compiler's output for the pdp64 is 11.04% smaller than for the first encoding, and on six large programs it executes 24.21% fewer instructions (manual 9.2.13 and appendix F). The sixteen-register prefix-coded variant was measured too and superseded. A register hardwired to zero was weighed and declined (section 15.2). The architecture is called the pdp64; the history of how the 32-register encoding was chosen is history, kept in the files named above, appendix G of the manual and section 1.8 of chapter 1.
+**Why thirty-two and not sixteen.** The first encoding had sixteen registers and a four-bit register field. The prefix-coded encoding has the bits for five-bit fields, and the author chose the 32-register encoding **for performance** (errata 94), after the three encodings were built and measured against each other on the same corpus and the same compiler (`encoding-work/`, above all `integration.md` section 4): on the 841-file corpus the compiler's output for the pdp64 is 11.04% smaller than for the first encoding, and on six large programs it executes 24.21% fewer instructions (manual 9.2.13 and appendix E). The sixteen-register prefix-coded variant was measured too and superseded. A register hardwired to zero was weighed and declined (section 15.2). The architecture is called the pdp64; the history of how the 32-register encoding was chosen is history, kept in the files named above, `design/evolution.md` and section 1.8 of chapter 1.
 
 What does transfer from the 6502 is the direct page as a **density** mechanism, which is why the `d(DP)` mode exists.
 
@@ -1097,7 +1097,7 @@ The decided refusals are listed in manual 9.17; this table keeps the reasons.
 
 ## 12. Open items
 
-The open items of the instruction set are discussed, each with its options and their pros and cons, in **appendix J of the manual** ([`manual/appendix-j-open.md`](manual/appendix-j-open.md), chapter 9 items J.9.1 to J.9.12, and the ABI items J.D.1 and J.D.2); the ledger lists their status. They are the work that comes before the encoding is frozen (see [`handoff.md`](../handoff.md) for the order of work). In short, and by the keys of appendix J:
+The open items of the instruction set are discussed, each with its options and their pros and cons, in **the open items** ([`design/open-items.md`](design/open-items.md), chapter 9 items J.9.1 to J.9.12, and the ABI items J.D.1 and J.D.2); the ledger lists their status. They are the work that comes before the encoding is frozen (see [`handoff.md`](../handoff.md) for the order of work). In short, and by the keys of the open items:
 
 - **J.9.1** the conditional select and the expansions of `ABS`, `MIN`, `MINU`, `MAX`, `MAXU`;
 - **J.9.2** constant-time execution: what holds while `DIT` is clear, and where `DIT` lives;
@@ -1306,7 +1306,7 @@ What `CALL`/`RET` gain here: no register burned, no push-and-shuffle of the old 
 
 ### 14.4 What the measurements say about the instructions added and not added
 
-The figures behind the decisions on added and rejected instructions. Method: the "fair corpus" is the 841-file benchmark set (bearssl, c-testsuite, chibicc, cjson, gcc-torture, lua, lz4, mbedtls, zlib and others) that the aarch64, amd64 and i386 builds of the project's C compiler all compile. **These were measured on the compiler output of the first iteration and are the reasons for the decisions; the current measured figures, for the pdp64, are in manual appendix F and `encoding-work/integration.md`.**
+The figures behind the decisions on added and rejected instructions. Method: the "fair corpus" is the 841-file benchmark set (bearssl, c-testsuite, chibicc, cjson, gcc-torture, lua, lz4, mbedtls, zlib and others) that the aarch64, amd64 and i386 builds of the project's C compiler all compile. **These were measured on the compiler output of the first iteration and are the reasons for the decisions; the current measured figures, for the pdp64, are in manual appendix E and `encoding-work/integration.md`.**
 
 - **`SET`, and conditional selection.** gcc `-Os` for amd64 emits 284,641 instructions on the corpus, 11.0% conditional branches, 783 `cmov` and 673 `set<cc>`. A `set cc, rd` removes about six bytes per site, about 0.4% of code. A select is size-neutral and pays only in speed. `SET` exists; the select is on hold, and `ABS`, `MIN` and `MAX` wait on it as aliases (errata 98).
 - **Integer `ABS`, `MIN`, `MAX`.** `ABS` at 18 sites and `ABSU` at 5, `MIN` at 171 and `MAX` at 52, across 95 files. The measured gain is under 0.1% of code; the case was clarity and the idiom, not size, and the decision to make them aliases follows from it.
@@ -1344,7 +1344,7 @@ LoongArch64 is worth studying here because it is the most recent clean-room ISA 
 
 ### 15.3 Under consideration
 
-- **Separate FP condition flags.** LoongArch's eight one-bit `FCC` registers solve a real problem that appendix J records (J.9.9).
+- **Separate FP condition flags.** LoongArch's eight one-bit `FCC` registers solve a real problem that the open items record (J.9.9).
 - **Software-visible TLB manipulation.** LoongArch has both a hardware walker *and* `TLBSRCH`, `TLBRD`, `TLBWR`, `TLBFILL` — so the kernel can manage entries directly when it knows better. The pdp64 has only `TLBI`/`TLBIA`. Being able to pin an entry is useful for a realtime kernel, and worth one system word.
 - **A flag-reading conditional select.** With flags available, `CMOV` would be the natural form; the branch-free-select case matters for constant-time cryptographic code, where `MASKEQZ`/`MASKNEZ` and `BSEL` serve. On hold (J.9.1), and the aliases `ABS`, `MIN` and `MAX` of errata 98 sit on it.
 
@@ -1352,7 +1352,7 @@ LoongArch64 is worth studying here because it is the most recent clean-room ISA 
 
 ## 16. What the architecture owes devices
 
-Graphics, networking, storage and the C64-derived devices are all devices on the system bus (PCI Express, with the additions that appendix J.2.4 and [`pdp64-q64-bus.md`](pdp64-q64-bus.md) discuss), and **none of them touches the ISA**. The separation lets the device side churn without respecifying the processor.
+Graphics, networking, storage and the C64-derived devices are all devices on the system bus (PCI Express, with the additions that open item J.2.4 and [`pdp64-q64-bus.md`](pdp64-q64-bus.md) discuss), and **none of them touches the ISA**. The separation lets the device side churn without respecifying the processor.
 
 What the ISA owes them is exactly three things (manual 2.8):
 
@@ -1440,7 +1440,7 @@ The question this section used to leave open — the Unibus `DATIP`/`DATO` locke
 
 ## 18. Glossary
 
-Terms used in this document. The manual's glossary is [appendix C](manual/appendix-c-glossary.md).
+Terms used in this document. The manual's glossary is [appendix B](manual/appendix-b-glossary.md).
 
 | Term | Meaning |
 |---|---|
@@ -1518,7 +1518,7 @@ The assembler's branch relaxation reduces to choosing a length, and the linker's
 
 ### 19.5 What the ABI decides
 
-The ISA is sufficient; three ABI questions belong in the ABI document ([`abi.md`](abi.md), manual appendix D, version 1), whose answers are noted below.
+The ISA is sufficient; three ABI questions belong in the ABI document ([`abi.md`](abi.md), manual appendix C, version 1), whose answers are noted below.
 
 1. **A designated linker-scratch register — decided: `R12` (ABI version 1).** ARM32 reserves `R12`/`IP` and AArch64 `X16`/`X17` for veneers and PLT sequences. Pressure here is much lower — section 19.4 removes veneers for any binary below 4 GiB and `JMPI` removes the PLT's need for one — but linkers want a scratch register for lazy-binding resolver sequences and for `-fno-plt` call sites. `R12` is the natural choice, both because it is a register with no other role and because the number happens to match ARM32's convention.
 2. **Lazy versus eager binding** (open; J.D.2). `JMPI got(PC)` makes a PLT stub one instruction, so the argument for lazy binding — avoiding resolver work for uncalled functions — is weaker than usual, while full RELRO with eager binding gets a security benefit. Worth measuring startup cost before choosing.

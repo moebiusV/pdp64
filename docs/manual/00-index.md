@@ -17,27 +17,22 @@
 7. [**Multiple processors**](07-smp.md): everything the architecture adds so that a second core is easy: the seventeen operations, the atomics, the memory model, coherence, per-CPU state, translation coherence, waiting and signalling, and cores that differ.
 8. [**Vector work, AI and array languages: the device route**](08-vectors.md): what a vector or SIMD unit is and why the processor has none, what "GPU" means here, and how neural-network inference and the array languages APL and K are served by accelerator devices.
 9. [**The instruction set**](09-isa.md): how the opcode space is divided, the properties and principles of the architecture, the registers, the format, the addressing modes, and each group of instructions.
-10. [**Conclusion: from FPGA to silicon**](10-conclusion.md): the first implementation on an FPGA, the transistor budget, in-order cores that an out-of-order design can follow, the security aims, the path to an OpenBSD you can log into, and what is still open.
+10. [**Conclusion: from FPGA to silicon**](10-conclusion.md): the first implementation on an FPGA, the transistor budget, in-order cores that an out-of-order design can follow, the security aims, and the path to an OpenBSD you can log into.
 11. [**The instruction reference tables**](dictionary/index.md): the assembler aliases, the architectural constants (status word, vectors, page-table entry, system registers, conditions), and the lists of the mnemonics and the bit-layout chart of every leaf. The entry for each instruction (syntax, encoding drawing, operation, flags, exceptions) is in chapter 9 in the section of its group, with the atomic instructions in section 9.13 and the system instructions in section 9.14.
 12. [**Appendix A. Possible improvements not decided on**](appendix-a-improvements.md): ideas that nobody has turned into a decision, with their benefits and costs.
-13. [**Appendix B. Decisions pending**](appendix-b-decisions-pending.md): every open decision with its question, proposed answer, precedent, trade-offs and benefits.
-14. [**Appendix C. Glossary**](appendix-c-glossary.md): the manual's terms in one place, by architecture, kernel, devices and process.
-15. [**Appendix D. The ABI, version 1**](appendix-d-abi.md): data model, registers, arguments and results, variadic calls, position-independent code.
-16. [**Appendix E. The assembly language and the object format**](appendix-e-assembler.md): source syntax, directives, operand modes, the literal pool, and ELF.
-17. [**Appendix F. The evidence behind the manual**](appendix-f-evidence.md): the long documents the manual is drawn from: the full instruction-set text, the system and bus documents, the record of decisions, and the surveys and measurements.
-18. [**Appendix G. The evolution of the design**](appendix-g-evolution.md): how the design grew from a small question, and the influences, inspirations and precedents in the order they were introduced, each with its date and time.
-19. [**Appendix H. Proposed**](appendix-h-proposed.md): designs that nobody has decided, kept out of the chapters.
-20. [**Appendix I. Deferred**](appendix-i-deferred.md): what has been decided to be put off.
-21. [**Appendix J. Open items**](appendix-j-open.md): each question the architecture must still answer, with the issue, the options and what each costs.
+13. [**Appendix B. Glossary**](appendix-b-glossary.md): the manual's terms in one place, by architecture, kernel, devices and process.
+14. [**Appendix C. The ABI, version 1**](appendix-c-abi.md): data model, registers, arguments and results, variadic calls, position-independent code.
+15. [**Appendix D. The assembly language and the object format**](appendix-d-assembler.md): source syntax, directives, operand modes, the literal pool, and ELF.
+16. [**Appendix E. The evidence behind the manual**](appendix-e-evidence.md): the long documents the manual is drawn from: the full instruction-set text, the system and bus documents, the record of decisions, and the surveys and measurements.
 
 ## How to read it
 
 **Each section is a few numbered aphorisms followed by a commentary.** The aphorisms say what is true of the machine, in plain short statements, and read on their own as the main text. The commentary under them gives, as they apply: the *Precedent* (what earlier machines did), the *Trade-offs* (what the choice costs), the *Improvements* (how the pdp64 departs from the precedent), the *Benefits*, the *Modern comparables* (what current architectures do), and, for an instruction that is not obvious, its *Use*. Every decision also carries an *Impact* line saying what it means for an efficient **kernel**, for efficient **compilation** and for an efficient **hardware layout**: the three things a processor designer asks of a choice. An instruction as plain as `MOV` or `ADD` needs no statement of use. The reference entries follow the layout of the classic CPU manuals, in which every instruction has its encoding diagram, its operation and its effects.
 
-**The chapters state the architecture as it is to be.** What is only proposed is in [appendix H](appendix-h-proposed.md), what has been put off in [appendix I](appendix-i-deferred.md), and each question the architecture has not answered in [appendix J](appendix-j-open.md); a chapter mentions an open item in a few words and points to its entry there.
+**The chapters state the architecture as it is to be.** The design notes (proposals, deferred items, open questions, the history) are kept in the repository outside the manual, in `docs/design/`.
 
-**Numbers.** Where a figure is measured, the text says what was measured; where it is an estimate, it says so. Claims about other machines are checked against the fact-check record listed in [appendix F](appendix-f-evidence.md).
+**Numbers.** Where a figure is measured, the text says what was measured; where it is an estimate, it says so. Claims about other machines are checked against the fact-check record listed in [appendix E](appendix-e-evidence.md).
 
 **The PDF.** The same text as a book, [`book/pdp64.pdf`](../../book/pdp64.pdf), built by [buildabook](https://github.com/moebiusV/buildabook) and Typst from the sources of this directory (`tools/mkbook.sh`; see `book/README.md`).
 
-**Evidence documents.** All of them are listed in [appendix F](appendix-f-evidence.md): the full instruction set text ([`pdp64-isa.md`](../pdp64-isa.md)) and the open decisions with five options each ([`decisions-pending.md`](../decisions-pending.md)).
+**Evidence documents.** All of them are listed in [appendix E](appendix-e-evidence.md): the full instruction set text ([`pdp64-isa.md`](../pdp64-isa.md)) and the open decisions with five options each ([`decisions-pending.md`](../decisions-pending.md)).

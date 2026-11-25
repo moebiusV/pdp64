@@ -93,7 +93,7 @@ PCI Express (written PCIe) is the bus of PCs and servers (*unverified*: that it 
 
 **Packets.** Where the Unibus signals on dedicated wires, PCI Express sends everything as a **packet** (a small message with a header that says what it is, where it goes and how much data follows). The packets that carry reads and writes are **TLPs** (transaction layer packets: the unit software sees, above the layers that frame bytes and retry on error). The kinds a programmer meets (*unverified*; the specification is not on this machine): a memory write (address and data, with no answer, called **posted**: the sender has handed it over and moves on); a memory read (address and length), answered later by a **completion** (a packet carrying the data back); configuration reads and writes; and messages. A read is a **split transaction** (request and answer are separate packets, and the link is free in between); on the Unibus the bus master held the bus, with `MSYN` asserted, until the slave replied with `SSYN` (*unverified* here). Two consequences: a write has "happened" in the program's mind while it is still on its way, which is why section 2.8 has a `FENCE`; and an interrupt (section 2.6) can be a packet like any other.
 
-**Configuration space: the device describes itself.** The Unibus had nothing like it. Every device, which PCI Express calls a **function** (one logical device; a card may carry several), has a **configuration space** (a block of 4096 bytes of registers, separate from the device's working registers, that says who made the device, what it is and how much address space it wants). The first 256 bytes are the older PCI part, with a 64-byte header; the 4096 bytes in all are the PCI Express part (`PCI_CFG_SPACE_SIZE` 256 and `PCI_CFG_SPACE_EXP_SIZE` 4096). A function is named by three numbers, its **bus**, **device** and **function** numbers (the position in the tree). The processor reaches the configuration space of function (b, d, f) with ordinary loads and stores to one address range: byte `offset` of function (b, d, f) is at `base + (b << 20) + (((d << 3) + f) << 12) + offset` (this is **ECAM**, enhanced configuration access mechanism; the shifts are from QEMU's `pcie_host.h`, `PCIE_MMCFG_BUS_BIT` 20 and `PCIE_MMCFG_DEVFN_BIT` 12). Open: where `base` is in the physical address space ([J.2.1](appendix-j-open.md#j21)).
+**Configuration space: the device describes itself.** The Unibus had nothing like it. Every device, which PCI Express calls a **function** (one logical device; a card may carry several), has a **configuration space** (a block of 4096 bytes of registers, separate from the device's working registers, that says who made the device, what it is and how much address space it wants). The first 256 bytes are the older PCI part, with a 64-byte header; the 4096 bytes in all are the PCI Express part (`PCI_CFG_SPACE_SIZE` 256 and `PCI_CFG_SPACE_EXP_SIZE` 4096). A function is named by three numbers, its **bus**, **device** and **function** numbers (the position in the tree). The processor reaches the configuration space of function (b, d, f) with ordinary loads and stores to one address range: byte `offset` of function (b, d, f) is at `base + (b << 20) + (((d << 3) + f) << 12) + offset` (this is **ECAM**, enhanced configuration access mechanism; the shifts are from QEMU's `pcie_host.h`, `PCIE_MMCFG_BUS_BIT` 20 and `PCIE_MMCFG_DEVFN_BIT` 12).
 
 ![The configuration-space header and the capability list](figures/bus-config-header.svg)
 
@@ -119,13 +119,7 @@ Against the Unibus, three things differ. The fixed I/O page at the top of the ad
 
 **2.3.4** The transactions on the bus are those of PCI Express; the circuitry the pdp64 adds is for convenience (overlays, helper registers) and security (the IOMMU, error and reset rules), and is measured against the list of pain points of `kernel-pain-points.md`. An extension is announced to a card, through a PCI Express extended capability, only if the card must take part in it; a mitigation that lives on the processor side is invisible to cards.
 
-Open: the detail of the pdp64's additions to PCI Express ([J.2.4](appendix-j-open.md#j24)).
-
 **2.3.5** No bit of the physical address selects device space: a device window is an ordinary range of physical addresses, found by enumeration (section 2.4), and the physical address is at least 40 bits and at most 64, an implementation choosing its width in that range, so that mappings of petabytes are possible. A window can be mapped anywhere in the physical address space except the first few pages, where the boot code and boot data are loaded.
-
-Open: how many pages are "the first few" ([J.4.1](appendix-j-open.md#j41)).
-
-Open: how software discovers the implemented physical address width ([J.6.1](appendix-j-open.md#j61)).
 
 **2.3.6** The windows of a device (the regions its base-address registers describe) start on 4 KB page boundaries and are a whole number of pages, so that one device can be mapped to one protection domain.
 
@@ -209,19 +203,13 @@ The worked example of the figure: reading back 0xFFFFC000 means the low 14 bits 
 
 **2.4.4** The bus alerts the processor when a device enters or leaves, by an interrupt; the kernel then rescans the bus, which is also what it does at boot.
 
-Open: the mechanism of the alert, and how it is reported for a device behind a bridge ([J.2.2](appendix-j-open.md#j22)).
-
 **2.4.5** The queued work of a departed device stays in memory untouched, so the driver can read, save, resend or fail it.
 
 **2.4.6** A bus reset produces no removal events, so a reset is not mistaken for the removal of every device, and the identity of every function is defined after the bus has lost power.
 
-Open: where the configuration space and the windows of the functions sit in the physical address space ([J.2.1](appendix-j-open.md#j21)).
-
 **2.4.7** A read of a configuration position that never held a function completes normally and returns all ones in every byte, so a vendor ID of `0xFFFF` means that nothing is there; it is not a bus fault (the read of other non-existent addresses stays a precise `BUSFAULT`, 6.4.3).
 
 **2.4.8** The root complex records such a miss in a sticky bit of its own status register, cleared by writing a one to it, so that a dead link can be told from an empty slot.
-
-Open: where that register sits ([J.2.4](appendix-j-open.md#j24)).
 
 **2.4.9** When a device leaves, an access to its windows is at once a precise bus fault, not a read of all ones: a read of the window faults, a posted write is dropped and counted, and the device's in-flight bus transactions are aborted.
 
@@ -328,7 +316,7 @@ The **common configuration** structure is a block of registers, the same in ever
 
 `device_status` is one byte whose bits the driver sets in order, each meaning "I have got this far": ACKNOWLEDGE (1, "I have seen you"), DRIVER (2, "I know how to drive you"), FEATURES_OK (8, "I have chosen my features"), DRIVER_OK (4, "I am running"); the device may set NEEDS_RESET (0x40) and the driver FAILED (0x80) (`virtio_config.h`). Writing 0 resets the device (*unverified*: the Linux headers do not say). The RK11's GO and READY, spread over a conversation, correspond to these bits.
 
-**Feature bits** let two sides that were not written together agree. The device offers a 64-bit set of **features** (optional abilities, one bit each; for example indirect descriptors, bit 28), read 32 bits at a time through a window selected by `device_feature_select`; the driver writes back the subset it will use, and nothing outside that subset is used. A device can add a feature without breaking an old driver, which never asks for it. One feature is required of every device the pdp64 drives, `VIRTIO_F_VERSION_1` (bit 32: "modern layout"; 5.4.4). Two more matter to the processor: `VIRTIO_F_ACCESS_PLATFORM` (bit 33: device addresses go through the platform's translation, section 2.11) and `VIRTIO_F_ORDER_PLATFORM` (bit 36: the device respects the platform's ordering rules). Open: whether the pdp64 declares them ([J.2.3](appendix-j-open.md#j23)).
+**Feature bits** let two sides that were not written together agree. The device offers a 64-bit set of **features** (optional abilities, one bit each; for example indirect descriptors, bit 28), read 32 bits at a time through a window selected by `device_feature_select`; the driver writes back the subset it will use, and nothing outside that subset is used. A device can add a feature without breaking an old driver, which never asks for it. One feature is required of every device the pdp64 drives, `VIRTIO_F_VERSION_1` (bit 32: "modern layout"; 5.4.4). Two more matter to the processor: `VIRTIO_F_ACCESS_PLATFORM` (bit 33: device addresses go through the platform's translation, section 2.11) and `VIRTIO_F_ORDER_PLATFORM` (bit 36: the device respects the platform's ordering rules).
 
 ```
 init_device(fn):
@@ -441,7 +429,7 @@ The polling loop differs only in what it reads: a word of memory, the used index
 
 ### 2.7.9 Suppressing notifications and interrupts
 
-Doorbells and interrupts cost time on both sides, so each side can ask the other to stay quiet. Both flags are in the rings' `flags` fields and both are **hints** (a request the other side may, for a short time, not honour; the driver must work either way). The device sets `VRING_USED_F_NO_NOTIFY` (bit 0 of `used.flags`) to say "do not ring the doorbell; I am looking at the available ring anyway". The driver sets `VRING_AVAIL_F_NO_INTERRUPT` (bit 0 of `avail.flags`) to say "do not interrupt; I am polling". A finer scheme exists when feature bit 29 (`VIRTIO_RING_F_EVENT_IDX`) is agreed: each side writes into an extra 16-bit word at the end of its ring the **index** at which it wants to be woken, and the other side then rings or interrupts only when it crosses that number (`virtio_ring.h`: the driver "publishes the used index for which it expects an interrupt at the end of the avail ring"; the host "publishes the avail index for which it expects a kick at the end of the used ring"). Open: whether the pdp64 uses this feature ([J.2.3](appendix-j-open.md#j23)). A driver may mask a device's interrupts and poll the used ring (2.6.3).
+Doorbells and interrupts cost time on both sides, so each side can ask the other to stay quiet. Both flags are in the rings' `flags` fields and both are **hints** (a request the other side may, for a short time, not honour; the driver must work either way). The device sets `VRING_USED_F_NO_NOTIFY` (bit 0 of `used.flags`) to say "do not ring the doorbell; I am looking at the available ring anyway". The driver sets `VRING_AVAIL_F_NO_INTERRUPT` (bit 0 of `avail.flags`) to say "do not interrupt; I am polling". A finer scheme exists when feature bit 29 (`VIRTIO_RING_F_EVENT_IDX`) is agreed: each side writes into an extra 16-bit word at the end of its ring the **index** at which it wants to be woken, and the other side then rings or interrupts only when it crosses that number (`virtio_ring.h`: the driver "publishes the used index for which it expects an interrupt at the end of the avail ring"; the host "publishes the avail index for which it expects a kick at the end of the used ring"). A driver may mask a device's interrupts and poll the used ring (2.6.3).
 
 ## 2.8 What the processor owes the bus
 
@@ -460,8 +448,6 @@ Doorbells and interrupts cost time on both sides, so each side can ask the other
 **2.9.3** `PROBER` and `PROBEW` test whether an address can be read or written without faulting.
 
 **2.9.4** Resetting the bus is a write to a register of the root complex, not an instruction.
-
-Open: where that register sits ([J.2.4](appendix-j-open.md#j24)).
 
 *Commentary.* **Chain.** On the PDP-11 a read of a missing address takes the bus-error trap through vector 4 (`T_BUSFLT`, `pdp/scb.s`), which the kernel could not restart; V7's `nofault` idiom (`m40.s`: set `nofault`, touch the address, clear it) existed to probe for devices without dying. The pdp64 makes the read timeout a precise, restartable abort, and `PROBER` and `PROBEW` do what the idiom did; a driver handles a missing device in a few lines of ordinary fault handling. x86 machine checks and ARM's `SError` correspond to the imprecise class, and PCI returns all ones for a read of a removed device (both *unverified*), which every driver must learn to distrust; the pdp64 returns all ones only for an empty configuration position (2.4.7). **Impact.** A timeout counter in the bridge and a way to make a read abort precise.
 
@@ -485,11 +471,11 @@ Without translation a device addresses all of memory, and a user-space driver ca
 
 **2.11.2** When a device is assigned to a guest the unit translates in two levels: **level A**, which the guest writes, turns a device address into a guest-physical address, and **level B**, which the hypervisor writes, turns that into a physical address. The device table that the unit reads stays the host's; the guest sees a virtual unit with the same registers, which the hypervisor traps and forwards (6.14.6), and there is no guest-visible hardware ring in version 1.
 
-**2.11.3** A device entry is 32 bytes: a valid bit V, a mute bit MUTE, the stages (A, B, or A then B), the levels of each stage, a domain tag and a guest tag, two root words, and one word reserved for the interrupt table (J.6.3). Reserved bits must be zero or the device is refused. There is **no bypass mode**.
+**2.11.3** A device entry is 32 bytes: a valid bit V, a mute bit MUTE, the stages (A, B, or A then B), the levels of each stage, a domain tag and a guest tag, two root words, and one word reserved for the interrupt table. Reserved bits must be zero or the device is refused. There is **no bypass mode**.
 
 **2.11.4** The leaf entry has V, R, W and the page number, and W requires R. The bits X, U, G and the memory type must be zero; A and D are ignored. Large pages are allowed, with 3, 4 or 5 levels for each device. Bits 40 to 63 are not allocated.
 
-**2.11.5** There is one unit, at the root complex, and its registers are in the root complex's own block (J.2.4), not a PCI Express function, so that it exists from reset. A third-party switch that lets two devices reach each other directly is invisible to the unit; such devices form a **group** that is assigned together, which is the one exception to "each device its own domain".
+**2.11.5** There is one unit, at the root complex, and its registers are in the root complex's own block, not a PCI Express function, so that it exists from reset. A third-party switch that lets two devices reach each other directly is invisible to the unit; such devices form a **group** that is assigned together, which is the one exception to "each device its own domain".
 
 **2.11.6** A refused read is answered with an error completion; a refused posted write is dropped and counted. Every refusal is logged in a ring in memory, with an interrupt, a sticky overflow bit and count, and a per-device mute bit. A bad table fails closed: never all ones, never a machine check. For a guest, the hypervisor forwards the faults of level A to the guest's virtual log.
 
@@ -501,7 +487,7 @@ Without translation a device addresses all of memory, and a user-space driver ca
 
 **2.11.10** The registers are 64 bits wide at 8-byte spacing. The first eight are those of the common device pattern, with the command ring: ID, CONTROL, STATUS, RING_BASE, RING_SIZE, DOORBELL, IRQ and DEVICE (the device-table pointer); then CAPS, the fault-ring registers and the invalidate register. Both a command ring and an invalidate register are on one executor.
 
-**2.11.11** The unit's own interrupt is a wired line to the processor like the timer's, to be replaced when J.6.3 is decided.
+**2.11.11** The unit's own interrupt is a wired line to the processor like the timer's.
 
 The driver's side (the buffers, the uncached mappings and the order of the writes) is in [5.10](05-drivers.md#510-dma-and-the-buffers-memory).
 

@@ -4,7 +4,6 @@ An entry whose notes open with (P), a proposal that I have not accepted, or (S),
 from isa_common import *
 
 ONLY = ('16', '32')
-CHECKV = 'Open: the number of the `CHECK` vector ([J.9.4](appendix-j-open.md#j94)).'
 
 
 def X(*a, **k):
@@ -36,12 +35,12 @@ PC <- M[SP] ; SP <- SP + 8''', NOFLAGS, MEMX + ' A fault after some registers ha
       '''Rb <- Ra
 Rd <- Rc           ; in this order''', NOFLAGS, NONE, '9.6',
       notes='`MOVQ Ra, Rb` followed by `MOVQ Rc, Rd`, fused. The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the grammar gives it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.',
-      cf='Appendix D (the hot-register tables).'),
+      cf='Appendix C (the hot-register tables).'),
     # ---- selects
     X('MASK', 'alu', ['maskeqz', 'masknez'], 'Mask by a condition register', ['MASKEQZ Ra, Rc, Rd', 'MASKNEZ Ra, Rc, Rd'],
       '''MASKEQZ: Rd <- (Rc == 0) ? 0 : Ra
 MASKNEZ: Rd <- (Rc != 0) ? 0 : Ra''', NOFLAGS, NONE, '9.7',
-      notes='The branch-free select is adopted. `Rc` is tested whole, all 64 bits, so any non-zero value is true; no flag is read or written, and the latency is fixed. `Rd` may be `Ra` or `Rc`. A constant-time select `d = c ? a : b` is `MASKEQZ a, c, t`, `MASKNEZ b, c, d`, `BIS t, d`. The semantics are those of LoongArch `maskeqz` and `masknez` and of RISC-V Zicond (the crypto study states this from memory). Open: whether a flag-reading select is added ([J.9.1](appendix-j-open.md#j91)).',
+      notes='The branch-free select is adopted. `Rc` is tested whole, all 64 bits, so any non-zero value is true; no flag is read or written, and the latency is fixed. `Rd` may be `Ra` or `Rc`. A constant-time select `d = c ? a : b` is `MASKEQZ a, c, t`, `MASKNEZ b, c, d`, `BIS t, d`. The semantics are those of LoongArch `maskeqz` and `masknez` and of RISC-V Zicond (the crypto study states this from memory).',
       cf='9.7 (SET), docs/crypto-secure-core.md section 2.'),
     X('BSEL', 'bits', ['bsel'], 'Bitwise select', ['BSEL Rm, Ra, Rb, Rd'],
       '''Rd <- (Rm AND Ra) OR (NOT Rm AND Rb)       ; bit by bit''', NOFLAGS, NONE, '9.9',
@@ -53,7 +52,7 @@ MASKNEZ: Rd <- (Rc != 0) ? 0 : Ra''', NOFLAGS, NONE, '9.7',
       '''t <- Rd op Rs                 ; op is +, - or ×, on signed 64-bit values
 if t does not fit in 64 bits then abort at this instruction (vector CHECK), Rd unwritten
 else Rd <- t''', 'None written.', 'Aborts with the `CHECK` vector on signed overflow, with `EPC` at the instruction and the destination unwritten; a blind restart faults again unless the handler changed an operand.', '9.7',
-      notes='`TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` forms. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form. Open: whether the form has two registers or three ([J.9.4](appendix-j-open.md#j94)). ' + CHECKV,
+      notes='`TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` forms. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form.',
       cf='9.14 (TRAPCC), docs/study-proposals.md item 9.'),
     X('CT', 'system', ['ctcc', 'ctcs', 'cthi', 'ctlos', 'cteq', 'ctne', 'ctge', 'ctlt', 'ctgt', 'ctle', 'ctpl', 'ctmi', 'ctvc', 'ctvs'],
       'Compare and trap', ['CT<cc> Rs, Rb', 'CT<cc> Rs, #imm12   ; CTCC, CTHI, CTEQ, CTNE only', 'CTEQ Rs  /  CTNE Rs   ; trap if zero, if not zero'],
@@ -61,19 +60,19 @@ else Rd <- t''', 'None written.', 'Aborts with the `CHECK` vector on signed over
     EPC <- address of this instruction''', NOFLAGS,
       'The `CHECK` trap (vector 16), when the condition holds. A fault: the instruction is annulled and `EPC` is its own address, so that the handler finds the site in the table of check sites (`__bug_table`) by address.', '9.14',
       notes='The compare-and-trap of the run-time checks. The condition names are those of `CB<cc>`; `CTHIS` is `CTCC` and `CTLO` is `CTCS` as assembler aliases. `CTCC Ri, #n` traps when `Ri >= n` as an unsigned number, which is the check of an array index of length `n` (a negative index is a large unsigned number). The immediate form has 12 bits, zero-extended, for `CTCC`, `CTHI`, `CTEQ` and `CTNE`; the register form has all fourteen. `CTEQ Rs` and `CTNE Rs` with no bound are the trap-if-zero of the null check and the trap-if-not-zero of `BUG_ON`, one parcel. No flag is read or written. For every one the assembler writes a record into the section `__bug_table` (the 12-byte `struct bug_entry` of Linux with relative pointers: the address of the instruction, the file, the line, the flags with the kind of check in bits 5 to 7) from the directive `.chk KIND, "file", LINE`. The encodings are the prefix optimiser\'s.',
-      cf='9.14 (TRAPCC), docs/encoding-work/check-instructions.md, J.9.13.'),
+      cf='9.14 (TRAPCC), docs/encoding-work/check-instructions.md.'),
     X('CHK2', 'system', ['chk2'], 'Two-bound check', ['CHK2 Rs, Rlo, Rhi'],
       '''if not (Rlo <= Rs < Rhi), signed, then take the CHECK trap
     EPC <- address of this instruction''', NOFLAGS,
       'The `CHECK` trap (vector 16), unless the value is in the half-open range.', '9.14',
       notes='The two-bound check, for an index whose lower bound is not zero (the Pascal and Ada subscript, a slice, `for i in lo..hi`). Signed, half-open (`Rlo <= Rs < Rhi`, as pcc\'s `__builtin_chk2` means); the bounds are registers. No flag is read or written; the record in `__bug_table` is as for `CT`.',
-      cf='J.9.13, docs/encoding-work/check-instructions.md.'),
+      cf='docs/encoding-work/check-instructions.md.'),
     X('TRAPCC', 'system', ['trapcc.ne', 'trapcc.eq', 'trapcc.pl', 'trapcc.mi', 'trapcc.vc', 'trapcc.vs', 'trapcc.cc', 'trapcc.cs', 'trapcc.ge', 'trapcc.lt', 'trapcc.gt', 'trapcc.le', 'trapcc.hi', 'trapcc.los'],
       'Trap on condition', ['TRAPCC.cc          ; one word for each of the 14 conditions: TRAPCC.EQ, TRAPCC.VS, TRAPCC.HI ...'],
       '''if condition cc holds on the flags then take the CHECK trap
     EPC <- address of the next instruction ; EVA <- address of this instruction''', NOFLAGS,
       'The `CHECK` trap, when the condition holds. A *trap*, not an abort: the instruction completes, `EPC` is the next instruction, and `RTI` resumes after the check.', '9.14',
-      notes='`TRAPCC` is a trap and not an abort, there is no compare-and-trap form, and the fused `ADDV`, `SUBV` and `MULV` carry the register-only cases. There is one word for each of the 14 conditions, in two bytes with no operand: the condition numbers are those of the branches (`ne` 1 ... `los` 14; `al` is not a word). After `ADD` the check for signed overflow is `TRAPCC.VS` (`docs/study-proposals.md` item 9 calls it `ADD; TRAPV`). `EVA` is the address of the `TRAPCC` itself, the one trap that defines it, so a handler need not decode backwards from `EPC`. ' + CHECKV + '',
+      notes='`TRAPCC` is a trap and not an abort, there is no compare-and-trap form, and the fused `ADDV`, `SUBV` and `MULV` carry the register-only cases. There is one word for each of the 14 conditions, in two bytes with no operand: the condition numbers are those of the branches (`ne` 1 ... `los` 14; `al` is not a word). After `ADD` the check for signed overflow is `TRAPCC.VS` (`docs/study-proposals.md` item 9 calls it `ADD; TRAPV`). `EVA` is the address of the `TRAPCC` itself, the one trap that defines it, so a handler need not decode backwards from `EPC`.',
       cf='6.4 (traps and aborts), docs/study-proposals.md item 9.'),
     # ---- deferred and user-qualified moves
     X('MOVD', 'moves', ['movq.d', 'movl.d', 'movw.d', 'movb.d', 'movzl.d', 'movzw.d', 'movzb.d'], 'Deferred-fault load', ['MOVQ.D d(Rn), Rd', 'MOVL.D ..., MOVW.D ..., MOVB.D ...', 'MOVZL.D ..., MOVZW.D ..., MOVZB.D ...'],
@@ -115,7 +114,7 @@ SIG0: ror(x,7)  XOR ror(x,18) XOR shr(x,3)
 SIG1: ror(x,17) XOR ror(x,19) XOR shr(x,10)
 SUM0: ror(x,2)  XOR ror(x,13) XOR ror(x,22)
 SUM1: ror(x,6)  XOR ror(x,11) XOR ror(x,25)''', NOFLAGS, NONE, '9.9',
-      notes='As `AESR`. Rotations and three-input exclusive ors, one cycle in hardware, no data-dependent timing. Open: whether the 32-bit result is zero-extended, as the study has it, or sign-extended, as every other 32-bit result of the machine is (`RORI32`) ([J.9.12](appendix-j-open.md#j912)).'),
+      notes='As `AESR`. Rotations and three-input exclusive ors, one cycle in hardware, no data-dependent timing.'),
     X('SHA512', 'bits', ['sha512sig0', 'sha512sig1', 'sha512sum0', 'sha512sum1'], 'The SHA-512 functions', ['SHA512SIG0 Rs, Rd', 'SHA512SIG1 Rs, Rd', 'SHA512SUM0 Rs, Rd', 'SHA512SUM1 Rs, Rd'],
       '''on the 64 bits x of Rs
 SIG0: ror(x,1)  XOR ror(x,8)  XOR shr(x,7)

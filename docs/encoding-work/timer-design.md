@@ -163,7 +163,7 @@ It is `TIMECMP` at the hypervisor level: the real comparator, always running, in
 
 ### 3.12 Room for the watchdog and the performance counters
 
-The watchdog and the performance counters are open (manual appendix J, item J.6.11); I do not design them. The room left: numbers **18 to 23** next to the timer for a **watchdog comparator** that would have the *same shape* as `TIMECMP` (an absolute deadline against `TIME`, all ones off) with its own interrupt level (a higher one, or a reset): a programmer who knows the timer knows it. Numbers **24 to 31** for **performance counters**, which are a different kind of register (event counts, not time) and must not be mistaken for the time. A watchdog must be one that the kernel cannot be tricked into disabling, which is a policy for J.6.11 (for example write-once until reset); I do not claim it.
+The watchdog and the performance counters are open (`docs/design/open-items.md`, item J.6.11); I do not design them. The room left: numbers **18 to 23** next to the timer for a **watchdog comparator** that would have the *same shape* as `TIMECMP` (an absolute deadline against `TIME`, all ones off) with its own interrupt level (a higher one, or a reset): a programmer who knows the timer knows it. Numbers **24 to 31** for **performance counters**, which are a different kind of register (event counts, not time) and must not be mistaken for the time. A watchdog must be one that the kernel cannot be tricked into disabling, which is a policy for J.6.11 (for example write-once until reset); I do not claim it.
 
 ### 3.13 The register numbers
 

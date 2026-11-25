@@ -38,7 +38,7 @@ You know the PDP-11, or you are learning computing from the start. Either way th
 
 **1.2.5** A numbered statement such as 9.3.1 is a rule of the architecture and states it as it is to be. A figure marked (estimated) is an estimate, not a measurement, and one marked *(measured)* was measured, with its source.
 
-**1.2.6** The body of the manual holds decided material only. A question the architecture must still answer is named in a few words, as *Open: ...*, with a pointer to its entry in appendix J. What has only been proposed is in appendix H, what has been put off in appendix I, and each open question, with its options and what each costs, in appendix J.
+**1.2.6** The chapters state the architecture as it is to be. The design notes (proposals, deferred items, open questions, the history) are kept in the repository outside the manual, in `docs/design/`.
 
 The chapters, and what a PDP-11 programmer brings to each:
 
@@ -52,9 +52,9 @@ The chapters, and what a PDP-11 programmer brings to each:
 | 7 Multiple processors | memory model, atomics, per-core state, translation coherence | one processor and `spl()` |
 | 8 Vector work | a standard vector and accelerator engine on the bus, a standard part like the FPU and the MMU, for neural networks and array languages | no vector unit; the FP11 for floating point |
 | 9 The instruction set | formats, modes, every instruction | the PDP-11 instruction set |
-| 10 Conclusion | the finish line, the security aims, what remains | |
+| 10 Conclusion | the finish line, the security aims | |
 
-The instruction reference tables, with a chart of every instruction's bit layout, sit beside chapter 9. The appendices are: A, improvements I approved and has yet to specify; B, pointers to the proposals behind earlier decisions; C, the glossary; D, the application binary interface (how compiled code, the linker and the operating system agree); E, the assembly language and the object format; F, the evidence documents; G, how the design grew, with dates; H, proposed; I, deferred; J, open items.
+The instruction reference tables, with a chart of every instruction's bit layout, sit beside chapter 9. The appendices are: A, improvements I approved and has yet to specify; B, the glossary; C, the application binary interface (how compiled code, the linker and the operating system agree); D, the assembly language and the object format; E, the evidence documents.
 
 ## 1.3 The road from the PDP-11
 
@@ -62,9 +62,9 @@ The PDP-11 programmer's first question is which of what he knows still holds. Th
 
 **1.3.1** The PDP-11 and the VAX-11 were pleasant, even fun, to program in assembly language; afterward computer design went in many directions and that pleasure was largely lost. The pdp64 carries it forward with the lessons of the last fifty years: which instructions are needed to get things done and which are not, what a processor is used for and which instructions it needs the most, to have "less possibility for error, fewer footguns, fewer surprises" and "the most bang for buck".
 
-**1.3.2** The design began as a PDP-11 brought up to date by a little, and grew by decisions that each answered a question. My account (2026-11-10, appendix G): "we started off as a pdp16 modernized a tiny bit, then got more and more ambitious", and "the initial idea was, could a pdp16 run effectively today with a blit terminal and off-loaded 8-register nic", with "the blit being a mashup with the c64 for audio". In my usage a pdp16 is a 16-bit machine of the PDP-11 line (*inference*: "pdp64 is an extension of pdp16"); the Blit is the Bell Labs bitmap terminal (3.3); an off-loaded network card is one that carries out the network protocols itself, so that the processor only hands it data.
+**1.3.2** The design began as a PDP-11 brought up to date by a little, and grew by decisions that each answered a question. My account (2026-11-10): "we started off as a pdp16 modernized a tiny bit, then got more and more ambitious", and "the initial idea was, could a pdp16 run effectively today with a blit terminal and off-loaded 8-register nic", with "the blit being a mashup with the c64 for audio". In my usage a pdp16 is a 16-bit machine of the PDP-11 line (*inference*: "pdp64 is an extension of pdp16"); the Blit is the Bell Labs bitmap terminal (3.3); an off-loaded network card is one that carries out the network protocols itself, so that the processor only hands it data.
 
-**1.3.3** The first design brief (2026-08-29) was "use pdp-11 as the base, fold in the good parts of c64", "taking the best isa/architecture and improving it with the good stuff of the other one". The steps that followed are in appendix G; the ones that shaped this chapter are the 64-bit step (1.1), the little-endian rule ("none of this middle endian stuff"), the bus (PCI Express; virtio across the board), several cores and the priorities of 1.6. The "off-loaded 8-register nic" of the first idea was replaced by virtio devices.
+**1.3.3** The first design brief (2026-08-29) was "use pdp-11 as the base, fold in the good parts of c64", "taking the best isa/architecture and improving it with the good stuff of the other one". The steps that shaped this chapter are the 64-bit step (1.1), the little-endian rule ("none of this middle endian stuff"), the bus (PCI Express; virtio across the board), several cores and the priorities of 1.6. The "off-loaded 8-register nic" of the first idea was replaced by virtio devices.
 
 The figure gives the road in three tracks, the processor, the bus and the terminal, each from the PDP-11 to the pdp64 through the steps between; the table that follows gives the same road row by row.
 
@@ -91,7 +91,7 @@ The figure gives the road in three tracks, the processor, the bus and the termin
 
 **1.3.4** The PDP-11 is a source, not an obligation: what earned its place is kept, what did not is dropped, and what fifty years showed to be missing is added.
 
-*Commentary.* **Chain.** Each row has its history in the chapter named: the instruction set in 1.4 and 1.5, the bus in section 2.1 (the Unibus, the Q-bus, the VAX interconnect, PCI, PCI Express, virtio), the terminal in 3.1 to 3.5 (the teletype, the VT52, the Blit, the Commodore 64, VGA), boot in 4.1 and 4.2, drivers in 5.1 and 5.2, the kernel in 6.1. The machines I named first, in the order of my messages (appendix G.2), are the Blit, the VAX instruction set and the DEC Alpha, the Unibus and Q-bus against PCI (all 2026-08-23); the Commodore 64 with its SID sound chip, USB and NVMe, V7 Unix as the software base, the 6502 family and IEEE 754 floating point (2026-08-29); x86 and UTF-8's length-first coding (2026-08-30). **Trade-off.** The table lists what changed, and a change has a price: a load and a store where the PDP-11 had one memory-to-memory `mov`, a longer encoding for a deferred access, no compact `JSR Rn` for coroutines. 9.18 lists the idioms restored, lost and replaced. **Impact.** *Kernel:* chapters 4 to 7 follow the V7 kernel's order. *Compiler:* a register-to-register core with one memory operand, as a RISC compiler expects, and the PDP-11's addressing for the loops that want it. *Hardware:* a decoder that finds the length from a prefix and no microcode.
+*Commentary.* **Chain.** Each row has its history in the chapter named: the instruction set in 1.4 and 1.5, the bus in section 2.1 (the Unibus, the Q-bus, the VAX interconnect, PCI, PCI Express, virtio), the terminal in 3.1 to 3.5 (the teletype, the VT52, the Blit, the Commodore 64, VGA), boot in 4.1 and 4.2, drivers in 5.1 and 5.2, the kernel in 6.1. The machines I named first, in the order of my messages, are the Blit, the VAX instruction set and the DEC Alpha, the Unibus and Q-bus against PCI (all 2026-08-23); the Commodore 64 with its SID sound chip, USB and NVMe, V7 Unix as the software base, the 6502 family and IEEE 754 floating point (2026-08-29); x86 and UTF-8's length-first coding (2026-08-30). **Trade-off.** The table lists what changed, and a change has a price: a load and a store where the PDP-11 had one memory-to-memory `mov`, a longer encoding for a deferred access, no compact `JSR Rn` for coroutines. 9.18 lists the idioms restored, lost and replaced. **Impact.** *Kernel:* chapters 4 to 7 follow the V7 kernel's order. *Compiler:* a register-to-register core with one memory operand, as a RISC compiler expects, and the PDP-11's addressing for the loops that want it. *Hardware:* a decoder that finds the length from a prefix and no microcode.
 
 ## 1.4 What made the PDP-10, the PDP-11 and the VAX-11 good to program
 
@@ -185,11 +185,11 @@ You may have heard that a good implementation hides the instruction set. I wrote
 | The logic of a complete implementation, same company and era | the PDP-11's T-11, a full integer core without memory management or floating point, about 12,000 transistors; the J-11, the full PDP-11/70 with both, about 120,000; the MicroVAX 78032, a subset of the VAX with no floating point, about 125,000 (all *unverified*) | 10.2 |
 | What it takes to find where the next instruction starts | pdp64: a prefix of 3 to 16 bits of the first parcel; PDP-11: both operand specifiers; VAX: every specifier in order; x86: prefixes, opcode, ModR/M and SIB in sequence (*unverified*) | 9.1, 9.4 |
 | Whether flags block a faster implementation | with the PDP-11 rule 68.2% of compiled instructions wrote a flag and 1.5% read one (229,389 and 4,999 of 336,408); with the pdp64's rules 16.7% write one, at a measured cost of 0.39% in code size | 9.3.4, 1.6.4 |
-| Size of compiled code | 964,158 bytes of instructions on the 841-file corpus; clang `-Os` is 1.21 times that for x86-64, 1.34 for AArch64, 1.22 for RV64GC and 0.91 for Thumb-2; counting the pdp64's constant pools too, x86-64 and RV64GC are 0.97 and 0.98 times | 9.2.13, F.4 |
+| Size of compiled code | 964,158 bytes of instructions on the 841-file corpus; clang `-Os` is 1.21 times that for x86-64, 1.34 for AArch64, 1.22 for RV64GC and 0.91 for Thumb-2; counting the pdp64's constant pools too, x86-64 and RV64GC are 0.97 and 0.98 times | 9.2.13, E.4 |
 | Lines of kernel code to start a second core (Linux) | x86: 1,528 plus 1,258 of real-mode code; arm64: 124 (PSCI) or 127 (spin table); RISC-V: 108 or 58 | 4.7 |
 | Machine-dependent code in an OpenBSD port | riscv64 35,600 lines; arm64 61,613; amd64 79,167 | 10.5 |
-| Errata, workaround and quirk lines per 1,000 code lines in Linux's architecture directories | x86 0.8; arm64 0.7; arm 0.5; powerpc 0.4; mips 0.3; m68k 0.1; riscv 0.1; s390 0.0 | appendix F |
-| Hardware-erratum options in Linux's configuration | arm64 64; arm 32; riscv 14 | appendix F |
+| Errata, workaround and quirk lines per 1,000 code lines in Linux's architecture directories | x86 0.8; arm64 0.7; arm 0.5; powerpc 0.4; mips 0.3; m68k 0.1; riscv 0.1; s390 0.0 | appendix E |
+| Hardware-erratum options in Linux's configuration | arm64 64; arm 32; riscv 14 | appendix E |
 
 The code-size row compares the pdp64's portable C compiler with clang for the others, on the files each compiled (840 or 841), so it measures compilers as well as instruction sets (`encoding-work/arch-comparison.md`, section 5). The flag figures are for the first compiler's output on 827 files (`pdp64-ooo-readiness.md`).
 

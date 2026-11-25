@@ -62,10 +62,10 @@ the introductions of 9.6 to 9.14, 9.15 faults, restart and memory management, 9.
 | `09-isa.md` 9.13 | atomics: unchanged semantically, but encodings per member |
 | `09-isa.md` 9.18, 9.19, 9.21 | "idioms: restored, lost and replaced", side by side, open items: add the compiler's idioms (fusion, jump tables, divide by constants); remove closed items |
 | `01-introduction.md` | "what it takes to find where the next instruction starts" table (line 96), the pitch of 2-to-6-byte instructions; the family; the figures of merit (static size, fetched bytes, instructions executed) |
-| `appendix-c-glossary.md` | `parcel`, `len`, `page 1/page 2` entries: say they are r20 terms; add leaf, prefix, form, hot register, fused instruction, relaxation, family |
-| `appendix-d-abi.md` | registers r16-r31, the callee-saved split, `pushm`/`popm` masks, the hot tables |
-| `appendix-e-assembler.md` | `-m pdp64/16|32|r20`, `--no-relax`, `--stats`, `--dump-lens`, the relaxation objects, the shortest-form rule per member (line 35 speaks of page-2 forms) |
-| `appendix-f-evidence.md` | the measurements: replace or add the integration table |
+| `appendix-b-glossary.md` | `parcel`, `len`, `page 1/page 2` entries: say they are r20 terms; add leaf, prefix, form, hot register, fused instruction, relaxation, family |
+| `appendix-c-abi.md` | registers r16-r31, the callee-saved split, `pushm`/`popm` masks, the hot tables |
+| `appendix-d-assembler.md` | `-m pdp64/16|32|r20`, `--no-relax`, `--stats`, `--dump-lens`, the relaxation objects, the shortest-form rule per member (line 35 speaks of page-2 forms) |
+| `appendix-e-evidence.md` | the measurements: replace or add the integration table |
 | `appendix-b-decisions-pending.md`, `appendix-a-improvements.md` | `STUA/CLUA` one-parcel forms (A.8.1): re-evaluate in the prefix-coded encodings; decisions pending that errata 87 to 92 closed |
 | `06-kernel.md`, `07-smp.md`, `08-vectors.md` | `trapcc`, deferred/user-qualified moves, core counts (errata 92), the SMP decisions of `docs/smp-decisions.md`; the instruction-entry link tables |
 | `00-index.md`, `10-conclusion.md`, `book/outline.txt`, `book/sources.txt` | a new chapter or part for the family, if added: outline numbering is literal in the text (`mkchapters.py` checks heading numbers) |

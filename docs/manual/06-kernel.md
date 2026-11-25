@@ -170,7 +170,7 @@ A **progress** exception belongs to the block instructions (`MCPY` and the other
 
 **6.4.3** A read of non-existent memory is a precise abort with cause `BUSFAULT`; a posted write that times out and an uncorrectable memory error are machine checks.
 
-**6.4.4** A deferred load (`MOVQ.D` and the six other `.D` words) does not fault at the load: a faulting load leaves a poison mark on its destination register, and the fault is taken at the first instruction that writes the flags from a poisoned source. The kernel decides the fault of a deferred load, and the kernel dispatcher, not the hardware, tests the argument registers for poison. UD` of the two qualifiers. Open: whether an input-taint lane of the Perl kind and a tag for each word of memory are added beside the poison, secret and valid-pointer marks ([J.9.14](appendix-j-open.md#j914)).
+**6.4.4** A deferred load (`MOVQ.D` and the six other `.D` words) does not fault at the load: a faulting load leaves a poison mark on its destination register, and the fault is taken at the first instruction that writes the flags from a poisoned source. The kernel decides the fault of a deferred load, and the kernel dispatcher, not the hardware, tests the argument registers for poison. UD` of the two qualifiers.
 
 
 Three consequences. The undo buffer is a single entry, and row 3 of the fault matrix (an operand write) can never fault, so no journal or undo protocol exists. One small page-fault handler serves first touch, first write and demand paging (6.11), and there is no `backup()` and no `MMR1`. The `nofault` idiom of V6 and V7 `trap.c` (set the global, do the probe, `longjmp` out of the handler instead of panicking) remains the pattern for probing hardware, though `PROBER` and `PROBEW` cover address validation. A read of a configuration position that holds no device is not a fault at all (it returns all ones, 2.4.7), so a bus scan does not take a `BUSFAULT` for every empty slot. The pdp64 makes floating-point exceptions flags that never trap, so they need no imprecise case; whether current architectures keep exceptions precise for page faults and leave some floating-point and bus errors imprecise is *unverified*.
@@ -451,7 +451,7 @@ The V7 `call` routine does the same test (previous mode user, `_runrun` set) and
 
 ```
 switch_to(old, new):                      # kernel mode, priority 7
-    push the callee-saved registers (appendix D) on old's kernel stack
+    push the callee-saved registers (appendix C) on old's kernel stack
     old.ksp = R14                         # R14 in kernel mode is the kernel stack pointer
     old.usp = MFSR USP                    # the user's stack pointer is not in the trap frame
     R14     = new.ksp                     # one ordinary move: the stack changes here
@@ -514,7 +514,7 @@ kernel_entry:                              # core 0, translation off
 
 *Lineage.* **PDP-11:** the memory manager was turned on by writing a bit in its status register (V7 `mch_i.s` does `mov $1,SSR0`, checked), and the VAX did the same with a jump to a mapped address (*unverified*); each needed a transition in the boot code. **Between:** RISC-V's `satp` has a bare mode and AArch64 has `SCTLR.M` (*unverified*). **pdp64:** translation off at reset, one enable bit in `MMUCTL`, one `ISYNC`. The first kernel code is position-independent and uses no virtual address until translation is on.
 
-*Impact.* *Kernel:* boot code runs at physical addresses until the kernel is ready, and the transition is one write and one `ISYNC`; what covers the next fetch is open (J.6.6). *Hardware:* translation-enable is one bit, a machine-wide mode bit accepted for that reason.
+*Impact.* *Kernel:* boot code runs at physical addresses until the kernel is ready, and the transition is one write and one `ISYNC`; what covers the next fetch is open. *Hardware:* translation-enable is one bit, a machine-wide mode bit accepted for that reason.
 
 ## 6.13 System instructions, exceptions and interrupts
 
@@ -601,7 +601,7 @@ The modes and exceptions are 6.2 to 6.4 and the multiprocessor instructions are 
 
 **6.14.4** Translation of a guest's memory is in two stages in hardware: the guest's page tables turn a guest-virtual address into a guest-physical address, and a second set of tables, with a second root, turns that into a physical address. A guest tag in each translation-buffer entry lets one guest's entries be invalidated without the rest; a fault in the second stage reports the guest-physical address. The rules of 6.8.4 and 6.8.5 apply to the guest tag as to the address-space number. The vector fetch and the page-table walk of a guest go through the second stage too (the vector base and the page-table base are guest-physical), and a second-stage miss on either is an exit to the hypervisor, not a machine check. `PROBER` and `PROBEW` in a guest test both stages, and a second-stage miss exits so that the probe runs again after the hypervisor has filled it.
 
-**6.14.5** A physical interrupt always exits to the hypervisor, whatever the guest's priority. The guest's priority, and `SPL` and `MTPS`, mask only **virtual** interrupts, in hardware (`SPL` does not trap). A guest sees virtual interrupt lines and a timer that the hypervisor offsets from the real one, both in hardware. They are fitted to the interrupt priority levels of 6.3. Details to be determined ([J.6.3](appendix-j-open.md#j63)).
+**6.14.5** A physical interrupt always exits to the hypervisor, whatever the guest's priority. The guest's priority, and `SPL` and `MTPS`, mask only **virtual** interrupts, in hardware (`SPL` does not trap). A guest sees virtual interrupt lines and a timer that the hypervisor offsets from the real one, both in hardware. They are fitted to the interrupt priority levels of 6.3.
 
 **6.14.6** A device can be assigned to a guest through the IOMMU of 2.11. In version 1 the guest's unit is virtual and trapped: the hypervisor forwards the guest's commands and faults, and there is no guest-visible hardware ring.
 

@@ -14,8 +14,9 @@ The pdp64's earlier iterations, r20 and pdp64/16, are in the git tags `pre-singl
 
 | Path | Class | What it is |
 |---|---|---|
-| [`manual/`](manual/00-index.md) | current | the manual of the pdp64, generated from `manual-src/`; the body holds decided material, appendix H proposed, I deferred, J open items; chapter 9 and the [dictionary](manual/dictionary/index.md) are the instruction reference |
+| [`manual/`](manual/00-index.md) | current | the manual of the pdp64, generated from `manual-src/`; the body holds decided material (the proposals, deferred items, open items and the history are in [`design/`](design/README.md)); chapter 9 and the [dictionary](manual/dictionary/index.md) are the instruction reference |
 | [`manual-src/`](manual-src/README.md) | current | the hand-written source of the manual (generated pages are never edited) |
+| [`design/`](design/README.md) | current | the design notes outside the manual: open items, proposed, deferred, decisions pending, the evolution of the design (their sources are in `design/src/`) |
 | [`decisions-and-status.md`](decisions-and-status.md) | current | the ledger: every decision, what is done, left to do, rejected, in the air; the briefing of the open questions |
 | [`decision-register.md`](decision-register.md) | current | the author's messages by number, append-only |
 | [`errata.md`](errata.md) | current (a log) | each decision and correction, numbered; newer entries win over older text |
@@ -29,8 +30,8 @@ The pdp64's earlier iterations, r20 and pdp64/16, are in the git tags `pre-singl
 |---|---|
 | [`pdp64-isa.md`](pdp64-isa.md) | the narrative and rationale of the instruction set (priorities, rules, why each group has its shape, what was refused); the reference is chapter 9 of the manual |
 | [`pdp64-q64-bus.md`](pdp64-q64-bus.md) | internal design document on the bus: PCI Express and the additions under consideration; the manual does not use the name Q64 until they are decided; lists which items are decided |
-| [`abi.md`](abi.md) | the ABI, version 1 (the source text of manual appendix D) |
-| [`asm-syntax.md`](asm-syntax.md) | the assembly language of `as64` (appendix E of the manual, grammar `../spec/pdp64-asm.hbnf`) |
+| [`abi.md`](abi.md) | the ABI, version 1 (the source text of manual appendix C) |
+| [`asm-syntax.md`](asm-syntax.md) | the assembly language of `as64` (appendix D of the manual, grammar `../spec/pdp64-asm.hbnf`) |
 | [`relaxation.md`](relaxation.md) | linker relaxation: design, algorithm, checks (sections 6 and 7 are records of the measurements) |
 | [`sim64.md`](sim64.md) | the reference emulator |
 | [`timing-model.md`](timing-model.md) | the in-order timing model of `sim64 --timing` |

@@ -8,7 +8,7 @@ This directory is the one place where the hand-written text of the manual of the
 
 ## What is here
 
-`00-index.md` to `10-conclusion.md` and `appendix-a-...` to `appendix-j-...`: the chapters and appendices, . Appendices H, I and J are assembled from the fragment files of `appendix-parts/` (next section). The generated regions (`<!-- entries:9.6 -->` ... `<!-- /entries:9.6 -->`, and `<!-- notation -->`) are empty here; the generator fills them. Do not put text between those markers.
+`00-index.md` to `10-conclusion.md` and `appendix-a-...` to `appendix-e-...`: the chapters and the five appendices (A improvements, B glossary, C the ABI, D the assembler and the object format, E the evidence). The design notes (the former appendices B, G, H, I and J) are not here: their sources are in `docs/design/src/` and `tools/mkmanual.py` writes them to `docs/design/` (see `docs/design/README.md`). The generated regions (`<!-- entries:9.6 -->` ... `<!-- /entries:9.6 -->`, and `<!-- notation -->`) are empty here; the generator fills them. Do not put text between those markers.
 
 ## The syntax of the source
 
@@ -19,73 +19,30 @@ There is one manual, so the source has no conditional text: no member blocks, no
 
 ## Numbers and cross-references
 
-The numbers of chapters, sections (`## 9.2`) and numbered statements (`**9.2.3**`) are **literal** in the text, and the text cites them (`section 9.5`, `(6.13)`). The generator does not renumber. `tools/mkmanual.py --check` **verifies the generated manual**: the sections of each chapter are numbered 1 to n without a gap or a repeat; the statements of each section are numbered 1 to n; every relative link names an existing file (and, for a link into the manual, an existing heading); every `section N.M` or `section N.M.K` reference names a section or statement that exists. A failure names the place. (The numbers in the headings are also compared with the book's outline by `tools/mkbook.sh --check`.)
+The numbers of chapters, sections (`## 9.2`) and numbered statements (`**9.2.3**`) are **literal** in the text, and the text cites them (`section 9.5`, `(6.13)`). The generator does not renumber. `tools/mkmanual.py --check` **verifies the generated manual**: the sections of each chapter are numbered 1 to n without a gap or a repeat; the statements of each section are numbered 1 to n; every relative link names an existing file (and, for a link into the manual, an existing heading); every `section N.M` or `section N.M.K` reference names a section or statement that exists. A failure names the place. The same check runs over the generated design notes of `docs/design/` (contiguous numbers, links with targets, references to their own numbers `J.n.k`). (The numbers in the headings are also compared with the book's outline by `tools/mkbook.sh --check`.)
 
-## The body and the three appendices: proposed, deferred, open
+## The body, and what stays out of it
 
-**The rule (mine, 2026-11-10).** "The manual is about the arch as it is to be, not as it is right now." The chapters state only what is decided, as the architecture. Matters that are undecided are kept outside the manual: they do not appear in the chapters, no chapter carries proposals, deferred matters or the discussion of open questions, and the manual cites no errata and no decision-register rows. "The main body of the manual shouldn't have a whiff of them". Those matters live in three appendices, which are written in fragments, one file for each chapter and kind, so that several people can edit them at the same time.
+**The rule (mine, 2026-11-10).** "The manual is about the arch as it is to be, not as it is right now." The chapters state only what is decided, as the architecture. Matters that are undecided are kept outside the manual: they do not appear in the chapters, no chapter carries proposals, deferred matters or the discussion of open questions, and the manual cites no errata and no decision-register rows. "The main body of the manual shouldn't have a whiff of them". Since 2026-11-25 those matters live in the design notes, `docs/design/` (its README describes them and how they are written): the open items, the proposed designs, the deferred matters, the list of pending decisions and the evolution of the design. The manual has no appendix for them and no pointer to them except the one sentence of the index and of 1.2.6.
 
-* **A decision is a decision, even with its details not yet worked out** (I said on 2026-11-10: "just because we don't have the details hammered out, doesn't mean they aren't full fledged decisions"). When I have decided something (a Decided line of the ledger, or my own words such as "we will", "we recommend", "i like", "yes", "agreed") it stays in the body as a decided statement, stated as the architecture. The chapters carry no "Details pending" or "Details to be determined" note and no status mark; the part that is not yet worked out is kept outside the chapters, in the open-items appendix. A decision is never moved to appendix H or called open or proposed because its details are missing.
-* **Proposed** (appendix H): an idea or design that the assistant suggested and I have not accepted, or that I have not spoken to: a sketch, a list of options for a mechanism.
-* **Deferred** (appendix I): a matter that I have decided to put off, "later". It is not open (there is a decision, and it is to wait) and it is not proposed.
-* **Open** (appendix J): a question that the architecture must answer and has not. An open item is not an idea to be considered; the machine cannot be built or its software finished without an answer.
-* **No status marks.** The chapters carry no tag on a statement: a statement of the body describes the architecture as it is decided, and the manual does not mark a statement as decided, proposed or stub. Material that is not decided lives in the appendices, not in a tagged statement of a chapter. The generators print no such marks into the chapters.
+* **A decision is a decision, even with its details not yet worked out** (I said on 2026-11-10: "just because we don't have the details hammered out, doesn't mean they aren't full fledged decisions"). When I have decided something (a Decided line of the ledger, or my own words such as "we will", "we recommend", "i like", "yes", "agreed") it stays in the body as a decided statement, stated as the architecture. The chapters carry no "Details pending" or "Details to be determined" note and no status mark; the part that is not yet worked out is kept in the open items of the design notes. A decision is never moved to the proposed designs or called open or proposed because its details are missing.
+* **Proposed** (`docs/design/proposed.md`): an idea or design that the assistant suggested and I have not accepted, or that I have not spoken to: a sketch, a list of options for a mechanism.
+* **Deferred** (`docs/design/deferred.md`): a matter that I have decided to put off, "later". It is not open (there is a decision, and it is to wait) and it is not proposed.
+* **Open** (`docs/design/open-items.md`): a question that the architecture must answer and has not. An open item is not an idea to be considered; the machine cannot be built or its software finished without an answer.
+* **No status marks.** The chapters carry no tag on a statement: a statement of the body describes the architecture as it is decided, and the manual does not mark a statement as decided, proposed or stub. The generators print no such marks into the chapters.
 * **A feature that is neither decided nor deferred is not mentioned in the body at all**, however much it was discussed (the cases are the three native graphics and sound devices, and the bus name that would mean PCI Express plus the pdp64's own additions, which the manual does not use until such additions are decided).
-
-### The fragment files
-
-`docs/manual-src/appendix-parts/<NN>-<kind>.md`, where `<NN>` is the chapter number with two digits (`02`, `10`) or the letter of an appendix (`d`), and `<kind>` is `proposed`, `deferred` or `open`. One file for each chapter and each kind; a file may be absent or empty. `tools/mkmanual.py` assembles them, in chapter order and then appendix order, into `appendix-h-proposed.md`, `appendix-i-deferred.md` and `appendix-j-open.md` (between the markers `<!-- parts:proposed -->`, `<!-- parts:deferred -->`, `<!-- parts:open -->`, which nobody edits), with a heading `## H.2 Chapter 2: The bus` (for an appendix, `## J.D Appendix D: The ABI, version 1`) before each non-empty fragment; an appendix with no fragments says "Nothing is proposed.", "Nothing is deferred." or "There are no open items." A fragment is a source like any other: it is written without its own chapter heading, and the generator picks the fragments up like any other source. Fragment names that do not fit the pattern, or that name no chapter, fail the build.
 
 ### Moving material out of the body (the steps)
 
-1. Cut the statement, section or paragraph from the chapter file. Never leave a stub or a "see appendix" sentence behind, except for an open item (below).
-2. Paste it into the fragment of that chapter and kind. A statement keeps its number and gets a label: `**2.3.3** (moved from chapter 2) text...`; a section keeps its heading: `### 2.3 Title (moved from chapter 2)`. Its tag stays. The numbers in the fragment are labels: they are not renumbered, need not be contiguous, and a number defined only in a fragment is a valid target for a citation (`tools/mkmanual.py --check` knows them).
-3. Renumber the chapter: the sections and statements that remain are numbered 1 to n again (the check insists), and every citation of a number that moved or shifted, anywhere in `docs/manual-src/` and in the glossary, is corrected: a citation of a statement that moved reads `H.2` or `appendix H, 2.3.3`, and the plain old number now means the new statement of the body.
-4. Remove from the body every sentence that discusses the moved matter. A proposal, a deferral and an alternative leave the chapter completely.
-5. For an open item, leave one sentence (below).
-6. Run `python3 tools/mkmanual.py`, then `python3 tools/mkmanual.py --check` and `tools/mkbook.sh --check`.
-
-### An open item in the body
-
-One short sentence with a pointer, and nothing more:
-
-    Open: how many pages the first few are ([J.3.2](appendix-j-open.md#j32)).
-
-The pointer is an ordinary link to the anchor of the entry, rendered by the book as plain text (`J.3.2`); the check fails if the anchor does not exist. The sentence says what is open in a few words and not what the options are. It is written as a statement of its own, not hidden in a commentary paragraph.
-
-### An entry of the open-items appendix (fragment `NN-open.md`)
-
-Each entry is an anchor line, a level-3 heading numbered `J.<chapter>.<n>` (`J.D.<n>` for appendix D), and the parts below, in this order. The numbers run 1 to n in the fragment and are never reused once cited. Write the register of the manual: plain declarative prose for a first-year student and an experienced PDP-11 programmer; define a term where it first occurs; no implementation remarks ("where things stand"); no recommendation except the labelled leaning.
-
-    <a id="j32"></a>
-    ### J.3.2 The first few pages
-
-    **Issue.** What the question is, in two to five sentences, with the numbers or the facts that
-    give it its edges.
-
-    **Why it matters.** What cannot be decided, built or ported until it is answered.
-
-    **Options.**
-
-    1. *Name of the option.* What it is, in a sentence or two. For: ... Against: ...
-    2. *Name of the option.* ... For: ... Against: ...
-    (five or six, each with its own pros and cons)
-
-    **Precedents.** What other machines or systems did, one line each, marked *(verified)* or
-    *(unverified)* as the source says.
-
-    **My referents.** The machines, systems or standards that I named when
-    I spoke of it, in a short line, with my words where they are short.
-
-    **My leaning.** (Optional.) One option and why, labelled as the assistant's, not a decision.
-
-    **Where the body refers to it.** Section numbers (`2.4.3`) of the sentences that carry the pointer.
-
-Proposed and deferred entries (appendices H and I) have no template: they are the moved statements, with their numbers and tags, and any commentary that belonged to them.
+1. Cut the statement, section or paragraph from the chapter file. Never leave a stub, a "see appendix" sentence or a pointer to the design notes behind.
+2. Paste it into the fragment of that chapter and kind, `docs/design/src/appendix-parts/<NN>-<kind>.md` (the README of `docs/design/` describes the fragments). A statement keeps its number and gets a label: `**2.3.3** (moved from chapter 2) text...`; a section keeps its heading: `### 2.3 Title (moved from chapter 2)`.
+3. Renumber the chapter: the sections and statements that remain are numbered 1 to n again (the check insists), and every citation of a number that moved or shifted, anywhere in `docs/manual-src/` and in the glossary, is corrected.
+4. Remove from the body every sentence that discusses the moved matter. A proposal, a deferral, an open question and an alternative leave the chapter completely.
+5. Run `python3 tools/mkmanual.py`, then `python3 tools/mkmanual.py --check` and `tools/mkbook.sh --check`.
 
 ## Regenerate and check
 
-    python3 tools/mkmanual.py            write the manual
+    python3 tools/mkmanual.py            write the manual and the design notes
     python3 tools/mkmanual.py --check    fail on any difference, stale file or broken number or link
     python3 tools/check-manual-src.py    the tests of the assembly mechanism itself
     tools/mkbook.sh --check              the book checks (tools/mkbook.sh builds book/pdp64.pdf)

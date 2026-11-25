@@ -1,8 +1,8 @@
-# Appendix J. Open items
+# Open items
 
-[← manual index](00-index.md)
+[← manual index](../manual/00-index.md)
 
-**This appendix discusses each question that the architecture must answer and has not.** In the body of the manual an open item is one short sentence with a pointer to its entry here (`Open: how many pages the first few are (J.3.2).`). The entry states the issue, why it matters, every option with its advantages and disadvantages, the precedents, my own words on it where I have given them, and the places in the body that refer to it. Where the assistant that wrote the entry has a leaning, it is labelled "My leaning" and is not a decision. Each section is one chapter's share, headed with the chapter's number and title (`J.3` for chapter 3, `J.D` for appendix D); the items in it are numbered `J.3.1`, `J.3.2` and so on, and a number is not reused once it has been cited. Statements that moved here from the body keep their old number as a label. What is proposed but not decided is in [appendix H](appendix-h-proposed.md); what has been put off is in [appendix I](appendix-i-deferred.md).
+**This appendix discusses each question that the architecture must answer and has not.** In the body of the manual an open item is one short sentence with a pointer to its entry here (`Open: how many pages the first few are (J.3.2).`). The entry states the issue, why it matters, every option with its advantages and disadvantages, the precedents, my own words on it where I have given them, and the places in the body that refer to it. Where the assistant that wrote the entry has a leaning, it is labelled "My leaning" and is not a decision. Each section is one chapter's share, headed with the chapter's number and title (`J.3` for chapter 3, `J.D` for appendix D); the items in it are numbered `J.3.1`, `J.3.2` and so on, and a number is not reused once it has been cited. Statements that moved here from the body keep their old number as a label. What is proposed but not decided is in [appendix H](proposed.md); what has been put off is in [appendix I](deferred.md).
 
 <!-- parts:open -->
 ## J.2 Chapter 2: The bus
@@ -444,7 +444,7 @@
 <a id="j43"></a>
 ### J.4.3 How the ROM finds and maps the boot device
 
-**Issue.** Section 2.4 says that the processor assigns the windows of the bus's devices. The ROM is the first software to run, and to read block 0 it must reach the boot device's registers and queues, which lie in a window that nobody has assigned yet. It is not stated whether the ROM assigns every window or only the boot device's, where it places them, and whether it leaves them for the kernel to keep or to change. My rule keeps windows out of the first few pages ([J.4.1](appendix-j-open.md#j41)).
+**Issue.** Section 2.4 says that the processor assigns the windows of the bus's devices. The ROM is the first software to run, and to read block 0 it must reach the boot device's registers and queues, which lie in a window that nobody has assigned yet. It is not stated whether the ROM assigns every window or only the boot device's, where it places them, and whether it leaves them for the kernel to keep or to change. My rule keeps windows out of the first few pages ([J.4.1](open-items.md#j41)).
 
 **Why it matters.** The kernel's own enumeration starts from the state the ROM leaves. The root complex's reset state, the ROM's size and the boot-information block's description of the root complex all depend on it.
 
@@ -1913,7 +1913,7 @@ So the answer to my question is: partly, in x86, where a prefix reuses the opcod
 
 **Where the body refers to it.** Section A.5.2.
 
-## J.D Appendix D: The ABI, version 1
+## J.D Appendix D: The ABI, version 1 (appendix C of the manual)
 
 <a id="jd1"></a>
 ### J.D.1 Stack alignment

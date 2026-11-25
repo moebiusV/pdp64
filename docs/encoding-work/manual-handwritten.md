@@ -19,10 +19,10 @@ Each member-specific passage is a member block (`<!-- member: r20 -->` followed 
 | `00-index.md` | the sentence naming the CPU; item 11 |
 | `06-kernel.md` | 6.2 vector 16 (check, P); 6.5.2, 6.7.2 (`TRAP`/`TRAPL` are one word with an 8-bit number); new 6.5.4 (`.U` moves, P), 6.7.8 (`TRAPCC`), 6.8.7 (deferred loads, poison, P) |
 | `07-smp.md` | 7.1.3, 7.4.2 and its commentary (six-byte `MOVQ d(DP), Rd`), 7.12.1; new 7.12.5 (atomics, P) |
-| `appendix-c-glossary.md` | the r20 terms (`len`, page 1 and 2, top-level and escape opcode) are r20 rows; leaf, prefix, form, sub-opcode, hot register, fused instruction, relaxation added |
-| `appendix-d-abi.md` | the register row; new D.3 (hot tables), D.4 (masks; pdp64/32 `R16`-`R31`, P), D.5 (the old D.3) |
-| `appendix-e-assembler.md` | registers, compare and branch, length; new bullets: invocation, words of the CPU, relaxation objects |
-| `appendix-f-evidence.md` | new F.4 (the integration table, the six programs, the timing model, predictions against measurements, what is not established) |
+| `appendix-b-glossary.md` | the r20 terms (`len`, page 1 and 2, top-level and escape opcode) are r20 rows; leaf, prefix, form, sub-opcode, hot register, fused instruction, relaxation added |
+| `appendix-c-abi.md` | the register row; new D.3 (hot tables), D.4 (masks; pdp64/32 `R16`-`R31`, P), D.5 (the old D.3) |
+| `appendix-d-assembler.md` | registers, compare and branch, length; new bullets: invocation, words of the CPU, relaxation objects |
+| `appendix-e-evidence.md` | new F.4 (the integration table, the six programs, the timing model, predictions against measurements, what is not established) |
 | `appendix-a-improvements.md` | A.8 and A.9 for the leaf table (no page 2) |
 
 ## 3. System-level corrections (all three manuals)

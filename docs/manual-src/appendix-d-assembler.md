@@ -1,4 +1,4 @@
-# Appendix E. The assembly language and the object format
+# Appendix D. The assembly language and the object format
 
 [← manual index](00-index.md)
 

@@ -6,7 +6,8 @@ cannot drift from the assembler and the simulators; the words (operation, flags,
 Whether an instruction is implemented in the reference executor is read from common/pdp64exec.c.
 
     tools/mkmanual.py                  write the manual of the pdp64 into docs/manual/: the hand-written text of docs/manual-src/ (tools/manual/assemble.py),
-                                       the instruction entries, the dictionary and the figures; the bit layouts are read from the grammar of the encoding
+                                       the instruction entries, the dictionary and the figures; the bit layouts are read from the grammar of the encoding; and the design notes
+                                       of docs/design/src/ into docs/design/
     tools/mkmanual.py --check          exit 1 if a mnemonic has no entry, an entry names a mnemonic that does not exist, a committed file differs, a section
                                        or statement number is not contiguous, or a link or a section reference has no target
 """
@@ -23,6 +24,11 @@ import isa_enc as ENCPROSE
 
 MANUAL = os.path.join(ROOT, 'docs', 'manual')             # the manual of the pdp64
 SRCDIR = os.path.join(ROOT, 'docs', 'manual-src')         # the hand-written text, once (docs/manual-src/README.md)
+DESIGN = os.path.join(ROOT, 'docs', 'design')             # the design notes (decisions pending, evolution, proposed, deferred, open items), outside the manual
+DESIGNSRC = os.path.join(DESIGN, 'src')                   # their sources: the five notes and appendix-parts/ (docs/design/README.md)
+# source file of each design note -> the generated file in docs/design/
+DESIGNFILES = {'appendix-b-decisions-pending.md': 'decisions-pending.md', 'appendix-g-evolution.md': 'evolution.md', 'appendix-h-proposed.md': 'proposed.md',
+               'appendix-i-deferred.md': 'deferred.md', 'appendix-j-open.md': 'open-items.md'}
 EXEC = os.path.join(ROOT, 'common', 'pdp64exec.c')
 
 
@@ -289,7 +295,7 @@ def render_entry(e):
     out.append('```\n' + uni('\n'.join(e['syntax'])) + '\n```')
     out.append('')
     if e.get('alias'):
-        out.append('**Encoding** None of its own: the assembler expands an alias into other instructions. Open: the expansion ([J.9.1](appendix-j-open.md#j91)).')
+        out.append('**Encoding** None of its own: the assembler expands an alias into other instructions.')
     else:
         out.append('**Encoding**\n')
         out.append(encoding(e))
@@ -486,20 +492,32 @@ def embed(text, key, body, after_heading=False):
 
 
 def sources():
-    """The hand-written text: every file of docs/manual-src/."""
+    """The hand-written text of the manual: every file of docs/manual-src/."""
     out = {}
     for fn in sorted(os.listdir(SRCDIR)):
         if not fn.endswith('.md') or fn == 'README.md':
             continue
         t = open(os.path.join(SRCDIR, fn)).read()
         out[fn] = ASM.resolve(t, 'docs/manual-src/' + fn)
-    # appendices H (proposed), I (deferred) and J (open items): assembled from the fragments of docs/manual-src/appendix-parts/, one file per chapter and kind
-    pdir = os.path.join(SRCDIR, 'appendix-parts')
+    return out
+
+
+def design_notes(manual):
+    """The design notes: the hand-written text of docs/design/src/, proposed, deferred and open items assembled from the fragments of docs/design/src/appendix-parts/ (one file
+    per chapter and kind, titled from the chapters and appendices of `manual`).  Returns {file of docs/design/: text}."""
+    out = {}
+    for fn in sorted(os.listdir(DESIGNSRC)):
+        if fn.endswith('.md'):
+            out[fn] = ASM.resolve(open(os.path.join(DESIGNSRC, fn)).read(), 'docs/design/src/' + fn)
+    pdir = os.path.join(DESIGNSRC, 'appendix-parts')
     frags = {fn: open(os.path.join(pdir, fn)).read() for fn in sorted(os.listdir(pdir))} if os.path.isdir(pdir) else {}
-    probs = ASM.assemble_parts(out, frags)
+    probs = ASM.assemble_parts(out, frags, manual)
     if probs:
         raise SystemExit('\n'.join(probs))
-    return out
+    unknown = set(out) - set(DESIGNFILES)
+    if unknown:
+        raise SystemExit('docs/design/src/: no output name for ' + ' '.join(sorted(unknown)))
+    return {DESIGNFILES[fn]: t for fn, t in out.items()}
 
 
 def held_chart_ids():
@@ -559,8 +577,9 @@ def chart_block(ch):
 
 
 def build():
-    global FIGS, MN, CH
+    global FIGS, DFIGS, MN, CH
     FIGS = {}
+    DFIGS = {}
     MN = manual_mn()
     CH = Charts()
     chart_files(CH)
@@ -577,7 +596,7 @@ def build():
     files = {}
     chapters = {}
     allents = D.ENTRIES
-    ents = [e for e in allents if e['id'] not in D.HELD]   # a proposed or stub entry is held back (isa_entries.HELD): its text is in appendix-parts/09-proposed.md or 09-open.md
+    ents = [e for e in allents if e['id'] not in D.HELD]   # a proposed or stub entry is held back (isa_entries.HELD): its text is in docs/design/src/appendix-parts/09-proposed.md or 09-open.md
     seen = {}
     for e in ents:
         for n in e['names']:
@@ -687,16 +706,61 @@ def build():
     files['index.md'] = '\n'.join(I)
     # the figures of chapter 9 that the text refers to by name, drawn from the grammars (the status word from spec/grammars.d/50-system-v1.hbnf)
     used = '\n'.join(texts.values())
+    usedD = '\n'.join(design_notes(texts).values())      # a figure that only a design note shows is written beside it, in docs/design/figures/
     if 'figures/psw.svg' in used:
         fig('psw', 'The processor status word', LAY.psw_chart(SYS))
     for fname, (_alt, draw) in list(BUSFIGS.FIGURES.items()) + list(GFXFIGS.FIGURES.items()) + list(KERNFIGS.FIGURES.items()) + list(BOOTFIGS.FIGURES.items()) + list(DRVFIGS.FIGURES.items()) + list(INTROFIGS.FIGURES.items()) + list(VECFIGS.FIGURES.items()) + list(SMPFIGS.FIGURES.items()):     # the box-and-arrow figures of chapters 2 to 6 (tools/manual/busfigs.py, gfxfigs.py, bootfigs.py, drvfigs.py, kernfigs.py, vecfigs.py, smpfigs.py); not instruction encodings
         if 'figures/%s.svg' % fname in used:
             FIGS[fname + '.svg'] = draw()
+        elif 'figures/%s.svg' % fname in usedD:
+            DFIGS[fname + '.svg'] = draw()
     return files, chapters
 
 
 def anchor_for(e):
     return slug('%s: %s' % (e['id'], e['title']))
+
+
+def anchors_of(text):
+    """the anchors of the headings and of the `<a id>` marks of a page (as assemble.verify finds them)"""
+    a, fence = set(), False
+    for line in text.split('\n'):
+        if line.startswith('```'):
+            fence = not fence
+        if not fence:
+            h = re.match(r'^#{1,6} (.*)$', line)
+            if h:
+                a.add(ASM.slug(h.group(1).strip()))
+    return a | set(re.findall(r'<a id="([^"]+)"', text))
+
+
+def sync(base, rel, check, keep=None):
+    """write the files of `rel` (relative name -> text) under `base`, or with check say which differ; files that are on disk and no longer generated are removed (keep: a test of the
+    relative names that are generated, for a directory that also holds hand-written files).  Returns True if a check failed."""
+    bad = False
+    on_disk = set()
+    if os.path.isdir(base):
+        for d, _, fs in os.walk(base):
+            for f in fs:
+                r = os.path.relpath(os.path.join(d, f), base)
+                if keep is None or keep(r):
+                    on_disk.add(r)
+    for name, text in sorted(rel.items()):
+        p = os.path.join(base, name)
+        if check:
+            if not os.path.exists(p) or open(p).read() != text:
+                print('stale: ' + os.path.relpath(p, ROOT))
+                bad = True
+        else:
+            os.makedirs(os.path.dirname(p), exist_ok=True)
+            open(p, 'w').write(text)
+    for name in sorted(on_disk - set(rel)):
+        if check:
+            print('stale (no longer generated): ' + os.path.relpath(os.path.join(base, name), ROOT))
+            bad = True
+        else:
+            os.remove(os.path.join(base, name))
+    return bad
 
 
 def main():
@@ -717,29 +781,19 @@ def main():
     for pr in ASM.verify(rel, set(rel), base):
         print(pr)
         bad = True
-    # what is on disk and not generated
-    on_disk = set()
-    if os.path.isdir(base):
-        for d, _, fs in os.walk(base):
-            for f in fs:
-                on_disk.add(os.path.relpath(os.path.join(d, f), base))
-    for name, text in sorted(rel.items()):
-        p = os.path.join(base, name)
-        if check:
-            if not os.path.exists(p) or open(p).read() != text:
-                print('stale: ' + os.path.relpath(p, ROOT))
-                bad = True
-        else:
-            os.makedirs(os.path.dirname(p), exist_ok=True)
-            open(p, 'w').write(text)
-    for name in sorted(on_disk - set(rel)):
-        if check:
-            print('stale (no longer generated): ' + os.path.relpath(os.path.join(base, name), ROOT))
-            bad = True
-        else:
-            os.remove(os.path.join(base, name))
+    # the design notes: their numbers contiguous, their links and references with targets (the links into the manual too)
+    design = design_notes(sources())
+    foreign = {'../manual/' + n: anchors_of(t) for n, t in rel.items() if n.endswith('.md')}
+    drel = dict(design)
+    for name, text in DFIGS.items():
+        drel['figures/' + name] = text
+    for pr in ASM.verify(design, set(drel), DESIGN, design=True, foreign=foreign):
+        print('docs/design/' + pr)
+        bad = True
+    bad |= sync(base, rel, check)
+    bad |= sync(DESIGN, drel, check, keep=lambda r: r in DESIGNFILES.values() or r.startswith('figures/'))
     if not check:
-        print('pdp64: wrote %d dictionary pages, %d figures and %d chapters' % (len(files), len(FIGS), len(chapters)))
+        print('pdp64: wrote %d dictionary pages, %d figures and %d chapters; %d design notes' % (len(files), len(FIGS), len(chapters), len(design)))
     sys.exit(1 if bad else 0)
 
 

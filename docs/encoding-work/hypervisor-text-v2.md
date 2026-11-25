@@ -424,7 +424,7 @@ The floating-point flags are cleared when the address-space number, the guest re
 14. `07-smp.md`, 7.10.2: add the virtual lines (6.16.24).
 15. `appendix-parts/b-proposed.md`, B.2.11.1: "the statements of 6.14" becomes "the statements of 6.16".
 16. `appendix-parts/06-open.md`, J.6.9 (supervisor mode): options 3 and 6 (use it for a hypervisor) are moot because the hypervisor is a state bit (6.16.3). J.6.8: `TLBIAS` decided. J.2.1: add the platform map and the timer. The earlier proposal J.6.13 (memory types) is **not needed**: the stricter category wins.
-17. `appendix-c-glossary.md`: add hypervisor, guest, host, exit, hypercall, world switch, stage 1, stage 2, guest tag, `H`, `HVE`, `GENTER`.
+17. `appendix-b-glossary.md`: add hypervisor, guest, host, exit, hypercall, world switch, stage 1, stage 2, guest tag, `H`, `HVE`, `GENTER`.
 18. `tools/mkmanual.py` (lines about 332 and 364: generated text "(6.14, errata 195, 196)"), `tools/manual/isa_part3.py` (notes citing 6.14 and 6.14.11), `tools/manual/kernfigs.py` (comments citing 6.14): the citations change to 6.16 and 6.16.13.
 19. `docs/manual-src/06-kernel.md`, the 6.15 bullets: "Unverified" keeps "which instructions the PDP-11 forbade in user mode" only for `WAIT` and the others; the "Checked in 6.14" bullet is replaced by the block above.
 

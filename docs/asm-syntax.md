@@ -5,7 +5,7 @@
 The grammar is `spec/pdp64-asm.hbnf` ([hbnf](https://github.com/moebiusV/hbnf) text rules); `tools/check-asmsyntax.sh` generates the parser and runs `tests/asmsyntax.c` over it,
 and `tools/check-as64.sh` assembles `tests/asm/*.s` and compares the bytes with hand-worked expectations.
 
-`as64` assembles the pdp64, the one CPU, with its prefix-coded encoding (instructions of 2, 4 or 6 bytes, `MOVQL` 10). `-m pdp64` is accepted for the driver convention of the C compiler and no other value is. The manual's [appendix E](manual/appendix-e-assembler.md) is the current description of the assembler; the instruction list and the shapes each form accepts are in the generated tables (`spec/pdp64/tables.md`, the manual dictionary), not here.
+`as64` assembles the pdp64, the one CPU, with its prefix-coded encoding (instructions of 2, 4 or 6 bytes, `MOVQL` 10). `-m pdp64` is accepted for the driver convention of the C compiler and no other value is. The manual's [appendix D](manual/appendix-d-assembler.md) is the current description of the assembler; the instruction list and the shapes each form accepts are in the generated tables (`spec/pdp64/tables.md`, the manual dictionary), not here.
 
 The layout of a source file is the V7 assembler's, `as`; the lexical rules are C's.
 

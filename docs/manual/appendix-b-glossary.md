@@ -1,10 +1,10 @@
-# Appendix C. Glossary
+# Appendix B. Glossary
 
 [← manual index](00-index.md)
 
 **Terms the manual uses, collected in one place.** Each entry gives the plain meaning and, in brackets, the chapter or section where the manual deals with it. Terms for the instruction groups (the "escape" opcodes) are listed by name and opcode; the full encodings are in the instruction-set text [`pdp64-isa.md`](../pdp64-isa.md).
 
-## C.1 Architecture and encoding
+## B.1 Architecture and encoding
 
 | Term | Meaning |
 |---|---|
@@ -15,7 +15,7 @@
 | **prefix** | the top 3 to 16 bits of the first parcel; the prefixes form a prefix code (no prefix begins another), so the first parcel matches at most one leaf and fixes the length of the instruction (9.1) |
 | **form** | the list of operand shapes of a leaf: how each operand is written in assembly and how many bits each part has (9.1) |
 | **sub-opcode** | the field after the prefix that selects one mnemonic of the leaf (9.1) |
-| **hot register** | one of the eight (3-bit field) or sixteen (4-bit field) most-used registers, which a register field of a one-parcel form names by an index into a table; the tables are part of the ABI (9.4, appendix D) |
+| **hot register** | one of the eight (3-bit field) or sixteen (4-bit field) most-used registers, which a register field of a one-parcel form names by an index into a table; the tables are part of the ABI (9.4, appendix C) |
 | **fused instruction** | `MOVCALL`, `POPRET`, `POPMRET` or `MOV2`: one instruction for a pair that the compiler finds adjacent (9.10) |
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default (9.5) |
 | **`CBCC`** | compare-immediate-and-branch on condition, the one fused compare and branch (9.10) |
@@ -38,7 +38,7 @@
 | **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of 9.9 make it effective) |
 | **`FPSR`** | the sticky floating-point exception flag register, read and written by `FSFLAGS` (9.12) |
 
-## C.2 Memory, protection and the kernel
+## B.2 Memory, protection and the kernel
 
 | Term | Meaning |
 |---|---|
@@ -64,7 +64,7 @@
 | **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (6.10, 6.13) |
 | **PIE** | position-independent executable: loadable at any address; costs nothing here (9.16) |
 | **GOT, PLT** | global offset table and procedure linkage table: the indirection that lets position-independent code reach imported symbols (9.16) |
-| **ABI** | application binary interface: calling convention, register use, data layout; version 1 is given in appendix D |
+| **ABI** | application binary interface: calling convention, register use, data layout; version 1 is given in appendix C |
 | **trap, exception, interrupt** | a deliberate entry (`TRAP #n`), a fault raised by an instruction, and a signal from a device; all enter through the vector table (6.3) |
 | **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (6.4) |
 | **`SPL`** | set the interrupt priority level (6.3) |
@@ -73,11 +73,11 @@
 | **`ATOM`, monitor** | the atomic operations, built on a reservation monitor as in AXI and ARM, not a locked bus cycle (7.4) |
 | **SMP** | symmetric multiprocessing: several identical cores sharing memory (chapter 7) |
 | **core class** | the read-only register of each core that gives its class and capacity, so that software can tell an in-order core from an out-of-order one (7.11.1) |
-| **secure mode** | the mode of a core in which every timing channel is removed (every instruction and cache fetch takes a time independent of its data), with private cache lines and no periodic tick; on every core or on one secure core, by the rule of 7.11.3 (J.7.7) |
+| **secure mode** | the mode of a core in which every timing channel is removed (every instruction and cache fetch takes a time independent of its data), with private cache lines and no periodic tick; on every core or on one secure core, by the rule of 7.11.3 |
 | **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.6) |
 | **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.5) |
 
-## C.3 The bus, devices and boot
+## B.3 The bus, devices and boot
 
 | Term | Meaning |
 |---|---|
@@ -115,14 +115,11 @@
 | **INIT, START-UP, spin table, hart** | x86's signals that start another core; ARM's table the waiting cores poll; RISC-V's word for a core; the pdp64 writes a start register instead (4.7) |
 | **APL, K** | array languages whose primitives work on whole arrays; one primitive maps to one descriptor (8.5) |
 
-## C.4 Process and sources
+## B.4 Process and sources
 
 | Term | Meaning |
 |---|---|
 | **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.7) |
 | **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.7) |
 | **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.8, 10.5; not otherwise described in this manual) |
-| **deferred** | a matter that I have decided to put off; it is listed in appendix I and is not open (index) |
-| **open item** | a question that the architecture must answer and has not; each has an entry in appendix J with the issue, the options and what each costs, and the body points to it in a few words (index) |
-| **proposed** | an idea or design that nobody has decided; it is listed in appendix H and is not part of the architecture (index) |
 | **Impact** | the line ending each decision's commentary: effect on the kernel, on the compiler and on the hardware layout (index) |

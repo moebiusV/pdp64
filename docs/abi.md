@@ -2,7 +2,7 @@
 
 [← pdp64 index](../README.md)
 
-The choices below are fixed for version 1 of the ABI of the pdp64 (one CPU, 32 registers `R0`-`R31`; the instruction set of chapter 9 of the manual leaves the ABI open). The manual states the same choices as [appendix D](manual/appendix-d-abi.md) and records what the ABI still leaves open (appendix J: the stack alignment, 8 or 16; mandatory landing pads; lazy against eager binding). This file is the source text of appendix D.
+The choices below are fixed for version 1 of the ABI of the pdp64 (one CPU, 32 registers `R0`-`R31`; the instruction set of chapter 9 of the manual leaves the ABI open). The manual states the same choices as [appendix C](manual/appendix-c-abi.md) and what the ABI still leaves open (the stack alignment, 8 or 16; mandatory landing pads; lazy against eager binding) is in the open items J.D.1 and J.D.2 of [`design/open-items.md`](design/open-items.md). This file is the source text of appendix C.
 
 | | |
 |---|---|
@@ -21,7 +21,7 @@ The choices below are fixed for version 1 of the ABI of the pdp64 (one CPU, 32 r
 
 ## Register tables of the instruction encoding (draft)
 
-The encoding of the pdp64 (grammar `spec/pdp64/pdp64.hbnf`, tables in `spec/pdp64/tables.md`; manual appendix D.3) gives one-parcel forms to a few registers: a 3-bit register field is an index into a table of the eight hottest registers,
+The encoding of the pdp64 (grammar `spec/pdp64/pdp64.hbnf`, tables in `spec/pdp64/tables.md`; manual appendix C.3) gives one-parcel forms to a few registers: a 3-bit register field is an index into a table of the eight hottest registers,
 a 4-bit field into the sixteen hottest. The tables are measured on the compiled corpus with the registers assigned as above, and they are part of the ABI: the compiler's
 allocation should prefer them, and `mov2` (two register moves in one parcel) takes only registers of the 3-bit table.
 
@@ -29,7 +29,7 @@ allocation should prefer them, and `mov2` (two register moves in one parcel) tak
 |---|---|
 | `r0 r1 r8 r2 sp r3 r9 r10` | `r0 r1 r8 r2 sp r3 r9 r10 r11 r4 r15 r5 r24 r25 r26 r6` |
 
-`r16`-`r31` are ordinary registers to the hardware; `r24`-`r26` are among the sixteen hot registers (appendix D.4.2). Draft convention (unverified against the ledger and the manual: appendix D does not state it): `r24`-`r26` callee-saved, the rest of `r16`-`r31` not yet assigned.
+`r16`-`r31` are ordinary registers to the hardware; `r24`-`r26` are among the sixteen hot registers (appendix C.4.2). Draft convention (unverified against the ledger and the manual: appendix C does not state it): `r24`-`r26` callee-saved, the rest of `r16`-`r31` not yet assigned.
 
 ## Variadic calls
 

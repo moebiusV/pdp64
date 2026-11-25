@@ -7,8 +7,8 @@ Status: internal design document, current as of 2026-11-10. The file name keeps 
 This document gathers what the manual and the other documents say about the bus, in one place, and lists what is still open. Labels:
 
 * Decided: a decision of the author, recorded in [`errata.md`](errata.md) or the [ledger](decisions-and-status.md), and placed in the manual (tag *(D)*); "details pending" means the decision stands and the details are open.
-* Proposed: an idea nobody has decided (manual appendix H).
-* Open: a question the architecture must answer and has not (manual appendix J, items J.2.x and others).
+* Proposed: an idea nobody has decided (`design/proposed.md`).
+* Open: a question the architecture must answer and has not (`design/open-items.md`, items J.2.x and others).
 
 The processor side (privilege, exceptions, interrupts, memory management, boot) is in the manual's chapter 6 and, as a record of System v1, [`pdp64-system-architecture.md`](pdp64-system-architecture.md).
 
@@ -116,4 +116,4 @@ What it costs: one used-ring write per chain (devices already write a completion
 
 ## Sources
 
-Manual chapters 2, 5 and 6 and appendix J; [`errata.md`](errata.md) entries 45, 49, 75, 79, 80, 95, 97, 101, 102, 118, 120, 121; [`pdp64-isa.md`](pdp64-isa.md); [`pdp64-fpga-plan.md`](pdp64-fpga-plan.md); [`pdp64-lb64-accelerator.md`](pdp64-lb64-accelerator.md) (proposed).
+Manual chapters 2, 5 and 6 and the open items (`design/open-items.md`); [`errata.md`](errata.md) entries 45, 49, 75, 79, 80, 95, 97, 101, 102, 118, 120, 121; [`pdp64-isa.md`](pdp64-isa.md); [`pdp64-fpga-plan.md`](pdp64-fpga-plan.md); [`pdp64-lb64-accelerator.md`](pdp64-lb64-accelerator.md) (proposed).

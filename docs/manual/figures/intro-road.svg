@@ -57,5 +57,5 @@
 <rect x="539.0" y="268.0" width="150.0" height="56.0" fill="#e1f0dd" stroke="#222" stroke-width="1.2"/>
 <text x="614.0" y="295.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">virtio-gpu + HDMI</text>
 <text x="614.0" y="307.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">the same, modern depth</text>
-<text x="20.0" y="364.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Chapters: processor 9 and 6; bus 2 and 5; terminal 3.  Steps between are named in the chapters; my dated record is appendix G.</text>
+<text x="20.0" y="364.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Chapters: processor 9 and 6; bus 2 and 5; terminal 3.  Steps between are named in the chapters.</text>
 </svg>

@@ -316,7 +316,7 @@ class Entry:
 
 def parse_j(root):
     entries = []
-    files = sorted(glob.glob(os.path.join(root, "docs/manual-src/appendix-parts/*-open.md")))
+    files = sorted(glob.glob(os.path.join(root, "docs/design/src/appendix-parts/*-open.md")))
     for f in files:
         text = open(f, encoding="utf-8").read()
         for m in re.finditer(r'^<a id="(\w+)"></a>\n### J\.([0-9A-Z]+)\.(\d+) (.*?)\n(.*?)(?=^<a id="|\Z)',
@@ -422,7 +422,7 @@ ID_RX = re.compile(r"^\*\*((?:[A-D]\.)?\d+(?:\.\d+)*[a-z]?)\b[^*]*\*\*")
 def parse_h(root):
     entries = []
     seen = {}
-    files = sorted(glob.glob(os.path.join(root, "docs/manual-src/appendix-parts/*-proposed.md")))
+    files = sorted(glob.glob(os.path.join(root, "docs/design/src/appendix-parts/*-proposed.md")))
     for f in files:
         base = os.path.basename(f).split("-")[0]
         text = open(f, encoding="utf-8").read()

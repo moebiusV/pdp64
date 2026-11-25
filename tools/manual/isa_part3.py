@@ -1,14 +1,14 @@
 """Dictionary entries, part 3: atomics and system instructions."""
 from isa_common import *
 
-ATNOTE = ('The sub-opcodes and the semantics of this group are specified; the forms below name the roles, and the placement of the operands is open ([J.9.3](appendix-j-open.md#j93)).')
+ATNOTE = ('The sub-opcodes and the semantics of this group are specified.')
 ATFLAG = 'Not specified beyond "none for the read-modify-write forms"; `SC` reports success in its result register.'
 ATEXC = 'Page fault, protection fault, alignment fault (the address must be naturally aligned) or bus error. The access is atomic with respect to every initiator, cores and devices alike.'
 ATCF = '7.4 (atomic operations: the reservation monitor), 7.3 (the multiprocessor instructions at a glance), 7.5 (the memory model).'
 
 ENTRIES = [
     E('CAS', 'atomics', ['cas', 'casdb'], 'Compare and swap',
-      ['CAS expected, new, (address)        ; size is 4 or 8 bytes; operand placement open (J.9.3)', 'CASDB ...                            ; with a full barrier'],
+      ['CAS expected, new, (address)        ; size is 4 or 8 bytes', 'CASDB ...                            ; with a full barrier'],
       '''old <- M[address]                         ; 4 or 8 bytes, naturally aligned
 if old == expected then M[address] <- new
 result <- old          ; the program compares result with expected to learn whether the swap happened''', ATFLAG, ATEXC, '9.13, 7.4', notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
@@ -32,7 +32,7 @@ signed for XMAX and XMIN, unsigned for the U forms''', ATFLAG, ATEXC, '9.13, 7.4
 SC: if the reservation is intact then M[address] <- value ; result <- 0 (success)
     else nothing is written ; result <- 1 (failure)
 a write to the granule by any initiator, core or device, clears the reservation''', ATFLAG, ATEXC, '9.13, 7.4',
-      notes='A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). ' + ATNOTE + ' The result convention of `SC` is part of the open placement ([J.9.3](appendix-j-open.md#j93)).', cf=ATCF, xnote=ATNOTE),
+      notes='A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). ' + ATNOTE, cf=ATCF, xnote=ATNOTE),
 
     # ---- SYS, class 0 ----
     E('NOP', 'system', ['nop', 'lpad'], 'No operation and landing pad', ['NOP', 'LPAD'], 'nothing', NOFLAGS, NONE, '9.14',

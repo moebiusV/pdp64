@@ -1,6 +1,6 @@
-# Appendix G. The evolution of the design
+# The evolution of the design
 
-[← manual index](00-index.md)
+[← manual index](../manual/00-index.md)
 
 **The design began as a small question and grew by steps.** In my words of 2026-11-10: "we started off as a pdp16 modernized a tiny bit, then got more and more ambitious", and "the initial idea was, could a pdp16 run effectively today with a blit terminal and off-loaded 8-register nic", with "the blit being a mashup with the c64 for audio". This appendix lists, in point form, how it grew and which influences, inspirations and precedents entered, each with the date and time (UTC) of the message in which it first appeared.
 

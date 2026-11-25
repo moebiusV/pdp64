@@ -17,12 +17,7 @@ d:id02014 docs/manual/dictionary/constants.md
 d:id02015 docs/manual/dictionary/by-mnemonic.md
 d:id02017 docs/manual/dictionary/by-encoding.md
 a:id03001 docs/manual/appendix-a-improvements.md
-a:id03002 docs/manual/appendix-b-decisions-pending.md
-a:id03003 docs/manual/appendix-c-glossary.md
-a:id03004 docs/manual/appendix-d-abi.md
-a:id03005 docs/manual/appendix-e-assembler.md
-a:id03006 docs/manual/appendix-f-evidence.md
-a:id03007 docs/manual/appendix-g-evolution.md
-a:id03008 docs/manual/appendix-h-proposed.md
-a:id03009 docs/manual/appendix-i-deferred.md
-a:id03010 docs/manual/appendix-j-open.md
+a:id03003 docs/manual/appendix-b-glossary.md
+a:id03004 docs/manual/appendix-c-abi.md
+a:id03005 docs/manual/appendix-d-assembler.md
+a:id03006 docs/manual/appendix-e-evidence.md

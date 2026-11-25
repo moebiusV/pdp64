@@ -8,12 +8,12 @@ reference points at the RIGHT thing.  This tool checks the other ways, and can p
 References checked (each must have a target):
   errata N, errata N and M, errata N to M     the numbered entries of docs/errata.md
   R123 (three digits)                          the rows of docs/decision-register.md
-  J.6.13, B.2.11, A.1.2 ...                    the open items, proposals and improvements of the appendices (docs/manual-src)
+  J.6.13, B.2.11, A.1.2 ...                    the open items, proposals and improvements of the appendices (docs/design/src, and A.1.2 of docs/manual-src)
   section N.M[.K], manual N.M[.K]              a section or a numbered statement of the manual
   (N.M[.K])                                    the manual's own bare citation, in docs/manual-src only
   `docs/...`, `tools/...`, `spec/...` ...      a path in backquotes (a file or directory of the repository)
 
-    tools/check-refs.py                 check the manual sources strictly (exit 1 on any bad reference) and the other documents with a warning count
+    tools/check-refs.py                 check the manual sources strictly (exit 1 on any bad reference; the design-note sources, which cite the manual's numbers as they were when each note was written, are read like the other documents) and the other documents with a warning count
     tools/check-refs.py --all           every document is strict
     tools/check-refs.py --show FILE     print every reference of FILE with the first words of its target (to read for a WRONG one)
     tools/check-refs.py --list          print every bad reference
@@ -39,7 +39,7 @@ def targets():
         m = re.match(r'^- R(\d+) \| [^|]*\| [^|]*\| (.*)$', line)
         if m:
             T['R'][int(m.group(1))] = m.group(2)
-    files = sorted(glob.glob(os.path.join(ROOT, 'docs/manual-src/*.md')) + glob.glob(os.path.join(ROOT, 'docs/manual-src/appendix-parts/*.md')))
+    files = sorted(glob.glob(os.path.join(ROOT, 'docs/manual-src/*.md')) + glob.glob(os.path.join(ROOT, 'docs/design/src/*.md')) + glob.glob(os.path.join(ROOT, 'docs/design/src/appendix-parts/*.md')))
     for p in files:
         for line in open(p, errors='replace'):
             for m in re.finditer(r'\*\*((?:[A-J]\.)?\d+(?:\.\d+)*|[A-J]\.[A-J0-9]+(?:\.\d+)*)\*\*', line):
@@ -115,16 +115,16 @@ def main(argv):
     if '--show' in argv:
         p = argv[argv.index('--show') + 1]
         text = rd(p)
-        for kind, key, ln, s in refs_in(text, p.startswith('docs/manual-src')):
+        for kind, key, ln, s in refs_in(text, p.startswith(('docs/manual-src', 'docs/design/src'))):
             print('%s:%d: %-22s -> %s' % (p, ln, s.strip(), target_text(kind, key, T)))
         return 0
-    strict_files = sorted(glob.glob(os.path.join(ROOT, 'docs/manual-src/*.md')) + glob.glob(os.path.join(ROOT, 'docs/manual-src/appendix-parts/*.md')))
-    other = sorted(glob.glob(os.path.join(ROOT, 'docs/*.md')) + glob.glob(os.path.join(ROOT, 'docs/encoding-work/*.md')) + glob.glob(os.path.join(ROOT, '*.md')))
+    strict_files = sorted(glob.glob(os.path.join(ROOT, 'docs/manual-src/*.md')))
+    other = sorted(glob.glob(os.path.join(ROOT, 'docs/design/src/*.md')) + glob.glob(os.path.join(ROOT, 'docs/design/src/appendix-parts/*.md')) + glob.glob(os.path.join(ROOT, 'docs/*.md')) + glob.glob(os.path.join(ROOT, 'docs/encoding-work/*.md')) + glob.glob(os.path.join(ROOT, '*.md')))
     nbad_strict, nbad_other, nref = [], [], 0
     for group, sink, ms in ((strict_files, nbad_strict, True), (other, nbad_other, False)):
         for fp in group:
             rel = os.path.relpath(fp, ROOT)
-            for kind, key, ln, s in refs_in(open(fp, errors='replace').read(), ms):
+            for kind, key, ln, s in refs_in(open(fp, errors='replace').read(), ms or rel.startswith('docs/design/src')):
                 nref += 1
                 if bad(kind, key, T):
                     sink.append('%s:%d: %s: no such %s' % (rel, ln, s.strip(), 'file' if kind == 'path' else 'target'))

@@ -130,7 +130,7 @@ From the PDP-11 to the pdp64 the first code moved from the operator's keys, to a
 | Services for the loader | none: the bootstrap has its own driver | software interrupts | boot services | the loader has its own drivers |
 | Finding the kernel | a name typed at `:` | partition boot record, `/boot` | the loader on a FAT partition | the second stage finds the kernel by name |
 | Telling the kernel about the machine | registers | registers and the BIOS's memory map (unverified) | the memory map and ACPI or a device tree | the boot-information block |
-| Starting other processors | none | INIT and START-UP signals | the same | the controller chip starts them (see [J.4.6](appendix-j-open.md#j46)) |
+| Starting other processors | none | INIT and START-UP signals | the same | the controller chip starts them |
 
 ![The PC path beside the pdp64 path](figures/boot-pc-vs-pdp64.svg)
 
@@ -163,12 +163,12 @@ The ROM's job as pseudocode (an illustration of 4.4.1; the register state and th
 
 ```
 rom_entry():                                  # core 0; every other core is held in reset
-    for dev in boot_order:                    # the order is pending (J.4.7)
+    for dev in boot_order:                    # the order is pending
         if not bring_up(dev): continue        # enumerate the bus, find the device, initialise it (4.8)
-        if not read_block(dev, 0, LOAD):      # LOAD: the address is pending (J.4.1)
+        if not read_block(dev, 0, LOAD):      # LOAD: the address is pending
             continue
         info = fill_boot_info(dev)            # the hand-off of 4.6
-        set up core 0 (mode, stack, registers: pending, J.4.9)
+        set up core 0 (mode, stack, registers: pending)
         core0.pc = LOAD                       # the first instruction of block 0
         return                                # core 0 now runs the block; the ROM is done
     monitor()                                 # nothing booted: the monitor (4.10)
@@ -196,7 +196,7 @@ The first stage as pseudocode (an illustration of 4.5.2):
 
 ```
 first_stage():                                # at LOAD: 446 bytes of code
-    read the second stage from the disk       # where it lies and how it is read: pending (J.4.8, J.4.2)
+    read the second stage from the disk       # where it lies and how it is read: pending
     jump to the second stage, with the boot device and the boot-information block as the ROM gave them
 ```
 

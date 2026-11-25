@@ -180,10 +180,6 @@ I said on 2026-11-10: "our virtio-console device is an attempt to bring the nice
 
 : whether a cell of the text display holds a character code or a glyph slot, and the layout of a slot.
 
-Open: whether the terminal has sprites or a hardware cursor ([J.3.5](appendix-j-open.md#j35)).
-
-Open: how text, pixels and sprites are composed on the display, my mashup of a GPU, video memory, the C64 and the Blit ([J.3.3](appendix-j-open.md#j33)).
-
 ## 3.10 How the terminal drives HDMI and the other ports
 
 **3.10.1** The display connector is standard kit: HDMI (and DVI and DisplayPort) is a transmitter chip that takes pixels and sync signals in parallel and does the link protocol, the encoding and the electrical signalling itself; on the first board it is the DE10-Nano's ADV7513, set up once over an I2C-style control bus.
@@ -203,8 +199,6 @@ Open: how text, pixels and sprites are composed on the display, my mashup of a G
 **3.11.2** On the first board the block RAM (about 5.5 megabits on the DE10-Nano) cannot hold a modern frame (a 1920 by 1080 frame at 32 bits is 8.3 MB), so the framebuffer lives in main memory and the block RAM holds the scan-out line buffer of a few kilobytes.
 
 **3.11.3** The block RAM budget (caches, translation buffer and the scan-out line buffer) is settled before the video hardware is built.
-
-Open: whether the framebuffer has a write-combining memory type, which the four memory types of 2.3.3 do not name ([J.3.9](appendix-j-open.md#j39)).
 
 *Commentary.* **Chain.** The PDP-11 had no framebuffer; whether the 11/70's cache watched Unibus writes so that DMA looked coherent is *unverified* (2.5, commentary). The VAX Unibus adapter's buffered data paths needed purging (2.5), and ARM and MIPS systems with non-coherent DMA place cache maintenance in the kernel (*unverified*). The pdp64 chooses the memory type instead (2.5.2). **Trade-offs.** An uncached framebuffer makes a single pixel write slow and a long run of writes no slower per byte. That punishes pixel-by-pixel drawing from the processor. **Modern comparables.** Write-combining memory types on x86 and ARM serve the same purpose (general knowledge, *unverified*). **Impact.** *Kernel:* the mapping rule is one memory-type value in the page-table entry. *Compiler:* none. *Hardware:* the scan-out reads main memory by bus mastering and competes with the processor for bandwidth.
 
@@ -233,8 +227,6 @@ In QEMU's `virtio-gpu.c`, `transfer_to_host_2d` rejects a rectangle that is not 
 
 
 **3.12.1** The standard graphics device is virtio-gpu in 2D mode over the virtio PCI Express transport; its commands are the five of the figure, plus the cursor queue and the display-information query.
-
-Open: the feature subset of virtio-gpu and of virtio-snd that the pdp64 requires, the hot-plug scope and whether OpenBSD has a virtio-snd driver ([J.3.6](appendix-j-open.md#j36)).
 
 *Commentary.* **Chain.** The PDP-11 has no antecedent: its devices had registers, not queues (2.1). QEMU offers virtio-gpu as a virtual machine's display (`hw/display`): the guest draws into its own memory and tells the host which rectangle to show. **Trade-offs.** It is the most standard route (one tested driver, the same in QEMU, `sim64` and the FPGA, as I decided) and does everything in software: the processor writes every pixel and the host copies them, which is cheap for a terminal with little damage and costs a game what 3.5 described. **Benefits.** No special hardware. **Modern comparables.** Linux's `virtio_gpu` driver, which sits on the DRM interface of 3.14. **Impact.** *Kernel:* a driver for the five commands, one queue of 2.7 and a cursor queue. *Compiler:* none. *Hardware:* none beyond the virtio device and the bus.
 
@@ -437,8 +429,6 @@ A mixer also has four other jobs. It **converts each stream to a common rate and
 **What virtio-snd defines** (checked in `/usr/include/linux/virtio_snd.h`). Four queues: control, event, transmit (`TX`) and receive (`RX`). Streams are **PCM streams** (pulse-code modulation: plain samples) with a direction (output or input), described by `virtio_snd_pcm_info`: a bitmap of formats (from 4-bit ADPCM and 8-bit mu-law through `S16`, `S24`, `S32`, `FLOAT` and `FLOAT64` to DSD and IEC958), a bitmap of rates (5,512 Hz to 384,000 Hz, including 44,100 and 48,000), and a range of channels. The driver sets a stream's parameters (`PCM_SET_PARAMS`: `buffer_bytes`, `period_bytes`, channels, format, rate), prepares, starts and stops it, then sends audio as buffers on the TX queue, each tagged with a `stream_id` and answered with a `virtio_snd_pcm_status` that carries a `status` and the **current device latency** in bytes. The event queue reports `PCM_PERIOD_ELAPSED` and `PCM_XRUN` (an underrun or overrun: the same word as the ring buffer's), and jack events; each stream has feature bits for shared memory, polling, and period and xrun events (`VIRTIO_SND_PCM_F_*`). Controls such as volume are optional (`VIRTIO_SND_F_CTLS`). The header says nothing about **who mixes**: it defines one stream at a time, as one card. Mixing several programs happens on the host side of the device (QEMU's engine above) or, on a machine with no host, in the pdp64's own kernel or library before the stream is sent.
 
 **3.17.1** The standard audio device is virtio-snd; the device carries one stream at a time as a PCM stream of the formats and rates the device lists.
-
-Open: where the pdp64's mixer lives (the kernel, a library or the device) and who drives it ([J.3.12](appendix-j-open.md#j312)).
 
 ## 3.18 Windows: from the Blit to rio and NeWS
 

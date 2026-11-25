@@ -6,7 +6,7 @@ Like tools/manual/busfigs.py (whose Canvas it uses) these are drawn by hand-writ
 tools/mkmanual.py writes the ones the text names (figures/vec-NAME.svg) into the figures directory of the manual.
 What is drawn is what chapter 8 states: the V7 floating-point state (read in the V7 sources on this machine: user.h, mch.s),
 the register counts in the Linux 2.6.33.2 headers (read), the unverified machines marked as such, and, for the device route, an
-illustration of a descriptor whose format is open (8.4.7).  All figures are 690 units wide.
+illustration of a descriptor whose format is open.  All figures are 690 units wide.
 """
 from busfigs import Canvas, W, GREY, SOFT, BLUE
 from kernfigs import PINK, GREEN, YELLOW
@@ -75,7 +75,7 @@ def fig_shapes():
     c.text(340, 268, 'no register file in the processor; the length is a field,', 9, 'start')
     c.text(340, 282, 'so one descriptor serves any size (8.5.4)', 9, 'start')
     c.text(340, 296, 'the price: a descriptor to build and a status to wait for', 9, 'start')
-    lines(c, 20, 340, ['The descriptor drawn is an illustration; its format is open (8.4.7).'], 8, fill='#555')
+    lines(c, 20, 340, ['The descriptor drawn is an illustration; its format is open.'], 8, fill='#555')
     lines(c, 20, 354, ['Machines 1 and 2 as described in 8.1 and 8.2: the V7 sources and the Linux headers were read, the rest is unverified.'], 8, fill='#555')
     return c.svg()
 
@@ -108,7 +108,7 @@ def fig_route():
                        'pdp64: the record is in memory and can chain; the device reads it and the arrays by DMA (direct memory access:',
                        '   the device moves data without the processor) and writes the result and a status.',
                        'The processor owes the device two things: memory the device sees in order, and FENCE (8.4.6).',
-                       'The instruction set is unchanged. Whether the record is a virtio descriptor, or one that points at it, is open (8.4.7).'], 9, gap=15)
+                       'The instruction set is unchanged. Whether the record is a virtio descriptor, or one that points at it, is open.'], 9, gap=15)
     lines(c, 20, 342, ['Sources: V7 rk.c (read), chapter 5 (5.4, 5.10), chapter 2 (2.5).'], 8, fill='#555')
     return c.svg()
 

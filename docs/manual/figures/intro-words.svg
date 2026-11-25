@@ -32,5 +32,5 @@
 <text x="20.0" y="238.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">sub-op: which of the sixteen operations of this form (here movq); b: the five bits of the base register, one in the first parcel and four in the second;</text>
 <text x="20.0" y="250.0" font-size="9" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">rd: the destination register, five bits because there are thirty-two; stride: how far the base register moves afterwards, 0 meaning the size of the access.</text>
 <text x="20.0" y="272.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The PDP-11 word is read from the handbook (11/70, section 3.2); the pdp64 fields are the leaf LDF.PI12 of the grammar (dictionary/by-encoding.md).</text>
-<text x="20.0" y="288.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The assembler spells the pdp64 instruction as shown in the heading of this figure (appendix E).</text>
+<text x="20.0" y="288.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The assembler spells the pdp64 instruction as shown in the heading of this figure (appendix D).</text>
 </svg>

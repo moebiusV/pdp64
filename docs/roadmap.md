@@ -3,13 +3,13 @@
 
 [← pdp64 index](../README.md)
 
-Status: plan, updated 2026-11-10 to the current order of work. Decisions are in `docs/decisions-and-status.md` and the open items in Appendix J of the manual; this document does not decide anything. Opcode numbers and encodings are not fixed until the open items that affect them are decided, so this plan does not state any; the generated tables (`spec/pdp64/tables.md`, the manual dictionary) do.
+Status: plan, updated 2026-11-10 to the current order of work. Decisions are in `docs/decisions-and-status.md` and the open items in `docs/design/open-items.md`; this document does not decide anything. Opcode numbers and encodings are not fixed until the open items that affect them are decided, so this plan does not state any; the generated tables (`spec/pdp64/tables.md`, the manual dictionary) do.
 
 Priority: the manual for the architecture is the primary deliverable; the assembler, linker, compiler back ends and emulators advance as needed to write and check it. The goal is what the project must have before it goes onto silicon: an assembler, a linker, an LLVM back end, an emulator, and a port of OpenBSD that you can ssh into. Sizes marked *(measured)* are line counts in the OpenBSD tree (`sys/arch/*`, lines of `.c`, `.S`, `.h`); everything marked *(estimate)* is a judgement; facts about OpenBSD's build requirements are *(not confirmed in the sources read)*.
 
 ## The order of work now
 
-1. **Decide the open items**, starting with those that affect opcodes (Appendix J of the manual; the ledger). Nothing downstream is final before these, because opcode numbers and encodings may still change.
+1. **Decide the open items**, starting with those that affect opcodes (`docs/design/open-items.md`; the ledger). Nothing downstream is final before these, because opcode numbers and encodings may still change.
 2. **Run the encoding optimizer** (`tools/encopt` 1.1, in C: no code-space reserve, three objectives, static, fetch and exec, errata 136; which objective the real run uses is the author's choice, `docs/encoding-work/optimizer.md` section 11) on the decided instruction set and compiler output to fix the prefix-coded encoding.
 3. **Update the hbnf grammar** (`spec/pdp64/pdp64.hbnf`, `spec/pdp64-mnemonics.hbnf`): the grammars are the source of truth for the encodings.
 4. **Regenerate** from the grammars: the assembler tables, the manual (dictionary and tables), the pcc headers and the tables of the LLVM back end (the author, 2026-11-10: the hbnf also emits what the LLVM back end uses, "two birds, one stone"; errata 137).
@@ -75,7 +75,7 @@ Parallelism. R0, and the model side of R3, do not depend on LLVM; R4's start-up 
 
 ## Which pending decisions gate which step
 
-| Open item or decision (see `docs/decisions-and-status.md` and Appendix J of the manual; old labels from `decisions-pending.md`) | Gates |
+| Open item or decision (see `docs/decisions-and-status.md` and `docs/design/open-items.md`; old labels from `decisions-pending.md`) | Gates |
 |---|---|
 | P11 atomics (decided: monitor) and the `ATOM` encodings | R0, and OpenBSD's kernel locks (R4) |
 | P2 `UA` guard (decided), P10 `MMUCTL` (decided) | R4 (kernel start-up and copy routines) |
