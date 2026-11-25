@@ -229,10 +229,9 @@
 | `MOVL` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [31](by-encoding.md#mn-movl), [entry](../09-isa.md#w-movl) | Moves, address formation and the ALU |
 | `MOVL.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movl-d), [entry](../09-isa.md#w-movl-d) | Added by the prefix-coded encoding |
 | `MOVL.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movl-u), [entry](../09-isa.md#w-movl-u) | Added by the prefix-coded encoding |
-| `MOVQ` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [34](by-encoding.md#mn-movq), [entry](../09-isa.md#w-movq) | Moves, address formation and the ALU |
+| `MOVQ` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [35](by-encoding.md#mn-movq), [entry](../09-isa.md#w-movq) | Moves, address formation and the ALU |
 | `MOVQ.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movq-d), [entry](../09-isa.md#w-movq-d) | Added by the prefix-coded encoding |
 | `MOVQ.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movq-u), [entry](../09-isa.md#w-movq-u) | Added by the prefix-coded encoding |
-| `MOVQL` | [MOVQL](../09-isa.md#movql-move-a-64-bit-literal) (section 9.6) | [1](by-encoding.md#mn-movql), [entry](../09-isa.md#w-movql) | Added by the prefix-coded encoding |
 | `MOVUB` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | [13](by-encoding.md#mn-movub), [entry](../09-isa.md#w-movub) | Memory escape (MESC) |
 | `MOVUL` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | [13](by-encoding.md#mn-movul), [entry](../09-isa.md#w-movul) | Memory escape (MESC) |
 | `MOVUQ` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | [13](by-encoding.md#mn-movuq), [entry](../09-isa.md#w-movuq) | Memory escape (MESC) |
@@ -318,7 +317,7 @@
 | `TLBIAS` | [TLBIAS](../09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) (section 9.14) | [1](by-encoding.md#mn-tlbias), [entry](../09-isa.md#w-tlbias) | System (SYS) |
 | `TLBIGP` | [TLBIAS](../09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) (section 9.14) | [1](by-encoding.md#mn-tlbigp), [entry](../09-isa.md#w-tlbigp) | System (SYS) |
 | `TLBSYNC` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | [1](by-encoding.md#mn-tlbsync), [entry](../09-isa.md#w-tlbsync) | System (SYS) |
-| `TRAP` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | [1](by-encoding.md#mn-trap), [entry](../09-isa.md#w-trap) | System (SYS) |
+| `TRAP` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | [2](by-encoding.md#mn-trap), [entry](../09-isa.md#w-trap) | System (SYS) |
 | `TRAPCC.CC` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-cc), [entry](../09-isa.md#w-trapcc-cc) | Added by the prefix-coded encoding |
 | `TRAPCC.CS` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-cs), [entry](../09-isa.md#w-trapcc-cs) | Added by the prefix-coded encoding |
 | `TRAPCC.EQ` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-eq), [entry](../09-isa.md#w-trapcc-eq) | Added by the prefix-coded encoding |
@@ -333,7 +332,6 @@
 | `TRAPCC.PL` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-pl), [entry](../09-isa.md#w-trapcc-pl) | Added by the prefix-coded encoding |
 | `TRAPCC.VC` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-vc), [entry](../09-isa.md#w-trapcc-vc) | Added by the prefix-coded encoding |
 | `TRAPCC.VS` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-vs), [entry](../09-isa.md#w-trapcc-vs) | Added by the prefix-coded encoding |
-| `TRAPL` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | [1](by-encoding.md#mn-trapl), [entry](../09-isa.md#w-trapl) | System (SYS) |
 | `TST` | [TST](../09-isa.md#tst-test) (section 9.8) | [10](by-encoding.md#mn-tst), [entry](../09-isa.md#w-tst) | Single operand (SOP) |
 | `UTF8DEC` | [UTF8DEC](../09-isa.md#utf8dec-decode-a-utf-8-sequence) (section 9.9) | [1](by-encoding.md#mn-utf8dec), [entry](../09-isa.md#w-utf8dec) | Bits and fields (BESC) |
 | `UTF8ENC` | [UTF8ENC](../09-isa.md#utf8enc-encode-a-unicode-scalar-value) (section 9.9) | [1](by-encoding.md#mn-utf8enc), [entry](../09-isa.md#w-utf8enc) | Bits and fields (BESC) |

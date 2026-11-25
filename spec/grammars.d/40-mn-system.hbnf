@@ -47,6 +47,5 @@ mn-sys = "mtps"@0b0001
        | "icinv"@0b1100
        | "prober"@0b1101
        | "probew"@0b1110
-       | "trapl"@0b1111
 
 ; (the assembler aliases of ISA 4.15 are in the groups they stand for, numbered above the encodings of the group: bhis, blo, mulu, wait, rol)

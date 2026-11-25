@@ -773,8 +773,8 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		}
 		case MN_SYS_MFPS: r[f.low] = pdp64_psw(C); return;
 		case MN_SYS_SPL: priv(); if (f.low > 7) die("spl: the priority is 0 to 7", 0); if (gtrap(HTRAP_PRIO, XCODE_PRIO)) return; C->psw = (C->psw & ~PSW_FIELD(PRI, ~0u)) | PSW_FIELD(PRI, f.low); return;
-		case MN_SYS_TRAP: case MN_SYS_TRAPL: {
-			int n = cls == MN_SYS_TRAP ? f.low : (int)f.n;			/* trapl: the vector number is in parcel 1 */
+		case MN_SYS_TRAP: {
+			int n = (int)f.n;							/* the vector number, 0 to 255 */
 			if (C->deliver && !C->standin) {
 				if (GUEST() && n < 256 && (C->htrap >> (HTRAP_MASK + (n >> HCALL_BLOCK_SHIFT)) & 1)) {	/* a routed TRAP #n is the hypercall: a trap exit, the vector 256 + n, at any guest mode (design 1.5) */
 					hexit(XCODE_HYPERCALL, 0, VECTOR_TRAP_BASE + n, pc, 0, 0, C->cur_insn);

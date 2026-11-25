@@ -65,7 +65,7 @@ The counts of that day, side by side:
 | atomics | 10 | 24 (12 in each of the two sizes); they are 12 operations when only the two sizes are folded, before the signed and unsigned maximum and minimum are folded |
 | other multiprocessor operations | 7 | 9 |
 | **multiprocessor, in all** | **17** | 33 |
-| system operations that are not multiprocessor | 12 | no-op (`NOP`); return from interrupt (`RTI`, `RTT`); halt (`HALT`); breakpoint (`BPT`); landing pad (`LPAD`); processor-status access (`MTPS`, `MFPS`); set priority (`SPL`); trap (`TRAP`, `TRAPL`); address-space-identifier access (`MTASID`, `MFASID`); direct-page access (`MTDP`, `MFDP`); direct-map-window write (`MTDMW`); address probe (`PROBER`, `PROBEW`) |
+| system operations that are not multiprocessor | 12 | no-op (`NOP`); return from interrupt (`RTI`, `RTT`); halt (`HALT`); breakpoint (`BPT`); landing pad (`LPAD`); processor-status access (`MTPS`, `MFPS`); set priority (`SPL`); trap (`TRAP`); address-space-identifier access (`MTASID`, `MFASID`); direct-page access (`MTDP`, `MFDP`); direct-map-window write (`MTDMW`); address probe (`PROBER`, `PROBEW`) |
 
 | # | Operation | Words in the grammar | Group | Section |
 |---|---|---|---|---|

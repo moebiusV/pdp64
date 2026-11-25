@@ -366,7 +366,7 @@ VEC = {'reset': 'processor reset: the first instruction fetch', 'machine-check':
        'pcie-inta': 'PCI Express interrupt pin A of the model host bridge (level 5)', 'pcie-intb': 'PCI Express interrupt pin B (level 5)', 'pcie-intc': 'PCI Express interrupt pin C (level 5)', 'pcie-intd': 'PCI Express interrupt pin D (level 5)',
        'hexit': 'the instruction exit of a guest, in the hypervisor\'s vector table only ({{r:exit-enters-the-hypervisor-through}})', 'gifault': 'a guest-physical instruction fault (stage 2), in the hypervisor\'s table only',
        'glfault': 'a guest-physical load fault (stage 2), in the hypervisor\'s table only', 'gsfault': 'a guest-physical store fault (stage 2), in the hypervisor\'s table only',
-       'iommu': 'the IOMMU unit\'s own interrupt, a wired line (level 5; {{r:unit-own-interrupt}})', 'trap-base': '`TRAP #n` and `TRAPL #n` enter vector 256 + n', 'count': 'the number of vectors; the table has this many eight-byte entries'}
+       'iommu': 'the IOMMU unit\'s own interrupt, a wired line (level 5; {{r:unit-own-interrupt}})', 'trap-base': '`TRAP #n` enters vector 256 + n', 'count': 'the number of vectors; the table has this many eight-byte entries'}
 PSWD = {'c': 'carry (borrow after a subtract)', 'v': 'signed overflow', 'z': 'zero', 'n': 'negative', 't': 'trace: take a trace trap after the next instruction', 'pri': 'interrupt priority level, 0 to 7', 'mode': 'current mode', 'prev': 'previous mode (the mode before the last exception)', 'ua': 'user-access guard: with it clear a kernel-mode data access to a user page faults ({{r:guard-bit-ua-clear}})'}
 PTED = {'v': 'valid', 'r': 'readable', 'w': 'writable', 'x': 'executable', 'u': 'accessible from user mode', 'g': 'global: ignores the ASID', 'a': 'accessed (managed by software)', 'd': 'dirty (managed by software)', 'mt': 'memory type', 'ppn': 'physical page number: physical address bits 12 to 39, in place'}
 
@@ -469,7 +469,7 @@ for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', 'atom
 for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT STUA GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
 
 
-for _i in 'MOV2 MOVQL MOVD MOVUSER MOVUSERD'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
+for _i in 'MOV2 MOVD MOVUSER MOVUSERD'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
 for _i in 'MASK OVF'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
 for _i in 'BSEL AESR AESK SHA256 SHA512'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
 for _i in 'MOVCALL POPRET POPMRET'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')

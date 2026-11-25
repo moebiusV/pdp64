@@ -10,7 +10,7 @@
 |---|---|
 | **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter {{c:id01001|n}}) |
 | **earlier iteration** | pdp64/r20 (the original encoding) or pdp64/16 (a 16-register prefix code): a design built and measured before the pdp64 was chosen, superseded by it, and no longer a CPU ({{r:how-the-encoding-was-chosen}}) |
-| **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOVQL` ({{r:instruction-format}}) |
+| **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOVQ` of a 64-bit constant ({{r:instruction-format}}) |
 | **leaf** | a group of mnemonics with one form, selected by a prefix of the first parcel; a sub-opcode picks the mnemonic ({{r:how-the-opcode-space-is-divided}}) |
 | **prefix** | the top 3 to 16 bits of the first parcel; the prefixes form a prefix code (no prefix begins another), so the first parcel matches at most one leaf and fixes the length of the instruction ({{r:how-the-opcode-space-is-divided}}) |
 | **form** | the list of operand shapes of a leaf: how each operand is written in assembly and how many bits each part has ({{r:how-the-opcode-space-is-divided}}) |
@@ -81,7 +81,7 @@
 | **`H`** | the state bit, outside the status word, that says the hypervisor is running ({{r:hypervisor-mode-is-one-state}}) |
 | **`HVE`** | the strap, fixed by the machine, that says it has a hypervisor mode; with it clear `H` is always 0 ({{r:hypervisor-mode-is-one-state}}) |
 | **exit** | the event by which a guest stops and the hypervisor starts: a trapped instruction, a hypercall, an interrupt or a fault in stage 2; `HEXITR` says which ({{r:hexitr-says-why-the-guest}}) |
-| **hypercall** | a `TRAP` or `TRAPL` number routed to the hypervisor by the trap-control register; the guest's system call to the hypervisor ({{r:halt-always-exits-exit-code}}) |
+| **hypercall** | a `TRAP` number routed to the hypervisor by the trap-control register; the guest's system call to the hypervisor ({{r:halt-always-exits-exit-code}}) |
 | **world switch** | the exit of one guest and the entry of the next, with the hypervisor saving and loading the guest's state between them ({{r:world-switch-an-exit-followed}}) |
 | **`GENTER`** | `GENTER #mask` enters a guest from the hypervisor; the mask names the registers it keeps ({{r:genter-enters-a-guest-before}}, {{r:rti-mask-is-the-only}}) |
 | **stage 1, stage 2** | the guest's own page tables, and the hypervisor's tables that turn a guest-physical address into a real one ({{r:translation-of-a-guest}}) |

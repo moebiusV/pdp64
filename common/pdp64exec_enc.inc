@@ -4,7 +4,7 @@
  * An instruction is decoded by the table codec into an einsn (a mnemonic and operands as the assembly language writes them: sources first, destination
  * last, `cmp` register first).  An instruction of the groups of the mnemonic numbering (spec/grammars.d) is turned into the struct fmt (opcode
  * group, sub-opcode, register fields) and run by exec_fmt, with its memory-side operand built by eoperand from the einsn, so that the semantics are one
- * piece of code.  What only the grammar of the encoding has (the fused instructions, the selects, the overflow-checked arithmetic, the checked trap, movql,
+ * piece of code.  What only the grammar of the encoding has (the fused instructions, the selects, the overflow-checked arithmetic, the checked trap,
  * MESC) is written here.
  *
  * What is not implemented traps as an illegal instruction with a message that names the mnemonic (list: H_UNIMPL below): the AES and SHA instructions,
@@ -20,7 +20,7 @@ enum {
 	H_SYS0, H_SYSX, H_SYSM, H_TLBX, H_SYSR, H_SPL, H_TRAP, H_PROBE, H_MFSR, H_MTSR,
 	H_BESC, H_AESC, H_MBLK, H_FESC, H_SET,
 	H_MOVU, H_RMW, H_ATOM,
-	H_MASK, H_BSEL, H_OVF, H_TRAPCC, H_MOVQL, H_UTF8LEN, H_CT, H_CHK2,
+	H_MASK, H_BSEL, H_OVF, H_TRAPCC, H_UTF8LEN, H_CT, H_CHK2,
 	H_MOVCALL, H_POPMRET, H_POPRET, H_MOV2,
 	H_VEC
 };
@@ -148,7 +148,7 @@ static void resv_note(const struct hinfo *h, const struct einsn *in)
 	}
 	for (int k = 0; k < in->nops; k++) if (is_mem(&op[k])) { C->resv_on = 0; return; }
 	switch (h->kind) {
-	case H_MOV: case H_MOVZ: case H_LEA: case H_ALU: case H_BESC: case H_FESC: case H_MASK: case H_BSEL: case H_OVF: case H_MOVQL: case H_UTF8LEN: case H_CT: case H_CHK2: case H_MOV2: case H_SET: return;
+	case H_MOV: case H_MOVZ: case H_LEA: case H_ALU: case H_BESC: case H_FESC: case H_MASK: case H_BSEL: case H_OVF: case H_UTF8LEN: case H_CT: case H_CHK2: case H_MOV2: case H_SET: return;
 	case H_SOP: if (h->a == MN_SOP_PUSHM || h->a == MN_SOP_POPM || h->a == MN_SOP_PUSH || h->a == MN_SOP_POP || h->a == MN_SOP_JMP || h->a == MN_SOP_CALL) break; return;
 	}
 	C->resv_on = 0;
@@ -229,7 +229,7 @@ static void step_enc(void)
 	case H_TLBX: tlbx(h->a, RG[op[0].r]); return;						/* tlbias rN, tlbigp rN */
 	case H_SYSR: f.opc = OPGROUP_SYS; f.reg = h->a; f.low = op[0].r; exec_fmt(f, start, 0); return;
 	case H_SPL: f.opc = OPGROUP_SYS; f.reg = MN_SYS_SPL; f.low = (int)op[0].v; exec_fmt(f, start, 0); return;
-	case H_TRAP: f.opc = OPGROUP_SYS; f.reg = MN_SYS_TRAPL; f.n = (unsigned)op[0].v; exec_fmt(f, start, 0); return;
+	case H_TRAP: f.opc = OPGROUP_SYS; f.reg = MN_SYS_TRAP; f.n = (unsigned)op[0].v; exec_fmt(f, start, 0); return;
 	case H_PROBE: f.opc = OPGROUP_SYS; f.reg = h->a; f.rd = op[0].r; f.low = op[1].r; exec_fmt(f, start, 0); return;
 	case H_MFSR: f.opc = OPGROUP_SYS; f.reg = 0; f.low = MN_SYSREG_MFSR; f.sub = (unsigned)op[1].v; f.rd = op[0].r; exec_fmt(f, start, 0); return;
 	case H_MTSR: f.opc = OPGROUP_SYS; f.reg = 0; f.low = MN_SYSREG_MTSR; f.sub = (unsigned)op[0].v; f.rd = op[1].r; exec_fmt(f, start, 0); return;
@@ -327,7 +327,6 @@ static void step_enc(void)
 		}
 		return;
 	case H_VEC: vec_step(&in, start, n); return;
-	case H_MOVQL: RG[op[1].r] = (uint64_t)op[0].v; return;
 	/* the fused instructions: the first half reads registers the second does not change, so a fault in the second half restarts the whole instruction
 	   (the state at its start is restored, errata 87) */
 	case H_MOVCALL: {								/* movcall rs, rd, target: movq rs,rd ; call target */

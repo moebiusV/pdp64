@@ -5,7 +5,7 @@ check-drift-enc -- the drift test for the encoding of the pdp64.
 spec/pdp64-NN/pdp64-NN.hbnf is the one place the bit positions and the mnemonics of an encoding are written.  For every mnemonic of the table this
 writes one assembly instruction of a shape the table has for it (from the operand specs of its shortest form), assembles it with as64, decodes the
 parcels with the C codec (tests/enc/encdrv -d) and requires the same mnemonic back: every mnemonic of the encoding can be written in the assembly language and
-reaches its own opcode (the 22 ATOM words, the 8 MESC words, TRAPL, the SYSX words, the new instructions and the fused pairs included).  Then:
+reaches its own opcode (the 22 ATOM words, the 8 MESC words, TRAP, the SYSX words, the new instructions and the fused pairs included).  Then:
   - every word of the original grammar (spec/grammars.d) that the table has under that name assembles, and an alias assembles to what the word it
     stands for assembles to;
   - the opcode map: the prefixes are a prefix code (Kraft sum <= 1: no reserve, the author's answer of 2026-11-10, errata 159), the 65,536 first parcels decode to at most one leaf, and the number of free patterns,
@@ -105,7 +105,7 @@ def main():
             f = d['forms'][first[mn]]
             src = g.line(f, mn)
             if any(s['k'] == 'PC' for s in f['specs']): src += '\nlbl:'
-            if mn == 'vskip': src = 'vec2 r1, r2, r3, r4\n\t' + src			# a vskip is only legal directly after a vec2 (errata 176): the second instruction is the one decoded
+            if mn == 'vskip': src = 'vec2 r20, r21, r22, r23\n\t' + src			# a vskip is only legal directly after a vec2 (errata 176): the second instruction is the one decoded
             words, err = assemble('\t' + src.replace('\n', '\n'))
             got = None
             if words is not None:

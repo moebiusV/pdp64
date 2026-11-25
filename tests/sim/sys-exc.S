@@ -1,4 +1,4 @@
-; System v1 exceptions in kernel mode (sim64 -K): illegal instruction, divide by zero, misaligned and unmapped access, bpt, trap, trapl, the reserved mode, a nested exception.
+; System v1 exceptions in kernel mode (sim64 -K): illegal instruction, divide by zero, misaligned and unmapped access, bpt, trap (a small and a large vector number), the reserved mode, a nested exception.
 ; Each handler records EPC (r6), EPSW (r7), ECAUSE (r8), EVA (r9) and the PSW inside (r12); a failed check n halts with status n.  Generated; the checks are worked out from section 15.
 #include "pdp64-consts.h"
 	.text
@@ -257,10 +257,10 @@ aftertrap:
 	movq	#0, r9
 	movq	#0, r12
 	trap	#200
-aftertrapl:
+aftertrap200:
 	cmp	r10, #(1)
 	bne	F53	; check 53
-	lea	aftertrapl, r11
+	lea	aftertrap200, r11
 	cmp	r6, r11
 	bne	F54	; check 54
 	cmp	r8, #(VECTOR_TRAP_BASE+200)

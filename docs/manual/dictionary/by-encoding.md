@@ -209,7 +209,7 @@ Fields: `sub=p0[10]` `op3.pcrel=p0[9:5]` `op1.r=p0[4:0]`
 
 `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255.
 
-`sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
+`sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trap` 10, `hint` 11.
 
 Fields: `sub=p0[9:8]` `op1.imm=p0[7:0]`
 
@@ -2765,10 +2765,10 @@ Fields: `op1.imm=p1[15:0]+p2[15:0]`
 
 ### Instructions of 5 parcels (10 bytes)
 
-<a id="MOVQL-1"></a>
-#### MOVQL-1: MOVQL, prefix `11111000000`
+<a id="MOVQ64-1"></a>
+#### MOVQ64-1: MOVQ64, prefix `11111000000`
 
-![Layout MOVQL-1](../figures/MOVQL-1.svg)
+![Layout MOVQ64-1](../figures/MOVQ64-1.svg)
 
 `op1` is `imm64s`: signed 64-bit immediate, -9223372036854775808 to 9223372036854775807.
 
@@ -2970,10 +2970,9 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-movl"></a>`MOVL`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
 * <a id="mn-movl-d"></a>`MOVL.D`: [LDU-B28-1](#LDU-B28-1), [LDU-B12-1](#LDU-B12-1), [LDU-X6-1](#LDU-X6-1)
 * <a id="mn-movl-u"></a>`MOVL.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
-* <a id="mn-movq"></a>`MOVQ`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [IMMh47-a-1](#IMMh47-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDI12-a-1](#LDI12-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1), [LDI18H-a-1](#LDI18H-a-1)
+* <a id="mn-movq"></a>`MOVQ`: [MOVQ64-1](#MOVQ64-1), [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [IMMh47-a-1](#IMMh47-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDI12-a-1](#LDI12-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1), [LDI18H-a-1](#LDI18H-a-1)
 * <a id="mn-movq-d"></a>`MOVQ.D`: [LDU-B28-1](#LDU-B28-1), [LDU-B12-1](#LDU-B12-1), [LDU-X6-1](#LDU-X6-1)
 * <a id="mn-movq-u"></a>`MOVQ.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
-* <a id="mn-movql"></a>`MOVQL`: [MOVQL-1](#MOVQL-1)
 * <a id="mn-movub"></a>`MOVUB`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-2](#DPF-D28-2)
 * <a id="mn-movul"></a>`MOVUL`: [LDF-B28-3](#LDF-B28-3), [LDF-X22-3](#LDF-X22-3), [LDF-PI12-3](#LDF-PI12-3), [LDF-PD12-3](#LDF-PD12-3), [LDF-PC32-3](#LDF-PC32-3), [LDF-A32-3](#LDF-A32-3), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-3](#DPF-D28-3)
 * <a id="mn-movuq"></a>`MOVUQ`: [LDF-B28-4](#LDF-B28-4), [LDF-X22-4](#LDF-X22-4), [LDF-PI12-4](#LDF-PI12-4), [LDF-PD12-4](#LDF-PD12-4), [LDF-PC32-4](#LDF-PC32-4), [LDF-A32-4](#LDF-A32-4), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-4](#DPF-D28-4)
@@ -3057,7 +3056,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-tlbias"></a>`TLBIAS`: [TLBX-1](#TLBX-1)
 * <a id="mn-tlbigp"></a>`TLBIGP`: [TLBX-1](#TLBX-1)
 * <a id="mn-tlbsync"></a>`TLBSYNC`: [SYS0-1](#SYS0-1)
-* <a id="mn-trap"></a>`TRAP`: [SYSI-1](#SYSI-1)
+* <a id="mn-trap"></a>`TRAP`: [SYSI-1](#SYSI-1), [SYSI-1](#SYSI-1)
 * <a id="mn-trapcc-cc"></a>`TRAPCC.CC`: [SYS0-1](#SYS0-1)
 * <a id="mn-trapcc-cs"></a>`TRAPCC.CS`: [SYS0-1](#SYS0-1)
 * <a id="mn-trapcc-eq"></a>`TRAPCC.EQ`: [SYS0-1](#SYS0-1)
@@ -3072,7 +3071,6 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-trapcc-pl"></a>`TRAPCC.PL`: [SYS0-1](#SYS0-1)
 * <a id="mn-trapcc-vc"></a>`TRAPCC.VC`: [SYS0-1](#SYS0-1)
 * <a id="mn-trapcc-vs"></a>`TRAPCC.VS`: [SYS0-1](#SYS0-1)
-* <a id="mn-trapl"></a>`TRAPL`: [SYSI-1](#SYSI-1)
 * <a id="mn-tst"></a>`TST`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1), [SOBs12-a-1](#SOBs12-a-1), [SOX4-a-1](#SOX4-a-1), [SOBu12H-a-1](#SOBu12H-a-1)
 * <a id="mn-utf8dec"></a>`UTF8DEC`: [R2-1](#R2-1)
 * <a id="mn-utf8enc"></a>`UTF8ENC`: [R2-1](#R2-1)

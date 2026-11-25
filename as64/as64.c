@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include "asmir.h"
 #include "elf-parser.c"
 #include "relocs.h"
@@ -45,6 +46,7 @@ static void set_sym_val(int k, int sect, int64_t val);
 static void commit_syms(void);
 static int relax_set;		/* --relax or --no-relax given */
 static int relax_on;		/* --relax: a RELAX object (relocs.h): every address of a symbol in .text instructions has a relocation, paddings are R_PDP64_ALIGN */
+static int enc_force;		/* `.encode N` is in force: the least number of parcels of the instructions that follow (0: the shortest form that takes the operands) */
 static int text_poison;		/* something in .text depends on a distance and is not a relocation: the object is marked NOADJ_TEXT */
 static int errors, final_pass;
 static void err(int line, const char *fmt, ...)
@@ -566,6 +568,18 @@ static void directive(const struct stmt *st)
 		flush_pool(final_pass);
 		return;
 	}
+	if (dir_is(st, "encode")) {			/* `.encode N`: instructions from here on are assembled in the shortest form of N parcels (2N bytes) or more that takes their operands; `.encode 0` or `.encode` is the shortest form again */
+		int64_t n = 0;
+		if (st->nargs > 1) { if (final_pass) err(st->line, ".encode takes one constant, the least number of parcels (0 to 5)"); return; }
+		if (st->nargs == 1) {
+			struct val v = eval(st->args[0].x, st->line);
+			if (!CONST(v) || v.c < 0 || v.c > 5) { if (final_pass) err(st->line, ".encode takes one constant, the least number of parcels (0 to 5)"); return; }
+			n = v.c;
+		}
+		enc_force = (int)n;
+		if (n && cur_sec == SEC_TEXT) text_poison = 1;	/* a form the assembler was told to use is not the linker's to shorten */
+		return;
+	}
 	if (dir_is(st, "endp")) return;				/* `name endp`: the end of a procedure, nothing to do */
 	if (dir_is(st, "bugrec")) { dir_bugrec(st); return; }
 	if (dir_is(st, "chk")) { dir_chk(st); return; }
@@ -833,6 +847,7 @@ static int run_pass(int final)
 	int changed = 0;
 
 	final_pass = final;
+	enc_force = 0;
 	pool_seg = 0;
 	cur_sec = SEC_TEXT;
 	chk_pend.have = 0; nbugsite = 0;
@@ -1076,16 +1091,28 @@ static char *slurp(const char *path, size_t *len)
 
 #define USAGE "usage: %s [-m pdp64] [--no-relax] [-o object] file.s\n(the assembler makes relaxation objects by default, docs/relaxation.md: every address of a symbol in an instruction gets a relocation and every padding is re-computed by ld64, which then chooses the shortest form of each; --no-relax makes the plain object)\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text;\n -m pdp64 is accepted and ignored, for the driver convention of pcc: there is one target; the fused mnemonics movcall, popmret, popret and mov2 are ordinary instructions; nothing is ever fused by the assembler)\n"
 
-/* The atomic words have no barrier form: `xadddb`, `casldb` and the rest of that family are not words, so the parser sees a label with no colon.  Say what the word was. */
+/* Spellings that are not words any more: the parser sees a label with no colon, and the message says what the word was.
+   - The atomic words have no barrier form: `xadddb`, `casldb` and the rest of that family.
+   - A spelling that differed from another word only in the length of its encoding: one word names the operation and the assembler picks the form from the operands
+     (`trapl #n` is `trap #n`, `movql #imm64, rd` is `movq #imm64, rd`).  `.encode` (appendix D) forces a length where a test needs one. */
 static void removed_atomic_hint(const char *text, int line, const char *in)
 {
 	static const char *const base[] = { "cas", "swap", "xadd", "xand", "xor_", "xxor", "xmax", "xmin", "xmaxu", "xminu" };
+	static const struct { const char *old, *now; } spelt[] = {
+		{ "trapl", "trap #n (n from 0 to 255, two bytes)" },
+		{ "movql", "movq #imm, rd (the assembler uses the ten-byte form when the constant needs it)" },
+	};
 	const char *p = text;
 	for (int l = 1; l < line && *p; l++) { while (*p && *p != '\n') p++; if (*p) p++; }
 	while (*p == ' ' || *p == '\t') p++;
 	const char *w = p;
 	while (isalnum((unsigned char)*p) || *p == '_') p++;
 	size_t n = (size_t)(p - w);
+	for (size_t k = 0; k < sizeof spelt / sizeof *spelt; k++)
+		if (n == strlen(spelt[k].old) && !strncasecmp(w, spelt[k].old, n)) {
+			fprintf(stderr, "%s:%d: %.*s is not an instruction: one word names the operation and the assembler chooses its length from the operands; write %s\n", in, line, (int)n, w, spelt[k].now);
+			return;
+		}
 	if (n < 5 || w[n - 2] != 'd' || w[n - 1] != 'b') return;
 	for (size_t k = 0; k < sizeof base / sizeof *base; k++) {
 		size_t b = strlen(base[k]);

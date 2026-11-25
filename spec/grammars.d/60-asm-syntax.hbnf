@@ -32,7 +32,7 @@ dbname = "db" | "dw" | "dd" | "dq" | "DB" | "DW" | "DD" | "DQ"
 procdir = symbol "proc"
 endpdir = "endp" | symbol "endp"
 directive = "." dname [ dargs ]
-dname = "chk" | "fill" | "pool" | "text" | "data" | "bss" | "globl" | "comm" | "byte" | "word" | "long" | "quad"
+dname = "chk" | "encode" | "fill" | "pool" | "text" | "data" | "bss" | "globl" | "comm" | "byte" | "word" | "long" | "quad"
       | "even" | "align" | "space" | "ascii" | "lpad" | "if" | "else" | "endif" | "bugrec"
 dargs = darg *( "," darg )
 ; NASM's `'text'` (no escapes; two or more characters, so `'a'` is the character) and `` `text\n` `` (C's escapes) are strings too

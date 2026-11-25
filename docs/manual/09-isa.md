@@ -12,13 +12,13 @@
 
 **9.1.3** The prefixes form a prefix code (a set of bit strings none of which begins another, so that the first parcel matches at most one leaf and the match needs no look-ahead). The lengths were chosen by an optimiser that was given the compiled corpus, so the shortest prefixes belong to the forms the compiler emits most.
 
-**9.1.4** A leaf is one, two or three parcels long, which is two, four or six bytes; 32, 138 and 69 of the leaves are of those lengths. One leaf, `MOVQL`, is five parcels (ten bytes) because it carries a 64-bit literal.
+**9.1.4** A leaf is one, two or three parcels long, which is two, four or six bytes; 32, 138 and 69 of the leaves are of those lengths. One leaf, the move of a 64-bit constant (`MOVQ #imm64, Rd`), is five parcels (ten bytes) because it carries a 64-bit literal.
 
 **9.1.5** 3,278 of the 65,536 patterns of a first parcel (5.0%) match no prefix and are illegal instructions; so is a sub-opcode that no mnemonic uses and a hot-register index beyond the table (9.4.6), so that a wild jump fails early and nothing is undefined.
 
-**9.1.6** The assembly language and the mnemonics of the base specification are kept. The leaves add 54 words to them: the four fused pairs (`MOVCALL`, `POPRET`, `POPMRET`, `MOV2`), `MASKEQZ` and `MASKNEZ`, `BSEL`, `MOVQL`, the checked arithmetic `ADDV`, `SUBV` and `MULV`, the fourteen `TRAPCC` words, the deferred-fault and user-qualified moves (`.D` and `.U`, fourteen words), and the seven AES and eight SHA words. Each entry says what is still to be worked out.
+**9.1.6** The assembly language and the mnemonics of the base specification are kept. The leaves add 53 words to them: the four fused pairs (`MOVCALL`, `POPRET`, `POPMRET`, `MOV2`), `MASKEQZ` and `MASKNEZ`, `BSEL`, the checked arithmetic `ADDV`, `SUBV` and `MULV`, the fourteen `TRAPCC` words, the deferred-fault and user-qualified moves (`.D` and `.U`, fourteen words), and the seven AES and eight SHA words. Each entry says what is still to be worked out.
 
-*Commentary.* **Precedent.** The PDP-11 partitioned its opcodes by the addressing modes of the first word; the VAX by operand specifiers parsed in sequence; x86 by prefixes, opcode, ModR/M and SIB read one after another. The prefix code is the device of a Huffman code (the commonest symbols get the shortest strings) applied to the first parcel, with the length of the instruction as a by-product of the match. **Trade-offs.** The decoder reads up to 16 bits to find the length. In the timing model the decoder pays one cycle of length-decode latency on every taken branch and refill, and fetch-wait is 7.2% of the cycles at four bytes per cycle (1.7% for the first iteration's encoding, whose length was two bits, 1.8). What the prefix buys is density: on the 841-file corpus the new compiler's output is 11.04% smaller than the old compiler's output for the first encoding; the encoding alone, measured on the old compiler's code, was 6.48% smaller for an earlier prefix-coded iteration (1.8) and 9.66% smaller with the four fused pairs, and most of the saving in instructions executed is the compiler (appendix E, E.4). **Improvements.** Every bit is a prefix, sub-opcode or operand bit, so an unused code is an illegal instruction and not a silent no-op; the fields of every leaf come from the grammar, so no table is written twice. **Benefits.** The common operations, a register move, a load from the stack, a branch on a register against zero, cost two bytes with no look at a second parcel, and the rare ones are as long as they need to be. **Modern comparables.** Thumb-2 and RISC-V's compressed instructions mix 16- and 32-bit forms with the length in a few bits; x86 finds the length by parsing; the prefix code here is the general case of the first and avoids the second. **Impact.** *Kernel:* nothing in the kernel depends on the opcode map; a debugger and the fault handler's step-over read the same generated table as the assembler. *Compiler:* the cost model charges 2, 4 or 6 bytes (10 for `MOVQL`) and knows which operands fit a one-parcel form, the hot registers above all (9.4.6). *Hardware:* the length is a function of up to 16 bits of the first parcel, a lookup in the fetch path; a front end that decodes several instructions a cycle needs such a lookup at each parcel position, a cost that the timing model does not measure beyond the one cycle above.
+*Commentary.* **Precedent.** The PDP-11 partitioned its opcodes by the addressing modes of the first word; the VAX by operand specifiers parsed in sequence; x86 by prefixes, opcode, ModR/M and SIB read one after another. The prefix code is the device of a Huffman code (the commonest symbols get the shortest strings) applied to the first parcel, with the length of the instruction as a by-product of the match. **Trade-offs.** The decoder reads up to 16 bits to find the length. In the timing model the decoder pays one cycle of length-decode latency on every taken branch and refill, and fetch-wait is 7.2% of the cycles at four bytes per cycle (1.7% for the first iteration's encoding, whose length was two bits, 1.8). What the prefix buys is density: on the 841-file corpus the new compiler's output is 11.04% smaller than the old compiler's output for the first encoding; the encoding alone, measured on the old compiler's code, was 6.48% smaller for an earlier prefix-coded iteration (1.8) and 9.66% smaller with the four fused pairs, and most of the saving in instructions executed is the compiler (appendix E, E.4). **Improvements.** Every bit is a prefix, sub-opcode or operand bit, so an unused code is an illegal instruction and not a silent no-op; the fields of every leaf come from the grammar, so no table is written twice. **Benefits.** The common operations, a register move, a load from the stack, a branch on a register against zero, cost two bytes with no look at a second parcel, and the rare ones are as long as they need to be. **Modern comparables.** Thumb-2 and RISC-V's compressed instructions mix 16- and 32-bit forms with the length in a few bits; x86 finds the length by parsing; the prefix code here is the general case of the first and avoids the second. **Impact.** *Kernel:* nothing in the kernel depends on the opcode map; a debugger and the fault handler's step-over read the same generated table as the assembler. *Compiler:* the cost model charges 2, 4 or 6 bytes (10 for `MOVQ` of a 64-bit constant) and knows which operands fit a one-parcel form, the hot registers above all (9.4.6). *Hardware:* the length is a function of up to 16 bits of the first parcel, a lookup in the fetch path; a front end that decodes several instructions a cycle needs such a lookup at each parcel position, a cost that the timing model does not measure beyond the one cycle above.
 
 ## 9.2 Properties and principles
 
@@ -26,7 +26,7 @@
 
 **9.2.2** At most one operand of an instruction may be a memory reference; the other, where present, is a register. The block operations are the one admitted exception.
 
-**9.2.3** No instruction is longer than six bytes, with one exception: `MOVQL` carries a 64-bit literal and is ten bytes, the literal not being counted as part of the instruction.
+**9.2.3** No instruction is longer than six bytes, with one exception: `MOVQ #imm64, Rd` carries a 64-bit literal and is ten bytes, the literal not being counted as part of the instruction.
 
 **9.2.4** A register is always written in full: narrow loads sign- or zero-extend, and there is no partial-register write.
 
@@ -78,7 +78,7 @@
 
 ## 9.4 The instruction format
 
-**9.4.1** An instruction is one, two or three parcels (two, four or six bytes; `MOVQL` is five); the first parcel holds the prefix, the sub-opcode and the operand pieces that fit, and the later parcels hold the rest. The bit layout of every leaf is a chart in the [reference tables](dictionary/by-encoding.md).
+**9.4.1** An instruction is one, two or three parcels (two, four or six bytes; `MOVQ` with a 64-bit constant is five parcels); the first parcel holds the prefix, the sub-opcode and the operand pieces that fit, and the later parcels hold the rest. The bit layout of every leaf is a chart in the [reference tables](dictionary/by-encoding.md).
 
 **9.4.2** Instructions are parcel-aligned and little-endian; an instruction may cross any boundary of 8 bytes, a cache line or a page.
 
@@ -86,11 +86,11 @@
 
 **9.4.4** Where an addressing mode names no base register (immediate, absolute, PC-relative), no field is spent on one: the later parcels are all value, so those modes reach 16 bits at four bytes and 32 bits at six.
 
-**9.4.5** A constant wider than 32 bits is either written in the instruction, `MOVQL #imm64, Rd`, which is ten bytes with the literal in the four later parcels, or loaded from a literal pool with `MOVQ =K, Rd`, written with an explicit `=`; nothing is pooled silently, and a `MOVQ #imm` whose constant fits no `MOVQ` form is assembled as `MOVQL`.
+**9.4.5** A constant wider than 32 bits is either written in the instruction, `MOVQ #imm64, Rd`, which is ten bytes with the literal in the four later parcels, or loaded from a literal pool with `MOVQ =K, Rd`, written with an explicit `=`; nothing is pooled silently. `MOVQ #imm` is one mnemonic for every size of constant: the assembler picks the two-, four-, six- or ten-byte form that holds it.
 
 **9.4.6** In a one-parcel form a 3-bit register field is not a register number but an index into a table of the eight hottest registers, `R0 R1 R8 R2 SP R3 R9 R10`. A 4-bit field indexes the sixteen hottest, `R0 R1 R8 R2 SP R3 R9 R10 R11 R4 R15 R5 R24 R25 R26 R6`. The tables are part of the ABI, and the compiler's register allocator prefers the hot registers.
 
-*Commentary.* **Precedent.** The PDP-11 had the length in the first word, but as a function of both of its six-bit specifiers; Thumb-2 and RISC-V's compressed instructions mix 16- and 32-bit forms with the length in a few bits. Here the length and the identity of the instruction are one match on the prefix. **Trade-offs.** Byte-granular encoding, as in x86, buys perhaps a tenth of the code size and costs a full alignment rotator and cross-line splice logic in the fetch path on a 64-bit datapath; this CPU refuses it. A hot-register index buys a one-parcel form and costs a rule for the compiler: a value that lives in one of the eight (for the 4-bit fields, sixteen) hottest registers is cheaper to use, which the allocator learns, and the ABI cannot move the tables without changing the encoding. Forcing an instruction to stay inside an eight-byte window would simplify fetch and would cost 5% to 10% of code size in padding. **Improvements.** `MOVQL` takes a 64-bit constant in one instruction instead of a literal-pool load, at ten bytes against six, the literal not counting against the three-parcel rule. **Benefits.** The measured average is 2.7 to 3.3 bytes an instruction (9.2.13). **Modern comparables.** AArch64 and RISC-V have fixed or two-length encodings; x86 has byte-granular ones; this CPU has parcel-granular ones with three common lengths. **Impact.** *Kernel:* a one-parcel form is cheaper in kernel text with no source change. *Compiler:* the assembler picks the shortest form, branch and call relaxation is a length choice, and the cost model knows 2, 4 and 6 bytes and which registers are hot. *Hardware:* the fetch unit has a parcel buffer and a length lookup on the first parcel; no instruction crosses more than two parcel-aligned windows of eight bytes except the ten-byte `MOVQL`.
+*Commentary.* **Precedent.** The PDP-11 had the length in the first word, but as a function of both of its six-bit specifiers; Thumb-2 and RISC-V's compressed instructions mix 16- and 32-bit forms with the length in a few bits. Here the length and the identity of the instruction are one match on the prefix. **Trade-offs.** Byte-granular encoding, as in x86, buys perhaps a tenth of the code size and costs a full alignment rotator and cross-line splice logic in the fetch path on a 64-bit datapath; this CPU refuses it. A hot-register index buys a one-parcel form and costs a rule for the compiler: a value that lives in one of the eight (for the 4-bit fields, sixteen) hottest registers is cheaper to use, which the allocator learns, and the ABI cannot move the tables without changing the encoding. Forcing an instruction to stay inside an eight-byte window would simplify fetch and would cost 5% to 10% of code size in padding. **Improvements.** `MOVQ #imm64, Rd` takes a 64-bit constant in one instruction instead of a literal-pool load, at ten bytes against six, the literal not counting against the three-parcel rule. **Benefits.** The measured average is 2.7 to 3.3 bytes an instruction (9.2.13). **Modern comparables.** AArch64 and RISC-V have fixed or two-length encodings; x86 has byte-granular ones; this CPU has parcel-granular ones with three common lengths. **Impact.** *Kernel:* a one-parcel form is cheaper in kernel text with no source change. *Compiler:* the assembler picks the shortest form, branch and call relaxation is a length choice, and the cost model knows 2, 4 and 6 bytes and which registers are hot. *Hardware:* the fetch unit has a parcel buffer and a length lookup on the first parcel; no instruction crosses more than two parcel-aligned windows of eight bytes except the ten-byte `MOVQ` of a 64-bit constant.
 
 ## 9.5 Addressing modes
 
@@ -102,7 +102,7 @@
 | `d(Rn)(Rx*s)` | scaled index, `s` in {1, 2, 4, 8} | none | 6- or 8-bit displacement, or none with a 5-bit base and index | 22-bit displacement |
 | `d(PC)` | PC-relative; the base is the first parcel of the instruction | none | 12-, 14- or 16-bit byte displacement: ±2 KiB, ±8 KiB, ±32 KiB | 32-bit displacement, ±2 GiB |
 | `d(DP)` | direct page, loads only | none | none | 28-bit displacement |
-| `#imm` | immediate, sign-extended | 3 to 7 bits | up to 18 bits | 32 bits (`MOVQL`: 64 bits, five parcels) |
+| `#imm` | immediate, sign-extended | 3 to 7 bits | up to 18 bits | 32 bits (a `MOVQ` of a wider constant: 64 bits, five parcels) |
 | `@abs` | absolute, sign-extended | none | none | 32-bit address |
 | `(Rn)+d` | post-increment by a stride `d` (0: the operand size) | none | 12-bit stride | none |
 | `-(Rn)` or `(Rn)-d` | pre-decrement by a stride (0: the operand size) | none | 12-bit stride | none |
@@ -160,16 +160,17 @@
 ```
 MOVQ rm, Rd        ; load
 MOVQ Rs, rm        ; store
+MOVQ #imm, Rd      ; a constant of any size
 MOVL, MOVW, MOVB likewise
 ```
 
 **Encoding**
 
-![Encoding of MOV](figures/LDF-B28-1.svg)
+![Encoding of MOV](figures/MOVQ64-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `100001`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `MOVQ64-1`, MOVQ64, prefix `11111000000`. `op1` is `imm64s`: signed 64-bit immediate, -9223372036854775808 to 9223372036854775807. `op2` is `reg5`: register, 5 bits.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`STF-B28-1`](dictionary/by-encoding.md#STF-B28-1), [`STF-X22-1`](dictionary/by-encoding.md#STF-X22-1), [`STF-PI12-1`](dictionary/by-encoding.md#STF-PI12-1), [`STF-PD12-1`](dictionary/by-encoding.md#STF-PD12-1), [`STF-PC32-1`](dictionary/by-encoding.md#STF-PC32-1), [`STF-A32-1`](dictionary/by-encoding.md#STF-A32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`LDHHH3-a-1`](dictionary/by-encoding.md#LDHHH3-a-1), [`STHHH3-a-1`](dictionary/by-encoding.md#STHHH3-a-1), [`STSPh4-a-1`](dictionary/by-encoding.md#STSPh4-a-1), [`LDSPh5-a-1`](dictionary/by-encoding.md#LDSPh5-a-1), [`IMMh47-a-1`](dictionary/by-encoding.md#IMMh47-a-1), [`STBs8-a-1`](dictionary/by-encoding.md#STBs8-a-1), [`LDBs10-a-1`](dictionary/by-encoding.md#LDBs10-a-1), [`LDX0-a-1`](dictionary/by-encoding.md#LDX0-a-1), [`STX0-a-1`](dictionary/by-encoding.md#STX0-a-1), [`LDPC14-a-1`](dictionary/by-encoding.md#LDPC14-a-1), [`LDI12-a-1`](dictionary/by-encoding.md#LDI12-a-1), [`LDBu12H-a-1`](dictionary/by-encoding.md#LDBu12H-a-1), [`STBu12H-a-1`](dictionary/by-encoding.md#STBu12H-a-1), [`LDX6H-a-1`](dictionary/by-encoding.md#LDX6H-a-1), [`STX6H-a-1`](dictionary/by-encoding.md#STX6H-a-1), [`LDPC16H-a-1`](dictionary/by-encoding.md#LDPC16H-a-1), [`LDI18H-a-1`](dictionary/by-encoding.md#LDI18H-a-1), [`LDFI-I32-2`](dictionary/by-encoding.md#LDFI-I32-2), [`STHHH1-b-1`](dictionary/by-encoding.md#STHHH1-b-1), [`LDBs6-b-1`](dictionary/by-encoding.md#LDBs6-b-1), [`STBs6-b-1`](dictionary/by-encoding.md#STBs6-b-1), [`LDBu6-b-1`](dictionary/by-encoding.md#LDBu6-b-1), [`LDX0-b-1`](dictionary/by-encoding.md#LDX0-b-1), [`STX0-b-1`](dictionary/by-encoding.md#STX0-b-1), [`STBs8H-b-1`](dictionary/by-encoding.md#STBs8H-b-1), [`LDBu12H-b-1`](dictionary/by-encoding.md#LDBu12H-b-1), [`STBu12H-b-1`](dictionary/by-encoding.md#STBu12H-b-1), [`LDX4H-b-1`](dictionary/by-encoding.md#LDX4H-b-1), [`STX6H-b-1`](dictionary/by-encoding.md#STX6H-b-1), [`LDPC14H-b-1`](dictionary/by-encoding.md#LDPC14H-b-1), [`LDI12-d-2`](dictionary/by-encoding.md#LDI12-d-2).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`MOVQ64-1`](dictionary/by-encoding.md#MOVQ64-1), [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`STF-B28-1`](dictionary/by-encoding.md#STF-B28-1), [`STF-X22-1`](dictionary/by-encoding.md#STF-X22-1), [`STF-PI12-1`](dictionary/by-encoding.md#STF-PI12-1), [`STF-PD12-1`](dictionary/by-encoding.md#STF-PD12-1), [`STF-PC32-1`](dictionary/by-encoding.md#STF-PC32-1), [`STF-A32-1`](dictionary/by-encoding.md#STF-A32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`LDHHH3-a-1`](dictionary/by-encoding.md#LDHHH3-a-1), [`STHHH3-a-1`](dictionary/by-encoding.md#STHHH3-a-1), [`STSPh4-a-1`](dictionary/by-encoding.md#STSPh4-a-1), [`LDSPh5-a-1`](dictionary/by-encoding.md#LDSPh5-a-1), [`IMMh47-a-1`](dictionary/by-encoding.md#IMMh47-a-1), [`STBs8-a-1`](dictionary/by-encoding.md#STBs8-a-1), [`LDBs10-a-1`](dictionary/by-encoding.md#LDBs10-a-1), [`LDX0-a-1`](dictionary/by-encoding.md#LDX0-a-1), [`STX0-a-1`](dictionary/by-encoding.md#STX0-a-1), [`LDPC14-a-1`](dictionary/by-encoding.md#LDPC14-a-1), [`LDI12-a-1`](dictionary/by-encoding.md#LDI12-a-1), [`LDBu12H-a-1`](dictionary/by-encoding.md#LDBu12H-a-1), [`STBu12H-a-1`](dictionary/by-encoding.md#STBu12H-a-1), [`LDX6H-a-1`](dictionary/by-encoding.md#LDX6H-a-1), [`STX6H-a-1`](dictionary/by-encoding.md#STX6H-a-1), [`LDPC16H-a-1`](dictionary/by-encoding.md#LDPC16H-a-1), [`LDI18H-a-1`](dictionary/by-encoding.md#LDI18H-a-1), [`LDFI-I32-2`](dictionary/by-encoding.md#LDFI-I32-2), [`STHHH1-b-1`](dictionary/by-encoding.md#STHHH1-b-1), [`LDBs6-b-1`](dictionary/by-encoding.md#LDBs6-b-1), [`STBs6-b-1`](dictionary/by-encoding.md#STBs6-b-1), [`LDBu6-b-1`](dictionary/by-encoding.md#LDBu6-b-1), [`LDX0-b-1`](dictionary/by-encoding.md#LDX0-b-1), [`STX0-b-1`](dictionary/by-encoding.md#STX0-b-1), [`STBs8H-b-1`](dictionary/by-encoding.md#STBs8H-b-1), [`LDBu12H-b-1`](dictionary/by-encoding.md#LDBu12H-b-1), [`STBu12H-b-1`](dictionary/by-encoding.md#STBu12H-b-1), [`LDX4H-b-1`](dictionary/by-encoding.md#LDX4H-b-1), [`STX6H-b-1`](dictionary/by-encoding.md#STX6H-b-1), [`LDPC14H-b-1`](dictionary/by-encoding.md#LDPC14H-b-1), [`LDI12-d-2`](dictionary/by-encoding.md#LDI12-d-2).
 
 **Operation**
 
@@ -185,85 +186,90 @@ store:  M[EA(rm)] ← Rs[8×size-1:0]          ; len = 00: Rd ← sext(Rs[8×siz
 
 A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The register-to-register forms of the sized moves are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`.
 
+**Why it is here.** A 64-bit constant otherwise comes from the literal pool. The mnemonic does not say how long the instruction is: `MOVQ #imm, Rd` is the one word for every constant, and the assembler picks the two-, four-, six- or ten-byte form.
+
 **Cf.** 6.7 for the memory type that decides whether the access is cached; 6.4 for what a faulting access leaves behind.
 
 <a id="w-movq"></a>
 #### MOVQ
 
-![MOVQ: LDF.B28, prefix 100001, sub-opcode 0000; operands b5d28s-x1, reg5; 6 bytes](figures/w/movq/01.svg)
+![MOVQ: MOVQ64, prefix 11111000000; operands imm64s, reg5; 10 bytes](figures/w/movq/01.svg)
 
-![MOVQ: LDF.X22, prefix 01001, sub-opcode 0000; operands x5-5d22s, reg5; 6 bytes](figures/w/movq/02.svg)
+![MOVQ: LDF.B28, prefix 100001, sub-opcode 0000; operands b5d28s-x1, reg5; 6 bytes](figures/w/movq/02.svg)
 
-![MOVQ: LDF.PC32, prefix 1011010, sub-opcode 0000; operands pc32-u1, reg5; 6 bytes](figures/w/movq/05.svg)
+![MOVQ: LDF.X22, prefix 01001, sub-opcode 0000; operands x5-5d22s, reg5; 6 bytes](figures/w/movq/03.svg)
 
-![MOVQ: LDF.A32, prefix 1011011, sub-opcode 0000; operands abs32, reg5; 6 bytes](figures/w/movq/06.svg)
+![MOVQ: LDF.PC32, prefix 1011010, sub-opcode 0000; operands pc32-u1, reg5; 6 bytes](figures/w/movq/06.svg)
 
-![MOVQ: LDFI.I32, prefix 1011100, sub-opcode 1111; operands imm32s, reg5; 6 bytes](figures/w/movq/07.svg)
+![MOVQ: LDF.A32, prefix 1011011, sub-opcode 0000; operands abs32, reg5; 6 bytes](figures/w/movq/07.svg)
 
-![MOVQ: STF.B28, prefix 1011101, sub-opcode 000; operands reg5, b5d28s-x1; 6 bytes](figures/w/movq/08.svg)
+![MOVQ: LDFI.I32, prefix 1011100, sub-opcode 1111; operands imm32s, reg5; 6 bytes](figures/w/movq/08.svg)
 
-![MOVQ: STF.X22, prefix 100101, sub-opcode 000; operands reg5, x5-5d22s; 6 bytes](figures/w/movq/09.svg)
+![MOVQ: STF.B28, prefix 1011101, sub-opcode 000; operands reg5, b5d28s-x1; 6 bytes](figures/w/movq/09.svg)
 
-![MOVQ: STF.PC32, prefix 11011101, sub-opcode 000; operands reg5, pc32-u1; 6 bytes](figures/w/movq/12.svg)
+![MOVQ: STF.X22, prefix 100101, sub-opcode 000; operands reg5, x5-5d22s; 6 bytes](figures/w/movq/10.svg)
 
-![MOVQ: STF.A32, prefix 11011110, sub-opcode 000; operands reg5, abs32; 6 bytes](figures/w/movq/13.svg)
+![MOVQ: STF.PC32, prefix 11011101, sub-opcode 000; operands reg5, pc32-u1; 6 bytes](figures/w/movq/13.svg)
 
-![MOVQ: DPF.D28, prefix 11111000110, sub-opcode 0000; operands dpd28s-x1, reg5; 6 bytes](figures/w/movq/14.svg)
+![MOVQ: STF.A32, prefix 11011110, sub-opcode 000; operands reg5, abs32; 6 bytes](figures/w/movq/14.svg)
 
-![MOVQ: LDF.PI12, prefix 100011, sub-opcode 0000; operands pi5-s12, reg5; 4 bytes](figures/w/movq/03.svg)
+![MOVQ: DPF.D28, prefix 11111000110, sub-opcode 0000; operands dpd28s-x1, reg5; 6 bytes](figures/w/movq/15.svg)
 
-![MOVQ: LDF.PD12, prefix 100100, sub-opcode 0000; operands pd5-s12, reg5; 4 bytes](figures/w/movq/04.svg)
+![MOVQ: LDF.PI12, prefix 100011, sub-opcode 0000; operands pi5-s12, reg5; 4 bytes](figures/w/movq/04.svg)
 
-![MOVQ: STF.PI12, prefix 1011111, sub-opcode 000; operands reg5, pi5-s12; 4 bytes](figures/w/movq/10.svg)
+![MOVQ: LDF.PD12, prefix 100100, sub-opcode 0000; operands pd5-s12, reg5; 4 bytes](figures/w/movq/05.svg)
 
-![MOVQ: STF.PD12, prefix 1100000, sub-opcode 000; operands reg5, pd5-s12; 4 bytes](figures/w/movq/11.svg)
+![MOVQ: STF.PI12, prefix 1011111, sub-opcode 000; operands reg5, pi5-s12; 4 bytes](figures/w/movq/11.svg)
 
-![MOVQ: RRF5, prefix 1111110001001011, sub-opcode 000000; operands reg5, reg5; 4 bytes](figures/w/movq/16.svg)
+![MOVQ: STF.PD12, prefix 1100000, sub-opcode 000; operands reg5, pd5-s12; 4 bytes](figures/w/movq/12.svg)
 
-![MOVQ: STBs8/a, prefix 1111101100001, sub-opcode 0; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movq/23.svg)
+![MOVQ: RRF5, prefix 1111110001001011, sub-opcode 000000; operands reg5, reg5; 4 bytes](figures/w/movq/17.svg)
 
-![MOVQ: LDBs10/a, prefix 1111010101, sub-opcode 00; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movq/24.svg)
+![MOVQ: STBs8/a, prefix 1111101100001, sub-opcode 0; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movq/24.svg)
 
-![MOVQ: LDX0/a, prefix 1111101100100, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movq/25.svg)
+![MOVQ: LDBs10/a, prefix 1111010101, sub-opcode 00; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movq/25.svg)
 
-![MOVQ: STX0/a, prefix 11111011111100, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movq/26.svg)
+![MOVQ: LDX0/a, prefix 1111101100100, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movq/26.svg)
 
-![MOVQ: LDPC14/a, prefix 11111001001, sub-opcode 00; operands pc14-u1, reg5; 4 bytes](figures/w/movq/27.svg)
+![MOVQ: STX0/a, prefix 11111011111100, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movq/27.svg)
 
-![MOVQ: LDI12/a, prefix 111111000011011; operands imm12s, reg5; 4 bytes](figures/w/movq/28.svg)
+![MOVQ: LDPC14/a, prefix 11111001001, sub-opcode 00; operands pc14-u1, reg5; 4 bytes](figures/w/movq/28.svg)
 
-![MOVQ: LDBu12H/a, prefix 111011100, sub-opcode 00; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movq/29.svg)
+![MOVQ: LDI12/a, prefix 111111000011011; operands imm12s, reg5; 4 bytes](figures/w/movq/29.svg)
 
-![MOVQ: STBu12H/a, prefix 11111001011, sub-opcode 0; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movq/30.svg)
+![MOVQ: LDBu12H/a, prefix 111011100, sub-opcode 00; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movq/30.svg)
 
-![MOVQ: LDX6H/a, prefix 111011110, sub-opcode 00; operands x4-4d6s, reg5; 4 bytes](figures/w/movq/31.svg)
+![MOVQ: STBu12H/a, prefix 11111001011, sub-opcode 0; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movq/31.svg)
 
-![MOVQ: STX6H/a, prefix 1111010110, sub-opcode 0; operands reg5, x4-4d6s; 4 bytes](figures/w/movq/32.svg)
+![MOVQ: LDX6H/a, prefix 111011110, sub-opcode 00; operands x4-4d6s, reg5; 4 bytes](figures/w/movq/32.svg)
 
-![MOVQ: LDPC16H/a, prefix 1111011000, sub-opcode 00; operands pc16-u1, reg4; 4 bytes](figures/w/movq/33.svg)
+![MOVQ: STX6H/a, prefix 1111010110, sub-opcode 0; operands reg5, x4-4d6s; 4 bytes](figures/w/movq/33.svg)
 
-![MOVQ: LDI18H/a, prefix 1111011010; operands imm18s, reg4; 4 bytes](figures/w/movq/34.svg)
+![MOVQ: LDPC16H/a, prefix 1111011000, sub-opcode 00; operands pc16-u1, reg4; 4 bytes](figures/w/movq/34.svg)
 
-![MOVQ: RRF, prefix 0010, sub-opcode 0000; operands reg4, reg4; 2 bytes](figures/w/movq/15.svg)
+![MOVQ: LDI18H/a, prefix 1111011010; operands imm18s, reg4; 4 bytes](figures/w/movq/35.svg)
 
-![MOVQ: RR5, prefix 000, sub-opcode 000; operands reg5, reg5; 2 bytes](figures/w/movq/17.svg)
+![MOVQ: RRF, prefix 0010, sub-opcode 0000; operands reg4, reg4; 2 bytes](figures/w/movq/16.svg)
 
-![MOVQ: LDHHH3/a, prefix 01011, sub-opcode 00; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movq/18.svg)
+![MOVQ: RR5, prefix 000, sub-opcode 000; operands reg5, reg5; 2 bytes](figures/w/movq/18.svg)
 
-![MOVQ: STHHH3/a, prefix 101000, sub-opcode 0; operands reg3, b3d3u-xsz; 2 bytes](figures/w/movq/19.svg)
+![MOVQ: LDHHH3/a, prefix 01011, sub-opcode 00; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movq/19.svg)
 
-![MOVQ: STSPh4/a, prefix 1100011, sub-opcode 0; operands reg4, spd4u-xsz; 2 bytes](figures/w/movq/20.svg)
+![MOVQ: STHHH3/a, prefix 101000, sub-opcode 0; operands reg3, b3d3u-xsz; 2 bytes](figures/w/movq/20.svg)
 
-![MOVQ: LDSPh5/a, prefix 01100, sub-opcode 00; operands spd5u-xsz, reg4; 2 bytes](figures/w/movq/21.svg)
+![MOVQ: STSPh4/a, prefix 1100011, sub-opcode 0; operands reg4, spd4u-xsz; 2 bytes](figures/w/movq/21.svg)
 
-![MOVQ: IMMh47/a, prefix 01101; operands imm7s, reg4; 2 bytes](figures/w/movq/22.svg)
+![MOVQ: LDSPh5/a, prefix 01100, sub-opcode 00; operands spd5u-xsz, reg4; 2 bytes](figures/w/movq/22.svg)
+
+![MOVQ: IMMh47/a, prefix 01101; operands imm7s, reg4; 2 bytes](figures/w/movq/23.svg)
 
 ```
 MOVQ rm, Rd
 MOVQ Rs, rm
+MOVQ #imm, Rd
 ```
 
-Operation, flags and exceptions as for the entry MOV above; 34 layout forms, each a chart of its own (above).
+Operation, flags and exceptions as for the entry MOV above; 35 layout forms, each a chart of its own (above).
 
 <a id="w-movl"></a>
 #### MOVL
@@ -900,42 +906,6 @@ Rd ← Rc           ; in this order
 **Why it is here.** I decided the four fused pairs (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd` occurs 6,742 times and saves 0.50%, the smallest gain of the four and the dearest in code space: four 3-bit register fields use one sixteenth of the first-parcel space and can name only the eight hot registers. The encoding study lists both as costs, and one instruction that writes two registers (the rename width of an out-of-order core).
 
 **Cf.** Appendix C (the hot-register tables).
-
-
-<a id="w-movql"></a>
-### MOVQL: Move a 64-bit literal
-
-![MOVQL: MOVQL, prefix 11111000000; operands imm64s, reg5; 10 bytes](figures/w/movql/01.svg)
-
-**Mnemonics:** `MOVQL`
-
-**Syntax**
-
-```
-MOVQL #imm64, Rd
-```
-
-**Encoding**
-
-![Encoding of MOVQL](figures/MOVQL-1.svg)
-
-The chart is the leaf `MOVQL-1`, MOVQL, prefix `11111000000`. `op1` is `imm64s`: signed 64-bit immediate, -9223372036854775808 to 9223372036854775807. `op2` is `reg5`: register, 5 bits.
-
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`MOVQL-1`](dictionary/by-encoding.md#MOVQL-1).
-
-**Operation**
-
-```
-Rd ← imm64
-```
-
-**Flags** None written.
-
-**Exceptions** None.
-
-`MOVQL #imm64, Rd` is accepted, and breaking the three-parcel rule for it is acceptable because a 64-bit literal is not counted as part of the instruction. The instruction is five parcels, ten bytes: the literal is inside the instruction, so the length is still known from parcel 0 and the fetch has no exception for a trailing literal (`docs/encoding-proposal.md` section 3). The assembler uses it for a `MOVQ #imm, Rd` that fits no `MOVQ` form.
-
-**Why it is here.** I accepted it in the second round of security answers. A 64-bit constant otherwise comes from the literal pool; the literal inside the instruction is one instruction, and it is not counted against the three-parcel rule because it is data, not instruction. The encoding work found no use of a trailing literal worth its exception to the fetch rule, so the literal is part of a five-parcel instruction (`docs/encoding-proposal.md` section 3).
 
 
 ### MOVD: Deferred-fault load
@@ -7265,7 +7235,7 @@ Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each
 
 *Cf. chapter 6, section 6.13 (system instructions, exceptions and interrupts), section 6.3 (exceptions and interrupts) and section 6.5 (system registers).*
 
-**9.14.1** The system group `SYS` holds the privileged and system instructions: `TRAP`, `TRAPL`, `RTI #mask`, `RTT #mask`, `RET`, `HALT`, `BPT`, `MTPS`, `MFPS`, `SPL`, `MFSR`, `MTSR`, `MTDP`, `MFDP`, `MFCPUID`, `PROBER`, `PROBEW`, `PUSHX`, `POPX`, `GENTER #mask`, and the translation and cache maintenance instructions (`TLBI`, `TLBIA`, `TLBIAS`, `TLBIGP`, `TLBSYNC`, `MTASID`, `MFASID`, `ICINV`, `ICINVA`). The user-memory guard instructions `STUA` and `CLUA` are described with them.
+**9.14.1** The system group `SYS` holds the privileged and system instructions: `TRAP`, `RTI #mask`, `RTT #mask`, `RET`, `HALT`, `BPT`, `MTPS`, `MFPS`, `SPL`, `MFSR`, `MTSR`, `MTDP`, `MFDP`, `MFCPUID`, `PROBER`, `PROBEW`, `PUSHX`, `POPX`, `GENTER #mask`, and the translation and cache maintenance instructions (`TLBI`, `TLBIA`, `TLBIAS`, `TLBIGP`, `TLBSYNC`, `MTASID`, `MFASID`, `ICINV`, `ICINVA`). The user-memory guard instructions `STUA` and `CLUA` are described with them.
 
 *Commentary.* The official entry of each instruction is below, in this section; the kernel chapter gives the modes, the entry sequence, the system registers and the reasons. **Impact.** *Kernel:* the entries below are the complete list of what the kernel may execute that user code may not, and of what both may; chapter 6 explains how they are used. *Compiler:* none, apart from `TRAP` in system-call stubs. *Hardware:* a class decode and one privilege check.
 
@@ -7795,7 +7765,7 @@ HINT #n        ; n = 0 to 255
 
 ![Encoding of HINT](figures/SYSI-1.svg)
 
-The chart is the leaf `SYSI-1`, SYSI, prefix `011110`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
+The chart is the leaf `SYSI-1`, SYSI, prefix `011110`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trap` 10, `hint` 11.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYSI-1`](dictionary/by-encoding.md#SYSI-1).
 
@@ -8076,7 +8046,7 @@ SPL #n        ; n = 0 to 7
 
 ![Encoding of SPL](figures/SYSI-1.svg)
 
-The chart is the leaf `SYSI-1`, SYSI, prefix `011110`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
+The chart is the leaf `SYSI-1`, SYSI, prefix `011110`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trap` 10, `hint` 11.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYSI-1`](dictionary/by-encoding.md#SYSI-1).
 
@@ -8097,22 +8067,26 @@ Kept despite `MTPS` writing the whole word because it sets the priority alone: a
 **Cf.** 6.3.
 
 
+<a id="w-trap"></a>
 ### TRAP: System call and trap
 
-**Mnemonics:** `TRAP`, `TRAPL`
+![TRAP: SYSI, prefix 011110, sub-opcode 01; operands imm8u; 2 bytes](figures/w/trap/01.svg)
+
+![TRAP: SYSI, prefix 011110, sub-opcode 10; operands imm8u; 2 bytes](figures/w/trap/02.svg)
+
+**Mnemonics:** `TRAP`
 
 **Syntax**
 
 ```
-TRAP #n        ; n = 0 to 15, two bytes
-TRAPL #n       ; n = 0 to 255, four bytes
+TRAP #n        ; n = 0 to 255, two bytes
 ```
 
 **Encoding**
 
 ![Encoding of TRAP](figures/SYSI-1.svg)
 
-The chart is the leaf `SYSI-1`, SYSI, prefix `011110`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trapl` 10, `hint` 11.
+The chart is the leaf `SYSI-1`, SYSI, prefix `011110`. `op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255. `sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trap` 10, `hint` 11.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`SYSI-1`](dictionary/by-encoding.md#SYSI-1).
 
@@ -8126,33 +8100,11 @@ enter the kernel by vector (TRAP_BASE + n), with EPC = the address of the next i
 
 **Exceptions** Enters the kernel; not privileged.
 
-The replacement for the PDP-11 `IOT` and `EMT`. In these encodings `TRAP` and `TRAPL` are one word with an 8-bit vector number (`docs/encoding-proposal.md`).
+The replacement for the PDP-11 `IOT` and `EMT`. `TRAP` is one word with an 8-bit vector number (`docs/encoding-proposal.md`).
 
-**Why it is here.** In the original encoding `TRAPL` existed so that the vector range of 256 and the two-byte common case could both be kept (`TRAP #n` for `n` below 16 is two bytes, and the long form reaches 256); here one word carries an 8-bit vector number. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.
+**Why it is here.** One word carries an 8-bit vector number, so the vector range of 256 and the two-byte common case are kept together. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.
 
 **Cf.** 6.3, 6.10 (system calls).
-
-<a id="w-trap"></a>
-#### TRAP
-
-![TRAP: SYSI, prefix 011110, sub-opcode 01; operands imm8u; 2 bytes](figures/w/trap/01.svg)
-
-```
-TRAP #n
-```
-
-Operation, flags and exceptions as for the entry TRAP above; 1 layout form, each a chart of its own (above).
-
-<a id="w-trapl"></a>
-#### TRAPL
-
-![TRAPL: SYSI, prefix 011110, sub-opcode 10; operands imm8u; 2 bytes](figures/w/trapl/01.svg)
-
-```
-TRAPL #n
-```
-
-Operation, flags and exceptions as for the entry TRAP above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-tlbi"></a>

@@ -54,7 +54,7 @@ The vec block runs a region strip by strip. The strip is `-S` bytes (default 32;
 The executor decodes with the table codec `common/pdp64enc.c` (the prefix-coded encoding of the grammar `spec/pdp64/pdp64.hbnf`). The instructions of the groups of the mnemonic numbering (`spec/pdp64-mnemonics.hbnf`) are turned into one decoded structure and run by the same code
 (`common/pdp64exec.c`, `exec_fmt`), so their meaning is written once; the decoder and the instructions that have no such group are in `common/pdp64exec_enc.inc`: the fused instructions
 (`movcall popmret popret mov2`, a fault in the second half restarts the whole instruction, which the saved state at the start of the instruction makes exact), `maskeqz masknez bsel`,
-`movql`, `trapcc.CC` (a trap: EPC is the next instruction, EVA the address of the `trapcc`, vector 16), `addv subv mulv` (the two-register form of the tables, `rd <- rd op rs`;
+`trapcc.CC` (a trap: EPC is the next instruction, EVA the address of the `trapcc`, vector 16), `addv subv mulv` (the two-register form of the tables, `rd <- rd op rs`;
 overflow is an abort at the instruction, no register or flag written), the MESC words `movub movuw movul movuq` (unaligned, no alignment fault) and `addm subm bicm bism`
 (flags of the ALU operation), `utf8len`, `fclass32`, and the user-qualified moves `movX.u` (in a simulator without an MMU they are the ordinary moves). The register file has 32 registers; `pushm`/`popm`
 take a 32-bit mask; r16 to r31 exist. A word that is in the tables but not in the reference executor traps as

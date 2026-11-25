@@ -1,4 +1,4 @@
-; System v1 user mode (sim64 -K): the kernel enters user mode with rti; the privileged instructions abort with vector 3; mtps writes the flags only; trap, trapl and bpt enter the kernel at
+; System v1 user mode (sim64 -K): the kernel enters user mode with rti; the privileged instructions abort with vector 3; mtps writes the flags only; trap (a small and a large vector number) and bpt enter the kernel at
 ; vector 256 + n and 15; the stack pointer and DP are banked per mode (usp seen from the kernel, changed while the user is stopped); the supervisor mode has its own bank.  Generated.
 #include "pdp64-consts.h"
 	.text

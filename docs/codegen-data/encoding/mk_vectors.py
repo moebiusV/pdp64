@@ -44,7 +44,7 @@ COMMON = [
  ('compare and branch', 'cbeq R:3 I:0 PC:8'), ('', 'cbne R:1 R:2 PC:-30'), ('', 'cblt R:4 I:100 PC:60'), ('', 'cbpl R:4 I:3 PC:8'),
  ('call; an external reference needs a 32-bit field', 'call PC:200'), ('', 'call PC:0:E'), ('', 'lea PC:0:E R:1'), ('', 'movq A:0:E R:2'),
  ('no operand', 'ret'), ('', 'nop'), ('', 'halt'), ('', 'lpad'),
- ('system: trap, trapl (one 8-bit vector), set, mfsr', 'trap I:3'), ('', 'trapl I:200'), ('', 'set I:2 R:3'), ('', 'mfsr R:2 I:12'), ('', 'mtsr I:1 R:2'),
+ ('system: trap (one 8-bit vector), set, mfsr', 'trap I:3'), ('', 'trap I:200'), ('', 'set I:2 R:3'), ('', 'mfsr R:2 I:12'), ('', 'mtsr I:1 R:2'),
  ('trapcc, isync, hint, pushx', 'trapcc.eq'), ('', 'isync'), ('', 'hint I:165'), ('', 'pushx'),
 
  ('MESC', 'movub B:8:3 R:2'), ('', 'movul B:8:3 R:2'), ('', 'addm R:1 B:16:2'), ('', 'bism R:1 B:0:2'),
@@ -53,7 +53,7 @@ COMMON = [
  ('fused pairs', 'movcall R:1 R:2 PC:100'), ('', 'movcall R:1 R:2 PC:0:E'), ('', 'popmret I:36608'), ('', 'popret R:3'), ('', 'mov2 R:1 R:2 R:8 R:3'),
  ('user-qualified loads and stores', 'movq.u B:8:1 R:2'), ('', 'movb.ud B:8:1 R:2'),
  ('bit fields, rotates', 'extb R:1 I:4 I:8 R:2'), ('', 'dshr R:1 R:2 I:3 R:4'), ('', 'rori32 R:1 I:5 R:2'), ('', 'rol R:1 I:3 R:2'),
- ('MOVQL: five parcels, a 64-bit immediate', 'movql I:1311768467463790320 R:4'), ('', 'movql I:-1 R:0'),
+ ('movq with a constant that no shorter form holds: five parcels, a 64-bit immediate', 'movq I:1311768467463790320 R:4'), ('', 'movq I:-4294967297 R:0'),
  ('push/pop, masks', 'pushm I:36608'), ('', 'popm I:256'), ('', 'push R:3'), ('', 'push I:100000'),
 ]
 R32 = [

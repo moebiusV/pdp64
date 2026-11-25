@@ -20,6 +20,9 @@ int main(void){
   bad+=try("pc and dp",        "movq tab(pc), r1\nmovq 16(dp), r2\n", 1);
   bad+=try("absolute",         "movq @0x1000, r1\n", 1);
   bad+=try("directives",       ".text\n.globl start\nstart: .quad 1, 2\n.byte \"hello\\n\", 'a', '\\n', 0x41, 0b101, 0o17, 0\n.comm buf, 64\n", 1);
+  bad+=try(".encode",          ".encode 3\nmovq #5, r1\n.encode 0\n.encode\n", 1);
+  bad+=try("old long spellings gone", "trapl #40\n", 0);
+  bad+=try("movql gone",       "movql #5, r1\n", 0);
   bad+=try("numeric labels",   "1: sob r2, 1b\nbr 2f\n2: halt\n", 1);
   bad+=try("comment only",     "; nothing here\nclr r1 ; and a comment\n", 1);
   bad+=try("division",         "N = 100/7*2\nmovq #N/2, r1\n", 1);

@@ -24,7 +24,7 @@ RRI_RARE=['rori','rori32','rol','aesks1']
 BF=['dshr','extb','extzb','insb']
 SYS0=['nop','rti','rtt','ret','halt','bpt','fence','wfe','sev','lpad','tlbia','tlbsync','icinva','pushx','popx','isync']+['trapcc.%s'%c for c in CONDS]+['stua','clua']+['genter']+['syspg%d'%i for i in range(3,6)]
 SYSR=['mtps','mfps','tlbi','mtasid','mfasid','mtdp','mfdp','mtdmw','mfcpuid','icinv']
-SYSI=['spl','trap','trapl','hint']
+SYSI=['spl','trap','trap','hint']		# the third is the alias slot that was TRAPL: the same parcel as trap, decoded as trap, never chosen by the assembler (errata 214)
 def mk(R,H3,H4=None,hot16=False):
     """returns (forced, cands).  R full register spec; H3 3-bit hot map; H4 4-bit hot map (32-reg variant only)"""
     forced=[]; C=[]
@@ -50,7 +50,7 @@ def mk(R,H3,H4=None,hot16=False):
     rare('R2',R2_RARE,[R,R]); rare('R3',R3_RARE,[R,R,R]); rare('R4',R4_RARE,[R,R,R,R]); rare('RRI',RRI_RARE,[R,SI(6,False),R])
     F(forced,'BFx',3,['dshr'],[R,R,SI(6,False),R],xbits=20)
     F(forced,'BFy',3,['extb','extzb','insb'],[R,SI(6,False),SI(6,False),R],xbits=18)
-    F(forced,'MOVQL',5,['movql'],[SI(64,True),R])
+    F(forced,'MOVQ64',5,['movq'],[SI(64,True),R])
     # user-qualified (.u) and deferred-load (.d, .ud) memory forms: base-register and index modes only (other modes: assembler uses a base register)
     ULD=[m+s for s in('.u','.d','.ud') for m in MOV7]; UST=[m+'.u' for m in ST4]
     forced.append(Form('LDU.B28',3,ULD,[SB(R,28,True,1),R])); forced.append(Form('STU.B28',3,UST,[R,SB(R,28,True,1)]))

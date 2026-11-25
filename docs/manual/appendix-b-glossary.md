@@ -10,7 +10,7 @@
 |---|---|
 | **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter 1) |
 | **earlier iteration** | pdp64/r20 (the original encoding) or pdp64/16 (a 16-register prefix code): a design built and measured before the pdp64 was chosen, superseded by it, and no longer a CPU (1.8) |
-| **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOVQL` (9.4) |
+| **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOVQ` of a 64-bit constant (9.4) |
 | **leaf** | a group of mnemonics with one form, selected by a prefix of the first parcel; a sub-opcode picks the mnemonic (9.1) |
 | **prefix** | the top 3 to 16 bits of the first parcel; the prefixes form a prefix code (no prefix begins another), so the first parcel matches at most one leaf and fixes the length of the instruction (9.1) |
 | **form** | the list of operand shapes of a leaf: how each operand is written in assembly and how many bits each part has (9.1) |
@@ -81,7 +81,7 @@
 | **`H`** | the state bit, outside the status word, that says the hypervisor is running (6.16.3) |
 | **`HVE`** | the strap, fixed by the machine, that says it has a hypervisor mode; with it clear `H` is always 0 (6.16.3) |
 | **exit** | the event by which a guest stops and the hypervisor starts: a trapped instruction, a hypercall, an interrupt or a fault in stage 2; `HEXITR` says which (6.16.15) |
-| **hypercall** | a `TRAP` or `TRAPL` number routed to the hypervisor by the trap-control register; the guest's system call to the hypervisor (6.16.11) |
+| **hypercall** | a `TRAP` number routed to the hypervisor by the trap-control register; the guest's system call to the hypervisor (6.16.11) |
 | **world switch** | the exit of one guest and the entry of the next, with the hypervisor saving and loading the guest's state between them (6.16.20) |
 | **`GENTER`** | `GENTER #mask` enters a guest from the hypervisor; the mask names the registers it keeps (6.16.17, 6.16.18) |
 | **stage 1, stage 2** | the guest's own page tables, and the hypervisor's tables that turn a guest-physical address into a real one (6.16.21) |

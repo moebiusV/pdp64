@@ -1,5 +1,5 @@
 	.text
-	movql #0x123456789abcdef0,r1
+	movq #0x123456789abcdef0,r1
 	rori32 r1,#5,r2
 	rol r1,#3,r2
 	clz r1,r2

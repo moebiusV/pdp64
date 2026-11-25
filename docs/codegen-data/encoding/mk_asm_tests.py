@@ -112,7 +112,7 @@ lab:\tret
 d:\t.quad 1
 """),
 'misc': ('', """\t.text
-\tmovql #0x123456789abcdef0,r1
+\tmovq #0x123456789abcdef0,r1
 \trori32 r1,#5,r2
 \trol r1,#3,r2
 \tclz r1,r2

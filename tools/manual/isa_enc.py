@@ -21,7 +21,7 @@ NOTES = {
     'PUSHM': 'The registers are pushed in ascending order, so `POPM` with the same mask restores them. The mask is the low 32 bits of the number; the one-parcel form takes an 8-bit mask scaled by 256, which names `R8` to `R15`.',
     'POPM': 'The mirror of `PUSHM`.',
     'PUSH': '',
-    'TRAP': 'The replacement for the PDP-11 `IOT` and `EMT`. In these encodings `TRAP` and `TRAPL` are one word with an 8-bit vector number (`docs/encoding-proposal.md`).',
+    'TRAP': 'The replacement for the PDP-11 `IOT` and `EMT`. `TRAP` is one word with an 8-bit vector number (`docs/encoding-proposal.md`).',
     'PUSHX': 'For a handler that wants to be interrupted: it can save the exception state and lower the priority.',
     'MFSR': 'The register is chosen by name. A write to `MMUCTL` that changes bit 0 discards every cached translation, and a write to `PTBR` that is not accompanied by a new `ASID` discards the entries of the current `ASID`; a write to `ASID` discards nothing that is promised ({{r:writes-to-mmuctl-ptbr}}); each takes effect at the next `ISYNC` ({{r:write-to-ptbr-asid-or}}).\n\n{{SYSREGS}}',
     'COUNT': '`CTZ` is the VAX `FFS`. Bit manipulation is core on a machine that does filesystem and bignum work, not an extension.',
@@ -63,6 +63,6 @@ STORY = {
     'SWAP': 'One of the read-modify-write atomics (see `CAS`). No separate reason is recorded for it.',
     'XADD': 'One of the fetch-and-operate atomics (see `CAS`), in the place of the PDP-11\'s read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair ({{r:smp-what-you-already-know}}).',
     'XAND': 'The fetch-and-and, or and xor atomics (see `CAS`). No separate reason is recorded for them.',
-    'TRAP': 'In the original encoding `TRAPL` existed so that the vector range of 256 and the two-byte common case could both be kept (`TRAP #n` for `n` below 16 is two bytes, and the long form reaches 256); here one word carries an 8-bit vector number. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.',
+    'TRAP': 'One word carries an 8-bit vector number, so the vector range of 256 and the two-byte common case are kept together. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.',
     'MTDP': '`DP` descends from the 6502\'s zero page and is kept for code density (a short displacement from `DP`); it is also the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants ({{r:per-cpu-state-and-cheap-context}}). `MTDP` and `MFDP` read and write the current mode\'s copy.',
 }

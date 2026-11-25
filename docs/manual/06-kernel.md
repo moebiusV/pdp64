@@ -132,7 +132,7 @@ Three differences from the PDP-11 matter to a kernel writer. Entry **cannot faul
 | 21 to 31 | reserved |
 | 32 to 63 | interrupts (in the virt machine, 32 timer, 33 console input, 34 console output) |
 | 64 to 255 | reserved (device interrupts are message-signalled, section 5.9) |
-| 256 + n | `TRAP #n` and `TRAPL #n`, n from 0 to 255 |
+| 256 + n | `TRAP #n`, n from 0 to 255 |
 
 **6.3.7** There are eight interrupt priority levels; the processor takes an interrupt between instructions when its level is greater than the priority in the status word; the timer is at level 6 and the console at level 4. In a guest only the virtual interrupt lines are masked by the priority in the guest's status word; a physical interrupt always leaves the guest (6.16.26, 6.16.27).
 
@@ -378,11 +378,11 @@ The **user half** holds the program's text, data, heap and stack, in pages with 
 
 **6.10.1** With the guard bit `UA` clear, a kernel-mode data access to a user page faults; `STUA` sets it and `CLUA` clears it; exception entry clears it and `EPSW` keeps the old value.
 
-**System calls.** A system call is `TRAP #n`, or `TRAPL #n` for the long form. It enters through vector `256 + n`, the next instruction becomes `EPC`, and the call number and arguments travel in registers named by the ABI. In V7, `sys n` entered one vector, `trap()` fetched the number back from the user's instruction with `fuiword`, and the arguments were read from the user's stack by `fuword`.
+**System calls.** A system call is `TRAP #n`. It enters through vector `256 + n`, the next instruction becomes `EPC`, and the call number and arguments travel in registers named by the ABI. In V7, `sys n` entered one vector, `trap()` fetched the number back from the user's instruction with `fuiword`, and the arguments were read from the user's stack by `fuword`.
 
 
 
-**6.10.2** `TRAP #n` (n from 0 to 15, two bytes) and `TRAPL #n` (n up to 255, four bytes) enter the kernel through vector 256 + n; the system-call number and arguments travel in registers by the ABI.
+**6.10.2** `TRAP #n` (n from 0 to 255, two bytes) enters the kernel through vector 256 + n; the system-call number and arguments travel in registers by the ABI.
 
 **6.10.3** A copy routine opens the guard, copies, and closes it; every error path out of the copy must close it, and entry clearing it bounds the damage if one does not.
 
@@ -556,7 +556,7 @@ This section collects, in the vocabulary of the kernel, the statements of 6.2 to
 
 **6.13.1** There are three modes (kernel, supervisor, user); supervisor is defined and unused. On a machine with the strap `HVE` there is also the hypervisor mode, a state bit `H` outside the status word (6.16.3). System instructions executed outside kernel mode abort with the privileged-instruction vector.
 
-**6.13.2** `TRAP #n` (n from 0 to 15, two bytes) and `TRAPL #n` (n up to 255, four bytes) enter the kernel through vector 256 + n; `RTI #mask` returns, and `RTT #mask` returns and sets the trace bit after; the mask names the registers kept when the return is to a lesser mode (6.3.8).
+**6.13.2** `TRAP #n` (n from 0 to 255, two bytes) enters the kernel through vector 256 + n; `RTI #mask` returns, and `RTT #mask` returns and sets the trace bit after; the mask names the registers kept when the return is to a lesser mode (6.3.8).
 
 **6.13.3** An exception or interrupt writes only registers: `EPC` receives the address of the faulting instruction (or the next one, for a trap or interrupt), `EPSW` the old status word, `EVA` the faulting address and `ECAUSE` the vector number; the new program counter is the 64-bit word at `VBR + 8 × vector`. At `H` = 1 these names are the hypervisor level's own registers (6.16.4).
 
@@ -596,7 +596,7 @@ The modes and exceptions are 6.2 to 6.4 and the multiprocessor instructions are 
 | [Move from and to a system register](09-isa.md#mfsr-move-from-and-to-a-system-register) | `MFSR`, `MTSR` |
 | [Move to and from the processor status word](09-isa.md#mtps-move-to-and-from-the-processor-status-word) | `MTPS`, `MFPS` |
 | [Set the interrupt priority level](09-isa.md#spl-set-the-interrupt-priority-level) | `SPL` |
-| [System call and trap](09-isa.md#trap-system-call-and-trap) | `TRAP`, `TRAPL` |
+| [System call and trap](09-isa.md#trap-system-call-and-trap) | `TRAP` |
 | [Invalidate a translation](09-isa.md#tlbi-invalidate-a-translation) | `TLBI` |
 | [Invalidate by address-space number; invalidate by guest-physical page](09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) | `TLBIAS`, `TLBIGP` |
 | [Move to and from the address-space identifier](09-isa.md#mtasid-move-to-and-from-the-address-space-identifier) | `MTASID`, `MFASID` |
@@ -755,16 +755,16 @@ A third group are events that the guest could use to *time* its neighbours. Proc
         mtsr    htrap, r1
 ```
 
-**Example 3. A hypercall.** Sometimes G wants something from the hypervisor on purpose: to print a character through the hypervisor's console, to ask for more memory, to tell the hypervisor "this page is free". This is a **hypercall**, the analogue of a system call one level up. (A *system call* is how a user program asks its kernel for a service: it executes a trap instruction, `TRAP #n` here, `trap` and `sys` on the PDP-11, and the kernel looks at `n` to see what is wanted.) As `TRAP #n` is the system call from a user program to a kernel, so a `TRAP` can be the call from a guest kernel to the hypervisor. There is no new instruction. The hypervisor sets a mask in `HTRAP` that routes a range of `TRAP` numbers to itself: bit k of the 8-bit mask routes the thirty-two numbers 32k to 32k + 31. (`TRAP` itself takes a number from 0 to 15; `TRAPL`, the long form, takes a number up to 255. The hypercalls in this example use `TRAPL`.)
+**Example 3. A hypercall.** Sometimes G wants something from the hypervisor on purpose: to print a character through the hypervisor's console, to ask for more memory, to tell the hypervisor "this page is free". This is a **hypercall**, the analogue of a system call one level up. (A *system call* is how a user program asks its kernel for a service: it executes a trap instruction, `TRAP #n` here, `trap` and `sys` on the PDP-11, and the kernel looks at `n` to see what is wanted.) As `TRAP #n` is the system call from a user program to a kernel, so a `TRAP` can be the call from a guest kernel to the hypervisor. There is no new instruction. The hypervisor sets a mask in `HTRAP` that routes a range of `TRAP` numbers to itself: bit k of the 8-bit mask routes the thirty-two numbers 32k to 32k + 31. (`TRAP` takes a number from 0 to 255.)
 
-Say bit 1 is set and G executes `TRAPL #40`. Number 40 is in 32 to 63, so the trap does not go to G's own vector table; it exits. The instruction is complete, so `HEPC` is the next instruction; the exit-reason register says "hypercall"; and the hypervisor's vector is 256 + 40, so the hypervisor's table has one entry for each hypercall number, as the kernel's has one for each system call. The arguments are in registers, as for a system call. The hypervisor does the work, puts the result in `R0`, reloads the registers it saved, and executes `GENTER` with a mask that names them. The pieces, in assembler:
+Say bit 1 is set and G executes `TRAP #40`. Number 40 is in 32 to 63, so the trap does not go to G's own vector table; it exits. The instruction is complete, so `HEPC` is the next instruction; the exit-reason register says "hypercall"; and the hypervisor's vector is 256 + 40, so the hypervisor's table has one entry for each hypercall number, as the kernel's has one for each system call. The arguments are in registers, as for a system call. The hypervisor does the work, puts the result in `R0`, reloads the registers it saved, and executes `GENTER` with a mask that names them. The pieces, in assembler:
 
 ```
         movq    =(2<<HTRAP_MASK), r1    ; the hypervisor: bit 1 of the 8-bit mask (bits 16 to 23 of HTRAP)
         mtsr    htrap, r1
 ...
 guest:  movq    #65, r0         ; the guest: the argument, the character 'A'
-        trapl   #40             ; the hypercall; it exits instead of entering the guest's own vector table
+        trap    #40             ; the hypercall; it exits instead of entering the guest's own vector table
 ...
 hcall:  mfsr    r20, hexitr     ; the hypervisor: reason 17, a hypercall
         mfsr    r20, hcause     ; the vector: VECTOR_TRAP_BASE + 40, that is 256 + 40
@@ -972,7 +972,7 @@ guest:  movq    #42, r1
         movq    r1, (r3)                ; first the data ...
         movq    #1, r1
         movq    r1, (r4)                ; ... then the flag: "the data is ready"
-        trapl   #40                     ; tell the hypervisor to look
+        trap    #40                     ; tell the hypervisor to look
 
 hcall:  movq    (r4), r1                ; first the flag ...
         cbne    r1, #1, hbad            ; not set: nothing to read yet
@@ -1073,11 +1073,11 @@ The guest's registers of the last row are written in this order of numbers: 149 
 | 13 | `BPT` | `BPT` (15) | the guest's own breakpoint exception | 0 |
 | 14 | `STEP` | an exit after each guest instruction (16) | none | 0 |
 | 15 | | reserved | | 0 |
-| 16 to 23 | `TRAPMASK` | `TRAP #n` and `TRAPL #n`, bit k for the numbers 32k to 32k + 31 (17) | the guest's own system call (6.16.11) | 0 |
+| 16 to 23 | `TRAPMASK` | `TRAP #n`, bit k for the numbers 32k to 32k + 31 (17) | the guest's own system call (6.16.11) | 0 |
 
 **6.16.10** Some events have no bit in `HTRAP`. These **always exit**: `HALT` (6.16.11); `MTDMW` and `MTSR` and `MFSR` of `DMW0` and `DMW1` (6.16.13); `PROBER` and `PROBEW` that meet a stage-2 miss (6.16.21); any use of a hypervisor register or of `GENTER` (6.16.30); every stage-2 fault, a stage-2 miss on the vector fetch or the page-table walk, and a machine check (6.16.23); and every physical interrupt (6.16.26). These are **the guest's own** and never exit: an illegal instruction, a privileged instruction, the page faults and protection faults of stage 1, `TRAPCC` and the overflow checks, `TRAP #n` outside the routed range, an unassigned system-register number, and `ISYNC`. The guest's own privilege check comes first: an instruction that the guest's current mode may not execute (`WFE` in a guest's user mode) raises the guest's privileged-instruction exception, vector 3 in the guest, and never reaches `HTRAP`.
 
-**6.16.11** `HALT` always exits (exit code 2). A range of `TRAP #n` and `TRAPL #n` numbers is routed to the hypervisor by the 8-bit **hypercall mask** in bits 16 to 23 of `HTRAP`: bit k routes the numbers 32k to 32k + 31. That is the hypercall; it has no opcode of its own. A routed `TRAP` is a trap: the instruction completes, `HEPC` is the next instruction, the exit code is 17, and the vector in `HCAUSE` is 256 + n. It is routed at any guest mode. The mask is zero at reset. `WFE` traps by default and may be untrapped for a guest that owns a core; `SEV` traps by default so that the hypervisor limits it to the cores of the guest.
+**6.16.11** `HALT` always exits (exit code 2). A range of `TRAP #n` numbers is routed to the hypervisor by the 8-bit **hypercall mask** in bits 16 to 23 of `HTRAP`: bit k routes the numbers 32k to 32k + 31. That is the hypercall; it has no opcode of its own. A routed `TRAP` is a trap: the instruction completes, `HEPC` is the next instruction, the exit code is 17, and the vector in `HCAUSE` is 256 + n. It is routed at any guest mode. The mask is zero at reset. `WFE` traps by default and may be untrapped for a guest that owns a core; `SEV` traps by default so that the hypervisor limits it to the cores of the guest.
 
 **6.16.12** `ICINV` and `ICINVA`, and the unscoped `TLBIA` and `TLBSYNC`, trap by default for a guest (6.16.9) because the time they take shows what the other guests are doing. The bits can be cleared for a guest that owns its core. `ICINV` and `ICINVA` are unprivileged and do not touch data, and a program that generates code needs them.
 
@@ -1108,7 +1108,7 @@ The guest's registers of the last row are written in this order of numbers: 149 
 | 14 | `ICINV` or `ICINVA` | 17 | next |
 | 15 | `BPT` | 17 | next |
 | 16 | single step | 17 | next |
-| 17 | hypercall (`TRAP` or `TRAPL` routed) | 256 + n | next |
+| 17 | hypercall (`TRAP` routed) | 256 + n | next |
 | 18 | hypervisor register or `GENTER` used by a guest | 17 | next |
 | 19 | stage-2 fault: the entry is invalid | 18 (instruction fetch), 19 (load), 20 (store) | the instruction |
 | 20 | stage-2 fault: the entry refuses the access (permission, a reserved bit set, accessed or dirty clear) | 18, 19, 20 | the instruction |

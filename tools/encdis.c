@@ -3,7 +3,12 @@
  *   encdis -k profile program.x          the instructions that a `sim64 -P` profile counted, as the lines of a weights file (encopt(5)): `weight dynamic COUNT mnemonic operands`,
  *                                        the operands in the notation of tools/encopt/export.py: pc-relative ones as pc+N / pc-N (bytes from the first parcel to the target);
  *                                        the same instruction at several addresses is added up
- *  Not a round-trip assembler: addresses of pc-relative operands are shown as the target. */
+ *  encdis -a [-r] file                  assembly source that as64 turns back into the same bytes, for the check of one word per operation (tools/check-roundtrip-dis.sh): the instruction is
+ *                                        written by the operation and its operands, never by the length of its encoding; where the shortest form of the operands is not the form that is there,
+ *                                        `.encode N` comes before it and `.encode 0` after; where no spelling reproduces the bytes (a second encoding of an instruction, a word the assembler
+ *                                        will not write from a number) the parcels are `.word`s.  pc-relative operands are labels at instruction starts of the text (an operand that reaches nothing in it makes the instruction .word).  -r is needed: the file is the
+ *                                        parcels of a .text, from address 0.
+ *  Not a round-trip assembler otherwise: addresses of pc-relative operands are shown as the target. */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,11 +51,54 @@ static char *key(const struct einsn *in, char *out)
 	}
 	return out;
 }
+
+/* -a: one instruction as source that as64 reads back to the same parcels.  Returns the parcels used (the length of the decoded instruction), or -1 for a first parcel that is not an instruction. */
+static const char *RN[] = { "r0","r1","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12","fp","sp","r15","r16","r17","r18","r19","r20","r21","r22","r23","r24","r25","r26","r27","r28","r29","r30","r31" };
+static int dis_a(const struct etab *t, const uint16_t *par, int np, long a, const uint8_t *isb, const uint8_t *tgt, long size, long *nword, long *nforce)
+{
+	struct einsn in; int len = enc_decode(t, (uint16_t *)par, np, &in, NULL);
+	char text[400], *q = text;
+	const char *mn = len > 0 ? enc_mn_name(t, in.mn) : "";
+	if (len <= 0) { printf("\t.word\t0x%04x\n", par[0]); (*nword)++; return 1; }
+	/* what the assembler will make of it: the codec with no least length, then with the length that is there */
+	uint16_t p0[5], p1[5]; int n0 = enc_encode_n(t, &in, p0, NULL, NULL, 0), n1 = enc_encode_n(t, &in, p1, NULL, NULL, len);
+	int same0 = n0 == len && !memcmp(p0, par, 2 * len), same1 = n1 == len && !memcmp(p1, par, 2 * len);
+	int bad = !strcmp(mn, "set") || !strcmp(mn, "mfsr") || !strcmp(mn, "mtsr") || !(same0 || same1);
+	for (int k = 0; k < in.nops; k++)								/* a pc-relative operand is a label, at an instruction start of this text */
+		if (in.op[k].k == EK_PC) { long to = a + in.op[k].v; if (to < 0 || to >= size || (to & 1) || !isb[to / 2]) bad = 1; }
+	if (bad) {
+		printf("\t.word\t"); for (int k = 0; k < len; k++) printf(k ? ", 0x%04x" : "0x%04x", par[k]);
+		printf("\t; %s\n", mn); (*nword)++; return len;
+	}
+	q += sprintf(q, "%s", mn);
+	for (int k = 0; k < in.nops; k++) {
+		const struct eop *o = &in.op[k];
+		q += sprintf(q, k ? ", " : " ");
+		switch (o->k) {
+		case EK_R: q += sprintf(q, "%s", RN[o->r]); break;
+		case EK_V: q += sprintf(q, "%c%d", o->s ? 't' : 'v', o->r); break;
+		case EK_I: q += sprintf(q, "#%lld", (long long)o->v); break;
+		case EK_B: q += sprintf(q, "%lld(%s)", (long long)o->v, o->r == EBASE_DP ? "dp" : RN[o->r]); break;
+		case EK_X: q += sprintf(q, "%lld(%s)(%s*%d)", (long long)o->v, RN[o->r], RN[o->x], o->s); break;
+		case EK_PI: q += sprintf(q, "(%s)+%lld", RN[o->r], (long long)o->v); break;
+		case EK_PD: q += sprintf(q, "(%s)-%lld", RN[o->r], (long long)o->v); break;
+		case EK_PC: q += sprintf(q, "L%lx", (unsigned long)(a + o->v)); break;
+		case EK_A: q += sprintf(q, "@%lld", (long long)o->v); break;
+		}
+	}
+	if (!same0) { printf("\t.encode\t%d\n", len); (*nforce)++; }
+	printf("\t%s\n", text);
+	(void)tgt;
+	if (!same0) printf("\t.encode\t0\n");
+	return len;
+}
 struct kc { char *k; unsigned long long n; };
 
 int main(int argc, char **argv)
 {
 	const char *profile = NULL;
+	int asrc = 0, raw = 0;
+	if (argc > 2 && !strcmp(argv[1], "-a")) { asrc = 1; argv++; argc--; if (argc > 2 && !strcmp(argv[1], "-r")) { raw = 1; argv++; argc--; } }
 	if (argc > 3 && !strcmp(argv[1], "-k")) { profile = argv[2]; argv += 2; argc -= 2; }
 	if (argc < 2) { fprintf(stderr, "usage: encdis program.x [start [end]]\n"); return 2; }
 	FILE *f = fopen(argv[1], "rb");
@@ -58,6 +106,28 @@ int main(int argc, char **argv)
 	fseek(f, 0, SEEK_END); long n = ftell(f); fseek(f, 0, SEEK_SET);
 	uint8_t *b = malloc(n);
 	if (fread(b, 1, n, f) != (size_t)n) return 1;
+	if (asrc && raw) {
+		long nw = 0, nf = 0, ni = 0;
+		uint8_t *isb = calloc(n / 2 + 1, 1), *tgt = calloc(n / 2 + 1, 1);
+		for (long a = 0; a + 1 < n;) {							/* the instruction starts, and the pc-relative targets among them */
+			uint16_t par[5] = { 0 }; int np = 0; struct einsn in;
+			for (int k = 0; k < 5 && a + 2 * k + 1 < n; k++) { par[k] = b[a + 2 * k] | b[a + 2 * k + 1] << 8; np++; }
+			int len = enc_decode(&enc_tab, par, np, &in, NULL);
+			isb[a / 2] = 1;
+			if (len <= 0) { a += 2; continue; }
+			for (int k = 0; k < in.nops; k++) if (in.op[k].k == EK_PC) { long to = a + in.op[k].v; if (to >= 0 && to < n && !(to & 1)) tgt[to / 2] = 1; }
+			a += 2 * len;
+		}
+		printf("\t.text\n");
+		for (long a = 0; a + 1 < n;) {
+			uint16_t par[5] = { 0 }; int np = 0;
+			for (int k = 0; k < 5 && a + 2 * k + 1 < n; k++) { par[k] = b[a + 2 * k] | b[a + 2 * k + 1] << 8; np++; }
+			if (tgt[a / 2]) printf("L%lx:\n", a);
+			a += 2 * dis_a(&enc_tab, par, np, a, isb, tgt, n, &nw, &nf); ni++;
+		}
+		fprintf(stderr, "encdis: %ld instructions, %ld written with .encode, %ld as .word\n", ni, nf, nw);
+		return 0;
+	}
 	uint32_t flags = b[0x30] | b[0x31] << 8 | b[0x32] << 16 | (uint32_t)b[0x33] << 24;
 	struct etab *t = (flags & 15) == 2 ? &enc_tab : NULL;
 	if (!t) { fprintf(stderr, "encdis: %s is not a pdp64 executable\n", argv[1]); return 1; }

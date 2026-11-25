@@ -126,7 +126,7 @@ code, that each leaf covers its 16n bits exactly once and that no first parcel d
 
 The mnemonics are those of the original grammar (aliases included) plus the words only the new encodings have, which the rule `mn-ext` of `grammars.d/80-mn-ext.hbnf` lists (`mkenc.py` checks the list against the words the leaves use) as the group `mn-ext`
 of the grammar as64 reads (`spec/pdp64-asm.hbnf` over the parts that name `asm`): `maskeqz masknez bsel aeses aesesm aesds aesdsm aesks1 aesks2 aesim sha256* sha512* msha256 msha512 maesctr addv subv mulv
-movql trapcc.<cc> syspg2-5`, the user-qualified moves `movq.u movq.d movq.ud ...`, and the fused `movcall popmret popret mov2`. They have no number in the original numbering of `pdp64-mnemonics.hbnf`.
+trapcc.<cc> syspg2-5`, the user-qualified moves `movq.u movq.d movq.ud ...`, and the fused `movcall popmret popret mov2`. They have no number in the original numbering of `pdp64-mnemonics.hbnf`.
 
 ## The model in two paragraphs
 
@@ -144,14 +144,14 @@ of 32 bits or more and a relocation; the relocation types are those of `as64/rel
 
 * `(r)+` and `-(r)` without a stride write stride 0, which means the size of the access (8 outside the moves); `(r)+8` writes 8.
 * `pushm`, `popm`, `popmret` take a register mask; a mask is the low 32 bits of the number (so `#-16740608` is a mask of r31...).
-* `set cc, rd`: 4 bytes (`SETF`). `trap #n`, `trapl #n`, `spl #n`, `hint #n`: one parcel with an 8-bit number. `trapcc.<cc>`: one parcel, no operand.
+* `set cc, rd`: 4 bytes (`SETF`). `trap #n`, `spl #n`, `hint #n`: one parcel with an 8-bit number (the encoding has two slots for `trap`: the second decodes as `trap` and the assembler never writes it; `trapl` is not a word). `trapcc.<cc>`: one parcel, no operand.
 * ATOM (assumed, section 3.2 of the proposal): three registers (`xadd`... `ll`, `sc`) and four (`cas`), the memory address in a register, operands in the order written. The roles of the registers
   are the ISA's to fix; the encoding only fixes where they sit.
 * `cbCC` for which no form reaches (an external label, an operand pair no form holds) is assembled as `cmp` + `bCC`. **This writes the flags**, which `cbCC` does not (the compiler forms a `cbCC` only where the flags are dead), and it
   executes two instructions for one. There are three lengths of `cbCC`: one parcel (compare with 0, a pc field of 4 to 7 bits), two (an immediate of 3 to 10 bits, or two registers, with a pc field of 8 to 14 bits) and three (a 16-bit immediate with a
   12-bit pc field, an 8-bit immediate with a 20-bit pc field, two registers with a 24-bit pc field: a target up to 4 KB, 2 MB, 32 MB away). The pc field counts parcels. On the 841-file corpus of the compiler (`pcc-enc` abacdf17) 17 of
   34,524 sites still need the pair (`docs/encoding-proposal.md`, section 12, which also says why a two-parcel `cbCC` could not carry them).
-* `movq #imm, rd` whose constant fits no `movq` form is assembled as `movql`, a ten-byte instruction with the 64-bit immediate.
+* `movq #imm, rd` whose constant fits no shorter form is the ten-byte form (form `MOVQ64`, five parcels) with the 64-bit immediate.  One word names an operation and never its length: the assembler chooses the form from the operands (`jmp label` is `br label`), and `.encode N` forces a form of at least N parcels.
 * The 22 meaningless shapes the original assembler accepts (`clr/com/inc/dec/neg/tst/adc/sbc/asl/asr/jmp/call/pop/jmpi/calli #imm`, `movq/movl/movw/movb r,#imm`, `lea #imm,r`, `sob r,#imm`, ...) are refused.
 * The assembler never fuses. The fused instructions are ordinary mnemonics with operands: `movcall rs, rd, label` (`movq rs,rd ; call label`, the target measured from the first parcel of the fused instruction),
   `popmret #mask`, `popret rd`, `mov2 ra, rb, rc, rd` (`movq ra,rb ; movq rc,rd`, all four in the hot-8 table). Choosing them is the compiler's job.

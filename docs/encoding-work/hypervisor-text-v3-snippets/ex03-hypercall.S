@@ -1,4 +1,4 @@
-; 6.15 example 3: a hypercall is a TRAPL whose number is in a range that the hypervisor routed to itself: bit 1 of the mask routes 32 to 63.
+; 6.15 example 3: a hypercall is a TRAP whose number is in a range that the hypervisor routed to itself: bit 1 of the mask routes 32 to 63.
 ; The exit code is 17 and the hypervisor's vector is 256 + 40.  Run: sim64 -H
 #include "pdp64-consts.h"
 	.text
@@ -20,7 +20,7 @@ _start:
 	mtsr	hepsw, r1
 	genter	#0
 guest:	movq	#65, r0				; the argument: the character 'A'
-	trapl	#40				; a hypercall: it exits, it does not enter the guest's own vector table
+	trap	#40				; a hypercall: it exits, it does not enter the guest's own vector table
 	halt					; the guest stops after the hypercall returned
 hcall:	mfsr	r20, hexitr
 	cbeq	r20, #XCODE_HYPERCALL, 1f

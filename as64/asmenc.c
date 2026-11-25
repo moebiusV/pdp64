@@ -3,9 +3,8 @@
  *
  * An instruction of the source becomes one or two instructions of the codec (an einsn: a mnemonic and operands of the shapes R, I, B, X, PI, PD, PC, A):
  *   - the operands are the operands as written, in the order written; the mnemonic is the word the grammar matched, with an alias replaced by the word it
- *     stands for (bhis is bcc, mulu is mul...);
+ *     stands for (bhis is bcc, mulu is mul...); `jmp label` is br;
  *   - a cbCC for which no form reaches (a far target, a wide immediate, an external label) is assembled as cmp + bCC (the flags are written);
- *   - `movq #imm, rd` whose constant fits no movq form is assembled as movql (a ten-byte instruction with the 64-bit immediate);
  * The length of an instruction is the length of the first form that takes its operands; it never shrinks between passes.
  */
 #include "pdp64enc.h"
@@ -191,6 +190,8 @@ static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct h
 	if (!name) { err(st->line, "this instruction is not in the encoding %s", etab->name); return -1; }
 	if (!regs_ok(st, 1)) return -1;
 	int isbranch = mg == MG_BRANCH || mg == MG_CBRANCH || mg == MG_SOB || mg == MG_TAG;
+	/* `jmp label` is `br label`: the same operation with the same reach, and br has the one-parcel form besides (docs/errata.md 214).  The other jmp operands (a register, memory, an absolute address) stay jmp. */
+	if (mg == MG_SOP && st->mnum == MN_SOP_JMP && n == 1 && st->ops[0].kind == OK_BARE) { name = "br"; isbranch = 1; }
 	int poolable = (mg == MG_MOV && st->mnum == MN_MOV_MOVQ) || (mg == MG_SOP && st->mnum == MN_SOP_PUSH) ||
 	    (mg == MG_ALU && st->mnum != MN_ALU_SHL && st->mnum != MN_ALU_SHR && st->mnum != MN_ALU_SAR);
 	int mn = enc_mn_find(etab, name);
@@ -227,11 +228,6 @@ static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct h
 	}
 	if ((!strcmp(name, "pushm") || !strcmp(name, "popm")) && (n != 1 || mask_fix(st, &hw[0].in.op[0]))) { if (n != 1) err(st->line, "pushm/popm take #mask"); return -1; }
 	if (hw_len(&hw[0], minn[0])) return 1;
-	/* movq #imm, rd with a constant of more than the forms of movq take: movql */
-	if (!strcmp(name, "movq") && n == 2 && hw[0].in.op[0].k == EK_I && !hw[0].in.op[0].ext && hw[0].in.op[1].k == EK_R) {
-		int ql = enc_mn_find(etab, "movql");
-		if (ql >= 0) { struct hw q = hw[0]; q.in.mn = ql; if (hw_len(&q, minn[0])) { hw[0] = q; return 1; } }
-	}
 	/* a cbCC no form reaches: cmp, then the branch */
 	if (mg == MG_CBRANCH && n == 3) {
 		char bn[16];
@@ -267,8 +263,8 @@ static void enc_nofit(const struct stmt *st, const struct hw *h)
 		    enc_mn_name(etab, h->in.mn), ll ? "ll Rd, (Ra)" : "OP Rd, Rs, (Ra)", h->in.nops ? shape : "no operands");
 		return;
 	}
-	err(st->line, "%s: no form of this instruction in %s takes %s%s (a meaningless combination, or a value out of range)", enc_mn_name(etab, h->in.mn), etab->name,
-	    h->in.nops ? "these operands: " : "no operands", shape);
+	err(st->line, "%s: no form of this instruction in %s takes %s%s (a meaningless combination, or a value out of range%s)", enc_mn_name(etab, h->in.mn), etab->name,
+	    h->in.nops ? "these operands: " : "no operands", shape, enc_force ? "; .encode asks for a form of more parcels than any this instruction has" : "");
 }
 
 /* encode one codec instruction: parcels to bytes, the relocation record.  Returns the parcels (0: no form; the message is given in the final pass). */
@@ -326,12 +322,12 @@ static int enc_insn(int i, int64_t pos, int final, int *changed)
 	if (!esize) { egrow = calloc(nprog + 1, 4); esize = calloc(nprog + 1, sizeof *esize); epos = calloc(nprog + 1, sizeof *epos); }
 	int64_t addr = epos[i];
 	if (epos[i] != pos) { epos[i] = pos; *changed = 1; }
-	int minn[4] = { egrow[4 * i], 0, egrow[4 * i + 2], egrow[4 * i + 3] };
+	int minn[4] = { egrow[4 * i] > enc_force ? egrow[4 * i] : enc_force, 0, egrow[4 * i + 2], egrow[4 * i + 3] };
 	int nh = eplan(st, addr, minn, hw, slot);
 	if (nh < 0) return esize[i] ? esize[i] : 2;				/* an error: the size it had, so that the others do not move */
 	for (int h = 0; h < nh; h++) {
 		int idx = 4 * i + slot[h], old = egrow[idx];
-		int n = hw_emit(st, &hw[h], old, final, bytes[h], &rk[h]);
+		int n = hw_emit(st, &hw[h], idx == 4 * i && enc_force > old ? enc_force : old, final, bytes[h], &rk[h]);
 		if (!n) return esize[i] ? esize[i] : 2;
 		if (n > old) { egrow[idx] = n; *changed = 1; if (final) { err(st->line, "internal error: relaxation did not converge"); return 0; } }
 		nb[h] = 2 * n; total += 2 * n;

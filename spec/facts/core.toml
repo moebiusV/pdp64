@@ -457,10 +457,6 @@ arg = "0"
 exec = "H_TRAP"
 arg = "0"
 
-[trapl]
-exec = "H_TRAP"
-arg = "0"
-
 [prober]
 exec = "H_PROBE"
 arg = "MN_SYS_PROBER"
@@ -964,10 +960,6 @@ arg = "2"
 [trapcc]
 exec = "H_TRAPCC"
 exec_cc = true
-
-[movql]
-exec = "H_MOVQL"
-arg = "0"
 
 [movcall]
 exec = "H_MOVCALL"

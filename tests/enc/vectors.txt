@@ -48,9 +48,9 @@ ret | 1 f7c3
 nop | 1 f7c0
 halt | 1 f7c4
 lpad | 1 f7c9
-# system: trap, trapl (one 8-bit vector), set, mfsr
+# system: trap (one 8-bit vector), set, mfsr
 trap I:3 | 1 7903
-trapl I:200 | 1 7ac8
+trap I:200 | 1 79c8
 set I:2 R:3 | 2 f7e3 2000
 mfsr R:2 I:12 | 2 fc20 200c
 mtsr I:1 R:2 | 2 fc22 2001
@@ -97,9 +97,9 @@ extb R:1 I:4 I:8 R:2 | 3 d202 4420 0000
 dshr R:1 R:2 I:3 R:4 | 3 a804 8830 0000
 rori32 R:1 I:5 R:2 | 2 f9f1 08a2
 rol R:1 I:3 R:2 | 2 f9f2 0862
-# MOVQL: five parcels, a 64-bit immediate
-movql I:1311768467463790320 R:4 | 5 f804 1234 5678 9abc def0
-movql I:-1 R:0 | 5 f800 ffff ffff ffff ffff
+# movq with a constant that no shorter form holds: five parcels, a 64-bit immediate
+movq I:1311768467463790320 R:4 | 5 f804 1234 5678 9abc def0
+movq I:-4294967297 R:0 | 5 f800 ffff fffe ffff ffff
 # push/pop, masks
 pushm I:36608 | 1 cc8f
 popm I:256 | 1 cd01

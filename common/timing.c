@@ -74,7 +74,7 @@ void tm_fmt(const struct fmt *f)
 	}
 	if (opc == OPGROUP_SYS) {
 		if (f->reg == 0 && f->low == MN_SYS_NONE_RET) { t->cls = TC_RET; t->bk = BK_RET; }
-		else if (f->reg == MN_SYS_TRAP || f->reg == MN_SYS_TRAPL || (f->reg == 0 && f->low == MN_SYS_NONE_HALT)) t->cls = TC_SYS;
+		else if (f->reg == MN_SYS_TRAP || (f->reg == 0 && f->low == MN_SYS_NONE_HALT)) t->cls = TC_SYS;
 		return;
 	}
 	if (opc == OPGROUP_BESC) { if (f->sub == MN_BESC_CLMULL || f->sub == MN_BESC_CLMULH) t->cls = TC_MUL; return; }

@@ -55,10 +55,13 @@ t.a('bsel\tr1, r2, r3, r5'); t.chk('r5', bsel(A, B, Cv))
 t.a('movq\t#0, r4', 'bsel\tr4, r1, r2, r5'); t.chk('r5', B)
 t.a('movq\t#-1, r4', 'bsel\tr4, r1, r2, r5'); t.chk('r5', A)
 t.a('movq\tr3, r5', 'bsel\tr5, r1, r2, r5'); t.chk('r5', bsel(Cv, A, B))          # rd == rm
-# movql #imm64, rd
+# movq #imm64, rd in its ten-byte form (.encode 5 asks for five parcels: -1 and the others that fit a shorter form are written the long way too)
 for v in (0x123456789abcdef0, M, 0x8000000000000000, 0x00000001ffffffff, 0x7fffffffffffffff, 0x0000800000000000):
-    t.a('movql\t#0x%x, r6' % v); t.chk('r6', v)
-t.a('cmp\tr1, r1', 'movql\t#0x123456789abcdef0, r6'); t.flags(0, 1, 0, 0)
+    t.a('.encode\t5', 'movq\t#0x%x, r6' % v, '.encode\t0'); t.chk('r6', v)
+t.a('cmp\tr1, r1', '.encode\t5', 'movq\t#0x123456789abcdef0, r6', '.encode\t0'); t.flags(0, 1, 0, 0)
+# the same constant without .encode: the assembler chooses the form (the ten-byte one for what no shorter form holds, a short one for -1)
+for v in (0x123456789abcdef0, M, 0x1ffffffff, 5):
+    t.a('movq\t#0x%x, r6' % v); t.chk('r6', v)
 # addv / subv / mulv rs, rd: rd <- rd op rs (like add, sub, mul); signed overflow aborts (checked in the system-mode test), no flags
 for a, b in ((5, 7), (M - 4, 3), (0x7ffffffffffffffe, 1), (0x8000000000000001, 0x7fffffffffffffff), (0x4000000000000000, 0xc000000000000000), (7, 5), (0x8000000000000000, 1)):
     sa, sb = s64(a), s64(b)

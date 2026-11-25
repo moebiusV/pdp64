@@ -44,8 +44,6 @@ MASKNEZ: Rd <- (Rc != 0) ? 0 : Ra''', NOFLAGS, NONE,
     X('BSEL', 'bits', ['bsel'], 'Bitwise select', ['BSEL Rm, Ra, Rb, Rd'],
       '''Rd <- (Rm AND Ra) OR (NOT Rm AND Rb)       ; bit by bit''', NOFLAGS, NONE,
       notes='One of the select instructions of the secure-core design, which I approved (the select instructions "looks good"); it is one of the stage 1 words of `docs/crypto-secure-core.md` section 3. `Ch(e, f, g)` of SHA-2 is `BSEL e, f, g`; `Maj(a, b, c)` is `BSEL (a XOR b), c, b`; a mask-controlled swap of two registers is two `BSEL`. Three sources and a destination: the four register fields of the three-operand group.'),
-    X('MOVQL', 'moves', ['movql'], 'Move a 64-bit literal', ['MOVQL #imm64, Rd'], 'Rd <- imm64', NOFLAGS, NONE,
-      notes='`MOVQL #imm64, Rd` is accepted, and breaking the three-parcel rule for it is acceptable because a 64-bit literal is not counted as part of the instruction. The instruction is five parcels, ten bytes: the literal is inside the instruction, so the length is still known from parcel 0 and the fetch has no exception for a trailing literal (`docs/encoding-proposal.md` section 3). The assembler uses it for a `MOVQ #imm, Rd` that fits no `MOVQ` form.'),
     # ---- checked arithmetic
     X('OVF', 'alu', ['addv', 'subv', 'mulv'], 'Add, subtract and multiply, trapping on signed overflow', ['ADDV Rs, Rd', 'SUBV Rs, Rd', 'MULV Rs, Rd'],
       '''t <- Rd op Rs                 ; op is +, - or ×, on signed 64-bit values

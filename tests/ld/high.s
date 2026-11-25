@@ -1,4 +1,4 @@
-; a 32-bit sign-extended immediate: a symbol must be in the low 2 GB or the top 2 GB of the address space
+; a symbol in the low 2 GB or the top 2 GB of the address space is one 32-bit sign-extended immediate; any other address makes the linker grow the instruction to the ten-byte form (a plain object cannot grow)
 	.text
 	.globl	_start
 _start:	movq	#target, r1

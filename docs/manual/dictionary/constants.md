@@ -68,7 +68,7 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `PCIE_INTC` | 37 | PCI Express interrupt pin C (level 5) |
 | `PCIE_INTD` | 38 | PCI Express interrupt pin D (level 5) |
 | `IOMMU` | 39 | the IOMMU unit's own interrupt, a wired line (level 5; 2.11.11) |
-| `TRAP_BASE` | 256 | `TRAP #n` and `TRAPL #n` enter vector 256 + n |
+| `TRAP_BASE` | 256 | `TRAP #n` enters vector 256 + n |
 | `COUNT` | 512 | the number of vectors; the table has this many eight-byte entries |
 
 ## The page-table entry (64 bits)

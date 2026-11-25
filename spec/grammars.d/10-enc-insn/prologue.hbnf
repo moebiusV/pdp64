@@ -2,7 +2,7 @@
 ; targets: enc
 
 insn = leaf:( leaf-SYS0-1 | leaf-SYS0-2 | leaf-SYSR-1 | leaf-SYSR-2 | leaf-CT1-1 | leaf-SETF-1 | leaf-SYSI-1 | leaf-MFSR-1 | leaf-MTSR-1 | leaf-R2-1 | leaf-R3-1
-       | leaf-R4-1 | leaf-RRI-1 | leaf-BFx-1 | leaf-BFy-1 | leaf-MOVQL-1 | leaf-LDU-B28-1 | leaf-LDU-B28-2 | leaf-LDU-B28-3 | leaf-STU-B28-1 | leaf-LDU-B12-1
+       | leaf-R4-1 | leaf-RRI-1 | leaf-BFx-1 | leaf-BFy-1 | leaf-MOVQ64-1 | leaf-LDU-B28-1 | leaf-LDU-B28-2 | leaf-LDU-B28-3 | leaf-STU-B28-1 | leaf-LDU-B12-1
        | leaf-LDU-B12-2 | leaf-LDU-B12-3 | leaf-STU-B12-1 | leaf-LDU-X6-1 | leaf-LDU-X6-2 | leaf-LDU-X6-3 | leaf-STU-X6-1 | leaf-LDF-B28-1 | leaf-LDF-B28-2
        | leaf-LDF-B28-3 | leaf-LDF-B28-4 | leaf-LDF-X22-1 | leaf-LDF-X22-2 | leaf-LDF-X22-3 | leaf-LDF-X22-4 | leaf-LDF-PI12-1 | leaf-LDF-PI12-2
        | leaf-LDF-PI12-3 | leaf-LDF-PI12-4 | leaf-LDF-PD12-1 | leaf-LDF-PD12-2 | leaf-LDF-PD12-3 | leaf-LDF-PD12-4 | leaf-LDF-PC32-1 | leaf-LDF-PC32-2

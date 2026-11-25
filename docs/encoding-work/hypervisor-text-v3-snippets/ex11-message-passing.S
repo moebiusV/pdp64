@@ -26,7 +26,7 @@ guest:	lea	data, r3
 	movq	r1, (r3)			; first the data ...
 	movq	#1, r1
 	movq	r1, (r4)			; ... then the flag: "the data is ready"
-	trapl	#40				; tell the hypervisor to look (the reader needs no fence between its two loads)
+	trap	#40				; tell the hypervisor to look (the reader needs no fence between its two loads)
 	halt
 hcall:	lea	flag, r4
 	lea	data, r3

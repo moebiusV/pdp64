@@ -19,7 +19,7 @@ table below, not a register number.
 | 1 | LDSPh5/a | 5 | 01100 | movq movl movzb lea | op1.d=p0[8:4] op2.r=p0[3:0] subop=p0[10:9] |
 | 1 | IMMh47/a | 5 | 01101 | movq | op1.imm=p0[10:4] op2.r=p0[3:0] |
 | 1 | CBZ1_5/a | 5 | 01110 | cbeq cbne | op3.pcrel=p0[9:5] op1.r=p0[4:0] subop=p0[10] |
-| 1 | SYSI | 6 | 011110 | spl trap trapl hint | op1.imm=p0[7:0] subop=p0[9:8] |
+| 1 | SYSI | 6 | 011110 | spl trap trap hint | op1.imm=p0[7:0] subop=p0[9:8] |
 | 1 | STHHH3/a | 6 | 101000 | movq movl | op2.d=p0[8:6] op1.r=p0[5:3] op2.base=p0[2:0] subop=p0[9] |
 | 1 | SHIh44/a | 6 | 101001 | shl shr sar rol | op1.imm=p0[7:4] op2.r=p0[3:0] subop=p0[9:8] |
 | 1 | BR1_6/c | 7 | 1100001 | bpl bmi bvc bvs bcc bcs bge blt | op1.pcrel=p0[5:0] subop=p0[8:6] |
@@ -254,4 +254,4 @@ table below, not a register number.
 | 3 | VST.B | 16 | 1111110001011111 | vst.b vst.w vst.w.b vst.l vst.l.b vst.l.w vst.q vst.q.b vst.q.w vst.q.l vst.f vst.d vst.d.f vsts.w.b vsts.w.bu vsts.l.b vsts.l.bu vsts.l.w vsts.l.wu vsts.q.b vsts.q.bu vsts.q.w vsts.q.wu vsts.q.l vsts.q.lu vsseg2.b vsseg2.w vsseg2.w.b vsseg2.l vsseg2.l.b vsseg2.l.w vsseg2.q vsseg2.q.b vsseg2.q.w vsseg2.q.l vsseg2.f vsseg2.d vsseg2.d.f vsseg3.b vsseg3.w vsseg3.w.b vsseg3.l vsseg3.l.b vsseg3.l.w vsseg3.q vsseg3.q.b vsseg3.q.w vsseg3.q.l vsseg3.f vsseg3.d vsseg3.d.f vsseg4.b vsseg4.w vsseg4.w.b vsseg4.l vsseg4.l.b vsseg4.l.w vsseg4.q vsseg4.q.b vsseg4.q.w vsseg4.q.l vsseg4.f vsseg4.d vsseg4.d.f | subop=p1[6:0]+p2[15:12] op2.d=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
 | 3 | VLDT | 16 | 1111110001100000 | vldt.b vldt.b.w vldt.b.l vldt.b.q vldt.bu vldt.bu.w vldt.bu.l vldt.bu.q vldt.w vldt.w.l vldt.w.q vldt.wu vldt.wu.l vldt.wu.q vldt.l vldt.l.q vldt.lu vldt.lu.q vldt.q vldt.f vldt.f.d vldt.d | subop=p1[6:0]+p2[15:12] op3.imm=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
 | 3 | VSTT | 16 | 1111110001100001 | vstt.b vstt.w vstt.w.b vstt.l vstt.l.b vstt.l.w vstt.q vstt.q.b vstt.q.w vstt.q.l vstt.f vstt.d vstt.d.f | subop=p1[6:0]+p2[15:12] op3.imm=p2[11:0] op1.v=p1[15:12] op2.base=p1[11:7] |
-| 5 | MOVQL | 11 | 11111000000 | movql | op1.imm=p1[15:0]+p2[15:0]+p3[15:0]+p4[15:0] op2.r=p0[4:0] |
+| 5 | MOVQ64 | 11 | 11111000000 | movq | op1.imm=p1[15:0]+p2[15:0]+p3[15:0]+p4[15:0] op2.r=p0[4:0] |

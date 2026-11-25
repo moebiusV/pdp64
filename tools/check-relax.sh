@@ -103,14 +103,16 @@ for e in x; do
 		else fail=$((fail+1)); fi
 	else echo "FAIL noadj ($e): e_flags $flags (wanted RELAX|NOADJ_TEXT)"; fail=$((fail+1)); fi
 done
-# the 2 GB limit is still reported, with the symbol named
+# a symbol address that no 32-bit field holds: relaxation grows `movq #sym, rd` to the ten-byte form (one word, the linker picks the length); a plain object cannot grow, and its 2 GB limit is reported with the symbol named
 for e in x; do
-	"$B/as64" --relax -o $W/high$e.o tests/ld/high.s
+	"$B/as64" --relax -o $W/high$e.o tests/ld/high.s && "$B/as64" --no-relax -o $W/highp$e.o tests/ld/high.s
 	n=$((n+1))
 	$LD -Ttext 0x7fffe000 -o $W/high.x $W/high$e.o 2>$W/high.err || { echo "FAIL relaxed link below 2 GB: refused"; fail=$((fail+1)); }
-	if $LD -Ttext 0x7ffff000 -o $W/high.x $W/high$e.o 2>$W/high.err; then echo "FAIL relaxed link at 2 GB: accepted"; fail=$((fail+1))
-	elif grep -q "relocation to target out of range (value 2147483648" $W/high.err; then echo "ok   relaxed link at 2 GB (refused, symbol named)"
-	else echo "FAIL relaxed link at 2 GB: wrong message: $(head -1 $W/high.err)"; fail=$((fail+1)); fi
+	if $LD -M -Ttext 0x7ffff000 -o $W/high.x $W/high$e.o > $W/high.map 2>$W/high.err && grep -q '^text 0x7ffff000 +0xc$' $W/high.map; then echo "ok   relaxed link at 2 GB (movq #symbol grew to the ten-byte form)"
+	else echo "FAIL relaxed link at 2 GB: $(head -1 $W/high.err)"; fail=$((fail+1)); fi
+	if $LD --no-relax -Ttext 0x7ffff000 -o $W/high.x $W/highp$e.o 2>$W/high.err; then echo "FAIL plain link at 2 GB: accepted"; fail=$((fail+1))
+	elif grep -q "relocation to target out of range (value 2147483648" $W/high.err; then echo "ok   plain link at 2 GB (refused, symbol named)"
+	else echo "FAIL plain link at 2 GB: wrong message: $(head -1 $W/high.err)"; fail=$((fail+1)); fi
 done
 # --no-relax objects have no relaxation flags; the default is a relaxation object
 "$B/as64" -o $W/x.o tests/relax/noadj-lib.s && "$B/as64" --no-relax -o $W/y.o tests/relax/noadj-lib.s && python3 - $W/x.o $W/y.o <<'PY' && echo "ok   as64 makes relaxation objects by default; --no-relax does not" || { echo "FAIL as64 default flags"; fail=$((fail+1)); }

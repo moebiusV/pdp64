@@ -70,7 +70,9 @@ def generate():
     alu = ['add', 'sub', 'and', 'bis', 'xor', 'mul', 'cmp']
     lay = {}
     lay['AluImmBits'] = min(widest(forms, m, 'I', 'w', True) for m in alu)        # the signed immediate every one of them takes (32)
-    lay['MovImmBits'] = widest(forms, 'movq', 'I', 'w', True)
+    # the immediate that the compiler writes as `movq #imm`: the widest of the forms of at most three parcels (32).  The ten-byte form (a 64-bit constant) is the same word, and the assembler uses it for
+    # a constant written by hand; the compiler's own policy for a constant beyond 32 bits is the literal pool (`movq =K`), as measured, so this number does not follow the ten-byte form
+    lay['MovImmBits'] = widest([f for f in forms if f['n'] <= 3], 'movq', 'I', 'w', True)
     lay['ShiftImmBits'] = 6                                                           # shl/shr/sar #n: n in 0..63 (RRI: imm6)
     lay['DispBits'] = widest_in(forms, ['movq', 'movl', 'movw', 'movb', 'lea'], 'B', 'dw', True)   # d(rN): 28
     lay['IdxDispBits'] = widest_in(forms, ['movq', 'movl', 'movw', 'movb', 'lea'], 'X', 'dw', True)  # d(rN)(rX*s): 22

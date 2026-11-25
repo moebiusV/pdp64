@@ -3,12 +3,12 @@ from isa_common import *
 
 ENTRIES = [
     E('MOV', 'moves', ['movq', 'movl', 'movw', 'movb'], 'Move, load and store (64, 32, 16 and 8 bits)',
-      ['MOVQ rm, Rd        ; load', 'MOVQ Rs, rm        ; store', 'MOVL, MOVW, MOVB likewise'],
+      ['MOVQ rm, Rd        ; load', 'MOVQ Rs, rm        ; store', 'MOVQ #imm, Rd      ; a constant of any size', 'MOVL, MOVW, MOVB likewise'],
       '''size = 8 (MOVQ), 4 (MOVL), 2 (MOVW) or 1 (MOVB) bytes
 load :  Rd <- sext(M[EA(rm)], size)          ; len = 00: Rd <- sext(Rs[8*size-1:0])
 store:  M[EA(rm)] <- Rs[8*size-1:0]          ; len = 00: Rd <- sext(Rs[8*size-1:0])''',
       NOFLAGS, MEMX,
-      notes='A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`.',
+      notes='A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`. `MOVQ #imm, Rd` is one word for every size of constant: the assembler writes the two-, four- or six-byte form that holds it, and the ten-byte form (five parcels) when the constant needs 64 bits; the literal is inside the instruction, so the length is still known from parcel 0, and breaking the three-parcel rule for it is acceptable because a 64-bit literal is not counted as part of the instruction (`docs/encoding-proposal.md` section 3).',
       cf='{{r:page-table-entry}} for the memory type that decides whether the access is cached; {{r:faults-and-restart-what-precise-means}} for what a faulting access leaves behind.'),
     E('MOVZ', 'moves', ['movzl', 'movzw', 'movzb'], 'Move zero-extended (32, 16 and 8 bits)',
       ['MOVZL rm, Rd', 'MOVZW rm, Rd', 'MOVZB rm, Rd'],
@@ -113,7 +113,7 @@ BNTAG: if (Rn & 111₂) != tag then PC <- address of this instruction + 2 * disp
       NOFLAGS, MEMX, notes='The mirror of `PUSHM`.'),
     E('JMP', 'single', ['jmp'], 'Jump', ['JMP rm        ; a register, or an address by any memory mode'],
       'PC <- (register operand) ? Rm : EA(rm)', NOFLAGS, 'A jump to an unmapped or non-executable address faults on the fetch of the target.',
-      notes='A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` through a scaled index.'),
+      notes='A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` through a scaled index. `JMP label` is `BR label`: the assembler writes the branch, which reaches as far and has a one-parcel form besides.'),
     E('CALL', 'single', ['call'], 'Call', ['CALL rm'],
       '''t <- (register operand) ? Rm : EA(rm)
 SP <- SP - 8 ; M[SP] <- address of the next instruction
