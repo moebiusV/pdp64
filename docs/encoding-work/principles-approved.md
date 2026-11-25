@@ -1,3 +1,5 @@
+> **Superseded 2026-11-25 by `principles-complete-for-review.md`**: the owner asked for the complete set of principles in order; this file left out several of the owner's earlier ones. What stays in force from errata 208 is the approval of the ten and of the ladder and the speed order.
+
 # The design principles of the pdp64, as approved by the owner on 2026-11-25
 
 These are the principles every design decision is judged by. The first list is the owner's earlier list, the second is the ten added on 2026-11-25 (each with the evidence the owner's own words give). The order is the owner's: "you got the order correct". Prior work already done, and extra work to implement or document a change, are never a reason for or against an option.

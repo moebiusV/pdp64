@@ -1,0 +1,3 @@
+syscall: #instructions 5012
+page: #instructions 3012
+empty: #instructions 3012

@@ -1,0 +1,11 @@
+irq_derived	1007
+irq_stored	11741
+addr_reg	0
+addr_off	291
+align8	4
+align48	4
+t_abs	565
+t_enable	477
+t_rel	918
+cas	918
+cas	918
