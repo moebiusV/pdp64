@@ -1,6 +1,6 @@
 # Proposed manual text for the hypervisor mode, third version
 
-*For the owner to read before anything is written into the manual. Nothing here is in the manual. This replaces section 6.14 of the manual (`docs/manual-src/06-kernel.md`) and the second version (`hypervisor-text-v2.md`). It keeps the structure the owner approved: the story first (6.14), nine worked examples (6.15), the rules last (6.16), and the old 6.15 "What was checked, and what was not" renumbered 6.17.*
+*For the owner to read before anything is written into the manual. Nothing here is in the manual. This replaces section 6.14 of the manual (`docs/manual-src/06-kernel.md`) and the second version (`hypervisor-text-v2.md`). It keeps the structure the owner approved: the story first (6.14), eleven worked examples (6.15), the rules last (6.16), and the old 6.15 "What was checked, and what was not" renumbered 6.17.*
 
 *The snippets of assembler in the text were assembled with `as64`, and those that can run were run on `sim64`; the sources, the command lines and the results are in `docs/encoding-work/hypervisor-text-v3-snippets/` (its README lists the lines that do not assemble yet).*
 
@@ -14,7 +14,7 @@
 
 ## 6.14 Running a kernel under a kernel: virtualization
 
-**A hypervisor is a small kernel whose programs are whole operating systems.** This section tells why anyone wants one, who built the first, and how the idea works. Section 6.15 follows a guest operating system through nine events on the pdp64, and section 6.16 is the reference: every register, bit and rule.
+**A hypervisor is a small kernel whose programs are whole operating systems.** This section tells why anyone wants one, who built the first, and how the idea works. Section 6.15 follows a guest operating system through eleven events on the pdp64, and section 6.16 is the reference: every register, bit and rule.
 
 **The scene.** You have one PDP-11/70 running Version 7 Unix, and it is the machine everyone uses. (A *kernel* is the part of an operating system that runs in the processor's most privileged state, *kernel mode*, and does what ordinary programs may not: it handles the devices, shares the processor among programs, and decides what memory each program may touch. On the PDP-11 the mode is two bits of the processor status word, the PS.) Three things happen in one week. A colleague wants to try a different operating system on it. You have written a new version of your own kernel and want to know whether it boots, but if it crashes it takes the machine, and everyone's work, down with it. And two customers each say they want a whole machine of their own, not an account on yours.
 
@@ -94,7 +94,7 @@ There are five ideas, and each is the PDP-11 idea with something added.
 
 ## PASTE BEGINS: section 6.15
 
-## 6.15 A guest, step by step: nine events
+## 6.15 A guest, step by step: eleven events
 
 The examples follow one guest kernel, which we call G, running under one hypervisor, on one core. The code is **an illustration written for this chapter**, in pdp64 assembler (with a few lines of PDP-11 assembler where the story needs them, marked as such); the registers and the instruction `GENTER` are the ones that section 6.16 defines. Lines marked with an ellipsis `...` stand for code that the example does not need to show. Each example says what the hardware does, what the hypervisor does, and what the guest sees.
 
@@ -310,6 +310,98 @@ A **vector block** is the pdp64's way of working on a whole array with one short
 Run on a machine whose strip is 16, 32 or 64 bytes, this block gives the same sum as adding the words one at a time: the strip is invisible to a program that keeps its sums in accumulators. Now an interrupt arrives, or a guest exits, after the block has done three strips. The accumulator `v4` holds the sum of twelve words; the pointer `R1` has advanced by 24 bytes. The handler is shown the **entry** values (`R1` at the start of the block) and the address of the `VEC`, so that if it simply returns to that address the block starts again from its first strip and is correct: restarting never needs any hidden state. But restarting throws away the three strips, and a block that is interrupted often (a page fault on each page of a large array, a timer tick every few thousand cycles) might never finish. So the hardware keeps, for each core, one hidden **resume record**: the address of the `VEC`, whose context it is (guest tag, address-space number, mode), the entry and the current values of the registers the block changes, and a one-use **token**, a number the hardware makes up and puts in the saved status word, so that only the code that returns with that saved word can resume it. If the same context returns to the same `VEC` with the token and the entry values unchanged, the block carries on at strip four with its sum intact. In every other case (another guest entered, a translation register written, any other vector instruction run, the token missing) the record is discarded and the block starts again from its first strip: resume is only ever faster, and never changes an answer. Because a program must not be able to hold off the kernel for as long as a block takes, an interrupt is taken between two strips, never inside one; and because the record is a hidden thing, the token is made so that a guest cannot learn from it how many times other guests were suspended (6.16.31).
 
 **Example 9. What is not in version 1.** G is a kernel; it cannot be a hypervisor in turn. The first version has **no nested guests**: if G touches any hypervisor register or executes `GENTER`, it exits with the reason "hypervisor register used by a guest", and the hypervisor may make it look to G like an illegal instruction. The reason is the cost: nested virtualization in software needs no new gates but many exits for each guest operation, and in hardware it would take from a fraction of a percent to several percent of a core; and a stale-translation bug of the kind of example 6 happened in the nested case. The rule is stated so that it can be lifted without changing the meaning of anything else.
+
+**Example 10. Two programs, one word: the atomic instructions.** So far the guest and the hypervisor have kept to their own memory. Sooner or later they share a word: a count of the characters waiting in a console buffer that the guest fills and the hypervisor empties, a lock on that buffer, a ticket number. A kernel on the PDP-11 kept shared data safe by raising the processor's priority (`SPL`, 6.3) so that no interrupt could come between two of its instructions; there was one processor, so that was enough. A machine with a hypervisor, or with a second core, has two ways in which that is not enough, and the first of them needs no second core at all.
+
+Take the plain way to add one to a counter in memory:
+
+```
+        movq    (r3), r1        ; read the counter
+        add     #1, r1          ; add one
+        movq    r1, (r3)        ; write it back
+```
+
+Say G runs these three instructions, and after the first one its time slice ends and the hypervisor takes an exit. The hypervisor, which shares the counter, adds one to it and later gives G the core again. G's `R1` still holds the old value, G adds one to that and writes it: the hypervisor's addition is lost, and nothing has gone wrong that anyone could see. A second core would do the same between any two of the three instructions. What is wanted is an **atomic** operation (from the Greek for "that cannot be cut"): one that every other core, every other guest and the hypervisor see either complete or not started, never half done. The PDP-11's `INC` on a memory word had this property against an interrupt, because an interrupt can only come between instructions; the pdp64 gives it to a whole family.
+
+**The family.** There are ten operations, each with a plain form and a form with `DB` at the end, and a pair that works together: `CAS` (compare and swap), `SWAP`, `XADD` (fetch and add), `XAND`, `XOR_`, `XXOR` (fetch and the bit operation), `XMAX`, `XMIN`, `XMAXU`, `XMINU` (fetch and the larger or the smaller, signed and unsigned), and `LL` and `SC` (load-linked and store-conditional, below). The `DB` form folds in a **barrier**: an instruction that makes the core finish its earlier memory accesses before it begins the later ones. Example 11 says why, on this machine, a barrier changes nothing between ordinary accesses; the `DB` form is there so that taking a lock is one instruction.
+
+The rules are few, and each exists so that an atomic can never be half done:
+
+* Every one of them has three register fields, as `XADD Rd, Rs, (Ra)`: the address is in `Ra`, with no offset (the parentheses hold a register and nothing else), the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rd, Rs, (Ra)` has the **expected** value in `Rd` and the new value in `Rs`, and it puts the old value into `Rd`: one register is used for the expected value going in and the old value coming out. If the old value is the expected one, the swap happened.
+* The size is 4 bytes or 8 bytes. The examples here use the 8-byte form.
+* The word must be naturally aligned (an 8-byte word at an address that is a multiple of 8). An atomic on a word that is not aligned takes a **precise fault**: the fault happens before the instruction has changed anything, and the saved program counter is the instruction itself.
+* The memory must be ordinary cached memory. An atomic, or an `LL` or `SC`, on uncached memory or on a device's registers also takes a precise fault. The reason is that the machine can make an operation atomic only where it controls the whole path, in the cache; on a device register the choice is a fault, never an operation that is silently not atomic.
+
+**A lock taken and released.** The simplest use of `CAS` is a **spin lock**: a word that is 0 when free and 1 when held, taken by a loop that tries until it succeeds (it "spins"). To take it, the program says: "if the word is 0 make it 1, and tell me what it was". If what it was is 0 the lock is mine; if not, someone else has it and I try again.
+
+```
+take:   movq    #0, r1                  ; expected: the lock is free
+        movq    #1, r2                  ; new: held
+        casdb   r1, r2, (r3)            ; one step; r3 holds the address of the lock; r1 is now the old value
+        cbeq    r1, #0, held            ; the old value was 0: the lock is mine
+        hint    #1                      ; it was 1: tell the core this is a wait ...
+        br      take                    ; ... and try again
+held:   ...                             ; the work on the shared data
+        movq    #0, r1
+        movq    r1, (r3)                ; the release is an ordinary store
+```
+
+Taking the lock is one instruction, and the release is an ordinary store because, as example 11 shows, an ordinary store is seen by the other cores in order. The loop sets `R1` again on every try because `CASDB` has overwritten it with the old value, which was 1, and the expected value must be 0 once more.
+
+**A counter.** With `XADD` the counter of the beginning is one instruction, and what it returns is the old value, which is useful: if two programs each add one to the same word, they get two different numbers back, so it also hands out ticket numbers.
+
+```
+        lea     count, r3
+        movq    #1, r2
+        xadd    r1, r2, (r3)            ; one step: r1 is the number I took, the counter is one more
+```
+
+**The pair `LL` and `SC`.** Not every update is one of the ten. A counter that must stop at a limit cannot be a fetch and add: the program must read it, compare, and write only if it is still what it read. `LL` reads the word and puts a **reservation** on it, a mark that the core keeps; `SC` writes the new value only if the mark is still there, and says whether it did, by a register that is 0 when the word was written and not 0 when it was not. A write to the marked memory by another core, or by a device, clears the mark, and so does anything that ends the guest's turn: the reservation is cleared at every exit, at `GENTER`, and at every exception entry and return (example 8), so that a guest cannot leave a mark for another to find. A program therefore never assumes that its `SC` works: it asks and, if it fails, it begins again from the `LL`.
+
+```
+        movq    #100, r5                ; the limit
+retry:  ll      r1, (r3)                ; read the word and take the reservation
+        cbeq    r1, r5, full            ; at the limit: leave without writing
+        movq    r1, r6
+        add     #1, r6                  ; the new value, in a register
+        sc      r4, r6, (r3)            ; write it only if no one wrote the marked memory since the LL
+        cbne    r4, #0, retry           ; r4 is not 0: the SC did not write; start again
+```
+
+Such a loop could, in principle, fail for ever if two cores keep clearing each other's marks. To forbid this the machine makes a promise for the loop of one shape, called a **constrained loop**: from the `LL` to the `SC` there are at most 16 instructions; between them only instructions that work on registers (no loads, no stores, no backward branches); and the `SC` is to the same address as the `LL`. For a loop of that shape, the machine promises that it succeeds sooner or later unless someone else keeps writing the marked memory. The loop above is of that shape (its only branch before the `SC` is a forward one). The marked memory is the aligned block of 128 bytes that holds the word: the hardware may track less (a piece of 8 bytes), never more, and a mark that is cleared by a neighbour's write only costs the loop another try. A program that wants no such cost keeps each word that it protects in a block of its own, as the snippet does by placing the counter on a 128-byte boundary and leaving the rest of the block empty. The weakness of `CAS` is that it compares values: a word that went from A to B and back to A looks as if no one had touched it, though the structure that it points to may have changed (the **ABA problem**), while an `SC` fails if anyone wrote the marked memory, even with the same value.
+
+**Why a hypervisor cares.** First, a guest's atomic is an ordinary instruction on memory, so it does not exit by itself: it is atomic against the hypervisor and against every other guest and core, because the memory system makes it so and does not ask who is calling. The hypervisor can therefore keep a word that a guest also changes (the count of the console buffer, a flag in a ring of requests) and know that a guest cannot leave it half done, because an exit or an interrupt can come only between instructions and never inside one. Second, a fault is precise: if G's atomic touches a page that the hypervisor has not yet mapped (example 4), nothing has changed when the exit comes, and when the hypervisor has filled the entry and gives the core back, the instruction begins again whole. Third, a fault on uncached memory or on a device is a fault and not a silent loss: the hypervisor cannot be led into trusting a lock word that the machine did not keep atomic. Fourth, because the reservation is cleared at each exit and each `GENTER`, no mark that one level left is ever found by the other. Last, the reports of other machines show that the retry costs something where the memory system is slow: an engineer at a maker of Arm servers reported about 25 retries of one compare-and-swap with 28 threads working on the same file, and a Linux developer's comment on it was that a failing compare-and-swap loop means that the cache coherency is bad. This is a reason to keep a contended word to a few programs, which is a rule of the programmer's, and not a flaw of the instruction.
+
+**Example 11. What one core sees of another: the memory model.** The atomics of example 10 make one operation indivisible. A different question is what a program sees of the *order* of another's plain loads and stores. Take the commonest exchange there is, **message passing**: one program writes some data and then sets a flag to say "ready"; another waits for the flag and then reads the data. The guest and the hypervisor of the examples do exactly this when G fills a request and the hypervisor looks at it, and so do a driver and a device. On the PDP-11 the order was simple: there was one processor, it did one access after another, and a program saw its own memory as it had written it. Here are the two sides on the pdp64; the first is G's and the second the hypervisor's, after G's hypercall has stopped it:
+
+```
+guest:  movq    #42, r1
+        movq    r1, (r3)                ; first the data ...
+        movq    #1, r1
+        movq    r1, (r4)                ; ... then the flag: "the data is ready"
+        trapl   #40                     ; tell the hypervisor to look
+
+hcall:  movq    (r4), r1                ; first the flag ...
+        cbne    r1, #1, hbad            ; not set: nothing to read yet
+        movq    (r3), r2                ; ... then the data
+        cbeq    r2, #42, 1f             ; the flag was set, so the data is the new data, never the old
+```
+
+Here the reader looks after G's hypercall has stopped G, so the order is plain. What matters is what the architecture promises when the two run at the same time, on two cores: **the pdp64 keeps sequential consistency.** A **memory model** is the promise a machine makes about which values a load may return when other cores are writing; **sequential consistency** (SC) is the simplest promise there is: the result is as if the loads and stores of all the cores had been done one at a time, in one order, with each core's own accesses in its own program order. Under that promise, if the reader sees the flag it sees the data, with no instruction between the reader's two loads and none between the writer's two stores. The program above needs no **fence** (an instruction that tells the core to finish its earlier accesses before it begins the later ones; the same thing as the barrier of example 10). That is why the lock of example 10 is released with an ordinary store.
+
+**Why other machines need fences.** A fast core does not want to wait for slow memory, and so it does three things. It puts a store into a small queue, a **store buffer**, and goes on without waiting for it to reach memory. It may begin a load before an earlier store has been seen by the others. And its caches may bring two related pieces of memory up to date at different times. A single core hides all of this from its own program, which always sees its own stores. Another core cannot be given that privilege for free, and on a machine that allows these things it can see the data store and the flag store in the wrong order: the flag is set and the data is still old. The machines differ in how much they allow. The x86 allows the store buffer and little else: its manual says that reads may be reordered with older writes to different locations, but not with older writes to the same location. Arm's manual calls its model weakly ordered, and RISC-V's default is a weak model too (RISC-V also defines a stronger variant that exists to carry over programs written for the x86). The DEC Alpha was the extreme: the Linux kernel's documentation calls it "one of the most relaxed CPUs there is", and says that some versions have a split data cache that can update two related lines at separate times, so that a program which has just read a pointer to new data can still read the old data through it. So the kernel needs a barrier even between loading a pointer and loading through it, and, since it has to run on the Alpha, it says that the Alpha defines the Linux kernel's memory barrier model: outside the code of one particular machine, the kernel must assume the most relaxed case. The same document notes that even a guest kernel built to run on one processor can be affected, because it shares memory with a host that has several.
+
+What a program on such a machine pays is a fence at every place where order matters, put by the programmer who must find each place, and an error is not a crash on the first run: it is a flag seen before its data, once in a long while, with a timing that no test repeats. This is what a weak model asks of every kernel, driver and compiler, and it is what the pdp64 does not ask.
+
+**What SC does not do, and what it costs.** It orders the accesses; it does not make a sequence of them indivisible. The three-instruction counter of example 10 is still wrong under SC, as the example showed on one core: SC says what order the accesses are seen in, and the atomics make the sequence one access. The two ideas are used together. The cost of SC is paid by the designer of the hardware: a very fast core that runs loads early must check afterwards, and redo any load that another core got in between. The first pdp64 cores are simple and in order and have nothing to gain from a weaker promise, and a program written for the strong promise runs on a weaker machine only with fences added, so the choice is made once, in the strong direction.
+
+**A device is another core that sees memory.** A disk or a network card reads and writes memory by itself (this is **DMA**, direct memory access); to the program it is one more writer, and it can be shown the memory in the wrong order for the same reasons. The pdp64 puts a unit between devices and memory, the **IOMMU** (input-output memory management unit): it translates the addresses a device uses, by tables that the kernel writes, and refuses any access that the tables do not allow. Three rules make the order right by construction:
+
+* The unit reads its tables **coherently**: it reads them through the same path as the cores, so that an entry the kernel has just written is the entry the unit finds, and the kernel does not have to remember to push a changed line out of its cache first. (A fence orders a core's stores; it does not write a modified line out of the core's cache.)
+* The kernel tells the unit that a mapping has changed by an **invalidate command** (the commands are: invalidate a device, a domain, a guest, or everything, and a sync), because the unit keeps copies of the translations it has used, just as the processor does in its translation buffer. The unit executes its commands in the order they are given, so that a missing fence cannot make an invalidate run before the store it was meant to follow; the RISC-V unit studied for this design may execute its commands out of order and says that software must place a fence. The command to invalidate a device does not finish until that device's requests already in flight are finished or refused. To reset a guest, the hypervisor blocks the guest's devices, invalidates its translations, and only then resets (example 6).
+* A device never writes the arena (example 1), the hypervisor's own tables: the unit refuses it. And the memory that devices write, the DMA buffers, is uncached, so the atomics of example 10, which fault on uncached memory, can never be used on a word that a device is writing; a lock word is always in ordinary memory.
+
+In order, then, with G handing a buffer to a device: G writes the data (plain stores, no fence); the hypervisor (or G's kernel, through it) writes the table entry that lets the device reach the buffer, the unit reads it coherently, and a command to the unit makes it forget any old copy; the device then reads the buffer. On a weak machine with a unit that reads its tables through a cache of its own, each of those steps has a place where a fence or a cache flush has to be remembered. Here none has to be.
 
 ## PASTE ENDS: section 6.15
 
@@ -610,3 +702,5 @@ Flags: bit 8 `WALK`: the failing access was the read of a guest page-table entry
 9. **The CP-40 date.** The checked source gives 1964 (conceived) and "continuous production use since 1967" for CP and CMS; its page that dates CP-40 prints a misread digit, and secondary sources place CP-40's first production use in January 1967 and its development from mid 1965. The text prints only the source's words.
 10. **Timer: what is left as the current rule without being marked.** No unprivileged clock and no kernel-updated page are stated. The question of a hardware-rounded user read (register 18 reserved) is left out because it waits on a measurement of how often real programs read the clock; likewise the stage-2 accessed and dirty bits stay in software and the guest's IOMMU unit stays trapped (both wait for measurements, both are stated as the rule).
 11. **The first-hypervisor facts.** `tests/qemu/hv-first.S` has a two-page stage-2 root (bit 39 for device space), the virtual timer as a mapped page, `HVBR`, plain `RTI` and `GENTER` without a mask, and a hypervisor that keeps counters in registers across `GENTER`; every one of these now contradicts the text, so 6.16.35 states only what stays true of it (one file, boots at `H` = 1 untranslated, `TRAP #224` for console output, demand-filled stage 2, virtual timer, the user system call that does not exit, `HALT`).
+12. **Examples 10 and 11: the spelling of the size of an atomic.** The decisions give the sizes (4 and 8 bytes, the width in the sub-opcode) and the three-register layout but not how the assembler writes the size; the examples use the bare names for the 8-byte form. The constrained loop's bound of 16 instructions is the RISC-V figure, taken with "the constrained loop"; the decision names the loop, and the figure should be stated in the manual.
+13. **Examples 10 and 11: the snippets of the atomics.** They are written in the decided three-register spelling; they are listed in the snippets README as not yet assemblable. Example 11's message-passing snippet runs on one core (the reader after the writer).

@@ -24,3 +24,15 @@ asm ex04-stage2-entry
 asm ex05-timer
 asm ex07-guest-names
 asm ex01-start-new
+run ex11-message-passing -H
+# The atomic words are not in as64 (three-register spelling, executor H_UNIMPL): show that they are the only lines that do not assemble.
+# Each atomic instruction line is replaced by a NOP and the rest is assembled.
+stub() {
+	n=$1; gcc -E -P -x assembler-with-cpp -I$B $D/$n.S -o $T/$n.pre
+	sed -E 's/^([A-Za-z0-9_]+:)?[ \t]+(casdb|cas|xadddb|xadd|swapdb|swap|ll|sc)[ \t].*$/\1\tnop/' $T/$n.pre > $T/$n.s
+	if $B/as64 -o $T/$n.o $T/$n.s 2> $T/$n.err; then echo "assembles  $n with its atomic lines as NOP (not run)"; else echo "ASSEMBLY FAILS $n: $(head -1 $T/$n.err)"; fi
+	printf '  atomic lines of %s as written: ' "$n"; grep -c -E '^([A-Za-z0-9_]+:)?[ 	]+(casdb|cas|xadddb|xadd|swapdb|swap|ll|sc)[ 	]' $T/$n.pre
+}
+stub ex10-spinlock
+stub ex10-counter
+stub ex10-llsc

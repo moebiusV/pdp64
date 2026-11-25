@@ -21,7 +21,9 @@ The command line of each, by hand (NAME.S is preprocessed so that it can use the
 | `ex08-return-mask.S` | 6.15 example 8 | `-K` | exit 0 | `RTI #(1<<8)` to user mode clears the kernel's `R5` and keeps `R8` |
 | `ex08-vector-sum.S` | 6.15 example 8 | none; `-S 32`; `-S 64` | exit 0 each | a `VEC` block with a `VCLR` accumulator and a `VFIN` epilogue gives the scalar sum with strips of 16, 32 and 64 bytes |
 
-Each check was shown to be able to fail: the `RTI` mask changed to also keep `R5` exits 1; the `VADD` line removed exits 1; the `SPL #0` of the virtual-line test replaced by `NOP` exits 2; the `PRIO` bit of the `SPL` test replaced by another bit exits 2.
+| `ex11-message-passing.S` | 6.15 example 11 | `-H` | exit 0 | G writes data then flag and makes a hypercall; the hypervisor reads the flag then the data and checks them; sim64 has one core, so the reader runs after the writer has stopped (an illustration of the order and the shared words, not a test of two cores) |
+
+Each check was shown to be able to fail: the `RTI` mask changed to also keep `R5` exits 1; the `VADD` line removed exits 1; the `SPL #0` of the virtual-line test replaced by `NOP` exits 2; in `ex11-message-passing.S` the data changed to 41 exits 1, the flag store removed exits 98, the expected value changed to 43 exits 1; the `PRIO` bit of the `SPL` test replaced by another bit exits 2.
 
 ## Assembled, not run
 
@@ -44,5 +46,9 @@ The spellings are those of the text and the decisions; the files `ex01-start-new
 | not in any file | `mfsr r1, features`; `mfsr r1, gtoken`; `tlbigpa r1` | `FEATURES` (32), `GTOKEN` (144) and the mnemonic `TLBIGPA` are new; `TLBIAS`, `RTI #mask`, `GENTER #mask`, `MFDP`, `TRAPL` assemble today |
 
 The running snippets were written for the implementation as it is: they set the hypervisor's vector table with `HVBR`, which the text no longer has (at `H` = 1 the ordinary `VBR` is the hypervisor's), and they use the old reset value of `HTRAP`. The text shows none of the `HVBR` lines.
+
+## Atomic snippets: not yet assemblable, not runnable
+
+`ex10-spinlock.S` (`CASDB`), `ex10-counter.S` (`XADD`), `ex10-llsc.S` (`LL`, `SC`) are written in the decided spelling: three registers (`CAS Rd, Rs, (Ra)` with the expected value in and the old value out in `Rd`; `XADD Rd, Rs, (Ra)`; `SC Rd, Rs, (Ra)`, `Rd` = 0 on success; `LL Rd, (Ra)`), no offset, the 8-byte form with the bare name. as64 refuses them (`no form of this instruction takes these operands: register, register, d(Rn)`), and the executor has them as `H_UNIMPL`, so nothing runs. `run.sh` replaces each atomic line by a `NOP` and assembles the rest: all three assemble that way (1, 2 and 2 atomic lines). The way the assembler will write the 4-byte size is not decided; the files use no size mark. `ex10-counter.S` also holds an unaligned `XADD` after the `HALT`, to show the precise fault; it is never reached.
 
 PDP-11 snippets (the `SPL 7` of the story) are PDP-11 assembler and were not assembled: there is no PDP-11 assembler in this repository. The fragments in the text that are marked `...` are cut from the files above and were not assembled separately.
