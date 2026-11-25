@@ -18,7 +18,7 @@ def fig_machine():
     c = Canvas(450)
     c.text(W / 2, 16, 'the pdp64 as a system, with the chapter that describes each part', 12, bold=True)
     cx, cw = 20, 270
-    c.box(cx, 34, cw, 24, 'cores: at least four, all the same (chapter 7)', GREY, 11, bold=True)
+    c.box(cx, 34, cw, 24, 'cores: at least four, all the same (chapter {{c:id01007|n}})', GREY, 11, bold=True)
     for i, n in enumerate(['core 0', 'core 1', 'core 2', 'core 3']):
         x = cx + (i % 2) * 138
         y = 66 + (i // 2) * 92
@@ -29,9 +29,9 @@ def fig_machine():
     c.box(cx, 262, cw, 44, 'memory: one address space, shared by every core', BLUE, 11, sub='sequentially consistent between cores (7); page tables (6)')
     c.line([(cx + cw / 2, 250), (cx + cw / 2, 262)])
     bx = 340
-    c.box(bx, 34, 330, 24, 'PCI Express: the one bus (chapter 2)', YELLOW, 11, bold=True)
-    devs = [('virtio-blk: the disk', 'the boot ROM reads block 0 from it (4, 5)'), ('virtio-net: the network card', 'chapter 5'),
-            ('virtio-gpu: the display', 'HDMI or another standard output (3)'), ('virtio-snd: the sound device', 'chapter 3'),
+    c.box(bx, 34, 330, 24, 'PCI Express: the one bus (chapter {{c:id01002|n}})', YELLOW, 11, bold=True)
+    devs = [('virtio-blk: the disk', 'the boot ROM reads block 0 from it (4, 5)'), ('virtio-net: the network card', 'chapter {{c:id01005|n}}'),
+            ('virtio-gpu: the display', 'HDMI or another standard output (3)'), ('virtio-snd: the sound device', 'chapter {{c:id01003|n}}'),
             ('USB controller', 'keyboard and mouse (5)'), ('any other PCI Express card', 'found by enumeration (2)'),
             ('accelerators for vector work', 'devices, not units of the processor (8)')]
     for i, (a, b) in enumerate(devs):
@@ -44,10 +44,10 @@ def fig_machine():
     c.line([(cx + cw, 284), (bx + 8, 284)], arrow=False)
     c.text(cx + cw + 24, 276, 'DMA (2)', 8.5, 'middle', '#555')
     y0 = 360
-    c.text(20, y0, 'A device is a few memory locations that ordinary loads and stores reach (2.3): the PDP-11 had no input or output instructions either.', 9, 'start', '#333')
-    c.text(20, y0 + 16, 'Every standard device is a virtio device or a USB controller (5.3); the driver finds it by identifier, not by a switch setting (2.4).', 9, 'start', '#333')
-    c.text(20, y0 + 32, 'Starting: a ROM reads block 0 and jumps to it (4); the kernel then runs the machine (6); the instruction set is chapter 9.', 9, 'start', '#333')
-    c.text(20, y0 + 56, 'A box is a part and a line joins two parts that talk; this is the architecture as it is to be decided (section 1.2).', 9, 'start', '#555')
+    c.text(20, y0, 'A device is a few memory locations that ordinary loads and stores reach ({{r:address-space}}): the PDP-11 had no input or output instructions either.', 9, 'start', '#333')
+    c.text(20, y0 + 16, 'Every standard device is a virtio device or a USB controller ({{r:what-a-driver-is}}); the driver finds it by identifier, not by a switch setting ({{r:enumeration}}).', 9, 'start', '#333')
+    c.text(20, y0 + 32, 'Starting: a ROM reads block 0 and jumps to it (4); the kernel then runs the machine (6); the instruction set is chapter {{c:id01009|n}}.', 9, 'start', '#333')
+    c.text(20, y0 + 56, 'A box is a part and a line joins two parts that talk; this is the architecture as it is to be decided (section {{r:who-the-manual-is-for}}).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -74,11 +74,11 @@ def fig_words():
     bits(c, x0 + 16 * u + 20, 154, [4, 12], ['b: 4', 'stride: 12'], [PINK, YELLOW], unit=u)
     c.text(x0 + 8 * u, 204, 'first parcel', 9, 'middle', '#555')
     c.text(x0 + 16 * u + 20 + 8 * u, 204, 'second parcel', 9, 'middle', '#555')
-    c.text(x0, 226, 'prefix: a bit pattern that no other prefix begins; it alone says which instruction this is and that it is two parcels long (9.1).', 9, 'start', '#333')
+    c.text(x0, 226, 'prefix: a bit pattern that no other prefix begins; it alone says which instruction this is and that it is two parcels long ({{r:how-the-opcode-space-is-divided}}).', 9, 'start', '#333')
     c.text(x0, 238, 'sub-op: which of the sixteen operations of this form (here movq); b: the five bits of the base register, one in the first parcel and four in the second;', 9, 'start', '#333')
     c.text(x0, 250, 'rd: the destination register, five bits because there are thirty-two; stride: how far the base register moves afterwards, 0 meaning the size of the access.', 9, 'start', '#333')
-    c.text(x0, 272, 'The PDP-11 word is read from the handbook (11/70, section 3.2); the pdp64 fields are the leaf LDF.PI12 of the grammar (dictionary/by-encoding.md).', 9, 'start', '#555')
-    c.text(x0, 288, 'The assembler spells the pdp64 instruction as shown in the heading of this figure (appendix D).', 9, 'start', '#555')
+    c.text(x0, 272, 'The PDP-11 word is read from the handbook (11/70, section {{r:glass-teletype-and-its-escape-codes}}); the pdp64 fields are the leaf LDF.PI12 of the grammar (dictionary/by-encoding.md).', 9, 'start', '#555')
+    c.text(x0, 288, 'The assembler spells the pdp64 instruction as shown in the heading of this figure (appendix {{a:id03005|n}}).', 9, 'start', '#555')
     return c.svg()
 
 
@@ -123,7 +123,7 @@ def fig_budget():
         c.box(300, y + 3, max(2, v * scale), 18, '', BLUE if v in (3500, 1500, 1200) else GREY)
         c.text(300 + v * scale + 6, y + 16, '%s' % format(v, ','), 9.5, 'start', '#333')
     y = 34 + len(rows) * 26 + 10
-    c.text(20, y + 8, 'The three blue bars (bit unit, block moves, UTF-8) add up to 6,200: under 7% of the total (10.2.2).', 9.5, 'start', '#333')
+    c.text(20, y + 8, 'The three blue bars (bit unit, block moves, UTF-8) add up to 6,200: under 7% of the total ({{r:bit-unit-the-block-move}}).', 9.5, 'start', '#333')
     c.text(20, y + 24, 'A 32-register file would about double the first bar (inference); the decoder for the prefix code is not re-estimated.', 9.5, 'start', '#555')
     return c.svg()
 
@@ -146,7 +146,7 @@ def fig_finish():
     c.line([(525, 196), (525, 250)])
     c.box(20, 250, 220, 46, 'then the same system on the FPGA', SOFT, 11, sub='and after it, silicon')
     c.line([(380, 273), (240, 273)])
-    c.text(20, 322, 'If OpenBSD proves too hard, a port of Unix/32V is the fallback; it would give a shell on the emulator and no ssh (10.5.3).', 9.5, 'start', '#333')
+    c.text(20, 322, 'If OpenBSD proves too hard, a port of Unix/32V is the fallback; it would give a shell on the emulator and no ssh ({{r:path-to-openbsd-goes-through}}).', 9.5, 'start', '#333')
     return c.svg()
 
 

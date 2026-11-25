@@ -5,8 +5,10 @@ proposed, deferred, open items) are outside the manual: their sources are in doc
 and tools/mkmanual.py writes them to docs/design/.  tools/mkmanual.py writes from the sources the manual (docs/manual/), adding the generated parts (the instruction entries, the dictionary, the figures).  There is
 one manual, so the source has no conditional text: resolve() only refuses the markers of the old three-manual source if one comes back.
 
-Numbers (chapters, sections 9.2, statements 9.2.3) are literal in the text, and verify() checks, for the generated manual, that the numbers are contiguous
-and that every link and every reference to a section or a statement has a target.
+Numbers (chapters, sections 9.2, statements 9.2.3) are not written in the sources: they are computed from the order of the text and the outline (tools/manual/bookrefs.py)
+and every citation is a token resolved while tools/mkmanual.py assembles the manual.  verify() checks, for the generated manual, that the numbers are contiguous (a check
+of the resolver) and that every link and every reference to a section or a statement has a target.  The number of a chapter or an appendix is the outline's (book/outline.txt),
+passed as `labels` (file name -> number or letter); without `labels` the file name decides, which only the tests use.
 """
 import os, re
 
@@ -60,8 +62,8 @@ def parts_outline(name, text, ch, exist):
     return problems
 
 
-def outline(files):
-    """For the chapters: headings and statements.  files: name -> text.  Returns (problems, set of numbers that exist)"""
+def outline(files, labels=None):
+    """For the chapters: headings and statements.  files: name -> text.  labels: file name -> chapter number or appendix letter, from the outline.  Returns (problems, set of numbers that exist)"""
     problems, exist = [], set()
     for name, text in sorted(files.items()):
         if not name.endswith('.md') or '/' in name:
@@ -70,7 +72,7 @@ def outline(files):
         ap = re.match(r'appendix-([a-e])-', name)
         if not (m or ap or name in DESIGN):
             continue
-        ch = str(int(m.group(1))) if m else ap.group(1).upper() if ap else DESIGN[name]
+        ch = labels[name] if labels and labels.get(name) else str(int(m.group(1))) if m else ap.group(1).upper() if ap else DESIGN[name]
         if name in DESIGN and ch in PARTS_LETTERS:
             problems += parts_outline(name, text, ch, exist)
             continue
@@ -104,13 +106,13 @@ def outline(files):
     return problems, exist
 
 
-def verify(files, outdir_files, root_dir, design=False, foreign=None):
+def verify(files, outdir_files, root_dir, design=False, foreign=None, labels=None):
     """files: the generated manual (relative name -> text, with dictionary/ pages); outdir_files: the set of all relative names that exist
     (figures included); root_dir: the directory of the manual in the repository, for links that leave it.  Returns the problems.
     design: files are the generated design notes (docs/design/), whose numbers are those of DESIGN's letters; a reference to a chapter or to an appendix of the manual
     is not checked there (the manual's numbers move without the notes), but a link into the manual must have its target.
     foreign: {path relative to root_dir: set of anchors} of the files that the links leave to (the manual, for the design notes)."""
-    problems, exist = outline(files)
+    problems, exist = outline(files, labels)
     anchors = {}
     for name, text in files.items():
         if name.endswith('.md'):
@@ -176,11 +178,12 @@ def fragment_key(fn):
     return (m.group(1), m.group(2)) if m else None
 
 
-def assemble_parts(texts, fragments, manual=None):
+def assemble_parts(texts, fragments, manual=None, labels=None):
     """texts: the sources of the design notes (file name -> text), changed in place: the region `<!-- parts:KIND -->` ... `<!-- /parts:KIND -->` of
     appendix-h-proposed.md, appendix-i-deferred.md and appendix-j-open.md is filled with a heading `## H.N Chapter N: Title` for each chapter whose fragment is not empty, in chapter order,
     then the appendices (`## J.D Appendix D: Title`, with `(appendix C of the manual)` where the manual now letters it otherwise).  manual: the sources of the manual
-    (file name -> text), for the titles of the chapters and appendices.  fragments: file name -> raw text.  Returns the problems."""
+    (file name -> text), for the titles of the chapters and appendices; labels: file name -> chapter number or appendix letter from the outline (a fragment `02-proposed.md`
+    is of the chapter that the outline numbers 2).  fragments: file name -> raw text.  Returns the problems."""
     problems = []
     titles = {}
     allsrc = dict(manual or {})
@@ -188,8 +191,9 @@ def assemble_parts(texts, fragments, manual=None):
     for fn, t in allsrc.items():
         m = re.match(r'(\d\d)-', fn)
         if m:
+            n = int(labels[fn]) if labels and labels.get(fn) else int(m.group(1))
             h = re.search(r'(?m)^# \d+\. (.*)$', t)
-            titles[m.group(1)] = (str(int(m.group(1))), 'Chapter %d' % int(m.group(1)), h.group(1) if h else fn)
+            titles['%02d' % n] = (str(n), 'Chapter %d' % n, h.group(1) if h else fn)
         a = re.match(r'appendix-[a-g]-(.*)\.md$', fn)
         if a and a.group(1) in OLD_LETTER:
             h = re.search(r'(?m)^# (?:Appendix ([A-G])\. )?(.*)$', t)

@@ -6,7 +6,8 @@ entries from the outline and resolves {{token}} references.  The Markdown of the
 web, so this turns each page into a chapter file: the heading becomes `{{c:id01001}} - Title` (the number comes from buildabook),
 links between the pages become plain text (links to other files of the repository become GitHub links), HTML comments go, and
 `{{` is escaped.  It also checks, against buildabook's own number map, that the number in each source heading ("# 6. The kernel",
-"# Appendix B. ...") is the number the outline gives the entry, because the section numbers inside the text (6.13, 7.12) are literal.
+"# Appendix B. ...") is the number the outline gives the entry (the heading is made from the outline by tools/mkmanual.py, so this is a defence; the section and
+statement numbers inside the text are computed by tools/manual/bookrefs.py, and docs/manual/ holds the resolved text).
 
 Run by tools/mkbook.sh in book/build/, after `buildabook number-map` has written number_map.csv:
 
@@ -95,7 +96,7 @@ def chapter_text(row, src, srcpath):
         if not m:
             raise SystemExit('%s: heading %r has no chapter number' % (srcpath, title))
         if 'Chapter ' + m.group(1) != row['rendered']:
-            raise SystemExit('%s: the heading says chapter %s but buildabook numbers it "%s"; the section numbers in the text would be wrong' % (srcpath, m.group(1), row['rendered']))
+            raise SystemExit('%s: the heading says chapter %s but buildabook numbers it "%s"; the numbers in the text would be wrong' % (srcpath, m.group(1), row['rendered']))
         head = '{{c:%s}} — %s' % (uuid, m.group(2))
     elif kind == 'appendix':
         m = re.match(r'^Appendix ([A-Z])\.\s+(.*)$', title)

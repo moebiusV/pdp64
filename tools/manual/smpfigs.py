@@ -6,7 +6,7 @@ Like tools/manual/busfigs.py (whose Canvas it uses) these are drawn by hand-writ
 tools/mkmanual.py writes the ones the text names (figures/smp-NAME.svg) into the figures directory of the manual.
 The facts drawn are the decided ones of chapter 7 (sequential consistency, the atomics, the three-state snooping of the first device,
 the banked DP, the broadcast TLBI with TLBSYNC); the Linux 2.6.33 shootdown on the right of the last figure is read in
-arch/x86/mm/tlb.c of that tree (section 7.14 of the chapter).  All figures are 690 units wide.
+arch/x86/mm/tlb.c of that tree (the section `smp-what-was-checked` of the chapter).  All figures are 690 units wide.
 """
 from busfigs import Canvas, W, GREY, SOFT, BLUE
 
@@ -62,7 +62,7 @@ def fig_store_buffer():
     c.line([(525, 158), (525, 207), (440, 207)], arrow=True, dash=True)
     c.text(345, 244, 'the outcome r0 = 0 and r1 = 0 needs both loads to pass both stores', 10, 'middle', '#333')
     c.text(345, 260, 'a plain store buffer lets them: that is total store order (x86, SPARC)', 10, 'middle', '#a33', bold=True)
-    c.text(345, 276, 'the pdp64 forbids it: a load waits for older stores, or is replayed (7.5.2, 7.7.3)', 10, 'middle', '#2a6a2a', bold=True)
+    c.text(345, 276, 'the pdp64 forbids it: a load waits for older stores, or is replayed ({{r:store-buffer-is-allowed-provided}}, {{r:sequential-consistency-on-a-speculative}})', 10, 'middle', '#2a6a2a', bold=True)
     return c.svg()
 
 
@@ -90,7 +90,7 @@ def fig_coherence():
     c.box(210, 262, 210, 40, 'virtio device (DMA)', GREEN, 11, sub='buffers uncached; explicit hand-off')
     c.line([(315, 196), (315, 262)], arrow=False, dash=True)
     c.text(440, 275, 'a device is not snooped: its buffers are', 9, 'start', '#555')
-    c.text(440, 288, 'uncached and handed over by a fence (7.6.2)', 9, 'start', '#555')
+    c.text(440, 288, 'uncached and handed over by a fence ({{r:dma-device-is-the-opposite}})', 9, 'start', '#555')
     return c.svg()
 
 
@@ -111,8 +111,8 @@ def fig_percpu():
         c.line([(275, y + 12), (440, y + 12)], arrow=True)
         c.line([(275, y + 31), (440, y + 31)], arrow=True, dash=True)
     c.text(20, 234, 'a field of this core\'s structure: MOVQ d(DP), Rd, a six-byte load; no search, no swapgs, no reserved register', 10, 'start', '#333')
-    c.text(20, 250, 'an interrupt that arrives in user mode finds this core\'s kernel R14 and DP already in place (7.8.4, 6.2)', 10, 'start', '#333')
-    c.text(20, 266, 'MFCPUID gives the core number, which no program can compute (7.8.1)', 10, 'start', '#333')
+    c.text(20, 250, 'an interrupt that arrives in user mode finds this core\'s kernel R14 and DP already in place ({{r:stack-pointer-is-banked}}, {{r:modes-and-the-status-word}})', 10, 'start', '#333')
+    c.text(20, 266, 'MFCPUID gives the core number, which no program can compute ({{r:mfcpuid-returns-the-number}})', 10, 'start', '#333')
     return c.svg()
 
 
@@ -133,7 +133,7 @@ def fig_shootdown():
     c.text(365, 174, 'a core that is running with interrupts masked is still', 9, 'start', '#555')
     c.text(365, 187, 'reached: the hardware delivers the invalidate, not an interrupt', 9, 'start', '#555')
     c.text(365, 215, 'the kernel half is global or window-mapped, so a kernel', 9, 'start', '#555')
-    c.text(365, 228, 'mapping never takes part in a shootdown (7.8.3)', 9, 'start', '#555')
+    c.text(365, 228, 'mapping never takes part in a shootdown ({{r:address-space-tag-makes}})', 9, 'start', '#555')
     return c.svg()
 
 

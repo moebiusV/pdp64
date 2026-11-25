@@ -23,7 +23,7 @@ def fig_state():
     c.text(20, 16, 'floating-point and vector state that a context switch has to save, to one scale', 12, 'start', bold=True)
     rows = [
         ('PDP-11, V7 (FP11)', 50, 'status word + six 8-byte accumulators: 50 bytes (user.h, mch.s)', SOFT),
-        ('pdp64', 0, 'no register file of its own; the flags in FPSR (9.12.3)', GREEN),
+        ('pdp64', 0, 'no register file of its own; the flags in FPSR ({{r:five-ieee-flags-invalid-divide}})', GREEN),
         ('x86, SSE', 256, '16 registers of 16 bytes = 256 bytes (Linux processor.h: xmm_space)', BLUE),
         ('PowerPC, AltiVec', 512, '32 registers of 16 bytes = 512 bytes, and two more (Linux processor.h)', BLUE),
         ('VAX 6000, vector facility', 8192, '16 registers of 64 elements of 8 bytes = 8192 bytes (unverified)', PINK),
@@ -37,7 +37,7 @@ def fig_state():
         c.text(x0 + w + 6, y + 15, '%d' % n if n else '0 extra', 10, 'start', bold=True)
         c.text(x0, y + 36, note, 8, 'start', '#555')
     lines(c, 20, 276, ['A bar is the number of bytes that the kernel must save at a switch and restore when the process runs again.',
-                       'Sizes of the VAX facility and of the SSE and AltiVec register counts as the notes in 8.2 say; the V7 and Linux figures were read.'], 8, fill='#555', gap=12)
+                       'Sizes of the VAX facility and of the SSE and AltiVec register counts as the notes in {{r:vectors-what-came-between}} say; the V7 and Linux figures were read.'], 8, fill='#555', gap=12)
     return c.svg()
 
 
@@ -73,17 +73,17 @@ def fig_shapes():
     c.box(210, 250, 110, 56, 'device', GREEN, 12, bold=True, sub='reads a and b, writes c')
     c.line([(170, 278), (210, 278)])
     c.text(340, 268, 'no register file in the processor; the length is a field,', 9, 'start')
-    c.text(340, 282, 'so one descriptor serves any size (8.5.4)', 9, 'start')
+    c.text(340, 282, 'so one descriptor serves any size ({{r:there-is-no-vector-length}})', 9, 'start')
     c.text(340, 296, 'the price: a descriptor to build and a status to wait for', 9, 'start')
     lines(c, 20, 340, ['The descriptor drawn is an illustration; its format is open.'], 8, fill='#555')
-    lines(c, 20, 354, ['Machines 1 and 2 as described in 8.1 and 8.2: the V7 sources and the Linux headers were read, the rest is unverified.'], 8, fill='#555')
+    lines(c, 20, 354, ['Machines 1 and 2 as described in {{r:vectors-what-you-already-know}} and {{r:vectors-what-came-between}}: the V7 sources and the Linux headers were read, the rest is unverified.'], 8, fill='#555')
     return c.svg()
 
 
 def fig_route():
     """One request to an accelerator: the six steps between the processor, memory and the device."""
     c = Canvas(380)
-    c.text(20, 16, 'the route of one request to an accelerator device (an illustration of 8.4)', 12, 'start', bold=True)
+    c.text(20, 16, 'the route of one request to an accelerator device (an illustration of {{r:engine-a-standard-part}})', 12, 'start', bold=True)
     c.box(20, 56, 150, 60, 'processor', GREY, 12, bold=True, sub='ordinary loads and stores')
     c.box(270, 48, 200, 150, '', SOFT)
     c.text(370, 64, 'RAM (uncached for the device)', 10, 'middle', bold=True)
@@ -103,45 +103,45 @@ def fig_route():
     c.text(220, 120, '6 reads status', 9)
     c.text(20, 140, '2 FENCE: the descriptor is', 9, 'start', bold=True)
     c.text(20, 153, 'visible before the doorbell', 9, 'start', bold=True)
-    lines(c, 20, 226, ['PDP-11: the same shape as the RK11 with its registers replaced by a record in memory (5.1): the program',
+    lines(c, 20, 226, ['PDP-11: the same shape as the RK11 with its registers replaced by a record in memory ({{r:drivers-what-you-already-know}}): the program',
                        '   fills it, starts the device, and learns by the RDY bit or an interrupt.',
                        'pdp64: the record is in memory and can chain; the device reads it and the arrays by DMA (direct memory access:',
                        '   the device moves data without the processor) and writes the result and a status.',
-                       'The processor owes the device two things: memory the device sees in order, and FENCE (8.4.6).',
+                       'The processor owes the device two things: memory the device sees in order, and FENCE ({{r:processor-owes-such-a-device}}).',
                        'The instruction set is unchanged. Whether the record is a virtio descriptor, or one that points at it, is open.'], 9, gap=15)
-    lines(c, 20, 342, ['Sources: V7 rk.c (read), chapter 5 (5.4, 5.10), chapter 2 (2.5).'], 8, fill='#555')
+    lines(c, 20, 342, ['Sources: V7 rk.c (read), chapter {{c:id01005|n}} ({{r:interface-a-driver-programs}}, {{r:dma-and-the-buffer-memory}}), chapter {{c:id01002|n}} ({{r:dma-coherence-and-the-hand-off}}).'], 8, fill='#555')
     return c.svg()
 
 
 def fig_engine():
     """Where the engine sits: the standard parts of the machine side by side (8.4)."""
     c = Canvas(372)
-    c.text(20, 16, 'where the engine sits: the standard parts of the machine (8.4)', 12, 'start', bold=True)
+    c.text(20, 16, 'where the engine sits: the standard parts of the machine ({{r:engine-a-standard-part}})', 12, 'start', bold=True)
     c.box(20, 34, 240, 156, '', SOFT)
     c.text(140, 50, 'processor', 11, bold=True)
     c.box(32, 58, 216, 34, 'integer registers and instructions', GREY, 9)
     c.box(32, 100, 102, 38, 'FPU', GREEN, 10, bold=True, sub='9.12')
-    c.box(146, 100, 102, 38, 'MMU', GREEN, 10, bold=True, sub='chapter 6')
-    c.text(140, 160, 'no vector registers, no SIMD (8.3)', 9, fill='#555')
+    c.box(146, 100, 102, 38, 'MMU', GREEN, 10, bold=True, sub='chapter {{c:id01006|n}}')
+    c.text(140, 160, 'no vector registers, no SIMD ({{r:decision-no-vector-or-simd-unit}})', 9, fill='#555')
     c.text(140, 176, 'the FPU and the MMU are reached by instructions', 8, fill='#555')
     c.box(340, 34, 170, 156, '', SOFT)
     c.text(425, 50, 'RAM', 11, bold=True)
     c.box(352, 58, 146, 34, 'descriptors', YELLOW, 10)
     c.box(352, 100, 146, 34, 'arrays', BLUE, 10)
-    c.text(425, 160, 'uncached for devices (5.10.1)', 9, fill='#555')
+    c.text(425, 160, 'uncached for devices ({{r:buffers-and-queues}})', 9, fill='#555')
     c.line([(260, 110), (340, 110)])
     c.text(300, 104, 'loads, stores', 9)
     c.line([(20, 238), (670, 238)], arrow=False, width=2.6)
-    c.text(24, 230, 'the bus: PCI Express with virtio (chapters 2 and 5)', 9, 'start', bold=True)
+    c.text(24, 230, 'the bus: PCI Express with virtio (chapters {{c:id01002|n}} and {{c:id01005|n}})', 9, 'start', bold=True)
     c.line([(140, 190), (140, 238)], arrow=False)
     c.line([(425, 190), (425, 238)], arrow=False)
-    c.box(20, 262, 150, 50, 'IOMMU', GREEN, 11, bold=True, sub='2.11: a page table per device')
-    c.box(190, 262, 220, 50, 'vector and accelerator engine', GREEN, 11, bold=True, sub='8.4: descriptors in, DMA, status out')
-    c.box(430, 262, 240, 50, 'disk, network, graphics, audio', GREY, 11, sub='virtio devices (chapter 5)')
+    c.box(20, 262, 150, 50, 'IOMMU', GREEN, 11, bold=True, sub='{{r:iommu-a-page-table-per-device}}: a page table per device')
+    c.box(190, 262, 220, 50, 'vector and accelerator engine', GREEN, 11, bold=True, sub='{{r:engine-a-standard-part}}: descriptors in, DMA, status out')
+    c.box(430, 262, 240, 50, 'disk, network, graphics, audio', GREY, 11, sub='virtio devices (chapter {{c:id01005|n}})')
     for x in (95, 300, 550):
         c.line([(x, 262), (x, 238)], arrow=False)
     c.box(20, 336, 14, 12, '', GREEN)
-    c.text(40, 346, 'a standard part: specified by the manual, present in every system (8.4.1, 8.4.2)', 9, 'start')
+    c.text(40, 346, 'a standard part: specified by the manual, present in every system ({{r:vector-and-accelerator-engine}}, {{r:word-standard-has-five-consequences}})', 9, 'start')
     lines(c, 20, 362, ['The engine is a bus device and an architectural component at once; every access it makes goes through the IOMMU.'], 8, fill='#555')
     return c.svg()
 
@@ -167,12 +167,12 @@ def fig_region():
     c.line([(470, 100), (520, 100)])
     c.text(20, 196, 'VADD rd, rs, rt, rn     # c[i] = a[i] + b[i] for i in 0 .. n-1, with rd = &c, rs = &a, rt = &b, rn = n', 9, 'start', mono=True)
     c.box(20, 212, 300, 52, 'progress is in the registers', GREEN, 10, bold=True, sub='after a fault the registers show where it stopped')
-    c.text(20, 284, 'a context switch saves the registers and nothing else, as for MCPY (9.11.4)', 9, 'start')
+    c.text(20, 284, 'a context switch saves the registers and nothing else, as for MCPY ({{r:block-operation-keeps-its-progress}})', 9, 'start')
     c.box(350, 212, 320, 52, 'option c: a hidden register file', PINK, 10, bold=True, sub='live across instructions: save 512 to 8,192 bytes')
-    c.text(350, 284, 'the FP11 saved 50 bytes (8.1); AMX tiles are 8 KiB (J.8.5)', 9, 'start')
+    c.text(350, 284, 'the FP11 saved 50 bytes ({{r:vectors-what-you-already-know}}); AMX tiles are 8 KiB (J.8.5)', 9, 'start')
     lines(c, 20, 314, ['A chain of k binary operations on binary64 moves 24 x k bytes an element when every operation goes memory to memory,',
                        'and 8 x (k + 2) when the intermediates stay in registers: 48 against 32 at k = 2, 192 against 80 at k = 8 (computed, J.8.5).',
-                       'Whether to add such instructions is open (J.8.5); the processor has none today (8.3.1).'], 8, fill='#555', gap=13)
+                       'Whether to add such instructions is open (J.8.5); the processor has none today ({{r:processor-has-no-vector-register}}).'], 8, fill='#555', gap=13)
     return c.svg()
 
 

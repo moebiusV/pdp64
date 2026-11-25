@@ -1,0 +1,15 @@
+# file:line:number  read by a person and confirmed as NOT a citation of this manual: a decimal, a version of another system, or a section of another document
+02-bus.md:66:2.10
+02-bus.md:88:2.5
+01-introduction.md:225:6.9
+07-smp.md:51:2.3
+06-kernel.md:180:7.2
+06-kernel.md:180:7.3
+06-kernel.md:311:8.2
+06-kernel.md:349:8.1
+06-kernel.md:355:3.2
+06-kernel.md:371:3.2
+07-smp.md:373:4.11
+07-smp.md:373:6.7
+isa_part4.py:103:3.2
+isa_part4.py:128:3.4

@@ -10,7 +10,6 @@ References checked (each must have a target):
   R123 (three digits)                          the rows of docs/decision-register.md
   J.6.13, B.2.11, A.1.2 ...                    the open items, proposals and improvements of the appendices (docs/design/src, and A.1.2 of docs/manual-src)
   section N.M[.K], manual N.M[.K]              a section or a numbered statement of the manual
-  (N.M[.K])                                    the manual's own bare citation, in docs/manual-src only
   `docs/...`, `tools/...`, `spec/...` ...      a path in backquotes (a file or directory of the repository)
 
     tools/check-refs.py                 check the manual sources strictly (exit 1 on any bad reference; the design-note sources, which cite the manual's numbers as they were when each note was written, are read like the other documents) and the other documents with a warning count
@@ -39,7 +38,8 @@ def targets():
         m = re.match(r'^- R(\d+) \| [^|]*\| [^|]*\| (.*)$', line)
         if m:
             T['R'][int(m.group(1))] = m.group(2)
-    files = sorted(glob.glob(os.path.join(ROOT, 'docs/manual-src/*.md')) + glob.glob(os.path.join(ROOT, 'docs/design/src/*.md')) + glob.glob(os.path.join(ROOT, 'docs/design/src/appendix-parts/*.md')))
+    # the numbers of the manual are computed (tools/manual/bookrefs.py), so its sources have names, not numbers: the targets are read from the RESOLVED manual, docs/manual/
+    files = sorted(glob.glob(os.path.join(ROOT, 'docs/manual/*.md')) + glob.glob(os.path.join(ROOT, 'docs/design/src/*.md')) + glob.glob(os.path.join(ROOT, 'docs/design/src/appendix-parts/*.md')))
     for p in files:
         for line in open(p, errors='replace'):
             for m in re.finditer(r'\*\*((?:[A-J]\.)?\d+(?:\.\d+)*|[A-J]\.[A-J0-9]+(?:\.\d+)*)\*\*', line):
@@ -75,10 +75,6 @@ def refs_in(text, manual_src):
         for m in re.finditer(r'\b(?:[Ss]ections?|[Mm]anual) (\d{1,2}\.\d{1,2}(?:\.\d{1,2})?)\b', line):
             if int(m.group(1).split('.')[0]) <= 10:
                 yield ('man', m.group(1), ln, m.group(0))
-        if manual_src:
-            for m in re.finditer(r'\((\d{1,2}\.\d{1,2}(?:\.\d{1,2})?)\)', line):
-                if int(m.group(1).split('.')[0]) <= 10:
-                    yield ('man', m.group(1), ln, m.group(0))
         for m in re.finditer(r'`((?:docs|tools|spec|tests|common|sim64|as64|ld64|book)/[A-Za-z0-9_./\-]*[A-Za-z0-9_])`', line):
             if '*' in m.group(1) or '<' in m.group(1):
                 continue

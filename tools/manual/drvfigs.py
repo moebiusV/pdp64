@@ -37,14 +37,14 @@ def fig_structures():
     c.box(360, 176, 150, 108, '', '#fff')
     lines(c, 366, 192, ['a PCI Express function', 'common configuration:', ' device_status 0x14', ' queue_select 0x16', ' queue_desc 0x20 ...', 'ordinary loads, stores'], 9)
     c.box(530, 176, 140, 108, '', SOFT)
-    lines(c, 536, 192, ['queues in memory:', ' descriptor table', ' available ring', ' used ring', '(uncached, 5.10)'], 9)
+    lines(c, 536, 192, ['queues in memory:', ' descriptor table', ' available ring', ' used ring', '(uncached, {{r:dma-and-the-buffer-memory}})'], 9)
     c.line([(510, 230), (530, 230)], arrow=True, dash=True)
     c.box(360, 304, 310, 40, 'MSI-X entry: address, data, per queue', YELLOW, 11, mono=True, sub='a write; the vector number is the controller\'s (open, R1)')
     c.line([(515, 96), (515, 116)])
     c.line([(515, 156), (515, 176)])
     c.line([(515, 284), (515, 304)], dash=True)
     c.text(20, 370, 'What a driver was told on the PDP-11 (the address, the vector, the level) it asks or reads on the pdp64; what it knew (the register bits) it negotiates.', 9, 'start', '#444')
-    c.text(20, 384, 'Sources: V7 rk.c, 2.11BSD rkreg.h, pdp/conf.c, pdp/scb.s (read); virtio_pci.h, OpenBSD vioblk.c (read); chapter 2.', 8, 'start', '#555')
+    c.text(20, 384, 'Sources: V7 rk.c, 2.11BSD rkreg.h, pdp/conf.c, pdp/scb.s (read); virtio_pci.h, OpenBSD vioblk.c (read); chapter {{c:id01002|n}}.', 8, 'start', '#555')
     return c.svg()
 
 
@@ -83,7 +83,7 @@ def fig_block_request():
              '3  it writes the queue\'s notification address (the doorbell; FENCE ordered)', '4  the device reads the chain, moves the sector into the buffer, writes the status byte',
              '5  it writes { id, len } in the used ring, then adds 1 to the used idx', '6  an interrupt (or the driver polling used.idx) lets the driver read the status, free the chain, iodone(bp)']
     lines(c, 20, 120, steps, 9.5, gap=15)
-    c.text(20, 408, 'Sizes and flags as in chapter 2 (2.7.5 to 2.7.7) and virtio_blk.h; the numbers 12 and 513 are an example.  The data is written before the used entry before the used idx (5.10.3).', 8, 'start', '#555')
+    c.text(20, 408, 'Sizes and flags as in chapter {{c:id01002|n}} ({{r:descriptor-and-the-chain}} to {{r:posting-a-buffer-and-reaping}}) and virtio_blk.h; the numbers 12 and 513 are an example.  The data is written before the used entry before the used idx ({{r:device-writes-the-data}}).', 8, 'start', '#555')
     return c.svg()
 
 
@@ -102,7 +102,7 @@ def fig_layers():
             c.box(x0, y, 310, 40, t, f, 10, sub=s)
             if i < 4:
                 c.line([(x0 + 155, y + 40), (x0 + 155, y + 58)])
-    c.text(20, 350, 'The raw interface skips the cache: rawrw -> physio -> strategy; on the pdp64 physio pins the pages and gives one descriptor per page (5.6, 5.10.2).', 9, 'start', '#444')
+    c.text(20, 350, 'The raw interface skips the cache: rawrw -> physio -> strategy; on the pdp64 physio pins the pages and gives one descriptor per page ({{r:block-path-virtio-blk}}, {{r:buffer-that-crosses-a-page}}).', 9, 'start', '#444')
     c.text(20, 364, 'Sources: V7 rk.c, 2.11BSD conf.c and vm_swp.c (read); OpenBSD vioblk.c, sd.c, conf.c (read).  Each layer of the right column is OpenBSD code; none is built for the pdp64.', 8, 'start', '#555')
     return c.svg()
 
@@ -127,9 +127,9 @@ def fig_interrupt_path():
         if i < 4:
             c.line([(x + bw, 164), (x + bw + gap, 164)])
     lines(c, 20, 218, ['PDP-11: a wire and a level shared by every device on it; the vector was set by switches on the card; the handler asks the CSR what happened.',
-                       'pdp64: a memory write that cannot pass the data written before it (5.9.4); one vector for each queue; the handler asks the used ring.',
-                       'The dashed box is open: which unit receives the write, how a core is chosen and how the vector number is made (2.6.3).'], 9, gap=15)
-    c.text(20, 290, 'Sources: 2.11BSD pdp/scb.s (DEVTRAP(220, rkintr, br5)); chapter 6 (6.3.1 to 6.3.6) for the entry; chapter 2 (2.6) for MSI-X.', 8, 'start', '#555')
+                       'pdp64: a memory write that cannot pass the data written before it ({{r:drivers-write-that-raises-an-interrupt}}); one vector for each queue; the handler asks the used ring.',
+                       'The dashed box is open: which unit receives the write, how a core is chosen and how the vector number is made ({{r:driver-may-mask-a-device}}).'], 9, gap=15)
+    c.text(20, 290, 'Sources: 2.11BSD pdp/scb.s (DEVTRAP(220, rkintr, br5)); chapter {{c:id01006|n}} ({{r:entry-to-an-exception-or}} to {{r:vector-table-has-512-entries}}) for the entry; chapter {{c:id01002|n}} ({{r:msi-interrupts-that-are-writes}}) for MSI-X.', 8, 'start', '#555')
     c.text(20, 304, 'The priority of 7 on entry is the PDP-11\'s own habit; the handler lowers it with SPL.', 8, 'start', '#555')
     return c.svg()
 
@@ -137,7 +137,7 @@ def fig_interrupt_path():
 def fig_console_timer():
     """The console, the timer and the entropy source as the options stand: all open (5.7.1)."""
     c = Canvas(380)
-    c.text(20, 16, 'the console, timer and entropy source: the options (OPEN, 5.7.1; nothing decided)', 12, 'start', bold=True)
+    c.text(20, 16, 'the console, timer and entropy source: the options (OPEN, {{r:core-in-secure-mode-takes}}; nothing decided)', 12, 'start', bold=True)
     cols = [('console', [('fixed registers (KL11 shape)', 'a fixed device with a few registers', SOFT), ('virtio-console, queues 0 and 1', 'plus emerg_wr: one-character write', SOFT), ('16550-style UART', 'a common serial chip', SOFT)]),
             ('timer', [('fixed counter + compare', 'a fixed device with a vector of its own', SOFT), ('counter and compare in the core', 'system registers', SOFT), ('virtio clock / rtc', 'read and alarm requests; no tick', SOFT)]),
             ('entropy', [('virtio-rng, one queue', 'the device fills a buffer', SOFT), ('absorb-and-squeeze pool', 'a fixed device', SOFT), ('software and a boot seed only', 'no entropy hardware', SOFT)])]

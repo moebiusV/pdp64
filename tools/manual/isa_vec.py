@@ -14,7 +14,7 @@ import facts
 ALLW = sorted({w for f in vecfam.vec_forms(SR(5)) for w in f.mns})
 P = '*(P)* Added to the design to be benchmarked and pruned; the encoding is provisional (a forced form of the prefix grammar, no usage weights). '
 DEXC = 'None beyond the faults of its memory operand.'
-DCF = '9.15 (the block operations restart), the vector study (`docs/encoding-work/vec-isa.md`).'
+DCF = '{{r:faults-restart-and-memory-management}} (the block operations restart), the vector study (`docs/encoding-work/vec-isa.md`).'
 
 # The entries are data: spec/facts/vec.toml.  A base names its entry (`entry`); the first base of an entry carries the text (title, syntax, op, notes, and exc, cf
 # where they are not the defaults above) and the position of the entry in the chapter (`entry_seq`).
@@ -27,7 +27,7 @@ def _entries():
         bases = {b for b, u in _F.items() if u['entry'] == t['entry']}
         ns = [w for w in ALLW if w.split('.')[0] in bases]
         if ns:
-            out.append(E(t['entry'], 'vec', ns, t['title'], t['syntax'], t['op'], NOFLAGS, t.get('exc', DEXC), '9.22', notes=P + t['notes'], cf=t.get('cf', DCF)))
+            out.append(E(t['entry'], 'vec', ns, t['title'], t['syntax'], t['op'], NOFLAGS, t.get('exc', DEXC), notes=P + t['notes'], cf=t.get('cf', DCF)))
     return out
 
 

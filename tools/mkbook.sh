@@ -2,8 +2,9 @@
 # Build the manual as a book with buildabook (github.com/moebiusV/buildabook) and Typst.
 #
 #   tools/mkbook.sh            build book/pdp64.pdf (tracked in git)
-#   tools/mkbook.sh --check    only the checks: buildabook's number map and `buildabook check`, and that the number in each source heading
-#                              is the number the outline gives the entry (part of tools/check-all.sh)
+#   tools/mkbook.sh --check    only the checks: buildabook's number map against the numbers that tools/manual/bookrefs.py computes for the chapters, parts
+#                              and appendices (the sections and statements inside the text are numbered by bookrefs.py alone), `buildabook check`, and that the
+#                              number in each source heading is the number the outline gives the entry (part of tools/check-all.sh)
 #
 # book/outline.txt (the order), book/sources.txt (which Markdown makes each entry), book/book.conf and book/template.typ are the inputs;
 # book/build/ is made fresh.  The Markdown is the generated manual, docs/manual/ (tools/mkmanual.py).  buildabook is found on PATH, or in
@@ -32,6 +33,7 @@ cp book/template.typ book/outline.txt book/book.conf "$B/"
 (
 	cd "$B"
 	"$BAB" number-map >/dev/null
+	python3 "$ROOT/tools/manual/bookrefs.py" outline.txt number_map.csv
 	python3 "$ROOT/tools/mkchapters.py"
 	if [ "$CHECK" = 1 ]; then
 		"$BAB" check

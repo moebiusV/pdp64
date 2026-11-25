@@ -19,6 +19,7 @@ import isa_entries as D
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import grammars_d
 import assemble as ASM
+import bookrefs as BR
 import memberprose as MP
 import isa_enc as ENCPROSE
 
@@ -30,6 +31,34 @@ DESIGNSRC = os.path.join(DESIGN, 'src')                   # their sources: the f
 DESIGNFILES = {'appendix-b-decisions-pending.md': 'decisions-pending.md', 'appendix-g-evolution.md': 'evolution.md', 'appendix-h-proposed.md': 'proposed.md',
                'appendix-i-deferred.md': 'deferred.md', 'appendix-j-open.md': 'open-items.md'}
 EXEC = os.path.join(ROOT, 'common', 'pdp64exec.c')
+
+BOOK = BR.Book(os.path.join(ROOT, 'book', 'outline.txt'), os.path.join(ROOT, 'book', 'sources.txt'))   # the numbers of the manual (tools/manual/bookrefs.py)
+
+
+def raw_sources():
+    """The files of docs/manual-src/ in the order of the book, with their tokens; BOOK.defs has the number of every section, statement and figure."""
+    out = {}
+    for fn in sorted(os.listdir(SRCDIR)):
+        if fn.endswith('.md') and fn != 'README.md':
+            out[fn] = ASM.resolve(open(os.path.join(SRCDIR, fn)).read(), 'docs/manual-src/' + fn)
+    order = [os.path.basename(f) for f in BOOK.file_uuid]
+    out = {fn: out[fn] for fn in sorted(out, key=lambda f: (order.index(f) if f in order else len(order), f))}
+    BOOK.number(out)
+    return out
+
+
+def labels():
+    """file name of the manual -> its chapter number or appendix letter, from the outline (book/outline.txt, book/sources.txt)"""
+    return {fn: BOOK.chapter_label(fn) for fn in os.listdir(SRCDIR) if BOOK.chapter_label(fn)}
+
+
+def R(name):
+    """the number of a section or a numbered statement of the manual, as a string, by its name: the order of the text decides (the home sections of the entries are named here)"""
+    if not BOOK.defs:
+        raw_sources()
+    if name not in BOOK.defs:
+        raise SystemExit('no section or statement named %s in docs/manual-src/' % name)
+    return BOOK.defs[name]['num']
 
 
 def num(s):
@@ -335,23 +364,23 @@ VEC = {'reset': 'processor reset: the first instruction fetch', 'machine-check':
        'bpt': 'the `BPT` instruction', 'check': 'a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`)', 'irq-base': 'the first interrupt vector', 'timer': 'the timer interrupt (level 6)', 'console-in': 'console receive interrupt (level 4)',
        'console-out': 'console transmit interrupt (level 4)',
        'pcie-inta': 'PCI Express interrupt pin A of the model host bridge (level 5)', 'pcie-intb': 'PCI Express interrupt pin B (level 5)', 'pcie-intc': 'PCI Express interrupt pin C (level 5)', 'pcie-intd': 'PCI Express interrupt pin D (level 5)',
-       'hexit': 'the instruction exit of a guest, in the hypervisor\'s vector table only (6.16.16)', 'gifault': 'a guest-physical instruction fault (stage 2), in the hypervisor\'s table only',
+       'hexit': 'the instruction exit of a guest, in the hypervisor\'s vector table only ({{r:exit-enters-the-hypervisor-through}})', 'gifault': 'a guest-physical instruction fault (stage 2), in the hypervisor\'s table only',
        'glfault': 'a guest-physical load fault (stage 2), in the hypervisor\'s table only', 'gsfault': 'a guest-physical store fault (stage 2), in the hypervisor\'s table only',
-       'iommu': 'the IOMMU unit\'s own interrupt, a wired line (level 5; 2.11.11)', 'trap-base': '`TRAP #n` and `TRAPL #n` enter vector 256 + n', 'count': 'the number of vectors; the table has this many eight-byte entries'}
-PSWD = {'c': 'carry (borrow after a subtract)', 'v': 'signed overflow', 'z': 'zero', 'n': 'negative', 't': 'trace: take a trace trap after the next instruction', 'pri': 'interrupt priority level, 0 to 7', 'mode': 'current mode', 'prev': 'previous mode (the mode before the last exception)', 'ua': 'user-access guard: with it clear a kernel-mode data access to a user page faults (6.10.1)'}
+       'iommu': 'the IOMMU unit\'s own interrupt, a wired line (level 5; {{r:unit-own-interrupt}})', 'trap-base': '`TRAP #n` and `TRAPL #n` enter vector 256 + n', 'count': 'the number of vectors; the table has this many eight-byte entries'}
+PSWD = {'c': 'carry (borrow after a subtract)', 'v': 'signed overflow', 'z': 'zero', 'n': 'negative', 't': 'trace: take a trace trap after the next instruction', 'pri': 'interrupt priority level, 0 to 7', 'mode': 'current mode', 'prev': 'previous mode (the mode before the last exception)', 'ua': 'user-access guard: with it clear a kernel-mode data access to a user page faults ({{r:guard-bit-ua-clear}})'}
 PTED = {'v': 'valid', 'r': 'readable', 'w': 'writable', 'x': 'executable', 'u': 'accessible from user mode', 'g': 'global: ignores the ASID', 'a': 'accessed (managed by software)', 'd': 'dirty (managed by software)', 'mt': 'memory type', 'ppn': 'physical page number: physical address bits 12 to 39, in place'}
 
 
 IOMMU_MEANING = {
-    'reg': 'the registers of the unit, a byte offset each (2.11.10); the first eight are the common device pattern',
+    'reg': 'the registers of the unit, a byte offset each ({{r:registers-are-64-bits-wide}}); the first eight are the common device pattern',
     'id': 'the value of the unit type and of the version in the ID register', 'id-field': 'the fields of the ID register',
     'control': 'the bits of CONTROL', 'status': 'the bits of STATUS (cmd-error, overflow and table-error are sticky: write one to clear)',
     'device': 'the fields of DEVICE, the device-table pointer', 'device-width': 'the width of the mode field', 'caps-width': 'the widths of the fields of CAPS that are wider than one bit', 'mode': 'the values of the mode field of DEVICE (blocked at reset)',
     'caps': 'the fields of CAPS', 'caps-value': 'the values the model reports in CAPS',
-    'dir': 'the field of a directory entry (the rest: the page number of the leaf, `pte` field `ppn`)', 'table': 'the geometry of the device table (2.11.1)', 'dte-word': 'the byte offsets of the four words of a device entry (2.11.3)',
+    'dir': 'the field of a directory entry (the rest: the page number of the leaf, `pte` field `ppn`)', 'table': 'the geometry of the device table ({{r:device-is-identified}})', 'dte-word': 'the byte offsets of the four words of a device entry ({{r:device-entry-is-32-bytes}})',
     'dte': 'the fields of word 0 of the device entry', 'dte-width': 'the widths of the fields of word 0 that are wider than one bit', 'stages': 'the values of the stages field',
-    'cmd': 'the fields of word 0 of a command (2.11.7)', 'cmd-width': 'the widths of those fields', 'cmd-bytes': 'the size of a command and the value that sync writes',
-    'op': 'the operations of a command', 'fault': 'the fields of word 0 of a fault record (2.11.6)', 'fault-width': 'the widths of those fields',
+    'cmd': 'the fields of word 0 of a command ({{r:unit-cached-translations}})', 'cmd-width': 'the widths of those fields', 'cmd-bytes': 'the size of a command and the value that sync writes',
+    'op': 'the operations of a command', 'fault': 'the fields of word 0 of a fault record ({{r:unit-refuses-a-device}})', 'fault-width': 'the widths of those fields',
     'fault-word': 'the byte offsets of the words of a fault record', 'fault-who': 'the fields of word 1 of a fault record', 'fault-bytes': 'the size of a fault record',
     'stage': 'the values of the stage field of a fault record', 'cause': 'the values of the cause field of a fault record'}
 DMATEST_MEANING = {'reg': 'the registers of the test function, a byte offset each', 'ctl': 'the bits of CONTROL', 'status': 'the bits of STATUS (write one to clear)', 'irq': 'the bit of IRQ',
@@ -367,8 +396,8 @@ HV_MEANING = {
 
 
 def hypervisor_section():
-    L = ['', '## The hypervisor mode (6.16)', '',
-         'The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf`; the registers themselves are in the table of 6.16.7 and in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.', '',
+    L = ['', '## The hypervisor mode ({{r:hypervisor-mode-the-rules}})', '',
+         'The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf`; the registers themselves are in the table of {{r:registers-of-the-hypervisor}} and in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.', '',
          '| Rule | Name | Number | What the rule is |', '|---|---|---|---|']
     for rule, items in SYS.items():
         if rule not in HV_MEANING:
@@ -379,7 +408,7 @@ def hypervisor_section():
 
 
 def iommu_section():
-    L = ['', '## The IOMMU (2.11) and the DMA test function of the model', '',
+    L = ['', '## The IOMMU ({{r:iommu-a-page-table-per-device}}) and the DMA test function of the model', '',
          'The registers, bit numbers, command codes and fault codes of the unit, from `spec/grammars.d/51-iommu-v1.hbnf`. A number is a position, a width, a byte offset or a value, as the description of its rule says. The page-table entry of a device is the processor\'s (`pte` above).', '',
          '| Rule | Name | Number | What the rule is |', '|---|---|---|---|']
     for rule, items in SYS.items():
@@ -429,23 +458,23 @@ def constants_page():
 
 
 HOME = {}
-for _i in 'MOV MOVZ LEA MOVU'.split(): HOME[_i] = ('09-isa.md', '9.6')
-for _i in 'ADD SUB CMP MUL MULH ADDM INC DEC NEG ADC SBC DIV MULHU ABS MINMAX SET'.split(): HOME[_i] = ('09-isa.md', '9.7')
-for _i in 'BIC BIS BIT XOR AND SHIFT CLR COM TST ASL ASR'.split(): HOME[_i] = ('09-isa.md', '9.8')
-for _i in 'COUNT POPCNT BSWAP BITREV ROR RORI RORI32 DSHR EXTB INSB XNORPOP CLMUL UTF8LEN UTF8DEC UTF8ENC'.split(): HOME[_i] = ('09-isa.md', '9.9')
-for _i in 'BCC SOB CBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md', '9.10')
-for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', '9.11')
-for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FHALF FCVTH'.split(): HOME[_i] = ('09-isa.md', '9.12')
-for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', '9.13')
-for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT STUA GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', '9.14')
+for _i in 'MOV MOVZ LEA MOVU'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
+for _i in 'ADD SUB CMP MUL MULH ADDM INC DEC NEG ADC SBC DIV MULHU ABS MINMAX SET'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
+for _i in 'BIC BIS BIT XOR AND SHIFT CLR COM TST ASL ASR'.split(): HOME[_i] = ('09-isa.md', 'logic-shifts-and-rotates')
+for _i in 'COUNT POPCNT BSWAP BITREV ROR RORI RORI32 DSHR EXTB INSB XNORPOP CLMUL UTF8LEN UTF8DEC UTF8ENC'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
+for _i in 'BCC SOB CBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')
+for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', 'stack-and-block-operations')
+for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FHALF FCVTH'.split(): HOME[_i] = ('09-isa.md', 'floating-point')
+for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', 'atomics-and-ordering')
+for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT STUA GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
 
 
-for _i in 'MOV2 MOVQL MOVD MOVUSER MOVUSERD'.split(): HOME[_i] = ('09-isa.md', '9.6')
-for _i in 'MASK OVF'.split(): HOME[_i] = ('09-isa.md', '9.7')
-for _i in 'BSEL AESR AESK SHA256 SHA512'.split(): HOME[_i] = ('09-isa.md', '9.9')
-for _i in 'MOVCALL POPRET POPMRET'.split(): HOME[_i] = ('09-isa.md', '9.10')
-for _i in 'MSHA MAESCTR'.split(): HOME[_i] = ('09-isa.md', '9.11')
-for _i in 'TRAPCC SYSPG CT CHK2'.split(): HOME[_i] = ('09-isa.md', '9.14')
+for _i in 'MOV2 MOVQL MOVD MOVUSER MOVUSERD'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
+for _i in 'MASK OVF'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
+for _i in 'BSEL AESR AESK SHA256 SHA512'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
+for _i in 'MOVCALL POPRET POPMRET'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')
+for _i in 'MSHA MAESCTR'.split(): HOME[_i] = ('09-isa.md', 'stack-and-block-operations')
+for _i in 'TRAPCC SYSPG CT CHK2'.split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
 
 
 def notation():
@@ -483,7 +512,7 @@ def embed(text, key, body, after_heading=False):
         a = text.index(open_m)
         b = text.index(close_m) + len(close_m)
         return text[:a] + block + text[b:]
-    sec = key.split(':')[1] if key.startswith('entries:') else '9.6'
+    sec = key.split(':')[1] if key.startswith('entries:') else R('moves-conversions-and-address-formation')
     m, end = section_bounds(text, sec)
     if after_heading:
         return text[:m.end()] + '\n\n' + block + text[m.end():]
@@ -492,14 +521,8 @@ def embed(text, key, body, after_heading=False):
 
 
 def sources():
-    """The hand-written text of the manual: every file of docs/manual-src/."""
-    out = {}
-    for fn in sorted(os.listdir(SRCDIR)):
-        if not fn.endswith('.md') or fn == 'README.md':
-            continue
-        t = open(os.path.join(SRCDIR, fn)).read()
-        out[fn] = ASM.resolve(t, 'docs/manual-src/' + fn)
-    return out
+    """The hand-written text of the manual: every file of docs/manual-src/, with its numbers and citations resolved."""
+    return {fn: BOOK.resolve(x, 'docs/manual-src/' + fn) for fn, x in raw_sources().items()}
 
 
 def design_notes(manual):
@@ -508,10 +531,10 @@ def design_notes(manual):
     out = {}
     for fn in sorted(os.listdir(DESIGNSRC)):
         if fn.endswith('.md'):
-            out[fn] = ASM.resolve(open(os.path.join(DESIGNSRC, fn)).read(), 'docs/design/src/' + fn)
+            out[fn] = BOOK.resolve(ASM.resolve(open(os.path.join(DESIGNSRC, fn)).read(), 'docs/design/src/' + fn), 'docs/design/src/' + fn)
     pdir = os.path.join(DESIGNSRC, 'appendix-parts')
-    frags = {fn: open(os.path.join(pdir, fn)).read() for fn in sorted(os.listdir(pdir))} if os.path.isdir(pdir) else {}
-    probs = ASM.assemble_parts(out, frags, manual)
+    frags = {fn: BOOK.resolve(open(os.path.join(pdir, fn)).read(), 'docs/design/src/appendix-parts/' + fn) for fn in sorted(os.listdir(pdir))} if os.path.isdir(pdir) else {}
+    probs = ASM.assemble_parts(out, frags, manual, labels())
     if probs:
         raise SystemExit('\n'.join(probs))
     unknown = set(out) - set(DESIGNFILES)
@@ -624,7 +647,7 @@ def build():
     texts = sources()
     heads = {}
     for e in ents:
-        fn, sec = HOME[e['id']]
+        fn, sec = HOME[e['id']][0], R(HOME[e['id']][1])
         e2 = dict(e)
         e2['names'] = e['names'] + e['aliases']
         heads.setdefault((fn, sec), []).append(render_entry(e2))
@@ -632,8 +655,8 @@ def build():
         texts[fn] = embed(texts[fn], 'entries:' + sec, '\n\n'.join(p.strip('\n') + '\n' for p in parts))
     texts['09-isa.md'] = embed(texts['09-isa.md'], 'notation', notation(), after_heading=True)
     # the official entries live in the instruction chapter; the chapters that give the rationale list them and link to them
-    for fn, sec, home in (('06-kernel.md', '6.13', '9.14'), ('07-smp.md', '7.4', '9.13')):
-        rows = ['**The instruction entries for this section are in chapter 9, section %s:** each entry there is complete (syntax, encoding diagram, operation, flags, exceptions, status); the commentary above gives the reasons and the use.' % home, '',
+    for fn, sec, home in (('06-kernel.md', R('kernel-system-instructions-exceptions'), 'isa-system-instructions-exceptions'), ('07-smp.md', R('atomic-operations'), 'atomics-and-ordering')):
+        rows = ['**The instruction entries for this section are in chapter {{c:id01009|n}}, section %s:** each entry there is complete (syntax, encoding diagram, operation, flags, exceptions, status); the commentary above gives the reasons and the use.' % R(home), '',
                 '| Entry | Mnemonics |', '|---|---|']
         for e in ents:
             if HOME[e['id']] == ('09-isa.md', home):
@@ -647,7 +670,7 @@ def build():
         return '../%s#%s' % (fn, slug('%s %s' % (sec, m.group(1))))
     # aliases
     A = ['# Assembler aliases and alternative spellings', '', '[← dictionary index](index.md)', '',
-         'A mnemonic that assembles to another instruction. One mnemonic is one instruction (section 9.18); the disassembler never prints an alias.', '',
+         'A mnemonic that assembles to another instruction. One mnemonic is one instruction (section {{r:idioms-restored-lost-and-replaced}}); the disassembler never prints an alias.', '',
          '*Generated by `tools/mkmanual.py` from `spec/grammars.d`; do not edit.*', '', '| Written | Assembles to | Group |', '|---|---|---|']
     for n, m in sorted(MN.items()):
         if m['alias_of']:
@@ -667,7 +690,7 @@ def build():
         tgt = m['alias_of'] or n
         eid = seen.get(n) or seen.get(tgt)
         e = byid[eid]
-        fn, sec = HOME[eid]
+        fn, sec = HOME[eid][0], R(HOME[eid][1])
         head = '`%s`%s | [%s](%s) (section %s)' % (n.upper(), ' (alias of `%s`)' % tgt.upper() if m['alias_of'] else '', eid, '../%s#%s' % (fn, anchor_for(e)), sec)
         nl = len(CH.byname.get(tgt, []))
         lay = '[%d](by-encoding.md#mn-%s), [entry](../%s#w-%s)' % (nl, re.sub(r'[^a-z0-9]', '-', tgt), HOME[eid][0], wslug(tgt))
@@ -681,7 +704,8 @@ def build():
     where = {}
     for e in ents:
         where.setdefault(HOME[e['id']], []).append(e)
-    for (fn, sec), es in sorted(where.items(), key=lambda kv: [int(x) for x in kv[0][1].split('.')] + [0]):
+    for (fn, home), es in sorted(where.items(), key=lambda kv: [int(x) for x in R(kv[0][1]).split('.')] + [0]):
+        sec = R(home)
         m = re.search(r'(?m)^## %s (.*)$' % re.escape(sec), texts[fn])
         I.append('* [Section %s, %s](%s): %s' % (sec, m.group(1), sec_link(fn, sec), ', '.join('`%s`' % e['names'][0].upper() for e in es)))
     I.append('')
@@ -714,6 +738,12 @@ def build():
             FIGS[fname + '.svg'] = draw()
         elif 'figures/%s.svg' % fname in usedD:
             DFIGS[fname + '.svg'] = draw()
+    for d in (files, chapters, FIGS, DFIGS):             # the tokens of the generated text (the entries, the dictionary, the figures)
+        for k in d:
+            d[k] = BOOK.resolve(d[k], k)
+            m = re.search(r'\{\{[#rcuan]\b.{0,40}', d[k])
+            if m:
+                raise SystemExit('%s: a token of the numbering syntax that is not written correctly: %s' % (k, m.group(0)))
     return files, chapters
 
 
@@ -778,7 +808,7 @@ def main():
         rel[name] = text
     for name, text in FIGS.items():
         rel['figures/' + name] = text
-    for pr in ASM.verify(rel, set(rel), base):
+    for pr in ASM.verify(rel, set(rel), base, labels=labels()):
         print(pr)
         bad = True
     # the design notes: their numbers contiguous, their links and references with targets (the links into the manual too)
@@ -798,4 +828,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except BR.RefError as e:              # an unknown or doubly defined name, a marker where it has no number: the message says which file and line
+        print('mkmanual: ' + str(e))
+        sys.exit(1)

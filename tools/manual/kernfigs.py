@@ -4,8 +4,8 @@ the translation buffer, the exception entry, a context switch, the layout of an 
 Like tools/manual/busfigs.py (whose Canvas it uses) these are drawn by hand-written code, not generated from the grammar, and
 tools/mkmanual.py writes the ones the text names (figures/kern-NAME.svg) into the figures directory of the manual.
 The numbers drawn are the decided ones of chapter 6 (the page-table entry bits, the vector table, the system registers, the sizes of the levels);
-the arrangements marked 'example' or 'open' in a figure are not specified by the architecture (section 6.17 of the chapter lists them).
-The PDP-11 side of the first figure uses what the 2.11BSD and V7 sources on this machine show (section 6.17).  All figures are 690 units wide.
+the arrangements marked 'example' or 'open' in a figure are not specified by the architecture (the section `kernel-what-was-checked` of the chapter lists them).
+The PDP-11 side of the first figure uses what the 2.11BSD and V7 sources on this machine show (the section `kernel-what-was-checked`).  All figures are 690 units wide.
 """
 from busfigs import Canvas, W, GREY, SOFT, BLUE
 
@@ -128,7 +128,7 @@ def fig_pte():
     for i, (k, v) in enumerate(d):
         c.text(24, 132 + i * 22, k, 11, 'start', bold=True, mono=True)
         c.text(90, 132 + i * 22, v, 10, 'start', '#222')
-    c.text(20, 292, 'Bit positions are those of statement 6.7.1; bits 0 to 7 are in the same places as in RISC-V.', 9, 'start', '#555')
+    c.text(20, 292, 'Bit positions are those of statement {{r:page-table-entry-is-64}}; bits 0 to 7 are in the same places as in RISC-V.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -169,7 +169,7 @@ def fig_tlb():
     c.box(20, 252, 150, 34, 'page fault', PINK, 11, bold=True, sub='no valid entry, or A/D clear')
     c.line([(210, 269), (170, 269)], arrow=True, dash=True)
     c.text(20, 312, 'TLBI rN drops the entry for one page (this ASID and the global ones); TLBIA drops all; both reach every core; TLBSYNC waits until all have finished.', 9, 'start', '#444')
-    c.text(20, 326, 'The size and organisation are the implementation\'s choice (section 6.8).', 9, 'start', '#444')
+    c.text(20, 326, 'The size and organisation are the implementation\'s choice (section {{r:accessed-dirty-tlb-and-asids}}).', 9, 'start', '#444')
     return c.svg()
 
 
@@ -209,7 +209,7 @@ def fig_exception():
         c.box(vx + 140, y, 200, 28, d, GREY if i % 2 else '#fff', 9)
     c.line([(vx + 90, 58), (vx + 115, 58), (vx + 115, 88)], arrow=True)
     c.text(vx + 90, 326, 'entry n is at VBR + 8 x n; ECAUSE = n', 9, 'start', '#444')
-    c.text(vx + 90, 339, 'the vectors in full: statement 6.3.6', 9, 'start', '#444')
+    c.text(vx + 90, 339, 'the vectors in full: statement {{r:vector-table-has-512-entries}}', 9, 'start', '#444')
     return c.svg()
 
 

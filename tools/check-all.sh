@@ -11,6 +11,7 @@ python3 tools/gen-vec-names.py --check
 python3 tools/gen-core-names.py --check
 python3 tools/vec-glance.py --check docs/encoding-work/vec-isa.md
 python3 tools/check-manual-src.py
+python3 tools/lint-literal-numbers.py
 python3 tools/mkmanual.py --check
 tools/mkbook.sh --check
 tools/export-pcc-headers.sh --check

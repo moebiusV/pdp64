@@ -1,0 +1,9 @@
+# A literal number that the lint (tools/lint-literal-numbers.py) would take for a citation of the manual and is not one: a section of another document, a decimal.
+# file TAB number TAB the text just before the number (the end of it).  Written by a person who read the line.
+06-kernel.md	7.2	section 
+06-kernel.md	8.2	section 
+06-kernel.md	8.1	section 
+06-kernel.md	3.2	section 
+07-smp.md	6.7	section 
+isa_part4.py	3.2	section 
+isa_part4.py	3.4	section 

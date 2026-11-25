@@ -1,10 +1,10 @@
-# Appendix C. The ABI, version 1
+# Appendix {{a:id03004|n}}. The ABI, version 1
 
 [← manual index](00-index.md)
 
-**The application binary interface fixes how compiled code, the linker and the operating system agree: the sizes of types, which registers carry arguments and results, who saves what, how the stack looks, and how position-independent code reaches its data.** These are decided choices (section 9.16 states what the instruction set makes cheap). The source is [`abi.md`](../abi.md); the compiler, the assembler and the linker follow it, and the version number allows a later change without breaking old binaries; in version 1 `long double` is `double`.
+**The application binary interface fixes how compiled code, the linker and the operating system agree: the sizes of types, which registers carry arguments and results, who saves what, how the stack looks, and how position-independent code reaches its data.** These are decided choices (section {{r:position-independent-code}} states what the instruction set makes cheap). The source is [`abi.md`](../abi.md); the compiler, the assembler and the linker follow it, and the version number allows a later change without breaking old binaries; in version 1 `long double` is `double`.
 
-## C.1 The conventions
+## {{#conventions}} The conventions
 
 
 | | |
@@ -23,28 +23,28 @@
 | PIC | globals through `d(PC)`; imported symbols through `MOVQ got(PC),Rd`; calls to imports through `CALLI got(PC)`; TLS local-exec `MOVQ off(DP),Rd`. |
 
 
-## C.2 Variadic calls
+## {{#variadic-calls}} Variadic calls
 
 In a call to a function declared with `...`, every argument goes in an 8-byte slot, in order: slots 0-5 are `r0`-`r5`, later slots are on the stack. A
 structure of any size is passed by value in consecutive slots and may split between `r5` and the stack. A variadic callee leaves its named parameters in
 their slots (`fp+16+8k`) and `va_start` is the address after the last named slot; `va_list` is a `char *` and `va_copy` is assignment. The prologue pops the
 return address, pushes `r5`..`r0` and pushes the return address again, so the register save area is contiguous with the stack arguments.
 
-## C.3 The hot-register tables
+## {{#hot-register-tables}} The hot-register tables
 
-**C.3.1** In a one-parcel form a 3-bit register field is an index into a table of the eight hottest registers, and a 4-bit field is an index into a table of the sixteen hottest. The tables are part of the ABI, because the encoding depends on them and the compiler's register allocator prefers the hot registers.
+**{{#abi-one-parcel-form-register-index}}** In a one-parcel form a 3-bit register field is an index into a table of the eight hottest registers, and a 4-bit field is an index into a table of the sixteen hottest. The tables are part of the ABI, because the encoding depends on them and the compiler's register allocator prefers the hot registers.
 
 | 3-bit table (index 0 to 7) | 4-bit table (index 0 to 15) |
 |---|---|
 | `R0 R1 R8 R2 SP R3 R9 R10` | `R0 R1 R8 R2 SP R3 R9 R10 R11 R4 R15 R5 R24 R25 R26 R6` |
 
-**C.3.2** The 3-bit table covers 90.8% of the register uses of the compiled corpus. `MOV2` takes only registers of the 3-bit table. A different allocation changes the sizes and not the correctness; the measured effect of preferring the hot registers in the allocator is at most 0.03%. (estimated)
+**{{#three-bit-table-covers-most-register-uses}}** The 3-bit table covers 90.8% of the register uses of the compiled corpus. `MOV2` takes only registers of the 3-bit table. A different allocation changes the sizes and not the correctness; the measured effect of preferring the hot registers in the allocator is at most 0.03%. (estimated)
 
-**C.3.3** A register index beyond a table is an illegal instruction.
+**{{#register-index-beyond-a-table}}** A register index beyond a table is an illegal instruction.
 
-## C.4 The register-save masks and the registers above R15
+## {{#register-save-masks-and-the-registers}} The register-save masks and the registers above R15
 
-**C.4.1** `PUSHM`, `POPM` and `POPMRET` name registers by bit: bit n is `R`n. The mask is 32 bits, carried in 8, 16, 24 or 32 bits by the length of the form. The 8-bit mask of `POPMRET` is scaled by 256 and names `R8` to `R15`, so a save of `R24` to `R31` is not fused with its return.
-**C.4.2** `R16` to `R31` are ordinary registers to the hardware; `R24`, `R25` and `R26` are among the sixteen hot registers. `R16` to `R23` are caller-saved scratch and `R24` to `R31` are callee-saved, so the callee-saved set is `R8` to `R11`, `R13`, `R15` and `R24` to `R31`.
+**{{#pushm-popm-and-popmret-name}}** `PUSHM`, `POPM` and `POPMRET` name registers by bit: bit n is `R`n. The mask is 32 bits, carried in 8, 16, 24 or 32 bits by the length of the form. The 8-bit mask of `POPMRET` is scaled by 256 and names `R8` to `R15`, so a save of `R24` to `R31` is not fused with its return.
+**{{#abi-r16-to-r31-are-ordinary}}** `R16` to `R31` are ordinary registers to the hardware; `R24`, `R25` and `R26` are among the sixteen hot registers. `R16` to `R23` are caller-saved scratch and `R24` to `R31` are callee-saved, so the callee-saved set is `R8` to `R11`, `R13`, `R15` and `R24` to `R31`.
 
-**C.4.3** The mask of a return to a lesser mode (`RTI`, `RTT`, `GENTER`; 6.3.8) has the layout of C.4.1, bit n for `Rn`, with bit 14 naming the vector registers and the floating-point flags. The default mask of a system-call return is `RTIMASK_SYSCALL`: `R0`, the result, and the callee-saved registers; a call that returns two words adds `R1`.
+**{{#mask-of-a-return}}** The mask of a return to a lesser mode (`RTI`, `RTT`, `GENTER`; {{r:mask-is-32-bits-bit}}) has the layout of {{r:pushm-popm-and-popmret-name}}, bit n for `Rn`, with bit 14 naming the vector registers and the floating-point flags. The default mask of a system-call return is `RTIMASK_SYSCALL`: `R0`, the result, and the callee-saved registers; a call that returns two words adds `R1`.
