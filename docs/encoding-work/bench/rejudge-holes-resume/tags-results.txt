@@ -1,0 +1,6 @@
+mini-kernel	T0	returns 8 (of which interrupt or fault 4)	leak 0	loss, resume point 1	loss, interrupt or fault returns 4	wrong any way 4
+mini-kernel	T1	returns 8 (of which interrupt or fault 4)	leak 0	loss, resume point 0	loss, interrupt or fault returns 0	wrong any way 0
+twoproc	T0	returns 672 (of which interrupt or fault 70)	leak 1	loss, resume point 654	loss, interrupt or fault returns 70	wrong any way 656
+twoproc	T1	returns 672 (of which interrupt or fault 70)	leak 1	loss, resume point 6	loss, interrupt or fault returns 53	wrong any way 54
+hv-first	T0	returns 2 (of which interrupt or fault 0)	leak 0	loss, resume point 1	loss, interrupt or fault returns 0	wrong any way 1
+hv-first	T1	returns 2 (of which interrupt or fault 0)	leak 0	loss, resume point 1	loss, interrupt or fault returns 0	wrong any way 1

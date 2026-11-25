@@ -1,0 +1,4 @@
+static instructions in the 586 compiled functions (pcc and LLVM): 9955
+movq =literal: 101 ; of them needing more than 32 bits (a MOVQL): 44 (0.44% of instructions)
+distinct such constants: 24
+dynamic, 26 programs: instructions 6471858 movql 0

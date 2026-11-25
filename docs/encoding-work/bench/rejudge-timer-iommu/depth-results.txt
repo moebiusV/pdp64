@@ -1,0 +1,9 @@
+# Note: these depths are of the blocks as I wrote them for counting. The compare (t_zero, t_abs) and the cache lookup (itcache4) are written as plain compares and are meaningful as an order of size; irq_derived, irq_stored and irq_file are coded as a sequential priority chain, so their depths (223, 2022, 227) say nothing about a real balanced priority tree and I do not use them.
+t_zero	28 levels
+t_abs	28 levels
+tsub	131 levels
+irq_derived	223 levels
+irq_stored	2022 levels
+irq_file	227 levels
+itcache4	18 levels
+resvvar	18 levels

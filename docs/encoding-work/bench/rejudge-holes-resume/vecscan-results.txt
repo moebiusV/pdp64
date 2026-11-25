@@ -1,0 +1,67 @@
+k_dctop_fill.vec.s                 accum False changed 1 inplace False r0
+k_dctop_sum.vec.s                  accum False changed 1 inplace False r0
+k_fmac.vec.s                       accum False changed 2 inplace True r0 r1
+k_prep8.vec.s                      accum False changed 2 inplace False r0 r1
+k_put8h.vec.s                      accum False changed 2 inplace False r0 r1
+k_put8h.vecfir.s                   accum False changed 2 inplace False r0 r1
+k_sad.vec.s                        accum False changed 2 inplace False r0 r2
+k_ssm.vec.s                        accum False changed 5 inplace True r0 r2 r3 r4 r8
+k_daxpy.vec.s                      accum False changed 2 inplace True r0 r1
+k_ddot.vec.s                       accum False changed 3 inplace False r0 r1 r4
+k_dgemv_n.vec.s                    accum False changed 3 inplace False r0 r7 r8
+k_dgemv_t.vec.s                    accum False changed 2 inplace False r1 r5
+k_dgemv_t.vec.s                    accum False changed 2 inplace True r0 r7
+k_dger.vec.s                       accum False changed 2 inplace True r0 r7
+k_dscal.vec.s                      accum False changed 1 inplace True r0
+k_sgemm_nt.dot.s                   accum False changed 3 inplace False r11 r12 r7
+k_sgemm_nt.ukr.s                   accum True  changed 2 inplace False r0 r1
+k_avg.vec2d.s                      accum False changed 3 inplace False r0 r1 r2
+k_avg.vecrows.s                    accum False changed 3 inplace False r0 r1 r2
+k_blend.vec2d.s                    accum False changed 4 inplace False r0 r1 r2 r6
+k_blend.vecrows.s                  accum False changed 4 inplace False r0 r1 r2 r6
+k_gray.vec2d.s                     accum False changed 2 inplace False r0 r2
+k_gray.vecrows.s                   accum False changed 2 inplace False r0 r2
+k_mblend.vec2d.chk.s               accum False changed 4 inplace False r0 r1 r2 r6
+k_mblend.vec2d.s                   accum False changed 4 inplace False r0 r1 r2 r6
+k_mblend.vecrows.chk.s             accum False changed 4 inplace False r0 r1 r2 r6
+k_mblend.vecrows.s                 accum False changed 4 inplace False r0 r1 r2 r6
+k_put8h.vec2d.s                    accum False changed 2 inplace False r0 r2
+k_put8h.vecrows.s                  accum False changed 2 inplace False r0 r2
+k_quant.vec2d.s                    accum False changed 2 inplace False r0 r2
+k_quant.vecrows.s                  accum False changed 2 inplace False r0 r2
+k_sad.vec2d.chk.s                  accum False changed 2 inplace False r0 r2
+k_sad.vec2d.s                      accum False changed 2 inplace False r0 r2
+k_sad.vecrows.chk.s                accum False changed 2 inplace False r0 r2
+k_sad.vecrows.s                    accum False changed 2 inplace False r0 r2
+k_thresh.vec2d.s                   accum False changed 2 inplace False r0 r2
+k_thresh.vecrows.s                 accum False changed 2 inplace False r0 r2
+k_blend.vec.s                      accum False changed 4 inplace False r0 r1 r2 r5
+k_maskblend.vec.s                  accum False changed 4 inplace False r0 r1 r2 r3
+k_maskblend.vecw1.s                accum False changed 4 inplace False r0 r1 r2 r3
+k_mix16.vec.s                      accum False changed 3 inplace False r0 r1 r2
+k_q4dot.vec.s                      accum False changed 3 inplace False r0 r1 r5
+k_q8dot.vec.s                      accum False changed 2 inplace False r0 r1
+k_quant.vec.s                      accum False changed 2 inplace False r0 r1
+k_rmsnorm.vec.s                    accum False changed 2 inplace False r5 r8
+k_rmsnorm.vec.s                    accum False changed 3 inplace False r0 r1 r2
+k_softmax.vec.s                    accum False changed 1 inplace False r2
+k_softmax.vec.s                    accum False changed 2 inplace True r2 r5
+k_softmax.vec.s                    accum False changed 1 inplace True r2
+k_thresh.vec.s                     accum False changed 4 inplace False r0 r1 r2 r3
+k_thresh.vecw1.s                   accum False changed 4 inplace False r0 r1 r2 r3
+k_vtx.vec.s                        accum False changed 6 inplace False r0 r1 r2 r3 r4 r5
+k_cmul.vec.s                       accum False changed 3 inplace False r0 r1 r2
+k_cmul.vecstride.s                 accum False changed 3 inplace False r0 r1 r2
+k_gray.vec.s                       accum False changed 2 inplace False r0 r1
+k_gray.vecstride.s                 accum False changed 2 inplace False r0 r1
+k_split.vec.s                      accum False changed 3 inplace False r0 r1 r2
+k_split.vecstride.s                accum False changed 3 inplace False r0 r1 r2
+k_vtxaos.vec.s                     accum False changed 2 inplace False r0 r1
+k_vtxaos.vecstride.s               accum False changed 2 inplace False r0 r1
+blocks 60, with accumulators 1
+changed registers, all blocks: {1: 5, 2: 30, 3: 12, 4: 11, 5: 1, 6: 1}
+changed registers, accumulator blocks: {2: 1}
+accumulator blocks with more than 4 changed: 0; more than 2: 0
+all blocks with more than 4 changed: 2
+accumulator blocks the in-place rule would refuse: 0
+non-accumulator blocks that store through a register they load through (allowed): 8

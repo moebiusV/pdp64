@@ -36,3 +36,29 @@ module t_rel(input [63:0] cnt, input [31:0] tval, input [63:0] cmp, output irq, 
 // 4. CAS operand layouts: the register file read ports are the same (three reads, one write); the only difference is the decode of the register-field roles
 module casA(input [4:0] rd, rs, ra, output [4:0] r0, r1, r2, w); assign r0=rd; assign r1=rs; assign r2=ra; assign w=rd; endmodule
 module casB(input [4:0] re, rn, ra, rd, output [4:0] r0, r1, r2, w); assign r0=re; assign r1=rn; assign r2=ra; assign w=rd; endmodule
+// 5. LL/SC reservation compare: the store address against the reserved address, for three sizes of the marked piece (8 bytes fixed, 128 bytes fixed, 8 to 128 bytes reported: a granule field of 3 bits)
+module resv8(input [63:0] a, input [63:0] r, output hit); assign hit = (a[63:3] == r[63:3]); endmodule
+module resv128(input [63:0] a, input [63:0] r, output hit); assign hit = (a[63:7] == r[63:7]); endmodule
+module resvvar(input [63:0] a, input [63:0] r, input [2:0] g, output hit);
+  wire [63:0] x = a ^ r;
+  reg [63:0] mask; always @* mask = ~((64'h8 << g) - 64'h1);   // g=0: 8 bytes ... g=4: 128 bytes
+  assign hit = ~|(x & mask); endmodule
+// 6. the number of requests accepted and not completed in the IOMMU (promise of a point in time): 16-bit up-down counter with a zero test
+module inflight(input clk, input rst, input acc, input done, output zero);
+  reg [15:0] n; always @(posedge clk) if (rst) n<=0; else n <= n + {15'b0,acc} - {15'b0,done};
+  assign zero = (n==0); endmodule
+// 7. the IOMMU's cache of interrupt-table entries: 4 entries, tag = 16-bit device + 11-bit index, data 40 bits (valid, core, vector); lookup logic only
+module itcache4(input [26:0] tag, input [107:0] tags, input [3:0] valid, input [159:0] data, output hit, output [39:0] d);
+  wire [3:0] m;
+  genvar i; generate for (i=0;i<4;i=i+1) begin: g assign m[i] = valid[i] & (tags[27*i+:27]==tag); end endgenerate
+  assign hit = |m;
+  assign d = ({40{m[0]}} & data[39:0]) | ({40{m[1]}} & data[79:40]) | ({40{m[2]}} & data[119:80]) | ({40{m[3]}} & data[159:120]);
+endmodule
+// 8. the timer: the user-clock rounding by a kernel-set granule (6 bits), and the guest comparator's difference (subtract)
+module tround(input [63:0] t, input [5:0] g, output [63:0] y); assign y = t & ~((64'h1 << g) - 64'h1); endmodule
+module tsub(input [63:0] t, input [63:0] off, output [63:0] y); assign y = t - off; endmodule
+// 9. one interrupt-file lookup for a core: highest pending and enabled vector above the priority (level derived) with its enable bits
+module irq_file(input [223:0] pend, input [223:0] en, input [2:0] pri, output any, output [7:0] vec);
+  wire [223:0] p = pend & en; irq_derived d(.pend(p), .pri(pri), .any(any), .vec(vec)); endmodule
+// 10. the deadline when zero means "never" (and a deadline of zero is never wanted: the counter is past it from the first tick)
+module t_zero(input [63:0] cnt, input [63:0] cmp, output irq); assign irq = (cnt >= cmp) & (|cmp); endmodule

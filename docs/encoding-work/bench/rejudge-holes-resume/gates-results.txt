@@ -1,0 +1,28 @@
+== registers (32 x 64, 3 read ports, 1 write port): reference, mask from the instruction, tracking bits ==
+rf_base2	logic 15305	ff 2048	total 27593
+rf_flash	logic 17417	ff 2048	total 29705
+rf_w	logic 17449	ff 2080	total 29929
+rf_t1	logic 17577	ff 2080	total 30057
+rf_taint	logic 18291	ff 2080	total 30771
+rf_stash1	logic 21534	ff 4096	total 46110
+rf_bank2	logic 42112	ff 4096	total 66688
+== arena: whole proposal for one buffer (reference), one more comparator per remote core, epoch word on the entering core, epoch increment ==
+u_arena_full	logic 14270	ff 2593	total 29828
+arena	logic 1072	ff 0	total 1072
+arena_snoop_core	logic 376	ff 0	total 376
+arena_epoch_enter	logic 363	ff 64	total 747
+arena_epoch_inc	logic 404	ff 0	total 404
+== resume token ==
+tok_ctr32	logic 139	ff 32	total 331
+tok_perm32	logic 1805	ff 32	total 1997
+tok_perm48	logic 2679	ff 48	total 2967
+== guest tag from a hardware allocator ==
+tag_alloc	logic 86	ff 16	total 182
+== vector registers (16 x 256): reference and with a flash clear ==
+vrf_base	logic 24686	ff 4096	total 49262
+vrf_flash	logic 23673	ff 4096	total 48249
+== longest path (levels, behavioural) ==
+rf_base2	length=17
+rf_flash	length=17
+rf_w	length=17
+rf_t1	length=17

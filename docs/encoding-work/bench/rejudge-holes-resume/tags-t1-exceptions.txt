@@ -1,0 +1,7 @@
+T1 2 start leak {r0,r3,r4,r5,r8,r9} loss1 {} loss2 {}
+T1 154 interrupt leak {} loss1 {r1} loss2 {r0,r1,r3,r4}
+T1 169 interrupt leak {} loss1 {r1} loss2 {r0,r1,r3,r4,r5}
+T1 280 interrupt leak {} loss1 {r1,r2} loss2 {r0,r1,r2,r3,r4,r5}
+T1 312 interrupt leak {} loss1 {r1} loss2 {r0,r1,r2,r3,r4,r5}
+T1 361 interrupt leak {} loss1 {r1} loss2 {r0,r1,r2,r3,r4,r5}
+T1 416 interrupt leak {} loss1 {r1} loss2 {r0,r1,r3,r4}

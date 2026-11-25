@@ -1,0 +1,4 @@
+vdso  clock_gettime: 16.8 ns/call
+syscall clock_gettime: 158.0 ns/call (9.4 times the vDSO read)
+syscall getppid: 120.0 ns/call
+(six-core desktop x86-64 processor, Linux 6.12, gcc -O2; two runs agreed to 0.5 ns; gcc -O2 -o clockbench clockbench.c)

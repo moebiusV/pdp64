@@ -1,0 +1,7 @@
+block	vector cycles	ms at 100 MHz	us at 1 GHz
+micro-kernel K=64	667	0.007	1
+micro-kernel K=1024	10267	0.103	10
+micro-kernel K=4096	40987	0.410	41
+float dot, 16384	16388	0.164	16
+float dot, 262144	262148	2.621	262
+int8 dot, 1 MiB	1048580	10.486	1049

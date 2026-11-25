@@ -1,11 +1,20 @@
-irq_derived	1007
-irq_stored	11741
-addr_reg	0
-addr_off	291
-align8	4
-align48	4
-t_abs	565
-t_enable	477
-t_rel	918
-cas	918
-cas	918
+irq_derived	logic 1007	flipflops 0
+irq_stored	logic 11741	flipflops 0
+addr_reg	logic 0	flipflops 0
+addr_off	logic 291	flipflops 0
+align8	logic 4	flipflops 0
+align48	logic 4	flipflops 0
+t_abs	logic 565	flipflops 0
+t_enable	logic 477	flipflops 0
+t_rel	logic 918	flipflops 0
+casA	logic 0	flipflops 0
+casB	logic 0	flipflops 0
+resv8	logic 348	flipflops 0
+resv128	logic 322	flipflops 0
+resvvar	logic 359	flipflops 0
+inflight	logic 177	flipflops 16
+itcache4	logic 922	flipflops 0
+tround	logic 275	flipflops 0
+tsub	logic 661	flipflops 0
+irq_file	logic 1336	flipflops 0
+t_zero	logic 565	flipflops 0

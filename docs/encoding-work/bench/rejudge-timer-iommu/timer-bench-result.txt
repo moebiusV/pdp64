@@ -1,3 +1,12 @@
-syscall: #instructions 5012
-page: #instructions 3012
-empty: #instructions 3012
+sys=1 tnone: insns=2003 cycles=4004
+sys=1 tload: insns=3004 cycles=5005
+sys=1 tsys: insns=6003 cycles=8004
+sys=20 tnone: insns=2003 cycles=4023
+sys=20 tload: insns=3004 cycles=5024
+sys=20 tsys: insns=6003 cycles=25025
+sys=100 tnone: insns=2003 cycles=4103
+sys=100 tload: insns=3004 cycles=5104
+sys=100 tsys: insns=6003 cycles=105105
+sys=300 tnone: insns=2003 cycles=4303
+sys=300 tload: insns=3004 cycles=5304
+sys=300 tsys: insns=6003 cycles=305305

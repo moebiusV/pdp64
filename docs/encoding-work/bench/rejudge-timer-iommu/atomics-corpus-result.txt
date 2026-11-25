@@ -1,0 +1,39 @@
+addr:indexed                                             152
+addr:nonzero-disp                                        28519
+addr:other                                               23
+addr:rip-relative(global)                                735
+addr:zero-disp                                           8137
+cmpxchg                                                  1970
+cmpxchg:expected zero (xor or mov 0 within 3 before)     134
+disp negative or above 32760                             2352
+disp<=120 bytes (cumulative)                             11975
+disp<=2040 bytes (cumulative)                            22672
+disp<=32760 bytes (cumulative)                           26167
+disp<=504 bytes (cumulative)                             19054
+modules                                                  4225
+op:add                                                   1533
+op:and                                                   5022
+op:btc                                                   9
+op:btr                                                   2494
+op:bts                                                   3396
+op:cmpxchg                                               1970
+op:dec                                                   3279
+op:inc                                                   3797
+op:or                                                    7822
+op:sub                                                   622
+op:xadd                                                  7602
+op:xor                                                   20
+size of cmpxchg:?                                        1
+size of cmpxchg:b                                        3
+size of cmpxchg:l                                        1734
+size of cmpxchg:q                                        229
+size of cmpxchg:w                                        3
+size of xadd:l                                           7416
+size of xadd:q                                           186
+size:?                                                   1
+size:b                                                   12805
+size:l                                                   17038
+size:q                                                   7719
+size:w                                                   3
+total                                                    37566
+xchg-mem (implicitly locked)                             51

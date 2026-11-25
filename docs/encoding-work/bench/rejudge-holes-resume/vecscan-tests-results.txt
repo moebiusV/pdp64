@@ -1,0 +1,107 @@
+f_dotacc.s                         accum True  changed 3 inplace False r0 r1 r4
+f_dotf.s                           accum False changed 3 inplace False r0 r1 r4
+f_ukr.s                            accum True  changed 2 inplace False r0 r1
+t_dotacc.s                         accum True  changed 3 inplace False r0 r1 r4
+t_dotf.s                           accum False changed 3 inplace False r0 r1 r4
+t_q8.s                             accum False changed 2 inplace False r0 r1
+t_q8acc.s                          accum True  changed 3 inplace False r0 r1 r4
+t_tile.s                           accum False changed 3 inplace False r0 r1 r2
+t_ukr.s                            accum True  changed 2 inplace False r0 r1
+t_w.s                              accum False changed 3 inplace False r0 r1 r4
+t_w2.s                             accum True  changed 3 inplace False r0 r1 r4
+t_w3.s                             accum True  changed 2 inplace False r0 r1
+vec-basic.s                        accum False changed 2 inplace True r0 r1
+vec-basic.s                        accum False changed 2 inplace False r0 r1
+vec-basic.s                        accum False changed 2 inplace False r1 r10
+vec-basic.s                        accum True  changed 2 inplace False r1 r12
+vec-basic.s                        accum False changed 2 inplace False r1 r10
+vec-basic.s                        accum False changed 2 inplace False r1 r10
+vec-basic.s                        accum False changed 2 inplace False r1 r12
+vec-restart.s                      accum False changed 1 inplace False r1
+vec-restart.s                      accum True  changed 1 inplace False r1
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 4 inplace False r1 r2 r3 r7
+vec-restart.s                      accum False changed 4 inplace False r1 r2 r3 r7
+vec-restart.s                      accum False changed 3 inplace False r1 r10 r2
+vec-restart.s                      accum False changed 2 inplace False r1 r2
+vec-restart.s                      accum False changed 2 inplace False r1 r2
+vec-restart.s                      accum False changed 2 inplace False r1 r2
+vec-restart.s                      accum False changed 2 inplace False r1 r2
+vec-restart.s                      accum False changed 2 inplace False r1 r2
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 4 inplace False r1 r2 r3 r7
+vec-restart.s                      accum False changed 4 inplace False r1 r2 r3 r7
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r10
+vec-restart.s                      accum False changed 1 inplace False r1
+vec-restart.s                      accum False changed 1 inplace False r1
+vec-restart.s                      accum False changed 3 inplace False r1 r10 r3
+vec-restart.s                      accum False changed 3 inplace False r1 r2 r3
+vec-restart.s                      accum False changed 4 inplace False r1 r2 r3 r7
+vec-restart.s                      accum False changed 4 inplace False r1 r10 r2 r3
+vec-restart.s                      accum True  changed 2 inplace False r1 r3
+vec-restart.s                      accum True  changed 3 inplace False r1 r10 r2
+vec-restart.s                      accum False changed 2 inplace False r1 r10
+vec-restart.s                      accum False changed 3 inplace False r1 r10 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r10
+vec-restart.s                      accum False changed 2 inplace False r1 r10
+vec-restart.s                      accum True  changed 2 inplace False r1 r10
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-restart.s                      accum False changed 2 inplace False r1 r3
+vec-strip.s                        accum False changed 2 inplace False r1 r10
+vec-strip.s                        accum False changed 2 inplace False r1 r10
+vec-strip.s                        accum False changed 2 inplace False r1 r10
+vec-strip.s                        accum False changed 2 inplace False r1 r10
+vec-strip.s                        accum False changed 4 inplace False r1 r10 r11 r3
+vec-strip.s                        accum False changed 1 inplace False r1
+vec-strip.s                        accum False changed 1 inplace False r1
+vec-strip.s                        accum False changed 1 inplace False r1
+vec-strip.s                        accum False changed 2 inplace False r1 r10
+vec-strip.s                        accum False changed 2 inplace False r1 r2
+vec-strip.s                        accum False changed 3 inplace False r1 r10 r2
+vec-strip.s                        accum False changed 2 inplace False r1 r2
+vec-strip.s                        accum False changed 4 inplace False r1 r2 r3 r7
+vec-strip.s                        accum False changed 2 inplace False r1 r3
+vec-strip.s                        accum False changed 2 inplace False r1 r3
+vec-strip.s                        accum False changed 2 inplace False r1 r3
+vec-strip.s                        accum False changed 2 inplace False r1 r3
+vec-strip.s                        accum False changed 2 inplace False r1 r3
+vec-strip.s                        accum False changed 3 inplace False r1 r2 r3
+vec-strip.s                        accum False changed 2 inplace False r1 r3
+vec-strip.s                        accum True  changed 2 inplace False r1 r3
+vec-strip.s                        accum True  changed 3 inplace False r1 r10 r2
+vec-strip.s                        accum True  changed 2 inplace False r0 r1
+blocks 100, with accumulators 15
+changed registers, all blocks: {1: 7, 2: 50, 3: 35, 4: 8}
+changed registers, accumulator blocks: {1: 1, 2: 8, 3: 6}
+accumulator blocks with more than 4 changed: 0; more than 2: 6
+all blocks with more than 4 changed: 0
+accumulator blocks the in-place rule would refuse: 0
+non-accumulator blocks that store through a register they load through (allowed): 1
