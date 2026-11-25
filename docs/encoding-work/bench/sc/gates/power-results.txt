@@ -1,0 +1,21 @@
+baseline scalar core, logic only: 32.0 mW (263471 NAND2 eq at alpha 0.15)
+
+-- in-order core
+store buffer, 8 entries, with forwarding CAM (TSO and SC alike) logic   6540 ff   953  alpha 0.120/0.100    1.10 mW   3.43% of baseline
+ownership prefetch table, 4 entries                        logic   1794 ff   174  alpha 0.050/0.050    0.11 mW   0.36% of baseline
+SC stall term (the only logic SC adds to TSO)              logic      3 ff     0  alpha 0.250/0.000    0.00 mW   0.00% of baseline
+
+-- out-of-order core, snoop rate s = 0.05 invalidations per cycle (assumed); load queue entries written 0.3 per cycle
+load queue with snoop CAM, 32 entries (R10000 method)      logic   9130 ff  1450  alpha 0.025/0.019    0.32 mW   1.00% of baseline
+load queue with snoop CAM, 64 entries (R10000 method)      logic  18834 ff  2892  alpha 0.025/0.015    0.59 mW   1.84% of baseline
+load queue with snoop CAM, 128 entries (R10000 method)     logic  38876 ff  5774  alpha 0.025/0.012    1.13 mW   3.54% of baseline
+
+-- post-retirement speculation (InvisiFence-style), 512-line L1, clock-gated state
+checkpoint + 2 bits per line + flash clear, model          logic  14219 ff  3073  alpha 0.030/0.020    0.64 mW   2.01% of baseline
+same with the paper's 'about one kilobyte' (8192 flops) + same logic logic  14219 ff  8192  alpha 0.030/0.020    1.14 mW   3.57% of baseline
+
+-- cross-check with CACTI 3.2 numbers (Cain and Lipasti 2004, Table 2, 0.09 micron, 2/2 ports), at s = 0.05 searches per cycle and 1 GHz
+   16 entries: 0.03 nJ a search ->   1.5 mW   (5% of the 32.0 mW baseline above, a mixed-process comparison)
+   32 entries: 0.05 nJ a search ->   2.5 mW   (8% of the 32.0 mW baseline above, a mixed-process comparison)
+   64 entries: 0.12 nJ a search ->   6.0 mW   (19% of the 32.0 mW baseline above, a mixed-process comparison)
+  128 entries: 0.22 nJ a search ->  11.0 mW   (34% of the 32.0 mW baseline above, a mixed-process comparison)

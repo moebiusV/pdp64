@@ -1,0 +1,73 @@
+insns per program: copy 820324, hash 1436656, hist 3542047, list 492024, lz 5135257, matmul 2185168, sha 5736481, sort 2430990
+
+== store-miss latency 10, buffer depth 8: run time against the relaxed model with 8 buffer entries, % longer ==
+prog     TSO,no-pf   TSO,pf SC,no-pf    SC,pf   R cycles
+copy          0.0      0.0      7.7      7.7   1282415
+hash          0.0      0.0      3.9      3.9   3519494
+hist          0.0      0.0      0.0      0.0   5406324
+list          3.0      0.0     11.8      4.2   1367150
+lz            0.0      0.0      0.0      0.0   8260993
+matmul        0.0      0.0      0.0      0.0   3334406
+sha           0.0      0.0      0.0      0.0   7110823
+sort          0.0      0.0      0.7      0.6   4525429
+ALL           0.1      0.0      1.2      0.9   (total cycles of all programs)
+
+== store-miss latency 10, buffer depth 2: run time against the relaxed model with 8 buffer entries, % longer ==
+prog     TSO,no-pf   TSO,pf SC,no-pf    SC,pf   R cycles
+copy          0.0      0.0      7.7      7.7   1282415
+hash          0.0      0.0      3.9      3.9   3519494
+hist          0.0      0.0      0.0      0.0   5406324
+list          3.3      0.0     11.8      4.2   1367150
+lz            0.0      0.0      0.0      0.0   8260993
+matmul        0.0      0.0      0.0      0.0   3334406
+sha           0.0      0.0      0.0      0.0   7110823
+sort          0.0      0.0      0.7      0.6   4525429
+ALL           0.1      0.0      1.2      0.9   (total cycles of all programs)
+
+== store-miss latency 30, buffer depth 8: run time against the relaxed model with 8 buffer entries, % longer ==
+prog     TSO,no-pf   TSO,pf SC,no-pf    SC,pf   R cycles
+copy         46.5      0.0     74.4     26.4   1615475
+hash          0.0      0.0     11.7     11.6   5216734
+hist          0.0      0.0      0.0      0.0   5593204
+list         16.4      0.0     27.6     12.5   2301981
+lz            0.0      0.0      0.7      0.6   10065833
+matmul        0.0      0.0      0.2      0.2   3587986
+sha           0.0      0.0      0.0      0.0   7151968
+sort          0.0      0.0      2.4      2.2   5017601
+ALL           2.8      0.0      6.5      3.7   (total cycles of all programs)
+
+== store-miss latency 30, buffer depth 2: run time against the relaxed model with 8 buffer entries, % longer ==
+prog     TSO,no-pf   TSO,pf SC,no-pf    SC,pf   R cycles
+copy         70.2     29.9     71.2     44.1   1615475
+hash          4.8      4.8     11.7     11.6   5216734
+hist          0.6      0.2      0.6      0.2   5593204
+list         17.3      8.9     28.1     12.9   2301981
+lz            0.6      0.6      1.0      0.8   10065833
+matmul        0.4      0.1      0.5      0.2   3587986
+sha           0.2      0.0      0.2      0.0   7151968
+sort          0.9      0.8      2.4      2.2   5017601
+ALL           4.8      2.6      6.6      4.5   (total cycles of all programs)
+
+== store-miss latency 100, buffer depth 8: run time against the relaxed model with 8 buffer entries, % longer ==
+prog     TSO,no-pf   TSO,pf SC,no-pf    SC,pf   R cycles
+copy        155.1      0.0    165.9     47.9   3280769
+hash          0.0      0.0     20.2     20.2   11157074
+hist         14.1      0.0     14.1      0.0   6253428
+list         31.7      0.1     44.0     17.2   5722793
+lz            0.8      0.0      3.7      2.7   16390468
+matmul        2.4      0.0      3.4      1.0   4475516
+sha           8.0      0.0      8.0      0.0   7296206
+sort          7.9      1.2      6.5      6.0   6740581
+ALL          14.9      0.1     21.0      9.3   (total cycles of all programs)
+
+== store-miss latency 100, buffer depth 2: run time against the relaxed model with 8 buffer entries, % longer ==
+prog     TSO,no-pf   TSO,pf SC,no-pf    SC,pf   R cycles
+copy        176.7     78.2    142.2     85.2   3280769
+hash         16.8     16.8     20.2     20.2   11157074
+hist          7.3      3.5      7.3      3.5   6253428
+list         26.7     15.2     38.7     17.6   5722793
+lz            2.4      2.0      3.3      3.0   16390468
+matmul        2.1      1.0      3.1      2.0   4475516
+sha           4.2      2.0      4.2      2.0   7296206
+sort          5.3      4.9      6.5      6.0   6740581
+ALL          17.6     10.4     18.0     12.1   (total cycles of all programs)

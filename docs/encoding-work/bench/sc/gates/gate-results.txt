@@ -1,0 +1,12 @@
+sb_tso D=4 logic 3590 flipflops 478 total_with_ff_as_6 6458
+sb_tso D=8 logic 6540 flipflops 953 total_with_ff_as_6 12258
+sb_tso D=16 logic 14829 flipflops 1900 total_with_ff_as_6 26229
+sc_stall_term  logic 3 flipflops 0 total_with_ff_as_6 3
+own_prefetch E=4 logic 1794 flipflops 174 total_with_ff_as_6 2838
+own_prefetch E=8 logic 3591 flipflops 347 total_with_ff_as_6 5673
+lq_snoop N=16 logic 4419 flipflops 728 total_with_ff_as_6 8787
+lq_snoop N=32 logic 9130 flipflops 1450 total_with_ff_as_6 17830
+lq_snoop N=64 logic 18834 flipflops 2892 total_with_ff_as_6 36186
+lq_snoop N=128 logic 38876 flipflops 5774 total_with_ff_as_6 73520
+invisifence LINES=512 logic 14219 flipflops 3073 total_with_ff_as_6 32657
+invisifence LINES=1024 logic 21721 flipflops 4097 total_with_ff_as_6 46303

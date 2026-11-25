@@ -1,0 +1,96 @@
+--- a/common/timing.c
++++ b/common/timing.c
+@@ -151,6 +151,7 @@
+ 	int pred, bht, btb, tkb, ras, ibtb, brlat, mpx;
+ 	int ic, isz, iline, iways, imiss, ipf;
+ 	int dc, dsz, dline, dways, dmiss;
++	int cm, sbd, sbp, smiss, sup;
+ 	int alu, ld, mul, div, fadd, fmul, fdiv, mp, blkb, blkw, sys;
+ };
+ enum { P_NONE, P_STATIC, P_BIMODAL, P_PERFECT, P_TAKEN };
+@@ -183,6 +184,11 @@
+ 	P(dline, 32, 8, 256, "D-cache line bytes"),
+ 	P(dways, 2, 1, 16, "D-cache associativity"),
+ 	P(dmiss, 20, 1, 1000, "D-cache miss penalty in cycles"),
++	P(cm, 0, 0, 2, "memory model of the store buffer: 0 relaxed (stores drain in parallel, loads never wait), 1 TSO (stores drain in order, loads pass them), 2 SC (as TSO, and a load waits until every older store is performed, unless it reads a word a buffered store holds)"),
++	P(sbd, 8, 1, 64, "store buffer entries: a store waits for a free entry"),
++	P(sbp, 1, 0, 1, "ownership prefetch: 1 the store's line is requested when the store issues (miss latencies overlap); 0 the request starts when the store reaches the head of the buffer (they add up)"),
++	P(smiss, 30, 1, 1000, "cycles for a store to obtain ownership of a line that is not in the D-cache (a hit takes 1)"),
++	P(sup, 0, 0, 100, "sharing: percent of D-cache lines (chosen by a hash of the line address) that another core owns at every store, so that a store to them pays smiss even on a hit (a crude stand-in for shared data)"),
+ 	P(alu, 1, 1, 16, "ALU latency (issue to use)"),
+ 	P(ld, 3, 1, 16, "load-use latency on a D-cache hit (issue to use)"),
+ 	P(mul, 3, 1, 32, "multiply latency (pipelined)"),
+@@ -245,8 +251,8 @@
+ 
+ enum { FC_START, FC_SEQ, FC_IMISS, FC_TAKEN, FC_MISP, FC_DEC, FC_QUEUE, FC_N };		/* why the front end had nothing to issue */
+ static const char *const FC_NAME[FC_N] = { "start", "seq", "imiss", "taken", "misp", "dec", "queue" };
+-enum { XC_ALU, XC_LOAD, XC_DMISS, XC_MUL, XC_DIV, XC_FP, XC_BLOCK, XC_STRUCT, XC_NONE, XC_N };	/* why the back end could not issue (the producer of the operand) */
+-static const char *const XC_NAME[XC_N] = { "alu", "load", "dmiss", "mul", "div", "fp", "block", "struct", "none" };
++enum { XC_ALU, XC_LOAD, XC_DMISS, XC_MUL, XC_DIV, XC_FP, XC_BLOCK, XC_STRUCT, XC_SB, XC_NONE, XC_N };	/* why the back end could not issue (the producer of the operand) */
++static const char *const XC_NAME[XC_N] = { "alu", "load", "dmiss", "mul", "div", "fp", "block", "struct", "sb", "none" };
+ 
+ struct stage { int64_t cur; int n, bytes, mem, br; };
+ struct win { int64_t arr, req; int cause; };
+@@ -268,6 +274,8 @@
+ 	/* back end */
+ 	int64_t ready[TM_NREG]; uint8_t pcls[TM_NREG];
+ 	int64_t div_free, fdiv_free;
++	/* store buffer (cm, sbd, sbp, smiss) */
++	int64_t sb_done[64], sb_last; uint64_t sb_addr[64]; unsigned sb_n; uint64_t sb_stalls, sb_forward, sb_stores, sb_slow;
+ 	int64_t loc[TM_NREG]; uint8_t locA[TM_NREG], loctag[TM_NREG]; uint32_t locst[TM_NREG], stamp;
+ 	/* predictors */
+ 	int8_t *bht; uint64_t *btb_tag, *btb_tgt, *ib_tgt; uint64_t *ras_st; int ras_top, ras_n;
+@@ -433,6 +441,27 @@
+ 	if (r->cls == TC_DIV && m->div_free > T) { T = m->div_free; tcause = XC_STRUCT; }
+ 	if (r->cls == TC_FDIV && m->fdiv_free > T) { T = m->fdiv_free; tcause = XC_STRUCT; }
+ 
++	/* ---- store buffer: a store waits for a free entry; under SC a load waits for every older store to be performed (a load of a word that a buffered store holds is forwarded and does not wait) */
++	if (c->dc && r->cls != TC_BLOCK && r->cls != TC_SYS) {
++		if (r->nst && m->sb_n >= (unsigned)c->sbd) {
++			int64_t fr = m->sb_done[(m->sb_n - c->sbd) & 63];
++			if (c->cm == 0) for (int j = 1; j < c->sbd; j++) { int64_t x = m->sb_done[(m->sb_n - j) & 63]; if (x < fr) fr = x; }
++			if (fr > T) { T = fr; tcause = XC_SB; }
++		}
++		if (c->cm == 2 && r->nld && m->sb_last > T) {
++			int need = 0;
++			for (int k = 0; k < r->n; k++) {
++				if (r->ev[k].k != TM_EV_LD) continue;
++				int fwd = 0;
++				for (unsigned j = 1; j <= m->sb_n && j <= 64 && !fwd; j++) {
++					if (m->sb_done[(m->sb_n - j) & 63] > T && (m->sb_addr[(m->sb_n - j) & 63] >> 3) == (r->ev[k].addr >> 3)) fwd = 1;
++				}
++				if (fwd) m->sb_forward++; else need = 1;
++			}
++			if (need) { T = m->sb_last; tcause = XC_SB; m->sb_stalls++; }
++		}
++	}
++
+ 	/* ---- issue */
+ 	int nmem = r->nld + r->nst, occ = 0, cost = 0;
+ 	if (r->cls == TC_BLOCK) {
+@@ -487,7 +516,16 @@
+ 			case TM_EV_LD: case TM_EV_ST: {
+ 				int64_t lat = c->ld, av = ab;
+ 				int miss = 0;
+-				if (c->dc) { miss = !cache_access(&m->dc, e->addr, ab, c->dmiss, &av); }
++				if (c->dc) { miss = !cache_access(&m->dc, e->addr, ab, e->k == TM_EV_ST ? c->smiss : c->dmiss, &av); }
++				if (e->k == TM_EV_ST && c->dc) {
++					int64_t L = miss ? c->smiss : (av > ab ? av - ab + 1 : 1), done;
++					if (!miss && c->sup && (((e->addr >> 6) * 2654435761u) >> 7) % 100 < (unsigned)c->sup) L = c->smiss;
++					if (c->cm == 0) done = ab + L;
++					else if (c->sbp) { done = ab + L; if (done < m->sb_last + 1) done = m->sb_last + 1; }
++					else { int64_t st = ab > m->sb_last ? ab : m->sb_last; done = st + L; }
++					if (c->cm == 0) { if (done > m->sb_last) m->sb_last = done; } else m->sb_last = done;
++					m->sb_done[m->sb_n & 63] = done; m->sb_addr[m->sb_n & 63] = e->addr; m->sb_n++; m->sb_stores++; if (L > 1) m->sb_slow++;
++				}
+ 				if (e->k == TM_EV_LD) {
+ 					if (av > ab) { lat += av - ab; }
+ 					vt = ab + lat; seen = 1; missed = miss || av > ab;
+@@ -614,6 +652,7 @@
+ 		    (unsigned long long)m->ret_miss, (unsigned long long)m->ind_n, (unsigned long long)m->ind_miss, (unsigned long long)m->btb_hit, (unsigned long long)m->fused_n);
+ 		if (m->c.ic) fprintf(o, " iacc=%llu imiss=%llu", (unsigned long long)m->ic.acc, (unsigned long long)m->ic.miss);
+ 		if (m->c.dc) fprintf(o, " dacc=%llu dmiss=%llu", (unsigned long long)m->dc.acc, (unsigned long long)m->dc.miss);
++		if (m->c.dc) fprintf(o, " stores=%llu stores_slow=%llu sc_stalls=%llu sc_fwd=%llu", (unsigned long long)m->sb_stores, (unsigned long long)m->sb_slow, (unsigned long long)m->sb_stalls, (unsigned long long)m->sb_forward);
+ 		fprintf(o, "\n");
+ 	}
+ }
