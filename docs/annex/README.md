@@ -51,6 +51,8 @@ The reader is a first-year computer science student of the 1970s who knows a lit
 8. The security corpus
 9. The toolchain and the ports
 
+Old code may also come from the TOPS-10 and TOPS-20 sources, the ITS sources and the ancient Unix archive (fetched, with the file, edition, address and date named).
+
 The pilot (`01-` to `14-`) takes entries from all of these. `PILOT-NOTES.md` says which sources each used and what could not be verified.
 
 ## Numbering, and the tokens for now
