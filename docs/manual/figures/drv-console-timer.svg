@@ -35,7 +35,7 @@
 <text x="585.0" y="231.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">no entropy hardware</text>
 <rect x="20.0" y="262.0" width="650.0" height="30.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
 <text x="28.0" y="276.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">Every box is a candidate; none is chosen.</text>
-<text x="28.0" y="288.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">Whether these three follow "virtio across the board" (errata 95) is part of what is open.</text>
+<text x="28.0" y="288.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">Whether these three follow "virtio across the board" is part of what is open.</text>
 <text x="20.0" y="314.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">A virtio-console needs the bus and a queue before it can print; its emergency write needs the bus and no queue.  A fixed console needs neither.</text>
 <text x="20.0" y="328.0" font-size="8" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">Sources: spec/grammars.d/50-system-v1.hbnf, qemu/hw-pdp64, virtio_console.h, virtio_rtc.h, QEMU virtio-rng.c (read)</text>
 </svg>

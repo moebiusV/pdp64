@@ -87,17 +87,17 @@ The counts of that day, side by side:
 | 16 | invalidate the instruction cache | `ICINV`, `ICINVA` | system | 7.9 |
 | 17 | read the core number | `MFCPUID` | system | 7.8.1 |
 
-The ten atomics are 22 words (twenty read-modify-write words, a plain and a `_DB` form each, and `LL` and `SC`, which have no `_DB` form); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves (errata 32), `PUSHX` and `POPX` (errata 37), and `ISYNC` and `HINT` (errata 39), which the discussion of 7.9.3 and 7.10.1 uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, 6.5) also gives the core number and is not counted: `MFSR` is the general register move.
+The ten atomics are 22 words (twenty read-modify-write words, a plain and a `_DB` form each, and `LL` and `SC`, which have no `_DB` form); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of 7.9.3 and 7.10.1 uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, 6.5) also gives the core number and is not counted: `MFSR` is the general register move.
 
-**7.3.1** The instructions that exist for multiple processors fall under one umbrella of seventeen operations: ten atomics and seven others (the table above, folded operations). *(D)*
+**7.3.1** The instructions that exist for multiple processors fall under one umbrella of seventeen operations: ten atomics and seven others (the table above, folded operations).
 
-**7.3.2** Every read-modify-write atomic (every atomic except `LL` and `SC`) has a variant, `_DB`, that folds a barrier into the instruction, so that a lock acquire or release is one instruction. Under sequential consistency the barrier is a convenience (errata 45). *(D)*
+**7.3.2** Every read-modify-write atomic (every atomic except `LL` and `SC`) has a variant, `_DB`, that folds a barrier into the instruction, so that a lock acquire or release is one instruction. Under sequential consistency the barrier is a convenience.
 
 By inference (the text says no more), what the barrier still orders under sequential consistency is the accesses that `FENCE` orders, those to devices (7.5.7); for ordinary memory the model already does it.
 
-**7.3.3** The atomics live in the atomic leaves and the other operations in the system leaves; the umbrella is conceptual, not an encoding. *(D)*
+**7.3.3** The atomics live in the atomic leaves and the other operations in the system leaves; the umbrella is conceptual, not an encoding.
 
-**7.3.4** Supporting these are the banked direct-page register, the address-space tag, the global-page bit and the banked stack pointer (section 7.8). *(D)*
+**7.3.4** Supporting these are the banked direct-page register, the address-space tag, the global-page bit and the banked stack pointer (section 7.8).
 
 *Commentary.* **Chain.** PDP-11: read-modify-write instructions that the bus keeps whole, and nothing else. VAX: interlocked bit, word and queue instructions, added to a machine that BSD still ran with `spl`. The RISC architectures that followed: load-linked and store-conditional (MIPS, Alpha, POWER, ARM, RISC-V; `arch/arm64/include/asm/atomic_ll_sc.h` uses `ldxr` and `stxr`, `arch/riscv/include/asm/cmpxchg.h` uses `lr.w` and `sc.w`, both read). x86: the `lock` prefix on a read-modify-write instruction (`LOCK_PREFIX "addl"`, read). Later ARM and RISC-V added single-instruction forms, `cas` (`atomic_lse.h`) and `amoswap` (`cmpxchg.h`), both read. pdp64: all three designs, a compare-and-swap, a fetch-and-operate family and a load-linked pair. **Trade-offs.** The set is the union of the three designs, which the repository's survey counts as more atomic operations than any architecture it surveyed (repo, `docs/decisions-pending.md`), in exchange for nothing a kernel writer has to emulate; each fetch-and-operate is a couple of hundred lookup tables and saves a compare-and-swap retry loop (repo, `docs/pdp64-isa.md` section 15). **Improvements.** The `_DB` forms were taken from LoongArch: a lock acquire should be one instruction, with no separate fence. **Benefits.** The seven non-atomic operations are the minimum that a kernel cannot synthesise: which core am I, wait and signal, invalidate everywhere, and make the instruction fetch see what the data side wrote (and, a seventh, the device fence). **Impact.** *Kernel:* each of the seventeen operations is one instruction in the kernel's lock, idle, shootdown and per-CPU code. *Compiler:* C11 atomics and the kernel's intrinsics map to them directly. *Hardware:* the atomics live in one escape group and the other seven in the system group, so the decoder has two places to look.
 
@@ -118,13 +118,13 @@ SC(a, v):        if the reservation is intact: *a = v ; return success   # store
 
 **The reservation.** `LL` does not lock anything. It marks a **granule** (a naturally aligned piece of memory, at least 8 bytes, of a size the implementation chooses) as reserved by this core; a write to the granule by any other core, by a device, or by an atomic clears the mark, and `SC` writes only if the mark is still there. This is called a **monitor**, in the word of the bus designs it maps onto, as against the PDP-11's bus lock, which stops everyone else's access for the duration of the instruction pair. A lock is simple and a bottleneck as cores multiply; a monitor lets other cores go on with other addresses. A monitor needs a **progress rule**: with two cores each doing `LL`, then writing, then `SC`, both reservations could be cleared forever. The pdp64 takes the rule that RISC-V gives (checked in the RISC-V manual in an earlier review: `docs/decisions-pending.md`): a constrained sequence, short and with no other memory access or exception between the `LL` and the `SC`, must eventually succeed if no other initiator keeps writing the granule.
 
-**7.4.1** `LL` takes a reservation on a naturally aligned granule of memory, of a size the implementation chooses and not smaller than 8 bytes; a write to the granule by any initiator, core or device, clears it; `SC` succeeds exactly when the reservation is intact and otherwise writes nothing. *(D)*
+**7.4.1** `LL` takes a reservation on a naturally aligned granule of memory, of a size the implementation chooses and not smaller than 8 bytes; a write to the granule by any initiator, core or device, clears it; `SC` succeeds exactly when the reservation is intact and otherwise writes nothing.
 
-**7.4.2** A constrained `LL`/`SC` sequence (short, with no other memory access and no exception between the two) must eventually succeed if no other initiator keeps writing the granule. *(D)*
+**7.4.2** A constrained `LL`/`SC` sequence (short, with no other memory access and no exception between the two) must eventually succeed if no other initiator keeps writing the granule.
 
-**7.4.3** The read-modify-write atomics (`CAS`, `SWAP`, `XADD` and the others) are single-copy atomic with respect to every initiator, cores and devices alike; the memory system may build them from an exclusive access with hardware retry. *(D)*
+**7.4.3** The read-modify-write atomics (`CAS`, `SWAP`, `XADD` and the others) are single-copy atomic with respect to every initiator, cores and devices alike; the memory system may build them from an exclusive access with hardware retry.
 
-**7.4.4** A device that writes memory shared with a core takes part by clearing reservations. *(D)*
+**7.4.4** A device that writes memory shared with a core takes part by clearing reservations.
 
 **7.4.5** Open: what an atomic does on uncached memory and on device memory ([J.7.4](appendix-j-open.md#j74)).
 
@@ -193,21 +193,21 @@ the outcome r0 = 0, r1 = 0   the outcome r0 = 1, r1 = 0   the outcome r0 = 1, r1
 
 **The pdp64's choice.** SC is the one model that costs software nothing. A program written against a weak model runs on a strong machine and not the reverse, so the choice is close to irreversible and is made once. It costs hardware: a core that reorders, speculates and buffers is faster than one that does not, and holds SC only by checking afterwards. The first pdp64 cores are in order and do not speculate, so they have nothing to buy with a weaker promise (7.7).
 
-**7.5.1** Memory is sequentially consistent: the result is as if all cores' accesses happened in one order that respects each program's order. *(D)* The one exception is the accesses inside a block operation (7.5.8).
+**7.5.1** Memory is sequentially consistent: the result is as if all cores' accesses happened in one order that respects each program's order. The one exception is the accesses inside a block operation (7.5.8).
 
-**7.5.2** A store buffer is allowed, provided loads snoop it, stores drain in program order, and a load does not complete ahead of an older store to another address that is still in the buffer (or is replayed if it did, 7.7.3). Without the last condition the buffer gives the SB outcome of the figure, which is total store order and not sequential consistency. *(D)*
+**7.5.2** A store buffer is allowed, provided loads snoop it, stores drain in program order, and a load does not complete ahead of an older store to another address that is still in the buffer (or is replayed if it did, 7.7.3). Without the last condition the buffer gives the SB outcome of the figure, which is total store order and not sequential consistency.
 
-**7.5.3** Quad accesses are naturally aligned, so every aligned access is atomic within its own size and cannot be torn across cores. An explicit unaligned form (`MOVUB` to `MOVUQ`, 9.6.5) is two accesses in a defined order, each atomic and the pair not. *(D)*
+**7.5.3** Quad accesses are naturally aligned, so every aligned access is atomic within its own size and cannot be torn across cores. An explicit unaligned form (`MOVUB` to `MOVUQ`, 9.6.5) is two accesses in a defined order, each atomic and the pair not.
 
-**7.5.4** The first implementations are in order and do not speculate, so no speculative side channel exists in them to be mitigated; an out-of-order core must keep that property (7.7). *(D)*
+**7.5.4** The first implementations are in order and do not speculate, so no speculative side channel exists in them to be mitigated; an out-of-order core must keep that property (7.7).
 
-**7.5.5** The ABI says nothing about memory ordering, because with sequential consistency there is nothing to say. *(D)*
+**7.5.5** The ABI says nothing about memory ordering, because with sequential consistency there is nothing to say.
 
-**7.5.6** Memory is sequentially consistent per byte: a load returns, for each byte, the value written by the last store to that byte in the single order, and an aligned access of N bytes is single-copy atomic. A load that overlaps a buffered store of a different size either waits for the buffer to drain or merges the buffer and memory in one step; it never returns a mixture that no order of the stores could produce. *(D)*
+**7.5.6** Memory is sequentially consistent per byte: a load returns, for each byte, the value written by the last store to that byte in the single order, and an aligned access of N bytes is single-copy atomic. A load that overlaps a buffered store of a different size either waits for the buffer to drain or merges the buffer and memory in one step; it never returns a mixture that no order of the stores could produce.
 
-**7.5.7** `FENCE` orders device accesses. *(D)*
+**7.5.7** `FENCE` orders device accesses.
 
-**7.5.8** The accesses inside one block operation (`MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN` and `MVAL`, 9.11.3) are unordered with respect to one another: only the final contents of memory and the progress held in the registers are defined (errata 39, item 7). *(D)* Details pending ([J.7.6](appendix-j-open.md#j76)).
+**7.5.8** The accesses inside one block operation (`MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN` and `MVAL`, 9.11.3) are unordered with respect to one another: only the final contents of memory and the progress held in the registers are defined (errata 39, item 7).
 
 **7.5.9** Open: what another core may see of a block operation that is still running, how large an access inside it may be torn, what a program must execute to publish its result, and what happens to the other rules of this chapter when it is interrupted or faults ([J.7.6](appendix-j-open.md#j76)).
 
@@ -225,11 +225,11 @@ Under 7.5.8 a block operation as a whole is not atomic (inference: it may stop b
 
 **Devices are the other case.** A DMA device does not take part in snooping: the queue memory and the buffers of a virtio device are uncached (2.5.2) and the hand-off between the core and the device is explicit, a `FENCE` and a doorbell write. The reasons are that snooping the DMA path costs hardware and that DMA transfers are large, infrequent and have an explicit hand-off.
 
-**7.6.1** Between processors, coherence is transparent to software, by snooping with three states (modified, shared, invalid), for the four cores of the first device. *(D)*
+**7.6.1** Between processors, coherence is transparent to software, by snooping with three states (modified, shared, invalid), for the four cores of the first device.
 
-**7.6.2** A DMA device is the opposite case: the buffers are uncached and the hand-off is explicit, because snooping the DMA path is expensive and DMA transfers are large, infrequent and have an explicit hand-off. *(D)*
+**7.6.2** A DMA device is the opposite case: the buffers are uncached and the hand-off is explicit, because snooping the DMA path is expensive and DMA transfers are large, infrequent and have an explicit hand-off.
 
-**7.6.3** The design supports at least four cores; sixteen or more is the preferred ceiling that no decision may preclude; the initial device has four cores, which it is hoped will fit the FPGA (errata 92). *(D)*
+**7.6.3** The design supports at least four cores; sixteen or more is the preferred ceiling that no decision may preclude; the initial device has four cores, which it is hoped will fit the FPGA.
 
 **7.6.4** Open: the coherence protocol for more than four cores ([J.7.2](appendix-j-open.md#j72)).
 
@@ -237,11 +237,11 @@ Under 7.5.8 a block operation as a whole is not atomic (inference: it may stop b
 
 ## 7.7 What a simple model does not give for free, and the road to out of order
 
-**7.7.1** A simple memory model does not make an atomic implementation simple by itself: cache coherence, exclusive ownership, invalidation, ordering and the interaction with interrupts still have to be designed and tested. *(D)*
+**7.7.1** A simple memory model does not make an atomic implementation simple by itself: cache coherence, exclusive ownership, invalidation, ordering and the interaction with interrupts still have to be designed and tested.
 
-**7.7.2** Out-of-order execution is not ruled out: the first implementations are in order, and the architecture is kept ready for a large out-of-order design. *(D)*
+**7.7.2** Out-of-order execution is not ruled out: the first implementations are in order, and the architecture is kept ready for a large out-of-order design.
 
-**7.7.3** Sequential consistency on a speculative core needs loads that are replayed when another core intervenes: the core executes a load early and, before the load retires, checks whether another core has written its line since, and if so executes it again. The readiness review calls this awkward but defined, and names the flag rules, the reservation rules and the `ISYNC` and `HINT` instructions as what a speculative core needs. *(D)*
+**7.7.3** Sequential consistency on a speculative core needs loads that are replayed when another core intervenes: the core executes a load early and, before the load retires, checks whether another core has written its line since, and if so executes it again. The readiness review calls this awkward but defined, and names the flag rules, the reservation rules and the `ISYNC` and `HINT` instructions as what a speculative core needs.
 
 The tests are part of the work. A declaration of sequential consistency is easy to violate by accident, in a store buffer that forwards wrongly or a cache that reorders its fills, so the standard litmus suites (the `litmus7` and `herd7` families) are to run against two cores before any lock-based software is trusted (repo, `docs/pdp64-fpga-plan.md` item 7; open as part of [J.9.11](appendix-j-open.md#j911)).
 
@@ -262,13 +262,13 @@ curcpu():       MFDP Rd                      # kernel mode: DP is the address of
 
 ![DP as the per-CPU pointer](figures/smp-percpu.svg)
 
-**7.8.1** `MFCPUID` returns the number of the core that executes it. It cannot be synthesised and per-CPU data needs it. *(D)*
+**7.8.1** `MFCPUID` returns the number of the core that executes it. It cannot be synthesised and per-CPU data needs it.
 
-**7.8.2** `DP`, the direct-page register, has a copy per mode; in kernel mode it is the per-CPU pointer and a field of the per-CPU structure is one six-byte instruction, `MOVQ d(DP), Rd`. *(D)*
+**7.8.2** `DP`, the direct-page register, has a copy per mode; in kernel mode it is the per-CPU pointer and a field of the per-CPU structure is one six-byte instruction, `MOVQ d(DP), Rd`.
 
-**7.8.3** The address-space tag makes a context switch constant-time, and global page-table entries and the direct-mapping windows keep the kernel's own mappings out of the invalidation path. *(D)*
+**7.8.3** The address-space tag makes a context switch constant-time, and global page-table entries and the direct-mapping windows keep the kernel's own mappings out of the invalidation path.
 
-**7.8.4** The stack pointer is banked by mode, so an interrupt arriving in user mode on any core finds that core's kernel stack without a search. *(D)*
+**7.8.4** The stack pointer is banked by mode, so an interrupt arriving in user mode on any core finds that core's kernel stack without a search.
 
 *Commentary.* **Chain.** PDP-11: globals and one fixed `u`; nothing to find. VAX: the same, with the process pointer in a processor register (`PR_SSP`, as `lock_stubs.S` of the NetBSD VAX port reads it to get `curlwp`, read). x86, ARM, RISC-V, MIPS: a hand-built per-CPU base, a special register or a reserved one, and a rule about who may touch it when. pdp64: `DP`. **Improvements.** `DP` serves code density, and is also what both an SMP kernel and a threaded C runtime need most, in the mode where each needs it. **Benefits.** No `swapgs`, no reserved scratch register, no code spent finding the CPU; the context switch of chapter 6 (6.11) writes two registers. **Impact.** *Kernel:* per-CPU data is one six-byte `MOVQ d(DP), Rd`. *Compiler:* the compiler addresses per-CPU variables relative to `DP`. *Hardware:* three copies of `DP` and of the stack pointer, one per mode.
 
@@ -282,11 +282,11 @@ curcpu():       MFDP Rd                      # kernel mode: DP is the address of
 
 **Instruction caches.** The data cache is coherent between cores (7.6). The **instruction cache** (the cache that the instruction fetch reads) is not coherent with the data cache. A program that writes instructions as data (a loader, a **JIT** compiler that generates code as it runs, a trampoline, a Lisp runtime compiling a function) must make the instruction fetch see them. x86 keeps its instruction cache coherent (*unverified*). ARM requires cache maintenance and an `isb` (`arch/arm64/mm/cache.S`, read) and RISC-V a `fence.i`, which across cores Linux does by interrupt or firmware call (`arch/riscv/mm/cacheflush.c`, read). The pdp64 follows ARM: coherent instruction caches would cost a snoop port for a case that almost never happens.
 
-**7.9.1** `TLBI` and `TLBIA` broadcast to all cores; `TLBSYNC` waits until the broadcast has completed everywhere. *(D)*
+**7.9.1** `TLBI` and `TLBIA` broadcast to all cores; `TLBSYNC` waits until the broadcast has completed everywhere.
 
-**7.9.2** Instruction caches are not coherent with data caches; `ICINV` invalidates a line and `ICINVA` all of it, and neither is privileged, because a JIT needs them. *(D)*
+**7.9.2** Instruction caches are not coherent with data caches; `ICINV` invalidates a line and `ICINVA` all of it, and neither is privileged, because a JIT needs them.
 
-**7.9.3** A write to the page-table base, the address-space tag, the translation-enable bit or the vector base takes effect only after the next `ISYNC`; `ISYNC` makes earlier system-register writes and earlier `ICINV` take effect for what follows. *(D)*
+**7.9.3** A write to the page-table base, the address-space tag, the translation-enable bit or the vector base takes effect only after the next `ISYNC`; `ISYNC` makes earlier system-register writes and earlier `ICINV` take effect for what follows.
 
 *Commentary.* **Chain.** PDP-11: no buffer, no shootdown. VAX: a software interrupt to the other processors (NetBSD's `IPI_TBIA`). x86: an interrupt and a software handshake; AMD's broadcast instruction late. ARM: a broadcast instruction and a barrier. RISC-V: software, by interrupt or firmware. pdp64: a broadcast instruction and a completion wait. **Trade-offs.** A broadcast is simpler in hardware and far faster for two to four cores; it needs the completion barrier. Making instruction caches coherent would cost a snoop port. **Improvements.** The kernel's own mappings never take part in a shootdown. **Benefits.** The pain-points report finds that remote translation-buffer shootdown, a source of deadlocks in the BSDs and of much code in Linux, does not arise (repo, `docs/kernel-pain-points.md`). **Impact.** *Kernel:* a shootdown is `TLBI` then `TLBSYNC` (the listing is in 6.8); a module or JIT write is `ICINV` then `ISYNC`. *Compiler:* a JIT or a trampoline generator must call `ICINV` after writing code. *Hardware:* a broadcast on the interconnect and a counter for completion; the instruction cache has an invalidate port but no snoop port.
 
@@ -309,13 +309,13 @@ idle():
 
 **Interrupting another core.** A core wakes another by `SEV`, or interrupts it: an **inter-processor interrupt** (IPI), an interrupt raised by one core on another. It reschedules a core that is running a low-priority process, stops a core, or runs a function on it; a core in secure mode is stopped and preempted by one (7.11). x86 writes to the other core's local APIC (`CALL_FUNCTION_VECTOR`, read), the NetBSD VAX port writes a processor register (`PR_IPIR`, read), and OpenBSD's riscv64 port needs two kinds of IPI, `IPI_NOP` and `IPI_DDB` (`intr.h`, read).
 
-**7.10.1** `WFE` sleeps until another core executes `SEV` or an interrupt arrives, and it may also return with no event at all (for example after an exit to a hypervisor), so software tests its condition again when it returns; `HINT #1` is the spin-wait pause; `HINT #n` has no other architectural effect (2 is a speculation barrier, the rest are reserved). *(D)*
+**7.10.1** `WFE` sleeps until another core executes `SEV` or an interrupt arrives, and it may also return with no event at all (for example after an exit to a hypervisor), so software tests its condition again when it returns; `HINT #1` is the spin-wait pause; `HINT #n` has no other architectural effect (2 is a speculation barrier, the rest are reserved).
 
-**7.10.2** `WFE` ends its sleep when an interrupt is pending, even if the priority masks it, so that an idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap in which a wake-up can be lost. *(D)* Details pending ([J.7.1](appendix-j-open.md#j71)).
+**7.10.2** `WFE` ends its sleep when an interrupt is pending, even if the priority masks it, so that an idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap in which a wake-up can be lost.
 
-**7.10.3** On one core `WFE` is the idle instruction, and `WAIT` is its assembler alias. *(D)*
+**7.10.3** On one core `WFE` is the idle instruction, and `WAIT` is its assembler alias.
 
-**7.10.4** One core can interrupt another: an inter-processor interrupt. A core in secure mode is stopped and preempted by one (7.11.3). *(D)* Details pending ([J.6.3](appendix-j-open.md#j63)).
+**7.10.4** One core can interrupt another: an inter-processor interrupt. A core in secure mode is stopped and preempted by one (7.11.3).
 
 **7.10.5** Open: how a device interrupt and an inter-processor interrupt reach a core ([J.6.3](appendix-j-open.md#j63)).
 
@@ -329,7 +329,7 @@ idle():
 
 **The secure mode.** A **timing channel** is a leak of secret data through how long something takes: if a division stops early when the quotient is small, how long it ran tells an observer something about the operands. Cryptographic code that must not leak a key needs instructions whose time does not depend on the data. At least one core can run in **secure mode**, in which the hardware gives that guarantee. The author approved the design of such a core ("i like your design. approved.", errata 86; the document is [`crypto-secure-core.md`](../crypto-secure-core.md)) and the rule that no tick or timing interrupt is introduced where an instruction can be made constant-time without one. The same instruction set runs in secure mode, with promises about time, memory and isolation added. The status-word bit `DIT` (9.3.7) is the part of the promise that an ordinary core can keep: while it is set, instruction latency, the clock and any data-dependent prefetcher hold no data-dependent timing. Secure mode adds what a bit cannot give: a private memory window of fixed latency, a locked translation buffer, no speculation and a hardware clear between domains (7.11.4 and 7.11.5).
 
-Whether every core has the mode or one core only was decided on 2026-11-10 (errata 132): "at least one core can be in 'secure' mode; if it doesn't take too many gates, let that be a mode for all the cores, but if it slows things down too much then return to a single secure core." The rule is in 7.11.3; the thresholds and the measurement are open (J.7.7).
+Whether every core has the mode or one core only was decided on 2026-11-10: "at least one core can be in 'secure' mode; if it doesn't take too many gates, let that be a mode for all the cores, but if it slows things down too much then return to a single secure core." The rule is in 7.11.3; the thresholds and the measurement are open (J.7.7).
 
 ```
 core in secure mode, one domain at a time:
@@ -343,15 +343,15 @@ core in secure mode, one domain at a time:
 
 Apart from the possible single secure core, no core is dedicated to a role (the author, 2026-11-10: "other than potentially one core dedicated as secure, no more dedicated cores"; errata 133).
 
-**7.11.1** Each core has a read-only identification register giving its class and capacity, defined from the first system although every core is alike, and a stop-and-drain register that a kernel writes to take a core offline: the core finishes its outstanding bus transactions and stops. *(D)*
+**7.11.1** Each core has a read-only identification register giving its class and capacity, defined from the first system although every core is alike, and a stop-and-drain register that a kernel writes to take a core offline: the core finishes its outstanding bus transactions and stops.
 
-**7.11.2** In-order and out-of-order cores may share a die if software can tell which is which, which the class register of 7.11.1 reports; the memory model and the semantics of every instruction are identical on every core, and a core class may differ in speed and never in what a program can observe. *(D)*
+**7.11.2** In-order and out-of-order cores may share a die if software can tell which is which, which the class register of 7.11.1 reports; the memory model and the semantics of every instruction are identical on every core, and a core class may differ in speed and never in what a program can observe.
 
-**7.11.3** At least one core can run in secure mode. While a core runs in that mode every timing channel is removed (every instruction and every cache fetch takes a time independent of its data), it has private cache lines and takes no periodic timer tick, and it is stopped and preempted by an inter-processor interrupt. A core that has the mode has constant-time AES and SHA instructions (9.9.7), or whichever opcodes would speed up and enable AES and SHA. If the mode costs few gates it is a mode of every core; if it slows a core too much the machine has one secure core only. *(D)* Details to be determined: the instruction words ([J.9.12](appendix-j-open.md#j912)) and which ordinary instructions are constant-time ([J.9.2](appendix-j-open.md#j92)). Details pending ([J.7.7](appendix-j-open.md#j77)): what counts as few gates and as too much slowdown, how each is measured, and the threshold, which the author sets.
+**7.11.3** At least one core can run in secure mode. While a core runs in that mode every timing channel is removed (every instruction and every cache fetch takes a time independent of its data), it has private cache lines and takes no periodic timer tick, and it is stopped and preempted by an inter-processor interrupt. A core that has the mode has constant-time AES and SHA instructions (9.9.7), or whichever opcodes would speed up and enable AES and SHA. If the mode costs few gates it is a mode of every core; if it slows a core too much the machine has one secure core only. 9.12](appendix-j-open.md#j912)) and which ordinary instructions are constant-time ([J.9.2](appendix-j-open.md#j92)).: what counts as few gates and as too much slowdown, how each is measured, and the threshold, which the author sets.
 
-**7.11.4** The memory of a core in secure mode has no hit or miss: it is a private window of memory with one fixed access time, mapped by a direct-mapping window, and a load or store outside the window aborts; its translation buffer is locked, so a miss aborts and no page walk occurs; in secure mode it has no demand paging, no simultaneous multithreading, no speculation and no data-dependent prefetch, and its clock is held fixed while it runs a secure domain. *(D)* Details to be determined: the size of the window, the latencies and the field numbers of the class register.
+**7.11.4** The memory of a core in secure mode has no hit or miss: it is a private window of memory with one fixed access time, mapped by a direct-mapping window, and a load or store outside the window aborts; its translation buffer is locked, so a miss aborts and no page walk occurs; in secure mode it has no demand paging, no simultaneous multithreading, no speculation and no data-dependent prefetch, and its clock is held fixed while it runs a secure domain.
 
-**7.11.5** Before another domain runs on a core in secure mode the hardware clears the window and the kernel clears the registers; transfers between the window and main memory take a time that depends only on their length, which the interconnect secures with a reserved slot. *(D)* Details to be determined: the slot period and the clear engine.
+**7.11.5** Before another domain runs on a core in secure mode the hardware clears the window and the kernel clears the registers; transfers between the window and main memory take a time that depends only on their length, which the interconnect secures with a reserved slot.
 
 *Commentary.* **Chain.** PDP-11: processors alike; the Unibus devices and later the VAX console processor carried the unlike work. VAX: a console processor that starts the machine (*unverified*). ARM and RISC-V: big and little cores of one instruction set. x86: the same, from the Pentium and P6 pair on (*unverified*). Security: Arm's `DIT` bit asks the core to avoid data-dependent timing optimisations (repo, `docs/hardware-vulnerabilities.md`), x86 has AES instructions and OpenBSD uses them (`aesni.c`, read), RISC-V's scalar cryptography extensions `Zkne` and `Zknh` appear in Linux's hwprobe list (read). pdp64: a class register and a secure mode whose guarantee is in hardware, on every core or on one, by the rule of 7.11.3. Arm's TrustZone and Intel's SGX are the precedents for a mode of every core (Linux has an SGX driver, `arch/x86/kernel/cpu/sgx`, read; the rest is *unverified*), and Apple's Secure Enclave and the AMD platform security processor for a separate core (*unverified*; J.7.7). **Trade-offs.** A core in secure mode is a crypto engine rather than a general core: a process with a 100 MB secret-indexed working set does not fit, which is acceptable because the use is keys and cipher state, kilobytes. A mode of every core costs gates and perhaps clock speed in every core; one secure core costs a core that general work cannot use while a secure domain runs, which on a machine of four cores is a quarter of it. **Impact.** *Kernel:* one affinity rule where only some cores have the mode, a domain-switch routine, and interrupt handlers for a core in secure mode that obey the rules of 7.11.5. *Compiler:* secure code is written with intrinsics. *Hardware:* a class register, a stop-and-drain register, and for secure mode a fixed-latency memory, a clear engine and a bus slot.
 
@@ -368,19 +368,19 @@ wake a core:  SEV, or an inter-processor interrupt                    # 7.10
 my data    :  MOVQ d(DP), Rd                                          # 7.8
 ```
 
-**7.12.1** The kernel keeps its per-CPU structure at the address in `DP` and takes a lock with one `_DB` atomic. *(D)*
+**7.12.1** The kernel keeps its per-CPU structure at the address in `DP` and takes a lock with one `_DB` atomic.
 
-**7.12.2** It unmaps a page by changing the entry, issuing `TLBI`, and waiting with `TLBSYNC`. *(D)*
+**7.12.2** It unmaps a page by changing the entry, issuing `TLBI`, and waiting with `TLBSYNC`.
 
-**7.12.3** It makes new instructions visible by writing them, issuing `ICINV` and executing `ISYNC`. *(D)*
+**7.12.3** It makes new instructions visible by writing them, issuing `ICINV` and executing `ISYNC`.
 
-**7.12.4** It idles a core with `WFE` and wakes it with `SEV`. *(D)*
+**7.12.4** It idles a core with `WFE` and wakes it with `SEV`.
 
 *Commentary.* Each item is one instruction, and each is a place where other architectures need a trampoline, a handshake or a fence. The port's machine-dependent SMP work is estimated, from the line counts of OpenBSD's riscv64 port, at 8,000 to 9,000 lines (repo, `docs/smp-decisions.md` section 6); that is the size of the task, not a measurement of a pdp64 port.
 
 ## 7.13 What was avoided
 
-**7.13.1** The architecture has no weak ordering, no speculative execution, no hardware transactional memory, no software-managed coherence between processors, no coherent instruction caches, no inter-processor-interrupt shootdown as the main mechanism, and no memory-model-dependent ABI. *(D)*
+**7.13.1** The architecture has no weak ordering, no speculative execution, no hardware transactional memory, no software-managed coherence between processors, no coherent instruction caches, no inter-processor-interrupt shootdown as the main mechanism, and no memory-model-dependent ABI.
 
 *Commentary.* **Trade-offs.** Intel's transactional memory (a way to run a group of loads and stores as one atomic step, rolling back if another core interferes) has a record of errata and side channels in the hardware-vulnerabilities report (repo: the TAA entry), for a feature few programs used; `CAS` and `LL`/`SC` suffice. Each avoided item is a tax on every concurrent program, or on every implementation, in exchange for performance the small in-order core cannot use. **Impact.** *Kernel:* each avoided feature is code a kernel does not have to write: no barriers, no software coherence, no shootdown interrupts. *Compiler:* each is analysis the compiler does not have to do: no memory-model-dependent code generation. *Hardware:* each is a block not built: no speculation, no transactional memory, no coherent instruction cache.
 
@@ -391,4 +391,4 @@ my data    :  MOVQ d(DP), Rd                                          # 7.8
 * **Read in the repository:** the statements of this chapter against `docs/pdp64-isa.md` section 17 and 4.11, `docs/errata.md` entries 39, 45, 76, 85, 86 and 92, `docs/crypto-secure-core.md` section 1, `docs/decisions-pending.md` (the VAX claim C028 in `docs/codegen-data/verification/claims.csv`), `docs/kernel-pain-points.md`, `docs/kernel-asm-survey.md`, `docs/smp-decisions.md`, `docs/pdp64-fpga-plan.md`; the grammar `spec/pdp64-mnemonics.hbnf` for the names of the atomic and system words, from which the table of 7.3 is counted (22 atomic words, 9 system words and the alias `WAIT`); `docs/pdp64-ooo-readiness.md` section 6.7 for the block operations (7.5.8).
 * **Counted, not re-counted here:** the 5,596 lines in 855 files of ordering vocabulary in Linux and 743 lines of documentation (`docs/kernel-pain-points.md`); the 155% of the Anderson lock (its source, a mailing-list message, was not read here).
 * **Unverified** (general knowledge; the handbooks and papers are not on this machine): that the 11/74 was a multiprocessor and the names of its instructions; the Unibus cycles `DATIP` and `DATO` as one locked pair; the cache of the 11/70; the VAX-11/782, 8300, 8800 and 6000 as multiprocessors and the VAXcluster as shared-disk; the history of master and slave and of the BSD/OS mutexes; Lamport's definition and date; the litmus results of the table in 7.5; the memory models of ARM, POWER and RISC-V; Alpha's year; the history of snooping and directory machines; the big and small cores named in 7.7 and 7.11; TrustZone, the Secure Enclave and the AMD platform security processor as precedents for 7.11 (J.7.7); the Blit and the CDC 6600 as cores for input and output; the architectural conditions that end a `WFE` and a `wfi`; the date of `INVLPGB`; the estimate of 500 lookup tables per snoop port, which is the ISA text's own paper estimate (the earlier text added about 600 per core with no source, and that figure is dropped).
-* **Decided by the author and recorded in `errata.md`:** everything stated as a decision with a tag *(D)*; the pseudocode of this chapter is an illustration and not a decision.
+* **Decided by the author and recorded in `errata.md`:** everything stated as a decision with a tag; the pseudocode of this chapter is an illustration and not a decision.

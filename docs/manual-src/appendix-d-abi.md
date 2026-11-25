@@ -32,20 +32,20 @@ return address, pushes `r5`..`r0` and pushes the return address again, so the re
 
 ## D.3 The hot-register tables
 
-**D.3.1** In a one-parcel form a 3-bit register field is an index into a table of the eight hottest registers, and a 4-bit field is an index into a table of the sixteen hottest. The tables are part of the ABI, because the encoding depends on them and the compiler's register allocator prefers the hot registers. *(D)*
+**D.3.1** In a one-parcel form a 3-bit register field is an index into a table of the eight hottest registers, and a 4-bit field is an index into a table of the sixteen hottest. The tables are part of the ABI, because the encoding depends on them and the compiler's register allocator prefers the hot registers.
 
 | 3-bit table (index 0 to 7) | 4-bit table (index 0 to 15) |
 |---|---|
 | `R0 R1 R8 R2 SP R3 R9 R10` | `R0 R1 R8 R2 SP R3 R9 R10 R11 R4 R15 R5 R24 R25 R26 R6` |
 
-**D.3.2** The 3-bit table covers 90.8% of the register uses of the compiled corpus. `MOV2` takes only registers of the 3-bit table. A different allocation changes the sizes and not the correctness; the measured effect of preferring the hot registers in the allocator is at most 0.03%. *(E)*
+**D.3.2** The 3-bit table covers 90.8% of the register uses of the compiled corpus. `MOV2` takes only registers of the 3-bit table. A different allocation changes the sizes and not the correctness; the measured effect of preferring the hot registers in the allocator is at most 0.03%. (estimated)
 
-**D.3.3** A register index beyond a table is an illegal instruction. *(D)*
+**D.3.3** A register index beyond a table is an illegal instruction.
 
 ## D.4 The register-save masks and the registers above R15
 
-**D.4.1** `PUSHM`, `POPM` and `POPMRET` name registers by bit: bit n is `R`n. The mask is 32 bits, carried in 8, 16, 24 or 32 bits by the length of the form. The 8-bit mask of `POPMRET` is scaled by 256 and names `R8` to `R15`, so a save of `R24` to `R31` is not fused with its return. *(D)*
-**D.4.2** `R16` to `R31` are ordinary registers to the hardware; `R24`, `R25` and `R26` are among the sixteen hot registers. *(D)*
+**D.4.1** `PUSHM`, `POPM` and `POPMRET` name registers by bit: bit n is `R`n. The mask is 32 bits, carried in 8, 16, 24 or 32 bits by the length of the form. The 8-bit mask of `POPMRET` is scaled by 256 and names `R8` to `R15`, so a save of `R24` to `R31` is not fused with its return.
+**D.4.2** `R16` to `R31` are ordinary registers to the hardware; `R24`, `R25` and `R26` are among the sixteen hot registers.
 
 ## D.5 What the ABI leaves open
 

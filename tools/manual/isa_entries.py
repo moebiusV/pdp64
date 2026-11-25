@@ -5,9 +5,9 @@ from isa_stories import STORY
 import isa_stories_ext
 STORY = dict(STORY, **isa_stories_ext.STORY)
 
-ENTRIES = isa_part1.ENTRIES + isa_part2.ENTRIES + isa_part3.ENTRIES + isa_part4.ENTRIES + isa_vec.ENTRIES	# isa_vec: the vec, tile and GEMM family, all held (P) until benchmarked (errata 161)
+ENTRIES = isa_part1.ENTRIES + isa_part2.ENTRIES + isa_part3.ENTRIES + isa_part4.ENTRIES + isa_vec.ENTRIES	# isa_vec: the vec, tile and GEMM family, all held (P) until benchmarked
 
-# The manual is about the architecture as it is to be (errata 120).  An entry whose notes open with the tag (P), a proposal the author has not
+# The manual is about the architecture as it is to be.  An entry whose notes open with the tag (P), a proposal the author has not
 # accepted, or (S), a stub, is not emitted into the body or the reference tables; its text lives in docs/manual-src/appendix-parts/09-proposed.md
 # (and 09-open.md for a stub).  An instruction the author asked for or accepted is decided even when its details are not worked out: its entry is
 # tagged (D) and says "Details pending", and it is not held.  Only the words he did not decide are held: MOVUSERD (a combination of two decided

@@ -101,7 +101,7 @@ The 64-byte header of an ordinary function (type 0) holds, as the figure shows a
 
 **Capabilities.** The header is fixed; everything optional hangs off a **capability list**: a linked list, inside the configuration space, of small records, each starting with an identifier byte and a byte holding the offset of the next record (0 ends the list). It is a linked list of the kind drawn in section 2.7. The records a pdp64 driver looks for are the MSI-X record (identifier 0x11, section 2.6), the PCI Express record (0x10) and the vendor-specific record (0x09) which virtio uses to say where its structures are (section 2.7).
 
-**What the pdp64 adds.** A PCI Express endpoint looks to software like a PCI device, so one driver model serves both, and has served about thirty years of hardware (*unverified* as history). The author's decision (errata 80) is that the bus is PCI Express, so an ordinary card works on it unchanged, with circuitry added on the processor side for convenience and security (2.3.4).
+**What the pdp64 adds.** A PCI Express endpoint looks to software like a PCI device, so one driver model serves both, and has served about thirty years of hardware (*unverified* as history). The author's decision is that the bus is PCI Express, so an ordinary card works on it unchanged, with circuitry added on the processor side for convenience and security (2.3.4).
 
 ## 2.3 The address space
 
@@ -111,25 +111,25 @@ The 64-byte header of an ordinary function (type 0) holds, as the figure shows a
 
 Against the Unibus, three things differ. The fixed I/O page at the top of the address space is gone (errata 97, 102: no address bit says "device"); the address is wider (40 to 64 bits, against 18); and a window may be placed anywhere except the first few pages, where the boot code and boot data are loaded.
 
-**2.3.1** The system bus is PCI Express, so that an ordinary PCI Express device works on it unchanged, with the programming model of the PDP-11 Q-bus (devices as memory locations in the one address space) widened to 64-bit data and a physical address that is not limited to 40 bits, and with convenience and security circuitry added. *(D)*
+**2.3.1** The system bus is PCI Express, so that an ordinary PCI Express device works on it unchanged, with the programming model of the PDP-11 Q-bus (devices as memory locations in the one address space) widened to 64-bit data and a physical address that is not limited to 40 bits, and with convenience and security circuitry added.
 
-**2.3.2** Devices live in the ordinary address space; the processor has no input or output instructions. *(D)*
+**2.3.2** Devices live in the ordinary address space; the processor has no input or output instructions.
 
-**2.3.3** Every page has a memory type: normal cached, normal uncached, device strongly ordered, or device weakly ordered. *(D)*
+**2.3.3** Every page has a memory type: normal cached, normal uncached, device strongly ordered, or device weakly ordered.
 
-**2.3.4** The transactions on the bus are those of PCI Express; the circuitry the pdp64 adds is for convenience (overlays, helper registers) and security (the IOMMU, error and reset rules), and is measured against the list of pain points of `kernel-pain-points.md`. An extension is announced to a card, through a PCI Express extended capability, only if the card must take part in it; a mitigation that lives on the processor side is invisible to cards. *(D)*
+**2.3.4** The transactions on the bus are those of PCI Express; the circuitry the pdp64 adds is for convenience (overlays, helper registers) and security (the IOMMU, error and reset rules), and is measured against the list of pain points of `kernel-pain-points.md`. An extension is announced to a card, through a PCI Express extended capability, only if the card must take part in it; a mitigation that lives on the processor side is invisible to cards.
 
 Open: the detail of the pdp64's additions to PCI Express ([J.2.4](appendix-j-open.md#j24)).
 
-**2.3.5** No bit of the physical address selects device space: a device window is an ordinary range of physical addresses, found by enumeration (section 2.4), and the physical address is at least 40 bits and at most 64, an implementation choosing its width in that range, so that mappings of petabytes are possible. *(D)* A window can be mapped anywhere in the physical address space except the first few pages, where the boot code and boot data are loaded. *(D)*
+**2.3.5** No bit of the physical address selects device space: a device window is an ordinary range of physical addresses, found by enumeration (section 2.4), and the physical address is at least 40 bits and at most 64, an implementation choosing its width in that range, so that mappings of petabytes are possible. A window can be mapped anywhere in the physical address space except the first few pages, where the boot code and boot data are loaded.
 
 Open: how many pages are "the first few" ([J.4.1](appendix-j-open.md#j41)).
 
 Open: how software discovers the implemented physical address width ([J.6.1](appendix-j-open.md#j61)).
 
-**2.3.6** The windows of a device (the regions its base-address registers describe) start on 4 KB page boundaries and are a whole number of pages, so that one device can be mapped to one protection domain. *(D)* Details to be determined.
+**2.3.6** The windows of a device (the regions its base-address registers describe) start on 4 KB page boundaries and are a whole number of pages, so that one device can be mapped to one protection domain.
 
-*Commentary on 2.3.5.* **Chain.** The PDP-11 put its devices in a fixed page at the top of the address space (a driver's pointer to its registers is a constant in that page: `cnaddr = 0177560` in 2.11BSD `pdp/cons.c`). The VAX-11/780 put them in nexus space from `0x20000000`, one 8 KB window (`NEXSIZE` 0x2000) per slot (`NEX780` in 4.3BSD `nexus.h`), and `nexus.h` gives the 11/750, 730 and 8600 different bases, so the VAX kept changing the map from model to model. PCI Express places each function's windows where enumeration assigns them. The pdp64 follows PCI Express. **Trade-off.** A decoding bit makes the first routing decision in the fabric trivial and makes a mapping of the wrong memory type detectable, at the cost of half the physical address space; the author dropped it because mapping petabytes needs those bits. Without it, a device's DMA into another device's window is refused by the IOMMU (errata 85), not by the address. **Impact.** The kernel maps devices where enumeration says and recognises a device mapping by its memory type and window; the root complex decodes the windows it has assigned. Whether other systems split the map by platform-chosen ranges, and whether x86 has a separate port space, are *unverified* here.
+*Commentary on 2.3.5.* **Chain.** The PDP-11 put its devices in a fixed page at the top of the address space (a driver's pointer to its registers is a constant in that page: `cnaddr = 0177560` in 2.11BSD `pdp/cons.c`). The VAX-11/780 put them in nexus space from `0x20000000`, one 8 KB window (`NEXSIZE` 0x2000) per slot (`NEX780` in 4.3BSD `nexus.h`), and `nexus.h` gives the 11/750, 730 and 8600 different bases, so the VAX kept changing the map from model to model. PCI Express places each function's windows where enumeration assigns them. The pdp64 follows PCI Express. **Trade-off.** A decoding bit makes the first routing decision in the fabric trivial and makes a mapping of the wrong memory type detectable, at the cost of half the physical address space; the author dropped it because mapping petabytes needs those bits. Without it, a device's DMA into another device's window is refused by the IOMMU, not by the address. **Impact.** The kernel maps devices where enumeration says and recognises a device mapping by its memory type and window; the root complex decodes the windows it has assigned. Whether other systems split the map by platform-chosen ranges, and whether x86 has a separate port space, are *unverified* here.
 
 ## 2.4 Enumeration
 
@@ -201,29 +201,29 @@ size_and_place_bars(bus, dev, fn):
 
 The worked example of the figure: reading back 0xFFFFC000 means the low 14 bits are not storage, so the size is 2^14 = 16 KB. The last line sets bit 2 of the command register; until it is set the function may not start a transfer of its own (section 2.5).
 
-**2.4.1** The processor finds the devices by PCI Express enumeration: it reads the configuration space of each function through the root complex, sizes the base-address registers of the function and assigns its windows in device space. *(D)*
+**2.4.1** The processor finds the devices by PCI Express enumeration: it reads the configuration space of each function through the root complex, sizes the base-address registers of the function and assigns its windows in device space.
 
-**2.4.2** A function is a virtio device when its configuration space says so (the virtio vendor identifier and a device identifier that carries the virtio device type); the capabilities in its configuration space locate the virtio structures in its windows (chapter 5). One transport driver serves every virtio device. *(D)*
+**2.4.2** A function is a virtio device when its configuration space says so (the virtio vendor identifier and a device identifier that carries the virtio device type); the capabilities in its configuration space locate the virtio structures in its windows (chapter 5). One transport driver serves every virtio device.
 
-**2.4.3** A function may itself be a bus: a PCI Express bridge presents the functions behind it, and a USB host controller (itself a PCI Express function) enumerates its own tree of hubs and devices, so any bus can be attached to the bus and its devices enumerated, to any depth. The kernel's enumeration is one recursive walk. *(D)*
+**2.4.3** A function may itself be a bus: a PCI Express bridge presents the functions behind it, and a USB host controller (itself a PCI Express function) enumerates its own tree of hubs and devices, so any bus can be attached to the bus and its devices enumerated, to any depth. The kernel's enumeration is one recursive walk.
 
-**2.4.4** The bus alerts the processor when a device enters or leaves, by an interrupt; the kernel then rescans the bus, which is also what it does at boot. *(D)*
+**2.4.4** The bus alerts the processor when a device enters or leaves, by an interrupt; the kernel then rescans the bus, which is also what it does at boot.
 
 Open: the mechanism of the alert, and how it is reported for a device behind a bridge ([J.2.2](appendix-j-open.md#j22)).
 
-**2.4.5** The queued work of a departed device stays in memory untouched, so the driver can read, save, resend or fail it. *(D)* Details to be determined.
+**2.4.5** The queued work of a departed device stays in memory untouched, so the driver can read, save, resend or fail it.
 
-**2.4.6** A bus reset produces no removal events, so a reset is not mistaken for the removal of every device, and the identity of every function is defined after the bus has lost power. *(D)*
+**2.4.6** A bus reset produces no removal events, so a reset is not mistaken for the removal of every device, and the identity of every function is defined after the bus has lost power.
 
 Open: where the configuration space and the windows of the functions sit in the physical address space ([J.2.1](appendix-j-open.md#j21)).
 
-**2.4.7** A read of a configuration position that never held a function completes normally and returns all ones in every byte, so a vendor ID of `0xFFFF` means that nothing is there; it is not a bus fault (the read of other non-existent addresses stays a precise `BUSFAULT`, 6.4.3). *(D)*
+**2.4.7** A read of a configuration position that never held a function completes normally and returns all ones in every byte, so a vendor ID of `0xFFFF` means that nothing is there; it is not a bus fault (the read of other non-existent addresses stays a precise `BUSFAULT`, 6.4.3).
 
-**2.4.8** The root complex records such a miss in a sticky bit of its own status register, cleared by writing a one to it, so that a dead link can be told from an empty slot. *(D)*
+**2.4.8** The root complex records such a miss in a sticky bit of its own status register, cleared by writing a one to it, so that a dead link can be told from an empty slot.
 
 Open: where that register sits ([J.2.4](appendix-j-open.md#j24)).
 
-**2.4.9** When a device leaves, an access to its windows is at once a precise bus fault, not a read of all ones: a read of the window faults, a posted write is dropped and counted, and the device's in-flight bus transactions are aborted. *(D)* Details to be determined.
+**2.4.9** When a device leaves, an access to its windows is at once a precise bus fault, not a read of all ones: a read of the window faults, a posted write is dropped and counted, and the device's in-flight bus transactions are aborted.
 
 *Commentary on 2.4.9.* The PDP-11 kernel was not told when a device left. On a surprise removal PCI Express returns all ones (*unverified*), so every driver would have to treat all ones as a possible error. The pdp64 gives instead the precise bus fault that the instruction set already defines (6.4.3), so a driver has one recovery path, and a rescan on an event makes hot-plug and boot the same code.
 
@@ -237,13 +237,13 @@ Open: where that register sits ([J.2.4](appendix-j-open.md#j24)).
 
 **The hand-off.** Telling each side that the data is ready is the harder half of DMA, and a queue in memory does it (section 2.7). Statement 2.5.3 gives the five steps in order.
 
-**2.5.1** Between processors the data caches are coherent without any software action, by snooping with three states (modified, shared, invalid), for two to four cores. *(D)*
+**2.5.1** Between processors the data caches are coherent without any software action, by snooping with three states (modified, shared, invalid), for two to four cores.
 
-**2.5.2** Between a processor and a DMA device they are not: buffers are mapped uncached and the hand-off is explicit. *(D)*
+**2.5.2** Between a processor and a DMA device they are not: buffers are mapped uncached and the hand-off is explicit.
 
-**2.5.3** The hand-off is five steps: the processor builds the descriptors and data in uncached memory, executes `FENCE`, writes the device's notification address; the device walks the descriptors, moves the data by DMA, writes the result and its used-ring entry, and raises an interrupt; the processor reads the result. *(D)*
+**2.5.3** The hand-off is five steps: the processor builds the descriptors and data in uncached memory, executes `FENCE`, writes the device's notification address; the device walks the descriptors, moves the data by DMA, writes the result and its used-ring entry, and raises an interrupt; the processor reads the result.
 
-**2.5.4** The write that raises a device's interrupt (a message-signalled write) cannot overtake the data writes that precede it on the same path. *(D)*
+**2.5.4** The write that raises a device's interrupt (a message-signalled write) cannot overtake the data writes that precede it on the same path.
 
 *Commentary.* **Chain.** The RK11 driver of 2.1 contains no cache or ordering step. On the VAX the Unibus adapter had buffered data paths, and a driver had to purge them before reading what a device had written (`UBA_PURGE780` and `UBA_PURGE750` in 4.3BSD `ubareg.h`). That a PDP-11/70's cache watched Unibus writes so that DMA appeared coherent is *unverified* here. Modern x86 DMA is coherent, while ARM and MIPS systems with non-coherent DMA need a kernel layer that places cache maintenance (*unverified*). The pdp64 chooses two mechanisms, each where it is cheap: snooping between cores, which are few, and uncached buffers with an explicit hand-off for DMA, which is large and infrequent. **Trade-off.** The processor reads received data from uncached memory, which is slow. No driver can forget a cache clean or invalidate, because there is none. **Impact.** A snoop port on each data cache for core coherence only; none for DMA.
 
@@ -280,17 +280,17 @@ write16(msix_config, 0);  write16(queue_msix_vector, 1)    # 0xFFFF means no vec
 
 When the device raises vector *v*, it sends a write of `data[v]` to `address[v]`, if the entry is not masked; a handler then learns what happened by reading the used ring (2.7.7) and, for the device as a whole, the interrupt-status structure of the virtio capabilities (type 3, section 2.7.2, which comes next). On the Unibus there were four levels and the RK11's vector was `0220` at level 5, so a handler for a level shared with other devices had to find out which had spoken; here there is a vector for each queue, assigned by software, and no wire.
 
-**2.6.1** A device interrupts by a message-signalled write (MSI-X): the configuration change and each queue have a vector that the driver sets in the common configuration, and the interrupt status structure says why (5.9.1). The standard devices are virtio devices, so this is the interrupt of every one of them, and the interrupt controller must be the target of the writes. *(D)* Details pending ([J.6.3](appendix-j-open.md#j63)).
+**2.6.1** A device interrupts by a message-signalled write (MSI-X): the configuration change and each queue have a vector that the driver sets in the common configuration, and the interrupt status structure says why (5.9.1). The standard devices are virtio devices, so this is the interrupt of every one of them, and the interrupt controller must be the target of the writes.
 
-**2.6.2** The write that raises an interrupt cannot overtake the data writes that precede it on the same path, so a handler that runs because of the interrupt finds the data in memory (2.5.4). *(D)*
+**2.6.2** The write that raises an interrupt cannot overtake the data writes that precede it on the same path, so a handler that runs because of the interrupt finds the data in memory (2.5.4).
 
-**2.6.3** A driver may mask a device's interrupts and poll the used ring instead (2.7.9, 5.9.2). *(D)*
+**2.6.3** A driver may mask a device's interrupts and poll the used ring instead (2.7.9, 5.9.2).
 
 *Commentary.* **Chain.** PDP-11: four BR levels and switch-set vectors, a scarce shared resource (`pdp/scb.s`). VAX: the Unibus adapter latched the vector of each level in a **receive vector register**, one per BR level (`uba_brrvr[4]`, `UBABRRVR_DIV`, `ubareg.h`, 4.3BSD). PCI: four shared interrupt pins per slot, described by the header bytes at 0x3C and 0x3D (`pci_regs.h`). PCI Express adds MSI and MSI-X, an interrupt as a write (`pci_regs.h`, QEMU `hw/pci/msix.c`). virtio gives each queue its own vector. **Trade-off.** A message carries its own vector, so no switch and no assignment table are needed and there can be thousands; the interrupt controller must be an address that many devices write, and a confused device that writes to the wrong address causes an interrupt (the IOMMU of 2.11 can refuse a write to an address that is not allowed). That the x86 local APIC and the ARM GIC's translation service receive such writes is *unverified*. **Impact.** An interrupt routine reads the used ring and the status structure; the table is programmed once at attach.
 
 ## 2.7 virtio: one shape for every device
 
-The Unibus gave every device its own registers, and every driver learned them. **virtio** (a specification for devices meant to be imitated in software; the name is from "virtual I/O") gives every device the same few structures in memory, and only the meaning of the requests differs. A **driver** (the program that runs a device) and a **device** (the hardware, or the emulator that pretends to be it) talk by **shared memory** (both sides read and write the same region of memory under a fixed protocol, instead of passing values through registers). The author decided on virtio for every standard device (errata 95, 79, 101): the network card, the graphics device, the audio device and the disk are virtio-net, virtio-gpu, virtio-snd and virtio-blk. One transport driver (2.7.2) and a thin driver per device kind serve the machine. The chain from the RK11: one register set per device (PDP-11); the VAX added a second adapter kind, the Massbus (`NEX_MBA`), beside the Unibus adapter, so its interconnect carried several device interfaces; PCI Express made discovery and addressing uniform and left the device interface to each vendor (NVMe, which errata 75 first chose, is one such interface and may still be attached, errata 101); virtio makes the device interface uniform too. Chapter 5 states the rules; this section teaches the shape.
+The Unibus gave every device its own registers, and every driver learned them. **virtio** (a specification for devices meant to be imitated in software; the name is from "virtual I/O") gives every device the same few structures in memory, and only the meaning of the requests differs. A **driver** (the program that runs a device) and a **device** (the hardware, or the emulator that pretends to be it) talk by **shared memory** (both sides read and write the same region of memory under a fixed protocol, instead of passing values through registers). The author decided on virtio for every standard device: the network card, the graphics device, the audio device and the disk are virtio-net, virtio-gpu, virtio-snd and virtio-blk. One transport driver (2.7.2) and a thin driver per device kind serve the machine. The chain from the RK11: one register set per device (PDP-11); the VAX added a second adapter kind, the Massbus (`NEX_MBA`), beside the Unibus adapter, so its interconnect carried several device interfaces; PCI Express made discovery and addressing uniform and left the device interface to each vendor (NVMe, which errata 75 first chose, is one such interface and may still be attached, errata 101); virtio makes the device interface uniform too. Chapter 5 states the rules; this section teaches the shape.
 
 ### 2.7.1 The five ideas, against the RK11
 
@@ -445,21 +445,21 @@ Doorbells and interrupts cost time on both sides, so each side can ask the other
 
 ## 2.8 What the processor owes the bus
 
-**2.8.1** The processor owes the bus exactly three things: a memory type per page, a `FENCE` instruction whose meaning against PCI Express is defined, and atomics that can reach device memory. *(D)*
+**2.8.1** The processor owes the bus exactly three things: a memory type per page, a `FENCE` instruction whose meaning against PCI Express is defined, and atomics that can reach device memory.
 
-**2.8.2** A driver can be sure a descriptor is visible before it notifies the device: it builds the descriptor and publishes it in the queue, executes `FENCE`, and writes the queue's notification address (the doorbell). *(D)*
+**2.8.2** A driver can be sure a descriptor is visible before it notifies the device: it builds the descriptor and publishes it in the queue, executes `FENCE`, and writes the queue's notification address (the doorbell).
 
 *Commentary.* **Chain.** The RK11 driver of 2.1 contains no ordering step; its writes reach the device in program order over one bus (*unverified* for models with a cache). PCI Express posts writes, and the driver must order them (2.2); multi-core machines add the same need between cores. ARM's `DMB`/`DSB` and device-memory types, and RISC-V's `FENCE` with I/O bits, play the same part (*unverified*). The pdp64's contract has three items: a memory type per page, a `FENCE` whose meaning against PCI Express is defined, and atomics that reach device memory. A virtio device is written against the virtio specification and these three promises alone, without knowing the processor's pipeline. **Impact.** One `FENCE` before the doorbell is the whole ordering rule; `FENCE` is a compiler intrinsic; the memory type is two bits per page-table entry (6.7.1) and the bus honours it.
 
 ## 2.9 When an access fails
 
-**2.9.1** A read or instruction fetch of non-existent memory is a precise abort with cause `BUSFAULT`, at the faulting instruction. *(D)*
+**2.9.1** A read or instruction fetch of non-existent memory is a precise abort with cause `BUSFAULT`, at the faulting instruction.
 
-**2.9.2** A posted write that times out, and an uncorrectable memory error, are machine checks: imprecise and not restartable. A `FENCE` before a probe makes even a posted write precise at a known point. *(D)*
+**2.9.2** A posted write that times out, and an uncorrectable memory error, are machine checks: imprecise and not restartable. A `FENCE` before a probe makes even a posted write precise at a known point.
 
-**2.9.3** `PROBER` and `PROBEW` test whether an address can be read or written without faulting. *(D)*
+**2.9.3** `PROBER` and `PROBEW` test whether an address can be read or written without faulting.
 
-**2.9.4** Resetting the bus is a write to a register of the root complex, not an instruction. *(D)*
+**2.9.4** Resetting the bus is a write to a register of the root complex, not an instruction.
 
 Open: where that register sits ([J.2.4](appendix-j-open.md#j24)).
 
@@ -467,45 +467,45 @@ Open: where that register sits ([J.2.4](appendix-j-open.md#j24)).
 
 ## 2.10 Atomics on the bus
 
-**2.10.1** The atomics are defined on a monitor: a load-linked takes a reservation, a write by any initiator clears it, and a store-conditional succeeds only if it is intact; the Unibus's `DATIP`/`DATO` locked pair is not an architectural primitive. *(D)*
+**2.10.1** The atomics are defined on a monitor: a load-linked takes a reservation, a write by any initiator clears it, and a store-conditional succeeds only if it is intact; the Unibus's `DATIP`/`DATO` locked pair is not an architectural primitive.
 
-**2.10.2** A device that writes memory shared with a core takes part by clearing reservations. *(D)*
+**2.10.2** A device that writes memory shared with a core takes part by clearing reservations.
 
-*Commentary.* **Chain.** PDP-11: the locked read-modify-write `DATIP`/`DATO` (*unverified* here; `decisions-pending.md` records it). VAX: interlocked instructions (`BBSSI`, `BBCCI`, `ADAWI`, `INSQHI`, checked in `decisions-pending.md` against the VAX-11 Architecture Reference Manual). Both lock; a lock is simple and a bottleneck as cores multiply. RISC-V `LR`/`SC` and AArch64 exclusive loads and stores use a monitor, which maps onto AXI exclusive access, at the cost of forward-progress rules; large systems also have atomics that perform the operation at the memory (all *unverified* here). The pdp64 chose the monitor (errata 45). **Impact.** Lock words and lock-free structures use the atomics of chapter 7; C11 atomics lower to them; the hardware needs a reservation monitor and an exclusive access, not a bus lock.
+*Commentary.* **Chain.** PDP-11: the locked read-modify-write `DATIP`/`DATO` (*unverified* here; `decisions-pending.md` records it). VAX: interlocked instructions (`BBSSI`, `BBCCI`, `ADAWI`, `INSQHI`, checked in `decisions-pending.md` against the VAX-11 Architecture Reference Manual). Both lock; a lock is simple and a bottleneck as cores multiply. RISC-V `LR`/`SC` and AArch64 exclusive loads and stores use a monitor, which maps onto AXI exclusive access, at the cost of forward-progress rules; large systems also have atomics that perform the operation at the memory (all *unverified* here). The pdp64 chose the monitor. **Impact.** Lock words and lock-free structures use the atomics of chapter 7; C11 atomics lower to them; the hardware needs a reservation monitor and an exclusive access, not a bus lock.
 
 ## 2.11 The IOMMU: a page table for each device
 
 A device that is a bus master (section 2.5) can write wherever its packets say, and a descriptor is only an address the driver gave it. If the driver is wrong, or the device is, or the device has been modified by an attacker, that address can be the kernel's. The chain: on the PDP-11 the map registers of 2.1 (`UBMAP` at `0170200`) existed so that an 18-bit address could reach more memory, and as a side effect limited what a device could reach; the VAX Unibus adapter kept them (`ubareg.h`). The **IOMMU** (input-output memory management unit: a translator between the device's addresses and memory's addresses, with a page table of its own for each device, as the processor's MMU has for each program) makes the limit the purpose. A device is given **device addresses** (also called I/O virtual addresses) in its descriptors; the IOMMU walks that device's table to turn each into a physical address, and refuses the access if the table has no entry or the entry forbids that kind of access. The table is per device (the unit is a **domain**: a set of mappings that one or more devices share), so a network card can reach its buffers and nothing else.
 
-An IOMMU is part of the design (errata 75). The five recommendations of the synthesis in `decisions-pending.md` (F25) are accepted (errata 85): translation is on by default; each device is its own domain; descriptors contain no kernel pointers (a device never sees an address that is useful to an attacker as the address of kernel data); the mappings of the rings, which stay put for the life of the queue, are permanent; and a small buffer is **bounced** (copied into a buffer mapped for the device, so the device cannot reach the page that holds other data). The IOMMU's leaf entry shares bits 0 to 39 with the processor's page-table entry, and bits 40 to 63 are free (errata 85). 
+An IOMMU is part of the design. The five recommendations of the synthesis in `decisions-pending.md` (F25) are accepted: translation is on by default; each device is its own domain; descriptors contain no kernel pointers (a device never sees an address that is useful to an attacker as the address of kernel data); the mappings of the rings, which stay put for the life of the queue, are permanent; and a small buffer is **bounced** (copied into a buffer mapped for the device, so the device cannot reach the page that holds other data). The IOMMU's leaf entry shares bits 0 to 39 with the processor's page-table entry, and bits 40 to 63 are free. 
 
 Without translation a device addresses all of memory, and a user-space driver can direct its device to write anywhere in memory.
 
-**2.11.1** A device is identified by the 16-bit requester identity of PCI Express, in one identity space. The device table is a directory of 512 entries of 8 bytes, each pointing to a leaf page of 128 device entries of 32 bytes (a 9 and a 7 bit split, one page each). A mode field says blocked, one level or two levels; the unit is **blocked at reset**. *(D)* Details to be determined.
+**2.11.1** A device is identified by the 16-bit requester identity of PCI Express, in one identity space. The device table is a directory of 512 entries of 8 bytes, each pointing to a leaf page of 128 device entries of 32 bytes (a 9 and a 7 bit split, one page each). A mode field says blocked, one level or two levels; the unit is **blocked at reset**.
 
-**2.11.2** When a device is assigned to a guest the unit translates in two levels: **level A**, which the guest writes, turns a device address into a guest-physical address, and **level B**, which the hypervisor writes, turns that into a physical address. The device table that the unit reads stays the host's; the guest sees a virtual unit with the same registers, which the hypervisor traps and forwards (6.14.6), and there is no guest-visible hardware ring in version 1. *(D)*
+**2.11.2** When a device is assigned to a guest the unit translates in two levels: **level A**, which the guest writes, turns a device address into a guest-physical address, and **level B**, which the hypervisor writes, turns that into a physical address. The device table that the unit reads stays the host's; the guest sees a virtual unit with the same registers, which the hypervisor traps and forwards (6.14.6), and there is no guest-visible hardware ring in version 1.
 
-**2.11.3** A device entry is 32 bytes: a valid bit V, a mute bit MUTE, the stages (A, B, or A then B), the levels of each stage, a domain tag and a guest tag, two root words, and one word reserved for the interrupt table (J.6.3). Reserved bits must be zero or the device is refused. There is **no bypass mode**. *(D)* Details to be determined.
+**2.11.3** A device entry is 32 bytes: a valid bit V, a mute bit MUTE, the stages (A, B, or A then B), the levels of each stage, a domain tag and a guest tag, two root words, and one word reserved for the interrupt table (J.6.3). Reserved bits must be zero or the device is refused. There is **no bypass mode**.
 
-**2.11.4** The leaf entry has V, R, W and the page number, and W requires R. The bits X, U, G and the memory type must be zero; A and D are ignored. Large pages are allowed, with 3, 4 or 5 levels for each device. Bits 40 to 63 are not allocated. *(D)*
+**2.11.4** The leaf entry has V, R, W and the page number, and W requires R. The bits X, U, G and the memory type must be zero; A and D are ignored. Large pages are allowed, with 3, 4 or 5 levels for each device. Bits 40 to 63 are not allocated.
 
-**2.11.5** There is one unit, at the root complex, and its registers are in the root complex's own block (J.2.4), not a PCI Express function, so that it exists from reset. A third-party switch that lets two devices reach each other directly is invisible to the unit; such devices form a **group** that is assigned together, which is the one exception to "each device its own domain". *(D)*
+**2.11.5** There is one unit, at the root complex, and its registers are in the root complex's own block (J.2.4), not a PCI Express function, so that it exists from reset. A third-party switch that lets two devices reach each other directly is invisible to the unit; such devices form a **group** that is assigned together, which is the one exception to "each device its own domain".
 
-**2.11.6** A refused read is answered with an error completion; a refused posted write is dropped and counted. Every refusal is logged in a ring in memory, with an interrupt, a sticky overflow bit and count, and a per-device mute bit. A bad table fails closed: never all ones, never a machine check. For a guest, the hypervisor forwards the faults of level A to the guest's virtual log. *(D)* Details to be determined.
+**2.11.6** A refused read is answered with an error completion; a refused posted write is dropped and counted. Every refusal is logged in a ring in memory, with an interrupt, a sticky overflow bit and count, and a per-device mute bit. A bad table fails closed: never all ones, never a machine check. For a guest, the hypervisor forwards the faults of level A to the guest's virtual log.
 
-**2.11.7** The unit's cached translations are keyed by the requester identity, the guest tag, the domain tag, the page and the level. The commands are invalidate device, domain, guest and all, and sync. The hardware discards every cached translation on a change of the device-table pointer, on the reset bit and on reset. Invalidate device does not complete until the device's requests in flight are finished or refused. A guard blocks a device whose guest is being invalidated. An implementation may discard more. The tables and the cache of a domain are reset together or not at all (6.8.5). *(D)* Details to be determined.
+**2.11.7** The unit's cached translations are keyed by the requester identity, the guest tag, the domain tag, the page and the level. The commands are invalidate device, domain, guest and all, and sync. The hardware discards every cached translation on a change of the device-table pointer, on the reset bit and on reset. Invalidate device does not complete until the device's requests in flight are finished or refused. A guard blocks a device whose guest is being invalidated. An implementation may discard more. The tables and the cache of a domain are reset together or not at all (6.8.5).
 
-**2.11.8** The guest tag has the same number space and width as the processor's (6.14.4), and 0 is the host. Resetting a guest is the hypervisor's duty: block its devices, invalidate its translations, then reset. *(D)* Details to be determined: the width.
+**2.11.8** The guest tag has the same number space and width as the processor's (6.14.4), and 0 is the host. Resetting a guest is the hypervisor's duty: block its devices, invalidate its translations, then reset.
 
-**2.11.9** The unit does not offer translation requests (ATS or page requests) in version 1: it answers a translation request with an error. *(D)*
+**2.11.9** The unit does not offer translation requests (ATS or page requests) in version 1: it answers a translation request with an error.
 
-**2.11.10** The registers are 64 bits wide at 8-byte spacing. The first eight are those of the common device pattern, with the command ring: ID, CONTROL, STATUS, RING_BASE, RING_SIZE, DOORBELL, IRQ and DEVICE (the device-table pointer); then CAPS, the fault-ring registers and the invalidate register. Both a command ring and an invalidate register are on one executor. *(D)* Details to be determined.
+**2.11.10** The registers are 64 bits wide at 8-byte spacing. The first eight are those of the common device pattern, with the command ring: ID, CONTROL, STATUS, RING_BASE, RING_SIZE, DOORBELL, IRQ and DEVICE (the device-table pointer); then CAPS, the fault-ring registers and the invalidate register. Both a command ring and an invalidate register are on one executor.
 
-**2.11.11** The unit's own interrupt is a wired line to the processor like the timer's, to be replaced when J.6.3 is decided. *(D)*
+**2.11.11** The unit's own interrupt is a wired line to the processor like the timer's, to be replaced when J.6.3 is decided.
 
 The driver's side (the buffers, the uncached mappings and the order of the writes) is in [5.10](05-drivers.md#510-dma-and-the-buffers-memory).
 
-With no address bit that says "device" (errata 97), another device's window is an ordinary address, so the IOMMU also refuses a device's DMA into another device's window (2.3.5). In virtio the feature bit `VIRTIO_F_ACCESS_PLATFORM` (33) states that the addresses in a device's descriptors are subject to the platform's translation; (2.7.3).
+With no address bit that says "device", another device's window is an ordinary address, so the IOMMU also refuses a device's DMA into another device's window (2.3.5). In virtio the feature bit `VIRTIO_F_ACCESS_PLATFORM` (33) states that the addresses in a device's descriptors are subject to the platform's translation; (2.7.3).
 
 ## 2.12 What was checked, and what was not
 

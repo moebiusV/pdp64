@@ -130,7 +130,7 @@ def fig_interrupt_path():
                        'pdp64: a memory write that cannot pass the data written before it (5.9.4); one vector for each queue; the handler asks the used ring.',
                        'The dashed box is open: which unit receives the write, how a core is chosen and how the vector number is made are decision R1 (appendix B, 2.6.3).'], 9, gap=15)
     c.text(20, 290, 'Sources: 2.11BSD pdp/scb.s (DEVTRAP(220, rkintr, br5)); chapter 6 (6.3.1 to 6.3.6) for the entry; chapter 2 (2.6) for MSI-X.', 8, 'start', '#555')
-    c.text(20, 304, 'The priority of 7 on entry is the PDP-11\'s own habit (errata 40); the handler lowers it with SPL.', 8, 'start', '#555')
+    c.text(20, 304, 'The priority of 7 on entry is the PDP-11\'s own habit; the handler lowers it with SPL.', 8, 'start', '#555')
     return c.svg()
 
 
@@ -150,7 +150,7 @@ def fig_console_timer():
             c.box(x, y, cw, 52, a, f, 10, sub=b, dash=(f == SOFT))
     c.box(20, 262, 650, 30, '', '#fff')
     lines(c, 28, 276, ['Every box is a candidate; none is chosen.'], 9)
-    lines(c, 28, 288, ['Whether these three follow "virtio across the board" (errata 95) is part of what is open.'], 9)
+    lines(c, 28, 288, ['Whether these three follow "virtio across the board" is part of what is open.'], 9)
     lines(c, 20, 314, ['A virtio-console needs the bus and a queue before it can print; its emergency write needs the bus and no queue.  A fixed console needs neither.',
                        'Sources: spec/grammars.d/50-system-v1.hbnf, qemu/hw-pdp64, virtio_console.h, virtio_rtc.h, QEMU virtio-rng.c (read)'], 8, fill='#555', gap=14)
     return c.svg()

@@ -1,7 +1,7 @@
 <a id="j21"></a>
 ### J.2.1 Locating devices without a selecting bit
 
-**Issue.** On the Unibus, an address whose top bits were all ones meant "a device register", so every driver knew where its device was. The pdp64 has no such bit (errata 97, 102): a device window is an ordinary range of physical addresses, and the physical address is at least 40 and at most 64 bits wide. Software must therefore learn from somewhere where each window is, and something must choose where it goes. There are three ways to do it: **enumeration** (the processor reads a small self-description from every device and assigns each one a window), a **table handed over at boot** (the first stage tells the kernel what is where), or **fixed addresses** written into the architecture. The manual's text assumes enumeration through the root complex (the chip at the top of the bus tree, which turns the processor's accesses into bus transactions) and says only that the address of the root complex arrives in the boot-information block.
+**Issue.** On the Unibus, an address whose top bits were all ones meant "a device register", so every driver knew where its device was. The pdp64 has no such bit: a device window is an ordinary range of physical addresses, and the physical address is at least 40 and at most 64 bits wide. Software must therefore learn from somewhere where each window is, and something must choose where it goes. There are three ways to do it: **enumeration** (the processor reads a small self-description from every device and assigns each one a window), a **table handed over at boot** (the first stage tells the kernel what is where), or **fixed addresses** written into the architecture. The manual's text assumes enumeration through the root complex (the chip at the top of the bus tree, which turns the processor's accesses into bus transactions) and says only that the address of the root complex arrives in the boot-information block.
 
 **Why it matters.** The kernel cannot attach a driver before it knows a base address. With no address bit to mark a device page, the memory type of a mapping is the only marker of what a page is. The root complex must decode exactly the windows that were assigned, and must refuse a device's DMA (direct memory access: a device reading or writing memory by itself) into another device's window; the IOMMU (a unit that translates the addresses a device uses, so that a device can only reach the memory it was given) needs the same map to do that. The statement that says where the configuration space and the windows sit is unspecified.
 
@@ -25,7 +25,7 @@
 <a id="j22"></a>
 ### J.2.2 The bus controller
 
-**Issue.** An early decision (errata 49) made the bus a device in its own right, with registers by which the processor could detect what is on it, ask it to map a device to a given address range, and be alerted when a device enters or leaves. The register interface was later dropped (errata 95), but the three jobs were kept: the bus **enumerates** (lists what is on it), **maps** (assigns each device a window) and **alerts** (tells the processor of arrivals and departures). Under PCI Express the three jobs already have standard mechanisms: enumeration by reading each function's configuration space through the root complex; mapping by sizing and assigning the base-address registers; alerts by the hot-plug events of the slot and the root complex's own interrupt. The question is which jobs standard PCI Express and virtio already do, which need a piece of the pdp64's own, and what, if anything, the "bus controller" now is.
+**Issue.** An early decision made the bus a device in its own right, with registers by which the processor could detect what is on it, ask it to map a device to a given address range, and be alerted when a device enters or leaves. The register interface was later dropped, but the three jobs were kept: the bus **enumerates** (lists what is on it), **maps** (assigns each device a window) and **alerts** (tells the processor of arrivals and departures). Under PCI Express the three jobs already have standard mechanisms: enumeration by reading each function's configuration space through the root complex; mapping by sizing and assigning the base-address registers; alerts by the hot-plug events of the slot and the root complex's own interrupt. The question is which jobs standard PCI Express and virtio already do, which need a piece of the pdp64's own, and what, if anything, the "bus controller" now is.
 
 **Why it matters.** The kernel needs one recursive walk of the bus (section 2.4.3) and one routine to recover from a departure; the mature PCI code of OpenBSD can be reused only if the machine presents a standard PCI Express bus. For the hardware, a root complex is a large block, and the first boards (the Cyclone V and the Zynq 7020) have no hard one, while a Zynq UltraScale+ has; a native controller would be a small custom block. The alert is decided (2.4.4, errata 49); the queued work of a departed device staying in memory is decided (2.4.5, the author's suggestion of 2026-10-22), its mechanism is not, and the precise fault for a departed device (2.4.5, appendix H.2) is a proposal, and where the configuration space and the windows sit (2.4.8) is open (J.2.1).
 
@@ -62,7 +62,7 @@
 
 **Precedents.** Linux negotiates `ACCESS_PLATFORM` and refuses translation-less operation on a platform that needs it, and uses `EVENT_IDX` when offered *(unverified: general knowledge)*. The bit numbers are in the Linux headers `virtio_config.h` and `virtio_ring.h` *(verified)*.
 
-**The author's referents.** "virtio across the board" (errata 95).
+**The author's referents.** "virtio across the board".
 
 **The assistant's leaning.** Option 1 for the first two, and Option 3 until a measurement shows a need for `EVENT_IDX`.
 
@@ -85,7 +85,7 @@
 
 **Precedents.** The x86 root complex registers (root control, root status) are in the configuration space of the root port *(unverified: general knowledge)*. The VAX adapter's registers (configuration and status) sit in its nexus window *(verified: 4.3BSD `ubareg.h`)*.
 
-**The author's referents.** "don't we already have a status register and mode flags, can't you use a bit in one of those or add a bit?"; "agree root complex bit" (errata 104).
+**The author's referents.** "don't we already have a status register and mode flags, can't you use a bit in one of those or add a bit?"; "agree root complex bit".
 
 **The assistant's leaning.** Option 1 or 3: pass the base once in the boot-information block and place the block at a fixed offset from it.
 

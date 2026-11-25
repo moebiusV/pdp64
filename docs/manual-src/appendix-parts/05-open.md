@@ -35,12 +35,12 @@
 
 1. *The minimum.* Version 1 and the features a device class cannot work without; nothing else. For: the smallest driver, the least to test, the fewest paths in hardware. Against: no flush on the disk means a write that is not known to be on the medium; no segment limit means a driver that must discover failure by an error.
 2. *The set that OpenBSD's drivers already ask for.* `vioblk` asks for `RO`, `NOTIFY_ON_EMPTY`, `SIZE_MAX`, `SEG_MAX` and `FLUSH` *(verified: `vioblk.c`)*, and the other class drivers ask for their own. For: the first operating system needs no change; the devices of QEMU already offer them. Against: the set is another system's habit and not a pdp64 decision; it changes with that system.
-3. *The minimum plus the platform features.* Declare `ACCESS_PLATFORM` always, so that every device address is translated, and the ordering feature, so that the order is the platform's. For: matches the IOMMU on by default (errata 85) and the one fence rule; a device that cannot work this way is refused at the handshake. Against: a device or emulator that does not offer the features cannot be used; the IOMMU must exist before the first driver runs.
+3. *The minimum plus the platform features.* Declare `ACCESS_PLATFORM` always, so that every device address is translated, and the ordering feature, so that the order is the platform's. For: matches the IOMMU on by default and the one fence rule; a device that cannot work this way is refused at the handshake. Against: a device or emulator that does not offer the features cannot be used; the IOMMU must exist before the first driver runs.
 4. *Option 2 plus the throughput features.* Indirect descriptors (one descriptor pointing at a table of descriptors), the event index (the device and driver tell each other when to interrupt or notify) and the packed ring (the newer queue layout of version 1.1, *unverified*). For: fewer doorbells and interrupts, longer chains. Against: more states for the driver and for the hardware queue engine to model; the packed ring is a different queue format, so all descriptors, rings and the ordering rules of chapter 2 would have two forms.
 
 **Precedents.** Linux and OpenBSD accept a subset and ignore the rest; OpenBSD's `virtio_negotiate_features` masks what the driver does not know *(verified in `virtio.c`: the source read; the exact masking was not checked)*. `ACCESS_PLATFORM` is how a guest with an IOMMU or a secure enclave tells the device to use the platform's address translation *(unverified)*.
 
-**The author's referents.** "forget the native 8 register devices. gone. virtio across the board" (errata 95); "we will support all the virtio devices in silicon (the ones it makes sense to support, that is)" (R359).
+**The author's referents.** "forget the native 8 register devices. gone. virtio across the board"; "we will support all the virtio devices in silicon (the ones it makes sense to support, that is)" (R359).
 
 **The assistant's leaning.** Option 3 for the platform features, and the set of option 2 for each class (they are what the first operating system needs anyway), with indirect descriptors left out until a measurement asks for them.
 
@@ -49,7 +49,7 @@
 <a id="j53"></a>
 ### J.5.3 Firmware for a virtio device
 
-**Issue.** A device that contains a small processor may need a program, firmware, loaded into it before it works. A PDP-11 peripheral needed none. On a PC the driver reads a file at attach time (OpenBSD's `loadfirmware` reads `/etc/firmware/<name>`; 19 files under `sys/dev/pci` call it, counted). Virtio has no firmware operation: a search of all 29 `virtio_*.h` files and of QEMU's `hw/virtio` finds none, and each device class defines its own set of requests, so a firmware download would be a request that no class has. The pdp64 has set one precedent: the entropy pool has "no updatable firmware" (errata 85).
+**Issue.** A device that contains a small processor may need a program, firmware, loaded into it before it works. A PDP-11 peripheral needed none. On a PC the driver reads a file at attach time (OpenBSD's `loadfirmware` reads `/etc/firmware/<name>`; 19 files under `sys/dev/pci` call it, counted). Virtio has no firmware operation: a search of all 29 `virtio_*.h` files and of QEMU's `hw/virtio` finds none, and each device class defines its own set of requests, so a firmware download would be a request that no class has. The pdp64 has set one precedent: the entropy pool has "no updatable firmware".
 
 **Why it matters.** A network card or a GPU built as a virtio function may need its program before the first request, and the standard gives no way to send it. Whatever is chosen must leave a device the boot depends on (the disk, and the console if it is a device) free of it, since the root file system is not yet readable when the boot device is started.
 
@@ -62,7 +62,7 @@
 
 **Precedents.** PC practice: a file per device, a loader in the kernel (`loadfirmware(9)` in OpenBSD, `firmload(9)` in NetBSD) and a separate package of files *(verified for OpenBSD: `dev/firmload.c`)*; Linux's `request_firmware` is the same idea *(unverified)*. The PDP-11 had none *(verified: 4.1)*.
 
-**The author's referents.** None named for firmware; the entropy pool "no updatable firmware" (errata 85).
+**The author's referents.** None named for firmware; the entropy pool "no updatable firmware".
 
 **The assistant's leaning.** Option 4 for the standard devices, with option 3 left to the drivers of devices that are not standard.
 

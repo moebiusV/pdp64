@@ -10,7 +10,7 @@
 
 1. *The mashup.* A PDP-11, with its Blit terminal and an offloaded network card, joined to the Commodore 64: the C64's graphics and its SID audio on the terminal, an 8502 as the C64's partner, little-endian, a modern bus (R20, R22, R278), with the secure extensions the author names as part of the idea from the start.
 2. *The 64-bit CPU.* The 32-bit step skipped and the PDP-11 taken "straight to 64 bit", with no 8-byte alignment constraint at first (R29, R30, R32), then one instruction set for the one CPU, the pdp64/32 (R370).
-3. *The multiprocessor with more security and convenience.* Symmetric multiprocessing (R137) and a first device of four cores (R338); security written down as a goal and a priority (a constant-time flag, R253; the priority list, R243, errata 83); and convenience: devices as standard parts of the architecture on a bus of virtio and PCI Express (R135, R360), a prefix code that makes the common instructions short (R328), the vector and accelerator engine as a standard part (errata 131), and an assembler that reads like the ones programmers already know (errata 139).
+3. *The multiprocessor with more security and convenience.* Symmetric multiprocessing (R137) and a first device of four cores (R338); security written down as a goal and a priority (a constant-time flag, R253; the priority list, R243, errata 83); and convenience: devices as standard parts of the architecture on a bus of virtio and PCI Express (R135, R360), a prefix code that makes the common instructions short (R328), the vector and accelerator engine as a standard part, and an assembler that reads like the ones programmers already know.
 
 ## G.1 How it grew
 
@@ -41,7 +41,7 @@
 - 2026-11-08 02:37 — the link between Commodore and DEC found: "I found the evidence, there IS a link between C64 and DEC!" (R383). The source, a Commodore history of the industrial designer Ira Velinsky, shows one designer who worked for both companies (appendix H, 1.1.5). The author's own description, 2026-11-10 06:47: "the smoking gun that there was indeed intercourse between dec and commodore" (R393)
 - 2026-11-09 07:02 — virtio across the board for the devices, approved for the bus chapter (R360)
 - 2026-11-10 05:30 — "pdp64/32 is the decided upon pdp64"; r20 and pdp64/16 are no longer part of it (R370)
-- 2026-11-10 — "r20 and 64/16 are gone as cpus with manuals etc; they are previous iterations that were superseded by 64/32 which is now the official pdp64"; one manual of the pdp64, and the two iterations are history (errata 122)
+- 2026-11-10 — "r20 and 64/16 are gone as cpus with manuals etc; they are previous iterations that were superseded by 64/32 which is now the official pdp64"; one manual of the pdp64, and the two iterations are history
 
 ## G.2 The influences, inspirations and precedents, in the order they were introduced
 

@@ -97,7 +97,7 @@
 | **`INIT` and `READY`** | the PDP-11 CSR's reset command and done bit; on the pdp64 the `device_status` handshake (5.5) |
 | **softc, `cfattach`** | OpenBSD's per-device structure and the table of a driver's `match` and `attach` functions (5.13) |
 | **HDMI transmitter** | the chip that takes a pixel stream and does the link protocol; the pdp64 side is a pixel generator and registers (3.10) |
-| **Blit** | Rob Pike's bit-mapped windowing terminal: an 8 MHz Motorola 68000 machine that received downloaded code, characters and editing messages from its host over a serial line and drew every pixel itself (its description as a precursor of the X11 protocol and of NeWS is stated by no source read *(S)*; the lineage the sources confirm runs from its `mux` to 8½ and `rio`); a framebuffer in the address space and a bit-block-transfer operation, done in software, that moves rectangles of pixels; with the C64, one of the two machines the pdp64's terminal is based on (3.1) |
+| **Blit** | Rob Pike's bit-mapped windowing terminal: an 8 MHz Motorola 68000 machine that received downloaded code, characters and editing messages from its host over a serial line and drew every pixel itself (its description as a precursor of the X11 protocol and of NeWS is stated by no source read ; the lineage the sources confirm runs from its `mux` to 8½ and `rio`); a framebuffer in the address space and a bit-block-transfer operation, done in software, that moves rectangles of pixels; with the C64, one of the two machines the pdp64's terminal is based on (3.1) |
 | **blitter, raster operation** | a device that copies and combines rectangles of pixels; the raster operation says how source and destination combine (3.8) |
 | **scanout, tearing, double buffering** | the display reading the picture out of memory row by row at a fixed rate; the seam where a picture changed during the reading shows old above and new below; drawing the next frame in a hidden second picture and swapping at the vertical blank (3.15) |
 | **glyph map, glyph atlas** | a table of slots each holding the picture of one glyph, filled by a TrueType engine (3.9); the GPU form is one texture holding every glyph the screen uses (3.7) |
@@ -123,7 +123,7 @@
 | **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.7) |
 | **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.7) |
 | **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.8, 10.5; not otherwise described in this manual) |
-| **(D)** | the tag on a statement that the author decided (index) |
+| ** | the tag on a statement that the author decided (index) |
 | **details pending** | the mark on a decided statement whose details are not yet worked out; it names the open item that discusses them (appendix J), or says that the details are to be determined (index) |
 | **deferred** | a matter that the author has decided to put off; it is listed in appendix I and is not open (index) |
 | **open item** | a question that the architecture must answer and has not; each has an entry in appendix J with the issue, the options and what each costs, and the body points to it in a few words (index) |

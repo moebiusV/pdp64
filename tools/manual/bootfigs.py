@@ -46,7 +46,7 @@ def fig_stages():
         lines(c, cx, 226, hs, 9, 'middle', '#333')
     c.text(20, 284, 'Stage sizes are the reason for the stages: the ROM and the first block are the smallest code that can be made to find the next,', 9, 'start', '#444')
     c.text(20, 297, 'and only the second stage is big enough to read a file system.', 9, 'start', '#444')
-    c.text(20, 316, 'The kernel is OpenBSD (errata 41 and 47).', 9, 'start', '#555')
+    c.text(20, 316, 'The kernel is OpenBSD.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -81,7 +81,7 @@ def fig_block0_memory():
     lines(c, rx, 198, ['mode: kernel, priority 7, translation off:', 'every address is a physical address;', 'the user-memory guard is clear'], 9, fill='#222')
     c.line([(x + w + 10, 207), (rx - 6, 207), (rx - 6, 66), (rx - 2, 66)], arrow=True, dash=True, width=0.9)
     lines(c, rx, 252, ['the other cores: held in reset by the', 'controller until core 0 writes their', 'start registers (4.7)'], 9, fill='#222')
-    c.text(20, 340, '0x1000 and the 64 KB stack top follow the proposal of 4.4 and the figure of chapter 6; how many pages are reserved is not decided (errata 102).', 9, 'start', '#444')
+    c.text(20, 340, '0x1000 and the 64 KB stack top follow the proposal of 4.4 and the figure of chapter 6; how many pages are reserved is not decided.', 9, 'start', '#444')
     c.text(20, 354, 'Not to scale.  The ROM itself is not in this memory: it sits in the controller chip, outside the address space the kernel uses.', 9, 'start', '#444')
     c.text(20, 368, 'On the PDP-11 the vectors sat at 0 to 0377 and the bootstrap was loaded elsewhere, often high in memory (4.1).', 9, 'start', '#555')
     return c.svg()

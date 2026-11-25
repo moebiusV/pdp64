@@ -63,13 +63,13 @@ The state has a second cost, recorded in this repository's survey of kernel pain
 
 ## 8.3 The decision: no vector or SIMD unit in the processor
 
-The author's instruction (register row R277): "just before the isa section, add a chapter about sdim/avx2 vector stuff, i agree we should go the mmap device arm style route for that. so it is about graphics and ai/llm stuff... also mention apl/k as making vector languages easier to support and more efficient." The decision it records (errata 59) is stated here and in the statements below.
+The author's instruction (register row R277): "just before the isa section, add a chapter about sdim/avx2 vector stuff, i agree we should go the mmap device arm style route for that. so it is about graphics and ai/llm stuff... also mention apl/k as making vector languages easier to support and more efficient." The decision it records is stated here and in the statements below.
 
-**8.3.1** The processor has no vector register file and no SIMD instruction set of the SSE, AVX2 or NEON kind. *(D)*
+**8.3.1** The processor has no vector register file and no SIMD instruction set of the SSE, AVX2 or NEON kind.
 
-**8.3.2** The reasons recorded with the decision: a vector register file is a second wide register file, which the instruction set deliberately avoids (floating point shares the general registers, 9.12.1), and it brings wide loads and stores entangled with the alignment rules of the memory system. *(D)*
+**8.3.2** The reasons recorded with the decision: a vector register file is a second wide register file, which the instruction set deliberately avoids (floating point shares the general registers, 9.12.1), and it brings wide loads and stores entangled with the alignment rules of the memory system.
 
-**8.3.3** A fixed-width design (128-bit NEON, 256-bit AVX2) bakes its width into every instruction, so a wider generation needs new instructions and old binaries cannot use the new width. *(D)*
+**8.3.3** A fixed-width design (128-bit NEON, 256-bit AVX2) bakes its width into every instruction, so a wider generation needs new instructions and old binaries cannot use the new width.
 
 **8.3.4** Open: whether the integer registers get packed-lane operations, a handful of instructions that treat a 64-bit register as eight bytes or four halves ([J.8.3](appendix-j-open.md#j83)).
 
@@ -79,25 +79,25 @@ The author's instruction (register row R277): "just before the isa section, add 
 
 ## 8.4 The engine: a standard part of the architecture, and the device route
 
-What the processor does not do, a device does, and the author has said that the device is part of the architecture. His words, 2026-11-10 (errata 131): "even if it doesn't involve specific opcodes 'in the cpu' still it must be built in as a standard part of the architecture, just as the fpu mmu and iommu are."
+What the processor does not do, a device does, and the author has said that the device is part of the architecture. His words, 2026-11-10: "even if it doesn't involve specific opcodes 'in the cpu' still it must be built in as a standard part of the architecture, just as the fpu mmu and iommu are."
 
 The PDP-11 treated its floating-point unit as an option: a model could lack the FP11, and V7 tested for it at boot (8.1). The pdp64 has no such options among the units the author names. The floating-point instructions are in the instruction set (9.12), the MMU is the page-table machinery of chapter 6, and the IOMMU is the translator between a device's addresses and memory's (2.11). The vector and accelerator engine joins them. It is reached in a different way, because the decision of errata 59 stands: the processor has no vector registers and no SIMD instructions, so the engine is not another group of instructions. The FPU is reached by instructions, the MMU by system registers and by the translation of every access, and the IOMMU by a register block on the bus; the engine is reached by descriptors. What makes it a standard part is that the manual specifies its interface the way it specifies `FADD`.
 
 ![Where the engine sits: beside the FPU and the MMU in the machine, and on the bus beside the IOMMU](figures/vec-engine.svg)
 
-**8.4.1** The vector and accelerator engine is a standard part of the architecture, as the FPU, the MMU and the IOMMU are. *(D)* Details pending ([J.8.1](appendix-j-open.md#j81) to [J.8.4](appendix-j-open.md#j84)): its operations and number formats, its descriptor, and which engine is built first.
+**8.4.1** The vector and accelerator engine is a standard part of the architecture, as the FPU, the MMU and the IOMMU are. Details pending ([J.8.1](appendix-j-open.md#j81) to [J.8.4](appendix-j-open.md#j84)): its operations and number formats, its descriptor, and which engine is built first.
 
-**8.4.2** The word "standard" has five consequences: every pdp64 system has the engine, including the smallest; software may rely on its presence; the kernel and a program can find out that it is present and what it implements; the architecture specifies its descriptor and its operation set, so that a program written for one engine runs on any other; and it is not an optional PCI Express card. *(D)* These five are the reading of the author's comparison with the FPU, the MMU and the IOMMU (inference). How software finds the engine is pending ([J.8.1](appendix-j-open.md#j81)).
+**8.4.2** The word "standard" has five consequences: every pdp64 system has the engine, including the smallest; software may rely on its presence; the kernel and a program can find out that it is present and what it implements; the architecture specifies its descriptor and its operation set, so that a program written for one engine runs on any other; and it is not an optional PCI Express card. These five are the reading of the author's comparison with the FPU, the MMU and the IOMMU (inference). How software finds the engine is pending ([J.8.1](appendix-j-open.md#j81)).
 
-**8.4.3** The engine is a device on the bus and an architectural component at once: the processor reaches it as it reaches every device (a memory-mapped interface, descriptors, DMA, `FENCE`), and the manual defines what it does. *(D)*
+**8.4.3** The engine is a device on the bus and an architectural component at once: the processor reaches it as it reaches every device (a memory-mapped interface, descriptors, DMA, `FENCE`), and the manual defines what it does.
 
 The definition behind the device route is the author's, 2026-10-20 (register row R136): "when i say gpu i just mean a helper/accelerator that uses the same ram, does dma, etc, and can do the same or similar helps that a gpu would. and the simd/avax stuff."
 
-**8.4.4** Wide work is described to the engine by descriptors in memory: an operation, the addresses of the arrays and their length. *(D)*
+**8.4.4** Wide work is described to the engine by descriptors in memory: an operation, the addresses of the arrays and their length.
 
-**8.4.5** Such a device is a helper or accelerator that uses the same RAM as the processor and does DMA; this is what "GPU" means in this manual. *(D)*
+**8.4.5** Such a device is a helper or accelerator that uses the same RAM as the processor and does DMA; this is what "GPU" means in this manual.
 
-**8.4.6** The processor owes such a device what it owes every device: buffers in uncached memory (5.10.1) and a `FENCE`; the instruction set is unchanged. *(D)*
+**8.4.6** The processor owes such a device what it owes every device: buffers in uncached memory (5.10.1) and a `FENCE`; the instruction set is unchanged.
 
 **8.4.7** Open: how the descriptor of the engine relates to the virtio descriptor of chapter 5 ([J.8.2](appendix-j-open.md#j82)).
 
@@ -135,19 +135,19 @@ Three workloads use the route, and one set of instructions stays in the processo
 
 **Inference.** A neural network's **inference** (running a trained model to produce an answer, as opposed to training it) is mostly multiplications and additions over large arrays of weights, which is the work vector machines were built for. The author, 2026-10-20 (R139): "just optimize inference whether in cpu or gpu whatever makes most sense."
 
-**8.5.1** Inference is the workload that the machine is optimised for; whether a given part of it runs in the processor or on an accelerator is whichever makes most sense. *(D)*
+**8.5.1** Inference is the workload that the machine is optimised for; whether a given part of it runs in the processor or on an accelerator is whichever makes most sense.
 
 **The bit instructions.** The weights of some small models are one bit each (the sign of the weight), and the multiply of a weight and an activation of one bit is an exclusive-nor followed by a count of the bits set. `POPCNT` (population count: the number of one bits in a register) and `XNORPOP` (population count of the exclusive-nor of two registers) do that for 64 weights at a time, and serve bitsets and Hamming distance (the number of positions at which two bit strings differ) as well. They are bit instructions of the ordinary integer unit (9.9), not vector instructions: they use the general registers and add no state.
 
-**8.5.2** The processor has `POPCNT` and `XNORPOP` (9.9.1, 9.9.3) for the binary operations that small models and bitsets use. *(D)*
+**8.5.2** The processor has `POPCNT` and `XNORPOP` (9.9.1, 9.9.3) for the binary operations that small models and bitsets use.
 
 These instructions do not serve every model with binary weights: a language model whose weights are one bit but whose activations are 16-bit floating-point numbers needs a conditional add, not a count, and its inner loop is limited by memory bandwidth, which is what an accelerator is for (the note on `XNORPOP` in 9.9).
 
 **Array languages.** In **APL**, created by Kenneth Iverson, and its descendants J and K (the language of Arthur Whitney's kdb+ database), a program is written as operations on whole arrays: add two arrays, multiply them, compare, reduce (sum), scan (running sum), index, select where a condition holds. An interpreter spends its time in a few tight loops over contiguous data. There is no loop for a compiler to find and turn into vector instructions: the programmer has said "add these two arrays", so the parallelism is in the source. DEC offered APL for the PDP-11 *(unverified)*; the Cray machines were built for the same shape of loop *(unverified)*. That is why the author asked for the mention: a device that takes a descriptor with an operation, the addresses of the arrays and a length is the natural implementation of the primitives, and a small interpreter with a library of primitives that map onto descriptors is "easier to support and more efficient" than a conventional compiler aimed at SIMD (his words, R277).
 
-**8.5.3** The primitives of an array language map one to one onto descriptors: one descriptor per primitive. *(D)*
+**8.5.3** The primitives of an array language map one to one onto descriptors: one descriptor per primitive.
 
-**8.5.4** There is no vector length in a register: the length is a field of the descriptor, so one implementation serves any array size. *(D)*
+**8.5.4** There is no vector length in a register: the length is a field of the descriptor, so one implementation serves any array size.
 
 **8.5.5** Open: the operations of the engine, and its number formats ([J.8.1](appendix-j-open.md#j81)).
 
@@ -157,7 +157,7 @@ These instructions do not serve every model with binary weights: a language mode
 
 The FP11 had two formats, single and double, chosen by a mode bit. The pdp64's formats are chosen by the instruction (9.12.5), and there are three.
 
-**8.6.1** The processor handles `binary64`, `binary32` and `binary16` (the IEEE 754 formats of 64, 32 and 16 bits) as scalar floating point. *(D)*
+**8.6.1** The processor handles `binary64`, `binary32` and `binary16` (the IEEE 754 formats of 64, 32 and 16 bits) as scalar floating point.
 
 **8.6.2** Open: the number formats of the engine, and how a program learns them ([J.8.1](appendix-j-open.md#j81)).
 

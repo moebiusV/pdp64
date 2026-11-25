@@ -93,9 +93,9 @@ The **buffer header** `struct buf` is the kernel's record of one transfer: the d
 
 ## 5.2 What came between: the VAX, PCI, virtio and OpenBSD
 
-The author's own statements about drivers name few referents. He said, of the eight-register devices, that drivers "should be trivially small" (errata 49, since withdrawn with the eight-register model by errata 95); he asked for "a standard audio/video interface so there is no bullshit with supporting a bunch of device drivers, although as a pcie bus any device MAY be attached and supported" (errata 78); and he chose virtio: "yeah, virtio is fine" (errata 79), "forget the native 8 register devices. gone. virtio across the board" (errata 95), "disk is virtio-blk" (errata 101). OpenBSD is the first operating system (errata 41). On 2026-11-09 he also wrote that "we will support all the virtio devices in silicon (the ones it makes sense to support, that is)" and asked what "syntactic sugar" (not new opcodes) could make devices easier to use "like the 12 register + dma thing" (R359). No other system is named in his messages on drivers (the decision log was searched). The VAX, PCI and the intermediate OpenBSD interfaces below are the assistant's steps, from the sources read.
+The author's own statements about drivers name few referents. He said, of the eight-register devices, that drivers "should be trivially small" (errata 49, since withdrawn with the eight-register model by errata 95); he asked for "a standard audio/video interface so there is no bullshit with supporting a bunch of device drivers, although as a pcie bus any device MAY be attached and supported"; and he chose virtio: "yeah, virtio is fine", "forget the native 8 register devices. gone. virtio across the board", "disk is virtio-blk". OpenBSD is the first operating system. On 2026-11-09 he also wrote that "we will support all the virtio devices in silicon (the ones it makes sense to support, that is)" and asked what "syntactic sugar" (not new opcodes) could make devices easier to use "like the 12 register + dma thing" (R359). No other system is named in his messages on drivers (the decision log was searched). The VAX, PCI and the intermediate OpenBSD interfaces below are the assistant's steps, from the sources read.
 
-**5.2.1** The pdp64 supports in silicon the virtio devices that it makes sense to support, and it standardises on the latest buses, USB, NVMe and PCI Express. *(D)* Syntactic sugar (notation, and not new opcodes) makes a device easier to use than the registers-plus-DMA devices of the PDP-11 style. *(D)* Details pending ([J.5.6](appendix-j-open.md#j56)): which virtio devices count, and what the sugar is.
+**5.2.1** The pdp64 supports in silicon the virtio devices that it makes sense to support, and it standardises on the latest buses, USB, NVMe and PCI Express. Syntactic sugar (notation, and not new opcodes) makes a device easier to use than the registers-plus-DMA devices of the PDP-11 style.: which virtio devices count, and what the sugar is.
 
 | step | what it contributed to drivers | basis |
 |---|---|---|
@@ -114,15 +114,15 @@ The VAX's `config(8)` and `uba_driver` are in `etc/config/mkioconf.c` and `sys/v
 
 The pdp64 changes the four parts of 5.1 in turn. The register structure is a PCI Express function whose windows hold the virtio structures instead of the device's own registers (statements 5.3.2 to 5.3.5, and 5.4). The device switch row is the OpenBSD driver's own interface (5.13). The vector and the level are a message that the device writes (5.9). The probe and attach are an identifier match and a handshake (5.5). Figure 5.1 draws the two side by side.
 
-**5.3.1** Every standard device is a virtio device or a USB controller; the disk, network, graphics and audio devices are virtio-blk, virtio-net, virtio-gpu (2D) and virtio-snd, over the virtio PCI Express transport, so that one transport driver and a thin class driver per device serve the system. *(D)* Any other PCI Express device, an NVMe controller for example, may be attached with its own driver; it is not a standard device. *(D)*
+**5.3.1** Every standard device is a virtio device or a USB controller; the disk, network, graphics and audio devices are virtio-blk, virtio-net, virtio-gpu (2D) and virtio-snd, over the virtio PCI Express transport, so that one transport driver and a thin class driver per device serve the system. Any other PCI Express device, an NVMe controller for example, may be attached with its own driver; it is not a standard device.
 
-**5.3.2** A device is a PCI Express function whose windows (the regions its base-address registers describe) a driver maps with the device memory type, strongly ordered. *(D)*
+**5.3.2** A device is a PCI Express function whose windows (the regions its base-address registers describe) a driver maps with the device memory type, strongly ordered.
 
-**5.3.3** A driver reaches a register with an ordinary load or store; there are no input or output instructions and no port space. *(D)*
+**5.3.3** A driver reaches a register with an ordinary load or store; there are no input or output instructions and no port space.
 
-**5.3.4** Registers are naturally aligned and accessed at their own width; the machine is little-endian throughout and the virtio structures are little-endian, so a driver has no byte-order or byte-lane cases. *(D)*
+**5.3.4** Registers are naturally aligned and accessed at their own width; the machine is little-endian throughout and the virtio structures are little-endian, so a driver has no byte-order or byte-lane cases.
 
-**5.3.5** Accesses to a device page happen in program order; one `FENCE` separates the last write to memory the device will read from the write that notifies the device. *(D)*
+**5.3.5** Accesses to a device page happen in program order; one `FENCE` separates the last write to memory the device will read from the write that notifies the device.
 
 ![The structure of a driver: the PDP-11's beside the pdp64's](figures/drv-structures.svg)
 
@@ -132,7 +132,7 @@ The pdp64 changes the four parts of 5.1 in turn. The register structure is a PCI
 
 Chapter 2 explains the structures (2.7.2 to 2.7.9) and gives pseudocode for the handshake (`init_device`), the queue set-up (`setup_queue`), posting and reaping (`post`, `reap`). This section keeps the decisions as the driver writer needs them.
 
-**5.4.1** The driver finds a virtio device's structures through the capabilities in its configuration space: the common configuration, the notification area, the interrupt status and the device-specific configuration, each at an offset in one of the device's windows. *(D)* The common configuration has these fields, as the virtio specification lays them out (the offsets are those of `struct virtio_pci_common_cfg` in the Linux header `virtio_pci.h`, read; the header spells the driver's feature fields `guest_feature_select` and `guest_feature`, the interrupt-vector field of the device `msix_config`, and each queue address as a `_lo` and a `_hi` word):
+**5.4.1** The driver finds a virtio device's structures through the capabilities in its configuration space: the common configuration, the notification area, the interrupt status and the device-specific configuration, each at an offset in one of the device's windows. The common configuration has these fields, as the virtio specification lays them out (the offsets are those of `struct virtio_pci_common_cfg` in the Linux header `virtio_pci.h`, read; the header spells the driver's feature fields `guest_feature_select` and `guest_feature`, the interrupt-vector field of the device `msix_config`, and each queue address as a `_lo` and a `_hi` word):
 
 | Offset | Field | Meaning |
 |---|---|---|
@@ -153,13 +153,13 @@ Chapter 2 explains the structures (2.7.2 to 2.7.9) and gives pseudocode for the 
 | `0x28` | `queue_driver` | physical address of the available ring |
 | `0x30` | `queue_device` | physical address of the used ring |
 
-**5.4.2** A transfer is a chain of descriptors in a queue (a virtqueue) in host memory. A descriptor is 16 bytes: a 64-bit buffer address, a 32-bit length, 16 bits of flags (`NEXT`: the chain continues; `WRITE`: the device writes the buffer; `INDIRECT`: the buffer is a table of descriptors) and a 16-bit index of the next descriptor. *(D)*
+**5.4.2** A transfer is a chain of descriptors in a queue (a virtqueue) in host memory. A descriptor is 16 bytes: a 64-bit buffer address, a 32-bit length, 16 bits of flags (`NEXT`: the chain continues; `WRITE`: the device writes the buffer; `INDIRECT`: the buffer is a table of descriptors) and a 16-bit index of the next descriptor.
 
-**5.4.3** The driver puts the head of a chain in the available ring and advances its index, executes `FENCE`, and writes the queue's notification address; the device carries the chain out and writes the head and the byte count in the used ring, advances the used index, and may interrupt. Progress is therefore in memory, not in the device. *(D)*
+**5.4.3** The driver puts the head of a chain in the available ring and advances its index, executes `FENCE`, and writes the queue's notification address; the device carries the chain out and writes the head and the byte count in the used ring, advances the used index, and may interrupt. Progress is therefore in memory, not in the device.
 
-**5.4.4** The driver and device agree on features before any queue runs: the driver reads the device's features, writes the subset it accepts, and the device confirms it; the version-1 feature is required. *(D)* Details pending ([J.5.2](appendix-j-open.md#j52)): the feature subset that the pdp64 accepts for each device, and the platform-ordering feature that the pdp64 declares.
+**5.4.4** The driver and device agree on features before any queue runs: the driver reads the device's features, writes the subset it accepts, and the device confirms it; the version-1 feature is required.: the feature subset that the pdp64 accepts for each device, and the platform-ordering feature that the pdp64 declares.
 
-**5.4.5** A device that carries traffic in two directions (a network card) has one queue for each direction in the one device; a console-like device is the same pattern. *(D)*
+**5.4.5** A device that carries traffic in two directions (a network card) has one queue for each direction in the one device; a console-like device is the same pattern.
 
 *Commentary.* **Chain.** PDP-11: the command is the register values; one is in flight, and the completion is the interrupt or the RDY bit. VAX and PCI: the same, with the DEUNA Ethernet controller of 4.3BSD (four registers, `dereg.h`) as the exception, whose transmit and receive **rings** (circular arrays of entries in memory, each with an ownership bit) let the driver queue many frames; its `if_de.c` is where the ring appears in the sources read. virtio: the ring becomes the standard, with the done mark in a second ring (the used ring) and not in the descriptor, and the control registers shrink to a handshake. pdp64: the standard as it is, on a PCI Express function. **Modern comparables** (*unverified*, general knowledge): NVMe's submission and completion queues, the descriptor-done bit of Intel Ethernet controllers and the command lists of SATA controllers are all rings with a done mark, so a virtqueue is the common shape and not a novelty. **Trade-offs.** A queue per direction keeps each ring in order and simple; the used ring costs one write per chain. The pdp64 does not control the standard, and a feature or a field it dislikes stays. **Impact.** *Kernel:* one transport driver and a thin driver per class. *Compiler:* the descriptor is a 16-byte structure with natural alignment (no padding is needed: `8 + 4 + 2 + 2` bytes), and register offsets are named constants. *Hardware:* the interface is the specification's, so a standard device works.
 
@@ -167,17 +167,17 @@ Chapter 2 explains the structures (2.7.2 to 2.7.9) and gives pseudocode for the 
 
 The five steps are the PDP-11's, in the order autoconfiguration calls them, with the bus doing the finding.
 
-**5.5.1** *Probe.* The kernel enumerates the bus (section 2.4), reads each function's identifiers, and matches the virtio device type (or the USB class) against the drivers it has. *(D)*
+**5.5.1** *Probe.* The kernel enumerates the bus (section 2.4), reads each function's identifiers, and matches the virtio device type (or the USB class) against the drivers it has.
 
-**5.5.2** *Attach.* The driver resets the device (zero to `device_status`), sets the acknowledge and driver bits, negotiates features, sets the features-ok bit and reads it back, sets up each queue (its size and the three addresses, then `queue_enable`), and sets the driver-ok bit. *(D)*
+**5.5.2** *Attach.* The driver resets the device (zero to `device_status`), sets the acknowledge and driver bits, negotiates features, sets the features-ok bit and reads it back, sets up each queue (its size and the three addresses, then `queue_enable`), and sets the driver-ok bit.
 
-**5.5.3** *Run.* The driver puts the queue in uncached memory, fills descriptors, publishes the chain in the available ring, executes `FENCE`, and notifies the queue; a chain is complete when it appears in the used ring, which the driver sees by polling or by the interrupt. *(D)*
+**5.5.3** *Run.* The driver puts the queue in uncached memory, fills descriptors, publishes the chain in the available ring, executes `FENCE`, and notifies the queue; a chain is complete when it appears in the used ring, which the driver sees by polling or by the interrupt.
 
-**5.5.4** *Fail.* A device that sets its needs-reset bit, or that stops answering, is reset and its queues reprogrammed. *(D)* Details pending ([J.5.4](appendix-j-open.md#j54)): what happens to the chains still queued.
+**5.5.4** *Fail.* A device that sets its needs-reset bit, or that stops answering, is reset and its queues reprogrammed.: what happens to the chains still queued.
 
-**5.5.5** *Detach.* A departure event, or a bus fault from an absent device, tells the driver to stop. The queued work of the departed device is left in memory (2.4.5), where the driver can read, save, resend or fail it. *(D)* Details pending ([J.5.4](appendix-j-open.md#j54)): which of these the driver does, and in what cases.
+**5.5.5** *Detach.* A departure event, or a bus fault from an absent device, tells the driver to stop. The queued work of the departed device is left in memory (2.4.5), where the driver can read, save, resend or fail it.: which of these the driver does, and in what cases.
 
-**`INIT` and `READY`, and the status handshake.** The PDP-11's start of a device (5.1) is one command and one wait: write `INIT` (or `RESET|GO`), spin until `READY`. The virtio `device_status` byte is that idea spread over steps: writing zero resets the device (the `INIT`), and the driver then sets `ACKNOWLEDGE`, `DRIVER`, `FEATURES_OK` and `DRIVER_OK`, each meaning "I have got this far", reading `FEATURES_OK` back to learn whether the device accepts the features chosen (the `READY` answer, now with a refusal possible; 2.7.3). The assistant's reasoning: the step that is new is the negotiation, which the one-bit form could not carry because the PDP-11 device had nothing to negotiate. The handshake follows from "virtio across the board" (errata 95).
+**`INIT` and `READY`, and the status handshake.** The PDP-11's start of a device (5.1) is one command and one wait: write `INIT` (or `RESET|GO`), spin until `READY`. The virtio `device_status` byte is that idea spread over steps: writing zero resets the device (the `INIT`), and the driver then sets `ACKNOWLEDGE`, `DRIVER`, `FEATURES_OK` and `DRIVER_OK`, each meaning "I have got this far", reading `FEATURES_OK` back to learn whether the device accepts the features chosen (the `READY` answer, now with a refusal possible; 2.7.3). The assistant's reasoning: the step that is new is the negotiation, which the one-bit form could not carry because the PDP-11 device had nothing to negotiate. The handshake follows from "virtio across the board".
 
 Probe and attach for a virtio-blk driver, written over the helpers of chapter 2 (`find_virtio_structures`, `init_device`, `setup_queue`); the names are the assistant's, an illustration:
 
@@ -204,11 +204,11 @@ OpenBSD's `vioblk_match` is the same test, on the device number alone (`va->va_d
 
 ## 5.6 The block path: virtio-blk
 
-**5.6.1** Storage is virtio-blk: a virtqueue of requests, each a header (read, write or flush, and the sector), the data buffers and a status byte, the device marking the request done in the used ring. *(D)* An NVMe controller, which keeps a submission queue and a completion queue in host memory with a doorbell register for each (the shape of the virtqueue with a different command encoding), may be attached as any PCI Express device may; it is not the standard disk. *(D)*
+**5.6.1** Storage is virtio-blk: a virtqueue of requests, each a header (read, write or flush, and the sector), the data buffers and a status byte, the device marking the request done in the used ring. An NVMe controller, which keeps a submission queue and a completion queue in host memory with a doorbell register for each (the shape of the virtqueue with a different command encoding), may be attached as any PCI Express device may; it is not the standard disk.
 
-**5.6.2** The **disk** is virtio-blk (the author's decision of 2026-11-10, errata 101) with read, write and flush at 512-byte sectors. *(D)*
+**5.6.2** The **disk** is virtio-blk (the author's decision of 2026-11-10, errata 101) with read, write and flush at 512-byte sectors.
 
-**5.6.3** The boot ROM reads block 0 of the disk by the block-0 route (4.4, errata 109) and does so through virtio-blk, with the polled routine of the table below (errata 101: "the boot ROM and the drivers of the manual are written for it"). *(D)* Details to be determined: the request that the ROM issues, as far as it differs from the polled routine below.
+**5.6.3** The boot ROM reads block 0 of the disk by the block-0 route (4.4, errata 109) and does so through virtio-blk, with the polled routine of the table below (errata 101: "the boot ROM and the drivers of the manual are written for it").
 
 The request is the three-descriptor chain of chapter 2 (2.7.5, with its figure): a header the device reads (type 0 read, 1 write, 4 flush, the priority and the sector), the data buffer (device-writable for a read) and one status byte the device writes (0 OK, 1 I/O error, 2 unsupported; `virtio_blk.h`, read). Figure 5.2 follows one request through the driver, the rings and the device.
 
@@ -265,9 +265,9 @@ The raw interface changes with paging. `physio` of 5.1 translated one address an
 
 ## 5.7 The console, the timer and the entropy source
 
-**5.7.1** A core in secure mode takes no periodic timer tick, and the main cores are tickless (errata 86; the author's words, R323). *(D)* Details pending ([J.5.1](appendix-j-open.md#j51)): the form of the timer that serves them.
+**5.7.1** A core in secure mode takes no periodic timer tick, and the main cores are tickless (errata 86; the author's words, R323).: the form of the timer that serves them.
 
-**5.7.2** The entropy source is one pool shared by all cores, with no per-process pool, no version register and no updatable firmware; it assists the operating system's own generator, which absorbs into the pool and squeezes from it, and a read with a known and wanted effect is not a strange side effect (errata 85, random numbers). *(D)* Details pending ([J.5.1](appendix-j-open.md#j51)): whether a physical source stands behind the pool, and how the pool is reached.
+**5.7.2** The entropy source is one pool shared by all cores, with no per-process pool, no version register and no updatable firmware; it assists the operating system's own generator, which absorbs into the pool and squeezes from it, and a read with a known and wanted effect is not a strange side effect (errata 85, random numbers).: whether a physical source stands behind the pool, and how the pool is reached.
 
 Open: the form of the console ([J.5.1](appendix-j-open.md#j51)).
 
@@ -275,9 +275,9 @@ Open: the form of the console ([J.5.1](appendix-j-open.md#j51)).
 
 Each class driver is a few request formats over the transport of 5.4. What the driver does is the part that differs.
 
-**5.8.1** The **network card** is virtio-net: a receive queue the host fills with buffers for the device and a transmit queue of frames to send; the device completes each receive buffer with the frame length. *(D)*
+**5.8.1** The **network card** is virtio-net: a receive queue the host fills with buffers for the device and a transmit queue of frames to send; the device completes each receive buffer with the frame length.
 
-**5.8.2** The **graphics device** is virtio-gpu in its 2D mode (create a surface, point it at memory, flush a rectangle) and the **audio device** is virtio-snd (streams in queues in shared memory). *(D)*
+**5.8.2** The **graphics device** is virtio-gpu in its 2D mode (create a surface, point it at memory, flush a rectangle) and the **audio device** is virtio-snd (streams in queues in shared memory).
 
 **virtio-net** (device type 1). The driver keeps the receive queue full: it posts empty buffers with `WRITE`, and the device fills one with a frame and reports its length in the used ring; to send, the driver posts the frame and the device reads it. Each frame starts with a 10-byte `struct virtio_net_hdr` (flags, GSO type, header length, GSO size, checksum start and offset; `virtio_net.h`, read), which tells the device which checksum to fill in and where. Queue 0 receives, queue 1 transmits, and a control queue exists with the feature `CTRL_VQ`; the MAC address is in the device configuration with the feature `MAC` (`virtio_net.h`, QEMU `virtio-net.c`, read). OpenBSD's `if_vio.c` is 2,184 lines (counted), the largest virtio driver of the tree. The PDP-11's counterpart is the DEUNA of 4.3BSD or the network driver of a Unix with a network (V7 has none).
 
@@ -285,19 +285,19 @@ Each class driver is a few request formats over the transport of 5.4. What the d
 
 **virtio-snd** (type 25). Four queues in the order control, event, transmit, receive (`virtio_snd.h`, read; QEMU adds them in that order); the control queue sets up the streams, and the transmit and receive queues carry the samples of an output or an input stream. Chapter 3 (3.17) says what a stream is and what a mixer does with it. **OpenBSD's tree on this computer has no virtio-snd driver:** `sys/dev/pv` holds `if_vio.c`, `vioblk.c`, `viocon.c`, `viogpu.c`, `viomb.c`, `viornd.c`, `vioscsi.c` and `virtio.c`, and no sound file, so the question of errata 79 ("whether OpenBSD has a virtio-snd driver (if not, one is written)") is answered for that tree: one is written. The PDP-11 had no audio device.
 
-**5.8.3** USB is a standard device: a **USB host controller** is a PCI Express function that attaches like any other (5.3.1), is driven by the operating system's USB stack and enumerates the devices attached to it (2.4.3). *(D)* The author's uses of USB are the keyboard, the mouse and a hard drive ("modern usb keyboard, mouse, and nvme hard drive", R20). Details pending ([J.5.7](appendix-j-open.md#j57)): the controller interface and the class drivers.
+**5.8.3** USB is a standard device: a **USB host controller** is a PCI Express function that attaches like any other (5.3.1), is driven by the operating system's USB stack and enumerates the devices attached to it (2.4.3). The author's uses of USB are the keyboard, the mouse and a hard drive ("modern usb keyboard, mouse, and nvme hard drive", R20).: the controller interface and the class drivers.
 
 *Commentary.* **Chain.** PDP-11: one driver per controller, each with its own registers (`rk.c`, `cons.c`, `dz.c`, 579 lines for the multiplexer). VAX: the same, with the adapter handling the memory mapping. PCI: one driver per chip family, with firmware and quirk tables (`kernel-pain-points.md`, repo). virtio: one transport and a thin driver per class, so that a card of any vendor that speaks the standard works with the drivers already written. pdp64: that, for network, graphics and audio; USB controllers as PCI Express functions. **Trade-offs.** One transport means one driver to write, at the cost of feature negotiation and a queue format that the pdp64 does not control. **Impact.** *Kernel:* one transport driver and a thin driver per class; a virtio-snd driver to write. *Compiler:* none. *Hardware:* standard PCI Express functions; the same virtio devices are the aim in QEMU, `sim64` and the FPGA.
 
 ## 5.9 Interrupts as a driver sees them
 
-**5.9.1** A device interrupts by a message-signalled write (MSI-X): the configuration change and each queue have a vector that the driver sets in the common configuration, and the interrupt status structure says why. *(D)* Details pending ([J.6.3](appendix-j-open.md#j63)).
+**5.9.1** A device interrupts by a message-signalled write (MSI-X): the configuration change and each queue have a vector that the driver sets in the common configuration, and the interrupt status structure says why.
 
-**5.9.2** A driver may mask a device's interrupts and poll the used ring instead. *(D)*
+**5.9.2** A driver may mask a device's interrupts and poll the used ring instead.
 
-**5.9.3** A changeable interrupt target is changed with its vector masked and then read back, or is a single atomic register write. *(D)*
+**5.9.3** A changeable interrupt target is changed with its vector masked and then read back, or is a single atomic register write.
 
-**5.9.4** The write that raises an interrupt cannot overtake the data writes that precede it (section 2.5.4). *(D)*
+**5.9.4** The write that raises an interrupt cannot overtake the data writes that precede it (section 2.5.4).
 
 What changes for the driver is where the vector number and the level come from. On the PDP-11 the programmer chose them by switches and by the vector table: the RK11's pair at 0220, level 5. On the pdp64 the driver asks the interrupt controller for an address and a data word (`interrupt_controller_allocate` in 2.6), writes them into the device's MSI-X entry for the queue, tells the queue its entry (`queue_msix_vector`), and installs its handler in the vector table at `VBR + 8 × vector` (6.3.3). One queue, one vector, one core: the handler of `vioblk_intr` runs when the queue's vector arrives, and reads the used ring to learn what finished, where `rkintr` read the CSR. Figure 5.4 draws the two paths.
 
@@ -305,21 +305,21 @@ What changes for the driver is where the vector number and the level come from. 
 
 An entry puts the processor at priority 7 with the interrupted program counter and status word in registers (6.3.1 and 6.3.2); the handler saves them with `PUSHX`, lowers the priority with `SPL` to its own level, does its work, restores the pair with `POPX` and returns with `RTI` (6.3.4). The level of a device is the level the interrupt controller gives its vector; the kernel's `splbio` is the status-word priority at which the block code runs. OpenBSD keeps the idea: `vioblk_attach` sets `vsc->sc_ipl = IPL_BIO` (read), and `virtio_pci.c` can give a device one MSI-X vector for configuration changes and one for each queue (`IRQ_MSIX_PER_VQ`), or one shared by all queues (`IRQ_MSIX_SHARED`), up to `MAX_MSIX_VECS`, 16 (read).
 
-Details pending ([J.6.3](appendix-j-open.md#j63)): the unit that receives the write, how a core is chosen, how the vector number is made and the level assigned.
+: the unit that receives the write, how a core is chosen, how the vector number is made and the level assigned.
 
 *Commentary.* **Chain.** PDP-11: four bus-request lines and switch-set vectors; a level shared by several devices, so a handler may have to ask which spoke; `spl` raises the priority to keep a handler out (5.1). VAX: 31 priority levels and a **system control block**, a table of vectors in memory (the repository's `decisions-pending.md`, checked there against a VAX architecture manual; not on this computer); `spl` becomes `splbio`, `spltty`, `splclock`. PCI: four shared pins per slot, and a handler that asks each device whether it was the one. PCI Express: MSI-X, an interrupt as a write (2.6). virtio: a vector per queue. pdp64: MSI-X for the standard devices, vectors in the same table as exceptions, priority 7 on entry (errata 40, "a throwback to pdp-11 design"). **Trade-offs.** A message carries its own vector, so no switch and no assignment table are needed and there can be thousands; the controller is an address that many devices write, and a confused device that writes the wrong address causes an interrupt, which the IOMMU can refuse (2.11). **Impact.** *Kernel:* an interrupt routine reads the used ring and the status structure; a controller driver. *Compiler:* none. *Hardware:* an MSI-X target in the interrupt controller, and the eight-level priority encoder.
 
 ## 5.10 DMA and the buffer's memory
 
-**5.10.1** Buffers and queues are in memory mapped uncached, and the driver does no cache clean or invalidate. *(D)*
+**5.10.1** Buffers and queues are in memory mapped uncached, and the driver does no cache clean or invalidate.
 
-**5.10.2** A buffer that crosses a page is described by several descriptors chained with the `NEXT` flag; the driver does not make buffers contiguous. *(D)*
+**5.10.2** A buffer that crosses a page is described by several descriptors chained with the `NEXT` flag; the driver does not make buffers contiguous.
 
-**5.10.3** The device writes the data, then the used-ring entry, then advances the used index; the driver reads the used index and then the data. *(D)*
+**5.10.3** The device writes the data, then the used-ring entry, then advances the used index; the driver reads the used index and then the data.
 
 Three questions arise for a driver: which addresses the device sees, whether the processor's cache agrees with memory, and in what order the writes land. The PDP-11 answered the first with map registers, which the driver loaded (`mapalloc`, 5.1), and on a Q-bus machine with a bounce buffer for controllers that could not reach all of memory (`sofub_alloc`, 5.1); the second hardly arose (that the 11/70's cache watched Unibus writes, so that DMA data appeared coherent, is *unverified*, as in 2.5); and the third by one bus that delivered writes in order. The pdp64 answers them in this way:
 
-* **Addresses.** The IOMMU of chapter 2 (2.11) gives each device its own address space: the descriptor holds a **device address** (an address in the device's own mapped space, which the IOMMU turns into a physical address or refuses); the driver asks the kernel to map a buffer for the device and puts the returned address in the descriptor, and `VIRTIO_F_ACCESS_PLATFORM` (feature 33) says so to the device. The five recommendations of errata 85 (translation on by default, a domain per device, no kernel pointers in descriptors, permanent ring mappings, small buffers bounced) shape what that mapping call does. Details pending ([J.5.2](appendix-j-open.md#j52)): which feature bits the pdp64 declares. A buffer that the device may not reach is refused by the unit: a read gets an error completion and a write is dropped and logged (2.11.6), so a driver treats an error completion as the signal that its mapping was wrong. The IOMMU itself, its table and its registers are in section 2.11, which is the place to read next.
+* **Addresses.** The IOMMU of chapter 2 (2.11) gives each device its own address space: the descriptor holds a **device address** (an address in the device's own mapped space, which the IOMMU turns into a physical address or refuses); the driver asks the kernel to map a buffer for the device and puts the returned address in the descriptor, and `VIRTIO_F_ACCESS_PLATFORM` (feature 33) says so to the device. The five recommendations of errata 85 (translation on by default, a domain per device, no kernel pointers in descriptors, permanent ring mappings, small buffers bounced) shape what that mapping call does.: which feature bits the pdp64 declares. A buffer that the device may not reach is refused by the unit: a read gets an error completion and a write is dropped and logged (2.11.6), so a driver treats an error completion as the signal that its mapping was wrong. The IOMMU itself, its table and its registers are in section 2.11, which is the place to read next.
 * **Coherence.** Buffers and rings are mapped uncached (memory type 6.7.4), so that the processor's cache never holds a stale copy of what a device wrote and the driver never cleans a line. OpenBSD's `vioblk.c` calls `bus_dmamap_sync` with `PREWRITE`, `PREREAD`, `POSTREAD` and `POSTWRITE` around each request (read); on the pdp64 those calls have nothing to do (5.13.1). The cost is that the processor reads received data from uncached memory, which is slow.
 * **Order.** The processor's `FENCE` before the doorbell, the device's data-before-used-entry-before-used-index, and the interrupt that cannot pass the data (5.9.4) are the whole contract; chapter 2 (2.5, 2.8) states them.
 
@@ -327,9 +327,9 @@ Three questions arise for a driver: which addresses the device sees, whether the
 
 ## 5.11 Errors, departure and recovery
 
-**5.11.1** A request that fails completes with the status of its device class (for a virtio-blk request, a status byte in the last descriptor of its chain); a device that is broken sets its needs-reset bit in `device_status`. *(D)*
+**5.11.1** A request that fails completes with the status of its device class (for a virtio-blk request, a status byte in the last descriptor of its chain); a device that is broken sets its needs-reset bit in `device_status`.
 
-**5.11.2** A device that leaves the bus leaves its queued work in memory, "so it can be read, saved, resent" (R262; 2.4.5), and the driver finds it there. *(D)* Details pending ([J.5.4](appendix-j-open.md#j54)): what the driver does with the chains still queued when a device is reset or leaves the bus.
+**5.11.2** A device that leaves the bus leaves its queued work in memory, "so it can be read, saved, resent" (R262; 2.4.5), and the driver finds it there.: what the driver does with the chains still queued when a device is reset or leaves the bus.
 
 On the PDP-11 an error was the ERR bit of the CSR, the error word `RKER`, and the driver's choice: `rkintr` reset the controller and retried up to ten times before it set `B_ERROR`. A virtio-blk request reports a status of 0, 1 (I/O error) or 2 (unsupported) in its last byte, and no retry happens in the device. A driver that finds the device stuck resets it. OpenBSD's `vioblk_reset` (read) stops the device with `virtio_reset`, runs `virtio_check_vq` to complete what finished, and fails every other request with a driver error.
 
@@ -349,7 +349,7 @@ Open: how a virtio device is handed firmware ([J.5.3](appendix-j-open.md#j53)).
 
 **In OpenBSD** (read in the source tree at `<work>/facetlang/pdp11/openbsd-src`, version 8.0). A driver is a `struct cfattach` (the size of its per-device structure, the **softc**, a `match` and an `attach` function, and an optional detach) and a `struct cfdriver`. The virtio drivers attach below the transport `virtio.c` (1,075 lines) and `virtio_pci.c` (1,246 lines), which do the handshake of 5.5, the queues, and the MSI-X set-up; a class driver calls `virtio_negotiate_features`, `virtio_alloc_vq` and `virtio_enqueue` and sets `vq_done`. The device switch of 5.1 is still there, in the machine's `conf.c`: `bdevsw[]` rows are built by `bdev_disk_init` from open, close, strategy, ioctl, dump, size and flags. A virtio-over-memory-mapped-registers transport, `virtio_mmio.c`, exists for machines with a device tree; the pdp64's transport is the PCI Express one.
 
-**In C.** A V7 driver is written in the PDP-11's C, where `int` is 16 bits and the register structure's fields are `int` and `short`. On the pdp64 `int` is 32 bits and `long` and pointers 64 (LP64, appendix D, D.1), so a register or a descriptor field is declared by its width (`uint16_t`, `uint32_t`, `uint64_t`); natural alignment gives the 16-byte descriptor, the 10-byte `virtio_net_hdr` and the offsets of the virtio structures with no `packed` attribute. The headers that define those structures are the Linux `virtio_*.h` files, each of which says that it "is BSD licensed so anyone can use the definitions to implement compatible drivers" (read in `virtio_rng.h`; the same line is in all 29), which fits the project's BSD 2-clause licence (errata 48). A register is read and written through a `volatile` pointer. Details pending ([J.5.5](appendix-j-open.md#j55)): how C code executes the `FENCE` of 5.3.5.
+**In C.** A V7 driver is written in the PDP-11's C, where `int` is 16 bits and the register structure's fields are `int` and `short`. On the pdp64 `int` is 32 bits and `long` and pointers 64 (LP64, appendix D, D.1), so a register or a descriptor field is declared by its width (`uint16_t`, `uint32_t`, `uint64_t`); natural alignment gives the 16-byte descriptor, the 10-byte `virtio_net_hdr` and the offsets of the virtio structures with no `packed` attribute. The headers that define those structures are the Linux `virtio_*.h` files, each of which says that it "is BSD licensed so anyone can use the definitions to implement compatible drivers" (read in `virtio_rng.h`; the same line is in all 29), which fits the project's BSD 2-clause licence. A register is read and written through a `volatile` pointer.: how C code executes the `FENCE` of 5.3.5.
 
 *Commentary.* **Chain.** PDP-11: a driver is one C file and a line in `conf.c`, in the language of the day with 16-bit `int`. VAX: the same, with `config(8)` writing the tables. OpenBSD: softc, `cfattach`, `bus_dma`, a framework of its own. pdp64: OpenBSD's framework, with the DMA calls reduced to the identity and the accessors to loads and stores. **Impact.** *Kernel:* the accessors reduce to loads and stores, the DMA interface to the addresses the device uses, and attach to the functions the bus reports. *Compiler:* fixed-width types, `volatile`, and a way to execute `FENCE` from C. *Hardware:* none beyond the device's own.
 

@@ -58,5 +58,5 @@
 <text x="520.0" y="250.0" font-size="9" text-anchor="middle" fill="#333" font-family="DejaVu Sans, sans-serif">block</text>
 <text x="20.0" y="284.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">Stage sizes are the reason for the stages: the ROM and the first block are the smallest code that can be made to find the next,</text>
 <text x="20.0" y="297.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">and only the second stage is big enough to read a file system.</text>
-<text x="20.0" y="316.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The kernel is OpenBSD (errata 41 and 47).</text>
+<text x="20.0" y="316.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">The kernel is OpenBSD.</text>
 </svg>

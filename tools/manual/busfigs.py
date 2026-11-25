@@ -260,7 +260,7 @@ def fig_bar_window():
     c.line([(x0 + w, 66), (mx - 30, 66), (mx - 30, wa_y), (mx, wa_y)])
     c.text(x0 + 4, 192, 'The firmware or kernel writes the base it chooses; the device then', 10, 'start', '#333')
     c.text(x0 + 4, 206, 'answers base .. base+size-1 and no others. A window may sit anywhere', 10, 'start', '#333')
-    c.text(x0 + 4, 220, 'except the first few pages (errata 97, 102). The drawing is an example;', 10, 'start', '#333')
+    c.text(x0 + 4, 220, 'except the first few pages. The drawing is an example;', 10, 'start', '#333')
     c.text(x0 + 4, 234, 'where the windows really sit is not decided.', 10, 'start', '#333')
     c.text(x0 + 4, 262, 'a 64-bit BAR: two consecutive BARs, the low half first', 10, 'start', bold=True)
     c.box(x0, 270, 200, 28, 'BAR2: low 32 bits (type = 10)', GREY, 10)

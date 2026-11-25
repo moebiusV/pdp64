@@ -1,4 +1,4 @@
-**A.4.2** (moved from appendix A) Return-address authentication is deferred (errata 84, item 7). *(D)*
+**A.4.2** (moved from appendix A) Return-address authentication is deferred (errata 84, item 7).
 
 **A.5.2** (moved from appendix A) Bounds for the valid-pointer tag are deferred (errata 86, study item 3): the tag per register and per 8-byte word is kept and the bounds of a capability are not part of it.
 

@@ -4,11 +4,11 @@ This fragment holds what the assistant proposed for the vector and accelerator w
 
 The decision of the chapter (8.3.1) says that the processor has no vector register file and no SIMD instructions. Two further statements were attached to it as reasons, and they are the assistant's.
 
-**8.2.3** (moved from chapter 8) A scalable design (ARM SVE, RISC-V V) avoids the fixed-width problem of 8.3.3, and is the most complex to specify and to implement; it is the only in-processor form that would suit this project's range, from a small FPGA core to a possible large one. *(P)* (It is option 3 of [J.8.5](appendix-j-open.md#j85).)
+**8.2.3** (moved from chapter 8) A scalable design (ARM SVE, RISC-V V) avoids the fixed-width problem of 8.3.3, and is the most complex to specify and to implement; it is the only in-processor form that would suit this project's range, from a small FPGA core to a possible large one. (It is option 3 of [J.8.5](appendix-j-open.md#j85).)
 
 A **scalable** vector design is a vector machine (8.2) in which the register width is not part of the architecture: the hardware has registers of whatever length it can build, and a program asks it how many elements it can handle at a time and loops until the array is done (strip mining, with the length chosen by the machine and not by the programmer). The same binary runs on a small and a large implementation, which a fixed-width SIMD set cannot do. The cost is the largest specification in the architecture and a compiler model that must handle a length it does not know.
 
-**8.2.4** (moved from chapter 8) The compiled corpus shows little vectorisable code at the size-optimising setting; whether it shows more at higher optimisation is a measurement to make before any in-processor form is reconsidered. *(P)*
+**8.2.4** (moved from chapter 8) The compiled corpus shows little vectorisable code at the size-optimising setting; whether it shows more at higher optimisation is a measurement to make before any in-processor form is reconsidered. 
 
 *Commentary (moved from chapter 8).* **Chain.** PDP-11: no vector unit. VAX: a fixed 64-element vector length with a length register for partial vectors *(unverified here: from the repository's notes on the VAX 6000 guide)*. ARM and RISC-V: a scalable form after fixed-width NEON and the x86 history. **Trade-offs.** A scalable vector extension would let one binary run on a small and a large implementation, at the price named above. **Modern comparables.** SVE and the RISC-V vector extension. (Packed lanes in the integer registers, the other in-processor form, are the open item [J.8.3](appendix-j-open.md#j83).)
 
@@ -22,7 +22,7 @@ LB64 is for one kind of model, in which the weights are stored as one sign bit e
 
 **8.3.2** (moved from chapter 8) A layer is two descriptors, the second accumulating into the first's result for the residual path, and a transformer block is a chain; the processor writes the chain once and is then idle. *(D in the chapter; judged proposed, as 8.3.1)*
 
-**8.3.3** (moved from chapter 8) The work is partitioned between small engines, each doing one thing with its own local memory: LB64 for the projections and the feed-forward layers, a floating-point multiply-accumulate engine for the attention products, a vector engine for normalisation, softmax, activation and rotary position encoding, and the processor for the descriptor chains, sampling and the tokeniser. *(P)*
+**8.3.3** (moved from chapter 8) The work is partitioned between small engines, each doing one thing with its own local memory: LB64 for the projections and the feed-forward layers, a floating-point multiply-accumulate engine for the attention products, a vector engine for normalisation, softmax, activation and rotary position encoding, and the processor for the descriptor chains, sampling and the tokeniser. 
 
 **8.3.4** (moved from chapter 8) The accelerator has no instruction set: its computation has exactly one shape, so a programmable sequencer would spend its area on flexibility the work does not use. *(D in the chapter; judged proposed, as 8.3.1)*
 
@@ -32,7 +32,7 @@ LB64 is for one kind of model, in which the weights are stored as one sign bit e
 
 ### 8.4 Array languages: APL and K (moved from chapter 8)
 
-**8.4.3** (moved from chapter 8; the length-in-the-descriptor part stayed as 8.5.4 of the chapter) The interpreter stays on the processor and sends a primitive to the device when the array is long enough to repay the setup; short arrays run on the processor. *(P)*
+**8.4.3** (moved from chapter 8; the length-in-the-descriptor part stayed as 8.5.4 of the chapter) The interpreter stays on the processor and sends a primitive to the device when the array is long enough to repay the setup; short arrays run on the processor. 
 
 *Commentary (moved from chapter 8).* **Trade-offs.** Offloading a primitive has a fixed cost, so the benefit is for arrays above a size threshold that has not been measured; reductions and scans carry a dependence along the array that the device must support directly; sorting and gather are limited by memory bandwidth. **Benefits.** The same device that serves the array languages serves the element-wise work of inference and the lane-wise work of graphics. **Impact.** *Hardware:* a streaming engine with a small set of element-wise, reduce, scan and gather units behind the ring engine, sized to the memory bandwidth. (The operation set of the engine is the open item [J.8.1](appendix-j-open.md#j81).)
 
@@ -40,10 +40,10 @@ LB64 is for one kind of model, in which the weights are stored as one sign bit e
 
 The chapter (8.4) shows the driver of an accelerator in pseudocode as an illustration. The statements below were its prose form, and the order of events they fix is a proposal until the descriptor is settled.
 
-**8.6.1** (moved from chapter 8) A program fills a descriptor naming the operation and the arrays, executes `FENCE`, and writes the doorbell; the device processes the descriptor, writes the results and a status, and clears the ownership bit; the program polls or takes the interrupt. *(P)*
+**8.6.1** (moved from chapter 8) A program fills a descriptor naming the operation and the arrays, executes `FENCE`, and writes the doorbell; the device processes the descriptor, writes the results and a status, and clears the ownership bit; the program polls or takes the interrupt. 
 
-**8.6.2** (moved from chapter 8) A chain of descriptors runs without the processor, and a work block that is a chain is how a transformer layer or a sequence of array primitives is expressed. *(P)*
+**8.6.2** (moved from chapter 8) A chain of descriptors runs without the processor, and a work block that is a chain is how a transformer layer or a sequence of array primitives is expressed. 
 
-**8.6.3** (moved from chapter 8) The buffers are uncached, as for every device, so the processor's reads of results are slow; a large result is left in the device's memory or read back by the next descriptor. *(P)*
+**8.6.3** (moved from chapter 8) The buffers are uncached, as for every device, so the processor's reads of results are slow; a large result is left in the device's memory or read back by the next descriptor. 
 
 *Commentary (moved from chapter 8).* This is the same driver skeleton as for a disk (chapter 5), with an operation field that means "add these arrays". **Trade-offs.** The slow uncached readback is the cost of the explicit hand-off; an interpreter that needs many small results back on the processor should leave them in device memory. **Impact.** *Kernel:* one driver skeleton. *Compiler:* none. *Hardware:* one ring engine shared with every device.

@@ -36,7 +36,7 @@
 <polygon points="500.0,200.0 492.0,203.6 492.0,196.4" fill="#222"/>
 <text x="24.0" y="192.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">The firmware or kernel writes the base it chooses; the device then</text>
 <text x="24.0" y="206.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">answers base .. base+size-1 and no others. A window may sit anywhere</text>
-<text x="24.0" y="220.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">except the first few pages (errata 97, 102). The drawing is an example;</text>
+<text x="24.0" y="220.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">except the first few pages. The drawing is an example;</text>
 <text x="24.0" y="234.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">where the windows really sit is not decided.</text>
 <text x="24.0" y="262.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">a 64-bit BAR: two consecutive BARs, the low half first</text>
 <rect x="20.0" y="270.0" width="200.0" height="28.0" fill="#e6e6e6" stroke="#222" stroke-width="1.2"/>

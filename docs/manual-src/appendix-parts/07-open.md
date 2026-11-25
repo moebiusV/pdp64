@@ -24,7 +24,7 @@
 <a id="j72"></a>
 ### J.7.2 Coherence beyond four cores
 
-**Issue.** The first device has four cores that snoop (every cache watches the others' writes) with three states, modified, shared and invalid (7.6.1), and the architecture supports at least four cores, with sixteen or more as the preferred ceiling (7.6.3, errata 92). The protocol that serves more than four coherent cores has not been chosen. The architecture promises that memory is coherent and sequentially consistent (7.5.1) and says nothing of the protocol. The statement as first written: the protocol for more than four coherent cores is open; the leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters. *(P)*
+**Issue.** The first device has four cores that snoop (every cache watches the others' writes) with three states, modified, shared and invalid (7.6.1), and the architecture supports at least four cores, with sixteen or more as the preferred ceiling (7.6.3, errata 92). The protocol that serves more than four coherent cores has not been chosen. The architecture promises that memory is coherent and sequentially consistent (7.5.1) and says nothing of the protocol. The statement as first written: the protocol for more than four coherent cores is open; the leaning of the SMP decisions is MESI with a snoop filter inside clusters of four and a directory between clusters. 
 
 **Why it matters.** The number of general cores sets the size of the cache controller, the FPGA that can hold the design (about 16,000 look-up tables for a core before coherence, by a paper estimate at plus or minus 40 percent; four cores fit a Kria-class board and none of the planned boards holds sixteen), and what the kernel's scheduler sees as a group. Also the line size (64 bytes), the reservation granule and the invalidate granularity hang from it.
 
@@ -46,7 +46,7 @@
 <a id="j73"></a>
 ### J.7.3 The operands of the atomic instructions
 
-**Issue.** The atomic words (7.3.1) take three register fields in the grammar (four for `CAS`), with the address in a register and the size in the sub-opcode. The roles of the registers, the size encoding of `CAS` and any displacement are not fixed in the text. The statement as first written: the operands of the atomic words sit in three register fields (four for `CAS`), the roles are not fixed, and the study leans to fixing three register fields now, with the fourth reserved zero. *(P)*
+**Issue.** The atomic words (7.3.1) take three register fields in the grammar (four for `CAS`), with the address in a register and the size in the sub-opcode. The roles of the registers, the size encoding of `CAS` and any displacement are not fixed in the text. The statement as first written: the operands of the atomic words sit in three register fields (four for `CAS`), the roles are not fixed, and the study leans to fixing three register fields now, with the fourth reserved zero. 
 
 **Why it matters.** The placement decides how many instructions an atomic costs, how many bytes it takes, and what the lock and reference-count code of the kernel compiles to. `CAS` in the four-field form fills the last four-register slots of the encoding.
 
@@ -84,7 +84,7 @@
 
 **The author's referents.** None named.
 
-**The assistant's leaning.** Option 1 for device pages and option 2 or an abort for uncached normal memory, decided with the transport of the bus (errata 80); a fault that is easy to detect is better than a silent non-atomic update.
+**The assistant's leaning.** Option 1 for device pages and option 2 or an abort for uncached normal memory, decided with the transport of the bus; a fault that is easy to detect is better than a silent non-atomic update.
 
 **Where the body refers to it.** Section 7.4.5.
 
@@ -137,7 +137,7 @@
 <a id="j77"></a>
 ### J.7.7 Secure mode on every core, or one secure core
 
-**Issue.** The author decided on 2026-11-10 (errata 132): "at least one core that can be in 'secure' mode; if it doesn't take too many gates, let that be a mode for all the cores, but if it slows things down too much then return to a single secure core" (7.11.3). Two things are not decided: what counts as "too many gates" and "too much slowdown", and how the two are measured. Secure mode here is the whole of 7.11.3 to 7.11.5: constant-time instructions and cache fetches, private cache lines, no periodic tick, stop and preemption by an inter-processor interrupt, constant-time AES and SHA instructions, the private fixed-latency window, the locked translation buffer, no speculation, a fixed clock, and the clear at a domain switch. The status-word bit `DIT` (9.3.7) is already decided for every core; it makes the data-dependent timing of instructions, of the clock and of prefetch disappear while set, and leaves out the private window, the locked buffer, the absence of speculation and the clear.
+**Issue.** The author decided on 2026-11-10: "at least one core that can be in 'secure' mode; if it doesn't take too many gates, let that be a mode for all the cores, but if it slows things down too much then return to a single secure core" (7.11.3). Two things are not decided: what counts as "too many gates" and "too much slowdown", and how the two are measured. Secure mode here is the whole of 7.11.3 to 7.11.5: constant-time instructions and cache fetches, private cache lines, no periodic tick, stop and preemption by an inter-processor interrupt, constant-time AES and SHA instructions, the private fixed-latency window, the locked translation buffer, no speculation, a fixed clock, and the clear at a domain switch. The status-word bit `DIT` (9.3.7) is already decided for every core; it makes the data-dependent timing of instructions, of the clock and of prefetch disappear while set, and leaves out the private window, the locked buffer, the absence of speculation and the clear.
 
 **Why it matters.** A mode of every core means every core carries the extra logic and a kernel may place a secret-handling process anywhere; one secure core means a smaller, simpler design for the rest and a scheduling rule that sends secret work to one core. On four cores, one secure core is a quarter of the first device. The choice sets the class register's fields (7.11.1), the instruction set of 9.9.7 on every core or one, the kernel's affinity rule, and what the first device's FPGA must hold (10.1.3).
 
@@ -145,7 +145,7 @@
 
 **Options.**
 
-1. *One dedicated secure core.* The design of `crypto-secure-core.md`: a small in-order core with the window, the clear engine and the bus slot, and no mode on the other cores. For: the other cores pay nothing; the guarantee is by construction (no speculation, no sharing); the design is already approved (errata 86). Against: a core that general work cannot use; secret work must move to it, and a process that needs more than the window does not fit.
+1. *One dedicated secure core.* The design of `crypto-secure-core.md`: a small in-order core with the window, the clear engine and the bus slot, and no mode on the other cores. For: the other cores pay nothing; the guarantee is by construction (no speculation, no sharing); the design is already approved. Against: a core that general work cannot use; secret work must move to it, and a process that needs more than the window does not fit.
 2. *A secure mode on every core, entered by a privileged instruction or by a status-word bit.* The mode relates to `DIT` (9.3.7): `DIT` makes ordinary instructions constant-time, and secure mode adds the private window, the locked buffer, a fixed clock and no speculation. For: any core can run a secure domain; no core is set aside. Against: every core carries the logic; an out-of-order core must turn speculation off and drain its predictors on entry (a cost in time); the critical path may lengthen.
 3. *Secure mode on a subset of cores (a core class).* The class register of 7.11.1 says which. For: a middle way: more than one secure core without the cost on all. Against: a scheduling rule that depends on the machine; the subset size is another number to choose.
 4. *Secure mode as a core class chosen at build time.* A configuration parameter of the die, a number of secure cores from none to all. For: one design serves every product; the first device can have one and a larger die more. Against: the kernel must read the class and plan for any count; more variants to test.
@@ -154,7 +154,7 @@
 
 **Precedents.** Arm TrustZone gives every core a secure state (*unverified*; Linux's `PSR_DIT_BIT` in `arch/arm64/include/uapi/asm/ptrace.h` and `PSTATE_DIT` in `sysreg.h` show the data-independent-timing bit on Arm, *read*). Intel SGX and TDX are modes of every core (*unverified* as designs; Linux has an SGX driver, `arch/x86/kernel/cpu/sgx`, and TDX configuration in `arch/x86/Kconfig`, *read*); the repository records that enclaves on a shared core suffer every microarchitectural channel (`hardware-vulnerabilities.md`, the SGX and TEE attacks row, and rule C15 against enclave claims without partitioned hardware, *read*). The RISC-V physical memory protection registers (Linux `arch/riscv/include/asm/csr.h`, `PMP_R`, *read*) and the security extensions are modes of every core (*unverified* beyond the register names). Arm CCA realms are a state of every core (*unverified*). Apple's Secure Enclave and AMD's platform security processor are separate cores (*unverified*); OpenTitan is a separate security chip (*unverified*). The repository's own design (`crypto-secure-core.md`) is a separate core class, and its section 1.4 makes `DIT` constant on it (*read*).
 
-**The author's referents.** "i like your design. approved." (errata 86); "constant-time AES and SHA instructions" (errata 85); the decision of 2026-11-10 above; `DIT` (9.3.7).
+**The author's referents.** "i like your design. approved."; "constant-time AES and SHA instructions"; the decision of 2026-11-10 above; `DIT` (9.3.7).
 
 **The assistant's leaning.** Option 4: build the mode as a class that a die parameter sets, measure the gates and the slowdown on the first device, and let the author's threshold decide between one and all. The gate figures should come before the leaning is trusted. This is the assistant's view, not a decision.
 

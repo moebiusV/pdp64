@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**The pdp64's display is meant to bring back what the Blit terminal and the Commodore 64 had, text and graphics on the screen at once, set by simple stores to memory, at a modern colour depth and screen size; its output is HDMI or another standard graphics output (errata 105), and its standard video device is virtio-gpu (errata 79).** The chapter is written for a reader who knows the PDP-11 and its teletype, or who is learning computing from the start, and who has met nothing invented after the 1970s. It follows the order in which the ideas arrived, because each one answers a complaint about the one before:
+**The pdp64's display is meant to bring back what the Blit terminal and the Commodore 64 had, text and graphics on the screen at once, set by simple stores to memory, at a modern colour depth and screen size; its output is HDMI or another standard graphics output, and its standard video device is virtio-gpu.** The chapter is written for a reader who knows the PDP-11 and its teletype, or who is learning computing from the start, and who has met nothing invented after the 1970s. It follows the order in which the ideas arrived, because each one answers a complaint about the one before:
 
 | Stage | What it contributed | Section |
 |---|---|---|
@@ -78,7 +78,7 @@ bitblt(font, rect_of('A'), screen, (x, y), OR)       # draws an A with its top l
 bitblt(screen, window_rect, screen, window_rect + (0, -line_height), STORE)   # scroll one line
 ```
 
-The Blit was a small computer, not a protocol. Its authors give the reason: "To draw graphics in the windows, sending escape sequences is traditional but makes poor use of the processing power of the terminal"; an earlier terminal that interpreted escape sequences failed because "too much state information was maintained by the terminal and guessed at by the Unix program". The host sent it programs over an RS-232 serial line, and the authors name that line as the weak point: "The greatest problem, though, is certainly the low bandwidth." The pdp64 keeps the framebuffer in the address space (errata 66). The authors' advice in 1985 about the blit was that it be "transparent, so it can be bypassed".
+The Blit was a small computer, not a protocol. Its authors give the reason: "To draw graphics in the windows, sending escape sequences is traditional but makes poor use of the processing power of the terminal"; an earlier terminal that interpreted escape sequences failed because "too much state information was maintained by the terminal and guessed at by the Unix program". The host sent it programs over an RS-232 serial line, and the authors name that line as the weak point: "The greatest problem, though, is certainly the low bandwidth." The pdp64 keeps the framebuffer in the address space. The authors' advice in 1985 about the blit was that it be "transparent, so it can be bypassed".
 
 
 
@@ -133,7 +133,7 @@ poke(0xB8001, 0x04)         # attribute: black background, red foreground
 
 ![A framebuffer with a stride](figures/gfx-framebuffer.svg)
 
-**What the programmer had to know.** A graphics programmer of the late 1980s and the 1990s carried all of this: the VGA registers, set through ports, that choose which planes a write reaches and how its bits combine with what is already there; the planar layout, with one pixel's colour spread over four arrays; **Mode X** (the games community's name for an unofficial VGA mode of 320 by 240 that used the planar memory for more than one screen of pixels and faster fills); the bank register of each Super VGA chip, which differed from chip to chip, with quirks that the VESA calls hid only in part; the palette, whose entries could be rewritten to cycle or fade colours without touching the picture; the **retrace**, because a change made at the wrong moment tore the picture; and hand-written assembly **inner loops** for the fill, the copy and the line, because a few cycles a pixel decided whether a game ran. The author's referent is the books of Michael Abrash on PC graphics programming: "still, is ok to mention the problems graphics coders faced, which is why we had 800 page michael abrash books" (errata 105). The titles, dates and page counts are *unverified*; no copy is on this machine and no record in the repository names a title. The depth of those books measures what the hardware pushed onto the programmer.
+**What the programmer had to know.** A graphics programmer of the late 1980s and the 1990s carried all of this: the VGA registers, set through ports, that choose which planes a write reaches and how its bits combine with what is already there; the planar layout, with one pixel's colour spread over four arrays; **Mode X** (the games community's name for an unofficial VGA mode of 320 by 240 that used the planar memory for more than one screen of pixels and faster fills); the bank register of each Super VGA chip, which differed from chip to chip, with quirks that the VESA calls hid only in part; the palette, whose entries could be rewritten to cycle or fade colours without touching the picture; the **retrace**, because a change made at the wrong moment tore the picture; and hand-written assembly **inner loops** for the fill, the copy and the line, because a few cycles a pixel decided whether a game ran. The author's referent is the books of Michael Abrash on PC graphics programming: "still, is ok to mention the problems graphics coders faced, which is why we had 800 page michael abrash books". The titles, dates and page counts are *unverified*; no copy is on this machine and no record in the repository names a title. The depth of those books measures what the hardware pushed onto the programmer.
 
 
 **The uncomfortable split.** The PC now had two worlds. In **text mode** the hardware drew the characters, so text was fast, small (4000 bytes) and easy, and nothing else could be on the screen. In **graphics mode** a program could show anything but drew every dot: even a letter was the program's job (copy its rectangle from a font, the Blit's bitblt in software), and text became slow and ugly. Changing between the two meant switching modes, blanking the screen and losing the conveniences of the other world. The C64 had mixed text, bitmap and sprites in one frame; the PC made the programmer choose. Windowing systems, which need both together, chose graphics and drew everything.
@@ -170,15 +170,15 @@ Second, the pipeline is three-dimensional only by convention. A current GPU has 
 
 The chain so far: the PDP-11 sent characters down a wire (3.1); the VT52 and VT100 let the program address a screen by position (3.2); the Blit put the bitmap in the address space and the C64 put text, sprites and sound behind pokes (3.3, 3.4); the PC split text from pixels (3.5); the GPU made drawing a pipeline of shaders (3.6). The pdp64 terminal takes the Blit's and the C64's side of that history.
 
-**3.8.1** The graphics terminal is based on two machines, not one: the **Commodore 64**, for text, graphics, sprites and sound together under simple stores to memory, and the **Blit terminal** (Rob Pike's bit-mapped windowing terminal), for its framebuffer in the address space and the bit-block-transfer operation that moves rectangles of pixels. The pdp64 modernises and extends both (errata 66). *(D)*
+**3.8.1** The graphics terminal is based on two machines, not one: the **Commodore 64**, for text, graphics, sprites and sound together under simple stores to memory, and the **Blit terminal** (Rob Pike's bit-mapped windowing terminal), for its framebuffer in the address space and the bit-block-transfer operation that moves rectangles of pixels. The pdp64 modernises and extends both.
 
 ## 3.9 The form of the terminal
 
 The author, 2026-11-10: "our virtio-console device is an attempt to bring the nice properties of the blit terminal and c64 for doing simple and easy peek poke style display of text and also doing graphics, but with modern color depths and screen sizes, and with glyph maps we can even have a ttf engine generate glyphs and they will go into their memory slots for use."
 
-**3.9.1** The pdp64's terminal brings the nice properties of the Blit terminal and the C64: a display that a program drives by simple peeks and pokes, for text and for graphics together, at modern colour depths and screen sizes; and a **glyph map** (a table of slots, each a place in memory for the picture of one glyph) that a TrueType engine fills, so that the shapes of the characters are made by software and used by the display through their slots (errata 105). *(D)* Details pending ([J.3.2](appendix-j-open.md#j32)): the form of the device and the name the author gives it, which is not yet the virtio-console of the virtio specification, a serial text device.
+**3.9.1** The pdp64's terminal brings the nice properties of the Blit terminal and the C64: a display that a program drives by simple peeks and pokes, for text and for graphics together, at modern colour depths and screen sizes; and a **glyph map** (a table of slots, each a place in memory for the picture of one glyph) that a TrueType engine fills, so that the shapes of the characters are made by software and used by the display through their slots.: the form of the device and the name the author gives it, which is not yet the virtio-console of the virtio specification, a serial text device.
 
-Details pending ([J.3.4](appendix-j-open.md#j34)): whether a cell of the text display holds a character code or a glyph slot, and the layout of a slot.
+: whether a cell of the text display holds a character code or a glyph slot, and the layout of a slot.
 
 Open: whether the terminal has sprites or a hardware cursor ([J.3.5](appendix-j-open.md#j35)).
 
@@ -186,23 +186,23 @@ Open: how text, pixels and sprites are composed on the display, the author's mas
 
 ## 3.10 How the terminal drives HDMI and the other ports
 
-**3.10.1** The display connector is standard kit: HDMI (and DVI and DisplayPort) is a transmitter chip that takes pixels and sync signals in parallel and does the link protocol, the encoding and the electrical signalling itself; on the first board it is the DE10-Nano's ADV7513, set up once over an I2C-style control bus. *(D)*
+**3.10.1** The display connector is standard kit: HDMI (and DVI and DisplayPort) is a transmitter chip that takes pixels and sync signals in parallel and does the link protocol, the encoding and the electrical signalling itself; on the first board it is the DE10-Nano's ADV7513, set up once over an I2C-style control bus.
 
-**3.10.2** The output is HDMI or some other standard graphics output: a different transmitter (DisplayPort, a VGA digital-to-analogue converter, an LVDS panel) takes the same pixel stream, so the pdp64's side does not change (errata 105: "it is agreed that output is hdmi or some other standard graphics output"). *(D)*
+**3.10.2** The output is HDMI or some other standard graphics output: a different transmitter (DisplayPort, a VGA digital-to-analogue converter, an LVDS panel) takes the same pixel stream, so the pdp64's side does not change (errata 105: "it is agreed that output is hdmi or some other standard graphics output").
 
-**3.10.3** The ports that carry data, SATA for storage and USB for peripherals, follow the same pattern: the protocol is in the chip or controller block, and the processor's side is a slot with the common registers and a ring (chapter 5). *(D)*
+**3.10.3** The ports that carry data, SATA for storage and USB for peripherals, follow the same pattern: the protocol is in the chip or controller block, and the processor's side is a slot with the common registers and a ring (chapter 5).
 
 
 *Commentary.* **Chain.** The PDP-11's output was the serial line of 3.1, with no display connector. The MiSTer framework on the DE10-Nano already works this way: the retro cores produce a pixel stream, and the framework's scaler and the HDMI transmitter do the rest, which is why the plan buys HDMI there. **Trade-offs.** The transmitter's control bus needs one-time setup, which a boot routine does with a few register writes; the pixel clock must be generated to the mode, with a phase-locked loop on an FPGA and the same block in silicon. **Improvements.** Replacing the transmitter or the connector changes nothing in the program that draws, as a SATA controller behind its ring can be replaced without changing the disk driver. **Benefits.** No part of the operating system carries an HDMI, SATA or USB protocol stack. **Modern comparables.** Single-board ARM computers with a display controller and an HDMI transmitter (general knowledge, *unverified*). **Impact.** *Kernel:* hot-plug of a monitor is a bus event if the transmitter reports one. *Compiler:* none. *Hardware:* a pixel generator (the scan-out), a clock and an off-chip transmitter, with no protocol logic in the pdp64's own gates.
 
 ## 3.11 The framebuffer, the memory type and the memory budget
 
-**3.11.1** The framebuffer is mapped with the uncached memory type, or the processor's writes sit in the data cache while the video device scans out stale memory; a `FENCE` separates writing a device's registers from setting its go bit. *(D)*
+**3.11.1** The framebuffer is mapped with the uncached memory type, or the processor's writes sit in the data cache while the video device scans out stale memory; a `FENCE` separates writing a device's registers from setting its go bit.
 
 
-**3.11.2** On the first board the block RAM (about 5.5 megabits on the DE10-Nano) cannot hold a modern frame (a 1920 by 1080 frame at 32 bits is 8.3 MB), so the framebuffer lives in main memory and the block RAM holds the scan-out line buffer of a few kilobytes. *(D)*
+**3.11.2** On the first board the block RAM (about 5.5 megabits on the DE10-Nano) cannot hold a modern frame (a 1920 by 1080 frame at 32 bits is 8.3 MB), so the framebuffer lives in main memory and the block RAM holds the scan-out line buffer of a few kilobytes.
 
-**3.11.3** The block RAM budget (caches, translation buffer and the scan-out line buffer) is settled before the video hardware is built. *(D)*
+**3.11.3** The block RAM budget (caches, translation buffer and the scan-out line buffer) is settled before the video hardware is built.
 
 Open: whether the framebuffer has a write-combining memory type, which the four memory types of 2.3.3 do not name ([J.3.10](appendix-j-open.md#j310)).
 
@@ -232,7 +232,7 @@ In QEMU's `virtio-gpu.c`, `transfer_to_host_2d` rejects a rectangle that is not 
 **What it does not define.** Neither the header nor the QEMU function mentions the vertical blank, a page flip, a refresh rate or tearing: the flush says "show this rectangle now" and the host decides when its display next reads it. The only timing handle is the fence of the header. QEMU's configuration has a `refresh_rate` field for each output (`include/hw/virtio/virtio-gpu.h`), and the device can report an EDID with the optional feature `VIRTIO_GPU_F_EDID`; the header does not say that either changes how a flush is timed. The standard device therefore gives a program a damage rectangle (the flush rectangle), a cursor (the cursor queue, `UPDATE_CURSOR` and `MOVE_CURSOR`), a fence and display information (`GET_DISPLAY_INFO`: size and enabled flag of each output), and nothing about the vertical blank.
 
 
-**3.12.1** The standard graphics device is virtio-gpu in 2D mode over the virtio PCI Express transport (errata 79); its commands are the five of the figure, plus the cursor queue and the display-information query. *(D)*
+**3.12.1** The standard graphics device is virtio-gpu in 2D mode over the virtio PCI Express transport; its commands are the five of the figure, plus the cursor queue and the display-information query.
 
 Open: the feature subset of virtio-gpu and of virtio-snd that the pdp64 requires, the hot-plug scope and whether OpenBSD has a virtio-snd driver ([J.3.7](appendix-j-open.md#j37)).
 
@@ -242,9 +242,9 @@ Open: the 48-bit pixel against the 32-bit formats of virtio-gpu ([J.3.6](appendi
 
 ## 3.13 A standard graphics card
 
-**3.13.1** A PCI Express graphics card may be attached and supported with its own driver, as any PCI Express device may; the standard does not require one (errata 78). *(D)*
+**3.13.1** A PCI Express graphics card may be attached and supported with its own driver, as any PCI Express device may; the standard does not require one.
 
-**3.13.2** The standard does not require a card because of what one costs: PCI Express configuration space, base-address mapping and message-signalled interrupts, a driver stack for a programming model that for some vendors must be reverse-engineered, the card's firmware and the initialisation a PC's firmware performs, and no hard PCI Express block on the first board (the Cyclone V and the Zynq 7020 are recorded as lacking one, *unverified* here; a Zynq UltraScale+ has a hard root complex, `docs/pdp64-fpga-plan.md`). *(D)*
+**3.13.2** The standard does not require a card because of what one costs: PCI Express configuration space, base-address mapping and message-signalled interrupts, a driver stack for a programming model that for some vendors must be reverse-engineered, the card's firmware and the initialisation a PC's firmware performs, and no hard PCI Express block on the first board (the Cyclone V and the Zynq 7020 are recorded as lacking one, *unverified* here; a Zynq UltraScale+ has a hard root complex, `docs/pdp64-fpga-plan.md`).
 
 *Commentary.* **Trade-offs.** A standard card needs a PCI Express root complex, a large block where the chip has none, and a graphics driver ported to the pdp64, which is a larger task than the architecture (`docs/pdp64-fpga-plan.md` says the same and answers no to a discrete GPU). **Modern comparables.** PowerPC and RISC-V workstations take PCI Express graphics cards with open drivers (general knowledge, *unverified*). **Impact.** *Kernel:* a large graphics driver ported. *Compiler:* none. *Hardware:* a PCI Express root complex and a bridge to the bus.
 
@@ -252,9 +252,9 @@ Open: the 48-bit pixel against the 32-bit formats of virtio-gpu ([J.3.6](appendi
 
 Graphics programming has been annoying, cumbersome and full of **boilerplate** (code written the same way in every program before the program can do anything of its own). This section lists the boilerplate that exists and shows three pieces of it. The PDP-11 has no antecedent: its console needed none (3.1). The chain runs from the VGA programmer's register lore (3.5) to the Linux and Vulkan setup lists below.
 
-**3.14.1** What made graphics programming annoying, cumbersome or boilerplate is sugared away by the architecture to almost nothing (the author, 2026-11-10: "basically, anything that made graphics programming annoying or cumbersome or boiler platey, we want to sugar away to almost nothing", errata 105). *(D)*
+**3.14.1** What made graphics programming annoying, cumbersome or boilerplate is sugared away by the architecture to almost nothing (the author, 2026-11-10: "basically, anything that made graphics programming annoying or cumbersome or boiler platey, we want to sugar away to almost nothing", errata 105).
 
-**3.14.2** The measure that every design in this chapter is held to is the author's: "graphics programming should be as simple and pleasurable as the c64 was." *(D)* (Errata 105.) Details pending ([J.3.9](appendix-j-open.md#j39)): which sugar, for 3.14.1 and 3.14.2; the table below lists the pain points.
+**3.14.2** The measure that every design in this chapter is held to is the author's: "graphics programming should be as simple and pleasurable as the c64 was." (Errata 105.): which sugar, for 3.14.1 and 3.14.2; the table below lists the pain points.
 
 The books of Michael Abrash on VGA and PC graphics programming (the author's "800 page michael abrash books"; titles and page counts *unverified*, 3.5) exist because a programmer could not get a fast picture without knowing the VGA's registers, its planar memory, its retrace, the banking of each chip and how to hand-tune the inner loops. Each row of the table below is a piece of that knowledge, or of its successor (the long setup lists of the Linux display interface and of Vulkan), The knowledge was real and was needed.
 
@@ -300,7 +300,7 @@ memory_barrier()                           # and make sure the writes are ordere
 poke(DOORBELL, 1)
 ```
 
-The pdp64 already removes this, and chapter 2 says how: processor caches are coherent with each other, a device and the processor are not, and the answer is a memory type, **uncached**, instead of a flush instruction: "buffers are mapped uncached and the hand-off is explicit" (2.5.2), and "No driver can forget a cache clean or invalidate, because there is none" (2.5, commentary). The framebuffer is mapped uncached too (3.11.1). So on the pdp64 the program does none of this *(D)*.
+The pdp64 already removes this, and chapter 2 says how: processor caches are coherent with each other, a device and the processor are not, and the answer is a memory type, **uncached**, instead of a flush instruction: "buffers are mapped uncached and the hand-off is explicit" (2.5.2), and "No driver can forget a cache clean or invalidate, because there is none" (2.5, commentary). The framebuffer is mapped uncached too (3.11.1). So on the pdp64 the program does none of this.
 
 **Example 3: drawing text.** On a GL or Vulkan system text is the longest boilerplate, because the GPU has no text:
 
@@ -345,9 +345,9 @@ Each row names something that has annoyed graphics programmers and the size of i
 | Input of palettes | 256 writes through ports (VGA) |
 | Sound and video sync | a timestamp and a resampler |
 
-The pdp64 has decided two of them: cache coherence is a memory type and no flush exists (2.5.2, 3.11.1), and the machine is little-endian (errata 72).
+The pdp64 has decided two of them: cache coherence is a memory type and no flush exists (2.5.2, 3.11.1), and the machine is little-endian.
 
-Details pending ([J.3.9](appendix-j-open.md#j39)): the means by which the architecture removes the rest.
+: the means by which the architecture removes the rest.
 
 ## 3.15 Scanout, tearing and double buffering
 
@@ -387,17 +387,17 @@ Double buffering has four costs. It **needs twice the memory**: at 1920 by 1080 
 
 Variable refresh (HDMI VRR, adaptive sync) turns a late frame into a short delay, which reduces the need for a blank-time flip but does not remove it: the frame still must not change *while* it is read. A television may hold a whole frame before showing it (latency), and a laptop panel may refresh itself from its own memory when nothing changes (panel self-refresh). Checked on this machine: HDMI is a pixel-stream transmitter (3.10.1), and the DRM header `drm_mode.h` has a page-flip call with a completion event (`DRM_MODE_PAGE_FLIP_EVENT`) and an asynchronous flag that allows a flip with tearing (`DRM_MODE_PAGE_FLIP_ASYNC`). *Unverified* general knowledge: the VRR and adaptive-sync standards and what a sink does with a late frame, television latency, panel self-refresh, and what phone and desktop compositors do.
 
-**3.15.1** The architecture offers conveniences, "nice architectural sugar", that avoid tearing, flicker and the other faults that forced graphics programmers to double-buffer (the author, 2026-11-10, errata 105). *(D)* Details pending ([J.3.8](appendix-j-open.md#j38)): which conveniences, and whether a tear-free flip is worth hardware when the display is variable-refresh.
+**3.15.1** The architecture offers conveniences, "nice architectural sugar", that avoid tearing, flicker and the other faults that forced graphics programmers to double-buffer (the author, 2026-11-10, errata 105).: which conveniences, and whether a tear-free flip is worth hardware when the display is variable-refresh.
 
 ## 3.16 The C128
 
-**3.16.1** The pdp64 has a **c64 mode**: a C128 built onto the die, with the SID and the C64's other circuits, into whose address space a program is loaded by DMA over PCI Express so that it acts as a terminal, the way the Blit's terminal and the VT-series terminals did (the author, 2026-11-10: "we will have a c64 mode, where a c128 is built onto the die with sid etc, so a bit of code loaded into its address space by pcie dma will let it act as a terminal the way the blit and vt55 did"). *(D)* The C128 is a device on the bus, as 3.16.4 says. Details pending ([J.3.11](appendix-j-open.md#j311)): which core, whether unmodified C64 software runs, how the core and the host talk, how the loaded image is contained.
+**3.16.1** The pdp64 has a **c64 mode**: a C128 built onto the die, with the SID and the C64's other circuits, into whose address space a program is loaded by DMA over PCI Express so that it acts as a terminal, the way the Blit's terminal and the VT-series terminals did (the author, 2026-11-10: "we will have a c64 mode, where a c128 is built onto the die with sid etc, so a bit of code loaded into its address space by pcie dma will let it act as a terminal the way the blit and vt55 did"). The C128 is a device on the bus, as 3.16.4 says.: which core, whether unmodified C64 software runs, how the core and the host talk, how the loaded image is contained.
 
-**3.16.2** C64 mode is the enabling or disabling of the C128 as a PCI Express device: when it is enabled it takes over the graphics and audio output, or sends them to a compositor (the author: "the mode is just enabling/disabling the c128 as a pcie device so it takes over the graphics and audio output... or sends them to a compositor"). *(D)* A **compositor** is the program or hardware that combines the pictures of several windows or sources into the one picture that is scanned out. Details pending ([J.3.12](appendix-j-open.md#j312)): the form of the compositor path.
+**3.16.2** C64 mode is the enabling or disabling of the C128 as a PCI Express device: when it is enabled it takes over the graphics and audio output, or sends them to a compositor (the author: "the mode is just enabling/disabling the c128 as a pcie device so it takes over the graphics and audio output... or sends them to a compositor"). A **compositor** is the program or hardware that combines the pictures of several windows or sources into the one picture that is scanned out.: the form of the compositor path.
 
-**3.16.3** Of the paths to a compositor, the C128 draws into a buffer that the host's compositor treats as a surface: "c128 drawing into a buffer makes most sense" (the author, 2026-11-10, errata 106). Details pending ([J.3.12](appendix-j-open.md#j312)): how the compositor learns that the buffer is the core's, who owns the memory, how the core's frame timing meets the compositor's, and the audio form (3.17).
+**3.16.3** Of the paths to a compositor, the C128 draws into a buffer that the host's compositor treats as a surface: "c128 drawing into a buffer makes most sense" (the author, 2026-11-10, errata 106).: how the compositor learns that the buffer is the core's, who owns the memory, how the core's frame timing meets the compositor's, and the audio form (3.17).
 
-**3.16.4** The Commodore 128 is another device on the PCI Express bus and is not part of the pdp64 standard: its 8502 core, memory management, 80-column video chip and compatibility island are an optional device reached through the IOMMU window (errata 77 and 75). The instruction set, the memory model and the standard devices neither contain nor depend on it, and no instruction, register or PSW bit exists for it. *(D)*
+**3.16.4** The Commodore 128 is another device on the PCI Express bus and is not part of the pdp64 standard: its 8502 core, memory management, 80-column video chip and compatibility island are an optional device reached through the IOMMU window. The instruction set, the memory model and the standard devices neither contain nor depend on it, and no instruction, register or PSW bit exists for it.
 
 
 ## 3.17 The audio path: samples, mixers and the pdp64
@@ -438,7 +438,7 @@ A mixer also has four other jobs. It **converts each stream to a common rate and
 
 **What virtio-snd defines** (checked in `/usr/include/linux/virtio_snd.h`). Four queues: control, event, transmit (`TX`) and receive (`RX`). Streams are **PCM streams** (pulse-code modulation: plain samples) with a direction (output or input), described by `virtio_snd_pcm_info`: a bitmap of formats (from 4-bit ADPCM and 8-bit mu-law through `S16`, `S24`, `S32`, `FLOAT` and `FLOAT64` to DSD and IEC958), a bitmap of rates (5,512 Hz to 384,000 Hz, including 44,100 and 48,000), and a range of channels. The driver sets a stream's parameters (`PCM_SET_PARAMS`: `buffer_bytes`, `period_bytes`, channels, format, rate), prepares, starts and stops it, then sends audio as buffers on the TX queue, each tagged with a `stream_id` and answered with a `virtio_snd_pcm_status` that carries a `status` and the **current device latency** in bytes. The event queue reports `PCM_PERIOD_ELAPSED` and `PCM_XRUN` (an underrun or overrun: the same word as the ring buffer's), and jack events; each stream has feature bits for shared memory, polling, and period and xrun events (`VIRTIO_SND_PCM_F_*`). Controls such as volume are optional (`VIRTIO_SND_F_CTLS`). The header says nothing about **who mixes**: it defines one stream at a time, as one card. Mixing several programs happens on the host side of the device (QEMU's engine above) or, on a machine with no host, in the pdp64's own kernel or library before the stream is sent.
 
-**3.17.1** The standard audio device is virtio-snd (errata 79); the device carries one stream at a time as a PCM stream of the formats and rates the device lists. *(D)*
+**3.17.1** The standard audio device is virtio-snd; the device carries one stream at a time as a PCM stream of the formats and rates the device lists.
 
 Open: where the pdp64's mixer lives (the kernel, a library or the device) and who drives it ([J.3.13](appendix-j-open.md#j313)).
 
@@ -452,7 +452,7 @@ Open: where the pdp64's mixer lives (the kernel, a library or the device) and wh
 
 The chain for windows: the PDP-11's teletype had none; the Blit's `mux` (terminal-side windows over a serial line), 8½ and rio (windows as files, on a local bus), NeWS (windows as downloaded code).
 
-**3.18.1** The pdp64 brings over what it can of the simplicity of rio and NeWS, the windowing systems that the Blit terminal inspired (the author, 2026-11-10: "we'd like to bring over what we can of that simplicity also", errata 106). *(D)* Details pending ([J.3.14](appendix-j-open.md#j314)): which simplicities, and in what form.
+**3.18.1** The pdp64 brings over what it can of the simplicity of rio and NeWS, the windowing systems that the Blit terminal inspired (the author, 2026-11-10: "we'd like to bring over what we can of that simplicity also", errata 106).: which simplicities, and in what form.
 
 ## 3.19 What was checked, and what was not
 

@@ -1,7 +1,7 @@
 <a id="j41"></a>
 ### J.4.1 The first few pages
 
-**Issue.** The author's rule (errata 102) is that device windows can go anywhere in physical space "except the first few pages where the boot stuff is loaded". How many pages are "the first few", and what exactly lives in them, is not fixed. The rule is a **reservation**: a range of physical addresses that no device window may overlap, so that the boot ROM and the first stage can assume plain memory there. What the documents already put in that range: the vector table (the table through which an exception or an interrupt finds its handler: 512 entries of 8 bytes, exactly one page of 4096 bytes at address 0, because the register `VBR` is zero at reset); block 0 (512 bytes), read to an address "to be chosen" (0x1000 is the example, which is why the load address is part of this entry); the boot-information block, whose size is not specified and which lists the memory ranges, boot device, console, core count, device table, command line, ABI version and a checksum; and the top of the first 64 KB, which register `r14` holds as the first stack.
+**Issue.** The author's rule is that device windows can go anywhere in physical space "except the first few pages where the boot stuff is loaded". How many pages are "the first few", and what exactly lives in them, is not fixed. The rule is a **reservation**: a range of physical addresses that no device window may overlap, so that the boot ROM and the first stage can assume plain memory there. What the documents already put in that range: the vector table (the table through which an exception or an interrupt finds its handler: 512 entries of 8 bytes, exactly one page of 4096 bytes at address 0, because the register `VBR` is zero at reset); block 0 (512 bytes), read to an address "to be chosen" (0x1000 is the example, which is why the load address is part of this entry); the boot-information block, whose size is not specified and which lists the memory ranges, boot device, console, core count, device table, command line, ABI version and a checksum; and the top of the first 64 KB, which register `r14` holds as the first stack.
 
 **Why it matters.** Before translation is on, the kernel needs a known place for the vector table, the boot-information block and the early stack. The root complex must refuse to decode a window below the limit, and the boot ROM's load address and the reset value of `VBR` are tied to it. Section 4.4 and the boot sequence cannot quote an address until it is chosen.
 
@@ -49,7 +49,7 @@
 <a id="j43"></a>
 ### J.4.3 How the ROM finds and maps the boot device
 
-**Issue.** Section 2.4 says that the processor assigns the windows of the bus's devices. The ROM is the first software to run, and to read block 0 it must reach the boot device's registers and queues, which lie in a window that nobody has assigned yet. It is not stated whether the ROM assigns every window or only the boot device's, where it places them, and whether it leaves them for the kernel to keep or to change. The author's rule (errata 102) keeps windows out of the first few pages ([J.4.1](appendix-j-open.md#j41)).
+**Issue.** Section 2.4 says that the processor assigns the windows of the bus's devices. The ROM is the first software to run, and to read block 0 it must reach the boot device's registers and queues, which lie in a window that nobody has assigned yet. It is not stated whether the ROM assigns every window or only the boot device's, where it places them, and whether it leaves them for the kernel to keep or to change. The author's rule keeps windows out of the first few pages ([J.4.1](appendix-j-open.md#j41)).
 
 **Why it matters.** The kernel's own enumeration starts from the state the ROM leaves. The root complex's reset state, the ROM's size and the boot-information block's description of the root complex all depend on it.
 
@@ -108,7 +108,7 @@
 
 **Precedents.** Linux `request_firmware`, OpenBSD `loadfirmware(9)` (reads from `/etc/firmware`) and NetBSD `firmload(9)` load a blob from a file at attach time *(verified: read in the trees)*. NVMe has a firmware-download command *(unverified; not found in the QEMU headers read)*. The VAX console and some adapters loaded microcode from storage *(unverified)*.
 
-**The author's referents.** "the init protocol should mostly happen behind the bus, poke a register to tell the device 'initialize yourself' and possibly have another register populated with values or a binary firmware blob for the device to load" (R256); the `INIT` and `READY` bits of the Unibus device (errata 29); virtio's `device_status` handshake (errata 95).
+**The author's referents.** "the init protocol should mostly happen behind the bus, poke a register to tell the device 'initialize yourself' and possibly have another register populated with values or a binary firmware blob for the device to load" (R256); the `INIT` and `READY` bits of the Unibus device; virtio's `device_status` handshake.
 
 **Where the body refers to it.** Section 4.8.1.
 
@@ -174,7 +174,7 @@
 
 **Precedents.** 4.3BSD-Tahoe and 2.11BSD reserve 15 sectors after block 0 for the bootstraps *(verified: `disklabel.h`)*. OpenBSD on the PC patches `biosboot` with the location of `/boot` *(verified: `biosboot(8)`)*. OpenBSD defines both the OpenBSD-type and the EFI-system partition GUIDs *(verified: `disklabel.h`)*. Other systems keep a "BIOS boot partition" for a loader *(unverified)*.
 
-**The author's referents.** The GPT wrapper (errata 50); "follow the majority as far as boot block offset" (errata 51); the 2026-11-10 choice of block 0 with a UEFI route kept possible (errata 109).
+**The author's referents.** The GPT wrapper; "follow the majority as far as boot block offset"; the 2026-11-10 choice of block 0 with a UEFI route kept possible.
 
 **Where the body refers to it.** Sections 4.5.2 and 4.5.4.
 
