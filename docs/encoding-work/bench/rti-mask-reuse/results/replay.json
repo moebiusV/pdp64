@@ -1,0 +1,2699 @@
+[
+ {
+  "program": "mini-kernel",
+  "events": 8,
+  "by_class": {
+   "start": 1,
+   "syscall": 3,
+   "fault": 1,
+   "interrupt": 3
+  },
+  "same_mode_returns": 0,
+  "K1": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 2,
+   "A2_core": {
+    "hits": 6,
+    "misses": 2,
+    "hit_rate": 0.75,
+    "sites": 4,
+    "sites_all_hit": 2,
+    "cold_first_use": 1,
+    "sites_steady": 2,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 0,
+     "syscall": 2
+    },
+    "events_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 1,
+     "syscall": 3
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 2,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 6,
+    "misses": 2,
+    "hit_rate": 0.75,
+    "sites": 4,
+    "sites_all_hit": 2,
+    "cold_first_use": 1,
+    "sites_steady": 2,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 0,
+     "syscall": 2
+    },
+    "events_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 1,
+     "syscall": 3
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 2,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 4,
+    "misses": 4,
+    "hit_rate": 0.5,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 4,
+    "sites_steady": 2,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "fault": 0,
+     "interrupt": 2,
+     "start": 0,
+     "syscall": 2
+    },
+    "events_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 1,
+     "syscall": 3
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 8,
+     "mask_differs_from_needed": 1,
+     "leak": 1,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 8,
+     "mask_differs_from_needed": 8,
+     "leak": 0,
+     "loss": 3
+    }
+   }
+  },
+  "K2": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 3,
+   "A2_core": {
+    "hits": 2,
+    "misses": 6,
+    "hit_rate": 0.25,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 2,
+    "stale_loss_if_short": 2,
+    "hits_by_class": {
+     "fault": 0,
+     "interrupt": 2,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 1,
+     "syscall": 3
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 2,
+    "misses": 6,
+    "hit_rate": 0.25,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 2,
+    "stale_loss_if_short": 2,
+    "hits_by_class": {
+     "fault": 0,
+     "interrupt": 2,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 1,
+     "syscall": 3
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 4,
+    "misses": 4,
+    "hit_rate": 0.5,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 4,
+    "sites_steady": 2,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "fault": 0,
+     "interrupt": 2,
+     "start": 0,
+     "syscall": 2
+    },
+    "events_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 1,
+     "syscall": 3
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 8,
+     "mask_differs_from_needed": 4,
+     "leak": 4,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 8,
+     "mask_differs_from_needed": 7,
+     "leak": 0,
+     "loss": 3
+    }
+   }
+  },
+  "O": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 3,
+   "A2_core": {
+    "hits": 1,
+    "misses": 7,
+    "hit_rate": 0.125,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 3,
+    "hits_by_class": {
+     "fault": 0,
+     "interrupt": 0,
+     "start": 0,
+     "syscall": 1
+    },
+    "events_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 1,
+     "syscall": 3
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 1,
+    "misses": 7,
+    "hit_rate": 0.125,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 3,
+    "hits_by_class": {
+     "fault": 0,
+     "interrupt": 0,
+     "start": 0,
+     "syscall": 1
+    },
+    "events_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 1,
+     "syscall": 3
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 2,
+    "misses": 6,
+    "hit_rate": 0.25,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 4,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 1,
+    "hits_by_class": {
+     "fault": 0,
+     "interrupt": 0,
+     "start": 0,
+     "syscall": 2
+    },
+    "events_by_class": {
+     "fault": 1,
+     "interrupt": 3,
+     "start": 1,
+     "syscall": 3
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 8,
+     "mask_differs_from_needed": 8,
+     "leak": 1,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 8,
+     "mask_differs_from_needed": 3,
+     "leak": 0,
+     "loss": 3
+    }
+   }
+  }
+ },
+ {
+  "program": "twoproc",
+  "events": 651,
+  "by_class": {
+   "start": 2,
+   "syscall": 598,
+   "interrupt": 51
+  },
+  "same_mode_returns": 116,
+  "K1": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 3,
+   "A2_core": {
+    "hits": 647,
+    "misses": 4,
+    "hit_rate": 0.994,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 1,
+    "hits_by_class": {
+     "interrupt": 50,
+     "start": 0,
+     "syscall": 597
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 647,
+    "misses": 4,
+    "hit_rate": 0.994,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 1,
+    "hits_by_class": {
+     "interrupt": 50,
+     "start": 0,
+     "syscall": 597
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 647,
+    "misses": 4,
+    "hit_rate": 0.994,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 3,
+    "sites_steady": 2,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "interrupt": 50,
+     "start": 0,
+     "syscall": 597
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_process": {
+    "hits": 647,
+    "misses": 4,
+    "hit_rate": 0.994,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 2,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 1,
+    "hits_by_class": {
+     "interrupt": 50,
+     "start": 0,
+     "syscall": 597
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 651,
+     "mask_differs_from_needed": 2,
+     "leak": 2,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 651,
+     "mask_differs_from_needed": 651,
+     "leak": 0,
+     "loss": 649
+    }
+   }
+  },
+  "K2": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 3,
+   "A2_core": {
+    "hits": 546,
+    "misses": 105,
+    "hit_rate": 0.839,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 52,
+    "stale_loss_if_short": 14,
+    "hits_by_class": {
+     "interrupt": 0,
+     "start": 0,
+     "syscall": 546
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 546,
+    "misses": 105,
+    "hit_rate": 0.839,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 52,
+    "stale_loss_if_short": 14,
+    "hits_by_class": {
+     "interrupt": 0,
+     "start": 0,
+     "syscall": 546
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 648,
+    "misses": 3,
+    "hit_rate": 0.995,
+    "sites": 4,
+    "sites_all_hit": 1,
+    "cold_first_use": 3,
+    "sites_steady": 3,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "interrupt": 50,
+     "start": 1,
+     "syscall": 597
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 1,
+     "genter": 0
+    }
+   },
+   "A2_process": {
+    "hits": 546,
+    "misses": 105,
+    "hit_rate": 0.839,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 2,
+    "sites_steady": 0,
+    "stale_leak_if_short": 51,
+    "stale_loss_if_short": 15,
+    "hits_by_class": {
+     "interrupt": 0,
+     "start": 0,
+     "syscall": 546
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 651,
+     "mask_differs_from_needed": 600,
+     "leak": 594,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 651,
+     "mask_differs_from_needed": 649,
+     "leak": 0,
+     "loss": 649
+    }
+   }
+  },
+  "O": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 4,
+   "A2_core": {
+    "hits": 622,
+    "misses": 29,
+    "hit_rate": 0.955,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 14,
+    "hits_by_class": {
+     "interrupt": 38,
+     "start": 0,
+     "syscall": 584
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 622,
+    "misses": 29,
+    "hit_rate": 0.955,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 14,
+    "hits_by_class": {
+     "interrupt": 38,
+     "start": 0,
+     "syscall": 584
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 624,
+    "misses": 27,
+    "hit_rate": 0.959,
+    "sites": 4,
+    "sites_all_hit": 1,
+    "cold_first_use": 3,
+    "sites_steady": 2,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 12,
+    "hits_by_class": {
+     "interrupt": 26,
+     "start": 1,
+     "syscall": 597
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 1,
+     "genter": 0
+    }
+   },
+   "A2_process": {
+    "hits": 621,
+    "misses": 30,
+    "hit_rate": 0.954,
+    "sites": 4,
+    "sites_all_hit": 0,
+    "cold_first_use": 2,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 15,
+    "hits_by_class": {
+     "interrupt": 37,
+     "start": 0,
+     "syscall": 584
+    },
+    "events_by_class": {
+     "interrupt": 51,
+     "start": 2,
+     "syscall": 598
+    },
+    "sites_by_kind": {
+     "rti": 4,
+     "genter": 0
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 651,
+     "mask_differs_from_needed": 651,
+     "leak": 2,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 651,
+     "mask_differs_from_needed": 649,
+     "leak": 0,
+     "loss": 649
+    }
+   }
+  }
+ },
+ {
+  "program": "hv-first",
+  "events": 81,
+  "by_class": {
+   "g-start": 1,
+   "g-after": 77,
+   "g-retry": 1,
+   "start": 1,
+   "syscall": 1
+  },
+  "same_mode_returns": 1,
+  "K1": {
+   "rti_in_guest_run": 2,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 6,
+   "A2_core": {
+    "hits": 72,
+    "misses": 9,
+    "hit_rate": 0.889,
+    "sites": 6,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 8,
+    "stale_loss_if_short": 3,
+    "hits_by_class": {
+     "g-after": 72,
+     "g-retry": 0,
+     "g-start": 0,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "g-after": 77,
+     "g-retry": 1,
+     "g-start": 1,
+     "start": 1,
+     "syscall": 1
+    },
+    "sites_by_kind": {
+     "rti": 2,
+     "genter": 4
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 74,
+    "misses": 7,
+    "hit_rate": 0.914,
+    "sites": 6,
+    "sites_all_hit": 0,
+    "cold_first_use": 2,
+    "sites_steady": 0,
+    "stale_leak_if_short": 4,
+    "stale_loss_if_short": 2,
+    "hits_by_class": {
+     "g-after": 74,
+     "g-retry": 0,
+     "g-start": 0,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "g-after": 77,
+     "g-retry": 1,
+     "g-start": 1,
+     "start": 1,
+     "syscall": 1
+    },
+    "sites_by_kind": {
+     "rti": 2,
+     "genter": 4
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 74,
+    "misses": 7,
+    "hit_rate": 0.914,
+    "sites": 6,
+    "sites_all_hit": 0,
+    "cold_first_use": 3,
+    "sites_steady": 0,
+    "stale_leak_if_short": 4,
+    "stale_loss_if_short": 1,
+    "hits_by_class": {
+     "g-after": 74,
+     "g-retry": 0,
+     "g-start": 0,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "g-after": 77,
+     "g-retry": 1,
+     "g-start": 1,
+     "start": 1,
+     "syscall": 1
+    },
+    "sites_by_kind": {
+     "rti": 2,
+     "genter": 4
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 2,
+     "mask_differs_from_needed": 2,
+     "leak": 2,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 2,
+     "mask_differs_from_needed": 2,
+     "leak": 2,
+     "loss": 0
+    }
+   }
+  },
+  "K2": {
+   "rti_in_guest_run": 2,
+   "rti_equal_first_genter": 1,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 5,
+   "A2_core": {
+    "hits": 72,
+    "misses": 9,
+    "hit_rate": 0.889,
+    "sites": 6,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 6,
+    "stale_loss_if_short": 3,
+    "hits_by_class": {
+     "g-after": 72,
+     "g-retry": 0,
+     "g-start": 0,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "g-after": 77,
+     "g-retry": 1,
+     "g-start": 1,
+     "start": 1,
+     "syscall": 1
+    },
+    "sites_by_kind": {
+     "rti": 2,
+     "genter": 4
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 74,
+    "misses": 7,
+    "hit_rate": 0.914,
+    "sites": 6,
+    "sites_all_hit": 0,
+    "cold_first_use": 2,
+    "sites_steady": 0,
+    "stale_leak_if_short": 3,
+    "stale_loss_if_short": 2,
+    "hits_by_class": {
+     "g-after": 74,
+     "g-retry": 0,
+     "g-start": 0,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "g-after": 77,
+     "g-retry": 1,
+     "g-start": 1,
+     "start": 1,
+     "syscall": 1
+    },
+    "sites_by_kind": {
+     "rti": 2,
+     "genter": 4
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 74,
+    "misses": 7,
+    "hit_rate": 0.914,
+    "sites": 6,
+    "sites_all_hit": 0,
+    "cold_first_use": 3,
+    "sites_steady": 0,
+    "stale_leak_if_short": 3,
+    "stale_loss_if_short": 1,
+    "hits_by_class": {
+     "g-after": 74,
+     "g-retry": 0,
+     "g-start": 0,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "g-after": 77,
+     "g-retry": 1,
+     "g-start": 1,
+     "start": 1,
+     "syscall": 1
+    },
+    "sites_by_kind": {
+     "rti": 2,
+     "genter": 4
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 2,
+     "mask_differs_from_needed": 2,
+     "leak": 2,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 2,
+     "mask_differs_from_needed": 2,
+     "leak": 2,
+     "loss": 0
+    }
+   }
+  },
+  "O": {
+   "rti_in_guest_run": 2,
+   "rti_equal_first_genter": 1,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 5,
+   "A2_core": {
+    "hits": 72,
+    "misses": 9,
+    "hit_rate": 0.889,
+    "sites": 6,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 2,
+    "stale_loss_if_short": 5,
+    "hits_by_class": {
+     "g-after": 72,
+     "g-retry": 0,
+     "g-start": 0,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "g-after": 77,
+     "g-retry": 1,
+     "g-start": 1,
+     "start": 1,
+     "syscall": 1
+    },
+    "sites_by_kind": {
+     "rti": 2,
+     "genter": 4
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 72,
+    "misses": 9,
+    "hit_rate": 0.889,
+    "sites": 6,
+    "sites_all_hit": 0,
+    "cold_first_use": 2,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 4,
+    "hits_by_class": {
+     "g-after": 72,
+     "g-retry": 0,
+     "g-start": 0,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "g-after": 77,
+     "g-retry": 1,
+     "g-start": 1,
+     "start": 1,
+     "syscall": 1
+    },
+    "sites_by_kind": {
+     "rti": 2,
+     "genter": 4
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 72,
+    "misses": 9,
+    "hit_rate": 0.889,
+    "sites": 6,
+    "sites_all_hit": 0,
+    "cold_first_use": 3,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 3,
+    "hits_by_class": {
+     "g-after": 72,
+     "g-retry": 0,
+     "g-start": 0,
+     "start": 0,
+     "syscall": 0
+    },
+    "events_by_class": {
+     "g-after": 77,
+     "g-retry": 1,
+     "g-start": 1,
+     "start": 1,
+     "syscall": 1
+    },
+    "sites_by_kind": {
+     "rti": 2,
+     "genter": 4
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 2,
+     "mask_differs_from_needed": 2,
+     "leak": 2,
+     "loss": 1
+    },
+    "reset_zero": {
+     "rti_events": 2,
+     "mask_differs_from_needed": 2,
+     "leak": 2,
+     "loss": 1
+    }
+   }
+  }
+ },
+ {
+  "program": "hv-timer",
+  "events": 1,
+  "by_class": {
+   "g-start": 1
+  },
+  "same_mode_returns": 1,
+  "K1": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "K2": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "O": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  }
+ },
+ {
+  "program": "hv-vtimer",
+  "events": 1,
+  "by_class": {
+   "g-start": 1
+  },
+  "same_mode_returns": 2,
+  "K1": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "K2": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "O": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 0,
+    "misses": 1,
+    "hit_rate": 0.0,
+    "sites": 1,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 1
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  }
+ },
+ {
+  "program": "hv-stage2",
+  "events": 38,
+  "by_class": {
+   "g-start": 1,
+   "g-after": 11,
+   "g-retry": 9,
+   "g-new": 17
+  },
+  "same_mode_returns": 0,
+  "K1": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 7,
+   "A2_core": {
+    "hits": 10,
+    "misses": 28,
+    "hit_rate": 0.263,
+    "sites": 38,
+    "sites_all_hit": 10,
+    "cold_first_use": 1,
+    "sites_steady": 10,
+    "stale_leak_if_short": 14,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-after": 2,
+     "g-new": 6,
+     "g-retry": 2,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-after": 11,
+     "g-new": 17,
+     "g-retry": 9,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 38
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 10
+    }
+   },
+   "A2_level": {
+    "hits": 10,
+    "misses": 28,
+    "hit_rate": 0.263,
+    "sites": 38,
+    "sites_all_hit": 10,
+    "cold_first_use": 1,
+    "sites_steady": 10,
+    "stale_leak_if_short": 14,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-after": 2,
+     "g-new": 6,
+     "g-retry": 2,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-after": 11,
+     "g-new": 17,
+     "g-retry": 9,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 38
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 10
+    }
+   },
+   "A2_kind": {
+    "hits": 10,
+    "misses": 28,
+    "hit_rate": 0.263,
+    "sites": 38,
+    "sites_all_hit": 10,
+    "cold_first_use": 1,
+    "sites_steady": 10,
+    "stale_leak_if_short": 14,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-after": 2,
+     "g-new": 6,
+     "g-retry": 2,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-after": 11,
+     "g-new": 17,
+     "g-retry": 9,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 38
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 10
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "K2": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 7,
+   "A2_core": {
+    "hits": 12,
+    "misses": 26,
+    "hit_rate": 0.316,
+    "sites": 38,
+    "sites_all_hit": 12,
+    "cold_first_use": 1,
+    "sites_steady": 12,
+    "stale_leak_if_short": 8,
+    "stale_loss_if_short": 3,
+    "hits_by_class": {
+     "g-after": 1,
+     "g-new": 11,
+     "g-retry": 0,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-after": 11,
+     "g-new": 17,
+     "g-retry": 9,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 38
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 12
+    }
+   },
+   "A2_level": {
+    "hits": 12,
+    "misses": 26,
+    "hit_rate": 0.316,
+    "sites": 38,
+    "sites_all_hit": 12,
+    "cold_first_use": 1,
+    "sites_steady": 12,
+    "stale_leak_if_short": 8,
+    "stale_loss_if_short": 3,
+    "hits_by_class": {
+     "g-after": 1,
+     "g-new": 11,
+     "g-retry": 0,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-after": 11,
+     "g-new": 17,
+     "g-retry": 9,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 38
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 12
+    }
+   },
+   "A2_kind": {
+    "hits": 12,
+    "misses": 26,
+    "hit_rate": 0.316,
+    "sites": 38,
+    "sites_all_hit": 12,
+    "cold_first_use": 1,
+    "sites_steady": 12,
+    "stale_leak_if_short": 8,
+    "stale_loss_if_short": 3,
+    "hits_by_class": {
+     "g-after": 1,
+     "g-new": 11,
+     "g-retry": 0,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-after": 11,
+     "g-new": 17,
+     "g-retry": 9,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 38
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 12
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "O": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 5,
+   "A2_core": {
+    "hits": 21,
+    "misses": 17,
+    "hit_rate": 0.553,
+    "sites": 38,
+    "sites_all_hit": 21,
+    "cold_first_use": 1,
+    "sites_steady": 21,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 9,
+    "hits_by_class": {
+     "g-after": 5,
+     "g-new": 15,
+     "g-retry": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-after": 11,
+     "g-new": 17,
+     "g-retry": 9,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 38
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 21
+    }
+   },
+   "A2_level": {
+    "hits": 21,
+    "misses": 17,
+    "hit_rate": 0.553,
+    "sites": 38,
+    "sites_all_hit": 21,
+    "cold_first_use": 1,
+    "sites_steady": 21,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 9,
+    "hits_by_class": {
+     "g-after": 5,
+     "g-new": 15,
+     "g-retry": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-after": 11,
+     "g-new": 17,
+     "g-retry": 9,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 38
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 21
+    }
+   },
+   "A2_kind": {
+    "hits": 21,
+    "misses": 17,
+    "hit_rate": 0.553,
+    "sites": 38,
+    "sites_all_hit": 21,
+    "cold_first_use": 1,
+    "sites_steady": 21,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 9,
+    "hits_by_class": {
+     "g-after": 5,
+     "g-new": 15,
+     "g-retry": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-after": 11,
+     "g-new": 17,
+     "g-retry": 9,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 38
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 21
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  }
+ },
+ {
+  "program": "sec-hv-reset-mmuctl",
+  "events": 2,
+  "by_class": {
+   "g-start": 1,
+   "g-new": 1
+  },
+  "same_mode_returns": 0,
+  "K1": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 2,
+   "A2_core": {
+    "hits": 0,
+    "misses": 2,
+    "hit_rate": 0.0,
+    "sites": 2,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 0,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 0,
+    "misses": 2,
+    "hit_rate": 0.0,
+    "sites": 2,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 0,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 0,
+    "misses": 2,
+    "hit_rate": 0.0,
+    "sites": 2,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 0,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "K2": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A2_level": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A2_kind": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "O": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A2_level": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A2_kind": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  }
+ },
+ {
+  "program": "sec-hv-reset-inplace",
+  "events": 2,
+  "by_class": {
+   "g-start": 1,
+   "g-new": 1
+  },
+  "same_mode_returns": 0,
+  "K1": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 2,
+   "A2_core": {
+    "hits": 0,
+    "misses": 2,
+    "hit_rate": 0.0,
+    "sites": 2,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 0,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_level": {
+    "hits": 0,
+    "misses": 2,
+    "hit_rate": 0.0,
+    "sites": 2,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 0,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A2_kind": {
+    "hits": 0,
+    "misses": 2,
+    "hit_rate": 0.0,
+    "sites": 2,
+    "sites_all_hit": 0,
+    "cold_first_use": 1,
+    "sites_steady": 0,
+    "stale_leak_if_short": 1,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 0,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 0
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "K2": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A2_level": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A2_kind": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  },
+  "O": {
+   "rti_in_guest_run": 0,
+   "rti_equal_first_genter": 0,
+   "rti_equal_latest_genter": 0,
+   "distinct_masks": 1,
+   "A2_core": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A2_level": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A2_kind": {
+    "hits": 1,
+    "misses": 1,
+    "hit_rate": 0.5,
+    "sites": 2,
+    "sites_all_hit": 1,
+    "cold_first_use": 1,
+    "sites_steady": 1,
+    "stale_leak_if_short": 0,
+    "stale_loss_if_short": 0,
+    "hits_by_class": {
+     "g-new": 1,
+     "g-start": 0
+    },
+    "events_by_class": {
+     "g-new": 1,
+     "g-start": 1
+    },
+    "sites_by_kind": {
+     "rti": 0,
+     "genter": 2
+    },
+    "sites_all_hit_by_kind": {
+     "rti": 0,
+     "genter": 1
+    }
+   },
+   "A1": {
+    "reset_all": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    },
+    "reset_zero": {
+     "rti_events": 0,
+     "mask_differs_from_needed": 0,
+     "leak": 0,
+     "loss": 0
+    }
+   }
+  }
+ }
+]

@@ -1,0 +1,4 @@
+pcc: 294 functions; 25 distinct complement masks; ALL (nothing dirty) for 118 (40%); top shares 40%, 16%, 13%; chance a one-slot latch holds the mask at a random next call 21.4%
+  convention mask: 1 distinct mask, the latch always holds it (100%)
+llvm: 292 functions; 25 distinct complement masks; ALL (nothing dirty) for 77 (26%); top shares 26%, 22%, 15%; chance a one-slot latch holds the mask at a random next call 16.1%
+  convention mask: 1 distinct mask, the latch always holds it (100%)

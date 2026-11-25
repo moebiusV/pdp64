@@ -1,0 +1,18 @@
+== references: the register file today, the flash clear with the mask from the instruction (design B) ==
+rf_base2	logic 15305	ff 2048	total 27593
+rf_imm	logic 17417	ff 2048	total 29705
+== design A1 (one latch, GENTER writes it), A2 (short and long forms), A2 with the latch readable and writable by MFSR and MTSR, A2 with two latches, A2 per nesting level (2, 4, 8), A3 one latch per kind of return (4) ==
+rf_a1	logic 17417	ff 2080	total 29897
+rf_a2	logic 17603	ff 2080	total 30083
+rf_a2_sr	logic 17797	ff 2080	total 30277
+rf_a2_lvl	logic 17610	ff 2112	total 30282
+rf_a2_nest2	logic 17713	ff 2114	total 30397
+rf_a2_nest4	logic 17929	ff 2180	total 31009
+rf_a2_nest8	logic 18487	ff 2310	total 32347
+rf_a3	logic 17918	ff 2176	total 30974
+== longest topological path in NAND and inverter levels ==
+rf_base2	length=17
+rf_imm	length=17
+rf_a1	length=17
+rf_a2	length=17
+rf_a2_nest4	length=17

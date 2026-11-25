@@ -1,0 +1,4 @@
+run 1: returns 672 {'interrupt': 72, 'start': 2, 'syscall': 598} same-mode 86 K1 hit 0.994 K2 hit 0.781 K2 leaks 73
+run 2: returns 614 {'interrupt': 20, 'start': 2, 'syscall': 592} same-mode 135 K1 hit 0.995 K2 hit 0.933 K2 leaks 20
+run 3: returns 662 {'interrupt': 61, 'start': 2, 'syscall': 599} same-mode 98 K1 hit 0.994 K2 hit 0.811 K2 leaks 61
+saved run (the one in events-twoproc.tsv): returns 651 {'interrupt': 51, 'start': 2, 'syscall': 598} same-mode 116 K1 hit 0.994 K2 hit 0.839 K2 leaks 52

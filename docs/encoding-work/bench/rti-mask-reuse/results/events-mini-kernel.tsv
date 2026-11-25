@@ -1,0 +1,9 @@
+n	kind	class	site	resume	pid	prev_pid	live(O)	dirty	K1	K2
+1	rti	start	56	u			{}	{r1,r2,r3,r13}	0xffff9ff1	0x00000000
+2	rti	syscall	79	u			{}	{r0}	0xffffbfff	0xff00af01
+3	rti	fault	104	u			{r3,r5}	{}	0xffffbfff	0xffffbfff
+4	rti	syscall	79	u			{}	{r0}	0xffffbfff	0xff00af01
+5	rti	interrupt	117	u			{r4}	{}	0xffffbfff	0xffffbfff
+6	rti	interrupt	117	u			{}	{}	0xffffbfff	0xffffbfff
+7	rti	interrupt	117	u			{r4}	{}	0xffffbfff	0xffffbfff
+8	rti	syscall	79	u			{}	{r0}	0xffffbfff	0xff00af01

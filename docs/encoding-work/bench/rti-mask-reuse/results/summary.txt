@@ -1,0 +1,111 @@
+== 1. executed returns, by program (RTI to a less privileged mode, GENTER; and RTI to the same mode) ==
+mini-kernel               8 returns {'fault': 1, 'interrupt': 3, 'start': 1, 'syscall': 3}; same-mode RTI 0
+twoproc                 651 returns {'interrupt': 51, 'start': 2, 'syscall': 598}; same-mode RTI 116
+hv-first                 81 returns {'g-after': 77, 'g-retry': 1, 'g-start': 1, 'start': 1, 'syscall': 1}; same-mode RTI 1
+hv-timer                  1 returns {'g-start': 1}; same-mode RTI 1
+hv-vtimer                 1 returns {'g-start': 1}; same-mode RTI 2
+hv-stage2                38 returns {'g-after': 11, 'g-new': 17, 'g-retry': 9, 'g-start': 1}; same-mode RTI 0
+sec-hv-reset-mmuctl       2 returns {'g-new': 1, 'g-start': 1}; same-mode RTI 0
+sec-hv-reset-inplace      2 returns {'g-new': 1, 'g-start': 1}; same-mode RTI 0
+
+== 2. A2 (a latch that the last return set): how often the next return finds its mask already there ==
+program                pol latch      hits     of    rate  per class (hits/events)
+mini-kernel            K1  core          6      8   75.0%  fault 1/1 interrupt 3/3 start 0/1 syscall 2/3
+mini-kernel            K1  level         6      8   75.0%  fault 1/1 interrupt 3/3 start 0/1 syscall 2/3
+mini-kernel            K1  kind          4      8   50.0%  fault 0/1 interrupt 2/3 start 0/1 syscall 2/3
+mini-kernel            K2  core          2      8   25.0%  fault 0/1 interrupt 2/3 start 0/1 syscall 0/3
+mini-kernel            K2  level         2      8   25.0%  fault 0/1 interrupt 2/3 start 0/1 syscall 0/3
+mini-kernel            K2  kind          4      8   50.0%  fault 0/1 interrupt 2/3 start 0/1 syscall 2/3
+twoproc                K1  core        647    651   99.4%  interrupt 50/51 start 0/2 syscall 597/598
+twoproc                K1  level       647    651   99.4%  interrupt 50/51 start 0/2 syscall 597/598
+twoproc                K1  kind        647    651   99.4%  interrupt 50/51 start 0/2 syscall 597/598
+twoproc                K1  process     647    651   99.4%  interrupt 50/51 start 0/2 syscall 597/598
+twoproc                K2  core        546    651   83.9%  interrupt 0/51 start 0/2 syscall 546/598
+twoproc                K2  level       546    651   83.9%  interrupt 0/51 start 0/2 syscall 546/598
+twoproc                K2  kind        648    651   99.5%  interrupt 50/51 start 1/2 syscall 597/598
+twoproc                K2  process     546    651   83.9%  interrupt 0/51 start 0/2 syscall 546/598
+hv-first               K1  core         72     81   88.9%  g-after 72/77 g-retry 0/1 g-start 0/1 start 0/1 syscall 0/1
+hv-first               K1  level        74     81   91.4%  g-after 74/77 g-retry 0/1 g-start 0/1 start 0/1 syscall 0/1
+hv-first               K1  kind         74     81   91.4%  g-after 74/77 g-retry 0/1 g-start 0/1 start 0/1 syscall 0/1
+hv-first               K2  core         72     81   88.9%  g-after 72/77 g-retry 0/1 g-start 0/1 start 0/1 syscall 0/1
+hv-first               K2  level        74     81   91.4%  g-after 74/77 g-retry 0/1 g-start 0/1 start 0/1 syscall 0/1
+hv-first               K2  kind         74     81   91.4%  g-after 74/77 g-retry 0/1 g-start 0/1 start 0/1 syscall 0/1
+hv-stage2              K1  core         10     38   26.3%  g-after 2/11 g-new 6/17 g-retry 2/9 g-start 0/1
+hv-stage2              K1  level        10     38   26.3%  g-after 2/11 g-new 6/17 g-retry 2/9 g-start 0/1
+hv-stage2              K1  kind         10     38   26.3%  g-after 2/11 g-new 6/17 g-retry 2/9 g-start 0/1
+hv-stage2              K2  core         12     38   31.6%  g-after 1/11 g-new 11/17 g-retry 0/9 g-start 0/1
+hv-stage2              K2  level        12     38   31.6%  g-after 1/11 g-new 11/17 g-retry 0/9 g-start 0/1
+hv-stage2              K2  kind         12     38   31.6%  g-after 1/11 g-new 11/17 g-retry 0/9 g-start 0/1
+
+== 3. what a stale latch would do at the returns that miss (if the short form were used there): LEAK = a register the latch keeps holds a value of the kernel or hypervisor; LOSS = a register the resumed code reads is cleared ==
+mini-kernel  K1  core latch:    2 misses of    8 returns:   0 would leak,   0 would lose a live value
+mini-kernel  K2  core latch:    6 misses of    8 returns:   2 would leak,   2 would lose a live value
+twoproc      K1  core latch:    4 misses of  651 returns:   1 would leak,   1 would lose a live value
+twoproc      K2  core latch:  105 misses of  651 returns:  52 would leak,  14 would lose a live value
+hv-first     K1  core latch:    9 misses of   81 returns:   8 would leak,   3 would lose a live value
+hv-first     K2  core latch:    9 misses of   81 returns:   6 would leak,   3 would lose a live value
+hv-stage2    K1  core latch:   28 misses of   38 returns:  14 would leak,   0 would lose a live value
+hv-stage2    K2  core latch:   26 misses of   38 returns:   8 would leak,   3 would lose a live value
+
+== 4. A1 (the latch is set by GENTER only; every RTI uses it): what a native kernel (no GENTER) gets with each reset value, and what a guest kernel gets ==
+mini-kernel  K1  reset_all     8 RTI to a lesser mode: mask differs from the one needed    1, leaks    1, loses    0
+mini-kernel  K1  reset_zero    8 RTI to a lesser mode: mask differs from the one needed    8, leaks    0, loses    3
+mini-kernel  K2  reset_all     8 RTI to a lesser mode: mask differs from the one needed    4, leaks    4, loses    0
+mini-kernel  K2  reset_zero    8 RTI to a lesser mode: mask differs from the one needed    7, leaks    0, loses    3
+twoproc      K1  reset_all   651 RTI to a lesser mode: mask differs from the one needed    2, leaks    2, loses    0
+twoproc      K1  reset_zero  651 RTI to a lesser mode: mask differs from the one needed  651, leaks    0, loses  649
+twoproc      K2  reset_all   651 RTI to a lesser mode: mask differs from the one needed  600, leaks  594, loses    0
+twoproc      K2  reset_zero  651 RTI to a lesser mode: mask differs from the one needed  649, leaks    0, loses  649
+hv-first     K1  reset_all     2 RTI to a lesser mode: mask differs from the one needed    2, leaks    2, loses    0
+hv-first     K1  reset_zero    2 RTI to a lesser mode: mask differs from the one needed    2, leaks    2, loses    0
+hv-first     K2  reset_all     2 RTI to a lesser mode: mask differs from the one needed    2, leaks    2, loses    0
+hv-first     K2  reset_zero    2 RTI to a lesser mode: mask differs from the one needed    2, leaks    2, loses    0
+
+== 5. is the mask of an RTI the mask of the GENTER that started the guest run? (only hv-first has RTI inside a guest run) ==
+RTI at line 202 (start): K1 0xffffbff0  K2 0x00000000; first GENTER (line 74) K1 0xffffa3f0 K2 0x00000000; latest GENTER before it (line 86) K1 0xff8fbbff K2 0xff8fbbff
+RTI at line 213 (syscall): K1 0xffffbff9  K2 0xff00af01; first GENTER (line 74) K1 0xffffa3f0 K2 0x00000000; latest GENTER before it (line 86) K1 0xff8fbbff K2 0xff8fbbff
+
+== 6. hypervisor values held in registers across a guest run (a GENTER whose mask clears them destroys them) ==
+mini-kernel              0 GENTER: 
+twoproc                  0 GENTER: 
+hv-first                79 GENTER: {r10,r11,r12} x 78, {r12} x 1
+hv-timer                 1 GENTER: {r13,r20} x 1
+hv-vtimer                1 GENTER: {r12} x 1
+hv-stage2               38 GENTER: {r20} x 38
+sec-hv-reset-mmuctl      2 GENTER: {r20} x 2
+sec-hv-reset-inplace     2 GENTER: {r20} x 2
+
+== 7. two processes: the returns after a context switch ==
+returns to a lesser mode 651; to a different process than the one that last ran in user mode: 161 ({'start': 1, 'interrupt': 51, 'syscall': 109})
+classes: {'start': 2, 'syscall': 598, 'interrupt': 51}
+K1: of the 161 returns after a switch, 159 find their mask in the one core latch
+K2: of the 161 returns after a switch, 109 find their mask in the one core latch
+
+== 8. nested returns (RTI to the same mode: a preempted system call resumed, a nested interrupt) ==
+mini-kernel            0
+twoproc                116
+hv-first               1
+hv-timer               1
+hv-vtimer              2
+hv-stage2              0
+sec-hv-reset-mmuctl    0
+sec-hv-reset-inplace   0
+
+== 9. static size of the return instructions: sites, and the sites whose mask was found in the latch at every execution except the first use of the latch (which a boot-time setting would cover) ==
+program                pol latch  sites shortable   bytes B     bytes A2
+mini-kernel            K1  core       4       2        24           16
+mini-kernel            K1  kind       4       2        24           16
+mini-kernel            K2  core       4       0        24           24
+mini-kernel            K2  kind       4       2        24           16
+twoproc                K1  core       4       0        24           24
+twoproc                K1  kind       4       2        24           16
+twoproc                K2  core       4       0        24           24
+twoproc                K2  kind       4       3        24           12
+hv-first               K1  core       6       0        36           36
+hv-first               K1  kind       6       0        36           36
+hv-first               K2  core       6       0        36           36
+hv-first               K2  kind       6       0        36           36
+hv-stage2              K1  core      38      10       228          188
+hv-stage2              K1  kind      38      10       228          188
+hv-stage2              K2  core      38      12       228          180
+hv-stage2              K2  kind      38      12       228          180
