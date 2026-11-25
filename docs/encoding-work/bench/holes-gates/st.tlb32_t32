@@ -1,0 +1,20 @@
+
+5. Printing statistics.
+
+=== tlb32_t32 ===
+
+   Number of wires:              22613
+   Number of wire bits:          25905
+   Number of public wires:         113
+   Number of public wire bits:    3374
+   Number of ports:                 14
+   Number of port bits:            202
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              25672
+     $_DFFE_PP_                   3072
+     $_DFF_P_                       32
+     $_NAND_                     14237
+     $_NOT_                       8331
+

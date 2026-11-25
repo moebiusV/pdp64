@@ -1,0 +1,162 @@
+--- /home/matthew/claude/pdp64/common/pdp64exec.c	2026-11-19 14:58:11.176441186 -0700
++++ common/pdp64exec.c	2026-11-19 18:47:06.664938636 -0700
+@@ -945,9 +945,8 @@
+ 	uint64_t epc = c->pc;
+ 	uint32_t insn = c->snap_valid ? c->cur_insn : 0;				/* a fault in the translation of the fetch (before the instruction began) has no instruction to show */
+ 	C = c; E = e;
+-	if (c->vhidden) {									/* a block with hidden accumulation: it restarts from its entry, the accumulators discarded (hidden state is not saved: R435) */
+-		for (int v = 0; v < 16; v++) if (c->vacc >> v & 1) memset(c->vr[v], 0, sizeof c->vr[v]);
+-		c->vhidden = 0;
++	if (c->vhidden) {
++		sr_suspend();c->vhidden = 0;
+ 	}
+ 	if (c->snap_valid) {
+ 		if (!c->progress) {							/* an abort leaves no trace: the registers (the (rN)+ and -(rN) updates among them) are as before */
+--- /home/matthew/claude/pdp64/common/pdp64exec.h	2026-11-19 14:52:01.717539422 -0700
++++ common/pdp64exec.h	2026-11-19 18:47:06.664938636 -0700
+@@ -57,6 +57,11 @@
+ 	uint64_t v2n[VC_N];				/* the vector instructions run, by class */
+ 	int vrow, vrow_set;				/* the 2D block (vec2, errata 176): the model's cost of the row advance, cycles a row (used if vrow_set; default 1: an ASSUMPTION, vec-2d.md) */
+ 	uint64_t vrows, vskips, v2blocks;		/* rows run, vskip words decoded, vec2 blocks run */
++	/* SCRATCH (resume study): the record and the benchmark hooks */
++	int sr_cfg, sr_mode;			/* mode 0: today's restart; 1: resume in place */
++	int sr_valid; uint64_t sr_pc; uint32_t sr_wmask; uint64_t sr_E[32], sr_P[32]; long sr_k;
++	long sr_done; uint32_t sr_curw; uint16_t sr_curnam; uint64_t sr_curpc; int sr_cur;
++	uint64_t sr_cost, sr_T, sr_next, sr_limit, sr_nsusp, sr_nres, sr_nrestart, sr_overhead; int sr_nw;
+ 	struct { uint64_t r[32], pc, dp, fpsr; int fN, fZ, fV, fC; } snap;	/* the state at the start of the instruction, for precise aborts (kept only when deliver is on) */
+ };
+ 
+--- /home/matthew/claude/pdp64/common/pdp64exec_vec.inc	2026-11-19 02:03:57.558564989 -0700
++++ common/pdp64exec_vec.inc	2026-11-19 18:47:51.573776496 -0700
+@@ -842,6 +842,33 @@
+ 	C->vrows++;
+ }
+ 
++
++/* SCRATCH (resume study) */
++static void sr_config(void)
++{
++	if (C->sr_cfg) return;
++	C->sr_cfg = 1;
++	const char *e;
++	C->sr_mode = (e = getenv("SR_MODE")) ? atoi(e) : 0;
++	C->sr_cost = (e = getenv("SR_COST")) ? strtoull(e, 0, 10) : 0;
++	C->sr_T = (e = getenv("SR_T")) ? strtoull(e, 0, 10) : 0;
++	C->sr_next = C->sr_T; if ((e = getenv("SR_PHASE"))) C->sr_next = strtoull(e, 0, 10);
++	C->sr_limit = (e = getenv("SR_LIMIT")) ? strtoull(e, 0, 10) : 0;
++	C->sr_nw = (e = getenv("SR_NW")) ? atoi(e) : 4;
++}
++/* called when an exception interrupts a running hidden block (regs are the committed progress; snap is the entry) */
++static void sr_suspend(void)
++{
++	C->sr_valid = 0;
++	if (C->sr_mode == 1 && C->sr_done >= 1 && __builtin_popcount(C->sr_curw) <= C->sr_nw) {
++		C->sr_valid = 1; C->sr_pc = C->sr_curpc; C->sr_wmask = C->sr_curw; C->sr_k = C->sr_done;
++		for (int i = 0; i < 32; i++) { C->sr_E[i] = C->snap.r[i]; C->sr_P[i] = C->r[i]; }
++		C->vcycles += C->sr_cost / 2; C->sr_overhead += C->sr_cost / 2; C->sr_nsusp++;
++	} else {
++		C->sr_nrestart++;
++		for (int v = 0; v < 16; v++) if (C->vacc >> v & 1) memset(C->vr[v], 0, sizeof C->vr[v]);
++	}
++}
+ static void vec_run(const struct einsn *vin, uint64_t start, int nvec)
+ {
+ 	struct vdec body[VMAXBODY];
+@@ -919,12 +946,33 @@
+ 		if (wr & rd) die("vec2: Rw and the registers of the vskip declarations are read only: the block writes one of them", 0);
+ 		if (C->vacc) die("vec2: accumulators are named before the block", 0);
+ 	}
++	sr_config();
++	int sr_resumed = 0, sr_hasclr = 0; uint32_t sr_w = 0; uint16_t sr_nam = 0;
++	for (int i = 0; i < nb; i++) {
++		const struct vinfo *vi = body[i].vi;
++		if (vi->op == VO_CLR) { sr_hasclr = 1; for (int j = 0; j < (int)body[i].in.op[1].v && ((body[i].in.op[0].r + j) & 15) == body[i].in.op[0].r + j; j++) sr_nam |= (uint16_t)1 << (body[i].in.op[0].r + j); }
++		for (int k = 0; k < 4; k++) if (body[i].in.op[k].k == EK_PI) sr_w |= 1u << (body[i].in.op[k].r & 31);
++		if (vi->op == VO_ACC || vi->op == VO_MAXACC || vi->op == VO_MINACC || vi->op == VO_DACC || vi->op == VO_SAD) sr_w |= 1u << (body[i].in.op[0].r & 31);
++	}
++	C->sr_curw = sr_w; C->sr_curnam = sr_nam; C->sr_curpc = start; C->sr_done = 0; C->sr_cur = sr_hasclr;
++	if (C->sr_mode == 1 && sr_hasclr && C->sr_valid) {
++		int ok = C->sr_pc == start && C->sr_wmask == sr_w;
++		for (int i = 0; ok && i < 32; i++) if ((sr_w >> i & 1) && RG[i] != C->sr_E[i]) ok = 0;
++		if (ok) {
++			for (int i = 0; i < 32; i++) if (sr_w >> i & 1) RG[i] = C->sr_P[i];
++			C->vacc = sr_nam; C->sr_done = C->sr_k; sr_resumed = 1; C->sr_nres++;
++			C->vcycles += C->sr_cost / 2; C->sr_overhead += C->sr_cost / 2;
++			vrun_valid = 0; vrst_valid = 0;
++		} else for (int v = 0; v < 16; v++) if (sr_nam >> v & 1) memset(VR(v), 0, VBYTES);
++		C->sr_valid = 0;
++	}
+ 	C->vblocks++;
+ 	if (found_end) C->vcycles++;						/* the model: the vend (the vec is one of the scalar instructions) */
+ 	if (two) { C->v2blocks++; C->vskips += (uint64_t)nskip; C->vcycles += (uint64_t)nskip; }	/* and each vskip, a decode slot like the vend (an assumption: vec-2d.md) */
+ 	/* hidden accumulation (a vclr in the block, an accumulator named before it, a vfin): hidden state is not saved at a context switch (R435), so an abort
+ 	   restarts the block from its entry and discards the accumulators (vec-isa.md 4.1, the second option).  Otherwise the pointers are the progress and the block
+ 	   goes on from the strip it stopped at. */
++	if (!sr_resumed) {
+ 	if (vrun_valid) { vrst_pc = vrun_pc; vrst_acc = vrun_acc; vrst_valid = 1; }	/* a hidden block that did not end was aborted by a fault: its hidden copy is kept for the restart */
+ 	vrun_valid = 0;
+ 	if (vrst_valid && vrst_pc == start) {			/* the restart of an aborted hidden block: the naming of its accumulators is part of the hardware's copy made at the vec, so a handler that ran vector code of its own
+@@ -933,6 +981,7 @@
+ 		for (int v = 0; v < 16; v++) if (C->vacc >> v & 1) memset(VR(v), 0, VBYTES);
+ 		vrst_valid = 0;
+ 	}
++	}
+ 	int hidden = C->vacc != 0 || fin >= 0;
+ 	for (int i = 0; i < nb; i++) if (body[i].vi->op == VO_CLR) hidden = 1;
+ 	/* the strip of a block with accumulators or a vfmab is 16 bytes on every implementation (errata 173, vec-isa.md section 8): an accumulator's lanes, and the number of strips a (Ra)+ of vfmab moves
+@@ -968,7 +1017,7 @@
+ 		uint64_t rem = (end - cur) / unit;
+ 		if (rem == 0) break;
+ 		x->nact = rem < (uint64_t)vl ? (int)rem : vl;
+-		x->first = strip == 0;
++		x->first = strip == 0 && !sr_resumed;
+ 		vstrip_run(x, body, nmain, e0);
+ 		x->cyc_c = x->cyc_m = 0;
+ 		for (int i = 0; i < nmain; i++) { x->mb = 0; vop(x, body[i].vi, &body[i].in); m2mb[i] = x->mb; }
+@@ -984,6 +1033,19 @@
+ 			if (C->vm2) { VM2.slot += (uint64_t)VROW; VM2.end += (uint64_t)VROW; VM2.comp[strip & 15] += (uint64_t)VROW; C->v2cycles += (uint64_t)VROW; }
+ 		}
+ 		vec_commit(x);
++		C->sr_done++;
++		if (C->sr_T && C->vcycles >= C->sr_next) {
++			while (C->sr_next <= C->vcycles) C->sr_next += C->sr_T;
++			if (C->sr_limit && C->vcycles > C->sr_limit) { fprintf(stderr, "SR: LIVELOCK vcycles %llu\n", (unsigned long long)C->vcycles); exit(99); }
++			if (hidden) {
++				sr_suspend();
++				memcpy(C->r, C->snap.r, sizeof C->r);
++				C->vhidden = 0;
++			} else C->sr_nsusp++;
++			C->progress = 0;
++			enter(32, start, 0);
++			return;
++		}
+ 		if (!two && RG[rs] == cur) die("vec: the pointer register does not move", 0);
+ 		if (strip > (1L << 26)) die("vec: runaway block", 0);
+ 	}
+--- /home/matthew/claude/pdp64/sim64/sim64.c	2026-11-19 14:39:04.651007520 -0700
++++ sim64/sim64.c	2026-11-19 18:54:30.469218025 -0700
+@@ -127,6 +127,7 @@
+ {
+ 	uint8_t *p = pgget(a);
+ 	if (!p) memfault(VECTOR_BUSFAULT, "access to unmapped memory", a);
++	if (xarmed && write && a == xhi - 8) { memset(xarmed, 1, (xhi - xlo) / PG); xarmed[(a - xlo) / PG] = 0; }
+ 	if (xarmed && a >= xlo && a < xhi && xarmed[(a - xlo) / PG]) { xarmed[(a - xlo) / PG] = 0; memfault(write ? VECTOR_SFAULT : VECTOR_LFAULT, "first access to a -x page", a); }
+ 	return p + (a & (PG - 1));
+ }
+@@ -279,6 +280,7 @@
+ 
+ static void vec_write(void)
+ {
++	fprintf(stderr, "SR: vector_cycles %llu strips %llu susp %llu resumed %llu restarts %llu overhead %llu\n", (unsigned long long)cpu.vcycles, (unsigned long long)cpu.vstrips, (unsigned long long)cpu.sr_nsusp, (unsigned long long)cpu.sr_nres, (unsigned long long)cpu.sr_nrestart, (unsigned long long)cpu.sr_overhead);
+ 	fprintf(stderr, "sim64: vec blocks %llu strips %llu ops %llu elems %llu\n", (unsigned long long)cpu.vblocks, (unsigned long long)cpu.vstrips, (unsigned long long)cpu.vops, (unsigned long long)cpu.velems);
+ 	/* the cycle model (docs/sim64.md): scalar instructions started (the vec of a block is one of them) are one cycle each; the vector cycles are the vends and, for each strip, the greater of
+ 	   its compute and memory-port cycles plus the commit cost.  `steps` is the number of instructions completed before the one that ended the program */
+@@ -373,7 +375,7 @@
+ 		else if (!strcmp(argv[i], "-x") && i + 1 < argc) {
+ 			unsigned long long lo, hi;
+ 			if (sscanf(argv[++i], "%lli:%lli", (long long *)&lo, (long long *)&hi) != 2 || lo % PG || hi % PG || hi <= lo) { fprintf(stderr, "sim64: -x LO:HI (page aligned)\n"); return 2; }
+-			xlo = lo; xhi = hi; xarmed = malloc((xhi - xlo) / PG); memset(xarmed, 1, (xhi - xlo) / PG); addregion(xlo, xhi);
++			xlo = lo; xhi = hi; xarmed = malloc((xhi - xlo) / PG); memset(xarmed, getenv("SR_WARM") ? 0 : 1, (xhi - xlo) / PG); addregion(xlo, xhi);
+ 		}
+ 		else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxsteps = atol(argv[++i]);
+ 		else if (!strcmp(argv[i], "-P") && i + 1 < argc) profile_path = argv[++i];
