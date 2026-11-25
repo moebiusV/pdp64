@@ -9,6 +9,7 @@ Each item says where it comes from: **[you]** is your own list or words, **[ten]
 **1. Safety and security, by the ladder.** [you: 2026-11-03 item 1; ladder 2026-11-25] Go down this ladder and stop at the first rung that works:
  (a) prevent by construction, in hardware; (b) prevent by idiom, in software; (c) mitigate the side effects; (d) minimize the cost of failure and recovery (precise exceptions, restart without hidden state; recovery and restart go together).
  Included in item 1: no strange side effects (an instruction does what its name says and nothing else; "as if we were the NSA"); hardware, not discipline: where hardware can close a hole cheaply, it does, so that nothing depends on a kernel remembering a duty [ten]; every hole and every information bleed is prevented, and each has a test in the assembler corpus [you: 2026-11-19].
+ Also included in item 1: **make it easy and low cost to be correct, that is, to write correct code** [you: 2026-11-25; "maybe stated in different ways, but good to state clearly"]: the safe way is also the shortest, cheapest and most obvious way to write it, in instructions, in bytes and in effort for the programmer, so that correctness needs no extra work.
  Also included in item 1: **hardware that encourages software flaws is changed** [you: 2026-11-25]. The easy, obvious way to use an instruction, a register or a default must be the safe way; a duty that software can forget is a defect of the hardware. Cases already decided by this rule: the stale-translation flush bit the hypervisor could forget (dropped), the registers a kernel leaves behind on return (`RTI #mask`), an IOMMU that lets a device write system registers (refused by default), an unprivileged `MFCPUID` (now privileged), and `MTPS` and `SPL` silently ignored in user mode (the PDP-11 habit that made a guest kernel hard to catch).
 
 **2. Speed, measured by actual run time, and power.** [you: 2026-11-19, corrected 2026-11-25] Low gate count serves speed and power ("4 and 5 are essentially the same thing", 2026-11-03): fewer gates make out-of-order and speculation cheaper, memory faster, and room for more cores. Transistor count is desirable but below error prevention, detection and recovery, and below the efficiency of the instruction set.
@@ -32,7 +33,7 @@ Each item says where it comes from: **[you]** is your own list or words, **[ten]
 
 ## Part 3. The method
 
-**G. Best of breed first.** [you: 2026-11-19] Start from what other architectures do, verified in their own documents; amend minimally so that the hole closes by construction (the OpenBSD way); make a bold change only for a measured big win. A departure from the standard is welcome when it serves the principles above.
+**G. Best of breed first.** [you: 2026-11-19] Start from what other architectures do, verified in their own documents; amend minimally so that the hole closes by construction (the OpenBSD way); make a bold change only for a measured big win. A departure from the standard is welcome when it serves the principles above. **Do not be afraid to revive ideas and practices from the past, even from the 1960s** [you: 2026-11-25]: the best design to start from is often an old one that the industry dropped for reasons that no longer hold.
 **H. Learn from the past's flaws and mistakes, in hardware and software, and design to dodge them all.** [you: 2026-11-25] Every known flaw is studied before we design the same thing: processor errata and vulnerabilities (speculation and side channels, translation-buffer and cache coherence bugs, privilege-escalation bugs, interrupt and DMA holes), operating-system and hypervisor bugs and their fixes (the OpenBSD mitigations, the kernel pain points, the Linux hypervisor bugs), and our own earlier mistakes. Each flaw found becomes a design rule and a test in the corpus. This is the other half of best of breed: the best designs to start from, and the worst failures to avoid. Where we have already collected them: `docs/hardware-vulnerabilities.md`, `docs/openbsd-mitigations.md`, `docs/kernel-pain-points.md`, `docs/security-corpus.md`.
 **I. One source of truth, generated.** [ten] The grammar and the status and decisions document are authoritative; everything else is generated from or checked against them, so nothing drifts.
 **J. Standard at the edges.** [ten] PCIe, virtio, USB, HDMI and real operating systems; be the standard thing plus the sugar and security that cost the cards nothing; no invented peripherals. No wrapper without a justification.
@@ -40,13 +41,13 @@ Each item says where it comes from: **[you]** is your own list or words, **[ten]
 
 ## Part 4. How we work together (not design principles; kept so they are not lost)
 
-* Explain in plain words; the story first, then the mechanism, then the detail; one question at a time; each question says what it closes and what we lose.
+* Explain everything to the old PDP-11 assembler and Unix programmer who has been asleep for fifty years, so that he can understand it. Explain in plain words; the story first, then the mechanism, then the detail; one question at a time; each question says what it closes and what we lose.
 * The manual is first person, states what is, has no marks, no errata references, no leanings and no undecided matters in the chapters (open items are in the design notes); a few benchmark tables are rationale; detailed gate counts wait for real Verilog.
 * Do not overwrite before the replacement is verified; save every benchmark and every answer; push only when told.
 * The manual is built with buildabook, so that cross references stay proper: every change to it is followed by the three checks, and a check that is skipped counts as a failure.
 
-## Where I need you
+## Checked by the owner on 2026-11-25
 
-1. Is the placement of items 5 and 6 right (compiler target, then pleasant-and-coherent last)?
-2. Anything missing or in the wrong part (goal, constraint or method)?
-3. Is "low transistor count" correctly folded into item 2, not a goal of its own?
+* The placement of the compiler target and of pleasant-and-coherent last: yes.
+* Low transistor count folded into speed and power: yes.
+* Missing: make it easy and low cost to be correct, that is, to write correct code (added to item 1).
