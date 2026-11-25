@@ -37,7 +37,7 @@ SC: if the reservation is intact and Ra is the address (and the size) of the LL
 
     # ---- SYS, class 0 ----
     E('NOP', 'system', ['nop', 'lpad'], 'No operation and landing pad', ['NOP', 'LPAD'], 'nothing', NOFLAGS, NONE,
-      notes='`LPAD` marks a legal target of an indirect jump or call; no instruction enforces it in ABI version 1.', cf='Appendix {{a:id03001|n}}, section {{r:page-bit-that-enforces-landing-pads}} (landing pads).'),
+      notes='`LPAD` marks a legal target of an indirect jump or call; no instruction enforces it in ABI version 1.', cf='Appendix {{c:id03001|n}}, section {{r:page-bit-that-enforces-landing-pads}} (landing pads).'),
     E('RTI', 'system', ['rti', 'rtt'], 'Return from interrupt or exception', ['RTI #mask', 'RTT #mask'],
       '''PC <- EPC ; PSW <- EPSW           ; a PSW with the reserved mode 2 in either mode field aborts
 if the mode returned to is lesser than the current mode: every Rn (n = 0 to 31, n != 14) whose bit n of mask is zero <- 0

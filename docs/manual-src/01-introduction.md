@@ -188,8 +188,8 @@ You may have heard that a good implementation hides the instruction set. I wrote
 | Size of compiled code | 964,158 bytes of instructions on the 841-file corpus; clang `-Os` is 1.21 times that for x86-64, 1.34 for AArch64, 1.22 for RV64GC and 0.91 for Thumb-2; counting the pdp64's constant pools too, x86-64 and RV64GC are 0.97 and 0.98 times | {{r:measured-on-the-841-file}}, {{r:encoding-the-measurements}} |
 | Lines of kernel code to start a second core (Linux) | x86: 1,528 plus 1,258 of real-mode code; arm64: 124 (PSCI) or 127 (spin table); RISC-V: 108 or 58 | {{r:starting-the-other-cores}} |
 | Machine-dependent code in an OpenBSD port | riscv64 35,600 lines; arm64 61,613; amd64 79,167 | {{r:finish-line}} |
-| Errata, workaround and quirk lines per 1,000 code lines in Linux's architecture directories | x86 0.8; arm64 0.7; arm 0.5; powerpc 0.4; mips 0.3; m68k 0.1; riscv 0.1; s390 0.0 | appendix {{a:id03006|n}} |
-| Hardware-erratum options in Linux's configuration | arm64 64; arm 32; riscv 14 | appendix {{a:id03006|n}} |
+| Errata, workaround and quirk lines per 1,000 code lines in Linux's architecture directories | x86 0.8; arm64 0.7; arm 0.5; powerpc 0.4; mips 0.3; m68k 0.1; riscv 0.1; s390 0.0 | appendix {{c:id03006|n}} |
+| Hardware-erratum options in Linux's configuration | arm64 64; arm 32; riscv 14 | appendix {{c:id03006|n}} |
 
 The code-size row compares the pdp64's portable C compiler with clang for the others, on the files each compiled (840 or 841), so it measures compilers as well as instruction sets (`encoding-work/arch-comparison.md`, section 5). The flag figures are for the first compiler's output on 827 files (`pdp64-ooo-readiness.md`).
 

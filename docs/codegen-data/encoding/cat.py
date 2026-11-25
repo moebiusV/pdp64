@@ -20,11 +20,11 @@ R2_RARE=BESC2+CT_CC+['mval','abs','prober','probew','fdiv','fsqrt','fadd32','fsu
 R3_RARE=['chk2','ror','xnorpop','clmull','clmulh','mcpy','mmov','mset','mcmp','mscn','mscnn','div','divu','mod','modu','mulhu','min','minu','max','maxu','fcopysign','fmin','fmax',
    'maskeqz','masknez','aeses','aesesm','aesds','aesdsm','aesks2','xadd','xadddb','swap','swapdb','xand','xanddb','xor_','xor_db','xxor','xxordb','xmax','xmaxdb','xmin','xmindb','xmaxu','xmaxudb','xminu','xminudb','ll','sc','msha256','msha512']
 R4_RARE=['fmadd','fmsub','fnmadd','fnmsub','fmadd32','fmsub32','fnmadd32','fnmsub32','fmadd16','fmsub16','fnmadd16','fnmsub16','bsel','cas','casdb','maesctr']
-RRI_RARE=['rori','rori32','rol','aesks1']
+RRI_RARE=['ror','ror32','rol','aesks1']
 BF=['dshr','extb','extzb','insb']
 SYS0=['nop','rti','rtt','ret','halt','bpt','fence','wfe','sev','lpad','tlbia','tlbsync','icinva','pushx','popx','isync']+['trapcc.%s'%c for c in CONDS]+['stua','clua']+['genter']+['syspg%d'%i for i in range(3,6)]
 SYSR=['mtps','mfps','tlbi','mtasid','mfasid','mtdp','mfdp','mtdmw','mfcpuid','icinv']
-SYSI=['spl','trap','trap','hint']		# the third is the alias slot that was TRAPL: the same parcel as trap, decoded as trap, never chosen by the assembler (errata 214)
+SYSI=['spl','trap','hint']
 def mk(R,H3,H4=None,hot16=False):
     """returns (forced, cands).  R full register spec; H3 3-bit hot map; H4 4-bit hot map (32-reg variant only)"""
     forced=[]; C=[]
@@ -85,7 +85,7 @@ def mk(R,H3,H4=None,hot16=False):
     fam(forced,'SOF',SOPM,'m',['B','X','PI','PD','PC','A'],3,DWF)
     fam(forced,'DPF',LDM,'ld',['D'],3,DWF)
     forced.append(Form('BRF',3,BRS,[SPC(32,2)]))
-    forced.append(Form('CALLF',3,['call','jmp'],[SPC(32,2)]))
+    forced.append(Form('CALLF',3,['call'],[SPC(32,2)]))
     forced.append(Form('PUSHMF',3,['pushm','popm'],[SI(32,False)]))
     forced.append(Form('SOPR',1,SOPS+['jmp','call'],[R]))
     forced.append(Form('PUSHI3',3,['push'],[SI(32,True)])); forced.append(Form('PUSHI2',2,['push'],[SI(16,True)]))
@@ -210,7 +210,7 @@ def cands(R,H3,H4=None,opts=None):
             add2('CMI%d'%dw,2,CMC,[Rv,SI(dw,True)])
             add2('CTM%d'%dw,2,[('a',CT_I)],[Rv,SI(dw,False)])
             add2('BR2_%d'%dw,2,BRC,[SPC(dw,2)])
-            add2('CALL2_%d'%dw,2,[('c',['call']),('j',['jmp'])],[SPC(dw,2)])
+            add2('CALL2_%d'%dw,2,[('c',['call'])],[SPC(dw,2)])
             add2('SPADJ2_%d'%dw,2,[('a',['add','sub'])],[SI(dw,True),SPR])
         for dw in Fw(o.get('cbrdw',(8,10,12,14,16,18,20,22,24))):
             add2('CBR%d'%dw,2,CBC,[Rv,Rv,SPC(dw,2)])

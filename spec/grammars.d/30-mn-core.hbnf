@@ -37,10 +37,6 @@ mn-alu = "add"@0b010110
        | "fmul"@0b100110
        | "fcmp"@0b100111
        | "mulu"@0x11E
-        | "faddd"@0x124
-        | "fsubd"@0x125
-        | "fmuld"@0x126
-        | "fcmpd"@0x127
 
 ; conditional branches (ISA 4.4); BHIS and BLO are aliases below
 mn-branch = "br"@0b110000
@@ -121,8 +117,8 @@ mn-besc = "clz"@0b00000000
         | "bswapl"@0b00000111
         | "bitrev"@0b00001000
         | "ror"@0b00010000
-        | "rori"@0b00010001
-        | "rori32"@0b00010010
+        | "rol"@0b00010001
+        | "ror32"@0b00010010
         | "dshr"@0b00100000
         | "extb"@0b00100001
         | "extzb"@0b00100010
@@ -133,7 +129,6 @@ mn-besc = "clz"@0b00000000
         | "utf8len"@0b01000000
         | "utf8dec"@0b01000001
         | "utf8enc"@0b01000010
-        | "rol"@0x111
 
 ; MBLK: sub-opcode in parcel 1
 mn-mblk = "mcpy"@0b00000000
@@ -211,31 +206,6 @@ mn-fesc = "fdiv"@0b00000000
         | "fcvthd"@0b01100011
         | "fcvthl"@0b01100100
         | "fcvtlh"@0b01100101
-        | "fdivd"@0x100
-        | "fsqrtd"@0x101
-        | "fadds"@0x108
-        | "fsubs"@0x109
-        | "fmuls"@0x10A
-        | "fdivs"@0x10B
-        | "fsqrts"@0x10C
-        | "fcmps"@0x10D
-        | "fmaddd"@0x110
-        | "fmsubd"@0x111
-        | "fnmaddd"@0x112
-        | "fnmsubd"@0x113
-        | "fmadds"@0x118
-        | "fmsubs"@0x119
-        | "fnmadds"@0x11A
-        | "fnmsubs"@0x11B
-        | "fmind"@0x123
-        | "fmaxd"@0x124
-        | "fclassd"@0x128
-        | "fclasss"@0x129
-        | "frintd"@0x130
-        | "frintdz"@0x131
-        | "frintdm"@0x132
-        | "frintdp"@0x133
-        | "frintda"@0x134
 
 ; ATOM: the atomic words (errata 211; docs/encoding-work/rejudge-timer-iommu-irq-atomics.md F8 to F17).  The number is the handler's argument (MN_ATOM_*): bits 0 to 3 name the operation
 ; (compare and swap 0, swap 1, add 2, and 3, or 4, exclusive or 5, signed maximum 6, signed minimum 7, unsigned maximum 8, unsigned minimum 9, the store-conditional 10, the load-linked 11),

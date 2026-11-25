@@ -24,10 +24,11 @@ d:id02015    The mnemonics, alphabetically
 d:id02017    The bit layouts of every opcode
 
 p:id00300    Appendices
-a:label:Appendix
-a:number:letter
-a:id03001    Possible improvements not decided on yet
-a:id03003    Glossary
-a:id03004    The ABI, version 1
-a:id03005    The assembly language and the object format
-a:id03006    The evidence behind the manual
+c:label:Appendix
+c:number:letter
+c:count:1
+c:id03001    Possible improvements not decided on yet
+c:id03003    Glossary
+c:id03004    The ABI, version 1
+c:id03005    The assembly language and the object format
+c:id03006    The evidence behind the manual

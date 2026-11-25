@@ -22,11 +22,9 @@ CTO: Rd <- number of trailing one bits of Rs        (64 if Rs = all ones)''', NO
 BSWAPW: Rd <- Rs with the bytes of each 16-bit word reversed
 BSWAPL: Rd <- Rs with the bytes of each 32-bit long reversed''', NOFLAGS, NONE, notes='The generalisation of the PDP-11 `SWAB` to 64 bits.'),
     E('BITREV', 'bits', ['bitrev'], 'Reverse the bits', ['BITREV Rs, Rd'], 'Rd <- Rs with bit i moved to bit 63-i', NOFLAGS, NONE),
-    E('ROR', 'bits', ['ror'], 'Rotate right by a register count', ['ROR Ra, Rb, Rd'], 'Rd <- Ra rotated right by (Rb mod 64)', 'None written (rotates write no flags).', NONE,
-      notes='There is no rotate left instruction: `ROL rs, #n, rd` is an assembler spelling of `RORI rs, #(64-n), rd`. No rotate is through carry; multi-word shifting uses `DSHR`.'),
-    E('RORI', 'bits', ['rori'], 'Rotate right by an immediate', ['RORI Rs, #n, Rd', 'ROL Rs, #n, Rd        ; assembles to RORI Rs, #(64-n), Rd'],
-      'Rd <- Rs rotated right by (n mod 64)', 'None written.', NONE, notes='Four bytes: the count is in the low byte of parcel 1.', xnote='Parcel 1 is `sub:8 count:8`.'),
-    E('RORI32', 'bits', ['rori32'], 'Rotate right by an immediate, 32 bits', ['RORI32 Rs, #n, Rd'],
+    E('ROR', 'bits', ['ror', 'rol'], 'Rotate right by a register or a constant', ['ROR Ra, Rb, Rd', 'ROR Rs, #n, Rd', 'ROL Rs, #n, Rd', 'ROL #n, Rd'], 'Rd <- Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; ROL rotates left by the constant', 'None written (rotates write no flags).', NONE,
+      notes='One word names the operation, as `SHL`, `SHR` and `SAR` do: the assembler takes a register or a constant for the count and picks the form (four bytes with a register or a constant count; the constant of `ROL` alone also has a two-byte form). No rotate is through carry; multi-word shifting uses `DSHR`.', xnote='With a constant count parcel 1 is `rs:5 count:6 rd:5`.'),
+    E('ROR32', 'bits', ['ror32'], 'Rotate right by a constant, 32 bits', ['ROR32 Rs, #n, Rd'],
       'Rd <- sext32(ror32(Rs[31:0], n mod 32))', 'None written.', NONE, notes='The 32-bit rotate with the result sign-extended like every 32-bit result; the primitive of most hash functions and ciphers.'),
     E('DSHR', 'bits', ['dshr'], 'Double-width funnel shift right', ['DSHR Ra, Rb, #n, Rd'],
       '''t <- Ra:Rb                    ; 128 bits, Ra the high half
@@ -114,19 +112,19 @@ MAX : Rd <- larger of Ra, Rb (signed)          MAXU: unsigned''', 'Those of the 
     E('FDIV', 'fp', ['fdiv', 'fsqrt'], 'Floating divide and square root, binary64', ['FDIV Rs, Rd', 'FSQRT Rs, Rd'],
       '''FDIV : Rd <- Rd / Rs
 FSQRT: Rd <- sqrt(Rs)''', FPFLAG, NONE, xnote=FXNOTE,
-      notes='`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`. The alternative spellings `FDIVD`, `FSQRTD` are aliases.'),
+      notes='`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`.'),
     E('FSINGLE', 'fp', ['fadd32', 'fsub32', 'fmul32', 'fdiv32', 'fsqrt32', 'fcmp32'], 'Floating arithmetic, binary32',
       ['FADD32 Rs, Rd', 'FSUB32 Rs, Rd', 'FMUL32 Rs, Rd', 'FDIV32 Rs, Rd', 'FSQRT32 Rs, Rd', 'FCMP32 Rd, Rs'],
       '''Rd <- Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd <- sqrt(Rs) (FSQRT32)
 FCMP32: flags as FCMP, comparing Rd with Rs''', FPFLAG + ' `FCMP32` writes `N Z V C` as `FCMP` does.', NONE, xnote=FXNOTE,
-      notes='A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even. The alternative spellings `FADDS`, `FSUBS`, ... are aliases.'),
+      notes='A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even.'),
     E('FMADD', 'fp', ['fmadd', 'fmsub', 'fnmadd', 'fnmsub'], 'Fused multiply-add, binary64',
       ['FMADD Rs, Rt, Ru, Rd', 'FMSUB Rs, Rt, Ru, Rd', 'FNMADD Rs, Rt, Ru, Rd', 'FNMSUB Rs, Rt, Ru, Rd'],
       '''FMADD : Rd <- Rs*Rt + Ru
 FMSUB : Rd <- Rs*Rt - Ru
 FNMADD: Rd <- -(Rs*Rt) - Ru
 FNMSUB: Rd <- -(Rs*Rt) + Ru          ; each rounded once''', FPFLAG, NONE, xnote=FXNOTE,
-      notes='Four register operands are available at `len = 01`. The alternative spellings `FMADDD`, ... are aliases.'),
+      notes='Four register operands are available at `len = 01`.'),
     E('FMADD32', 'fp', ['fmadd32', 'fmsub32', 'fnmadd32', 'fnmsub32'], 'Fused multiply-add, binary32',
       ['FMADD32 Rs, Rt, Ru, Rd', 'FMSUB32 ...', 'FNMADD32 ...', 'FNMSUB32 ...'], 'As FMADD, in binary32, rounded once', FPFLAG, NONE, xnote=FXNOTE),
     E('FSIGN', 'fp', ['fneg', 'fabs', 'fcopysign'], 'Sign operations on the bits', ['FNEG Rs, Rd', 'FABS Rs, Rd', 'FCOPYSIGN Rs, Rt, Rd'],
@@ -135,18 +133,18 @@ FABS     : Rd <- Rs with the sign bit cleared
 FCOPYSIGN: Rd <- magnitude of Rs, sign of Rt''', 'None. These operate on the bits, do not canonicalise a NaN and raise no exception flag.', NONE, xnote=FXNOTE),
     E('FMIN', 'fp', ['fmin', 'fmax'], 'Floating minimum and maximum, binary64', ['FMIN Rs, Rt, Rd', 'FMAX Rs, Rt, Rd'],
       '''if Rs is a NaN then Rd <- Rt ; else if Rt is a NaN then Rd <- Rs ; else Rd <- smaller (FMIN) or larger (FMAX)
-if both are NaNs the result is the canonical quiet NaN''', FPFLAG, NONE, xnote=FXNOTE, notes='The alternative spellings `FMIND`, `FMAXD` are aliases.'),
+if both are NaNs the result is the canonical quiet NaN''', FPFLAG, NONE, xnote=FXNOTE, notes=''),
     E('FCLASS', 'fp', ['fclass', 'fclass32', 'fclass16'], 'Classify a floating-point value', ['FCLASS Rs, Rd', 'FCLASS32 Rs, Rd', 'FCLASS16 Rs, Rd'],
       '''Rd <- a bit vector with exactly one bit set:
 bit 0 -infinity      bit 1 -normal      bit 2 -subnormal   bit 3 -zero
 bit 4 +zero          bit 5 +subnormal   bit 6 +normal      bit 7 +infinity
-bit 8 signalling NaN bit 9 quiet NaN''', 'None.', NONE, xnote=FXNOTE, notes='Every libm function begins with this dispatch. The alternative spellings `FCLASSD`, `FCLASSS` are aliases.'),
+bit 8 signalling NaN bit 9 quiet NaN''', 'None.', NONE, xnote=FXNOTE, notes='Every libm function begins with this dispatch.'),
     E('FRINT', 'fp', ['frint', 'frintz', 'frintm', 'frintp', 'frinta'], 'Round to an integral value, binary64',
       ['FRINT Rs, Rd', 'FRINTZ Rs, Rd', 'FRINTM Rs, Rd', 'FRINTP Rs, Rd', 'FRINTA Rs, Rd'],
       '''FRINT : Rd <- Rs rounded to nearest, ties to even
 FRINTZ: toward zero         FRINTM: toward -infinity
 FRINTP: toward +infinity    FRINTA: to nearest, ties away from zero (C round())''', FPFLAG, NONE, xnote=FXNOTE,
-      notes='The rounding mode is in the opcode, never in a mode bit. The alternative spellings `FRINTD`, `FRINTDZ`, ... are aliases.'),
+      notes='The rounding mode is in the opcode, never in a mode bit.'),
     E('FCVT', 'fp', ['fcvtdq', 'fcvtdqu', 'fcvtqd', 'fcvtqud', 'fcvtds', 'fcvtsd', 'fcvtsl', 'fcvtls'], 'Floating conversions',
       ['FCVTDQ Rs, Rd        ; binary64 to signed quad', 'FCVTDQU Rs, Rd       ; binary64 to unsigned quad', 'FCVTQD Rs, Rd        ; signed quad to binary64', 'FCVTQUD Rs, Rd       ; unsigned quad to binary64',
        'FCVTDS Rs, Rd        ; binary64 to binary32', 'FCVTSD Rs, Rd        ; binary32 to binary64', 'FCVTSL Rs, Rd        ; binary32 to signed 32-bit integer', 'FCVTLS Rs, Rd        ; signed 32-bit integer to binary32'],

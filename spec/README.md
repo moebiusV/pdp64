@@ -144,7 +144,7 @@ of 32 bits or more and a relocation; the relocation types are those of `as64/rel
 
 * `(r)+` and `-(r)` without a stride write stride 0, which means the size of the access (8 outside the moves); `(r)+8` writes 8.
 * `pushm`, `popm`, `popmret` take a register mask; a mask is the low 32 bits of the number (so `#-16740608` is a mask of r31...).
-* `set cc, rd`: 4 bytes (`SETF`). `trap #n`, `spl #n`, `hint #n`: one parcel with an 8-bit number (the encoding has two slots for `trap`: the second decodes as `trap` and the assembler never writes it; `trapl` is not a word). `trapcc.<cc>`: one parcel, no operand.
+* `set cc, rd`: 4 bytes (`SETF`). `trap #n`, `spl #n`, `hint #n`: one parcel with an 8-bit number. `trapcc.<cc>`: one parcel, no operand.
 * ATOM (assumed, section 3.2 of the proposal): three registers (`xadd`... `ll`, `sc`) and four (`cas`), the memory address in a register, operands in the order written. The roles of the registers
   are the ISA's to fix; the encoding only fixes where they sit.
 * `cbCC` for which no form reaches (an external label, an operand pair no form holds) is assembled as `cmp` + `bCC`. **This writes the flags**, which `cbCC` does not (the compiler forms a `cbCC` only where the flags are dead), and it

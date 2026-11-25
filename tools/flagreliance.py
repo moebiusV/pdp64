@@ -15,7 +15,7 @@ that writes the flags under the OLD rules (before errata 39).  The site is a REL
     call                                                                           -- the callee's flags are not the caller's
 
 so that the value the reader sees would differ between the old and the new core.  lea, set and the instructions that write the flags in both rules
-(cmp, tst, bit, add, sub, and, bis, bic, xor, mul, neg, com, inc, dec, asl, asr, shifts by a constant, fcmp, rori and the rest) are not reliances.
+(cmp, tst, bit, add, sub, and, bis, bic, xor, mul, neg, com, inc, dec, asl, asr, shifts by a constant, fcmp, ror and the rest) are not reliances.
 A reader that reaches the top of its block without finding a flag writer takes the flags from another block and is not judged.
 
 With --ctests the C tests (tests/c and the toolchain's a64tests) are compiled with the ccom at several flag sets and checked too; with --dir the
@@ -28,7 +28,7 @@ MOVES = {'movq', 'movl', 'movw', 'movb', 'movzl', 'movzw', 'movzb', 'clr', 'pop'
 NEUTRAL = {'lea', 'nop', 'pushm', 'popm'}
 SHIFTS = {'shl', 'shr', 'sar'}
 WRITERS = {'cmp', 'tst', 'bit', 'add', 'sub', 'and', 'bic', 'bis', 'xor', 'mul', 'mulh', 'neg', 'com', 'inc', 'dec', 'asl', 'asr', 'adc', 'sbc',
-           'fcmp', 'fcmp32', 'fcmp16', 'div', 'divu', 'mod', 'modu', 'rol', 'ror', 'rori', 'rori32', 'dshr', 'mulhu', 'abs', 'min', 'max', 'minu', 'maxu',
+           'fcmp', 'fcmp32', 'fcmp16', 'div', 'divu', 'mod', 'modu', 'rol', 'ror', 'ror32', 'dshr', 'mulhu', 'abs', 'min', 'max', 'minu', 'maxu',
            'fadd', 'fsub', 'fmul', 'fdiv', 'fadd32', 'fsub32', 'fmul32', 'fdiv32', 'fneg'}
 CB = re.compile(r'^cb(ne|eq|pl|mi|vc|vs|cc|cs|ge|lt|gt|le|hi|los)\b')
 BRANCHES_END = re.compile(r'^(br|ret|jmp|call|calli|jmpi|b[a-z]+)\b')

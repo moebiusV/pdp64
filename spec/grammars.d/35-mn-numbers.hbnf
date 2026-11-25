@@ -20,6 +20,5 @@ opgroup = "lea"@0b001011
 movstore = "movq"@0b000001 | "movl"@0b000011 | "movw"@0b000101 | "movb"@0b000111
 
 
-; A word whose number is the alias offset plus another word's number stands for that word: one mnemonic, one instruction (ISA 4.15).  The old
-; spellings of the floating-point words (faddd, fadds...) are aliases of the new ones (fadd, fadd32...).  The assembler subtracts the offset.
+; A word whose number is the alias offset plus another word's number stands for that word: one mnemonic, one instruction (ISA 4.15).  The assembler subtracts the offset (bhis, blo, mulu, wait).
 offset = "alias"@0x100 | "none"@0

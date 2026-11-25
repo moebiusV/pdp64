@@ -1,4 +1,4 @@
-/* expect: 1 -- rotates of a 64-bit value by constants: rol (the assembler turns it into rori), left and right, in a register that is also an operand */
+/* expect: 1 -- rotates of a 64-bit value by constants: rol (a rotate left by a constant), left and right, in a register that is also an operand */
 unsigned long rl(unsigned long x) { return (x << 13) | (x >> 51); }
 unsigned long rr(unsigned long x) { return (x >> 7) | (x << 57); }
 long rs(long x) { return (long)(((unsigned long)x << 1) | ((unsigned long)x >> 63)); }

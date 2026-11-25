@@ -202,19 +202,8 @@ Fields: `op1.imm=p0[10:4]` `op2.r=p0[3:0]`
 
 Fields: `sub=p0[10]` `op3.pcrel=p0[9:5]` `op1.r=p0[4:0]`
 
-<a id="SYSI-1"></a>
-#### SYSI-1: SYSI, prefix `011110`
-
-![Layout SYSI-1](../figures/SYSI-1.svg)
-
-`op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255.
-
-`sub` (2 bits) selects the mnemonic: `spl` 00, `trap` 01, `trap` 10, `hint` 11.
-
-Fields: `sub=p0[9:8]` `op1.imm=p0[7:0]`
-
 <a id="STHHH3-a-1"></a>
-#### STHHH3-a-1: STHHH3/a, prefix `101000`
+#### STHHH3-a-1: STHHH3/a, prefix `100111`
 
 ![Layout STHHH3-a-1](../figures/STHHH3-a-1.svg)
 
@@ -227,7 +216,7 @@ Fields: `sub=p0[9:8]` `op1.imm=p0[7:0]`
 Fields: `sub=p0[9]` `op2.d=p0[8:6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 
 <a id="SHIh44-a-1"></a>
-#### SHIh44-a-1: SHIh44/a, prefix `101001`
+#### SHIh44-a-1: SHIh44/a, prefix `101000`
 
 ![Layout SHIh44-a-1](../figures/SHIh44-a-1.svg)
 
@@ -239,8 +228,19 @@ Fields: `sub=p0[9]` `op2.d=p0[8:6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 
 Fields: `sub=p0[9:8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
+<a id="SYSI-1"></a>
+#### SYSI-1: SYSI, prefix `1010010`
+
+![Layout SYSI-1](../figures/SYSI-1.svg)
+
+`op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255.
+
+`sub` (1 bit) selects the mnemonic: `spl` 0, `trap` 1.
+
+Fields: `sub=p0[8]` `op1.imm=p0[7:0]`
+
 <a id="BR1-6-c-1"></a>
-#### BR1-6-c-1: BR1_6/c, prefix `1100001`
+#### BR1-6-c-1: BR1_6/c, prefix `1100000`
 
 ![Layout BR1-6-c-1](../figures/BR1-6-c-1.svg)
 
@@ -251,7 +251,7 @@ Fields: `sub=p0[9:8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 Fields: `sub=p0[8:6]` `op1.pcrel=p0[5:0]`
 
 <a id="BR1-9-a-1"></a>
-#### BR1-9-a-1: BR1_9/a, prefix `1100010`
+#### BR1-9-a-1: BR1_9/a, prefix `1100001`
 
 ![Layout BR1-9-a-1](../figures/BR1-9-a-1.svg)
 
@@ -260,7 +260,7 @@ Fields: `sub=p0[8:6]` `op1.pcrel=p0[5:0]`
 Fields: `op1.pcrel=p0[8:0]`
 
 <a id="STSPh4-a-1"></a>
-#### STSPh4-a-1: STSPh4/a, prefix `1100011`
+#### STSPh4-a-1: STSPh4/a, prefix `1100010`
 
 ![Layout STSPh4-a-1](../figures/STSPh4-a-1.svg)
 
@@ -273,7 +273,7 @@ Fields: `op1.pcrel=p0[8:0]`
 Fields: `sub=p0[8]` `op2.d=p0[7:4]` `op1.r=p0[3:0]`
 
 <a id="LEASPh5-a-1"></a>
-#### LEASPh5-a-1: LEASPh5/a, prefix `1100100`
+#### LEASPh5-a-1: LEASPh5/a, prefix `1100011`
 
 ![Layout LEASPh5-a-1](../figures/LEASPh5-a-1.svg)
 
@@ -284,7 +284,7 @@ Fields: `sub=p0[8]` `op2.d=p0[7:4]` `op1.r=p0[3:0]`
 Fields: `op1.d=p0[8:4]` `op2.r=p0[3:0]`
 
 <a id="IMMh44-b-1"></a>
-#### IMMh44-b-1: IMMh44/b, prefix `1100101`
+#### IMMh44-b-1: IMMh44/b, prefix `1100100`
 
 ![Layout IMMh44-b-1](../figures/IMMh44-b-1.svg)
 
@@ -297,7 +297,7 @@ Fields: `op1.d=p0[8:4]` `op2.r=p0[3:0]`
 Fields: `sub=p0[8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
 <a id="PUSHM8-a-1"></a>
-#### PUSHM8-a-1: PUSHM8/a, prefix `1100110`
+#### PUSHM8-a-1: PUSHM8/a, prefix `1100101`
 
 ![Layout PUSHM8-a-1](../figures/PUSHM8-a-1.svg)
 
@@ -308,7 +308,7 @@ Fields: `sub=p0[8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 Fields: `sub=p0[8]` `op1.imm=p0[7:0]`
 
 <a id="SYSR-1"></a>
-#### SYSR-1: SYSR, prefix `11010000`
+#### SYSR-1: SYSR, prefix `11001110`
 
 ![Layout SYSR-1](../figures/SYSR-1.svg)
 
@@ -318,8 +318,17 @@ Fields: `sub=p0[8]` `op1.imm=p0[7:0]`
 
 Fields: `sub=p0[7:5]` `op1.r=p0[4:0]`
 
+<a id="SYSI-2"></a>
+#### SYSI-2: SYSI, prefix `11001111`
+
+![Layout SYSI-2](../figures/SYSI-2.svg)
+
+`op1` is `imm8u`: unsigned 8-bit immediate, 0 to 255.
+
+Fields: `op1.imm=p0[7:0]`
+
 <a id="SOPR-1"></a>
-#### SOPR-1: SOPR, prefix `11100000`
+#### SOPR-1: SOPR, prefix `11011111`
 
 ![Layout SOPR-1](../figures/SOPR-1.svg)
 
@@ -330,7 +339,7 @@ Fields: `sub=p0[7:5]` `op1.r=p0[4:0]`
 Fields: `sub=p0[7:5]` `op1.r=p0[4:0]`
 
 <a id="FX-POPMRET-1"></a>
-#### FX-POPMRET-1: FX.POPMRET, prefix `11100010`
+#### FX-POPMRET-1: FX.POPMRET, prefix `11100001`
 
 ![Layout FX-POPMRET-1](../figures/FX-POPMRET-1.svg)
 
@@ -339,7 +348,7 @@ Fields: `sub=p0[7:5]` `op1.r=p0[4:0]`
 Fields: `op1.imm=p0[7:0]`
 
 <a id="BR1-6-c-2"></a>
-#### BR1-6-c-2: BR1_6/c, prefix `11100011`
+#### BR1-6-c-2: BR1_6/c, prefix `11100010`
 
 ![Layout BR1-6-c-2](../figures/BR1-6-c-2.svg)
 
@@ -350,7 +359,7 @@ Fields: `op1.imm=p0[7:0]`
 Fields: `sub=p0[7:6]` `op1.pcrel=p0[5:0]`
 
 <a id="BR1-7-b-1"></a>
-#### BR1-7-b-1: BR1_7/b, prefix `11100100`
+#### BR1-7-b-1: BR1_7/b, prefix `11100011`
 
 ![Layout BR1-7-b-1](../figures/BR1-7-b-1.svg)
 
@@ -361,7 +370,7 @@ Fields: `sub=p0[7:6]` `op1.pcrel=p0[5:0]`
 Fields: `sub=p0[7]` `op1.pcrel=p0[6:0]`
 
 <a id="STHHH1-b-1"></a>
-#### STHHH1-b-1: STHHH1/b, prefix `11100101`
+#### STHHH1-b-1: STHHH1/b, prefix `11100100`
 
 ![Layout STHHH1-b-1](../figures/STHHH1-b-1.svg)
 
@@ -374,7 +383,7 @@ Fields: `sub=p0[7]` `op1.pcrel=p0[6:0]`
 Fields: `sub=p0[7]` `op2.d=p0[6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 
 <a id="IMMh44-b-2"></a>
-#### IMMh44-b-2: IMMh44/b, prefix `11100110`
+#### IMMh44-b-2: IMMh44/b, prefix `11100101`
 
 ![Layout IMMh44-b-2](../figures/IMMh44-b-2.svg)
 
@@ -385,7 +394,7 @@ Fields: `sub=p0[7]` `op2.d=p0[6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 Fields: `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
 <a id="SOPR-2"></a>
-#### SOPR-2: SOPR, prefix `111011001`
+#### SOPR-2: SOPR, prefix `111010111`
 
 ![Layout SOPR-2](../figures/SOPR-2.svg)
 
@@ -396,7 +405,7 @@ Fields: `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 Fields: `sub=p0[6:5]` `op1.r=p0[4:0]`
 
 <a id="SPADJ6-a-1"></a>
-#### SPADJ6-a-1: SPADJ6/a, prefix `111011011`
+#### SPADJ6-a-1: SPADJ6/a, prefix `111011001`
 
 ![Layout SPADJ6-a-1](../figures/SPADJ6-a-1.svg)
 
@@ -409,7 +418,7 @@ Fields: `sub=p0[6:5]` `op1.r=p0[4:0]`
 Fields: `sub=p0[6]` `op1.imm=p0[5:0]`
 
 <a id="SYSR-2"></a>
-#### SYSR-2: SYSR, prefix `1111000100`
+#### SYSR-2: SYSR, prefix `1111000000`
 
 ![Layout SYSR-2](../figures/SYSR-2.svg)
 
@@ -420,7 +429,7 @@ Fields: `sub=p0[6]` `op1.imm=p0[5:0]`
 Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 <a id="CT1-1"></a>
-#### CT1-1: CT1, prefix `1111000101`
+#### CT1-1: CT1, prefix `1111000001`
 
 ![Layout CT1-1](../figures/CT1-1.svg)
 
@@ -431,7 +440,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 <a id="SOPR-3"></a>
-#### SOPR-3: SOPR, prefix `1111010011`
+#### SOPR-3: SOPR, prefix `1111001111`
 
 ![Layout SOPR-3](../figures/SOPR-3.svg)
 
@@ -442,7 +451,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 <a id="TLBX-1"></a>
-#### TLBX-1: TLBX, prefix `1111110010`
+#### TLBX-1: TLBX, prefix `1111101110`
 
 ![Layout TLBX-1](../figures/TLBX-1.svg)
 
@@ -453,7 +462,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 <a id="SYS0-1"></a>
-#### SYS0-1: SYS0, prefix `11110111110`
+#### SYS0-1: SYS0, prefix `11110110110`
 
 ![Layout SYS0-1](../figures/SYS0-1.svg)
 
@@ -462,7 +471,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 Fields: `sub=p0[4:0]`
 
 <a id="FX-POPRET-1"></a>
-#### FX-POPRET-1: FX.POPRET, prefix `11111001000`
+#### FX-POPRET-1: FX.POPRET, prefix `11111000000`
 
 ![Layout FX-POPRET-1](../figures/FX-POPRET-1.svg)
 
@@ -471,7 +480,7 @@ Fields: `sub=p0[4:0]`
 Fields: `op1.r=p0[4:0]`
 
 <a id="SYS0-2"></a>
-#### SYS0-2: SYS0, prefix `11111011110010`
+#### SYS0-2: SYS0, prefix `11111010110010`
 
 ![Layout SYS0-2](../figures/SYS0-2.svg)
 
@@ -495,7 +504,7 @@ Fields: `sub=p0[1:0]`
 Fields: `sub=p0[10:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="LDU-B12-1"></a>
-#### LDU-B12-1: LDU.B12, prefix `100000`
+#### LDU-B12-1: LDU.B12, prefix `011111`
 
 ![Layout LDU-B12-1](../figures/LDU-B12-1.svg)
 
@@ -508,7 +517,7 @@ Fields: `sub=p0[10:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="LDF-PI12-1"></a>
-#### LDF-PI12-1: LDF.PI12, prefix `100011`
+#### LDF-PI12-1: LDF.PI12, prefix `100010`
 
 ![Layout LDF-PI12-1](../figures/LDF-PI12-1.svg)
 
@@ -521,7 +530,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="LDF-PD12-1"></a>
-#### LDF-PD12-1: LDF.PD12, prefix `100100`
+#### LDF-PD12-1: LDF.PD12, prefix `100011`
 
 ![Layout LDF-PD12-1](../figures/LDF-PD12-1.svg)
 
@@ -534,7 +543,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="FX-MOVCALL2-1"></a>
-#### FX-MOVCALL2-1: FX.MOVCALL2, prefix `100111`
+#### FX-MOVCALL2-1: FX.MOVCALL2, prefix `100110`
 
 ![Layout FX-MOVCALL2-1](../figures/FX-MOVCALL2-1.svg)
 
@@ -547,7 +556,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]`
 
 <a id="STU-X6-1"></a>
-#### STU-X6-1: STU.X6, prefix `1010110`
+#### STU-X6-1: STU.X6, prefix `1010101`
 
 ![Layout STU-X6-1](../figures/STU-X6-1.svg)
 
@@ -560,7 +569,7 @@ Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]`
 Fields: `sub=p0[8:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `op2.base=p1[12:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]`
 
 <a id="LDF-PI12-2"></a>
-#### LDF-PI12-2: LDF.PI12, prefix `1011000`
+#### LDF-PI12-2: LDF.PI12, prefix `1010111`
 
 ![Layout LDF-PI12-2](../figures/LDF-PI12-2.svg)
 
@@ -573,7 +582,7 @@ Fields: `sub=p0[8:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` 
 Fields: `sub=p0[8:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="LDF-PD12-2"></a>
-#### LDF-PD12-2: LDF.PD12, prefix `1011001`
+#### LDF-PD12-2: LDF.PD12, prefix `1011000`
 
 ![Layout LDF-PD12-2](../figures/LDF-PD12-2.svg)
 
@@ -586,7 +595,7 @@ Fields: `sub=p0[8:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[8:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="STF-PI12-1"></a>
-#### STF-PI12-1: STF.PI12, prefix `1011111`
+#### STF-PI12-1: STF.PI12, prefix `1011110`
 
 ![Layout STF-PI12-1](../figures/STF-PI12-1.svg)
 
@@ -599,7 +608,7 @@ Fields: `sub=p0[8:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
 <a id="STF-PD12-1"></a>
-#### STF-PD12-1: STF.PD12, prefix `1100000`
+#### STF-PD12-1: STF.PD12, prefix `1011111`
 
 ![Layout STF-PD12-1](../figures/STF-PD12-1.svg)
 
@@ -612,7 +621,7 @@ Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
 <a id="PUSHM24-a-1"></a>
-#### PUSHM24-a-1: PUSHM24/a, prefix `1100111`
+#### PUSHM24-a-1: PUSHM24/a, prefix `1100110`
 
 ![Layout PUSHM24-a-1](../figures/PUSHM24-a-1.svg)
 
@@ -623,7 +632,7 @@ Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[8]` `op1.imm=p0[7:0]+p1[15:0]`
 
 <a id="R4-1"></a>
-#### R4-1: R4, prefix `11010001`
+#### R4-1: R4, prefix `11010000`
 
 ![Layout R4-1](../figures/R4-1.svg)
 
@@ -640,7 +649,7 @@ Fields: `sub=p0[8]` `op1.imm=p0[7:0]+p1[15:0]`
 Fields: `xsub-1=p0[7:5]` `op4.r=p0[4:0]` `xsub-2=p1[15]` `op1.r=p1[14:10]` `op2.r=p1[9:5]` `op3.r=p1[4:0]`
 
 <a id="STU-B12-1"></a>
-#### STU-B12-1: STU.B12, prefix `11010110`
+#### STU-B12-1: STU.B12, prefix `11010101`
 
 ![Layout STU-B12-1](../figures/STU-B12-1.svg)
 
@@ -653,7 +662,7 @@ Fields: `xsub-1=p0[7:5]` `op4.r=p0[4:0]` `xsub-2=p1[15]` `op1.r=p1[14:10]` `op2.
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]`
 
 <a id="STF-PI12-2"></a>
-#### STF-PI12-2: STF.PI12, prefix `11011011`
+#### STF-PI12-2: STF.PI12, prefix `11011010`
 
 ![Layout STF-PI12-2](../figures/STF-PI12-2.svg)
 
@@ -666,7 +675,7 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
 <a id="STF-PD12-2"></a>
-#### STF-PD12-2: STF.PD12, prefix `11011100`
+#### STF-PD12-2: STF.PD12, prefix `11011011`
 
 ![Layout STF-PD12-2](../figures/STF-PD12-2.svg)
 
@@ -679,7 +688,7 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
 <a id="CBDR-1"></a>
-#### CBDR-1: CBDR, prefix `11100001`
+#### CBDR-1: CBDR, prefix `11100000`
 
 ![Layout CBDR-1](../figures/CBDR-1.svg)
 
@@ -694,7 +703,7 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.r=p0[4:0]` `op1.r-2=p1[15:12]` `op3.pcrel=p1[11:0]`
 
 <a id="LDF-PI12-3"></a>
-#### LDF-PI12-3: LDF.PI12, prefix `111010001`
+#### LDF-PI12-3: LDF.PI12, prefix `111001111`
 
 ![Layout LDF-PI12-3](../figures/LDF-PI12-3.svg)
 
@@ -707,7 +716,7 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.r=p0[4:0]` `op1.r-2=p1[15:12]` `op3.p
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="LDF-PD12-3"></a>
-#### LDF-PD12-3: LDF.PD12, prefix `111010010`
+#### LDF-PD12-3: LDF.PD12, prefix `111010000`
 
 ![Layout LDF-PD12-3](../figures/LDF-PD12-3.svg)
 
@@ -720,7 +729,7 @@ Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `o
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="CMF-PI12-1"></a>
-#### CMF-PI12-1: CMF.PI12, prefix `111010111`
+#### CMF-PI12-1: CMF.PI12, prefix `111010101`
 
 ![Layout CMF-PI12-1](../figures/CMF-PI12-1.svg)
 
@@ -733,7 +742,7 @@ Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `o
 Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
 <a id="CMF-PD12-1"></a>
-#### CMF-PD12-1: CMF.PD12, prefix `111011000`
+#### CMF-PD12-1: CMF.PD12, prefix `111010110`
 
 ![Layout CMF-PD12-1](../figures/CMF-PD12-1.svg)
 
@@ -746,7 +755,7 @@ Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.
 Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
 <a id="CBDI-1"></a>
-#### CBDI-1: CBDI, prefix `111011010`
+#### CBDI-1: CBDI, prefix `111011000`
 
 ![Layout CBDI-1](../figures/CBDI-1.svg)
 
@@ -761,7 +770,7 @@ Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.
 Fields: `sub=p0[6:5]` `op1.r=p0[4:0]` `op2.imm=p1[15:10]` `op3.pcrel=p1[9:0]`
 
 <a id="LDBu12H-a-1"></a>
-#### LDBu12H-a-1: LDBu12H/a, prefix `111011100`
+#### LDBu12H-a-1: LDBu12H/a, prefix `111011010`
 
 ![Layout LDBu12H-a-1](../figures/LDBu12H-a-1.svg)
 
@@ -774,7 +783,7 @@ Fields: `sub=p0[6:5]` `op1.r=p0[4:0]` `op2.imm=p1[15:10]` `op3.pcrel=p1[9:0]`
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="LDBu12H-b-1"></a>
-#### LDBu12H-b-1: LDBu12H/b, prefix `111011101`
+#### LDBu12H-b-1: LDBu12H/b, prefix `111011011`
 
 ![Layout LDBu12H-b-1](../figures/LDBu12H-b-1.svg)
 
@@ -787,7 +796,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="LDX6H-a-1"></a>
-#### LDX6H-a-1: LDX6H/a, prefix `111011110`
+#### LDX6H-a-1: LDX6H/a, prefix `111011100`
 
 ![Layout LDX6H-a-1](../figures/LDX6H-a-1.svg)
 
@@ -800,7 +809,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.index=p1[11:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="LDI18H-b-1"></a>
-#### LDI18H-b-1: LDI18H/b, prefix `111011111`
+#### LDI18H-b-1: LDI18H/b, prefix `111011101`
 
 ![Layout LDI18H-b-1](../figures/LDI18H-b-1.svg)
 
@@ -813,7 +822,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.index=p1[11:8]` 
 Fields: `sub=p0[6]` `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 
 <a id="CBI8-10H-a-1"></a>
-#### CBI8-10H-a-1: CBI8_10H/a, prefix `111100000`
+#### CBI8-10H-a-1: CBI8_10H/a, prefix `111011110`
 
 ![Layout CBI8-10H-a-1](../figures/CBI8-10H-a-1.svg)
 
@@ -828,7 +837,7 @@ Fields: `sub=p0[6]` `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBI10-8H-a-1"></a>
-#### CBI10-8H-a-1: CBI10_8H/a, prefix `111100001`
+#### CBI10-8H-a-1: CBI10_8H/a, prefix `111011111`
 
 ![Layout CBI10-8H-a-1](../figures/CBI10-8H-a-1.svg)
 
@@ -843,7 +852,7 @@ Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:10]` `o
 Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:8]` `op3.pcrel=p1[7:0]`
 
 <a id="R3-1"></a>
-#### R3-1: R3, prefix `1111000110`
+#### R3-1: R3, prefix `1111000010`
 
 ![Layout R3-1](../figures/R3-1.svg)
 
@@ -858,7 +867,7 @@ Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:8]` `op
 Fields: `xsub-1=p0[5]` `op3.r=p0[4:0]` `xsub-2=p1[15:10]` `op1.r=p1[9:5]` `op2.r=p1[4:0]`
 
 <a id="LDF-PI12-4"></a>
-#### LDF-PI12-4: LDF.PI12, prefix `1111001010`
+#### LDF-PI12-4: LDF.PI12, prefix `1111000110`
 
 ![Layout LDF-PI12-4](../figures/LDF-PI12-4.svg)
 
@@ -869,7 +878,7 @@ Fields: `xsub-1=p0[5]` `op3.r=p0[4:0]` `xsub-2=p1[15:10]` `op1.r=p1[9:5]` `op2.r
 Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="LDF-PD12-4"></a>
-#### LDF-PD12-4: LDF.PD12, prefix `1111001011`
+#### LDF-PD12-4: LDF.PD12, prefix `1111000111`
 
 ![Layout LDF-PD12-4](../figures/LDF-PD12-4.svg)
 
@@ -880,7 +889,7 @@ Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1
 Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="TAG-1"></a>
-#### TAG-1: TAG, prefix `1111010100`
+#### TAG-1: TAG, prefix `1111010000`
 
 ![Layout TAG-1](../figures/TAG-1.svg)
 
@@ -895,7 +904,7 @@ Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1
 Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.imm=p1[15:13]` `op3.pcrel=p1[12:0]`
 
 <a id="LDBs10-a-1"></a>
-#### LDBs10-a-1: LDBs10/a, prefix `1111010101`
+#### LDBs10-a-1: LDBs10/a, prefix `1111010001`
 
 ![Layout LDBs10-a-1](../figures/LDBs10-a-1.svg)
 
@@ -908,7 +917,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.imm=p1[15:13]` `op3.pcrel=p1[12:0]`
 Fields: `sub=p0[5:4]` `op1.base=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]`
 
 <a id="STX6H-a-1"></a>
-#### STX6H-a-1: STX6H/a, prefix `1111010110`
+#### STX6H-a-1: STX6H/a, prefix `1111010010`
 
 ![Layout STX6H-a-1](../figures/STX6H-a-1.svg)
 
@@ -921,7 +930,7 @@ Fields: `sub=p0[5:4]` `op1.base=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]
 Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2.base=p1[11:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]`
 
 <a id="STX6H-b-1"></a>
-#### STX6H-b-1: STX6H/b, prefix `1111010111`
+#### STX6H-b-1: STX6H/b, prefix `1111010011`
 
 ![Layout STX6H-b-1](../figures/STX6H-b-1.svg)
 
@@ -934,7 +943,7 @@ Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2
 Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2.base=p1[11:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]`
 
 <a id="LDPC16H-a-1"></a>
-#### LDPC16H-a-1: LDPC16H/a, prefix `1111011000`
+#### LDPC16H-a-1: LDPC16H/a, prefix `1111010100`
 
 ![Layout LDPC16H-a-1](../figures/LDPC16H-a-1.svg)
 
@@ -947,7 +956,7 @@ Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2
 Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 
 <a id="LDPC16H-c-1"></a>
-#### LDPC16H-c-1: LDPC16H/c, prefix `1111011001`
+#### LDPC16H-c-1: LDPC16H/c, prefix `1111010101`
 
 ![Layout LDPC16H-c-1](../figures/LDPC16H-c-1.svg)
 
@@ -960,7 +969,7 @@ Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 
 <a id="LDI18H-a-1"></a>
-#### LDI18H-a-1: LDI18H/a, prefix `1111011010`
+#### LDI18H-a-1: LDI18H/a, prefix `1111010110`
 
 ![Layout LDI18H-a-1](../figures/LDI18H-a-1.svg)
 
@@ -971,7 +980,7 @@ Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 Fields: `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 
 <a id="LDI18H-b-2"></a>
-#### LDI18H-b-2: LDI18H/b, prefix `1111011011`
+#### LDI18H-b-2: LDI18H/b, prefix `1111010111`
 
 ![Layout LDI18H-b-2](../figures/LDI18H-b-2.svg)
 
@@ -982,7 +991,7 @@ Fields: `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 Fields: `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 
 <a id="CMI18H-a-1"></a>
-#### CMI18H-a-1: CMI18H/a, prefix `1111011100`
+#### CMI18H-a-1: CMI18H/a, prefix `1111011000`
 
 ![Layout CMI18H-a-1](../figures/CMI18H-a-1.svg)
 
@@ -993,7 +1002,7 @@ Fields: `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 Fields: `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:0]`
 
 <a id="CBI8-8H-b-1"></a>
-#### CBI8-8H-b-1: CBI8_8H/b, prefix `1111011101`
+#### CBI8-8H-b-1: CBI8_8H/b, prefix `1111011001`
 
 ![Layout CBI8-8H-b-1](../figures/CBI8-8H-b-1.svg)
 
@@ -1008,7 +1017,7 @@ Fields: `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:0]`
 Fields: `sub=p0[5:4]` `op1.r=p0[3:0]` `op2.imm=p1[15:8]` `op3.pcrel=p1[7:0]`
 
 <a id="CBI8-8H-c-1"></a>
-#### CBI8-8H-c-1: CBI8_8H/c, prefix `1111011110`
+#### CBI8-8H-c-1: CBI8_8H/c, prefix `1111011010`
 
 ![Layout CBI8-8H-c-1](../figures/CBI8-8H-c-1.svg)
 
@@ -1023,7 +1032,7 @@ Fields: `sub=p0[5:4]` `op1.r=p0[3:0]` `op2.imm=p1[15:8]` `op3.pcrel=p1[7:0]`
 Fields: `sub=p0[5:4]` `op1.r=p0[3:0]` `op2.imm=p1[15:8]` `op3.pcrel=p1[7:0]`
 
 <a id="SETF-1"></a>
-#### SETF-1: SETF, prefix `11110111111`
+#### SETF-1: SETF, prefix `11110110111`
 
 ![Layout SETF-1](../figures/SETF-1.svg)
 
@@ -1036,7 +1045,7 @@ Fields: `sub=p0[5:4]` `op1.r=p0[3:0]` `op2.imm=p1[15:8]` `op3.pcrel=p1[7:0]`
 Fields: `op2.r=p0[4:0]` `op1.imm=p1[15:12]` `xsub=p1[11:0]`
 
 <a id="SOF-PI12-1"></a>
-#### SOF-PI12-1: SOF.PI12, prefix `11111000100`
+#### SOF-PI12-1: SOF.PI12, prefix `11110111100`
 
 ![Layout SOF-PI12-1](../figures/SOF-PI12-1.svg)
 
@@ -1047,7 +1056,7 @@ Fields: `op2.r=p0[4:0]` `op1.imm=p1[15:12]` `xsub=p1[11:0]`
 Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="SOF-PD12-1"></a>
-#### SOF-PD12-1: SOF.PD12, prefix `11111000101`
+#### SOF-PD12-1: SOF.PD12, prefix `11110111101`
 
 ![Layout SOF-PD12-1](../figures/SOF-PD12-1.svg)
 
@@ -1058,7 +1067,7 @@ Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
 Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="SOB-1"></a>
-#### SOB-1: SOB, prefix `11111000111`
+#### SOB-1: SOB, prefix `11110111111`
 
 ![Layout SOB-1](../figures/SOB-1.svg)
 
@@ -1069,7 +1078,7 @@ Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
 Fields: `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]`
 
 <a id="LDPC14-a-1"></a>
-#### LDPC14-a-1: LDPC14/a, prefix `11111001001`
+#### LDPC14-a-1: LDPC14/a, prefix `11111000001`
 
 ![Layout LDPC14-a-1](../figures/LDPC14-a-1.svg)
 
@@ -1082,7 +1091,7 @@ Fields: `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]`
 Fields: `sub=p0[4:3]` `op2.r=p0[2:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 
 <a id="LDBu10H-c-1"></a>
-#### LDBu10H-c-1: LDBu10H/c, prefix `11111001010`
+#### LDBu10H-c-1: LDBu10H/c, prefix `11111000010`
 
 ![Layout LDBu10H-c-1](../figures/LDBu10H-c-1.svg)
 
@@ -1095,7 +1104,7 @@ Fields: `sub=p0[4:3]` `op2.r=p0[2:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]`
 
 <a id="STBu12H-a-1"></a>
-#### STBu12H-a-1: STBu12H/a, prefix `11111001011`
+#### STBu12H-a-1: STBu12H/a, prefix `11111000011`
 
 ![Layout STBu12H-a-1](../figures/STBu12H-a-1.svg)
 
@@ -1108,7 +1117,7 @@ Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]
 Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 
 <a id="STBu12H-b-1"></a>
-#### STBu12H-b-1: STBu12H/b, prefix `11111001100`
+#### STBu12H-b-1: STBu12H/b, prefix `11111000100`
 
 ![Layout STBu12H-b-1](../figures/STBu12H-b-1.svg)
 
@@ -1121,7 +1130,7 @@ Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 
 <a id="LDX4H-b-1"></a>
-#### LDX4H-b-1: LDX4H/b, prefix `11111001101`
+#### LDX4H-b-1: LDX4H/b, prefix `11111000101`
 
 ![Layout LDX4H-b-1](../figures/LDX4H-b-1.svg)
 
@@ -1134,7 +1143,7 @@ Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op1.index=p1[14:11]` `op1.scale=p1[10:9]` `op1.d=p1[8:5]` `op2.r=p1[4:0]`
 
 <a id="R2-1"></a>
-#### R2-1: R2, prefix `111110011110`
+#### R2-1: R2, prefix `111110001110`
 
 ![Layout R2-1](../figures/R2-1.svg)
 
@@ -1147,7 +1156,7 @@ Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op1.index=p1[14:11]` `op1.scale
 Fields: `op1.r=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `xsub=p1[9:0]`
 
 <a id="RRI-1"></a>
-#### RRI-1: RRI, prefix `111110011111`
+#### RRI-1: RRI, prefix `111110001111`
 
 ![Layout RRI-1](../figures/RRI-1.svg)
 
@@ -1162,7 +1171,7 @@ Fields: `op1.r=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `xsub=p1[9:0]`
 Fields: `xsub=p0[3:0]` `op1.r=p1[15:11]` `op2.imm=p1[10:5]` `op3.r=p1[4:0]`
 
 <a id="LDBu8-c-1"></a>
-#### LDBu8-c-1: LDBu8/c, prefix `111110100011`
+#### LDBu8-c-1: LDBu8/c, prefix `111110010011`
 
 ![Layout LDBu8-c-1](../figures/LDBu8-c-1.svg)
 
@@ -1175,7 +1184,7 @@ Fields: `xsub=p0[3:0]` `op1.r=p1[15:11]` `op2.imm=p1[10:5]` `op3.r=p1[4:0]`
 Fields: `sub=p0[3:2]` `op1.base=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op1.d=p1[7:0]`
 
 <a id="CALL2-20-c-1"></a>
-#### CALL2-20-c-1: CALL2_20/c, prefix `111110100100`
+#### CALL2-20-c-1: CALL2_20/c, prefix `111110010100`
 
 ![Layout CALL2-20-c-1](../figures/CALL2-20-c-1.svg)
 
@@ -1184,7 +1193,7 @@ Fields: `sub=p0[3:2]` `op1.base=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op1.d=p1[7:
 Fields: `op1.pcrel=p0[3:0]+p1[15:0]`
 
 <a id="CBR8-b-1"></a>
-#### CBR8-b-1: CBR8/b, prefix `111110100101`
+#### CBR8-b-1: CBR8/b, prefix `111110010101`
 
 ![Layout CBR8-b-1](../figures/CBR8-b-1.svg)
 
@@ -1199,7 +1208,7 @@ Fields: `op1.pcrel=p0[3:0]+p1[15:0]`
 Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0]`
 
 <a id="CBR8-c-1"></a>
-#### CBR8-c-1: CBR8/c, prefix `111110100110`
+#### CBR8-c-1: CBR8/c, prefix `111110010110`
 
 ![Layout CBR8-c-1](../figures/CBR8-c-1.svg)
 
@@ -1214,7 +1223,7 @@ Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7
 Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0]`
 
 <a id="CMBu12H-a-1"></a>
-#### CMBu12H-a-1: CMBu12H/a, prefix `111110100111`
+#### CMBu12H-a-1: CMBu12H/a, prefix `111110010111`
 
 ![Layout CMBu12H-a-1](../figures/CMBu12H-a-1.svg)
 
@@ -1225,7 +1234,7 @@ Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7
 Fields: `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 
 <a id="LDPC14H-b-1"></a>
-#### LDPC14H-b-1: LDPC14H/b, prefix `111110101000`
+#### LDPC14H-b-1: LDPC14H/b, prefix `111110011000`
 
 ![Layout LDPC14H-b-1](../figures/LDPC14H-b-1.svg)
 
@@ -1238,7 +1247,7 @@ Fields: `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 Fields: `sub=p0[3:2]` `op2.r=p0[1:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 
 <a id="LDPC16H-c-2"></a>
-#### LDPC16H-c-2: LDPC16H/c, prefix `111110101001`
+#### LDPC16H-c-2: LDPC16H/c, prefix `111110011001`
 
 ![Layout LDPC16H-c-2](../figures/LDPC16H-c-2.svg)
 
@@ -1249,7 +1258,7 @@ Fields: `sub=p0[3:2]` `op2.r=p0[1:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 Fields: `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 
 <a id="CMPC16H-a-1"></a>
-#### CMPC16H-a-1: CMPC16H/a, prefix `111110101010`
+#### CMPC16H-a-1: CMPC16H/a, prefix `111110011010`
 
 ![Layout CMPC16H-a-1](../figures/CMPC16H-a-1.svg)
 
@@ -1260,7 +1269,7 @@ Fields: `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 Fields: `op1.r=p0[3:0]` `op2.pcrel=p1[15:0]`
 
 <a id="LDI14H-c-1"></a>
-#### LDI14H-c-1: LDI14H/c, prefix `111110101011`
+#### LDI14H-c-1: LDI14H/c, prefix `111110011011`
 
 ![Layout LDI14H-c-1](../figures/LDI14H-c-1.svg)
 
@@ -1273,7 +1282,7 @@ Fields: `op1.r=p0[3:0]` `op2.pcrel=p1[15:0]`
 Fields: `sub=p0[3:2]` `op2.r=p0[1:0]+p1[15:14]` `op1.imm=p1[13:0]`
 
 <a id="CBR10H-c-1"></a>
-#### CBR10H-c-1: CBR10H/c, prefix `111110101100`
+#### CBR10H-c-1: CBR10H/c, prefix `111110011100`
 
 ![Layout CBR10H-c-1](../figures/CBR10H-c-1.svg)
 
@@ -1288,7 +1297,7 @@ Fields: `sub=p0[3:2]` `op2.r=p0[1:0]+p1[15:14]` `op1.imm=p1[13:0]`
 Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:14]` `op2.r=p1[13:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBI3-12H-a-1"></a>
-#### CBI3-12H-a-1: CBI3_12H/a, prefix `111110101101`
+#### CBI3-12H-a-1: CBI3_12H/a, prefix `111110011101`
 
 ![Layout CBI3-12H-a-1](../figures/CBI3-12H-a-1.svg)
 
@@ -1303,7 +1312,7 @@ Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:14]` `op2.r=p1[13:10]` `op3.pcrel=p1[
 Fields: `sub=p0[3]` `op1.r=p0[2:0]+p1[15]` `op2.imm=p1[14:12]` `op3.pcrel=p1[11:0]`
 
 <a id="ATOM-1"></a>
-#### ATOM-1: ATOM, prefix `111111100000`
+#### ATOM-1: ATOM, prefix `111110110110`
 
 ![Layout ATOM-1](../figures/ATOM-1.svg)
 
@@ -1318,7 +1327,7 @@ Fields: `sub=p0[3]` `op1.r=p0[2:0]+p1[15]` `op2.imm=p1[14:12]` `op3.pcrel=p1[11:
 Fields: `xsub=p0[3:0]+p1[15]` `op1.r=p1[14:10]` `op2.r=p1[9:5]` `op3.base=p1[4:0]`
 
 <a id="STBs8-a-1"></a>
-#### STBs8-a-1: STBs8/a, prefix `1111101100001`
+#### STBs8-a-1: STBs8/a, prefix `1111101000001`
 
 ![Layout STBs8-a-1](../figures/STBs8-a-1.svg)
 
@@ -1331,7 +1340,7 @@ Fields: `xsub=p0[3:0]+p1[15]` `op1.r=p1[14:10]` `op2.r=p1[9:5]` `op3.base=p1[4:0
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.base=p1[12:8]` `op2.d=p1[7:0]`
 
 <a id="SOBs12-a-1"></a>
-#### SOBs12-a-1: SOBs12/a, prefix `1111101100010`
+#### SOBs12-a-1: SOBs12/a, prefix `1111101000010`
 
 ![Layout SOBs12-a-1](../figures/SOBs12-a-1.svg)
 
@@ -1342,7 +1351,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.base=p1[12:8]` `op2.d=p1[7:0]
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="SOBu12-x-1"></a>
-#### SOBu12-x-1: SOBu12/x, prefix `1111101100011`
+#### SOBu12-x-1: SOBu12/x, prefix `1111101000011`
 
 ![Layout SOBu12-x-1](../figures/SOBu12-x-1.svg)
 
@@ -1353,7 +1362,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="LDX0-a-1"></a>
-#### LDX0-a-1: LDX0/a, prefix `1111101100100`
+#### LDX0-a-1: LDX0/a, prefix `1111101000100`
 
 ![Layout LDX0-a-1](../figures/LDX0-a-1.svg)
 
@@ -1366,7 +1375,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
 <a id="LDX0-b-1"></a>
-#### LDX0-b-1: LDX0/b, prefix `1111101100101`
+#### LDX0-b-1: LDX0/b, prefix `1111101000101`
 
 ![Layout LDX0-b-1](../figures/LDX0-b-1.svg)
 
@@ -1379,7 +1388,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
 <a id="LDX0-c-1"></a>
-#### LDX0-c-1: LDX0/c, prefix `1111101100110`
+#### LDX0-c-1: LDX0/c, prefix `1111101000110`
 
 ![Layout LDX0-c-1](../figures/LDX0-c-1.svg)
 
@@ -1392,7 +1401,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
 <a id="LDI12-d-1"></a>
-#### LDI12-d-1: LDI12/d, prefix `1111101100111`
+#### LDI12-d-1: LDI12/d, prefix `1111101000111`
 
 ![Layout LDI12-d-1](../figures/LDI12-d-1.svg)
 
@@ -1405,7 +1414,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale
 Fields: `sub=p0[2:1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="CTM12-a-1"></a>
-#### CTM12-a-1: CTM12/a, prefix `1111101101000`
+#### CTM12-a-1: CTM12/a, prefix `1111101001000`
 
 ![Layout CTM12-a-1](../figures/CTM12-a-1.svg)
 
@@ -1418,7 +1427,7 @@ Fields: `sub=p0[2:1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
 
 <a id="BR2-16-c-1"></a>
-#### BR2-16-c-1: BR2_16/c, prefix `1111101101001`
+#### BR2-16-c-1: BR2_16/c, prefix `1111101001001`
 
 ![Layout BR2-16-c-1](../figures/BR2-16-c-1.svg)
 
@@ -1429,7 +1438,7 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
 Fields: `sub=p0[2:0]` `op1.pcrel=p1[15:0]`
 
 <a id="CBR8-a-1"></a>
-#### CBR8-a-1: CBR8/a, prefix `1111101101010`
+#### CBR8-a-1: CBR8/a, prefix `1111101001010`
 
 ![Layout CBR8-a-1](../figures/CBR8-a-1.svg)
 
@@ -1444,7 +1453,7 @@ Fields: `sub=p0[2:0]` `op1.pcrel=p1[15:0]`
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0]`
 
 <a id="CBI3-10-a-1"></a>
-#### CBI3-10-a-1: CBI3_10/a, prefix `1111101101110`
+#### CBI3-10-a-1: CBI3_10/a, prefix `1111101001110`
 
 ![Layout CBI3-10-a-1](../figures/CBI3-10-a-1.svg)
 
@@ -1459,7 +1468,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBI4-8-b-1"></a>
-#### CBI4-8-b-1: CBI4_8/b, prefix `1111101101111`
+#### CBI4-8-b-1: CBI4_8/b, prefix `1111101001111`
 
 ![Layout CBI4-8-b-1](../figures/CBI4-8-b-1.svg)
 
@@ -1474,7 +1483,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:8]` `op3.pcrel=p1[7:0]`
 
 <a id="CBI5-8-a-1"></a>
-#### CBI5-8-a-1: CBI5_8/a, prefix `1111101110000`
+#### CBI5-8-a-1: CBI5_8/a, prefix `1111101010000`
 
 ![Layout CBI5-8-a-1](../figures/CBI5-8-a-1.svg)
 
@@ -1489,7 +1498,7 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:8]` `op3.pcrel=p1[7
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.imm=p1[12:8]` `op3.pcrel=p1[7:0]`
 
 <a id="LDBu10H-c-2"></a>
-#### LDBu10H-c-2: LDBu10H/c, prefix `1111101110001`
+#### LDBu10H-c-2: LDBu10H/c, prefix `1111101010001`
 
 ![Layout LDBu10H-c-2](../figures/LDBu10H-c-2.svg)
 
@@ -1500,7 +1509,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.imm=p1[12:8]` `op3.pcrel=p1[7
 Fields: `op1.base=p0[2:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]`
 
 <a id="LDPC12H-d-1"></a>
-#### LDPC12H-d-1: LDPC12H/d, prefix `1111101110010`
+#### LDPC12H-d-1: LDPC12H/d, prefix `1111101010010`
 
 ![Layout LDPC12H-d-1](../figures/LDPC12H-d-1.svg)
 
@@ -1513,7 +1522,7 @@ Fields: `op1.base=p0[2:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]`
 Fields: `sub=p0[2:0]` `op2.r=p1[15:12]` `op1.pcrel=p1[11:0]`
 
 <a id="CBR10H-a-1"></a>
-#### CBR10H-a-1: CBR10H/a, prefix `1111101110011`
+#### CBR10H-a-1: CBR10H/a, prefix `1111101010011`
 
 ![Layout CBR10H-a-1](../figures/CBR10H-a-1.svg)
 
@@ -1528,7 +1537,7 @@ Fields: `sub=p0[2:0]` `op2.r=p1[15:12]` `op1.pcrel=p1[11:0]`
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:14]` `op2.r=p1[13:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBZ2-14H-a-1"></a>
-#### CBZ2-14H-a-1: CBZ2_14H/a, prefix `1111101110100`
+#### CBZ2-14H-a-1: CBZ2_14H/a, prefix `1111101010100`
 
 ![Layout CBZ2-14H-a-1](../figures/CBZ2-14H-a-1.svg)
 
@@ -1543,7 +1552,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:14]` `op2.r=p1[13:10]` `op3.pcrel=p1[9:
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:14]` `op3.pcrel=p1[13:0]`
 
 <a id="CBI3-10H-b-1"></a>
-#### CBI3-10H-b-1: CBI3_10H/b, prefix `1111101110101`
+#### CBI3-10H-b-1: CBI3_10H/b, prefix `1111101010101`
 
 ![Layout CBI3-10H-b-1](../figures/CBI3-10H-b-1.svg)
 
@@ -1558,7 +1567,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:14]` `op3.pcrel=p1[13:0]`
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBI3-10H-c-1"></a>
-#### CBI3-10H-c-1: CBI3_10H/c, prefix `1111101110110`
+#### CBI3-10H-c-1: CBI3_10H/c, prefix `1111101010110`
 
 ![Layout CBI3-10H-c-1](../figures/CBI3-10H-c-1.svg)
 
@@ -1573,7 +1582,7 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[9:0]`
 
 <a id="JTAG2-1"></a>
-#### JTAG2-1: JTAG2, prefix `11111011110110`
+#### JTAG2-1: JTAG2, prefix `11111010110110`
 
 ![Layout JTAG2-1](../figures/JTAG2-1.svg)
 
@@ -1582,7 +1591,7 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[
 Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="LDBs6-b-1"></a>
-#### LDBs6-b-1: LDBs6/b, prefix `11111011110111`
+#### LDBs6-b-1: LDBs6/b, prefix `11111010110111`
 
 ![Layout LDBs6-b-1](../figures/LDBs6-b-1.svg)
 
@@ -1595,7 +1604,7 @@ Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `o
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 
 <a id="LDBu6-b-1"></a>
-#### LDBu6-b-1: LDBu6/b, prefix `11111011111000`
+#### LDBu6-b-1: LDBu6/b, prefix `11111010111000`
 
 ![Layout LDBu6-b-1](../figures/LDBu6-b-1.svg)
 
@@ -1608,7 +1617,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 
 <a id="LDBu8-c-2"></a>
-#### LDBu8-c-2: LDBu8/c, prefix `11111011111001`
+#### LDBu8-c-2: LDBu8/c, prefix `11111010111001`
 
 ![Layout LDBu8-c-2](../figures/LDBu8-c-2.svg)
 
@@ -1619,7 +1628,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 Fields: `op1.base=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op1.d=p1[7:0]`
 
 <a id="CMBu8-a-1"></a>
-#### CMBu8-a-1: CMBu8/a, prefix `11111011111010`
+#### CMBu8-a-1: CMBu8/a, prefix `11111010111010`
 
 ![Layout CMBu8-a-1](../figures/CMBu8-a-1.svg)
 
@@ -1630,7 +1639,7 @@ Fields: `op1.base=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op1.d=p1[7:0]`
 Fields: `op1.r=p0[1:0]+p1[15:13]` `op2.base=p1[12:8]` `op2.d=p1[7:0]`
 
 <a id="SOBs12-a-2"></a>
-#### SOBs12-a-2: SOBs12/a, prefix `11111011111011`
+#### SOBs12-a-2: SOBs12/a, prefix `11111010111011`
 
 ![Layout SOBs12-a-2](../figures/SOBs12-a-2.svg)
 
@@ -1641,7 +1650,7 @@ Fields: `op1.r=p0[1:0]+p1[15:13]` `op2.base=p1[12:8]` `op2.d=p1[7:0]`
 Fields: `sub=p0[1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="STX0-a-1"></a>
-#### STX0-a-1: STX0/a, prefix `11111011111100`
+#### STX0-a-1: STX0/a, prefix `11111010111100`
 
 ![Layout STX0-a-1](../figures/STX0-a-1.svg)
 
@@ -1654,7 +1663,7 @@ Fields: `sub=p0[1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:2]` `op2.scale=p1[1:0]`
 
 <a id="STX0-b-1"></a>
-#### STX0-b-1: STX0/b, prefix `11111011111101`
+#### STX0-b-1: STX0/b, prefix `11111010111101`
 
 ![Layout STX0-b-1](../figures/STX0-b-1.svg)
 
@@ -1667,7 +1676,7 @@ Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:
 Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:2]` `op2.scale=p1[1:0]`
 
 <a id="SOX4-a-1"></a>
-#### SOX4-a-1: SOX4/a, prefix `11111011111110`
+#### SOX4-a-1: SOX4/a, prefix `11111010111110`
 
 ![Layout SOX4-a-1](../figures/SOX4-a-1.svg)
 
@@ -1678,7 +1687,7 @@ Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:4]` `op1.d=p1[3:0]`
 
 <a id="SOX4-x-1"></a>
-#### SOX4-x-1: SOX4/x, prefix `11111011111111`
+#### SOX4-x-1: SOX4/x, prefix `11111010111111`
 
 ![Layout SOX4-x-1](../figures/SOX4-x-1.svg)
 
@@ -1689,7 +1698,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:4]` `op1.d=p1[3:0]`
 
 <a id="LDI12-b-1"></a>
-#### LDI12-b-1: LDI12/b, prefix `11111100000000`
+#### LDI12-b-1: LDI12/b, prefix `11111011000000`
 
 ![Layout LDI12-b-1](../figures/LDI12-b-1.svg)
 
@@ -1702,7 +1711,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:
 Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="LDI12-d-2"></a>
-#### LDI12-d-2: LDI12/d, prefix `11111100000001`
+#### LDI12-d-2: LDI12/d, prefix `11111011000001`
 
 ![Layout LDI12-d-2](../figures/LDI12-d-2.svg)
 
@@ -1715,7 +1724,7 @@ Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="BR2-16-c-2"></a>
-#### BR2-16-c-2: BR2_16/c, prefix `11111100000010`
+#### BR2-16-c-2: BR2_16/c, prefix `11111011000010`
 
 ![Layout BR2-16-c-2](../figures/BR2-16-c-2.svg)
 
@@ -1726,7 +1735,7 @@ Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 Fields: `sub=p0[1:0]` `op1.pcrel=p1[15:0]`
 
 <a id="SOBu12H-a-1"></a>
-#### SOBu12H-a-1: SOBu12H/a, prefix `11111100000100`
+#### SOBu12H-a-1: SOBu12H/a, prefix `11111011000100`
 
 ![Layout SOBu12H-a-1](../figures/SOBu12H-a-1.svg)
 
@@ -1737,7 +1746,7 @@ Fields: `sub=p0[1:0]` `op1.pcrel=p1[15:0]`
 Fields: `sub=p0[1:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="CBZ2-12H-b-1"></a>
-#### CBZ2-12H-b-1: CBZ2_12H/b, prefix `11111100000101`
+#### CBZ2-12H-b-1: CBZ2_12H/b, prefix `11111011000101`
 
 ![Layout CBZ2-12H-b-1](../figures/CBZ2-12H-b-1.svg)
 
@@ -1752,7 +1761,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op3.pcrel=p1[11:0]`
 
 <a id="MFSR-1"></a>
-#### MFSR-1: MFSR, prefix `111111000010000`
+#### MFSR-1: MFSR, prefix `111110110010000`
 
 ![Layout MFSR-1](../figures/MFSR-1.svg)
 
@@ -1763,7 +1772,7 @@ Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op3.pcrel=p1[11:0]`
 Fields: `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
 
 <a id="MTSR-1"></a>
-#### MTSR-1: MTSR, prefix `111111000010001`
+#### MTSR-1: MTSR, prefix `111110110010001`
 
 ![Layout MTSR-1](../figures/MTSR-1.svg)
 
@@ -1774,7 +1783,7 @@ Fields: `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
 Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="STBs6-b-1"></a>
-#### STBs6-b-1: STBs6/b, prefix `111111000010111`
+#### STBs6-b-1: STBs6/b, prefix `111110110010110`
 
 ![Layout STBs6-b-1](../figures/STBs6-b-1.svg)
 
@@ -1787,7 +1796,7 @@ Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 Fields: `sub=p0[0]` `op1.r=p1[15:11]` `op2.base=p1[10:6]` `op2.d=p1[5:0]`
 
 <a id="LDX0-c-2"></a>
-#### LDX0-c-2: LDX0/c, prefix `111111000011000`
+#### LDX0-c-2: LDX0/c, prefix `111110110010111`
 
 ![Layout LDX0-c-2](../figures/LDX0-c-2.svg)
 
@@ -1798,7 +1807,7 @@ Fields: `sub=p0[0]` `op1.r=p1[15:11]` `op2.base=p1[10:6]` `op2.d=p1[5:0]`
 Fields: `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
 <a id="CMX0-a-1"></a>
-#### CMX0-a-1: CMX0/a, prefix `111111000011001`
+#### CMX0-a-1: CMX0/a, prefix `111110110011000`
 
 ![Layout CMX0-a-1](../figures/CMX0-a-1.svg)
 
@@ -1809,7 +1818,7 @@ Fields: `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2
 Fields: `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:2]` `op2.scale=p1[1:0]`
 
 <a id="SOX4-a-2"></a>
-#### SOX4-a-2: SOX4/a, prefix `111111000011010`
+#### SOX4-a-2: SOX4/a, prefix `111110110011001`
 
 ![Layout SOX4-a-2](../figures/SOX4-a-2.svg)
 
@@ -1820,7 +1829,7 @@ Fields: `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:2]` `op2.sca
 Fields: `sub=p0[0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:4]` `op1.d=p1[3:0]`
 
 <a id="LDI12-a-1"></a>
-#### LDI12-a-1: LDI12/a, prefix `111111000011011`
+#### LDI12-a-1: LDI12/a, prefix `111110110011010`
 
 ![Layout LDI12-a-1](../figures/LDI12-a-1.svg)
 
@@ -1831,7 +1840,7 @@ Fields: `sub=p0[0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:4]
 Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="LDI12-b-2"></a>
-#### LDI12-b-2: LDI12/b, prefix `111111000011100`
+#### LDI12-b-2: LDI12/b, prefix `111110110011011`
 
 ![Layout LDI12-b-2](../figures/LDI12-b-2.svg)
 
@@ -1842,7 +1851,7 @@ Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="LDI12-d-3"></a>
-#### LDI12-d-3: LDI12/d, prefix `111111000011101`
+#### LDI12-d-3: LDI12/d, prefix `111110110011100`
 
 ![Layout LDI12-d-3](../figures/LDI12-d-3.svg)
 
@@ -1853,7 +1862,7 @@ Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="CMI12-a-1"></a>
-#### CMI12-a-1: CMI12/a, prefix `111111000011110`
+#### CMI12-a-1: CMI12/a, prefix `111110110011101`
 
 ![Layout CMI12-a-1](../figures/CMI12-a-1.svg)
 
@@ -1864,7 +1873,7 @@ Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 Fields: `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
 
 <a id="BR2-16-b-1"></a>
-#### BR2-16-b-1: BR2_16/b, prefix `111111000011111`
+#### BR2-16-b-1: BR2_16/b, prefix `111110110011110`
 
 ![Layout BR2-16-b-1](../figures/BR2-16-b-1.svg)
 
@@ -1875,7 +1884,7 @@ Fields: `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
 Fields: `sub=p0[0]` `op1.pcrel=p1[15:0]`
 
 <a id="STBs8H-b-1"></a>
-#### STBs8H-b-1: STBs8H/b, prefix `111111000100000`
+#### STBs8H-b-1: STBs8H/b, prefix `111110110011111`
 
 ![Layout STBs8H-b-1](../figures/STBs8H-b-1.svg)
 
@@ -1888,7 +1897,7 @@ Fields: `sub=p0[0]` `op1.pcrel=p1[15:0]`
 Fields: `sub=p0[0]` `op1.r=p1[15:12]` `op2.base=p1[11:8]` `op2.d=p1[7:0]`
 
 <a id="SOBu12H-a-2"></a>
-#### SOBu12H-a-2: SOBu12H/a, prefix `111111000100001`
+#### SOBu12H-a-2: SOBu12H/a, prefix `111110110100000`
 
 ![Layout SOBu12H-a-2](../figures/SOBu12H-a-2.svg)
 
@@ -1899,7 +1908,7 @@ Fields: `sub=p0[0]` `op1.r=p1[15:12]` `op2.base=p1[11:8]` `op2.d=p1[7:0]`
 Fields: `sub=p0[0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="LDPC12H-d-2"></a>
-#### LDPC12H-d-2: LDPC12H/d, prefix `111111000100010`
+#### LDPC12H-d-2: LDPC12H/d, prefix `111110110100001`
 
 ![Layout LDPC12H-d-2](../figures/LDPC12H-d-2.svg)
 
@@ -1912,7 +1921,7 @@ Fields: `sub=p0[0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[0]` `op2.r=p1[15:12]` `op1.pcrel=p1[11:0]`
 
 <a id="PUSHI2-1"></a>
-#### PUSHI2-1: PUSHI2, prefix `1111110001001010`
+#### PUSHI2-1: PUSHI2, prefix `1111101101001001`
 
 ![Layout PUSHI2-1](../figures/PUSHI2-1.svg)
 
@@ -1921,7 +1930,7 @@ Fields: `sub=p0[0]` `op2.r=p1[15:12]` `op1.pcrel=p1[11:0]`
 Fields: `op1.imm=p1[15:0]`
 
 <a id="RRF5-1"></a>
-#### RRF5-1: RRF5, prefix `1111110001001011`
+#### RRF5-1: RRF5, prefix `1111101101001010`
 
 ![Layout RRF5-1](../figures/RRF5-1.svg)
 
@@ -1934,7 +1943,7 @@ Fields: `op1.imm=p1[15:0]`
 Fields: `xsub=p1[15:10]` `op1.r=p1[9:5]` `op2.r=p1[4:0]`
 
 <a id="BR2-16-a-1"></a>
-#### BR2-16-a-1: BR2_16/a, prefix `1111110001001100`
+#### BR2-16-a-1: BR2_16/a, prefix `1111101101001011`
 
 ![Layout BR2-16-a-1](../figures/BR2-16-a-1.svg)
 
@@ -1942,17 +1951,8 @@ Fields: `xsub=p1[15:10]` `op1.r=p1[9:5]` `op2.r=p1[4:0]`
 
 Fields: `op1.pcrel=p1[15:0]`
 
-<a id="CALL2-16-j-1"></a>
-#### CALL2-16-j-1: CALL2_16/j, prefix `1111110001001101`
-
-![Layout CALL2-16-j-1](../figures/CALL2-16-j-1.svg)
-
-`op1` is `pc16-u2`: pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes).
-
-Fields: `op1.pcrel=p1[15:0]`
-
 <a id="LEAS12H-a-1"></a>
-#### LEAS12H-a-1: LEAS12H/a, prefix `1111110001001110`
+#### LEAS12H-a-1: LEAS12H/a, prefix `1111101101001100`
 
 ![Layout LEAS12H-a-1](../figures/LEAS12H-a-1.svg)
 
@@ -1963,7 +1963,7 @@ Fields: `op1.pcrel=p1[15:0]`
 Fields: `op2.r=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="ATOML-1"></a>
-#### ATOML-1: ATOML, prefix `1111111000100000`
+#### ATOML-1: ATOML, prefix `1111101101110100`
 
 ![Layout ATOML-1](../figures/ATOML-1.svg)
 
@@ -1991,7 +1991,7 @@ Fields: `xsub=p1[15:10]` `op1.r=p1[9:5]` `op2.base=p1[4:0]`
 Fields: `sub=p0[10:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="LDU-B28-1"></a>
-#### LDU-B28-1: LDU.B28, prefix `011111`
+#### LDU-B28-1: LDU.B28, prefix `011110`
 
 ![Layout LDU-B28-1](../figures/LDU-B28-1.svg)
 
@@ -2004,7 +2004,7 @@ Fields: `sub=p0[10:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-B28-1"></a>
-#### LDF-B28-1: LDF.B28, prefix `100001`
+#### LDF-B28-1: LDF.B28, prefix `100000`
 
 ![Layout LDF-B28-1](../figures/LDF-B28-1.svg)
 
@@ -2017,7 +2017,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-X22-2"></a>
-#### LDF-X22-2: LDF.X22, prefix `100010`
+#### LDF-X22-2: LDF.X22, prefix `100001`
 
 ![Layout LDF-X22-2](../figures/LDF-X22-2.svg)
 
@@ -2030,7 +2030,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[9:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="STF-X22-1"></a>
-#### STF-X22-1: STF.X22, prefix `100101`
+#### STF-X22-1: STF.X22, prefix `100100`
 
 ![Layout STF-X22-1](../figures/STF-X22-1.svg)
 
@@ -2043,7 +2043,7 @@ Fields: `sub=p0[9:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]
 Fields: `sub=p0[9:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `op2.base=p1[12:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]+p2[15:0]`
 
 <a id="FX-MOVCALL3-1"></a>
-#### FX-MOVCALL3-1: FX.MOVCALL3, prefix `100110`
+#### FX-MOVCALL3-1: FX.MOVCALL3, prefix `100101`
 
 ![Layout FX-MOVCALL3-1](../figures/FX-MOVCALL3-1.svg)
 
@@ -2056,7 +2056,7 @@ Fields: `sub=p0[9:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` 
 Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="BFx-1"></a>
-#### BFx-1: BFx, prefix `1010100`
+#### BFx-1: BFx, prefix `1010011`
 
 ![Layout BFx-1](../figures/BFx-1.svg)
 
@@ -2073,7 +2073,7 @@ Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]+p2[15:0]`
 Fields: `op1.r-1=p0[8:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15]` `op2.r=p1[14:10]` `op3.imm=p1[9:4]` `xsub=p1[3:0]+p2[15:0]`
 
 <a id="LDF-B28-2"></a>
-#### LDF-B28-2: LDF.B28, prefix `1010111`
+#### LDF-B28-2: LDF.B28, prefix `1010110`
 
 ![Layout LDF-B28-2](../figures/LDF-B28-2.svg)
 
@@ -2086,7 +2086,7 @@ Fields: `op1.r-1=p0[8:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15]` `op2.r=p1[14:10]` `op
 Fields: `sub=p0[8:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-PC32-1"></a>
-#### LDF-PC32-1: LDF.PC32, prefix `1011010`
+#### LDF-PC32-1: LDF.PC32, prefix `1011001`
 
 ![Layout LDF-PC32-1](../figures/LDF-PC32-1.svg)
 
@@ -2099,7 +2099,7 @@ Fields: `sub=p0[8:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="LDF-A32-1"></a>
-#### LDF-A32-1: LDF.A32, prefix `1011011`
+#### LDF-A32-1: LDF.A32, prefix `1011010`
 
 ![Layout LDF-A32-1](../figures/LDF-A32-1.svg)
 
@@ -2112,7 +2112,7 @@ Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 <a id="LDFI-I32-1"></a>
-#### LDFI-I32-1: LDFI.I32, prefix `1011100`
+#### LDFI-I32-1: LDFI.I32, prefix `1011011`
 
 ![Layout LDFI-I32-1](../figures/LDFI-I32-1.svg)
 
@@ -2125,7 +2125,7 @@ Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="STF-B28-1"></a>
-#### STF-B28-1: STF.B28, prefix `1011101`
+#### STF-B28-1: STF.B28, prefix `1011100`
 
 ![Layout STF-B28-1](../figures/STF-B28-1.svg)
 
@@ -2138,7 +2138,7 @@ Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
 
 <a id="STF-X22-2"></a>
-#### STF-X22-2: STF.X22, prefix `1011110`
+#### STF-X22-2: STF.X22, prefix `1011101`
 
 ![Layout STF-X22-2](../figures/STF-X22-2.svg)
 
@@ -2151,7 +2151,7 @@ Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[8:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `op2.base=p1[12:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]+p2[15:0]`
 
 <a id="BFy-1"></a>
-#### BFy-1: BFy, prefix `11010010`
+#### BFy-1: BFy, prefix `11010001`
 
 ![Layout BFy-1](../figures/BFy-1.svg)
 
@@ -2168,7 +2168,7 @@ Fields: `sub=p0[8:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` 
 Fields: `op1.r-1=p0[7:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15:14]` `op2.imm=p1[13:8]` `op3.imm=p1[7:2]` `xsub=p1[1:0]+p2[15:0]`
 
 <a id="STU-B28-1"></a>
-#### STU-B28-1: STU.B28, prefix `11010100`
+#### STU-B28-1: STU.B28, prefix `11010011`
 
 ![Layout STU-B28-1](../figures/STU-B28-1.svg)
 
@@ -2181,7 +2181,7 @@ Fields: `op1.r-1=p0[7:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15:14]` `op2.imm=p1[13:8]`
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-X22-3"></a>
-#### LDF-X22-3: LDF.X22, prefix `11010111`
+#### LDF-X22-3: LDF.X22, prefix `11010110`
 
 ![Layout LDF-X22-3](../figures/LDF-X22-3.svg)
 
@@ -2194,7 +2194,7 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="LDF-PC32-2"></a>
-#### LDF-PC32-2: LDF.PC32, prefix `11011000`
+#### LDF-PC32-2: LDF.PC32, prefix `11010111`
 
 ![Layout LDF-PC32-2](../figures/LDF-PC32-2.svg)
 
@@ -2207,7 +2207,7 @@ Fields: `sub=p0[7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` 
 Fields: `sub=p0[7:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="LDF-A32-2"></a>
-#### LDF-A32-2: LDF.A32, prefix `11011001`
+#### LDF-A32-2: LDF.A32, prefix `11011000`
 
 ![Layout LDF-A32-2](../figures/LDF-A32-2.svg)
 
@@ -2220,7 +2220,7 @@ Fields: `sub=p0[7:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[7:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 <a id="STF-B28-2"></a>
-#### STF-B28-2: STF.B28, prefix `11011010`
+#### STF-B28-2: STF.B28, prefix `11011001`
 
 ![Layout STF-B28-2](../figures/STF-B28-2.svg)
 
@@ -2233,7 +2233,7 @@ Fields: `sub=p0[7:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
 
 <a id="STF-PC32-1"></a>
-#### STF-PC32-1: STF.PC32, prefix `11011101`
+#### STF-PC32-1: STF.PC32, prefix `11011100`
 
 ![Layout STF-PC32-1](../figures/STF-PC32-1.svg)
 
@@ -2246,7 +2246,7 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="STF-A32-1"></a>
-#### STF-A32-1: STF.A32, prefix `11011110`
+#### STF-A32-1: STF.A32, prefix `11011101`
 
 ![Layout STF-A32-1](../figures/STF-A32-1.svg)
 
@@ -2259,7 +2259,7 @@ Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 
 <a id="CMF-X22-1"></a>
-#### CMF-X22-1: CMF.X22, prefix `11011111`
+#### CMF-X22-1: CMF.X22, prefix `11011110`
 
 ![Layout CMF-X22-1](../figures/CMF-X22-1.svg)
 
@@ -2272,7 +2272,7 @@ Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `op2.base=p1[12:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]+p2[15:0]`
 
 <a id="LDF-B28-3"></a>
-#### LDF-B28-3: LDF.B28, prefix `111001111`
+#### LDF-B28-3: LDF.B28, prefix `111001101`
 
 ![Layout LDF-B28-3](../figures/LDF-B28-3.svg)
 
@@ -2285,7 +2285,7 @@ Fields: `sub=p0[7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `o
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-X22-4"></a>
-#### LDF-X22-4: LDF.X22, prefix `111010000`
+#### LDF-X22-4: LDF.X22, prefix `111001110`
 
 ![Layout LDF-X22-4](../figures/LDF-X22-4.svg)
 
@@ -2296,7 +2296,7 @@ Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `o
 Fields: `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="LDFI-I32-2"></a>
-#### LDFI-I32-2: LDFI.I32, prefix `111010011`
+#### LDFI-I32-2: LDFI.I32, prefix `111010001`
 
 ![Layout LDFI-I32-2](../figures/LDFI-I32-2.svg)
 
@@ -2309,7 +2309,7 @@ Fields: `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="STF-PC32-2"></a>
-#### STF-PC32-2: STF.PC32, prefix `111010100`
+#### STF-PC32-2: STF.PC32, prefix `111010010`
 
 ![Layout STF-PC32-2](../figures/STF-PC32-2.svg)
 
@@ -2322,7 +2322,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[6:5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="STF-A32-2"></a>
-#### STF-A32-2: STF.A32, prefix `111010101`
+#### STF-A32-2: STF.A32, prefix `111010011`
 
 ![Layout STF-A32-2](../figures/STF-A32-2.svg)
 
@@ -2335,7 +2335,7 @@ Fields: `sub=p0[6:5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[6:5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 
 <a id="CMF-B28-1"></a>
-#### CMF-B28-1: CMF.B28, prefix `111010110`
+#### CMF-B28-1: CMF.B28, prefix `111010100`
 
 ![Layout CMF-B28-1](../figures/CMF-B28-1.svg)
 
@@ -2348,7 +2348,7 @@ Fields: `sub=p0[6:5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-B28-4"></a>
-#### LDF-B28-4: LDF.B28, prefix `1111001001`
+#### LDF-B28-4: LDF.B28, prefix `1111000101`
 
 ![Layout LDF-B28-4](../figures/LDF-B28-4.svg)
 
@@ -2359,7 +2359,7 @@ Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.
 Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-PC32-3"></a>
-#### LDF-PC32-3: LDF.PC32, prefix `1111001100`
+#### LDF-PC32-3: LDF.PC32, prefix `1111001000`
 
 ![Layout LDF-PC32-3](../figures/LDF-PC32-3.svg)
 
@@ -2372,7 +2372,7 @@ Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0
 Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="LDF-A32-3"></a>
-#### LDF-A32-3: LDF.A32, prefix `1111001101`
+#### LDF-A32-3: LDF.A32, prefix `1111001001`
 
 ![Layout LDF-A32-3](../figures/LDF-A32-3.svg)
 
@@ -2385,7 +2385,7 @@ Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 <a id="LDFI-I32-3"></a>
-#### LDFI-I32-3: LDFI.I32, prefix `1111001110`
+#### LDFI-I32-3: LDFI.I32, prefix `1111001010`
 
 ![Layout LDFI-I32-3](../figures/LDFI-I32-3.svg)
 
@@ -2398,7 +2398,7 @@ Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="CMF-PC32-1"></a>
-#### CMF-PC32-1: CMF.PC32, prefix `1111001111`
+#### CMF-PC32-1: CMF.PC32, prefix `1111001011`
 
 ![Layout CMF-PC32-1](../figures/CMF-PC32-1.svg)
 
@@ -2411,7 +2411,7 @@ Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="CMF-A32-1"></a>
-#### CMF-A32-1: CMF.A32, prefix `1111010000`
+#### CMF-A32-1: CMF.A32, prefix `1111001100`
 
 ![Layout CMF-A32-1](../figures/CMF-A32-1.svg)
 
@@ -2424,7 +2424,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 
 <a id="CMF-I32-1"></a>
-#### CMF-I32-1: CMF.I32, prefix `1111010001`
+#### CMF-I32-1: CMF.I32, prefix `1111001101`
 
 ![Layout CMF-I32-1](../figures/CMF-I32-1.svg)
 
@@ -2437,7 +2437,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.imm=p1[15:0]+p2[15:0]`
 
 <a id="SOF-X22-1"></a>
-#### SOF-X22-1: SOF.X22, prefix `1111010010`
+#### SOF-X22-1: SOF.X22, prefix `1111001110`
 
 ![Layout SOF-X22-1](../figures/SOF-X22-1.svg)
 
@@ -2448,7 +2448,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.imm=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[5:2]` `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="LDF-PC32-4"></a>
-#### LDF-PC32-4: LDF.PC32, prefix `11111000001`
+#### LDF-PC32-4: LDF.PC32, prefix `11110111001`
 
 ![Layout LDF-PC32-4](../figures/LDF-PC32-4.svg)
 
@@ -2459,7 +2459,7 @@ Fields: `sub=p0[5:2]` `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.sca
 Fields: `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="LDF-A32-4"></a>
-#### LDF-A32-4: LDF.A32, prefix `11111000010`
+#### LDF-A32-4: LDF.A32, prefix `11110111010`
 
 ![Layout LDF-A32-4](../figures/LDF-A32-4.svg)
 
@@ -2470,7 +2470,7 @@ Fields: `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 <a id="SOF-B28-1"></a>
-#### SOF-B28-1: SOF.B28, prefix `11111000011`
+#### SOF-B28-1: SOF.B28, prefix `11110111011`
 
 ![Layout SOF-B28-1](../figures/SOF-B28-1.svg)
 
@@ -2481,7 +2481,7 @@ Fields: `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="DPF-D28-1"></a>
-#### DPF-D28-1: DPF.D28, prefix `11111000110`
+#### DPF-D28-1: DPF.D28, prefix `11110111110`
 
 ![Layout DPF-D28-1](../figures/DPF-D28-1.svg)
 
@@ -2494,7 +2494,7 @@ Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 Fields: `sub=p0[4:1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="SOF-PC32-1"></a>
-#### SOF-PC32-1: SOF.PC32, prefix `111110100000`
+#### SOF-PC32-1: SOF.PC32, prefix `111110010000`
 
 ![Layout SOF-PC32-1](../figures/SOF-PC32-1.svg)
 
@@ -2505,7 +2505,7 @@ Fields: `sub=p0[4:1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 Fields: `sub=p0[3:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="SOF-A32-1"></a>
-#### SOF-A32-1: SOF.A32, prefix `111110100001`
+#### SOF-A32-1: SOF.A32, prefix `111110010001`
 
 ![Layout SOF-A32-1](../figures/SOF-A32-1.svg)
 
@@ -2516,7 +2516,7 @@ Fields: `sub=p0[3:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[3:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 <a id="DPF-D28-2"></a>
-#### DPF-D28-2: DPF.D28, prefix `111110100010`
+#### DPF-D28-2: DPF.D28, prefix `111110010010`
 
 ![Layout DPF-D28-2](../figures/DPF-D28-2.svg)
 
@@ -2529,7 +2529,7 @@ Fields: `sub=p0[3:0]` `op1.abs=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[3:1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="BRF-1"></a>
-#### BRF-1: BRF, prefix `1111101100000`
+#### BRF-1: BRF, prefix `1111101000000`
 
 ![Layout BRF-1](../figures/BRF-1.svg)
 
@@ -2540,7 +2540,7 @@ Fields: `sub=p0[3:1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 Fields: `sub=p0[2:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="CB3I12-16-b-1"></a>
-#### CB3I12-16-b-1: CB3I12_16/b, prefix `1111101101011`
+#### CB3I12-16-b-1: CB3I12_16/b, prefix `1111101001011`
 
 ![Layout CB3I12-16-b-1](../figures/CB3I12-16-b-1.svg)
 
@@ -2555,7 +2555,7 @@ Fields: `sub=p0[2:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]` `op3.pcrel=p2[15:0]`
 
 <a id="CB3I16-12-c-1"></a>
-#### CB3I16-12-c-1: CB3I16_12/c, prefix `1111101101100`
+#### CB3I16-12-c-1: CB3I16_12/c, prefix `1111101001100`
 
 ![Layout CB3I16-12-c-1](../figures/CB3I16-12-c-1.svg)
 
@@ -2570,7 +2570,7 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]` `op3.pcrel=p2[1
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=p2[11:0]`
 
 <a id="CB3R24-a-1"></a>
-#### CB3R24-a-1: CB3R24/a, prefix `1111101101101`
+#### CB3R24-a-1: CB3R24/a, prefix `1111101001101`
 
 ![Layout CB3R24-a-1](../figures/CB3R24-a-1.svg)
 
@@ -2585,7 +2585,7 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0]+p2[15:0]`
 
 <a id="DPF-D28-3"></a>
-#### DPF-D28-3: DPF.D28, prefix `11111011110011`
+#### DPF-D28-3: DPF.D28, prefix `11111010110011`
 
 ![Layout DPF-D28-3](../figures/DPF-D28-3.svg)
 
@@ -2598,7 +2598,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0
 Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="BRF-2"></a>
-#### BRF-2: BRF, prefix `11111011110100`
+#### BRF-2: BRF, prefix `11111010110100`
 
 ![Layout BRF-2](../figures/BRF-2.svg)
 
@@ -2609,7 +2609,7 @@ Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 Fields: `sub=p0[1:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="JTAG3-1"></a>
-#### JTAG3-1: JTAG3, prefix `11111011110101`
+#### JTAG3-1: JTAG3, prefix `11111010110101`
 
 ![Layout JTAG3-1](../figures/JTAG3-1.svg)
 
@@ -2618,7 +2618,7 @@ Fields: `sub=p0[1:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="CB3I16-12-a-1"></a>
-#### CB3I16-12-a-1: CB3I16_12/a, prefix `11111100000011`
+#### CB3I16-12-a-1: CB3I16_12/a, prefix `11111011000011`
 
 ![Layout CB3I16-12-a-1](../figures/CB3I16-12-a-1.svg)
 
@@ -2633,7 +2633,7 @@ Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `o
 Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=p2[11:0]`
 
 <a id="CB3I16-12H-b-1"></a>
-#### CB3I16-12H-b-1: CB3I16_12H/b, prefix `11111100000110`
+#### CB3I16-12H-b-1: CB3I16_12H/b, prefix `11111011000110`
 
 ![Layout CB3I16-12H-b-1](../figures/CB3I16-12H-b-1.svg)
 
@@ -2648,7 +2648,7 @@ Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pc
 Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=p2[11:0]`
 
 <a id="CB3R24H-b-1"></a>
-#### CB3R24H-b-1: CB3R24H/b, prefix `11111100000111`
+#### CB3R24H-b-1: CB3R24H/b, prefix `11111011000111`
 
 ![Layout CB3R24H-b-1](../figures/CB3R24H-b-1.svg)
 
@@ -2663,7 +2663,7 @@ Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=
 Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.r=p1[11:8]` `op3.pcrel=p1[7:0]+p2[15:0]`
 
 <a id="RETM-1"></a>
-#### RETM-1: RETM, prefix `11111100011001`
+#### RETM-1: RETM, prefix `11111011011100`
 
 ![Layout RETM-1](../figures/RETM-1.svg)
 
@@ -2674,7 +2674,7 @@ Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.r=p1[11:8]` `op3.pcrel=p1[7:0]+p2[1
 Fields: `xsub=p0[1:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="DPF-D28-4"></a>
-#### DPF-D28-4: DPF.D28, prefix `111111000010010`
+#### DPF-D28-4: DPF.D28, prefix `111110110010010`
 
 ![Layout DPF-D28-4](../figures/DPF-D28-4.svg)
 
@@ -2685,7 +2685,7 @@ Fields: `xsub=p0[1:0]` `op1.imm=p1[15:0]+p2[15:0]`
 Fields: `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="BRF-3"></a>
-#### BRF-3: BRF, prefix `111111000010011`
+#### BRF-3: BRF, prefix `111110110010011`
 
 ![Layout BRF-3](../figures/BRF-3.svg)
 
@@ -2695,19 +2695,8 @@ Fields: `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 Fields: `sub=p0[0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
-<a id="CALLF-1"></a>
-#### CALLF-1: CALLF, prefix `111111000010100`
-
-![Layout CALLF-1](../figures/CALLF-1.svg)
-
-`op1` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes).
-
-`sub` (1 bit) selects the mnemonic: `call` 0, `jmp` 1.
-
-Fields: `sub=p0[0]` `op1.pcrel=p1[15:0]+p2[15:0]`
-
 <a id="PUSHMF-1"></a>
-#### PUSHMF-1: PUSHMF, prefix `111111000010101`
+#### PUSHMF-1: PUSHMF, prefix `111110110010100`
 
 ![Layout PUSHMF-1](../figures/PUSHMF-1.svg)
 
@@ -2718,7 +2707,7 @@ Fields: `sub=p0[0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="SPADJF-1"></a>
-#### SPADJF-1: SPADJF, prefix `111111000010110`
+#### SPADJF-1: SPADJF, prefix `111110110010101`
 
 ![Layout SPADJF-1](../figures/SPADJF-1.svg)
 
@@ -2731,7 +2720,7 @@ Fields: `sub=p0[0]` `op1.imm=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="CB3I12-16H-a-1"></a>
-#### CB3I12-16H-a-1: CB3I12_16H/a, prefix `111111000100011`
+#### CB3I12-16H-a-1: CB3I12_16H/a, prefix `111110110100010`
 
 ![Layout CB3I12-16H-a-1](../figures/CB3I12-16H-a-1.svg)
 
@@ -2746,7 +2735,7 @@ Fields: `sub=p0[0]` `op1.imm=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[0]` `op1.r=p1[15:12]` `op2.imm=p1[11:0]` `op3.pcrel=p2[15:0]`
 
 <a id="BRF-4"></a>
-#### BRF-4: BRF, prefix `1111110001001000`
+#### BRF-4: BRF, prefix `1111101101000110`
 
 ![Layout BRF-4](../figures/BRF-4.svg)
 
@@ -2754,8 +2743,17 @@ Fields: `sub=p0[0]` `op1.r=p1[15:12]` `op2.imm=p1[11:0]` `op3.pcrel=p2[15:0]`
 
 Fields: `op1.pcrel=p1[15:0]+p2[15:0]`
 
+<a id="CALLF-1"></a>
+#### CALLF-1: CALLF, prefix `1111101101000111`
+
+![Layout CALLF-1](../figures/CALLF-1.svg)
+
+`op1` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes).
+
+Fields: `op1.pcrel=p1[15:0]+p2[15:0]`
+
 <a id="PUSHI3-1"></a>
-#### PUSHI3-1: PUSHI3, prefix `1111110001001001`
+#### PUSHI3-1: PUSHI3, prefix `1111101101001000`
 
 ![Layout PUSHI3-1](../figures/PUSHI3-1.svg)
 
@@ -2766,7 +2764,7 @@ Fields: `op1.imm=p1[15:0]+p2[15:0]`
 ### Instructions of 5 parcels (10 bytes)
 
 <a id="MOVQ64-1"></a>
-#### MOVQ64-1: MOVQ64, prefix `11111000000`
+#### MOVQ64-1: MOVQ64, prefix `11110111000`
 
 ![Layout MOVQ64-1](../figures/MOVQ64-1.svg)
 
@@ -2933,13 +2931,13 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-fsub32"></a>`FSUB32`: [R2-1](#R2-1)
 * <a id="mn-genter"></a>`GENTER`: [RETM-1](#RETM-1)
 * <a id="mn-halt"></a>`HALT`: [SYS0-1](#SYS0-1)
-* <a id="mn-hint"></a>`HINT`: [SYSI-1](#SYSI-1)
+* <a id="mn-hint"></a>`HINT`: [SYSI-2](#SYSI-2)
 * <a id="mn-icinv"></a>`ICINV`: [SYSR-2](#SYSR-2)
 * <a id="mn-icinva"></a>`ICINVA`: [SYS0-1](#SYS0-1)
 * <a id="mn-inc"></a>`INC`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1), [SOBs12-a-1](#SOBs12-a-1), [SOX4-a-1](#SOX4-a-1), [SOBu12H-a-1](#SOBu12H-a-1)
 * <a id="mn-insb"></a>`INSB`: [BFy-1](#BFy-1)
 * <a id="mn-isync"></a>`ISYNC`: [SYS0-1](#SYS0-1)
-* <a id="mn-jmp"></a>`JMP`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [CALLF-1](#CALLF-1), [SOPR-3](#SOPR-3), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1), [CALL2-16-j-1](#CALL2-16-j-1)
+* <a id="mn-jmp"></a>`JMP`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-3](#SOPR-3), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1)
 * <a id="mn-jmpi"></a>`JMPI`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1)
 * <a id="mn-jtag"></a>`JTAG`: [JTAG3-1](#JTAG3-1), [JTAG2-1](#JTAG2-1)
 * <a id="mn-lea"></a>`LEA`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [DPF-D28-2](#DPF-D28-2), [LDHHH3-a-1](#LDHHH3-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [LEASPh5-a-1](#LEASPh5-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [LEAS12H-a-1](#LEAS12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
@@ -3016,9 +3014,9 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-pushm"></a>`PUSHM`: [PUSHMF-1](#PUSHMF-1), [PUSHM8-a-1](#PUSHM8-a-1), [PUSHM24-a-1](#PUSHM24-a-1)
 * <a id="mn-pushx"></a>`PUSHX`: [SYS0-1](#SYS0-1)
 * <a id="mn-ret"></a>`RET`: [SYS0-1](#SYS0-1)
-* <a id="mn-ror"></a>`ROR`: [R3-1](#R3-1)
-* <a id="mn-rori"></a>`RORI`: [RRI-1](#RRI-1)
-* <a id="mn-rori32"></a>`RORI32`: [RRI-1](#RRI-1)
+* <a id="mn-rol"></a>`ROL`: [RRI-1](#RRI-1), [SHIh44-a-1](#SHIh44-a-1)
+* <a id="mn-ror"></a>`ROR`: [R3-1](#R3-1), [RRI-1](#RRI-1)
+* <a id="mn-ror32"></a>`ROR32`: [RRI-1](#RRI-1)
 * <a id="mn-rti"></a>`RTI`: [RETM-1](#RETM-1)
 * <a id="mn-rtt"></a>`RTT`: [RETM-1](#RETM-1)
 * <a id="mn-sar"></a>`SAR`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [SHIh44-a-1](#SHIh44-a-1), [LDI12-d-1](#LDI12-d-1), [LDPC12H-d-1](#LDPC12H-d-1)
@@ -3056,7 +3054,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-tlbias"></a>`TLBIAS`: [TLBX-1](#TLBX-1)
 * <a id="mn-tlbigp"></a>`TLBIGP`: [TLBX-1](#TLBX-1)
 * <a id="mn-tlbsync"></a>`TLBSYNC`: [SYS0-1](#SYS0-1)
-* <a id="mn-trap"></a>`TRAP`: [SYSI-1](#SYSI-1), [SYSI-1](#SYSI-1)
+* <a id="mn-trap"></a>`TRAP`: [SYSI-1](#SYSI-1)
 * <a id="mn-trapcc-cc"></a>`TRAPCC.CC`: [SYS0-1](#SYS0-1)
 * <a id="mn-trapcc-cs"></a>`TRAPCC.CS`: [SYS0-1](#SYS0-1)
 * <a id="mn-trapcc-eq"></a>`TRAPCC.EQ`: [SYS0-1](#SYS0-1)

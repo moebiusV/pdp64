@@ -1,4 +1,4 @@
-/* expect: 1 -- rotates of a 32-bit unsigned value by constants (rori32), left and right, results used in arithmetic, compares and stores; the result is kept sign-extended */
+/* expect: 1 -- rotates of a 32-bit unsigned value by constants (ror32), left and right, results used in arithmetic, compares and stores; the result is kept sign-extended */
 unsigned rl7(unsigned x) { return (x << 7) | (x >> 25); }
 unsigned rr3(unsigned x) { return (x >> 3) | (x << 29); }
 unsigned mix(unsigned a, unsigned b) { return ((a << 5) | (a >> 27)) + b; }

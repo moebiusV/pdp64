@@ -1,4 +1,4 @@
-# Assembler aliases and alternative spellings
+# Assembler aliases
 
 [← dictionary index](index.md)
 
@@ -12,36 +12,5 @@ A mnemonic that assembles to another instruction. One mnemonic is one instructio
 | `BLO` | `BCS` | `branch` |
 | `CBHIS` | `CBCC` | `cbranch` |
 | `CBLO` | `CBCS` | `cbranch` |
-| `FADDD` | `FADD` | `alu` |
-| `FADDS` | `FADD32` | `fesc` |
-| `FCLASSD` | `FCLASS` | `fesc` |
-| `FCLASSS` | `FCLASS32` | `fesc` |
-| `FCMPD` | `FCMP` | `alu` |
-| `FCMPS` | `FCMP32` | `fesc` |
-| `FDIVD` | `FDIV` | `fesc` |
-| `FDIVS` | `FDIV32` | `fesc` |
-| `FMADDD` | `FMADD` | `fesc` |
-| `FMADDS` | `FMADD32` | `fesc` |
-| `FMAXD` | `FMAX` | `fesc` |
-| `FMIND` | `FMIN` | `fesc` |
-| `FMSUBD` | `FMSUB` | `fesc` |
-| `FMSUBS` | `FMSUB32` | `fesc` |
-| `FMULD` | `FMUL` | `alu` |
-| `FMULS` | `FMUL32` | `fesc` |
-| `FNMADDD` | `FNMADD` | `fesc` |
-| `FNMADDS` | `FNMADD32` | `fesc` |
-| `FNMSUBD` | `FNMSUB` | `fesc` |
-| `FNMSUBS` | `FNMSUB32` | `fesc` |
-| `FRINTD` | `FRINT` | `fesc` |
-| `FRINTDA` | `FRINTA` | `fesc` |
-| `FRINTDM` | `FRINTM` | `fesc` |
-| `FRINTDP` | `FRINTP` | `fesc` |
-| `FRINTDZ` | `FRINTZ` | `fesc` |
-| `FSQRTD` | `FSQRT` | `fesc` |
-| `FSQRTS` | `FSQRT32` | `fesc` |
-| `FSUBD` | `FSUB` | `alu` |
-| `FSUBS` | `FSUB32` | `fesc` |
 | `MULU` | `MUL` | `alu` |
-| `ROL` | `RORI` | `besc` |
 | `WAIT` | `WFE` | `sys-none` |
-| `ROL rs, #n, rd` | `RORI rs, #(64-n), rd` | assembler, immediate count only |

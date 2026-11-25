@@ -91,20 +91,20 @@ def chapter_text(row, src, srcpath):
         k = body.index('## How to read it')
         body = body[k:].replace('## How to read it', '', 1).lstrip('\n')
         head = row['title']
-    elif kind == 'chapter':
+    elif kind == 'chapter' and not row['rendered'].startswith('Appendix '):
         m = re.match(r'^(\d+)\.\s+(.*)$', title)
         if not m:
             raise SystemExit('%s: heading %r has no chapter number' % (srcpath, title))
         if 'Chapter ' + m.group(1) != row['rendered']:
             raise SystemExit('%s: the heading says chapter %s but buildabook numbers it "%s"; the numbers in the text would be wrong' % (srcpath, m.group(1), row['rendered']))
         head = '{{c:%s}} — %s' % (uuid, m.group(2))
-    elif kind == 'appendix':
+    elif kind == 'chapter':
         m = re.match(r'^Appendix ([A-Z])\.\s+(.*)$', title)
         if not m:
             raise SystemExit('%s: heading %r has no appendix letter' % (srcpath, title))
         if 'Appendix ' + m.group(1) != row['rendered']:
             raise SystemExit('%s: the heading says appendix %s but buildabook numbers it "%s"' % (srcpath, m.group(1), row['rendered']))
-        head = '{{a:%s}} — %s' % (uuid, m.group(2))
+        head = '{{c:%s}} — %s' % (uuid, m.group(2))
     else:
         head = row['title']
     body = convert_links(body, srcpath)

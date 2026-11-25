@@ -63,6 +63,7 @@ int pdp64_amo_result(int op, int size, uint64_t old, uint64_t a, uint64_t b, uin
 }
 
 enum { O_REG, O_MEM, O_IMM };
+enum { XSUB_RORI = 0xff };								/* the executor's own sub-opcode for ror and rol with a constant count (no word of the grammar: ror is one word) */
 struct opnd { int kind, reg; uint64_t addr; int64_t imm; int adjust_reg; int64_t adjust; };
 
 /* the memory-side operand of a decoded instruction.  The effect of (Rn)+ / -(Rn) on Rn is applied here; the stride is in the instruction. */
@@ -833,8 +834,8 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		case MN_BESC_BSWAPL: r[rd] = ((uint64_t)__builtin_bswap32((uint32_t)(a >> 32)) << 32) | __builtin_bswap32((uint32_t)a); return;
 		case MN_BESC_BITREV: r[rd] = bitrev64(a); return;
 		case MN_BESC_ROR: r[rd] = ror64(a, (unsigned)b); return;
-		case MN_BESC_RORI: r[rd] = ror64(a, f.count); return;
-		case MN_BESC_RORI32: { uint32_t w = (uint32_t)a; unsigned n = f.count & 31; r[rd] = (uint64_t)(int64_t)(int32_t)(n ? (w >> n) | (w << (32 - n)) : w); return; }
+		case XSUB_RORI: r[rd] = ror64(a, f.count); return;			/* ror (and rol) with a constant count: the translation of the codec instruction sets it */
+		case MN_BESC_ROR32: { uint32_t w = (uint32_t)a; unsigned n = f.count & 31; r[rd] = (uint64_t)(int64_t)(int32_t)(n ? (w >> n) | (w << (32 - n)) : w); return; }
 		case MN_BESC_DSHR: { unsigned n = f.pos & 63; r[rd] = n ? (b >> n) | (a << (64 - n)) : b; return; }
 		case MN_BESC_EXTB: case MN_BESC_EXTZB: {
 			unsigned pos = f.pos & 63, w = f.width & 255;

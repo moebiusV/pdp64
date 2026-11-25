@@ -31,7 +31,7 @@ for c in 'ne eq pl mi vc vs cc cs ge lt gt le hi los'.split():
 cases += ['br L1\n movq #1, r5\nL1:', 'jmp L1\n movq #1, r5\nL1:', 'sob r8, L1\n movq #1, r5\nL1:', 'call f\n movq #1, r5\n br L1\nf: movq #3, r6\n ret\nL1:']
 cases += ['cmp r1, #5', 'cmp r1, #-3', 'cmp r1, #200', 'cmp r1, (r10)', 'cmp r1, 8(r10)', 'cmp r1, #100000']
 cases += ['add r3, sp', 'movq sp, r4', 'movq r4, sp', 'xor r4, r4', 'and #0xff, r4', 'and #0xffff, r4', 'bis #0x80, r4', 'bic #1, r4']
-cases += ['mulu r3, r4', 'fadd r3, r4', 'fcmp r3, r4', 'rori r1, #5, r2', 'clz r1, r2', 'popcnt r1, r2', 'bswap r1, r2', 'div r1, r2, r4', 'min r1, r2, r4']
+cases += ['mulu r3, r4', 'fadd r3, r4', 'fcmp r3, r4', 'ror r1, #5, r2', 'clz r1, r2', 'popcnt r1, r2', 'bswap r1, r2', 'div r1, r2, r4', 'min r1, r2, r4']
 cases += ['cteq r5', 'ctne r5', 'cthi r1, #5', 'mfps r4', 'mtps r4', 'spl #3', 'nop', 'hint #1', 'trap #3']
 cases += ['movq =0x123456789abcdef0, r4', 'movq #0x123456789abcdef0, r4', 'push =0x123456789abcdef0', 'add =0x123456789abcdef0, r4']
 SKIP_RUN = {'mtps r4', 'spl #3', 'trap #3', 'hint #1'}

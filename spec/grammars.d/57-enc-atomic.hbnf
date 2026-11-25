@@ -13,8 +13,8 @@
 ; naming the overlap, if they are not free): sixteen patterns for ATOM, of which eleven are used, one for ATOML.
 forms =/ "ATOM" | "ATOML"
 form-ATOM = o1:reg5 o2:reg5 o3:b5d0s-x1
-leaf-ATOM-1 = 0b111111100000 xsub:5 o1-r:5 o2-r:5 o3-base:5 ?(xsub < 22)
+leaf-ATOM-1 = 0b111110110110 xsub:5 o1-r:5 o2-r:5 o3-base:5 ?(xsub < 22)
 sub-ATOM-1 = "cas" | "casl" | "swap" | "swapl" | "xadd" | "xaddl" | "xand" | "xandl" | "xor_" | "xor_l" | "xxor" | "xxorl" | "xmax" | "xmaxl" | "xmin" | "xminl" | "xmaxu" | "xmaxul" | "xminu" | "xminul" | "sc" | "scl"
 form-ATOML = o1:reg5 o2:b5d0s-x1
-leaf-ATOML-1 = 0b1111111000100000 xsub:6 o1-r:5 o2-base:5 ?(xsub < 2)
+leaf-ATOML-1 = 0b1111101101110100 xsub:6 o1-r:5 o2-base:5 ?(xsub < 2)
 sub-ATOML-1 = "ll" | "lll"

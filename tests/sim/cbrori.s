@@ -1,4 +1,4 @@
-; cbCC (compare a register with a 5-bit immediate and branch) and rori32.  A failed check n exits with n.
+; cbCC (compare a register with a 5-bit immediate and branch) and ror32.  A failed check n exits with n.
 	.text
 	.globl	_start
 _start:
@@ -67,29 +67,29 @@ _start:
 	br	f25
 5:	cmp	r5, #1
 	bne	f26
-; rori32: the low 32 bits rotate right, the result is sign-extended from bit 31 (errata 34)
+; ror32: the low 32 bits rotate right, the result is sign-extended from bit 31 (errata 34)
 	movq	#-1, r6
 	shl	#16, r6
 	bis	#0x8000, r6
 	shl	#16, r6
 	bis	#1, r6			; r6 = 0xFFFFFFFF80000001
-	rori32	r6, #1, r7		; ror32(0x80000001, 1) = 0xC0000000: bit 31 set, so negative: 0xFFFFFFFFC0000000
+	ror32	r6, #1, r7		; ror32(0x80000001, 1) = 0xC0000000: bit 31 set, so negative: 0xFFFFFFFFC0000000
 	movq	#-1073741824, r8
 	cmp	r7, r8
 	bne	f27
-	rori32	r6, #0, r7		; a zero count: 0x80000001 sign-extended
+	ror32	r6, #0, r7		; a zero count: 0x80000001 sign-extended
 	movq	#-2147483647, r8
 	cmp	r7, r8
 	bne	f28
-	rori32	r6, #31, r7		; ror32(0x80000001, 31) = 3: bit 31 clear, positive
+	ror32	r6, #31, r7		; ror32(0x80000001, 31) = 3: bit 31 clear, positive
 	cmp	r7, #3
 	bne	f29
 	movq	#0x12345678, r6
-	rori32	r6, #8, r7		; 0x78123456: bit 31 clear
+	ror32	r6, #8, r7		; 0x78123456: bit 31 clear
 	movq	#0x78123456, r8
 	cmp	r7, r8
 	bne	f30
-	rori32	r6, #4, r6		; rd = rs; 0x81234567: bit 31 set, 0xFFFFFFFF81234567
+	ror32	r6, #4, r6		; rd = rs; 0x81234567: bit 31 set, 0xFFFFFFFF81234567
 	movq	#-2128394905, r8
 	cmp	r6, r8
 	bne	f31

@@ -9,6 +9,8 @@
  * usage: exectest-enc [ILLEGAL16 ILLEGAL32]   the number of first parcels the grammar leaves unassigned (tools/check-exec-enc.sh computes it from the leaves; without it only
  *        the agreement of the decoder and the executor is checked) */
 #include <setjmp.h>
+#include <signal.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,6 +29,8 @@ static uint8_t *at(uint64_t a, int n)
 	return NULL;
 }
 static void flt(const char *what) { snprintf(M->fault, sizeof M->fault, "%s", what); longjmp(M->jb, 1); }
+/* a block instruction whose pointer and count are the same register (r[rd]++ and r[rn]-- cancel) never ends, on any implementation: a run that lasts a second is not a failure */
+static void on_alarm(int sig) { (void)sig; flt("timeout"); }
 static uint64_t h_ld(void *u, uint64_t a, int n)
 {
 	uint64_t v = 0;
@@ -113,9 +117,12 @@ int main(int argc, char **argv)
 				if (n && dec == 0) decode_illegal++;
 				if (dec && !regs_ok(&in, t->regs)) { printf("FAIL %s: parcel %04x names a register beyond r%d\n", t->name, p0, t->regs - 1); bad++; }
 				M->fault[0] = 0;
+				signal(SIGALRM, on_alarm); alarm(1);
 				if (!setjmp(M->jb)) pdp64_step(&M->c, &env);
+				alarm(0);
 				ran++;
 				int isill = !strcmp(M->fault, "illegal instruction");
+				if (!strcmp(M->fault, "timeout")) M->fault[0] = 0;
 				if (isill != (dec == 0)) { printf("FAIL %s: parcel %04x decodes %s but the executor says '%s'\n", t->name, p0, dec ? "to an instruction" : "as illegal", M->fault); bad++; }
 				if (strstr(M->fault, "unimplemented")) {
 					unimpl++;

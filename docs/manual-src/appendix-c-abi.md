@@ -1,4 +1,4 @@
-# Appendix {{a:id03004|n}}. The ABI, version 1
+# Appendix {{c:id03004|n}}. The ABI, version 1
 
 [← manual index](00-index.md)
 

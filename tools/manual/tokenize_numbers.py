@@ -6,8 +6,8 @@
 SRCDIR is docs/manual-src/; OUTDIR receives the converted copies (and names.tsv, report.txt).  The CURRENT numbering is the source of the names:
   * `## 6.2 Title`  ->  `## {{#kernel-modes-and-the-status-word}} Title`        (section: name from the title)
   * `### 6.7.3 T`   ->  `### {{#name}} T`, `**6.2.5** Text`  ->  `**{{#text-first-words}}** Text`    (name from the first words)
-  * a citation of a number that exists  ->  `{{r:name}}`;  `chapter 6`  ->  `chapter {{c:id01006|n}}`;  `appendix E` -> `appendix {{a:id03006|n}}`
-  * `# 6. The kernel` -> `# {{c:id01006|n}}. The kernel`;  `# Appendix B. X` -> `# Appendix {{a:id03003|n}}. X`
+  * a citation of a number that exists  ->  `{{r:name}}`;  `chapter 6`  ->  `chapter {{c:id01006|n}}`;  `appendix E` -> `appendix {{c:id03006|n}}`
+  * `# 6. The kernel` -> `# {{c:id01006|n}}. The kernel`;  `# Appendix B. X` -> `# Appendix {{c:id03003|n}}. X`
   * `<!-- entries:9.6 -->` -> `<!-- entries:{{r:name}} -->`
 Nothing that is not an existing number is converted; a candidate that looks like a citation but names nothing, and a number that exists but has no cue
 (possibly a decimal), are written to report.txt for a person to look at.  The proof is bookrefs.resolve(convert(x)) == x, byte for byte (roundtrip.py).
@@ -200,7 +200,7 @@ def convert_line(line, table, outline_by_label, report, where, figures=None, in_
         if not uu:
             report.append('%s: appendix %s is not in the outline' % (where, x))
             return x
-        return '{{a:%s|n}}' % uu[0]
+        return '{{c:%s|n}}' % uu[0]
 
     def app(m):
         return m.group(1) + app1(m.group(2)) + re.sub(r'[A-E]', lambda x: app1(x.group(0)), m.group(3))
@@ -230,7 +230,7 @@ def convert_files(files, table, figures, outline, sources, report):
             m = re.match(r'^# Appendix ([A-E])\. (.*)$', line)
             if m:
                 uu = [u for u, v in outline.items() if v[0] == 'a' and v[2] == m.group(1)]
-                res.append('# Appendix {{a:%s|n}}. %s' % (uu[0], m.group(2)))
+                res.append('# Appendix {{c:%s|n}}. %s' % (uu[0], m.group(2)))
                 continue
             m = re.match(r'^(#{2,3}) (%s)\s+(.*)$' % NUMRE, line)
             if m and m.group(2) in table and table[m.group(2)][2:] == (fn, ln):

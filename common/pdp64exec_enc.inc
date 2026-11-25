@@ -241,9 +241,10 @@ static void step_enc(void)
 		if (h->kind == H_MBLK) { f.reg = op[0].r; f.low = in.nops == 3 ? op[1].r : 0; f.t = op[in.nops - 1].r; }	/* mcpy rd, rs, rn: the destination pointer first */
 		else if (sub == MN_FESC_FCMP32 && h->kind == H_FESC) { f.reg = op[0].r; f.low = op[1].r; }
 		else if (sub == MN_FESC_FCMP16 && h->kind == H_FESC) { f.reg = op[0].r; f.low = op[1].r; }
-		else if (h->kind == H_BESC && (sub == MN_BESC_RORI || sub == MN_BESC_RORI32 || sub == MN_BESC_ROL)) {	/* rori rs, #n, rd */
+		else if (h->kind == H_BESC && ((sub == MN_BESC_ROR && op[1].k != EK_R) || sub == MN_BESC_ROR32 || sub == MN_BESC_ROL)) {	/* ror rs, #n, rd (the constant count) */
 			f.low = op[0].r; f.reg = op[2].r; f.count = (unsigned)op[1].v;
-			if (sub == MN_BESC_ROL) { f.sub = MN_BESC_RORI; f.count = (unsigned)((64 - op[1].v) & 63); }
+			if (sub == MN_BESC_ROR) f.sub = XSUB_RORI;
+			if (sub == MN_BESC_ROL) { f.sub = XSUB_RORI; f.count = (unsigned)((64 - op[1].v) & 63); }
 		}
 		else if (h->kind == H_BESC && sub == MN_BESC_DSHR) { f.low = op[0].r; f.t = op[1].r; f.pos = (unsigned)op[2].v; f.reg = op[3].r; }	/* dshr ra, rb, #n, rd */
 		else if (h->kind == H_BESC && (sub == MN_BESC_EXTB || sub == MN_BESC_EXTZB || sub == MN_BESC_INSB)) {	/* extb rs, #pos, #width, rd */

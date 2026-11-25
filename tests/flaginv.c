@@ -94,7 +94,7 @@ static int run(struct machine *m, const uint16_t *parcels, int n)
 /* the forms whose flag behaviour is not the invariant, and why (reported, not failed) */
 static const char *known(const char *src)
 {
-	static const char *rot[] = { "ror ", "rori ", "rori32 ", "dshr ", "rol ", "asl", NULL };
+	static const char *rot[] = { "ror ", "ror32 ", "dshr ", "rol ", "asl", NULL };
 	static const char *rdc[] = { "adc", "sbc", NULL };
 	for (int i = 0; rdc[i]; i++) if (!strncmp(src, rdc[i], 3)) return "reads C: the two probe runs differ in the carry in, so the result and Z/N/V differ; it writes N Z V C (by hand)";
 	for (int i = 0; rot[i]; i++) if (!strncmp(src, rot[i], strlen(rot[i]))) return "rotate/ASL flags: the author's pending decision (errata 39)";

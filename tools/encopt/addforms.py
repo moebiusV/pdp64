@@ -31,6 +31,8 @@ ap.add_argument('--grammar-out', required=True)
 ap.add_argument('--drop', action='append', default=[])
 ap.add_argument('--drop-file')
 ap.add_argument('--corpus', default='')
+ap.add_argument('--remove-word', action='append', default=[], metavar='FORM=WORD', help='remove a word from a form (the form is rebuilt without it; every later word of its leaves moves down)')
+ap.add_argument('--repack-hand', metavar='SPECDIR', help='after the forms are laid out, move the leaves of the hand-written parts of SPECDIR/grammars.d to the first free patterns behind the generated ones (their prefixes are rewritten in place, their length is kept)')
 a = ap.parse_args()
 os.environ['PDP64_CORPUS_DIR_R32'] = a.corpus
 os.environ['PDP64_NO_CORPUS'] = '1'
@@ -57,6 +59,20 @@ for f in forms:
     if any(m in hand for m in f.mns):
         f.mns = [m for m in f.mns if m not in hand]
         f._ms = set(f.mns)
+# a word listed twice in a form is a second slot of the same instruction (nothing assembles to it): the form keeps the first
+for f in forms:
+    seen = []
+    for m in f.mns:
+        if m not in seen: seen.append(m)
+    if len(seen) != len(f.mns):
+        print('addforms: %s lists %s more than once: the second slot is removed' % (f.name, ' '.join(sorted({m for m in f.mns if f.mns.count(m) > 1}))))
+        f.mns = seen; f._ms = set(seen)
+for spec_ in a.remove_word:
+    fn, w = spec_.split('=', 1)
+    hit = [f for f in forms if f.name == fn and w in f.mns]
+    if not hit:
+        print('addforms: %s has no word %s (already removed)' % (fn, w)); continue
+    hit[0].mns = [m for m in hit[0].mns if m != w]; hit[0]._ms = set(hit[0].mns)
 known = {f.name for f in forms}
 # idempotent: a form already dropped is not an error, and the forms of the family that the grammar already has are replaced by the ones vecfam.py makes now
 for n in sorted(drops - known):
@@ -72,3 +88,34 @@ write_hbnf.write_all(a.grammar_out, [('32', dd)])
 
 
 print('addforms: written to %s' % a.grammar_out)
+
+if a.repack_hand:
+    # the leaves of the hand-written parts take the first aligned free patterns behind the generated leaves, widest first; a prefix keeps its length
+    gd = os.path.join(a.repack_hand, 'grammars.d')
+    pat = re.compile(r'^(leaf-\S+ = 0b)([01]+)', re.M)
+    hand_leaves = []
+    for p_ in grammars_d.parts():
+        if p_['generated'] or not p_['path'].endswith('.hbnf'): continue
+        t = open(p_['path']).read()
+        for m_ in pat.finditer(t): hand_leaves.append((len(m_.group(2)), p_['path'], m_.group(1) + m_.group(2)))
+    free = [(sc.code.used, 65536)]
+    order = sorted(range(len(hand_leaves)), key=lambda i: (hand_leaves[i][0], hand_leaves[i][1], hand_leaves[i][2]))
+    new = {}
+    for i in order:
+        L, path, old = hand_leaves[i]; size = 1 << (16 - L)
+        best = None
+        for k, (lo, hi) in enumerate(free):
+            at = (lo + size - 1) // size * size
+            if at + size <= hi and (best is None or at < best[1]): best = (k, at)
+        k, at = best
+        lo, hi = free.pop(k)
+        free[k:k] = [x for x in ((lo, at), (at + size, hi)) if x[0] < x[1]]
+        new[(path, old)] = old[:-L] + format(at >> (16 - L), '0%db' % L)
+    pos = 65536 - sum(hi - lo for lo, hi in free)
+    for path in sorted({k[0] for k in new}):
+        t = open(path).read()
+        for (pth, old), nw in new.items():
+            if pth == path: t = t.replace(old, nw, 1)
+        open(path, 'w').write(t)
+    print('addforms: %d hand-written leaves repacked behind the generated ones (patterns used: %d of 65536)' % (len(new), pos))
+

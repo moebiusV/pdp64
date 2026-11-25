@@ -5,5 +5,5 @@
 ; the free-pattern scan of the optimiser's own model, tools/mkenc.py fails, naming the overlap, if it is not free); the fourth word of the sub-opcode is reserved.
 forms =/ "RETM"
 form-RETM = o1:imm32u
-leaf-RETM-1 = 0b11111100011001 xsub:2 o1-imm:32 ?(xsub < 3)
+leaf-RETM-1 = 0b11111011011100 xsub:2 o1-imm:32 ?(xsub < 3)
 sub-RETM-1 = "rti" | "rtt" | "genter"

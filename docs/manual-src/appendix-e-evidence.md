@@ -1,4 +1,4 @@
-# Appendix {{a:id03006|n}}. The evidence behind the manual
+# Appendix {{c:id03006|n}}. The evidence behind the manual
 
 [← manual index](00-index.md)
 
@@ -14,7 +14,7 @@
 | [`boot.md`](../boot.md) | boot and bring-up: how the main systems start themselves, whether UEFI is worth having, and the proposal |
 | [`pdp64-in-order-and-out-of-order.md`](../pdp64-in-order-and-out-of-order.md) and [`pdp64-ooo-readiness.md`](../pdp64-ooo-readiness.md) | what the in-order design point costs and buys, and what the architecture must decide to stay ready for an out-of-order core |
 | [`pdp64-fpga-plan.md`](../pdp64-fpga-plan.md) and [`pdp64-lb64-accelerator.md`](../pdp64-lb64-accelerator.md) | the FPGA build plan and the inference accelerator |
-| [`abi.md`](../abi.md) and [`asm-syntax.md`](../asm-syntax.md) | the ABI and the assembly language (appendices {{a:id03004|n}} and {{a:id03005|n}} are drawn from them) |
+| [`abi.md`](../abi.md) and [`asm-syntax.md`](../asm-syntax.md) | the ABI and the assembly language (appendices {{c:id03004|n}} and {{c:id03005|n}} are drawn from them) |
 | [`roadmap.md`](../roadmap.md) | the order of work from the present toolchain to an OpenBSD that can be logged into |
 
 ## {{#record-of-decisions}} The record of decisions

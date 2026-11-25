@@ -13,7 +13,7 @@ def litb(v):
     for b in (2,4,6,8):
         if sg(v,8*b): return b
     return 8
-ESC4=set('clz ctz clo cto popcnt bswap bswapw bswapl bitrev utf8len utf8dec utf8enc ror xnorpop clmull clmulh rori rori32 mcpy mmov mset mcmp mscn mscnn mval div divu mod modu mulhu abs min minu max maxu set fdiv fsqrt fadd32 fsub32 fmul32 fdiv32 fsqrt32 fcmp32 fneg fabs fcopysign fmin fmax fclass fclass32 frint frintz frintm frintp frinta fcvtdq fcvtqd fcvtds fcvtsd fcvtsl fcvtls fcvtdqu fcvtqud fsflags fadd16 fsub16 fmul16 fdiv16 fsqrt16 fcmp16 fclass16 fcvtsh fcvths fcvtdh fcvthd fcvthl fcvtlh fmadd fmsub fnmadd fnmsub fmadd32 fmsub32 fnmadd32 fnmsub32 fmadd16 fmsub16 fnmadd16 fnmsub16 prober probew mfsr mtsr trapl'.split())
+ESC4=set('clz ctz clo cto popcnt bswap bswapw bswapl bitrev utf8len utf8dec utf8enc ror xnorpop clmull clmulh ror32 mcpy mmov mset mcmp mscn mscnn mval div divu mod modu mulhu abs min minu max maxu set fdiv fsqrt fadd32 fsub32 fmul32 fdiv32 fsqrt32 fcmp32 fneg fabs fcopysign fmin fmax fclass fclass32 frint frintz frintm frintp frinta fcvtdq fcvtqd fcvtds fcvtsd fcvtsl fcvtls fcvtdqu fcvtqud fsflags fadd16 fsub16 fmul16 fdiv16 fsqrt16 fcmp16 fclass16 fcvtsh fcvths fcvtdh fcvthd fcvthl fcvtlh fmadd fmsub fnmadd fnmsub fmadd32 fmsub32 fnmadd32 fnmsub32 fmadd16 fmsub16 fnmadd16 fnmsub16 prober probew mfsr mtsr trapl'.split())
 BF6=set('dshr extb extzb insb'.split())
 def kind(o):
     if rreg.match(o): return 'reg'

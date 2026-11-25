@@ -54,7 +54,7 @@ Nothing else was found: every other multi-form word passed the run-time comparis
 
 Changed (phase B):
 
-* `movql` and `trapl` are not words. The assembler answers with the replacement (`as64/as64.c`, `removed_atomic_hint`): `trapl is not an instruction: one word names the operation and the assembler chooses its length from the operands; write trap #n (n from 0 to 255, two bytes)`; likewise `movql` (`tests/asm-err/trapl`, `movql`).
+* `movql` and `trapl` are not words; the assembler treats them like any unknown mnemonic (the owner, errata 215: no replacement is named for a removed spelling; before 1.0 it is as if it never existed).
 * `jmp label` is `br label` (`as64/asmenc.c`, `eplan`).
 * `.encode N` (below); the encoding tests that needed `movql` use it (`tests/sim/gen_newops.py`).
 * Grammar: `spec/grammars.d/20-enc-forms.hbnf` (form `MOVQL` is `MOVQ64` and its word is `movq`; `SYSI` lists `trap` twice), `40-mn-system.hbnf` (`trapl` removed), `80-mn-ext.hbnf` (`movql` removed), `60-asm-syntax.hbnf` (directive `encode`); `spec/facts/core.toml` (`[trapl]`, `[movql]` removed; `H_MOVQL` is gone from the executor: `movq` with a ten-byte immediate runs as every other `movq`).
@@ -62,7 +62,7 @@ Changed (phase B):
 
 `.encode N` forces a form: from the directive on, every instruction is assembled in the shortest form of N parcels or more that takes its operands; `.encode 0`, or `.encode` alone, is the shortest form again (N from 0 to 5). An object that uses it is marked as one the linker does not shorten. It is in appendix D of the manual. The choice of a number of parcels (and not `short` or `long`) is because the forms are 1, 2, 3 and 5 parcels, and a test names the one it wants.
 
-Not freed, on purpose: the second slot of `trap` in the leaf `SYSI` (256 first-parcel patterns) decodes as `trap`; the assembler never writes it. Removing it frees the patterns but moves `hint` from slot 3 to slot 2 (a change of one bit in the encoding of `hint`, which the tests and the hypervisor snippets use), so I left the bits as they are. The pc-relative forms of `jmp` (`CALL2_16/j`, and half of `CALLF`) are the same case: they are second encodings of `br`. Both can be freed whenever the owner wants the bits of `hint` changed; nothing else depends on it.
+Freed afterwards (errata 215 and the repacking of the prefix code): the second slot of `trap` in `SYSI`, the pc-relative forms of `jmp` (`CALL2_16/j` and the `jmp` of `CALLF`), and the `rori` and `rori32` words (`ror` takes a register or a constant, `ror32` a constant).
 
 ## 5. Size effects
 

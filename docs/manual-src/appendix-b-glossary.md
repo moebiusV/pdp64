@@ -1,4 +1,4 @@
-# Appendix {{a:id03003|n}}. Glossary
+# Appendix {{c:id03003|n}}. Glossary
 
 [← manual index](00-index.md)
 
@@ -15,11 +15,11 @@
 | **prefix** | the top 3 to 16 bits of the first parcel; the prefixes form a prefix code (no prefix begins another), so the first parcel matches at most one leaf and fixes the length of the instruction ({{r:how-the-opcode-space-is-divided}}) |
 | **form** | the list of operand shapes of a leaf: how each operand is written in assembly and how many bits each part has ({{r:how-the-opcode-space-is-divided}}) |
 | **sub-opcode** | the field after the prefix that selects one mnemonic of the leaf ({{r:how-the-opcode-space-is-divided}}) |
-| **hot register** | one of the eight (3-bit field) or sixteen (4-bit field) most-used registers, which a register field of a one-parcel form names by an index into a table; the tables are part of the ABI ({{r:instruction-format}}, appendix {{a:id03004|n}}) |
+| **hot register** | one of the eight (3-bit field) or sixteen (4-bit field) most-used registers, which a register field of a one-parcel form names by an index into a table; the tables are part of the ABI ({{r:instruction-format}}, appendix {{c:id03004|n}}) |
 | **fused instruction** | `MOVCALL`, `POPRET`, `POPMRET` or `MOV2`: one instruction for a pair that the compiler finds adjacent ({{r:branches-and-control-flow}}) |
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default ({{r:addressing-modes}}) |
 | **`CBCC`** | compare-immediate-and-branch on condition, the one fused compare and branch ({{r:branches-and-control-flow}}) |
-| **`RORI32`** | rotate right by an immediate, 32-bit, sign-extended result |
+| **`ROR32`** | rotate right by an immediate, 32-bit, sign-extended result |
 | **`SOB`** | subtract one and branch, either direction ({{r:branches-and-control-flow}}) |
 | **`MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN`** | the block operations: copy, move (overlap-safe), fill, compare, scan for a byte, scan for the first byte not equal; progress is held in registers so a fault restarts for free ({{r:stack-and-block-operations}}) |
 | **`MVAL`** | block scan of valid UTF-8, one of the string instructions of the same family ({{r:bits-bytes-and-text}}) |
@@ -64,7 +64,7 @@
 | **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting ({{r:user-memory-guard-and-system-calls}}, {{r:kernel-system-instructions-exceptions}}) |
 | **PIE** | position-independent executable: loadable at any address; costs nothing here ({{r:position-independent-code}}) |
 | **GOT, PLT** | global offset table and procedure linkage table: the indirection that lets position-independent code reach imported symbols ({{r:position-independent-code}}) |
-| **ABI** | application binary interface: calling convention, register use, data layout; version 1 is given in appendix {{a:id03004|n}} |
+| **ABI** | application binary interface: calling convention, register use, data layout; version 1 is given in appendix {{c:id03004|n}} |
 | **trap, exception, interrupt** | a deliberate entry (`TRAP #n`), a fault raised by an instruction, and a signal from a device; all enter through the vector table ({{r:exceptions-interrupts-and-traps}}) |
 | **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state ({{r:faults-and-restart-what-precise-means}}) |
 | **`SPL`** | set the interrupt priority level ({{r:exceptions-interrupts-and-traps}}) |

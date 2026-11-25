@@ -2,7 +2,7 @@ import sys, json, csv, collections, re
 import os; sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..')); sys.argv=['x']
 import pdp64size as p
 MN=json.load(open('/tmp/p64opt/analysis.json'))['pdp64_mn']
-MN['rori']=MN.get('rori',0)+MN.get('rol',0)
+MN['ror']=MN.get('ror',0)+MN.get('rori',0)+MN.get('rol',0)
 allm=p.all_mnemonics()
 group={}; rule=None
 for line in open(p.MNEM):
@@ -16,7 +16,7 @@ R={}
 def put(names, why):
     for n in names.split(): R[n]=why
 put('clz ctz clo cto popcnt bitrev bswap bswapw bswapl','intrinsic: __builtin_clz, ctz, popcount, bswap; no C operator (an idiom pass could find bswap and popcount loops; gcc and clang do)')
-put('ror','idiom or intrinsic: rotate by a register count; rotates by a constant are emitted (as rol, which assembles to rori) for 64-bit values only: a 32-bit rotate has no instruction and is shl/shr/bis')
+put('ror','idiom or intrinsic: rotate by a register count; rotates by a constant are emitted (as rol) for 64-bit values only: a 32-bit rotate has no instruction and is shl/shr/bis')
 put('dshr','intrinsic or idiom: funnel shift (128-bit shifts, bignum)')
 put('extb extzb insb','idiom: bit-field extract and insert; pcc reads fields with shifts (the FIELDOPS path is not used)')
 put('xnorpop clmull clmulh utf8len utf8dec utf8enc','intrinsic only (population-count dot products, carry-less multiply, UTF-8)')

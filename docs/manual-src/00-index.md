@@ -19,11 +19,11 @@
 {{n}}. [**The instruction set**](09-isa.md): how the opcode space is divided, the properties and principles of the architecture, the registers, the format, the addressing modes, and each group of instructions.
 {{n}}. [**Conclusion: from FPGA to silicon**](10-conclusion.md): the first implementation on an FPGA, the transistor budget, in-order cores that an out-of-order design can follow, the security aims, and the path to an OpenBSD you can log into.
 {{n}}. [**The instruction reference tables**](dictionary/index.md): the assembler aliases, the architectural constants (status word, vectors, page-table entry, system registers, conditions), and the lists of the mnemonics and the bit-layout chart of every leaf. The entry for each instruction (syntax, encoding drawing, operation, flags, exceptions) is in chapter {{c:id01009|n}} in the section of its group, with the atomic instructions in section {{r:atomics-and-ordering}} and the system instructions in section {{r:isa-system-instructions-exceptions}}.
-{{n}}. [**Appendix {{a:id03001|n}}. Possible improvements not decided on**](appendix-a-improvements.md): ideas that nobody has turned into a decision, with their benefits and costs.
-{{n}}. [**Appendix {{a:id03003|n}}. Glossary**](appendix-b-glossary.md): the manual's terms in one place, by architecture, kernel, devices and process.
-{{n}}. [**Appendix {{a:id03004|n}}. The ABI, version 1**](appendix-c-abi.md): data model, registers, arguments and results, variadic calls, position-independent code.
-{{n}}. [**Appendix {{a:id03005|n}}. The assembly language and the object format**](appendix-d-assembler.md): source syntax, directives, operand modes, the literal pool, and ELF.
-{{n}}. [**Appendix {{a:id03006|n}}. The evidence behind the manual**](appendix-e-evidence.md): the long documents the manual is drawn from: the full instruction-set text, the system and bus documents, the record of decisions, and the surveys and measurements.
+{{n}}. [**Appendix {{c:id03001|n}}. Possible improvements not decided on**](appendix-a-improvements.md): ideas that nobody has turned into a decision, with their benefits and costs.
+{{n}}. [**Appendix {{c:id03003|n}}. Glossary**](appendix-b-glossary.md): the manual's terms in one place, by architecture, kernel, devices and process.
+{{n}}. [**Appendix {{c:id03004|n}}. The ABI, version 1**](appendix-c-abi.md): data model, registers, arguments and results, variadic calls, position-independent code.
+{{n}}. [**Appendix {{c:id03005|n}}. The assembly language and the object format**](appendix-d-assembler.md): source syntax, directives, operand modes, the literal pool, and ELF.
+{{n}}. [**Appendix {{c:id03006|n}}. The evidence behind the manual**](appendix-e-evidence.md): the long documents the manual is drawn from: the full instruction-set text, the system and bus documents, the record of decisions, and the surveys and measurements.
 
 ## How to read it
 
@@ -31,8 +31,8 @@
 
 **The chapters state the architecture as it is to be.** The design notes (proposals, deferred items, open questions, the history) are kept in the repository outside the manual, in `docs/design/`.
 
-**Numbers.** Where a figure is measured, the text says what was measured; where it is an estimate, it says so. Claims about other machines are checked against the fact-check record listed in [appendix {{a:id03006|n}}](appendix-e-evidence.md).
+**Numbers.** Where a figure is measured, the text says what was measured; where it is an estimate, it says so. Claims about other machines are checked against the fact-check record listed in [appendix {{c:id03006|n}}](appendix-e-evidence.md).
 
 **The PDF.** The same text as a book, [`book/pdp64.pdf`](../../book/pdp64.pdf), built by [buildabook](https://github.com/moebiusV/buildabook) and Typst from the sources of this directory (`tools/mkbook.sh`; see `book/README.md`).
 
-**Evidence documents.** All of them are listed in [appendix {{a:id03006|n}}](appendix-e-evidence.md): the full instruction set text ([`pdp64-isa.md`](../pdp64-isa.md)) and the open decisions with five options each ([`decisions-pending.md`](../decisions-pending.md)).
+**Evidence documents.** All of them are listed in [appendix {{c:id03006|n}}](appendix-e-evidence.md): the full instruction set text ([`pdp64-isa.md`](../pdp64-isa.md)) and the open decisions with five options each ([`decisions-pending.md`](../decisions-pending.md)).

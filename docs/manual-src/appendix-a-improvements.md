@@ -1,4 +1,4 @@
-# Appendix {{a:id03001|n}}. Improvements beyond the PDP-11
+# Appendix {{c:id03001|n}}. Improvements beyond the PDP-11
 
 [← manual index](00-index.md)
 

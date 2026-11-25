@@ -1,2 +1,0 @@
-	.text
-	trapl #40

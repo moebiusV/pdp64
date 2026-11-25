@@ -56,12 +56,12 @@ print('manual assembly: ok')
 
 # ---------------------------------------------------------------- the computed numbers
 tmp = tempfile.mkdtemp()
-open(os.path.join(tmp, 'outline.txt'), 'w').write('n:id00001    About\np:id00100    Part\nc:id01001    One\nc:id01002    Two\na:label:Appendix\na:number:letter\na:id03001    Extra\n')
-open(os.path.join(tmp, 'sources.txt'), 'w').write('n:id00001 docs/manual/00-index.md\nc:id01001 docs/manual/01-one.md\nc:id01002 docs/manual/02-two.md\na:id03001 docs/manual/appendix-a-extra.md\n')
+open(os.path.join(tmp, 'outline.txt'), 'w').write('n:id00001    About\np:id00100    Part\nc:id01001    One\nc:id01002    Two\nc:label:Appendix\nc:number:letter\nc:count:1\nc:id03001    Extra\n')
+open(os.path.join(tmp, 'sources.txt'), 'w').write('n:id00001 docs/manual/00-index.md\nc:id01001 docs/manual/01-one.md\nc:id01002 docs/manual/02-two.md\nc:id03001 docs/manual/appendix-a-extra.md\n')
 SRC = {'00-index.md': '# Index\n\n{{n}}. [**One**](01-one.md)\n{{n}}. [**Two**](02-two.md)\n\n{{n}}. again\n',
-       '01-one.md': '# {{c:id01001|n}}. One\n\n## {{#first}} First\n\n**{{#rule-a}}** A, see {{r:rule-b}} and section {{r:second}} and chapter {{c:id01002|n}}.\n\n**{{#rule-b}}** B.\n\n## {{#second}} Second\n\n**{{#rule-c}}** C.\n\n![{{#fig-x}}alt](figures/x.svg)\n\nFigure {{r:fig-x}}, [{{r:second}}]({{u:second}}), appendix {{a:id03001|n}}.\n',
+       '01-one.md': '# {{c:id01001|n}}. One\n\n## {{#first}} First\n\n**{{#rule-a}}** A, see {{r:rule-b}} and section {{r:second}} and chapter {{c:id01002|n}}.\n\n**{{#rule-b}}** B.\n\n## {{#second}} Second\n\n**{{#rule-c}}** C.\n\n![{{#fig-x}}alt](figures/x.svg)\n\nFigure {{r:fig-x}}, [{{r:second}}]({{u:second}}), appendix {{c:id03001|n}}.\n',
        '02-two.md': '# {{c:id01002|n}}. Two\n\n## {{#third}} Third\n\nsection {{r:rule-c}}, section {{r:first}}\n',
-       'appendix-a-extra.md': '# Appendix {{a:id03001|n}}. Extra\n\n## {{#a-first}} A first\n\n**{{#a-rule}}** x see {{r:a-first}}\n'}
+       'appendix-a-extra.md': '# Appendix {{c:id03001|n}}. Extra\n\n## {{#a-first}} A first\n\n**{{#a-rule}}** x see {{r:a-first}}\n'}
 
 
 def book(src):

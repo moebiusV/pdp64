@@ -106,18 +106,12 @@
 | `FADD` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fadd), [entry](../09-isa.md#w-fadd) | Moves, address formation and the ALU |
 | `FADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fadd16), [entry](../09-isa.md#w-fadd16) | Floating point (FESC) |
 | `FADD32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fadd32), [entry](../09-isa.md#w-fadd32) | Floating point (FESC) |
-| `FADDD` (alias of `FADD`) | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fadd), [entry](../09-isa.md#w-fadd) | Moves, address formation and the ALU |
-| `FADDS` (alias of `FADD32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fadd32), [entry](../09-isa.md#w-fadd32) | Floating point (FESC) |
 | `FCLASS` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass), [entry](../09-isa.md#w-fclass) | Floating point (FESC) |
 | `FCLASS16` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass16), [entry](../09-isa.md#w-fclass16) | Floating point (FESC) |
 | `FCLASS32` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass32), [entry](../09-isa.md#w-fclass32) | Floating point (FESC) |
-| `FCLASSD` (alias of `FCLASS`) | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass), [entry](../09-isa.md#w-fclass) | Floating point (FESC) |
-| `FCLASSS` (alias of `FCLASS32`) | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass32), [entry](../09-isa.md#w-fclass32) | Floating point (FESC) |
 | `FCMP` | [FCMP](../09-isa.md#fcmp-floating-compare-binary64) (section 9.12) | [9](by-encoding.md#mn-fcmp), [entry](../09-isa.md#w-fcmp) | Moves, address formation and the ALU |
 | `FCMP16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fcmp16), [entry](../09-isa.md#w-fcmp16) | Floating point (FESC) |
 | `FCMP32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fcmp32), [entry](../09-isa.md#w-fcmp32) | Floating point (FESC) |
-| `FCMPD` (alias of `FCMP`) | [FCMP](../09-isa.md#fcmp-floating-compare-binary64) (section 9.12) | [9](by-encoding.md#mn-fcmp), [entry](../09-isa.md#w-fcmp) | Moves, address formation and the ALU |
-| `FCMPS` (alias of `FCMP32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fcmp32), [entry](../09-isa.md#w-fcmp32) | Floating point (FESC) |
 | `FCOPYSIGN` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [1](by-encoding.md#mn-fcopysign), [entry](../09-isa.md#w-fcopysign) | Floating point (FESC) |
 | `FCVTDH` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | [1](by-encoding.md#mn-fcvtdh), [entry](../09-isa.md#w-fcvtdh) | Floating point (FESC) |
 | `FCVTDQ` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtdq), [entry](../09-isa.md#w-fcvtdq) | Floating point (FESC) |
@@ -136,46 +130,27 @@
 | `FDIV` | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | [1](by-encoding.md#mn-fdiv), [entry](../09-isa.md#w-fdiv) | Floating point (FESC) |
 | `FDIV16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fdiv16), [entry](../09-isa.md#w-fdiv16) | Floating point (FESC) |
 | `FDIV32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fdiv32), [entry](../09-isa.md#w-fdiv32) | Floating point (FESC) |
-| `FDIVD` (alias of `FDIV`) | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | [1](by-encoding.md#mn-fdiv), [entry](../09-isa.md#w-fdiv) | Floating point (FESC) |
-| `FDIVS` (alias of `FDIV32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fdiv32), [entry](../09-isa.md#w-fdiv32) | Floating point (FESC) |
 | `FENCE` | [FENCE](../09-isa.md#fence-memory-fence) (section 9.14) | [1](by-encoding.md#mn-fence), [entry](../09-isa.md#w-fence) | System (SYS) |
 | `FMADD` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fmadd), [entry](../09-isa.md#w-fmadd) | Floating point (FESC) |
 | `FMADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fmadd16), [entry](../09-isa.md#w-fmadd16) | Floating point (FESC) |
 | `FMADD32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fmadd32), [entry](../09-isa.md#w-fmadd32) | Floating point (FESC) |
-| `FMADDD` (alias of `FMADD`) | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fmadd), [entry](../09-isa.md#w-fmadd) | Floating point (FESC) |
-| `FMADDS` (alias of `FMADD32`) | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fmadd32), [entry](../09-isa.md#w-fmadd32) | Floating point (FESC) |
 | `FMAX` | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | [1](by-encoding.md#mn-fmax), [entry](../09-isa.md#w-fmax) | Floating point (FESC) |
-| `FMAXD` (alias of `FMAX`) | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | [1](by-encoding.md#mn-fmax), [entry](../09-isa.md#w-fmax) | Floating point (FESC) |
 | `FMIN` | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | [1](by-encoding.md#mn-fmin), [entry](../09-isa.md#w-fmin) | Floating point (FESC) |
-| `FMIND` (alias of `FMIN`) | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | [1](by-encoding.md#mn-fmin), [entry](../09-isa.md#w-fmin) | Floating point (FESC) |
 | `FMSUB` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fmsub), [entry](../09-isa.md#w-fmsub) | Floating point (FESC) |
 | `FMSUB16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fmsub16), [entry](../09-isa.md#w-fmsub16) | Floating point (FESC) |
 | `FMSUB32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fmsub32), [entry](../09-isa.md#w-fmsub32) | Floating point (FESC) |
-| `FMSUBD` (alias of `FMSUB`) | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fmsub), [entry](../09-isa.md#w-fmsub) | Floating point (FESC) |
-| `FMSUBS` (alias of `FMSUB32`) | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fmsub32), [entry](../09-isa.md#w-fmsub32) | Floating point (FESC) |
 | `FMUL` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fmul), [entry](../09-isa.md#w-fmul) | Moves, address formation and the ALU |
 | `FMUL16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fmul16), [entry](../09-isa.md#w-fmul16) | Floating point (FESC) |
 | `FMUL32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fmul32), [entry](../09-isa.md#w-fmul32) | Floating point (FESC) |
-| `FMULD` (alias of `FMUL`) | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fmul), [entry](../09-isa.md#w-fmul) | Moves, address formation and the ALU |
-| `FMULS` (alias of `FMUL32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fmul32), [entry](../09-isa.md#w-fmul32) | Floating point (FESC) |
 | `FNEG` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [1](by-encoding.md#mn-fneg), [entry](../09-isa.md#w-fneg) | Floating point (FESC) |
 | `FNMADD` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fnmadd), [entry](../09-isa.md#w-fnmadd) | Floating point (FESC) |
 | `FNMADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fnmadd16), [entry](../09-isa.md#w-fnmadd16) | Floating point (FESC) |
 | `FNMADD32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fnmadd32), [entry](../09-isa.md#w-fnmadd32) | Floating point (FESC) |
-| `FNMADDD` (alias of `FNMADD`) | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fnmadd), [entry](../09-isa.md#w-fnmadd) | Floating point (FESC) |
-| `FNMADDS` (alias of `FNMADD32`) | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fnmadd32), [entry](../09-isa.md#w-fnmadd32) | Floating point (FESC) |
 | `FNMSUB` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fnmsub), [entry](../09-isa.md#w-fnmsub) | Floating point (FESC) |
 | `FNMSUB16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fnmsub16), [entry](../09-isa.md#w-fnmsub16) | Floating point (FESC) |
 | `FNMSUB32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fnmsub32), [entry](../09-isa.md#w-fnmsub32) | Floating point (FESC) |
-| `FNMSUBD` (alias of `FNMSUB`) | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fnmsub), [entry](../09-isa.md#w-fnmsub) | Floating point (FESC) |
-| `FNMSUBS` (alias of `FNMSUB32`) | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fnmsub32), [entry](../09-isa.md#w-fnmsub32) | Floating point (FESC) |
 | `FRINT` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frint), [entry](../09-isa.md#w-frint) | Floating point (FESC) |
 | `FRINTA` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frinta), [entry](../09-isa.md#w-frinta) | Floating point (FESC) |
-| `FRINTD` (alias of `FRINT`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frint), [entry](../09-isa.md#w-frint) | Floating point (FESC) |
-| `FRINTDA` (alias of `FRINTA`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frinta), [entry](../09-isa.md#w-frinta) | Floating point (FESC) |
-| `FRINTDM` (alias of `FRINTM`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frintm), [entry](../09-isa.md#w-frintm) | Floating point (FESC) |
-| `FRINTDP` (alias of `FRINTP`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frintp), [entry](../09-isa.md#w-frintp) | Floating point (FESC) |
-| `FRINTDZ` (alias of `FRINTZ`) | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frintz), [entry](../09-isa.md#w-frintz) | Floating point (FESC) |
 | `FRINTM` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frintm), [entry](../09-isa.md#w-frintm) | Floating point (FESC) |
 | `FRINTP` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frintp), [entry](../09-isa.md#w-frintp) | Floating point (FESC) |
 | `FRINTZ` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frintz), [entry](../09-isa.md#w-frintz) | Floating point (FESC) |
@@ -183,13 +158,9 @@
 | `FSQRT` | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | [1](by-encoding.md#mn-fsqrt), [entry](../09-isa.md#w-fsqrt) | Floating point (FESC) |
 | `FSQRT16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fsqrt16), [entry](../09-isa.md#w-fsqrt16) | Floating point (FESC) |
 | `FSQRT32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fsqrt32), [entry](../09-isa.md#w-fsqrt32) | Floating point (FESC) |
-| `FSQRTD` (alias of `FSQRT`) | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | [1](by-encoding.md#mn-fsqrt), [entry](../09-isa.md#w-fsqrt) | Floating point (FESC) |
-| `FSQRTS` (alias of `FSQRT32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fsqrt32), [entry](../09-isa.md#w-fsqrt32) | Floating point (FESC) |
 | `FSUB` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fsub), [entry](../09-isa.md#w-fsub) | Moves, address formation and the ALU |
 | `FSUB16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fsub16), [entry](../09-isa.md#w-fsub16) | Floating point (FESC) |
 | `FSUB32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fsub32), [entry](../09-isa.md#w-fsub32) | Floating point (FESC) |
-| `FSUBD` (alias of `FSUB`) | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fsub), [entry](../09-isa.md#w-fsub) | Moves, address formation and the ALU |
-| `FSUBS` (alias of `FSUB32`) | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fsub32), [entry](../09-isa.md#w-fsub32) | Floating point (FESC) |
 | `GENTER` | [GENTER](../09-isa.md#genter-enter-a-guest) (section 9.14) | [1](by-encoding.md#mn-genter), [entry](../09-isa.md#w-genter) | System (SYS) |
 | `HALT` | [HALT](../09-isa.md#halt-halt-the-processor) (section 9.14) | [1](by-encoding.md#mn-halt), [entry](../09-isa.md#w-halt) | System (SYS) |
 | `HINT` | [HINT](../09-isa.md#hint-hint) (section 9.14) | [1](by-encoding.md#mn-hint), [entry](../09-isa.md#w-hint) | System (SYS) |
@@ -198,7 +169,7 @@
 | `INC` | [INC](../09-isa.md#inc-increment) (section 9.7) | [10](by-encoding.md#mn-inc), [entry](../09-isa.md#w-inc) | Single operand (SOP) |
 | `INSB` | [INSB](../09-isa.md#insb-insert-a-bit-field) (section 9.9) | [1](by-encoding.md#mn-insb), [entry](../09-isa.md#w-insb) | Bits and fields (BESC) |
 | `ISYNC` | [ISYNC](../09-isa.md#isync-instruction-synchronisation) (section 9.14) | [1](by-encoding.md#mn-isync), [entry](../09-isa.md#w-isync) | System (SYS) |
-| `JMP` | [JMP](../09-isa.md#jmp-jump) (section 9.10) | [11](by-encoding.md#mn-jmp), [entry](../09-isa.md#w-jmp) | Single operand (SOP) |
+| `JMP` | [JMP](../09-isa.md#jmp-jump) (section 9.10) | [9](by-encoding.md#mn-jmp), [entry](../09-isa.md#w-jmp) | Single operand (SOP) |
 | `JMPI` | [JMPI](../09-isa.md#jmpi-jump-and-call-through-memory) (section 9.10) | [8](by-encoding.md#mn-jmpi), [entry](../09-isa.md#w-jmpi) | Indirect transfers (XFER) |
 | `JTAG` | [JTAG](../09-isa.md#jtag-jump-through-a-tag-table) (section 9.10) | [2](by-encoding.md#mn-jtag), [entry](../09-isa.md#w-jtag) | Indirect transfers (XFER) |
 | `LEA` | [LEA](../09-isa.md#lea-load-effective-address) (section 9.6) | [17](by-encoding.md#mn-lea), [entry](../09-isa.md#w-lea) | Moves, address formation and the ALU |
@@ -276,10 +247,9 @@
 | `PUSHM` | [PUSHM](../09-isa.md#pushm-push-registers-by-mask) (section 9.11) | [3](by-encoding.md#mn-pushm), [entry](../09-isa.md#w-pushm) | Single operand (SOP) |
 | `PUSHX` | [PUSHX](../09-isa.md#pushx-push-and-pop-the-exception-state) (section 9.14) | [1](by-encoding.md#mn-pushx), [entry](../09-isa.md#w-pushx) | System (SYS) |
 | `RET` | [RET](../09-isa.md#ret-return-from-subroutine) (section 9.14) | [1](by-encoding.md#mn-ret), [entry](../09-isa.md#w-ret) | System (SYS) |
-| `ROL` (alias of `RORI`) | [RORI](../09-isa.md#rori-rotate-right-by-an-immediate) (section 9.9) | [1](by-encoding.md#mn-rori), [entry](../09-isa.md#w-rori) | Bits and fields (BESC) |
-| `ROR` | [ROR](../09-isa.md#ror-rotate-right-by-a-register-count) (section 9.9) | [1](by-encoding.md#mn-ror), [entry](../09-isa.md#w-ror) | Bits and fields (BESC) |
-| `RORI` | [RORI](../09-isa.md#rori-rotate-right-by-an-immediate) (section 9.9) | [1](by-encoding.md#mn-rori), [entry](../09-isa.md#w-rori) | Bits and fields (BESC) |
-| `RORI32` | [RORI32](../09-isa.md#rori32-rotate-right-by-an-immediate-32-bits) (section 9.9) | [1](by-encoding.md#mn-rori32), [entry](../09-isa.md#w-rori32) | Bits and fields (BESC) |
+| `ROL` | [ROR](../09-isa.md#ror-rotate-right-by-a-register-or-a-constant) (section 9.9) | [2](by-encoding.md#mn-rol), [entry](../09-isa.md#w-rol) | Bits and fields (BESC) |
+| `ROR` | [ROR](../09-isa.md#ror-rotate-right-by-a-register-or-a-constant) (section 9.9) | [2](by-encoding.md#mn-ror), [entry](../09-isa.md#w-ror) | Bits and fields (BESC) |
+| `ROR32` | [ROR32](../09-isa.md#ror32-rotate-right-by-a-constant-32-bits) (section 9.9) | [1](by-encoding.md#mn-ror32), [entry](../09-isa.md#w-ror32) | Bits and fields (BESC) |
 | `RTI` | [RTI](../09-isa.md#rti-return-from-interrupt-or-exception) (section 9.14) | [1](by-encoding.md#mn-rti), [entry](../09-isa.md#w-rti) | System (SYS) |
 | `RTT` | [RTI](../09-isa.md#rti-return-from-interrupt-or-exception) (section 9.14) | [1](by-encoding.md#mn-rtt), [entry](../09-isa.md#w-rtt) | System (SYS) |
 | `SAR` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | [13](by-encoding.md#mn-sar), [entry](../09-isa.md#w-sar) | Moves, address formation and the ALU |
@@ -317,7 +287,7 @@
 | `TLBIAS` | [TLBIAS](../09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) (section 9.14) | [1](by-encoding.md#mn-tlbias), [entry](../09-isa.md#w-tlbias) | System (SYS) |
 | `TLBIGP` | [TLBIAS](../09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) (section 9.14) | [1](by-encoding.md#mn-tlbigp), [entry](../09-isa.md#w-tlbigp) | System (SYS) |
 | `TLBSYNC` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | [1](by-encoding.md#mn-tlbsync), [entry](../09-isa.md#w-tlbsync) | System (SYS) |
-| `TRAP` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | [2](by-encoding.md#mn-trap), [entry](../09-isa.md#w-trap) | System (SYS) |
+| `TRAP` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | [1](by-encoding.md#mn-trap), [entry](../09-isa.md#w-trap) | System (SYS) |
 | `TRAPCC.CC` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-cc), [entry](../09-isa.md#w-trapcc-cc) | Added by the prefix-coded encoding |
 | `TRAPCC.CS` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-cs), [entry](../09-isa.md#w-trapcc-cs) | Added by the prefix-coded encoding |
 | `TRAPCC.EQ` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-eq), [entry](../09-isa.md#w-trapcc-eq) | Added by the prefix-coded encoding |

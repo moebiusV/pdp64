@@ -55,7 +55,7 @@ SAR: Rd <- (n >= 64) ? (Rd < 0 ? -1 : 0) : Rd >>s n''',
 Rd <- Rd - rm   (FSUB)
 Rd <- Rd * rm   (FMUL)       ; IEEE 754 binary64, round to nearest even''',
       NOFLAGS + ' The five IEEE exception flags are ORed into `FPSR`; no instruction traps.', MEMX + ' Floating-point exceptions never trap.',
-      notes='Floating-point values live in the general registers; there is no separate register file and no mode bit. A NaN result is the canonical quiet NaN `0x7FF8000000000000`. The alternative spellings `FADDD`, `FSUBD`, `FMULD` are aliases.'),
+      notes='Floating-point values live in the general registers; there is no separate register file and no mode bit. A NaN result is the canonical quiet NaN `0x7FF8000000000000`.'),
     E('FCMP', 'fp', ['fcmp'], 'Floating compare, binary64', ['FCMP Rd, rm        ; register first'],
       '''N <- Rd < rm ; Z <- Rd == rm ; V <- unordered ; C <- 0''',
       '`N` set if `Rd < rm`, `Z` if equal, `V` if the operands are unordered (either is a NaN), `C` cleared. A signalling NaN raises `NV` in `FPSR`.', MEMX,

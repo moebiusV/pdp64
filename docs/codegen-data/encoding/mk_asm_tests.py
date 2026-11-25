@@ -113,7 +113,7 @@ d:\t.quad 1
 """),
 'misc': ('', """\t.text
 \tmovq #0x123456789abcdef0,r1
-\trori32 r1,#5,r2
+\tror32 r1,#5,r2
 \trol r1,#3,r2
 \tclz r1,r2
 \tdiv r1,r2,r3
@@ -177,6 +177,8 @@ def run(which):
     d = encgram.load(ROOT)
     forms = [Form(f['name'], f['n'], f['mns'], [chk.mkspec(s) for s in f['specs']], xbits=f['xbits']) for f in encgram.generated_forms(d)]
     sc = Scheme(forms)
+    _plan = sc.plan
+    sc.plan = lambda mn, ops: _plan('br' if mn == 'jmp' and len(ops) == 1 and ops[0][0] == 'PC' else mn, ops)		# `jmp label` is `br label` (the assembler's rule; no form of jmp is pc-relative)
     enc.RELOC = 'max'
     outdir = os.path.join(ROOT, 'tests', 'asm')
     progs = dict(COMMON)
@@ -195,6 +197,7 @@ def run(which):
             if e[0] != 'I': continue
             r = e[1]
             mn, ops = inst_of(r, r['dist'])
+            if mn == 'jmp' and len(ops) == 1 and ops[0][0] == 'PC': mn = 'br'		# `jmp label` is `br label` (the assembler's rule; no form of jmp is pc-relative)
             p = sc.plan(mn, ops)
             assert p is not None, (name, mn, ops)
             for m, o in p:

@@ -52,7 +52,7 @@ COMMON = [
  ('', 'sha256sum0 R:1 R:2'), ('', 'maesctr R:1 R:2 R:3 R:4'), ('', 'addv R:1 R:2'), ('', 'mulv R:1 R:2'),
  ('fused pairs', 'movcall R:1 R:2 PC:100'), ('', 'movcall R:1 R:2 PC:0:E'), ('', 'popmret I:36608'), ('', 'popret R:3'), ('', 'mov2 R:1 R:2 R:8 R:3'),
  ('user-qualified loads and stores', 'movq.u B:8:1 R:2'), ('', 'movb.ud B:8:1 R:2'),
- ('bit fields, rotates', 'extb R:1 I:4 I:8 R:2'), ('', 'dshr R:1 R:2 I:3 R:4'), ('', 'rori32 R:1 I:5 R:2'), ('', 'rol R:1 I:3 R:2'),
+ ('bit fields, rotates', 'extb R:1 I:4 I:8 R:2'), ('', 'dshr R:1 R:2 I:3 R:4'), ('', 'ror32 R:1 I:5 R:2'), ('', 'rol R:1 I:3 R:2'),
  ('movq with a constant that no shorter form holds: five parcels, a 64-bit immediate', 'movq I:1311768467463790320 R:4'), ('', 'movq I:-4294967297 R:0'),
  ('push/pop, masks', 'pushm I:36608'), ('', 'popm I:256'), ('', 'push R:3'), ('', 'push I:100000'),
 ]

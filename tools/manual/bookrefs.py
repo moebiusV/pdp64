@@ -5,12 +5,12 @@ text, and every citation a token.  (Prototype of tools/manual/bookrefs.py.)
 Syntax in the source Markdown (docs/manual-src/, tools/manual/*.py strings, tools/mkmanual.py strings):
 
     # {{c:id01006|n}}. The kernel               the heading of a chapter  (buildabook's own token: the number only)
-    # Appendix {{a:id03004|n}}. The ABI         the heading of an appendix
+    # Appendix {{c:id03004|n}}. The ABI         the heading of an appendix
     ## {{#kernel-psw}} Modes and the status word    a section:       renders  6.2
     **{{#kernel-psw-guard}}** The user-memory guard ...   a statement: renders  **6.2.5**   (the Nth numbered item of the section)
     ### {{#vm-walk-steps}} The walk              a numbered subsection: an item of the section, like a statement
     section {{r:kernel-psw}}   (see {{r:kernel-psw-guard}})   a citation: renders the number  6.2   6.2.5
-    chapter {{c:id01006|n}}    appendix {{a:id03004|n}}        a citation of a chapter or appendix: the number only (6, C), computed from the outline
+    chapter {{c:id01006|n}}    appendix {{c:id03004|n}}        a citation of a chapter or appendix: the number only (6, C), computed from the outline
     ({{u:kernel-psw}})         the link target of a section (file#anchor), for [text]({{u:...}})
     {{n}}. item                the next number of a typed list at the start of a line (the contents list of 00-index.md)
 
@@ -19,7 +19,7 @@ Names are [a-z0-9][a-z0-9-]*, unique in the book.  A name is never a number; mov
 import csv, os, re
 
 NAME = r'[a-z0-9][a-z0-9-]*'
-TOKEN = re.compile(r'\{\{(#(%s)|r:(%s)|u:(%s)|([ca]):(id\d{5})(\|n)?)\}\}' % (NAME, NAME, NAME))
+TOKEN = re.compile(r'\{\{(#(%s)|r:(%s)|u:(%s)|(c):(id\d{5})(\|n)?)\}\}' % (NAME, NAME, NAME))
 
 
 class RefError(Exception):
@@ -51,11 +51,11 @@ def fmt(style, n):
 
 def read_outline(path):
     """{uuid: (kind, n, number text, title)} for the numbered kinds, by the rules of buildabook's outline language (label/number/count/default directives; the
-    kinds c p a, whose defaults are arabic, roman and letter).  buildabook's own number_map.csv is the authority; tools/mkbook.sh --check compares the two."""
-    default = {'c': 'arabic', 'p': 'roman', 'a': 'letter'}
+    kinds c and p, whose defaults are arabic and roman (an appendix is a chapter after c:number:letter)).  buildabook's own number_map.csv is the authority; tools/mkbook.sh --check compares the two."""
+    default = {'c': 'arabic', 'p': 'roman'}
     style = dict(default)
     nxt = {}
-    cnt = {'c': 0, 'p': 0, 'a': 0}
+    cnt = {'c': 0, 'p': 0}
     out = {}
     for line in open(path):
         line = line.rstrip('\n')
@@ -111,7 +111,7 @@ class Book:
 
     def chapter_label(self, fn):
         u = self.file_uuid.get(fn)
-        if u and self.outline.get(u, ('',))[0] in ('c', 'a'):
+        if u and self.outline.get(u, ('',))[0] in ('c',):
             return self.outline[u][2]
         return None
 
@@ -244,7 +244,7 @@ def check_against_buildabook(outline, number_map_csv):
             theirs = row['rendered'].split()[-1]
             if mine[2] != theirs:
                 probs.append('%s: the outline reader says %s, buildabook says %s (%s)' % (u, mine[2], theirs, row['rendered']))
-    if seen != sum(1 for v in outline.values() if v[0] in ('c', 'a', 'p')):
+    if seen != sum(1 for v in outline.values() if v[0] in ('c', 'p')):
         probs.append('different numbers of numbered entries')
     return probs
 

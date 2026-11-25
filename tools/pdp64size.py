@@ -357,8 +357,7 @@ def one(job, nowrap, keep):
     return res
 
 
-ALIASES = set("""bhis blo mulu wait rol faddd fsubd fmuld fcmpd fdivd fsqrtd fadds fsubs fmuls fdivs fsqrts fcmps fmaddd fmsubd fnmaddd fnmsubd
-fmadds fmsubs fnmadds fnmsubs fmind fmaxd fclassd fclasss frintd frintdz frintdm frintdp frintda""".split())
+ALIASES = set("bhis blo mulu wait".split())
 
 
 def all_mnemonics():
@@ -379,7 +378,7 @@ def all_mnemonics():
 
 # mnemonics a C compiler does not emit without an intrinsic, an idiom pass or a library
 INTRINSIC = {
-    'clz', 'ctz', 'clo', 'cto', 'popcnt', 'bswap', 'bswapw', 'bswapl', 'bitrev', 'ror', 'rori', 'rol', 'dshr', 'extb', 'extzb', 'insb',
+    'clz', 'ctz', 'clo', 'cto', 'popcnt', 'bswap', 'bswapw', 'bswapl', 'bitrev', 'ror', 'rol', 'dshr', 'extb', 'extzb', 'insb',
     'xnorpop', 'clmull', 'clmulh', 'utf8len', 'utf8dec', 'utf8enc',
     'cas', 'swap', 'xadd', 'xand', 'xor_', 'xxor', 'xmax', 'xmin', 'xmaxu', 'xminu', 'll', 'sc',
     'mmov', 'mset', 'mcmp', 'mscn', 'mscnn', 'mval', 'mcpy',

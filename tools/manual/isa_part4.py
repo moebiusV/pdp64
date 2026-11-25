@@ -34,7 +34,7 @@ PC <- M[SP] ; SP <- SP + 8''', NOFLAGS, MEMX + ' A fault after some registers ha
       '''Rb <- Ra
 Rd <- Rc           ; in this order''', NOFLAGS, NONE,
       notes='`MOVQ Ra, Rb` followed by `MOVQ Rc, Rd`, fused. The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the grammar gives it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.',
-      cf='Appendix {{a:id03004|n}} (the hot-register tables).'),
+      cf='Appendix {{c:id03004|n}} (the hot-register tables).'),
     # ---- selects
     X('MASK', 'alu', ['maskeqz', 'masknez'], 'Mask by a condition register', ['MASKEQZ Ra, Rc, Rd', 'MASKNEZ Ra, Rc, Rd'],
       '''MASKEQZ: Rd <- (Rc == 0) ? 0 : Ra

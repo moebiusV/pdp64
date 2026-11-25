@@ -513,13 +513,9 @@ arg = "MN_BESC_BITREV"
 exec = "H_BESC"
 arg = "MN_BESC_ROR"
 
-[rori]
+[ror32]
 exec = "H_BESC"
-arg = "MN_BESC_RORI"
-
-[rori32]
-exec = "H_BESC"
-arg = "MN_BESC_RORI32"
+arg = "MN_BESC_ROR32"
 
 [rol]
 exec = "H_BESC"

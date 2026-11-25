@@ -148,7 +148,7 @@ def d_movimm(i): return i.m == 'movq' and len(i.ops) == 2 and (is_imm(i.ops[0]) 
 def d_lea(i): return i.m == 'lea'
 def d_div(i): return i.m in ('div', 'divu', 'mod', 'modu')
 def d_fp(i): return i.m.startswith('f')
-def d_rotate(i): return i.m in ('rori32', 'rori', 'rol', 'ror')
+def d_rotate(i): return i.m in ('ror32', 'ror', 'rol')
 def d_writes_any(i): return bool(writes(i.m, i.ops))
 def d_writes_partial(i): return bool(writes(i.m, i.ops)) and writes(i.m, i.ops) != ALL or i.m in WRITE_SHIFT
 def d_writes_c(i): return 'C' in writes(i.m, i.ops)

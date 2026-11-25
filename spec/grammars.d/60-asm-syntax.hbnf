@@ -3,7 +3,7 @@
 asm = line
 
 ; a name is a word token; with one in the grammar every literal that begins with two letters or more is a whole word (`bit` is not the front of
-; `bitrev`, `ror` not the front of `rori`), in any order, and a name cannot be one of those words.  The one-letter choices below are character
+; `bitrev`, `ror` not the front of `ror32`), in any order, and a name cannot be one of those words.  The one-letter choices below are character
 ; classes in rules of their own, which keeps them character-level in this mode.
 word_start = idstart | DIGIT
 wordchars = idchar

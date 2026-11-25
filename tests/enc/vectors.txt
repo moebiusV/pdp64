@@ -4,119 +4,119 @@
 movq R:1 R:2 | 1 2013
 movq R:15 R:0 | 1 20a0
 add R:3 R:4 | 1 2759
-cmp R:7 R:6 | 2 fc4b 58e6
+cmp R:7 R:6 | 2 fb4a 58e6
 # movq #imm, one parcel
 movq I:5 R:3 | 1 6855
 movq I:-64 R:15 | 1 6c0a
 movq I:63 R:0 | 1 6bf0
 # sp-relative load/store, scaled offset
 movq B:8:14 R:3 | 1 5865
-movq R:3 B:16:14 | 1 a0ac
+movq R:3 B:16:14 | 1 9cac
 movl B:12:14 R:5 | 1 623b
 # hot-register base and destination, a scaled offset in one parcel
 movq B:8:8 R:1 | 1 5851
-movq R:0 B:16:9 | 1 a086
+movq R:0 B:16:9 | 1 9c86
 # 2 parcels: 12-bit displacement
-movq B:400:5 R:3 | 2 f542 8c32
-movl B:-20:3 R:2 | 2 f551 8bfb
+movq B:400:5 R:3 | 2 f442 8c32
+movl B:-20:3 R:2 | 2 f451 8bfb
 # 3 parcels: a 32-bit displacement, a 32-bit immediate
-movq B:100000:1 R:2 | 3 8402 1001 86a0
-add I:100000 R:2 | 2 ef93 86a0
+movq B:100000:1 R:2 | 3 8002 1001 86a0
+add I:100000 R:2 | 2 ee93 86a0
 # indexed
-movq X:8:1:2:8 R:3 | 2 ef03 13c8
-movq R:3 X:0:1:2:1 | 2 fbf0 3088
+movq X:8:1:2:8 R:3 | 2 ee03 13c8
+movq R:3 X:0:1:2:1 | 2 faf0 3088
 # post-increment and pre-decrement
-movq PI:4:0 R:5 | 2 8c05 4000
-movq R:5 PD:4:0 | 2 c004 5000
+movq PI:4:0 R:5 | 2 8805 4000
+movq R:5 PD:4:0 | 2 be04 5000
 # branches: pc-relative field counts parcels
-br PC:6 | 1 c403
-bne PC:-20 | 1 e4f6
-beq PC:2000 | 2 fc3e 03e8
-br PC:300000 | 3 fb00 0002 49f0
+br PC:6 | 1 c203
+bne PC:-20 | 1 e3f6
+beq PC:2000 | 2 fb3c 03e8
+br PC:300000 | 3 fa00 0002 49f0
 # compare and branch
 cbeq R:3 I:0 PC:8 | 1 7083
-cbne R:1 R:2 PC:-30 | 2 fb54 22f1
-cblt R:4 I:100 PC:60 | 2 f749 641e
-cbpl R:4 I:3 PC:8 | 2 ed04 0c04
+cbne R:1 R:2 PC:-30 | 2 fa54 22f1
+cblt R:4 I:100 PC:60 | 2 f649 641e
+cbpl R:4 I:3 PC:8 | 2 ec04 0c04
 # call; an external reference needs a 32-bit field
-call PC:200 | 2 fa40 0064
-call PC:0:E | 3 fa0d 0000 0000
-lea PC:0:E R:1 | 3 d8c1 0000 0000
-movq A:0:E R:2 | 3 b602 0000 0000
+call PC:200 | 2 f940 0064
+call PC:0:E | 3 f90d 0000 0000
+lea PC:0:E R:1 | 3 d7c1 0000 0000
+movq A:0:E R:2 | 3 b402 0000 0000
 # no operand
-ret | 1 f7c3
-nop | 1 f7c0
-halt | 1 f7c4
-lpad | 1 f7c9
+ret | 1 f6c3
+nop | 1 f6c0
+halt | 1 f6c4
+lpad | 1 f6c9
 # system: trap (one 8-bit vector), set, mfsr
-trap I:3 | 1 7903
-trap I:200 | 1 79c8
-set I:2 R:3 | 2 f7e3 2000
-mfsr R:2 I:12 | 2 fc20 200c
-mtsr I:1 R:2 | 2 fc22 2001
+trap I:3 | 1 a503
+trap I:200 | 1 a5c8
+set I:2 R:3 | 2 f6e3 2000
+mfsr R:2 I:12 | 2 fb20 200c
+mtsr I:1 R:2 | 2 fb22 2001
 # trapcc, isync, hint, pushx
-trapcc.eq | 1 f7d1
-isync | 1 f7cf
-hint I:165 | 1 7ba5
-pushx | 1 f7cd
+trapcc.eq | 1 f6d1
+isync | 1 f6cf
+hint I:165 | 1 cfa5
+pushx | 1 f6cd
 # MESC
-movub B:8:3 R:2 | 3 afc2 3000 0008
-movul B:8:3 R:2 | 3 e7c2 3000 0008
-addm R:1 B:16:2 | 3 da02 1000 0010
-bism R:1 B:0:2 | 3 dac2 1000 0000
+movub B:8:3 R:2 | 3 adc2 3000 0008
+movul B:8:3 R:2 | 3 e6c2 3000 0008
+addm R:1 B:16:2 | 3 d902 1000 0010
+bism R:1 B:0:2 | 3 d9c2 1000 0000
 # new instructions
-maskeqz R:1 R:2 R:3 | 2 f183 5c22
+maskeqz R:1 R:2 R:3 | 2 f083 5c22
 # check instructions (errata 152)
-ctcc R:1 R:2 | 2 f9e0 880c
-ctne R:3 R:4 | 2 f9e1 9011
-ctcc R:5 I:88 | 2 fb40 5058
-cthi R:6 I:4000 | 2 fb42 6fa0
-cteq R:7 I:0 | 2 fb44 7000
-cteq R:8 | 1 f148
-ctne R:9 | 1 f169
-chk2 R:10 R:11 R:12 | 2 f18c 014b
-masknez R:1 R:2 R:3 | 2 f183 6022
-bsel R:1 R:2 R:3 R:4 | 2 d1c4 0443
-aeses R:1 R:2 R:3 | 2 f183 6422
-aesks1 R:1 I:3 R:2 | 2 f9f3 0862
-sha256sum0 R:1 R:2 | 2 f9e0 8848
-maesctr R:1 R:2 R:3 R:4 | 2 d1c4 8443
-addv R:1 R:2 | 2 f9e0 884e
-mulv R:1 R:2 | 2 f9e0 8850
+ctcc R:1 R:2 | 2 f8e0 880c
+ctne R:3 R:4 | 2 f8e1 9011
+ctcc R:5 I:88 | 2 fa40 5058
+cthi R:6 I:4000 | 2 fa42 6fa0
+cteq R:7 I:0 | 2 fa44 7000
+cteq R:8 | 1 f048
+ctne R:9 | 1 f069
+chk2 R:10 R:11 R:12 | 2 f08c 014b
+masknez R:1 R:2 R:3 | 2 f083 6022
+bsel R:1 R:2 R:3 R:4 | 2 d0c4 0443
+aeses R:1 R:2 R:3 | 2 f083 6422
+aesks1 R:1 I:3 R:2 | 2 f8f3 0862
+sha256sum0 R:1 R:2 | 2 f8e0 8848
+maesctr R:1 R:2 R:3 R:4 | 2 d0c4 8443
+addv R:1 R:2 | 2 f8e0 884e
+mulv R:1 R:2 | 2 f8e0 8850
 # fused pairs
-movcall R:1 R:2 PC:100 | 2 9c22 0032
-movcall R:1 R:2 PC:0:E | 3 9822 0000 0000
-popmret I:36608 | 1 e28f
-popret R:3 | 1 f903
+movcall R:1 R:2 PC:100 | 2 9822 0032
+movcall R:1 R:2 PC:0:E | 3 9422 0000 0000
+popmret I:36608 | 1 e18f
+popret R:3 | 1 f803
 mov2 R:1 R:2 R:8 R:3 | 1 32d5
 # user-qualified loads and stores
-movq.u B:8:1 R:2 | 2 8002 1008
-movb.ud B:8:1 R:2 | 2 d542 1008
+movq.u B:8:1 R:2 | 2 7c02 1008
+movb.ud B:8:1 R:2 | 2 d442 1008
 # bit fields, rotates
-extb R:1 I:4 I:8 R:2 | 3 d202 4420 0000
-dshr R:1 R:2 I:3 R:4 | 3 a804 8830 0000
-rori32 R:1 I:5 R:2 | 2 f9f1 08a2
-rol R:1 I:3 R:2 | 2 f9f2 0862
+extb R:1 I:4 I:8 R:2 | 3 d102 4420 0000
+dshr R:1 R:2 I:3 R:4 | 3 a604 8830 0000
+ror32 R:1 I:5 R:2 | 2 f8f1 08a2
+rol R:1 I:3 R:2 | 2 f8f2 0862
 # movq with a constant that no shorter form holds: five parcels, a 64-bit immediate
-movq I:1311768467463790320 R:4 | 5 f804 1234 5678 9abc def0
-movq I:-4294967297 R:0 | 5 f800 ffff fffe ffff ffff
+movq I:1311768467463790320 R:4 | 5 f704 1234 5678 9abc def0
+movq I:-4294967297 R:0 | 5 f700 ffff fffe ffff ffff
 # push/pop, masks
-pushm I:36608 | 1 cc8f
-popm I:256 | 1 cd01
-push R:3 | 1 ecc3
-push I:100000 | 3 fc49 0001 86a0
+pushm I:36608 | 1 ca8f
+popm I:256 | 1 cb01
+push R:3 | 1 ebc3
+push I:100000 | 3 fb48 0001 86a0
 # registers r16-r31: 5-bit fields
 movq R:17 R:20 | 1 0234
 add R:31 R:30 | 1 0bfe
 xor R:16 R:1 | 1 1201
-movq B:8:24 R:25 | 2 f54c 6401
-movq B:100:17 R:30 | 3 843e 1000 0064
+movq B:8:24 R:25 | 2 f44c 6401
+movq B:100:17 R:30 | 3 803e 1000 0064
 # the eight register-register mnemonics have a 5-bit one-parcel form
 shl R:31 R:30 | 1 1ffe
 bis R:16 R:17 | 1 1a11
 sub R:20 R:21 | 1 0e95
-cmp R:20 R:21 | 2 fc4b 5a95
-movq X:0:16:31:8 R:18 | 2 fb21 0ff2
+cmp R:20 R:21 | 2 fb4a 5a95
+movq X:0:16:31:8 R:18 | 2 fa21 0ff2
 cbeq R:19 I:0 PC:8 | 1 7093
-cbne R:30 R:31 PC:16 | 2 fb57 df08
-bsel R:24 R:25 R:26 R:27 | 2 d1db 633a
+cbne R:30 R:31 PC:16 | 2 fa57 df08
+bsel R:24 R:25 R:26 R:27 | 2 d0db 633a

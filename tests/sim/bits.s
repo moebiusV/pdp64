@@ -45,7 +45,7 @@ _start:
 	cmp	r2, #1		; bit 0 goes to bit 63
 	bne	f11
 	movq	#1, r1
-	rori	r1, #1, r1
+	ror	r1, #1, r1
 	shr	#63, r1
 	cmp	r1, #1		; rotate right by 1 puts bit 0 at bit 63
 	bne	f12

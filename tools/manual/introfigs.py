@@ -78,7 +78,7 @@ def fig_words():
     c.text(x0, 238, 'sub-op: which of the sixteen operations of this form (here movq); b: the five bits of the base register, one in the first parcel and four in the second;', 9, 'start', '#333')
     c.text(x0, 250, 'rd: the destination register, five bits because there are thirty-two; stride: how far the base register moves afterwards, 0 meaning the size of the access.', 9, 'start', '#333')
     c.text(x0, 272, 'The PDP-11 word is read from the handbook (11/70, section {{r:glass-teletype-and-its-escape-codes}}); the pdp64 fields are the leaf LDF.PI12 of the grammar (dictionary/by-encoding.md).', 9, 'start', '#555')
-    c.text(x0, 288, 'The assembler spells the pdp64 instruction as shown in the heading of this figure (appendix {{a:id03005|n}}).', 9, 'start', '#555')
+    c.text(x0, 288, 'The assembler spells the pdp64 instruction as shown in the heading of this figure (appendix {{c:id03005|n}}).', 9, 'start', '#555')
     return c.svg()
 
 

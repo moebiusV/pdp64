@@ -33,7 +33,8 @@ for g, items in en.items():
             elif w in ('jmp', 'call'): pass
             else: add('%s r3' % w, '%s (r5)' % w)
         elif g == 'mn-besc':
-            if w in ('rori', 'rori32'): add('%s r6, #3, r3' % w)
+            if w == 'ror': add('ror r6, #3, r3', 'ror r6, r4, r3')
+            elif w in ('ror32', 'rol'): add('%s r6, #3, r3' % w)
             elif w == 'dshr': add('dshr r6, r4, #3, r3')
             elif w in ('extb', 'extzb', 'insb'): add('%s r6, #3, #8, r3' % w)
             elif w in R2: add('%s r6, r3' % w)

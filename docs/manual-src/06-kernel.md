@@ -165,7 +165,7 @@ A mask that names too little costs the user a value, and the first test shows it
 
 **{{#return-to-the-same-mode}}** A return to the same mode ignores the mask: nothing is a lesser mode, and no register is cleared.
 
-**{{#generated-rtimask-constants}}** The generated constants `RTIMASK_ALL` (every register kept), `RTIMASK_NONE` (none kept), `RTIMASK_CALLEE` (`R8` to `R11`, `R13`, `R15`, `R24` to `R31`) and `RTIMASK_SYSCALL` (`R0` and the callee-saved registers; a call that returns two words adds `R1`) name the common masks, and `RTIMASK_VECTOR` is the number of the bit of {{r:r14-is-the-stack-pointer}}. The default mask of a system-call return is `RTIMASK_SYSCALL` (appendix {{a:id03004|n}}).
+**{{#generated-rtimask-constants}}** The generated constants `RTIMASK_ALL` (every register kept), `RTIMASK_NONE` (none kept), `RTIMASK_CALLEE` (`R8` to `R11`, `R13`, `R15`, `R24` to `R31`) and `RTIMASK_SYSCALL` (`R0` and the callee-saved registers; a call that returns two words adds `R1`) name the common masks, and `RTIMASK_VECTOR` is the number of the bit of {{r:r14-is-the-stack-pointer}}. The default mask of a system-call return is `RTIMASK_SYSCALL` (appendix {{c:id03004|n}}).
 
 **{{#rti-and-rtt-are-six}}** `RTI` and `RTT` are six bytes where they were two. They run at the rate of interrupts and system calls, never in a hot loop, and a two-byte slot is worth more to a frequent instruction. The same mask on `GENTER` is in {{r:rti-mask-is-the-only}}.
 

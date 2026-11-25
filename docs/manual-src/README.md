@@ -26,13 +26,13 @@ A name is `[a-z0-9][a-z0-9-]*` and unique in the book. Write it from the first w
 | what | in the source | in the manual |
 |---|---|---|
 | chapter heading | `# {{c:id01006\|n}}. The kernel` (the uuid of the chapter in `book/outline.txt`) | `# 6. The kernel` |
-| appendix heading | `# Appendix {{a:id03004\|n}}. The ABI` | `# Appendix C. The ABI` |
+| appendix heading | `# Appendix {{c:id03004\|n}}. The ABI` | `# Appendix C. The ABI` |
 | section | `## {{#kernel-modes}} Modes and the status word` | `## 6.2 Modes and the status word` |
 | numbered subsection | `### {{#vm-walk}} The walk` (an item of its section, like a statement) | `### 6.7.3 The walk` |
 | statement | `**{{#psw-has-three-modes}}** There are three modes...` (at the start of a line) | `**6.2.1** There are three modes...` |
 | figure | `![{{#fig-psw}}The status word](figures/psw.svg)` | `![The status word](figures/psw.svg)`; its number is `5.1` for the first figure of chapter 5 |
 | citation | `section {{r:kernel-modes}}`, `(see {{r:psw-has-three-modes}})`, `Figure {{r:fig-psw}}` | `section 6.2`, `(see 6.2.1)`, `Figure 5.1` |
-| a chapter or an appendix in words | `chapter {{c:id01006\|n}}`, `appendix {{a:id03004\|n}}` | `chapter 6`, `appendix C` |
+| a chapter or an appendix in words | `chapter {{c:id01006\|n}}`, `appendix {{c:id03004\|n}}` | `chapter 6`, `appendix C` |
 | a link to a section | `[{{r:kernel-modes}}]({{u:kernel-modes}})` | `[6.2](06-kernel.md#62-modes-and-the-status-word)` |
 | the contents list of `00-index.md` | `{{n}}. [**Title**](file.md)` | `1. [**Title**](file.md)`, counted |
 | in a Python string of the generators | `'... (section {{r:name}})'`; for a home section `R('name')` in `tools/mkmanual.py` | the same |
