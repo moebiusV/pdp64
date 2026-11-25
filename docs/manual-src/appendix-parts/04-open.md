@@ -40,7 +40,7 @@
 
 **Precedents.** The V7 primary bootstrap for the RM02/3 writes the disk's registers itself *(verified: `sys/mdec/hpuboot.s`)*. OpenBSD's PC first stage calls `INT 0x13` *(verified: `biosboot.S`)*. OpenBSD's `installboot` hard-codes the block numbers of the second stage into the first stage *(verified: `installboot(8)` for the sparc, and `biosboot(8)` for the PC)*. The 4.3BSD-Tahoe VAX `raboot` is documented as working with the 750's boot ROM and reading 7.5 KB *(verified for the header; how the ROM helps it is unverified)*.
 
-**The author's referents.** The PDP-11 boot ("load 512 byte block 0 then jmp 0"); "follow the majority as far as boot block offset"; the GPT wrapper of errata 50.
+**The author's referents.** The PDP-11 boot ("load 512 byte block 0 then jmp 0"); "follow the majority as far as boot block offset"; the GPT wrapper.
 
 **The assistant's leaning.** Option 1 if a measured reader fits, because it needs nothing from the ROM; Option 3 if it does not. A measurement of a polled virtio-blk read in assembler for the pdp64 would decide it.
 
@@ -70,7 +70,7 @@
 <a id="j44"></a>
 ### J.4.4 The boot-information block: fields, who fills them, layout
 
-**Issue.** The kernel must be told about the machine it is on: memory ranges, the number of cores, the address of the root complex, the boot device, the console, a command line, and, when the loader has set one up, the screen (decided: 4.6.3). That the kernel is told through a boot-information block, and that the bus lists the devices (so the block need not), is decided (4.6.2, errata 109 and 49). It has been assumed that the ROM fills what it knows (memory, cores, the device) and the second stage adds the command line and the screen, and that the address of the block is passed in `r1`; none of that is decided. The details that are open: the fields, and the layout (order, field widths, a checksum, a version, a header), whether the block is generated from a grammar like the rest of the specification, and whether it is replaced or joined by a device tree are open.
+**Issue.** The kernel must be told about the machine it is on: memory ranges, the number of cores, the address of the root complex, the boot device, the console, a command line, and, when the loader has set one up, the screen (decided: 4.6.3). That the kernel is told through a boot-information block, and that the bus lists the devices (so the block need not), is decided (4.6.2). It has been assumed that the ROM fills what it knows (memory, cores, the device) and the second stage adds the command line and the screen, and that the address of the block is passed in `r1`; none of that is decided. The details that are open: the fields, and the layout (order, field widths, a checksum, a version, a header), whether the block is generated from a grammar like the rest of the specification, and whether it is replaced or joined by a device tree are open.
 
 **Why it matters.** The ROM, the second stage and the kernel are written against it; the generated headers and the ABI appendix cannot carry it until it is fixed.
 
@@ -85,7 +85,7 @@
 
 **Precedents.** The VAX restart parameter block and the Alpha hardware restart parameter block are fixed-layout records of the machine *(verified: 4.3BSD `vax/rpb.h`, OpenBSD `alpha/include/rpb.h`)*. UEFI passes a memory map and configuration tables for ACPI or a device tree, and OpenBSD's loaders look for both *(verified: `efiboot`)*. OpenBSD's arm64 and riscv64 kernels parse a device tree *(verified through `efiboot`'s `FDT_TABLE_GUID`)*.
 
-**The author's referents.** UEFI ("is it worth it at all?"), since decided against; "load 512 byte block 0 then jmp 0"; errata 109: the hand-off "kept simple enough that a UEFI shim could be written".
+**The author's referents.** UEFI ("is it worth it at all?"), since decided against; "load 512 byte block 0 then jmp 0"; the hand-off "kept simple enough that a UEFI shim could be written".
 
 **The assistant's leaning.** Option 1, with a version field: the bus describes its own devices, so the block only has to carry what enumeration cannot (memory, cores, root complex, boot device, console, command line, screen). It changes if the OpenBSD device-tree drivers are to be reused, which would favour Option 4.
 
@@ -108,14 +108,14 @@
 
 **Precedents.** Linux `request_firmware`, OpenBSD `loadfirmware(9)` (reads from `/etc/firmware`) and NetBSD `firmload(9)` load a blob from a file at attach time *(verified: read in the trees)*. NVMe has a firmware-download command *(unverified; not found in the QEMU headers read)*. The VAX console and some adapters loaded microcode from storage *(unverified)*.
 
-**The author's referents.** "the init protocol should mostly happen behind the bus, poke a register to tell the device 'initialize yourself' and possibly have another register populated with values or a binary firmware blob for the device to load" (R256); the `INIT` and `READY` bits of the Unibus device; virtio's `device_status` handshake.
+**The author's referents.** "the init protocol should mostly happen behind the bus, poke a register to tell the device 'initialize yourself' and possibly have another register populated with values or a binary firmware blob for the device to load"; the `INIT` and `READY` bits of the Unibus device; virtio's `device_status` handshake.
 
 **Where the body refers to it.** Section 4.8.1.
 
 <a id="j46"></a>
 ### J.4.6 Starting the other cores
 
-**Issue.** At reset only core 0 runs, and the controller chip provides the way the others are started (4.7.1; the author, R256: "we'll need a way for the controller chip to 'boot' the other chips"). The open part is the mechanism. The kernel must start the others, each with its own stack and its own identity. The mechanism is not decided: how a core is given its entry address and an argument, what registers and mode it starts with (and so whether it starts with translation off, and what `MMUCTL` it sees), which registers carry its core number and the argument (chapter 7 states one rule, `r0` only, and the first design of this chapter a second, `r0` and `r1`), and how a core that sticks is reset.
+**Issue.** At reset only core 0 runs, and the controller chip provides the way the others are started (4.7.1; the author: "we'll need a way for the controller chip to 'boot' the other chips"). The open part is the mechanism. The kernel must start the others, each with its own stack and its own identity. The mechanism is not decided: how a core is given its entry address and an argument, what registers and mode it starts with (and so whether it starts with translation off, and what `MMUCTL` it sees), which registers carry its core number and the argument (chapter 7 states one rule, `r0` only, and the first design of this chapter a second, `r0` and `r1`), and how a core that sticks is reset.
 
 **Why it matters.** The kernel's secondary-start code, the controller's register block and the boot-information block's core count are written against it.
 
@@ -130,7 +130,7 @@
 
 **Precedents.** Linux counted: `smpboot.c` 1,528 lines and `arch/x86/realmode` 1,258 for x86; PSCI 124 and the spin table 127 on arm64; the SBI start 108 and the spin wait 58 on RISC-V *(verified, re-counted in Linux `7be4bc52`)*. The VAX console processor started the other processors *(unverified)*.
 
-**The author's referents.** The PDP-11, which had one processor; "we'll need a way for the controller chip to 'boot' the other chips; do a thorough review of how all the main smp systems do it, which is best/easiest" (R256). He has not chosen among the options.
+**The author's referents.** The PDP-11, which had one processor; "we'll need a way for the controller chip to 'boot' the other chips; do a thorough review of how all the main smp systems do it, which is best/easiest". He has not chosen among the options.
 
 **The assistant's leaning.** Option 1: it removes the trampoline and the firmware call and recovers a stuck core by one write.
 
@@ -214,7 +214,7 @@
 
 **Precedents.** `ODT` on the PDP-11 *(2.11BSD `cons(4)` read; the commands unverified)*; U-Boot and OpenSBI consoles *(unverified)*.
 
-**The author's referents.** Errata 47: "the boot ROM and its monitor".
+**The author's referents.** "the boot ROM and its monitor".
 
 **The assistant's leaning.** Option 1.
 

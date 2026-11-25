@@ -119,7 +119,6 @@
 
 | Term | Meaning |
 |---|---|
-| **errata** | the numbered decision log of the project (`../errata.md`, appendix F) |
 | **fair corpus** | the 827 or 841 C files that every back end compiles, used for all size comparisons (1.7) |
 | **`pcc`** | the portable C compiler the project extends to emit pdp64 code (1.7) |
 | **`sim64`, QEMU** | the instruction-set simulator and the full-system emulator the tests run on (1.8, 10.5; not otherwise described in this manual) |

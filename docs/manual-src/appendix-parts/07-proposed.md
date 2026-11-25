@@ -1,4 +1,4 @@
-The numbers in this fragment are labels: they are those of chapter 7 before its rewrite (errata 127 gives the map), not those of the body, and a citation of one of them reads "H.7, 7.8.1".
+The numbers in this fragment are labels: they are those of chapter 7 before its rewrite (the chapter's own text keeps the map), not those of the body, and a citation of one of them reads "H.7, 7.8.1".
 
 ### 7.8 Starting and signalling the other cores (moved from chapter 7)
 

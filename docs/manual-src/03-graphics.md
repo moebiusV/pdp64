@@ -188,7 +188,7 @@ Open: how text, pixels and sprites are composed on the display, the author's mas
 
 **3.10.1** The display connector is standard kit: HDMI (and DVI and DisplayPort) is a transmitter chip that takes pixels and sync signals in parallel and does the link protocol, the encoding and the electrical signalling itself; on the first board it is the DE10-Nano's ADV7513, set up once over an I2C-style control bus.
 
-**3.10.2** The output is HDMI or some other standard graphics output: a different transmitter (DisplayPort, a VGA digital-to-analogue converter, an LVDS panel) takes the same pixel stream, so the pdp64's side does not change (errata 105: "it is agreed that output is hdmi or some other standard graphics output").
+**3.10.2** The output is HDMI or some other standard graphics output: a different transmitter (DisplayPort, a VGA digital-to-analogue converter, an LVDS panel) takes the same pixel stream, so the pdp64's side does not change (the author: "it is agreed that output is hdmi or some other standard graphics output").
 
 **3.10.3** The ports that carry data, SATA for storage and USB for peripherals, follow the same pattern: the protocol is in the chip or controller block, and the processor's side is a slot with the common registers and a ring (chapter 5).
 
@@ -210,7 +210,7 @@ Open: whether the framebuffer has a write-combining memory type, which the four 
 
 ## 3.12 virtio-gpu: the standard graphics device
 
-The standard display (errata 79: "virtio is fine"; virtio-gpu in its 2D mode) is a virtio device like the disk of chapter 2, so 2.7 applies: it is found by enumeration, its queues are rings of descriptors in memory, and the work is commands in a queue. The commands below are from the Linux header `virtio_gpu.h` and from QEMU's `hw/display/virtio-gpu.c`.
+The standard display (the author: "virtio is fine"; virtio-gpu in its 2D mode) is a virtio device like the disk of chapter 2, so 2.7 applies: it is found by enumeration, its queues are rings of descriptors in memory, and the work is commands in a queue. The commands below are from the Linux header `virtio_gpu.h` and from QEMU's `hw/display/virtio-gpu.c`.
 
 **The vocabulary.** A **resource** is a picture that the device owns, named by a number the driver chooses (`resource_id`), with a pixel format, a width and a height. Its **backing** is the driver's own memory that holds the pixels: a list of `{addr, length}` entries (`struct virtio_gpu_mem_entry`) naming the pages. A **scanout** is one output of the device (up to `VIRTIO_GPU_MAX_SCANOUTS`, 16, in the header); `SET_SCANOUT` says which resource, and which rectangle of it, an output shows. Two commands move and show the pixels: `TRANSFER_TO_HOST_2D` copies a rectangle of the backing memory into the device's picture, and `RESOURCE_FLUSH` tells the device that a rectangle changed and should be shown. The pixel formats are 32 bits with 8 bits a channel (eight in the header): `B8G8R8A8_UNORM`, `B8G8R8X8_UNORM`, `A8R8G8B8_UNORM`, `X8R8G8B8_UNORM`, `R8G8B8A8_UNORM`, `X8B8G8R8_UNORM`, `A8B8G8R8_UNORM`, `R8G8B8X8_UNORM` (values 1 to 4, 67, 68, 121 and 134; the names give the channel order, the *colour order* annoyance of 3.14). Every command starts with a `virtio_gpu_ctrl_hdr`: a type, flags, a 64-bit fence id, a context id and a ring index; the flag `VIRTIO_GPU_FLAG_FENCE` asks that the response carry the fence id once the work is done, which is the device's only completion-ordering tool. The rectangle is `struct virtio_gpu_rect`: x, y, width, height, four 32-bit numbers.
 
@@ -238,7 +238,7 @@ Open: the feature subset of virtio-gpu and of virtio-snd that the pdp64 requires
 
 Open: the 48-bit pixel against the 32-bit formats of virtio-gpu ([J.3.6](appendix-j-open.md#j36)).
 
-*Commentary.* **Chain.** The PDP-11 has no antecedent: its devices had registers, not queues (2.1). QEMU offers virtio-gpu as a virtual machine's display (`hw/display`): the guest draws into its own memory and tells the host which rectangle to show. **Trade-offs.** It is the most standard route (one tested driver, the same in QEMU, `sim64` and the FPGA, as errata 79 says) and does everything in software: the processor writes every pixel and the host copies them, which is cheap for a terminal with little damage and costs a game what 3.5 described. **Benefits.** No special hardware. **Modern comparables.** Linux's `virtio_gpu` driver, which sits on the DRM interface of 3.14. **Impact.** *Kernel:* a driver for the five commands, one queue of 2.7 and a cursor queue. *Compiler:* none. *Hardware:* none beyond the virtio device and the bus.
+*Commentary.* **Chain.** The PDP-11 has no antecedent: its devices had registers, not queues (2.1). QEMU offers virtio-gpu as a virtual machine's display (`hw/display`): the guest draws into its own memory and tells the host which rectangle to show. **Trade-offs.** It is the most standard route (one tested driver, the same in QEMU, `sim64` and the FPGA, as the author decided) and does everything in software: the processor writes every pixel and the host copies them, which is cheap for a terminal with little damage and costs a game what 3.5 described. **Benefits.** No special hardware. **Modern comparables.** Linux's `virtio_gpu` driver, which sits on the DRM interface of 3.14. **Impact.** *Kernel:* a driver for the five commands, one queue of 2.7 and a cursor queue. *Compiler:* none. *Hardware:* none beyond the virtio device and the bus.
 
 ## 3.13 A standard graphics card
 
@@ -252,9 +252,9 @@ Open: the 48-bit pixel against the 32-bit formats of virtio-gpu ([J.3.6](appendi
 
 Graphics programming has been annoying, cumbersome and full of **boilerplate** (code written the same way in every program before the program can do anything of its own). This section lists the boilerplate that exists and shows three pieces of it. The PDP-11 has no antecedent: its console needed none (3.1). The chain runs from the VGA programmer's register lore (3.5) to the Linux and Vulkan setup lists below.
 
-**3.14.1** What made graphics programming annoying, cumbersome or boilerplate is sugared away by the architecture to almost nothing (the author, 2026-11-10: "basically, anything that made graphics programming annoying or cumbersome or boiler platey, we want to sugar away to almost nothing", errata 105).
+**3.14.1** What made graphics programming annoying, cumbersome or boilerplate is sugared away by the architecture to almost nothing (the author, 2026-11-10: "basically, anything that made graphics programming annoying or cumbersome or boiler platey, we want to sugar away to almost nothing").
 
-**3.14.2** The measure that every design in this chapter is held to is the author's: "graphics programming should be as simple and pleasurable as the c64 was." (Errata 105.): which sugar, for 3.14.1 and 3.14.2; the table below lists the pain points.
+**3.14.2** The measure that every design in this chapter is held to is the author's: "graphics programming should be as simple and pleasurable as the c64 was.": which sugar, for 3.14.1 and 3.14.2; the table below lists the pain points.
 
 The books of Michael Abrash on VGA and PC graphics programming (the author's "800 page michael abrash books"; titles and page counts *unverified*, 3.5) exist because a programmer could not get a fast picture without knowing the VGA's registers, its planar memory, its retrace, the banking of each chip and how to hand-tune the inner loops. Each row of the table below is a piece of that knowledge, or of its successor (the long setup lists of the Linux display interface and of Vulkan), The knowledge was real and was needed.
 
@@ -387,7 +387,7 @@ Double buffering has four costs. It **needs twice the memory**: at 1920 by 1080 
 
 Variable refresh (HDMI VRR, adaptive sync) turns a late frame into a short delay, which reduces the need for a blank-time flip but does not remove it: the frame still must not change *while* it is read. A television may hold a whole frame before showing it (latency), and a laptop panel may refresh itself from its own memory when nothing changes (panel self-refresh). Checked on this machine: HDMI is a pixel-stream transmitter (3.10.1), and the DRM header `drm_mode.h` has a page-flip call with a completion event (`DRM_MODE_PAGE_FLIP_EVENT`) and an asynchronous flag that allows a flip with tearing (`DRM_MODE_PAGE_FLIP_ASYNC`). *Unverified* general knowledge: the VRR and adaptive-sync standards and what a sink does with a late frame, television latency, panel self-refresh, and what phone and desktop compositors do.
 
-**3.15.1** The architecture offers conveniences, "nice architectural sugar", that avoid tearing, flicker and the other faults that forced graphics programmers to double-buffer (the author, 2026-11-10, errata 105).: which conveniences, and whether a tear-free flip is worth hardware when the display is variable-refresh.
+**3.15.1** The architecture offers conveniences, "nice architectural sugar", that avoid tearing, flicker and the other faults that forced graphics programmers to double-buffer (the author, 2026-11-10).: which conveniences, and whether a tear-free flip is worth hardware when the display is variable-refresh.
 
 ## 3.16 The C128
 
@@ -395,7 +395,7 @@ Variable refresh (HDMI VRR, adaptive sync) turns a late frame into a short delay
 
 **3.16.2** C64 mode is the enabling or disabling of the C128 as a PCI Express device: when it is enabled it takes over the graphics and audio output, or sends them to a compositor (the author: "the mode is just enabling/disabling the c128 as a pcie device so it takes over the graphics and audio output... or sends them to a compositor"). A **compositor** is the program or hardware that combines the pictures of several windows or sources into the one picture that is scanned out.: the form of the compositor path.
 
-**3.16.3** Of the paths to a compositor, the C128 draws into a buffer that the host's compositor treats as a surface: "c128 drawing into a buffer makes most sense" (the author, 2026-11-10, errata 106).: how the compositor learns that the buffer is the core's, who owns the memory, how the core's frame timing meets the compositor's, and the audio form (3.17).
+**3.16.3** Of the paths to a compositor, the C128 draws into a buffer that the host's compositor treats as a surface: "c128 drawing into a buffer makes most sense" (the author, 2026-11-10).: how the compositor learns that the buffer is the core's, who owns the memory, how the core's frame timing meets the compositor's, and the audio form (3.17).
 
 **3.16.4** The Commodore 128 is another device on the PCI Express bus and is not part of the pdp64 standard: its 8502 core, memory management, 80-column video chip and compatibility island are an optional device reached through the IOMMU window. The instruction set, the memory model and the standard devices neither contain nor depend on it, and no instruction, register or PSW bit exists for it.
 
@@ -452,7 +452,7 @@ Open: where the pdp64's mixer lives (the kernel, a library or the device) and wh
 
 The chain for windows: the PDP-11's teletype had none; the Blit's `mux` (terminal-side windows over a serial line), 8½ and rio (windows as files, on a local bus), NeWS (windows as downloaded code).
 
-**3.18.1** The pdp64 brings over what it can of the simplicity of rio and NeWS, the windowing systems that the Blit terminal inspired (the author, 2026-11-10: "we'd like to bring over what we can of that simplicity also", errata 106).: which simplicities, and in what form.
+**3.18.1** The pdp64 brings over what it can of the simplicity of rio and NeWS, the windowing systems that the Blit terminal inspired (the author, 2026-11-10: "we'd like to bring over what we can of that simplicity also").: which simplicities, and in what form.
 
 ## 3.19 What was checked, and what was not
 

@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**The manual states decisions; these are the documents that hold the evidence, the surveys and the long arguments they were drawn from.** Each is a document of the repository, not a chapter of this manual, and each says in its own opening what it is based on and what it did not check. They are listed with what they hold and their status; the *Why it is here* paragraphs of the instruction entries and the *Impact* lines cite them.
+**The manual states decisions; these are the documents that hold the evidence, the surveys and the long arguments they were drawn from.** Each is a document of the repository, not a chapter of this manual, and each says in its own opening what it is based on and what it did not check. They are listed with what they hold; the *Why it is here* paragraphs of the instruction entries and the *Impact* lines cite them.
 
 ## F.1 The architecture, in full
 
@@ -21,7 +21,6 @@
 
 | Document | What it holds |
 |---|---|
-| [`errata.md`](../errata.md) | every decision, numbered, with the reasons |
 | [`decisions-pending.md`](../decisions-pending.md) | every open decision, with the need, five options, the survey of what other systems do and what the PDP-11 and VAX did (appendix B is drawn from it) |
 | [`fact-check-2026-10-22.md`](../fact-check-2026-10-22.md) | the comparison of statements about the outside world with a source where one could be read; the claims it could not check are marked "not confirmed" in the manual |
 
@@ -35,9 +34,9 @@
 | [`hardware-vulnerabilities.md`](../hardware-vulnerabilities.md) | the processor, memory and system flaws of the last decade that needed mitigations, and the rules that keep pdp64 from repeating them, including the evidence on constant-time modes |
 | [`openbsd-mitigations.md`](../openbsd-mitigations.md) | OpenBSD's memory-safety and exploit mitigations, what pdp64 gives for free and what would make the rest soft and easy |
 | [`sim64.md`](../sim64.md) | the reference emulator |
-| [`smp-decisions.md`](../smp-decisions.md) | the open symmetric-multiprocessing decisions, proposals awaiting the author's annotations (tag P) |
-| [`crypto-secure-core.md`](../crypto-secure-core.md), [`security-proposals.md`](../security-proposals.md), [`study-proposals.md`](../study-proposals.md), [`retire-stage-candidates.md`](../retire-stage-candidates.md) | the proposals on the secure core, the security mechanisms, the studied instructions and the retire-stage mechanisms, with the author's replies in errata 84 to 86 |
-| [`priority-lists.md`](../priority-lists.md) | the lists of priorities that errata 83 settled |
+| [`smp-decisions.md`](../smp-decisions.md) | the open symmetric-multiprocessing decisions, proposals awaiting the author's annotations |
+| [`crypto-secure-core.md`](../crypto-secure-core.md), [`security-proposals.md`](../security-proposals.md), [`study-proposals.md`](../study-proposals.md), [`retire-stage-candidates.md`](../retire-stage-candidates.md) | the proposals on the secure core, the security mechanisms, the studied instructions and the retire-stage mechanisms, with the author's replies |
+| [`priority-lists.md`](../priority-lists.md) | the lists of priorities that the author settled |
 
 The data behind the tables is in `docs/codegen-data/`, the generators are in `tools/`, and the sources of the design discussions are `chat01.txt` and the archive of the working session.
 

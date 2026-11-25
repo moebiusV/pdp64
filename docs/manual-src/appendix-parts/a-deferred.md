@@ -1,6 +1,6 @@
-**A.4.2** (moved from appendix A) Return-address authentication is deferred (errata 84, item 7).
+**A.4.2** (moved from appendix A) Return-address authentication is deferred.
 
-**A.5.2** (moved from appendix A) Bounds for the valid-pointer tag are deferred (errata 86, study item 3): the tag per register and per 8-byte word is kept and the bounds of a capability are not part of it.
+**A.5.2** (moved from appendix A) Bounds for the valid-pointer tag are deferred: the tag per register and per 8-byte word is kept and the bounds of a capability are not part of it.
 
 ### A.8 Two-byte forms of the user-memory guard instructions (moved from appendix A)
 
