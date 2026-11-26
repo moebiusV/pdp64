@@ -1060,7 +1060,7 @@ static int write_object(const char *path)
 		memset(&r, 0, sizeof r); r.kind = 1; r.body.kind = 1;
 		ehdr_t *e = &r.body.u.a1.e;
 		e->ident.ptr = ident; e->ident.len = 16;
-		e->type = 1; e->machine = EM_PDP64; e->version = 1; e->flags = EF_PDP64_ISA | (uint32_t)(relax_on ? EF_PDP64_RELAX : 0) | (relax_on && text_poison ? EF_PDP64_NOADJ_TEXT : 0); e->shoff = off_sh; e->ehsize = 64; e->shentsize = 64; e->shnum = (uint16_t)nsh; e->shstrndx = (uint16_t)(nsh - 1);
+		e->type = 1; e->machine = EM_PDP64; e->version = 1; e->flags = (uint32_t)(relax_on ? EF_PDP64_RELAX : 0) | (relax_on && text_poison ? EF_PDP64_NOADJ_TEXT : 0); e->shoff = off_sh; e->ehsize = 64; e->shentsize = 64; e->shnum = (uint16_t)nsh; e->shstrndx = (uint16_t)(nsh - 1);
 		rec(&r, &head);
 		memcpy(file.p, head.p, head.n);
 	}
@@ -1089,16 +1089,12 @@ static char *slurp(const char *path, size_t *len)
 	return b;
 }
 
-#define USAGE "usage: %s [-m pdp64] [--no-relax] [-o object] file.s\n(the assembler makes relaxation objects by default, docs/relaxation.md: every address of a symbol in an instruction gets a relocation and every padding is re-computed by ld64, which then chooses the shortest form of each; --no-relax makes the plain object)\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text;\n -m pdp64 is accepted and ignored, for the driver convention of pcc: there is one target; the fused mnemonics movcall, popmret, popret and mov2 are ordinary instructions; nothing is ever fused by the assembler)\n"
+#define USAGE "usage: %s [--no-relax] [-o object] file.s\n(the assembler makes relaxation objects by default, docs/relaxation.md: every address of a symbol in an instruction gets a relocation and every padding is re-computed by ld64, which then chooses the shortest form of each; --no-relax makes the plain object)\n(an operand =K is a literal-pool load: the 64-bit constant K goes to the pool, emitted at .pool and at the end of .text;\n the fused mnemonics movcall, popmret, popret and mov2 are ordinary instructions; nothing is ever fused by the assembler)\n"
 
 int main(int argc, char **argv)
 {
 	const char *out = "a.out", *in = NULL;
 	for (int i = 1; i < argc; i++) {
-		if (!strcmp(argv[i], "-m") && i + 1 < argc) {			/* the old pcc driver convention: -m pdp64, the only target */
-			if (strcmp(argv[++i], "pdp64")) { fprintf(stderr, "%s: -m %s: the only target is pdp64\n", progname, argv[i]); return 2; }
-			continue;
-		}
 		if (!strcmp(argv[i], "--stats")) { enc_stats = 1; continue; }
 		if (!strcmp(argv[i], "--relax")) { relax_on = 1; relax_set = 1; continue; }
 		if (!strcmp(argv[i], "--no-relax")) { relax_on = 0; relax_set = 1; continue; }

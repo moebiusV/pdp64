@@ -13,7 +13,7 @@ The opcodes, prefixes and field positions may still change once the open items a
 | `elf.hbnf` | the records of the ELF object file (a grammar of its own, read with `--root`; not a part) |
 | `pdp64/tables.md` | the leaves, for people (`tools/mkenc.py --md`) |
 
-The object files and executables carry `EF_PDP64_ISA` (2) in the low four bits of `e_flags` (`as64/relocs.h`); `ld64` and `sim64` refuse a file that names another instruction set (the earlier iterations used 0 and 1).
+The object files and executables name no instruction set: there is one, and the `e_flags` of an executable are 0 (`as64/relocs.h`); `ld64` and `sim64` refuse a file with an undefined `e_flags` bit.
 
 The design, its measurements and the reasons are in `docs/encoding-proposal.md`; the scripts that produced the tables are in `docs/codegen-data/encoding/`.
 

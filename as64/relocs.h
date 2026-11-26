@@ -15,11 +15,9 @@
 #define R_PDP64_ALIGN     6		/* padding the linker re-computes (relaxation objects only): r_offset the start of the padding, symbol 0,
 					   addend = (bytes of padding the assembler put there) << 32 | alignment (a power of two, in bytes) */
 
-/* e_flags of an object or executable: the low four bits hold the instruction set, EF_PDP64_ISA.  The values 0 (parcel 0 = len opc reg low) and 1 belonged to
-   earlier iterations of the design that no longer exist; a tool refuses an object with another value. */
-#define EF_PDP64_ISA_MASK 0xF
-#define EF_PDP64_ISA      2
-/* Flags above it (docs/relaxation.md).  A RELAX object (as64 --relax, the default) has a relocation on every instruction of .text
+/* e_flags of an object or executable: there is one instruction set, so no field names it.  The executable has e_flags 0, and so has a plain object;
+   the two flags below are the only bits ld64 accepts (an object of an earlier iteration of the design, which held a number in the low four bits, is refused).
+   (docs/relaxation.md).  A RELAX object (as64 --relax, the default) has a relocation on every instruction of .text
    whose operand is the address of a symbol, local ones too, and R_PDP64_ALIGN on every padding: so the linker may change the length of those
    instructions and move everything behind them.  NOADJ_TEXT: the assembler met something in .text that depends on a distance and is not a relocation (a
    difference of two labels in an expression, a `d(pc)` written as a number): the linker leaves that object's .text exactly as it is. */

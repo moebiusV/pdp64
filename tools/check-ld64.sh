@@ -20,7 +20,7 @@ got = ['%04x' % struct.unpack_from('<H', d, 0x1000 + 2 * i)[0] for i in range(le
 m = [l.split() for l in open(sys.argv[2]) if l.startswith('0x')]
 wm = [l.split() for l in open(T + '/link.map')]
 flags = struct.unpack_from('<I', d, 0x30)[0]
-bad = got != want or m != wm or flags != 2
+bad = got != want or m != wm or flags != 0
 print(('DIFF ' if bad else 'ok   ') + 'link (words, map, e_flags %d)' % flags)
 if got != want: print('  got ', ' '.join(got)); print('  want', ' '.join(want))
 sys.exit(1 if bad else 0)
@@ -35,14 +35,14 @@ if "$B/ld64" -Ttext 0x7ffff000 -o "$B/ldhigh.out" "$B/ldhigh.o" 2> "$B/ldhigh.er
 elif grep -q "relocation to target out of range (value 2147483648" "$B/ldhigh.err"; then echo "ok   link at 2 GB (refused, symbol named)"
 else echo "DIFF link at 2 GB: wrong message: $(head -1 $B/ldhigh.err)"; fail=1; fi
 "$B/ld64" -Ttext 0xffffffff7ffff000 -o "$B/ldhigh.out" "$B/ldhigh.o" 2> "$B/ldhigh.err" && echo "ok   link in the top 2 GB (sign-extended)" || { echo "DIFF link in the top 2 GB: $(head -1 $B/ldhigh.err)"; fail=1; }
-# an object of another instruction set (the earlier iterations of the design: e_flags 0 or 1) is refused
+# an object with an e_flags bit that is not defined (the earlier iterations of the design held a number in the low four bits) is refused
 python3 - "$B/ldmain.o" "$B/ldold.o" <<'PY'
 import struct, sys
-d = bytearray(open(sys.argv[1], 'rb').read()); struct.pack_into('<I', d, 0x30, 1); open(sys.argv[2], 'wb').write(d)
+d = bytearray(open(sys.argv[1], 'rb').read()); struct.pack_into('<I', d, 0x30, 2); open(sys.argv[2], 'wb').write(d)
 PY
-if "$B/ld64" -o "$B/ldold.out" "$B/ldold.o" "$B/ldlib.o" 2> "$B/ldold.err"; then echo "DIFF an object of another instruction set: linked"; fail=1
-elif grep -q "not the pdp64" "$B/ldold.err"; then echo "ok   an object of another instruction set (refused)"
-else echo "DIFF an object of another instruction set: wrong message"; fail=1; fi
+if "$B/ld64" -o "$B/ldold.out" "$B/ldold.o" "$B/ldlib.o" 2> "$B/ldold.err"; then echo "DIFF an object with an undefined e_flags bit: linked"; fail=1
+elif grep -q "unknown e_flags" "$B/ldold.err"; then echo "ok   an object with an undefined e_flags bit (refused)"
+else echo "DIFF an object with an undefined e_flags bit: wrong message"; fail=1; fi
 # the table of check sites (errata 152): the records of two objects, concatenated in the order of the objects, each naming the `bpt` of its check, a file and a line and
 # the kind; __start___bug_table and __stop___bug_table bound them; the same linked with and without relaxation
 for mode in "--no-relax" ""; do

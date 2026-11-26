@@ -40,7 +40,7 @@ movq $5,%rax          7          li a0,5        4      mov x0,#5          4
 ### What it enables
 
 * **Dense code with an easy decoder.** The length of an instruction is a function of its first 16 bits, so a fetch unit finds where the next instruction starts after one lookup; no byte-by-byte scan as on x86.
-* **A measured encoding.** The corpus of compiled programs is 964,158 bytes in 296,070 instructions (3.26 bytes an instruction), 11.04% fewer bytes than the first encoding; over six large programs the programs execute 24.21% fewer instructions and 28.94% fewer bytes than on the first encoding.
+* **A measured encoding.** The corpus of compiled programs is 964,158 bytes in 296,070 instructions (3.26 bytes an instruction); over six large programs the programs execute 572,801,956 instructions and fetch 1,680,662,586 bytes.
 * **Common things short, rare things long**, by construction, not by custom: the optimiser pays for each opcode slot in what the frequent forms lose.
 * **A wild jump that fails early.** 3,278 of the 65,536 first-parcel patterns (5.0%) match no prefix and are illegal instructions; so is a sub-opcode that no mnemonic uses.
 

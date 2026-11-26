@@ -16,7 +16,7 @@ M = (1 << 64) - 1
 lib = ['\t.text']
 for i in range(NF):
     lib += ['\t.globl f%d' % i, 'f%d:' % i, '\tadd #%d, r6' % (i + 1), '\tret']
-lib += ['\t.globl fh', 'fh:\tcall hook', '\tret']      # a global of main.s, behind its relaxed code
+lib += ['\t.globl fhook', 'fhook:\tcall hook', '\tret']      # a global of main.s, behind its relaxed code
 lib += ['\t.globl farf', '\t.space 700000', 'farf:\tadd #7, r6', '\tret']      # beyond the reach of the 16- and 18-bit calls
 lib += ['\t.data']
 for i in range(NF):
@@ -66,7 +66,7 @@ for k in range(0, 151, 1):
 # near the reach of the 4-byte forms (64 KB): 10600 calls are 63.6 KB before relaxation and 42 KB after
 for k in (10600, 10800, 10900, 10930, 10990, 11000, 11100):
     body += skip_block(k, 'br' if k % 2 else 'beq')
-for k in (5000, 10800, 10930):
+for k in (5000, 10800, 10850):
     body += loop_block(k, 'bne')
 # data, pools, alignment
 data = ['\t.data', 'ld0:\t.quad 77', 'ld1:\t.quad 1000000007', '\t.align 8', 'ltab:']
@@ -94,7 +94,7 @@ for r in range(120):
         body += exec_calls(rnd.randrange(1, 4)) + ['\tcall lf%d' % rnd.randrange(3)]
         add(0)
     elif t == 9:
-        body += ['\tcall farf', '\tcall fh']; add(7 + 11)
+        body += ['\tcall farf', '\tcall fhook']; add(7 + 11)
     elif t == 12:
         i = rnd.randrange(NF); body += ['\tmovcall r1, r2, f%d' % i]; add(i + 1)
     elif t == 10:

@@ -5,7 +5,6 @@
  *
  *   sim64 [-t] [-r] [-k | -K | -H] [-i N:LEVEL:VECTOR] [-n steps] [-P file] program
  *
- *   (-m pdp64 is accepted and ignored, for the driver convention of pcc: there is one target.)
  *   -P file  profile: count the executed instructions per pc and write them at exit: "#" lines (the target, the totals, the instructions per category)
  *       and one line "pc count bytes category" (pc in hex, category as the #category lines in order) for each pc that ran.  A block instruction (mcpy...) is one executed instruction.
  *
@@ -62,10 +61,10 @@ static long maxsteps = 200000000;
 static jmp_buf jb;				/* -K: an abort unwinds to the main loop */
 static int jvec;
 static uint64_t jeva;
+static uint32_t eh_flags;	/* e_flags of the executable: none are defined */
 struct irq { long count; int level, vector, done; } irqs[64];
 static int nirqs;
 static long steps;
-static int elf_isa;
 static const char *profile_path;
 static struct { uint64_t lo, hi; uint32_t *count; uint8_t *len, *cat_of; uint64_t ninsn, nbytes, cat[PDP64_NCAT]; } prof;
 
@@ -159,7 +158,7 @@ static uint64_t load_elf(const char *path)
 		fprintf(stderr, "sim64: %s is not a pdp64 executable\n", path); exit(1);
 	}
 	ehdr_t eh = rec.body.u.a1.e;
-	elf_isa = eh.flags & EF_PDP64_ISA_MASK;
+	eh_flags = eh.flags;
 	prof.lo = ~(uint64_t)0;
 	for (int i = 0; i < eh.phnum; i++) {
 		tmp[0] = 5; memcpy(tmp + 1, b + eh.phoff + (size_t)i * 56, 56);
@@ -389,7 +388,6 @@ int main(int argc, char **argv)
 		}
 		else if (!strcmp(argv[i], "-n") && i + 1 < argc) maxsteps = atol(argv[++i]);
 		else if (!strcmp(argv[i], "-P") && i + 1 < argc) profile_path = argv[++i];
-		else if (!strcmp(argv[i], "-m") && i + 1 < argc) { if (strcmp(argv[++i], "pdp64")) { fprintf(stderr, "sim64: -m %s: the only target is pdp64\n", argv[i]); return 2; } }
 		else if (!strncmp(argv[i], "--timing=", 9) && ntms_spec < 32) timing_specs[ntms_spec++] = argv[i] + 9;
 		else if (!strncmp(argv[i], "--timing-out=", 13)) timing_out = argv[i] + 13;
 		else if (!strncmp(argv[i], "--timing-pc=", 12)) timing_pc = argv[i] + 12;
@@ -408,7 +406,7 @@ int main(int argc, char **argv)
 	cpu.deliver = sys; cpu.standin = !sys;
 	if (hve) pdp64_set_hve(&cpu, 1);
 	cpu.pc = load_elf(prog);
-	if (elf_isa != EF_PDP64_ISA) { fprintf(stderr, "sim64: %s: e_flags names the instruction set %d, not the pdp64 (%d)\n", prog, elf_isa, EF_PDP64_ISA); return 1; }
+	if (eh_flags) { fprintf(stderr, "sim64: %s: e_flags %#x: an executable of the pdp64 has none\n", prog, eh_flags); return 1; }
 	if (ntms_spec) {
 		char e[200];
 		if (sys) { fprintf(stderr, "sim64: --timing does not work with -K\n"); return 2; }

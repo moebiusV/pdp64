@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """vecwin.py -- where a `vec` prefix (a region operation, errata 139, J.8.5) would win in pdp64 assembly.
 
-usage: vecwin.py [-v] FILE.s ... > report          (the output of pcc's ccom -m pdp64, as the arch-compare scripts make it)
+usage: vecwin.py [-v] FILE.s ... > report          (the output of pcc's ccom, as the arch-compare scripts make it)
 
 The author asked for "a script to examine the asm for cases where the vec instruction would actually be a win" (2026-11-16).  It reads the
 assembly of each function, finds the innermost loops (a label that a later branch of the same function jumps back to, with no other loop inside), and

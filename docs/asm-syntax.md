@@ -5,7 +5,7 @@
 The grammar is `spec/pdp64-asm.hbnf` ([hbnf](https://github.com/moebiusV/hbnf) text rules); `tools/check-asmsyntax.sh` generates the parser and runs `tests/asmsyntax.c` over it,
 and `tools/check-as64.sh` assembles `tests/asm/*.s` and compares the bytes with hand-worked expectations.
 
-`as64` assembles the pdp64, the one CPU, with its prefix-coded encoding (instructions of 2, 4 or 6 bytes, 10 for `movq` of a 64-bit constant). `-m pdp64` is accepted for the driver convention of the C compiler and no other value is. The manual's [appendix D](manual/appendix-d-assembler.md) is the current description of the assembler; the instruction list and the shapes each form accepts are in the generated tables (`spec/pdp64/tables.md`, the manual dictionary), not here.
+`as64` assembles the pdp64, the one CPU, with its prefix-coded encoding (instructions of 2, 4 or 6 bytes, 10 for `movq` of a 64-bit constant). There is no option that names the machine. The manual's [appendix D](manual/appendix-d-assembler.md) is the current description of the assembler; the instruction list and the shapes each form accepts are in the generated tables (`spec/pdp64/tables.md`, the manual dictionary), not here.
 
 The layout of a source file is the V7 assembler's, `as`; the lexical rules are C's.
 
@@ -40,7 +40,7 @@ The layout of a source file is the V7 assembler's, `as`; the lexical rules are C
 - **Length.** The assembler chooses the shortest encoding, including the one-parcel forms; those forms have no mnemonics of their own, so `movq (r3), r1` assembles to the one-parcel form when it fits and to the long form when it does not.  One word names the operation and never its length: `movq #imm, rd` is 2, 4, 6 or 10 bytes by the constant, `trap #n` is 2 bytes for n up to 255, `jmp label` is `br label`; `.encode N` (the least number of parcels, 0 to return to the shortest) forces a form where a test needs one.
 
 - **`llvm-mc`.** The LLVM back end's assembler (`llvm/`; the script `llvm/check.sh` that compared it with `as64` is not in the tree now: unverified) accepts this syntax with these exceptions: no literal pool (`=K` and `.pool`), no names that start with a digit, no non-ASCII names, and `.comm` needs its alignment written (`as64` implies 8). `(pc)` and `(dp)` without a displacement are accepted by `as64` (displacement 0) and by `llvm-mc`.
-- **Object format.** ELF64, little-endian, `e_machine` 0xF064 (`EM_PDP64`, private use); the low four bits of `e_flags` hold `EF_PDP64_ISA` (2) and a relaxation object adds two flag bits ([relaxation.md](relaxation.md)); relocations `R_PDP64_D64`, `R_PDP64_D32`, `R_PDP64_INSN_ABS`, `R_PDP64_INSN_PC`, `R_PDP64_INSN_BR`, and `R_PDP64_ALIGN` in relaxation objects (`as64/relocs.h`; LLVM: `ELFRelocs/PDP64.def`).
+- **Object format.** ELF64, little-endian, `e_machine` 0xF064 (`EM_PDP64`, private use); `e_flags` is 0, and a relaxation object has two flag bits ([relaxation.md](relaxation.md)); relocations `R_PDP64_D64`, `R_PDP64_D32`, `R_PDP64_INSN_ABS`, `R_PDP64_INSN_PC`, `R_PDP64_INSN_BR`, and `R_PDP64_ALIGN` in relaxation objects (`as64/relocs.h`; LLVM: `ELFRelocs/PDP64.def`).
 
 What it leaves out of V7 `as`: octal numbers by default, `<string>` and the `'\e` escape, `\/ \< \>`, `.stabs`,
 symbols cut to eight characters.

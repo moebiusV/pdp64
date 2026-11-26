@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	uint32_t flags = b[0x30] | b[0x31] << 8 | b[0x32] << 16 | (uint32_t)b[0x33] << 24;
-	struct etab *t = (flags & 15) == 2 ? &enc_tab : NULL;
+	struct etab *t = flags == 0 && b[0x12] == 0x64 && b[0x13] == 0xF0 ? &enc_tab : NULL;	/* e_machine EM_PDP64 0xF064, no e_flags */
 	if (!t) { fprintf(stderr, "encdis: %s is not a pdp64 executable\n", argv[1]); return 1; }
 	uint64_t phoff = *(uint64_t *)(b + 0x20); int phnum = b[0x38] | b[0x39] << 8;
 	if (profile) {

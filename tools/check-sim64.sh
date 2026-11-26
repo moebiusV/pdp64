@@ -2,7 +2,7 @@
 # Assemble, link and run tests/sim/*.s under sim64; compare the exit status with tests/sim/NAME.exit (default 0) and, if there is a
 # NAME.out, the standard output.  Each test checks its own results and exits with the number of the first check that failed, so the
 # expected status is normally 0; a test of an error expects the status in its .exit file.  NAME.flags, if there is one, holds extra
-# sim64 arguments (-k: kernel mode, for the privileged instructions; -K and -i: System v1, see docs/sim64.md; -m pdp64 is accepted and ignored).  NAME.S is NAME.s run through the C
+# sim64 arguments (-k: kernel mode, for the privileged instructions; -K and -i: System v1, see docs/sim64.md).  NAME.S is NAME.s run through the C
 # preprocessor with build/pdp64-consts.h, so a test can use the architecture's numbers by name (PSW_PRI, VECTOR_ILLEGAL...).
 # Every test runs twice: with the plain objects (as64 --no-relax) and relaxed (the default, as64 and ld64 relax: docs/relaxation.md), with the same expectations.
 set -u

@@ -12,7 +12,7 @@
  * The field an instruction relocation patches is not at the end of the instruction: the
  * codec (common/pdp64enc.c, from the generated tables) finds the pc-relative or absolute operand of the instruction at r_offset, with the bit
  * positions and the unit (a branch or call field counts parcels), and inserts the value there.  The objects are of the pdp64 instruction set (the
- * low four bits of e_flags, as64/relocs.h); an object that names another is refused.  The executable carries the same e_flags.
+ * only the relaxation bits of e_flags, as64/relocs.h; any other bit is refused).  The executable has e_flags 0.
  *
  * Relaxation (docs/relaxation.md): an object made with `as64 --relax` (EF_PDP64_RELAX) has a relocation on every instruction of .text that holds the
  * address of a symbol, local ones too, and R_PDP64_ALIGN on every padding.  ld64 re-chooses the length of each such instruction from the real
@@ -156,8 +156,7 @@ static int load_object(const char *path)
 	}
 	ehdr_t eh = r.body.u.a1.e;
 	{
-		if (eh.flags & ~(uint32_t)(EF_PDP64_ISA_MASK | EF_PDP64_RELAX | EF_PDP64_NOADJ_TEXT)) { fail("%s: unknown e_flags %#x", path, (unsigned)eh.flags); return -1; }
-		if ((int)(eh.flags & EF_PDP64_ISA_MASK) != EF_PDP64_ISA) { fail("%s: e_flags names the instruction set %d, not the pdp64 (%d)", path, (int)(eh.flags & EF_PDP64_ISA_MASK), EF_PDP64_ISA); return -1; }
+		if (eh.flags & ~(uint32_t)(EF_PDP64_RELAX | EF_PDP64_NOADJ_TEXT)) { fail("%s: unknown e_flags %#x", path, (unsigned)eh.flags); return -1; }
 		o.relax = (eh.flags & EF_PDP64_RELAX) && !(eh.flags & EF_PDP64_NOADJ_TEXT) && relax_enabled;
 	}
 	o.nsec = eh.shnum;
@@ -547,7 +546,7 @@ static int write_exec(const char *path, uint64_t entry, uint8_t *image[NCLASS])
 		memset(&r, 0, sizeof r); r.kind = REC_EHDR; r.body.kind = REC_EHDR;
 		ehdr_t *e = &r.body.u.a1.e;
 		e->ident.ptr = ident; e->ident.len = 16;
-		e->type = 2; e->machine = EM_PDP64; e->version = 1; e->flags = EF_PDP64_ISA; e->entry = entry; e->phoff = 64; e->shoff = off_sh;
+		e->type = 2; e->machine = EM_PDP64; e->version = 1; e->flags = 0; e->entry = entry; e->phoff = 64; e->shoff = off_sh;
 		e->ehsize = 64; e->phentsize = 56; e->phnum = 2; e->shentsize = 64; e->shnum = (uint16_t)nsh; e->shstrndx = (uint16_t)(nsh - 1);
 		rec_put(&r, &head);
 		memset(&r, 0, sizeof r); r.kind = REC_PHDR; r.body.kind = REC_PHDR;

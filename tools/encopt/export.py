@@ -8,7 +8,7 @@ enc.py, cat.py, solve.py), which is the only place that knows how a form fits an
   export.py --corpus DIR [--out FILE] [--weights FILE]... [--lam B] [--budget F] [--no-cb3] [--rounds N]
   export.py --corpus DIR --verify RESULT        # size of the corpus (model bytes, real layout and branch relaxation) with the forms chosen in RESULT
 
-  --corpus DIR   compiled assembly of the 32-register compile (ccom -m pdp64/32 over the corpus, one .s per file)
+  --corpus DIR   compiled assembly of the 32-register compile (ccom over the corpus, one .s per file)
   --committed    take the distances of the corpus from the layout of the committed grammar spec/pdp64/pdp64.hbnf (default, as export_forms.py --rounds 1) and mark the
                  candidates that the committed grammar contains (lines `committed` of the file)
   --lam B        bytes charged for the extra instruction of cmp + bCC when no cbCC form reaches (default 2: the chosen setting of section 12.2 of encoding-proposal.md)

@@ -9,7 +9,6 @@
 | Term | Meaning |
 |---|---|
 | **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter {{c:id01001|n}}) |
-| **earlier iteration** | pdp64/r20 (the original encoding) or pdp64/16 (a 16-register prefix code): a design built and measured before the pdp64 was chosen, superseded by it, and no longer a CPU ({{r:how-the-encoding-was-chosen}}) |
 | **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOVQ` of a 64-bit constant ({{r:instruction-format}}) |
 | **leaf** | a group of mnemonics with one form, selected by a prefix of the first parcel; a sub-opcode picks the mnemonic ({{r:how-the-opcode-space-is-divided}}) |
 | **prefix** | the top 3 to 16 bits of the first parcel; the prefixes form a prefix code (no prefix begins another), so the first parcel matches at most one leaf and fixes the length of the instruction ({{r:how-the-opcode-space-is-divided}}) |

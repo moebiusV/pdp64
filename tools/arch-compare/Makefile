@@ -1,7 +1,7 @@
 # arch-compare -- static size of the 841-file corpus for pdp64 (pcc), pcc amd64 and i386, and GCC/clang for RISC-V, AArch64, x86, Arm, MIPS64.
 # usage: make WORK=/some/scratch/dir all       (see README.md for what has to exist first)
 WORK     ?= /tmp/arch-compare
-PCCENC   ?= $(abspath $(CURDIR)/../../../pcc)   # the pcc branch single-pdp64 (one target)
+PCCENC   ?= $(abspath $(CURDIR)/../../../pcc)   # the pcc tree (one machine)
 AS64     ?= $(CURDIR)/../../build/as64
 OUT      ?= $(CURDIR)/../../docs/encoding-work/arch-data
 FLAGS_A  = -xdmr -xtemps -xdeljumps -xinline -xdce -xssa
@@ -19,7 +19,7 @@ ccoms:
 	sh build-ccoms.sh $(PCCENC) $(WORK)/pcc
 
 pdp64: prep ccoms
-	python3 pdp64-static.py $(WORK)/i-a64 $(WORK)/r-pdp64 $(WORK)/pcc/pdp64/cc/ccom/pdp64-unknown-linux-ccom $(AS64) pdp64 -j $(J)
+	python3 pdp64-static.py $(WORK)/i-a64 $(WORK)/r-pdp64 $(WORK)/pcc/pdp64/cc/ccom/pdp64-unknown-linux-ccom $(AS64) -j $(J)
 	touch $(WORK)/r-pdp64/done
 
 pccx86: prep ccoms

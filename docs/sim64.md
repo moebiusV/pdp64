@@ -11,7 +11,6 @@ the table codec (`common/pdp64enc.c`, with the tables generated from `spec/pdp64
 | `-r` | print the registers and flags when the program stops |
 | `-k` | run in kernel mode: the privileged `mfsr` and `mtsr` are allowed (default: user mode, where they fault as "privileged instruction in user mode") |
 | `-n N` | stop after N instructions (default 200 million) |
-| `-m pdp64` | accepted, for the driver convention of the C compiler: there is one target and no other value is accepted; a program whose `e_flags` do not hold `EF_PDP64_ISA` (2) is refused |
 | `-K` | kernel mode with exceptions delivered through the vectors (an unimplemented word raises the illegal-instruction exception) |
 | `-i N:LEVEL:VECTOR` | raise interrupt LEVEL (1 to 7) at VECTOR after N instructions |
 | `-x LO:HI` | (a test facility, with `-K`) the pages of `[LO, HI)` (page aligned) are mapped and zero filled, but the first access to each page faults once, a load fault (vector 7) or a store fault (vector 8), and then succeeds: the stand-in for "the handler maps the page" in a machine without an MMU; `tests/sim/vec-restart.S` uses it (on QEMU the same program uses real page tables) |

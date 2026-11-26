@@ -98,7 +98,7 @@ for e in x; do
 	"$B/as64" --relax --dump-lens $W/noadj.$e.o.lens -o $W/noadj.$e.o tests/relax/noadj.s && "$B/as64" --relax --dump-lens $W/noadjlib.$e.o.lens -o $W/noadjlib.$e.o tests/relax/noadj-lib.s || { echo "FAIL noadj ($e): assembly"; fail=$((fail+1)); continue; }
 	flags=$(python3 -c "import struct,sys; print(struct.unpack_from('<I', open(sys.argv[1],'rb').read(), 0x30)[0])" $W/noadj.$e.o)
 	n=$((n+1))
-	if [ $flags = $(( 2 | 0x30 )) ]; then
+	if [ $flags = $(( 0x30 )) ]; then
 		if case_run noadj$e 0 $W/noadj.$e.o $W/noadjlib.$e.o; then echo "ok   noadj ($e): e_flags $flags, the text is as assembled"; [ "$rsize" = "$nsize" ] || { echo "FAIL noadj ($e): the text of a NOADJ object changed"; fail=$((fail+1)); }
 		else fail=$((fail+1)); fi
 	else echo "FAIL noadj ($e): e_flags $flags (wanted RELAX|NOADJ_TEXT)"; fail=$((fail+1)); fi
@@ -118,7 +118,7 @@ done
 "$B/as64" -o $W/x.o tests/relax/noadj-lib.s && "$B/as64" --no-relax -o $W/y.o tests/relax/noadj-lib.s && python3 - $W/x.o $W/y.o <<'PY' && echo "ok   as64 makes relaxation objects by default; --no-relax does not" || { echo "FAIL as64 default flags"; fail=$((fail+1)); }
 import struct, sys
 f = [struct.unpack_from('<I', open(p, 'rb').read(), 0x30)[0] for p in sys.argv[1:3]]
-sys.exit(0 if f == [0x12, 0x2] else 1)
+sys.exit(0 if f == [0x10, 0x0] else 1)
 PY
 n=$((n+1))
 echo "relax: $n run, $fail failed"

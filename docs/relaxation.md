@@ -13,14 +13,14 @@ Which parts are history: sections 1 to 3 and 5 describe the current tools (`as64
 `as64` makes a **relaxation object** **by default** (the author's decision, errata 91).  `as64 --no-relax` makes the plain object, byte for byte the object of
 the phase-1 assembler, which links as before; `--relax` is the explicit spelling of the default.  A relaxation object differs in three ways.
 
-**e_flags.**  The low four bits hold the instruction set, `EF_PDP64_ISA` (2), as in every object.  Two more bits (`as64/relocs.h`):
+**e_flags.**  There is one instruction set, so no field names it; an object has two flag bits (`as64/relocs.h`), and every other bit is zero:
 
 | flag | value | meaning |
 |---|---|---|
 | `EF_PDP64_RELAX` | 0x10 | the object follows the rules below; `ld64` may change the length of its instructions |
 | `EF_PDP64_NOADJ_TEXT` | 0x20 | (with RELAX) `.text` holds something that depends on a distance and is not a relocation; the linker leaves this object's `.text` exactly as it is |
 
-The executable carries only the instruction set.  `ld64` refuses an object whose low four bits are not `EF_PDP64_ISA`.
+The executable has `e_flags` 0.  `ld64` refuses an object with any other bit set.
 
 **A relocation on every instruction that holds the address of a symbol.**  Without `--relax`, `as64` resolves a reference to a label of the same section
 itself and records a relocation only for an external symbol or one of another section.  With `--relax` it records the relocation for the local
