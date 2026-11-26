@@ -1,33 +1,33 @@
 """Dictionary entries, part 3: atomics and system instructions."""
 from isa_common import *
 
-ATNOTE = ('The size is in the spelling: the bare name is the 8-byte word, and the 4-byte word has `L` after the operation (as `MOVL` against `MOVQ`): `XADD` and `XADDL`, `CAS` and `CASL`, `XOR_` and `XOR_L`, `LL` and `LLL`, `SC` and `SCL`. A 4-byte word reads the low four bytes of `Rs` (and of the expected value in `Rd`) and puts the old value into `Rd` sign-extended, as a 4-byte load does. There is no offset: the address is the register `Ra` and nothing else.')
+ATNOTE = ('The size is in the spelling: the bare name is the 8-byte word, and the 4-byte word has `L` after the operation (as `MOVL` against `MOVQ`): `AADD` and `AADDL`, `CAS` and `CASL`, `ABIS` and `ABISL`, `LL` and `LLL`, `SC` and `SCL`. A 4-byte word reads the low four bytes of `Rs` (and of the expected value in `Rd`) and puts the old value into `Rd` sign-extended, as a 4-byte load does. There is no offset: the address is the register `Ra` and nothing else.')
 ATFLAG = 'None. `SC` reports success in `Rd` (0 for success, 1 for failure).'
 ATEXC = 'All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device\'s registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.'
 ATCF = '{{r:atomic-operations}} (atomic operations: the reservation monitor), {{r:multiprocessor-instructions-at-a-glance}} (the multiprocessor instructions at a glance), {{r:memory-ordering-from-sequential-consistency}} (the memory model).'
 
 ENTRIES = [
     E('CAS', 'atomics', ['cas', 'casl'], 'Compare and swap',
-      ['CAS Rd, Rs, (Ra)        ; three registers: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes', 'CASL ...                ; the same on 4 bytes'],
+      ['CAS Rs, (Ra), Rd        ; three registers, the destination last: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes', 'CASL ...                ; the same on 4 bytes'],
       '''old <- M[Ra]                              ; 8 bytes (4 for CASL), naturally aligned, ordinary cached memory
 if old == Rd then M[Ra] <- Rs                  ; CASL compares and writes the low 4 bytes of Rd and Rs
 Rd <- old              ; the program compares Rd with the value it expected to learn whether the swap happened''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('SWAP', 'atomics', ['swap', 'swapl'], 'Atomic exchange', ['SWAP Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAPL ...                ; 4 bytes'],
+    E('SWAP', 'atomics', ['swap', 'swapl'], 'Atomic exchange', ['SWAP Rs, (Ra), Rd        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAPL ...                ; 4 bytes'],
       '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old       ; 8 bytes (4 for SWAPL)''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('XADD', 'atomics', ['xadd', 'xaddl'], 'Atomic fetch and add', ['XADD Rd, Rs, (Ra)        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes', 'XADDL ...                ; 4 bytes'],
-      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old     ; 8 bytes (4 for XADDL; the sum wraps in 4 bytes)''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('XAND', 'atomics', ['xand', 'xandl', 'xor_', 'xor_l', 'xxor', 'xxorl'], 'Atomic fetch and and, or, xor',
-      ['XAND Rd, Rs, (Ra)', 'XOR_ Rd, Rs, (Ra)        ; the trailing underscore keeps the mnemonic distinct from XOR', 'XXOR Rd, Rs, (Ra)', 'each with an L form (XANDL, XOR_L, XXORL: 4 bytes)'],
+    E('AADD', 'atomics', ['aadd', 'aaddl'], 'Atomic fetch and add', ['AADD Rs, (Ra), Rd        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes', 'AADDL ...                ; 4 bytes'],
+      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old     ; 8 bytes (4 for AADDL; the sum wraps in 4 bytes)''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('AAND', 'atomics', ['aand', 'aandl', 'abis', 'abisl', 'axor', 'axorl'], 'Atomic fetch and and, bit set (or), xor',
+      ['AAND Rs, (Ra), Rd', 'ABIS Rs, (Ra), Rd        ; the machine\'s own BIS, bit set, the inclusive or', 'AXOR Rs, (Ra), Rd', 'each with an L form (AANDL, ABISL, AXORL: 4 bytes)'],
       '''old <- M[Ra]
-XAND: M[Ra] <- old AND Rs
-XOR_: M[Ra] <- old OR Rs
-XXOR: M[Ra] <- old XOR Rs
+AAND: M[Ra] <- old AND Rs
+ABIS: M[Ra] <- old OR Rs
+AXOR: M[Ra] <- old XOR Rs
 Rd <- old''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('XMAX', 'atomics', ['xmax', 'xmaxl', 'xmin', 'xminl', 'xmaxu', 'xmaxul', 'xminu', 'xminul'], 'Atomic fetch and minimum or maximum',
-      ['XMAX Rd, Rs, (Ra)', 'XMIN ..., XMAXU ..., XMINU ...', 'each with an L form (XMAXL, XMAXUL, XMINL, XMINUL: 4 bytes)'],
-      '''old <- M[Ra] ; M[Ra] <- max(old, Rs) (XMAX, XMAXU) or min (XMIN, XMINU) ; Rd <- old
-signed for XMAX and XMIN, unsigned for the U forms; the 4-byte forms compare 4-byte numbers''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('LLSC', 'atomics', ['ll', 'lll', 'sc', 'scl'], 'Load-linked and store-conditional', ['LL Rd, (Ra)        ; 8 bytes', 'LLL Rd, (Ra)       ; 4 bytes', 'SC Rd, Rs, (Ra)    ; 8 bytes', 'SCL Rd, Rs, (Ra)   ; 4 bytes'],
+    E('AMAX', 'atomics', ['amax', 'amaxl', 'amin', 'aminl', 'amaxu', 'amaxul', 'aminu', 'aminul'], 'Atomic fetch and minimum or maximum',
+      ['AMAX Rs, (Ra), Rd', 'AMIN ..., AMAXU ..., AMINU ...', 'each with an L form (AMAXL, AMAXUL, AMINL, AMINUL: 4 bytes)'],
+      '''old <- M[Ra] ; M[Ra] <- max(old, Rs) (AMAX, AMAXU) or min (AMIN, AMINU) ; Rd <- old
+signed for AMAX and AMIN, unsigned for the U forms; the 4-byte forms compare 4-byte numbers''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('LLSC', 'atomics', ['ll', 'lll', 'sc', 'scl'], 'Load-linked and store-conditional', ['LL (Ra), Rd        ; 8 bytes', 'LLL (Ra), Rd       ; 4 bytes', 'SC Rs, (Ra), Rd    ; 8 bytes', 'SCL Rs, (Ra), Rd   ; 4 bytes'],
       '''LL: Rd <- M[Ra] ; take a reservation on the aligned 128-byte block that contains the address
 SC: if the reservation is intact and Ra is the address (and the size) of the LL
     then M[Ra] <- Rs ; Rd <- 0 (success)
@@ -70,10 +70,10 @@ POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16''', NOFLAGS, PRIV + ' `S
     E('HINT', 'system', ['hint'], 'Hint', ['HINT #n        ; n = 0 to 255'], 'no architectural effect', NOFLAGS, NONE,
       notes='Defined codes: 0 a plain no-op hint, 1 pause (spin-wait), 2 speculation barrier. Every other code is a reserved hint that executes as a no-op; software shall not use it. Not privileged.'),
     E('GENTER', 'system', ['genter'], 'Enter a guest', ['GENTER #mask'],
-      '''if H = 0: exit to the hypervisor (code 18)
+      '''if H = 0: exit to the hypervisor (code 12)
 else: ISYNC ; discard the guest's cached translations if the arena's flag or the epoch word says so ; PSW <- HEPSW ; make the guest's registers the live ones ; PC <- HEPC ; H <- 0
       every Rn (n != 14) whose bit n of mask is zero <- 0 ; if bit 14 of mask is zero, the vector registers and FPSR <- 0 ; any LL reservation is cleared''', NOFLAGS,
-      'Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 18; in a guest\'s user mode it is the guest\'s privileged-instruction exception (the guest\'s own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.',
+      'Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 12; in a guest\'s user mode it is the guest\'s privileged-instruction exception (the guest\'s own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.',
       notes='The one new instruction of the hypervisor mode ({{r:hypervisor-mode-the-rules}}). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest\'s registers the live ones (the ordinary register names mean the guest\'s own again), clears `H`, and clears every general register whose bit the mask does not name and, with bit 14 of the mask zero, the vector registers and the floating-point flags. There is only this form: the mask is in the instruction and no system register holds it, and the hypervisor keeps nothing in registers across the guest\'s run. Nothing else is done: no translation-buffer entry is removed unless the arena\'s flag or the epoch word says so ({{r:guest-never-sees-a-stale}}), and no general register is written but the ones the mask clears. If a virtual interrupt line is pending and above the guest\'s priority, it is taken before the first guest instruction. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).', cf='{{r:genter-enters-a-guest-before}}, {{r:rti-mask-is-the-only}}, {{r:kernel-system-instructions-exceptions}}.'),
     # ---- SYSREG ----
     E('MFSR', 'system', ['mfsr', 'mtsr'], 'Move from and to a system register', ['MFSR Rd, name', 'MTSR name, Rs'],
@@ -94,7 +94,7 @@ MFPS: Rd <- PSW''', '`MTPS` writes the flags from `Rs`; `MFPS` writes none.', 'A
     E('TLBIAS', 'system', ['tlbias', 'tlbigp'], 'Invalidate by address-space number; invalidate by guest-physical page', ['TLBIAS Rs', 'TLBIGP Rs'],
       '''TLBIAS: invalidate the non-global translations of address-space number Rs[15:0], of the tag in force, on this core and by broadcast on the others
 TLBIGP: (H = 1 only) invalidate the translations of the tag in GTBR that used the guest-physical page named by Rs''', NOFLAGS,
-      PRIV + ' `TLBIAS` in a guest exits under the same trap-control bit as `TLBI`. `TLBIGP` is legal only in the hypervisor mode: a guest in kernel mode exits with code 18, in user mode takes its own privileged-instruction exception, and with no hypervisor (HVE clear) it is an illegal instruction.',
+      PRIV + ' `TLBIAS` in a guest exits under the same trap-control bit as `TLBI`. `TLBIGP` is legal only in the hypervisor mode: a guest in kernel mode exits with code 12, in user mode takes its own privileged-instruction exception, and with no hypervisor (HVE clear) it is an illegal instruction.',
       notes='An implementation may discard more than is asked: one that keeps no guest-physical page discards the whole tag for `TLBIGP`. `TLBIGP` is the invalidate of a hypervisor that has changed one second-stage entry.', cf='{{r:tlbi-rn-invalidates-the-translation}}, {{r:each-translation-buffer-entry}}.')
 ,
     E('MTDP', 'system', ['mtdp', 'mfdp'], 'Move to and from the direct pointer', ['MTDP Rs', 'MFDP Rd'], '''MTDP: DP <- Rs

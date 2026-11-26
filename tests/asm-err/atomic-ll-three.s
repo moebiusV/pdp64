@@ -1,2 +1,2 @@
 	.text
-	ll r1, r2, (r3)
+	ll r2, (r3), r1

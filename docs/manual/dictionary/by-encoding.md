@@ -1318,13 +1318,13 @@ Fields: `sub=p0[3]` `op1.r=p0[2:0]+p1[15]` `op2.imm=p1[14:12]` `op3.pcrel=p1[11:
 
 `op1` is `reg5`: register, 5 bits.
 
-`op2` is `reg5`: register, 5 bits.
+`op2` is `b5d0s-x1`: memory at (base register, 5 bits).
 
-`op3` is `b5d0s-x1`: memory at (base register, 5 bits).
+`op3` is `reg5`: register, 5 bits.
 
 `xsub` selects the mnemonic.
 
-Fields: `xsub=p0[3:0]+p1[15]` `op1.r=p1[14:10]` `op2.r=p1[9:5]` `op3.base=p1[4:0]`
+Fields: `xsub=p0[3:0]+p1[15]` `op1.r=p1[14:10]` `op2.base=p1[9:5]` `op3.r=p1[4:0]`
 
 <a id="STBs8-a-1"></a>
 #### STBs8-a-1: STBs8/a, prefix `1101110111101`
@@ -1967,13 +1967,13 @@ Fields: `op2.r=p1[15:12]` `op1.d=p1[11:0]`
 
 ![Layout ATOML-1](../figures/ATOML-1.svg)
 
-`op1` is `reg5`: register, 5 bits.
+`op1` is `b5d0s-x1`: memory at (base register, 5 bits).
 
-`op2` is `b5d0s-x1`: memory at (base register, 5 bits).
+`op2` is `reg5`: register, 5 bits.
 
 `xsub` selects the mnemonic.
 
-Fields: `xsub=p1[15:10]` `op1.r=p1[9:5]` `op2.base=p1[4:0]`
+Fields: `xsub=p1[15:10]` `op1.base=p1[9:5]` `op2.r=p1[4:0]`
 
 ### Instructions of 3 parcels (6 bytes)
 
@@ -2750,6 +2750,12 @@ Fields: `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]+p3[15:0]+p4[15:0]`
 
 For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 
+* <a id="mn-aadd"></a>`AADD`: [ATOM-1](#ATOM-1)
+* <a id="mn-aaddl"></a>`AADDL`: [ATOM-1](#ATOM-1)
+* <a id="mn-aand"></a>`AAND`: [ATOM-1](#ATOM-1)
+* <a id="mn-aandl"></a>`AANDL`: [ATOM-1](#ATOM-1)
+* <a id="mn-abis"></a>`ABIS`: [ATOM-1](#ATOM-1)
+* <a id="mn-abisl"></a>`ABISL`: [ATOM-1](#ATOM-1)
 * <a id="mn-abs"></a>`ABS`: [R2-1](#R2-1)
 * <a id="mn-adc"></a>`ADC`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-add"></a>`ADD`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [SPADJF-1](#SPADJF-1), [RR5-1](#RR5-1), [IMMh44-b-1](#IMMh44-b-1), [SPADJ6-a-1](#SPADJ6-a-1), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDI12-b-1](#LDI12-b-1), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI18H-b-1](#LDI18H-b-1)
@@ -2762,9 +2768,19 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-aesim"></a>`AESIM`: [R2-1](#R2-1)
 * <a id="mn-aesks1"></a>`AESKS1`: [RRI-1](#RRI-1)
 * <a id="mn-aesks2"></a>`AESKS2`: [R3-1](#R3-1)
+* <a id="mn-amax"></a>`AMAX`: [ATOM-1](#ATOM-1)
+* <a id="mn-amaxl"></a>`AMAXL`: [ATOM-1](#ATOM-1)
+* <a id="mn-amaxu"></a>`AMAXU`: [ATOM-1](#ATOM-1)
+* <a id="mn-amaxul"></a>`AMAXUL`: [ATOM-1](#ATOM-1)
+* <a id="mn-amin"></a>`AMIN`: [ATOM-1](#ATOM-1)
+* <a id="mn-aminl"></a>`AMINL`: [ATOM-1](#ATOM-1)
+* <a id="mn-aminu"></a>`AMINU`: [ATOM-1](#ATOM-1)
+* <a id="mn-aminul"></a>`AMINUL`: [ATOM-1](#ATOM-1)
 * <a id="mn-and"></a>`AND`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [IMMh44-b-2](#IMMh44-b-2), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDI12-b-2](#LDI12-b-2), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI18H-b-2](#LDI18H-b-2)
 * <a id="mn-asl"></a>`ASL`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-2](#SOPR-2)
 * <a id="mn-asr"></a>`ASR`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-2](#SOPR-2)
+* <a id="mn-axor"></a>`AXOR`: [ATOM-1](#ATOM-1)
+* <a id="mn-axorl"></a>`AXORL`: [ATOM-1](#ATOM-1)
 * <a id="mn-bcc"></a>`BCC`: [BRF-1](#BRF-1), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
 * <a id="mn-bcs"></a>`BCS`: [BRF-2](#BRF-2), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
 * <a id="mn-beq"></a>`BEQ`: [BRF-1](#BRF-1), [BR1-7-b-1](#BR1-7-b-1), [BR2-16-b-1](#BR2-16-b-1)
@@ -2992,23 +3008,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-utf8enc"></a>`UTF8ENC`: [R2-1](#R2-1)
 * <a id="mn-utf8len"></a>`UTF8LEN`: [R2-1](#R2-1)
 * <a id="mn-wfe"></a>`WFE`: [SYS0-1](#SYS0-1)
-* <a id="mn-xadd"></a>`XADD`: [ATOM-1](#ATOM-1)
-* <a id="mn-xaddl"></a>`XADDL`: [ATOM-1](#ATOM-1)
-* <a id="mn-xand"></a>`XAND`: [ATOM-1](#ATOM-1)
-* <a id="mn-xandl"></a>`XANDL`: [ATOM-1](#ATOM-1)
-* <a id="mn-xmax"></a>`XMAX`: [ATOM-1](#ATOM-1)
-* <a id="mn-xmaxl"></a>`XMAXL`: [ATOM-1](#ATOM-1)
-* <a id="mn-xmaxu"></a>`XMAXU`: [ATOM-1](#ATOM-1)
-* <a id="mn-xmaxul"></a>`XMAXUL`: [ATOM-1](#ATOM-1)
-* <a id="mn-xmin"></a>`XMIN`: [ATOM-1](#ATOM-1)
-* <a id="mn-xminl"></a>`XMINL`: [ATOM-1](#ATOM-1)
-* <a id="mn-xminu"></a>`XMINU`: [ATOM-1](#ATOM-1)
-* <a id="mn-xminul"></a>`XMINUL`: [ATOM-1](#ATOM-1)
 * <a id="mn-xnorpop"></a>`XNORPOP`: [R3-1](#R3-1)
 * <a id="mn-xor"></a>`XOR`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDBu8-c-2](#LDBu8-c-2), [LDX0-c-2](#LDX0-c-2), [LDBu10H-c-2](#LDBu10H-c-2), [LDPC16H-c-2](#LDPC16H-c-2), [LDI14H-c-1](#LDI14H-c-1)
-* <a id="mn-xor-"></a>`XOR_`: [ATOM-1](#ATOM-1)
-* <a id="mn-xor-l"></a>`XOR_L`: [ATOM-1](#ATOM-1)
-* <a id="mn-xxor"></a>`XXOR`: [ATOM-1](#ATOM-1)
-* <a id="mn-xxorl"></a>`XXORL`: [ATOM-1](#ATOM-1)
 
 *Generated by `tools/mkmanual.py`; do not edit.*

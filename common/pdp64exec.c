@@ -370,7 +370,7 @@ static void enter(int vector, uint64_t epc, uint64_t eva)
 			hexit(code, C->s2_flags, VECTOR_GLFAULT, xpc, eva, C->s2_gpa, C->snap_valid ? C->cur_insn : 0);
 			return;
 		}
-		if (GUEST()) { hexit(XCODE_MACHINE_CHECK, 0, VECTOR_MACHINE_CHECK, xpc, eva, at, 0); return; }	/* a machine check in a guest always exits (design 1.6 code 21) */
+		if (GUEST()) { hexit(XCODE_MACHINE_CHECK, 0, VECTOR_MACHINE_CHECK, xpc, eva, at, 0); return; }	/* a machine check in a guest always exits (design 1.6, the exit code is 1) */
 		E->fault(E->u, "machine check: the vector fetch failed", at);
 	}
 	old = pdp64_psw(C);
@@ -393,7 +393,7 @@ static void clear_unkept(uint32_t keep)
 /* the rank of a mode for "a lesser mode": kernel above supervisor above user (the field values are 0, 1 and 3) */
 static int mode_rank(int mode) { return mode == MODE_KERNEL ? 2 : mode == MODE_SUPERVISOR ? 1 : 0; }
 
-/* The entry into a guest: GENTER #mask (design 2.2).  Legal at H = 1 only; at H = 0 (a guest used it) an exit, code 18; with no hypervisor an illegal instruction.  A reserved mode in HEPSW is an illegal
+/* The entry into a guest: GENTER #mask (design 2.2).  Legal at H = 1 only; at H = 0 (a guest used it) an exit, code 12; with no hypervisor an illegal instruction.  A reserved mode in HEPSW is an illegal
    instruction and nothing changes.  It includes an ISYNC (the earlier writes to PTBR, MMUCTL, ASID, VBR, GTBR and HTRAP take effect for what follows); then PSW := HEPSW, the hypervisor's bank is put away and
    the guest's loaded, PC := HEPC, H := 0, the naming of the vector accumulators is cleared (the world switch, errata 186 decision 13), and the registers the mask does not keep are cleared: a guest is always
    a lesser mode than the hypervisor. */
@@ -414,7 +414,7 @@ static void genter(uint32_t keep)
 	C->entered = 1;									/* the trace trap of the hypervisor's own T is not taken after it */
 }
 
-/* TLBIAS rN and TLBIGP rN (manual 6.8.3, 6.16.22).  TLBIAS is privileged and exits to the hypervisor under the same bit of HTRAP as TLBI; TLBIGP is the hypervisor's: an exit (code 18) at H = 0, illegal with no hypervisor. */
+/* TLBIAS rN and TLBIGP rN (manual 6.8.3, 6.16.22).  TLBIAS is privileged and exits to the hypervisor under the same bit of HTRAP as TLBI; TLBIGP is the hypervisor's: an exit (code 12) at H = 0, illegal with no hypervisor. */
 static void tlbx(int which, uint64_t v)
 {
 	if (which == MN_TLBX_TLBIGP) {

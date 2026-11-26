@@ -31,9 +31,11 @@ htrap-reset = "value"@3
 
 hcall = "block-shift"@5
 
-; The exit-reason register HEXITR: the code in bits 7 to 0, and the two flag bits (design 1.6).
+; The exit-reason register HEXITR: the code in bits 7 to 0, and the two flag bits (design 1.6).  The codes and the vector numbers of the exits (HCAUSE) do not share a number that means two
+; things: a code is the number of the vector where it names the same event (1 the machine check, 15 the breakpoint), codes 2 to 16 are the exits for an instruction (vector 17), and no code
+; is 17 to 20, which are the numbers of the hypervisor's own vectors (vector 17 the instruction exit, 18 to 20 the guest-physical faults).
 xcode = "taken-at-h"@0
-      | "irq"@1
+      | "machine-check"@1
       | "halt"@2
       | "wfe"@3
       | "sev"@4
@@ -44,15 +46,17 @@ xcode = "taken-at-h"@0
       | "ptbr"@9
       | "mmuctl"@10
       | "vbr"@11
+      | "hvreg"@12
       | "cpuid"@13
       | "icinv"@14
       | "bpt"@15
       | "step"@16
-      | "hypercall"@17
-      | "hvreg"@18
-      | "s2-invalid"@19
-      | "s2-refused"@20
-      | "machine-check"@21
+      | "irq"@21
+      | "hypercall"@22
+      | "s2-invalid"@23
+      | "s2-refused"@24
+      | "s2-no-device"@25
+      | "s2-arena"@26
 
 xflag = "walk"@8
       | "vec"@9

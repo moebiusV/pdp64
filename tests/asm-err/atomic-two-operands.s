@@ -1,2 +1,2 @@
 	.text
-	sc r1, (r3)
+	sc (r3), r1

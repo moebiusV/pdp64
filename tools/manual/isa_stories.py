@@ -95,11 +95,11 @@ STORY = {
 
 'SWAP': "One of the read-modify-write atomics of the `ATOM` group (see `CAS`). No separate reason is recorded for it.",
 
-'XADD': "One of the fetch-and-operate atomics of `ATOM` (see `CAS`), in the place of the PDP-11's read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair ({{r:smp-what-you-already-know}}).",
+'AADD': "One of the fetch-and-operate atomics of `ATOM` (see `CAS`), in the place of the PDP-11's read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair ({{r:smp-what-you-already-know}}).",
 
-'XAND': "The fetch-and-and, or and xor atomics of `ATOM` (see `CAS`). No separate reason is recorded for them.",
+'AAND': "The fetch-and-and, or and xor atomics of `ATOM` (see `CAS`). No separate reason is recorded for them.",
 
-'XMAX': "The fetch-and-minimum and maximum atomics, borrowed from LoongArch's richer atomic set: each is a couple of hundred lookup tables and saves a compare-and-swap retry loop.",
+'AMAX': "The fetch-and-minimum and maximum atomics, borrowed from LoongArch's richer atomic set: each is a couple of hundred lookup tables and saves a compare-and-swap retry loop.",
 
 'LLSC': "Load-linked and store-conditional, with the reservation a monitor, because a monitor maps onto the exclusive access of AXI and of FPGA and modern memory systems, where the Unibus's locked read-modify-write (`DATIP`/`DATO`) does not scale as cores multiply. A short sequence must eventually succeed if no other initiator keeps writing the granule, the RISC-V rule.",
 

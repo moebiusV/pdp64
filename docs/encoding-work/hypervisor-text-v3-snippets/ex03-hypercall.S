@@ -1,5 +1,5 @@
 ; 6.15 example 3: a hypercall is a TRAP whose number is in a range that the hypervisor routed to itself: bit 1 of the mask routes 32 to 63.
-; The exit code is 17 and the hypervisor's vector is 256 + 40.  Run: sim64 -H
+; The exit code is 22 and the hypervisor's vector is 256 + 40.  Run: sim64 -H
 #include "pdp64-consts.h"
 	.text
 	.globl	_start

@@ -1,2 +1,2 @@
 	.text
-	xadd r1, #2, (r3)
+	aadd #2, (r3), r1

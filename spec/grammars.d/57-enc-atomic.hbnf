@@ -2,19 +2,20 @@
 ; The encoding of the atomic words (30-mn-core.hbnf, group mn-atom; manual 7.4, 9.13): two forms of their own, so that the address is written `(Ra)` (the shape b5d0s-x1 is a base
 ; register with no displacement: the same five bits as a register, written in parentheses and with no offset), and two leaves.
 ;
-;   ATOM   `op Rd, Rs, (Ra)`  the 10 read-modify-write words (compare and swap, swap, add, and, or, exclusive or, the signed and unsigned maximum and minimum) and the store-conditional,
+;   ATOM   `op Rs, (Ra), Rd`  the 10 read-modify-write words (compare and swap, swap, add, and, or, exclusive or, the signed and unsigned maximum and minimum) and the store-conditional,
 ;          each in eight bytes (the bare name) and four bytes (the name with the suffix `l`): the five bits xsub are the operation (0 to 10) times two plus the size of the access, so
 ;          xsub is 0 to 21 and the upper four bits of it, in the first parcel, are 0 to 10.  Four bytes each.
-;   ATOML  `ll Rd, (Ra)`      the load-linked, eight bytes and four bytes: two registers, so it is a leaf of its own (a third register field would be a field the instruction ignores, and an
+;   ATOML  `ll (Ra), Rd`      the load-linked, eight bytes and four bytes: two registers, so it is a leaf of its own (a third register field would be a field the instruction ignores, and an
 ;          ignored field is a field a later instruction could not use).  Four bytes.
 ;
 ; They were words of the generated forms R3 (the atomics except the compare and swap) and R4 (the compare and swap, with four registers).  The generator no longer puts a word of a hand-written
 ; group in a form of its own (tools/encopt/addforms.py), so the two forms keep the prefixes they had and the prefixes below are first-parcel patterns that no leaf used (tools/mkenc.py fails,
 ; naming the overlap, if they are not free): sixteen patterns for ATOM, of which eleven are used, one for ATOML.
+; The destination is written last, as everywhere on the machine, and it is the lowest field, as everywhere: the fields are in the order of the operands, the source register Rs, the base register Ra, then the destination register Rd (ll: Ra, then Rd).
 forms =/ "ATOM" | "ATOML"
-form-ATOM = o1:reg5 o2:reg5 o3:b5d0s-x1
-leaf-ATOM-1 = 0b110111110101 xsub:5 o1-r:5 o2-r:5 o3-base:5 ?(xsub < 22)
-sub-ATOM-1 = "cas" | "casl" | "swap" | "swapl" | "xadd" | "xaddl" | "xand" | "xandl" | "xor_" | "xor_l" | "xxor" | "xxorl" | "xmax" | "xmaxl" | "xmin" | "xminl" | "xmaxu" | "xmaxul" | "xminu" | "xminul" | "sc" | "scl"
-form-ATOML = o1:reg5 o2:b5d0s-x1
-leaf-ATOML-1 = 0b1101111101000010 xsub:6 o1-r:5 o2-base:5 ?(xsub < 2)
+form-ATOM = o1:reg5 o2:b5d0s-x1 o3:reg5
+leaf-ATOM-1 = 0b110111110101 xsub:5 o1-r:5 o2-base:5 o3-r:5 ?(xsub < 22)
+sub-ATOM-1 = "cas" | "casl" | "swap" | "swapl" | "aadd" | "aaddl" | "aand" | "aandl" | "abis" | "abisl" | "axor" | "axorl" | "amax" | "amaxl" | "amin" | "aminl" | "amaxu" | "amaxul" | "aminu" | "aminul" | "sc" | "scl"
+form-ATOML = o1:b5d0s-x1 o2:reg5
+leaf-ATOML-1 = 0b1101111101000010 xsub:6 o1-base:5 o2-r:5 ?(xsub < 2)
 sub-ATOML-1 = "ll" | "lll"

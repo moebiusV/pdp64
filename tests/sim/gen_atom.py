@@ -50,13 +50,13 @@ def model(op, size, old, a, b=0):
     a &= m
     b &= m
     sa, so = sext(a, bits), sext(old, bits)
-    return {'swap': a, 'xadd': (old + a) & m, 'xand': old & a, 'xor_': old | a, 'xxor': old ^ a,
-            'xmax': (old if so > sa else a), 'xmin': (old if so < sa else a),
-            'xmaxu': max(old, a), 'xminu': min(old, a),
+    return {'swap': a, 'aadd': (old + a) & m, 'aand': old & a, 'abis': old | a, 'axor': old ^ a,
+            'amax': (old if so > sa else a), 'amin': (old if so < sa else a),
+            'amaxu': max(old, a), 'aminu': min(old, a),
             'cas': (b if old == a else None)}[op]
 
 
-OPS = ['cas', 'swap', 'xadd', 'xand', 'xor_', 'xxor', 'xmax', 'xmin', 'xmaxu', 'xminu']
+OPS = ['cas', 'swap', 'aadd', 'aand', 'abis', 'axor', 'amax', 'amin', 'amaxu', 'aminu']
 
 
 def words():
@@ -106,7 +106,7 @@ def gen_rmw():
             p.e('\tmovq\tr17, (r3)')
             load(p, 'r1', 0x1234567812345678)
             load(p, 'r2', S)
-            p.e('\t%s\tr1, r2, (r3)' % mn)
+            p.e('\t%s\tr2, (r3), r1' % mn)
             old = sext(M, size * 8) & M64
             p.eq('r1', hx(old), tag + ': Rd is the old value' + (' sign-extended' if size == 4 else ''))
             p.eq('r2', hx(S), tag + ': Rs unchanged')
@@ -119,23 +119,23 @@ def gen_rmw():
     # Rd is also a source or the address register: every source is read before Rd is written
     for size, suf in ((8, ''), (4, 'l')):
         M, S = (0x100, 0x23) if size == 8 else (0x80000100, 0xFFFFFFFF00000023)
-        p.case('xadd%s and swap%s with Rd the same register as Rs and as Ra' % (suf, suf))
+        p.case('aadd%s and swap%s with Rd the same register as Rs and as Ra' % (suf, suf))
         p.e('\tlea\tbuf+16, r3\n\tmovq\tr3, r5')
         load(p, 'r17', M if size == 8 else GH << 32 | M); p.e('\tmovq\tr17, (r3)')
         load(p, 'r2', S)
-        p.e('\txadd%s\tr2, r2, (r3)' % suf)
-        p.eq('r2', hx(sext(M, size * 8) & M64), 'xadd%s Rd = Rs: Rd is the old value' % suf)
+        p.e('\taadd%s\tr2, (r3), r2' % suf)
+        p.eq('r2', hx(sext(M, size * 8) & M64), 'aadd%s Rd = Rs: Rd is the old value' % suf)
         p.e('\tmovq\t(r3), r4')
-        load(p, 'r17', model('xadd', size, M, S) if size == 8 else GH << 32 | model('xadd', size, M, S))
-        p.chk('r4', 'r17', 'xadd%s Rd = Rs: the operand was read first' % suf)
+        load(p, 'r17', model('aadd', size, M, S) if size == 8 else GH << 32 | model('aadd', size, M, S))
+        p.chk('r4', 'r17', 'aadd%s Rd = Rs: the operand was read first' % suf)
         load(p, 'r2', S)
-        p.e('\tswap%s\tr3, r2, (r3)' % suf)
-        p.eq('r3', hx(sext(model('xadd', size, M, S), size * 8) & M64), 'swap%s Rd = Ra: Rd is the old value' % suf)
+        p.e('\tswap%s\tr2, (r3), r3' % suf)
+        p.eq('r3', hx(sext(model('aadd', size, M, S), size * 8) & M64), 'swap%s Rd = Ra: Rd is the old value' % suf)
         p.e('\tmovq\t(r5), r4')
         load(p, 'r17', S if size == 8 else GH << 32 | (S & 0xffffffff))
         p.chk('r4', 'r17', 'swap%s Rd = Ra: the address was read first' % suf)
     p.done()
-    return ['The read-modify-write atomics, every word of the grammar except CAS (gen_atom.py gen_cas): swap, xadd, xand, xor_, xxor, xmax, xmin, xmaxu, xminu in both sizes',
+    return ['The read-modify-write atomics, every word of the grammar except CAS (gen_atom.py gen_cas): swap, aadd, aand, abis, axor, amax, amin, amaxu, aminu in both sizes',
             '(the bare name 8 bytes, the suffix l 4 bytes), four operand pairs each; the old value in Rd (a 4-byte one sign-extended), Rs and Ra unchanged, the word changed as the manual says and the words',
             'around it untouched; then Rd the same register as Rs and as Ra.  Failed check n: exit n.'], p.text() + '\t.data\n\t.align\t128\nbuf:\t.space\t128\n'
 
@@ -161,7 +161,7 @@ def gen_cas():
             load(p, 'r17', M if size == 8 else GH << 32 | M); p.e('\tmovq\tr17, (r3)')
             load(p, 'r1', exp)
             load(p, 'r2', NEW)
-            p.e('\t%s\tr1, r2, (r3)' % mn)
+            p.e('\t%s\tr2, (r3), r1' % mn)
             p.eq('r1', hx(sext(M, bits) & M64), tag + ': Rd is the old value (' + ('the swap happened' if ok else 'the swap did not happen') + ')')
             p.eq('r2', hx(NEW), tag + ': Rs unchanged')
             p.e('\tmovq\t(r3), r4')
@@ -177,14 +177,14 @@ def gen_cas():
         p.e('\tlea\tbuf+16, r3')
         load(p, 'r17', M if size == 8 else GH << 32 | M); p.e('\tmovq\tr17, (r3)')
         load(p, 'r1', M)
-        p.e('\t%s\tr1, r1, (r3)' % mn)
+        p.e('\t%s\tr1, (r3), r1' % mn)
         p.eq('r1', hx(sext(M, bits) & M64), mn + ' Rd = Rs: the old value')
         p.e('\tmovq\t(r3), r4')
         p.eq('r4', hx(M if size == 8 else GH << 32 | M), mn + ' Rd = Rs: swapping a value for itself leaves the word')
     p.case('a retry loop')
     # a retry loop, the way C11 writes it: the failed compare leaves the old value in the expected register
     p.e('\tlea\tbuf+16, r3\n\tmovq\t#5, r17\n\tmovq\tr17, (r3)\n\tmovq\t#0, r1\n\tmovq\t#9, r2\n\tmovq\t#0, r6')
-    p.e('retry:\tmovq\tr1, r7\n\tadd\t#1, r6\n\tcas\tr1, r2, (r3)\n\tcbne\tr1, r7, retry')
+    p.e('retry:\tmovq\tr1, r7\n\tadd\t#1, r6\n\tcas\tr2, (r3), r1\n\tcbne\tr1, r7, retry')
     p.eq('r6', '2', 'a retry loop: the second try holds the old value in Rd and succeeds')
     p.e('\tmovq\t(r3), r4')
     p.eq('r4', '9', 'a retry loop: the word is the new value')
@@ -205,7 +205,7 @@ def gen_llsc():
         init = 0x1122334455667788 if size == 8 else 0xC3C3C3C380000001
         p.case('%s and %s: success' % (ll, sc))
         p.e('\tmovq\t=(0x%x), r17\n\tmovq\tr17, (r3)\n\tmovq\t#77, r2' % init)
-        p.e('\t%s\tr1, (r3)\n\t%s\tr4, r2, (r3)' % (ll, sc))                    # nothing between: no check may sit between the pair (a check loads its constant from memory)
+        p.e('\t%s\t(r3), r1\n\t%s\tr2, (r3), r4' % (ll, sc))                    # nothing between: no check may sit between the pair (a check loads its constant from memory)
         p.eq('r1', hx(0x1122334455667788 if size == 8 else sext(0x80000001, 32) & M64), '%s: Rd is the word (a 4-byte one sign-extended)' % ll)
         p.eq('r4', '0', '%s: success writes 0 to Rd' % sc)
         p.e('\t%s\t(r3), r5' % w)
@@ -214,25 +214,25 @@ def gen_llsc():
             p.e('\tmovq\t(r3), r5\n\tshr\t#32, r5')
             p.eq('r5', '0xC3C3C3C3', 'scl: the half beside the word is untouched')
         p.case('%s with no reservation' % sc)
-        p.e('\tmovq\t#88, r2\n\t%s\tr4, r2, (r3)' % sc)                       # the last SC ended the reservation
+        p.e('\tmovq\t#88, r2\n\t%s\tr2, (r3), r4' % sc)                       # the last SC ended the reservation
         p.chkne('r4', '#0', '%s with no reservation fails (nonzero in Rd)' % sc)
         p.e('\t%s\t(r3), r5' % w)
         p.eq('r5', '77', '%s that failed writes nothing' % sc)
         p.case('a store between %s and %s' % (ll, sc))
-        p.e('\tmovq\t#5, r6\n\tmovq\t#88, r2\n\t%s\tr1, (r3)\n\tmovq\tr6, (r8)\n\t%s\tr4, r2, (r3)' % (ll, sc))
+        p.e('\tmovq\t#5, r6\n\tmovq\t#88, r2\n\t%s\t(r3), r1\n\tmovq\tr6, (r8)\n\t%s\tr2, (r3), r4' % (ll, sc))
         p.chkne('r4', '#0', 'a store (even to another block) between %s and %s breaks the constrained sequence: the SC fails' % (ll, sc))
         p.e('\t%s\t(r3), r5' % w)
         p.eq('r5', '77', 'the failed SC wrote nothing')
         p.case('a load between')
-        p.e('\t%s\tr1, (r3)\n\tmovq\t(r8), r6\n\t%s\tr4, r2, (r3)' % (ll, sc))
+        p.e('\t%s\t(r3), r1\n\tmovq\t(r8), r6\n\t%s\tr2, (r3), r4' % (ll, sc))
         p.chkne('r4', '#0', 'a load between breaks it too')
         p.case('an SC for another address')
-        p.e('\t%s\tr1, (r3)\n\t%s\tr4, r2, (r9)' % (ll, sc))
+        p.e('\t%s\t(r3), r1\n\t%s\tr2, (r9), r4' % (ll, sc))
         p.chkne('r4', '#0', '%s for another address than the %s fails' % (sc, ll))
         # 16 register instructions between: the SC works; 17: it fails
         for n, want in ((16, 'zero'), (17, 'nonzero')):
             p.case('%s %s: %d instructions between' % (ll, sc, n))
-            p.e('\tmovq\t#%d, r2\n\t%s\tr1, (r3)' % (90 + n, ll) + '\n\tadd\t#1, r7' * n + '\n\t%s\tr4, r2, (r3)' % sc)
+            p.e('\tmovq\t#%d, r2\n\t%s\t(r3), r1' % (90 + n, ll) + '\n\tadd\t#1, r7' * n + '\n\t%s\tr2, (r3), r4' % sc)
             if want == 'zero':
                 p.eq('r4', '0', '%d register instructions between %s and %s: the SC may succeed' % (n, ll, sc))
                 p.e('\t%s\t(r3), r5' % w)
@@ -242,15 +242,15 @@ def gen_llsc():
                 p.e('\t%s\t(r3), r5' % w)
                 p.eq('r5', '106', 'and wrote nothing')
         p.case('%s %s: a forward branch, a backward branch, a second LL' % (ll, sc))
-        p.e('\tmovq\t#120, r2\n\t%s\tr1, (r3)\n\tcbeq\tr1, r1, 2f\n\tnop\n2:\t%s\tr4, r2, (r3)' % (ll, sc))
+        p.e('\tmovq\t#120, r2\n\t%s\t(r3), r1\n\tcbeq\tr1, r1, 2f\n\tnop\n2:\t%s\tr2, (r3), r4' % (ll, sc))
         p.eq('r4', '0', 'a forward branch between is allowed')
-        p.e('\tmovq\t#130, r2\n\tmovq\t#2, r6\n\t%s\tr1, (r3)\n3:\tsob\tr6, 3b\n\t%s\tr4, r2, (r3)' % (ll, sc))
+        p.e('\tmovq\t#130, r2\n\tmovq\t#2, r6\n\t%s\t(r3), r1\n3:\tsob\tr6, 3b\n\t%s\tr2, (r3), r4' % (ll, sc))
         p.chkne('r4', '#0', 'a backward branch between breaks it: the SC fails')
-        p.e('\tmovq\t#140, r2\n\t%s\tr1, (r3)\n\t%s\tr1, (r9)\n\t%s\tr4, r2, (r3)' % (ll, ll, sc))
+        p.e('\tmovq\t#140, r2\n\t%s\t(r3), r1\n\t%s\t(r9), r1\n\t%s\tr2, (r3), r4' % (ll, ll, sc))
         p.chkne('r4', '#0', 'an LL to another word is not a register instruction: it breaks the sequence')
     p.case('the counter loop of the manual')
     p.e('\tmovq\t#97, r5\n\tmovq\tr5, (r3)\n\tmovq\t#100, r5')
-    p.e('rl:\tll\tr1, (r3)\n\tcbeq\tr1, r5, rfull\n\tmovq\tr1, r6\n\tadd\t#1, r6\n\tsc\tr4, r6, (r3)\n\tcbne\tr4, #0, rl\n\tbr\trl\nrfull:\tmovq\t(r3), r4')
+    p.e('rl:\tll\t(r3), r1\n\tcbeq\tr1, r5, rfull\n\tmovq\tr1, r6\n\tadd\t#1, r6\n\tsc\tr6, (r3), r4\n\tcbne\tr4, #0, rl\n\tbr\trl\nrfull:\tmovq\t(r3), r4')
     p.eq('r4', '100', 'the counter that stops at its limit counts 97, 98, 99, 100 and stops')
     p.done()
     return ['LL and SC in both sizes: the success (0 in Rd), an SC with no reservation (nonzero, writes nothing), the constrained sequence (up to 16 register instructions and a forward branch between the pair;',
@@ -278,12 +278,12 @@ def gen_fault_align():
             p.e('\tmovq\t=(0x1111111111111111), r1\n\tmovq\t#0, r4\n\tmovq\tr4, cnt')
             p.e('\tlea\tN%d, r13' % lab)
             if op in ('sc',):
-                p.e('\tlll\tr6, (r7)' if size == 4 else '\tll\tr6, (r7)')
+                p.e('\tlll\t(r7), r6' if size == 4 else '\tll\t(r7), r6')
             p.e('I%d:' % lab)
             if op in ('ll',):
-                p.e('\t%s\tr1, (r3)' % mn)
+                p.e('\t%s\t(r3), r1' % mn)
             else:
-                p.e('\t%s\tr1, r2, (r3)' % mn)
+                p.e('\t%s\tr2, (r3), r1' % mn)
             p.e('N%d:\tmovq\tcnt, r4' % lab)
             p.eq('r4', '1', tag + ': one exception')
             p.e('\tmovq\tlast_cause, r4')
@@ -308,7 +308,7 @@ def gen_fault_page():
     p = CProg(user=False)
     head(p, FSETUP)
     p.e('\tlea\tustack_top, sp')
-    cases = [('swap', 'swap', 8), ('xadd', 'xadd', 8), ('cas', 'cas', 8), ('xmaxul', 'xmaxul', 4), ('ll', 'll', 8), ('lll', 'lll', 4), ('sc', 'sc', 8), ('xor_l', 'xor_l', 4)]
+    cases = [('swap', 'swap', 8), ('aadd', 'aadd', 8), ('cas', 'cas', 8), ('amaxul', 'amaxul', 4), ('ll', 'll', 8), ('lll', 'lll', 4), ('sc', 'sc', 8), ('abisl', 'abisl', 4)]
     page = 0x810000
     for i, (mn, base, size) in enumerate(cases):
         a = page + 0x1000 * i + 0x40
@@ -320,9 +320,9 @@ def gen_fault_page():
             p.e('\tmovq\t#0, r1')
         p.e('p%d:' % i)
         if base in ('ll', 'lll'):
-            p.e('\t%s\tr1, (r3)' % mn)
+            p.e('\t%s\t(r3), r1' % mn)
         else:
-            p.e('\t%s\tr1, r2, (r3)' % mn)
+            p.e('\t%s\tr2, (r3), r1' % mn)
         p.e('\tmovq\tcnt, r11')
         p.eq('r11', '1', tag + ': one fault')
         p.e('\tmovq\tlast_cause, r11')
@@ -345,11 +345,11 @@ def gen_fault_page():
             p.eq('r1', '0', tag + ': after the restart the old value is 0')
             p.e('\tmovq\t(r3), r4')
             p.eq('r4', '5', tag + ': the swap happened once')
-        elif base == 'xadd' or base == 'swap':
+        elif base == 'aadd' or base == 'swap':
             p.eq('r1', '0', tag + ': after the restart Rd is the old value, zero')
             p.e('\tmovq\t(r3), r4')
             p.eq('r4', '5', tag + ': the word is changed once')
-        elif base == 'xmaxul':
+        elif base == 'amaxul':
             p.eq('r1', '0', tag + ': after the restart Rd is the old value, zero')
             p.e('\tmovl\t(r3), r4')
             p.eq('r4', '5', tag + ': the word is changed once')
@@ -369,14 +369,14 @@ def gen_sec_split_lock():
     p = CProg(user=False)
     head(p, KVEC)
     ok = 0
-    sites = [('across two 8-byte words', 4, 8, 'xadd'), ('across a 128-byte block', 124, 8, 'xadd'), ('across a page', 4092, 8, 'xadd'), ('4 bytes across a word', 6, 4, 'xaddl'),
+    sites = [('across two 8-byte words', 4, 8, 'aadd'), ('across a 128-byte block', 124, 8, 'aadd'), ('across a page', 4092, 8, 'aadd'), ('4 bytes across a word', 6, 4, 'aaddl'),
              ('4 bytes across a block', 126, 4, 'swapl'), ('cas across a page', 4094, 8, 'cas')]
     for i, (what, off, size, mn) in enumerate(sites):
         p.case(what)
         p.e('\tlea\tbig+%d, r3\n\tlea\tbig, r7' % off)
         p.e('\tmovq\t#0, r4\n\tmovq\tr4, cnt\n\tmovq\t#1, r2\n\tmovq\t#0, r1')
         p.e('\tlea\tN%d, r13' % i)
-        p.e('I%d:\t%s\tr1, r2, (r3)' % (i, mn))
+        p.e('I%d:\t%s\tr2, (r3), r1' % (i, mn))
         p.e('N%d:\tmovq\tcnt, r4' % i)
         p.eq('r4', '1', what + ': one fault, not a lock and a split access')
         p.e('\tmovq\tlast_cause, r4')
@@ -391,7 +391,7 @@ def gen_sec_split_lock():
         p.eq('r1', '0', what + ': Rd was not written')
         # the control: the same word, aligned, works
     p.case('control')
-    p.e('\tlea\tbig+4096, r3\n\tmovq\t#1, r2\n\txadd\tr1, r2, (r3)\n\tmovq\t(r3), r4')
+    p.e('\tlea\tbig+4096, r3\n\tmovq\t#1, r2\n\taadd\tr2, (r3), r1\n\tmovq\t(r3), r4')
     p.eq('r4', '1', 'control: the same instruction on an aligned word works')
     p.done()
     return ['SEC-A01, the split lock.  An atomic whose word is not aligned (it would straddle two words, a 128-byte block or a page) is a precise fault: one exception, EPC the instruction, nothing written on',
@@ -413,8 +413,8 @@ def gen_sec_llsc_return():
     p.e('\tlea\tword, r3\n\tmovq\t#7, r17\n\tmovq\tr17, (r3)\n\tlea\tustack_top, r1\n\tmtsr\tusp, r1')
     # 1. kernel LL; RTI to a user program: its SC for the same word fails
     p.case('RTI to a lesser mode')
-    p.e('\tlea\tuser1, r8\n' + U + '\n\tmovq\t#99, r2\n\tll\tr1, (r3)\n\tmtsr\tepc, r8\n\tmtsr\tepsw, r9\n\trti\t#RTIMASK_ALL')
-    p.e('user1:\tsc\tr4, r2, (r3)\n\ttrap\t#3')
+    p.e('\tlea\tuser1, r8\n' + U + '\n\tmovq\t#99, r2\n\tll\t(r3), r1\n\tmtsr\tepc, r8\n\tmtsr\tepsw, r9\n\trti\t#RTIMASK_ALL')
+    p.e('user1:\tsc\tr2, (r3), r4\n\ttrap\t#3')
     p.e('after1:\tmovq\tr4, r20')
     p.chkne('r20', '#0', 'RTI to a lesser mode: the user\'s SC after the kernel\'s LL fails')
     p.e('\tlea\tword, r3\n\tmovq\t(r3), r4')
@@ -422,13 +422,13 @@ def gen_sec_llsc_return():
     # control: the user's LL and SC with nothing between work
     p.case('control')
     p.e('\tlea\tuser2, r8\n\tmtsr\tepc, r8\n' + U + '\n\tmtsr\tepsw, r9\n\trti\t#RTIMASK_ALL')
-    p.e('user2:\tlea\tword, r3\n\tmovq\t#55, r2\n\tll\tr1, (r3)\n\tsc\tr4, r2, (r3)\n\ttrap\t#4')
+    p.e('user2:\tlea\tword, r3\n\tmovq\t#55, r2\n\tll\t(r3), r1\n\tsc\tr2, (r3), r4\n\ttrap\t#4')
     p.e('after2:\tmovq\tr4, r20')
     p.eq('r20', '0', 'control: an LL and an SC in one mode with nothing between: the SC works')
     # 2. exception entry alone: a user LL, a trap, and the handler (kernel mode, before it returns) does the SC
     p.case('exception entry')
     p.e('\tlea\tuser3, r8\n\tmtsr\tepc, r8\n' + U + '\n\tmtsr\tepsw, r9\n\trti\t#RTIMASK_ALL')
-    p.e('user3:\tlea\tword, r3\n\tmovq\t#33, r2\n\tll\tr1, (r3)\n\ttrap\t#5')
+    p.e('user3:\tlea\tword, r3\n\tmovq\t#33, r2\n\tll\t(r3), r1\n\ttrap\t#5')
     p.e('after3:\tmovq\thsc, r20')
     p.chkne('r20', '#0', 'exception entry: an SC in the handler, before any return, fails: the entry cleared the reservation')
     p.e('\tlea\tword, r3\n\tmovq\t(r3), r4')
@@ -436,19 +436,19 @@ def gen_sec_llsc_return():
     # 3. a trap between the LL and the SC of one program
     p.case('a trap between the LL and the SC')
     p.e('\tlea\tuser4, r8\n\tmtsr\tepc, r8\n' + U + '\n\tmtsr\tepsw, r9\n\trti\t#RTIMASK_ALL')
-    p.e('user4:\tlea\tword, r3\n\tmovq\t#66, r2\n\tll\tr1, (r3)\n\ttrap\t#6\n\tsc\tr4, r2, (r3)\n\ttrap\t#7')
+    p.e('user4:\tlea\tword, r3\n\tmovq\t#66, r2\n\tll\t(r3), r1\n\ttrap\t#6\n\tsc\tr2, (r3), r4\n\ttrap\t#7')
     p.e('after4:\tmovq\tr4, r20')
     p.chkne('r20', '#0', 'a trap between the LL and the SC: the SC fails')
     # 4. RTI to the same mode: a kernel LL, an RTI to the next instruction of the kernel, the kernel's SC fails
     p.case('RTI to the same mode')
-    p.e('\tlea\tword, r3\n\tlea\tsame, r8\n' + K + '\n\tmovq\t#44, r2\n\tll\tr1, (r3)\n\tmtsr\tepc, r8\n\tmtsr\tepsw, r9\n\trti\t#RTIMASK_ALL')
-    p.e('same:\tsc\tr4, r2, (r3)')
+    p.e('\tlea\tword, r3\n\tlea\tsame, r8\n' + K + '\n\tmovq\t#44, r2\n\tll\t(r3), r1\n\tmtsr\tepc, r8\n\tmtsr\tepsw, r9\n\trti\t#RTIMASK_ALL')
+    p.e('same:\tsc\tr2, (r3), r4')
     p.chkne('r4', '#0', 'RTI to the same mode also clears the reservation')
     # 5. a context switch: A takes the reservation and is switched away; B (another program) does an SC for the same word
     p.case('a context switch')
     p.e('\tlea\tuserA, r8\n\tmtsr\tepc, r8\n' + U + '\n\tmtsr\tepsw, r9\n\trti\t#RTIMASK_ALL')
-    p.e('userA:\tlea\tword, r3\n\tmovq\t#77, r2\n\tll\tr1, (r3)\n\ttrap\t#8')
-    p.e('userB:\tsc\tr4, r2, (r3)\n\ttrap\t#9')
+    p.e('userA:\tlea\tword, r3\n\tmovq\t#77, r2\n\tll\t(r3), r1\n\ttrap\t#8')
+    p.e('userB:\tsc\tr2, (r3), r4\n\ttrap\t#9')
     p.e('after5:\tmovq\tr4, r20')
     p.chkne('r20', '#0', 'a context switch: B\'s SC does not use the reservation A took')
     p.e('\tlea\tword, r3\n\tmovq\t(r3), r4')
@@ -457,7 +457,7 @@ def gen_sec_llsc_return():
     kern = '\n'.join([
         'h_t3:\tlea\tafter1, r12\n\tbr\thres',
         'h_t4:\tlea\tafter2, r12\n\tbr\thres',
-        'h_t5:\tsc\tr4, r2, (r3)\n\tmovq\tr4, hsc\n\tlea\tafter3, r12\n\tbr\thres',
+        'h_t5:\tsc\tr2, (r3), r4\n\tmovq\tr4, hsc\n\tlea\tafter3, r12\n\tbr\thres',
         'h_t6:\trti\t#RTIMASK_ALL',
         'h_t7:\tlea\tafter4, r12\n\tbr\thres',
         'h_t8:\tlea\tuserB, r12\n\tbr\thres',
@@ -495,8 +495,8 @@ fill2:	movq	r2, (r1)+
         return '\tlea\t%s, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2\n\tlea\t%s, r20' % (label, back)
     # A: the hypervisor takes a reservation and enters a guest, whose SC fails (GENTER clears it)
     p.case('GENTER clears the hypervisor\'s reservation: a guest\'s SC fails')
-    p.e(enter('gA', 'backA') + '\n\tmovq\t#55, r2\n\tll\tr1, (r3)\n\tgenter\t#RTIMASK_ALL')
-    p.e('gA:\tsc\tr4, r2, (r3)\n\tmovq\tr4, 0(r5)\n\thalt')
+    p.e(enter('gA', 'backA') + '\n\tmovq\t#55, r2\n\tll\t(r3), r1\n\tgenter\t#RTIMASK_ALL')
+    p.e('gA:\tsc\tr2, (r3), r4\n\tmovq\tr4, 0(r5)\n\thalt')
     p.e('backA:\tmovq\t0(r5), r4')
     p.chkne('r4', '#0', 'the guest\'s SC does not use the reservation of the hypervisor')
     p.e('\tmovq\t(r3), r4')
@@ -504,8 +504,8 @@ fill2:	movq	r2, (r1)+
     # B: a guest takes a reservation and exits; the hypervisor's SC fails (an exit clears it)
     p.case('an exit clears the guest\'s reservation: the hypervisor\'s SC fails')
     p.e(enter('gB', 'backB') + '\n\tgenter\t#RTIMASK_ALL')
-    p.e('gB:\tll\tr1, (r3)\n\thalt')
-    p.e('backB:\tmovq\t#66, r2\n\tsc\tr4, r2, (r3)')
+    p.e('gB:\tll\t(r3), r1\n\thalt')
+    p.e('backB:\tmovq\t#66, r2\n\tsc\tr2, (r3), r4')
     p.chkne('r4', '#0', 'the hypervisor\'s SC after the guest\'s LL and an exit fails')
     p.e('\tmovq\t(r3), r4')
     p.eq('r4', '7', 'exit: nothing was written')
@@ -513,9 +513,9 @@ fill2:	movq	r2, (r1)+
     p.case('a switch from one guest to another: the second guest does not find the first one\'s reservation')
     p.e('\tlea\tgC2, r8\n\tmovq\t#0, r9\n\tlea\tbackC2, r21')
     p.e(enter('gC1', 'backC1') + '\n\tgenter\t#RTIMASK_ALL')
-    p.e('gC1:\tll\tr1, (r3)\n\thalt')
+    p.e('gC1:\tll\t(r3), r1\n\thalt')
     p.e('backC1:\tmtsr\thepc, r8\n\tmtsr\thepsw, r9\n\tmovq\tr21, r20\n\tmovq\t#44, r2\n\tgenter\t#RTIMASK_ALL')
-    p.e('gC2:\tsc\tr4, r2, (r3)\n\tmovq\tr4, 8(r5)\n\thalt')
+    p.e('gC2:\tsc\tr2, (r3), r4\n\tmovq\tr4, 8(r5)\n\thalt')
     p.e('backC2:\tmovq\t8(r5), r4')
     p.chkne('r4', '#0', 'guest B\'s SC fails')
     p.e('\tmovq\t(r3), r4')
@@ -523,13 +523,13 @@ fill2:	movq	r2, (r1)+
     # controls: an LL and an SC in one level, with nothing between, work (in the guest and in the hypervisor)
     p.case('control: an LL and an SC of the guest work')
     p.e(enter('gD', 'backD') + '\n\tmovq\t#33, r2\n\tgenter\t#RTIMASK_ALL')
-    p.e('gD:\tll\tr1, (r3)\n\tsc\tr4, r2, (r3)\n\tmovq\tr4, 16(r5)\n\thalt')
+    p.e('gD:\tll\t(r3), r1\n\tsc\tr2, (r3), r4\n\tmovq\tr4, 16(r5)\n\thalt')
     p.e('backD:\tmovq\t16(r5), r4')
     p.eq('r4', '0', 'the guest\'s SC works when nothing came between')
     p.e('\tmovq\t(r3), r4')
     p.eq('r4', '33', 'and wrote')
     p.case('control: an LL and an SC of the hypervisor work')
-    p.e('\tmovq\t#22, r2\n\tll\tr1, (r3)\n\tsc\tr4, r2, (r3)')
+    p.e('\tmovq\t#22, r2\n\tll\t(r3), r1\n\tsc\tr2, (r3), r4')
     p.eq('r4', '0', 'the hypervisor\'s own SC works')
     p.done()
     tail = r"""
@@ -565,13 +565,13 @@ def gen_q_memtype():
     p.e('\tmovq\t=(%s), r6\n\tmovq\t=(0x5555666677778888), r17\n\tmovq\tr17, 8(r6)' % hx(P3))
     p.e('\tmovq\t=(%s), r6\n\tmovq\t(r6), r4' % hx(P1))
     p.eq('r4', '0', 'the read-only page reads')
-    p.e('\tmovq\t=(%s), r6\n\tmovq\t=(0x1000), r17\n\tmovq\t#1, r2\n\txadd\tr1, r2, (r6)\n\tmovq\t(r6), r4' % hx(P0))
-    p.eq('r1', '0x0123456789abcdef', 'xadd on cached writable memory: the old value')
-    p.eq('r4', '0x0123456789abcdf0', 'xadd on cached writable memory: the new value')
+    p.e('\tmovq\t=(%s), r6\n\tmovq\t=(0x1000), r17\n\tmovq\t#1, r2\n\taadd\tr2, (r6), r1\n\tmovq\t(r6), r4' % hx(P0))
+    p.eq('r1', '0x0123456789abcdef', 'aadd on cached writable memory: the old value')
+    p.eq('r4', '0x0123456789abcdf0', 'aadd on cached writable memory: the new value')
     lab = 0
     pages = [(P1, 'a read-only page', 0, 0), (P2, 'an uncached page', 0x1111222233334444, 0), (P3, 'a device page', 0x5555666677778888, 8)]
     for base, what, val, off in pages:
-        for mn in ('xadd', 'swap', 'casl', 'xmaxul', 'll', 'lll', 'sc', 'scl'):
+        for mn in ('aadd', 'swap', 'casl', 'amaxul', 'll', 'lll', 'sc', 'scl'):
             lab += 1
             p.case('%s on %s' % (mn, what))
             p.e('\tmovq\t=(%s), r3\n\tmovq\t=(0x1111111111111111), r1\n\tmovq\t#0, r4\n\tmovq\tr4, cnt\n\tmovq\t#9, r2' % hx(base + off))
@@ -580,9 +580,9 @@ def gen_q_memtype():
                 pass
             p.e('I%d:' % lab)
             if mn in ('ll', 'lll'):
-                p.e('\t%s\tr1, (r3)' % mn)
+                p.e('\t%s\t(r3), r1' % mn)
             else:
-                p.e('\t%s\tr1, r2, (r3)' % mn)
+                p.e('\t%s\tr2, (r3), r1' % mn)
             p.e('N%d:\tmovq\tcnt, r4' % lab)
             p.eq('r4', '1', 'one exception')
             p.e('\tmovq\tlast_cause, r4')

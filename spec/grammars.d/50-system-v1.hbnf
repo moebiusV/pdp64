@@ -75,11 +75,12 @@ pte = "v"@0
 pte-width = "mt"@2
           | "ppn"@28
 
-; The memory type MT of a page: cached, uncached, device strongly ordered, device weakly ordered.
+; The memory type MT of a page: cached, uncached, device weakly ordered, device strongly ordered.  The number is the strictness: the type of an access that
+; goes through several terms (the stage-1 entry, the stage-2 entry, the platform map) is the largest of them.  "device" is the strongly ordered one.
 mt = "cached"@0
    | "uncached"@1
-   | "device"@2
-   | "device-weak"@3
+   | "device-weak"@2
+   | "device"@3
 
 ; The geometry: 4 KB pages, three levels of 512 entries, a 39-bit virtual address (bits 63 to 39 must equal bit 38), a 40-bit physical address.
 mmu = "page-bits"@12

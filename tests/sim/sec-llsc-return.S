@@ -40,11 +40,11 @@ kfill:	movq	r2, (r1)+
 	lea	user1, r8
 	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
 	movq	#99, r2
-	ll	r1, (r3)
+	ll	(r3), r1
 	mtsr	epc, r8
 	mtsr	epsw, r9
 	rti	#RTIMASK_ALL
-user1:	sc	r4, r2, (r3)
+user1:	sc	r2, (r3), r4
 	trap	#3
 after1:	movq	r4, r20
 	cbne	r20, #0, 1f	; case 1: RTI to a lesser mode: the user's SC after the kernel's LL fails
@@ -66,8 +66,8 @@ after1:	movq	r4, r20
 	rti	#RTIMASK_ALL
 user2:	lea	word, r3
 	movq	#55, r2
-	ll	r1, (r3)
-	sc	r4, r2, (r3)
+	ll	(r3), r1
+	sc	r2, (r3), r4
 	trap	#4
 after2:	movq	r4, r20
 	movq	=(0), r17
@@ -83,7 +83,7 @@ after2:	movq	r4, r20
 	rti	#RTIMASK_ALL
 user3:	lea	word, r3
 	movq	#33, r2
-	ll	r1, (r3)
+	ll	(r3), r1
 	trap	#5
 after3:	movq	hsc, r20
 	cbne	r20, #0, 1f	; case 3: exception entry: an SC in the handler, before any return, fails: the entry cleared the reservation
@@ -105,9 +105,9 @@ after3:	movq	hsc, r20
 	rti	#RTIMASK_ALL
 user4:	lea	word, r3
 	movq	#66, r2
-	ll	r1, (r3)
+	ll	(r3), r1
 	trap	#6
-	sc	r4, r2, (r3)
+	sc	r2, (r3), r4
 	trap	#7
 after4:	movq	r4, r20
 	cbne	r20, #0, 1f	; case 4: a trap between the LL and the SC: the SC fails
@@ -119,11 +119,11 @@ after4:	movq	r4, r20
 	lea	same, r8
 	movq	#((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)), r9
 	movq	#44, r2
-	ll	r1, (r3)
+	ll	(r3), r1
 	mtsr	epc, r8
 	mtsr	epsw, r9
 	rti	#RTIMASK_ALL
-same:	sc	r4, r2, (r3)
+same:	sc	r2, (r3), r4
 	cbne	r4, #0, 1f	; case 5: RTI to the same mode also clears the reservation
 	movq	#5, r0
 	halt
@@ -136,9 +136,9 @@ same:	sc	r4, r2, (r3)
 	rti	#RTIMASK_ALL
 userA:	lea	word, r3
 	movq	#77, r2
-	ll	r1, (r3)
+	ll	(r3), r1
 	trap	#8
-userB:	sc	r4, r2, (r3)
+userB:	sc	r2, (r3), r4
 	trap	#9
 after5:	movq	r4, r20
 	cbne	r20, #0, 1f	; case 6: a context switch: B's SC does not use the reservation A took
@@ -158,7 +158,7 @@ h_t3:	lea	after1, r12
 	br	hres
 h_t4:	lea	after2, r12
 	br	hres
-h_t5:	sc	r4, r2, (r3)
+h_t5:	sc	r2, (r3), r4
 	movq	r4, hsc
 	lea	after3, r12
 	br	hres

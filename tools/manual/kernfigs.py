@@ -123,7 +123,7 @@ def fig_pte():
          ('U', 'user: user mode may touch it (kernel mode may read and write a user page, never execute one)'),
          ('G', 'global: the entry ignores the address-space number'),
          ('A  D', 'accessed, dirty: set by the kernel, never by the hardware; a clear bit is a page fault'),
-         ('MT', 'memory type: 0 normal cached, 1 normal uncached, 2 device strongly ordered, 3 device weakly ordered'),
+         ('MT', 'memory type, the number is the strictness: 0 normal cached, 1 normal uncached, 2 device weakly ordered, 3 device strongly ordered'),
          ('rsvd', 'bits 10-11 and 40-63 must be zero; a set bit is a page fault (for a 40-bit physical address)')]
     for i, (k, v) in enumerate(d):
         c.text(24, 132 + i * 22, k, 11, 'start', bold=True, mono=True)

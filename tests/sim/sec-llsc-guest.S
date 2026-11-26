@@ -31,9 +31,9 @@ fill2:	movq	r2, (r1)+
 	mtsr	hepsw, r2
 	lea	backA, r20
 	movq	#55, r2
-	ll	r1, (r3)
+	ll	(r3), r1
 	genter	#RTIMASK_ALL
-gA:	sc	r4, r2, (r3)
+gA:	sc	r2, (r3), r4
 	movq	r4, 0(r5)
 	halt
 backA:	movq	0(r5), r4
@@ -54,10 +54,10 @@ backA:	movq	0(r5), r4
 	mtsr	hepsw, r2
 	lea	backB, r20
 	genter	#RTIMASK_ALL
-gB:	ll	r1, (r3)
+gB:	ll	(r3), r1
 	halt
 backB:	movq	#66, r2
-	sc	r4, r2, (r3)
+	sc	r2, (r3), r4
 	cbne	r4, #0, 1f	; case 2: the hypervisor's SC after the guest's LL and an exit fails
 	movq	#2, r0
 	halt
@@ -78,14 +78,14 @@ backB:	movq	#66, r2
 	mtsr	hepsw, r2
 	lea	backC1, r20
 	genter	#RTIMASK_ALL
-gC1:	ll	r1, (r3)
+gC1:	ll	(r3), r1
 	halt
 backC1:	mtsr	hepc, r8
 	mtsr	hepsw, r9
 	movq	r21, r20
 	movq	#44, r2
 	genter	#RTIMASK_ALL
-gC2:	sc	r4, r2, (r3)
+gC2:	sc	r2, (r3), r4
 	movq	r4, 8(r5)
 	halt
 backC2:	movq	8(r5), r4
@@ -107,8 +107,8 @@ backC2:	movq	8(r5), r4
 	lea	backD, r20
 	movq	#33, r2
 	genter	#RTIMASK_ALL
-gD:	ll	r1, (r3)
-	sc	r4, r2, (r3)
+gD:	ll	(r3), r1
+	sc	r2, (r3), r4
 	movq	r4, 16(r5)
 	halt
 backD:	movq	16(r5), r4
@@ -125,8 +125,8 @@ backD:	movq	16(r5), r4
 1:
 	; ---- case 5: control: an LL and an SC of the hypervisor work
 	movq	#22, r2
-	ll	r1, (r3)
-	sc	r4, r2, (r3)
+	ll	(r3), r1
+	sc	r2, (r3), r4
 	movq	=(0), r17
 	cbeq	r4, r17, 1f	; case 5: the hypervisor's own SC works
 	movq	#5, r0

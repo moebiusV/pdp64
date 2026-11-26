@@ -14,7 +14,7 @@ sysreg = "ptbr"@0
        | "asid"@11
        | "cpuid"@12
        | "htrap"@128    ; the hypervisor block, numbers 128 to 147 (errata 195, 196; docs/encoding-work/hypervisor-design.md 1.3).  Present only on a machine with the hypervisor strap HVE;
-       | "hexitr"@129   ; with HVE clear every one of them is an illegal instruction; used by a guest (H = 0) it is an exit (exit code 18); at H = 1 it is the register.
+       | "hexitr"@129   ; with HVE clear every one of them is an illegal instruction; used by a guest (H = 0) it is an exit (exit code 12); at H = 1 it is the register.
        | "hepc"@130
        | "hepsw"@131
        | "heva"@132

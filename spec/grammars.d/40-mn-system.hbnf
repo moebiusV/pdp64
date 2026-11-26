@@ -22,7 +22,7 @@ mn-sysx = "pushx"@0
         | "popx"@1
         | "isync"@2     ; not privileged (errata 190): earlier writes to PTBR, ASID, MMUCTL, VBR (privileged themselves) and earlier ICINVs take effect for what follows (errata 39); pad zero
         | "hint"@3      ; hint #n: n (0 to 255) in the pad byte; no architectural effect; 0 nop, 1 pause, 2 speculation barrier, the rest reserved and no-ops
-        | "genter"@6    ; the hypervisor's entry into a guest (errata 195, 196): legal at H=1 only; at H=0 an exit (code 18); with no hypervisor (HVE clear) an illegal instruction; includes an ISYNC.  It has no pad: the word is the leaf RETM
+        | "genter"@6    ; the hypervisor's entry into a guest (errata 195, 196): legal at H=1 only; at H=0 an exit (code 12); with no hypervisor (HVE clear) an illegal instruction; includes an ISYNC.  It has no pad: the word is the leaf RETM
 
 ; SYS class 0, the system-register moves (four bytes: the register in parcel 1): the number is the minor opcode in the low field.  Not in `mnemonic`: they
 ; take the register's name as a word of its own, in the operand position that is the system register (`mfsr r1, ptbr`, `mtsr ptbr, r1`)

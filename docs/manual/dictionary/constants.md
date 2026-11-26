@@ -54,7 +54,7 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `LPAD` | 14 | an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1) |
 | `BPT` | 15 | the `BPT` instruction |
 | `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `ADDV`, `SUBV`, `MULV`) |
-| `HEXIT` | 17 | the instruction exit of a guest, in the hypervisor's vector table only (6.16.15) |
+| `HEXIT` | 17 | the instruction exit of a guest, in the hypervisor's vector table only (6.16.16) |
 | `GIFAULT` | 18 | a guest-physical instruction fault (stage 2), in the hypervisor's table only |
 | `GLFAULT` | 19 | a guest-physical load fault (stage 2), in the hypervisor's table only |
 | `GSFAULT` | 20 | a guest-physical store fault (stage 2), in the hypervisor's table only |
@@ -93,8 +93,8 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 |---|---|
 | cached | 0 |
 | uncached | 1 |
-| device | 2 |
-| device weak | 3 |
+| device weak | 2 |
+| device | 3 |
 
 ## The translation geometry
 
@@ -188,7 +188,7 @@ The numbers of the exit-reason codes, the trap-control bits and the stage-2 regi
 | `htrap-reset` | `value` | 3 | the value of HTRAP after a machine reset (`WFE` and `SEV` set) |
 | `hcall` | `block-shift` | 5 | the hypercall mask: one bit covers 32 trap numbers, as a shift |
 | `xcode` | `taken-at-h` | 0 | the exit-reason codes (bits 7 to 0 of HEXITR) |
-| `xcode` | `irq` | 1 |  |
+| `xcode` | `machine-check` | 1 |  |
 | `xcode` | `halt` | 2 |  |
 | `xcode` | `wfe` | 3 |  |
 | `xcode` | `sev` | 4 |  |
@@ -199,15 +199,17 @@ The numbers of the exit-reason codes, the trap-control bits and the stage-2 regi
 | `xcode` | `ptbr` | 9 |  |
 | `xcode` | `mmuctl` | 10 |  |
 | `xcode` | `vbr` | 11 |  |
+| `xcode` | `hvreg` | 12 |  |
 | `xcode` | `cpuid` | 13 |  |
 | `xcode` | `icinv` | 14 |  |
 | `xcode` | `bpt` | 15 |  |
 | `xcode` | `step` | 16 |  |
-| `xcode` | `hypercall` | 17 |  |
-| `xcode` | `hvreg` | 18 |  |
-| `xcode` | `s2-invalid` | 19 |  |
-| `xcode` | `s2-refused` | 20 |  |
-| `xcode` | `machine-check` | 21 |  |
+| `xcode` | `irq` | 21 |  |
+| `xcode` | `hypercall` | 22 |  |
+| `xcode` | `s2-invalid` | 23 |  |
+| `xcode` | `s2-refused` | 24 |  |
+| `xcode` | `s2-no-device` | 25 |  |
+| `xcode` | `s2-arena` | 26 |  |
 | `xflag` | `walk` | 8 | the flag bits of HEXITR (a stage-2 fault on a page-table read; on the vector fetch) |
 | `xflag` | `vec` | 9 |  |
 | `gtbr` | `s2en` | 0 | the fields of GTBR: stage-2 enable, root page number, guest tag |

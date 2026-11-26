@@ -30,7 +30,7 @@ NOTES = {
     'FMADD': '',
     'FDIV': '`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a one-parcel form.',
 }
-for _i in ('CAS', 'SWAP', 'XADD', 'XAND', 'XMAX'):
+for _i in ('CAS', 'SWAP', 'AADD', 'AAND', 'AMAX'):
     NOTES[_i] = ATOMNOTE
 NOTES['LLSC'] = ('A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps writing the granule (the RISC-V guarantee for constrained sequences). ' + ATOMNOTE
                  )
@@ -59,8 +59,8 @@ STORY = {
     'FSINGLE': '`binary64` has first-class opcodes because on a 64-bit machine it is the common case; `binary32` has the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other format (`FADD32`).',
     'FMADD': 'The whole fused multiply-add family is in the instruction set because its absence would be the single worst gap in the floating-point set: one rounding instead of two, and the inner step of dot products, polynomial evaluation and every matrix kernel. It has four register operands. It replaces the VAX `POLY`, which was the best answer before fused multiply-add.',
     'SWAP': 'One of the read-modify-write atomics (see `CAS`). No separate reason is recorded for it.',
-    'XADD': 'One of the fetch-and-operate atomics (see `CAS`), in the place of the PDP-11\'s read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair ({{r:smp-what-you-already-know}}).',
-    'XAND': 'The fetch-and-and, or and xor atomics (see `CAS`). No separate reason is recorded for them.',
+    'AADD': 'One of the fetch-and-operate atomics (see `CAS`), in the place of the PDP-11\'s read-modify-write instructions, which were indivisible on the Unibus through the `DATIP`/`DATO` pair ({{r:smp-what-you-already-know}}).',
+    'AAND': 'The fetch-and-and, or and xor atomics (see `CAS`). No separate reason is recorded for them.',
     'TRAP': 'One word carries an 8-bit vector number, so the vector range of 256 and the two-byte common case are kept together. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.',
     'MTDP': '`DP` descends from the 6502\'s zero page and is kept for code density (a short displacement from `DP`); it is also the thread pointer in user mode and, in kernel mode, the per-CPU pointer that an SMP kernel wants ({{r:per-cpu-state-and-cheap-context}}). `MTDP` and `MFDP` read and write the current mode\'s copy.',
 }

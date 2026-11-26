@@ -926,37 +926,37 @@ arg = "MN_ATOM_CAS"
 exec = "H_ATOM"
 arg = "MN_ATOM_SWAP"
 
-[xadd]
+[aadd]
 exec = "H_ATOM"
-arg = "MN_ATOM_XADD"
+arg = "MN_ATOM_AADD"
 
-[xand]
+[aand]
 exec = "H_ATOM"
-arg = "MN_ATOM_XAND"
+arg = "MN_ATOM_AAND"
 
-[xor_]
+[abis]
 exec = "H_ATOM"
-arg = "MN_ATOM_XOR_"
+arg = "MN_ATOM_ABIS"
 
-[xxor]
+[axor]
 exec = "H_ATOM"
-arg = "MN_ATOM_XXOR"
+arg = "MN_ATOM_AXOR"
 
-[xmax]
+[amax]
 exec = "H_ATOM"
-arg = "MN_ATOM_XMAX"
+arg = "MN_ATOM_AMAX"
 
-[xmin]
+[amin]
 exec = "H_ATOM"
-arg = "MN_ATOM_XMIN"
+arg = "MN_ATOM_AMIN"
 
-[xmaxu]
+[amaxu]
 exec = "H_ATOM"
-arg = "MN_ATOM_XMAXU"
+arg = "MN_ATOM_AMAXU"
 
-[xminu]
+[aminu]
 exec = "H_ATOM"
-arg = "MN_ATOM_XMINU"
+arg = "MN_ATOM_AMINU"
 
 [sc]
 exec = "H_ATOM"
@@ -970,37 +970,37 @@ arg = "MN_ATOM_CASL"
 exec = "H_ATOM"
 arg = "MN_ATOM_SWAPL"
 
-[xaddl]
+[aaddl]
 exec = "H_ATOM"
-arg = "MN_ATOM_XADDL"
+arg = "MN_ATOM_AADDL"
 
-[xandl]
+[aandl]
 exec = "H_ATOM"
-arg = "MN_ATOM_XANDL"
+arg = "MN_ATOM_AANDL"
 
-[xor_l]
+[abisl]
 exec = "H_ATOM"
-arg = "MN_ATOM_XOR_L"
+arg = "MN_ATOM_ABISL"
 
-[xxorl]
+[axorl]
 exec = "H_ATOM"
-arg = "MN_ATOM_XXORL"
+arg = "MN_ATOM_AXORL"
 
-[xmaxl]
+[amaxl]
 exec = "H_ATOM"
-arg = "MN_ATOM_XMAXL"
+arg = "MN_ATOM_AMAXL"
 
-[xminl]
+[aminl]
 exec = "H_ATOM"
-arg = "MN_ATOM_XMINL"
+arg = "MN_ATOM_AMINL"
 
-[xmaxul]
+[amaxul]
 exec = "H_ATOM"
-arg = "MN_ATOM_XMAXUL"
+arg = "MN_ATOM_AMAXUL"
 
-[xminul]
+[aminul]
 exec = "H_ATOM"
-arg = "MN_ATOM_XMINUL"
+arg = "MN_ATOM_AMINUL"
 
 [scl]
 exec = "H_ATOM"

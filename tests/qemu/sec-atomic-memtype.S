@@ -43,19 +43,19 @@ kfill:	movq	r2, (r1)+
 	movq	=(0x800000), r6
 	movq	=(0x1000), r17
 	movq	#1, r2
-	xadd	r1, r2, (r6)
+	aadd	r2, (r6), r1
 	movq	(r6), r4
 	movq	=(0x0123456789abcdef), r17
-	cbeq	r1, r17, 1f	; case 1: xadd on cached writable memory: the old value
+	cbeq	r1, r17, 1f	; case 1: aadd on cached writable memory: the old value
 	movq	#1, r0
 	halt
 1:
 	movq	=(0x0123456789abcdf0), r17
-	cbeq	r4, r17, 1f	; case 1: xadd on cached writable memory: the new value
+	cbeq	r4, r17, 1f	; case 1: aadd on cached writable memory: the new value
 	movq	#1, r0
 	halt
 1:
-	; ---- case 2: xadd on a read-only page
+	; ---- case 2: aadd on a read-only page
 	movq	=(0x801000), r3
 	movq	=(0x1111111111111111), r1
 	movq	#0, r4
@@ -63,7 +63,7 @@ kfill:	movq	r2, (r1)+
 	movq	#9, r2
 	lea	N1, r13
 I1:
-	xadd	r1, r2, (r3)
+	aadd	r2, (r3), r1
 N1:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 2: one exception
@@ -107,7 +107,7 @@ N1:	movq	cnt, r4
 	movq	#9, r2
 	lea	N2, r13
 I2:
-	swap	r1, r2, (r3)
+	swap	r2, (r3), r1
 N2:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 3: one exception
@@ -151,7 +151,7 @@ N2:	movq	cnt, r4
 	movq	#9, r2
 	lea	N3, r13
 I3:
-	casl	r1, r2, (r3)
+	casl	r2, (r3), r1
 N3:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 4: one exception
@@ -187,7 +187,7 @@ N3:	movq	cnt, r4
 	movq	#4, r0
 	halt
 1:
-	; ---- case 5: xmaxul on a read-only page
+	; ---- case 5: amaxul on a read-only page
 	movq	=(0x801000), r3
 	movq	=(0x1111111111111111), r1
 	movq	#0, r4
@@ -195,7 +195,7 @@ N3:	movq	cnt, r4
 	movq	#9, r2
 	lea	N4, r13
 I4:
-	xmaxul	r1, r2, (r3)
+	amaxul	r2, (r3), r1
 N4:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 5: one exception
@@ -239,7 +239,7 @@ N4:	movq	cnt, r4
 	movq	#9, r2
 	lea	N5, r13
 I5:
-	ll	r1, (r3)
+	ll	(r3), r1
 N5:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 6: one exception
@@ -283,7 +283,7 @@ N5:	movq	cnt, r4
 	movq	#9, r2
 	lea	N6, r13
 I6:
-	lll	r1, (r3)
+	lll	(r3), r1
 N6:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 7: one exception
@@ -327,7 +327,7 @@ N6:	movq	cnt, r4
 	movq	#9, r2
 	lea	N7, r13
 I7:
-	sc	r1, r2, (r3)
+	sc	r2, (r3), r1
 N7:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 8: one exception
@@ -371,7 +371,7 @@ N7:	movq	cnt, r4
 	movq	#9, r2
 	lea	N8, r13
 I8:
-	scl	r1, r2, (r3)
+	scl	r2, (r3), r1
 N8:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 9: one exception
@@ -407,7 +407,7 @@ N8:	movq	cnt, r4
 	movq	#9, r0
 	halt
 1:
-	; ---- case 10: xadd on an uncached page
+	; ---- case 10: aadd on an uncached page
 	movq	=(0x802000), r3
 	movq	=(0x1111111111111111), r1
 	movq	#0, r4
@@ -415,7 +415,7 @@ N8:	movq	cnt, r4
 	movq	#9, r2
 	lea	N9, r13
 I9:
-	xadd	r1, r2, (r3)
+	aadd	r2, (r3), r1
 N9:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 10: one exception
@@ -459,7 +459,7 @@ N9:	movq	cnt, r4
 	movq	#9, r2
 	lea	N10, r13
 I10:
-	swap	r1, r2, (r3)
+	swap	r2, (r3), r1
 N10:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 11: one exception
@@ -503,7 +503,7 @@ N10:	movq	cnt, r4
 	movq	#9, r2
 	lea	N11, r13
 I11:
-	casl	r1, r2, (r3)
+	casl	r2, (r3), r1
 N11:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 12: one exception
@@ -539,7 +539,7 @@ N11:	movq	cnt, r4
 	movq	#12, r0
 	halt
 1:
-	; ---- case 13: xmaxul on an uncached page
+	; ---- case 13: amaxul on an uncached page
 	movq	=(0x802000), r3
 	movq	=(0x1111111111111111), r1
 	movq	#0, r4
@@ -547,7 +547,7 @@ N11:	movq	cnt, r4
 	movq	#9, r2
 	lea	N12, r13
 I12:
-	xmaxul	r1, r2, (r3)
+	amaxul	r2, (r3), r1
 N12:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 13: one exception
@@ -591,7 +591,7 @@ N12:	movq	cnt, r4
 	movq	#9, r2
 	lea	N13, r13
 I13:
-	ll	r1, (r3)
+	ll	(r3), r1
 N13:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 14: one exception
@@ -635,7 +635,7 @@ N13:	movq	cnt, r4
 	movq	#9, r2
 	lea	N14, r13
 I14:
-	lll	r1, (r3)
+	lll	(r3), r1
 N14:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 15: one exception
@@ -679,7 +679,7 @@ N14:	movq	cnt, r4
 	movq	#9, r2
 	lea	N15, r13
 I15:
-	sc	r1, r2, (r3)
+	sc	r2, (r3), r1
 N15:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 16: one exception
@@ -723,7 +723,7 @@ N15:	movq	cnt, r4
 	movq	#9, r2
 	lea	N16, r13
 I16:
-	scl	r1, r2, (r3)
+	scl	r2, (r3), r1
 N16:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 17: one exception
@@ -759,7 +759,7 @@ N16:	movq	cnt, r4
 	movq	#17, r0
 	halt
 1:
-	; ---- case 18: xadd on a device page
+	; ---- case 18: aadd on a device page
 	movq	=(0x803008), r3
 	movq	=(0x1111111111111111), r1
 	movq	#0, r4
@@ -767,7 +767,7 @@ N16:	movq	cnt, r4
 	movq	#9, r2
 	lea	N17, r13
 I17:
-	xadd	r1, r2, (r3)
+	aadd	r2, (r3), r1
 N17:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 18: one exception
@@ -811,7 +811,7 @@ N17:	movq	cnt, r4
 	movq	#9, r2
 	lea	N18, r13
 I18:
-	swap	r1, r2, (r3)
+	swap	r2, (r3), r1
 N18:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 19: one exception
@@ -855,7 +855,7 @@ N18:	movq	cnt, r4
 	movq	#9, r2
 	lea	N19, r13
 I19:
-	casl	r1, r2, (r3)
+	casl	r2, (r3), r1
 N19:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 20: one exception
@@ -891,7 +891,7 @@ N19:	movq	cnt, r4
 	movq	#20, r0
 	halt
 1:
-	; ---- case 21: xmaxul on a device page
+	; ---- case 21: amaxul on a device page
 	movq	=(0x803008), r3
 	movq	=(0x1111111111111111), r1
 	movq	#0, r4
@@ -899,7 +899,7 @@ N19:	movq	cnt, r4
 	movq	#9, r2
 	lea	N20, r13
 I20:
-	xmaxul	r1, r2, (r3)
+	amaxul	r2, (r3), r1
 N20:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 21: one exception
@@ -943,7 +943,7 @@ N20:	movq	cnt, r4
 	movq	#9, r2
 	lea	N21, r13
 I21:
-	ll	r1, (r3)
+	ll	(r3), r1
 N21:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 22: one exception
@@ -987,7 +987,7 @@ N21:	movq	cnt, r4
 	movq	#9, r2
 	lea	N22, r13
 I22:
-	lll	r1, (r3)
+	lll	(r3), r1
 N22:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 23: one exception
@@ -1031,7 +1031,7 @@ N22:	movq	cnt, r4
 	movq	#9, r2
 	lea	N23, r13
 I23:
-	sc	r1, r2, (r3)
+	sc	r2, (r3), r1
 N23:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 24: one exception
@@ -1075,7 +1075,7 @@ N23:	movq	cnt, r4
 	movq	#9, r2
 	lea	N24, r13
 I24:
-	scl	r1, r2, (r3)
+	scl	r2, (r3), r1
 N24:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 25: one exception

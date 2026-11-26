@@ -110,7 +110,7 @@ static inline int pdp64_pte_space_ok(uint64_t pte)
 {
 	int device_page = (int)(((pte >> PTE_PPN) << 12) >> MAP_SPACE_BIT) & 1;
 	unsigned mt = (unsigned)(pte >> PTE_MT) & ((1u << PTE_WIDTH_MT) - 1);
-	return device_page == (mt == MT_DEVICE || mt == MT_DEVICE_WEAK);
+	return device_page == (mt >= MT_DEVICE_WEAK);				/* the codes run in the order of strictness: the two device types are the two largest */
 }
 
 static inline unsigned pdp64_mode(const struct pdp64_cpu *c) { return (c->psw >> PSW_MODE) & ((1u << PSW_WIDTH_MODE) - 1); }

@@ -1,1 +1,1 @@
-an atomic is written .OP Rd, Rs, (Ra).
+an atomic is written .OP Rs, (Ra), Rd.

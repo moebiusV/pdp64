@@ -24,7 +24,7 @@ kfill:	movq	r2, (r1)+
 	movq	#1, r2
 	movq	#0, r1
 	lea	N0, r13
-I0:	xadd	r1, r2, (r3)
+I0:	aadd	r2, (r3), r1
 N0:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 1: across two 8-byte words: one fault, not a lock and a split access
@@ -69,7 +69,7 @@ N0:	movq	cnt, r4
 	movq	#1, r2
 	movq	#0, r1
 	lea	N1, r13
-I1:	xadd	r1, r2, (r3)
+I1:	aadd	r2, (r3), r1
 N1:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 2: across a 128-byte block: one fault, not a lock and a split access
@@ -114,7 +114,7 @@ N1:	movq	cnt, r4
 	movq	#1, r2
 	movq	#0, r1
 	lea	N2, r13
-I2:	xadd	r1, r2, (r3)
+I2:	aadd	r2, (r3), r1
 N2:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 3: across a page: one fault, not a lock and a split access
@@ -159,7 +159,7 @@ N2:	movq	cnt, r4
 	movq	#1, r2
 	movq	#0, r1
 	lea	N3, r13
-I3:	xaddl	r1, r2, (r3)
+I3:	aaddl	r2, (r3), r1
 N3:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 4: 4 bytes across a word: one fault, not a lock and a split access
@@ -204,7 +204,7 @@ N3:	movq	cnt, r4
 	movq	#1, r2
 	movq	#0, r1
 	lea	N4, r13
-I4:	swapl	r1, r2, (r3)
+I4:	swapl	r2, (r3), r1
 N4:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 5: 4 bytes across a block: one fault, not a lock and a split access
@@ -249,7 +249,7 @@ N4:	movq	cnt, r4
 	movq	#1, r2
 	movq	#0, r1
 	lea	N5, r13
-I5:	cas	r1, r2, (r3)
+I5:	cas	r2, (r3), r1
 N5:	movq	cnt, r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 6: cas across a page: one fault, not a lock and a split access
@@ -289,7 +289,7 @@ N5:	movq	cnt, r4
 	; ---- case 7: control
 	lea	big+4096, r3
 	movq	#1, r2
-	xadd	r1, r2, (r3)
+	aadd	r2, (r3), r1
 	movq	(r3), r4
 	movq	=(1), r17
 	cbeq	r4, r17, 1f	; case 7: control: the same instruction on an aligned word works

@@ -192,30 +192,30 @@ mn-fesc = "fdiv"@0b00000000
 
 ; ATOM: the atomic words (errata 211; docs/encoding-work/rejudge-timer-iommu-irq-atomics.md F8 to F17).  The number is the handler's argument (MN_ATOM_*): bits 0 to 3 name the operation
 ; (compare and swap 0, swap 1, add 2, and 3, or 4, exclusive or 5, signed maximum 6, signed minimum 7, unsigned maximum 8, unsigned minimum 9, the store-conditional 10, the load-linked 11),
-; bit 5 the size of the access: 0 eight bytes (the bare name), 1 four bytes (the name with the suffix `l` after the operation: xaddl; the 4-byte load-linked is lll).  The encoding is in
+; bit 5 the size of the access: 0 eight bytes (the bare name), 1 four bytes (the name with the suffix `l` after the operation: aaddl; the 4-byte load-linked is lll).  The encoding is in
 ; 57-enc-atomic.hbnf.
 mn-atom = "cas"@0
         | "swap"@1
-        | "xadd"@2
-        | "xand"@3
-        | "xor_"@4
-        | "xxor"@5
-        | "xmax"@6
-        | "xmin"@7
-        | "xmaxu"@8
-        | "xminu"@9
+        | "aadd"@2
+        | "aand"@3
+        | "abis"@4
+        | "axor"@5
+        | "amax"@6
+        | "amin"@7
+        | "amaxu"@8
+        | "aminu"@9
         | "sc"@10
         | "ll"@11
         | "casl"@32
         | "swapl"@33
-        | "xaddl"@34
-        | "xandl"@35
-        | "xor_l"@36
-        | "xxorl"@37
-        | "xmaxl"@38
-        | "xminl"@39
-        | "xmaxul"@40
-        | "xminul"@41
+        | "aaddl"@34
+        | "aandl"@35
+        | "abisl"@36
+        | "axorl"@37
+        | "amaxl"@38
+        | "aminl"@39
+        | "amaxul"@40
+        | "aminul"@41
         | "scl"@42
         | "lll"@43
 

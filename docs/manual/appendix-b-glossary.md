@@ -42,7 +42,7 @@
 
 | Term | Meaning |
 |---|---|
-| **`MT`** | memory type, a two-bit page attribute: normal cached, normal uncached, device strongly ordered (2.3, 6.7) |
+| **`MT`** | memory type, a two-bit page attribute: normal cached 0, normal uncached 1, device weakly ordered 2, device strongly ordered 3; the larger the number, the stricter (2.3, 6.7) |
 | **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.8) |
 | **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.8) |
 | **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores (7.9) |
@@ -80,12 +80,12 @@
 | **`HVE`** | the strap, fixed by the machine, that says it has a hypervisor mode; with it clear `H` is always 0 (6.16.3) |
 | **exit** | the event by which a guest stops and the hypervisor starts: a trapped instruction, a hypercall, an interrupt or a fault in stage 2; `HEXITR` says which (6.16.14) |
 | **hypercall** | a `TRAP` number routed to the hypervisor by the trap-control register; the guest's system call to the hypervisor (6.16.11) |
-| **world switch** | the exit of one guest and the entry of the next, with the hypervisor saving and loading the guest's state between them (6.16.19) |
-| **`GENTER`** | `GENTER #mask` enters a guest from the hypervisor; the mask names the registers it keeps (6.16.16, 6.16.17) |
-| **stage 1, stage 2** | the guest's own page tables, and the hypervisor's tables that turn a guest-physical address into a real one (6.16.20) |
-| **guest tag** | the 16-bit number, allocated by the hardware, that marks the translation-buffer entries of one guest (6.16.21) |
-| **arena** | the one run of real pages in which the hypervisor keeps its stage-2 tables, so that the hardware knows when a table has changed (6.16.24) |
-| **epoch word** | the word in memory that a core adds one to when it has changed the arena, and that other cores read at entry to a guest (6.16.24) |
+| **world switch** | the exit of one guest and the entry of the next, with the hypervisor saving and loading the guest's state between them (6.16.20) |
+| **`GENTER`** | `GENTER #mask` enters a guest from the hypervisor; the mask names the registers it keeps (6.16.17, 6.16.18) |
+| **stage 1, stage 2** | the guest's own page tables, and the hypervisor's tables that turn a guest-physical address into a real one (6.16.21) |
+| **guest tag** | the 16-bit number, allocated by the hardware, that marks the translation-buffer entries of one guest (6.16.22) |
+| **arena** | the one run of real pages in which the hypervisor keeps its stage-2 tables, so that the hardware knows when a table has changed (6.16.25) |
+| **epoch word** | the word in memory that a core adds one to when it has changed the arena, and that other cores read at entry to a guest (6.16.25) |
 
 ## B.3 The bus, devices and boot
 

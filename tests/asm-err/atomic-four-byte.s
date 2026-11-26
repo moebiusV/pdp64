@@ -1,2 +1,2 @@
 	.text
-	xaddl r1, r2, r3
+	aaddl r2, r3, r1

@@ -17,7 +17,7 @@ This is the reference part of the manual: **one entry for each instruction**, in
 * [Section 9.10, Branches and control flow](../09-isa.md#910-branches-and-control-flow): `BR`, `SOB`, `CBNE`, `BTAG`, `JMP`, `CALL`, `JMPI`, `JTAG`, `MOVCALL`, `POPRET`, `POPMRET`
 * [Section 9.11, The stack and block operations](../09-isa.md#911-the-stack-and-block-operations): `PUSHM`, `POPM`, `PUSH`, `POP`, `MCPY`, `MSET`, `MCMP`, `MSCN`, `MVAL`
 * [Section 9.12, Floating point](../09-isa.md#912-floating-point): `FADD`, `FCMP`, `FDIV`, `FADD32`, `FMADD`, `FMADD32`, `FNEG`, `FMIN`, `FCLASS`, `FRINT`, `FCVTDQ`, `FSFLAGS`, `FCVTSH`
-* [Section 9.13, Atomics and ordering](../09-isa.md#913-atomics-and-ordering): `CAS`, `SWAP`, `XADD`, `XAND`, `XMAX`, `LL`
+* [Section 9.13, Atomics and ordering](../09-isa.md#913-atomics-and-ordering): `CAS`, `SWAP`, `AADD`, `AAND`, `AMAX`, `LL`
 * [Section 9.14, System instructions, exceptions and interrupts](../09-isa.md#914-system-instructions-exceptions-and-interrupts): `NOP`, `RTI`, `RET`, `HALT`, `BPT`, `FENCE`, `WFE`, `SEV`, `TLBIA`, `PUSHX`, `ISYNC`, `HINT`, `GENTER`, `MFSR`, `MTPS`, `SPL`, `TRAP`, `TLBI`, `TLBIAS`, `MTDP`, `ICINV`, `PROBER`, `CTCC`, `CHK2`
 
 ## The tables

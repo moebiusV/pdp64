@@ -4,9 +4,9 @@
 What it proves, one scenario after another (a failure halts with the number of the check in r0):
   T1  a guest with its translation off reads and writes a guest-physical page that stage 2 puts at another physical address (guest-physical + 32 MiB), and the hypervisor sees it there and not at the guest's address;
   T2  stage 1 and stage 2 composed (the guest's page-table reads go through stage 2 too): virtual 0x40001000 -> guest-physical 0x201000 -> physical 0x2201000, the code fetched through both;
-  T3  a stage-2 fault on a load, a store and an instruction fetch is an exit (code 19 invalid, vectors 19, 20, 18) with HEPC the instruction, HEVA the guest-virtual address, HGPA the guest-physical address
+  T3  a stage-2 fault on a load, a store and an instruction fetch is an exit (code 23 invalid, vectors 19, 20, 18) with HEPC the instruction, HEVA the guest-virtual address, HGPA the guest-physical address
       and HINSN the instruction (0 for the fetch); the hypervisor fills stage 2, issues TLBIA and enters again: the guest retries and completes;
-  T4  an entry that refuses (A clear, D clear on a store, U set, a reserved bit) is code 20; a read of a clean page works, the store exits, the hypervisor sets D (dirty tracking);
+  T4  an entry that refuses (A clear, D clear on a store, U set, a reserved bit) is code 24; a read of a clean page works, the store exits, the hypervisor sets D (dirty tracking);
   T5  a stage-2 miss on a page-table read of the guest's stage-1 walk: WALK flag, HGPA the entry's guest-physical address, HEVA the address the guest was reaching;
   T6  a stage-2 miss on the vector fetch of the guest's TRAP: VEC flag, HGPA = VBR + 8 * vector, HEPC the TRAP itself, nothing changed (EPC and ECAUSE of the guest); then the same for a virtual interrupt (the
       line stays pending); after the fill the exception is taken;

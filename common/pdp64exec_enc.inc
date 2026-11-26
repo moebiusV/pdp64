@@ -110,14 +110,14 @@ static int classify_enc(const struct hinfo *h, const struct einsn *in)
 }
 
 /* ---- the atomic words (errata 211; manual 7.4, 9.13) ------------------------------------------------------------------ */
-/* The operation and the size are in the number of the word (MN_ATOM_*: bits 0 to 3 the operation, bit 5 the size, 1 for four bytes); the host does the access (struct pdp64_env, atomic).  Rd gets the old value, a
+/* The operation and the size are in the number of the word (MN_ATOM_*: bits 0 to 3 the operation, bit 5 the size, 1 for four bytes); the host does the access (struct pdp64_env, atomic).  The operands are written `op Rs, (Ra), Rd` (`ll (Ra), Rd`): the destination last. Rd gets the old value, a
    four-byte one sign-extended like the load of four bytes; the operand and the expected value are the low four bytes of their registers.  The sources are read before Rd is written (CAS: Rd is both). */
 static const uint8_t atom_amo[10] = { PDP64_AMO_CAS, PDP64_AMO_SWAP, PDP64_AMO_ADD, PDP64_AMO_AND, PDP64_AMO_OR, PDP64_AMO_XOR, PDP64_AMO_SMAX, PDP64_AMO_SMIN, PDP64_AMO_UMAX, PDP64_AMO_UMIN };
 static void atom_exec(int word, const struct eop *op)
 {
-	int size = word & 32 ? 4 : 8, o = word & 15, rd = op[0].r, rs = 0, ra = op[1].r;
+	int size = word & 32 ? 4 : 8, o = word & 15, rd = op[2].r, rs = op[0].r, ra = op[1].r;
 	uint64_t addr, m = size == 4 ? 0xffffffffu : ~(uint64_t)0, old;
-	if (o != MN_ATOM_LL) { rs = op[1].r; ra = op[2].r; }
+	if (o == MN_ATOM_LL) { rd = op[1].r; ra = op[0].r; }						/* ll (Ra), Rd: the destination is written last, as everywhere */
 	addr = RG[ra];
 	if (!E->atomic) die("the host has no atomic access", addr);
 	if (addr & (size - 1)) fault_v(VECTOR_MISALIGNED, "misaligned atomic access", addr);	/* a split lock is a fault: nothing changed, EPC the instruction */

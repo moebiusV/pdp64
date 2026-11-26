@@ -280,7 +280,7 @@ static void enc_nofit(const struct stmt *st, const struct hw *h)
 	if (st->mg == MG_ATOM) {
 		int ll = (st->mnum & 31) == MN_ATOM_LL;
 		err(st->line, "%s: an atomic is written `%s`: the address is a register in parentheses, with no offset, index or increment, and every other operand is a register (given: %s)",
-		    enc_mn_name(etab, h->in.mn), ll ? "ll Rd, (Ra)" : "OP Rd, Rs, (Ra)", h->in.nops ? shape : "no operands");
+		    enc_mn_name(etab, h->in.mn), ll ? "ll (Ra), Rd" : "OP Rs, (Ra), Rd", h->in.nops ? shape : "no operands");
 		return;
 	}
 	err(st->line, "%s: no form of this instruction in %s takes %s%s (a meaningless combination, or a value out of range%s)", enc_mn_name(etab, h->in.mn), etab->name,

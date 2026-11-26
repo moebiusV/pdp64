@@ -14,7 +14,7 @@ fill:	movq	r2, (r1)+
 	movq	r2, 8*VECTOR_MISALIGNED(r1)
 	lea	buf+2, r3			; a 4-byte word at an address that is 2 mod 4
 	movq	#1, r2
-	xaddl	r1, r2, (r3)			; never runs half: the misalignment fault
+	aaddl	r2, (r3), r1			; never runs half: the misalignment fault
 	movq	#1, r0				; not reached
 	halt
 hmis:	mfsr	r5, eva				; the address that was refused

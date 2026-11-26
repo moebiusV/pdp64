@@ -6,6 +6,12 @@
 
 | Mnemonic | Entry | Layouts | Group |
 |---|---|---|---|
+| `AADD` | [AADD](../09-isa.md#aadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-aadd), [entry](../09-isa.md#w-aadd) | Atomics (ATOM) |
+| `AADDL` | [AADD](../09-isa.md#aadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-aaddl), [entry](../09-isa.md#w-aaddl) | Atomics (ATOM) |
+| `AAND` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-aand), [entry](../09-isa.md#w-aand) | Atomics (ATOM) |
+| `AANDL` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-aandl), [entry](../09-isa.md#w-aandl) | Atomics (ATOM) |
+| `ABIS` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-abis), [entry](../09-isa.md#w-abis) | Atomics (ATOM) |
+| `ABISL` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-abisl), [entry](../09-isa.md#w-abisl) | Atomics (ATOM) |
 | `ABS` | [ABS](../09-isa.md#abs-absolute-value-assembler-alias) (section 9.7) | [1](by-encoding.md#mn-abs), [entry](../09-isa.md#w-abs) | Arithmetic (AESC) |
 | `ADC` | [ADC](../09-isa.md#adc-add-carry) (section 9.7) | [7](by-encoding.md#mn-adc), [entry](../09-isa.md#w-adc) | Single operand (SOP) |
 | `ADD` | [ADD](../09-isa.md#add-add) (section 9.7) | [20](by-encoding.md#mn-add), [entry](../09-isa.md#w-add) | Moves, address formation and the ALU |
@@ -18,9 +24,19 @@
 | `AESIM` | [AESK](../09-isa.md#aesk-aes-key-schedule-steps) (section 9.9) | [1](by-encoding.md#mn-aesim), [entry](../09-isa.md#w-aesim) | Added by the prefix-coded encoding |
 | `AESKS1` | [AESK](../09-isa.md#aesk-aes-key-schedule-steps) (section 9.9) | [1](by-encoding.md#mn-aesks1), [entry](../09-isa.md#w-aesks1) | Added by the prefix-coded encoding |
 | `AESKS2` | [AESK](../09-isa.md#aesk-aes-key-schedule-steps) (section 9.9) | [1](by-encoding.md#mn-aesks2), [entry](../09-isa.md#w-aesks2) | Added by the prefix-coded encoding |
+| `AMAX` | [AMAX](../09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-amax), [entry](../09-isa.md#w-amax) | Atomics (ATOM) |
+| `AMAXL` | [AMAX](../09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-amaxl), [entry](../09-isa.md#w-amaxl) | Atomics (ATOM) |
+| `AMAXU` | [AMAX](../09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-amaxu), [entry](../09-isa.md#w-amaxu) | Atomics (ATOM) |
+| `AMAXUL` | [AMAX](../09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-amaxul), [entry](../09-isa.md#w-amaxul) | Atomics (ATOM) |
+| `AMIN` | [AMAX](../09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-amin), [entry](../09-isa.md#w-amin) | Atomics (ATOM) |
+| `AMINL` | [AMAX](../09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-aminl), [entry](../09-isa.md#w-aminl) | Atomics (ATOM) |
+| `AMINU` | [AMAX](../09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-aminu), [entry](../09-isa.md#w-aminu) | Atomics (ATOM) |
+| `AMINUL` | [AMAX](../09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-aminul), [entry](../09-isa.md#w-aminul) | Atomics (ATOM) |
 | `AND` | [AND](../09-isa.md#and-and) (section 9.8) | [18](by-encoding.md#mn-and), [entry](../09-isa.md#w-and) | Moves, address formation and the ALU |
 | `ASL` | [ASL](../09-isa.md#asl-arithmetic-shift-left-by-one) (section 9.8) | [7](by-encoding.md#mn-asl), [entry](../09-isa.md#w-asl) | Single operand (SOP) |
 | `ASR` | [ASR](../09-isa.md#asr-arithmetic-shift-right-by-one) (section 9.8) | [7](by-encoding.md#mn-asr), [entry](../09-isa.md#w-asr) | Single operand (SOP) |
+| `AXOR` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-axor), [entry](../09-isa.md#w-axor) | Atomics (ATOM) |
+| `AXORL` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-axorl), [entry](../09-isa.md#w-axorl) | Atomics (ATOM) |
 | `BCC` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bcc), [entry](../09-isa.md#w-bcc) | Branches |
 | `BCS` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bcs), [entry](../09-isa.md#w-bcs) | Branches |
 | `BEQ` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-beq), [entry](../09-isa.md#w-beq) | Branches |
@@ -255,21 +271,5 @@
 | `UTF8ENC` | [UTF8ENC](../09-isa.md#utf8enc-encode-a-unicode-scalar-value) (section 9.9) | [1](by-encoding.md#mn-utf8enc), [entry](../09-isa.md#w-utf8enc) | Bits and fields (BESC) |
 | `UTF8LEN` | [UTF8LEN](../09-isa.md#utf8len-length-of-a-utf-8-sequence-from-its-leading-byte) (section 9.9) | [1](by-encoding.md#mn-utf8len), [entry](../09-isa.md#w-utf8len) | Bits and fields (BESC) |
 | `WFE` | [WFE](../09-isa.md#wfe-wait-for-an-event) (section 9.14) | [1](by-encoding.md#mn-wfe), [entry](../09-isa.md#w-wfe) | System (SYS) |
-| `XADD` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-xadd), [entry](../09-isa.md#w-xadd) | Atomics (ATOM) |
-| `XADDL` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-xaddl), [entry](../09-isa.md#w-xaddl) | Atomics (ATOM) |
-| `XAND` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xand), [entry](../09-isa.md#w-xand) | Atomics (ATOM) |
-| `XANDL` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xandl), [entry](../09-isa.md#w-xandl) | Atomics (ATOM) |
-| `XMAX` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmax), [entry](../09-isa.md#w-xmax) | Atomics (ATOM) |
-| `XMAXL` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxl), [entry](../09-isa.md#w-xmaxl) | Atomics (ATOM) |
-| `XMAXU` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxu), [entry](../09-isa.md#w-xmaxu) | Atomics (ATOM) |
-| `XMAXUL` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmaxul), [entry](../09-isa.md#w-xmaxul) | Atomics (ATOM) |
-| `XMIN` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xmin), [entry](../09-isa.md#w-xmin) | Atomics (ATOM) |
-| `XMINL` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xminl), [entry](../09-isa.md#w-xminl) | Atomics (ATOM) |
-| `XMINU` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xminu), [entry](../09-isa.md#w-xminu) | Atomics (ATOM) |
-| `XMINUL` | [XMAX](../09-isa.md#xmax-atomic-fetch-and-minimum-or-maximum) (section 9.13) | [1](by-encoding.md#mn-xminul), [entry](../09-isa.md#w-xminul) | Atomics (ATOM) |
 | `XNORPOP` | [XNORPOP](../09-isa.md#xnorpop-population-count-of-the-equality-of-two-words) (section 9.9) | [1](by-encoding.md#mn-xnorpop), [entry](../09-isa.md#w-xnorpop) | Bits and fields (BESC) |
 | `XOR` | [XOR](../09-isa.md#xor-exclusive-or) (section 9.8) | [16](by-encoding.md#mn-xor), [entry](../09-isa.md#w-xor) | Moves, address formation and the ALU |
-| `XOR_` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xor-), [entry](../09-isa.md#w-xor-) | Atomics (ATOM) |
-| `XOR_L` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xor-l), [entry](../09-isa.md#w-xor-l) | Atomics (ATOM) |
-| `XXOR` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xxor), [entry](../09-isa.md#w-xxor) | Atomics (ATOM) |
-| `XXORL` | [XAND](../09-isa.md#xand-atomic-fetch-and-and-or-xor) (section 9.13) | [1](by-encoding.md#mn-xxorl), [entry](../09-isa.md#w-xxorl) | Atomics (ATOM) |

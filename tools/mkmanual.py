@@ -308,7 +308,7 @@ def words_section(e, real):
 def render_entry(e):
     names = e['names']
     real = [n for n in names if not MN[n]['alias_of']]
-    heads = ', '.join('`%s`' % n.upper().rstrip('_').replace('XOR_', 'XOR_') for n in names if not MN[n]['alias_of'])
+    heads = ', '.join('`%s`' % n.upper() for n in names if not MN[n]['alias_of'])
     out = []
     if len(real) == 1 or e.get('alias'):
         out += ['<a id="w-%s"></a>' % wslug(n) for n in names]
@@ -465,7 +465,7 @@ for _i in 'COUNT POPCNT BSWAP BITREV ROR ROR32 DSHR EXTB INSB XNORPOP CLMUL UTF8
 for _i in 'BCC SOB CBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')
 for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', 'stack-and-block-operations')
 for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FCVTH'.split(): HOME[_i] = ('09-isa.md', 'floating-point')
-for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', 'atomics-and-ordering')
+for _i in 'CAS SWAP AADD AAND AMAX LLSC'.split(): HOME[_i] = ('09-isa.md', 'atomics-and-ordering')
 for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTDP ICINV PROBE').split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
 
 

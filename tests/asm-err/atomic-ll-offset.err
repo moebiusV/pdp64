@@ -1,1 +1,1 @@
-an atomic is written .ll Rd, (Ra).
+an atomic is written .ll (Ra), Rd.

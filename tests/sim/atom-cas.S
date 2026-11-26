@@ -13,7 +13,7 @@ _start:
 	movq	r17, (r3)
 	movq	=(0x1122334455667788), r1
 	movq	=(0x8877665544332211), r2
-	cas	r1, r2, (r3)
+	cas	r2, (r3), r1
 	movq	=(0x1122334455667788), r17
 	cbeq	r1, r17, 1f	; case 1: cas success: Rd is the old value (the swap happened)
 	movq	#1, r0
@@ -51,7 +51,7 @@ _start:
 	movq	r17, (r3)
 	movq	=(0x1122334455667789), r1
 	movq	=(0x8877665544332211), r2
-	cas	r1, r2, (r3)
+	cas	r2, (r3), r1
 	movq	=(0x1122334455667788), r17
 	cbeq	r1, r17, 1f	; case 2: cas failure: Rd is the old value (the swap did not happen)
 	movq	#2, r0
@@ -89,7 +89,7 @@ _start:
 	movq	r17, (r3)
 	movq	=(0xee22334455667788), r1
 	movq	=(0x8877665544332211), r2
-	cas	r1, r2, (r3)
+	cas	r2, (r3), r1
 	movq	=(0x1122334455667788), r17
 	cbeq	r1, r17, 1f	; case 3: cas failure, high byte differs: Rd is the old value (the swap did not happen)
 	movq	#3, r0
@@ -123,7 +123,7 @@ _start:
 	movq	=(0x1122334455667788), r17
 	movq	r17, (r3)
 	movq	=(0x1122334455667788), r1
-	cas	r1, r1, (r3)
+	cas	r1, (r3), r1
 	movq	=(0x1122334455667788), r17
 	cbeq	r1, r17, 1f	; case 4: cas Rd = Rs: the old value
 	movq	#4, r0
@@ -144,7 +144,7 @@ _start:
 	movq	r17, (r3)
 	movq	=(0x5a5a5a5a91223344), r1
 	movq	=(0x99887766), r2
-	casl	r1, r2, (r3)
+	casl	r2, (r3), r1
 	movq	=(0xffffffff91223344), r17
 	cbeq	r1, r17, 1f	; case 5: casl success: Rd is the old value (the swap happened)
 	movq	#5, r0
@@ -182,7 +182,7 @@ _start:
 	movq	r17, (r3)
 	movq	=(0x5a5a5a5a91223345), r1
 	movq	=(0x99887766), r2
-	casl	r1, r2, (r3)
+	casl	r2, (r3), r1
 	movq	=(0xffffffff91223344), r17
 	cbeq	r1, r17, 1f	; case 6: casl failure: Rd is the old value (the swap did not happen)
 	movq	#6, r0
@@ -220,7 +220,7 @@ _start:
 	movq	r17, (r3)
 	movq	=(0x7f7f7f7f91223344), r1
 	movq	=(0x99887766), r2
-	casl	r1, r2, (r3)
+	casl	r2, (r3), r1
 	movq	=(0xffffffff91223344), r17
 	cbeq	r1, r17, 1f	; case 7: casl 4-byte compare ignores bits 32 to 63 of Rd: Rd is the old value (the swap happened)
 	movq	#7, r0
@@ -254,7 +254,7 @@ _start:
 	movq	=(0xc3c3c3c391223344), r17
 	movq	r17, (r3)
 	movq	=(0x91223344), r1
-	casl	r1, r1, (r3)
+	casl	r1, (r3), r1
 	movq	=(0xffffffff91223344), r17
 	cbeq	r1, r17, 1f	; case 8: casl Rd = Rs: the old value
 	movq	#8, r0
@@ -275,7 +275,7 @@ _start:
 	movq	#0, r6
 retry:	movq	r1, r7
 	add	#1, r6
-	cas	r1, r2, (r3)
+	cas	r2, (r3), r1
 	cbne	r1, r7, retry
 	movq	=(2), r17
 	cbeq	r6, r17, 1f	; case 9: a retry loop: the second try holds the old value in Rd and succeeds

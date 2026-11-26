@@ -1,2 +1,2 @@
 	.text
-	swap r1, r2, (r3)+
+	swap r2, (r3)+, r1

@@ -13,9 +13,9 @@
 <rect x="302" y="84" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
 <text x="304" y="80" font-size="9" fill="#555" text-anchor="start">9</text>
 <text x="490" y="80" font-size="9" fill="#555" text-anchor="end">5</text>
-<text x="397.0" y="107" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.r</text>
+<text x="397.0" y="107" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op1.base</text>
 <rect x="492" y="84" width="190" height="36" fill="#ffffff" stroke="#222" stroke-width="1.2"/>
 <text x="494" y="80" font-size="9" fill="#555" text-anchor="start">4</text>
 <text x="680" y="80" font-size="9" fill="#555" text-anchor="end">0</text>
-<text x="587.0" y="107" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.base</text>
+<text x="587.0" y="107" font-size="13.0" text-anchor="middle" font-family="DejaVu Sans, sans-serif">op2.r</text>
 </svg>
