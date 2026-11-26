@@ -524,7 +524,7 @@ The mnemonics and the assembly language of the PDP-11 and the base specification
 - **user-qualified moves (`.U`)** (manual 9.6.7): a move that accesses its operand with user privilege so that no guard window is opened around a copy, with `MCPY.UR` and `MCPY.UW` for the block copies. The user-memory guard bit and the loads whose fault is deferred (a poisoned register) were considered and are not in the machine;
 - **the AES and SHA words** of the secure core (section 4.6.5).
 
-**`ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions** (manual 9.7.6). They are the integer counterparts of `FABS`, `FMIN` and `FMAX`, and the fold into one rule: an assembler alias costs no instruction, and the measured gain of native words was under a tenth of a percent of code. Their expansion over `SETCC`, `MASKEQZ`, `MASKNEZ` and `BIS` costs a scratch register and several instructions. The grammars and tools may still carry the five words as native mnemonics until the expansion is written (see [`implementation-status.md`](implementation-status.md)).
+**`ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions** (manual 9.7.6). They are the integer counterparts of `FABS`, `FMIN` and `FMAX`, and the fold into one rule: an assembler alias costs no instruction, and the measured gain of native words was under a tenth of a percent of code. The assembler expands each over words that exist, with no branch and with `R12`, which the ABI makes caller-saved, as its one scratch register: `ABS Rs, Rd` is `MOVQ Rs, R12`, `SAR #63, R12`, `MOVQ Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd`, `SUB R12, Rd`; `MIN`, `MINU`, `MAX` and `MAXU` `Ra, Rb, Rd` are `SETLT`, `SETLO`, `SETGT` or `SETHI Ra, Rb, R12`, then `NEG R12` and `BSEL R12, Ra, Rb, Rd`. No grammar, executor or tool carries them as native words.
 
 ### 4.12 Why a prefix code has no escape-parcel hazard
 
@@ -1086,9 +1086,9 @@ The decided refusals are listed in manual 9.17; this table keeps the reasons.
 
 ## 12. Open items
 
-The open items of the instruction set are discussed, each with its options and their pros and cons, in **the open items** ([`design/open-items.md`](design/open-items.md), chapter 9 items J.9.1 to J.9.9, and the ABI items J.D.1 and J.D.2); the ledger lists their status. They are the work that comes before the encoding is frozen (see [`handoff.md`](../handoff.md) for the order of work). In short, and by the keys of the open items:
+The open items of the instruction set are discussed, each with its options and their pros and cons, in **the open items** ([`design/open-items.md`](design/open-items.md), chapter 9 items J.9.1 to J.9.8, and the ABI items J.D.1 and J.D.2); the ledger lists their status. They are the work that comes before the encoding is frozen (see [`handoff.md`](../handoff.md) for the order of work). In short, and by the keys of the open items:
 
-- **J.9.1** the expansions of `ABS`, `MIN`, `MINU`, `MAX`, `MAXU` over `SETCC`, `MASKEQZ`, `MASKNEZ` and `BIS`;
+- **J.9.1** provenance and taint tags;
 - **J.9.2** constant-time execution: what holds while `DIT` is clear, and where `DIT` lives;
 - **J.9.3** addressing-mode gaps: the scaled-index displacement and a store through `d(DP)`;
 - **J.9.4** the page-bit mechanisms and the stack-limit register;
@@ -1096,7 +1096,6 @@ The open items of the instruction set are discussed, each with its options and t
 - **J.9.6** the block operations and the data cache: a one-megabyte `MCPY` evicts the whole data cache for data never read again; options are a non-temporal variant, a streaming memory type or a decision by length (the last a performance cliff with no architectural visibility);
 - **J.9.7** directed rounding for arithmetic (the rounding mode lives in the opcode, section 9.8, and there are no such opcodes except `FRINT*`);
 - **J.9.8** the coherence protocol beyond four cores and the verification of the memory model (sequential consistency is easy to violate accidentally through a store buffer that forwards incorrectly; litmus tests against the published SC suites belong before a second core exists);
-- **J.9.9** provenance and taint tags;
 - **J.D.2** landing pads (mandatory now or optional-then-mandatory: the decision gets more expensive the longer it waits; a tagged function pointer must still land on a landing pad, and so must every entry of a `JTAG` table), lazy against eager binding, and the red zone.
 
 Resolved, for the record: a reserved-opcode discipline (replaced by the prefix code and the optimiser), the length of instructions (one to three parcels, `MOVQ #imm64` the one exception), and UTF-8 scope (`MVAL` is committed). Facts still unmeasured: the cost estimates of the half-precision conversions; the worst-case instruction latency of the block operations.

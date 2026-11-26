@@ -63,7 +63,7 @@ subm R:1 B:16:2 | 3 9d42 1000 0010
 addm R:1 B:16:2 | 3 9d02 1000 0010
 bism R:1 B:0:2 | 3 9dc2 1000 0000
 # new instructions
-maskeqz R:1 R:2 R:3 | 2 ca03 5c22
+maskeqz R:1 R:2 R:3 | 2 ca03 4c22
 # check instructions (errata 152)
 ctcc R:1 R:2 | 2 d040 880c
 ctne R:3 R:4 | 2 d041 9011
@@ -73,14 +73,14 @@ cteq R:7 I:0 | 2 d1d4 7000
 cteq R:8 | 1 c9c8
 ctne R:9 | 1 c9e9
 chk2 R:10 R:11 R:12 | 2 ca0c 014b
-masknez R:1 R:2 R:3 | 2 ca03 6022
+masknez R:1 R:2 R:3 | 2 ca03 5022
 bsel R:1 R:2 R:3 R:4 | 2 af44 0443
-aeses R:1 R:2 R:3 | 2 ca03 6422
+aeses R:1 R:2 R:3 | 2 ca03 5422
 aesks1 R:1 I:3 R:2 | 2 d052 0862
-sha256sum0 R:1 R:2 | 2 d040 883c
+sha256sum0 R:1 R:2 | 2 d040 883b
 maesctr R:1 R:2 R:3 R:4 | 2 af44 8443
-addv R:1 R:2 | 2 d040 8842
-mulv R:1 R:2 | 2 d040 8844
+addv R:1 R:2 | 2 d040 8841
+mulv R:1 R:2 | 2 d040 8843
 # fused pairs
 movcall R:1 R:2 PC:100 | 2 8022 0032
 movcall R:1 R:2 PC:0:E | 3 7c22 0000 0000

@@ -12,7 +12,7 @@
 | `AANDL` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-aandl), [entry](../09-isa.md#w-aandl) | Atomics (ATOM) |
 | `ABIS` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-abis), [entry](../09-isa.md#w-abis) | Atomics (ATOM) |
 | `ABISL` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-abisl), [entry](../09-isa.md#w-abisl) | Atomics (ATOM) |
-| `ABS` | [ABS](../09-isa.md#abs-absolute-value-assembler-alias) (section 9.7) | [1](by-encoding.md#mn-abs), [entry](../09-isa.md#w-abs) | Arithmetic (AESC) |
+| `ABS` (assembler alias, a sequence) | [ABS](../09-isa.md#abs-absolute-value-assembler-alias) (section 9.7) | [entry](../09-isa.md#w-abs) | Moves, address formation and the ALU |
 | `ADD` | [ADD](../09-isa.md#add-add) (section 9.7) | [20](by-encoding.md#mn-add), [entry](../09-isa.md#w-add) | Moves, address formation and the ALU |
 | `ADDM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | [6](by-encoding.md#mn-addm), [entry](../09-isa.md#w-addm) | Memory escape (MESC) |
 | `ADDV` | [OVF](../09-isa.md#ovf-add-subtract-and-multiply-trapping-on-signed-overflow) (section 9.7) | [1](by-encoding.md#mn-addv), [entry](../09-isa.md#w-addv) | Added by the prefix-coded encoding |
@@ -163,8 +163,8 @@
 | `LPAD` | [NOP](../09-isa.md#nop-no-operation-and-landing-pad) (section 9.14) | [1](by-encoding.md#mn-lpad), [entry](../09-isa.md#w-lpad) | System (SYS) |
 | `MASKEQZ` | [MASK](../09-isa.md#mask-mask-by-a-condition-register) (section 9.7) | [1](by-encoding.md#mn-maskeqz), [entry](../09-isa.md#w-maskeqz) | Added by the prefix-coded encoding |
 | `MASKNEZ` | [MASK](../09-isa.md#mask-mask-by-a-condition-register) (section 9.7) | [1](by-encoding.md#mn-masknez), [entry](../09-isa.md#w-masknez) | Added by the prefix-coded encoding |
-| `MAX` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-max), [entry](../09-isa.md#w-max) | Arithmetic (AESC) |
-| `MAXU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-maxu), [entry](../09-isa.md#w-maxu) | Arithmetic (AESC) |
+| `MAX` (assembler alias, a sequence) | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [entry](../09-isa.md#w-max) | Added by the prefix-coded encoding |
+| `MAXU` (assembler alias, a sequence) | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [entry](../09-isa.md#w-maxu) | Added by the prefix-coded encoding |
 | `MCMP` | [MCMP](../09-isa.md#mcmp-compare-two-blocks-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mcmp), [entry](../09-isa.md#w-mcmp) | Block memory (MBLK) |
 | `MCPY` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mcpy), [entry](../09-isa.md#w-mcpy) | Block memory (MBLK) |
 | `MCPY.UR` | [MCPYU](../09-isa.md#mcpyu-user-qualified-block-copy) (section 9.6) | [1](by-encoding.md#mn-mcpy-ur), [entry](../09-isa.md#w-mcpy-ur) | Added by the prefix-coded encoding |
@@ -172,8 +172,8 @@
 | `MFDP` | [MTDP](../09-isa.md#mtdp-move-to-and-from-the-direct-pointer) (section 9.14) | [1](by-encoding.md#mn-mfdp), [entry](../09-isa.md#w-mfdp) | System (SYS) |
 | `MFPS` | [MTPS](../09-isa.md#mtps-move-to-and-from-the-processor-status-word) (section 9.14) | [1](by-encoding.md#mn-mfps), [entry](../09-isa.md#w-mfps) | System (SYS) |
 | `MFSR` | [MFSR](../09-isa.md#mfsr-move-from-and-to-a-system-register) (section 9.14) | [1](by-encoding.md#mn-mfsr), [entry](../09-isa.md#w-mfsr) | System (SYS) |
-| `MIN` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-min), [entry](../09-isa.md#w-min) | Arithmetic (AESC) |
-| `MINU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-minu), [entry](../09-isa.md#w-minu) | Arithmetic (AESC) |
+| `MIN` (assembler alias, a sequence) | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [entry](../09-isa.md#w-min) | Added by the prefix-coded encoding |
+| `MINU` (assembler alias, a sequence) | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [entry](../09-isa.md#w-minu) | Added by the prefix-coded encoding |
 | `MMOV` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mmov), [entry](../09-isa.md#w-mmov) | Block memory (MBLK) |
 | `MOD` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-mod), [entry](../09-isa.md#w-mod) | Arithmetic (AESC) |
 | `MODU` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-modu), [entry](../09-isa.md#w-modu) | Arithmetic (AESC) |

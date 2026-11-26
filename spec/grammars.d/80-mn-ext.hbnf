@@ -55,4 +55,5 @@ mn-ext = "addv"@0 | "aesds"@1 | "aesdsm"@2 | "aeses"@3 | "aesesm"@4 | "aesim"@5 
        | "vstt.q.l"@408 | "vstt.q.w"@409 | "vstt.w"@410 | "vstt.w.b"@411 | "vsub.b"@412 | "vsub.d"@413 | "vsub.f"@414 | "vsub.l"@415 | "vsub.q"@416
        | "vsub.w"@417 | "vsubr.b"@418 | "vsubr.d"@419 | "vsubr.f"@420 | "vsubr.l"@421 | "vsubr.q"@422 | "vsubr.w"@423 | "vsubs.b"@424 | "vsubs.l"@425
        | "vsubs.w"@426 | "vsubsu.b"@427 | "vsubsu.l"@428 | "vsubsu.w"@429 | "vtbl.b"@430 | "vxor.b"@431 | "vxor.l"@432 | "vxor.q"@433 | "vxor.w"@434
-       | "cthis"@4106 | "ctlo"@4107 | "fcbgt"@4120 | "fcbge"@4118 | "fcbgt32"@4121 | "fcbge32"@4119 | "setlo"@4148 | "sethis"@4147
+       | "cthis"@4106 | "ctlo"@4107 | "fcbgt"@4120 | "fcbge"@4118 | "fcbgt32"@4121 | "fcbge32"@4119 | "setlo"@4148 | "sethis"@4147 | "min"@4155
+       | "minu"@4154 | "max"@4151 | "maxu"@4152

@@ -36,6 +36,7 @@ mn-alu = "add"@0b010110
        | "mulu"@0x11E
        | "fneg32"@0x11C
        | "fabs32"@0x11D
+       | "abs"@0x122
 
 ; the unconditional branch (ISA 4.4); the machine has no condition codes, so every conditional branch is a compare-and-branch (cbCC, below)
 mn-branch = "br"@0b110000
@@ -121,11 +122,6 @@ mn-aesc = "div"@0b00000000
         | "mod"@0b00000010
         | "modu"@0b00000011
         | "mulhu"@0b00000100
-        | "abs"@0b00001000
-        | "min"@0b00010000
-        | "minu"@0b00010001
-        | "max"@0b00010010
-        | "maxu"@0b00010011
 
 ; FESC: sub-opcode in parcel 1
 mn-fesc = "fdiv"@0b00000000

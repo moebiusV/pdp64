@@ -921,7 +921,7 @@ The block copy of a copy-in (`MCPY.UR`) and of a copy-out (`MCPY.UW`): the user-
 <a id="w-mcpy-ur"></a>
 #### MCPY.UR
 
-![MCPY.UR: R3, prefix 1100101000, sub-opcode 0100000; operands reg5, reg5, reg5; 4 bytes](figures/w/mcpy-ur/01.svg)
+![MCPY.UR: R3, prefix 1100101000, sub-opcode 0011100; operands reg5, reg5, reg5; 4 bytes](figures/w/mcpy-ur/01.svg)
 
 ```
 MCPY.UR Rd, Rs, Rn
@@ -932,7 +932,7 @@ Operation and exceptions as for the entry MCPYU above; 1 layout form, each a cha
 <a id="w-mcpy-uw"></a>
 #### MCPY.UW
 
-![MCPY.UW: R3, prefix 1100101000, sub-opcode 0100001; operands reg5, reg5, reg5; 4 bytes](figures/w/mcpy-uw/01.svg)
+![MCPY.UW: R3, prefix 1100101000, sub-opcode 0011101; operands reg5, reg5, reg5; 4 bytes](figures/w/mcpy-uw/01.svg)
 
 ```
 MCPY.UW Rd, Rs, Rn
@@ -960,7 +960,7 @@ Operation and exceptions as for the entry MCPYU above; 1 layout form, each a cha
         setlos  r1, #9, r4      ; r4 = 1 if r1 <= 9 as an unsigned number
 ```
 
-**9.7.6** `ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions: `ABS` is the absolute value, and the others the smaller or the larger of two registers, signed or unsigned.
+**9.7.6** I gave the absolute value and the smaller or larger of two numbers no instructions, because the compare, the mask and the select that make them are words the machine has for other reasons, and a mnemonic costs nothing. `ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases: the assembler writes a fixed short sequence of those words, with no branch, so the time does not depend on the values. `ABS Rs, Rd` is the absolute value of a signed number, and the most negative number stays itself; `MIN Ra, Rb, Rd` is the smaller of two registers and `MAX` the larger, signed, and `MINU` and `MAXU` do the same for unsigned numbers (a negative number is a large unsigned one, so `MIN` and `MINU` differ on it). The destination is last, as in every three-register instruction. The sequences are in the entries (9.7). Each writes `R12`, which the ABI makes caller-saved and which the assembler may use for this (9.16.6), and nothing else: no flag exists. `R12` cannot be an operand of these words, and the assembler refuses it.
 
 **9.7.7** A range check on a register value, such as an array index, is made with `CBCC` (9.10.5; one unsigned compare tests `0 <= i < n`, because a negative index is a large unsigned number) or with the compare-and-trap words `CT<cc>` (9.14), which keep a table of check sites, with the trap-if-zero and the two-bound check `CHK2`; `ADDV`, `SUBV` and `MULV` check signed overflow.
 
@@ -1626,7 +1626,7 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 
 **Mnemonics:** `ABS`
 
-**Alias** *(D)* `ABS` is an assembler alias, not a native instruction (my decision). Meaning: `Rd <- |Rs|`.
+**Alias** *(D)* `ABS` is an assembler alias: it assembles to `MOVQ Rs, R12`, `SAR #63, R12`, `MOVQ Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd` and `SUB R12, Rd`. `R12`, after `SAR`, holds all ones for a negative `Rs` and zero otherwise; exclusive-or with it complements a negative number and subtracting it adds one, so a negative number becomes its negation, a positive one is unchanged, and the most negative number, which has no positive twin, comes back as itself. The sequence has no branch, so no data makes it slow or leaves a trace in the branch predictor. The assembler writes `R12`, which is caller-saved, and no flag exists, so nothing else changes; `R12` cannot be an operand of `ABS`, and the assembler refuses it.
 
 **Syntax**
 
@@ -1639,12 +1639,12 @@ ABS Rs, Rd
 **Operation**
 
 ```
-Rd ← |Rs|
+Rd ← |Rs|    ; the most negative number stays itself
 ```
 
 **Exceptions** None.
 
-**Why it is here.** Integer absolute value is the counterpart of `FABS`. I decided (2026-11-10) that it is an assembler alias, not a native instruction; the compiler's work of recognising `x < 0 ? -x : x` is the real cost. The compiled corpus has 18 uses of `abs` and 5 of its unsigned form, under 0.1% of code, so the case is clarity and the idiom more than size.
+**Why it is here.** Integer absolute value is the counterpart of `FABS`. A mnemonic is cheap and the idiom is easy to get wrong (the most negative number has no positive twin, and a branch makes the time depend on the data), so the assembler writes the sequence and the programmer writes the word.
 
 
 <a id="w-min"></a>
@@ -1655,7 +1655,7 @@ Rd ← |Rs|
 
 **Mnemonics:** `MIN`, `MINU`, `MAX`, `MAXU`
 
-**Alias** *(D)* `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions (my decision). Meaning: the smaller or the larger of `Ra` and `Rb`, signed for `MIN` and `MAX` and unsigned for `MINU` and `MAXU`.
+**Alias** *(D)* `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases: each assembles to a compare into `R12`, `NEG R12` and `BSEL R12, Ra, Rb, Rd`; the compare is `SETLT Ra, Rb, R12` for `MIN`, `SETLO Ra, Rb, R12` for `MINU`, `SETGT Ra, Rb, R12` for `MAX` and `SETHI Ra, Rb, R12` for `MAXU`. The comparison gives one or zero, `NEG` makes it all ones or zero, and `BSEL` takes `Ra` where the mask has ones and `Rb` where it has zeros, so `Rd` is `Ra` when the comparison holds and `Rb` otherwise. Every source is read before `Rd` is written, so `Rd` may be `Ra` or `Rb`, and `Ra` may be `Rb`. The sequence has no branch: it takes the same time for every value. The assembler writes `R12`, which is caller-saved, and no flag exists, so nothing else changes; `R12` cannot be an operand of these words, and the assembler refuses it. `MIN` and `MINU` differ on a negative number, which is a large unsigned one.
 
 **Syntax**
 
@@ -1677,12 +1677,12 @@ MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 
 **Exceptions** None.
 
-**Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; I decided (2026-11-10) that they are assembler aliases, not native instructions. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all.
+**Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all.
 
 
 ### SETCC: Compare into a register
 
-**Mnemonics:** `SETEQ`, `SETNE`, `SETLT`, `SETLE`, `SETGT`, `SETGE`, `SETCS`, `SETCC`, `SETHI`, `SETLOS`
+**Mnemonics:** `SETEQ`, `SETNE`, `SETLT`, `SETLE`, `SETGT`, `SETGE`, `SETCS`, `SETCC`, `SETHI`, `SETLOS`  (aliases: `MIN`, `MINU`, `MAX`, `MAXU`)
 
 **Syntax**
 
@@ -1809,6 +1809,26 @@ Operation and exceptions as for the entry SETCC above; 2 layout forms, each a ch
 
 Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
+<a id="w-min"></a>
+#### MIN
+
+An alias of [`SETLT`](#w-setlt): the assembler writes it as that word.
+
+<a id="w-minu"></a>
+#### MINU
+
+An alias of [`SETLOS`](#w-setlos): the assembler writes it as that word.
+
+<a id="w-max"></a>
+#### MAX
+
+An alias of [`SETGT`](#w-setgt): the assembler writes it as that word.
+
+<a id="w-maxu"></a>
+#### MAXU
+
+An alias of [`SETHI`](#w-sethi): the assembler writes it as that word.
+
 
 ### MASK: Mask by a condition register
 
@@ -1847,7 +1867,7 @@ The branch-free select is adopted. `Rc` is tested whole, all 64 bits, so any non
 <a id="w-maskeqz"></a>
 #### MASKEQZ
 
-![MASKEQZ: R3, prefix 1100101000, sub-opcode 0010111; operands reg5, reg5, reg5; 4 bytes](figures/w/maskeqz/01.svg)
+![MASKEQZ: R3, prefix 1100101000, sub-opcode 0010011; operands reg5, reg5, reg5; 4 bytes](figures/w/maskeqz/01.svg)
 
 ```
 MASKEQZ Ra, Rc, Rd
@@ -1858,7 +1878,7 @@ Operation and exceptions as for the entry MASK above; 1 layout form, each a char
 <a id="w-masknez"></a>
 #### MASKNEZ
 
-![MASKNEZ: R3, prefix 1100101000, sub-opcode 0011000; operands reg5, reg5, reg5; 4 bytes](figures/w/masknez/01.svg)
+![MASKNEZ: R3, prefix 1100101000, sub-opcode 0010100; operands reg5, reg5, reg5; 4 bytes](figures/w/masknez/01.svg)
 
 ```
 MASKNEZ Ra, Rc, Rd
@@ -1906,7 +1926,7 @@ The fused add, subtract and multiply that check for overflow. The tables of the 
 <a id="w-addv"></a>
 #### ADDV
 
-![ADDV: R2, prefix 110100000100, sub-opcode 0001000010; operands reg5, reg5; 4 bytes](figures/w/addv/01.svg)
+![ADDV: R2, prefix 110100000100, sub-opcode 0001000001; operands reg5, reg5; 4 bytes](figures/w/addv/01.svg)
 
 ```
 ADDV Rs, Rd
@@ -1917,7 +1937,7 @@ Operation and exceptions as for the entry OVF above; 1 layout form, each a chart
 <a id="w-subv"></a>
 #### SUBV
 
-![SUBV: R2, prefix 110100000100, sub-opcode 0001000011; operands reg5, reg5; 4 bytes](figures/w/subv/01.svg)
+![SUBV: R2, prefix 110100000100, sub-opcode 0001000010; operands reg5, reg5; 4 bytes](figures/w/subv/01.svg)
 
 ```
 SUBV Rs, Rd
@@ -1928,7 +1948,7 @@ Operation and exceptions as for the entry OVF above; 1 layout form, each a chart
 <a id="w-mulv"></a>
 #### MULV
 
-![MULV: R2, prefix 110100000100, sub-opcode 0001000100; operands reg5, reg5; 4 bytes](figures/w/mulv/01.svg)
+![MULV: R2, prefix 110100000100, sub-opcode 0001000011; operands reg5, reg5; 4 bytes](figures/w/mulv/01.svg)
 
 ```
 MULV Rs, Rd
@@ -2202,7 +2222,7 @@ Rd ← Rd AND rm
 
 ### SHIFT: Shift left, shift right logical, shift right arithmetic
 
-**Mnemonics:** `SHL`, `SHR`, `SAR`
+**Mnemonics:** `SHL`, `SHR`, `SAR`  (aliases: `ABS`)
 
 **Syntax**
 
@@ -2339,6 +2359,11 @@ SAR rm, Rd
 ```
 
 Operation and exceptions as for the entry SHIFT above; 13 layout forms, each a chart of its own (above).
+
+<a id="w-abs"></a>
+#### ABS
+
+An alias of [`SAR`](#w-sar): the assembler writes it as that word.
 
 
 <a id="w-clr"></a>
@@ -3227,7 +3252,7 @@ I asked for constant-time AES and SHA instructions "or whichever opcodes would s
 <a id="w-aeses"></a>
 #### AESES
 
-![AESES: R3, prefix 1100101000, sub-opcode 0011001; operands reg5, reg5, reg5; 4 bytes](figures/w/aeses/01.svg)
+![AESES: R3, prefix 1100101000, sub-opcode 0010101; operands reg5, reg5, reg5; 4 bytes](figures/w/aeses/01.svg)
 
 ```
 AESES Ra, Rb, Rd
@@ -3238,7 +3263,7 @@ Operation and exceptions as for the entry AESR above; 1 layout form, each a char
 <a id="w-aesesm"></a>
 #### AESESM
 
-![AESESM: R3, prefix 1100101000, sub-opcode 0011010; operands reg5, reg5, reg5; 4 bytes](figures/w/aesesm/01.svg)
+![AESESM: R3, prefix 1100101000, sub-opcode 0010110; operands reg5, reg5, reg5; 4 bytes](figures/w/aesesm/01.svg)
 
 ```
 AESESM Ra, Rb, Rd
@@ -3249,7 +3274,7 @@ Operation and exceptions as for the entry AESR above; 1 layout form, each a char
 <a id="w-aesds"></a>
 #### AESDS
 
-![AESDS: R3, prefix 1100101000, sub-opcode 0011011; operands reg5, reg5, reg5; 4 bytes](figures/w/aesds/01.svg)
+![AESDS: R3, prefix 1100101000, sub-opcode 0010111; operands reg5, reg5, reg5; 4 bytes](figures/w/aesds/01.svg)
 
 ```
 AESDS Ra, Rb, Rd
@@ -3260,7 +3285,7 @@ Operation and exceptions as for the entry AESR above; 1 layout form, each a char
 <a id="w-aesdsm"></a>
 #### AESDSM
 
-![AESDSM: R3, prefix 1100101000, sub-opcode 0011100; operands reg5, reg5, reg5; 4 bytes](figures/w/aesdsm/01.svg)
+![AESDSM: R3, prefix 1100101000, sub-opcode 0011000; operands reg5, reg5, reg5; 4 bytes](figures/w/aesdsm/01.svg)
 
 ```
 AESDSM Ra, Rb, Rd
@@ -3317,7 +3342,7 @@ Operation and exceptions as for the entry AESK above; 1 layout form, each a char
 <a id="w-aesks2"></a>
 #### AESKS2
 
-![AESKS2: R3, prefix 1100101000, sub-opcode 0011101; operands reg5, reg5, reg5; 4 bytes](figures/w/aesks2/01.svg)
+![AESKS2: R3, prefix 1100101000, sub-opcode 0011001; operands reg5, reg5, reg5; 4 bytes](figures/w/aesks2/01.svg)
 
 ```
 AESKS2 Ra, Rb, Rd
@@ -3328,7 +3353,7 @@ Operation and exceptions as for the entry AESK above; 1 layout form, each a char
 <a id="w-aesim"></a>
 #### AESIM
 
-![AESIM: R2, prefix 110100000100, sub-opcode 0000111001; operands reg5, reg5; 4 bytes](figures/w/aesim/01.svg)
+![AESIM: R2, prefix 110100000100, sub-opcode 0000111000; operands reg5, reg5; 4 bytes](figures/w/aesim/01.svg)
 
 ```
 AESIM Rs, Rd
@@ -3377,7 +3402,7 @@ As `AESR`. Rotations and three-input exclusive ors, one cycle in hardware, no da
 <a id="w-sha256sig0"></a>
 #### SHA256SIG0
 
-![SHA256SIG0: R2, prefix 110100000100, sub-opcode 0000111010; operands reg5, reg5; 4 bytes](figures/w/sha256sig0/01.svg)
+![SHA256SIG0: R2, prefix 110100000100, sub-opcode 0000111001; operands reg5, reg5; 4 bytes](figures/w/sha256sig0/01.svg)
 
 ```
 SHA256SIG0 Rs, Rd
@@ -3388,7 +3413,7 @@ Operation and exceptions as for the entry SHA256 above; 1 layout form, each a ch
 <a id="w-sha256sig1"></a>
 #### SHA256SIG1
 
-![SHA256SIG1: R2, prefix 110100000100, sub-opcode 0000111011; operands reg5, reg5; 4 bytes](figures/w/sha256sig1/01.svg)
+![SHA256SIG1: R2, prefix 110100000100, sub-opcode 0000111010; operands reg5, reg5; 4 bytes](figures/w/sha256sig1/01.svg)
 
 ```
 SHA256SIG1 Rs, Rd
@@ -3399,7 +3424,7 @@ Operation and exceptions as for the entry SHA256 above; 1 layout form, each a ch
 <a id="w-sha256sum0"></a>
 #### SHA256SUM0
 
-![SHA256SUM0: R2, prefix 110100000100, sub-opcode 0000111100; operands reg5, reg5; 4 bytes](figures/w/sha256sum0/01.svg)
+![SHA256SUM0: R2, prefix 110100000100, sub-opcode 0000111011; operands reg5, reg5; 4 bytes](figures/w/sha256sum0/01.svg)
 
 ```
 SHA256SUM0 Rs, Rd
@@ -3410,7 +3435,7 @@ Operation and exceptions as for the entry SHA256 above; 1 layout form, each a ch
 <a id="w-sha256sum1"></a>
 #### SHA256SUM1
 
-![SHA256SUM1: R2, prefix 110100000100, sub-opcode 0000111101; operands reg5, reg5; 4 bytes](figures/w/sha256sum1/01.svg)
+![SHA256SUM1: R2, prefix 110100000100, sub-opcode 0000111100; operands reg5, reg5; 4 bytes](figures/w/sha256sum1/01.svg)
 
 ```
 SHA256SUM1 Rs, Rd
@@ -3459,7 +3484,7 @@ As `SHA256`. The definitions are those of FIPS 180-4.
 <a id="w-sha512sig0"></a>
 #### SHA512SIG0
 
-![SHA512SIG0: R2, prefix 110100000100, sub-opcode 0000111110; operands reg5, reg5; 4 bytes](figures/w/sha512sig0/01.svg)
+![SHA512SIG0: R2, prefix 110100000100, sub-opcode 0000111101; operands reg5, reg5; 4 bytes](figures/w/sha512sig0/01.svg)
 
 ```
 SHA512SIG0 Rs, Rd
@@ -3470,7 +3495,7 @@ Operation and exceptions as for the entry SHA512 above; 1 layout form, each a ch
 <a id="w-sha512sig1"></a>
 #### SHA512SIG1
 
-![SHA512SIG1: R2, prefix 110100000100, sub-opcode 0000111111; operands reg5, reg5; 4 bytes](figures/w/sha512sig1/01.svg)
+![SHA512SIG1: R2, prefix 110100000100, sub-opcode 0000111110; operands reg5, reg5; 4 bytes](figures/w/sha512sig1/01.svg)
 
 ```
 SHA512SIG1 Rs, Rd
@@ -3481,7 +3506,7 @@ Operation and exceptions as for the entry SHA512 above; 1 layout form, each a ch
 <a id="w-sha512sum0"></a>
 #### SHA512SUM0
 
-![SHA512SUM0: R2, prefix 110100000100, sub-opcode 0001000000; operands reg5, reg5; 4 bytes](figures/w/sha512sum0/01.svg)
+![SHA512SUM0: R2, prefix 110100000100, sub-opcode 0000111111; operands reg5, reg5; 4 bytes](figures/w/sha512sum0/01.svg)
 
 ```
 SHA512SUM0 Rs, Rd
@@ -3492,7 +3517,7 @@ Operation and exceptions as for the entry SHA512 above; 1 layout form, each a ch
 <a id="w-sha512sum1"></a>
 #### SHA512SUM1
 
-![SHA512SUM1: R2, prefix 110100000100, sub-opcode 0001000001; operands reg5, reg5; 4 bytes](figures/w/sha512sum1/01.svg)
+![SHA512SUM1: R2, prefix 110100000100, sub-opcode 0001000000; operands reg5, reg5; 4 bytes](figures/w/sha512sum1/01.svg)
 
 ```
 SHA512SUM1 Rs, Rd
@@ -5077,7 +5102,7 @@ FSQRT: Rd ← sqrt(Rs)
 <a id="w-fdiv"></a>
 #### FDIV
 
-![FDIV: R2, prefix 110100000100, sub-opcode 0000011010; operands reg5, reg5; 4 bytes](figures/w/fdiv/01.svg)
+![FDIV: R2, prefix 110100000100, sub-opcode 0000011001; operands reg5, reg5; 4 bytes](figures/w/fdiv/01.svg)
 
 ```
 FDIV Rs, Rd
@@ -5088,7 +5113,7 @@ Operation and exceptions as for the entry FDIV above; 1 layout form, each a char
 <a id="w-fsqrt"></a>
 #### FSQRT
 
-![FSQRT: R2, prefix 110100000100, sub-opcode 0000011011; operands reg5, reg5; 4 bytes](figures/w/fsqrt/01.svg)
+![FSQRT: R2, prefix 110100000100, sub-opcode 0000011010; operands reg5, reg5; 4 bytes](figures/w/fsqrt/01.svg)
 
 ```
 FSQRT Rs, Rd
@@ -5136,7 +5161,7 @@ A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like ev
 <a id="w-fadd32"></a>
 #### FADD32
 
-![FADD32: R2, prefix 110100000100, sub-opcode 0000011100; operands reg5, reg5; 4 bytes](figures/w/fadd32/01.svg)
+![FADD32: R2, prefix 110100000100, sub-opcode 0000011011; operands reg5, reg5; 4 bytes](figures/w/fadd32/01.svg)
 
 ```
 FADD32 Rs, Rd
@@ -5147,7 +5172,7 @@ Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a c
 <a id="w-fsub32"></a>
 #### FSUB32
 
-![FSUB32: R2, prefix 110100000100, sub-opcode 0000011101; operands reg5, reg5; 4 bytes](figures/w/fsub32/01.svg)
+![FSUB32: R2, prefix 110100000100, sub-opcode 0000011100; operands reg5, reg5; 4 bytes](figures/w/fsub32/01.svg)
 
 ```
 FSUB32 Rs, Rd
@@ -5158,7 +5183,7 @@ Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a c
 <a id="w-fmul32"></a>
 #### FMUL32
 
-![FMUL32: R2, prefix 110100000100, sub-opcode 0000011110; operands reg5, reg5; 4 bytes](figures/w/fmul32/01.svg)
+![FMUL32: R2, prefix 110100000100, sub-opcode 0000011101; operands reg5, reg5; 4 bytes](figures/w/fmul32/01.svg)
 
 ```
 FMUL32 Rs, Rd
@@ -5169,7 +5194,7 @@ Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a c
 <a id="w-fdiv32"></a>
 #### FDIV32
 
-![FDIV32: R2, prefix 110100000100, sub-opcode 0000011111; operands reg5, reg5; 4 bytes](figures/w/fdiv32/01.svg)
+![FDIV32: R2, prefix 110100000100, sub-opcode 0000011110; operands reg5, reg5; 4 bytes](figures/w/fdiv32/01.svg)
 
 ```
 FDIV32 Rs, Rd
@@ -5180,7 +5205,7 @@ Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a c
 <a id="w-fsqrt32"></a>
 #### FSQRT32
 
-![FSQRT32: R2, prefix 110100000100, sub-opcode 0000100000; operands reg5, reg5; 4 bytes](figures/w/fsqrt32/01.svg)
+![FSQRT32: R2, prefix 110100000100, sub-opcode 0000011111; operands reg5, reg5; 4 bytes](figures/w/fsqrt32/01.svg)
 
 ```
 FSQRT32 Rs, Rd
@@ -5343,7 +5368,7 @@ FABS32   : Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, 
 <a id="w-fneg"></a>
 #### FNEG
 
-![FNEG: R2, prefix 110100000100, sub-opcode 0000100001; operands reg5, reg5; 4 bytes](figures/w/fneg/01.svg)
+![FNEG: R2, prefix 110100000100, sub-opcode 0000100000; operands reg5, reg5; 4 bytes](figures/w/fneg/01.svg)
 
 ```
 FNEG Rs, Rd
@@ -5354,7 +5379,7 @@ Operation and exceptions as for the entry FSIGN above; 1 layout form, each a cha
 <a id="w-fabs"></a>
 #### FABS
 
-![FABS: R2, prefix 110100000100, sub-opcode 0000100010; operands reg5, reg5; 4 bytes](figures/w/fabs/01.svg)
+![FABS: R2, prefix 110100000100, sub-opcode 0000100001; operands reg5, reg5; 4 bytes](figures/w/fabs/01.svg)
 
 ```
 FABS Rs, Rd
@@ -5365,7 +5390,7 @@ Operation and exceptions as for the entry FSIGN above; 1 layout form, each a cha
 <a id="w-fcopysign"></a>
 #### FCOPYSIGN
 
-![FCOPYSIGN: R3, prefix 1100101000, sub-opcode 0010100; operands reg5, reg5, reg5; 4 bytes](figures/w/fcopysign/01.svg)
+![FCOPYSIGN: R3, prefix 1100101000, sub-opcode 0010000; operands reg5, reg5, reg5; 4 bytes](figures/w/fcopysign/01.svg)
 
 ```
 FCOPYSIGN Rs, Rt, Rd
@@ -5419,7 +5444,7 @@ if both are NaNs the result is the canonical quiet NaN
 <a id="w-fmin"></a>
 #### FMIN
 
-![FMIN: R3, prefix 1100101000, sub-opcode 0010101; operands reg5, reg5, reg5; 4 bytes](figures/w/fmin/01.svg)
+![FMIN: R3, prefix 1100101000, sub-opcode 0010001; operands reg5, reg5, reg5; 4 bytes](figures/w/fmin/01.svg)
 
 ```
 FMIN Rs, Rt, Rd
@@ -5430,7 +5455,7 @@ Operation and exceptions as for the entry FMIN above; 1 layout form, each a char
 <a id="w-fmax"></a>
 #### FMAX
 
-![FMAX: R3, prefix 1100101000, sub-opcode 0010110; operands reg5, reg5, reg5; 4 bytes](figures/w/fmax/01.svg)
+![FMAX: R3, prefix 1100101000, sub-opcode 0010010; operands reg5, reg5, reg5; 4 bytes](figures/w/fmax/01.svg)
 
 ```
 FMAX Rs, Rt, Rd
@@ -5476,7 +5501,7 @@ Every libm function begins with this dispatch.
 <a id="w-fclass"></a>
 #### FCLASS
 
-![FCLASS: R2, prefix 110100000100, sub-opcode 0000100011; operands reg5, reg5; 4 bytes](figures/w/fclass/01.svg)
+![FCLASS: R2, prefix 110100000100, sub-opcode 0000100010; operands reg5, reg5; 4 bytes](figures/w/fclass/01.svg)
 
 ```
 FCLASS Rs, Rd
@@ -5487,7 +5512,7 @@ Operation and exceptions as for the entry FCLASS above; 1 layout form, each a ch
 <a id="w-fclass32"></a>
 #### FCLASS32
 
-![FCLASS32: R2, prefix 110100000100, sub-opcode 0000100100; operands reg5, reg5; 4 bytes](figures/w/fclass32/01.svg)
+![FCLASS32: R2, prefix 110100000100, sub-opcode 0000100011; operands reg5, reg5; 4 bytes](figures/w/fclass32/01.svg)
 
 ```
 FCLASS32 Rs, Rd
@@ -5537,7 +5562,7 @@ The rounding mode is in the instruction, never in a mode bit.
 <a id="w-frint"></a>
 #### FRINT
 
-![FRINT: R2, prefix 110100000100, sub-opcode 0000100101; operands reg5, reg5; 4 bytes](figures/w/frint/01.svg)
+![FRINT: R2, prefix 110100000100, sub-opcode 0000100100; operands reg5, reg5; 4 bytes](figures/w/frint/01.svg)
 
 ```
 FRINT Rs, Rd
@@ -5548,7 +5573,7 @@ Operation and exceptions as for the entry FRINT above; 1 layout form, each a cha
 <a id="w-frintz"></a>
 #### FRINTZ
 
-![FRINTZ: R2, prefix 110100000100, sub-opcode 0000100110; operands reg5, reg5; 4 bytes](figures/w/frintz/01.svg)
+![FRINTZ: R2, prefix 110100000100, sub-opcode 0000100101; operands reg5, reg5; 4 bytes](figures/w/frintz/01.svg)
 
 ```
 FRINTZ Rs, Rd
@@ -5559,7 +5584,7 @@ Operation and exceptions as for the entry FRINT above; 1 layout form, each a cha
 <a id="w-frintm"></a>
 #### FRINTM
 
-![FRINTM: R2, prefix 110100000100, sub-opcode 0000100111; operands reg5, reg5; 4 bytes](figures/w/frintm/01.svg)
+![FRINTM: R2, prefix 110100000100, sub-opcode 0000100110; operands reg5, reg5; 4 bytes](figures/w/frintm/01.svg)
 
 ```
 FRINTM Rs, Rd
@@ -5570,7 +5595,7 @@ Operation and exceptions as for the entry FRINT above; 1 layout form, each a cha
 <a id="w-frintp"></a>
 #### FRINTP
 
-![FRINTP: R2, prefix 110100000100, sub-opcode 0000101000; operands reg5, reg5; 4 bytes](figures/w/frintp/01.svg)
+![FRINTP: R2, prefix 110100000100, sub-opcode 0000100111; operands reg5, reg5; 4 bytes](figures/w/frintp/01.svg)
 
 ```
 FRINTP Rs, Rd
@@ -5581,7 +5606,7 @@ Operation and exceptions as for the entry FRINT above; 1 layout form, each a cha
 <a id="w-frinta"></a>
 #### FRINTA
 
-![FRINTA: R2, prefix 110100000100, sub-opcode 0000101001; operands reg5, reg5; 4 bytes](figures/w/frinta/01.svg)
+![FRINTA: R2, prefix 110100000100, sub-opcode 0000101000; operands reg5, reg5; 4 bytes](figures/w/frinta/01.svg)
 
 ```
 FRINTA Rs, Rd
@@ -5633,7 +5658,7 @@ Integer results are 64-bit (`FCVTDQ`, `FCVTDQU`) or 32-bit sign-extended (`FCVTS
 <a id="w-fcvtdq"></a>
 #### FCVTDQ
 
-![FCVTDQ: R2, prefix 110100000100, sub-opcode 0000101010; operands reg5, reg5; 4 bytes](figures/w/fcvtdq/01.svg)
+![FCVTDQ: R2, prefix 110100000100, sub-opcode 0000101001; operands reg5, reg5; 4 bytes](figures/w/fcvtdq/01.svg)
 
 ```
 FCVTDQ Rs, Rd
@@ -5644,7 +5669,7 @@ Operation and exceptions as for the entry FCVT above; 1 layout form, each a char
 <a id="w-fcvtdqu"></a>
 #### FCVTDQU
 
-![FCVTDQU: R2, prefix 110100000100, sub-opcode 0000110000; operands reg5, reg5; 4 bytes](figures/w/fcvtdqu/01.svg)
+![FCVTDQU: R2, prefix 110100000100, sub-opcode 0000101111; operands reg5, reg5; 4 bytes](figures/w/fcvtdqu/01.svg)
 
 ```
 FCVTDQU Rs, Rd
@@ -5655,7 +5680,7 @@ Operation and exceptions as for the entry FCVT above; 1 layout form, each a char
 <a id="w-fcvtqd"></a>
 #### FCVTQD
 
-![FCVTQD: R2, prefix 110100000100, sub-opcode 0000101011; operands reg5, reg5; 4 bytes](figures/w/fcvtqd/01.svg)
+![FCVTQD: R2, prefix 110100000100, sub-opcode 0000101010; operands reg5, reg5; 4 bytes](figures/w/fcvtqd/01.svg)
 
 ```
 FCVTQD Rs, Rd
@@ -5666,7 +5691,7 @@ Operation and exceptions as for the entry FCVT above; 1 layout form, each a char
 <a id="w-fcvtqud"></a>
 #### FCVTQUD
 
-![FCVTQUD: R2, prefix 110100000100, sub-opcode 0000110001; operands reg5, reg5; 4 bytes](figures/w/fcvtqud/01.svg)
+![FCVTQUD: R2, prefix 110100000100, sub-opcode 0000110000; operands reg5, reg5; 4 bytes](figures/w/fcvtqud/01.svg)
 
 ```
 FCVTQUD Rs, Rd
@@ -5677,7 +5702,7 @@ Operation and exceptions as for the entry FCVT above; 1 layout form, each a char
 <a id="w-fcvtds"></a>
 #### FCVTDS
 
-![FCVTDS: R2, prefix 110100000100, sub-opcode 0000101100; operands reg5, reg5; 4 bytes](figures/w/fcvtds/01.svg)
+![FCVTDS: R2, prefix 110100000100, sub-opcode 0000101011; operands reg5, reg5; 4 bytes](figures/w/fcvtds/01.svg)
 
 ```
 FCVTDS Rs, Rd
@@ -5688,7 +5713,7 @@ Operation and exceptions as for the entry FCVT above; 1 layout form, each a char
 <a id="w-fcvtsd"></a>
 #### FCVTSD
 
-![FCVTSD: R2, prefix 110100000100, sub-opcode 0000101101; operands reg5, reg5; 4 bytes](figures/w/fcvtsd/01.svg)
+![FCVTSD: R2, prefix 110100000100, sub-opcode 0000101100; operands reg5, reg5; 4 bytes](figures/w/fcvtsd/01.svg)
 
 ```
 FCVTSD Rs, Rd
@@ -5699,7 +5724,7 @@ Operation and exceptions as for the entry FCVT above; 1 layout form, each a char
 <a id="w-fcvtsl"></a>
 #### FCVTSL
 
-![FCVTSL: R2, prefix 110100000100, sub-opcode 0000101110; operands reg5, reg5; 4 bytes](figures/w/fcvtsl/01.svg)
+![FCVTSL: R2, prefix 110100000100, sub-opcode 0000101101; operands reg5, reg5; 4 bytes](figures/w/fcvtsl/01.svg)
 
 ```
 FCVTSL Rs, Rd
@@ -5710,7 +5735,7 @@ Operation and exceptions as for the entry FCVT above; 1 layout form, each a char
 <a id="w-fcvtls"></a>
 #### FCVTLS
 
-![FCVTLS: R2, prefix 110100000100, sub-opcode 0000101111; operands reg5, reg5; 4 bytes](figures/w/fcvtls/01.svg)
+![FCVTLS: R2, prefix 110100000100, sub-opcode 0000101110; operands reg5, reg5; 4 bytes](figures/w/fcvtls/01.svg)
 
 ```
 FCVTLS Rs, Rd
@@ -5722,7 +5747,7 @@ Operation and exceptions as for the entry FCVT above; 1 layout form, each a char
 <a id="w-fsflags"></a>
 ### FSFLAGS: Swap the floating-point exception flags
 
-![FSFLAGS: R2, prefix 110100000100, sub-opcode 0000110010; operands reg5, reg5; 4 bytes](figures/w/fsflags/01.svg)
+![FSFLAGS: R2, prefix 110100000100, sub-opcode 0000110001; operands reg5, reg5; 4 bytes](figures/w/fsflags/01.svg)
 
 **Mnemonics:** `FSFLAGS`
 
@@ -5796,7 +5821,7 @@ FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction i
 <a id="w-fcvtsh"></a>
 #### FCVTSH
 
-![FCVTSH: R2, prefix 110100000100, sub-opcode 0000110011; operands reg5, reg5; 4 bytes](figures/w/fcvtsh/01.svg)
+![FCVTSH: R2, prefix 110100000100, sub-opcode 0000110010; operands reg5, reg5; 4 bytes](figures/w/fcvtsh/01.svg)
 
 ```
 FCVTSH Rs, Rd
@@ -5807,7 +5832,7 @@ Operation and exceptions as for the entry FCVTH above; 1 layout form, each a cha
 <a id="w-fcvths"></a>
 #### FCVTHS
 
-![FCVTHS: R2, prefix 110100000100, sub-opcode 0000110100; operands reg5, reg5; 4 bytes](figures/w/fcvths/01.svg)
+![FCVTHS: R2, prefix 110100000100, sub-opcode 0000110011; operands reg5, reg5; 4 bytes](figures/w/fcvths/01.svg)
 
 ```
 FCVTHS Rs, Rd
@@ -5818,7 +5843,7 @@ Operation and exceptions as for the entry FCVTH above; 1 layout form, each a cha
 <a id="w-fcvtdh"></a>
 #### FCVTDH
 
-![FCVTDH: R2, prefix 110100000100, sub-opcode 0000110101; operands reg5, reg5; 4 bytes](figures/w/fcvtdh/01.svg)
+![FCVTDH: R2, prefix 110100000100, sub-opcode 0000110100; operands reg5, reg5; 4 bytes](figures/w/fcvtdh/01.svg)
 
 ```
 FCVTDH Rs, Rd
@@ -5829,7 +5854,7 @@ Operation and exceptions as for the entry FCVTH above; 1 layout form, each a cha
 <a id="w-fcvthd"></a>
 #### FCVTHD
 
-![FCVTHD: R2, prefix 110100000100, sub-opcode 0000110110; operands reg5, reg5; 4 bytes](figures/w/fcvthd/01.svg)
+![FCVTHD: R2, prefix 110100000100, sub-opcode 0000110101; operands reg5, reg5; 4 bytes](figures/w/fcvthd/01.svg)
 
 ```
 FCVTHD Rs, Rd
@@ -5840,7 +5865,7 @@ Operation and exceptions as for the entry FCVTH above; 1 layout form, each a cha
 <a id="w-fcvthl"></a>
 #### FCVTHL
 
-![FCVTHL: R2, prefix 110100000100, sub-opcode 0000110111; operands reg5, reg5; 4 bytes](figures/w/fcvthl/01.svg)
+![FCVTHL: R2, prefix 110100000100, sub-opcode 0000110110; operands reg5, reg5; 4 bytes](figures/w/fcvthl/01.svg)
 
 ```
 FCVTHL Rs, Rd
@@ -5851,7 +5876,7 @@ Operation and exceptions as for the entry FCVTH above; 1 layout form, each a cha
 <a id="w-fcvtlh"></a>
 #### FCVTLH
 
-![FCVTLH: R2, prefix 110100000100, sub-opcode 0000111000; operands reg5, reg5; 4 bytes](figures/w/fcvtlh/01.svg)
+![FCVTLH: R2, prefix 110100000100, sub-opcode 0000110111; operands reg5, reg5; 4 bytes](figures/w/fcvtlh/01.svg)
 
 ```
 FCVTLH Rs, Rd
@@ -7317,7 +7342,7 @@ Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address be
 <a id="w-prober"></a>
 #### PROBER
 
-![PROBER: R2, prefix 110100000100, sub-opcode 0000011000; operands reg5, reg5; 4 bytes](figures/w/prober/01.svg)
+![PROBER: R2, prefix 110100000100, sub-opcode 0000010111; operands reg5, reg5; 4 bytes](figures/w/prober/01.svg)
 
 ```
 PROBER Rd, Rs
@@ -7328,7 +7353,7 @@ Operation and exceptions as for the entry PROBE above; 1 layout form, each a cha
 <a id="w-probew"></a>
 #### PROBEW
 
-![PROBEW: R2, prefix 110100000100, sub-opcode 0000011001; operands reg5, reg5; 4 bytes](figures/w/probew/01.svg)
+![PROBEW: R2, prefix 110100000100, sub-opcode 0000011000; operands reg5, reg5; 4 bytes](figures/w/probew/01.svg)
 
 ```
 PROBEW Rd, Rs
@@ -7518,7 +7543,7 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 **9.16.5** A six-byte branch reaches ±4 GiB, so no linker veneers are needed for any binary smaller than that; the assembler's and the linker's branch relaxation both reduce to choosing a length.
 
-**9.16.6** `R12` is the linker's scratch register. The ABI (appendix C) decides that imports are called without a PLT stub.
+**9.16.6** `R12` is the scratch register of the linker and of the assembler: the linker uses it for an imported call, and the assembler writes it in the sequences of `ABS`, `MIN`, `MINU`, `MAX` and `MAXU` (9.7.6). It is caller-saved, so neither use costs a program anything it keeps across a call. The ABI (appendix C) decides that imports are called without a PLT stub.
 
 *Commentary.* **Precedent.** On i386 a position-independent executable reserved `%ebx` (one of eight registers) for the GOT base and set it in every prologue, which cost a few percent of size and speed; x86-64 fixed that with RIP-relative addressing, and AArch64 needs linker veneers because its branches reach only 128 MB. **Trade-offs.** The two-byte PC-relative form is the shortest, so position-independent data access is slightly smaller than absolute access; the price is a GOT load per imported call site where a PLT stub would cost a load per function. **Improvements.** Position-independence is a side effect of three decisions made for other reasons: PC-relative as an ordinary mode (adopted because the PC left the register file), variable-length encoding (for density) and `DP` (a 6502 zero-page descendant kept for density), which is exactly the thread pointer. **Benefits.** OpenBSD builds everything position-independent by default, and here that costs nothing. **Modern comparables.** x86-64 RIP-relative addressing; AArch64 `ADRP` with a GOT load and veneers for far calls. **Impact.** *Kernel:* a loader applies only relocations for data pointers, and write-xor-execute and randomisation come with no code penalty. *Compiler:* `-fPIE` is the default and emits the same instructions as `-fno-pic` for local data; no reserved register, no per-function setup. *Hardware:* nothing; the PC-relative mode is in the address adder already.
 
@@ -7562,7 +7587,7 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 ## 9.19 Side by side: the PDP-11, the VAX and the pdp64
 
-**9.19.1** The word is 64 bits against the PDP-11's 16 and the VAX's 32, the registers are 32, the virtual address is 39, 48 or 57 bits with 40 physical in the present implementation, and the instruction count is 623 instruction words in 226 leaves (365 of them in the vector family), against the VAX's 304.
+**9.19.1** The word is 64 bits against the PDP-11's 16 and the VAX's 32, the registers are 32, the virtual address is 39, 48 or 57 bits with 40 physical in the present implementation, and the instruction count is 618 instruction words in 226 leaves (365 of them in the vector family), against the VAX's 304.
 
 **9.19.2** The program counter is not a register, there is no argument pointer, and the frame pointer and the linker scratch are ordinary software conventions.
 

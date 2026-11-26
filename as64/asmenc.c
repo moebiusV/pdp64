@@ -7,6 +7,7 @@
  *   - a cbCC for which no form reaches (a target beyond the long forms, an external label) is assembled as the opposite cbCC over a br to the target;
  * The length of an instruction is the length of the first form that takes its operands; it never shrinks between passes.
  */
+#include <stdarg.h>
 #include "pdp64enc.h"
 #include "pdp64-mnnames.h"
 #include "pdp64-extnames.h"
@@ -179,9 +180,29 @@ static int regs_ok(const struct stmt *st, int report)
 	return 1;
 }
 
-/* the instruction(s) of a statement.  Returns the number of codec instructions (1 or 2), or -1 after an error.  slot[] is 0 for a single instruction,
+/* one instruction of an alias expansion: the mnemonic, then operands as pairs ('R', register) or ('I', value), ended by -1 */
+static int aemit(const struct stmt *st, struct hw *h, const char *name, ...)
+{
+	va_list ap;
+	int mn = enc_mn_find(etab, name);
+	if (mn < 0) { err(st->line, "%s: this instruction does not exist in %s", name, etab->name); return 0; }
+	hw_init(h, mn);
+	va_start(ap, name);
+	for (;;) {
+		int k = va_arg(ap, int);
+		if (k < 0) break;
+		int v = va_arg(ap, int);
+		struct eop *e = &h->in.op[h->in.nops++];
+		memset(e, 0, sizeof *e);
+		if (k == 'R') { e->k = EK_R; e->r = v; } else { e->k = EK_I; e->v = v; }
+	}
+	va_end(ap);
+	return 1;
+}
+
+/* the instruction(s) of a statement.  Returns the number of codec instructions (1 to 5), or -1 after an error.  slot[] is 0 for a single instruction,
    2 and 3 for the two of an expanded cbCC (their lengths are remembered apart, so that a cbCC that changes its mind does not inherit a length). */
-static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct hw hw[2], int slot[2])
+static int eplan(const struct stmt *st, int64_t pos, const int minn[8], struct hw hw[5], int slot[5])
 {
 	const char *name = stmt_canon(st);
 	int mg = st->mg, n = st->nops;
@@ -211,6 +232,40 @@ static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct h
 		}
 		if (!hw_len(&m, minn[2]) || !hw_len(&x, minn[3])) return 1;
 		hw[0] = m; hw[1] = x; slot[0] = 2; slot[1] = 3; return 2;
+	}
+	/* abs, min, minu, max, maxu are assembler aliases that expand to a fixed short sequence of existing instructions, with the register r12 as the one scratch register they may write (no flag exists, so
+	   nothing else is touched).  abs Rs, Rd (signed; the most negative number stays itself):  movq Rs, r12 ; sar #63, r12 ; [movq Rs, Rd] ; xor r12, Rd ; sub r12, Rd.
+	   min Ra, Rb, Rd and its three kin:  setCC Ra, Rb, r12 ; neg r12 ; bsel r12, Ra, Rb, Rd  with CC lt (min), cs (minu), gt (max) or hi (maxu): the all-ones mask of the comparison selects Ra, else Rb.  Every operand
+	   is read before Rd is written, so Rd may be Ra or Rb and Ra may be Rb; r12 itself may not be an operand. */
+	{
+		const char *al = NULL;
+		if (mg == MG_ALU && st->mnum == 0x122) al = "abs";
+		else if (mg == MG_EXT && st->mnum >= 0x1000) al = mn_word[MG_EXT][st->mnum];
+		if (al && (!strcmp(al, "abs") || !strcmp(al, "min") || !strcmp(al, "minu") || !strcmp(al, "max") || !strcmp(al, "maxu"))) {
+			int isabs = !strcmp(al, "abs"), want = isabs ? 2 : 3;
+			if (n != want) { err(st->line, isabs ? "abs Rs, Rd: two registers" : "%s Ra, Rb, Rd: three registers", al); return -1; }
+			for (int k = 0; k < n; k++) if (st->ops[k].kind != OK_REG) { err(st->line, isabs ? "abs Rs, Rd: two registers" : "%s Ra, Rb, Rd: three registers", al); return -1; }
+			for (int k = 0; k < n; k++) if (st->ops[k].reg == 12) { err(st->line, "%s: r12 is the assembler's scratch register for this word and cannot be an operand", al); return -1; }
+			struct hw *h = hw; int nh = 0;
+			static const int sl[5] = { 1, 4, 5, 6, 7 };
+#define EMIT(...) do { if (!aemit(st, &h[nh], __VA_ARGS__, -1)) return -1; slot[nh] = sl[nh]; nh++; } while (0)
+			if (isabs) {
+				int rs = st->ops[0].reg, rd = st->ops[1].reg;
+				EMIT("movq", 'R', rs, 'R', 12);
+				EMIT("sar", 'I', 63, 'R', 12);
+				if (rs != rd) EMIT("movq", 'R', rs, 'R', rd);
+				EMIT("xor", 'R', 12, 'R', rd);
+				EMIT("sub", 'R', 12, 'R', rd);
+			} else {
+				const char *cc = !strcmp(al, "min") ? "setlt" : !strcmp(al, "max") ? "setgt" : !strcmp(al, "minu") ? "setcs" : "sethi";
+				int ra = st->ops[0].reg, rb = st->ops[1].reg, rd = st->ops[2].reg;
+				EMIT(cc, 'R', ra, 'R', rb, 'R', 12);
+				EMIT("neg", 'R', 12);
+				EMIT("bsel", 'R', 12, 'R', ra, 'R', rb, 'R', rd);
+			}
+#undef EMIT
+			return nh;
+		}
 	}
 	/* rol is an assembler mapping onto ror: a rotate left by n is a rotate right by 64 - n, so `rol Rs, #n, Rd` is `ror Rs, #(64-n), Rd` and `rol #n, Rd` is `ror #(64-n), Rd`.  The machine has the one rotate and its count is
 	   taken modulo 64, so a rotate left by a count in a register is not one instruction: rol takes a constant.  The count of either word is a constant from -64 to 63 (a negative count of ror rotates left, which is how the disassembler
@@ -363,7 +418,7 @@ static void commit_syms(void)
 }
 
 /* ---- one statement in a pass ---------------------------------------------------------------------------------------- */
-static uint8_t *egrow;			/* 4 per statement: the least number of parcels of each codec instruction slot, as relaxation has found */
+static uint8_t *egrow;			/* 8 per statement: the least number of parcels of each codec instruction slot, as relaxation has found */
 static int32_t *esize;			/* bytes the statement took in the last pass */
 static int64_t *epos;			/* where the statement was in the last pass: relaxation measures every distance on the layout of the pass before (as the model does) */
 
@@ -377,19 +432,19 @@ static void enc_note(const struct stmt *st, int n, int64_t off)
 static int enc_insn(int i, int64_t pos, int final, int *changed)
 {
 	struct stmt *st = &prog[i];
-	struct hw hw[2];
-	int slot[2], total = 0, nb[2] = { 0, 0 }, rk[2] = { 0, 0 };
-	uint8_t bytes[2][10];
+	struct hw hw[5];
+	int slot[5], total = 0, nb[5] = { 0 }, rk[5] = { 0 };
+	uint8_t bytes[5][10];
 
-	if (!esize) { egrow = calloc(nprog + 1, 4); esize = calloc(nprog + 1, sizeof *esize); epos = calloc(nprog + 1, sizeof *epos); }
+	if (!esize) { egrow = calloc(nprog + 1, 8); esize = calloc(nprog + 1, sizeof *esize); epos = calloc(nprog + 1, sizeof *epos); }
 	int64_t addr = epos[i];
 	if (epos[i] != pos) { epos[i] = pos; *changed = 1; }
-	int minn[4] = { egrow[4 * i] > enc_force ? egrow[4 * i] : enc_force, 0, egrow[4 * i + 2], egrow[4 * i + 3] };
+	int minn[8] = { egrow[8 * i] > enc_force ? egrow[8 * i] : enc_force, 0, egrow[8 * i + 2], egrow[8 * i + 3] };
 	int nh = eplan(st, addr, minn, hw, slot);
 	if (nh < 0) return esize[i] ? esize[i] : 2;				/* an error: the size it had, so that the others do not move */
 	for (int h = 0; h < nh; h++) {
-		int idx = 4 * i + slot[h], old = egrow[idx];
-		int n = hw_emit(st, &hw[h], idx == 4 * i && enc_force > old ? enc_force : old, final, bytes[h], &rk[h]);
+		int idx = 8 * i + slot[h], old = egrow[idx];
+		int n = hw_emit(st, &hw[h], idx == 8 * i && enc_force > old ? enc_force : old, final, bytes[h], &rk[h]);
 		if (!n) return esize[i] ? esize[i] : 2;
 		if (n > old) { egrow[idx] = n; *changed = 1; if (final) { err(st->line, "internal error: relaxation did not converge"); return 0; } }
 		nb[h] = 2 * n; total += 2 * n;

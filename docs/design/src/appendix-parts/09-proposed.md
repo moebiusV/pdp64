@@ -1,6 +1,6 @@
 **9.3.9** (moved from chapter 9) `R16` to `R31` in the ABI: the compiler saves `R24` to `R31` in the callee and treats `R16` to `R23` as clobbered by a call. The ABI documents call this split a draft; it is built into the compiler and the runtime of the six large programs. 
 
-**9.20.4** (moved from chapter 9) Under consideration: software-visible translation-buffer manipulation (to pin an entry for a real-time kernel). It is only a proposal: an instruction that pins one translation so that a real-time kernel's interrupt path never takes a miss. (The machine has no flags, floating-point compares are compare-and-branch words, and the expansion of the minimum and maximum words is an open item, J.9.1.)
+**9.20.4** (moved from chapter 9) Under consideration: software-visible translation-buffer manipulation (to pin an entry for a real-time kernel). It is only a proposal: an instruction that pins one translation so that a real-time kernel's interrupt path never takes a miss.
 
 **9.2 commentary** (moved from chapter 9) Whether the extension instruction after some narrow operations costs enough to justify 32-bit forms of add and subtract is a proposal that the compiled corpus can answer; it is the proposal of appendix A.9. 
 

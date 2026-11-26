@@ -691,11 +691,6 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 				else res = a % b;
 				r[rd] = res; return;
 			case MN_AESC_MULHU: r[rd] = (uint64_t)(((unsigned __int128)a * b) >> 64); return;
-			case MN_AESC_ABS: res = (int64_t)a < 0 ? 0 - a : a; r[rd] = res; return;
-			case MN_AESC_MIN: res = (int64_t)a < (int64_t)b ? a : b; r[rd] = res; return;
-			case MN_AESC_MINU: res = a < b ? a : b; r[rd] = res; return;
-			case MN_AESC_MAX: res = (int64_t)a > (int64_t)b ? a : b; r[rd] = res; return;
-			case MN_AESC_MAXU: res = a > b ? a : b; r[rd] = res; return;
 			}
 			die("unimplemented arithmetic instruction", sub);
 		}

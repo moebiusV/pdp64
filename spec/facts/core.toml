@@ -448,26 +448,6 @@ arg = "MN_AESC_MODU"
 exec = "H_AESC"
 arg = "MN_AESC_MULHU"
 
-[abs]
-exec = "H_AESC"
-arg = "MN_AESC_ABS"
-
-[min]
-exec = "H_AESC"
-arg = "MN_AESC_MIN"
-
-[minu]
-exec = "H_AESC"
-arg = "MN_AESC_MINU"
-
-[max]
-exec = "H_AESC"
-arg = "MN_AESC_MAX"
-
-[maxu]
-exec = "H_AESC"
-arg = "MN_AESC_MAXU"
-
 [mcpy]
 exec = "H_MBLK"
 arg = "MN_MBLK_MCPY"

@@ -93,20 +93,20 @@ sub-MTSR-1 = "mtsr"
 
 ; form R2 (index 6): 2 parcels
 form-R2 = o1:reg5 o2:reg5
-leaf-R2-1 = 0b110100000100 o1-r:5 o2-r:5 xsub:10 ?(xsub < 69)
+leaf-R2-1 = 0b110100000100 o1-r:5 o2-r:5 xsub:10 ?(xsub < 68)
 sub-R2-1 = "clz" | "ctz" | "clo" | "cto" | "popcnt" | "bswap" | "bswapw" | "bswapl" | "bitrev" | "utf8len" | "utf8dec" | "utf8enc" | "ctcc" | "ctcs"
-     | "cthi" | "ctlos" | "cteq" | "ctne" | "ctge" | "ctlt" | "ctgt" | "ctle" | "mval" | "abs" | "prober" | "probew" | "fdiv" | "fsqrt" | "fadd32"
-     | "fsub32" | "fmul32" | "fdiv32" | "fsqrt32" | "fneg" | "fabs" | "fclass" | "fclass32" | "frint" | "frintz" | "frintm" | "frintp" | "frinta"
-     | "fcvtdq" | "fcvtqd" | "fcvtds" | "fcvtsd" | "fcvtsl" | "fcvtls" | "fcvtdqu" | "fcvtqud" | "fsflags" | "fcvtsh" | "fcvths" | "fcvtdh" | "fcvthd"
-     | "fcvthl" | "fcvtlh" | "aesim" | "sha256sig0" | "sha256sig1" | "sha256sum0" | "sha256sum1" | "sha512sig0" | "sha512sig1" | "sha512sum0"
-     | "sha512sum1" | "addv" | "subv" | "mulv"
+     | "cthi" | "ctlos" | "cteq" | "ctne" | "ctge" | "ctlt" | "ctgt" | "ctle" | "mval" | "prober" | "probew" | "fdiv" | "fsqrt" | "fadd32" | "fsub32"
+     | "fmul32" | "fdiv32" | "fsqrt32" | "fneg" | "fabs" | "fclass" | "fclass32" | "frint" | "frintz" | "frintm" | "frintp" | "frinta" | "fcvtdq"
+     | "fcvtqd" | "fcvtds" | "fcvtsd" | "fcvtsl" | "fcvtls" | "fcvtdqu" | "fcvtqud" | "fsflags" | "fcvtsh" | "fcvths" | "fcvtdh" | "fcvthd" | "fcvthl"
+     | "fcvtlh" | "aesim" | "sha256sig0" | "sha256sig1" | "sha256sum0" | "sha256sum1" | "sha512sig0" | "sha512sig1" | "sha512sum0" | "sha512sum1"
+     | "addv" | "subv" | "mulv"
 
 ; form R3 (index 7): 2 parcels
 form-R3 = o1:reg5 o2:reg5 o3:reg5
-leaf-R3-1 = 0b1100101000 xsub-1:1 o3-r:5 xsub-2:6 o1-r:5 o2-r:5 ?(((xsub_1 << 6) | xsub_2) < 34)
+leaf-R3-1 = 0b1100101000 xsub-1:1 o3-r:5 xsub-2:6 o1-r:5 o2-r:5 ?(((xsub_1 << 6) | xsub_2) < 30)
 sub-R3-1 = "chk2" | "ror" | "xnorpop" | "clmull" | "clmulh" | "mcpy" | "mmov" | "mset" | "mcmp" | "mscn" | "mscnn" | "div" | "divu" | "mod" | "modu"
-     | "mulhu" | "min" | "minu" | "max" | "maxu" | "fcopysign" | "fmin" | "fmax" | "maskeqz" | "masknez" | "aeses" | "aesesm" | "aesds" | "aesdsm"
-     | "aesks2" | "msha256" | "msha512" | "mcpy.ur" | "mcpy.uw"
+     | "mulhu" | "fcopysign" | "fmin" | "fmax" | "maskeqz" | "masknez" | "aeses" | "aesesm" | "aesds" | "aesdsm" | "aesks2" | "msha256" | "msha512"
+     | "mcpy.ur" | "mcpy.uw"
 
 ; form R4 (index 8): 2 parcels
 form-R4 = o1:reg5 o2:reg5 o3:reg5 o4:reg5
