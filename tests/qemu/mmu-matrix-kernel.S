@@ -1,5 +1,5 @@
 ; System v1 MMU: every combination of V R W X U A D (and G, MT, reserved bits) on a 4 KB page, accessed in KERNEL mode by a load, a store and an instruction fetch; the vector,
-; EPC and EVA of each fault. Generated from a reference model of section 15 (the PTE rules) in the generator; a failed check n exits with n mod 255 + 1.
+; EPC and EVA of each fault. A kernel load or store of a page with U set is always a protection fault (the user-memory guard has no switch: only a `.U` access reaches a user page, tests/qemu/mmu-guard.S). A failed check n exits with n mod 255 + 1.
 #include "pdp64-consts.h"
 	.text
 	.globl	_start
@@ -8,7 +8,6 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	stua			; the guard open: the kernel's data accesses to a U page are part of the matrix (UA clear is tests/qemu/mmu-ua.S)
 	movq	#1, r1
 	mtsr	mmuctl, r1
 	movq	#0, r4
@@ -2063,7 +2062,7 @@ res_m_19_load:
 	movq	#230, r0	; check 229
 	halt
 1:
-	cmp	r8, #(VECTOR_LFAULT)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
 	movq	#231, r0	; check 230
 	halt
@@ -2491,7 +2490,7 @@ res_m_23_load:
 	movq	#23, r0	; check 277
 	halt
 1:
-	cmp	r8, #(VECTOR_LFAULT)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
 	movq	#24, r0	; check 278
 	halt
@@ -2527,7 +2526,7 @@ res_m_23_store:
 	movq	#27, r0	; check 281
 	halt
 1:
-	cmp	r8, #(VECTOR_SFAULT)
+	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
 	movq	#28, r0	; check 282
 	halt
@@ -2919,7 +2918,7 @@ res_m_27_load:
 	movq	#71, r0	; check 325
 	halt
 1:
-	cmp	r8, #(VECTOR_LFAULT)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
 	movq	#72, r0	; check 326
 	halt
@@ -3347,7 +3346,7 @@ res_m_31_load:
 	movq	#119, r0	; check 373
 	halt
 1:
-	cmp	r8, #(VECTOR_LFAULT)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
 	movq	#120, r0	; check 374
 	halt
@@ -3383,7 +3382,7 @@ res_m_31_store:
 	movq	#123, r0	; check 377
 	halt
 1:
-	cmp	r8, #(VECTOR_SFAULT)
+	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
 	movq	#124, r0	; check 378
 	halt
@@ -5375,14 +5374,27 @@ res_m_50_fetch:
 ins_m_51_load:
 	movq	8(r3), r5
 res_m_51_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
 	movq	#87, r0	; check 596
 	halt
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
 	movq	#88, r0	; check 597
+	halt
+1:
+	lea	ins_m_51_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#89, r0	; check 598
+	halt
+1:
+	movq	=1073950728, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#90, r0	; check 599
 	halt
 1:
 	movq	#0, r4
@@ -5401,24 +5413,24 @@ res_m_51_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#89, r0	; check 598
+	movq	#91, r0	; check 600
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#90, r0	; check 599
+	movq	#92, r0	; check 601
 	halt
 1:
 	lea	ins_m_51_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#91, r0	; check 600
+	movq	#93, r0	; check 602
 	halt
 1:
 	movq	=1073950728, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#92, r0	; check 601
+	movq	#94, r0	; check 603
 	halt
 1:
 	movq	#0, r4
@@ -5437,23 +5449,23 @@ res_m_51_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#93, r0	; check 602
+	movq	#95, r0	; check 604
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#94, r0	; check 603
+	movq	#96, r0	; check 605
 	halt
 1:
 	movq	=1073950720, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#95, r0	; check 604
+	movq	#97, r0	; check 606
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#96, r0	; check 605
+	movq	#98, r0	; check 607
 	halt
 1:
 	movq	#0, r4
@@ -5472,24 +5484,24 @@ res_m_52_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#97, r0	; check 606
+	movq	#99, r0	; check 608
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#98, r0	; check 607
+	movq	#100, r0	; check 609
 	halt
 1:
 	lea	ins_m_52_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#99, r0	; check 608
+	movq	#101, r0	; check 610
 	halt
 1:
 	movq	=1073954824, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#100, r0	; check 609
+	movq	#102, r0	; check 611
 	halt
 1:
 	movq	#0, r4
@@ -5508,24 +5520,24 @@ res_m_52_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#101, r0	; check 610
+	movq	#103, r0	; check 612
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#102, r0	; check 611
+	movq	#104, r0	; check 613
 	halt
 1:
 	lea	ins_m_52_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#103, r0	; check 612
+	movq	#105, r0	; check 614
 	halt
 1:
 	movq	=1073954824, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#104, r0	; check 613
+	movq	#106, r0	; check 615
 	halt
 1:
 	movq	#0, r4
@@ -5544,23 +5556,23 @@ res_m_52_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#105, r0	; check 614
+	movq	#107, r0	; check 616
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#106, r0	; check 615
+	movq	#108, r0	; check 617
 	halt
 1:
 	movq	=1073954816, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#107, r0	; check 616
+	movq	#109, r0	; check 618
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#108, r0	; check 617
+	movq	#110, r0	; check 619
 	halt
 1:
 	movq	#0, r4
@@ -5579,24 +5591,24 @@ res_m_53_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#109, r0	; check 618
+	movq	#111, r0	; check 620
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#110, r0	; check 619
+	movq	#112, r0	; check 621
 	halt
 1:
 	lea	ins_m_53_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#111, r0	; check 620
+	movq	#113, r0	; check 622
 	halt
 1:
 	movq	=1073958920, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#112, r0	; check 621
+	movq	#114, r0	; check 623
 	halt
 1:
 	movq	#0, r4
@@ -5615,24 +5627,24 @@ res_m_53_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#113, r0	; check 622
+	movq	#115, r0	; check 624
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#114, r0	; check 623
+	movq	#116, r0	; check 625
 	halt
 1:
 	lea	ins_m_53_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#115, r0	; check 624
+	movq	#117, r0	; check 626
 	halt
 1:
 	movq	=1073958920, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#116, r0	; check 625
+	movq	#118, r0	; check 627
 	halt
 1:
 	movq	#0, r4
@@ -5651,23 +5663,23 @@ res_m_53_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#117, r0	; check 626
+	movq	#119, r0	; check 628
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#118, r0	; check 627
+	movq	#120, r0	; check 629
 	halt
 1:
 	movq	=1073958912, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#119, r0	; check 628
+	movq	#121, r0	; check 630
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#120, r0	; check 629
+	movq	#122, r0	; check 631
 	halt
 1:
 	movq	#0, r4
@@ -5686,24 +5698,24 @@ res_m_54_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#121, r0	; check 630
+	movq	#123, r0	; check 632
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#122, r0	; check 631
+	movq	#124, r0	; check 633
 	halt
 1:
 	lea	ins_m_54_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#123, r0	; check 632
+	movq	#125, r0	; check 634
 	halt
 1:
 	movq	=1073963016, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#124, r0	; check 633
+	movq	#126, r0	; check 635
 	halt
 1:
 	movq	#0, r4
@@ -5722,24 +5734,24 @@ res_m_54_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#125, r0	; check 634
+	movq	#127, r0	; check 636
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#126, r0	; check 635
+	movq	#128, r0	; check 637
 	halt
 1:
 	lea	ins_m_54_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#127, r0	; check 636
+	movq	#129, r0	; check 638
 	halt
 1:
 	movq	=1073963016, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#128, r0	; check 637
+	movq	#130, r0	; check 639
 	halt
 1:
 	movq	#0, r4
@@ -5758,23 +5770,23 @@ res_m_54_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#129, r0	; check 638
+	movq	#131, r0	; check 640
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#130, r0	; check 639
+	movq	#132, r0	; check 641
 	halt
 1:
 	movq	=1073963008, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#131, r0	; check 640
+	movq	#133, r0	; check 642
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#132, r0	; check 641
+	movq	#134, r0	; check 643
 	halt
 1:
 	movq	#0, r4
@@ -5790,41 +5802,18 @@ res_m_54_fetch:
 ins_m_55_load:
 	movq	8(r3), r5
 res_m_55_load:
-	cmp	r10, #(0)
-	beq	1f
-	movq	#133, r0	; check 642
-	halt
-1:
-	cmp	r5, #(4660)
-	beq	1f
-	movq	#134, r0	; check 643
-	halt
-1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	=1073967104, r3
-	lea	res_m_55_store, r4
-	movq	#0x1234, r5
-ins_m_55_store:
-	movq	r5, 8(r3)
-res_m_55_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
 	movq	#135, r0	; check 644
 	halt
 1:
-	cmp	r8, #(VECTOR_SFAULT)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
 	movq	#136, r0	; check 645
 	halt
 1:
-	lea	ins_m_55_store, r11
+	lea	ins_m_55_load, r11
 	cmp	r6, r11
 	beq	1f
 	movq	#137, r0	; check 646
@@ -5844,6 +5833,42 @@ res_m_55_store:
 	movq	#0, r9
 	movq	#0, r12
 	movq	=1073967104, r3
+	lea	res_m_55_store, r4
+	movq	#0x1234, r5
+ins_m_55_store:
+	movq	r5, 8(r3)
+res_m_55_store:
+	bic	#15, r7
+	cmp	r10, #(1)
+	beq	1f
+	movq	#139, r0	; check 648
+	halt
+1:
+	cmp	r8, #(VECTOR_SPROT)
+	beq	1f
+	movq	#140, r0	; check 649
+	halt
+1:
+	lea	ins_m_55_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#141, r0	; check 650
+	halt
+1:
+	movq	=1073967112, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#142, r0	; check 651
+	halt
+1:
+	movq	#0, r4
+	movq	#0, r10
+	movq	#0, r6
+	movq	#0, r7
+	movq	#0, r8
+	movq	#0, r9
+	movq	#0, r12
+	movq	=1073967104, r3
 	lea	res_m_55_fetch, r4
 ins_m_55_fetch:
 	call	r3
@@ -5852,23 +5877,23 @@ res_m_55_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#139, r0	; check 648
+	movq	#143, r0	; check 652
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#140, r0	; check 649
+	movq	#144, r0	; check 653
 	halt
 1:
 	movq	=1073967104, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#141, r0	; check 650
+	movq	#145, r0	; check 654
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#142, r0	; check 651
+	movq	#146, r0	; check 655
 	halt
 1:
 	movq	#0, r4
@@ -5887,51 +5912,15 @@ res_m_56_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#143, r0	; check 652
+	movq	#147, r0	; check 656
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#144, r0	; check 653
-	halt
-1:
-	lea	ins_m_56_load, r11
-	cmp	r6, r11
-	beq	1f
-	movq	#145, r0	; check 654
-	halt
-1:
-	movq	=1073971208, r2
-	cmp	r9, r2
-	beq	1f
-	movq	#146, r0	; check 655
-	halt
-1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	=1073971200, r3
-	lea	res_m_56_store, r4
-	movq	#0x1234, r5
-ins_m_56_store:
-	movq	r5, 8(r3)
-res_m_56_store:
-	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
-	movq	#147, r0	; check 656
-	halt
-1:
-	cmp	r8, #(VECTOR_SFAULT)
-	beq	1f
 	movq	#148, r0	; check 657
 	halt
 1:
-	lea	ins_m_56_store, r11
+	lea	ins_m_56_load, r11
 	cmp	r6, r11
 	beq	1f
 	movq	#149, r0	; check 658
@@ -5951,6 +5940,42 @@ res_m_56_store:
 	movq	#0, r9
 	movq	#0, r12
 	movq	=1073971200, r3
+	lea	res_m_56_store, r4
+	movq	#0x1234, r5
+ins_m_56_store:
+	movq	r5, 8(r3)
+res_m_56_store:
+	bic	#15, r7
+	cmp	r10, #(1)
+	beq	1f
+	movq	#151, r0	; check 660
+	halt
+1:
+	cmp	r8, #(VECTOR_SFAULT)
+	beq	1f
+	movq	#152, r0	; check 661
+	halt
+1:
+	lea	ins_m_56_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#153, r0	; check 662
+	halt
+1:
+	movq	=1073971208, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#154, r0	; check 663
+	halt
+1:
+	movq	#0, r4
+	movq	#0, r10
+	movq	#0, r6
+	movq	#0, r7
+	movq	#0, r8
+	movq	#0, r9
+	movq	#0, r12
+	movq	=1073971200, r3
 	lea	res_m_56_fetch, r4
 ins_m_56_fetch:
 	call	r3
@@ -5959,23 +5984,23 @@ res_m_56_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#151, r0	; check 660
+	movq	#155, r0	; check 664
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#152, r0	; check 661
+	movq	#156, r0	; check 665
 	halt
 1:
 	movq	=1073971200, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#153, r0	; check 662
+	movq	#157, r0	; check 666
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#154, r0	; check 663
+	movq	#158, r0	; check 667
 	halt
 1:
 	movq	#0, r4
@@ -5994,51 +6019,15 @@ res_m_57_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#155, r0	; check 664
+	movq	#159, r0	; check 668
 	halt
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#156, r0	; check 665
-	halt
-1:
-	lea	ins_m_57_load, r11
-	cmp	r6, r11
-	beq	1f
-	movq	#157, r0	; check 666
-	halt
-1:
-	movq	=1073975304, r2
-	cmp	r9, r2
-	beq	1f
-	movq	#158, r0	; check 667
-	halt
-1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	=1073975296, r3
-	lea	res_m_57_store, r4
-	movq	#0x1234, r5
-ins_m_57_store:
-	movq	r5, 8(r3)
-res_m_57_store:
-	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
-	movq	#159, r0	; check 668
-	halt
-1:
-	cmp	r8, #(VECTOR_SPROT)
-	beq	1f
 	movq	#160, r0	; check 669
 	halt
 1:
-	lea	ins_m_57_store, r11
+	lea	ins_m_57_load, r11
 	cmp	r6, r11
 	beq	1f
 	movq	#161, r0	; check 670
@@ -6058,6 +6047,42 @@ res_m_57_store:
 	movq	#0, r9
 	movq	#0, r12
 	movq	=1073975296, r3
+	lea	res_m_57_store, r4
+	movq	#0x1234, r5
+ins_m_57_store:
+	movq	r5, 8(r3)
+res_m_57_store:
+	bic	#15, r7
+	cmp	r10, #(1)
+	beq	1f
+	movq	#163, r0	; check 672
+	halt
+1:
+	cmp	r8, #(VECTOR_SPROT)
+	beq	1f
+	movq	#164, r0	; check 673
+	halt
+1:
+	lea	ins_m_57_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#165, r0	; check 674
+	halt
+1:
+	movq	=1073975304, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#166, r0	; check 675
+	halt
+1:
+	movq	#0, r4
+	movq	#0, r10
+	movq	#0, r6
+	movq	#0, r7
+	movq	#0, r8
+	movq	#0, r9
+	movq	#0, r12
+	movq	=1073975296, r3
 	lea	res_m_57_fetch, r4
 ins_m_57_fetch:
 	call	r3
@@ -6066,23 +6091,23 @@ res_m_57_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#163, r0	; check 672
+	movq	#167, r0	; check 676
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#164, r0	; check 673
+	movq	#168, r0	; check 677
 	halt
 1:
 	movq	=1073975296, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#165, r0	; check 674
+	movq	#169, r0	; check 678
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#166, r0	; check 675
+	movq	#170, r0	; check 679
 	halt
 1:
 	movq	#0, r4
@@ -6101,51 +6126,15 @@ res_m_58_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#167, r0	; check 676
+	movq	#171, r0	; check 680
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#168, r0	; check 677
-	halt
-1:
-	lea	ins_m_58_load, r11
-	cmp	r6, r11
-	beq	1f
-	movq	#169, r0	; check 678
-	halt
-1:
-	movq	=1073979400, r2
-	cmp	r9, r2
-	beq	1f
-	movq	#170, r0	; check 679
-	halt
-1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	=1073979392, r3
-	lea	res_m_58_store, r4
-	movq	#0x1234, r5
-ins_m_58_store:
-	movq	r5, 8(r3)
-res_m_58_store:
-	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
-	movq	#171, r0	; check 680
-	halt
-1:
-	cmp	r8, #(VECTOR_SFAULT)
-	beq	1f
 	movq	#172, r0	; check 681
 	halt
 1:
-	lea	ins_m_58_store, r11
+	lea	ins_m_58_load, r11
 	cmp	r6, r11
 	beq	1f
 	movq	#173, r0	; check 682
@@ -6165,6 +6154,42 @@ res_m_58_store:
 	movq	#0, r9
 	movq	#0, r12
 	movq	=1073979392, r3
+	lea	res_m_58_store, r4
+	movq	#0x1234, r5
+ins_m_58_store:
+	movq	r5, 8(r3)
+res_m_58_store:
+	bic	#15, r7
+	cmp	r10, #(1)
+	beq	1f
+	movq	#175, r0	; check 684
+	halt
+1:
+	cmp	r8, #(VECTOR_SFAULT)
+	beq	1f
+	movq	#176, r0	; check 685
+	halt
+1:
+	lea	ins_m_58_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#177, r0	; check 686
+	halt
+1:
+	movq	=1073979400, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#178, r0	; check 687
+	halt
+1:
+	movq	#0, r4
+	movq	#0, r10
+	movq	#0, r6
+	movq	#0, r7
+	movq	#0, r8
+	movq	#0, r9
+	movq	#0, r12
+	movq	=1073979392, r3
 	lea	res_m_58_fetch, r4
 ins_m_58_fetch:
 	call	r3
@@ -6173,23 +6198,23 @@ res_m_58_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#175, r0	; check 684
+	movq	#179, r0	; check 688
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#176, r0	; check 685
+	movq	#180, r0	; check 689
 	halt
 1:
 	movq	=1073979392, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#177, r0	; check 686
+	movq	#181, r0	; check 690
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#178, r0	; check 687
+	movq	#182, r0	; check 691
 	halt
 1:
 	movq	#0, r4
@@ -6205,14 +6230,27 @@ res_m_58_fetch:
 ins_m_59_load:
 	movq	8(r3), r5
 res_m_59_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#179, r0	; check 688
+	movq	#183, r0	; check 692
 	halt
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#180, r0	; check 689
+	movq	#184, r0	; check 693
+	halt
+1:
+	lea	ins_m_59_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#185, r0	; check 694
+	halt
+1:
+	movq	=1073983496, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#186, r0	; check 695
 	halt
 1:
 	movq	#0, r4
@@ -6231,24 +6269,24 @@ res_m_59_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#181, r0	; check 690
+	movq	#187, r0	; check 696
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#182, r0	; check 691
+	movq	#188, r0	; check 697
 	halt
 1:
 	lea	ins_m_59_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#183, r0	; check 692
+	movq	#189, r0	; check 698
 	halt
 1:
 	movq	=1073983496, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#184, r0	; check 693
+	movq	#190, r0	; check 699
 	halt
 1:
 	movq	#0, r4
@@ -6267,23 +6305,23 @@ res_m_59_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#185, r0	; check 694
+	movq	#191, r0	; check 700
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#186, r0	; check 695
+	movq	#192, r0	; check 701
 	halt
 1:
 	movq	=1073983488, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#187, r0	; check 696
+	movq	#193, r0	; check 702
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#188, r0	; check 697
+	movq	#194, r0	; check 703
 	halt
 1:
 	movq	#0, r4
@@ -6302,24 +6340,24 @@ res_m_60_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#189, r0	; check 698
+	movq	#195, r0	; check 704
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#190, r0	; check 699
+	movq	#196, r0	; check 705
 	halt
 1:
 	lea	ins_m_60_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#191, r0	; check 700
+	movq	#197, r0	; check 706
 	halt
 1:
 	movq	=1073987592, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#192, r0	; check 701
+	movq	#198, r0	; check 707
 	halt
 1:
 	movq	#0, r4
@@ -6338,24 +6376,24 @@ res_m_60_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#193, r0	; check 702
+	movq	#199, r0	; check 708
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#194, r0	; check 703
+	movq	#200, r0	; check 709
 	halt
 1:
 	lea	ins_m_60_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#195, r0	; check 704
+	movq	#201, r0	; check 710
 	halt
 1:
 	movq	=1073987592, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#196, r0	; check 705
+	movq	#202, r0	; check 711
 	halt
 1:
 	movq	#0, r4
@@ -6374,23 +6412,23 @@ res_m_60_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#197, r0	; check 706
+	movq	#203, r0	; check 712
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#198, r0	; check 707
+	movq	#204, r0	; check 713
 	halt
 1:
 	movq	=1073987584, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#199, r0	; check 708
+	movq	#205, r0	; check 714
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#200, r0	; check 709
+	movq	#206, r0	; check 715
 	halt
 1:
 	movq	#0, r4
@@ -6409,24 +6447,24 @@ res_m_61_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#201, r0	; check 710
+	movq	#207, r0	; check 716
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#202, r0	; check 711
+	movq	#208, r0	; check 717
 	halt
 1:
 	lea	ins_m_61_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#203, r0	; check 712
+	movq	#209, r0	; check 718
 	halt
 1:
 	movq	=1073991688, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#204, r0	; check 713
+	movq	#210, r0	; check 719
 	halt
 1:
 	movq	#0, r4
@@ -6445,24 +6483,24 @@ res_m_61_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#205, r0	; check 714
+	movq	#211, r0	; check 720
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#206, r0	; check 715
+	movq	#212, r0	; check 721
 	halt
 1:
 	lea	ins_m_61_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#207, r0	; check 716
+	movq	#213, r0	; check 722
 	halt
 1:
 	movq	=1073991688, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#208, r0	; check 717
+	movq	#214, r0	; check 723
 	halt
 1:
 	movq	#0, r4
@@ -6481,23 +6519,23 @@ res_m_61_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#209, r0	; check 718
+	movq	#215, r0	; check 724
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#210, r0	; check 719
+	movq	#216, r0	; check 725
 	halt
 1:
 	movq	=1073991680, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#211, r0	; check 720
+	movq	#217, r0	; check 726
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#212, r0	; check 721
+	movq	#218, r0	; check 727
 	halt
 1:
 	movq	#0, r4
@@ -6516,24 +6554,24 @@ res_m_62_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#213, r0	; check 722
+	movq	#219, r0	; check 728
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#214, r0	; check 723
+	movq	#220, r0	; check 729
 	halt
 1:
 	lea	ins_m_62_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#215, r0	; check 724
+	movq	#221, r0	; check 730
 	halt
 1:
 	movq	=1073995784, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#216, r0	; check 725
+	movq	#222, r0	; check 731
 	halt
 1:
 	movq	#0, r4
@@ -6552,24 +6590,24 @@ res_m_62_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#217, r0	; check 726
+	movq	#223, r0	; check 732
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#218, r0	; check 727
+	movq	#224, r0	; check 733
 	halt
 1:
 	lea	ins_m_62_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#219, r0	; check 728
+	movq	#225, r0	; check 734
 	halt
 1:
 	movq	=1073995784, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#220, r0	; check 729
+	movq	#226, r0	; check 735
 	halt
 1:
 	movq	#0, r4
@@ -6588,23 +6626,23 @@ res_m_62_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#221, r0	; check 730
+	movq	#227, r0	; check 736
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#222, r0	; check 731
+	movq	#228, r0	; check 737
 	halt
 1:
 	movq	=1073995776, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#223, r0	; check 732
+	movq	#229, r0	; check 738
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#224, r0	; check 733
+	movq	#230, r0	; check 739
 	halt
 1:
 	movq	#0, r4
@@ -6620,14 +6658,27 @@ res_m_62_fetch:
 ins_m_63_load:
 	movq	8(r3), r5
 res_m_63_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#225, r0	; check 734
+	movq	#231, r0	; check 740
 	halt
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#226, r0	; check 735
+	movq	#232, r0	; check 741
+	halt
+1:
+	lea	ins_m_63_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#233, r0	; check 742
+	halt
+1:
+	movq	=1073999880, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#234, r0	; check 743
 	halt
 1:
 	movq	#0, r4
@@ -6646,24 +6697,24 @@ res_m_63_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#227, r0	; check 736
+	movq	#235, r0	; check 744
 	halt
 1:
-	cmp	r8, #(VECTOR_SFAULT)
+	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#228, r0	; check 737
+	movq	#236, r0	; check 745
 	halt
 1:
 	lea	ins_m_63_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#229, r0	; check 738
+	movq	#237, r0	; check 746
 	halt
 1:
 	movq	=1073999880, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#230, r0	; check 739
+	movq	#238, r0	; check 747
 	halt
 1:
 	movq	#0, r4
@@ -6682,23 +6733,23 @@ res_m_63_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#231, r0	; check 740
+	movq	#239, r0	; check 748
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#232, r0	; check 741
+	movq	#240, r0	; check 749
 	halt
 1:
 	movq	=1073999872, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#233, r0	; check 742
+	movq	#241, r0	; check 750
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#234, r0	; check 743
+	movq	#242, r0	; check 751
 	halt
 1:
 	movq	#0, r4
@@ -6717,24 +6768,24 @@ res_m_64_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#235, r0	; check 744
+	movq	#243, r0	; check 752
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#236, r0	; check 745
+	movq	#244, r0	; check 753
 	halt
 1:
 	lea	ins_m_64_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#237, r0	; check 746
+	movq	#245, r0	; check 754
 	halt
 1:
 	movq	=1074003976, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#238, r0	; check 747
+	movq	#246, r0	; check 755
 	halt
 1:
 	movq	#0, r4
@@ -6753,24 +6804,24 @@ res_m_64_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#239, r0	; check 748
+	movq	#247, r0	; check 756
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#240, r0	; check 749
+	movq	#248, r0	; check 757
 	halt
 1:
 	lea	ins_m_64_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#241, r0	; check 750
+	movq	#249, r0	; check 758
 	halt
 1:
 	movq	=1074003976, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#242, r0	; check 751
+	movq	#250, r0	; check 759
 	halt
 1:
 	movq	#0, r4
@@ -6789,23 +6840,23 @@ res_m_64_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#243, r0	; check 752
+	movq	#251, r0	; check 760
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#244, r0	; check 753
+	movq	#252, r0	; check 761
 	halt
 1:
 	movq	=1074003968, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#245, r0	; check 754
+	movq	#253, r0	; check 762
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#246, r0	; check 755
+	movq	#254, r0	; check 763
 	halt
 1:
 	movq	#0, r4
@@ -6824,24 +6875,24 @@ res_m_65_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#247, r0	; check 756
+	movq	#255, r0	; check 764
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#248, r0	; check 757
+	movq	#1, r0	; check 765
 	halt
 1:
 	lea	ins_m_65_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#249, r0	; check 758
+	movq	#2, r0	; check 766
 	halt
 1:
 	movq	=1074008072, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#250, r0	; check 759
+	movq	#3, r0	; check 767
 	halt
 1:
 	movq	#0, r4
@@ -6860,24 +6911,24 @@ res_m_65_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#251, r0	; check 760
+	movq	#4, r0	; check 768
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#252, r0	; check 761
+	movq	#5, r0	; check 769
 	halt
 1:
 	lea	ins_m_65_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#253, r0	; check 762
+	movq	#6, r0	; check 770
 	halt
 1:
 	movq	=1074008072, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#254, r0	; check 763
+	movq	#7, r0	; check 771
 	halt
 1:
 	movq	#0, r4
@@ -6896,23 +6947,23 @@ res_m_65_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#255, r0	; check 764
+	movq	#8, r0	; check 772
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#1, r0	; check 765
+	movq	#9, r0	; check 773
 	halt
 1:
 	movq	=1074008064, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#2, r0	; check 766
+	movq	#10, r0	; check 774
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#3, r0	; check 767
+	movq	#11, r0	; check 775
 	halt
 1:
 	movq	#0, r4
@@ -6931,24 +6982,24 @@ res_m_66_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#4, r0	; check 768
+	movq	#12, r0	; check 776
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#5, r0	; check 769
+	movq	#13, r0	; check 777
 	halt
 1:
 	lea	ins_m_66_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#6, r0	; check 770
+	movq	#14, r0	; check 778
 	halt
 1:
 	movq	=1074012168, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#7, r0	; check 771
+	movq	#15, r0	; check 779
 	halt
 1:
 	movq	#0, r4
@@ -6967,24 +7018,24 @@ res_m_66_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#8, r0	; check 772
+	movq	#16, r0	; check 780
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#9, r0	; check 773
+	movq	#17, r0	; check 781
 	halt
 1:
 	lea	ins_m_66_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#10, r0	; check 774
+	movq	#18, r0	; check 782
 	halt
 1:
 	movq	=1074012168, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#11, r0	; check 775
+	movq	#19, r0	; check 783
 	halt
 1:
 	movq	#0, r4
@@ -7003,23 +7054,23 @@ res_m_66_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#12, r0	; check 776
+	movq	#20, r0	; check 784
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#13, r0	; check 777
+	movq	#21, r0	; check 785
 	halt
 1:
 	movq	=1074012160, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#14, r0	; check 778
+	movq	#22, r0	; check 786
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#15, r0	; check 779
+	movq	#23, r0	; check 787
 	halt
 1:
 	movq	#0, r4
@@ -7038,24 +7089,24 @@ res_m_67_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#16, r0	; check 780
+	movq	#24, r0	; check 788
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#17, r0	; check 781
+	movq	#25, r0	; check 789
 	halt
 1:
 	lea	ins_m_67_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#18, r0	; check 782
+	movq	#26, r0	; check 790
 	halt
 1:
 	movq	=1074016264, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#19, r0	; check 783
+	movq	#27, r0	; check 791
 	halt
 1:
 	movq	#0, r4
@@ -7074,24 +7125,24 @@ res_m_67_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#20, r0	; check 784
+	movq	#28, r0	; check 792
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#21, r0	; check 785
+	movq	#29, r0	; check 793
 	halt
 1:
 	lea	ins_m_67_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#22, r0	; check 786
+	movq	#30, r0	; check 794
 	halt
 1:
 	movq	=1074016264, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#23, r0	; check 787
+	movq	#31, r0	; check 795
 	halt
 1:
 	movq	#0, r4
@@ -7110,23 +7161,23 @@ res_m_67_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#24, r0	; check 788
+	movq	#32, r0	; check 796
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#25, r0	; check 789
+	movq	#33, r0	; check 797
 	halt
 1:
 	movq	=1074016256, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#26, r0	; check 790
+	movq	#34, r0	; check 798
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#27, r0	; check 791
+	movq	#35, r0	; check 799
 	halt
 1:
 	movq	#0, r4
@@ -7145,24 +7196,24 @@ res_m_68_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#28, r0	; check 792
+	movq	#36, r0	; check 800
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#29, r0	; check 793
+	movq	#37, r0	; check 801
 	halt
 1:
 	lea	ins_m_68_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#30, r0	; check 794
+	movq	#38, r0	; check 802
 	halt
 1:
 	movq	=1074020360, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#31, r0	; check 795
+	movq	#39, r0	; check 803
 	halt
 1:
 	movq	#0, r4
@@ -7181,24 +7232,24 @@ res_m_68_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#32, r0	; check 796
+	movq	#40, r0	; check 804
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#33, r0	; check 797
+	movq	#41, r0	; check 805
 	halt
 1:
 	lea	ins_m_68_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#34, r0	; check 798
+	movq	#42, r0	; check 806
 	halt
 1:
 	movq	=1074020360, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#35, r0	; check 799
+	movq	#43, r0	; check 807
 	halt
 1:
 	movq	#0, r4
@@ -7217,23 +7268,23 @@ res_m_68_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#36, r0	; check 800
+	movq	#44, r0	; check 808
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#37, r0	; check 801
+	movq	#45, r0	; check 809
 	halt
 1:
 	movq	=1074020352, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#38, r0	; check 802
+	movq	#46, r0	; check 810
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#39, r0	; check 803
+	movq	#47, r0	; check 811
 	halt
 1:
 	movq	#0, r4
@@ -7252,24 +7303,24 @@ res_m_69_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#40, r0	; check 804
+	movq	#48, r0	; check 812
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#41, r0	; check 805
+	movq	#49, r0	; check 813
 	halt
 1:
 	lea	ins_m_69_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#42, r0	; check 806
+	movq	#50, r0	; check 814
 	halt
 1:
 	movq	=1074024456, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#43, r0	; check 807
+	movq	#51, r0	; check 815
 	halt
 1:
 	movq	#0, r4
@@ -7288,24 +7339,24 @@ res_m_69_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#44, r0	; check 808
+	movq	#52, r0	; check 816
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#45, r0	; check 809
+	movq	#53, r0	; check 817
 	halt
 1:
 	lea	ins_m_69_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#46, r0	; check 810
+	movq	#54, r0	; check 818
 	halt
 1:
 	movq	=1074024456, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#47, r0	; check 811
+	movq	#55, r0	; check 819
 	halt
 1:
 	movq	#0, r4
@@ -7324,23 +7375,23 @@ res_m_69_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#48, r0	; check 812
+	movq	#56, r0	; check 820
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#49, r0	; check 813
+	movq	#57, r0	; check 821
 	halt
 1:
 	movq	=1074024448, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#50, r0	; check 814
+	movq	#58, r0	; check 822
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#51, r0	; check 815
+	movq	#59, r0	; check 823
 	halt
 1:
 	movq	#0, r4
@@ -7359,24 +7410,24 @@ res_m_70_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#52, r0	; check 816
+	movq	#60, r0	; check 824
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#53, r0	; check 817
+	movq	#61, r0	; check 825
 	halt
 1:
 	lea	ins_m_70_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#54, r0	; check 818
+	movq	#62, r0	; check 826
 	halt
 1:
 	movq	=1074028552, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#55, r0	; check 819
+	movq	#63, r0	; check 827
 	halt
 1:
 	movq	#0, r4
@@ -7395,24 +7446,24 @@ res_m_70_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#56, r0	; check 820
+	movq	#64, r0	; check 828
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#57, r0	; check 821
+	movq	#65, r0	; check 829
 	halt
 1:
 	lea	ins_m_70_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#58, r0	; check 822
+	movq	#66, r0	; check 830
 	halt
 1:
 	movq	=1074028552, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#59, r0	; check 823
+	movq	#67, r0	; check 831
 	halt
 1:
 	movq	#0, r4
@@ -7431,23 +7482,23 @@ res_m_70_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#60, r0	; check 824
+	movq	#68, r0	; check 832
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#61, r0	; check 825
+	movq	#69, r0	; check 833
 	halt
 1:
 	movq	=1074028544, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#62, r0	; check 826
+	movq	#70, r0	; check 834
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#63, r0	; check 827
+	movq	#71, r0	; check 835
 	halt
 1:
 	movq	#0, r4
@@ -7466,24 +7517,24 @@ res_m_71_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#64, r0	; check 828
+	movq	#72, r0	; check 836
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#65, r0	; check 829
+	movq	#73, r0	; check 837
 	halt
 1:
 	lea	ins_m_71_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#66, r0	; check 830
+	movq	#74, r0	; check 838
 	halt
 1:
 	movq	=1074032648, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#67, r0	; check 831
+	movq	#75, r0	; check 839
 	halt
 1:
 	movq	#0, r4
@@ -7502,24 +7553,24 @@ res_m_71_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#68, r0	; check 832
+	movq	#76, r0	; check 840
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#69, r0	; check 833
+	movq	#77, r0	; check 841
 	halt
 1:
 	lea	ins_m_71_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#70, r0	; check 834
+	movq	#78, r0	; check 842
 	halt
 1:
 	movq	=1074032648, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#71, r0	; check 835
+	movq	#79, r0	; check 843
 	halt
 1:
 	movq	#0, r4
@@ -7538,23 +7589,23 @@ res_m_71_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#72, r0	; check 836
+	movq	#80, r0	; check 844
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#73, r0	; check 837
+	movq	#81, r0	; check 845
 	halt
 1:
 	movq	=1074032640, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#74, r0	; check 838
+	movq	#82, r0	; check 846
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#75, r0	; check 839
+	movq	#83, r0	; check 847
 	halt
 1:
 	movq	#0, r4
@@ -7573,24 +7624,24 @@ res_m_72_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#76, r0	; check 840
+	movq	#84, r0	; check 848
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#77, r0	; check 841
+	movq	#85, r0	; check 849
 	halt
 1:
 	lea	ins_m_72_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#78, r0	; check 842
+	movq	#86, r0	; check 850
 	halt
 1:
 	movq	=1074036744, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#79, r0	; check 843
+	movq	#87, r0	; check 851
 	halt
 1:
 	movq	#0, r4
@@ -7609,24 +7660,24 @@ res_m_72_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#80, r0	; check 844
+	movq	#88, r0	; check 852
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#81, r0	; check 845
+	movq	#89, r0	; check 853
 	halt
 1:
 	lea	ins_m_72_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#82, r0	; check 846
+	movq	#90, r0	; check 854
 	halt
 1:
 	movq	=1074036744, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#83, r0	; check 847
+	movq	#91, r0	; check 855
 	halt
 1:
 	movq	#0, r4
@@ -7645,23 +7696,23 @@ res_m_72_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#84, r0	; check 848
+	movq	#92, r0	; check 856
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#85, r0	; check 849
+	movq	#93, r0	; check 857
 	halt
 1:
 	movq	=1074036736, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#86, r0	; check 850
+	movq	#94, r0	; check 858
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#87, r0	; check 851
+	movq	#95, r0	; check 859
 	halt
 1:
 	movq	#0, r4
@@ -7680,24 +7731,24 @@ res_m_73_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#88, r0	; check 852
+	movq	#96, r0	; check 860
 	halt
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#89, r0	; check 853
+	movq	#97, r0	; check 861
 	halt
 1:
 	lea	ins_m_73_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#90, r0	; check 854
+	movq	#98, r0	; check 862
 	halt
 1:
 	movq	=1074040840, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#91, r0	; check 855
+	movq	#99, r0	; check 863
 	halt
 1:
 	movq	#0, r4
@@ -7716,24 +7767,24 @@ res_m_73_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#92, r0	; check 856
+	movq	#100, r0	; check 864
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#93, r0	; check 857
+	movq	#101, r0	; check 865
 	halt
 1:
 	lea	ins_m_73_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#94, r0	; check 858
+	movq	#102, r0	; check 866
 	halt
 1:
 	movq	=1074040840, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#95, r0	; check 859
+	movq	#103, r0	; check 867
 	halt
 1:
 	movq	#0, r4
@@ -7752,23 +7803,23 @@ res_m_73_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#96, r0	; check 860
+	movq	#104, r0	; check 868
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#97, r0	; check 861
+	movq	#105, r0	; check 869
 	halt
 1:
 	movq	=1074040832, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#98, r0	; check 862
+	movq	#106, r0	; check 870
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#99, r0	; check 863
+	movq	#107, r0	; check 871
 	halt
 1:
 	movq	#0, r4
@@ -7787,24 +7838,24 @@ res_m_74_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#100, r0	; check 864
+	movq	#108, r0	; check 872
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#101, r0	; check 865
+	movq	#109, r0	; check 873
 	halt
 1:
 	lea	ins_m_74_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#102, r0	; check 866
+	movq	#110, r0	; check 874
 	halt
 1:
 	movq	=1074044936, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#103, r0	; check 867
+	movq	#111, r0	; check 875
 	halt
 1:
 	movq	#0, r4
@@ -7823,24 +7874,24 @@ res_m_74_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#104, r0	; check 868
+	movq	#112, r0	; check 876
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#105, r0	; check 869
+	movq	#113, r0	; check 877
 	halt
 1:
 	lea	ins_m_74_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#106, r0	; check 870
+	movq	#114, r0	; check 878
 	halt
 1:
 	movq	=1074044936, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#107, r0	; check 871
+	movq	#115, r0	; check 879
 	halt
 1:
 	movq	#0, r4
@@ -7859,23 +7910,23 @@ res_m_74_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#108, r0	; check 872
+	movq	#116, r0	; check 880
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#109, r0	; check 873
+	movq	#117, r0	; check 881
 	halt
 1:
 	movq	=1074044928, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#110, r0	; check 874
+	movq	#118, r0	; check 882
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#111, r0	; check 875
+	movq	#119, r0	; check 883
 	halt
 1:
 	movq	#0, r4
@@ -7894,24 +7945,24 @@ res_m_75_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#112, r0	; check 876
+	movq	#120, r0	; check 884
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#113, r0	; check 877
+	movq	#121, r0	; check 885
 	halt
 1:
 	lea	ins_m_75_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#114, r0	; check 878
+	movq	#122, r0	; check 886
 	halt
 1:
 	movq	=1074049032, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#115, r0	; check 879
+	movq	#123, r0	; check 887
 	halt
 1:
 	movq	#0, r4
@@ -7930,24 +7981,24 @@ res_m_75_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#116, r0	; check 880
+	movq	#124, r0	; check 888
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#117, r0	; check 881
+	movq	#125, r0	; check 889
 	halt
 1:
 	lea	ins_m_75_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#118, r0	; check 882
+	movq	#126, r0	; check 890
 	halt
 1:
 	movq	=1074049032, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#119, r0	; check 883
+	movq	#127, r0	; check 891
 	halt
 1:
 	movq	#0, r4
@@ -7966,23 +8017,23 @@ res_m_75_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#120, r0	; check 884
+	movq	#128, r0	; check 892
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#121, r0	; check 885
+	movq	#129, r0	; check 893
 	halt
 1:
 	movq	=1074049024, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#122, r0	; check 886
+	movq	#130, r0	; check 894
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#123, r0	; check 887
+	movq	#131, r0	; check 895
 	halt
 1:
 	movq	#0, r4
@@ -8001,24 +8052,24 @@ res_m_76_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#124, r0	; check 888
+	movq	#132, r0	; check 896
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#125, r0	; check 889
+	movq	#133, r0	; check 897
 	halt
 1:
 	lea	ins_m_76_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#126, r0	; check 890
+	movq	#134, r0	; check 898
 	halt
 1:
 	movq	=1074053128, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#127, r0	; check 891
+	movq	#135, r0	; check 899
 	halt
 1:
 	movq	#0, r4
@@ -8037,24 +8088,24 @@ res_m_76_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#128, r0	; check 892
+	movq	#136, r0	; check 900
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#129, r0	; check 893
+	movq	#137, r0	; check 901
 	halt
 1:
 	lea	ins_m_76_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#130, r0	; check 894
+	movq	#138, r0	; check 902
 	halt
 1:
 	movq	=1074053128, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#131, r0	; check 895
+	movq	#139, r0	; check 903
 	halt
 1:
 	movq	#0, r4
@@ -8073,23 +8124,23 @@ res_m_76_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#132, r0	; check 896
+	movq	#140, r0	; check 904
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#133, r0	; check 897
+	movq	#141, r0	; check 905
 	halt
 1:
 	movq	=1074053120, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#134, r0	; check 898
+	movq	#142, r0	; check 906
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#135, r0	; check 899
+	movq	#143, r0	; check 907
 	halt
 1:
 	movq	#0, r4
@@ -8108,24 +8159,24 @@ res_m_77_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#136, r0	; check 900
+	movq	#144, r0	; check 908
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#137, r0	; check 901
+	movq	#145, r0	; check 909
 	halt
 1:
 	lea	ins_m_77_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#138, r0	; check 902
+	movq	#146, r0	; check 910
 	halt
 1:
 	movq	=1074057224, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#139, r0	; check 903
+	movq	#147, r0	; check 911
 	halt
 1:
 	movq	#0, r4
@@ -8144,24 +8195,24 @@ res_m_77_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#140, r0	; check 904
+	movq	#148, r0	; check 912
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#141, r0	; check 905
+	movq	#149, r0	; check 913
 	halt
 1:
 	lea	ins_m_77_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#142, r0	; check 906
+	movq	#150, r0	; check 914
 	halt
 1:
 	movq	=1074057224, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#143, r0	; check 907
+	movq	#151, r0	; check 915
 	halt
 1:
 	movq	#0, r4
@@ -8180,23 +8231,23 @@ res_m_77_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#144, r0	; check 908
+	movq	#152, r0	; check 916
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#145, r0	; check 909
+	movq	#153, r0	; check 917
 	halt
 1:
 	movq	=1074057216, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#146, r0	; check 910
+	movq	#154, r0	; check 918
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#147, r0	; check 911
+	movq	#155, r0	; check 919
 	halt
 1:
 	movq	#0, r4
@@ -8215,24 +8266,24 @@ res_m_78_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#148, r0	; check 912
+	movq	#156, r0	; check 920
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#149, r0	; check 913
+	movq	#157, r0	; check 921
 	halt
 1:
 	lea	ins_m_78_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#150, r0	; check 914
+	movq	#158, r0	; check 922
 	halt
 1:
 	movq	=1074061320, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#151, r0	; check 915
+	movq	#159, r0	; check 923
 	halt
 1:
 	movq	#0, r4
@@ -8251,24 +8302,24 @@ res_m_78_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#152, r0	; check 916
+	movq	#160, r0	; check 924
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#153, r0	; check 917
+	movq	#161, r0	; check 925
 	halt
 1:
 	lea	ins_m_78_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#154, r0	; check 918
+	movq	#162, r0	; check 926
 	halt
 1:
 	movq	=1074061320, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#155, r0	; check 919
+	movq	#163, r0	; check 927
 	halt
 1:
 	movq	#0, r4
@@ -8287,23 +8338,23 @@ res_m_78_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#156, r0	; check 920
+	movq	#164, r0	; check 928
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#157, r0	; check 921
+	movq	#165, r0	; check 929
 	halt
 1:
 	movq	=1074061312, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#158, r0	; check 922
+	movq	#166, r0	; check 930
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#159, r0	; check 923
+	movq	#167, r0	; check 931
 	halt
 1:
 	movq	#0, r4
@@ -8322,24 +8373,24 @@ res_m_79_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#160, r0	; check 924
+	movq	#168, r0	; check 932
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#161, r0	; check 925
+	movq	#169, r0	; check 933
 	halt
 1:
 	lea	ins_m_79_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#162, r0	; check 926
+	movq	#170, r0	; check 934
 	halt
 1:
 	movq	=1074065416, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#163, r0	; check 927
+	movq	#171, r0	; check 935
 	halt
 1:
 	movq	#0, r4
@@ -8358,24 +8409,24 @@ res_m_79_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#164, r0	; check 928
+	movq	#172, r0	; check 936
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#165, r0	; check 929
+	movq	#173, r0	; check 937
 	halt
 1:
 	lea	ins_m_79_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#166, r0	; check 930
+	movq	#174, r0	; check 938
 	halt
 1:
 	movq	=1074065416, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#167, r0	; check 931
+	movq	#175, r0	; check 939
 	halt
 1:
 	movq	#0, r4
@@ -8394,23 +8445,23 @@ res_m_79_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#168, r0	; check 932
+	movq	#176, r0	; check 940
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#169, r0	; check 933
+	movq	#177, r0	; check 941
 	halt
 1:
 	movq	=1074065408, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#170, r0	; check 934
+	movq	#178, r0	; check 942
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#171, r0	; check 935
+	movq	#179, r0	; check 943
 	halt
 1:
 	movq	#0, r4
@@ -8429,24 +8480,24 @@ res_m_80_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#172, r0	; check 936
+	movq	#180, r0	; check 944
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#173, r0	; check 937
+	movq	#181, r0	; check 945
 	halt
 1:
 	lea	ins_m_80_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#174, r0	; check 938
+	movq	#182, r0	; check 946
 	halt
 1:
 	movq	=1074069512, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#175, r0	; check 939
+	movq	#183, r0	; check 947
 	halt
 1:
 	movq	#0, r4
@@ -8465,24 +8516,24 @@ res_m_80_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#176, r0	; check 940
+	movq	#184, r0	; check 948
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#177, r0	; check 941
+	movq	#185, r0	; check 949
 	halt
 1:
 	lea	ins_m_80_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#178, r0	; check 942
+	movq	#186, r0	; check 950
 	halt
 1:
 	movq	=1074069512, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#179, r0	; check 943
+	movq	#187, r0	; check 951
 	halt
 1:
 	movq	#0, r4
@@ -8501,23 +8552,23 @@ res_m_80_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#180, r0	; check 944
+	movq	#188, r0	; check 952
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#181, r0	; check 945
+	movq	#189, r0	; check 953
 	halt
 1:
 	movq	=1074069504, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#182, r0	; check 946
+	movq	#190, r0	; check 954
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#183, r0	; check 947
+	movq	#191, r0	; check 955
 	halt
 1:
 	movq	#0, r4
@@ -8536,24 +8587,24 @@ res_m_81_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#184, r0	; check 948
+	movq	#192, r0	; check 956
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#185, r0	; check 949
+	movq	#193, r0	; check 957
 	halt
 1:
 	lea	ins_m_81_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#186, r0	; check 950
+	movq	#194, r0	; check 958
 	halt
 1:
 	movq	=1074073608, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#187, r0	; check 951
+	movq	#195, r0	; check 959
 	halt
 1:
 	movq	#0, r4
@@ -8572,24 +8623,24 @@ res_m_81_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#188, r0	; check 952
+	movq	#196, r0	; check 960
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#189, r0	; check 953
+	movq	#197, r0	; check 961
 	halt
 1:
 	lea	ins_m_81_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#190, r0	; check 954
+	movq	#198, r0	; check 962
 	halt
 1:
 	movq	=1074073608, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#191, r0	; check 955
+	movq	#199, r0	; check 963
 	halt
 1:
 	movq	#0, r4
@@ -8608,23 +8659,23 @@ res_m_81_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#192, r0	; check 956
+	movq	#200, r0	; check 964
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#193, r0	; check 957
+	movq	#201, r0	; check 965
 	halt
 1:
 	movq	=1074073600, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#194, r0	; check 958
+	movq	#202, r0	; check 966
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#195, r0	; check 959
+	movq	#203, r0	; check 967
 	halt
 1:
 	movq	#0, r4
@@ -8643,24 +8694,24 @@ res_m_82_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#196, r0	; check 960
+	movq	#204, r0	; check 968
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#197, r0	; check 961
+	movq	#205, r0	; check 969
 	halt
 1:
 	lea	ins_m_82_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#198, r0	; check 962
+	movq	#206, r0	; check 970
 	halt
 1:
 	movq	=1074077704, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#199, r0	; check 963
+	movq	#207, r0	; check 971
 	halt
 1:
 	movq	#0, r4
@@ -8679,24 +8730,24 @@ res_m_82_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#200, r0	; check 964
+	movq	#208, r0	; check 972
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#201, r0	; check 965
+	movq	#209, r0	; check 973
 	halt
 1:
 	lea	ins_m_82_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#202, r0	; check 966
+	movq	#210, r0	; check 974
 	halt
 1:
 	movq	=1074077704, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#203, r0	; check 967
+	movq	#211, r0	; check 975
 	halt
 1:
 	movq	#0, r4
@@ -8715,23 +8766,23 @@ res_m_82_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#204, r0	; check 968
+	movq	#212, r0	; check 976
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#205, r0	; check 969
+	movq	#213, r0	; check 977
 	halt
 1:
 	movq	=1074077696, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#206, r0	; check 970
+	movq	#214, r0	; check 978
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#207, r0	; check 971
+	movq	#215, r0	; check 979
 	halt
 1:
 	movq	#0, r4
@@ -8750,24 +8801,24 @@ res_m_83_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#208, r0	; check 972
+	movq	#216, r0	; check 980
 	halt
 1:
-	cmp	r8, #(VECTOR_LFAULT)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#209, r0	; check 973
+	movq	#217, r0	; check 981
 	halt
 1:
 	lea	ins_m_83_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#210, r0	; check 974
+	movq	#218, r0	; check 982
 	halt
 1:
 	movq	=1074081800, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#211, r0	; check 975
+	movq	#219, r0	; check 983
 	halt
 1:
 	movq	#0, r4
@@ -8786,24 +8837,24 @@ res_m_83_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#212, r0	; check 976
+	movq	#220, r0	; check 984
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#213, r0	; check 977
+	movq	#221, r0	; check 985
 	halt
 1:
 	lea	ins_m_83_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#214, r0	; check 978
+	movq	#222, r0	; check 986
 	halt
 1:
 	movq	=1074081800, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#215, r0	; check 979
+	movq	#223, r0	; check 987
 	halt
 1:
 	movq	#0, r4
@@ -8822,23 +8873,23 @@ res_m_83_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#216, r0	; check 980
+	movq	#224, r0	; check 988
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#217, r0	; check 981
+	movq	#225, r0	; check 989
 	halt
 1:
 	movq	=1074081792, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#218, r0	; check 982
+	movq	#226, r0	; check 990
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#219, r0	; check 983
+	movq	#227, r0	; check 991
 	halt
 1:
 	movq	#0, r4
@@ -8857,24 +8908,24 @@ res_m_84_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#220, r0	; check 984
+	movq	#228, r0	; check 992
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#221, r0	; check 985
+	movq	#229, r0	; check 993
 	halt
 1:
 	lea	ins_m_84_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#222, r0	; check 986
+	movq	#230, r0	; check 994
 	halt
 1:
 	movq	=1074085896, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#223, r0	; check 987
+	movq	#231, r0	; check 995
 	halt
 1:
 	movq	#0, r4
@@ -8893,24 +8944,24 @@ res_m_84_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#224, r0	; check 988
+	movq	#232, r0	; check 996
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#225, r0	; check 989
+	movq	#233, r0	; check 997
 	halt
 1:
 	lea	ins_m_84_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#226, r0	; check 990
+	movq	#234, r0	; check 998
 	halt
 1:
 	movq	=1074085896, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#227, r0	; check 991
+	movq	#235, r0	; check 999
 	halt
 1:
 	movq	#0, r4
@@ -8929,23 +8980,23 @@ res_m_84_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#228, r0	; check 992
+	movq	#236, r0	; check 1000
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#229, r0	; check 993
+	movq	#237, r0	; check 1001
 	halt
 1:
 	movq	=1074085888, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#230, r0	; check 994
+	movq	#238, r0	; check 1002
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#231, r0	; check 995
+	movq	#239, r0	; check 1003
 	halt
 1:
 	movq	#0, r4
@@ -8964,24 +9015,24 @@ res_m_85_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#232, r0	; check 996
+	movq	#240, r0	; check 1004
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#233, r0	; check 997
+	movq	#241, r0	; check 1005
 	halt
 1:
 	lea	ins_m_85_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#234, r0	; check 998
+	movq	#242, r0	; check 1006
 	halt
 1:
 	movq	=1074089992, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#235, r0	; check 999
+	movq	#243, r0	; check 1007
 	halt
 1:
 	movq	#0, r4
@@ -9000,24 +9051,24 @@ res_m_85_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#236, r0	; check 1000
+	movq	#244, r0	; check 1008
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#237, r0	; check 1001
+	movq	#245, r0	; check 1009
 	halt
 1:
 	lea	ins_m_85_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#238, r0	; check 1002
+	movq	#246, r0	; check 1010
 	halt
 1:
 	movq	=1074089992, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#239, r0	; check 1003
+	movq	#247, r0	; check 1011
 	halt
 1:
 	movq	#0, r4
@@ -9036,23 +9087,23 @@ res_m_85_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#240, r0	; check 1004
+	movq	#248, r0	; check 1012
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#241, r0	; check 1005
+	movq	#249, r0	; check 1013
 	halt
 1:
 	movq	=1074089984, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#242, r0	; check 1006
+	movq	#250, r0	; check 1014
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#243, r0	; check 1007
+	movq	#251, r0	; check 1015
 	halt
 1:
 	movq	#0, r4
@@ -9071,24 +9122,24 @@ res_m_86_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#244, r0	; check 1008
+	movq	#252, r0	; check 1016
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#245, r0	; check 1009
+	movq	#253, r0	; check 1017
 	halt
 1:
 	lea	ins_m_86_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#246, r0	; check 1010
+	movq	#254, r0	; check 1018
 	halt
 1:
 	movq	=1074094088, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#247, r0	; check 1011
+	movq	#255, r0	; check 1019
 	halt
 1:
 	movq	#0, r4
@@ -9107,24 +9158,24 @@ res_m_86_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#248, r0	; check 1012
+	movq	#1, r0	; check 1020
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#249, r0	; check 1013
+	movq	#2, r0	; check 1021
 	halt
 1:
 	lea	ins_m_86_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#250, r0	; check 1014
+	movq	#3, r0	; check 1022
 	halt
 1:
 	movq	=1074094088, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#251, r0	; check 1015
+	movq	#4, r0	; check 1023
 	halt
 1:
 	movq	#0, r4
@@ -9143,23 +9194,23 @@ res_m_86_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#252, r0	; check 1016
+	movq	#5, r0	; check 1024
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#253, r0	; check 1017
+	movq	#6, r0	; check 1025
 	halt
 1:
 	movq	=1074094080, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#254, r0	; check 1018
+	movq	#7, r0	; check 1026
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#255, r0	; check 1019
+	movq	#8, r0	; check 1027
 	halt
 1:
 	movq	#0, r4
@@ -9178,24 +9229,24 @@ res_m_87_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#1, r0	; check 1020
+	movq	#9, r0	; check 1028
 	halt
 1:
-	cmp	r8, #(VECTOR_LFAULT)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#2, r0	; check 1021
+	movq	#10, r0	; check 1029
 	halt
 1:
 	lea	ins_m_87_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#3, r0	; check 1022
+	movq	#11, r0	; check 1030
 	halt
 1:
 	movq	=1074098184, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#4, r0	; check 1023
+	movq	#12, r0	; check 1031
 	halt
 1:
 	movq	#0, r4
@@ -9214,24 +9265,24 @@ res_m_87_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#5, r0	; check 1024
+	movq	#13, r0	; check 1032
 	halt
 1:
-	cmp	r8, #(VECTOR_SFAULT)
+	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#6, r0	; check 1025
+	movq	#14, r0	; check 1033
 	halt
 1:
 	lea	ins_m_87_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#7, r0	; check 1026
+	movq	#15, r0	; check 1034
 	halt
 1:
 	movq	=1074098184, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#8, r0	; check 1027
+	movq	#16, r0	; check 1035
 	halt
 1:
 	movq	#0, r4
@@ -9250,23 +9301,23 @@ res_m_87_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#9, r0	; check 1028
+	movq	#17, r0	; check 1036
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#10, r0	; check 1029
+	movq	#18, r0	; check 1037
 	halt
 1:
 	movq	=1074098176, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#11, r0	; check 1030
+	movq	#19, r0	; check 1038
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#12, r0	; check 1031
+	movq	#20, r0	; check 1039
 	halt
 1:
 	movq	#0, r4
@@ -9285,24 +9336,24 @@ res_m_88_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#13, r0	; check 1032
+	movq	#21, r0	; check 1040
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#14, r0	; check 1033
+	movq	#22, r0	; check 1041
 	halt
 1:
 	lea	ins_m_88_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#15, r0	; check 1034
+	movq	#23, r0	; check 1042
 	halt
 1:
 	movq	=1074102280, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#16, r0	; check 1035
+	movq	#24, r0	; check 1043
 	halt
 1:
 	movq	#0, r4
@@ -9321,24 +9372,24 @@ res_m_88_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#17, r0	; check 1036
+	movq	#25, r0	; check 1044
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#18, r0	; check 1037
+	movq	#26, r0	; check 1045
 	halt
 1:
 	lea	ins_m_88_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#19, r0	; check 1038
+	movq	#27, r0	; check 1046
 	halt
 1:
 	movq	=1074102280, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#20, r0	; check 1039
+	movq	#28, r0	; check 1047
 	halt
 1:
 	movq	#0, r4
@@ -9357,23 +9408,23 @@ res_m_88_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#21, r0	; check 1040
+	movq	#29, r0	; check 1048
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#22, r0	; check 1041
+	movq	#30, r0	; check 1049
 	halt
 1:
 	movq	=1074102272, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#23, r0	; check 1042
+	movq	#31, r0	; check 1050
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#24, r0	; check 1043
+	movq	#32, r0	; check 1051
 	halt
 1:
 	movq	#0, r4
@@ -9392,24 +9443,24 @@ res_m_89_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#25, r0	; check 1044
+	movq	#33, r0	; check 1052
 	halt
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#26, r0	; check 1045
+	movq	#34, r0	; check 1053
 	halt
 1:
 	lea	ins_m_89_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#27, r0	; check 1046
+	movq	#35, r0	; check 1054
 	halt
 1:
 	movq	=1074106376, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#28, r0	; check 1047
+	movq	#36, r0	; check 1055
 	halt
 1:
 	movq	#0, r4
@@ -9428,24 +9479,24 @@ res_m_89_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#29, r0	; check 1048
+	movq	#37, r0	; check 1056
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#30, r0	; check 1049
+	movq	#38, r0	; check 1057
 	halt
 1:
 	lea	ins_m_89_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#31, r0	; check 1050
+	movq	#39, r0	; check 1058
 	halt
 1:
 	movq	=1074106376, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#32, r0	; check 1051
+	movq	#40, r0	; check 1059
 	halt
 1:
 	movq	#0, r4
@@ -9464,23 +9515,23 @@ res_m_89_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#33, r0	; check 1052
+	movq	#41, r0	; check 1060
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#34, r0	; check 1053
+	movq	#42, r0	; check 1061
 	halt
 1:
 	movq	=1074106368, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#35, r0	; check 1054
+	movq	#43, r0	; check 1062
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#36, r0	; check 1055
+	movq	#44, r0	; check 1063
 	halt
 1:
 	movq	#0, r4
@@ -9499,24 +9550,24 @@ res_m_90_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#37, r0	; check 1056
+	movq	#45, r0	; check 1064
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#38, r0	; check 1057
+	movq	#46, r0	; check 1065
 	halt
 1:
 	lea	ins_m_90_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#39, r0	; check 1058
+	movq	#47, r0	; check 1066
 	halt
 1:
 	movq	=1074110472, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#40, r0	; check 1059
+	movq	#48, r0	; check 1067
 	halt
 1:
 	movq	#0, r4
@@ -9535,24 +9586,24 @@ res_m_90_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#41, r0	; check 1060
+	movq	#49, r0	; check 1068
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#42, r0	; check 1061
+	movq	#50, r0	; check 1069
 	halt
 1:
 	lea	ins_m_90_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#43, r0	; check 1062
+	movq	#51, r0	; check 1070
 	halt
 1:
 	movq	=1074110472, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#44, r0	; check 1063
+	movq	#52, r0	; check 1071
 	halt
 1:
 	movq	#0, r4
@@ -9571,23 +9622,23 @@ res_m_90_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#45, r0	; check 1064
+	movq	#53, r0	; check 1072
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#46, r0	; check 1065
+	movq	#54, r0	; check 1073
 	halt
 1:
 	movq	=1074110464, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#47, r0	; check 1066
+	movq	#55, r0	; check 1074
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#48, r0	; check 1067
+	movq	#56, r0	; check 1075
 	halt
 1:
 	movq	#0, r4
@@ -9606,24 +9657,24 @@ res_m_91_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#49, r0	; check 1068
+	movq	#57, r0	; check 1076
 	halt
 1:
-	cmp	r8, #(VECTOR_LFAULT)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#50, r0	; check 1069
+	movq	#58, r0	; check 1077
 	halt
 1:
 	lea	ins_m_91_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#51, r0	; check 1070
+	movq	#59, r0	; check 1078
 	halt
 1:
 	movq	=1074114568, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#52, r0	; check 1071
+	movq	#60, r0	; check 1079
 	halt
 1:
 	movq	#0, r4
@@ -9642,24 +9693,24 @@ res_m_91_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#53, r0	; check 1072
+	movq	#61, r0	; check 1080
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#54, r0	; check 1073
+	movq	#62, r0	; check 1081
 	halt
 1:
 	lea	ins_m_91_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#55, r0	; check 1074
+	movq	#63, r0	; check 1082
 	halt
 1:
 	movq	=1074114568, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#56, r0	; check 1075
+	movq	#64, r0	; check 1083
 	halt
 1:
 	movq	#0, r4
@@ -9678,23 +9729,23 @@ res_m_91_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#57, r0	; check 1076
+	movq	#65, r0	; check 1084
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#58, r0	; check 1077
+	movq	#66, r0	; check 1085
 	halt
 1:
 	movq	=1074114560, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#59, r0	; check 1078
+	movq	#67, r0	; check 1086
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#60, r0	; check 1079
+	movq	#68, r0	; check 1087
 	halt
 1:
 	movq	#0, r4
@@ -9713,24 +9764,24 @@ res_m_92_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#61, r0	; check 1080
+	movq	#69, r0	; check 1088
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#62, r0	; check 1081
+	movq	#70, r0	; check 1089
 	halt
 1:
 	lea	ins_m_92_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#63, r0	; check 1082
+	movq	#71, r0	; check 1090
 	halt
 1:
 	movq	=1074118664, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#64, r0	; check 1083
+	movq	#72, r0	; check 1091
 	halt
 1:
 	movq	#0, r4
@@ -9749,24 +9800,24 @@ res_m_92_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#65, r0	; check 1084
+	movq	#73, r0	; check 1092
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#66, r0	; check 1085
+	movq	#74, r0	; check 1093
 	halt
 1:
 	lea	ins_m_92_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#67, r0	; check 1086
+	movq	#75, r0	; check 1094
 	halt
 1:
 	movq	=1074118664, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#68, r0	; check 1087
+	movq	#76, r0	; check 1095
 	halt
 1:
 	movq	#0, r4
@@ -9785,23 +9836,23 @@ res_m_92_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#69, r0	; check 1088
+	movq	#77, r0	; check 1096
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#70, r0	; check 1089
+	movq	#78, r0	; check 1097
 	halt
 1:
 	movq	=1074118656, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#71, r0	; check 1090
+	movq	#79, r0	; check 1098
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#72, r0	; check 1091
+	movq	#80, r0	; check 1099
 	halt
 1:
 	movq	#0, r4
@@ -9820,24 +9871,24 @@ res_m_93_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#73, r0	; check 1092
+	movq	#81, r0	; check 1100
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#74, r0	; check 1093
+	movq	#82, r0	; check 1101
 	halt
 1:
 	lea	ins_m_93_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#75, r0	; check 1094
+	movq	#83, r0	; check 1102
 	halt
 1:
 	movq	=1074122760, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#76, r0	; check 1095
+	movq	#84, r0	; check 1103
 	halt
 1:
 	movq	#0, r4
@@ -9856,24 +9907,24 @@ res_m_93_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#77, r0	; check 1096
+	movq	#85, r0	; check 1104
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#78, r0	; check 1097
+	movq	#86, r0	; check 1105
 	halt
 1:
 	lea	ins_m_93_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#79, r0	; check 1098
+	movq	#87, r0	; check 1106
 	halt
 1:
 	movq	=1074122760, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#80, r0	; check 1099
+	movq	#88, r0	; check 1107
 	halt
 1:
 	movq	#0, r4
@@ -9892,23 +9943,23 @@ res_m_93_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#81, r0	; check 1100
+	movq	#89, r0	; check 1108
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#82, r0	; check 1101
+	movq	#90, r0	; check 1109
 	halt
 1:
 	movq	=1074122752, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#83, r0	; check 1102
+	movq	#91, r0	; check 1110
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#84, r0	; check 1103
+	movq	#92, r0	; check 1111
 	halt
 1:
 	movq	#0, r4
@@ -9927,24 +9978,24 @@ res_m_94_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#85, r0	; check 1104
+	movq	#93, r0	; check 1112
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#86, r0	; check 1105
+	movq	#94, r0	; check 1113
 	halt
 1:
 	lea	ins_m_94_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#87, r0	; check 1106
+	movq	#95, r0	; check 1114
 	halt
 1:
 	movq	=1074126856, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#88, r0	; check 1107
+	movq	#96, r0	; check 1115
 	halt
 1:
 	movq	#0, r4
@@ -9963,24 +10014,24 @@ res_m_94_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#89, r0	; check 1108
+	movq	#97, r0	; check 1116
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#90, r0	; check 1109
+	movq	#98, r0	; check 1117
 	halt
 1:
 	lea	ins_m_94_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#91, r0	; check 1110
+	movq	#99, r0	; check 1118
 	halt
 1:
 	movq	=1074126856, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#92, r0	; check 1111
+	movq	#100, r0	; check 1119
 	halt
 1:
 	movq	#0, r4
@@ -9999,23 +10050,23 @@ res_m_94_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#93, r0	; check 1112
+	movq	#101, r0	; check 1120
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#94, r0	; check 1113
+	movq	#102, r0	; check 1121
 	halt
 1:
 	movq	=1074126848, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#95, r0	; check 1114
+	movq	#103, r0	; check 1122
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#96, r0	; check 1115
+	movq	#104, r0	; check 1123
 	halt
 1:
 	movq	#0, r4
@@ -10034,24 +10085,24 @@ res_m_95_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#97, r0	; check 1116
+	movq	#105, r0	; check 1124
 	halt
 1:
-	cmp	r8, #(VECTOR_LFAULT)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#98, r0	; check 1117
+	movq	#106, r0	; check 1125
 	halt
 1:
 	lea	ins_m_95_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#99, r0	; check 1118
+	movq	#107, r0	; check 1126
 	halt
 1:
 	movq	=1074130952, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#100, r0	; check 1119
+	movq	#108, r0	; check 1127
 	halt
 1:
 	movq	#0, r4
@@ -10070,24 +10121,24 @@ res_m_95_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#101, r0	; check 1120
+	movq	#109, r0	; check 1128
 	halt
 1:
-	cmp	r8, #(VECTOR_SFAULT)
+	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#102, r0	; check 1121
+	movq	#110, r0	; check 1129
 	halt
 1:
 	lea	ins_m_95_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#103, r0	; check 1122
+	movq	#111, r0	; check 1130
 	halt
 1:
 	movq	=1074130952, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#104, r0	; check 1123
+	movq	#112, r0	; check 1131
 	halt
 1:
 	movq	#0, r4
@@ -10106,23 +10157,23 @@ res_m_95_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#105, r0	; check 1124
+	movq	#113, r0	; check 1132
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#106, r0	; check 1125
+	movq	#114, r0	; check 1133
 	halt
 1:
 	movq	=1074130944, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#107, r0	; check 1126
+	movq	#115, r0	; check 1134
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#108, r0	; check 1127
+	movq	#116, r0	; check 1135
 	halt
 1:
 	movq	#0, r4
@@ -10141,24 +10192,24 @@ res_m_96_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#109, r0	; check 1128
+	movq	#117, r0	; check 1136
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#110, r0	; check 1129
+	movq	#118, r0	; check 1137
 	halt
 1:
 	lea	ins_m_96_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#111, r0	; check 1130
+	movq	#119, r0	; check 1138
 	halt
 1:
 	movq	=1074135048, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#112, r0	; check 1131
+	movq	#120, r0	; check 1139
 	halt
 1:
 	movq	#0, r4
@@ -10177,24 +10228,24 @@ res_m_96_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#113, r0	; check 1132
+	movq	#121, r0	; check 1140
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#114, r0	; check 1133
+	movq	#122, r0	; check 1141
 	halt
 1:
 	lea	ins_m_96_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#115, r0	; check 1134
+	movq	#123, r0	; check 1142
 	halt
 1:
 	movq	=1074135048, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#116, r0	; check 1135
+	movq	#124, r0	; check 1143
 	halt
 1:
 	movq	#0, r4
@@ -10213,23 +10264,23 @@ res_m_96_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#117, r0	; check 1136
+	movq	#125, r0	; check 1144
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#118, r0	; check 1137
+	movq	#126, r0	; check 1145
 	halt
 1:
 	movq	=1074135040, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#119, r0	; check 1138
+	movq	#127, r0	; check 1146
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#120, r0	; check 1139
+	movq	#128, r0	; check 1147
 	halt
 1:
 	movq	#0, r4
@@ -10248,24 +10299,24 @@ res_m_97_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#121, r0	; check 1140
+	movq	#129, r0	; check 1148
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#122, r0	; check 1141
+	movq	#130, r0	; check 1149
 	halt
 1:
 	lea	ins_m_97_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#123, r0	; check 1142
+	movq	#131, r0	; check 1150
 	halt
 1:
 	movq	=1074139144, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#124, r0	; check 1143
+	movq	#132, r0	; check 1151
 	halt
 1:
 	movq	#0, r4
@@ -10284,24 +10335,24 @@ res_m_97_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#125, r0	; check 1144
+	movq	#133, r0	; check 1152
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#126, r0	; check 1145
+	movq	#134, r0	; check 1153
 	halt
 1:
 	lea	ins_m_97_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#127, r0	; check 1146
+	movq	#135, r0	; check 1154
 	halt
 1:
 	movq	=1074139144, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#128, r0	; check 1147
+	movq	#136, r0	; check 1155
 	halt
 1:
 	movq	#0, r4
@@ -10320,23 +10371,23 @@ res_m_97_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#129, r0	; check 1148
+	movq	#137, r0	; check 1156
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#130, r0	; check 1149
+	movq	#138, r0	; check 1157
 	halt
 1:
 	movq	=1074139136, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#131, r0	; check 1150
+	movq	#139, r0	; check 1158
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#132, r0	; check 1151
+	movq	#140, r0	; check 1159
 	halt
 1:
 	movq	#0, r4
@@ -10355,24 +10406,24 @@ res_m_98_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#133, r0	; check 1152
+	movq	#141, r0	; check 1160
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#134, r0	; check 1153
+	movq	#142, r0	; check 1161
 	halt
 1:
 	lea	ins_m_98_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#135, r0	; check 1154
+	movq	#143, r0	; check 1162
 	halt
 1:
 	movq	=1074143240, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#136, r0	; check 1155
+	movq	#144, r0	; check 1163
 	halt
 1:
 	movq	#0, r4
@@ -10391,24 +10442,24 @@ res_m_98_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#137, r0	; check 1156
+	movq	#145, r0	; check 1164
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#138, r0	; check 1157
+	movq	#146, r0	; check 1165
 	halt
 1:
 	lea	ins_m_98_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#139, r0	; check 1158
+	movq	#147, r0	; check 1166
 	halt
 1:
 	movq	=1074143240, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#140, r0	; check 1159
+	movq	#148, r0	; check 1167
 	halt
 1:
 	movq	#0, r4
@@ -10427,23 +10478,23 @@ res_m_98_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#141, r0	; check 1160
+	movq	#149, r0	; check 1168
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#142, r0	; check 1161
+	movq	#150, r0	; check 1169
 	halt
 1:
 	movq	=1074143232, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#143, r0	; check 1162
+	movq	#151, r0	; check 1170
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#144, r0	; check 1163
+	movq	#152, r0	; check 1171
 	halt
 1:
 	movq	#0, r4
@@ -10461,12 +10512,12 @@ ins_m_99_load:
 res_m_99_load:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#145, r0	; check 1164
+	movq	#153, r0	; check 1172
 	halt
 1:
 	cmp	r5, #(4660)
 	beq	1f
-	movq	#146, r0	; check 1165
+	movq	#154, r0	; check 1173
 	halt
 1:
 	movq	#0, r4
@@ -10485,24 +10536,24 @@ res_m_99_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#147, r0	; check 1166
+	movq	#155, r0	; check 1174
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#148, r0	; check 1167
+	movq	#156, r0	; check 1175
 	halt
 1:
 	lea	ins_m_99_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#149, r0	; check 1168
+	movq	#157, r0	; check 1176
 	halt
 1:
 	movq	=1074147336, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#150, r0	; check 1169
+	movq	#158, r0	; check 1177
 	halt
 1:
 	movq	#0, r4
@@ -10521,23 +10572,23 @@ res_m_99_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#151, r0	; check 1170
+	movq	#159, r0	; check 1178
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#152, r0	; check 1171
+	movq	#160, r0	; check 1179
 	halt
 1:
 	movq	=1074147328, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#153, r0	; check 1172
+	movq	#161, r0	; check 1180
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#154, r0	; check 1173
+	movq	#162, r0	; check 1181
 	halt
 1:
 	movq	#0, r4
@@ -10556,24 +10607,24 @@ res_m_100_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#155, r0	; check 1174
+	movq	#163, r0	; check 1182
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#156, r0	; check 1175
+	movq	#164, r0	; check 1183
 	halt
 1:
 	lea	ins_m_100_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#157, r0	; check 1176
+	movq	#165, r0	; check 1184
 	halt
 1:
 	movq	=1074151432, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#158, r0	; check 1177
+	movq	#166, r0	; check 1185
 	halt
 1:
 	movq	#0, r4
@@ -10592,24 +10643,24 @@ res_m_100_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#159, r0	; check 1178
+	movq	#167, r0	; check 1186
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#160, r0	; check 1179
+	movq	#168, r0	; check 1187
 	halt
 1:
 	lea	ins_m_100_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#161, r0	; check 1180
+	movq	#169, r0	; check 1188
 	halt
 1:
 	movq	=1074151432, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#162, r0	; check 1181
+	movq	#170, r0	; check 1189
 	halt
 1:
 	movq	#0, r4
@@ -10628,23 +10679,23 @@ res_m_100_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#163, r0	; check 1182
+	movq	#171, r0	; check 1190
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#164, r0	; check 1183
+	movq	#172, r0	; check 1191
 	halt
 1:
 	movq	=1074151424, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#165, r0	; check 1184
+	movq	#173, r0	; check 1192
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#166, r0	; check 1185
+	movq	#174, r0	; check 1193
 	halt
 1:
 	movq	#0, r4
@@ -10663,24 +10714,24 @@ res_m_101_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#167, r0	; check 1186
+	movq	#175, r0	; check 1194
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#168, r0	; check 1187
+	movq	#176, r0	; check 1195
 	halt
 1:
 	lea	ins_m_101_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#169, r0	; check 1188
+	movq	#177, r0	; check 1196
 	halt
 1:
 	movq	=1074155528, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#170, r0	; check 1189
+	movq	#178, r0	; check 1197
 	halt
 1:
 	movq	#0, r4
@@ -10699,24 +10750,24 @@ res_m_101_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#171, r0	; check 1190
+	movq	#179, r0	; check 1198
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#172, r0	; check 1191
+	movq	#180, r0	; check 1199
 	halt
 1:
 	lea	ins_m_101_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#173, r0	; check 1192
+	movq	#181, r0	; check 1200
 	halt
 1:
 	movq	=1074155528, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#174, r0	; check 1193
+	movq	#182, r0	; check 1201
 	halt
 1:
 	movq	#0, r4
@@ -10735,23 +10786,23 @@ res_m_101_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#175, r0	; check 1194
+	movq	#183, r0	; check 1202
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#176, r0	; check 1195
+	movq	#184, r0	; check 1203
 	halt
 1:
 	movq	=1074155520, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#177, r0	; check 1196
+	movq	#185, r0	; check 1204
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#178, r0	; check 1197
+	movq	#186, r0	; check 1205
 	halt
 1:
 	movq	#0, r4
@@ -10770,24 +10821,24 @@ res_m_102_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#179, r0	; check 1198
+	movq	#187, r0	; check 1206
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#180, r0	; check 1199
+	movq	#188, r0	; check 1207
 	halt
 1:
 	lea	ins_m_102_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#181, r0	; check 1200
+	movq	#189, r0	; check 1208
 	halt
 1:
 	movq	=1074159624, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#182, r0	; check 1201
+	movq	#190, r0	; check 1209
 	halt
 1:
 	movq	#0, r4
@@ -10806,24 +10857,24 @@ res_m_102_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#183, r0	; check 1202
+	movq	#191, r0	; check 1210
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#184, r0	; check 1203
+	movq	#192, r0	; check 1211
 	halt
 1:
 	lea	ins_m_102_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#185, r0	; check 1204
+	movq	#193, r0	; check 1212
 	halt
 1:
 	movq	=1074159624, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#186, r0	; check 1205
+	movq	#194, r0	; check 1213
 	halt
 1:
 	movq	#0, r4
@@ -10842,23 +10893,23 @@ res_m_102_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#187, r0	; check 1206
+	movq	#195, r0	; check 1214
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#188, r0	; check 1207
+	movq	#196, r0	; check 1215
 	halt
 1:
 	movq	=1074159616, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#189, r0	; check 1208
+	movq	#197, r0	; check 1216
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#190, r0	; check 1209
+	movq	#198, r0	; check 1217
 	halt
 1:
 	movq	#0, r4
@@ -10876,12 +10927,12 @@ ins_m_103_load:
 res_m_103_load:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#191, r0	; check 1210
+	movq	#199, r0	; check 1218
 	halt
 1:
 	cmp	r5, #(4660)
 	beq	1f
-	movq	#192, r0	; check 1211
+	movq	#200, r0	; check 1219
 	halt
 1:
 	movq	#0, r4
@@ -10899,7 +10950,7 @@ ins_m_103_store:
 res_m_103_store:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#193, r0	; check 1212
+	movq	#201, r0	; check 1220
 	halt
 1:
 	movq	#0, r4
@@ -10918,23 +10969,23 @@ res_m_103_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#194, r0	; check 1213
+	movq	#202, r0	; check 1221
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#195, r0	; check 1214
+	movq	#203, r0	; check 1222
 	halt
 1:
 	movq	=1074163712, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#196, r0	; check 1215
+	movq	#204, r0	; check 1223
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#197, r0	; check 1216
+	movq	#205, r0	; check 1224
 	halt
 1:
 	movq	#0, r4
@@ -10953,24 +11004,24 @@ res_m_104_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#198, r0	; check 1217
+	movq	#206, r0	; check 1225
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#199, r0	; check 1218
+	movq	#207, r0	; check 1226
 	halt
 1:
 	lea	ins_m_104_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#200, r0	; check 1219
+	movq	#208, r0	; check 1227
 	halt
 1:
 	movq	=1074167816, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#201, r0	; check 1220
+	movq	#209, r0	; check 1228
 	halt
 1:
 	movq	#0, r4
@@ -10989,24 +11040,24 @@ res_m_104_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#202, r0	; check 1221
+	movq	#210, r0	; check 1229
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#203, r0	; check 1222
+	movq	#211, r0	; check 1230
 	halt
 1:
 	lea	ins_m_104_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#204, r0	; check 1223
+	movq	#212, r0	; check 1231
 	halt
 1:
 	movq	=1074167816, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#205, r0	; check 1224
+	movq	#213, r0	; check 1232
 	halt
 1:
 	movq	#0, r4
@@ -11025,23 +11076,23 @@ res_m_104_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#206, r0	; check 1225
+	movq	#214, r0	; check 1233
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#207, r0	; check 1226
+	movq	#215, r0	; check 1234
 	halt
 1:
 	movq	=1074167808, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#208, r0	; check 1227
+	movq	#216, r0	; check 1235
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#209, r0	; check 1228
+	movq	#217, r0	; check 1236
 	halt
 1:
 	movq	#0, r4
@@ -11060,24 +11111,24 @@ res_m_105_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#210, r0	; check 1229
+	movq	#218, r0	; check 1237
 	halt
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#211, r0	; check 1230
+	movq	#219, r0	; check 1238
 	halt
 1:
 	lea	ins_m_105_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#212, r0	; check 1231
+	movq	#220, r0	; check 1239
 	halt
 1:
 	movq	=1074171912, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#213, r0	; check 1232
+	movq	#221, r0	; check 1240
 	halt
 1:
 	movq	#0, r4
@@ -11096,24 +11147,24 @@ res_m_105_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#214, r0	; check 1233
+	movq	#222, r0	; check 1241
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#215, r0	; check 1234
+	movq	#223, r0	; check 1242
 	halt
 1:
 	lea	ins_m_105_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#216, r0	; check 1235
+	movq	#224, r0	; check 1243
 	halt
 1:
 	movq	=1074171912, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#217, r0	; check 1236
+	movq	#225, r0	; check 1244
 	halt
 1:
 	movq	#0, r4
@@ -11130,7 +11181,7 @@ ins_m_105_fetch:
 res_m_105_fetch:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#218, r0	; check 1237
+	movq	#226, r0	; check 1245
 	halt
 1:
 	movq	#0, r4
@@ -11149,24 +11200,24 @@ res_m_106_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#219, r0	; check 1238
+	movq	#227, r0	; check 1246
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#220, r0	; check 1239
+	movq	#228, r0	; check 1247
 	halt
 1:
 	lea	ins_m_106_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#221, r0	; check 1240
+	movq	#229, r0	; check 1248
 	halt
 1:
 	movq	=1074176008, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#222, r0	; check 1241
+	movq	#230, r0	; check 1249
 	halt
 1:
 	movq	#0, r4
@@ -11185,24 +11236,24 @@ res_m_106_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#223, r0	; check 1242
+	movq	#231, r0	; check 1250
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#224, r0	; check 1243
+	movq	#232, r0	; check 1251
 	halt
 1:
 	lea	ins_m_106_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#225, r0	; check 1244
+	movq	#233, r0	; check 1252
 	halt
 1:
 	movq	=1074176008, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#226, r0	; check 1245
+	movq	#234, r0	; check 1253
 	halt
 1:
 	movq	#0, r4
@@ -11221,23 +11272,23 @@ res_m_106_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#227, r0	; check 1246
+	movq	#235, r0	; check 1254
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#228, r0	; check 1247
+	movq	#236, r0	; check 1255
 	halt
 1:
 	movq	=1074176000, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#229, r0	; check 1248
+	movq	#237, r0	; check 1256
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#230, r0	; check 1249
+	movq	#238, r0	; check 1257
 	halt
 1:
 	movq	#0, r4
@@ -11255,12 +11306,12 @@ ins_m_107_load:
 res_m_107_load:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#231, r0	; check 1250
+	movq	#239, r0	; check 1258
 	halt
 1:
 	cmp	r5, #(4660)
 	beq	1f
-	movq	#232, r0	; check 1251
+	movq	#240, r0	; check 1259
 	halt
 1:
 	movq	#0, r4
@@ -11279,24 +11330,24 @@ res_m_107_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#233, r0	; check 1252
+	movq	#241, r0	; check 1260
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#234, r0	; check 1253
+	movq	#242, r0	; check 1261
 	halt
 1:
 	lea	ins_m_107_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#235, r0	; check 1254
+	movq	#243, r0	; check 1262
 	halt
 1:
 	movq	=1074180104, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#236, r0	; check 1255
+	movq	#244, r0	; check 1263
 	halt
 1:
 	movq	#0, r4
@@ -11313,7 +11364,7 @@ ins_m_107_fetch:
 res_m_107_fetch:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#237, r0	; check 1256
+	movq	#245, r0	; check 1264
 	halt
 1:
 	movq	#0, r4
@@ -11332,24 +11383,24 @@ res_m_108_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#238, r0	; check 1257
+	movq	#246, r0	; check 1265
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#239, r0	; check 1258
+	movq	#247, r0	; check 1266
 	halt
 1:
 	lea	ins_m_108_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#240, r0	; check 1259
+	movq	#248, r0	; check 1267
 	halt
 1:
 	movq	=1074184200, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#241, r0	; check 1260
+	movq	#249, r0	; check 1268
 	halt
 1:
 	movq	#0, r4
@@ -11368,24 +11419,24 @@ res_m_108_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#242, r0	; check 1261
+	movq	#250, r0	; check 1269
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#243, r0	; check 1262
+	movq	#251, r0	; check 1270
 	halt
 1:
 	lea	ins_m_108_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#244, r0	; check 1263
+	movq	#252, r0	; check 1271
 	halt
 1:
 	movq	=1074184200, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#245, r0	; check 1264
+	movq	#253, r0	; check 1272
 	halt
 1:
 	movq	#0, r4
@@ -11404,23 +11455,23 @@ res_m_108_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#246, r0	; check 1265
+	movq	#254, r0	; check 1273
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#247, r0	; check 1266
+	movq	#255, r0	; check 1274
 	halt
 1:
 	movq	=1074184192, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#248, r0	; check 1267
+	movq	#1, r0	; check 1275
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#249, r0	; check 1268
+	movq	#2, r0	; check 1276
 	halt
 1:
 	movq	#0, r4
@@ -11439,24 +11490,24 @@ res_m_109_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#250, r0	; check 1269
+	movq	#3, r0	; check 1277
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#251, r0	; check 1270
+	movq	#4, r0	; check 1278
 	halt
 1:
 	lea	ins_m_109_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#252, r0	; check 1271
+	movq	#5, r0	; check 1279
 	halt
 1:
 	movq	=1074188296, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#253, r0	; check 1272
+	movq	#6, r0	; check 1280
 	halt
 1:
 	movq	#0, r4
@@ -11475,24 +11526,24 @@ res_m_109_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#254, r0	; check 1273
+	movq	#7, r0	; check 1281
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#255, r0	; check 1274
+	movq	#8, r0	; check 1282
 	halt
 1:
 	lea	ins_m_109_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#1, r0	; check 1275
+	movq	#9, r0	; check 1283
 	halt
 1:
 	movq	=1074188296, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#2, r0	; check 1276
+	movq	#10, r0	; check 1284
 	halt
 1:
 	movq	#0, r4
@@ -11511,23 +11562,23 @@ res_m_109_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#3, r0	; check 1277
+	movq	#11, r0	; check 1285
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#4, r0	; check 1278
+	movq	#12, r0	; check 1286
 	halt
 1:
 	movq	=1074188288, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#5, r0	; check 1279
+	movq	#13, r0	; check 1287
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#6, r0	; check 1280
+	movq	#14, r0	; check 1288
 	halt
 1:
 	movq	#0, r4
@@ -11546,24 +11597,24 @@ res_m_110_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#7, r0	; check 1281
+	movq	#15, r0	; check 1289
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#8, r0	; check 1282
+	movq	#16, r0	; check 1290
 	halt
 1:
 	lea	ins_m_110_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#9, r0	; check 1283
+	movq	#17, r0	; check 1291
 	halt
 1:
 	movq	=1074192392, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#10, r0	; check 1284
+	movq	#18, r0	; check 1292
 	halt
 1:
 	movq	#0, r4
@@ -11582,24 +11633,24 @@ res_m_110_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#11, r0	; check 1285
+	movq	#19, r0	; check 1293
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#12, r0	; check 1286
+	movq	#20, r0	; check 1294
 	halt
 1:
 	lea	ins_m_110_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#13, r0	; check 1287
+	movq	#21, r0	; check 1295
 	halt
 1:
 	movq	=1074192392, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#14, r0	; check 1288
+	movq	#22, r0	; check 1296
 	halt
 1:
 	movq	#0, r4
@@ -11618,23 +11669,23 @@ res_m_110_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#15, r0	; check 1289
+	movq	#23, r0	; check 1297
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#16, r0	; check 1290
+	movq	#24, r0	; check 1298
 	halt
 1:
 	movq	=1074192384, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#17, r0	; check 1291
+	movq	#25, r0	; check 1299
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#18, r0	; check 1292
+	movq	#26, r0	; check 1300
 	halt
 1:
 	movq	#0, r4
@@ -11652,12 +11703,12 @@ ins_m_111_load:
 res_m_111_load:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#19, r0	; check 1293
+	movq	#27, r0	; check 1301
 	halt
 1:
 	cmp	r5, #(4660)
 	beq	1f
-	movq	#20, r0	; check 1294
+	movq	#28, r0	; check 1302
 	halt
 1:
 	movq	#0, r4
@@ -11675,7 +11726,7 @@ ins_m_111_store:
 res_m_111_store:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#21, r0	; check 1295
+	movq	#29, r0	; check 1303
 	halt
 1:
 	movq	#0, r4
@@ -11692,7 +11743,7 @@ ins_m_111_fetch:
 res_m_111_fetch:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#22, r0	; check 1296
+	movq	#30, r0	; check 1304
 	halt
 1:
 	movq	#0, r4
@@ -11711,24 +11762,24 @@ res_m_112_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#23, r0	; check 1297
+	movq	#31, r0	; check 1305
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#24, r0	; check 1298
+	movq	#32, r0	; check 1306
 	halt
 1:
 	lea	ins_m_112_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#25, r0	; check 1299
+	movq	#33, r0	; check 1307
 	halt
 1:
 	movq	=1074200584, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#26, r0	; check 1300
+	movq	#34, r0	; check 1308
 	halt
 1:
 	movq	#0, r4
@@ -11747,24 +11798,24 @@ res_m_112_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#27, r0	; check 1301
+	movq	#35, r0	; check 1309
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#28, r0	; check 1302
+	movq	#36, r0	; check 1310
 	halt
 1:
 	lea	ins_m_112_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#29, r0	; check 1303
+	movq	#37, r0	; check 1311
 	halt
 1:
 	movq	=1074200584, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#30, r0	; check 1304
+	movq	#38, r0	; check 1312
 	halt
 1:
 	movq	#0, r4
@@ -11783,23 +11834,23 @@ res_m_112_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#31, r0	; check 1305
+	movq	#39, r0	; check 1313
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#32, r0	; check 1306
+	movq	#40, r0	; check 1314
 	halt
 1:
 	movq	=1074200576, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#33, r0	; check 1307
+	movq	#41, r0	; check 1315
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#34, r0	; check 1308
+	movq	#42, r0	; check 1316
 	halt
 1:
 	movq	#0, r4
@@ -11818,24 +11869,24 @@ res_m_113_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#35, r0	; check 1309
+	movq	#43, r0	; check 1317
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#36, r0	; check 1310
+	movq	#44, r0	; check 1318
 	halt
 1:
 	lea	ins_m_113_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#37, r0	; check 1311
+	movq	#45, r0	; check 1319
 	halt
 1:
 	movq	=1074204680, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#38, r0	; check 1312
+	movq	#46, r0	; check 1320
 	halt
 1:
 	movq	#0, r4
@@ -11854,24 +11905,24 @@ res_m_113_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#39, r0	; check 1313
+	movq	#47, r0	; check 1321
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#40, r0	; check 1314
+	movq	#48, r0	; check 1322
 	halt
 1:
 	lea	ins_m_113_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#41, r0	; check 1315
+	movq	#49, r0	; check 1323
 	halt
 1:
 	movq	=1074204680, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#42, r0	; check 1316
+	movq	#50, r0	; check 1324
 	halt
 1:
 	movq	#0, r4
@@ -11890,23 +11941,23 @@ res_m_113_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#43, r0	; check 1317
+	movq	#51, r0	; check 1325
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#44, r0	; check 1318
+	movq	#52, r0	; check 1326
 	halt
 1:
 	movq	=1074204672, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#45, r0	; check 1319
+	movq	#53, r0	; check 1327
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#46, r0	; check 1320
+	movq	#54, r0	; check 1328
 	halt
 1:
 	movq	#0, r4
@@ -11925,24 +11976,24 @@ res_m_114_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#47, r0	; check 1321
+	movq	#55, r0	; check 1329
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#48, r0	; check 1322
+	movq	#56, r0	; check 1330
 	halt
 1:
 	lea	ins_m_114_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#49, r0	; check 1323
+	movq	#57, r0	; check 1331
 	halt
 1:
 	movq	=1074208776, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#50, r0	; check 1324
+	movq	#58, r0	; check 1332
 	halt
 1:
 	movq	#0, r4
@@ -11961,24 +12012,24 @@ res_m_114_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#51, r0	; check 1325
+	movq	#59, r0	; check 1333
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#52, r0	; check 1326
+	movq	#60, r0	; check 1334
 	halt
 1:
 	lea	ins_m_114_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#53, r0	; check 1327
+	movq	#61, r0	; check 1335
 	halt
 1:
 	movq	=1074208776, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#54, r0	; check 1328
+	movq	#62, r0	; check 1336
 	halt
 1:
 	movq	#0, r4
@@ -11997,23 +12048,23 @@ res_m_114_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#55, r0	; check 1329
+	movq	#63, r0	; check 1337
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#56, r0	; check 1330
+	movq	#64, r0	; check 1338
 	halt
 1:
 	movq	=1074208768, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#57, r0	; check 1331
+	movq	#65, r0	; check 1339
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#58, r0	; check 1332
+	movq	#66, r0	; check 1340
 	halt
 1:
 	movq	#0, r4
@@ -12029,14 +12080,27 @@ res_m_114_fetch:
 ins_m_115_load:
 	movq	8(r3), r5
 res_m_115_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#59, r0	; check 1333
+	movq	#67, r0	; check 1341
 	halt
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#60, r0	; check 1334
+	movq	#68, r0	; check 1342
+	halt
+1:
+	lea	ins_m_115_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#69, r0	; check 1343
+	halt
+1:
+	movq	=1074212872, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#70, r0	; check 1344
 	halt
 1:
 	movq	#0, r4
@@ -12055,24 +12119,24 @@ res_m_115_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#61, r0	; check 1335
+	movq	#71, r0	; check 1345
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#62, r0	; check 1336
+	movq	#72, r0	; check 1346
 	halt
 1:
 	lea	ins_m_115_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#63, r0	; check 1337
+	movq	#73, r0	; check 1347
 	halt
 1:
 	movq	=1074212872, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#64, r0	; check 1338
+	movq	#74, r0	; check 1348
 	halt
 1:
 	movq	#0, r4
@@ -12091,23 +12155,23 @@ res_m_115_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#65, r0	; check 1339
+	movq	#75, r0	; check 1349
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#66, r0	; check 1340
+	movq	#76, r0	; check 1350
 	halt
 1:
 	movq	=1074212864, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#67, r0	; check 1341
+	movq	#77, r0	; check 1351
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#68, r0	; check 1342
+	movq	#78, r0	; check 1352
 	halt
 1:
 	movq	#0, r4
@@ -12126,24 +12190,24 @@ res_m_116_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#69, r0	; check 1343
+	movq	#79, r0	; check 1353
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#70, r0	; check 1344
+	movq	#80, r0	; check 1354
 	halt
 1:
 	lea	ins_m_116_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#71, r0	; check 1345
+	movq	#81, r0	; check 1355
 	halt
 1:
 	movq	=1074216968, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#72, r0	; check 1346
+	movq	#82, r0	; check 1356
 	halt
 1:
 	movq	#0, r4
@@ -12162,24 +12226,24 @@ res_m_116_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#73, r0	; check 1347
+	movq	#83, r0	; check 1357
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#74, r0	; check 1348
+	movq	#84, r0	; check 1358
 	halt
 1:
 	lea	ins_m_116_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#75, r0	; check 1349
+	movq	#85, r0	; check 1359
 	halt
 1:
 	movq	=1074216968, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#76, r0	; check 1350
+	movq	#86, r0	; check 1360
 	halt
 1:
 	movq	#0, r4
@@ -12198,23 +12262,23 @@ res_m_116_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#77, r0	; check 1351
+	movq	#87, r0	; check 1361
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#78, r0	; check 1352
+	movq	#88, r0	; check 1362
 	halt
 1:
 	movq	=1074216960, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#79, r0	; check 1353
+	movq	#89, r0	; check 1363
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#80, r0	; check 1354
+	movq	#90, r0	; check 1364
 	halt
 1:
 	movq	#0, r4
@@ -12233,24 +12297,24 @@ res_m_117_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#81, r0	; check 1355
+	movq	#91, r0	; check 1365
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#82, r0	; check 1356
+	movq	#92, r0	; check 1366
 	halt
 1:
 	lea	ins_m_117_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#83, r0	; check 1357
+	movq	#93, r0	; check 1367
 	halt
 1:
 	movq	=1074221064, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#84, r0	; check 1358
+	movq	#94, r0	; check 1368
 	halt
 1:
 	movq	#0, r4
@@ -12269,24 +12333,24 @@ res_m_117_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#85, r0	; check 1359
+	movq	#95, r0	; check 1369
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#86, r0	; check 1360
+	movq	#96, r0	; check 1370
 	halt
 1:
 	lea	ins_m_117_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#87, r0	; check 1361
+	movq	#97, r0	; check 1371
 	halt
 1:
 	movq	=1074221064, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#88, r0	; check 1362
+	movq	#98, r0	; check 1372
 	halt
 1:
 	movq	#0, r4
@@ -12305,23 +12369,23 @@ res_m_117_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#89, r0	; check 1363
+	movq	#99, r0	; check 1373
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#90, r0	; check 1364
+	movq	#100, r0	; check 1374
 	halt
 1:
 	movq	=1074221056, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#91, r0	; check 1365
+	movq	#101, r0	; check 1375
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#92, r0	; check 1366
+	movq	#102, r0	; check 1376
 	halt
 1:
 	movq	#0, r4
@@ -12340,24 +12404,24 @@ res_m_118_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#93, r0	; check 1367
+	movq	#103, r0	; check 1377
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#94, r0	; check 1368
+	movq	#104, r0	; check 1378
 	halt
 1:
 	lea	ins_m_118_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#95, r0	; check 1369
+	movq	#105, r0	; check 1379
 	halt
 1:
 	movq	=1074225160, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#96, r0	; check 1370
+	movq	#106, r0	; check 1380
 	halt
 1:
 	movq	#0, r4
@@ -12376,24 +12440,24 @@ res_m_118_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#97, r0	; check 1371
+	movq	#107, r0	; check 1381
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#98, r0	; check 1372
+	movq	#108, r0	; check 1382
 	halt
 1:
 	lea	ins_m_118_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#99, r0	; check 1373
+	movq	#109, r0	; check 1383
 	halt
 1:
 	movq	=1074225160, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#100, r0	; check 1374
+	movq	#110, r0	; check 1384
 	halt
 1:
 	movq	#0, r4
@@ -12412,23 +12476,23 @@ res_m_118_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#101, r0	; check 1375
+	movq	#111, r0	; check 1385
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#102, r0	; check 1376
+	movq	#112, r0	; check 1386
 	halt
 1:
 	movq	=1074225152, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#103, r0	; check 1377
+	movq	#113, r0	; check 1387
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#104, r0	; check 1378
+	movq	#114, r0	; check 1388
 	halt
 1:
 	movq	#0, r4
@@ -12444,14 +12508,27 @@ res_m_118_fetch:
 ins_m_119_load:
 	movq	8(r3), r5
 res_m_119_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#105, r0	; check 1379
+	movq	#115, r0	; check 1389
 	halt
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#106, r0	; check 1380
+	movq	#116, r0	; check 1390
+	halt
+1:
+	lea	ins_m_119_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#117, r0	; check 1391
+	halt
+1:
+	movq	=1074229256, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#118, r0	; check 1392
 	halt
 1:
 	movq	#0, r4
@@ -12467,9 +12544,27 @@ res_m_119_load:
 ins_m_119_store:
 	movq	r5, 8(r3)
 res_m_119_store:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#107, r0	; check 1381
+	movq	#119, r0	; check 1393
+	halt
+1:
+	cmp	r8, #(VECTOR_SPROT)
+	beq	1f
+	movq	#120, r0	; check 1394
+	halt
+1:
+	lea	ins_m_119_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#121, r0	; check 1395
+	halt
+1:
+	movq	=1074229256, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#122, r0	; check 1396
 	halt
 1:
 	movq	#0, r4
@@ -12488,23 +12583,23 @@ res_m_119_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#108, r0	; check 1382
+	movq	#123, r0	; check 1397
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#109, r0	; check 1383
+	movq	#124, r0	; check 1398
 	halt
 1:
 	movq	=1074229248, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#110, r0	; check 1384
+	movq	#125, r0	; check 1399
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#111, r0	; check 1385
+	movq	#126, r0	; check 1400
 	halt
 1:
 	movq	#0, r4
@@ -12523,24 +12618,24 @@ res_m_120_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#112, r0	; check 1386
+	movq	#127, r0	; check 1401
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#113, r0	; check 1387
+	movq	#128, r0	; check 1402
 	halt
 1:
 	lea	ins_m_120_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#114, r0	; check 1388
+	movq	#129, r0	; check 1403
 	halt
 1:
 	movq	=1074233352, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#115, r0	; check 1389
+	movq	#130, r0	; check 1404
 	halt
 1:
 	movq	#0, r4
@@ -12559,24 +12654,24 @@ res_m_120_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#116, r0	; check 1390
+	movq	#131, r0	; check 1405
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#117, r0	; check 1391
+	movq	#132, r0	; check 1406
 	halt
 1:
 	lea	ins_m_120_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#118, r0	; check 1392
+	movq	#133, r0	; check 1407
 	halt
 1:
 	movq	=1074233352, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#119, r0	; check 1393
+	movq	#134, r0	; check 1408
 	halt
 1:
 	movq	#0, r4
@@ -12595,23 +12690,23 @@ res_m_120_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#120, r0	; check 1394
+	movq	#135, r0	; check 1409
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#121, r0	; check 1395
+	movq	#136, r0	; check 1410
 	halt
 1:
 	movq	=1074233344, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#122, r0	; check 1396
+	movq	#137, r0	; check 1411
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#123, r0	; check 1397
+	movq	#138, r0	; check 1412
 	halt
 1:
 	movq	#0, r4
@@ -12630,24 +12725,24 @@ res_m_121_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#124, r0	; check 1398
+	movq	#139, r0	; check 1413
 	halt
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#125, r0	; check 1399
+	movq	#140, r0	; check 1414
 	halt
 1:
 	lea	ins_m_121_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#126, r0	; check 1400
+	movq	#141, r0	; check 1415
 	halt
 1:
 	movq	=1074237448, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#127, r0	; check 1401
+	movq	#142, r0	; check 1416
 	halt
 1:
 	movq	#0, r4
@@ -12666,24 +12761,24 @@ res_m_121_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#128, r0	; check 1402
+	movq	#143, r0	; check 1417
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#129, r0	; check 1403
+	movq	#144, r0	; check 1418
 	halt
 1:
 	lea	ins_m_121_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#130, r0	; check 1404
+	movq	#145, r0	; check 1419
 	halt
 1:
 	movq	=1074237448, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#131, r0	; check 1405
+	movq	#146, r0	; check 1420
 	halt
 1:
 	movq	#0, r4
@@ -12702,23 +12797,23 @@ res_m_121_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#132, r0	; check 1406
+	movq	#147, r0	; check 1421
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#133, r0	; check 1407
+	movq	#148, r0	; check 1422
 	halt
 1:
 	movq	=1074237440, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#134, r0	; check 1408
+	movq	#149, r0	; check 1423
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#135, r0	; check 1409
+	movq	#150, r0	; check 1424
 	halt
 1:
 	movq	#0, r4
@@ -12737,24 +12832,24 @@ res_m_122_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#136, r0	; check 1410
+	movq	#151, r0	; check 1425
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#137, r0	; check 1411
+	movq	#152, r0	; check 1426
 	halt
 1:
 	lea	ins_m_122_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#138, r0	; check 1412
+	movq	#153, r0	; check 1427
 	halt
 1:
 	movq	=1074241544, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#139, r0	; check 1413
+	movq	#154, r0	; check 1428
 	halt
 1:
 	movq	#0, r4
@@ -12773,24 +12868,24 @@ res_m_122_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#140, r0	; check 1414
+	movq	#155, r0	; check 1429
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#141, r0	; check 1415
+	movq	#156, r0	; check 1430
 	halt
 1:
 	lea	ins_m_122_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#142, r0	; check 1416
+	movq	#157, r0	; check 1431
 	halt
 1:
 	movq	=1074241544, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#143, r0	; check 1417
+	movq	#158, r0	; check 1432
 	halt
 1:
 	movq	#0, r4
@@ -12809,23 +12904,23 @@ res_m_122_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#144, r0	; check 1418
+	movq	#159, r0	; check 1433
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#145, r0	; check 1419
+	movq	#160, r0	; check 1434
 	halt
 1:
 	movq	=1074241536, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#146, r0	; check 1420
+	movq	#161, r0	; check 1435
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#147, r0	; check 1421
+	movq	#162, r0	; check 1436
 	halt
 1:
 	movq	#0, r4
@@ -12841,14 +12936,27 @@ res_m_122_fetch:
 ins_m_123_load:
 	movq	8(r3), r5
 res_m_123_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#148, r0	; check 1422
+	movq	#163, r0	; check 1437
 	halt
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#149, r0	; check 1423
+	movq	#164, r0	; check 1438
+	halt
+1:
+	lea	ins_m_123_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#165, r0	; check 1439
+	halt
+1:
+	movq	=1074245640, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#166, r0	; check 1440
 	halt
 1:
 	movq	#0, r4
@@ -12867,24 +12975,24 @@ res_m_123_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#150, r0	; check 1424
+	movq	#167, r0	; check 1441
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#151, r0	; check 1425
+	movq	#168, r0	; check 1442
 	halt
 1:
 	lea	ins_m_123_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#152, r0	; check 1426
+	movq	#169, r0	; check 1443
 	halt
 1:
 	movq	=1074245640, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#153, r0	; check 1427
+	movq	#170, r0	; check 1444
 	halt
 1:
 	movq	#0, r4
@@ -12903,23 +13011,23 @@ res_m_123_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#154, r0	; check 1428
+	movq	#171, r0	; check 1445
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#155, r0	; check 1429
+	movq	#172, r0	; check 1446
 	halt
 1:
 	movq	=1074245632, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#156, r0	; check 1430
+	movq	#173, r0	; check 1447
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#157, r0	; check 1431
+	movq	#174, r0	; check 1448
 	halt
 1:
 	movq	#0, r4
@@ -12938,24 +13046,24 @@ res_m_124_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#158, r0	; check 1432
+	movq	#175, r0	; check 1449
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#159, r0	; check 1433
+	movq	#176, r0	; check 1450
 	halt
 1:
 	lea	ins_m_124_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#160, r0	; check 1434
+	movq	#177, r0	; check 1451
 	halt
 1:
 	movq	=1074249736, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#161, r0	; check 1435
+	movq	#178, r0	; check 1452
 	halt
 1:
 	movq	#0, r4
@@ -12974,24 +13082,24 @@ res_m_124_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#162, r0	; check 1436
+	movq	#179, r0	; check 1453
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#163, r0	; check 1437
+	movq	#180, r0	; check 1454
 	halt
 1:
 	lea	ins_m_124_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#164, r0	; check 1438
+	movq	#181, r0	; check 1455
 	halt
 1:
 	movq	=1074249736, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#165, r0	; check 1439
+	movq	#182, r0	; check 1456
 	halt
 1:
 	movq	#0, r4
@@ -13010,23 +13118,23 @@ res_m_124_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#166, r0	; check 1440
+	movq	#183, r0	; check 1457
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#167, r0	; check 1441
+	movq	#184, r0	; check 1458
 	halt
 1:
 	movq	=1074249728, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#168, r0	; check 1442
+	movq	#185, r0	; check 1459
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#169, r0	; check 1443
+	movq	#186, r0	; check 1460
 	halt
 1:
 	movq	#0, r4
@@ -13045,24 +13153,24 @@ res_m_125_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#170, r0	; check 1444
+	movq	#187, r0	; check 1461
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#171, r0	; check 1445
+	movq	#188, r0	; check 1462
 	halt
 1:
 	lea	ins_m_125_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#172, r0	; check 1446
+	movq	#189, r0	; check 1463
 	halt
 1:
 	movq	=1074253832, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#173, r0	; check 1447
+	movq	#190, r0	; check 1464
 	halt
 1:
 	movq	#0, r4
@@ -13081,24 +13189,24 @@ res_m_125_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#174, r0	; check 1448
+	movq	#191, r0	; check 1465
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#175, r0	; check 1449
+	movq	#192, r0	; check 1466
 	halt
 1:
 	lea	ins_m_125_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#176, r0	; check 1450
+	movq	#193, r0	; check 1467
 	halt
 1:
 	movq	=1074253832, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#177, r0	; check 1451
+	movq	#194, r0	; check 1468
 	halt
 1:
 	movq	#0, r4
@@ -13117,23 +13225,23 @@ res_m_125_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#178, r0	; check 1452
+	movq	#195, r0	; check 1469
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#179, r0	; check 1453
+	movq	#196, r0	; check 1470
 	halt
 1:
 	movq	=1074253824, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#180, r0	; check 1454
+	movq	#197, r0	; check 1471
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#181, r0	; check 1455
+	movq	#198, r0	; check 1472
 	halt
 1:
 	movq	#0, r4
@@ -13152,24 +13260,24 @@ res_m_126_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#182, r0	; check 1456
+	movq	#199, r0	; check 1473
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#183, r0	; check 1457
+	movq	#200, r0	; check 1474
 	halt
 1:
 	lea	ins_m_126_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#184, r0	; check 1458
+	movq	#201, r0	; check 1475
 	halt
 1:
 	movq	=1074257928, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#185, r0	; check 1459
+	movq	#202, r0	; check 1476
 	halt
 1:
 	movq	#0, r4
@@ -13188,24 +13296,24 @@ res_m_126_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#186, r0	; check 1460
+	movq	#203, r0	; check 1477
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#187, r0	; check 1461
+	movq	#204, r0	; check 1478
 	halt
 1:
 	lea	ins_m_126_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#188, r0	; check 1462
+	movq	#205, r0	; check 1479
 	halt
 1:
 	movq	=1074257928, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#189, r0	; check 1463
+	movq	#206, r0	; check 1480
 	halt
 1:
 	movq	#0, r4
@@ -13224,23 +13332,23 @@ res_m_126_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#190, r0	; check 1464
+	movq	#207, r0	; check 1481
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#191, r0	; check 1465
+	movq	#208, r0	; check 1482
 	halt
 1:
 	movq	=1074257920, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#192, r0	; check 1466
+	movq	#209, r0	; check 1483
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#193, r0	; check 1467
+	movq	#210, r0	; check 1484
 	halt
 1:
 	movq	#0, r4
@@ -13256,14 +13364,27 @@ res_m_126_fetch:
 ins_m_127_load:
 	movq	8(r3), r5
 res_m_127_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#194, r0	; check 1468
+	movq	#211, r0	; check 1485
 	halt
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#195, r0	; check 1469
+	movq	#212, r0	; check 1486
+	halt
+1:
+	lea	ins_m_127_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#213, r0	; check 1487
+	halt
+1:
+	movq	=1074262024, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#214, r0	; check 1488
 	halt
 1:
 	movq	#0, r4
@@ -13279,9 +13400,27 @@ res_m_127_load:
 ins_m_127_store:
 	movq	r5, 8(r3)
 res_m_127_store:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#196, r0	; check 1470
+	movq	#215, r0	; check 1489
+	halt
+1:
+	cmp	r8, #(VECTOR_SPROT)
+	beq	1f
+	movq	#216, r0	; check 1490
+	halt
+1:
+	lea	ins_m_127_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#217, r0	; check 1491
+	halt
+1:
+	movq	=1074262024, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#218, r0	; check 1492
 	halt
 1:
 	movq	#0, r4
@@ -13300,23 +13439,23 @@ res_m_127_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#197, r0	; check 1471
+	movq	#219, r0	; check 1493
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#198, r0	; check 1472
+	movq	#220, r0	; check 1494
 	halt
 1:
 	movq	=1074262016, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#199, r0	; check 1473
+	movq	#221, r0	; check 1495
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#200, r0	; check 1474
+	movq	#222, r0	; check 1496
 	halt
 1:
 	movq	#0, r4
@@ -13334,12 +13473,12 @@ ins_m_128_load:
 res_m_128_load:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#201, r0	; check 1475
+	movq	#223, r0	; check 1497
 	halt
 1:
 	cmp	r5, #(4660)
 	beq	1f
-	movq	#202, r0	; check 1476
+	movq	#224, r0	; check 1498
 	halt
 1:
 	movq	#0, r4
@@ -13357,7 +13496,7 @@ ins_m_128_store:
 res_m_128_store:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#203, r0	; check 1477
+	movq	#225, r0	; check 1499
 	halt
 1:
 	movq	#0, r4
@@ -13374,7 +13513,7 @@ ins_m_128_fetch:
 res_m_128_fetch:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#204, r0	; check 1478
+	movq	#226, r0	; check 1500
 	halt
 1:
 	movq	#0, r4
@@ -13390,14 +13529,27 @@ res_m_128_fetch:
 ins_m_129_load:
 	movq	8(r3), r5
 res_m_129_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#205, r0	; check 1479
+	movq	#227, r0	; check 1501
 	halt
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#206, r0	; check 1480
+	movq	#228, r0	; check 1502
+	halt
+1:
+	lea	ins_m_129_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#229, r0	; check 1503
+	halt
+1:
+	movq	=1074270216, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#230, r0	; check 1504
 	halt
 1:
 	movq	#0, r4
@@ -13413,9 +13565,27 @@ res_m_129_load:
 ins_m_129_store:
 	movq	r5, 8(r3)
 res_m_129_store:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#207, r0	; check 1481
+	movq	#231, r0	; check 1505
+	halt
+1:
+	cmp	r8, #(VECTOR_SPROT)
+	beq	1f
+	movq	#232, r0	; check 1506
+	halt
+1:
+	lea	ins_m_129_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#233, r0	; check 1507
+	halt
+1:
+	movq	=1074270216, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#234, r0	; check 1508
 	halt
 1:
 	movq	#0, r4
@@ -13434,23 +13604,23 @@ res_m_129_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#208, r0	; check 1482
+	movq	#235, r0	; check 1509
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#209, r0	; check 1483
+	movq	#236, r0	; check 1510
 	halt
 1:
 	movq	=1074270208, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#210, r0	; check 1484
+	movq	#237, r0	; check 1511
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#211, r0	; check 1485
+	movq	#238, r0	; check 1512
 	halt
 1:
 	movq	#0, r4
@@ -13468,12 +13638,12 @@ ins_m_130_load:
 res_m_130_load:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#212, r0	; check 1486
+	movq	#239, r0	; check 1513
 	halt
 1:
 	cmp	r5, #(4660)
 	beq	1f
-	movq	#213, r0	; check 1487
+	movq	#240, r0	; check 1514
 	halt
 1:
 	movq	#0, r4
@@ -13491,7 +13661,7 @@ ins_m_130_store:
 res_m_130_store:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#214, r0	; check 1488
+	movq	#241, r0	; check 1515
 	halt
 1:
 	movq	#0, r4
@@ -13508,7 +13678,7 @@ ins_m_130_fetch:
 res_m_130_fetch:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#215, r0	; check 1489
+	movq	#242, r0	; check 1516
 	halt
 1:
 	movq	#0, r4
@@ -13524,14 +13694,27 @@ res_m_130_fetch:
 ins_m_131_load:
 	movq	8(r3), r5
 res_m_131_load:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#216, r0	; check 1490
+	movq	#243, r0	; check 1517
 	halt
 1:
-	cmp	r5, #(4660)
+	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#217, r0	; check 1491
+	movq	#244, r0	; check 1518
+	halt
+1:
+	lea	ins_m_131_load, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#245, r0	; check 1519
+	halt
+1:
+	movq	=1074278408, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#246, r0	; check 1520
 	halt
 1:
 	movq	#0, r4
@@ -13547,9 +13730,27 @@ res_m_131_load:
 ins_m_131_store:
 	movq	r5, 8(r3)
 res_m_131_store:
-	cmp	r10, #(0)
+	bic	#15, r7
+	cmp	r10, #(1)
 	beq	1f
-	movq	#218, r0	; check 1492
+	movq	#247, r0	; check 1521
+	halt
+1:
+	cmp	r8, #(VECTOR_SPROT)
+	beq	1f
+	movq	#248, r0	; check 1522
+	halt
+1:
+	lea	ins_m_131_store, r11
+	cmp	r6, r11
+	beq	1f
+	movq	#249, r0	; check 1523
+	halt
+1:
+	movq	=1074278408, r2
+	cmp	r9, r2
+	beq	1f
+	movq	#250, r0	; check 1524
 	halt
 1:
 	movq	#0, r4
@@ -13568,23 +13769,23 @@ res_m_131_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#219, r0	; check 1493
+	movq	#251, r0	; check 1525
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#220, r0	; check 1494
+	movq	#252, r0	; check 1526
 	halt
 1:
 	movq	=1074278400, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#221, r0	; check 1495
+	movq	#253, r0	; check 1527
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#222, r0	; check 1496
+	movq	#254, r0	; check 1528
 	halt
 1:
 	movq	#0, r4
@@ -13602,12 +13803,12 @@ ins_m_132_load:
 res_m_132_load:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#223, r0	; check 1497
+	movq	#255, r0	; check 1529
 	halt
 1:
 	cmp	r5, #(4660)
 	beq	1f
-	movq	#224, r0	; check 1498
+	movq	#1, r0	; check 1530
 	halt
 1:
 	movq	#0, r4
@@ -13625,7 +13826,7 @@ ins_m_132_store:
 res_m_132_store:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#225, r0	; check 1499
+	movq	#2, r0	; check 1531
 	halt
 1:
 	movq	#0, r4
@@ -13642,7 +13843,7 @@ ins_m_132_fetch:
 res_m_132_fetch:
 	cmp	r10, #(0)
 	beq	1f
-	movq	#226, r0	; check 1500
+	movq	#3, r0	; check 1532
 	halt
 1:
 	movq	#0, r4
@@ -13661,24 +13862,24 @@ res_m_133_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#227, r0	; check 1501
+	movq	#4, r0	; check 1533
 	halt
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#228, r0	; check 1502
+	movq	#5, r0	; check 1534
 	halt
 1:
 	lea	ins_m_133_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#229, r0	; check 1503
+	movq	#6, r0	; check 1535
 	halt
 1:
 	movq	=1074286600, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#230, r0	; check 1504
+	movq	#7, r0	; check 1536
 	halt
 1:
 	movq	#0, r4
@@ -13697,24 +13898,24 @@ res_m_133_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#231, r0	; check 1505
+	movq	#8, r0	; check 1537
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#232, r0	; check 1506
+	movq	#9, r0	; check 1538
 	halt
 1:
 	lea	ins_m_133_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#233, r0	; check 1507
+	movq	#10, r0	; check 1539
 	halt
 1:
 	movq	=1074286600, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#234, r0	; check 1508
+	movq	#11, r0	; check 1540
 	halt
 1:
 	movq	#0, r4
@@ -13733,23 +13934,23 @@ res_m_133_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#235, r0	; check 1509
+	movq	#12, r0	; check 1541
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#236, r0	; check 1510
+	movq	#13, r0	; check 1542
 	halt
 1:
 	movq	=1074286592, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#237, r0	; check 1511
+	movq	#14, r0	; check 1543
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#238, r0	; check 1512
+	movq	#15, r0	; check 1544
 	halt
 1:
 	movq	#0, r4
@@ -13768,24 +13969,24 @@ res_m_134_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#239, r0	; check 1513
+	movq	#16, r0	; check 1545
 	halt
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#240, r0	; check 1514
+	movq	#17, r0	; check 1546
 	halt
 1:
 	lea	ins_m_134_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#241, r0	; check 1515
+	movq	#18, r0	; check 1547
 	halt
 1:
 	movq	=1074290696, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#242, r0	; check 1516
+	movq	#19, r0	; check 1548
 	halt
 1:
 	movq	#0, r4
@@ -13804,24 +14005,24 @@ res_m_134_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#243, r0	; check 1517
+	movq	#20, r0	; check 1549
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#244, r0	; check 1518
+	movq	#21, r0	; check 1550
 	halt
 1:
 	lea	ins_m_134_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#245, r0	; check 1519
+	movq	#22, r0	; check 1551
 	halt
 1:
 	movq	=1074290696, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#246, r0	; check 1520
+	movq	#23, r0	; check 1552
 	halt
 1:
 	movq	#0, r4
@@ -13840,23 +14041,23 @@ res_m_134_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#247, r0	; check 1521
+	movq	#24, r0	; check 1553
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#248, r0	; check 1522
+	movq	#25, r0	; check 1554
 	halt
 1:
 	movq	=1074290688, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#249, r0	; check 1523
+	movq	#26, r0	; check 1555
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#250, r0	; check 1524
+	movq	#27, r0	; check 1556
 	halt
 1:
 	movq	#0, r4
@@ -13875,24 +14076,24 @@ res_m_135_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#251, r0	; check 1525
+	movq	#28, r0	; check 1557
 	halt
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#252, r0	; check 1526
+	movq	#29, r0	; check 1558
 	halt
 1:
 	lea	ins_m_135_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#253, r0	; check 1527
+	movq	#30, r0	; check 1559
 	halt
 1:
 	movq	=1074294792, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#254, r0	; check 1528
+	movq	#31, r0	; check 1560
 	halt
 1:
 	movq	#0, r4
@@ -13911,24 +14112,24 @@ res_m_135_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#255, r0	; check 1529
+	movq	#32, r0	; check 1561
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#1, r0	; check 1530
+	movq	#33, r0	; check 1562
 	halt
 1:
 	lea	ins_m_135_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#2, r0	; check 1531
+	movq	#34, r0	; check 1563
 	halt
 1:
 	movq	=1074294792, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#3, r0	; check 1532
+	movq	#35, r0	; check 1564
 	halt
 1:
 	movq	#0, r4
@@ -13947,23 +14148,23 @@ res_m_135_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#4, r0	; check 1533
+	movq	#36, r0	; check 1565
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#5, r0	; check 1534
+	movq	#37, r0	; check 1566
 	halt
 1:
 	movq	=1074294784, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#6, r0	; check 1535
+	movq	#38, r0	; check 1567
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#7, r0	; check 1536
+	movq	#39, r0	; check 1568
 	halt
 1:
 	movq	#0, r4
@@ -13982,24 +14183,24 @@ res_m_136_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#8, r0	; check 1537
+	movq	#40, r0	; check 1569
 	halt
 1:
 	cmp	r8, #(VECTOR_LPROT)
 	beq	1f
-	movq	#9, r0	; check 1538
+	movq	#41, r0	; check 1570
 	halt
 1:
 	lea	ins_m_136_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#10, r0	; check 1539
+	movq	#42, r0	; check 1571
 	halt
 1:
 	movq	=1074298888, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#11, r0	; check 1540
+	movq	#43, r0	; check 1572
 	halt
 1:
 	movq	#0, r4
@@ -14018,24 +14219,24 @@ res_m_136_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#12, r0	; check 1541
+	movq	#44, r0	; check 1573
 	halt
 1:
 	cmp	r8, #(VECTOR_SPROT)
 	beq	1f
-	movq	#13, r0	; check 1542
+	movq	#45, r0	; check 1574
 	halt
 1:
 	lea	ins_m_136_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#14, r0	; check 1543
+	movq	#46, r0	; check 1575
 	halt
 1:
 	movq	=1074298888, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#15, r0	; check 1544
+	movq	#47, r0	; check 1576
 	halt
 1:
 	movq	#0, r4
@@ -14054,23 +14255,23 @@ res_m_136_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#16, r0	; check 1545
+	movq	#48, r0	; check 1577
 	halt
 1:
 	cmp	r8, #(VECTOR_IPROT)
 	beq	1f
-	movq	#17, r0	; check 1546
+	movq	#49, r0	; check 1578
 	halt
 1:
 	movq	=1074298880, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#18, r0	; check 1547
+	movq	#50, r0	; check 1579
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#19, r0	; check 1548
+	movq	#51, r0	; check 1580
 	halt
 1:
 	movq	#0, r4
@@ -14089,24 +14290,24 @@ res_m_137_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#20, r0	; check 1549
+	movq	#52, r0	; check 1581
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#21, r0	; check 1550
+	movq	#53, r0	; check 1582
 	halt
 1:
 	lea	ins_m_137_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#22, r0	; check 1551
+	movq	#54, r0	; check 1583
 	halt
 1:
 	movq	=1074302984, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#23, r0	; check 1552
+	movq	#55, r0	; check 1584
 	halt
 1:
 	movq	#0, r4
@@ -14125,24 +14326,24 @@ res_m_137_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#24, r0	; check 1553
+	movq	#56, r0	; check 1585
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#25, r0	; check 1554
+	movq	#57, r0	; check 1586
 	halt
 1:
 	lea	ins_m_137_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#26, r0	; check 1555
+	movq	#58, r0	; check 1587
 	halt
 1:
 	movq	=1074302984, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#27, r0	; check 1556
+	movq	#59, r0	; check 1588
 	halt
 1:
 	movq	#0, r4
@@ -14161,23 +14362,23 @@ res_m_137_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#28, r0	; check 1557
+	movq	#60, r0	; check 1589
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#29, r0	; check 1558
+	movq	#61, r0	; check 1590
 	halt
 1:
 	movq	=1074302976, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#30, r0	; check 1559
+	movq	#62, r0	; check 1591
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#31, r0	; check 1560
+	movq	#63, r0	; check 1592
 	halt
 1:
 	movq	#0, r4
@@ -14196,24 +14397,24 @@ res_m_138_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#32, r0	; check 1561
+	movq	#64, r0	; check 1593
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#33, r0	; check 1562
+	movq	#65, r0	; check 1594
 	halt
 1:
 	lea	ins_m_138_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#34, r0	; check 1563
+	movq	#66, r0	; check 1595
 	halt
 1:
 	movq	=1074307080, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#35, r0	; check 1564
+	movq	#67, r0	; check 1596
 	halt
 1:
 	movq	#0, r4
@@ -14232,24 +14433,24 @@ res_m_138_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#36, r0	; check 1565
+	movq	#68, r0	; check 1597
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#37, r0	; check 1566
+	movq	#69, r0	; check 1598
 	halt
 1:
 	lea	ins_m_138_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#38, r0	; check 1567
+	movq	#70, r0	; check 1599
 	halt
 1:
 	movq	=1074307080, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#39, r0	; check 1568
+	movq	#71, r0	; check 1600
 	halt
 1:
 	movq	#0, r4
@@ -14268,23 +14469,23 @@ res_m_138_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#40, r0	; check 1569
+	movq	#72, r0	; check 1601
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#41, r0	; check 1570
+	movq	#73, r0	; check 1602
 	halt
 1:
 	movq	=1074307072, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#42, r0	; check 1571
+	movq	#74, r0	; check 1603
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#43, r0	; check 1572
+	movq	#75, r0	; check 1604
 	halt
 1:
 	movq	#0, r4
@@ -14303,24 +14504,24 @@ res_m_139_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#44, r0	; check 1573
+	movq	#76, r0	; check 1605
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#45, r0	; check 1574
+	movq	#77, r0	; check 1606
 	halt
 1:
 	lea	ins_m_139_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#46, r0	; check 1575
+	movq	#78, r0	; check 1607
 	halt
 1:
 	movq	=1074311176, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#47, r0	; check 1576
+	movq	#79, r0	; check 1608
 	halt
 1:
 	movq	#0, r4
@@ -14339,24 +14540,24 @@ res_m_139_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#48, r0	; check 1577
+	movq	#80, r0	; check 1609
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#49, r0	; check 1578
+	movq	#81, r0	; check 1610
 	halt
 1:
 	lea	ins_m_139_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#50, r0	; check 1579
+	movq	#82, r0	; check 1611
 	halt
 1:
 	movq	=1074311176, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#51, r0	; check 1580
+	movq	#83, r0	; check 1612
 	halt
 1:
 	movq	#0, r4
@@ -14375,23 +14576,23 @@ res_m_139_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#52, r0	; check 1581
+	movq	#84, r0	; check 1613
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#53, r0	; check 1582
+	movq	#85, r0	; check 1614
 	halt
 1:
 	movq	=1074311168, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#54, r0	; check 1583
+	movq	#86, r0	; check 1615
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#55, r0	; check 1584
+	movq	#87, r0	; check 1616
 	halt
 1:
 	movq	#0, r4
@@ -14410,24 +14611,24 @@ res_m_140_load:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#56, r0	; check 1585
+	movq	#88, r0	; check 1617
 	halt
 1:
 	cmp	r8, #(VECTOR_LFAULT)
 	beq	1f
-	movq	#57, r0	; check 1586
+	movq	#89, r0	; check 1618
 	halt
 1:
 	lea	ins_m_140_load, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#58, r0	; check 1587
+	movq	#90, r0	; check 1619
 	halt
 1:
 	movq	=1074315272, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#59, r0	; check 1588
+	movq	#91, r0	; check 1620
 	halt
 1:
 	movq	#0, r4
@@ -14446,24 +14647,24 @@ res_m_140_store:
 	bic	#15, r7
 	cmp	r10, #(1)
 	beq	1f
-	movq	#60, r0	; check 1589
+	movq	#92, r0	; check 1621
 	halt
 1:
 	cmp	r8, #(VECTOR_SFAULT)
 	beq	1f
-	movq	#61, r0	; check 1590
+	movq	#93, r0	; check 1622
 	halt
 1:
 	lea	ins_m_140_store, r11
 	cmp	r6, r11
 	beq	1f
-	movq	#62, r0	; check 1591
+	movq	#94, r0	; check 1623
 	halt
 1:
 	movq	=1074315272, r2
 	cmp	r9, r2
 	beq	1f
-	movq	#63, r0	; check 1592
+	movq	#95, r0	; check 1624
 	halt
 1:
 	movq	#0, r4
@@ -14482,23 +14683,23 @@ res_m_140_fetch:
 	add	#8, sp
 	cmp	r10, #(1)
 	beq	1f
-	movq	#64, r0	; check 1593
+	movq	#96, r0	; check 1625
 	halt
 1:
 	cmp	r8, #(VECTOR_IFAULT)
 	beq	1f
-	movq	#65, r0	; check 1594
+	movq	#97, r0	; check 1626
 	halt
 1:
 	movq	=1074315264, r2
 	cmp	r6, r2
 	beq	1f
-	movq	#66, r0	; check 1595
+	movq	#98, r0	; check 1627
 	halt
 1:
 	cmp	r9, r2
 	beq	1f
-	movq	#67, r0	; check 1596
+	movq	#99, r0	; check 1628
 	halt
 1:
 	movq	#0, r0

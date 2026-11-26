@@ -14,7 +14,7 @@ import sys
 
 MODE_KERNEL, MODE_USER = 0, 3
 PSW_PRI, PSW_MODE, PSW_PREV = 5, 8, 10
-PSW_VALID = 0x1fff
+PSW_VALID = 0x0fff
 GTBR_VALID = 0xffff00fffffff001
 KPSW = 0                                   # kernel mode, priority 0
 UPSW = (MODE_USER << PSW_MODE) | (MODE_USER << PSW_PREV)   # user mode, priority 0
@@ -111,11 +111,9 @@ def gen_regs(outdir):
         want = '(1<<HTRAP_WFE)|(1<<HTRAP_SEV)' if name == 'htrap' else '0'
         p.e('\tmfsr\tr2, %s' % name)
         p.eq('r2', want)
-    for name in ['ptbr', 'epc', 'eva', 'ecause', 'dmw0', 'dmw1', 'usp', 'ssp', 'epsw', 'vbr', 'mmuctl', 'asid', 'cpuid']:
+    for name in ['ptbr', 'epc', 'eva', 'ecause', 'usp', 'ssp', 'epsw', 'vbr', 'mmuctl', 'asid', 'cpuid']:
         p.e('\tmfsr\tr2, %s' % name)
         p.eq('r2', '0')
-    p.e('\tmfcpuid\tr2')
-    p.eq('r2', '0')                                   # at H = 1 the real core number
     p.e('\tmfdp\tr2')
     p.eq('r2', '0')                                   # the hypervisor's own DP
     p.e('\tmfsr\tr2, hvbr\n\tlea\thtab, r1\n\tmtsr\thvbr, r1\n\tlea\th_ill, r3\n\tlea\thtab+8*VECTOR_ILLEGAL, r2\n\tmovq\tr3, (r2)')
@@ -170,8 +168,8 @@ def gen_regs(outdir):
         p.e('\tmfsr\tr3, htrap')
         p.eq('r3', '3')
     # unassigned numbers at H = 1, through a patched copy of an instruction (the assembler refuses a number that is not a name)
-    p.e('\t; --- an unassigned number is an illegal instruction at H = 1 as well (13 and 127 below the block, 148 and 255 above it); MFSR and MTSR')
-    for num in (13, 127, 148, 255):
+    p.e('\t; --- an unassigned number is an illegal instruction at H = 1 as well (4, 5, 13 and 127 below the block, 148 and 255 above it); MFSR and MTSR')
+    for num in (4, 5, 13, 127, 148, 255):
         for tmpl in ('tmplr', 'tmplw'):
             patched_illegal(p, tmpl, num)
     # the hypervisor's own exception: HEPC, HEPSW, HEVA, HCAUSE, exit code 0; the guest's registers are not touched
@@ -421,8 +419,6 @@ def cases():
     pair('tlbias', 'tlbias\tr2', 'tlbi', 'XCODE_TLB')
     pair('tlbia', 'tlbia', 'tlbia', 'XCODE_TLB')
     pair('tlbsync', 'tlbsync', 'tlbsync', 'XCODE_TLB')
-    pair('mtasid', 'mtasid\tr2', 'asid', 'XCODE_ASID')
-    pair('mfasid', 'mfasid\tr1', 'asid', 'XCODE_ASID')
     pair('mtsr-asid', 'mtsr\tasid, r2', 'asid', 'XCODE_ASID')
     pair('mfsr-asid', 'mfsr\tr1, asid', 'asid', 'XCODE_ASID')
     pair('mtsr-ptbr', 'mtsr\tptbr, r2', 'ptbr', 'XCODE_PTBR')
@@ -434,8 +430,7 @@ def cases():
     pair('icinv', 'icinv\tr2', 'icinv', 'XCODE_ICINV')
     pair('icinva', 'icinva', 'icinv', 'XCODE_ICINV')
     pair('bpt', 'bpt', 'bpt', 'XCODE_BPT', untrapped_exits=[HALT('gh')], untrapped_kw=dict(epc='A1', ecause='VECTOR_BPT'))
-    # MFCPUID and MFSR CPUID: the virtual core number, or the exit
-    pair('mfcpuid', 'mfcpuid\tr1', 'cpuid', 'XCODE_CPUID', untrapped_kw=dict(r1=0x1234))
+    # MFSR CPUID: the virtual core number, or the exit
     pair('mfsr-cpuid', 'mfsr\tr1, cpuid', 'cpuid', 'XCODE_CPUID', untrapped_kw=dict(r1=0x1234))
     # the single step
     add('step', ['movq\t#1, r1', 'movq\t#2, r3'], bit('step'), exits=[X('XCODE_STEP', 'VECTOR_HEXIT', 1, r1=1), X('XCODE_STEP', 'VECTOR_HEXIT', 2, r1=1), HALT(3, r1=1)], r1=1)
@@ -450,8 +445,6 @@ def cases():
     # the events with no bit: they always exit, with every bit clear and every bit set
     for ht, tag in ((0, '0'), (ALL, 'all')):
         add('halt/%s' % tag, ['nop'], ht, exits=[HALT(2)])
-        for nm, ins in (('mtdmw', 'mtdmw\tr2'), ('mtsr-dmw0', 'mtsr\tdmw0, r2'), ('mtsr-dmw1', 'mtsr\tdmw1, r2'), ('mfsr-dmw0', 'mfsr\tr1, dmw0'), ('mfsr-dmw1', 'mfsr\tr1, dmw1')):
-            add('%s/%s' % (nm, tag), [ins], ht, exits=[X('XCODE_DMW', 'VECTOR_HEXIT', 1), HALT(2)])
         for nm, ins in (('mfsr-htrap', 'mfsr\tr1, htrap'), ('mtsr-hvbr', 'mtsr\thvbr, r2'), ('mtsr-gtbr', 'mtsr\tgtbr, r2'), ('mfsr-gudp', 'mfsr\tr1, gudp'),
                         ('mtsr-vtoff', 'mtsr\tvtoff, r2'), ('mfsr-hexitr', 'mfsr\tr1, hexitr'), ('mtsr-geva', 'mtsr\tgeva, r2'), ('mtsr-virq', 'mtsr\tvirq, r2'), ('genter', 'genter\t#RTIMASK_ALL'), ('tlbigp', 'tlbigp\tr2')):
             add('%s/%s' % (nm, tag), [ins], ht, exits=[X('XCODE_HVREG', 'VECTOR_HEXIT', 1), HALT(2)])
@@ -462,15 +455,13 @@ def cases():
     priv('mfsr-htrap', 'mfsr\tr1, htrap', ALL)
     priv('mtsr-gtbr', 'mtsr\tgtbr, r2', ALL)
     priv('genter', 'genter\t#RTIMASK_ALL', ALL)
-    priv('mfcpuid', 'mfcpuid\tr1', ALL)
-    priv('mtsr-dmw0', 'mtsr\tdmw0, r2', ALL)
-    priv('mtdmw', 'mtdmw\tr2', ALL)
+    priv('mfsr-cpuid', 'mfsr\tr1, cpuid', ALL)
     priv('tlbia', 'tlbia', ALL)
     priv('tlbi', 'tlbi\tr2', ALL)
     priv('tlbias', 'tlbias\tr2', ALL)
     priv('tlbigp', 'tlbigp\tr2', ALL)
     priv('spl', 'spl\t#2', ALL)
-    priv('mtasid', 'mtasid\tr2', ALL)
+    priv('mtsr-asid', 'mtsr\tasid, r2', ALL)
     priv('halt', 'halt', ALL)
     priv('tlbsync', 'tlbsync', ALL)
     # the unprivileged instructions of a user guest exit if the bit is set
@@ -478,7 +469,7 @@ def cases():
                              ('icinv', 'icinv\tr2', 'icinv', 'XCODE_ICINV'), ('bpt', 'bpt', 'bpt', 'XCODE_BPT')):
         add('user/%s/trap' % nm, [ins], bit(b), 'U', exits=[X(code, 'VECTOR_HEXIT', 1), HALT(2)])
     # an unassigned number is an illegal instruction in the guest (and not an exit), through a patched copy of mfsr and mtsr
-    for num in (13, 127, 148, 255):
+    for num in (4, 5, 13, 127, 148, 255):
         for kind in ('r', 'w'):
             add('unassigned%d%s' % (num, kind), ['PATCH%d%s' % (num, kind)], ALL, exits=[HALT('gh')], epc='I1', ecause='VECTOR_ILLEGAL')
     return cs

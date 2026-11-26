@@ -133,13 +133,12 @@ static uint8_t *bp(uint64_t a, int write)
 static uint64_t ld(uint64_t a, int size)
 {
 	uint64_t v = 0;
-	if (size > 1 && (a & (size - 1))) memfault(VECTOR_MISALIGNED, "misaligned data access", a);
-	for (int i = 0; i < size; i++) v |= (uint64_t)*bp(a + i, 0) << (8 * i);
+	for (int i = 0; i < size; i++) v |= (uint64_t)*bp(a + i, 0) << (8 * i);		/* any alignment; an access that reaches a page that faults faults at the first byte of that page */
 	return v;
 }
 static void st(uint64_t a, int size, uint64_t v)
 {
-	if (size > 1 && (a & (size - 1))) memfault(VECTOR_MISALIGNED, "misaligned data access", a);
+	if ((a & (PG - 1)) + size > PG) { bp(a, 1); bp((a + size - 1) & ~(uint64_t)(PG - 1), 1); }	/* any alignment; a store that crosses a page checks both before it writes a byte: it never half-writes */
 	for (int i = 0; i < size; i++) *bp(a + i, 1) = v >> (8 * i);
 }
 

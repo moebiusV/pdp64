@@ -148,70 +148,52 @@ _start:
 	movq	#24, r0
 	halt
 1:
-	mfsr	r2, dmw0
+	mfsr	r2, usp
 	movq	=(0), r11
 	cbeq	r2, r11, 1f
 	movq	#25, r0
 	halt
 1:
-	mfsr	r2, dmw1
+	mfsr	r2, ssp
 	movq	=(0), r11
 	cbeq	r2, r11, 1f
 	movq	#26, r0
 	halt
 1:
-	mfsr	r2, usp
+	mfsr	r2, epsw
 	movq	=(0), r11
 	cbeq	r2, r11, 1f
 	movq	#27, r0
 	halt
 1:
-	mfsr	r2, ssp
+	mfsr	r2, vbr
 	movq	=(0), r11
 	cbeq	r2, r11, 1f
 	movq	#28, r0
 	halt
 1:
-	mfsr	r2, epsw
+	mfsr	r2, mmuctl
 	movq	=(0), r11
 	cbeq	r2, r11, 1f
 	movq	#29, r0
 	halt
 1:
-	mfsr	r2, vbr
+	mfsr	r2, asid
 	movq	=(0), r11
 	cbeq	r2, r11, 1f
 	movq	#30, r0
 	halt
 1:
-	mfsr	r2, mmuctl
+	mfsr	r2, cpuid
 	movq	=(0), r11
 	cbeq	r2, r11, 1f
 	movq	#31, r0
 	halt
 1:
-	mfsr	r2, asid
-	movq	=(0), r11
-	cbeq	r2, r11, 1f
-	movq	#32, r0
-	halt
-1:
-	mfsr	r2, cpuid
-	movq	=(0), r11
-	cbeq	r2, r11, 1f
-	movq	#33, r0
-	halt
-1:
-	mfcpuid	r2
-	movq	=(0), r11
-	cbeq	r2, r11, 1f
-	movq	#34, r0
-	halt
-1:
 	mfdp	r2
 	movq	=(0), r11
 	cbeq	r2, r11, 1f
-	movq	#35, r0
+	movq	#32, r0
 	halt
 1:
 	mfsr	r2, hvbr
@@ -227,7 +209,7 @@ _start:
 	mfsr	r3, htrap
 	movq	=(0xff7fff), r11
 	cbeq	r3, r11, 1f
-	movq	#36, r0
+	movq	#33, r0
 	halt
 1:
 	movq	=0, r2
@@ -235,7 +217,7 @@ _start:
 	mfsr	r3, htrap
 	movq	=(0), r11
 	cbeq	r3, r11, 1f
-	movq	#37, r0
+	movq	#34, r0
 	halt
 1:
 	movq	=0x7fff, r2
@@ -243,7 +225,7 @@ _start:
 	mfsr	r3, htrap
 	movq	=(0x7fff), r11
 	cbeq	r3, r11, 1f
-	movq	#38, r0
+	movq	#35, r0
 	halt
 1:
 	movq	=0xff0000, r2
@@ -251,7 +233,7 @@ _start:
 	mfsr	r3, htrap
 	movq	=(0xff0000), r11
 	cbeq	r3, r11, 1f
-	movq	#39, r0
+	movq	#36, r0
 	halt
 1:
 	movq	=3, r2
@@ -259,7 +241,7 @@ _start:
 	mfsr	r3, htrap
 	movq	=(3), r11
 	cbeq	r3, r11, 1f
-	movq	#40, r0
+	movq	#37, r0
 	halt
 1:
 	movq	=0x123456789abcdef0, r2
@@ -267,15 +249,15 @@ _start:
 	mfsr	r3, hepc
 	movq	=(0x123456789abcdef0), r11
 	cbeq	r3, r11, 1f
-	movq	#41, r0
+	movq	#38, r0
 	halt
 1:
-	movq	=0x1fff, r2
+	movq	=0xfff, r2
 	mtsr	hepsw, r2
 	mfsr	r3, hepsw
-	movq	=(0x1fff), r11
+	movq	=(0xfff), r11
 	cbeq	r3, r11, 1f
-	movq	#42, r0
+	movq	#39, r0
 	halt
 1:
 	movq	=0x0123, r2
@@ -283,7 +265,7 @@ _start:
 	mfsr	r3, hepsw
 	movq	=(0x0123), r11
 	cbeq	r3, r11, 1f
-	movq	#43, r0
+	movq	#40, r0
 	halt
 1:
 	movq	=0xfedcba9876543210, r2
@@ -291,7 +273,7 @@ _start:
 	mfsr	r3, hvbr
 	movq	=(0xfedcba9876543210), r11
 	cbeq	r3, r11, 1f
-	movq	#44, r0
+	movq	#41, r0
 	halt
 1:
 	movq	=0xffff00fffffff001, r2
@@ -299,7 +281,7 @@ _start:
 	mfsr	r3, gtbr
 	movq	=(0xffff00fffffff001), r11
 	cbeq	r3, r11, 1f
-	movq	#45, r0
+	movq	#42, r0
 	halt
 1:
 	movq	=0x0000003456789001, r2
@@ -307,7 +289,7 @@ _start:
 	mfsr	r3, gtbr
 	movq	=(0x0000003456789001), r11
 	cbeq	r3, r11, 1f
-	movq	#46, r0
+	movq	#43, r0
 	halt
 1:
 	movq	=0xfe, r2
@@ -315,7 +297,7 @@ _start:
 	mfsr	r3, virq
 	movq	=(0xfe), r11
 	cbeq	r3, r11, 1f
-	movq	#47, r0
+	movq	#44, r0
 	halt
 1:
 	movq	=0x20, r2
@@ -323,7 +305,7 @@ _start:
 	mfsr	r3, virq
 	movq	=(0x20), r11
 	cbeq	r3, r11, 1f
-	movq	#48, r0
+	movq	#45, r0
 	halt
 1:
 	movq	=0x00ffffffffffffff, r2
@@ -331,7 +313,7 @@ _start:
 	mfsr	r3, vivec
 	movq	=(0x00ffffffffffffff), r11
 	cbeq	r3, r11, 1f
-	movq	#49, r0
+	movq	#46, r0
 	halt
 1:
 	movq	=0x0022232425262728, r2
@@ -339,7 +321,7 @@ _start:
 	mfsr	r3, vivec
 	movq	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	movq	#50, r0
+	movq	#47, r0
 	halt
 1:
 	movq	=0xffffffffffffffff, r2
@@ -347,7 +329,7 @@ _start:
 	mfsr	r3, vtoff
 	movq	=(0xffffffffffffffff), r11
 	cbeq	r3, r11, 1f
-	movq	#51, r0
+	movq	#48, r0
 	halt
 1:
 	movq	=0xffff, r2
@@ -355,7 +337,7 @@ _start:
 	mfsr	r3, vcpuid
 	movq	=(0xffff), r11
 	cbeq	r3, r11, 1f
-	movq	#52, r0
+	movq	#49, r0
 	halt
 1:
 	movq	=0x1234, r2
@@ -363,7 +345,7 @@ _start:
 	mfsr	r3, vcpuid
 	movq	=(0x1234), r11
 	cbeq	r3, r11, 1f
-	movq	#53, r0
+	movq	#50, r0
 	halt
 1:
 	movq	=0x1111222233334444, r2
@@ -371,7 +353,7 @@ _start:
 	mfsr	r3, geva
 	movq	=(0x1111222233334444), r11
 	cbeq	r3, r11, 1f
-	movq	#54, r0
+	movq	#51, r0
 	halt
 1:
 	movq	=0x5555666677778888, r2
@@ -379,7 +361,7 @@ _start:
 	mfsr	r3, gecause
 	movq	=(0x5555666677778888), r11
 	cbeq	r3, r11, 1f
-	movq	#55, r0
+	movq	#52, r0
 	halt
 1:
 	movq	=0xaaaa000000000001, r2
@@ -387,7 +369,7 @@ _start:
 	mfsr	r3, gksp
 	movq	=(0xaaaa000000000001), r11
 	cbeq	r3, r11, 1f
-	movq	#56, r0
+	movq	#53, r0
 	halt
 1:
 	movq	=0xaaaa000000000002, r2
@@ -395,7 +377,7 @@ _start:
 	mfsr	r3, gkdp
 	movq	=(0xaaaa000000000002), r11
 	cbeq	r3, r11, 1f
-	movq	#57, r0
+	movq	#54, r0
 	halt
 1:
 	movq	=0xaaaa000000000003, r2
@@ -403,7 +385,7 @@ _start:
 	mfsr	r3, gsdp
 	movq	=(0xaaaa000000000003), r11
 	cbeq	r3, r11, 1f
-	movq	#58, r0
+	movq	#55, r0
 	halt
 1:
 	movq	=0xaaaa000000000004, r2
@@ -411,20 +393,20 @@ _start:
 	mfsr	r3, gudp
 	movq	=(0xaaaa000000000004), r11
 	cbeq	r3, r11, 1f
-	movq	#59, r0
+	movq	#56, r0
 	halt
 1:
 	; --- the aliases: GEVA and GECAUSE write what EVA and ECAUSE read (those are read only)
 	mfsr	r3, eva
 	movq	=(0x1111222233334444), r11
 	cbeq	r3, r11, 1f
-	movq	#60, r0
+	movq	#57, r0
 	halt
 1:
 	mfsr	r3, ecause
 	movq	=(0x5555666677778888), r11
 	cbeq	r3, r11, 1f
-	movq	#61, r0
+	movq	#58, r0
 	halt
 1:
 	; --- the banks of the guest: independent of one another, of USP and SSP, and of the hypervisor's own R14 and DP
@@ -435,37 +417,37 @@ _start:
 	mfsr	r3, gksp
 	movq	=(0xaaaa000000000001), r11
 	cbeq	r3, r11, 1f
-	movq	#62, r0
+	movq	#59, r0
 	halt
 1:
 	mfsr	r3, gkdp
 	movq	=(0xaaaa000000000002), r11
 	cbeq	r3, r11, 1f
-	movq	#63, r0
+	movq	#60, r0
 	halt
 1:
 	mfsr	r3, gsdp
 	movq	=(0xaaaa000000000003), r11
 	cbeq	r3, r11, 1f
-	movq	#64, r0
+	movq	#61, r0
 	halt
 1:
 	mfsr	r3, gudp
 	movq	=(0xaaaa000000000004), r11
 	cbeq	r3, r11, 1f
-	movq	#65, r0
+	movq	#62, r0
 	halt
 1:
 	mfsr	r3, usp
 	movq	=(0xbbbb000000000005), r11
 	cbeq	r3, r11, 1f
-	movq	#66, r0
+	movq	#63, r0
 	halt
 1:
 	mfsr	r3, ssp
 	movq	=(0xbbbb000000000006), r11
 	cbeq	r3, r11, 1f
-	movq	#67, r0
+	movq	#64, r0
 	halt
 1:
 	movq	=0xcccc000000000007, r2
@@ -473,29 +455,29 @@ _start:
 	mfdp	r3
 	movq	=(0xcccc000000000007), r11
 	cbeq	r3, r11, 1f
-	movq	#68, r0
+	movq	#65, r0
 	halt
 1:
 	mfsr	r3, gkdp
 	movq	=(0xaaaa000000000002), r11
 	cbeq	r3, r11, 1f
-	movq	#69, r0
+	movq	#66, r0
 	halt
 1:
 	mfsr	r3, gsdp
 	movq	=(0xaaaa000000000003), r11
 	cbeq	r3, r11, 1f
-	movq	#70, r0
+	movq	#67, r0
 	halt
 1:
 	mfsr	r3, gudp
 	movq	=(0xaaaa000000000004), r11
 	cbeq	r3, r11, 1f
-	movq	#71, r0
+	movq	#68, r0
 	halt
 1:
 	cbeq	r14, r12, 1f
-	movq	#72, r0
+	movq	#69, r0
 	halt
 1:
 	movq	#0, r2
@@ -509,6 +491,28 @@ _start:
 	movq	=0x7777, r2
 	movl	tmplw, r2
 	movq	=(129<<16), r3
+	bis	r3, r2
+	movl	r2, (r15)
+	movq	#0, r10
+	lea	ubuf+4, r4
+	call	ubuf
+	movq	=(1), r11
+	cbeq	r10, r11, 1f
+	movq	#70, r0
+	halt
+1:
+	movq	=(VECTOR_ILLEGAL), r11
+	cbeq	r6, r11, 1f
+	movq	#71, r0
+	halt
+1:
+	lea	ubuf, r11
+	cbeq	r8, r11, 1f
+	movq	#72, r0
+	halt
+1:
+	movl	tmplw, r2
+	movq	=(132<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -530,7 +534,7 @@ _start:
 	halt
 1:
 	movl	tmplw, r2
-	movq	=(132<<16), r3
+	movq	=(133<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -552,7 +556,7 @@ _start:
 	halt
 1:
 	movl	tmplw, r2
-	movq	=(133<<16), r3
+	movq	=(134<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -574,7 +578,7 @@ _start:
 	halt
 1:
 	movl	tmplw, r2
-	movq	=(134<<16), r3
+	movq	=(135<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -596,7 +600,7 @@ _start:
 	halt
 1:
 	movl	tmplw, r2
-	movq	=(135<<16), r3
+	movq	=(12<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -618,7 +622,7 @@ _start:
 	halt
 1:
 	movl	tmplw, r2
-	movq	=(12<<16), r3
+	movq	=(2<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -640,7 +644,7 @@ _start:
 	halt
 1:
 	movl	tmplw, r2
-	movq	=(2<<16), r3
+	movq	=(3<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -661,46 +665,24 @@ _start:
 	movq	#93, r0
 	halt
 1:
-	movl	tmplw, r2
-	movq	=(3<<16), r3
-	bis	r3, r2
-	movl	r2, (r15)
-	movq	#0, r10
-	lea	ubuf+4, r4
-	call	ubuf
-	movq	=(1), r11
-	cbeq	r10, r11, 1f
-	movq	#94, r0
-	halt
-1:
-	movq	=(VECTOR_ILLEGAL), r11
-	cbeq	r6, r11, 1f
-	movq	#95, r0
-	halt
-1:
-	lea	ubuf, r11
-	cbeq	r8, r11, 1f
-	movq	#96, r0
-	halt
-1:
 	mfsr	r3, hexitr
 	mfsr	r3, heva
 	movq	=(0), r11
 	cbeq	r3, r11, 1f
-	movq	#97, r0
+	movq	#94, r0
 	halt
 1:
 	mfsr	r3, hcause
 	mfsr	r3, hgpa
 	movq	=(0), r11
 	cbeq	r3, r11, 1f
-	movq	#98, r0
+	movq	#95, r0
 	halt
 1:
 	mfsr	r3, hinsn
 	movq	=(0), r11
 	cbeq	r3, r11, 1f
-	movq	#99, r0
+	movq	#96, r0
 	halt
 1:
 	; --- a one in a reserved bit of HTRAP is an illegal instruction, and nothing is written
@@ -713,28 +695,28 @@ I1:	mtsr	htrap, r2			; bit 15 of HTRAP is reserved
 R2:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#100, r0
+	movq	#97, r0
 	halt
 1:
 	movq	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#101, r0
+	movq	#98, r0
 	halt
 1:
 	movq	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	movq	#102, r0
+	movq	#99, r0
 	halt
 1:
 	lea	I1, r11
 	cbeq	r8, r11, 1f
-	movq	#103, r0
+	movq	#100, r0
 	halt
 1:
 	mfsr	r3, htrap
 	movq	=(3), r11
 	cbeq	r3, r11, 1f
-	movq	#104, r0
+	movq	#101, r0
 	halt
 1:
 	movq	=(3|(1<<24)), r2
@@ -744,28 +726,28 @@ I3:	mtsr	htrap, r2			; bit 24 of HTRAP is reserved
 R4:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#105, r0
+	movq	#102, r0
 	halt
 1:
 	movq	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#106, r0
+	movq	#103, r0
 	halt
 1:
 	movq	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	movq	#107, r0
+	movq	#104, r0
 	halt
 1:
 	lea	I3, r11
 	cbeq	r8, r11, 1f
-	movq	#108, r0
+	movq	#105, r0
 	halt
 1:
 	mfsr	r3, htrap
 	movq	=(3), r11
 	cbeq	r3, r11, 1f
-	movq	#109, r0
+	movq	#106, r0
 	halt
 1:
 	movq	=(3|(1<<40)), r2
@@ -775,28 +757,28 @@ I5:	mtsr	htrap, r2			; bit 40 of HTRAP is reserved
 R6:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#110, r0
+	movq	#107, r0
 	halt
 1:
 	movq	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#111, r0
+	movq	#108, r0
 	halt
 1:
 	movq	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	movq	#112, r0
+	movq	#109, r0
 	halt
 1:
 	lea	I5, r11
 	cbeq	r8, r11, 1f
-	movq	#113, r0
+	movq	#110, r0
 	halt
 1:
 	mfsr	r3, htrap
 	movq	=(3), r11
 	cbeq	r3, r11, 1f
-	movq	#114, r0
+	movq	#111, r0
 	halt
 1:
 	movq	=(3|0x8000000000000000), r2
@@ -806,33 +788,55 @@ I7:	mtsr	htrap, r2			; bit 63 of HTRAP is reserved
 R8:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#115, r0
+	movq	#112, r0
 	halt
 1:
 	movq	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#116, r0
+	movq	#113, r0
 	halt
 1:
 	movq	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	movq	#117, r0
+	movq	#114, r0
 	halt
 1:
 	lea	I7, r11
 	cbeq	r8, r11, 1f
-	movq	#118, r0
+	movq	#115, r0
 	halt
 1:
 	mfsr	r3, htrap
 	movq	=(3), r11
 	cbeq	r3, r11, 1f
+	movq	#116, r0
+	halt
+1:
+	; --- an unassigned number is an illegal instruction at H = 1 as well (4, 5, 13 and 127 below the block, 148 and 255 above it); MFSR and MTSR
+	movl	tmplr, r2
+	movq	=(4<<16), r3
+	bis	r3, r2
+	movl	r2, (r15)
+	movq	#0, r10
+	lea	ubuf+4, r4
+	call	ubuf
+	movq	=(1), r11
+	cbeq	r10, r11, 1f
+	movq	#117, r0
+	halt
+1:
+	movq	=(VECTOR_ILLEGAL), r11
+	cbeq	r6, r11, 1f
+	movq	#118, r0
+	halt
+1:
+	lea	ubuf, r11
+	cbeq	r8, r11, 1f
 	movq	#119, r0
 	halt
 1:
-	; --- an unassigned number is an illegal instruction at H = 1 as well (13 and 127 below the block, 148 and 255 above it); MFSR and MTSR
-	movl	tmplr, r2
-	movq	=(13<<16), r3
+	movl	tmplw, r2
+	movq	=(4<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -853,8 +857,8 @@ R8:
 	movq	#122, r0
 	halt
 1:
-	movl	tmplw, r2
-	movq	=(13<<16), r3
+	movl	tmplr, r2
+	movq	=(5<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -875,8 +879,8 @@ R8:
 	movq	#125, r0
 	halt
 1:
-	movl	tmplr, r2
-	movq	=(127<<16), r3
+	movl	tmplw, r2
+	movq	=(5<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -897,8 +901,8 @@ R8:
 	movq	#128, r0
 	halt
 1:
-	movl	tmplw, r2
-	movq	=(127<<16), r3
+	movl	tmplr, r2
+	movq	=(13<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -919,8 +923,8 @@ R8:
 	movq	#131, r0
 	halt
 1:
-	movl	tmplr, r2
-	movq	=(148<<16), r3
+	movl	tmplw, r2
+	movq	=(13<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -941,8 +945,8 @@ R8:
 	movq	#134, r0
 	halt
 1:
-	movl	tmplw, r2
-	movq	=(148<<16), r3
+	movl	tmplr, r2
+	movq	=(127<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -963,8 +967,8 @@ R8:
 	movq	#137, r0
 	halt
 1:
-	movl	tmplr, r2
-	movq	=(255<<16), r3
+	movl	tmplw, r2
+	movq	=(127<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -985,8 +989,8 @@ R8:
 	movq	#140, r0
 	halt
 1:
-	movl	tmplw, r2
-	movq	=(255<<16), r3
+	movl	tmplr, r2
+	movq	=(148<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -1007,17 +1011,8 @@ R8:
 	movq	#143, r0
 	halt
 1:
-	; --- the exception of the hypervisor itself writes HEPC, HEPSW, HEVA, HCAUSE and HEXITR (code 0) and not the guest's EPC, EPSW, EVA, ECAUSE
-	movq	=0x13572468, r2
-	mtsr	epc, r2
-	movq	=0x0abc, r2
-	mtsr	epsw, r2
-	movq	=0x24681357, r2
-	mtsr	geva, r2
-	movq	=0x99, r2
-	mtsr	gecause, r2
 	movl	tmplw, r2
-	movq	=(129<<16), r3
+	movq	=(148<<16), r3
 	bis	r3, r2
 	movl	r2, (r15)
 	movq	#0, r10
@@ -1038,47 +1033,122 @@ R8:
 	movq	#146, r0
 	halt
 1:
+	movl	tmplr, r2
+	movq	=(255<<16), r3
+	bis	r3, r2
+	movl	r2, (r15)
+	movq	#0, r10
+	lea	ubuf+4, r4
+	call	ubuf
+	movq	=(1), r11
+	cbeq	r10, r11, 1f
+	movq	#147, r0
+	halt
+1:
+	movq	=(VECTOR_ILLEGAL), r11
+	cbeq	r6, r11, 1f
+	movq	#148, r0
+	halt
+1:
+	lea	ubuf, r11
+	cbeq	r8, r11, 1f
+	movq	#149, r0
+	halt
+1:
+	movl	tmplw, r2
+	movq	=(255<<16), r3
+	bis	r3, r2
+	movl	r2, (r15)
+	movq	#0, r10
+	lea	ubuf+4, r4
+	call	ubuf
+	movq	=(1), r11
+	cbeq	r10, r11, 1f
+	movq	#150, r0
+	halt
+1:
+	movq	=(VECTOR_ILLEGAL), r11
+	cbeq	r6, r11, 1f
+	movq	#151, r0
+	halt
+1:
+	lea	ubuf, r11
+	cbeq	r8, r11, 1f
+	movq	#152, r0
+	halt
+1:
+	; --- the exception of the hypervisor itself writes HEPC, HEPSW, HEVA, HCAUSE and HEXITR (code 0) and not the guest's EPC, EPSW, EVA, ECAUSE
+	movq	=0x13572468, r2
+	mtsr	epc, r2
+	movq	=0x0abc, r2
+	mtsr	epsw, r2
+	movq	=0x24681357, r2
+	mtsr	geva, r2
+	movq	=0x99, r2
+	mtsr	gecause, r2
+	movl	tmplw, r2
+	movq	=(129<<16), r3
+	bis	r3, r2
+	movl	r2, (r15)
+	movq	#0, r10
+	lea	ubuf+4, r4
+	call	ubuf
+	movq	=(1), r11
+	cbeq	r10, r11, 1f
+	movq	#153, r0
+	halt
+1:
+	movq	=(VECTOR_ILLEGAL), r11
+	cbeq	r6, r11, 1f
+	movq	#154, r0
+	halt
+1:
+	lea	ubuf, r11
+	cbeq	r8, r11, 1f
+	movq	#155, r0
+	halt
+1:
 	mfsr	r3, epc
 	movq	=(0x13572468), r11
 	cbeq	r3, r11, 1f
-	movq	#147, r0
+	movq	#156, r0
 	halt
 1:
 	mfsr	r3, epsw
 	movq	=(0x0abc), r11
 	cbeq	r3, r11, 1f
-	movq	#148, r0
+	movq	#157, r0
 	halt
 1:
 	mfsr	r3, eva
 	movq	=(0x24681357), r11
 	cbeq	r3, r11, 1f
-	movq	#149, r0
+	movq	#158, r0
 	halt
 1:
 	mfsr	r3, ecause
 	movq	=(0x99), r11
 	cbeq	r3, r11, 1f
-	movq	#150, r0
+	movq	#159, r0
 	halt
 1:
 	mfsr	r3, hcause
 	movq	=(VECTOR_ILLEGAL), r11
 	cbeq	r3, r11, 1f
-	movq	#151, r0
+	movq	#160, r0
 	halt
 1:
 	mfsr	r3, hexitr
 	movq	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r3, r11, 1f
-	movq	#152, r0
+	movq	#161, r0
 	halt
 1:
 	mfsr	r3, hinsn
 	mfsr	r5, hgpa
 	movq	=(0), r11
 	cbeq	r5, r11, 1f
-	movq	#153, r0
+	movq	#162, r0
 	halt
 1:
 	; --- PUSHX and POPX at H = 1 use HEPC and HEPSW, and the guest's EPC and EPSW are not touched
@@ -1090,13 +1160,13 @@ R8:
 	movq	(r14), r3
 	movq	=(0x0555), r11
 	cbeq	r3, r11, 1f
-	movq	#154, r0
+	movq	#163, r0
 	halt
 1:
 	movq	8(r14), r3
 	movq	=(0x1111aaaa), r11
 	cbeq	r3, r11, 1f
-	movq	#155, r0
+	movq	#164, r0
 	halt
 1:
 	movq	#0, r2
@@ -1106,29 +1176,29 @@ R8:
 	mfsr	r3, hepc
 	movq	=(0x1111aaaa), r11
 	cbeq	r3, r11, 1f
-	movq	#156, r0
+	movq	#165, r0
 	halt
 1:
 	mfsr	r3, hepsw
 	movq	=(0x0555), r11
 	cbeq	r3, r11, 1f
-	movq	#157, r0
+	movq	#166, r0
 	halt
 1:
 	mfsr	r3, epc
 	movq	=(0x13572468), r11
 	cbeq	r3, r11, 1f
-	movq	#158, r0
+	movq	#167, r0
 	halt
 1:
 	mfsr	r3, epsw
 	movq	=(0x0abc), r11
 	cbeq	r3, r11, 1f
-	movq	#159, r0
+	movq	#168, r0
 	halt
 1:
 	cbeq	r14, r12, 1f
-	movq	#160, r0
+	movq	#169, r0
 	halt
 1:
 	movq	#0, r0

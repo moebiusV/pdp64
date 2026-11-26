@@ -18,9 +18,8 @@ The numbers of the processor status word, the modes, the exception vectors, the 
 | `PRI` | 5 | 3 | interrupt priority level, 0 to 7 |
 | `MODE` | 8 | 2 | current mode |
 | `PREV` | 10 | 2 | previous mode (the mode before the last exception) |
-| `UA` | 12 | 1 | user-access guard: with it clear a kernel-mode data access to a user page faults (6.10.1) |
 
-Bits 12 to 15 are reserved and read as zero. Bit 12 is the user-memory guard `UA`.
+Bits 12 to 15 are reserved and read as zero.
 
 ## The modes
 
@@ -42,7 +41,7 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `MACHINE_CHECK` | 1 | an unrecoverable error (a posted write that timed out, an uncorrectable memory error, a failed vector fetch); not restartable |
 | `ILLEGAL` | 2 | a reserved or undefined opcode, a reserved encoding or an unassigned system register |
 | `PRIVILEGED` | 3 | a system instruction executed outside kernel mode |
-| `MISALIGNED` | 4 | a data access whose address is not a multiple of its size (the `MOVU` forms excepted) |
+| `MISALIGNED` | 4 | an atomic, `PUSHX`, `POPX` or the operand of a vector block at an address that is not a multiple of its size (a plain load or store has no alignment fault) |
 | `NONCANONICAL` | 5 | a virtual address whose bits 63 to 39 differ from bit 38 |
 | `IFAULT` | 6 | instruction fetch from a page that is not mapped |
 | `LFAULT` | 7 | load from a page that is not mapped |
@@ -54,8 +53,8 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `BUSFAULT` | 13 | a read of non-existent memory (a precise abort) |
 | `LPAD` | 14 | an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1) |
 | `BPT` | 15 | the `BPT` instruction |
-| `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`) |
-| `HEXIT` | 17 | the instruction exit of a guest, in the hypervisor's vector table only (6.16.16) |
+| `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `ADDV`, `SUBV`, `MULV`) |
+| `HEXIT` | 17 | the instruction exit of a guest, in the hypervisor's vector table only (6.16.15) |
 | `GIFAULT` | 18 | a guest-physical instruction fault (stage 2), in the hypervisor's table only |
 | `GLFAULT` | 19 | a guest-physical load fault (stage 2), in the hypervisor's table only |
 | `GSFAULT` | 20 | a guest-physical store fault (stage 2), in the hypervisor's table only |
@@ -115,8 +114,6 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 | `EPC` | 1 | read and write |
 | `EVA` | 2 | read only |
 | `ECAUSE` | 3 | read only |
-| `DMW0` | 4 | read and write |
-| `DMW1` | 5 | read and write |
 | `USP` | 6 | read and write |
 | `SSP` | 7 | read and write |
 | `EPSW` | 8 | read and write |
@@ -202,7 +199,6 @@ The numbers of the exit-reason codes, the trap-control bits and the stage-2 regi
 | `xcode` | `ptbr` | 9 |  |
 | `xcode` | `mmuctl` | 10 |  |
 | `xcode` | `vbr` | 11 |  |
-| `xcode` | `dmw` | 12 |  |
 | `xcode` | `cpuid` | 13 |  |
 | `xcode` | `icinv` | 14 |  |
 | `xcode` | `bpt` | 15 |  |

@@ -7,10 +7,6 @@ _start:
 	mtsr	ptbr, r1
 	movq	#102, r1
 	mtsr	epc, r1
-	movq	#104, r1
-	mtsr	dmw0, r1
-	movq	#105, r1
-	mtsr	dmw1, r1
 	movq	#106, r1
 	mtsr	usp, r1
 	movq	#107, r1
@@ -21,12 +17,6 @@ _start:
 	mfsr	r2, epc
 	cmp	r2, #102
 	bne	f2
-	mfsr	r2, dmw0
-	cmp	r2, #104
-	bne	f3
-	mfsr	r2, dmw1
-	cmp	r2, #105
-	bne	f4
 	mfsr	r2, usp
 	cmp	r2, #106
 	bne	f5
@@ -66,10 +56,6 @@ _start:
 f1:	movq	#1, r0
 	halt
 f2:	movq	#2, r0
-	halt
-f3:	movq	#3, r0
-	halt
-f4:	movq	#4, r0
 	halt
 f5:	movq	#5, r0
 	halt

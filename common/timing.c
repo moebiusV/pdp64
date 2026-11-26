@@ -87,8 +87,8 @@ void tm_fmt(const struct fmt *f)
 	if (opc == OPGROUP_MBLK) { t->cls = TC_BLOCK; return; }
 	if (opc == OPGROUP_FESC) {
 		int s = f->sub;
-		if (s == MN_FESC_FDIV || s == MN_FESC_FSQRT || s == MN_FESC_FDIV32 || s == MN_FESC_FSQRT32 || s == MN_FESC_FDIV16 || s == MN_FESC_FSQRT16) t->cls = TC_FDIV;
-		else if (s == MN_FESC_FMUL32 || s == MN_FESC_FMUL16 || (s >= MN_FESC_FMADD && s <= MN_FESC_FNMSUB) || (s >= MN_FESC_FMADD32 && s <= MN_FESC_FNMSUB32) || (s >= MN_FESC_FMADD16 && s <= MN_FESC_FNMSUB16)) t->cls = TC_FMUL;
+		if (s == MN_FESC_FDIV || s == MN_FESC_FSQRT || s == MN_FESC_FDIV32 || s == MN_FESC_FSQRT32) t->cls = TC_FDIV;
+		else if (s == MN_FESC_FMUL32 || (s >= MN_FESC_FMADD && s <= MN_FESC_FNMSUB) || (s >= MN_FESC_FMADD32 && s <= MN_FESC_FNMSUB32)) t->cls = TC_FMUL;
 		else t->cls = TC_FADD;
 	}
 }
@@ -121,7 +121,7 @@ static void classify_name(const char *n, struct mnc *c)
 	if (!strcmp(n, "trap") || !strcmp(n, "trapl") || !strcmp(n, "halt")) { c->cls = TC_SYS; return; }
 	if (n[0] == 'f' && strcmp(n, "fence") && strcmp(n, "fsflags")) {
 		if (starts(n, "fdiv") || starts(n, "fsqrt")) c->cls = TC_FDIV;
-		else if (starts(n, "fmul") || starts(n, "fmadd") || starts(n, "fmsub") || starts(n, "fnmadd") || starts(n, "fnmsub")) c->cls = TC_FMUL;
+		else if (starts(n, "fmul") || starts(n, "fmadd") || starts(n, "fnmsub")) c->cls = TC_FMUL;
 		else c->cls = TC_FADD;
 	}
 }

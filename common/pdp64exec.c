@@ -197,10 +197,10 @@ static void clmul(uint64_t a, uint64_t b, uint64_t *lo, uint64_t *hi)
 
 
 /* ------------------------------------------------------------------------------------------------------------------ */
-/* binary16 (errata 27).  A half is the low 16 bits of a register, sign-extended like a binary32.  Every result is correctly rounded to
- * nearest even; the exception flags come from the rounding here, never from the host.  add, subtract, multiply are exact in a double,
- * divide and square root are correctly rounded in a double (53 bits is more than 2 * 11 + 2), so one more rounding gives the right
- * half; the fused multiply-adds are summed exactly in 128 bits.                                                                     */
+/* binary16 is a storage format: the six conversions, and nothing else.  A half is the low 16 bits of a register, sign-extended like a
+ * binary32.  Every narrowing is correctly rounded to nearest even; the exception flags come from the rounding here, never from the host.
+ * Arithmetic on halves is done in binary32 (a half is exact there, and one more rounding to a half gives the correctly rounded result
+ * of an add, subtract, multiply, divide or square root: 24 bits are at least 2 * 11 + 2).                                           */
 
 typedef unsigned __int128 u128;
 static int h_isnan(uint16_t h) { return (h & 0x7c00) == 0x7c00 && (h & 0x3ff); }
@@ -255,73 +255,12 @@ static uint16_t d2h(double x)
 	return roundhalf(sign, (u128)(uint64_t)ldexp(m, 53), e - 53);
 }
 static uint64_t fromh(uint16_t h) { return (uint64_t)(int64_t)(int16_t)h; }
-/* a finite half as integer * 2^exp */
-static void h_parts(uint16_t h, int *neg, int64_t *m, int *exp)
-{
-	int e = (h >> 10) & 31;
-	*neg = h >> 15;
-	*m = e == 0 ? (h & 1023) : 1024 + (h & 1023);
-	*exp = e == 0 ? -24 : e - 25;
-}
-static uint16_t fma16(uint16_t a, uint16_t b, uint16_t c, int negprod, int negc)
-{
-	int fin = ((a >> 10) & 31) != 31 && ((b >> 10) & 31) != 31 && ((c >> 10) & 31) != 31;
-	if (h_issnan(a) || h_issnan(b) || h_issnan(c)) fpsr |= 16;
-	if (fin) {
-		int na, nb, nc, ea, eb, ec;
-		int64_t ma, mb, mc;
-		h_parts(a, &na, &ma, &ea); h_parts(b, &nb, &mb, &eb); h_parts(c, &nc, &mc, &ec);
-		int pe = ea + eb, emin = pe < ec ? pe : ec;
-		__int128 P = (__int128)(ma * mb) << (pe - emin), Cc = (__int128)mc << (ec - emin), S;
-		if (na ^ nb ^ negprod) P = -P;
-		if (nc ^ negc) Cc = -Cc;
-		S = P + Cc;
-		if (S != 0) return roundhalf(S < 0 ? 0x8000 : 0, (u128)(S < 0 ? -S : S), emin);
-	}
-	/* infinities, NaNs and an exact zero sum: the host's fused multiply-add has the right rules, and rounding a double result to a half
-	   cannot differ from the exact one when the result is a special value or zero */
-	{
-		double v; feclearexcept(FE_ALL_EXCEPT);
-		v = fma(negprod ? -h2d(a) : h2d(a), h2d(b), negc ? -h2d(c) : h2d(c));
-		if (fetestexcept(FE_INVALID)) fpsr |= 16;
-		return d2h(v);
-	}
-}
 /* returns 1 if the instruction was a binary16 one */
 static int half_op(int sub, const struct fmt *f, uint64_t *rd)
 {
-	uint16_t a = (uint16_t)r[f->low], b = (uint16_t)r[f->t], c = (uint16_t)r[f->x], d = (uint16_t)*rd, res;
-	double x, y;
-	int e;
+	uint16_t a = (uint16_t)r[f->low];
+	double x;
 	switch (sub) {
-	case MN_FESC_FADD16: case MN_FESC_FSUB16: case MN_FESC_FMUL16: case MN_FESC_FDIV16:		/* rd <- rd op rs */
-		if (h_issnan(a) || h_issnan(d)) fpsr |= 16;
-		feclearexcept(FE_ALL_EXCEPT);
-		x = h2d(d); y = h2d(a);
-		res = d2h(sub == MN_FESC_FADD16 ? x + y : sub == MN_FESC_FSUB16 ? x - y : sub == MN_FESC_FMUL16 ? x * y : x / y);
-		e = fetestexcept(FE_ALL_EXCEPT);
-		if (e & FE_INVALID) fpsr |= 16;
-		if (e & FE_DIVBYZERO) fpsr |= 8;
-		*rd = fromh(res); return 1;
-	case MN_FESC_FSQRT16:
-		if (h_issnan(a)) fpsr |= 16;
-		feclearexcept(FE_ALL_EXCEPT);
-		res = d2h(sqrt(h2d(a)));
-		if (fetestexcept(FE_INVALID)) fpsr |= 16;
-		*rd = fromh(res); return 1;
-	case MN_FESC_FCMP16:
-		if (h_issnan(a) || h_issnan(d)) fpsr |= 16;
-		fcmp_flags(h2d(d), h2d(a)); return 1;
-	case MN_FESC_FMADD16: *rd = fromh(fma16(a, b, c, 0, 0)); return 1;
-	case MN_FESC_FMSUB16: *rd = fromh(fma16(a, b, c, 0, 1)); return 1;
-	case MN_FESC_FNMADD16: *rd = fromh(fma16(a, b, c, 1, 1)); return 1;
-	case MN_FESC_FNMSUB16: *rd = fromh(fma16(a, b, c, 1, 0)); return 1;
-	case MN_FESC_FCLASS16: {
-		int sgn = a >> 15, ex = (a >> 10) & 31, m = a & 1023;
-		unsigned k = ex == 31 ? (m ? ((a & 0x200) ? 1u << 9 : 1u << 8) : (sgn ? 1u << 0 : 1u << 7))
-		    : ex == 0 ? (m ? (sgn ? 1u << 2 : 1u << 5) : (sgn ? 1u << 3 : 1u << 4)) : (sgn ? 1u << 1 : 1u << 6);
-		*rd = k; return 1;
-	}
 	case MN_FESC_FCVTSH: {		/* binary32 to binary16 */
 		uint32_t w = (uint32_t)r[f->low];
 		if ((w & 0x7f800000) == 0x7f800000 && (w & 0x7fffff) && !(w & 0x400000)) fpsr |= 16;
@@ -380,7 +319,7 @@ static void hexit(unsigned code, unsigned flags, int vector, uint64_t epc, uint6
 	C->vec_phys = 0;
 	old = pdp64_psw(C);
 	C->hepc = epc; C->hepsw = old; C->heva = eva; C->hgpa = gpa; C->hinsn = insn; C->hexitr = code | flags; C->hcause = (uint64_t)vector;
-	C->uacc = 0;
+	C->uacc = C->ublk = 0;
 	C->resv_on = 0;									/* an exit clears any LL reservation: no mark of one level is found by another (errata 211) */
 	pdp64_set_h(C, 1);
 	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));
@@ -411,7 +350,7 @@ static void enter_h(int vector, uint64_t epc, uint64_t eva)
 	if (E->vecread(E->u, at, &target)) E->fault(E->u, "machine check: the vector fetch failed", at);
 	old = pdp64_psw(C);
 	C->hepc = epc; C->hepsw = old; C->heva = eva; C->hgpa = 0; C->hinsn = 0; C->hexitr = XCODE_TAKEN_AT_H; C->hcause = (uint64_t)vector;
-	C->uacc = 0; C->resv_on = 0;
+	C->uacc = C->ublk = 0; C->resv_on = 0;
 	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));
 	C->vacc = 0;
 	pc = target;
@@ -436,7 +375,7 @@ static void enter(int vector, uint64_t epc, uint64_t eva)
 	}
 	old = pdp64_psw(C);
 	C->epc = epc; C->epsw = old; C->eva = eva; C->ecause = (uint64_t)vector | (C->uacc ? 1u << 15 : 0);	/* bit 15: the fault was on the operand of a .u move (6.10.4) */
-	C->uacc = 0; C->resv_on = 0;							/* every exception entry clears any LL reservation (errata 211) */
+	C->uacc = C->ublk = 0; C->resv_on = 0;							/* every exception entry clears any LL reservation (errata 211) */
 	pdp64_set_psw(C, MODE_KERNEL << PSW_MODE | (old >> PSW_MODE & 3) << PSW_PREV | PSW_FIELD(PRI, ~0u));	/* UA is clear in the new status word; EPSW keeps the old value (6.10.1) */
 	C->vacc = 0;									/* every exception entry clears the naming of the vector accumulators (errata 186 decision 13, 6.14.9); the hardware's copy of a hidden block, vrun_* and vrst_*, is not touched. */
 	pc = target;
@@ -693,11 +632,6 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 					return;
 				}
 				priv();
-				if (f.sub == MN_SYSX_STUA || f.sub == MN_SYSX_CLUA) {				/* stua, clua: set and clear UA, the user-access guard (errata 43, 190; 6.10.1): no flags, pad zero */
-					if (f.n != 0) die("illegal instruction", 0);
-					if (f.sub == MN_SYSX_STUA) C->psw |= 1u << PSW_UA; else C->psw &= ~(1u << PSW_UA);
-					return;
-				}
 				if (f.n != 0 || (f.sub != MN_SYSX_PUSHX && f.sub != MN_SYSX_POPX)) die("illegal instruction", 0);
 				a = f.sub == MN_SYSX_PUSHX ? r[14] - 16 : r[14];
 				if (a & 7) fault_v(VECTOR_MISALIGNED, "misaligned data access", a);
@@ -725,7 +659,6 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 					return;
 				}
 				if (GUEST()) switch (f.sub) {						/* the trapped moves of a guest (design 1.5, 1.6); an unassigned number is not caught here: it is illegal below, in the guest */
-				case SYSREG_DMW0: case SYSREG_DMW1: if (gexit(XCODE_DMW)) return; break;
 				case SYSREG_PTBR: if (write && gtrap(HTRAP_PTBR, XCODE_PTBR)) return; break;
 				case SYSREG_MMUCTL: if (write && gtrap(HTRAP_MMUCTL, XCODE_MMUCTL)) return; break;
 				case SYSREG_VBR: if (write && gtrap(HTRAP_VBR, XCODE_VBR)) return; break;
@@ -737,8 +670,6 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 				case SYSREG_EPC: sr = &C->epc; break;
 				case SYSREG_EVA: sr = &C->eva; break;
 				case SYSREG_ECAUSE: sr = &C->ecause; break;
-				case SYSREG_DMW0: sr = &C->dmw[0]; break;
-				case SYSREG_DMW1: sr = &C->dmw[1]; break;
 				case SYSREG_USP: sr = &C->spbank[bank(MODE_USER)]; break;
 				case SYSREG_SSP: sr = &C->spbank[bank(MODE_SUPERVISOR)]; break;
 				case SYSREG_EPSW: sr = &C->epsw; mask = PSW_VALID; break;
@@ -788,15 +719,11 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		}
 		case MN_SYS_MTDP: dp = r[f.low]; return;
 		case MN_SYS_MFDP: r[f.low] = dp; return;
-		case MN_SYS_MFCPUID: priv(); if (gtrap(HTRAP_CPUID, XCODE_CPUID)) return; r[f.low] = GUEST() ? C->vcpuid : C->cpuid; return;			/* privileged (errata 186 decision 2; 6.2.5, 6.14.11): MFSR CPUID already is */
 		case MN_SYS_PROBER: case MN_SYS_PROBEW:
 			priv();
 			r[f.rd] = E->probe(E->u, r[f.low], cls == MN_SYS_PROBEW, (int)(C->psw >> PSW_PREV & 3));
 			return;
 		case MN_SYS_TLBI: priv(); if (gtrap(HTRAP_TLBI, XCODE_TLB)) return; E->tlb(E->u, PDP64_TLB_PAGE, r[f.low]); return;
-		case MN_SYS_MTASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; C->asid = r[f.low] & 0xffff; E->tlb(E->u, PDP64_TLB_ALL, 0); fpsr = 0; return;
-		case MN_SYS_MFASID: priv(); if (gtrap(HTRAP_ASID, XCODE_ASID)) return; r[f.low] = C->asid; return;
-		case MN_SYS_MTDMW: priv(); if (gexit(XCODE_DMW)) return; C->dmw[0] = r[f.low]; return;			/* v1: storage only; the operand names no window, so it is DMW0 */
 		case MN_SYS_ICINV: if (gtrap(HTRAP_ICINV, XCODE_ICINV)) return; return;
 		}
 		die("unimplemented system instruction", cls);
@@ -861,7 +788,9 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		C->progress = 1;
 		int sub = f.sub, rd = f.reg, rs = f.low, rn = f.t;
 		switch (sub) {
-		case MN_MBLK_MCPY: while (r[rn]) { st(r[rd], 1, ld(r[rs], 1)); r[rd]++; r[rs]++; r[rn]--; } return;
+		case MN_MBLK_MCPY:							/* mcpy.ur and mcpy.uw (C->ublk, bit 0 and 1): the side that is user memory is accessed with the privilege of user mode, as a .u move is (6.10.4) */
+			while (r[rn]) { uint64_t v; C->uacc = C->ublk & 1; v = ld(r[rs], 1); C->uacc = C->ublk >> 1 & 1; st(r[rd], 1, v); r[rd]++; r[rs]++; r[rn]--; }
+			C->uacc = C->ublk = 0; return;
 		case MN_MBLK_MMOV:
 			if (r[rd] <= r[rs] || r[rd] >= r[rs] + r[rn]) { while (r[rn]) { st(r[rd], 1, ld(r[rs], 1)); r[rd]++; r[rs]++; r[rn]--; } }
 			else { while (r[rn]) { r[rn]--; st(r[rd] + r[rn], 1, ld(r[rs] + r[rn], 1)); } r[rd] += 0; }
@@ -904,12 +833,8 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		case MN_FESC_FSQRT32: r[rd] = froms(sqrtf(sa)); break;
 		case MN_FESC_FCMP32: fcmp_flags(ass(r[rd]), sa); break;
 		case MN_FESC_FMADD: r[rd] = fromd(fma(a, b, c)); break;
-		case MN_FESC_FMSUB: r[rd] = fromd(fma(a, b, -c)); break;
-		case MN_FESC_FNMADD: r[rd] = fromd(fma(-a, b, -c)); break;
 		case MN_FESC_FNMSUB: r[rd] = fromd(fma(-a, b, c)); break;
 		case MN_FESC_FMADD32: r[rd] = froms(fmaf(sa, sb, sc)); break;
-		case MN_FESC_FMSUB32: r[rd] = froms(fmaf(sa, sb, -sc)); break;
-		case MN_FESC_FNMADD32: r[rd] = froms(fmaf(-sa, sb, -sc)); break;
 		case MN_FESC_FNMSUB32: r[rd] = froms(fmaf(-sa, sb, sc)); break;
 		case MN_FESC_FNEG: r[rd] = r[f.low] ^ 0x8000000000000000ULL; break;
 		case MN_FESC_FABS: r[rd] = r[f.low] & 0x7fffffffffffffffULL; break;
@@ -925,7 +850,7 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 			else m = sgn ? 1u << 1 : 1u << 6;
 			r[rd] = m; break;
 		}
-		case MN_FESC_FCLASS32: {		/* as FCLASS16, for a binary32 in the low 32 bits */
+		case MN_FESC_FCLASS32: {		/* a binary32 in the low 32 bits */
 			uint32_t w = (uint32_t)r[f.low]; unsigned sgn = w >> 31, ex = (w >> 23) & 255, m = w & 0x7fffff, k;
 			k = ex == 255 ? (m ? ((w & 0x400000) ? 1u << 9 : 1u << 8) : (sgn ? 1u << 0 : 1u << 7))
 			    : ex == 0 ? (m ? (sgn ? 1u << 2 : 1u << 5) : (sgn ? 1u << 3 : 1u << 4)) : (sgn ? 1u << 1 : 1u << 6);
@@ -1068,7 +993,7 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 {
 	int traced = c->psw >> PSW_T & 1, guest = c->hve && !c->h;
 	C = c; E = e;
-	c->entered = 0; c->progress = 0; c->wait = 0; c->vhidden = 0; c->uacc = 0; c->snap_valid = c->deliver;
+	c->entered = 0; c->progress = 0; c->wait = 0; c->vhidden = 0; c->uacc = c->ublk = 0; c->snap_valid = c->deliver;
 	c->cur_insn = 0;									/* an exit during the fetch has no instruction to show */
 	c->s2_code = 0;
 	if (c->deliver) {									/* keep what an abort has to undo */

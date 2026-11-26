@@ -383,11 +383,11 @@ INTRINSIC = {
     'cas', 'swap', 'xadd', 'xand', 'xor_', 'xxor', 'xmax', 'xmin', 'xmaxu', 'xminu', 'll', 'sc',
     'mmov', 'mset', 'mcmp', 'mscn', 'mscnn', 'mval', 'mcpy',
     'mulhu', 'btag', 'bntag', 'jtag',
-    'mtps', 'mfps', 'spl', 'trap', 'tlbi', 'mtasid', 'mfasid', 'mtdp', 'mfdp', 'mtdmw', 'mfcpuid', 'icinv', 'prober', 'probew',
+    'mtps', 'mfps', 'spl', 'trap', 'tlbi', 'mtdp', 'mfdp', 'icinv', 'prober', 'probew',
     'rti', 'rtt', 'halt', 'bpt', 'fence', 'wfe', 'sev', 'lpad', 'tlbia', 'tlbsync', 'icinva', 'wait',
-    'fclass', 'fclass32', 'fcopysign', 'fmin', 'fmax', 'fabs', 'fsflags', 'fmadd', 'fmadd32', 'fmsub', 'fmsub32', 'fnmadd', 'fnmadd32',
+    'fclass', 'fclass32', 'fcopysign', 'fmin', 'fmax', 'fabs', 'fsflags', 'fmadd', 'fmadd32',
     'fnmsub', 'fnmsub32', 'frint', 'frinta', 'frintz', 'frintm', 'frintp', 'fsqrt', 'fsqrt32', 'abs', 'min', 'minu', 'max', 'maxu', 'jmpi',
-    'movub', 'movuw', 'movul', 'movuq', 'addm', 'subm', 'bicm', 'bism',
+    'addm', 'subm', 'bicm', 'bism',
     'pushm', 'popm',
 }
 

@@ -61,10 +61,6 @@ mn-branch = "br"@0b110000
 ; aliases are numbered above, as in the branch group
 mn-cbranch = "cbne"@0b0001
            | "cbeq"@0b0010
-           | "cbpl"@0b0011
-           | "cbmi"@0b0100
-           | "cbvc"@0b0101
-           | "cbvs"@0b0110
            | "cbcc"@0b0111
            | "cbcs"@0b1000
            | "cbge"@0b1001
@@ -161,12 +157,8 @@ mn-fesc = "fdiv"@0b00000000
         | "fsqrt32"@0b00001100
         | "fcmp32"@0b00001101
         | "fmadd"@0b00010000
-        | "fmsub"@0b00010001
-        | "fnmadd"@0b00010010
         | "fnmsub"@0b00010011
         | "fmadd32"@0b00011000
-        | "fmsub32"@0b00011001
-        | "fnmadd32"@0b00011010
         | "fnmsub32"@0b00011011
         | "fneg"@0b00100000
         | "fabs"@0b00100001
@@ -189,17 +181,6 @@ mn-fesc = "fdiv"@0b00000000
         | "fcvtdqu"@0b00111110
         | "fcvtqud"@0b00111111
         | "fsflags"@0b01000000
-        | "fadd16"@0b01010000
-        | "fsub16"@0b01010001
-        | "fmul16"@0b01010010
-        | "fdiv16"@0b01010011
-        | "fsqrt16"@0b01010100
-        | "fcmp16"@0b01010101
-        | "fmadd16"@0b01011000
-        | "fmsub16"@0b01011001
-        | "fnmadd16"@0b01011010
-        | "fnmsub16"@0b01011011
-        | "fclass16"@0b01011100
         | "fcvtsh"@0b01100000
         | "fcvths"@0b01100001
         | "fcvtdh"@0b01100010
@@ -236,13 +217,9 @@ mn-atom = "cas"@0
         | "scl"@42
         | "lll"@43
 
-; MESC: sub-opcode in parcel 1 (4 bits); the MOVU* names appear twice in the table, ld = n and st = n+1: numbered by the load
+; MESC: sub-opcode in parcel 1 (4 bits): the read-modify-write forms on memory
 ; MESC
-mn-mesc = "movub"@0b0000
-        | "movuw"@0b0010
-        | "movul"@0b0100
-        | "movuq"@0b0110
-        | "addm"@0b1000
+mn-mesc = "addm"@0b1000
         | "subm"@0b1001
         | "bicm"@0b1010
         | "bism"@0b1011

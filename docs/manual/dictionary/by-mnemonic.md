@@ -66,17 +66,12 @@
 | `CBLO` (alias of `CBCS`) | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cbcs), [entry](../09-isa.md#w-cbcs) | Branches |
 | `CBLOS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cblos), [entry](../09-isa.md#w-cblos) | Branches |
 | `CBLT` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [8](by-encoding.md#mn-cblt), [entry](../09-isa.md#w-cblt) | Branches |
-| `CBMI` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [2](by-encoding.md#mn-cbmi), [entry](../09-isa.md#w-cbmi) | Branches |
 | `CBNE` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [12](by-encoding.md#mn-cbne), [entry](../09-isa.md#w-cbne) | Branches |
-| `CBPL` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [2](by-encoding.md#mn-cbpl), [entry](../09-isa.md#w-cbpl) | Branches |
-| `CBVC` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [2](by-encoding.md#mn-cbvc), [entry](../09-isa.md#w-cbvc) | Branches |
-| `CBVS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [2](by-encoding.md#mn-cbvs), [entry](../09-isa.md#w-cbvs) | Branches |
 | `CHK2` | [CHK2](../09-isa.md#chk2-two-bound-check) (section 9.14) | [1](by-encoding.md#mn-chk2), [entry](../09-isa.md#w-chk2) | Added by the prefix-coded encoding |
 | `CLMULH` | [CLMUL](../09-isa.md#clmul-carry-less-multiply) (section 9.9) | [1](by-encoding.md#mn-clmulh), [entry](../09-isa.md#w-clmulh) | Bits and fields (BESC) |
 | `CLMULL` | [CLMUL](../09-isa.md#clmul-carry-less-multiply) (section 9.9) | [1](by-encoding.md#mn-clmull), [entry](../09-isa.md#w-clmull) | Bits and fields (BESC) |
 | `CLO` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clo), [entry](../09-isa.md#w-clo) | Bits and fields (BESC) |
 | `CLR` | [CLR](../09-isa.md#clr-clear) (section 9.8) | [10](by-encoding.md#mn-clr), [entry](../09-isa.md#w-clr) | Single operand (SOP) |
-| `CLUA` | [STUA](../09-isa.md#stua-set-and-clear-the-user-access-guard) (section 9.14) | [1](by-encoding.md#mn-clua), [entry](../09-isa.md#w-clua) | System (SYS) |
 | `CLZ` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clz), [entry](../09-isa.md#w-clz) | Bits and fields (BESC) |
 | `CMP` | [CMP](../09-isa.md#cmp-compare) (section 9.7) | [15](by-encoding.md#mn-cmp), [entry](../09-isa.md#w-cmp) | Moves, address formation and the ALU |
 | `COM` | [COM](../09-isa.md#com-complement) (section 9.8) | [7](by-encoding.md#mn-com), [entry](../09-isa.md#w-com) | Single operand (SOP) |
@@ -104,13 +99,10 @@
 | `EXTZB` | [EXTB](../09-isa.md#extb-extract-a-bit-field) (section 9.9) | [1](by-encoding.md#mn-extzb), [entry](../09-isa.md#w-extzb) | Bits and fields (BESC) |
 | `FABS` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [1](by-encoding.md#mn-fabs), [entry](../09-isa.md#w-fabs) | Floating point (FESC) |
 | `FADD` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fadd), [entry](../09-isa.md#w-fadd) | Moves, address formation and the ALU |
-| `FADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fadd16), [entry](../09-isa.md#w-fadd16) | Floating point (FESC) |
 | `FADD32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fadd32), [entry](../09-isa.md#w-fadd32) | Floating point (FESC) |
 | `FCLASS` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass), [entry](../09-isa.md#w-fclass) | Floating point (FESC) |
-| `FCLASS16` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass16), [entry](../09-isa.md#w-fclass16) | Floating point (FESC) |
 | `FCLASS32` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass32), [entry](../09-isa.md#w-fclass32) | Floating point (FESC) |
 | `FCMP` | [FCMP](../09-isa.md#fcmp-floating-compare-binary64) (section 9.12) | [9](by-encoding.md#mn-fcmp), [entry](../09-isa.md#w-fcmp) | Moves, address formation and the ALU |
-| `FCMP16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fcmp16), [entry](../09-isa.md#w-fcmp16) | Floating point (FESC) |
 | `FCMP32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fcmp32), [entry](../09-isa.md#w-fcmp32) | Floating point (FESC) |
 | `FCOPYSIGN` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [1](by-encoding.md#mn-fcopysign), [entry](../09-isa.md#w-fcopysign) | Floating point (FESC) |
 | `FCVTDH` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | [1](by-encoding.md#mn-fcvtdh), [entry](../09-isa.md#w-fcvtdh) | Floating point (FESC) |
@@ -128,26 +120,16 @@
 | `FCVTSH` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | [1](by-encoding.md#mn-fcvtsh), [entry](../09-isa.md#w-fcvtsh) | Floating point (FESC) |
 | `FCVTSL` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtsl), [entry](../09-isa.md#w-fcvtsl) | Floating point (FESC) |
 | `FDIV` | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | [1](by-encoding.md#mn-fdiv), [entry](../09-isa.md#w-fdiv) | Floating point (FESC) |
-| `FDIV16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fdiv16), [entry](../09-isa.md#w-fdiv16) | Floating point (FESC) |
 | `FDIV32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fdiv32), [entry](../09-isa.md#w-fdiv32) | Floating point (FESC) |
 | `FENCE` | [FENCE](../09-isa.md#fence-memory-fence) (section 9.14) | [1](by-encoding.md#mn-fence), [entry](../09-isa.md#w-fence) | System (SYS) |
 | `FMADD` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fmadd), [entry](../09-isa.md#w-fmadd) | Floating point (FESC) |
-| `FMADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fmadd16), [entry](../09-isa.md#w-fmadd16) | Floating point (FESC) |
 | `FMADD32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fmadd32), [entry](../09-isa.md#w-fmadd32) | Floating point (FESC) |
 | `FMAX` | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | [1](by-encoding.md#mn-fmax), [entry](../09-isa.md#w-fmax) | Floating point (FESC) |
 | `FMIN` | [FMIN](../09-isa.md#fmin-floating-minimum-and-maximum-binary64) (section 9.12) | [1](by-encoding.md#mn-fmin), [entry](../09-isa.md#w-fmin) | Floating point (FESC) |
-| `FMSUB` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fmsub), [entry](../09-isa.md#w-fmsub) | Floating point (FESC) |
-| `FMSUB16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fmsub16), [entry](../09-isa.md#w-fmsub16) | Floating point (FESC) |
-| `FMSUB32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fmsub32), [entry](../09-isa.md#w-fmsub32) | Floating point (FESC) |
 | `FMUL` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fmul), [entry](../09-isa.md#w-fmul) | Moves, address formation and the ALU |
-| `FMUL16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fmul16), [entry](../09-isa.md#w-fmul16) | Floating point (FESC) |
 | `FMUL32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fmul32), [entry](../09-isa.md#w-fmul32) | Floating point (FESC) |
 | `FNEG` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [1](by-encoding.md#mn-fneg), [entry](../09-isa.md#w-fneg) | Floating point (FESC) |
-| `FNMADD` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fnmadd), [entry](../09-isa.md#w-fnmadd) | Floating point (FESC) |
-| `FNMADD16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fnmadd16), [entry](../09-isa.md#w-fnmadd16) | Floating point (FESC) |
-| `FNMADD32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fnmadd32), [entry](../09-isa.md#w-fnmadd32) | Floating point (FESC) |
 | `FNMSUB` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fnmsub), [entry](../09-isa.md#w-fnmsub) | Floating point (FESC) |
-| `FNMSUB16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fnmsub16), [entry](../09-isa.md#w-fnmsub16) | Floating point (FESC) |
 | `FNMSUB32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fnmsub32), [entry](../09-isa.md#w-fnmsub32) | Floating point (FESC) |
 | `FRINT` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frint), [entry](../09-isa.md#w-frint) | Floating point (FESC) |
 | `FRINTA` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frinta), [entry](../09-isa.md#w-frinta) | Floating point (FESC) |
@@ -156,10 +138,8 @@
 | `FRINTZ` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frintz), [entry](../09-isa.md#w-frintz) | Floating point (FESC) |
 | `FSFLAGS` | [FSFLAGS](../09-isa.md#fsflags-swap-the-floating-point-exception-flags) (section 9.12) | [1](by-encoding.md#mn-fsflags), [entry](../09-isa.md#w-fsflags) | Floating point (FESC) |
 | `FSQRT` | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | [1](by-encoding.md#mn-fsqrt), [entry](../09-isa.md#w-fsqrt) | Floating point (FESC) |
-| `FSQRT16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fsqrt16), [entry](../09-isa.md#w-fsqrt16) | Floating point (FESC) |
 | `FSQRT32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fsqrt32), [entry](../09-isa.md#w-fsqrt32) | Floating point (FESC) |
 | `FSUB` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fsub), [entry](../09-isa.md#w-fsub) | Moves, address formation and the ALU |
-| `FSUB16` | [FHALF](../09-isa.md#fhalf-floating-arithmetic-binary16) (section 9.12) | [1](by-encoding.md#mn-fsub16), [entry](../09-isa.md#w-fsub16) | Floating point (FESC) |
 | `FSUB32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fsub32), [entry](../09-isa.md#w-fsub32) | Floating point (FESC) |
 | `GENTER` | [GENTER](../09-isa.md#genter-enter-a-guest) (section 9.14) | [1](by-encoding.md#mn-genter), [entry](../09-isa.md#w-genter) | System (SYS) |
 | `HALT` | [HALT](../09-isa.md#halt-halt-the-processor) (section 9.14) | [1](by-encoding.md#mn-halt), [entry](../09-isa.md#w-halt) | System (SYS) |
@@ -182,8 +162,8 @@
 | `MAXU` | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [1](by-encoding.md#mn-maxu), [entry](../09-isa.md#w-maxu) | Arithmetic (AESC) |
 | `MCMP` | [MCMP](../09-isa.md#mcmp-compare-two-blocks-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mcmp), [entry](../09-isa.md#w-mcmp) | Block memory (MBLK) |
 | `MCPY` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mcpy), [entry](../09-isa.md#w-mcpy) | Block memory (MBLK) |
-| `MFASID` | [MTASID](../09-isa.md#mtasid-move-to-and-from-the-address-space-identifier) (section 9.14) | [1](by-encoding.md#mn-mfasid), [entry](../09-isa.md#w-mfasid) | System (SYS) |
-| `MFCPUID` | [MFCPUID](../09-isa.md#mfcpuid-read-the-processor-identifier) (section 9.14) | [1](by-encoding.md#mn-mfcpuid), [entry](../09-isa.md#w-mfcpuid) | System (SYS) |
+| `MCPY.UR` | [MCPYU](../09-isa.md#mcpyu-user-qualified-block-copy) (section 9.6) | [1](by-encoding.md#mn-mcpy-ur), [entry](../09-isa.md#w-mcpy-ur) | Added by the prefix-coded encoding |
+| `MCPY.UW` | [MCPYU](../09-isa.md#mcpyu-user-qualified-block-copy) (section 9.6) | [1](by-encoding.md#mn-mcpy-uw), [entry](../09-isa.md#w-mcpy-uw) | Added by the prefix-coded encoding |
 | `MFDP` | [MTDP](../09-isa.md#mtdp-move-to-and-from-the-direct-pointer) (section 9.14) | [1](by-encoding.md#mn-mfdp), [entry](../09-isa.md#w-mfdp) | System (SYS) |
 | `MFPS` | [MTPS](../09-isa.md#mtps-move-to-and-from-the-processor-status-word) (section 9.14) | [1](by-encoding.md#mn-mfps), [entry](../09-isa.md#w-mfps) | System (SYS) |
 | `MFSR` | [MFSR](../09-isa.md#mfsr-move-from-and-to-a-system-register) (section 9.14) | [1](by-encoding.md#mn-mfsr), [entry](../09-isa.md#w-mfsr) | System (SYS) |
@@ -194,36 +174,23 @@
 | `MODU` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-modu), [entry](../09-isa.md#w-modu) | Arithmetic (AESC) |
 | `MOV2` | [MOV2](../09-isa.md#mov2-two-register-moves) (section 9.6) | [1](by-encoding.md#mn-mov2), [entry](../09-isa.md#w-mov2) | Added by the prefix-coded encoding |
 | `MOVB` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [29](by-encoding.md#mn-movb), [entry](../09-isa.md#w-movb) | Moves, address formation and the ALU |
-| `MOVB.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movb-d), [entry](../09-isa.md#w-movb-d) | Added by the prefix-coded encoding |
 | `MOVB.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movb-u), [entry](../09-isa.md#w-movb-u) | Added by the prefix-coded encoding |
 | `MOVCALL` | [MOVCALL](../09-isa.md#movcall-move-a-register-and-call) (section 9.10) | [2](by-encoding.md#mn-movcall), [entry](../09-isa.md#w-movcall) | Added by the prefix-coded encoding |
 | `MOVL` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [31](by-encoding.md#mn-movl), [entry](../09-isa.md#w-movl) | Moves, address formation and the ALU |
-| `MOVL.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movl-d), [entry](../09-isa.md#w-movl-d) | Added by the prefix-coded encoding |
 | `MOVL.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movl-u), [entry](../09-isa.md#w-movl-u) | Added by the prefix-coded encoding |
 | `MOVQ` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [35](by-encoding.md#mn-movq), [entry](../09-isa.md#w-movq) | Moves, address formation and the ALU |
-| `MOVQ.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movq-d), [entry](../09-isa.md#w-movq-d) | Added by the prefix-coded encoding |
 | `MOVQ.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movq-u), [entry](../09-isa.md#w-movq-u) | Added by the prefix-coded encoding |
-| `MOVUB` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | [13](by-encoding.md#mn-movub), [entry](../09-isa.md#w-movub) | Memory escape (MESC) |
-| `MOVUL` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | [13](by-encoding.md#mn-movul), [entry](../09-isa.md#w-movul) | Memory escape (MESC) |
-| `MOVUQ` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | [13](by-encoding.md#mn-movuq), [entry](../09-isa.md#w-movuq) | Memory escape (MESC) |
-| `MOVUW` | [MOVU](../09-isa.md#movu-unaligned-load-and-store) (section 9.6) | [13](by-encoding.md#mn-movuw), [entry](../09-isa.md#w-movuw) | Memory escape (MESC) |
 | `MOVW` | [MOV](../09-isa.md#mov-move-load-and-store-64-32-16-and-8-bits) (section 9.6) | [28](by-encoding.md#mn-movw), [entry](../09-isa.md#w-movw) | Moves, address formation and the ALU |
-| `MOVW.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movw-d), [entry](../09-isa.md#w-movw-d) | Added by the prefix-coded encoding |
 | `MOVW.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [6](by-encoding.md#mn-movw-u), [entry](../09-isa.md#w-movw-u) | Added by the prefix-coded encoding |
 | `MOVZB` | [MOVZ](../09-isa.md#movz-move-zero-extended-32-16-and-8-bits) (section 9.6) | [18](by-encoding.md#mn-movzb), [entry](../09-isa.md#w-movzb) | Moves, address formation and the ALU |
-| `MOVZB.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movzb-d), [entry](../09-isa.md#w-movzb-d) | Added by the prefix-coded encoding |
 | `MOVZB.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [3](by-encoding.md#mn-movzb-u), [entry](../09-isa.md#w-movzb-u) | Added by the prefix-coded encoding |
 | `MOVZL` | [MOVZ](../09-isa.md#movz-move-zero-extended-32-16-and-8-bits) (section 9.6) | [16](by-encoding.md#mn-movzl), [entry](../09-isa.md#w-movzl) | Moves, address formation and the ALU |
-| `MOVZL.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movzl-d), [entry](../09-isa.md#w-movzl-d) | Added by the prefix-coded encoding |
 | `MOVZL.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [3](by-encoding.md#mn-movzl-u), [entry](../09-isa.md#w-movzl-u) | Added by the prefix-coded encoding |
 | `MOVZW` | [MOVZ](../09-isa.md#movz-move-zero-extended-32-16-and-8-bits) (section 9.6) | [16](by-encoding.md#mn-movzw), [entry](../09-isa.md#w-movzw) | Moves, address formation and the ALU |
-| `MOVZW.D` | [MOVD](../09-isa.md#movd-deferred-fault-load) (section 9.6) | [3](by-encoding.md#mn-movzw-d), [entry](../09-isa.md#w-movzw-d) | Added by the prefix-coded encoding |
 | `MOVZW.U` | [MOVUSER](../09-isa.md#movuser-user-qualified-load-and-store) (section 9.6) | [3](by-encoding.md#mn-movzw-u), [entry](../09-isa.md#w-movzw-u) | Added by the prefix-coded encoding |
 | `MSCN` | [MSCN](../09-isa.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) (section 9.11) | [1](by-encoding.md#mn-mscn), [entry](../09-isa.md#w-mscn) | Block memory (MBLK) |
 | `MSCNN` | [MSCN](../09-isa.md#mscn-scan-a-block-for-a-byte-or-for-a-byte-not-equal-to-it) (section 9.11) | [1](by-encoding.md#mn-mscnn), [entry](../09-isa.md#w-mscnn) | Block memory (MBLK) |
 | `MSET` | [MSET](../09-isa.md#mset-fill-a-block-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mset), [entry](../09-isa.md#w-mset) | Block memory (MBLK) |
-| `MTASID` | [MTASID](../09-isa.md#mtasid-move-to-and-from-the-address-space-identifier) (section 9.14) | [1](by-encoding.md#mn-mtasid), [entry](../09-isa.md#w-mtasid) | System (SYS) |
-| `MTDMW` | [MTDMW](../09-isa.md#mtdmw-move-to-a-direct-mapping-window) (section 9.14) | [1](by-encoding.md#mn-mtdmw), [entry](../09-isa.md#w-mtdmw) | System (SYS) |
 | `MTDP` | [MTDP](../09-isa.md#mtdp-move-to-and-from-the-direct-pointer) (section 9.14) | [1](by-encoding.md#mn-mtdp), [entry](../09-isa.md#w-mtdp) | System (SYS) |
 | `MTPS` | [MTPS](../09-isa.md#mtps-move-to-and-from-the-processor-status-word) (section 9.14) | [1](by-encoding.md#mn-mtps), [entry](../09-isa.md#w-mtps) | System (SYS) |
 | `MTSR` | [MFSR](../09-isa.md#mfsr-move-from-and-to-a-system-register) (section 9.14) | [1](by-encoding.md#mn-mtsr), [entry](../09-isa.md#w-mtsr) | System (SYS) |
@@ -270,43 +237,21 @@
 | `SHR` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | [13](by-encoding.md#mn-shr), [entry](../09-isa.md#w-shr) | Moves, address formation and the ALU |
 | `SOB` | [SOB](../09-isa.md#sob-subtract-one-and-branch) (section 9.10) | [1](by-encoding.md#mn-sob), [entry](../09-isa.md#w-sob) | Branches |
 | `SPL` | [SPL](../09-isa.md#spl-set-the-interrupt-priority-level) (section 9.14) | [1](by-encoding.md#mn-spl), [entry](../09-isa.md#w-spl) | System (SYS) |
-| `STUA` | [STUA](../09-isa.md#stua-set-and-clear-the-user-access-guard) (section 9.14) | [1](by-encoding.md#mn-stua), [entry](../09-isa.md#w-stua) | System (SYS) |
 | `SUB` | [SUB](../09-isa.md#sub-subtract) (section 9.7) | [20](by-encoding.md#mn-sub), [entry](../09-isa.md#w-sub) | Moves, address formation and the ALU |
 | `SUBM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | [6](by-encoding.md#mn-subm), [entry](../09-isa.md#w-subm) | Memory escape (MESC) |
 | `SUBV` | [OVF](../09-isa.md#ovf-add-subtract-and-multiply-trapping-on-signed-overflow) (section 9.7) | [1](by-encoding.md#mn-subv), [entry](../09-isa.md#w-subv) | Added by the prefix-coded encoding |
 | `SWAP` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swap), [entry](../09-isa.md#w-swap) | Atomics (ATOM) |
 | `SWAPL` | [SWAP](../09-isa.md#swap-atomic-exchange) (section 9.13) | [1](by-encoding.md#mn-swapl), [entry](../09-isa.md#w-swapl) | Atomics (ATOM) |
-| `SYSPG0` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg0), [entry](../09-isa.md#w-syspg0) | Added by the prefix-coded encoding |
-| `SYSPG1` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg1), [entry](../09-isa.md#w-syspg1) | Added by the prefix-coded encoding |
-| `SYSPG2` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg2), [entry](../09-isa.md#w-syspg2) | Added by the prefix-coded encoding |
-| `SYSPG3` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg3), [entry](../09-isa.md#w-syspg3) | Added by the prefix-coded encoding |
-| `SYSPG4` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg4), [entry](../09-isa.md#w-syspg4) | Added by the prefix-coded encoding |
-| `SYSPG5` | [SYSPG](../09-isa.md#syspg-reserved-system-words) (section 9.14) | [1](by-encoding.md#mn-syspg5), [entry](../09-isa.md#w-syspg5) | Added by the prefix-coded encoding |
 | `TLBI` | [TLBI](../09-isa.md#tlbi-invalidate-a-translation) (section 9.14) | [1](by-encoding.md#mn-tlbi), [entry](../09-isa.md#w-tlbi) | System (SYS) |
 | `TLBIA` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | [1](by-encoding.md#mn-tlbia), [entry](../09-isa.md#w-tlbia) | System (SYS) |
 | `TLBIAS` | [TLBIAS](../09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) (section 9.14) | [1](by-encoding.md#mn-tlbias), [entry](../09-isa.md#w-tlbias) | System (SYS) |
 | `TLBIGP` | [TLBIAS](../09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) (section 9.14) | [1](by-encoding.md#mn-tlbigp), [entry](../09-isa.md#w-tlbigp) | System (SYS) |
 | `TLBSYNC` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | [1](by-encoding.md#mn-tlbsync), [entry](../09-isa.md#w-tlbsync) | System (SYS) |
 | `TRAP` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | [1](by-encoding.md#mn-trap), [entry](../09-isa.md#w-trap) | System (SYS) |
-| `TRAPCC.CC` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-cc), [entry](../09-isa.md#w-trapcc-cc) | Added by the prefix-coded encoding |
-| `TRAPCC.CS` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-cs), [entry](../09-isa.md#w-trapcc-cs) | Added by the prefix-coded encoding |
-| `TRAPCC.EQ` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-eq), [entry](../09-isa.md#w-trapcc-eq) | Added by the prefix-coded encoding |
-| `TRAPCC.GE` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-ge), [entry](../09-isa.md#w-trapcc-ge) | Added by the prefix-coded encoding |
-| `TRAPCC.GT` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-gt), [entry](../09-isa.md#w-trapcc-gt) | Added by the prefix-coded encoding |
-| `TRAPCC.HI` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-hi), [entry](../09-isa.md#w-trapcc-hi) | Added by the prefix-coded encoding |
-| `TRAPCC.LE` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-le), [entry](../09-isa.md#w-trapcc-le) | Added by the prefix-coded encoding |
-| `TRAPCC.LOS` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-los), [entry](../09-isa.md#w-trapcc-los) | Added by the prefix-coded encoding |
-| `TRAPCC.LT` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-lt), [entry](../09-isa.md#w-trapcc-lt) | Added by the prefix-coded encoding |
-| `TRAPCC.MI` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-mi), [entry](../09-isa.md#w-trapcc-mi) | Added by the prefix-coded encoding |
-| `TRAPCC.NE` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-ne), [entry](../09-isa.md#w-trapcc-ne) | Added by the prefix-coded encoding |
-| `TRAPCC.PL` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-pl), [entry](../09-isa.md#w-trapcc-pl) | Added by the prefix-coded encoding |
-| `TRAPCC.VC` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-vc), [entry](../09-isa.md#w-trapcc-vc) | Added by the prefix-coded encoding |
-| `TRAPCC.VS` | [TRAPCC](../09-isa.md#trapcc-trap-on-condition) (section 9.14) | [1](by-encoding.md#mn-trapcc-vs), [entry](../09-isa.md#w-trapcc-vs) | Added by the prefix-coded encoding |
 | `TST` | [TST](../09-isa.md#tst-test) (section 9.8) | [10](by-encoding.md#mn-tst), [entry](../09-isa.md#w-tst) | Single operand (SOP) |
 | `UTF8DEC` | [UTF8DEC](../09-isa.md#utf8dec-decode-a-utf-8-sequence) (section 9.9) | [1](by-encoding.md#mn-utf8dec), [entry](../09-isa.md#w-utf8dec) | Bits and fields (BESC) |
 | `UTF8ENC` | [UTF8ENC](../09-isa.md#utf8enc-encode-a-unicode-scalar-value) (section 9.9) | [1](by-encoding.md#mn-utf8enc), [entry](../09-isa.md#w-utf8enc) | Bits and fields (BESC) |
 | `UTF8LEN` | [UTF8LEN](../09-isa.md#utf8len-length-of-a-utf-8-sequence-from-its-leading-byte) (section 9.9) | [1](by-encoding.md#mn-utf8len), [entry](../09-isa.md#w-utf8len) | Bits and fields (BESC) |
-| `WAIT` (alias of `WFE`) | [WFE](../09-isa.md#wfe-wait-for-an-event) (section 9.14) | [1](by-encoding.md#mn-wfe), [entry](../09-isa.md#w-wfe) | System (SYS) |
 | `WFE` | [WFE](../09-isa.md#wfe-wait-for-an-event) (section 9.14) | [1](by-encoding.md#mn-wfe), [entry](../09-isa.md#w-wfe) | System (SYS) |
 | `XADD` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-xadd), [entry](../09-isa.md#w-xadd) | Atomics (ATOM) |
 | `XADDL` | [XADD](../09-isa.md#xadd-atomic-fetch-and-add) (section 9.13) | [1](by-encoding.md#mn-xaddl), [entry](../09-isa.md#w-xaddl) | Atomics (ATOM) |

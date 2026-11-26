@@ -13,4 +13,3 @@ A mnemonic that assembles to another instruction. One mnemonic is one instructio
 | `CBHIS` | `CBCC` | `cbranch` |
 | `CBLO` | `CBCS` | `cbranch` |
 | `MULU` | `MUL` | `alu` |
-| `WAIT` | `WFE` | `sys-none` |

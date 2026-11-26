@@ -28,7 +28,7 @@ MOVES = {'movq', 'movl', 'movw', 'movb', 'movzl', 'movzw', 'movzb', 'clr', 'pop'
 NEUTRAL = {'lea', 'nop', 'pushm', 'popm'}
 SHIFTS = {'shl', 'shr', 'sar'}
 WRITERS = {'cmp', 'tst', 'bit', 'add', 'sub', 'and', 'bic', 'bis', 'xor', 'mul', 'mulh', 'neg', 'com', 'inc', 'dec', 'asl', 'asr', 'adc', 'sbc',
-           'fcmp', 'fcmp32', 'fcmp16', 'div', 'divu', 'mod', 'modu', 'rol', 'ror', 'ror32', 'dshr', 'mulhu', 'abs', 'min', 'max', 'minu', 'maxu',
+           'fcmp', 'fcmp32', 'div', 'divu', 'mod', 'modu', 'rol', 'ror', 'ror32', 'dshr', 'mulhu', 'abs', 'min', 'max', 'minu', 'maxu',
            'fadd', 'fsub', 'fmul', 'fdiv', 'fadd32', 'fsub32', 'fmul32', 'fdiv32', 'fneg'}
 CB = re.compile(r'^cb(ne|eq|pl|mi|vc|vs|cc|cs|ge|lt|gt|le|hi|los)\b')
 BRANCHES_END = re.compile(r'^(br|ret|jmp|call|calli|jmpi|b[a-z]+)\b')

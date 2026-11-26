@@ -17,14 +17,8 @@ _start:
 	cbeq	r1, r2, 1f
 	br	f2
 1:
-	cbpl	r1, r2, 1f
-	br	f3
 1:
-	cbmi	r1, r2, f4
-	cbvc	r1, r2, 1f
-	br	f5
 1:
-	cbvs	r1, r2, f6
 	cbcc	r1, r2, 1f
 	br	f7
 1:
@@ -45,14 +39,8 @@ _start:
 	br	f15
 1:
 	cbeq	r1, r3, f16
-	cbpl	r1, r3, f17
-	cbmi	r1, r3, 1f
-	br	f18
 1:
-	cbvc	r1, r3, 1f
-	br	f19
 1:
-	cbvs	r1, r3, f20
 	cbcc	r1, r3, f21
 	cbcs	r1, r3, 1f
 	br	f22
@@ -73,14 +61,8 @@ _start:
 	br	f29
 1:
 	cbeq	r3, r1, f30
-	cbpl	r3, r1, 1f
-	br	f31
 1:
-	cbmi	r3, r1, f32
-	cbvc	r3, r1, 1f
-	br	f33
 1:
-	cbvs	r3, r1, f34
 	cbcc	r3, r1, 1f
 	br	f35
 1:
@@ -101,14 +83,8 @@ _start:
 	br	f43
 1:
 	cbeq	r4, r1, f44
-	cbpl	r4, r1, f45
-	cbmi	r4, r1, 1f
-	br	f46
 1:
-	cbvc	r4, r1, 1f
-	br	f47
 1:
-	cbvs	r4, r1, f48
 	cbcc	r4, r1, 1f
 	br	f49
 1:
@@ -129,14 +105,8 @@ _start:
 	br	f57
 1:
 	cbeq	r1, r4, f58
-	cbpl	r1, r4, 1f
-	br	f59
 1:
-	cbmi	r1, r4, f60
-	cbvc	r1, r4, 1f
-	br	f61
 1:
-	cbvs	r1, r4, f62
 	cbcc	r1, r4, f63
 	cbcs	r1, r4, 1f
 	br	f64
@@ -157,13 +127,7 @@ _start:
 	br	f71
 1:
 	cbeq	r5, r1, f72
-	cbpl	r5, r1, 1f
-	br	f73
 1:
-	cbmi	r5, r1, f74
-	cbvc	r5, r1, f75
-	cbvs	r5, r1, 1f
-	br	f76
 1:
 	cbcc	r5, r1, 1f
 	br	f77
@@ -185,13 +149,7 @@ _start:
 	br	f85
 1:
 	cbeq	r1, r5, f86
-	cbpl	r1, r5, f87
-	cbmi	r1, r5, 1f
-	br	f88
 1:
-	cbvc	r1, r5, f89
-	cbvs	r1, r5, 1f
-	br	f90
 1:
 	cbcc	r1, r5, f91
 	cbcs	r1, r5, 1f
@@ -213,14 +171,8 @@ _start:
 	br	f99
 1:
 	cbeq	r5, r4, f100
-	cbpl	r5, r4, f101
-	cbmi	r5, r4, 1f
-	br	f102
 1:
-	cbvc	r5, r4, 1f
-	br	f103
 1:
-	cbvs	r5, r4, f104
 	cbcc	r5, r4, f105
 	cbcs	r5, r4, 1f
 	br	f106
@@ -241,13 +193,7 @@ _start:
 	br	f113
 1:
 	cbeq	r6, r5, f114
-	cbpl	r6, r5, f115
-	cbmi	r6, r5, 1f
-	br	f116
 1:
-	cbvc	r6, r5, f117
-	cbvs	r6, r5, 1f
-	br	f118
 1:
 	cbcc	r6, r5, f119
 	cbcs	r6, r5, 1f
@@ -269,14 +215,8 @@ _start:
 	br	f127
 1:
 	cbeq	r5, r6, f128
-	cbpl	r5, r6, f129
-	cbmi	r5, r6, 1f
-	br	f130
 1:
-	cbvc	r5, r6, 1f
-	br	f131
 1:
-	cbvs	r5, r6, f132
 	cbcc	r5, r6, 1f
 	br	f133
 1:
@@ -1439,14 +1379,6 @@ f1:	movq	#1, r0
 	trap	#0
 f2:	movq	#2, r0
 	trap	#0
-f3:	movq	#3, r0
-	trap	#0
-f4:	movq	#4, r0
-	trap	#0
-f5:	movq	#5, r0
-	trap	#0
-f6:	movq	#6, r0
-	trap	#0
 f7:	movq	#7, r0
 	trap	#0
 f8:	movq	#8, r0
@@ -1466,14 +1398,6 @@ f14:	movq	#14, r0
 f15:	movq	#15, r0
 	trap	#0
 f16:	movq	#16, r0
-	trap	#0
-f17:	movq	#17, r0
-	trap	#0
-f18:	movq	#18, r0
-	trap	#0
-f19:	movq	#19, r0
-	trap	#0
-f20:	movq	#20, r0
 	trap	#0
 f21:	movq	#21, r0
 	trap	#0
@@ -1495,14 +1419,6 @@ f29:	movq	#29, r0
 	trap	#0
 f30:	movq	#30, r0
 	trap	#0
-f31:	movq	#31, r0
-	trap	#0
-f32:	movq	#32, r0
-	trap	#0
-f33:	movq	#33, r0
-	trap	#0
-f34:	movq	#34, r0
-	trap	#0
 f35:	movq	#35, r0
 	trap	#0
 f36:	movq	#36, r0
@@ -1522,14 +1438,6 @@ f42:	movq	#42, r0
 f43:	movq	#43, r0
 	trap	#0
 f44:	movq	#44, r0
-	trap	#0
-f45:	movq	#45, r0
-	trap	#0
-f46:	movq	#46, r0
-	trap	#0
-f47:	movq	#47, r0
-	trap	#0
-f48:	movq	#48, r0
 	trap	#0
 f49:	movq	#49, r0
 	trap	#0
@@ -1551,14 +1459,6 @@ f57:	movq	#57, r0
 	trap	#0
 f58:	movq	#58, r0
 	trap	#0
-f59:	movq	#59, r0
-	trap	#0
-f60:	movq	#60, r0
-	trap	#0
-f61:	movq	#61, r0
-	trap	#0
-f62:	movq	#62, r0
-	trap	#0
 f63:	movq	#63, r0
 	trap	#0
 f64:	movq	#64, r0
@@ -1578,14 +1478,6 @@ f70:	movq	#70, r0
 f71:	movq	#71, r0
 	trap	#0
 f72:	movq	#72, r0
-	trap	#0
-f73:	movq	#73, r0
-	trap	#0
-f74:	movq	#74, r0
-	trap	#0
-f75:	movq	#75, r0
-	trap	#0
-f76:	movq	#76, r0
 	trap	#0
 f77:	movq	#77, r0
 	trap	#0
@@ -1607,14 +1499,6 @@ f85:	movq	#85, r0
 	trap	#0
 f86:	movq	#86, r0
 	trap	#0
-f87:	movq	#87, r0
-	trap	#0
-f88:	movq	#88, r0
-	trap	#0
-f89:	movq	#89, r0
-	trap	#0
-f90:	movq	#90, r0
-	trap	#0
 f91:	movq	#91, r0
 	trap	#0
 f92:	movq	#92, r0
@@ -1634,14 +1518,6 @@ f98:	movq	#98, r0
 f99:	movq	#99, r0
 	trap	#0
 f100:	movq	#100, r0
-	trap	#0
-f101:	movq	#101, r0
-	trap	#0
-f102:	movq	#102, r0
-	trap	#0
-f103:	movq	#103, r0
-	trap	#0
-f104:	movq	#104, r0
 	trap	#0
 f105:	movq	#105, r0
 	trap	#0
@@ -1663,14 +1539,6 @@ f113:	movq	#113, r0
 	trap	#0
 f114:	movq	#114, r0
 	trap	#0
-f115:	movq	#115, r0
-	trap	#0
-f116:	movq	#116, r0
-	trap	#0
-f117:	movq	#117, r0
-	trap	#0
-f118:	movq	#118, r0
-	trap	#0
 f119:	movq	#119, r0
 	trap	#0
 f120:	movq	#120, r0
@@ -1690,14 +1558,6 @@ f126:	movq	#126, r0
 f127:	movq	#127, r0
 	trap	#0
 f128:	movq	#128, r0
-	trap	#0
-f129:	movq	#129, r0
-	trap	#0
-f130:	movq	#130, r0
-	trap	#0
-f131:	movq	#131, r0
-	trap	#0
-f132:	movq	#132, r0
 	trap	#0
 f133:	movq	#133, r0
 	trap	#0

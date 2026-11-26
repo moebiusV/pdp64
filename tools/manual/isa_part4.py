@@ -49,46 +49,35 @@ MASKNEZ: Rd <- (Rc != 0) ? 0 : Ra''', NOFLAGS, NONE,
       '''t <- Rd op Rs                 ; op is +, - or ×, on signed 64-bit values
 if t does not fit in 64 bits then abort at this instruction (vector CHECK), Rd unwritten
 else Rd <- t''', 'None written.', 'Aborts with the `CHECK` vector on signed overflow, with `EPC` at the instruction and the destination unwritten; a blind restart faults again unless the handler changed an operand.',
-      notes='`TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` forms. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form.',
-      cf='{{r:isa-system-instructions-exceptions}} (TRAPCC), docs/study-proposals.md item 9.'),
+      notes='The fused add, subtract and multiply that check for overflow. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form.',
+      cf='{{r:isa-system-instructions-exceptions}} (the check words), docs/study-proposals.md item 9.'),
     X('CT', 'system', ['ctcc', 'ctcs', 'cthi', 'ctlos', 'cteq', 'ctne', 'ctge', 'ctlt', 'ctgt', 'ctle', 'ctpl', 'ctmi', 'ctvc', 'ctvs'],
       'Compare and trap', ['CT<cc> Rs, Rb', 'CT<cc> Rs, #imm12   ; CTCC, CTHI, CTEQ, CTNE only', 'CTEQ Rs  /  CTNE Rs   ; trap if zero, if not zero'],
       '''if Rs compared with the bound satisfies the condition cc then take the CHECK trap
     EPC <- address of this instruction''', NOFLAGS,
       'The `CHECK` trap (vector 16), when the condition holds. A fault: the instruction is annulled and `EPC` is its own address, so that the handler finds the site in the table of check sites (`__bug_table`) by address.',
       notes='The compare-and-trap of the run-time checks. The condition names are those of `CB<cc>`; `CTHIS` is `CTCC` and `CTLO` is `CTCS` as assembler aliases. `CTCC Ri, #n` traps when `Ri >= n` as an unsigned number, which is the check of an array index of length `n` (a negative index is a large unsigned number). The immediate form has 12 bits, zero-extended, for `CTCC`, `CTHI`, `CTEQ` and `CTNE`; the register form has all fourteen. `CTEQ Rs` and `CTNE Rs` with no bound are the trap-if-zero of the null check and the trap-if-not-zero of `BUG_ON`, one parcel. No flag is read or written. For every one the assembler writes a record into the section `__bug_table` (the 12-byte `struct bug_entry` of Linux with relative pointers: the address of the instruction, the file, the line, the flags with the kind of check in bits 5 to 7) from the directive `.chk KIND, "file", LINE`. The encodings are the prefix optimiser\'s.',
-      cf='{{r:isa-system-instructions-exceptions}} (TRAPCC), docs/encoding-work/check-instructions.md.'),
+      cf='{{r:isa-system-instructions-exceptions}} (the check words), docs/encoding-work/check-instructions.md.'),
     X('CHK2', 'system', ['chk2'], 'Two-bound check', ['CHK2 Rs, Rlo, Rhi'],
       '''if not (Rlo <= Rs < Rhi), signed, then take the CHECK trap
     EPC <- address of this instruction''', NOFLAGS,
       'The `CHECK` trap (vector 16), unless the value is in the half-open range.',
       notes='The two-bound check, for an index whose lower bound is not zero (the Pascal and Ada subscript, a slice, `for i in lo..hi`). Signed, half-open (`Rlo <= Rs < Rhi`, as pcc\'s `__builtin_chk2` means); the bounds are registers. No flag is read or written; the record in `__bug_table` is as for `CT`.',
       cf='docs/encoding-work/check-instructions.md.'),
-    X('TRAPCC', 'system', ['trapcc.ne', 'trapcc.eq', 'trapcc.pl', 'trapcc.mi', 'trapcc.vc', 'trapcc.vs', 'trapcc.cc', 'trapcc.cs', 'trapcc.ge', 'trapcc.lt', 'trapcc.gt', 'trapcc.le', 'trapcc.hi', 'trapcc.los'],
-      'Trap on condition', ['TRAPCC.cc          ; one word for each of the 14 conditions: TRAPCC.EQ, TRAPCC.VS, TRAPCC.HI ...'],
-      '''if condition cc holds on the flags then take the CHECK trap
-    EPC <- address of the next instruction ; EVA <- address of this instruction''', NOFLAGS,
-      'The `CHECK` trap, when the condition holds. A *trap*, not an abort: the instruction completes, `EPC` is the next instruction, and `RTI` resumes after the check.',
-      notes='`TRAPCC` is a trap and not an abort, there is no compare-and-trap form, and the fused `ADDV`, `SUBV` and `MULV` carry the register-only cases. There is one word for each of the 14 conditions, in two bytes with no operand: the condition numbers are those of the branches (`ne` 1 ... `los` 14; `al` is not a word). After `ADD` the check for signed overflow is `TRAPCC.VS` (`docs/study-proposals.md` item 9 calls it `ADD; TRAPV`). `EVA` is the address of the `TRAPCC` itself, the one trap that defines it, so a handler need not decode backwards from `EPC`.',
-      cf='{{r:faults-and-restart-what-precise-means}} (traps and aborts), docs/study-proposals.md item 9.'),
-    # ---- deferred and user-qualified moves
-    X('MOVD', 'moves', ['movq.d', 'movl.d', 'movw.d', 'movb.d', 'movzl.d', 'movzw.d', 'movzb.d'], 'Deferred-fault load', ['MOVQ.D d(Rn), Rd', 'MOVL.D ..., MOVW.D ..., MOVB.D ...', 'MOVZL.D ..., MOVZW.D ..., MOVZB.D ...'],
-      '''Rd <- M[EA]                     ; as the load without .D, when the access succeeds
-when the access faults: the fault is precise as always; the kernel's handler repairs the cause and restarts,
-    or, if the access is invalid, marks Rd as poisoned in the saved state and goes on at the next instruction''',
-      NOFLAGS, 'The ordinary faults of a load (page fault, protection fault, alignment fault, bus error), precise; what the handler does with them is the difference.',
-      notes="The deferred-fault load is item 10 of `docs/study-proposals.md` (the poison bit), whose three leanings I accepted: the fault is taken at the instruction that writes the flags from a poisoned source; the kernel decides a deferred load's fault; the kernel dispatcher, not the hardware, tests the argument registers for poison. Base and indexed operands only (a mode that needs a base register needs `LEA` first).",
-      cf='{{r:faults-and-restart-what-precise-means}}, docs/study-proposals.md item 10.'),
+    # ---- user-qualified moves
     X('MOVUSER', 'moves', ['movq.u', 'movl.u', 'movw.u', 'movb.u', 'movzl.u', 'movzw.u', 'movzb.u'], 'User-qualified load and store', ['MOVQ.U d(Rn), Rd', 'MOVQ.U Rs, d(Rn)', 'MOVL.U ..., MOVW.U ..., MOVB.U ...', 'MOVZL.U ..., MOVZW.U ..., MOVZB.U ...    ; loads only'],
       '''the access of MOVQ, MOVL, MOVW, MOVB and MOVZ* with the operand checked as a user-mode access:
-the page must be present, have U = 1, and permit R (a load) or W (a store); a kernel page takes the protection abort
-whatever PSW.UA says''', NOFLAGS,
+the page must be present, have U = 1, and permit R (a load) or W (a store); a kernel page takes the protection abort''', NOFLAGS,
       'The faults of the access, as a user-mode access. In user mode the encoding is a privileged-instruction abort.',
-      notes='Item 18 of `docs/study-proposals.md`: user access is an attribute of one memory operand, so it cannot outlive the instruction, cannot leak across an interrupt, and `RTI` re-executes the instruction with the attribute. I accepted the five leanings: a fixup table in place of `pcb_onfault`, the `.U` spelling, keeping `PSW.UA`, `STUA` and `CLUA` until the OpenBSD port confirms, `ECAUSE` bit 15 to say that the access was user-qualified, and the atomics taking the user form once the operand placement of `ATOM` is fixed. (Not to be confused with `MOVU`, the unaligned move.)',
+      notes='Item 18 of `docs/study-proposals.md`: user access is an attribute of one memory operand, so it cannot outlive the instruction, cannot leak across an interrupt, and `RTI` re-executes the instruction with the attribute. I accepted four of the five leanings: a fixup table in place of `pcb_onfault`, the `.U` spelling, `ECAUSE` bit 15 to say that the access was user-qualified, and the atomics taking the user form once the operand placement of `ATOM` is fixed; the fifth, keeping a status bit and two instructions beside `.U`, is gone, because one mechanism that cannot be left open is enough. A kernel-mode data access to a user page that is not `.U` is always a protection fault.',
       cf='{{r:user-memory-guard-and-system-calls}} (the user-memory guard), docs/study-proposals.md item 18.'),
-    X('MOVUSERD', 'moves', ['movq.ud', 'movl.ud', 'movw.ud', 'movb.ud', 'movzl.ud', 'movzw.ud', 'movzb.ud'], 'User-qualified deferred-fault load', ['MOVQ.UD d(Rn), Rd', 'MOVL.UD ..., MOVW.UD ..., MOVB.UD ...', 'MOVZL.UD ..., MOVZW.UD ..., MOVZB.UD ...'],
-      '''Rd <- M[EA], the access being both user-qualified (MOVU) and deferred (MOVD)''', NOFLAGS, 'The faults of `MOVU` and `MOVD` together.',
-      notes='*(P)* The combination of the two qualifiers. The repository defines each qualifier alone (items 10 and 18 of `docs/study-proposals.md`) and gives the combination no text of its own: a kernel that reads a user word without wanting to fail on it (a probe of a user pointer) is the case the combination serves, and its meaning is the composition. Loads only, base and indexed operands. **Not implemented** in the reference executor.'),
+    X('MCPYU', 'block', ['mcpy.ur', 'mcpy.uw'], 'User-qualified block copy', ['MCPY.UR Rd, Rs, Rn      ; the bytes read are user memory (copy-in)', 'MCPY.UW Rd, Rs, Rn      ; the bytes written are user memory (copy-out)'],
+      '''as MCPY, with the accesses of one side checked as user-mode accesses:
+MCPY.UR: each byte is read with the privilege of user mode (the page must be present, have U = 1 and permit R) and written as any kernel access is
+MCPY.UW: each byte is read as any kernel access is and written with the privilege of user mode (the page must have U = 1 and permit W)''', NOFLAGS,
+      'The faults of the accesses; a fault on the user side has bit 15 of `ECAUSE` set, as a `.U` move does. A plain `MCPY` of a user page is a protection fault.',
+      notes='The block copy of a copy-in (`MCPY.UR`) and of a copy-out (`MCPY.UW`): the user-memory guard is always on, and these two words are how a kernel block-copies to or from user memory. The registers are updated as for `MCPY`, so a fault leaves them at the byte that failed. There is no form with both sides user (a copy from a user page to a user page is not a kernel job) and none for `MMOV`, `MSET` and `MCMP`: a fill of user memory is a copy from a zero buffer.',
+      cf='{{r:user-memory-guard-and-system-calls}} (the user-memory guard).'),
     # ---- AES
     X('AESR', 'bits', ['aeses', 'aesesm', 'aesds', 'aesdsm'], 'AES round on a 128-bit block in two registers', ['AESES Ra, Rb, Rd', 'AESESM Ra, Rb, Rd', 'AESDS Ra, Rb, Rd', 'AESDSM Ra, Rb, Rd'],
       '''the 16 bytes of the block are Rb:Ra (Ra holds bytes 0 to 7, columns 0 and 1; Rb bytes 8 to 15)
@@ -127,7 +116,4 @@ progress is held in Rd, Rs and Rn; an interrupt or a fault restarts the instruct
       '''AES counter mode over the Rn bytes at (Rs), written at (Rd); the key, the counter and the number of rounds are in the parameter block at (Rp)
 progress is held in the registers and the parameter block; an interrupt or a fault restarts the instruction where it stopped''', NOFLAGS, MEMX,
       notes='*(P)* Stage 2, as `MSHA`; the layout of the parameter block is not specified. **Not implemented** in the reference executor.'),
-    X('SYSPG', 'system', ['syspg0', 'syspg1', 'syspg2', 'syspg3', 'syspg4', 'syspg5'], 'Reserved system words', ['SYSPG0 ... SYSPG5'],
-      '''none: the six words are reserved''', NOFLAGS, 'Not specified. The reference executor traps them as unimplemented instructions.',
-      notes='Placeholders. `SYSPG0`, `SYSPG1` and `SYSPG2` are the two-byte words that `RTI`, `RTT` and `GENTER` had before they took a mask: those three are now six-byte instructions, and the old words are reserved so that no return to a lesser mode exists without a mask. The other three are reserved for the page-bit mechanisms that I approved to be specified (landing pads gated by a page bit, the `SYS` page bit), which `docs/retire-stage-candidates.md` describes as needing no opcode. No text of the repository gives these words a meaning, and software must not use them.'),
 ]

@@ -341,13 +341,6 @@ _start:
 	movq	=0x1, r1
 	movq	=0x1, r2
 	cmp	r1, r2
-	trapcc.ne
-	trapcc.mi
-	trapcc.vs
-	trapcc.cs
-	trapcc.lt
-	trapcc.gt
-	trapcc.hi
 	mfps	r15
 	and	#15, r15
 	cmp	r15, #4
@@ -355,13 +348,6 @@ _start:
 	movq	=0x1, r1
 	movq	=0x2, r2
 	cmp	r1, r2
-	trapcc.eq
-	trapcc.pl
-	trapcc.vs
-	trapcc.cc
-	trapcc.ge
-	trapcc.gt
-	trapcc.hi
 	mfps	r15
 	and	#15, r15
 	cmp	r15, #9
@@ -369,13 +355,6 @@ _start:
 	movq	=0x2, r1
 	movq	=0x1, r2
 	cmp	r1, r2
-	trapcc.eq
-	trapcc.mi
-	trapcc.vs
-	trapcc.cs
-	trapcc.lt
-	trapcc.le
-	trapcc.los
 	mfps	r15
 	and	#15, r15
 	cmp	r15, #0
@@ -383,13 +362,6 @@ _start:
 	movq	=0x8000000000000000, r1
 	movq	=0x1, r2
 	cmp	r1, r2
-	trapcc.eq
-	trapcc.mi
-	trapcc.vc
-	trapcc.cs
-	trapcc.ge
-	trapcc.gt
-	trapcc.los
 	mfps	r15
 	and	#15, r15
 	cmp	r15, #2
@@ -397,13 +369,6 @@ _start:
 	movq	=0x1, r1
 	movq	=0x8000000000000000, r2
 	cmp	r1, r2
-	trapcc.eq
-	trapcc.pl
-	trapcc.vc
-	trapcc.cc
-	trapcc.lt
-	trapcc.le
-	trapcc.hi
 	mfps	r15
 	and	#15, r15
 	cmp	r15, #11
@@ -472,7 +437,7 @@ _start:
 	bne	F86
 	lea	ubuf, r8
 	movq	=0x1122334455667788, r1
-	movuq	r1, 1(r8)
+	movq	r1, 1(r8)
 	movzb	1(r8), r15
 	movq	=0x88, r12
 	cmp	r15, r12
@@ -485,28 +450,28 @@ _start:
 	movq	=0x11, r12
 	cmp	r15, r12
 	bne	F89
-	movuq	1(r8), r2
+	movq	1(r8), r2
 	movq	=0x1122334455667788, r15
 	cmp	r2, r15
 	bne	F90
-	movul	3(r8), r2
+	movl	3(r8), r2
 	movq	=0x33445566, r15
 	cmp	r2, r15
 	bne	F91
-	movuw	2(r8), r2
+	movw	2(r8), r2
 	movq	=0x6677, r15
 	cmp	r2, r15
 	bne	F92
-	movul	4(r8), r2
+	movl	4(r8), r2
 	movq	=0x22334455, r15
 	cmp	r2, r15
 	bne	F93
-	movub	1(r8), r2
+	movb	1(r8), r2
 	movq	=0xffffffffffffff88, r15
 	cmp	r2, r15
 	bne	F94
 	movq	=0xaabbccdd, r1
-	movul	r1, 5(r8)
+	movl	r1, 5(r8)
 	movzb	5(r8), r15
 	movq	=0xdd, r12
 	cmp	r15, r12
@@ -515,18 +480,18 @@ _start:
 	movq	=0xaa, r12
 	cmp	r15, r12
 	bne	F96
-	movul	5(r8), r2
+	movl	5(r8), r2
 	movq	=0xffffffffaabbccdd, r15
 	cmp	r2, r15
 	bne	F97
 	movq	=0x8000, r1
-	movuw	r1, 7(r8)
-	movuw	7(r8), r2
+	movw	r1, 7(r8)
+	movw	7(r8), r2
 	movq	=0xffffffffffff8000, r15
 	cmp	r2, r15
 	bne	F98
 	movq	#0x1ff, r1
-	movub	r1, 9(r8)
+	movb	r1, 9(r8)
 	movzb	9(r8), r2
 	movq	=0xff, r15
 	cmp	r2, r15

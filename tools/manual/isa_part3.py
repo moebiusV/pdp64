@@ -50,8 +50,8 @@ RTT: and then set the trace bit T after the return''', 'Replaced by `EPSW`, incl
       notes='A trap like any other, but kept as its own two-byte instruction because a debugger patches it over an existing instruction, so it must be the shortest instruction the machine has.', cf='{{r:exceptions-interrupts-and-traps}}.'),
     E('FENCE', 'system', ['fence'], 'Memory fence', ['FENCE'], 'order the memory accesses before it against those after it, for every initiator that observes them', NOFLAGS, NONE,
       notes='Owed to devices (one `FENCE` separates writing a device\'s registers from setting its go bit) and to other cores.', cf='{{r:memory-ordering-from-sequential-consistency}} (the memory model), {{r:pci-express-links-packets-and-configuration}} (what the processor owes the bus).'),
-    E('WFE', 'system', ['wfe', 'wait'], 'Wait for an event', ['WFE'], 'sleep until an interrupt is pending or another core executes SEV', NOFLAGS, PRIV,
-      notes='`WAIT` is an assembler alias.', cf='{{r:waiting-signalling-and-interrupting-another}} (waiting and signalling).'),
+    E('WFE', 'system', ['wfe'], 'Wait for an event', ['WFE'], 'sleep until an interrupt is pending or another core executes SEV', NOFLAGS, PRIV,
+      cf='{{r:waiting-signalling-and-interrupting-another}} (waiting and signalling).'),
     E('SEV', 'system', ['sev'], 'Send an event', ['SEV'], 'wake every core waiting in WFE', NOFLAGS, NONE, cf='{{r:cache-coherence}}.'),
     E('TLBA', 'system', ['tlbia', 'tlbsync', 'icinva'], 'Invalidate all translations; wait for translation invalidations; invalidate the whole instruction cache',
       ['TLBIA', 'TLBSYNC', 'ICINVA'],
@@ -69,10 +69,6 @@ POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16''', NOFLAGS, PRIV + ' `S
       notes='The architecture promises the effect only after the next `ISYNC`; an in-order implementation may make it immediate, and software must not rely on that. It is not privileged, so that a program that writes instructions can issue `ICINV` and then `ISYNC` ({{r:makes-new-instructions-visible}}); the writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` that it also covers are themselves privileged.', cf='{{r:memory-ordering-from-sequential-consistency}}, {{r:system-registers-mfsr-and-mtsr}}.'),
     E('HINT', 'system', ['hint'], 'Hint', ['HINT #n        ; n = 0 to 255'], 'no architectural effect', NOFLAGS, NONE,
       notes='Defined codes: 0 a plain no-op hint, 1 pause (spin-wait), 2 speculation barrier. Every other code is a reserved hint that executes as a no-op; software shall not use it. Not privileged.'),
-    E('STUA', 'system', ['stua', 'clua'], 'Set and clear the user-access guard', ['STUA', 'CLUA'],
-      '''STUA: PSW.UA <- 1
-CLUA: PSW.UA <- 0''', NOFLAGS, PRIV + ' A non-zero pad byte is an illegal instruction.',
-      notes='`UA` is bit 12 of the status word. With `UA` clear, a kernel-mode data access (a load, a store or an operand of a block instruction) to a page whose `U` bit is set takes the load or store protection fault; `PROBER`, `PROBEW` and an instruction fetch are not affected. Exception entry clears `UA` and `EPSW` keeps the old value; `RTI` restores it, and `MTPS` writes it from kernel mode. Outside kernel mode the bit has no effect.', cf='{{r:user-memory-guard-and-system-calls}}, {{r:ua-in-the-status-word}}.'),
     E('GENTER', 'system', ['genter'], 'Enter a guest', ['GENTER #mask'],
       '''if H = 0: exit to the hypervisor (code 18)
 else: ISYNC ; discard the guest's cached translations if the arena's flag or the epoch word says so ; PSW <- HEPSW ; make the guest's registers the live ones ; PC <- HEPC ; H <- 0
@@ -83,7 +79,7 @@ else: ISYNC ; discard the guest's cached translations if the arena's flag or the
     E('MFSR', 'system', ['mfsr', 'mtsr'], 'Move from and to a system register', ['MFSR Rd, name', 'MTSR name, Rs'],
       '''MFSR: Rd <- system register `name`
 MTSR: system register `name` <- Rs         ; read-only registers are an illegal instruction''', NOFLAGS, PRIV + ' An unassigned system register is an illegal instruction.',
-      notes='The register is chosen by name (a number in parcel 1); the instruction is four bytes. A write to `MMUCTL` that changes bit 0 discards every cached translation, and a write to `PTBR` that is not accompanied by a new `ASID` discards the entries of the current `ASID`; a write to `ASID` discards nothing that is promised ({{r:writes-to-mmuctl-ptbr}}); each takes effect at the next `ISYNC` ({{r:write-to-ptbr-asid-or}}).\n\n{{SYSREGS}}', cf='{{r:system-registers-mfsr-and-mtsr}} (system registers).'),
+      notes='The register is chosen by name (a number in parcel 1); the instruction is four bytes. A write to `MMUCTL` that changes bit 0 discards every cached translation, and a write to `PTBR` that is not accompanied by a new `ASID` discards the entries of the current `ASID`; a write to `ASID` discards nothing that is promised ({{r:writes-to-mmuctl-ptbr}}), and its low 16 bits are the address-space identifier that tags the translation-buffer entries, so that a context switch is one store ({{r:accessed-dirty-tlb-and-asids}}); `CPUID` is the index of this core, for per-CPU data: reading it is privileged like every system register ({{r:instructions-abort-with-the-privileged}}, {{r:mfcpuid-is-privileged-each-guest}}), and the kernel reads it once and keeps it in the per-CPU structure ({{r:per-cpu-state-and-cheap-context}}, {{r:cores-that-differ-classes}}); each takes effect at the next `ISYNC` ({{r:write-to-ptbr-asid-or}}).\n\n{{SYSREGS}}', cf='{{r:system-registers-mfsr-and-mtsr}} (system registers).'),
     # ---- SYS classes with operands ----
     E('MTPS', 'system', ['mtps', 'mfps'], 'Move to and from the processor status word', ['MTPS Rs', 'MFPS Rd'],
       '''MTPS: PSW <- Rs          ; in user mode only the flags N Z V C are written
@@ -101,16 +97,9 @@ TLBIGP: (H = 1 only) invalidate the translations of the tag in GTBR that used th
       PRIV + ' `TLBIAS` in a guest exits under the same trap-control bit as `TLBI`. `TLBIGP` is legal only in the hypervisor mode: a guest in kernel mode exits with code 18, in user mode takes its own privileged-instruction exception, and with no hypervisor (HVE clear) it is an illegal instruction.',
       notes='An implementation may discard more than is asked: one that keeps no guest-physical page discards the whole tag for `TLBIGP`. `TLBIGP` is the invalidate of a hypervisor that has changed one second-stage entry.', cf='{{r:tlbi-rn-invalidates-the-translation}}, {{r:each-translation-buffer-entry}}.')
 ,
-    E('MTASID', 'system', ['mtasid', 'mfasid'], 'Move to and from the address-space identifier', ['MTASID Rs', 'MFASID Rd'],
-      '''MTASID: ASID <- Rs[15:0]          
-MFASID: Rd <- ASID''', NOFLAGS, PRIV, notes='The `ASID` tags translation-buffer entries so a context switch is one store.', cf='{{r:accessed-dirty-tlb-and-asids}}.'),
     E('MTDP', 'system', ['mtdp', 'mfdp'], 'Move to and from the direct pointer', ['MTDP Rs', 'MFDP Rd'], '''MTDP: DP <- Rs
 MFDP: Rd <- DP''', NOFLAGS, NONE,
       notes='`DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.', cf='{{r:per-cpu-state-and-cheap-context}} (per-CPU state).'),
-    E('MTDMW', 'system', ['mtdmw'], 'Move to a direct-mapping window', ['MTDMW Rs'], 'DMW0 <- Rs          ; stored; it has no effect on translation', NOFLAGS, PRIV,
-      notes='The direct-mapping windows are stored and have no effect on translation.', cf='{{r:splitting-the-space-and-the-layout}}.'),
-    E('MFCPUID', 'system', ['mfcpuid'], 'Read the processor identifier', ['MFCPUID Rd'], 'Rd <- CPUID', NOFLAGS, PRIV,
-      notes='The index of this core, for per-CPU data. It is privileged ({{r:instructions-abort-with-the-privileged}}, {{r:mfcpuid-is-privileged-each-guest}}): the kernel reads it once and keeps it in the per-CPU structure.', cf='{{r:per-cpu-state-and-cheap-context}}, {{r:cores-that-differ-classes}}.'),
     E('ICINV', 'system', ['icinv'], 'Invalidate the instruction cache for an address', ['ICINV Rs'], 'invalidate the instruction-cache line containing the address in Rs', NOFLAGS,
       'Not privileged ({{r:not-privileged-mtdp-and-mfdp}}): a program that generates code needs it.', cf='{{r:memory-ordering-from-sequential-consistency}}.'),
     E('PROBE', 'system', ['prober', 'probew'], 'Probe an address for read or write access', ['PROBER Rd, Rs', 'PROBEW Rd, Rs'],

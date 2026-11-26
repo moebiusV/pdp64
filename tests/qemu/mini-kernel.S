@@ -62,20 +62,19 @@ h_write:					; write(r1 = buffer, r2 = length); the entry has set the priority t
 	pushx					; EPSW and EPC on the kernel stack: after the spl #0 below the handler may be interrupted
 	pushm	#0x3E				; r1..r5
 	spl	#0
-	stua					; open the guard for the copy from the user's buffer (6.10.3); an interrupt clears it at its entry and the return restores it
 	movq	r2, r0
 	movq	=CONSOLE_VA, r3
 1:	cmp	r2, #0
 	beq	3f
-	movb	(r1)+, r4			; the user's byte: with UA set the kernel may read U pages
+	movb.u	(r1), r4			; the user's byte: a .U load, the only way for the kernel to read a U page
+	add	#1, r1
 2:	movq	CONSOLE_REG_TXCS(r3), r5
 	and	#(1<<CONSOLE_CSR_READY), r5
 	beq	2b
 	movq	r4, CONSOLE_REG_TXDB(r3)
 	sub	#1, r2
 	br	1b
-3:	clua
-	spl	#7
+3:	spl	#7
 	popm	#0x3E
 	popx
 	rti	#RTIMASK_ALL

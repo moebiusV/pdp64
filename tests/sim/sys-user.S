@@ -302,7 +302,7 @@ pr8:
 	movq	#0, r13
 	lea	pr9, r4
 pi9:
-	mtasid	r1
+	mtsr	asid, r1
 pr9:
 	cmp	r10, #(1)
 	bne	F62	; check 62
@@ -330,7 +330,7 @@ pr9:
 	movq	#0, r13
 	lea	pr10, r4
 pi10:
-	mfasid	r1
+	mfsr	r1, asid
 pr10:
 	cmp	r10, #(1)
 	bne	F68	; check 68
@@ -346,34 +346,6 @@ pr10:
 	bne	F72	; check 72
 	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
 	bne	F73	; check 73
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
-	lea	pr11, r4
-pi11:
-	mtdmw	r1
-pr11:
-	cmp	r10, #(1)
-	bne	F74	; check 74
-	lea	pi11, r11
-	cmp	r6, r11
-	bne	F75	; check 75
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F76	; check 76
-	cmp	r9, #(0)
-	bne	F77	; check 77
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F78	; check 78
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F79	; check 79
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -759,18 +731,6 @@ F71:	movq	#71, r0
 F72:	movq	#72, r0
 	trap	#1
 F73:	movq	#73, r0
-	trap	#1
-F74:	movq	#74, r0
-	trap	#1
-F75:	movq	#75, r0
-	trap	#1
-F76:	movq	#76, r0
-	trap	#1
-F77:	movq	#77, r0
-	trap	#1
-F78:	movq	#78, r0
-	trap	#1
-F79:	movq	#79, r0
 	trap	#1
 F80:	movq	#80, r0
 	trap	#1

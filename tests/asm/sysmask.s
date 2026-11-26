@@ -11,6 +11,3 @@
 	tlbigp r0
 	tlbigp r5
 	tlbi r5
-	syspg0
-	syspg1
-	syspg2

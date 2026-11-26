@@ -191,7 +191,7 @@ def fig_exception():
         c.line([(140, y), (200, y)], arrow=True)
     c.text(20, 206, 'the new PSW:', 10, 'start', bold=True)
     c.text(20, 220, 'current mode = kernel; previous mode = the old current mode;', 9, 'start', '#222')
-    c.text(20, 232, 'priority = 7; trace bit, flags and the user-access guard cleared', 9, 'start', '#222')
+    c.text(20, 232, 'priority = 7; trace bit and flags cleared', 9, 'start', '#222')
     c.text(20, 252, 'the new PC = the 64-bit word at VBR + 8 x vector', 10, 'start', bold=True)
     c.text(20, 268, 'the hardware pushes nothing; a handler that may be interrupted', 9, 'start', '#222')
     c.text(20, 280, 'saves EPC and EPSW with PUSHX, lowers the priority with SPL,', 9, 'start', '#222')
@@ -227,7 +227,7 @@ def fig_ctxswitch():
              '    A.ksp = R14 ; A.usp = MFSR USP',
              '2  R14 = B.ksp; pop B\'s callee-saved registers',
              '3  if B has another address space:',
-             '       MTSR PTBR, B.root     MTASID B.asid',
+             '       MTSR PTBR, B.root     MTSR ASID, B.asid',
              '       ISYNC     (the new base takes effect)',
              '4  return (into B, in the kernel)']
     for i, s in enumerate(steps):

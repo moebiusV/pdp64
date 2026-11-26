@@ -10,7 +10,7 @@
 | | |
 |---|---|
 | Data model | LP64: `char` 8, `short` 16, `int` 32, `long` 64, `long long` 64, pointers 64. Little-endian. `char` is signed. `long double` is `double`. |
-| Alignment | natural; the stack pointer is a multiple of **8** at all times (data alignment is architectural, ISA 7.4: a quad access to an address not a multiple of 8 aborts; the 2-byte parcel alignment is for instructions only). No 16-byte alignment: no type or register is wider than a quad. |
+| Alignment | natural, for the layout of types; the stack pointer is a multiple of **8** at all times (`PUSHX` and `POPX` fault on a stack pointer that is not, and the calling sequence keeps it so). A plain load or store works at any address, so a packed structure is read with plain loads; the atomics need natural alignment; the 2-byte parcel alignment is for instructions. No 16-byte alignment: no type or register is wider than a quad. |
 | Registers | `R0`-`R5` arguments, `R0` (and `R1`) results, `R0`-`R7`, `R12` and `R16`-`R23` caller-saved; `R8`-`R11`, `R15` and `R24`-`R31` callee-saved; `R12` linker scratch; `R13` frame pointer (callee-saved, optional); `R14` stack pointer. |
 | Floating point | `binary64` in a general register, `binary32` in the low 32 bits sign-extended (ISA 2.3); passed and returned exactly like integers. |
 | Arguments | in order in `R0`-`R5` (a struct of up to 16 bytes takes one or two consecutive, as many as needed); the rest pushed right to left, each in an 8-byte slot (a larger struct in as many slots as it needs, by value). |

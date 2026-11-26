@@ -72,17 +72,11 @@ t.a('movq\t#6, r1', 'addv\tr1, r1'); t.chk('r1', 12)
 t.a('movq\t#6, r1', 'movq\t#7, r2', 'subv\tr1, r2'); t.chk('r2', 1)
 t.a('movq\t#6, r1', 'movq\t#7, r2', 'mulv\tr1, r2'); t.chk('r2', 42)
 t.a('cmp\tr1, r1', 'movq\t#1, r1', 'addv\tr1, r1', 'mulv\tr1, r1', 'subv\tr1, r1'); t.flags(0, 1, 0, 0)
-# trapcc.CC that does not fire (user mode: a fired trapcc is a fault, tested with -K)
-def cc(name, n, z, v, c):
-    return {'ne': not z, 'eq': z, 'pl': not n, 'mi': n, 'vc': not v, 'vs': v, 'cc': not c, 'cs': c, 'ge': n == v, 'lt': n != v, 'gt': (not z) and n == v,
-            'le': z or n != v, 'hi': (not c) and (not z), 'los': c or z}[name]
 for (a, b) in ((1, 1), (1, 2), (2, 1), (0x8000000000000000, 1), (1, 0x8000000000000000)):
     t.a('movq\t=0x%x, r1' % a, 'movq\t=0x%x, r2' % b, 'cmp\tr1, r2')
     sa, sb = s64(a), s64(b)
     r = (a - b) & M
     n, z, v, c = r >> 63, int(r == 0), int(((sa - sb) < -(1 << 63)) or ((sa - sb) >= (1 << 63))), int(a < b)
-    for name in ('ne', 'eq', 'pl', 'mi', 'vc', 'vs', 'cc', 'cs', 'ge', 'lt', 'gt', 'le', 'hi', 'los'):
-        if not cc(name, n, z, v, c): t.a('trapcc.%s' % name)
     t.flags(n, z, v, c)
 # mov2 ra, rb, rc, rd: movq ra,rb ; movq rc,rd, in that order (hot registers)
 t.a('movq\t#11, r0', 'movq\t#22, r1', 'movq\t#33, r2', 'movq\t#44, r3', 'mov2\tr0, r1, r2, r3'); t.chk('r1', 11); t.chk('r3', 33); t.chk('r0', 11); t.chk('r2', 33)
@@ -91,18 +85,18 @@ t.a('movq\t#11, r0', 'movq\t#22, r1', 'movq\t#33, r2', 'mov2\tr0, r1, r2, r0'); 
 t.a('movq\t#11, r8', 'movq\t#22, r9', 'movq\t#33, r10', 'mov2\tr8, r9, r9, r10'); t.chk('r9', 11); t.chk('r10', 11)
 t.a('movq\t#11, r0', 'movq\t#22, r1', 'mov2\tr0, r1, r1, r0'); t.chk('r1', 11); t.chk('r0', 11)                       # swap attempt: r1 <- r0, r0 <- (new r1)
 t.a('cmp\tr1, r1', 'mov2\tr0, r1, r2, r3'); t.flags(0, 1, 0, 0)
-# the unaligned moves and the read-modify-write forms on memory
-t.a('lea\tubuf, r8', 'movq\t=0x1122334455667788, r1', 'movuq\tr1, 1(r8)')
+# the plain moves at addresses that are not aligned (no alignment fault), and the read-modify-write forms on memory
+t.a('lea\tubuf, r8', 'movq\t=0x1122334455667788, r1', 'movq\tr1, 1(r8)')
 t.chkmem('1(r8)', 0x88, 1); t.chkmem('2(r8)', 0x77, 1); t.chkmem('8(r8)', 0x11, 1)
-t.a('movuq\t1(r8), r2'); t.chk('r2', 0x1122334455667788)
-t.a('movul\t3(r8), r2'); t.chk('r2', 0x33445566)               # ubuf+3 holds bytes 2 to 5 of the little-endian quad
-t.a('movuw\t2(r8), r2'); t.chk('r2', 0x6677)
-t.a('movul\t4(r8), r2'); t.chk('r2', 0x22334455)
-t.a('movub\t1(r8), r2'); t.chk('r2', 0x88 - 256)                       # sign-extended
-t.a('movq\t=0xaabbccdd, r1', 'movul\tr1, 5(r8)'); t.chkmem('5(r8)', 0xdd, 1); t.chkmem('8(r8)', 0xaa, 1)
-t.a('movul\t5(r8), r2'); t.chk('r2', 0xaabbccdd - (1 << 32))
-t.a('movq\t=0x8000, r1', 'movuw\tr1, 7(r8)', 'movuw\t7(r8), r2'); t.chk('r2', -0x8000)
-t.a('movq\t#0x1ff, r1', 'movub\tr1, 9(r8)', 'movzb\t9(r8), r2'); t.chk('r2', 0xff)
+t.a('movq\t1(r8), r2'); t.chk('r2', 0x1122334455667788)
+t.a('movl\t3(r8), r2'); t.chk('r2', 0x33445566)               # ubuf+3 holds bytes 2 to 5 of the little-endian quad
+t.a('movw\t2(r8), r2'); t.chk('r2', 0x6677)
+t.a('movl\t4(r8), r2'); t.chk('r2', 0x22334455)
+t.a('movb\t1(r8), r2'); t.chk('r2', 0x88 - 256)                       # sign-extended
+t.a('movq\t=0xaabbccdd, r1', 'movl\tr1, 5(r8)'); t.chkmem('5(r8)', 0xdd, 1); t.chkmem('8(r8)', 0xaa, 1)
+t.a('movl\t5(r8), r2'); t.chk('r2', 0xaabbccdd - (1 << 32))
+t.a('movq\t=0x8000, r1', 'movw\tr1, 7(r8)', 'movw\t7(r8), r2'); t.chk('r2', -0x8000)
+t.a('movq\t#0x1ff, r1', 'movb\tr1, 9(r8)', 'movzb\t9(r8), r2'); t.chk('r2', 0xff)
 t.a('lea\tubuf, r8', 'movq\t#100, r1', 'movq\tr1, (r8)', 'movq\t#5, r2', 'addm\tr2, (r8)'); t.chkmem('(r8)', 105)
 t.a('subm\tr2, (r8)'); t.chkmem('(r8)', 100)
 t.a('movq\t=0xff, r2', 'bicm\tr2, (r8)'); t.chkmem('(r8)', 100 & ~0xff & M)
@@ -145,7 +139,7 @@ t.a('lea\tubuf+24, r26', 'movq\t-(r26), r27', 'lea\tubuf+16, r28', 'cmp\tr26, r2
 # cmp / branches / sob with high registers
 t.a('movq\t#3, r31', 'clr\tr30', '1:', 'add\t#1, r30', 'sob\tr31, 1b'); t.chk('r30', 3)
 t.a('movq\t#5, r16', 'movq\t#9, r17', 'cbgt\tr17, r16, 1f', 'br\tF9999', '1:', 'cblt\tr17, #20, 1f', 'br\tF9999', '1:')
-t.a('movq\t=0x8000000000000000, r22', 'cbmi\tr22, #0, 1f', 'br\tF9999', '1:', 'cbeq\tr22, #0, F9999')
+t.a('movq\t=0x8000000000000000, r22', 'cblt\tr22, #0, 1f', 'br\tF9999', '1:', 'cbeq\tr22, #0, F9999')
 # call and return through a high register, push/pop of a high register
 t.a('lea\t2f, r29', 'call\tr29', 'br\t3f', '2:', 'movq\t#77, r30', 'ret', '3:'); t.chk('r30', 77)
 t.a('movq\t=0x5566778899aabbcc, r31', 'push\tr31', 'pop\tr16'); t.chk('r16', 0x5566778899aabbcc)
@@ -172,11 +166,11 @@ for i in list(range(0, 14)) + list(range(15, 32)):
 t.write('newops32.s')
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-# System mode (sim64 -K): the fused instructions restart whole after a fault in their second half; trapcc is a trap, addv/subv/mulv are aborts.
+# System mode (sim64 -K): the fused instructions restart whole after a fault in their second half; addv/subv/mulv are aborts.
 DEV_END = 550024249344                      # MAP_DEV_END: nothing is mapped there
 class K(T):
     def __init__(self):
-        T.__init__(self, 'System mode: fused instructions, trapcc, addv.')
+        T.__init__(self, 'System mode: fused instructions, addv.')
         self.l = [x for x in self.l if 'stack_top, sp' not in x]
         self.a('lea\tvtab, r1', 'mtsr\tvbr, r1', 'lea\tstack_top, sp', 'clr\tr10', 'clr\tr4', 'clr\tr7')
     def handler_reset(self): self.a('clr\tr10', 'clr\tr4', 'clr\tr7')
@@ -224,20 +218,7 @@ k.chkmem('cap+16', 0x22); k.chkmem('cap+24', 0x33)        # r13, r15 as the hand
 k.chkmem('cap+32', 0x7fffffeff0)
 k.chk('r13', 0xaa); k.chk('r15', 0xbb)
 k.a('lea\tpopmstk+24, r2', 'cmp\tsp, r2', 'bne\tFSP')
-# 5. trapcc that fires: a trap (EPC is the next instruction, EVA the trapcc), vector 16; that does not fire: nothing
-k.handler_reset()
-k.a('lea\tstack_top, sp', 'movq\t#5, r1', 'cmp\tr1, r1', 'trapcc.ne', 'trapcc.lt', 'trapcc.mi', 'trapcc.vs', 'trapcc.cs')
-k.chk('r10', 0)
-k.a('un5:', 'trapcc.eq', 'nx5:')
-k.chk('r10', 1); k.chk('r8', 16)
-k.a('lea\tnx5, r15', 'cmp\tr6, r15', 'bne\tFSP', 'lea\tun5, r15', 'cmp\tr9, r15', 'bne\tFSP')
-k.a('mfps\tr15', 'and\t#4, r15', 'cmp\tr15, #4', 'bne\tFSP')       # the flags are those the trap found
-for cc_, setup in (('hi', ['movq\t#2, r1', 'cmp\tr1, #1']), ('lt', ['movq\t#-2, r1', 'cmp\tr1, #1']), ('vs', ['movq\t=0x7fffffffffffffff, r1', 'cmp\tr1, #-1']), ('cs', ['movq\t#1, r1', 'cmp\tr1, #2'])):
-    k.handler_reset()
-    k.a(*setup)
-    k.a('trapcc.%s' % cc_)
-    k.chk('r10', 1)
-# 6. addv, subv, mulv: overflow is an abort: EPC the instruction, rd unchanged, vector 16
+# 5. addv, subv, mulv: overflow is an abort: EPC the instruction, rd unchanged, vector 16
 for mn, a, b in (('addv', 1, 0x7fffffffffffffff), ('subv', 1, 0x8000000000000000), ('mulv', 2, 0x4000000000000000)):
     k.handler_reset()
     k.a('movq\t=0x%x, r1' % a, 'movq\t=0x%x, r2' % b, 'lea\tafter_%s, r7' % mn, 'un_%s:' % mn, '%s\tr1, r2' % mn, 'after_%s:' % mn)

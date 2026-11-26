@@ -8,7 +8,7 @@
  * MESC) is written here.
  *
  * What is not implemented traps as an illegal instruction with a message that names the mnemonic (list: H_UNIMPL below): the AES and SHA instructions,
- * UTF8DEC, UTF8ENC, MVAL, the deferred loads (.d, .ud), the placeholders syspg3 to syspg5.
+ * UTF8DEC, UTF8ENC, MVAL.
  */
 /* the register file is r in pdp64exec.c, a macro that would also take the field `r` of an eop: use RG here */
 #undef r
@@ -19,19 +19,21 @@ enum {
 	H_BR, H_CB, H_SOB, H_TAG,
 	H_SYS0, H_SYSX, H_SYSM, H_TLBX, H_SYSR, H_SPL, H_TRAP, H_PROBE, H_MFSR, H_MTSR,
 	H_BESC, H_AESC, H_MBLK, H_FESC, H_SET,
-	H_MOVU, H_RMW, H_ATOM,
-	H_MASK, H_BSEL, H_OVF, H_TRAPCC, H_UTF8LEN, H_CT, H_CHK2,
+	H_RMW, H_ATOM,
+	H_MASK, H_BSEL, H_OVF, H_UTF8LEN, H_CT, H_CHK2,
 	H_MOVCALL, H_POPMRET, H_POPRET, H_MOV2,
 	H_VEC
 };
 struct hdef { const char *name; int kind, a; };
 #define H_USER 0x4000				/* or-ed into the argument of the user-qualified moves (movq.u ...): the memory operand is accessed with the privilege of user mode (6.10.4) */
+#define H_USERR 0x2000				/* the user-qualified block copy (mcpy.ur): the bytes it reads are accessed with the privilege of user mode */
+#define H_USERW 0x1000				/* mcpy.uw: the bytes it writes are */
 #define VECTOR_CHECK 16				/* the overflow / bounds check trap (docs/study-proposals.md item 9) */
 #include "pdp64exec_corehdefs.inc"	/* hdefs[]: word -> handler kind and argument, generated from spec/facts/core.toml (tools/gen-core-names.py) */
 /* every other mnemonic of the tables is H_UNIMPL: aeses aesesm aesds aesdsm aesks1 aesks2 aesim, sha256sig0/1 sha256sum0/1 sha512sig0/1 sha512sum0/1, msha256 msha512 maesctr, utf8dec utf8enc
-   mval, the deferred loads movX.d movX.ud, syspg3 to syspg5 */
+   mval */
 
-static struct hinfo { uint8_t kind; uint8_t user; int a; } *HT;
+static struct hinfo { uint8_t kind; uint8_t user; uint8_t ublk; int a; } *HT;
 static void vec_init(void);
 
 static void enc_exec_init(void)
@@ -41,7 +43,7 @@ static void enc_exec_init(void)
 	HT = calloc(t->nmn, sizeof *HT);
 	for (size_t i = 0; i < sizeof hdefs / sizeof *hdefs; i++) {
 		int m = enc_mn_find(t, hdefs[i].name);
-		if (m >= 0) { HT[m].kind = hdefs[i].kind; HT[m].user = (hdefs[i].a & H_USER) != 0; HT[m].a = hdefs[i].a & ~H_USER; }
+		if (m >= 0) { HT[m].kind = hdefs[i].kind; HT[m].user = (hdefs[i].a & H_USER) != 0; HT[m].ublk = (hdefs[i].a & H_USERR ? 1 : 0) | (hdefs[i].a & H_USERW ? 2 : 0); HT[m].a = hdefs[i].a & ~(H_USER | H_USERR | H_USERW); }
 	}
 	vec_init();
 }
@@ -73,10 +75,11 @@ static int is_mem(const struct eop *e) { return e->k != EK_R && e->k != EK_I; }
 #include "pdp64exec_vec.inc"
 
 /* ---- one instruction ------------------------------------------------------------------------------------------------ */
-static void check_both(uint64_t a, int size, int write)
+/* the faults of a plain access of n bytes at a (any alignment), before anything is changed: the first byte, and, when the access crosses a page, the first byte of the second page; EVA is the address of the byte that faulted */
+static void check_access(uint64_t a, int n, int write)
 {
 	E->check(E->u, a, 1, write);
-	E->check(E->u, a + size - 1, 1, write);
+	if (n > 1 && (a & 4095) + n > 4096) E->check(E->u, (a + n - 1) & ~(uint64_t)4095, 1, write);
 }
 
 /* the category of a decoded instruction, for the profile  */
@@ -101,7 +104,7 @@ static int classify_enc(const struct hinfo *h, const struct einsn *in)
 	case H_MBLK: return PDP64_CAT_BLOCK;
 	case H_MOVCALL: case H_POPMRET: case H_POPRET: case H_MOV2: return PDP64_CAT_FUSED;
 	case H_VEC: return PDP64_CAT_BLOCK;
-	case H_MOVU: case H_RMW: case H_ATOM: return PDP64_CAT_MEMREF;
+	case H_RMW: case H_ATOM: return PDP64_CAT_MEMREF;
 	}
 	return PDP64_CAT_OTHER;
 }
@@ -238,9 +241,8 @@ static void step_enc(void)
 		int sub = h->a;
 		f.opc = h->kind == H_BESC ? OPGROUP_BESC : h->kind == H_AESC ? OPGROUP_AESC : h->kind == H_MBLK ? OPGROUP_MBLK : OPGROUP_FESC;
 		f.sub = sub;
-		if (h->kind == H_MBLK) { f.reg = op[0].r; f.low = in.nops == 3 ? op[1].r : 0; f.t = op[in.nops - 1].r; }	/* mcpy rd, rs, rn: the destination pointer first */
+		if (h->kind == H_MBLK) { f.reg = op[0].r; f.low = in.nops == 3 ? op[1].r : 0; f.t = op[in.nops - 1].r; C->ublk = h->ublk; }	/* mcpy rd, rs, rn: the destination pointer first; mcpy.ur and mcpy.uw: the side that is user memory */
 		else if (sub == MN_FESC_FCMP32 && h->kind == H_FESC) { f.reg = op[0].r; f.low = op[1].r; }
-		else if (sub == MN_FESC_FCMP16 && h->kind == H_FESC) { f.reg = op[0].r; f.low = op[1].r; }
 		else if (h->kind == H_BESC && ((sub == MN_BESC_ROR && op[1].k != EK_R) || sub == MN_BESC_ROR32 || sub == MN_BESC_ROL)) {	/* ror rs, #n, rd (the constant count) */
 			f.low = op[0].r; f.reg = op[2].r; f.count = (unsigned)op[1].v;
 			if (sub == MN_BESC_ROR) f.sub = XSUB_RORI;
@@ -261,31 +263,12 @@ static void step_enc(void)
 		RG[op[1].r] = b < 0x80 ? 1 : b < 0xC2 ? 0 : b < 0xE0 ? 2 : b < 0xF0 ? 3 : b < 0xF5 ? 4 : 0;
 		return;
 	}
-	case H_MOVU: {									/* explicit unaligned access (MESC): little-endian bytes, no alignment fault */
-		int size = h->a;
-		struct opnd o;
-		EO_size = size;
-		if (is_mem(&op[1])) {
-			EO = &op[1]; operand(&f, start, &o);
-			check_both(o.addr, size, 1);
-			uint64_t v = RG[op[0].r];
-			for (int i = 0; i < size; i++) st(o.addr + i, 1, v >> (8 * i));
-			after(&o);
-		} else {
-			EO = &op[0]; operand(&f, start, &o);
-			check_both(o.addr, size, 0);
-			uint64_t v = 0;
-			for (int i = 0; i < size; i++) v |= ld(o.addr + i, 1) << (8 * i);
-			after(&o);
-			RG[op[1].r] = (uint64_t)sext(v, size * 8);
-		} return;
-	}
 	case H_RMW: {									/* addm rs, mem: M[EA] <- M[EA] op rs, the flags of the ALU operation */
 		struct opnd o;
 		uint64_t a, b = RG[op[0].r], res;
 		EO_size = 8; EO = &op[1];
 		operand(&f, start, &o);
-		E->check(E->u, o.addr, 8, 1);						/* write permission is checked with the read */
+		check_access(o.addr, 8, 1);						/* write permission is checked with the read, on both pages of an access that crosses one */
 		a = ld(o.addr, 8);
 		switch (h->a) {
 		case MN_ALU_ADD: res = add_f(a, b, 0); break;
@@ -321,12 +304,6 @@ static void step_enc(void)
 		}
 		return;
 	}
-	case H_TRAPCC:									/* a trap, not an abort: EPC is the next instruction, EVA the address of this one */
-		if (cond(h->a)) {
-			if (C->deliver && !C->standin) enter(VECTOR_CHECK, pc, start);
-			else E->fault(E->u, "check trap (trapcc)", start);
-		}
-		return;
 	case H_VEC: vec_step(&in, start, n); return;
 	/* the fused instructions: the first half reads registers the second does not change, so a fault in the second half restarts the whole instruction
 	   (the state at its start is restored, errata 87) */

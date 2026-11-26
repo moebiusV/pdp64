@@ -112,7 +112,7 @@ def fig_percpu():
         c.line([(275, y + 31), (440, y + 31)], arrow=True, dash=True)
     c.text(20, 234, 'a field of this core\'s structure: MOVQ d(DP), Rd, a six-byte load; no search, no swapgs, no reserved register', 10, 'start', '#333')
     c.text(20, 250, 'an interrupt that arrives in user mode finds this core\'s kernel R14 and DP already in place ({{r:stack-pointer-is-banked}}, {{r:modes-and-the-status-word}})', 10, 'start', '#333')
-    c.text(20, 266, 'MFCPUID gives the core number, which no program can compute ({{r:mfcpuid-returns-the-number}})', 10, 'start', '#333')
+    c.text(20, 266, 'MFSR of CPUID gives the core number, which no program can compute ({{r:mfcpuid-returns-the-number}})', 10, 'start', '#333')
     return c.svg()
 
 

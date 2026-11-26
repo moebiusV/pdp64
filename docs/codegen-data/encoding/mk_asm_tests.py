@@ -75,7 +75,7 @@ z:\tret
 a:\tcbeq r1,#0,z
 \tcbne r1,r2,z
 \tcbeq r1,#100000,z
-\tcbpl r1,#0,z
+\tcbge r1,#0,z
 \tbr z
 \tbeq z
 \t.space 70000
@@ -129,10 +129,10 @@ d:\t.quad 1
 \tpopm #0x0100
 \tsob r1,lb
 lb:\tbtag r1,#2,lb
-\tmovub 8(r3),r2
+\tmovw 9(r3),r2
 \taddm r1,16(r2)
 \tmovq.u 8(r1),r2
-\tmovb.d (r3),r4
+\tmovb.u (r3),r4
 \tfcmp r1,r2
 \tfadd r2,r3
 \tmul #6,r1

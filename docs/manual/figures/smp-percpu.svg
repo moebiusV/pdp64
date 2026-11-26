@@ -47,5 +47,5 @@
 <polygon points="440.0,195.0 432.0,198.6 432.0,191.4" fill="#222"/>
 <text x="20.0" y="234.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">a field of this core's structure: MOVQ d(DP), Rd, a six-byte load; no search, no swapgs, no reserved register</text>
 <text x="20.0" y="250.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">an interrupt that arrives in user mode finds this core's kernel R14 and DP already in place (7.8.4, 6.2)</text>
-<text x="20.0" y="266.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">MFCPUID gives the core number, which no program can compute (7.8.1)</text>
+<text x="20.0" y="266.0" font-size="10" text-anchor="start" fill="#333" font-family="DejaVu Sans, sans-serif">MFSR of CPUID gives the core number, which no program can compute (7.8.1)</text>
 </svg>

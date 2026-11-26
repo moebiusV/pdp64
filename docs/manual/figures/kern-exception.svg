@@ -32,7 +32,7 @@
 <polygon points="200.0,167.0 192.0,170.6 192.0,163.4" fill="#222"/>
 <text x="20.0" y="206.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">the new PSW:</text>
 <text x="20.0" y="220.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">current mode = kernel; previous mode = the old current mode;</text>
-<text x="20.0" y="232.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">priority = 7; trace bit, flags and the user-access guard cleared</text>
+<text x="20.0" y="232.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">priority = 7; trace bit and flags cleared</text>
 <text x="20.0" y="252.0" font-size="10" text-anchor="start" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">the new PC = the 64-bit word at VBR + 8 x vector</text>
 <text x="20.0" y="268.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">the hardware pushes nothing; a handler that may be interrupted</text>
 <text x="20.0" y="280.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">saves EPC and EPSW with PUSHX, lowers the priority with SPL,</text>

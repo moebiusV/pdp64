@@ -155,7 +155,7 @@ fillg:	movq	r2, (r1)+
 	movq	r2, (r1)
 	lea	msg1, r1
 	call	puts
-	mfcpuid	r1			; the virtual core number: the hardware gives it, no exit
+	mfsr	r1, cpuid		; the virtual core number: the hardware gives it, no exit
 	cbeq	r1, #7, 1f
 	movq	#10, r0
 	halt
@@ -209,11 +209,11 @@ puts:	movzb	(r1)+, r0		; r1: the string, to the console by hypercall (a routed T
 	trap	#224
 	br	puts
 3:	ret
-g_sys:	stua				; system call 1: write(r1 = user buffer, r2 = length); the user's page is read with UA set; no exit happens here
-1:	movzb	(r1)+, r0
+g_sys:					; system call 1: write(r1 = user buffer, r2 = length); the user's page is read with .U moves; no exit happens here
+1:	movzb.u	(r1), r0
+	add	#1, r1
 	trap	#224
 	sob	r2, 1b
-	clua
 	rti	#RTIMASK_ALL
 g_exit:	lea	msg5, r1
 	call	puts

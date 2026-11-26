@@ -8,7 +8,7 @@ ENTRIES = [
 load :  Rd <- sext(M[EA(rm)], size)          ; len = 00: Rd <- sext(Rs[8*size-1:0])
 store:  M[EA(rm)] <- Rs[8*size-1:0]          ; len = 00: Rd <- sext(Rs[8*size-1:0])''',
       NOFLAGS, MEMX,
-      notes='A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`. `MOVQ #imm, Rd` is one word for every size of constant: the assembler writes the two-, four- or six-byte form that holds it, and the ten-byte form (five parcels) when the constant needs 64 bits; the literal is inside the instruction, so the length is still known from parcel 0, and breaking the three-parcel rule for it is acceptable because a 64-bit literal is not counted as part of the instruction (`docs/encoding-proposal.md` section 3).',
+      notes='A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The address may be any address: a load or store that is not aligned to its size works ({{r:plain-access-at-any-address}}), which is how a packed structure or a network header is read. At `len = 00` the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`. `MOVQ #imm, Rd` is one word for every size of constant: the assembler writes the two-, four- or six-byte form that holds it, and the ten-byte form (five parcels) when the constant needs 64 bits; the literal is inside the instruction, so the length is still known from parcel 0, and breaking the three-parcel rule for it is acceptable because a 64-bit literal is not counted as part of the instruction (`docs/encoding-proposal.md` section 3).',
       cf='{{r:page-table-entry}} for the memory type that decides whether the access is cached; {{r:faults-and-restart-what-precise-means}} for what a faulting access leaves behind.'),
     E('MOVZ', 'moves', ['movzl', 'movzw', 'movzb'], 'Move zero-extended (32, 16 and 8 bits)',
       ['MOVZL rm, Rd', 'MOVZW rm, Rd', 'MOVZB rm, Rd'],
@@ -19,15 +19,6 @@ store:  M[EA(rm)] <- Rs[8*size-1:0]          ; len = 00: Rd <- sext(Rs[8*size-1:
       '''Rd <- EA(rm)          ; no memory access''',
       NOFLAGS, 'The operand must name memory; `len = 00` (a register) and the immediate mode are reserved. No memory access is made, so the instruction takes no memory fault. ' + ILL,
       notes='`LEA 0(PC), Rd` is how the program counter is read: it puts the address of the `LEA` itself in `Rd`. At `len = 10` it forms any address within ±2 GB of itself PC-relatively in six bytes. The base of every PC-relative displacement is the address of the first parcel of the instruction.'),
-    E('MOVU', 'moves', ['movub', 'movuw', 'movul', 'movuq'], 'Unaligned load and store',
-      ['MOVUQ rm, Rd        ; load, any alignment', 'MOVUQ Rs, rm        ; store, any alignment', 'MOVUW, MOVUL, MOVUB likewise'],
-      '''size = 1, 2, 4 or 8 bytes
-load :  Rd <- sext(M[EA(rm)], size)            ; the access may cross an alignment boundary
-store:  M[EA(rm)] <- Rs[8*size-1:0]''',
-      NOFLAGS, 'Page and protection faults and bus errors as for any memory operand; **no alignment fault**.',
-      notes='The ordinary moves fault on a misaligned address (the alignment fault is the tag check of section {{r:addressing-modes}}); these are the explicit forms for data that is not aligned, in `MESC`.',
-      cf='{{r:from-segments-to-pages-virtual-memory}}, {{r:faults-and-restart-what-precise-means}}.'),
-
     E('ADD', 'alu', ['add'], 'Add', ['ADD rm, Rd'], 'Rd <- Rd + rm', NZVC_ADD, MEMX,
       notes='All ALU operations are 64 bits, with no size field.'),
     E('SUB', 'alu', ['sub'], 'Subtract', ['SUB rm, Rd'], 'Rd <- Rd - rm', NZVC_SUB, MEMX,
@@ -79,12 +70,12 @@ BISM: M[EA] <- M[EA] OR Rs''',
       '''Rn <- Rn - 1
 if Rn != 0 then PC <- address of this instruction + 2 * disp''',
       NOFLAGS, 'None.', notes='From the PDP-11, where it could branch only backward; here the signed displacement goes either way. Four bytes at least.'),
-    E('CBCC', 'branches', ['cbne', 'cbeq', 'cbpl', 'cbmi', 'cbvc', 'cbvs', 'cbcc', 'cbcs', 'cbge', 'cblt', 'cbgt', 'cble', 'cbhi', 'cblos'], 'Compare and branch on condition',
+    E('CBCC', 'branches', ['cbne', 'cbeq', 'cbcc', 'cbcs', 'cbge', 'cblt', 'cbgt', 'cble', 'cbhi', 'cblos'], 'Compare and branch on condition',
       ['CBNE Rd, #imm, target', 'CBEQ Ra, Rb, target ... and the rest'],
       '''tmp <- Rd - (imm or Rb)         ; as CMP, for the decision only
 if cond(c) on that comparison then PC <- address of this instruction + 2 * disp''',
       '**None written**: the instruction computes the comparison for its own decision and leaves `N Z V C` as they were.', 'None.',
-      notes='Three encodings, chosen by the assembler: `CBCC` (`101000 (0x28)`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`101001 (0x29)`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`101010 (0x2A)`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused.'),
+      notes='Three encodings, chosen by the assembler: `CBCC` (`101000 (0x28)`, a 5-bit signed immediate -16 to 15, a displacement of ±1024 parcels at four bytes or 27 bits at six), `CBW` (`101001 (0x29)`, a 16-bit immediate and a 16-bit displacement, six bytes) and `CBRR` (`101010 (0x2A)`, two registers, ±2,048 parcels at four bytes or 28 bits at six). There is no `len = 00` form. A target in another section is refused. There are ten conditions, the signed and unsigned orderings and equality; "plus", "minus" and the overflow tests are not among them, because a decision about a comparison is made by `CBGE` and `CBLT` (the sign of the difference is wrong when the subtraction overflows) and an overflow is caught by `ADDV`, `SUBV` and `MULV`.'),
     E('BTAG', 'branches', ['btag', 'bntag'], 'Branch on pointer tag', ['BTAG Rn, #tag, target', 'BNTAG Rn, #tag, target'],
       '''BTAG : if (Rn & 111₂) == tag then PC <- address of this instruction + 2 * disp
 BNTAG: if (Rn & 111₂) != tag then PC <- address of this instruction + 2 * disp''',

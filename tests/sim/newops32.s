@@ -142,7 +142,7 @@ _start:
 	br	F9999
 1:
 	movq	=0x8000000000000000, r22
-	cbmi	r22, #0, 1f
+	cblt	r22, #0, 1f
 	br	F9999
 1:
 	cbeq	r22, #0, F9999

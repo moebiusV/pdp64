@@ -13,7 +13,6 @@ mn-sys-none = "nop"@0b0000
             | "tlbia"@0b1010
             | "tlbsync"@0b1011
             | "icinva"@0b1100
-            | "wait"@0x107
 
 ; SYS class 0 minor 15, SYSX: an escape to a parcel-1 sub-opcode (four bytes: `sub:8 pad:8`).  The minor has no word of its own; the two instructions are the words of mn-sysx,
 ; numbered by their sub-opcode.  pushx: SP <- SP - 16; M[SP] <- EPSW; M[SP + 8] <- EPC.  popx: the reverse (errata 37). 
@@ -23,9 +22,7 @@ mn-sysx = "pushx"@0
         | "popx"@1
         | "isync"@2     ; not privileged (errata 190): earlier writes to PTBR, ASID, MMUCTL, VBR (privileged themselves) and earlier ICINVs take effect for what follows (errata 39); pad zero
         | "hint"@3      ; hint #n: n (0 to 255) in the pad byte; no architectural effect; 0 nop, 1 pause, 2 speculation barrier, the rest reserved and no-ops
-        | "stua"@4      ; privileged: set the user-access guard bit UA of the status word (errata 43, 190); pad zero
-        | "clua"@5      ; privileged: clear UA (errata 43, 190); pad zero
-        | "genter"@6    ; the hypervisor's entry into a guest (errata 195, 196): legal at H=1 only; at H=0 an exit (code 18); with no hypervisor (HVE clear) an illegal instruction; includes an ISYNC.  It has no pad: the word is the leaf SYS0-2 (the reserved word syspg2)
+        | "genter"@6    ; the hypervisor's entry into a guest (errata 195, 196): legal at H=1 only; at H=0 an exit (code 18); with no hypervisor (HVE clear) an illegal instruction; includes an ISYNC.  It has no pad: the word is the leaf RETM
 
 ; SYS class 0, the system-register moves (four bytes: the register in parcel 1): the number is the minor opcode in the low field.  Not in `mnemonic`: they
 ; take the register's name as a word of its own, in the operand position that is the system register (`mfsr r1, ptbr`, `mtsr ptbr, r1`)
@@ -38,14 +35,10 @@ mn-sys = "mtps"@0b0001
        | "spl"@0b0011
        | "trap"@0b0100
        | "tlbi"@0b0101
-       | "mtasid"@0b0110
-       | "mfasid"@0b0111
        | "mtdp"@0b1000
        | "mfdp"@0b1001
-       | "mtdmw"@0b1010
-       | "mfcpuid"@0b1011
        | "icinv"@0b1100
        | "prober"@0b1101
        | "probew"@0b1110
 
-; (the assembler aliases of ISA 4.15 are in the groups they stand for, numbered above the encodings of the group: bhis, blo, mulu, wait, rol)
+; (the assembler aliases of ISA 4.15 are in the groups they stand for, numbered above the encodings of the group: bhis, blo, mulu, rol)

@@ -46,7 +46,6 @@
 | **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing ({{r:accessed-dirty-tlb-and-asids}}) |
 | **`G` bit** | global: a translation-buffer entry that ignores the `ASID` ({{r:accessed-dirty-tlb-and-asids}}) |
 | **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores ({{r:translation-and-instruction-cache-coherence}}) |
-| **`DMW`** | direct mapping window: a region translated by a fixed offset with no page table; stored without effect, the format is open ({{r:splitting-the-space-and-the-layout}}) |
 | **`MMUCTL`** | the register that enables translation and sets the table base ({{r:system-registers-mfsr-and-mtsr}}, {{r:accessed-dirty-tlb-and-asids}}) |
 | **virtual address, physical address** | the number a program uses, and the number the memory answers to; the page tables translate one into the other ({{r:from-segments-to-pages-virtual-memory}}) |
 | **page, frame, page table** | a 4 KB piece of virtual space, a 4 KB piece of physical memory, and the tree of tables of 512 entries that says which frame holds which page ({{r:from-segments-to-pages-virtual-memory}}) |
@@ -60,7 +59,6 @@
 | **software-managed `A`, `D`** | accessed and dirty bits set by the kernel's page-fault handler, never by the walker ({{r:accessed-dirty-tlb-and-asids}}) |
 | **shootdown** | removing a stale translation from the buffers of other cores; on the pdp64 `TLBI` broadcasts and `TLBSYNC` waits ({{r:accessed-dirty-tlb-and-asids}}) |
 | **walker** | the hardware that reads page-table entries on a translation-buffer miss ({{r:from-segments-to-pages-virtual-memory}}) |
-| **`STUA` / `CLUA`** | set and clear the user-access guard bit, which lets kernel code touch user memory only inside the copy routines ({{r:user-memory-guard-and-system-calls}}) |
 | **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting ({{r:user-memory-guard-and-system-calls}}, {{r:kernel-system-instructions-exceptions}}) |
 | **PIE** | position-independent executable: loadable at any address; costs nothing here ({{r:position-independent-code}}) |
 | **GOT, PLT** | global offset table and procedure linkage table: the indirection that lets position-independent code reach imported symbols ({{r:position-independent-code}}) |

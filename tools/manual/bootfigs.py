@@ -78,7 +78,7 @@ def fig_block0_memory():
         c.box(rx, y, 50, 24, n, GREY, 10, mono=True, bold=True)
         c.box(rx + 50, y, 70, 24, v, '#fff', 10, mono=True)
         c.text(rx + 128, y + 16, d, 9, 'start', '#333')
-    lines(c, rx, 198, ['mode: kernel, priority 7, translation off:', 'every address is a physical address;', 'the user-memory guard is clear'], 9, fill='#222')
+    lines(c, rx, 198, ['mode: kernel, priority 7, translation off:', 'every address is a physical address'], 9, fill='#222')
     c.line([(x + w + 10, 207), (rx - 6, 207), (rx - 6, 66), (rx - 2, 66)], arrow=True, dash=True, width=0.9)
     lines(c, rx, 252, ['the other cores: held in reset by the', 'controller until core 0 writes their', 'start registers ({{r:starting-the-other-cores}})'], 9, fill='#222')
     c.text(20, 340, '0x1000 and the 64 KB stack top follow the proposal of {{r:reset-state-and-the-first-block}} and the figure of chapter {{c:id01006|n}}; how many pages are reserved is not decided.', 9, 'start', '#444')

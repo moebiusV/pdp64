@@ -118,15 +118,14 @@ FSQRT: Rd <- sqrt(Rs)''', FPFLAG, NONE, xnote=FXNOTE,
       '''Rd <- Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd <- sqrt(Rs) (FSQRT32)
 FCMP32: flags as FCMP, comparing Rd with Rs''', FPFLAG + ' `FCMP32` writes `N Z V C` as `FCMP` does.', NONE, xnote=FXNOTE,
       notes='A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even.'),
-    E('FMADD', 'fp', ['fmadd', 'fmsub', 'fnmadd', 'fnmsub'], 'Fused multiply-add, binary64',
-      ['FMADD Rs, Rt, Ru, Rd', 'FMSUB Rs, Rt, Ru, Rd', 'FNMADD Rs, Rt, Ru, Rd', 'FNMSUB Rs, Rt, Ru, Rd'],
+    E('FMADD', 'fp', ['fmadd', 'fnmsub'], 'Fused multiply-add, binary64',
+      ['FMADD Rs, Rt, Ru, Rd', 'FNMSUB Rs, Rt, Ru, Rd'],
       '''FMADD : Rd <- Rs*Rt + Ru
-FMSUB : Rd <- Rs*Rt - Ru
-FNMADD: Rd <- -(Rs*Rt) - Ru
 FNMSUB: Rd <- -(Rs*Rt) + Ru          ; each rounded once''', FPFLAG, NONE, xnote=FXNOTE,
-      notes='Four register operands are available at `len = 01`.'),
-    E('FMADD32', 'fp', ['fmadd32', 'fmsub32', 'fnmadd32', 'fnmsub32'], 'Fused multiply-add, binary32',
-      ['FMADD32 Rs, Rt, Ru, Rd', 'FMSUB32 ...', 'FNMADD32 ...', 'FNMSUB32 ...'], 'As FMADD, in binary32, rounded once', FPFLAG, NONE, xnote=FXNOTE),
+      notes='Four register operands are available at `len = 01`. The two other signs are these two with the addend negated by `FNEG`, which is exact and raises nothing: `Rs*Rt - Ru` is `FMADD` of `Rs`, `Rt` and the negated `Ru`, and `-(Rs*Rt) - Ru` is `FNMSUB` of the same three; the result, its rounding and its flags are exactly those of an operation that subtracts. `-(Rs*Rt) - Ru` is not the negated `FMADD`: when the exact sum is zero the two have different signs of zero.'),
+    E('FMADD32', 'fp', ['fmadd32', 'fnmsub32'], 'Fused multiply-add, binary32',
+      ['FMADD32 Rs, Rt, Ru, Rd', 'FNMSUB32 Rs, Rt, Ru, Rd'], 'As FMADD and FNMSUB, in binary32, rounded once', FPFLAG, NONE, xnote=FXNOTE,
+      notes='The sign of a `binary32` is flipped exactly by `XOR #-2147483648` (the sign-extended sign bit), which writes the integer flags `N` and `Z` as `XOR` does.'),
     E('FSIGN', 'fp', ['fneg', 'fabs', 'fcopysign'], 'Sign operations on the bits', ['FNEG Rs, Rd', 'FABS Rs, Rd', 'FCOPYSIGN Rs, Rt, Rd'],
       '''FNEG     : Rd <- Rs with the sign bit flipped
 FABS     : Rd <- Rs with the sign bit cleared
@@ -134,7 +133,7 @@ FCOPYSIGN: Rd <- magnitude of Rs, sign of Rt''', 'None. These operate on the bit
     E('FMIN', 'fp', ['fmin', 'fmax'], 'Floating minimum and maximum, binary64', ['FMIN Rs, Rt, Rd', 'FMAX Rs, Rt, Rd'],
       '''if Rs is a NaN then Rd <- Rt ; else if Rt is a NaN then Rd <- Rs ; else Rd <- smaller (FMIN) or larger (FMAX)
 if both are NaNs the result is the canonical quiet NaN''', FPFLAG, NONE, xnote=FXNOTE, notes=''),
-    E('FCLASS', 'fp', ['fclass', 'fclass32', 'fclass16'], 'Classify a floating-point value', ['FCLASS Rs, Rd', 'FCLASS32 Rs, Rd', 'FCLASS16 Rs, Rd'],
+    E('FCLASS', 'fp', ['fclass', 'fclass32'], 'Classify a floating-point value', ['FCLASS Rs, Rd', 'FCLASS32 Rs, Rd'],
       '''Rd <- a bit vector with exactly one bit set:
 bit 0 -infinity      bit 1 -normal      bit 2 -subnormal   bit 3 -zero
 bit 4 +zero          bit 5 +subnormal   bit 6 +normal      bit 7 +infinity
@@ -156,14 +155,10 @@ integer to float: round to nearest even''', FPFLAG + ' ' + SATQ, NONE, xnote=FXN
 FPSR <- Rs[4:0]
 Rd <- old''', 'None.', NONE, xnote=FXNOTE,
       notes='`FPSR` is the sticky five-bit register (`NX` bit 0, `UF` 1, `OF` 2, `DZ` 3, `NV` 4). C99 `<fenv.h>` is built on this one instruction.'),
-    E('FHALF', 'fp', ['fadd16', 'fsub16', 'fmul16', 'fdiv16', 'fsqrt16', 'fcmp16', 'fmadd16', 'fmsub16', 'fnmadd16', 'fnmsub16'], 'Floating arithmetic, binary16',
-      ['FADD16 Rs, Rd', 'FSUB16 Rs, Rd', 'FMUL16 Rs, Rd', 'FDIV16 Rs, Rd', 'FSQRT16 Rs, Rd', 'FCMP16 Rd, Rs', 'FMADD16 Rs, Rt, Ru, Rd ...'],
-      '''as the binary32 words, in binary16: Rd <- Rd op Rs ; the fused forms take Rs, Rt, Ru, Rd
-a half lives in the low 16 bits of a register, sign-extended to 64''', FPFLAG + ' `FCMP16` writes `N Z V C` as `FCMP`.', NONE, xnote=FXNOTE,
-      notes='Results are correctly rounded to nearest even, tininess judged after rounding; a NaN result is the canonical `0x7E00`.'),
     E('FCVTH', 'fp', ['fcvtsh', 'fcvths', 'fcvtdh', 'fcvthd', 'fcvthl', 'fcvtlh'], 'Conversions to and from binary16',
       ['FCVTSH Rs, Rd        ; binary32 to half', 'FCVTHS Rs, Rd        ; half to binary32', 'FCVTDH Rs, Rd        ; binary64 to half', 'FCVTHD Rs, Rd        ; half to binary64',
        'FCVTHL Rs, Rd        ; half to signed 32-bit integer, toward zero', 'FCVTLH Rs, Rd        ; signed 32-bit integer to half'],
       '''narrowing: round to nearest even ; widening: exact
-FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction is inexact''', FPFLAG, NONE, xnote=FXNOTE),
+FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction is inexact''', FPFLAG, NONE, xnote=FXNOTE,
+      notes='`binary16` is a storage format: a half lives in the low 16 bits of a register, sign-extended to 64, is loaded and stored with `MOVW`, and has these six conversions and no arithmetic. Every half is exact in `binary32`, so an operation on halves is made by widening (`FCVTHS`), operating in `binary32` and narrowing (`FCVTSH`) once; for add, subtract, multiply, divide and square root that gives the correctly rounded half, because a `binary32` has at least 2 × 11 + 2 bits of significand. A fused multiply-add of halves is not a case of this: widen to `binary64` and the sum may be rounded before it is narrowed. A NaN narrowed to a half is the canonical `0x7E00`; tininess is judged after rounding.'),
 ]

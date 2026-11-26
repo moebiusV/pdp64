@@ -25,7 +25,6 @@ imm3u          = imm:3
 imm4s          = imm:4s
 imm4u          = imm:4
 imm5s          = imm:5s
-imm6s          = imm:6s
 imm6u          = imm:6
 imm7s          = imm:7s
 imm8s          = imm:8s

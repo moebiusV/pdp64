@@ -253,7 +253,7 @@ pgdata2:	ret
 	.quad	0x5678
 	.space	4080
 pgx:	.space	4094
-	.word	0xf2f2		; the first parcel of `add #1000, r1`; its second parcel is on the next page
+	add	#1000, r1	; four bytes: the first parcel ends the page, its second parcel is on the next page
 
 	.data
 	.align	8

@@ -16,10 +16,10 @@
 	popm #0x0100
 	sob r1,lb
 lb:	btag r1,#2,lb
-	movub 8(r3),r2
+	movw 9(r3),r2
 	addm r1,16(r2)
 	movq.u 8(r1),r2
-	movb.d (r3),r4
+	movb.u (r3),r4
 	fcmp r1,r2
 	fadd r2,r3
 	mul #6,r1

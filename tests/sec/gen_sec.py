@@ -9,7 +9,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from secgen import *
 
-SYSREGS = ['ptbr', 'epc', 'eva', 'ecause', 'dmw0', 'dmw1', 'usp', 'ssp', 'epsw', 'vbr', 'mmuctl', 'asid', 'cpuid']
+SYSREGS = ['ptbr', 'epc', 'eva', 'ecause', 'usp', 'ssp', 'epsw', 'vbr', 'mmuctl', 'asid', 'cpuid']
 RO = ['eva', 'ecause', 'cpuid']
 OUT = {}
 
@@ -45,7 +45,7 @@ def gen_user_sysregs():
         user_case(p, ['\tmovq\t=0x5a5a5a5a5a5a, r2', '\tmtsr\t%s, r2' % nm], 'w_%s' % nm, 'VECTOR_PRIVILEGED')
     # numbers the assembler will not name (read-only registers written, unassigned numbers): a patched copy of mfsr/mtsr in the buffer ubuf
     for kind, tmpl in (('r', 'tmplr'), ('w', 'tmplw')):
-        for num in ([2, 3, 12] if kind == 'w' else []) + [13, 14, 63, 127, 128, 147, 148, 200, 255]:
+        for num in ([2, 3, 12] if kind == 'w' else []) + [4, 5, 13, 14, 63, 127, 128, 147, 148, 200, 255]:
             lab = 'p%s%d' % (kind, num)
             p.e('\tmovl\t%s, r2\n\tmovq\t=(%d<<16), r3\n\tbis\tr3, r2\n\tlea\tubuf, r4\n\tmovl\tr2, (r4)' % (tmpl, num))
             p.e('\tlea\tN%s, r13\n\tmovq\tcnt, r10\n\tmovq\t=0x5a5a5a5a5a5a, r2\n\tjmp\tr4' % lab)
@@ -77,11 +77,11 @@ def gen_user_mtps():
     """SEC-P04: MTPS from user mode cannot raise the privilege, the priority, the trace bit or the user-access guard"""
     p = Prog(user=True)
     p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
-    vals = ['0', '0xf', '0x1f', '0xe0', '0x300', '0xc00', '0x1000', '0x1fff', '0xffff', '0xffffffffffffffff', '(7<<PSW_PRI)|(MODE_KERNEL<<PSW_MODE)', '(1<<PSW_UA)|(1<<PSW_T)']
+    vals = ['0', '0xf', '0x1f', '0xe0', '0x300', '0xc00', '0x1000', '0x1fff', '0xffff', '0xffffffffffffffff', '(7<<PSW_PRI)|(MODE_KERNEL<<PSW_MODE)', '0x1000|(1<<PSW_T)']
     for v in vals:
         p.e('\tmovq\t=(%s), r1\n\tmtps\tr1\n\tmfps\tr5' % v)
         p.e('\tbic\t#15, r5')
-        p.eq('r5', '(MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)', 'after mtps of %s the mode, previous mode, priority, T and UA are unchanged' % v)
+        p.eq('r5', '(MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)', 'after mtps of %s the mode, previous mode, priority and T are unchanged' % v)
     # still user mode: a privileged instruction faults
     p.e('\tlea\tNp, r13\n\tmovq\tcnt, r10')
     p.e('\tspl\t#3')
@@ -91,7 +91,7 @@ def gen_user_mtps():
     p.eq('r11', 'VECTOR_PRIVILEGED')
     # no trace trap came (T was not set): the count of exceptions is exactly the one above
     p.done()
-    return ['MTPS from USER mode (SEC-P04, audit 3.1 and 3.3): a value with the kernel mode, the priority 7, the trace bit, UA or the reserved bits changes nothing but the four flags: the mode',
+    return ['MTPS from USER mode (SEC-P04, audit 3.1 and 3.3): a value with the kernel mode, the priority 7, the trace bit or the reserved bits changes nothing but the four flags: the mode',
             'is still user (MFPS), a privileged instruction still faults, and no trace exception comes.  Failed check n: exit n.'], p.text() + KHANDLERS + KDATA
 
 
@@ -99,25 +99,25 @@ def gen_eva_stale():
     """SEC-B02: after an exception that has no address, EVA and ECAUSE do not hold what an earlier exception (another context's) left"""
     p = Prog(user=True)
     p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
-    p.e('\tlea\tN0, r13\n\tlea\tubuf+1, r2\n\tmovq\t(r2), r3')           # a misaligned load: EVA is the address
+    p.e('\tlea\tN0, r13\n\tmovq\t=MAP_DEV_END, r2\n\tmovq\t(r2), r3')           # a load of an address nothing answers: EVA is the address
     p.e('N0:\tmovq\tlast_eva, r4')
-    p.e('\tlea\tubuf+1, r5')
-    p.chk('r4', 'r5', 'control: the misaligned load left its address in EVA')
+    p.e('\tmovq\t=MAP_DEV_END, r5')
+    p.chk('r4', 'r5', 'control: the faulting load left its address in EVA')
     p.e('\tmovq\tlast_cause, r4')
-    p.eq('r4', 'VECTOR_MISALIGNED', 'control: vector 4')
-    cases = [('priv', '\tmfcpuid\tr3', 'VECTOR_PRIVILEGED'), ('bpt', '\tbpt', 'VECTOR_BPT'), ('trap', '\ttrap\t#5', 'VECTOR_TRAP_BASE+5'), ('div', '\tmovq\t#0, r2\n\tmovq\t#7, r3\n\tdiv\tr1, r2, r3', 'VECTOR_DIVZERO'),
+    p.eq('r4', 'VECTOR_BUSFAULT', 'control: the bus fault')
+    cases = [('priv', '\tmfsr\tr3, cpuid', 'VECTOR_PRIVILEGED'), ('bpt', '\tbpt', 'VECTOR_BPT'), ('trap', '\ttrap\t#5', 'VECTOR_TRAP_BASE+5'), ('div', '\tmovq\t#0, r2\n\tmovq\t#7, r3\n\tdiv\tr1, r2, r3', 'VECTOR_DIVZERO'),
              ('ill', '\t.word\t0xffff', 'VECTOR_ILLEGAL')]
     for nm, ins, vec in cases:
         p.e('\tlea\tN_%s, r13' % nm)
         p.e(ins)
         p.e('N_%s:\tmovq\tlast_eva, r4' % nm)
-        p.e('\tlea\tubuf+1, r5')
+        p.e('\tmovq\t=MAP_DEV_END, r5')
         p.chkne('r4', 'r5', 'EVA after %s is not the stale address of the earlier fault' % nm)
         p.e('\tmovq\tlast_cause, r4')
         p.eq('r4', vec, 'ECAUSE after %s is exactly the vector (no stale bit)' % nm)
         # and a fault of the user-access kind earlier would leave bit 15: not set here
     p.done()
-    return ['EVA and ECAUSE after an exception that has no address (SEC-B02): a misaligned load leaves its address in EVA; the exceptions that follow (privileged, bpt, trap, divide by zero,',
+    return ['EVA and ECAUSE after an exception that has no address (SEC-B02): a load that nothing answers leaves its address in EVA; the exceptions that follow (privileged, bpt, trap, divide by zero,',
             'illegal) must not leave that address (it is another context\'s data) and ECAUSE is the vector exactly.  Failed check n: exit n.'], p.text() + KHANDLERS + KDATA
 
 
@@ -229,7 +229,7 @@ def gen_fpsr_carry():
     """SEC-B05: the sticky floating-point flags set by one context are not visible to the next"""
     p = Prog(user=True)
     p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
-    scen = [('RTI with the mask bit 14 clear', 0), ('a write of ASID', 0), ('MTASID', 0), ('a write of PTBR', 0), ('the control: a write of SSP, return with every register kept', 0x1f)]
+    scen = [('RTI with the mask bit 14 clear', 0), ('a write of ASID', 0), ('a write of PTBR', 0), ('the control: a write of SSP, return with every register kept', 0x1f)]
     for k, (what, want) in enumerate(scen):
         p.e('\tmovq\t#0x1f, r1\n\tfsflags\tr1, r2')                    # context A sets all five flags
         p.e('\ttrap\t#3')                                                # the kernel "switches" to context B by the way of scenario k
@@ -243,22 +243,19 @@ def gen_fpsr_carry():
 	cbeq	r12, #1, s1
 	cbeq	r12, #2, s2
 	cbeq	r12, #3, s3
-	cbeq	r12, #4, s4
 	mtsr	ssp, r11
 	rti	#RTIMASK_ALL
 s1:	rti	#(RTIMASK_ALL & ~(1<<RTIMASK_VECTOR))
 s2:	mtsr	asid, r11
 	rti	#RTIMASK_ALL
-s3:	mtasid	r11
-	rti	#RTIMASK_ALL
-s4:	mtsr	ptbr, r11
+s3:	mtsr	ptbr, r11
 	rti	#RTIMASK_ALL
 """
     body = p.text() + KHANDLERS.replace('hgen:', sw + 'hgen:') + KDATA.replace('cnt:', 'scen:\t\t.quad\t0\ncnt:')
     body = body.replace('\tmovq\tr2, 2056(r1)', '\tmovq\tr2, 2056(r1)\n\tlea\th_sw, r2\n\tmovq\tr2, 2072(r1)')
-    return ['The sticky floating-point flags (fpsr) across a context switch (SEC-B05): user context A sets the five flags and traps; the kernel switches to context B in five ways (a return whose',
-            'mask clears bit 14; a write of ASID; MTASID; a write of PTBR; and, as the control, a write of SSP with every register kept) and B reads the flags with fsflags.  The flags belong to',
-            'the process: in the first four B finds them clear, in the control it finds what A left.  Failed check n: exit n.'], body
+    return ['The sticky floating-point flags (fpsr) across a context switch (SEC-B05): user context A sets the five flags and traps; the kernel switches to context B in four ways (a return whose',
+            'mask clears bit 14; a write of ASID; a write of PTBR; and, as the control, a write of SSP with every register kept) and B reads the flags with fsflags.  The flags belong to',
+            'the process: in the first three B finds them clear, in the control it finds what A left.  Failed check n: exit n.'], body
 
 
 def gen_fpsr_gtbr():
@@ -522,7 +519,7 @@ def gen_restart_scalar():
 
 
 def gen_tlb_mode():
-    """SEC-T01: a translation cached by one mode is not used by the other: a kernel-filled entry of a kernel page does not serve user mode; a user-filled entry of a user page does not serve the kernel with UA clear"""
+    """SEC-T01: a translation cached by one mode is not used by the other: a kernel-filled entry of a kernel page does not serve user mode; a user-filled entry of a user page does not serve the kernel"""
     p = Prog(user=False)
     p.e(HEADER + '#define RWX (1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_A|1<<PTE_D)\n\t.text\n\t.globl\t_start\n_start:' + KVEC)
     p.e('\tlea\tl2, r1\n\tmtsr\tptbr, r1\n\tmovq\t#1, r1\n\tmtsr\tmmuctl, r1\n\tisync')
@@ -548,7 +545,7 @@ def gen_tlb_mode():
     p.e('\tlea\tNk, r13\n\tmovq\tcnt, r10\n\tmovq\t=0x2468, r5')
     p.e('\tmovq\t(r7), r5')
     p.e('Nk:\tmovq\tcnt, r11\n\tsub\tr10, r11')
-    p.eq('r11', '1', 'kernel mode, UA clear: a load of a user page whose translation user mode just cached faults')
+    p.eq('r11', '1', 'kernel mode: a load of a user page whose translation user mode just cached faults')
     p.e('\tmovq\tlast_cause, r11')
     p.eq('r11', 'VECTOR_LPROT', 'kernel mode: it is a load protection fault')
     p.eq('r5', '0x2468', 'kernel mode: the register is unchanged')
@@ -559,7 +556,7 @@ def gen_tlb_mode():
     data = KDATA + '\t.align\t4096\nl2:\n\t.quad\t0 + RWX\n\t.space\t8\n\t.quad\t0 + RWX|(1<<PTE_U)\n\t.space\t4072\n\t.align\t8\nkdata:\t.quad\t0x1357\nudata:\t.quad\t0x2469\n'
     body = body.replace('\tmovq\tr2, 2056(r1)\n', '\tmovq\tr2, 2056(r1)\n', 1)
     return ['A translation cached in one mode is not used in the other (SEC-T01; manual 6.8, 6.10): the kernel loads a kernel-only page, then user mode loads the same address (must fault, vector 10);',
-            'user mode loads a user page (at the alias 0x80000000 of memory), then the kernel with UA clear loads it (must fault).  Failed check n: exit n.'], body.replace('h_fail, r2\n\tmovq\tr2, 2056(r1)', 'h_fail, r2\n\tmovq\tr2, 2056(r1)\n\tlea\th_sw, r2\n\tmovq\tr2, 2064(r1)') + data
+            'user mode loads a user page (at the alias 0x80000000 of memory), then the kernel loads it (must fault).  Failed check n: exit n.'], body.replace('h_fail, r2\n\tmovq\tr2, 2056(r1)', 'h_fail, r2\n\tmovq\tr2, 2056(r1)\n\tlea\th_sw, r2\n\tmovq\tr2, 2064(r1)') + data
 
 
 def gen_hv_reset_inplace(write_mmuctl=False, tlbigp=False):

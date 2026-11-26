@@ -6,9 +6,8 @@
 #
 # Fields: exec      the executor's handler kind (H_xxx of common/pdp64exec_enc.inc) of the word of this base; H_UNIMPL: the executor traps it as not implemented
 #         arg       the handler's argument (a MN_xxx constant, a condition number, a size)
-#         exec_dotted   the suffixes of the dotted words of the base that the executor runs as the plain word (movq.u: the explicit user-mode move)
-#         exec_cc   true: the words BASE.<cc> (trapcc.ne ... trapcc.los) are run by the handler, with the number of the condition as the argument (ne 1, eq 2, ... los 14: CC in tools/gen-core-names.py)
-# The table common/pdp64exec_corehdefs.inc is generated from the fields exec, arg, exec_dotted, exec_cc by tools/gen-core-names.py.
+#         exec_dotted   the suffixes of the dotted words of the base that the executor runs as the plain word with a qualifier (u: the move with a user-mode operand, H_USER; ur, uw: the block copy that reads, or writes, user memory)
+# The table common/pdp64exec_corehdefs.inc is generated from the fields exec, arg, exec_dotted by tools/gen-core-names.py.
 
 [movq]
 exec = "H_MOV"
@@ -261,22 +260,6 @@ arg = "1"
 exec = "H_CB"
 arg = "2"
 
-[cbpl]
-exec = "H_CB"
-arg = "3"
-
-[cbmi]
-exec = "H_CB"
-arg = "4"
-
-[cbvc]
-exec = "H_CB"
-arg = "5"
-
-[cbvs]
-exec = "H_CB"
-arg = "6"
-
 [cbcc]
 exec = "H_CB"
 arg = "7"
@@ -389,14 +372,6 @@ arg = "MN_SYSX_ISYNC"
 exec = "H_SYSX"
 arg = "MN_SYSX_HINT"
 
-[stua]
-exec = "H_SYSX"
-arg = "MN_SYSX_STUA"
-
-[clua]
-exec = "H_SYSX"
-arg = "MN_SYSX_CLUA"
-
 [genter]
 exec = "H_SYSM"
 arg = "MN_SYSX_GENTER"
@@ -421,14 +396,6 @@ arg = "MN_SYS_MFPS"
 exec = "H_SYSR"
 arg = "MN_SYS_TLBI"
 
-[mtasid]
-exec = "H_SYSR"
-arg = "MN_SYS_MTASID"
-
-[mfasid]
-exec = "H_SYSR"
-arg = "MN_SYS_MFASID"
-
 [mtdp]
 exec = "H_SYSR"
 arg = "MN_SYS_MTDP"
@@ -436,14 +403,6 @@ arg = "MN_SYS_MTDP"
 [mfdp]
 exec = "H_SYSR"
 arg = "MN_SYS_MFDP"
-
-[mtdmw]
-exec = "H_SYSR"
-arg = "MN_SYS_MTDMW"
-
-[mfcpuid]
-exec = "H_SYSR"
-arg = "MN_SYS_MFCPUID"
 
 [icinv]
 exec = "H_SYSR"
@@ -600,6 +559,7 @@ arg = "0"
 [mcpy]
 exec = "H_MBLK"
 arg = "MN_MBLK_MCPY"
+exec_dotted = ["ur", "uw"]
 
 [mmov]
 exec = "H_MBLK"
@@ -657,14 +617,6 @@ arg = "MN_FESC_FCMP32"
 exec = "H_FESC"
 arg = "MN_FESC_FMADD"
 
-[fmsub]
-exec = "H_FESC"
-arg = "MN_FESC_FMSUB"
-
-[fnmadd]
-exec = "H_FESC"
-arg = "MN_FESC_FNMADD"
-
 [fnmsub]
 exec = "H_FESC"
 arg = "MN_FESC_FNMSUB"
@@ -672,14 +624,6 @@ arg = "MN_FESC_FNMSUB"
 [fmadd32]
 exec = "H_FESC"
 arg = "MN_FESC_FMADD32"
-
-[fmsub32]
-exec = "H_FESC"
-arg = "MN_FESC_FMSUB32"
-
-[fnmadd32]
-exec = "H_FESC"
-arg = "MN_FESC_FNMADD32"
 
 [fnmsub32]
 exec = "H_FESC"
@@ -769,50 +713,6 @@ arg = "MN_FESC_FCVTQUD"
 exec = "H_FESC"
 arg = "MN_FESC_FSFLAGS"
 
-[fadd16]
-exec = "H_FESC"
-arg = "MN_FESC_FADD16"
-
-[fsub16]
-exec = "H_FESC"
-arg = "MN_FESC_FSUB16"
-
-[fmul16]
-exec = "H_FESC"
-arg = "MN_FESC_FMUL16"
-
-[fdiv16]
-exec = "H_FESC"
-arg = "MN_FESC_FDIV16"
-
-[fsqrt16]
-exec = "H_FESC"
-arg = "MN_FESC_FSQRT16"
-
-[fcmp16]
-exec = "H_FESC"
-arg = "MN_FESC_FCMP16"
-
-[fmadd16]
-exec = "H_FESC"
-arg = "MN_FESC_FMADD16"
-
-[fmsub16]
-exec = "H_FESC"
-arg = "MN_FESC_FMSUB16"
-
-[fnmadd16]
-exec = "H_FESC"
-arg = "MN_FESC_FNMADD16"
-
-[fnmsub16]
-exec = "H_FESC"
-arg = "MN_FESC_FNMSUB16"
-
-[fclass16]
-exec = "H_FESC"
-arg = "MN_FESC_FCLASS16"
-
 [fcvtsh]
 exec = "H_FESC"
 arg = "MN_FESC_FCVTSH"
@@ -836,22 +736,6 @@ arg = "MN_FESC_FCVTHL"
 [fcvtlh]
 exec = "H_FESC"
 arg = "MN_FESC_FCVTLH"
-
-[movub]
-exec = "H_MOVU"
-arg = "1"
-
-[movuw]
-exec = "H_MOVU"
-arg = "2"
-
-[movul]
-exec = "H_MOVU"
-arg = "4"
-
-[movuq]
-exec = "H_MOVU"
-arg = "8"
 
 [addm]
 exec = "H_RMW"
@@ -953,10 +837,6 @@ arg = "1"
 exec = "H_OVF"
 arg = "2"
 
-[trapcc]
-exec = "H_TRAPCC"
-exec_cc = true
-
 [movcall]
 exec = "H_MOVCALL"
 arg = "0"
@@ -972,24 +852,6 @@ arg = "0"
 [mov2]
 exec = "H_MOV2"
 arg = "0"
-
-[syspg0]
-exec = "H_UNIMPL"
-
-[syspg1]
-exec = "H_UNIMPL"
-
-[syspg2]
-exec = "H_UNIMPL"
-
-[syspg3]
-exec = "H_UNIMPL"
-
-[syspg4]
-exec = "H_UNIMPL"
-
-[syspg5]
-exec = "H_UNIMPL"
 
 [utf8dec]
 exec = "H_UNIMPL"

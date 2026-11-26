@@ -19,12 +19,6 @@ _start:
 1:	cbcs	r1, #6, 1f		; taken: 5 - 6 borrows
 	br	f9
 1:	cbcc	r1, #6, f10		; not taken
-	cbpl	r1, #15, f11		; not taken: 5 - 15 is negative
-	cbmi	r1, #15, 1f		; taken
-	br	f12
-1:	cbvs	r1, #0, f13		; not taken: no overflow
-	cbvc	r1, #0, 1f		; taken
-	br	f14
 1:	cbhis	r1, #-16, f15		; not taken: unsigned 5 is below 0xFFFF...F0
 	cblo	r1, #-16, 1f		; taken
 	br	f16
@@ -114,14 +108,6 @@ f8:	movq	#8, r0
 f9:	movq	#9, r0
 	trap	#0
 f10:	movq	#10, r0
-	trap	#0
-f11:	movq	#11, r0
-	trap	#0
-f12:	movq	#12, r0
-	trap	#0
-f13:	movq	#13, r0
-	trap	#0
-f14:	movq	#14, r0
 	trap	#0
 f15:	movq	#15, r0
 	trap	#0

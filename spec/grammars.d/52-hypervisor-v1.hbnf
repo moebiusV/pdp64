@@ -44,7 +44,6 @@ xcode = "taken-at-h"@0
       | "ptbr"@9
       | "mmuctl"@10
       | "vbr"@11
-      | "dmw"@12
       | "cpuid"@13
       | "icinv"@14
       | "bpt"@15

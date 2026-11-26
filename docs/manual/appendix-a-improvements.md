@@ -56,9 +56,9 @@
 
 *Commentary.* **Precedent.** The cost of separating kernel and user page tables on x86 after Meltdown was about 5% typical and about 30% in the worst case in the developers' own estimates, and the tagged translation buffers (PCID) made it tolerable. **Benefits.** The isolation is in the hardware from the start. **Modern comparables.** AArch64 has two translation-table base registers, one for each half of the address space. **Impact.** *Kernel:* The kernel switches one base register at the privilege change instead of managing a shared table. *Compiler:* None. *Hardware:* A second base register and a rule choosing which half uses which.
 
-## A.8 The user-memory guard instructions
+## A.8 The user-memory guard
 
-**A.8.1** `PSW.UA`, `STUA` and `CLUA` stay in the architecture until the OpenBSD port confirms the user-qualified moves (6.10.4, 9.6.7); I accepted this with the five leanings of the study of user access.
+**A.8.1** The user-memory guard has one mechanism: the user-qualified accesses (6.10.4, 9.6.7), the moves and the two sides of the block copy; there is no status bit and there are no instructions to open and close it.
 
 ## A.9 Streaming block operations
 

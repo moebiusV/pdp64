@@ -64,7 +64,6 @@ class Gen:
         if mn == 'set': return 'set eq, ' + ops[1]
         if mn == 'mfsr': return 'mfsr %s, ptbr' % ops[0]
         if mn == 'mtsr': return 'mtsr ptbr, %s' % ops[1]
-        if mn in ('movq.d', 'movq.ud') and False: pass
         return '%s %s' % (mn, ', '.join(ops)) if ops else mn
 
 

@@ -1,2 +1,0 @@
-	.text
-	stua #1

@@ -145,11 +145,11 @@ These instructions do not serve every model with binary weights: a language mode
 
 ## 8.6 Number formats
 
-The FP11 had two formats, single and double, chosen by a mode bit. The pdp64's formats are chosen by the instruction (9.12.5), and there are three.
+The FP11 had two formats, single and double, chosen by a mode bit. The pdp64's formats are chosen by the instruction (9.12.5), and there are three; one of them is a storage format.
 
-**8.6.1** The processor handles `binary64`, `binary32` and `binary16` (the IEEE 754 formats of 64, 32 and 16 bits) as scalar floating point.
+**8.6.1** The processor does scalar floating-point arithmetic in `binary64` and `binary32` (the IEEE 754 formats of 64 and 32 bits) and converts to and from `binary16`, the 16-bit format, which it loads, stores and converts but does not compute in: an operation on halves widens to `binary32`, operates and narrows.
 
-*Commentary.* **Chain.** PDP-11: single and double, in DEC's own formats and not IEEE's *(unverified)*. VAX: F, D, G and H formats (9.12). pdp64: the IEEE formats, three of them in the processor. **Trade-offs.** A format fixed in the processor's instruction set cannot change when the field's formats change; machine-learning models have used several (bfloat16, 8-bit integers, 8-bit floating point) since 2017 *(unverified)*, and an engine whose formats are fields of its descriptor and entries of a feature list can follow the field where an instruction set cannot.
+*Commentary.* **Chain.** PDP-11: single and double, in DEC's own formats and not IEEE's *(unverified)*. VAX: F, D, G and H formats (9.12). pdp64: the IEEE formats, two of them computed in and the third converted. **Trade-offs.** A format fixed in the processor's instruction set cannot change when the field's formats change; machine-learning models have used several (bfloat16, 8-bit integers, 8-bit floating point) since 2017 *(unverified)*, and an engine whose formats are fields of its descriptor and entries of a feature list can follow the field where an instruction set cannot.
 
 ## 8.7 What was checked, and what was not
 

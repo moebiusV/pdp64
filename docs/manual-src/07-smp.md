@@ -65,7 +65,7 @@ The counts of that day, side by side:
 | atomics | 10 | 24 (12 in each of the two sizes); they are 12 operations when only the two sizes are folded, before the signed and unsigned maximum and minimum are folded |
 | other multiprocessor operations | 7 | 9 |
 | **multiprocessor, in all** | **17** | 33 |
-| system operations that are not multiprocessor | 12 | no-op (`NOP`); return from interrupt (`RTI`, `RTT`); halt (`HALT`); breakpoint (`BPT`); landing pad (`LPAD`); processor-status access (`MTPS`, `MFPS`); set priority (`SPL`); trap (`TRAP`); address-space-identifier access (`MTASID`, `MFASID`); direct-page access (`MTDP`, `MFDP`); direct-map-window write (`MTDMW`); address probe (`PROBER`, `PROBEW`) |
+| system operations that are not multiprocessor | 11 | no-op (`NOP`); return from interrupt (`RTI`, `RTT`); halt (`HALT`); breakpoint (`BPT`); landing pad (`LPAD`); processor-status access (`MTPS`, `MFPS`); set priority (`SPL`); trap (`TRAP`); address-space-identifier access (`MTSR` and `MFSR` of `ASID`); direct-page access (`MTDP`, `MFDP`); address probe (`PROBER`, `PROBEW`) |
 
 | # | Operation | Words in the grammar | Group | Section |
 |---|---|---|---|---|
@@ -80,12 +80,12 @@ The counts of that day, side by side:
 | 9 | load-linked | `LL`, `LLL` | atomic | {{r:atomic-operations}} |
 | 10 | store-conditional | `SC`, `SCL` | atomic | {{r:atomic-operations}} |
 | 11 | device-access fence | `FENCE` | system (`SYS`) | {{r:fence-orders-device-accesses}} |
-| 12 | wait for event | `WFE` (assembler alias `WAIT`) | system | {{r:waiting-signalling-and-interrupting-another}} |
+| 12 | wait for event | `WFE` | system | {{r:waiting-signalling-and-interrupting-another}} |
 | 13 | send event | `SEV` | system | {{r:waiting-signalling-and-interrupting-another}} |
 | 14 | invalidate translations, broadcast | `TLBI`, `TLBIA`, `TLBIAS` | system | {{r:translation-and-instruction-cache-coherence}} |
 | 15 | wait for the broadcast to finish | `TLBSYNC` | system | {{r:translation-and-instruction-cache-coherence}} |
 | 16 | invalidate the instruction cache | `ICINV`, `ICINVA` | system | {{r:translation-and-instruction-cache-coherence}} |
-| 17 | read the core number | `MFCPUID` | system | {{r:mfcpuid-returns-the-number}} |
+| 17 | read the core number | `MFSR` of `CPUID` | system | {{r:mfcpuid-returns-the-number}} |
 
 The ten atomics are 24 words: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with an `L` after the operation (`XADDL`, `CASL`, `LLL`, `SCL`); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of {{r:write-to-the-page-table}} and {{r:wfe-sleeps-until-another-core}} uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, {{r:system-registers-mfsr-and-mtsr}}) also gives the core number and is not counted: `MFSR` is the general register move.
 
@@ -187,7 +187,7 @@ the outcome r0 = 0, r1 = 0   the outcome r0 = 1, r1 = 0   the outcome r0 = 1, r1
 
 **{{#store-buffer-is-allowed-provided}}** A store buffer is allowed, provided loads snoop it, stores drain in program order, and a load does not complete ahead of an older store to another address that is still in the buffer (or is replayed if it did, {{r:sequential-consistency-on-a-speculative}}). Without the last condition the buffer gives the SB outcome of the figure, which is total store order and not sequential consistency.
 
-**{{#quad-accesses-are-naturally-aligned}}** Quad accesses are naturally aligned, so every aligned access is atomic within its own size and cannot be torn across cores. An explicit unaligned form (`MOVUB` to `MOVUQ`, {{r:explicit-unaligned-forms-movub-movuw}}) is two accesses in a defined order, each atomic and the pair not.
+**{{#quad-accesses-are-naturally-aligned}}** Every aligned access is atomic within its own size and cannot be torn across cores. An access that is not aligned to its size ({{r:plain-access-at-any-address}}) is, where it crosses a boundary of a cache line or of a page, two accesses in ascending address order, each atomic and the pair not; the atomics, which are the instructions that need an indivisible access, fault on it.
 
 **{{#first-implementations-are-in-order}}** The first implementations are in order and do not speculate, so no speculative side channel exists in them to be mitigated; an out-of-order core must keep that property ({{r:what-a-simple-model-does-not-give}}).
 
@@ -242,17 +242,17 @@ The tests are part of the work. A declaration of sequential consistency is easy 
 **The pdp64's answer.** `DP`, the direct-page register of chapter {{c:id01006|n}} ({{r:modes-and-the-status-word}}), has a copy for each mode. In kernel mode it is the per-CPU pointer: a field of this core's structure is one `MOVQ d(DP), Rd`, a six-byte load with a 28-bit displacement ({{r:dp-the-direct-page-base}}). In user mode the same register is the thread pointer, so thread-local data costs the same, and the two copies do not interfere. The kernel sets its copy with `MTDP` when it starts the core. A store through `d(DP)` is not in the grammar yet; a store takes the pointer in a register.
 
 ```
-cpu_number():   MOVQ ci_cpuid(DP), Rd        # a field of this core's structure; MFCPUID is read once, at start
+cpu_number():   MOVQ ci_cpuid(DP), Rd        # a field of this core's structure; `MFSR` of `CPUID` is read once, at start
 curcpu():       MFDP Rd                      # kernel mode: DP is the address of this core's struct cpu_info
 ```
 
 ![{{#fig-dp-as-the-per-cpu}}DP as the per-CPU pointer](figures/smp-percpu.svg)
 
-**{{#mfcpuid-returns-the-number}}** `MFCPUID` returns the number of the core that executes it. It cannot be synthesised and per-CPU data needs it.
+**{{#mfcpuid-returns-the-number}}** `MFSR` of the system register `CPUID` returns the number of the core that executes it. It cannot be synthesised and per-CPU data needs it.
 
 **{{#dp-the-direct-page-register}}** `DP`, the direct-page register, has a copy per mode; in kernel mode it is the per-CPU pointer and a field of the per-CPU structure is one six-byte instruction, `MOVQ d(DP), Rd`.
 
-**{{#address-space-tag-makes}}** The address-space tag makes a context switch constant-time, and global page-table entries and the direct-mapping windows keep the kernel's own mappings out of the invalidation path.
+**{{#address-space-tag-makes}}** The address-space tag makes a context switch constant-time, and global page-table entries keep the kernel's own mappings out of the invalidation path.
 
 **{{#stack-pointer-is-banked}}** The stack pointer is banked by mode, so an interrupt arriving in user mode on any core finds that core's kernel stack without a search.
 
@@ -282,7 +282,7 @@ curcpu():       MFDP Rd                      # kernel mode: DP is the address of
 
 **The precedents.** x86's `PAUSE` tells a spinning core to back off, and `MONITOR`/`MWAIT` waits on a cache line (`arch/x86/include/asm/mwait.h`, `vdso/processor.h`, read). ARM's `WFE` (wait for event) stops the core until another core executes `SEV` (send event), an interrupt arrives, or the monitor of a load-exclusive is cleared; Linux's `__cmpwait` is `sevl; wfe; ldxr; eor; cbnz; wfe`, a loop that sleeps until a store by another core changes the word (`arch/arm64/include/asm/cmpxchg.h`, read; the architectural wake conditions are *unverified*). RISC-V's `wfi` ends when an interrupt is pending and enabled in its own register; OpenBSD's riscv64 idle is `intr_enable(); wfi`, with a comment that asks whether a barrier is needed (`XXX Data Sync Barrier?`, read), and the same gap as V7's.
 
-**The pdp64's way.** `WFE` is both the multiprocessor wait and the uniprocessor idle (`WAIT` is its assembler alias, {{r:one-core-wfe}}). The gap closes by one rule, which I decided (2026-10-22, "Yes, wake on pending"): `WFE` ends its sleep for an interrupt that is pending even if the priority masks it. The idle loop is then correct with no tick (this is the loop of {{r:kernel-at-work-four-walks}}):
+**The pdp64's way.** `WFE` is both the multiprocessor wait and the uniprocessor idle ({{r:one-core-wfe}}). The gap closes by one rule, which I decided (2026-10-22, "Yes, wake on pending"): `WFE` ends its sleep for an interrupt that is pending even if the priority masks it. The idle loop is then correct with no tick (this is the loop of {{r:kernel-at-work-four-walks}}):
 
 ```
 idle():
@@ -299,7 +299,7 @@ idle():
 
 **{{#wfe-ends-its-sleep-when}}** `WFE` ends its sleep when an interrupt is pending, even if the priority masks it, so that an idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap in which a wake-up can be lost. In a guest the pending interrupts that count are the virtual lines ({{r:guest-sees-seven-virtual-interrupt}}): a pending virtual line ends the sleep even if the guest's priority masks it.
 
-**{{#one-core-wfe}}** On one core `WFE` is the idle instruction, and `WAIT` is its assembler alias.
+**{{#one-core-wfe}}** On one core `WFE` is the idle instruction.
 
 **{{#one-core-can-interrupt-another}}** One core can interrupt another: an inter-processor interrupt. A core in secure mode is stopped and preempted by one ({{r:at-least-one-core-can-run-secure}}).
 
@@ -333,7 +333,7 @@ Apart from the possible single secure core, no core is dedicated to a role (I sa
 
 **{{#at-least-one-core-can-run-secure}}** At least one core can run in secure mode. While a core runs in that mode every timing channel is removed (every instruction and every cache fetch takes a time independent of its data), it has private cache lines and takes no periodic timer tick, and it is stopped and preempted by an inter-processor interrupt. A core that has the mode has constant-time AES and SHA instructions ({{r:core-that-has-the-secure}}), or whichever opcodes would speed up and enable AES and SHA. If the mode costs few gates it is a mode of every core; if it slows a core too much the machine has one secure core only.
 
-**{{#memory-of-a-core}}** The memory of a core in secure mode has no hit or miss: it is a private window of memory with one fixed access time, mapped by a direct-mapping window, and a load or store outside the window aborts; its translation buffer is locked, so a miss aborts and no page walk occurs; in secure mode it has no demand paging, no simultaneous multithreading, no speculation and no data-dependent prefetch, and its clock is held fixed while it runs a secure domain.
+**{{#memory-of-a-core}}** The memory of a core in secure mode has no hit or miss: it is a private window of memory with one fixed access time, and a load or store outside the window aborts; its translation buffer is locked, so a miss aborts and no page walk occurs; in secure mode it has no demand paging, no simultaneous multithreading, no speculation and no data-dependent prefetch, and its clock is held fixed while it runs a secure domain.
 
 **{{#before-another-domain-runs}}** Before another domain runs on a core in secure mode the hardware clears the window and the kernel clears the registers; transfers between the window and main memory take a time that depends only on their length, which the interconnect secures with a reserved slot.
 
@@ -372,7 +372,7 @@ my data    :  MOVQ d(DP), Rd                                          # 7.8
 
 * **Read in the Unix sources on this machine** (`facetlang/unixtree`, files gzipped; V7M under `V7M/sys`): `plock()` of `pipe.c` and the loop of `iget()` (`ILOCK`, `IWANT`); `sleep()` and `wakeup()` with `spl6()`; `brelse()` with `spl6()` and `splx()`; the end of `trap()` (`if (runrun) qswtch();`); `swtch()` and its call of `idle()`; `idle()` in `mch_i.s` (`bic $HIPRI,PS`, `wait`) and 2.11BSD's (`spl 0`, `wait`); `_u = 140000`; `HZ` 60. 4.3BSD: `vax/locore.s` (the `idle` loop, `bbss` and `bbcc`, `insque` and `remque`, `masterpaddr`), `vax/mtpr.h` (`IPL`, `SIRR`, `TBIA`), and the absence of `BBSSI` in `vax/`. Linux 0.96c (no `smp`, `spinlock` or `multiprocessor`); Linux 2.6.33.2: `lib/kernel_lock.c`, `arch/x86/mm/tlb.c` (the shootdown), `irq_vectors.h`, `spinlock.h` (`lock; xaddw`), `mpparse.c` (the MP specification), `smpboot.c`; FreeBSD 5.3 `mutex.h` and `i386/mp_machdep.c` (`IPI_INVLTLB`). 2.9BSD `usr/doc/setup`: the line on the 11/74.
 * **Read in the kernel trees on this machine** (`kernel-src`): NetBSD `sys/arch/vax` (`multicpu.c`, `lock_stubs.S`, `include/lock.h`, `ka820.c`, `ka88.c`, `ka6400.c`, `pmap.c`, `mtpr.h`); Linux `arch/arm64` (`atomic_ll_sc.h`, `atomic_lse.h`, `cmpxchg.h`, `barrier.h`, `tlbflush.h`, `percpu.h`, `mm/cache.S`), `arch/arm64/include/uapi/asm/ptrace.h` (`PSR_DIT_BIT`), `arch/riscv` (`cmpxchg.h`, `mm/tlbflush.c`, `mm/cacheflush.c`, `csr.h`), `arch/x86` (`cpu/sgx`, `atomic.h`, `mwait.h`, `vdso/processor.h`, `irq_vectors.h`, `percpu.h`, `mm/tlb.c`), `Documentation/memory-barriers.txt` (3,016 lines, the Alpha section) and `Documentation/litmus-tests` (`DCL-broken.litmus`); OpenBSD `arch/riscv64` (`cpu.h`: `tp`, `MAXCPUS`; `machdep.c`: `cpu_idle_cycle`; `intr.h`: `IPI_NOP`, `IPI_DDB`) and `kern/kern_lock.c` (`kernel_lock`).
-* **Read in the repository:** the statements of this chapter against `docs/pdp64-isa.md` section 17 and 4.11, `docs/crypto-secure-core.md` section 1, `docs/decisions-pending.md` (the VAX claim C028 in `docs/codegen-data/verification/claims.csv`), `docs/kernel-pain-points.md`, `docs/kernel-asm-survey.md`, `docs/smp-decisions.md`, `docs/pdp64-fpga-plan.md`; the grammar `spec/pdp64-mnemonics.hbnf` for the names of the atomic and system words, from which the table of {{r:multiprocessor-instructions-at-a-glance}} is counted (22 atomic words, 9 system words and the alias `WAIT`); `docs/pdp64-ooo-readiness.md` section 6.7 for the block operations ({{r:accesses-inside-one-block-operation}}).
+* **Read in the repository:** the statements of this chapter against `docs/pdp64-isa.md` section 17 and 4.11, `docs/crypto-secure-core.md` section 1, `docs/decisions-pending.md` (the VAX claim C028 in `docs/codegen-data/verification/claims.csv`), `docs/kernel-pain-points.md`, `docs/kernel-asm-survey.md`, `docs/smp-decisions.md`, `docs/pdp64-fpga-plan.md`; the grammar `spec/pdp64-mnemonics.hbnf` for the names of the atomic and system words, from which the table of {{r:multiprocessor-instructions-at-a-glance}} is counted (22 atomic words, 9 system words); `docs/pdp64-ooo-readiness.md` section 6.7 for the block operations ({{r:accesses-inside-one-block-operation}}).
 * **Counted, not re-counted here:** the 5,596 lines in 855 files of ordering vocabulary in Linux and 743 lines of documentation (`docs/kernel-pain-points.md`); the 155% of the Anderson lock (its source, a mailing-list message, was not read here).
 * **Unverified** (general knowledge; the handbooks and papers are not on this machine): that the 11/74 was a multiprocessor and the names of its instructions; the Unibus cycles `DATIP` and `DATO` as one locked pair; the cache of the 11/70; the VAX-11/782, 8300, 8800 and 6000 as multiprocessors and the VAXcluster as shared-disk; the history of master and slave and of the BSD/OS mutexes; Lamport's definition and date; the litmus results of the table in {{r:memory-ordering-from-sequential-consistency}}; the memory models of ARM, POWER and RISC-V; Alpha's year; the history of snooping and directory machines; the big and small cores named in {{r:what-a-simple-model-does-not-give}} and {{r:cores-that-differ-classes}}; TrustZone, the Secure Enclave and the AMD platform security processor as precedents for {{r:cores-that-differ-classes}}; the Blit and the CDC 6600 as cores for input and output; the architectural conditions that end a `WFE` and a `wfi`; the date of `INVLPGB`; the estimate of 500 lookup tables per snoop port, which is the ISA text's own paper estimate (the earlier text added about 600 per core with no source, and that figure is dropped).
 * **Decided:** everything stated as a decision; the pseudocode of this chapter is an illustration and not a decision.

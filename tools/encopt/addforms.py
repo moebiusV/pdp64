@@ -32,6 +32,7 @@ ap.add_argument('--drop', action='append', default=[])
 ap.add_argument('--drop-file')
 ap.add_argument('--corpus', default='')
 ap.add_argument('--remove-word', action='append', default=[], metavar='FORM=WORD', help='remove a word from a form (the form is rebuilt without it; every later word of its leaves moves down)')
+ap.add_argument('--add-word', action='append', default=[], metavar='FORM=WORD', help='add a word at the end of a form (it is numbered by the group mn-ext, which this tool writes)')
 ap.add_argument('--repack-hand', metavar='SPECDIR', help='after the forms are laid out, move the leaves of the hand-written parts of SPECDIR/grammars.d to the first free patterns behind the generated ones (their prefixes are rewritten in place, their length is kept)')
 a = ap.parse_args()
 os.environ['PDP64_CORPUS_DIR_R32'] = a.corpus
@@ -73,6 +74,14 @@ for spec_ in a.remove_word:
     if not hit:
         print('addforms: %s has no word %s (already removed)' % (fn, w)); continue
     hit[0].mns = [m for m in hit[0].mns if m != w]; hit[0]._ms = set(hit[0].mns)
+for spec_ in a.add_word:
+    fn, w = spec_.split('=', 1)
+    hit = [f for f in forms if f.name == fn]
+    if not hit:
+        print('addforms: no form %s' % fn); sys.exit(1)
+    if w in hit[0].mns:
+        print('addforms: %s has the word %s (already added)' % (fn, w)); continue
+    hit[0].mns = hit[0].mns + [w]; hit[0]._ms = set(hit[0].mns)
 known = {f.name for f in forms}
 # idempotent: a form already dropped is not an error, and the forms of the family that the grammar already has are replaced by the ones vecfam.py makes now
 for n in sorted(drops - known):

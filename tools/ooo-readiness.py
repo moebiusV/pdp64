@@ -16,7 +16,7 @@ N, Z, V, C = 'N', 'Z', 'V', 'C'
 ALL = frozenset('NZVC')
 
 # ---- flag writes, from common/pdp64exec.c --------------------------------------------------------------------------
-WRITE_ALL = set('add sub cmp neg adc sbc clr tst com asl asr fcmp fcmp32 fcmp16 mcmp'.split())     # N Z V C, always
+WRITE_ALL = set('add sub cmp neg adc sbc clr tst com asl asr fcmp fcmp32 mcmp'.split())     # N Z V C, always
 WRITE_NZV = set('inc dec mul abs min minu max maxu'.split())            # N Z V, C kept (min/max: V cleared)
 WRITE_NZ_V0 = set('bic bis bit xor and mulh movq movl movw movb movzl movzw movzb'.split())        # N Z, V cleared, C kept
 WRITE_SHIFT = set('shl shr sar'.split())                                 # N Z V C if the count is not zero, nothing if it is
@@ -160,7 +160,7 @@ def d_sp_modifier(i): return i.m in ('push', 'pop', 'call', 'calli', 'ret', 'pus
 def d_multi_uop(i): return i.m in ('push', 'pop', 'call', 'calli', 'ret', 'pushm', 'popm', 'mcpy', 'mmov', 'mset', 'mcmp', 'mscn', 'mscnn') or d_loadop(i) or d_rmw(i)
 def d_flag_and_reg(i):
     if not writes(i.m, i.ops): return False
-    if CB.match(i.m) or i.m in ('cmp', 'bit', 'tst', 'fcmp', 'fcmp32', 'fcmp16', 'mcmp', 'mscn', 'mscnn'): return False
+    if CB.match(i.m) or i.m in ('cmp', 'bit', 'tst', 'fcmp', 'fcmp32', 'mcmp', 'mscn', 'mscnn'): return False
     if d_store(i) or d_clrmem(i): return False
     return True
 def d_flag_only(i): return bool(writes(i.m, i.ops)) and not d_flag_and_reg(i)

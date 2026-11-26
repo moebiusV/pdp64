@@ -357,17 +357,17 @@ def page_for(e):
 
 VEC = {'reset': 'processor reset: the first instruction fetch', 'machine-check': 'an unrecoverable error (a posted write that timed out, an uncorrectable memory error, a failed vector fetch); not restartable',
        'illegal': 'a reserved or undefined opcode, a reserved encoding or an unassigned system register', 'privileged': 'a system instruction executed outside kernel mode',
-       'misaligned': 'a data access whose address is not a multiple of its size (the `MOVU` forms excepted)', 'noncanonical': 'a virtual address whose bits 63 to 39 differ from bit 38',
+       'misaligned': 'an atomic, `PUSHX`, `POPX` or the operand of a vector block at an address that is not a multiple of its size (a plain load or store has no alignment fault)', 'noncanonical': 'a virtual address whose bits 63 to 39 differ from bit 38',
        'ifault': 'instruction fetch from a page that is not mapped', 'lfault': 'load from a page that is not mapped', 'sfault': 'store to a page that is not mapped',
        'iprot': 'instruction fetch denied by the page permissions', 'lprot': 'load denied by the page permissions', 'sprot': 'store denied by the page permissions',
        'divzero': 'division by zero (`DIV`, `DIVU`, `MOD`, `MODU`)', 'busfault': 'a read of non-existent memory (a precise abort)', 'lpad': 'an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1)',
-       'bpt': 'the `BPT` instruction', 'check': 'a failed run-time check (the compare-and-trap, `CHK2`, `TRAPCC`)', 'irq-base': 'the first interrupt vector', 'timer': 'the timer interrupt (level 6)', 'console-in': 'console receive interrupt (level 4)',
+       'bpt': 'the `BPT` instruction', 'check': 'a failed run-time check (the compare-and-trap, `CHK2`, `ADDV`, `SUBV`, `MULV`)', 'irq-base': 'the first interrupt vector', 'timer': 'the timer interrupt (level 6)', 'console-in': 'console receive interrupt (level 4)',
        'console-out': 'console transmit interrupt (level 4)',
        'pcie-inta': 'PCI Express interrupt pin A of the model host bridge (level 5)', 'pcie-intb': 'PCI Express interrupt pin B (level 5)', 'pcie-intc': 'PCI Express interrupt pin C (level 5)', 'pcie-intd': 'PCI Express interrupt pin D (level 5)',
        'hexit': 'the instruction exit of a guest, in the hypervisor\'s vector table only ({{r:exit-enters-the-hypervisor-through}})', 'gifault': 'a guest-physical instruction fault (stage 2), in the hypervisor\'s table only',
        'glfault': 'a guest-physical load fault (stage 2), in the hypervisor\'s table only', 'gsfault': 'a guest-physical store fault (stage 2), in the hypervisor\'s table only',
        'iommu': 'the IOMMU unit\'s own interrupt, a wired line (level 5; {{r:unit-own-interrupt}})', 'trap-base': '`TRAP #n` enters vector 256 + n', 'count': 'the number of vectors; the table has this many eight-byte entries'}
-PSWD = {'c': 'carry (borrow after a subtract)', 'v': 'signed overflow', 'z': 'zero', 'n': 'negative', 't': 'trace: take a trace trap after the next instruction', 'pri': 'interrupt priority level, 0 to 7', 'mode': 'current mode', 'prev': 'previous mode (the mode before the last exception)', 'ua': 'user-access guard: with it clear a kernel-mode data access to a user page faults ({{r:guard-bit-ua-clear}})'}
+PSWD = {'c': 'carry (borrow after a subtract)', 'v': 'signed overflow', 'z': 'zero', 'n': 'negative', 't': 'trace: take a trace trap after the next instruction', 'pri': 'interrupt priority level, 0 to 7', 'mode': 'current mode', 'prev': 'previous mode (the mode before the last exception)'}
 PTED = {'v': 'valid', 'r': 'readable', 'w': 'writable', 'x': 'executable', 'u': 'accessible from user mode', 'g': 'global: ignores the ASID', 'a': 'accessed (managed by software)', 'd': 'dirty (managed by software)', 'mt': 'memory type', 'ppn': 'physical page number: physical address bits 12 to 39, in place'}
 
 
@@ -429,7 +429,7 @@ def constants_page():
     for n, v in SYS['psw']:
         L.append('| `%s` | %d | %d | %s |' % (n.upper(), v, w.get(n, 1), PSWD[n]))
     L.append('')
-    L.append('Bits 12 to 15 are reserved and read as zero. Bit 12 is the user-memory guard `UA`.')
+    L.append('Bits 12 to 15 are reserved and read as zero.')
     L += ['', '## The modes', '', '| Mode | Value |', '|---|---|'] + ['| %s | %d |' % (n, v) for n, v in SYS['mode']]
     L.append('')
     L.append('Value 2 is reserved: loading it into either mode field of the status word is an illegal instruction.')
@@ -458,23 +458,23 @@ def constants_page():
 
 
 HOME = {}
-for _i in 'MOV MOVZ LEA MOVU'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
+for _i in 'MOV MOVZ LEA'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
 for _i in 'ADD SUB CMP MUL MULH ADDM INC DEC NEG ADC SBC DIV MULHU ABS MINMAX SET'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
 for _i in 'BIC BIS BIT XOR AND SHIFT CLR COM TST ASL ASR'.split(): HOME[_i] = ('09-isa.md', 'logic-shifts-and-rotates')
 for _i in 'COUNT POPCNT BSWAP BITREV ROR ROR32 DSHR EXTB INSB XNORPOP CLMUL UTF8LEN UTF8DEC UTF8ENC'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
 for _i in 'BCC SOB CBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')
 for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', 'stack-and-block-operations')
-for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FHALF FCVTH'.split(): HOME[_i] = ('09-isa.md', 'floating-point')
+for _i in 'FADD FCMP FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FCVTH'.split(): HOME[_i] = ('09-isa.md', 'floating-point')
 for _i in 'CAS SWAP XADD XAND XMAX LLSC'.split(): HOME[_i] = ('09-isa.md', 'atomics-and-ordering')
-for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT STUA GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTASID MTDP MTDMW MFCPUID ICINV PROBE').split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
+for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTDP ICINV PROBE').split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
 
 
-for _i in 'MOV2 MOVD MOVUSER MOVUSERD'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
+for _i in 'MOV2 MOVUSER MCPYU'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
 for _i in 'MASK OVF'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
 for _i in 'BSEL AESR AESK SHA256 SHA512'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
 for _i in 'MOVCALL POPRET POPMRET'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')
 for _i in 'MSHA MAESCTR'.split(): HOME[_i] = ('09-isa.md', 'stack-and-block-operations')
-for _i in 'TRAPCC SYSPG CT CHK2'.split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
+for _i in 'CT CHK2'.split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
 
 
 def notation():

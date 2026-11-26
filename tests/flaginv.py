@@ -43,12 +43,12 @@ for g, items in en.items():
         elif g == 'mn-cond' or g == 'mn-sysreg' or g == 'mn-sys-none' or g == 'mn-sys' or g == 'mn-atom' or g == 'mn-mesc' or g == 'mn-xfer': pass
         elif g == 'mn-mblk': add('mval r6, r4' if w == 'mval' else '%s r5, r3, r6' % w)
         elif g == 'mn-fesc':
-            four = w.startswith(('fmadd', 'fmsub', 'fnmadd', 'fnmsub')); three = w in ('fcopysign', 'fmin', 'fmax')
+            four = w.startswith(('fmadd', 'fnmsub')); three = w in ('fcopysign', 'fmin', 'fmax')
             add('%s %s' % (w, ', '.join(['r6', 'r4', 'r7', 'r3'] if four else ['r6', 'r4', 'r3'] if three else ['r6', 'r3'])))
         elif g == 'mn-sysx': add({'hint': 'hint #7', 'genter': 'genter #0xffffffff'}.get(w, w))
         elif g == 'mn-tlbx': add('%s r6' % w)
 add('mfps r3', 'mtps r6', 'spl #3', 'trap #3', 'bpt', 'nop', 'fence', 'wfe', 'sev', 'lpad', 'mfsr r3, ptbr', 'mtsr ptbr, r6', 'mfsr r3, usp', 'mtsr usp, r6', 'mtdp r6', 'mfdp r3',
-    'mfasid r3', 'mtasid r6', 'tlbi r6', 'tlbia', 'tlbsync', 'icinv r6', 'icinva', 'mfcpuid r3', 'rti #0xffffffff', 'rtt #0xffffffff', 'rti #0', 'ret', 'halt', 'set eq, r3', 'set cs, r3', 'prober r3, r6', 'probew r3, r6',
+    'mfsr r3, asid', 'mtsr asid, r6', 'tlbi r6', 'tlbia', 'tlbsync', 'icinv r6', 'icinva', 'mfsr r3, cpuid', 'rti #0xffffffff', 'rtt #0xffffffff', 'rti #0', 'ret', 'halt', 'set eq, r3', 'set cs, r3', 'prober r3, r6', 'probew r3, r6',
     'push r3', 'pop r3', 'push (r5)', 'push =0x123456789ABC')
 with tempfile.TemporaryDirectory() as t:
     out = []

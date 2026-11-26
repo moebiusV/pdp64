@@ -1,4 +1,4 @@
-; System v1 exceptions in kernel mode (sim64 -K): illegal instruction, divide by zero, misaligned and unmapped access, bpt, trap (a small and a large vector number), the reserved mode, a nested exception.
+; System v1 exceptions in kernel mode (sim64 -K): illegal instruction, divide by zero, unmapped access (low addresses, which no longer fault as misaligned: a plain access works at any address), bpt, trap (a small and a large vector number), the reserved mode, a nested exception.
 ; Each handler records EPC (r6), EPSW (r7), ECAUSE (r8), EVA (r9) and the PSW inside (r12); a failed check n halts with status n.  Generated; the checks are worked out from section 15.
 #include "pdp64-consts.h"
 	.text
@@ -66,7 +66,7 @@ res2:
 	movq	#0, r8
 	movq	#0, r9
 	movq	#0, r12
-	movq	#1, r3
+	movq	=(MAP_DEV_END+1), r3
 	movq	#99, r5
 	lea	resm0, r4
 mis0:
@@ -77,11 +77,13 @@ resm0:
 	lea	mis0, r11
 	cmp	r6, r11
 	bne	F12	; check 12
-	cmp	r8, #(VECTOR_MISALIGNED)
+	cmp	r8, #(VECTOR_BUSFAULT)
 	bne	F13	; check 13
-	cmp	r9, #(1)
+	movq	=(MAP_DEV_END+1), r2
+	cmp	r9, r2
 	bne	F14	; check 14
-	cmp	r3, #(1)
+	movq	=(MAP_DEV_END+1), r2
+	cmp	r3, r2
 	bne	F15	; check 15
 	cmp	r5, #(99)
 	bne	F16	; check 16
@@ -92,7 +94,7 @@ resm0:
 	movq	#0, r8
 	movq	#0, r9
 	movq	#0, r12
-	movq	#3, r3
+	movq	=(MAP_DEV_END+3), r3
 	movq	#99, r5
 	lea	resm1, r4
 mis1:
@@ -103,11 +105,13 @@ resm1:
 	lea	mis1, r11
 	cmp	r6, r11
 	bne	F18	; check 18
-	cmp	r8, #(VECTOR_MISALIGNED)
+	cmp	r8, #(VECTOR_BUSFAULT)
 	bne	F19	; check 19
-	cmp	r9, #(3)
+	movq	=(MAP_DEV_END+3), r2
+	cmp	r9, r2
 	bne	F20	; check 20
-	cmp	r3, #(3)
+	movq	=(MAP_DEV_END+3), r2
+	cmp	r3, r2
 	bne	F21	; check 21
 	cmp	r5, #(99)
 	bne	F22	; check 22
@@ -118,7 +122,7 @@ resm1:
 	movq	#0, r8
 	movq	#0, r9
 	movq	#0, r12
-	movq	#11, r3
+	movq	=(MAP_DEV_END+11), r3
 	movq	#99, r5
 	lea	resm2, r4
 mis2:
@@ -129,11 +133,13 @@ resm2:
 	lea	mis2, r11
 	cmp	r6, r11
 	bne	F24	; check 24
-	cmp	r8, #(VECTOR_MISALIGNED)
+	cmp	r8, #(VECTOR_BUSFAULT)
 	bne	F25	; check 25
-	cmp	r9, #(3)
+	movq	=(MAP_DEV_END+3), r2
+	cmp	r9, r2
 	bne	F26	; check 26
-	cmp	r3, #(11)
+	movq	=(MAP_DEV_END+11), r2
+	cmp	r3, r2
 	bne	F27	; check 27
 	cmp	r5, #(99)
 	bne	F28	; check 28
@@ -144,7 +150,7 @@ resm2:
 	movq	#0, r8
 	movq	#0, r9
 	movq	#0, r12
-	movq	#5, r3
+	movq	=(MAP_DEV_END+5), r3
 	movq	#99, r5
 	lea	resm3, r4
 mis3:
@@ -155,11 +161,13 @@ resm3:
 	lea	mis3, r11
 	cmp	r6, r11
 	bne	F30	; check 30
-	cmp	r8, #(VECTOR_MISALIGNED)
+	cmp	r8, #(VECTOR_BUSFAULT)
 	bne	F31	; check 31
-	cmp	r9, #(5)
+	movq	=(MAP_DEV_END+5), r2
+	cmp	r9, r2
 	bne	F32	; check 32
-	cmp	r3, #(5)
+	movq	=(MAP_DEV_END+5), r2
+	cmp	r3, r2
 	bne	F33	; check 33
 	cmp	r5, #(99)
 	bne	F34	; check 34
@@ -170,7 +178,7 @@ resm3:
 	movq	#0, r8
 	movq	#0, r9
 	movq	#0, r12
-	movq	#13, r3
+	movq	=(MAP_DEV_END+13), r3
 	movq	#99, r5
 	lea	resm4, r4
 mis4:
@@ -181,11 +189,13 @@ resm4:
 	lea	mis4, r11
 	cmp	r6, r11
 	bne	F36	; check 36
-	cmp	r8, #(VECTOR_MISALIGNED)
+	cmp	r8, #(VECTOR_BUSFAULT)
 	bne	F37	; check 37
-	cmp	r9, #(5)
+	movq	=(MAP_DEV_END+5), r2
+	cmp	r9, r2
 	bne	F38	; check 38
-	cmp	r3, #(13)
+	movq	=(MAP_DEV_END+13), r2
+	cmp	r3, r2
 	bne	F39	; check 39
 	cmp	r5, #(99)
 	bne	F40	; check 40

@@ -1,2 +1,0 @@
-	.text
-	clua r1

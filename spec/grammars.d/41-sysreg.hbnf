@@ -6,8 +6,6 @@ sysreg = "ptbr"@0
        | "epc"@1
        | "eva"@2
        | "ecause"@3
-       | "dmw0"@4
-       | "dmw1"@5
        | "usp"@6
        | "ssp"@7
        | "epsw"@8
