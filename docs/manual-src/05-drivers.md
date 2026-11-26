@@ -120,7 +120,7 @@ The pdp64 changes the four parts of {{r:drivers-what-you-already-know}} in turn.
 
 **{{#driver-reaches-a-register}}** A driver reaches a register with an ordinary load or store; there are no input or output instructions and no port space.
 
-**{{#registers-are-naturally-aligned}}** Registers are naturally aligned and accessed at their own width; the machine is little-endian throughout and the virtio structures are little-endian, so a driver has no byte-order or byte-lane cases.
+**{{#registers-are-naturally-aligned}}** Registers are naturally aligned and accessed at their own width, and an access to a page mapped as the device type that is not aligned to its size is the misalignment fault ({{r:strongly-ordered-device-access-faults}}); the machine is little-endian throughout and the virtio structures are little-endian, so a driver has no byte-order or byte-lane cases.
 
 **{{#accesses-to-a-device-page}}** Accesses to a device page happen in program order; one `FENCE` separates the last write to memory the device will read from the write that notifies the device.
 

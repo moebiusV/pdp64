@@ -20,13 +20,13 @@ table below, not a register number.
 | 1 | IMMh47/a | 5 | 01100 | movq | op1.imm=p0[10:4] op2.r=p0[3:0] |
 | 1 | CBZ1_5/a | 5 | 01101 | cbeq cbne | op3.pcrel=p0[9:5] op1.r=p0[4:0] subop=p0[10] |
 | 1 | STHHH3/a | 6 | 100010 | movq movl | op2.d=p0[8:6] op1.r=p0[5:3] op2.base=p0[2:0] subop=p0[9] |
-| 1 | SHIh44/a | 6 | 100011 | shl shr sar rol | op1.imm=p0[7:4] op2.r=p0[3:0] subop=p0[9:8] |
+| 1 | IMMh44/b | 6 | 100011 | add sub and ror | op1.imm=p0[7:4] op2.r=p0[3:0] subop=p0[9:8] |
 | 1 | SYSI | 7 | 1001000 | spl trap | op1.imm=p0[7:0] subop=p0[8] |
 | 1 | BR1_6/c | 7 | 1010011 | bpl bmi bvc bvs bcc bcs bge blt | op1.pcrel=p0[5:0] subop=p0[8:6] |
 | 1 | BR1_9/a | 7 | 1010100 | br | op1.pcrel=p0[8:0] |
 | 1 | STSPh4/a | 7 | 1010101 | movq movl | op2.d=p0[7:4] op1.r=p0[3:0] subop=p0[8] |
 | 1 | LEASPh5/a | 7 | 1010110 | lea | op1.d=p0[8:4] op2.r=p0[3:0] |
-| 1 | IMMh44/b | 7 | 1010111 | add sub | op1.imm=p0[7:4] op2.r=p0[3:0] subop=p0[8] |
+| 1 | SHIh44/a | 7 | 1010111 | shl shr | op1.imm=p0[7:4] op2.r=p0[3:0] subop=p0[8] |
 | 1 | PUSHM8/a | 7 | 1011000 | pushm popm | op1.imm=p0[7:0] subop=p0[8] |
 | 1 | SYSI | 8 | 10110100 | hint | op1.imm=p0[7:0] |
 | 1 | SOPR | 8 | 11000011 | clr com inc dec neg tst adc sbc | op1.r=p0[4:0] subop=p0[7:5] |
@@ -34,7 +34,7 @@ table below, not a register number.
 | 1 | BR1_6/c | 8 | 11000101 | bgt ble bhi blos | op1.pcrel=p0[5:0] subop=p0[7:6] |
 | 1 | BR1_7/b | 8 | 11000110 | beq bne | op1.pcrel=p0[6:0] subop=p0[7] |
 | 1 | STHHH1/b | 8 | 11000111 | movw movb | op2.d=p0[6] op1.r=p0[5:3] op2.base=p0[2:0] subop=p0[7] |
-| 1 | IMMh44/b | 8 | 11001000 | and | op1.imm=p0[7:4] op2.r=p0[3:0] |
+| 1 | SHIh44/a | 8 | 11001000 | sar | op1.imm=p0[7:4] op2.r=p0[3:0] |
 | 1 | SYSR | 9 | 110010010 | mtps mfps tlbi mtdp | op1.r=p0[4:0] subop=p0[6:5] |
 | 1 | SOPR | 9 | 110100000 | asl asr push pop | op1.r=p0[4:0] subop=p0[6:5] |
 | 1 | SPADJ6/a | 9 | 110100001 | add sub | op1.imm=p0[5:0] subop=p0[6] |
@@ -98,7 +98,7 @@ table below, not a register number.
 | 2 | LDX4H/b | 11 | 11011100100 | movw movb movzl movzw | op1.base=p0[2:0]+p1[15] op1.index=p1[14:11] op1.scale=p1[10:9] op1.d=p1[8:5] op2.r=p1[4:0] subop=p0[4:3] |
 | 2 | VFIR | 11 | 11011100101 | vfir.w vfir.l vfir.f | subop=p1[15:14] op1.v=p1[13:10] op2.v=p1[9:6] op4.imm=p1[5:0] op3.r=p0[4:0] |
 | 2 | R2 | 12 | 110111001100 | clz ctz clo cto popcnt bswap bswapw bswapl bitrev utf8len utf8dec utf8enc ctcc ctcs cthi ctlos cteq ctne ctge ctlt ctgt ctle ctpl ctmi ctvc ctvs mval abs prober probew fdiv fsqrt fadd32 fsub32 fmul32 fdiv32 fsqrt32 fcmp32 fneg fabs fclass fclass32 frint frintz frintm frintp frinta fcvtdq fcvtqd fcvtds fcvtsd fcvtsl fcvtls fcvtdqu fcvtqud fsflags fcvtsh fcvths fcvtdh fcvthd fcvthl fcvtlh aesim sha256sig0 sha256sig1 sha256sum0 sha256sum1 sha512sig0 sha512sig1 sha512sum0 sha512sum1 addv subv mulv | op1.r=p0[3:0]+p1[15] op2.r=p1[14:10] subop=p1[9:0] |
-| 2 | RRI | 12 | 110111001101 | ror ror32 rol aesks1 | op1.r=p1[15:11] op2.imm=p1[10:5] op3.r=p1[4:0] subop=p0[3:0] |
+| 2 | RRI | 12 | 110111001101 | ror ror32 aesks1 | op1.r=p1[15:11] op2.imm=p1[10:5] op3.r=p1[4:0] subop=p0[3:0] |
 | 2 | LDBu8/c | 12 | 110111010000 | add sub and bis | op1.base=p0[1:0]+p1[15:13] op2.r=p1[12:8] op1.d=p1[7:0] subop=p0[3:2] |
 | 2 | CALL2_20/c | 12 | 110111010001 | call | op1.pcrel=p0[3:0]+p1[15:0] |
 | 2 | CBR8/b | 12 | 110111010010 | cblt cbge cbgt cble | op1.r=p0[1:0]+p1[15:13] op2.r=p1[12:8] op3.pcrel=p1[7:0] subop=p0[3:2] |

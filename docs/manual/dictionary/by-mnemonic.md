@@ -232,8 +232,8 @@
 | `PUSHM` | [PUSHM](../09-isa.md#pushm-push-registers-by-mask) (section 9.11) | [3](by-encoding.md#mn-pushm), [entry](../09-isa.md#w-pushm) | Single operand (SOP) |
 | `PUSHX` | [PUSHX](../09-isa.md#pushx-push-and-pop-the-exception-state) (section 9.14) | [1](by-encoding.md#mn-pushx), [entry](../09-isa.md#w-pushx) | System (SYS) |
 | `RET` | [RET](../09-isa.md#ret-return-from-subroutine) (section 9.14) | [1](by-encoding.md#mn-ret), [entry](../09-isa.md#w-ret) | System (SYS) |
-| `ROL` | [ROR](../09-isa.md#ror-rotate-right-by-a-register-or-a-constant) (section 9.9) | [2](by-encoding.md#mn-rol), [entry](../09-isa.md#w-rol) | Bits and fields (BESC) |
-| `ROR` | [ROR](../09-isa.md#ror-rotate-right-by-a-register-or-a-constant) (section 9.9) | [2](by-encoding.md#mn-ror), [entry](../09-isa.md#w-ror) | Bits and fields (BESC) |
+| `ROL` (alias of `ROR`) | [ROR](../09-isa.md#ror-rotate-right-by-a-register-or-a-constant) (section 9.9) | [3](by-encoding.md#mn-ror), [entry](../09-isa.md#w-ror) | Bits and fields (BESC) |
+| `ROR` | [ROR](../09-isa.md#ror-rotate-right-by-a-register-or-a-constant) (section 9.9) | [3](by-encoding.md#mn-ror), [entry](../09-isa.md#w-ror) | Bits and fields (BESC) |
 | `ROR32` | [ROR32](../09-isa.md#ror32-rotate-right-by-a-constant-32-bits) (section 9.9) | [1](by-encoding.md#mn-ror32), [entry](../09-isa.md#w-ror32) | Bits and fields (BESC) |
 | `RTI` | [RTI](../09-isa.md#rti-return-from-interrupt-or-exception) (section 9.14) | [1](by-encoding.md#mn-rti), [entry](../09-isa.md#w-rti) | System (SYS) |
 | `RTT` | [RTI](../09-isa.md#rti-return-from-interrupt-or-exception) (section 9.14) | [1](by-encoding.md#mn-rtt), [entry](../09-isa.md#w-rtt) | System (SYS) |

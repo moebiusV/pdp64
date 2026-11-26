@@ -1,7 +1,7 @@
 	.text
 	movq #0x123456789abcdef0,r1
 	ror32 r1,#5,r2
-	rol r1,#3,r2
+	ror r1,#61,r2
 	clz r1,r2
 	div r1,r2,r3
 	fmadd r1,r2,r3,r4

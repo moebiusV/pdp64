@@ -212,6 +212,38 @@ static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct h
 		if (!hw_len(&m, minn[2]) || !hw_len(&x, minn[3])) return 1;
 		hw[0] = m; hw[1] = x; slot[0] = 2; slot[1] = 3; return 2;
 	}
+	/* rol is an assembler mapping onto ror: a rotate left by n is a rotate right by 64 - n, so `rol Rs, #n, Rd` is `ror Rs, #(64-n), Rd` and `rol #n, Rd` is `ror #(64-n), Rd`.  The machine has the one rotate and its count is
+	   taken modulo 64, so a rotate left by a count in a register is not one instruction: rol takes a constant.  The count of either word is a constant from -64 to 63 (a negative count of ror rotates left, which is how the disassembler
+	   prints the short form's counts), taken modulo 64 as the machine does.  The shortest form that holds it is used: the two-byte `ror #c, Rd` (a signed count of four bits, -8 to 7, for a register that is the source and
+	   the destination and is r0 to r15), else `ror Rs, #c, Rd` (four bytes, the count 0 to 63). */
+	if (mg == MG_BESC && (st->mnum == MN_BESC_ROR || st->mnum == MN_BESC_ROL)) {
+		int rol = st->mnum == MN_BESC_ROL;
+		int ci = n == 2 ? 0 : 1;
+		int konst = (n == 2 || n == 3) && st->ops[ci].kind == OK_IMM;
+		if (!konst && rol) { err(st->line, "rol takes a constant count: the machine's rotate is ror, whose count is taken modulo 64, so a rotate left by a register is ror by the negated register (neg it first)"); return -1; }
+		if (konst) {
+			const char *w = rol ? "rol" : "ror";
+			int rs = n == 3 ? st->ops[0].reg : st->ops[1].reg, rd = st->ops[n - 1].reg;
+			if ((n == 3 && (st->ops[0].kind != OK_REG || st->ops[2].kind != OK_REG)) || (n == 2 && st->ops[1].kind != OK_REG)) { err(st->line, "%s Rs, #n, Rd or %s #n, Rd: registers and a constant count", w, w); return -1; }
+			struct val v = st->ops[ci].x ? eval(st->ops[ci].x, st->line) : vconst(0);
+			if (!CONST(v)) { err(st->line, "%s takes a constant count", w); return -1; }
+			if (v.c < -64 || v.c > 63) { err(st->line, "%s: the count is from -64 to 63", w); return -1; }
+			int64_t c = (rol ? -v.c : v.c) & 63;
+			int ro = enc_mn_find(etab, "ror");
+			if (ro < 0) { err(st->line, "%s: this instruction does not exist in %s", w, etab->name); return -1; }
+			struct hw r;
+			hw_init(&r, ro);
+			slot[0] = 0; slot[1] = 0;
+			if (rs == rd) {								/* the register is both: the short form, if the count and the register fit it */
+				r.in.nops = 2; r.in.op[0].k = EK_I; r.in.op[0].v = c >= 32 ? c - 64 : c; r.in.op[1].k = EK_R; r.in.op[1].r = rd;
+				if (hw_len(&r, minn[0])) { hw[0] = r; return 1; }
+			}
+			hw_init(&r, ro);
+			r.in.nops = 3; r.in.op[0].k = EK_R; r.in.op[0].r = rs; r.in.op[1].k = EK_I; r.in.op[1].v = c; r.in.op[2].k = EK_R; r.in.op[2].r = rd;
+			hw[0] = r;
+			return 1;
+		}
+	}
 	int poolable = (mg == MG_MOV && st->mnum == MN_MOV_MOVQ) || (mg == MG_SOP && st->mnum == MN_SOP_PUSH) ||
 	    (mg == MG_ALU && st->mnum != MN_ALU_SHL && st->mnum != MN_ALU_SHR && st->mnum != MN_ALU_SAR);
 	int mn = enc_mn_find(etab, name);

@@ -476,10 +476,6 @@ arg = "MN_BESC_ROR"
 exec = "H_BESC"
 arg = "MN_BESC_ROR32"
 
-[rol]
-exec = "H_BESC"
-arg = "MN_BESC_ROL"
-
 [dshr]
 exec = "H_BESC"
 arg = "MN_BESC_DSHR"

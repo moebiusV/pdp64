@@ -115,7 +115,7 @@ Against the Unibus, three things differ. The fixed I/O page at the top of the ad
 
 **2.3.2** Devices live in the ordinary address space; the processor has no input or output instructions.
 
-**2.3.3** Every page has a memory type: normal cached, normal uncached, device weakly ordered, or device strongly ordered, numbered 0 to 3 in that order, which is the order of strictness.
+**2.3.3** Every page has a memory type: normal cached, normal uncached, device weakly ordered, or device strongly ordered, numbered 0 to 3 in that order, which is the order of strictness. A plain access that is not aligned to its size is made on the first three and is the misalignment fault on the last (9.6.6): a device never sees half of an access.
 
 **2.3.4** The transactions on the bus are those of PCI Express; the circuitry the pdp64 adds is for convenience (overlays, helper registers) and security (the IOMMU, error and reset rules), and is measured against the list of pain points of `kernel-pain-points.md`. An extension is announced to a card, through a PCI Express extended capability, only if the card must take part in it; a mitigation that lives on the processor side is invisible to cards.
 

@@ -42,7 +42,8 @@
 
 | Term | Meaning |
 |---|---|
-| **`MT`** | memory type, a two-bit page attribute: normal cached 0, normal uncached 1, device weakly ordered 2, device strongly ordered 3; the larger the number, the stricter ({{r:address-space}}, {{r:page-table-entry}}) |
+| **`MT`** | memory type, a two-bit page attribute: normal cached 0, normal uncached 1, device weakly ordered 2, device strongly ordered 3; the larger the number, the stricter; a plain access that is not aligned to its size faults on type 3 only ({{r:address-space}}, {{r:page-table-entry}}, {{r:strongly-ordered-device-access-faults}}) |
+| **strongly ordered** | the device memory type (3): every access goes to the device in the order written, one at a time and never combined, so an access that is not aligned to its size takes the misalignment fault instead of becoming two ({{r:strongly-ordered-device-access-faults}}) |
 | **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing ({{r:accessed-dirty-tlb-and-asids}}) |
 | **`G` bit** | global: a translation-buffer entry that ignores the `ASID` ({{r:accessed-dirty-tlb-and-asids}}) |
 | **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores ({{r:translation-and-instruction-cache-coherence}}) |

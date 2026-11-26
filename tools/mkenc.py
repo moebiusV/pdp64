@@ -328,7 +328,7 @@ def check_ext(allmn, ext_decl):
     sys.path.insert(0, HERE)
     import mkgrammar
     en = mkgrammar.enums(ROOT)
-    old = {lit for g, items in en.items() if g.startswith('mn-') for lit, v in items} | {'rol'}
+    old = {lit for g, items in en.items() if g.startswith('mn-') for lit, v in items}
     need = {m for m in allmn if m not in old}
     ext = list(ext_decl)
     if set(ext) != need or len(set(ext)) != len(ext):
@@ -391,7 +391,7 @@ def main():
                 if len(items) == 1:
                     num = {'mn-lea': 11, 'mn-sob': 63}.get(g, 0)
                 canon = lit
-                if v >= 0x100 and lit != 'rol':
+                if v >= 0x100:
                     canon = consts[(g, v - 0x100)]
                 f.write('\t{ %d, %d, "%s", "%s" },\n' % (gi + 1, num, lit, canon))
         f.write('};\n')

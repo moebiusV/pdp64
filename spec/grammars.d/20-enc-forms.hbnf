@@ -124,13 +124,13 @@ leaf-R4-1 = 0b10110101 xsub-1:3 o4-r:5 xsub-2:1 o1-r:5 o2-r:5 o3-r:5 ?(((xsub_1 
 sub-R4-1 = "fmadd" | "fnmsub" | "fmadd32" | "fnmsub32" | "bsel" | "maesctr"
 
 ; ======================================================================================================================================================
-; family RRI: 1 form, 1 leaves, 2 parcels; mnemonics ror ror32 rol aesks1
+; family RRI: 1 form, 1 leaves, 2 parcels; mnemonics ror ror32 aesks1
 ; ======================================================================================================================================================
 
 ; form RRI (index 10): 2 parcels
 form-RRI = o1:reg5 o2:imm6u o3:reg5
-leaf-RRI-1 = 0b110111001101 xsub:4 o1-r:5 o2-imm:6 o3-r:5 ?(xsub < 4)
-sub-RRI-1 = "ror" | "ror32" | "rol" | "aesks1"
+leaf-RRI-1 = 0b110111001101 xsub:4 o1-r:5 o2-imm:6 o3-r:5 ?(xsub < 3)
+sub-RRI-1 = "ror" | "ror32" | "aesks1"
 
 ; ======================================================================================================================================================
 ; family BFx: 1 form, 1 leaves, 3 parcels; mnemonics dshr
@@ -753,15 +753,13 @@ leaf-LEASPh5-a-1 = 0b1010110 o1-d:5 o2-r:4
 sub-LEASPh5-a-1 = "lea"
 
 ; ======================================================================================================================================================
-; family IMMh: 2 forms, 3 leaves, 1 parcel; mnemonics add sub and movq
+; family IMMh: 2 forms, 2 leaves, 1 parcel; mnemonics add sub and ror movq
 ; ======================================================================================================================================================
 
 ; form IMMh44/b (index 75): 1 parcel
 form-IMMh44-b = o1:imm4s o2:reg4
-leaf-IMMh44-b-1 = 0b1010111 sub:1 o1-imm:4 o2-r:4
-sub-IMMh44-b-1 = "add" | "sub"
-leaf-IMMh44-b-2 = 0b11001000 o1-imm:4 o2-r:4
-sub-IMMh44-b-2 = "and"
+leaf-IMMh44-b-1 = 0b100011 sub:2 o1-imm:4 o2-r:4
+sub-IMMh44-b-1 = "add" | "sub" | "and" | "ror"
 
 ; form IMMh47/a (index 77): 1 parcel
 form-IMMh47-a = o1:imm7s o2:reg4
@@ -769,13 +767,15 @@ leaf-IMMh47-a-1 = 0b01100 o1-imm:7 o2-r:4
 sub-IMMh47-a-1 = "movq"
 
 ; ======================================================================================================================================================
-; family SHIh: 1 form, 1 leaves, 1 parcel; mnemonics shl shr sar rol
+; family SHIh: 1 form, 2 leaves, 1 parcel; mnemonics shl shr sar
 ; ======================================================================================================================================================
 
 ; form SHIh44/a (index 76): 1 parcel
 form-SHIh44-a = o1:imm4u o2:reg4
-leaf-SHIh44-a-1 = 0b100011 sub:2 o1-imm:4 o2-r:4
-sub-SHIh44-a-1 = "shl" | "shr" | "sar" | "rol"
+leaf-SHIh44-a-1 = 0b1010111 sub:1 o1-imm:4 o2-r:4
+sub-SHIh44-a-1 = "shl" | "shr"
+leaf-SHIh44-a-2 = 0b11001000 o1-imm:4 o2-r:4
+sub-SHIh44-a-2 = "sar"
 
 ; ======================================================================================================================================================
 ; family SPADJ: 1 form, 1 leaves, 1 parcel; mnemonics add sub

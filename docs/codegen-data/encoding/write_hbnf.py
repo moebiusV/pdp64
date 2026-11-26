@@ -213,7 +213,7 @@ def write_all(out, ds):
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'tools'))
     import mkgrammar
     en = mkgrammar.enums()
-    old = {lit for g, items in en.items() if g.startswith('mn-') for lit, v in items} | {'rol'}
+    old = {lit for g, items in en.items() if g.startswith('mn-') for lit, v in items}
     allmn = sorted({m for _, d in ds for f in d['forms'] for m in f['mns']} - old)
     os.makedirs(out, exist_ok=True)
     open(os.path.join(out, '21-enc-shapes.hbnf'), 'w').write(write_shapes([d for _, d in ds]))

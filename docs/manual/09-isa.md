@@ -42,7 +42,7 @@
 
 **9.2.10** Addresses are canonical: 39, 48 or 57 bits of virtual address, according to the three, four or five levels of the page table (6.6.1), and a physical address of 40 to 64 bits, 40 in the present implementation (2.3.5).
 
-**9.2.11** Instructions are aligned to two bytes; a plain load or store works at any address, aligned or not (9.6.5), and the atomics, the operands of the vector blocks and `PUSHX` and `POPX` keep the alignment fault.
+**9.2.11** Instructions are aligned to two bytes; a plain load or store works at any address, aligned or not (9.6.5), and the atomics, the operands of the vector blocks and `PUSHX` and `POPX` keep the alignment fault, as does a plain access that is not aligned to its size to strongly ordered device memory (9.6.6).
 
 **9.2.12** An instruction does what its name says and nothing else; no flag is set that its entry does not list.
 
@@ -141,14 +141,16 @@
 
 **9.6.4** Moves, loads and stores write no flags.
 
-**9.6.5** A plain load or store works at any address: there is no alignment fault, and so no separate unaligned move. A plain access is a `MOV` form and any instruction whose memory operand is read or written once (the stack, the arithmetic with a memory operand, the read-modify-write forms). An access that is not aligned to its size is one access for the program and, where it crosses a boundary of a cache line or of a page, two for the machine; the core that executes it sees it whole, and **nothing of it changes if any part of it faults**: a store that crosses into a page that faults writes none of its bytes, a load that does leaves its destination register as it was, and the fault is precise on whichever page refuses it, with `EVA` the address of the access when its first page refuses and the first byte of the second page when that one does. To the other cores and to devices the two halves are two accesses, in ascending address order (7.5.3). The atomics keep the alignment fault (7.4.7); so do `PUSHX` and `POPX` and the operands of the vector blocks, and the block copies move bytes and have none to make. The registers of a device are accessed at their own width (5.3.4); the machine does not fault an unaligned access to a device, it makes two.
+**9.6.5** A plain load or store works at any address in memory: there is no alignment fault for memory, and so no separate unaligned move. The one place it does not is strongly ordered device memory, below. A plain access is a `MOV` form and any instruction whose memory operand is read or written once (the stack, the arithmetic with a memory operand, the read-modify-write forms). An access that is not aligned to its size is one access for the program and, where it crosses a boundary of a cache line or of a page, two for the machine; the core that executes it sees it whole, and **nothing of it changes if any part of it faults**: a store that crosses into a page that faults writes none of its bytes, a load that does leaves its destination register as it was, and the fault is precise on whichever page refuses it, with `EVA` the address of the access when its first page refuses and the first byte of the second page when that one does. To the other cores and to devices the two halves are two accesses, in ascending address order (7.5.3). The atomics keep the alignment fault (7.4.7); so do `PUSHX` and `POPX` and the operands of the vector blocks, and the block copies move bytes and have none to make. Normal cached and uncached memory and device weakly ordered memory (memory types 0, 1 and 2, 6.7.4) take such an access as just described. Strongly ordered device memory (type 3) does not: every access to it goes to the device in the order written, one at a time and never combined, so an access that is not aligned to its size would be two transactions on the device, a clear-on-read register read twice or a data register written in halves. A plain access that is not aligned to its size to a page of that type takes the misalignment fault, precise, with nothing performed: no byte read or written, no register of the device touched, the destination register as it was, `EVA` the address of the access and `EPC` the instruction (9.6.6). The registers of a device are accessed at their own width (5.3.4), so a driver that maps them as the device type never meets the fault.
+
+**9.6.6** An access that touches two pages is judged by the stricter of the two: if either page is strongly ordered device memory and the access is not aligned to its size, it takes the misalignment fault, however little of it lies in that page. The memory type of a page is the stricter of its types in the stages of translation that map it (the larger code), and with translation off the address decides: a physical address at which a device answers is strongly ordered.
 
 
-**9.6.6** A runtime that keeps a 3-bit type tag in the low bits of a pointer cannot rely on a fault to find a pointer with the wrong tag: the access through it simply works, at an address that is not aligned. The check is explicit and is one four-byte instruction, `BNTAG Rn, #T, slow`, placed before the access, which is then made with the tag taken off by the displacement, `MOVQ k-T(Rn), Rd`; on the way that has the right tag the branch is not taken. One check covers every access made through the same pointer, so a cell whose `car` and `cdr` are both read is checked once; and where a loop already tests its pointer (a list walk that tests for the end) `BTAG` makes that test and the type check at once, so the check costs nothing. An array index is bounds checked by `CTCC` as before, and a pointer whose tag is checked before a loop is not checked again inside it. A table dispatch on the tag is `JTAG`.
+**9.6.7** A runtime that keeps a 3-bit type tag in the low bits of a pointer cannot rely on a fault to find a pointer with the wrong tag: the access through it simply works, at an address that is not aligned. The check is explicit and is one four-byte instruction, `BNTAG Rn, #T, slow`, placed before the access, which is then made with the tag taken off by the displacement, `MOVQ k-T(Rn), Rd`; on the way that has the right tag the branch is not taken. One check covers every access made through the same pointer, so a cell whose `car` and `cdr` are both read is checked once; and where a loop already tests its pointer (a list walk that tests for the end) `BTAG` makes that test and the type check at once, so the check costs nothing. An array index is bounds checked by `CTCC` as before, and a pointer whose tag is checked before a loop is not checked again inside it. A table dispatch on the tag is `JTAG`.
 
-**9.6.7** The one-parcel forms abbreviate the common cases: loads and stores through a hot base register or the stack pointer at small offsets, `LEA` from `SP`, and `MOVQ #imm, rd` with an immediate of up to seven bits.
+**9.6.8** The one-parcel forms abbreviate the common cases: loads and stores through a hot base register or the stack pointer at small offsets, `LEA` from `SP`, and `MOVQ #imm, rd` with an immediate of up to seven bits.
 
-**9.6.8** A load or store may be qualified `.U` (the memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.10); the block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
+**9.6.9** A load or store may be qualified `.U` (the memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.10); the block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
 
 *Commentary.* **Precedent.** The PDP-11 had `MOV` and `MOVB` with a byte sign-extended into a register; the VAX had a sized `MOV` for every width. **Trade-offs.** Keeping the sized loads costs four extra opcodes against a quad-only design, but without `MOVL` a struct field load becomes two `MOVW`s, a shift and an or, and ELF, timestamps and most on-disk and wire structures are full of 32- and 16-bit fields. **Improvements.** There is no separate `CVT` group: the conversions are the moves with a register source, so they cost nothing. **Benefits.** No partial-register state anywhere. **Modern comparables.** AArch64 and RISC-V have the same sized loads with sign and zero extension; x86-64 keeps 8- and 16-bit register writes that preserve the upper bits, which makes narrow writes depend on the old value. **Use.** `LEA 0(PC)` is how a position-independent program finds itself; a plain load reads a packed on-disk or network structure at whatever address it has. **Impact.** *Kernel:* `LEA 0(PC)` lets position-independent kernel code find itself; the plain moves read packed on-disk and network structures where they lie. *Compiler:* Sized loads avoid the shift, mask and or of a struct-field read, and the conversions are moves, so no separate conversion selection exists. *Hardware:* No partial-register write anywhere; the conversions reuse the load-extend path.
 
@@ -1011,7 +1013,7 @@ Operation, flags and exceptions as for the entry MCPYU above; 1 layout form, eac
 
 ![ADD: RR5, prefix 000, sub-opcode 010; operands reg5, reg5; 2 bytes](figures/w/add/12.svg)
 
-![ADD: IMMh44/b, prefix 1010111, sub-opcode 0; operands imm4s, reg4; 2 bytes](figures/w/add/13.svg)
+![ADD: IMMh44/b, prefix 100011, sub-opcode 00; operands imm4s, reg4; 2 bytes](figures/w/add/13.svg)
 
 ![ADD: SPADJ6/a, prefix 110100001, sub-opcode 0; operands imm6u-x8, k-sp; 2 bytes](figures/w/add/14.svg)
 
@@ -1083,7 +1085,7 @@ All ALU operations are 64 bits, with no size field.
 
 ![SUB: RR5, prefix 000, sub-opcode 011; operands reg5, reg5; 2 bytes](figures/w/sub/12.svg)
 
-![SUB: IMMh44/b, prefix 1010111, sub-opcode 1; operands imm4s, reg4; 2 bytes](figures/w/sub/13.svg)
+![SUB: IMMh44/b, prefix 100011, sub-opcode 01; operands imm4s, reg4; 2 bytes](figures/w/sub/13.svg)
 
 ![SUB: SPADJ6/a, prefix 110100001, sub-opcode 1; operands imm6u-x8, k-sp; 2 bytes](figures/w/sub/14.svg)
 
@@ -2007,7 +2009,7 @@ Operation, flags and exceptions as for the entry OVF above; 1 layout form, each 
 
 **9.8.3** A shift count of 64 or more shifts the value entirely away; `C` receives the last bit that left.
 
-**9.8.4** `ROR` rotates right by a register or a constant count (the assembler picks the form); `ROL Rs, #n, Rd` rotates left by a constant; `ROR32` rotates the low 32 bits and sign-extends. Rotates write no flags.
+**9.8.4** `ROR` rotates right by a register or a constant count (the assembler picks the form: two bytes for a constant count from -8 to 7 of a register that is both source and destination and is one of r0 to r15, a negative count rotating left, and four bytes otherwise); `ROL` is an assembler spelling of the same instruction with the count complemented, `ROL Rs, #n, Rd` being `ROR Rs, #(64-n), Rd`, and takes a constant only, because the count of `ROR` is taken modulo 64 and a rotate left by a register count is `ROR` by the negated register; `ROR32` rotates the low 32 bits and sign-extends. Rotates write no flags.
 
 **9.8.5** `DSHR` is a double-width funnel shift. It writes no flags.
 
@@ -2292,7 +2294,7 @@ Rd ← Rd XOR rm
 
 ![AND: RR5, prefix 000, sub-opcode 101; operands reg5, reg5; 2 bytes](figures/w/and/11.svg)
 
-![AND: IMMh44/b, prefix 11001000; operands imm4s, reg4; 2 bytes](figures/w/and/12.svg)
+![AND: IMMh44/b, prefix 100011, sub-opcode 10; operands imm4s, reg4; 2 bytes](figures/w/and/12.svg)
 
 **Mnemonics:** `AND`  (aliases: `FABS32`)
 
@@ -2308,7 +2310,7 @@ AND rm, Rd
 
 The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011100`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`IMMh44-b-2`](dictionary/by-encoding.md#IMMh44-b-2), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDI12-b-2`](dictionary/by-encoding.md#LDI12-b-2), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI18H-b-2`](dictionary/by-encoding.md#LDI18H-b-2).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`IMMh44-b-1`](dictionary/by-encoding.md#IMMh44-b-1), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDI12-b-2`](dictionary/by-encoding.md#LDI12-b-2), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI18H-b-2`](dictionary/by-encoding.md#LDI18H-b-2).
 
 **Operation**
 
@@ -2342,7 +2344,7 @@ SAR rm, Rd
 
 The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011100`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`SHIh44-a-1`](dictionary/by-encoding.md#SHIh44-a-1), [`LDI12-d-1`](dictionary/by-encoding.md#LDI12-d-1), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1), [`LDF-B28-2`](dictionary/by-encoding.md#LDF-B28-2), [`LDF-X22-2`](dictionary/by-encoding.md#LDF-X22-2), [`LDF-PI12-2`](dictionary/by-encoding.md#LDF-PI12-2), [`LDF-PD12-2`](dictionary/by-encoding.md#LDF-PD12-2), [`LDF-PC32-2`](dictionary/by-encoding.md#LDF-PC32-2), [`LDF-A32-2`](dictionary/by-encoding.md#LDF-A32-2), [`DPF-D28-2`](dictionary/by-encoding.md#DPF-D28-2), [`RRF-2`](dictionary/by-encoding.md#RRF-2).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`SHIh44-a-1`](dictionary/by-encoding.md#SHIh44-a-1), [`LDI12-d-1`](dictionary/by-encoding.md#LDI12-d-1), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1), [`LDF-B28-2`](dictionary/by-encoding.md#LDF-B28-2), [`LDF-X22-2`](dictionary/by-encoding.md#LDF-X22-2), [`LDF-PI12-2`](dictionary/by-encoding.md#LDF-PI12-2), [`LDF-PD12-2`](dictionary/by-encoding.md#LDF-PD12-2), [`LDF-PC32-2`](dictionary/by-encoding.md#LDF-PC32-2), [`LDF-A32-2`](dictionary/by-encoding.md#LDF-A32-2), [`DPF-D28-2`](dictionary/by-encoding.md#DPF-D28-2), [`RRF-2`](dictionary/by-encoding.md#RRF-2), [`SHIh44-a-2`](dictionary/by-encoding.md#SHIh44-a-2).
 
 **Operation**
 
@@ -2388,7 +2390,7 @@ The count is read as an unsigned 64-bit value, so a count of 64 or more shifts t
 
 ![SHL: RR5, prefix 000, sub-opcode 111; operands reg5, reg5; 2 bytes](figures/w/shl/11.svg)
 
-![SHL: SHIh44/a, prefix 100011, sub-opcode 00; operands imm4u, reg4; 2 bytes](figures/w/shl/12.svg)
+![SHL: SHIh44/a, prefix 1010111, sub-opcode 0; operands imm4u, reg4; 2 bytes](figures/w/shl/12.svg)
 
 ```
 SHL rm, Rd
@@ -2423,7 +2425,7 @@ Operation, flags and exceptions as for the entry SHIFT above; 14 layout forms, e
 
 ![SHR: RRF, prefix 01001, sub-opcode 000; operands reg4, reg4; 2 bytes](figures/w/shr/09.svg)
 
-![SHR: SHIh44/a, prefix 100011, sub-opcode 01; operands imm4u, reg4; 2 bytes](figures/w/shr/11.svg)
+![SHR: SHIh44/a, prefix 1010111, sub-opcode 1; operands imm4u, reg4; 2 bytes](figures/w/shr/11.svg)
 
 ```
 SHR rm, Rd
@@ -2458,7 +2460,7 @@ Operation, flags and exceptions as for the entry SHIFT above; 13 layout forms, e
 
 ![SAR: RRF, prefix 01001, sub-opcode 001; operands reg4, reg4; 2 bytes](figures/w/sar/09.svg)
 
-![SAR: SHIh44/a, prefix 100011, sub-opcode 10; operands imm4u, reg4; 2 bytes](figures/w/sar/11.svg)
+![SAR: SHIh44/a, prefix 11001000; operands imm4u, reg4; 2 bytes](figures/w/sar/11.svg)
 
 ```
 SAR rm, Rd
@@ -2945,15 +2947,24 @@ Rd ← Rs with bit i moved to bit 63-i
 **Why it is here.** Borrowed with the other LoongArch bit operations (`REVB`, `REVH`, `BITREV`). No workload from the corpus is recorded.
 
 
+<a id="w-ror"></a>
+<a id="w-rol"></a>
 ### ROR: Rotate right by a register or a constant
 
-**Mnemonics:** `ROR`, `ROL`
+![ROR: R3, prefix 1101010010, sub-opcode 0000001; operands reg5, reg5, reg5; 4 bytes](figures/w/ror/01.svg)
+
+![ROR: RRI, prefix 110111001101, sub-opcode 0000; operands reg5, imm6u, reg5; 4 bytes](figures/w/ror/02.svg)
+
+![ROR: IMMh44/b, prefix 100011, sub-opcode 11; operands imm4s, reg4; 2 bytes](figures/w/ror/03.svg)
+
+**Mnemonics:** `ROR`  (aliases: `ROL`)
 
 **Syntax**
 
 ```
 ROR Ra, Rb, Rd
 ROR Rs, #n, Rd
+ROR #n, Rd
 ROL Rs, #n, Rd
 ROL #n, Rd
 ```
@@ -2964,49 +2975,24 @@ ROL #n, Rd
 
 The chart is the leaf `R3-1`, R3, prefix `1101010010`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `op3` is `reg5`: register, 5 bits. `xsub` selects the mnemonic.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`R3-1`](dictionary/by-encoding.md#R3-1), [`RRI-1`](dictionary/by-encoding.md#RRI-1), [`SHIh44-a-1`](dictionary/by-encoding.md#SHIh44-a-1).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`R3-1`](dictionary/by-encoding.md#R3-1), [`RRI-1`](dictionary/by-encoding.md#RRI-1), [`IMMh44-b-1`](dictionary/by-encoding.md#IMMh44-b-1).
 
 **Operation**
 
 ```
-Rd ← Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; ROL rotates left by the constant
+Rd ← Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; ROL rotates left by the constant (an assembler mapping)
 ```
 
 **Flags** None written (rotates write no flags).
 
 **Exceptions** None.
 
-No rotate is through carry; multi-word shifting uses `DSHR`.
+`ROL` is an assembler mapping, not an instruction: a rotate left by n is a rotate right by 64 - n, so `ROL Rs, #n, Rd` assembles to `ROR Rs, #(64-n), Rd` and `ROL #n, Rd` to `ROR #(64-n), Rd`, in the two-byte form when the count of the right rotation fits it (a rotate left by 1 to 8) and in the four-byte form otherwise; the disassembler prints `ROR`, with a negative count for the short form. `ROL` takes a constant only: the count of `ROR` is taken modulo 64, so a rotate left by a register count is `ROR` by the negated register, which the program makes with `NEG` (a mapping is one instruction, and the assembler does not invent a scratch register). There is no `ROL32`: `ROR32` by 32 minus n is the same rotation. No rotate is through carry; multi-word shifting uses `DSHR`.
 
-**Why it is here.** One rotate direction suffices and `ROR` is the one to keep: `ROL x, #n` is `ROR x, #(64-n)`, and a funnel shifter yields `ROR` directly. No rotate is through carry (see `DSHR`). `ROR` is a bit operation and not an ALU operation: cryptographic code rotates by compile-time constants, so an immediate form is needed either way, and the register-count form has almost no users. Rotates write no flags.
-
-<a id="w-ror"></a>
-#### ROR
-
-![ROR: R3, prefix 1101010010, sub-opcode 0000001; operands reg5, reg5, reg5; 4 bytes](figures/w/ror/01.svg)
-
-![ROR: RRI, prefix 110111001101, sub-opcode 0000; operands reg5, imm6u, reg5; 4 bytes](figures/w/ror/02.svg)
-
-```
-ROR Ra, Rb, Rd
-ROR Rs, #n, Rd
-```
-
-Operation, flags and exceptions as for the entry ROR above; 2 layout forms, each a chart of its own (above).
+**Why it is here.** One rotate direction suffices and `ROR` is the one to keep: `ROL x, #n` is `ROR x, #(64-n)` (an assembler mapping), and a funnel shifter yields `ROR` directly. No rotate is through carry (see `DSHR`). `ROR` is a bit operation and not an ALU operation: cryptographic code rotates by compile-time constants, so an immediate form is needed either way, and the register-count form has almost no users. Rotates write no flags.
 
 <a id="w-rol"></a>
-#### ROL
-
-![ROL: RRI, prefix 110111001101, sub-opcode 0010; operands reg5, imm6u, reg5; 4 bytes](figures/w/rol/01.svg)
-
-![ROL: SHIh44/a, prefix 100011, sub-opcode 11; operands imm4u, reg4; 2 bytes](figures/w/rol/02.svg)
-
-```
-ROL Rs, #n, Rd
-ROL #n, Rd
-```
-
-Operation, flags and exceptions as for the entry ROR above; 2 layout forms, each a chart of its own (above).
+**`ROL`** is an alias of `ROR`: the assembler writes it as that word.
 
 
 <a id="w-ror32"></a>
@@ -3536,7 +3522,7 @@ As `AESR`. The key schedule of AES-128 takes three instructions per round.
 <a id="w-aesks1"></a>
 #### AESKS1
 
-![AESKS1: RRI, prefix 110111001101, sub-opcode 0011; operands reg5, imm6u, reg5; 4 bytes](figures/w/aesks1/01.svg)
+![AESKS1: RRI, prefix 110111001101, sub-opcode 0010; operands reg5, imm6u, reg5; 4 bytes](figures/w/aesks1/01.svg)
 
 ```
 AESKS1 Rs, #n, Rd

@@ -114,7 +114,7 @@ d:\t.quad 1
 'misc': ('', """\t.text
 \tmovq #0x123456789abcdef0,r1
 \tror32 r1,#5,r2
-\trol r1,#3,r2
+\tror r1,#61,r2
 \tclz r1,r2
 \tdiv r1,r2,r3
 \tfmadd r1,r2,r3,r4

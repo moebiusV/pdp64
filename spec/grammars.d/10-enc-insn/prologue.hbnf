@@ -14,7 +14,7 @@ insn = leaf:( leaf-SYS0-1 | leaf-SYS0-2 | leaf-SYS0-3 | leaf-SYSR-1 | leaf-SYSR-
        | leaf-SOPR-3 | leaf-PUSHI3-1 | leaf-PUSHI2-1 | leaf-JTAG3-1 | leaf-JTAG2-1 | leaf-RRF-1 | leaf-RRF-2 | leaf-RRF5-1 | leaf-SOB-1 | leaf-TAG-1
        | leaf-SPADJF-1 | leaf-FX-MOVCALL3-1 | leaf-FX-MOVCALL2-1 | leaf-FX-POPMRET-1 | leaf-FX-POPRET-1 | leaf-FX-MOV2-1 | leaf-RR5-1 | leaf-BR1-6-c-1
        | leaf-BR1-6-c-2 | leaf-BR1-7-b-1 | leaf-BR1-9-a-1 | leaf-STHHH1-b-1 | leaf-LDHHH3-a-1 | leaf-STHHH3-a-1 | leaf-STSPh4-a-1 | leaf-LDSPh5-a-1
-       | leaf-LEASPh5-a-1 | leaf-IMMh44-b-1 | leaf-IMMh44-b-2 | leaf-SHIh44-a-1 | leaf-IMMh47-a-1 | leaf-SPADJ6-a-1 | leaf-PUSHM8-a-1 | leaf-PUSHM24-a-1
+       | leaf-LEASPh5-a-1 | leaf-IMMh44-b-1 | leaf-SHIh44-a-1 | leaf-SHIh44-a-2 | leaf-IMMh47-a-1 | leaf-SPADJ6-a-1 | leaf-PUSHM8-a-1 | leaf-PUSHM24-a-1
        | leaf-CBZ1-5-a-1 | leaf-LDBs6-b-1 | leaf-STBs6-b-1 | leaf-LDBu6-b-1 | leaf-STBs8-a-1 | leaf-LDBu8-c-1 | leaf-LDBu8-c-2 | leaf-CMBu8-a-1
        | leaf-LDBs10-a-1 | leaf-SOBs12-a-1 | leaf-SOBs12-a-2 | leaf-SOBu12-x-1 | leaf-LDX0-a-1 | leaf-LDX0-b-1 | leaf-LDX0-c-1 | leaf-LDX0-c-2 | leaf-STX0-a-1
        | leaf-STX0-b-1 | leaf-CMX0-a-1 | leaf-SOX4-a-1 | leaf-SOX4-a-2 | leaf-SOX4-x-1 | leaf-LDPC14-a-1 | leaf-LDI12-a-1 | leaf-LDI12-b-1 | leaf-LDI12-b-2

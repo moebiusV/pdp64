@@ -12,7 +12,7 @@ CONDS=['ne','eq','pl','mi','vc','vs','cc','cs','ge','lt','gt','le','hi','los']
 BRS=['br']+['b'+c for c in CONDS]
 CBS=['cb'+c for c in CONDS]
 IMMS=['movq','add','sub','and','bis','xor','mul','bic']
-SHIFTS=['shl','shr','sar','rol']
+SHIFTS=['shl','shr','sar']		# rol is an assembler mapping onto ror (the count complemented); ror's short form is in the class of add, sub and and below: a signed 4-bit count, rotate right by n mod 64
 BESC2=['clz','ctz','clo','cto','popcnt','bswap','bswapw','bswapl','bitrev','utf8len','utf8dec','utf8enc']
 CT_CC=['ctcc','ctcs','cthi','ctlos','cteq','ctne','ctge','ctlt','ctgt','ctle','ctpl','ctmi','ctvc','ctvs']		# the compare-and-trap (errata 152); cthis = ctcc, ctlo = ctcs
 R2_RARE=BESC2+CT_CC+['mval','abs','prober','probew','fdiv','fsqrt','fadd32','fsub32','fmul32','fdiv32','fsqrt32','fcmp32','fneg','fabs','fclass','fclass32','frint','frintz','frintm','frintp','frinta','fcvtdq','fcvtqd','fcvtds','fcvtsd','fcvtsl','fcvtls','fcvtdqu','fcvtqud','fsflags','fadd16','fsub16','fmul16','fdiv16','fsqrt16','fcmp16','fclass16','fcvtsh','fcvths','fcvtdh','fcvthd','fcvthl','fcvtlh',
@@ -20,7 +20,7 @@ R2_RARE=BESC2+CT_CC+['mval','abs','prober','probew','fdiv','fsqrt','fadd32','fsu
 R3_RARE=['chk2','ror','xnorpop','clmull','clmulh','mcpy','mmov','mset','mcmp','mscn','mscnn','div','divu','mod','modu','mulhu','min','minu','max','maxu','fcopysign','fmin','fmax',
    'maskeqz','masknez','aeses','aesesm','aesds','aesdsm','aesks2','xadd','xadddb','swap','swapdb','xand','xanddb','xor_','xor_db','xxor','xxordb','xmax','xmaxdb','xmin','xmindb','xmaxu','xmaxudb','xminu','xminudb','ll','sc','msha256','msha512']
 R4_RARE=['fmadd','fmsub','fnmadd','fnmsub','fmadd32','fmsub32','fnmadd32','fnmsub32','fmadd16','fmsub16','fnmadd16','fnmsub16','bsel','cas','casdb','maesctr']
-RRI_RARE=['ror','ror32','rol','aesks1']
+RRI_RARE=['ror','ror32','aesks1']
 BF=['dshr','extb','extzb','insb']
 SYS0=['nop','rti','rtt','ret','halt','bpt','fence','wfe','sev','lpad','tlbia','tlbsync','icinva','pushx','popx','isync']+['trapcc.%s'%c for c in CONDS]+['stua','clua']+['genter']+['syspg%d'%i for i in range(3,6)]
 SYSR=['mtps','mfps','tlbi','mtasid','mfasid','mtdp','mfdp','mtdmw','mfcpuid','icinv']
@@ -117,6 +117,7 @@ SOC=[('a',SO_A),('b',SO_B),('x',SO_X)]
 CBC=[('a',CB_A),('b',CB_B),('c',CB_C),('d',CB_D)]
 BRC=[('a',BR_A),('b',BR_B),('c',BR_C)]
 IMC=[('a',['movq']),('b',['add','sub','and']),('c',['bis','xor','mul','bic'])]
+IMCR=[('a',['movq']),('b',['add','sub','and','ror']),('c',['bis','xor','mul','bic'])]	# the narrow immediates: ror takes a signed count of the same width (a negative count rotates left)
 def cands(R,H3,H4=None,opts=None):
     """optional (size-reducing) forms.  Each is a (form, mnemonic class); the solver picks whole classes by bytes saved per unit of code space"""
     o=dict(ldh=True,sp1=True,imm1=True,cbz=True,cbi=True,idx=True,pcrel=True,h4mem=True)
@@ -153,7 +154,7 @@ def cands(R,H3,H4=None,opts=None):
     if o['imm1']:
         for w in (3,4,5,6,7,8):
             for tg,a,b in regv:
-                add('IMM%s%d'%(tg,w),1,IMC,[SI(w,True),b])
+                add('IMM%s%d'%(tg,w),1,IMCR if w<=6 else IMC,[SI(w,True),b])
                 add('CMPI%s%d'%(tg,w),1,[('a',['cmp'])],[b,SI(w,True)])
                 add('CTI%s%d'%(tg,w),1,[('a',CT_I)],[b,SI(w,False)])
                 add('SHI%s%d'%(tg,w),1,[('a',SHIFTS)],[SI(w,False),b])

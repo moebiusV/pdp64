@@ -214,16 +214,16 @@ Fields: `sub=p0[10]` `op3.pcrel=p0[9:5]` `op1.r=p0[4:0]`
 
 Fields: `sub=p0[9]` `op2.d=p0[8:6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 
-<a id="SHIh44-a-1"></a>
-#### SHIh44-a-1: SHIh44/a, prefix `100011`
+<a id="IMMh44-b-1"></a>
+#### IMMh44-b-1: IMMh44/b, prefix `100011`
 
-![Layout SHIh44-a-1](../figures/SHIh44-a-1.svg)
+![Layout IMMh44-b-1](../figures/IMMh44-b-1.svg)
 
-`op1` is `imm4u`: unsigned 4-bit immediate, 0 to 15.
+`op1` is `imm4s`: signed 4-bit immediate, -8 to 7.
 
 `op2` is `reg4`: register, 4 bits (an index into the hot-register table).
 
-`sub` (2 bits) selects the mnemonic: `shl` 00, `shr` 01, `sar` 10, `rol` 11.
+`sub` (2 bits) selects the mnemonic: `add` 00, `sub` 01, `and` 10, `ror` 11.
 
 Fields: `sub=p0[9:8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
@@ -282,16 +282,16 @@ Fields: `sub=p0[8]` `op2.d=p0[7:4]` `op1.r=p0[3:0]`
 
 Fields: `op1.d=p0[8:4]` `op2.r=p0[3:0]`
 
-<a id="IMMh44-b-1"></a>
-#### IMMh44-b-1: IMMh44/b, prefix `1010111`
+<a id="SHIh44-a-1"></a>
+#### SHIh44-a-1: SHIh44/a, prefix `1010111`
 
-![Layout IMMh44-b-1](../figures/IMMh44-b-1.svg)
+![Layout SHIh44-a-1](../figures/SHIh44-a-1.svg)
 
-`op1` is `imm4s`: signed 4-bit immediate, -8 to 7.
+`op1` is `imm4u`: unsigned 4-bit immediate, 0 to 15.
 
 `op2` is `reg4`: register, 4 bits (an index into the hot-register table).
 
-`sub` (1 bit) selects the mnemonic: `add` 0, `sub` 1.
+`sub` (1 bit) selects the mnemonic: `shl` 0, `shr` 1.
 
 Fields: `sub=p0[8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
@@ -370,12 +370,12 @@ Fields: `sub=p0[7]` `op1.pcrel=p0[6:0]`
 
 Fields: `sub=p0[7]` `op2.d=p0[6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 
-<a id="IMMh44-b-2"></a>
-#### IMMh44-b-2: IMMh44/b, prefix `11001000`
+<a id="SHIh44-a-2"></a>
+#### SHIh44-a-2: SHIh44/a, prefix `11001000`
 
-![Layout IMMh44-b-2](../figures/IMMh44-b-2.svg)
+![Layout SHIh44-a-2](../figures/SHIh44-a-2.svg)
 
-`op1` is `imm4s`: signed 4-bit immediate, -8 to 7.
+`op1` is `imm4u`: unsigned 4-bit immediate, 0 to 15.
 
 `op2` is `reg4`: register, 4 bits (an index into the hot-register table).
 
@@ -2776,7 +2776,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-aminl"></a>`AMINL`: [ATOM-1](#ATOM-1)
 * <a id="mn-aminu"></a>`AMINU`: [ATOM-1](#ATOM-1)
 * <a id="mn-aminul"></a>`AMINUL`: [ATOM-1](#ATOM-1)
-* <a id="mn-and"></a>`AND`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [IMMh44-b-2](#IMMh44-b-2), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDI12-b-2](#LDI12-b-2), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI18H-b-2](#LDI18H-b-2)
+* <a id="mn-and"></a>`AND`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [IMMh44-b-1](#IMMh44-b-1), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDI12-b-2](#LDI12-b-2), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI18H-b-2](#LDI18H-b-2)
 * <a id="mn-asl"></a>`ASL`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-2](#SOPR-2)
 * <a id="mn-asr"></a>`ASR`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-2](#SOPR-2)
 * <a id="mn-axor"></a>`AXOR`: [ATOM-1](#ATOM-1)
@@ -2969,12 +2969,11 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-pushm"></a>`PUSHM`: [PUSHMF-1](#PUSHMF-1), [PUSHM8-a-1](#PUSHM8-a-1), [PUSHM24-a-1](#PUSHM24-a-1)
 * <a id="mn-pushx"></a>`PUSHX`: [SYS0-2](#SYS0-2)
 * <a id="mn-ret"></a>`RET`: [SYS0-1](#SYS0-1)
-* <a id="mn-rol"></a>`ROL`: [RRI-1](#RRI-1), [SHIh44-a-1](#SHIh44-a-1)
-* <a id="mn-ror"></a>`ROR`: [R3-1](#R3-1), [RRI-1](#RRI-1)
+* <a id="mn-ror"></a>`ROR`: [R3-1](#R3-1), [RRI-1](#RRI-1), [IMMh44-b-1](#IMMh44-b-1)
 * <a id="mn-ror32"></a>`ROR32`: [RRI-1](#RRI-1)
 * <a id="mn-rti"></a>`RTI`: [RETM-1](#RETM-1)
 * <a id="mn-rtt"></a>`RTT`: [RETM-1](#RETM-1)
-* <a id="mn-sar"></a>`SAR`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [SHIh44-a-1](#SHIh44-a-1), [LDI12-d-1](#LDI12-d-1), [LDPC12H-d-1](#LDPC12H-d-1)
+* <a id="mn-sar"></a>`SAR`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [SHIh44-a-2](#SHIh44-a-2), [LDI12-d-1](#LDI12-d-1), [LDPC12H-d-1](#LDPC12H-d-1)
 * <a id="mn-sbc"></a>`SBC`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-sc"></a>`SC`: [ATOM-1](#ATOM-1)
 * <a id="mn-scl"></a>`SCL`: [ATOM-1](#ATOM-1)

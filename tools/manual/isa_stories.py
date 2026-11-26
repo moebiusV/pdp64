@@ -49,7 +49,7 @@ STORY = {
 
 'BITREV': "Part of the `BESC` group, borrowed with the other LoongArch bit operations (`REVB`, `REVH`, `BITREV`). No workload from the corpus is recorded.",
 
-'ROR': "One rotate direction suffices and `ROR` is the one to keep, and `ROL` is the same rotate with the count complemented: the assembler takes a register or a constant after one word, as it does for the shifts. No rotate is through carry (see `DSHR`). `ROR` is in `BESC`, not the ALU group: cryptographic code rotates by compile-time constants, so an immediate form is needed either way, and the register-count form has almost no users. Rotates write no flags.",
+'ROR': "One rotate direction suffices and `ROR` is the one to keep, and `ROL` is the same rotate with the count complemented, an assembler mapping (the count of `ROR` is taken modulo 64, so only a constant count maps to one instruction): the assembler takes a register or a constant after one word, as it does for the shifts, and the two-byte form carries a signed count of four bits, so that the rotate left by 1 to 8 and the rotate right by 1 to 7 are two bytes. No rotate is through carry (see `DSHR`). `ROR` is in `BESC`, not the ALU group: cryptographic code rotates by compile-time constants, so an immediate form is needed either way, and the register-count form has almost no users. Rotates write no flags.",
 
 'ROR32': "A 32-bit rotate by a constant, the shape of crypto and hash inner loops, estimated together with `CBCC` at 22 KB (1.3%) of the compiled image. The result is sign-extended like the rest of the 32-bit operations, so that no instruction is needed after it. It removes 44 `MOVL` instructions in the corpus (the demand analysis already removes nearly all of them).",
 

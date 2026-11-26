@@ -243,10 +243,12 @@ static void step_enc(void)
 		f.sub = sub;
 		if (h->kind == H_MBLK) { f.reg = op[0].r; f.low = in.nops == 3 ? op[1].r : 0; f.t = op[in.nops - 1].r; C->ublk = h->ublk; }	/* mcpy rd, rs, rn: the destination pointer first; mcpy.ur and mcpy.uw: the side that is user memory */
 		else if (sub == MN_FESC_FCMP32 && h->kind == H_FESC) { f.reg = op[0].r; f.low = op[1].r; }
-		else if (h->kind == H_BESC && ((sub == MN_BESC_ROR && op[1].k != EK_R) || sub == MN_BESC_ROR32 || sub == MN_BESC_ROL)) {	/* ror rs, #n, rd (the constant count) */
+		else if (h->kind == H_BESC && sub == MN_BESC_ROR && in.nops == 2) {	/* ror #n, rd: the short form, the count a signed four-bit number (a negative count rotates left), the register is source and destination */
+			f.low = op[1].r; f.reg = op[1].r; f.count = (unsigned)op[0].v & 63; f.sub = XSUB_RORI;
+		}
+		else if (h->kind == H_BESC && ((sub == MN_BESC_ROR && op[1].k != EK_R) || sub == MN_BESC_ROR32)) {	/* ror rs, #n, rd (the constant count) */
 			f.low = op[0].r; f.reg = op[2].r; f.count = (unsigned)op[1].v;
 			if (sub == MN_BESC_ROR) f.sub = XSUB_RORI;
-			if (sub == MN_BESC_ROL) { f.sub = XSUB_RORI; f.count = (unsigned)((64 - op[1].v) & 63); }
 		}
 		else if (h->kind == H_BESC && sub == MN_BESC_DSHR) { f.low = op[0].r; f.t = op[1].r; f.pos = (unsigned)op[2].v; f.reg = op[3].r; }	/* dshr ra, rb, #n, rd */
 		else if (h->kind == H_BESC && (sub == MN_BESC_EXTB || sub == MN_BESC_EXTZB || sub == MN_BESC_INSB)) {	/* extb rs, #pos, #width, rd */
